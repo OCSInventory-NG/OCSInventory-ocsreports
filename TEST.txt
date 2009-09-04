@@ -1,0 +1,1 @@
+Test to see if commit is working with Bazaar.
