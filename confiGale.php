@@ -1,6 +1,11 @@
 <?php 
 
-
+/*
+ * 
+ * Configuration page
+ * 
+ * 
+ */
 
 require_once('require/function_config_generale.php');
 if( $_SESSION["lvluser"] != SADMIN )
