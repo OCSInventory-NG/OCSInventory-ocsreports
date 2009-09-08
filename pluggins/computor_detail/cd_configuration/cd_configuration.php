@@ -201,7 +201,7 @@ $i=0;
 			echo "<td bgcolor='white' align='center' valign='center'>&nbsp;</td>";
 			echo $td3.$l->g(607)." ";		
 			if( $_SESSION["lvluser"] == SADMIN || $_SESSION["lvluser"] == LADMIN || $valGroups["workgroup"]=="GROUP_4_ALL")
-				echo "<a href='index.php?".PAG_INDEX."=29&popup=1&systemid=".$valGroups["group_id"]."' target='_blank'>".$valGroups["name"]."</td>";
+				echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['group_show']."&popup=1&systemid=".$valGroups["group_id"]."' target='_blank'>".$valGroups["name"]."</td>";
 			else
 				echo "<b>".$valGroups["name"]."</b></td>";			
 				
