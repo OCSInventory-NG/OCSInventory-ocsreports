@@ -9,7 +9,8 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2007/02/08 15:53:24 $$Author: plemmet $($Revision: 1.6 $)
-
+if( $_SESSION["lvluser"] != SADMIN )
+	die("FORBIDDEN");
 
 if($_GET["suppAcc"]) {
 	@mysql_query("ALTER TABLE accountinfo DROP ".$_GET["suppAcc"], $_SESSION["writeServer"]);

@@ -26,7 +26,7 @@ if (isset($rowOp -> accesslvl)){
 		$sql="select tag from tags where login='".$_SESSION["loggeduser"]."'";
 		$res=mysql_query($sql, $link_ocs) or die(mysql_error($link_ocs));
 		while ($row=mysql_fetch_object($res)){	
-			$list_tag[$row->code]=$row->code;
+			$list_tag[$row->tag]=$row->tag;
 		}
 		if (!isset($list_tag))
 			$ERROR=$l->g(893);

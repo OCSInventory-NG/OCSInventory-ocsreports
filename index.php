@@ -101,7 +101,7 @@ if( !isset($_GET["popup"] )) {
 	else {  //not clean for the moment...a second if will be better !! :) 
 	
 		//Icon for user profile	
-		echo $icons_list['admininfo'];
+		//echo $icons_list['admininfo'];
 		echo $icons_list['ipdiscover'];
 		echo $icons_list['doubles'];
 		echo $icons_list['help'];
