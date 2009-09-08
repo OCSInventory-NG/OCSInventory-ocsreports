@@ -73,7 +73,7 @@ if ($_SESSION['DEBUG'] == 'ON'){
 	echo "<div align=center>VAR SESSION</div>";
 	foreach ($_SESSION as $key=>$value){
 		
-		if ($key != "fichLang" and $key != "LANGUAGE_FILE" and $key != "mac" and $key != "storedRequest"){
+		if ($key != "fichLang" and $key != "LANGUAGE_FILE" and $key != "mac"){
 			$tab_session[$key]=$value;
 		}
 		

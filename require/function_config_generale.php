@@ -205,31 +205,6 @@ function look_default_values($field_name){
 	return $result;
 }
 
-function look_perso_values($champs,$origine,$systemid){
-	//not a sql query
-	if ($origine != ""){
-	//looking for value of systemid
-	$sql_value_idhardware="select * from devices where name != 'DOWNLOAD' and hardware_id=".$systemid;
-	$result_value = mysql_query($sql_value_idhardware, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
-	while($value=mysql_fetch_array($result_value)) {
-		$optvalue[$value["NAME"] ] = $value["IVALUE"];
-		}
-	return $optvalue;
-	}else{
-		$list_hardware_id="";
-		$lareq = getPrelim( $_SESSION["storedRequest"] );
-		if( ! $res = @mysql_query( $lareq, $_SESSION["readServer"] ))
-			return false;
-		while( $val = @mysql_fetch_array($res)) {
-		$hardware_id['list'].=$val["h.id"].",";
-		$hadware_id['tab']=$val["h.id"];
-		}
-		$hardware_id['list'] = substr($hardware_id['list'],0,-1);
-		return $hardware_id;
-	 
-	}
-	
-}
 /*
  * 
  * 
@@ -243,7 +218,7 @@ function look_perso_values($champs,$origine,$systemid){
  */
  function insert_update($name,$value,$default_value,$field){
  	global $l;
- 	//echo $field."=>".$value."=>".$default_value."<br>";
+ //	echo $field."=>".$value."=>".$default_value."<br>";
  if ($default_value != $value){
  	if ($default_value != '')
 			$sql="update config set ".$field." = '".$value."' where NAME ='".$name."'";
@@ -280,7 +255,7 @@ function update_default_value($POST){
 	//tableau des champs ou il faut juste mettre � jour le tvalue
 	$array_simple_tvalue=array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT','OCS_FILES_FORMAT','OCS_FILES_PATH',
 							   'LOCAL_SERVER','CONEX_LDAP_SERVEUR','CONEX_LDAP_PORT','CONEX_DN_BASE_LDAP','CONEX_LOGIN_FIELD',
-							   'CONEX_LDAP_PROTOCOL_VERSION');
+							   'CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN','CONEX_ROOT_PW');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -308,6 +283,8 @@ function update_default_value($POST){
 		$optexist[$value_exist["NAME"] ] = $value_exist["ivalue"];
 		elseif($value_exist["tvalue"] != null)
 		$optexist[$value_exist["NAME"] ] = $value_exist["tvalue"];
+		elseif ($value_exist["tvalue"] == null and $value_exist["ivalue"] == null)
+		$optexist[$value_exist["NAME"] ] = '';
 	}
 	//pour obliger à prendre en compte
 	//le AUTO_DUPLICATE_LVL quand il est vide
@@ -744,7 +721,9 @@ function pagegroups($form_name){
 				  'CONEX_LDAP_PORT'=>'CONEX_LDAP_PORT',
 				  'CONEX_DN_BASE_LDAP'=>'CONEX_DN_BASE_LDAP',
 				  'CONEX_LOGIN_FIELD'=>'CONEX_LOGIN_FIELD',
-				  'CONEX_LDAP_PROTOCOL_VERSION'=>'CONEX_LDAP_PROTOCOL_VERSION');
+				  'CONEX_LDAP_PROTOCOL_VERSION'=>'CONEX_LDAP_PROTOCOL_VERSION',
+				  'CONEX_ROOT_DN'=>'CONEX_ROOT_DN',
+				  'CONEX_ROOT_PW'=>'CONEX_ROOT_PW');
 	$values=look_default_values($champs);
 	
 	
@@ -756,6 +735,8 @@ function pagegroups($form_name){
 					'BGCOLOR'=>'#C7D9F5',
 					'BORDERCOLOR'=>'#9894B5'));
 	ligne('CONEX_LDAP_SERVEUR',$l->g(830),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_SERVEUR'],'SIZE'=>50,'MAXLENGHT'=>200));
+	ligne('CONEX_ROOT_DN',$l->g(1016).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_DN'],'SIZE'=>50,'MAXLENGHT'=>200));
+	ligne('CONEX_ROOT_PW',$l->g(1017).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_PW'],'SIZE'=>50,'MAXLENGHT'=>200));
 	ligne('CONEX_LDAP_PORT',$l->g(831),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PORT'],'SIZE'=>20,'MAXLENGHT'=>20));
 	ligne('CONEX_DN_BASE_LDAP',$l->g(832),'input',array('VALUE'=>$values['tvalue']['CONEX_DN_BASE_LDAP'],'SIZE'=>70,'MAXLENGHT'=>200));
 	ligne('CONEX_LOGIN_FIELD',$l->g(833),'input',array('VALUE'=>$values['tvalue']['CONEX_LOGIN_FIELD'],'SIZE'=>50,'MAXLENGHT'=>200));

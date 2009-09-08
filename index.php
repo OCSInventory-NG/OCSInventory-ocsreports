@@ -172,10 +172,8 @@ echo "<br><center><span id='wait' class='warn'><font color=red>".$l->g(332)."</f
 		case $pages_refs['tele_activate']: require ('tele_activate.php'); break; 
 		case $pages_refs['opt_param']: require ('opt_param.php'); break; 
 		case $pages_refs['opt_ipdiscover']: require ('opt_ipdiscover.php'); break; 
-		case $pages_refs['tele_affect']: require ('tele_affect.php'); break; 
 		case $pages_refs['tele_stats']: require ('tele_stats.php'); break;
 		case $pages_refs['tele_actives']: require ('tele_actives.php'); break;
-		case $pages_refs['opt_opt_suppr']: require ('opt_suppr.php'); break; 
 		case $pages_refs['group_show']: require ('group_show.php'); break;
 		case $pages_refs['tele_massaffect']: require ('tele_massaffect.php'); break; 
 		case $pages_refs['admin_attrib']: require ('admin_attrib.php'); break; 

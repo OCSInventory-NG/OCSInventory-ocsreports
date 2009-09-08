@@ -28,7 +28,7 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //print_r($_GET);
 //update values	
 if ($_POST['Valid']==$l->g(103)){
-	//echo "totot";
+/*	//echo "totot";
 	if (!isset($_POST['origine']) and !isset($_GET["listid"])){
 		$list_hardware_id="";
 		$lareq = getPrelim( $_SESSION["storedRequest"] );
@@ -41,7 +41,8 @@ if ($_POST['Valid']==$l->g(103)){
 		$list_hardware_id = substr($list_hardware_id,0,-1);
 		$nbMach = getCount($_SESSION["storedRequest"]);
 		$add_lbl=" (".$nbMach." ".$l->g(652).")";
-	}elseif(isset($_GET["listid"])){
+	}else*/
+	if(isset($_GET["listid"])){
 		if ($_POST['CHOISE'] == "REQ"){
 			$list_hardware_id=$_GET["listid"];
 		}elseif ($_POST['CHOISE'] == "SEL"){
@@ -112,7 +113,7 @@ if (isset($_POST['origine'])){
 		$optvalueTvalue[$value["NAME"]]=$value["TVALUE"];
 	}
 	$champ_ignored=0;
-}elseif(!isset($_GET["listid"])){
+/*}elseif(!isset($_GET["listid"])){
 	$list_hardware_id="";
 	$lareq = getPrelim( $_SESSION["storedRequest"] );
 	if( ! $res = @mysql_query( $lareq, $_SESSION["readServer"] ))
@@ -122,7 +123,7 @@ if (isset($_POST['origine'])){
 	$tab_hadware_id[]=$val["h.id"];
 	}
 	$list_hardware_id = substr($list_hardware_id,0,-1);
-	$champ_ignored=1;
+	$champ_ignored=1;*/
 }elseif(isset($_GET["listid"])){
 	$list_hardware_id=$_GET["listid"];
 	$tab_hadware_id=explode(",",$list_hardware_id);
