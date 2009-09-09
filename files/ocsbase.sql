@@ -704,6 +704,8 @@ ALTER TABLE printers ADD INDEX ID (ID);
 ALTER TABLE printers change ID ID INTEGER auto_increment;
 ALTER TABLE printers ADD PRIMARY KEY(HARDWARE_ID,ID);
 ALTER TABLE printers DROP DEVICEID;
+ALTER TABLE printers ADD COLUMN DESCRIPTION VARCHAR(255);
+
 
 ALTER TABLE videos change ID ID INTEGER;
 ALTER TABLE videos DROP PRIMARY KEY;
@@ -785,7 +787,7 @@ INSERT INTO operators VALUES ('admin','admin','admin','admin',1, 'Default admini
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '5009', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '5010', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
