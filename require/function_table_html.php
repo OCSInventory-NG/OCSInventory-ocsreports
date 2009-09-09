@@ -28,7 +28,7 @@ function xml_escape_string($array){
 }
 
 function xml_encode( $txt ) {
-		$cherche = array("&","<",">","\"","'","�","�","�","�","�","�","�","�","�");
+		$cherche = array("&","<",">","\"","'","é","è","ô","Î","î","à","ç","ê","â");
 		$replace = array( "&amp;","&lt;","&gt;", "&quot;", "&apos;","&eacute;","&egrave;","&ocirc;","&Icirc;","&icirc;","&agrave;","&ccedil;","&ecirc;","&acirc;");
 		return str_replace($cherche, $replace, $txt);		
 	
@@ -36,12 +36,13 @@ function xml_encode( $txt ) {
 
 function xml_decode( $txt ) {
 		$cherche = array( "&acirc;","&ecirc;","&ccedil;","&agrave;","&lt;","&gt;", "&quot;", "&apos;","&eacute;","&egrave;","&ocirc;","&Icirc;","&icirc;","&amp;");
-		$replace = array( "�","�","�","�","<",">","\"","'","�","�","�","�","�", "&" );
+		$replace = array( "â","ê","ç","à","<",">","\"","'","é","è","ô","Î","î", "&" );
 	//	echo $txt;
-		//echo str_replace("&toto;","�",$txt);
+		//echo str_replace("&toto;","ç",$txt);
 		return str_replace($cherche, $replace, $txt);		
 	
 }
+
 
 //ascending and descending sort
 function tri($sql)

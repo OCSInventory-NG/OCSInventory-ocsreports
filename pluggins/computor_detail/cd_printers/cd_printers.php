@@ -7,10 +7,11 @@
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	$list_fields=array($l->g(49) => 'NAME',
 					   $l->g(278) => 'DRIVER',
-					   $l->g(279) => 'PORT');
+					   $l->g(279) => 'PORT',
+					   $l->g(53) =>'DESCRIPTION');
 	$list_col_cant_del=$list_fields;
 	$default_fields= $list_fields;
-	$tab_options['FILTRE']=array('NAME'=>$l->g(49),'DRIVER'=>$l->g(278),'PORT'=>$l->g(279));
+	$tab_options['FILTRE']=array('NAME'=>$l->g(49),'DRIVER'=>$l->g(278),'PORT'=>$l->g(279),'DESCRIPTION'=>$l->g(53));
 	$queryDetails  = "SELECT * FROM printers WHERE (hardware_id=$systemid)";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
 	echo "</form>";
