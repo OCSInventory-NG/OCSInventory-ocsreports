@@ -296,7 +296,7 @@ function witch_field_more($tab_table){
 //du type du champ
 function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	global $optSelectField, $opt2SelectField, $opt2Select,
-		   $optSelect2Field, $opt3Select, $optSelect, $optArray,$l;
+		   $optSelect2Field, $opt3Select, $optSelect, $optArray,$l,$protectedPost;
 	$nameField=$value."-".$id_field;
 	if ($ajout != ''){
 		$and_or="<select name='SelAndOr-".$nameField."' id='SelAndOr-".$nameField."'>";

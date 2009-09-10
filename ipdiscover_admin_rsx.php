@@ -56,18 +56,18 @@ if (isset($protectedPost['Valid_modif_x'])){
 	if (trim($protectedPost['ADD_SX_RSX']) == '')
 	$ERROR=$l->g(935);
 	if (!isset($ERROR)){
-		$post=escape_string($protectedPost);
-		$sql_verif="select NETID from subnet where netid='".$post['ADD_IP']."'";
+		//$post=escape_string($protectedPost);
+		$sql_verif="select NETID from subnet where netid='".$protectedPost['ADD_IP']."'";
 		$res_verif=mysql_query($sql_verif, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 		$row_verif=mysql_fetch_object($res_verif);
 		if (isset($row_verif->NETID)){
-			$sql="update subnet set name='".$post['RSX_NAME']."', id='".$post['ID_NAME']."', MASK='".$post['ADD_SX_RSX']."'
-				where netid = '".$post['ADD_IP']."'";			
+			$sql="update subnet set name='".$protectedPost['RSX_NAME']."', id='".$protectedPost['ID_NAME']."', MASK='".$protectedPost['ADD_SX_RSX']."'
+				where netid = '".$protectedPost['ADD_IP']."'";			
 		}else{	
-			$sql="insert into subnet (netid,name,id,mask) VALUES ('".$post['ADD_IP']."','".$post['RSX_NAME']."',
-					'".$post['ID_NAME']."','".$post['ADD_SX_RSX']."')";
+			$sql="insert into subnet (netid,name,id,mask) VALUES ('".$protectedPost['ADD_IP']."','".$protectedPost['RSX_NAME']."',
+					'".$protectedPost['ID_NAME']."','".$protectedPost['ADD_SX_RSX']."')";
 		}
-		echo $sql;
+		//echo $sql;
 		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 		//suppression du cache pour prendre en compte la modif
 		unset($_SESSION['DATA_CACHE']['IPDISCOVER']);

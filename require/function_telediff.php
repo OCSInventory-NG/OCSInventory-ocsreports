@@ -64,7 +64,7 @@ function looking4config(){
 	
 function champ_select_block($name,$input_name,$input_cache)
 {
-
+		global $protectedPost;
 		$champs="<select name='".$input_name."' id='".$input_name."'";
 		$champs.=" onChange='";
 		if ($input_name == "ACTION"){
@@ -237,6 +237,7 @@ function activ_pack($fileid,$https_server,$file_serv){
 } 
  
 function activ_pack_server($fileid,$https_server,$id_server_group){
+	global $protectedPost;
 		//recherche de la liste des machines qui ont déjà ce paquet
 		$sqlDoub="select SERVER_ID from download_enable where FILEID= ".$fileid;
 		$resDoub = mysql_query( $sqlDoub, $_SESSION["readServer"] );	

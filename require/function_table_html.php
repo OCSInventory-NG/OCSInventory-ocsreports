@@ -211,7 +211,7 @@ function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom
 function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>""))
 {
 	//echo $configinput['JAVASCRIPT'];
-	//global $protectedPost;
+	global $protectedPost;
 	if ($input_type == 1){
 		return "<textarea name='".$input_name."' id='".$input_name."' cols='30' rows='5' onFocus=\"this.style.backgroundColor='white'\" onBlur=\"this.style.backgroundColor='#C7D9F5'\"\>".$name."</textarea>";
 	

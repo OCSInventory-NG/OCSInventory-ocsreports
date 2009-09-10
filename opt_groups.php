@@ -154,11 +154,6 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //show onglet
 onglet($def_onglets,$form_name,'onglet',7);
 
-//if ($protectedPost['onglet']==$l->g(810)){
-//	echo "<b><font color=red>La nouvelle version de création des groupes dynamiques<br>
-// n'est pas encore opérationnelle (modification du moteur en cours)<br>
-// Veuillez utiliser l'ancienne recherche multicritère pour cette création</font></b>";
-//}else{
 	//create a "valid" button
 	$valid="<tr><td align=center colspan=10><input type=submit value='".$l->g(13)."' name='VALID_GROUP'></td></tr>";
 	//open table

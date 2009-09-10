@@ -31,7 +31,7 @@ function getmicrotime() {
 
 function create_icon( $label, $biere ) {
 	
-	global $pages_refs;
+	global $pages_refs,$protectedGet;
         $llink = "?".PAG_INDEX."=$biere";
 
         switch($biere) {

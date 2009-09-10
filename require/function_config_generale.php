@@ -289,7 +289,7 @@ function update_default_value($POST){
 	//pour obliger à prendre en compte
 	//le AUTO_DUPLICATE_LVL quand il est vide
 	//on doit l'initialiser tout le temps
-	if ($protectedPost['onglet'] == $l->g(499)){
+	if ($POST['onglet'] == $l->g(499)){
 		insert_update('AUTO_DUPLICATE_LVL',0,$optexist['AUTO_DUPLICATE_LVL'],'ivalue');	
 		$optexist['AUTO_DUPLICATE_LVL']='0';
 	}

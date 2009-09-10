@@ -94,7 +94,7 @@ function delete_condition_rule($ID){
  * 
  */
 function add_rule($RULE_NAME,$RULE_VALUES,$ID_RULE=''){
-	global $l;
+	global $l,$protectedPost;
 	$rule_exist=verify_name($RULE_NAME);
 	if ($rule_exist == 'NAME_NOT_EXIST'){
 		//verify this id is new
@@ -133,7 +133,7 @@ function add_rule($RULE_NAME,$RULE_VALUES,$ID_RULE=''){
  */
 
 function fields_conditions_rules($num,$entete='NO'){
-	global $l;
+	global $l,$protectedPost;
 	if ($entete != 'NO')
 	$tab.="<tr bgcolor='#C7D9F5'><td>".$l->g(675)."</td><td>".$l->g(676)."</td><td>".$l->g(677)."</td><td>".$l->g(678)."</td></tr>";	
 	$CFIELD=array('NAME'=>$l->g(679),'IPADDRESS'=>'@IP','IPSUBNET'=>'IPSUBNET','WORKGROUP'=>$l->g(680),'USERID'=>$l->g(681));

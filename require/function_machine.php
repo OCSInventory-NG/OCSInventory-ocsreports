@@ -6,7 +6,7 @@
  
 //fonction de traitement de l'ID envoy�
 function info($GET,$post_systemid){
-	global $l;
+	global $l,$protectedPost;
 	//traitement de l'envoi de l'id par post
 	if ($post_systemid != '')
 		$systemid = $protectedPost['systemid'];

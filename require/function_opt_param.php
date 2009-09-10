@@ -13,7 +13,7 @@ function recharge(modif,origine){
  
  //function for erase param values 
  function erase($NAME){
- 	global $protectedGet,$protectedPost,$list_hardware_id;
+ 	global $protectedPost,$list_hardware_id;
 	// if it's for group or a machine
  	if( isset($protectedPost["systemid"])) {
  		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id='".$protectedPost["systemid"]."'", $_SESSION["writeServer"] )) {
@@ -34,7 +34,7 @@ function recharge(modif,origine){
  
  //function for insert param values
  function insert($NAME,$IVALUE,$TVALUE = ""){
- 	global $protectedGet, $protectedPost,$tab_hadware_id; 		
+ 	global $protectedPost,$tab_hadware_id; 		
  	//delete old value before insert new 
  	
  	erase($NAME);

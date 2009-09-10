@@ -28,8 +28,9 @@ if (GUI_VER	> $_SESSION['SQL_BASE_VERS']){
 //SECURITY
 $protectedPost=escape_string($_POST);
 $protectedGet=escape_string($_GET);
+//print_r($GLOBALS);
 @set_time_limit(0);
-//
+//global $protectedPost,$protectedGet;
 
 //pour ne pas tenir compte des erreurs renvoy�s par l'identification
 //pour le fuser, la variable $no_error est = 'YES'

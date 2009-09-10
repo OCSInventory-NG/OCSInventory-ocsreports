@@ -6,7 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 require ('fichierConf.class.php');
-$form_name='fuser';
+$form_name='info_ipdiscover';
 $ban_head='no';
 $no_error='YES';
 require_once("header.php");
@@ -19,9 +19,9 @@ $user=$_SESSION['loggeduser'];
 
 //suppression d'une adresse mac
 if(isset($protectedPost['SUP_PROF'])){
-	$del=mysql_escape_string($protectedPost['SUP_PROF']);
-	mysql_query("DELETE FROM netmap WHERE mac='".$del."'", $_SESSION["writeServer"] ) or die(mysql_error());
-	mysql_query("DELETE FROM network_devices WHERE macaddr='".$del."'", $_SESSION["writeServer"] ) or die(mysql_error());
+	//$del=mysql_escape_string($protectedPost['SUP_PROF']);
+	mysql_query("DELETE FROM netmap WHERE mac='".$protectedPost['SUP_PROF']."'", $_SESSION["writeServer"] ) or die(mysql_error());
+	mysql_query("DELETE FROM network_devices WHERE macaddr='".$protectedPost['SUP_PROF']."'", $_SESSION["writeServer"] ) or die(mysql_error());
 	unset($_SESSION['DATA_CACHE']['IPDISCOVER_'.$protectedGet['prov']]);
 	
 }
@@ -35,18 +35,18 @@ if (isset($protectedPost['Valid_modif_x'])){
 	$protectedPost['USER']=$protectedPost['USER_ENTER'];
 
 	if (!isset($ERROR)){
-		$post=xml_escape_string($protectedPost);
-		if ($post['USER_ENTER'] != ''){
+		//$post=xml_escape_string($protectedPost);
+		if ($protectedPost['USER_ENTER'] != ''){
 			$sql="update network_devices 
-					set DESCRIPTION = '".$post['COMMENT']."',
-					TYPE = '".$post['TYPE']."',
-					MACADDR = '".$post['mac']."',
+					set DESCRIPTION = '".$protectedPost['COMMENT']."',
+					TYPE = '".$protectedPost['TYPE']."',
+					MACADDR = '".$protectedPost['mac']."',
 					USER = '".$user."' where ID='".$protectedPost['MODIF_ID']."'";			
 		}else{		
 			$sql="insert into network_devices (DESCRIPTION,TYPE,MACADDR,USER)
-			  VALUES('".$post['COMMENT']."',
-			  '".$post['TYPE']."',
-			  '".$post['mac']."',
+			  VALUES('".$protectedPost['COMMENT']."',
+			  '".$protectedPost['TYPE']."',
+			  '".$protectedPost['mac']."',
 			  '".$user."')";
 		}
 		mysql_query( $sql , $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
@@ -62,15 +62,15 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	
 	//cas d'une modification de la donnée déjà saisie
 	if ($protectedGet['prov'] == "ident" and !isset($protectedPost['COMMENT'])){
-		$id=mysql_escape_string($protectedPost['MODIF']);
-		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='".$id."'";
+		//$id=mysql_escape_string($protectedPost['MODIF']);
+		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='".$protectedPost['MODIF']."'";
 		$res = mysql_query($sql, $_SESSION["readServer"] );
 		$val = mysql_fetch_array( $res );
 		$protectedPost['COMMENT']=$val['DESCRIPTION'];
 		$protectedPost['MODIF']=$val['MACADDR'];
 		$protectedPost['TYPE']=$val['TYPE'];
 		$protectedPost['USER']=	$val['USER'];
-		$protectedPost['MODIF_ID']=$id;
+		$protectedPost['MODIF_ID']=$protectedPost['MODIF'];
 	}
 	$tab_hidden['USER_ENTER']=$protectedPost['USER'];	
 	$tab_hidden['MODIF_ID']=$protectedPost['MODIF_ID'];	
@@ -122,10 +122,10 @@ else{ //affichage des périphériques
 	if (!(isset($protectedPost["pcparpage"])))
 		 $protectedPost["pcparpage"]=5;
 	if (isset($protectedGet['value'])){
-		$netid=mysql_escape_string($protectedGet['value']);
+		//$netid=mysql_escape_string($protectedGet['value']);
 		if ($protectedGet['prov'] == "no_inv"){
 			$title=$l->g(947);
-			$sql="SELECT ip, mac, mask, date, name FROM netmap WHERE netid='".$netid."' AND mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
+			$sql="SELECT ip, mac, mask, date, name FROM netmap WHERE netid='".$protectedGet['value']."' AND mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
 			AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
 			$list_fields= array($l->g(34) => 'ip','MAC'=>'mac',
 								$l->g(208)=>'mask',
@@ -140,7 +140,7 @@ else{ //affichage des périphériques
 			$title=$l->g(948);
 			$sql="select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
 				 from network_devices n LEFT JOIN netmap a ON a.mac=n.macaddr
-				 where netid='".$netid."'";
+				 where netid='".$protectedGet['value']."'";
 				 $list_fields= array($l->g(66) => 'TYPE',$l->g(53)=>'DESCRIPTION',
 								$l->g(34)=>'IP',
 								'MAC'=>'MAC',

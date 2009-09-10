@@ -46,7 +46,7 @@ echo "<script language=javascript>
  
 //function for show all result  
  function query_on_table($name,$lbl_data,$lbl_data_detail,$tablename="hardware"){
- 	global $exlu_group,$list_on_hardware,$form_name,$data,$data_detail,$titre,$list_on_else,$list_no_show,$limit;
+ 	global $protectedPost,$exlu_group,$list_on_hardware,$form_name,$data,$data_detail,$titre,$list_on_else,$list_no_show,$limit;
  	if (!isset($list_no_show[$name])){
  		if ($protectedPost['tri2'] == ""){
  			$protectedPost['tri2']=1;

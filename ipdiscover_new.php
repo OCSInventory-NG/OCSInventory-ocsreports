@@ -11,8 +11,8 @@ require_once('require/function_ipdiscover.php');
  echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
  	//suppression d'un sous-reseau
  	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION["lvluser"] == SADMIN){
- 		$del=mysql_real_escape_string($protectedPost['SUP_PROF']);
- 		$sql_del="delete from subnet where id='".$del."'";
+ 	//	$del=mysql_real_escape_string($protectedPost['SUP_PROF']);
+ 		$sql_del="delete from subnet where id='".$protectedPost['SUP_PROF']."'";
  		mysql_query($sql_del, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 		//suppression du cache pour prendre en compte la modif
 		unset($_SESSION['DATA_CACHE']['IPDISCOVER']);

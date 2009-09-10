@@ -340,7 +340,7 @@ function print_computers_real($systemid) {
 
 function print_computers_cached($systemid) {
 
-	global $l,$server_group;
+	global $l,$server_group,$protectedPost;
 	//print_r($protectedPost);
 	//traitement des machines du groupe
 	if( isset($protectedPost["actshowgroup"])) {
@@ -419,7 +419,7 @@ function print_computers_cached($systemid) {
 }
 
 function print_perso($systemid) {
-	global $l, $td1, $td2, $td3, $td4,$pages_refs;
+	global $l, $td1, $td2, $td3, $td4,$pages_refs,$protectedGet;
 	$i=0;
 	$queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
 	$resultDetails = mysql_query($queryDetails, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
@@ -552,7 +552,7 @@ function print_item_header($text)
 }
 
 function img($i,$a,$avail,$opt) {
-	global $systemid;
+	global $systemid,$protectedGet;
 
 	if( $opt == $a ) {
 		$suff = "_a";
@@ -574,7 +574,7 @@ function img($i,$a,$avail,$opt) {
 }
 
 function show_stat($fileId){
-	global $td3;
+	global $td3,$protectedGet;
 	
 	echo $td3."<a href=\"tele_stats.php?stat=".$fileId."&group=".$protectedGet['systemid']."\" target=_blank><img src='image/stat.png'></a></td>";
 }
