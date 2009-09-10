@@ -1,11 +1,11 @@
 <?php
 	print_item_header($l->g(273));
-	if (!isset($ESC_POST['SHOW']))
-		$ESC_POST['SHOW'] = 'NOSHOW';
-	if ($ESC_POST['OTHER_BIS'] != '')
-		@mysql_query("INSERT INTO blacklist_serials (SERIAL) value ('".$ESC_POST['OTHER_BIS']."')", $_SESSION["writeServer"]);		
-	if ($ESC_POST['OTHER'] != '')
-		@mysql_query("DELETE FROM blacklist_serials WHERE SERIAL='".$ESC_POST['OTHER']."'", $_SESSION["writeServer"]);
+	if (!isset($protectedPost['SHOW']))
+		$protectedPost['SHOW'] = 'NOSHOW';
+	if ($protectedPost['OTHER_BIS'] != '')
+		@mysql_query("INSERT INTO blacklist_serials (SERIAL) value ('".$protectedPost['OTHER_BIS']."')", $_SESSION["writeServer"]);		
+	if ($protectedPost['OTHER'] != '')
+		@mysql_query("DELETE FROM blacklist_serials WHERE SERIAL='".$protectedPost['OTHER']."'", $_SESSION["writeServer"]);
 	$form_name="affich_bios";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";

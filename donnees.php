@@ -11,7 +11,7 @@
 //Modified on $Date: 2007/02/08 15:53:24 $$Author: plemmet $($Revision: 1.7 $)
 
 $user=$_SESSION["loggeduser"];
-if( isset( $ESC_GET["fuser"] ) ) {
+if( isset( $protectedGet["fuser"] ) ) {
 	unset($_SESSION["mesmachines"]);
 }
 if($_SESSION["lvluser"]==SADMIN||$_SESSION["lvluser"]==LADMIN) {

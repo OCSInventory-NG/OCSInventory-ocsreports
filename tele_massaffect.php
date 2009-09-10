@@ -15,7 +15,7 @@ if( $_SESSION["lvluser"] != SADMIN )
 	
 printEnTete($l->g(601));
 
-if( $ESC_POST["sub"] ) {
+if( $protectedPost["sub"] ) {
 	
 	if( ! $_FILES["fichier"]["name"] ) {
 		echo "<br><center><font color=red><b>".$l->g(602)."</b></font></center><br>";
@@ -32,7 +32,7 @@ if( $ESC_POST["sub"] ) {
 				$koComputers = array();
 				while( !feof($fd) ) {				
 					$line = trim( fgets( $fd, 256 ) );
-					if( affectPackage( $line, $ESC_POST["id"] ) ) {
+					if( affectPackage( $line, $protectedPost["id"] ) ) {
 						$okComputers++;						
 					}
 					else if( ! empty($line) ){
@@ -95,5 +95,5 @@ function affectPackage( $computer, $packageId ) {
 	</tr>
 	<tr height='20px'><td colspan='2' align='right'><input type='submit' name='sub'></td></tr>
 </table>
-<input type='hidden' name='id' value='<?php echo $ESC_POST["id"]?$ESC_POST["id"]:$ESC_GET["id"]; ?>'>
+<input type='hidden' name='id' value='<?php echo $protectedPost["id"]?$protectedPost["id"]:$protectedGet["id"]; ?>'>
 </form>

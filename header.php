@@ -26,8 +26,8 @@ if (GUI_VER	> $_SESSION['SQL_BASE_VERS']){
 	die();	
 }
 //SECURITY
-$ESC_POST=escape_string($_POST);
-$ESC_GET=escape_string($_GET);
+$protectedPost=escape_string($_POST);
+$protectedGet=escape_string($_GET);
 @set_time_limit(0);
 //
 
@@ -47,7 +47,7 @@ if (!isset($_SESSION['plugin_rep']) or !isset($_SESSION['CONF_MYSQL'])){
 }
 
 /*****************************************************GESTION DU LOGOUT*********************************************/
-if ($ESC_POST['LOGOUT'] == 'ON'){
+if ($protectedPost['LOGOUT'] == 'ON'){
 	unset($_SESSION["loggeduser"],
 		  $_SESSION["lvluser"],
 		  $_SERVER['PHP_AUTH_USER'],
@@ -62,26 +62,26 @@ if ($ESC_POST['LOGOUT'] == 'ON'){
 }
 /**********************************************************GESTION DES COLONNES DES TABLEAUX PAR COOKIES***********************************/
 require_once('require/function_cookies.php');
-if (isset($ESC_POST['SUP_COL']) and $ESC_POST['SUP_COL'] != "" and isset($_SESSION['col_tab'][$ESC_POST['TABLE_NAME']])){
-	unset($_SESSION['col_tab'][$tab_name][$ESC_POST['SUP_COL']]);
-	cookies_add($ESC_POST['TABLE_NAME'],implode('///',$_SESSION['col_tab'][$ESC_POST['TABLE_NAME']]));
+if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['col_tab'][$protectedPost['TABLE_NAME']])){
+	unset($_SESSION['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
+	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['col_tab'][$protectedPost['TABLE_NAME']]));
 }
-if (isset($ESC_POST['RAZ']) and $ESC_POST['RAZ'] != ""){
-	cookies_reset($ESC_POST['TABLE_NAME']);
+if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != ""){
+	cookies_reset($protectedPost['TABLE_NAME']);
 }
-if (isset($ESC_POST['restCol'.$ESC_POST['TABLE_NAME']]) and $ESC_POST['restCol'.$ESC_POST['TABLE_NAME']] != ''){
-	$_SESSION['col_tab'][$tab_name][$ESC_POST['restCol'.$tab_name]]=$ESC_POST['restCol'.$tab_name];
-	cookies_add($ESC_POST['TABLE_NAME'],implode('///',$_SESSION['col_tab'][$ESC_POST['TABLE_NAME']]));
+if (isset($protectedPost['restCol'.$protectedPost['TABLE_NAME']]) and $protectedPost['restCol'.$protectedPost['TABLE_NAME']] != ''){
+	$_SESSION['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
+	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['col_tab'][$protectedPost['TABLE_NAME']]));
 }
 
 /********************************************************GESTION DE LA LANGUE PAR COOKIES**********************************************/
 /*****************************************************Gestion des fichiers de langues  TEST*************************************/
-if (isset($ESC_POST['Valid_EDITION_x'])){
-	if ($ESC_POST['ID_WORD'] != ''){
-		if ($ESC_POST['ACTION'] == "DEL"){
-			unset($_SESSION['LANGUAGE_FILE']->tableauMots[$ESC_POST['ID_WORD']]);
+if (isset($protectedPost['Valid_EDITION_x'])){
+	if ($protectedPost['ID_WORD'] != ''){
+		if ($protectedPost['ACTION'] == "DEL"){
+			unset($_SESSION['LANGUAGE_FILE']->tableauMots[$protectedPost['ID_WORD']]);
 		}else{
-			$_SESSION['LANGUAGE_FILE']->tableauMots[$ESC_POST['ID_WORD']]=$ESC_POST['UPDATE'];
+			$_SESSION['LANGUAGE_FILE']->tableauMots[$protectedPost['ID_WORD']]=$protectedPost['UPDATE'];
 		}
 		$sql="update languages set json_value = '".mysql_real_escape_string(json_encode($_SESSION['LANGUAGE_FILE']->tableauMots))."'
 				where name= '".$_SESSION['LANGUAGE']."'"; 
@@ -92,10 +92,10 @@ if (isset($ESC_POST['Valid_EDITION_x'])){
 unset($_SESSION['EDIT_LANGUAGE']);
 
 
-if (isset($ESC_POST['LANG'])){
+if (isset($protectedPost['LANG'])){
 	unset($_SESSION['LANGUAGE']);
-	cookies_add('LANG',$ESC_POST['LANG']);	
-	$_SESSION['LANGUAGE']=$ESC_POST['LANG'];
+	cookies_add('LANG',$protectedPost['LANG']);	
+	$_SESSION['LANGUAGE']=$protectedPost['LANG'];
 	$_SESSION["LANGUAGE_FILE"]=new language($_SESSION['LANGUAGE']);
 }
 //unset($_SESSION['LANGUAGE']);
@@ -118,9 +118,9 @@ if (!isset($_SESSION["lvluser"]))
 require_once('backend/identity/identity.php');
 
 /**********************************************************gestion des droits sur l'ipdiscover****************************************************/
-if (!isset($_SESSION["ipdiscover"]) and $ESC_GET[PAG_INDEX] == $pages_refs['ipdiscover'])
+if (!isset($_SESSION["ipdiscover"]) and $protectedGet[PAG_INDEX] == $pages_refs['ipdiscover'])
 require_once('backend/ipdiscover/ipdiscover.php');
-elseif($ESC_GET[PAG_INDEX] != $pages_refs['ipdiscover'])
+elseif($protectedGet[PAG_INDEX] != $pages_refs['ipdiscover'])
 unset($_SESSION['ipdiscover']);
 
 /*********************************************************gestion de la suppression automatique des machines trop vieilles*************************/

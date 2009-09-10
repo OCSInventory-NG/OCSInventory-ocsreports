@@ -182,15 +182,15 @@ function admin_serveur($action,$name_server,$descr,$mach) {
 //function for insert machine with rules
 function insert_with_rules_opt($ID_HARDWARE,$cfield,$op,$compto,$serv_value){
 	
-	global $ESC_POST;
+	global $protectedPost;
 	if (is_array($ID_HARDWARE))
 	$list_id_hardware=implode(',',$ID_HARDWARE);
 	else
 	$list_id_hardware=$ID_HARDWARE;
 	//for servers
 	//recherche de tous les hardware_id des servers et des id de download_enable correspondant
-	$sql_infoServ="select server_id,id from download_enable where group_id=".$ESC_POST['GROUP_ID']." 
-								and fileid=".$ESC_POST['TIMESTAMP'];
+	$sql_infoServ="select server_id,id from download_enable where group_id=".$protectedPost['GROUP_ID']." 
+								and fileid=".$protectedPost['TIMESTAMP'];
 	$res_infoServ = mysql_query( $sql_infoServ, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));	
 	//création de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
 	while( $val_infoServ = mysql_fetch_array($res_infoServ)) {
@@ -262,7 +262,7 @@ function insert_with_rules_opt($ID_HARDWARE,$cfield,$op,$compto,$serv_value){
 		//verification des doublons
 		$sql_verif="select d.hardware_id as hardware_id
 			  from devices d,download_enable d_e 
-			  where d.ivalue=d_e.id and fileid=".$ESC_POST['TIMESTAMP']."
+			  where d.ivalue=d_e.id and fileid=".$protectedPost['TIMESTAMP']."
 				AND d.HARDWARE_ID in (".implode(',',$verif_idMach).") and d.name='DOWNLOAD'";
 		$res_verif = mysql_query( $sql_verif, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));
 		$nb_exist=0;

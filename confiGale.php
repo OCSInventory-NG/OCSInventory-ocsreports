@@ -23,10 +23,10 @@ $def_onglets[$l->g(735)]=$l->g(735); //Filtres
 $def_onglets[$l->g(760)]=$l->g(760); //Webservice
 $def_onglets[$l->g(84)]=$l->g(84); //GUI
 $def_onglets['connexion']="Connexion Ldap"; //connexion a l'applicatioon
-if ($ESC_POST['Valid'] == $l->g(103)){
+if ($protectedPost['Valid'] == $l->g(103)){
 	$etat=verif_champ();
 	if ($etat == "")
-	$MAJ=update_default_value($ESC_POST); //function in function_config_generale.php
+	$MAJ=update_default_value($protectedPost); //function in function_config_generale.php
 	else{
 		$msg="";
 		foreach ($etat as $name=>$value){
@@ -45,56 +45,56 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 onglet($def_onglets,$form_name,'onglet',7);
 
 echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
-if ($ESC_POST['onglet'] == "connexion" ){
+if ($protectedPost['onglet'] == "connexion" ){
 	
 	pageConnexion($form_name);
 	
 }
 
-if ($ESC_POST['onglet'] == $l->g(84) ){
+if ($protectedPost['onglet'] == $l->g(84) ){
 	
 	pageGUI($form_name);
 	
 }
-if ($ESC_POST['onglet'] == $l->g(728) or $ESC_POST['onglet'] == ""){
+if ($protectedPost['onglet'] == $l->g(728) or $protectedPost['onglet'] == ""){
 	
 	pageinventory($form_name);
 	
 }
-if ($ESC_POST['onglet'] == $l->g(499) ){
+if ($protectedPost['onglet'] == $l->g(499) ){
 	
  	pageserveur($form_name);
 	
 }
-if ($ESC_POST['onglet'] == $l->g(312)){	
+if ($protectedPost['onglet'] == $l->g(312)){	
 	
 	pageipdiscover($form_name);
 }
-if ($ESC_POST['onglet'] == $l->g(512)){
+if ($protectedPost['onglet'] == $l->g(512)){
 	
 	pageteledeploy($form_name);
 }
-if ($ESC_POST['onglet'] == $l->g(628)){
+if ($protectedPost['onglet'] == $l->g(628)){
 	
 	pageredistrib($form_name);
 }
-if ($ESC_POST['onglet'] == $l->g(583)){
+if ($protectedPost['onglet'] == $l->g(583)){
 	
 	pagegroups($form_name);
 }
-if ($ESC_POST['onglet'] == $l->g(211)){
+if ($protectedPost['onglet'] == $l->g(211)){
 	
 	pageregistry($form_name);
 }
-if ($ESC_POST['onglet'] == $l->g(734)){
+if ($protectedPost['onglet'] == $l->g(734)){
 	
 	pagefilesInventory($form_name);
 }
-if ($ESC_POST['onglet'] == $l->g(735)){
+if ($protectedPost['onglet'] == $l->g(735)){
 	
 	pagefilter($form_name);
 }
-if ($ESC_POST['onglet'] == $l->g(760)){
+if ($protectedPost['onglet'] == $l->g(760)){
 	
 	pagewebservice($form_name);
 }

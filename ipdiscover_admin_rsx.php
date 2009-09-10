@@ -20,17 +20,17 @@ if ($_SESSION['ipdiscover_methode'] != 'local.php'){
 }
 //if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
 //	die("FORBIDDEN");
-if (isset($ESC_GET['value'])){
+if (isset($protectedGet['value'])){
 	$title=$l->g(931);
-	$netid=mysql_escape_string($ESC_GET['value']);
-	$ESC_POST["ADD_IP"]=$netid;
-	if (!isset($ESC_POST["RSX_NAME"])){
+	$netid=mysql_escape_string($protectedGet['value']);
+	$protectedPost["ADD_IP"]=$netid;
+	if (!isset($protectedPost["RSX_NAME"])){
 		$sql="select NAME,ID,MASK from subnet where netid='".$netid."'";
 		$res=mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 		$row=mysql_fetch_object($res);
-		$ESC_POST["RSX_NAME"]=xml_decode($row->NAME);
-		$ESC_POST["ID_NAME"]=xml_decode($row->ID);
-		$ESC_POST["ADD_SX_RSX"]=xml_decode($row->MASK);
+		$protectedPost["RSX_NAME"]=xml_decode($row->NAME);
+		$protectedPost["ID_NAME"]=xml_decode($row->ID);
+		$protectedPost["ADD_SX_RSX"]=xml_decode($row->MASK);
 	}
 	$tab_typ_champ[2]['INPUT_TYPE']=3;
 
@@ -40,23 +40,23 @@ $title=$l->g(303);
 $tab_typ_champ[2]['INPUT_TYPE']=0;
 }
 
-if (isset($ESC_POST['Reset_modif_x'])){
+if (isset($protectedPost['Reset_modif_x'])){
 	echo "<script>";
 	echo "self.close();</script>";	
 }
 
-if (isset($ESC_POST['Valid_modif_x'])){
-	print_r($ESC_POST);
-	if (trim($ESC_POST['ADD_IP']) == '')
+if (isset($protectedPost['Valid_modif_x'])){
+	print_r($protectedPost);
+	if (trim($protectedPost['ADD_IP']) == '')
 	$ERROR=$l->g(932);	
-	if (trim($ESC_POST['RSX_NAME']) == '')
+	if (trim($protectedPost['RSX_NAME']) == '')
 	$ERROR=$l->g(933);	
-	if (trim($ESC_POST['ID_NAME']) == '')
+	if (trim($protectedPost['ID_NAME']) == '')
 	$ERROR=$l->g(934);
-	if (trim($ESC_POST['ADD_SX_RSX']) == '')
+	if (trim($protectedPost['ADD_SX_RSX']) == '')
 	$ERROR=$l->g(935);
 	if (!isset($ERROR)){
-		$post=escape_string($ESC_POST);
+		$post=escape_string($protectedPost);
 		$sql_verif="select NETID from subnet where netid='".$post['ADD_IP']."'";
 		$res_verif=mysql_query($sql_verif, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 		$row_verif=mysql_fetch_object($res_verif);
@@ -81,20 +81,20 @@ if (isset($ESC_POST['Valid_modif_x'])){
 	
 }
 
-$tab_typ_champ[0]['DEFAULT_VALUE']=$ESC_POST['RSX_NAME'];
+$tab_typ_champ[0]['DEFAULT_VALUE']=$protectedPost['RSX_NAME'];
 $tab_typ_champ[0]['INPUT_NAME']="RSX_NAME";
 $tab_typ_champ[0]['CONFIG']['SIZE']=60;
 $tab_typ_champ[0]['CONFIG']['MAXLENGTH']=255;
 $tab_typ_champ[0]['INPUT_TYPE']=0;
 $tab_name[0]=$l->g(304).": ";
-$tab_typ_champ[1]['DEFAULT_VALUE']=$ESC_POST['ID_NAME'];
+$tab_typ_champ[1]['DEFAULT_VALUE']=$protectedPost['ID_NAME'];
 $tab_typ_champ[1]['INPUT_NAME']="ID_NAME";
 $tab_typ_champ[1]['INPUT_TYPE']=0;
 $tab_name[1]=$_SESSION["ipdiscover_id"].":";
-$tab_typ_champ[2]['DEFAULT_VALUE']=$ESC_POST['ADD_IP'];
+$tab_typ_champ[2]['DEFAULT_VALUE']=$protectedPost['ADD_IP'];
 $tab_typ_champ[2]['INPUT_NAME']="ADD_IP";
 $tab_name[2]=$l->g(34).": ";
-$tab_typ_champ[3]['DEFAULT_VALUE']=$ESC_POST['ADD_SX_RSX'];
+$tab_typ_champ[3]['DEFAULT_VALUE']=$protectedPost['ADD_SX_RSX'];
 $tab_typ_champ[3]['INPUT_NAME']="ADD_SX_RSX";
 $tab_typ_champ[3]['INPUT_TYPE']=0;
 $tab_name[3]=$l->g(208).": ";

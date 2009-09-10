@@ -2,25 +2,25 @@
 //variable d'export de tous les logiciels
 //=>$_SESSION["forcedRequest"]
 
-if ($ESC_POST['RESET']){ 
-	unset($ESC_POST['search']);
-	unset($ESC_POST['NBRE']);
-	unset($ESC_POST['CLASS']);
+if ($protectedPost['RESET']){ 
+	unset($protectedPost['search']);
+	unset($protectedPost['NBRE']);
+	unset($protectedPost['CLASS']);
 }
 
-if ($ESC_POST['SUBMIT_FORM'])
+if ($protectedPost['SUBMIT_FORM'])
 $tab_options['CACHE']='RESET';
 
 $sql_fin="";
 
 $sql_list_alpha ="select substr(trim(name),1,1) alpha, name ";
-if (isset($ESC_POST['NBRE']) and $ESC_POST['NBRE'] != "" and isset($ESC_POST['COMPAR']) and $ESC_POST['COMPAR'] != ""){
+if (isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "" and isset($protectedPost['COMPAR']) and $protectedPost['COMPAR'] != ""){
 	$sql_list_alpha .=",count(*) nb ";	
-	$sql_fin=" having nb ".$ESC_POST['COMPAR']." ".$ESC_POST['NBRE']." ";
+	$sql_fin=" having nb ".$protectedPost['COMPAR']." ".$protectedPost['NBRE']." ";
 }
 $sql_list_alpha .=" from ";
 $and_where="";
-if ($_SESSION["usecache"] == 1  and $ESC_POST['NBRE'] == ""){
+if ($_SESSION["usecache"] == 1  and $protectedPost['NBRE'] == ""){
 	$sql_list_alpha .=" softwares_name_cache left join dico_soft on dico_soft.extracted=softwares_name_cache.name ";
 	$and_where=" where ";
 }else{
@@ -32,23 +32,23 @@ if ($_SESSION["usecache"] == 1  and $ESC_POST['NBRE'] == ""){
 	$and_where=" where ";
 }
 $sql_list_alpha .=$and_where." substr(trim(name),1,1) is not null ";
-if (isset($ESC_POST['search']) and $ESC_POST['search'] != "")
-	$sql_list_alpha .=" and name like '%".$ESC_POST['search']."%' ";
-if (isset($ESC_POST['CLASS']) and $ESC_POST['CLASS'] != ""){
-		$sql_list_alpha.=" and (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$ESC_POST['CLASS']])."') ".$sql_default." ) ";		
+if (isset($protectedPost['search']) and $protectedPost['search'] != "")
+	$sql_list_alpha .=" and name like '%".$protectedPost['search']."%' ";
+if (isset($protectedPost['CLASS']) and $protectedPost['CLASS'] != ""){
+		$sql_list_alpha.=" and (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$protectedPost['CLASS']])."') ".$sql_default." ) ";		
 	}
 $sql_list_alpha .=" group by name ".$sql_fin;
 
 //execute the query only if necessary 
-if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($ESC_POST['onglet'])){
+if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPost['onglet'])){
 	$result_list_alpha = mysql_query( $sql_list_alpha, $_SESSION["readServer"]);
  	while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
  		if (strtoupper($item_list_alpha -> alpha) != "" 
 			and strtoupper($item_list_alpha -> alpha) != Ã
 			and strtoupper($item_list_alpha -> alpha) != Â
 			and strtoupper($item_list_alpha -> alpha) != Ä){
-				if (!isset($ESC_POST['onglet']))
-					$ESC_POST['onglet']=strtoupper($item_list_alpha -> alpha);
+				if (!isset($protectedPost['onglet']))
+					$protectedPost['onglet']=strtoupper($item_list_alpha -> alpha);
 				$list_alpha[strtoupper($item_list_alpha -> alpha)]=strtoupper($item_list_alpha -> alpha);
 				if (!isset($first)){
 					$first=$list_alpha[strtoupper($item_list_alpha -> alpha)];				
@@ -56,8 +56,8 @@ if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($ESC_POST['onglet']
  		}
 	}
 	
-	if (!isset($list_alpha[$ESC_POST['onglet']])){
-		$ESC_POST['onglet']=$first;
+	if (!isset($list_alpha[$protectedPost['onglet']])){
+		$protectedPost['onglet']=$first;
 	}
 	$_SESSION['REQ_ONGLET_SOFT']= $sql_list_alpha;
 	$_SESSION['ONGLET_SOFT']=$list_alpha;
@@ -67,8 +67,8 @@ $table_name="all_soft";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
  onglet($_SESSION['ONGLET_SOFT'],$form_name,"onglet",20);
 
-if ((isset($ESC_POST['search']) and $ESC_POST['search'] != "") or
-	((isset($ESC_POST['NBRE']) and $ESC_POST['NBRE'] != "")))
+if ((isset($protectedPost['search']) and $protectedPost['search'] != "") or
+	((isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "")))
 echo "<font color=red size=3><b>".$l->g(767)."</b></font>";
 
 
@@ -76,17 +76,17 @@ echo "<font color=red size=3><b>".$l->g(767)."</b></font>";
 if ($_SESSION["usecache"] == 1){
 	$search_soft="select name from softwares_name_cache left join dico_soft on dico_soft.extracted=softwares_name_cache.name ";
 	$forcedRequest=$search_soft;
-	$search_soft.=" where name like '".$ESC_POST['onglet']."%'";
+	$search_soft.=" where name like '".$protectedPost['onglet']."%'";
 	$and_where=" where ";
-	if (isset($ESC_POST['search']) and $ESC_POST['search'] != ""){
-		$forcedRequest.= $and_where." name like '%".$ESC_POST['search']."%' ";
-		$search_soft.=" and name like '%".$ESC_POST['search']."%' ";		
+	if (isset($protectedPost['search']) and $protectedPost['search'] != ""){
+		$forcedRequest.= $and_where." name like '%".$protectedPost['search']."%' ";
+		$search_soft.=" and name like '%".$protectedPost['search']."%' ";		
 		$and_where=" and ";
 	}
-	if (isset($ESC_POST['CLASS']) and $ESC_POST['CLASS'] != ""){
+	if (isset($protectedPost['CLASS']) and $protectedPost['CLASS'] != ""){
 	//	$fin_sql=" and dico_soft.extracted is not null ";
-		$forcedRequest.= $and_where." (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$ESC_POST['CLASS']])."') ".$sql_default." ) and ";
-		$search_soft.=" and (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$ESC_POST['CLASS']])."') ".$sql_default." ) ";		
+		$forcedRequest.= $and_where." (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$protectedPost['CLASS']])."') ".$sql_default." ) and ";
+		$search_soft.=" and (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$protectedPost['CLASS']])."') ".$sql_default." ) ";		
 	}
 	//echo $search_soft;
 	$result_search_soft = mysql_query( $search_soft, $_SESSION["readServer"]);
@@ -118,10 +118,10 @@ if ($list_soft != ""){
 	}else
 	$and_where=" where ";
 	$_SESSION["forcedRequest"]=$sql;
-	$sql.=$and_where." name like '".$ESC_POST['onglet']."%'";
-	if (isset($ESC_POST['search']) and $ESC_POST['search'] != ""){
-		$sql.=" and name like '%".$ESC_POST['search']."%' ";	
-		$_SESSION["forcedRequest"].=$and_where."name like '%".$ESC_POST['search']."%'" ;
+	$sql.=$and_where." name like '".$protectedPost['onglet']."%'";
+	if (isset($protectedPost['search']) and $protectedPost['search'] != ""){
+		$sql.=" and name like '%".$protectedPost['search']."%' ";	
+		$_SESSION["forcedRequest"].=$and_where."name like '%".$protectedPost['search']."%'" ;
 	}
 }
 
@@ -142,17 +142,17 @@ if (isset($sql)){
 }
 
 echo "<br><div align=center>
-<table bgcolor='#66CCCC'><tr><td colspan=2 align=center >".$l->g(735)."</td></tr><tr><td align=right>".$l->g(382).": <input type='input' name='search' value='".$ESC_POST['search']."'>
+<table bgcolor='#66CCCC'><tr><td colspan=2 align=center >".$l->g(735)."</td></tr><tr><td align=right>".$l->g(382).": <input type='input' name='search' value='".$protectedPost['search']."'>
 				<td rowspan=2><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'>
 		</td></tr><tr><td align=right>nbre <select name='COMPAR'>
-			<option value='<' ".($ESC_POST['COMPAR'] == '<'?'selected':'')."><</option>
-			<option value='>' ".($ESC_POST['COMPAR'] == '>'?'selected':'').">></option>
-			<option value='=' ".($ESC_POST['COMPAR'] == '='?'selected':'').">=</option>
-		</select><input type='input' name='NBRE' value='".$ESC_POST['NBRE']."' ".$numeric."></td></tr>";
+			<option value='<' ".($protectedPost['COMPAR'] == '<'?'selected':'')."><</option>
+			<option value='>' ".($protectedPost['COMPAR'] == '>'?'selected':'').">></option>
+			<option value='=' ".($protectedPost['COMPAR'] == '='?'selected':'').">=</option>
+		</select><input type='input' name='NBRE' value='".$protectedPost['NBRE']."' ".$numeric."></td></tr>";
 		
 	
 	echo "<tr><td colspan=2 align=center><a href='ipcsv.php'>".$l->g(136)." ".$l->g(765)."</a></td></tr>";
-if ($ESC_POST['COMPAR'] == '<' and $ESC_POST['NBRE']<=15 and $ESC_POST['NBRE'] != "")
+if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protectedPost['NBRE'] != "")
 echo "<tr><td colspan=2 align=center><a href='exportallsoft.php'>".$l->g(912)."</a></td></tr>";
 echo "</table></div>
 		";

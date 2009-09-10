@@ -20,10 +20,10 @@ require_once ('require/function_index.php');
 $sleep=1;
 $debut = getmicrotime();
 //Initiating icons
-if( !isset($ESC_GET["popup"] )) {
+if( !isset($protectedGet["popup"] )) {
 	//si la variable RESET existe
 	//c'est que l'on a clique sur un icone d'un menu 
-	if (isset($ESC_POST['RESET'])){
+	if (isset($protectedPost['RESET'])){
 		if ($_SESSION['DEBUG'] == 'ON')
 			echo "<br><b><font color=red>".$l->g(5003)."</font></b><br>";
 		unset($_SESSION['DATA_CACHE']);	
@@ -125,40 +125,40 @@ echo "<br><center><span id='wait' class='warn'><font color=red>".$l->g(332)."</f
 		loadMac();
 	}
 	
-	if( $ESC_GET[PAG_INDEX] != $pages_refs['ipdiscover'] )
+	if( $protectedGet[PAG_INDEX] != $pages_refs['ipdiscover'] )
 		unset( $_SESSION["forcedRequest"] );
 
 	//GROUP CREATION
 	if( $_SESSION["lvluser"] == SADMIN ) {
 		// New classic group
-		if( ! empty( $ESC_POST["cg"] ) ) {
-			if( createGroup( $ESC_POST["cg"], $ESC_POST["desc"] ) ) {
-				unset( $ESC_POST );
+		if( ! empty( $protectedPost["cg"] ) ) {
+			if( createGroup( $protectedPost["cg"], $protectedPost["desc"] ) ) {
+				unset( $protectedPost );
 			}
 		}
 		//New static group, with checked computers in cache
-		else if( ! empty( $ESC_POST["cgs"] ) ) {
-			if( createGroup( $ESC_POST["cgs"], $ESC_POST["desc"], true ) ) {
-				$mess=addComputersToGroup( $ESC_POST["cgs"], $ESC_POST );
+		else if( ! empty( $protectedPost["cgs"] ) ) {
+			if( createGroup( $protectedPost["cgs"], $protectedPost["desc"], true ) ) {
+				$mess=addComputersToGroup( $protectedPost["cgs"], $protectedPost );
 				echo "<div align=center><font color=green><big><B>".$mess." ".$l->g(819)."</B></big></font></div>";
-				unset( $ESC_POST );
+				unset( $protectedPost );
 			}
 		}
 		// Overwrite a classic group
-		else if( isset( $ESC_POST["eg"] ) && $ESC_POST["eg"] != "_nothing_" ) {
-			createGroup( $ESC_POST["eg"], $ESC_POST["desc"], false, true );
-			unset( $ESC_POST );
+		else if( isset( $protectedPost["eg"] ) && $protectedPost["eg"] != "_nothing_" ) {
+			createGroup( $protectedPost["eg"], $protectedPost["desc"], false, true );
+			unset( $protectedPost );
 		}
 	}
 		// Add checked computers to existing group
-	 if( isset( $ESC_POST["asg"] ) && $ESC_POST["asg"] != "_nothing_" ) {
-			$mess=addComputersToGroup( $ESC_POST["asg"], $ESC_POST );
+	 if( isset( $protectedPost["asg"] ) && $protectedPost["asg"] != "_nothing_" ) {
+			$mess=addComputersToGroup( $protectedPost["asg"], $protectedPost );
 			echo "<div align=center><font color=green><big><B>".$mess." ".$l->g(819)."</B></big></font></div>";
-			unset( $ESC_POST );
+			unset( $protectedPost );
 		
 	}
 
-	switch($ESC_GET[PAG_INDEX]) {
+	switch($protectedGet[PAG_INDEX]) {
  		case $pages_refs['ipdiscover']: require ('ipdiscover_new.php');	break;
  		case $pages_refs['configuration']: require ('confiGale.php');	break;
  		case $pages_refs['regconfig']: require ('registre.php');	break;
@@ -191,7 +191,7 @@ echo "<br><center><span id='wait' class='warn'><font color=red>".$l->g(332)."</f
  		default: require ('console.php');		
  	}
 
-if( !isset($ESC_GET["popup"] ))
+if( !isset($protectedGet["popup"] ))
 	require ($_SESSION['FOOTER_HTML']);
 	
 echo "<script language='javascript'>wait(0);</script>";

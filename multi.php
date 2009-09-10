@@ -21,23 +21,23 @@ $table_tabname="TAB_MULTICRITERE";
 //cas o� l'on arrive d'une autre page
 //ex: la page des stats
 //$_SESSION['DEBUG'] = 'ON';
-if (isset($ESC_GET['prov'])){
-	unset($ESC_POST);
+if (isset($protectedGet['prov'])){
+	unset($protectedPost);
 	foreach ($_SESSION as $key=>$value){
 		$valeur=explode("-", $key); 
 		if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue" or $valeur[0] == "SelFieldValue3"	or $valeur[0] == "SelAndOr" or $valeur[0] == "SelComp" )
 			unset($_SESSION[$key]);
 	}
-	if ($ESC_GET['prov'] == "stat"){
+	if ($protectedGet['prov'] == "stat"){
 		$tab_session[]="DEVICES-DOWNLOAD";	
-		$tab_stat=array('SelComp-DEVICES-DOWNLOAD-0'=>"exact",'SelFieldValue-DEVICES-DOWNLOAD-0'=>$ESC_GET['id_pack'],'SelFieldValue2-DEVICES-DOWNLOAD-0'=>$ESC_GET['stat']);//unset($_SESSION);
+		$tab_stat=array('SelComp-DEVICES-DOWNLOAD-0'=>"exact",'SelFieldValue-DEVICES-DOWNLOAD-0'=>$protectedGet['id_pack'],'SelFieldValue2-DEVICES-DOWNLOAD-0'=>$protectedGet['stat']);//unset($_SESSION);
 	}
-	if ($ESC_GET['prov'] == "ipdiscover" or $ESC_GET['prov'] == "ipdiscover1"){
+	if ($protectedGet['prov'] == "ipdiscover" or $protectedGet['prov'] == "ipdiscover1"){
 		$tab_session[]="NETWORKS-IPSUBNET";	
 		$tab_stat['SelComp-NETWORKS-IPSUBNET-0']="exact";
-		$tab_stat['InputValue-NETWORKS-IPSUBNET-0']=$ESC_GET['value'];//unset($_SESSION);
+		$tab_stat['InputValue-NETWORKS-IPSUBNET-0']=$protectedGet['value'];//unset($_SESSION);
 	}
-	if ($ESC_GET['prov'] == "ipdiscover1"){
+	if ($protectedGet['prov'] == "ipdiscover1"){
 		$tab_session[]="DEVICES-IPDISCOVER";
 		$tab_session[]="DEVICES-IPDISCOVER";	
 		$tab_stat['SelComp-DEVICES-IPDISCOVER-1'] = "exact";
@@ -52,10 +52,10 @@ if (isset($ESC_GET['prov'])){
 			$_SESSION['multiSearch'][]=$value;
 			
 		foreach ($tab_stat as $key=>$value)
-			$ESC_POST[$key]=$value;		
-		$ESC_POST['Valid-search']=$l->g(30);
-		$ESC_POST['multiSearch'] = $l->g(32);
-		$ESC_POST['Valid']=1;
+			$protectedPost[$key]=$value;		
+		$protectedPost['Valid-search']=$l->g(30);
+		$protectedPost['multiSearch'] = $l->g(32);
+		$protectedPost['Valid']=1;
 	}	
 }
 //initialisation du tableau
@@ -79,21 +79,21 @@ while($field_of_accountinfo['ACCOUNTINFO'][$j]){
 }
 //si on ajoute un champ de recherche
 //on efface les donn�es pr�cedemment en cache
-if ($ESC_POST['delfield']!="" or $ESC_POST['multiSearch'] != $l->g(32)){
-	unset($ESC_POST['Valid-search']);
+if ($protectedPost['delfield']!="" or $protectedPost['multiSearch'] != $l->g(32)){
+	unset($protectedPost['Valid-search']);
 	unset($_SESSION['ID_REQ']);
  	unset($_SESSION['DATA_CACHE'][$table_tabname]);
 }
 //cas d'une suppression de machine
-if ($ESC_POST['SUP_PROF'] != ''){	
-	deleteDid($ESC_POST['SUP_PROF']);
+if ($protectedPost['SUP_PROF'] != ''){	
+	deleteDid($protectedPost['SUP_PROF']);
 	//on force la valeur cach�e de la validation du formulaire 
 	//pour rejouer la requete et ne pas utiliser le cache
-	$ESC_POST['Valid']="SUP";
+	$protectedPost['Valid']="SUP";
 }
 //for save field and value
-if ($ESC_POST['Valid-search'] and $ESC_POST['Valid'] != ''){
-	foreach ($ESC_POST as $key=>$value){
+if ($protectedPost['Valid-search'] and $protectedPost['Valid'] != ''){
+	foreach ($protectedPost as $key=>$value){
 		$valeur=explode("-", $key); 
 		if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue" or $valeur[0] == "SelFieldValue3"	or $valeur[0] == "SelAndOr" or $valeur[0] == "SelComp")
 		{	$_SESSION[$key]=$value;
@@ -103,33 +103,33 @@ if ($ESC_POST['Valid-search'] and $ESC_POST['Valid'] != ''){
 	foreach ($_SESSION as $key=>$value){
 		$valeur=explode("-", $key); 
 		if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue" or $valeur[0] == "SelFieldValue3"	or $valeur[0] == "SelAndOr" or $valeur[0] == "SelComp" )
-			$ESC_POST[$key]=$value;
+			$protectedPost[$key]=$value;
 	}
 	
 }
 
- if ($ESC_POST['multiSearch'] != '' and $ESC_POST['multiSearch'] != $l->g(32))
+ if ($protectedPost['multiSearch'] != '' and $protectedPost['multiSearch'] != $l->g(32))
 {
-	$_SESSION['multiSearch'][]=$ESC_POST['multiSearch'];
+	$_SESSION['multiSearch'][]=$protectedPost['multiSearch'];
 	arsort($_SESSION['multiSearch']);
 }
 
  //cas de la r�initialisation
-if ($ESC_POST['reset'] != ""){
+if ($protectedPost['reset'] != ""){
 	unset($_SESSION['ID_REQ']);
  	unset ($_SESSION['multiSearch']);
  	unset($_SESSION['DATA_CACHE'][$table_tabname]);
- 	unset ($ESC_POST);
+ 	unset ($protectedPost);
 }
 
-if ($ESC_POST['delfield'] != ""){
-unset ($_SESSION['multiSearch'][$ESC_POST['delfield']]);
+if ($protectedPost['delfield'] != ""){
+unset ($_SESSION['multiSearch'][$protectedPost['delfield']]);
 }
  
  //une recherche est demand�e sur des crit�res
  //pas d'utilisation de cache
  //bouton de validation actionn�
- if ($ESC_POST['Valid-search'] and $ESC_POST['Valid'] != ''){
+ if ($protectedPost['Valid-search'] and $protectedPost['Valid'] != ''){
  	unset($_SESSION['SQL_DATA_FIXE']);
  	unset($_SESSION['ID_REQ']);
  	$sqlRequest_Group="";
@@ -137,7 +137,7 @@ unset ($_SESSION['multiSearch'][$ESC_POST['delfield']]);
  	//d�finir les diff�rentes tables, champs de recherche, valeur � rechercher
  	$i=0;
  	//parcourt du tableau de POST
- 	foreach ($ESC_POST as $key=>$value){
+ 	foreach ($protectedPost as $key=>$value){
  		//on r�cup�re uniquement les POST qui nous int�ressent
  		if ($key != 'Valid-search' and $key != 'multiSearch'){
  			//en fonction du nom de la variable, on arrive a savoir quel est la recherche demand�e
@@ -153,7 +153,7 @@ unset ($_SESSION['multiSearch'][$ESC_POST['delfield']]);
  				//en position 3 on a le num�ro du champ.
  				$fieldNumber[$i]=$valeur[3];
  				//on r�cup�re l'�l�ment de comparaison
- 				$field_compar[$i]=$ESC_POST["SelComp-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
+ 				$field_compar[$i]=$protectedPost["SelComp-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
  				
  				//si le champ de saisi est � vide, on annule la recherche sur ce champ
  				if ($value == ''){
@@ -177,16 +177,16 @@ unset ($_SESSION['multiSearch'][$ESC_POST['delfield']]);
  							//le m�me champ pour traiter le champ AND/OR
  							while ($k>0){
  								if ($table[$k] == $table[$i] and $field[$k] == $field[$i]){
- 									$field_and_or[$i]=$ESC_POST["SelAndOr-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
+ 									$field_and_or[$i]=$protectedPost["SelAndOr-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
  																
  								}
  								$k--;
  							}		 							
  						} 						
- 						if (isset($ESC_POST[$valeur[0]."2-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]]))
- 						$field_value_complement[$i]=$ESC_POST[$valeur[0]."2-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
- 						elseif (isset($ESC_POST["SelFieldValue3-".$valeur[1]."-".$field[$i]."-".$fieldNumber[$i]])){
- 						$field_value_complement[$i]=$ESC_POST["SelFieldValue3-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
+ 						if (isset($protectedPost[$valeur[0]."2-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]]))
+ 						$field_value_complement[$i]=$protectedPost[$valeur[0]."2-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
+ 						elseif (isset($protectedPost["SelFieldValue3-".$valeur[1]."-".$field[$i]."-".$fieldNumber[$i]])){
+ 						$field_value_complement[$i]=$protectedPost["SelFieldValue3-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
  						}
  		 			}		
  		 			$i++; 				
@@ -610,7 +610,7 @@ $list_id="";
  }
  
  //Utilisation du cache pour �viter de rejouer la recherche
-if (($ESC_POST['Valid-search'] and $ESC_POST['Valid'] == '')){
+if (($protectedPost['Valid-search'] and $protectedPost['Valid'] == '')){
 	 //	print_r($_SESSION['list_tables_request']);
 	//recup�ration de la liste des ID
 	$list_id=$_SESSION['ID_REQ'];
@@ -689,8 +689,8 @@ if ($list_id != "")	{
 //print_r($tab_options);
 	tab_req($table_tabname,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,'95',$tab_options);
 	add_trait_select($list_fonct,$list_id,$form_name);
-	echo "<input type='hidden' value='".$ESC_POST['Valid-search']."' name='Valid-search'>";
-}elseif($ESC_POST['Valid-search'] != '')
+	echo "<input type='hidden' value='".$protectedPost['Valid-search']."' name='Valid-search'>";
+}elseif($protectedPost['Valid-search'] != '')
 $no_result="NO RESULT";
 
 if ($no_result == "NO RESULT" and !isset($ERROR)){

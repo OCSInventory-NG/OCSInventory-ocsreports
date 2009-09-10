@@ -3,34 +3,34 @@
 require_once('require/function_table_html.php');
 require_once('require/function_groups.php');
 /*********************************************TRAITEMENT DES DONNEES*****************************************/
-if (isset($ESC_POST['VALID_GROUP'])){
+if (isset($protectedPost['VALID_GROUP'])){
 	//sur la requete ou sur la selection?
-	if ($ESC_POST['CHOISE'] == "SEL")
-		$list_id=$ESC_GET['idchecked'];
+	if ($protectedPost['CHOISE'] == "SEL")
+		$list_id=$protectedGet['idchecked'];
 	else
 		$list_id=implode($_SESSION['ID_REQ'],',');
 		
 	//gestion groupe de serveurs
-	if ($ESC_POST['onglet'] == strtoupper($l->g(651))){
+	if ($protectedPost['onglet'] == strtoupper($l->g(651))){
 		require_once('require/function_server.php');
 		//ajout de machines
-		if ($ESC_POST['NEW_RAZ'] == "ADD")
+		if ($protectedPost['NEW_RAZ'] == "ADD")
 		$action='add_serv';
 		//nouveau groupe
-		if ($ESC_POST['NEW_RAZ'] == "NEW"){
-			$name_or_id=$ESC_POST['NAME_GROUP'];
-			$lbl=$ESC_POST['LBL_GROUP'];
+		if ($protectedPost['NEW_RAZ'] == "NEW"){
+			$name_or_id=$protectedPost['NAME_GROUP'];
+			$lbl=$protectedPost['LBL_GROUP'];
 			$action='new_serv';
 		}
 		//remplacement d'un groupe
-		if ($ESC_POST['NEW_RAZ'] == "RAZ")
+		if ($protectedPost['NEW_RAZ'] == "RAZ")
 		$action='replace_serv';
 		//suppression de machines dans le groupe de serveur
-		if ($ESC_POST['NEW_RAZ'] == "DEL")
+		if ($protectedPost['NEW_RAZ'] == "DEL")
 		$action='del_serv';
 		
 		if (!isset($name_or_id))
-		$name_or_id=$ESC_POST['group_list'];
+		$name_or_id=$protectedPost['group_list'];
 		
 		if (!isset($lbl))
 		$lbl="''";
@@ -39,25 +39,25 @@ if (isset($ESC_POST['VALID_GROUP'])){
 
 	}//gestion groupe de machines
 	else{	
-		if ($ESC_POST['onglet'] == $l->g(809))
+		if ($protectedPost['onglet'] == $l->g(809))
 			$group_type="STATIC";
 		else
 			$group_type="DYNAMIC";
 		
 		//ajout a un groupe
-		if ($ESC_POST['NEW_RAZ'] == "ADD"){
-			$nb_mach=add_computors_cache($list_id,$ESC_POST['group_list'],1);
+		if ($protectedPost['NEW_RAZ'] == "ADD"){
+			$nb_mach=add_computors_cache($list_id,$protectedPost['group_list'],1);
 			$msg="<font color=green>".$l->g(973);	
 		}
 			
 		//suppression des machines du groupe en masse
-		if ($ESC_POST['NEW_RAZ'] == "DEL"){
-			$nb_mach=remove_of_group($ESC_POST['group_list'],$list_id);
+		if ($protectedPost['NEW_RAZ'] == "DEL"){
+			$nb_mach=remove_of_group($protectedPost['group_list'],$list_id);
 			$msg="<font color=green>".$l->g(971)."<br>".$l->g(972)."</font>";	
 		}
 		//Création d'un nouveau groupe
-		if ($ESC_POST['NEW_RAZ'] == "NEW"){
-			$result=creat_group ($ESC_POST['NAME_GROUP'],$ESC_POST['LBL_GROUP'],$list_id,$_SESSION['SEARCH_SQL_GROUP'],$group_type);
+		if ($protectedPost['NEW_RAZ'] == "NEW"){
+			$result=creat_group ($protectedPost['NAME_GROUP'],$protectedPost['LBL_GROUP'],$list_id,$_SESSION['SEARCH_SQL_GROUP'],$group_type);
 			if ($result['RESULT'] == "ERROR")
 			$nb_mach = "ERROR";
 			else
@@ -65,13 +65,13 @@ if (isset($ESC_POST['VALID_GROUP'])){
 			$msg="<font color=green>".$l->g(880);		
 		}	
 		//ecrasement d'un groupe
-		if ($ESC_POST['NEW_RAZ'] == "RAZ"){
-			$nb_mach=replace_group($ESC_POST['group_list'],$list_id,$_SESSION['SEARCH_SQL_GROUP'],$group_type);
+		if ($protectedPost['NEW_RAZ'] == "RAZ"){
+			$nb_mach=replace_group($protectedPost['group_list'],$list_id,$_SESSION['SEARCH_SQL_GROUP'],$group_type);
 			$msg="<font color=green>".$l->g(879);		
 		}
 		if ($nb_mach == "ERROR"){
 			$msg="<font color=red>".$result['LBL']."</font>";
-		}elseif (isset($nb_mach) and $ESC_POST['NEW_RAZ'] != "DEL"){
+		}elseif (isset($nb_mach) and $protectedPost['NEW_RAZ'] != "DEL"){
 			$msg.="<br>".$nb_mach." ".$l->g(974)."</font>";		
 		}
 	}
@@ -90,34 +90,34 @@ if ($_SESSION['lvluser'] == SADMIN){
 	$optionList['NEW']=$l->g(586);
 }
 
-//gestion unique par la variable $ESC_GET
-if ($ESC_POST['CHOISE'] == "REQ" or $ESC_POST['CHOISE'] == "")
-	$ESC_GET["listid"]=implode($_SESSION['ID_REQ'],',');
+//gestion unique par la variable $protectedGet
+if ($protectedPost['CHOISE'] == "REQ" or $protectedPost['CHOISE'] == "")
+	$protectedGet["listid"]=implode($_SESSION['ID_REQ'],',');
 else
-	$ESC_GET["listid"]=$ESC_GET['idchecked'];
+	$protectedGet["listid"]=$protectedGet['idchecked'];
 
 //if no select => first onget selected
-if ($ESC_POST['onglet'] == "" or !isset($ESC_POST['onglet']))
-		$ESC_POST['onglet']=$l->g(809);
+if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
+		$protectedPost['onglet']=$l->g(809);
 
-if ($ESC_POST['onglet'] == $l->g(810)){
+if ($protectedPost['onglet'] == $l->g(810)){
 	$all_groups=all_groups('DYNAMIC');
 }
-if ($ESC_POST['onglet'] == $l->g(809)){
+if ($protectedPost['onglet'] == $l->g(809)){
 	$all_groups=all_groups('STATIC');
 	$delGroups="select distinct id, name,workgroup from hardware,groups_cache
-			where groups_cache.HARDWARE_ID in (".$ESC_GET['listid'].")
+			where groups_cache.HARDWARE_ID in (".$protectedGet['listid'].")
 				and groups_cache.group_id=hardware.id
 				and deviceid = '_SYSTEMGROUP_'
 				and groups_cache.static = 1";
 	if ($_SESSION['lvluser'] != SADMIN)	
 		$delGroups.= " and workgroup = 'GROUP_4_ALL'";	
 }
-if ($ESC_POST['onglet'] == strtoupper($l->g(651))){
+if ($protectedPost['onglet'] == strtoupper($l->g(651))){
 	$all_groups=all_groups('SERVER');	
 	$delGroups="select distinct group_id as id, name 
 				from download_servers,hardware 
-				where hardware_id in(".$ESC_GET['listid'].")
+				where hardware_id in(".$protectedGet['listid'].")
 					and hardware.id=download_servers.group_id";
 }
 //search all groups for listid selection
@@ -128,14 +128,14 @@ if (isset($delGroups)){
 		
 	}
 }
-if ($ESC_POST['onglet'] != $l->g(810)){
+if ($protectedPost['onglet'] != $l->g(810)){
 	$optionList['ADD']=$l->g(975);		
 	//if groups exist => add option for go out of the group
 	if (isset($groupDelList))
 		$optionList['DEL']=$l->g(818);	
 	else{
-		if ($ESC_POST['NEW_RAZ'] == "DEL")
-		unset($ESC_POST['NEW_RAZ']);		
+		if ($protectedPost['NEW_RAZ'] == "DEL")
+		unset($protectedPost['NEW_RAZ']);		
 	}	
 }
 
@@ -154,7 +154,7 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //show onglet
 onglet($def_onglets,$form_name,'onglet',7);
 
-//if ($ESC_POST['onglet']==$l->g(810)){
+//if ($protectedPost['onglet']==$l->g(810)){
 //	echo "<b><font color=red>La nouvelle version de création des groupes dynamiques<br>
 // n'est pas encore opérationnelle (modification du moteur en cours)<br>
 // Veuillez utiliser l'ancienne recherche multicritère pour cette création</font></b>";
@@ -163,31 +163,31 @@ onglet($def_onglets,$form_name,'onglet',7);
 	$valid="<tr><td align=center colspan=10><input type=submit value='".$l->g(13)."' name='VALID_GROUP'></td></tr>";
 	//open table
 	echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
-	if (isset($select_choise) and $ESC_POST['onglet'] != $l->g(810)){
+	if (isset($select_choise) and $protectedPost['onglet'] != $l->g(810)){
 	echo "<tr><td align =center colspan=10>".$select_choise."</td></tr>";
 	}
 	else{
-		$ESC_POST['CHOISE']='REQ';
-		echo "<input type='hidden' name='CHOISE' value='".$ESC_POST['CHOISE']."'>";
+		$protectedPost['CHOISE']='REQ';
+		echo "<input type='hidden' name='CHOISE' value='".$protectedPost['CHOISE']."'>";
 	}
 	echo "<tr><td align =center colspan=10>";
-	if (isset($ESC_POST['CHOISE']) and $ESC_POST['CHOISE'] != ""){
+	if (isset($protectedPost['CHOISE']) and $protectedPost['CHOISE'] != ""){
 		echo $select;	
 		echo "</td></tr>";
 		//if user want give up or go out of the group
-		if ($ESC_POST['NEW_RAZ'] == "RAZ" or $ESC_POST['NEW_RAZ'] == "ADD")
+		if ($protectedPost['NEW_RAZ'] == "RAZ" or $protectedPost['NEW_RAZ'] == "ADD")
 		$List= $all_groups;
-		if ($ESC_POST['NEW_RAZ'] == "DEL")
+		if ($protectedPost['NEW_RAZ'] == "DEL")
 		$List= $groupDelList;
-		if($ESC_POST['NEW_RAZ'] == "NEW"){
-			$nom=show_modif($ESC_POST['NAME_GROUP'],'NAME_GROUP',0,'');
-			$lbl=show_modif($ESC_POST['LBL_GROUP'],'LBL_GROUP',1,'');
+		if($protectedPost['NEW_RAZ'] == "NEW"){
+			$nom=show_modif($protectedPost['NAME_GROUP'],'NAME_GROUP',0,'');
+			$lbl=show_modif($protectedPost['LBL_GROUP'],'LBL_GROUP',1,'');
 			$addgroup = "<tr><td align=center>".$l->g(49).":</td><td align=left>".$nom."</td></tr>";
 			$addgroup .= "<tr><td align=center>".$l->g(53).":</td><td align=left>".$lbl."</td></tr>";
 			$addgroup .=$valid;
 			echo $addgroup;
 		}
-		if ($ESC_POST['NEW_RAZ'] == "RAZ" or $ESC_POST['NEW_RAZ'] == "DEL" or $ESC_POST['NEW_RAZ'] == "ADD"){
+		if ($protectedPost['NEW_RAZ'] == "RAZ" or $protectedPost['NEW_RAZ'] == "DEL" or $protectedPost['NEW_RAZ'] == "ADD"){
 			$select=show_modif($List,'group_list',2,'');
 			//list of choise
 			$groupList = "<tr><td align =center>";	

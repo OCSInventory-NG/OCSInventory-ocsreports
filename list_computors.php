@@ -1,19 +1,19 @@
 <?php
 
-if (isset($ESC_GET['filtre'])){
-	$ESC_POST['FILTRE']=$ESC_GET['filtre'];
-	$ESC_POST['FILTRE_VALUE']=$ESC_GET['value'];	
+if (isset($protectedGet['filtre'])){
+	$protectedPost['FILTRE']=$protectedGet['filtre'];
+	$protectedPost['FILTRE_VALUE']=$protectedGet['value'];	
 }
 
 //cas d'une suppression de machine
-if ($ESC_POST['SUP_PROF'] != ''){	
-	deleteDid($ESC_POST['SUP_PROF']);
+if ($protectedPost['SUP_PROF'] != ''){	
+	deleteDid($protectedPost['SUP_PROF']);
 	$tab_options['CACHE']='RESET';
 }
 
-if (!isset($ESC_POST['tri2']) or $ESC_POST['tri2'] == ""){
-	$ESC_POST['tri2']="h.lastdate";
-	$ESC_POST['sens']="DESC";
+if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
+	$protectedPost['tri2']="h.lastdate";
+	$protectedPost['sens']="DESC";
 }
 	$form_name="show_all";
 	$table_name="list_show_all";

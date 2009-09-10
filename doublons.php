@@ -10,9 +10,9 @@
 //====================================================================================
 //Modified on $Date: 2007/01/26 17:05:42 $$Author: plemmet $($Revision: 1.10 $)
 require_once('require/function_computors.php');
-if ($ESC_POST['FUSION']){
-	//print_r($ESC_POST);
-	foreach ($ESC_POST as $name=>$value){
+if ($protectedPost['FUSION']){
+	//print_r($protectedPost);
+	foreach ($protectedPost as $name=>$value){
 		if (substr($name,0,5) == "check"){
 			$list_id_fusion[]= substr($name,5);			
 		}		
@@ -168,18 +168,18 @@ foreach ($count_id as $lbl=>$count_value){
 	if ($count_value != 0)
 	echo "</a>";
 	echo "</b></td></tr>";
-	if ($ESC_POST['detail'] == $lbl and $count_value == 0)
-	unset($ESC_POST['detail']);
+	if ($protectedPost['detail'] == $lbl and $count_value == 0)
+	unset($protectedPost['detail']);
 }
 echo "</table><br>";
-echo "<input type=hidden name=detail id=detail value='".$ESC_POST['detail']."'>";
+echo "<input type=hidden name=detail id=detail value='".$protectedPost['detail']."'>";
 
 //affichage des d�tails
-if ($ESC_POST['detail'] != ''){
-	//if ($ESC_POST['tri2'] == "macaddr")
+if ($protectedPost['detail'] != ''){
+	//if ($protectedPost['tri2'] == "macaddr")
 	
-	$_SESSION['SQL_DATA_FIXE'][$table_name]['macaddr']="select HARDWARE_ID,networks.macaddr from networks where hardware_id in (".implode(',',$list_id[$ESC_POST['detail']]).")";
-	$_SESSION['SQL_DATA_FIXE'][$table_name]['serial']="select HARDWARE_ID,bios.SSN as serial from bios where hardware_id in (".implode(',',$list_id[$ESC_POST['detail']]).")";
+	$_SESSION['SQL_DATA_FIXE'][$table_name]['macaddr']="select HARDWARE_ID,networks.macaddr from networks where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
+	$_SESSION['SQL_DATA_FIXE'][$table_name]['serial']="select HARDWARE_ID,bios.SSN as serial from bios where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
 
 	//liste des champs du tableau des doublons
 	$list_fields= array(TAG_LBL=>'a.TAG',
@@ -225,7 +225,7 @@ if ($ESC_POST['detail'] != ''){
 	$queryDetails=substr($queryDetails,0,-1);
 	$queryDetails .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
 	$queryDetails .= " where ";
-	$queryDetails .= " h.id in (".implode(',',$list_id[$ESC_POST['detail']]).") ";
+	$queryDetails .= " h.id in (".implode(',',$list_id[$protectedPost['detail']]).") ";
 	if ($tab_id_mes_machines != ""){
 		$queryDetails .= "";
 	}
@@ -233,7 +233,7 @@ if ($ESC_POST['detail'] != ''){
 
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,'95',$tab_options);
 	echo "<br><input type='submit' value='".$l->g(177)."' name='FUSION'>";
-	echo "<input type=hidden name=old_detail id=old_detail value='".$ESC_POST['detail']."'>";
+	echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
 }
 
 

@@ -56,7 +56,7 @@ function create_icon( $label, $biere ) {
                 case $pages_refs['repart_tag']: $img = "repartition"; break;
                 case $pages_refs['users']: $img = "utilisateurs"; break;
         }
-        if($ESC_GET[PAG_INDEX] == $biere && $biere != "" ) {
+        if($protectedGet[PAG_INDEX] == $biere && $biere != "" ) {
                 $img .= "_a";
         }
 
@@ -68,14 +68,14 @@ function create_icon( $label, $biere ) {
 
 function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
 {
-        global $ESC_GET;
+        global $protectedGet;
 
         echo "<td onmouseover=\"javascript:montre('".$name_menu."');\">
         <dl id=\"menu\">
                 <dt onmouseover=\"javascript:montre('".$name_menu."');\">
                 <a href='javascript:void(0);'>
         <img src='image/".$nam_img;
-        if( in_array($ESC_GET[PAG_INDEX],$packAct) )
+        if( in_array($protectedGet[PAG_INDEX],$packAct) )
                 echo "_a";
                 echo ".png'></a></dt>
                         <dd id=\"".$name_menu."\" onmouseover=\"javascript:montre('".$name_menu."');\" onmouseout=\"javascript:montre();\">

@@ -10,8 +10,8 @@
 //====================================================================================
 //Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.10 $)
 require_once('require/function_telediff.php');
-if ($ESC_POST['DEL_ALL'] != ''){
-	$sql_listIDdel="select distinct ID from download_enable where FILEID=".$ESC_POST['DEL_ALL'];
+if ($protectedPost['DEL_ALL'] != ''){
+	$sql_listIDdel="select distinct ID from download_enable where FILEID=".$protectedPost['DEL_ALL'];
 	$res_listIDdel = mysql_query( $sql_listIDdel, $_SESSION["readServer"] );
 	while( $val_listIDdel = mysql_fetch_array( $res_listIDdel ) ) {
 			$listIDdel[]=$val_listIDdel['ID'];
@@ -20,17 +20,17 @@ if ($ESC_POST['DEL_ALL'] != ''){
 	$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue in (".implode(',',$listIDdel).")";
 	@mysql_query($reqSupp, $_SESSION["writeServer"]) or die(mysql_error());	
 		
-	@mysql_query("DELETE FROM download_enable WHERE FILEID=".$ESC_POST['DEL_ALL'], $_SESSION["writeServer"]) or die(mysql_error());		
+	@mysql_query("DELETE FROM download_enable WHERE FILEID=".$protectedPost['DEL_ALL'], $_SESSION["writeServer"]) or die(mysql_error());		
 	echo "<script>window.opener.document.packlist.submit(); self.close();</script>";	
 }
-if ($ESC_POST['SUP_PROF'] != ''){
-	$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue = ".$ESC_POST['SUP_PROF'];
+if ($protectedPost['SUP_PROF'] != ''){
+	$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue = ".$protectedPost['SUP_PROF'];
 	@mysql_query($reqSupp, $_SESSION["writeServer"]) or die(mysql_error());	
 		
-	@mysql_query("DELETE FROM download_enable WHERE ID=".$ESC_POST['SUP_PROF'], $_SESSION["writeServer"]) or die(mysql_error());		
+	@mysql_query("DELETE FROM download_enable WHERE ID=".$protectedPost['SUP_PROF'], $_SESSION["writeServer"]) or die(mysql_error());		
 }
 
-$sql_details="select distinct priority,fragments,size from download_available where fileid=".$ESC_GET['timestamp'];
+$sql_details="select distinct priority,fragments,size from download_available where fileid=".$protectedGet['timestamp'];
 $res_details = mysql_query( $sql_details, $_SESSION["readServer"] );
 $val_details = mysql_fetch_array( $res_details ) ;
 $tps="<br>".$l->g(992)." : <b><font color=red>".tps_estimated($val_details)."</font></b>";
@@ -59,10 +59,10 @@ foreach ($list_fields as $key=>$value){
 } 
 $querypack=substr($querypack,0,-1);
 $querypack .= " from download_enable e RIGHT JOIN download_available a ON a.fileid = e.fileid
-				where e.FILEID=".$ESC_GET['timestamp'];
+				where e.FILEID=".$protectedGet['timestamp'];
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack,$form_name,95,$tab_options); 
 if ($result_exist != "")
-echo "<a href=# OnClick='confirme(\"\",\"".$ESC_GET['timestamp']."\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
+echo "<a href=# OnClick='confirme(\"\",\"".$protectedGet['timestamp']."\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 echo "</form>";
 echo "<center>".$l->g(552)."</center>";

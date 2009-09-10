@@ -12,14 +12,14 @@
 
 printEntete($l->g(263));
 
-if( $ESC_POST["newlabel"]!="" && str_replace(" ", "", $ESC_POST["newlabel"] )!="" ) {
-	$ESC_POST["newlabel"] = str_replace(array("\t","\n","\r"), array("","",""), $ESC_POST["newlabel"] );
+if( $protectedPost["newlabel"]!="" && str_replace(" ", "", $protectedPost["newlabel"] )!="" ) {
+	$protectedPost["newlabel"] = str_replace(array("\t","\n","\r"), array("","",""), $protectedPost["newlabel"] );
 	@mysql_query("DELETE FROM deploy WHERE name='label'");
-	$queryL = "INSERT INTO deploy VALUES('label','".$ESC_POST["newlabel"]."');";
+	$queryL = "INSERT INTO deploy VALUES('label','".$protectedPost["newlabel"]."');";
 	mysql_query($queryL) or die(mysql_error());
 	echo "<br><center><font color=green><b>".$l->g(260)."</b></font></center>";
 }
-else if(isset($ESC_POST["newlabel"])) {
+else if(isset($protectedPost["newlabel"])) {
 	@mysql_query("DELETE FROM deploy WHERE name='label'");
 	echo "<br><center><font color=green><b>".$l->g(261)."</b></font></center>";
 }
@@ -32,7 +32,7 @@ if($con[0]) {
 	//echo "<br><center><FONT FACE='tahoma' SIZE=2 color='green'><b>Label actuel: \"".$con[0]."\"</b></font></center>";
 }
 else {
-	if(!isset($ESC_POST["newlabel"]))
+	if(!isset($protectedPost["newlabel"]))
 		echo "<br><center><FONT FACE='tahoma' SIZE=2 color='green'><b>".$l->g(264)."</b></font></center>";
 }
 $con[0] = stripslashes($con[0]);

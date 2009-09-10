@@ -10,21 +10,21 @@ $header_html="NO";
 require_once("header.php");
 $link=$_SESSION["readServer"];	
 $toBeWritten = "";
-if (isset($ESC_GET['log'])){
+if (isset($protectedGet['log'])){
 	
-	if (file_exists($ESC_GET['rep'].$ESC_GET['log'])){
-		$tab = file($ESC_GET['rep'].$ESC_GET['log']);
+	if (file_exists($protectedGet['rep'].$protectedGet['log'])){
+		$tab = file($protectedGet['rep'].$protectedGet['log']);
 		while(list($cle,$val) = each($tab)) {
  		  $toBeWritten  .= $val."\r\n";
 		}
-		$filename=$ESC_GET['log'];
+		$filename=$protectedGet['log'];
 	}
 }//gestion par valeur en cache (LIMITE A 200)
-elseif (!$_SESSION['DATA_CACHE'][$ESC_GET['tablename']][199]){
+elseif (!$_SESSION['DATA_CACHE'][$protectedGet['tablename']][199]){
 	$filename="cache.csv";
 	
 	//gestion des entetes
-	foreach ($_SESSION['col_tab'][$ESC_GET['tablename']] as $name){
+	foreach ($_SESSION['col_tab'][$protectedGet['tablename']] as $name){
 		if ($name != 'SUP' and $name != 'CHECK' and $name != 'NAME' and $name != $l->g(23)){
 		//	echo "<br>".$_SESSION['list_fields'][$name]." => ".$_SESSION['list_fields'][$name]{1};
 			if ($_SESSION['list_fields'][$name]{1} == ".")
@@ -40,24 +40,24 @@ elseif (!$_SESSION['DATA_CACHE'][$ESC_GET['tablename']][199]){
 		}		
 	}
 	$i=0;
-	while ($_SESSION['DATA_CACHE'][$ESC_GET['tablename']][$i]){
+	while ($_SESSION['DATA_CACHE'][$protectedGet['tablename']][$i]){
 		$toBeWritten .="\r\n";
 		foreach ($col as $lbl => $name){
-			if ($lbl == "name_of_machine" and !isset($_SESSION['DATA_CACHE'][$ESC_GET['tablename']][0])){
+			if ($lbl == "name_of_machine" and !isset($_SESSION['DATA_CACHE'][$protectedGet['tablename']][0])){
 				$lbl='name';
 			}
 		//	echo $lbl."<br>";
-			if ($_SESSION['DATA_CACHE'][$ESC_GET['tablename']][$i][$lbl])
-			$toBeWritten .=$_SESSION['DATA_CACHE'][$ESC_GET['tablename']][$i][$lbl].";";
+			if ($_SESSION['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl])
+			$toBeWritten .=$_SESSION['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl].";";
 			
 		}
 		$i++;
 	}
 	//$toBeWritten = "toto";
-}elseif (isset($_SESSION['cvs'][$ESC_GET['tablename']])){
+}elseif (isset($_SESSION['cvs'][$protectedGet['tablename']])){
 	$toBeWritten="";
 	//gestion des entetes
-	foreach ($_SESSION['col_tab'][$ESC_GET['tablename']] as $name){
+	foreach ($_SESSION['col_tab'][$protectedGet['tablename']] as $name){
 		if ($name != 'SUP' and $name != 'CHECK' and $name != 'NAME'){
 			if ($_SESSION['list_fields'][$name]{1} == ".")
 			$lbl=substr(strrchr($_SESSION['list_fields'][$name], "."), 1);
@@ -74,11 +74,11 @@ elseif (!$_SESSION['DATA_CACHE'][$ESC_GET['tablename']][199]){
 	}
 	
 	//gestion des donnees fixes
-	if (isset($_SESSION['SQL_DATA_FIXE'][$ESC_GET['tablename']])){
+	if (isset($_SESSION['SQL_DATA_FIXE'][$protectedGet['tablename']])){
 		$i=0;
 		
-		while($_SESSION['SQL_DATA_FIXE'][$ESC_GET['tablename']][$i]){
-			$result=mysql_query($_SESSION['SQL_DATA_FIXE'][$ESC_GET['tablename']][$i], $link) or die(mysql_error($link));
+		while($_SESSION['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]){
+			$result=mysql_query($_SESSION['SQL_DATA_FIXE'][$protectedGet['tablename']][$i], $link) or die(mysql_error($link));
 			while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
 				print_r($cont);
 				foreach ($col as $field => $lbl){
@@ -94,7 +94,7 @@ elseif (!$_SESSION['DATA_CACHE'][$ESC_GET['tablename']][199]){
 	}
 	//print_r($data_fixe);
 	//gestion de la requete de r�sultat
-	$result=mysql_query($_SESSION['cvs'][$ESC_GET['tablename']], $link) or die(mysql_error($link));
+	$result=mysql_query($_SESSION['cvs'][$protectedGet['tablename']], $link) or die(mysql_error($link));
 	$i=0;
 	while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
 		foreach ($col as $field => $lbl){
@@ -114,7 +114,7 @@ elseif (!$_SESSION['DATA_CACHE'][$ESC_GET['tablename']][199]){
 	}
 //	
 //	$_SESSION['list_fields']
-//	if (isset($_SESSION['SQL_DATA_FIXE'][$ESC_GET['tablename']])){
+//	if (isset($_SESSION['SQL_DATA_FIXE'][$protectedGet['tablename']])){
 //		
 //		
 //	}

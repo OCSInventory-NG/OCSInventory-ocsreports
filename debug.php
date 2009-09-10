@@ -19,23 +19,23 @@ $tab_typ_champ[0]['DEFAULT_VALUE']=$list_mode;
 tab_modif_values($tab_name,$tab_typ_champ,'',$l->g(1015),$comment="");
 
 
-if (isset($ESC_POST['Reset_modif_x'])){
+if (isset($protectedPost['Reset_modif_x'])){
 	echo "<script>";
 	echo "self.close();</script>";
 }
 
 //passage en mode
-if (isset($ESC_POST['Valid_modif_x']) and $ESC_POST["MODE"] != ""){
-	AddLog("MODE",$list_mode[$ESC_POST["MODE"]]);
-	if ($ESC_POST["MODE"] == 2){
+if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
+	AddLog("MODE",$list_mode[$protectedPost["MODE"]]);
+	if ($protectedPost["MODE"] == 2){
 		unset($_SESSION['MODE_LANGUAGE']);
 		$_SESSION['DEBUG']="ON";
 	}
-	elseif ($ESC_POST["MODE"] == 3){
+	elseif ($protectedPost["MODE"] == 3){
 		unset($_SESSION['DEBUG']);
 		$_SESSION['MODE_LANGUAGE']="ON";	
 	}
-	elseif ($ESC_POST["MODE"] == 4){
+	elseif ($protectedPost["MODE"] == 4){
 		$_SESSION['MODE_LANGUAGE']="ON";	
 		$_SESSION['DEBUG']="ON";
 	}else

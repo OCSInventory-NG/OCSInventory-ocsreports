@@ -12,25 +12,25 @@
 if( $_SESSION["lvluser"] != SADMIN )
 	die("FORBIDDEN");
 
-if($ESC_GET["suppAcc"]) {
-	@mysql_query("ALTER TABLE accountinfo DROP ".$ESC_GET["suppAcc"], $_SESSION["writeServer"]);
+if($protectedGet["suppAcc"]) {
+	@mysql_query("ALTER TABLE accountinfo DROP ".$protectedGet["suppAcc"], $_SESSION["writeServer"]);
 	unset($_SESSION["availFieldList"], $_SESSION["optCol"]);
-	echo "<br><br><center><font face='Verdana' size=-1 color='red'><b>". $ESC_GET["suppAcc"] ."</b> ".$l->g(226)." </font></center><br>";
+	echo "<br><br><center><font face='Verdana' size=-1 color='red'><b>". $protectedGet["suppAcc"] ."</b> ".$l->g(226)." </font></center><br>";
 }
 
-if($ESC_POST["nom"])
+if($protectedPost["nom"])
 {
 	unset($_SESSION["availFieldList"], $_SESSION["optCol"]);
-	switch($ESC_POST["type"]) {
+	switch($protectedPost["type"]) {
 		case $l->g(229): $suff = "VARCHAR(255)"; break;
 		case $l->g(230): $suff = "INT"; break;
 		case $l->g(231): $suff = "REAL"; break;
 		case $l->g(232): $suff = "DATE"; break;
 	}
 	
-	$queryAccAddN = "ALTER TABLE accountinfo ADD ".$ESC_POST["nom"]." $suff";
+	$queryAccAddN = "ALTER TABLE accountinfo ADD ".$protectedPost["nom"]." $suff";
 	if(mysql_query($queryAccAddN, $_SESSION["writeServer"]))
-		echo "<br><br><center><font face='Verdana' size=-1 color='green'><b>". $ESC_POST["nom"] ."</b> ".$l->g(234)." </font></center><br>";
+		echo "<br><br><center><font face='Verdana' size=-1 color='green'><b>". $protectedPost["nom"] ."</b> ".$l->g(234)." </font></center><br>";
 	else 
 		echo "<br><br><center><font face='Verdana' size=-1 color='red'><b>".$l->g(259)."</b></font></center><br>";
 }//fin if	
@@ -39,7 +39,7 @@ if($ESC_POST["nom"])
 				function confirme(did)
 				{
 					if(confirm("<?php echo $l->g(227)?> "+did+" ?"))
-						window.location="index.php?<?php echo PAG_INDEX; ?>=<?php echo $ESC_GET[PAG_INDEX]?>&c=<?php echo ($_SESSION["c"]?$ESC_GET["c"]:2)?>&a=<?php echo $ESC_GET["a"]?>&page=<?php echo $ESC_GET["page"]?>&suppAcc="+did;
+						window.location="index.php?<?php echo PAG_INDEX; ?>=<?php echo $protectedGet[PAG_INDEX]?>&c=<?php echo ($_SESSION["c"]?$protectedGet["c"]:2)?>&a=<?php echo $protectedGet["a"]?>&page=<?php echo $protectedGet["page"]?>&suppAcc="+did;
 				}
 			</script>
 <?php 

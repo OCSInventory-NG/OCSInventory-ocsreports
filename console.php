@@ -48,9 +48,9 @@ echo "<script language=javascript>
  function query_on_table($name,$lbl_data,$lbl_data_detail,$tablename="hardware"){
  	global $exlu_group,$list_on_hardware,$form_name,$data,$data_detail,$titre,$list_on_else,$list_no_show,$limit;
  	if (!isset($list_no_show[$name])){
- 		if ($ESC_POST['tri2'] == ""){
- 			$ESC_POST['tri2']=1;
- 			$ESC_POST['sens']='DESC';
+ 		if ($protectedPost['tri2'] == ""){
+ 			$protectedPost['tri2']=1;
+ 			$protectedPost['sens']='DESC';
  			
  		}
  		
@@ -65,7 +65,7 @@ echo "<script language=javascript>
 		$sql_on_hardware.=$list_on_else;
 		$sql_on_hardware.="	group by ".$name;
 		$_SESSION["forcedRequest"]=$sql_on_hardware;
-		$sql_on_hardware.="	order by ".$ESC_POST['tri2']." ".$ESC_POST['sens']." limit ".$limit['BEGIN'].",".$limit['END'];
+		$sql_on_hardware.="	order by ".$protectedPost['tri2']." ".$protectedPost['sens']." limit ".$limit['BEGIN'].",".$limit['END'];
 	 	$result_on_hardware = mysql_query( $sql_on_hardware, $_SESSION["readServer"]);
 		$nb_lign=0;
 		while($item_on_hardware = mysql_fetch_object($result_on_hardware)){
@@ -119,25 +119,25 @@ if( $_SESSION["lvluser"] == SADMIN) {
 	$result_frequency = mysql_query( $sql_frequency, $_SESSION["readServer"]);
 	$item_frequency = mysql_fetch_object($result_frequency);
 	
-	if (isset($ESC_POST['supp']) and $ESC_POST['supp'] != ""){
-		$sql_not_show="delete from config where name='".addslashes($ESC_POST['supp'])."'";
+	if (isset($protectedPost['supp']) and $protectedPost['supp'] != ""){
+		$sql_not_show="delete from config where name='".addslashes($protectedPost['supp'])."'";
 		mysql_query( $sql_not_show, $_SESSION["writeServer"] );
 		
 	}	
 	
-	 if ($ESC_POST['DELETE_OPTION'] != "" and isset($ESC_POST['DELETE_OPTION'])){
-			$sql_not_show="insert into config (NAME,IVALUE) values ('OSC_REPORT_".$ESC_POST['DELETE_OPTION']."',1)";
+	 if ($protectedPost['DELETE_OPTION'] != "" and isset($protectedPost['DELETE_OPTION'])){
+			$sql_not_show="insert into config (NAME,IVALUE) values ('OSC_REPORT_".$protectedPost['DELETE_OPTION']."',1)";
 			mysql_query( $sql_not_show, $_SESSION["writeServer"] );
 
 	 }
-	 if ($ESC_POST['USE_OPTION'] != "" and isset($ESC_POST['USE_OPTION'])){
-			$sql_show="delete from config where name='OSC_REPORT_".$ESC_POST['USE_OPTION']."'";
+	 if ($protectedPost['USE_OPTION'] != "" and isset($protectedPost['USE_OPTION'])){
+			$sql_show="delete from config where name='OSC_REPORT_".$protectedPost['USE_OPTION']."'";
 			
 			mysql_query( $sql_show, $_SESSION["writeServer"] );
 
 	 }
-	if (isset($ESC_POST['Valid']) and $ESC_POST['onglet'] == "CONFIG"){
-		foreach ($ESC_POST as $key=>$value){
+	if (isset($protectedPost['Valid']) and $protectedPost['onglet'] == "CONFIG"){
+		foreach ($protectedPost as $key=>$value){
 			
 			if ($value != "" and $key != "Valid" and $key != 'onglet' and $key !='pcparpage'){
 					//Check correct value for LAST_DIFF
@@ -153,7 +153,7 @@ if( $_SESSION["lvluser"] == SADMIN) {
 			}
 			
 		}
-	}elseif ($ESC_POST['onglet'] == "MSG" and isset($ESC_POST['Val'])){
+	}elseif ($protectedPost['onglet'] == "MSG" and isset($protectedPost['Val'])){
 		$sql_msg="select name from config where name like 'GUI_REPORT_MSG%'";
 		$result_msg = mysql_query( $sql_msg, $_SESSION["readServer"]);
 		while($item_msg = mysql_fetch_object($result_msg)){
@@ -167,8 +167,8 @@ if( $_SESSION["lvluser"] == SADMIN) {
 			}
 		}else
 		$i=1;
-		if (trim($ESC_POST['GROUP']) != "" and is_numeric($ESC_POST['GROUP']) and trim($ESC_POST['MSG'])!=""){
-			$sql="insert into config (NAME,IVALUE,TVALUE) value ('GUI_REPORT_MSG".$i."',".$ESC_POST['GROUP'].",'".addslashes($ESC_POST['MSG'])."')";
+		if (trim($protectedPost['GROUP']) != "" and is_numeric($protectedPost['GROUP']) and trim($protectedPost['MSG'])!=""){
+			$sql="insert into config (NAME,IVALUE,TVALUE) value ('GUI_REPORT_MSG".$i."',".$protectedPost['GROUP'].",'".addslashes($protectedPost['MSG'])."')";
 			mysql_query( $sql, $_SESSION["writeServer"] );
 		}else
 		echo "<center><b><font color=red><BIG>".$l->g(239)."</BIG></font></b></center>";
@@ -283,8 +283,8 @@ if (!isset($default))
 }
 
 //if no onglet selected
-if (!isset($ESC_POST['onglet']) and isset($default))
- $ESC_POST['onglet']=$default;
+if (!isset($protectedPost['onglet']) and isset($default))
+ $protectedPost['onglet']=$default;
 elseif(!isset($default))
 echo "<table align=center><tr><td align=center><img src='image/fond.png'></td></tr></table>";
 
@@ -312,7 +312,7 @@ if (isset($default)){
 		$list_on_hardware=" where ".substr($list_hardware_id,4);
 	if (substr($list_id,4)!="")
 		$list_on_else=" where ".substr($list_id,4);
-	if ($ESC_POST['onglet'] == "ACTIVITY"){
+	if ($protectedPost['onglet'] == "ACTIVITY"){
 		
 		//count number of all computers
 		if (!isset($list_no_show['NB_ALL_COMPUTOR']) and !isset($list_no_show['NB_COMPUTOR'])){
@@ -386,20 +386,20 @@ if (isset($default)){
 			}	
 	}
 	
-	if ($ESC_POST['onglet'] == "ELSE"){
+	if ($protectedPost['onglet'] == "ELSE"){
 		query_on_table_count("WORKGROUP",$lbl_field["WORKGROUP"]);
 		query_on_table_count("TAG",$lbl_field["TAG"],"accountinfo");
 		query_on_table_count("IPSUBNET",$lbl_field["IPSUBNET"],"networks");
 		query_with_condition("  where h.name='DOWNLOAD' and h.tvalue='NOTIFIED'",$lbl_field['NB_NOTIFIED'],'NB_NOTIFIED',"devices");
 		query_with_condition(" where  h.name='DOWNLOAD' and substring(h.tvalue,1,3)='ERR'",$lbl_field['NB_ERR'],'NB_ERR',"devices");
 	}
-	if ($ESC_POST['onglet'] == "SOFT"){
+	if ($protectedPost['onglet'] == "SOFT"){
 		query_on_table_count("OSNAME",$lbl_field["OSNAME"]);
 		query_on_table_count("USERAGENT",$lbl_field["USERAGENT"]);
 		
 	}
 	
-	if ($ESC_POST['onglet'] == "HARD"){
+	if ($protectedPost['onglet'] == "HARD"){
 		query_on_table_count("PROCESSORT",$lbl_field["PROCESSORT"]);
 		query_on_table_count("RESOLUTION",$lbl_field["RESOLUTION"],"videos");
 		query_with_condition("where processors>=".$list_option['PROC_MAX'],
@@ -421,7 +421,7 @@ if (isset($default)){
 		
 	}
 	
-	if ($ESC_POST['onglet'] == "CONFIG"){
+	if ($protectedPost['onglet'] == "CONFIG"){
 		require_once('require/function_config_generale.php');
 		debut_tab(array('CELLSPACING'=>'5',
 						'WIDTH'=>'70%',
@@ -438,7 +438,7 @@ if (isset($default)){
 		if ($list_no_show_cat != ""){
 			$list_no_show_cat['']="";
 			ksort($list_no_show_cat);
-	 		ligne('USE_OPTION',$l->g(802),'select',array('VALUE'=>$ESC_POST['USE_OPTION'],'SELECT_VALUE'=>$list_no_show_cat,'RELOAD'=>$form_name));
+	 		ligne('USE_OPTION',$l->g(802),'select',array('VALUE'=>$protectedPost['USE_OPTION'],'SELECT_VALUE'=>$list_no_show_cat,'RELOAD'=>$form_name));
 		}
 	 	ligne('AGIN_MACH',$l->g(803),'input',array('VALUE'=>$list_option['AGIN_MACH'],'END'=>$l->g(496),'SIZE'=>2,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
 	 	ligne('PROC_MINI',$l->g(804),'input',array('VALUE'=>$list_option['PROC_MINI'],'END'=>'MHz','SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
@@ -457,7 +457,7 @@ if (isset($default)){
 		echo "</table>";
 	}
 	
-	if ($ESC_POST['onglet'] == "MSG"){
+	if ($protectedPost['onglet'] == "MSG"){
 		require_once('require/function_config_generale.php');
 		$entete[]=$l->g(583);
 		$entete[]=$l->g(449);
@@ -477,7 +477,7 @@ if (isset($default)){
 		$width=60;
 		$height=300;
 		tab_entete_fixe($entete,$data_msg,'',$width,$height);
-		if ($ESC_POST['add_text']){
+		if ($protectedPost['add_text']){
 			debut_tab(array('CELLSPACING'=>'5',
 						'WIDTH'=>'50%',
 						'BORDER'=>'0',
@@ -515,21 +515,21 @@ if (isset($default)){
 		 }
 	}
 	 echo "</table></table>";
-	echo "<input type='hidden' id='detail' name='detail' value='".$ESC_POST['detail']."'>";
-	echo "<input type='hidden' id='tablename' name='tablename' value='".$ESC_POST['tablename']."'>";
-	echo "<input type='hidden' id='old_onglet' name='old_onglet' value='".$ESC_POST['onglet']."'>";
+	echo "<input type='hidden' id='detail' name='detail' value='".$protectedPost['detail']."'>";
+	echo "<input type='hidden' id='tablename' name='tablename' value='".$protectedPost['tablename']."'>";
+	echo "<input type='hidden' id='old_onglet' name='old_onglet' value='".$protectedPost['onglet']."'>";
 	//echo "<input type='hidden' id='detail_more' name='detail_more' value=''>";
 	
-	if ($ESC_POST['detail'] != "" 
-		and isset($ESC_POST['detail']) 
-				and $ESC_POST['onglet'] == $ESC_POST['old_onglet'] 
-							and $ESC_POST['onglet'] != "MSG" and $ESC_POST['onglet'] != "CONFIG"){
+	if ($protectedPost['detail'] != "" 
+		and isset($protectedPost['detail']) 
+				and $protectedPost['onglet'] == $protectedPost['old_onglet'] 
+							and $protectedPost['onglet'] != "MSG" and $protectedPost['onglet'] != "CONFIG"){
 
-		if ($ESC_POST['tablename'] != "ELSE"){	
+		if ($protectedPost['tablename'] != "ELSE"){	
 		$limit=nb_page($form_name);
 					echo "</table><table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td align =center>";
 			
-		if ($ESC_POST['sens'] == "ASC")
+		if ($protectedPost['sens'] == "ASC")
 			$sens="DESC";
 		else
 			$sens="ASC";
@@ -538,18 +538,18 @@ if (isset($default)){
 		$entete[]="<a OnClick='tri(\"NAME\",\"".$sens."\",\"".$form_name."\")' >NAME</a>";
 		$entete[]="<a OnClick='tri(\"c\",\"".$sens."\",\"".$form_name."\")' >QTE</a>";
 		
-		query_on_table($ESC_POST['detail'],$lbl_field[$ESC_POST['detail']],$l->g(808),$ESC_POST['tablename']);
+		query_on_table($protectedPost['detail'],$lbl_field[$protectedPost['detail']],$l->g(808),$protectedPost['tablename']);
 		
 		$width=60;
 		$height=300;
-		tab_entete_fixe($entete,$data_detail[$ESC_POST['detail']],$titre[$ESC_POST['detail']]." (<a href='ipcsv.php'>".$l->g(183)."</a>)",$width,$height);
-		show_page($data['nb_'.$ESC_POST['detail']]['count'],$form_name);
+		tab_entete_fixe($entete,$data_detail[$protectedPost['detail']],$titre[$protectedPost['detail']]." (<a href='ipcsv.php'>".$l->g(183)."</a>)",$width,$height);
+		show_page($data['nb_'.$protectedPost['detail']]['count'],$form_name);
 		}else{
-			if ($ESC_POST['detail'] == "NB_NOTIFIED" 
-					or  $ESC_POST['detail'] == "NB_ERR" 
-					or  $ESC_POST['detail'] == "NB_HARD_DISK_H"
-					or  $ESC_POST['detail'] == "NB_HARD_DISK_M"
-					or $ESC_POST['detail'] == "NB_HARD_DISK_B")
+			if ($protectedPost['detail'] == "NB_NOTIFIED" 
+					or  $protectedPost['detail'] == "NB_ERR" 
+					or  $protectedPost['detail'] == "NB_HARD_DISK_H"
+					or  $protectedPost['detail'] == "NB_HARD_DISK_M"
+					or $protectedPost['detail'] == "NB_HARD_DISK_B")
 			$table_hard="h1.";
 			else
 			$table_hard="h.";
@@ -560,35 +560,35 @@ if (isset($default)){
 			$FIELDS["DESCRIPTION"]=$table_hard."DESCRIPTION";
 //			$FIELDS["WINOWNER"]=$table_hard."WINOWNER";
 //			$FIELDS["USERAGENT"]=$table_hard."USERAGENT";
-			if ($ESC_POST['detail'] == "NB_CONTACT" or $ESC_POST['detail'] == "NB_INV" or $ESC_POST['detail'] == "NB_CONTACT")
+			if ($protectedPost['detail'] == "NB_CONTACT" or $protectedPost['detail'] == "NB_INV" or $protectedPost['detail'] == "NB_CONTACT")
 				$FIELDS["LASTDATE"]=$table_hard."LASTDATE";
-			elseif ($ESC_POST['detail'] == "NB_LIMIT_FREQ_H" or $ESC_POST['detail'] == "NB_LIMIT_FREQ_M"	or $ESC_POST['detail'] == "NB_LIMIT_FREQ_B")
+			elseif ($protectedPost['detail'] == "NB_LIMIT_FREQ_H" or $protectedPost['detail'] == "NB_LIMIT_FREQ_M"	or $protectedPost['detail'] == "NB_LIMIT_FREQ_B")
 				$FIELDS["PROCESSORS"]=$table_hard."PROCESSORS";
-			elseif ($ESC_POST['detail'] == "NB_LIMIT_MEM_H" or $ESC_POST['detail'] == "NB_LIMIT_MEM_M" or $ESC_POST['detail'] == "NB_LIMIT_MEM_B")
+			elseif ($protectedPost['detail'] == "NB_LIMIT_MEM_H" or $protectedPost['detail'] == "NB_LIMIT_MEM_M" or $protectedPost['detail'] == "NB_LIMIT_MEM_B")
 			$FIELDS["MEMORY"]=$table_hard."MEMORY";		
-			elseif ($ESC_POST['detail'] == "NB_HARD_DISK_H" or $ESC_POST['detail'] == "NB_HARD_DISK_M" or $ESC_POST['detail'] == "NB_HARD_DISK_B"){
+			elseif ($protectedPost['detail'] == "NB_HARD_DISK_H" or $protectedPost['detail'] == "NB_HARD_DISK_M" or $protectedPost['detail'] == "NB_HARD_DISK_B"){
 				$FIELDS["LETTER"]="LETTER";
 				$FIELDS["FREE"]="FREE";
 				$FIELDS["TOTAL"]="TOTAL";
 				$FIELDS["CAPACITY"]="round(100-(FREE*100/TOTAL)) AS CAPACITY";
 			}
-			elseif ($ESC_POST['detail'] == "NB_LAST_INV"){
+			elseif ($protectedPost['detail'] == "NB_LAST_INV"){
 				$FIELDS["LASTDATE"]="LASTDATE";
 				$FIELDS["LASTCOME"]="LASTCOME";				
 			}
 			
 			$FIELDS_LINK["NAME"]=$table_hard."NAME";
-			if ($ESC_POST['tri2'] == "" or !isset($FIELDS[$ESC_POST['tri2']]))
-				$ESC_POST['tri2']=1;
+			if ($protectedPost['tri2'] == "" or !isset($FIELDS[$protectedPost['tri2']]))
+				$protectedPost['tri2']=1;
 			$limit=nb_page($form_name);
 			echo "</table><table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td align =center>";
 			
 			$trans = array("count(*) c" => implode(",", $FIELDS));	
-			$sql= strtr($_SESSION['SQL'][$ESC_POST['detail']], $trans);
+			$sql= strtr($_SESSION['SQL'][$protectedPost['detail']], $trans);
 			$_SESSION["forcedRequest"]=$sql;
-			$sql.= " order by ".$ESC_POST['tri2']." ".$ESC_POST['sens'];
+			$sql.= " order by ".$protectedPost['tri2']." ".$protectedPost['sens'];
 			$sql.=" limit ".$limit["BEGIN"].",".$limit["END"];
-			$resCount = mysql_query($_SESSION['SQL'][$ESC_POST['detail']], $_SESSION["readServer"]) 
+			$resCount = mysql_query($_SESSION['SQL'][$protectedPost['detail']], $_SESSION["readServer"]) 
 				or die(mysql_error($_SESSION["readServer"]));
 			$valCount = mysql_fetch_array($resCount);
 			$result = mysql_query( $sql, $_SESSION["readServer"]);
@@ -596,7 +596,7 @@ if (isset($default)){
 			while($colname = mysql_fetch_field($result)){
 					if ($colname->name != "ID" ){
 						$col=$colname->name;
-						if ($ESC_POST['sens'] == "ASC")
+						if ($protectedPost['sens'] == "ASC")
 							$sens="DESC";
 						else
 							$sens="ASC";
@@ -632,8 +632,8 @@ if (isset($default)){
 			
 			
 		}
-		echo "<input type='hidden' id='tri2' name='tri2' value='".$ESC_POST['tri2']."'>";
-		echo "<input type='hidden' id='sens' name='sens' value='".$ESC_POST['sens']."'>";
+		echo "<input type='hidden' id='tri2' name='tri2' value='".$protectedPost['tri2']."'>";
+		echo "<input type='hidden' id='sens' name='sens' value='".$protectedPost['sens']."'>";
 	}
 	echo "</table></form>";
 }

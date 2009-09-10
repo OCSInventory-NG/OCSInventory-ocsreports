@@ -1,7 +1,7 @@
 <?php
 print_item_header($l->g(93));
-	if (!isset($ESC_POST['SHOW']))
-		$ESC_POST['SHOW'] = 'NOSHOW';
+	if (!isset($protectedPost['SHOW']))
+		$protectedPost['SHOW'] = 'NOSHOW';
 	$form_name="affich_controllers";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";

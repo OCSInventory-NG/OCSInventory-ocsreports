@@ -1,7 +1,7 @@
 <?php
 //suppression des paquets qui restent en notifi� et qui sont plus vieux de 3 mois
-if (isset($ESC_GET['reset_notified']) and is_numeric($ESC_GET['reset_notified'])){
-	$sql=" delete from devices where name='DOWNLOAD' and tvalue = 'NOTIFIED' and IVALUE='".$ESC_GET['reset_notified']."' and hardware_id=".$systemid; 
+if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_notified'])){
+	$sql=" delete from devices where name='DOWNLOAD' and tvalue = 'NOTIFIED' and IVALUE='".$protectedGet['reset_notified']."' and hardware_id=".$systemid; 
 	mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));	
 }
 
@@ -9,38 +9,38 @@ if (isset($ESC_GET['reset_notified']) and is_numeric($ESC_GET['reset_notified'])
 
 //r�affectation de paquet
 //traitement de la r�affectation du paquet
-if ($ESC_POST['Valid_modif_x']){
-	if (trim($ESC_POST['MOTIF'])){
-		if ($ESC_POST["ACTION"] == "again"){
+if ($protectedPost['Valid_modif_x']){
+	if (trim($protectedPost['MOTIF'])){
+		if ($protectedPost["ACTION"] == "again"){
 			$sql=" update devices set TVALUE=null
-					where name='DOWNLOAD' and tvalue like 'ERR_%' and IVALUE='".$ESC_GET['affect_again']."' and hardware_id=".$systemid; 
-		}elseif($ESC_POST["ACTION"] == "reset"){
-			$sql=" delete from devices where name='DOWNLOAD' and tvalue like 'ERR_%' and IVALUE='".$ESC_GET['affect_reset']."' and hardware_id=".$systemid; 
+					where name='DOWNLOAD' and tvalue like 'ERR_%' and IVALUE='".$protectedGet['affect_again']."' and hardware_id=".$systemid; 
+		}elseif($protectedPost["ACTION"] == "reset"){
+			$sql=" delete from devices where name='DOWNLOAD' and tvalue like 'ERR_%' and IVALUE='".$protectedGet['affect_reset']."' and hardware_id=".$systemid; 
 		}
 		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));
 		if (mysql_affected_rows() != 0){
-			$txt_trait=xml_encode(stripslashes($ESC_POST['MOTIF']));
+			$txt_trait=xml_encode(stripslashes($protectedPost['MOTIF']));
 			$sql="INSERT INTO itmgmt_comments (hardware_id,comments,user_insert,date_insert,action) 
 					values ('".$systemid."','".$txt_trait."','".$_SESSION["loggeduser"]."',
-							sysdate(),'".$ESC_POST["ACTION"]." => ".$ESC_POST['NAME_PACK']."')"; 
+							sysdate(),'".$protectedPost["ACTION"]." => ".$protectedPost['NAME_PACK']."')"; 
 			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));
 		}
 	}else
 	echo "<script>alert(\"".$l->g(903)."\")</script>";	
 }
 
-if ($ESC_POST['Reset_modif_x'])
-unset($ESC_GET['affect_again'],$ESC_GET['affect_reset']);
+if ($protectedPost['Reset_modif_x'])
+unset($protectedGet['affect_again'],$protectedGet['affect_reset']);
 
 
-if ($ESC_GET['affect_again'] or $ESC_GET['affect_reset']){
-	if ($ESC_GET['affect_again']){
-		$id_pack_affect=$ESC_GET['affect_again'];
+if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
+	if ($protectedGet['affect_again']){
+		$id_pack_affect=$protectedGet['affect_again'];
 		$hidden_action='again';
 		$title_action=$l->g(904);		
 		$lbl_action=$l->g(905);	
 	}else{
-		$id_pack_affect=$ESC_GET['affect_reset'];
+		$id_pack_affect=$protectedGet['affect_reset'];
 		$hidden_action='reset';
 		$title_action=$l->g(906);
 		$lbl_action=$l->g(907);
@@ -50,7 +50,7 @@ if ($ESC_GET['affect_again'] or $ESC_GET['affect_reset']){
 							download_available da
           where de.id='".$id_pack_affect."' and de.FILEID=da.FILEID
 			and d.IVALUE=de.ID
-			AND d.hardware_id='".$ESC_GET['systemid']."' AND d.name='DOWNLOAD'
+			AND d.hardware_id='".$protectedGet['systemid']."' AND d.name='DOWNLOAD'
 			and tvalue like 'ERR_%'";
 			//echo $sql;
 	$res = mysql_query( $sql, $_SESSION["readServer"] );
@@ -63,16 +63,16 @@ if ($ESC_GET['affect_again'] or $ESC_GET['affect_reset']){
 
 	}
 }
-if( isset( $ESC_GET["suppack"] ) &  $_SESSION["lvluser"]==SADMIN  ) {
+if( isset( $protectedGet["suppack"] ) &  $_SESSION["lvluser"]==SADMIN  ) {
 	if( $_SESSION["justAdded"] == false )
-		@mysql_query("DELETE FROM devices WHERE ivalue=".$ESC_GET["suppack"]." AND hardware_id='$systemid' AND name='DOWNLOAD'", $_SESSION["writeServer"]);
+		@mysql_query("DELETE FROM devices WHERE ivalue=".$protectedGet["suppack"]." AND hardware_id='$systemid' AND name='DOWNLOAD'", $_SESSION["writeServer"]);
 	else $_SESSION["justAdded"] = false;
-	addLog($l->g(512), $l->g(886)." ".$ESC_GET["suppack"]." => ".$systemid );
+	addLog($l->g(512), $l->g(886)." ".$protectedGet["suppack"]." => ".$systemid );
 }
 else 
 	$_SESSION["justAdded"] = false;
 	//TODO: voir si on loggue les evenements de groupe
-if( isset( $ESC_GET["actgrp"] )) {	
+if( isset( $protectedGet["actgrp"] )) {	
 		//v�rification si la valeur correspond � un groupe
 		$reqGroups = "SELECT h.id id
 					  FROM hardware h 
@@ -83,13 +83,13 @@ if( isset( $ESC_GET["actgrp"] )) {
 		$resGroups = mysql_query( $reqGroups, $_SESSION["readServer"] );
 		$valGroups = mysql_fetch_array( $resGroups ); 
 		if (isset($valGroups['id'])){
-			$reqDelete = "DELETE FROM groups_cache WHERE hardware_id=".$systemid." AND group_id=".$ESC_GET["grp"];
+			$reqDelete = "DELETE FROM groups_cache WHERE hardware_id=".$systemid." AND group_id=".$protectedGet["grp"];
 			
-			if( $ESC_GET["actgrp"] == 0 ) 
+			if( $protectedGet["actgrp"] == 0 ) 
 				$reqDelete .= " AND static<>0";
-			$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (".$systemid.", ".$ESC_GET["grp"].", ".$ESC_GET["actgrp"].")";
+			$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (".$systemid.", ".$protectedGet["grp"].", ".$protectedGet["actgrp"].")";
 			@mysql_query( $reqDelete, $_SESSION["writeServer"] );
-			if( $ESC_GET["actgrp"] != 0 )
+			if( $protectedGet["actgrp"] != 0 )
 				@mysql_query( $reqInsert, $_SESSION["writeServer"] );
 		}
 }

@@ -1,6 +1,6 @@
 <?php
-	if (!isset($ESC_POST['SHOW']))
-		$ESC_POST['SHOW'] = 'NOSHOW';
+	if (!isset($protectedPost['SHOW']))
+		$protectedPost['SHOW'] = 'NOSHOW';
 	print_item_header($l->g(91));
 	$form_name="affich_inputs";
 	$table_name=$form_name;

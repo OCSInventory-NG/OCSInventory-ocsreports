@@ -11,33 +11,33 @@ $no_error='YES';
 require_once("header.php");
 if (!($_SESSION["lvluser"] == SADMIN or $_SESSION['TRUE_LVL'] == SADMIN))
 	die("FORBIDDEN");
-printEnTete($l->g(616)." ".$ESC_GET["id"] );
-if( $ESC_POST['ADD_TAG'] != "" ) {
+printEnTete($l->g(616)." ".$protectedGet["id"] );
+if( $protectedPost['ADD_TAG'] != "" ) {
 	$tab_options['CACHE']='RESET';
-	$tbi = $ESC_POST["newtag"] ;
-	@mysql_query( "INSERT INTO tags(tag,login) VALUES('".$tbi."','".$ESC_GET["id"]."')", $_SESSION["writeServer"]  );
+	$tbi = $protectedPost["newtag"] ;
+	@mysql_query( "INSERT INTO tags(tag,login) VALUES('".$tbi."','".$protectedGet["id"]."')", $_SESSION["writeServer"]  );
 }
 //suppression d'une liste de tag
-if (isset($ESC_POST['del_check']) and $ESC_POST['del_check'] != ''){
-	$list = "'".implode("','", explode(",",$ESC_POST['del_check']))."'";
-	$sql_delete="DELETE FROM tags WHERE tag in (".$list.") AND login='".$ESC_GET["id"]."'";
+if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
+	$list = "'".implode("','", explode(",",$protectedPost['del_check']))."'";
+	$sql_delete="DELETE FROM tags WHERE tag in (".$list.") AND login='".$protectedGet["id"]."'";
 	mysql_query($sql_delete, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
 	$tab_options['CACHE']='RESET';	
 }
 
-if(isset($ESC_POST['SUP_PROF'])) {
-	//$tbd = $ESC_GET["supptag"];
-	@mysql_query( "DELETE FROM tags WHERE tag='".$ESC_POST['SUP_PROF']."' AND login='".$ESC_GET["id"]."'", $_SESSION["writeServer"]  );
+if(isset($protectedPost['SUP_PROF'])) {
+	//$tbd = $protectedGet["supptag"];
+	@mysql_query( "DELETE FROM tags WHERE tag='".$protectedPost['SUP_PROF']."' AND login='".$protectedGet["id"]."'", $_SESSION["writeServer"]  );
 }
 echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
-$reqTags ="select tag from tags where login='".$ESC_GET['id']."'";
+$reqTags ="select tag from tags where login='".$protectedGet['id']."'";
 $resTags = mysql_query( $reqTags, $_SESSION["readServer"] );
 $valTags = mysql_fetch_array( $resTags );
 if (isset($valTags['tag'])){
-	if (!isset($ESC_POST['SHOW']))
-		$ESC_POST['SHOW'] = 'NOSHOW';
-	if (!(isset($ESC_POST["pcparpage"])))
-		 $ESC_POST["pcparpage"]=5;
+	if (!isset($protectedPost['SHOW']))
+		$protectedPost['SHOW'] = 'NOSHOW';
+	if (!(isset($protectedPost["pcparpage"])))
+		 $protectedPost["pcparpage"]=5;
 	$list_fields= array(TAG_LBL=>'tag',
 						'SUP'=>'tag',
 						'CHECK'=>'tag');
@@ -49,7 +49,7 @@ if (isset($valTags['tag'])){
 		$queryDetails .= $value.',';		
 	} 
 	$queryDetails=substr($queryDetails,0,-1);
-	$queryDetails .= " FROM tags where login='".$ESC_GET['id']."'";
+	$queryDetails .= " FROM tags where login='".$protectedGet['id']."'";
 	$tab_options['FILTRE']=array(TAG_LBL=>TAG_LBL);
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 	//traitement par lot
@@ -81,7 +81,7 @@ if (isset($valTags['tag'])){
 }	
 //
 echo "<FONT FACE='tahoma' SIZE=2>";
-echo $l->g(617)." ".TAG_LBL.": <input type='text' id='newtag' name='newtag' value='".$ESC_POST['newtag']."'>
+echo $l->g(617)." ".TAG_LBL.": <input type='text' id='newtag' name='newtag' value='".$protectedPost['newtag']."'>
 		<input type='submit' name='ADD_TAG' value='envoyer'>";
 echo "</form>";
 ?>
