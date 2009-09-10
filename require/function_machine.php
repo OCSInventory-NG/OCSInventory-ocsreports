@@ -6,10 +6,10 @@
  
 //fonction de traitement de l'ID envoy�
 function info($GET,$post_systemid){
-	global $l;
+	global $l,$protectedPost;
 	//traitement de l'envoi de l'id par post
 	if ($post_systemid != '')
-		$systemid = $_POST['systemid'];
+		$systemid = $protectedPost['systemid'];
 	//ajout de la possibilit� de voir une machine par son deviceid
 	if (isset($GET['deviceid']) and !isset($systemid)){
 		$querydeviceid = "SELECT ID FROM hardware WHERE deviceid='".strtoupper ($GET['deviceid'])."'";

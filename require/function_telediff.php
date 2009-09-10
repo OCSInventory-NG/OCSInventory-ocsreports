@@ -6,11 +6,11 @@ echo "<script language='javascript'>
 	}</script>";
 
 function javascript_pack(){
-	global $_POST;
+	global $protectedPost;
  echo "<script language='javascript'>
 	function time_deploy(name,name_value,other_name,other_value){
 		var tps_cycle=".$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY']*$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'].";
-		var nb_frag_by_cycle=".floor($_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$_POST['PRIORITY']).";
+		var nb_frag_by_cycle=".floor($_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$protectedPost['PRIORITY']).";
 		if (name == 'tailleFrag'){
 			var taille=name_value;
 			var nb_frag=other_value;
@@ -64,7 +64,7 @@ function looking4config(){
 	
 function champ_select_block($name,$input_name,$input_cache)
 {
-
+		global $protectedPost;
 		$champs="<select name='".$input_name."' id='".$input_name."'";
 		$champs.=" onChange='";
 		if ($input_name == "ACTION"){
@@ -82,7 +82,7 @@ function champ_select_block($name,$input_name,$input_cache)
 		$champs.="'><option value=''></option>";
 		foreach ($name as $key=>$value){
 			$champs.= "<option value=\"".$key."\"";
-			if ($_POST[$input_name] == $key )
+			if ($protectedPost[$input_name] == $key )
 			$champs.= " selected";
 			$champs.= ">".$value."</option>";
 		}
@@ -237,6 +237,7 @@ function activ_pack($fileid,$https_server,$file_serv){
 } 
  
 function activ_pack_server($fileid,$https_server,$id_server_group){
+	global $protectedPost;
 		//recherche de la liste des machines qui ont déjà ce paquet
 		$sqlDoub="select SERVER_ID from download_enable where FILEID= ".$fileid;
 		$resDoub = mysql_query( $sqlDoub, $_SESSION["readServer"] );	
@@ -262,7 +263,7 @@ function activ_pack_server($fileid,$https_server,$id_server_group){
 			 where GROUP_ID=".$id_server_group.$listDoub;
 		mysql_query( $sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 		
-		$query="UPDATE download_available set COMMENT = '".$_POST['id_server_add']."' WHERE FILEID = ".$fileid;
+		$query="UPDATE download_available set COMMENT = '".$protectedPost['id_server_add']."' WHERE FILEID = ".$fileid;
 		mysql_query( $query, $_SESSION["writeServer"] ) 
 					or die(mysql_error($_SESSION["writeServer"]));	
 }

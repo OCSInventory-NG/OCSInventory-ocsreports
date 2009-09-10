@@ -296,12 +296,12 @@ function witch_field_more($tab_table){
 //du type du champ
 function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	global $optSelectField, $opt2SelectField, $opt2Select,
-		   $optSelect2Field, $opt3Select, $optSelect, $optArray,$l;
+		   $optSelect2Field, $opt3Select, $optSelect, $optArray,$l,$protectedPost;
 	$nameField=$value."-".$id_field;
 	if ($ajout != ''){
 		$and_or="<select name='SelAndOr-".$nameField."' id='SelAndOr-".$nameField."'>";
-		$and_or .= "<option value='AND' ".($_POST['SelAndOr-'.$nameField] == "AND" ? " selected":"")." >AND</option>";
-		$and_or .= "<option value='OR' ".($_POST['SelAndOr-'.$nameField] == "OR" ? " selected":"")." >OR</option>";
+		$and_or .= "<option value='AND' ".($protectedPost['SelAndOr-'.$nameField] == "AND" ? " selected":"")." >AND</option>";
+		$and_or .= "<option value='OR' ".($protectedPost['SelAndOr-'.$nameField] == "OR" ? " selected":"")." >OR</option>";
 		$and_or .= "</select>";
 		
 	}
@@ -321,7 +321,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 			if ($k!='javascript'){
 				//on remplace la chaine g�n�rique field_name du javascript par le vrai nom de champ
 				$champ_select['javascript'][$k] =str_replace("field_name", $nameField, $champ_select['javascript'][$k]);
-				$select .= "<option value='".$k."' ".($_POST['SelComp-'.$nameField] == $k ? " selected":"")." ".$champ_select['javascript'][$k].">".$v."</option>";
+				$select .= "<option value='".$k."' ".($protectedPost['SelComp-'.$nameField] == $k ? " selected":"")." ".$champ_select['javascript'][$k].">".$v."</option>";
 			}
 		}										
 	$select .= "</select>";
@@ -334,7 +334,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	echo "&nbsp;".$optArray[$value]."</td>";
 	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
 	if( array_key_exists($value,$optSelectField)){		
-		echo "<td>".$select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($_POST["InputValue-".$nameField])."\">&nbsp;";
+		echo "<td>".$select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;";
 		if ($optSelectField[$value."-LBL"] == "calendar")
 		echo calendars("InputValue-".$nameField,"DDMMYYYY");
 		echo "</td></tr>";
@@ -357,7 +357,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		
 		if (is_array($data[$value.'-SQL1'])){
 			foreach ($data[$value.'-SQL1'] as $k=>$v){	
-				$select2 .= "<option value='".$k."' ".($_POST[$name_select."-".$nameField] == $k ? " selected":"").">".$v."</option>";
+				$select2 .= "<option value='".$k."' ".($protectedPost[$name_select."-".$nameField] == $k ? " selected":"").">".$v."</option>";
 			}
 		}else{
 			$result = mysql_query( $data[$value.'-SQL1'], $_SESSION["readServer"] );
@@ -366,7 +366,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 					if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
 						if (!isset($val['ID']))
 							$val['ID']=$value_of_request;
-						$select2 .= "<option value='".$val['ID']."' ".($_POST[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
+						$select2 .= "<option value='".$val['ID']."' ".($protectedPost[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
 					}
 				}
 				
@@ -377,7 +377,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		if (array_key_exists($value,$opt2SelectField)){
 			if ($opt2SelectField[$value."-LBL"] == "calendar")
 			$opt2SelectField[$value."-LBL"]= calendars("InputValue-".$nameField,"DDMMYYYY");
-			echo $select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($_POST["InputValue-".$nameField])."\">&nbsp;".$opt2SelectField[$value."-LBL"];
+			echo $select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;".$opt2SelectField[$value."-LBL"];
 		}
 		echo "</td></tr>";
 	}
@@ -386,14 +386,14 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		$selectValue="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' >";
 		if (is_array($opt2Select[$value.'-SQL1'])){
 			foreach ($opt2Select[$value.'-SQL1'] as $k=>$v){		
-				$selectValue .= "<option value='".$k."' ".($_POST['SelFieldValue-'.$nameField] == $k ? " selected":"").">".$v."</option>";
+				$selectValue .= "<option value='".$k."' ".($protectedPost['SelFieldValue-'.$nameField] == $k ? " selected":"").">".$v."</option>";
 			}
 		}else{
 			$result = mysql_query( $opt2Select[$value.'-SQL1'], $_SESSION["readServer"] );
 			while( $val = mysql_fetch_array( $result ) ) {
 				if (!isset($val['ID']))
 				$val['ID']=$val['NAME'];
-					$selectValue .= "<option value='".$val['ID']."' ".($_POST['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
+					$selectValue .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
 			}
 		}
 		$selectValue .= "</select>";
@@ -403,13 +403,13 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	if( array_key_exists($value,$optSelect2Field)){
 		//gestion de la vision du deuxieme champ de saisi
 		//on fonction du POST
-		if ($_POST['SelComp-'.$nameField] == "between")
+		if ($protectedPost['SelComp-'.$nameField] == "between")
 		$display="inline";
 		else
 		$display="none";
 		
-		echo "<td>".$select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($_POST["InputValue-".$nameField])."\">
-				 <div style='display:".$display."' id='FieldInput2-".$nameField."'>&nbsp;--&nbsp;<input name='InputValue2-".$nameField."' value=\"".stripslashes($_POST["InputValue2-".$nameField])."\"></div>".$optSelect2Field[$value."-LBL"]."</td></tr>";
+		echo "<td>".$select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">
+				 <div style='display:".$display."' id='FieldInput2-".$nameField."'>&nbsp;--&nbsp;<input name='InputValue2-".$nameField."' value=\"".stripslashes($protectedPost["InputValue2-".$nameField])."\"></div>".$optSelect2Field[$value."-LBL"]."</td></tr>";
 	}
 	
 	if( array_key_exists($value,$opt3Select)){
@@ -418,7 +418,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		while( $val = mysql_fetch_array( $result ) ) {
 			if (!isset($val['ID']))
 			$val['ID']=$val['NAME'];
-				$selectValue1 .= "<option value='".$val['ID']."' ".($_POST['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
+				$selectValue1 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
 		}
 		$selectValue1 .= "</select>";
 		
@@ -427,7 +427,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		while( $val = mysql_fetch_array( $result ) ) {
 			if (!isset($val['ID']))
 			$val['ID']=$val['NAME'];
-				$selectValue2 .= "<option value='".$val['ID']."' ".($_POST['SelFieldValue2-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
+				$selectValue2 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue2-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
 		}
 		$selectValue2 .= "</select>";
 		echo "<td>".$select."&nbsp;".$l->g(667).":".$selectValue1."&nbsp;".$l->g(546).":".$selectValue2."</td></tr>";	

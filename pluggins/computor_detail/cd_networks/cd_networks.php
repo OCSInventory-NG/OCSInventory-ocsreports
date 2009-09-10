@@ -1,13 +1,13 @@
 <?php
 	print_item_header($l->g(82));
-		if (!isset($_POST['SHOW']))
-		$_POST['SHOW'] = 'NOSHOW';
-	if ($_POST['OTHER_BIS'] != ''){
-		mysql_query("INSERT INTO blacklist_macaddresses (macaddress) value ('".$_POST['OTHER_BIS']."')", $_SESSION["writeServer"]);		
+		if (!isset($protectedPost['SHOW']))
+		$protectedPost['SHOW'] = 'NOSHOW';
+	if ($protectedPost['OTHER_BIS'] != ''){
+		mysql_query("INSERT INTO blacklist_macaddresses (macaddress) value ('".$protectedPost['OTHER_BIS']."')", $_SESSION["writeServer"]);		
 		$tab_options['CACHE']='RESET';
 	}
-	if ($_POST['OTHER'] != ''){
-		@mysql_query("DELETE FROM blacklist_macaddresses WHERE macaddress='".$_POST['OTHER']."'", $_SESSION["writeServer"]);
+	if ($protectedPost['OTHER'] != ''){
+		@mysql_query("DELETE FROM blacklist_macaddresses WHERE macaddress='".$protectedPost['OTHER']."'", $_SESSION["writeServer"]);
 		$tab_options['CACHE']='RESET';
 	}
 	$form_name="affich_networks";

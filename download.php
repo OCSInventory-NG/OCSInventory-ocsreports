@@ -12,7 +12,7 @@
 
 $header_html="NO";
 require_once("header.php");
-//$GET=escape_string($_GET);
+//$GET=escape_string($protectedGet);
 if($GET["o"]&&$GET["v"]&&$GET["n"]&&$GET["dl"])
 {
 	$dlQuery="SELECT content FROM ";

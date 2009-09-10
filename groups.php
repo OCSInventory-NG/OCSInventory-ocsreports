@@ -6,31 +6,31 @@
 require_once('require/function_groups.php');
 require_once('require/function_computors.php');
 //ADD new static group
-if($_POST['Valid_modif_x']){
-	$result=creat_group ($_POST['NAME'],$_POST['DESCR'],'','','STATIC');
+if($protectedPost['Valid_modif_x']){
+	$result=creat_group ($protectedPost['NAME'],$protectedPost['DESCR'],'','','STATIC');
 	if ($result['RESULT'] == "OK"){
 		$color="green";
-		unset($_POST['add_static_group']);
+		unset($protectedPost['add_static_group']);
 	}else
 	$color="red";
 	$msg=$result['RESULT'];	
 	$tab_options['CACHE']='RESET';
 }
 //annule la création d'un groupe statique
-if ($_POST['Reset_modif_x']) 
- unset($_POST['add_static_group']);
+if ($protectedPost['Reset_modif_x']) 
+ unset($protectedPost['add_static_group']);
  
 //if no SADMIN=> view only your computors
 if ($_SESSION["lvluser"] == ADMIN)
 	$mycomputors=computor_list_by_tag();
 
 //View for all profils?
-if (isset($_POST['CONFIRM_CHECK']) and  $_POST['CONFIRM_CHECK'] != "")
-	$result=group_4_all($_POST['CONFIRM_CHECK']);
+if (isset($protectedPost['CONFIRM_CHECK']) and  $protectedPost['CONFIRM_CHECK'] != "")
+	$result=group_4_all($protectedPost['CONFIRM_CHECK']);
 
 //if delete group
-if ($_POST['SUP_PROF'] != ""){
-	$result=delete_group($_POST['SUP_PROF']);	
+if ($protectedPost['SUP_PROF'] != ""){
+	$result=delete_group($protectedPost['SUP_PROF']);	
 	if ($result['RESULT'] == "ERROR")
 	$color="red";
 	else
@@ -50,13 +50,13 @@ if ($_SESSION["lvluser"] != ADMIN){
 	$def_onglets['DYNA']=$l->g(810); //Dynamic group
 	$def_onglets['STAT']=$l->g(809); //Static group centraux
 	$def_onglets['SERV']=strtoupper($l->g(651));
-	if ($_POST['onglet'] == "")
-	$_POST['onglet']="STAT";	
+	if ($protectedPost['onglet'] == "")
+	$protectedPost['onglet']="STAT";	
 	//show onglet
 	onglet($def_onglets,$form_name,"onglet",0);
 	echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td align =center>";
 }else{	
-	$_POST['onglet']="STAT";
+	$protectedPost['onglet']="STAT";
 }
 
 $list_fields= array('GROUP_NAME'=>'h.NAME',
@@ -66,7 +66,7 @@ $list_fields= array('GROUP_NAME'=>'h.NAME',
 						'NBRE'=>'NBRE');
 //only for admins
 if ($_SESSION["lvluser"] == SADMIN){
-	if ($_POST['onglet'] == "STAT")
+	if ($protectedPost['onglet'] == "STAT")
 		$list_fields['CHECK']= 'ID';
 	$list_fields['SUP']= 'ID';	
 }
@@ -84,7 +84,7 @@ foreach ($list_fields as $key=>$value){
 } 
 $querygroup=substr($querygroup,0,-1);
 //requete pour les groupes de serveurs
-if ($_POST['onglet'] == "SERV"){
+if ($protectedPost['onglet'] == "SERV"){
 	$querygroup .= " from hardware h,download_servers ds where ds.group_id=h.id and h.deviceid = '_DOWNLOADGROUP_'";	
 	//calcul du nombre de machines par groupe de serveur
 	$sql_nb_mach="SELECT count(*) nb, group_id
@@ -92,10 +92,10 @@ if ($_POST['onglet'] == "SERV"){
 }else{ //requete pour les groupes 'normaux'
 	$querygroup .= " from hardware h,groups g";
 	$querygroup .="	where g.hardware_id=h.id and h.deviceid = '_SYSTEMGROUP_' ";
-	if ($_POST['onglet'] == "DYNA")
+	if ($protectedPost['onglet'] == "DYNA")
 		$querygroup.=" and ((g.request is not null and trim(g.request) != '') 
 							or (g.xmldef is not null and trim(g.xmldef) != ''))";
-	elseif ($_POST['onglet'] == "STAT")
+	elseif ($protectedPost['onglet'] == "STAT")
 		$querygroup.=" and (g.request is null or trim(g.request) = '')
 					    and (g.xmldef  is null or trim(g.xmldef) = '') ";
 	if($_SESSION["lvluser"] == ADMIN)
@@ -122,11 +122,11 @@ while($item = mysql_fetch_object($result)){
 if (!isset($tab_options['VALUE']['NBRE']))
 $tab_options['VALUE']['NBRE'][]=0;
 //on recherche les groupes visible pour cocher la checkbox à l'affichage
-if ($_POST['onglet'] == "STAT"){
+if ($protectedPost['onglet'] == "STAT"){
 	$sql="select id from hardware where workgroup='GROUP_4_ALL'";
 	$result = mysql_query($sql, $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
 	while($item = mysql_fetch_object($result)){
-		$_POST['check'.$item ->id]="check";
+		$protectedPost['check'.$item ->id]="check";
 	}
 }
 //on ajoute un javascript lorsque l'on clic sur la visibilité du groupe pour tous
@@ -139,20 +139,20 @@ $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_de
 //si super admin, on donne la possibilité d'ajouter un nouveau groupe statique	
 if ($_SESSION["lvluser"]==SADMIN){
 	echo "</td></tr></table>";	
-	if ($_POST['onglet'] == "STAT")
+	if ($protectedPost['onglet'] == "STAT")
 		echo "<BR><input type='submit' name='add_static_group' value='".$l->g(587)."'>";
 }
 
 //if user want add a new group
-if (isset($_POST['add_static_group']) and $_SESSION["lvluser"]==SADMIN){
+if (isset($protectedPost['add_static_group']) and $_SESSION["lvluser"]==SADMIN){
 	$tdhdpb = "<td  align='left' width='20%'>";
 	$tdhfpb = "</td>";
 	$tdhd = "<td  align='left' width='20%'><b>";
 	$tdhf = ":</b></td>";
 	$img_modif="";
 		//list of input we can modify
-		$name=show_modif($_POST['NAME'],'NAME',0);
-		$description=show_modif($_POST['DESCR'],'DESCR',1);
+		$name=show_modif($protectedPost['NAME'],'NAME',0);
+		$description=show_modif($protectedPost['DESCR'],'DESCR',1);
 		//show new bottons
 		$button_valid="<input title='".$l->g(625)."' type='image'  src='image/modif_valid_v2.png' name='Valid_modif'>";
 		$button_reset="<input title='".$l->g(626)."' type='image'  src='image/modif_anul_v2.png' name='Reset_modif'>";

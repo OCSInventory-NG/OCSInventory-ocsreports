@@ -15,20 +15,20 @@ if (!($_SESSION["lvluser"] == SADMIN or $_SESSION['TRUE_LVL'] == SADMIN))
 echo "<br><br><br>";	
 echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
 
-if (isset($_POST['SUP_PROF']) and $_POST['SUP_PROF'] != ''){
-	$del_type=mysql_real_escape_string($_POST['SUP_PROF']);
-	$sql="delete from devicetype where id='".$del_type."'";
+if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
+	//$del_type=mysql_real_escape_string($protectedPost['SUP_PROF']);
+	$sql="delete from devicetype where id='".$protectedPost['SUP_PROF']."'";
 	mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
 	$tab_options['CACHE']='RESET';	
 	
 }
 
-if (isset($_POST['Valid_modif_x'])){
-	$new_type=mysql_real_escape_string($_POST['TYPE_NAME']);
-	if (trim($new_type) == ''){
+if (isset($protectedPost['Valid_modif_x'])){
+	//$new_type=mysql_real_escape_string($protectedPost['TYPE_NAME']);
+	if (trim($protectedPost['TYPE_NAME']) == ''){
 		$ERROR=$l->g(936);		
 	}else{
-		$sql="select ID from devicetype where NAME = '".$new_type."'";
+		$sql="select ID from devicetype where NAME = '".$protectedPost['TYPE_NAME']."'";
 		$res = mysql_query($sql, $_SESSION["readServer"] );
 		$row=mysql_fetch_object($res);
 		if (isset($row->ID))
@@ -36,10 +36,10 @@ if (isset($_POST['Valid_modif_x'])){
 	}
 	if (isset($ERROR)){
 		echo "<font color=red><b>".$ERROR."</b></font>";
-		$_POST['ADD_TYPE']="VALID";
+		$protectedPost['ADD_TYPE']="VALID";
 	}
 	else{
-		$sql="insert into devicetype (NAME) VALUES ('".$new_type."')";
+		$sql="insert into devicetype (NAME) VALUES ('".$protectedPost['TYPE_NAME']."')";
 		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
 		$tab_options['CACHE']='RESET';	
 	}
@@ -49,14 +49,14 @@ if (isset($_POST['Valid_modif_x'])){
 
 
 
-if (isset($_POST['ADD_TYPE'])){
-	$tab_typ_champ[0]['DEFAULT_VALUE']=$_POST['TYPE_NAME'];
+if (isset($protectedPost['ADD_TYPE'])){
+	$tab_typ_champ[0]['DEFAULT_VALUE']=$protectedPost['TYPE_NAME'];
 	$tab_typ_champ[0]['INPUT_NAME']="TYPE_NAME";
 	$tab_typ_champ[0]['CONFIG']['SIZE']=60;
 	$tab_typ_champ[0]['CONFIG']['MAXLENGTH']=255;
 	$tab_typ_champ[0]['INPUT_TYPE']=0;
 	$tab_name[0]=$l->g(938).": ";
-	$tab_hidden['pcparpage']=$_POST["pcparpage"];
+	$tab_hidden['pcparpage']=$protectedPost["pcparpage"];
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
 }else{
 
@@ -72,8 +72,8 @@ $list_fields= array('ID' => 'ID',
 //$list_fields['SUP']='ID';	
 $default_fields=$list_fields;
 $list_col_cant_del=$list_fields;
-if (!(isset($_POST["pcparpage"])))
-	 $_POST["pcparpage"]=5;
+if (!(isset($protectedPost["pcparpage"])))
+	 $protectedPost["pcparpage"]=5;
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 
 echo "<input type = submit value='".$l->g(307)."' name='ADD_TYPE'>";	

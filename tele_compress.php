@@ -1,12 +1,15 @@
 <?php
-require_once("preferences.php");
+@session_start();
+unset($_SESSION['LANGUAGE']);
+$header_html="NO";
+require_once("header.php");
 header("content-type: application/zip");
-header("Content-Disposition: attachment; filename=".$_GET["timestamp"].".zip");
-if(isset($_GET["timestamp"])){
+header("Content-Disposition: attachment; filename=".$protectedGet["timestamp"].".zip");
+if(isset($protectedGet["timestamp"])){
 	require_once("libraries/zip.lib.php");
 	$zipfile = new zipfile();
 	//looking for the directory for pack
-	if ($_GET['type'] == "server")
+	if ($protectedGet['type'] == "server")
 	$sql_document_root="select tvalue from config where NAME='DOWNLOAD_REP_CREAT'";
 	else
 	$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
@@ -18,10 +21,10 @@ if(isset($_GET["timestamp"])){
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root)){
 		$document_root = $_SERVER["DOCUMENT_ROOT"]."/download/";
-		if ($_GET['type'] == "server")
+		if ($protectedGet['type'] == "server")
 			$document_root .="server/";
 	}
-	$rep = $document_root.$_GET["timestamp"]."/";
+	$rep = $document_root.$protectedGet["timestamp"]."/";
 	//echo $rep;
 	$dir = opendir($rep);
 	while($f = readdir($dir))

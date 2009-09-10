@@ -15,28 +15,28 @@ $form_name='packlist';
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 PrintEnTete($l->g(465));
 
-if($_POST["SUP_PROF"] != "") {
-	del_pack($_POST["SUP_PROF"]);
+if($protectedPost["SUP_PROF"] != "") {
+	del_pack($protectedPost["SUP_PROF"]);
 	//regénération du cache
 		$tab_options['CACHE']='RESET';
 }
 
 //suppression en masse
-if ($_POST['del_check'] != ''){
-	 foreach (explode(",", $_POST['del_check']) as $key){
+if ($protectedPost['del_check'] != ''){
+	 foreach (explode(",", $protectedPost['del_check']) as $key){
 	 	del_pack($key);
 	 	//regénération du cache
 		$tab_options['CACHE']='RESET';	 	
 	 }	
 }
 
-if (!$_POST['SHOW_SELECT']){
-$_POST['SHOW_SELECT']='download';
+if (!$protectedPost['SHOW_SELECT']){
+$protectedPost['SHOW_SELECT']='download';
 
 }
 echo "<BR>".show_modif(array('download'=>$l->g(990),'server'=>$l->g(991)),'SHOW_SELECT',2,$form_name)."<BR><BR>";
 //recherche du répertoire de création des paquets
-if ($_POST['SHOW_SELECT'] == 'download'){
+if ($protectedPost['SHOW_SELECT'] == 'download'){
 		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
 }else
 		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_REP_CREAT'";
@@ -47,7 +47,7 @@ $document_root = $val_document_root["tvalue"];
 //if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 if (!isset($document_root)){
 		$document_root = $_SERVER["DOCUMENT_ROOT"]."/download/";
-		if ($_POST['SHOW_SELECT'] == "server")
+		if ($protectedPost['SHOW_SELECT'] == "server")
 			$document_root .="server/";
 		
 	}
@@ -133,7 +133,7 @@ $tab_options['NO_TRI']['ERR_']=1;
 
 $querypack=substr($querypack,0,-1);
 $querypack .= " from download_available ";
-if ($_POST['SHOW_SELECT'] == 'download')
+if ($protectedPost['SHOW_SELECT'] == 'download')
 $querypack .= " where comment not like '[PACK REDISTRIBUTION%' or comment is null or comment = ''";
 else
 $querypack .= " where comment like '[PACK REDISTRIBUTION%'";
@@ -151,8 +151,8 @@ $tab_options['FIELD']['STAT']='FILEID';
 $tab_options['REQUEST']['SHOWACTIVE']='select distinct fileid AS FIRST from download_enable';
 $tab_options['FIELD']['SHOWACTIVE']='FILEID';
 //on force le tri desc pour l'ordre des paquets
-if (!$_POST['sens'])
-	$_POST['sens']='DESC';
+if (!$protectedPost['sens'])
+	$protectedPost['sens']='DESC';
 $_SESSION['SQL_DATA_FIXE'][$table_name]['ERR_']="select concat('<font color=red>',count(*),'</font>') as ERR_,de.FILEID
 			from devices d,download_enable de 
 			where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
@@ -168,7 +168,7 @@ $_SESSION['SQL_DATA_FIXE'][$table_name]['NO_NOTIF']="select count(*) as NO_NOTIF
 			where d.IVALUE=de.ID  and d.name='DOWNLOAD' and d.tvalue IS NULL group by FILEID";							
 	
 $tab_options['FILTRE']=array('FILEID'=>'Timestamp','NAME'=>$l->g(49));
-$tab_options['TYPE']['ZIP']=$_POST['SHOW_SELECT'];
+$tab_options['TYPE']['ZIP']=$protectedPost['SHOW_SELECT'];
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack,$form_name,95,$tab_options); 
 	//traitement par lot
 $img['image/sup_search.png']=$l->g(162);
@@ -193,9 +193,9 @@ echo "<script language=javascript>
 		echo "<td align=center><a href=# onclick=garde_check(\"image/sup_search.png\",\"\")><img src='image/sup_search.png' title='".$l->g(162)."' ></a></td>";
 	//}
  echo "</tr></tr></table>";
-if ($_POST['SHOW_SELECT'] == 'download'){
+if ($protectedPost['SHOW_SELECT'] == 'download'){
 	$config_input=array('MAXLENGTH'=>10,'SIZE'=>15);
-	$activ_manuel=show_modif($_POST['manualActive'],'manualActive',0,'',$config_input);
+	$activ_manuel=show_modif($protectedPost['manualActive'],'manualActive',0,'',$config_input);
 	echo "<b>".$l->g(476)."</b>&nbsp;&nbsp;&nbsp;".$l->g(475)." : ".$activ_manuel."";
 	echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
 }

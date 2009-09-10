@@ -7,37 +7,37 @@ $list_registry_key=array('HKEY_CLASSES_ROOT',
 						 'HKEY_DYN_DATA (Windows 9X only)');
 //require_once('require/function_registry.php');
 //cas d'une suppression d'une clé de registre
-if (isset($_POST['SUP_PROF']) and $_POST['SUP_PROF'] != ''){	
-	$sql_reg="delete from regconfig where id='".$_POST['SUP_PROF']."'";
+if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){	
+	$sql_reg="delete from regconfig where id='".$protectedPost['SUP_PROF']."'";
 	mysql_query($sql_reg, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 	$tab_options['CACHE']='RESET';
 }
 
 //cas de ajout/modification d'une clé
-if (isset($_POST['Valid_modif_x'])){
-	if (trim($_POST["NAME"])!= "" and 
-		trim($_POST["REGTREE"])!= "" and
-		trim($_POST["REGKEY"])!= "" and
-		trim($_POST["REGVALUE"])!= "")
+if (isset($protectedPost['Valid_modif_x'])){
+	if (trim($protectedPost["NAME"])!= "" and 
+		trim($protectedPost["REGTREE"])!= "" and
+		trim($protectedPost["REGKEY"])!= "" and
+		trim($protectedPost["REGVALUE"])!= "")
 	{
 		unset($req);
-		if (isset($_POST['id'])){
+		if (isset($protectedPost['id'])){
 			$req = "UPDATE regconfig SET ".	
-				"NAME='".$_POST["NAME"]."',".
-				"REGTREE='".$_POST["REGTREE"]."',".
-				"REGKEY='".$_POST["REGKEY"]."',".
-				"REGVALUE='".$_POST["REGVALUE"]."' ".
-				"where ID='".$_POST['id']."'";
+				"NAME='".$protectedPost["NAME"]."',".
+				"REGTREE='".$protectedPost["REGTREE"]."',".
+				"REGKEY='".$protectedPost["REGKEY"]."',".
+				"REGVALUE='".$protectedPost["REGVALUE"]."' ".
+				"where ID='".$protectedPost['id']."'";
 		}else{
 			$sql_verif="select ID from regconfig 
-						where REGTREE='".$_POST["REGTREE"]."' 
-							and REGKEY='".$_POST["REGKEY"]."'
-							and REGVALUE='".$_POST["REGVALUE"]."'";
+						where REGTREE='".$protectedPost["REGTREE"]."' 
+							and REGKEY='".$protectedPost["REGKEY"]."'
+							and REGVALUE='".$protectedPost["REGVALUE"]."'";
 			$res=mysql_query($sql_verif, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 			$row=mysql_fetch_object($res);
 			if (!is_numeric($row->ID)){				
 			$req = "INSERT INTO regconfig (NAME,REGTREE,REGKEY,REGVALUE)
-					VALUES('".$_POST["NAME"]."','".$_POST["REGTREE"]."','".$_POST["REGKEY"]."','".$_POST["REGVALUE"]."')";
+					VALUES('".$protectedPost["NAME"]."','".$protectedPost["REGTREE"]."','".$protectedPost["REGKEY"]."','".$protectedPost["REGVALUE"]."')";
 			}else
 			$error=$l->g(987);
 			
@@ -55,31 +55,31 @@ if (isset($_POST['Valid_modif_x'])){
 	
 }
 if (isset($error)){
-	if (isset($_POST['id']))
-		$_POST['MODIF']=$_POST['id'];
-		$_POST['ajout']='ADD';
+	if (isset($protectedPost['id']))
+		$protectedPost['MODIF']=$protectedPost['id'];
+		$protectedPost['ajout']='ADD';
 	echo "<font color=red><b>".$error."</b></font>";
 }
 
 //cas d'une modification d'une clé de registre
 
-if (isset($_POST['MODIF']) and $_POST['MODIF'] != ''){	
-	if (!isset($_POST['NAME'])){
-		$sql="select * from regconfig where id = '".$_POST['MODIF']."'";
+if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){	
+	if (!isset($protectedPost['NAME'])){
+		$sql="select * from regconfig where id = '".$protectedPost['MODIF']."'";
 		//$sql="select NAME,ID,MASK from subnet where netid='".$netid."'";
 		$res=mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 		$row=mysql_fetch_object($res);
-		$_POST['NAME']=$row->NAME;
-		$_POST['REGTREE']=$row->REGTREE;
-		$_POST['REGKEY']=$row->REGKEY;
-		$_POST['REGVALUE']=$row->REGVALUE;
+		$protectedPost['NAME']=$row->NAME;
+		$protectedPost['REGTREE']=$row->REGTREE;
+		$protectedPost['REGKEY']=$row->REGKEY;
+		$protectedPost['REGVALUE']=$row->REGVALUE;
 	}
 	$title=$l->g(108);
 	$tab_hidden['id']=$row->ID;
 }
 
-if (isset($tab_hidden['id']) or isset($_POST['ajout'])){	
-	$tab_typ_champ[0]['DEFAULT_VALUE']=$_POST['NAME'];
+if (isset($tab_hidden['id']) or isset($protectedPost['ajout'])){	
+	$tab_typ_champ[0]['DEFAULT_VALUE']=$protectedPost['NAME'];
 	$tab_typ_champ[0]['INPUT_NAME']="NAME";
 	$tab_typ_champ[0]['CONFIG']['SIZE']=60;
 	$tab_typ_champ[0]['CONFIG']['MAXLENGTH']=255;
@@ -89,22 +89,22 @@ if (isset($tab_hidden['id']) or isset($_POST['ajout'])){
 	$tab_typ_champ[1]['INPUT_NAME']="REGTREE";
 	$tab_typ_champ[1]['INPUT_TYPE']=2;
 	$tab_name[1]=$l->g(253).":";
-	$tab_typ_champ[2]['DEFAULT_VALUE']=$_POST['REGKEY'];
+	$tab_typ_champ[2]['DEFAULT_VALUE']=$protectedPost['REGKEY'];
 	$tab_typ_champ[2]['INPUT_NAME']="REGKEY";
 	$tab_typ_champ[2]['CONFIG']['SIZE']=60;
 	$tab_typ_champ[2]['CONFIG']['MAXLENGTH']=255;
 	$tab_name[2]=$l->g(254).": ";
-	$tab_typ_champ[3]['DEFAULT_VALUE']=$_POST['REGVALUE'];
+	$tab_typ_champ[3]['DEFAULT_VALUE']=$protectedPost['REGVALUE'];
 	$tab_typ_champ[3]['INPUT_NAME']="REGVALUE";
 	$tab_typ_champ[3]['CONFIG']['SIZE']=60;
 	$tab_typ_champ[3]['CONFIG']['MAXLENGTH']=255;
 	$tab_typ_champ[3]['INPUT_TYPE']=0;
 	$tab_name[3]=$l->g(255).": ";
-	$tab_hidden['FILTRE']=$_POST['FILTRE'];
-	$tab_hidden['pcparpage']=$_POST['pcparpage'];
-	$tab_hidden['page']=$_POST['page'];
-	$tab_hidden['old_pcparpage']=$_POST['old_pcparpage'];
-	$tab_hidden['tri2']=$_POST['tri2'];
+	$tab_hidden['FILTRE']=$protectedPost['FILTRE'];
+	$tab_hidden['pcparpage']=$protectedPost['pcparpage'];
+	$tab_hidden['page']=$protectedPost['page'];
+	$tab_hidden['old_pcparpage']=$protectedPost['old_pcparpage'];
+	$tab_hidden['tri2']=$protectedPost['tri2'];
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");
 }
 

@@ -14,16 +14,16 @@
 require_once('require/function_opt_param.php');
 
 require_once("preferences.php");
-if (isset($_GET['systemid'])) {
-	$systemid = $_GET['systemid'];
+if (isset($protectedGet['systemid'])) {
+	$systemid = $protectedGet['systemid'];
 	if ($systemid == "")
 	{
 		echo "Please Supply A System ID";
 		die();
 	}
 }
-elseif (isset($_POST['systemid'])) {
-	$systemid = $_POST['systemid'];
+elseif (isset($protectedPost['systemid'])) {
+	$systemid = $protectedPost['systemid'];
 }
 
 if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  ){
@@ -35,16 +35,16 @@ if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  ){
 }
 
 
-if (isset($_GET['state']))
+if (isset($protectedGet['state']))
 {
-	$state = $_GET['state'];
+	$state = $protectedGet['state'];
 	if ($state == "MAJ")
 		echo "<script language='javascript'>window.location.reload();</script>\n";		
 }// fin if
 
-if( isset( $_GET["suppack"] ) ) {
+if( isset( $protectedGet["suppack"] ) ) {
 	if( $_SESSION["justAdded"] == false )
-		@mysql_query("DELETE FROM devices WHERE ivalue=".$_GET["suppack"]." AND hardware_id='$systemid' AND name='DOWNLOAD'", $_SESSION["writeServer"]);
+		@mysql_query("DELETE FROM devices WHERE ivalue=".$protectedGet["suppack"]." AND hardware_id='$systemid' AND name='DOWNLOAD'", $_SESSION["writeServer"]);
 	else $_SESSION["justAdded"] = false;
 }
 else 
@@ -52,12 +52,12 @@ else
 
 
 //update values if user want modify groups' values
-if ($_POST['Valid_modif_x'] and !isset($_POST['modif']))
+if ($protectedPost['Valid_modif_x'] and !isset($protectedPost['modif']))
 {
-	if (trim($_POST['NAME'])!= '' and trim($_POST['DESCR'])!=''){
+	if (trim($protectedPost['NAME'])!= '' and trim($protectedPost['DESCR'])!=''){
 		$req = "UPDATE hardware SET ".	
-			"NAME='".$_POST['NAME']."',".
-			"DESCRIPTION='".$_POST['DESCR']."' ".
+			"NAME='".$protectedPost['NAME']."',".
+			"DESCRIPTION='".$protectedPost['DESCR']."' ".
 			"where ID='".$systemid."' and (deviceid = '_SYSTEMGROUP_' or deviceid ='_DOWNLOADGROUP_')";
 		$result = mysql_query($req, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));		
 	}
@@ -100,7 +100,7 @@ $tdhf = ":</b></td>";
 $tdpopup = "<td align='left' width='20%' onclick=\"javascript: OuvrirPopup('group_chang_value.php', '', 'resizable=no, location=no, width=400, height=200, menubar=no, status=no, scrollbars=no, menubar=no')\">";
 
 //if user clic on modify
-if($_POST['MODIF_x']){
+if($protectedPost['MODIF_x']){
 	//don't show the botton modify
 	$img_modif="";
 	//list of input we can modify
@@ -203,16 +203,16 @@ if ($server_group){
 	
 	
 	
-//	if( isset($_GET["action"]) || isset($_POST["action_form"]) ) {
+//	if( isset($protectedGet["action"]) || isset($protectedPost["action_form"]) ) {
 //		require("ajout_maj.php");
 //		die();
 //	}
 	
-	if( ! isset($_GET["option"]) ) {
+	if( ! isset($protectedGet["option"]) ) {
 		$opt = $l->g(500);
 	}
 	else {
-		$opt = stripslashes(urldecode($_GET["option"]));
+		$opt = stripslashes(urldecode($protectedGet["option"]));
 	}
 	
 	
@@ -340,18 +340,18 @@ function print_computers_real($systemid) {
 
 function print_computers_cached($systemid) {
 
-	global $l,$server_group;
-	//print_r($_POST);
+	global $l,$server_group,$protectedPost;
+	//print_r($protectedPost);
 	//traitement des machines du groupe
-	if( isset($_POST["actshowgroup"])) {
-		foreach( $_POST as $key=>$val ) {//check65422
+	if( isset($protectedPost["actshowgroup"])) {
+		foreach( $protectedPost as $key=>$val ) {//check65422
 			if( substr($key,0,5) == "check") {
 				//echo substr($key,5);
 				$resDelete = "DELETE FROM groups_cache WHERE hardware_id=".substr($key,5)." AND group_id=".$systemid;
 				//echo $resDelete;
 				@mysql_query( $resDelete, $_SESSION["writeServer"] );
-				if( $_POST["actshowgroup"] != 0 ) {
-					$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (".substr($key,5).", ".$systemid.", ".$_POST["actshowgroup"].")";
+				if( $protectedPost["actshowgroup"] != 0 ) {
+					$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (".substr($key,5).", ".$systemid.", ".$protectedPost["actshowgroup"].")";
 					$resInsert = mysql_query( $reqInsert, $_SESSION["writeServer"] );
 				}
 			}
@@ -419,7 +419,7 @@ function print_computers_cached($systemid) {
 }
 
 function print_perso($systemid) {
-	global $l, $td1, $td2, $td3, $td4,$pages_refs;
+	global $l, $td1, $td2, $td3, $td4,$pages_refs,$protectedGet;
 	$i=0;
 	$queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
 	$resultDetails = mysql_query($queryDetails, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
@@ -525,7 +525,7 @@ function print_perso($systemid) {
 			echo "(<small>".$valDeploy["fileid"]."</small>)";	
 			echo "</td>".$td3.$l->g(499).": ".$valDeploy["pack_loc"]."</td>";//$l->g(81)."cac: ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482))."</td>";
 			if( $_SESSION["lvluser"]==SADMIN )	
-				echo "$td3 <a href='index.php?".PAG_INDEX."=".$_GET[PAG_INDEX]."&popup=1&suppack=".$valDeploy["ivalue"]."&systemid=".
+				echo "$td3 <a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 				urlencode($systemid)."&option=".urlencode($l->g(500))."'>".$l->g(122)."</a></td>";
 			show_stat($valDeploy["fileid"]);
 			echo "</tr>";
@@ -552,14 +552,14 @@ function print_item_header($text)
 }
 
 function img($i,$a,$avail,$opt) {
-	global $systemid;
+	global $systemid,$protectedGet;
 
 	if( $opt == $a ) {
 		$suff = "_a";
 	}
 	
 	if( $avail ) {
-		$href = "<a href='index.php?".PAG_INDEX."=".$_GET[PAG_INDEX]."&popup=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
+		$href = "<a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
 		$fhref = "</a>";
 		$img = "<img title=\"".htmlspecialchars($a)."\" src='image/{$i}{$suff}.png' />";
 	}
@@ -574,9 +574,9 @@ function img($i,$a,$avail,$opt) {
 }
 
 function show_stat($fileId){
-	global $td3;
+	global $td3,$protectedGet;
 	
-	echo $td3."<a href=\"tele_stats.php?stat=".$fileId."&group=".$_GET['systemid']."\" target=_blank><img src='image/stat.png'></a></td>";
+	echo $td3."<a href=\"tele_stats.php?stat=".$fileId."&group=".$protectedGet['systemid']."\" target=_blank><img src='image/stat.png'></a></td>";
 }
 
 

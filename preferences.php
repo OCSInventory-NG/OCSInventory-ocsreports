@@ -16,8 +16,8 @@ if( ! isset($_SESSION["debug"]) ) {
 	$_SESSION["debug"] = 0 ;
 }
 
-if( isset( $_GET["cache"] ) ) {
-	$_SESSION["usecache"] = $_GET["cache"];
+if( isset( $protectedGet["cache"] ) ) {
+	$_SESSION["usecache"] = $protectedGet["cache"];
 }
 else if( ! isset($_SESSION["usecache"]) ) {
 	$_SESSION["usecache"] = USE_CACHE ;
@@ -74,7 +74,7 @@ function addComputersToGroup( $gName, $ids ) {
 * Group creating function
 */
 function createGroup( $name,$description="", $staticOnly=false, $alreadyExists = false ) {
-	global $_GET, $l;	
+	global $l;	
 	//Creating hardware
 	$deviceid = "_SYSTEMGROUP_";
 	
@@ -122,7 +122,7 @@ function createGroup( $name,$description="", $staticOnly=false, $alreadyExists =
 		return false;
 	}
 
-	echo "<br><center>".$l->g(607)." <b>".stripslashes($name)."</b> ".(!$alreadyExists?$l->g(608):$l->g(609))." ".(isset($cached)?$l->g(622).":".$cached:"")."<br>";
+	echo "<br><center>".$l->g(607)." <b>".$name."</b> ".(!$alreadyExists?$l->g(608):$l->g(609))." ".(isset($cached)?$l->g(622).":".$cached:"")."<br>";
 	return true;
 }
 

@@ -27,9 +27,9 @@
  //					   always_ok.php => Connection toujours OK
  $list_methode=array(0=>"local.php");
  
- if ($affich_method == 'HTML' and isset($_POST['VALID']) and trim($_POST['LOGIN']) != ""){
- 	$login=$_POST['LOGIN'];
- 	$mdp=$_POST['PASSWD']; 	
+ if ($affich_method == 'HTML' and isset($protectedPost['VALID']) and trim($protectedPost['LOGIN']) != ""){
+ 	$login=$protectedPost['LOGIN'];
+ 	$mdp=$protectedPost['PASSWD']; 	
  }elseif ($affich_method != 'HTML' and isset($_SERVER['PHP_AUTH_USER'])){
  	$login=$_SERVER['PHP_AUTH_USER'];
  	$mdp=$_SERVER['PHP_AUTH_PW'];  	
@@ -54,7 +54,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 	//affichage d'un formulaire HTML
 	if ($affich_method == 'HTML'){
 		require_once ($_SESSION['HEADER_HTML']);
-		if (isset($_POST['VALID'])){
+		if (isset($protectedPost['VALID'])){
 			echo "<font color=red><b>".$login_successful."</b></font>";
 			flush();
 			//pour empêcher de renvoyer une demande d'identification
@@ -63,8 +63,8 @@ if($login_successful == "OK" and isset($login_successful)) {
 		}
 		echo "<form name='IDENT' id='IDENT' action='' method='post'>";
 		echo "<br><center><table><tr><td align=center>";
-		echo "<b>".$l->g(24).":</b></td><td><input type='text' name='LOGIN' id ='LOGIN' value='".(isset($_POST['LOGIN']) ? $_POST['LOGIN']: '')."'></td></tr><tr><td align=center>";
-		echo "<b>".$l->g(217).":</b></td><td><input type='password' name='PASSWD' id ='PASSWD' value='".(isset($_POST['PASSWD']) ? $_POST['PASSWD']: '')."'></td></tr>";
+		echo "<b>".$l->g(24).":</b></td><td><input type='text' name='LOGIN' id ='LOGIN' value='".(isset($protectedPost['LOGIN']) ? $protectedPost['LOGIN']: '')."'></td></tr><tr><td align=center>";
+		echo "<b>".$l->g(217).":</b></td><td><input type='password' name='PASSWD' id ='PASSWD' value='".(isset($protectedPost['PASSWD']) ? $protectedPost['PASSWD']: '')."'></td></tr>";
 		echo "<tr><td colspan=2 align=center><br><input type=submit name='VALID' id='VALID'></td></tr>";
 		echo "</table></center>";
 		echo "</form>";

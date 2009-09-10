@@ -47,11 +47,11 @@ function xml_decode( $txt ) {
 //ascending and descending sort
 function tri($sql)
 {
-	global $_GET;
+	global $protectedGet;
 	
-	if ($_GET['sens']){
-	$sens=$_GET['sens'];
-	$col=$_GET['col'];
+	if ($protectedGet['sens']){
+	$sens=$protectedGet['sens'];
+	$col=$protectedGet['col'];
 	}
 	else{
 	$sens="ASC";
@@ -83,8 +83,8 @@ function tri($sql)
  function tab_entete_fixe($entete_colonne,$data,$titre,$width,$height,$lien=array(),$option=array())
 {
 	echo "<div align=center>";
-	global $_GET,$l;
-	if ($_GET['sens'] == "ASC"){
+	global $protectedGet,$l;
+	if ($protectedGet['sens'] == "ASC"){
 	$sens="DESC";
 	}
 	else
@@ -178,7 +178,7 @@ $num_lig=0;
  * $title = titre � l'affichage du champ
  * $value_default = - pour un champ text ou input, la valeur par d�faut du champ.
  * 					- pour un champ select, liste des valeurs du champ
- * $input_name = nom du champ que l'on va r�cup�rer en $_POST
+ * $input_name = nom du champ que l'on va r�cup�rer en $protectedPost
  * $input_type = 0 : <input type='text'>
  * 				 1 : <textarea>
  * 				 2 : <select><option>
@@ -201,7 +201,7 @@ function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom
 /*
  * fonction li�e � tab_modif_values qui permet d'afficher le champ d�fini avec la fonction champsform
  * $name = nom du champ
- * $input_name = nom du champ r�cup�r� dans le $_POST
+ * $input_name = nom du champ r�cup�r� dans le $protectedPost
  * $input_type = 0 : <input type='text'>
  * 				 1 : <textarea>
  * 				 2 : <select><option>
@@ -211,7 +211,7 @@ function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom
 function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>""))
 {
 	//echo $configinput['JAVASCRIPT'];
-	//global $_POST;
+	global $protectedPost;
 	if ($input_type == 1){
 		return "<textarea name='".$input_name."' id='".$input_name."' cols='30' rows='5' onFocus=\"this.style.backgroundColor='white'\" onBlur=\"this.style.backgroundColor='#C7D9F5'\"\>".$name."</textarea>";
 	
@@ -224,7 +224,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$champs.="><option value=''></option>";
 		foreach ($name as $key=>$value){
 			$champs.= "<option value=\"".$key."\"";
-			if ($_POST[$input_name] == $key )
+			if ($protectedPost[$input_name] == $key )
 			$champs.= " selected";
 			$champs.= ">".$value."</option>";
 		}
@@ -264,10 +264,10 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 	echo "</form>";
 }
 function filtre($tab_field,$form_name,$query){
-	global $_POST,$l;
-	if ($_POST['RAZ_FILTRE'] == "RAZ")
-	unset($_POST['FILTRE_VALUE'],$_POST['FILTRE']);
-	if ($_POST['FILTRE_VALUE'] and $_POST['FILTRE']){
+	global $protectedPost,$l;
+	if ($protectedPost['RAZ_FILTRE'] == "RAZ")
+	unset($protectedPost['FILTRE_VALUE'],$protectedPost['FILTRE']);
+	if ($protectedPost['FILTRE_VALUE'] and $protectedPost['FILTRE']){
 		$temp_query=explode("GROUP BY",$query);
 		if ($temp_query[0] == $query)
 		$temp_query=explode("group by",$query);
@@ -289,7 +289,7 @@ function filtre($tab_field,$form_name,$query){
 		
 		}else
 		$temp_query[0].= " where ";
-	$query=$temp_query[0].$_POST['FILTRE']." like '%".$_POST['FILTRE_VALUE']."%' ";
+	$query=$temp_query[0].$protectedPost['FILTRE']." like '%".$protectedPost['FILTRE_VALUE']."%' ";
 	if (isset($temp_query[1]))
 	$query.="GROUP BY ".$temp_query[1];
 	//$query=strtolower($query);
@@ -297,7 +297,7 @@ function filtre($tab_field,$form_name,$query){
 	}
 	//echo $query;
 	$view=show_modif($tab_field,'FILTRE',2);
-	$view.=show_modif(stripslashes($_POST['FILTRE_VALUE']),'FILTRE_VALUE',0);
+	$view.=show_modif(stripslashes($protectedPost['FILTRE_VALUE']),'FILTRE_VALUE',0);
 	echo $l->g(883).": ".$view."<input type='submit' value='Filtrer' name='SUB_FILTRE'><a href=# onclick='return pag(\"RAZ\",\"RAZ_FILTRE\",\"".$form_name."\");'><img src=image/supp.png></a></td></tr><tr><td align=center>";
 	echo "<input type=hidden name='RAZ_FILTRE' id='RAZ_FILTRE' value=''>";
 	return $query;
@@ -332,26 +332,26 @@ function tab_list_error($data,$title)
 }
 
 function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='#9894B5'){
-	global $_POST,$l;
-	//print_r($_POST);
-	if ($_POST['old_pcparpage'] != $_POST['pcparpage'])
-	$_POST['page']=0;
-	if (!(isset($_POST["pcparpage"])))
-	 $_POST["pcparpage"]=20;
+	global $protectedPost,$l;
+	//print_r($protectedPost);
+	if ($protectedPost['old_pcparpage'] != $protectedPost['pcparpage'])
+	$protectedPost['page']=0;
+	if (!(isset($protectedPost["pcparpage"])))
+	 $protectedPost["pcparpage"]=20;
 	echo "<table align=center width='80%' border='0' bgcolor=#f2f2f2>";
 	//gestion d"une phrase d'alerte quand on utilise le filtre
-	if (isset($_POST['FILTRE_VALUE']) and $_POST['FILTRE_VALUE'] != '' and $_POST['RAZ_FILTRE'] != 'RAZ')
+	if (isset($protectedPost['FILTRE_VALUE']) and $protectedPost['FILTRE_VALUE'] != '' and $protectedPost['RAZ_FILTRE'] != 'RAZ')
 		echo "<tr><td align=center><b><font color=red>".$l->g(884)."</font></b></td></tr>";
 	echo "<tr><td align=right>";
-	if (!isset($_POST['SHOW']))
-	$_POST['SHOW'] = "SHOW";
-	if ($_POST['SHOW'] == 'SHOW')
+	if (!isset($protectedPost['SHOW']))
+	$protectedPost['SHOW'] = "SHOW";
+	if ($protectedPost['SHOW'] == 'SHOW')
 	echo "<a href=# OnClick='pag(\"NOSHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/no_show.png></a>";
 	else
 	echo "<a href=# OnClick='pag(\"SHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/show.png></a>";
 	echo "</td></tr></table>";
 	echo "<table align=center width='80%' border='0' bgcolor=#f2f2f2";
-	if($_POST['SHOW'] == 'NOSHOW')
+	if($protectedPost['SHOW'] == 'NOSHOW')
 	echo " style='display:none;'";
 	echo "><tr><td align=center>";
 	echo "<table cellspacing='5' width='".$taille_cadre."%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='".$bgcolor."' BORDERCOLOR='".$bordercolor."'><tr><td align=center>";
@@ -360,41 +360,41 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 	$pcParPageHtml = $l->g(340).": <select name='pcparpage' onChange='document.".$form_name.".submit();'>";
 	$countHl=0;
 	foreach( $machNmb as $nbm ) {
-		$pcParPageHtml .=  "<option".($_POST["pcparpage"] == $nbm ? " selected" : "").($countHl%2==1?" class='hi'":"").">$nbm</option>";
+		$pcParPageHtml .=  "<option".($protectedPost["pcparpage"] == $nbm ? " selected" : "").($countHl%2==1?" class='hi'":"").">$nbm</option>";
 		$countHl++;
 	}
 	$pcParPageHtml .=  "</select></td></tr></table>
 	</td></tr><tr><td align=center>";
 	echo $pcParPageHtml;
-	if (isset($_POST["pcparpage"])){
-		$deb_limit=$_POST['page']*$_POST["pcparpage"];
-		$fin_limit=$deb_limit+$_POST["pcparpage"]-1;		
+	if (isset($protectedPost["pcparpage"])){
+		$deb_limit=$protectedPost['page']*$protectedPost["pcparpage"];
+		$fin_limit=$deb_limit+$protectedPost["pcparpage"]-1;		
 	}
 	
 //	echo $deb_limit."=>".$fin_limit."<br>";
 	//echo "deb => ".$deb_limit."    fin => ".$fin_limit."<br>";
-	echo "<input type='hidden' id='SHOW' name='SHOW' value='".$_POST['SHOW']."'>";
-	//return (array("BEGIN"=>$_POST["pcparpage"],"END"=>$deb_limit));
+	echo "<input type='hidden' id='SHOW' name='SHOW' value='".$protectedPost['SHOW']."'>";
+	//return (array("BEGIN"=>$protectedPost["pcparpage"],"END"=>$deb_limit));
 	return (array("BEGIN"=>$deb_limit,"END"=>$fin_limit));
 }
 
 function show_page($valCount,$form_name){
-	global $_POST;
-	if (isset($_POST["pcparpage"]) and $_POST["pcparpage"] != 0)
-	$nbpage= ceil($valCount/$_POST["pcparpage"]);
+	global $protectedPost;
+	if (isset($protectedPost["pcparpage"]) and $protectedPost["pcparpage"] != 0)
+	$nbpage= ceil($valCount/$protectedPost["pcparpage"]);
 	if ($nbpage >1){
-	$up=$_POST['page']+1;
-	$down=$_POST['page']-1;
+	$up=$protectedPost['page']+1;
+	$down=$protectedPost['page']-1;
 	echo "<table align='center' width='99%' border='0' bgcolor=#f2f2f2>";
 	echo "<tr><td align=center>";
-	if ($_POST['page'] > 0)
+	if ($protectedPost['page'] > 0)
 	echo "<img src='image/prec24.png' OnClick='pag(\"".$down."\",\"page\",\"".$form_name."\")'>";
 	//if ($nbpage<10){
 		$i=0;
 		$deja="";
 		while ($i<$nbpage){			
 			$point="";
-			if ($_POST['page'] == $i){
+			if ($protectedPost['page'] == $i){
 				if ($i<$nbpage-10 and  $i>10  and $deja==""){
 				$point=" ... ";
 				$deja="ok";	
@@ -413,23 +413,23 @@ function show_page($valCount,$form_name){
 			$i++;
 		}
 
-	if ($_POST['page']< $nbpage-1)
+	if ($protectedPost['page']< $nbpage-1)
 	echo "<img src='image/proch24.png' OnClick='pag(\"".$up."\",\"page\",\"".$form_name."\")'>";
 	
 	}
 	echo "</td></tr></table>";
-	echo "<input type='hidden' id='page' name='page' value='".$_POST['page']."'>";
-	echo "<input type='hidden' id='old_pcparpage' name='old_pcparpage' value='".$_POST['pcparpage']."'>";
+	echo "<input type='hidden' id='page' name='page' value='".$protectedPost['page']."'>";
+	echo "<input type='hidden' id='old_pcparpage' name='old_pcparpage' value='".$protectedPost['pcparpage']."'>";
 }
 
 
 function onglet($def_onglets,$form_name,$post_name,$ligne)
 {
-	global $_POST;
-	$_POST['onglet_soft']=stripslashes($_POST['onglet_soft']);
-	$_POST['old_onglet_soft']=stripslashes($_POST['old_onglet_soft']);
-	if ($_POST["old_".$post_name] != $_POST[$post_name]){
-	$_POST['page']=0;
+	global $protectedPost;
+	$protectedPost['onglet_soft']=stripslashes($protectedPost['onglet_soft']);
+	$protectedPost['old_onglet_soft']=stripslashes($protectedPost['old_onglet_soft']);
+	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
+	$protectedPost['page']=0;
 	}
 	/*This fnction use code of Douglas Bowman (Sliding Doors of CSS)
 	http://www.alistapart.com/articles/slidingdoors/
@@ -460,14 +460,14 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 	  		
 	  	}
 	  	echo "<li ";
-	  	if (is_numeric($_POST[$post_name])){
-			if ($_POST[$post_name] == $key or (!isset($_POST[$post_name]) and $current != 1)){
+	  	if (is_numeric($protectedPost[$post_name])){
+			if ($protectedPost[$post_name] == $key or (!isset($protectedPost[$post_name]) and $current != 1)){
 			 echo "id='current'";  
 	 		 $current=1;
 			}
 	  	}else{
-	  		//echo "<script>alert('".mysql_escape_string(stripslashes($_POST[$post_name]))." => ".$key."')</script>";
-			if (mysql_escape_string(stripslashes($_POST[$post_name])) === mysql_escape_string(stripslashes($key)) or (!isset($_POST[$post_name]) and $current != 1)){
+	  		//echo "<script>alert('".mysql_escape_string(stripslashes($protectedPost[$post_name]))." => ".$key."')</script>";
+			if (mysql_escape_string(stripslashes($protectedPost[$post_name])) === mysql_escape_string(stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
 				 echo "id='current'";  
 	 			 $current=1;
 			}
@@ -478,15 +478,15 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 	  }	
 	echo "</ul>
 	</div></td></tr></table>";
-	echo "<input type='hidden' id='".$post_name."' name='".$post_name."' value='".$_POST[$post_name]."'>";
-	echo "<input type='hidden' id='old_".$post_name."' name='old_".$post_name."' value='".$_POST[$post_name]."'>";
+	echo "<input type='hidden' id='".$post_name."' name='".$post_name."' value='".$protectedPost[$post_name]."'>";
+	echo "<input type='hidden' id='old_".$post_name."' name='old_".$post_name."' value='".$protectedPost[$post_name]."'>";
 	}
 	
 }
 
 
 function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list_fields,$default_fields,$id_form='form'){
-	global $_POST,$l;
+	global $protectedPost,$l;
 	//r�cup�ration des colonnes du tableau dans le cookie
 	if (isset($_COOKIE[$tab_name]) and !isset($_SESSION['col_tab'][$tab_name])){
 		$col_tab=explode("///", $_COOKIE[$tab_name]);
@@ -494,13 +494,13 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 				$_SESSION['col_tab'][$tab_name][$key]=$value;
 		}			
 	}
-	if (isset($_POST['SUP_COL']) and $_POST['SUP_COL'] != ""){
-		unset($_SESSION['col_tab'][$tab_name][$_POST['SUP_COL']]);
+	if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != ""){
+		unset($_SESSION['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
 	}
-	if ($_POST['restCol'.$tab_name]){
-		$_SESSION['col_tab'][$tab_name][$_POST['restCol'.$tab_name]]=$_POST['restCol'.$tab_name];
+	if ($protectedPost['restCol'.$tab_name]){
+		$_SESSION['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
 	}
-	if ($_POST['RAZ'] != ""){
+	if ($protectedPost['RAZ'] != ""){
 		unset($_SESSION['col_tab'][$tab_name]);
 		$_SESSION['col_tab'][$tab_name]=$default_fields;
 	}
@@ -535,13 +535,13 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 
 	}
 	$select_restCol =$l->g(349)." :<select name='restCol".$tab_name."' onChange='document.".$form_name.".submit();'>";
-	$select_restCol .= "<option".($_POST["restCol".$tab_name] == "DEFAULT" ? " selected" : "")." value=''>".$l->g(32)."...</option>";
+	$select_restCol .= "<option".($protectedPost["restCol".$tab_name] == "DEFAULT" ? " selected" : "")." value=''>".$l->g(32)."...</option>";
 	$countHl=0;
 	if ($list_rest != ""){
 		// ksort($list_rest,SORT_STRING);
 		// print_r($list_rest);
 		foreach( $list_rest as $lbl_field => $name_field) {
-			$select_restCol .=  "<option".($_POST["restCol".$tab_name] == $lbl_field ? " selected" : "").($countHl%2==0?" class='hi'":"")." value='".$lbl_field."'>$name_field</option>";
+			$select_restCol .=  "<option".($protectedPost["restCol".$tab_name] == $lbl_field ? " selected" : "").($countHl%2==0?" class='hi'":"")." value='".$lbl_field."'>$name_field</option>";
 			$countHl++;
 		}
 	}
@@ -561,7 +561,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 
 function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,$width='100',$tab_options='')
 {
-	global $_POST,$l;
+	global $protectedPost,$l;
 	//print_r($tab_options);
 	if (!$tab_options['AS'])
 	$tab_options['AS']=array();
@@ -591,35 +591,35 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	
 	if (isset($tab_options['FILTRE']))
 	$queryDetails=filtre($tab_options['FILTRE'],$form_name,$queryDetails);
-	if ($_POST['tri2'] == "" or (!in_array ($_POST['tri2'], $list_fields) and !in_array ($_POST['tri2'], $tab_options['AS'])))
-	$_POST['tri2']=1;
-//	echo $_POST['tri2'];
+	if ($protectedPost['tri2'] == "" or (!in_array ($protectedPost['tri2'], $list_fields) and !in_array ($protectedPost['tri2'], $tab_options['AS'])))
+	$protectedPost['tri2']=1;
+//	echo $protectedPost['tri2'];
 	
 	//si le tri se fait sur un champ fixe
-	if ( strrpos($_POST['tri2'], ".") and ((substr($_POST['tri2'],1,1) != '.' and $_POST['tri2']!=1)
-		 or ($_POST['tri_fixe']!= '' and $_POST['tri2'] == ""))){
-		//echo "<b>".$_POST['tri2']."</b>";
-		if ($_POST['tri_fixe'] !=  $_POST['tri2'])
-		$_POST['tri_fixe']=$_POST['tri2'];
+	if ( strrpos($protectedPost['tri2'], ".") and ((substr($protectedPost['tri2'],1,1) != '.' and $protectedPost['tri2']!=1)
+		 or ($protectedPost['tri_fixe']!= '' and $protectedPost['tri2'] == ""))){
+		//echo "<b>".$protectedPost['tri2']."</b>";
+		if ($protectedPost['tri_fixe'] !=  $protectedPost['tri2'])
+		$protectedPost['tri_fixe']=$protectedPost['tri2'];
 		//on veut savoir sur quelle table le tri doit avoir lieu
-		$tablename_fixe_value=explode(".", $_POST['tri_fixe']);			
-		$_POST['tri2']=1;		
+		$tablename_fixe_value=explode(".", $protectedPost['tri_fixe']);			
+		$protectedPost['tri2']=1;		
 	}
-//echo $_POST['tri2'];
-	if ($_POST['sens'] == "")
-	$_POST['sens']='ASC';
+//echo $protectedPost['tri2'];
+	if ($protectedPost['sens'] == "")
+	$protectedPost['sens']='ASC';
 	//on modifie le type du champ pour pouvoir trier correctement
-	if ($tab_options['TRI']['SIGNED'][$_POST['tri2']])
-		$queryDetails.= " order by cast(".$_POST['tri2']." as signed) ".$_POST['sens'];
+	if ($tab_options['TRI']['SIGNED'][$protectedPost['tri2']])
+		$queryDetails.= " order by cast(".$protectedPost['tri2']." as signed) ".$protectedPost['sens'];
 	else
-		$queryDetails.= " order by ".$_POST['tri2']." ".$_POST['sens'];
+		$queryDetails.= " order by ".$protectedPost['tri2']." ".$protectedPost['sens'];
 	
 	$limit_result_cache=200;
 	//$tab_options['CACHE']='RESET';
 	//suppression de la limite de cache
 	//si on est sur la m�me page mais pas sur le m�me onglet
 	if ($_SESSION['cvs'][$table_name] != $queryDetails ){
-		unset($_POST['page']);
+		unset($protectedPost['page']);
 		$tab_options['CACHE']='RESET';
 		//echo 'toto';
 //		echo "<br><font color=red>".$_SESSION['cvs'][$table_name]."</font>";
@@ -632,7 +632,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 //		$limit["END"]=$_SESSION['NUM_ROW'][$table_name];
 	
 	//Effacage du cache pour la reg�n�ration
-	if ($tab_options['CACHE']=='RESET' or (isset($_POST['SUP_PROF']) and $_POST['SUP_PROF'] != '') ){
+	if ($tab_options['CACHE']=='RESET' or (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') ){
 		if ($_SESSION['DEBUG'] == 'ON')
 	 		echo "<br><b><font color=red>".$l->g(5003)."</font></b><br>";
 		unset($_SESSION['DATA_CACHE'][$table_name]);
@@ -640,8 +640,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	}
 //	print_r($_SESSION['DATA_CACHE'][$table_name]);
 //echo $limit["END"];
-//		$value_data_begin=$_POST['page']*$_POST['pcparpage'];
-//		$value_data_end=$value_data_begin+$_POST['pcparpage'];
+//		$value_data_begin=$protectedPost['page']*$protectedPost['pcparpage'];
+//		$value_data_end=$value_data_begin+$protectedPost['pcparpage'];
 		if (isset($_SESSION['NUM_ROW'][$table_name])
 			 and $_SESSION['NUM_ROW'][$table_name]>$limit["BEGIN"] 
 			 and $_SESSION['NUM_ROW'][$table_name]<=$limit["END"]
@@ -691,8 +691,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 			
 				
 				//ajout du tri sur la requete de valeurs fixe si cela a �t� demand�
-				if ($_POST['tri_fixe']!='' and strstr($sql,$_POST['tri_fixe']))
-				$sql.=" order by ".$_POST['tri_fixe']." ".$_POST['sens'];
+				if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe']))
+				$sql.=" order by ".$protectedPost['tri_fixe']." ".$protectedPost['sens'];
 			//	$sql.=" limit 200";
 				$result = mysql_query($sql, $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
 			//	echo "<b>".$sql."</b><br><br><br>";
@@ -890,12 +890,12 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
 	//	print_r($result_with_col['data']);
 
-	//echo "<br>tri=".$_POST['tri2'];
+	//echo "<br>tri=".$protectedPost['tri2'];
 		tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
 		show_page($num_rows_result,$form_name);
-		echo "<input type='hidden' id='tri2' name='tri2' value='".$_POST['tri2']."'>";
-		echo "<input type='hidden' id='tri_fixe' name='tri_fixe' value='".$_POST['tri_fixe']."'>";
-		echo "<input type='hidden' id='sens' name='sens' value='".$_POST['sens']."'>";
+		echo "<input type='hidden' id='tri2' name='tri2' value='".$protectedPost['tri2']."'>";
+		echo "<input type='hidden' id='tri_fixe' name='tri_fixe' value='".$protectedPost['tri_fixe']."'>";
+		echo "<input type='hidden' id='sens' name='sens' value='".$protectedPost['sens']."'>";
 		echo "<input type='hidden' id='SUP_PROF' name='SUP_PROF' value=''>";
 		echo "<input type='hidden' id='MODIF' name='MODIF' value=''>";
 		echo "<input type='hidden' id='SELECT' name='SELECT' value=''>";
@@ -915,7 +915,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 
 //fonction qui permet de g�rer les donn�es � afficher dans le tableau
 function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails){
-	global $l,$_POST,$pages_refs;
+	global $l,$protectedPost,$pages_refs;
 	
 	$_SESSION['list_fields']=$list_fields;
 	//requete de condition d'affichage
@@ -967,7 +967,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$value_of_field=$donnees[$no_alias_value];
 				}
 				$col[$i]=$key;
-				if ($_POST['sens'] == "ASC")
+				if ($protectedPost['sens'] == "ASC")
 					$sens="DESC";
 				else
 					$sens="ASC";
@@ -1070,7 +1070,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['tele_actives']."&popup=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";
 					}
 					elseif ($key == "CHECK"){
-						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($_POST['check'.$value_of_field])? " checked ": "").">";
+						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
 						$entete[$num_col].="<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>";		
 						$lien = 'KO';		
 					}elseif ($key == "NAME"){
@@ -1107,8 +1107,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$deb="<a onclick='return tri(\"".$value."\",\"".$sens."\",\"".$form_name."\");' >";
 						$fin="</a>";
 						$entete[$num_col]=$deb.$entete[$num_col].$fin;
-						if ($_POST['tri2'] == $value){
-							if ($_POST['sens'] == 'ASC')
+						if ($protectedPost['tri2'] == $value){
+							if ($protectedPost['sens'] == 'ASC')
 								$img="<img src='image/down.png'>";
 							else
 								$img="<img src='image/up.png'>";

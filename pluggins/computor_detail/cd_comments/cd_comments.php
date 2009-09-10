@@ -1,52 +1,52 @@
 <?php 
 	$list_fields=array();
-	if (!isset($_POST['SHOW']))
-		$_POST['SHOW'] = 'NOSHOW';
+	if (!isset($protectedPost['SHOW']))
+		$protectedPost['SHOW'] = 'NOSHOW';
 	print_item_header($l->g(896));
 	$form_name="affich_notes";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	
 	//suppression en masse
-	if ($_POST['del_check'] != ''){
-			$sql="update itmgmt_comments set visible=0 where id in (".$_POST['del_check'].")";
+	if ($protectedPost['del_check'] != ''){
+			$sql="update itmgmt_comments set visible=0 where id in (".$protectedPost['del_check'].")";
 			mysql_query($sql, $_SESSION["writeServer"]);
 		 	//regénération du cache
 			$tab_options['CACHE']='RESET';	 	
 	 }	
 
-	if ($_POST['SUP_PROF'] != '' and isset($_POST['SUP_PROF'])){
-		$sql="update itmgmt_comments set visible=0 where id=".$_POST['SUP_PROF'];
+	if ($protectedPost['SUP_PROF'] != '' and isset($protectedPost['SUP_PROF'])){
+		$sql="update itmgmt_comments set visible=0 where id=".$protectedPost['SUP_PROF'];
 		mysql_query($sql, $_SESSION["writeServer"]);
 		//regénération du cache
 		$tab_options['CACHE']='RESET';
-		addLog($l->g(896), " DEL => ".$_POST['SUP_PROF']);
+		addLog($l->g(896), " DEL => ".$protectedPost['SUP_PROF']);
 
 	}
 	
-	if ($_POST['Valid_modif_x'] != '' and isset($_POST['Valid_modif_x'])){
+	if ($protectedPost['Valid_modif_x'] != '' and isset($protectedPost['Valid_modif_x'])){
 		
 		//ajout de note
-		if (trim($_POST['NOTE']) != '' and isset($_POST['NOTE'])){
+		if (trim($protectedPost['NOTE']) != '' and isset($protectedPost['NOTE'])){
 			$sql="insert into itmgmt_comments (HARDWARE_ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION) 
-					value (".$systemid.",sysdate(),'".$_SESSION["loggeduser"]."','".xml_encode($_POST['NOTE'])."','ADD_NOTE_BY_USER')";
+					value (".$systemid.",sysdate(),'".$_SESSION["loggeduser"]."','".xml_encode($protectedPost['NOTE'])."','ADD_NOTE_BY_USER')";
 			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));
 			//regénération du cache
 			$tab_options['CACHE']='RESET';			
-		}elseif (trim($_POST['NOTE_MODIF']) != '' and isset($_POST['NOTE_MODIF'])){
-			$sql="update itmgmt_comments set COMMENTS='".xml_encode($_POST['NOTE_MODIF'])."'";
-			if (!strstr($_POST['USER_INSERT'], $_SESSION["loggeduser"]))
-			$sql.=" , USER_INSERT = '".$_POST['USER_INSERT']."/".$_SESSION["loggeduser"]."'";
-			$sql.=" where id=".$_POST['ID_MODIF'];
+		}elseif (trim($protectedPost['NOTE_MODIF']) != '' and isset($protectedPost['NOTE_MODIF'])){
+			$sql="update itmgmt_comments set COMMENTS='".xml_encode($protectedPost['NOTE_MODIF'])."'";
+			if (!strstr($protectedPost['USER_INSERT'], $_SESSION["loggeduser"]))
+			$sql.=" , USER_INSERT = '".$protectedPost['USER_INSERT']."/".$_SESSION["loggeduser"]."'";
+			$sql.=" where id=".$protectedPost['ID_MODIF'];
 			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));
 			//regénération du cache
 			$tab_options['CACHE']='RESET';				
-			addLog($l->g(896), " UPDATE ".$_POST['ID_MODIF'].". => ".$_POST['OLD_COMMENTS'] );
+			addLog($l->g(896), " UPDATE ".$protectedPost['ID_MODIF'].". => ".$protectedPost['OLD_COMMENTS'] );
 
 		}		
 		
 	}
-	if ($_POST['ADD_NOTE']){
+	if ($protectedPost['ADD_NOTE']){
 		$tab_name[1]=$l->g(897)." : ";
 		$tab_name[2]=$l->g(898)." : ";
 		$tab_name[3]=$l->g(896)." : ";
@@ -98,8 +98,8 @@
 		echo "<td align=center><a href=# onclick=garde_check(\"image/sup_search.png\",\"\")><img src='image/sup_search.png' title='".$l->g(162)."' ></a></td>";
 
 	 echo "</tr></tr></table>";
-	if (isset($_POST['MODIF']) and $_POST['MODIF'] != ''){
-		$queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE id=".$_POST['MODIF'];
+	if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
+		$queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE id=".$protectedPost['MODIF'];
 		$resultDetails = mysql_query($queryDetails, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 		$item=mysql_fetch_array($resultDetails,MYSQL_ASSOC);
 		$tab_name[1]=" Date de la note : ";
@@ -113,7 +113,7 @@
 		$tab_typ_champ[3]['INPUT_NAME']='NOTE_MODIF';
 		$tab_typ_champ[3]['INPUT_TYPE']=1;
 		$tab_hidden['USER_INSERT']=$item['USER_INSERT'];
-		$tab_hidden['ID_MODIF']=$_POST['MODIF'];
+		$tab_hidden['ID_MODIF']=$protectedPost['MODIF'];
 		$tab_hidden['OLD_COMMENTS']=$item['COMMENTS'];
 	    tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment);
 	

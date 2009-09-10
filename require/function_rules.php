@@ -94,7 +94,7 @@ function delete_condition_rule($ID){
  * 
  */
 function add_rule($RULE_NAME,$RULE_VALUES,$ID_RULE=''){
-	global $l;
+	global $l,$protectedPost;
 	$rule_exist=verify_name($RULE_NAME);
 	if ($rule_exist == 'NAME_NOT_EXIST'){
 		//verify this id is new
@@ -115,7 +115,7 @@ function add_rule($RULE_NAME,$RULE_VALUES,$ID_RULE=''){
 			if ($RULE_VALUES['CFIELD_'.$i] != "")
 			{
 				$sql_insert_rule="insert into download_affect_rules (RULE,RULE_NAME,PRIORITY,CFIELD,OP,COMPTO,SERV_VALUE) 
-				value (".$ID_RULE.",'".$_POST['RULE_NAME']."',".$RULE_VALUES['PRIORITE_'.$i].",'".$RULE_VALUES['CFIELD_'.$i]."','".$RULE_VALUES['OP_'.$i]."','".$RULE_VALUES['COMPTO_'.$i]."','".$RULE_VALUES['COMPTO_TEXT_'.$i]."')";
+				value (".$ID_RULE.",'".$protectedPost['RULE_NAME']."',".$RULE_VALUES['PRIORITE_'.$i].",'".$RULE_VALUES['CFIELD_'.$i]."','".$RULE_VALUES['OP_'.$i]."','".$RULE_VALUES['COMPTO_'.$i]."','".$RULE_VALUES['COMPTO_TEXT_'.$i]."')";
 				mysql_query($sql_insert_rule, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 				
 			}
@@ -133,14 +133,14 @@ function add_rule($RULE_NAME,$RULE_VALUES,$ID_RULE=''){
  */
 
 function fields_conditions_rules($num,$entete='NO'){
-	global $l;
+	global $l,$protectedPost;
 	if ($entete != 'NO')
 	$tab.="<tr bgcolor='#C7D9F5'><td>".$l->g(675)."</td><td>".$l->g(676)."</td><td>".$l->g(677)."</td><td>".$l->g(678)."</td></tr>";	
 	$CFIELD=array('NAME'=>$l->g(679),'IPADDRESS'=>'@IP','IPSUBNET'=>'IPSUBNET','WORKGROUP'=>$l->g(680),'USERID'=>$l->g(681));
 	$OP=array('EGAL'=>"=",'DIFF'=>"<>",'LIKE'=>'LIKE');
-	if (!isset($_POST["PRIORITE_".$num]))
-	$_POST["PRIORITE_".$num]=$num;
-	$tab.="<tr><td>".show_modif($_POST["PRIORITE_".$num],"PRIORITE_".$num,'0')."</td>";
+	if (!isset($protectedPost["PRIORITE_".$num]))
+	$protectedPost["PRIORITE_".$num]=$num;
+	$tab.="<tr><td>".show_modif($protectedPost["PRIORITE_".$num],"PRIORITE_".$num,'0')."</td>";
 	$tab.="<td>".show_modif($CFIELD,"CFIELD_".$num,'2')."</td>";
 	$tab.="<td>".show_modif($OP,"OP_".$num,'2')."</td>";
 	$tab.="<td>".show_modif($CFIELD,"COMPTO_".$num,'2')."</td>";

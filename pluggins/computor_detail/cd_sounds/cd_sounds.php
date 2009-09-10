@@ -1,7 +1,7 @@
 <?php
 	print_item_header($l->g(96));
-	if (!isset($_POST['SHOW']))
-		$_POST['SHOW'] = 'NOSHOW';
+	if (!isset($protectedPost['SHOW']))
+		$protectedPost['SHOW'] = 'NOSHOW';
 	$form_name="affich_sounds";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";

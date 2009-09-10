@@ -1,6 +1,6 @@
 <?php
-	if (!isset($_POST['SHOW']))
-		$_POST['SHOW'] = 'NOSHOW';
+	if (!isset($protectedPost['SHOW']))
+		$protectedPost['SHOW'] = 'NOSHOW';
 	print_item_header($l->g(79));
 	$form_name="affich_ports";
 	$table_name=$form_name;

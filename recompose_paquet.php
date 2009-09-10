@@ -3,10 +3,10 @@
 if($_SESSION["lvluser"]==SADMIN){
 	$valid='OK';
 	$document_root = $_SERVER["DOCUMENT_ROOT"]."/download/";
-		$rep = $document_root = $_SERVER["DOCUMENT_ROOT"]."/download/".$_GET['id_pack'];
+		$rep = $document_root = $_SERVER["DOCUMENT_ROOT"]."/download/".$protectedGet['id_pack'];
 		$dir = opendir($rep);
 		while($f = readdir($dir)){
-			if ($_GET['id_pack'] == ''){
+			if ($protectedGet['id_pack'] == ''){
 				if ($f != '.' and $f != '..')
 		 		  echo "<a href='recompose_paquet.php?id_pack=".$f."'>".$f."</a><br>";
 			}else{
@@ -43,10 +43,10 @@ if($_SESSION["lvluser"]==SADMIN){
 		}
 		closedir($dir);
 		
-		if ($_GET['id_pack'] != '' and $valid == 'OK'){
+		if ($protectedGet['id_pack'] != '' and $valid == 'OK'){
 			$temp="";
 			$i=1;
-			$filename = $rep.'/'.$_GET['id_pack'];
+			$filename = $rep.'/'.$protectedGet['id_pack'];
 			$handfich_final = fopen( $rep.'/'.$name, "a+b" );
 			while ($i <= $nb_frag){
 				echo "Lecture du fichier ".$filename."-".$i." en cours...<br>";

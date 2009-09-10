@@ -32,8 +32,8 @@
 </script>
 <?php 
 	$list_fields=array();
-	if (!isset($_POST['SHOW']))
-		$_POST['SHOW'] = 'NOSHOW';
+	if (!isset($protectedPost['SHOW']))
+		$protectedPost['SHOW'] = 'NOSHOW';
 $majuscule="onKeyPress=\"return scanTouche(event,/[0-9 a-z A-Z]/)\" onkeydown='convertToUpper(this)'
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'
@@ -45,16 +45,16 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 
 	$form_name="affich_tag";
 	$table_name=$form_name;
-	if (isset($_POST['Valid_modif_x'])){
-		if ($_POST['TAG_MODIF'] == TAG_LBL)
+	if (isset($protectedPost['Valid_modif_x'])){
+		if ($protectedPost['TAG_MODIF'] == TAG_LBL)
 		$lbl_champ='TAG';
 		else
-		$lbl_champ=$_POST['TAG_MODIF'];
+		$lbl_champ=$protectedPost['TAG_MODIF'];
 		$sql=" update accountinfo set ".$lbl_champ."='";
-		if ($_POST['FIELD_FORMAT'] == "date")
-		$sql.= dateToMysql($_POST['NEW_VALUE'])."'";
+		if ($protectedPost['FIELD_FORMAT'] == "date")
+		$sql.= dateToMysql($protectedPost['NEW_VALUE'])."'";
 		else
-		$sql.= xml_encode($_POST['NEW_VALUE'])."'";
+		$sql.= xml_encode($protectedPost['NEW_VALUE'])."'";
 		$sql.=" where hardware_id=".$systemid; 
 		mysql_query($sql, $_SESSION["writeServer"]);
 		//regénération du cache
@@ -93,8 +93,8 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
 	//print_r($type_field);
-	if (isset($_POST['MODIF']) and $_POST['MODIF'] != ''){
-		switch ($type_field[$_POST['MODIF']]){
+	if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
+		switch ($type_field[$protectedPost['MODIF']]){
 			case "int" : $java = $chiffres;
 							break;
 			case "string"  : $java = $majuscule;
@@ -104,10 +104,10 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 			default : $java;
 		}
 		
-		$truename=$_POST['MODIF'];
-		if ($_POST['MODIF'] == TAG_LBL)
+		$truename=$protectedPost['MODIF'];
+		if ($protectedPost['MODIF'] == TAG_LBL)
 			$truename='TAG';			
-		if ($type_field[$_POST['MODIF']]=="date"){
+		if ($type_field[$protectedPost['MODIF']]=="date"){
 		$tab_typ_champ[0]['COMMENT_BEHING'] =datePick('NEW_VALUE');
 		$tab_typ_champ[0]['DEFAULT_VALUE']=dateFromMysql($item[$truename]);
 		}else
@@ -117,8 +117,8 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 		$tab_typ_champ[0]['CONFIG']['JAVASCRIPT']=$java;
 		$tab_typ_champ[0]['CONFIG']['MAXLENGTH']=100;
 		$tab_typ_champ[0]['CONFIG']['SIZE']=40;
-		$data_form[0]=$_POST['MODIF'];
-		tab_modif_values($data_form,$tab_typ_champ,array('TAG_MODIF'=>$_POST['MODIF'],'FIELD_FORMAT'=>$type_field[$_POST['MODIF']]),$l->g(895),"");
+		$data_form[0]=$protectedPost['MODIF'];
+		tab_modif_values($data_form,$tab_typ_champ,array('TAG_MODIF'=>$protectedPost['MODIF'],'FIELD_FORMAT'=>$type_field[$protectedPost['MODIF']]),$l->g(895),"");
 		
 	}
 	echo "</form>";

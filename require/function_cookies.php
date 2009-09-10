@@ -2,7 +2,6 @@
 //fonction qui permet de gérer les colonnes par cookies
 function cookies_tab()
 {
-	global $_POST;
 	//si la variable de session des tableaux n'existe pas, 
 	//on va chercher le cookies
 	if (!isset($_SESSION['col_tab']) and isset($_COOKIE['col_tab'])){
