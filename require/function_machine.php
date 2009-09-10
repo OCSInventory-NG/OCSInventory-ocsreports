@@ -9,7 +9,7 @@ function info($GET,$post_systemid){
 	global $l;
 	//traitement de l'envoi de l'id par post
 	if ($post_systemid != '')
-		$systemid = $_POST['systemid'];
+		$systemid = $ESC_POST['systemid'];
 	//ajout de la possibilit� de voir une machine par son deviceid
 	if (isset($GET['deviceid']) and !isset($systemid)){
 		$querydeviceid = "SELECT ID FROM hardware WHERE deviceid='".strtoupper ($GET['deviceid'])."'";

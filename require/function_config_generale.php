@@ -155,7 +155,7 @@ function debut_tab($config){
 }
 //function 
 function verif_champ(){
-	global $_POST,$l;
+	global $ESC_POST,$l;
 	$supp1=array("DOWNLOAD_CYCLE_LATENCY","DOWNLOAD_FRAG_LATENCY","DOWNLOAD_PERIOD_LATENCY",
 				 "DOWNLOAD_PERIOD_LENGTH","DOWNLOAD_TIMEOUT","PROLOG_FREQ","IPDISCOVER_MAX_ALIVE",
 			     "GROUPS_CACHE_REVALIDATE","GROUPS_CACHE_OFFSET","LOCK_REUSE_TIME","INVENTORY_CACHE_REVALIDATE",
@@ -164,13 +164,13 @@ function verif_champ(){
 	$supp10=array("IPDISCOVER_LATENCY");
 	$i=0;
 	while ($supp1[$i]){
-		if ($_POST[$supp1[$i]] < 1 and isset($_POST[$supp1[$i]]))
+		if ($ESC_POST[$supp1[$i]] < 1 and isset($ESC_POST[$supp1[$i]]))
 			$tab_error[$supp1[$i]]='1';
 		$i++;
 	}
 	$i=0;
 	while ($supp10[$i]){
-		if ($_POST[$supp10[$i]] < 10 and isset($_POST[$supp10[$i]]))
+		if ($ESC_POST[$supp10[$i]] < 10 and isset($ESC_POST[$supp10[$i]]))
 			$tab_error[$supp10[$i]]='10';	
 		$i++;
 	}
@@ -289,7 +289,7 @@ function update_default_value($POST){
 	//pour obliger à prendre en compte
 	//le AUTO_DUPLICATE_LVL quand il est vide
 	//on doit l'initialiser tout le temps
-	if ($_POST['onglet'] == $l->g(499)){
+	if ($ESC_POST['onglet'] == $l->g(499)){
 		insert_update('AUTO_DUPLICATE_LVL',0,$optexist['AUTO_DUPLICATE_LVL'],'ivalue');	
 		$optexist['AUTO_DUPLICATE_LVL']='0';
 	}

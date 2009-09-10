@@ -16,9 +16,9 @@
 echo "</head>"; 
 echo "<body bottommargin='0' leftmargin='0' topmargin='0' rightmargin='0' marginheight='0' marginwidth='0'>";
 //on affiche l'entete de la page
-if( !isset($_GET["popup"] )) {
+if( !isset($ESC_GET["popup"] )) {
 	//si unlock de l'interface
-	if ($_POST['LOCK'] == 'RESET'){
+	if ($ESC_POST['LOCK'] == 'RESET'){
 		 $_SESSION["mesmachines"]=$_SESSION["TRUE_mesmachines"];
 		unset($_SESSION["TRUE_mesmachines"]);
 	}
@@ -54,7 +54,7 @@ echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td ali
 	}
 }
 
-if(isset($_SESSION["loggeduser"])&&!isset($_GET["popup"] )) {
+if(isset($_SESSION["loggeduser"])&&!isset($ESC_GET["popup"] )) {
 		echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>";
 		echo "<img src='image/deconnexion.png' title='".$l->g(251)."' alt='".$l->g(251)."'>";
 		echo "</a>";

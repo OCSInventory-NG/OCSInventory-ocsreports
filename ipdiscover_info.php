@@ -18,30 +18,30 @@ else
 $user=$_SESSION['loggeduser'];
 
 //suppression d'une adresse mac
-if(isset($_POST['SUP_PROF'])){
-	$del=mysql_escape_string($_POST['SUP_PROF']);
+if(isset($ESC_POST['SUP_PROF'])){
+	$del=mysql_escape_string($ESC_POST['SUP_PROF']);
 	mysql_query("DELETE FROM netmap WHERE mac='".$del."'", $_SESSION["writeServer"] ) or die(mysql_error());
 	mysql_query("DELETE FROM network_devices WHERE macaddr='".$del."'", $_SESSION["writeServer"] ) or die(mysql_error());
-	unset($_SESSION['DATA_CACHE']['IPDISCOVER_'.$_GET['prov']]);
+	unset($_SESSION['DATA_CACHE']['IPDISCOVER_'.$ESC_GET['prov']]);
 	
 }
 //identification d'une adresse mac
-if (isset($_POST['Valid_modif_x'])){
-	if (trim($_POST['COMMENT']) == "")
+if (isset($ESC_POST['Valid_modif_x'])){
+	if (trim($ESC_POST['COMMENT']) == "")
 	$ERROR= $l->g(942);
-	if (trim($_POST['TYPE']) == "")
+	if (trim($ESC_POST['TYPE']) == "")
 	$ERROR= $l->g(943);
-	if (isset($ERROR) and $_POST['MODIF_ID'] != '')
-	$_POST['USER']=$_POST['USER_ENTER'];
+	if (isset($ERROR) and $ESC_POST['MODIF_ID'] != '')
+	$ESC_POST['USER']=$ESC_POST['USER_ENTER'];
 
 	if (!isset($ERROR)){
-		$post=xml_escape_string($_POST);
+		$post=xml_escape_string($ESC_POST);
 		if ($post['USER_ENTER'] != ''){
 			$sql="update network_devices 
 					set DESCRIPTION = '".$post['COMMENT']."',
 					TYPE = '".$post['TYPE']."',
 					MACADDR = '".$post['mac']."',
-					USER = '".$user."' where ID='".$_POST['MODIF_ID']."'";			
+					USER = '".$user."' where ID='".$ESC_POST['MODIF_ID']."'";			
 		}else{		
 			$sql="insert into network_devices (DESCRIPTION,TYPE,MACADDR,USER)
 			  VALUES('".$post['COMMENT']."',
@@ -51,34 +51,34 @@ if (isset($_POST['Valid_modif_x'])){
 		}
 		mysql_query( $sql , $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 		//suppression du cache pour prendre en compte la modif
-		unset($_SESSION['DATA_CACHE']['IPDISCOVER_'.$_GET['prov']]);
+		unset($_SESSION['DATA_CACHE']['IPDISCOVER_'.$ESC_GET['prov']]);
 	}else{		
-		$_POST['MODIF']=$_POST['mac'];
+		$ESC_POST['MODIF']=$ESC_POST['mac'];
 	}	
 }
 
 //formulaire de saisie de l'identification de l'adresse mac
-if (isset($_POST['MODIF']) and $_POST['MODIF'] != ''){
+if (isset($ESC_POST['MODIF']) and $ESC_POST['MODIF'] != ''){
 	
 	//cas d'une modification de la donnée déjà saisie
-	if ($_GET['prov'] == "ident" and !isset($_POST['COMMENT'])){
-		$id=mysql_escape_string($_POST['MODIF']);
+	if ($ESC_GET['prov'] == "ident" and !isset($ESC_POST['COMMENT'])){
+		$id=mysql_escape_string($ESC_POST['MODIF']);
 		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='".$id."'";
 		$res = mysql_query($sql, $_SESSION["readServer"] );
 		$val = mysql_fetch_array( $res );
-		$_POST['COMMENT']=$val['DESCRIPTION'];
-		$_POST['MODIF']=$val['MACADDR'];
-		$_POST['TYPE']=$val['TYPE'];
-		$_POST['USER']=	$val['USER'];
-		$_POST['MODIF_ID']=$id;
+		$ESC_POST['COMMENT']=$val['DESCRIPTION'];
+		$ESC_POST['MODIF']=$val['MACADDR'];
+		$ESC_POST['TYPE']=$val['TYPE'];
+		$ESC_POST['USER']=	$val['USER'];
+		$ESC_POST['MODIF_ID']=$id;
 	}
-	$tab_hidden['USER_ENTER']=$_POST['USER'];	
-	$tab_hidden['MODIF_ID']=$_POST['MODIF_ID'];	
+	$tab_hidden['USER_ENTER']=$ESC_POST['USER'];	
+	$tab_hidden['MODIF_ID']=$ESC_POST['MODIF_ID'];	
 	echo "<br>";
 	echo "<br>";
 	//si on est dans le cas d'une modif, on affiche le login qui a saisi la donnée
-	if ($_POST['MODIF_ID'] != ''){
-		$tab_typ_champ[3]['DEFAULT_VALUE']=$_POST['USER'];
+	if ($ESC_POST['MODIF_ID'] != ''){
+		$tab_typ_champ[3]['DEFAULT_VALUE']=$ESC_POST['USER'];
 		$tab_typ_champ[3]['INPUT_NAME']="USER";
 		$tab_typ_champ[3]['INPUT_TYPE']=3;
 		$tab_name[3]=$l->g(944)." : ";
@@ -88,12 +88,12 @@ if (isset($_POST['MODIF']) and $_POST['MODIF'] != ''){
 		$title=$l->g(946);	
 	}
 	
-	$tab_typ_champ[0]['DEFAULT_VALUE']=$_POST['MODIF'];
+	$tab_typ_champ[0]['DEFAULT_VALUE']=$ESC_POST['MODIF'];
 	$tab_typ_champ[0]['INPUT_NAME']="MAC";
 	$tab_typ_champ[0]['INPUT_TYPE']=3;
 	$tab_name[0]=$l->g(95).": ";
 	
-	$tab_typ_champ[1]['DEFAULT_VALUE']=$_POST['COMMENT'];
+	$tab_typ_champ[1]['DEFAULT_VALUE']=$ESC_POST['COMMENT'];
 	$tab_typ_champ[1]['INPUT_NAME']="COMMENT";
 	$tab_typ_champ[1]['INPUT_TYPE']=0;
 	$tab_typ_champ[1]['CONFIG']['SIZE']=60;
@@ -113,17 +113,17 @@ if (isset($_POST['MODIF']) and $_POST['MODIF'] != ''){
 	
 	//printEnTete("Ajout d'un nouveau périphérique");
 
-	$tab_hidden['mac']=$_POST['MODIF'];	
+	$tab_hidden['mac']=$ESC_POST['MODIF'];	
 	if (isset($ERROR))
 	echo "<font color=red><b>".$ERROR."</b></font>";
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
 }
 else{ //affichage des périphériques
-	if (!(isset($_POST["pcparpage"])))
-		 $_POST["pcparpage"]=5;
-	if (isset($_GET['value'])){
-		$netid=mysql_escape_string($_GET['value']);
-		if ($_GET['prov'] == "no_inv"){
+	if (!(isset($ESC_POST["pcparpage"])))
+		 $ESC_POST["pcparpage"]=5;
+	if (isset($ESC_GET['value'])){
+		$netid=mysql_escape_string($ESC_GET['value']);
+		if ($ESC_GET['prov'] == "no_inv"){
 			$title=$l->g(947);
 			$sql="SELECT ip, mac, mask, date, name FROM netmap WHERE netid='".$netid."' AND mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
 			AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
@@ -136,7 +136,7 @@ else{ //affichage des périphériques
 			$tab_options['MODIF']['IMG']="image/prec16.png";
 			$tab_options['LBL']['MODIF']=$l->g(114);
 			$default_fields= $list_fields;
-		}elseif($_GET['prov'] == "ident"){
+		}elseif($ESC_GET['prov'] == "ident"){
 			$title=$l->g(948);
 			$sql="select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
 				 from network_devices n LEFT JOIN netmap a ON a.mac=n.macaddr
@@ -160,7 +160,7 @@ else{ //affichage des périphériques
 		$tab_options['LBL']['MAC']=$l->g(95);		
 		$tab_options['FILTRE']['ip']=$l->g(66);
 		$list_col_cant_del=array($l->g(66)=>$l->g(66),'SUP'=>'SUP','MODIF'=>'MODIF');
-		$table_name="IPDISCOVER_".$_GET['prov'];
+		$table_name="IPDISCOVER_".$ESC_GET['prov'];
 		$form_name=$table_name;
 		echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
 		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 

@@ -10,8 +10,8 @@ require_once('require/function_ipdiscover.php');
  $form_name='ipdiscover';
  echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
  	//suppression d'un sous-reseau
- 	if (isset($_POST['SUP_PROF']) and $_POST['SUP_PROF'] != '' and $_SESSION["lvluser"] == SADMIN){
- 		$del=mysql_real_escape_string($_POST['SUP_PROF']);
+ 	if (isset($ESC_POST['SUP_PROF']) and $ESC_POST['SUP_PROF'] != '' and $_SESSION["lvluser"] == SADMIN){
+ 		$del=mysql_real_escape_string($ESC_POST['SUP_PROF']);
  		$sql_del="delete from subnet where id='".$del."'";
  		mysql_query($sql_del, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 		//suppression du cache pour prendre en compte la modif
@@ -29,14 +29,14 @@ require_once('require/function_ipdiscover.php');
 		}
 		 echo $l->g(562).show_modif($list_index,'DPT_CHOISE',2,$form_name);
  	}
-	 if (isset($_POST['DPT_CHOISE']) and $_POST['DPT_CHOISE'] != ''){
+	 if (isset($ESC_POST['DPT_CHOISE']) and $ESC_POST['DPT_CHOISE'] != ''){
 	 	
-	 	$array_rsx=escape_string(array_keys($_SESSION["ipdiscover"][$dpt[$_POST['DPT_CHOISE']]]));
+	 	$array_rsx=escape_string(array_keys($_SESSION["ipdiscover"][$dpt[$ESC_POST['DPT_CHOISE']]]));
 	 	
 	 	$list_rsx=implode("','",$array_rsx);
 	 	
-	 	//print_r($_SESSION["ipdiscover"][$dpt[$_POST['DPT_CHOISE']]]);
-	 	$tab_options['VALUE']['LBL_RSX']=$_SESSION["ipdiscover"][$dpt[$_POST['DPT_CHOISE']]];
+	 	//print_r($_SESSION["ipdiscover"][$dpt[$ESC_POST['DPT_CHOISE']]]);
+	 	$tab_options['VALUE']['LBL_RSX']=$_SESSION["ipdiscover"][$dpt[$ESC_POST['DPT_CHOISE']]];
 	// //	foreach ($_SESSION["ipdiscover"][]) ('".$list_rsx."')
 	 	$sql=" select * from (select inv.RSX as ID,
 					  inv.c as 'INVENTORIE',
@@ -203,7 +203,7 @@ require_once('require/function_ipdiscover.php');
 						and netid in  ('".$list_rsx."')";
 	$res_count = mysql_query($sql_count, $_SESSION["readServer"] );
 	$val_count = mysql_fetch_array( $res_count );
-	$strEnTete = $_SESSION["ipdiscover_id"]." ".$dpt[$_POST['DPT_CHOISE']]." <br>";
+	$strEnTete = $_SESSION["ipdiscover_id"]." ".$dpt[$ESC_POST['DPT_CHOISE']]." <br>";
 		$strEnTete .= "<br>(<font color='red'>".$val_count["total"]."</font> ".$l->g(219).")";
 		echo "<br><br>";	
 		printEnTete($strEnTete);

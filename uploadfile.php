@@ -103,17 +103,17 @@ if(is_uploaded_file($_FILES['userfile']['tmp_name']))
 	}	
 }
 
-if($_GET["o"]&&$_GET["n"]&&$_GET["v"]&&$_GET["supp"]==1)
+if($ESC_GET["o"]&&$ESC_GET["n"]&&$ESC_GET["v"]&&$ESC_GET["supp"]==1)
 {
-	if( strtolower($_GET["n"]) == "ocsagent.exe" ) {
+	if( strtolower($ESC_GET["n"]) == "ocsagent.exe" ) {
 		@mysql_query("DELETE FROM deploy WHERE name='ocsagent.exe'");
 	}
-	else if( strtolower($_GET["n"]) == "ocspackage.exe" ) {
+	else if( strtolower($ESC_GET["n"]) == "ocspackage.exe" ) {
 		@mysql_query("DELETE FROM deploy WHERE name='ocspackage.exe'");
 	}
 	else
 	{	
-		$suppQuery="DELETE FROM files WHERE name='".$_GET["n"]."' AND os='".$_GET["o"]."' AND version='".$_GET["v"]."'";
+		$suppQuery="DELETE FROM files WHERE name='".$ESC_GET["n"]."' AND os='".$ESC_GET["o"]."' AND version='".$ESC_GET["v"]."'";
 		@mysql_query($suppQuery, $_SESSION["writeServer"]);
 	}
 	echo "<br><b><center>".$l->g(171)."</center></b><br>";

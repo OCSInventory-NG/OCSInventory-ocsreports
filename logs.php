@@ -4,13 +4,13 @@
 	die("FORBIDDEN");
  //définition des onglets
 //$data_on['GUI_LOGS']="Logs de l'interface";
-$_POST['onglet'] == "";
+$ESC_POST['onglet'] == "";
 $form_name = "logs";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //onglet($data_on,$form_name,"onglet",2);
 echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td colspan=10></td></tr>";
 echo "<tr><td align=center>".$l->g(950)."</td><td align=center>".$l->g(951)."</td><td align=center>".$l->g(952)."</td><td align=center>".$l->g(953)."</td></tr>";
-if ($_POST['onglet'] == 'GUI_LOGS' or $_POST['onglet'] == ""){
+if ($ESC_POST['onglet'] == 'GUI_LOGS' or $ESC_POST['onglet'] == ""){
 //	if ($_SESSION['LOG_DIR'] == '')
 //	$Directory="";
 //	else

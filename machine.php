@@ -18,7 +18,7 @@ require('require/function_graphic.php');
 require_once('require/function_machine.php');
 
 //recherche des infos de la machine
-$item=info($_GET,$_POST['systemid']);
+$item=info($ESC_GET,$ESC_POST['systemid']);
 if (!is_object($item)){
 	echo "<center><B><font color=red size=4>".$item."</font></B></center>";
 	die();
@@ -99,8 +99,8 @@ if (file_exists($Directory."config.txt")){
 	}
 
 //par d�faut, on affiche les donn�es admininfo
-if (!isset($_GET['option'])){
-	$_GET['option']="cd_admininfo";
+if (!isset($ESC_GET['option'])){
+	$ESC_GET['option']="cd_admininfo";
 }
 $i=0;
 echo "<br><br><table width='90%' border=0 align='center'><tr align=center>";
@@ -147,7 +147,7 @@ while ($list_pluggins[$i]){
 		else
 			echo "cd_default_d.png";
 	}
-	elseif ($_GET['option'] == $list_pluggins[$i]){
+	elseif ($ESC_GET['option'] == $list_pluggins[$i]){
 		if (file_exists($Directory."/img/".$list_pluggins[$i]."_a.png"))
 			echo $list_pluggins[$i]."_a.png";
 		else
@@ -165,7 +165,7 @@ while ($list_pluggins[$i]){
  	$i++;	
 }
 echo "</tr></table><br><br>";
-if ($_GET['tout'] == 1){
+if ($ESC_GET['tout'] == 1){
 	$list_plugins_4_all=0;
 	while (isset($show_all[$list_plugins_4_all])){
 		include ($Directory."/".$show_all[$list_plugins_4_all]."/".$show_all[$list_plugins_4_all].".php");	
@@ -173,15 +173,15 @@ if ($_GET['tout'] == 1){
 	}
 	
 }else{
-	if (file_exists($Directory."/".$_GET['option']."/".$_GET['option'].".php"))
-		include ($Directory."/".$_GET['option']."/".$_GET['option'].".php");
+	if (file_exists($Directory."/".$ESC_GET['option']."/".$ESC_GET['option'].".php"))
+		include ($Directory."/".$ESC_GET['option']."/".$ESC_GET['option'].".php");
 }
 
 echo "<br><table align='center'> <tr><td width =50%>";
 echo "<a style=\"text-decoration:underline\" onClick=print()><img src='image/imprimer.png' title='".$l->g(214)."'></a></td>";
 
 
-if(!isset($_GET["tout"]))
+if(!isset($ESC_GET["tout"]))
 		echo"<td width=50%><a style=\"text-decoration:underline\" href=\"machine.php?systemid=".urlencode(stripslashes($systemid))."&tout=1\"><img width='60px' src='image/ttaff.png' title='".$l->g(215)."'></a></td>";
 		
 echo "</tr></table></body>";

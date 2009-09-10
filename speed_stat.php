@@ -24,7 +24,7 @@ download_enable d_e,download_available d_a
 where d.name='DOWNLOAD'
 and d_e.id=d.ivalue
 and d_a.fileid=d_e.fileid
-and d_e.fileid='".$_GET['stat']."'";
+and d_e.fileid='".$ESC_GET['stat']."'";
 $result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 $item = mysql_fetch_object($result);
 $total_mach=$item->c;
@@ -32,11 +32,11 @@ $total_mach=$item->c;
 $sql="select d.hardware_id as id,d.comments as date_valid from devices d,
 download_enable d_e,download_available d_a
 where d.name='DOWNLOAD' 
-and tvalue='".$_GET['ta']."' 
+and tvalue='".$ESC_GET['ta']."' 
 and comments is not null
 and d_e.id=d.ivalue
 and d_a.fileid=d_e.fileid
-and d_e.fileid='".$_GET['stat']."'";
+and d_e.fileid='".$ESC_GET['stat']."'";
 
 $result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 $nb_4_hour=array();

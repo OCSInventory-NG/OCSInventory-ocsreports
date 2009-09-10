@@ -1,7 +1,7 @@
 <?php
 	print_item_header($l->g(97));
-	if (!isset($_POST['SHOW']))
-	$_POST['SHOW'] = 'NOSHOW';
+	if (!isset($ESC_POST['SHOW']))
+	$ESC_POST['SHOW'] = 'NOSHOW';
 	$form_name="affich_monitors";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";

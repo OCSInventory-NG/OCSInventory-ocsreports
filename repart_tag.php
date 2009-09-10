@@ -1,7 +1,7 @@
 <?php
 //cas d'une suppression de machine
-if ($_POST['SUP_PROF'] != ''){	
-	deleteDid($_POST['SUP_PROF']);
+if ($ESC_POST['SUP_PROF'] != ''){	
+	deleteDid($ESC_POST['SUP_PROF']);
 	$tab_options['CACHE']='RESET';
 }
 

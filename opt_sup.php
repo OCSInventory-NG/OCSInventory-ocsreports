@@ -1,9 +1,9 @@
 <?php
 
-if ($_POST['SUP'] != '' and isset($_POST['SUP'])){
-	if ($_POST['CHOISE'] == 'SEL'){
-		$array_id=explode(',',$_GET['idchecked']);		
-	}elseif ($_POST['CHOISE'] == 'REQ' or !isset($select_choise)){
+if ($ESC_POST['SUP'] != '' and isset($ESC_POST['SUP'])){
+	if ($ESC_POST['CHOISE'] == 'SEL'){
+		$array_id=explode(',',$ESC_GET['idchecked']);		
+	}elseif ($ESC_POST['CHOISE'] == 'REQ' or !isset($select_choise)){
 		if (!is_array($_SESSION['ID_REQ']))
 		$array_id=explode(',',$_SESSION['ID_REQ']);	
 		else
@@ -29,7 +29,7 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''><d
 if (isset($select_choise)){
 echo $l->g(986)." ".$select_choise."";
 }
-if ($_POST['CHOISE'] != "" or !isset($select_choise)){
+if ($ESC_POST['CHOISE'] != "" or !isset($select_choise)){
 	echo "<br><br><input type='submit' value=\"".$l->g(122)."\" name='SUP'>";
 }
 echo "</div></form>";//<input type=submit value='Supprimer TOUTES les machines?' name='delete'>

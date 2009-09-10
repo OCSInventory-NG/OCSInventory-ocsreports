@@ -8,19 +8,19 @@ require_once('require/function_rules.php');
 if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
 	die("FORBIDDEN");
 //DEL RULE
-if ($_POST['SUP_PROF'] != ""){	
-	delete_rule($_POST['SUP_PROF']);
+if ($ESC_POST['SUP_PROF'] != ""){	
+	delete_rule($ESC_POST['SUP_PROF']);
 }
 //ADD new rule
-if ($_POST['ADD_RULE']){
-	add_rule($_POST['RULE_NAME'],$_POST);
+if ($ESC_POST['ADD_RULE']){
+	add_rule($ESC_POST['RULE_NAME'],$ESC_POST);
 }
 //modif rule
-if ($_POST['MODIF_RULE']){	
-	$name_exist=verify_name($_POST['RULE_NAME'],"and rule != ".$_POST['OLD_MODIF']);
+if ($ESC_POST['MODIF_RULE']){	
+	$name_exist=verify_name($ESC_POST['RULE_NAME'],"and rule != ".$ESC_POST['OLD_MODIF']);
 	if ($name_exist == 'NAME_NOT_EXIST'){
-		delete_rule($_POST['OLD_MODIF']);
-		add_rule($_POST['RULE_NAME'],$_POST,$_POST['OLD_MODIF']);
+		delete_rule($ESC_POST['OLD_MODIF']);
+		add_rule($ESC_POST['RULE_NAME'],$ESC_POST,$ESC_POST['OLD_MODIF']);
 		echo "<script>alert('".$l->g(711)."');</script>";	
 	}
 	else{
@@ -52,32 +52,32 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 		echo "<br>";
 	
 //Modif a rule => get this values 
-if ($_POST['MODIF'] != "" and $_POST['OLD_MODIF'] != $_POST['MODIF']){
+if ($ESC_POST['MODIF'] != "" and $ESC_POST['OLD_MODIF'] != $ESC_POST['MODIF']){
 	$sql="select priority,cfield,op,compto,rule_name 
 			from download_affect_rules 
-		 where rule='".$_POST['MODIF']."' 
+		 where rule='".$ESC_POST['MODIF']."' 
 			order by priority";
 	$res = mysql_query( $sql, $_SESSION["readServer"]);
 	$i=1;
 	while ($val = mysql_fetch_array( $res )){
-		$_POST['PRIORITE_'.$i]=$val['priority'];
-		$_POST['CFIELD_'.$i]=$val['cfield'];
-		$_POST['OP_'.$i]=$val['op'];
-		$_POST['COMPTO_'.$i]=$val['compto'];
-		$_POST['RULE_NAME']=$val['rule_name'];
+		$ESC_POST['PRIORITE_'.$i]=$val['priority'];
+		$ESC_POST['CFIELD_'.$i]=$val['cfield'];
+		$ESC_POST['OP_'.$i]=$val['op'];
+		$ESC_POST['COMPTO_'.$i]=$val['compto'];
+		$ESC_POST['RULE_NAME']=$val['rule_name'];
 		$i++;
 	}
-	$_POST['NUM_RULES']=$i-2;
+	$ESC_POST['NUM_RULES']=$i-2;
 }
 
 //new rule
-if ($_POST['NEW_RULE'] or $_POST['NUM_RULES'] or $_POST['MODIF'] != ""){
-	if ($_POST['MODIF'] != "")
-	$modif=$_POST['MODIF'];
+if ($ESC_POST['NEW_RULE'] or $ESC_POST['NUM_RULES'] or $ESC_POST['MODIF'] != ""){
+	if ($ESC_POST['MODIF'] != "")
+	$modif=$ESC_POST['MODIF'];
 	else
-	$modif=$_POST['OLD_MODIF'];
-	$numero=$_POST['NUM_RULES']+1;
-	$tab_nom=$l->g(674).show_modif($_POST['RULE_NAME'],"RULE_NAME","0");
+	$modif=$ESC_POST['OLD_MODIF'];
+	$numero=$ESC_POST['NUM_RULES']+1;
+	$tab_nom=$l->g(674).show_modif($ESC_POST['RULE_NAME'],"RULE_NAME","0");
 	$tab="<table align='center'>";
 	$i=1;
 	while($i<$numero+1){
@@ -92,7 +92,7 @@ if ($_POST['NEW_RULE'] or $_POST['NUM_RULES'] or $_POST['MODIF'] != ""){
 	echo $tab;
 	echo "</tr></table>";
 	echo "<a onclick='return pag(".$numero.",\"NUM_RULES\",\"rules\")'><font color=green>".$l->g(682)."</font></a>&nbsp<a onclick='return pag(\"RAZ\",\"RAZ\",\"rules\");'><font color=\"red\">".$l->g(113)."</font></a><br><br>";
-	if ($_POST['MODIF'] != "" or $_POST['OLD_MODIF'] != "")
+	if ($ESC_POST['MODIF'] != "" or $ESC_POST['OLD_MODIF'] != "")
 	echo "<input type='submit'  value='".$l->g(625)."' name='MODIF_RULE' onclick='return check();'>";	
 	else
 	echo "<input type='submit'  value='".$l->g(683)."' name='ADD_RULE' onclick='return check();'>";	

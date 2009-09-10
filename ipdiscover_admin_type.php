@@ -15,16 +15,16 @@ if (!($_SESSION["lvluser"] == SADMIN or $_SESSION['TRUE_LVL'] == SADMIN))
 echo "<br><br><br>";	
 echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
 
-if (isset($_POST['SUP_PROF']) and $_POST['SUP_PROF'] != ''){
-	$del_type=mysql_real_escape_string($_POST['SUP_PROF']);
+if (isset($ESC_POST['SUP_PROF']) and $ESC_POST['SUP_PROF'] != ''){
+	$del_type=mysql_real_escape_string($ESC_POST['SUP_PROF']);
 	$sql="delete from devicetype where id='".$del_type."'";
 	mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
 	$tab_options['CACHE']='RESET';	
 	
 }
 
-if (isset($_POST['Valid_modif_x'])){
-	$new_type=mysql_real_escape_string($_POST['TYPE_NAME']);
+if (isset($ESC_POST['Valid_modif_x'])){
+	$new_type=mysql_real_escape_string($ESC_POST['TYPE_NAME']);
 	if (trim($new_type) == ''){
 		$ERROR=$l->g(936);		
 	}else{
@@ -36,7 +36,7 @@ if (isset($_POST['Valid_modif_x'])){
 	}
 	if (isset($ERROR)){
 		echo "<font color=red><b>".$ERROR."</b></font>";
-		$_POST['ADD_TYPE']="VALID";
+		$ESC_POST['ADD_TYPE']="VALID";
 	}
 	else{
 		$sql="insert into devicetype (NAME) VALUES ('".$new_type."')";
@@ -49,14 +49,14 @@ if (isset($_POST['Valid_modif_x'])){
 
 
 
-if (isset($_POST['ADD_TYPE'])){
-	$tab_typ_champ[0]['DEFAULT_VALUE']=$_POST['TYPE_NAME'];
+if (isset($ESC_POST['ADD_TYPE'])){
+	$tab_typ_champ[0]['DEFAULT_VALUE']=$ESC_POST['TYPE_NAME'];
 	$tab_typ_champ[0]['INPUT_NAME']="TYPE_NAME";
 	$tab_typ_champ[0]['CONFIG']['SIZE']=60;
 	$tab_typ_champ[0]['CONFIG']['MAXLENGTH']=255;
 	$tab_typ_champ[0]['INPUT_TYPE']=0;
 	$tab_name[0]=$l->g(938).": ";
-	$tab_hidden['pcparpage']=$_POST["pcparpage"];
+	$tab_hidden['pcparpage']=$ESC_POST["pcparpage"];
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
 }else{
 
@@ -72,8 +72,8 @@ $list_fields= array('ID' => 'ID',
 //$list_fields['SUP']='ID';	
 $default_fields=$list_fields;
 $list_col_cant_del=$list_fields;
-if (!(isset($_POST["pcparpage"])))
-	 $_POST["pcparpage"]=5;
+if (!(isset($ESC_POST["pcparpage"])))
+	 $ESC_POST["pcparpage"]=5;
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 
 echo "<input type = submit value='".$l->g(307)."' name='ADD_TYPE'>";	

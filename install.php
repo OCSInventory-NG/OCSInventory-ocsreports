@@ -26,18 +26,18 @@ if( isset($fromAuto) && $fromAuto==true)
 echo "<center><br><font color='green'><b>Current installed version ".$valUpd["tvalue"]." is lower than this version (".GUI_VER.") automatic install launched</b></red><br></center>";
 
 /*
-if(!isset($_POST["name"])) {
+if(!isset($ESC_POST["name"])) {
 	if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
 		fclose($hnd);
 		require("dbconfig.inc.php");
-		$_POST["name"] = $_SESSION["COMPTE_BASE"];
-		$_POST["pass"] = $_SESSION["PSWD_BASE"];
-		$_POST["host"] = $_SESSION["SERVEUR_SQL"];
+		$ESC_POST["name"] = $_SESSION["COMPTE_BASE"];
+		$ESC_POST["pass"] = $_SESSION["PSWD_BASE"];
+		$ESC_POST["host"] = $_SESSION["SERVEUR_SQL"];
 	}
 	else {
-		$_POST["name"] = "root";
-		$_POST["pass"] = "";
-		$_POST["host"] = "localhost";
+		$ESC_POST["name"] = "root";
+		$ESC_POST["pass"] = "";
+		$ESC_POST["host"] = "localhost";
 	}
 	$firstAttempt=true;
 }*/ 
@@ -86,10 +86,10 @@ require_once ('fichierConf.class.php');
 
 $l = new language("french"); // on crée l'instance pour avoir les mots dans la langue choisie
 
-if( isset($_POST["name"])) {
-		if( (!$link=@mysql_connect($_POST["host"],$_POST["name"],$_POST["pass"]))) {
+if( isset($ESC_POST["name"])) {
+		if( (!$link=@mysql_connect($ESC_POST["host"],$ESC_POST["name"],$ESC_POST["pass"]))) {
 		$firstAttempt=false;
-		echo "<br><center><font color=red><b>ERROR: ".$l->g(249)." (host=".$_POST["host"]." name=".$_POST["name"]." pass=".$_POST["pass"].")<br>
+		echo "<br><center><font color=red><b>ERROR: ".$l->g(249)." (host=".$ESC_POST["host"]." name=".$ESC_POST["name"]." pass=".$ESC_POST["pass"].")<br>
 			Mysql error: ".mysql_error()."</b></font></center>";
 	}
 	else
@@ -139,7 +139,7 @@ if( ! $instOk ) {
 }
 
 
-if($firstAttempt==true && $_POST["pass"] == "") {
+if($firstAttempt==true && $ESC_POST["pass"] == "") {
 	echo "<br><center><font color=orange><b>WARNING: your the default root password is set on your mysql server. Change it asap. (using root password=blank)</b></font></center>";
 }
 
@@ -149,11 +149,11 @@ if(!mysql_query("set global max_allowed_packet=2097152;")) {
 
 mysql_select_db("ocsweb"); 
 
-if(isset($_POST["label"])) {
+if(isset($ESC_POST["label"])) {
 	
-	if($_POST["label"]!="") {
+	if($ESC_POST["label"]!="") {
 		@mysql_query( "DELETE FROM deploy WHERE NAME='label'");
-		$query = "INSERT INTO deploy VALUES('label','".$_POST["label"]."');";
+		$query = "INSERT INTO deploy VALUES('label','".$ESC_POST["label"]."');";
 		mysql_query($query) or die(mysql_error());
 		echo "<br><center><font color=green><b>Label added</b></font></center>";
 	}
@@ -162,7 +162,7 @@ if(isset($_POST["label"])) {
 	}
 }
 
-if($_POST["fin"]=="fin") {
+if($ESC_POST["fin"]=="fin") {
 	// Configuration done, so try with account from config file
 	if(!@mysql_connect($valServ,$valNme,$valPass)) {
 		if(mysql_errno()==0) {
@@ -170,7 +170,7 @@ if($_POST["fin"]=="fin") {
 			die();
 		}
 		else
-			echo "<br><center><font color=red><b>ERROR: MySql authentication problem. (using host=".$_POST["host"]." login=ocs pass=ocs).</b><br></font></center>";
+			echo "<br><center><font color=red><b>ERROR: MySql authentication problem. (using host=".$ESC_POST["host"]." login=ocs pass=ocs).</b><br></font></center>";
 		
 		echo "<br><center><font color=red><b>ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected</b></font></center>";
 		unlink("dbconfig.inc.php");
@@ -241,20 +241,20 @@ if ($keepuser) {
 	//echo "toto";
 	fwrite($ch,"<?php\n");
 	fwrite($ch,"define(\"DB_NAME\", \"ocsweb\");\n");
-	fwrite($ch,"\$_SESSION[\"SERVER_READ\"]=\"".$_POST["host"]."\";\n");
-	fwrite($ch,"\$_SESSION[\"SERVER_WRITE\"]=\"".$_POST["host"]."\";\n");				
-	fwrite($ch,"\$_SESSION[\"COMPTE_BASE\"]=\"".$_POST["name"]."\";\n");					
-	fwrite($ch,"\$_SESSION[\"PSWD_BASE\"]=\"".$_POST["pass"]."\";\n");					
+	fwrite($ch,"\$_SESSION[\"SERVER_READ\"]=\"".$ESC_POST["host"]."\";\n");
+	fwrite($ch,"\$_SESSION[\"SERVER_WRITE\"]=\"".$ESC_POST["host"]."\";\n");				
+	fwrite($ch,"\$_SESSION[\"COMPTE_BASE\"]=\"".$ESC_POST["name"]."\";\n");					
+	fwrite($ch,"\$_SESSION[\"PSWD_BASE\"]=\"".$ESC_POST["pass"]."\";\n");					
 	fwrite($ch,"?>");
 	fclose($ch);
-	echo "<br><center><font color=green><b>MySql config file successfully written (using ".$_POST["name"]." account)</b></font></center>";
+	echo "<br><center><font color=green><b>MySql config file successfully written (using ".$ESC_POST["name"]." account)</b></font></center>";
 
 } else {
 	// Use account created during installation
 	fwrite($ch,"<?php\n");
 	fwrite($ch,"define(\"DB_NAME\", \"ocsweb\");\n");
-	fwrite($ch,"\$_SESSION[\"SERVER_READ\"]=\"".$_POST["host"]."\";\n");
-	fwrite($ch,"\$_SESSION[\"SERVER_WRITE\"]=\"".$_POST["host"]."\";\n");				
+	fwrite($ch,"\$_SESSION[\"SERVER_READ\"]=\"".$ESC_POST["host"]."\";\n");
+	fwrite($ch,"\$_SESSION[\"SERVER_WRITE\"]=\"".$ESC_POST["host"]."\";\n");				
 	fwrite($ch,"\$_SESSION[\"COMPTE_BASE\"]=\"ocs\";\n");					
 	fwrite($ch,"\$_SESSION[\"PSWD_BASE\"]=\"ocs\";\n");					
 	fwrite($ch,"?>");
@@ -574,9 +574,9 @@ function printEnTeteInstall($ent) {
 (Leave empty if you don't want a popup to be shown on each agent launch).</font></b><br><br>
 	<input name='label' size='40'>
 	<input type='hidden' name='fin' value='fin'>
-	<input type='hidden' name='name' value='<?php echo $_POST["name"];?>'>
-	<input type='hidden' name='pass' value='<?php echo $_POST["pass"];?>'>
-	<input type='hidden' name='host' value='<?php echo $_POST["host"];?>'>
+	<input type='hidden' name='name' value='<?php echo $ESC_POST["name"];?>'>
+	<input type='hidden' name='pass' value='<?php echo $ESC_POST["pass"];?>'>
+	<input type='hidden' name='host' value='<?php echo $ESC_POST["host"];?>'>
 	<input type=submit>
 	
 </form></center>

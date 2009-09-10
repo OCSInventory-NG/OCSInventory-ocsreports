@@ -15,21 +15,21 @@ $header_html = 'NO';
 require_once("header.php");
 require('require/function_stats.php');
 if($_SESSION["lvluser"]==SADMIN){
-	if( isset($_GET["delsucc"]) ) {		
+	if( isset($ESC_GET["delsucc"]) ) {		
 		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue LIKE 'SUCCESS%' AND
-		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$_GET["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION["writeServer"]);
+		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$ESC_GET["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION["writeServer"]);
 	}
-	else if( isset($_GET["deltout"]) ) {		
+	else if( isset($ESC_GET["deltout"]) ) {		
 		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue IS NOT NULL AND  
-		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$_GET["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION["writeServer"]);
+		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$ESC_GET["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION["writeServer"]);
 	}
-	else if( isset($_GET["delnotif"]) ) {		
+	else if( isset($ESC_GET["delnotif"]) ) {		
 		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue IS NULL AND 
-		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$_GET["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION["writeServer"]);
+		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$ESC_GET["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION["writeServer"]);
 	}
 }
-if ($_POST['selOpt'] == "GROUP" or $_GET['option']=="GROUP"){
-$sql_group="select hardware_id from groups_cache where group_id=".$_GET['group'];
+if ($ESC_POST['selOpt'] == "GROUP" or $ESC_GET['option']=="GROUP"){
+$sql_group="select hardware_id from groups_cache where group_id=".$ESC_GET['group'];
 $res_group = mysql_query($sql_group, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 $machines_group="(";
 	while ($item_group = mysql_fetch_object($res_group)){
@@ -49,7 +49,7 @@ if ($_SESSION["mesmachines"] != ""){
 }
 $sqlStats="SELECT COUNT(id) as 'nb', tvalue as 'txt' 
 			FROM devices d, download_enable e 
-			WHERE e.fileid='".$_GET["stat"]."'
+			WHERE e.fileid='".$ESC_GET["stat"]."'
  				AND e.id=d.ivalue 
 				AND name='DOWNLOAD' 
 				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
@@ -97,7 +97,7 @@ if( ! function_exists( "imagefontwidth") ) {
 	echo "<br><center><font color=red><b>ERROR: GD for PHP is not properly installed.<br>Try uncommenting \";extension=php_gd2.dll\" (windows) by removing the semicolon in file php.ini, or try installing the php4-gd package.</b></font></center>";
 	die();
 }
-else if( isset($_GET["generatePic"]) ) {	
+else if( isset($ESC_GET["generatePic"]) ) {	
 	camembert($sort);
 }
 else {
@@ -113,7 +113,7 @@ else {
 	<?php 
 //	$ban_head='no';
 //	require_once("header.php");
-	$sqlStats="SELECT COUNT(DISTINCT HARDWARE_ID) as 'nb' FROM devices d, download_enable e WHERE e.fileid='".$_GET["stat"]."'
+	$sqlStats="SELECT COUNT(DISTINCT HARDWARE_ID) as 'nb' FROM devices d, download_enable e WHERE e.fileid='".$ESC_GET["stat"]."'
 	AND e.id=d.ivalue AND name='DOWNLOAD' AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') ";
 	if (isset($mesmachines))				
 	$sqlStats.= " AND hardware_id".$mesmachines;
@@ -122,29 +122,29 @@ else {
 	
 	$resStats = mysql_query($sqlStats, $_SESSION["readServer"]);
 	
-	$resName = mysql_query("SELECT name FROM download_available WHERE fileid='".$_GET["stat"]."'", $_SESSION["readServer"]);
+	$resName = mysql_query("SELECT name FROM download_available WHERE fileid='".$ESC_GET["stat"]."'", $_SESSION["readServer"]);
 	$valName = mysql_fetch_array( $resName );
 
 	$valStats = mysql_fetch_array( $resStats );
 	
 	echo "<body OnLoad='document.title=\"".urlencode($valName["name"])."\"'>";
-	printEnTete( $l->g(498)." <b>".$valName["name"]."</b> (".$l->g(296).": ".$_GET["stat"]." )");
-	echo "<br><center><img src='tele_stats.php?generatePic=1&stat=".$_GET["stat"]."&group=".$_GET["group"]."&option=".$_POST['selOpt']."'></center>";
+	printEnTete( $l->g(498)." <b>".$valName["name"]."</b> (".$l->g(296).": ".$ESC_GET["stat"]." )");
+	echo "<br><center><img src='tele_stats.php?generatePic=1&stat=".$ESC_GET["stat"]."&group=".$ESC_GET["group"]."&option=".$ESC_POST['selOpt']."'></center>";
 	if($_SESSION["lvluser"]==SADMIN){
 		echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
-		echo "<td width='33%' align='center'><a href='tele_stats.php?delsucc=1&stat=".$_GET["stat"]."'><b>".$l->g(483)."</b></a></td>";	
-		echo "<td width='33%' align='center'><a href='tele_stats.php?deltout=1&stat=".$_GET["stat"]."'><b>".$l->g(571)."</b></a></td>";	
-		echo "<td width='33%' align='center'><a href='tele_stats.php?delnotif=1&stat=".$_GET["stat"]."'><b>".$l->g(575)."</b></a></td>";
+		echo "<td width='33%' align='center'><a href='tele_stats.php?delsucc=1&stat=".$ESC_GET["stat"]."'><b>".$l->g(483)."</b></a></td>";	
+		echo "<td width='33%' align='center'><a href='tele_stats.php?deltout=1&stat=".$ESC_GET["stat"]."'><b>".$l->g(571)."</b></a></td>";	
+		echo "<td width='33%' align='center'><a href='tele_stats.php?delnotif=1&stat=".$ESC_GET["stat"]."'><b>".$l->g(575)."</b></a></td>";
 		echo "</tr></table><br><br>";
 	}
-	if ($_GET['group']){
+	if ($ESC_GET['group']){
 	echo "<form name='refresh' method=POST><div align=center>".$l->g(941)." <select name=selOpt OnChange='refresh.submit();'>
 				<option value='ALL'";
-	if ($_POST['selOpt'] == "ALL")
+	if ($ESC_POST['selOpt'] == "ALL")
 	echo " selected ";
 	echo ">".$l->g(940)."</option>
 				<option value='GROUP'";
-	if ($_POST['selOpt'] == "GROUP")
+	if ($ESC_POST['selOpt'] == "GROUP")
 	echo " selected ";
 	echo ">".$l->g(939)."</option></select>
 		</div></form>";
@@ -153,9 +153,9 @@ else {
 	<tr BGCOLOR='#C7D9F5'><td width='30px'>&nbsp;</td><td align='center'><b>".$l->g(81)."</b></td><td align='center'><b>".$l->g(55)."</b></td></tr>";
 	foreach( $legende as $leg ) {
 		echo "<tr><td bgcolor='#".$leg["color"]."'>&nbsp;</td><td>".$leg["name"]."</td><td>
-				<a href='index.php?".PAG_INDEX."=".$pages_refs['multi_search']."&prov=stat&id_pack=".$_GET["stat"]."&stat=".urlencode($leg["name"])."'>".$leg["count"]."</a>";
+				<a href='index.php?".PAG_INDEX."=".$pages_refs['multi_search']."&prov=stat&id_pack=".$ESC_GET["stat"]."&stat=".urlencode($leg["name"])."'>".$leg["count"]."</a>";
 				
-		echo "<a href='speed_stat.php?ta=".$leg["name"]."&stat=".$_GET["stat"]."'>&nbsp;stat</a>
+		echo "<a href='speed_stat.php?ta=".$leg["name"]."&stat=".$ESC_GET["stat"]."'>&nbsp;stat</a>
 			</td></tr>";
 	}
 	echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>".$l->g(87)."</b></td><td><b>".$valStats["nb"]."</b></td></tr>";

@@ -1,9 +1,9 @@
 <?php
 
-if ($_POST['LOCK'] != '' and isset($_POST['LOCK'])){
-	if ($_POST['CHOISE'] == 'SEL'){
-		$array_id=$_GET['idchecked'];		
-	}elseif ($_POST['CHOISE'] == 'REQ' or !isset($select_choise)){
+if ($ESC_POST['LOCK'] != '' and isset($ESC_POST['LOCK'])){
+	if ($ESC_POST['CHOISE'] == 'SEL'){
+		$array_id=$ESC_GET['idchecked'];		
+	}elseif ($ESC_POST['CHOISE'] == 'REQ' or !isset($select_choise)){
 		$array_id=implode(',',$_SESSION['ID_REQ']);		
 		
 	}
@@ -23,7 +23,7 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''><d
 if (isset($select_choise)){
 echo $l->g(977)." ".$select_choise."";
 }
-if ($_POST['CHOISE'] != "" or !isset($select_choise)){echo $rep;
+if ($ESC_POST['CHOISE'] != "" or !isset($select_choise)){echo $rep;
 	echo "<br><br><b>".$l->g(978)."</b>";
 	echo "<br><br>".$l->g(979);
 	echo "<br><br><input type='submit' value=\"Locker\" name='LOCK'>";

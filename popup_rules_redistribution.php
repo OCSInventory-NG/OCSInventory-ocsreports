@@ -52,12 +52,12 @@ while($item = mysql_fetch_object($result))
 echo "<form name='AFFECT_RULE' action='' method='POST' onSubmit=\"check();\">";
 echo "<br>
 <table align='center' width='95%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>
-	<tr><td colspan=20 align='center'><font color=red>".$l->g(667)." ".$_GET['paq_name']."</font></td></tr>
+	<tr><td colspan=20 align='center'><font color=red>".$l->g(667)." ".$ESC_GET['paq_name']."</font></td></tr>
 	<tr height='30px'> <td align='left'>".$l->g(668)." </td><td><select id='rule' name='rule' ><option value=''>".$l->g(32)."</option>".$list."</select></td></tr>
 	<tr height='30px'><td align=center><input type='submit' name='valid_server'></td><td><input type='reset' name='annul' value='".$l->g(113)."' onclick='self.close();'></td></tr>		
 </table>
 ";
-echo "<input type='hidden' name='GROUP_ID' value='".$_GET['GROUP_ID']."'>";
-echo "<input type='hidden' name='TIMESTAMP' value='".$_GET['timestamp']."'>";
+echo "<input type='hidden' name='GROUP_ID' value='".$ESC_GET['GROUP_ID']."'>";
+echo "<input type='hidden' name='TIMESTAMP' value='".$ESC_GET['timestamp']."'>";
 echo "</form>";
 ?>

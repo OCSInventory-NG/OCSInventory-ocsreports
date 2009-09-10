@@ -32,8 +32,8 @@ if ($_SESSION['MODE_LANGUAGE']=="ON"){
 	$tab_typ_champ[0]['RELOAD']=$form_language;
 	//$tab_typ_champ[0]['CONFIG']['JAVASCRIPT']="onclick='report_id();'";
 	$tab_name[0]="action :";
-	if (isset($_POST['ACTION']) and $_POST['ACTION'] != ''){
-		if ($_POST['ACTION'] != 'ADD'){
+	if (isset($ESC_POST['ACTION']) and $ESC_POST['ACTION'] != ''){
+		if ($ESC_POST['ACTION'] != 'ADD'){
 			$tab_typ_champ[1]['DEFAULT_VALUE']=$_SESSION['EDIT_LANGUAGE'];
 			$tab_typ_champ[1]['INPUT_NAME']="WORD";
 			$tab_typ_champ[1]['INPUT_TYPE']=2;
@@ -42,7 +42,7 @@ if ($_SESSION['MODE_LANGUAGE']=="ON"){
 			$function_javascript="report_lbl();";
 		}else
 		$function_javascript="";
-		$tab_typ_champ[2]['DEFAULT_VALUE']=$_POST['ID_WORD'];
+		$tab_typ_champ[2]['DEFAULT_VALUE']=$ESC_POST['ID_WORD'];
 		$tab_typ_champ[2]['INPUT_NAME']="ID_WORD";
 		$tab_typ_champ[2]['INPUT_TYPE']=0;
 		$tab_typ_champ[2]['CONFIG']['SIZE']=5;
@@ -50,8 +50,8 @@ if ($_SESSION['MODE_LANGUAGE']=="ON"){
 		$tab_typ_champ[2]['CONFIG']['JAVASCRIPT']="onclick='".$function_javascript."' onKeyPress='return scanTouche(event,/[0-9]/)' onkeydown='".$function_javascript."' onkeyup='".$function_javascript."' onblur='".$function_javascript."'";
 		$tab_name[2]="ID mot :";
 		
-		if($_POST['ACTION'] != 'DEL'){
-			$tab_typ_champ[3]['DEFAULT_VALUE']=$_POST['UPDATE'];
+		if($ESC_POST['ACTION'] != 'DEL'){
+			$tab_typ_champ[3]['DEFAULT_VALUE']=$ESC_POST['UPDATE'];
 			$tab_typ_champ[3]['INPUT_NAME']="UPDATE";
 			$tab_typ_champ[3]['INPUT_TYPE']=0;
 			$tab_typ_champ[3]['CONFIG']['SIZE']=60;
@@ -67,8 +67,8 @@ if ($_SESSION['MODE_LANGUAGE']=="ON"){
 if ($_SESSION['DEBUG'] == 'ON'){
 	echo "<hr/>";
 	echo "<div align=center>VAR POST</div>";
-	if (isset($_POST))
-	print_r_V2($_POST);
+	if (isset($ESC_POST))
+	print_r_V2($ESC_POST);
 	echo "<hr/>";
 	echo "<div align=center>VAR SESSION</div>";
 	foreach ($_SESSION as $key=>$value){
