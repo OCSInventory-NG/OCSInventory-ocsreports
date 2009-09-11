@@ -226,7 +226,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 			$champs.= "<option value=\"".$key."\"";
 			if ($protectedPost[$input_name] == $key )
 			$champs.= " selected";
-			$champs.= ">".$value."</option>";
+			$champs.= ">".utf8_encode($value)."</option>";
 		}
 		$champs.="</select>";
 		return $champs;
@@ -966,6 +966,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}else
 					$value_of_field=$donnees[$no_alias_value];
 				}
+				$value_of_field=utf8_encode($value_of_field);
 				$col[$i]=$key;
 				if ($protectedPost['sens'] == "ASC")
 					$sens="DESC";
