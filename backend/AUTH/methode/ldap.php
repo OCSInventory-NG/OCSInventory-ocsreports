@@ -20,8 +20,7 @@ function verif_pw_ldap($login, $pw) {
 } 
  
 function search_on_loginnt($login) { 
-	 $ds = ldap_connect(LDAP_SERVEUR,LDAP_PORT); 
-
+	 $ds = ldap_connection (); 
       $attributs = array("dn"); 
       $filtre = "(".LOGIN_FIELD."={$login})"; 
       $sr = @ldap_search($ds,DN_BASE_LDAP,$filtre,$attributs); 
@@ -34,9 +33,9 @@ function search_on_loginnt($login) {
  
  
 function ldap_test_pw($dn, $pw) { 
-    $ds = ldap_connect(LDAP_SERVEUR,LDAP_PORT); 
+    $ds = ldap_connection (); 
     if (!$ds) { // avec ldap 2.x.x, ldap_connect est tjrs ok. La connection n'est ouverte qu'au bind 
-      $r = false; 
+      	$r = false; 
     } else { 
       @ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION); 
       $r = @ldap_bind($ds, $dn, $pw); 
@@ -44,5 +43,18 @@ function ldap_test_pw($dn, $pw) {
       return $r; 
     } 
 } 
+
+function ldap_connection (){
+	$ds = ldap_connect(LDAP_SERVEUR,LDAP_PORT); 
+	if (ROOT_DN != ''){
+     	$b = @ldap_bind($ds, ROOT_DN, ROOT_PW);     	
+    }else //Anonymous bind
+     	$b = @ldap_bind($ds);
+    if (!$b)
+    	return false;
+   	else
+   		return $ds;
+}
+
 
 ?>
