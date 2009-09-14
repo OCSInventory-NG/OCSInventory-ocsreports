@@ -43,6 +43,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 						   $l->g(36) => "e.ssn",
 						   $l->g(65) => "e.smodel",
 						   $l->g(209) => "e.bversion",
+						   "AssetTag (BIOS)" => "e.assettag",
 						   $l->g(34) => "h.ipaddr",
 						   $l->g(557) => "h.userdomain");
 	$tab_options['FILTRE']=array_flip($list_fields);
