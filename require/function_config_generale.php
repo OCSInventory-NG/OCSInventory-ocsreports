@@ -340,12 +340,12 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 	//d�finition du poids des auto_duplicate_lvl
  	$poids['HOSTNAME']=1;
  	$poids['SERIAL']=2;
- 	$poids['MACADRESSE']=4;
+ 	$poids['MACADDRESS']=4;
  	$poids['MODEL']=8;	
  	//si on veut les cases coch�es par rapport � un chiffre
  	if ($entree_sortie == 1){
  		//gestion des poids pour connaitre les cases coch�es.
- 	//ex: si AUTO_DUPLICATE_LVL == 7 on a les cases HOSTNAME (de poids 1), SERIAL (de poids 2) et MACADRESSE (de poids 4) 
+ 	//ex: si AUTO_DUPLICATE_LVL == 7 on a les cases HOSTNAME (de poids 1), SERIAL (de poids 2) et MACADDRESS (de poids 4) 
  	//coch�es (1+2+4=7)
  		foreach ($poids as $k=>$v){
  			if ($value & $v)
@@ -511,7 +511,7 @@ function pagegroups($form_name){
 					'BORDERCOLOR'=>'#9894B5'));
 	ligne('LOGLEVEL',$l->g(416),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOGLEVEL']));
 	ligne('PROLOG_FREQ',$l->g(564),'input',array('END'=>$l->g(730).$sup1,'VALUE'=>$values['ivalue']['PROLOG_FREQ'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));	
-	ligne('AUTO_DUPLICATE_LVL',$l->g(427),'checkbox',array('HOSTNAME'=>'hostname','SERIAL'=>'Serial','MACADRESSE'=>'macaddress','MODEL'=>'model','CHECK'=>$check));
+	ligne('AUTO_DUPLICATE_LVL',$l->g(427),'checkbox',array('HOSTNAME'=>'hostname','SERIAL'=>'Serial','MACADDRESS'=>'macaddress','MODEL'=>'model','CHECK'=>$check));
 	ligne('SECURITY_LEVEL',$l->g(739),'input',array('VALUE'=>$values['ivalue']['SECURITY_LEVEL'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");	
 	ligne('LOCK_REUSE_TIME',$l->g(740),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['LOCK_REUSE_TIME'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));	
 	ligne('TRACE_DELETED',$l->g(415),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TRACE_DELETED']));
