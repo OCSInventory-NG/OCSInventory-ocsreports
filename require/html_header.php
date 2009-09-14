@@ -1,14 +1,15 @@
 <?php
 /*******************************************************AFFICHAGE HTML DU HEADER*******************************************/
 //require("fichierConf.class.php");
-
+header("Pragma: no-cache");
+header("Expires: -1");
+header("Cache-control: must-revalidate, post-check=0, pre-check=0");
+header("Cache-control: private", false);
+header("Content-type: text/html; charset=utf-8");
 ?>
 <html>
 <head>
 <TITLE>OCS Inventory</TITLE>
-<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-<META HTTP-EQUIV="Expires" CONTENT="-1">
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html"; charset="UTF-8";>
 <link rel="shortcut icon" href="favicon.ico" />
 <LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
 <script language='javascript' type='text/javascript' src='js/function.js'></script>

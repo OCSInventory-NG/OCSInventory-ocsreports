@@ -7,7 +7,7 @@ function connexion_local()
 	//connection OCS
 	$db_ocs = DB_NAME;
 	//lien sur le serveur OCS
-	$link_ocs=mysql_connect($_SESSION["SERVER_READ"],$_SESSION["COMPTE_BASE"],$_SESSION["PSWD_BASE"]);
+	$link_ocs=mysql_connect(SERVER_READ,COMPTE_BASE,PSWD_BASE);
 
 	if(!$link_ocs) {
 			echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error()."</b></font></center>";

@@ -127,10 +127,11 @@ function createGroup( $name,$description="", $staticOnly=false, $alreadyExists =
 }
 
 function dbconnect() {
+	//global SERVER_READ,COMPTE_BASE,PSWD_BASE,SERVER_WRITE;
 	$db = DB_NAME;
 	//echo $db;
 	//echo $_SESSION["SERVER_READ"];
-	$link=@mysql_connect($_SESSION["SERVER_READ"],$_SESSION["COMPTE_BASE"],$_SESSION["PSWD_BASE"]);
+	$link=@mysql_connect(SERVER_READ,COMPTE_BASE,PSWD_BASE);
 	if(!$link) {
 		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error()."</b></font></center>";
 		die();
@@ -140,7 +141,7 @@ function dbconnect() {
 		die();
 	}
 		
-	$link2=@mysql_connect($_SESSION["SERVER_WRITE"],$_SESSION["COMPTE_BASE"],$_SESSION["PSWD_BASE"]);
+	$link2=@mysql_connect(SERVER_WRITE,COMPTE_BASE,PSWD_BASE);
 	if(!$link2) {
 		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($link2)."</b></font></center>";
 		die();
