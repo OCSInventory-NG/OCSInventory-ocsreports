@@ -304,6 +304,8 @@ function update_default_value($POST){
 				$AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_2']=$POST['AUTO_DUPLICATE_LVL_2'];
 				$AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_3']=$POST['AUTO_DUPLICATE_LVL_3'];
 				$AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_4']=$POST['AUTO_DUPLICATE_LVL_4'];
+				$AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_5']=$POST['AUTO_DUPLICATE_LVL_5'];
+				$AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_6']=$POST['AUTO_DUPLICATE_LVL_6'];
 				$value=auto_duplicate_lvl_poids($AUTO_DUPLICATE,2);
 				$key='AUTO_DUPLICATE_LVL';
 		}					
@@ -342,6 +344,8 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
  	$poids['SERIAL']=2;
  	$poids['MACADRESSE']=4;
  	$poids['MODEL']=8;	
+ 	$poids['UUID']=16;	
+ 	$poids['ASSETTAG']=32;
  	//si on veut les cases coch�es par rapport � un chiffre
  	if ($entree_sortie == 1){
  		//gestion des poids pour connaitre les cases coch�es.
@@ -511,7 +515,15 @@ function pagegroups($form_name){
 					'BORDERCOLOR'=>'#9894B5'));
 	ligne('LOGLEVEL',$l->g(416),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOGLEVEL']));
 	ligne('PROLOG_FREQ',$l->g(564),'input',array('END'=>$l->g(730).$sup1,'VALUE'=>$values['ivalue']['PROLOG_FREQ'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));	
-	ligne('AUTO_DUPLICATE_LVL',$l->g(427),'checkbox',array('HOSTNAME'=>'hostname','SERIAL'=>'Serial','MACADRESSE'=>'macaddress','MODEL'=>'model','CHECK'=>$check));
+    ligne('AUTO_DUPLICATE_LVL',$l->g(427),'checkbox',array(
+        'HOSTNAME'=>'hostname',
+        'SERIAL'=>'Serial',
+        'MACADRESSE'=>'macaddress',
+        'MODEL'=>'model',
+        'UUID'=>'uuid',
+        'ASSETTAG'=>'AssetTag',
+        'CHECK'=>$check,
+    ));
 	ligne('SECURITY_LEVEL',$l->g(739),'input',array('VALUE'=>$values['ivalue']['SECURITY_LEVEL'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");	
 	ligne('LOCK_REUSE_TIME',$l->g(740),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['LOCK_REUSE_TIME'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));	
 	ligne('TRACE_DELETED',$l->g(415),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TRACE_DELETED']));

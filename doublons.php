@@ -157,6 +157,7 @@ foreach ($count_id as $lbl=>$count_value){
 		case "hostname_serial": echo $l->g(193); break ;
 		case "hostname_macaddress": echo $l->g(194); break ;
 		case "macaddress_serial": echo $l->g(195); break ;
+		case "assettag": echo "AssetTag"; break ;
 		case "hostname": echo $l->g(196); break ;
 		case "ssn": echo $l->g(197); break ;
 		case "macaddress": echo $l->g(198); break ;
@@ -179,12 +180,13 @@ if ($protectedPost['detail'] != ''){
 	//if ($protectedPost['tri2'] == "macaddr")
 	
 	$_SESSION['SQL_DATA_FIXE'][$table_name]['macaddr']="select HARDWARE_ID,networks.macaddr from networks where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
-	$_SESSION['SQL_DATA_FIXE'][$table_name]['serial']="select HARDWARE_ID,bios.SSN as serial from bios where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
+	$_SESSION['SQL_DATA_FIXE'][$table_name]['serial']="select HARDWARE_ID,bios.SSN as serial, bios.assettag as assettag from bios where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
 
 	//liste des champs du tableau des doublons
 	$list_fields= array(TAG_LBL=>'a.TAG',
 						'macaddr'=>'networks.macaddr',
 						'serial'=>'bios.SSN',
+						'assettag'=>'bios.assettag',
 //						$l->g(36)=>'b.ssn',
 						$l->g(23).": id"=>'h.ID',
 						$l->g(23).": ".$l->g(46)=>'h.LASTDATE',
@@ -229,7 +231,7 @@ if ($protectedPost['detail'] != ''){
 	if ($tab_id_mes_machines != ""){
 		$queryDetails .= "";
 	}
-	$tab_options['FILTRE']=array('NAME'=>'Nom','b.ssn'=>'Num�ro de s�rie','n.macaddr'=>'Adresse MAC');
+	$tab_options['FILTRE']=array('NAME'=>'Nom','b.ssn'=>'Num�ro de s�rie','n.macaddr'=>'Adresse MAC', 'b.assettag'=>'AssetTag');
 
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,'95',$tab_options);
 	echo "<br><input type='submit' value='".$l->g(177)."' name='FUSION'>";
