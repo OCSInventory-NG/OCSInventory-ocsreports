@@ -1,7 +1,7 @@
 <?php
 define("DB_NAME", "ocsweb");
-$_SESSION["SERVER_READ"]="localhost";
-$_SESSION["SERVER_WRITE"]="localhost";
-$_SESSION["COMPTE_BASE"]="ocs";
-$_SESSION["PSWD_BASE"]="ocs";
+define("SERVER_READ","localhost");
+define("SERVER_WRITE","localhost");
+define("COMPTE_BASE","ocs");
+define("PSWD_BASE","ocs");
 ?>
