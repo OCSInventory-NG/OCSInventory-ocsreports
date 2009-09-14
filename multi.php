@@ -677,12 +677,13 @@ if ($list_id != "")	{
 	//$tab_options['TRI']['SIGNED']['a.TAG']="a.TAG";
 
 	//choix des fonctionnalit�es pour les utilisateurs 
-	$list_fonct["image/groups_search.png"]="Groupes";
-	$list_fonct["image/sup_search.png"]="Supprimer";
-	$list_fonct["image/cadena_ferme.png"]="Lock du r�sultat";
+	$list_fonct["image/groups_search.png"]=$l->g(583);
+	$list_fonct["image/sup_search.png"]=$l->g(122);
+	$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
+	$list_fonct["image/mass_affect.png"]=$l->g(430);		
 	if ($_SESSION["lvluser"] == SADMIN){
-		$list_fonct["image/config_search.png"]="Configuration personnalis�e";
-		$list_fonct["image/tele_search.png"]="t�l�d�ployer";
+		$list_fonct["image/config_search.png"]=$l->g(107);
+		$list_fonct["image/tele_search.png"]=$l->g(428);
 	}
 	//activation des LOGS	
 	$tab_options['LOGS']='SEARCH_RESULT';

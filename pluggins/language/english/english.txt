@@ -910,7 +910,10 @@
 1013 MAINTENANCE
 1014 Switch to
 1015 User mode
-
+1016 Login ROOT
+1017 Password ROOT
+1018 (Don't write anything if you want use anonymous conexion)
+1019 Lock result
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]

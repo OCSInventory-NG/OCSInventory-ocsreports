@@ -1,35 +1,3 @@
-<script language=javascript>
-		
-		function convertToUpper(v_string){
-         v_string.value=v_string.value.toUpperCase();
-		}
-		
-		function codeTouche(evenement) {
-        for (prop in evenement) {
-                if(prop == 'which') return(evenement.which);
-        }
-        return(evenement.keyCode);
-        }
-		
-		function pressePapierNS6(evenement,touche)
-		{
-        var rePressePapierNS = /[cvxz]/i;
-
-        for (prop in evenement) if (prop == 'ctrlKey') isModifiers = true;
-        if (isModifiers) return evenement.ctrlKey && rePressePapierNS.test(touche);
-        else return false;
-		}
-			
-		function scanTouche(evenement,exReguliere) {
-        var reCarSpeciaux = /[\x00\x08\x0D\x03\x16\x18\x1A]/;
-        var reCarValides = exReguliere;
-        var codeDecimal  = codeTouche(evenement);
-        var car = String.fromCharCode(codeDecimal);
-        var autorisation = reCarValides.test(car) || reCarSpeciaux.test(car) || pressePapierNS6(evenement,car);
-        var toto = autorisation;
-        return autorisation;
-        }		       
-</script>
 <?php 
 	$list_fields=array();
 	if (!isset($protectedPost['SHOW']))
@@ -54,10 +22,10 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 		if ($protectedPost['FIELD_FORMAT'] == "date")
 		$sql.= dateToMysql($protectedPost['NEW_VALUE'])."'";
 		else
-		$sql.= xml_encode($protectedPost['NEW_VALUE'])."'";
+		$sql.= $protectedPost['NEW_VALUE']."'";
 		$sql.=" where hardware_id=".$systemid; 
 		mysql_query($sql, $_SESSION["writeServer"]);
-		//regénération du cache
+		//regï¿½nï¿½ration du cache
 		$tab_options['CACHE']='RESET';
 	}
 	

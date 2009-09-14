@@ -226,7 +226,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 			$champs.= "<option value=\"".$key."\"";
 			if ($protectedPost[$input_name] == $key )
 			$champs.= " selected";
-			$champs.= ">".utf8_encode($value)."</option>";
+			$champs.= ">".$value."</option>";
 		}
 		$champs.="</select>";
 		return $champs;

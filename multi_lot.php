@@ -33,18 +33,21 @@ if ($protectedGet['origine']!= "mach" and $protectedGet['origine']!= "group"){
 $list_id=$protectedGet['idchecked'];
 echo "</b></font>";
 if ($list_id != ""){
-if (strpos($protectedGet['img'], "config_search.png"))
-include ("opt_param.php");
-if (strpos($protectedGet['img'], "groups_search.png"))
-include ("opt_groups.php");
-if (strpos($protectedGet['img'], "tele_search.png"))
-include ("opt_pack.php");
-if (strpos($protectedGet['img'], "sup_search.png"))
-include ("opt_sup.php");
-if (strpos($protectedGet['img'], "cadena_ferme.png")){
-include ("opt_lock.php");
-}
+	if (strpos($protectedGet['img'], "config_search.png"))
+		include ("opt_param.php");
+	elseif (strpos($protectedGet['img'], "groups_search.png"))
+		 include ("opt_groups.php");
+ 	elseif (strpos($protectedGet['img'], "tele_search.png"))
+ 		 include ("opt_pack.php");
+ 	elseif (strpos($protectedGet['img'], "sup_search.png"))
+ 		 include ("opt_sup.php");
+ 	elseif (strpos($protectedGet['img'], "cadena_ferme.png"))
+ 		 include ("opt_lock.php");
+ 	elseif(strpos($protectedGet['img'], "mass_affect.png"))
+ 		 include ("opt_tag.php");
+ 	else
+ 		return false;
 }else
-echo "<br><br><b><font color=red size=4>".$l->g(954)."</font></b>";
+	echo "<br><br><b><font color=red size=4>".$l->g(954)."</font></b>";
 
 ?>
