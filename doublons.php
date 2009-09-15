@@ -69,7 +69,7 @@ $order[3] = "n1.macaddr,b.ssn";
 
 // asset tag seul
 $from[7] = "hardware h2, bios b2";
-$where[7] = "$whereBase AND b2.hardware_id <> b.hardware_id AND b2.hardware_id = h2.id AND b2.assettag = b.assettag ";
+$where[7] = "$whereBase AND b2.hardware_id <> b.hardware_id AND b2.hardware_id = h2.id AND b2.assettag = b.assettag AND b.assettag <> '' AND b.assettag <> NULL ";
 $group[7] = "h.id";
 $order[7] = "b.assettag";
 
