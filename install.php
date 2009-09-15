@@ -84,7 +84,7 @@ greater than $MaxAvail.<br>You must raise both post_max_size and upload_max_file
 
 require_once ('fichierConf.class.php');
 
-$l = new language("french"); // on crée l'instance pour avoir les mots dans la langue choisie
+$l = new language("french"); // on crï¿½e l'instance pour avoir les mots dans la langue choisie
 
 if( isset($_POST["name"])) {
 		if( (!$link=@mysql_connect($_POST["host"],$_POST["name"],$_POST["pass"]))) {
@@ -241,10 +241,10 @@ if ($keepuser) {
 	//echo "toto";
 	fwrite($ch,"<?php\n");
 	fwrite($ch,"define(\"DB_NAME\", \"ocsweb\");\n");
-	fwrite($ch,"\define(\"SERVER_READ\",\"".$_POST["host"]."\");\n");
-	fwrite($ch,"\define(\"SERVER_WRITE\",\"".$_POST["host"]."\");\n");				
-	fwrite($ch,"\define(\"COMPTE_BASE\",\"".$_POST["name"]."\");\n");					
-	fwrite($ch,"\define(\"PSWD_BASE\",\"".$_POST["pass"]."\");\n");					
+	fwrite($ch,"define(\"SERVER_READ\",\"".$_POST["host"]."\");\n");
+	fwrite($ch,"define(\"SERVER_WRITE\",\"".$_POST["host"]."\");\n");				
+	fwrite($ch,"define(\"COMPTE_BASE\",\"".$_POST["name"]."\");\n");					
+	fwrite($ch,"define(\"PSWD_BASE\",\"".$_POST["pass"]."\");\n");					
 	fwrite($ch,"?>");
 	fclose($ch);
 	echo "<br><center><font color=green><b>MySql config file successfully written (using ".$_POST["name"]." account)</b></font></center>";
@@ -253,10 +253,10 @@ if ($keepuser) {
 	// Use account created during installation
 	fwrite($ch,"<?php\n");
 	fwrite($ch,"define(\"DB_NAME\", \"ocsweb\");\n");
-	fwrite($ch,"\define(\"SERVER_READ\",\"".$_POST["host"]."\");\n");
-	fwrite($ch,"\define(\"SERVER_WRITE\"],\"".$_POST["host"]."\");\n");				
-	fwrite($ch,"\define(\"COMPTE_BASE\"],\"ocs\");\n");					
-	fwrite($ch,"\define(\"PSWD_BASE\",\"ocs\");\n");					
+	fwrite($ch,"define(\"SERVER_READ\",\"".$_POST["host"]."\");\n");
+	fwrite($ch,"define(\"SERVER_WRITE\"],\"".$_POST["host"]."\");\n");				
+	fwrite($ch,"define(\"COMPTE_BASE\"],\"ocs\");\n");					
+	fwrite($ch,"define(\"PSWD_BASE\",\"ocs\");\n");					
 	fwrite($ch,"?>");
 	fclose($ch);
 	echo "<br><center><font color=green><b>MySql config file successfully written (using new ocs account)</b></font></center>";
