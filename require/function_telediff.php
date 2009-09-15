@@ -10,7 +10,7 @@ function javascript_pack(){
  echo "<script language='javascript'>
 	function time_deploy(name,name_value,other_name,other_value){
 		var tps_cycle=".$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY']*$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'].";
-		var nb_frag_by_cycle=".floor($_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$protectedPost['PRIORITY']).";
+		var nb_frag_by_cycle=".($protectedPost['PRIORITY'] != 0 ? floor($_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$protectedPost['PRIORITY']): $_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']).";
 		if (name == 'tailleFrag'){
 			var taille=name_value;
 			var nb_frag=other_value;
@@ -143,7 +143,7 @@ function champ_select_block($name,$input_name,$input_cache)
  function active_serv($list_id,$packid,$id_rule){
  	global $l;
  	require_once('function_server.php');
- 	//recuperation des conditions de la règle
+ 	//recuperation des conditions de la rï¿½gle
 	$sql="select PRIORITY,CFIELD,OP,COMPTO,SERV_VALUE from download_affect_rules where rule=".$id_rule." order by PRIORITY";
 	//echo $sql;
 	$res_rules = mysql_query( $sql, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));
@@ -238,15 +238,15 @@ function activ_pack($fileid,$https_server,$file_serv){
  
 function activ_pack_server($fileid,$https_server,$id_server_group){
 	global $protectedPost;
-		//recherche de la liste des machines qui ont déjà ce paquet
+		//recherche de la liste des machines qui ont dï¿½jï¿½ ce paquet
 		$sqlDoub="select SERVER_ID from download_enable where FILEID= ".$fileid;
 		$resDoub = mysql_query( $sqlDoub, $_SESSION["readServer"] );	
-		//création de la liste pour les exclure de la requete
+		//crï¿½ation de la liste pour les exclure de la requete
 		while ($valDoub = mysql_fetch_array( $resDoub )){
 			if ($valDoub['SERVER_ID'] != "")
 			$listDoub[]=$valDoub['SERVER_ID'];	
 		}
-		//si la liste est non null on crée la partie de la requete manquante
+		//si la liste est non null on crï¿½e la partie de la requete manquante
 		if (isset($listDoub)){
 		$listDoub = " AND HARDWARE_ID not in (".implode(',',$listDoub).")";
 		}
@@ -276,7 +276,7 @@ function del_pack($fileid){
 	while($valEnable = mysql_fetch_array( $resEnable ) ) {
 		$list_id[]=$valEnable["id"];
 	}
-	//suppression dans DEVICES des machines qui ont ce paquet affecté
+	//suppression dans DEVICES des machines qui ont ce paquet affectï¿½
 	if ($list_id != ""){
 		$reqDelDevices = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue in (".implode(',',$list_id).")";
 		@mysql_query($reqDelDevices, $_SESSION["writeServer"]) or die(mysql_error());
@@ -285,10 +285,10 @@ function del_pack($fileid){
 	$reqDelEnable = "DELETE FROM download_enable WHERE FILEID='".$fileid."'";
 	@mysql_query($reqDelEnable, $_SESSION["writeServer"]) or die(mysql_error());
 
-	//suppression des détails de ce paquet
+	//suppression des dï¿½tails de ce paquet
 	$reqDelAvailable = "DELETE FROM download_available WHERE FILEID='".$fileid."'";
 	@mysql_query($reqDelAvailable, $_SESSION["writeServer"]) or die(mysql_error());
-	//recherche du répertoire de création des paquets
+	//recherche du rï¿½pertoire de crï¿½ation des paquets
 	$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
 	$res_document_root = mysql_query( $sql_document_root, $_SESSION["readServer"] );
 	$val_document_root = mysql_fetch_array( $res_document_root );
@@ -333,7 +333,7 @@ function recursive_remove_directory($directory, $empty=FALSE) {
 
 function create_pack($sql_details,$info_details){
 	global $l;
-	//récupération du fichier temporaire
+	//rï¿½cupï¿½ration du fichier temporaire
 	$fname = $sql_details['document_root'].$sql_details['timestamp']."/tmp";
 	//fragmentation du paquet
 	if( $size = @filesize( $fname )) {
@@ -386,7 +386,7 @@ function create_pack($sql_details,$info_details){
 		fwrite( $handinfo, $info );
 		fclose( $handinfo );
 		
-		//suppression du paquet qui aurait le même id
+		//suppression du paquet qui aurait le mï¿½me id
 		mysql_query( "DELETE FROM download_available WHERE FILEID='".$sql_details['timestamp']."'", $_SESSION["writeServer"]);
 		//insertion du nouveau paquet
 		$req = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT) VALUES
@@ -436,23 +436,23 @@ function tps_estimated($val_details)
 	looking4config();
 	if ($val_details['priority'] == 0)
 	$val_details['priority']=1;
-	//durée complète d'un cycle en seconde
+	//durï¿½e complï¿½te d'un cycle en seconde
 	$tps_cycle=$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY']*$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'];
-	//nbre de téléchargement de fragment par cycle
+	//nbre de tï¿½lï¿½chargement de fragment par cycle
 	$nb_frag_by_cycle=floor($_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$val_details['priority']);
-	//nombre de cycles necessaires pour le téléchargement complet
+	//nombre de cycles necessaires pour le tï¿½lï¿½chargement complet
 	$nb_cycle_for_download=$val_details['fragments']/$nb_frag_by_cycle;
 	//temps dans le cycle
 	$tps_cycle_for_download=$nb_cycle_for_download*$tps_cycle;
 	//temps entre chaque fragment pour tous les cycles
 	$tps_frag_latency=($nb_frag_by_cycle*$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_FRAG_LATENCY'])*$nb_cycle_for_download;
-	//temps entre chaque période
+	//temps entre chaque pï¿½riode
 	$tps_period_latency=$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LATENCY']*$nb_cycle_for_download;
-	//ajout de la vitesse de téléchargement
+	//ajout de la vitesse de tï¿½lï¿½chargement
 	$download_speed=25000;
 	$tps_download_speed=$val_details['size']/$download_speed;
 	
-	//temps total de téléchargement:
+	//temps total de tï¿½lï¿½chargement:
 	$tps_total=$tps_cycle_for_download
 				+$tps_frag_latency
 				+$tps_period_latency
@@ -462,7 +462,7 @@ function tps_estimated($val_details)
 	$tps_total-=$heure*3600;
 	$minutes=floor($tps_total/60);
 	$tps_total-=$minutes*60;
-	//<br><br>Temps approximatif de télédéploiement :<br><font color=red>
+	//<br><br>Temps approximatif de tï¿½lï¿½dï¿½ploiement :<br><font color=red>
 	$tps= $heure."h ".$minutes."min ";
 	if ($heure == 0 and $minutes == 0)
 	$tps.=floor($tps_total)." ".$l->g(511);
