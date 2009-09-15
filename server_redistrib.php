@@ -130,10 +130,7 @@ if (isset($systemid))
 		$tab_name[2]=$l->g(648).": ";
 		$tab_typ_champ[1]['DEFAULT_VALUE']=substr($data2[$protectedPost['modif']]['URL'],7);
 		$tab_typ_champ[1]['COMMENT_BEFORE']="<b>http://</b>";
-		$tab_typ_champ[1]['COMMENT_BEHING']="<small>".$l->g(691)
-		//GEND
-		.' et $TRUEIP$</small>';
-		//FGEND
+		$tab_typ_champ[1]['COMMENT_BEHING']="<small>".$l->g(691)."</small>";
 		$tab_typ_champ[1]['INPUT_NAME']="URL";
 		$tab_typ_champ[1]['INPUT_TYPE']=0;
 		$tab_typ_champ[2]['DEFAULT_VALUE']=$data2[$protectedPost['modif']]['REP_STORE'];
