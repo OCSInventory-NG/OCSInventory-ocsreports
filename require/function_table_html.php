@@ -426,8 +426,8 @@ function show_page($valCount,$form_name){
 function onglet($def_onglets,$form_name,$post_name,$ligne)
 {
 	global $protectedPost;
-	$protectedPost['onglet_soft']=stripslashes($protectedPost['onglet_soft']);
-	$protectedPost['old_onglet_soft']=stripslashes($protectedPost['old_onglet_soft']);
+/*	$protectedPost['onglet_soft']=stripslashes($protectedPost['onglet_soft']);
+	$protectedPost['old_onglet_soft']=stripslashes($protectedPost['old_onglet_soft']);*/
 	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
 	$protectedPost['page']=0;
 	}
@@ -473,7 +473,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 			}
 		}
 	
-	  	echo "><a OnClick='pag(\"".mysql_escape_string($key)."\",\"onglet\",\"".$form_name."\")'>".xml_decode($value)."</a></li>";
+	  	echo "><a OnClick='pag(\"".mysql_escape_string($key)."\",\"".$post_name."\",\"".$form_name."\")'>".xml_decode($value)."</a></li>";
 	  $i++;	
 	  }	
 	echo "</ul>
