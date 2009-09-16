@@ -1,5 +1,6 @@
 <?php
 function desactive_mach_serv($list_id,$packid){
+	global $l;
 	$id_pack=found_id_pack_serv($packid);
 	$sql_desactive="delete from devices where hardware_id in (".$list_id.") and name='DOWNLOAD' and IVALUE in (".implode(',',$id_pack).")";
 	$res_active = mysql_query($sql_desactive, $_SESSION["writeServer"]) or die(mysql_error()); 	
@@ -23,9 +24,10 @@ function desactive_mach_serv($list_id,$packid){
 
 
 //fonction qui permet de savoir 
-//le nombre de serveur déjà dans un groupe
+//le nombre de serveur dï¿½jï¿½ dans un groupe
 //et dans lesquels ils se trouvent
 function exist_server($list_id){
+	global $l;
 	if (is_array($list_id))
 	$list_id=implode(",", $list_id);
 	
@@ -37,7 +39,7 @@ function exist_server($list_id){
 	$res= mysql_query( $sql, $_SESSION["readServer"]);
 	$msg= "";
 	while( $val = mysql_fetch_array( $res ) ){
-		$msg.= $val['c']." machine(s) sont déjà présentes dans le groupe de serveur ".$val['name']."<br>";
+		$msg.= $val['c']." machine(s) sont dï¿½jï¿½ prï¿½sentes dans le groupe de serveur ".$val['name']."<br>";
 	}
 	if ($msg != ""){
 	 echo "<br><div align=center><font color=RED size=3><b>".$l->g(877)." <br>".$msg." ".$l->g(878)."</b></font></div><br>";	
@@ -192,7 +194,7 @@ function insert_with_rules_opt($ID_HARDWARE,$cfield,$op,$compto,$serv_value){
 	$sql_infoServ="select server_id,id from download_enable where group_id=".$protectedPost['GROUP_ID']." 
 								and fileid=".$protectedPost['TIMESTAMP'];
 	$res_infoServ = mysql_query( $sql_infoServ, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));	
-	//création de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
+	//crï¿½ation de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
 	while( $val_infoServ = mysql_fetch_array($res_infoServ)) {
 		$list_serverId[$val_infoServ['server_id']] = $val_infoServ['server_id'];
 		$tab_Server[$val_infoServ['server_id']]=$val_infoServ['id'];
@@ -266,10 +268,10 @@ function insert_with_rules_opt($ID_HARDWARE,$cfield,$op,$compto,$serv_value){
 				AND d.HARDWARE_ID in (".implode(',',$verif_idMach).") and d.name='DOWNLOAD'";
 		$res_verif = mysql_query( $sql_verif, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));
 		$nb_exist=0;
-		//recupération des machines en doublon
+		//recupï¿½ration des machines en doublon
 		while( $val_verif = mysql_fetch_array($res_verif)) {	
 	
-			//création du tableau de doublon
+			//crï¿½ation du tableau de doublon
 			$exist[$nb_exist]=$val_verif['hardware_id'];
 			
 			//suppression des doublons
@@ -299,7 +301,7 @@ function insert_with_rules_opt($ID_HARDWARE,$cfield,$op,$compto,$serv_value){
 	
 	
 }
-//affectation de paquets avec l'application des règles de serveur de redistribution
+//affectation de paquets avec l'application des rï¿½gles de serveur de redistribution
 //$rule_detail=array($cfield[$key],$op[$key],$compto[$key]);
 function insert_with_rules($list_id,$rule_detail,$fileid){
 	if (is_array($list_id))
@@ -315,7 +317,7 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 								and fileid=".$fileid;
 	//echo $sql_infoServ;
 	$res_infoServ = mysql_query( $sql_infoServ, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));	
-	//création de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
+	//crï¿½ation de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
 	while( $val_infoServ = mysql_fetch_array($res_infoServ)) {
 		$list_serverId[$val_infoServ['server_id']] = $val_infoServ['server_id'];
 		$tab_Server[$val_infoServ['server_id']]=$val_infoServ['id'];
@@ -391,10 +393,10 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 				AND d.HARDWARE_ID in (".implode(',',$verif_idMach).") and d.name='DOWNLOAD'";
 		$res_verif = mysql_query( $sql_verif, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));
 		//$nb_exist=0;
-		//recupération des machines en doublon
+		//recupï¿½ration des machines en doublon
 		while( $val_verif = mysql_fetch_array($res_verif)) {	
 	
-			//création du tableau de doublon
+			//crï¿½ation du tableau de doublon
 			$exist[$val_verif['hardware_id']]=$val_verif['hardware_id'];
 			
 			//suppression des doublons
