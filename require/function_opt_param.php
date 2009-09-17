@@ -76,7 +76,12 @@ function recharge(modif,origine){
 		
 	}
 	else {
-		echo $td3.$l->g(488)."(".$default_value." ".$end.")</td>";
+	    if($end !=''){
+		echo $td3.$l->g(488)." (".$default_value." ".$end.")</td>";
+	    }
+	    else {
+		echo $td3.$l->g(488)." (".$default_value.")</td>";
+	    }
 	}
 	echo "</tr>";
 }

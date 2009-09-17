@@ -77,7 +77,6 @@
 133 Inventaire
 134 Ajout d'un nouveau fichier dans la base
 135 Attention, vous allez supprimer ce fichier définitivement !
-136 Télécharger
 137 Fichier
 138 Créer
 139 Création / Suppression des 
@@ -311,7 +310,7 @@
 376 Ordinateur verrouillé. Merci de réessayer plus tard
 377 Vitesse CPU (Mhz)
 380 Dictionnaire
-381 Nombre
+381 Nombre installation
 382 Nom du logiciel
 383 La page 
 384 TOUT déplacer

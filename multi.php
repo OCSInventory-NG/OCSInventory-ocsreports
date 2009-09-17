@@ -816,7 +816,7 @@ $lbl_default= array('exact'=> $l->g(410),'ressemble'=>$l->g(129)
 											  'between'=>"onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"inline\";'"));
 
 $optSelect2Field=array("HARDWARE-MEMORY"=>$l->g(25).": ".$l->g(26),
-					   "HARDWARE-MEMORY-LBL"=>"Mo",
+					   "HARDWARE-MEMORY-LBL"=>"MB",
 					   "HARDWARE-MEMORY-SELECT"=>$lbl_default,
 					   "HARDWARE-PROCESSORS"=>$l->g(54).": ".$l->g(377),
 					   "HARDWARE-PROCESSORS-LBL"=>"Mhz",
