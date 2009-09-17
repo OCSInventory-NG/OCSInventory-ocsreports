@@ -885,7 +885,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$title=$num_rows_result." ".$l->g(90);
 		if (isset($tab_options['LOGS']))
 		addLog($tab_options['LOGS'],$num_rows_result." ".$l->g(90));
-		$title.= "<a href='cvs.php?tablename=".$table_name."&base=".$tab_options['BASE']."'><small>(".$l->g(136).")</small></a>";
+		$title.= "<a href='cvs.php?tablename=".$table_name."&base=".$tab_options['BASE']."'><small>(".$l->g(183).")</small></a>";
 		//print_r($correct_list_col_cant_del);
 		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
 	//	print_r($result_with_col['data']);

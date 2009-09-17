@@ -144,14 +144,14 @@ if (isset($sql)){
 echo "<br><div align=center>
 <table bgcolor='#66CCCC'><tr><td colspan=2 align=center >".$l->g(735)."</td></tr><tr><td align=right>".$l->g(382).": <input type='input' name='search' value='".$protectedPost['search']."'>
 				<td rowspan=2><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'>
-		</td></tr><tr><td align=right>nbre <select name='COMPAR'>
+		</td></tr><tr><td align=right>".$l->g(381)."<select name='COMPAR'>
 			<option value='<' ".($protectedPost['COMPAR'] == '<'?'selected':'')."><</option>
 			<option value='>' ".($protectedPost['COMPAR'] == '>'?'selected':'').">></option>
 			<option value='=' ".($protectedPost['COMPAR'] == '='?'selected':'').">=</option>
 		</select><input type='input' name='NBRE' value='".$protectedPost['NBRE']."' ".$numeric."></td></tr>";
 		
 	
-	echo "<tr><td colspan=2 align=center><a href='ipcsv.php'>".$l->g(136)." ".$l->g(765)."</a></td></tr>";
+	echo "<tr><td colspan=2 align=center><a href='ipcsv.php'>".$l->g(183)." ".$l->g(765)."</a></td></tr>";
 if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protectedPost['NBRE'] != "")
 echo "<tr><td colspan=2 align=center><a href='exportallsoft.php'>".$l->g(912)."</a></td></tr>";
 echo "</table></div>

@@ -40,6 +40,6 @@ $con[0] = stripslashes($con[0]);
 <center><b><?php echo $l->g(262);?>:</b>
 <form name='lab' method='post'>
 	<textarea name='newlabel'><?php echo $con[0]?></textarea>
-	<input name='sublabel' type='submit' value='envoyer'>
+	<input name='sublabel' type='submit' value='<?php echo $l->g(13);?>'>
 </form>
 </center>

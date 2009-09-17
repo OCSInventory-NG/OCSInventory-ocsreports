@@ -149,7 +149,7 @@ if($protectedGet["o"]&&$protectedGet["n"]&&$protectedGet["v"]&&$protectedGet["su
 		<td align=center><B><?php echo $l->g(19);?></B></td>
 		<td align=center><B><?php echo $l->g(25);?></B></td>
 		<td align=center><B><?php echo $l->g(49);?></B></td>
-		<td align=center width=20px><B><?php echo $l->g(136);?></B></td>
+		<td align=center width=20px><B><?php echo $l->g(183);?></B></td>
 		<td align=center width=20px><B><?php echo $l->g(122);?></B></td>
 </tr>
 <?php 
