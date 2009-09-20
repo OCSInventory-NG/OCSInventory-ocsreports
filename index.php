@@ -19,6 +19,45 @@ require_once ('require/function_index.php');
 
 $sleep=1;
 $debut = getmicrotime();
+
+
+//getting existing plugins by using tags in config.txt file
+$Directory=$_SESSION['plugin_rep']."main_sections/";
+
+if (file_exists($Directory."config.txt")) {
+      $fd = fopen ($Directory."config.txt", "r");
+      $capture='';
+      while( !feof($fd) ) {
+
+         $line = trim( fgets( $fd, 256 ) );
+
+			if (substr($line,0,2) == "</")
+            $capture='';
+
+         if ($capture == 'OK_ORDER')
+            $list_pluggins[]=$line;
+         
+			if ($capture == 'OK_LBL'){
+            $tab_lbl=explode(":", $line);
+            $list_lbl[$tab_lbl[0]]=$tab_lbl[1];
+         }
+         
+			if ($capture == 'OK_ISAVAIL'){
+            $tab_isavail=explode(":", $line);
+            $list_avail[$tab_isavail[0]]=$tab_isavail[1];
+         }
+         
+         if ($line{0} == "<"){
+            $capture = 'OK_'.substr(substr($line,1),0,-1);
+         }
+         
+			flush();
+      }
+   fclose( $fd );
+}
+
+
+
 //Initiating icons
 if( !isset($protectedGet["popup"] )) {
 	//si la variable RESET existe
@@ -42,7 +81,21 @@ if( !isset($protectedGet["popup"] )) {
 	
 	echo $icons_list['all_computers'];
 	echo $icons_list['repart_tag'];
-	
+
+
+//test for plugins
+$i=0;
+while ($list_pluggins[$i]){
+
+	if (isset($list_avail[$list_pluggins[$i]])){
+		echo $icons_list[$list_pluggins[$i]];
+	}
+
+
+	$i++;
+}	
+
+
 	//groups
 	$sql_groups_4all="select workgroup from hardware where workgroup='GROUP_4_ALL' and deviceid='_SYSTEMGROUP_'";
 	$res = mysql_query($sql_groups_4all, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
