@@ -1,7 +1,10 @@
 <?php
+
+require_once("preferences.php");
 $sadmin_profil=1;
 include('security.php');
-require_once("preferences.php");
+if (!is_numeric($_GET["timestamp"]))
+die();
 header("content-type: application/octet-stream");
 header("Content-Disposition: attachment; filename=selection.zip");
 if(isset($_GET["timestamp"])){
@@ -16,8 +19,8 @@ if(isset($_GET["timestamp"])){
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root))
 	$document_root = $_SERVER["DOCUMENT_ROOT"];
-	$rep = $document_root."/download/".$_GET["timestamp"]."/";
-	echo $rep;
+	$rep = $document_root."download/".$_GET["timestamp"]."/";
+	//echo $rep;
 	$dir = opendir($rep);
 	while($f = readdir($dir))
 	   if(is_file($rep.$f))

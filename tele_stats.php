@@ -9,10 +9,10 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.15 $)
-include('security.php');
+
 require('fichierConf.class.php');
 require_once("preferences.php");
-
+include('security.php');
 if($_SESSION["lvluser"]==SADMIN){
 	if( isset($_GET["delsucc"]) ) {		
 		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue LIKE 'SUCCESS%' AND
@@ -28,7 +28,7 @@ if($_SESSION["lvluser"]==SADMIN){
 	}
 }
 if ($_POST['selOpt'] == "GROUP" or $_GET['option']=="GROUP"){
-$sql_group="select hardware_id from groups_cache where group_id=".$_GET['group'];
+$sql_group="select hardware_id from groups_cache where group_id='".$_GET['group']."'";
 $res_group = mysql_query($sql_group, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 $machines_group="(";
 	while ($item_group = mysql_fetch_object($res_group)){
