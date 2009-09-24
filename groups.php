@@ -6,6 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 //ADD new static group
+include('security.php');
 if($_POST['Valid_modif_x']){
 	//this group does exist?
 	$sql_verif="select id from hardware

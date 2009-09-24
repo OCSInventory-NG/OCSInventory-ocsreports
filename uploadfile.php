@@ -9,7 +9,8 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2007-02-08 15:53:24 $$Author: plemmet $($Revision: 1.8 $)
-
+$sadmin_profil=1;
+include('security.php');
 if( ! function_exists ( "zip_open" )) {
 	function zip_open($st) {
 		echo "<br><center><font color=red><b>ERROR: Zip for PHP is not properly installed.<br>Try uncommenting \";extension=php_zip.dll\" (windows) by removing the semicolon in file php.ini, or try installing the php4-zip package.</b></font></center>";

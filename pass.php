@@ -10,6 +10,7 @@
 //====================================================================================
 //Modified on $Date: 2007-01-26 17:05:42 $$Author: plemmet $($Revision: 1.5 $)
 
+include('security.php');
 printEntete($l->g(236));	
 ?>
 <br><form name=pass action=# method=post>

@@ -9,6 +9,8 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.17 $)
+$sadmin_profil=1;
+include('security.php');
 ?>
 <script language='javascript'>
 

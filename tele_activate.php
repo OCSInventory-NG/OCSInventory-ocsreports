@@ -9,7 +9,8 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.14 $)
-
+$sadmin_profil=1;
+include('security.php');
 PrintEnTete($l->g(465));
 //activate for server's group
 if(isset($_POST["actpack"]) and $_POST['activat_option'] == "for_server")

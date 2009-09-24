@@ -6,15 +6,15 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  *
  */
- 
+$sadmin_profil=1;
+include('security.php');
 require ('fichierConf.class.php');
 require('req.class.php');
 require_once('require/function_table_html.php');
 require_once('require/function_server.php');
 $ban_head='no';
 require_once("header.php");
-if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
+
 ?>
 <script>
 function check() {

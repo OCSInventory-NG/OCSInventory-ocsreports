@@ -10,6 +10,7 @@
 //====================================================================================
 //Modified on $Date: 2008-03-20 16:26:49 $$Author: airoine $($Revision: 1.12 $)
 
+//include('security.php');
 require ('req.class.php');
 $user=$_SESSION["loggeduser"];
 

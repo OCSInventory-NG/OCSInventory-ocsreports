@@ -10,6 +10,7 @@
 //====================================================================================
 //Modified on $Date: 2007-02-08 15:53:24 $$Author: plemmet $($Revision: 1.6 $)
 
+include('security.php');
 require ('fichierConf.class.php');
 
 require('req.class.php');

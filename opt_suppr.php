@@ -10,8 +10,8 @@
 //====================================================================================
 //Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.9 $)
 
-if( $_SESSION["lvluser"] != SADMIN )
-	die("FORBIDDEN");
+$sadmin_profil=1;
+include('security.php');
 	
 if( isset($_POST["systemid"]) )
 	$_GET["systemid"] = $_POST["systemid"];

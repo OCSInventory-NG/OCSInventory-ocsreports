@@ -10,6 +10,7 @@
 //====================================================================================
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.20 $)
 
+include('security.php');
 //find IPDISCOVER_IPD_DIR
 $sql_IPD_DIR="select tvalue from config where NAME='IPDISCOVER_IPD_DIR'";
 	$res_IPD_DIR = mysql_query( $sql_IPD_DIR, $_SESSION["readServer"] );

@@ -1,4 +1,5 @@
 <?php
+include('security.php');
 require_once('require/function_table_html.php');
 require_once('require/function_config_generale.php');
 if ($_POST['RESET']){ 

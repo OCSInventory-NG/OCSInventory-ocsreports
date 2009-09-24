@@ -2,7 +2,8 @@
 /*
  * this page makes it possible to seize the MAC addresses for blacklist
  */
-
+$sadmin_profil=1;
+include('security.php');
 require ('fichierConf.class.php');
 require('req.class.php');
 require_once('require/function_table_html.php');

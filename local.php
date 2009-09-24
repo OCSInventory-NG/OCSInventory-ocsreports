@@ -9,7 +9,8 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2006-12-21 18:13:46 $$Author: plemmet $($Revision: 1.5 $)
-
+$sadmin_profil=1;
+include('security.php');
 $port = "80";
 $server = "localhost";
 $conSql = "SELECT * FROM config WHERE name IN('LOCAL_SERVER', 'LOCAL_PORT')";

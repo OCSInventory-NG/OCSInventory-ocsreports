@@ -2,10 +2,9 @@
 /*
  * For redistribution's server
  */
-
+$sadmin_profil=1;
+include('security.php');
 require_once('require/function_server.php');
-if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
 
 //delete one server or all
 if($_POST["supp"]){

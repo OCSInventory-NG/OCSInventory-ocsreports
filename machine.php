@@ -11,14 +11,14 @@
 //Modified on $Date: 2008-06-25 12:30:34 $$Author: hunal $($Revision: 1.24 $)
 
 require('fichierConf.class.php');
-@session_start();
+
 require_once("preferences.php");
+@session_start();
+include('security.php');
 $ban_head='no';
 require_once("header.php");
 require('require/function_opt_param.php');
-if( ! in_array($_SESSION["lvluser"], array(SADMIN,LADMIN,ADMIN) )) {
-	die("FORBIDDEN");
-}
+
 
 unset( $_SESSION["isgroup"] );
 //$_GET["multi"] = 24; // To avoid storing systemid in querystring

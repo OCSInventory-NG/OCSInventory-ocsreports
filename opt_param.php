@@ -5,11 +5,12 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
+$sadmin_profil=1;
+include('security.php');
  require_once('require/function_table_html.php');
 require_once('require/function_opt_param.php');
 require_once('require/function_config_generale.php');
-if( $_SESSION["lvluser"] != SADMIN )
-	die("FORBIDDEN");
+
 //update values	
 if ($_POST['Valid']==$l->g(103)){
 	if (!isset($_POST['origine'])){

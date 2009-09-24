@@ -1,12 +1,12 @@
 <?php 
-
+$sadmin_profil=1;
+include('security.php');
 
 
 require ('fichierConf.class.php');
 require_once('require/function_table_html.php');
 require_once('require/function_config_generale.php');
-if( $_SESSION["lvluser"] != SADMIN )
-	die("FORBIDDEN");
+
 
 $def_onglets[$l->g(728)]=$l->g(728); //Inventaire
 $def_onglets[$l->g(499)]=$l->g(499); //Serveur

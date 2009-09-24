@@ -13,7 +13,7 @@
 require("req.class.php");
 require("fichierConf.class.php");
 require_once("preferences.php");
-
+include('security.php');
 if( isset($_SESSION["forcedRequest"] )) {
 	$lareq = $_SESSION["forcedRequest"];
 }

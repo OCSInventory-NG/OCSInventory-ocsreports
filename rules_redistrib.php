@@ -2,11 +2,10 @@
 /*
  * Rules for redistribution servers
  */
+$sadmin_profil=1;
+include('security.php');
 require_once('require/function_table_html.php');
 require_once('require/function_rules.php');
-//only for Super Admin
-if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
 //DEL RULE
 if ($_POST['SUP_PROF'] != ""){	
 	delete_rule($_POST['SUP_PROF']);

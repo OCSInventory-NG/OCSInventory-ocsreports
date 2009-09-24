@@ -6,7 +6,10 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  * 
  */
+$sadmin_profil=1;
+include('security.php');
  require_once('require/function_table_html.php');
+
 if ($_POST['ok_for_change'] == "OK"){
 	$new_file=str_replace("\\", "", $_POST['modif_txt']);
 	$handle = fopen ("languages/".$_POST['langue_modif'].".txt", "w");

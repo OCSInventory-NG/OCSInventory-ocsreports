@@ -1,4 +1,6 @@
 <?php
+$sadmin_profil=1;
+include('security.php');
 require_once("preferences.php");
 header("content-type: application/octet-stream");
 header("Content-Disposition: attachment; filename=selection.zip");

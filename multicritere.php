@@ -9,7 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.17 $)
-
+include('security.php');
 require_once('require/function_server.php');
 
 //cas of add new server's diff

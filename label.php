@@ -9,7 +9,8 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2006-12-21 18:13:46 $$Author: plemmet $($Revision: 1.4 $)
-
+$sadmin_profil=1;
+include('security.php');
 printEntete($l->g(263));
 
 if( $_POST["newlabel"]!="" && str_replace(" ", "", $_POST["newlabel"] )!="" ) {

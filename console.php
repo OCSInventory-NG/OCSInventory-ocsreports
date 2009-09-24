@@ -5,6 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
+include('security.php');
  $exlu_group=" deviceid != '_SYSTEMGROUP_' 
 									and deviceid != '_DOWNLOADGROUP_' ";
  require_once('require/function_table_html.php');

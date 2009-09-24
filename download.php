@@ -10,7 +10,7 @@
 //====================================================================================
 //Modified on 10/24/2006
 require_once("preferences.php");
-
+include('security.php');
 if($_GET["o"]&&$_GET["v"]&&$_GET["n"]&&$_GET["dl"])
 {
 	$dlQuery="SELECT content FROM ";
@@ -23,7 +23,7 @@ if($_GET["o"]&&$_GET["v"]&&$_GET["n"]&&$_GET["dl"])
 		$fname = "ocspackage.exe";
 	}
 	else {
-		$dlQuery .= "files WHERE name='".mysql_escape_string($_GET["n"])."' AND os='".mysql_escape_string($_GET["o"])."' AND version='".mysql_escape_string($_GET["v"])."'";
+		$dlQuery .= "files WHERE name='".$_GET["n"]."' AND os='".$_GET["o"]."' AND version='".$_GET["v"]."'";
 		if($_GET["o"]=="windows")
 		{
 			$ext="zip";

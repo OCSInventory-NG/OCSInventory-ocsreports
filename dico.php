@@ -3,6 +3,8 @@
  * New version of dico page 
  * 
  */
+$sadmin_profil=1;
+include('security.php');
 require_once('require/function_table_html.php');
 require_once('require/function_dico.php');
 $_POST=escape_string($_POST);

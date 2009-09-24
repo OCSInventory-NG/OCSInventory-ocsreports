@@ -10,6 +10,7 @@
 //====================================================================================
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.7 $)
 
+include('security.php');
 
 require_once('require/function_table_html.php');
 require('fichierConf.class.php');
