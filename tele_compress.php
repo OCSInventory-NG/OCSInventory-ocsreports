@@ -3,6 +3,8 @@
 unset($_SESSION['LANGUAGE']);
 $header_html="NO";
 require_once("header.php");
+if (!is_numeric($protectedGet["timestamp"]))
+die();
 header("content-type: application/zip");
 header("Content-Disposition: attachment; filename=".$protectedGet["timestamp"].".zip");
 if(isset($protectedGet["timestamp"])){
