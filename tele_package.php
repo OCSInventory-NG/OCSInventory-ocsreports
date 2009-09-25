@@ -248,10 +248,9 @@ include('security.php');
 	}
 	
 	function clean( $txt ) {
-		$cherche = array(	"&"  , "<"  , ">"  , "\""    , "'");
-		$replace = array( "&amp;","&lt;","&gt;", "&quot;", "&apos;");
+		$cherche = array(	"&"  , "<"  , ">"  , "\""    , "'",'\\\n','\\\r');
+		$replace = array( "&amp;","&lt;","&gt;", "&quot;", "&apos;","\n","\r");
 		return str_replace($cherche, $replace, $txt);		
-	
 	}
 ?>
 
