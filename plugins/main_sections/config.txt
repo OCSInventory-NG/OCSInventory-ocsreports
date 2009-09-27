@@ -1,0 +1,17 @@
+<ORDER>
+ms_dict
+all_computers
+-- TABLE_END --
+ms_teledeploy
+ms_config
+</ORDER>
+
+<LBL>
+</LBL>
+
+<ISAVAIL>
+TABLE_END:table_end
+ms_teledeploy:teledeploy
+all_computers:all_computers
+ms_dict:dict
+</ISAVAIL>
