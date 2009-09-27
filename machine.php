@@ -69,7 +69,7 @@ foreach ($lbl_affich as $key=>$lbl){
 
 $bandeau=bandeau($data,$lbl_affich);
 
-//r�cup�ration des pluggins existants
+//r�cup�ration des plugins existants
 $Directory=$_SESSION['plugins_dir']."computor_detail/";
 if (file_exists($Directory."config.txt")){
 		$fd = fopen ($Directory."config.txt", "r");
@@ -79,7 +79,7 @@ if (file_exists($Directory."config.txt")){
 			if (substr($line,0,2) == "</")
 				$capture='';
 			if ($capture == 'OK_ORDER')
-				$list_pluggins[]=$line;
+				$list_plugins[]=$line;
 			if ($capture == 'OK_LBL'){				
 				$tab_lbl=explode(":", $line);
 				$list_lbl[$tab_lbl[0]]=$tab_lbl[1];
@@ -95,7 +95,7 @@ if (file_exists($Directory."config.txt")){
 			flush();					
 		}				
 	fclose( $fd );
-	//print_r($list_pluggins);
+	//print_r($list_plugins);
 	}
 
 //par d�faut, on affiche les donn�es admininfo
@@ -109,11 +109,11 @@ $j=0;
 $index_tab=0;
 //intitialisation du tableau de plugins
 $show_all=array();
-while ($list_pluggins[$i]){
+while ($list_plugins[$i]){
 	unset($valavail);
 	//v�rification de l'existance des donn�es
-	if (isset($list_avail[$list_pluggins[$i]])){
-		$sql_avail="select count(*) from ".$list_avail[$list_pluggins[$i]]." where hardware_id=".$systemid;
+	if (isset($list_avail[$list_plugins[$i]])){
+		$sql_avail="select count(*) from ".$list_avail[$list_plugins[$i]]." where hardware_id=".$systemid;
 		$resavail = mysql_query( $sql_avail, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 		$valavail = mysql_fetch_array($resavail);
 	}
@@ -122,12 +122,12 @@ while ($list_pluggins[$i]){
 		$index_tab++;
 		$j=0;
 	}
-	//echo substr(substr($list_lbl[$list_pluggins[$i]],2),0,-1);
+	//echo substr(substr($list_lbl[$list_plugins[$i]],2),0,-1);
 	echo "<td align=center>";
 	if (!isset($valavail[0]) or $valavail[0] != 0){
 		//liste de toutes les infos de la machine
-		$show_all[]=$list_pluggins[$i];
-		$href = "<a href='machine.php?systemid=".$systemid."&option=".$list_pluggins[$i]."'>";
+		$show_all[]=$list_plugins[$i];
+		$href = "<a href='machine.php?systemid=".$systemid."&option=".$list_plugins[$i]."'>";
 		$fhref = "</a>";
 	}else{
 		$href = "";
@@ -135,27 +135,27 @@ while ($list_pluggins[$i]){
 	}
 	echo $href."<img title=\"";
 	
-	if (substr($list_lbl[$list_pluggins[$i]],0,2) == 'g(')
-	echo $l->g(substr(substr($list_lbl[$list_pluggins[$i]],2),0,-1));
+	if (substr($list_lbl[$list_plugins[$i]],0,2) == 'g(')
+	echo $l->g(substr(substr($list_lbl[$list_plugins[$i]],2),0,-1));
 	else
 	echo $list_lbl[$i];
-	echo "\" src='pluggins/computor_detail/img/";
-	$list_pluggins[$i];
+	echo "\" src='plugins/computor_detail/img/";
+	$list_plugins[$i];
 	if (isset($valavail[0]) and $valavail[0] == 0){
-		if (file_exists($Directory."/img/".$list_pluggins[$i]."_d.png"))
-			echo $list_pluggins[$i]."_d.png";
+		if (file_exists($Directory."/img/".$list_plugins[$i]."_d.png"))
+			echo $list_plugins[$i]."_d.png";
 		else
 			echo "cd_default_d.png";
 	}
-	elseif ($protectedGet['option'] == $list_pluggins[$i]){
-		if (file_exists($Directory."/img/".$list_pluggins[$i]."_a.png"))
-			echo $list_pluggins[$i]."_a.png";
+	elseif ($protectedGet['option'] == $list_plugins[$i]){
+		if (file_exists($Directory."/img/".$list_plugins[$i]."_a.png"))
+			echo $list_plugins[$i]."_a.png";
 		else
 			echo "cd_default_a.png";		
 	}
 	else{
-		if (file_exists($Directory."/img/".$list_pluggins[$i].".png"))
-			echo $list_pluggins[$i].".png";
+		if (file_exists($Directory."/img/".$list_plugins[$i].".png"))
+			echo $list_plugins[$i].".png";
 		else
 			echo "cd_default.png";
 		
