@@ -4,22 +4,22 @@
 //Creating array for icons (this is not really a function, juste for code reading)
 
 {
-        $icons_list['ms_all_computers']=create_icon($l->g(2), $pages_refs['all_computers']);
-        $icons_list['ms_repart_tag']=create_icon($l->g(178), $pages_refs['repart_tag']);
-        $icons_list['ms_groups']=create_icon($l->g(583), $pages_refs['groups']);
-        $icons_list['ms_all_soft']=create_icon($l->g(765), $pages_refs['all_soft']);
-        $icons_list['ms_multi_search']=create_icon($l->g(9), $pages_refs['multi_search']);
+        $icons_list['ms_all_computers']=create_icon($l->g(2), $pages_refs['ms_all_computers']);
+        $icons_list['ms_repart_tag']=create_icon($l->g(178), $pages_refs['ms_repart_tag']);
+        $icons_list['ms_groups']=create_icon($l->g(583), $pages_refs['ms_groups']);
+        $icons_list['ms_all_soft']=create_icon($l->g(765), $pages_refs['ms_all_soft']);
+        $icons_list['ms_multi_search']=create_icon($l->g(9), $pages_refs['ms_multi_search']);
         $icons_list['ms_dict']=create_icon($l->g(380), $pages_refs['ms_dict']);
-        $icons_list['ms_upload_file']=create_icon($l->g(17) , $pages_refs['upload_file']);
-        $icons_list['ms_regconfig']=create_icon($l->g(211), $pages_refs['regconfig']);
-        $icons_list['ms_logs']=create_icon($l->g(928), $pages_refs['logs']);
-        $icons_list['ms_admininfo']=create_icon($l->g(225), $pages_refs['admininfo']);
-        $icons_list['ms_ipdiscover']=create_icon($l->g(174), $pages_refs['ipdiscover']);
-        $icons_list['ms_doubles']=create_icon($l->g(175), $pages_refs['doubles']);
-        $icons_list['ms_label']=create_icon($l->g(263), $pages_refs['label']);
-        $icons_list['ms_users']=create_icon($l->g(243), $pages_refs['users']);
-        $icons_list['ms_local']=create_icon($l->g(287), $pages_refs['local']);
-        $icons_list['ms_help']=create_icon($l->g(570), $pages_refs['help']);
+        $icons_list['ms_upload_file']=create_icon($l->g(17) , $pages_refs['ms_upload_file']);
+        $icons_list['ms_regconfig']=create_icon($l->g(211), $pages_refs['ms_regconfig']);
+        $icons_list['ms_logs']=create_icon($l->g(928), $pages_refs['ms_logs']);
+        $icons_list['ms_admininfo']=create_icon($l->g(225), $pages_refs['ms_admininfo']);
+        $icons_list['ms_ipdiscover']=create_icon($l->g(174), $pages_refs['ms_ipdiscover']);
+        $icons_list['ms_doubles']=create_icon($l->g(175), $pages_refs['ms_doubles']);
+        $icons_list['ms_label']=create_icon($l->g(263), $pages_refs['ms_label']);
+        $icons_list['ms_users']=create_icon($l->g(243), $pages_refs['ms_users']);
+        $icons_list['ms_local']=create_icon($l->g(287), $pages_refs['ms_local']);
+        $icons_list['ms_help']=create_icon($l->g(570), $pages_refs['ms_help']);
 }
 
 
