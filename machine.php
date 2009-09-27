@@ -70,7 +70,7 @@ foreach ($lbl_affich as $key=>$lbl){
 $bandeau=bandeau($data,$lbl_affich);
 
 //r�cup�ration des pluggins existants
-$Directory=$_SESSION['plugin_rep']."computor_detail/";
+$Directory=$_SESSION['plugins_dir']."computor_detail/";
 if (file_exists($Directory."config.txt")){
 		$fd = fopen ($Directory."config.txt", "r");
 		$capture='';

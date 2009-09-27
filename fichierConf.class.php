@@ -31,9 +31,9 @@ class language
 			$result = @mysql_query($sql, $_SESSION["readServer"]);
 			$item = @mysql_fetch_object($result);
 		}
-		if (!isset($_SESSION['plugin_rep']) or $_SESSION['plugin_rep'] == "")
-		$_SESSION['plugin_rep']="plugins/";
-		$language_file=$_SESSION['plugin_rep']."language/".$language."/".$language.".txt";
+		if (!isset($_SESSION['plugins_dir']) or $_SESSION['plugins_dir'] == "")
+		$_SESSION['plugins_rep']="plugins/";
+		$language_file=$_SESSION['plugins_dir']."language/".$language."/".$language.".txt";
 		if (file_exists ( $language_file) 
 		and !isset($item->json_value)
 		){		

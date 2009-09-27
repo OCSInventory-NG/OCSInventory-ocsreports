@@ -37,11 +37,11 @@ $protectedGet=escape_string($_GET);
 if (!isset($no_error))
 $no_error='NO';
 /**************************************mise en place des r�pertoires de pluggins et d'auhentification************************************/
-if (!isset($_SESSION['plugin_rep']) or !isset($_SESSION['CONF_MYSQL'])){
+if (!isset($_SESSION['plugins_dir']) or !isset($_SESSION['CONF_MYSQL'])){
 //	$rep=explode("/", $_SERVER["DOCUMENT_ROOT"].$_SERVER["PHP_SELF"]);
 //	array_pop($rep);
 	$_SESSION['backend']="backend/";
-	$_SESSION['plugin_rep']="pluggins/";
+	$_SESSION['plugins_dir']="pluggins/";
 	$_SESSION['CONF_MYSQL']="dbconfig.inc.php";
 	$_SESSION['HEADER_HTML']="require/html_header.php";
 	$_SESSION['FOOTER_HTML']="footer.php";
