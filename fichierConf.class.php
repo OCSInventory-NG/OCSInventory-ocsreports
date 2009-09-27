@@ -32,7 +32,7 @@ class language
 			$item = @mysql_fetch_object($result);
 		}
 		if (!isset($_SESSION['plugin_rep']) or $_SESSION['plugin_rep'] == "")
-		$_SESSION['plugin_rep']="pluggins/";
+		$_SESSION['plugin_rep']="plugins/";
 		$language_file=$_SESSION['plugin_rep']."language/".$language."/".$language.".txt";
 		if (file_exists ( $language_file) 
 		and !isset($item->json_value)
