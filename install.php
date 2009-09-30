@@ -84,7 +84,7 @@ greater than $MaxAvail.<br>You must raise both post_max_size and upload_max_file
 
 require_once ('fichierConf.class.php');
 
-$l = new language("french"); // on cr�e l'instance pour avoir les mots dans la langue choisie
+$l = new language("english"); // on cree l'instance pour avoir les mots dans la langue choisie
 
 if( isset($_POST["name"])) {
 		if( (!$link=@mysql_connect($_POST["host"],$_POST["name"],$_POST["pass"]))) {
