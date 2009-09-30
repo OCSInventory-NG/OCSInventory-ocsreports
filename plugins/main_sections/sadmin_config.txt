@@ -1,7 +1,7 @@
 <ORDER>
+ms_groups
 ms_all_computers
 ms_repart_tag
-ms_groups
 ms_all_soft
 ms_multi_search
 -- TABLE_END --
