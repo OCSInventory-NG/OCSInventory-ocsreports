@@ -24,8 +24,14 @@ $debut = getmicrotime();
 //getting existing plugins by using tags in config.txt file
 $Directory=$_SESSION['plugins_dir']."main_sections/";
 
-if (file_exists($Directory."config.txt")) {
-      $fd = fopen ($Directory."config.txt", "r");
+switch( $_SESSION["lvluser"]) {		//Select config file depending on user profile
+	case	SADMIN: $ms_cfg_file="sadmin_config.txt" ; break;
+	case	ADMIN: $ms_cfg_file="admin_config.txt" ; break;
+	case	LADMIN: $ms_cfg_file="ladmin_config.txt" ; break;
+}
+
+if (file_exists($Directory.$ms_cfg_file)) {
+      $fd = fopen ($Directory.$ms_cfg_file, "r");
       $capture='';
       while( !feof($fd) ) {
 
