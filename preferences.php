@@ -352,7 +352,7 @@ function dbconnect() {
 function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletableP=true,$registrable=false,$teledeploy=false, $affect=false, $massProcessing=true, $allowCheckBoxes=false)
 {
 		global $l, $_GET;				
-		$deletable = ($_SESSION["lvluser"]==SADMIN) && $_GET["multi"]!=2 && $deletableP;
+		$deletable = $_GET["multi"]!=2 && $deletableP;
 	if ($_GET['multi']!=29 and $_GET['multi']!=1)
 		$allowCheckBoxes = ($_SESSION["lvluser"]==SADMIN) && $allowCheckBoxes;
 		global $pcparpage;
@@ -552,7 +552,8 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 			$_SESSION["c"]=$_GET["c"];		
 			
 		if($deletable)
-		{?>
+		{
+		?>
 			<script language=javascript>
 				function confirme(did, typ, nam, target)
 				{
