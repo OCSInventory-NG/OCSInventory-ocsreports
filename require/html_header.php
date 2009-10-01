@@ -79,7 +79,7 @@ if(isset($_SESSION["loggeduser"])&&!isset($protectedGet["popup"] )) {
 echo "</Td></tr></table></td></tr>";
 if (!isset($_SESSION["loggeduser"])){
 	echo "<tr><td colspan=20 align=right>";
- require_once('pluggins/language/language.php');
+ require_once('plugins/language/language.php');
  	echo "</td></tr>";
 }
 echo "</table>";		

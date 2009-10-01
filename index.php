@@ -19,6 +19,53 @@ require_once ('require/function_index.php');
 
 $sleep=1;
 $debut = getmicrotime();
+
+
+//getting existing plugins by using tags in config.txt file
+$Directory=$_SESSION['plugins_dir']."main_sections/";
+
+switch( $_SESSION["lvluser"]) {		//Select config file depending on user profile
+	case	SADMIN: $ms_cfg_file="sadmin_config.txt" ; break;
+	case	ADMIN: $ms_cfg_file="admin_config.txt" ; break;
+	case	LADMIN: $ms_cfg_file="ladmin_config.txt" ; break;
+}
+
+if (file_exists($Directory.$ms_cfg_file)) {
+      $fd = fopen ($Directory.$ms_cfg_file, "r");
+      $capture='';
+      while( !feof($fd) ) {
+
+         $line = trim( fgets( $fd, 256 ) );
+
+			if (substr($line,0,2) == "</")
+            $capture='';
+
+         if ($capture == 'OK_ORDER')
+            $list_plugins[]=$line;
+         
+			
+
+			if ($capture == 'OK_LBL'){
+            $tab_lbl=explode(":", $line);
+            $list_lbl[$tab_lbl[0]]=$tab_lbl[1];
+         }
+         
+			if ($capture == 'OK_ISAVAIL'){
+            $tab_isavail=explode(":", $line);
+            $list_avail[$tab_isavail[0]]=$tab_isavail[1];
+         }
+         
+         if ($line{0} == "<"){ 	//Getting tag type for the next launch of the loop
+            $capture = 'OK_'.substr(substr($line,1),0,-1);
+         }
+         
+			flush();
+      }
+   fclose( $fd );
+}
+
+
+
 //Initiating icons
 if( !isset($protectedGet["popup"] )) {
 	//si la variable RESET existe
@@ -36,76 +83,77 @@ if( !isset($protectedGet["popup"] )) {
 	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 	echo "</form>";
 	
-	
 	echo "<table width='100%' border=0><tr><td>
 	<table BORDER='0' ALIGN = 'left' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'><tr>";
 	
-	echo $icons_list['all_computers'];
-	echo $icons_list['repart_tag'];
+
+//Using plugins sytem to show icons
+$i=0;
+
+while ($list_plugins[$i]){
+
+	if (isset($list_avail[$list_plugins[$i]])) {
+		echo $icons_list[$list_plugins[$i]];
+	}
 	
+	if ($list_plugins[$i] == "-- TABLE_END --" ) {
+		//echo "</tr></table></td><td><table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'><tr height=20px bgcolor='white'>";
+		echo "</tr></table></td><td>";	
+		echo "<table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'>";
+		echo "<tr height=20px  bgcolor='white'>";
+		flush();
+		$end_table = 1 ;  //variable to say if the end of the table is set or not
+	}
+
+	if (isset($list_avail[$list_plugins[$i]]) && $list_plugins[$i]=="ms_teledeploy") {
+			//Special code for teledeploy
+ 			$name_menu="teledeploy_smenu";
+			$packAct = array($pages_refs['ms_tele_package'],$pages_refs['ms_tele_activate'],$pages_refs['ms_rules_redistrib']);
+			$nam_img="pack";
+			$title=$l->g(512);
+			$data_list_deploy[$pages_refs['ms_tele_package']]=$l->g(513);
+			$data_list_deploy[$pages_refs['ms_tele_activate']]=$l->g(514);
+			$data_list_deploy[$pages_refs['ms_rules_redistrib']]=$l->g(662);
+			menu_list($name_menu,$packAct,$nam_img,$title,$data_list_deploy);
+	}
+
+	if (isset($list_avail[$list_plugins[$i]]) && $list_plugins[$i]=="ms_config") {
+			//Special code for config 
+			$name_menu="config_smenu";
+			$packAct = array($pages_refs['ms_config'],$pages_refs['blacklist']);
+			$nam_img="configuration";
+			$title=$l->g(107);
+			$data_list_config[$pages_refs['ms_config']]=$l->g(107);
+			$data_list_config[$pages_refs['ms_blacklist']]=$l->g(703);
+			//$data_list_config[35]=$l->g(712);
+			menu_list($name_menu,$packAct,$nam_img,$title,$data_list_config);	
+	}
+
+	$i++;
+}	
+
+
+if (!isset($end_table)) { // echo the end of table if not set in the plugin config file
+	echo "</tr></table></td><td><table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'><tr height=20px bgcolor='white'>";
+	flush();
+}
+
+
+
 	//groups
 	$sql_groups_4all="select workgroup from hardware where workgroup='GROUP_4_ALL' and deviceid='_SYSTEMGROUP_'";
 	$res = mysql_query($sql_groups_4all, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 	$item = mysql_fetch_object($res);
 	if (isset($item->workgroup) or $_SESSION["lvluser"]==SADMIN or $_SESSION["lvluser"]==LADMIN)	
 	
-	echo $icons_list['groups'];
-	echo $icons_list['all_soft'];
-	echo $icons_list['multi_search'];
-	
-	echo "</tr></table></td><td>";	
-
-	echo "<table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'>";
-	echo "<tr height=20px  bgcolor='white'>";
-	
-	flush();
-
-
-	if($_SESSION["lvluser"]==SADMIN) {
-
-			//Special code for teledploy
- 			$name_menu="smenu1";
-			$packAct = array($pages_refs['tele_package'],$pages_refs['tele_activate'],$pages_refs['rules_redistrib']);
-			$nam_img="pack";
-			$title=$l->g(512);
-			$data_list_deploy[$pages_refs['tele_package']]=$l->g(513);
-			$data_list_deploy[$pages_refs['tele_activate']]=$l->g(514);
-			$data_list_deploy[$pages_refs['rules_redistrib']]=$l->g(662);
-			menu_list($name_menu,$packAct,$nam_img,$title,$data_list_deploy);
-
-			echo $icons_list['dict'];
-			echo$icons_list['upload_file'];
-
-			//Special code for config 
-			$name_menu="smenu2";
-			$packAct = array($pages_refs['configuration'],$pages_refs['blacklist']);
-			$nam_img="configuration";
-			$title=$l->g(107);
-			$data_list_config[$pages_refs['configuration']]=$l->g(107);
-			$data_list_config[$pages_refs['blacklist']]=$l->g(703);
-			//$data_list_config[35]=$l->g(712);
-			menu_list($name_menu,$packAct,$nam_img,$title,$data_list_config);	
-			
-			echo $icons_list['regconfig'];
-			echo $icons_list['logs'];
-			echo $icons_list['admininfo'];
-        	        echo $icons_list['ipdiscover'];
-	                echo $icons_list['doubles'];
-			echo $icons_list['label'];
-	                echo $icons_list['users'];
-        	        echo $icons_list['local'];
-			echo $icons_list['help'];
-
-	}
-
-	else {  //not clean for the moment...a second if will be better !! :) 
+	//echo "</tr></table></td><td>";	
+	//echo "<table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'>";
+	//echo "<tr height=20px  bgcolor='white'>";
 	
 		//Icon for user profile	
-		//echo $icons_list['admininfo'];
-		echo $icons_list['ipdiscover'];
-		echo $icons_list['doubles'];
-		echo $icons_list['help'];
-	}	
+		//echo $icons_list['ipdiscover'];
+		//echo $icons_list['doubles'];
+		//echo $icons_list['help'];
 	
 	?>
 
@@ -159,36 +207,36 @@ echo "<br><center><span id='wait' class='warn'><font color=red>".$l->g(332)."</f
 	}
 
 	switch($protectedGet[PAG_INDEX]) {
- 		case $pages_refs['ipdiscover']: require ('ipdiscover_new.php');	break;
- 		case $pages_refs['configuration']: require ('confiGale.php');	break;
- 		case $pages_refs['regconfig']: require ('registre.php');	break;
- 		case $pages_refs['doubles']: require ('doublons.php');	break;
- 		case $pages_refs['upload_file']: require ('uploadfile.php');	break;
- 		case $pages_refs['admininfo']: require ('donAdmini.php');	break;
- 		case $pages_refs['label']: require ('label.php');	break;
-		case $pages_refs['local']: require ('local.php');	break;
-		case $pages_refs['dict']: require ('dico.php');	break;
-		case $pages_refs['tele_package']: require ('tele_package.php'); break; 
-		case $pages_refs['tele_activate']: require ('tele_activate.php'); break; 
-		case $pages_refs['opt_param']: require ('opt_param.php'); break; 
-		case $pages_refs['opt_ipdiscover']: require ('opt_ipdiscover.php'); break; 
-		case $pages_refs['tele_stats']: require ('tele_stats.php'); break;
-		case $pages_refs['tele_actives']: require ('tele_actives.php'); break;
-		case $pages_refs['group_show']: require ('group_show.php'); break;
-		case $pages_refs['tele_massaffect']: require ('tele_massaffect.php'); break; 
-		case $pages_refs['admin_attrib']: require ('admin_attrib.php'); break; 
-		case $pages_refs['blacklist']: require ('blacklist.php');break;
-		case $pages_refs['rules_redistrib']: require ('rules_redistrib.php');break;
-		case $pages_refs['all_soft']: require ('all_soft.php');break;
-		case $pages_refs['groups']: require ('groups.php');break;
-		case $pages_refs['show_detail']: require ('show_detail.php');break;
-		case $pages_refs['logs']: require ('logs.php');break;
-		case $pages_refs['multi_search']: require ('multi.php');break;
-		case $pages_refs['all_computers']: require ('list_computors.php');break;
-		case $pages_refs['repart_tag']: require ('repart_tag.php');break;
-		case $pages_refs['users']: require ('admins.php');break;
-		case $pages_refs['console']: require ('console.php');break;	
- 		default: require ('console.php');		
+ 		case $pages_refs['ms_ipdiscover']: require ("$Directory/ms_ipdiscover/ms_ipdiscover_new.php");	break;
+ 		case $pages_refs['ms_config']: require ("$Directory/ms_config/config.php");	break;
+ 		case $pages_refs['ms_regconfig']: require ("$Directory/ms_regconfig/ms_regconfig.php");	break;
+ 		case $pages_refs['ms_doubles']: require ("$Directory/ms_doubles/ms_doubles.php");	break;
+ 		case $pages_refs['ms_upload_file']: require ("$Directory/ms_uploadfile/ms_uploadfile.php");	break;
+ 		case $pages_refs['ms_admininfo']: require ("$Directory/ms_admininfo/ms_admininfo.php");	break;
+ 		case $pages_refs['ms_label']: require ("$Directory/ms_label/ms_label.php");	break;
+		case $pages_refs['ms_local']: require ("$Directory/ms_local/ms_local.php");	break;
+		case $pages_refs['ms_dict']: require ("$Directory/ms_dict/ms_dict.php");	break;
+		case $pages_refs['ms_tele_package']: require ("$Directory/ms_teledeploy/ms_tele_package.php"); break; 
+		case $pages_refs['ms_tele_activate']: require ("$Directory/ms_teledeploy/ms_tele_activate.php"); break; 
+		case $pages_refs['ms_opt_param']: require ("$Directory/ms_config/ms_custom_param.php"); break; 
+		case $pages_refs['ms_opt_ipdiscover']: require ("$Directory/ms_config/ms_custom_ipdiscover.php"); break; 
+		case $pages_refs['ms_tele_stats']: require ("$Directory/ms_teledeploy/ms_tele_stats.php"); break;
+		case $pages_refs['ms_tele_actives']: require ("$Directory/ms_teledeploy/ms_tele_actives.php"); break;
+		case $pages_refs['ms_group_show']: require ("$Directory/ms_groups/ms_group_show.php"); break;
+		case $pages_refs['ms_tele_massaffect']: require ("$Directory/ms_teledeploy/tele_massaffect.php"); break; 
+		case $pages_refs['ms_admin_attrib']: require ('admin_attrib.php'); break; //don't seems to be used anymore 
+		case $pages_refs['ms_blacklist']: require ("$Directory/ms_config/ms_blacklist.php");break;
+		case $pages_refs['ms_rules_redistrib']: require ("$Directory/ms_teledeploy/ms_rules_redistrib.php");break;
+		case $pages_refs['ms_all_soft']: require ("$Directory/ms_all_soft/ms_all_soft.php");break;
+		case $pages_refs['ms_groups']: require ("$Directory/ms_groups/ms_groups.php");break;
+		case $pages_refs['ms_show_detail']: require ('show_detail.php');break; //don't seels to be sused anymore
+		case $pages_refs['ms_logs']: require ("$Directory/ms_logs/ms_logs.php");break;
+		case $pages_refs['ms_multi_search']: require ("$Directory/ms_multi_search/ms_multi_search.php");break;
+		case $pages_refs['ms_all_computers']: require ("$Directory/ms_all_computers/ms_all_computers.php");break;
+		case $pages_refs['ms_repart_tag']: require ("$Directory/ms_repart_tag/ms_repart_tag.php");break;
+		case $pages_refs['ms_users']: require ("$Directory/ms_users/ms_users.php");break;
+		case $pages_refs['ms_console']: require ("$Directory/ms_console/ms_console.php");break;	
+ 		default: require ("$Directory/ms_console/ms_console.php");		
  	}
 
 if( !isset($protectedGet["popup"] ))
