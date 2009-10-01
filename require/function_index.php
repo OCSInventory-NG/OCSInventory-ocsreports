@@ -62,7 +62,7 @@ function create_icon( $label, $biere ) {
 
         //si on clic sur l'icone, on charge le formulaire
         //pour obliger le cache des tableaux a se vider
-        return "<td onmouseover=\"javascript:montre();\"><a onclick='clic(\"".$llink."\");'><img title=\"".htmlspecialchars($label)."\" src='image/$img.png'></a></td>";
+        return "<td onmouseover=\"javascript:montre();\"><a onclick='clic(\"".$llink."\");'><img title=\"".htmlspecialchars($label)."\" src='image/$img.png' id=$img></a></td>";
 }
 
 
@@ -75,8 +75,11 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
                 <dt onmouseover=\"javascript:montre('".$name_menu."');\">
                 <a href='javascript:void(0);'>
         <img src='image/".$nam_img;
-        if( in_array($protectedGet[PAG_INDEX],$packAct) )
-                echo "_a";
+        
+	if( in_array($protectedGet[PAG_INDEX],$packAct) ) {
+		echo "_a"; 
+	}
+
                 echo ".png'></a></dt>
                         <dd id=\"".$name_menu."\" onmouseover=\"javascript:montre('".$name_menu."');\" onmouseout=\"javascript:montre();\">
                                 <ul>

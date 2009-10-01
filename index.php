@@ -83,7 +83,6 @@ if( !isset($protectedGet["popup"] )) {
 	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 	echo "</form>";
 	
-	
 	echo "<table width='100%' border=0><tr><td>
 	<table BORDER='0' ALIGN = 'left' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'><tr>";
 	
@@ -132,6 +131,7 @@ while ($list_plugins[$i]){
 
 	$i++;
 }	
+
 
 if (!isset($end_table)) { // echo the end of table if not set in the plugin config file
 	echo "</tr></table></td><td><table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'><tr height=20px bgcolor='white'>";
