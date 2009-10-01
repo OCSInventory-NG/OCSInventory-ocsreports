@@ -83,11 +83,11 @@ function verif_field(field_name_verif,field_submit,form_name) {
 }
 
 function montre(id) {	
-	var d = document.getElementById(id);
-	for (var i = 1; i<=10; i++) {
-		if (document.getElementById('smenu'+i)) { document.getElementById('smenu'+i).style.display='none'; }
+	document.getElementById("teledeploy_smenu").style.display='none'; 
+	document.getElementById("config_smenu").style.display='none'; 
+	if (id != null) { 
+	document.getElementById(id).style.display='block'; 
 	}
-	if (d) { d.style.display='block'; }
 }
 			
 function clic(id) {
