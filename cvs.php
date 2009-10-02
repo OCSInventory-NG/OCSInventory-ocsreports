@@ -80,7 +80,7 @@ elseif (!$_SESSION['DATA_CACHE'][$protectedGet['tablename']][199]){
 		while($_SESSION['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]){
 			$result=mysql_query($_SESSION['SQL_DATA_FIXE'][$protectedGet['tablename']][$i], $link) or die(mysql_error($link));
 			while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
-				print_r($cont);
+				//print_r($cont);
 				foreach ($col as $field => $lbl){
 					if (array_key_exists($lbl,$cont)){
 					

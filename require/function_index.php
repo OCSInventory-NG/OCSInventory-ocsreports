@@ -59,7 +59,7 @@ function create_icon( $label, $biere ) {
         if($protectedGet[PAG_INDEX] == $biere && $biere != "" ) {
                 $img .= "_a";
         }
-
+		//echo $img."<br>";
         //si on clic sur l'icone, on charge le formulaire
         //pour obliger le cache des tableaux a se vider
         return "<td onmouseover=\"javascript:montre();\"><a onclick='clic(\"".$llink."\");'><img title=\"".htmlspecialchars($label)."\" src='image/$img.png' id=$img></a></td>";
@@ -69,7 +69,7 @@ function create_icon( $label, $biere ) {
 function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
 {
         global $protectedGet;
-
+		print_r($packAct);
         echo "<td onmouseover=\"javascript:montre('".$name_menu."');\">
         <dl id=\"menu\">
                 <dt onmouseover=\"javascript:montre('".$name_menu."');\">
@@ -77,6 +77,7 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
         <img src='image/".$nam_img;
         
 	if( in_array($protectedGet[PAG_INDEX],$packAct) ) {
+		//echo "'>toto<img src='image/".$nam_img;
 		echo "_a"; 
 	}
 

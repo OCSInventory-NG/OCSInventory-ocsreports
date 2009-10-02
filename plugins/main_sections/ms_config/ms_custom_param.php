@@ -5,7 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- require_once('require/function_table_html.php');
+ //require_once('require/function_table_html.php');
 require_once('require/function_opt_param.php');
 require_once('require/function_config_generale.php');
 if( $_SESSION["lvluser"] != SADMIN )
@@ -154,17 +154,17 @@ if(!isset($protectedGet["listid"])){
 onglet($def_onglets,$form_name,'onglet',7);
 echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
 if ($protectedPost['onglet'] == $l->g(728)){
-	include ('opt_frequency.php');
+	include ('ms_custom_frequency.php');
 }
 if ($protectedPost['onglet'] == $l->g(499)){
-		include ('opt_prolog.php');
+		include ('ms_custom_prolog.php');
 }
 if ($protectedPost['onglet'] == $l->g(512)){
-	include ('opt_download.php');
+	include ('ms_custom_download.php');
 
 }
 if ($protectedPost['onglet'] == $l->g(312)){
-	include ('opt_ipdiscover.php');
+	include ('ms_custom_ipdiscover.php');
 
 }
 if (isset($protectedPost['origine'])){
