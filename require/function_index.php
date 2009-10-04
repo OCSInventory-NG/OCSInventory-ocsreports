@@ -62,27 +62,26 @@ function create_icon( $label, $biere ) {
 		//echo $img."<br>";
         //si on clic sur l'icone, on charge le formulaire
         //pour obliger le cache des tableaux a se vider
-        return "<td onmouseover=\"javascript:montre();\"><a onclick='clic(\"".$llink."\");'><img title=\"".htmlspecialchars($label)."\" src='image/$img.png' id=$img></a></td>";
+        return "<td onmouseover=\"javascript:show_menu();\"><a onclick='clic(\"".$llink."\");'><img title=\"".htmlspecialchars($label)."\" src='image/$img.png' id=$img></a></td>";
 }
 
 
-function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
+function menu_list($menu_name,$packAct,$nam_img,$title,$data_list)
 {
         global $protectedGet;
-		print_r($packAct);
-        echo "<td onmouseover=\"javascript:montre('".$name_menu."');\">
+        
+	echo "<td onmouseover=\"javascript:show_menu('".$menu_name."');\">
         <dl id=\"menu\">
-                <dt onmouseover=\"javascript:montre('".$name_menu."');\">
+                <dt onmouseover=\"javascript:show_menu('".$menu_name."');\">
                 <a href='javascript:void(0);'>
         <img src='image/".$nam_img;
         
 	if( in_array($protectedGet[PAG_INDEX],$packAct) ) {
-		//echo "'>toto<img src='image/".$nam_img;
 		echo "_a"; 
 	}
 
                 echo ".png'></a></dt>
-                        <dd id=\"".$name_menu."\" onmouseover=\"javascript:montre('".$name_menu."');\" onmouseout=\"javascript:montre();\">
+                        <dd id=\"".$menu_name."\" onmouseover=\"javascript:show_menu('".$menu_name.",".$all_menus."');\" onmouseout=\"javascript:show_menu();\">
                                 <ul>
                                         <li><b>".$title."</b></li>";
                                         foreach ($data_list as $key=>$values){

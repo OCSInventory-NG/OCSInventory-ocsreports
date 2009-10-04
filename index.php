@@ -13,13 +13,13 @@
 error_reporting(E_ALL & ~E_NOTICE);
 require("fichierConf.class.php");
 @session_start();
+
 require ('header.php');
 require ('donnees.php');
 require_once ('require/function_index.php');
 
 $sleep=1;
 $debut = getmicrotime();
-
 
 //getting existing plugins by using tags in config.txt file
 $Directory=$_SESSION['plugins_dir']."main_sections/";
@@ -97,7 +97,6 @@ while ($list_plugins[$i]){
 	}
 	
 	if ($list_plugins[$i] == "-- TABLE_END --" ) {
-		//echo "</tr></table></td><td><table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'><tr height=20px bgcolor='white'>";
 		echo "</tr></table></td><td>";	
 		echo "<table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'>";
 		echo "<tr height=20px  bgcolor='white'>";
@@ -107,26 +106,25 @@ while ($list_plugins[$i]){
 
 	if (isset($list_avail[$list_plugins[$i]]) && $list_plugins[$i]=="ms_teledeploy") {
 			//Special code for teledeploy
- 			$name_menu="teledeploy_smenu";
+ 			$menu_name="teledeploy_smenu";
 			$packAct = array($pages_refs['ms_tele_package'],$pages_refs['ms_tele_activate'],$pages_refs['ms_rules_redistrib']);
 			$nam_img="pack";
 			$title=$l->g(512);
 			$data_list_deploy[$pages_refs['ms_tele_package']]=$l->g(513);
 			$data_list_deploy[$pages_refs['ms_tele_activate']]=$l->g(514);
 			$data_list_deploy[$pages_refs['ms_rules_redistrib']]=$l->g(662);
-			menu_list($name_menu,$packAct,$nam_img,$title,$data_list_deploy);
+			menu_list($menu_name,$packAct,$nam_img,$title,$data_list_deploy);
 	}
 
 	if (isset($list_avail[$list_plugins[$i]]) && $list_plugins[$i]=="ms_config") {
 			//Special code for config 
-			$name_menu="config_smenu";
+			$menu_name="config_smenu";
 			$packAct = array($pages_refs['ms_config'],$pages_refs['blacklist']);
 			$nam_img="configuration";
 			$title=$l->g(107);
 			$data_list_config[$pages_refs['ms_config']]=$l->g(107);
 			$data_list_config[$pages_refs['ms_blacklist']]=$l->g(703);
-			//$data_list_config[35]=$l->g(712);
-			menu_list($name_menu,$packAct,$nam_img,$title,$data_list_config);	
+			menu_list($menu_name,$packAct,$nam_img,$title,$data_list_config);	
 	}
 
 	$i++;
@@ -138,26 +136,15 @@ if (!isset($end_table)) { // echo the end of table if not set in the plugin conf
 	flush();
 }
 
-
-
 	//groups
 	$sql_groups_4all="select workgroup from hardware where workgroup='GROUP_4_ALL' and deviceid='_SYSTEMGROUP_'";
 	$res = mysql_query($sql_groups_4all, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 	$item = mysql_fetch_object($res);
 	if (isset($item->workgroup) or $_SESSION["lvluser"]==SADMIN or $_SESSION["lvluser"]==LADMIN)	
 	
-	//echo "</tr></table></td><td>";	
-	//echo "<table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'>";
-	//echo "<tr height=20px  bgcolor='white'>";
-	
-		//Icon for user profile	
-		//echo $icons_list['ipdiscover'];
-		//echo $icons_list['doubles'];
-		//echo $icons_list['help'];
-	
 	?>
 
-	<script language='javascript'>montre();</script>
+	<script language='javascript'>show_menu();</script>
 
 	<?php	
 

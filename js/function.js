@@ -82,11 +82,11 @@ function verif_field(field_name_verif,field_submit,form_name) {
 	}
 }
 
-function montre(id) {	
+function show_menu(id) {
 	document.getElementById("teledeploy_smenu").style.display='none'; 
 	document.getElementById("config_smenu").style.display='none'; 
 	if (id != null) { 
-	document.getElementById(id).style.display='block'; 
+		document.getElementById(id).style.display='block'; 
 	}
 }
 			
