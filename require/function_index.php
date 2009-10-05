@@ -81,7 +81,7 @@ function menu_list($menu_name,$packAct,$nam_img,$title,$data_list)
 	}
 
                 echo ".png'></a></dt>
-                        <dd id=\"".$menu_name."\" onmouseover=\"javascript:show_menu('".$menu_name.",".$all_menus."');\" onmouseout=\"javascript:show_menu();\">
+                        <dd id=\"".$menu_name."\" onmouseover=\"javascript:show_menu('".$menu_name."');\" onmouseout=\"javascript:show_menu();\">
                                 <ul>
                                         <li><b>".$title."</b></li>";
                                         foreach ($data_list as $key=>$values){
