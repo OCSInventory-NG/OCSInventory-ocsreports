@@ -14,7 +14,7 @@ unset($_SESSION['LANGUAGE']);
 $ban_head='no';
 require_once("header.php");
 require('require/function_opt_param.php');
-require('require/function_graphic.php');
+require_once('require/function_graphic.php');
 require_once('require/function_machine.php');
 
 //recherche des infos de la machine
