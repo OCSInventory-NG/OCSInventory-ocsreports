@@ -47,6 +47,32 @@ if (!isset($_SESSION['plugins_dir']) or !isset($_SESSION['CONF_MYSQL'])){
 	$_SESSION['FOOTER_HTML']="footer.php";
 }
 
+/*****************************************************GESTION DU NOM DES PAGES****************************************/
+//Config for all user
+$ms_cfg_file=$_SESSION['plugins_dir']."main_sections/4all_config.txt";
+if (file_exists($ms_cfg_file)) {
+      $fd = fopen ($ms_cfg_file, "r");
+      $capture='';
+      while( !feof($fd) ) {
+         $line = trim( fgets( $fd, 256 ) );
+         		
+		 if (substr($line,0,2) == "</")
+            $capture='';
+            
+         if ($capture == 'OK_URL'){
+            $tab_url=explode(":", $line);
+         //   $list_url[$tab_url[0]]=$tab_url[1];
+            $pages_refs[$tab_url[0]]=$tab_url[1];
+         }
+         
+         if ($line{0} == "<"){ 	//Getting tag type for the next launch of the loop
+            $capture = 'OK_'.substr(substr($line,1),0,-1);
+         }                  
+      }
+   fclose( $fd );
+}
+
+
 /*****************************************************GESTION DU LOGOUT*********************************************/
 if ($protectedPost['LOGOUT'] == 'ON'){
 	unset($_SESSION["loggeduser"],
@@ -118,10 +144,12 @@ require_once('backend/AUTH/auth.php');
 if (!isset($_SESSION["lvluser"]))
 require_once('backend/identity/identity.php');
 
+
+
 /**********************************************************gestion des droits sur l'ipdiscover****************************************************/
-if (!isset($_SESSION["ipdiscover"]) and $protectedGet[PAG_INDEX] == $pages_refs['ipdiscover'])
+if (!isset($_SESSION["ipdiscover"]) and $protectedGet[PAG_INDEX] == $pages_refs['ms_ipdiscover'])
 require_once('backend/ipdiscover/ipdiscover.php');
-elseif($protectedGet[PAG_INDEX] != $pages_refs['ipdiscover'])
+elseif($protectedGet[PAG_INDEX] != $pages_refs['ms_ipdiscover'])
 unset($_SESSION['ipdiscover']);
 
 /*********************************************************gestion de la suppression automatique des machines trop vieilles*************************/
@@ -149,7 +177,6 @@ if (!isset($_SESSION['LOG_GUI'])){
 /****************END GESTION LOGS***************/
 
 if (!isset($header_html) or $header_html != 'NO'){
-	//echo $_SESSION['HEADER_HTML'];
 	require_once ($_SESSION['HEADER_HTML']);
 	//echo "toto";
 }

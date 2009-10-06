@@ -1,10 +1,12 @@
-<ORDER>
+<ORDER_FIRST_TABLE>
 ms_all_computers
 ms_groups
 ms_repart_tag
 ms_all_soft
 ms_multi_search
--- TABLE_END --
+</ORDER_FIRST_TABLE>
+
+<ORDER_SECOND_TABLE>
 ms_teledeploy
 ms_dict
 ms_upload_file
@@ -18,28 +20,6 @@ ms_label
 ms_users
 ms_local
 ms_help
-</ORDER>
+</ORDER_SECOND_TABLE>
 
-<LBL>
-</LBL>
 
-<ISAVAIL>
-ms_all_computers:all_computers
-ms_repart_tag:repart_tag
-ms_groups:groups
-ms_all_soft:all_soft
-ms_multi_search:multi_search
-ms_teledeploy:teledeploy
-ms_dict:dict
-ms_upload_file:uploadfile
-ms_config:config
-ms_regconfig:regconfig
-ms_logs:logs
-ms_admininfo:admininfo
-ms_ipdiscover:ipdiscover
-ms_doubles:doubles
-ms_label:label
-ms_users:users
-ms_local:local
-ms_help:help
-</ISAVAIL>

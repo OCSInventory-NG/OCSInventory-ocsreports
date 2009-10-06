@@ -5,8 +5,10 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 
-require_once('require/function_ipdiscover.php');
+ // Patch anti-eclipse V3.1.1 tx to hunal
+ $fichierdemerde='require/function_ipdiscover.php';
+require_once($fichierdemerde);
+
  $form_name='ipdiscover';
  echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
  	//suppression d'un sous-reseau
@@ -170,23 +172,23 @@ require_once('require/function_ipdiscover.php');
 	$table_name="IPDISCOVER";
 	$default_fields= $list_fields;
 	$list_col_cant_del=array('RSX'=>'RSX','SUP'=>'SUP');
-	$tab_options['LIEN_LBL']['INVENTORIE']='index.php?'.PAG_INDEX.'='.$pages_refs['multi_search'].'&prov=ipdiscover&value=';
+	$tab_options['LIEN_LBL']['INVENTORIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=ipdiscover&value=';
 	$tab_options['LIEN_CHAMP']['INVENTORIE']='ID';
-	$tab_options['LIEN_LBL']['IPDISCOVER']='index.php?'.PAG_INDEX.'='.$pages_refs['multi_search'].'&prov=ipdiscover1&value=';
+	$tab_options['LIEN_LBL']['IPDISCOVER']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=ipdiscover1&value=';
 	$tab_options['LIEN_CHAMP']['IPDISCOVER']='ID';
-	$tab_options['LIEN_LBL']['NON_INVENTORIE']='ipdiscover_info.php?prov=no_inv&value=';
+	$tab_options['LIEN_LBL']['NON_INVENTORIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&prov=no_inv&head=1&value=';
 	$tab_options['LIEN_CHAMP']['NON_INVENTORIE']='ID';
 	$tab_options['LIEN_TYPE']['NON_INVENTORIE']='POPUP';
 	$tab_options['POPUP_SIZE']['NON_INVENTORIE']="width=900,height=600";
 	$tab_options['NO_LIEN_CHAMP']['NON_INVENTORIE']=array(0);
-	$tab_options['LIEN_LBL']['IDENTIFIE']='ipdiscover_info.php?prov=ident&value=';
+	$tab_options['LIEN_LBL']['IDENTIFIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&prov=ident&head=1&value=';
 	$tab_options['LIEN_CHAMP']['IDENTIFIE']='ID';
 	$tab_options['LIEN_TYPE']['IDENTIFIE']='POPUP';
 	$tab_options['POPUP_SIZE']['IDENTIFIE']="width=900,height=600";
 	
 	//mise a jour possible des r�seaux si on travaille sur le r�f�rentiel local
 	if ( $_SESSION["ipdiscover_methode"] == "local.php" and $_SESSION["lvluser"] == SADMIN){
-		$tab_options['LIEN_LBL']['LBL_RSX']='ipdiscover_admin_rsx.php?prov=ident&value=';
+		$tab_options['LIEN_LBL']['LBL_RSX']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_admin_rsx'].'&prov=ident&head=1&value=';
 		$tab_options['LIEN_CHAMP']['LBL_RSX']='ID';
 		$tab_options['LIEN_TYPE']['LBL_RSX']='POPUP';
 		$tab_options['POPUP_SIZE']['LBL_RSX']="width=550,height=400";

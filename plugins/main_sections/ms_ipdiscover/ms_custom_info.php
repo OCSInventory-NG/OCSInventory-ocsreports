@@ -5,11 +5,11 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-require ('fichierConf.class.php');
+//require ('fichierConf.class.php');
 $form_name='info_ipdiscover';
-$ban_head='no';
-$no_error='YES';
-require_once("header.php");
+//$ban_head='no';
+//$no_error='YES';
+//require_once("header.php");
 
 //recherche de la personne connectée
 if (isset($_SESSION['TRUE_USER']))
@@ -167,5 +167,5 @@ else{ //affichage des périphériques
 		echo "</form>";
 	}
 }
-require_once($_SESSION['FOOTER_HTML']);
+//require_once($_SESSION['FOOTER_HTML']);
 ?>

@@ -1,19 +1,10 @@
-<ORDER>
+<ORDER_FIRST_TABLE>
 ms_all_computers
 ms_repart_tag
 ms_all_soft
 ms_multi_search
--- TABLE_END --
+</ORDER_FIRST_TABLE>
+
+<ORDER_SECOND_TABLE>
 ms_help
-</ORDER>
-
-<LBL>
-</LBL>
-
-<ISAVAIL>
-ms_all_computers:all_computers
-ms_repart_tag:repart_tag
-ms_all_soft:all_soft
-ms_multi_search:multi_search
-ms_help:help
-</ISAVAIL>
+</ORDER_SECOND_TABLE>

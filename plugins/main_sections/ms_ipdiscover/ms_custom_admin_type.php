@@ -5,11 +5,8 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-require ('fichierConf.class.php');
 $form_name='admin_type';
-$ban_head='no';
-$no_error='YES';
-require_once("header.php");
+
 if (!($_SESSION["lvluser"] == SADMIN or $_SESSION['TRUE_LVL'] == SADMIN))
 	die("FORBIDDEN");
 echo "<br><br><br>";	
@@ -80,5 +77,5 @@ echo "<input type = submit value='".$l->g(307)."' name='ADD_TYPE'>";
 }
 echo "</form>";
 	
-require_once($_SESSION['FOOTER_HTML']);
+
 ?>

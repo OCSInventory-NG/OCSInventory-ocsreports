@@ -53,6 +53,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 }else{
 	//affichage d'un formulaire HTML
 	if ($affich_method == 'HTML'){
+		$no_page = 'YES';
 		require_once ($_SESSION['HEADER_HTML']);
 		if (isset($protectedPost['VALID'])){
 			echo "<font color=red><b>".$login_successful."</b></font>";

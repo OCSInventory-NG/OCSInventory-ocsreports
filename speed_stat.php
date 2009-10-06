@@ -1,6 +1,6 @@
 <?php
 @session_start();
-	unset($_SESSION['LANGUAGE']);
+//	unset($_SESSION['LANGUAGE']);
 $header_html="NO";
 require_once("header.php");
 

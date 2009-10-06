@@ -5,16 +5,16 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-require ('fichierConf.class.php');
+//require_once ('fichierConf.class.php');
 $form_name='admin_rsx';
-$ban_head='no';
-$no_error='YES';
-require_once("header.php");
+//$ban_head='no';
+//$no_error='YES';
+//require_once("header.php");
 if (!($_SESSION["lvluser"] == SADMIN or $_SESSION['TRUE_LVL'] == SADMIN))
 	die("FORBIDDEN");
-echo "<br><br><br>";	
+echo "<br><br><br>";
 if ($_SESSION['ipdiscover_methode'] != 'local.php'){
-	echo "<font color=red><b>".$l->g(929)."<br>".$l->g(930)."</b></font>";	
+	echo "<font color=red><b>".$l->g(929)."<br>".$l->g(930)."</b></font><br><br>";	
 	require_once($_SESSION['FOOTER_HTML']);
 	die();
 }

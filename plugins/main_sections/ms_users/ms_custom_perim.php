@@ -4,11 +4,11 @@
  * 
  */
  
-require ('fichierConf.class.php');
+//require ('fichierConf.class.php');
 $form_name='taguser';
-$ban_head='no';
-$no_error='YES';
-require_once("header.php");
+//$ban_head='no';
+//$no_error='YES';
+//require_once("header.php");
 if (!($_SESSION["lvluser"] == SADMIN or $_SESSION['TRUE_LVL'] == SADMIN))
 	die("FORBIDDEN");
 printEnTete($l->g(616)." ".$protectedGet["id"] );

@@ -157,7 +157,7 @@ if ($protectedPost['onglet'] == 4){
 	$queryDetails .= " FROM operators where ACCESSLVL=".$protectedPost['onglet'];
 	$tab_options['FILTRE']=array('LASTNAME'=>'LASTNAME','ID'=>'ID');
 	if ($protectedPost['onglet'] == ADMIN){
-		$tab_options['LIEN_LBL']['ID']='admin_perim.php?id=';
+		$tab_options['LIEN_LBL']['ID']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_perim'].'&head=1&id=';'admin_perim.php?id=';
 		$tab_options['LIEN_CHAMP']['ID']='ID';
 		$tab_options['LIEN_TYPE']['ID']='POPUP';
 		$tab_options['POPUP_SIZE']['ID']="width=550,height=650";
