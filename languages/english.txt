@@ -711,3 +711,4 @@
 815 hard disk number with remaining size between
 816 hard disk maximum remaining size 
 817 hard disk minimum remaining size
+821 AssetTag only 

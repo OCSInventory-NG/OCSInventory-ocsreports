@@ -67,6 +67,14 @@ $where[3] = " $whereBase AND b2.hardware_id = n2.hardware_id AND b2.hardware_id 
 $group[3] = "h.id";
 $order[3] = "n1.macaddr,b.ssn";
 
+// asset tag seul
+$from[7] = "hardware h2, bios b2";
+$where[7] = "$whereBase AND b2.hardware_id <> b.hardware_id AND b2.hardware_id = h2.id AND b2.assettag = b.assettag AND b.assettag <> '' AND b.assettag <> NULL ";
+$group[7] = "h.id";
+$order[7] = "b.assettag";
+
+
+
 if(isset($_POST["subredon"])) {
 	for( $i = 1 ; $i <= $_POST["maxredon"] ; $i++) {
 		if(! isset($_POST["ch".$i]))
@@ -104,6 +112,7 @@ if(isset($_POST["typ"]) && $_POST["typ"]!=$l->g(192)) {
 		case $l->g(196): $ind = 4 ; break;
 		case $l->g(197): $ind = 5 ; break ;
 		case $l->g(198): $ind = 6 ; break ;
+		case $l->g(821): $ind = 7 ; break ;
 		/*case $l->g(193)*/
 		default : $ind = 1 ; break ;
 	}
@@ -133,6 +142,7 @@ echo "	<option".($_POST["typ"]==$l->g(32)?" selected":"").">".$l->g(32).":</opti
 	<option".($_POST["typ"]==$l->g(196)?" selected":"").">".$l->g(196)."</option>
 	<option".($_POST["typ"]==$l->g(197)?" selected":"").">".$l->g(197)."</option>
 	<option".($_POST["typ"]==$l->g(198)?" selected":"").">".$l->g(198)."</option>	
+	<option".($_POST["typ"]==$l->g(821)?" selected":"").">".$l->g(821)."</option>	
 	</select>
 	</form></td></tr></table>";
 	
@@ -159,6 +169,7 @@ else {
 				case 4: echo $l->g(196); break ;
 				case 5: echo $l->g(197); break ;
 				case 6: echo $l->g(198); break ;
+				case 6: echo $l->g(821); break ;
 			}
 			echo  ":&nbsp;<b>".$valr[0]."</b></td></tr>";
 		//}

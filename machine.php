@@ -957,7 +957,7 @@ function print_bios($systemid)
 	
 	echo "<table BORDER='0' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	echo "<tr>$td1 ".$l->g(36)."  </td>  $td1 ".$l->g(66)."       </td> $td1 ".$l->g(64)."  </td>	  $td1 ".$l->g(65)."   </td>	  $td1 ".$l->g(284)."  </td>
-		  $td1 ".$l->g(209)."  </td> $td1 ".$l->g(210)."  </td></tr>";
+		  $td1 ".$l->g(209)."  </td> $td1 ".$l->g(210)."  </td> $td1 Asset Tag  </td>   </tr>";
 		  
 	$item = mysql_fetch_object($resultDetails);	
 	echo "<tr>";
@@ -984,7 +984,8 @@ function print_bios($systemid)
 	      $td3".textDecode($item->SMODEL)."        </td>
 		  $td3".textDecode($item->BMANUFACTURER)." </td>
 		  $td3".textDecode($item->BVERSION)."      </td>
-		  $td3".textDecode($item->BDATE)."         </td>";
+		  $td3".textDecode($item->BDATE)."         </td>
+		  $td3".textDecode($item->ASSETTAG)."         </td>";
 	echo "</tr>";
 	echo "</table><br>";
 }
