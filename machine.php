@@ -36,7 +36,7 @@ $lbl_affich=array('NAME'=>$l->g(49),'WORKGROUP'=>$l->g(33),'USERDOMAIN'=>$l->g(5
 					'OSCOMMENTS'=>$l->g(286),'WINCOMPANY'=>$l->g(51),'WINOWNER'=>$l->g(348),
 					'WINPRODID'=>$l->g(111),'WINPRODKEY'=>$l->g(553),'USERAGENT'=>$l->g(357),
 					'MEMORY'=>$l->g(26),'LASTDATE'=>$l->g(46),'LASTCOME'=>$l->g(820),'DESCRIPTION'=>$l->g(636),
-					'NAME_RZ'=>$l->g(304)
+					'NAME_RZ'=>$l->g(304), 'ASSETTAG'=>'AssetTag'
 					);					
 foreach ($lbl_affich as $key=>$lbl){
 	if ($key == "MEMORY"){
