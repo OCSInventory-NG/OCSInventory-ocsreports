@@ -607,7 +607,7 @@ if (isset($default)){
 			}
 			$i=0;
 			while($item = mysql_fetch_object($result)){
-				$deb="<a href='machine.php?popup=1&systemid=".$item ->ID."' target='_blank'>";
+				$deb="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&popup=1&systemid=".$item ->ID."' target='_blank'>";
 				$fin="</a>";
 				$j=0;
 				foreach ($FIELDS as $key=>$value){					

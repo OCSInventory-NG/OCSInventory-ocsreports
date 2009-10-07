@@ -85,7 +85,7 @@ if ($protectedPost['Valid']==$l->g(103)){
 	echo "<script>alert('".$l->g(983)."')</script>";
  }
 if ($protectedPost['origine'] == "machine"){
-$direction=	"machine.php?option=cd_configuration&systemid=".$protectedPost["systemid"];	
+$direction=	"index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&option=cd_configuration&systemid=".$protectedPost["systemid"];	
 }elseif ($protectedPost['origine'] == "group")
 $direction=	"index.php?".PAG_INDEX."=".$pages_refs['group_show']."&popup=1&systemid=".$protectedPost["systemid"];
 else

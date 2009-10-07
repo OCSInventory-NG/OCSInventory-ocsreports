@@ -445,7 +445,7 @@ function print_perso($systemid) {
 		echo $td3.$l->g(493)."</td>";
 	}
 	if( $_SESSION["lvluser"]==SADMIN ){
-	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['opt_param']."'>";
+	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
 	echo "<td align=center rowspan=8><a OnClick='recharge(\"$systemid\",\"group\")'><img src='image/modif_a.png' title='".$l->g(285)."'></a></td>";
 	echo "</tr>";
 	echo "<input type='hidden' id='systemid' name='systemid' value=''>";

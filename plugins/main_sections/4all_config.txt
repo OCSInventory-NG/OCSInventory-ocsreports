@@ -31,6 +31,7 @@ ms_repart_tag:visu_repart_tag
 ms_groups:visu_groups
 ms_all_soft:visu_all_soft
 ms_multi_search:visu_search
+ms_multi_lot:lot_search
 ms_dict:admin_dico
 ms_upload_file:admin_upload
 ms_regconfig:admin_reg
@@ -53,8 +54,9 @@ ms_tele_activate:tele_activate
 ms_tele_popup_active:tele_popup_active
 ms_tele_actives:tele_actives
 ms_tele_massaffect:tele_massaffect
+ms_tele_pack:tele_pack
 ms_rules_redistrib:rules_redistrib
-ms_opt_param:opt_param
+ms_custom_param:opt_param
 ms_opt_ipdiscover:opt_ipdiscover
 ms_admin_attrib:admin_attrib
 ms_group_show:group_show
@@ -65,9 +67,11 @@ ms_custom_admin_rsx:admin_rsx
 ms_custom_admin_type:admin_type
 ms_custom_info:ipdiscover_info
 ms_debug:debug
+ms_computor:computor
 </URL>
 
 <DIRECTORY>
+ms_multi_lot:ms_multi_search
 ms_custom_perim:ms_users
 ms_custom_admin_rsx:ms_ipdiscover
 ms_custom_admin_type:ms_ipdiscover
@@ -77,8 +81,10 @@ ms_tele_activate:ms_teledeploy
 ms_tele_actives:ms_teledeploy
 ms_rules_redistrib:ms_teledeploy
 ms_tele_popup_active:ms_teledeploy
+ms_tele_pack:ms_teledeploy
 ms_config:ms_config
 ms_blacklist:ms_config
+ms_custom_param:ms_config
 </DIRECTORY>
 
 

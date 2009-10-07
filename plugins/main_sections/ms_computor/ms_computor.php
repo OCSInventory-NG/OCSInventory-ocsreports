@@ -10,11 +10,11 @@
 //====================================================================================
 //Modified on $Date: 2007/02/08 16:59:15 $$Author: plemmet $($Revision: 1.15 $)
 @session_start();
-unset($_SESSION['LANGUAGE']);
+/*unset($_SESSION['LANGUAGE']);
 $ban_head='no';
-require_once("header.php");
+require_once("header.php");*/
 require('require/function_opt_param.php');
-require_once('require/function_graphic.php');
+require('require/function_graphic.php');
 require_once('require/function_machine.php');
 
 //recherche des infos de la machine
@@ -36,7 +36,7 @@ $lbl_affich=array('NAME'=>$l->g(49),'WORKGROUP'=>$l->g(33),'USERDOMAIN'=>$l->g(5
 					'OSCOMMENTS'=>$l->g(286),'WINCOMPANY'=>$l->g(51),'WINOWNER'=>$l->g(348),
 					'WINPRODID'=>$l->g(111),'WINPRODKEY'=>$l->g(553),'USERAGENT'=>$l->g(357),
 					'MEMORY'=>$l->g(26),'LASTDATE'=>$l->g(46),'LASTCOME'=>$l->g(820),'DESCRIPTION'=>$l->g(636),
-					'NAME_RZ'=>$l->g(304), 'ASSETTAG'=>'AssetTag'
+					'NAME_RZ'=>$l->g(304)
 					);					
 foreach ($lbl_affich as $key=>$lbl){
 	if ($key == "MEMORY"){
@@ -127,7 +127,7 @@ while ($list_plugins[$i]){
 	if (!isset($valavail[0]) or $valavail[0] != 0){
 		//liste de toutes les infos de la machine
 		$show_all[]=$list_plugins[$i];
-		$href = "<a href='machine.php?systemid=".$systemid."&option=".$list_plugins[$i]."'>";
+		$href = "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i]."'>";
 		$fhref = "</a>";
 	}else{
 		$href = "";
@@ -178,15 +178,15 @@ if ($protectedGet['tout'] == 1){
 }
 
 echo "<br><table align='center'> <tr><td width =50%>";
-echo "<a style=\"text-decoration:underline\" onClick=print()><img src='image/imprimer.png' title='".$l->g(214)."'></a></td>";
+echo "<a style=\"text-decoration:underline\" onClick=print()><img src='image/print.png' title='".$l->g(214)."'></a></td>";
 
 
-if(!isset($protectedGet["tout"]))
-		echo"<td width=50%><a style=\"text-decoration:underline\" href=\"machine.php?systemid=".urlencode(stripslashes($systemid))."&tout=1\"><img width='60px' src='image/ttaff.png' title='".$l->g(215)."'></a></td>";
+//if(!isset($protectedGet["tout"]))
+		echo"<td width=50%>
+			<a style=\"text-decoration:underline\" href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".urlencode(stripslashes($systemid))."&tout=1\'>
+			<img width='60px' src='image/aff_all.png' title='".$l->g(215)."'></a></td>";
 		
-echo "</tr></table></body>";
-echo "</html>";
-exit;
+echo "</tr></table>";
 
 
 ?>
