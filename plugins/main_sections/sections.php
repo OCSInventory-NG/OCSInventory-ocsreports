@@ -82,6 +82,11 @@ if (file_exists($Directory.$ms_cfg_file)) {
    fclose( $fd );
 }
 
+//Splitting name_menu array for use with the "show_menu" javascript function
+$all_menus=implode("|", $name_menu);
+
+
+
 //Initiating icons
 if( !isset($protectedGet["popup"] )) {
 	//si la variable RESET existe
@@ -128,7 +133,7 @@ echo "		</tr></table>
 
 
 function show_icon($index,$lbl_index){
-	global $Directory,$list_url,$protectedGet,$l,$list_menu,$lbl_menu,$name_menu,$list_lbl;
+	global $Directory,$list_url,$protectedGet,$l,$list_menu,$lbl_menu,$name_menu,$list_lbl,$all_menus;
 
 	if ($name_menu[$index]){
 
@@ -158,7 +163,7 @@ function show_icon($index,$lbl_index){
 
         //si on clic sur l'icone, on charge le formulaire
         //pour obliger le cache des tableaux a se vider
-        echo "<td onmouseover=\"javascript:show_menu();\"><a onclick='clic(\"".$llink."\");'><img title=\"".$lbl."\" src='$Directory/img/$img.png'></a></td>";
+        echo "<td onmouseover=\"javascript:show_menu('nomenu','".$all_menus."');\"><a onclick='clic(\"".$llink."\");'><img title=\"".$lbl."\" src='$Directory/img/$img.png'></a></td>";
 	}
 	
 	
@@ -166,12 +171,12 @@ function show_icon($index,$lbl_index){
 
 function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
 {
-        global $protectedGet,$Directory,$list_url;
+        global $protectedGet,$Directory,$list_url,$all_menus;
 
         $pag_name=array_flip($list_url);
-        echo "<td onmouseover=\"javascript:show_menu('".$name_menu."');\">
+        echo "<td onmouseover=\"javascript:show_menu('".$name_menu."','".$all_menus."');\">
         <dl id=\"menu\">
-                <dt onmouseover=\"javascript:show_menu('".$name_menu."');\">
+                <dt onmouseover=\"javascript:show_menu('".$name_menu."','".$all_menus."');\">
                 <a href='javascript:void(0);'>
         <img src='$Directory/img/$nam_img";
        
@@ -180,7 +185,7 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
 	}
 
                 echo ".png'></a></dt>
-                        <dd id=\"".$name_menu."\" onmouseover=\"javascript:show_menu('".$name_menu."');\" onmouseout=\"javascript:show_menu();\">
+                        <dd id=\"".$name_menu."\" onmouseover=\"javascript:show_menu('".$name_menu."','".$all_menus."');\" onmouseout=\"javascript:show_menu('nomenu','".$all_menus."');\">
                                 <ul>
                                         <li><b>".$title."</b></li>";
                                         foreach ($data_list as $key=>$values){
@@ -193,12 +198,10 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
 
 }
 
+//Hidding menus to have a better display 
+echo "<script language='javascript'>show_menu('nomenu','".$all_menus."');</script>";
 
-	?>
 
-	<script language='javascript'>show_menu();</script>
-
-	<?php	
 if ($no_page != 'YES'){
 	$name=array_flip($list_url);
 	echo "<br><center><span id='wait' class='warn'><font color=red>".$l->g(332)."</font></span></center><br>";

@@ -82,14 +82,18 @@ function verif_field(field_name_verif,field_submit,form_name) {
 	}
 }
 
-function show_menu(id) {
-	document.getElementById("teledeploy_smenu").style.display='none'; 
-	document.getElementById("config_smenu").style.display='none'; 
-	if (id != null) { 
+function show_menu(id,all_menus) {
+	var menus_array=all_menus.split('|');
+
+	for (var i=0;i<menus_array.length;i++) { 		//Hidding all menus by default
+		document.getElementById(menus_array[i]).style.display='none'; 
+	}
+ 
+	if (id != "nomenu") { 
 		document.getElementById(id).style.display='block'; 
 	}
 }
-			
+		
 function clic(id) {
 	document.getElementById('ACTION_CLIC').action = id;
 	document.getElementById('RESET').value=1;
