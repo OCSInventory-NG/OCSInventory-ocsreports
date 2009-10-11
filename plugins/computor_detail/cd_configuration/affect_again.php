@@ -1,8 +1,8 @@
 <?php
-require_once('fichierConf.class.php');
+//require_once('fichierConf.class.php');
 $form_name='admin_search';
-$ban_head='no';
-require_once("header.php");
+//$ban_head='no';
+//require_once("header.php");
 if ($protectedPost['onglet'] != $protectedPost['old_onglet']){
 	$onglet=$protectedPost['onglet'];
 	$old_onglet=$protectedPost['old_onglet'];

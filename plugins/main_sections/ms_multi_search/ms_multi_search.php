@@ -684,12 +684,18 @@ if ($list_id != "")	{
 	if ($_SESSION["lvluser"] == SADMIN){
 		$list_fonct["image/config_search.png"]=$l->g(107);
 		$list_fonct["image/tele_search.png"]=$l->g(428);
+		$list_pag["image/config_search.png"]=$pages_refs['ms_custom_param'];
+		$list_pag["image/tele_search.png"]=$pages_refs["ms_custom_pack"];
 	}
+	$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
+	$list_pag["image/sup_search.png"]=$pages_refs["ms_custom_sup"];
+	$list_pag["image/cadena_ferme.png"]=$pages_refs["ms_custom_lock"];
+	$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
 	//activation des LOGS	
 	$tab_options['LOGS']='SEARCH_RESULT';
 //print_r($tab_options);
 	tab_req($table_tabname,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,'95',$tab_options);
-	add_trait_select($list_fonct,$list_id,$form_name);
+	add_trait_select($list_fonct,$list_id,$form_name,$list_pag);
 	echo "<input type='hidden' value='".$protectedPost['Valid-search']."' name='Valid-search'>";
 }elseif($protectedPost['Valid-search'] != '')
 $no_result="NO RESULT";

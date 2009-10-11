@@ -7,6 +7,8 @@
  */
 
 require_once('require/function_telediff.php');
+require_once('require/function_search.php');
+
 if ($protectedPost['SELECT'] != ''){
 	if ($protectedPost['onglet'] == 'MACH')
 	$nb_affect=active_mach($list_id,$protectedPost['SELECT']);

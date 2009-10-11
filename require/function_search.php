@@ -443,7 +443,7 @@ function calendars($NameInputField,$DateFormat)
 }
 
 
-function add_trait_select($img,$list_id,$form_name)
+function add_trait_select($img,$list_id,$form_name,$list_pag)
 {
 	global 	$l;
 	$_SESSION['ID_REQ']=$list_id;
@@ -459,17 +459,56 @@ function add_trait_select($img,$list_id,$form_name)
 				}
 			}
 			idchecked = idchecked.substr(0,(idchecked.length -1));
-			window.open(\"multi_lot.php?img=\"+image+\"&idchecked=\"+idchecked,\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");
+			window.open(\"index.php?".PAG_INDEX."=\"+image+\"&head=1&idchecked=\"+idchecked,\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");
 			
 		}
 	</script>";
 	echo "<table align='center' width='30%' border='0'>";
 	echo "<tr><td>";
 	foreach ($img as $key=>$value){
-		echo "<td align=center><a href=# onclick=garde_check(\"".$key."\",\"".$list_id."\")><img src='".$key."' title='".$value."' ></a></td>";
+		echo "<td align=center><a href=# onclick=garde_check(\"".$list_pag[$key]."\",\"".$list_id."\")><img src='".$key."' title='".$value."' ></a></td>";
 	}
- echo "</tr></tr></table>";    
-
-	
+ echo "</tr></tr></table>";    	
 }
+
+function multi_lot(){
+	global $protectedPost,$protectedGet,$l;
+	$list_id="";
+//	if ($protectedPost['onglet'] != $protectedPost['old_onglet']){
+//		$onglet=$protectedPost['onglet'];
+//		$old_onglet=$protectedPost['old_onglet'];
+//		unset($protectedPost);
+//		$protectedPost['old_onglet']=$old_onglet;
+//		$protectedPost['onglet']=$onglet;
+//	}
+	if ($protectedGet['origine']!= "mach" and $protectedGet['origine']!= "group"){
+		if (isset($protectedGet['idchecked']) and $protectedGet['idchecked'] != ""){
+			$choise_req_selection['REQ']=$l->g(584);
+			$choise_req_selection['SEL']=$l->g(585);
+			$select_choise=show_modif($choise_req_selection,'CHOISE',2,$form_name);	
+		}
+		$msg_error = "<font color=red><b>";
+		if ($protectedPost['CHOISE'] == 'REQ' or $protectedGet['idchecked'] == '' or $protectedPost['CHOISE'] == ''){
+			echo $l->g(901);
+			$list_id=$_SESSION['ID_REQ'];
+		}
+		if ($protectedPost['CHOISE'] == 'SEL'){
+			echo $l->g(902);
+			$list_id=$protectedGet['idchecked'];
+		}
+		//gestion tableau
+		if (is_array($list_id))
+			$list_id=implode(",", $list_id);
+	}else
+		$list_id=$protectedGet['idchecked'];
+	$msg_error .= "</b></font>";
+
+	if ($list_id != "")
+		return $list_id;
+	else{
+		echo  $msg_error;
+		die();
+	}
+}
+
 ?>
