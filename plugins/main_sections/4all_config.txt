@@ -75,7 +75,8 @@ ms_computor:computor
 </URL>
 
 <DIRECTORY>
-ms_custom_groups:ms_multi_search
+ms_custom_groups:ms_groups
+ms_group_show:ms_groups
 ms_custom_lock:ms_multi_search
 ms_custom_sup:ms_multi_search
 ms_custom_tag:ms_multi_search

@@ -1,13 +1,12 @@
 <?php
-	$list_fields=array();
-	if (!isset($protectedPost['SHOW']))
-		$protectedPost['SHOW'] = 'NOSHOW';
-$majuscule="onKeyPress=\"return scanTouche(event,/[0-9 a-z A-Z]/)\" onkeydown='convertToUpper(this)'
-		  onkeyup='convertToUpper(this)' 
-		  onblur='convertToUpper(this)'";
-$chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToUpper(this)'
-		  onkeyup='convertToUpper(this)' 
-		  onblur='convertToUpper(this)'";
+require_once('require/function_search.php');
+$form_name="lock_affect";
+echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''><div align=center>";
+$list_id=multi_lot($form_name,$l->g(601));
+$list_fields=array();
+//if (!isset($protectedPost['SHOW']))
+//		$protectedPost['SHOW'] = 'NOSHOW';
+
 if (isset($protectedPost['Valid_modif_x'])){
 		foreach ($protectedPost as $key=>$value){
 			$temp="";
@@ -20,20 +19,11 @@ if (isset($protectedPost['Valid_modif_x'])){
 			} 				
 		}
 	if (isset($list_tag)){	
-		if ($protectedPost['CHOISE'] == 'SEL'){
-			$array_id=$protectedGet['idchecked'];		
-		}elseif ($protectedPost['CHOISE'] == 'REQ'){
-			if (is_array($_SESSION['ID_REQ']))
-			$array_id=implode(',',$_SESSION['ID_REQ']);	
-			else
-			$array_id=$_SESSION['ID_REQ'];	
-			//print_r($_SESSION['ID_REQ']);
-		}
 		$sql= "update accountinfo set ";
 		foreach($list_tag as $tag=>$value){
 			 $sql.=$tag." = \"".$value."\" ,";
 		}
-		$sql=substr($sql,0, -1)." where hardware_id in (".$array_id.")";
+		$sql=substr($sql,0, -1)." where hardware_id in (".$list_id.")";
 		//echo "<br>".$sql;
 		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
 		unset($_SESSION['DATA_CACHE']['TAB_MULTICRITERE']);
@@ -47,15 +37,9 @@ if (isset($protectedPost['Valid_modif_x'])){
 }
 
 
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	if (isset($select_choise))
-		echo "<div align=center>".$l->g(984)." ".$select_choise."</div><br>";		
-	else{
-		$protectedPost['CHOISE']='REQ';
-		echo "<input type='hidden' name='CHOISE' value='".$protectedPost['CHOISE']."'>";	
-	}
+
 	//print_r($protectedPost);
-	if (isset($protectedPost['CHOISE']) and $protectedPost['CHOISE'] != ""){
+	if ($list_id){
 		$queryDetails = "show columns from accountinfo";
 		$resultDetails = mysql_query($queryDetails, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 		$i=0;

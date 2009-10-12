@@ -29,16 +29,16 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'PROTO'=>$protectedPost['PROTOCOLE'],
 						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
 						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>$protectedPost['ACTION_INPUT'],
+						'PATH'=>str_replace("////", "//", $protectedPost['ACTION_INPUT']),
 						'NAME'=>$protectedPost['ACTION_INPUT'],
 						'COMMAND'=>$protectedPost['ACTION_INPUT'],
 						'NOTIFY_USER'=>$protectedPost['NOTIFY_USER'],
-						'NOTIFY_TEXT'=>$protectedPost['NOTIFY_TEXT'],
+						'NOTIFY_TEXT'=>str_replace("////", "//",$protectedPost['NOTIFY_TEXT']),
 						'NOTIFY_COUNTDOWN'=>$protectedPost['NOTIFY_COUNTDOWN'],
 						'NOTIFY_CAN_ABORT'=>$protectedPost['NOTIFY_CAN_ABORT'],
 						'NOTIFY_CAN_DELAY'=>$protectedPost['NOTIFY_CAN_DELAY'],
 						'NEED_DONE_ACTION'=>$protectedPost['NEED_DONE_ACTION'],
-						'NEED_DONE_ACTION_TEXT'=>$protectedPost['NEED_DONE_ACTION_TEXT'],
+						'NEED_DONE_ACTION_TEXT'=>str_replace("////", "//",$protectedPost['NEED_DONE_ACTION_TEXT']),
 						'GARDEFOU'=>"rien");
 	$msg=create_pack($sql_details,$info_details);
 	if ($protectedPost['REDISTRIB_USE'] == 1){

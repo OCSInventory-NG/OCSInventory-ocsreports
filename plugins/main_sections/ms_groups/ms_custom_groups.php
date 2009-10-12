@@ -1,15 +1,11 @@
 <?php
-
-require_once('require/function_table_html.php');
+require_once('require/function_search.php');
 require_once('require/function_groups.php');
+$form_name="groups_affect";
+echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+$list_id=multi_lot($form_name,$l->g(601));
 /*********************************************TRAITEMENT DES DONNEES*****************************************/
-if (isset($protectedPost['VALID_GROUP'])){
-	//sur la requete ou sur la selection?
-	if ($protectedPost['CHOISE'] == "SEL")
-		$list_id=$protectedGet['idchecked'];
-	else
-		$list_id=implode($_SESSION['ID_REQ'],',');
-		
+if (isset($protectedPost['VALID_GROUP'])){		
 	//gestion groupe de serveurs
 	if ($protectedPost['onglet'] == strtoupper($l->g(651))){
 		require_once('require/function_server.php');
@@ -78,7 +74,7 @@ if (isset($protectedPost['VALID_GROUP'])){
 		echo "<div align=center><b>".$msg."</b></div>";
 }
 /*********************************************CALCUL DES CHAMPS A AFFICHER*************************************/
-
+if ($list_id){
 //définition des onglets
 //for all
 $def_onglets[$l->g(809)]=$l->g(809); //GROUPES STATIQUES
@@ -90,11 +86,6 @@ if ($_SESSION['lvluser'] == SADMIN){
 	$optionList['NEW']=$l->g(586);
 }
 
-//gestion unique par la variable $protectedGet
-if ($protectedPost['CHOISE'] == "REQ" or $protectedPost['CHOISE'] == "")
-	$protectedGet["listid"]=implode($_SESSION['ID_REQ'],',');
-else
-	$protectedGet["listid"]=$protectedGet['idchecked'];
 
 //if no select => first onget selected
 if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
@@ -106,7 +97,7 @@ if ($protectedPost['onglet'] == $l->g(810)){
 if ($protectedPost['onglet'] == $l->g(809)){
 	$all_groups=all_groups('STATIC');
 	$delGroups="select distinct id, name,workgroup from hardware,groups_cache
-			where groups_cache.HARDWARE_ID in (".$protectedGet['listid'].")
+			where groups_cache.HARDWARE_ID in (".$list_id.")
 				and groups_cache.group_id=hardware.id
 				and deviceid = '_SYSTEMGROUP_'
 				and groups_cache.static = 1";
@@ -117,7 +108,7 @@ if ($protectedPost['onglet'] == strtoupper($l->g(651))){
 	$all_groups=all_groups('SERVER');	
 	$delGroups="select distinct group_id as id, name 
 				from download_servers,hardware 
-				where hardware_id in(".$protectedGet['listid'].")
+				where hardware_id in(".$list_id.")
 					and hardware.id=download_servers.group_id";
 }
 //search all groups for listid selection
@@ -149,22 +140,13 @@ $select=show_modif($optionList,'NEW_RAZ',2,$form_name);
 
 
 /******************************************show RESULT************************************************/	
-//open form
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-//show onglet
-onglet($def_onglets,$form_name,'onglet',7);
+	//show onglet
+	onglet($def_onglets,$form_name,'onglet',7);
 
 	//create a "valid" button
 	$valid="<tr><td align=center colspan=10><input type=submit value='".$l->g(13)."' name='VALID_GROUP'></td></tr>";
 	//open table
 	echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
-	if (isset($select_choise) and $protectedPost['onglet'] != $l->g(810)){
-	echo "<tr><td align =center colspan=10>".$select_choise."</td></tr>";
-	}
-	else{
-		$protectedPost['CHOISE']='REQ';
-		echo "<input type='hidden' name='CHOISE' value='".$protectedPost['CHOISE']."'>";
-	}
 	echo "<tr><td align =center colspan=10>";
 	if (isset($protectedPost['CHOISE']) and $protectedPost['CHOISE'] != ""){
 		echo $select;	
@@ -193,7 +175,7 @@ onglet($def_onglets,$form_name,'onglet',7);
 		}
 	}
 	echo "</td></tr></table>";
-//}
+}
 echo "</form>";
 
 ?>

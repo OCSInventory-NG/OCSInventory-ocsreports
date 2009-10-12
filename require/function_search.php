@@ -471,25 +471,23 @@ function add_trait_select($img,$list_id,$form_name,$list_pag)
  echo "</tr></tr></table>";    	
 }
 
-function multi_lot(){
+function multi_lot($form_name,$lbl_choise){
 	global $protectedPost,$protectedGet,$l;
 	$list_id="";
-//	if ($protectedPost['onglet'] != $protectedPost['old_onglet']){
-//		$onglet=$protectedPost['onglet'];
-//		$old_onglet=$protectedPost['old_onglet'];
-//		unset($protectedPost);
-//		$protectedPost['old_onglet']=$old_onglet;
-//		$protectedPost['onglet']=$onglet;
-//	}
-	if ($protectedGet['origine']!= "mach" and $protectedGet['origine']!= "group"){
+	if (!isset($protectedGet['origine'])){
 		if (isset($protectedGet['idchecked']) and $protectedGet['idchecked'] != ""){
 			$choise_req_selection['REQ']=$l->g(584);
 			$choise_req_selection['SEL']=$l->g(585);
 			$select_choise=show_modif($choise_req_selection,'CHOISE',2,$form_name);	
+			echo "<center>".$lbl_choise." ".$select_choise."</center><br>";
 		}
-		$msg_error = "<font color=red><b>";
-		if ($protectedPost['CHOISE'] == 'REQ' or $protectedGet['idchecked'] == '' or $protectedPost['CHOISE'] == ''){
+		echo "<font color=red><b>";
+		if ($protectedPost['CHOISE'] == 'REQ' or $protectedGet['idchecked'] == ''){
 			echo $l->g(901);
+			if ($protectedGet['idchecked'] == ''){
+				echo "<input type='hidden' name='CHOISE' value='".$protectedPost['CHOISE']."'>";
+				$protectedPost['CHOISE'] = 'REQ';
+			}
 			$list_id=$_SESSION['ID_REQ'];
 		}
 		if ($protectedPost['CHOISE'] == 'SEL'){
@@ -501,13 +499,12 @@ function multi_lot(){
 			$list_id=implode(",", $list_id);
 	}else
 		$list_id=$protectedGet['idchecked'];
-	$msg_error .= "</b></font>";
+	echo "</b></font>";
 
 	if ($list_id != "")
 		return $list_id;
 	else{
-		echo  $msg_error;
-		die();
+		return false;
 	}
 }
 

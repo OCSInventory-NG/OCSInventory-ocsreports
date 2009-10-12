@@ -2,14 +2,7 @@
 	$list_fields=array();
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
-$majuscule="onKeyPress=\"return scanTouche(event,/[0-9 a-z A-Z]/)\" onkeydown='convertToUpper(this)'
-		  onkeyup='convertToUpper(this)' 
-		  onblur='convertToUpper(this)'
-		  onclick='convertToUpper(this)'";
-$chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToUpper(this)'
-		  onkeyup='convertToUpper(this)' 
-		  onblur='convertToUpper(this)'
-		  onclick='convertToUpper(this)'";
+
 
 	$form_name="affich_tag";
 	$table_name=$form_name;

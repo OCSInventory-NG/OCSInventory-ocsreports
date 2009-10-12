@@ -5,6 +5,13 @@
  * 
  * 
  */
+$chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToUpper(this)'
+		  onkeyup='convertToUpper(this)' 
+		  onblur='convertToUpper(this)'
+		  onclick='convertToUpper(this)'";
+ $majuscule="onKeyPress=\"return scanTouche(event,/[0-9 a-z A-Z]/)\" onkeydown='convertToUpper(this)'
+		  onkeyup='convertToUpper(this)' 
+		  onblur='convertToUpper(this)'";
  
 function printEnTete_tab($ent) {
 	echo "<br><table border=0 WIDTH = '62%' ALIGN = 'Center' CELLPADDING='5'>
@@ -1037,7 +1044,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$entete[$num_col]=$truelabel;
 						$lien = 'KO';
 					}elseif ($key == "GROUP_NAME"){
-						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['group_show']."&popup=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
+						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
 					}elseif ($key == "SUP"){
 						if (isset($tab_options['LBL_POPUP'][$key]))
 						$lbl_msg=$donnees[$tab_options['LBL_POPUP'][$key]];
