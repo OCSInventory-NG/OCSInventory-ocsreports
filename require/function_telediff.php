@@ -358,29 +358,29 @@ function create_pack($sql_details,$info_details){
 		}
 		
 		//creation info
-		$info = "<DOWNLOAD ID=\"".xml_encode($sql_details['timestamp'])."\" ".
-		"PRI=\"".xml_encode($info_details['PRI'])."\" ".
-		"ACT=\"".xml_encode($info_details['ACT'])."\" ".
-		"DIGEST=\"".xml_encode($info_details['DIGEST'])."\" ".		
-		"PROTO=\"".	xml_encode($info_details['PROTO'])."\" ".
-		"FRAGS=\"".xml_encode($sql_details['nbfrags'])."\" ".
-		"DIGEST_ALGO=\"".xml_encode($info_details['DIGEST_ALGO'])."\" ".
-		"DIGEST_ENCODE=\"".xml_encode($info_details['DIGEST_ENCODE'])."\" ";		
+		$info = "<DOWNLOAD ID=\"".$sql_details['timestamp']."\" ".
+		"PRI=\"".$info_details['PRI']."\" ".
+		"ACT=\"".$info_details['ACT']."\" ".
+		"DIGEST=\"".$info_details['DIGEST']."\" ".		
+		"PROTO=\"".	$info_details['PROTO']."\" ".
+		"FRAGS=\"".$sql_details['nbfrags']."\" ".
+		"DIGEST_ALGO=\"".$info_details['DIGEST_ALGO']."\" ".
+		"DIGEST_ENCODE=\"".$info_details['DIGEST_ENCODE']."\" ";		
 		if ($info_details['ACT'] == 'STORE')
-		$info .="PATH=\"".xml_encode($info_details['PATH'])."\" ";
+		$info .="PATH=\"".$info_details['PATH']."\" ";
 		if ($info_details['ACT'] == 'LAUNCH')
-		$info .="NAME=\"".xml_encode($info_details['NAME'])."\" ";
+		$info .="NAME=\"".$info_details['NAME']."\" ";
 		if ($info_details['ACT'] == 'EXECUTE')
-		$info .="COMMAND=\"".xml_encode($info_details['COMMAND'])."\" ";
+		$info .="COMMAND=\"".$info_details['COMMAND']."\" ";
 		
-		$info .="NOTIFY_USER=\"".xml_encode($info_details['NOTIFY_USER'])."\" ".
-		"NOTIFY_TEXT=\"".xml_encode(stripslashes($info_details['NOTIFY_TEXT']))."\" ".
-		"NOTIFY_COUNTDOWN=\"".xml_encode($info_details['NOTIFY_COUNTDOWN'])."\" ".
-		"NOTIFY_CAN_ABORT=\"".xml_encode($info_details['NOTIFY_CAN_ABORT'])."\" ".
-		"NOTIFY_CAN_DELAY=\"".xml_encode($info_details['NOTIFY_CAN_DELAY'])."\" ".
-		"NEED_DONE_ACTION=\"".xml_encode($info_details['NEED_DONE_ACTION'])."\" ".		
-		"NEED_DONE_ACTION_TEXT=\"".xml_encode(stripslashes($info_details['NEED_DONE_ACTION_TEXT']))."\" ".		
-		"GARDEFOU=\"".xml_encode($info_details['GARDEFOU'])."\" />\n";
+		$info .="NOTIFY_USER=\"".$info_details['NOTIFY_USER']."\" ".
+		"NOTIFY_TEXT=\"".$info_details['NOTIFY_TEXT']."\" ".
+		"NOTIFY_COUNTDOWN=\"".$info_details['NOTIFY_COUNTDOWN']."\" ".
+		"NOTIFY_CAN_ABORT=\"".$info_details['NOTIFY_CAN_ABORT']."\" ".
+		"NOTIFY_CAN_DELAY=\"".$info_details['NOTIFY_CAN_DELAY']."\" ".
+		"NEED_DONE_ACTION=\"".$info_details['NEED_DONE_ACTION']."\" ".		
+		"NEED_DONE_ACTION_TEXT=\"".$info_details['NEED_DONE_ACTION_TEXT']."\" ".		
+		"GARDEFOU=\"".$info_details['GARDEFOU']."\" />\n";
 		
 		$handinfo = fopen( $sql_details['document_root'].$sql_details['timestamp']."/info", "w+" );
 		fwrite( $handinfo, $info );
@@ -390,8 +390,8 @@ function create_pack($sql_details,$info_details){
 		mysql_query( "DELETE FROM download_available WHERE FILEID='".$sql_details['timestamp']."'", $_SESSION["writeServer"]);
 		//insertion du nouveau paquet
 		$req = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT) VALUES
-		( '".$sql_details['timestamp']."', '".addslashes($sql_details['name'])."','".$info_details['PRI']."', '".$sql_details['nbfrags']."',
-		'".$sql_details['size']."', '".$sql_details['os']."', '".xml_encode($sql_details['description'])."' )";
+		( '".$sql_details['timestamp']."', '".$sql_details['name']."','".$info_details['PRI']."', '".$sql_details['nbfrags']."',
+		'".$sql_details['size']."', '".$sql_details['os']."', '".$sql_details['description']."' )";
 		mysql_query( $req, $_SESSION["writeServer"] ) or die(mysql_error($_SESSION["writeServer"]));
 		addLog($l->g(512), $l->g(617)." ".$sql_details['timestamp'] );
 		//message d'info

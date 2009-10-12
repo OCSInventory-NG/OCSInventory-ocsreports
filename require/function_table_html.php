@@ -13,6 +13,32 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
  
+function replace_slashes($array){
+	foreach($array as $key=>$value){
+		$array_tmp=array();
+		$array_tmp=explode('\\',$value);
+		$i=0;
+		$slashes='';
+		$new_value='';
+		//print_r($array_tmp);
+		while (isset($array_tmp[$i])){			
+			//echo $array_tmp[$i]."<br>";
+			if ($slashes == '' and $array_tmp[$i] == ""){
+			$slashes ="\\\\";
+			$new_value.=$slashes;
+			}elseif ($array_tmp[$i] != ""){
+				$new_value.=$array_tmp[$i];
+				$slashes ='';
+			}
+			$i++;	
+		}
+		$array_trait[$key]=$new_value;		
+	}
+	return $array_trait;
+
+	
+}
+ 
 function printEnTete_tab($ent) {
 	echo "<br><table border=0 WIDTH = '62%' ALIGN = 'Center' CELLPADDING='5'>
 	<tr height=40px bgcolor=#f2f2f2 align=center><td><b>".$ent."</b></td></tr></table>";

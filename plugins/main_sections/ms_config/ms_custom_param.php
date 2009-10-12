@@ -117,32 +117,33 @@ $list_id=multi_lot($form_name,$l->g(601));
 	}
 	
 	
-	if(!$list_id){
+	if(isset($direction)){
 	//link for return 
 		echo "<br><center><a href='#' OnClick=\"window.location='".$direction."';\"><= ".$l->g(188)."</a></center>";
 		
 	}
-	
-	onglet($def_onglets,$form_name,'onglet',7);
-	echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
-	if ($protectedPost['onglet'] == $l->g(728)){
-		include ('ms_custom_frequency.php');
+	if ($list_id){
+		onglet($def_onglets,$form_name,'onglet',7);
+		echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
+		if ($protectedPost['onglet'] == $l->g(728)){
+			include ('ms_custom_frequency.php');
+		}
+		if ($protectedPost['onglet'] == $l->g(499)){
+				include ('ms_custom_prolog.php');
+		}
+		if ($protectedPost['onglet'] == $l->g(512)){
+			include ('ms_custom_download.php');
+		
+		}
+		if ($protectedPost['onglet'] == $l->g(312)){
+			include ('ms_custom_ipdiscover.php');
+		
+		}
+		if (isset($protectedPost['origine'])){
+		echo "<input type='hidden' id='systemid' name='systemid' value='".$protectedPost['systemid']."'>";
+			echo "<input type='hidden' id='origine' name='origine' value='".$protectedPost['origine']."'>";
+		} 
+		echo "</td></tr></table>";
 	}
-	if ($protectedPost['onglet'] == $l->g(499)){
-			include ('ms_custom_prolog.php');
-	}
-	if ($protectedPost['onglet'] == $l->g(512)){
-		include ('ms_custom_download.php');
-	
-	}
-	if ($protectedPost['onglet'] == $l->g(312)){
-		include ('ms_custom_ipdiscover.php');
-	
-	}
-	if (isset($protectedPost['origine'])){
-	echo "<input type='hidden' id='systemid' name='systemid' value='".$protectedPost['systemid']."'>";
-		echo "<input type='hidden' id='origine' name='origine' value='".$protectedPost['origine']."'>";
-	} 
-	echo "</td></tr></table>";
  echo "</form>";
 ?>
