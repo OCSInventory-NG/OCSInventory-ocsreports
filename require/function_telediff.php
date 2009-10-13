@@ -383,7 +383,7 @@ function create_pack($sql_details,$info_details){
 		"GARDEFOU=\"".$info_details['GARDEFOU']."\" />\n";
 		
 		$handinfo = fopen( $sql_details['document_root'].$sql_details['timestamp']."/info", "w+" );
-		fwrite( $handinfo, $info );
+		fwrite( $handinfo, utf8_decode($info));
 		fclose( $handinfo );
 		
 		//suppression du paquet qui aurait le m�me id

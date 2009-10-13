@@ -5,6 +5,7 @@
  * 
  * 
  */
+
 $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToUpper(this)'
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'
@@ -13,6 +14,12 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
  
+function replace_entity_xml($txt){
+	$cherche = array("&","<",">","\"","'");
+	$replace = array( "&amp;","&lt;","&gt;", "&quot;", "&apos;");
+	return str_replace($cherche, $replace, $txt);		
+}  
+
 function replace_slashes($array){
 	foreach($array as $key=>$value){
 		$array_tmp=array();

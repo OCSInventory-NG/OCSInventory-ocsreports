@@ -10,18 +10,15 @@
 //====================================================================================
 //Modified on $Date: 2007/07/23 10:30:26 $$Author: plemmet $($Revision: 1.12 $)
 
-//TODO: A TRADUIRE AVEC LE FICHIER DE LANGUE
-
 require_once('require/function_telediff.php');
-//print_r($protectedPost);
 if( isset( $protectedPost["VALID_END"] ) ) {
 	$protectedPost=replace_slashes($protectedPost);
 	$sql_details=array('document_root'=>$protectedPost['document_root'],
 					   'timestamp'=>$protectedPost['timestamp'],
 					   'nbfrags'=>$protectedPost["nbfrags"],
-					   'name'=>$protectedPost['NAME'],
+					   'name'=>xml_encode(stripslashes($protectedPost['NAME'])),
 					   'os'=>$protectedPost['OS'],
-					   'description'=>$protectedPost['DESCRIPTION'],
+					   'description'=>xml_encode(stripslashes($protectedPost['DESCRIPTION'])),
 					   'size'=>$protectedPost['SIZE']);
 					   
 	$info_details=array('PRI'=>$protectedPost['PRIORITY'],
@@ -30,16 +27,16 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'PROTO'=>$protectedPost['PROTOCOLE'],
 						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
 						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>$protectedPost['ACTION_INPUT'],
-						'NAME'=>$protectedPost['ACTION_INPUT'],
-						'COMMAND'=>$protectedPost['ACTION_INPUT'],
+						'PATH'=>replace_entity_xml(stripslashes(stripslashes($_POST['ACTION_INPUT']))),
+						'NAME'=>replace_entity_xml(stripslashes(stripslashes($_POST['ACTION_INPUT']))),
+						'COMMAND'=>replace_entity_xml(stripslashes(stripslashes($_POST['ACTION_INPUT']))),
 						'NOTIFY_USER'=>$protectedPost['NOTIFY_USER'],
-						'NOTIFY_TEXT'=>$protectedPost['NOTIFY_TEXT'],
+						'NOTIFY_TEXT'=>replace_entity_xml(stripslashes(stripslashes($_POST['NOTIFY_TEXT']))),
 						'NOTIFY_COUNTDOWN'=>$protectedPost['NOTIFY_COUNTDOWN'],
 						'NOTIFY_CAN_ABORT'=>$protectedPost['NOTIFY_CAN_ABORT'],
 						'NOTIFY_CAN_DELAY'=>$protectedPost['NOTIFY_CAN_DELAY'],
 						'NEED_DONE_ACTION'=>$protectedPost['NEED_DONE_ACTION'],
-						'NEED_DONE_ACTION_TEXT'=>$protectedPost['NEED_DONE_ACTION_TEXT'],
+						'NEED_DONE_ACTION_TEXT'=>replace_entity_xml(stripslashes(stripslashes($_POST['NEED_DONE_ACTION_TEXT']))),
 						'GARDEFOU'=>"rien");
 	$msg=create_pack($sql_details,$info_details);
 	if ($protectedPost['REDISTRIB_USE'] == 1){
@@ -390,7 +387,7 @@ $file=$lign_begin.$l->g(549).$td_colspan2."<input id='teledeploy_file' name='tel
 $action=$lign_begin.$l->g(443).":</td><td>".champ_select_block($list_action,'ACTION',array('EXECUTE_div','STORE_div','LAUNCH_div'))."</td><td align=center>
 <div id='EXECUTE_div' style='display:none'>".$l->g(444).": </div>
 <div id='STORE_div' style='display:block'>".$l->g(445).": </div>
-<div id='LAUNCH_div' style='display:none'>".$l->g(446).": </div>".show_modif($protectedPost['ACTION_INPUT'],'ACTION_INPUT',0,'').$lign_end;
+<div id='LAUNCH_div' style='display:none'>".$l->g(446).": </div>".show_modif($_POST['ACTION_INPUT'],'ACTION_INPUT',0,'').$lign_end;
 $notify_user="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(448).":</td><td>".champ_select_block($yes_no,'NOTIFY_USER',array('NOTIFY_USER'=>1)).$lign_end;
 $redistrib="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(1008).":</td><td>".champ_select_block($yes_no,'REDISTRIB_USE',array('REDISTRIB_USE'=>1)).$lign_end;
 
@@ -431,7 +428,7 @@ echo "<div id='OS_div' style='display:block'>";
 echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5' >";
 	echo $title_user.$notify_user;
 
-		$notify_txt=$lign_begin.$l->g(449).$td_colspan2.show_modif($protectedPost['NOTIFY_TEXT'],'NOTIFY_TEXT',1).$lign_end;
+		$notify_txt=$lign_begin.$l->g(449).$td_colspan2.show_modif($_POST['NOTIFY_TEXT'],'NOTIFY_TEXT',1).$lign_end;
 		$notify_count_down=$lign_begin.$l->g(450).$td_colspan2.show_modif($protectedPost['NOTIFY_COUNTDOWN'],'NOTIFY_COUNTDOWN',0,'',array('MAXLENGTH'=>4,'SIZE'=>4)).$l->g(511).$lign_end;
 		$notify_can_abord=$lign_begin.$l->g(451).$td_colspan2.show_modif($yes_no,'NOTIFY_CAN_ABORT',2).$lign_end;
 		$notify_can_delay=$lign_begin.$l->g(452).$td_colspan2.show_modif($yes_no,'NOTIFY_CAN_DELAY',2).$lign_end;
@@ -444,7 +441,7 @@ echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLP
 	$need_done_action="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(453).":</td><td>".champ_select_block($yes_no,'NEED_DONE_ACTION',array('NEED_DONE_ACTION'=>1)).$lign_end;
 	echo $need_done_action;
 	
-		$need_done_action_txt=$lign_begin.$l->g(449).$td_colspan2.show_modif($protectedPost['NEED_DONE_ACTION_TEXT'],'NEED_DONE_ACTION_TEXT',1).$lign_end;
+		$need_done_action_txt=$lign_begin.$l->g(449).$td_colspan2.show_modif($_POST['NEED_DONE_ACTION_TEXT'],'NEED_DONE_ACTION_TEXT',1).$lign_end;
 		echo "<tr><td colspan='3' align=center><div id='NEED_DONE_ACTION_div' style='display:".($protectedPost["NEED_DONE_ACTION"] == 1 ? " block" : "none")."'>";
 		echo $sous_tab_beg;
 		echo $need_done_action_txt;
