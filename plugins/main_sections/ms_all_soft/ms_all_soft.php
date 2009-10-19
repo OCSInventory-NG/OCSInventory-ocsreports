@@ -153,7 +153,7 @@ echo "<br><div align=center>
 	
 	echo "<tr><td colspan=2 align=center><a href='ipcsv.php'>".$l->g(183)." ".$l->g(765)."</a></td></tr>";
 if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protectedPost['NBRE'] != "")
-echo "<tr><td colspan=2 align=center><a href='exportallsoft.php'>".$l->g(912)."</a></td></tr>";
+echo "<tr><td colspan=2 align=center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_exportallsoft']."&no_header=1'>".$l->g(912)."</a></td></tr>";
 echo "</table></div>
 		";
 echo "</form>";

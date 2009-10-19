@@ -13,7 +13,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 			if (substr($key, 0, 5) == "check"){
 				$temp=substr($key, 5);
 				$tag_value=$protectedPost[$temp];
-				if ($temp == TAG_LBL)
+				if ($temp == $_SESSION['TAG_LBL'])
 					$temp="TAG";
 				$list_tag[$temp]=$tag_value;
 			} 				
@@ -46,7 +46,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 		while($item = mysql_fetch_object($resultDetails)){
 			if ($item->Field != "HARDWARE_ID"){
 				if ($item->Field == "TAG")
-					$truename=TAG_LBL;
+					$truename=$_SESSION['TAG_LBL'];
 				else
 					$truename=$item->Field;
 				$java="";

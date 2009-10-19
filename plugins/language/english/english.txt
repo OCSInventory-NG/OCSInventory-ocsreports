@@ -912,6 +912,7 @@
 1017 Password ROOT
 1018 (Don't write anything if you want use anonymous conexion)
 1019 Lock result
+1020 Name of the tag information
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]

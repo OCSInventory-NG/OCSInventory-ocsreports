@@ -255,7 +255,7 @@ function update_default_value($POST){
 	//tableau des champs ou il faut juste mettre � jour le tvalue
 	$array_simple_tvalue=array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT','OCS_FILES_FORMAT','OCS_FILES_PATH',
 							   'LOCAL_SERVER','CONEX_LDAP_SERVEUR','CONEX_LDAP_PORT','CONEX_DN_BASE_LDAP','CONEX_LOGIN_FIELD',
-							   'CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN','CONEX_ROOT_PW');
+							   'CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN','CONEX_ROOT_PW','LBL_TAG');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -375,7 +375,8 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 				  'DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR',
 				  'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR',
 				  'LOG_GUI'=>'LOG_GUI',
-				  'LOG_DIR'=>'LOG_DIR'
+				  'LOG_DIR'=>'LOG_DIR',
+ 				  'LBL_TAG'=>'LBL_TAG'
 				  );
 	$values=look_default_values($champs);
 	if (isset($values['tvalue']['DOWNLOAD_PACK_DIR']))
@@ -409,7 +410,8 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 	ligne('LOG_GUI',$l->g(824),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOG_GUI'])); 	
 	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."/oscreport/)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>70));	
-	
+	ligne('LBL_TAG',$l->g(1020),'input',array('VALUE'=>$values['tvalue']['LBL_TAG'],'SIZE'=>50,'MAXLENGHT'=>254));
+			
 	fin_tab($form_name);
  	
  }

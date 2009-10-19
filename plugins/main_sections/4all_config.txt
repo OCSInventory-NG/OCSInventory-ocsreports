@@ -72,6 +72,8 @@ ms_custom_admin_type:admin_type
 ms_custom_info:ipdiscover_info
 ms_debug:debug
 ms_computor:computor
+ms_passwd:pass
+ms_exportallsoft:export_all_soft
 </URL>
 
 <DIRECTORY>
@@ -94,6 +96,7 @@ ms_tele_pack:ms_teledeploy
 ms_config:ms_config
 ms_blacklist:ms_config
 ms_custom_param:ms_config
+ms_exportallsoft:ms_export
 </DIRECTORY>
 
 

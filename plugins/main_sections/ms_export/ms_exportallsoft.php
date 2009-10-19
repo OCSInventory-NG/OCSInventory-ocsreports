@@ -1,8 +1,7 @@
 <?php 
 //export liste des machines ayant un logiciel suspect
 
-$header_html="NO";
-require_once("header.php");
+
 //add all soft you don't want in your export
 $list_no_soft=array();
 
@@ -20,7 +19,7 @@ while( $val = mysql_fetch_array($result) ){
 		if (trim($val['name']) != '' and $no_show == 'OK') 
 		$list_soft[]=addslashes(utf8_decode($val['name']));
 }
-$fields= array("a.tag"=>TAG_LBL,
+$fields= array("a.tag"=>$_SESSION['TAG_LBL'],
 			   "s.name"=>$l->g(20),
 			   "h.name"=>$l->g(23),
 			   "h.userid"=>$l->g(24),
@@ -30,13 +29,16 @@ $sql=" select ";
 $affich="";
 foreach($fields as $sql_field=>$lbl){
 	$affich.=$lbl.";";
-	$sql .= $sql_field." as ".$lbl.",";
+	$sql .= $sql_field." as '".$lbl."',";
 }
 $affich.="\r\n";
 $sql=substr($sql,0,-1);
 $sql.=" from softwares s,hardware h, accountinfo a
-		where ".$_SESSION["mesmachines"]." 
-			and a.hardware_id=h.ID
+		where ";
+if ($_SESSION["mesmachines"] != "")
+	$sql.= $_SESSION["mesmachines"]." and";
+
+$sql.="	a.hardware_id=h.ID
 			and s.HARDWARE_ID=h.id
 			and s.name in ('".implode("','",$list_soft)."')";
 $result=mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));

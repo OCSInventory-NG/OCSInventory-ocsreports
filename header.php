@@ -176,7 +176,20 @@ if (!isset($_SESSION['LOG_GUI'])){
 }
 /****************END GESTION LOGS***************/
 
-if (!isset($header_html) or $header_html != 'NO'){
+/*********************************************GESTION OF LBL_TAG*************************************/
+if (!isset($_SESSION['LBL_TAG'])){
+	$sql_tag="select tvalue from config where name= 'LBL_TAG'";
+	$result_tag = mysql_query($sql_tag, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$value_tag=mysql_fetch_array($result_tag);
+	if ($value_tag["tvalue"] != '')
+		$_SESSION['TAG_LBL'] = $value_tag['tvalue'];
+	else
+		$_SESSION['TAG_LBL'] = "TAG";
+}
+
+
+
+if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
 	require_once ($_SESSION['HEADER_HTML']);
 	//echo "toto";
 }

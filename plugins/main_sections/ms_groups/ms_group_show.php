@@ -304,7 +304,7 @@ function print_computers_real($systemid) {
 	$table_name=$form_name;
 	echo "<font color=red><b>".$l->g(927)."</b></font>";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array(TAG_LBL => 'a.TAG',
+	$list_fields=array($_SESSION['TAG_LBL'] => 'a.TAG',
 					   'ID MACHINE' => 'h.ID',
 					   'DEVICEID' => 'h.DEVICEID',
 					   'NAME' => 'h.NAME',
@@ -323,7 +323,7 @@ function print_computers_real($systemid) {
 					   'DESCRIPTION' => 'h.DESCRIPTION',
 					   '@ IP'=>'h.IPADDR');
 	$list_col_cant_del=array('NAME'=>'NAME');
-	$default_fields= array('NAME'=>'NAME',TAG_LBL=>TAG_LBL,'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
+	$default_fields= array('NAME'=>'NAME',$_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
 			$queryDetails .= $value.",";		
@@ -372,7 +372,7 @@ function print_computers_cached($systemid) {
 	$form_name="list_computor_groupcache";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array(TAG_LBL => 'a.TAG',
+	$list_fields=array($_SESSION['TAG_LBL'] => 'a.TAG',
 					   'ID MACHINE' => 'h.ID',
 					   'DEVICEID' => 'h.DEVICEID',
 					   'NAME' => 'h.NAME',
@@ -392,7 +392,7 @@ function print_computers_cached($systemid) {
 					   '@ IP'=>'h.IPADDR',
 					   'CHECK'=>'h.ID');
 	$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields= array('NAME'=>'NAME',TAG_LBL=>TAG_LBL,'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
+	$default_fields= array('NAME'=>'NAME',$_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
 			$queryDetails .= $value.",";		

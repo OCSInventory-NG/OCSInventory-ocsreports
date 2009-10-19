@@ -69,8 +69,8 @@ $j=0;
 while($field_of_accountinfo['ACCOUNTINFO'][$j]){
 	
 	if ($field_of_accountinfo['ACCOUNTINFO'][$j] == "TAG"){
-		$list_fields_account_info[TAG_LBL]="a.".$field_of_accountinfo['ACCOUNTINFO'][$j];
-		$optaccountinfo['ACCOUNTINFO-'.$field_of_accountinfo['ACCOUNTINFO'][$j]]="Tag: ".TAG_LBL;
+		$list_fields_account_info[$_SESSION['TAG_LBL']]="a.".$field_of_accountinfo['ACCOUNTINFO'][$j];
+		$optaccountinfo['ACCOUNTINFO-'.$field_of_accountinfo['ACCOUNTINFO'][$j]]="Tag: ".$_SESSION['TAG_LBL'];
 	}else{
 		$optaccountinfo['ACCOUNTINFO-'.$field_of_accountinfo['ACCOUNTINFO'][$j]]="Tag: ".$field_of_accountinfo['ACCOUNTINFO'][$j];
 		$list_fields_account_info["Tag: ".$field_of_accountinfo['ACCOUNTINFO'][$j]]="a.".$field_of_accountinfo['ACCOUNTINFO'][$j];
@@ -669,7 +669,7 @@ if ($list_id != "")	{
 	$list_fields['SUP']='h.ID';
 	$list_fields['CHECK']='h.ID';
 	$list_col_cant_del=array('SUP'=>'SUP','NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields=array(TAG_LBL=>TAG_LBL,'Machine: '.$l->g(46)=>'Machine: '.$l->g(46),"Machine: ".$l->g(820)=>"Machine: ".$l->g(820),'NAME'=>'NAME',"Machine: ".$l->g(24)=>"Machine: ".$l->g(24),"Machine: ".$l->g(25)=>"Machine: ".$l->g(25),"Machine: ".$l->g(357)=>"Machine: ".$l->g(357),'SUP'=>'SUP','CHECK'=>'CHECK');
+	$default_fields=array($_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL'],'Machine: '.$l->g(46)=>'Machine: '.$l->g(46),"Machine: ".$l->g(820)=>"Machine: ".$l->g(820),'NAME'=>'NAME',"Machine: ".$l->g(24)=>"Machine: ".$l->g(24),"Machine: ".$l->g(25)=>"Machine: ".$l->g(25),"Machine: ".$l->g(357)=>"Machine: ".$l->g(357),'SUP'=>'SUP','CHECK'=>'CHECK');
 
 	//print_r($list_fields);
 	//on modifie le type de champs en num�ric de certain champs
@@ -721,7 +721,7 @@ if ($_SESSION["mesmachines"] != '')
 //a l'affichage on se retrouve avec le lbl du champ,un select et un champ de saisi
 $optSelectField=array( "HARDWARE-IPADDR"=>$l->g(82).": ".$l->g(34),
 			   "NETWORKS-MACADDR"=>$l->g(82).": ".$l->g(95),
-			   "ACCOUNTINFO-TAG-SELECT"=>array("exact"=>$l->g(410),"list"=>$l->g(961)." ".TAG_LBL." ".$l->g(962),"notlist"=>$l->g(963)." ".TAG_LBL." ".$l->g(962)),
+			   "ACCOUNTINFO-TAG-SELECT"=>array("exact"=>$l->g(410),"list"=>$l->g(961)." ".$_SESSION['TAG_LBL']." ".$l->g(962),"notlist"=>$l->g(963)." ".$_SESSION['TAG_LBL']." ".$l->g(962)),
 			   "SOFTWARES-NAME"=>$l->g(20).": ".$l->g(49),
 			   "SOFTWARES-VERSION"=>$l->g(20).": ".$l->g(277),
 			   "HARDWARE-DESCRIPTION"=>$l->g(25).": ".$l->g(53),

@@ -38,7 +38,7 @@ if (isset($valTags['tag'])){
 		$protectedPost['SHOW'] = 'NOSHOW';
 	if (!(isset($protectedPost["pcparpage"])))
 		 $protectedPost["pcparpage"]=5;
-	$list_fields= array(TAG_LBL=>'tag',
+	$list_fields= array($_SESSION['TAG_LBL']=>'tag',
 						'SUP'=>'tag',
 						'CHECK'=>'tag');
 	$list_col_cant_del=array('ID'=>'ID','SUP'=>'SUP','CHECK'=>'CHECK');
@@ -50,7 +50,7 @@ if (isset($valTags['tag'])){
 	} 
 	$queryDetails=substr($queryDetails,0,-1);
 	$queryDetails .= " FROM tags where login='".$protectedGet['id']."'";
-	$tab_options['FILTRE']=array(TAG_LBL=>TAG_LBL);
+	$tab_options['FILTRE']=array($_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL']);
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 	//traitement par lot
 	$img['image/sup_search.png']=$l->g(162);
@@ -81,7 +81,7 @@ if (isset($valTags['tag'])){
 }	
 //
 echo "<FONT FACE='tahoma' SIZE=2>";
-echo $l->g(617)." ".TAG_LBL.": <input type='text' id='newtag' name='newtag' value='".$protectedPost['newtag']."'>
+echo $l->g(617)." ".$_SESSION['TAG_LBL'].": <input type='text' id='newtag' name='newtag' value='".$protectedPost['newtag']."'>
 		<input type='submit' name='ADD_TAG' value='envoyer'>";
 echo "</form>";
 ?>

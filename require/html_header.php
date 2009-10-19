@@ -68,12 +68,11 @@ if(isset($_SESSION["loggeduser"])&&!isset($protectedGet["popup"] )) {
 			echo "<img src='image/cadena_op.png' title='".$l->g(891)."' alt='".$l->g(891)."' >";
 			echo "</a>";
 		}
-//		if (isset($_SESSION["lvluser"]) and $_SESSION["lvluser"] == SADMIN or 
-//			(isset($_SESSION['TRUE_LVL']) and $_SESSION['TRUE_LVL'] == SADMIN)){
-//			echo "&nbsp<a OnClick='window.open(\"fuser.php\",\"fuser\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'>";
-//			echo "<img src='image/fuser.png' title='".$l->g(892)."' alt='".$l->g(892)."'>";
-//			echo "</a>";
-//		}
+		//you can change your password only if you are identify on local mode
+		if ($_SESSION["cnx_origine"] == "LOCAL"){
+			$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_passwd']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'";
+			echo "<a ".$javascript."><img src=".$_SESSION['plugins_dir']."/main_sections/img/ms_pass.png></a>";
+		}
 		echo "<form name='log_out' id='log_out' action='' method='post'>";
 		echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
 		echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
