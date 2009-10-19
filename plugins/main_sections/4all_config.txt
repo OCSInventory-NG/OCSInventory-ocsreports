@@ -74,6 +74,8 @@ ms_debug:debug
 ms_computor:computor
 ms_passwd:pass
 ms_exportallsoft:export_all_soft
+ms_soft_csv:export_soft
+ms_csv:export_csv
 </URL>
 
 <DIRECTORY>
@@ -96,7 +98,9 @@ ms_tele_pack:ms_teledeploy
 ms_config:ms_config
 ms_blacklist:ms_config
 ms_custom_param:ms_config
-ms_exportallsoft:ms_export
+ms_exportallsoft:ms_all_soft
+ms_soft_csv:ms_export
+ms_csv:ms_export
 </DIRECTORY>
 
 

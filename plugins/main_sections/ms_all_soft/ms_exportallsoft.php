@@ -1,7 +1,6 @@
 <?php 
 //export liste des machines ayant un logiciel suspect
 
-
 //add all soft you don't want in your export
 $list_no_soft=array();
 

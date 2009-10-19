@@ -601,7 +601,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 
 function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,$width='100',$tab_options='')
 {
-	global $protectedPost,$l;
+	global $protectedPost,$l,$pages_refs;
 	//print_r($tab_options);
 	if (!$tab_options['AS'])
 	$tab_options['AS']=array();
@@ -658,13 +658,10 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	//$tab_options['CACHE']='RESET';
 	//suppression de la limite de cache
 	//si on est sur la m�me page mais pas sur le m�me onglet
-	if ($_SESSION['cvs'][$table_name] != $queryDetails ){
+	if ($_SESSION['csv'][$table_name] != $queryDetails ){
 		unset($protectedPost['page']);
 		$tab_options['CACHE']='RESET';
-		//echo 'toto';
-//		echo "<br><font color=red>".$_SESSION['cvs'][$table_name]."</font>";
-//		echo "<br><font color=green>".$queryDetails."</font><br>";
-//		unset($_SESSION['NUM_ROW'][$table_name]);
+
 	}
 	//si la limite de fin est sup�rieure aux totals de r�sultat
 	//on force la limite END avec la derni�re valeur du r�sultat
@@ -764,8 +761,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	//	print_r($list_id_tri_fixe);
 		//on vide les valeurs pr�c�dentes
 		//pour optimiser la place sur le serveur
-		unset($_SESSION['cvs'],$_SESSION['list_fields']);		
-		$_SESSION['cvs'][$table_name]=$queryDetails;
+		unset($_SESSION['csv'],$_SESSION['list_fields']);		
+		$_SESSION['csv'][$table_name]=$queryDetails;
 		
 		//requete de count
 		if (!isset($_SESSION['NUM_ROW'][$table_name])){
@@ -925,7 +922,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$title=$num_rows_result." ".$l->g(90);
 		if (isset($tab_options['LOGS']))
 		addLog($tab_options['LOGS'],$num_rows_result." ".$l->g(90));
-		$title.= "<a href='cvs.php?tablename=".$table_name."&base=".$tab_options['BASE']."'><small>(".$l->g(183).")</small></a>";
+		$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small>(".$l->g(183).")</small></a>";
 		//print_r($correct_list_col_cant_del);
 		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
 	//	print_r($result_with_col['data']);

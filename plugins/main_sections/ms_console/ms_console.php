@@ -542,7 +542,7 @@ if (isset($default)){
 		
 		$width=60;
 		$height=300;
-		tab_entete_fixe($entete,$data_detail[$protectedPost['detail']],$titre[$protectedPost['detail']]." (<a href='ipcsv.php'>".$l->g(183)."</a>)",$width,$height);
+		tab_entete_fixe($entete,$data_detail[$protectedPost['detail']],$titre[$protectedPost['detail']]." (<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1'>".$l->g(183)."</a>)",$width,$height);
 		show_page($data['nb_'.$protectedPost['detail']]['count'],$form_name);
 		}else{
 			if ($protectedPost['detail'] == "NB_NOTIFIED" 
@@ -625,7 +625,7 @@ if (isset($default)){
 				}
 				$i++;
 			}
-			$titre=$l->g(768)." ".$valCount['c']." (<a href='ipcsv.php'>".$l->g(183)."</a>)";
+			$titre=$l->g(768)." ".$valCount['c']." (<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1'>".$l->g(183)."</a>)";
 			$width=100;
 			$height=300;
 			//print_r($data);

@@ -27,7 +27,7 @@ function ScanDirectory($Directory,$Filetype){
 
 		if (substr($Entry,-strlen($Filetype)) == $Filetype){
 			echo "<tr BGCOLOR='#f2f2f2'>";
-			echo "<td align=center><a href='cvs.php?log=".$Entry."&rep=".$Directory."'>".$Entry."</td>";
+			echo "<td align=center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&log=".$Entry."&rep=".$Directory."'>".$Entry."</td>";
 			echo "<td align=center>".date ("d M Y H:i:s.", filectime($Directory.$Entry))."</td>";
 			echo "<td align=center>".date ("d M Y H:i:s.", filemtime($Directory.$Entry))."</td>";
 			echo "<td align=center>".filesize($Directory.$Entry)." ko</td>";

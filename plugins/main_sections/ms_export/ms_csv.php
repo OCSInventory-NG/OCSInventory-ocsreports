@@ -5,9 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-require ('fichierConf.class.php');
-$header_html="NO";
-require_once("header.php");
+
 $link=$_SESSION["readServer"];	
 $toBeWritten = "";
 if (isset($protectedGet['log'])){
@@ -54,7 +52,7 @@ elseif (!$_SESSION['DATA_CACHE'][$protectedGet['tablename']][199]){
 		$i++;
 	}
 	//$toBeWritten = "toto";
-}elseif (isset($_SESSION['cvs'][$protectedGet['tablename']])){
+}elseif (isset($_SESSION['csv'][$protectedGet['tablename']])){
 	$toBeWritten="";
 	//gestion des entetes
 	foreach ($_SESSION['col_tab'][$protectedGet['tablename']] as $name){
@@ -94,7 +92,7 @@ elseif (!$_SESSION['DATA_CACHE'][$protectedGet['tablename']][199]){
 	}
 	//print_r($data_fixe);
 	//gestion de la requete de r�sultat
-	$result=mysql_query($_SESSION['cvs'][$protectedGet['tablename']], $link) or die(mysql_error($link));
+	$result=mysql_query($_SESSION['csv'][$protectedGet['tablename']], $link) or die(mysql_error($link));
 	$i=0;
 	while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
 		foreach ($col as $field => $lbl){

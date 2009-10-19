@@ -9,9 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2007/02/08 16:59:15 $$Author: plemmet $($Revision: 1.9 $)
-require ('fichierConf.class.php');
-$header_html="NO";
-require_once("header.php");
+
 if( isset($_SESSION["forcedRequest"] )) {
 	$lareq = $_SESSION["forcedRequest"];
 }
