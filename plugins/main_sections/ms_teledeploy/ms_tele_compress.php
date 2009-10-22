@@ -1,8 +1,4 @@
 <?php
-@session_start();
-unset($_SESSION['LANGUAGE']);
-$header_html="NO";
-require_once("header.php");
 if (!is_numeric($protectedGet["timestamp"]))
 die();
 header("content-type: application/zip");

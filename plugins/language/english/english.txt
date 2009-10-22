@@ -913,6 +913,12 @@
 1018 (Don't write anything if you want use anonymous conexion)
 1019 Lock result
 1020 Name of the tag information
+1021 Teledeploy admin
+1022 TAG admin
+1023 Packages affect with statut
+1024 will be deleted
+1025 Unaffect
+1026 Packages deleted on computors
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]

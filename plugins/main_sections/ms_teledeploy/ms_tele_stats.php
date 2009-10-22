@@ -9,10 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.15 $)
-@session_start();
-	unset($_SESSION['LANGUAGE']);
-$header_html = 'NO';
-require_once("header.php");
+
 require('require/function_stats.php');
 if($_SESSION["lvluser"]==SADMIN){
 	if( isset($protectedGet["delsucc"]) ) {		
@@ -129,12 +126,12 @@ else {
 	
 	echo "<body OnLoad='document.title=\"".urlencode($valName["name"])."\"'>";
 	printEnTete( $l->g(498)." <b>".$valName["name"]."</b> (".$l->g(296).": ".$protectedGet["stat"]." )");
-	echo "<br><center><img src='tele_stats.php?generatePic=1&stat=".$protectedGet["stat"]."&group=".$protectedGet["group"]."&option=".$protectedPost['selOpt']."'></center>";
+	echo "<br><center><img src='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&generatePic=1&stat=".$protectedGet["stat"]."&group=".$protectedGet["group"]."&option=".$protectedPost['selOpt']."'></center>";
 	if($_SESSION["lvluser"]==SADMIN){
 		echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
-		echo "<td width='33%' align='center'><a href='tele_stats.php?delsucc=1&stat=".$protectedGet["stat"]."'><b>".$l->g(483)."</b></a></td>";	
-		echo "<td width='33%' align='center'><a href='tele_stats.php?deltout=1&stat=".$protectedGet["stat"]."'><b>".$l->g(571)."</b></a></td>";	
-		echo "<td width='33%' align='center'><a href='tele_stats.php?delnotif=1&stat=".$protectedGet["stat"]."'><b>".$l->g(575)."</b></a></td>";
+		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&delsucc=1&stat=".$protectedGet["stat"]."'><b>".$l->g(483)."</b></a></td>";	
+		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&deltout=1&stat=".$protectedGet["stat"]."'><b>".$l->g(571)."</b></a></td>";	
+		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&delnotif=1&stat=".$protectedGet["stat"]."'><b>".$l->g(575)."</b></a></td>";
 		echo "</tr></table><br><br>";
 	}
 	if ($protectedGet['group']){
@@ -155,12 +152,11 @@ else {
 		echo "<tr><td bgcolor='#".$leg["color"]."'>&nbsp;</td><td>".$leg["name"]."</td><td>
 				<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_multi_search']."&prov=stat&id_pack=".$protectedGet["stat"]."&stat=".urlencode($leg["name"])."'>".$leg["count"]."</a>";
 				
-		echo "<a href='speed_stat.php?ta=".$leg["name"]."&stat=".$protectedGet["stat"]."'>&nbsp;stat</a>
+		echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&no_header=1&ta=".$leg["name"]."&stat=".$protectedGet["stat"]."'>&nbsp;stat</a>
 			</td></tr>";
 	}
 	echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>".$l->g(87)."</b></td><td><b>".$valStats["nb"]."</b></td></tr>";
 	echo "</table><br><br>";
-	require_once($_SESSION['FOOTER_HTML']);
 }
 
  

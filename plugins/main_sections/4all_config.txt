@@ -76,6 +76,9 @@ ms_passwd:pass
 ms_exportallsoft:export_all_soft
 ms_soft_csv:export_soft
 ms_csv:export_csv
+ms_tele_stats:stat
+ms_tele_compress:compress
+ms_speed_stat:stat_speed
 </URL>
 
 <DIRECTORY>
@@ -94,6 +97,9 @@ ms_tele_activate:ms_teledeploy
 ms_tele_actives:ms_teledeploy
 ms_rules_redistrib:ms_teledeploy
 ms_tele_popup_active:ms_teledeploy
+ms_tele_stats:ms_teledeploy
+ms_tele_compress:ms_teledeploy
+ms_speed_stat:ms_teledeploy
 ms_tele_pack:ms_teledeploy
 ms_config:ms_config
 ms_blacklist:ms_config

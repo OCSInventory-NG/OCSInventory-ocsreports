@@ -474,6 +474,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag)
 function multi_lot($form_name,$lbl_choise){
 	global $protectedPost,$protectedGet,$l;
 	$list_id="";
+	//print_r($protectedPost);
 	if (!isset($protectedGet['origine'])){
 		if (isset($protectedGet['idchecked']) and $protectedGet['idchecked'] != ""){
 			$choise_req_selection['REQ']=$l->g(584);

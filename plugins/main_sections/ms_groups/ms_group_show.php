@@ -445,12 +445,14 @@ function print_perso($systemid) {
 		echo $td3.$l->g(493)."</td>";
 	}
 	if( $_SESSION["lvluser"]==SADMIN ){
-	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
-	echo "<td align=center rowspan=8><a OnClick='recharge(\"$systemid\",\"group\")'><img src='image/modif_a.png' title='".$l->g(285)."'></a></td>";
-	echo "</tr>";
-	echo "<input type='hidden' id='systemid' name='systemid' value=''>";
-	echo "<input type='hidden' id='origine' name='origine' value=''>"; 
-	echo "</form>";
+		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
+		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
+//	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
+//	echo "<td align=center rowspan=8><a OnClick='recharge(\"$systemid\",\"group\")'><img src='image/modif_a.png' title='".$l->g(285)."'></a></td>";
+//	echo "</tr>";
+//	echo "<input type='hidden' id='systemid' name='systemid' value=''>";
+//	echo "<input type='hidden' id='origine' name='origine' value=''>"; 
+//	echo "</form>";
 	}
 	
 	$ii++; $td3 = $ii%2==0?$td2:$td4;
@@ -535,7 +537,7 @@ function print_perso($systemid) {
 	if( $_SESSION["lvluser"]==SADMIN ){
 	echo "<tr>
 		<td colspan='10' align='right'>
-		<a href=# Onclick=window.open(\"multi_lot.php?img=image/tele_search.png&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."
+		<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."
 		</a>
 		</td></tr>";
 	}
@@ -574,9 +576,9 @@ function img($i,$a,$avail,$opt) {
 }
 
 function show_stat($fileId){
-	global $td3,$protectedGet;
+	global $td3,$protectedGet,$pages_refs;
 	
-	echo $td3."<a href=\"tele_stats.php?stat=".$fileId."&group=".$protectedGet['systemid']."\" target=_blank><img src='image/stat.png'></a></td>";
+	echo $td3."<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&stat=".$fileId."&group=".$protectedGet['systemid']."\" target=_blank><img src='image/stat.png'></a></td>";
 }
 
 
