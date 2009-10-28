@@ -288,7 +288,7 @@ $i=0;
 		
 		echo "<tr><td colspan='10' align='right'>";
 		if( $_SESSION["lvluser"]==SADMIN ) 
-			echo "<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_multi_pack']."&head=1&idchecked=".$systemid."&origine=mach\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."</a>".$l->g(386);
+			echo "<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."</a>".$l->g(386);
 		echo " <a href=# OnClick=window.location='$hrefBase&actgrp=1&grp='+document.getElementById(\"groupcombo\").options[document.getElementById(\"groupcombo\").selectedIndex].value>".
 		$l->g(589)."</a>";
 	

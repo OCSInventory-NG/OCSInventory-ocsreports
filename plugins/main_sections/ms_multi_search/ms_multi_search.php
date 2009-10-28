@@ -34,7 +34,7 @@ if (isset($protectedGet['prov'])){
 	}
 	if ($protectedGet['prov'] == "allsoft"){
 		$tab_session[]="SOFTWARES-NAME";	
-		$tab_stat=array('SelComp-SOFTWARES-NAME-0'=>"exact",'SelFieldValue-SOFTWARES-NAME-0'=>$protectedGet['value']);//unset($_SESSION);
+		$tab_stat=array('SelComp-SOFTWARES-NAME-0'=>"exact",'InputValue-SOFTWARES-NAME-0'=>$protectedGet['value']);//unset($_SESSION);
 	}
 	
 	if ($protectedGet['prov'] == "ipdiscover" or $protectedGet['prov'] == "ipdiscover1"){
