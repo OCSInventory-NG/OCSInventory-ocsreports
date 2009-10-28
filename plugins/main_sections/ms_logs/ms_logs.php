@@ -22,7 +22,9 @@ echo "</tr></td></form>";
 
 function ScanDirectory($Directory,$Filetype){
 global $pages_refs;
-  $MyDirectory = opendir($Directory) or die('Erreur');
+  $MyDirectory = @opendir($Directory); 
+  if (!$MyDirectory)
+  	echo "Erreur";
 	while($Entry = @readdir($MyDirectory)) {
 
 		if (substr($Entry,-strlen($Filetype)) == $Filetype){

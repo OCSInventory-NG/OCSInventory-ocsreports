@@ -144,6 +144,7 @@ if ($toBeWritten != ""){
 	header("Content-Transfer-Encoding: binary");
 	header("Content-Length: ".strlen($toBeWritten));
 	echo $toBeWritten;
+	die();
 }else
 echo "<font color=red align=center><B>".$l->g(920)."</B></font>"
 ?>
