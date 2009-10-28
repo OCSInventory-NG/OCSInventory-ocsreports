@@ -26,7 +26,7 @@ $champ_value['VALUE']=$optvalueselected;
 $champ_value['ON']='ON';
 $champ_value['OFF']='OFF';
 $champ_value['SERVER DEFAULT']=$l->g(488);
-if (!isset($protectedPost['origine'])){	
+if (!isset($protectedGet['origine'])){	
 	$champ_value['IGNORED']=$l->g(718);
 	$champ_value['VALUE']='IGNORED';
 }
@@ -40,7 +40,7 @@ $optvalueselected='CUSTOM';
 $champ_value['VALUE']=$optvalueselected;
 $champ_value['CUSTOM']=$l->g(487);
 $champ_value['SERVER DEFAULT']=$l->g(488);
-if (!isset($protectedPost['origine'])){	
+if (!isset($protectedGet['origine'])){	
 	$champ_value['IGNORED']=$l->g(718);
 	$champ_value['VALUE']='IGNORED';
 }
@@ -53,7 +53,7 @@ $optvalueselected='CUSTOM';
 $champ_value['VALUE']=$optvalueselected;
 $champ_value['CUSTOM']=$l->g(487);
 $champ_value['SERVER DEFAULT']=$l->g(488);
-if (!isset($protectedPost['origine'])){	
+if (!isset($protectedGet['origine'])){	
 	$champ_value['IGNORED']=$l->g(718);
 	$champ_value['VALUE']='IGNORED';
 }
@@ -66,7 +66,7 @@ $optvalueselected='CUSTOM';
 $champ_value['VALUE']=$optvalueselected;
 $champ_value['CUSTOM']=$l->g(487);
 $champ_value['SERVER DEFAULT']=$l->g(488);
-if (!isset($protectedPost['origine'])){	
+if (!isset($protectedGet['origine'])){	
 	$champ_value['IGNORED']=$l->g(718);
 	$champ_value['VALUE']='IGNORED';
 }
@@ -79,7 +79,7 @@ $optvalueselected='CUSTOM';
 $champ_value['VALUE']=$optvalueselected;
 $champ_value['CUSTOM']=$l->g(487);
 $champ_value['SERVER DEFAULT']=$l->g(488);
-if (!isset($protectedPost['origine'])){	
+if (!isset($protectedGet['origine'])){	
 	$champ_value['IGNORED']=$l->g(718);
 	$champ_value['VALUE']='IGNORED';
 }
@@ -92,7 +92,7 @@ $optvalueselected='CUSTOM';
 $champ_value['VALUE']=$optvalueselected;
 $champ_value['CUSTOM']=$l->g(487);
 $champ_value['SERVER DEFAULT']=$l->g(488);
-if (!isset($protectedPost['origine'])){	
+if (!isset($protectedGet['origine'])){	
 	$champ_value['IGNORED']=$l->g(718);
 	$champ_value['VALUE']='IGNORED';
 }

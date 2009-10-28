@@ -10,11 +10,10 @@ require_once('require/function_config_generale.php');
 require_once('require/function_search.php');
 if( $_SESSION["lvluser"] != SADMIN )
 	die("FORBIDDEN");
-	
 $form_name="param_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 $list_id=multi_lot($form_name,$l->g(601));
-	
+	//print_r($list_id);
 	if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
 	$protectedPost['onglet'] = $l->g(499);
 	
@@ -23,17 +22,20 @@ $list_id=multi_lot($form_name,$l->g(601));
 	$def_onglets[$l->g(512)]=$l->g(512); //T�l�d�ploiement
 	$def_onglets[$l->g(312)]=$l->g(312); //ipdiscover
 	
-	//print_r($protectedGet);
+
 	//update values	
 	if ($protectedPost['Valid']==$l->g(103)){
 		if($list_id){
-			$tab_hadware_id=explode(",",$list_id);
-			$add_lbl=" (".count($tab_hadware_id)." ".$l->g(652).")";	
-		}elseif(($protectedPost['origine'] == "machine" or $protectedPost['origine'] == "group") and $protectedPost['systemid'] != ""){
-			
-			$list_hardware_id=$protectedPost['systemid'];
+			//more then one value
+			if (strstr($list_id,',') != ""){
+				$tab_hadware_id=explode(",",$list_id);
+				$add_lbl=" (".count($tab_hadware_id)." ".$l->g(652).")";
+			}else
+				$list_hardware_id=$list_id;
 		}
-		if (isset($list_hardware_id)){
+//print_r($tab_hadware_id);
+		if (isset($list_hardware_id) or isset($tab_hadware_id)){
+
 			 foreach ($protectedPost as $key => $value){
 			 	if ($key != "systemid" and $key != "origine"){
 				 	if ($value == "SERVER DEFAULT" or $value == "des")
@@ -63,11 +65,11 @@ $list_id=multi_lot($form_name,$l->g(601));
 		}else
 		echo "<script>alert('".$l->g(983)."')</script>";
 	 }
-	if ($protectedPost['origine'] == "machine"){
+	/*if ($protectedPost['origine'] == "machine"){
 	$direction=	"index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&option=cd_configuration&systemid=".$protectedPost["systemid"];	
 	}elseif ($protectedPost['origine'] == "group")
 	$direction=	"index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$protectedPost["systemid"];
-//	else
+	else*/
 //	$direction="index.php?redo=1".$_SESSION["queryString"];	
 	
 	$sql_default_value="select NAME,IVALUE from config where NAME	in ('DOWNLOAD',
@@ -83,45 +85,26 @@ $list_id=multi_lot($form_name,$l->g(601));
 	}	
 	
 	//not a sql query
-	if (isset($protectedPost['origine'])){
+	if (isset($protectedGet['origine']) and is_numeric($protectedGet['idchecked'])){
 		//looking for value of systemid
-		$sql_value_idhardware="select * from devices where name != 'DOWNLOAD' and hardware_id=".$protectedPost["systemid"];
+		$sql_value_idhardware="select * from devices where name != 'DOWNLOAD' and hardware_id=".$protectedGet['idchecked'];
 		$result_value = mysql_query($sql_value_idhardware, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 		while($value=mysql_fetch_array($result_value)) {
 			$optvalue[$value["NAME"] ] = $value["IVALUE"];
 			$optvalueTvalue[$value["NAME"]]=$value["TVALUE"];
 		}
 		$champ_ignored=0;
-	/*}elseif(!isset($protectedGet["listid"])){
-		$list_hardware_id="";
-		$lareq = getPrelim( $_SESSION["storedRequest"] );
-		if( ! $res = @mysql_query( $lareq, $_SESSION["readServer"] ))
-			return false;
-		while( $val = @mysql_fetch_array($res)) {
-		$list_hardware_id.=$val["h.id"].",";
-		$tab_hadware_id[]=$val["h.id"];
-		}
-		$list_hardware_id = substr($list_hardware_id,0,-1);
-		$champ_ignored=1;*/
 	}elseif($list_id){
 		$tab_hadware_id=explode(",",$list_id);
 		$champ_ignored=1;
-		
-		//else
-		
-	//	$choise_req_selection['REQ']=$l->g(584);
-	//	if ($protectedGet['idchecked'] != "")
-	//	$choise_req_selection['SEL']=$l->g(585);
-	//	$select_choise=show_modif($choise_req_selection,'CHOISE',2,$form_name);
-	//	echo "<div align=center>Modiciations ".$select_choise."</div>";
 	}
 	
 	
-	if(isset($direction)){
+	/*if(isset($direction)){
 	//link for return 
 		echo "<br><center><a href='#' OnClick=\"window.location='".$direction."';\"><= ".$l->g(188)."</a></center>";
 		
-	}
+	}*/
 	if ($list_id){
 		onglet($def_onglets,$form_name,'onglet',7);
 		echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
@@ -139,10 +122,10 @@ $list_id=multi_lot($form_name,$l->g(601));
 			include ('ms_custom_ipdiscover.php');
 		
 		}
-		if (isset($protectedPost['origine'])){
+		/*if (isset($protectedPost['origine'])){
 		echo "<input type='hidden' id='systemid' name='systemid' value='".$protectedPost['systemid']."'>";
 			echo "<input type='hidden' id='origine' name='origine' value='".$protectedPost['origine']."'>";
-		} 
+		} */
 		echo "</td></tr></table>";
 	}
  echo "</form>";

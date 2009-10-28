@@ -36,16 +36,16 @@ else if( $optvalue['IPDISCOVER']==="0" ) {
 	echo "<br><center><b>".$l->g(521)."</b></center>";
 	$mode = 2;	
 }
-elseif(isset($protectedPost['systemid'])) {
+elseif(isset($protectedGet['systemid'])) {
 	echo "<br><center><b>".$l->g(522)."</b></center>";		
 }
-elseif(!isset($protectedPost['systemid'])){
+elseif(!isset($protectedGet['systemid'])){
 	$mode = 2;	
 }
-if (isset($protectedPost['systemid'])){
-	$resInt = mysql_query("SELECT ipaddress FROM networks WHERE hardware_id=".$protectedPost['systemid'],$_SESSION["readServer"] );
+if (isset($protectedGet['systemid']) and is_numeric($protectedGet['systemid'])){
+	$resInt = mysql_query("SELECT ipaddress FROM networks WHERE hardware_id=".$protectedGet['systemid'],$_SESSION["readServer"] );
 	while( $valInt = mysql_fetch_array( $resInt )){
-		if( ! ($res = @mysql_query( "SELECT ipsubnet FROM networks WHERE ipaddress='".$valInt["ipaddress"]."' AND hardware_id='".$protectedPost["systemid"]."'", $_SESSION["readServer"] ))) {
+		if( ! ($res = @mysql_query( "SELECT ipsubnet FROM networks WHERE ipaddress='".$valInt["ipaddress"]."' AND hardware_id='".$protectedGet["systemid"]."'", $_SESSION["readServer"] ))) {
 					echo "<br><center><font color=red><b>ERROR: MySql problem<br>".mysql_error($_SESSION["readServer"])."</b></font></center>";	}
 		while( $val = mysql_fetch_array( $res ))
 		$lesRez[$val["ipsubnet"]] = $val["ipsubnet"];

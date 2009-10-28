@@ -1003,7 +1003,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}else
 					$value_of_field=$donnees[$no_alias_value];
 				}
-				$value_of_field=utf8_encode($value_of_field);
+				//$value_of_field=utf8_encode($value_of_field);
 				$col[$i]=$key;
 				if ($protectedPost['sens'] == "ASC")
 					$sens="DESC";

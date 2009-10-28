@@ -13,16 +13,16 @@ function recharge(modif,origine){
  
  //function for erase param values 
  function erase($NAME){
- 	global $protectedPost,$list_hardware_id;
+ 	global $protectedPost,$list_hardware_id,$tab_hadware_id;
 	// if it's for group or a machine
- 	if( isset($protectedPost["systemid"])) {
+ 	if( isset($list_hardware_id)) {
  		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id='".$protectedPost["systemid"]."'", $_SESSION["writeServer"] )) {
-				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
+ 				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
 				return false;
 			}
 	}
 	else { //else : request 
-		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id in (".$list_hardware_id.")", $_SESSION["writeServer"] )) {
+		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id in (".implode(',',$tab_hadware_id).")", $_SESSION["writeServer"] )) {
 				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
 				return false;
 			}
@@ -34,16 +34,16 @@ function recharge(modif,origine){
  
  //function for insert param values
  function insert($NAME,$IVALUE,$TVALUE = ""){
- 	global $protectedPost,$tab_hadware_id; 		
+ 	global $list_hardware_id,$tab_hadware_id; 		
  	//delete old value before insert new 
  	
  	erase($NAME);
  	// if it's for group or a machine
-	if( isset($protectedPost["systemid"])) {
+	if( isset($list_hardware_id)) {
 			if ($TVALUE != "")
-				$sql="INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('".$protectedPost["systemid"]."', '".$NAME."', '".$IVALUE."', '".$TVALUE."')";
+				$sql="INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('".$list_hardware_id."', '".$NAME."', '".$IVALUE."', '".$TVALUE."')";
 			else
-				$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$protectedPost["systemid"]."', '".$NAME."', '".$IVALUE."')";
+				$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$list_hardware_id."', '".$NAME."', '".$IVALUE."')";
 			if( ! @mysql_query( $sql, $_SESSION["writeServer"] )) {
 				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
 				return false;
@@ -55,8 +55,8 @@ function recharge(modif,origine){
 			if ($TVALUE != "")
 				$sql="INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('".$tab_hadware_id[$i]."', '".$NAME."', '".$IVALUE."', '".$TVALUE."')";
 			else
-				$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES(".$tab_hadware_id[$i].", '".$NAME."', $IVALUE)";
-			
+				$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES (".$tab_hadware_id[$i].", '".$NAME."', $IVALUE)";
+		
 			if( ! @mysql_query( $sql, $_SESSION["writeServer"] )) {
 					echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
 					return false;

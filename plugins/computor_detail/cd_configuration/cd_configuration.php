@@ -136,12 +136,8 @@ $i=0;
 	}
 	
 	if( $_SESSION["lvluser"]==SADMIN ){
-	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
-	echo "<td align=center rowspan=8><a OnClick='recharge(\"$systemid\",\"machine\")'><img src='image/modif_a.png' title='".$l->g(285)."'></a></td>";
-	echo "</tr>";
-	echo "<input type='hidden' id='systemid' name='systemid' value=''>";
-	echo "<input type='hidden' id='origine' name='origine' value=''>"; 
-	echo "</form>";
+		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=machine\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
+		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
 	}
 	$ii++; $td3 = $ii%2==0?$td2:$td4;
 	//FREQUENCY

@@ -2,7 +2,7 @@
  require_once('require/function_table_html.php');
  if( $_SESSION["lvluser"] != SADMIN )
 	die("FORBIDDEN");
- //définition des onglets
+ //dï¿½finition des onglets
 //$data_on['GUI_LOGS']="Logs de l'interface";
 $protectedPost['onglet'] == "";
 $form_name = "logs";
@@ -21,7 +21,7 @@ echo "</td></tr></table>";
 echo "</tr></td></form>";
 
 function ScanDirectory($Directory,$Filetype){
-
+global $pages_refs;
   $MyDirectory = opendir($Directory) or die('Erreur');
 	while($Entry = @readdir($MyDirectory)) {
 

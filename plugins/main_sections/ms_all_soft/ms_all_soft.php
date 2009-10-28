@@ -43,10 +43,7 @@ $sql_list_alpha .=" group by name ".$sql_fin;
 if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPost['onglet'])){
 	$result_list_alpha = mysql_query( $sql_list_alpha, $_SESSION["readServer"]);
  	while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
- 		if (strtoupper($item_list_alpha -> alpha) != "" 
-			and strtoupper($item_list_alpha -> alpha) != Ã
-			and strtoupper($item_list_alpha -> alpha) != Â
-			and strtoupper($item_list_alpha -> alpha) != Ä){
+ 		if (strtoupper($item_list_alpha -> alpha) != ""){
 				if (!isset($protectedPost['onglet']))
 					$protectedPost['onglet']=strtoupper($item_list_alpha -> alpha);
 				$list_alpha[strtoupper($item_list_alpha -> alpha)]=strtoupper($item_list_alpha -> alpha);
@@ -137,7 +134,9 @@ if (isset($sql)){
 						);
 	$default_fields= $list_fields;
 	$list_col_cant_del=$default_fields;
-	//echo $sql;
+	$tab_options['LIEN_LBL']['nbre']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=allsoft&value=';
+	$tab_options['LIEN_CHAMP']['nbre']='name';
+	//$tab_options['nbre'][]
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 }
 

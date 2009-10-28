@@ -54,7 +54,7 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 			where IVALUE in (".implode(',',$list_download_id).") 
 			and NAME='DOWNLOAD'
 			and hardware_id in (".$list_id.")";
-	//echo $sql."<br>";
+	echo $sql."<br>";
 	mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
 	echo "<br><font color=green>".mysql_affected_rows()." ".$l->g(1026)."</font>";
 	
@@ -109,7 +109,7 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 		}elseif ($protectedPost['onglet']=="SUP_PACK"){
 			echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
 			
-			$queryDetails = "select fileid,name from download_available  where name != '' order by 1 desc";
+			$queryDetails = "select d_a.fileid,d_a.name from download_available d_a, download_enable d_e where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
 			$resultDetails = mysql_query($queryDetails, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 			while($val = mysql_fetch_array($resultDetails)){
 				$List[$val["fileid"]]=$val["name"];		

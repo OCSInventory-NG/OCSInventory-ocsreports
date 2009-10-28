@@ -32,6 +32,11 @@ if (isset($protectedGet['prov'])){
 		$tab_session[]="DEVICES-DOWNLOAD";	
 		$tab_stat=array('SelComp-DEVICES-DOWNLOAD-0'=>"exact",'SelFieldValue-DEVICES-DOWNLOAD-0'=>$protectedGet['id_pack'],'SelFieldValue2-DEVICES-DOWNLOAD-0'=>$protectedGet['stat']);//unset($_SESSION);
 	}
+	if ($protectedGet['prov'] == "allsoft"){
+		$tab_session[]="SOFTWARES-NAME";	
+		$tab_stat=array('SelComp-SOFTWARES-NAME-0'=>"exact",'SelFieldValue-SOFTWARES-NAME-0'=>$protectedGet['value']);//unset($_SESSION);
+	}
+	
 	if ($protectedGet['prov'] == "ipdiscover" or $protectedGet['prov'] == "ipdiscover1"){
 		$tab_session[]="NETWORKS-IPSUBNET";	
 		$tab_stat['SelComp-NETWORKS-IPSUBNET-0']="exact";
