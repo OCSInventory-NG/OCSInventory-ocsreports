@@ -107,7 +107,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 	}*/
 	if ($list_id){
 		onglet($def_onglets,$form_name,'onglet',7);
-		echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
+			echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td>";
 		if ($protectedPost['onglet'] == $l->g(728)){
 			include ('ms_custom_frequency.php');
 		}

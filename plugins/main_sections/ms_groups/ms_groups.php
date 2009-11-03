@@ -16,7 +16,7 @@ if($protectedPost['Valid_modif_x']){
 	$msg=$result['RESULT'];	
 	$tab_options['CACHE']='RESET';
 }
-//annule la création d'un groupe statique
+//annule la crï¿½ation d'un groupe statique
 if ($protectedPost['Reset_modif_x']) 
  unset($protectedPost['add_static_group']);
  
@@ -54,7 +54,10 @@ if ($_SESSION["lvluser"] != ADMIN){
 	$protectedPost['onglet']="STAT";	
 	//show onglet
 	onglet($def_onglets,$form_name,"onglet",0);
-	echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td align =center>";
+	echo '<div class="mlt_bordure" >';
+
+	
+//	echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center>";
 }else{	
 	$protectedPost['onglet']="STAT";
 }
@@ -70,7 +73,7 @@ if ($_SESSION["lvluser"] == SADMIN){
 		$list_fields['CHECK']= 'ID';
 	$list_fields['SUP']= 'ID';	
 }
-//changement de nom à l'affichage des champs	
+//changement de nom ï¿½ l'affichage des champs	
 $tab_options['LBL']['CHECK']="Visible";
 $tab_options['LBL']['GROUP_NAME']="Nom";
 
@@ -112,16 +115,16 @@ if ($protectedPost['onglet'] == "SERV"){
 $querygroup.=" group by h.ID";
 $result = mysql_query($sql_nb_mach, $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
 while($item = mysql_fetch_object($result)){
-	//on force les valeurs du champ "nombre" à l'affichage
+	//on force les valeurs du champ "nombre" ï¿½ l'affichage
 	$tab_options['VALUE']['NBRE'][$item -> group_id]=$item -> nb;
 }
 	
-//Modif ajoutée pour la prise en compte 
-//du chiffre à rajouter dans la colonne de calcul
+//Modif ajoutï¿½e pour la prise en compte 
+//du chiffre ï¿½ rajouter dans la colonne de calcul
 //quand on a un seul groupe et qu'aucune machine n'est dedant.
 if (!isset($tab_options['VALUE']['NBRE']))
 $tab_options['VALUE']['NBRE'][]=0;
-//on recherche les groupes visible pour cocher la checkbox à l'affichage
+//on recherche les groupes visible pour cocher la checkbox ï¿½ l'affichage
 if ($protectedPost['onglet'] == "STAT"){
 	$sql="select id from hardware where workgroup='GROUP_4_ALL'";
 	$result = mysql_query($sql, $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
@@ -129,14 +132,14 @@ if ($protectedPost['onglet'] == "STAT"){
 		$protectedPost['check'.$item ->id]="check";
 	}
 }
-//on ajoute un javascript lorsque l'on clic sur la visibilité du groupe pour tous
+//on ajoute un javascript lorsque l'on clic sur la visibilitï¿½ du groupe pour tous
 $tab_options['JAVA']['CHECK']['NAME']="NAME";
 $tab_options['JAVA']['CHECK']['QUESTION']=$l->g(811);
 $tab_options['FILTRE']=array('NAME'=>$l->g(679),'DESCRIPTION'=>$l->g(636));
 //affichage du tableau
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querygroup,$form_name,100,$tab_options); 
 
-//si super admin, on donne la possibilité d'ajouter un nouveau groupe statique	
+//si super admin, on donne la possibilitï¿½ d'ajouter un nouveau groupe statique	
 if ($_SESSION["lvluser"]==SADMIN){
 	echo "</td></tr></table>";	
 	if ($protectedPost['onglet'] == "STAT")
@@ -166,6 +169,11 @@ if (isset($protectedPost['add_static_group']) and $_SESSION["lvluser"]==SADMIN){
 	echo "$tdhfpb</table>";
 	echo "<input type='hidden' id='add_static_group' name='add_static_group' value='BYHIDDEN'>";
 }
+
+			
+
+	echo '	</div>
+		';
 //fermeture du formulaire
 echo "</form>";
 ?>

@@ -17,13 +17,13 @@ if ($protectedPost['Valid_modif_x']){
 		}elseif($protectedPost["ACTION"] == "reset"){
 			$sql=" delete from devices where name='DOWNLOAD' and tvalue like 'ERR_%' and IVALUE='".$protectedGet['affect_reset']."' and hardware_id=".$systemid; 
 		}
-		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));
+		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 		if (mysql_affected_rows() != 0){
 			$txt_trait=xml_encode(stripslashes($protectedPost['MOTIF']));
 			$sql="INSERT INTO itmgmt_comments (hardware_id,comments,user_insert,date_insert,action) 
 					values ('".$systemid."','".$txt_trait."','".$_SESSION["loggeduser"]."',
 							sysdate(),'".$protectedPost["ACTION"]." => ".$protectedPost['NAME_PACK']."')"; 
-			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));
+			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 		}
 	}else
 	echo "<script>alert(\"".$l->g(903)."\")</script>";	

@@ -3,7 +3,7 @@
 //=>$_SESSION["forcedRequest"]
 
 if ($protectedPost['RESET']){ 
-	unset($protectedPost['search']);
+	unset($protectedPost['NAME_RESTRICT']);
 	unset($protectedPost['NBRE']);
 	unset($protectedPost['CLASS']);
 }
@@ -32,8 +32,8 @@ if ($_SESSION["usecache"] == 1  and $protectedPost['NBRE'] == ""){
 	$and_where=" where ";
 }
 $sql_list_alpha .=$and_where." substr(trim(name),1,1) is not null ";
-if (isset($protectedPost['search']) and $protectedPost['search'] != "")
-	$sql_list_alpha .=" and name like '%".$protectedPost['search']."%' ";
+if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != "")
+	$sql_list_alpha .=" and name like '%".$protectedPost['NAME_RESTRICT']."%' ";
 if (isset($protectedPost['CLASS']) and $protectedPost['CLASS'] != ""){
 		$sql_list_alpha.=" and (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$protectedPost['CLASS']])."') ".$sql_default." ) ";		
 	}
@@ -62,9 +62,10 @@ if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPost['ong
 $form_name = "all_soft";
 $table_name="all_soft";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
- onglet($_SESSION['ONGLET_SOFT'],$form_name,"onglet",20);
 
-if ((isset($protectedPost['search']) and $protectedPost['search'] != "") or
+onglet($_SESSION['ONGLET_SOFT'],$form_name,"onglet",20);
+echo '<div class="mlt_bordure" >';
+if ((isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != "") or
 	((isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "")))
 echo "<font color=red size=3><b>".$l->g(767)."</b></font>";
 
@@ -75,9 +76,9 @@ if ($_SESSION["usecache"] == 1){
 	$forcedRequest=$search_soft;
 	$search_soft.=" where name like '".$protectedPost['onglet']."%'";
 	$and_where=" where ";
-	if (isset($protectedPost['search']) and $protectedPost['search'] != ""){
-		$forcedRequest.= $and_where." name like '%".$protectedPost['search']."%' ";
-		$search_soft.=" and name like '%".$protectedPost['search']."%' ";		
+	if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
+		$forcedRequest.= $and_where." name like '%".$protectedPost['NAME_RESTRICT']."%' ";
+		$search_soft.=" and name like '%".$protectedPost['NAME_RESTRICT']."%' ";		
 		$and_where=" and ";
 	}
 	if (isset($protectedPost['CLASS']) and $protectedPost['CLASS'] != ""){
@@ -116,9 +117,9 @@ if ($list_soft != ""){
 	$and_where=" where ";
 	$_SESSION["forcedRequest"]=$sql;
 	$sql.=$and_where." name like '".$protectedPost['onglet']."%'";
-	if (isset($protectedPost['search']) and $protectedPost['search'] != ""){
-		$sql.=" and name like '%".$protectedPost['search']."%' ";	
-		$_SESSION["forcedRequest"].=$and_where."name like '%".$protectedPost['search']."%'" ;
+	if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
+		$sql.=" and name like '%".$protectedPost['NAME_RESTRICT']."%' ";	
+		$_SESSION["forcedRequest"].=$and_where."name like '%".$protectedPost['NAME_RESTRICT']."%'" ;
 	}
 }
 
@@ -140,20 +141,19 @@ if (isset($sql)){
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 }
 
-echo "<br><div align=center>
-<table bgcolor='#66CCCC'><tr><td colspan=2 align=center >".$l->g(735)."</td></tr><tr><td align=right>".$l->g(382).": <input type='input' name='search' value='".$protectedPost['search']."'>
-				<td rowspan=2><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'>
-		</td></tr><tr><td align=right>".$l->g(381)."<select name='COMPAR'>
-			<option value='<' ".($protectedPost['COMPAR'] == '<'?'selected':'')."><</option>
-			<option value='>' ".($protectedPost['COMPAR'] == '>'?'selected':'').">></option>
-			<option value='=' ".($protectedPost['COMPAR'] == '='?'selected':'').">=</option>
-		</select><input type='input' name='NBRE' value='".$protectedPost['NBRE']."' ".$numeric."></td></tr>";
-		
-	
-	echo "<tr><td colspan=2 align=center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1'>".$l->g(183)." ".$l->g(765)."</a></td></tr>";
+echo "<br><div class='mvt_bordure'>";
+
+echo "<b>".$l->g(735)."</b><BR>";
+echo $l->g(382).": ".show_modif($protectedPost['NAME_RESTRICT'],'NAME_RESTRICT',0);
+echo "&nbsp;".$l->g(381).": ".show_modif(array('<'=>'<','>'=>'>','='=>'='),'COMPAR',2);
+echo show_modif($protectedPost['NBRE'],'NBRE',0,'',array('MAXLENGTH'=>100,'SIZE'=>10,'JAVASCRIPT'=>$numeric));
+//echo "<input type='input' name='NBRE' value='".$protectedPost['NBRE']."' ".$numeric.">";
+	echo "<br><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1'>".$l->g(183)." ".$l->g(765)."</a>";
 if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protectedPost['NBRE'] != "")
-echo "<tr><td colspan=2 align=center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_exportallsoft']."&no_header=1'>".$l->g(912)."</a></td></tr>";
-echo "</table></div>
-		";
+echo "<br><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_exportallsoft']."&no_header=1'>".$l->g(912)."</a>";		
+	echo "<br><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'>";
+
+echo '</div>';
+echo '</div>';
 echo "</form>";
 ?>

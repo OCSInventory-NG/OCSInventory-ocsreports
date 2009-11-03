@@ -43,8 +43,7 @@ $form_name='modif_onglet';
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 
 onglet($def_onglets,$form_name,'onglet',7);
-
-echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
+echo '<div class="mlt_bordure" >';
 if ($protectedPost['onglet'] == "connexion" ){
 	
 	pageConnexion($form_name);
@@ -98,4 +97,4 @@ if ($protectedPost['onglet'] == $l->g(760)){
 	
 	pagewebservice($form_name);
 }
-echo "</td></tr></table></td></tr></table></form>";
+echo "</div></form>";

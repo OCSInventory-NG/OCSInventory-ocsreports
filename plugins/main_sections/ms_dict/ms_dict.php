@@ -17,9 +17,9 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //definition of onglet
 $def_onglets['CAT']='CATEGORIES'; //Categories
 $def_onglets['NEW']='NEW'; //nouveau logiciels
-$def_onglets['IGNORED']='IGNORED'; //ignoré
+$def_onglets['IGNORED']='IGNORED'; //ignorï¿½
 $def_onglets['UNCHANGED']='UNCHANGED'; //unchanged
-//défault => first onglet
+//dï¿½fault => first onglet
 if ($protectedPost['onglet'] == "")
 $protectedPost['onglet']="CAT";
 //reset search
@@ -36,8 +36,9 @@ else{
 }
 //show first lign of onglet
 onglet($def_onglets,$form_name,"onglet",0);
-echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>
-<tr><td align='center' colspan=10>";
+echo '<div class="mlt_bordure" >';
+//echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>
+//<tr><td align='center' colspan=10>";
 //attention=> result with restriction
 if ($search_count != "" or $search_cache != "")
 echo "<font color=red><b>".$l->g(767)."</b></font>";
@@ -95,7 +96,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 		 if ($i<=20)
 		 onglet($list_cat,$form_name,"onglet_soft",5);
 		 else
-		 echo "Liste des catégories:".show_modif($list_cat,'onglet_soft',2,$form_name)."<br>";
+		 echo "Liste des catï¿½gories:".show_modif($list_cat,'onglet_soft',2,$form_name)."<br>";
 		 //You can delete or not?
 		  if ($i != 1 and isset($list_cat[$protectedPost['onglet_soft']]))
 		 echo "<a href=# OnClick='return confirme(\"\",\"".$protectedPost['onglet_soft']."\",\"".$form_name."\",\"SUP_CAT\",\"".$l->g(640)."\");'>".$l->g(921)."</a></td></tr><tr><td>";
@@ -116,8 +117,8 @@ if ($protectedPost['onglet'] == 'CAT'){
 		$querydico .= " from dico_soft left join ".$table." cache on dico_soft.extracted=cache.name
 				 where formatted='".mysql_escape_string($list_cat[$protectedPost['onglet_soft']])."' ".$search_count." group by EXTRACTED";
 	
-//	 echo "<br><font color=red>TROP DE CATEGORIES... VEUILLEZ FAIRE UNE RECHERCHE... <br>".$i." catégories répondent aux critères.
-//			 L'affichage est limité à 20 catégories</font>";
+//	 echo "<br><font color=red>TROP DE CATEGORIES... VEUILLEZ FAIRE UNE RECHERCHE... <br>".$i." catï¿½gories rï¿½pondent aux critï¿½res.
+//			 L'affichage est limitï¿½ ï¿½ 20 catï¿½gories</font>";
 //	
 }
 /*******************************************************CAS OF NEW*******************************************************/
@@ -155,9 +156,9 @@ if ($protectedPost['onglet'] == 'NEW'){
 		$i=1;
 		 while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
 		 	if (strtoupper($item_list_alpha -> alpha) != "" 
-				and strtoupper($item_list_alpha -> alpha) != Ã
-				and strtoupper($item_list_alpha -> alpha) != Â
-				and strtoupper($item_list_alpha -> alpha) != Ä){
+				and strtoupper($item_list_alpha -> alpha) != ï¿½
+				and strtoupper($item_list_alpha -> alpha) != ï¿½
+				and strtoupper($item_list_alpha -> alpha) != ï¿½){
 					if ($first == ''){
 						$first=$i;
 					}
@@ -256,13 +257,13 @@ if (isset($querydico)){
 echo "</td></tr>";
 $search=show_modif(stripslashes($protectedPost['search']),"search",'0');
 $trans= "<input name='all_item' id='all_item' type='checkbox' ".(isset($protectedPost['all_item'])? " checked ": "").">".$l->g(384);
-//récupération de toutes les catégories
+//rï¿½cupï¿½ration de toutes les catï¿½gories
 $sql_list_categories="select distinct(formatted) name from dico_soft where formatted!=extracted";
 $result_list_categories = mysql_query( $sql_list_categories, $_SESSION["readServer"]);
 while($item_list_categories = mysql_fetch_object($result_list_categories)){
 	$list_categories[$item_list_categories ->name]=$item_list_categories ->name;	
 }
-//définition de toutes les options possible
+//dï¿½finition de toutes les options possible
 $choix_affect['NEW_CAT']=$l->g(385);
 $choix_affect['EXIST_CAT']=$l->g(387);
 $list_categories['IGNORED']="IGNORED";
@@ -283,7 +284,8 @@ $trans.= "<input type='button' name='TRANSF' value='".$l->g(13)."' onclick='retu
 echo "<tr><td>".$search."<input type='submit' value='".$l->g(393)."'><input type='button' value='".$l->g(396)."' onclick='return pag(\"RESET\",\"RESET\",\"".$form_name."\");'>";
 if ($result_exist != FALSE)
 echo "<div align=right> ".$trans."</div>";
-echo "</td></tr></table></table>";
+echo "</td></tr></table>";
+echo '</div>';
 echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 echo "<input type='hidden' name='TRANS' id='TRANS' value=''>";
 echo "<input type='hidden' name='SUP_CAT' id='SUP_CAT' value=''>";
