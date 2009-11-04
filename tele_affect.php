@@ -140,16 +140,28 @@ if (isset($_GET['systemid'])){
 	$visu='block';	
 }else
 {
-	$visu='none';
-if ($_GET['affect']=="mach"){
-$selected="selected";
-$visu='block';
-}
-echo "<table align='center'><tr><td>".$l->g(696)." <select id='action_affect' name='action_affect'>
-              <option value='' onclick='document.getElementById(\"groups\").style.display=\"none\"; document.getElementById(\"server\").style.display=\"none\";'></option>
-              <option value='1' onclick='document.getElementById(\"groups\").style.display=\"block\"; document.getElementById(\"server\").style.display=\"none\";' ".$selected.">".$l->g(697)."</option>
-              <option value='2' onclick='document.getElementById(\"groups\").style.display=\"none\";document.getElementById(\"server\").style.display=\"block\";'>".$l->g(698)."</option>
-     </select></td></tr></table>";
+		$visu='none';
+	if ($_GET['affect']=="mach"){
+	$selected="selected";
+	$visu='block';
+	}
+	echo "<table align='center'><tr><td>".$l->g(696);
+	if (!strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')){
+		echo " <select id='action_affect' name='action_affect'>
+	              <option value='' onclick='document.getElementById(\"groups\").style.display=\"none\"; document.getElementById(\"server\").style.display=\"none\";'></option>
+	              <option value='1' onclick='document.getElementById(\"groups\").style.display=\"block\"; document.getElementById(\"server\").style.display=\"none\";' ".$selected.">".$l->g(697)."</option>
+	              <option value='2' onclick='document.getElementById(\"groups\").style.display=\"none\";document.getElementById(\"server\").style.display=\"block\";'>".$l->g(698)."</option>
+	     </select>";
+	}else{
+		echo "<input type='hidden' id='action_server' name='action_server' value=''>";
+		echo "<br><a value='1' onclick='document.getElementById(\"action_server\").value=\"1\"; 
+		document.getElementById(\"groups\").style.display=\"block\"; document.getElementById(\"server\").style.display=\"none\";'>".$l->g(697)."</a><br>";	
+		echo "<a value='1' onclick='document.getElementById(\"action_server\").value=\"2\"; 
+		document.getElementById(\"groups\").style.display=\"none\"; document.getElementById(\"server\").style.display=\"block\";'>".$l->g(698)."</a><br>";	
+		
+		
+	}
+	echo "</td></tr></table>";
 }
 //echo "<table><tr><td>choix:</td><td><input type='text' name='".$input_name."' value=\"".textDecode($name)."\" onFocus=\"this.style.backgroundColor='white'\" onBlur=\"this.style.backgroundColor='#C7D9F5'\">";
 if( isset($_GET["systemid"]))
