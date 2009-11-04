@@ -66,14 +66,16 @@ if (isset($_POST['check_group']) and  $_POST['check_group'] != "")
 //if delete group
 if (isset($_POST['supp']) and  $_POST['supp'] != "" and is_numeric($_POST['supp']))
 {
-	$del_groups_TAG="DELETE FROM accountinfo where HARDWARE_ID=".$_POST['supp'];
-	mysql_query($del_groups_TAG, $_SESSION["writeServer"]) or die(mysql_error());
+	$del_groups_server_cache="DELETE FROM download_servers WHERE group_id=".$_POST['supp'];
+	mysql_query($del_groups_server_cache, $_SESSION["writeServer"]) or die(mysql_error());
 	$del_groups_cache="DELETE FROM groups_cache WHERE group_id=".$_POST['supp'];
 	mysql_query($del_groups_cache, $_SESSION["writeServer"]) or die(mysql_error());
-	$del_groups="DELETE FROM groups WHERE hardware_id=".$_POST['supp'];
 	mysql_query($del_groups, $_SESSION["writeServer"]) or die(mysql_error());
 	$del_hardware="DELETE FROM hardware where id=".$_POST['supp'];
 	mysql_query($del_hardware, $_SESSION["writeServer"]) or die(mysql_error());
+	$del_groups_TAG="DELETE FROM accountinfo where HARDWARE_ID=".$_POST['supp'];
+	mysql_query($del_groups_TAG, $_SESSION["writeServer"]) or die(mysql_error());
+	
 
 }
 
@@ -122,8 +124,7 @@ if ($_POST['onglet'] == "STAT" or $_POST['onglet'] == "DYNA"){
 }elseif ($_POST['onglet'] == "SERV"){
 	
 	$sql="select group_id id,h.name name,h.DESCRIPTION description, h.lastdate creat, count(hardware_id) nbr
-			from download_servers d_s,hardware h
-			where d_s.group_id=h.id
+			from download_servers d_s left join hardware h on d_s.group_id=h.id
 			group by group_id order by ".$_POST['tri2']." ".$_POST['sens'];
 	$reqCount="select count(*) nb from (".$sql.") toto";
 	$sql.=" limit ".$limit["BEGIN"].",".$limit["END"];

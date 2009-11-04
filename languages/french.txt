@@ -511,7 +511,7 @@
 618 Perimetre
 619 Utilisateur local
 620 Vous n'avez aucune machine affectee.
-621 Ce groupe n'a pas ete cree. Ce nom existe deja.
+621 Ce groupe n\'a pas ete cree. Ce nom existe deja.
 622 En cache
 623 L'information que vous essayez de voir n'existe pas.
 624 Voulez-vous vraiment supprimer le groupe 

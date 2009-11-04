@@ -1,9 +1,12 @@
 <?php
 if (!function_exists('escape_string_security')){
 	function escape_string_security($array){
-		foreach ($array as $key=>$value){
-			$trait_array[$key]=mysql_real_escape_string($value);
-		}
+		if (is_array($array)){
+			foreach ($array as $key=>$value){
+				$trait_array[$key]=mysql_real_escape_string($value);
+			}
+		}else
+		$trait_array=mysql_real_escape_string($array);
 		return ($trait_array);
 	}
 	

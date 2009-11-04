@@ -13,7 +13,7 @@ include('security.php');
 require_once('require/function_server.php');
 
 //cas of add new server's diff
-if (isset($_POST['action_server']) and $_POST['action_server'] != '0')
+if (isset($_POST['valid_server']) and $_POST['valid_server'] != '0')
 {
 
 	$i=1;

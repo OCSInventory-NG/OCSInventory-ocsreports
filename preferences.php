@@ -951,10 +951,11 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 			if($massProcessing && $req->label != $l->g(583) && $req->label != $l->g(2) ) {
 				echo "<br><center><b>".$l->g(430).":</b>";	
 				if ( $_SESSION["lvluser"]==SADMIN ){		
-				echo "&nbsp;&nbsp;<b><a href=# onclick='document.getElementById(\"checkmass\").action=\"index.php?{$prefG}&multi=22\";document.getElementById(\"checkmass\").submit();' target=_top>".$l->g(107)."</a></b> |";
+					//echo $prefG;
+				echo "&nbsp;&nbsp;<b><a  onclick='document.getElementById(\"checkmass\").action=\"index.php?".$prefG."&multi=22\";document.getElementById(\"checkmass\").submit();' target=_top>".$l->g(107)."</a></b> |";
 				//echo "&nbsp;&nbsp;<b><a href='index.php?multi=23' target=_top>".$l->g(312)."</a></b>";
-				echo "&nbsp;&nbsp;<b><a href=# onclick='document.getElementById(\"checkmass\").action=\"index.php?{$prefG}&frompref=1&multi=24&isgroup=0\";document.getElementById(\"checkmass\").submit();' target=_top>".$l->g(428)."</a></b> |";
-				echo "&nbsp;&nbsp;<b><a href=# onclick='document.getElementById(\"checkmass\").action=\"index.php?{$prefG}&multi=27\";document.getElementById(\"checkmass\").submit();' target=_top>".$l->g(122)."</a></b> |";
+				echo "&nbsp;&nbsp;<b><a  onclick='document.getElementById(\"checkmass\").action=\"index.php?".$prefG."&frompref=1&multi=24&isgroup=0\";document.getElementById(\"checkmass\").submit();' target=_top>".$l->g(428)."</a></b> |";
+				echo "&nbsp;&nbsp;<b><a  onclick='document.getElementById(\"checkmass\").action=\"index.php?".$prefG."&multi=27\";document.getElementById(\"checkmass\").submit();' target=_top>".$l->g(122)."</a></b> |";
 				}
 				//GROUP BAR
 				if( $_GET["multi"] == 1 ) {
@@ -997,12 +998,27 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 							echo "<option value='".$show."' onclick='";
 							foreach ($actionServer as $key=>$value){
 								if ($key == $show and $key != '0')
-								echo "document.getElementById(\"".$key."\").style.display=\"block\";";
+								echo "document.getElementById(\"".$key."\").style.display=\"block\"; ";
 								elseif ($key != '0')
-								echo "document.getElementById(\"".$key."\").style.display=\"none\";";
+								echo "document.getElementById(\"".$key."\").style.display=\"none\"; ";
 								
 							}
 							echo "'>".$actionServer[$show]."</option>";
+							
+						}
+					function show_only_me_fucking_IE($show,$actionServer)
+						{
+							echo "<a value='".$show."' onclick='";
+							foreach ($actionServer as $key=>$value){
+								
+								if ($key == $show and $key != '0'){
+									echo "document.getElementById(\"action_server\").value=\"".$key."\"; ";
+									echo "document.getElementById(\"".$key."\").style.display=\"block\"; ";
+								}elseif ($key != '0')
+								echo "document.getElementById(\"".$key."\").style.display=\"none\"; ";
+								
+							}
+							echo "'>".$actionServer[$show]."</a><br>";
 							
 						}
 					}
@@ -1050,14 +1066,26 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 					echo "<div id='server' style='display:none'>
 		 			<table align='center' width='50%' border='0' cellspacing=10 bgcolor='#C7D9F5' >
 					<tr>
-						<td align='center' colspan='2'><b>".$l->g(585)."></b></td></tr>
+						<td align='center' colspan='2'><b>".$l->g(585)."</b></td></tr>
 					<tr>
-						<td>".$l->g(634)." :</td><td><select id='action_server' name='action_server'>";
+						<td>".$l->g(634)." :</td><td>";
+					if (!strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')){
+						echo "<select id='action_server' name='action_server'>";
 						show_only_me(0,$actionServer);
 						show_only_me("new_serv",$actionServer);
 						show_only_me("add_serv",$actionServer);
 						show_only_me("replace_serv",$actionServer);
-					?></select></td>
+						echo "</select>";
+					}else{
+						//show_only_me_fucking_IE(0,$actionServer);
+					//	echo "<a id='action_server' name='action_server'>";
+						show_only_me_fucking_IE("new_serv",$actionServer);
+						show_only_me_fucking_IE("add_serv",$actionServer);
+						show_only_me_fucking_IE("replace_serv",$actionServer);
+						echo "<input type='hidden' id='action_server' name='action_server' value=''>";
+						//echo "</a>";
+					}
+					?></td>
 					
 					</tr>						
 					</div>

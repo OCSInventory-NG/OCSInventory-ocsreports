@@ -52,7 +52,7 @@ function look_default_values()
 {
 	$sql="select NAME,IVALUE,TVALUE from config where NAME = 'DOWNLOAD_SERVER_URI'
 			union select NAME,IVALUE,TVALUE from config where NAME = 'DOWNLOAD_SERVER_DOCROOT'";
-	$resdefaultvalues = mysql_query( $sql, $_SESSION["readServer"]);
+	$resdefaultvalues = mysql_query( $sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 
 	while($item = mysql_fetch_object($resdefaultvalues)){
 			$result['name'][$item ->NAME]=$item ->NAME;
@@ -70,7 +70,7 @@ function add_mach($id_group,$list_mach)
 	foreach ($list_mach as $key=>$value){
 		$reqCache = "INSERT IGNORE INTO download_servers(hardware_id, url, add_rep,GROUP_ID) 
 					VALUES (".$value.",'".str_replace("\\", "\\\\", $default_values['tvalue']['DOWNLOAD_SERVER_URI'])."','".str_replace("\\", "\\\\", $default_values['tvalue']['DOWNLOAD_SERVER_DOCROOT'])."',".$id_group.")";
-		$cachedRes = mysql_query( $reqCache , $_SESSION["writeServer"] )
+		$cachedRes = mysql_query( $reqCache , $_SESSION["writeServer"] ) 
 		or die( mysql_error($_SESSION["writeServer"]) );
 		
 		}
@@ -80,7 +80,6 @@ function add_mach($id_group,$list_mach)
 //function for admin server
 function admin_serveur($action,$name_server,$descr,$mach) {
 	global $_SESSION,$l;
-
 	if ($action == "")
 	return $l->g(663); //intern problem
 	if (trim($name_server) == "")
@@ -89,15 +88,16 @@ function admin_serveur($action,$name_server,$descr,$mach) {
 	return $l->g(665); //no mach selected. group not creat
 	//verification group not have the same name
 	$reqGetId = "SELECT id FROM hardware WHERE name='".$name_server."'";
-     $resGetId = mysql_query( $reqGetId, $_SESSION["readServer"]);
-	if( $valGetId = mysql_fetch_array( $resGetId ) )
+     $resGetId = mysql_query( $reqGetId, $_SESSION["readServer"])  or die(mysql_error($_SESSION["readServer"]));
+     if( $valGetId = mysql_fetch_array( $resGetId ) )
 		$idGroupServer = $valGetId['id'];
 	//if we are in creat new server
 	if ($action == 'new_serv'){
+				
 		//if the name not exist in the base
 		if (!isset($idGroupServer)){
 		$deviceid='_DOWNLOADGROUP_';
-		mysql_query( "INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '$deviceid' , '".$name_server."', '".$descr."', NOW() )", $_SESSION["writeServer"] )
+		mysql_query( "INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '$deviceid' , '".$name_server."', '".$descr."', NOW() )", $_SESSION["writeServer"] ) 
 		or die( mysql_error($_SESSION["writeServer"]));
 		//Getting hardware id
 		$insertId = mysql_insert_id( $_SESSION["writeServer"] );
@@ -108,12 +108,13 @@ function admin_serveur($action,$name_server,$descr,$mach) {
 
 	}//if the machines add to the group or the group is replace
 	elseif ($action == 'add_serv' or $action == 'replace_serv'){
+		
 		if ($action == 'replace_serv'){
 		mysql_query( "DELETE FROM download_servers WHERE GROUP_ID=".$idGroupServer, $_SESSION["writeServer"] )
 		or die( mysql_error($_SESSION["writeServer"]) );
 		}
 		add_mach($idGroupServer,$mach);
-		return $l->g(621);
+		return $l->g(664);
 	}
 }
 
