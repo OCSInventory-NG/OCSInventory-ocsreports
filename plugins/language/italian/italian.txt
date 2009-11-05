@@ -28,31 +28,31 @@
 46 Ultimo inventario
 48 Dettagli computer
 49 Nome
-50 Scambio
+50 File di swap (MB)
 51 Commenti
-53 Descrizione 
+53 Descrizione
 54 Processore (CPU)
 55 Numero
 56 Dati amministrativi
 61 Scheda video
 62 Risoluzione
-63 Unità di memorizzazione
+63 UNITA' DI MEMORIZZAZIONE
 64 Produttore
 65 Modello
 66 Tipo
 67 Capacità disco
 69 Produttore
-70 Utilizzo
+70 Unità
 79 Stampanti
-80 Didascalia
+80 Modello
 81 Stato
 82 Reti
-83 Capacità
+83 Occupazione in %
 84 Interfaccia
-85 Lettera
+85 Unità
 86 File system
-87 Totale
-88 Libero
+87 Grandezza totale
+88 Spazio libero
 90 Risultati
 91 Dispositivi di input
 92 Dischi
@@ -61,12 +61,12 @@
 95 Indirizzo MAC
 96 Suono
 97 Monitor
-98 Attenzione, puoi selezionare solo 8 opzioni !
+98 Attenzione, puoi selezionare solo 8 opzioni!
 99 Dettagli del computer
 103 Aggiorna
 107 Configurazione
 108 Richieste registro
-111 Licenza Windows
+111 Windows ID
 113 Annulla
 114 Registra
 115 Aggiorna
@@ -77,11 +77,11 @@
 129 COME
 130 DIVERSO
 134 Aggiungi un nuovo file nel database
-135 Attenzione, stai per eliminare questo file definitivamente !
+135 Attenzione, stai per eliminare questo file definitivamente!
 136 Scarica
 137 File
 168 Il formato del file non è valido (deve essere zip, pl o binario unix)
-170 Esiste già lo stesso file !
+170 Esiste già lo stesso file!
 171 File eliminato
 172 Errore, il file
 173 non è stato aggiunto al database
@@ -131,7 +131,7 @@
 219 Interfacce di rete non inventariate
 220 eliminato
 221 Acquisizione indirizzi IP dei computer
-222 ATTENZIONE ! Tutti i computer selezionati saranno uniti in un singolo computer ! Sei sicuro ?
+222 ATTENZIONE! Tutti i computer selezionati saranno uniti in un singolo computer! Sei sicuro?
 223 Informazioni
 224 Valore
 225 Informazioni amministrative
@@ -162,8 +162,8 @@
 250 Server MySql
 251 Esci
 252 Nome (scelto)
-253 Chiave (hive) registro	
-254 Percorso della chiave (Es: SOFTWAREMozilla)	
+253 Chiave (hive) registro
+254 Percorso della chiave (Es: SOFTWAREMozilla)
 255 Nome della chiave che si vuole leggere (* per tutte)
 256 Scelta
 257 Chiave registro
@@ -171,7 +171,7 @@
 259 Errore, il dato non può essere inserito (i caratteri speciali non sono ammessi)
 260 La descrizione del file è stata modificata
 261 La descrizione del file è stata eliminata
-262 Tipo nell'etichetta
+262 Inserisci o modifica l'etichetta
 263 Configurazione del file delle etichette
 264 Non esiste nessun file delle etichette
 265 Qualsiasi
@@ -183,8 +183,8 @@
 271 Slot
 272 Porte
 273 BIOS
-274 Nome Sistema Operativo (S.O.)
-275 Versione Sistema Operativo (S.O.)
+274 Sistema Operativo (S.O.)
+275 Versione del Sistema Operativo
 276 Chipset
 277 Versione
 278 Driver
@@ -196,8 +196,8 @@
 284 Costruttore BIOS
 285 Selezionare un parametro da modificare
 286 Service pack
-287 Importato localmente
-288 Importazione locale
+287 Importazione locale
+288 Importa localmente
 289 Informazione di rete
 290 Ricerca indirizzi IP
 291 Modalità avanzata
@@ -230,7 +230,7 @@
 318 Nome DNS
 319 Risultati dell'analisi di rete
 320 Questa analisi è già stata eseguita
-321 vuoi vedere le informazioni memorizzate ?
+321 vuoi vedere le informazioni memorizzate?
 322 Informazioni memorizzate
 323 generate da
 324 APPARATI ANALIZZATI COME
@@ -260,14 +260,14 @@
 349 Aggiungi colonna
 350 Tipo CPU
 351 Numero CPU
-352 Ultimo inserito
+352 Ultimo aggiornamento
 353 Qualità
 354 Fedeltà
 355 Società
 356 Proprietario
-357 User agent
-358 Jolly: ? (un carattere), * (diversi caratteri)
-359 Numero di serie del Monitor
+357 Versione agente
+358 Jolly: ? (un solo carattere), * (più caratteri)
+359 Numero di serie del monitor
 360 Costruito nel (settimana/anno)
 362 La rete
 363 esiste già
@@ -282,7 +282,7 @@
 372 Scegli i componenti
 373 Utente registrato
 374 Azienda registrata
-375 Versione agente OCS NG
+375 Versione agente OCS-NG
 376 Computer bloccato. Riprova tra qualche minuto
 377 Velocità CPU (MHz)
 380 Dizionario
@@ -305,23 +305,23 @@
 397 Vai alla categoria
 398 Elenco categorie
 410 ESATTAMENTE
-411 I campi devono contenere solo numeri !
+411 I campi devono contenere solo numeri!
 412 Funzionalità acquisizione chiavi di registro
 413 Funzionalità aggiornamento automatico
 414 Funzionalità distibuzione automatica
-415 Funzionalità eliminazione log distribuzione (necessaria a GLPI).
-416 Funzionalità log.
-417 Funzionalità distribuzione automatica dei software.
-418 Funzionalità inventari differenziati.
+415 Funzionalità eliminazione log distribuzione (necessaria a GLPI)
+416 Funzionalità log
+417 Funzionalità distribuzione automatica dei software
+418 Funzionalità inventari differenziati
 419 Numero massimo di giorni prima che un computer ricercato con IP sia sostituito.
 420 Distribuzione automatica del programma: consultare la documentazione.
 421 Distribuzione automatica del programma: consultare la documentazione.
 422 Distribuzione automatica del programma: consultare la documentazione.
 423 Distribuzione automatica del programma: consultare la documentazione. (I componenti con una priorità uguale o maggiore non devono essere scaricati ulteriormente).
-424 Validità di un pacchetto come dalla relativa considerazione dall'agente.
-425 Numero massimo di computers per gateway trovati sulla rete.
-426 Validità degli inventari. (SEMPRE: inventario ad ogni login. MAI: nessun inventario)
-427 Definisce il criterio per il quale due computer devono essere uniti automaticamente.
+424 Validità di un pacchetto come come considerato dall'agente
+425 Numero massimo di computer per gateway trovati sulla rete
+426 Validità degli inventari (SEMPRE: inventario ad ogni login - MAI: nessun inventario)
+427 Definisce il criterio per il quale due computer devono essere uniti automaticamente
 428 Distribuzione
 429 Frequenza
 430 Elaborazione di massa
@@ -362,7 +362,7 @@
 465 Attivazione pacchetto
 466 AVVISO: non è stato trovato il file delle informazioni in
 467 AVVISO: non è stato trovato il file dei frammenti in
-468 Sei sicuro di voler attivare questo pacchetto ?
+468 Sei sicuro di voler attivare questo pacchetto?
 469 Pacchetto attivato, ora può essere ricercato
 470 Indirizzo Https
 471 Indirizzo dei frammenti
@@ -371,7 +371,7 @@
 474 Il contatore deve essere lungo 10 cifre
 475 Contatore
 476 O attivare un pacchetto manualmente
-477 Riguarda il pacchetto
+477 Interessa il pacchetto
 478 Computer
 479 Nessun computer selezionato
 480 frammenti
@@ -391,9 +391,9 @@
 494 Frequenza di inventario personalizzata
 495 Inventariato ogni
 496 giorni
-497 Default, usa il parametro 'FREQUENZA'.
+497 Default (usa il parametro 'FREQUENCY')
 498 Pacchetto
-499 server
+499 Server
 500 Personalizzazione
 501 aggiungi pacchetto
 502 Eletto
@@ -406,7 +406,7 @@
 509 TUTTI
 510 Nessun pacchetto
 511 secondi
-512 Distribuire
+512 Distribuzione
 513 Costruire
 514 Attivare
 515 Attivato
@@ -419,7 +419,7 @@
 522 Computer standard
 523 Ritorna allo stato originario
 524 NON interessa più
-525 SEI SICURO ?
+525 SEI SICURO?
 526 NESSUN COMPUTER SOGGETTO
 527 Gennaio
 528 Febbraio
@@ -447,11 +447,11 @@
 550 File (non vincolante, può essere usato dal comando "esegui")
 551 Il nome del pacchetto esiste già
 552 <i>Devi eseguire una ricerca computer, quindi cliccare 'distribuire' perchè venga distribuito il pacchetto<br>Puoi anche distribuire un pacchetto su un singolo computer usando la linguetta 'personalizzazione'</i>.
-553 Chiave Windows
+553 Windows S/N
 554 Monitor: numero di serie
 555 Monitor: produttore
 556 Monitor: legenda
-557 Utenti di dominio
+557 Utenti del dominio
 558 Pacchetto interessato
 559 Questo file non è .ocs
 560 Al server
@@ -549,7 +549,7 @@
 654 Inserisci un nuovo indirizzo MAC nella blacklist
 655 Inserimento effettuato
 656 Questo valore è già presente nella lista
-657 I campi in rosso contengono errori!!! (Campo vuoto o valore < 2) 
+657 I campi in rosso contengono errori! (Campo vuoto o valore < 2)
 658 macchine senza server di ridistribuzione.<br>Pertanto è necessario agire sul pacchetto individualmente.
 659 Le macchine hanno già questo pacchetto. Lo stato del pacchetto per queste macchine è ora
 660 IL GRUPPO DEI SERVER NON ESISTE
@@ -564,7 +564,7 @@
 669 ATTENZIONE: ci sono duplicati di priorità <br> Una singola regola verrà scelta!
 670 Una regola già porta questo nome
 671 Il nome di questa regola non può essere vuoto!
-672 Questa regola non esiste!!!
+672 Questa regola non esiste!
 673 Amministrazione delle regole di comportamento
 674 NOME DELLA REGOLA
 675 PRIORITA'
@@ -639,12 +639,12 @@
 744 Accetta un inventario solo se richiesto dal server (rifiuta quelli "forzati")
 745 Specifica quando la struttura della cache sarà pulita
 746 Specifica la differenza minima per sostituire un agente IpDiscover
-747 Disattivare il tempo prima di una prima elezione (non raccomandato)
+747 Disattivare il tempo che precede una prima elezione (non raccomandato)
 748 Abilita gruppi per IpDiscover (es: potresti non volere che alcuni gruppi siano agenti IpDiscover)
 749 Utilizzo con ocsinventory-injector, attiva la funzione multi entità
 750 Genera file compresso o testo XML in chiaro
 751 Specifica se si desidera mantenere traccia degli inventari con la sincronizzazione al server di livello superiore
-752 Percorso della directory dei file OCS (deve essere scrivibile)
+752 Percorso della directory dei file OCS-NG (deve essere scrivibile)
 753 Attiva filtro prolog stack
 754 Attiva il sistema di filtri interno per modificare alcune cose "al volo"
 755 Attiva filtro inventory flooding. Un ipaddress dedicato è abilitato a trasmettere un nuovo computer solo una volta in questo periodo
@@ -668,15 +668,15 @@
 773 Devi selezionare il nome della categoria
 774 Stai provando a trasferire una categoria verso la stessa categoria
 775 Directory di creazione dei pacchetti
-776 Directory cache analisi IpDiscover
+776 Directory di cache per analisi IpDiscover
 777 Validità della sessione
 778 Numero di WORKGROUP
 779 Etichette diverse
 780 IPSUBNET diverse
 781 Macchine con distribuzione dei pacchetti in attesa
 782 Macchine con pacchetti in errore
-783 Tipo di sistemi operativi
-784 Tipo di agenti
+783 Tipi di sistemi operativi
+784 Versioni di agenti
 785 Tipo di CPU
 786 Risoluzioni video utilizzate
 787 Macchine con CPU >=
@@ -688,27 +688,253 @@
 793 Macchine inventariate
 794 Macchine conosciute
 795 Macchine che hanno contattato il server oggi
-796 Numero delle macchine inventariate oggi
+796 Macchine inventariate oggi
 797 Macchine assenti da oltre
 798 ATTIVITA'
 799 HARDWARE
-800 ELSE
+800 ALTRO
 801 Non mostrare questo campo
 802 Mostra questo campo
 803 Numero di giorni da quando la macchina non ha contattato il server
 804 Velocità minima della CPU
 805 Velocità massima della CPU
-806 Totale RAM minima
-807 Totale RAM massima
+806 Quantità minima di RAM
+807 Quantità massima di RAM
 808 Ripartizione
 809 GRUPPI STATICI
 810 GRUPPI DINAMICI
 811 Sei sicuro di voler modificare la visibilità del gruppo
-812 Il software è presente nella cache ma non è più installato sulle macchine.<br>Non può essere collocato in una categoria del dizionario
-813 numero di hard disk con spazio libero >
-814 numero di hard disk con spazio libero <
-815 numero di hard disk con spazio libero tra
-816 hard disk con maggior spazio libero
-817 hard disk con minor spazio libero
+812 Il software con 0 è presente nella cache ma non è più installato sulle macchine.<br>Non può essere collocato in una categoria del dizionario
+813 Hard disk con spazio libero >
+814 Hard disk con spazio libero <
+815 Hard disk con spazio libero tra
+816 hard disk con spazio libero massimo
+817 hard disk con spazio libero minimo
 818 Togli dal gruppo
 819 Macchine aggiunte ai gruppi
+820 Ultimo contatto
+821 SERVER CONFIGURATION MODIFICATION
+822 Personalizza
+823 Predefinita
+824 Attivazione interfaccia di log
+825 Directory dei log
+826 Indirizzo dove si trova il pacchetto da attivare per l'installazione
+827 Indirizzo dove si trova il file INFO del pacchetto da attivare per l'installazione
+828 Cancella i computer il cui inventario è più vecchio di
+829 Directory di creazione dei pacchetti per la distribuzione
+830 Indirizzo del server LDAP
+831 Porta del server (Default=389)
+832 Valore BaseDN + dc
+833 Nome del campo login
+834 Versione del protocollo
+835 Aggiungi RSX
+836 Gestione TIPI (TYPES)
+837 Non hai accesso a questi dati
+838 Dischi: Lettera del drive
+839 Dischi: Tipo
+840 Dischi: Formato
+841 Dischi: Capacità
+842 Dischi: Spazio libero
+843 Dischi: Nome del volume
+844 Gruppo: Id
+845 Gruppo: Statico
+846 Software: Produttore
+847 Software: Nome
+848 Software: Versione
+849 Software: Directory di installazione
+850 Software: Commenti
+851 Bios: Costruttore computer
+852 Bios: Modello
+853 Bios: Numero di serie
+854 Bios: Tipo computer
+855 Bios: Produttore
+856 Bios: Versione
+857 Bios: Data
+858 Monitor: Produttore
+859 Monitor: Nome
+860 Monitor: Descrizione
+861 Monitor: Tipo
+862 Monitor: Numero di serie
+863 Network: Descrizione
+864 Network: Tipo
+865 Network: Mib
+866 Network: Velocità
+867 Network: MAC
+868 Network: Stato
+869 Network: Indirizzo IP
+870 Network: Netmask
+871 Network: Sottorete IP
+872 Network: Gateway
+873 Network: DHCP IP
+874 Chiave del registro: Nome
+875 Chiave del registro: Valore
+876 Simple unaffect REDISTRIBUTION GROUP
+877 ALCUNI COMPUTER NON SONO STATI AGGIUNTI AL GRUPPO IN QUANTO:
+878 Ricorda: un computer può essere membro di un solo gruppo server
+879 GRUPPO SOSTITUITO
+880 GROUP CREATO
+881 Computer aggiunto
+882 Computer rimosso dal gruppo
+883 Vista limitata
+884 ATTENZIONE: VISTA FILTRATA
+885 sconosciuto
+886 Simple desaffection
+887 E' possibile che questo pacchetto non sia interessato dalla distribuzione dei server
+888 Rimosso
+889 Connesso come
+890 Il programma è impegnato in una ricerca con criteri vari
+891 Rimouovi il LOCK sull'interfaccia
+892 connessione con altro account
+893 NESSUN TAG INTERESSA IL TUO PROFILO
+894 NESSUN LIVELLO DI PERMESSO DEFINITO PER IL TUO PROFILO
+895 Modifica TAG
+896 Nota
+897 Data
+898 Autore
+899 Autore
+900 Vuoi davvero cancellare le voci selezionate?
+901 Action sur le résultat de la requête
+902 Action sur le résultat de la sélection
+903 Devi riempieri il campo motivazione
+904 Riassegnazione del pacchetto
+905 Motivazione circa le azioni eseguite<br>sul computer per essere in grado di<br>distribuire il pacchetto
+906 Pacchetto rimossa dalla distribuzione
+907 Motivazione circa la rimozione del pacchetto<br>da questo computer
+908 Informazioni sul terminale mobile
+909 MODIFICA NON EFFETTUATA: IL NUOVO PROFILO E' ERRATO
+910 Validazione
+911 Cambio profilo di
+912 Esporta la lista dei computer che hanno questi software
+913 Interfacce di rete non inventoriate
+914 Numero degli agenti che non hanno inviato inventari da almeno
+915 messaggi
+916 Il valore deve essere maggiore di
+917 Valore di FREQUENCY
+918 Differenza tra LASTDATE e LASTCOME
+919 Sei sicuro di voler cancellare questo messaggio
+920 ERRORE, le richieste non esistono.
+921 Elimina questa categoria
+922 Per unirli, devi selezionare almeno 2 computer
+923 Non hai nessun computer
+924 RICHIESTA DI ESTRAZIONE NON CONFORME!
+925 Funzionalità FUSER
+926 Fuser login:
+927 LA CACHE NON SARA' RIGENERATA DA QUESTA AZIONE
+928 Visualizza log
+929 la gestione delle sottoreti non è eseguita localmente.
+930 Non puoi aggiungere/modificare/rimuovere sottoreti
+931 Modifica una sottorete
+932 Il campo indirizzo IP non può essere vuoto
+933 Il campo nome della rete non può essere vuoto
+934 Il campo ID della rete non può essere vuoto
+935 Il campo maschera di rete non può essere vuoto
+936 Il campo tipo non può essere vuoto
+937 Questo tipo già esiste
+938 Nuovo tipo
+939 Computer membri di un gruppo
+940 Tutti i computer che hanno questo pacchetto
+941 MOSTRA STATISTICHE ATTIVO
+942 Devi inserire un commento per questa periferica
+943 Devi selezionare il tipo di periferica
+944 Dati inseriti da
+945 Modifica periferica
+946 Aggiungi nuova periferica
+947 Lista delle periferiche non identificate
+948 Lista delle perifiriche identificate
+949 Id computer
+950 NOME FILE
+951 CREATO IL
+952 MODIFICATO IL
+953 GRANDEZZA
+954 Si è verificata una perdita di sessione
+955 NESSUN SISTEMA TROVATO NEL DATABASE
+956 Tutti gli errori
+957 Tutti i riusciti
+958 PROBLEMA CON IL VALORE DI INSTALLAZIONE
+959 TROPPI SOFTWARE TROVATI. SII PIU' SPECIFICO NELLA RICERCA
+960 NESSUN SOFTWARE TROVATO
+961 LISTA DI
+962 (uno, tra tutti)
+963 LISTA DI DIFFERENTI
+964 Nome partizione
+965 Linux (ALL)
+966 Windows (ALL)
+965 Mostra
+966 Agente
+967 APPARTENENTI A
+968 NON APPARTENENTI A
+969 Storico dei pacchetti
+970 Pacchetti
+971 RIMUOVI GRUPPO DI COMPUTER
+972 Computer rimossi dal gruppo
+973 COMPUTER AGGIUNTI AL GRUPPO
+974 computer inseriti nella cache
+975 Aggiungi a gruppo
+976 INTERFACE LOCK ON REQUEST RESULT
+977 BLOCCO ATTIVATO
+978 Stai per bloccare tutte le interfacce sui risultati di ricerca con vari criteri
+979 Per ritornare allo stato predefinito, devi cliccare sull'icona <img src='image/cadena_op.png'> che si trova in alto a destra dell'interfaccia
+980 Pacchetti nei computer
+981 Pacchetti nei gruppi di server
+982 NON SONO DISPONIBILI REGOLE VALIDE. NON E' POSSIBLE PROSEGUIRE LA RIDISTRIBUZIONE.
+983 Devi scegliere quale tipo di modifica effettuare
+984 Modifiche
+985 RIMUOVI I COMPUTER
+986 RIMUOVI I COMPUTER PER
+987 Questa chiave di registro esiste già
+988 DEVI RIEMPIRE TUTTI I CAMPI
+989 I DATI NON ESISTONO. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
+990 Pacchetto creato manualmente
+991 Pacchetto creato automaticamente
+992 Tempo stimato per l'installazione
+993 I campi in rosso contengono errori
+994 PDA/SMARTPHONE
+995 ID utente
+996 COGNOME
+997 Devi riempire il campo ID utente
+998 scegli un profilo valido
+999 Questo ID utente è già presente
+1000 Notificato
+1001 I campi in rosso contengono errori!
+1002 Tempo stimato per l'installazione
+1003 Parametri dei pacchetti dei server di distribuzione
+1004 Non è possibile creare la directory per la realizzazione del pacchetto
+1005 Non è possibile creare il pacchetto quindi
+1006 non hai i diritti di scrittura
+1007 La directory
+1008 Utilizzalo in questo pacchetto di ridistribuzione
+1009 Directory di salvataggio dei server
+1010 NORMALE
+1011 DEBUG
+1012 TRADUZIONE
+1013 MANUTENZIONE
+1014 Passa a modalità
+1015 Modalità utente
+1016 Login per l'autenticazione
+1017 Password
+1018 (Non inserire nulla se vuoi utilizzare connessioni anonime)
+1019 Lock result
+5000 [DEBUG]computers insertions request =>[DEBUG]
+5001 [DEBUG]REQUEST MADE => [DEBUG]
+5002 [DEBUG] => weight: [DEBUG]
+5003 [DEBUG]Rache regeneration[DEBUG]
+5004 [DEBUG]forcing cache limit old value[DEBUG]
+5005 [DEBUG]Cache total use[DEBUG]
+5006 [DEBUG]array count request[DEBUG]
+5007 [DEBUG]Cache use for lines number[DEBUG]
+5008 [DEBUG]array request[DEBUG]
+5009 [DEBUG]RAW DATAS[DEBUG]  
+5010 [DEBUG]table field=[DEBUG]
+5011 [DEBUG]Comparison field=[DEBUG]
+5012 [DEBUG]value to search=[DEBUG]
+5013 [DEBUG]Complementary field=[DEBUG]
+5014 [DEBUG]AND OR Field=[DEBUG]
+5015 [DEBUG]COMPLEMENTARY FIELD OMISSION ON TABLE[DEBUG]
+5016 [DEBUG]table =>[DEBUG]
+5017 [DEBUG]filed =>[DEBUG]
+5018 [DEBUG]comparison =>[DEBUG]
+5019 [DEBUG]value to search  =>[DEBUG]
+5020 [DEBUG]complementary field =>[DEBUG]
+5021 [DEBUG]AND_OR =>[DEBUG]
+5022 [DEBUG]NORMAL CONDITION REQUEST[DEBUG]
+5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
