@@ -84,14 +84,14 @@ foreach($sql_doublon as $name=>$sql_value){
 }
 
 //recherche des id des machines en doublons s�rial number
-if (isset($doublon['ssn']))
+if (is_array($doublon['ssn']))
 $sql_id_doublon['ssn']=" select distinct hardware_id id,SSN info1 from bios where SSN in ('".implode("','",$doublon['ssn'])."')";
 //recherche des id des machines en doublons macaddresses
-if (isset($doublon['macaddress']))
+if (is_array($doublon['macaddress']))
 $sql_id_doublon['macaddress']=" select distinct hardware_id id,MACADDR info1 from networks where MACADDR in ('".implode("','",$doublon['macaddress'])."')";
 //echo $sql_id_doublon['ssn']."<br><br>".$sql_id_doublon['macaddress'];
 //recherche des id des machines en doublons hostname
-if (isset($doublon['hostname']))
+if (is_array($doublon['hostname']))
 $sql_id_doublon['hostname']=" select id, NAME info1 from hardware h,accountinfo a where a.hardware_id=h.id and NAME in ('".implode("','",$doublon['hostname'])."')";
 //echo $sql_id_doublon['hostname'];
 //doublon hostname + serial number

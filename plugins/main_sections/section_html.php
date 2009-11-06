@@ -16,7 +16,7 @@ if( !isset($protectedGet["popup"] )) {
 	//echo $ban_head;
 	echo "<table width='100%' border=0";
 	echo "><tr><td >
-			<table BORDER='0' ALIGN = 'left' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'";
+			<table BORDER='0' ALIGN = 'left' CELLPADDING='0'";
 			if ($ban_head=='no') echo " style='display:none;'";
 		echo "><tr>";
 
@@ -29,7 +29,7 @@ while ($_SESSION['list_plugins_first'][$i]){
 }
 echo "			</tr></table>
 			</td><td>
-			<table BORDER='0' ALIGN = 'right' CELLPADDING='0' BGCOLOR='#FFFFFF' BORDERCOLOR='#9894B5'";
+			<table BORDER='0' ALIGN = 'right' CELLPADDING='0'";
 			if ($ban_head=='no') echo " style='display:none;'";
 			echo "><tr>";
 $i=0;
