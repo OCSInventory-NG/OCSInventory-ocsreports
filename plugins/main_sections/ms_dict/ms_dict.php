@@ -15,10 +15,10 @@ $form_name='admin_param';
 //form open
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //definition of onglet
-$def_onglets['CAT']='CATEGORIES'; //Categories
-$def_onglets['NEW']='NEW'; //nouveau logiciels
-$def_onglets['IGNORED']='IGNORED'; //ignor�
-$def_onglets['UNCHANGED']='UNCHANGED'; //unchanged
+$def_onglets['CAT']=$l->g(1027); //Categories
+$def_onglets['NEW']=$l->g(1028); //nouveau logiciels
+$def_onglets['IGNORED']=$l->g(1029); //ignor.
+$def_onglets['UNCHANGED']=$l->g(1030); //unchanged
 //d�fault => first onglet
 if ($protectedPost['onglet'] == "")
 $protectedPost['onglet']="CAT";

@@ -921,6 +921,10 @@
 1024 sarà cancellato
 1025 Unaffect
 1026 Pacchetto cancellato sui computer
+1027 Categorie
+1028 Nuovo
+1029 Ignorato
+1030 Invariato
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
