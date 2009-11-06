@@ -937,6 +937,13 @@
 1017 Mot de passe ROOT
 1018 (Laisser à vide pour une connexion anonyme)
 1019 Lock du résultat
+1020 Libellé du TAG
+1021 Gestion des télédéploiements
+1022 Gestion des TAG
+1023 paquets affectés dans l'état
+1024 vont être supprimés
+1025 Désaffecter
+1026 paquets supprimés sur les machines
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
 5002 [DEBUG] => poids: [DEBUG]

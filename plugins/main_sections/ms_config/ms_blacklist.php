@@ -41,7 +41,7 @@ if (isset($protectedPost['enre'])){
 }
 echo "<form action='' name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($data_on,$form_name,"onglet",3);
-echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
+	echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center>";
 echo "<tr><td align=center>";
 if ($protectedPost['onglet'] == 1){
 	$table_name="blacklist_macaddresses";	

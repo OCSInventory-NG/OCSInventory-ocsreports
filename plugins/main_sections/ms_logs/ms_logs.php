@@ -2,7 +2,7 @@
  require_once('require/function_table_html.php');
  if( $_SESSION["lvluser"] != SADMIN )
 	die("FORBIDDEN");
- //définition des onglets
+ //dï¿½finition des onglets
 //$data_on['GUI_LOGS']="Logs de l'interface";
 $protectedPost['onglet'] == "";
 $form_name = "logs";
@@ -21,13 +21,15 @@ echo "</td></tr></table>";
 echo "</tr></td></form>";
 
 function ScanDirectory($Directory,$Filetype){
-
-  $MyDirectory = opendir($Directory) or die('Erreur');
+global $pages_refs;
+  $MyDirectory = @opendir($Directory); 
+  if (!$MyDirectory)
+  	echo "Erreur";
 	while($Entry = @readdir($MyDirectory)) {
 
 		if (substr($Entry,-strlen($Filetype)) == $Filetype){
 			echo "<tr BGCOLOR='#f2f2f2'>";
-			echo "<td align=center><a href='cvs.php?log=".$Entry."&rep=".$Directory."'>".$Entry."</td>";
+			echo "<td align=center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&log=".$Entry."&rep=".$Directory."'>".$Entry."</td>";
 			echo "<td align=center>".date ("d M Y H:i:s.", filectime($Directory.$Entry))."</td>";
 			echo "<td align=center>".date ("d M Y H:i:s.", filemtime($Directory.$Entry))."</td>";
 			echo "<td align=center>".filesize($Directory.$Entry)." ko</td>";

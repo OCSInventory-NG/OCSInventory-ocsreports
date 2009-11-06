@@ -53,14 +53,14 @@ if($login_successful == "OK" and isset($login_successful)) {
 }else{
 	//affichage d'un formulaire HTML
 	if ($affich_method == 'HTML'){
-		$no_page = 'YES';
+		$icon_head='NO';
 		require_once ($_SESSION['HEADER_HTML']);
 		if (isset($protectedPost['VALID'])){
 			echo "<font color=red><b>".$login_successful."</b></font>";
 			flush();
 			//pour empêcher de renvoyer une demande d'identification
 			//tout de suite après une mauvaise entrée
-			sleep(5);
+			sleep(2);
 		}
 		echo "<form name='IDENT' id='IDENT' action='' method='post'>";
 		echo "<br><center><table><tr><td align=center>";
@@ -75,6 +75,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 	}else{
    		header('WWW-Authenticate: Basic realm="OcsinventoryNG"');
     	header('HTTP/1.0 401 Unauthorized');
+    	die();
 	}
 }
 

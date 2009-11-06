@@ -7,7 +7,7 @@
 	$form_name="affich_tag";
 	$table_name=$form_name;
 	if (isset($protectedPost['Valid_modif_x'])){
-		if ($protectedPost['TAG_MODIF'] == TAG_LBL)
+		if ($protectedPost['TAG_MODIF'] == $_SESSION['TAG_LBL'])
 		$lbl_champ='TAG';
 		else
 		$lbl_champ=$protectedPost['TAG_MODIF'];
@@ -38,7 +38,7 @@
 		$lbl=mysql_field_name($resultDetails,$i);	
 		if ($lbl != 'HARDWARE_ID'){
 			if ($lbl == 'TAG')
-			$lbl=TAG_LBL;
+			$lbl=$_SESSION['TAG_LBL'];
 			$queryDetails .= "SELECT hardware_id as ID,'".$lbl."' as libelle, ".$value." as valeur FROM accountinfo WHERE hardware_id=".$systemid." UNION ";
 		}
 		$type_field[$lbl]=mysql_field_type($resultDetails,$i);
@@ -66,7 +66,7 @@
 		}
 		
 		$truename=$protectedPost['MODIF'];
-		if ($protectedPost['MODIF'] == TAG_LBL)
+		if ($protectedPost['MODIF'] == $_SESSION['TAG_LBL'])
 			$truename='TAG';			
 		if ($type_field[$protectedPost['MODIF']]=="date"){
 		$tab_typ_champ[0]['COMMENT_BEHING'] =datePick('NEW_VALUE');

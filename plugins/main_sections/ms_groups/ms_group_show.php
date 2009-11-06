@@ -304,7 +304,7 @@ function print_computers_real($systemid) {
 	$table_name=$form_name;
 	echo "<font color=red><b>".$l->g(927)."</b></font>";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array(TAG_LBL => 'a.TAG',
+	$list_fields=array($_SESSION['TAG_LBL'] => 'a.TAG',
 					   'ID MACHINE' => 'h.ID',
 					   'DEVICEID' => 'h.DEVICEID',
 					   'NAME' => 'h.NAME',
@@ -323,7 +323,7 @@ function print_computers_real($systemid) {
 					   'DESCRIPTION' => 'h.DESCRIPTION',
 					   '@ IP'=>'h.IPADDR');
 	$list_col_cant_del=array('NAME'=>'NAME');
-	$default_fields= array('NAME'=>'NAME',TAG_LBL=>TAG_LBL,'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
+	$default_fields= array('NAME'=>'NAME',$_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
 			$queryDetails .= $value.",";		
@@ -372,7 +372,7 @@ function print_computers_cached($systemid) {
 	$form_name="list_computor_groupcache";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array(TAG_LBL => 'a.TAG',
+	$list_fields=array($_SESSION['TAG_LBL'] => 'a.TAG',
 					   'ID MACHINE' => 'h.ID',
 					   'DEVICEID' => 'h.DEVICEID',
 					   'NAME' => 'h.NAME',
@@ -392,7 +392,7 @@ function print_computers_cached($systemid) {
 					   '@ IP'=>'h.IPADDR',
 					   'CHECK'=>'h.ID');
 	$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields= array('NAME'=>'NAME',TAG_LBL=>TAG_LBL,'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
+	$default_fields= array('NAME'=>'NAME',$_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
 			$queryDetails .= $value.",";		
@@ -445,12 +445,14 @@ function print_perso($systemid) {
 		echo $td3.$l->g(493)."</td>";
 	}
 	if( $_SESSION["lvluser"]==SADMIN ){
-	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
-	echo "<td align=center rowspan=8><a OnClick='recharge(\"$systemid\",\"group\")'><img src='image/modif_a.png' title='".$l->g(285)."'></a></td>";
-	echo "</tr>";
-	echo "<input type='hidden' id='systemid' name='systemid' value=''>";
-	echo "<input type='hidden' id='origine' name='origine' value=''>"; 
-	echo "</form>";
+		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
+		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
+//	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
+//	echo "<td align=center rowspan=8><a OnClick='recharge(\"$systemid\",\"group\")'><img src='image/modif_a.png' title='".$l->g(285)."'></a></td>";
+//	echo "</tr>";
+//	echo "<input type='hidden' id='systemid' name='systemid' value=''>";
+//	echo "<input type='hidden' id='origine' name='origine' value=''>"; 
+//	echo "</form>";
 	}
 	
 	$ii++; $td3 = $ii%2==0?$td2:$td4;
@@ -535,7 +537,7 @@ function print_perso($systemid) {
 	if( $_SESSION["lvluser"]==SADMIN ){
 	echo "<tr>
 		<td colspan='10' align='right'>
-		<a href=# Onclick=window.open(\"multi_lot.php?img=image/tele_search.png&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."
+		<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."
 		</a>
 		</td></tr>";
 	}
@@ -574,9 +576,9 @@ function img($i,$a,$avail,$opt) {
 }
 
 function show_stat($fileId){
-	global $td3,$protectedGet;
+	global $td3,$protectedGet,$pages_refs;
 	
-	echo $td3."<a href=\"tele_stats.php?stat=".$fileId."&group=".$protectedGet['systemid']."\" target=_blank><img src='image/stat.png'></a></td>";
+	echo $td3."<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&stat=".$fileId."&group=".$protectedGet['systemid']."\" target=_blank><img src='image/stat.png'></a></td>";
 }
 
 

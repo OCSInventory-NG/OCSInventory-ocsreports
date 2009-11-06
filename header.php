@@ -45,6 +45,7 @@ if (!isset($_SESSION['plugins_dir']) or !isset($_SESSION['CONF_MYSQL'])){
 	$_SESSION['CONF_MYSQL']="dbconfig.inc.php";
 	$_SESSION['HEADER_HTML']="require/html_header.php";
 	$_SESSION['FOOTER_HTML']="footer.php";
+	$_SESSION['main_sections_dir']=$_SESSION['plugins_dir']."main_sections/";
 }
 
 /*****************************************************GESTION DU NOM DES PAGES****************************************/
@@ -176,10 +177,36 @@ if (!isset($_SESSION['LOG_GUI'])){
 }
 /****************END GESTION LOGS***************/
 
-if (!isset($header_html) or $header_html != 'NO'){
+/*********************************************GESTION OF LBL_TAG*************************************/
+if (!isset($_SESSION['LBL_TAG'])){
+	$sql_tag="select tvalue from config where name= 'LBL_TAG'";
+	$result_tag = mysql_query($sql_tag, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$value_tag=mysql_fetch_array($result_tag);
+	if ($value_tag["tvalue"] != '')
+		$_SESSION['TAG_LBL'] = $value_tag['tvalue'];
+	else
+		$_SESSION['TAG_LBL'] = "TAG";
+}
+/*******************************************GESTION OF PLUGINS (MAIN SECTIONS)****************************/
+if (!isset($_SESSION['all_menus'])){	
+	require_once($_SESSION['main_sections_dir']."sections.php");
+}
+
+if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
 	require_once ($_SESSION['HEADER_HTML']);
 	//echo "toto";
 }
+
+
+$name=array_flip($_SESSION['list_url']);
+if (isset($name[$protectedGet[PAG_INDEX]])){	
+	if (isset($_SESSION['list_dir'][$name[$protectedGet[PAG_INDEX]]]))
+	$rep=$_SESSION['list_dir'][$name[$protectedGet[PAG_INDEX]]];
+	else
+	$rep=$name[$protectedGet[PAG_INDEX]];
+	require ($_SESSION['main_sections_dir'].$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
+}else
+require ($_SESSION['main_sections_dir']."ms_console/ms_console.php");		
 
 if((!isset($_SESSION["loggeduser"]) or !isset($_SESSION["lvluser"]) or $_SESSION["lvluser"] == "") and $no_error != 'YES')
 {		

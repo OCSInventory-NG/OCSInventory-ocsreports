@@ -299,11 +299,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		   $optSelect2Field, $opt3Select, $optSelect, $optArray,$l,$protectedPost;
 	$nameField=$value."-".$id_field;
 	if ($ajout != ''){
-		$and_or="<select name='SelAndOr-".$nameField."' id='SelAndOr-".$nameField."'>";
-		$and_or .= "<option value='AND' ".($protectedPost['SelAndOr-'.$nameField] == "AND" ? " selected":"")." >AND</option>";
-		$and_or .= "<option value='OR' ".($protectedPost['SelAndOr-'.$nameField] == "OR" ? " selected":"")." >OR</option>";
-		$and_or .= "</select>";
-		
+		$and_or=show_modif(array('AND'=>'AND','OR'=>'OR'),"SelAndOr-".$nameField,2,'',array('DEFAULT'=>'NO'));
 	}
 	//si le champ comporte une valeur du champ select par d�faut
 	if (array_key_exists($value.'-SELECT',$optArray))
@@ -315,14 +311,16 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 					);
 
 	//on g�n�re le premier champ select
-	$select="<select name='SelComp-".$nameField."' id='SelComp-".$nameField."'>";
+	$select="<select name='SelComp-".$nameField."' id='SelComp-".$nameField."' class='down'>";
+	$countHl=0;		
 		foreach ($champ_select as $k=>$v){
 			//si un javascript a �t� pass� en param�tre
 			if ($k!='javascript'){
 				//on remplace la chaine g�n�rique field_name du javascript par le vrai nom de champ
 				$champ_select['javascript'][$k] =str_replace("field_name", $nameField, $champ_select['javascript'][$k]);
-				$select .= "<option value='".$k."' ".($protectedPost['SelComp-'.$nameField] == $k ? " selected":"")." ".$champ_select['javascript'][$k].">".$v."</option>";
+				$select .= "<option value='".$k."' ".($protectedPost['SelComp-'.$nameField] == $k ? " selected":"")." ".$champ_select['javascript'][$k]." ".($countHl%2==1?" class='hi'":" class='down'")." >".$v."</option>";
 			}
+			$countHl++;
 		}										
 	$select .= "</select>";
 	
@@ -334,7 +332,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	echo "&nbsp;".$optArray[$value]."</td>";
 	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
 	if( array_key_exists($value,$optSelectField)){		
-		echo "<td>".$select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;";
+		echo "<td>".$select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' class='down' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;";
 		if ($optSelectField[$value."-LBL"] == "calendar")
 		echo calendars("InputValue-".$nameField,"DDMMYYYY");
 		echo "</td></tr>";
@@ -474,6 +472,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag)
 function multi_lot($form_name,$lbl_choise){
 	global $protectedPost,$protectedGet,$l;
 	$list_id="";
+	//print_r($protectedPost);
 	if (!isset($protectedGet['origine'])){
 		if (isset($protectedGet['idchecked']) and $protectedGet['idchecked'] != ""){
 			$choise_req_selection['REQ']=$l->g(584);

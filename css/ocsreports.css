@@ -22,6 +22,7 @@ body {
 		background-attachment: fixed;
 }
 
+
 a, img, .lienBleu, .norm, td, b,.warn {  
 	text-decoration: none;
 	border-width: 0px;
@@ -37,7 +38,7 @@ a, img, .lienBleu, .norm, td, b,.warn {
 
 a,a:visited, .lienBleu {
 	cursor: pointer;
-	color: blue;	
+	color: #3151CD;	
 }
 
 a:hover {
@@ -66,6 +67,10 @@ input
 
 option.hi {
 	background-color:#FFFFFF;
+}
+
+.down {
+	background-color:#F5F5F6;
 }
 
 .dropdown {
@@ -145,7 +150,7 @@ table.Main
 
 table.headfoot 
 {
-	background-color: #C7D9F5;
+	background-color: #D6DCF2;
 	border-color: #000000;
 	border-spacing: 0px;
 	border-style: solid;
@@ -153,6 +158,7 @@ table.headfoot
 	border-collapse: collapse;
 	width:100%;
 }
+
 
 select.ge {
 	background-color: #C7D9F5;
@@ -222,7 +228,7 @@ position: absolute;
 z-index: 100;
 margin-top: 5px;
 width: 18em;
-background: #C7D9F5;
+background: #D6DCF2;
 border: 1px solid gray;
 }
 
@@ -271,7 +277,7 @@ th.ta	{
 	font-weight: bold;
 	text-align: center;
 	width: 50px;
-	background-color: #c7d9f5;
+	background-color: #E0E2E2;
 	color: steelblue;
 	/*border: solid slategray thin;*/
 /*border-left: solid 1px slategray;*/
@@ -299,4 +305,28 @@ td.ta	{
 	}
 
 td.ta:last-child {border-right: solid 1px #9894B5;} /*prevent Mozilla scrollbar from hiding cell content*/
-th.ta:last-child {border-right: solid 1px #9894B5;} 
+th.ta:last-child {border-right: solid 1px #9894B5;}
+
+.mlt_bordure {
+	width:75%;
+    margin:0 auto 0 auto;
+	background-color: #f2f2f2;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border: 2px solid #C7D9F5;
+	padding: 10px;
+}
+
+.mvt_bordure {
+	width:75%;
+    margin:0 auto 0 auto;
+	background-color: #D6DCF2;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border: 2px solid #D6DCF2;
+	padding: 10px;
+}
+
+.image{
+	background-color:#D6DCF2;
+}

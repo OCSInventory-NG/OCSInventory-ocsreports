@@ -294,7 +294,7 @@ if (isset($default)){
 	$form_name = "console";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	 onglet($data_on,$form_name,"onglet",8);
-	  echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td align=center>";
+	 	echo "<table ALIGN = 'Center' class='mlt_bordure'><tr><td align =center>";
 	if( $_SESSION["lvluser"] == ADMIN) {
 		$sql_hardware_id="select hardware_id id from accountinfo a  where ".$_SESSION["mesmachines"];
 		$result_hardware_id = mysql_query( $sql_hardware_id, $_SESSION["readServer"]);
@@ -542,7 +542,7 @@ if (isset($default)){
 		
 		$width=60;
 		$height=300;
-		tab_entete_fixe($entete,$data_detail[$protectedPost['detail']],$titre[$protectedPost['detail']]." (<a href='ipcsv.php'>".$l->g(183)."</a>)",$width,$height);
+		tab_entete_fixe($entete,$data_detail[$protectedPost['detail']],$titre[$protectedPost['detail']]." (<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1'>".$l->g(183)."</a>)",$width,$height);
 		show_page($data['nb_'.$protectedPost['detail']]['count'],$form_name);
 		}else{
 			if ($protectedPost['detail'] == "NB_NOTIFIED" 
@@ -625,7 +625,7 @@ if (isset($default)){
 				}
 				$i++;
 			}
-			$titre=$l->g(768)." ".$valCount['c']." (<a href='ipcsv.php'>".$l->g(183)."</a>)";
+			$titre=$l->g(768)." ".$valCount['c']." (<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1'>".$l->g(183)."</a>)";
 			$width=100;
 			$height=300;
 			//print_r($data);

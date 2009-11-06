@@ -33,7 +33,7 @@ $champ_value['ALWAYS']=$l->g(485);
 $champ_value['NEVER']=$l->g(486);
 $champ_value['CUSTOM']=$l->g(487);
 $champ_value['SERVER DEFAULT']=$l->g(488);
-if (!isset($protectedPost['origine'])){	
+if (!isset($protectedGet['origine'])){	
 	$champ_value['IGNORED']=$l->g(718);
 	$champ_value['VALUE']='IGNORED';
 }

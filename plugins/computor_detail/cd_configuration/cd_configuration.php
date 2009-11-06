@@ -17,13 +17,13 @@ if ($protectedPost['Valid_modif_x']){
 		}elseif($protectedPost["ACTION"] == "reset"){
 			$sql=" delete from devices where name='DOWNLOAD' and tvalue like 'ERR_%' and IVALUE='".$protectedGet['affect_reset']."' and hardware_id=".$systemid; 
 		}
-		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));
+		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 		if (mysql_affected_rows() != 0){
 			$txt_trait=xml_encode(stripslashes($protectedPost['MOTIF']));
 			$sql="INSERT INTO itmgmt_comments (hardware_id,comments,user_insert,date_insert,action) 
 					values ('".$systemid."','".$txt_trait."','".$_SESSION["loggeduser"]."',
 							sysdate(),'".$protectedPost["ACTION"]." => ".$protectedPost['NAME_PACK']."')"; 
-			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));
+			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
 		}
 	}else
 	echo "<script>alert(\"".$l->g(903)."\")</script>";	
@@ -136,12 +136,8 @@ $i=0;
 	}
 	
 	if( $_SESSION["lvluser"]==SADMIN ){
-	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
-	echo "<td align=center rowspan=8><a OnClick='recharge(\"$systemid\",\"machine\")'><img src='image/modif_a.png' title='".$l->g(285)."'></a></td>";
-	echo "</tr>";
-	echo "<input type='hidden' id='systemid' name='systemid' value=''>";
-	echo "<input type='hidden' id='origine' name='origine' value=''>"; 
-	echo "</form>";
+		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=machine\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
+		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
 	}
 	$ii++; $td3 = $ii%2==0?$td2:$td4;
 	//FREQUENCY
@@ -292,7 +288,7 @@ $i=0;
 		
 		echo "<tr><td colspan='10' align='right'>";
 		if( $_SESSION["lvluser"]==SADMIN ) 
-			echo "<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_multi_pack']."&head=1&idchecked=".$systemid."&origine=mach\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."</a>".$l->g(386);
+			echo "<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."</a>".$l->g(386);
 		echo " <a href=# OnClick=window.location='$hrefBase&actgrp=1&grp='+document.getElementById(\"groupcombo\").options[document.getElementById(\"groupcombo\").selectedIndex].value>".
 		$l->g(589)."</a>";
 	

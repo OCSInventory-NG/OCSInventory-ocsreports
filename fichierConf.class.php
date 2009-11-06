@@ -26,11 +26,12 @@ class language
 			}
 			
 		}
-		if ($table_exist){
-			$sql="select json_value from languages where name ='".$language."'";
-			$result = @mysql_query($sql, $_SESSION["readServer"]);
-			$item = @mysql_fetch_object($result);
-		}
+		//TEMPORAIRE=> PAS DE JSON
+//		if ($table_exist){
+//			$sql="select json_value from languages where name ='".$language."'";
+//			$result = @mysql_query($sql, $_SESSION["readServer"]);
+//			$item = @mysql_fetch_object($result);
+//		}
 		if (!isset($_SESSION['plugins_dir']) or $_SESSION['plugins_dir'] == "")
 		$_SESSION['plugins_dir']="plugins/";
 		$language_file=$_SESSION['plugins_dir']."language/".$language."/".$language.".txt";
