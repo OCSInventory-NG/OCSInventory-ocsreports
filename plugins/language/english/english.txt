@@ -912,10 +912,6 @@
 1017 Password ROOT
 1018 (Don't write anything if you want use anonymous conexion)
 1019 Lock result
-1020 Categories
-1021 New
-1022 Ignored
-1023 Unchanged
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]

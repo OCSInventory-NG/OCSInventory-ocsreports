@@ -937,10 +937,6 @@
 1017 Mot de passe ROOT
 1018 (Laisser à vide pour une connexion anonyme)
 1019 Lock du résultat
-1020 Categories
-1021 Nouveau
-1022 Ignore
-1023 Unchanged
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
 5002 [DEBUG] => poids: [DEBUG]

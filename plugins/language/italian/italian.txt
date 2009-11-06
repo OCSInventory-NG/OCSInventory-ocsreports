@@ -47,12 +47,12 @@
 80 Modello
 81 Stato
 82 Reti
-83 Capacità
+83 Occupazione in %
 84 Interfaccia
 85 Unità
 86 File system
-87 Totale
-88 Spazio disponibile
+87 Grandezza totale
+88 Spazio libero
 90 Risultati
 91 Dispositivi di input
 92 Dischi
@@ -137,7 +137,7 @@
 225 Informazioni amministrative
 226 è stato cancellato dalla tabella delle informazioni amministrative
 227 Sei sicuro di voler cancellare la colonna
-228 Inserisci unaa nuova informazione amministrativa
+228 Inserisci la nuova informazione amministrativa
 229 Testo (255)
 230 Intero
 231 Reale
@@ -151,8 +151,8 @@
 239 Devi riempire ogni campo
 240 Le password sono differenti
 241 La password è stata modificata con successo
-242 Amministratori
-243 Utenti
+242 Amministratore
+243 Utente
 244 Aggiungi nuovo utente
 245 è stato eliminato con successo
 246 Sei sicuro di voler eliminare l'utente
@@ -183,7 +183,7 @@
 271 Slot
 272 Porte
 273 BIOS
-274 Sistema Operativo
+274 Sistema Operativo (S.O.)
 275 Versione del Sistema Operativo
 276 Chipset
 277 Versione
@@ -451,7 +451,7 @@
 554 Monitor: numero di serie
 555 Monitor: produttore
 556 Monitor: legenda
-557 Dominio dell'utente
+557 Utenti del dominio
 558 Pacchetto interessato
 559 Questo file non è .ocs
 560 Al server
@@ -914,10 +914,6 @@
 1017 Password
 1018 (Non inserire nulla se vuoi utilizzare connessioni anonime)
 1019 Lock result
-1020 Categorie
-1021 Nuovo
-1022 Ignorato
-1023 Invariato
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
