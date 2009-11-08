@@ -84,11 +84,8 @@ if (isset($protectedPost['Valid_modif_x'])){
 	echo "<script>alert('".$ERROR."')</script>";
 
 	}
-
-echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
-//echo "<tr><td align=center><b>CREATION / SUPPRESSION DES ".$data_on[$protectedPost['onglet']]."</b></td></tr>";
-
-
+echo '<div class="mlt_bordure" >';
+	//echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center>";
 //add user
 if ($protectedPost['onglet'] == 4){	
 
@@ -168,12 +165,13 @@ if ($protectedPost['onglet'] == 4){
 	del_selection($form_name);
 }
 
-echo "</td></tr></table>";
+//echo "</td></tr></table>";
 if ($protectedPost['MODIF'] != ''){
 	$choix=show_modif(array(1=>$data_on[1],2=>$data_on[2],3=>$data_on[3]),'CHANGE',2);
 	echo "<tr><td align=center><b>".$l->g(911)."<font color=red> ".$protectedPost['MODIF']." </font></b>".$choix." <input type='submit' name='VALID_MODIF' value='".$l->g(910)."'></td></tr>";
 	echo "<input type='hidden' name='MODIF_ON' value='".$protectedPost['MODIF']."'>";
 }
-echo "</table>";
+echo '</div>';
+//echo "</table>";
 echo "</form>";
 ?>

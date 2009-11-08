@@ -17,7 +17,7 @@ PrintEnTete($l->g(465));
 
 if($protectedPost["SUP_PROF"] != "") {
 	del_pack($protectedPost["SUP_PROF"]);
-	//regénération du cache
+	//regï¿½nï¿½ration du cache
 		$tab_options['CACHE']='RESET';
 }
 
@@ -25,7 +25,7 @@ if($protectedPost["SUP_PROF"] != "") {
 if ($protectedPost['del_check'] != ''){
 	 foreach (explode(",", $protectedPost['del_check']) as $key){
 	 	del_pack($key);
-	 	//regénération du cache
+	 	//regï¿½nï¿½ration du cache
 		$tab_options['CACHE']='RESET';	 	
 	 }	
 }
@@ -35,12 +35,11 @@ $protectedPost['SHOW_SELECT']='download';
 
 }
 echo "<BR>".show_modif(array('download'=>$l->g(990),'server'=>$l->g(991)),'SHOW_SELECT',2,$form_name)."<BR><BR>";
-//recherche du répertoire de création des paquets
+//recherche du rï¿½pertoire de crï¿½ation des paquets
 if ($protectedPost['SHOW_SELECT'] == 'download'){
 		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
 }else
 		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_REP_CREAT'";
-		
 $res_document_root = mysql_query( $sql_document_root, $_SESSION["readServer"] );
 $val_document_root = mysql_fetch_array( $res_document_root );
 $document_root = $val_document_root["tvalue"];

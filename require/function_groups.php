@@ -4,7 +4,7 @@
 //$group_type = STATIC,DYNAMIC,SERVER
 //return tableau [id]=group_name
 function all_groups($group_type){
-	//récupération des groupes demandés
+	//rï¿½cupï¿½ration des groupes demandï¿½s
 	if ($group_type == "SERVER"){
 		$reqGetId = "SELECT id,name FROM hardware
 					     WHERE deviceid = '_DOWNLOADGROUP_'";	
@@ -64,7 +64,7 @@ function replace_group($id_group,$list_id,$req,$group_type){
 	
 }
 
-//fonction de création d'un groupe
+//fonction de crï¿½ation d'un groupe
 function creat_group ($name,$descr,$list_id,$req,$group_type)
 {
 
@@ -126,11 +126,11 @@ function add_computors_cache($list_id,$groupid,$static){
 function generate_xml($req){
 	//si il exite une requete
 	if (isset($req[0])){
-		//création du début du xml
+		//crï¿½ation du dï¿½but du xml
 		$xml="<xmldef>";
 		//echo "xml=".$xml;
 		$i=0;
-		//concaténation des différentes requetes
+		//concatï¿½nation des diffï¿½rentes requetes
 		while (isset($req[$i])){
 			$xml.="<REQUEST>".clean($req[$i])."</REQUEST>";
 			$i++;
@@ -155,7 +155,7 @@ function delete_group($id_supp){
 	if (!is_numeric($id_supp))
 	return array('RESULT'=>'ERROR', 'LBL'=> "ID IS NOT NUMERIC");
 	
-	$sql_verif_group="select id from hardware where id=".$id_supp." and DEVICEID='_SYSTEMGROUP_'";
+	$sql_verif_group="select id from hardware where id=".$id_supp." and DEVICEID='_SYSTEMGROUP_' or DEVICEID='_DOWNLOADGROUP_'";
 	$res_verif_group = mysql_query( $sql_verif_group, $_SESSION["readServer"]);
 	if( $val_verif_group = mysql_fetch_array( $res_verif_group ) ){	
 		$del_groups_TAG="DELETE FROM accountinfo where HARDWARE_ID=".$id_supp;

@@ -403,12 +403,12 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 					'BORDERCOLOR'=>'#9894B5'));
 	ligne('LOCAL_PORT',$l->g(566),'input',array('VALUE'=>$values['ivalue']['LOCAL_PORT'],'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
 	ligne('LOCAL_SERVER',$l->g(565),'input',array('BEGIN'=>'HTTP://','VALUE'=>$values['tvalue']['LOCAL_SERVER'],'SIZE'=>50,'MAXLENGHT'=>254));
-	ligne('DOWNLOAD_PACK_DIR',$l->g(775),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_pack),
+	ligne('DOWNLOAD_PACK_DIR',$l->g(775),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."/download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_pack),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_PACK_DIR'],'SIZE'=>70,'END'=>"/download"));
-	ligne('IPDISCOVER_IPD_DIR',$l->g(776),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."oscreport/ipd)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_ipd),
+	ligne('IPDISCOVER_IPD_DIR',$l->g(776),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."/oscreport/ipd)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_ipd),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['IPDISCOVER_IPD_DIR'],'SIZE'=>70,'END'=>"/ipd"));
 	ligne('LOG_GUI',$l->g(824),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOG_GUI'])); 	
-	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."oscreport/)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
+	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."/oscreport/)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>70));	
 	ligne('LBL_TAG',$l->g(1020),'input',array('VALUE'=>$values['tvalue']['LBL_TAG'],'SIZE'=>50,'MAXLENGHT'=>254));
 			

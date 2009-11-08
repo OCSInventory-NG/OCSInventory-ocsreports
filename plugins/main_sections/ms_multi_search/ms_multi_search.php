@@ -8,7 +8,6 @@
 //limite du nombre de r�sultat
 //sur les tables de cache
 //ex: software_name_cache, osname_cache...
-
 $limit_result_cache=1000;
 //int�gration des fonctions li�es � la recherche multicrit�re
 require_once('require/function_search.php');
@@ -709,10 +708,7 @@ if ($no_result == "NO RESULT" and !isset($ERROR)){
 	echo "<font color=RED size=5><div align=center>".$l->g(42)."</div></font>";
 }
 
-$aff_field_search= "<br>
-<b>".$l->g(31).":&nbsp;&nbsp;&nbsp;</b>
-<select name='multiSearch' OnChange=\"".$form_name.".submit();\">";
-$countHl=0;
+
 
 if ($_SESSION["mesmachines"] != '')
 		$list_id_computor=computor_list_by_tag();
@@ -851,26 +847,24 @@ $optArray = array_merge( $optSelectField,
 						 $opt3Select);
 asort($optArray);
 $countHl++;
-$aff_field_search.= "<option".($countHl%2==1?" class='hi'":"").">".$l->g(32)."</option>"; $countHl++;
-
+$optArray_trait[$l->g(32)]=$l->g(32);
 foreach( $optArray as $key=>$value) {
 	if (substr($key,-5,-1) != '-SQL'
 		and substr($key,-7) != '-SELECT'
 		and substr($key,-4) != '-LBL'
 		){
-		$aff_field_search.= "<option".($countHl%2==1?" class='hi'":"")." value='".$key."'>".$value."</option>";
-		$countHl++;
+		$optArray_trait[$key]=$value;
+$countHl++;
 	}
 }
-$aff_field_search.= "</select>
-<img src='image/delete_all.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."'>
-<input type=hidden name='reset' id='reset' value=''>";
-echo $aff_field_search;
-//echo "<br><br><i>Un probl�me de performance sur la base nous a oblig� a supprimer les recherches avec 'DIFFERENT' ou 'N'AYANT PAS'";
-//echo "<br>Nous allons corriger cela le plus rapidement possible. Merci de votre compr�hension.</i><br><br>";
+$protectedPost['multiSearch']=$l->g(32);
+$aff_field_search= $l->g(31).":".show_modif($optArray_trait,'multiSearch',2,$form_name,array('DEFAULT'=>'NO'));
+$aff_field_search.="<img src='image/delete_all.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."'>";
+echo "<table border=1 class='mlt_bordure'  WIDTH = '75%' ALIGN = 'Center' CELLPADDING='5'>";
+echo "<tr><td colspan=100 align=center bgcolor='#FFFFFF'>".$aff_field_search."</td></tr>";
 
 if (isset($_SESSION['multiSearch']) and $_SESSION['multiSearch'] != null){
-	echo "<table border=1 class= 'Fenetre' WIDTH = '75%' ALIGN = 'Center' CELLPADDING='5'>";
+	
 	$c=0;
 	foreach ($_SESSION['multiSearch'] as $k=>$v){
 		if (!isset($alreadyExist[$v])){
@@ -883,10 +877,13 @@ if (isset($_SESSION['multiSearch']) and $_SESSION['multiSearch'] != null){
 		$c++;
 	}
 	echo "<tr><td colspan=100 align=right><input type=submit taborder=1 name='Valid-search' value=".$l->g(30)." onclick='pag(\"VALID\",\"Valid\",\"".$form_name."\");'></td></tr>";
-	echo "</table>";
+
 	echo "<input type=hidden name=Valid id=Valid value=''>";
 }
+	echo "</table>";
 echo "<input type=hidden name=delfield id=delfield value=''>";
+echo "<input type=hidden name='reset' id='reset' value=''>";
+echo "</td></tr></table>";
 echo "</form>";	
 echo $l->g(358);
 

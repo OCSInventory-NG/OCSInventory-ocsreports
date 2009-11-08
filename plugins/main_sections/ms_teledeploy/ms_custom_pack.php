@@ -35,7 +35,7 @@ $def_onglets['SERV_GROUP']=$l->g(981); //STATICS GROUPS
 //show tab
 if ($list_id){
 	onglet($def_onglets,$form_name,'onglet',7);
-	echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td align =center>";
+	echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";
 	if ($protectedPost['onglet'] == 'SERV_GROUP'){
 		$sql_rules="select distinct rule,rule_name from download_affect_rules order by 1";
 			$res_rules = mysql_query( $sql_rules, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));
@@ -58,7 +58,7 @@ if ($list_id){
 	
 	if(($protectedPost['onglet'] == 'MACH') 
 		or ($protectedPost['onglet'] == 'SERV_GROUP' and $protectedPost['rule_choise'] != '')){
-			//recherche de toutes les règles pour les serveurs de redistribution
+			//recherche de toutes les rï¿½gles pour les serveurs de redistribution
 		$list_fields= array('FILE_ID'=>'e.FILEID',
 								'INFO_LOC'=>'e.INFO_LOC',
 								'CERT_FILE'=>'e.CERT_FILE',

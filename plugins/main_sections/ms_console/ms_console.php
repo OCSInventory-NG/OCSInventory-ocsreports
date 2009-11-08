@@ -294,7 +294,7 @@ if (isset($default)){
 	$form_name = "console";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	 onglet($data_on,$form_name,"onglet",8);
-	  echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td align=center>";
+	 	echo "<table ALIGN = 'Center' class='mlt_bordure'><tr><td align =center>";
 	if( $_SESSION["lvluser"] == ADMIN) {
 		$sql_hardware_id="select hardware_id id from accountinfo a  where ".$_SESSION["mesmachines"];
 		$result_hardware_id = mysql_query( $sql_hardware_id, $_SESSION["readServer"]);

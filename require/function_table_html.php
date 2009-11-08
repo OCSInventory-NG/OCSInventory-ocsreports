@@ -248,32 +248,36 @@ function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom
  * $input_reload = si un select doit effectuer un reload, on y met le nom du formulaire � reload
  * 
  */
-function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>""))
+function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES"))
 {
 	//echo $configinput['JAVASCRIPT'];
 	global $protectedPost;
 	if ($input_type == 1){
-		return "<textarea name='".$input_name."' id='".$input_name."' cols='30' rows='5' onFocus=\"this.style.backgroundColor='white'\" onBlur=\"this.style.backgroundColor='#C7D9F5'\"\>".$name."</textarea>";
+		return "<textarea name='".$input_name."' id='".$input_name."' cols='30' rows='5'  class='down' \>".$name."</textarea>";
 	
 	}elseif ($input_type ==0)
-	return "<input type='text' name='".$input_name."' id='".$input_name."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$name."\" onFocus=\"this.style.backgroundColor='white'\" onBlur=\"this.style.backgroundColor='#C7D9F5'\" ".$configinput['JAVASCRIPT'].">";
+	return "<input type='text' name='".$input_name."' id='".$input_name."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$name."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
 	elseif($input_type ==2){
 		
 		$champs="<select name='".$input_name."' id='".$input_name."' ".$configinput['JAVASCRIPT'];
 		if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
-		$champs.="><option value=''></option>";
+		$champs.=" class='down' \>";
+		if ($configinput['DEFAULT'] == "YES")
+		$champs.= "<option value='' class='hi' \></option>";
+		$countHl=0;		
 		foreach ($name as $key=>$value){
 			$champs.= "<option value=\"".$key."\"";
 			if ($protectedPost[$input_name] == $key )
 			$champs.= " selected";
-			$champs.= ">".$value."</option>";
+			$champs.= ($countHl%2==1?" class='hi'":" class='down'")." \>".$value."</option>";
+			$countHl++;
 		}
 		$champs.="</select>";
 		return $champs;
 	}elseif($input_type == 3)
 	return $name;
 	elseif ($input_type == 4)
-	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."'>";
+	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' \>";
 	
 }
 
@@ -281,7 +285,8 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 {
 	global $l;
 	echo "<form name='".$form_name."' id='".$form_name."' action='' method='POST'>";
-	echo "<table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
+	echo '<div class="mvt_bordure" >';
+	echo "<table align='center' border='0' cellspacing=20 >";
 	echo "<tr><td colspan=10 align='center'><font color=red><b><i>".$title."</i></b></font></td></tr>";
         foreach ($tab_name as $key=>$values)
 	{
@@ -289,11 +294,11 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 	}
  echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
  	if ($showbutton){
-		echo "<tr><td><input title='".$l->g(625)."' type='image'  src='image/modif_valid_v2.png' name='Valid_".$name_button."'>";
-		echo "<input title='".$l->g(626)."' type='image'  src='image/modif_anul_v2.png' name='Reset_".$name_button."'></td></tr>";
+		echo "<tr><td><input title='".$l->g(625)."'  class='image' type='image'  src='image/modif_valid_v2.png' name='Valid_".$name_button."'>";
+		echo "<input title='".$l->g(626)."' class='image' type='image'  src='image/modif_anul_v2.png' name='Reset_".$name_button."'></td></tr>";
  	}
-
-        echo "</table>";    
+	echo "</table>";
+        echo "</div>";    
     if ($tab_hidden != ""){                 
 		foreach ($tab_hidden as $key=>$value)
 		{
@@ -376,7 +381,7 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 	//print_r($protectedPost);
 	if ($protectedPost['old_pcparpage'] != $protectedPost['pcparpage'])
 	$protectedPost['page']=0;
-	if (!(isset($protectedPost["pcparpage"])))
+	if (!(isset($protectedPost["pcparpage"])) or $protectedPost["pcparpage"] == "")
 	 $protectedPost["pcparpage"]=20;
 	echo "<table align=center width='80%' border='0' bgcolor=#f2f2f2>";
 	//gestion d"une phrase d'alerte quand on utilise le filtre
@@ -396,16 +401,21 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 	echo "><tr><td align=center>";
 	echo "<table cellspacing='5' width='".$taille_cadre."%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='".$bgcolor."' BORDERCOLOR='".$bordercolor."'><tr><td align=center>";
 	//$machNmb = array(5,10,15,20,50,100,200,300,500,800,1000);
-      $machNmb = array(5,10,15,20,50,100,200);
-	$pcParPageHtml = $l->g(340).": <select name='pcparpage' onChange='document.".$form_name.".submit();'>";
-	$countHl=0;
-	foreach( $machNmb as $nbm ) {
-		$pcParPageHtml .=  "<option".($protectedPost["pcparpage"] == $nbm ? " selected" : "").($countHl%2==1?" class='hi'":"").">$nbm</option>";
-		$countHl++;
-	}
-	$pcParPageHtml .=  "</select></td></tr></table>
+	    $machNmb = array(5=>5,10=>10,15=>15,20=>20,50=>50,100=>100,200=>200);
+      $pcParPageHtml= $l->g(340).":".show_modif($machNmb,'pcparpage',2,$form_name,array('DEFAULT'=>'NO'));
+	$pcParPageHtml .=  "</td></tr></table>
 	</td></tr><tr><td align=center>";
 	echo $pcParPageHtml;
+	
+//        $machNmb = array(5,10,15,20,50,100,200);
+//	$pcParPageHtml = "<li>".$l->g(340).": <select name='pcparpage' onChange='document.".$form_name.".submit();'>";
+//	$countHl=0;
+//	foreach( $machNmb as $nbm ) {
+//		$pcParPageHtml .=  "<option".($protectedPost["pcparpage"] == $nbm ? " selected" : "").($countHl%2==1?" class='hi'":"").">$nbm</option>";
+//		$countHl++;
+//	}
+//	echo $pcParPageHtml."</select></li></span>";
+
 	if (isset($protectedPost["pcparpage"])){
 		$deb_limit=$protectedPost['page']*$protectedPost["pcparpage"];
 		$fin_limit=$deb_limit+$protectedPost["pcparpage"]-1;		
@@ -488,7 +498,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 	$ligne is if u want have onglet on more ligne*/
 	if ($def_onglets != ""){
 	echo "<LINK REL='StyleSheet' TYPE='text/css' HREF='css/onglets.css'>\n";
-	echo "<table cellspacing='5' BORDER='0' ALIGN = 'Center' CELLPADDING='0'><tr><td><div id='header'>";
+	echo "<table cellspacing='0' BORDER='0' ALIGN = 'Center' CELLPADDING='0'><tr><td><div id='header'>";
 	echo "<ul>";
 	$current="";
 	$i=0;
@@ -574,23 +584,12 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 		}
 
 	}
-	$select_restCol =$l->g(349)." :<select name='restCol".$tab_name."' onChange='document.".$form_name.".submit();'>";
-	$select_restCol .= "<option".($protectedPost["restCol".$tab_name] == "DEFAULT" ? " selected" : "")." value=''>".$l->g(32)."...</option>";
-	$countHl=0;
-	if ($list_rest != ""){
-		// ksort($list_rest,SORT_STRING);
-		// print_r($list_rest);
-		foreach( $list_rest as $lbl_field => $name_field) {
-			$select_restCol .=  "<option".($protectedPost["restCol".$tab_name] == $lbl_field ? " selected" : "").($countHl%2==0?" class='hi'":"")." value='".$lbl_field."'>$name_field</option>";
-			$countHl++;
-		}
-	}
-	
-	$select_restCol .=  "</select><a href=# OnClick='pag(\"".$tab_name."\",\"RAZ\",\"".$id_form."\");'><img src=image/supp.png></a></td></tr></table>"; //</td></tr><tr><td align=center>
-	if ($countHl != 0)
-	echo $select_restCol;
-	else
-	echo "</td></tr></table>";
+	if (is_array ($list_rest)){
+		$select_restCol= $l->g(349).":".show_modif($list_rest,'restCol'.$tab_name,2,$form_name);
+		$select_restCol .=  "<a href=# OnClick='pag(\"".$tab_name."\",\"RAZ\",\"".$id_form."\");'><img src=image/supp.png></a></td></tr></table>"; //</td></tr><tr><td align=center>
+		echo $select_restCol;
+	}else
+		echo "</td></tr></table>";
 	echo "<input type='hidden' id='SUP_COL' name='SUP_COL' value=''>";
 	echo "<input type='hidden' id='TABLE_NAME' name='TABLE_NAME' value='".$tab_name."'>";
 	echo "<input type='hidden' id='RAZ' name='RAZ' value=''>";
@@ -967,7 +966,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 		}
 	}
 	//echo "toto";
-	//print_r($sql_data);//print_r($sql_data);
+	//print_r($list_col_cant_del);//print_r($sql_data);
 	if (isset($sql_data)){
 		foreach ($sql_data as $i=>$donnees){
 			//echo $i."<br>";
