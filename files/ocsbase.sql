@@ -734,7 +734,7 @@ INSERT INTO config VALUES ('DOWNLOAD', 0, '', 'Activate softwares auto deploymen
 INSERT INTO config VALUES ('DOWNLOAD_CYCLE_LATENCY', 60, '', 'Time between two cycles (seconds)');
 INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LENGTH', 10, '', 'Number of cycles in a period');
 INSERT INTO config VALUES ('DOWNLOAD_FRAG_LATENCY', 10, '', 'Time between two downloads (seconds)');
-INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LATENCY', 0, '', 'Time between two periods (seconds)');
+INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LATENCY', 1, '', 'Time between two periods (seconds)');
 INSERT INTO config VALUES ('DOWNLOAD_TIMEOUT', 30, '', 'Validity of a package (in days)');
 INSERT INTO config VALUES ('LOCAL_SERVER', 0, 'localhost', 'Server address used for local import');
 INSERT INTO config VALUES ('LOCAL_PORT', 80, '', 'Server port used for local import');
