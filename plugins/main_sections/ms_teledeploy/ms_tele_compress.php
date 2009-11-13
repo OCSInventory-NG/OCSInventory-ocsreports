@@ -29,7 +29,6 @@ if(isset($protectedGet["timestamp"])){
 	   if(is_file($rep.$f))
 	     $zipfile -> addFile(implode("",file($rep.$f)),basename($rep.$f));
 	closedir($dir);
-	flush();
 	print $zipfile -> file();
 	exit();
 }

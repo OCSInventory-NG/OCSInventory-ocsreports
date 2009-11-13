@@ -3,10 +3,7 @@
  * formulaire de demande de création de paquet
  * 
  */
-require_once('require/function_search.php');
 
-if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
-$protectedPost['onglet']=3;
  //d�finition des onglets
 $data_on[1]=$l->g(242);
 $data_on[2]=$l->g(243);

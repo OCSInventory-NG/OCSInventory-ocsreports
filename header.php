@@ -183,6 +183,8 @@ if (!isset($_SESSION['OCS']['all_menus'])){
 	require_once($_SESSION['OCS']['main_sections_dir']."sections.php");
 }
 
+
+
 if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
 	require_once ($_SESSION['OCS']['HEADER_HTML']);
 	//echo "toto";
@@ -193,8 +195,6 @@ $name=array_flip($_SESSION['OCS']['list_url']);
 if (isset($name[$protectedGet[PAG_INDEX]])){	
 	if (isset($_SESSION['OCS']['list_dir'][$name[$protectedGet[PAG_INDEX]]]))
 	$rep=$_SESSION['OCS']['list_dir'][$name[$protectedGet[PAG_INDEX]]];
-	else
-	$rep=$name[$protectedGet[PAG_INDEX]];
 	require ($_SESSION['OCS']['main_sections_dir'].$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
 }else
 require ($_SESSION['OCS']['main_sections_dir']."ms_console/ms_console.php");		
