@@ -944,6 +944,8 @@
 1024 vont être supprimés
 1025 Désaffecter
 1026 paquets supprimés sur les machines
+1027 IT Set Management
+1028 Activer It Set Management pour le télédéploiement
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
 5002 [DEBUG] => poids: [DEBUG]

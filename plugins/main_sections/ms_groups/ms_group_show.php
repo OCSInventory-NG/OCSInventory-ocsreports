@@ -26,9 +26,9 @@ elseif (isset($protectedPost['systemid'])) {
 	$systemid = $protectedPost['systemid'];
 }
 
-if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  ){
+if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  ){
 	$sql_verif="select workgroup from hardware where workgroup='GROUP_4_ALL' and ID='".$systemid."'";
-	$res_verif = mysql_query($sql_verif, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$res_verif = mysql_query($sql_verif, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$item_verif = mysql_fetch_object($res_verif);
 	if ($item_verif == "")
 	die("FORBIDDEN");
@@ -43,12 +43,12 @@ if (isset($protectedGet['state']))
 }// fin if
 
 if( isset( $protectedGet["suppack"] ) ) {
-	if( $_SESSION["justAdded"] == false )
-		@mysql_query("DELETE FROM devices WHERE ivalue=".$protectedGet["suppack"]." AND hardware_id='$systemid' AND name='DOWNLOAD'", $_SESSION["writeServer"]);
-	else $_SESSION["justAdded"] = false;
+	if( $_SESSION['OCS']["justAdded"] == false )
+		@mysql_query("DELETE FROM devices WHERE ivalue=".$protectedGet["suppack"]." AND hardware_id='$systemid' AND name='DOWNLOAD'", $_SESSION['OCS']["writeServer"]);
+	else $_SESSION['OCS']["justAdded"] = false;
 }
 else 
-	$_SESSION["justAdded"] = false;
+	$_SESSION['OCS']["justAdded"] = false;
 
 
 //update values if user want modify groups' values
@@ -59,7 +59,7 @@ if ($protectedPost['Valid_modif_x'] and !isset($protectedPost['modif']))
 			"NAME='".$protectedPost['NAME']."',".
 			"DESCRIPTION='".$protectedPost['DESCR']."' ".
 			"where ID='".$systemid."' and (deviceid = '_SYSTEMGROUP_' or deviceid ='_DOWNLOADGROUP_')";
-		$result = mysql_query($req, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));		
+		$result = mysql_query($req, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));		
 	}
 	else{
 		
@@ -72,7 +72,7 @@ $queryMachine   = "SELECT REQUEST,
 						  XMLDEF,
 						  DESCRIPTION,LASTDATE,OSCOMMENTS,DEVICEID FROM hardware h left join groups g on g.hardware_id=h.id 
 				  WHERE ID=$systemid AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
-$result   = mysql_query( $queryMachine, $_SESSION["readServer"] ) or mysql_error($_SESSION["readServer"]);
+$result   = mysql_query( $queryMachine, $_SESSION['OCS']["readServer"] ) or mysql_error($_SESSION['OCS']["readServer"]);
 $item     = mysql_fetch_object($result);
 
 if( ! $item ) {
@@ -146,7 +146,7 @@ if( ! $pureStat  ){
 echo "</tr><tr>".$tdhd.$l->g(53).$tdhf.$tdhdpb.$description.$tdhfpb;
 
 
-if ($_SESSION["lvluser"]!=ADMIN)
+if ($_SESSION['OCS']["lvluser"]!=ADMIN)
 echo "<tr><td align='left' colspan=4>".$button_valid."&nbsp&nbsp".$button_reset."&nbsp&nbsp".$img_modif."</td></tr>";
 echo "$tdhfpb</table>";
 echo "</form>";
@@ -161,7 +161,7 @@ if ($server_group){
 			where de.GROUP_ID =$systemid 
 			and da.FILEID=de.FILEID
 			group by de.fileid;";
-	$res_affect_pack = mysql_query($sql_affect_pack, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));
+	$res_affect_pack = mysql_query($sql_affect_pack, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$i=0;
 	while( $val_affect_pack = mysql_fetch_array($res_affect_pack)) {
 		$PACK_LIST[$i]['NAME'] = $val_affect_pack['NAME'];
@@ -272,11 +272,11 @@ function print_computers_real($systemid) {
 	
 	//groupe nouvelle version
 	$sql_group="SELECT xmldef FROM groups WHERE hardware_id='$systemid'";
-	$resGroup = mysql_query( $sql_group, $_SESSION["readServer"] ) or mysql_error($_SESSION["readServer"]);
+	$resGroup = mysql_query( $sql_group, $_SESSION['OCS']["readServer"] ) or mysql_error($_SESSION['OCS']["readServer"]);
 	$valGroup = mysql_fetch_array($resGroup);//groupe d'ancienne version
 	if( ! $valGroup["xmldef"] ){
 		$sql_group="SELECT request FROM groups WHERE hardware_id='$systemid'";
-		$resGroup = mysql_query( $sql_group, $_SESSION["readServer"] ) or mysql_error($_SESSION["readServer"]);
+		$resGroup = mysql_query( $sql_group, $_SESSION['OCS']["readServer"] ) or mysql_error($_SESSION['OCS']["readServer"]);
 		$valGroup = mysql_fetch_array($resGroup);
 		$request=$valGroup["request"];
 	}else{
@@ -293,7 +293,7 @@ function print_computers_real($systemid) {
 				unset($tab_id);
 			}
 //		echo $tab_list_sql[$i];
-			$result_value = mysql_query(xml_decode($tab_list_sql[$i]), $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+			$result_value = mysql_query(xml_decode($tab_list_sql[$i]), $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			while($value=mysql_fetch_array($result_value)) {
 				$tab_id[] = $value["HARDWARE_ID"];
 			}	
@@ -304,7 +304,7 @@ function print_computers_real($systemid) {
 	$table_name=$form_name;
 	echo "<font color=red><b>".$l->g(927)."</b></font>";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array($_SESSION['TAG_LBL'] => 'a.TAG',
+	$list_fields=array($_SESSION['OCS']['TAG_LBL'] => 'a.TAG',
 					   'ID MACHINE' => 'h.ID',
 					   'DEVICEID' => 'h.DEVICEID',
 					   'NAME' => 'h.NAME',
@@ -323,7 +323,7 @@ function print_computers_real($systemid) {
 					   'DESCRIPTION' => 'h.DESCRIPTION',
 					   '@ IP'=>'h.IPADDR');
 	$list_col_cant_del=array('NAME'=>'NAME');
-	$default_fields= array('NAME'=>'NAME',$_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
+	$default_fields= array('NAME'=>'NAME',$_SESSION['OCS']['TAG_LBL']=>$_SESSION['OCS']['TAG_LBL'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
 			$queryDetails .= $value.",";		
@@ -349,18 +349,18 @@ function print_computers_cached($systemid) {
 				//echo substr($key,5);
 				$resDelete = "DELETE FROM groups_cache WHERE hardware_id=".substr($key,5)." AND group_id=".$systemid;
 				//echo $resDelete;
-				@mysql_query( $resDelete, $_SESSION["writeServer"] );
+				@mysql_query( $resDelete, $_SESSION['OCS']["writeServer"] );
 				if( $protectedPost["actshowgroup"] != 0 ) {
 					$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (".substr($key,5).", ".$systemid.", ".$protectedPost["actshowgroup"].")";
-					$resInsert = mysql_query( $reqInsert, $_SESSION["writeServer"] );
+					$resInsert = mysql_query( $reqInsert, $_SESSION['OCS']["writeServer"] );
 				}
 			}
 		}	
 		$tab_options['CACHE']='RESET';
 	}
-	if ($_SESSION["lvluser"]==ADMIN){
-		$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION["mesmachines"];
-		$res_mesMachines = mysql_query($sql_mesMachines, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	if ($_SESSION['OCS']["lvluser"]==ADMIN){
+		$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
+		$res_mesMachines = mysql_query($sql_mesMachines, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$mesmachines="(";
 		while ($item_mesMachines = mysql_fetch_object($res_mesMachines)){
 			$mesmachines.= $item_mesMachines->hardware_id.",";	
@@ -372,7 +372,7 @@ function print_computers_cached($systemid) {
 	$form_name="list_computor_groupcache";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array($_SESSION['TAG_LBL'] => 'a.TAG',
+	$list_fields=array($_SESSION['OCS']['TAG_LBL'] => 'a.TAG',
 					   'ID MACHINE' => 'h.ID',
 					   'DEVICEID' => 'h.DEVICEID',
 					   'NAME' => 'h.NAME',
@@ -392,7 +392,7 @@ function print_computers_cached($systemid) {
 					   '@ IP'=>'h.IPADDR',
 					   'CHECK'=>'h.ID');
 	$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields= array('NAME'=>'NAME',$_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
+	$default_fields= array('NAME'=>'NAME',$_SESSION['OCS']['TAG_LBL']=>$_SESSION['OCS']['TAG_LBL'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
 			$queryDetails .= $value.",";		
@@ -406,7 +406,7 @@ function print_computers_cached($systemid) {
 	$statut=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
 	if ($statut){
 		$reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=".$systemid;
-		$resGrpStat = @mysql_query($reqGrpStat, $_SESSION["readServer"]);
+		$resGrpStat = @mysql_query($reqGrpStat, $_SESSION['OCS']["readServer"]);
 		$valGrpStat = @mysql_fetch_array($resGrpStat);
 		echo "<center>".$l->g(585).": <select name='actshowgroup' id='actshowgroup'>";
 						if (($valGrpStat['REQUEST'] == "" or $valGrpStat['REQUEST'] == null) and ($valGrpStat['XMLDEF'] == "" or $valGrpStat['XMLDEF'] == null))
@@ -422,7 +422,7 @@ function print_perso($systemid) {
 	global $l, $td1, $td2, $td3, $td4,$pages_refs,$protectedGet;
 	$i=0;
 	$queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
-	$resultDetails = mysql_query($queryDetails, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 					
 		echo "<table BORDER='0' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
@@ -444,7 +444,7 @@ function print_perso($systemid) {
 	else {
 		echo $td3.$l->g(493)."</td>";
 	}
-	if( $_SESSION["lvluser"]==SADMIN ){
+	if( $_SESSION['OCS']["lvluser"]==SADMIN ){
 		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
 		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
 //	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
@@ -463,7 +463,7 @@ function print_perso($systemid) {
 															'DOWNLOAD_PERIOD_LATENCY',	
 															'DOWNLOAD_TIMEOUT',
 															'PROLOG_FREQ')";
-	$result_default_value = mysql_query($sql_default_value, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$result_default_value = mysql_query($sql_default_value, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	while($default=mysql_fetch_array($result_default_value)) {
 		$optdefault[$default["NAME"] ] = $default["IVALUE"];
 	}	
@@ -526,7 +526,7 @@ function print_perso($systemid) {
 			if (isset($valDeploy["fileid"]))
 			echo "(<small>".$valDeploy["fileid"]."</small>)";	
 			echo "</td>".$td3.$l->g(499).": ".$valDeploy["pack_loc"]."</td>";//$l->g(81)."cac: ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482))."</td>";
-			if( $_SESSION["lvluser"]==SADMIN )	
+			if( $_SESSION['OCS']["lvluser"]==SADMIN )	
 				echo "$td3 <a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 				urlencode($systemid)."&option=".urlencode($l->g(500))."'>".$l->g(122)."</a></td>";
 			show_stat($valDeploy["fileid"]);
@@ -534,7 +534,7 @@ function print_perso($systemid) {
 			//print_r($valDeploy);
 		}
 	}
-	if( $_SESSION["lvluser"]==SADMIN ){
+	if( $_SESSION['OCS']["lvluser"]==SADMIN ){
 	echo "<tr>
 		<td colspan='10' align='right'>
 		<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."

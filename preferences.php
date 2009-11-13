@@ -4,33 +4,33 @@ error_reporting(E_ALL & ~E_NOTICE);
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
 require_once('fichierConf.class.php');
-//print_r($_SESSION);
+//print_r($_SESSION['OCS']);
 include('dbconfig.inc.php');
 //echo "toto";
 require_once('var.php');
-//print_r($_SESSION);
-//$_SESSION["SERVER_READ"]=$_SESSION["SERVEUR_SQL"];
-//$_SESSION["SERVER_WRITE"]=$_SESSION["SERVER_READ"];
+//print_r($_SESSION['OCS']);
+//$_SESSION['OCS']["SERVER_READ"]=$_SESSION['OCS']["SERVEUR_SQL"];
+//$_SESSION['OCS']["SERVER_WRITE"]=$_SESSION['OCS']["SERVER_READ"];
 
-if( ! isset($_SESSION["debug"]) ) {
-	$_SESSION["debug"] = 0 ;
+if( ! isset($_SESSION['OCS']["debug"]) ) {
+	$_SESSION['OCS']["debug"] = 0 ;
 }
 
 if( isset( $protectedGet["cache"] ) ) {
-	$_SESSION["usecache"] = $protectedGet["cache"];
+	$_SESSION['OCS']["usecache"] = $protectedGet["cache"];
 }
-else if( ! isset($_SESSION["usecache"]) ) {
-	$_SESSION["usecache"] = USE_CACHE ;
+else if( ! isset($_SESSION['OCS']["usecache"]) ) {
+	$_SESSION['OCS']["usecache"] = USE_CACHE ;
 }
 
 
 //GESTION LOGS
-if ($_SESSION['LOG_GUI'] == 1){
+if ($_SESSION['OCS']['LOG_GUI'] == 1){
 	define("DB_LOG_NAME", DB_NAME);
-//	if ($_SESSION['LOG_DIR'] == "")
+//	if ($_SESSION['OCS']['LOG_DIR'] == "")
 //		define("LOG_FILE", $_SERVER["DOCUMENT_ROOT"]."/oscreport/log.csv");
 //	else
-		define("LOG_FILE", $_SESSION['LOG_DIR']."/log.csv");
+		define("LOG_FILE", $_SESSION['OCS']['LOG_DIR']."/log.csv");
 	$logHandler = @fopen( LOG_FILE, "a");
 }
 //END GESTION LOGS
@@ -43,12 +43,12 @@ if( ! function_exists ( "utf8_decode" )) {
 
 dbconnect();
 
-if(!isset($_SESSION["rangCookie"])) $_SESSION["rangCookie"] = 0;
+if(!isset($_SESSION['OCS']["rangCookie"])) $_SESSION['OCS']["rangCookie"] = 0;
 
 function addComputersToGroup( $gName, $ids ) {
 	
 	$reqIdGroup = "SELECT id FROM hardware WHERE name='$gName'";
-	$resIdGroup = mysql_query( $reqIdGroup, $_SESSION["readServer"] );
+	$resIdGroup = mysql_query( $reqIdGroup, $_SESSION['OCS']["readServer"] );
 	$valIdGroup = mysql_fetch_array( $resIdGroup );
 	if( lock( $valIdGroup["id"] ) ) {
 		$nb_res=0;
@@ -56,10 +56,10 @@ function addComputersToGroup( $gName, $ids ) {
 			if( strpos ( $key, "checkmass" ) !== false ) {
 				$idsList[] = $val;
 				$resDelete = "DELETE FROM groups_cache WHERE hardware_id=$val AND group_id=".$valIdGroup["id"];
-				@mysql_query( $resDelete, $_SESSION["writeServer"] );
+				@mysql_query( $resDelete, $_SESSION['OCS']["writeServer"] );
 				
 				$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES ($val, ".$valIdGroup["id"].", 1)";
-				$resInsert = mysql_query( $reqInsert, $_SESSION["writeServer"] );
+				$resInsert = mysql_query( $reqInsert, $_SESSION['OCS']["writeServer"] );
 				$nb_res++;
 			}
 		}
@@ -80,7 +80,7 @@ function createGroup( $name,$description="", $staticOnly=false, $alreadyExists =
 	
 	//does $name group already exists
 	$reqGetId = "SELECT id FROM hardware WHERE name='".$name."'";
-	$resGetId = mysql_query( $reqGetId, $_SESSION["readServer"]);
+	$resGetId = mysql_query( $reqGetId, $_SESSION['OCS']["readServer"]);
 	if( $valGetId = mysql_fetch_array( $resGetId ) )
 		$groupAlreadyInDb = true;
 	else
@@ -96,26 +96,26 @@ function createGroup( $name,$description="", $staticOnly=false, $alreadyExists =
 	}  
 	
 	if( ! $staticOnly )
-		$request = "SELECT DISTINCT h.id " . addslashes( $_SESSION["groupReq"] );
+		$request = "SELECT DISTINCT h.id " . addslashes( $_SESSION['OCS']["groupReq"] );
 	else
 		$request = "";
 		
-	mysql_query( "INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '$deviceid' , '".$name."', '".$description."', NOW() )", $_SESSION["writeServer"] ) 
-	or die( mysql_error($_SESSION["writeServer"]));
+	mysql_query( "INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '$deviceid' , '".$name."', '".$description."', NOW() )", $_SESSION['OCS']["writeServer"] ) 
+	or die( mysql_error($_SESSION['OCS']["writeServer"]));
 	 
 	//Getting hardware id
-	$insertId = mysql_insert_id( $_SESSION["writeServer"] );
+	$insertId = mysql_insert_id( $_SESSION['OCS']["writeServer"] );
 	
 	//Creating group
-	mysql_query( "INSERT INTO groups(hardware_id, request, create_time) VALUES ( $insertId, '$request', UNIX_TIMESTAMP() )", $_SESSION["writeServer"] ) 
-	or die( mysql_error($_SESSION["writeServer"]) );
+	mysql_query( "INSERT INTO groups(hardware_id, request, create_time) VALUES ( $insertId, '$request', UNIX_TIMESTAMP() )", $_SESSION['OCS']["writeServer"] ) 
+	or die( mysql_error($_SESSION['OCS']["writeServer"]) );
 
 	//Generating cache
 	if( ! $staticOnly && lock($insertId) ) {	
-		$reqCache = "INSERT IGNORE INTO groups_cache(hardware_id, group_id, static) SELECT DISTINCT h.id, $insertId, 0 ".$_SESSION["groupReq"];
-		$cachedRes = mysql_query( $reqCache , $_SESSION["writeServer"] )
-		or die( mysql_error($_SESSION["writeServer"]) );
-		$cached = mysql_affected_rows($_SESSION["writeServer"]);	
+		$reqCache = "INSERT IGNORE INTO groups_cache(hardware_id, group_id, static) SELECT DISTINCT h.id, $insertId, 0 ".$_SESSION['OCS']["groupReq"];
+		$cachedRes = mysql_query( $reqCache , $_SESSION['OCS']["writeServer"] )
+		or die( mysql_error($_SESSION['OCS']["writeServer"]) );
+		$cached = mysql_affected_rows($_SESSION['OCS']["writeServer"]);	
 		unlock($insertId);
 	}
 	else if( ! $staticOnly ) {
@@ -130,7 +130,7 @@ function dbconnect() {
 	//global SERVER_READ,COMPTE_BASE,PSWD_BASE,SERVER_WRITE;
 	$db = DB_NAME;
 	//echo $db;
-	//echo $_SESSION["SERVER_READ"];
+	//echo $_SESSION['OCS']["SERVER_READ"];
 	$link=@mysql_connect(SERVER_READ,COMPTE_BASE,PSWD_BASE);
 	if(!$link) {
 		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error()."</b></font></center>";
@@ -152,15 +152,15 @@ function dbconnect() {
 		die();
 	}
 	
-	$_SESSION["writeServer"] = $link2;	
-	$_SESSION["readServer"] = $link;
+	$_SESSION['OCS']["writeServer"] = $link2;	
+	$_SESSION['OCS']["readServer"] = $link;
 	return $link2;
 }
 
 
 
 function getCount( $req ) {
-	$ech = $_SESSION["debug"];
+	$ech = $_SESSION['OCS']["debug"];
 	//IF nor accountinfo and bios are needed, don't join them in count query.
 	if( strpos(" ".$req->where , " a.")===FALSE && strpos(" ".$req->where , " b.")===FALSE&&
 		strpos(" ".$req->where , " A.")===FALSE && strpos(" ".$req->where , " B.")===FALSE ) {
@@ -174,21 +174,21 @@ function getCount( $req ) {
 		$reqCount .= " WHERE ".$req->where;
 		
 	if($ech) echo "<br><font color='red'><b>$reqCount</b></font><br><br>";
-	$resCount = mysql_query($reqCount, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$resCount = mysql_query($reqCount, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$valCount = mysql_fetch_array($resCount);
 	
 	return $valCount["cpt"];
 }
 
 function getPrelim(  $req, $limit=NULL ) {
-	$ech = $_SESSION["debug"];
+	$ech = $_SESSION['OCS']["debug"];
 	$rac = "LEFT JOIN accountinfo a ON a.hardware_id=h.id";
 	$selectReg = "";
 	//	$selectFin = $req->getSelect();
 	//$fromFin = $req->from;
 	$cpt = 1;
-	/*if( is_array($_SESSION["currentRegistry"]) )
-		foreach( $_SESSION["currentRegistry"] as $regist ) {
+	/*if( is_array($_SESSION['OCS']["currentRegistry"]) )
+		foreach( $_SESSION['OCS']["currentRegistry"] as $regist ) {
 			$selectReg .= ", regAff{$cpt}.regvalue AS \"$regist\"";
 			$fromReg.= "LEFT JOIN registry regAff{$cpt} ON regAff{$cpt}.hardware_id=h.id";
 			if( $cpt > 1 )
@@ -228,8 +228,8 @@ function getPrelim(  $req, $limit=NULL ) {
 
 function getQuery( $req, $limit ) {
 	
-	$ech = $_SESSION["debug"];
-	$resPrelim = mysql_query( getPrelim( $req, $limit ) , $_SESSION["readServer"]);
+	$ech = $_SESSION['OCS']["debug"];
+	$resPrelim = mysql_query( getPrelim( $req, $limit ) , $_SESSION['OCS']["readServer"]);
 	
 	$selFin = $req->getSelect();
 	$fromFin = $req->from ;	
@@ -336,10 +336,10 @@ function dateToMysql($date_cible) {
 
 function addLog( $type, $value="" ) {
 	global $logHandler;
-	if ($_SESSION['LOG_GUI'] == 1){
+	if ($_SESSION['OCS']['LOG_GUI'] == 1){
 		$dte = getDate();
 		$date = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $dte["mday"], $dte["mon"], $dte["year"], $dte["hours"], $dte["minutes"], $dte["seconds"]); 
-		@fwrite($logHandler, $_SESSION["loggeduser"].";$date;".DB_LOG_NAME.";$type;$value;\n");
+		@fwrite($logHandler, $_SESSION['OCS']["loggeduser"].";$date;".DB_LOG_NAME.";$type;$value;\n");
 	}
 }
 
@@ -407,7 +407,7 @@ function printNavigation( $lesGets, $numPages) {
 		$prefG = "<a href=index.php?".stripslashes($lesGets)."&page=";
 		echo "<p align='center'>";
 		if( $numPages > 1 ) {			
-			if( $_SESSION["pageCur"] == 1) {				
+			if( $_SESSION['OCS']["pageCur"] == 1) {				
 				echo "&nbsp;&nbsp;";//voir gris�
 				echo "&nbsp;&nbsp;1&nbsp;..";							
 			} else {
@@ -415,11 +415,11 @@ function printNavigation( $lesGets, $numPages) {
 				echo "&nbsp;{$prefG}1>1</a>&nbsp;..";			
 			}
 			
-			if( $_SESSION["pageCur"] && $_SESSION["pageCur"]>1 && $_SESSION["pageCur"]!=$numPages ) {
-				echo  "&nbsp;".$_SESSION["pageCur"]."&nbsp;";
+			if( $_SESSION['OCS']["pageCur"] && $_SESSION['OCS']["pageCur"]>1 && $_SESSION['OCS']["pageCur"]!=$numPages ) {
+				echo  "&nbsp;".$_SESSION['OCS']["pageCur"]."&nbsp;";
 			}
 			
-			if( $_SESSION["pageCur"] >= $numPages) {
+			if( $_SESSION['OCS']["pageCur"] >= $numPages) {
 				echo "..&nbsp;&nbsp;$numPages&nbsp;";
 				//echo "<img src='image/proch24.png'>&nbsp;&nbsp;"; voir gris�
 			} else {
@@ -431,7 +431,7 @@ function printNavigation( $lesGets, $numPages) {
 }
 
 function deleteNet($id) {
-	mysql_query("DELETE FROM network_devices WHERE macaddr='$id';", $_SESSION["writeServer"]);
+	mysql_query("DELETE FROM network_devices WHERE macaddr='$id';", $_SESSION['OCS']["writeServer"]);
 }
 
 /**
@@ -445,7 +445,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 	global $l;
 	//If lock is not user OR it is used and available
 	if( ! $checkLock || lock($id) ) {	
-		$resId = mysql_query("SELECT deviceid,name,IPADDR,OSNAME FROM hardware WHERE id='$id'",$_SESSION["readServer"]) or die(mysql_error());
+		$resId = mysql_query("SELECT deviceid,name,IPADDR,OSNAME FROM hardware WHERE id='$id'",$_SESSION['OCS']["readServer"]) or die(mysql_error());
 		$valId = mysql_fetch_array($resId);
 		$idHard = $id;
 		$did = $valId["deviceid"];
@@ -453,9 +453,9 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 					
 			//Deleting a network device
 			if( strpos ( $did, "NETWORK_DEVICE-" ) === false ) {
-				$resNetm = @mysql_query("SELECT macaddr FROM networks WHERE hardware_id=$idHard", $_SESSION["readServer"]) or die(mysql_error());
+				$resNetm = @mysql_query("SELECT macaddr FROM networks WHERE hardware_id=$idHard", $_SESSION['OCS']["readServer"]) or die(mysql_error());
 				while( $valNetm = mysql_fetch_array($resNetm)) {
-					@mysql_query("DELETE FROM netmap WHERE mac='".$valNetm["macaddr"]."';", $_SESSION["writeServer"]) or die(mysql_error());
+					@mysql_query("DELETE FROM netmap WHERE mac='".$valNetm["macaddr"]."';", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 				}		
 			}
 			//deleting a regular computer
@@ -466,23 +466,23 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 			}
 			elseif($did == "_SYSTEMGROUP_"){//Deleting a group
 				$tables=Array("devices");
-				mysql_query("DELETE FROM groups WHERE hardware_id=$idHard", $_SESSION["writeServer"]) or die(mysql_error());
-				$resDelete = mysql_query("DELETE FROM groups_cache WHERE group_id=$idHard", $_SESSION["writeServer"]) or die(mysql_error());
-				$affectedComputers = mysql_affected_rows( $_SESSION["writeServer"] );
+				mysql_query("DELETE FROM groups WHERE hardware_id=$idHard", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
+				$resDelete = mysql_query("DELETE FROM groups_cache WHERE group_id=$idHard", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
+				$affectedComputers = mysql_affected_rows( $_SESSION['OCS']["writeServer"] );
 			}
 			
 			if( !$silent )
 				echo "<center><font color=red><b>".$valId["name"]." ".$l->g(220)."</b></font></center>";
 			
 			foreach ($tables as $table) {
-				mysql_query("DELETE FROM $table WHERE hardware_id=$idHard;", $_SESSION["writeServer"]) or die(mysql_error());		
+				mysql_query("DELETE FROM $table WHERE hardware_id=$idHard;", $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
 			}
-			mysql_query("delete from download_enable where SERVER_ID=".$idHard, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+			mysql_query("delete from download_enable where SERVER_ID=".$idHard, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 			
-			mysql_query("DELETE FROM hardware WHERE id=$idHard;", $_SESSION["writeServer"]) or die(mysql_error());
+			mysql_query("DELETE FROM hardware WHERE id=$idHard;", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 			//Deleted computers tracking
-			if($traceDel && mysql_num_rows(mysql_query("SELECT IVALUE FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION["readServer"]))){
-				mysql_query("insert into deleted_equiv(DELETED,EQUIVALENT) values('$did',NULL)", $_SESSION["writeServer"]) or die(mysql_error());
+			if($traceDel && mysql_num_rows(mysql_query("SELECT IVALUE FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION['OCS']["readServer"]))){
+				mysql_query("insert into deleted_equiv(DELETED,EQUIVALENT) values('$did',NULL)", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 			}
 		}
 		//Using lock ? Unlock
@@ -502,11 +502,11 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 function lock($id) {
 	//echo "<br><font color='red'><b>LOCK $id</b></font><br>";
 	$reqClean = "DELETE FROM locks WHERE unix_timestamp(since)<(unix_timestamp(NOW())-3600)";
-	$resClean = mysql_query($reqClean, $_SESSION["writeServer"]) or die(mysql_error());
+	$resClean = mysql_query($reqClean, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 	
 	$reqLock = "INSERT INTO locks(hardware_id) VALUES ('$id')";
-	if( $resLock = mysql_query($reqLock, $_SESSION["writeServer"]) or die(mysql_error()))
-		return( mysql_affected_rows ( $_SESSION["writeServer"] ) == 1 );
+	if( $resLock = mysql_query($reqLock, $_SESSION['OCS']["writeServer"]) or die(mysql_error()))
+		return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) == 1 );
 	else return false;
 }
 
@@ -517,8 +517,8 @@ function lock($id) {
 function unlock($id) {
 	//echo "<br><font color='green'><b>UNLOCK $id</b></font><br>";
 	$reqLock = "DELETE FROM locks WHERE hardware_id='$id'";
-	$resLock = mysql_query($reqLock, $_SESSION["writeServer"]) or die(mysql_error());
-	return( mysql_affected_rows ( $_SESSION["writeServer"] ) == 1 );
+	$resLock = mysql_query($reqLock, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
+	return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) == 1 );
 }
 
 /**
@@ -563,7 +563,7 @@ function loadMac() {
 		while (!feof($file)) {				 
 			$line  = fgets($file, 4096);
 			if( preg_match("/^((?:[a-fA-F0-9]{2}-){2}[a-fA-F0-9]{2})\s+\(.+\)\s+(.+)\s*$/", $line, $result ) ) {
-				$_SESSION["mac"][strtoupper(str_replace("-",":",$result[1]))] = $result[2];
+				$_SESSION['OCS']["mac"][strtoupper(str_replace("-",":",$result[1]))] = $result[2];
 			}				
 		}
 		fclose($file);			
@@ -577,7 +577,7 @@ function loadMac() {
   */	
 function getConstructor( $mac ) {	
 	$beg = strtoupper(substr( $mac, 0, 8 ));
-	return ( ucwords(strtolower( $_SESSION["mac"][ $beg ])) );
+	return ( ucwords(strtolower( $_SESSION['OCS']["mac"][ $beg ])) );
 }
 
 /**
@@ -597,7 +597,7 @@ function getGluedIds( $reqSid ) {
 }
 
 function getIds($reqSid) {
-	$resSid = mysql_query( $reqSid, $_SESSION["readServer"] );
+	$resSid = mysql_query( $reqSid, $_SESSION['OCS']["readServer"] );
 	while( $valSid = mysql_fetch_array($resSid) ) {
 		$idNotIn[] = $valSid["hardware_id"];
 	}

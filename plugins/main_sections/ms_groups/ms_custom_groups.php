@@ -51,9 +51,9 @@ if (isset($protectedPost['VALID_GROUP'])){
 			$nb_mach=remove_of_group($protectedPost['group_list'],$list_id);
 			$msg="<font color=green>".$l->g(971)."<br>".$l->g(972)."</font>";	
 		}
-		//Création d'un nouveau groupe
+		//Crï¿½ation d'un nouveau groupe
 		if ($protectedPost['NEW_RAZ'] == "NEW"){
-			$result=creat_group ($protectedPost['NAME_GROUP'],$protectedPost['LBL_GROUP'],$list_id,$_SESSION['SEARCH_SQL_GROUP'],$group_type);
+			$result=creat_group ($protectedPost['NAME_GROUP'],$protectedPost['LBL_GROUP'],$list_id,$_SESSION['OCS']['SEARCH_SQL_GROUP'],$group_type);
 			if ($result['RESULT'] == "ERROR")
 			$nb_mach = "ERROR";
 			else
@@ -62,7 +62,7 @@ if (isset($protectedPost['VALID_GROUP'])){
 		}	
 		//ecrasement d'un groupe
 		if ($protectedPost['NEW_RAZ'] == "RAZ"){
-			$nb_mach=replace_group($protectedPost['group_list'],$list_id,$_SESSION['SEARCH_SQL_GROUP'],$group_type);
+			$nb_mach=replace_group($protectedPost['group_list'],$list_id,$_SESSION['OCS']['SEARCH_SQL_GROUP'],$group_type);
 			$msg="<font color=green>".$l->g(879);		
 		}
 		if ($nb_mach == "ERROR"){
@@ -75,11 +75,11 @@ if (isset($protectedPost['VALID_GROUP'])){
 }
 /*********************************************CALCUL DES CHAMPS A AFFICHER*************************************/
 if ($list_id){
-//définition des onglets
+//dï¿½finition des onglets
 //for all
 $def_onglets[$l->g(809)]=$l->g(809); //GROUPES STATIQUES
 
-if ($_SESSION['lvluser'] == SADMIN){
+if ($_SESSION['OCS']['lvluser'] == SADMIN){
 	$def_onglets[$l->g(810)]=$l->g(810); //GROUPES DYNAMIQUES
 	$def_onglets[strtoupper($l->g(651))]=strtoupper($l->g(651)); //GROUPES DE SERVEURS
 	//definition of option NEW every time
@@ -101,7 +101,7 @@ if ($protectedPost['onglet'] == $l->g(809)){
 				and groups_cache.group_id=hardware.id
 				and deviceid = '_SYSTEMGROUP_'
 				and groups_cache.static = 1";
-	if ($_SESSION['lvluser'] != SADMIN)	
+	if ($_SESSION['OCS']['lvluser'] != SADMIN)	
 		$delGroups.= " and workgroup = 'GROUP_4_ALL'";	
 }
 if ($protectedPost['onglet'] == strtoupper($l->g(651))){
@@ -113,7 +113,7 @@ if ($protectedPost['onglet'] == strtoupper($l->g(651))){
 }
 //search all groups for listid selection
 if (isset($delGroups)){
-	$resDelGroups = mysql_query( $delGroups, $_SESSION["readServer"] );
+	$resDelGroups = mysql_query( $delGroups, $_SESSION['OCS']["readServer"] );
 	while($valDelGroups = mysql_fetch_array( $resDelGroups )){
 		$groupDelList[$valDelGroups["id"]]=$valDelGroups["name"];
 		
@@ -131,7 +131,7 @@ if ($protectedPost['onglet'] != $l->g(810)){
 }
 
 //if group list exist
-if (isset($all_groups) and $_SESSION['lvluser'] == SADMIN){
+if (isset($all_groups) and $_SESSION['OCS']['lvluser'] == SADMIN){
 	//show RAZ field
 	$optionList['RAZ']=$l->g(588);
 }

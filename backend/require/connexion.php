@@ -2,8 +2,8 @@
 function connexion_local()
 {	
 	global $link_ocs,$db_ocs;
-	require_once($_SESSION['CONF_MYSQL']);
- 	//require_once($_SESSION['NAME_MYSQL']);
+	require_once($_SESSION['OCS']['CONF_MYSQL']);
+ 	//require_once($_SESSION['OCS']['NAME_MYSQL']);
 	//connection OCS
 	$db_ocs = DB_NAME;
 	//lien sur le serveur OCS

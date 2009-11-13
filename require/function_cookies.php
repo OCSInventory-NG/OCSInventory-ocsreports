@@ -1,14 +1,14 @@
 <?php
-//fonction qui permet de gérer les colonnes par cookies
+//fonction qui permet de gï¿½rer les colonnes par cookies
 function cookies_tab()
 {
 	//si la variable de session des tableaux n'existe pas, 
 	//on va chercher le cookies
-	if (!isset($_SESSION['col_tab']) and isset($_COOKIE['col_tab'])){
+	if (!isset($_SESSION['OCS']['col_tab']) and isset($_COOKIE['col_tab'])){
 		foreach ($_COOKIE['col_tab'] as $key=>$value){
 			//si la variable de SESSION n'existe 
 			foreach ($value as $index=>$field_name){
-				$_SESSION['col_tab'][$key][$field_name]=$field_name;
+				$_SESSION['OCS']['col_tab'][$key][$field_name]=$field_name;
 			}
 		}				
 	}
@@ -28,11 +28,11 @@ function cookies_add($name,$value){
 }
 
 function upload_cookies($table_name){
-	unset($_SESSION['col_tab'][$table_name]);
-	if (!isset($_SESSION['col_tab'][$table_name]) and isset($_COOKIE[$table_name])){
+	unset($_SESSION['OCS']['col_tab'][$table_name]);
+	if (!isset($_SESSION['OCS']['col_tab'][$table_name]) and isset($_COOKIE[$table_name])){
 		$col_tab=explode("///", $_COOKIE[$table_name]);
 		foreach ($col_tab as $key=>$value){
-				$_SESSION['col_tab'][$table_name][$key]=$value;
+				$_SESSION['OCS']['col_tab'][$table_name][$key]=$value;
 		}			
 	}
 	

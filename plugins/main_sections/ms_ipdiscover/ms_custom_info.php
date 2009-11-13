@@ -11,18 +11,18 @@ $form_name='info_ipdiscover';
 //$no_error='YES';
 //require_once("header.php");
 
-//recherche de la personne connectée
-if (isset($_SESSION['TRUE_USER']))
-$user=$_SESSION['TRUE_USER'];
+//recherche de la personne connectï¿½e
+if (isset($_SESSION['OCS']['TRUE_USER']))
+$user=$_SESSION['OCS']['TRUE_USER'];
 else
-$user=$_SESSION['loggeduser'];
+$user=$_SESSION['OCS']['loggeduser'];
 
 //suppression d'une adresse mac
 if(isset($protectedPost['SUP_PROF'])){
 	//$del=mysql_escape_string($protectedPost['SUP_PROF']);
-	mysql_query("DELETE FROM netmap WHERE mac='".$protectedPost['SUP_PROF']."'", $_SESSION["writeServer"] ) or die(mysql_error());
-	mysql_query("DELETE FROM network_devices WHERE macaddr='".$protectedPost['SUP_PROF']."'", $_SESSION["writeServer"] ) or die(mysql_error());
-	unset($_SESSION['DATA_CACHE']['IPDISCOVER_'.$protectedGet['prov']]);
+	mysql_query("DELETE FROM netmap WHERE mac='".$protectedPost['SUP_PROF']."'", $_SESSION['OCS']["writeServer"] ) or die(mysql_error());
+	mysql_query("DELETE FROM network_devices WHERE macaddr='".$protectedPost['SUP_PROF']."'", $_SESSION['OCS']["writeServer"] ) or die(mysql_error());
+	unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_'.$protectedGet['prov']]);
 	
 }
 //identification d'une adresse mac
@@ -49,9 +49,9 @@ if (isset($protectedPost['Valid_modif_x'])){
 			  '".$protectedPost['mac']."',
 			  '".$user."')";
 		}
-		mysql_query( $sql , $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+		mysql_query( $sql , $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 		//suppression du cache pour prendre en compte la modif
-		unset($_SESSION['DATA_CACHE']['IPDISCOVER_'.$protectedGet['prov']]);
+		unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_'.$protectedGet['prov']]);
 	}else{		
 		$protectedPost['MODIF']=$protectedPost['mac'];
 	}	
@@ -60,11 +60,11 @@ if (isset($protectedPost['Valid_modif_x'])){
 //formulaire de saisie de l'identification de l'adresse mac
 if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	
-	//cas d'une modification de la donnée déjà saisie
+	//cas d'une modification de la donnï¿½e dï¿½jï¿½ saisie
 	if ($protectedGet['prov'] == "ident" and !isset($protectedPost['COMMENT'])){
 		//$id=mysql_escape_string($protectedPost['MODIF']);
 		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='".$protectedPost['MODIF']."'";
-		$res = mysql_query($sql, $_SESSION["readServer"] );
+		$res = mysql_query($sql, $_SESSION['OCS']["readServer"] );
 		$val = mysql_fetch_array( $res );
 		$protectedPost['COMMENT']=$val['DESCRIPTION'];
 		$protectedPost['MODIF']=$val['MACADDR'];
@@ -76,7 +76,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	$tab_hidden['MODIF_ID']=$protectedPost['MODIF_ID'];	
 	echo "<br>";
 	echo "<br>";
-	//si on est dans le cas d'une modif, on affiche le login qui a saisi la donnée
+	//si on est dans le cas d'une modif, on affiche le login qui a saisi la donnï¿½e
 	if ($protectedPost['MODIF_ID'] != ''){
 		$tab_typ_champ[3]['DEFAULT_VALUE']=$protectedPost['USER'];
 		$tab_typ_champ[3]['INPUT_NAME']="USER";
@@ -101,7 +101,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	$tab_name[1]=$l->g(53).": ";
 	
 	$sql="select distinct NAME from devicetype ";
-	$res=mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$res=mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	while ($row=mysql_fetch_object($res)){
 		$list_type[$row->NAME]=$row->NAME;
 	}
@@ -111,14 +111,14 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	$tab_name[2]=$l->g(66).": ";
 	
 	
-	//printEnTete("Ajout d'un nouveau périphérique");
+	//printEnTete("Ajout d'un nouveau pï¿½riphï¿½rique");
 
 	$tab_hidden['mac']=$protectedPost['MODIF'];	
 	if (isset($ERROR))
 	echo "<font color=red><b>".$ERROR."</b></font>";
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
 }
-else{ //affichage des périphériques
+else{ //affichage des pï¿½riphï¿½riques
 	if (!(isset($protectedPost["pcparpage"])))
 		 $protectedPost["pcparpage"]=5;
 	if (isset($protectedGet['value'])){
@@ -167,5 +167,5 @@ else{ //affichage des périphériques
 		echo "</form>";
 	}
 }
-//require_once($_SESSION['FOOTER_HTML']);
+//require_once($_SESSION['OCS']['FOOTER_HTML']);
 ?>

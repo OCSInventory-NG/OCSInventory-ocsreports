@@ -3,9 +3,9 @@
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
 	if ($protectedPost['OTHER_BIS'] != '')
-		@mysql_query("INSERT INTO blacklist_serials (SERIAL) value ('".$protectedPost['OTHER_BIS']."')", $_SESSION["writeServer"]);		
+		@mysql_query("INSERT INTO blacklist_serials (SERIAL) value ('".$protectedPost['OTHER_BIS']."')", $_SESSION['OCS']["writeServer"]);		
 	if ($protectedPost['OTHER'] != '')
-		@mysql_query("DELETE FROM blacklist_serials WHERE SERIAL='".$protectedPost['OTHER']."'", $_SESSION["writeServer"]);
+		@mysql_query("DELETE FROM blacklist_serials WHERE SERIAL='".$protectedPost['OTHER']."'", $_SESSION['OCS']["writeServer"]);
 	$form_name="affich_bios";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
@@ -17,12 +17,12 @@
 					   $l->g(209) => 'BVERSION',
 					   $l->g(210) => 'BDATE');
 	$sql="select SSN from bios WHERE (hardware_id=$systemid)";
-	$resultDetails = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$resultDetails = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$item = mysql_fetch_object($resultDetails);	
-	$result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$sql="select ID from blacklist_serials where SERIAL='".$item->SSN."'";		
-	$result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
-	if ($_SESSION["lvluser"]==SADMIN){
+	$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	if ($_SESSION['OCS']["lvluser"]==SADMIN){
 		if ( mysql_num_rows($result) == 1 ){	
 			$tab_options['OTHER'][$l->g(36)][$item->SSN]=$item->SSN;
 			$tab_options['OTHER']['IMG']='image/red.png';	   

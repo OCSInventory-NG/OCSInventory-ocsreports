@@ -40,7 +40,7 @@ if($GET["o"]&&$GET["v"]&&$GET["n"]&&$GET["dl"])
 		}
 		$fname=$GET["o"]."_".$GET["n"]."_".$GET["v"].".".$ext;
 	}	
-	$result=mysql_query($dlQuery, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$result=mysql_query($dlQuery, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$cont=mysql_fetch_array($result);
 
 	header("Pragma: public");

@@ -6,7 +6,7 @@
 //require_once('require/function_table_html.php');
 require_once('require/function_dico.php');
 //use or not cache
-if ($_SESSION['usecache'])
+if ($_SESSION['OCS']['usecache'])
 	$table="softwares_name_cache";
 else
 	$table="softwares";
@@ -72,7 +72,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 	//search all categories
 	$sql_list_cat="select formatted  name
 		  from dico_soft where extracted!=formatted ".$search_count." group by formatted";
-	 $result_list_cat = mysql_query( $sql_list_cat, $_SESSION["readServer"]);
+	 $result_list_cat = mysql_query( $sql_list_cat, $_SESSION['OCS']["readServer"]);
 	 $i=1;
 	 while($item_list_cat = mysql_fetch_object($result_list_cat)){
 	 	if ($i==1)
@@ -85,7 +85,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 		if ($protectedPost['SUP_CAT'] == 1)
 		$first_onglet=2;
 		$reqDcat = "DELETE FROM dico_soft WHERE formatted='".$list_cat[$protectedPost['SUP_CAT']]."'";
-		mysql_query($reqDcat, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+		mysql_query($reqDcat, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 		unset($list_cat[$protectedPost['SUP_CAT']]);		
 	}
 	//no selected? default=>first onglet
@@ -124,7 +124,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 /*******************************************************CAS OF NEW*******************************************************/
 if ($protectedPost['onglet'] == 'NEW'){
 	$search_dico_soft="select extracted name from dico_soft";
-	$result_search_dico_soft = mysql_query( $search_dico_soft, $_SESSION["readServer"]);
+	$result_search_dico_soft = mysql_query( $search_dico_soft, $_SESSION['OCS']["readServer"]);
 	$list_dico_soft="'";
 	while($item_search_dico_soft = mysql_fetch_object($result_search_dico_soft)){
 		$list_dico_soft.=addslashes($item_search_dico_soft -> name)."','";
@@ -135,7 +135,7 @@ if ($protectedPost['onglet'] == 'NEW'){
 		$list_dico_soft="''";
 		
 	$search_ignored_soft="select extracted name from dico_ignored";
-	$result_search_ignored_soft = mysql_query( $search_ignored_soft, $_SESSION["readServer"]);
+	$result_search_ignored_soft = mysql_query( $search_ignored_soft, $_SESSION['OCS']["readServer"]);
 	$list_ignored_soft="'";
 	while($item_search_ignored_soft = mysql_fetch_object($result_search_ignored_soft)){
 		$list_ignored_soft.=addslashes($item_search_ignored_soft -> name)."','";
@@ -151,8 +151,8 @@ if ($protectedPost['onglet'] == 'NEW'){
 			and name not in (".$list_ignored_soft.") ".$search_cache;	
 	$first='';
 	//execute the query only if necessary 
-	if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha){
-		$result_list_alpha = mysql_query( $sql_list_alpha, $_SESSION["readServer"]);
+	if($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha){
+		$result_list_alpha = mysql_query( $sql_list_alpha, $_SESSION['OCS']["readServer"]);
 		$i=1;
 		 while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
 		 	if (strtoupper($item_list_alpha -> alpha) != "" 
@@ -167,22 +167,22 @@ if ($protectedPost['onglet'] == 'NEW'){
 		 	}
 		}
 		//execute the query only if necessary 
-		$_SESSION['REQ_ONGLET_SOFT'] = $sql_list_alpha;
-		$_SESSION['ONGLET_SOFT'] = $list_alpha;
-		$_SESSION['FIRST_DICO'] = $first;
+		$_SESSION['OCS']['REQ_ONGLET_SOFT'] = $sql_list_alpha;
+		$_SESSION['OCS']['ONGLET_SOFT'] = $list_alpha;
+		$_SESSION['OCS']['FIRST_DICO'] = $first;
 	}else{
-		$list_alpha=$_SESSION['ONGLET_SOFT'];
+		$list_alpha=$_SESSION['OCS']['ONGLET_SOFT'];
 	}
 	if (!isset($protectedPost['onglet_soft']))
-	$protectedPost['onglet_soft']=$_SESSION['FIRST_DICO'];
+	$protectedPost['onglet_soft']=$_SESSION['OCS']['FIRST_DICO'];
 	 onglet($list_alpha,$form_name,"onglet_soft",20);
 	
 	//search all soft for the tab as selected 
 	$search_soft="select distinct name from ".$table." cache
-			where name like '".$_SESSION['ONGLET_SOFT'][$protectedPost['onglet_soft']]."%'
+			where name like '".$_SESSION['OCS']['ONGLET_SOFT'][$protectedPost['onglet_soft']]."%'
 			and name not in (".$list_dico_soft.")
 			and name not in (".$list_ignored_soft.") ".$search_cache;
-	$result_search_soft = mysql_query( $search_soft, $_SESSION["readServer"]);
+	$result_search_soft = mysql_query( $search_soft, $_SESSION['OCS']["readServer"]);
 	$list_soft="'";
  	while($item_search_soft = mysql_fetch_object($result_search_soft)){
 		 		$list_soft.=addslashes($item_search_soft -> name)."','";
@@ -251,7 +251,7 @@ if ($protectedPost['onglet'] == 'UNCHANGED'){
 	 	where extracted=formatted ".$search_cache." group by EXTRACTED ";
 }
 if (isset($querydico)){
-	$_SESSION['query_dico']=$querydico;
+	$_SESSION['OCS']['query_dico']=$querydico;
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querydico,$form_name,80); 
 }
 echo "</td></tr>";
@@ -259,7 +259,7 @@ $search=show_modif(stripslashes($protectedPost['search']),"search",'0');
 $trans= "<input name='all_item' id='all_item' type='checkbox' ".(isset($protectedPost['all_item'])? " checked ": "").">".$l->g(384);
 //r�cup�ration de toutes les cat�gories
 $sql_list_categories="select distinct(formatted) name from dico_soft where formatted!=extracted";
-$result_list_categories = mysql_query( $sql_list_categories, $_SESSION["readServer"]);
+$result_list_categories = mysql_query( $sql_list_categories, $_SESSION['OCS']["readServer"]);
 while($item_list_categories = mysql_fetch_object($result_list_categories)){
 	$list_categories[$item_list_categories ->name]=$item_list_categories ->name;	
 }

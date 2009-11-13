@@ -1,7 +1,11 @@
 <?php
 @session_start();
-//print_r($_SESSION['LANGUAGE_FILE']);
+//print_r($_SESSION['OCS']['LANGUAGE_FILE']);
 require_once('fichierConf.class.php');
+/*****************************************************GESTION DU LOGOUT*********************************************/
+if ($_POST['LOGOUT'] == 'ON'){
+	unset($_SESSION['OCS']);
+}
 
 /***************************************************** First installation checking *********************************************************/
 if( (!$fconf=@fopen("dbconfig.inc.php","r")) 
@@ -14,14 +18,14 @@ else
 	fclose($fconf);
 require_once("preferences.php");
 /******************************************Checking sql update*********************************************/
-if (!isset($_SESSION['SQL_BASE_VERS'])){
+if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])){
 	$sql_log="select TVALUE from config where name='GUI_VERSION'";
-	$result_log = mysql_query($sql_log, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$result_log = mysql_query($sql_log, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	while($value=mysql_fetch_array($result_log))
-		$_SESSION['SQL_BASE_VERS'] = $value['TVALUE'];	
+		$_SESSION['OCS']['SQL_BASE_VERS'] = $value['TVALUE'];	
 }
-if (GUI_VER	> $_SESSION['SQL_BASE_VERS']){
-	unset($_SESSION['SQL_BASE_VERS']);
+if (GUI_VER	> $_SESSION['OCS']['SQL_BASE_VERS']){
+	unset($_SESSION['OCS']['SQL_BASE_VERS']);
 	require('install.php');
 	die();	
 }
@@ -37,20 +41,20 @@ $protectedGet=escape_string($_GET);
 if (!isset($no_error))
 $no_error='NO';
 /**************************************mise en place des r�pertoires de plugins et d'auhentification************************************/
-if (!isset($_SESSION['plugins_dir']) or !isset($_SESSION['CONF_MYSQL'])){
+if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYSQL'])){
 //	$rep=explode("/", $_SERVER["DOCUMENT_ROOT"].$_SERVER["PHP_SELF"]);
 //	array_pop($rep);
-	$_SESSION['backend']="backend/";
-	$_SESSION['plugins_dir']="plugins/";
-	$_SESSION['CONF_MYSQL']="dbconfig.inc.php";
-	$_SESSION['HEADER_HTML']="require/html_header.php";
-	$_SESSION['FOOTER_HTML']="footer.php";
-	$_SESSION['main_sections_dir']=$_SESSION['plugins_dir']."main_sections/";
+	$_SESSION['OCS']['backend']="backend/";
+	$_SESSION['OCS']['plugins_dir']="plugins/";
+	$_SESSION['OCS']['CONF_MYSQL']="dbconfig.inc.php";
+	$_SESSION['OCS']['HEADER_HTML']="require/html_header.php";
+	$_SESSION['OCS']['FOOTER_HTML']="footer.php";
+	$_SESSION['OCS']['main_sections_dir']=$_SESSION['OCS']['plugins_dir']."main_sections/";
 }
 
 /*****************************************************GESTION DU NOM DES PAGES****************************************/
 //Config for all user
-$ms_cfg_file=$_SESSION['plugins_dir']."main_sections/4all_config.txt";
+$ms_cfg_file=$_SESSION['OCS']['plugins_dir']."main_sections/4all_config.txt";
 if (file_exists($ms_cfg_file)) {
       $fd = fopen ($ms_cfg_file, "r");
       $capture='';
@@ -74,32 +78,19 @@ if (file_exists($ms_cfg_file)) {
 }
 
 
-/*****************************************************GESTION DU LOGOUT*********************************************/
-if ($protectedPost['LOGOUT'] == 'ON'){
-	unset($_SESSION["loggeduser"],
-		  $_SESSION["lvluser"],
-		  $_SERVER['PHP_AUTH_USER'],
-		  $_SESSION["mesmachines"],
-		  $_SESSION['TRUE_USER'],
-		  $_SESSION['TRUE_LVL'],
-		  $_SESSION['DEBUG'],
-		  $_SESSION["ipdiscover"],
-		  $_SESSION["mytag"],
-		  $_SESSION["LANGUAGE_FILE"],
-		  $_SESSION['LOG_GUI']);
-}
+
 /**********************************************************GESTION DES COLONNES DES TABLEAUX PAR COOKIES***********************************/
 require_once('require/function_cookies.php');
-if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['col_tab'][$protectedPost['TABLE_NAME']])){
-	unset($_SESSION['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
-	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['col_tab'][$protectedPost['TABLE_NAME']]));
+if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
+	unset($_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
+	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
 }
 if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != ""){
 	cookies_reset($protectedPost['TABLE_NAME']);
 }
 if (isset($protectedPost['restCol'.$protectedPost['TABLE_NAME']]) and $protectedPost['restCol'.$protectedPost['TABLE_NAME']] != ''){
-	$_SESSION['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
-	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['col_tab'][$protectedPost['TABLE_NAME']]));
+	$_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
+	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
 }
 
 /********************************************************GESTION DE LA LANGUE PAR COOKIES**********************************************/
@@ -107,111 +98,111 @@ if (isset($protectedPost['restCol'.$protectedPost['TABLE_NAME']]) and $protected
 if (isset($protectedPost['Valid_EDITION_x'])){
 	if ($protectedPost['ID_WORD'] != ''){
 		if ($protectedPost['ACTION'] == "DEL"){
-			unset($_SESSION['LANGUAGE_FILE']->tableauMots[$protectedPost['ID_WORD']]);
+			unset($_SESSION['OCS']['LANGUAGE_FILE']->tableauMots[$protectedPost['ID_WORD']]);
 		}else{
-			$_SESSION['LANGUAGE_FILE']->tableauMots[$protectedPost['ID_WORD']]=$protectedPost['UPDATE'];
+			$_SESSION['OCS']['LANGUAGE_FILE']->tableauMots[$protectedPost['ID_WORD']]=$protectedPost['UPDATE'];
 		}
-		$sql="update languages set json_value = '".mysql_real_escape_string(json_encode($_SESSION['LANGUAGE_FILE']->tableauMots))."'
-				where name= '".$_SESSION['LANGUAGE']."'"; 
-		if( ! @mysql_query( $sql, $_SESSION["writeServer"] ))
-				echo mysql_error($_SESSION["writeServer"]);
+		$sql="update languages set json_value = '".mysql_real_escape_string(json_encode($_SESSION['OCS']['LANGUAGE_FILE']->tableauMots))."'
+				where name= '".$_SESSION['OCS']['LANGUAGE']."'"; 
+		if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] ))
+				echo mysql_error($_SESSION['OCS']["writeServer"]);
 		}
 }
-unset($_SESSION['EDIT_LANGUAGE']);
+unset($_SESSION['OCS']['EDIT_LANGUAGE']);
 
 
 if (isset($protectedPost['LANG'])){
-	unset($_SESSION['LANGUAGE']);
+	unset($_SESSION['OCS']['LANGUAGE']);
 	cookies_add('LANG',$protectedPost['LANG']);	
-	$_SESSION['LANGUAGE']=$protectedPost['LANG'];
-	$_SESSION["LANGUAGE_FILE"]=new language($_SESSION['LANGUAGE']);
+	$_SESSION['OCS']['LANGUAGE']=$protectedPost['LANG'];
+	$_SESSION['OCS']["LANGUAGE_FILE"]=new language($_SESSION['OCS']['LANGUAGE']);
 }
-//unset($_SESSION['LANGUAGE']);
+//unset($_SESSION['OCS']['LANGUAGE']);
 //si la langue par d�faut n'existe pas, on r�cup�rer le cookie
-if (!isset($_SESSION['LANGUAGE']) or !isset($_SESSION["LANGUAGE_FILE"])){
+if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
 	if (isset($_COOKIE['LANG']))
-	$_SESSION['LANGUAGE']=$_COOKIE['LANG'];
+	$_SESSION['OCS']['LANGUAGE']=$_COOKIE['LANG'];
 	if (!isset($_COOKIE['LANG']))
-	$_SESSION['LANGUAGE']=DEFAULT_LANGUAGE;
-	$_SESSION["LANGUAGE_FILE"]=new language($_SESSION['LANGUAGE']);
+	$_SESSION['OCS']['LANGUAGE']=DEFAULT_LANGUAGE;
+	$_SESSION['OCS']["LANGUAGE_FILE"]=new language($_SESSION['OCS']['LANGUAGE']);
 }
-$l = $_SESSION["LANGUAGE_FILE"];
+$l = $_SESSION['OCS']["LANGUAGE_FILE"];
 
 /*********************************************************gestion de l'authentification****************************************************/
-if (!isset($_SESSION["loggeduser"]))
+if (!isset($_SESSION['OCS']["loggeduser"]))
 require_once('backend/AUTH/auth.php');
 
 /**********************************************************gestion des droits sur les TAG****************************************************/
-if (!isset($_SESSION["lvluser"]))
+if (!isset($_SESSION['OCS']["lvluser"]))
 require_once('backend/identity/identity.php');
 
 
 
 /**********************************************************gestion des droits sur l'ipdiscover****************************************************/
-if (!isset($_SESSION["ipdiscover"]) and $protectedGet[PAG_INDEX] == $pages_refs['ms_ipdiscover'])
+if (!isset($_SESSION['OCS']["ipdiscover"]) and $protectedGet[PAG_INDEX] == $pages_refs['ms_ipdiscover'])
 require_once('backend/ipdiscover/ipdiscover.php');
 elseif($protectedGet[PAG_INDEX] != $pages_refs['ms_ipdiscover'])
-unset($_SESSION['ipdiscover']);
+unset($_SESSION['OCS']['ipdiscover']);
 
 /*********************************************************gestion de la suppression automatique des machines trop vieilles*************************/
 //require_once('plugins/options_config/del_old_computors.php');
 
 /***********************************************************gestion des logs*************************************************************************/
-if (!isset($_SESSION['LOG_GUI'])){
+if (!isset($_SESSION['OCS']['LOG_GUI'])){
 	$sql_log="select name,ivalue,tvalue from config where name= 'LOG_GUI' or name='LOG_DIR' or name='LOG_SCRIPT'";
-	$result_log = mysql_query($sql_log, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$result_log = mysql_query($sql_log, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	while($value_log=mysql_fetch_array($result_log)) {
 		if ($value_log["name"] == 'LOG_GUI')
-			$_SESSION['LOG_GUI'] = $value_log['ivalue'];
+			$_SESSION['OCS']['LOG_GUI'] = $value_log['ivalue'];
 		if ($value_log["name"] == 'LOG_DIR')
-			$_SESSION['LOG_DIR'] = $value_log['tvalue'];
+			$_SESSION['OCS']['LOG_DIR'] = $value_log['tvalue'];
 		if ($value_log["name"] == 'LOG_SCRIPT')
-			$_SESSION['LOG_SCRIPT'] = $value_log['tvalue'];
+			$_SESSION['OCS']['LOG_SCRIPT'] = $value_log['tvalue'];
 	}
-	if (!isset($_SESSION['LOG_GUI']))
-		$_SESSION['LOG_GUI']=0;
-	if (!isset($_SESSION['LOG_DIR']))
-		$_SESSION['LOG_DIR']='';
-	if (!isset($_SESSION['LOG_SCRIPT']))
-		$_SESSION['LOG_SCRIPT']='';
+	if (!isset($_SESSION['OCS']['LOG_GUI']))
+		$_SESSION['OCS']['LOG_GUI']=0;
+	if (!isset($_SESSION['OCS']['LOG_DIR']))
+		$_SESSION['OCS']['LOG_DIR']='';
+	if (!isset($_SESSION['OCS']['LOG_SCRIPT']))
+		$_SESSION['OCS']['LOG_SCRIPT']='';
 }
 /****************END GESTION LOGS***************/
 
 /*********************************************GESTION OF LBL_TAG*************************************/
-if (!isset($_SESSION['LBL_TAG'])){
+if (!isset($_SESSION['OCS']['LBL_TAG'])){
 	$sql_tag="select tvalue from config where name= 'LBL_TAG'";
-	$result_tag = mysql_query($sql_tag, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$result_tag = mysql_query($sql_tag, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$value_tag=mysql_fetch_array($result_tag);
 	if ($value_tag["tvalue"] != '')
-		$_SESSION['TAG_LBL'] = $value_tag['tvalue'];
+		$_SESSION['OCS']['TAG_LBL'] = $value_tag['tvalue'];
 	else
-		$_SESSION['TAG_LBL'] = "TAG";
+		$_SESSION['OCS']['TAG_LBL'] = "TAG";
 }
 /*******************************************GESTION OF PLUGINS (MAIN SECTIONS)****************************/
-if (!isset($_SESSION['all_menus'])){	
-	require_once($_SESSION['main_sections_dir']."sections.php");
+if (!isset($_SESSION['OCS']['all_menus'])){	
+	require_once($_SESSION['OCS']['main_sections_dir']."sections.php");
 }
 
 if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
-	require_once ($_SESSION['HEADER_HTML']);
+	require_once ($_SESSION['OCS']['HEADER_HTML']);
 	//echo "toto";
 }
 
 
-$name=array_flip($_SESSION['list_url']);
+$name=array_flip($_SESSION['OCS']['list_url']);
 if (isset($name[$protectedGet[PAG_INDEX]])){	
-	if (isset($_SESSION['list_dir'][$name[$protectedGet[PAG_INDEX]]]))
-	$rep=$_SESSION['list_dir'][$name[$protectedGet[PAG_INDEX]]];
+	if (isset($_SESSION['OCS']['list_dir'][$name[$protectedGet[PAG_INDEX]]]))
+	$rep=$_SESSION['OCS']['list_dir'][$name[$protectedGet[PAG_INDEX]]];
 	else
 	$rep=$name[$protectedGet[PAG_INDEX]];
-	require ($_SESSION['main_sections_dir'].$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
+	require ($_SESSION['OCS']['main_sections_dir'].$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
 }else
-require ($_SESSION['main_sections_dir']."ms_console/ms_console.php");		
+require ($_SESSION['OCS']['main_sections_dir']."ms_console/ms_console.php");		
 
-if((!isset($_SESSION["loggeduser"]) or !isset($_SESSION["lvluser"]) or $_SESSION["lvluser"] == "") and $no_error != 'YES')
+if((!isset($_SESSION['OCS']["loggeduser"]) or !isset($_SESSION['OCS']["lvluser"]) or $_SESSION['OCS']["lvluser"] == "") and $no_error != 'YES')
 {		
 	echo "<br><br><center><b><font color=red>".$LIST_ERROR."</font></b></center><br>";
-	require_once($_SESSION['FOOTER_HTML']);
+	require_once($_SESSION['OCS']['FOOTER_HTML']);
 	die();
 }
 

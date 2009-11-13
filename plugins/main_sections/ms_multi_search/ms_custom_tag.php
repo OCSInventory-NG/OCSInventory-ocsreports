@@ -3,11 +3,11 @@ require_once('require/function_search.php');
 //if ($protectedPost['CHOISE'] == 'SEL'){
 //			$array_id=$protectedGet['idchecked'];		
 //		}elseif ($protectedPost['CHOISE'] == 'REQ'){
-//			if (is_array($_SESSION['ID_REQ']))
-//			$array_id=implode(',',$_SESSION['ID_REQ']);	
+//			if (is_array($_SESSION['OCS']['ID_REQ']))
+//			$array_id=implode(',',$_SESSION['OCS']['ID_REQ']);	
 //			else
-//			$array_id=$_SESSION['ID_REQ'];	
-//			//print_r($_SESSION['ID_REQ']);
+//			$array_id=$_SESSION['OCS']['ID_REQ'];	
+//			//print_r($_SESSION['OCS']['ID_REQ']);
 //}
 $form_name="lock_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''><div align=center>";
@@ -21,7 +21,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 			if (substr($key, 0, 5) == "check"){
 				$temp=substr($key, 5);
 				$tag_value=$protectedPost[$temp];
-				if ($temp == $_SESSION['TAG_LBL'])
+				if ($temp == $_SESSION['OCS']['TAG_LBL'])
 					$temp="TAG";
 				$list_tag[$temp]=$tag_value;
 			} 				
@@ -33,8 +33,8 @@ if (isset($protectedPost['Valid_modif_x'])){
 		}
 		$sql=substr($sql,0, -1)." where hardware_id in (".$list_id.")";
 		//echo "<br>".$sql;
-		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
-		unset($_SESSION['DATA_CACHE']['TAB_MULTICRITERE']);
+		mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
+		unset($_SESSION['OCS']['DATA_CACHE']['TAB_MULTICRITERE']);
 		echo "<script language='javascript'> window.opener.document.multisearch.submit();</script>";
 		//echo $sql;
 	}		
@@ -43,7 +43,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedPost['pack_list'] != ""){
 	$sql="select ID from download_enable 
 			where fileid='".$protectedPost['pack_list']."'";
-	$result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));	
+	$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));	
 	while($item = mysql_fetch_object($result)){	
 		$list_download_id[]=$item->ID;
 	}
@@ -55,11 +55,11 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 			and NAME='DOWNLOAD'
 			and hardware_id in (".$list_id.")";
 	echo $sql."<br>";
-	mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
+	mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
 	echo "<br><font color=green>".mysql_affected_rows()." ".$l->g(1026)."</font>";
 	
 }
-	if ($_SESSION["lvluser"] == SADMIN){
+	if ($_SESSION['OCS']["lvluser"] == SADMIN){
 		$def_onglets['TAG']=$l->g(1022); 
 		$def_onglets['SUP_PACK']=$l->g(1021); 
 		//$def_onglets['SERV']=strtoupper($l->g(651));
@@ -74,12 +74,12 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 	if (isset($protectedPost['CHOISE']) and $protectedPost['CHOISE'] != ""){
 		if ($protectedPost['onglet']=="TAG" or !isset($protectedPost['onglet'])){		
 			$queryDetails = "show columns from accountinfo";
-			$resultDetails = mysql_query($queryDetails, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+			$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			$i=0;
 			while($item = mysql_fetch_object($resultDetails)){
 				if ($item->Field != "HARDWARE_ID"){
 					if ($item->Field == "TAG")
-						$truename=$_SESSION['TAG_LBL'];
+						$truename=$_SESSION['OCS']['TAG_LBL'];
 					else
 						$truename=$item->Field;
 					$java="";
@@ -110,7 +110,7 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 			echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
 			
 			$queryDetails = "select d_a.fileid,d_a.name from download_available d_a, download_enable d_e where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
-			$resultDetails = mysql_query($queryDetails, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+			$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			while($val = mysql_fetch_array($resultDetails)){
 				$List[$val["fileid"]]=$val["name"];		
 			}
@@ -121,7 +121,7 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 						where d.name='DOWNLOAD' and d.IVALUE=d_e.ID and d_e.fileid=".$protectedPost['pack_list']."
 						and d.hardware_id in (".$list_id.") group by tvalue";
 	
-				$result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+				$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 				while ($item = mysql_fetch_object($result)){
 					if ($item->tvalue == "")
 						$value=$l->g(482);

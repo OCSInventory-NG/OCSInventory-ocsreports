@@ -15,7 +15,7 @@ $name="local.php";
 connexion_local();
 mysql_select_db($db_ocs,$link_ocs);
 //recherche du niveau de droit de l'utilisateur
-$reqOp="SELECT accesslvl FROM operators WHERE id='".$_SESSION["loggeduser"]."'";
+$reqOp="SELECT accesslvl FROM operators WHERE id='".$_SESSION['OCS']["loggeduser"]."'";
 $resOp=mysql_query($reqOp, $link_ocs) or die(mysql_error($link_ocs));
 $rowOp=mysql_fetch_object($resOp);
 if (isset($rowOp -> accesslvl)){
@@ -23,7 +23,7 @@ if (isset($rowOp -> accesslvl)){
 	//Si l'utilisateur a des droits limit�s
 	//on va rechercher les tags sur lesquels il a des droits
 	if ($lvluser == 3){
-		$sql="select tag from tags where login='".$_SESSION["loggeduser"]."'";
+		$sql="select tag from tags where login='".$_SESSION['OCS']["loggeduser"]."'";
 		$res=mysql_query($sql, $link_ocs) or die(mysql_error($link_ocs));
 		while ($row=mysql_fetch_object($res)){	
 			$list_tag[$row->tag]=$row->tag;

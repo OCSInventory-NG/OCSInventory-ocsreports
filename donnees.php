@@ -10,22 +10,22 @@
 //====================================================================================
 //Modified on $Date: 2007/02/08 15:53:24 $$Author: plemmet $($Revision: 1.7 $)
 
-$user=$_SESSION["loggeduser"];
+$user=$_SESSION['OCS']["loggeduser"];
 if( isset( $protectedGet["fuser"] ) ) {
-	unset($_SESSION["mesmachines"]);
+	unset($_SESSION['OCS']["mesmachines"]);
 }
-if($_SESSION["lvluser"]==SADMIN||$_SESSION["lvluser"]==LADMIN) {
+if($_SESSION['OCS']["lvluser"]==SADMIN||$_SESSION['OCS']["lvluser"]==LADMIN) {
 
 	$mesMachines="";
-	$_SESSION["mesmachines"] = "";
+	$_SESSION['OCS']["mesmachines"] = "";
 }
 else
- if( ! isset($_SESSION["mesmachines"] )) {
+ if( ! isset($_SESSION['OCS']["mesmachines"] )) {
 	$mesMachines = "a.".TAG_NAME." IN ('".@implode("','",$list_Supportcu)."') ";	
-	$_SESSION["mesmachines"] = $mesMachines;
+	$_SESSION['OCS']["mesmachines"] = $mesMachines;
 }
 else {
-	$mesMachines = $_SESSION["mesmachines"];
+	$mesMachines = $_SESSION['OCS']["mesmachines"];
 }
 
 ?>

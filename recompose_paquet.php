@@ -1,6 +1,6 @@
 <?php
 @session_start();
-if($_SESSION["lvluser"]==SADMIN){
+if($_SESSION['OCS']["lvluser"]==SADMIN){
 	$valid='OK';
 	$document_root = $_SERVER["DOCUMENT_ROOT"]."/download/";
 		$rep = $document_root = $_SERVER["DOCUMENT_ROOT"]."/download/".$protectedGet['id_pack'];
@@ -11,7 +11,7 @@ if($_SESSION["lvluser"]==SADMIN){
 		 		  echo "<a href='recompose_paquet.php?id_pack=".$f."'>".$f."</a><br>";
 			}else{
 				if ($f == "info"){
-					//récupération du fichier info
+					//rï¿½cupï¿½ration du fichier info
 					$filename = $rep.'/'.$f;
 					$handle = fopen ($filename, "r");
 					$info = fread ($handle, filesize ($filename));
@@ -19,9 +19,9 @@ if($_SESSION["lvluser"]==SADMIN){
 					//surpression des balises
 					$info=substr($info, 1);   
 					$info=substr($info,0, -1);
-					//récupration par catégories du fichier
+					//rï¿½cupration par catï¿½gories du fichier
 					$info_traite=explode(" ",$info);
-					//récupération du nom du fichier
+					//rï¿½cupï¿½ration du nom du fichier
 					$name=$info_traite[10];
 					if (substr($name,0,4) != 'NAME'){
 						"<font color=red>PROBLEME AVEC LE NOM DU FICHIER</font><br>";
@@ -34,7 +34,7 @@ if($_SESSION["lvluser"]==SADMIN){
 					$name=substr($name,6);
 					$name=substr($name,0, -1);
 					$name=str_replace(".", "_", $name).".zip";
-					//récupération du nombre de fragments
+					//rï¿½cupï¿½ration du nombre de fragments
 					$nb_frag=$info_traite[6];
 					$nb_frag=substr($nb_frag,7);
 					$nb_frag=substr($nb_frag,0,-1);

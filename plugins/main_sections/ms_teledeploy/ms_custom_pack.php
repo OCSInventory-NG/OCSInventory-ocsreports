@@ -38,7 +38,7 @@ if ($list_id){
 	echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";
 	if ($protectedPost['onglet'] == 'SERV_GROUP'){
 		$sql_rules="select distinct rule,rule_name from download_affect_rules order by 1";
-			$res_rules = mysql_query( $sql_rules, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));
+			$res_rules = mysql_query( $sql_rules, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			$nb_rule=0;
 			while( $val_rules = mysql_fetch_array($res_rules)) {
 				$first=$val_rules['rule'];

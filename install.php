@@ -30,9 +30,9 @@ if(!isset($_POST["name"])) {
 	if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
 		fclose($hnd);
 		require("dbconfig.inc.php");
-		$_POST["name"] = $_SESSION["COMPTE_BASE"];
-		$_POST["pass"] = $_SESSION["PSWD_BASE"];
-		$_POST["host"] = $_SESSION["SERVEUR_SQL"];
+		$_POST["name"] = $_SESSION['OCS']["COMPTE_BASE"];
+		$_POST["pass"] = $_SESSION['OCS']["PSWD_BASE"];
+		$_POST["host"] = $_SESSION['OCS']["SERVEUR_SQL"];
 	}
 	else {
 		$_POST["name"] = "root";

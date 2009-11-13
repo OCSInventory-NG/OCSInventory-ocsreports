@@ -7,7 +7,7 @@
  */
 $form_name='admin_type';
 
-if (!($_SESSION["lvluser"] == SADMIN or $_SESSION['TRUE_LVL'] == SADMIN))
+if (!($_SESSION['OCS']["lvluser"] == SADMIN or $_SESSION['OCS']['TRUE_LVL'] == SADMIN))
 	die("FORBIDDEN");
 echo "<br><br><br>";	
 echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
@@ -15,7 +15,7 @@ echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
 if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 	//$del_type=mysql_real_escape_string($protectedPost['SUP_PROF']);
 	$sql="delete from devicetype where id='".$protectedPost['SUP_PROF']."'";
-	mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
+	mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
 	$tab_options['CACHE']='RESET';	
 	
 }
@@ -26,7 +26,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 		$ERROR=$l->g(936);		
 	}else{
 		$sql="select ID from devicetype where NAME = '".$protectedPost['TYPE_NAME']."'";
-		$res = mysql_query($sql, $_SESSION["readServer"] );
+		$res = mysql_query($sql, $_SESSION['OCS']["readServer"] );
 		$row=mysql_fetch_object($res);
 		if (isset($row->ID))
 		$ERROR=$l->g(937);	
@@ -37,7 +37,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 	}
 	else{
 		$sql="insert into devicetype (NAME) VALUES ('".$protectedPost['TYPE_NAME']."')";
-		mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));	
+		mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
 		$tab_options['CACHE']='RESET';	
 	}
 }
@@ -60,7 +60,7 @@ if (isset($protectedPost['ADD_TYPE'])){
 
 
 
-//if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
+//if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  )
 //	die("FORBIDDEN");
 $sql="select ID,NAME from devicetype";
 $list_fields= array('ID' => 'ID',

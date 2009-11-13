@@ -12,18 +12,18 @@ require_once($fichierdemerde);
  $form_name='ipdiscover';
  echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
  	//suppression d'un sous-reseau
- 	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION["lvluser"] == SADMIN){
+ 	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']["lvluser"] == SADMIN){
  	//	$del=mysql_real_escape_string($protectedPost['SUP_PROF']);
  		$sql_del="delete from subnet where id='".$protectedPost['SUP_PROF']."'";
- 		mysql_query($sql_del, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+ 		mysql_query($sql_del, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 		//suppression du cache pour prendre en compte la modif
-		unset($_SESSION['DATA_CACHE']['IPDISCOVER']);
+		unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER']);
  		
  	}
  
- 	if (isset($_SESSION["ipdiscover"])){
-		ksort($_SESSION["ipdiscover"]);
-		$dpt=array_keys($_SESSION["ipdiscover"]);
+ 	if (isset($_SESSION['OCS']["ipdiscover"])){
+		ksort($_SESSION['OCS']["ipdiscover"]);
+		$dpt=array_keys($_SESSION['OCS']["ipdiscover"]);
 		array_unshift($dpt,"");
 		unset($dpt[0]);
 		foreach ($dpt as $key=>$value){
@@ -33,13 +33,13 @@ require_once($fichierdemerde);
  	}
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != ''){
 	 	
-	 	$array_rsx=escape_string(array_keys($_SESSION["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]));
+	 	$array_rsx=escape_string(array_keys($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]));
 	 	
 	 	$list_rsx=implode("','",$array_rsx);
 	 	
-	 	//print_r($_SESSION["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
-	 	$tab_options['VALUE']['LBL_RSX']=$_SESSION["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]];
-	// //	foreach ($_SESSION["ipdiscover"][]) ('".$list_rsx."')
+	 	//print_r($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
+	 	$tab_options['VALUE']['LBL_RSX']=$_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]];
+	// //	foreach ($_SESSION['OCS']["ipdiscover"][]) ('".$list_rsx."')
 	 	$sql=" select * from (select inv.RSX as ID,
 					  inv.c as 'INVENTORIE',
 					  non_ident.c as 'NON_INVENTORIE',
@@ -166,7 +166,7 @@ require_once($fichierdemerde);
 								'NON_INVENTORIE'=>'NON_INVENTORIE',
 								'IPDISCOVER'=>'IPDISCOVER',
 								'IDENTIFIE'=>'IDENTIFIE');
-	if ($_SESSION["lvluser"] == SADMIN)
+	if ($_SESSION['OCS']["lvluser"] == SADMIN)
 	$list_fields['SUP']='ID';	
 	$list_fields['PERCENT_BAR']='pourcentage';
 	$table_name="IPDISCOVER";
@@ -187,7 +187,7 @@ require_once($fichierdemerde);
 	$tab_options['POPUP_SIZE']['IDENTIFIE']="width=900,height=600";
 	
 	//mise a jour possible des r�seaux si on travaille sur le r�f�rentiel local
-	if ( $_SESSION["ipdiscover_methode"] == "local.php" and $_SESSION["lvluser"] == SADMIN){
+	if ( $_SESSION['OCS']["ipdiscover_methode"] == "local.php" and $_SESSION['OCS']["lvluser"] == SADMIN){
 		$tab_options['LIEN_LBL']['LBL_RSX']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_admin_rsx'].'&prov=ident&head=1&value=';
 		$tab_options['LIEN_CHAMP']['LBL_RSX']='ID';
 		$tab_options['LIEN_TYPE']['LBL_RSX']='POPUP';
@@ -203,9 +203,9 @@ require_once($fichierdemerde);
 					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
 						and mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
 						and netid in  ('".$list_rsx."')";
-	$res_count = mysql_query($sql_count, $_SESSION["readServer"] );
+	$res_count = mysql_query($sql_count, $_SESSION['OCS']["readServer"] );
 	$val_count = mysql_fetch_array( $res_count );
-	$strEnTete = $_SESSION["ipdiscover_id"]." ".$dpt[$protectedPost['DPT_CHOISE']]." <br>";
+	$strEnTete = $_SESSION['OCS']["ipdiscover_id"]." ".$dpt[$protectedPost['DPT_CHOISE']]." <br>";
 		$strEnTete .= "<br>(<font color='red'>".$val_count["total"]."</font> ".$l->g(219).")";
 		echo "<br><br>";	
 		printEnTete($strEnTete);
@@ -213,7 +213,7 @@ require_once($fichierdemerde);
 
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 	// 	echo $sql;
-	 if ($_SESSION["lvluser"] == SADMIN)
+	 if ($_SESSION['OCS']["lvluser"] == SADMIN)
 		function_admin();
 	 }
 

@@ -3,11 +3,11 @@
 		if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
 	if ($protectedPost['OTHER_BIS'] != ''){
-		mysql_query("INSERT INTO blacklist_macaddresses (macaddress) value ('".$protectedPost['OTHER_BIS']."')", $_SESSION["writeServer"]);		
+		mysql_query("INSERT INTO blacklist_macaddresses (macaddress) value ('".$protectedPost['OTHER_BIS']."')", $_SESSION['OCS']["writeServer"]);		
 		$tab_options['CACHE']='RESET';
 	}
 	if ($protectedPost['OTHER'] != ''){
-		@mysql_query("DELETE FROM blacklist_macaddresses WHERE macaddress='".$protectedPost['OTHER']."'", $_SESSION["writeServer"]);
+		@mysql_query("DELETE FROM blacklist_macaddresses WHERE macaddress='".$protectedPost['OTHER']."'", $_SESSION['OCS']["writeServer"]);
 		$tab_options['CACHE']='RESET';
 	}
 	$form_name="affich_networks";
@@ -23,15 +23,15 @@
 					   $l->g(207)=>'IPGATEWAY',
 					   $l->g(331)=>'IPSUBNET',
 					   $l->g(281)=>'IPDHCP');
-	if ($_SESSION["lvluser"]==SADMIN){
+	if ($_SESSION['OCS']["lvluser"]==SADMIN){
 		//$list_fields['OTHER_GREEN']='MACADDR';
 		//$list_col_cant_del['OTHER_GREEN']='OTHER_GREEN';
 		//	$tab_options['LBL']['OTHER_GREEN']=$l->g(703);
 		$sql="select MACADDR from networks WHERE (hardware_id=$systemid)";
-		$resultDetails = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+		$resultDetails = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		while($item = mysql_fetch_object($resultDetails)){
 			$sql="select ID from blacklist_macaddresses where macaddress='".$item->MACADDR."'";		
-			$result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+			$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			if (mysql_num_rows($result) == 1){
 				$tab_options['OTHER'][$l->g(95)][$item->MACADDR]=$item->MACADDR;
 				$tab_options['OTHER']['IMG']='image/red.png';

@@ -19,7 +19,7 @@ if ($protectedGet['origine']!= "mach"){
 	echo "<font color=red><b>";
 	if ($protectedPost['CHOISE'] == 'REQ' or $protectedGet['idchecked'] == '' or $protectedPost['CHOISE'] == ''){
 		echo $l->g(901);
-		$list_id=$_SESSION['ID_REQ'];
+		$list_id=$_SESSION['OCS']['ID_REQ'];
 	}
 	if ($protectedPost['CHOISE'] == 'SEL'){
 		echo $l->g(902);

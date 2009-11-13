@@ -18,7 +18,7 @@ class language
 		//looking for if languages table exist
 		$table_exist=false;
 		$sql="SHOW TABLES";
-		$result = @mysql_query($sql, $_SESSION["readServer"]);
+		$result = @mysql_query($sql, $_SESSION['OCS']["readServer"]);
 		while ($table = @mysql_fetch_object($result)){
 			foreach ($table as $value){
 				if ($value == "languages")
@@ -29,12 +29,12 @@ class language
 		//TEMPORAIRE=> PAS DE JSON
 //		if ($table_exist){
 //			$sql="select json_value from languages where name ='".$language."'";
-//			$result = @mysql_query($sql, $_SESSION["readServer"]);
+//			$result = @mysql_query($sql, $_SESSION['OCS']["readServer"]);
 //			$item = @mysql_fetch_object($result);
 //		}
-		if (!isset($_SESSION['plugins_dir']) or $_SESSION['plugins_dir'] == "")
-		$_SESSION['plugins_dir']="plugins/";
-		$language_file=$_SESSION['plugins_dir']."language/".$language."/".$language.".txt";
+		if (!isset($_SESSION['OCS']['plugins_dir']) or $_SESSION['OCS']['plugins_dir'] == "")
+		$_SESSION['OCS']['plugins_dir']="plugins/";
+		$language_file=$_SESSION['OCS']['plugins_dir']."language/".$language."/".$language.".txt";
 		if (file_exists ( $language_file) 
 		and !isset($item->json_value)
 		){		
@@ -50,7 +50,7 @@ class language
 				$toto=$this->tableauMots;
 				if (!isset($item->json_value) and $table_exist){
 					$sql="insert into languages (name,json_value) values ('".$language."','".mysql_real_escape_string(json_encode($toto))."')"; 
-					@mysql_query( $sql, $_SESSION["writeServer"] );
+					@mysql_query( $sql, $_SESSION['OCS']["writeServer"] );
 				}
 			
 			} 
@@ -69,9 +69,9 @@ class language
 		}else
 			$word=$this->tableauMots[$i]; 
 		//language mode
-		if ($_SESSION['MODE_LANGUAGE']=="ON"){
+		if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 			if (!in_array($i, $tab_dont_see))
-			$_SESSION['EDIT_LANGUAGE'][$i]=$word;
+			$_SESSION['OCS']['EDIT_LANGUAGE'][$i]=$word;
 			$word.="{<i><b>".$i."</b></i>}";		
 		}
 		return stripslashes($word);

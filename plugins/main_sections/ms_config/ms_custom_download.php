@@ -5,7 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- if( $_SESSION["lvluser"] != SADMIN )
+ if( $_SESSION['OCS']["lvluser"] != SADMIN )
 	die("FORBIDDEN");
 //PrintEnTete( $l->g(710));
 debut_tab(array('CELLSPACING'=>'5',

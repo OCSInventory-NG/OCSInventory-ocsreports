@@ -41,7 +41,7 @@ function verify_name($RULE_NAME,$condition=''){
 	$sql_exist="select id from download_affect_rules where rule_name='".trim($RULE_NAME)."' ";
 	if ($condition != "")
 	$sql_exist.= $condition;
-	$result_rule_exist = mysql_query($sql_exist, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$result_rule_exist = mysql_query($sql_exist, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$rule_exist = mysql_fetch_object($result_rule_exist);
 	if ($rule_exist->id)
 	return 'NAME_EXIST';
@@ -51,7 +51,7 @@ function verify_name($RULE_NAME,$condition=''){
 
 function verify_rule($rule_or_condition,$ID){
 	$result_id = mysql_query("select id from download_affect_rules where ".$rule_or_condition."='".$ID."'", 
-				$_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+				$_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$id_exist = mysql_fetch_object($result_id);
 	if ($id_exist->id)
 	return 'RULE_EXIST';
@@ -65,7 +65,7 @@ function delete_rule($ID_RULE){
 	$id_exist=verify_rule('rule',$ID_RULE);
 	if ($id_exist == "RULE_EXIST"){
 		$sql_del_rule="delete from download_affect_rules where rule='".$ID_RULE."'";
-		mysql_query($sql_del_rule, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+		mysql_query($sql_del_rule, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 	}else
 	echo "<script>alert('".$l->g(672)."');</script>";	
 }
@@ -75,7 +75,7 @@ function delete_condition_rule($ID){
 	$id_exist=verify_rule('id',$ID);
 	if ($id_exist == "RULE_EXIST"){
 		$sql_del_rule="delete from download_affect_rules where id='".$ID."'";
-		mysql_query($sql_del_rule, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+		mysql_query($sql_del_rule, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 	}else
 	echo "<script>alert('".$l->g(672)."');</script>";
 	
@@ -99,12 +99,12 @@ function add_rule($RULE_NAME,$RULE_VALUES,$ID_RULE=''){
 	if ($rule_exist == 'NAME_NOT_EXIST'){
 		//verify this id is new
 		$result_id = mysql_query("select id from download_affect_rules where id='".$ID_RULE."'", 
-				$_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+				$_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$id_exist = mysql_fetch_object($result_id);
 		//generate id
 		if (!is_numeric($ID_RULE) or $ID_RULE == '' or isset($id_exist->id)){	
 			$sql_new_id="select max(RULE) as ID_RULE from download_affect_rules";
-			$result_new_id = mysql_query($sql_new_id, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+			$result_new_id = mysql_query($sql_new_id, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			$new_id = mysql_fetch_object($result_new_id);
 			$ID_RULE=$new_id -> ID_RULE;
 			$ID_RULE++;
@@ -116,7 +116,7 @@ function add_rule($RULE_NAME,$RULE_VALUES,$ID_RULE=''){
 			{
 				$sql_insert_rule="insert into download_affect_rules (RULE,RULE_NAME,PRIORITY,CFIELD,OP,COMPTO,SERV_VALUE) 
 				value (".$ID_RULE.",'".$protectedPost['RULE_NAME']."',".$RULE_VALUES['PRIORITE_'.$i].",'".$RULE_VALUES['CFIELD_'.$i]."','".$RULE_VALUES['OP_'.$i]."','".$RULE_VALUES['COMPTO_'.$i]."','".$RULE_VALUES['COMPTO_TEXT_'.$i]."')";
-				mysql_query($sql_insert_rule, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+				mysql_query($sql_insert_rule, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 				
 			}
 		$i++;

@@ -8,7 +8,7 @@
  */
 
 require_once('require/function_config_generale.php');
-if( $_SESSION["lvluser"] != SADMIN )
+if( $_SESSION['OCS']["lvluser"] != SADMIN )
 	die("FORBIDDEN");
 
 $def_onglets[$l->g(728)]=$l->g(728); //Inventaire
@@ -23,6 +23,16 @@ $def_onglets[$l->g(735)]=$l->g(735); //Filtres
 $def_onglets[$l->g(760)]=$l->g(760); //Webservice
 $def_onglets[$l->g(84)]=$l->g(84); //GUI
 $def_onglets['connexion']="Connexion Ldap"; //connexion a l'applicatioon
+
+//IT SET MANAGEMENT
+$sql_It_set="select IVALUE from config where name='IT_SET_MANAGEMENT'";
+$result_It_set = mysql_query($sql_It_set, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+while($value=mysql_fetch_array($result_It_set)){
+	if ($value['IVALUE'] == 1)
+		$def_onglets[$l->g(1027)]=$l->g(1027);	
+}
+
+
 if ($protectedPost['Valid'] == $l->g(103)){
 	$etat=verif_champ();
 	if ($etat == "")
@@ -97,4 +107,9 @@ if ($protectedPost['onglet'] == $l->g(760)){
 	
 	pagewebservice($form_name);
 }
+if ($protectedPost['onglet'] == $l->g(1027)){
+	
+	pageitsetmanagement($form_name);
+}
+
 echo "</div></form>";

@@ -10,7 +10,7 @@
 //====================================================================================
 //Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.4 $)
 
-if( $_SESSION["lvluser"] != SADMIN )
+if( $_SESSION['OCS']["lvluser"] != SADMIN )
 	die("FORBIDDEN");
 	
 printEnTete($l->g(601));
@@ -67,7 +67,7 @@ function affectPackage( $computer, $packageId ) {
 		
 	//Getting hardware_id from name
 	$reqName = "SELECT id FROM hardware WHERE name='$computer'";
-	$resName = @mysql_query( $reqName , $_SESSION["readServer"] );
+	$resName = @mysql_query( $reqName , $_SESSION['OCS']["readServer"] );
 	$valName = @mysql_fetch_array( $resName );
 	
 	if( ! $valName ) {
@@ -76,9 +76,9 @@ function affectPackage( $computer, $packageId ) {
 	$computerId = $valName["id"];
 	
 	//Removing packages already affected
-	@mysql_query( "DELETE FROM devices WHERE name='DOWNLOAD' AND IVALUE=$packageId AND hardware_id='".$computerId."'", $_SESSION["writeServer"] );
+	@mysql_query( "DELETE FROM devices WHERE name='DOWNLOAD' AND IVALUE=$packageId AND hardware_id='".$computerId."'", $_SESSION['OCS']["writeServer"] );
 	
-	if( ! @mysql_query( "INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('$computerId', 'DOWNLOAD', $packageId )", $_SESSION["writeServer"] )) {
+	if( ! @mysql_query( "INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('$computerId', 'DOWNLOAD', $packageId )", $_SESSION['OCS']["writeServer"] )) {
 		return false;
 	}	
 	addLog("TELEDEPLOIEMENT", "Affectation masse fichier ".$packageId." sur ".$computer );

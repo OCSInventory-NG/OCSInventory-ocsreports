@@ -1,7 +1,7 @@
 <?php
 function search_all_item($onglet,$sous_onglet){
 
-	$result_search_soft = mysql_query( $_SESSION['query_dico'], $_SESSION["readServer"]);
+	$result_search_soft = mysql_query( $_SESSION['OCS']['query_dico'], $_SESSION['OCS']["readServer"]);
 	while($item_search_soft = mysql_fetch_object($result_search_soft)){
 	 		$list[]=$item_search_soft->ID;
 	}	
@@ -9,13 +9,13 @@ function search_all_item($onglet,$sous_onglet){
 }
 
 function del_soft($onglet,$list_soft){
-	if ($_SESSION['usecache'])
+	if ($_SESSION['OCS']['usecache'])
 	$table="softwares_name_cache";
 	else
 	$table="softwares";
 		
 	$sql_soft_name="select distinct NAME from ".$table." where ID in (".implode(",",$list_soft).")";
-	$result_soft_name = mysql_query( $sql_soft_name, $_SESSION["readServer"]);
+	$result_soft_name = mysql_query( $sql_soft_name, $_SESSION['OCS']["readServer"]);
 	while($item_soft_name = mysql_fetch_object($result_soft_name)){
 	 		$list_soft_name[]=str_replace('"','\"',$item_soft_name->NAME);
 	}
@@ -24,20 +24,20 @@ function del_soft($onglet,$list_soft){
 	if($onglet == "IGNORED")	
 		$sql_delete="delete from dico_ignored where extracted in (\"".implode("\",\"",$list_soft_name)."\")";	
 	//	echo $sql_delete."<br>";
-	mysql_query($sql_delete, $_SESSION["writeServer"]);	
+	mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]);	
 }
 
 
 function trans($onglet,$list_soft,$affect_type,$new_cat,$exist_cat){
 	global $l;
-	if ($_SESSION['usecache'])
+	if ($_SESSION['OCS']['usecache'])
 	$table="softwares_name_cache";
 	else
 	$table="softwares";
 	//verif is this cat exist
 	if ($new_cat != ''){
 		$sql_verif="select extracted from dico_soft where formatted ='".mysql_escape_string($new_cat)."'";
-		$result_search_soft = mysql_query( $sql_verif, $_SESSION["readServer"]);
+		$result_search_soft = mysql_query( $sql_verif, $_SESSION['OCS']["readServer"]);
 	 	$item_search_soft = mysql_fetch_object($result_search_soft);
 	 	if (isset($item_search_soft->extracted) or $new_cat == "IGNORED" or $new_cat == "UNCHANGED"){
 	 		$already_exist=TRUE;
@@ -70,7 +70,7 @@ function trans($onglet,$list_soft,$affect_type,$new_cat,$exist_cat){
 		}
 		if ($sql!=''){
 		//	echo $sql;
-			mysql_query($sql, $_SESSION["writeServer"]);	
+			mysql_query($sql, $_SESSION['OCS']["writeServer"]);	
 		}
 	}
 	

@@ -9,8 +9,8 @@ function javascript_pack(){
 	global $protectedPost;
  echo "<script language='javascript'>
 	function time_deploy(name,name_value,other_name,other_value){
-		var tps_cycle=".$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY']*$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'].";
-		var nb_frag_by_cycle=".($protectedPost['PRIORITY'] != 0 ? floor($_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$protectedPost['PRIORITY']): $_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']).";
+		var tps_cycle=".$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY']*$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'].";
+		var nb_frag_by_cycle=".($protectedPost['PRIORITY'] != 0 ? floor($_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$protectedPost['PRIORITY']): $_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']).";
 		if (name == 'tailleFrag'){
 			var taille=name_value;
 			var nb_frag=other_value;
@@ -21,8 +21,8 @@ function javascript_pack(){
 		}
 		var nb_cycle_for_download=nb_frag/nb_frag_by_cycle;
 		var tps_cycle_for_download = nb_cycle_for_download*tps_cycle;
-		var tps_frag_latency=nb_frag_by_cycle*".$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_FRAG_LATENCY']."*nb_cycle_for_download;
-		var tps_period_latency=".$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LATENCY']."*nb_cycle_for_download;
+		var tps_frag_latency=nb_frag_by_cycle*".$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_FRAG_LATENCY']."*nb_cycle_for_download;
+		var tps_period_latency=".$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LATENCY']."*nb_cycle_for_download;
 		var download_speed=25000;
 		var tps_download_speed=taille/download_speed;
 		var tps_total=tps_cycle_for_download+tps_frag_latency+tps_period_latency+tps_download_speed;
@@ -49,14 +49,14 @@ function javascript_pack(){
 	</script>";
 }
 function looking4config(){
-	if (!isset($_SESSION['CONFIG_DOWNLOAD'])){
+	if (!isset($_SESSION['OCS']['CONFIG_DOWNLOAD'])){
 		$sql_config="select name,ivalue from config where name in ('DOWNLOAD_CYCLE_LATENCY',
 						    'DOWNLOAD_PERIOD_LENGTH',
 						    'DOWNLOAD_FRAG_LATENCY',
 		    				'DOWNLOAD_PERIOD_LATENCY')";
-		$res_config = mysql_query( $sql_config, $_SESSION["readServer"] );
+		$res_config = mysql_query( $sql_config, $_SESSION['OCS']["readServer"] );
 		while ($val_config = mysql_fetch_array( $res_config ))
-		$_SESSION['CONFIG_DOWNLOAD'][$val_config['name']]=$val_config['ivalue'];	
+		$_SESSION['OCS']['CONFIG_DOWNLOAD'][$val_config['name']]=$val_config['ivalue'];	
 	}
 }
 	
@@ -119,9 +119,9 @@ function champ_select_block($name,$input_name,$input_cache)
  	desactive_mach($list_id,$packid);
  	$id_pack=found_id_pack($packid);
  	$sql_active="insert into devices (HARDWARE_ID, NAME, IVALUE) select ID,'DOWNLOAD','".$id_pack."' from hardware where id in (".$list_id.")";
- 	$res_active = mysql_query($sql_active, $_SESSION["writeServer"]) or die(mysql_error());
+ 	$res_active = mysql_query($sql_active, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 	addLog($l->g(512), $l->g(601)." ".$packid." => ".$list_id );
-	return( mysql_affected_rows ( $_SESSION["writeServer"] ) );
+	return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) );
 
  }
  
@@ -129,13 +129,13 @@ function champ_select_block($name,$input_name,$input_cache)
  	global $l;
 	$id_pack=found_id_pack($packid);
 	$sql_desactive="delete from devices where hardware_id in (".$list_id.") and name='DOWNLOAD' and IVALUE=".$id_pack;
-	$res_active = mysql_query($sql_desactive, $_SESSION["writeServer"]) or die(mysql_error()); 	
+	$res_active = mysql_query($sql_desactive, $_SESSION['OCS']["writeServer"]) or die(mysql_error()); 	
 	addLog($l->g(512), $l->g(886)." ".$packid." => ".$list_id );
  }
  
  function found_id_pack($packid){
  	$sql_id_pack="select ID from download_enable where fileid=".$packid." and ( group_id = '' or group_id is null)";
- 	$result = mysql_query( $sql_id_pack, $_SESSION["readServer"] );
+ 	$result = mysql_query( $sql_id_pack, $_SESSION['OCS']["readServer"] );
 	$id_pack = mysql_fetch_array( $result );
 	return $id_pack['ID']; 	
  }
@@ -146,7 +146,7 @@ function champ_select_block($name,$input_name,$input_cache)
  	//recuperation des conditions de la r�gle
 	$sql="select PRIORITY,CFIELD,OP,COMPTO,SERV_VALUE from download_affect_rules where rule=".$id_rule." order by PRIORITY";
 	//echo $sql;
-	$res_rules = mysql_query( $sql, $_SESSION["readServer"] ) or die(mysql_error($_SESSION["readServer"]));
+	$res_rules = mysql_query( $sql, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	while( $val_rules = mysql_fetch_array($res_rules)) {
 	$cfield[$val_rules['PRIORITY']]=$val_rules['CFIELD'];
 	$op[$val_rules['PRIORITY']]=$val_rules['OP'];
@@ -216,7 +216,7 @@ function activ_pack($fileid,$https_server,$file_serv){
 	global $l;
 //checking if corresponding available exists
 		$reqVerif = "SELECT * FROM download_available WHERE fileid=".$fileid;
-		if( ! mysql_num_rows( mysql_query( $reqVerif, $_SESSION["readServer"]) )) {
+		if( ! mysql_num_rows( mysql_query( $reqVerif, $_SESSION['OCS']["readServer"]) )) {
 			
 			$infoTab = loadInfo( $https_server, $file_serv );
 			if ($infoTab == ''){
@@ -225,13 +225,13 @@ function activ_pack($fileid,$https_server,$file_serv){
 			}
 			$req1 = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, OSNAME ) VALUES
 			( '".$fileid."', 'Manual_".$fileid."',".$infoTab["PRI"].",".$infoTab["FRAGS"].", 'N/A' )";
-			mysql_query( $req1, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["readServer"]));
+			mysql_query( $req1, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		}
 		
 		$req = "INSERT INTO download_enable(FILEID, INFO_LOC, PACK_LOC, CERT_FILE, CERT_PATH ) VALUES
 		( '".$fileid."', '".$https_server."', '".$file_serv."', 'INSTALL_PATH/cacert.pem','INSTALL_PATH')";
 	
-		mysql_query( $req, $_SESSION["writeServer"]);
+		mysql_query( $req, $_SESSION['OCS']["writeServer"]);
 		addLog($l->g(512), $l->g(514)." ".$fileid );
 		
 } 
@@ -240,7 +240,7 @@ function activ_pack_server($fileid,$https_server,$id_server_group){
 	global $protectedPost;
 		//recherche de la liste des machines qui ont d�j� ce paquet
 		$sqlDoub="select SERVER_ID from download_enable where FILEID= ".$fileid;
-		$resDoub = mysql_query( $sqlDoub, $_SESSION["readServer"] );	
+		$resDoub = mysql_query( $sqlDoub, $_SESSION['OCS']["readServer"] );	
 		//cr�ation de la liste pour les exclure de la requete
 		while ($valDoub = mysql_fetch_array( $resDoub )){
 			if ($valDoub['SERVER_ID'] != "")
@@ -261,36 +261,36 @@ function activ_pack_server($fileid,$https_server,$id_server_group){
 				 GROUP_ID
 			 from download_servers
 			 where GROUP_ID=".$id_server_group.$listDoub;
-		mysql_query( $sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+		mysql_query( $sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 		
 		$query="UPDATE download_available set COMMENT = '".$protectedPost['id_server_add']."' WHERE FILEID = ".$fileid;
-		mysql_query( $query, $_SESSION["writeServer"] ) 
-					or die(mysql_error($_SESSION["writeServer"]));	
+		mysql_query( $query, $_SESSION['OCS']["writeServer"] ) 
+					or die(mysql_error($_SESSION['OCS']["writeServer"]));	
 }
 
 function del_pack($fileid){
 	global $l;
 	//recherche de toutes les activations de ce paquet
 	$reqEnable = "SELECT id FROM download_enable WHERE FILEID='".$fileid."'";
-	$resEnable = @mysql_query($reqEnable, $_SESSION["readServer"]) or die(mysql_error());
+	$resEnable = @mysql_query($reqEnable, $_SESSION['OCS']["readServer"]) or die(mysql_error());
 	while($valEnable = mysql_fetch_array( $resEnable ) ) {
 		$list_id[]=$valEnable["id"];
 	}
 	//suppression dans DEVICES des machines qui ont ce paquet affect�
 	if ($list_id != ""){
 		$reqDelDevices = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue in (".implode(',',$list_id).")";
-		@mysql_query($reqDelDevices, $_SESSION["writeServer"]) or die(mysql_error());
+		@mysql_query($reqDelDevices, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 	}
 	//suppression des activations de ce paquet
 	$reqDelEnable = "DELETE FROM download_enable WHERE FILEID='".$fileid."'";
-	@mysql_query($reqDelEnable, $_SESSION["writeServer"]) or die(mysql_error());
+	@mysql_query($reqDelEnable, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 
 	//suppression des d�tails de ce paquet
 	$reqDelAvailable = "DELETE FROM download_available WHERE FILEID='".$fileid."'";
-	@mysql_query($reqDelAvailable, $_SESSION["writeServer"]) or die(mysql_error());
+	@mysql_query($reqDelAvailable, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 	//recherche du r�pertoire de cr�ation des paquets
 	$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
-	$res_document_root = mysql_query( $sql_document_root, $_SESSION["readServer"] );
+	$res_document_root = mysql_query( $sql_document_root, $_SESSION['OCS']["readServer"] );
 	$val_document_root = mysql_fetch_array( $res_document_root );
 	$document_root = $val_document_root["tvalue"];
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
@@ -387,12 +387,12 @@ function create_pack($sql_details,$info_details){
 		fclose( $handinfo );
 		
 		//suppression du paquet qui aurait le m�me id
-		mysql_query( "DELETE FROM download_available WHERE FILEID='".$sql_details['timestamp']."'", $_SESSION["writeServer"]);
+		mysql_query( "DELETE FROM download_available WHERE FILEID='".$sql_details['timestamp']."'", $_SESSION['OCS']["writeServer"]);
 		//insertion du nouveau paquet
 		$req = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT) VALUES
 		( '".$sql_details['timestamp']."', '".$sql_details['name']."','".$info_details['PRI']."', '".$sql_details['nbfrags']."',
 		'".$sql_details['size']."', '".$sql_details['os']."', '".$sql_details['description']."' )";
-		mysql_query( $req, $_SESSION["writeServer"] ) or die(mysql_error($_SESSION["writeServer"]));
+		mysql_query( $req, $_SESSION['OCS']["writeServer"] ) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 		addLog($l->g(512), $l->g(617)." ".$sql_details['timestamp'] );
 		//message d'info
 		return "<br><center><b><font color='green'>".$l->g(437)." ".$sql_details['document_root'].$sql_details['timestamp']."</font></b></center><br>";
@@ -430,24 +430,24 @@ function tps_estimated($val_details)
 //					    'DOWNLOAD_PERIOD_LENGTH',
 //					    'DOWNLOAD_FRAG_LATENCY',
 //	    				'DOWNLOAD_PERIOD_LATENCY')";
-//	$res_config = mysql_query( $sql_config, $_SESSION["readServer"] );
+//	$res_config = mysql_query( $sql_config, $_SESSION['OCS']["readServer"] );
 //	while ($val_config = mysql_fetch_array( $res_config ))
 //	$config[$val_config['name']]=$val_config['ivalue'];
 	looking4config();
 	if ($val_details['priority'] == 0)
 	$val_details['priority']=1;
 	//dur�e compl�te d'un cycle en seconde
-	$tps_cycle=$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY']*$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'];
+	$tps_cycle=$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY']*$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'];
 	//nbre de t�l�chargement de fragment par cycle
-	$nb_frag_by_cycle=floor($_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$val_details['priority']);
+	$nb_frag_by_cycle=floor($_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$val_details['priority']);
 	//nombre de cycles necessaires pour le t�l�chargement complet
 	$nb_cycle_for_download=$val_details['fragments']/$nb_frag_by_cycle;
 	//temps dans le cycle
 	$tps_cycle_for_download=$nb_cycle_for_download*$tps_cycle;
 	//temps entre chaque fragment pour tous les cycles
-	$tps_frag_latency=($nb_frag_by_cycle*$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_FRAG_LATENCY'])*$nb_cycle_for_download;
+	$tps_frag_latency=($nb_frag_by_cycle*$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_FRAG_LATENCY'])*$nb_cycle_for_download;
 	//temps entre chaque p�riode
-	$tps_period_latency=$_SESSION['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LATENCY']*$nb_cycle_for_download;
+	$tps_period_latency=$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LATENCY']*$nb_cycle_for_download;
 	//ajout de la vitesse de t�l�chargement
 	$download_speed=25000;
 	$tps_download_speed=$val_details['size']/$download_speed;

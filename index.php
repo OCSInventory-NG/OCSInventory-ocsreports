@@ -21,7 +21,7 @@ $sleep=1;
 $debut = getmicrotime();
 
 if( !isset($protectedGet["popup"] ))
-	require ($_SESSION['FOOTER_HTML']);
+	require ($_SESSION['OCS']['FOOTER_HTML']);
 	
 
 

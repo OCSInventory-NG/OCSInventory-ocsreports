@@ -18,7 +18,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	$form_name="show_all";
 	$table_name="list_show_all";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields = array ( $_SESSION['TAG_LBL']   => "a.tag", 
+	$list_fields = array ( $_SESSION['OCS']['TAG_LBL']   => "a.tag", 
 						   $l->g(46) => "h.lastdate", 
 						   $l->g(949) => "ID",
 						   $l->g(24) => "h.userid",
@@ -50,14 +50,14 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	asort($tab_options['FILTRE']); 
 	$list_fields['NAME'] = "h.name";
 	$reqAc = "SHOW COLUMNS FROM accountinfo";
-	$resAc = mysql_query($reqAc, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$resAc = mysql_query($reqAc, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	while($colname=mysql_fetch_array($resAc)){
 		if ($colname["Field"] != 'TAG' and $colname["Field"] != 'HARDWARE_ID')
 		$list_fields[$colname["Field"]]='a.'.$colname["Field"];
 		
 	}
 	$list_col_cant_del=array('SUP'=>'SUP');
-	$default_fields= array($_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
+	$default_fields= array($_SESSION['OCS']['TAG_LBL']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
 							$l->g(24)=>$l->g(24),$l->g(25)=>$l->g(25),$l->g(568)=>$l->g(568),
 							$l->g(569)=>$l->g(569));
 	$queryDetails  = "SELECT h.id, ";
@@ -68,8 +68,8 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	$queryDetails  = substr($queryDetails,0,-1)." from hardware h 
 					LEFT JOIN accountinfo a ON a.hardware_id=h.id 
 					LEFT JOIN bios e ON e.hardware_id=h.id where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
-	if (isset($_SESSION["mesmachines"]) and $_SESSION["mesmachines"] != '')
-		$queryDetails  .= "AND ".$_SESSION["mesmachines"];
+	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
+		$queryDetails  .= "AND ".$_SESSION['OCS']["mesmachines"];
 	//$queryDetails  .=" limit 200";
 	$list_fields['SUP']='h.id';
 	$tab_options['LBL_POPUP']['SUP']='name';

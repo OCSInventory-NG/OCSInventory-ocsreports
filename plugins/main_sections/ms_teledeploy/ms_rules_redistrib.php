@@ -5,7 +5,7 @@
 require_once('require/function_table_html.php');
 require_once('require/function_rules.php');
 //only for Super Admin
-if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
+if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  )
 	die("FORBIDDEN");
 //DEL RULE
 if ($protectedPost['SUP_PROF'] != ""){	
@@ -57,7 +57,7 @@ if ($protectedPost['MODIF'] != "" and $protectedPost['OLD_MODIF'] != $protectedP
 			from download_affect_rules 
 		 where rule='".$protectedPost['MODIF']."' 
 			order by priority";
-	$res = mysql_query( $sql, $_SESSION["readServer"]);
+	$res = mysql_query( $sql, $_SESSION['OCS']["readServer"]);
 	$i=1;
 	while ($val = mysql_fetch_array( $res )){
 		$protectedPost['PRIORITE_'.$i]=$val['priority'];

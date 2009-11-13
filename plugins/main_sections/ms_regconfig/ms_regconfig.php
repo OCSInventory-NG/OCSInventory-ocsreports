@@ -6,14 +6,14 @@ $list_registry_key=array('HKEY_CLASSES_ROOT',
 						 'HKEY_CURRENT_CONFIG',
 						 'HKEY_DYN_DATA (Windows 9X only)');
 //require_once('require/function_registry.php');
-//cas d'une suppression d'une clé de registre
+//cas d'une suppression d'une clï¿½ de registre
 if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){	
 	$sql_reg="delete from regconfig where id='".$protectedPost['SUP_PROF']."'";
-	mysql_query($sql_reg, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+	mysql_query($sql_reg, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 	$tab_options['CACHE']='RESET';
 }
 
-//cas de ajout/modification d'une clé
+//cas de ajout/modification d'une clï¿½
 if (isset($protectedPost['Valid_modif_x'])){
 	if (trim($protectedPost["NAME"])!= "" and 
 		trim($protectedPost["REGTREE"])!= "" and
@@ -33,7 +33,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 						where REGTREE='".$protectedPost["REGTREE"]."' 
 							and REGKEY='".$protectedPost["REGKEY"]."'
 							and REGVALUE='".$protectedPost["REGVALUE"]."'";
-			$res=mysql_query($sql_verif, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+			$res=mysql_query($sql_verif, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			$row=mysql_fetch_object($res);
 			if (!is_numeric($row->ID)){				
 			$req = "INSERT INTO regconfig (NAME,REGTREE,REGKEY,REGVALUE)
@@ -44,7 +44,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 		}
 		
 		if (isset($req)){
-			$result = mysql_query($req, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+			$result = mysql_query($req, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 			$tab_options['CACHE']='RESET';
 		}
 	}else{
@@ -61,13 +61,13 @@ if (isset($error)){
 	echo "<font color=red><b>".$error."</b></font>";
 }
 
-//cas d'une modification d'une clé de registre
+//cas d'une modification d'une clï¿½ de registre
 
 if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){	
 	if (!isset($protectedPost['NAME'])){
 		$sql="select * from regconfig where id = '".$protectedPost['MODIF']."'";
 		//$sql="select NAME,ID,MASK from subnet where netid='".$netid."'";
-		$res=mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+		$res=mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$row=mysql_fetch_object($res);
 		$protectedPost['NAME']=$row->NAME;
 		$protectedPost['REGTREE']=$row->REGTREE;

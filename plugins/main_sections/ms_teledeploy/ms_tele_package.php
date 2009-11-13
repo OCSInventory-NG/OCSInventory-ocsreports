@@ -42,7 +42,7 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 	if ($protectedPost['REDISTRIB_USE'] == 1){
 		$timestamp_redistrib= time();
 		$server_dir=$protectedPost['download_rep_creat'];
-		//création du fichier zip pour les serveurs de redistribution
+		//crï¿½ation du fichier zip pour les serveurs de redistribution
 		require_once("libraries/zip.lib.php");
 		$zipfile = new zipfile();
 		$rep = $protectedPost['document_root'].$sql_details['timestamp']."/";
@@ -61,9 +61,9 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 	
 		//encryptage du fichier
 		$digest=crypt_file($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip",$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
-		//renommage du fichier en tmp pour utiliser la fonction de création de paquet
+		//renommage du fichier en tmp pour utiliser la fonction de crï¿½ation de paquet
 		rename($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip", $server_dir.$timestamp_redistrib."/tmp");
-		//création du fichier temporaire
+		//crï¿½ation du fichier temporaire
 		//creat_temp_file($server_dir.$sql_details['timestamp'],$server_dir.$sql_details['timestamp']."/".$sql_details['timestamp']."_redistrib.zip");
 		$fSize = filesize( $server_dir.$timestamp_redistrib."/tmp");
 		$sql_details=array('document_root'=>$server_dir,
@@ -80,7 +80,7 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'PROTO'=>$protectedPost['PROTOCOLE'],
 						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
 						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>$protectedPost['download_server_docroot'],//aller chercher en base le répertoire de stockage des fichiers
+						'PATH'=>$protectedPost['download_server_docroot'],//aller chercher en base le rï¿½pertoire de stockage des fichiers
 						'NAME'=>'',
 						'COMMAND'=>'',
 						'NOTIFY_USER'=>'0',
@@ -93,7 +93,7 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'GARDEFOU'=>"rien");
 		create_pack($sql_details,$info_details);
 	}
-	unset($protectedPost,$_SESSION['DATA_CACHE']);
+	unset($protectedPost,$_SESSION['OCS']['DATA_CACHE']);
 	echo $msg;
 }
 $lign_begin="<tr height='30px' bgcolor='white'><td>";
@@ -106,15 +106,15 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action='' en
 
 if (isset($protectedPost['valid'])){
 	looking4config();
-	//vérification de l'existance du fichier
+	//vï¿½rification de l'existance du fichier
 	$fSize = @filesize( $_FILES["teledeploy_file"]["tmp_name"]);
 	if( $fSize <= 0 and $protectedPost['ACTION'] != 'EXECUTE') 
 		$error=$l->g(436)." ".$_FILES["teledeploy_file"]["tmp_name"];
 
 	
-	//vérification de doublon du nom
+	//vï¿½rification de doublon du nom
 	$verifN = "SELECT fileid FROM download_available WHERE name='".$protectedPost["NAME"]."'";
-	$resN = mysql_query( $verifN, $_SESSION["readServer"] ) or die(mysql_error());
+	$resN = mysql_query( $verifN, $_SESSION['OCS']["readServer"] ) or die(mysql_error());
 	if( mysql_num_rows( $resN ) != 0 )
 	$error=$l->g(551);
 		
@@ -124,7 +124,7 @@ if (isset($protectedPost['valid'])){
 	}
 	else{	
 		
-		//javascript pour vérifier que des chaps ne sont pas vides
+		//javascript pour vï¿½rifier que des chaps ne sont pas vides
 		echo "<script language='javascript'>
 			function verif2()
 			 {
@@ -159,11 +159,11 @@ if (isset($protectedPost['valid'])){
 		
 		
 		
-	//récupération du fichier et traitement
+	//rï¿½cupï¿½ration du fichier et traitement
 	$size = $_FILES["teledeploy_file"]["size"];
 	//encryptage du fichier
 	$digest=crypt_file($_FILES["teledeploy_file"]["tmp_name"],$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
-	//création du fichier temporaire
+	//crï¿½ation du fichier temporaire
 	creat_temp_file($protectedPost['document_root'].$protectedPost['timestamp'],$_FILES["teledeploy_file"]["tmp_name"]);
 
 	$digName = $protectedPost["digest_algo"]. " / ".$protectedPost["digest_encod"];
@@ -174,7 +174,7 @@ if (isset($protectedPost['valid'])){
 	$view_digest=$lign_begin.$l->g(461)." ".$digName.$td_colspan2.$digest.$lign_end;
 	$total_ko=$lign_begin.$l->g(462).$td_colspan2.round($size/1024)." ".$l->g(516).$lign_end;
 	
-	//création du champ de taille de fragments
+	//crï¿½ation du champ de taille de fragments
 	$taille_frag=$lign_begin.$l->g(463).$td_colspan2;
 	$taille_frag.= input_pack_taille("tailleFrag","nbfrags",round($size),'8',round($size/1024));
 	$taille_frag.=$l->g(516).$lign_end;	
@@ -182,7 +182,7 @@ if (isset($protectedPost['valid'])){
 	$tps.= time_deploy();
 	$tps.=$lign_end;
 		
-	//création du champ de nombre de fragments
+	//crï¿½ation du champ de nombre de fragments
 	$nb_frag=$lign_begin.$l->g(464).$td_colspan2;
 	$nb_frag.= input_pack_taille("nbfrags","tailleFrag",round($size),'5','1');
 	$nb_frag.=$lign_end;	
@@ -190,11 +190,11 @@ if (isset($protectedPost['valid'])){
 	echo $title_creat.$name_file.$ident.$view_digest.$total_ko.$taille_frag.$nb_frag.$tps;	
 	if($protectedPost['REDISTRIB_USE'] == 1){
 		$title_creat_redistrib="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(1003)."</b></td></tr>";
-		//création du champ de taille de fragments
+		//crï¿½ation du champ de taille de fragments
 		$taille_frag_redistrib=$lign_begin.$l->g(463).$td_colspan2;
 		$taille_frag_redistrib.= input_pack_taille("tailleFrag_redistrib","nbfrags_redistrib",round($size),'8',round($size/1024));
 		$taille_frag_redistrib.=$l->g(516).$lign_end;	
-		//création du champ de nombre de fragments
+		//crï¿½ation du champ de nombre de fragments
 		$nb_frag_redistrib=$lign_begin.$l->g(464).$td_colspan2;
 		$nb_frag_redistrib.= input_pack_taille("nbfrags_redistrib","tailleFrag_redistrib",round($size),'5','1');
 		$nb_frag_redistrib.=$lign_end;		
@@ -208,22 +208,22 @@ if (isset($protectedPost['valid'])){
 	}
 }
 
-//valeurs par défault;
+//valeurs par dï¿½fault;
 $default_value=array('OS'=>'WINDOWS',
 					 'PROTOCOLE'=>'HTTP',
 					 'PRIORITY'=>'5',
 					 'ACTION'=>'STORE',
 					 'REDISTRIB_PRIORITY'=>'5');
-//gestion des valeurs par défaut					 
+//gestion des valeurs par dï¿½faut					 
 if (!$protectedPost){
-	//récupération du timestamp
+	//rï¿½cupï¿½ration du timestamp
 	$protectedPost['timestamp'] = time();
 
 	foreach ($default_value as $key=>$value)
 		$protectedPost[$key]=$value;	
-	//recherche du répertoire de création des paquets
+	//recherche du rï¿½pertoire de crï¿½ation des paquets
 	$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
-	$res_document_root = mysql_query( $sql_document_root, $_SESSION["readServer"] );
+	$res_document_root = mysql_query( $sql_document_root, $_SESSION['OCS']["readServer"] );
 	while( $val_document_root = mysql_fetch_array( $res_document_root ) ) {
 		$document_root = $val_document_root["tvalue"];
 	}
@@ -231,7 +231,7 @@ if (!$protectedPost){
 	if (!isset($document_root))
 		$document_root = $_SERVER["DOCUMENT_ROOT"];
 	$rep_exist=file_exists($document_root."/download/"); 
-	//création du répertoire si n'existe pas
+	//crï¿½ation du rï¿½pertoire si n'existe pas
 	if (!$rep_exist){
 		$creat=@mkdir($document_root."/download/");	
 		if (!$creat){
@@ -240,7 +240,7 @@ if (!$protectedPost){
 			return;
 		}
 	}			
-	//vérification que l'on ai les droits d'écriture sur ce répertoire
+	//vï¿½rification que l'on ai les droits d'ï¿½criture sur ce rï¿½pertoire
 	$rep_ok=is_writable ($document_root."/download/");
 	if (!$rep_ok){
 		echo "<font color=red size=4><b>".$l->g(1007)." ".$document_root."/download/ ".$l->g(1004).". 
@@ -249,11 +249,11 @@ if (!$protectedPost){
 	}
 	$protectedPost['document_root']=$document_root."/download/";
 }
-//on garde en hidden le répertoire ou sont créés les paquets de télédéploiement
+//on garde en hidden le rï¿½pertoire ou sont crï¿½ï¿½s les paquets de tï¿½lï¿½dï¿½ploiement
 echo "<input type='hidden' name='document_root' value='".$protectedPost['document_root']."'>	  
 	 <input type='hidden' id='timestamp' name='timestamp' value='".$protectedPost['timestamp']."'>";
 
-//javascript pour vérifier que des champs ne sont pas vides
+//javascript pour vï¿½rifier que des champs ne sont pas vides
 echo "<script language='javascript'>
 		function verif()
 		 {
@@ -300,11 +300,11 @@ echo "<script language='javascript'>
 				 msg='NULL';
 				 }
 				else if (name_file.substring(debut,name_file.length) != 'ZIP' && document.getElementById(\"OS\").value == 'WINDOWS'){
-					alert('le format de fichier doit être en ZIP');
+					alert('le format de fichier doit ï¿½tre en ZIP');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
 				}else if (name_file.substring(debut,name_file.length) != 'TAR.GZ' && document.getElementById(\"OS\").value != 'WINDOWS'){
-					alert('le format de fichier doit être en TAR.GZ');
+					alert('le format de fichier doit ï¿½tre en TAR.GZ');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
 				}
@@ -400,7 +400,7 @@ echo $title_redistrib.$redistrib;
 
 	$sql="select NAME,TVALUE from config where NAME ='DOWNLOAD_REP_CREAT'
 		  union select NAME,TVALUE from config where NAME ='DOWNLOAD_SERVER_DOCROOT'";
-	$resdefaultvalues = mysql_query( $sql, $_SESSION["readServer"]);
+	$resdefaultvalues = mysql_query( $sql, $_SESSION['OCS']["readServer"]);
 	while($item = mysql_fetch_object($resdefaultvalues))
 			$default[$item ->NAME]=$item ->TVALUE;
 	if (!$default['DOWNLOAD_REP_CREAT'])

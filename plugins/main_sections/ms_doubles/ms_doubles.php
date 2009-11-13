@@ -23,7 +23,7 @@ if ($protectedPost['FUSION']){
 		$afus=array();
 		$i=0;
 		while (isset($list_id_fusion[$i])){
-			$res = mysql_query("SELECT deviceid,id,lastcome FROM hardware WHERE id=".$list_id_fusion[$i], $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));		
+			$res = mysql_query("SELECT deviceid,id,lastcome FROM hardware WHERE id=".$list_id_fusion[$i], $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));		
 			$afus[] = mysql_fetch_array($res,MYSQL_ASSOC);	
 			$i++;
 		}	
@@ -38,7 +38,7 @@ if ($protectedPost['FUSION']){
 
 
 //gestion des restrictions par profils
-if ($_SESSION['mesmachines']){
+if ($_SESSION['OCS']['mesmachines']){
 	$list_id_mes_machines=computor_list_by_tag();
 	if ($list_id_mes_machines=="ERROR"){
 		echo $l->g(923);
@@ -77,7 +77,7 @@ $sql_doublon['macaddress'] .= " and hardware_id in ".$list_id_mes_machines;
 $sql_doublon['macaddress'].=" group by MACADDR having count(MACADDR)>1";
 //print_r($sql_doublon);
 foreach($sql_doublon as $name=>$sql_value){
-	$res = mysql_query( $sql_value, $_SESSION["readServer"] );
+	$res = mysql_query( $sql_value, $_SESSION['OCS']["readServer"] );
 	while( $val = mysql_fetch_object( $res ) ){
 		$doublon[$name][] = $val->val;
 	}
@@ -130,9 +130,9 @@ if (isset($list_id_mes_machines) and $list_id_mes_machines != "")
 $sql_id_doublon['macaddress_serial'] .= " and h.id in ".$list_id_mes_machines;
 
 foreach($sql_id_doublon as $name=>$sql_value){
-	if ($_SESSION['DEBUG'] == 'ON')
+	if ($_SESSION['OCS']['DEBUG'] == 'ON')
 	echo "<br><b><font color=green>".$name."</font> ==> ".$sql_value."</b><br>";
-	$res = mysql_query( $sql_value, $_SESSION["readServer"] );	
+	$res = mysql_query( $sql_value, $_SESSION['OCS']["readServer"] );	
 	$count_id[$name] = 0;
 	while( $val = mysql_fetch_object( $res ) ) {
 		//on ne compte que les machines appartenant au profil connect�
@@ -178,11 +178,11 @@ echo "<input type=hidden name=detail id=detail value='".$protectedPost['detail']
 if ($protectedPost['detail'] != ''){
 	//if ($protectedPost['tri2'] == "macaddr")
 	
-	$_SESSION['SQL_DATA_FIXE'][$table_name]['macaddr']="select HARDWARE_ID,networks.macaddr from networks where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
-	$_SESSION['SQL_DATA_FIXE'][$table_name]['serial']="select HARDWARE_ID,bios.SSN as serial from bios where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
+	$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['macaddr']="select HARDWARE_ID,networks.macaddr from networks where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
+	$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['serial']="select HARDWARE_ID,bios.SSN as serial from bios where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
 
 	//liste des champs du tableau des doublons
-	$list_fields= array($_SESSION['TAG_LBL']=>'a.TAG',
+	$list_fields= array($_SESSION['OCS']['TAG_LBL']=>'a.TAG',
 						'macaddr'=>'networks.macaddr',
 						'serial'=>'bios.SSN',
 //						$l->g(36)=>'b.ssn',
@@ -207,7 +207,7 @@ if ($protectedPost['detail'] != ''){
 	$list_fields['CHECK']='h.ID';
 	
 	$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields=array($l->g(23).": ".$l->g(34)=>$l->g(23).": ".$l->g(34),$_SESSION['TAG_LBL']=>$_SESSION['TAG_LBL'],'NAME'=>'NAME',$l->g(23).": ".$l->g(25)=>$l->g(23).": ".$l->g(25),'CHECK'=>'CHECK');
+	$default_fields=array($l->g(23).": ".$l->g(34)=>$l->g(23).": ".$l->g(34),$_SESSION['OCS']['TAG_LBL']=>$_SESSION['OCS']['TAG_LBL'],'NAME'=>'NAME',$l->g(23).": ".$l->g(25)=>$l->g(23).": ".$l->g(25),'CHECK'=>'CHECK');
 
 	//on modifie le type de champs en num�ric de certain champs
 	//pour que le tri se fasse correctement

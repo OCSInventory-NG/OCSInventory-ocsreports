@@ -1,8 +1,10 @@
 <?php
+/*
+ * formulaire de demande de création de paquet
+ * 
+ */
 require_once('require/function_search.php');
 
- if( $_SESSION['OCS']["lvluser"] != SADMIN )
-	die("FORBIDDEN");
 if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
 $protectedPost['onglet']=3;
  //d�finition des onglets
@@ -174,4 +176,8 @@ if ($protectedPost['MODIF'] != ''){
 echo '</div>';
 //echo "</table>";
 echo "</form>";
+
+
+
+
 ?>

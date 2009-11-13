@@ -1,18 +1,18 @@
 <?php
-/*page de gestion des droits à OCS
+/*page de gestion des droits ï¿½ OCS
  * 
  * 
  */
- require_once($_SESSION['backend'].'require/connexion.php');
+ require_once($_SESSION['OCS']['backend'].'require/connexion.php');
  
 $list_methode=array(0=>"local.php");
-if (!isset($_SESSION["lvluser"])){
+if (!isset($_SESSION['OCS']["lvluser"])){
 	$i=0;
 	//methode pour le calcul des droits
 	while ($list_methode[$i]){
 		require_once('methode/'.$list_methode[$i]);
-		//on garde les erreurs présentes
-		//entre chaque méthode
+		//on garde les erreurs prï¿½sentes
+		//entre chaque mï¿½thode
 		if (isset($ERROR)){
 			$tab_error[$list_methode[$i]]=$ERROR;
 			unset($ERROR);
@@ -44,12 +44,12 @@ if (!isset($tab_tag) and ($lvluser == ADMIN or !isset($lvluser))){
 	}
 	
 	$mesMachines = "a.".TAG_NAME." IN ('".@implode("','",$list_tag)."') ";	
-	$_SESSION["mesmachines"] = $mesMachines;
-	$_SESSION["mytag"]=$lbl_list_tag;
+	$_SESSION['OCS']["mesmachines"] = $mesMachines;
+	$_SESSION['OCS']["mytag"]=$lbl_list_tag;
 }
 
 if (isset($lvluser))
-$_SESSION["lvluser"]=$lvluser;
+$_SESSION['OCS']["lvluser"]=$lvluser;
 
 
 ?>

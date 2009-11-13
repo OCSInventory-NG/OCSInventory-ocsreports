@@ -12,7 +12,7 @@ if(isset($protectedGet["timestamp"])){
 	else
 	$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
 	
-	$res_document_root = mysql_query( $sql_document_root, $_SESSION["readServer"] );
+	$res_document_root = mysql_query( $sql_document_root, $_SESSION['OCS']["readServer"] );
 	while( $val_document_root = mysql_fetch_array( $res_document_root ) ) {
 		$document_root = $val_document_root["tvalue"];
 	}

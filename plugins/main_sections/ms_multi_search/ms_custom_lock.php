@@ -5,8 +5,8 @@ $form_name="lock_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''><div align=center>";
 $list_id=multi_lot($form_name,$l->g(601));
 if ($protectedPost['LOCK'] != '' and isset($protectedPost['LOCK'])){
-	$_SESSION["TRUE_mesmachines"]=$_SESSION["mesmachines"];
-	$_SESSION["mesmachines"]=" a.hardware_id in (".$list_id.")";
+	$_SESSION['OCS']["TRUE_mesmachines"]=$_SESSION['OCS']["mesmachines"];
+	$_SESSION['OCS']["mesmachines"]=" a.hardware_id in (".$list_id.")";
 	echo "<script language='javascript'> window.opener.document.multisearch.submit();self.close();</script>";
 }
 

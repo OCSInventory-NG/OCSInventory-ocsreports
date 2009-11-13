@@ -1,6 +1,6 @@
 <?php
  require_once('require/function_table_html.php');
- if( $_SESSION["lvluser"] != SADMIN )
+ if( $_SESSION['OCS']["lvluser"] != SADMIN )
 	die("FORBIDDEN");
  //d�finition des onglets
 //$data_on['GUI_LOGS']="Logs de l'interface";
@@ -11,10 +11,10 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td colspan=10></td></tr>";
 echo "<tr><td align=center>".$l->g(950)."</td><td align=center>".$l->g(951)."</td><td align=center>".$l->g(952)."</td><td align=center>".$l->g(953)."</td></tr>";
 if ($protectedPost['onglet'] == 'GUI_LOGS' or $protectedPost['onglet'] == ""){
-//	if ($_SESSION['LOG_DIR'] == '')
+//	if ($_SESSION['OCS']['LOG_DIR'] == '')
 //	$Directory="";
 //	else
-	$Directory=$_SESSION['LOG_DIR']."/";
+	$Directory=$_SESSION['OCS']['LOG_DIR']."/";
 	ScanDirectory($Directory,"csv");
 }
 echo "</td></tr></table>";

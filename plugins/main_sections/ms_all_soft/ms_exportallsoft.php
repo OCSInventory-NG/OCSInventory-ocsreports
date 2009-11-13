@@ -4,8 +4,8 @@
 //add all soft you don't want in your export
 $list_no_soft=array();
 
-if (strrpos($_SESSION["forcedRequest"],'having nb <')){
-$result=mysql_query($_SESSION["forcedRequest"], $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+if (strrpos($_SESSION['OCS']["forcedRequest"],'having nb <')){
+$result=mysql_query($_SESSION['OCS']["forcedRequest"], $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 while( $val = mysql_fetch_array($result) ){
 		$no_show='OK';
 		foreach ($list_no_soft as $key=>$value){
@@ -18,7 +18,7 @@ while( $val = mysql_fetch_array($result) ){
 		if (trim($val['name']) != '' and $no_show == 'OK') 
 		$list_soft[]=addslashes(utf8_decode($val['name']));
 }
-$fields= array("a.tag"=>$_SESSION['TAG_LBL'],
+$fields= array("a.tag"=>$_SESSION['OCS']['TAG_LBL'],
 			   "s.name"=>$l->g(20),
 			   "h.name"=>$l->g(23),
 			   "h.userid"=>$l->g(24),
@@ -34,20 +34,20 @@ $affich.="\r\n";
 $sql=substr($sql,0,-1);
 $sql.=" from softwares s,hardware h, accountinfo a
 		where ";
-if ($_SESSION["mesmachines"] != "")
-	$sql.= $_SESSION["mesmachines"]." and";
+if ($_SESSION['OCS']["mesmachines"] != "")
+	$sql.= $_SESSION['OCS']["mesmachines"]." and";
 
 $sql.="	a.hardware_id=h.ID
 			and s.HARDWARE_ID=h.id
 			and s.name in ('".implode("','",$list_soft)."')";
-$result=mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+$result=mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 while( $val = mysql_fetch_array($result) ){
 	foreach ($fields as $sql_field=>$lbl){
 		$affich.=$val[$lbl].";";
 	}
 	$affich.="\r\n";
 }
-AddLog("EXTRACT_SOFT_SUSPECT",$_SESSION["forcedRequest"]);
+AddLog("EXTRACT_SOFT_SUSPECT",$_SESSION['OCS']["forcedRequest"]);
 // iexplorer problem
 if( ini_get("zlib.output-compression"))
 	ini_set("zlib.output-compression","Off");

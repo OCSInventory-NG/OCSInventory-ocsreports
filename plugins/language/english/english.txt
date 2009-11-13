@@ -919,6 +919,8 @@
 1024 will be deleted
 1025 Unaffect
 1026 Packages deleted on computors
+1027 IT Set Management
+1028 Activate It Set Management for Teledeploy
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
