@@ -51,11 +51,19 @@ if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 			$_SESSION['OCS']['TRUE_LVL']=$_SESSION['OCS']["lvluser"];
 		}
 		$_SESSION['OCS']["loggeduser"]=$protectedPost["FUSER"];
-	unset($_SESSION['OCS']["lvluser"],$_SESSION['OCS']["ipdiscover"]);	
+		unset($_SESSION['OCS']["lvluser"],$_SESSION['OCS']["ipdiscover"],
+				$_SESSION['OCS']['all_menus'],$_SESSION['OCS']['list_plugins_first'],
+			  $_SESSION['OCS']['list_plugins_second']);	
 	}elseif ($protectedPost["MODE"] == 5 and $protectedPost["FUSER"] == ""){
 		$_SESSION['OCS']["loggeduser"]=$_SESSION['OCS']['TRUE_USER'];
 		$_SESSION['OCS']["lvluser"]=$_SESSION['OCS']['TRUE_LVL'];
-		unset($_SESSION['OCS']["mesmachines"],$_SESSION['OCS']["mytag"],$_SESSION['OCS']['TRUE_USER'],$_SESSION['OCS']['TRUE_LVL'],$_SESSION['OCS']["ipdiscover"]);		
+		unset($_SESSION['OCS']["mesmachines"],
+			  $_SESSION['OCS']["mytag"],
+			  $_SESSION['OCS']['TRUE_USER'],
+			  $_SESSION['OCS']['TRUE_LVL'],
+			  $_SESSION['OCS']["ipdiscover"],
+			  $_SESSION['OCS']['list_plugins_first'],
+			  $_SESSION['OCS']['list_plugins_second'],$_SESSION['OCS']['all_menus']);		
 	}else	
 	unset($_SESSION['OCS']['DEBUG'],$_SESSION['OCS']['MODE_LANGUAGE']);
 
