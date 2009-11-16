@@ -44,7 +44,7 @@ function Reporter()
 
 
 
-<?
+<?php
 $result = mysql_query("select distinct rule,rule_name from download_affect_rules", $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 while($item = mysql_fetch_object($result))
 	$list.="<option value='".$item->rule."'>".$item->rule_name."</option>";	
