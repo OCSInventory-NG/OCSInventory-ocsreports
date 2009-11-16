@@ -1,7 +1,5 @@
 <?php
 
-if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
 	$year_mouth['Dec']=12;
 	$year_mouth['Nov']=11;
 	$year_mouth['Oct']=10;

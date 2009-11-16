@@ -3,8 +3,7 @@
 //require_once('require/function_table_html.php');
 require_once('require/function_telediff.php');
 //interdiction pour les users autre que SUPER ADMIN
-if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
+
 printEnTete($l->g(465).' => '.$protectedGet["active"]);
 $form_name="form_active";
 //javascript pour v�rifier que des chaps ne sont pas vides

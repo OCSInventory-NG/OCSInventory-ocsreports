@@ -50,7 +50,7 @@ echo "		</tr></table>
 
 function show_icon($index,$lbl_index){
 	global $protectedGet,$l;
-
+//if (isset($_SESSION['OCS']['list_page_profil'][$index])){
 	if ($_SESSION['OCS']['name_menu'][$index]){
 
 			$name=$_SESSION['OCS']['name_menu'][$index];
@@ -60,13 +60,13 @@ function show_icon($index,$lbl_index){
 			$title=$l->g(substr(substr($_SESSION['OCS']['lbl_menu'][$index],2),0,-1));
 			$i=0;
 			while ($_SESSION['OCS']['list_menu'][$index][$i]){
-				//echo $list_menu[$index]."<br>";
+				if (isset($_SESSION['OCS']['list_page_profil'][$_SESSION['OCS']['list_menu'][$index][$i]]))
 				$data_list_config[$_SESSION['OCS']['list_url'][$_SESSION['OCS']['list_menu'][$index][$i]]]=$l->g(substr(substr($_SESSION['OCS']['list_lbl'][$_SESSION['OCS']['list_menu'][$index][$i]],2),0,-1));
 				$i++;
 			}
-
+			if (isset($data_list_config))
 			menu_list($name,$packAct,$nam_img,$title,$data_list_config);	
-	}else{
+	}elseif (isset($_SESSION['OCS']['list_page_profil'][$index])){
 	$img=$index;
 	  $llink = "?".PAG_INDEX."=".$_SESSION['OCS']['list_url'][$index];
 	 // echo $protectedGet[PAG_INDEX]."=>".$list_url[$index]."<br>";
@@ -82,7 +82,7 @@ function show_icon($index,$lbl_index){
         echo "<td onmouseover=\"javascript:show_menu('nomenu','".$_SESSION['OCS']['all_menus']."');\"><a onclick='clic(\"".$llink."\");'><img title=\"".$lbl."\" src='".$_SESSION['OCS']['main_sections_dir']."/img/$img.png'></a></td>";
 	}
 	
-	
+//}
 }
 
 function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
@@ -105,6 +105,7 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
                                 <ul>
                                         <li><b>".$title."</b></li>";
                                         foreach ($data_list as $key=>$values){
+                                        	if (isset($_SESSION['OCS']['list_page_profil'][$pag_name[$key]]))
                                                 echo "<li><a href=\"index.php?".PAG_INDEX."=".$key."\">".$values."</a></li>";
                                         }
                 echo "</ul>

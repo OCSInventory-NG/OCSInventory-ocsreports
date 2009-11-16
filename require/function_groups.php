@@ -15,7 +15,7 @@ function all_groups($group_type){
 							and deviceid = '_SYSTEMGROUP_'
 							and (request is null or trim(request) = '')
 						    and (xmldef  is null or trim(xmldef) = '')";	
-			if ($_SESSION['OCS']['lvluser'] != SADMIN)	
+			if (!($_SESSION['OCS']['CONFIGURATION']['GROUPS'] == "YES"))	
 				$reqGetId.= " and workgroup = 'GROUP_4_ALL'";	
 			
 		}else{

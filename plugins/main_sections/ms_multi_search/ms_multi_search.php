@@ -685,10 +685,12 @@ if ($list_id != "")	{
 	$list_fonct["image/sup_search.png"]=$l->g(122);
 	$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
 	$list_fonct["image/mass_affect.png"]=$l->g(430);		
-	if ($_SESSION['OCS']["lvluser"] == SADMIN){
+	if ($_SESSION['OCS']['CONFIGURATION']['CONFIG'] == "YES"){
 		$list_fonct["image/config_search.png"]=$l->g(107);
-		$list_fonct["image/tele_search.png"]=$l->g(428);
 		$list_pag["image/config_search.png"]=$pages_refs['ms_custom_param'];
+	}
+	if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES"){
+		$list_fonct["image/tele_search.png"]=$l->g(428);
 		$list_pag["image/tele_search.png"]=$pages_refs["ms_custom_pack"];
 	}
 	$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];

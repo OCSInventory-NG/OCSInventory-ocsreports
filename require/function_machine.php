@@ -30,7 +30,7 @@ function info($GET,$post_systemid){
 		//recherche des infos de la machine
 		$querydeviceid = "SELECT * FROM hardware h left join accountinfo a on a.hardware_id=h.id
 						 WHERE h.id=".$systemid." ";
-		if ($_SESSION['OCS']["lvluser"] == ADMIN and isset($_SESSION['OCS']['mesmachines']) and $_SESSION['OCS']['mesmachines'] != '')			 
+		if ($_SESSION['OCS']['RESTRICTION'] == "YES" and isset($_SESSION['OCS']['mesmachines']) and $_SESSION['OCS']['mesmachines'] != '')			 
 				$querydeviceid .= " and (".$_SESSION['OCS']['mesmachines']." or a.tag is null or a.tag='')";
 		$resultdeviceid = mysql_query($querydeviceid, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 		$item = mysql_fetch_object($resultdeviceid);

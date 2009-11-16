@@ -9,8 +9,6 @@ $list_mode[2]=$l->g(1011);
 $list_mode[3]=$l->g(1012);
 $list_mode[4]=$l->g(1013);
 $list_mode[5]='FUSER';
-if (!($_SESSION['OCS']["lvluser"] == SADMIN or $_SESSION['OCS']['TRUE_LVL'] == SADMIN))
-	die("FORBIDDEN");
 echo "<br><br><br>";	
 $tab_typ_champ[0]['DEFAULT_VALUE']=$list_mode;
 	$tab_typ_champ[0]['INPUT_NAME']="MODE";
@@ -47,23 +45,22 @@ if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 		$_SESSION['OCS']['DEBUG']="ON";
 	}elseif ($protectedPost["MODE"] == 5 and $protectedPost["FUSER"] != ""){
 		if (!isset($_SESSION['OCS']['TRUE_USER'])){
-			$_SESSION['OCS']['TRUE_USER']=$_SESSION['OCS']["loggeduser"];
-			$_SESSION['OCS']['TRUE_LVL']=$_SESSION['OCS']["lvluser"];
+			$true_user=$_SESSION['OCS']['loggeduser'];
+			$list_page_profil=$_SESSION['OCS']['list_page_profil'];
+			$restriction=$_SESSION['OCS']['RESTRICTION'];
 		}
-		$_SESSION['OCS']["loggeduser"]=$protectedPost["FUSER"];
-		unset($_SESSION['OCS']["lvluser"],$_SESSION['OCS']["ipdiscover"],
-				$_SESSION['OCS']['all_menus'],$_SESSION['OCS']['list_plugins_first'],
-			  $_SESSION['OCS']['list_plugins_second']);	
+		$loggeduser=$protectedPost["FUSER"];
+		unset($_SESSION['OCS']);	
+		$_SESSION['OCS']['TRUE_USER']=$true_user;
+		$_SESSION['OCS']['TRUE_PAGES']=$list_page_profil;
+		$_SESSION['OCS']['TRUE_RESTRICTION']=$restriction;
+		$_SESSION['OCS']['loggeduser']=$loggeduser;
 	}elseif ($protectedPost["MODE"] == 5 and $protectedPost["FUSER"] == ""){
-		$_SESSION['OCS']["loggeduser"]=$_SESSION['OCS']['TRUE_USER'];
-		$_SESSION['OCS']["lvluser"]=$_SESSION['OCS']['TRUE_LVL'];
-		unset($_SESSION['OCS']["mesmachines"],
-			  $_SESSION['OCS']["mytag"],
-			  $_SESSION['OCS']['TRUE_USER'],
-			  $_SESSION['OCS']['TRUE_LVL'],
-			  $_SESSION['OCS']["ipdiscover"],
-			  $_SESSION['OCS']['list_plugins_first'],
-			  $_SESSION['OCS']['list_plugins_second'],$_SESSION['OCS']['all_menus']);		
+		$loggeduser=$_SESSION['OCS']['TRUE_USER'];
+		$restriction=$_SESSION['OCS']['TRUE_RESTRICTION'];
+		unset($_SESSION['OCS']);		
+		$_SESSION['OCS']['loggeduser']=$loggeduser;
+		$_SESSION['OCS']['RESTRICTION']=$restriction;
 	}else	
 	unset($_SESSION['OCS']['DEBUG'],$_SESSION['OCS']['MODE_LANGUAGE']);
 

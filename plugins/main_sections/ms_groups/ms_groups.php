@@ -20,8 +20,8 @@ if($protectedPost['Valid_modif_x']){
 if ($protectedPost['Reset_modif_x']) 
  unset($protectedPost['add_static_group']);
  
-//if no SADMIN=> view only your computors
-if ($_SESSION['OCS']["lvluser"] == ADMIN)
+//view only your computors
+if ($_SESSION['OCS']['RESTRICTION'] == 'YES')
 	$mycomputors=computor_list_by_tag();
 
 //View for all profils?
@@ -45,8 +45,8 @@ echo "<font color = ".$color." ><b>".$result['LBL']."</b></font>";
 //ouverture du formulaire de la page
 $form_name='groups';
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-//if SADMIN=> view all groups
-if ($_SESSION['OCS']["lvluser"] != ADMIN){
+//view all groups
+if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	$def_onglets['DYNA']=$l->g(810); //Dynamic group
 	$def_onglets['STAT']=$l->g(809); //Static group centraux
 	$def_onglets['SERV']=strtoupper($l->g(651));
@@ -68,7 +68,7 @@ $list_fields= array('GROUP_NAME'=>'h.NAME',
 						'CREATE'=>'h.LASTDATE',
 						'NBRE'=>'NBRE');
 //only for admins
-if ($_SESSION['OCS']["lvluser"] == SADMIN){
+if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	if ($protectedPost['onglet'] == "STAT")
 		$list_fields['CHECK']= 'ID';
 	$list_fields['SUP']= 'ID';	
@@ -101,13 +101,13 @@ if ($protectedPost['onglet'] == "SERV"){
 	elseif ($protectedPost['onglet'] == "STAT")
 		$querygroup.=" and (g.request is null or trim(g.request) = '')
 					    and (g.xmldef  is null or trim(g.xmldef) = '') ";
-	if($_SESSION['OCS']["lvluser"] == ADMIN)
+	if($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")
 		$querygroup.=" and h.workgroup='GROUP_4_ALL' ";
 
 	//calcul du nombre de machines par groupe
 	$sql_nb_mach="SELECT count(*) nb, group_id
 					from groups_cache gc,hardware h where h.id=gc.hardware_id ";
-	if($_SESSION['OCS']["lvluser"] == ADMIN)
+	if($_SESSION['OCS']['RESTRICTION'] == "YES")
 			$sql_nb_mach.=" and gc.hardware_id in ".$mycomputors;		
 	$sql_nb_mach .=" group by group_id";
 
@@ -140,14 +140,14 @@ $tab_options['FILTRE']=array('NAME'=>$l->g(679),'DESCRIPTION'=>$l->g(636));
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querygroup,$form_name,100,$tab_options); 
 
 //si super admin, on donne la possibilit� d'ajouter un nouveau groupe statique	
-if ($_SESSION['OCS']["lvluser"]==SADMIN){
+if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	echo "</td></tr></table>";	
 	if ($protectedPost['onglet'] == "STAT")
 		echo "<BR><input type='submit' name='add_static_group' value='".$l->g(587)."'>";
 }
 
 //if user want add a new group
-if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']["lvluser"]==SADMIN){
+if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	$tdhdpb = "<td  align='left' width='20%'>";
 	$tdhfpb = "</td>";
 	$tdhd = "<td  align='left' width='20%'><b>";

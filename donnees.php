@@ -14,8 +14,7 @@ $user=$_SESSION['OCS']["loggeduser"];
 if( isset( $protectedGet["fuser"] ) ) {
 	unset($_SESSION['OCS']["mesmachines"]);
 }
-if($_SESSION['OCS']["lvluser"]==SADMIN||$_SESSION['OCS']["lvluser"]==LADMIN) {
-
+if($_SESSION['OCS']['RESTRICTION']== "NO") {
 	$mesMachines="";
 	$_SESSION['OCS']["mesmachines"] = "";
 }

@@ -26,7 +26,7 @@ elseif (isset($protectedPost['systemid'])) {
 	$systemid = $protectedPost['systemid'];
 }
 
-if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  ){
+if(!($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")){
 	$sql_verif="select workgroup from hardware where workgroup='GROUP_4_ALL' and ID='".$systemid."'";
 	$res_verif = mysql_query($sql_verif, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$item_verif = mysql_fetch_object($res_verif);
@@ -146,7 +146,7 @@ if( ! $pureStat  ){
 echo "</tr><tr>".$tdhd.$l->g(53).$tdhf.$tdhdpb.$description.$tdhfpb;
 
 
-if ($_SESSION['OCS']["lvluser"]!=ADMIN)
+if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")
 echo "<tr><td align='left' colspan=4>".$button_valid."&nbsp&nbsp".$button_reset."&nbsp&nbsp".$img_modif."</td></tr>";
 echo "$tdhfpb</table>";
 echo "</form>";
@@ -217,9 +217,9 @@ if ($server_group){
 	
 	
 	$lblAdm = Array($l->g(500));
-	$imgAdm = Array("spec");
+	$imgAdm = Array("ms_config");
 	$lblHdw = Array($l->g(580), $l->g(581));
-	$imgHdw = Array("ttmachinesred", "ttmachines",);
+	$imgHdw = Array("ms_all_computersred.png", "ms_all_computers",);
 	
 	echo "<br><br>";
 	
@@ -358,7 +358,7 @@ function print_computers_cached($systemid) {
 		}	
 		$tab_options['CACHE']='RESET';
 	}
-	if ($_SESSION['OCS']["lvluser"]==ADMIN){
+	if ($_SESSION['OCS']['RESTRICTION'] == "YES"){
 		$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
 		$res_mesMachines = mysql_query($sql_mesMachines, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$mesmachines="(";
@@ -444,7 +444,7 @@ function print_perso($systemid) {
 	else {
 		echo $td3.$l->g(493)."</td>";
 	}
-	if( $_SESSION['OCS']["lvluser"]==SADMIN ){
+	if( $_SESSION['OCS']['CONFIGURATION']['CONFIG'] == "YES"){
 		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
 		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
 //	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
@@ -526,7 +526,7 @@ function print_perso($systemid) {
 			if (isset($valDeploy["fileid"]))
 			echo "(<small>".$valDeploy["fileid"]."</small>)";	
 			echo "</td>".$td3.$l->g(499).": ".$valDeploy["pack_loc"]."</td>";//$l->g(81)."cac: ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482))."</td>";
-			if( $_SESSION['OCS']["lvluser"]==SADMIN )	
+			if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" )	
 				echo "$td3 <a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 				urlencode($systemid)."&option=".urlencode($l->g(500))."'>".$l->g(122)."</a></td>";
 			show_stat($valDeploy["fileid"]);
@@ -534,7 +534,7 @@ function print_perso($systemid) {
 			//print_r($valDeploy);
 		}
 	}
-	if( $_SESSION['OCS']["lvluser"]==SADMIN ){
+	if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" ){
 	echo "<tr>
 		<td colspan='10' align='right'>
 		<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."
@@ -563,7 +563,7 @@ function img($i,$a,$avail,$opt) {
 	if( $avail ) {
 		$href = "<a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
 		$fhref = "</a>";
-		$img = "<img title=\"".htmlspecialchars($a)."\" src='image/{$i}{$suff}.png' />";
+		$img = "<img title=\"".htmlspecialchars($a)."\" src='".$_SESSION['OCS']['main_sections_dir']."/img/{$i}{$suff}.png' />";
 	}
 	else {
 		$href = "";

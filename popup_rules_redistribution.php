@@ -13,8 +13,6 @@
 require_once('require/function_server.php');
 $ban_head='no';
 require_once("header.php");
-if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
 ?>
 <script>
 function check() {

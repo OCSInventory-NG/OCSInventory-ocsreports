@@ -59,7 +59,6 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 	echo "<br><font color=green>".mysql_affected_rows()." ".$l->g(1026)."</font>";
 	
 }
-	if ($_SESSION['OCS']["lvluser"] == SADMIN){
 		$def_onglets['TAG']=$l->g(1022); 
 		$def_onglets['SUP_PACK']=$l->g(1021); 
 		//$def_onglets['SERV']=strtoupper($l->g(651));
@@ -67,7 +66,6 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 		$protectedPost['onglet']="TAG";	
 		//show onglet
 		onglet($def_onglets,$form_name,"onglet",7);
-	}
 	
 	
 	//print_r($protectedPost);

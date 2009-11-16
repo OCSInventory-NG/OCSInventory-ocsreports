@@ -8,8 +8,7 @@
 require_once('require/function_opt_param.php');
 require_once('require/function_config_generale.php');
 require_once('require/function_search.php');
-if( $_SESSION['OCS']["lvluser"] != SADMIN )
-	die("FORBIDDEN");
+
 $form_name="param_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 $list_id=multi_lot($form_name,$l->g(601));

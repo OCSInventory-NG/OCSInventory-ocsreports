@@ -183,15 +183,33 @@ if (!isset($_SESSION['OCS']['all_menus'])){
 	require_once($_SESSION['OCS']['main_sections_dir']."sections.php");
 }
 
-
+$name=array_flip($_SESSION['OCS']['list_url']);
 
 if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
 	require_once ($_SESSION['OCS']['HEADER_HTML']);
 	//echo "toto";
 }
 
+//VERIF ACCESS TO THIS PAGE
+if (isset($protectedGet[PAG_INDEX]) 
+	and !isset($_SESSION['OCS']['list_page_profil'][$name[$protectedGet[PAG_INDEX]]])
+	and !isset($_SESSION['OCS']['TRUE_PAGES'][$name[$protectedGet[PAG_INDEX]]])){
+	echo "<br><br><center><b><font color=red>ACCESS DENIED</font></b></center><br>";
+	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	die();	
+}
 
-$name=array_flip($_SESSION['OCS']['list_url']);
+
+if((!isset($_SESSION['OCS']["loggeduser"])
+	 or !isset($_SESSION['OCS']["lvluser"]) 
+	 or $_SESSION['OCS']["lvluser"] == "")
+	 and $no_error != 'YES')
+{		
+	echo "<br><br><center><b><font color=red>".$LIST_ERROR."</font></b></center><br>";
+	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	die();
+}
+
 if (isset($name[$protectedGet[PAG_INDEX]])){	
 	if (isset($_SESSION['OCS']['list_dir'][$name[$protectedGet[PAG_INDEX]]]))
 	$rep=$_SESSION['OCS']['list_dir'][$name[$protectedGet[PAG_INDEX]]];
@@ -199,12 +217,7 @@ if (isset($name[$protectedGet[PAG_INDEX]])){
 }else
 require ($_SESSION['OCS']['main_sections_dir']."ms_console/ms_console.php");		
 
-if((!isset($_SESSION['OCS']["loggeduser"]) or !isset($_SESSION['OCS']["lvluser"]) or $_SESSION['OCS']["lvluser"] == "") and $no_error != 'YES')
-{		
-	echo "<br><br><center><b><font color=red>".$LIST_ERROR."</font></b></center><br>";
-	require_once($_SESSION['OCS']['FOOTER_HTML']);
-	die();
-}
+
 
 
 ?>

@@ -8,8 +8,7 @@
  */
 
 require_once('require/function_config_generale.php');
-if( $_SESSION['OCS']["lvluser"] != SADMIN )
-	die("FORBIDDEN");
+
 
 $def_onglets[$l->g(728)]=$l->g(728); //Inventaire
 $def_onglets[$l->g(499)]=$l->g(499); //Serveur

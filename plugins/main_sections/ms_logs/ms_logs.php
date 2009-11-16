@@ -1,7 +1,5 @@
 <?php
  require_once('require/function_table_html.php');
- if( $_SESSION['OCS']["lvluser"] != SADMIN )
-	die("FORBIDDEN");
  //d�finition des onglets
 //$data_on['GUI_LOGS']="Logs de l'interface";
 $protectedPost['onglet'] == "";

@@ -6,11 +6,6 @@
  
 //require ('fichierConf.class.php');
 $form_name='taguser';
-//$ban_head='no';
-//$no_error='YES';
-//require_once("header.php");
-if (!($_SESSION['OCS']["lvluser"] == SADMIN or $_SESSION['OCS']['TRUE_LVL'] == SADMIN))
-	die("FORBIDDEN");
 printEnTete($l->g(616)." ".$protectedGet["id"] );
 if( $protectedPost['ADD_TAG'] != "" ) {
 	$tab_options['CACHE']='RESET';

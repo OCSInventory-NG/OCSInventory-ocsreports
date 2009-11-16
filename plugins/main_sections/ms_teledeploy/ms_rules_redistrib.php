@@ -5,8 +5,6 @@
 require_once('require/function_table_html.php');
 require_once('require/function_rules.php');
 //only for Super Admin
-if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
 //DEL RULE
 if ($protectedPost['SUP_PROF'] != ""){	
 	delete_rule($protectedPost['SUP_PROF']);

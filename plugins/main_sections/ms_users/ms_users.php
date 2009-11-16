@@ -1,8 +1,6 @@
 <?php
 require_once('require/function_search.php');
 
- if( $_SESSION['OCS']["lvluser"] != SADMIN )
-	die("FORBIDDEN");
 if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
 $protectedPost['onglet']=3;
  //d�finition des onglets

@@ -10,8 +10,6 @@
 //====================================================================================
 //Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.4 $)
 
-if( $_SESSION['OCS']["lvluser"] != SADMIN )
-	die("FORBIDDEN");
 	
 printEnTete($l->g(601));
 

@@ -4,8 +4,6 @@
  */
 
 require_once('require/function_server.php');
-if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
 
 //delete one server or all
 if($protectedPost["supp"]){

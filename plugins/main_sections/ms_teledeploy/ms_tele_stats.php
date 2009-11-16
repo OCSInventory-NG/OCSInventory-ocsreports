@@ -11,7 +11,7 @@
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.15 $)
 
 require('require/function_stats.php');
-if($_SESSION['OCS']["lvluser"]==SADMIN){
+if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
 	if( isset($protectedGet["delsucc"]) ) {		
 		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue LIKE 'SUCCESS%' AND
 		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION['OCS']["writeServer"]);
@@ -127,7 +127,7 @@ else {
 	echo "<body OnLoad='document.title=\"".urlencode($valName["name"])."\"'>";
 	printEnTete( $l->g(498)." <b>".$valName["name"]."</b> (".$l->g(296).": ".$protectedGet["stat"]." )");
 	echo "<br><center><img src='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&generatePic=1&stat=".$protectedGet["stat"]."&group=".$protectedGet["group"]."&option=".$protectedPost['selOpt']."'></center>";
-	if($_SESSION['OCS']["lvluser"]==SADMIN){
+	if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
 		echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
 		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&delsucc=1&stat=".$protectedGet["stat"]."'><b>".$l->g(483)."</b></a></td>";	
 		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&deltout=1&stat=".$protectedGet["stat"]."'><b>".$l->g(571)."</b></a></td>";	

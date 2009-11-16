@@ -35,7 +35,7 @@ echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
  	
 if (isset($_SESSION['OCS']["loggeduser"])){
 	echo "<table width= 100% align=center border='0'><tr><Td align='center' bgcolor='#f2f2f2' BORDERCOLOR='#f2f2f2' width:80%>";
-	echo "<font color=red><b>ATTENTION: USE THIS VERSION ONLY FOR TEST.<BR> THIS VERSION IN DEVELOPMENTAL STAGE</b></font>";
+	echo "<font color=red><b>ATTENTION: USE THIS VERSION ONLY FOR TEST.<BR> THIS VERSION IN DEVELOPMENTAL STAGE</b></font><br>";
 //si un fuser est en cours, on indique avec quel compte le super admin est connect�
 	if( isset($_SESSION['OCS']['TRUE_USER']) )
 		echo "<font color=red>".$_SESSION['OCS']['TRUE_USER']." ".$l->g(889)." ".$_SESSION['OCS']["loggeduser"]."</font>";
@@ -53,7 +53,7 @@ echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td ali
 			echo "<br><a ".$javascript."><img src=image/red.png></a><br>";
 			if ($_SESSION['OCS']['DEBUG']=='ON')
 			echo "<font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>wait...</div>";
-		}elseif (($_SESSION['OCS']["lvluser"] == SADMIN or $_SESSION['OCS']['TRUE_LVL'] == SADMIN) and !isset($_SESSION['OCS']['DEBUG'])){
+		}elseif ((($_SESSION['OCS']['list_page_profil']['ms_debug']) or $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and !isset($_SESSION['OCS']['DEBUG'])){
 			echo "<br><a ".$javascript."><img src=image/green.png></a><br>";
 		}
 	}

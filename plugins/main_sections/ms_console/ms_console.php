@@ -111,8 +111,8 @@ echo "<script language=javascript>
 
  }
 
-//for SADMIN only 
-if( $_SESSION['OCS']["lvluser"] == SADMIN) {
+
+if( $_SESSION['OCS']['CONFIGURATION']['CONSOLE']=="YES") {
 	
 	//Value of FREQUENCY
 	$sql_frequency="select ivalue from config where name='FREQUENCY'";
@@ -274,7 +274,7 @@ foreach ($data_on as $key=>$value){
 }
 
 //onglet que pour Admins
-if( $_SESSION['OCS']["lvluser"] == SADMIN) {
+if( $_SESSION['OCS']['CONFIGURATION']['CONSOLE']=="YES") {
 $data_on['CONFIG']=strtoupper($l->g(107));
 $data_on['MSG']=strtoupper($l->g(915));
 
@@ -295,7 +295,7 @@ if (isset($default)){
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	 onglet($data_on,$form_name,"onglet",8);
 	 	echo "<table ALIGN = 'Center' class='mlt_bordure'><tr><td align =center>";
-	if( $_SESSION['OCS']["lvluser"] == ADMIN) {
+	if( $_SESSION['OCS']['RESTRICTION'] == "YES") {
 		$sql_hardware_id="select hardware_id id from accountinfo a  where ".$_SESSION['OCS']["mesmachines"];
 		$result_hardware_id = mysql_query( $sql_hardware_id, $_SESSION['OCS']["readServer"]);
 		$list_hardware_id="";
@@ -345,7 +345,7 @@ if (isset($default)){
 		
 		//count number of all computers
 		if (!isset($list_no_show['NB_IPDISCOVER'])){
-			if( $_SESSION['OCS']["lvluser"] == ADMIN){
+			if( $_SESSION['OCS']['RESTRICTION'] == "YES"){
 				if (isset($_SESSION['OCS']['S3G_IP'])){
 					foreach ($_SESSION['OCS']['S3G_IP'] as $S3G=>$IP){
 							$list_dept[substr($S3G,3,2)]=substr($S3G,3,2);
@@ -640,7 +640,7 @@ if (isset($default)){
 	echo "</table></form>";
 }
 //show messages
-if ($_SESSION['OCS']["lvluser"] == ADMIN){
+if ($_SESSION['OCS']['RESTRICTION'] == "YES"){
 	$sql_all_msg="select ivalue,tvalue from config where name like 'GUI_REPORT_MSG%'";
 	$result_all_msg = mysql_query( $sql_all_msg, $_SESSION['OCS']["readServer"]);
 	$list_id_groups="";

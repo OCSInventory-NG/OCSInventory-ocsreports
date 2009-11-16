@@ -6,9 +6,6 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 $form_name='admin_type';
-
-if (!($_SESSION['OCS']["lvluser"] == SADMIN or $_SESSION['OCS']['TRUE_LVL'] == SADMIN))
-	die("FORBIDDEN");
 echo "<br><br><br>";	
 echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
 
@@ -57,11 +54,6 @@ if (isset($protectedPost['ADD_TYPE'])){
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
 }else{
 
-
-
-
-//if( $_SESSION['OCS']["lvluser"]!=LADMIN && $_SESSION['OCS']["lvluser"]!=SADMIN  )
-//	die("FORBIDDEN");
 $sql="select ID,NAME from devicetype";
 $list_fields= array('ID' => 'ID',
 					$l->g(49)=>'NAME',

@@ -12,7 +12,7 @@ require_once($fichierdemerde);
  $form_name='ipdiscover';
  echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
  	//suppression d'un sous-reseau
- 	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']["lvluser"] == SADMIN){
+ 	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
  	//	$del=mysql_real_escape_string($protectedPost['SUP_PROF']);
  		$sql_del="delete from subnet where id='".$protectedPost['SUP_PROF']."'";
  		mysql_query($sql_del, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
@@ -166,7 +166,7 @@ require_once($fichierdemerde);
 								'NON_INVENTORIE'=>'NON_INVENTORIE',
 								'IPDISCOVER'=>'IPDISCOVER',
 								'IDENTIFIE'=>'IDENTIFIE');
-	if ($_SESSION['OCS']["lvluser"] == SADMIN)
+	if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
 	$list_fields['SUP']='ID';	
 	$list_fields['PERCENT_BAR']='pourcentage';
 	$table_name="IPDISCOVER";
@@ -187,7 +187,7 @@ require_once($fichierdemerde);
 	$tab_options['POPUP_SIZE']['IDENTIFIE']="width=900,height=600";
 	
 	//mise a jour possible des r�seaux si on travaille sur le r�f�rentiel local
-	if ( $_SESSION['OCS']["ipdiscover_methode"] == "local.php" and $_SESSION['OCS']["lvluser"] == SADMIN){
+	if ( $_SESSION['OCS']["ipdiscover_methode"] == "local.php" and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
 		$tab_options['LIEN_LBL']['LBL_RSX']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_admin_rsx'].'&prov=ident&head=1&value=';
 		$tab_options['LIEN_CHAMP']['LBL_RSX']='ID';
 		$tab_options['LIEN_TYPE']['LBL_RSX']='POPUP';
@@ -213,7 +213,7 @@ require_once($fichierdemerde);
 
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 	// 	echo $sql;
-	 if ($_SESSION['OCS']["lvluser"] == SADMIN)
+	 if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
 		function_admin();
 	 }
 

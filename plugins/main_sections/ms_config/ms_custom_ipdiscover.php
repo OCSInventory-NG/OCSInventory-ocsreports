@@ -9,8 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.8 $)
-if( $_SESSION['OCS']["lvluser"] != SADMIN )
-	die("FORBIDDEN");
+
 
 debut_tab(array('CELLSPACING'=>'5',
 					'WIDTH'=>'80%',

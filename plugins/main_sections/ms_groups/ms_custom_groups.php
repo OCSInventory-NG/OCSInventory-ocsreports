@@ -79,7 +79,7 @@ if ($list_id){
 //for all
 $def_onglets[$l->g(809)]=$l->g(809); //GROUPES STATIQUES
 
-if ($_SESSION['OCS']['lvluser'] == SADMIN){
+if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	$def_onglets[$l->g(810)]=$l->g(810); //GROUPES DYNAMIQUES
 	$def_onglets[strtoupper($l->g(651))]=strtoupper($l->g(651)); //GROUPES DE SERVEURS
 	//definition of option NEW every time
@@ -101,7 +101,7 @@ if ($protectedPost['onglet'] == $l->g(809)){
 				and groups_cache.group_id=hardware.id
 				and deviceid = '_SYSTEMGROUP_'
 				and groups_cache.static = 1";
-	if ($_SESSION['OCS']['lvluser'] != SADMIN)	
+	if (!($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"))	
 		$delGroups.= " and workgroup = 'GROUP_4_ALL'";	
 }
 if ($protectedPost['onglet'] == strtoupper($l->g(651))){
@@ -131,7 +131,7 @@ if ($protectedPost['onglet'] != $l->g(810)){
 }
 
 //if group list exist
-if (isset($all_groups) and $_SESSION['OCS']['lvluser'] == SADMIN){
+if (isset($all_groups) and $_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	//show RAZ field
 	$optionList['RAZ']=$l->g(588);
 }

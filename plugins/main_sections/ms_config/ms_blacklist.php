@@ -2,8 +2,7 @@
 /*
  * this page makes it possible to seize the MAC addresses for blacklist
  */
- if( $_SESSION['OCS']["lvluser"] != SADMIN )
-	die("FORBIDDEN");
+
 $form_name="blacklist";
 printEnTete($l->g(703));
 if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
