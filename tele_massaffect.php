@@ -94,5 +94,5 @@ function affectPackage( $computer, $packageId ) {
 	</tr>
 	<tr height='20px'><td colspan='2' align='right'><input type='submit' name='sub'></td></tr>
 </table>
-<input type='hidden' name='id' value='<? echo $_POST["id"]?$_POST["id"]:$_GET["id"]; ?>'>
+<input type='hidden' name='id' value='<?php echo $_POST["id"]?$_POST["id"]:$_GET["id"]; ?>'>
 </form>
