@@ -948,6 +948,8 @@
 1028 Nouveau
 1029 Ignore
 1030 Unchanged
+1031 IT Set Management
+1032 Activer It Set Management pour le télédéploiement
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
 5002 [DEBUG] => poids: [DEBUG]

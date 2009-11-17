@@ -28,7 +28,7 @@ $sql_It_set="select IVALUE from config where name='IT_SET_MANAGEMENT'";
 $result_It_set = mysql_query($sql_It_set, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 while($value=mysql_fetch_array($result_It_set)){
 	if ($value['IVALUE'] == 1)
-		$def_onglets[$l->g(1027)]=$l->g(1027);	
+		$def_onglets[$l->g(1031)]=$l->g(1031);	
 }
 
 
@@ -106,7 +106,7 @@ if ($protectedPost['onglet'] == $l->g(760)){
 	
 	pagewebservice($form_name);
 }
-if ($protectedPost['onglet'] == $l->g(1027)){
+if ($protectedPost['onglet'] == $l->g(1031)){
 	
 	pageitsetmanagement($form_name);
 }

@@ -44,7 +44,7 @@ ms_help:g(570)
 ms_tele_package:g(513)
 ms_tele_activate:g(514)
 ms_rules_redistrib:g(662)
-ms_it_set_management:g(1027)
+ms_it_set_management:g(1031)
 ms_config:g(107)
 ms_blacklist:g(703)
 </LBL>

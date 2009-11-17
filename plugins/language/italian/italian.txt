@@ -925,6 +925,8 @@
 1028 Nuovo
 1029 Ignorato
 1030 Invariato
+1031 IT Set Management
+1032 Activer It Set Management pour le télédéploiement
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]

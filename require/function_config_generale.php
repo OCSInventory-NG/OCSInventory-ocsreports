@@ -472,7 +472,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_FRAG'],'SIZE'=>70));
  		ligne('DOWNLOAD_URI_INFO',$l->g(827),'radio',array('DEFAULT'=>$l->g(823)."(HTTPS://localhost/download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_info),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_INFO'],'SIZE'=>70));
-		ligne('IT_SET_MANAGEMENT',$l->g(1028),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['IT_SET_MANAGEMENT'])); 	
+		ligne('IT_SET_MANAGEMENT',$l->g(1032),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['IT_SET_MANAGEMENT'])); 	
 	fin_tab($form_name);
  }
  
