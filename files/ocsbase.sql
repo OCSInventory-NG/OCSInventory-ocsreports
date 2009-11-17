@@ -34,6 +34,7 @@ CREATE TABLE hardware (
   CHECKSUM BIGINT UNSIGNED default 0,
   SSTATE INTEGER default 0,
   IPSRC VARCHAR(255) default NULL,
+  UUID VARCHAR(255) default NULL,
   PRIMARY KEY  (ID),
   INDEX NAME (NAME),
   INDEX CHECKSUM (CHECKSUM),
@@ -210,7 +211,7 @@ CREATE TABLE networks (
   IPGATEWAY VARCHAR(255) default NULL,
   IPSUBNET VARCHAR(255) default NULL,
   IPDHCP VARCHAR(255) default NULL,
-  VIRTUALDEV VARCHAR(3) default 'no',
+  VIRTUALDEV BOOL default FALSE,
   PRIMARY KEY  (ID, HARDWARE_ID),
   INDEX MACADDR (MACADDR),
   INDEX IPADDRESS(IPADDRESS),
@@ -774,7 +775,7 @@ INSERT INTO config VALUES ('DOWNLOAD', 0, '', 'Activate softwares auto deploymen
 INSERT INTO config VALUES ('DOWNLOAD_CYCLE_LATENCY', 60, '', 'Time between two cycles (seconds)');
 INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LENGTH', 10, '', 'Number of cycles in a period');
 INSERT INTO config VALUES ('DOWNLOAD_FRAG_LATENCY', 10, '', 'Time between two downloads (seconds)');
-INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LATENCY', 0, '', 'Time between two periods (seconds)');
+INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LATENCY', 1, '', 'Time between two periods (seconds)');
 INSERT INTO config VALUES ('DOWNLOAD_TIMEOUT', 30, '', 'Validity of a package (in days)');
 INSERT INTO config VALUES ('LOCAL_SERVER', 0, 'localhost', 'Server address used for local import');
 INSERT INTO config VALUES ('LOCAL_PORT', 80, '', 'Server port used for local import');
@@ -881,4 +882,5 @@ CREATE TABLE languages (
   PRIMARY KEY (NAME)
 ) ENGINE=MyISAM;
 
-ALTER TABLE networks ADD COLUMN VIRTUALDEV varchar(3) not NULL DEFAULT 'no';
+ALTER TABLE networks ADD COLUMN VIRTUALDEV BOOL not NULL DEFAULT FALSE;
+ALTER TABLE hardware ADD COLUMN UUID VARCHAR(255) default NULL
