@@ -1,3 +1,4 @@
+0 iso-8859-1
 2 Tutti i computer
 3 Computer con software...
 5 Apparati di cui sono responsabile
@@ -10,8 +11,8 @@
 23 Computer
 24 Utente
 25 Sistema operativo
-26 RAM
-27 Velocit&agrave della RAM (MHz)
+26 Memoria
+27 Velocita della RAM (MHz)
 28 Numero di computer
 30 Ricerca
 31 Scegli un parametro
@@ -22,12 +23,12 @@
 36 Numero di serie
 41 Reset
 42 Nessun risultato
-43 Men&ugrave principale
+43 Menù principale
 45 Spazio libero
 46 Ultimo inventario
 48 Dettagli computer
 49 Nome
-50 File swap
+50 File di swap (MB)
 51 Commenti
 53 Descrizione
 54 Processore (CPU)
@@ -35,37 +36,37 @@
 56 Dati amministrativi
 61 Scheda video
 62 Risoluzione
-63 Unita' di memorizzazione
+63 UNITA' DI MEMORIZZAZIONE
 64 Produttore
 65 Modello
 66 Tipo
-67 Capacit&agrave
+67 Capacità disco
 69 Produttore
-70 Denominazione
+70 Unità
 79 Stampanti
-80 Dicitura
+80 Modello
 81 Stato
 82 Reti
-83 Capacit&agrave
+83 Capacità
 84 Interfaccia
-85 Lettera
+85 Unità
 86 File system
 87 Totale
-88 Libero
+88 Spazio disponibile
 90 Risultati
 91 Dispositivi di input
 92 Dischi
 93 Controller
 94 Numero slot
 95 Indirizzo MAC
-96 Scheda audio
+96 Suono
 97 Monitor
-98 Attenzione, puoi selezionare solo 8 opzioni !
+98 Attenzione, puoi selezionare solo 8 opzioni!
 99 Dettagli del computer
 103 Aggiorna
 107 Configurazione
 108 Richieste registro
-111 Licenza Windows
+111 Windows ID
 113 Annulla
 114 Registra
 115 Aggiorna
@@ -76,25 +77,26 @@
 129 COME
 130 DIVERSO
 134 Aggiungi un nuovo file nel database
-135 Attenzione, stai per eliminare questo file definitivamente !
+135 Attenzione, stai per eliminare questo file definitivamente!
+136 Scarica
 137 File
-168 Il formato del file non &egrave valido (deve essere .zip, .pl o binario unix)
-170 Esiste gi&agrave lo stesso file!
+168 Il formato del file non è valido (deve essere zip, pl o binario unix)
+170 Esiste già lo stesso file!
 171 File eliminato
 172 Errore, il file
-173 non &egrave stato aggiunto al database
+173 non è stato aggiunto al database
 174 Sicurezza
 175 Duplicati
 176 Ips
 177 Unisci i computer duplicati
 178 Etichetta / Numero di ripartizione PC
-180 Utente non registrato
+180 Nome utente o password errata
 182 I computer hanno un'etichetta assegnata
-183 Download
+183 Scarica
 184 Questo file non contiene "use constant version"
 185 La versione deve essere maggiore della 1
 186 Il file non contiene la versione
-187 Questo non &egrave un file zip valido
+187 Questo non è un file zip valido
 188 Indietro
 189 Devi selezionare almeno 2 computer
 190 Resoconto:
@@ -123,36 +125,36 @@
 213 Valore chiave
 214 Stampa questa pagina
 215 Mostra tutto
-216 Password errata
+216 Nome utente o password errata
 217 Password
 218 Versione agente
 219 Interfacce di rete non inventariate
 220 eliminato
 221 Acquisizione indirizzi IP dei computer
-222 ATTENZIONE ! Tutti i computer selezionati saranno uniti in un singolo computer ! Sei sicuro ?
+222 ATTENZIONE! Tutti i computer selezionati saranno uniti in un singolo computer! Sei sicuro?
 223 Informazioni
 224 Valore
 225 Informazioni amministrative
-226 &egrave stato cancellato dalla tabella delle informazioni amministrative
+226 è stato cancellato dalla tabella delle informazioni amministrative
 227 Sei sicuro di voler cancellare la colonna
-228 Inserisci una informazione amministrativa
+228 Inserisci una nuova informazione amministrativa
 229 Testo (255)
 230 Intero
 231 Reale
 232 Data
 233 Tipo attuale
-234 &egrave stato inserito con successo
+234 è stato inserito con successo
 235 Utenti
-236 Password
+236 Cambio password
 237 Nuova password
 238 Conferma
 239 Devi riempire ogni campo
 240 Le password sono differenti
-241 La password &egrave stata modificata con successo
-242 Amministratore
-243 Utente
+241 La password è stata modificata con successo
+242 Amministratori
+243 Utenti
 244 Aggiungi nuovo utente
-245 &egrave stato eliminato con successo
+245 è stato eliminato con successo
 246 Sei sicuro di voler eliminare l'utente
 247 Utente MySql
 248 Password MySql
@@ -166,54 +168,54 @@
 256 Scelta
 257 Chiave registro
 258 Valore chiave registro
-259 Errore, il dato non pu&ograve essere inserito (i caratteri speciali non sono ammessi)
-260 La descrizione del file &egrave stata modificata
-261 La descrizione del file &egrave stata eliminata
-262 Tipo nell'etichetta
+259 Errore, il dato non può essere inserito (i caratteri speciali non sono ammessi)
+260 La descrizione del file è stata modificata
+261 La descrizione del file è stata eliminata
+262 Inserisci o modifica l'etichetta
 263 Configurazione del file delle etichette
 264 Non esiste nessun file delle etichette
 265 Qualsiasi
 266 Data non valida
 267 gg/mm/aaaa
-268 Velocit&agrave
+268 Velocità
 269 %m/%d/%Y
 270 Modem
 271 Slot
 272 Porte
 273 BIOS
-274 Sistema Operativo (S.O.)
-275 Versione (S.O.)
+274 Sistema Operativo
+275 Versione del Sistema Operativo
 276 Chipset
 277 Versione
 278 Driver
 279 Porta
-280 Tipo MIB
+280 Tipo MIB 
 281 DHCP IP
 282 Gateway
 283 Scopo
-284 Produttore BIOS
+284 Costruttore BIOS
 285 Selezionare un parametro da modificare
 286 Service pack
-287 Importato localmente
-288 Importazione locale
+287 Importazione locale
+288 Importa localmente
 289 Informazione di rete
 290 Ricerca indirizzi IP
-291 Modalit&agrave avanzata
-292 Aggiungi / rimuovi unit&agrave di rete
-293 Tipi unit&agrave di rete
-294 Nome sottoreti
+291 Modalità avanzata
+292 Aggiungi / rimuovi unità di rete
+293 Tipi unità di rete
+294 Nomi sottoreti
 295 Fai click per modificare
 296 Uid
-297 Non &egrave possibile scrivere nella directory
+297 Non è possibile scrivere nella directory
 298 Tutti i campi devono essere riempiti
 299 Indirizzo IP errato (deve essere: x.x.x.x)
 300 Maschera errata: deve essere: x.x.x.x or xx (xx<32)
-301 La rete &egrave stata inserita
-302 La rete &egrave stata eliminata
+301 La rete è stata inserita
+302 La rete è stata eliminata
 303 Aggiungi una sottorete
 304 Nome rete
 305 Uid
-306 Elenco sottereti
+306 Elenco sotterete
 307 Aggiungi un tipo
 308 Nome tipo
 309 Tipi apparati di rete
@@ -227,13 +229,13 @@
 317 ANALIZZA
 318 Nome DNS
 319 Risultati dell'analisi di rete
-320 Questa analisi &egrave gi&agrave stata eseguita
-321 vuoi vedere le informazioni memorizzate ?
+320 Questa analisi è già stata eseguita
+321 vuoi vedere le informazioni memorizzate?
 322 Informazioni memorizzate
 323 generate da
 324 APPARATI ANALIZZATI COME
 325 vuoto
-326 non &egrave stata inserita la maschera
+326 non è stata inserita la maschera
 327 Dettagli computer
 328 Ricercati
 329 Inventariati
@@ -245,10 +247,10 @@
 335 Tipo apparato
 336 Descrizione apparato
 337 IL PROGRAMMA NON HA INVIATO NULLA
-338 Modalit&agrave limitata
-339 Serve IpDiscover-util.pl (solo Linux) in modalit&agrave avanzata
+338 Modalità limitata
+339 Serve IpDiscover-util.pl (solo Linux) in modalità avanzata
 340 Visualizza
-341 Non &egrave eseguibile, devi assegnare i diritti di esecuzione
+341 Non è eseguibile, devi assegnare i diritti di esecuzione
 342 Devi assegnare i diritti di scrittura sulla root directory per usarlo
 344 Errore
 345 L'ANALISI E' ANCORA IN ESECUZIONE, RIPROVA TRA QUALCHE MINUTO
@@ -258,19 +260,19 @@
 349 Aggiungi colonna
 350 Tipo CPU
 351 Numero CPU
-352 Ultimo inserito
-353 Qualit&agrave
-354 Fedelt&agrave
-355 Societ&agrave
+352 Ultimo aggiornamento
+353 Qualità
+354 Fedeltà
+355 Società
 356 Proprietario
-357 User agent
-358 Jolly: ? (un solo carattere), * (pi&ugrave caratteri)
-359 Numero di serie del Monitor
-360 Data di produzione (settimana/anno)
+357 Versione agente
+358 Jolly: ? (un solo carattere), * (più caratteri)
+359 Numero di serie del monitor
+360 Costruito nel (settimana/anno)
 362 La rete
-363 esiste gi&agrave
-364 Inventariate
-365 Non inventariate
+363 esiste già
+364 Inventariato
+365 Non inventariato
 366 Identificato
 367 Apparati di rete
 368 di rete
@@ -280,16 +282,16 @@
 372 Scegli i componenti
 373 Utente registrato
 374 Azienda registrata
-375 Versione agente OCS NG
+375 Versione agente OCS-NG
 376 Computer bloccato. Riprova tra qualche minuto
-377 Velocit&agrave (MHz)
+377 Velocità CPU (MHz)
 380 Dizionario
-381 Numero delle installazioni
+381 Numero
 382 Nome del software
 383 La pagina
 384 Sposta tutto
 385 in una nuova categoria
-386 oppure
+386 O
 387 in una categoria esistente
 388 Categoria
 389 Niente
@@ -303,23 +305,23 @@
 397 Vai alla categoria
 398 Elenco categorie
 410 ESATTAMENTE
-411 I campi devono contenere solo numeri !
-412 Funzionalit&agrave acquisizione chiavi di registro
-413 Funzionalit&agrave aggiornamento automatico
-414 Funzionalit&agrave distibuzione automatica
-415 Funzionalit&agrave eliminazione log distribuzione (necessaria a GLPI).
-416 Funzionalit&agrave log.
-417 Funzionalit&agrave distribuzione automatica dei software.
-418 Funzionalit&agrave inventari differenziati.
+411 I campi devono contenere solo numeri!
+412 Funzionalità acquisizione chiavi di registro
+413 Funzionalità aggiornamento automatico
+414 Funzionalità distibuzione automatica
+415 Funzionalità eliminazione log distribuzione (necessaria a GLPI)
+416 Funzionalità log
+417 Funzionalità distribuzione automatica dei software
+418 Funzionalità inventari differenziati
 419 Numero massimo di giorni prima che un computer ricercato con IP sia sostituito.
 420 Distribuzione automatica del programma: consultare la documentazione.
 421 Distribuzione automatica del programma: consultare la documentazione.
 422 Distribuzione automatica del programma: consultare la documentazione.
-423 Distribuzione automatica del programma: consultare la documentazione. (I componenti con una priorit&agrave uguale o maggiore non devono essere scaricati ulteriormente).
-424 Validit&agrave di un pacchetto come dalla relativa considerazione dall'agente.
-425 Numero massimo di computer per gateway trovati sulla rete.
-426 Validit&agrave degli inventari. (SEMPRE: inventario ad ogni login. MAI: nessun inventario)
-427 Definisce il criterio per il quale due computer devono essere uniti automaticamente.
+423 Distribuzione automatica del programma: consultare la documentazione. (I componenti con una priorità uguale o maggiore non devono essere scaricati ulteriormente).
+424 Validità di un pacchetto come come considerato dall'agente
+425 Numero massimo di computer per gateway trovati sulla rete
+426 Validità degli inventari (SEMPRE: inventario ad ogni login - MAI: nessun inventario)
+427 Definisce il criterio per il quale due computer devono essere uniti automaticamente
 428 Distribuzione
 429 Frequenza
 430 Elaborazione di massa
@@ -329,10 +331,10 @@
 434 Generatore pacchetti
 435 Nuovo pacchetto generato
 436 Non posso aprire il file
-437 Il tuo pacchetto &egrave stato generato con successo nella directory
+437 Il tuo pacchetto è stato generato con successo nella directory
 438 Generazione nuovo pacchetto
 439 Protocollo
-440 Priorit&agrave
+440 Priorità
 441 Algoritmo di raccolta
 442 Codifica di raccolta
 443 Azione
@@ -340,17 +342,17 @@
 445 Percorso
 446 Nome file
 447 Notifica utente
-448 Avviso all'utente
+448 Avviso utente
 449 Testo
 450 Conto alla rovescia
-451 L'utente pu&ograve annullare
-452 L'utente pu&ograve ritardare
-453 Per completare l'installazione &egrave necessario l'intervento dell'utente
+451 L'utente può annullare
+452 L'utente può ritardare
+453 Per completare l'installazione è necessario l'intervento dell'utente
 454 NO
 455 SI
 456 Esegui
-457 Salva
-458 Avvia
+457 Magazzino
+458 Esegui
 459 Il conto alla rovescia deve essere un numero
 460 Identificatore univoco
 461 Raccolta
@@ -358,18 +360,18 @@
 463 Dimensione frammenti (min. 1 KB)
 464 Numero frammenti
 465 Attivazione pacchetto
-466 AVVISO: non &egrave stato trovato il file delle informazioni in
-467 AVVISO: non &egrave stato trovato il file dei frammenti in
+466 AVVISO: non è stato trovato il file delle informazioni in
+467 AVVISO: non è stato trovato il file dei frammenti in
 468 Sei sicuro di voler attivare questo pacchetto?
-469 Pacchetto attivato, ora pu&ograve essere ricercato
+469 Pacchetto attivato, ora può essere ricercato
 470 Indirizzo Https
 471 Indirizzo dei frammenti
-472 ERRORE: la cartella non pu&ograve essere eliminata
+472 ERRORE: la cartella non può essere eliminata
 473 Il contatore deve essere un numero
 474 Il contatore deve essere lungo 10 cifre
 475 Contatore
 476 O attivare un pacchetto manualmente
-477 Pacchetto interessato
+477 Interessa il pacchetto
 478 Computer
 479 Nessun computer selezionato
 480 frammenti
@@ -385,11 +387,11 @@
 490 Non usare IpDiscover
 491 Usa IpDiscover della rete
 492 ELETTO IpDiscover della rete
-493 Default (pu&ograve essere eletto)
+493 Default (può essere eletto)
 494 Frequenza di inventario personalizzata
 495 Inventariato ogni
 496 giorni
-497 Default, usa il parametro 'FREQUENZA'
+497 Default (usa il parametro 'FREQUENCY')
 498 Pacchetto
 499 Server
 500 Personalizzazione
@@ -404,20 +406,20 @@
 509 TUTTI
 510 Nessun pacchetto
 511 secondi
-512 Distribuire
+512 Distribuzione
 513 Costruire
 514 Attivare
 515 Attivato
 516 KB
-517 Questa operazione pu&ograve essere eseguita su un computer per volta.
+517 Questa operazione può essere eseguita su un computer per volta.
 518 Forza IpDiscover
-519 Computer gi&agrave eletto per la rete
-520 Computer gi&agrave obbligato a ricercare indirizzi IP della rete
-521 Computer gi&agrave obbligato a non essere eletto
+519 Computer già eletto per la rete
+520 Computer già obbligato a ricercare indirizzi IP della rete
+521 Computer già obbligato a non essere eletto
 522 Computer standard
 523 Ritorna allo stato originario
-524 NON interessa pi&ugrave
-525 SEI SICURO ?
+524 NON interessa più
+525 SEI SICURO?
 526 NESSUN COMPUTER SOGGETTO
 527 Gennaio
 528 Febbraio
@@ -432,27 +434,27 @@
 537 Novembre
 538 Dicembre
 539 Domenica
-540 Luned&igrave
-541 Marted&igrave
-542 Mercoled&igrave
-543 Gioved&igrave
-544 Venerd&igrave
+540 Lunedì
+541 Martedì
+542 Mercoledì
+543 Giovedì
+544 Venerdì
 545 Sabato
 546 in posizione
 547 tutti
 548 tutti ma RIUSCITI
-549 File (distribuito sui client)
-550 File (non vincolante, puo' essere usato dal comando "esegui")
-551 Il nome del pacchetto esiste gi&agrave
-552 <i>Devi eseguire una ricerca computer, quindi cliccare 'distribuire' perch&egrave venga distribuito il pacchetto<br>Puoi anche distribuire un pacchetto su un singolo computer usando la linguetta 'personalizzazione'</i>.
-553 Numero di serie Windows
+549 File (distribuito sui computer client)
+550 File (non vincolante, può essere usato dal comando "esegui")
+551 Il nome del pacchetto esiste già
+552 <i>Devi eseguire una ricerca computer, quindi cliccare 'distribuire' perchè venga distribuito il pacchetto<br>Puoi anche distribuire un pacchetto su un singolo computer usando la linguetta 'personalizzazione'</i>.
+553 Windows S/N
 554 Monitor: numero di serie
 555 Monitor: produttore
 556 Monitor: legenda
-557 Nome di dominio
+557 Dominio dell'utente
 558 Pacchetto interessato
-559 Questo file non &egrave .ocs
-560 Nel server
+559 Questo file non è .ocs
+560 Al server
 561 Sconosciuto (pacchetto cancellato)
 562 Rete con uid:
 563 Produttore
@@ -511,13 +513,13 @@
 618 Perimetro
 619 Utente locale
 620 Nessun computer nel tuo perimetro.
-621 Il gruppo non &egrave stato creato. Nome gi&agrave in uso
+621 Il gruppo non è stato creato. Nome già in uso
 622 Cached
 623 L'informazione che stai cercando non esiste
 624 Vuoi davvero eliminare il gruppo
 625 Enable this alteration
 626 Disable this alteration
-627 Almeno uno dei campi &egrave vuoto... Aggiornamento non effettuato.
+627 Almeno uno dei campi è vuoto... Aggiornamento non effettuato.
 628 Server di ridistribuzione
 629 Nuovo gruppo di server di ridistribuzione
 630 Gruppo di server esistenti
@@ -544,12 +546,12 @@
 651 Gruppi server
 652 Macchine
 653 Blacklist indirizzi MAC
-654 Inserisci un indirizzo MAC nella blacklist
+654 Inserisci un nuovo indirizzo MAC nella blacklist
 655 Inserimento effettuato
-656 Questo valore &egrave gi&agrave presente nella lista
-657 I campi in rosso contengono errori!!! (Campo vuoto o valore < 2) 
-658 macchine senza server di ridistribuzione.<br>Pertanto &egrave necessario agire sul pacchetto individualmente.
-659 Le macchine hanno gi&agrave questo pacchetto. Lo stato del pacchetto per queste macchine &egrave ora
+656 Questo valore è già presente nella lista
+657 I campi in rosso contengono errori! (Campo vuoto o valore < 2)
+658 macchine senza server di ridistribuzione.<br>Pertanto è necessario agire sul pacchetto individualmente.
+659 Le macchine hanno già questo pacchetto. Lo stato del pacchetto per queste macchine è ora
 660 IL GRUPPO DEI SERVER NON ESISTE
 661 PACCHETTI PER I SERVER DI RIDISTRIBUZIONE
 662 Regole di comportamento
@@ -559,10 +561,10 @@
 666 Gruppo di server creato
 667 PER IL PACCHETTO
 668 quale regola applicare?
-669 ATTENZIONE: ci sono duplicati di priorit&agrave <br> Una singola regola verr&agrave scelta!
-670 Una regola gi&agrave porta questo nome
-671 Il nome di questa regola non pu&ograve essere vuoto!
-672 Questa regola non esiste!!!
+669 ATTENZIONE: ci sono duplicati di priorità <br> Una singola regola verrà scelta!
+670 Una regola già porta questo nome
+671 Il nome di questa regola non può essere vuoto!
+672 Questa regola non esiste!
 673 Amministrazione delle regole di comportamento
 674 NOME DELLA REGOLA
 675 PRIORITA'
@@ -592,7 +594,7 @@
 699 Sei sicuro di voler far puntare questo pacchetto a queste macchine?
 700 Scelta blacklist
 701 Numeri di serie nella blacklist
-702 Inserisci un numero di serie nella blacklist
+702 Inserisci un nuovo numero di serie nella blacklist
 703 Blacklist
 704 Sei sicuro di volerlo inserire nella blacklist
 705 Sei sicuro di volerlo togliere dalla blacklist
@@ -613,7 +615,7 @@
 720 Tempo di attesa tra 2 cicli di distribuzione
 721 Tempo di attesa tra 2 frammenti scaricati
 722 Tempo di attesa tra 2 periodi di distribuzione
-723 massima priorit&agrave dei pacchetti scaricati<br>(i pacchetti con priorit&agrave superiore sono ignorati)
+723 massima priorità dei pacchetti scaricati<br>(i pacchetti con priorità superiore sono ignorati)
 724 Tempo tra 2 contatti tra agente e server
 725 (in ore)
 726 URI dei server di ridistribuzione ($IP e NAME$ sono valori generici)
@@ -626,26 +628,26 @@
 733 Inattivo
 734 File di inventario
 735 Filtri
-736 Abilita la funzionalit&agrave dei gruppi di computer
+736 Abilita la funzionalità dei gruppi di computer
 737 Numero casuale calcolato nel range definito. Progettato per evitare di calcolare tutti i gruppi allo stesso tempo
-738 Specificare la validit&agrave di un gruppo (default: calcolato una volta al giorno - vedi offset)
+738 Specificare la validità di un gruppo (default: calcolato una volta al giorno - vedi offset)
 739 Miglioramenti futuri di sicurezza
-740 Validit&agrave di un blocco del computer
+740 Validità di un blocco del computer
 741 Configura il motore per aggiornare l'inventario secondo il valore del CHECKSUM dell'agente (diminuisce il carico del DB backend) 
-742 Istruire il motore perch&egrave consideri un inventario come una transazione (meno accessi concorrenziali, miglior utilizzo del disco)
+742 Istruire il motore perchè consideri un inventario come una transazione (meno accessi concorrenziali, miglior utilizzo del disco)
 743 Configurare il motore per fare aggiornamenti differenziali delle sezioni dell'inventario (righe). Carico inferiore del DB backend, carico superiore per il frontend)
 744 Accetta un inventario solo se richiesto dal server (rifiuta quelli "forzati")
-745 Specifica quando la struttura della cache sar&agrave pulita
+745 Specifica quando la struttura della cache sarà pulita
 746 Specifica la differenza minima per sostituire un agente IpDiscover
-747 Disattivare l'intervallo di tempo precedente una prima elezione (non raccomandato) 
+747 Disattivare il tempo che precede una prima elezione (non raccomandato)
 748 Abilita gruppi per IpDiscover (es: potresti non volere che alcuni gruppi siano agenti IpDiscover)
-749 Utilizzo con ocsinventory-local, attiva la funzione multi entit&agrave
+749 Utilizzo con ocsinventory-injector, attiva la funzione multi entità
 750 Genera file compresso o testo XML in chiaro
 751 Specifica se si desidera mantenere traccia degli inventari con la sincronizzazione al server di livello superiore
-752 Percorso della directory dei file OCS (deve essere scrivibile)
+752 Percorso della directory dei file OCS-NG (deve essere scrivibile)
 753 Attiva filtro prolog stack
 754 Attiva il sistema di filtri interno per modificare alcune cose "al volo"
-755 Attiva filtro inventory flooding. Un ipaddress dedicato &egrave abilitato a trasmettere un nuovo computer solo una volta in questo periodo
+755 Attiva filtro inventory flooding. Un ipaddress dedicato è abilitato a trasmettere un nuovo computer solo una volta in questo periodo
 756 Definizione del periodo per INVENTORY_FILTER_FLOOD_IP
 757 Attiva il filtro stack inventario
 758 Specificare se si desidera tenere traccia dei pacchetti destinati ad un gruppo a livello computer
@@ -661,20 +663,20 @@
 768 Numero di record
 769 Trasferimento effettuato
 770 AGGIORNAMENTO DEL
-771 Questa categoria esiste gi&agrave
-772 Il nome della categoria non pu&ograve essere nullo
+771 Questa categoria esiste già
+772 Il nome della categoria non può essere nullo
 773 Devi selezionare il nome della categoria
 774 Stai provando a trasferire una categoria verso la stessa categoria
 775 Directory di creazione dei pacchetti
-776 Directory cache analisi IpDiscover
-777 Validit&agrave della sessione
+776 Directory di cache per analisi IpDiscover
+777 Validità della sessione
 778 Numero di WORKGROUP
 779 Etichette diverse
 780 IPSUBNET diverse
 781 Macchine con distribuzione dei pacchetti in attesa
 782 Macchine con pacchetti in errore
-783 Tipo di sistemi operativi
-784 Tipo di agenti
+783 Tipi di sistemi operativi
+784 Versioni di agenti
 785 Tipo di CPU
 786 Risoluzioni video utilizzate
 787 Macchine con CPU >=
@@ -694,25 +696,258 @@
 801 Non mostrare questo campo
 802 Mostra questo campo
 803 Numero di giorni da quando la macchina non ha contattato il server
-804 Velocit&agrave minima della CPU
-805 Velocit&agrave massima della CPU
-806 Totale RAM minima
-807 Totale RAM massima
+804 Velocità minima della CPU
+805 Velocità massima della CPU
+806 Quantità minima di RAM
+807 Quantità massima di RAM
 808 Ripartizione
 809 GRUPPI STATICI
 810 GRUPPI DINAMICI
-811 Sei sicuro di voler modificare la visibilit&agrave del gruppo
-812 Il software &egrave presente nella cache ma non &egrave pi&ugrave installato sulle macchine.<br>Non pu&ograve essere collocato in una categoria del dizionario
-813 numero di hard disk con spazio libero >
-814 numero di hard disk con spazio libero <
-815 numero di hard disk con spazio libero tra
-816 hard disk con maggior spazio libero
-817 hard disk con minor spazio libero
+811 Sei sicuro di voler modificare la visibilità del gruppo
+812 Il software con 0 è presente nella cache ma non è più installato sulle macchine.<br>Non può essere collocato in una categoria del dizionario
+813 Hard disk con spazio libero >
+814 Hard disk con spazio libero <
+815 Hard disk con spazio libero tra
+816 hard disk con spazio libero massimo
+817 hard disk con spazio libero minimo
 818 Togli dal gruppo
 819 Macchine aggiunte ai gruppi
 820 Ultimo contatto
-821 Categorie
-822 Nuovo
-823 Ignorato
-824 Invariato
-915 Messaggi
+821 SERVER CONFIGURATION MODIFICATION
+822 Personalizza
+823 Predefinita
+824 Attivazione interfaccia di log
+825 Directory dei log
+826 Indirizzo dove si trova il pacchetto da attivare per l'installazione
+827 Indirizzo dove si trova il file INFO del pacchetto da attivare per l'installazione
+828 Cancella i computer il cui inventario è più vecchio di
+829 Directory di creazione dei pacchetti per la distribuzione
+830 Indirizzo del server LDAP
+831 Porta del server (Default=389)
+832 Valore BaseDN + dc
+833 Nome del campo login
+834 Versione del protocollo
+835 Aggiungi RSX
+836 Gestione TIPI (TYPES)
+837 Non hai accesso a questi dati
+838 Dischi: Lettera del drive
+839 Dischi: Tipo
+840 Dischi: Formato
+841 Dischi: Capacità
+842 Dischi: Spazio libero
+843 Dischi: Nome del volume
+844 Gruppo: Id
+845 Gruppo: Statico
+846 Software: Produttore
+847 Software: Nome
+848 Software: Versione
+849 Software: Directory di installazione
+850 Software: Commenti
+851 Bios: Costruttore computer
+852 Bios: Modello
+853 Bios: Numero di serie
+854 Bios: Tipo computer
+855 Bios: Produttore
+856 Bios: Versione
+857 Bios: Data
+858 Monitor: Produttore
+859 Monitor: Nome
+860 Monitor: Descrizione
+861 Monitor: Tipo
+862 Monitor: Numero di serie
+863 Network: Descrizione
+864 Network: Tipo
+865 Network: Mib
+866 Network: Velocità
+867 Network: MAC
+868 Network: Stato
+869 Network: Indirizzo IP
+870 Network: Netmask
+871 Network: Sottorete IP
+872 Network: Gateway
+873 Network: DHCP IP
+874 Chiave del registro: Nome
+875 Chiave del registro: Valore
+876 Simple unaffect REDISTRIBUTION GROUP
+877 ALCUNI COMPUTER NON SONO STATI AGGIUNTI AL GRUPPO IN QUANTO:
+878 Ricorda: un computer può essere membro di un solo gruppo server
+879 GRUPPO SOSTITUITO
+880 GROUP CREATO
+881 Computer aggiunto
+882 Computer rimosso dal gruppo
+883 Vista limitata
+884 ATTENZIONE: VISTA FILTRATA
+885 sconosciuto
+886 Simple desaffection
+887 E' possibile che questo pacchetto non sia interessato dalla distribuzione dei server
+888 Rimosso
+889 Connesso come
+890 Il programma è impegnato in una ricerca con criteri vari
+891 Rimouovi il LOCK sull'interfaccia
+892 connessione con altro account
+893 NESSUN TAG INTERESSA IL TUO PROFILO
+894 NESSUN LIVELLO DI PERMESSO DEFINITO PER IL TUO PROFILO
+895 Modifica TAG
+896 Nota
+897 Data
+898 Autore
+899 Autore
+900 Vuoi davvero cancellare le voci selezionate?
+901 Action sur le résultat de la requête
+902 Action sur le résultat de la sélection
+903 Devi riempieri il campo motivazione
+904 Riassegnazione del pacchetto
+905 Motivazione circa le azioni eseguite<br>sul computer per essere in grado di<br>distribuire il pacchetto
+906 Pacchetto rimossa dalla distribuzione
+907 Motivazione circa la rimozione del pacchetto<br>da questo computer
+908 Informazioni sul terminale mobile
+909 MODIFICA NON EFFETTUATA: IL NUOVO PROFILO E' ERRATO
+910 Validazione
+911 Cambio profilo di
+912 Esporta la lista dei computer che hanno questi software
+913 Interfacce di rete non inventoriate
+914 Numero degli agenti che non hanno inviato inventari da almeno
+915 messaggi
+916 Il valore deve essere maggiore di
+917 Valore di FREQUENCY
+918 Differenza tra LASTDATE e LASTCOME
+919 Sei sicuro di voler cancellare questo messaggio
+920 ERRORE, le richieste non esistono.
+921 Elimina questa categoria
+922 Per unirli, devi selezionare almeno 2 computer
+923 Non hai nessun computer
+924 RICHIESTA DI ESTRAZIONE NON CONFORME!
+925 Funzionalità FUSER
+926 Fuser login:
+927 LA CACHE NON SARA' RIGENERATA DA QUESTA AZIONE
+928 Visualizza log
+929 la gestione delle sottoreti non è eseguita localmente.
+930 Non puoi aggiungere/modificare/rimuovere sottoreti
+931 Modifica una sottorete
+932 Il campo indirizzo IP non può essere vuoto
+933 Il campo nome della rete non può essere vuoto
+934 Il campo ID della rete non può essere vuoto
+935 Il campo maschera di rete non può essere vuoto
+936 Il campo tipo non può essere vuoto
+937 Questo tipo già esiste
+938 Nuovo tipo
+939 Computer membri di un gruppo
+940 Tutti i computer che hanno questo pacchetto
+941 MOSTRA STATISTICHE ATTIVO
+942 Devi inserire un commento per questa periferica
+943 Devi selezionare il tipo di periferica
+944 Dati inseriti da
+945 Modifica periferica
+946 Aggiungi nuova periferica
+947 Lista delle periferiche non identificate
+948 Lista delle perifiriche identificate
+949 Id computer
+950 NOME FILE
+951 CREATO IL
+952 MODIFICATO IL
+953 GRANDEZZA
+954 Si è verificata una perdita di sessione
+955 NESSUN SISTEMA TROVATO NEL DATABASE
+956 Tutti gli errori
+957 Tutti i riusciti
+958 PROBLEMA CON IL VALORE DI INSTALLAZIONE
+959 TROPPI SOFTWARE TROVATI. SII PIU' SPECIFICO NELLA RICERCA
+960 NESSUN SOFTWARE TROVATO
+961 LISTA DI
+962 (uno, tra tutti)
+963 LISTA DI DIFFERENTI
+964 Nome partizione
+965 Linux (ALL)
+966 Windows (ALL)
+965 Mostra
+966 Agente
+967 APPARTENENTI A
+968 NON APPARTENENTI A
+969 Storico dei pacchetti
+970 Pacchetti
+971 RIMUOVI GRUPPO DI COMPUTER
+972 Computer rimossi dal gruppo
+973 COMPUTER AGGIUNTI AL GRUPPO
+974 computer inseriti nella cache
+975 Aggiungi a gruppo
+976 INTERFACE LOCK ON REQUEST RESULT
+977 BLOCCO ATTIVATO
+978 Stai per bloccare tutte le interfacce sui risultati di ricerca con vari criteri
+979 Per ritornare allo stato predefinito, devi cliccare sull'icona <img src='image/cadena_op.png'> che si trova in alto a destra dell'interfaccia
+980 Pacchetti nei computer
+981 Pacchetti nei gruppi di server
+982 NON SONO DISPONIBILI REGOLE VALIDE. NON E' POSSIBLE PROSEGUIRE LA RIDISTRIBUZIONE.
+983 Devi scegliere quale tipo di modifica effettuare
+984 Modifiche
+985 RIMUOVI I COMPUTER
+986 RIMUOVI I COMPUTER PER
+987 Questa chiave di registro esiste già
+988 DEVI RIEMPIRE TUTTI I CAMPI
+989 I DATI NON ESISTONO. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
+990 Pacchetto creato manualmente
+991 Pacchetto creato automaticamente
+992 Tempo stimato per l'installazione
+993 I campi in rosso contengono errori
+994 PDA/SMARTPHONE
+995 ID utente
+996 COGNOME
+997 Devi riempire il campo ID utente
+998 scegli un profilo valido
+999 Questo ID utente è già presente
+1000 Notificato
+1001 I campi in rosso contengono errori!
+1002 Tempo stimato per l'installazione
+1003 Parametri dei pacchetti dei server di distribuzione
+1004 Non è possibile creare la directory per la realizzazione del pacchetto
+1005 Non è possibile creare il pacchetto quindi
+1006 non hai i diritti di scrittura
+1007 La directory
+1008 Utilizzalo in questo pacchetto di ridistribuzione
+1009 Directory di salvataggio dei server
+1010 NORMALE
+1011 DEBUG
+1012 TRADUZIONE
+1013 MANUTENZIONE
+1014 Passa a modalità
+1015 Modalità utente
+1016 Login per l'autenticazione
+1017 Password
+1018 (Non inserire nulla se vuoi utilizzare connessioni anonime)
+1019 Lock result
+1020 Nome dell'etichetta informativa
+1021 Teledeploy admin
+1022 TAG admin
+1023 Packages affect with statut
+1024 sarà cancellato
+1025 Unaffect
+1026 Pacchetto cancellato sui computer
+1027 Categorie
+1028 Nuovo
+1029 Ignorato
+1030 Invariato
+1031 IT Set Management
+1032 Activer It Set Management pour le télédéploiement
+5000 [DEBUG]computers insertions request =>[DEBUG]
+5001 [DEBUG]REQUEST MADE => [DEBUG]
+5002 [DEBUG] => weight: [DEBUG]
+5003 [DEBUG]Rache regeneration[DEBUG]
+5004 [DEBUG]forcing cache limit old value[DEBUG]
+5005 [DEBUG]Cache total use[DEBUG]
+5006 [DEBUG]array count request[DEBUG]
+5007 [DEBUG]Cache use for lines number[DEBUG]
+5008 [DEBUG]array request[DEBUG]
+5009 [DEBUG]RAW DATAS[DEBUG]  
+5010 [DEBUG]table field=[DEBUG]
+5011 [DEBUG]Comparison field=[DEBUG]
+5012 [DEBUG]value to search=[DEBUG]
+5013 [DEBUG]Complementary field=[DEBUG]
+5014 [DEBUG]AND OR Field=[DEBUG]
+5015 [DEBUG]COMPLEMENTARY FIELD OMISSION ON TABLE[DEBUG]
+5016 [DEBUG]table =>[DEBUG]
+5017 [DEBUG]filed =>[DEBUG]
+5018 [DEBUG]comparison =>[DEBUG]
+5019 [DEBUG]value to search  =>[DEBUG]
+5020 [DEBUG]complementary field =>[DEBUG]
+5021 [DEBUG]AND_OR =>[DEBUG]
+5022 [DEBUG]NORMAL CONDITION REQUEST[DEBUG]
+5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
