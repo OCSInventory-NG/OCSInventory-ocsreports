@@ -10,7 +10,7 @@
 //====================================================================================
 //Modified on $Date: 2006/12/21 18:13:46 $$Author: plemmet $($Revision: 1.5 $)
 //pour le d�bug
-if ($_SESSION['MODE_LANGUAGE']=="ON"){
+if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 	echo "<script language=javascript>
 			function report_id(){				
 				document.getElementById('ID_WORD').value=document.getElementById('WORD').value;
@@ -34,7 +34,7 @@ if ($_SESSION['MODE_LANGUAGE']=="ON"){
 	$tab_name[0]="action :";
 	if (isset($protectedPost['ACTION']) and $protectedPost['ACTION'] != ''){
 		if ($protectedPost['ACTION'] != 'ADD'){
-			$tab_typ_champ[1]['DEFAULT_VALUE']=$_SESSION['EDIT_LANGUAGE'];
+			$tab_typ_champ[1]['DEFAULT_VALUE']=$_SESSION['OCS']['EDIT_LANGUAGE'];
 			$tab_typ_champ[1]['INPUT_NAME']="WORD";
 			$tab_typ_champ[1]['INPUT_TYPE']=2;
 			$tab_typ_champ[1]['CONFIG']['JAVASCRIPT']="onclick='report_id();'";
@@ -64,14 +64,14 @@ if ($_SESSION['MODE_LANGUAGE']=="ON"){
 	tab_modif_values($tab_name,$tab_typ_champ,'',"EDITION LANGUE",$comment="","EDITION",$show_buttons,$form_language);
 }
 
-if ($_SESSION['DEBUG'] == 'ON'){
+if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 	echo "<hr/>";
 	echo "<div align=center>VAR POST</div>";
 	if (isset($protectedPost))
 	print_r_V2($protectedPost);
 	echo "<hr/>";
 	echo "<div align=center>VAR SESSION</div>";
-	foreach ($_SESSION as $key=>$value){
+	foreach ($_SESSION['OCS'] as $key=>$value){
 		
 		if ($key != "fichLang" and $key != "LANGUAGE_FILE" and $key != "mac"){
 			$tab_session[$key]=$value;
@@ -86,8 +86,8 @@ echo"<br></div><table class='headfoot'>";
 echo"<tr height=25px><td align='center'>&nbsp;";
 if( function_exists("getmicrotime") ) {
 	$fin = getmicrotime();
-	if($_SESSION["DEBUG"]=="ON") {
-		echo "<b>CACHE:&nbsp;<font color='".($_SESSION["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>".round($fin-$debut, 3) ." secondes</b></font>&nbsp;&nbsp;&nbsp;";
+	if($_SESSION['OCS']["DEBUG"]=="ON") {
+		echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>".round($fin-$debut, 3) ." secondes</b></font>&nbsp;&nbsp;&nbsp;";
 		echo "<script language='javascript'>document.getElementById(\"tps\").innerHTML=\"<font color='black'><b>".round($fin-$debut, 3)." secondes</b></font>\"</script>";
 	}
 	echo "<script language='javascript'>wait(0);</script>";

@@ -6,7 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
- $Directory=$_SESSION['plugins_dir'].'language/';
+ $Directory=$_SESSION['OCS']['plugins_dir'].'language/';
 if (file_exists($Directory."config.txt")){
 		$fd = fopen ($Directory."config.txt", "r");
 		$capture='';

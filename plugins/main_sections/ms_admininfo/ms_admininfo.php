@@ -9,18 +9,15 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2007/02/08 15:53:24 $$Author: plemmet $($Revision: 1.6 $)
-if( $_SESSION["lvluser"] != SADMIN )
-	die("FORBIDDEN");
-
 if($protectedGet["suppAcc"]) {
-	@mysql_query("ALTER TABLE accountinfo DROP ".$protectedGet["suppAcc"], $_SESSION["writeServer"]);
-	unset($_SESSION["availFieldList"], $_SESSION["optCol"]);
+	@mysql_query("ALTER TABLE accountinfo DROP ".$protectedGet["suppAcc"], $_SESSION['OCS']["writeServer"]);
+	unset($_SESSION['OCS']["availFieldList"], $_SESSION['OCS']["optCol"]);
 	echo "<br><br><center><font face='Verdana' size=-1 color='red'><b>". $protectedGet["suppAcc"] ."</b> ".$l->g(226)." </font></center><br>";
 }
 
 if($protectedPost["nom"])
 {
-	unset($_SESSION["availFieldList"], $_SESSION["optCol"]);
+	unset($_SESSION['OCS']["availFieldList"], $_SESSION['OCS']["optCol"]);
 	switch($protectedPost["type"]) {
 		case $l->g(229): $suff = "VARCHAR(255)"; break;
 		case $l->g(230): $suff = "INT"; break;
@@ -29,7 +26,7 @@ if($protectedPost["nom"])
 	}
 	
 	$queryAccAddN = "ALTER TABLE accountinfo ADD ".$protectedPost["nom"]." $suff";
-	if(mysql_query($queryAccAddN, $_SESSION["writeServer"]))
+	if(mysql_query($queryAccAddN, $_SESSION['OCS']["writeServer"]))
 		echo "<br><br><center><font face='Verdana' size=-1 color='green'><b>". $protectedPost["nom"] ."</b> ".$l->g(234)." </font></center><br>";
 	else 
 		echo "<br><br><center><font face='Verdana' size=-1 color='red'><b>".$l->g(259)."</b></font></center><br>";
@@ -39,7 +36,7 @@ if($protectedPost["nom"])
 				function confirme(did)
 				{
 					if(confirm("<?php echo $l->g(227)?> "+did+" ?"))
-						window.location="index.php?<?php echo PAG_INDEX; ?>=<?php echo $protectedGet[PAG_INDEX]?>&c=<?php echo ($_SESSION["c"]?$protectedGet["c"]:2)?>&a=<?php echo $protectedGet["a"]?>&page=<?php echo $protectedGet["page"]?>&suppAcc="+did;
+						window.location="index.php?<?php echo PAG_INDEX; ?>=<?php echo $protectedGet[PAG_INDEX]?>&c=<?php echo ($_SESSION['OCS']["c"]?$protectedGet["c"]:2)?>&a=<?php echo $protectedGet["a"]?>&page=<?php echo $protectedGet["page"]?>&suppAcc="+did;
 				}
 			</script>
 <?php 
@@ -79,7 +76,7 @@ echo "
 	</table></center></form><br>
 	";
 	printEnTete($l->g(233));
-	$reqAc = mysql_query("SHOW COLUMNS FROM accountinfo", $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$reqAc = mysql_query("SHOW COLUMNS FROM accountinfo", $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	echo "<br><table BORDER='0' WIDTH = '50%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	echo "<tr><td align='center'><b>".$l->g(49)."</b></font></td><td align='center'><b>".$l->g(66)."</b></font></td></tr>";		
 	while($colname=mysql_fetch_array($reqAc)) {		

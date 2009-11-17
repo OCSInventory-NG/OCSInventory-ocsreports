@@ -1,7 +1,5 @@
 <?php
 
-if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
 	$year_mouth['Dec']=12;
 	$year_mouth['Nov']=11;
 	$year_mouth['Oct']=10;
@@ -21,7 +19,7 @@ where d.name='DOWNLOAD'
 and d_e.id=d.ivalue
 and d_a.fileid=d_e.fileid
 and d_e.fileid='".$protectedGet['stat']."'";
-$result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 $item = mysql_fetch_object($result);
 $total_mach=$item->c;
 
@@ -34,7 +32,7 @@ and d_e.id=d.ivalue
 and d_a.fileid=d_e.fileid
 and d_e.fileid='".$protectedGet['stat']."'";
 
-$result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 $nb_4_hour=array();
 //$total_mach=0;
 while($item = mysql_fetch_object($result)){

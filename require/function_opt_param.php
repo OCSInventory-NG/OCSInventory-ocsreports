@@ -16,14 +16,14 @@ function recharge(modif,origine){
  	global $protectedPost,$list_hardware_id,$tab_hadware_id;
 	// if it's for group or a machine
  	if( isset($list_hardware_id)) {
- 		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id='".$protectedPost["systemid"]."'", $_SESSION["writeServer"] )) {
- 				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
+ 		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id='".$protectedPost["systemid"]."'", $_SESSION['OCS']["writeServer"] )) {
+ 				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
 				return false;
 			}
 	}
 	else { //else : request 
-		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id in (".implode(',',$tab_hadware_id).")", $_SESSION["writeServer"] )) {
-				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
+		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id in (".implode(',',$tab_hadware_id).")", $_SESSION['OCS']["writeServer"] )) {
+				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
 				return false;
 			}
 			
@@ -44,8 +44,8 @@ function recharge(modif,origine){
 				$sql="INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('".$list_hardware_id."', '".$NAME."', '".$IVALUE."', '".$TVALUE."')";
 			else
 				$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$list_hardware_id."', '".$NAME."', '".$IVALUE."')";
-			if( ! @mysql_query( $sql, $_SESSION["writeServer"] )) {
-				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
+			if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] )) {
+				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
 				return false;
 			}
 	}
@@ -57,8 +57,8 @@ function recharge(modif,origine){
 			else
 				$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES (".$tab_hadware_id[$i].", '".$NAME."', $IVALUE)";
 		
-			if( ! @mysql_query( $sql, $_SESSION["writeServer"] )) {
-					echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
+			if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] )) {
+					echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
 					return false;
 				}
 				$i++;

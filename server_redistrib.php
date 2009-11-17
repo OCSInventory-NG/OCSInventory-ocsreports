@@ -4,8 +4,6 @@
  */
 
 require_once('require/function_server.php');
-if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
 
 //delete one server or all
 if($protectedPost["supp"]){
@@ -17,8 +15,8 @@ if($protectedPost["supp"]){
 		$verif[0]['MSG_ERROR']=$l->g(689)." ".$l->g(687);
 		$ok=verification($verif);
 		if (isset($ok)){
-            mysql_query("delete from download_enable where SERVER_ID=".$protectedPost["supp"], $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
-			mysql_query("delete from download_servers where hardware_id=".$protectedPost["supp"], $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+            mysql_query("delete from download_enable where SERVER_ID=".$protectedPost["supp"], $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+			mysql_query("delete from download_servers where hardware_id=".$protectedPost["supp"], $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 		}
 	}
 	elseif ($protectedPost["supp"] == "ALL"){
@@ -29,9 +27,9 @@ if($protectedPost["supp"]){
 		$verif[0]['MSG_ERROR']=$l->g(688)." ".$l->g(690);
 		$ok=verification($verif);
 		if (isset($ok)){
-			mysql_query("delete from download_enable where GROUP_ID=".$systemid, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+			mysql_query("delete from download_enable where GROUP_ID=".$systemid, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 			$sql="delete from download_servers where GROUP_ID = ".$systemid;
-			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+			mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 		}
 	}
 }
@@ -48,15 +46,15 @@ if (isset($protectedPost['Valid_modif_x']) and isset($protectedPost['modif']) an
 	{
 		 
 			$sql= "update download_servers set URL='".$protectedPost['URL']."' ,ADD_REP='".$protectedPost['REP_STORE']."' where hardware_id=".$protectedPost['modif'];
-			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+			mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 			$sql= "update download_enable set pack_loc='".$protectedPost['URL']."' where SERVER_ID=".$protectedPost['modif'];
-			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+			mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 	}else
 	{				
 			$sql="update download_servers set URL='".$protectedPost['URL']."' ,ADD_REP='".$protectedPost['REP_STORE']."' where GROUP_ID=".$systemid;
-			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+			mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 			$sql= "update download_enable set pack_loc='".$protectedPost['URL']."' where GROUP_ID=".$systemid;
-			mysql_query($sql, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+			mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 	}
 }
 //view of all group's machin
@@ -80,10 +78,10 @@ if (isset($systemid))
 		from hardware right join download_servers on hardware.id=download_servers.hardware_id
 		where download_servers.GROUP_ID=".$systemid." order by ".$protectedPost['tri2']." ".$protectedPost['sens'];
 	$reqCount="select count(*) nb from (".$sql.") toto";
-	$resCount = mysql_query($reqCount, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$resCount = mysql_query($reqCount, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$valCount = mysql_fetch_array($resCount);
 	$sql.=" limit ".$limit["BEGIN"].",".$limit["END"];
-		$result = mysql_query($sql, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+		$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$i=0;
 	if ($protectedPost['sens'] == "ASC")
 		$sens="DESC";

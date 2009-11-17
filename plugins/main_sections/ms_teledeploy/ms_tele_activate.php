@@ -40,7 +40,7 @@ if ($protectedPost['SHOW_SELECT'] == 'download'){
 		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
 }else
 		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_REP_CREAT'";
-$res_document_root = mysql_query( $sql_document_root, $_SESSION["readServer"] );
+$res_document_root = mysql_query( $sql_document_root, $_SESSION['OCS']["readServer"] );
 $val_document_root = mysql_fetch_array( $res_document_root );
 $document_root = $val_document_root["tvalue"];
 //if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
@@ -152,17 +152,17 @@ $tab_options['FIELD']['SHOWACTIVE']='FILEID';
 //on force le tri desc pour l'ordre des paquets
 if (!$protectedPost['sens'])
 	$protectedPost['sens']='DESC';
-$_SESSION['SQL_DATA_FIXE'][$table_name]['ERR_']="select concat('<font color=red>',count(*),'</font>') as ERR_,de.FILEID
+$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['ERR_']="select concat('<font color=red>',count(*),'</font>') as ERR_,de.FILEID
 			from devices d,download_enable de 
 			where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
 			and d.tvalue LIKE 'ERR_%' group by FILEID";
-$_SESSION['SQL_DATA_FIXE'][$table_name]['SUCC']="select concat('<font color=green>',count(*),'</font>') as SUCC,de.FILEID
+$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['SUCC']="select concat('<font color=green>',count(*),'</font>') as SUCC,de.FILEID
 			from devices d,download_enable de 
 			where d.IVALUE=de.ID  and d.name='DOWNLOAD' and d.tvalue LIKE 'SUCCESS%' group by FILEID";
-$_SESSION['SQL_DATA_FIXE'][$table_name]['NOTI']="select concat('<font color=grey>',count(*),'</font>') as NOTI,de.FILEID
+$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['NOTI']="select concat('<font color=grey>',count(*),'</font>') as NOTI,de.FILEID
 			from devices d,download_enable de 
 			where d.IVALUE=de.ID  and d.name='DOWNLOAD' and d.tvalue LIKE 'NOTI%' group by FILEID";	
-$_SESSION['SQL_DATA_FIXE'][$table_name]['NO_NOTIF']="select count(*) as NO_NOTIF,de.FILEID
+$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['NO_NOTIF']="select count(*) as NO_NOTIF,de.FILEID
 			from devices d,download_enable de 
 			where d.IVALUE=de.ID  and d.name='DOWNLOAD' and d.tvalue IS NULL group by FILEID";							
 	

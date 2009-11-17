@@ -2,12 +2,12 @@
 
 function computor_list_by_tag($tag=""){
 	if ($tag == ""){
-		$sql_mycomputors="select hardware_id from accountinfo a where ".$_SESSION["mesmachines"];
+		$sql_mycomputors="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
 	}elseif (is_array($tag)){
 		$sql_mycomputors="select hardware_id from accountinfo a where a.tag in (".implode(",",$tag).")";
 	}else
 		$sql_mycomputors="select hardware_id from accountinfo a where a.tag in (".$tag.")";
-	$res_mycomputors = mysql_query($sql_mycomputors, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$res_mycomputors = mysql_query($sql_mycomputors, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$mycomputors="(";
 	while ($item_mycomputors = mysql_fetch_object($res_mycomputors)){
 		$mycomputors.= $item_mycomputors->hardware_id.",";	
@@ -28,7 +28,7 @@ function deleteListId($listid, $checkLock = true, $traceDel = true, $silent=fals
 	global $l;
 	//If lock is not user OR it is used and available
 	if( ! $checkLock || lock($id) ) {	
-		$resId = mysql_query("SELECT deviceid,name,IPADDR,OSNAME FROM hardware WHERE id='$id'",$_SESSION["readServer"]) or die(mysql_error());
+		$resId = mysql_query("SELECT deviceid,name,IPADDR,OSNAME FROM hardware WHERE id='$id'",$_SESSION['OCS']["readServer"]) or die(mysql_error());
 		$valId = mysql_fetch_array($resId);
 		$idHard = $id;
 		$did = $valId["deviceid"];
@@ -36,9 +36,9 @@ function deleteListId($listid, $checkLock = true, $traceDel = true, $silent=fals
 					
 			//Deleting a network device
 			if( strpos ( $did, "NETWORK_DEVICE-" ) === false ) {
-				$resNetm = @mysql_query("SELECT macaddr FROM networks WHERE hardware_id=$idHard", $_SESSION["writeServer"]) or die(mysql_error());
+				$resNetm = @mysql_query("SELECT macaddr FROM networks WHERE hardware_id=$idHard", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 				while( $valNetm = mysql_fetch_array($resNetm)) {
-					@mysql_query("DELETE FROM netmap WHERE mac='".$valNetm["macaddr"]."';", $_SESSION["writeServer"]) or die(mysql_error());
+					@mysql_query("DELETE FROM netmap WHERE mac='".$valNetm["macaddr"]."';", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 				}		
 			}
 			//deleting a regular computer
@@ -49,23 +49,23 @@ function deleteListId($listid, $checkLock = true, $traceDel = true, $silent=fals
 			}
 			elseif($did == "_SYSTEMGROUP_"){//Deleting a group
 				$tables=Array("devices");
-				mysql_query("DELETE FROM groups WHERE hardware_id=$idHard", $_SESSION["writeServer"]) or die(mysql_error());
-				$resDelete = mysql_query("DELETE FROM groups_cache WHERE group_id=$idHard", $_SESSION["writeServer"]) or die(mysql_error());
-				$affectedComputers = mysql_affected_rows( $_SESSION["writeServer"] );
+				mysql_query("DELETE FROM groups WHERE hardware_id=$idHard", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
+				$resDelete = mysql_query("DELETE FROM groups_cache WHERE group_id=$idHard", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
+				$affectedComputers = mysql_affected_rows( $_SESSION['OCS']["writeServer"] );
 			}
 			
 			if( !$silent )
 				echo "<center><font color=red><b>".$valId["name"]." ".$l->g(220)."</b></font></center>";
 			
 			foreach ($tables as $table) {
-				mysql_query("DELETE FROM $table WHERE hardware_id=$idHard;", $_SESSION["writeServer"]) or die(mysql_error());		
+				mysql_query("DELETE FROM $table WHERE hardware_id=$idHard;", $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
 			}
-			mysql_query("delete from download_enable where SERVER_ID=".$idHard, $_SESSION["writeServer"]) or die(mysql_error($_SESSION["writeServer"]));
+			mysql_query("delete from download_enable where SERVER_ID=".$idHard, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 			
-			mysql_query("DELETE FROM hardware WHERE id=$idHard;", $_SESSION["writeServer"]) or die(mysql_error());
+			mysql_query("DELETE FROM hardware WHERE id=$idHard;", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 			//Deleted computers tracking
-			if($traceDel && mysql_num_rows(mysql_query("SELECT IVALUE FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION["writeServer"]))){
-				mysql_query("insert into deleted_equiv(DELETED,EQUIVALENT) values('$did',NULL)", $_SESSION["writeServer"]) or die(mysql_error());
+			if($traceDel && mysql_num_rows(mysql_query("SELECT IVALUE FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION['OCS']["writeServer"]))){
+				mysql_query("insert into deleted_equiv(DELETED,EQUIVALENT) values('$did',NULL)", $_SESSION['OCS']["writeServer"]) or die(mysql_error());
 			}
 		}
 		//Using lock ? Unlock
@@ -108,10 +108,10 @@ function fusionne($afus) {
 		
 		if( $okLock ) {
 			//TRACE_DELETED
-			if(mysql_num_rows(mysql_query("SELECT * FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION["readServer"]))){
+			if(mysql_num_rows(mysql_query("SELECT * FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION['OCS']["readServer"]))){
 				foreach($afus as $a) {	
 					if($afus[$maxInd]["deviceid"]==$a["deviceid"]){continue;}
-					mysql_query("insert into deleted_equiv(DELETED,EQUIVALENT) values('".$a["deviceid"]."','".$afus[$maxInd]["deviceid"]."')", $_SESSION["writeServer"]) ;
+					mysql_query("insert into deleted_equiv(DELETED,EQUIVALENT) values('".$a["deviceid"]."','".$afus[$maxInd]["deviceid"]."')", $_SESSION['OCS']["writeServer"]) ;
 				}
 			}
 			
@@ -119,14 +119,14 @@ function fusionne($afus) {
 			$persistent_req = mysql_query("SELECT CHECKSUM,QUALITY,FIDELITY FROM hardware WHERE ID=".$afus[$minInd]["id"]) ;
 					
 			$reqDelAccount = "DELETE FROM accountinfo WHERE hardware_id=".$afus[$maxInd]["id"];
-			mysql_query($reqDelAccount, $_SESSION["writeServer"]) ;
+			mysql_query($reqDelAccount, $_SESSION['OCS']["writeServer"]) ;
 			echo "<center><font color=green>".$l->g(190)." ".$afus[$maxInd]["deviceid"]." ".$l->g(191)."</font></center>";
 			
 			$keep = array( "accountinfo",  "devices", "groups_cache" );
 			foreach( $keep as $tableToBeKept ) {
 				$reqRecupAccount = "UPDATE ".$tableToBeKept." SET hardware_id=".$afus[$maxInd]["id"]." WHERE hardware_id=".$afus[$minInd]["id"];			
 				//echo $reqRecupAccount;
-				mysql_query($reqRecupAccount, $_SESSION["writeServer"]) ;
+				mysql_query($reqRecupAccount, $_SESSION['OCS']["writeServer"]) ;
 			}						
 			
 			echo "<center><font color=green>".$l->g(190)." ".$afus[$minInd]["deviceid"]." ".$l->g(206)." ".$afus[$maxInd]["deviceid"]."</font></center><br>";

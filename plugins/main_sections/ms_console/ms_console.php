@@ -36,7 +36,7 @@ echo "<script language=javascript>
 		$sql_on_hardware.=$list_on_else;		
 		$sql_on_hardware.="	group by ".$name;
 		$sql_on_hardware.=" having c != 0 ";
-	 	$result_on_hardware = mysql_query( $sql_on_hardware, $_SESSION["readServer"]);
+	 	$result_on_hardware = mysql_query( $sql_on_hardware, $_SESSION['OCS']["readServer"]);
 	 	$num_rows = mysql_num_rows($result_on_hardware);
 		$data['nb_'.$name]['count']=$num_rows;
 		$data['nb_'.$name]['data']="<a OnClick='garde_valeur_console(\"".$form_name."\",\"".$name."\",\"detail\",\"".$tablename."\",\"tablename\")'>".$data['nb_'.$name]['count']."</a>";
@@ -64,9 +64,9 @@ echo "<script language=javascript>
 		}else
 		$sql_on_hardware.=$list_on_else;
 		$sql_on_hardware.="	group by ".$name;
-		$_SESSION["forcedRequest"]=$sql_on_hardware;
+		$_SESSION['OCS']["forcedRequest"]=$sql_on_hardware;
 		$sql_on_hardware.="	order by ".$protectedPost['tri2']." ".$protectedPost['sens']." limit ".$limit['BEGIN'].",".$limit['END'];
-	 	$result_on_hardware = mysql_query( $sql_on_hardware, $_SESSION["readServer"]);
+	 	$result_on_hardware = mysql_query( $sql_on_hardware, $_SESSION['OCS']["readServer"]);
 		$nb_lign=0;
 		while($item_on_hardware = mysql_fetch_object($result_on_hardware)){
 			if ($item_on_hardware -> c != 0){
@@ -92,17 +92,17 @@ echo "<script language=javascript>
 	 		$sql_SESSION.= ",hardware h1 ".$wherecondition." and h1.id=h.hardware_id ".$list_id;
 	 		$sql_count.=$wherecondition." ".$list_id;
 	 	}
-	 	$result_count = mysql_query( $sql_count, $_SESSION["readServer"]);
+	 	$result_count = mysql_query( $sql_count, $_SESSION['OCS']["readServer"]);
 		$item_count = mysql_fetch_object($result_count);
 		
 		if ($link != "" and $item_count -> c != 0 and $item_count -> c != ""){
 			$a_behing="<a href='".$link."' target='_blank'>";
  			$a_end="</a>";
- 			$_SESSION['SQL'][$name_data]= $sql_SESSION;		
+ 			$_SESSION['OCS']['SQL'][$name_data]= $sql_SESSION;		
  		}elseif($item_count -> c != 0 and $item_count -> c != ""){
  			$a_behing="<a OnClick='garde_valeur_console(\"".$form_name."\",\"".$name_data."\",\"detail\",\"ELSE\",\"tablename\")'>";
  			$a_end="</a>";
- 			$_SESSION['SQL'][$name_data]= $sql_SESSION;	
+ 			$_SESSION['OCS']['SQL'][$name_data]= $sql_SESSION;	
  			
 		}
 		$data[$name_data]['data']= $a_behing.$item_count -> c.$a_end;
@@ -111,29 +111,29 @@ echo "<script language=javascript>
 
  }
 
-//for SADMIN only 
-if( $_SESSION["lvluser"] == SADMIN) {
+
+if( $_SESSION['OCS']['CONFIGURATION']['CONSOLE']=="YES") {
 	
 	//Value of FREQUENCY
 	$sql_frequency="select ivalue from config where name='FREQUENCY'";
-	$result_frequency = mysql_query( $sql_frequency, $_SESSION["readServer"]);
+	$result_frequency = mysql_query( $sql_frequency, $_SESSION['OCS']["readServer"]);
 	$item_frequency = mysql_fetch_object($result_frequency);
 	
 	if (isset($protectedPost['supp']) and $protectedPost['supp'] != ""){
 		$sql_not_show="delete from config where name='".addslashes($protectedPost['supp'])."'";
-		mysql_query( $sql_not_show, $_SESSION["writeServer"] );
+		mysql_query( $sql_not_show, $_SESSION['OCS']["writeServer"] );
 		
 	}	
 	
 	 if ($protectedPost['DELETE_OPTION'] != "" and isset($protectedPost['DELETE_OPTION'])){
 			$sql_not_show="insert into config (NAME,IVALUE) values ('OSC_REPORT_".$protectedPost['DELETE_OPTION']."',1)";
-			mysql_query( $sql_not_show, $_SESSION["writeServer"] );
+			mysql_query( $sql_not_show, $_SESSION['OCS']["writeServer"] );
 
 	 }
 	 if ($protectedPost['USE_OPTION'] != "" and isset($protectedPost['USE_OPTION'])){
 			$sql_show="delete from config where name='OSC_REPORT_".$protectedPost['USE_OPTION']."'";
 			
-			mysql_query( $sql_show, $_SESSION["writeServer"] );
+			mysql_query( $sql_show, $_SESSION['OCS']["writeServer"] );
 
 	 }
 	if (isset($protectedPost['Valid']) and $protectedPost['onglet'] == "CONFIG"){
@@ -145,9 +145,9 @@ if( $_SESSION["lvluser"] == SADMIN) {
 					echo "<script> alert('La valeur de LAST_DIFF doit �tre supp�rieure � celle de FREQUENCY')</script>";
 				else{
 					$sql="delete from config where NAME='GUI_REPORT_".$key."'";
-					mysql_query( $sql, $_SESSION["writeServer"] );
+					mysql_query( $sql, $_SESSION['OCS']["writeServer"] );
 					$sql="insert into config (NAME,IVALUE) value ('GUI_REPORT_".$key."',".$value.")";
-					mysql_query( $sql, $_SESSION["writeServer"] );
+					mysql_query( $sql, $_SESSION['OCS']["writeServer"] );
 				}
 				
 			}
@@ -155,7 +155,7 @@ if( $_SESSION["lvluser"] == SADMIN) {
 		}
 	}elseif ($protectedPost['onglet'] == "MSG" and isset($protectedPost['Val'])){
 		$sql_msg="select name from config where name like 'GUI_REPORT_MSG%'";
-		$result_msg = mysql_query( $sql_msg, $_SESSION["readServer"]);
+		$result_msg = mysql_query( $sql_msg, $_SESSION['OCS']["readServer"]);
 		while($item_msg = mysql_fetch_object($result_msg)){
 			$list_name_msg[]=substr($item_msg ->name,14);		
 		}
@@ -169,7 +169,7 @@ if( $_SESSION["lvluser"] == SADMIN) {
 		$i=1;
 		if (trim($protectedPost['GROUP']) != "" and is_numeric($protectedPost['GROUP']) and trim($protectedPost['MSG'])!=""){
 			$sql="insert into config (NAME,IVALUE,TVALUE) value ('GUI_REPORT_MSG".$i."',".$protectedPost['GROUP'].",'".addslashes($protectedPost['MSG'])."')";
-			mysql_query( $sql, $_SESSION["writeServer"] );
+			mysql_query( $sql, $_SESSION['OCS']["writeServer"] );
 		}else
 		echo "<center><b><font color=red><BIG>".$l->g(239)."</BIG></font></b></center>";
 		
@@ -178,13 +178,13 @@ if( $_SESSION["lvluser"] == SADMIN) {
   
  //witch fields not show
  $sql_search_option="select substr(NAME,12) NAME from config where name like 'OSC_REPORT_%'";
- $result_search_option = mysql_query( $sql_search_option, $_SESSION["readServer"]);
+ $result_search_option = mysql_query( $sql_search_option, $_SESSION['OCS']["readServer"]);
 while($item_search_option = mysql_fetch_object($result_search_option))
 	$list_no_show[$item_search_option ->NAME]=$item_search_option ->NAME;	
 
 //witch option fields
  $sql_search_option="select substr(NAME,12) NAME,IVALUE from config where name like 'GUI_REPORT_%'";
- $result_search_option = mysql_query( $sql_search_option, $_SESSION["readServer"]);
+ $result_search_option = mysql_query( $sql_search_option, $_SESSION['OCS']["readServer"]);
 while($item_search_option = mysql_fetch_object($result_search_option))
 	$list_option[$item_search_option ->NAME]=$item_search_option ->IVALUE;	
 
@@ -274,7 +274,7 @@ foreach ($data_on as $key=>$value){
 }
 
 //onglet que pour Admins
-if( $_SESSION["lvluser"] == SADMIN) {
+if( $_SESSION['OCS']['CONFIGURATION']['CONSOLE']=="YES") {
 $data_on['CONFIG']=strtoupper($l->g(107));
 $data_on['MSG']=strtoupper($l->g(915));
 
@@ -295,9 +295,9 @@ if (isset($default)){
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	 onglet($data_on,$form_name,"onglet",8);
 	 	echo "<table ALIGN = 'Center' class='mlt_bordure'><tr><td align =center>";
-	if( $_SESSION["lvluser"] == ADMIN) {
-		$sql_hardware_id="select hardware_id id from accountinfo a  where ".$_SESSION["mesmachines"];
-		$result_hardware_id = mysql_query( $sql_hardware_id, $_SESSION["readServer"]);
+	if( $_SESSION['OCS']['RESTRICTION'] == "YES") {
+		$sql_hardware_id="select hardware_id id from accountinfo a  where ".$_SESSION['OCS']["mesmachines"];
+		$result_hardware_id = mysql_query( $sql_hardware_id, $_SESSION['OCS']["readServer"]);
 		$list_hardware_id="";
 		$nb_computor=0;
 		while($item_hardware_id = mysql_fetch_object($result_hardware_id)){
@@ -318,7 +318,7 @@ if (isset($default)){
 		if (!isset($list_no_show['NB_ALL_COMPUTOR']) and !isset($list_no_show['NB_COMPUTOR'])){
 			$sql_count_computer="select count(*) c from hardware h 
 								 where ".$exlu_group;
-			$result_count_computer = mysql_query( $sql_count_computer, $_SESSION["readServer"]);
+			$result_count_computer = mysql_query( $sql_count_computer, $_SESSION['OCS']["readServer"]);
 			$item_count_computer = mysql_fetch_object($result_count_computer);
 			if (!isset($list_no_show['NB_ALL_COMPUTOR'])){
 				$data['NB_ALL_COMPUTOR']['data']=$item_count_computer-> c;
@@ -345,9 +345,9 @@ if (isset($default)){
 		
 		//count number of all computers
 		if (!isset($list_no_show['NB_IPDISCOVER'])){
-			if( $_SESSION["lvluser"] == ADMIN){
-				if (isset($_SESSION['S3G_IP'])){
-					foreach ($_SESSION['S3G_IP'] as $S3G=>$IP){
+			if( $_SESSION['OCS']['RESTRICTION'] == "YES"){
+				if (isset($_SESSION['OCS']['S3G_IP'])){
+					foreach ($_SESSION['OCS']['S3G_IP'] as $S3G=>$IP){
 							$list_dept[substr($S3G,3,2)]=substr($S3G,3,2);
 					}
 				}
@@ -374,7 +374,7 @@ if (isset($default)){
 	
 			}
 			if (isset($totNinvReqLoc)){
-			$totNinvResLoc = mysql_query( $totNinvReqLoc, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+			$totNinvResLoc = mysql_query( $totNinvReqLoc, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			$totNinvValLoc = mysql_fetch_array( $totNinvResLoc );
 			$data['NB_IPDISCOVER']['data']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ipdiscover']."' target='_blank'>".$totNinvValLoc['total']."</a>";
 		 	$data['NB_IPDISCOVER']['lbl']=$lbl_field['NB_IPDISCOVER'];
@@ -466,7 +466,7 @@ if (isset($default)){
 		$sql_msg="select h.name hname,c.name cname,c.ivalue,c.tvalue from config c,hardware h
 				 where h.id=c.ivalue
 					and c.name like 'GUI_REPORT_MSG%'";
-		$result_msg = mysql_query( $sql_msg, $_SESSION["readServer"]);
+		$result_msg = mysql_query( $sql_msg, $_SESSION['OCS']["readServer"]);
 		$i=0;
 		while($item_msg = mysql_fetch_object($result_msg)){
 			$data_msg[$i]['ivalue']=$item_msg ->hname;
@@ -486,7 +486,7 @@ if (isset($default)){
 						'BGCOLOR'=>'#C7D9F5',
 						'BORDERCOLOR'=>'#9894B5'));
 			$sql_group_list="select ID,NAME from hardware where deviceid = '_SYSTEMGROUP_'";
-			$result_group_list = mysql_query( $sql_group_list, $_SESSION["readServer"]);
+			$result_group_list = mysql_query( $sql_group_list, $_SESSION['OCS']["readServer"]);
 			$list_group['']='';
 			while($item_group_list = mysql_fetch_object($result_group_list)){
 				$list_group[$item_group_list ->ID]=$item_group_list ->NAME;
@@ -584,14 +584,14 @@ if (isset($default)){
 			echo "</table><table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td align =center>";
 			
 			$trans = array("count(*) c" => implode(",", $FIELDS));	
-			$sql= strtr($_SESSION['SQL'][$protectedPost['detail']], $trans);
-			$_SESSION["forcedRequest"]=$sql;
+			$sql= strtr($_SESSION['OCS']['SQL'][$protectedPost['detail']], $trans);
+			$_SESSION['OCS']["forcedRequest"]=$sql;
 			$sql.= " order by ".$protectedPost['tri2']." ".$protectedPost['sens'];
 			$sql.=" limit ".$limit["BEGIN"].",".$limit["END"];
-			$resCount = mysql_query($_SESSION['SQL'][$protectedPost['detail']], $_SESSION["readServer"]) 
-				or die(mysql_error($_SESSION["readServer"]));
+			$resCount = mysql_query($_SESSION['OCS']['SQL'][$protectedPost['detail']], $_SESSION['OCS']["readServer"]) 
+				or die(mysql_error($_SESSION['OCS']["readServer"]));
 			$valCount = mysql_fetch_array($resCount);
-			$result = mysql_query( $sql, $_SESSION["readServer"]);
+			$result = mysql_query( $sql, $_SESSION['OCS']["readServer"]);
 			$i=0;
 			while($colname = mysql_fetch_field($result)){
 					if ($colname->name != "ID" ){
@@ -640,9 +640,9 @@ if (isset($default)){
 	echo "</table></form>";
 }
 //show messages
-if ($_SESSION["lvluser"] == ADMIN){
+if ($_SESSION['OCS']['RESTRICTION'] == "YES"){
 	$sql_all_msg="select ivalue,tvalue from config where name like 'GUI_REPORT_MSG%'";
-	$result_all_msg = mysql_query( $sql_all_msg, $_SESSION["readServer"]);
+	$result_all_msg = mysql_query( $sql_all_msg, $_SESSION['OCS']["readServer"]);
 	$list_id_groups="";
 	while($item_all_msg = mysql_fetch_object($result_all_msg)){
 		$list_all_msg[$item_all_msg ->ivalue]['IVALUE']=$item_all_msg ->ivalue;	
@@ -656,9 +656,9 @@ if ($_SESSION["lvluser"] == ADMIN){
 					from accountinfo a ,groups_cache g_c
 					where g_c.HARDWARE_ID=a.HARDWARE_ID
 						and	g_c.GROUP_ID in (".$list_id_groups.")";
-		if (isset($_SESSION['mesmachines']) and $_SESSION['mesmachines'] != "")
-			$sql_my_msg.= " and ".$_SESSION['mesmachines'];
-		$result_my_msg = mysql_query( $sql_my_msg, $_SESSION["readServer"]);
+		if (isset($_SESSION['OCS']['mesmachines']) and $_SESSION['OCS']['mesmachines'] != "")
+			$sql_my_msg.= " and ".$_SESSION['OCS']['mesmachines'];
+		$result_my_msg = mysql_query( $sql_my_msg, $_SESSION['OCS']["readServer"]);
 		echo "<table align=center><tr><td align=center>";
 		while($item_my_msg = mysql_fetch_object($result_my_msg)){
 			$i=0;

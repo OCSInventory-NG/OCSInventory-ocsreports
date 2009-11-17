@@ -1,8 +1,9 @@
 <?php
-require_once('require/function_search.php');
+/*
+ * formulaire de demande de création de paquet
+ * 
+ */
 
-if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
-$protectedPost['onglet']=3;
  //d�finition des onglets
 $data_on[1]=$l->g(242);
 $data_on[2]=$l->g(243);
@@ -172,4 +173,8 @@ if ($protectedPost['MODIF'] != ''){
 echo '</div>';
 //echo "</table>";
 echo "</form>";
+
+
+
+
 ?>

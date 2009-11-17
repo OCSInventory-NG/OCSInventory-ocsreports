@@ -538,34 +538,34 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list_fields,$default_fields,$id_form='form'){
 	global $protectedPost,$l;
 	//r�cup�ration des colonnes du tableau dans le cookie
-	if (isset($_COOKIE[$tab_name]) and !isset($_SESSION['col_tab'][$tab_name])){
+	if (isset($_COOKIE[$tab_name]) and !isset($_SESSION['OCS']['col_tab'][$tab_name])){
 		$col_tab=explode("///", $_COOKIE[$tab_name]);
 		foreach ($col_tab as $key=>$value){
-				$_SESSION['col_tab'][$tab_name][$key]=$value;
+				$_SESSION['OCS']['col_tab'][$tab_name][$key]=$value;
 		}			
 	}
 	if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != ""){
-		unset($_SESSION['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
+		unset($_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
 	}
 	if ($protectedPost['restCol'.$tab_name]){
-		$_SESSION['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
+		$_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
 	}
 	if ($protectedPost['RAZ'] != ""){
-		unset($_SESSION['col_tab'][$tab_name]);
-		$_SESSION['col_tab'][$tab_name]=$default_fields;
+		unset($_SESSION['OCS']['col_tab'][$tab_name]);
+		$_SESSION['OCS']['col_tab'][$tab_name]=$default_fields;
 	}
-	if (!isset($_SESSION['col_tab'][$tab_name]))
-	$_SESSION['col_tab'][$tab_name]=$default_fields;
+	if (!isset($_SESSION['OCS']['col_tab'][$tab_name]))
+	$_SESSION['OCS']['col_tab'][$tab_name]=$default_fields;
 	
 	//v�rification de l'existance des champs cant_delete dans la session
 	//print_r($list_col_cant_del);
 	foreach ($list_col_cant_del as $key=>$value){
-		if (!in_array($key,$_SESSION['col_tab'][$tab_name])){
-			$_SESSION['col_tab'][$tab_name][$key]=$key;
+		if (!in_array($key,$_SESSION['OCS']['col_tab'][$tab_name])){
+			$_SESSION['OCS']['col_tab'][$tab_name][$key]=$key;
 		}
 	}
 	foreach ($entete as $k=>$v){
-		if (in_array($k,$_SESSION['col_tab'][$tab_name])){
+		if (in_array($k,$_SESSION['OCS']['col_tab'][$tab_name])){
 			$data_with_filter['entete'][$k]=$v;	
 			if (!isset($list_col_cant_del[$k]))
 			$data_with_filter['entete'][$k].="<a href=# onclick='return pag(\"".$k."\",\"SUP_COL\",\"".$id_form."\");'><img src=image/supp.png></a>";
@@ -578,7 +578,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 
 	foreach ($data as $k=>$v){
 		foreach ($v as $k2=>$v2){
-			if (in_array($k2,$_SESSION['col_tab'][$tab_name])){
+			if (in_array($k2,$_SESSION['OCS']['col_tab'][$tab_name])){
 				$data_with_filter['data'][$k][$k2]=$v2;
 			}
 		}
@@ -619,7 +619,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		}
 	</script>";
 
-	$link=$_SESSION["readServer"];	
+	$link=$_SESSION['OCS']["readServer"];	
 	
 
 	$limit=nb_page($form_name,100,"","");
@@ -657,51 +657,51 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	//$tab_options['CACHE']='RESET';
 	//suppression de la limite de cache
 	//si on est sur la m�me page mais pas sur le m�me onglet
-	if ($_SESSION['csv'][$table_name] != $queryDetails ){
+	if ($_SESSION['OCS']['csv'][$table_name] != $queryDetails ){
 		unset($protectedPost['page']);
 		$tab_options['CACHE']='RESET';
 
 	}
 	//si la limite de fin est sup�rieure aux totals de r�sultat
 	//on force la limite END avec la derni�re valeur du r�sultat
-//	if ($limit["END"]>$_SESSION['NUM_ROW'][$table_name]-1 and isset($_SESSION['NUM_ROW'][$table_name]))
-//		$limit["END"]=$_SESSION['NUM_ROW'][$table_name];
+//	if ($limit["END"]>$_SESSION['OCS']['NUM_ROW'][$table_name]-1 and isset($_SESSION['OCS']['NUM_ROW'][$table_name]))
+//		$limit["END"]=$_SESSION['OCS']['NUM_ROW'][$table_name];
 	
 	//Effacage du cache pour la reg�n�ration
 	if ($tab_options['CACHE']=='RESET' or (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') ){
-		if ($_SESSION['DEBUG'] == 'ON')
+		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 	 		echo "<br><b><font color=red>".$l->g(5003)."</font></b><br>";
-		unset($_SESSION['DATA_CACHE'][$table_name]);
-		unset($_SESSION['NUM_ROW'][$table_name]);	
+		unset($_SESSION['OCS']['DATA_CACHE'][$table_name]);
+		unset($_SESSION['OCS']['NUM_ROW'][$table_name]);	
 	}
-//	print_r($_SESSION['DATA_CACHE'][$table_name]);
+//	print_r($_SESSION['OCS']['DATA_CACHE'][$table_name]);
 //echo $limit["END"];
 //		$value_data_begin=$protectedPost['page']*$protectedPost['pcparpage'];
 //		$value_data_end=$value_data_begin+$protectedPost['pcparpage'];
-		if (isset($_SESSION['NUM_ROW'][$table_name])
-			 and $_SESSION['NUM_ROW'][$table_name]>$limit["BEGIN"] 
-			 and $_SESSION['NUM_ROW'][$table_name]<=$limit["END"]
-			 and !isset($_SESSION['DATA_CACHE'][$table_name][$limit["END"]])){
-			 	if ($_SESSION['DEBUG'] == 'ON')
-			 	echo "<br><b><font color=red>".$l->g(5004)." ".$limit["END"]." => ".($_SESSION['NUM_ROW'][$table_name]-1)." </font></b><br>";
-		$limit["END"]=$_SESSION['NUM_ROW'][$table_name]-1;
+		if (isset($_SESSION['OCS']['NUM_ROW'][$table_name])
+			 and $_SESSION['OCS']['NUM_ROW'][$table_name]>$limit["BEGIN"] 
+			 and $_SESSION['OCS']['NUM_ROW'][$table_name]<=$limit["END"]
+			 and !isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]])){
+			 	if ($_SESSION['OCS']['DEBUG'] == 'ON')
+			 	echo "<br><b><font color=red>".$l->g(5004)." ".$limit["END"]." => ".($_SESSION['OCS']['NUM_ROW'][$table_name]-1)." </font></b><br>";
+		$limit["END"]=$_SESSION['OCS']['NUM_ROW'][$table_name]-1;
 
 			 }
 		
 		
 		
 		
-	if (isset($_SESSION['DATA_CACHE'][$table_name][$limit["END"]]) and isset($_SESSION['NUM_ROW'][$table_name])){
+	if (isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]]) and isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
 		//echo "toto";
-		if ($_SESSION['DEBUG'] == 'ON')
+		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 	 		echo "<br><b><font color=red>".$l->g(5005)."</font></b><br>";
 	 		$var_limit=$limit["BEGIN"];
 	 		while ($var_limit<=$limit["END"]){
-	 			$sql_data[$var_limit]=$_SESSION['DATA_CACHE'][$table_name][$var_limit];
+	 			$sql_data[$var_limit]=$_SESSION['OCS']['DATA_CACHE'][$table_name][$var_limit];
 	 			$var_limit++;
 	 		}
-			//$sql_data=$_SESSION['DATA_CACHE'][$table_name];
-			$num_rows_result=$_SESSION['NUM_ROW'][$table_name];
+			//$sql_data=$_SESSION['OCS']['DATA_CACHE'][$table_name];
+			$num_rows_result=$_SESSION['OCS']['NUM_ROW'][$table_name];
 			$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails);
 			$data=$result_data['DATA'];
 			
@@ -713,12 +713,12 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	}else
 	{
 		//echo $table_name;
-		//print_r($_SESSION['SQL_DATA_FIXE'][$table_name]);
+		//print_r($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]);
 		//recherche des valeurs fixe avec la requete sql stock�e
-		if (isset($_SESSION['SQL_DATA_FIXE'][$table_name])){
-			foreach ($_SESSION['SQL_DATA_FIXE'][$table_name] as $key=>$sql){
+		if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name])){
+			foreach ($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name] as $key=>$sql){
 				if ($table_name == "TAB_MULTICRITERE"){
-				$sql.=" and hardware_id in (".implode(',',$_SESSION['ID_REQ']).")";
+				$sql.=" and hardware_id in (".implode(',',$_SESSION['OCS']['ID_REQ']).")";
 				//ajout du group by pour r�gler le probl�me des r�sultats multiples sur une requete
 				//on affiche juste le premier crit�re qui match
 				$sql.=" group by hardware_id ";
@@ -730,7 +730,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 				if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe']))
 				$sql.=" order by ".$protectedPost['tri_fixe']." ".$protectedPost['sens'];
 			//	$sql.=" limit 200";
-				$result = mysql_query($sql, $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
+				$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 			//	echo "<b>".$sql."</b><br><br><br>";
 			while($item = mysql_fetch_object($result)){
 				
@@ -760,12 +760,12 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	//	print_r($list_id_tri_fixe);
 		//on vide les valeurs pr�c�dentes
 		//pour optimiser la place sur le serveur
-		unset($_SESSION['csv'],$_SESSION['list_fields']);		
-		$_SESSION['csv'][$table_name]=$queryDetails;
+		unset($_SESSION['OCS']['csv'],$_SESSION['OCS']['list_fields']);		
+		$_SESSION['OCS']['csv'][$table_name]=$queryDetails;
 		
 		//requete de count
-		if (!isset($_SESSION['NUM_ROW'][$table_name])){
-			unset($_SESSION['NUM_ROW']);
+		if (!isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
+			unset($_SESSION['OCS']['NUM_ROW']);
 				$querycount_begin="select count(*) count_nb_ligne ";
 				if (stristr($queryDetails,"group by") and substr_count($queryDetails,"group by") == 1){
 					$querycount_end=",".substr(	$queryDetails,6);	
@@ -778,17 +778,17 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 				//on joue la requete initiale
 				if (!$resultcount)
 				$resultcount = mysql_query($queryDetails, $link);
-				if ($_SESSION['DEBUG'] == 'ON')
+				if ($_SESSION['OCS']['DEBUG'] == 'ON')
 		echo "<br><b><font color=red>".$l->g(5006)."<br>".$querycount."</font></b><br>";
 				$num_rows_result = mysql_num_rows($resultcount);
 				if ($num_rows_result==1){
 					$count=mysql_fetch_object($resultcount);
 					$num_rows_result = $count->count_nb_ligne;
 				}
-				$_SESSION['NUM_ROW'][$table_name]=$num_rows_result;
+				$_SESSION['OCS']['NUM_ROW'][$table_name]=$num_rows_result;
 		}else{
-			$num_rows_result=$_SESSION['NUM_ROW'][$table_name];
-			if ($_SESSION['DEBUG'] == 'ON')
+			$num_rows_result=$_SESSION['OCS']['NUM_ROW'][$table_name];
+			if ($_SESSION['OCS']['DEBUG'] == 'ON')
 	 		echo "<br><b><font color=red>".$l->g(5007)."</font></b><br>";
 		}
 				//echo $querycount;
@@ -806,7 +806,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 //			if ($limit["BEGIN"] != 0)
 //			$queryDetails.=",".$limit["BEGIN"];
 		}
-		if ($_SESSION['DEBUG'] == 'ON')
+		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 		echo "<br><b><font color=red>".$l->g(5008)."<br>".$queryDetails."</font></b><br>";
 		//$queryDetails="select SQL_CALC_FOUND_ROWS ".substr($queryDetails,6);
 		$resultDetails = mysql_query($queryDetails, $link) or mysql_error($link);
@@ -876,7 +876,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		}
 //		if ($i == 1){
 //			$num_rows_result=1;
-//			$_SESSION['NUM_ROW'][$table_name]=1;
+//			$_SESSION['OCS']['NUM_ROW'][$table_name]=1;
 //		}
 		flush();
 			//traitement du tri des r�sultats sur une valeur fixe
@@ -896,8 +896,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	//	print_r($sql_data_cache);
 		//on vide le cache des autres tableaux
 		//pour optimiser la place dispo sur le serveur
-		unset($_SESSION['DATA_CACHE']);
-		$_SESSION['DATA_CACHE'][$table_name]=$sql_data_cache;
+		unset($_SESSION['OCS']['DATA_CACHE']);
+		$_SESSION['OCS']['DATA_CACHE'][$table_name]=$sql_data_cache;
 		
 		//print_r($sql_data);
 		$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails);
@@ -953,13 +953,13 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails){
 	global $l,$protectedPost,$pages_refs;
 	
-	$_SESSION['list_fields']=$list_fields;
+	$_SESSION['OCS']['list_fields']=$list_fields;
 	//requete de condition d'affichage
 	//attention: la requete doit etre du style:
 	//select champ1 AS FIRST from table where...
 	if (isset($tab_options['REQUEST'])){
 		foreach ($tab_options['REQUEST'] as $field_name => $value){
-			$resultDetails = mysql_query($value, $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
+			$resultDetails = mysql_query($value, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 			while($item = mysql_fetch_object($resultDetails)){
 				$tab_condition[$field_name][$item -> FIRST]=$item -> FIRST;
 			}		
@@ -1115,8 +1115,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 							if (!$entete[$num_col] or $entete[$num_col] == $key)
 							$entete[$num_col]=$l->g(23);
 					}elseif ($key == "MAC"){
-						if (isset($_SESSION["mac"][substr($value_of_field,0,8)]))
-						$constr=$_SESSION["mac"][substr($value_of_field,0,8)];
+						if (isset($_SESSION['OCS']["mac"][substr($value_of_field,0,8)]))
+						$constr=$_SESSION['OCS']["mac"][substr($value_of_field,0,8)];
 						else
 						$constr="<font color=red>".$l->g(885)."</font>";
 						$data[$i][$num_col]=$value_of_field." (<small>".$constr."</small>)";						

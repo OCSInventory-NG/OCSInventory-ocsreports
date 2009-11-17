@@ -10,7 +10,7 @@
 //====================================================================================
 //Modified on $Date: 2007/02/08 16:59:15 $$Author: plemmet $($Revision: 1.15 $)
 @session_start();
-/*unset($_SESSION['LANGUAGE']);
+/*unset($_SESSION['OCS']['LANGUAGE']);
 $ban_head='no';
 require_once("header.php");*/
 require('require/function_opt_param.php');
@@ -41,7 +41,7 @@ $lbl_affich=array('NAME'=>$l->g(49),'WORKGROUP'=>$l->g(33),'USERDOMAIN'=>$l->g(5
 foreach ($lbl_affich as $key=>$lbl){
 	if ($key == "MEMORY"){
 				$sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=$systemid";
-		$resMem = mysql_query($sqlMem, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+		$resMem = mysql_query($sqlMem, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$valMem = mysql_fetch_array( $resMem );
 		if( $valMem["capa"] > 0 )
 			$memory = $valMem["capa"];
@@ -70,7 +70,7 @@ foreach ($lbl_affich as $key=>$lbl){
 $bandeau=bandeau($data,$lbl_affich);
 
 //r�cup�ration des plugins existants
-$Directory=$_SESSION['plugins_dir']."computor_detail/";
+$Directory=$_SESSION['OCS']['plugins_dir']."computor_detail/";
 if (file_exists($Directory."config.txt")){
 		$fd = fopen ($Directory."config.txt", "r");
 		$capture='';
@@ -114,7 +114,7 @@ while ($list_plugins[$i]){
 	//v�rification de l'existance des donn�es
 	if (isset($list_avail[$list_plugins[$i]])){
 		$sql_avail="select count(*) from ".$list_avail[$list_plugins[$i]]." where hardware_id=".$systemid;
-		$resavail = mysql_query( $sql_avail, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+		$resavail = mysql_query( $sql_avail, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$valavail = mysql_fetch_array($resavail);
 	}
 	if ($j == $nb_col[$index_tab]){

@@ -8,8 +8,7 @@
 require_once('require/function_opt_param.php');
 require_once('require/function_config_generale.php');
 require_once('require/function_search.php');
-if( $_SESSION["lvluser"] != SADMIN )
-	die("FORBIDDEN");
+
 $form_name="param_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 $list_id=multi_lot($form_name,$l->g(601));
@@ -70,7 +69,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 	}elseif ($protectedPost['origine'] == "group")
 	$direction=	"index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$protectedPost["systemid"];
 	else*/
-//	$direction="index.php?redo=1".$_SESSION["queryString"];	
+//	$direction="index.php?redo=1".$_SESSION['OCS']["queryString"];	
 	
 	$sql_default_value="select NAME,IVALUE from config where NAME	in ('DOWNLOAD',
 																'DOWNLOAD_CYCLE_LATENCY',
@@ -79,7 +78,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 																'DOWNLOAD_PERIOD_LATENCY',	
 																'DOWNLOAD_TIMEOUT',
 																'PROLOG_FREQ')";
-	$result_default_value = mysql_query($sql_default_value, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$result_default_value = mysql_query($sql_default_value, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	while($default=mysql_fetch_array($result_default_value)) {
 		$optdefault[$default["NAME"] ] = $default["IVALUE"];
 	}	
@@ -88,7 +87,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 	if (isset($protectedGet['origine']) and is_numeric($protectedGet['idchecked'])){
 		//looking for value of systemid
 		$sql_value_idhardware="select * from devices where name != 'DOWNLOAD' and hardware_id=".$protectedGet['idchecked'];
-		$result_value = mysql_query($sql_value_idhardware, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+		$result_value = mysql_query($sql_value_idhardware, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		while($value=mysql_fetch_array($result_value)) {
 			$optvalue[$value["NAME"] ] = $value["IVALUE"];
 			$optvalueTvalue[$value["NAME"]]=$value["TVALUE"];

@@ -786,12 +786,12 @@ INSERT INTO blacklist_serials(SERIAL) VALUES ('N/A'),('(null string)'),('INVALID
 INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF:FF:FF:FF:FF:FF'),('44:45:53:54:00:00'),('44:45:53:54:00:01'),('00:01:02:7D:9B:1C'),('00:08:A1:46:06:35'),('00:08:A1:66:E2:1A'),('00:09:DD:10:37:68'),('00:0F:EA:9A:E2:F0'),('00:10:5A:72:71:F3'),('00:11:11:85:08:8B'),('10:11:11:11:11:11'),('44:45:53:54:61:6F'),('');
 
 
-INSERT INTO operators VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
+INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '5010', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '5011', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -883,4 +883,5 @@ CREATE TABLE languages (
 ) ENGINE=MyISAM;
 
 ALTER TABLE networks ADD COLUMN VIRTUALDEV BOOL not NULL DEFAULT FALSE;
-ALTER TABLE hardware ADD COLUMN UUID VARCHAR(255) default NULL
+ALTER TABLE hardware ADD COLUMN UUID VARCHAR(255) default NULL;
+ALTER TABLE operators ADD COLUMN NEW_ACCESSLVL VARCHAR(255) default NULL;

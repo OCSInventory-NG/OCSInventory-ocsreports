@@ -10,8 +10,8 @@ $req="select distinct ipsubnet,s.name,s.id
 			,accountinfo a
 		where a.hardware_id=n.HARDWARE_ID 
 			and n.status='Up'";
-if (isset($_SESSION["mesmachines"]) and $_SESSION["mesmachines"] != '')
-		$req.="	and ".$_SESSION["mesmachines"]." order by ipsubnet";
+if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
+		$req.="	and ".$_SESSION['OCS']["mesmachines"]." order by ipsubnet";
 $res=mysql_query($req, $link_ocs) or die(mysql_error($link_ocs));
 while ($row=mysql_fetch_object($res)){
 	if ($row->ipsubnet == null)

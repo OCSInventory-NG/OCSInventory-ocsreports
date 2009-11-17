@@ -30,9 +30,9 @@ if(!isset($_POST["name"])) {
 	if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
 		fclose($hnd);
 		require("dbconfig.inc.php");
-		$_POST["name"] = $_SESSION["COMPTE_BASE"];
-		$_POST["pass"] = $_SESSION["PSWD_BASE"];
-		$_POST["host"] = $_SESSION["SERVEUR_SQL"];
+		$_POST["name"] = $_SESSION['OCS']["COMPTE_BASE"];
+		$_POST["pass"] = $_SESSION['OCS']["PSWD_BASE"];
+		$_POST["host"] = $_SESSION['OCS']["SERVEUR_SQL"];
 	}
 	else {
 		$_POST["name"] = "root";
@@ -227,8 +227,27 @@ if($dbf_handle = @fopen($db_file, "r")) {
 		flush();
 	}
 	echo "</b></font></center>";
-	if(!$nberr&&!$dejaLance)
+	if(!$nberr&&!$dejaLance){
+		//update new lvlaccess
+		$sql_up_accesslvl="select id,accesslvl,new_accesslvl from operators where new_accesslvl is null or new_accesslvl =''";
+		$result = mysql_query($sql_up_accesslvl) or die(mysql_error());
+		while($value=mysql_fetch_array($result)){
+			unset($new_lvl);
+			if ($value['accesslvl'] == 1)
+				$new_lvl='sadmin';
+			elseif ($value['accesslvl'] == 2)
+				$new_lvl='ladmin';
+			elseif ($value['accesslvl'] == 3)
+				$new_lvl='admin';
+			
+			if (isset($new_lvl)){
+				$sql="UPDATE operators SET new_accesslvl='".$new_lvl."' where ID='".$value['id']."'";
+				mysql_query($sql);
+			}
+		}
 		echo "<br><center><font color=green><b>Database successfully generated</b></font></center>";
+		
+	}
 }
 else {
 	echo "<br><center><font color=red><b>ERROR: $db_file needed</b></font></center>";

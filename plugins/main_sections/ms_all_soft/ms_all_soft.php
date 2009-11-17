@@ -1,6 +1,6 @@
 <?php
 //variable d'export de tous les logiciels
-//=>$_SESSION["forcedRequest"]
+//=>$_SESSION['OCS']["forcedRequest"]
 
 if ($protectedPost['RESET']){ 
 	unset($protectedPost['NAME_RESTRICT']);
@@ -20,13 +20,13 @@ if (isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "" and isset($pr
 }
 $sql_list_alpha .=" from ";
 $and_where="";
-if ($_SESSION["usecache"] == 1  and $protectedPost['NBRE'] == ""){
+if ($_SESSION['OCS']["usecache"] == 1  and $protectedPost['NBRE'] == ""){
 	$sql_list_alpha .=" softwares_name_cache left join dico_soft on dico_soft.extracted=softwares_name_cache.name ";
 	$and_where=" where ";
 }else{
 	$sql_list_alpha .=" softwares left join dico_soft on dico_soft.extracted=softwares.name ";
-	if ($_SESSION["mesmachines"] != ""){
-		$sql_list_alpha .=",accountinfo a where ".$_SESSION["mesmachines"]." and a.hardware_id=softwares.HARDWARE_ID ";
+	if ($_SESSION['OCS']["mesmachines"] != ""){
+		$sql_list_alpha .=",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=softwares.HARDWARE_ID ";
 		$and_where=" and ";
 	}else
 	$and_where=" where ";
@@ -40,8 +40,8 @@ if (isset($protectedPost['CLASS']) and $protectedPost['CLASS'] != ""){
 $sql_list_alpha .=" group by name ".$sql_fin;
 
 //execute the query only if necessary 
-if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPost['onglet'])){
-	$result_list_alpha = mysql_query( $sql_list_alpha, $_SESSION["readServer"]);
+if($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPost['onglet'])){
+	$result_list_alpha = mysql_query( $sql_list_alpha, $_SESSION['OCS']["readServer"]);
  	while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
  		if (strtoupper($item_list_alpha -> alpha) != ""){
 				if (!isset($protectedPost['onglet']))
@@ -56,14 +56,14 @@ if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPost['ong
 	if (!isset($list_alpha[$protectedPost['onglet']])){
 		$protectedPost['onglet']=$first;
 	}
-	$_SESSION['REQ_ONGLET_SOFT']= $sql_list_alpha;
-	$_SESSION['ONGLET_SOFT']=$list_alpha;
+	$_SESSION['OCS']['REQ_ONGLET_SOFT']= $sql_list_alpha;
+	$_SESSION['OCS']['ONGLET_SOFT']=$list_alpha;
 }
 $form_name = "all_soft";
 $table_name="all_soft";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 
-onglet($_SESSION['ONGLET_SOFT'],$form_name,"onglet",20);
+onglet($_SESSION['OCS']['ONGLET_SOFT'],$form_name,"onglet",20);
 echo '<div class="mlt_bordure" >';
 if ((isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != "") or
 	((isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "")))
@@ -71,7 +71,7 @@ echo "<font color=red size=3><b>".$l->g(767)."</b></font>";
 
 
 //utilisation du cache
-if ($_SESSION["usecache"] == 1){
+if ($_SESSION['OCS']["usecache"] == 1){
 	$search_soft="select name from softwares_name_cache left join dico_soft on dico_soft.extracted=softwares_name_cache.name ";
 	$forcedRequest=$search_soft;
 	$search_soft.=" where name like '".$protectedPost['onglet']."%'";
@@ -87,7 +87,7 @@ if ($_SESSION["usecache"] == 1){
 		$search_soft.=" and (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$protectedPost['CLASS']])."') ".$sql_default." ) ";		
 	}
 	//echo $search_soft;
-	$result_search_soft = mysql_query( $search_soft, $_SESSION["readServer"]);
+	$result_search_soft = mysql_query( $search_soft, $_SESSION['OCS']["readServer"]);
 	$list_soft="";
 	//$count_soft=0;
 	while($item_search_soft = mysql_fetch_object($result_search_soft)){
@@ -99,36 +99,36 @@ if ($list_soft != ""){
 	$and_where="";
 	$sql="select  name , count(name) nb from softwares ";
 
-	if (isset($_SESSION["mesmachines"]) and $_SESSION["mesmachines"] != ''){
-		$sql.=",accountinfo a where ".$_SESSION["mesmachines"]." and a.hardware_id=softwares.HARDWARE_ID";
+	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != ''){
+		$sql.=",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=softwares.HARDWARE_ID";
 		$and_where=" and ";
 	}else
 	$and_where=" where ";	
-	$_SESSION["forcedRequest"]=$sql.$and_where." name in (".$forcedRequest.")";
+	$_SESSION['OCS']["forcedRequest"]=$sql.$and_where." name in (".$forcedRequest.")";
 	$sql.=$and_where." name in ('".implode("','",$list_soft)."')";
 	//$sql.=$fin_sql;
 }else{
 	$and_where="";
 	$sql="select  name, count(name) nb from softwares ";
-	if (isset($_SESSION["mesmachines"]) and $_SESSION["mesmachines"] != ''){
-		$sql.=",accountinfo a where ".$_SESSION["mesmachines"]." and a.hardware_id=softwares.HARDWARE_ID";
+	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != ''){
+		$sql.=",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=softwares.HARDWARE_ID";
 		$and_where=" and ";
 	}else
 	$and_where=" where ";
-	$_SESSION["forcedRequest"]=$sql;
+	$_SESSION['OCS']["forcedRequest"]=$sql;
 	$sql.=$and_where." name like '".$protectedPost['onglet']."%'";
 	if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
 		$sql.=" and name like '%".$protectedPost['NAME_RESTRICT']."%' ";	
-		$_SESSION["forcedRequest"].=$and_where."name like '%".$protectedPost['NAME_RESTRICT']."%'" ;
+		$_SESSION['OCS']["forcedRequest"].=$and_where."name like '%".$protectedPost['NAME_RESTRICT']."%'" ;
 	}
 }
 
 if (isset($sql)){
 	$sql.=" group by name";
-	$_SESSION["forcedRequest"].=" group by name";
+	$_SESSION['OCS']["forcedRequest"].=" group by name";
 	if ($sql_fin != ''){
 	$sql.=$sql_fin;
-	$_SESSION["forcedRequest"].=$sql_fin;
+	$_SESSION['OCS']["forcedRequest"].=$sql_fin;
 	}
 	$list_fields= array('name'=>'name',
 						'nbre'=>'nb'

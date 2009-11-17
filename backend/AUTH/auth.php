@@ -1,29 +1,29 @@
 <?php
-//page de connection à OCS
+//page de connection ï¿½ OCS
 /*
- * Vous pouvez rajouter tout type de connection pour accéder à OCS
- * Par défaut, 2 types sont présents:
+ * Vous pouvez rajouter tout type de connection pour accï¿½der ï¿½ OCS
+ * Par dï¿½faut, 2 types sont prï¿½sents:
  * => Connection LOGIN/MDP sur la base OCS
  * => Connection LOGIN/MDP sur le LDAP 
- * Les paramètres de connection sont à définir dans le fichier de config de la méthode
+ * Les paramï¿½tres de connection sont ï¿½ dï¿½finir dans le fichier de config de la mï¿½thode
  * Si vous voulez changer l'ordre d'identification ou ajoutez une nouvelle
- * méthode d'indentification modifiez l'ordre dans le tableau $list_methode.
+ * mï¿½thode d'indentification modifiez l'ordre dans le tableau $list_methode.
  * 
  * 
  */
- require_once($_SESSION['backend'].'require/connexion.php');
+ require_once($_SESSION['OCS']['backend'].'require/connexion.php');
 
  //Pour avoir un affichage HTML du formulaire de connexion
- //donner la valeur 'HTML' à la variable $affich_method
+ //donner la valeur 'HTML' ï¿½ la variable $affich_method
  //Si vous passez par un SSO
- //décommentez les deux lignes suivantes
+ //dï¿½commentez les deux lignes suivantes
  //$affich_method='SSO';
  //$list_methode=array(0=>"always_ok.php");
   $affich_method='HTML';
- //liste des méthodes d'identification
- //pages php se trouvant dans le répertoire METHODE de AUTH
- //3 pages par défaut: ldap.php => Connection a un LDAP
- //					   local.php => Connection à la base OCS
+ //liste des mï¿½thodes d'identification
+ //pages php se trouvant dans le rï¿½pertoire METHODE de AUTH
+ //3 pages par dï¿½faut: ldap.php => Connection a un LDAP
+ //					   local.php => Connection ï¿½ la base OCS
  //					   always_ok.php => Connection toujours OK
  $list_methode=array(0=>"local.php");
  
@@ -48,18 +48,18 @@ if (isset($login) && isset($mdp)){
 
 // login ok?
 if($login_successful == "OK" and isset($login_successful)) {
-	$_SESSION["loggeduser"]=$login;
-	$_SESSION['cnx_origine']=$cnx_origine;
+	$_SESSION['OCS']["loggeduser"]=$login;
+	$_SESSION['OCS']['cnx_origine']=$cnx_origine;
 }else{
 	//affichage d'un formulaire HTML
 	if ($affich_method == 'HTML'){
 		$icon_head='NO';
-		require_once ($_SESSION['HEADER_HTML']);
+		require_once ($_SESSION['OCS']['HEADER_HTML']);
 		if (isset($protectedPost['VALID'])){
 			echo "<font color=red><b>".$login_successful."</b></font>";
 			flush();
-			//pour empêcher de renvoyer une demande d'identification
-			//tout de suite après une mauvaise entrée
+			//pour empï¿½cher de renvoyer une demande d'identification
+			//tout de suite aprï¿½s une mauvaise entrï¿½e
 			sleep(2);
 		}
 		echo "<form name='IDENT' id='IDENT' action='' method='post'>";
@@ -69,8 +69,8 @@ if($login_successful == "OK" and isset($login_successful)) {
 		echo "<tr><td colspan=2 align=center><br><input type=submit name='VALID' id='VALID'></td></tr>";
 		echo "</table></center>";
 		echo "</form>";
-		//echo $_SESSION["loggeduser"];
-		require_once($_SESSION['FOOTER_HTML']);
+		//echo $_SESSION['OCS']["loggeduser"];
+		require_once($_SESSION['OCS']['FOOTER_HTML']);
 		die();
 	}else{
    		header('WWW-Authenticate: Basic realm="OcsinventoryNG"');

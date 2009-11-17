@@ -13,7 +13,7 @@ function info($GET,$post_systemid){
 	//ajout de la possibilit� de voir une machine par son deviceid
 	if (isset($GET['deviceid']) and !isset($systemid)){
 		$querydeviceid = "SELECT ID FROM hardware WHERE deviceid='".strtoupper ($GET['deviceid'])."'";
-		$resultdeviceid = mysql_query($querydeviceid, $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
+		$resultdeviceid = mysql_query($querydeviceid, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 		$item = mysql_fetch_object($resultdeviceid);	
 		$GET['systemid']=$item -> ID;
 		//echo $GET['systemid'];
@@ -30,9 +30,9 @@ function info($GET,$post_systemid){
 		//recherche des infos de la machine
 		$querydeviceid = "SELECT * FROM hardware h left join accountinfo a on a.hardware_id=h.id
 						 WHERE h.id=".$systemid." ";
-		if ($_SESSION["lvluser"] == ADMIN and isset($_SESSION['mesmachines']) and $_SESSION['mesmachines'] != '')			 
-				$querydeviceid .= " and (".$_SESSION['mesmachines']." or a.tag is null or a.tag='')";
-		$resultdeviceid = mysql_query($querydeviceid, $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
+		if ($_SESSION['OCS']['RESTRICTION'] == "YES" and isset($_SESSION['OCS']['mesmachines']) and $_SESSION['OCS']['mesmachines'] != '')			 
+				$querydeviceid .= " and (".$_SESSION['OCS']['mesmachines']." or a.tag is null or a.tag='')";
+		$resultdeviceid = mysql_query($querydeviceid, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 		$item = mysql_fetch_object($resultdeviceid);
 		if ( $item -> ID == ""){
 			return $l->g(837);	
@@ -47,7 +47,7 @@ function subnet_name($systemid){
 	return false;	
 	$reqSub = "select NAME,NETID from subnet left join networks on networks.ipsubnet = subnet.netid 
 				where  networks.status='Up' and hardware_id=".$systemid;
-	$resSub = mysql_query($reqSub, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$resSub = mysql_query($reqSub, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	while($valSub = mysql_fetch_object( $resSub )){
 		
 		$returnVal[]=$valSub->NAME."  (".$valSub->NETID.")";

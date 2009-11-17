@@ -13,8 +13,6 @@
 require_once('require/function_server.php');
 $ban_head='no';
 require_once("header.php");
-if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
 ?>
 <script>
 function check() {
@@ -22,7 +20,7 @@ function check() {
 
 		if (document.AFFECT_RULE.rule.value == "")	{
 		document.AFFECT_RULE.rule.style.backgroundColor = "RED";
-		msg += "Choisissez une régle d'affectation";
+		msg += "Choisissez une rï¿½gle d'affectation";
 	}
 	if (msg == "") Reporter();
 	else	{
@@ -45,7 +43,7 @@ function Reporter()
 
 
 <?php
-$result = mysql_query("select distinct rule,rule_name from download_affect_rules", $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+$result = mysql_query("select distinct rule,rule_name from download_affect_rules", $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 while($item = mysql_fetch_object($result))
 	$list.="<option value='".$item->rule."'>".$item->rule_name."</option>";	
 

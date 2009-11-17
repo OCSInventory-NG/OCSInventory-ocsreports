@@ -9,8 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.8 $)
-if( $_SESSION["lvluser"] != SADMIN )
-	die("FORBIDDEN");
+
 
 debut_tab(array('CELLSPACING'=>'5',
 					'WIDTH'=>'80%',
@@ -43,10 +42,10 @@ elseif(!isset($protectedGet['systemid'])){
 	$mode = 2;	
 }
 if (isset($protectedGet['systemid']) and is_numeric($protectedGet['systemid'])){
-	$resInt = mysql_query("SELECT ipaddress FROM networks WHERE hardware_id=".$protectedGet['systemid'],$_SESSION["readServer"] );
+	$resInt = mysql_query("SELECT ipaddress FROM networks WHERE hardware_id=".$protectedGet['systemid'],$_SESSION['OCS']["readServer"] );
 	while( $valInt = mysql_fetch_array( $resInt )){
-		if( ! ($res = @mysql_query( "SELECT ipsubnet FROM networks WHERE ipaddress='".$valInt["ipaddress"]."' AND hardware_id='".$protectedGet["systemid"]."'", $_SESSION["readServer"] ))) {
-					echo "<br><center><font color=red><b>ERROR: MySql problem<br>".mysql_error($_SESSION["readServer"])."</b></font></center>";	}
+		if( ! ($res = @mysql_query( "SELECT ipsubnet FROM networks WHERE ipaddress='".$valInt["ipaddress"]."' AND hardware_id='".$protectedGet["systemid"]."'", $_SESSION['OCS']["readServer"] ))) {
+					echo "<br><center><font color=red><b>ERROR: MySql problem<br>".mysql_error($_SESSION['OCS']["readServer"])."</b></font></center>";	}
 		while( $val = mysql_fetch_array( $res ))
 		$lesRez[$val["ipsubnet"]] = $val["ipsubnet"];
 	}

@@ -10,18 +10,18 @@
 //====================================================================================
 //Modified on $Date: 2007/02/08 16:59:15 $$Author: plemmet $($Revision: 1.9 $)
 
-if( isset($_SESSION["forcedRequest"] )) {
-	$lareq = $_SESSION["forcedRequest"];
+if( isset($_SESSION['OCS']["forcedRequest"] )) {
+	$lareq = $_SESSION['OCS']["forcedRequest"];
 }
 else
-	die();//$lareq = $_SESSION["storedRequest"]->getFullRequest();
+	die();//$lareq = $_SESSION['OCS']["storedRequest"]->getFullRequest();
 
 $lareq = str_replace("h.id AS \"h.id\",","",$lareq);
 $lareq = str_replace("deviceid AS \"deviceid\",","",$lareq);
 $lareq = str_replace("h.n.ipmask","n.ipmask",$lareq);
 
 //echo $lareq;die();
-$result=mysql_query($lareq, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+$result=mysql_query($lareq, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 //echo "requete:".$lareq;
 // iexplorer problem
 if( ini_get("zlib.output-compression"))

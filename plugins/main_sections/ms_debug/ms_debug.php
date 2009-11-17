@@ -9,8 +9,6 @@ $list_mode[2]=$l->g(1011);
 $list_mode[3]=$l->g(1012);
 $list_mode[4]=$l->g(1013);
 $list_mode[5]='FUSER';
-if (!($_SESSION["lvluser"] == SADMIN or $_SESSION['TRUE_LVL'] == SADMIN))
-	die("FORBIDDEN");
 echo "<br><br><br>";	
 $tab_typ_champ[0]['DEFAULT_VALUE']=$list_mode;
 	$tab_typ_champ[0]['INPUT_NAME']="MODE";
@@ -35,29 +33,36 @@ if (isset($protectedPost['Reset_modif_x'])){
 if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 	AddLog("MODE",$list_mode[$protectedPost["MODE"]]);
 	if ($protectedPost["MODE"] == 2){
-		unset($_SESSION['MODE_LANGUAGE']);
-		$_SESSION['DEBUG']="ON";
+		unset($_SESSION['OCS']['MODE_LANGUAGE']);
+		$_SESSION['OCS']['DEBUG']="ON";
 	}
 	elseif ($protectedPost["MODE"] == 3){
-		unset($_SESSION['DEBUG']);
-		$_SESSION['MODE_LANGUAGE']="ON";	
+		unset($_SESSION['OCS']['DEBUG']);
+		$_SESSION['OCS']['MODE_LANGUAGE']="ON";	
 	}
 	elseif ($protectedPost["MODE"] == 4){
-		$_SESSION['MODE_LANGUAGE']="ON";	
-		$_SESSION['DEBUG']="ON";
+		$_SESSION['OCS']['MODE_LANGUAGE']="ON";	
+		$_SESSION['OCS']['DEBUG']="ON";
 	}elseif ($protectedPost["MODE"] == 5 and $protectedPost["FUSER"] != ""){
-		if (!isset($_SESSION['TRUE_USER'])){
-			$_SESSION['TRUE_USER']=$_SESSION["loggeduser"];
-			$_SESSION['TRUE_LVL']=$_SESSION["lvluser"];
+		if (!isset($_SESSION['OCS']['TRUE_USER'])){
+			$true_user=$_SESSION['OCS']['loggeduser'];
+			$list_page_profil=$_SESSION['OCS']['list_page_profil'];
+			$restriction=$_SESSION['OCS']['RESTRICTION'];
 		}
-		$_SESSION["loggeduser"]=$protectedPost["FUSER"];
-	unset($_SESSION["lvluser"],$_SESSION["ipdiscover"]);	
+		$loggeduser=$protectedPost["FUSER"];
+		unset($_SESSION['OCS']);	
+		$_SESSION['OCS']['TRUE_USER']=$true_user;
+		$_SESSION['OCS']['TRUE_PAGES']=$list_page_profil;
+		$_SESSION['OCS']['TRUE_RESTRICTION']=$restriction;
+		$_SESSION['OCS']['loggeduser']=$loggeduser;
 	}elseif ($protectedPost["MODE"] == 5 and $protectedPost["FUSER"] == ""){
-		$_SESSION["loggeduser"]=$_SESSION['TRUE_USER'];
-		$_SESSION["lvluser"]=$_SESSION['TRUE_LVL'];
-		unset($_SESSION["mesmachines"],$_SESSION["mytag"],$_SESSION['TRUE_USER'],$_SESSION['TRUE_LVL'],$_SESSION["ipdiscover"]);		
+		$loggeduser=$_SESSION['OCS']['TRUE_USER'];
+		$restriction=$_SESSION['OCS']['TRUE_RESTRICTION'];
+		unset($_SESSION['OCS']);		
+		$_SESSION['OCS']['loggeduser']=$loggeduser;
+		$_SESSION['OCS']['RESTRICTION']=$restriction;
 	}else	
-	unset($_SESSION['DEBUG'],$_SESSION['MODE_LANGUAGE']);
+	unset($_SESSION['OCS']['DEBUG'],$_SESSION['OCS']['MODE_LANGUAGE']);
 
 	echo "<script>";
 		echo "window.opener.document.forms['log_out'].submit();";

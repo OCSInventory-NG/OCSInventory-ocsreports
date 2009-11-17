@@ -3,17 +3,17 @@
  * 
  * 
  */
- require_once($_SESSION['backend'].'require/connexion.php');
+ require_once($_SESSION['OCS']['backend'].'require/connexion.php');
  
 $list_methode=array(0=>"local.php");
 
-if (!isset($_SESSION["ipdiscover"])){
+if (!isset($_SESSION['OCS']["ipdiscover"])){
 	$i=0;
 	//methode pour le calcul des droits
 	while ($list_methode[$i]){
 		require_once('methode/'.$list_methode[$i]);
-		//on garde les erreurs présentes
-		//entre chaque méthode
+		//on garde les erreurs prï¿½sentes
+		//entre chaque mï¿½thode
 		if (isset($INFO)){
 			$tab_info[$list_methode[$i]]=$INFO;
 			unset($INFO);
@@ -37,13 +37,13 @@ if (isset($tab_ip)){
 		}
 	}	
 	if (isset($list_ip)){
-		$_SESSION["ipdiscover"]=$list_ip;	
-		$_SESSION["ipdiscover_methode"]=$list_methode[0];	
-		$_SESSION["ipdiscover_id"]=$id_subnet;
+		$_SESSION['OCS']["ipdiscover"]=$list_ip;	
+		$_SESSION['OCS']["ipdiscover_methode"]=$list_methode[0];	
+		$_SESSION['OCS']["ipdiscover_id"]=$id_subnet;
 	}
 }
 
-if (isset($tab_info) and !isset($_SESSION["ipdiscover"])){
-	$_SESSION["ipdiscover"]=$tab_info;	
+if (isset($tab_info) and !isset($_SESSION['OCS']["ipdiscover"])){
+	$_SESSION['OCS']["ipdiscover"]=$tab_info;	
 }
 ?>

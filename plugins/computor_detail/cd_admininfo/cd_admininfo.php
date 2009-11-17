@@ -7,7 +7,7 @@
 	$form_name="affich_tag";
 	$table_name=$form_name;
 	if (isset($protectedPost['Valid_modif_x'])){
-		if ($protectedPost['TAG_MODIF'] == $_SESSION['TAG_LBL'])
+		if ($protectedPost['TAG_MODIF'] == $_SESSION['OCS']['TAG_LBL'])
 		$lbl_champ='TAG';
 		else
 		$lbl_champ=$protectedPost['TAG_MODIF'];
@@ -17,7 +17,7 @@
 		else
 		$sql.= $protectedPost['NEW_VALUE']."'";
 		$sql.=" where hardware_id=".$systemid; 
-		mysql_query($sql, $_SESSION["writeServer"]);
+		mysql_query($sql, $_SESSION['OCS']["writeServer"]);
 		//reg�n�ration du cache
 		$tab_options['CACHE']='RESET';
 	}
@@ -25,7 +25,7 @@
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 
 	$queryDetails = "SELECT * FROM accountinfo WHERE hardware_id=$systemid";
-	$resultDetails = mysql_query($queryDetails, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$item=mysql_fetch_array($resultDetails,MYSQL_ASSOC);
 	$i=0;
 	$queryDetails = "";
@@ -38,7 +38,7 @@
 		$lbl=mysql_field_name($resultDetails,$i);	
 		if ($lbl != 'HARDWARE_ID'){
 			if ($lbl == 'TAG')
-			$lbl=$_SESSION['TAG_LBL'];
+			$lbl=$_SESSION['OCS']['TAG_LBL'];
 			$queryDetails .= "SELECT hardware_id as ID,'".$lbl."' as libelle, ".$value." as valeur FROM accountinfo WHERE hardware_id=".$systemid." UNION ";
 		}
 		$type_field[$lbl]=mysql_field_type($resultDetails,$i);
@@ -66,7 +66,7 @@
 		}
 		
 		$truename=$protectedPost['MODIF'];
-		if ($protectedPost['MODIF'] == $_SESSION['TAG_LBL'])
+		if ($protectedPost['MODIF'] == $_SESSION['OCS']['TAG_LBL'])
 			$truename='TAG';			
 		if ($type_field[$protectedPost['MODIF']]=="date"){
 		$tab_typ_champ[0]['COMMENT_BEHING'] =datePick('NEW_VALUE');

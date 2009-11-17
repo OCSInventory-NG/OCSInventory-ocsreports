@@ -11,32 +11,32 @@
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.15 $)
 
 require('require/function_stats.php');
-if($_SESSION["lvluser"]==SADMIN){
+if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
 	if( isset($protectedGet["delsucc"]) ) {		
 		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue LIKE 'SUCCESS%' AND
-		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION["writeServer"]);
+		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION['OCS']["writeServer"]);
 	}
 	else if( isset($protectedGet["deltout"]) ) {		
 		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue IS NOT NULL AND  
-		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION["writeServer"]);
+		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION['OCS']["writeServer"]);
 	}
 	else if( isset($protectedGet["delnotif"]) ) {		
 		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue IS NULL AND 
-		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION["writeServer"]);
+		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION['OCS']["writeServer"]);
 	}
 }
 if ($protectedPost['selOpt'] == "GROUP" or $protectedGet['option']=="GROUP"){
 $sql_group="select hardware_id from groups_cache where group_id=".$protectedGet['group'];
-$res_group = mysql_query($sql_group, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+$res_group = mysql_query($sql_group, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 $machines_group="(";
 	while ($item_group = mysql_fetch_object($res_group)){
 		$machines_group.= $item_group->hardware_id.",";	
 	}
 	$machines_group=" IN ".substr($machines_group,0,-1).")";		
 }
-if ($_SESSION["mesmachines"] != ""){
-	$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION["mesmachines"];
-	$res_mesMachines = mysql_query($sql_mesMachines, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+if ($_SESSION['OCS']["mesmachines"] != ""){
+	$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
+	$res_mesMachines = mysql_query($sql_mesMachines, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$mesmachines="(";
 	while ($item_mesMachines = mysql_fetch_object($res_mesMachines)){
 		$mesmachines.= $item_mesMachines->hardware_id.",";	
@@ -55,7 +55,7 @@ if (isset($machines_group))
 if (isset($mesmachines))				
 	$sqlStats.= " AND hardware_id".$mesmachines;	
 $sqlStats.= " GROUP BY tvalue ORDER BY nb DESC";
-$resStats = mysql_query($sqlStats, $_SESSION["readServer"]);
+$resStats = mysql_query($sqlStats, $_SESSION['OCS']["readServer"]);
  	$tot = 0;
 	$quartiers = array();
 	$coul = array( 0x0091C3, 0xFFCB03  ,0x33CCCC, 0xFF9900,  0x969696,  0x339966, 0xFF99CC, 0x99CC00);
@@ -117,9 +117,9 @@ else {
 	if (isset($machines_group))
 	$sqlStats.= " AND hardware_id".$machines_group;
 	
-	$resStats = mysql_query($sqlStats, $_SESSION["readServer"]);
+	$resStats = mysql_query($sqlStats, $_SESSION['OCS']["readServer"]);
 	
-	$resName = mysql_query("SELECT name FROM download_available WHERE fileid='".$protectedGet["stat"]."'", $_SESSION["readServer"]);
+	$resName = mysql_query("SELECT name FROM download_available WHERE fileid='".$protectedGet["stat"]."'", $_SESSION['OCS']["readServer"]);
 	$valName = mysql_fetch_array( $resName );
 
 	$valStats = mysql_fetch_array( $resStats );
@@ -127,7 +127,7 @@ else {
 	echo "<body OnLoad='document.title=\"".urlencode($valName["name"])."\"'>";
 	printEnTete( $l->g(498)." <b>".$valName["name"]."</b> (".$l->g(296).": ".$protectedGet["stat"]." )");
 	echo "<br><center><img src='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&generatePic=1&stat=".$protectedGet["stat"]."&group=".$protectedGet["group"]."&option=".$protectedPost['selOpt']."'></center>";
-	if($_SESSION["lvluser"]==SADMIN){
+	if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
 		echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
 		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&delsucc=1&stat=".$protectedGet["stat"]."'><b>".$l->g(483)."</b></a></td>";	
 		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&deltout=1&stat=".$protectedGet["stat"]."'><b>".$l->g(571)."</b></a></td>";	

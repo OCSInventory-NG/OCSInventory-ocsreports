@@ -3,11 +3,10 @@
 //require_once('require/function_table_html.php');
 require_once('require/function_telediff.php');
 //interdiction pour les users autre que SUPER ADMIN
-if( $_SESSION["lvluser"]!=LADMIN && $_SESSION["lvluser"]!=SADMIN  )
-	die("FORBIDDEN");
+
 printEnTete($l->g(465).' => '.$protectedGet["active"]);
 $form_name="form_active";
-//javascript pour vérifier que des chaps ne sont pas vides
+//javascript pour vï¿½rifier que des chaps ne sont pas vides
 echo "<script language='javascript'>
 		function verif()
 		 {
@@ -33,15 +32,15 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 
 //si l'activation se fait en manuel
 if ($protectedPost['choix_activ'] == "MAN" and $protectedPost['valid']){	
-	//on vérifie l'existance du fichier info sur le serveur désigné
-	//pour être sûr que la valeur du https soit correcte
+	//on vï¿½rifie l'existance du fichier info sur le serveur dï¿½signï¿½
+	//pour ï¿½tre sï¿½r que la valeur du https soit correcte
 	$opensslOk = function_exists("openssl_open");
 	if( $opensslOk )
 		$httpsOk = @fopen("https://".$protectedPost["HTTPS_SERV"]."/".$protectedGet["active"]."/info", "r");
 		
 	// checking if this package contains fragments
 	$reqFrags = "SELECT fragments FROM download_available WHERE fileid='".$protectedGet["active"]."'";
-	$resFrags = mysql_query( $reqFrags, $_SESSION["readServer"] );	
+	$resFrags = mysql_query( $reqFrags, $_SESSION['OCS']["readServer"] );	
 	$valFrags = mysql_fetch_array( $resFrags );
 	$fragAvail = ($valFrags["fragments"] > 0) ;
 	
@@ -96,10 +95,10 @@ echo ">";
 	$choix_activ="<br>".show_modif($list_choise,'choix_activ',2,$form_name)."<br><br>";
 	echo $choix_activ;
 	
-	//recherche des valeurs par défaut si les valeurs n'existent pas.
+	//recherche des valeurs par dï¿½faut si les valeurs n'existent pas.
 	if (!isset($protectedPost['HTTPS_SERV']) or (!isset($protectedPost['FILE_SERV']) and $protectedPost['choix_activ'] == "MAN")){
 		$reqdefaultvalues = "SELECT name,tvalue FROM config WHERE name ='DOWNLOAD_URI_INFO' or name='DOWNLOAD_URI_FRAG'";
-		$resdefaultvalues = mysql_query( $reqdefaultvalues, $_SESSION["readServer"] );
+		$resdefaultvalues = mysql_query( $reqdefaultvalues, $_SESSION['OCS']["readServer"] );
 		while( $valdefaultvalues = mysql_fetch_array($resdefaultvalues) ) {
 			$defaultvalues[$valdefaultvalues["name"]]=$valdefaultvalues["tvalue"];
 		}
@@ -120,7 +119,7 @@ echo ">";
 	elseif($protectedPost['choix_activ'] == "AUTO"){
 		//on cherche tous les groupes de serveurs
 		$reqGroupsServers = "SELECT DISTINCT name,id FROM hardware WHERE deviceid='_DOWNLOADGROUP_'";
-		$resGroupsServers = mysql_query( $reqGroupsServers, $_SESSION["readServer"] );
+		$resGroupsServers = mysql_query( $reqGroupsServers, $_SESSION['OCS']["readServer"] );
 		$nb_group=0;
 		while( $valGroupsServers = mysql_fetch_array( $resGroupsServers ) ) {
 			$namefirstgroup=$valGroupsServers["name"];
@@ -129,7 +128,7 @@ echo ">";
 			$nb_group++;
 		}	
 		$file_serv="<tr height='30px' bgcolor='#FFFFFF'><td align='left'>".$l->g(651)."</td><td>";
-		//s'il y a plusieurs groupes de serveur, on propose une liste déroulante
+		//s'il y a plusieurs groupes de serveur, on propose une liste dï¿½roulante
 		if ($nb_group > 1)
 		$file_serv.=show_modif($groupListServers,'choix_groupserv',2);
 		else{
@@ -138,7 +137,7 @@ echo ">";
 		}
 		$file_serv.="</td></tr>";
 	}
-	//dans les deux cas, si un choix a été fait, on demande l'emplacement du fichier INFO
+	//dans les deux cas, si un choix a ï¿½tï¿½ fait, on demande l'emplacement du fichier INFO
 	if ($protectedPost['choix_activ'] != ''){		
 	$https_serv="<tr height='30px' bgcolor='#FFFFFF'><td align='left'>".$l->g(470)."</td><td>".show_modif($protectedPost['HTTPS_SERV'],'HTTPS_SERV',0,'',$config_input)."/".$protectedGet["active"]."</td></tr>";
 	echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5'>";

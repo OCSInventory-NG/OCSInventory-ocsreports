@@ -94,7 +94,7 @@
  		//pour toutes les valeurs
  		foreach ($data as $key=>$value){
  			//sauf la valeur � afficher
- 			if ($key !== 'VALUE' and $key !== 'CHECK'){
+ 			if ($key !== 'VALUE' and $key !== 'CHECK' and $key !== 'JAVASCRIPT'){
   				echo "<input type='".$type."' value='".$key."' id='".$name."' ";
  				if ($readonly != '')
  				echo "disabled=\"disabled\"";
@@ -109,7 +109,8 @@
 	 				echo "OnClick=\"active('".$name."_div',1);\"";
 	 			}elseif ($data_hidden != '' and  $data_hidden['HIDDEN'] != key){
 	 				echo "OnClick=\"active('".$name."_div',0);\"";	 				
-	 			}
+	 			}elseif (isset($data['JAVASCRIPT']))
+	 				echo $data['JAVASCRIPT'];
 	 			if ($data['VALUE'] == $key or isset($data['CHECK'][$key]))
 	 			echo "checked";
 	 			echo ">".$value; 
@@ -117,6 +118,10 @@
 	 				echo "<div id='".$name."_div' style='display:".$display."'><input type='text' size='".($data_hidden['SIZE']?$data_hidden['SIZE']:"3")."' maxlength='".($data_hidden['SIZE']?$data_hidden['SIZE']:"2")."' id='".$name."_edit' name='".$name."_edit' value='".$data_hidden['HIDDEN_VALUE']."' ".$data_hidden['JAVASCRIPT'].">".$data_hidden['END']."</div>"; 	
 	 			}
 	 			echo "<br>";
+	 			if (isset($data['JAVASCRIPT']))
+	 			echo "<input type='hidden' name='Valid' value='".$l->g(103)."'>";
+	 		//	$protectedPost['Valid'] == $l->g(103)
+	 			
  			}
  		}
 
@@ -137,6 +142,8 @@
 		}
 		echo "</select>";
  		//array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>array('OCS'=>'OCS','XML'=>'XML'))
+ 	}elseif($type=='long_text'){
+ 		echo "<textarea name='".$name."' id='".$name."' cols='".$data['COLS']."' rows='".$data['ROWS']."'  class='down' \ ".$data['JAVASCRIPT'].">".$data['VALUE']."</textarea>".$data['END'];		
  	}
  	echo "</td></tr>";
  	
@@ -196,7 +203,7 @@ function fin_tab($form_name,$disable=''){
 
 function look_default_values($field_name){
 	$sql="select NAME,IVALUE,TVALUE from config where NAME in ('".implode("','", $field_name)."')";
-	$resdefaultvalues = mysql_query( $sql, $_SESSION["readServer"]);
+	$resdefaultvalues = mysql_query( $sql, $_SESSION['OCS']["readServer"]);
 	while($item = mysql_fetch_object($resdefaultvalues)){
 			$result['name'][$item ->NAME]=$item ->NAME;
 			$result['ivalue'][$item ->NAME]=$item ->IVALUE;
@@ -224,10 +231,10 @@ function look_default_values($field_name){
 			$sql="update config set ".$field." = '".$value."' where NAME ='".$name."'";
 	else
 			$sql="insert into config (".$field.", NAME) value ('".$value."','".$name."')";
-	if ($_SESSION['DEBUG'] == 'ON')
+	if ($_SESSION['OCS']['DEBUG'] == 'ON')
 	 		echo "<br><b><font color=red>".$l->g(5001).$sql."</font></b>";
- 	if( ! @mysql_query( $sql, $_SESSION["writeServer"] )) {
-		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
+ 	if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] )) {
+		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
 		return false;
 	}		
  	addLog( $l->g(821),$sql );
@@ -238,13 +245,13 @@ function look_default_values($field_name){
  function delete($name){
  	global $l;
  	$sql="delete from config where name='".$name."'";
- 	if ($_SESSION['DEBUG'] == 'ON')
+ 	if ($_SESSION['OCS']['DEBUG'] == 'ON')
 	 		echo "<br><b><font color=red>".$l->g(5001).$sql."</font></b>";
- 	if( ! @mysql_query( $sql, $_SESSION["writeServer"] )) {
-		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION["writeServer"])."</b></font></center>";
+ 	if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] )) {
+		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
 		return false;
 	}		
-	@mail("root@localhost", "Changement de configation dans OCS par ".$_SESSION["loggedDetUser"], $sql);
+	@mail("root@localhost", "Changement de configation dans OCS par ".$_SESSION['OCS']["loggedDetUser"], $sql);
  	addLog($l->g(821),$sql );
  }
 
@@ -255,7 +262,8 @@ function update_default_value($POST){
 	//tableau des champs ou il faut juste mettre � jour le tvalue
 	$array_simple_tvalue=array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT','OCS_FILES_FORMAT','OCS_FILES_PATH',
 							   'LOCAL_SERVER','CONEX_LDAP_SERVEUR','CONEX_LDAP_PORT','CONEX_DN_BASE_LDAP','CONEX_LOGIN_FIELD',
-							   'CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN','CONEX_ROOT_PW','LBL_TAG');
+							   'CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN','CONEX_ROOT_PW','LBL_TAG','IT_SET_EMAIL_VALID',
+							   'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -265,8 +273,8 @@ function update_default_value($POST){
 						'REGISTRY','GENERATE_OCS_FILES','OCS_FILES_OVERWRITE','PROLOG_FILTER_ON','INVENTORY_FILTER_ENABLED',
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
 						'LOCAL_PORT','LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
-						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL'
-						);
+						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','IT_SET_MANAGEMENT',
+						'IT_SET_PERIM');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -277,7 +285,7 @@ function update_default_value($POST){
 	
 	//recherche des valeurs par d�faut
 	$sql_exist=" select NAME,ivalue,tvalue from config ";
-	$result_exist = mysql_query($sql_exist, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
+	$result_exist = mysql_query($sql_exist, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	while($value_exist=mysql_fetch_array($result_exist)) {
 		if ($value_exist["ivalue"] != null)
 		$optexist[$value_exist["NAME"] ] = $value_exist["ivalue"];
@@ -431,7 +439,8 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 				  'DOWNLOAD_PERIOD_LENGTH'=>'DOWNLOAD_PERIOD_LENGTH',
 				  'DEPLOY'=>'DEPLOY',
 				  'DOWNLOAD_URI_INFO' =>'DOWNLOAD_URI_INFO',
-				  'DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG');
+				  'DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG',
+				  'IT_SET_MANAGEMENT'=>'IT_SET_MANAGEMENT');
 	
  	$values=look_default_values($champs);
  	if (isset($values['tvalue']['DOWNLOAD_URI_INFO']))
@@ -463,6 +472,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_FRAG'],'SIZE'=>70));
  		ligne('DOWNLOAD_URI_INFO',$l->g(827),'radio',array('DEFAULT'=>$l->g(823)."(HTTPS://localhost/download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_info),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_INFO'],'SIZE'=>70));
+		ligne('IT_SET_MANAGEMENT',$l->g(1028),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['IT_SET_MANAGEMENT'])); 	
 	fin_tab($form_name);
  }
  
@@ -756,8 +766,72 @@ function pagegroups($form_name){
 	ligne('CONEX_LOGIN_FIELD',$l->g(833),'input',array('VALUE'=>$values['tvalue']['CONEX_LOGIN_FIELD'],'SIZE'=>50,'MAXLENGHT'=>200));
 	ligne('CONEX_LDAP_PROTOCOL_VERSION',$l->g(834),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'],'SIZE'=>3,'MAXLENGHT'=>5));
 
-		fin_tab($form_name);
+		fin_tab($form_name); 	
+ }
+ 
+ function pageitsetmanagement($form_name){
+ 	global $l,$numeric,$sup1;
+ 		//what ligne we need?
+ 	$champs=array( 'IT_SET_EMAIL_VALID'=>'IT_SET_EMAIL_VALID',
+				  'IT_SET_PERIM'=>'IT_SET_PERIM',
+				  'IT_SET_TAG_NAME'=>'IT_SET_TAG_NAME',
+				  'IT_SET_NAME_TEST'=>'IT_SET_NAME_TEST',
+				  'IT_SET_NAME_LIMIT'=>'IT_SET_NAME_LIMIT');
+	$values=look_default_values($champs);
+	
+	
+ 	debut_tab(array('CELLSPACING'=>'5',
+					'WIDTH'=>'90%',
+					'BORDER'=>'0',
+					'ALIGN'=>'Center',
+					'CELLPADDING'=>'0',
+					'BGCOLOR'=>'#C7D9F5',
+					'BORDERCOLOR'=>'#9894B5'));
+ 	//liste des @email dans la boucle
+	ligne('IT_SET_EMAIL_VALID','Liste des @mail devant connaitre l\'évolution du télédéploiement<br>(séparer les différentes adresses avec des ;)','long_text',array('VALUE'=>$values['tvalue']['IT_SET_EMAIL_VALID'],'COLS'=>60,'ROWS'=>5));
+	ligne('IT_SET_PERIM','Identification des périmètres','radio',array(1=>'TAG',0=>'GROUP','VALUE'=>$values['ivalue']['IT_SET_PERIM'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
+	if (!isset($values['ivalue']['IT_SET_PERIM']) or $values['ivalue']['IT_SET_PERIM'] == 0){
+		
+		$lbl_name_test="Nom du groupe de test";
+		$lbl_name_limit="Nom du groupe du périmètre restraint";
+		$sql_list_group="select name from hardware where deviceid='_SYSTEMGROUP_'";
+		$result_list_group = mysql_query($sql_list_group, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		while($value=mysql_fetch_array($result_list_group)){
+			$list_group[$value['name']]=$value['name'];	
+		}
+		ligne('IT_SET_NAME_TEST',"Nom du groupe de test",'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SELECT_VALUE'=>$list_group));
+		ligne('IT_SET_NAME_LIMIT',"Nom du groupe du périmètre restraint",'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SELECT_VALUE'=>$list_group));
+		
+	}else{
+		$sql_list_tag="SHOW COLUMNS FROM accountinfo";
+		$result_list_tag = mysql_query($sql_list_tag, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		while($colname=mysql_fetch_array($result_list_tag)){
+			if ($colname["Field"] != 'HARDWARE_ID'){
+				if ($colname["Field"] == 'TAG')
+					$real_name=$_SESSION['OCS']['TAG_LBL'];
+				else
+					$real_name=$colname["Field"];
+				$list_tag[$colname["Field"]]=$real_name;	
+			}
+		}
+		ligne('IT_SET_TAG_NAME','Libellé du TAG de définition du paramètre','select',array('VALUE'=>$values['tvalue']['IT_SET_TAG_NAME'],'SELECT_VALUE'=>$list_tag));		
+		ligne('IT_SET_NAME_TEST',"Valeur du tag de test",'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SIZE'=>50,'MAXLENGHT'=>50));
+		ligne('IT_SET_NAME_LIMIT',"Valeur du tag du périmètre restraint",'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SIZE'=>50,'MAXLENGHT'=>50));
+		
+	}
+	
+	
+	//	echo "<textarea name='".$name."' id='".$name."' cols='".$data['COLS']."' rows='".$data['ROWS']."'  class='down' \ ".$data['JAVASCRIPT'].">".$data['VALUE']."</textarea>".$data['END'];		
+	
+	//	ligne('CONEX_ROOT_DN',$l->g(1016).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_DN'],'SIZE'=>50,'MAXLENGHT'=>200));
+//	ligne('CONEX_ROOT_PW',$l->g(1017).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_PW'],'SIZE'=>50,'MAXLENGHT'=>200));
+//	ligne('CONEX_LDAP_PORT',$l->g(831),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PORT'],'SIZE'=>20,'MAXLENGHT'=>20));
+//	ligne('CONEX_DN_BASE_LDAP',$l->g(832),'input',array('VALUE'=>$values['tvalue']['CONEX_DN_BASE_LDAP'],'SIZE'=>70,'MAXLENGHT'=>200));
+//	ligne('CONEX_LOGIN_FIELD',$l->g(833),'input',array('VALUE'=>$values['tvalue']['CONEX_LOGIN_FIELD'],'SIZE'=>50,'MAXLENGHT'=>200));
+//	ligne('CONEX_LDAP_PROTOCOL_VERSION',$l->g(834),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'],'SIZE'=>3,'MAXLENGHT'=>5));
 
+		fin_tab($form_name); 	
+ 	
  	
  }
  

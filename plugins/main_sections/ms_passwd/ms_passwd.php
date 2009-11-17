@@ -12,9 +12,9 @@ if (isset($protectedPost['subPass'])){
 		}
 		
 		if (!isset($ERROR)){
-			$reqOp="UPDATE operators set passwd ='".md5($protectedPost['NEW_PASS'])."' WHERE id='".$_SESSION["loggeduser"]."'";
-			if( ! @mysql_query( $reqOp, $_SESSION["writeServer"] ))
-					echo mysql_error($_SESSION["writeServer"]);
+			$reqOp="UPDATE operators set passwd ='".md5($protectedPost['NEW_PASS'])."' WHERE id='".$_SESSION['OCS']["loggeduser"]."'";
+			if( ! @mysql_query( $reqOp, $_SESSION['OCS']["writeServer"] ))
+					echo mysql_error($_SESSION['OCS']["writeServer"]);
 			echo "<font color=green><b>".$l->g(241)."</b></font>";
 		}else
 			echo "<font color=red><b>".$ERROR."</b></font>";

@@ -85,7 +85,7 @@ if(is_uploaded_file($_FILES['userfile']['tmp_name']))
 			}
 			
 			$query = "INSERT INTO $table VALUES$val;";
-			if(mysql_query($query, $_SESSION["writeServer"]))
+			if(mysql_query($query, $_SESSION['OCS']["writeServer"]))
 			{
 				echo "<br><b><center><font color='green'>".$l->g(137)." ".$_FILES['userfile']['name']." ".$l->g(234)."</font></center></b><br>";
 			}
@@ -96,7 +96,7 @@ if(is_uploaded_file($_FILES['userfile']['tmp_name']))
 			else
 			{
 				echo "<br><b><center><font color=red>".$l->g(172)." ".$_FILES['userfile']['name']." ".$l->g(173)."<br>";
-				echo mysql_error($_SESSION["writeServer"])."</font></center></b>";
+				echo mysql_error($_SESSION['OCS']["writeServer"])."</font></center></b>";
 			}
 			sleep(2);
 		}
@@ -114,7 +114,7 @@ if($protectedGet["o"]&&$protectedGet["n"]&&$protectedGet["v"]&&$protectedGet["su
 	else
 	{	
 		$suppQuery="DELETE FROM files WHERE name='".$protectedGet["n"]."' AND os='".$protectedGet["o"]."' AND version='".$protectedGet["v"]."'";
-		@mysql_query($suppQuery, $_SESSION["writeServer"]);
+		@mysql_query($suppQuery, $_SESSION['OCS']["writeServer"]);
 	}
 	echo "<br><b><center>".$l->g(171)."</center></b><br>";
 	sleep(2);
@@ -154,13 +154,13 @@ if($protectedGet["o"]&&$protectedGet["n"]&&$protectedGet["v"]&&$protectedGet["su
 </tr>
 <?php 
 	$queryD = "SELECT '-' as version, 'windows' as os,name FROM deploy WHERE name<>'label'";
-	if(!$resultD=mysql_query($queryD, $_SESSION["readServer"])) 
-		echo mysql_error($_SESSION["readServer"]);
+	if(!$resultD=mysql_query($queryD, $_SESSION['OCS']["readServer"])) 
+		echo mysql_error($_SESSION['OCS']["readServer"]);
 	
 	$query="SELECT version, os,name FROM files ORDER BY version DESC,os ASC,name ASC";
 	
-	if(!$result=mysql_query($query, $_SESSION["readServer"])) 
-		echo mysql_error($_SESSION["readServer"]);
+	if(!$result=mysql_query($query, $_SESSION['OCS']["readServer"])) 
+		echo mysql_error($_SESSION['OCS']["readServer"]);
 	$x=0;
 	
 	$item = mysql_fetch_object($resultD);

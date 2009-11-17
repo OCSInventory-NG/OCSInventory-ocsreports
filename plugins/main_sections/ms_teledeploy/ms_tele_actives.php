@@ -12,26 +12,26 @@
 require_once('require/function_telediff.php');
 if ($protectedPost['DEL_ALL'] != ''){
 	$sql_listIDdel="select distinct ID from download_enable where FILEID=".$protectedPost['DEL_ALL'];
-	$res_listIDdel = mysql_query( $sql_listIDdel, $_SESSION["readServer"] );
+	$res_listIDdel = mysql_query( $sql_listIDdel, $_SESSION['OCS']["readServer"] );
 	while( $val_listIDdel = mysql_fetch_array( $res_listIDdel ) ) {
 			$listIDdel[]=$val_listIDdel['ID'];
 	}	
 	if ($listIDdel != '')
 	$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue in (".implode(',',$listIDdel).")";
-	@mysql_query($reqSupp, $_SESSION["writeServer"]) or die(mysql_error());	
+	@mysql_query($reqSupp, $_SESSION['OCS']["writeServer"]) or die(mysql_error());	
 		
-	@mysql_query("DELETE FROM download_enable WHERE FILEID=".$protectedPost['DEL_ALL'], $_SESSION["writeServer"]) or die(mysql_error());		
+	@mysql_query("DELETE FROM download_enable WHERE FILEID=".$protectedPost['DEL_ALL'], $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
 	echo "<script>window.opener.document.packlist.submit(); self.close();</script>";	
 }
 if ($protectedPost['SUP_PROF'] != ''){
 	$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue = ".$protectedPost['SUP_PROF'];
-	@mysql_query($reqSupp, $_SESSION["writeServer"]) or die(mysql_error());	
+	@mysql_query($reqSupp, $_SESSION['OCS']["writeServer"]) or die(mysql_error());	
 		
-	@mysql_query("DELETE FROM download_enable WHERE ID=".$protectedPost['SUP_PROF'], $_SESSION["writeServer"]) or die(mysql_error());		
+	@mysql_query("DELETE FROM download_enable WHERE ID=".$protectedPost['SUP_PROF'], $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
 }
 
 $sql_details="select distinct priority,fragments,size from download_available where fileid=".$protectedGet['timestamp'];
-$res_details = mysql_query( $sql_details, $_SESSION["readServer"] );
+$res_details = mysql_query( $sql_details, $_SESSION['OCS']["readServer"] );
 $val_details = mysql_fetch_array( $res_details ) ;
 $tps="<br>".$l->g(992)." : <b><font color=red>".tps_estimated($val_details)."</font></b>";
 PrintEnTete( $l->g(481).$tps);	

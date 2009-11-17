@@ -19,7 +19,7 @@ $weight_table=array("HARDWARE"=>1,
 asort($weight_table); 
 
 //utilisation des tables de cache pour:
-if ($_SESSION["usecache"] == true){
+if ($_SESSION['OCS']["usecache"] == true){
 	//liste des tables
 	$table_cache=array('SOFTWARES'=>'SOFTWARES_NAME_CACHE');
 	//liste des champs correspondants ou la recherche doit se faire
@@ -98,9 +98,9 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
  			$name_field_id=" HARDWARE_ID ";
  			$fin_sql="";
  			if ($no_cumul == "")
- 			$_SESSION['SQL_DATA_FIXE'][$table_name][]=$id[$i];
+ 			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=$id[$i];
  			else
- 			$_SESSION['SQL_DATA_FIXE'][$table_name][]=ereg_replace("like", "not like", $id[$i]);
+ 			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=ereg_replace("like", "not like", $id[$i]);
  			}
 			//si une liste d'id de machine existe,
 			//on va concat la requ�te avec les ID des machines
@@ -114,7 +114,7 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 	 		}
 	 		$id[$i].=$fin_sql;
 	 		//echo "<br><br><b>".$id[$i]."</b><br><br>";
-	 		$result = mysql_query($id[$i], $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
+	 		$result = mysql_query($id[$i], $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 			while($item = mysql_fetch_object($result)){
 				$list_id[$item->HARDWARE_ID]=$item->HARDWARE_ID;
 				foreach ($item as $field=>$value){
@@ -123,7 +123,7 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 //				//echo "<br>FIELD=>".$field."; value=>".$value;
 				}
 			}
-	 		if ($_SESSION['DEBUG'] == 'ON')
+	 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 	 		echo "<br>".$l->g(5001).$id[$i].$l->g(5002).$weight;
 	 		//si aucun id trouv� => end
 	 		if ($list_id == '')
@@ -170,7 +170,7 @@ function traitement_cache($sql_temp,$field_modif,$field_value,$field_value_compl
 //fonction qui permet de passer en SESSION
 //les requetes pour la cr�ation des groupes dynamiques
 function sql_group_cache($cache_sql){
-	unset($_SESSION['SEARCH_SQL_GROUP']);
+	unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
 	//requ�te de recherche "normale" (ressemble, exactement)
 	if ($cache_sql['NORMAL']){
 
@@ -182,7 +182,7 @@ function sql_group_cache($cache_sql){
  					$fin_sql=" and deviceid<>'_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_' ";
  				else
  					$fin_sql="";
-			$_SESSION['SEARCH_SQL_GROUP'][]=$list[$i].$fin_sql;
+			$_SESSION['OCS']['SEARCH_SQL_GROUP'][]=$list[$i].$fin_sql;
 			$i++;
 			}
 		
@@ -198,14 +198,14 @@ function sql_group_cache($cache_sql){
  					$fin_sql=" and deviceid<>'_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_' ";
  				else
  					$fin_sql="";
-				$_SESSION['SEARCH_SQL_GROUP'][]="select distinct id as HARDWARE_ID from hardware where id not in (".$list[$i].")".$fin_sql;
+				$_SESSION['OCS']['SEARCH_SQL_GROUP'][]="select distinct id as HARDWARE_ID from hardware where id not in (".$list[$i].")".$fin_sql;
 			$i++;
 			}
 		
 		}
 		
 	}
-	//print_r($_SESSION['SEARCH_SQL_GROUP']);
+	//print_r($_SESSION['OCS']['SEARCH_SQL_GROUP']);
 		
 }
 //fonction pour prendre en compte les jockers dans la saisie (* et ?)
@@ -281,7 +281,7 @@ function witch_field_more($tab_table){
 	foreach($tab_table as $table=>$poids){
 		$table_min=strtolower($table);
 		$sql_show_colomn="SHOW COLUMNS FROM ".$table_min;
-		$result_show_colomn = mysql_query($sql_show_colomn, $_SESSION["readServer"]) or mysql_error($_SESSION["readServer"]);
+		$result_show_colomn = mysql_query($sql_show_colomn, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 		
 		while($item = mysql_fetch_object($result_show_colomn)){
 					//print_r($item);
@@ -358,7 +358,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 				$select2 .= "<option value='".$k."' ".($protectedPost[$name_select."-".$nameField] == $k ? " selected":"").">".$v."</option>";
 			}
 		}else{
-			$result = mysql_query( $data[$value.'-SQL1'], $_SESSION["readServer"] );
+			$result = mysql_query( $data[$value.'-SQL1'], $_SESSION['OCS']["readServer"] );
 			while( $val = mysql_fetch_array( $result ) ) {
 				foreach ($val as $name_of_field=>$value_of_request){
 					if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
@@ -387,7 +387,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 				$selectValue .= "<option value='".$k."' ".($protectedPost['SelFieldValue-'.$nameField] == $k ? " selected":"").">".$v."</option>";
 			}
 		}else{
-			$result = mysql_query( $opt2Select[$value.'-SQL1'], $_SESSION["readServer"] );
+			$result = mysql_query( $opt2Select[$value.'-SQL1'], $_SESSION['OCS']["readServer"] );
 			while( $val = mysql_fetch_array( $result ) ) {
 				if (!isset($val['ID']))
 				$val['ID']=$val['NAME'];
@@ -412,7 +412,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	
 	if( array_key_exists($value,$opt3Select)){
 		$selectValue1="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."'>";
-		$result = mysql_query( $opt3Select[$value.'-SQL1'], $_SESSION["readServer"] );
+		$result = mysql_query( $opt3Select[$value.'-SQL1'], $_SESSION['OCS']["readServer"] );
 		while( $val = mysql_fetch_array( $result ) ) {
 			if (!isset($val['ID']))
 			$val['ID']=$val['NAME'];
@@ -421,7 +421,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		$selectValue1 .= "</select>";
 		
 		$selectValue2="<select name='SelFieldValue2-".$nameField."' id='SelFieldValue2-".$nameField."'>";
-		$result = mysql_query( $opt3Select[$value.'-SQL2'], $_SESSION["readServer"] );
+		$result = mysql_query( $opt3Select[$value.'-SQL2'], $_SESSION['OCS']["readServer"] );
 		while( $val = mysql_fetch_array( $result ) ) {
 			if (!isset($val['ID']))
 			$val['ID']=$val['NAME'];
@@ -444,7 +444,7 @@ function calendars($NameInputField,$DateFormat)
 function add_trait_select($img,$list_id,$form_name,$list_pag)
 {
 	global 	$l;
-	$_SESSION['ID_REQ']=$list_id;
+	$_SESSION['OCS']['ID_REQ']=$list_id;
 	echo "<script language=javascript>
 		function garde_check(image,id)
 		 {
@@ -487,7 +487,7 @@ function multi_lot($form_name,$lbl_choise){
 				echo "<input type='hidden' name='CHOISE' value='".$protectedPost['CHOISE']."'>";
 				$protectedPost['CHOISE'] = 'REQ';
 			}
-			$list_id=$_SESSION['ID_REQ'];
+			$list_id=$_SESSION['OCS']['ID_REQ'];
 		}
 		if ($protectedPost['CHOISE'] == 'SEL'){
 			echo $l->g(902);
