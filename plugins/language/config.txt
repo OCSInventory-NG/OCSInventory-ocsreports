@@ -27,7 +27,3 @@ slovenian:slovenian
 spanish:spanish
 turkish:turkish
 </LBL>
-
-<ISAVAIL>
-
-</ISAVAIL>

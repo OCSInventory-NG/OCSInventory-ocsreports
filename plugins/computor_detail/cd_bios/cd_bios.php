@@ -22,7 +22,7 @@
 	$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 	$sql="select ID from blacklist_serials where SERIAL='".$item->SSN."'";		
 	$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-	if ($_SESSION['OCS']['BLACKLIST']['SERIAL']=='YES'){
+	if ($_SESSION['OCS']['ADMIN_BLACKLIST']['SERIAL']=='YES'){
 		if ( mysql_num_rows($result) == 1 ){	
 			$tab_options['OTHER'][$l->g(36)][$item->SSN]=$item->SSN;
 			$tab_options['OTHER']['IMG']='image/red.png';	   

@@ -5,35 +5,17 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
+require_once('require/function_files.php');
+$Directory=$_SESSION['OCS']['plugins_dir'].'language/';
+$ms_cfg_file= $Directory."/config.txt";	
+	//show only true sections
+if (file_exists($ms_cfg_file)) {
+		$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI');
+		$language_data=read_configuration($ms_cfg_file,$search);
+		$list_plugins=$language_data['ORDER'];
+		$list_lbl=$language_data['LBL'];
+}
 
- $Directory=$_SESSION['OCS']['plugins_dir'].'language/';
-if (file_exists($Directory."config.txt")){
-		$fd = fopen ($Directory."config.txt", "r");
-		$capture='';
-		while( !feof($fd) ) {				
-			$line = trim( fgets( $fd, 256 ) );
-			if (substr($line,0,2) == "</")
-				$capture='';
-			if ($capture == 'OK_ORDER')
-				$list_plugins[]=$line;
-			if ($capture == 'OK_LBL'){				
-				$tab_lbl=explode(":", $line);
-				$list_lbl[$tab_lbl[0]]=$tab_lbl[1];
-			}				
-			if ($capture == 'OK_ISAVAIL'){
-				$tab_isavail=explode(":", $line);
-				$list_avail[$tab_isavail[0]]=$tab_isavail[1];
-			}
-			if ($line{0} == "<"){
-				$capture = 'OK_'.substr(substr($line,1),0,-1);
-			}
-			//echo substr($line,0,5);
-			flush();					
-		}				
-	fclose( $fd );
-	//print_r($list_plugins);
-	}
-//print_r($list_plugins);
 $i=0;
 $show_lang= "<form id='language' name='language' action='' method='post'>";
 while (isset($list_plugins[$i])){

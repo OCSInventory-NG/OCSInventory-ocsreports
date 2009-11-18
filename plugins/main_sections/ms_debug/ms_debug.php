@@ -46,7 +46,7 @@ if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 	}elseif ($protectedPost["MODE"] == 5 and $protectedPost["FUSER"] != ""){
 		if (!isset($_SESSION['OCS']['TRUE_USER'])){
 			$true_user=$_SESSION['OCS']['loggeduser'];
-			$list_page_profil=$_SESSION['OCS']['list_page_profil'];
+			$list_page_profil=$_SESSION['OCS']['PAGE_PROFIL'];
 			$restriction=$_SESSION['OCS']['RESTRICTION'];
 		}
 		$loggeduser=$protectedPost["FUSER"];

@@ -9,7 +9,7 @@
  */
 	
 
-
+require_once ('require/function_files.php');
 //nom de la page
 $name="local.php";
 connexion_local();
@@ -20,7 +20,10 @@ $resOp=mysql_query($reqOp, $link_ocs) or die(mysql_error($link_ocs));
 $rowOp=mysql_fetch_object($resOp);
 if (isset($rowOp -> accesslvl)){
 	$lvluser=$rowOp -> accesslvl;
-	$restriction=search_restriction($lvluser."_config.txt");
+	$ms_cfg_file=$_SESSION['OCS']['main_sections_dir'].$lvluser."_config.txt";
+	$search=array('RESTRICTION'=>'SINGLE');
+	$res=read_configuration($ms_cfg_file,$search);
+	$restriction=$res['RESTRICTION'];
 	//Si l'utilisateur a des droits limit�s
 	//on va rechercher les tags sur lesquels il a des droits
 	if ($restriction == 'YES'){
@@ -35,34 +38,6 @@ if (isset($rowOp -> accesslvl)){
 		$ERROR=$restriction;
 }else
 	$ERROR=$l->g(894);
-
-function search_restriction($ms_cfg_file){
-//	$ms_cfg_file= $_SESSION['OCS']["lvluser"]."_config.txt";	
-	//show only true sections
-	if (file_exists($_SESSION['OCS']['main_sections_dir'].$ms_cfg_file)) {
-	      $fd = fopen ($_SESSION['OCS']['main_sections_dir'].$ms_cfg_file, "r");
-	      $capture='';
-	      while( !feof($fd) ) {
-	
-	         $line = trim( fgets( $fd, 256 ) );
-			
-			 if (substr($line,0,2) == "</")
-	            $capture='';
-	            
-	         if ($capture == 'OK_RESTRICTION')
-	            $value= $line;            
-	         
-	         if ($line{0} == "<"){ 	//Getting tag type for the next launch of the loop
-	            $capture = 'OK_'.substr(substr($line,1),0,-1);
-	         }        
-	      }
-	   fclose( $fd );
-	}else
-	return $l->g(894);
-	
-	return $value;
-	
-}
 
 
 ?>

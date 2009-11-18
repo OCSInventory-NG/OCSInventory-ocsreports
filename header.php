@@ -54,31 +54,17 @@ if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYS
 
 /*****************************************************GESTION DU NOM DES PAGES****************************************/
 //Config for all user
-$ms_cfg_file=$_SESSION['OCS']['plugins_dir']."main_sections/4all_config.txt";
-if (file_exists($ms_cfg_file)) {
-      $fd = fopen ($ms_cfg_file, "r");
-      $capture='';
-      while( !feof($fd) ) {
-         $line = trim( fgets( $fd, 256 ) );
-         		
-		 if (substr($line,0,2) == "</")
-            $capture='';
-            
-         if ($capture == 'OK_URL'){
-            $tab_url=explode(":", $line);
-         //   $list_url[$tab_url[0]]=$tab_url[1];
-            $pages_refs[$tab_url[0]]=$tab_url[1];
-         }
-         
-         if ($line{0} == "<"){ 	//Getting tag type for the next launch of the loop
-            $capture = 'OK_'.substr(substr($line,1),0,-1);
-         }                  
-      }
-   fclose( $fd );
+if (!isset($_SESSION['OCS']['URL'])){
+	require_once('require/function_files.php');
+	$ms_cfg_file= $_SESSION['OCS']['plugins_dir']."main_sections/4all_config.txt";	
+	//show only true sections
+	if (file_exists($ms_cfg_file)) {
+		$search=array('URL'=>'MULTI');
+		$profil_data=read_configuration($ms_cfg_file,$search);
+		$pages_refs=$profil_data['URL'];
+	}
 }
-
-
-
+$pages_refs=$_SESSION['OCS']['URL'];
 /**********************************************************GESTION DES COLONNES DES TABLEAUX PAR COOKIES***********************************/
 require_once('require/function_cookies.php');
 if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
@@ -183,7 +169,7 @@ if (!isset($_SESSION['OCS']['all_menus'])){
 	require_once($_SESSION['OCS']['main_sections_dir']."sections.php");
 }
 
-$name=array_flip($_SESSION['OCS']['list_url']);
+$name=array_flip($_SESSION['OCS']['URL']);
 
 if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
 	require_once ($_SESSION['OCS']['HEADER_HTML']);
@@ -192,7 +178,7 @@ if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_
 
 //VERIF ACCESS TO THIS PAGE
 if (isset($protectedGet[PAG_INDEX]) 
-	and !isset($_SESSION['OCS']['list_page_profil'][$name[$protectedGet[PAG_INDEX]]])
+	and !isset($_SESSION['OCS']['PAGE_PROFIL'][$name[$protectedGet[PAG_INDEX]]])
 	and !isset($_SESSION['OCS']['TRUE_PAGES'][$name[$protectedGet[PAG_INDEX]]])){
 	echo "<br><br><center><b><font color=red>ACCESS DENIED</font></b></center><br>";
 	require_once($_SESSION['OCS']['FOOTER_HTML']);
@@ -211,8 +197,8 @@ if((!isset($_SESSION['OCS']["loggeduser"])
 }
 
 if (isset($name[$protectedGet[PAG_INDEX]])){	
-	if (isset($_SESSION['OCS']['list_dir'][$name[$protectedGet[PAG_INDEX]]]))
-	$rep=$_SESSION['OCS']['list_dir'][$name[$protectedGet[PAG_INDEX]]];
+	if (isset($_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]]))
+	$rep=$_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]];
 	require ($_SESSION['OCS']['main_sections_dir'].$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
 }else
 require ($_SESSION['OCS']['main_sections_dir']."ms_console/ms_console.php");		

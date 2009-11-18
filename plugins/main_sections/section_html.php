@@ -22,8 +22,8 @@ if( !isset($protectedGet["popup"] )) {
 
 //Using plugins sytem to show icons
 $i=0;
-while ($_SESSION['OCS']['list_plugins_first'][$i]){
-	show_icon($_SESSION['OCS']['list_plugins_first'][$i],$_SESSION['OCS']['list_lbl'][$_SESSION['OCS']['list_plugins_first'][$i]]);	
+while ($_SESSION['OCS']['ORDER_FIRST_TABLE'][$i]){
+	show_icon($_SESSION['OCS']['ORDER_FIRST_TABLE'][$i],$_SESSION['OCS']['LBL'][$_SESSION['OCS']['ORDER_FIRST_TABLE'][$i]]);	
 	$i++;
 	
 }
@@ -33,8 +33,8 @@ echo "			</tr></table>
 			if ($ban_head=='no') echo " style='display:none;'";
 			echo "><tr>";
 $i=0;
-while ($_SESSION['OCS']['list_plugins_second'][$i]){
-		show_icon($_SESSION['OCS']['list_plugins_second'][$i],$_SESSION['OCS']['list_lbl'][$_SESSION['OCS']['list_plugins_second'][$i]]);
+while ($_SESSION['OCS']['ORDER_SECOND_TABLE'][$i]){
+		show_icon($_SESSION['OCS']['ORDER_SECOND_TABLE'][$i],$_SESSION['OCS']['LBL'][$_SESSION['OCS']['ORDER_SECOND_TABLE'][$i]]);
 $i++;
 	
 }
@@ -51,26 +51,26 @@ echo "		</tr></table>
 function show_icon($index,$lbl_index){
 	global $protectedGet,$l;
 //if (isset($_SESSION['OCS']['list_page_profil'][$index])){
-	if ($_SESSION['OCS']['name_menu'][$index]){
+	if ($_SESSION['OCS']['MENU_NAME'][$index]){
 
-			$name=$_SESSION['OCS']['name_menu'][$index];
-			$packAct = $_SESSION['OCS']['list_menu'][$index];
+			$name=$_SESSION['OCS']['MENU_NAME'][$index];
+			$packAct = $_SESSION['OCS']['MENU'][$index];
 
 			$nam_img=$index;
-			$title=$l->g(substr(substr($_SESSION['OCS']['lbl_menu'][$index],2),0,-1));
+			$title=$l->g(substr(substr($_SESSION['OCS']['MENU_TITLE'][$index],2),0,-1));
 			$i=0;
-			while ($_SESSION['OCS']['list_menu'][$index][$i]){
-				if (isset($_SESSION['OCS']['list_page_profil'][$_SESSION['OCS']['list_menu'][$index][$i]]))
-				$data_list_config[$_SESSION['OCS']['list_url'][$_SESSION['OCS']['list_menu'][$index][$i]]]=$l->g(substr(substr($_SESSION['OCS']['list_lbl'][$_SESSION['OCS']['list_menu'][$index][$i]],2),0,-1));
+			while ($_SESSION['OCS']['MENU'][$index][$i]){
+				if (isset($_SESSION['OCS']['PAGE_PROFIL'][$_SESSION['OCS']['MENU'][$index][$i]]))
+				$data_list_config[$_SESSION['OCS']['URL'][$_SESSION['OCS']['MENU'][$index][$i]]]=$l->g(substr(substr($_SESSION['OCS']['LBL'][$_SESSION['OCS']['MENU'][$index][$i]],2),0,-1));
 				$i++;
 			}
 			if (isset($data_list_config))
 			menu_list($name,$packAct,$nam_img,$title,$data_list_config);	
-	}elseif (isset($_SESSION['OCS']['list_page_profil'][$index])){
+	}elseif (isset($_SESSION['OCS']['PAGE_PROFIL'][$index])){
 	$img=$index;
-	  $llink = "?".PAG_INDEX."=".$_SESSION['OCS']['list_url'][$index];
+	  $llink = "?".PAG_INDEX."=".$_SESSION['OCS']['URL'][$index];
 	 // echo $protectedGet[PAG_INDEX]."=>".$list_url[$index]."<br>";
-	  if($protectedGet[PAG_INDEX] == $_SESSION['OCS']['list_url'][$index]) {
+	  if($protectedGet[PAG_INDEX] == $_SESSION['OCS']['URL'][$index]) {
 	  	
                 $img .= "_a";
         }
@@ -89,7 +89,7 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
 {
         global $protectedGet;
 
-        $pag_name=array_flip($_SESSION['OCS']['list_url']);
+        $pag_name=array_flip($_SESSION['OCS']['URL']);
         echo "<td onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\">
         <dl id=\"menu\">
                 <dt onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\">
@@ -105,7 +105,7 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
                                 <ul>
                                         <li><b>".$title."</b></li>";
                                         foreach ($data_list as $key=>$values){
-                                        	if (isset($_SESSION['OCS']['list_page_profil'][$pag_name[$key]]))
+                                        	if (isset($_SESSION['OCS']['PAGE_PROFIL'][$pag_name[$key]]))
                                                 echo "<li><a href=\"index.php?".PAG_INDEX."=".$key."\">".$values."</a></li>";
                                         }
                 echo "</ul>

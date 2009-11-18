@@ -23,7 +23,7 @@
 					   $l->g(207)=>'IPGATEWAY',
 					   $l->g(331)=>'IPSUBNET',
 					   $l->g(281)=>'IPDHCP');
-	if ($_SESSION['OCS']['BLACKLIST']['MACADD']=="YES"){
+	if ($_SESSION['OCS']['ADMIN_BLACKLIST']['MACADD']=="YES"){
 		//$list_fields['OTHER_GREEN']='MACADDR';
 		//$list_col_cant_del['OTHER_GREEN']='OTHER_GREEN';
 		//	$tab_options['LBL']['OTHER_GREEN']=$l->g(703);

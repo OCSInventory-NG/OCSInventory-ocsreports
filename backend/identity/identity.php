@@ -4,7 +4,6 @@
  * 
  */
  require_once($_SESSION['OCS']['backend'].'require/connexion.php');
- 
 $list_methode=array(0=>"local.php");
 if (!isset($_SESSION['OCS']["lvluser"])){
 	$i=0;

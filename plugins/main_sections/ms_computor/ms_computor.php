@@ -16,7 +16,7 @@ require_once("header.php");*/
 require('require/function_opt_param.php');
 require('require/function_graphic.php');
 require_once('require/function_machine.php');
-
+require_once('require/function_files.php');
 //recherche des infos de la machine
 $item=info($protectedGet,$protectedPost['systemid']);
 if (!is_object($item)){
@@ -69,35 +69,17 @@ foreach ($lbl_affich as $key=>$lbl){
 
 $bandeau=bandeau($data,$lbl_affich);
 
-//r�cup�ration des plugins existants
+//get plugins when exist
 $Directory=$_SESSION['OCS']['plugins_dir']."computor_detail/";
-if (file_exists($Directory."config.txt")){
-		$fd = fopen ($Directory."config.txt", "r");
-		$capture='';
-		while( !feof($fd) ) {				
-			$line = trim( fgets( $fd, 256 ) );
-			if (substr($line,0,2) == "</")
-				$capture='';
-			if ($capture == 'OK_ORDER')
-				$list_plugins[]=$line;
-			if ($capture == 'OK_LBL'){				
-				$tab_lbl=explode(":", $line);
-				$list_lbl[$tab_lbl[0]]=$tab_lbl[1];
-			}				
-			if ($capture == 'OK_ISAVAIL'){
-				$tab_isavail=explode(":", $line);
-				$list_avail[$tab_isavail[0]]=$tab_isavail[1];
-			}
-			if ($line{0} == "<"){
-				$capture = 'OK_'.substr(substr($line,1),0,-1);
-			}
-			//echo substr($line,0,5);
-			flush();					
-		}				
-	fclose( $fd );
-	//print_r($list_plugins);
-	}
+$ms_cfg_file= $Directory."config.txt";
 
+if (file_exists($ms_cfg_file)) {
+	$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI','ISAVAIL'=>'MULTI');
+	$plugins_data=read_configuration($ms_cfg_file,$search);
+	$list_plugins=$plugins_data['ORDER'];
+	$list_lbl=$plugins_data['LBL'];
+	$list_avail=$plugins_data['ISAVAIL'];
+}
 //par d�faut, on affiche les donn�es admininfo
 if (!isset($protectedGet['option'])){
 	$protectedGet['option']="cd_admininfo";
