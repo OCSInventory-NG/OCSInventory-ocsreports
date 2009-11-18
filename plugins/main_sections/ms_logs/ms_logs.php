@@ -1,5 +1,6 @@
 <?php
  require_once('require/function_table_html.php');
+ require_once('require/function_files.php');
  //d�finition des onglets
 //$data_on['GUI_LOGS']="Logs de l'interface";
 $protectedPost['onglet'] == "";
@@ -13,29 +14,21 @@ if ($protectedPost['onglet'] == 'GUI_LOGS' or $protectedPost['onglet'] == ""){
 //	$Directory="";
 //	else
 	$Directory=$_SESSION['OCS']['LOG_DIR']."/";
-	ScanDirectory($Directory,"csv");
+	$data=ScanDirectory($Directory,"csv");
+	$i=0;
+	while($data['name'][$i]){
+		echo "<tr BGCOLOR='#f2f2f2'>";
+		echo "<td align=center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&log=".$data['name'][$i]."&rep=".$Directory."'>".$data['name'][$i]."</td>";
+		echo "<td align=center>".$data['date_create'][$i]."</td>";
+		echo "<td align=center>".$data['date_modif'][$i]."</td>";
+		echo "<td align=center>".$data['size'][$i]." ko</td>";
+		echo "</tr>";		
+	$i++;
+	}
 }
 echo "</td></tr></table>";
 echo "</tr></td></form>";
 
-function ScanDirectory($Directory,$Filetype){
-global $pages_refs;
-  $MyDirectory = @opendir($Directory); 
-  if (!$MyDirectory)
-  	echo "Erreur";
-	while($Entry = @readdir($MyDirectory)) {
 
-		if (substr($Entry,-strlen($Filetype)) == $Filetype){
-			echo "<tr BGCOLOR='#f2f2f2'>";
-			echo "<td align=center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&log=".$Entry."&rep=".$Directory."'>".$Entry."</td>";
-			echo "<td align=center>".date ("d M Y H:i:s.", filectime($Directory.$Entry))."</td>";
-			echo "<td align=center>".date ("d M Y H:i:s.", filemtime($Directory.$Entry))."</td>";
-			echo "<td align=center>".filesize($Directory.$Entry)." ko</td>";
-			echo "</tr>";
-		}
-		
-	}
-  closedir($MyDirectory);
-}
 
 ?>

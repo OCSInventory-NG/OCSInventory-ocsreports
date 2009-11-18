@@ -1,26 +1,30 @@
 <?php
 require_once('require/function_search.php');
+require_once('require/function_files.php');
+//search all profil type
+$Directory=$_SESSION['OCS']['plugins_dir']."/main_sections/";
+$data=ScanDirectory($Directory,"txt");
+$i=0;
+while ($data['name'][$i]){
+	if ($data['name'][$i] != '4all_config.txt' and substr($data['name'][$i],-11) == "_config.txt"){	
+		$name=substr($data['name'][$i],0,-11);
+		if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
+			$protectedPost['onglet']=$name;
+		$list_profil[$name]=$name;
+	}
+	$i++;
+}
 
-if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
-$protectedPost['onglet']=3;
  //d�finition des onglets
-$data_on[1]=$l->g(242);
-$data_on[2]=$l->g(243);
-$data_on[3]=$l->g(619);
+$data_on=$list_profil;
 $data_on[4]=$l->g(244);
-
-//liste des profils
-$list_profil[1]=$l->g(242);
-$list_profil[2]=$l->g(243);
-$list_profil[3]=$l->g(619);
-
 $form_name = "admins";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 onglet($data_on,$form_name,"onglet",4);
 $table_name="TAB_ACCESSLVL".$protectedPost['onglet'];	
 if (isset($protectedPost['VALID_MODIF'])){
 	if ($protectedPost['CHANGE'] != ""){
-		$sql_update="update operators set ACCESSLVL = '".$protectedPost['CHANGE']."' where ID='".$protectedPost['MODIF_ON']."'";
+		$sql_update="update operators set NEW_ACCESSLVL = '".$protectedPost['CHANGE']."' where ID='".$protectedPost['MODIF_ON']."'";
 		mysql_query($sql_update, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));		
 	$tab_options['CACHE']='RESET';
 	}else
@@ -61,7 +65,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 			echo "<script>alert('".$ERROR."')</script>";
 		}else{
 		
-			$sql=" insert into operators (id,firstname,lastname,accesslvl,comments";
+			$sql=" insert into operators (id,firstname,lastname,new_accesslvl,comments";
 			if (isset($protectedPost['PASSWORD']))
 				$sql.=",passwd";
 			$sql.=") value ('".$protectedPost['ID']."',
@@ -76,6 +80,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 			mysql_query($sql, $_SESSION['OCS']["writeServer"]);
 			unset($_SESSION['OCS']['DATA_CACHE'],$protectedPost['ID'],$protectedPost['FIRSTNAME'],$protectedPost['LASTNAME'],
 					$protectedPost['ACCESSLVL'],$protectedPost['COMMENTS'],$protectedPost['PASSWORD']);
+			$tab_options['CACHE']='RESET';
 			$msg=$l->g(373);
 		}		
 	}else
@@ -87,6 +92,7 @@ echo '<div class="mlt_bordure" >';
 //add user
 if ($protectedPost['onglet'] == 4){	
 
+	
 	$tab_typ_champ[0]['DEFAULT_VALUE']=$protectedPost['ID'];
 	$tab_typ_champ[0]['INPUT_NAME']="ID";
 	$tab_typ_champ[0]['CONFIG']['SIZE']=60;
@@ -136,7 +142,7 @@ if ($protectedPost['onglet'] == 4){
 	$list_fields= array('ID'=>'ID',
 						'FIRSTNAME'=>'FIRSTNAME',
 						'LASTNAME'=>'LASTNAME',
-						'ACCESSLVL'=>'ACCESSLVL',
+						'ACCESSLVL'=>'NEW_ACCESSLVL',
 						'COMMENTS'=>'COMMENTS',
 						'SUP'=>'ID',
 						'MODIF'=>'ID',
@@ -146,10 +152,10 @@ if ($protectedPost['onglet'] == 4){
 	$queryDetails = 'SELECT ';
 	foreach ($list_fields as $key=>$value){
 		if($key != 'SUP' and $key != 'MODIF' and $key != 'CHECK')
-		$queryDetails .= $key.',';		
+		$queryDetails .= $value.',';		
 	} 
 	$queryDetails=substr($queryDetails,0,-1);
-	$queryDetails .= " FROM operators where ACCESSLVL=".$protectedPost['onglet'];
+	$queryDetails .= " FROM operators where NEW_ACCESSLVL='".$protectedPost['onglet']."'";
 	$tab_options['FILTRE']=array('LASTNAME'=>'LASTNAME','ID'=>'ID');
 	if ($protectedPost['onglet'] == ADMIN){
 		$tab_options['LIEN_LBL']['ID']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_perim'].'&head=1&id=';'admin_perim.php?id=';
@@ -165,7 +171,7 @@ if ($protectedPost['onglet'] == 4){
 
 //echo "</td></tr></table>";
 if ($protectedPost['MODIF'] != ''){
-	$choix=show_modif(array(1=>$data_on[1],2=>$data_on[2],3=>$data_on[3]),'CHANGE',2);
+	$choix=show_modif($list_profil,'CHANGE',2);
 	echo "<tr><td align=center><b>".$l->g(911)."<font color=red> ".$protectedPost['MODIF']." </font></b>".$choix." <input type='submit' name='VALID_MODIF' value='".$l->g(910)."'></td></tr>";
 	echo "<input type='hidden' name='MODIF_ON' value='".$protectedPost['MODIF']."'>";
 }
