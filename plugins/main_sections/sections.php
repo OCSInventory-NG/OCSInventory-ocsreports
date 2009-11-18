@@ -17,7 +17,7 @@ if (file_exists($ms_cfg_file)) {
 	$search=array('ORDER_FIRST_TABLE'=>'MULTI2',
 				  'ORDER_SECOND_TABLE'=>'MULTI2',
 				  'LBL'=>'MULTI',
-				  'MENU'=>'MULTI2',
+				  'MENU'=>'MULTI',
 				  'MENU_TITLE'=>'MULTI',
 				  'MENU_NAME'=>'MULTI',
 				  'URL'=>'MULTI',

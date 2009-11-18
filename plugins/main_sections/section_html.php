@@ -50,19 +50,19 @@ echo "		</tr></table>
 
 function show_icon($index,$lbl_index){
 	global $protectedGet,$l;
+	
 //if (isset($_SESSION['OCS']['list_page_profil'][$index])){
 	if ($_SESSION['OCS']['MENU_NAME'][$index]){
-
 			$name=$_SESSION['OCS']['MENU_NAME'][$index];
-			$packAct = $_SESSION['OCS']['MENU'][$index];
-
+			foreach ($_SESSION['OCS']['MENU'] as $key=>$value){
+				if ($value == $index)
+					$packAct[]=$key;
+			}		
 			$nam_img=$index;
 			$title=$l->g(substr(substr($_SESSION['OCS']['MENU_TITLE'][$index],2),0,-1));
-			$i=0;
-			while ($_SESSION['OCS']['MENU'][$index][$i]){
-				if (isset($_SESSION['OCS']['PAGE_PROFIL'][$_SESSION['OCS']['MENU'][$index][$i]]))
-				$data_list_config[$_SESSION['OCS']['URL'][$_SESSION['OCS']['MENU'][$index][$i]]]=$l->g(substr(substr($_SESSION['OCS']['LBL'][$_SESSION['OCS']['MENU'][$index][$i]],2),0,-1));
-				$i++;
+			foreach ($_SESSION['OCS']['MENU'] as $name_page=>$name_menu){
+				if (isset($_SESSION['OCS']['PAGE_PROFIL'][$name_page]) and $name_menu == $index)
+				$data_list_config[$_SESSION['OCS']['URL'][$name_page]]=$l->g(substr(substr($_SESSION['OCS']['LBL'][$name_page],2),0,-1));
 			}
 			if (isset($data_list_config))
 			menu_list($name,$packAct,$nam_img,$title,$data_list_config);	
@@ -90,13 +90,14 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
         global $protectedGet;
 
         $pag_name=array_flip($_SESSION['OCS']['URL']);
+      //  print_r($pag_name);
         echo "<td onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\">
         <dl id=\"menu\">
                 <dt onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\">
                 <a href='javascript:void(0);'>
         <img src='".$_SESSION['OCS']['main_sections_dir']."/img/$nam_img";
        
-	if( in_array($pag_name[$protectedGet[PAG_INDEX]],$packAct) ) {
+	if( in_array($pag_name[$protectedGet[PAG_INDEX]],$packAct))  {
 		echo "_a"; 
 	}
 
