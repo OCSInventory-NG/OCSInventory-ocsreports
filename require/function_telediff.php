@@ -239,12 +239,20 @@ function activ_pack($fileid,$https_server,$file_serv){
 function activ_pack_server($fileid,$https_server,$id_server_group){
 	global $protectedPost;
 		//recherche de la liste des machines qui ont d�j� ce paquet
-		$sqlDoub="select SERVER_ID from download_enable where FILEID= ".$fileid;
+		$sqlDoub="select SERVER_ID,INFO_LOC from download_enable where FILEID= ".$fileid;
 		$resDoub = mysql_query( $sqlDoub, $_SESSION['OCS']["readServer"] );	
-		//cr�ation de la liste pour les exclure de la requete
+		
+		//creation de la liste pour les exclure de la requete d'insertion
 		while ($valDoub = mysql_fetch_array( $resDoub )){
 			if ($valDoub['SERVER_ID'] != "")
-			$listDoub[]=$valDoub['SERVER_ID'];	
+			$listDoub[]=$valDoub['SERVER_ID'];
+	
+			//Update https server location if different from mysql database
+			if ($valDoub['INFO_LOC'] != $https_server) {
+				$sql_update_https= "UPDATE download_enable SET download_enable.INFO_LOC='".$https_server."' WHERE SERVER_ID=".$valDoub['SERVER_ID'];
+				mysql_query( $sql_update_https, $_SESSION['OCS']["readServer"] );
+			}
+
 		}
 		//si la liste est non null on cr�e la partie de la requete manquante
 		if (isset($listDoub)){
