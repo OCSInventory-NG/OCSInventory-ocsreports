@@ -369,7 +369,7 @@
 371 Todos os componentes
 372 Escolha os componentes
 373 Usu�rio registrado
-374 Sociedade registrada
+374 Usu�rio modificado
 375 Vers�o do agente OCS NG
 376 Computador indispon�vel. Por favor tente novamente em alguns instantes.
 377 Velocidade do processador (Mhz)

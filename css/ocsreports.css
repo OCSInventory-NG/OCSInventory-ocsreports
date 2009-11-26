@@ -226,10 +226,12 @@ font-weight: bold;
 #menu dd {
 position: absolute;
 z-index: 100;
-margin-top: 5px;
-width: 18em;
+margin-top: 5px ;
+width: 15em;
 background: #D6DCF2;
 border: 1px solid gray;
+-moz-border-radius: 1em;
+-webkit-border-radius: 1em;
 }
 
 #menu ul {

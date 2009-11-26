@@ -305,7 +305,7 @@
 371 Tous les composants de machine
 372 Choisissez les composants à afficher
 373 Utilisateur enregistré
-374 Société enregistrée
+374 Utilisateur modifié
 375 Version Agent OCS NG
 376 Ordinateur verrouillé. Merci de réessayer plus tard
 377 Vitesse CPU (Mhz)

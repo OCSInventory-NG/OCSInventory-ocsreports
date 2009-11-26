@@ -23,13 +23,7 @@ $def_onglets[$l->g(760)]=$l->g(760); //Webservice
 $def_onglets[$l->g(84)]=$l->g(84); //GUI
 $def_onglets['connexion']="Connexion Ldap"; //connexion a l'applicatioon
 
-//IT SET MANAGEMENT
-$sql_It_set="select IVALUE from config where name='IT_SET_MANAGEMENT'";
-$result_It_set = mysql_query($sql_It_set, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-while($value=mysql_fetch_array($result_It_set)){
-	if ($value['IVALUE'] == 1)
-		$def_onglets[$l->g(1031)]=$l->g(1031);	
-}
+
 
 
 if ($protectedPost['Valid'] == $l->g(103)){
@@ -106,9 +100,6 @@ if ($protectedPost['onglet'] == $l->g(760)){
 	
 	pagewebservice($form_name);
 }
-if ($protectedPost['onglet'] == $l->g(1031)){
-	
-	pageitsetmanagement($form_name);
-}
+
 
 echo "</div></form>";

@@ -20,7 +20,7 @@ $table_tabname="TAB_MULTICRITERE";
 //cas o� l'on arrive d'une autre page
 //ex: la page des stats
 //$_SESSION['OCS']['DEBUG'] = 'ON';
-if (isset($protectedGet['prov'])){
+if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protectedPost['GET'] == '')){
 	unset($protectedPost);
 	foreach ($_SESSION['OCS'] as $key=>$value){
 		$valeur=explode("-", $key); 
@@ -61,12 +61,15 @@ if (isset($protectedGet['prov'])){
 		$protectedPost['multiSearch'] = $l->g(32);
 		$protectedPost['Valid']=1;
 	}	
+	$protectedPost['GET']=$protectedGet['prov'];
 }
 //initialisation du tableau
 //$list_fields_calcul=array();
 //ouverture du formulaire
 echo "<form name='".$form_name."' id='".$form_name."' method='post'>";
-
+if (isset($protectedPost['GET'])){
+	echo "<input type=hidden name='GET' value='".$protectedPost['GET']."'>";
+}
 //recherche des diff�rents champs de accountinfo
 $field_of_accountinfo=witch_field_more(array('ACCOUNTINFO'=>1));
 $j=0;

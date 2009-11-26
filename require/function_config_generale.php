@@ -71,7 +71,7 @@
  function ligne($name,$lbl,$type,$data,$data_hidden='',$readonly=''){
  global $l;
 
- 	echo "<TR height=65px bgcolor='#F2F2F2' BORDERCOLOR='#9894B5'><td align='center' width='150px'>".$name;
+ 	echo "<TR height=65px class='mvt_bordure'><td align='center' width='150px'>".$name;
 	echo "<br><font size=1 color=green><i>".$lbl."</i></font></td><td align='left' width='150px'>";
 	//si on est dans un type bouton ou boite � cocher
  	if ($type=='radio' or $type=='checkbox'){
@@ -149,15 +149,10 @@
  	
  }
  
-function debut_tab($config){
-	
-	echo "<table cellspacing='".$config['CELLSPACING']."'
-				 width='".$config['WIDTH']."' 
-				BORDER='".$config['BORDER']."' 
-				ALIGN = '".$config['ALIGN']."' 
-				CELLPADDING='".$config['CELLPADDING']."' 
-				BGCOLOR='".$config['BGCOLOR']."' 
-				BORDERCOLOR='".$config['BORDERCOLOR']."'>";
+function debut_tab(){
+	echo "<table cellspacing='5' border= '0'
+				 width='90%'  
+				ALIGN = 'Center' >";
 	
 }
 //function 
@@ -262,7 +257,7 @@ function update_default_value($POST){
 	//tableau des champs ou il faut juste mettre � jour le tvalue
 	$array_simple_tvalue=array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT','OCS_FILES_FORMAT','OCS_FILES_PATH',
 							   'LOCAL_SERVER','CONEX_LDAP_SERVEUR','CONEX_LDAP_PORT','CONEX_DN_BASE_LDAP','CONEX_LOGIN_FIELD',
-							   'CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN','CONEX_ROOT_PW','LBL_TAG','IT_SET_EMAIL_VALID',
+							   'CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN','CONEX_ROOT_PW','LBL_TAG',
 							   'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
@@ -402,13 +397,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 
 	
 	
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'90%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5'));
+ 	debut_tab();
 	ligne('LOCAL_PORT',$l->g(566),'input',array('VALUE'=>$values['ivalue']['LOCAL_PORT'],'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
 	ligne('LOCAL_SERVER',$l->g(565),'input',array('BEGIN'=>'HTTP://','VALUE'=>$values['tvalue']['LOCAL_SERVER'],'SIZE'=>50,'MAXLENGHT'=>254));
 	ligne('DOWNLOAD_PACK_DIR',$l->g(775),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."/download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_pack),
@@ -452,13 +441,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 	else
 	$select_frag='DEFAULT';			
 	 
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'70%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5'));
+ 	debut_tab();
 	//create diff lign for general config	
  		ligne('DOWNLOAD',$l->g(417),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['DOWNLOAD'])); 	
  		ligne('DOWNLOAD_CYCLE_LATENCY',$l->g(720),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_CYCLE_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
@@ -485,13 +468,7 @@ function pagegroups($form_name){
 				  'GROUPS_CACHE_REVALIDATE'=>'GROUPS_CACHE_REVALIDATE');
 	
  	$values=look_default_values($champs);			 
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'70%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5'));
+ 	debut_tab();
 	//create diff lign for general config	
  	//create diff lign for general config	
  		ligne('ENABLE_GROUPS',$l->g(736),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['ENABLE_GROUPS'])); 	
@@ -518,13 +495,7 @@ function pagegroups($form_name){
  	if (isset($champs['AUTO_DUPLICATE_LVL']))
  	//on utilise la fonction pour conna�tre les cases coch�es correspondantes au chiffre en base de AUTO_DUPLICATE_LVL
  	$check=auto_duplicate_lvl_poids($values['ivalue']['AUTO_DUPLICATE_LVL'],1);
-  	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'80%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5'));
+  	debut_tab();
 	ligne('LOGLEVEL',$l->g(416),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOGLEVEL']));
 	ligne('PROLOG_FREQ',$l->g(564),'input',array('END'=>$l->g(730).$sup1,'VALUE'=>$values['ivalue']['PROLOG_FREQ'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));	
     ligne('AUTO_DUPLICATE_LVL',$l->g(427),'checkbox',array(
@@ -570,13 +541,7 @@ function pagegroups($form_name){
 	$optvalueselected = 'NEVER';
 	else
 	$optvalueselected ='CUSTOM';
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'70%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5'));
+ 	debut_tab();
 		ligne('FREQUENCY',$l->g(494),'radio',array('ALWAYS'=>$l->g(485),'NEVER'=>$l->g(486),'CUSTOM'=>$l->g(487),'VALUE'=>$optvalueselected),array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['ivalue']['FREQUENCY'],'END'=>$l->g(496),'JAVASCRIPT'=>$numeric));
 		ligne('INVENTORY_DIFF',$l->g(741),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_DIFF']));
 		ligne('INVENTORY_TRANSACTION',$l->g(742),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_TRANSACTION']));
@@ -592,13 +557,7 @@ function pagegroups($form_name){
  		//what ligne we need?
  	$champs=array('REGISTRY'=>'REGISTRY');
 	$values=look_default_values($champs);
-	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'70%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5'));
+	debut_tab();
 	ligne('REGISTRY',$l->g(412),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['REGISTRY']));
  	fin_tab($form_name);
  }
@@ -622,13 +581,7 @@ function pagegroups($form_name){
  		else
  		$values['ivalue']['IPDISCOVER']='OFF';
  	}
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'70%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5'));
+ 	debut_tab();
  	ligne('IPDISCOVER',$l->g(425),'radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$values['ivalue']['IPDISCOVER']),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$ipdiscover,'END'=>$l->g(729),'JAVASCRIPT'=>$numeric));
 	ligne('IPDISCOVER_BETTER_THRESHOLD',$l->g(746),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
 	ligne('IPDISCOVER_LATENCY',$l->g(567),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_LATENCY'],'END'=>$l->g(732).$sup10,'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
@@ -656,13 +609,7 @@ function pagegroups($form_name){
 	$select_rep_creat='CUSTOM';
 	else
 	$select_rep_creat='DEFAULT';			
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'80%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5')); 
+ 	debut_tab(); 
  	ligne('DOWNLOAD_SERVER_URI',$l->g(726),'input',array('BEGIN'=>'HTTP://','VALUE'=>$values['tvalue']['DOWNLOAD_SERVER_URI'],'SIZE'=>70,'MAXLENGHT'=>254));
  	ligne('DOWNLOAD_SERVER_DOCROOT',$l->g(727),'input',array('VALUE'=>$values['tvalue']['DOWNLOAD_SERVER_DOCROOT'],'SIZE'=>70,'MAXLENGHT'=>254));
 	ligne('DOWNLOAD_REP_CREAT',$l->g(829),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."download/server)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_rep_creat),
@@ -678,13 +625,7 @@ function pagegroups($form_name){
 				  'OCS_FILES_OVERWRITE'=>'OCS_FILES_OVERWRITE',
 				  'OCS_FILES_PATH'=>'OCS_FILES_PATH');
  	$values=look_default_values($champs);
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'80%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5')); 
+ 	debut_tab(); 
  	ligne('GENERATE_OCS_FILES',$l->g(749),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['GENERATE_OCS_FILES']));
 	ligne('OCS_FILES_FORMAT',$l->g(750),'select',array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>array('OCS'=>'OCS','XML'=>'XML')));
  	ligne('OCS_FILES_OVERWRITE',$l->g(751),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['OCS_FILES_OVERWRITE']));
@@ -701,13 +642,7 @@ function pagegroups($form_name){
 				  'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME'=>'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',
 				  'INVENTORY_FILTER_ON'=>'INVENTORY_FILTER_ON');
  	$values=look_default_values($champs);
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'80%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5')); 
+ 	debut_tab(); 
 	ligne('PROLOG_FILTER_ON',$l->g(753),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['PROLOG_FILTER_ON']));
 	ligne('INVENTORY_FILTER_ENABLED',$l->g(754),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_FILTER_ENABLED']));
 	ligne('INVENTORY_FILTER_FLOOD_IP',$l->g(755),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_FILTER_FLOOD_IP']));
@@ -723,13 +658,7 @@ function pagegroups($form_name){
 				  'WEB_SERVICE_RESULTS_LIMIT'=>'WEB_SERVICE_RESULTS_LIMIT',
 				  'WEB_SERVICE_PRIV_MODS_CONF'=>'WEB_SERVICE_PRIV_MODS_CONF');
  	$values=look_default_values($champs);
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'80%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5')); 
+ 	debut_tab(); 
 					echo "<tr><td align=center colspan=100><font size=4 color=red><b>".$l->g(764)."</b></font></td></tr>";
 	ligne('WEB_SERVICE_ENABLED',$l->g(761),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['WEB_SERVICE_ENABLED']),'',"readonly");
 	ligne('WEB_SERVICE_RESULTS_LIMIT',$l->g(762),'input',array('VALUE'=>$values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'],'END'=>$l->g(511).$sup1,'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");
@@ -751,13 +680,7 @@ function pagegroups($form_name){
 	$values=look_default_values($champs);
 	
 	
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'90%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5'));
+ 	debut_tab();
 	ligne('CONEX_LDAP_SERVEUR',$l->g(830),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_SERVEUR'],'SIZE'=>50,'MAXLENGHT'=>200));
 	ligne('CONEX_ROOT_DN',$l->g(1016).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_DN'],'SIZE'=>50,'MAXLENGHT'=>200));
 	ligne('CONEX_ROOT_PW',$l->g(1017).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_PW'],'SIZE'=>50,'MAXLENGHT'=>200));
@@ -772,23 +695,16 @@ function pagegroups($form_name){
  function pageitsetmanagement($form_name){
  	global $l,$numeric,$sup1;
  		//what ligne we need?
- 	$champs=array( 'IT_SET_EMAIL_VALID'=>'IT_SET_EMAIL_VALID',
-				  'IT_SET_PERIM'=>'IT_SET_PERIM',
+ 	$champs=array( 'IT_SET_PERIM'=>'IT_SET_PERIM',
 				  'IT_SET_TAG_NAME'=>'IT_SET_TAG_NAME',
 				  'IT_SET_NAME_TEST'=>'IT_SET_NAME_TEST',
 				  'IT_SET_NAME_LIMIT'=>'IT_SET_NAME_LIMIT');
 	$values=look_default_values($champs);
 	
 	
- 	debut_tab(array('CELLSPACING'=>'5',
-					'WIDTH'=>'90%',
-					'BORDER'=>'0',
-					'ALIGN'=>'Center',
-					'CELLPADDING'=>'0',
-					'BGCOLOR'=>'#C7D9F5',
-					'BORDERCOLOR'=>'#9894B5'));
+ 	debut_tab();
  	//liste des @email dans la boucle
-	ligne('IT_SET_EMAIL_VALID','Liste des @mail devant connaitre l\'évolution du télédéploiement<br>(séparer les différentes adresses avec des ;)','long_text',array('VALUE'=>$values['tvalue']['IT_SET_EMAIL_VALID'],'COLS'=>60,'ROWS'=>5));
+	//ligne('IT_SET_EMAIL_VALID','Liste des @mail devant connaitre l\'évolution du télédéploiement<br>(séparer les différentes adresses avec des ;)','long_text',array('VALUE'=>$values['tvalue']['IT_SET_EMAIL_VALID'],'COLS'=>60,'ROWS'=>5));
 	ligne('IT_SET_PERIM','Identification des périmètres','radio',array(1=>'TAG',0=>'GROUP','VALUE'=>$values['ivalue']['IT_SET_PERIM'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
 	if (!isset($values['ivalue']['IT_SET_PERIM']) or $values['ivalue']['IT_SET_PERIM'] == 0){
 		

@@ -97,7 +97,7 @@ ms_custom_admin_type:admin_type
 ms_custom_info:ipdiscover_info
 ms_debug:debug
 ms_computor:computor
-ms_passwd:pass
+ms_config_account:account_config
 ms_exportallsoft:export_all_soft
 ms_soft_csv:export_soft
 ms_csv:export_csv
@@ -105,6 +105,7 @@ ms_tele_stats:stat
 ms_tele_compress:compress
 ms_speed_stat:stat_speed
 ms_it_set_management:it_set_management
+ms_admin_management:admin_type
 </URL>
 
 <DIRECTORY>
@@ -131,6 +132,7 @@ ms_custom_admin_rsx:ms_ipdiscover
 ms_custom_admin_type:ms_ipdiscover
 ms_custom_info:ms_ipdiscover
 ms_it_set_management:ms_it_set_management
+ms_admin_management:ms_it_set_management
 ms_label:ms_label
 ms_local:ms_local
 ms_logs:ms_logs
@@ -138,7 +140,7 @@ ms_multi_search:ms_multi_search
 ms_custom_lock:ms_multi_search
 ms_custom_sup:ms_multi_search
 ms_custom_tag:ms_multi_search
-ms_passwd:ms_passwd
+ms_config_account:ms_users
 ms_regconfig:ms_regconfig
 ms_repart_tag:ms_repart_tag
 ms_custom_pack:ms_teledeploy

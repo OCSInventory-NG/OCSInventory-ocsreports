@@ -279,7 +279,7 @@
 371 All components
 372 Choose the components
 373 Registered user
-374 Registered society
+374 Updated user
 375 OCS NG Agent Vesion
 376 Computer locked. Please retry in a few minutes
 377 Processor Speed (Mhz)

@@ -40,8 +40,9 @@ if (isset($protectedPost['enre'])){
 }
 echo "<form action='' name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($data_on,$form_name,"onglet",3);
-	echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center>";
-echo "<tr><td align=center>";
+echo '<div class="mlt_bordure" >';
+//	echo "<table ALIGN = 'Center'><tr><td align =center>";
+//echo "<tr><td align=center>";
 if ($protectedPost['onglet'] == 1){
 	$table_name="blacklist_macaddresses";	
 	$list_fields= array('ID'=>'ID',
@@ -67,7 +68,7 @@ if ($protectedPost['onglet'] == 1){
 }elseif ($protectedPost['onglet'] == 3){
 	$list_action[1]=$l->g(95);
 	$list_action[2]=$l->g(36);
-	echo "<tr><td align=center colspan=20>".$l->g(700)." : ".show_modif($list_action,"BLACK_CHOICE",2,$form_name)."</td></tr>";
+	echo $l->g(700)." : ".show_modif($list_action,"BLACK_CHOICE",2,$form_name)."<br>";
 	if ($protectedPost['BLACK_CHOICE'] == 1){
 		$javascript="onKeyPress='return scanTouche(event,/[0-9 a-f A-F]/)' 
 		  onkeydown='convertToUpper(this)'
@@ -75,21 +76,21 @@ if ($protectedPost['onglet'] == 1){
 		  onblur='convertToUpper(this)'
 		  onclick='convertToUpper(this)'";
 		$i=1;
-		$aff="<tr><td align=center>".$l->g(654)." ";
+		$aff=$l->g(654)." ";
 		while ($i<7){
 			$aff.=":".show_modif($protectedPost['ADD_MAC_'.$i],'ADD_MAC_'.$i,0,'',array('MAXLENGTH'=>2,'SIZE'=>3,'JAVASCRIPT'=>$javascript));
 			$i++;
 		}
-		$aff.="</td></tr>";	
+		$aff.="<br>";	
 				
 	}elseif ($protectedPost['BLACK_CHOICE'] == 2){
-		$aff="<tr><td align=center>".$l->g(702)." : ".show_modif($protectedPost['ADD_SERIAL'],'ADD_SERIAL',0,'',array('MAXLENGTH'=>100,'SIZE'=>30));	
-		$aff.="</td></tr>";	
+		$aff=$l->g(702)." : ".show_modif($protectedPost['ADD_SERIAL'],'ADD_SERIAL',0,'',array('MAXLENGTH'=>100,'SIZE'=>30))."<br>";	
+		//$aff.="</td></tr>";	
 	}
 	
 	if (isset($aff)){
-		$aff.="<tr><td align=center colspan=20>
-			<input class='bouton' name='enre' type='submit' value=".$l->g(114)."></td></tr>";
+		$aff.="<br>
+			<input class='bouton' name='enre' type='submit' value=".$l->g(114).">";
 			echo $aff;		
 	}
 
@@ -117,6 +118,6 @@ if (isset($list_fields)){
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 	del_selection($form_name);
 }	
-echo "</td></tr></table>";
+echo "</div>";
 echo "</form>";
 ?>

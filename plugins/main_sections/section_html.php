@@ -14,7 +14,7 @@ if( !isset($protectedGet["popup"] )) {
 	//si on reclic sur le meme icone
 	
 	//echo $ban_head;
-	echo "<table width='100%' border=0";
+	echo "<table width='95%' border=0 align=center";
 	echo "><tr><td >
 			<table BORDER='0' ALIGN = 'left' CELLPADDING='0'";
 			if ($ban_head=='no') echo " style='display:none;'";
@@ -27,9 +27,10 @@ while ($_SESSION['OCS']['ORDER_FIRST_TABLE'][$i]){
 	$i++;
 	
 }
+$align="right";
 echo "			</tr></table>
 			</td><td>
-			<table BORDER='0' ALIGN = 'right' CELLPADDING='0'";
+			<table BORDER='0' ALIGN = '".$align."' CELLPADDING='0'";
 			if ($ban_head=='no') echo " style='display:none;'";
 			echo "><tr>";
 $i=0;
@@ -90,7 +91,7 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
         global $protectedGet;
 
         $pag_name=array_flip($_SESSION['OCS']['URL']);
-      //  print_r($pag_name);
+      //	print_r($_SESSION['OCS']['all_menus']);
         echo "<td onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\">
         <dl id=\"menu\">
                 <dt onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\">
@@ -120,6 +121,7 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
 echo "<script language='javascript'>show_menu('nomenu','".$_SESSION['OCS']['all_menus']."');</script>";
 echo "<br><center><span id='wait' class='warn'><font color=red>".$l->g(332)."</font></span></center><br>";
 		flush();
+$span_wait=1;
 
 
 

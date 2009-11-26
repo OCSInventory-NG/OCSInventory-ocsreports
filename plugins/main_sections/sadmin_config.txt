@@ -13,6 +13,7 @@ CONFIG:YES
 GROUPS:YES
 CONSOLE:YES
 IPDISCOVER:YES
+ITSETMANAGEMENT:YES
 </CONFIGURATION>
 
 <PAGE_PROFIL>
@@ -63,7 +64,7 @@ ms_custom_admin_type
 ms_custom_info
 ms_debug
 ms_computor
-ms_passwd
+ms_config_account
 ms_exportallsoft
 ms_soft_csv
 ms_csv
@@ -71,4 +72,5 @@ ms_tele_stats
 ms_tele_compress
 ms_speed_stat
 ms_it_set_management
+ms_admin_management
 </PAGE_PROFIL>

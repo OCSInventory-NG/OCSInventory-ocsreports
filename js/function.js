@@ -86,6 +86,7 @@ function show_menu(id,all_menus) {
 	var menus_array=all_menus.split('|');
 
 	for (var i=0;i<menus_array.length;i++) { 		//Hidding all menus by default
+		if (document.getElementById(menus_array[i]) != null)
 		document.getElementById(menus_array[i]).style.display='none'; 
 	}
  

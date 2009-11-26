@@ -248,12 +248,12 @@ function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom
  * $input_reload = si un select doit effectuer un reload, on y met le nom du formulaire � reload
  * 
  */
-function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES"))
+function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES",'COLS'=>30,'ROWS'=>5))
 {
 	//echo $configinput['JAVASCRIPT'];
 	global $protectedPost;
 	if ($input_type == 1){
-		return "<textarea name='".$input_name."' id='".$input_name."' cols='30' rows='5'  class='down' \>".$name."</textarea>";
+		return "<textarea name='".$input_name."' id='".$input_name."' cols='".$configinput['COLS']."' rows='".$configinput['ROWS']."'  class='down' \>".$name."</textarea>";
 	
 	}elseif ($input_type ==0)
 	return "<input type='text' name='".$input_name."' id='".$input_name."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$name."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
@@ -265,12 +265,14 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		if ($configinput['DEFAULT'] == "YES")
 		$champs.= "<option value='' class='hi' \></option>";
 		$countHl=0;		
-		foreach ($name as $key=>$value){
-			$champs.= "<option value=\"".$key."\"";
-			if ($protectedPost[$input_name] == $key )
-			$champs.= " selected";
-			$champs.= ($countHl%2==1?" class='hi'":" class='down'")." \>".$value."</option>";
-			$countHl++;
+		if ($name != ''){
+			foreach ($name as $key=>$value){
+				$champs.= "<option value=\"".$key."\"";
+				if ($protectedPost[$input_name] == $key )
+				$champs.= " selected";
+				$champs.= ($countHl%2==1?" class='hi'":" class='down'")." \>".$value."</option>";
+				$countHl++;
+			}
 		}
 		$champs.="</select>";
 		return $champs;
@@ -278,12 +280,22 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	return $name;
 	elseif ($input_type == 4)
 	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' \>";
+	elseif ($input_type == 5){	
+		foreach ($name as $key=>$value){
+			$champs.= $value."<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";
+			if ($protectedPost[$input_name."_".$key] == 'on' )
+			$champs.= " checked ";
+			$champs.= " > ";
+		}
+		return $champs;
+	}
 	
 }
 
 function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='CHANGE')
 {
 	global $l;
+	if ($form_name != 'NO_FORM')
 	echo "<form name='".$form_name."' id='".$form_name."' action='' method='POST'>";
 	echo '<div class="mvt_bordure" >';
 	echo "<table align='center' border='0' cellspacing=20 >";
@@ -306,8 +318,25 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 	
 		}
     }
+    if ($form_name != 'NO_FORM')
 	echo "</form>";
 }
+
+function show_field($name_field,$type_field,$value_field){
+	$i=0;
+	while ($name_field[$i]){
+		$tab_typ_champ[$i]['DEFAULT_VALUE']=$value_field[$i];
+		$tab_typ_champ[$i]['INPUT_NAME']=$name_field[$i];
+		$tab_typ_champ[$i]['INPUT_TYPE']=$type_field[$i];
+		$tab_typ_champ[$i]['CONFIG']['ROWS']=7;
+		$tab_typ_champ[$i]['CONFIG']['COLS']=40;
+		$tab_typ_champ[$i]['CONFIG']['SIZE']=50;
+		$tab_typ_champ[$i]['CONFIG']['MAXLENGTH']=255;
+		$i++;
+	}
+	return $tab_typ_champ;
+}
+
 function filtre($tab_field,$form_name,$query){
 	global $protectedPost,$l;
 	if ($protectedPost['RAZ_FILTRE'] == "RAZ")

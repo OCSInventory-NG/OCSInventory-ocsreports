@@ -63,7 +63,7 @@ if (!isset($_SESSION['OCS']['URL'])){
 		$profil_data=read_configuration($ms_cfg_file,$search);
 		$pages_refs=$profil_data['URL'];
 	}
-}
+}else
 $pages_refs=$_SESSION['OCS']['URL'];
 /**********************************************************GESTION DES COLONNES DES TABLEAUX PAR COOKIES***********************************/
 require_once('require/function_cookies.php');
@@ -200,9 +200,16 @@ if (isset($name[$protectedGet[PAG_INDEX]])){
 	if (isset($_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]]))
 	$rep=$_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]];
 	require ($_SESSION['OCS']['main_sections_dir'].$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
-}else
-require ($_SESSION['OCS']['main_sections_dir']."ms_console/ms_console.php");		
-
+}
+else{
+ 	if ($_SESSION['OCS']['PAGE_PROFIL']['ms_console'])	
+	require ($_SESSION['OCS']['main_sections_dir']."ms_console/ms_console.php");	
+	else{
+		echo  "<img src='image/fond.png'>";
+		
+	}
+		
+}
 
 
 
