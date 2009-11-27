@@ -71,12 +71,27 @@ if ($list_id){
 								'SIZE'=>'a.SIZE'				
 								);
 												
-		if (!isset($nb_rule) or $nb_rule>0)						
-				$list_fields['SELECT']='e.FILEID';
-		$table_name="LIST_PACK_SEARCH";//INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$val["h.id"]."', 'DOWNLOAD', $packid)
+		if (!isset($nb_rule) or $nb_rule>0)	{
+		if ($protectedPost['onglet'] != 'SERV_GROUP'){
+			$list_fields['PACK_LOC']='e.PACK_LOC';	
+			$list_fields['ACTIVE_ID']='e.ID';
+			$list_fields['SELECT']='e.ID';
+		}else{
+			$list_fields['ACTIVE_ID']='e.FILEID';
+			$list_fields['SELECT']='e.FILEID';
+		}
+	}		$table_name="LIST_PACK_SEARCH";//INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$val["h.id"]."', 'DOWNLOAD', $packid)
 		$default_fields= array('PACK_NAME'=>'PACK_NAME','PRIORITY'=>'PRIORITY','OS_NAME'=>'OS_NAME','SIZE'=>'SIZE','SELECT'=>'SELECT');
 		$list_col_cant_del=array('PACK_NAME'=>'PACK_NAME','SELECT'=>'SELECT');
-		$querypack = 'SELECT distinct ';
+
+		if ($protectedPost['onglet'] != 'SERV_GROUP'){
+			$default_fields['PACK_LOC']='PACK_LOC';
+			$list_col_cant_del['PACK_LOC']='PACK_LOC';
+		}
+
+		$querypack = 'SELECT  ';
+		if ($protectedPost['onglet'] == 'SERV_GROUP')
+			$querypack .= ' distinct ';
 		foreach ($list_fields as $key=>$value){
 			if($key != 'SELECT')
 			$querypack .= $value.',';		

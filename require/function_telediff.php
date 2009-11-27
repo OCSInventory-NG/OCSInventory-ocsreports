@@ -118,9 +118,9 @@ function champ_select_block($name,$input_name,$input_cache)
  	global $l;
  	desactive_mach($list_id,$packid);
  	$id_pack=found_id_pack($packid);
- 	$sql_active="insert into devices (HARDWARE_ID, NAME, IVALUE) select ID,'DOWNLOAD','".$id_pack."' from hardware where id in (".$list_id.")";
+ 	$sql_active="insert into devices (HARDWARE_ID, NAME, IVALUE) select ID,'DOWNLOAD','".$packid."' from hardware where id in (".$list_id.")";
  	$res_active = mysql_query($sql_active, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
-	addLog($l->g(512), $l->g(601)." ".$packid." => ".$list_id );
+	addLog($l->g(512), $l->g(601)." ".$id_pack." => ".$list_id );
 	return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) );
 
  }
@@ -128,9 +128,9 @@ function champ_select_block($name,$input_name,$input_cache)
  function desactive_mach($list_id,$packid){
  	global $l;
 	$id_pack=found_id_pack($packid);
-	$sql_desactive="delete from devices where hardware_id in (".$list_id.") and name='DOWNLOAD' and IVALUE=".$id_pack;
+	$sql_desactive="delete from devices where hardware_id in (".$list_id.") and name='DOWNLOAD' and IVALUE=".$packid;
 	$res_active = mysql_query($sql_desactive, $_SESSION['OCS']["writeServer"]) or die(mysql_error()); 	
-	addLog($l->g(512), $l->g(886)." ".$packid." => ".$list_id );
+	addLog($l->g(512), $l->g(886)." ".$id_pack." => ".$list_id );
  }
  
  function found_id_pack($packid){
