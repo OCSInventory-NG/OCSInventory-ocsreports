@@ -107,7 +107,7 @@
 196 Tylko nazwa
 197 Tylko Numer
 198 Tylko Adres MAC
-199 różnice
+199 Duplikaty
 200 Corresponding relay decremented
 201 MNIEJSZY
 202 WIĘKSZY
@@ -136,8 +136,8 @@
 225 Admininfo
 226 usunięto from accountinfo table
 227 Jesteś pewny, że chcesz usunąć tą kolumnę ?
-228 Wprowadź nowe administrative info
-229 Text (255)
+228 Wprowadź nową informację administracyjną
+229 Tekst (255)
 230 Liczba całkowita
 231 Liczba naturalna
 232 Data
@@ -161,18 +161,18 @@
 250 Nazwa hosta MySQL
 251 Wyloguj
 252 Nazwa (wybierz)        	
-253 Gniazdo rejestru	
+253 Klucz rejestru
 254 Ścieżka klucza (np: SOFTWAREMozilla)  	
 255 Nazwa klucza do odczytania (* dla wszystkich)
 256 Wybierz
 257 Klucz rejestru
 258 Wartość klucza rejestru
 259 Błąd, dane nie mogły zostać dodane (znaki specjalne nie są dozwolone)
-260 Label file modification ok
-261 Label file deleted
-262 Type in a label
-263 Label file configuration
-264 No label file now
+260 Plik etykiet zmodyfikowano poprawnie
+261 Plik etykiet usunięto
+262 Wpisz etykiete
+263 Konfiguracje pliku etykiet
+264 Brak pliku etykier
 265 Cokolwiek
 266 NieprawIdźowa data
 267 dd/mm/rrrr
@@ -196,7 +196,7 @@
 285 Zaznacz parametr do modyfikacji
 286 Service pack
 287 Import lokalny
-288 Local Importation
+288 Import lokalny
 289 Informacje o sieci
 290 Ip querying
 291 Tryb eksperta
@@ -240,7 +240,7 @@
 329 Inventoried
 330 Nazwa NetBIOS
 331 Numer sieci
-332 Proszę czeka�...
+332 Proszę czekać...
 333 Dodaj nowe urządzenie NetBIOS
 334 Lista urządzeń sieciowych
 335 Typ urządzenia
@@ -284,7 +284,7 @@
 375 Wersja agenta OCS NG
 376 Komputer zablokowany. Proszę spr�bowa� za kilka minut
 377 Szybkość procesora (Mhz)
-380 Słownikowy
+380 Słownik
 381 Numer
 382 Nazwa oprogramowania
 383 Wszystko
@@ -321,7 +321,7 @@
 425 Maksymalna liczba komputerów na bramę pobieranie IP w sieci.
 426 Ważność zapasów. (Zawsze: spis każdego logowania. NIGDY: nie inwentaryzacji)
 427 określa, że kryteria muszą być równa dla dwóch komputerów, które mają być automatycznie łączone.
-428 Deploy
+428 Wdrożenia
 429 Częstotliwość
 430 przetwarzania masowego
 431 Uaktywnij
@@ -391,27 +391,27 @@
 495 inwentaryzacją wszystkich
 496 dni (s)
 497 Domyślnie używa "częstotliwość" parametru.
-498 Package
-499 serwerów
-500 Customization
+498 Pakiet
+499 Serwer
+500 Personalizacja
 501 dodać pakiet
 502 Wybrani
-503 Force wybrany
+503 Wybrany siłą
 504 nie została wybrana
-505 Electable
-506 Nie Electable
-507 PO
-508, które nie posiadają
-509 ANY
+505 Wybieralny
+506 Niewybieralny
+507 Posiada
+508 Nie posiada
+509 Dowolny
 510 nr pakietu
 511 sekund
-512 Deployment
-513 Build
+512 Wgrywanie
+513 Zbuduj
 514 Uaktywnij
-515 Activated
+515 Uaktywniony
 516 KB
 517 Opcja ta może mieć wpływ tylko na jednym komputerze naraz.
-518 Force IpDiscover
+518 Wymuś IpDiscover
 519 Komputer już wybrany do sieci
 520 Komputer już ROBOTY ipdiscover do sieci
 521 Komputer już ROBOTY unelectable
@@ -420,25 +420,25 @@
 524 NIGDY nie wpływa ponownie
 525 JESTEŚĆ PEWNY?
 526 NO komputera, którego dotyczą
-527 styczniu
-528 lutym
+527 Styczniu
+528 Lutym
 529 Marzec
-530 kwietniu
-531 V
-532 czerwcu
-533 lipiec
-534 sierpniu
-535 wrześniu
-536 październiku
+530 Kwietniu
+531 Maj
+532 Czerwcu
+533 Lipiec
+534 Sierpniu
+535 Wrześniu
+536 Październiku
 537 listopadzie
-538 grudnia
-539 niedziela
-540 poniedziałek
-541 wtorek
-542 środa
-543 czwartek
-544 piątek
-545 sobota
+538 Grudnia
+539 Niedziela
+540 Poniedziałek
+541 Wtorek
+542 Środa
+543 Czwartek
+544 Piątek
+545 Sobota
 546 w stanie
 547 wszystkich
 548 Wszystkie Jednak sukces
@@ -455,7 +455,7 @@
 559 Ten plik nie jest. OCS
 560 do serwera
 561 Nieznany (skreślony pakiet)
-562 sieci o uid:
+562 Sieci o uid:
 563 Producent
 564 Agent  auto-uruchomienie częstotliwości
 565 serwera używane w lokalnych zapasów
@@ -478,7 +478,7 @@
 584 Na życzenie
 585 Do wyboru
 586 Nowa grupa
-587 New statyczne grupy
+587 Nowa statyczna grupa
 588 Zastępuje grupę
 589 statycznie dodać do grupy
 590 stanu Reset
@@ -490,7 +490,7 @@
 596 DYNAMICALL Y ZAMIEŚCIĆ
 597 statycznie WYŁĄCZONE
 598 Dołącz
-599 Reset
+599 Wyczyść
 600 Wyklucz
 601 sztuczność Masa
 602 Musisz wysłać plik
@@ -519,13 +519,13 @@
 625 Włącz zmiany
 626 Wyłączenie tej zmiany
 627 Co najmniej jedno z pól jest pusta ... Nie wykonane Update.
-628 Serwery
+628 Serwery dystrybucyjne
 629 Nowa grupa serwerów redystrybucji
-630 grup istniejących serwerów
+630 Grupa istniejących serwerów
 631 Dodaj do
 632 Crush
 633 Zarządzanie grupami serwerów
-634 chciał działania
+634 Wybrane działania
 635 Nowa nazwa
 636 Opis
 637 Wymień
@@ -542,7 +542,7 @@
 648 REPERTUAR STORE
 649 automatyczna aktywacja
 650 URUCHAMIANIE RĘCZNE
-651 grupa Serwery
+651 Serwery
 652 Machine (s)
 653 Czarna lista adresów MAC
 654 Wprowadź nowy adres MAC do czarnej listy
@@ -553,7 +553,7 @@
 659 maszyny zostały już teledeploy pakietu. Ten pakiet jest statut dla tych urządzeń jest teraz
 660 GRUPA serveur NIE ISTNIEJE
 661 paczek dla serwerów redystrybucji
-662 Regulaminu sztuczność
+662 Reguły aktywacji
 663 internes PROBLEM
 664 Działanie wykonane
 665 Nie wybrano MACHINE. GRUPA serwera nie stworzył
@@ -594,7 +594,7 @@
 700 Czarna lista wyborów
 701 Czarna lista numer seryjny
 702 Wprowadź nowy numer seryjny blacklister
-703 Blacklist
+703 Czarna lista
 704 Czy na pewno chcesz chcesz blacklister
 705 Czy na pewno chcesz chcesz unblacklister
 706 Unblacklister
@@ -625,8 +625,8 @@
 730 godzin
 731 Reportaż z wyznaczonymi na podstawie do wszystkich sekcji zapasów.
 732 milisecond (s)
-733 nieaktywne
-734 plików z magazynu
+733 Nieaktywne
+734 Pliki inwentaryzacji
 735 Filtry
 736 Włączanie komputera grupy funkcji
 737 liczb losowych komputerowej w określonym zakresie. Zaprojektowane, aby uniknąć komputerowych wiele grup w tym samym procesie
@@ -658,7 +658,7 @@
 763 Dołącz plik własnych modułów
 764 Opcje poniżej nie są ustawiane przez GUI. <br> (Patrz ocsinventory-server.conf)
 765 Wszystkie oprogramowanie
-766 bez rezultatu
+766 Brak wyników
 767 uważaj: WYNIK Z filtrem
 768 Numer rejestracji
 769 Transfer Made
@@ -692,7 +692,7 @@
 797 Maszyny nie zobaczy, gdyż więcej
 798 DZIAŁALNOŚĆ
 799 HARDWARE
-800 ELSE
+800 Inne
 801 Nie pokazuj tej dziedzinie
 802 Pokaż ten nych
 803 liczy się w ciągu dnia, ponieważ maszyny nie kontaktować się z serwerem
@@ -700,9 +700,9 @@
 805 Maksymalna prędkość procesora
 806 Minimalna ilość pamięci RAM
 807 Maksymalna ilość pamięci RAM
-808 Repartition
-809 STATYKA GRUPA
-810 DYNAMIKA GRUPY
+808 Podział
+809 Statyczne grupy
+810 Dynamiczne grupy
 811 Czy na pewno chcesz chcesz zmodyfikować widoczności grupy
 812 0 oprogramowania jest obecny w pamięci podręcznej, ale nie bardziej utrwalonym na maszynach. <br> Nie mogą być one umieszczone w kategorii stron
 813 numer dysku twardego o rozmiarze pozostałej>
@@ -710,3 +710,220 @@
 815 numer dysku twardego o rozmiarze pozostałej między
 816 twardym dysku maksymalnej wielkości pozostałych
 817 twardym dysku minimalne wielkości pozostałych
+818 Wynoś się z grupy
+819 komputer (y) dodany do grupy
+820 Ostatni kontakt
+821 ZMIANA KONFIGURACJI SERWERA
+822 Dostosuj
+823 domyślnie
+824 Interfejs aktywacji dzienniki
+825 Skorowidz Logi
+826 Adres tofind teledeploy pakietów fragmenty, aby uaktywnić
+827 Adres do znalezienia teledeploy pakietów INFO plików, aby uaktywnić
+828 Usuwanie komputerów z inwentaryzacji powyżej
+829 redystrybucja tworzenia pakietów w katalogu
+830 adres serwera LDAP
+831 Port serwera LDAP
+832 Nazwa bazy LDAP + DC
+833 Nazwa pola w celu określenia logowanie
+834 LDAP_OPT_PROTOCOL_VERSION Version
+835 Dodaj RSX
+836 Zarządzanie RODZAJE
+837 Nie masz dostępu do tej teleadresowe
+838 Dysk: litera dysku
+839 Dysk: Typ
+840 Dysk: Format
+841 Dysk: Pojemność
+842 Dysk: Free Space
+843 Dysk: Imię i nazwisko Tom
+844 Grupa: Id
+845 Grupa: Static?
+846 Oprogramowanie: Firma
+847 Oprogramowanie: Imię i nazwisko
+848 Oprogramowanie: Version
+849 Oprogramowanie: Instalacja w katalogu
+850 Oprogramowanie: Komentarze
+851 BIOS: producenta komputera
+852 BIOS: Model
+853 BIOS: numer seryjny,
+854 BIOS: Typ komputera
+855 BIOS: Producent
+856 BIOS: Version
+857 BIOS: Data
+858 Monitor: Producent
+859 Monitor: Imię i nazwisko
+860 Monitor: Opis
+861 Monitor: Typ
+862 Monitor: Numer seryjny
+863 Sieć: Opis
+864 Sieć: Typ
+865 Sieć: MibType
+866 Sieć: Speed
+867 Imię i nazwisko: Adres MAC
+868 Sieć: Status
+869 Imię i nazwisko: Adres IP
+870 Sieć: IP Maska
+871 Sieć: Podsieć IP
+872 Sieć: Bramka IP
+873 Sieć: DHCP IP
+874 klucz rejestru: Nazwa
+875 klucz rejestru: Stosunek jakości
+876 Simple unaffect REDYSTRYBUCJA GROUP
+877 Niektóre komputery nie dodano do grupy, ponieważ:
+878 Przypomnienie: komputer może być członkiem tylko jednego serwera grupy
+879 GROUPE otrzymują
+880 Grupa została utworzona
+881 Komputery dodane
+882 Komputery usunięty z grupy
+883 Ogranicz
+884 UWAGA: z wizualizacją FILTER
+885 nieznany
+886 Simple desaffection
+887 Możliwe, że ten pakiet nie ma wpływu na serwery redystrybucji
+888 Usuwanie
+889 podłączony jako
+890 Interfejs jest faktycznie zablokowane na wyszukiwanie według różnych criterias
+891 Usuwanie interfejsu LOCK
+892 połączyć z innym kontem
+893 No Tag AFFECTEID do swojego profilu
+894 NO LEVEL PRAWA zdefiniowany w profilu
+895 TAG Modyfikacja
+896 Adnotacje
+897 Uwaga daty
+898 Uwaga autora
+899 Writer
+900 Czy na pewno chcesz usunąć wybór?
+901 Działanie sur le résultat de la requête
+902 Działanie sur le résultat de la sélection
+903 należy wypełnić pola wyjaśnienia
+904 Pakiet przeznaczenie
+905 Objaśnienie o perfomed <br> działań na komputerze, aby móc <br> wpływ packageuet
+906 Pakiet teledeploy usunięcia
+907 Objaśnienie o usunięcie pakietu <br> na tym komputerze
+908 informacje Mobile Terminal
+909 modificati na nie PERFOMAED: Wrong NEW PROFILE
+910 Validate
+911 profilu Przełącznik
+912 Eksportuj listę komputerów, które to oprogramowanie
+913 Liczba braku inwentaryzacją interfejsów sieciowych
+914 Liczba podmiotów, które nie przesyłają wykaz przynajmniej od
+915 wiadomości
+916 wartość musi być wyższa niż
+917 Wartość częstotliwości
+918 różnica między LASTDATE i LASTCOME
+919 Czy na pewno chcesz chcesz usunąć tę wiadomość
+920 ERROR, wniosek nie istnieje.
+921 Usuń tej kategorii
+922 To połączenie, należy wybrać co najmniej 2 komputery
+923 Nie masz komputer w wizytówki
+924 WYDOBYCIE wniosek nie OPRAWY!
+925 FUSER funkcjonalności
+926 login nagrzewnicy:
+927 CACHE ACTION S nie odnawiane w niniejszej
+928 wizualizacji Logi
+929 podsieci managementn nie jest wykonywana lokalnie.
+930 Vo nie można dodawać / modyfikować / usunąć podsieci
+931 Modyfikowanie podsieci
+932 pole adresu IP nie może być puste
+933 polu Nazwa sieci nie może być puste
+934 netword polu Identyfikator nie może być puste
+935 polu adresu maski sieci, nie może być puste
+936 dziedzinie typu nie może być puste
+937 tego typu już istnieje
+938 Nowy typ
+939 użytkowników komputerów grupy
+940 Wszystkie komputery o tym pakiecie
+941 Wyświetlanie statystyk NA
+942 Musisz wprowadzić komentarz dla tej obwodowej
+943 Masz do wyboru peryferyjnych typ
+944 Dane wprowadzone przez
+945 obwodowe zmiany
+946 nowych peryferyjnych Ponadto
+947 Nie określono wykaz urządzeń peryferyjnych
+948 Zidentyfikowane listy urządzeń peryferyjnych
+949 Id Komputery
+950 NAZWA PLIKU
+951 Plik utworzony w
+952 Plik zmodyfikowany w
+953 Rozmiar
+954 utraty SESSION stało
+955 Żaden system nie znaleziono w bazie
+956 Wszystkie błędy
+957 Wszystkie SUKCESU
+958 TELEDEPLOY VALUE PROBLEM
+959 To Much SOFTWARES zatrzymał się. Być bardziej szczegółowy Z SZUKAJ
+960 NO SOFTWARE odpowiadającą SZUKAJ
+961 WYKAZ
+962 (jeden, między codziennie)
+963 różne listy
+964 nazwy partycji
+965 Linux (ALL)
+966 Windows (wszystkie wersje)
+965 Wyświetlacz
+966 Agent
+967 należą do
+968 nie należą one do
+969 Opakowania historyczne
+970 pakietów
+971 grupy Komputery PRZEPROWADZKI
+972 Komputery zostały usunięte z grupy oraz
+973 COMPUTERS dodatkiem do grupy
+974 komputerów włożeniu pamięci podręcznej
+975 Dodaj do grupy
+976 INTERFACE ZAMEK NA ŻYCZENIE WYNIK
+977 LOCK
+978 Będziesz zablokować wszystkie interfejsu wyszukiwania criterias wyniki
+979 PTO wrócić do standardowych, będziesz musiał cli na e ikonę <img src='image/cadena_op.png'>, która jest w prawym górnym interfaceace
+980 pakietów na komputerach
+981 pakietów na serwerach grup
+982 NO sztuczność RULE IS AVAILABLE. NO REDYSTRYBUCJA MOŻLIWE.
+983 Musisz wybrać, w którym zmiany typu musi wykonać
+984 Zmiany
+985 COMPUTERS PRZEPROWADZKI
+986 USUŃ komputerów dla
+987 Ten klucz rejestru już istnieje
+988 MUSISZ wypełnienie wszystkich pól
+989 Daty nie istnieje. PAŃSTWA godzin nie można znaleźć w bazie danych dla tego pakietu
+990 Ręczne tworzenie pakietów
+991 Automatyczne tworzenie pakietów
+992 raz Teledeploy oszacowanie
+993 dziedzinach Czerwone błąd
+994 PDA / SmartPhone
+995 ID użytkownika
+996 Nazwisko
+997 Wpisz identyfikator użytkownika
+998 wybierz prawidłowy profil
+999 Ten identyfikator użytkownika już istnieje
+1000 Notyfikowane
+1001 Czerwone pola zawierają błędy
+1002 Szacunkowy czas wdrożenia
+1003 Redystrybucja parametrów pakietów serwera
+1004 Nie jest możliwe stworzenie tworzenia pakietów w katalogu
+1005 Utworzenie pakietu niemożliwe
+1006 nie ma prawa wrinting
+1007 Katalog
+1008 Użyj tego redystrybucji pakietu
+1009 Katalog serwery danych
+1010 NORMALNA
+1011 DEBUG
+1012 JĘZYK
+1013 KONSERWACJA
+1014 Switch to
+1015 Tryb użytkownika
+1016 Logowania użytkownika root
+1017 Hasło roota
+1018 (Nie pisać nic, jeśli chcesz użyć anonimowego conexión)
+1019 Wynik blokady
+1020 Nazwa informacji tag
+1021 admin Teledeploy
+1022 admin TAG
+1023 Opakowania wpływa z statut
+1024 zostaną usunięte
+1025 Unaffect
+1026 Opakowania skreślony computors
+1027 Kategoria
+1028 Nowe
+1029 Ignorowany
+1030 Bez zmian
+1031 Zestaw IT Management
+1032 Aktywuj zestaw zarządzania IT dla Teledeploy
