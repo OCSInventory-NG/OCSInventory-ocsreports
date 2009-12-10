@@ -602,22 +602,24 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 					$hrefSort = "<a href=index.php?$pref&c=".urlencode($vraiNomChamp)."&a=$a&rev=1&page=1>";
 					if( isset($_SESSION["c"]) && ($vraiNomChamp == $_SESSION["c"] || "\'".$colname->name."\'" == $_SESSION["c"]) ) {
 						if($a == 1 ) 
-							echo "$hrefSort<img src='image/down.png'></a></td>";
+							echo "$hrefSort<img src='image/down.png'></a>";
 						else 
-							echo "$hrefSort<img src='image/up.png'></a></td>";
+							echo "$hrefSort<img src='image/up.png'></a>";
 					}
 					else {
 						preg_match( "/\"? *([^\"]*)\"? (DESC|ASC)/", $_SESSION["storedRequest"]->order, $res);
 						//echo "colname:".$colname->name."vrainomchamp:".$vraiNomChamp;
 						//var_dump( $res );	
 						
-						if( $res[1] == $colname->name || $res[1] == $vraiNomChamp )
+						if( $res[1] == $colname->name || $res[1] == $vraiNomChamp ) {
 							if( $res[2] == "ASC" ) 
-								echo "$hrefSort<img src='image/down.png'></a></td>";
+								echo "$hrefSort<img src='image/down.png'></a>";
 							else 
-								echo "$hrefSort<img src='image/up.png'></a></td>";
-					}
-					echo "<td><B>{$hrefSort}{$colname->name}</b></a></td>";
+                                echo "$hrefSort<img src='image/up.png'></a>";
+                        }
+                    }
+                    echo "</td>\n";
+					echo "<td><B>{$hrefSort}{$colname->name}</b></a></td>\n";
 					
 					
 					if( sizeof($_SESSION["storedRequest"]->select)>3 && $columneditable && in_array( $colname->name , $_SESSION["currentFieldList"]))						
@@ -626,7 +628,7 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 					
 				}
 				else
-				   echo "<td><CENTER><B>$colname->name</CENTER></td>"; // Affichage en tete colonne
+				   echo "<td align='center'><b>$colname->name</b></td>"; // Affichage en tete colonne
 				
 				$tabChamps[$cpt]=$colname->name;
 			}			
@@ -733,7 +735,8 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 			}*/			
 
 			foreach($tabChamps as $chmp) {// Affichage de toutes les valeurs résultats
-				echo "<td align='center'>";								
+                echo "<td align='center'>";
+                $isLink = FALSE;
 				if($chmp==TAG_LBL)
 				{
 					$leCuPrec=$item[$chmp];					
@@ -742,32 +745,43 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 				{					
 					echo "<a href=\"machine.php?systemid=".urlencode($item["h.id"])."\" target=\"_new\" onmouseout=\"this.style.color = 'blue';\" onmouseover=\"this.style.color = '#ff0000';\">";
 					$uneMachine=true;
+					$isLink=TRUE;
 				}
 				else if($chmp==$l->g(577)&& isset($item["h.id"]))
 				{
 					echo "<a href=\"index.php?multi=29&popup=1&systemid=".urlencode($item["h.id"])."\" target=\"_new\" onmouseout=\"this.style.color = 'blue';\" onmouseover=\"this.style.color = '#ff0000';\">";
 					$uneMachine=true;
+					$isLink=TRUE;
 				}
 				else if($chmp==$l->g(28))
 				{
 					echo "<a href='?cuaff=$leCuPrec'>";
+					$isLink=TRUE;
 				}
 				else if ($chmp == $l->g(49) and $_GET['multi'] == 21)
 				{
-                                        $sql="select id from download_enable where fileid='".urlencode($item["Timestamp"])."'";
-                                        $resGetId = mysql_query( $sql, $_SESSION["readServer"]);
-    	                                if( $valGetId = mysql_fetch_array( $resGetId ) )
-    	                                    echo "<a href=\"index.php?multi=26&popup=1&timestamp=".urlencode($item["Timestamp"])."\" target=\"_new\" onmouseout=\"this.style.color = 'blue';\" onmouseover=\"this.style.color = '#ff0000';\">";
+					$sql="select id from download_enable where fileid='".urlencode($item["Timestamp"])."'";
+					$resGetId = mysql_query( $sql, $_SESSION["readServer"]);
+					if( $valGetId = mysql_fetch_array( $resGetId ) ) {
+						echo "<a href=\"index.php?multi=26&popup=1&timestamp=".urlencode($item["Timestamp"])."\" target=\"_new\" onmouseout=\"this.style.color = 'blue';\" onmouseover=\"this.style.color = '#ff0000';\">";
+						$isLink = TRUE;
+					}
 
 				}
 
 				if( $isDate[$chmp] )
-					echo dateFromMysql($item[$chmp])."</span></a></font></td>\n";
+					echo dateFromMysql($item[$chmp]);
 				else if( $isDateTime[$chmp] )
-					echo dateTimeFromMysql($item[$chmp])."</span></a></td>\n";				
+					echo dateTimeFromMysql($item[$chmp]);
 
 				else if(!$toutAffiche)
-					echo $item[$chmp]."</span></a></font></td>\n";
+					echo $item[$chmp];
+					
+				if ($isLink) {
+					echo "</a>";
+				}
+				echo "</td>\n";
+
 
 			}
 
