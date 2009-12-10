@@ -42,7 +42,11 @@ echo "	<script language='javascript'>
 </script>";
 //function for escape_string before use database
 function escape_string($array){
-	foreach ($array as $key=>$value){
+    if (!is_array($array)) {
+        return array();
+    }
+    
+    foreach ($array as $key=>$value){
 		$trait_array[$key]=mysql_real_escape_string($value);
 	}
 	return ($trait_array);
