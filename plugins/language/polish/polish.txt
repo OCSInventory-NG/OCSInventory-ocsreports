@@ -1,17 +1,17 @@
 2 Wszystkie komputery
 3 Komputery z oprogramowaniem...
 5 Unity codes under my responsibility
-9 Szukaj w/g okre�lonych kryteri�w
-12 Warto�� Tag-u
-13 Wy�lij
+9 Szukaj w/g określonych kryteriów
+12 Wartość Tag-u
+13 Wyślij
 17 Agent
 19 Wersja oprogramowania
 20 Oprogramowanie
 23 Komputer
-24 U�ytkownik
+24 Użytkownik
 25 System Operacyjny
-26 Pami��
-27 Szybko�� Pami�ci (MHz)
+26 Pamięć
+27 Szybkość Pamięci (MHz)
 28 Numery maszyn
 30 Szukaj
 31 Wybierz parametr
@@ -21,8 +21,8 @@
 35 Nazwa Komputera
 36 Numer Seryjny
 41 Reset
-42 Brak rezultat�w
-43 G��wne menu
+42 Brak rezultatów
+43 Główne menu
 45 Free space
 46 Ostatnia inventaryzacja
 48 Detale komputera
@@ -34,7 +34,7 @@
 55 Numer
 56 Dane Administracyjne
 61 Karta Graficzna
-62 Rozdzielczo��
+62 Rozdzielczość
 63 Magazyn
 64 Producent
 65 Model
@@ -45,23 +45,23 @@
 79 Drukarka(i)
 80 Nazwa
 81 Status
-82 Sie�(i)
-83 Pojemno��
+82 Sieć(i)
+83 Pojemność
 84 Interfejs
 85 Litera
-86 System plik�w
-87 Og�em
+86 System plików
+87 Ogółem
 88 Wolne
 90 Rezultat(y)
-91 Urz�dzenia wej�ciowe
+91 Urządzenia wejściowe
 92 Dysk(i)
 93 Kontroler(y)
 94 Numer slotu
 95 Adres MAC
-96 D�wi�k
+96 Dźwięk
 97 Monitor(y)
-98 B�d� ostro�ny, mo�esz zaznaczy� tylko 8 opcji !
-99 Szczeg�y komputera
+98 Bądź ostrożny, możesz zaznaczyć tylko 8 opcji !
+99 Szczegóły komputera
 103 Aktualizuj
 107 Konfiguracja
 108 Zapytania rejestru
@@ -71,49 +71,49 @@
 115 Aktualizuj
 116 Dodaj
 117 Rejestr
-119 Naprawd� chcesz usun�� 
-122 Usu�
+119 Naprawd� chcesz usunąć
+122 Usuń
 129 PASUJE
-130 RӯNI SI�
+130 RÓŻNI SIĘ
 134 Dodaj nowy plik do bazy
-135 Ostro�nie, ten plik zostanie usuni�ty definitywnie !
+135 Ostrożnie, ten plik zostanie usunięty definitywnie !
 136 Pobierz
 137 Plik
-168 Ten format pliku jest nieodpowiedni (to musi by� zip, pl albo unixowa binarka)
-170 Taki sam plik ju� istnieje !
-171 Plik usuni�ty
+168 Ten format pliku jest nieodpowiedni (to musi być zip, pl albo unixowa binarka)
+170 Taki sam plik już istnieje !
+171 Plik usunięty
 172 An error is appeared, the file
 173 nie zostanie dodany do bazy
-174 Bezpiecze�stwo
+174 Bezpieczeństwo
 175 Duplikaty
 176 Ips
-177 Po��cz nadmiarowe komputery
+177 Połącz nadmiarowe komputery
 178 Tag / Number of PC repartition
-180 U�ytkownik nie zarejestrowany
+180 Użytkownik nie zarejestrowany
 182 Computers having a given tag
 183 Pobierz
 184 This file does not contain "use constant version"
-185 Wersja musi by� wieksza od 1
+185 Wersja musi być wieksza od 1
 186 Ten plik nie zawiera pliku ver
-187 Ten plik nie jest prawid�owym plikiem zip
-188 Powr�t
-189 Musisz zaznaczy� co najmniej 2 komputery  
+187 Ten plik nie jest prawIdźowym plikiem zip
+188 Powrót
+189 Musisz zaznaczyć co najmniej 2 komputery
 190 Accountinfo:
-191 usuni�ty
-192 Suma r�nic
+191 usunięty
+192 Suma różnic
 193 Nazwa + Numer seryjny
 194 Nazwa + Adres MAC
 195 Adres MAC + Numer seryjny
 196 Tylko nazwa
 197 Tylko Numer
 198 Tylko Adres MAC
-199 R�nice
+199 Duplikaty
 200 Corresponding relay decremented
 201 MNIEJSZY
-202 WI�KSZY
-203 POMI�DZY
+202 WIĘKSZY
+203 POMIĘDZY
 204 OUT OF
-205 W��czony
+205 Wyłączony
 206 saved for
 207 Brama
 208 Maska
@@ -121,62 +121,62 @@
 210 Data BIOS
 211 Rejestr
 212 Nazwa klucza
-213 Warto�� klucza
-214 Drukuj t� stron�
-215 Poka� wszystko
-216 B��d has�a
-217 Has�o
-218 Wersje agent�w
+213 Wartość klucza
+214 Drukuj tę stronę
+215 Pokaż wszystko
+216 Błąd hasła
+217 Hasło
+218 Wersje agentów
 219 niezinwentaryzowane interfejsy sieciowe
-220 usuni�te
+220 usunięte
 221 IP gathering computers
-222 Uwaga ! Wszystkie zaznaczone komputery zostan� po��czone w pojedynczy komputer ! Jeste� pewny ?
+222 Uwaga ! Wszystkie zaznaczone komputery zostan� Połączone w pojedynczy komputer ! Jesteś pewny ?
 223 Informacje
-224 Warto��
+224 Wartość
 225 Admininfo
-226 usuni�to from accountinfo table
-227 Jeste� pewny, �e chcesz usun�� t� kolumn� ?
-228 Wprowad� nowe administrative info
-229 Text (255)
-230 Liczba ca�kowita
+226 usunięto from accountinfo table
+227 Jesteś pewny, że chcesz usunąć tą kolumnę ?
+228 Wprowadź nową informację administracyjną
+229 Tekst (255)
+230 Liczba całkowita
 231 Liczba naturalna
 232 Data
-233 Bierz�ce dane
-234 zosta� dodany
-235 U�ytkownicy
-236 Zmie� has�o
-237 Nowe has�o
+233 Bierzące dane
+234 zostać dodany
+235 Użytkownicy
+236 Zmień Hasło
+237 Nowe Hasło
 238 Potwierdzenie
-239 Musisz wype�ni� wszystkie pola
-240 Podane has�a r�ni� si�
-241 Twoje has�o zosta�o zmienione
+239 Musisz wypełnić wszystkie pola
+240 Podane hasła różnią się
+241 Twoje Hasło zostaćo zmienione
 242 Administrator
-243 U�ytkownik
-244 Dodaj nowego u�ytkownika
-245 zosta� usuni�ty
-246 Jeste� pewien, �e chcesz usun�� tego u�ytkownika?
+243 Użytkownik
+244 Dodaj nowego Użytkownika
+245 zostać usunięty
+246 Jesteś pewien, że chcesz usunąć tego Użytkownika?
 247 Login MySQL
-248 Has�o MySQL
-249 Nie mo�na po��czy� z MySql. Prosz� poda� prawid�owe(y) login/has�o.
+248 Hasło MySQL
+249 Nie można Połączyć z MySql. Proszę podać prawdziowe(y) login/hasło.
 250 Nazwa hosta MySQL
 251 Wyloguj
 252 Nazwa (wybierz)        	
-253 Gniazdo rejestru	
-254 �cie�ka klucza (np: SOFTWAREMozilla)  	
+253 Klucz rejestru
+254 Ścieżka klucza (np: SOFTWAREMozilla)  	
 255 Nazwa klucza do odczytania (* dla wszystkich)
 256 Wybierz
 257 Klucz rejestru
-258 Warto�� klucza rejestru
-259 B��d, dane nie mog�y zosta� dodane (znaki specjalne nie s� dozwolone)
-260 Label file modification ok
-261 Label file deleted
-262 Type in a label
-263 Label file configuration
-264 No label file now
+258 Wartość klucza rejestru
+259 Błąd, dane nie mogły zostać dodane (znaki specjalne nie są dozwolone)
+260 Plik etykiet zmodyfikowano poprawnie
+261 Plik etykiet usunięto
+262 Wpisz etykiete
+263 Konfiguracje pliku etykiet
+264 Brak pliku etykier
 265 Cokolwiek
-266 Nieprawid�owa data
+266 NieprawIdźowa data
 267 dd/mm/rrrr
-268 Szybko��
+268 Szybkość
 269 %m/%d/%R
 270 Modem(y)
 271 Slot(y)
@@ -196,29 +196,29 @@
 285 Zaznacz parametr do modyfikacji
 286 Service pack
 287 Import lokalny
-288 Local Importation
+288 Import lokalny
 289 Informacje o sieci
 290 Ip querying
 291 Tryb eksperta
-292 Dodaj / Usu� urz�dzenie sieciowe
-293 Typy urz�dze� sieciowych
+292 Dodaj / Usuń urządzenie sieciowe
+293 Typy urządzeń sieciowych
 294 Nazwy Podsieci
 295 Lokalizacje
 296 Uid
-297 Nie mo�na zapisywa� w katalogu
-298 Wszystkie pola musz� by� wype�nione
-299 Nieprawid�owy adres IP (musi by�: x.x.x.x)
-300 Nieprawid�owa maska: musi by�: x.x.x.x or xx (xx<32)
-301 Sie� dodana
-302 Sie� usuni�ta
-303 Dodaj Podsie�
+297 Nie można zapisywa� w katalogu
+298 Wszystkie pola musz� być wypełnione
+299 NieprawIdźowy adres IP (musi być: x.x.x.x)
+300 NieprawIdźowa maska: musi być: x.x.x.x or xx (xx<32)
+301 Sieć dodana
+302 Sieć usunięta
+303 Dodaj Podsieć
 304 Nazwa sieci
 305 Uid
 306 Lista podsieci
 307 Dodaj typ
 308 Nazwa typu
-309 Typy urz�dze� sieciowych
-310 IpDiscover mniejsze ni�
+309 Typy urządzeń sieciowych
+310 IpDiscover mniejsze niż
 311 Hosty
 312 IpDiscover
 313 Bramy
@@ -228,486 +228,702 @@
 317 ANALIZUJ
 318 Nazwa DNS
 319 Rezultaty analizy sieci
-320 Ta analiza zosta�a ju� wykonana
-321 chcesz zobaczy� zebrane dane?
+320 Ta analiza została już wykonana
+321 chcesz zobaczyć zebrane dane?
 322 Data from cache
 323 wygenerowano
 324 HOSTS EVALUATED AS
 325 puste
 326 nie wpisano maski
-327 Szczeg�y komputera
+327 Szczegóły komputera
 328 Discovered
 329 Inventoried
 330 Nazwa NetBIOS
 331 Numer sieci
-332 Prosz� czeka�...
-333 Dodaj nowe urz�dzenie NetBIOS
-334 Lista urz�dze� sieciowych
-335 Typ urz�dzenia
-336 Opis urz�dzenia
-337 PROGRAM NIC NIE WYS�A�
+332 Proszę czekać...
+333 Dodaj nowe urządzenie NetBIOS
+334 Lista urządzeń sieciowych
+335 Typ urządzenia
+336 Opis urządzenia
+337 PROGRAM NIC NIE WYSŁAĆ
 338 Tryb limitowany
 339 Potrzebujesz ipdiscover-util.pl (Linux only) dla trybu experta
-340 Poka�
-341 nie mo�na uruchomi�, musisz ustawi� prawa wykonywania 
-342 Misisz ustawi� prawa zapisu dla g��wnego katalogu
-344 B��d
-345 AKTUALNIE URUCHOMIONY JEST PROCES ANALIZY, PROSZ� SPR�BOWA� PONOWNIE ZA KILKA MINUT
+340 Pokaż
+341 nie można uruchomić, musisz ustawić prawa wykonywania
+342 Misisz ustawić prawa zapisu dla g��wnego katalogu
+344 Błąd
+345 AKTUALNIE URUCHOMIONY JEST PROCES ANALIZY, PROSZĘ SPRÓBOWAĆ PONOWNIE ZA KILKA MINUT
 346 PRZED
 347 PO
-348 U�ytkownik windows
-349 Dodaj kolumn�
+348 Użytkownik windows
+349 Dodaj kolumnę
 350 Typ CPU
 351 Numer CPU
 352 Ostatnia wizyta
-353 Jako��
-354 Dok�adno��
+353 Jakość
+354 Dokładność
 355 Firma
-356 W�a�ciciel
+356 Właściciel
 357 Agent
-358 Jokers: ? (one character), * (several characters)
+358 Jokers: ? (jeden znak), * (wiele znaków)
 359 Numer seryjny monitora
 360 Wyprodukowano (miesiac/rok)
-362 Sie�
-363 ju� isnieje
+362 Sieć
+363 już isnieje
 364 Zinwentaryzowany
 365 Nie ziwentaryzowany
 366 Zidentyfikowany
-367 Urz�dzenie sieciowe
+367 Urządzenie sieciowe
 368 sieci
-369 Wys�ane przez
+369 Wysąane przez
 370 Rozmieszczenie
 371 Wszystkie komponenty
 372 Wybierz komponenty
 373 Zalogowany urzytkownik
 374 Registered society
 375 Wersja agenta OCS NG
-376 Komputer zablokowany. Prosz� spr�bowa� za kilka minut
-377 Szybko�� procesora (Mhz)
-380 S�ownikowy
+376 Komputer zablokowany. Proszę spr�bowa� za kilka minut
+377 Szybkość procesora (Mhz)
+380 Słownik
 381 Numer
 382 Nazwa oprogramowania
 383 Wszystko
-384 Przenie� WSZYSTKO
+384 Przenieś WSZYSTKO
 385 do nowej kategorii
 386 LUB
-387 do istniej�cej kategorii
+387 do istniejącej kategorii
 388 Kategoria
 389 Nic
-390 Kategorie S�ownikowe
+390 Kategorie Słownikowe
 391 Nazwa kategorii
-392 Usu�
+392 Usuń
 393 Szukaj
 394 Szukaj kategorii
-395 Szukaj oprogramowania WSZ�DZIE
+395 Szukaj oprogramowania WSZĘDZIE
 396 Reset
-397 Id� do kategorii
+397 Idź do kategorii
 398 Lista kategorii
 410 EXACTLY
-411 Fields must contain only numbers !
-412 Registry key gathering functionality
-413 Automatic update functionality
-414 Automatic deployment functionality
-415	Deletion logging functionality (needed by GLPI).
-416 Logging functionality.
-417 Automatic software distribution functionality.
-418 Differentiate inventories functionality.
-419 Maximum number of day before an ipdiscover computer is replaced.
-420 Automatic software distribution: see documentation.
-421 Automatic software distribution: see documentation.
-422 Automatic software distribution: see documentation.
-423 Automatic software distribution: see documentation. (Packages with a higher or equals priority won't be downloaded anymore).
-424 Validity of a package as from its consideration by the agent.
-425 Max number of computers per gateway retrieving IP on the network.
-426 Validity of inventories. (ALWAYS: inventory at each login. NEVER: no inventory)
-427 Defines criteria that must be equals for two computers to be automatically merged.
-428 Deploy
-429 Frequency
-430 Mass processing
-431 Activate
-432 Non notified
+411 Pole może zawierać tylko liczby!
+412 rejestru najważniejszych funkcji gromadzenia
+413 funkcje automatycznej aktualizacji
+414 Automatyczna funkcja rozmieszczenia
+415 Usunięcie funkcji logowania (potrzebne GLPI).
+416 funkcji rejestrowania.
+417 funkcje automatycznej dystrybucji oprogramowania.
+418 Zróżnicowanie funkcji zapasów.
+419 Maksymalna liczba dni przed ipdiscover komputer otrzymuje.
+420 Automatyczna dystrybucja oprogramowania: w dokumentacji.
+421 Automatyczna dystrybucja oprogramowania: w dokumentacji.
+422 Automatyczna dystrybucja oprogramowania: w dokumentacji.
+423 Automatyczna dystrybucja oprogramowania: w dokumentacji. (Opakowania z wyższym lub równe pierwszeństwo nie będzie już pobrany).
+424 Ważność pakietu od dnia jej rozpatrzenia przez agenta.
+425 Maksymalna liczba komputerów na bramę pobieranie IP w sieci.
+426 Ważność zapasów. (Zawsze: spis każdego logowania. NIGDY: nie inwentaryzacji)
+427 określa, że kryteria muszą być równa dla dwóch komputerów, które mają być automatycznie łączone.
+428 Wdrożenia
+429 Częstotliwość
+430 przetwarzania masowego
+431 Uaktywnij
+432 nienotyfikowana
 433 Affect
-434 Package builder
-435 New package building
-436 Can't open file
-437 Your package was successfully created in the directory
-438 New package building
-439 Protocol
-440 Priority
-441 Digest algorithm
-442 Digest encoding
-443 Action
+434 Tworzenie pakietów
+435 Pakiet Nowy budynek
+436 Nie można otworzyć pliku
+437 Pakiet został utworzony w katalogu
+438 Pakiet Nowy budynek
+439 Protokół
+440 Priorytet
+441 algorytmu Digest
+442 kodowania Digest
+443 Działanie
 444 Command
 445 Path
-446 File name
-447 User notifications
-448 Warn user
-449 Text
+446 Nazwa pliku
+447 zgłoszeń o użytkowniku
+448 użytkowników Warn
+449 Tekst
 450 Countdown
-451 User can abort
-452 User can delay
-453 Installation completion need user action
-454 NO
-455 YES
-456 Execute
-457 Store
-458 Launch
-459 Countdown must be a number
-460 Unique identifier
+451 Użytkownik może przerwać
+452 Użytkownik może opóźnić
+453 zakończeniu instalacji konieczne działania użytkownika
+454 NIE
+455 TAK
+456 Wykonaj
+457 Sklep
+458 Uruchom
+459 Odliczanie musi być liczbą
+460 Niepowtarzalny identyfikator
 461 Digest
-462 Total size
-463 Fragments size (1 KB min)
-464 Fragments number
-465 Package activation
-466 WARNING: Can't find information file at
-467 WARNING: Can't find fragments files at
-468 Are you sure to want to activate this package ?
-469 Package activated, it can now be affected
-470 Https url
-471 Fragments url
-472 ERROR: Can't delete directory
-473 Timestamp must be a number
-474 Timestamp must be 10 digits long
+462 Rozmiar
+463 Rozmiar Fragmenty (1 min kB)
+464 numer Fragmenty
+465 Pakiet aktywacyjny
+466 UWAGA: Nie można odnaleźć pliku informacji
+467 UWAGA: Nie można odnaleźć fragmenty plików
+468 Czy na pewno chcesz chcesz uaktywnić ten pakiet?
+469 aktywacji pakietu, może teraz mieć wpływ
+470 https url
+471 Fragmenty url
+472 ERROR: Nie można usunąć katalogu
+473 Timestamp musi być liczbą
+474 Timestamp musi być 10 cyfr
 475 Timestamp
-476 Or activate a package manually
-477 Affect a package
-478 Computer(s)
-479 No computer selected
-480 fragments
-481 Activated packages
-482 WAITING NOTIFICATION
-483 Validate SUCCESSES
-484 Custom frequency
-485 Always inventoried
-486 Never inventoried
+476 lub aktywować pakiet ręcznie
+477 dotyczą pakietu
+478 Komputery (s)
+479 nr komputera stron
+480 fragmenty
+481 aktywowanego pakietu
+482 CZEKA ZAWIADOMIENIE
+483 Validate SUKCESY
+484 częstotliwości Custom
+485 Zawsze inwentaryzacją
+486 Nigdy nie zinwentaryzowane
 487 Custom
-488 Default
-489 IpDiscover behaviour
-490 NEVER IpDiscover
-491 ALWAYS IpDiscover of network
-492 ELECTED IpDiscover of network
-493 Default (can be elected)
-494 Custom inventory frequency
-495 Inventoried every 
-496 day(s)
-497 Default, uses the 'FREQUENCY' parameter.
-498 Package
-499 server
-500 Customization
-501 add package
-502 Elected
-503 Force elected
-504 Not elected
-505 Electable
-506 Not electable
-507 HAVING
-508 NOT HAVING
-509 ANY
-510 No package
-511 seconds
-512 Deployment
-513 Build
-514 Activate
-515 Activated
+488 domyślne
+489 zachowań IpDiscover
+490 NIGDY IpDiscover
+491 ZAWSZE IpDiscover sieci
+492 WYLOSOWANE IpDiscover sieci
+493 domyślna (może być wybrany)
+494 wykaz częstotliwości Custom
+495 inwentaryzacją wszystkich
+496 dni (s)
+497 Domyślnie używa "częstotliwość" parametru.
+498 Pakiet
+499 Serwer
+500 Personalizacja
+501 dodać pakiet
+502 Wybrani
+503 Wybrany siłą
+504 nie została wybrana
+505 Wybieralny
+506 Niewybieralny
+507 Posiada
+508 Nie posiada
+509 Dowolny
+510 nr pakietu
+511 sekund
+512 Wgrywanie
+513 Zbuduj
+514 Uaktywnij
+515 Uaktywniony
 516 KB
-517 This option can only be affected to one computer at a time.
-518 Force IpDiscover
-519 Computer already elected for network
-520 Computer already FORCED ipdiscover for network
-521 Computer already FORCED unelectable
-522 Standard computer
-523 Revert back to standard state
-524 NEVER affect again
-525 ARE YOU SURE ?
-526 NO COMPUTER AFFECTED
-527 January
-528 February
-529 March
-530 April
-531 May
-532 June
-533 July
-534 August
-535 September
-536 October
-537 November
-538 December
-539 Sunday
-540 Monday
-541 Tuesday
-542 Wednesday
-543 Thursday
-544 Friday
-545 Saturday
-546 in state
-547 all
-548 All but SUCCESS
-549 File (deployed on client computers)
-550 File (not mandatory, may be used by "execute" commmand)
-551 This package name already exists
-552 <i>You must make a computer search, and then click 'deploy' to affect these activated packages<br>You may also affect a package to a single computer by using the 'customization' tab of any computer details</i>.
-553 Windows key
-554 Monitor: serial
-555 Monitor: manufacturer
+517 Opcja ta może mieć wpływ tylko na jednym komputerze naraz.
+518 Wymuś IpDiscover
+519 Komputer już wybrany do sieci
+520 Komputer już ROBOTY ipdiscover do sieci
+521 Komputer już ROBOTY unelectable
+522 komputera Standard
+523 powrót do standardowych
+524 NIGDY nie wpływa ponownie
+525 JESTEŚĆ PEWNY?
+526 NO komputera, którego dotyczą
+527 Styczniu
+528 Lutym
+529 Marzec
+530 Kwietniu
+531 Maj
+532 Czerwcu
+533 Lipiec
+534 Sierpniu
+535 Wrześniu
+536 Październiku
+537 listopadzie
+538 Grudnia
+539 Niedziela
+540 Poniedziałek
+541 Wtorek
+542 Środa
+543 Czwartek
+544 Piątek
+545 Sobota
+546 w stanie
+547 wszystkich
+548 Wszystkie Jednak sukces
+549 plików (rozmieszczane na komputerach klienckich)
+550 plików (nie jest obowiązkowe, mogą być wykorzystywane przez "execute" commmand)
+551 to nazwa pakietu już istnieje
+552 <i> należy dokonać przeszukania komputera, a następnie kliknąć przycisk "wdrażania" wpływać na te aktywacji pakietu <br> Można również wpływ pakietu na jednym komputerze przy użyciu "dostosowywania" karcie szczegółów komputera </ i> .
+553 klawisz Windows
+554 Monitor: seryjny
+555 Monitor: producent
 556 Monitor: caption
-
-557 Userdomain
-558 Affected packages
-559 This file is not .ocs
-560 To server
-561 Unknown (deleted package)
-562 Networks having uid:
-563 Manufacturer
-564 Agent auto-launching frequency
-565 Server used for local inventories
-566 Port used for local inventories
-567 Ipdiscover latency
-568 RAM(MB)
-569 CPU(MHz)
-570 Help
-571 Validate all
-572 Success
-573 Errors
-574 Stats
-575 Unaffect not notified
+557 USERDOMAIN
+558 pakietów, których dotyczy problem
+559 Ten plik nie jest. OCS
+560 do serwera
+561 Nieznany (skreślony pakiet)
+562 Sieci o uid:
+563 Producent
+564 Agent  auto-uruchomienie częstotliwości
+565 serwera używane w lokalnych zapasów
+566 Port używany do lokalnych zapasów
+567 latency Ipdiscover
+568 MB pamięci RAM (MB)
+569 CPU (MHz)
+570 Pomoc
+571 Zatwierdź
+572 Sukces
+573 Błąd
+574 Statystyki
+575 Unaffect nie zostały zgłoszone
 576 Customized ipdiscover
-577 Group name
-580 All computers (replay)
-581 All computers (cached)
-582 and
-583 Groups
-584 For the request
-585 For selection
-586 New group
-587 New static group
-588 Overwrite group
-589 statically add to group
-590 Reset state
-591 Include statically
-592 Exclude statically
-593 Creation date
-594 Cache generated on
+577 Nazwa grupy
+580 komputerów (replay)
+581 komputerów (kopia)
+582 i
+583 Grupy
+584 Na życzenie
+585 Do wyboru
+586 Nowa grupa
+587 Nowa statyczna grupa
+588 Zastępuje grupę
+589 statycznie dodać do grupy
+590 stanu Reset
+591 Dołącz statycznie
+592 Wyklucz statycznie
+593 Data utworzenia
+594 cache wygenerowanych na
 595 STATIC GROUP
-596 DYNAMICALLY INCLUDED
-597 STATICALLY EXCLUDED
-598 Include
-599 Reset
-600 Exclude
-601 Mass affectation
-602 You need to send a file
-603 No computer found, please check your file
-604 computer(s) successfully affected(s)
-605 computer(s) failed
-606 Computers file
-607 Group
-608 created
-609 overwritten
-610 STATICALLY INCLUDED
-611 NO CACHE
+596 DYNAMICALL Y ZAMIEŚCIĆ
+597 statycznie WYŁĄCZONE
+598 Dołącz
+599 Wyczyść
+600 Wyklucz
+601 sztuczność Masa
+602 Musisz wysłać plik
+603 Nie znaleziono komputera, sprawdź plik
+604 komputer (y) zostały naruszone (s)
+605 komputer (y) nie
+606 Komputery plik
+607 Grupa
+608 utworzonych
+609 nadpisane
+610 statycznie INCLUDED
+611 No Cache
 612 STATIC
 613 DYNAMIC
-614 EXCLUDED
+614 WYŁĄCZONE
 615 Query
-616 Perimeter of user
-617 New
+616 Obwód użytkownika
+617 Nowy
 618 Perimeter
-619 Local user
-620 No computer in your perimeter.
-621 The group was not created. Its name is already in use
+619 użytkownik lokalny
+620 nr komputerze w obwodzie.
+621 grupa nie została utworzona. Jego nazwa jest już w użyciu
 622 Cached
-623 The information you are trying to access does not exist
-624 Do you really want to delete group 
-625 Enable this alteration
-626 Disable this alteration
-627 At least one of the fields is empty... Not made Update.
-628 Servers
-629 New group of servers of redistribution
-630 A group of existing servers
-631 Add to
+623 informacji, którą próbujesz obejrzeć, nie istnieje
+624 Czy na pewno chcesz usunąć grupy
+625 Włącz zmiany
+626 Wyłączenie tej zmiany
+627 Co najmniej jedno z pól jest pusta ... Nie wykonane Update.
+628 Serwery dystrybucyjne
+629 Nowa grupa serwerów redystrybucji
+630 Grupa istniejących serwerów
+631 Dodaj do
 632 Crush
-633 Management groups servers
-634 Wished action
-635 New name
-636 Description
-637 Replace
-638 THE GROUP'S NAME CAN'T BE EMPTY
-639 THIS GROUP'S SERVER NOT EXIST
-640 Do you really want to delete
-641 Management of the redistribution servers
-642 the group
-643 All machine
-644 this machine
-645 GROUP DETAIL
+633 Zarządzanie grupami serwerów
+634 Wybrane działania
+635 Nowa nazwa
+636 Opis
+637 Wymień
+638 Nazwa grupy nie może być puste
+639 tej grupy SERVER NIE ISTNIEJE
+640 Czy na pewno chcesz usunąć
+641 Zarządzanie serwerami redystrybucji
+642 grupy
+643 Wszystkie maszyny
+644 tej maszyny
+645 Szczegóły grupy
 646 URL
-647 PORT NUMBER
-648 REPERTOIRE STORE
-649 AUTOMATIC ACTIVATION
-650 MANUAL ACTIVATION
-651 Servers group
-652 Machine(s)
-653 Blacklist MAC address
-654 Enter a new MAC address for blacklist
-655 Insertion made
-656 This datum already exists in the list 
-657 Fields in red are in error!!! (Empty fields or size < 2) 
-658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
-659 Machines already have this teledeploy package. This package's statut for these machines is now 
-660 GROUP OF SERVEUR NOT EXIST
-661 PACKAGES FOR SERVER OF REDISTRIBUTION
-662 Rules of affectation
-663 INTERNES PROBLEM
-664 Action made
-665 NO SELECTED MACHINE. GROUP OF SERVER NOT CREATED 
-666 Group of server made
-667 FOR THE PACKAGE
-668 to Affect with which rule?
-669 ATTENTION: there are doubloons of priority < br > A single rule will be retained!
-670 A rule already carries this name
-671 The name of this rule can't be empty!
-672 This rule does not exist!!!
-673 Administration of the rules of affectation
-674 NAME OF THE RULE
-675 PRIORITY
-676 MACHINE VALUE
+647 numer portu
+648 REPERTUAR STORE
+649 automatyczna aktywacja
+650 URUCHAMIANIE RĘCZNE
+651 Serwery
+652 Machine (s)
+653 Czarna lista adresów MAC
+654 Wprowadź nowy adres MAC do czarnej listy
+655 wstawienia się
+656 Ten datum już na liście
+657 pól na czerwono są w błędzie! (Puste pola lub rozmiar <2)
+658 maszyny nie mają serwerów redystrybucji. <br> Konieczne jest zatem wpływ tego pakietu z osobna.
+659 maszyny zostały już teledeploy pakietu. Ten pakiet jest statut dla tych urządzeń jest teraz
+660 GRUPA serveur NIE ISTNIEJE
+661 paczek dla serwerów redystrybucji
+662 Reguły aktywacji
+663 internes PROBLEM
+664 Działanie wykonane
+665 Nie wybrano MACHINE. GRUPA serwera nie stworzył
+666 Grupa serwera wykonane
+667 ULOTKA
+668 wpływ z którym zasady?
+669 UWAGA: istnieją doubloons pierwszeństwa <br> jednej zasady zostaną zachowane!
+670 przepisu, który już nosi tę nazwę
+671 imię tej zasady nie może być pusta!
+672 Zasada ta nie istnieje!
+673 Administracja zasady sztuczność
+674 NAZWA RULE
+675 PRIORYTETOWE
+676 MASZYNA WARTOŚĆ
 677 OPERATOR
-678 SERVER VALUE
-679 NAME
-680 DOMAIN
+678 SERVER WARTOŚĆ
+679 NAZWA
+680 DOMENA
 681 USER
-682 to Add a supplementary condition
-683 Validate the rule
-684 The following fields must be seized
-685 Add a rule
-686 The condition
-687 You cannot delete it.
-688 Packages are affected on this goupe!
-689 Packages are affected on this server!
-690 You cannot delete all the machines.
-691 Generic Values: $IP$ and $NAME$
-692 You modify ALL the values of the servers
-693 You modify the values of the following server:
-694 to find the default values, validate the vacuous fields
-695 You modify the group of servers
-696 to Show packages activated to affect on
-697 a machine
-698 a group of server
-699 Are you sure to want to affect this package in these machines?
-700 Blacklist choices
-701 Blacklist of serial number
-702 Enter a new serial number to blacklister
-703 Blacklist
-704 Are you sure to want to blacklister 
-705 Are you sure to want to unblacklister
+682 dodać dodatkowy warunek
+683 Sprawdź zasady
+684 następujące pola muszą być zajęte
+685 Dodaj przepis
+686 stanu
+687 Nie można go usunąć.
+688 pakiety mają wpływu na to goupe!
+689 pakiety mają wpływu na ten serwer!
+690 Nie można usunąć wszystkich maszyn.
+691 Generic wartości: $ IP $ i $ name $
+692 modyfikować wszystkie wartości serwerów
+693 zmodyfikować wartości następujących serwerów:
+694 w celu znalezienia wartości domyślnych, walidacji puste pola
+695 modyfikować grupy serwerów
+696 Pokaż pakiety aktywny wpływ na
+697 maszyny
+698 grupa serwera
+699 Czy na pewno chce mieć wpływ na ten pakiet w tych maszynach?
+700 Czarna lista wyborów
+701 Czarna lista numer seryjny
+702 Wprowadź nowy numer seryjny blacklister
+703 Czarna lista
+704 Czy na pewno chcesz chcesz blacklister
+705 Czy na pewno chcesz chcesz unblacklister
 706 Unblacklister
-707 this serial number
-708 this mac address
-709 Customized PROLOG_FREQ 
-710 Customized download
-711 Taken into account modifications
-712 Language file
-712 Language file
-713 Are you sure to replace this language file
-714 Reference language file
-715 Choose the language file to modify
-716 Update the language file
-717 customized
-718 Ignore
-719 (per second)
-720 Waiting time between 2 cycles of deployment
-721 Waiting time between 2 downloaded fragments
-722 Waiting times between 2 periods of deployment
-723 maximum Priority of the downloaded packages <br> (The packages of a superior priority are ignored)
-724 Time between 2 contacting between the agent and the server
-725 (in the hour)
-726 URI of the servers of redistribution ($IP and NAME$ are the generic values)
-727 Directory of destination of packages.
-728 Inventory
-729 computers
-730 hours
-731 Feature of appointed on the base to every section of inventory.
-732 milisecond(s)
-733 Inactive
-734 Inventory files
-735 Filters
-736 Enable the computer's groups feature
-737 Random number computed in the defined range. Designed to avoid computing many groups in the same process
-738 Specify the validity of computer's groups (default: compute it once a day - see offset)
-739 Futur security improvements
-740 Validity of a computer's lock
-741 Configure engine to update inventory regarding to CHECKSUM agent value (lower DB backend load)
-742 Make engine consider an inventory as a transaction (lower concurency, better disk usage)
-743 Configure engine to make a differential update of inventory sections (row level). Lower DB backend load, higher frontend load
-744 Accept an inventory only if required by server ( Refuse "forced" inventory)
-745 Specify when the engine will clean the inventory cache structures
-746 Specify the minimal difference to replace an ipdiscover agent
-747 Disable the time before a first election (not recommended)
-748 Enable groups for ipdiscover (for example, you might want to prevent some groups to be ipdiscover agents)
-749 Use with ocsinventory-local, enable the multi entities feature
-750 Generate either compressed file or clear XML text
-751 Specify if you want to keep trace of all inventory between to synchronisation with the higher level server
-752 Path to ocs files directory (must be writeable)
-753 Enable prolog filter stack
-754 Enable core filter system to modify some things "on the fly"
-755 Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period
-756 Period definition for INVENTORY_FILTER_FLOOD_IP
-757 Enable inventory filter stack
-758 Specify if you want to track packages affected to a group on computer's level
-759 Must be superior or egal in
+707 to numer seryjny
+708 ten mac adres
+709 Customized PROLOG_FREQ
+710 Dostosowane do pobrania
+711 Biorąc pod uwagę zmiany
+712 Plik językowy
+712 Plik językowy
+713 Czy na pewno chcesz zastąpić ten plik język
+714 Language Reference plik
+715 Wybierz język plik do modyfikacji
+716 Aktualizacja plików językowych
+717 niestandardowy
+718 Ignoruj
+719 (na sekundę)
+720 Czekam czas od 2 cykli rozmieszczenia
+721 Czekam czasu pomiędzy fragmenty 2 pobrane
+722 Czas oczekiwania od 2 okresy rozmieszczenia
+723 najwyższy priorytet z pobranych pakietów <br> (paczki priorytetowe superior są ignorowane)
+724 czas od 2 do kontaktu pomiędzy agentem a serwerem
+725 (w godzinach)
+726 URI serwerów redystrybucji ($ IP i nazwę $ są ogólne wartości)
+727 Directory przeznaczenia pakietu.
+728 Magazyn
+729 komputerów
+730 godzin
+731 Reportaż z wyznaczonymi na podstawie do wszystkich sekcji zapasów.
+732 milisecond (s)
+733 Nieaktywne
+734 Pliki inwentaryzacji
+735 Filtry
+736 Włączanie komputera grupy funkcji
+737 liczb losowych komputerowej w określonym zakresie. Zaprojektowane, aby uniknąć komputerowych wiele grup w tym samym procesie
+738 Określanie ważności komputera grup (domyślnie: obliczyć go raz dziennie - patrz offset)
+739 poprawy bezpieczeństwa Futur
+740 Ważność komputera blokady
+741 Konfiguracja silnika w odniesieniu do aktualizacji wykazu wartości sumy kontrolnej agent (DB niższe obciążenia backend)
+742 Marka silnika za inwentarza transakcji (niższe concurency, lepsze użycie dysku)
+743 Konfiguracja silnika do różnicy aktualizacja sekcji zapasów (na poziomie rzędu). Dolna DB backend obciążenia większe obciążenia frontend
+744 Zaakceptuj inwentarza tylko wówczas, gdy wymagany przez serwer (śmieci "zmuszone" inwentaryzacji)
+745 Określ, kiedy silnik ma czyste struktury cache inwentaryzacji
+746 Określić minimalną różnicę zastąpić ipdiscover agenta
+747 Wyłączenie raz pierwszy przed wyborami (nie zalecane)
+748 Włączanie grup ipdiscover (na przykład, może nie chcesz, aby pewne grupy, które mają być ipdiscover agentów)
+749 Korzystanie z ocsinventory-lokalnych, umożliwienie podmiotom wielu funkcji
+750 generowanie albo skompresowanego pliku lub zwykłego tekstu XML
+751 Określ, czy chcesz zachować ślad wszystkich zasobów pomiędzy do synchronizacji z serwerem poziomie wyższym
+752 Ścieżka do katalogu plików OCS (musi być zapisywalny)
+753 prologu Włącz filtr stosu
+754 Włącz system filtrów podstawowych zmienić niektóre rzeczy "w locie"
+755 Włącz filtr powodzi inwentaryzacji. Poświęconej ipaddress m.in. możliwość wysyłania nowego komputera tylko raz w tym okresie
+756 Okres definicji INVENTORY_FILTER_FLOOD_IP
+757 Włącz filtr spis stosu
+758 Określ, czy chcesz śledzić pakiety wpływ na grupy na poziomie komputera
+759 Należy przełożonego lub w egal
 760 Webservice
-761 Enable/Disable the soap service
-762 Result page size (be aware of performances issues)
-763 Include file of your own modules
-764 Options below are not settable by GUI.<br>(see ocsinventory-server.conf)
-765 All softwares
-766 NO RESULT
-767 BE CAREFUL: RESULT WITH FILTER
-768 Number of recording
-769 Tranfer Made
-770 UPDATE OF 
-771 This category already exists
-772 The category's name can't be null
-773 You must select category's name
-774 You try to make a transfer of the category towards the same category
-775 Directory of creation of packages
-776 Directory of stake in cache of the analyses of ipdiscover
-777 Validity of a session
-778 Number of different WORKGROUP
-779 Different TAG
-780 Different IPSUBNET
-781 Machines having a software deployement pending
-782 Machines having a package in error
-783 Number of different OS
-784 Different agent
-785 Different processors
-786 Different resolutions
-787 Machines with a processor >=
-788 Machines with a processor =<
-789 Machines with a processor between
-790 Machines with RAM >=
-791 Machines with RAM =<
-792 Machines with RAM between
-793 Machines in base
-794 Seen machines
-795 Machines contact server today
-796 Number of inventory machine today
-797 Machines not see since more of
-798 ACTIVITY
+761 włączanie / wyłączanie usług mydło
+762 strony rozmiar Wynik (być świadome zagadnień spektakle)
+763 Dołącz plik własnych modułów
+764 Opcje poniżej nie są ustawiane przez GUI. <br> (Patrz ocsinventory-server.conf)
+765 Wszystkie oprogramowanie
+766 Brak wyników
+767 uważaj: WYNIK Z filtrem
+768 Numer rejestracji
+769 Transfer Made
+770 AKTUALIZACJA
+771 Ta kategoria już istnieje
+772 kategorii Nazwa nie może być null
+773 Należy wybrać nazwę kategorii
+774 spróbować dokonać przelewu z kategorii do tej samej kategorii
+775 Wykaz tworzenie pakietów
+776 Wykaz udziałów w cache analizy ipdiscover
+777 Ważność sesji
+778 Liczba innej grupy roboczej
+779 Różne TAG
+780 Różne IPSUBNET
+781 Maszyny posiadające deployement oprogramowania czasu
+782 Maszyny posiadające pakiet w błąd
+783 Liczba różnych systemów operacyjnych
+784 Różne agenta
+785 różnych procesorów
+786 różnych rozdzielczościach
+787 Maszyny z procesorem> =
+788 Maszyny z procesorem = <
+789 Maszyny z procesorem między
+790 Maszyny z pamięcią RAM> =
+791 Maszyny z pamięcią RAM = <
+792 Maszyny z pamięcią RAM między
+793 Maszyny do bazy
+794 widziany maszyn
+795 z serwerem Maszyny dziś
+796 Liczba maszyny inwentaryzacji dzisiaj
+797 Maszyny nie zobaczy, gdyż więcej
+798 DZIAŁALNOŚĆ
 799 HARDWARE
-800 ELSE
-801 Don't show this field
-802 Show this fied
-803 Counts in the daytime since the machine don't contact server
-804 Minimum speed processor
-805 Maximum speed processor
-806 Minimum RAM amount
-807 Maximum RAM amount
-808 Repartition
-809 STATICS GROUPS 
-810 DYNAMICS GROUPS 
-811 Are you sure to want to modify the visibility of the group
-812 The software in 0 is present in CACHE but are not any more settled on machines.<br>They cannot be put in a category of dictionary
-813 hard disk number with remaining size >
-814 hard disk number with remaining size <
-815 hard disk number with remaining size between
-816 hard disk maximum remaining size 
-817 hard disk minimum remaining size
+800 Inne
+801 Nie pokazuj tej dziedzinie
+802 Pokaż ten nych
+803 liczy się w ciągu dnia, ponieważ maszyny nie kontaktować się z serwerem
+804 Minimalna prędkość procesora
+805 Maksymalna prędkość procesora
+806 Minimalna ilość pamięci RAM
+807 Maksymalna ilość pamięci RAM
+808 Podział
+809 Statyczne grupy
+810 Dynamiczne grupy
+811 Czy na pewno chcesz chcesz zmodyfikować widoczności grupy
+812 0 oprogramowania jest obecny w pamięci podręcznej, ale nie bardziej utrwalonym na maszynach. <br> Nie mogą być one umieszczone w kategorii stron
+813 numer dysku twardego o rozmiarze pozostałej>
+814 numer dysku twardego o rozmiarze pozostałej <
+815 numer dysku twardego o rozmiarze pozostałej między
+816 twardym dysku maksymalnej wielkości pozostałych
+817 twardym dysku minimalne wielkości pozostałych
+818 Wynoś się z grupy
+819 komputer (y) dodany do grupy
+820 Ostatni kontakt
+821 ZMIANA KONFIGURACJI SERWERA
+822 Dostosuj
+823 domyślnie
+824 Interfejs aktywacji dzienniki
+825 Skorowidz Logi
+826 Adres tofind teledeploy pakietów fragmenty, aby uaktywnić
+827 Adres do znalezienia teledeploy pakietów INFO plików, aby uaktywnić
+828 Usuwanie komputerów z inwentaryzacji powyżej
+829 redystrybucja tworzenia pakietów w katalogu
+830 adres serwera LDAP
+831 Port serwera LDAP
+832 Nazwa bazy LDAP + DC
+833 Nazwa pola w celu określenia logowanie
+834 LDAP_OPT_PROTOCOL_VERSION Version
+835 Dodaj RSX
+836 Zarządzanie RODZAJE
+837 Nie masz dostępu do tej teleadresowe
+838 Dysk: litera dysku
+839 Dysk: Typ
+840 Dysk: Format
+841 Dysk: Pojemność
+842 Dysk: Free Space
+843 Dysk: Imię i nazwisko Tom
+844 Grupa: Id
+845 Grupa: Static?
+846 Oprogramowanie: Firma
+847 Oprogramowanie: Imię i nazwisko
+848 Oprogramowanie: Version
+849 Oprogramowanie: Instalacja w katalogu
+850 Oprogramowanie: Komentarze
+851 BIOS: producenta komputera
+852 BIOS: Model
+853 BIOS: numer seryjny,
+854 BIOS: Typ komputera
+855 BIOS: Producent
+856 BIOS: Version
+857 BIOS: Data
+858 Monitor: Producent
+859 Monitor: Imię i nazwisko
+860 Monitor: Opis
+861 Monitor: Typ
+862 Monitor: Numer seryjny
+863 Sieć: Opis
+864 Sieć: Typ
+865 Sieć: MibType
+866 Sieć: Speed
+867 Imię i nazwisko: Adres MAC
+868 Sieć: Status
+869 Imię i nazwisko: Adres IP
+870 Sieć: IP Maska
+871 Sieć: Podsieć IP
+872 Sieć: Bramka IP
+873 Sieć: DHCP IP
+874 klucz rejestru: Nazwa
+875 klucz rejestru: Stosunek jakości
+876 Simple unaffect REDYSTRYBUCJA GROUP
+877 Niektóre komputery nie dodano do grupy, ponieważ:
+878 Przypomnienie: komputer może być członkiem tylko jednego serwera grupy
+879 GROUPE otrzymują
+880 Grupa została utworzona
+881 Komputery dodane
+882 Komputery usunięty z grupy
+883 Ogranicz
+884 UWAGA: z wizualizacją FILTER
+885 nieznany
+886 Simple desaffection
+887 Możliwe, że ten pakiet nie ma wpływu na serwery redystrybucji
+888 Usuwanie
+889 podłączony jako
+890 Interfejs jest faktycznie zablokowane na wyszukiwanie według różnych criterias
+891 Usuwanie interfejsu LOCK
+892 połączyć z innym kontem
+893 No Tag AFFECTEID do swojego profilu
+894 NO LEVEL PRAWA zdefiniowany w profilu
+895 TAG Modyfikacja
+896 Adnotacje
+897 Uwaga daty
+898 Uwaga autora
+899 Writer
+900 Czy na pewno chcesz usunąć wybór?
+901 Działanie sur le résultat de la requête
+902 Działanie sur le résultat de la sélection
+903 należy wypełnić pola wyjaśnienia
+904 Pakiet przeznaczenie
+905 Objaśnienie o perfomed <br> działań na komputerze, aby móc <br> wpływ packageuet
+906 Pakiet teledeploy usunięcia
+907 Objaśnienie o usunięcie pakietu <br> na tym komputerze
+908 informacje Mobile Terminal
+909 modificati na nie PERFOMAED: Wrong NEW PROFILE
+910 Validate
+911 profilu Przełącznik
+912 Eksportuj listę komputerów, które to oprogramowanie
+913 Liczba braku inwentaryzacją interfejsów sieciowych
+914 Liczba podmiotów, które nie przesyłają wykaz przynajmniej od
+915 wiadomości
+916 wartość musi być wyższa niż
+917 Wartość częstotliwości
+918 różnica między LASTDATE i LASTCOME
+919 Czy na pewno chcesz chcesz usunąć tę wiadomość
+920 ERROR, wniosek nie istnieje.
+921 Usuń tej kategorii
+922 To połączenie, należy wybrać co najmniej 2 komputery
+923 Nie masz komputer w wizytówki
+924 WYDOBYCIE wniosek nie OPRAWY!
+925 FUSER funkcjonalności
+926 login nagrzewnicy:
+927 CACHE ACTION S nie odnawiane w niniejszej
+928 wizualizacji Logi
+929 podsieci managementn nie jest wykonywana lokalnie.
+930 Vo nie można dodawać / modyfikować / usunąć podsieci
+931 Modyfikowanie podsieci
+932 pole adresu IP nie może być puste
+933 polu Nazwa sieci nie może być puste
+934 netword polu Identyfikator nie może być puste
+935 polu adresu maski sieci, nie może być puste
+936 dziedzinie typu nie może być puste
+937 tego typu już istnieje
+938 Nowy typ
+939 użytkowników komputerów grupy
+940 Wszystkie komputery o tym pakiecie
+941 Wyświetlanie statystyk NA
+942 Musisz wprowadzić komentarz dla tej obwodowej
+943 Masz do wyboru peryferyjnych typ
+944 Dane wprowadzone przez
+945 obwodowe zmiany
+946 nowych peryferyjnych Ponadto
+947 Nie określono wykaz urządzeń peryferyjnych
+948 Zidentyfikowane listy urządzeń peryferyjnych
+949 Id Komputery
+950 NAZWA PLIKU
+951 Plik utworzony w
+952 Plik zmodyfikowany w
+953 Rozmiar
+954 utraty SESSION stało
+955 Żaden system nie znaleziono w bazie
+956 Wszystkie błędy
+957 Wszystkie SUKCESU
+958 TELEDEPLOY VALUE PROBLEM
+959 To Much SOFTWARES zatrzymał się. Być bardziej szczegółowy Z SZUKAJ
+960 NO SOFTWARE odpowiadającą SZUKAJ
+961 WYKAZ
+962 (jeden, między codziennie)
+963 różne listy
+964 nazwy partycji
+965 Linux (ALL)
+966 Windows (wszystkie wersje)
+965 Wyświetlacz
+966 Agent
+967 należą do
+968 nie należą one do
+969 Opakowania historyczne
+970 pakietów
+971 grupy Komputery PRZEPROWADZKI
+972 Komputery zostały usunięte z grupy oraz
+973 COMPUTERS dodatkiem do grupy
+974 komputerów włożeniu pamięci podręcznej
+975 Dodaj do grupy
+976 INTERFACE ZAMEK NA ŻYCZENIE WYNIK
+977 LOCK
+978 Będziesz zablokować wszystkie interfejsu wyszukiwania criterias wyniki
+979 PTO wrócić do standardowych, będziesz musiał cli na e ikonę <img src='image/cadena_op.png'>, która jest w prawym górnym interfaceace
+980 pakietów na komputerach
+981 pakietów na serwerach grup
+982 NO sztuczność RULE IS AVAILABLE. NO REDYSTRYBUCJA MOŻLIWE.
+983 Musisz wybrać, w którym zmiany typu musi wykonać
+984 Zmiany
+985 COMPUTERS PRZEPROWADZKI
+986 USUŃ komputerów dla
+987 Ten klucz rejestru już istnieje
+988 MUSISZ wypełnienie wszystkich pól
+989 Daty nie istnieje. PAŃSTWA godzin nie można znaleźć w bazie danych dla tego pakietu
+990 Ręczne tworzenie pakietów
+991 Automatyczne tworzenie pakietów
+992 raz Teledeploy oszacowanie
+993 dziedzinach Czerwone błąd
+994 PDA / SmartPhone
+995 ID użytkownika
+996 Nazwisko
+997 Wpisz identyfikator użytkownika
+998 wybierz prawidłowy profil
+999 Ten identyfikator użytkownika już istnieje
+1000 Notyfikowane
+1001 Czerwone pola zawierają błędy
+1002 Szacunkowy czas wdrożenia
+1003 Redystrybucja parametrów pakietów serwera
+1004 Nie jest możliwe stworzenie tworzenia pakietów w katalogu
+1005 Utworzenie pakietu niemożliwe
+1006 nie ma prawa wrinting
+1007 Katalog
+1008 Użyj tego redystrybucji pakietu
+1009 Katalog serwery danych
+1010 NORMALNA
+1011 DEBUG
+1012 JĘZYK
+1013 KONSERWACJA
+1014 Switch to
+1015 Tryb użytkownika
+1016 Logowania użytkownika root
+1017 Hasło roota
+1018 (Nie pisać nic, jeśli chcesz użyć anonimowego conexión)
+1019 Wynik blokady
+1020 Nazwa informacji tag
+1021 admin Teledeploy
+1022 admin TAG
+1023 Opakowania wpływa z statut
+1024 zostaną usunięte
+1025 Unaffect
+1026 Opakowania skreślony computors
+1027 Kategoria
+1028 Nowe
+1029 Ignorowany
+1030 Bez zmian
+1031 Zestaw IT Management
+1032 Aktywuj zestaw zarządzania IT dla Teledeploy
