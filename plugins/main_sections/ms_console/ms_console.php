@@ -295,7 +295,7 @@ if (isset($default)){
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	 onglet($data_on,$form_name,"onglet",8);
 	 	echo "<table ALIGN = 'Center' class='mlt_bordure'><tr><td align =center>";
-	if( $_SESSION['OCS']['RESTRICTION'] == "YES") {
+	if( $_SESSION['OCS']['RESTRICTION']['GUI'] == "YES") {
 		$sql_hardware_id="select hardware_id id from accountinfo a  where ".$_SESSION['OCS']["mesmachines"];
 		$result_hardware_id = mysql_query( $sql_hardware_id, $_SESSION['OCS']["readServer"]);
 		$list_hardware_id="";
@@ -345,7 +345,7 @@ if (isset($default)){
 		
 		//count number of all computers
 		if (!isset($list_no_show['NB_IPDISCOVER'])){
-			if( $_SESSION['OCS']['RESTRICTION'] == "YES"){
+			if( $_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 				if (isset($_SESSION['OCS']['S3G_IP'])){
 					foreach ($_SESSION['OCS']['S3G_IP'] as $S3G=>$IP){
 							$list_dept[substr($S3G,3,2)]=substr($S3G,3,2);
@@ -640,7 +640,7 @@ if (isset($default)){
 	echo "</table></form>";
 }
 //show messages
-if ($_SESSION['OCS']['RESTRICTION'] == "YES"){
+if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 	$sql_all_msg="select ivalue,tvalue from config where name like 'GUI_REPORT_MSG%'";
 	$result_all_msg = mysql_query( $sql_all_msg, $_SESSION['OCS']["readServer"]);
 	$list_id_groups="";

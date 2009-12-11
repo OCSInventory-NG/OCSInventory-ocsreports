@@ -21,9 +21,9 @@ $rowOp=mysql_fetch_object($resOp);
 if (isset($rowOp -> accesslvl)){
 	$lvluser=$rowOp -> accesslvl;
 	$ms_cfg_file=$_SESSION['OCS']['main_sections_dir'].$lvluser."_config.txt";
-	$search=array('RESTRICTION'=>'SINGLE');
+	$search=array('RESTRICTION'=>'MULTI');
 	$res=read_configuration($ms_cfg_file,$search);
-	$restriction=$res['RESTRICTION'];
+	$restriction=$res['RESTRICTION']['GUI'];
 	//Si l'utilisateur a des droits limit�s
 	//on va rechercher les tags sur lesquels il a des droits
 	if ($restriction == 'YES'){

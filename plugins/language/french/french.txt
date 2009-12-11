@@ -950,6 +950,18 @@
 1030 Unchanged
 1031 IT Set Management
 1032 Activer It Set Management pour le télédéploiement
+1033 Inf. demandeur
+1034 Inf. générales Paquet
+1035 Inf. techniques Paquet
+1036 Inf. validation
+1037 Nom du paquet
+1038 Demandeur
+1039 Priorité
+1040 Utilisateur notifié
+1041 Utilisateur peut reporter
+1042 Entraine un reboot
+1043 Actions de contrôle pour valider l'installation
+
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
 5002 [DEBUG] => poids: [DEBUG]

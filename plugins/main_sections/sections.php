@@ -4,7 +4,7 @@ $ms_cfg_file= $_SESSION['OCS']['main_sections_dir'].$_SESSION['OCS']["lvluser"].
 	
 //show only true sections
 if (file_exists($ms_cfg_file)) {
-	$search=array('PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'SINGLE','ADMIN_BLACKLIST'=>'MULTI','CONFIGURATION'=>'MULTI');
+	$search=array('PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'MULTI','ADMIN_BLACKLIST'=>'MULTI','CONFIGURATION'=>'MULTI');
 	$profil_data=read_configuration($ms_cfg_file,$search);
 	foreach ($profil_data as $key=>$value){
 		$_SESSION['OCS'][$key]=$value;
