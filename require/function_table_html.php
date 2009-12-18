@@ -266,7 +266,9 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$champs.= "<option value='' class='hi' \></option>";
 		$countHl=0;		
 		if ($name != ''){
+		//	print_r($name);
 			foreach ($name as $key=>$value){
+			//	echo $protectedPost[$input_name]." == ".$key."<br>";
 				$champs.= "<option value=\"".$key."\"";
 				if ($protectedPost[$input_name] == $key )
 				$champs.= " selected";
@@ -276,11 +278,12 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		}
 		$champs.="</select>";
 		return $champs;
-	}elseif($input_type == 3)
-	return $name;
-	elseif ($input_type == 4)
+	}elseif($input_type == 3){
+		$hid="<input type='hidden' id='".$input_name."' name='".$input_name."' value='".$name."'>";
+		return $name.$hid;
+	}elseif ($input_type == 4)
 	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' \>";
-	elseif ($input_type == 5){	
+	elseif ($input_type == 5 and isset($name)){	
 		foreach ($name as $key=>$value){
 			$champs.= $value."<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";
 			if ($protectedPost[$input_name."_".$key] == 'on' )
@@ -288,19 +291,31 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 			$champs.= " > ";
 		}
 		return $champs;
-	}
-	
+	}elseif($input_type == 6){
+		if (isset($configinput['NB_FIELD']))
+			$i=$configinput['NB_FIELD'];
+		else
+			$i=6;
+		$j=0;
+		echo $name;
+		while ($j<$i){
+			$champs.="<input type='text' name='".$input_name."_".$j."' id='".$input_name."_".$j."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$protectedPost[$input_name."_".$j]."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
+			$j++;
+		}
+		return $champs;		
+	}elseif($input_type == 7)
+		return "<input type='hidden' id='".$input_name."' name='".$input_name."' value='".$name."'>";
 }
 
 function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='CHANGE')
 {
-	global $l;
+	global $l,$protectedPost;
 	if ($form_name != 'NO_FORM')
 	echo "<form name='".$form_name."' id='".$form_name."' action='' method='POST'>";
 	echo '<div class="mvt_bordure" >';
 	echo "<table align='center' border='0' cellspacing=20 >";
 	echo "<tr><td colspan=10 align='center'><font color=red><b><i>".$title."</i></b></font></td></tr>";
-        foreach ($tab_name as $key=>$values)
+    foreach ($tab_name as $key=>$values)
 	{
 		echo "<tr><td>".$values."</td><td>".$tab_typ_champ[$key]['COMMENT_BEFORE'].show_modif($tab_typ_champ[$key]['DEFAULT_VALUE'],$tab_typ_champ[$key]['INPUT_NAME'],$tab_typ_champ[$key]['INPUT_TYPE'],$tab_typ_champ[$key]['RELOAD'],$tab_typ_champ[$key]['CONFIG']).$tab_typ_champ[$key]['COMMENT_BEHING']."</td></tr>";
 	}
@@ -323,17 +338,29 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 }
 
 function show_field($name_field,$type_field,$value_field){
+	global $protectedPost;
 	$i=0;
-	while ($name_field[$i]){
-		$tab_typ_champ[$i]['DEFAULT_VALUE']=$value_field[$i];
-		$tab_typ_champ[$i]['INPUT_NAME']=$name_field[$i];
-		$tab_typ_champ[$i]['INPUT_TYPE']=$type_field[$i];
-		$tab_typ_champ[$i]['CONFIG']['ROWS']=7;
-		$tab_typ_champ[$i]['CONFIG']['COLS']=40;
-		$tab_typ_champ[$i]['CONFIG']['SIZE']=50;
-		$tab_typ_champ[$i]['CONFIG']['MAXLENGTH']=255;
+	foreach($name_field as $key=>$value){
+		$tab_typ_champ[$key]['DEFAULT_VALUE']=$value_field[$key];
+		$tab_typ_champ[$key]['INPUT_NAME']=$name_field[$key];
+		$tab_typ_champ[$key]['INPUT_TYPE']=$type_field[$key];
+		$tab_typ_champ[$key]['CONFIG']['ROWS']=7;
+		$tab_typ_champ[$key]['CONFIG']['COLS']=40;
+		$tab_typ_champ[$key]['CONFIG']['SIZE']=50;
+		$tab_typ_champ[$key]['CONFIG']['MAXLENGTH']=255;		
 		$i++;
 	}
+//	$i=0;
+//	while ($name_field[$i]){
+//		$tab_typ_champ[$i]['DEFAULT_VALUE']=$value_field[$i];
+//		$tab_typ_champ[$i]['INPUT_NAME']=$name_field[$i];
+//		$tab_typ_champ[$i]['INPUT_TYPE']=$type_field[$i];
+//		$tab_typ_champ[$i]['CONFIG']['ROWS']=7;
+//		$tab_typ_champ[$i]['CONFIG']['COLS']=40;
+//		$tab_typ_champ[$i]['CONFIG']['SIZE']=50;
+//		$tab_typ_champ[$i]['CONFIG']['MAXLENGTH']=255;
+//		$i++;
+//	}
 	return $tab_typ_champ;
 }
 
@@ -998,7 +1025,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 	//print_r($list_col_cant_del);//print_r($sql_data);
 	if (isset($sql_data)){
 		foreach ($sql_data as $i=>$donnees){
-			//echo $i."<br>";
 			foreach($list_fields as $key=>$value){
 				$truelabel=$key;
 				//gestion des as de colonne
@@ -1019,7 +1045,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				}else
 				 $no_alias_value=$value;
 				
-			//	echo $no_alias_value."<br>";
+				//echo $donnees[$no_alias_value]."<br>";
 				
 				//si aucune valeur, on affiche un espace
 				if ($donnees[$no_alias_value] == "")
@@ -1044,11 +1070,10 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				$lien='KO';	
 				else
 				$lien='OK';
+				if (isset($tab_options['REPLACE_VALUE'][$key])){
+					$value_of_field=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
 				
-				if (isset($tab_options['REPLACE_VALUE'][$key]))
-				$value_of_field=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
-				
-				
+				}
 				if (isset($tab_condition[$key])){
 						if (!$tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]]){
 							if ($key == "STAT"){

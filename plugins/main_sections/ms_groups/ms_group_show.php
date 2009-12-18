@@ -358,7 +358,7 @@ function print_computers_cached($systemid) {
 		}	
 		$tab_options['CACHE']='RESET';
 	}
-	if ($_SESSION['OCS']['RESTRICTION'] == "YES"){
+	if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 		$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
 		$res_mesMachines = mysql_query($sql_mesMachines, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$mesmachines="(";

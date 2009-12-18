@@ -273,8 +273,8 @@ if ($keepuser) {
 	fwrite($ch,"<?php\n");
 	fwrite($ch,"define(\"DB_NAME\", \"ocsweb\");\n");
 	fwrite($ch,"define(\"SERVER_READ\",\"".$_POST["host"]."\");\n");
-	fwrite($ch,"define(\"SERVER_WRITE\"],\"".$_POST["host"]."\");\n");				
-	fwrite($ch,"define(\"COMPTE_BASE\"],\"ocs\");\n");					
+	fwrite($ch,"define(\"SERVER_WRITE\",\"".$_POST["host"]."\");\n");				
+	fwrite($ch,"define(\"COMPTE_BASE\",\"ocs\");\n");					
 	fwrite($ch,"define(\"PSWD_BASE\",\"ocs\");\n");					
 	fwrite($ch,"?>");
 	fclose($ch);
