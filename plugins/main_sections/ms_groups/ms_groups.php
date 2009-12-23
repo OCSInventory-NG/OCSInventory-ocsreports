@@ -101,7 +101,7 @@ if ($protectedPost['onglet'] == "SERV"){
 	elseif ($protectedPost['onglet'] == "STAT")
 		$querygroup.=" and (g.request is null or trim(g.request) = '')
 					    and (g.xmldef  is null or trim(g.xmldef) = '') ";
-	if($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")
+	if($_SESSION['OCS']['CONFIGURATION']['GROUPS']!="YES")
 		$querygroup.=" and h.workgroup='GROUP_4_ALL' ";
 
 	//calcul du nombre de machines par groupe
