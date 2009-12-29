@@ -47,7 +47,7 @@ if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 		if (!isset($_SESSION['OCS']['TRUE_USER'])){
 			$true_user=$_SESSION['OCS']['loggeduser'];
 			$list_page_profil=$_SESSION['OCS']['PAGE_PROFIL'];
-			$restriction=$_SESSION['OCS']['RESTRICTION'];
+			$restriction=$_SESSION['OCS']['RESTRICTION']['GUI'];
 		}
 		$loggeduser=$protectedPost["FUSER"];
 		unset($_SESSION['OCS']);	
@@ -60,7 +60,7 @@ if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 		$restriction=$_SESSION['OCS']['TRUE_RESTRICTION'];
 		unset($_SESSION['OCS']);		
 		$_SESSION['OCS']['loggeduser']=$loggeduser;
-		$_SESSION['OCS']['RESTRICTION']=$restriction;
+		$_SESSION['OCS']['RESTRICTION']['GUI']=$restriction;
 	}else	
 	unset($_SESSION['OCS']['DEBUG'],$_SESSION['OCS']['MODE_LANGUAGE']);
 

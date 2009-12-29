@@ -21,7 +21,7 @@ if ($protectedPost['Reset_modif_x'])
  unset($protectedPost['add_static_group']);
  
 //view only your computors
-if ($_SESSION['OCS']['RESTRICTION'] == 'YES')
+if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES')
 	$mycomputors=computor_list_by_tag();
 
 //View for all profils?
@@ -101,13 +101,13 @@ if ($protectedPost['onglet'] == "SERV"){
 	elseif ($protectedPost['onglet'] == "STAT")
 		$querygroup.=" and (g.request is null or trim(g.request) = '')
 					    and (g.xmldef  is null or trim(g.xmldef) = '') ";
-	if($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")
+	if($_SESSION['OCS']['CONFIGURATION']['GROUPS']!="YES")
 		$querygroup.=" and h.workgroup='GROUP_4_ALL' ";
 
 	//calcul du nombre de machines par groupe
 	$sql_nb_mach="SELECT count(*) nb, group_id
 					from groups_cache gc,hardware h where h.id=gc.hardware_id ";
-	if($_SESSION['OCS']['RESTRICTION'] == "YES")
+	if($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES")
 			$sql_nb_mach.=" and gc.hardware_id in ".$mycomputors;		
 	$sql_nb_mach .=" group by group_id";
 
