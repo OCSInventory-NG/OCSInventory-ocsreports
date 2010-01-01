@@ -53,10 +53,13 @@ function printEnTete_tab($ent) {
  
 //function for escape_string before use database
 function escape_string($array){
-	foreach ($array as $key=>$value){
-		$trait_array[$key]=mysql_real_escape_string($value);
-	}
-	return ($trait_array);
+	if (is_array($array)){
+		foreach ($array as $key=>$value){
+			$trait_array[$key]=mysql_real_escape_string($value);
+		}
+		return ($trait_array);
+	}else
+	return array();	
 }
 
 function xml_escape_string($array){
