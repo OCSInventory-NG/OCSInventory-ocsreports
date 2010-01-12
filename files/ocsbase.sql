@@ -808,8 +808,8 @@ insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_WRITE_DIFF',
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_CACHE_ENABLED',1,'','Enable some stuff to improve DB queries, especially for GUI multicriteria searching system');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('DOWNLOAD_GROUPS_TRACE_EVENTS',1,'','Specify if you want to track packages affected to a group on computer\'s level');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('ENABLE_GROUPS',1,'','Enable the computer\'s groups feature');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GROUPS_CACHE_OFFSET',43200,'','Random number computed in the defined range. Designed to avoid computing many groups in the same process');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GROUPS_CACHE_REVALIDATE',43200,'','Specify the validity of computer\'s groups (default: compute it once a day - see offset)');
+insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GROUPS_CACHE_OFFSET',600,'','Random number computed in the defined range. Designed to avoid computing many groups in the same process');
+insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GROUPS_CACHE_REVALIDATE',600,'','Specify the validity of computer\'s groups (default: compute it once a day - see offset)');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('IPDISCOVER_BETTER_THRESHOLD',1,'','Specify the minimal difference to replace an ipdiscover agent');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('IPDISCOVER_NO_POSTPONE',0,'','Disable the time before a first election (not recommended)');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('IPDISCOVER_USE_GROUPS',1,'','Enable groups for ipdiscover (for example, you might want to prevent some groups');
