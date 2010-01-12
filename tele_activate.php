@@ -17,13 +17,19 @@ if(isset($_POST["actpack"]) and $_POST['activat_option'] == "for_server")
 {
 	if ($_POST['id_server_add'] != ""){
 		//recherche de la liste des machines qui ont déjà ce paquet
-		$sqlDoub="select SERVER_ID from download_enable where FILEID= ".$_POST['actpack'];
+		$sqlDoub="select SERVER_ID,INFO_LOC from download_enable where FILEID= ".$_POST['actpack'];
 		$resDoub = mysql_query( $sqlDoub, $_SESSION["readServer"] );	
 		$listDoub="";
 		//création de la liste pour les exclure de la requete
 		while ($valDoub = mysql_fetch_array( $resDoub )){
 			if ($valDoub['SERVER_ID'] != "")
-			$listDoub.=$valDoub['SERVER_ID'].",";	
+			$listDoub.=$valDoub['SERVER_ID'].",";
+
+			//Update https server location if different from mysql database
+                        if ($valDoub['INFO_LOC'] != $_POST['https_server']) {
+                                $sql_update_https= "UPDATE download_enable SET download_enable.INFO_LOC='".$_POST['https_server']."' WHERE SERVER_ID=".$valDoub['SERVER_ID'];
+                                mysql_query( $sql_update_https, $_SESSION["readServer"] );
+                        }
 		}
 		//si la liste est non null on crée la partie de la requete manquante
 		if ($listDoub != ""){
