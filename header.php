@@ -132,7 +132,7 @@ elseif($protectedGet[PAG_INDEX] != $pages_refs['ms_ipdiscover'])
 unset($_SESSION['OCS']['ipdiscover']);
 
 /*********************************************************gestion de la suppression automatique des machines trop vieilles*************************/
-//require_once('plugins/options_config/del_old_computors.php');
+//require_once('plugins/options_config/del_old_computers.php');
 
 /***********************************************************gestion des logs*************************************************************************/
 if (!isset($_SESSION['OCS']['LOG_GUI'])){

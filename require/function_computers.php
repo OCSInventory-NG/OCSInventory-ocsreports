@@ -1,21 +1,21 @@
 <?php
 
-function computor_list_by_tag($tag=""){
+function computer_list_by_tag($tag=""){
 	if ($tag == ""){
-		$sql_mycomputors="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
+		$sql_mycomputers="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
 	}elseif (is_array($tag)){
-		$sql_mycomputors="select hardware_id from accountinfo a where a.tag in (".implode(",",$tag).")";
+		$sql_mycomputers="select hardware_id from accountinfo a where a.tag in (".implode(",",$tag).")";
 	}else
-		$sql_mycomputors="select hardware_id from accountinfo a where a.tag in (".$tag.")";
-	$res_mycomputors = mysql_query($sql_mycomputors, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-	$mycomputors="(";
-	while ($item_mycomputors = mysql_fetch_object($res_mycomputors)){
-		$mycomputors.= $item_mycomputors->hardware_id.",";	
+		$sql_mycomputers="select hardware_id from accountinfo a where a.tag in (".$tag.")";
+	$res_mycomputers = mysql_query($sql_mycomputers, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$mycomputers="(";
+	while ($item_mycomputers = mysql_fetch_object($res_mycomputers)){
+		$mycomputers.= $item_mycomputers->hardware_id.",";	
 	}
-	$mycomputors=substr($mycomputors,0,-1).")";	
-	if ($mycomputors == "()")
-	$mycomputors = "ERROR";
-	return $mycomputors;
+	$mycomputers=substr($mycomputers,0,-1).")";	
+	if ($mycomputers == "()")
+	$mycomputers = "ERROR";
+	return $mycomputers;
 }
 
 

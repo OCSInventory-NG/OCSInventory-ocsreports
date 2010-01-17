@@ -9,7 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2007/01/26 17:05:42 $$Author: plemmet $($Revision: 1.10 $)
-require_once('require/function_computors.php');
+require_once('require/function_computers.php');
 if ($protectedPost['FUSION']){
 	//print_r($protectedPost);
 	foreach ($protectedPost as $name=>$value){
@@ -39,7 +39,7 @@ if ($protectedPost['FUSION']){
 
 //gestion des restrictions par profils
 if ($_SESSION['OCS']['mesmachines']){
-	$list_id_mes_machines=computor_list_by_tag();
+	$list_id_mes_machines=computer_list_by_tag();
 	if ($list_id_mes_machines=="ERROR"){
 		echo $l->g(923);
 		break;

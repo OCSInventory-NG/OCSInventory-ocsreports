@@ -59,8 +59,8 @@ function replace_group($id_group,$list_id,$req,$group_type){
 	//update group
 	$sql_updGroup="UPDATE groups set request='', xmldef='".generate_xml($req)."' where hardware_id=".$id_group;
 	mysql_query( $sql_updGroup, $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );
-	$nb_computor=add_computors_cache($list_id,$id_group,$static);
-	return $nb_computor;	
+	$nb_computer=add_computers_cache($list_id,$id_group,$static);
+	return $nb_computer;	
 	
 }
 
@@ -98,8 +98,8 @@ function creat_group ($name,$descr,$list_id,$req,$group_type)
 		addLog("CREATE GROUPE",$name);
 	//Generating cache
 	if ($list_id != '')	{	
-		$nb_computor=add_computors_cache($list_id,$insertId,$static);
-		return array('RESULT'=>'OK', 'LBL'=> $nb_computor);
+		$nb_computer=add_computers_cache($list_id,$insertId,$static);
+		return array('RESULT'=>'OK', 'LBL'=> $nb_computer);
 	}
 
 	return array('RESULT'=>'OK', 'LBL'=> 'GROUPE CREE');
@@ -108,8 +108,8 @@ function creat_group ($name,$descr,$list_id,$req,$group_type)
 }
 
 
-//function to add computor in groups_cache
-function add_computors_cache($list_id,$groupid,$static){
+//function to add computer in groups_cache
+function add_computers_cache($list_id,$groupid,$static){
 	//Generating cache
 	if( lock($groupid) ) {	
 		$reqCache = "INSERT IGNORE INTO groups_cache(hardware_id, group_id, static) 
