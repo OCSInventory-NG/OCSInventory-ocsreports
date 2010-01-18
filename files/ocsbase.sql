@@ -798,6 +798,18 @@ CREATE TABLE virtualmachines (
   PRIMARY KEY  (ID, HARDWARE_ID)
 ) ENGINE=INNODB ;
 
+CREATE TABLE itmgmt_comments (
+  ID int(11) NOT NULL AUTO_INCREMENT,
+  HARDWARE_ID int(11) NOT NULL,
+  COMMENTS longtext,
+  USER_INSERT varchar(100) DEFAULT NULL,
+  DATE_INSERT date DEFAULT NULL,
+  ACTION varchar(255) DEFAULT NULL,
+  VISIBLE int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM;
+
+
 
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('DOWNLOAD_SERVER_URI','','$IP$/local','Server url used for group of server');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('DOWNLOAD_SERVER_DOCROOT','','d:\\\\tele_ocs','Server directory used for group of server');
