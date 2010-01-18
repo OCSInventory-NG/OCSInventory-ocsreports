@@ -549,7 +549,7 @@
 656 This datum already exists in the list 
 657 Fields in red are in error!!! (Empty fields or size < 2) 
 658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
-659 Machines already have this teledeploy package. This package's statut for these machines is now 
+659 Machines already have this teledeploy package. This package's status for these machines is now 
 660 GROUP OF SERVEUR NOT EXIST
 661 PACKAGES FOR SERVER OF REDISTRIBUTION
 662 Rules of affectation
@@ -716,7 +716,7 @@
 823 By default 
 824 Interface logs activation
 825 Logs directory
-826 Address tofind teledeploy packages fragments to activate
+826 Address to find teledeploy packages fragments to activate
 827 Address to find teledeploy packages INFO files to activate
 828 Remove computers with inventory older than
 829 Redistribution packages creation directory
@@ -915,7 +915,7 @@
 1020 Name of the tag information
 1021 Teledeploy admin
 1022 TAG admin
-1023 Packages affect with statut
+1023 Packages affect with status
 1024 will be deleted
 1025 Unaffect
 1026 Packages deleted on computers
