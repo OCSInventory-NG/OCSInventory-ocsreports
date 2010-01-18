@@ -211,9 +211,9 @@ if (isset($default)){
 		$sql_hardware_id="select hardware_id id from accountinfo a  where ".$_SESSION['OCS']["mesmachines"];
 		$result_hardware_id = mysql_query( $sql_hardware_id, $_SESSION['OCS']["readServer"]);
 		$list_hardware_id="";
-		$nb_computor=0;
+		$nb_computer=0;
 		while($item_hardware_id = mysql_fetch_object($result_hardware_id)){
-			$nb_computor++;
+			$nb_computer++;
 			$list_hardware_id.=$item_hardware_id ->id.",";		
 		}
 		$list_hardware=substr($list_hardware_id,0,-1);
@@ -237,8 +237,8 @@ if (isset($default)){
 				$data['NB_ALL_COMPUTOR']['lbl']=$lbl_field['NB_ALL_COMPUTOR'];
 			}
 			if (!isset($list_no_show['NB_COMPUTOR'])){
-				if (isset($nb_computor))
-		 		$data['NB_COMPUTOR']['data']= $nb_computor;
+				if (isset($nb_computer))
+		 		$data['NB_COMPUTOR']['data']= $nb_computer;
 		 		else
 		 		$data['NB_COMPUTOR']['data']=$item_count_computer-> c;
 		 		$data['NB_COMPUTOR']['lbl']=$lbl_field['NB_COMPUTOR'];
@@ -519,7 +519,7 @@ if (isset($default)){
 			$i=0;
 			unset($data);
 			while($item = mysql_fetch_object($result)){
-				$deb="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".$item ->ID."' target='_blank'>";
+				$deb="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$item ->ID."' target='_blank'>";
 				$fin="</a>";
 				$j=0;
 				foreach ($FIELDS as $key=>$value){					

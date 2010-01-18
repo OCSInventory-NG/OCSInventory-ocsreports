@@ -42,7 +42,7 @@ if (isset($protectedPost['VALID_GROUP'])){
 		
 		//ajout a un groupe
 		if ($protectedPost['NEW_RAZ'] == "ADD"){
-			$nb_mach=add_computors_cache($list_id,$protectedPost['group_list'],1);
+			$nb_mach=add_computers_cache($list_id,$protectedPost['group_list'],1);
 			$msg="<font color=green>".$l->g(973);	
 		}
 			

@@ -300,7 +300,7 @@ function print_computers_real($systemid) {
 			$i++;
 		}
 	}
-	$form_name="calcul_computor_groupcache";
+	$form_name="calcul_computer_groupcache";
 	$table_name=$form_name;
 	echo "<font color=red><b>".$l->g(927)."</b></font>";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
@@ -369,7 +369,7 @@ function print_computers_cached($systemid) {
 			
 	}
 
-	$form_name="list_computor_groupcache";
+	$form_name="list_computer_groupcache";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	$list_fields=array($_SESSION['OCS']['TAG_LBL'] => 'a.TAG',

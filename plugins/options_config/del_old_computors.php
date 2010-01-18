@@ -1,6 +1,6 @@
 <?php
 $time_to_delete=10; //minutes
-$max_computor_delete=50;
+$max_computer_delete=50;
 
 
 $sql="select IVALUE,TVALUE from config where NAME='INVENTORY_VALIDITY'";
@@ -14,7 +14,7 @@ if (isset($value['IVALUE']) and $value['IVALUE']!= 0){
 		$timestamp_limit=mktime(0,date("i"),0,date("m"),date("d")-$value['IVALUE'],date("Y"));
 		$sql="update config set TVALUE='".mktime(0,date("i")+$time_to_delete,0,date("m"),date("d"),date("Y"))."' where NAME='INVENTORY_VALIDITY'";
 		mysql_query($sql, $_SESSION['OCS']["writeServer"]);
-		$sql="select id,lastdate,name from hardware where UNIX_TIMESTAMP(lastdate) < ".$timestamp_limit." limit ".$max_computor_delete;
+		$sql="select id,lastdate,name from hardware where UNIX_TIMESTAMP(lastdate) < ".$timestamp_limit." limit ".$max_computer_delete;
 		$res = mysql_query( $sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		while( $val = mysql_fetch_array($res) ){
 			addLog("DELETE ".$val['name'], $l->g(820)." => ".$val['lastdate']." DATE < ".date("d/m/y H:i:s",$timestamp_limit));			

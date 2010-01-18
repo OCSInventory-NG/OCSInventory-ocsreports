@@ -920,7 +920,7 @@
 1023 Opakowania wpływa z statut
 1024 zostaną usunięte
 1025 Unaffect
-1026 Opakowania skreślony computors
+1026 Opakowania skreślony computers
 1027 Kategoria
 1028 Nowe
 1029 Ignorowany

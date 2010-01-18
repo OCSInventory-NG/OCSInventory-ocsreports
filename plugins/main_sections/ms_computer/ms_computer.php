@@ -70,7 +70,7 @@ foreach ($lbl_affich as $key=>$lbl){
 $bandeau=bandeau($data,$lbl_affich);
 
 //get plugins when exist
-$Directory=$_SESSION['OCS']['plugins_dir']."computor_detail/";
+$Directory=$_SESSION['OCS']['plugins_dir']."computer_detail/";
 $ms_cfg_file= $Directory."config.txt";
 
 if (file_exists($ms_cfg_file)) {
@@ -109,7 +109,7 @@ while ($list_plugins[$i]){
 	if (!isset($valavail[0]) or $valavail[0] != 0){
 		//liste de toutes les infos de la machine
 		$show_all[]=$list_plugins[$i];
-		$href = "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i]."'>";
+		$href = "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i]."'>";
 		$fhref = "</a>";
 	}else{
 		$href = "";
@@ -121,7 +121,7 @@ while ($list_plugins[$i]){
 	echo $l->g(substr(substr($list_lbl[$list_plugins[$i]],2),0,-1));
 	else
 	echo $list_lbl[$i];
-	echo "\" src='plugins/computor_detail/img/";
+	echo "\" src='plugins/computer_detail/img/";
 	$list_plugins[$i];
 	if (isset($valavail[0]) and $valavail[0] == 0){
 		if (file_exists($Directory."/img/".$list_plugins[$i]."_d.png"))
@@ -165,7 +165,7 @@ echo "<a style=\"text-decoration:underline\" onClick=print()><img src='image/pri
 
 //if(!isset($protectedGet["tout"]))
 		echo"<td width=50%>
-			<a style=\"text-decoration:underline\" href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".urlencode(stripslashes($systemid))."&tout=1\'>
+			<a style=\"text-decoration:underline\" href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode(stripslashes($systemid))."&tout=1\'>
 			<img width='60px' src='image/aff_all.png' title='".$l->g(215)."'></a></td>";
 		
 echo "</tr></table>";

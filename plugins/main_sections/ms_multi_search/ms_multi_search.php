@@ -12,7 +12,7 @@ $limit_result_cache=1000;
 //int�gration des fonctions li�es � la recherche multicrit�re
 require_once('require/function_search.php');
 //fonction machines
-require_once('require/function_computors.php');
+require_once('require/function_computers.php');
 //nom du formulaire de la page
 $form_name='multisearch';
 //nom du tableau d'affichage
@@ -568,7 +568,7 @@ $list_id="";
 	//si l'utilisateur a des droits limit�s
 	//restriction des id 
 	 if ($_SESSION['OCS']['mesmachines'] != "" and isset($_SESSION['OCS']['mesmachines'])){
-		$list_id_restraint=substr(substr(computor_list_by_tag(),1),0,-1);
+		$list_id_restraint=substr(substr(computer_list_by_tag(),1),0,-1);
 	 }	
 	
 	 echo "<font color=red>";
@@ -716,7 +716,7 @@ if ($no_result == "NO RESULT" and !isset($ERROR)){
 
 
 if ($_SESSION['OCS']["mesmachines"] != '')
-		$list_id_computor=computor_list_by_tag();
+		$list_id_computer=computer_list_by_tag();
 //pour tous les tableaux:
 //TABLE-NOMCHAMP =>lbl du champ
 //option: TABLE-NOMCHAMP-LBL => commentaire � ajouter apr�s le champ de saisi
@@ -764,7 +764,7 @@ $optSelectField = array_merge($optaccountinfo,$optSelectField);
 $optSelect=array("HARDWARE-OSNAME"=>$l->g(729).": ".$l->g(25),
 				 "HARDWARE-OSNAME-SQL1"=>"select 'ALL_LINUX' as ID, '".$l->g(965)."' as NAME union select 'ALL_WIN', '".$l->g(966)."' union select OSNAME,OSNAME from hardware_osname_cache where osname != '' ",
 				 "VIDEOS-RESOLUTION"=>$l->g(965).": ".$l->g(62),
-				 "VIDEOS-RESOLUTION-SQL1"=>"select DISTINCT RESOLUTION as 'ID', RESOLUTION as 'NAME' from videos ".(isset($list_id_computor)? " where hardware_id in ".$list_id_computor : '')." order by 1");
+				 "VIDEOS-RESOLUTION-SQL1"=>"select DISTINCT RESOLUTION as 'ID', RESOLUTION as 'NAME' from videos ".(isset($list_id_computer)? " where hardware_id in ".$list_id_computer : '')." order by 1");
 //composotion du tableau
 //option : TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (1er select)
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut �galement �tre un tableau de donn�es (2eme select)
@@ -776,8 +776,8 @@ $opt2SelectField=array("REGISTRY-REGVALUE"=>$l->g(211).": ".$l->g(212),
 					'diff'=>$l->g(130),
 					"small"=>$l->g(346),"tall"=>$l->g(347)),
 				 "DRIVES-FREE"=>$l->g(92).": ".$l->g(45),
-				 "DRIVES-FREE-SQL1"=>"select distinct LETTER from drives where letter != '' ".(isset($list_id_computor)? " and hardware_id in ".$list_id_computor : '')."
-									 union select distinct volumn from drives where letter = '' and volumn != '' ".(isset($list_id_computor)? " and hardware_id in ".$list_id_computor : '')." order by 1",
+				 "DRIVES-FREE-SQL1"=>"select distinct LETTER from drives where letter != '' ".(isset($list_id_computer)? " and hardware_id in ".$list_id_computer : '')."
+									 union select distinct volumn from drives where letter = '' and volumn != '' ".(isset($list_id_computer)? " and hardware_id in ".$list_id_computer : '')." order by 1",
 				 "DRIVES-FREE-LBL"=>"MB",
 				 "DRIVES-FREE-SELECT"=>array('exact'=> $l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)));
 
@@ -786,7 +786,7 @@ $opt2SelectField=array("REGISTRY-REGVALUE"=>$l->g(211).": ".$l->g(212),
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut �galement �tre un tableau de donn�es (2eme select)
 //� l'affichage on se retrouve avec le lbl du champ et 2 select
 $opt2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
-				 "HARDWARE-USERAGENT-SQL1"=>"select distinct USERAGENT as 'NAME' from hardware where USERAGENT != '' ".(isset($list_id_computor)? " and id in ".$list_id_computor : '')." order by 1",
+				 "HARDWARE-USERAGENT-SQL1"=>"select distinct USERAGENT as 'NAME' from hardware where USERAGENT != '' ".(isset($list_id_computer)? " and id in ".$list_id_computer : '')." order by 1",
 				 "HARDWARE-USERAGENT-SELECT"=>array('exact'=>$l->g(410)
 				 									,'diff'=>$l->g(130)
 				 									),

@@ -50,7 +50,7 @@ ms_blacklist:g(703)
 </LBL>
 
 <URL>
-ms_all_computers:visu_computors
+ms_all_computers:visu_computers
 ms_config:admin_conf
 ms_repart_tag:visu_repart_tag
 ms_groups:visu_groups
@@ -96,7 +96,7 @@ ms_custom_admin_rsx:admin_rsx
 ms_custom_admin_type:admin_type
 ms_custom_info:ipdiscover_info
 ms_debug:debug
-ms_computor:computor
+ms_computer:computer
 ms_config_account:account_config
 ms_exportallsoft:export_all_soft
 ms_soft_csv:export_soft
@@ -113,7 +113,7 @@ ms_admininfo:ms_admininfo
 ms_all_computers:ms_all_computers
 ms_all_soft:ms_all_soft
 ms_exportallsoft:ms_all_soft
-ms_computor:ms_computor
+ms_computer:ms_computer
 ms_config:ms_config
 ms_config:ms_config
 ms_blacklist:ms_config

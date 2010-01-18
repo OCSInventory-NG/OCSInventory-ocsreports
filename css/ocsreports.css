@@ -59,18 +59,8 @@ input
 	color: blue;
 }
 
-.bouton,select,input,textarea,option {
-	background-color:#C7D9F5;
-	border-color:#A1B1F9; 
-	border-width:2px;	
-}
-
 option.hi {
 	background-color:#FFFFFF;
-}
-
-.down {
-	background-color:#F5F5F6;
 }
 
 .dropdown {
@@ -202,10 +192,6 @@ select.ge {
 }
 
 #search {
-	background-color: #C7D9F5;
-	border-color: #A1B1F9;
-	border-style: solid;
-	border-width: 1px;
 	border-collapse: collapse;
 	width: 240px;
 }

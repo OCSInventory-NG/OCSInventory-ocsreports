@@ -4,7 +4,7 @@
  * 
  */ 
 require_once('require/function_groups.php');
-require_once('require/function_computors.php');
+require_once('require/function_computers.php');
 //ADD new static group
 if($protectedPost['Valid_modif_x']){
 	$result=creat_group ($protectedPost['NAME'],$protectedPost['DESCR'],'','','STATIC');
@@ -20,9 +20,9 @@ if($protectedPost['Valid_modif_x']){
 if ($protectedPost['Reset_modif_x']) 
  unset($protectedPost['add_static_group']);
  
-//view only your computors
+//view only your computers
 if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES')
-	$mycomputors=computor_list_by_tag();
+	$mycomputers=computer_list_by_tag();
 
 //View for all profils?
 if (isset($protectedPost['CONFIRM_CHECK']) and  $protectedPost['CONFIRM_CHECK'] != "")
@@ -108,7 +108,7 @@ if ($protectedPost['onglet'] == "SERV"){
 	$sql_nb_mach="SELECT count(*) nb, group_id
 					from groups_cache gc,hardware h where h.id=gc.hardware_id ";
 	if($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES")
-			$sql_nb_mach.=" and gc.hardware_id in ".$mycomputors;		
+			$sql_nb_mach.=" and gc.hardware_id in ".$mycomputers;		
 	$sql_nb_mach .=" group by group_id";
 
 }

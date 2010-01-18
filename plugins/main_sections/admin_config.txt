@@ -38,7 +38,7 @@ ms_show_detail
 ms_custom_admin_rsx
 ms_custom_admin_type
 ms_custom_info
-ms_computor
+ms_computer
 ms_config_account
 ms_exportallsoft
 ms_soft_csv

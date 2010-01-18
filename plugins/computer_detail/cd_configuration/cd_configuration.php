@@ -134,7 +134,7 @@ $i=0;
 	else {
 		echo $td3.$l->g(493)."</td>";
 	}
-	//Can you modify configuration of this computor?
+	//Can you modify configuration of this computer?
 	if( $_SESSION['OCS']['CONFIGURATION']['CONFIG']=="YES" ){
 		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=machine\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
 		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
@@ -209,7 +209,7 @@ $i=0;
 			}
 			
 			if( $_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES" || $valGroups["workgroup"]=="GROUP_4_ALL") {
-				$hrefBase = "index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".urlencode($systemid)."&option=cd_configuration&grp=".$valGroups["group_id"];
+				$hrefBase = "index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode($systemid)."&option=cd_configuration&grp=".$valGroups["group_id"];
 				switch( $valGroups["static"] ) {
 					case 0: echo $td3."<a href='$hrefBase&actgrp=1'>".$l->g(598)."</a>&nbsp; &nbsp; &nbsp;<a href='$hrefBase&actgrp=2'>".$l->g(600)."</a></td>"; break;
 					case 1: echo $td3."<a href='$hrefBase&actgrp=0'>".$l->g(818)."</a></td>"; break;
@@ -245,29 +245,29 @@ $i=0;
 			echo "(<small>".$valDeploy["fileid"]."</small>)";
 			
 			if ($valDeploy["name_server"]!="")
-				echo " (".$l->g(499)." redistrib: <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".$valDeploy["id"]."' target='_blank'><b>".$valDeploy["name_server"]."</b></a>";
+				echo " (".$l->g(499)." redistrib: <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valDeploy["id"]."' target='_blank'><b>".$valDeploy["name_server"]."</b></a>";
 			else
 			echo " (".$l->g(499).": ".$valDeploy["pack_loc"]." ";
-			//echo ($valDeploy["name_server"]!=""?"<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".$valDeploy["id"]."' target='_blank'><b>".$valDeploy["name_server"]."</b></a>":"");
+			//echo ($valDeploy["name_server"]!=""?"<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valDeploy["id"]."' target='_blank'><b>".$valDeploy["name_server"]."</b></a>":"");
 			echo ")</td>";			
 			echo $td3.$l->g(81).": ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482));
 			echo ($valDeploy["comments"]!=""?" (".$valDeploy["comments"].")":"");
 			echo "</td>";
 			
 			if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" )	{
-				echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
+				echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 				urlencode($systemid)."&option=cd_configuration'>".$l->g(122)."</a></td>";
 			}elseif (strstr($valDeploy["tvalue"], 'ERR_')){
-				echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&affect_reset=".$valDeploy["ivalue"]."&systemid=".
+				echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&affect_reset=".$valDeploy["ivalue"]."&systemid=".
 					urlencode($systemid)."&option=cd_configuration'>".$l->g(113)."</a>";
 				if ($valDeploy["name"] != "PAQUET SUPPRIME")
-				echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&affect_again=".$valDeploy["ivalue"]."&systemid=".
+				echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&affect_again=".$valDeploy["ivalue"]."&systemid=".
 					urlencode($systemid)."&option=cd_configuration'>R�-".$l->g(433)."</a></td>";				
 			}elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')){	
 					if (isset($valDeploy["comments"]) and strtotime ($valDeploy["comments"])<strtotime ("-12 week")){
 						$possible_desafect='YES';
 					//	echo $td3."<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)." ".$value_of_field."\");'><img src=image/supp.png></a>";
-						echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&reset_notified=".$valDeploy["ivalue"]."&systemid=".
+						echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&reset_notified=".$valDeploy["ivalue"]."&systemid=".
 						urlencode($systemid)."&option=cd_configuration'><img src=image/supp.png></a>";
 	//					$actuel_mount=date("M");
 	//					$actuel_year=date("Y");
@@ -284,7 +284,7 @@ $i=0;
 		}
 	}
 
-		$hrefBase = "index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".urlencode($systemid)."&option=cd_configuration";
+		$hrefBase = "index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode($systemid)."&option=cd_configuration";
 		
 		echo "<tr><td colspan='10' align='right'>";
 		if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" ) 

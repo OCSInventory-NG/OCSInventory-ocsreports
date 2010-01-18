@@ -1168,7 +1168,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$entete[$num_col].="<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>";		
 						$lien = 'KO';		
 					}elseif ($key == "NAME"){
-							$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computor']."&head=1&systemid=".$donnees['ID']."'  target='_blank'>".$value_of_field."</a>";
+							$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$donnees['ID']."'  target='_blank'>".$value_of_field."</a>";
 							if (!$entete[$num_col] or $entete[$num_col] == $key)
 							$entete[$num_col]=$l->g(23);
 					}elseif ($key == "MAC"){
