@@ -95,7 +95,7 @@ if( ! isset($_SESSION["availFieldList"]) ) {
 	$translateFields = array ( "a.".TAG_NAME=>TAG_LBL, "h.lastdate"=>$l->g(46), "h.name"=>$l->g(23), 
 	"h.userid"=>$l->g(24), 	"h.osname"=>$l->g(25), "h.memory"=>$l->g(568), "h.processors"=>$l->g(569),
 	"h.workgroup"=>$l->g(33), "h.osversion"=>$l->g(275), "h.oscomments"=>$l->g(286), "h.processort"=>$l->g(350), "h.processorn"=>$l->g(351),
-	"h.swap"=>"Swap", "lastcome"=>$l->g(352), "h.quality"=>$l->g(353), "h.fidelity"=>$l->g(354),"h.description"=>$l->g(53), 
+	"h.swap"=>"Swap", "h.lastcome"=>$l->g(352), "h.quality"=>$l->g(353), "h.fidelity"=>$l->g(354),"h.description"=>$l->g(53), 
 	"h.wincompany"=>$l->g(355), "h.winowner"=>$l->g(356), "h.useragent"=>$l->g(357), "b.smanufacturer"=>$l->g(64),
 	"b.bmanufacturer"=>$l->g(284),"b.ssn"=>$l->g(36),"b.smodel"=>$l->g(65),"b.bversion"=>$l->g(209),"h.ipaddr"=>$l->g(34), "h.userdomain"=>$l->g(557));
 	
