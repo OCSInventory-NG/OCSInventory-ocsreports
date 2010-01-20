@@ -246,8 +246,15 @@ else if( $_GET["mode"] == 1 ) {
 	}
 	else
 		$_SESSION["maxipd"] = $maxIpConfig;
-	
-	$totNinvReq = "SELECT COUNT(DISTINCT mac) as total FROM netmap WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM networks)";
+	//This sql request is a modified version of the one below, without subnet filtering since catching machines on different
+	//This does maintain the same result as before, Identified machines still show up as non-inventoried.
+	$totNinvReq = "
+			SELECT COUNT(DISTINCT mac) AS total 
+			FROM netmap n 
+			LEFT OUTER JOIN networks        ns ON ns.macaddr = mac 
+			LEFT OUTER JOIN network_devices nd ON nd.macaddr = mac
+			AND ( ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
+			AND nd.macaddr IS NULL";
 	$totNinvRes = mysql_query( $totNinvReq, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 	$totNinvVal = mysql_fetch_array( $totNinvRes );
 
@@ -270,6 +277,8 @@ else if( $_GET["mode"] == 1 ) {
 		$dpt = -1;
 	}
 	else {				
+		//Addition here is "OR ns.IPSUBNET <> n.netid"  
+		//Again if the subnet does not agree, the inventory is out of date.
 		$totNinvReqLoc = "
 			SELECT COUNT(DISTINCT mac) AS total 
 			FROM netmap n 
@@ -277,7 +286,7 @@ else if( $_GET["mode"] == 1 ) {
 			LEFT OUTER JOIN network_devices nd ON nd.macaddr = mac
 			INNER      JOIN subnet          s  ON s.netid    = n.netid 
 			WHERE s.id = '$dpt'
-			AND ns.macaddr IS NULL 
+			AND ( ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
 			AND nd.macaddr IS NULL";
 			
 		$totNinvResLoc = mysql_query( $totNinvReqLoc, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
@@ -344,8 +353,13 @@ else if( $_GET["mode"] == 1 ) {
 		$t[ $cptL ][] = popup("multi=3&mode=4&pas=".urlencode($arrGateway["nbrez"]));
 		$t[ $cptL ][] = $arrGateway["nbc"];
 		
+		//The addition in the SQL statement  " AND IPSUBNET='".$arrGateway["nbrez"]."' " causes only machines with the same mac address
+		//in the subnet to be excluded from the Non-inventoried column.  This is to address a problem when machines are audited stand-alnone
+		//and are then moved to a different subnet.  They IPdiscover feature did not show it on the new subnet at all.  Now it shows up as 
+		//Non-inventoried.
+		
 		$reqNonInv = "SELECT COUNT(*) AS nbnoninv FROM netmap WHERE NETID='".$arrGateway["nbrez"]."' 
-		AND mac NOT IN (SELECT DISTINCT(macaddr) FROM networks WHERE macaddr IS NOT NULL) AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
+		AND mac NOT IN (SELECT DISTINCT(macaddr) FROM networks WHERE macaddr IS NOT NULL AND IPSUBNET='".$arrGateway["nbrez"]."') AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
 		
 		$resNonInv = mysql_query($reqNonInv, $_SESSION["readServer"]) or die(mysql_error());
 		
@@ -489,7 +503,9 @@ if($scriptPresent) {
 	</form>
 	</center>
 <?php 
-	$reqRez = "SELECT ip, mac, mask, date, name FROM netmap WHERE netid='".$_GET["pas"]."' AND mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
+	//The same modification has been done to this sql statement to cause it to show devices that are inventoried in the wrong subnet
+	//to show up as non-inventoried, because the inventory is out of date.  " WHERE IPSUBNET='".$_GET["pas"]."' "
+	$reqRez = "SELECT ip, mac, mask, date, name FROM netmap WHERE netid='".$_GET["pas"]."' AND mac NOT IN (SELECT DISTINCT(macaddr) FROM networks WHERE IPSUBNET='".$_GET["pas"]."') 
 	AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
 	$resRez = mysql_query( $reqRez, $_SESSION["readServer"] ) or die(mysql_error());
 	$_SESSION["forcedRequest"] = $reqRez;
