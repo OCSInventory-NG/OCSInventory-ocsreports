@@ -549,7 +549,7 @@
 656 Questo valore è già presente nella lista
 657 I campi in rosso contengono errori! (Campo vuoto o valore < 2)
 658 macchine senza server di ridistribuzione.<br>Pertanto è necessario agire sul pacchetto individualmente.
-659 Le macchine hanno già questo pacchetto teledeploy. Lo stato del pacchetto per queste macchine è ora
+659 Le macchine hanno già questo pacchetto Teledeploy. Lo stato del pacchetto per queste macchine è ora
 660 IL GRUPPO DEI SERVER NON ESISTE
 661 PACCHETTI PER I SERVER DI RIDISTRIBUZIONE
 662 Regole di comportamento
@@ -716,7 +716,7 @@
 823 Predefinita
 824 Attivazione interfaccia di log
 825 Directory dei log
-826 Indirizzo dove trovare i file del pacchetto teledeploy da attivare
+826 Indirizzo dove trovare i file del pacchetto Teledeploy da attivare
 827 Indirizzo dove trovare il file INFO del pacchetto da attivare
 828 Cancella i computer il cui inventario è più vecchio di
 829 Directory di creazione dei pacchetti per la distribuzione
@@ -796,7 +796,7 @@
 903 Devi riempieri il campo motivazione
 904 Riassegnazione del pacchetto
 905 Motivazione circa le azioni eseguite<br>sul computer per essere in grado di<br>distribuire il pacchetto
-906 Rimozione pacchetto teledeploy
+906 Rimozione pacchetto Teledeploy
 907 Motivazione circa la rimozione del pacchetto<br>da questo computer
 908 Informazioni sul terminale mobile
 909 MODIFICA NON EFFETTUATA: IL NUOVO PROFILO E' ERRATO
@@ -906,14 +906,14 @@
 1011 DEBUG
 1012 TRADUZIONE
 1013 MANUTENZIONE
-1014 Passa a modalità
+1014 Passa alla modalità
 1015 Modalità utente
 1016 Login per l'autenticazione
 1017 Password
 1018 (Non inserire nulla se vuoi utilizzare connessioni anonime)
-1019 Lock result
+1019 Risultato bloccato
 1020 Nome dell'etichetta informativa
-1021 Amministrazione teledeploy
+1021 Amministrazione Teledeploy
 1022 Amministrazione TAG
 1023 Pacchetti coinvolti in base allo stato
 1024 sarà cancellato
@@ -925,6 +925,18 @@
 1030 Invariato
 1031 IT Set Management
 1032 Attiva IT Set Management per il Teledeploy
+1033 Inf. demandeur
+1034 Inf. générales Paquet
+1035 Inf. techniques Paquet
+1036 Inf. validation
+1037 Nom du paquet
+1038 Demandeur
+1039 Priorità
+1040 Utilisateur notifié
+1041 Utilisateur peut reporter
+1042 Entraine un reboot
+1043 Actions de contrôle pour valider l'installation
+
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]

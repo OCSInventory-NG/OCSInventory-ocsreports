@@ -910,7 +910,7 @@
 1015 User mode
 1016 Login ROOT
 1017 Password ROOT
-1018 (Don't write anything if you want use anonymous conexion)
+1018 (Don't write anything if you want use anonymous connection)
 1019 Lock result
 1020 Name of the tag information
 1021 Teledeploy admin
