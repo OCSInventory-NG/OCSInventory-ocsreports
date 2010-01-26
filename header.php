@@ -173,7 +173,7 @@ if($_SESSION["debug"]==1)
 		die();
 	}
 
-	$limitedAccess = array(2,3,4,5,6,7,8,9,10,12,13,14,20,21,22,23,24,25,26,27,28,30,31,32,33,34,35);
+	$limitedAccess = array(2,3,4,5,7,8,9,10,12,13,14,20,21,22,23,24,25,26,27,28,30,31,32,33,34,35);
 	if( in_array($_GET["multi"],$limitedAccess) && $_SESSION["lvluser"]!=1) {
 		echo "<br><br><center><b><font color=red>ACCESS DENIED</font></b></center><br>";
 		unset($_GET["multi"]);

@@ -185,13 +185,14 @@ if(! isset($_SESSION["first"])||!$_GET["lareq"]) {
 			menu_list($name_menu,$packAct,$nam_img,$title,$data_list_config);	
 			tab($l->g(211), 5);
 			tab($l->g(225), 9);
-			if( DB_NAME == "ocsweb")	
-	 			tab($l->g(175), 6);
+			
 			tab($l->g(263), 12);
 			tab($l->g(235), 10);
 			if( ($_SESSION["lvluser"]==SADMIN && DB_NAME == "ocsweb") || (DB_NAME != "ocsweb") )
  				tab($l->g(287), 13);
 	}
+	if( DB_NAME == "ocsweb")	
+	 			tab($l->g(175), 6);
 	tab($l->g(570), 28);
 	?><script language='javascript'>montre();</script>	<?php
 	echo "</tr></table>";
