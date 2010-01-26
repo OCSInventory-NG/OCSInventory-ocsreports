@@ -125,8 +125,11 @@ else{ //affichage des p�riph�riques
 		//$netid=mysql_escape_string($protectedGet['value']);
 		if ($protectedGet['prov'] == "no_inv"){
 			$title=$l->g(947);
-			$sql="SELECT ip, mac, mask, date, name FROM netmap WHERE netid='".$protectedGet['value']."' AND mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
-			AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
+			$sql="SELECT ip, mac, mask, date, name FROM netmap n 
+				LEFT JOIN networks ns ON ns.macaddr=n.mac
+				WHERE n.netid='".$protectedGet['value']."' 
+				AND (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
+				AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
 			$list_fields= array($l->g(34) => 'ip','MAC'=>'mac',
 								$l->g(208)=>'mask',
 								$l->g(232)=>'date',
