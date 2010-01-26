@@ -63,11 +63,12 @@ require_once($fichierdemerde);
 					GROUP BY netid) 
 				ident on ipdiscover.RSX=ident.RSX left join
 					(SELECT COUNT(DISTINCT mac) as c,'NON IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap 
-					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
-						and netid in  ('".$list_rsx."')
-						GROUP BY netid) 
+					FROM netmap n
+					LEFT JOIN networks ns ON ns.macaddr=n.mac
+					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
+						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
+						and n.netid in  ('".$list_rsx."')
+						GROUP BY n.netid) 
 				non_ident on non_ident.RSX=ipdiscover.RSX where non_ident.c is not null and ident.c is not null
 					union
 				select inv.RSX,
@@ -93,11 +94,12 @@ require_once($fichierdemerde);
 					GROUP BY netid) 
 				ident on ipdiscover.RSX=ident.RSX left join
 					(SELECT COUNT(DISTINCT mac) as c,'NON IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap 
-					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
-						and netid in  ('".$list_rsx."')
-						GROUP BY netid) 
+					FROM netmap n
+					LEFT JOIN networks ns ON ns.macaddr=n.mac
+					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
+						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
+						and n.netid in  ('".$list_rsx."')
+						GROUP BY n.netid) 
 				non_ident on non_ident.RSX=ipdiscover.RSX where non_ident.c is null and ident.c is not null
 				union
 				select inv.RSX,
@@ -123,11 +125,12 @@ require_once($fichierdemerde);
 					GROUP BY netid) 
 				ident on ipdiscover.RSX=ident.RSX left join
 					(SELECT COUNT(DISTINCT mac) as c,'NON IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap 
-					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
-						and netid in  ('".$list_rsx."')
-						GROUP BY netid) 
+					FROM netmap n
+					LEFT JOIN networks ns ON ns.macaddr=n.mac
+					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
+						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
+						and n.netid in  ('".$list_rsx."')
+						GROUP BY n.netid) 
 				non_ident on non_ident.RSX=ipdiscover.RSX where ident.c is null and non_ident.c is not null
 				union
 				select inv.RSX,
@@ -153,11 +156,12 @@ require_once($fichierdemerde);
 					GROUP BY netid) 
 				ident on ipdiscover.RSX=ident.RSX left join
 					(SELECT COUNT(DISTINCT mac) as c,'NON IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap 
-					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
-						and netid in  ('".$list_rsx."')
-						GROUP BY netid) 
+					FROM netmap n
+					LEFT JOIN networks ns ON ns.macaddr=n.mac
+					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
+						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
+						and n.netid in  ('".$list_rsx."')
+						GROUP BY n.netid) 
 				non_ident on non_ident.RSX=ipdiscover.RSX where ident.c is null and non_ident.c is null
 				) toto";
 
@@ -199,10 +203,12 @@ require_once($fichierdemerde);
 	$tab_options['NO_TRI']['LBL_RSX']='LBL_RSX';
 	
 	$sql_count="SELECT COUNT(DISTINCT mac) as total
-					FROM netmap 
+					FROM netmap n 
+					LEFT OUTER JOIN networks ns ON ns.macaddr = mac 
 					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and mac NOT IN (SELECT DISTINCT(macaddr) FROM networks) 
+						and ( ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
 						and netid in  ('".$list_rsx."')";
+						
 	$res_count = mysql_query($sql_count, $_SESSION['OCS']["readServer"] );
 	$val_count = mysql_fetch_array( $res_count );
 	$strEnTete = $_SESSION['OCS']["ipdiscover_id"]." ".$dpt[$protectedPost['DPT_CHOISE']]." <br>";
