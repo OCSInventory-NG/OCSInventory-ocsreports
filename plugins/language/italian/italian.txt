@@ -1,4 +1,3 @@
-0 iso-8859-1
 2 Tutti i computer
 3 Computer con software...
 5 Apparati di cui sono responsabile
@@ -78,7 +77,6 @@
 130 DIVERSO
 134 Aggiungi un nuovo file nel database
 135 Attenzione, stai per eliminare questo file definitivamente!
-136 Scarica
 137 File
 168 Il formato del file non è valido (deve essere zip, pl o binario unix)
 170 Esiste già lo stesso file!
@@ -418,7 +416,7 @@
 521 Computer già obbligato a non essere eletto
 522 Computer standard
 523 Ritorna allo stato originario
-524 NON interessa più
+524 NON più di interesse
 525 SEI SICURO?
 526 NESSUN COMPUTER SOGGETTO
 527 Gennaio
@@ -468,12 +466,12 @@
 571 Convalida tutti
 572 Fatto
 573 Errore
-574 Stats
+574 Stat
 575 Non interessati non notificati
 576 IpDiscover personalizzato
 577 Nome gruppo
 580 Tutti i computer (replay)
-581 Tutti i computer (cached)
+581 Tutti i computer (in cache)
 582 e
 583 Gruppi
 584 Per la richiesta
@@ -482,11 +480,11 @@
 587 Nuovo gruppo statico
 588 Sovrascrivi gruppo
 589 assegna ad un gruppo
-590 Resetta lo stato
+590 Reset dello stato
 591 Includi staticamente
 592 Escludi staticamente
 593 Data creazione
-594 Cache generated on
+594 Cache generata su
 595 GRUPPO STATICO
 596 INCLUSO DINAMICAMENTE
 597 ESCLUSO STATICAMENTE
@@ -514,11 +512,11 @@
 619 Utente locale
 620 Nessun computer nel tuo perimetro.
 621 Il gruppo non è stato creato. Nome già in uso
-622 Cached
+622 Cache
 623 L'informazione che stai cercando non esiste
 624 Vuoi davvero eliminare il gruppo
-625 Enable this alteration
-626 Disable this alteration
+625 Abilita questa variazione
+626 Disabilita questa variazione
 627 Almeno uno dei campi è vuoto... Aggiornamento non effettuato.
 628 Server di ridistribuzione
 629 Nuovo gruppo di server di ridistribuzione
@@ -551,7 +549,7 @@
 656 Questo valore è già presente nella lista
 657 I campi in rosso contengono errori! (Campo vuoto o valore < 2)
 658 macchine senza server di ridistribuzione.<br>Pertanto è necessario agire sul pacchetto individualmente.
-659 Le macchine hanno già questo pacchetto. Lo stato del pacchetto per queste macchine è ora
+659 Le macchine hanno già questo pacchetto Teledeploy. Lo stato del pacchetto per queste macchine è ora
 660 IL GRUPPO DEI SERVER NON ESISTE
 661 PACCHETTI PER I SERVER DI RIDISTRIBUZIONE
 662 Regole di comportamento
@@ -561,7 +559,7 @@
 666 Gruppo di server creato
 667 PER IL PACCHETTO
 668 quale regola applicare?
-669 ATTENZIONE: ci sono duplicati di priorità <br> Una singola regola verrà scelta!
+669 ATTENZIONE: ci sono duplicati di priorità <br> Una singola regola verrà mantenuta!
 670 Una regola già porta questo nome
 671 Il nome di questa regola non può essere vuoto!
 672 Questa regola non esiste!
@@ -601,7 +599,7 @@
 706 Rimosso dalla blacklist
 707 questo numero di serie
 708 questo indirizzo MAC
-709 Personalizza PROLOG_FREQ 
+709 Personalizza PROLOG_FREQ
 710 Download personalizzato
 711 Modifiche prese in considerazione
 712 File della lingua
@@ -718,8 +716,8 @@
 823 Predefinita
 824 Attivazione interfaccia di log
 825 Directory dei log
-826 Indirizzo dove si trova il pacchetto da attivare per l'installazione
-827 Indirizzo dove si trova il file INFO del pacchetto da attivare per l'installazione
+826 Indirizzo dove trovare i file del pacchetto Teledeploy da attivare
+827 Indirizzo dove trovare il file INFO del pacchetto da attivare
 828 Cancella i computer il cui inventario è più vecchio di
 829 Directory di creazione dei pacchetti per la distribuzione
 830 Indirizzo del server LDAP
@@ -728,7 +726,7 @@
 833 Nome del campo login
 834 Versione del protocollo
 835 Aggiungi RSX
-836 Gestione TIPI (TYPES)
+836 Gestione dei TYPES
 837 Non hai accesso a questi dati
 838 Dischi: Lettera del drive
 839 Dischi: Tipo
@@ -793,12 +791,12 @@
 898 Autore
 899 Autore
 900 Vuoi davvero cancellare le voci selezionate?
-901 Action sur le résultat de la requête
-902 Action sur le résultat de la sélection
+901 Azione in base al risultato della query
+902 Azione in base al risultato della selezione
 903 Devi riempieri il campo motivazione
 904 Riassegnazione del pacchetto
 905 Motivazione circa le azioni eseguite<br>sul computer per essere in grado di<br>distribuire il pacchetto
-906 Pacchetto rimossa dalla distribuzione
+906 Rimozione pacchetto Teledeploy
 907 Motivazione circa la rimozione del pacchetto<br>da questo computer
 908 Informazioni sul terminale mobile
 909 MODIFICA NON EFFETTUATA: IL NUOVO PROFILO E' ERRATO
@@ -857,8 +855,8 @@
 962 (uno, tra tutti)
 963 LISTA DI DIFFERENTI
 964 Nome partizione
-965 Linux (ALL)
-966 Windows (ALL)
+965 Linux (tutti)
+966 Windows (tutti)
 965 Mostra
 966 Agente
 967 APPARTENENTI A
@@ -883,14 +881,14 @@
 986 RIMUOVI I COMPUTER PER
 987 Questa chiave di registro esiste già
 988 DEVI RIEMPIRE TUTTI I CAMPI
-989 I DATI NON ESISTONO. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
+989 I DATI NON ESISTONO. STATES HOURS PER QUESTO PACCHETTO NON PRESENTE NEL DATABASE
 990 Pacchetto creato manualmente
 991 Pacchetto creato automaticamente
 992 Tempo stimato per l'installazione
 993 I campi in rosso contengono errori
 994 PDA/SMARTPHONE
 995 ID utente
-996 COGNOME
+996 Cognome
 997 Devi riempire il campo ID utente
 998 scegli un profilo valido
 999 Questo ID utente è già presente
@@ -908,25 +906,37 @@
 1011 DEBUG
 1012 TRADUZIONE
 1013 MANUTENZIONE
-1014 Passa a modalità
+1014 Passa alla modalità
 1015 Modalità utente
 1016 Login per l'autenticazione
 1017 Password
 1018 (Non inserire nulla se vuoi utilizzare connessioni anonime)
-1019 Lock result
+1019 Risultato bloccato
 1020 Nome dell'etichetta informativa
-1021 Teledeploy admin
-1022 TAG admin
-1023 Packages affect with statut
+1021 Amministrazione Teledeploy
+1022 Amministrazione TAG
+1023 Pacchetti coinvolti in base allo stato
 1024 sarà cancellato
-1025 Unaffect
+1025 Non coinvolto
 1026 Pacchetto cancellato sui computer
 1027 Categorie
 1028 Nuovo
 1029 Ignorato
 1030 Invariato
 1031 IT Set Management
-1032 Activer It Set Management pour le télédéploiement
+1032 Attiva IT Set Management per il Teledeploy
+1033 Inf. demandeur
+1034 Inf. générales Paquet
+1035 Inf. techniques Paquet
+1036 Inf. validation
+1037 Nom du paquet
+1038 Demandeur
+1039 Priorità
+1040 Utilisateur notifié
+1041 Utilisateur peut reporter
+1042 Entraine un reboot
+1043 Actions de contrôle pour valider l'installation
+
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
