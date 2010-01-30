@@ -9,6 +9,21 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.22 $)
+function addslashes_deep($value)
+{
+    $value = is_array($value) ?
+        array_map('addslashes_deep', $value) :
+        addslashes($value);
+
+    return $value;
+}
+if (get_magic_quotes_gpc() == 0) {
+    $_GET = addslashes_deep($_GET);
+    $_POST = addslashes_deep($_POST);
+    $_COOKIE = addslashes_deep($_COOKIE);
+}
+
+
 if (isset($_GET['first']) or ($_GET == null))
 $_GET['multi']="console";
 $sleep=1;
