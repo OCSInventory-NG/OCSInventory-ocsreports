@@ -25,6 +25,9 @@ printEnTeteInstall("OCS Inventory Installation");
 if( isset($fromAuto) && $fromAuto==true)
 echo "<center><br><font color='green'><b>Current installed version ".$valUpd["tvalue"]." is lower than this version (".GUI_VER.") automatic install launched</b></red><br></center>";
 
+if( isset($fromdbconfig_out) && $fromdbconfig_out==true)
+echo "<center><br><font color='green'><b>dbconfig.conf.php is corrupted. Automatic install launched</b></red><br></center>";
+
 /*
 if(!isset($_POST["name"])) {
 	if( $hnd = @fopen("dbconfig.inc.php", "r") ) {

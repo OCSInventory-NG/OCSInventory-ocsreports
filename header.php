@@ -30,6 +30,12 @@ if( !$valUpd || $valUpd["tvalue"]<GUI_VER ) {
 	die();
 }
 
+if (!isset($_SESSION["SERVEUR_SQL"])){
+	$fromdbconfig_out = true;
+	require('install.php');
+	die();	
+}
+
 
 if( isset($_GET["first"] )) {
 	unset( $_SESSION["lareq"] );

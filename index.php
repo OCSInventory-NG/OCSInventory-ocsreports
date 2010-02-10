@@ -40,7 +40,7 @@ require('req.class.php');
 @session_start();
 
 // First installation checking 
-if( (!$fconf=@fopen("dbconfig.inc.php","r")) || !isset($_SESSION["SERVEUR_SQL"]) ||  (!function_exists('session_start')) || (!function_exists('mysql_connect'))) {
+if( (!$fconf=@fopen("dbconfig.inc.php","r")) ||  (!function_exists('session_start')) || (!function_exists('mysql_connect'))) {
 	require('install.php');
 	die();
 }
