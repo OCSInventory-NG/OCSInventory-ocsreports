@@ -675,7 +675,7 @@ sub execute{
 				
 				&log("Storing package to $p->{'PATH'}...");
 				# Stefano Brandimarte => Stevenson! <stevens@stevens.it>
-				system(&_get_path('cp')." -dpr * ".$p->{'PATH'}) and die();
+				system(&_get_path('cp')." -pr * ".$p->{'PATH'}) and die();
 			}
 		};
 		if($@){
