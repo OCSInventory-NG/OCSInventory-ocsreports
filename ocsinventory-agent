@@ -235,7 +235,7 @@ It looks for the file in these directories:
 
 =head1 AUTHORS
 
-The maintainer is Goneri LE BOUDER <goneri@rulezlan.org>
+The maintainer is Guillaume PROTET <guillaume.protet@mortheres.info>
 
 Please read the AUTHORS, Changes and THANKS files to see who is behind OCS
 Inventory Agent.
