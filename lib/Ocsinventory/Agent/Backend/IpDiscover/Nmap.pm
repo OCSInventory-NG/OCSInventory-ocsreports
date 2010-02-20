@@ -42,6 +42,11 @@ sub run {
   } else {
     return;
   }
+
+  unless ($network =~ /^\d+\.\d+\.\d+\.\d+$/) {
+    return;
+  }
+
   $logger->debug("scanning the $network network");
 
   my $ip;
