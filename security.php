@@ -1,5 +1,5 @@
 <?php
-if (!function_exists('escape_string_security')){
+if (!function_exists('escape_string_security') and !defined('INC')){
 	function escape_string_security($array){
 		if (is_array($array)){
 			foreach ($array as $key=>$value){
