@@ -13,11 +13,15 @@ if (!function_exists('escape_string_security')){
 	if( !isset($_SESSION["lvluser"])) 
 		die("FORBIDDEN");
 		
-	if (isset($sadmin_profil) and $_SESSION["lvluser"] != $sadmin_profil)	
+	//echo gettype($_SESSION["lvluser"]);
+	//echo "<br>".gettype($sadmin_profil);
+	if (isset($sadmin_profil) and ($_SESSION["lvluser"]+0) !== $sadmin_profil)	
 	die("FORBIDDEN");
-	
-	$_POST=escape_string_security($_POST);
-	$_GET=escape_string_security($_GET);
+	if (get_magic_quotes_gpc() == 0 and !function_exists('addslashes_deep')){
+		$_POST=escape_string_security($_POST);
+		$_GET=escape_string_security($_GET);
+		$_COOKIE = escape_string_security($_COOKIE);
+	}
 }
 
 ?>

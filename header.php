@@ -9,6 +9,12 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.16 $)
+//you can't execute this page if
+//index.php isn't execute before
+//tx to offw0rld
+if(!defined('INC'))
+die('FORBIDDEN');
+
 
 error_reporting(E_ALL & ~E_NOTICE);
 @set_time_limit(0);

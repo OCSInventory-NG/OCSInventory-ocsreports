@@ -22,7 +22,10 @@ if (get_magic_quotes_gpc() == 0) {
     $_POST = addslashes_deep($_POST);
     $_COOKIE = addslashes_deep($_COOKIE);
 }
-
+//you can't execute this page if
+//index.php isn't execute before
+//tx to offw0rld
+define("INC", TRUE);
 
 if (isset($_GET['first']) or ($_GET == null))
 $_GET['multi']="console";
