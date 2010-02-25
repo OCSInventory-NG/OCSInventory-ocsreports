@@ -1,5 +1,16 @@
 package Ocsinventory::Agent::Backend::OS::HPUX::CPU;
 
+###
+# Version 1.1
+# Correction of Bug n 522774 
+#
+# thanks to Marty Riedling for this correction
+#
+###
+
+use strict;
+use LWP::UserAgent;
+
 sub check  { $^O =~ /hpux/ }
 
 sub run {
@@ -8,13 +19,13 @@ sub run {
 
    my $processort;
    my $processorn;
-   my $processors;
+   my $processors="";
    my $DeviceType;
    my $cpuInfo;
+   my $serie;
 
-   #print "HP CPU";
-   # Reference anciens HP sans machinfo
-   # machinfo a traiter apres
+   # Using old system HpUX without machinfo
+   # the Hpux whith machinfo will be done after
    my %cpuInfos = (
                 "D200"=>"7100LC 75",
                 "D210"=>"7100LC 100",
@@ -47,29 +58,71 @@ sub run {
                 "N4000-44"=>"8500 440",
                 "ia64 hp server rx1620"=>"itanium 1600");
 
-   chomp($DeviceType =`model |cut -f 3- -d/`);
-   my $cpuInfo = $cpuInfos{"$DeviceType"};
-   if ( "$cpuInfo" =~ /^(\S+)\s(\S+)/ ) {
-      $processort=$1;
-      $processors=$2;
-   } else {
-     for ( `echo 'sc product cpu;il' | /usr/sbin/cstm | grep "CPU Module"` ) {
-	if ( /(\S+)\s+CPU\s+Module/ ) {
-          $processort=$1;
-        };
-     };
-   };
-   chomp($serie = `uname -m`);
-   if ( $serie =~ /ia64/) {
-      $processeurt="Itanium"
-      }
-   if ( $serie =~ /9000/) {
-      $processeurt="PA$processort";
-      }
-   # NBR CPU
-   chomp($processorn=`ioscan -Fk -C processor | wc -l`);
-   #print "HP $processort A $processorn A $processors ";
+   if ( can_run ("machinfo") )
+   {
+      foreach ( `machinfo`)
+      {
+         if ( /Number of CPUs\s+=\s+(\d+)/ )
+         {
+            $processorn=$1;
+         }
+         if ( /Clock speed\s+=\s+(\d+)\s+MHz/ )
+         {
+            $processors=$1;
+         }
+         # Added for HPUX 11.31
+         if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ )
+         {
+            $processors=$1*1000;
+         }
+         if ( /(\d+)\s+logical processors/ )
+         {
+            $processorn=$1;
+         }
+         # end HPUX 11.31
 
+      }
+   }
+   else
+   {
+      chomp($DeviceType =`model |cut -f 3- -d/`);
+      my $cpuInfo = $cpuInfos{"$DeviceType"};
+      if ( "$cpuInfo" =~ /^(\S+)\s(\S+)/ ) 
+      {
+         $processort=$1;
+         $processors=$2;
+      } 
+      else 
+      {
+        for ( `echo 'sc product cpu;il' | /usr/sbin/cstm | grep "CPU Module"` ) 
+        {
+	   if ( /(\S+)\s+CPU\s+Module/ ) 
+           {
+             $processort=$1;
+           }
+        };
+        for ( `echo 'itick_per_usec/D' | adb -k /stand/vmunix /dev/kmem` )
+        {
+            if ( /tick_per_usec:\s+(\d+)/ )
+	    {
+	       $processors=$1;
+            }
+        }
+      };
+      # NBR CPU
+      chomp($processorn=`ioscan -Fk -C processor | wc -l`);
+      #print "HP $processort A $processorn A $processors ";
+   }
+
+   chomp($serie = `uname -m`);
+   if ( $serie =~ /ia64/) 
+   {
+      $processort="Itanium"
+   }
+   if ( $serie =~ /9000/) 
+   {
+      $processort="PA$processort";
+   }
    $inventory->setHardware({
 
       PROCESSORT => $processort,
