@@ -426,7 +426,7 @@ else if( $_GET["mode"] == 4 ) {
 	$whereId = "n.id";
 	$linkId = "n.id";
 	$select = array_merge( $_SESSION["currentFieldList"], array("h.id"=>"h.id", "h.deviceid"=>"deviceid","n.ipmask"=>$l->g(208),"n.ipgateway"=>$l->g(207),"quality"=>$l->g(353),"fidelity"=>$l->g(354)) );	
-	$selectPrelim = array( "n.id"=>"n.id" );
+	$selectPrelim = array( "n.id"=>"n.id","h.id"=>"h.id");
 	$from = "hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id LEFT JOIN bios b ON b.hardware_id=h.id LEFT JOIN networks n ON n.hardware_id=h.id";
 	$fromPrelim = "";
 	$group = "";
