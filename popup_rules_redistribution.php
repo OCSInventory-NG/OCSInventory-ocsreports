@@ -6,13 +6,17 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  *
  */
-$sadmin_profil=1;
-include('security.php');
-require ('fichierConf.class.php');
-require('req.class.php');
+//@session_start();
+
+require_once ('fichierConf.class.php');
+require_once('req.class.php');
 require_once('require/function_table_html.php');
 require_once('require/function_server.php');
+global $l;
 $ban_head='no';
+define("INC", TRUE);
+$sadmin_profil=1;
+include('security.php');
 require_once("header.php");
 
 ?>

@@ -9,11 +9,11 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2008-06-25 12:30:34 $$Author: hunal $($Revision: 1.24 $)
-
+define("INC", TRUE);
 require('fichierConf.class.php');
 
 require_once("preferences.php");
-@session_start();
+//@session_start();
 include('security.php');
 $ban_head='no';
 require_once("header.php");
