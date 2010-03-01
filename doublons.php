@@ -84,6 +84,8 @@ if(isset($_POST["subredon"])) {
 			continue;
 		
 		$res = mysql_query("SELECT deviceid,id,lastcome FROM hardware WHERE id=".$_POST["ch".$i], $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));		
+		unset($_POST["ch".$i]);//this is necessary, because when the page is printed, post options are repeated in a hidden input
+        //if it is not unset, this option will be reslected, potentially causing an error in the system.
 		$afus[] = mysql_fetch_array($res,MYSQL_ASSOC);			
 	}
 	
