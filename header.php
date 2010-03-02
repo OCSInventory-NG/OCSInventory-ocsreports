@@ -36,7 +36,7 @@ if( !$valUpd || $valUpd["tvalue"]<GUI_VER ) {
 	die();
 }
 
-if (!isset($_SESSION["SERVEUR_SQL"]) || empty($_SESSION["SERVEUR_SQL"])){
+if (!isset($_SESSION["SERVEUR_SQL"])){
 	$fromdbconfig_out = true;
 	require('install.php');
 	die();	
