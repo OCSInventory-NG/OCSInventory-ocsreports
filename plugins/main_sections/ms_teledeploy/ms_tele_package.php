@@ -11,14 +11,21 @@
 //Modified on $Date: 2007/07/23 10:30:26 $$Author: plemmet $($Revision: 1.12 $)
 
 require_once('require/function_telediff.php');
+foreach ($_POST as $key=>$value){
+	if (get_magic_quotes_gpc()==true and stristr($value, '\\') == true){
+		$value= replace_entity_xml(stripslashes($value));
+	}
+	$temp_post[$key]=$value;
+}
+$protectedPost=$temp_post;
+//print_r($protectedPost);
 if( isset( $protectedPost["VALID_END"] ) ) {
-	$protectedPost=replace_slashes($protectedPost);
 	$sql_details=array('document_root'=>$protectedPost['document_root'],
 					   'timestamp'=>$protectedPost['timestamp'],
 					   'nbfrags'=>$protectedPost["nbfrags"],
-					   'name'=>xml_encode(stripslashes($protectedPost['NAME'])),
+					   'name'=>$protectedPost['NAME'],
 					   'os'=>$protectedPost['OS'],
-					   'description'=>xml_encode(stripslashes($protectedPost['DESCRIPTION'])),
+					   'description'=>$protectedPost['DESCRIPTION'].'  [Type='.$protectedPost['TYPE_PACK']."]".'  [VISIBLE='.$protectedPost['VISIBLE']."]",
 					   'size'=>$protectedPost['SIZE']);
 					   
 	$info_details=array('PRI'=>$protectedPost['PRIORITY'],
@@ -27,16 +34,16 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'PROTO'=>$protectedPost['PROTOCOLE'],
 						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
 						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>replace_entity_xml(stripslashes(stripslashes($_POST['ACTION_INPUT']))),
-						'NAME'=>replace_entity_xml(stripslashes(stripslashes($_POST['ACTION_INPUT']))),
-						'COMMAND'=>replace_entity_xml(stripslashes(stripslashes($_POST['ACTION_INPUT']))),
+						'PATH'=>$protectedPost['ACTION_INPUT'],
+						'NAME'=>$protectedPost['ACTION_INPUT'],
+						'COMMAND'=>$protectedPost['ACTION_INPUT'],
 						'NOTIFY_USER'=>$protectedPost['NOTIFY_USER'],
-						'NOTIFY_TEXT'=>replace_entity_xml(stripslashes(stripslashes($_POST['NOTIFY_TEXT']))),
+						'NOTIFY_TEXT'=>$protectedPost['NOTIFY_TEXT'],
 						'NOTIFY_COUNTDOWN'=>$protectedPost['NOTIFY_COUNTDOWN'],
 						'NOTIFY_CAN_ABORT'=>$protectedPost['NOTIFY_CAN_ABORT'],
 						'NOTIFY_CAN_DELAY'=>$protectedPost['NOTIFY_CAN_DELAY'],
 						'NEED_DONE_ACTION'=>$protectedPost['NEED_DONE_ACTION'],
-						'NEED_DONE_ACTION_TEXT'=>replace_entity_xml(stripslashes(stripslashes($_POST['NEED_DONE_ACTION_TEXT']))),
+						'NEED_DONE_ACTION_TEXT'=>$protectedPost['NEED_DONE_ACTION_TEXT'],
 						'GARDEFOU'=>"rien");
 	$msg=create_pack($sql_details,$info_details);
 	if ($protectedPost['REDISTRIB_USE'] == 1){
@@ -160,12 +167,14 @@ if (isset($protectedPost['valid'])){
 		
 		
 	//r�cup�ration du fichier et traitement
-	$size = $_FILES["teledeploy_file"]["size"];
-	//encryptage du fichier
-	$digest=crypt_file($_FILES["teledeploy_file"]["tmp_name"],$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
-	//cr�ation du fichier temporaire
-	creat_temp_file($protectedPost['document_root'].$protectedPost['timestamp'],$_FILES["teledeploy_file"]["tmp_name"]);
-
+	if (!($_FILES["teledeploy_file"]["size"]== 0 and $protectedPost['ACTION'] == 'EXECUTE')){
+	//if ($protectedPost['ACTION'] != 'EXECUTE'){
+		$size = $_FILES["teledeploy_file"]["size"];
+		//encryptage du fichier
+		$digest=crypt_file($_FILES["teledeploy_file"]["tmp_name"],$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
+		//cr�ation du fichier temporaire
+		creat_temp_file($protectedPost['document_root'].$protectedPost['timestamp'],$_FILES["teledeploy_file"]["tmp_name"]);
+	}
 	$digName = $protectedPost["digest_algo"]. " / ".$protectedPost["digest_encod"];
 	
 	$title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(435)."[".$protectedPost['NAME']."]</b></td></tr>";
@@ -296,14 +305,15 @@ echo "<script language='javascript'>
 				else
 					var debut=name_file.length-6;
 				if (document.getElementById('ACTION').value != 'EXECUTE' && document.getElementById(champs_ACTION[n]).value == ''){
-				 document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
-				 msg='NULL';
+					alert('Vous devez ajouter un fichier');
+				 	document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
+				 	msg='NULL';
 				 }
-				else if (name_file.substring(debut,name_file.length) != 'ZIP' && document.getElementById(\"OS\").value == 'WINDOWS'){
+				else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'ZIP' && document.getElementById(\"OS\").value == 'WINDOWS'){
 					alert('le format de fichier doit �tre en ZIP');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
-				}else if (name_file.substring(debut,name_file.length) != 'TAR.GZ' && document.getElementById(\"OS\").value != 'WINDOWS'){
+				}else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'TAR.GZ' && document.getElementById(\"OS\").value != 'WINDOWS'){
 					alert('le format de fichier doit �tre en TAR.GZ');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
@@ -387,7 +397,7 @@ $file=$lign_begin.$l->g(549).$td_colspan2."<input id='teledeploy_file' name='tel
 $action=$lign_begin.$l->g(443).":</td><td>".champ_select_block($list_action,'ACTION',array('EXECUTE_div','STORE_div','LAUNCH_div'))."</td><td align=center>
 <div id='EXECUTE_div' style='display:none'>".$l->g(444).": </div>
 <div id='STORE_div' style='display:block'>".$l->g(445).": </div>
-<div id='LAUNCH_div' style='display:none'>".$l->g(446).": </div>".show_modif($_POST['ACTION_INPUT'],'ACTION_INPUT',0,'').$lign_end;
+<div id='LAUNCH_div' style='display:none'>".$l->g(446).": </div>".show_modif($protectedPost['ACTION_INPUT'],'ACTION_INPUT',0,'',$configinput=array('MAXLENGTH'=>1000,'SIZE'=>30)).$lign_end;
 $notify_user="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(448).":</td><td>".champ_select_block($yes_no,'NOTIFY_USER',array('NOTIFY_USER'=>1)).$lign_end;
 $redistrib="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(1008).":</td><td>".champ_select_block($yes_no,'REDISTRIB_USE',array('REDISTRIB_USE'=>1)).$lign_end;
 

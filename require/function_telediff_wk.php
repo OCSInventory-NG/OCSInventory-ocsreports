@@ -194,7 +194,7 @@ function dde_form($form_name){
 			}
 			ksort($tab_name[$protectedPost['cat']]);
 			//print_r($add_values[$protectedPost['cat']]);
-			if ($_SESSION['OCS']['CONFIGURATION']['ITSETMANAGEMENT'] == 'YES'){
+			if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 				if (isset($add_values_admin[$protectedPost['cat']])){
 					foreach($add_values_admin[$protectedPost['cat']] as $key=>$value)
 						$tab_typ_champ[$value]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&value=".$value."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")>+++</a>";
@@ -218,7 +218,7 @@ function dde_form($form_name){
 
 function dde_conf($form_name){
 	global $l,$protectedPost,$protectedGet,$pages_refs;
-if ($_SESSION['OCS']['CONFIGURATION']['ITSETMANAGEMENT'] == 'YES'){
+if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 			if (!isset($protectedPost['conf']))
 				$protectedPost['conf']='GENERAL';
 			//sous onglets 
@@ -242,7 +242,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['ITSETMANAGEMENT'] == 'YES'){
 				}	
 			}
 			if (!isset($protectedPost['conf']) or $protectedPost['conf']=="GENERAL")
-				pageitsetmanagement($form_name);
+				pageTELEDIFF_WK($form_name);
 			if ($protectedPost['conf']=="GUI"){
 				//mise a jour des données demandée par l'utilisateur
 				if( $protectedPost['Valid_fields_x'] != "" ) {
@@ -342,6 +342,8 @@ if ($_SESSION['OCS']['CONFIGURATION']['ITSETMANAGEMENT'] == 'YES'){
 
 function dde_show($form_name){
 		global $l,$protectedPost,$protectedGet,$pages_refs;
+		
+		//suppression d'une demande
 		if(isset($protectedPost['SUP_PROF'])) {
 			mysql_query( "UPDATE itmgmt_pack 
 										set STATUT='1'
@@ -353,12 +355,15 @@ function dde_show($form_name){
 		
 		
 		$table_name='LIST_DDE';
-		$sql_fields="select lbl,id,type from itmgmt_fields";
+		
+		//recherche des champs qui ont été créés
+		$sql_fields="select lbl,id,type,field from itmgmt_fields";
 		$resultfields = mysql_query($sql_fields, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 		$id_field1=0;
 		$id_field2=0;
 		$default_fields=array();
 		while($item = mysql_fetch_object($resultfields)){
+			$name_field[$item->id]=$item->field;
 			$field='fields_'.$item->id;
 			if ($item->type == '2' or $item->type == '5'){
 				$array_value_fields[$id_field1]=$field.".VALUE as ".$field;
@@ -370,6 +375,9 @@ function dde_show($form_name){
 			}
 			if (count($default_fields)<5)
 			$default_fields[$field]=$field;
+			if ($l->g($item->lbl))
+			$tab_options['LBL'][$field]=$l->g($item->lbl);
+			else
 			$tab_options['LBL'][$field]=$item->lbl;			
 			$list_fields[$field]=$field;
 		}
@@ -411,7 +419,10 @@ function dde_show($form_name){
 			$sql.= " left join itmgmt_conf_values ".$array_fields[$i]." on itmgmt_pack.".$array_fields[$i]."=".$array_fields[$i].".ID ";
 			$i++;
 		}
-
+		
+	//	if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK'] == 'LOGIN')
+//echo $sql;
+//print_r($name_field);
 		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,100,$tab_options);
 
 }

@@ -6,7 +6,7 @@
  
 if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
-$form_name='admin_itsetmanagement';
+$form_name='admin_telediff_wk';
 $table_name=$form_name;
 $data_on[1]="Données existantes";
 $data_on[2]="Nouvelle donnée";
@@ -138,43 +138,58 @@ if ($protectedPost['onglet'] == 1){
 	
 }elseif ($protectedPost['onglet'] == 2){
 	if( $protectedPost['Valid_modif_x'] != "" ) {
-		mysql_query( "INSERT INTO ".$table." (".$fields.") VALUES('".$values."')", $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["writeServer"]);
-		//si on ajoute un champ, il faut créer la colonne dans la table itmgmt_pack
-		if ($table=="itmgmt_fields"){ 
-			if ($protectedPost["newtype"] == 1)
-				$type="LONGTEXT";
-			else
-				$type="VARCHAR(255)";
-			$sql_add_column="ALTER TABLE itmgmt_pack ADD COLUMN fields_".mysql_insert_id()." ".$type." default NULL";
-			mysql_query( $sql_add_column, $_SESSION['OCS']["writeServer"]  ) or mysql_error($_SESSION['OCS']["writeServer"]);		
+		//vérification que le nom du champ n'existe pas pour les nouveaux champs
+		if ($table=="itmgmt_fields"){
+			if (trim($protectedPost['newfield']) != ''){
+				$sql_verif="SELECT count(*) FROM ".$table." WHERE FIELD = '".$protectedPost['newfield']."'";
+				$res_verif = mysql_query( $sql_verif, $_SESSION['OCS']["readServer"] );
+				if ($val_verif = mysql_fetch_array( $res_verif ) > 0)
+					$ERROR="Ce nom de champ est déjà utilisé";				
+			}else
+				$ERROR="Le nom du champ ne peut pas être vide";			
 		}
-		echo "<font color=green><b>Ajout de la valeur effectuée</b></font>";
+		
+		if (!isset($ERROR)){		
+			mysql_query( "INSERT INTO ".$table." (".$fields.") VALUES('".$values."')", $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["writeServer"]);
+			//si on ajoute un champ, il faut créer la colonne dans la table itmgmt_pack
+			if ($table=="itmgmt_fields"){ 
+				if ($protectedPost["newtype"] == 1)
+					$type="LONGTEXT";
+				else
+					$type="VARCHAR(255)";
+				$sql_add_column="ALTER TABLE itmgmt_pack ADD COLUMN fields_".mysql_insert_id()." ".$type." default NULL";
+				mysql_query( $sql_add_column, $_SESSION['OCS']["writeServer"]  ) or mysql_error($_SESSION['OCS']["writeServer"]);		
+			}
+			echo "<font color=green><b>Ajout de la valeur effectuée</b></font>";
+		}else
+			echo "<font color=red><b>".$ERROR."</b></font>";
 	}
+	
 	if( $protectedPost['Valid_modif_x'] != "" ) 
 		unset($protectedPost['newfield'],$protectedPost['newlbl']);
-		//NAME FIELD
-		$name_field=array("newfield");
-		$tab_name= array("Nouveau Champ: ");
-		$type_field= array(0);
-		$value_field=array($protectedPost['newfield']);
-		if (isset($protectedGet['admin'])){
-			array_push($name_field,"newlbl");
-			array_push($tab_name,$l->g(80)." :");
-			array_push($type_field,0);
-			array_push($value_field,$protectedPost['newlbl']);
-			if ($protectedGet['admin'] == "fields"){
-					
-				array_push($name_field,"must_completed");
-				array_push($tab_name,"Champ obligatoire:");
-				array_push($type_field,2);
-				array_push($value_field,$yes_no);
-								
-				array_push($name_field,"newtype");
-				array_push($tab_name,"Type de champ:");
-				array_push($type_field,2);
-				array_push($value_field,$multi_choice);				
-			}
+	//NAME FIELD
+	$name_field=array("newfield");
+	$tab_name= array("Nouveau Champ: ");
+	$type_field= array(0);
+	$value_field=array($protectedPost['newfield']);
+	if (isset($protectedGet['admin'])){
+		array_push($name_field,"newlbl");
+		array_push($tab_name,$l->g(80)." :");
+		array_push($type_field,0);
+		array_push($value_field,$protectedPost['newlbl']);
+		if ($protectedGet['admin'] == "fields"){
+				
+			array_push($name_field,"must_completed");
+			array_push($tab_name,"Champ obligatoire:");
+			array_push($type_field,2);
+			array_push($value_field,$yes_no);
+							
+			array_push($name_field,"newtype");
+			array_push($tab_name,"Type de champ:");
+			array_push($type_field,2);
+			array_push($value_field,$multi_choice);				
 		}
+	}
 
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 	$tab_typ_champ[0]['CONFIG']['SIZE']=30;

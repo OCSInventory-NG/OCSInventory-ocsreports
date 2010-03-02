@@ -1,6 +1,6 @@
 <RESTRICTION>
 GUI:NO
-ITSETMANAGEMENT:TAG
+TELEDIFF_WK:TAG
 </RESTRICTION>
 
 <ADMIN_BLACKLIST>
@@ -14,7 +14,7 @@ CONFIG:YES
 GROUPS:YES
 CONSOLE:YES
 IPDISCOVER:YES
-ITSETMANAGEMENT:YES
+TELEDIFF_WK:YES
 </CONFIGURATION>
 
 <PAGE_PROFIL>
@@ -72,6 +72,6 @@ ms_csv
 ms_tele_stats
 ms_tele_compress
 ms_speed_stat
-ms_it_set_management
+ms_teledeploy_workflow
 ms_admin_management
 </PAGE_PROFIL>

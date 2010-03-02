@@ -948,8 +948,8 @@
 1028 Nouveau
 1029 Ignore
 1030 Unchanged
-1031 IT Set Management
-1032 Activer It Set Management pour le télédéploiement
+1031 Demandes
+1032 Activer le workflow pour le télédéploiement
 1033 Inf. demandeur
 1034 Inf. générales Paquet
 1035 Inf. techniques Paquet

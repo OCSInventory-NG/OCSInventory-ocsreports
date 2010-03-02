@@ -923,8 +923,8 @@
 1028 New
 1029 Ignored
 1030 Unchanged
-1031 IT Set Management
-1032 Activate It Set Management for Teledeploy
+1031 workflow for Teledeploy
+1032 Activate workflow for Teledeploy
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]

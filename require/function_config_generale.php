@@ -268,7 +268,7 @@ function update_default_value($POST){
 						'REGISTRY','GENERATE_OCS_FILES','OCS_FILES_OVERWRITE','PROLOG_FILTER_ON','INVENTORY_FILTER_ENABLED',
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
 						'LOCAL_PORT','LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
-						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','IT_SET_MANAGEMENT',
+						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
 						'IT_SET_PERIM');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
@@ -429,7 +429,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 				  'DEPLOY'=>'DEPLOY',
 				  'DOWNLOAD_URI_INFO' =>'DOWNLOAD_URI_INFO',
 				  'DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG',
-				  'IT_SET_MANAGEMENT'=>'IT_SET_MANAGEMENT');
+				  'TELEDIFF_WK'=>'TELEDIFF_WK');
 	
  	$values=look_default_values($champs);
  	if (isset($values['tvalue']['DOWNLOAD_URI_INFO']))
@@ -455,7 +455,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_FRAG'],'SIZE'=>70));
  		ligne('DOWNLOAD_URI_INFO',$l->g(827),'radio',array('DEFAULT'=>$l->g(823)."(HTTPS://localhost/download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_info),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_INFO'],'SIZE'=>70));
-		ligne('IT_SET_MANAGEMENT',$l->g(1032),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['IT_SET_MANAGEMENT'])); 	
+		ligne('TELEDIFF_WK',$l->g(1032),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TELEDIFF_WK'])); 	
 	fin_tab($form_name);
  }
  
@@ -692,7 +692,7 @@ function pagegroups($form_name){
 		fin_tab($form_name); 	
  }
  
- function pageitsetmanagement($form_name){
+ function pageTELEDIFF_WK($form_name){
  	global $l,$numeric,$sup1;
  		//what ligne we need?
  	$champs=array( 'IT_SET_PERIM'=>'IT_SET_PERIM',

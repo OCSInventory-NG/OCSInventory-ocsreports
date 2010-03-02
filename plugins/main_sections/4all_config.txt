@@ -44,7 +44,7 @@ ms_help:g(570)
 ms_tele_package:g(513)
 ms_tele_activate:g(514)
 ms_rules_redistrib:g(662)
-ms_it_set_management:g(1031)
+ms_teledeploy_workflow:g(1031)
 ms_config:g(107)
 ms_blacklist:g(703)
 </LBL>
@@ -104,7 +104,7 @@ ms_csv:export_csv
 ms_tele_stats:stat
 ms_tele_compress:compress
 ms_speed_stat:stat_speed
-ms_it_set_management:it_set_management
+ms_teledeploy_workflow:teledeploy_workflow
 ms_admin_management:admin_type
 </URL>
 
@@ -131,8 +131,8 @@ ms_ipdiscover:ms_ipdiscover
 ms_custom_admin_rsx:ms_ipdiscover
 ms_custom_admin_type:ms_ipdiscover
 ms_custom_info:ms_ipdiscover
-ms_it_set_management:ms_it_set_management
-ms_admin_management:ms_it_set_management
+ms_teledeploy_workflow:ms_teledeploy_workflow
+ms_admin_management:ms_teledeploy_workflow
 ms_label:ms_label
 ms_local:ms_local
 ms_logs:ms_logs
@@ -163,7 +163,7 @@ ms_custom_perim:ms_users
 ms_tele_package:ms_teledeploy
 ms_tele_activate:ms_teledeploy
 ms_rules_redistrib:ms_teledeploy
-ms_it_set_management:ms_teledeploy
+ms_teledeploy_workflow:ms_teledeploy
 ms_config:ms_config
 ms_blacklist:ms_config
 </MENU>

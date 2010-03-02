@@ -1,4 +1,6 @@
 <?php
+if (!isset($debut))
+die('FORBIDDEN');
 @session_start();
 //print_r($_SESSION['OCS']['LANGUAGE_FILE']);
 require_once('fichierConf.class.php');
@@ -9,6 +11,7 @@ if ($_POST['LOGOUT'] == 'ON'){
 }
 
 /***************************************************** First installation checking *********************************************************/
+
 if( (!$fconf=@fopen("dbconfig.inc.php","r")) 
 		|| (!function_exists('session_start')) 
 		|| (!function_exists('mysql_connect'))) {
@@ -27,6 +30,13 @@ if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])){
 }
 if (GUI_VER	> $_SESSION['OCS']['SQL_BASE_VERS']){
 	unset($_SESSION['OCS']['SQL_BASE_VERS']);
+	$fromAuto = true;
+	require('install.php');
+	die();	
+}
+
+if (!defined("SERVER_READ")){
+	$fromdbconfig_out = true;
 	require('install.php');
 	die();	
 }

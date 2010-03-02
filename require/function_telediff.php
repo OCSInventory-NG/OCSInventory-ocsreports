@@ -363,6 +363,9 @@ function create_pack($sql_details,$info_details){
 			fclose ($handle);
 	
 			unlink( $sql_details['document_root'].$sql_details['timestamp']."/tmp" );
+		}else{
+			if (!file_exists( $sql_details['document_root'].$sql_details['timestamp']))			
+				mkdir( $sql_details['document_root'].$sql_details['timestamp']);
 		}
 		
 		//creation info
