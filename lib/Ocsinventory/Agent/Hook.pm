@@ -1,5 +1,5 @@
-package Ocsinventory::Agent::CompatibilityLayer;
-# This package intends to add compatibility with the old linux_agent.
+package Ocsinventory::Agent::Hook;
+# This package give possibility to use hooks in unified unix agent.
 
 use strict;
 use warnings;
@@ -22,7 +22,7 @@ sub new {
     $modulefile = $_.'/modules.conf';
     if (-f $modulefile) {
       if (do $modulefile) {
-	$logger->debug("Turns CompatibilityLayer on for $modulefile");
+	$logger->debug("Turns hooks on for $modulefile");
 	$self->{dontuse} = 0;
         last;
       } else {
@@ -32,7 +32,7 @@ sub new {
   }
 
   if ($self->{dontuse}) {
-      $logger->debug("No legacy module will be used.");
+      $logger->debug("No modules will be used.");
   } else {
       my $ocsAgentServerUri;
 
@@ -64,13 +64,12 @@ sub new {
     };
   }
 
-
   bless $self;
 
 }
 
 
-sub hook {
+sub run {
   my ($self, $args, $optparam) = @_;
 
   return if $self->{dontuse};
@@ -95,11 +94,10 @@ sub hook {
 sub get_symbols {
   my $suffix = shift;
   my @ret;
-#        for(sort keys(%main::)){
-#                push @ret, \&$_ if $_=~/$suffix$/;
-#        }
+
   no strict 'refs';
   foreach my $mod (keys %Ocsinventory::Agent::Option::) {
+
     foreach (@{"Ocsinventory::Agent::Option::".$mod."EXPORT"}) {
       next unless $_ =~ /$suffix$/;
       push @ret, "Ocsinventory::Agent::Option::".$mod."$_";

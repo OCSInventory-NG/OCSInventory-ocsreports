@@ -63,7 +63,7 @@ sub send {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
-  my $compatibilityLayer = $self->{compatibilityLayer};
+  #my $compatibilityLayer = $self->{compatibilityLayer};
   my $compress = $self->{compress};
   my $message = $args->{message};
   my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
@@ -75,14 +75,6 @@ sub send {
 
   $logger->debug ("sending XML");
 
-  #############
-  ### Compatibility with linux_agent modules
-  if ($msgtype eq "Inventory") {
-    $compatibilityLayer->hook({name => 'inventory_handler'}, $message->{h});
-  } elsif ($msgtype eq "Prolog") {
-    $compatibilityLayer->hook({name => 'prolog_writers'}, $message->{h});
-  }
-  #############
 
   $logger->debug ("sending: ".$message->getContent());
 
@@ -105,6 +97,9 @@ sub send {
 
   # stop or send in the http's body
 
+
+  ########## Response #######################
+
   my $content = $compress->uncompress($res->content);
 
   if (!$content) {
@@ -112,8 +107,11 @@ sub send {
     return;
   }
 
+ 
   # AutoLoad the proper response object
   my $msgType = ref($message); # The package name of the message object
+
+
   my $tmp = "Ocsinventory::Agent::XML::Response::".$msgtype;
   eval "require $tmp";
   if ($@) {
@@ -125,18 +123,12 @@ sub send {
      accountconfig => $self->{accountconfig},
      accountinfo => $self->{accountinfo},
      content => $content,
+     #content => $message,
      logger => $logger,
      origmsg => $message,
      config => $self->{config}
 
       });
-
-
-  ### Compatibility with linux_agent modules
-  if ($msgtype eq "Prolog") {
-    $compatibilityLayer->hook({name => 'prolog_reader'}, $response->getRawXML());
-  }
-  #############
 
   return $response;
 }

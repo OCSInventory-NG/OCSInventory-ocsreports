@@ -22,8 +22,10 @@ if ($@){
         ]
     };
 }
-
 # END OF THE UGLY FIX!
+
+require Exporter;
+
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::XML::Inventory;
 use Ocsinventory::Agent::XML::Prolog;
@@ -32,60 +34,21 @@ use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Backend;
 use Ocsinventory::Agent::AccountConfig;
 use Ocsinventory::Agent::AccountInfo;
-#use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
 
-use Ocsinventory::Agent::CompatibilityLayer;
-
+use Ocsinventory::Agent::Hook;
+#use Ocsinventory::Agent::Pid;
 
 sub run {
 
-# Load setting from the config file
+	# Load setting from the config file
     my $config = new Ocsinventory::Agent::Config;
-#$params->{$_} = $config->{$_} foreach (keys %$config);
+
+
+	#$params->{$_} = $config->{$_} foreach (keys %$config);
 
     $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
     $ENV{LANG} = 'C'; # Turn off localised output for commands
-
-##########################################
-##########################################
-##########################################
-##########################################
-    sub recMkdir {
-        my $dir = shift;
-
-        my @t = split /\//, $dir;
-        shift @t;
-        return unless @t;
-
-        my $t;
-        foreach (@t) {
-            $t .= '/'.$_;
-            if ((!-d $t) && (!mkdir $t)) {
-                return;
-            }
-        }
-        1;
-    }
-
-
-
-
-    sub isAgentAlreadyRunning {
-        my $params = shift;
-        my $logger = $params->{logger};
-        # TODO add a workaround if Proc::PID::File is not installed
-        eval { require Proc::PID::File; };
-        if(!$@) {
-            $logger->debug('Proc::PID::File available, checking for pid file');
-            if (Proc::PID::File->running()) {
-                $logger->debug('parent process already exists');
-                return 1;
-            }
-        }
-
-        return 0;
-    }
 
 
 #####################################
@@ -93,9 +56,9 @@ sub run {
 #####################################
 
 
-############################
-#### CLI parameters ########
-############################
+	############################
+	#### CLI parameters ########
+	############################
     $config->loadUserParams();
 
 # I close STDERR to avoid error message during the module execution
@@ -188,7 +151,7 @@ sub run {
 ######
 
 
-# load CFG files
+	# load CFG files
     my $accountconfig = new Ocsinventory::Agent::AccountConfig({
             logger => $logger,
             config => $config->{config},
@@ -198,11 +161,11 @@ sub run {
     $config->{config}{server} = $srv if $srv;
     $config->{config}{deviceid}   = $accountconfig->get('DEVICEID');
 
-# Should I create a new deviceID?
+	# Should I create a new deviceID?
     chomp(my $hostname = `uname -n| cut -d . -f 1`);
     if ((!$config->{config}{deviceid}) || $config->{config}{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
-        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
-            (time))[5,4,3,2,1,0];
+        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime(time))[5,4,3,2,1,0];
+
         $config->{config}{old_deviceid} = $config->{config}{deviceid};
         $config->{config}{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
         $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
@@ -216,7 +179,7 @@ sub run {
             config => $config->{config},
         });
 
-# --lazy
+	# --lazy
     if ($config->{config}{lazy}) {
         my $nexttime = (stat($config->{config}{next_timefile}))[9];
 
@@ -236,14 +199,36 @@ sub run {
         $accountinfo->set("TAG",$config->{config}{tag});
     }
 
-# Create compatibility layer. It's used to keep compatibility with the
-# linux_agent 1.x and below
-    my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
+	# Create an hook object to use handlers of modules. 
+    my $hook = new Ocsinventory::Agent::Hook({
             accountinfo => $accountinfo,
             accountconfig => $accountconfig,
             logger => $logger,
             config => $config->{config},
         });
+
+
+	############### Create context array ##########################
+	#my %current_context = {
+      #OCS_AGENT_LOG_PATH => $config->{logdir}."modexec.log",
+      #OCS_AGENT_SERVER_URI => $ocsAgentServerUri,
+      #OCS_AGENT_INSTALL_PATH => $config->{vardir},
+      #OCS_AGENT_DEBUG_LEVEL => $::debug,
+      #OCS_AGENT_EXE_PATH => $Bin,
+      #OCS_AGENT_SERVER_NAME => $config->{server},
+      #OCS_AGENT_AUTH_USER => $config->{user},
+      #OCS_AGENT_AUTH_PWD => $config->{password},
+      #OCS_AGENT_AUTH_REALM => $config->{realm},
+      #OCS_AGENT_DEVICEID => $config->{deviceid},
+      #OCS_AGENT_VERSION => $config->{VERSION},
+      #OCS_AGENT_CMDL => "TOTO", # TODO cmd line parameter changed with the unified agent
+      #OCS_AGENT_CONFIG => $config->{accountconfig},
+      # The prefered way to log message
+      #OCS_AGENT_LOGGER => $logger,
+    #};
+	########################################################################
+
+
 
     if ($config->{config}{daemon}) {
 
@@ -265,6 +250,7 @@ sub run {
     }
     
     $logger->debug("OCS Agent initialised");
+
 #######################################################
 #######################################################
     while (1) {
@@ -285,19 +271,16 @@ sub run {
 
         }
 
-        $compatibilityLayer->hook({name => 'start_handler'});
 
-#  my $inventory = new Ocsinventory::Agent::XML::Inventory ({
-        #
-#      accountinfo => $accountinfo,
-#      accountconfig => $accountinfo,
-#      config => $config->{config},
-#      logger => $logger,
-        #
-#    });
+################### HERE WE GO !!! ##############################################################
+
+		#Using start_handler hook	
+      		$hook->run({name => 'start_handler'});
+		
 
 
-        if ($config->{config}{stdout} || $config->{config}{local}) { # Local mode
+			####### Local Mode #######################
+        if ($config->{config}{stdout} || $config->{config}{local}) {
 
             # TODO, avoid to create Backend a two different places
             my $backend = new Ocsinventory::Agent::Backend ({
@@ -326,13 +309,14 @@ sub run {
                 $inventory->writeXML();
             }
 
+
         } else { # I've to contact the server
 
             my $net = new Ocsinventory::Agent::Network ({
 
                     accountconfig => $accountconfig,
                     accountinfo => $accountinfo,
-                    compatibilityLayer => $compatibilityLayer,
+                    #compatibilityLayer => $compatibilityLayer,
                     logger => $logger,
                     config => $config->{config},
 
@@ -349,7 +333,16 @@ sub run {
 
                     });
 
+		
+		#Using prolog_writer hook
+		$hook->run({name => 'prolog_writer'}, $prolog);
+
                 $prologresp = $net->send({message => $prolog});
+
+
+		#Using prolog_reader hook
+		$hook->run({name => 'prolog_reader'}, $prologresp->getRawXML());
+
 
                 if (!$prologresp) { # Failed to reach the server
                     if ($config->{config}{lazy}) {
@@ -402,7 +395,14 @@ sub run {
 
                 $backend->feedInventory ({inventory => $inventory});
 
-                if (my $response = $net->send({message => $inventory})) {
+
+
+		#Using inventory_writer hook 
+		$hook->run({name => 'inventory_handler'}, $inventory);
+
+
+		#Sending Inventory
+		if (my $invresp = $net->send({message => $inventory})) {
                     #if ($response->isAccountUpdated()) {
                     $inventory->saveLastState();
                     #}
@@ -413,10 +413,58 @@ sub run {
 
         }
 
-        $compatibilityLayer->hook({name => 'end_handler'});
+
+
+
+        $hook->run({name => 'end_handler'});
         exit (0) unless $config->{config}{daemon};
 
     }
+
+
+##########################################
+############Functions#####################
+##########################################
+
+
+    sub recMkdir {
+        my $dir = shift;
+
+        my @t = split /\//, $dir;
+        shift @t;
+        return unless @t;
+
+        my $t;
+        foreach (@t) {
+            $t .= '/'.$_;
+            if ((!-d $t) && (!mkdir $t)) {
+                return;
+            }
+        }
+        1;
+    }
+
+
+
+
+    sub isAgentAlreadyRunning {
+        my $params = shift;
+        my $logger = $params->{logger};
+        # TODO add a workaround if Proc::PID::File is not installed
+        eval { require Proc::PID::File; };
+        if(!$@) {
+            $logger->debug('Proc::PID::File available, checking for pid file');
+            if (Proc::PID::File->running()) {
+                $logger->debug('parent process already exists');
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
+
 }
+
 1;
 

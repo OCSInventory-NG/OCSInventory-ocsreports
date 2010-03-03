@@ -141,13 +141,6 @@ sub download_prolog_reader{
 					}
 				# Maybe a new package to download
 				}elsif($_->{'TYPE'} eq 'PACK'){
-
-					unless ($_->{'ID'} =~ /^\d+$/) {      #Skip if ID is not a valid value  
-						unlink("$opt_dir/suspend");
-						&log('Package ID is not valid !!! Skipping package...');
-						return 1;			
-					}
-
 					push @packages, {
 						'PACK_LOC' => $_->{'PACK_LOC'},
 						'INFO_LOC' => $_->{'INFO_LOC'},
