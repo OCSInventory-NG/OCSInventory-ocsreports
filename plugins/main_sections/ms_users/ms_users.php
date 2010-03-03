@@ -61,6 +61,7 @@ if ($protectedPost['onglet'] == 4
 						'ACCESSLVL'=>'NEW_ACCESSLVL',
 						'COMMENTS'=>'COMMENTS',
 						'EMAIL'=>'EMAIL',
+						'USER_GROUP'=>'USER_GROUP',
 						'SUP'=>'ID',
 						'MODIF'=>'ID',
 						'CHECK'=>'ID');
@@ -78,6 +79,12 @@ if ($protectedPost['onglet'] == 4
 		$tab_options['LIEN_CHAMP']['ID']='ID';
 		$tab_options['LIEN_TYPE']['ID']='POPUP';
 		$tab_options['POPUP_SIZE']['ID']="width=550,height=650";
+	$sql_user_groups="select IVALUE,TVALUE from config where name like 'USER_GROUP_%' ";
+	$res_user_groups = mysql_query( $sql_user_groups, $_SESSION['OCS']["readServer"] );
+	while ($val_user_groups = mysql_fetch_array( $res_user_groups ))
+	$user_groups[$val_user_groups['IVALUE']]=$val_user_groups['TVALUE'];
+		
+	$tab_options['REPLACE_VALUE']['USER_GROUP']=$user_groups;
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 		//traitement par lot
 	$img['image/sup_search.png']=$l->g(162);

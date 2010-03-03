@@ -13,7 +13,9 @@
 require_once('require/function_telediff.php');
 foreach ($_POST as $key=>$value){
 	if (get_magic_quotes_gpc()==true and stristr($value, '\\') == true){
-		$value= replace_entity_xml(stripslashes($value));
+		while (stristr($value, '\\'))
+			$value=stripslashes($value);
+		$value= replace_entity_xml($value);
 	}
 	$temp_post[$key]=$value;
 }

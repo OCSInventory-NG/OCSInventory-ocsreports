@@ -1,6 +1,6 @@
 <RESTRICTION>
 GUI:NO
-TELEDIFF_WK:TAG
+TELEDIFF_WK:NO
 </RESTRICTION>
 
 <ADMIN_BLACKLIST>
@@ -15,6 +15,7 @@ GROUPS:YES
 CONSOLE:YES
 IPDISCOVER:YES
 TELEDIFF_WK:YES
+ALERTE_MSG:YES
 </CONFIGURATION>
 
 <PAGE_PROFIL>
@@ -39,6 +40,8 @@ ms_doubles
 ms_label
 ms_users
 ms_custom_perim
+ms_admin_user_group
+ms_admin_profil
 ms_local
 ms_help
 ms_stats

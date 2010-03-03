@@ -15,6 +15,8 @@ while($value=mysql_fetch_array($result_It_set)){
 }
 
 if ($activate){
+	if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=="")
+	$protectedPost['onglet'] = 1;
 	 //d�finition des onglets
 	$data_on[1]="Suivi des demandes";
 	$data_on[2]="Faire une demande";
@@ -34,10 +36,8 @@ if ($activate){
 	}elseif ($protectedPost['onglet'] == 4){
 		dde_conf($form_name);
 	}elseif($protectedPost['onglet'] == 3){
-		echo "en cours";
-		
-	
-	}elseif ($protectedPost['onglet'] == 1 or !isset($protectedPost['onglet'])){
+		echo "en cours";	
+	}elseif ($protectedPost['onglet'] == 1){
 		dde_show($form_name);
 	}
 	echo '</div>';	

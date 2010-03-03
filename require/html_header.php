@@ -33,11 +33,12 @@ if ($ban_head=='no') echo "style='display:none;'";
 echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
  	<Td align='left'><a href='index.php?first'><img src='image/logo OCS-ng-48.png'></a></Td></tr></table></td><td width= 100%>";
  	
-if (isset($_SESSION['OCS']["loggeduser"])){
+if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
 	echo "<table width= 100% align=center border='0'><tr><Td align='center' bgcolor='#f2f2f2' BORDERCOLOR='#f2f2f2' width:80%>";
-	echo "<font color=red><b>ATTENTION: USE THIS VERSION ONLY FOR TEST.<BR> THIS VERSION IN DEVELOPMENTAL STAGE</b></font><br>";
+	if( $fconf=@fopen("install.php","r"))
+	echo "<font color=red><b>ATTENTION: <br>YOUR INSTALL.PHP EXIST IN OCS REPOSITORY<br> USE THIS VERSION ONLY FOR TEST.<BR> THIS VERSION IN DEVELOPMENTAL STAGE</b></font><br>";
 //si un fuser est en cours, on indique avec quel compte le super admin est connect�
-	if( isset($_SESSION['OCS']['TRUE_USER']) )
+	if( isset($_SESSION['OCS']['TRUE_USER']))
 		echo "<font color=red>".$_SESSION['OCS']['TRUE_USER']." ".$l->g(889)." ".$_SESSION['OCS']["loggeduser"]."</font>";
 	if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
 			echo "<br><b><font color=red>".$l->g(890)."</font></b>";

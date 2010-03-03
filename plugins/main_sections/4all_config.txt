@@ -106,6 +106,8 @@ ms_tele_compress:compress
 ms_speed_stat:stat_speed
 ms_teledeploy_workflow:teledeploy_workflow
 ms_admin_management:admin_type
+ms_admin_user_group:admin_user_group
+ms_admin_profil:admin_profil
 </URL>
 
 <DIRECTORY>
@@ -156,6 +158,8 @@ ms_tele_massaffect:ms_teledeploy
 ms_upload_file:ms_upload_file
 ms_users:ms_users
 ms_custom_perim:ms_users
+ms_admin_user_group:ms_users
+ms_admin_profil:ms_users
 </DIRECTORY>
 
 

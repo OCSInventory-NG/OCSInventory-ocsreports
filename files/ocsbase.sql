@@ -791,7 +791,7 @@ INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '5013', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '5014', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -889,3 +889,4 @@ ALTER TABLE operators ADD COLUMN EMAIL VARCHAR(255) default NULL;
 UPDATE operators SET NEW_ACCESSLVL='sadmin' where ACCESSLVL=1;
 UPDATE operators SET NEW_ACCESSLVL='ladmin' where ACCESSLVL=2;
 UPDATE operators SET NEW_ACCESSLVL='admin' where ACCESSLVL=3;
+ALTER TABLE operators ADD COLUMN USER_GROUP VARCHAR(255) default NULL;

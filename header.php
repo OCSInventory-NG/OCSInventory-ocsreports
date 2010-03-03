@@ -40,6 +40,9 @@ if (!defined("SERVER_READ")){
 	require('install.php');
 	die();	
 }
+
+
+
 //SECURITY
 $protectedPost=escape_string($_POST);
 $protectedGet=escape_string($_GET);

@@ -20,8 +20,9 @@ if (isset($protectedGet['log'])){
 }//gestion par valeur en cache (LIMITE A 200)
 elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 	$filename="cache.csv";
-	
+	//print_r($_SESSION['OCS']['col_tab'][$protectedGet['tablename']]);
 	//gestion des entetes
+	if (is_array($_SESSION['OCS']['col_tab'][$protectedGet['tablename']]))
 	foreach ($_SESSION['OCS']['col_tab'][$protectedGet['tablename']] as $name){
 		if ($name != 'SUP' and $name != 'CHECK' and $name != 'NAME' and $name != $l->g(23)){
 		//	echo "<br>".$_SESSION['OCS']['list_fields'][$name]." => ".$_SESSION['OCS']['list_fields'][$name]{1};
@@ -38,6 +39,7 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 		}		
 	}
 	$i=0;
+	//print_r($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']]);
 	while ($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i]){
 		$toBeWritten .="\r\n";
 		foreach ($col as $lbl => $name){

@@ -90,7 +90,7 @@ function dde_form($form_name){
 
 		//DDE POST
 		if ($protectedPost['SUBMIT_FORM'] == "SUBMIT_FORM" ){
-			print_r($protectedPost);
+			//print_r($protectedPost);
 			foreach($oblig_field as $key=>$array_value){
 								
 				foreach($array_value as $id=>$value){
@@ -394,15 +394,20 @@ function dde_show($form_name){
 		$list_col_cant_del['STATUT']='STATUT';
 		$default_fields['STATUT']='STATUT';
 		$list_fields['STATUT']='STATUT';
+		$list_col_cant_del['Q_DATE']='Q_DATE';
+		$default_fields['Q_DATE']='Q_DATE';
+		$list_fields['Q_DATE']='Q_DATE';
 		$list_col_cant_del['SUP']='SUP';
 		$default_fields['SUP']='SUP';
 		$list_fields['SUP']='ID';
-		$sql="select itmgmt_pack.ID,STATUT,";
+		$tab_options['LBL']['Q_DATE']="Date dde";
+		$sql="select itmgmt_pack.ID,STATUT,FROM_UNIXTIME(Q_DATE) as Q_DATE,";
 		
 		if (isset($array_value_fields)){
 			$sql.=implode(', ',$array_value_fields);
 			$bool_select=true;
 		}
+		print_r($else_fields);
 		if (isset($else_fields)){
 			if ($bool_select)
 				$sql.=", ";
@@ -419,9 +424,9 @@ function dde_show($form_name){
 			$sql.= " left join itmgmt_conf_values ".$array_fields[$i]." on itmgmt_pack.".$array_fields[$i]."=".$array_fields[$i].".ID ";
 			$i++;
 		}
-		
+		echo $_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK'];
 	//	if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK'] == 'LOGIN')
-//echo $sql;
+echo $sql;
 //print_r($name_field);
 		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,100,$tab_options);
 

@@ -269,7 +269,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$champs.= "<option value='' class='hi' \></option>";
 		$countHl=0;		
 		if ($name != ''){
-		//	print_r($name);
+			//print_r($protectedPost);
 			foreach ($name as $key=>$value){
 			//	echo $protectedPost[$input_name]." == ".$key."<br>";
 				$champs.= "<option value=\"".$key."\"";
