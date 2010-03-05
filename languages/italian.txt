@@ -163,7 +163,7 @@
 251 Esci
 252 Nome (scelto)
 253 Chiave (hive) registro	
-254 Percorso della chiave (Es: SOFTWAREMozilla)	
+254 Percorso della chiave (Es: SOFTWARE\Mozilla)	
 255 Nome della chiave che si vuole leggere (* per tutte)
 256 Scelta
 257 Chiave registro

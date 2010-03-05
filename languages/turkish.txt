@@ -163,7 +163,7 @@
 251 Oturum Kapat
 252 Ad� (se�iminiz)        	
 253 Sistem k�t��� 	
-254 Anahtar yolu (Ex: yaz�l�mMozilla)  	
+254 Anahtar yolu (Ex: yaz�l�m\Mozilla)  	
 255 Anahtar ad� okunacak (* tamam�)
 256 se�im
 257 Sistem k�t��� anahtar�

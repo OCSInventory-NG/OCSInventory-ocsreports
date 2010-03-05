@@ -258,7 +258,7 @@ utilizador/senha v�lidos.
 251 Sair
 252 Nome (voc� escolhe)
 253 Registro "hive"
-254 Caminho da chave (Ex: SOFTWAREMozilla)
+254 Caminho da chave (Ex: SOFTWARE\Mozilla)
 255 Nome da chave que ser� lida (* for all)
 256 Escolha
 257 Nome da chave do registro

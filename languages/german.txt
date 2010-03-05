@@ -252,7 +252,7 @@
 251 Logout
 252 Name (sie waehlen)        	
 253 Registry "hive"    	
-254 Pfad des Schluessels (z.B. SOFTWAREMozilla)  	
+254 Pfad des Schluessels (z.B. SOFTWARE\Mozilla)  	
 255 Name des Schluessels der gelesen wird (* f�r alles)
 256 Auswaehlen
 257 Registrierungsschluessel

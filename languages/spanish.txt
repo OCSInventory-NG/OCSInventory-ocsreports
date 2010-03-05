@@ -163,7 +163,7 @@
 251 Salir
 252 Nombre (usted elije)
 253 La rama del registro
-254 Ubicación de la clave (por ejemplo: SOFTWAREMozilla)
+254 Ubicación de la clave (por ejemplo: SOFTWARE\Mozilla)
 255 Nombre de la clave que se leerá (* para todos)
 256 Elegir
 257 Clave del Registro

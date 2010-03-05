@@ -252,7 +252,7 @@
 251 Kil�p�s
 252 N�v (�n v�lasztja)
 253 A registry "fejezet" sz�ma <br>(0: HKEY_CLASSES_ROOT, 1: HKEY_CURRENT_USER stb.)
-254 A kulcs helye (pl.: SOFTWARE/Mozilla)
+254 A kulcs helye (pl.: SOFTWARE\Mozilla)
 255 A kulcs megnevez�se
 256 V�laszt�s
 257 Registry kulcs

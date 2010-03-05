@@ -154,7 +154,7 @@ function modifier()
 			while($item = mysql_fetch_object($result))
 			{
 				echo "<tr><td align='center'><FONT FACE='Verdana' size=2><a href='index.php?multi=5&typeDemande=modif&id=$item->ID'>$item->ID&nbsp;&nbsp;&nbsp;</a></td> 
-						  <td align='center'>$item->NAME</td></font></tr>";
+						  <td align='center'>$item->NAME</td><td>$item->REGVALUE</td></font></tr>";
 			}
 			
 		echo"</table>";
@@ -165,6 +165,7 @@ function modifier()
 
 function enregistrer()
 {
+
 	if($_GET["typeDemande"]== "enreModif") // enregistrer une modififcation
 	{
 		$req = "UPDATE regconfig SET ".	
@@ -178,8 +179,10 @@ function enregistrer()
 	}	
 	else // enregistrer un ajout
 	{	
-		$req    = "INSERT INTO regconfig (NAME,REGTREE,REGKEY,REGVALUE) VALUES(\"".$_POST["NAME"]."\",\"".$_POST["REGTREE"]."\",\"".$_POST["REGKEY"]."\",\"".$_POST["REGVALUE"]."\")";
-		$result = mysql_query($req, $_SESSION["writeServer"]);
+		if((isset($_POST["enre"]))) {
+			$req    = "INSERT INTO regconfig (NAME,REGTREE,REGKEY,REGVALUE) VALUES(\"".$_POST["NAME"]."\",\"".$_POST["REGTREE"]."\",\"".$_POST["REGKEY"]."\",\"".$_POST["REGVALUE"]."\")";
+			$result = mysql_query($req, $_SESSION["writeServer"]);
+		}
 	}//fin else
 	?>
 		<script language="javascript">

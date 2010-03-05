@@ -163,7 +163,7 @@
 251 Wyloguj
 252 Nazwa (wybierz)        	
 253 Gniazdo rejestru	
-254 �cie�ka klucza (np: SOFTWAREMozilla)  	
+254 �cie�ka klucza (np: SOFTWARE\Mozilla)  	
 255 Nazwa klucza do odczytania (* dla wszystkich)
 256 Wybierz
 257 Klucz rejestru

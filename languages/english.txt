@@ -163,7 +163,7 @@
 251 Logout
 252 Name (you choose)        	
 253 Registry hive	
-254 Path of the key (Ex: SOFTWAREMozilla)  	
+254 Path of the key (Ex: SOFTWARE\Mozilla)  	
 255 Name of the key that will be read (* for all)
 256 Choose 
 257 Registry key

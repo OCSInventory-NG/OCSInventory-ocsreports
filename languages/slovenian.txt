@@ -163,7 +163,7 @@
 251 Odjava
 252 Ime (ti izbiraÅ¡)        	
 253 Registersko gnezdo
-254 Pot do kljuÄ?a(Primer: Programska opremaMozilla)  	
+254 Pot do kljuÄ?a(Primer: Programska oprema\Mozilla)  	
 255 Ime kljuÄ?a, ki bo bran (* za vse)
 256 Izberi 
 257 KljuÄ? za registracijo

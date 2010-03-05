@@ -161,7 +161,7 @@
 251 Deconnexion
 252 Nom (au choix)        	
 253 Ruche registre     	
-254 Chemin de la cle (Ex: SOFTWAREMozilla)  	
+254 Chemin de la cle (Ex: SOFTWARE\Mozilla)  	
 255 Nom de la cle a lire (* pour toutes)
 256 Selectionnez la requete registre a modifier
 257 Cle de registre
