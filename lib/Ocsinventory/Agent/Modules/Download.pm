@@ -12,7 +12,7 @@
 # -download_inventory_handler
 # -download_end_handler, begin, done, clean, finish, period, download, execute,
 #   check_signature and build_package
-package Ocsinventory::Agent::Option::Download;
+package Ocsinventory::Agent::Modules::Download;
 
 use strict;
 

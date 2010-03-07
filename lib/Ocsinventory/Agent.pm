@@ -36,7 +36,7 @@ use Ocsinventory::Agent::AccountConfig;
 use Ocsinventory::Agent::AccountInfo;
 use Ocsinventory::Agent::Config;
 
-use Ocsinventory::Agent::Hook;
+use Ocsinventory::Agent::Hooks;
 #use Ocsinventory::Agent::Pid;
 
 sub run {
@@ -51,29 +51,29 @@ sub run {
     $ENV{LANG} = 'C'; # Turn off localised output for commands
 
 
-#####################################
-################ MAIN ###############
-#####################################
+	#####################################
+	################ MAIN ###############
+	#####################################
 
 
 	############################
 	#### CLI parameters ########
 	############################
-    $config->loadUserParams();
+    	$config->loadUserParams();
 
-# I close STDERR to avoid error message during the module execution
-# at the begining I was doing shell redirection:
-#  my @ret = `cmd 2> /dev/null`;
-# but this syntax is not supported on (at least) FreeBSD and Solaris
-# c.f: http://www.perlmonks.org/?node_id=571072
-#my $tmp;
-#open ($tmp, ">&STDERR");
-#$params->{"savedstderr"} = $tmp;
-#if($params->{debug}) {
-#  $params->{verbose} = 1;
-#} else {
-#  close(STDERR);
-#}
+	# I close STDERR to avoid error message during the module execution
+	# at the begining I was doing shell redirection:
+	#  my @ret = `cmd 2> /dev/null`;
+	# but this syntax is not supported on (at least) FreeBSD and Solaris
+	# c.f: http://www.perlmonks.org/?node_id=571072
+	#my $tmp;
+	#open ($tmp, ">&STDERR");
+	#$params->{"savedstderr"} = $tmp;
+	#if($params->{debug}) {
+	#  $params->{verbose} = 1;
+	#} else {
+	#  close(STDERR);
+	#}
 
     if ($config->{config}{logfile}) {
         $config->{config}{logger} = 'File';
@@ -83,7 +83,7 @@ sub run {
             config => $config->{config}
         });
 
-# $< == $REAL_USER_ID
+	# $< == $REAL_USER_ID
     if ( $< ne '0' ) {
         $logger->info("You should run this program as super-user.");
     }
@@ -97,16 +97,14 @@ sub run {
         $config->{config}{nosoftware} = 1
     }
 
-# TODO put that in Ocsinventory::Agent::Config
+	# TODO put that in Ocsinventory::Agent::Config
     if (!$config->{config}{'stdout'} && !$config->{config}{'local'} && $config->{config}{server} !~ /^http(|s):\/\//) {
         $logger->debug("the --server passed doesn't have a protocol, assume http as default");
         $config->{config}{server} = "http://".$config->{config}{server}.'/ocsinventory';
     }
 
 
-############################
-#### Objects initilisation
-############################
+######################## Objects initilisation ###############################################################
 
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
@@ -148,10 +146,12 @@ sub run {
         $config->{config}{last_statefile} = $config->{config}{vardir}."/last_state";
         $config->{config}{next_timefile} = $config->{config}{vardir}."/next_timefile";
     }
-######
+
+################################################################################################################
 
 
-	# load CFG files
+##########################  load CFG files ######################################################################
+
     my $accountconfig = new Ocsinventory::Agent::AccountConfig({
             logger => $logger,
             config => $config->{config},
@@ -199,35 +199,6 @@ sub run {
         $accountinfo->set("TAG",$config->{config}{tag});
     }
 
-	# Create an hook object to use handlers of modules. 
-    my $hook = new Ocsinventory::Agent::Hook({
-            accountinfo => $accountinfo,
-            accountconfig => $accountconfig,
-            logger => $logger,
-            config => $config->{config},
-        });
-
-
-	############### Create context array ##########################
-	#my %current_context = {
-      #OCS_AGENT_LOG_PATH => $config->{logdir}."modexec.log",
-      #OCS_AGENT_SERVER_URI => $ocsAgentServerUri,
-      #OCS_AGENT_INSTALL_PATH => $config->{vardir},
-      #OCS_AGENT_DEBUG_LEVEL => $::debug,
-      #OCS_AGENT_EXE_PATH => $Bin,
-      #OCS_AGENT_SERVER_NAME => $config->{server},
-      #OCS_AGENT_AUTH_USER => $config->{user},
-      #OCS_AGENT_AUTH_PWD => $config->{password},
-      #OCS_AGENT_AUTH_REALM => $config->{realm},
-      #OCS_AGENT_DEVICEID => $config->{deviceid},
-      #OCS_AGENT_VERSION => $config->{VERSION},
-      #OCS_AGENT_CMDL => "TOTO", # TODO cmd line parameter changed with the unified agent
-      #OCS_AGENT_CONFIG => $config->{accountconfig},
-      # The prefered way to log message
-      #OCS_AGENT_LOGGER => $logger,
-    #};
-	########################################################################
-
 
 
     if ($config->{config}{daemon}) {
@@ -251,8 +222,29 @@ sub run {
     
     $logger->debug("OCS Agent initialised");
 
-#######################################################
-#######################################################
+################# Now we can create a context hash #########################################################
+
+	my $context = {
+      #logpath => $config->{logdir}."modexec.log",
+      #serveruri => $ocsAgentServerUri,
+      installpath => $config->{vardir},
+      #debuglvl => $::debug,
+      #exepath => $Bin,
+      servername => $config->{server},
+      authuser => $config->{user},
+      authpwd => $config->{password},
+      authrealm => $config->{realm},
+      deviceid => $config->{deviceid},
+      version => $config->{VERSION},
+      config => $config->{config},
+      accountconfig => $accountconfig,
+      accountinfo => $accountinfo,
+      logger => $logger,
+      #backend => $backend,
+      #OCS_AGENT_CMDL => "TOTO", # TODO cmd line parameter changed with the unified agent
+    };
+
+################################# HERE WE GO !!! ###################################################
     while (1) {
 
         my $exitcode = 0;
@@ -272,17 +264,19 @@ sub run {
         }
 
 
-################### HERE WE GO !!! ##############################################################
+	# Create an hook object to use handlers of modules. 
+    	my $hooks = new Ocsinventory::Agent::Hooks($context);
 
-		#Using start_handler hook	
-      		$hook->run({name => 'start_handler'});
+
+	#Using start_handler hook	
+      	$hooks->run({name => 'start_handler'});
 		
 
 
-			####### Local Mode #######################
+	#################### Local Mode #######################
         if ($config->{config}{stdout} || $config->{config}{local}) {
 
-            # TODO, avoid to create Backend a two different places
+            # TODO, avoid to create Backend at two different places
             my $backend = new Ocsinventory::Agent::Backend ({
 
                     accountinfo => $accountinfo,
@@ -291,6 +285,7 @@ sub run {
                     config => $config->{config},
 
                 });
+
 
             my $inventory = new Ocsinventory::Agent::XML::Inventory ({
 
@@ -310,13 +305,17 @@ sub run {
             }
 
 
-        } else { # I've to contact the server
+        } 
+	###############################################################
+	
+	else { 
+
+	############ I've to contact the server ########################"
 
             my $net = new Ocsinventory::Agent::Network ({
 
                     accountconfig => $accountconfig,
                     accountinfo => $accountinfo,
-                    #compatibilityLayer => $compatibilityLayer,
                     logger => $logger,
                     config => $config->{config},
 
@@ -335,13 +334,13 @@ sub run {
 
 		
 		#Using prolog_writer hook
-		$hook->run({name => 'prolog_writer'}, $prolog);
+		$hooks->run({name => 'prolog_writer'}, $prolog);
 
-                $prologresp = $net->send({message => $prolog});
+      $prologresp = $net->send({message => $prolog});
 
 
 		#Using prolog_reader hook
-		$hook->run({name => 'prolog_reader'}, $prologresp->getRawXML());
+		$hooks->run({name => 'prolog_reader'}, $prologresp->getRawXML());
 
 
                 if (!$prologresp) { # Failed to reach the server
@@ -398,7 +397,7 @@ sub run {
 
 
 		#Using inventory_writer hook 
-		$hook->run({name => 'inventory_handler'}, $inventory);
+		$hooks->run({name => 'inventory_handler'}, $inventory);
 
 
 		#Sending Inventory
@@ -416,7 +415,7 @@ sub run {
 
 
 
-        $hook->run({name => 'end_handler'});
+        $hooks->run({name => 'end_handler'});
         exit (0) unless $config->{config}{daemon};
 
     }
@@ -444,9 +443,6 @@ sub run {
         1;
     }
 
-
-
-
     sub isAgentAlreadyRunning {
         my $params = shift;
         my $logger = $params->{logger};
@@ -462,7 +458,6 @@ sub run {
 
         return 0;
     }
-
 
 }
 
