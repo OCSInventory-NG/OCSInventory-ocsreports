@@ -7,25 +7,8 @@
 ## code is always made freely available.
 ## Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 ################################################################################
-# Function by hook:
-# -download_prolog_reader, download_message, download
-# -download_inventory_handler
-# -download_end_handler, begin, done, clean, finish, period, download, execute,
-#   check_signature and build_package
+
 package Ocsinventory::Agent::Modules::Example;
-
-use strict;
-
-#require Exporter;
-
-#our @EXPORT = qw/
-#	example_start_handler
-#	example_prolog_writer
-#   example_prolog_reader
-#   example_inventory_handler
-#   example_end_handler
-#/;
-
 
 
 sub new {
@@ -40,7 +23,7 @@ sub new {
 			start_handler => "example_start_handler", 
 			prolog_writer => "example_prolog_writer", 
 			prolog_reader => "example_prolog_reader", 
-			end_handler => "example_inventory_handler", 
+			inventory_handler => "example_inventory_handler", 
 			end_handler => "example_end_handler" 
    };
  
