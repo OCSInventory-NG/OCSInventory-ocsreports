@@ -325,7 +325,7 @@ print "New settings written! Thank you for using OCS Inventory\n";
 if (ask_yn ("Should I remove the old linux_agent", 'n')) {
     foreach (qw#
         /etc/ocsinventory-client
-        /etc/logtotate.d/ocsinventor-client
+        /etc/logrotate.d/ocsinventory-client
         /usr/sbin/ocsinventory-client.pl
         /etc/cron.d/ocsinventory-client
         /bin/ocsinv
