@@ -69,7 +69,7 @@ sub new {
 
 
 sub run {
-  my ($self, $args, $optparam) = @_;
+  my ($self, $args, $moduleparam) = @_;
 
   return if $self->{dontuse};
 
@@ -85,7 +85,7 @@ sub run {
 		my $module = $self->{modules}->{$_};
       my $hook = $module->{structure}->{$name};
       if ($hook) {
-           $module->$hook($context);
+           $module->$hook($moduleparam,$context);
       }
   }
 
