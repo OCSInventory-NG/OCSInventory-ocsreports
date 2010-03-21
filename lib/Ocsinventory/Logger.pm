@@ -51,10 +51,15 @@ sub log {
   # levels: info, debug, warn, fault
   my $level = $args->{level};
   my $message = $args->{message};
+  my $header = $self->{header};
 
   return if ($level =~ /^debug$/ && !($self->{debug}));
 
   chomp($message);
+
+  #Add a header if needed 
+  $message="$header $message" if $header;
+
   $level = 'info' unless $level;
 
   foreach (@{$self->{backend}}) {

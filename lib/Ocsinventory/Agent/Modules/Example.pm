@@ -12,19 +12,27 @@ package Ocsinventory::Agent::Modules::Example;
 
 
 sub new {
+   my $name="example";   #Set the name of your module here
+
    my (undef,$context) = @_;
-   my $self = {};  
- 
-   $self->{logger}=$context->{logger};
-   my $logger = $self->{logger};
+   my $self = {};
+
+   #Create a special logger for the module
+   $self->{logger} = new Ocsinventory::Logger ({
+            config => $context->{config}
+   });
+
+   $self->{logger}->{header}="[$name]";
+
+   $self->{context}=$context;
 
    $self->{structure}= {
-			name => "example",
-			start_handler => "example_start_handler", 
-			prolog_writer => "example_prolog_writer", 
-			prolog_reader => "example_prolog_reader", 
-			inventory_handler => "example_inventory_handler", 
-			end_handler => "example_end_handler" 
+			name => $name,
+			start_handler => "example_start_handler",    #or undef if don't use this hook 
+			prolog_writer => "example_prolog_writer",    #or undef if don't use this hook  
+			prolog_reader => "example_prolog_reader",    #or undef if don't use this hook  
+			inventory_handler => "example_inventory_handler",    #or undef if don't use this hook 
+			end_handler => "example_end_handler"    #or undef if don't use this hook 
    };
  
    bless $self;
@@ -32,7 +40,7 @@ sub new {
 
 
 
-######### Hook subroutines ############
+######### Hook methods ############
 
 sub example_start_handler {
    my $self = shift;
