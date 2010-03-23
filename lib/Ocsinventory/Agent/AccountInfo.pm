@@ -93,12 +93,12 @@ sub setAccountInfo {
     my $inventary = shift;
 
     my $ai = $self->getAll();
-    $self->{h}{'CONTENT'}{ACCOUNTINFO} = [];
+    $self->{ADM}{'CONTENT'}{ACCOUNTINFO} = [];
 
     return unless $ai;
 
     foreach (keys %$ai) {
-        push @{$inventary->{h}{'CONTENT'}{ACCOUNTINFO}}, {
+        push @{$inventary->{ADM}{'CONTENT'}{ACCOUNTINFO}}, {
             KEYNAME => [$_],
             KEYVALUE => [$ai->{$_}],
         };
