@@ -18,15 +18,15 @@ sub new {
  
   die unless ($self->{config}->{deviceid}); #XXX
 
-  $self->{REQUEST}{QUERY} = ['PROLOG']; 
-  $self->{REQUEST}{DEVICEID} = [$self->{config}->{deviceid}];
+  $self->{xmlroot}{QUERY} = ['PROLOG']; 
+  $self->{xmlroot}{DEVICEID} = [$self->{config}->{deviceid}];
 
   bless $self;
 }
 
 sub dump {
   my $self = shift;
-  print Dumper($self->{REQUEST});
+  print Dumper($self->{xmlroot});
 
 }
 
@@ -34,7 +34,7 @@ sub set {
   my ($self, $args) = @_;
 
   foreach (keys %$args) {
-      $self->{REQUEST}{$_} = [$args->{$_}]; 
+      $self->{xmlroot}{$_} = [$args->{$_}]; 
   }
 }
 
@@ -42,7 +42,7 @@ sub getContent {
   my ($self, $args) = @_;
 
   $self->{accountinfo}->setAccountInfo($self);
-  my $content=XMLout( $self->{REQUEST}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
+  my $content=XMLout( $self->{xmlroot}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
     SuppressEmpty => undef );
 
   return $content;

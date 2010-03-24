@@ -1,8 +1,8 @@
 DESCRIPTION
 
   Ocsinventory-Agent is an agent for ocsinventory NG. It supports Linux,
-  Solaris and AIX. *BSD support is in progress. A port to non UNIX system
-  is also possible (e.g: Win32).
+  Solaris and AIX. *BSD support is in progress.
+  
 
 PREREQUISITES
 

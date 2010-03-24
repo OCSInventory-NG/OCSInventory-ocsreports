@@ -42,27 +42,27 @@ sub new {
     $logger->fault ('deviceid unititalised!');
   }
 
-  $self->{REQUEST}{QUERY} = ['INVENTORY'];
-  $self->{REQUEST}{DEVICEID} = [$self->{config}->{deviceid}];
-  $self->{REQUEST}{CONTENT}{ACCESSLOG} = {};
-  $self->{REQUEST}{CONTENT}{BIOS} = {};
-  $self->{REQUEST}{CONTENT}{CONTROLLERS} = [];
-  $self->{REQUEST}{CONTENT}{CPUS} = [];
-  $self->{REQUEST}{CONTENT}{DRIVES} = [];
-  $self->{REQUEST}{CONTENT}{HARDWARE} = {
+  $self->{xmlroot}{QUERY} = ['INVENTORY'];
+  $self->{xmlroot}{DEVICEID} = [$self->{config}->{deviceid}];
+  $self->{xmlroot}{CONTENT}{ACCESSLOG} = {};
+  $self->{xmlroot}{CONTENT}{BIOS} = {};
+  $self->{xmlroot}{CONTENT}{CONTROLLERS} = [];
+  $self->{xmlroot}{CONTENT}{CPUS} = [];
+  $self->{xmlroot}{CONTENT}{DRIVES} = [];
+  $self->{xmlroot}{CONTENT}{HARDWARE} = {
     # TODO move that in a backend module
     ARCHNAME => [$Config{archname}]
   };
-  $self->{REQUEST}{CONTENT}{MONITORS} = [];
-  $self->{REQUEST}{CONTENT}{PORTS} = [];
-  $self->{REQUEST}{CONTENT}{SLOTS} = [];
-  $self->{REQUEST}{CONTENT}{STORAGES} = [];
-  $self->{REQUEST}{CONTENT}{SOFTWARES} = [];
-  $self->{REQUEST}{CONTENT}{USERS} = [];
-  $self->{REQUEST}{CONTENT}{VIDEOS} = [];
-  $self->{REQUEST}{CONTENT}{VIRTUALMACHINES} = [];
-  $self->{REQUEST}{CONTENT}{SOUNDS} = [];
-  $self->{REQUEST}{CONTENT}{MODEMS} = [];
+  $self->{xmlroot}{CONTENT}{MONITORS} = [];
+  $self->{xmlroot}{CONTENT}{PORTS} = [];
+  $self->{xmlroot}{CONTENT}{SLOTS} = [];
+  $self->{xmlroot}{CONTENT}{STORAGES} = [];
+  $self->{xmlroot}{CONTENT}{SOFTWARES} = [];
+  $self->{xmlroot}{CONTENT}{USERS} = [];
+  $self->{xmlroot}{CONTENT}{VIDEOS} = [];
+  $self->{xmlroot}{CONTENT}{VIRTUALMACHINES} = [];
+  $self->{xmlroot}{CONTENT}{SOUNDS} = [];
+  $self->{xmlroot}{CONTENT}{MODEMS} = [];
 
   # Is the XML centent initialised?
   $self->{isInitialised} = undef;
@@ -99,7 +99,7 @@ sub addController {
   my $pcislot = $args->{PCISLOT};
   my $type = $args->{TYPE};
 
-  push @{$self->{REQUEST}{CONTENT}{CONTROLLERS}},
+  push @{$self->{xmlroot}{CONTENT}{CONTROLLERS}},
   {
     DRIVER => [$driver?$driver:''],
     NAME => [$name],
@@ -122,7 +122,7 @@ sub addModem {
   my $description = $args->{DESCRIPTION};
   my $name = $args->{NAME};
 
-  push @{$self->{REQUEST}{CONTENT}{MODEMS}},
+  push @{$self->{xmlroot}{CONTENT}{MODEMS}},
   {
 
     DESCRIPTION => [$description],
@@ -156,7 +156,7 @@ sub addDrive {
   my $type = $args->{TYPE};
   my $volumn = $args->{VOLUMN};
 
-  push @{$self->{REQUEST}{CONTENT}{DRIVES}},
+  push @{$self->{xmlroot}{CONTENT}{DRIVES}},
   {
     CREATEDATE => [$createdate?$createdate:''],
     FREE => [$free?$free:''],
@@ -203,7 +203,7 @@ sub addStorages {
 
   $serialnumber = $serialnumber?$serialnumber:$serial;
 
-  push @{$self->{REQUEST}{CONTENT}{STORAGES}},
+  push @{$self->{xmlroot}{CONTENT}{STORAGES}},
   {
 
     DESCRIPTION => [$description?$description:''],
@@ -248,7 +248,7 @@ sub addMemory {
 
   my $serialnumber = $args->{SERIALNUMBER};
 
-  push @{$self->{REQUEST}{CONTENT}{MEMORIES}},
+  push @{$self->{xmlroot}{CONTENT}{MEMORIES}},
   {
 
     CAPACITY => [$capacity?$capacity:''],
@@ -284,7 +284,7 @@ sub addPorts{
   my $type = $args->{TYPE};
 
 
-  push @{$self->{REQUEST}{CONTENT}{PORTS}},
+  push @{$self->{xmlroot}{CONTENT}{PORTS}},
   {
 
     CAPTION => [$caption?$caption:''],
@@ -317,7 +317,7 @@ sub addSlot {
   my $status = $args->{STATUS};
 
 
-  push @{$self->{REQUEST}{CONTENT}{SLOTS}},
+  push @{$self->{xmlroot}{CONTENT}{SLOTS}},
   {
 
     DESCRIPTION => [$description?$description:''],
@@ -354,7 +354,7 @@ sub addSoftware {
   my $version = $args->{VERSION};
 
 
-  push @{$self->{REQUEST}{CONTENT}{SOFTWARES}},
+  push @{$self->{xmlroot}{CONTENT}{SOFTWARES}},
   {
 
     COMMENTS => [$comments?$comments:''],
@@ -393,7 +393,7 @@ sub addMonitor {
   my $uuencode = $args->{UUENCODE};
 
 
-  push @{$self->{REQUEST}{CONTENT}{MONITORS}},
+  push @{$self->{xmlroot}{CONTENT}{MONITORS}},
   {
 
     BASE64 => [$base64?$base64:''],
@@ -427,7 +427,7 @@ sub addVideo {
   my $name = $args->{NAME};
   my $resolution = $args->{RESOLUTION};
 
-  push @{$self->{REQUEST}{CONTENT}{VIDEOS}},
+  push @{$self->{xmlroot}{CONTENT}{VIDEOS}},
   {
 
     CHIPSET => [$chipset?$chipset:''],
@@ -458,7 +458,7 @@ sub addSound {
   my $manufacturer = $args->{MANUFACTURER};
   my $name = $args->{NAME};
 
-  push @{$self->{REQUEST}{CONTENT}{SOUNDS}},
+  push @{$self->{xmlroot}{CONTENT}{SOUNDS}},
   {
 
     DESCRIPTION => [$description?$description:''],
@@ -500,7 +500,7 @@ sub addNetwork {
 
 #  return unless $ipaddress;
 
-  push @{$self->{REQUEST}{CONTENT}{NETWORKS}},
+  push @{$self->{xmlroot}{CONTENT}{NETWORKS}},
   {
 
     DESCRIPTION => [$description?$description:''],
@@ -554,7 +554,7 @@ sub setHardware {
           $logger->debug("USERID shouldn't be set directly anymore. Please use addCPU() method instead.");
       }
 
-      $self->{REQUEST}{'CONTENT'}{'HARDWARE'}{$key}[0] = $args->{$key};
+      $self->{xmlroot}{'CONTENT'}{'HARDWARE'}{$key}[0] = $args->{$key};
     }
   }
 }
@@ -570,7 +570,7 @@ sub setBios {
   foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG/) {
 
     if (exists $args->{$key}) {
-      $self->{REQUEST}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
+      $self->{xmlroot}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
     }
   }
 }
@@ -589,7 +589,7 @@ sub addCPU {
   my $serial = $args->{SERIAL};
   my $speed = $args->{SPEED};
 
-  push @{$self->{REQUEST}{CONTENT}{CPUS}},
+  push @{$self->{xmlroot}{CONTENT}{CPUS}},
   {
 
     MANUFACTURER => [$manufacturer],
@@ -600,9 +600,9 @@ sub addCPU {
   };
 
   # For the compatibility with HARDWARE/PROCESSOR*
-  my $processorn = int @{$self->{REQUEST}{CONTENT}{CPUS}};
-  my $processors = $self->{REQUEST}{CONTENT}{CPUS}[0]{SPEED}[0];
-  my $processort = $self->{REQUEST}{CONTENT}{CPUS}[0]{TYPE}[0];
+  my $processorn = int @{$self->{xmlroot}{CONTENT}{CPUS}};
+  my $processors = $self->{xmlroot}{CONTENT}{CPUS}[0]{SPEED}[0];
+  my $processort = $self->{xmlroot}{CONTENT}{CPUS}[0]{TYPE}[0];
 
   $self->setHardware ({
     PROCESSORN => $processorn,
@@ -628,11 +628,11 @@ sub addUser {
   return unless $login;
 
   # Is the login, already in the XML ?
-  foreach my $user (@{$self->{REQUEST}{CONTENT}{USERS}}) {
+  foreach my $user (@{$self->{xmlroot}{CONTENT}{USERS}}) {
       return if $user->{LOGIN}[0] eq $login;
   }
 
-  push @{$self->{REQUEST}{CONTENT}{USERS}},
+  push @{$self->{xmlroot}{CONTENT}{USERS}},
   {
 
 #      NAME => [$name],
@@ -642,7 +642,7 @@ sub addUser {
 
   };
 
-  my $userString = $self->{REQUEST}{CONTENT}{HARDWARE}{USERID}[0] || "";
+  my $userString = $self->{xmlroot}{CONTENT}{HARDWARE}{USERID}[0] || "";
 
   $userString .= '/' if $userString;
   $userString .= $login;
@@ -666,7 +666,7 @@ sub addPrinter {
   my $name = $args->{NAME};
   my $port = $args->{PORT};
 
-  push @{$self->{REQUEST}{CONTENT}{PRINTERS}},
+  push @{$self->{xmlroot}{CONTENT}{PRINTERS}},
   {
 
     DESCRIPTION => [$description?$description:''],
@@ -703,7 +703,7 @@ sub addVirtualMachine {
   my $vcpu = $args->{VCPU};
   my $vmid = $args->{VMID};
 
-  push @{$self->{REQUEST}{CONTENT}{VIRTUALMACHINES}},
+  push @{$self->{xmlroot}{CONTENT}{VIRTUALMACHINES}},
   {
 
       MEMORY =>  [$memory],
@@ -736,7 +736,7 @@ sub addProcess {
   my $started = $args->{STARTED};
   my $cmd = $args->{CMD};
 
-  push @{$self->{REQUEST}{CONTENT}{PROCESSES}},
+  push @{$self->{xmlroot}{CONTENT}{PROCESSES}},
   {
     USER => [$user?$user:''],
     PID => [$pid?$pid:''],
@@ -761,7 +761,7 @@ sub setAccessLog {
   foreach my $key (qw/USERID LOGDATE/) {
 
     if (exists $args->{$key}) {
-      $self->{REQUEST}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
+      $self->{xmlroot}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
     }
   }
 }
@@ -781,11 +781,11 @@ sub addIpDiscoverEntry {
   my $macaddr = $args->{MACADDR};
   my $name = $args->{NAME};
 
-  if (!$self->{REQUEST}{CONTENT}{IPDISCOVER}{H}) {
-    $self->{REQUEST}{CONTENT}{IPDISCOVER}{H} = [];
+  if (!$self->{xmlroot}{CONTENT}{IPDISCOVER}{H}) {
+    $self->{xmlroot}{CONTENT}{IPDISCOVER}{H} = [];
   }
 
-  push @{$self->{REQUEST}{CONTENT}{IPDISCOVER}{H}}, {
+  push @{$self->{xmlroot}{CONTENT}{IPDISCOVER}{H}}, {
     # If I or M is undef, the server will ingore the host
     I => [$ipaddress?$ipaddress:""],
     M => [$macaddr?$macaddr:""],
@@ -808,9 +808,9 @@ sub getContent {
   $self->processChecksum();
 
   #  checks for MAC, NAME and SSN presence
-  my $macaddr = $self->{REQUEST}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
-  my $ssn = $self->{REQUEST}->{CONTENT}->{BIOS}->{SSN}->[0];
-  my $name = $self->{REQUEST}->{CONTENT}->{HARDWARE}->{NAME}->[0];
+  my $macaddr = $self->{xmlroot}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
+  my $ssn = $self->{xmlroot}->{CONTENT}->{BIOS}->{SSN}->[0];
+  my $name = $self->{xmlroot}->{CONTENT}->{HARDWARE}->{NAME}->[0];
 
   my $missing;
 
@@ -824,7 +824,7 @@ sub getContent {
 
   $self->{accountinfo}->setAccountInfo($self);
 
-  my $content = XMLout( $self->{REQUEST}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
+  my $content = XMLout( $self->{xmlroot}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
 
   my $clean_content;
 
@@ -959,7 +959,7 @@ sub processChecksum {
 
   foreach my $section (keys %mask) {
     #If the checksum has changed...
-    my $hash = md5_base64(XML::Simple::XMLout($self->{REQUEST}{'CONTENT'}{$section}));
+    my $hash = md5_base64(XML::Simple::XMLout($self->{xmlroot}{'CONTENT'}{$section}));
     if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
       $logger->debug ("Section $section has changed since last inventory");
       #We make OR on $checksum with the mask of the current section
@@ -1014,7 +1014,7 @@ sub addSection {
   my $multi = $args->{multi};
   my $tagname = $args->{tagname};
 
-  for( keys %{$self->{REQUEST}{CONTENT}} ){
+  for( keys %{$self->{xmlroot}{CONTENT}} ){
     if( $tagname eq $_ ){
       $logger->debug("Tag name `$tagname` already exists - Don't add it");
       return 0;
@@ -1022,10 +1022,10 @@ sub addSection {
   }
 
   if($multi){
-    $self->{REQUEST}{CONTENT}{$tagname} = [];
+    $self->{xmlroot}{CONTENT}{$tagname} = [];
   }
   else{
-    $self->{REQUEST}{CONTENT}{$tagname} = {};
+    $self->{xmlroot}{CONTENT}{$tagname} = {};
   }
   return 1;
 }
@@ -1044,7 +1044,7 @@ sub feedSection{
   my $logger = $self->{logger};
 
   my $found=0;
-  for( keys %{$self->{REQUEST}{CONTENT}} ){
+  for( keys %{$self->{xmlroot}{CONTENT}} ){
     $found = 1 if $tagname eq $_;
   }
 
@@ -1053,11 +1053,11 @@ sub feedSection{
     return 0;
   }
 
-  if( $self->{REQUEST}{CONTENT}{$tagname} =~ /ARRAY/ ){
-    push @{$self->{REQUEST}{CONTENT}{$tagname}}, $args->{data};
+  if( $self->{xmlroot}{CONTENT}{$tagname} =~ /ARRAY/ ){
+    push @{$self->{xmlroot}{CONTENT}{$tagname}}, $args->{data};
   }
   else{
-    $self->{REQUEST}{CONTENT}{$tagname} = $values;
+    $self->{xmlroot}{CONTENT}{$tagname} = $values;
   }
 
   return 1;
