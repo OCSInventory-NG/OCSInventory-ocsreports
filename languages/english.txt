@@ -1,18 +1,18 @@
 0 iso-8859-9
 2 All computers
-3 Computers with sotfware...
+3 Computers with software...
 5 Unity codes under my responsibility
 9 Search with various criteria
-12 Tag value
+12 TAG value
 13 Send
 17 Agent
 19 Software version
 20 Software
-23 Computer
+23 Device
 24 User
 25 Operating system
 26 Memory
-27 Memory Speed (MHz)
+27 Memory Frequency (MHz)
 28 Computer count
 30 Search
 31 Choose a parameter
@@ -41,15 +41,17 @@
 65 Model
 66 Type
 67 Disk size
-69 Editor
-70 Designation
+69 Author
+70 Description
+71 Warranty
+73 Price
 79 Printer(s)
 80 Caption
 81 Status
 82 Network(s)
 83 Capacity
 84 Interface
-85 Letter
+85 Driveletter
 86 File System
 87 Total
 88 Free
@@ -65,8 +67,8 @@
 99 Computer details
 103 Update
 107 Config
-108 Registry requests
-111 Windows licence
+108 Windows Registry requests
+111 Windows Product ID
 113 Cancel
 114 Register
 115 Update
@@ -87,11 +89,11 @@
 173 don't be added to the base
 174 Security
 175 Duplicates
-176 Ips
+176 IPs
 177 Merge redundant computers
-178 Tag / Number of PC repartition
+178 Computers sorted by TAGs
 180 Wrong username or password
-182 Computers having a given tag
+182 Computers having a given TAG
 183 Download
 184 This file does not contain "use constant version"
 185 Version must be over 1
@@ -120,7 +122,7 @@
 208 mask
 209 BIOS Version
 210 BIOS Date
-211 Registry
+211 Windows Registry
 212 Key name
 213 Key value
 214 Print this page
@@ -205,7 +207,7 @@
 293 Network devices types
 294 Subnet names
 295 Click to edit
-296 Uid
+296 ID
 297 Can't write in directory
 298 All fields must be filled
 299 Invalid IP adress (must be: x.x.x.x)
@@ -214,7 +216,7 @@
 302 Network deleted
 303 Add a subnet
 304 Network name
-305 Uid
+305 UID
 306 Subnet list
 307 Add a type
 308 Type name
@@ -364,7 +366,7 @@
 467 WARNING: Can't find fragments files at
 468 Are you sure to want to activate this package ?
 469 Package activated, it can now be affected
-470 Https url
+470 HTTPS url
 471 Fragments url
 472 ERROR: Can't delete directory
 473 Timestamp must be a number
@@ -447,7 +449,7 @@
 550 File (not mandatory, may be used by "execute" commmand)
 551 This package name already exists
 552 <i>You must make a computer search, and then click 'deploy' to affect these activated packages<br>You may also affect a package to a single computer by using the 'customization' tab of any computer details</i>.
-553 Windows key
+553 Windows Product Key
 554 Monitor: serial
 555 Monitor: manufacturer
 556 Monitor: caption
@@ -456,7 +458,7 @@
 559 This file is not .ocs
 560 To server
 561 Unknown (deleted package)
-562 Networks having uid:
+562 Networks having UID:
 563 Manufacturer
 564 Agent auto-launching frequency
 565 Server used for local inventories

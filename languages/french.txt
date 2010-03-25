@@ -3,7 +3,7 @@
 3 Machines ayant un logiciel
 5 Les codes unite dont je suis responsable
 9 Recherche multicriteres
-12 Tag
+12 TAG
 13 Envoyer
 17 Client
 19 Version du logiciel
@@ -63,7 +63,7 @@
 97 Moniteur(s)
 103 Mettre a jour
 107 Configuration
-108 Requetes de registre
+108 Requetes de registre Windows
 111 Licence Windows
 113 Annuler
 114 Enregistrer
@@ -89,7 +89,7 @@
 177 Fusionner les lignes redondantes
 178 Repartition code/machines
 180 Utilisateur ou mot de passe incorrect
-182 Machines ayant un tag donne
+182 Machines ayant un TAG donne
 183 Telecharger
 184 Ce fichier ne contient pas "use constant version"
 185 La version doit etre superieure ou egale a 1
@@ -203,7 +203,7 @@
 293 Types de peripheriques
 294 Noms des sous reseaux
 295 Cliquer pour editer
-296 Id
+296 ID
 297 Ne peut ecrire dans le repertoire
 298 Tous les champs doivent etre remplis
 299 Adresse IP invalide (format valide: x.x.x.x)
@@ -212,7 +212,7 @@
 302 Reseau supprime
 303 Ajouter un sous-reseau
 304 Nom reseau
-305 Uid
+305 UID
 306 Liste des sous-reseaux
 307 Ajouter un type
 308 Nom du type
@@ -362,7 +362,7 @@
 467 ATTENTION: Les fragments sont introuvables a l'adresse
 468 Etes vous sur de vouloir tout de meme activer le paquet avec ces parametres ?
 469 Paquet active, il peut maintenant etre affecte
-470 Serveur https
+470 Serveur HTTPS
 471 Serveur de fichiers
 472 ERREUR: Ne peut supprimer le repertoire
 473 Le timestamp doit etre un nombre
