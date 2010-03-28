@@ -16,16 +16,6 @@ package Ocsinventory::Agent::Modules::Download;
 
 use strict;
 
-require Exporter;
-
-our @ISA = qw /Exporter/;
-
-our @EXPORT = qw/
-	download_inventory_handler
-	download_prolog_reader
-	download_end_handler
-/;
-
 use Fcntl qw/:flock/;
 use XML::Simple;
 use LWP::UserAgent;
@@ -39,46 +29,83 @@ use Net::SSLeay qw(die_now die_if_ssl_error);
 # Can be missing. By default, we use MD5
 # You have to install it if you want to use SHA1 digest
 eval{ require Digest::SHA1 };
-use constant HTTPS_PORT => '443';
-# Time to wait between scheduler periods, scheduling cycles and fragments downloads
-use constant FRAG_LATENCY_DEFAULT 	=> 10;
-use constant PERIOD_LATENCY_DEFAULT 	=> 0;
-use constant CYCLE_LATENCY_DEFAULT 	=> 10;
-use constant MAX_ERROR_COUNT		=> 30;
-# Number of loops for one period
-use constant PERIOD_LENGTH_DEFAULT 	=> 10;
-# Errors
-use constant CODE_SUCCESS 	=> 'SUCCESS';
-use constant ERR_BAD_ID 	=> 'ERR_BAD_ID';
-use constant ERR_DOWNLOAD_INFO 	=> 'ERR_DOWNLOAD_INFO';
-use constant ERR_BAD_DIGEST 	=> 'ERR_BAD_DIGEST';
-use constant ERR_DOWNLOAD_PACK 	=> 'ERR_DOWNLOAD_PACK';
-use constant ERR_BUILD 		=> 'ERR_BUILD';
-use constant ERR_EXECUTE 	=> 'ERR_EXECUTE';
-use constant ERR_CLEAN 		=> 'ERR_CLEAN';
-use constant ERR_TIMEOUT	=> 'ERR_TIMEOUT';
-use constant ERR_ALREADY_SETUP  => 'ERR_ALREADY_SETUP';
+
+
+
+sub new {
+
+   my $name="download";   #Set the name of your module here
+
+   my (undef,$context) = @_;
+   my $self = {};  
+   
+   #Create a special logger for the module
+   $self->{logger} = new Ocsinventory::Logger ({
+            config => $context->{config}
+   });
+
+   $self->{context} = $context;
+   $self->{logger}->{header}="[$name]";
+   $self->{structure} = {
+			name => $name,
+			start_handler => undef , 
+			prolog_writer => undef, 
+			prolog_reader => "download_prolog_reader", 
+			inventory_handler => "download_inventory_handler", 
+			end_handler => "download_end_handler" 
+   };
+ 
+   $self->{settings} = {
+		https_port => '443',
+		# Time to wait between scheduler periods, scheduling cycles and fragments downloads
+		frag_latency_default 	=> 10,
+		period_latency_default 	=> 0,
+		cycle_latency_default 	=> 10,
+		max_error_count			=> 30,
+		# Number of loops for one period
+		period_lenght_default 	=> 10,
+   };
+
+   $self->{messages} = {
+		# Errors
+		code_succes				 	=> 'SUCCESS',
+		err_bad_id				 	=> 'ERR_BAD_ID',
+		err_download_info		 	=> 'ERR_DOWNLOAD_INFO',
+		err_bad_digest			 	=> 'ERR_BAD_DIGEST',
+		err_download_pack		 	=> 'ERR_DOWNLOAD_PACK',
+		err_build			 		=> 'ERR_BUILD',
+		err_execute				 	=> 'ERR_EXECUTE',
+		err_clean			 		=> 'ERR_CLEAN',
+		err_timeout					=> 'ERR_TIMEOUT',
+		err_already_setup			=> 'ERR_ALREADY_SETUP',
+   };
+
+   bless $self;
+}
+
 
 my @packages;
-my $current_context;
 my $ua;
 my $config;
-my $error;
-my $debug;
 
-# Read prolog response
-sub download_prolog_reader{
-	$current_context = shift;
-	my $prolog = shift;
+
+sub download_prolog_reader{      #Read prolog response
+
+	my ($self,$prolog) = @_;
 	
-	$debug = $::debug;
+	my $context = $self->{context};
+	my $logger = $self->{logger};
+	my $settings = $self->{settings};
+	my $messages = $self->{messages};
+
+	$logger->debug("Calling download_prolog_reader");
 	
-	&log($prolog);
+	$logger->debug($prolog);
 	
 	$prolog = XML::Simple::XMLin( $prolog, ForceArray => ['OPTION', 'PARAM']);
 	my $option;
 	# Create working directory
-	my $opt_dir = $current_context->{'OCS_AGENT_INSTALL_PATH'}.'/download';
+	my $opt_dir = $context->{installpath}.'/download';
 	mkdir($opt_dir) unless -d $opt_dir;
 	
 	# We create a file to tell to download process that we are running
@@ -107,12 +134,12 @@ sub download_prolog_reader{
 					open FH, ">$opt_dir/config" or die("Cannot open/create
                         config file ($opt_dir/config)");
 					if(flock(FH, LOCK_EX)){
-						&log("Writing config file.");
+						$logger->debug("Writing config file.");
 						print FH XMLout($_, RootName => 'CONF');
 						close(FH);
 						$config = $_;
 					}else{
-						&log("Cannot lock config file !!");
+						$logger->error("Cannot lock config file !!");
 						close(FH);
 						return 0;
 					}
@@ -120,28 +147,28 @@ sub download_prolog_reader{
 					# Apply config
 					# ON ?
 					if($_->{'ON'} == '0'){
-						&log("Download is off.");
+						$logger->info("Download is off.");
 						open LOCK, "$opt_dir/lock" or die("Cannot open lock file: $!");
 						if(flock(LOCK, LOCK_EX|LOCK_NB)){
 							close(LOCK);
 							unlink("$opt_dir/suspend");
 							return 0;
 						}else{
-							&log("Try to kill current download process...");
+							$logger->debug("Try to kill current download process...");
 							my $pid = <LOCK>;
 							close(LOCK);
-							&log("Sending USR1 to $pid...");
+							$logger->debug("Sending USR1 to $pid...");
 							if(kill("USR1", $pid)){
-								&log("Success.");
+								$logger->debug("Success.");
 							}else{
-								&log("Failed.");
+								$logger->debug("Failed.");
 							}
 							return 0;
 						}
 					}
 				# Maybe a new package to download
 				}elsif($_->{'TYPE'} eq 'PACK'){
-					push @packages, {
+					push @packages, {								#TODO put @packages in object attributes
 						'PACK_LOC' => $_->{'PACK_LOC'},
 						'INFO_LOC' => $_->{'INFO_LOC'},
 						'ID' => $_->{'ID'},
@@ -156,17 +183,17 @@ sub download_prolog_reader{
 	# We are now in download child
 	# Connect to server
 	$ua = LWP::UserAgent->new();
-	$ua->agent('OCS-NG_linux_client_v'.$current_context->{'OCS_AGENT_VERSION'});
-	$ua->credentials( $current_context->{'OCS_AGENT_SERVER_NAME'}, 
-		$current_context->{'OCS_AGENT_AUTH_REALM'}, 
-		$current_context->{'OCS_AGENT_AUTH_USER'} => $current_context->{'OCS_AGENT_AUTH_PWD'} 
+	$ua->agent('OCS_NG_Unified_Unix_Agent_v'.$context->{version});
+	$ua->credentials( $context->{'OCS_AGENT_SERVER_NAME'}, 
+		$context->{authrealm}, 
+		$context->{authuser} => $context->{authpwd} 
 	);
 	
 	# Check history file
 	unless(open HISTORY, "$opt_dir/history") {
 		flock(HISTORY, LOCK_EX);
 		unlink("$opt_dir/suspend");
-		&log("Cannot read history file: $!");
+		$logger->error("Cannot read history file: $!");
 		return 1;
 	}
 	
@@ -181,14 +208,14 @@ sub download_prolog_reader{
 		my $location = $_->{'INFO_LOC'};
 		
 		if(_already_in_array($fileid, @done)){
-			&log("Will not download $fileid. (already in history file)");
-			&download_message({ 'ID' => $fileid }, ERR_ALREADY_SETUP);
+			$logger->info("Will not download $fileid. (already in history file)");
+			&download_message({ 'ID' => $fileid }, $messages->{err_already_setup},$logger,$context);
 			next;
 		}
 		
 		# Looking for packages status
 		unless(-d $dir){
-			&log("Making working directory for $fileid.");
+			$logger->debug("Making working directory for $fileid.");
 			mkdir($dir) or die("Cannot create $fileid directory: $!");
 			open FH, ">$dir/since" or die("Cannot create $fileid since file: $!");;
 			print FH time();
@@ -198,20 +225,21 @@ sub download_prolog_reader{
 		# Retrieve and writing info file if needed
 		unless(-f "$dir/$infofile"){
 			# Special value INSTALL_PATH
-			$_->{CERT_PATH} =~ s/INSTALL_PATH/$current_context->{OCS_AGENT_INSTALL_PATH}/;
-			$_->{CERT_FILE} =~ s/INSTALL_PATH/$current_context->{OCS_AGENT_INSTALL_PATH}/;
+			$_->{CERT_PATH} =~ s/INSTALL_PATH/$context->{installpath}/;
+			$_->{CERT_FILE} =~ s/INSTALL_PATH/$context->{installpath}/;
 		
             if (!-f $_->{CERT_FILE}) {
-                &log("No certificat found in ".$_->{CERT_FILE});
+		$logger->debug("installpath=$context->{installpath}");
+                $logger->error("No certificat found in ".$_->{CERT_FILE});
             }
 
 			# Getting info file
-			&log("Retrieving info file for $fileid");
+			$logger->debug("Retrieving info file for $fileid");
 			
 			my ($ctx, $ssl, $ra);
 			eval {
 				$| = 1;
-				&log('Initialize ssl layer...');
+				$logger->debug('Initialize ssl layer...');
 				
 				# Initialize openssl
 				if ( -e '/dev/urandom') {
@@ -245,7 +273,7 @@ sub download_prolog_reader{
 				}elsif($_->{INFO_LOC}=~ /^([^\/]+)(.*)$/){
 					$server_name = $1;
 					$server_dir = $2;	
-					$server_port = HTTPS_PORT;
+					$server_port = $settings->{https_port};
 				}
 				$server_dir .= '/' unless $server_dir=~/\/$/;
 				
@@ -253,7 +281,7 @@ sub download_prolog_reader{
 				my $dest_serv_params  = pack ('S n a4 x8', &AF_INET, $server_port, $server_name );
 				
 				# Connect to server
-				&log("Connect to server: $_->{INFO_LOC}...");
+				$logger->debug("Connect to server: $_->{INFO_LOC}...");
 				socket  (S, &AF_INET, &SOCK_STREAM, 0) or die "socket: $!";
 				connect (S, $dest_serv_params) or die "connect: $!";
 				
@@ -263,7 +291,7 @@ sub download_prolog_reader{
 				Net::SSLeay::set_fd($ssl, fileno(S));
 				
 				# SSL handshake
-				&log('Starting SSL connection...');
+				$logger->debug('Starting SSL connection...');
 				Net::SSLeay::connect($ssl);
 				die_if_ssl_error('callback: ssl connect!');
 				
@@ -274,7 +302,7 @@ sub download_prolog_reader{
 				
 				$ra = Net::SSLeay::ssl_read_all($ssl);
 				$ra = (split("\r\n\r\n", $ra))[1] or die;
-				&log("Info file: $ra");
+				$logger->debug("Info file: $ra");
 				
 				my $xml = XML::Simple::XMLin( $ra ) or die;
 				
@@ -287,12 +315,12 @@ sub download_prolog_reader{
 				close FH;
 			};
 			if($@){
-				download_message({ 'ID' => $fileid }, ERR_DOWNLOAD_INFO);
-				&log("Error: SSL hanshake has failed");
+				download_message({ 'ID' => $fileid }, $self->{messages}->{err_download_info},$logger,$context);
+				$logger->error("Error: SSL hanshake has failed");
 				next;	
 			}
 			else {
-				&log("Success. :-)");
+				$logger->debug("Success. :-)");
 			}
 			Net::SSLeay::free ($ssl);
 			Net::SSLeay::CTX_free ($ctx);
@@ -301,24 +329,34 @@ sub download_prolog_reader{
 		}
 	}
 	unless(unlink("$opt_dir/suspend")){
-		&log("Cannot delete suspend file: $!");
+		$logger->error("Cannot delete suspend file: $!");
 		return 1;
 	}
 	return 0;
 }
+
 
 sub ssl_verify_callback {
 	my ($ok, $x509_store_ctx) = @_;
 	return $ok; 
 }
 
-sub download_inventory_handler{
-	# Adding the ocs package ids to softwares
-	my $current_context = shift;
-	my $inventory = shift;
+
+sub download_inventory_handler{      	# Adding the ocs package ids to softwares
+   
+   my ($self,$inventory) = @_;
+	
+   my $context = $self->{context};
+   my $logger = $self->{logger};
+
+
+	$logger->debug("Calling download_inventory_handler");
+
 	my @history;
+
+
 	# Read download history file
-	if( open PACKAGES, "$current_context->{OCS_AGENT_INSTALL_PATH}/download/history" ){
+	if( open PACKAGES, "$context->{installpath}/download/history" ){
 		flock(PACKAGES, LOCK_SH);
 		while(<PACKAGES>){
 			chomp( $_ );
@@ -326,16 +364,27 @@ sub download_inventory_handler{
 		}
 	}
 	close(PACKAGES);
+
 	# Add it to inventory (will be handled by Download.pm server module
-	push @{ $inventory->{'CONTENT'}->{'DOWNLOAD'}->{'HISTORY'} },{
+	push @{ $inventory->{xmlroot}->{'CONTENT'}->{'DOWNLOAD'}->{'HISTORY'} },{
 		'PACKAGE'=> \@history
 	};
 }
 
-sub download_end_handler{
-	# Get global structure
-	$current_context = shift;
-	my $dir = $current_context->{'OCS_AGENT_INSTALL_PATH'}."/download";
+
+
+sub download_end_handler{    	# Get global structure
+   
+   my $self = shift;
+	
+   my $context = $self->{context};
+   my $logger = $self->{logger};
+   my $settings = $self->{settings};
+   my $messages = $self->{messages};
+
+   $logger->debug("Calling download_end_handler");
+
+	my $dir = $context->{installpath}."/download";
 	my $pidfile = $dir."/lock";
 	
 	return 0 unless -d $dir;
@@ -349,19 +398,14 @@ sub download_end_handler{
 	}else{
 		$SIG{'USR1'} = sub { 
 			print "Exiting on signal...\n";
-			&finish();
+			&finish($logger, $context);
 		};
 		# Go into working directory
 		chdir($dir) or die("Cannot chdir to working directory...Abort\n");
 	}
 	
-	unless($debug){
-		open STDOUT, '>/dev/null' or die("Cannot redirect STDOUT");
-		open STDERR, '>/dev/null' or die("Cannot redirect STDERR");
-	}
-	
 	# Maybe an other process is running
-	exit(0) if begin($pidfile);
+	exit(0) if begin($pidfile,$logger);
 	# Retrieve the packages to download
 	opendir DIR, $dir or die("Cannot read working directory: $!");
 	
@@ -370,7 +414,7 @@ sub download_end_handler{
 	while(1){
 		# If agent is running, we wait 
 		if (-e "suspend") {
-			&log('Found a suspend file... Will wait 10 seconds before retry');
+			$logger->debug('Found a suspend file... Will wait 10 seconds before retry');
 			sleep(10);
 			next;
 		}
@@ -384,13 +428,13 @@ sub download_end_handler{
 			close(FH);
 			# If Frag latency is null, download is off
 			if($config->{'ON'} eq '0'){
-				&log("Option turned off. Exiting.");
-				finish();
+				$logger->info("Option turned off. Exiting.");
+				finish($logger, $context);
 			}
 		}else{
-			&log("Cannot read config file :-( . Exiting.");
+			$logger->error("Cannot read config file :-( . Exiting.");
 			close(FH);
-			finish();
+			finish($logger, $context);
 		}
 		
 		# Retrieving packages to download and their priority
@@ -401,25 +445,25 @@ sub download_end_handler{
 			
 			# Clean package if info file does not still exist
 			unless(-e "$entry/info"){
-				&log("No info file found for $entry!!");
-				clean( { 'ID' => $entry } );
+				$logger->debug("No info file found for $entry!!");
+				clean( { 'ID' => $entry }, $logger, $context, $messages );
 				next;
 			}
 			my $info = XML::Simple::XMLin( "$entry/info" ) or next;
 			
 			# Check that fileid == directory name
 			if($info->{'ID'} ne $entry){	
-				&log("ID in info file does not correspond!!");
-				clean( { 'ID' => $entry } );
-				download_message({ 'ID' => $entry }, ERR_BAD_ID);
+				$logger->debug("ID in info file does not correspond!!");
+				clean( { 'ID' => $entry },$logger, $context, $messages );
+				download_message({ 'ID' => $entry }, $messages->{err_bad_id},$logger,$context);
 				next;
 			}
 			
 			# Manage package timeout
 			# Clean package if since timestamp is not present
 			unless(-e "$entry/since"){
-				&log("No since file found!!");
-				clean( { 'ID' => $entry } );
+				$logger->debug("No since file found!!");
+				clean( { 'ID' => $entry },$logger, $context,$messages );
 				next;
 			}else{
 				my $time = time();
@@ -427,26 +471,26 @@ sub download_end_handler{
 					my $since = <SINCE>;
 					if($since=~/\d+/){
 						if( (($time-$since)/86400) > $config->{TIMEOUT}){
-							&log("Timeout Reached for $entry.");
-							clean( { 'ID' => $entry } );
-							&download_message('ID' => $entry, ERR_TIMEOUT);
+							$logger->error("Timeout Reached for $entry.");
+							clean( { 'ID' => $entry },$logger, $context,$messages );
+							&download_message('ID' => $entry, $messages->{err_timeout},$logger,$context);
 							close(SINCE);
 							next;
 						}else{
-							&log("Checking timeout for $entry... OK");
+							$logger->debug("Checking timeout for $entry... OK");
 						}
 					}else{
-						&log("Since data for $entry is incorrect.");
-						clean( { 'ID' => $entry } );
-						&download_message('ID' => $entry, ERR_TIMEOUT);
+						$logger->error("Since data for $entry is incorrect.");
+						clean( { 'ID' => $entry },$logger, $context, $messages );
+						&download_message('ID' => $entry, $messages->{err_timeout},$logger,$context);
 						close(SINCE);
 						next;
 					}
 					close(SINCE);
 				}else{
-					&log("Cannot find since data for $entry.");
-					clean( { 'ID' => $entry } );
-					&download_message('ID' => $entry, ERR_TIMEOUT);
+					$logger->error("Cannot find since data for $entry.");
+					clean( { 'ID' => $entry },$logger, $context, $messages );
+					&download_message('ID' => $entry, $messages->{err_timeout},$logger,$context);
 					next;
 				}
 			}
@@ -478,40 +522,46 @@ sub download_end_handler{
 		if($end){
 			last;
 		}else{
-			period(\@packages);	
+			period(\@packages,$logger,$context,$self->{messages},$settings);	
 		}
 	}
-	&log("No more package to download.");
-	finish();
+	$logger->info("No more package to download.");
+	finish($logger, $context);
 }
 
 # Schedule the packages
 sub period{
-	my $packages = shift;
+	my ($packages,$logger,$context,$messages,$settings) = @_ ;
+
+	my $period_lenght_default = $settings->{period_lenght_default} ;
+	my $frag_latency_default= $settings->{frag_latency_default} ;
+	my $cycle_latency_default= $settings->{cycle_latency_default} ;
+	my $period_latency_default= $settings->{period_latency_default} ;
+
 	my @rt;
 	my $i;
 	
 	@rt = grep {$_->{'PRI'} eq "0"} @$packages;
 	
-	&log("New period. Nb of cycles: ".
-	(defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:PERIOD_LENGTH_DEFAULT));
+	$logger->debug("New period. Nb of cycles: ".
+	(defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:$period_lenght_default));
 	
-	for($i=1;$i<=( defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:PERIOD_LENGTH_DEFAULT);$i++){
+	for($i=1;$i<=( defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:$period_lenght_default);$i++){
 		# Highest priority
 		if(@rt){
-			&log("Managing ".scalar(@rt)." package(s) with absolute priority.");
+			$logger->debug("Managing ".scalar(@rt)." package(s) with absolute priority.");
 			for(@rt){
 				# If done file found, clean package
 				if(-e "$_->{'ID'}/done"){
-					&log("done file found!!");
-					done($_);
+					$logger->debug("done file found!!");
+					done($_,$logger,$context,$messages,$settings);
 					next;
 				}
-				download($_);
-					&log("Now pausing for a cycle latency => ".(
-					defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:FRAG_LATENCY_DEFAULT)
+				download($_,$logger,$context,$messages,$settings);
+					$logger->debug("Now pausing for a cycle latency => ".(
+					defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default)
 					." seconds");
-				sleep( defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:FRAG_LATENCY_DEFAULT );
+				sleep( defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default );
 			}
 			next;
 		}
@@ -519,32 +569,34 @@ sub period{
 		for(@$packages){
 			# If done file found, clean package
 			if(-e "$_->{'ID'}/done"){
-				&log("done file found!!");
-				done($_);
+				$logger->debug("done file found!!");
+				done($_,$logger,$context,$messages,$settings);
 				next;
 			}
 			next if $i % $_->{'PRI'} != 0;
-			download($_);
+			download($_,$logger,$context,$messages,$settings);
 			
-			&log("Now pausing for a fragment latency => ".
-			(defined( $config->{'FRAG_LATENCY'} )?$config->{'FRAG_LATENCY'}:FRAG_LATENCY_DEFAULT)
+			$logger->debug("Now pausing for a fragment latency => ".
+			(defined( $config->{'FRAG_LATENCY'} )?$config->{'FRAG_LATENCY'}:$frag_latency_default)
 			." seconds");
 			
-			sleep(defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:FRAG_LATENCY_DEFAULT);
+			sleep(defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default);
 		}
 		
-		&log("Now pausing for a cycle latency => ".(
-		defined($config->{'CYCLE_LATENCY'})?$config->{'CYCLE_LATENCY'}:CYCLE_LATENCY_DEFAULT)
+		$logger->debug("Now pausing for a cycle latency => ".(
+		defined($config->{'CYCLE_LATENCY'})?$config->{'CYCLE_LATENCY'}:$cycle_latency_default)
 		." seconds");
 		
-		sleep(defined($config->{'CYCLE_LATENCY'})?$config->{'CYCLE_LATENCY'}:CYCLE_LATENCY_DEFAULT);
+		sleep(defined($config->{'CYCLE_LATENCY'})?$config->{'CYCLE_LATENCY'}:$cycle_latency_default);
 	}
-	sleep($config->{'PERIOD_LATENCY'}?$config->{'PERIOD_LATENCY'}:PERIOD_LATENCY_DEFAULT);
+	sleep($config->{'PERIOD_LATENCY'}?$config->{'PERIOD_LATENCY'}:$period_latency_default);
 }
 
 # Download a fragment of the specified package
-sub download{
-	my $p = shift;
+sub download {
+	my ($p,$logger,$context,$messages,$settings) = @_;
+
+	my $error;
 	my $proto = $p->{'PROTO'};
 	my $location = $p->{'PACK_LOC'};
 	my $id = $p->{'ID'};
@@ -558,23 +610,23 @@ sub download{
 	
 	# Retrieve fragments already downloaded
 	unless(open TASK, "$id/task"){
-		&log("Download: Cannot open $id/task.");
+		$logger->error("Cannot open $id/task.");
 		return 1;
 	}
 	my @task = <TASK>;
 	
 	# Done
 	if(!@task){
-		&log("Download of $p->{'ID'}... Finished.");
+		$logger->debug("Download of $p->{'ID'}... Finished.");
 		close(TASK);
-		execute($p);
+		execute($p,$logger,$context,$messages,$settings);
 		return 0;
 	}
 	
 	my $fragment = shift(@task);
 	my $request = HTTP::Request->new(GET => $URI.$fragment);
 	
-	&log("Downloading $fragment...");
+	$logger->debug("Downloading $fragment...");
 	
 	# Using proxy if possible
 	$ua->env_proxy;
@@ -582,7 +634,7 @@ sub download{
 	
 	# Checking if connected
 	if($res->is_success) {
-		&log("Success :-)");
+		$logger->debug("Success :-)");
 		$error = 0;
 		open FRAGMENT, ">$id/$fragment" or return 1;
 		print FRAGMENT $res->content;
@@ -599,11 +651,11 @@ sub download{
 	else {
 		#download_message($p, ERR_DOWNLOAD_PACK);
 		close(TASK);
-		&log("Error :-( ".$res->code);
+		$logger->error("Error :-( ".$res->code);
 		$error++;
-		if($error > MAX_ERROR_COUNT){
-			&log("Error : Max errors count reached");
-			finish();
+		if($error > $settings->{maw_error_count}){
+			$logger->error("Error : Max errors count reached");
+			finish($logger,$context);
 		}
 		return 1;
 	}
@@ -612,21 +664,22 @@ sub download{
 
 # Assemble and handle downloaded package
 sub execute{
-	my $p = shift;
+	my ($p,$logger,$context,$messages,$settings) = @_;
+
 	my $tmp = $p->{'ID'}."/tmp";
 	my $exit_code;
 	
-	&log("Execute orders for package $p->{'ID'}.");
+	$logger->debug("Execute orders for package $p->{'ID'}.");
 	
-	if(build_package($p)){
-		clean($p);
+	if(build_package($p,$logger,$context,$messages)){
+		clean($p,$logger, $context,$messages);
 		return 1;
 	}else{
 		# First, we get in temp directory
 		unless( chdir($tmp) ){
-		 	&log("Cannot chdir to working directory: $!");
-			download_message($p, ERR_EXECUTE);
-			clean($p);
+		 	$logger->error("Cannot chdir to working directory: $!");
+			download_message($p, $messages->{err_execute}, $logger,$context);
+			clean($p,$logger, $context,$messages);
 			return 1;
 		}
 		
@@ -645,7 +698,7 @@ sub execute{
 				$p->{'NAME'} =~ s/^([^ -]+).*/$1/;
 				# Exec specified file (LAUNCH => NAME)
 				if(-e $p->{'NAME'}){
-					&log("Launching $p->{'NAME'}...");
+					$logger->debug("Launching $p->{'NAME'}...");
 					chmod(0755, $p->{'NAME'}) or die("Cannot chmod: $!");
 					$exit_code = system( "./".$exe_line );
 				}else{
@@ -654,12 +707,12 @@ sub execute{
 				
 			}elsif($p->{'ACT'} eq 'EXECUTE'){
 				# Exec specified command EXECUTE => COMMAND
-				&log("Execute $p->{'COMMAND'}...");
+				$logger->debug("Execute $p->{'COMMAND'}...");
 				system( $p->{'COMMAND'} ) and die();
 				
 			}elsif($p->{'ACT'} eq 'STORE'){
 				# Store files in specified path STORE => PATH
-				$p->{'PATH'} =~ s/INSTALL_PATH/$current_context->{OCS_AGENT_INSTALL_PATH}/;
+				$p->{'PATH'} =~ s/INSTALL_PATH/$context->{installpath}/;
 				
 				# Build it if needed
 				my @dir = split('/', $p->{'PATH'});
@@ -669,24 +722,24 @@ sub execute{
 					$dir .= "$_/";
 					unless(-e $dir){
 						mkdir($dir);
-						&log("Create $dir...");
+						$logger->debug("Create $dir...");
 					}	
 				}
 				
-				&log("Storing package to $p->{'PATH'}...");
+				$logger->debug("Storing package to $p->{'PATH'}...");
 				# Stefano Brandimarte => Stevenson! <stevens@stevens.it>
 				system(&_get_path('cp')." -pr * ".$p->{'PATH'}) and die();
 			}
 		};
 		if($@){
 			# Notify success to ocs server
-			download_message($p, ERR_EXECUTE);
+			download_message($p, $messages->{err_execute},$logger,$context);
 			chdir("../..") or die("Cannot go back to download directory: $!");
-			clean($p);
+			clean($p,$logger,$context,$messages);
 			return 1;
 		}else{
 			chdir("../..") or die("Cannot go back to download directory: $!");
-			done($p, (defined($exit_code)?$exit_code:'_NONE_'));
+			done($p, (defined($exit_code)?$exit_code:'_NONE_'),$logger,$context,$messages,$settings);
 			return 0;
 		}
 	}	
@@ -694,7 +747,8 @@ sub execute{
 
 # Check package integrity
 sub build_package{
-	my $p = shift;
+	my ($p,$logger,$context,$messages) = @_;
+
 	my $id = $p->{'ID'};
 	my $count = $p->{'FRAGS'};
 	my $i;
@@ -707,7 +761,7 @@ sub build_package{
 	return 0 unless $count;
 	
 	# Assemble package
-	&log("Building package for $p->{'ID'}.");
+	$logger->info("Building package for $p->{'ID'}.");
 	
 	for($i=1;$i<=$count;$i++){
 		if(-f "./$id/$id-$i"){
@@ -728,31 +782,31 @@ sub build_package{
 	}
 	close(PACKAGE);
 	# 
-	if(check_signature($p->{'DIGEST'}, "$tmp/build.tar.gz", $p->{'DIGEST_ALGO'}, $p->{'DIGEST_ENCODE'})){
-		download_message($p, ERR_BAD_DIGEST);
+	if(check_signature($p->{'DIGEST'}, "$tmp/build.tar.gz", $p->{'DIGEST_ALGO'}, $p->{'DIGEST_ENCODE'},$logger)){
+		download_message($p, $messages->{err_bad_digest},$logger,$context);
 		return 1;
 	}
 	
 	if( system( &_get_path("tar")." -xvzf $tmp/build.tar.gz -C $tmp") ){
-		&log("Cannot extract $p->{'ID'}.");
-		download_message($p, ERR_BUILD);
+		$logger->error("Cannot extract $p->{'ID'}.");
+		download_message($p,$messages->{err_build},$logger,$context);
 		return 1;
 	}
-	&log("Building of $p->{'ID'}... Success.");
+	$logger->debug("Building of $p->{'ID'}... Success.");
 	unlink("$tmp/build.tar.gz") or die ("Cannot remove build file: $!\n");
 	return 0;
 }
 
 sub check_signature{
-	my ($checksum, $file, $digest, $encode) = @_;
+	my ($checksum, $file, $digest, $encode,$logger) = @_;
 		
-	&log("Checking signature for $file.");
+	$logger->info("Checking signature for $file.");
 	
 	my $base64;
 		
 	# Open file
 	unless(open FILE, $file){
-		&log("cannot open $file: $!");
+		$logger->error("cannot open $file: $!");
 		return 1;
 	}
 	
@@ -760,18 +814,18 @@ sub check_signature{
 	# Retrieving encoding form
 	if($encode =~ /base64/i){
 		$base64 = 1;
-		&log('Digest format: Base 64');
+		$logger->debug('Digest format: Base 64');
 	}elsif($encode =~ /hexa/i){
-		&log('Digest format: Hexadecimal');
+		$logger->debug('Digest format: Hexadecimal');
 	}else{
-		&log('Digest format: Not supported');
+		$logger->debug('Digest format: Not supported');
 		return 1;
 	}
 	
 	eval{
 		# Check it
 		if($digest eq 'MD5'){
-			&log('Digest algo: MD5');
+			$logger->debug('Digest algo: MD5');
 			if($base64){
 				die unless Digest::MD5->new->addfile(*FILE)->b64digest eq $checksum; 
 			}
@@ -779,7 +833,7 @@ sub check_signature{
 				die unless Digest::MD5->new->addfile(*FILE)->hexdigest eq $checksum;
 			}
 		}elsif($digest eq 'SHA1'){
-			&log('Digest algo: SHA1');
+			$logger->debug('Digest algo: SHA1');
 			if($base64){
 				die unless Digest::SHA1->new->addfile(*FILE)->b64digest eq $checksum;
 			}
@@ -787,29 +841,29 @@ sub check_signature{
 				die unless Digest::SHA1->new->addfile(*FILE)->hexdigest eq $checksum;
 			}
 		}else{
-			&log('Digest algo unknown: '.$digest);
+			$logger->debug('Digest algo unknown: '.$digest);
 			die;
 		}
 	};
 	if($@){
-		&log("Digest checking error !!");
+		$logger->debug("Digest checking error !!");
 		close(FILE);
 		return 1;
 	}else{
 		close(FILE);
-		&log("Digest OK...");
+		$logger->debug("Digest OK...");
 		return 0;
 	}
 }
 
 # Launch a download error to ocs server
 sub download_message{
-	my ($p, $code) = @_;
+	my ($p, $code,$logger,$context) = @_;
 	
-	&log("Sending message for $p->{'ID'}, code=$code.");
+	$logger->debug("Sending message for $p->{'ID'}, code=$code.");
 	
 	my $xml = {
-		'DEVICEID' => $current_context->{'OCS_AGENT_DEVICEID'},
+		'DEVICEID' => $context->{deviceid},
 		'QUERY' => 'DOWNLOAD',
 		'ID' => $p->{'ID'},
 		'ERR' => $code
@@ -821,7 +875,7 @@ sub download_message{
 	# Compress data
 	$xml = Compress::Zlib::compress( $xml );
 	
-	my $URI = $current_context->{'OCS_AGENT_SERVER_NAME'};
+	my $URI = $context->{servername};
 	
 	# Send request
 	my $request = HTTP::Request->new(POST => $URI);
@@ -839,64 +893,69 @@ sub download_message{
 
 # At the beginning of end handler
 sub begin{
-	my $pidfile = shift;
+	my ($pidfile,$logger) = @_;
+
 	open LOCK_R, "$pidfile" or die("Cannot open pid file: $!"); 
 	if(flock(LOCK_R,LOCK_EX|LOCK_NB)){
 		open LOCK_W, ">$pidfile" or die("Cannot open pid file: $!");
 		select(LOCK_W) and $|=1;
 		select(STDOUT) and $|=1;
 		print LOCK_W $$;
-		&log("Beginning work. I am $$.");
+		$logger->info("Beginning work. I am $$.");
 		return 0;
 	}else{
 		close(LOCK_R);
-		&log("$pidfile locked. Cannot begin work... :-(");
+		$logger->error("$pidfile locked. Cannot begin work... :-(");
 		return 1;
 	}
 }
 
 sub done{	
-	my $p = shift;
-	my $suffix = shift;
-	&log("Package $p->{'ID'}... Done. Sending message...");
+	my ($p,$suffix,$logger,$context,$messages,$settings) = @_;
+
+	my $frag_latency_default = $settings->{frag_latency_default};
+
+	$logger->debug("Package $p->{'ID'}... Done. Sending message...");
 	# Trace installed package
 	open DONE, ">$p->{'ID'}/done";
 	close(DONE);
 	# Put it in history file
-	open DONE, "history" or warn("Cannot open history file: $!");
-	flock(DONE, LOCK_EX);
-	my @historyIds = <DONE>;
+	open HISTORY, ">>history" or warn("Cannot open history file: $!");
+	flock(HISTORY, LOCK_EX);
+	my @historyIds = <HISTORY>;
 	if( &_already_in_array($p->{'ID'}, @historyIds) ){
-		&log("Warning: id $p->{'ID'} has been found in the history file!!");
+		$logger->debug("Warning: id $p->{'ID'} has been found in the history file!!");
 	}
 	else {
-		print DONE $p->{'ID'},"\n";
+		$logger->debug("Writing $p->{'ID'} reference in history file");
+		print HISTORY $p->{'ID'},"\n";
 	}
-	close(DONE);
+	close(HISTORY);
 	
 	# Notify success to ocs server
 	my $code;
 	if($suffix ne '_NONE_'){
-		$code = CODE_SUCCESS."_$suffix";
+		$code = $messages->{code_succes}."_$suffix";
 	}
 	else{
-		$code = CODE_SUCCESS;
+		$code = $messages->{code_succes};
 	}
-	unless(download_message($p, $code)){
+	unless(download_message($p, $code,$logger,$context)){
 		# Clean package
-		clean($p);
+		clean($p,$logger,$context,$messages);
 	}else{
-		sleep( defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:FRAG_LATENCY_DEFAULT );
+		sleep( defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default );
 	}
 	return 0;
 }
 
 sub clean{
-	my $p = shift;
-	&log("Cleaning $p->{'ID'} package.");
-	unless(File::Path::rmtree($p->{'ID'}, $debug, 0)){
-		&log("Cannot clean $p->{'ID'}!! Abort...");
-		download_message($p, ERR_CLEAN);
+	my ($p,$logger,$context,$messages) = @_;
+
+	$logger->info("Cleaning $p->{'ID'} package.");
+	unless(File::Path::rmtree($p->{'ID'}, 0)){
+		$logger->error("Cannot clean $p->{'ID'}!! Abort...");
+		download_message($p, $messages->{err_clean},$logger,$context);
 		die();
 	}
 	return 0;
@@ -904,15 +963,11 @@ sub clean{
 
 # At the end
 sub finish{
-	open LOCK, '>'.$current_context->{'OCS_AGENT_INSTALL_PATH'}.'/download/lock';
-	&log("End of work...\n");
+	my ($logger,$context) = @_;
+ 
+	open LOCK, '>'.$context->{installpath}.'/download/lock';
+	$logger->debug("End of work...\n");
 	exit(0);
-}
-
-sub log{
-	return 0 unless $debug;
-	my $message = shift;
-	print "DOWNLOAD: $message\n";
 }
 
 1;

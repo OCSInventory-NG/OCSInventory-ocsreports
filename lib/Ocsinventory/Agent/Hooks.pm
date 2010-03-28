@@ -46,7 +46,6 @@ sub new {
         $::debug = 2;
       }
 
-    $self->{current_context} = $context 
     
   }
 
@@ -55,7 +54,7 @@ sub new {
 	   $mod =~ s/\:\://;
       my $package ="Ocsinventory::Agent::Modules::".$mod; 
       
-		my $module = new $package($context) ;
+	my $module = new $package($context) ;
       my $name= $module->{structure}->{name};
      
       #Store the reference in a key to access modules easily  
@@ -76,7 +75,6 @@ sub run {
   my $name = $args->{name}; #type of hook asked
 
   my $logger = $self->{logger};
-  my $context = $self->{context};
 
   $logger->debug("Calling handlers : `$name'");
 
@@ -85,7 +83,7 @@ sub run {
 		my $module = $self->{modules}->{$_};
       my $hook = $module->{structure}->{$name};
       if ($hook) {
-           $module->$hook($moduleparam,$context);
+           $module->$hook($moduleparam);
       }
   }
 

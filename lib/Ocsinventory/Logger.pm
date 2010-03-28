@@ -57,7 +57,7 @@ sub log {
 
   chomp($message);
 
-  #Add a header if needed 
+  #Add a header to message if needed 
   $message="$header $message" if $header;
 
   $level = 'info' unless $level;
