@@ -652,6 +652,15 @@ if ($list_id != "")	{
 	$queryDetails = 'SELECT ';
 	//changement de nom lors de la requete
 	$tab_options['AS']['h.NAME']="name_of_machine";
+	$query_add_table="";
+	foreach ($list_tables_request as $table_name_4_field){
+			if ($lbl_fields_calcul[$table_name_4_field]){
+	//			if ($table_name_4_field == "REGISTRY")
+	//			$tab_options['AS']['NAME']="name_of_registry";
+				$list_fields=array_merge ($list_fields,$lbl_fields_calcul[$table_name_4_field]);
+				$query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";
+			}
+		}
 	foreach ($list_fields as $key=>$value){
 				$queryDetails .= $value;
 				if ($tab_options['AS'][$value])
@@ -660,18 +669,12 @@ if ($list_id != "")	{
 	} 
 	$queryDetails=substr($queryDetails,0,-1);
 	$queryDetails .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
+	$queryDetails .= $query_add_table;
 	$queryDetails .= " where ";
 	$queryDetails .= "  h.deviceid <>'_SYSTEMGROUP_' AND h.deviceid <> '_DOWNLOADGROUP_' and  ";
 	$queryDetails .= " h.id in (".implode(',',$list_id).") group by h.ID ";
 
-	foreach ($list_tables_request as $table_name_4_field){
-		if ($lbl_fields_calcul[$table_name_4_field]){
-//			if ($table_name_4_field == "REGISTRY")
-//			$tab_options['AS']['NAME']="name_of_registry";
-			$list_fields=array_merge ($list_fields,$lbl_fields_calcul[$table_name_4_field]);
-			
-		}
-	}
+	
 	ksort($list_fields);
 	$list_fields['SUP']='h.ID';
 	$list_fields['CHECK']='h.ID';

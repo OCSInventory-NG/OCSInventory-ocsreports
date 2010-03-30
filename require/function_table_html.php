@@ -694,7 +694,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 //	echo $protectedPost['tri2'];
 	
 	//si le tri se fait sur un champ fixe
-	if ( strrpos($protectedPost['tri2'], ".") and ((substr($protectedPost['tri2'],1,1) != '.' and $protectedPost['tri2']!=1)
+	/*if ( strrpos($protectedPost['tri2'], ".") and ((substr($protectedPost['tri2'],1,1) != '.' and $protectedPost['tri2']!=1)
 		 or ($protectedPost['tri_fixe']!= '' and $protectedPost['tri2'] == ""))){
 		//echo "<b>".$protectedPost['tri2']."</b>";
 		if ($protectedPost['tri_fixe'] !=  $protectedPost['tri2'])
@@ -702,7 +702,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		//on veut savoir sur quelle table le tri doit avoir lieu
 		$tablename_fixe_value=explode(".", $protectedPost['tri_fixe']);			
 		$protectedPost['tri2']=1;		
-	}
+	}*/
 //echo $protectedPost['tri2'];
 	if ($protectedPost['sens'] == "")
 	$protectedPost['sens']='ASC';
@@ -1043,7 +1043,9 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 //					echo "<br>".$value;
 				if (substr($value,0,2) == "h." 
 						or substr($value,0,2) == "a." 
-						or substr($value,0,2) == "e."){
+						or substr($value,0,2) == "e."
+						or substr($value,0,2) == "n." 
+						or substr($value,0,2) == "b."){
 				$no_alias_value=substr(strstr($value, '.'), 1);
 				}else
 				 $no_alias_value=$value;
