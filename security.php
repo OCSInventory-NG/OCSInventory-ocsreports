@@ -1,10 +1,11 @@
 <?php
 if (!function_exists('escape_string_security') and !defined('INC')){
 	function escape_string_security($array){
-		if (is_array($array)){
+		if (isset($array) and is_array($array)){
 			foreach ($array as $key=>$value){
-			//	echo $key.'=> '.print_r($value)."<br>";
-				$trait_array[$key]=mysql_real_escape_string($value);
+				if (!is_array($value)){
+					$trait_array[$key]=mysql_real_escape_string($value);
+				}
 			}
 			if (!isset($trait_array))
 			$trait_array=array();
