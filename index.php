@@ -27,8 +27,7 @@ if (get_magic_quotes_gpc() == 0) {
 //tx to offw0rld
 define("INC", TRUE);
 
-if (isset($_GET['first']) or ($_GET == null))
-$_GET['multi']="console";
+
 $sleep=1;
 function getmicrotime(){
     list($usec, $sec) = explode(" ",microtime());
@@ -41,7 +40,8 @@ require("fichierConf.class.php");
 require('req.class.php');
 
 @session_start();
-
+if (isset($_GET['first']))
+$_GET['multi']="console";
 // First installation checking 
 if( (!$fconf=@fopen("dbconfig.inc.php","r")) ||  (!function_exists('session_start')) || (!function_exists('mysql_connect'))) {
 	require('install.php');
@@ -77,7 +77,6 @@ if( ! $_SESSION["pcparpage"] ) {
 		
 	$_SESSION["pcparpage"] = $pcparpage;	
 }
-
 if(isset($_GET["lareq"]))  {
 	//unset( $_SESSION["c"] );
 	$_SESSION["lareqpages"] = stripslashes($_GET["lareq"]);
@@ -110,6 +109,10 @@ if($_GET["supp"] && $_GET["multi"] != 8) {
 }
 if( $_GET["suppnet"] ) {
 	deleteNet($_GET["suppnet"]);
+}
+
+if (isset($_POST["option0"]) and $_POST["option0"] != ''){
+	$_GET["cuaff"]=$_POST["option0"];
 }
 
 if( isset($_GET["cuaff"])) {
@@ -276,8 +279,6 @@ echo "<br><center><span id='wait' class='warn'><font color=red>".$l->g(332)."</f
 		
 	switch($_GET["multi"]) {
 		case 1: require ('multicritere.php');	break;
-
-
  		case 3: require ('ipdiscover.php');	break;
  		case 4:	require ('confiGale.php');	break;
  		case 5:	require ('reqRegistre.php');	break;
