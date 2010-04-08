@@ -79,12 +79,14 @@ sub new {
 		err_timeout					=> 'ERR_TIMEOUT',
 		err_already_setup			=> 'ERR_ALREADY_SETUP',
    };
+   
+   #Special hash for packages
+   $self->{packages}= {};
 
    bless $self;
 }
 
 
-my @packages;
 my $ua;
 my $config;
 
@@ -97,6 +99,7 @@ sub download_prolog_reader{      #Read prolog response
 	my $logger = $self->{logger};
 	my $settings = $self->{settings};
 	my $messages = $self->{messages};
+	my $packages = $self->{packages};
 
 	$logger->debug("Calling download_prolog_reader");
 	
@@ -168,10 +171,10 @@ sub download_prolog_reader{      #Read prolog response
 					}
 				# Maybe a new package to download
 				}elsif($_->{'TYPE'} eq 'PACK'){
-					push @packages, {								#TODO put @packages in object attributes
+					$packages->{$_->{'ID'}} = {
 						'PACK_LOC' => $_->{'PACK_LOC'},
 						'INFO_LOC' => $_->{'INFO_LOC'},
-						'ID' => $_->{'ID'},
+						#'ID' => $_->{'ID'},
 						'CERT_PATH' => $_->{'CERT_PATH'},
 						'CERT_FILE' => $_->{'CERT_FILE'}
 					};
@@ -201,15 +204,15 @@ sub download_prolog_reader{      #Read prolog response
 	close(HISTORY);
 		
 	# Package is maybe already handled
-	for(@packages){
-		my $dir = $opt_dir."/".$_->{'ID'};
-		my $fileid = $_->{'ID'};
+	for (keys %$packages){
+		my $dir = $opt_dir."/".$_;
+		my $fileid = $_;
 		my $infofile = 'info';
-		my $location = $_->{'INFO_LOC'};
-		
+		my $location = $packages->{$_}->{'INFO_LOC'};
+
 		if(_already_in_array($fileid, @done)){
 			$logger->info("Will not download $fileid. (already in history file)");
-			&download_message({ 'ID' => $fileid }, $messages->{err_already_setup},$logger,$context);
+			&download_message($fileid, $messages->{err_already_setup},$logger,$context);
 			next;
 		}
 		
@@ -225,12 +228,12 @@ sub download_prolog_reader{      #Read prolog response
 		# Retrieve and writing info file if needed
 		unless(-f "$dir/$infofile"){
 			# Special value INSTALL_PATH
-			$_->{CERT_PATH} =~ s/INSTALL_PATH/$context->{installpath}/;
-			$_->{CERT_FILE} =~ s/INSTALL_PATH/$context->{installpath}/;
+			$packages->{$_}->{CERT_PATH} =~ s/INSTALL_PATH/$context->{installpath}/;
+			$packages->{$_}->{CERT_FILE} =~ s/INSTALL_PATH/$context->{installpath}/;
 		
-            if (!-f $_->{CERT_FILE}) {
+            if (!-f $packages->{$_}->{CERT_FILE}) {
 		$logger->debug("installpath=$context->{installpath}");
-                $logger->error("No certificat found in ".$_->{CERT_FILE});
+                $logger->error("No certificat found in ".$packages->{$_}->{CERT_FILE});
             }
 
 			# Getting info file
@@ -258,7 +261,7 @@ sub download_prolog_reader{      #Read prolog response
 				
 				#Create ctx object
 				$ctx = Net::SSLeay::CTX_new() or die_now("Failed to create SSL_CTX $!");
-				Net::SSLeay::CTX_load_verify_locations( $ctx, $_->{CERT_FILE},  $_->{CERT_PATH} )
+				Net::SSLeay::CTX_load_verify_locations( $ctx, $packages->{$_}->{CERT_FILE},  $packages->{$_}->{CERT_PATH} )
 				  or die_now("CTX load verify loc: $!");
 				# Tell to SSLeay where to find AC file (or dir)
 				Net::SSLeay::CTX_set_verify($ctx, &Net::SSLeay::VERIFY_PEER, \&ssl_verify_callback);
@@ -266,11 +269,11 @@ sub download_prolog_reader{      #Read prolog response
 				
 				my($server_name,$server_port,$server_dir);
 				
-				if($_->{INFO_LOC}=~ /^([^:]+):(\d{1,5})(.*)$/){
+				if($packages->{$_}->{INFO_LOC}=~ /^([^:]+):(\d{1,5})(.*)$/){
 					$server_name = $1;
 					$server_port = $2;
 					$server_dir = $3;
-				}elsif($_->{INFO_LOC}=~ /^([^\/]+)(.*)$/){
+				}elsif($packages->{$_}->{INFO_LOC}=~ /^([^\/]+)(.*)$/){
 					$server_name = $1;
 					$server_dir = $2;	
 					$server_port = $settings->{https_port};
@@ -281,7 +284,7 @@ sub download_prolog_reader{      #Read prolog response
 				my $dest_serv_params  = pack ('S n a4 x8', &AF_INET, $server_port, $server_name );
 				
 				# Connect to server
-				$logger->debug("Connect to server: $_->{INFO_LOC}...");
+				$logger->debug("Connect to server: $packages->{$_}->{INFO_LOC}...");
 				socket  (S, &AF_INET, &SOCK_STREAM, 0) or die "socket: $!";
 				connect (S, $dest_serv_params) or die "connect: $!";
 				
@@ -306,7 +309,7 @@ sub download_prolog_reader{      #Read prolog response
 				
 				my $xml = XML::Simple::XMLin( $ra ) or die;
 				
-				$xml->{PACK_LOC} = $_->{PACK_LOC};
+				$xml->{PACK_LOC} = $packages->{$_}->{PACK_LOC};
 				
 				$ra = XML::Simple::XMLout( $xml ) or die;
 				
@@ -315,7 +318,7 @@ sub download_prolog_reader{      #Read prolog response
 				close FH;
 			};
 			if($@){
-				download_message({ 'ID' => $fileid }, $self->{messages}->{err_download_info},$logger,$context);
+				download_message({ $fileid }, $self->{messages}->{err_download_info},$logger,$context);
 				$logger->error("Error: SSL hanshake has failed");
 				next;	
 			}
@@ -381,6 +384,7 @@ sub download_end_handler{    	# Get global structure
    my $logger = $self->{logger};
    my $settings = $self->{settings};
    my $messages = $self->{messages};
+   my $packages = $self->{packages};
 
    $logger->debug("Calling download_end_handler");
 
@@ -420,7 +424,9 @@ sub download_end_handler{    	# Get global structure
 		}
 		
 		$end = 1;
-		undef @packages;
+		
+		#TODO Uncomment this line #undef $packages;
+
 		# Reading configuration
 		open FH, "$dir/config" or die("Cannot read config file: $!");
 		if(flock(FH, LOCK_SH)){
@@ -446,7 +452,7 @@ sub download_end_handler{    	# Get global structure
 			# Clean package if info file does not still exist
 			unless(-e "$entry/info"){
 				$logger->debug("No info file found for $entry!!");
-				clean( { 'ID' => $entry }, $logger, $context, $messages );
+				clean( $entry, $logger, $context, $messages, $packages );
 				next;
 			}
 			my $info = XML::Simple::XMLin( "$entry/info" ) or next;
@@ -454,8 +460,8 @@ sub download_end_handler{    	# Get global structure
 			# Check that fileid == directory name
 			if($info->{'ID'} ne $entry){	
 				$logger->debug("ID in info file does not correspond!!");
-				clean( { 'ID' => $entry },$logger, $context, $messages );
-				download_message({ 'ID' => $entry }, $messages->{err_bad_id},$logger,$context);
+				clean( $entry, $logger, $context, $messages, $packages );
+				download_message($entry, $messages->{err_bad_id},$logger,$context);
 				next;
 			}
 			
@@ -463,7 +469,7 @@ sub download_end_handler{    	# Get global structure
 			# Clean package if since timestamp is not present
 			unless(-e "$entry/since"){
 				$logger->debug("No since file found!!");
-				clean( { 'ID' => $entry },$logger, $context,$messages );
+				clean($entry, $logger, $context,$messages,$packages );
 				next;
 			}else{
 				my $time = time();
@@ -472,8 +478,8 @@ sub download_end_handler{    	# Get global structure
 					if($since=~/\d+/){
 						if( (($time-$since)/86400) > $config->{TIMEOUT}){
 							$logger->error("Timeout Reached for $entry.");
-							clean( { 'ID' => $entry },$logger, $context,$messages );
-							&download_message('ID' => $entry, $messages->{err_timeout},$logger,$context);
+							clean($entry, $logger, $context,$messages,$packages );
+							&download_message($entry, $messages->{err_timeout},$logger,$context);
 							close(SINCE);
 							next;
 						}else{
@@ -481,16 +487,16 @@ sub download_end_handler{    	# Get global structure
 						}
 					}else{
 						$logger->error("Since data for $entry is incorrect.");
-						clean( { 'ID' => $entry },$logger, $context, $messages );
-						&download_message('ID' => $entry, $messages->{err_timeout},$logger,$context);
+						clean($entry, $logger, $context, $messages, $packages );
+						&download_message($entry, $messages->{err_timeout},$logger,$context);
 						close(SINCE);
 						next;
 					}
 					close(SINCE);
 				}else{
 					$logger->error("Cannot find since data for $entry.");
-					clean( { 'ID' => $entry },$logger, $context, $messages );
-					&download_message('ID' => $entry, $messages->{err_timeout},$logger,$context);
+					clean($entry, $logger, $context, $messages, $packages );
+					&download_message($entry, $messages->{err_timeout},$logger,$context);
 					next;
 				}
 			}
@@ -512,8 +518,11 @@ sub download_end_handler{    	# Get global structure
 				open FLAG, ">$entry/task_done" or die ("Cannot create task flag file for $entry: $!");
 				close(FLAG);
 			}
-			# Push package XML description
-			push @packages, $info;
+			# Store info XML descriptions in package attributes
+			for (keys %$info){
+				$packages->{$entry}->{$_} = $info->{$_}
+			}
+	
 			$end = 0;
 		}
 		# Rewind directory
@@ -522,7 +531,7 @@ sub download_end_handler{    	# Get global structure
 		if($end){
 			last;
 		}else{
-			period(\@packages,$logger,$context,$self->{messages},$settings);	
+			period($packages,$logger,$context,$self->{messages},$settings);	
 		}
 	}
 	$logger->info("No more package to download.");
@@ -538,26 +547,33 @@ sub period{
 	my $cycle_latency_default= $settings->{cycle_latency_default} ;
 	my $period_latency_default= $settings->{period_latency_default} ;
 
-	my @rt;
+	my @prior_pkgs;
 	my $i;
-	
-	@rt = grep {$_->{'PRI'} eq "0"} @$packages;
-	
+
+	#Serching packages with the priority 0
+   for (keys %$packages) {
+		if ($packages->{$_}->{'PRI'} eq "0") {
+			 push (@prior_pkgs,$_);
+		 }
+	}
+
+
 	$logger->debug("New period. Nb of cycles: ".
 	(defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:$period_lenght_default));
-	
+
+	#TODO Correct the priority 0 due to the non delete of the @prior_pkgs elements 	
 	for($i=1;$i<=( defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:$period_lenght_default);$i++){
 		# Highest priority
-		if(@rt){
-			$logger->debug("Managing ".scalar(@rt)." package(s) with absolute priority.");
-			for(@rt){
+		if(@prior_pkgs){
+			$logger->debug("Managing ".scalar(@prior_pkgs)." package(s) with absolute priority.");
+			for(@prior_pkgs){
 				# If done file found, clean package
-				if(-e "$_->{'ID'}/done"){
+				if(-e "$_/done"){
 					$logger->debug("done file found!!");
 					done($_,$logger,$context,$messages,$settings);
 					next;
-				}
-				download($_,$logger,$context,$messages,$settings);
+					}
+				download($_,$logger,$context,$messages,$settings,$packages);
 					$logger->debug("Now pausing for a cycle latency => ".(
 					defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default)
 					." seconds");
@@ -565,16 +581,18 @@ sub period{
 			}
 			next;
 		}
+
 		# Normal priority
-		for(@$packages){
+      
+		for (keys %$packages){
 			# If done file found, clean package
-			if(-e "$_->{'ID'}/done"){
+			if(-e "$_/done"){
 				$logger->debug("done file found!!");
 				done($_,$logger,$context,$messages,$settings);
 				next;
 			}
-			next if $i % $_->{'PRI'} != 0;
-			download($_,$logger,$context,$messages,$settings);
+			next if $i % $packages->{$_}->{'PRI'} != 0;
+			download($_,$logger,$context,$messages,$settings,$packages);
 			
 			$logger->debug("Now pausing for a fragment latency => ".
 			(defined( $config->{'FRAG_LATENCY'} )?$config->{'FRAG_LATENCY'}:$frag_latency_default)
@@ -594,14 +612,13 @@ sub period{
 
 # Download a fragment of the specified package
 sub download {
-	my ($p,$logger,$context,$messages,$settings) = @_;
+	my ($id,$logger,$context,$messages,$settings,$packages) = @_;
 
 	my $error;
-	my $proto = $p->{'PROTO'};
-	my $location = $p->{'PACK_LOC'};
-	my $id = $p->{'ID'};
+	my $proto = $packages->{$id}->{'PROTO'};
+	my $location = $packages->{$id}->{'PACK_LOC'};
 	my $URI = "$proto://$location/$id/";
-	
+ 
 	# If we find a temp file, we know that the update of the task file has failed for any reason. So we retrieve it from this file
 	if(-e "$id/task.temp") {
 		unlink("$id/task.temp");
@@ -617,9 +634,9 @@ sub download {
 	
 	# Done
 	if(!@task){
-		$logger->debug("Download of $p->{'ID'}... Finished.");
+		$logger->debug("Download of $id... Finished.");
 		close(TASK);
-		execute($p,$logger,$context,$messages,$settings);
+		execute($id,$logger,$context,$messages,$settings,$packages);
 		return 0;
 	}
 	
@@ -649,7 +666,7 @@ sub download {
 		
 	}
 	else {
-		#download_message($p, ERR_DOWNLOAD_PACK);
+		#download_message($id, ERR_DOWNLOAD_PACK);
 		close(TASK);
 		$logger->error("Error :-( ".$res->code);
 		$error++;
@@ -664,58 +681,58 @@ sub download {
 
 # Assemble and handle downloaded package
 sub execute{
-	my ($p,$logger,$context,$messages,$settings) = @_;
+	my ($id,$logger,$context,$messages,$settings,$packages) = @_;
 
-	my $tmp = $p->{'ID'}."/tmp";
+	my $tmp = $id."/tmp";
 	my $exit_code;
 	
-	$logger->debug("Execute orders for package $p->{'ID'}.");
+	$logger->debug("Execute orders for package $id.");
 	
-	if(build_package($p,$logger,$context,$messages)){
-		clean($p,$logger, $context,$messages);
+	if(build_package($id,$logger,$context,$messages,$packages)){
+		clean($id,$logger, $context,$messages,$packages);
 		return 1;
 	}else{
 		# First, we get in temp directory
 		unless( chdir($tmp) ){
 		 	$logger->error("Cannot chdir to working directory: $!");
-			download_message($p, $messages->{err_execute}, $logger,$context);
-			clean($p,$logger, $context,$messages);
+			download_message($id, $messages->{err_execute}, $logger,$context);
+			clean($id,$logger, $context,$messages,$packages);
 			return 1;
 		}
 		
 		# Executing preorders (notify user, auto launch, etc....
-	# 		$p->{NOTIFY_USER}
-	# 		$p->{NOTIFY_TEXT}
-	# 		$p->{NOTIFY_COUNTDOWN}
-	# 		$p->{NOTIFY_CAN_ABORT}
+	# 		$id->{NOTIFY_USER}
+	# 		$id->{NOTIFY_TEXT}
+	# 		$id->{NOTIFY_COUNTDOWN}
+	# 		$id->{NOTIFY_CAN_ABORT}
         # TODO: notification to send through DBUS to the user
 		
 		
 		eval{
 			# Execute instructions
-			if($p->{'ACT'} eq 'LAUNCH'){
-				my $exe_line = $p->{'NAME'};
-				$p->{'NAME'} =~ s/^([^ -]+).*/$1/;
+			if($packages->{$id}->{'ACT'} eq 'LAUNCH'){
+				my $exe_line = $packages->{$id}->{'NAME'};
+				$packages->{$id}->{'NAME'} =~ s/^([^ -]+).*/$1/;
 				# Exec specified file (LAUNCH => NAME)
-				if(-e $p->{'NAME'}){
-					$logger->debug("Launching $p->{'NAME'}...");
-					chmod(0755, $p->{'NAME'}) or die("Cannot chmod: $!");
+				if(-e $packages->{$id}->{'NAME'}){
+					$logger->debug("Launching $packages->{$id}->{'NAME'}...");
+					chmod(0755, $packages->{$id}->{'NAME'}) or die("Cannot chmod: $!");
 					$exit_code = system( "./".$exe_line );
 				}else{
 					die();
 				}
 				
-			}elsif($p->{'ACT'} eq 'EXECUTE'){
+			}elsif($packages->{$id}->{'ACT'} eq 'EXECUTE'){
 				# Exec specified command EXECUTE => COMMAND
-				$logger->debug("Execute $p->{'COMMAND'}...");
-				system( $p->{'COMMAND'} ) and die();
+				$logger->debug("Execute $packages->{$id}->{'COMMAND'}...");
+				system( $packages->{$id}->{'COMMAND'} ) and die();
 				
-			}elsif($p->{'ACT'} eq 'STORE'){
+			}elsif($packages->{$id}->{'ACT'} eq 'STORE'){
 				# Store files in specified path STORE => PATH
-				$p->{'PATH'} =~ s/INSTALL_PATH/$context->{installpath}/;
+				$packages->{$id}->{'PATH'} =~ s/INSTALL_PATH/$context->{installpath}/;
 				
 				# Build it if needed
-				my @dir = split('/', $p->{'PATH'});
+				my @dir = split('/', $packages->{$id}->{'PATH'});
 				my $dir;
 				
 				for(@dir){
@@ -726,20 +743,20 @@ sub execute{
 					}	
 				}
 				
-				$logger->debug("Storing package to $p->{'PATH'}...");
+				$logger->debug("Storing package to $packages->{$id}->{'PATH'}...");
 				# Stefano Brandimarte => Stevenson! <stevens@stevens.it>
-				system(&_get_path('cp')." -pr * ".$p->{'PATH'}) and die();
+				system(&_get_path('cp')." -pr * ".$packages->{$id}->{'PATH'}) and die();
 			}
 		};
 		if($@){
 			# Notify success to ocs server
-			download_message($p, $messages->{err_execute},$logger,$context);
+			download_message($id, $messages->{err_execute},$logger,$context);
 			chdir("../..") or die("Cannot go back to download directory: $!");
-			clean($p,$logger,$context,$messages);
+			clean($id,$logger,$context,$messages,$packages);
 			return 1;
 		}else{
 			chdir("../..") or die("Cannot go back to download directory: $!");
-			done($p, (defined($exit_code)?$exit_code:'_NONE_'),$logger,$context,$messages,$settings);
+			done($id, (defined($exit_code)?$exit_code:'_NONE_'),$logger,$context,$messages,$settings,$packages);
 			return 0;
 		}
 	}	
@@ -747,10 +764,9 @@ sub execute{
 
 # Check package integrity
 sub build_package{
-	my ($p,$logger,$context,$messages) = @_;
+	my ($id,$logger,$context,$messages,$packages) = @_;
 
-	my $id = $p->{'ID'};
-	my $count = $p->{'FRAGS'};
+	my $count = $packages->{$id}->{'FRAGS'};
 	my $i;
 	my $tmp = "./$id/tmp";
 	
@@ -761,7 +777,7 @@ sub build_package{
 	return 0 unless $count;
 	
 	# Assemble package
-	$logger->info("Building package for $p->{'ID'}.");
+	$logger->info("Building package for $id.");
 	
 	for($i=1;$i<=$count;$i++){
 		if(-f "./$id/$id-$i"){
@@ -782,17 +798,17 @@ sub build_package{
 	}
 	close(PACKAGE);
 	# 
-	if(check_signature($p->{'DIGEST'}, "$tmp/build.tar.gz", $p->{'DIGEST_ALGO'}, $p->{'DIGEST_ENCODE'},$logger)){
-		download_message($p, $messages->{err_bad_digest},$logger,$context);
+	if(check_signature($packages->{$id}->{'DIGEST'}, "$tmp/build.tar.gz", $packages->{$id}->{'DIGEST_ALGO'}, $packages->{$id}->{'DIGEST_ENCODE'},$logger)){
+		download_message($id, $messages->{err_bad_digest},$logger,$context);
 		return 1;
 	}
 	
 	if( system( &_get_path("tar")." -xvzf $tmp/build.tar.gz -C $tmp") ){
-		$logger->error("Cannot extract $p->{'ID'}.");
-		download_message($p,$messages->{err_build},$logger,$context);
+		$logger->error("Cannot extract $id.");
+		download_message($id,$messages->{err_build},$logger,$context);
 		return 1;
 	}
-	$logger->debug("Building of $p->{'ID'}... Success.");
+	$logger->debug("Building of $id... Success.");
 	unlink("$tmp/build.tar.gz") or die ("Cannot remove build file: $!\n");
 	return 0;
 }
@@ -858,14 +874,14 @@ sub check_signature{
 
 # Launch a download error to ocs server
 sub download_message{
-	my ($p, $code,$logger,$context) = @_;
+	my ($id, $code,$logger,$context) = @_;
 	
-	$logger->debug("Sending message for $p->{'ID'}, code=$code.");
+	$logger->debug("Sending message for $id, code=$code.");
 	
 	my $xml = {
 		'DEVICEID' => $context->{deviceid},
 		'QUERY' => 'DOWNLOAD',
-		'ID' => $p->{'ID'},
+		'ID' => $id,
 		'ERR' => $code
 	};
 	
@@ -911,24 +927,24 @@ sub begin{
 }
 
 sub done{	
-	my ($p,$suffix,$logger,$context,$messages,$settings) = @_;
+	my ($id,$suffix,$logger,$context,$messages,$settings,$packages) = @_;
 
 	my $frag_latency_default = $settings->{frag_latency_default};
 
-	$logger->debug("Package $p->{'ID'}... Done. Sending message...");
+	$logger->debug("Package $id... Done. Sending message...");
 	# Trace installed package
-	open DONE, ">$p->{'ID'}/done";
+	open DONE, ">$id/done";
 	close(DONE);
 	# Put it in history file
 	open HISTORY, ">>history" or warn("Cannot open history file: $!");
 	flock(HISTORY, LOCK_EX);
 	my @historyIds = <HISTORY>;
-	if( &_already_in_array($p->{'ID'}, @historyIds) ){
-		$logger->debug("Warning: id $p->{'ID'} has been found in the history file!!");
+	if( &_already_in_array($id, @historyIds) ){
+		$logger->debug("Warning: id $id has been found in the history file!!");
 	}
 	else {
-		$logger->debug("Writing $p->{'ID'} reference in history file");
-		print HISTORY $p->{'ID'},"\n";
+		$logger->debug("Writing $id reference in history file");
+		print HISTORY $id,"\n";
 	}
 	close(HISTORY);
 	
@@ -940,9 +956,9 @@ sub done{
 	else{
 		$code = $messages->{code_succes};
 	}
-	unless(download_message($p, $code,$logger,$context)){
-		# Clean package
-		clean($p,$logger,$context,$messages);
+	unless(download_message($id, $code,$logger,$context)){
+		clean($id,$logger,$context,$messages,$packages);
+
 	}else{
 		sleep( defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default );
 	}
@@ -950,12 +966,14 @@ sub done{
 }
 
 sub clean{
-	my ($p,$logger,$context,$messages) = @_;
+	my ($id,$logger,$context,$messages,$packages) = @_;
 
-	$logger->info("Cleaning $p->{'ID'} package.");
-	unless(File::Path::rmtree($p->{'ID'}, 0)){
-		$logger->error("Cannot clean $p->{'ID'}!! Abort...");
-		download_message($p, $messages->{err_clean},$logger,$context);
+	$logger->info("Cleaning $id package.");
+
+	delete $packages->{$id};
+	unless(File::Path::rmtree($id, 0)){
+		$logger->error("Cannot clean $id!! Abort...");
+		download_message($id, $messages->{err_clean},$logger,$context);
 		die();
 	}
 	return 0;
