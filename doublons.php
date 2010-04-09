@@ -22,13 +22,13 @@ while ($ligne = mysql_fetch_array($mysql_result))
 	$filtreMAC .= " AND n1.macaddr <> '".$ligne["MACADDRESS"]."'";
 }
 
-$fromBase="hardware h LEFT JOIN accountinfo a ON a.hardware_id = h.id LEFT JOIN bios b ON b.hardware_id = h.id LEFT OUTER JOIN networks n1 on b.hardware_id=n1.hardware_id";
+$fromBase=" hardware h LEFT JOIN accountinfo a ON a.hardware_id = h.id LEFT JOIN bios b ON b.hardware_id = h.id LEFT OUTER JOIN networks n1 on b.hardware_id=n1.hardware_id";
 //This statement below is changed from n1.hardware_id = h.id to h.id 
 //IS NOT NULL to prevent an issue where pc's without mac address' do not show 
 //up under serials or hostame only reports.
-$whereBase="h.id IS NOT NULL";
+$whereBase=" h.id IS NOT NULL ";
 if( $mesMachines ) {
-	$whereBase .= "AND $mesMachines";
+	$whereBase .= " AND $mesMachines";
 }
 $from = array();
 $where = array();
