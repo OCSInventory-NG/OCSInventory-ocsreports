@@ -30,6 +30,10 @@ use Net::SSLeay qw(die_now die_if_ssl_error);
 # You have to install it if you want to use SHA1 digest
 eval{ require Digest::SHA1 };
 
+#Global vars
+my $ua;
+my $config;
+my @prior_pkgs;
 
 
 sub new {
@@ -87,10 +91,6 @@ sub new {
 }
 
 
-my $ua;
-my $config;
-
-
 sub download_prolog_reader{      #Read prolog response
 
 	my ($self,$prolog) = @_;
@@ -134,16 +134,15 @@ sub download_prolog_reader{      #Read prolog response
 				# Type of param
 				if($_->{'TYPE'} eq 'CONF'){
 					# Writing configuration
-					open FH, ">$opt_dir/config" or die("Cannot open/create
-                        config file ($opt_dir/config)");
-					if(flock(FH, LOCK_EX)){
+					open CONFIG, ">$opt_dir/config" or die("Cannot open/create config file ($opt_dir/config)");
+					if(flock(CONFIG, LOCK_EX)){
 						$logger->debug("Writing config file.");
-						print FH XMLout($_, RootName => 'CONF');
-						close(FH);
+						print CONFIG XMLout($_, RootName => 'CONF');
+						close(CONFIG);
 						$config = $_;
 					}else{
 						$logger->error("Cannot lock config file !!");
-						close(FH);
+						close(CONFIG);
 						return 0;
 					}
 					
@@ -547,7 +546,6 @@ sub period{
 	my $cycle_latency_default= $settings->{cycle_latency_default} ;
 	my $period_latency_default= $settings->{period_latency_default} ;
 
-	my @prior_pkgs;
 	my $i;
 
 	#Serching packages with the priority 0
@@ -561,7 +559,6 @@ sub period{
 	$logger->debug("New period. Nb of cycles: ".
 	(defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:$period_lenght_default));
 
-	#TODO Correct the priority 0 due to the non delete of the @prior_pkgs elements 	
 	for($i=1;$i<=( defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:$period_lenght_default);$i++){
 		# Highest priority
 		if(@prior_pkgs){
@@ -574,7 +571,7 @@ sub period{
 					next;
 					}
 				download($_,$logger,$context,$messages,$settings,$packages);
-					$logger->debug("Now pausing for a cycle latency => ".(
+					$logger->debug("Now pausing for a fragment latency => ".(
 					defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default)
 					." seconds");
 				sleep( defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default );
@@ -971,6 +968,14 @@ sub clean{
 	$logger->info("Cleaning $id package.");
 
 	delete $packages->{$id};
+	
+	#If the package is priority 0
+	if ((my $index) = grep { $prior_pkgs[$_] eq $id } 0..$#prior_pkgs){
+        	delete $prior_pkgs[$index];
+	}
+
+
+
 	unless(File::Path::rmtree($id, 0)){
 		$logger->error("Cannot clean $id!! Abort...");
 		download_message($id, $messages->{err_clean},$logger,$context);
