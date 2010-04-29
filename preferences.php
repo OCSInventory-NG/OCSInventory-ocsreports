@@ -596,7 +596,7 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 							$vraiNomChamp = array_search( $colname->name, $_SESSION["currentFieldList"] );							
 						}
 					else					
-						$vraiNomChamp = "\"".$colname->name."\"";
+						$vraiNomChamp = str_replace(' ','_',$l->g(28));
 					//echo "if( $vraiNomChamp == ".$_SESSION["c"]." || \"\'\".".$colname->name.".\"\'\" == ".$_SESSION["c"]." ) \";";
 					echo "<td align='center'><table><tr><td>";
 					$hrefSort = "<a href=index.php?$pref&c=".urlencode($vraiNomChamp)."&a=$a&rev=1&page=1>";

@@ -88,12 +88,12 @@ else {
 	$sql .= $mesMachines;
 	$whereId = "a.".TAG_NAME;
 	$linkId = TAG_LBL;	
-	$select = array ( "a.".TAG_NAME=>TAG_LBL, "COUNT(h.id)"=>$l->g(28) );
-	$selectPrelim = array( "a.".TAG_NAME=>TAG_LBL,"COUNT(h.id)"=>$l->g(28) );
+	$select = array ( "a.".TAG_NAME=>TAG_LBL, "COUNT(h.id)"=>str_replace(' ','_',$l->g(28)) );
+	$selectPrelim = array( "a.".TAG_NAME=>TAG_LBL,"COUNT(h.id)"=>str_replace(' ','_',$l->g(28)) );
 	$from = "hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id";
 	$fromPrelim = "";
 	$group = "a.".TAG_NAME;
-	$order = "\"".$l->g(28)."\" DESC";
+	$order = str_replace(' ','_',$l->g(28))." DESC";
 	$countId = "a.".TAG_NAME;
 	$pics = array("repartition.png", "repartition_a.png");
 	$req=new Req($lbl,$whereId,$linkId,$sql,$select,$selectPrelim, $from,$fromPrelim,$group,$order,$countId,$pics);
