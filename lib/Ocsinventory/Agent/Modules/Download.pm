@@ -54,9 +54,9 @@ sub new {
 			name => $name,
 			start_handler => undef , 
 			prolog_writer => undef, 
-			prolog_reader => "download_prolog_reader", 
-			inventory_handler => "download_inventory_handler", 
-			end_handler => "download_end_handler" 
+			prolog_reader => $name."_prolog_reader", 
+			inventory_handler => $name."_inventory_handler", 
+			end_handler => $name."_end_handler" 
    };
  
    $self->{settings} = {

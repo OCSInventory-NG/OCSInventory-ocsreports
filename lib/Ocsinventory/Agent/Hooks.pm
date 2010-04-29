@@ -78,13 +78,16 @@ sub run {
 
   $logger->debug("Calling handlers : `$name'");
 
-  #Launching hook for modules if not 'undef' 
+  #Launching hook for modules if not 'undef' and if modules are not disabled by start_handler
   for (keys %{$self->{modules}}) {
-		my $module = $self->{modules}->{$_};
-      my $hook = $module->{structure}->{$name};
-      if ($hook) {
-           $module->$hook($moduleparam);
-      }
+	my $module = $self->{modules}->{$_};
+
+	unless ($module->{disabled}) {	
+		my $hook = $module->{structure}->{$name};
+      		if ($hook) {
+           		$module->$hook($moduleparam);
+      		}
+	}
   }
 
 }

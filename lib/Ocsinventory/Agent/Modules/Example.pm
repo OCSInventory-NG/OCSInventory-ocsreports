@@ -28,11 +28,11 @@ sub new {
 
    $self->{structure}= {
 			name => $name,
-			start_handler => "example_start_handler",    #or undef if don't use this hook 
-			prolog_writer => "example_prolog_writer",    #or undef if don't use this hook  
-			prolog_reader => "example_prolog_reader",    #or undef if don't use this hook  
-			inventory_handler => "example_inventory_handler",    #or undef if don't use this hook 
-			end_handler => "example_end_handler"    #or undef if don't use this hook 
+			start_handler => $name."_start_handler",    #or undef if don't use this hook 
+			prolog_writer => $name."_prolog_writer",    #or undef if don't use this hook  
+			prolog_reader => $name."_prolog_reader",    #or undef if don't use this hook  
+			inventory_handler => $name."_inventory_handler",    #or undef if don't use this hook 
+			end_handler => $name."_end_handler"    #or undef if don't use this hook 
    };
  
    bless $self;
@@ -42,16 +42,21 @@ sub new {
 
 ######### Hook methods ############
 
-sub example_start_handler {
+sub example_start_handler { 	#Use this hook to test prerequisites needed by module and disble it if needed
    my $self = shift;
    my $logger = $self->{logger};
    
    $logger->debug("Yeah you are in example_start_handler :)");
+   my $prerequisites = 1 ;
 
+   if ( $prerequisites == 0 ) { 
+   	$self->{disabled} = 1; #Use this to disable the module
+   	$logger->debug("Humm my prerequisites are not OK...disabling module :( :( ");
+   }
 }
 
 
-sub example_prolog_writer {
+sub example_prolog_writer {	#Use this hook to add information the prolog XML
    my $self = shift;
    my $logger = $self->{logger};
    
@@ -60,7 +65,7 @@ sub example_prolog_writer {
 }
 
 
-sub example_prolog_reader {
+sub example_prolog_reader {	#Use this hook to read the answer from OCS server
    my $self = shift;
    my $logger = $self->{logger};
    
@@ -69,7 +74,7 @@ sub example_prolog_reader {
 }
 
 
-sub example_inventory_handler {
+sub example_inventory_handler {		#Use this hook to add or modify entries in the inventory XML
    my $self = shift;
    my $logger = $self->{logger};
    
@@ -78,7 +83,7 @@ sub example_inventory_handler {
 }
 
 
-sub example_end_handler {
+sub example_end_handler {		#Use this hook to add treatments before the end of agent launch
    my $self = shift;
    my $logger = $self->{logger};
    
