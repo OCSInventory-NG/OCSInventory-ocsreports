@@ -753,7 +753,7 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 					$uneMachine=true;
 					$isLink=TRUE;
 				}
-				else if($chmp==$l->g(28))
+				else if($chmp==str_replace(' ','_',$l->g(28)))
 				{
 					echo "<a href='?cuaff=$leCuPrec'>";
 					$isLink=TRUE;
