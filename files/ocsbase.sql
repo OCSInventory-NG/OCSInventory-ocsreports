@@ -848,6 +848,7 @@ insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GUI_REPORT_AGIN_MACH',
 ALTER TABLE download_enable ADD SERVER_ID INT(11);
 ALTER TABLE download_enable ADD GROUP_ID INT(11);
 ALTER TABLE groups ADD REVALIDATE_FROM INT(11) not NULL;
+ALTER TABLE groups ADD XMLDEF longtext;
 
 CREATE TABLE prolog_conntrack (
   ID int(11) NOT NULL auto_increment,
