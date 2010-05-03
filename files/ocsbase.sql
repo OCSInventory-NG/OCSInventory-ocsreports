@@ -746,13 +746,12 @@ INSERT INTO config VALUES ('IPDISCOVER_IPD_DIR','','/var/lib/ocsinventory-report
 INSERT INTO blacklist_serials(SERIAL) VALUES ('N/A'),('(null string)'),('INVALID'),('SYS-1234567890'),('SYS-9876543210'),('SN-12345'),('SN-1234567890'),('1111111111'),('1111111'),('1'),('0123456789'),('12345'),('123456'),('1234567'),('12345678'),('123456789'),('1234567890'),('123456789000'),('12345678901234567'),('0000000000'),('000000000'),('00000000'),('0000000'),('000000'),('NNNNNNN'),('xxxxxxxxxxx'),('EVAL'),('IATPASS'),('none'),('To Be Filled By O.E.M.'),('Tulip Computers'),('Serial Number xxxxxx'),('SN-123456fvgv3i0b8o5n6n7k'),('');
 INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF:FF:FF:FF:FF:FF'),('44:45:53:54:00:00'),('44:45:53:54:00:01'),('00:01:02:7D:9B:1C'),('00:08:A1:46:06:35'),('00:08:A1:66:E2:1A'),('00:09:DD:10:37:68'),('00:0F:EA:9A:E2:F0'),('00:10:5A:72:71:F3'),('00:11:11:85:08:8B'),('10:11:11:11:11:11'),('44:45:53:54:61:6F'),('');
 
-
-INSERT INTO operators VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
+INSERT INTO operators (ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '5004', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '5005', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
