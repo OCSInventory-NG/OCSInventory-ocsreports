@@ -23,11 +23,12 @@ ms_help
 </ORDER_SECOND_TABLE>
 
 <LBL>
-ms_all_computers:g(2)
+ms_all_computers:g(1044)
 ms_groups:g(583)
 ms_repart_tag:g(178)
 ms_all_soft:g(765)
 ms_multi_search:g(9)
+ms_search_soft:g(1050)
 ms_teledeploy:g(17)
 ms_dict:g(380)
 ms_upload_file:g(17)
@@ -63,6 +64,7 @@ ms_custom_sup:sup_search
 ms_custom_tag:tag_seach
 ms_dict:admin_dico
 ms_upload_file:admin_upload
+ms_upload_file_popup:upload_file
 ms_regconfig:admin_reg
 ms_logs:admin_logs
 ms_admininfo:admin_info
@@ -108,6 +110,9 @@ ms_teledeploy_workflow:teledeploy_workflow
 ms_admin_management:admin_type
 ms_admin_user_group:admin_user_group
 ms_admin_profil:admin_profil
+ms_view_file:view_file
+ms_search_soft:search_soft
+ms_options:search_soft_option
 </URL>
 
 <DIRECTORY>
@@ -156,10 +161,14 @@ ms_tele_compress:ms_teledeploy
 ms_speed_stat:ms_teledeploy
 ms_tele_massaffect:ms_teledeploy
 ms_upload_file:ms_upload_file
+ms_upload_file_popup:ms_upload_file
 ms_users:ms_users
 ms_custom_perim:ms_users
 ms_admin_user_group:ms_users
 ms_admin_profil:ms_users
+ms_view_file:ms_upload_file
+ms_search_soft:ms_search_soft
+ms_options:ms_search_soft
 </DIRECTORY>
 
 
@@ -170,14 +179,23 @@ ms_rules_redistrib:ms_teledeploy
 ms_teledeploy_workflow:ms_teledeploy
 ms_config:ms_config
 ms_blacklist:ms_config
+ms_multi_search:ms_multi_search
+ms_search_soft:ms_multi_search
 </MENU>
 
 <MENU_NAME>
 ms_teledeploy:teledeploy_smenu
 ms_config:config_smenu
+ms_multi_search:search_smenu
 </MENU_NAME>
 
 <MENU_TITLE>
 ms_teledeploy:g(512)
 ms_config:g(107)
+ms_multi_search:g(1051)
 </MENU_TITLE>
+
+<JAVASCRIPT>
+autocomplete-3-2.js:ms_search_soft/js/
+print.js:ms_search_soft/js/
+</JAVASCRIPT>

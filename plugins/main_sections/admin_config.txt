@@ -1,6 +1,7 @@
 <RESTRICTION>
 GUI:YES
 TELEDIFF_WK:LOGIN
+TELEDIFF_WK_FIELDS:YES
 </RESTRICTION>
 
 <ADMIN_BLACKLIST>
@@ -20,6 +21,8 @@ ALERTE_MSG:NO
 
 <PAGE_PROFIL>
 ms_all_computers
+ms_maps
+ms_maps_show
 ms_repart_tag
 ms_groups
 ms_all_soft
@@ -44,4 +47,6 @@ ms_config_account
 ms_exportallsoft
 ms_soft_csv
 ms_csv
+ms_upload_file_popup
+ms_view_file
 </PAGE_PROFIL>

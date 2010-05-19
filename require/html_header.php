@@ -14,8 +14,14 @@ header("Content-type: text/html; charset=utf-8");
 <TITLE>OCS Inventory</TITLE>
 <link rel="shortcut icon" href="favicon.ico" />
 <LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
-<script language='javascript' type='text/javascript' src='js/function.js'></script>
 <?php incPicker(); 
+echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
+
+if (isset($_SESSION['OCS']['JAVASCRIPT'])){
+	foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file => $rep){
+		echo "<script language='javascript' type='text/javascript' src='".$_SESSION['OCS']['main_sections_dir'].$rep.$file."'></script>";
+	}
+}
 echo "</head>"; 
 echo "<body bottommargin='0' leftmargin='0' topmargin='0' rightmargin='0' marginheight='0' marginwidth='0'>";
 //on affiche l'entete de la page

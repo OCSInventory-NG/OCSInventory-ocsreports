@@ -925,6 +925,26 @@
 1030 Unchanged
 1031 workflow for Teledeploy
 1032 Activate workflow for Teledeploy
+1033 Inf. demandeur
+1034 Inf. générales Paquet
+1035 Inf. techniques Paquet
+1036 Inf. validation
+1037 Nom du paquet
+1038 Demandeur
+1039 Priorité
+1040 Utilisateur notifié
+1041 Utilisateur peut reporter
+1042 Entraine un reboot
+1043 Actions de contrôle pour valider l'installation
+1044 Par liste
+1045 Par visuel
+1046 Statut
+1047 INFO
+1048 Add file
+1049 BAD ACTION
+1050 Soft search
+1051 Search
+
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]

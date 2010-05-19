@@ -44,8 +44,14 @@ if (!defined("SERVER_READ")){
 
 
 //SECURITY
-$protectedPost=escape_string($_POST);
-$protectedGet=escape_string($_GET);
+if (get_magic_quotes_gpc() == 0) {
+   	$protectedPost=escape_string($_POST);
+	$protectedGet=escape_string($_GET);
+    $_COOKIE = escape_string($_COOKIE);
+}else{
+	$protectedPost=$_POST;
+	$protectedGet=$_GET;
+}
 //print_r($GLOBALS);
 @set_time_limit(0);
 //global $protectedPost,$protectedGet;

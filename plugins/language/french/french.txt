@@ -961,6 +961,14 @@
 1041 Utilisateur peut reporter
 1042 Entraine un reboot
 1043 Actions de contrôle pour valider l'installation
+1044 Par liste
+1045 Par visuel
+1046 Statut
+1047 INFO
+1048 Ajouter un fichier
+1049 ACTION INTERDITE
+1050 Recherche logiciels
+1051 Recherche
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

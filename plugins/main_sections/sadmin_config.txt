@@ -1,6 +1,7 @@
 <RESTRICTION>
 GUI:NO
 TELEDIFF_WK:NO
+TELEDIFF_WK_FIELDS:NO
 </RESTRICTION>
 
 <ADMIN_BLACKLIST>
@@ -32,6 +33,7 @@ ms_custom_sup
 ms_custom_tag
 ms_dict
 ms_upload_file
+ms_upload_file_popup
 ms_regconfig
 ms_logs
 ms_admininfo
@@ -77,4 +79,7 @@ ms_tele_compress
 ms_speed_stat
 ms_teledeploy_workflow
 ms_admin_management
+ms_view_file
+ms_search_soft
+ms_options
 </PAGE_PROFIL>

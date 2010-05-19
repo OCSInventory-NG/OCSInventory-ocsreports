@@ -21,7 +21,8 @@ if (file_exists($ms_cfg_file)) {
 				  'MENU_TITLE'=>'MULTI',
 				  'MENU_NAME'=>'MULTI',
 				  'URL'=>'MULTI',
-				  'DIRECTORY'=>'MULTI');
+				  'DIRECTORY'=>'MULTI',
+				  'JAVASCRIPT'=>'MULTI');
 	$profil_data=read_configuration($ms_cfg_file,$search);
 	foreach ($profil_data as $key=>$value){
 		$_SESSION['OCS'][$key]=$value;
