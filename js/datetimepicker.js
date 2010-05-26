@@ -105,7 +105,7 @@ function NewCal(pCtrl,pFormat,pShowTime,pTimeMode,pCheck)
 		if (YearPattern.test(strYear))
 			Cal.Year=parseInt(strYear,10);
 			
-		if( Cal.Year == 0 ) Cal.Year = 2005;
+		if( Cal.Year == 0 ) Cal.Year = dtToday.getFullYear();
 		//end parse year
 		//parse time
 		if (Cal.ShowTime==true)
