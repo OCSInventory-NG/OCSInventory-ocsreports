@@ -77,17 +77,19 @@ sub run {
         $found = 1;
     }
  
-    # paravirtualized oldstyle Xen - very simple ;)
-    if(-d '/proc/xen') {
-        $status = "Xen";
+    if ( -d '/proc/xen' || check_file_content('/sys/devices/system/clocksource/clocksource0/available_clocksource','xen')) {
         $found = 1 ;
-    }
-
-    # newstyle Xen
-    if($found == 0 and -r '/sys/devices/system/clocksource/clocksource0/available_clocksource') {
-        if(`cat /sys/devices/system/clocksource/clocksource0/available_clocksource` =~ /xen/) {
+        if (check_file_content('/proc/xen/capabilities', 'control_d')) {
+          # dom0 host
+        } else {
+          # domU PV host
           $status = "Xen";
-          $found = 1 ;
+
+          # those information can't be extracted from dmidecode
+          $inventory->setBios ({
+            SMANUFACTURER => 'Xen',
+            SMODEL => 'PVM domU'
+          });
         }
     }
 
@@ -207,6 +209,24 @@ sub run {
     $inventory->setHardware ({
       VMSYSTEM => $status,
       });
+}
+
+sub check_file_content {
+    my ($file, $pattern) = @_;
+
+    return 0 unless -r $file;
+
+    my $found = 0;
+    open (my $fh, '<', $file) or die "Can't open file $file: $!";
+    while (my $line = <$fh>) {
+        if ($line =~ /$pattern/) {
+            $found = 1;
+            last;
+        }
+    }
+    close ($fh);
+
+    return $found;
 }
 
 1;
