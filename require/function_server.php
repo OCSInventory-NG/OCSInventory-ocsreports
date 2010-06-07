@@ -133,7 +133,7 @@ function add_mach($id_group,$list_mach)
 
 //function for admin server
 function admin_serveur($action,$name_server,$descr,$mach) {
-	global $_SESSION['OCS'],$l;
+	global $l;
 	if ($action == "")
 	return $l->g(663); //intern problem
 	if (trim($name_server) == "")

@@ -189,12 +189,12 @@ if ($protectedPost['onglet'] == 1){
 			array_push($value_field,$yes_no);
 
 			array_push($name_field,"restricted");
-			array_push($tab_name,$l->g(1065)":");
+			array_push($tab_name,$l->g(1065).":");
 			array_push($type_field,2);
 			array_push($value_field,$yes_no);
 			
 			array_push($name_field,"link_status");
-			array_push($tab_name,$l->g(1066)":");
+			array_push($tab_name,$l->g(1066).":");
 			array_push($type_field,2);
 			array_push($value_field,$status);
 			
