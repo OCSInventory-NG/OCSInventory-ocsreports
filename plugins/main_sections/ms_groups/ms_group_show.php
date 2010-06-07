@@ -121,6 +121,28 @@ else{ //only show the botton for modify
 //form for modify values of group's
 echo "<form name='CHANGE' action='' method='POST'>";
 echo "<br><br><table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
+
+//pour l'utilisation du workflow de télédiff
+require_once('require/function_telediff_wk.php');
+$conf_Wk=look_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
+									   'IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
+									   'IT_SET_NIV_TEST','IT_SET_NIV_REST'));
+//configuration sur le groupe
+if ($conf_Wk['ivalue']['IT_SET_PERIM'] != 1){
+	$mes_wk="";
+	//print_r()
+	if ($conf_Wk['tvalue']['IT_SET_NAME_TEST']==$name)
+	$mes_wk="Ce groupe est déclaré comme un périmètre de TEST";
+	if ($conf_Wk['tvalue']['IT_SET_NAME_LIMIT']==$name)
+	$mes_wk.="<br>Ce groupe est déclaré comme un périmètre RESTRAINT";
+}
+
+if ($mes_wk != ''){
+	echo "<tr><td colspan=10 align=center><b><font color=blue>".$l->g(1047)." : ".$mes_wk."</font></b></td></tr>";	
+}
+
+
+
 echo "<tr>".$tdhd.$l->g(577).$tdhf.$tdhdpb.$name.$tdhfpb;
 echo $tdhd.$l->g(593).$tdhf.$tdhdpb.dateTimeFromMysql($item->LASTDATE).$tdhfpb;
 if( ! $pureStat  )

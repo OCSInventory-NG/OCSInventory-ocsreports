@@ -4,13 +4,8 @@ error_reporting(E_ALL & ~E_NOTICE);
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
 require_once('fichierConf.class.php');
-//print_r($_SESSION['OCS']);
 include('dbconfig.inc.php');
-//echo "toto";
 require_once('var.php');
-//print_r($_SESSION['OCS']);
-//$_SESSION['OCS']["SERVER_READ"]=$_SESSION['OCS']["SERVEUR_SQL"];
-//$_SESSION['OCS']["SERVER_WRITE"]=$_SESSION['OCS']["SERVER_READ"];
 
 if( ! isset($_SESSION['OCS']["debug"]) ) {
 	$_SESSION['OCS']["debug"] = 0 ;
@@ -24,7 +19,7 @@ else if( ! isset($_SESSION['OCS']["usecache"]) ) {
 }
 
 
-//GESTION LOGS
+//LOGS ADMIN
 if ($_SESSION['OCS']['LOG_GUI'] == 1){
 	define("DB_LOG_NAME", DB_NAME);
 //	if ($_SESSION['OCS']['LOG_DIR'] == "")
@@ -44,6 +39,40 @@ if( ! function_exists ( "utf8_decode" )) {
 dbconnect();
 
 if(!isset($_SESSION['OCS']["rangCookie"])) $_SESSION['OCS']["rangCookie"] = 0;
+
+function mysql2_query_secure($sql,$link,$arg=''){
+	global $l;
+	if (is_array($arg)){
+		foreach ($arg as $key=>$value){
+			if (!get_magic_quotes_gpc()) {			
+				$arg_array_escape_string[]=mysql_real_escape_string($value);
+			}else
+				$arg_array_escape_string[]=$value;
+		}
+		$arg_escape_string=$arg_array_escape_string;
+	}elseif ($arg != ''){
+		if (!get_magic_quotes_gpc()) {	
+			$arg_escape_string=mysql_real_escape_string($arg);
+		}else
+			$arg_escape_string=$arg;
+	}
+
+	if (isset($arg_escape_string)){
+		if (is_array($arg_escape_string)){
+			//foreach ($arg_escape_string as $key=>$value){
+				$sql = vsprintf($sql,$arg_escape_string);
+			//}
+		}else
+			$sql = sprintf($sql,$arg_escape_string);
+	}
+	$query = $sql;
+	if ($_SESSION['OCS']['DEBUG'] == 'ON')
+		echo "<br><b>".$l->g(5001)."<br>".html_entity_decode($query,ENT_QUOTES)."</b><br>";	
+	$result=mysql_query( $query, $link ) or mysql_error($link);
+	return $result;
+}
+
+
 
 function addComputersToGroup( $gName, $ids ) {
 	

@@ -147,6 +147,7 @@ function admin_user($lvl,$id_user=''){
 		$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 		
 		if ($lvl == "ADMIN"){
+			$tab_typ_champ[2]["CONFIG"]['DEFAULT']="YES";
 			$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")>+++</a>";
 			$tab_typ_champ[2]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_user_group']."&head=1\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")>+++</a>";
 		}

@@ -926,25 +926,45 @@
 1030 Unchanged
 1031 workflow for Teledeploy
 1032 Activate workflow for Teledeploy
-1033 Inf. demandeur
-1034 Inf. générales Paquet
-1035 Inf. techniques Paquet
-1036 Inf. validation
-1037 Nom du paquet
-1038 Demandeur
-1039 Priorité
-1040 Utilisateur notifié
-1041 Utilisateur peut reporter
-1042 Entraine un reboot
-1043 Actions de contrôle pour valider l'installation
-1044 Par liste
-1045 Par visuel
+1033 Requester Information
+1034 General Information Package
+1035 Technical Information Package
+1036 Validation information
+1037 Package Name
+1038 Requester
+1039 Priority
+1040 User notified
+1041 User can defer
+1042 triggers a reboot
+1043 Stock control to validate the installation
+1044 By list
+1045 By visual
 1046 Statut
 1047 INFO
 1048 Add file
 1049 BAD ACTION
 1050 Soft search
 1051 Search
+1052 History
+1053 Demande modifiee
+1054 Demande effectuee
+1055 Your email is not valid
+1056 Contact your OCS administrator
+1057 Failed to connect to mailserver
+1058 no email is valid
+1059 Data available
+1060 New data
+1061 Tab
+1062 Field
+1063 Wording 
+1064 Mandatory
+1065 Field restraint
+1066 Linked to a status
+1067 Field name is already used
+1068 The name of the field can not be empty
+1069 Adding value done
+1070 New Field
+1071 Field Type
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

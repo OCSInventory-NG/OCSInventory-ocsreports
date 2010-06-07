@@ -11,6 +11,7 @@ while($item = mysql_fetch_object($res)){
 
 $login_successful=verif_pw_ldap($login, $mdp);
  $cnx_origine="LDAP";
+ $user_group="LDAP";
  
 function verif_pw_ldap($login, $pw) { 
     $info = search_on_loginnt($login); 

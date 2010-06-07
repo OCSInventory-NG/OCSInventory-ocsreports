@@ -969,6 +969,31 @@
 1049 ACTION INTERDITE
 1050 Recherche logiciels
 1051 Recherche
+1052 Historique
+1053 Demande modifiée
+1054 Demande effectuée
+1055 Votre adresse mail n'est pas valide
+1056 Contactez votre administrateur OCS
+1057 Impossible de se connecter au serveur de mail
+1058 Aucun email n'est valide
+1059 Données existantes
+1060 Nouvelle donnée
+1061 Onglet
+1062 Champ
+1063 Libellé
+1064 Champ obligatoire
+1065 Champ restraint
+1066 Lié à un statut
+1067 Ce nom de champ est déjà utilisé
+1068 Le nom du champ ne peut pas être vide
+1069 Ajout de la valeur effectuée
+1070 Nouveau Champ
+1071 Type de champ
+1072 Suivi des demandes
+1073 Faire une demande
+1074 La fonctionnalité 'Workflow' n'est pas activée. 
+1075 Veuillez l'activer pour l'utiliser
+1076 ERROR: STATUS RECHERCHE NON DEFINI
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
