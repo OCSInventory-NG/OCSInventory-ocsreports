@@ -75,9 +75,11 @@
 122 Delete
 129 LIKE
 130 DIFFERENT
+133 Inventory
 134 Add a new file in the database
 135 Be careful, you're about to delete this file definitively !
 137 File
+162 Remove Selected
 168 This format file is invalid (it must be zip, pl or unix binary)
 170 The same file already exists !
 171 File deleted
@@ -629,7 +631,6 @@
 736 Enable the computer's groups feature
 737 Random number computed in the defined range. Designed to avoid computing many groups in the same process
 738 Specify the validity of computer's groups (default: compute it once a day - see offset)
-739 Futur security improvements
 740 Validity of a computer's lock
 741 Configure engine to update inventory regarding to CHECKSUM agent value (lower DB backend load)
 742 Make engine consider an inventory as a transaction (lower concurency, better disk usage)

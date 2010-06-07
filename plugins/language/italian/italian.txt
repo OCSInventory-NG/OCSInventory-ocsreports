@@ -75,9 +75,11 @@
 122 Elimina
 129 COME
 130 DIVERSO
+133 Inventario
 134 Aggiungi un nuovo file nel database
 135 Attenzione, stai per eliminare questo file definitivamente!
 137 File
+162 Elimina selezionati
 168 Il formato del file non è valido (deve essere zip, pl o binario unix)
 170 Esiste già lo stesso file!
 171 File eliminato
@@ -629,7 +631,6 @@
 736 Abilita la funzionalità dei gruppi di computer
 737 Numero casuale calcolato nel range definito. Progettato per evitare di calcolare tutti i gruppi allo stesso tempo
 738 Specificare la validità di un gruppo (default: calcolato una volta al giorno - vedi offset)
-739 Miglioramenti futuri di sicurezza
 740 Validità di un blocco del computer
 741 Configura il motore per aggiornare l'inventario secondo il valore del CHECKSUM dell'agente (diminuisce il carico del DB backend) 
 742 Istruire il motore perchè consideri un inventario come una transazione (meno accessi concorrenziali, miglior utilizzo del disco)
@@ -925,17 +926,25 @@
 1030 Invariato
 1031 IT Set Management
 1032 Attiva IT Set Management per il Teledeploy
-1033 Inf. demandeur
-1034 Inf. générales Paquet
-1035 Inf. techniques Paquet
-1036 Inf. validation
-1037 Nom du paquet
-1038 Demandeur
+1033 Inf. richiedente
+1034 Inf. generali del pacchetto
+1035 Inf. tecniche del pacchetto
+1036 Inf. di convalida
+1037 Nome del pacchetto
+1038 Richiedente
 1039 Priorità
-1040 Utilisateur notifié
-1041 Utilisateur peut reporter
-1042 Entraine un reboot
-1043 Actions de contrôle pour valider l'installation
+1040 Notifica utente
+1041 L'utente può vedere
+1042 Provoca un riavvio
+1043 Azioni di controllo per convalidare l'installazione
+1044 Par liste
+1045 Par visuel
+1046 Statut
+1047 INFO
+1048 Aggiungi un file
+1049 ACTION INTERDITE
+1050 Ricerca software
+1051 Ricerca
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
