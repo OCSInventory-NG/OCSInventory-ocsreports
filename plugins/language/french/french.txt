@@ -994,6 +994,34 @@
 1074 La fonctionnalité 'Workflow' n'est pas activée. 
 1075 Veuillez l'activer pour l'utiliser
 1076 ERROR: STATUS RECHERCHE NON DEFINI
+1077 Niveau de création de paquet
+1078 Niveau de test
+1079 Niveau du périmètre restraint
+1080 Niveau du périmètre total
+1081 Signalement par mail
+1082 Groupe des administrateurs du workflow
+1083 Identification des périmètres
+1084 Nom du groupe de test
+1085 Nom du groupe du périmètre restraint
+1086 Libellé du TAG de définition du paramètre
+1087 Valeur du tag de test
+1088 Valeur du tag du périmètre restraint
+1089 Aucun status n'est actif. Commencer par en activer un.
+1090 a modifié la demande n°
+1091 Une nouvelle demande vient d'être postée
+1092 a posté une nouvelle demande
+1093 La base de donnée est incomplète
+1094 Veuillez rejouer l installation complète de la base
+1095 Admin status
+1096 Liste des champs
+1097 Liste des onglets
+1098 Nom du champ
+1099 Valeur par défaut
+1100 Liste des statuts
+1101 Ce champ n'est pas modifiable
+1102 Statut actif
+1103 ID du statut
+1104 Niveau
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

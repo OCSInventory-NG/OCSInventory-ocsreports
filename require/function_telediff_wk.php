@@ -24,7 +24,7 @@ function list_status($allactif=1){
 			$sql_service.=" WHERE (ACTIF is null or ACTIF=1)";
 		}
 		//echo $sql_id_STATUS;
-		$resultSERV = mysql_query($sql_service, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+		$resultSERV = mysql2_query_secure($sql_service, $_SESSION['OCS']["readServer"]);
 		$List_stat[]='';
 		while($item = mysql_fetch_object($resultSERV)){
 			$id[]=$item->id;
@@ -33,7 +33,7 @@ function list_status($allactif=1){
 			if ($item->actif == ''){
 				$act=1;
 			}else
-			$act=$item->actif;
+				$act=$item->actif;
 			$actif[$item->id]=$act;
 			$niv[$item->id]=$item->name;
 			$niv_bis[$item->name]=$item->name.'('.$item->lbl.')';
@@ -388,7 +388,7 @@ function dde_form($form_name){
 		//	$msg_empty="STOP";
 			//print_r($type_field_temp);
 			if (isset($msg_empty)){
-				echo "<script>alert('Plusieurs champs doivent être complétés:\\n".$msg_empty."');</script>";
+				echo "<script>alert('" . $l->g(684) . ":\\n" . $msg_empty . "');</script>";
 				unset($protectedPost['VALID']);
 			}else{
 				
@@ -457,8 +457,8 @@ function dde_form($form_name){
 						}
 						$sql_wk_dde= substr($sql_wk_dde, 0, -2)." WHERE ID='%s'";
 						$arg_wk_dde[]=$protectedPost['OLD_MODIF'];
-						$subjet_mail="La demande ".$protectedPost['OLD_MODIF']." vient d'être modifiée";
-						$body=$_SESSION['OCS']['loggeduser'] . " a modifié la demande n°".$protectedPost['OLD_MODIF'];
+						$subjet_mail=$l->g(1053) . ": " . $protectedPost['OLD_MODIF'];
+						$body=$_SESSION['OCS']['loggeduser'] . $l->g(1090) . $protectedPost['OLD_MODIF'];
 						
 						//LOGS MODIF
 						if (isset($list_fields_modif) and is_array($list_fields_modif)){
@@ -481,8 +481,8 @@ function dde_form($form_name){
 						$sql_wk_dde= substr($sql_wk_dde, 0, -1).")";
 						$msg_popup=$l->g(1054);
 						
-						$subjet_mail="Une nouvelle demande vient d'être postée";
-						$body=$_SESSION['OCS']['loggeduser'] . " a posté une nouvelle demande ";
+						$subjet_mail=$l->g(1091);
+						$body=$_SESSION['OCS']['loggeduser'] . $l->g(1092);
 					}
 					/*echo "<br><hr><br>";
 					echo $sql_wk_dde;
@@ -563,7 +563,7 @@ function dde_form($form_name){
 				
 					unset($_SESSION['OCS']['DATA_CACHE'],$_SESSION['OCS']['NUM_ROW']);
 				}else{
-					echo "<script>alert('La base de donnée est incomplète.\\n Veuillez rejouer l installation complète de la base.');</script>";
+					echo "<script>alert('" . $l->g(1093) . ".\\n " . $l->g(1094) . ".');</script>";
 					unset($protectedPost['VALID']);
 				}
 				
@@ -620,9 +620,9 @@ function dde_form($form_name){
 			tab_modif_values($tab_name[$protectedPost['cat']],$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=false,'NO_FORM');
 			
 			if (isset($protectedPost['OLD_MODIF']))
-			$lbl="Modifier";
+			$lbl=$l->g(115);
 			else
-			$lbl="Enregistrer";
+			$lbl=$l->g(114);
 			echo "<input type=button name='VALID' id='VALID' value='".$lbl."' OnClick='pag(\"SUBMIT_FORM\",\"SUBMIT_FORM\",\"".$form_name."\");'>";
 			echo "<input type='hidden' name='SUBMIT_FORM' id='SUBMIT_FORM' value=''>";
 		}
@@ -635,9 +635,9 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 			if (!isset($protectedPost['conf']))
 				$protectedPost['conf']='GENERAL';
 			//sous onglets 
-			$conf_value['GENERAL']='Générale';
-			$conf_value['GUI']='Interface';
-			$conf_value['STATUS']='Admin Statuts';
+			$conf_value['GENERAL']=$l->g(107);
+			$conf_value['GUI']=$l->g(84);
+			$conf_value['STATUS']=$l->g(1095);;
 			//$conf_value['ADMIN']='Administration';
 			onglet($conf_value,$form_name,"conf",7);
 			if ($protectedPost['Valid'] == $l->g(103)){
@@ -705,7 +705,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 				}
 				$name_field= array("TAB");	
 				//$oblig_field['INFO_VALID']=$name_field['INFO_VALID'];
-				$tab_name= array("Liste des onglets:");
+				$tab_name= array($l->g(1097) . ":");
 				$type_field= array(2);
 				$value_field=array($List_tab);
 				if (isset($protectedPost['TAB']) and $protectedPost['TAB'] != 0){
@@ -721,7 +721,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 						$default_field[$item->id]=$item->default_field;
 					}
 					array_push($name_field,"FIELDS");
-					array_push($tab_name,"Liste des champs:");
+					array_push($tab_name,$l->g(1096) . ":");
 					array_push($type_field,2);
 					array_push($value_field,$List_fields);
 				}
@@ -736,15 +736,15 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 					echo "<br>";
 					$sql_status="SELECT id,lbl FROM downloadwk_statut_request";
 					$res_status = mysql2_query_secure( $sql_status, $_SESSION['OCS']["readServer"] );
-					$status['0']= "NON";
+					$status['0']= $l->g(454);
 					while ($val_status = mysql_fetch_array( $res_status ))
 					$status[$val_status['id']]=$val_status['lbl'];
 					//print_r($status);
 					$list_type=array('TEXT','TEXTAREA','SELECT',
-									'Affiche la donnée','PASSWORD',
-									'CHECKBOX','LISTE','HIDDEN',
-									'BLOB (FILE)','LIST LIEN','TABLEAU');
-					$yes_no=array('NON','OUI');
+									'SHOW DATA','PASSWORD',
+									'CHECKBOX','LIST','HIDDEN',
+									'BLOB (FILE)','LINK LIST','TABLE');
+					$yes_no=array($l->g(454),$l->g(455));
 					$sql_detailField="select type,field,lbl,must_completed,
 										value,restricted,link_status 
 									  FROM downloadwk_fields 
@@ -758,10 +758,10 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 					$protectedPost['link_status']=$item_detailField->link_status;
 
 					$name_field=array('type','field','lbl','must_completed','value','restricted','link_status');
-					$tab_name= array('Type de champ:','Nom du champ:','Libellé:','Obligatoire:','Valeur par défaut:','Champ restraint:','Lié à un statut');					
+					$tab_name= array($l->g(1071) . ':',$l->g(1098) . ':',$l->g(1063) . ':',$l->g(1064) . ':',$l->g(1099) . ':',$l->g(1065) . ':',$l->g(1066) . ':');					
 					
 					if ($default_field[$protectedPost['FIELDS']])	{
-						$title= "Ce champ n'est pas modifiable";
+						$title= $l->g(1101);
 						//$showbutton=false;
 						$type_field= array(3,3,3,3,0,3,3,7);
 						$value_field=array($list_type[$item_detailField->type],
@@ -812,7 +812,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 							mysql2_query_secure($sql_update,$_SESSION['OCS']["writeServer"],$arg);
 												
 					}else
-						echo "<script>alert('Le libellé ne peut pas être vide.');</script>";		
+						echo "<script>alert('" . $l->g(1061) . "');</script>";		
 					
 					
 				}
@@ -822,19 +822,19 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 				
 				$infos_status=list_status(false);
 				$name_field= array("STATUS");	
-				$tab_name= array("Liste des statuts:");
+				$tab_name= array($l->g(1100) . ":");
 				$type_field= array(2);
 				$value_field=array($infos_status['STAT']);
 				if (isset($protectedPost['STATUS']) and $protectedPost['STATUS'] != 0){
 				/*	$status['0']= "NON";
 					$status[$val_status['id']]=$val_status['lbl'];*/
-					$yes_no=array('NON','OUI');
+					$yes_no=array($l->g(454),$l->g(455));
 					$protectedPost['actif']=$infos_status['ACTIF'][$protectedPost['STATUS']];
 					$protectedPost['id']=$protectedPost['STATUS'];
 					$protectedPost['lbl']=$infos_status['STAT_BIS'][$protectedPost['STATUS']];
 					$protectedPost['name']=$infos_status['NIV'][$protectedPost['STATUS']];
 					array_push($name_field,'actif','id','lbl','name');
-					array_push($tab_name,'Statut actif:','ID du statut:','Libellé:','Niveau:');
+					array_push($tab_name,$l->g(1102) . ':',$l->g(1103) . ':',$l->g(1063) . ':',$l->g(1064) . ':');
 					array_push($type_field,2,3,0,3);
 					array_push($value_field,$yes_no,$protectedPost['id'],$protectedPost['lbl'],$protectedPost['name']);
 					$showbutton=true;

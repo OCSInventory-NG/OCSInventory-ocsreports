@@ -965,6 +965,38 @@
 1069 Adding value done
 1070 New Field
 1071 Field Type
+1072 Pending resquests
+1073 Make a request
+1074 'Workflow' fonction is not activate. 
+1075 Active it for use it
+1076 ERROR: SEARCH STATUS IS NOT DEFINE
+1077 Status for creating package
+1078 Test status
+1079 restraint perimeter status
+1080 global perimeter status
+1081 Information by mail
+1082 Workflow admin group
+1083 Perimeter identification
+1084 Group name for test
+1085 Group name for restraint perimeter 
+1086 TAG value for test
+1088 TAG value for restraint perimeter 
+1089 No status is active. Start by activating one
+1090 has modify request n°
+1091 A new request has been posted
+1092 post a new request
+1093 Database is incomplete
+1094 Please replay the complete installation of the database
+1095 Status Admin
+1096 Fields list
+1097 Tabs list
+1098 Field name
+1099 Default value
+1100 Status list
+1101 This field can't be updated
+1102 Active status
+1103 Status ID
+1104 Level
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
