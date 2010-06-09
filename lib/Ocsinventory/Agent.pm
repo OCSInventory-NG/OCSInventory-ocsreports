@@ -333,17 +333,13 @@ sub run {
                     });
 
 		
-		#Using prolog_writer hook
-		$hooks->run({name => 'prolog_writer'}, $prolog);
+					#Using prolog_writer hook
+					$hooks->run({name => 'prolog_writer'}, $prolog);
 
-      $prologresp = $net->send({message => $prolog});
-
-
-		#Using prolog_reader hook
-		$hooks->run({name => 'prolog_reader'}, $prologresp->getRawXML());
-
+      			$prologresp = $net->send({message => $prolog});
 
                 if (!$prologresp) { # Failed to reach the server
+
                     if ($config->{config}{lazy}) {
                         # To avoid flooding a heavy loaded server
                         my $previousPrologFreq;
@@ -360,8 +356,11 @@ sub run {
                     }
                     exit 1 unless $config->{config}{daemon};
                     $sendInventory = 0;
-                } elsif (!$prologresp->isInventoryAsked()) {
-                    $sendInventory = 0;
+                } else {
+							#Using prolog_reader 
+		    				$hooks->run({name => 'prolog_reader'}, $prologresp->getRawXML());
+
+                 		if (!$prologresp->isInventoryAsked()) {  $sendInventory = 0; } 
                 }
             }
 
