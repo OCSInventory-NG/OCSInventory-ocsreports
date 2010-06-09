@@ -997,6 +997,9 @@
 1102 Active status
 1103 Status ID
 1104 Level
+1105 Workflow functionality is enabled
+1106 It is possible to create a package only if a request exist before
+1107 And the status is correct
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

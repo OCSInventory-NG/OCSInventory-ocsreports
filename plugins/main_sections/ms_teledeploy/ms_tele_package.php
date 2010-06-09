@@ -372,40 +372,47 @@ printEnTete($l->g(434));
 echo "<br>";
 $activate=option_conf_activate('TELEDIFF_WK');
 
-//Si le workflow est activé
-//on bloque la création de paquets aux seules demandes valides
+//If workflow for teledeploy is activated
+//We show only the package we can create
 if ($activate){
-	echo "<font color = green><b>La fonctionnalité de Workflow pour le télédéploiement est activée
-			<br> Il n'est possible de créer un paquet que si une demande préalable existe
-			<br> Et qu'elle soit en statut de création de paquet</b></font>";
+	echo "<font color = green><b>" . $l->g(1105) . "
+			<br> " . $l->g(1106) . "
+			<br> " . $l->g(1107) . "</b></font>";
 	//recherche des demandes de télédéploiement en statut de création de paquet
 	$conf_creat_Wk=look_default_values(array('IT_SET_NIV_CREAT'));
 	//print_r($conf_creat_Wk);
 	$info_dde_statut_creat=info_dde(find_dde_by_status($conf_creat_Wk['tvalue']['IT_SET_NIV_CREAT']));
-	$array_id_fields=find_id_field(array('NAME_TELEDEPLOY','PRIORITY','NOTIF_USER','REPORT_USER','INFO_PACK'));
-
-	//contruction des champs de recherche
-	$id_name="fields_".$array_id_fields['NAME_TELEDEPLOY']->id;
-	$id_description="fields_".$array_id_fields['INFO_PACK']->id;
-	$id_priority="fields_".$array_id_fields['PRIORITY']->id;
-	$id_notify_user="fields_".$array_id_fields['NOTIF_USER']->id;
+	if ($info_dde_statut_creat != ''){
+		$array_id_fields=find_id_field(array('NAME_TELEDEPLOY','PRIORITY','NOTIF_USER','REPORT_USER','INFO_PACK'));
 	
-	foreach ($info_dde_statut_creat as $id=>$tab_value){
-		$list_dde_creat[$tab_value->ID]=$tab_value->$id_name;
-	}
-//	print_r($info_dde_statut_creat);
-	echo "<br><b>Liste des paquets à créer:</b>".show_modif($list_dde_creat,'LIST_DDE_CREAT',2,$form_name);
-	if (!$protectedPost['LIST_DDE_CREAT'] or $protectedPost['LIST_DDE_CREAT'] == ""){
+		//contruction des champs de recherche
+		$id_name="fields_".$array_id_fields['NAME_TELEDEPLOY']->id;
+		$id_description="fields_".$array_id_fields['INFO_PACK']->id;
+		$id_priority="fields_".$array_id_fields['PRIORITY']->id;
+		$id_notify_user="fields_".$array_id_fields['NOTIF_USER']->id;
+		
+		foreach ($info_dde_statut_creat as $id=>$tab_value){
+			$list_dde_creat[$tab_value->ID]=$tab_value->$id_name;
+		}
+	//	print_r($info_dde_statut_creat);
+		echo "<br><b>Liste des paquets à créer:</b>".show_modif($list_dde_creat,'LIST_DDE_CREAT',2,$form_name);
+		if (!$protectedPost['LIST_DDE_CREAT'] or $protectedPost['LIST_DDE_CREAT'] == ""){
+			echo "</form>";
+			require_once($_SESSION['OCS']['FOOTER_HTML']);
+			die();
+		}else{
+			$protectedPost['NAME']=$info_dde_statut_creat[$protectedPost['LIST_DDE_CREAT']]->$id_name;
+			$protectedPost['DESCRIPTION']=$info_dde_statut_creat[$protectedPost['LIST_DDE_CREAT']]->$id_description;
+			$NAME_TYPE=3;
+			$DESCRIPTION_TYPE=3;
+			
+		}
+	}else{
 		echo "</form>";
 		require_once($_SESSION['OCS']['FOOTER_HTML']);
 		die();
-	}else{
-		$protectedPost['NAME']=$info_dde_statut_creat[$protectedPost['LIST_DDE_CREAT']]->$id_name;
-		$protectedPost['DESCRIPTION']=$info_dde_statut_creat[$protectedPost['LIST_DDE_CREAT']]->$id_description;
-		$NAME_TYPE=3;
-		$DESCRIPTION_TYPE=3;
-		
 	}
+	
 	
 }else{
 	$NAME_TYPE=0;
