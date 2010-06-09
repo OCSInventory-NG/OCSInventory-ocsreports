@@ -2,9 +2,8 @@
 if (!isset($debut))
 die('FORBIDDEN');
 @session_start();
-//print_r($_SESSION['OCS']['LANGUAGE_FILE']);
 require_once('fichierConf.class.php');
-/*****************************************************GESTION DU LOGOUT*********************************************/
+/*****************************************************LOGOUT*********************************************/
 if ($_POST['LOGOUT'] == 'ON'){
 	unset($_SESSION['OCS']);
 	unset($_GET);
@@ -43,27 +42,22 @@ if (!defined("SERVER_READ")){
 
 
 
+
 //SECURITY
-if (get_magic_quotes_gpc() == 0) {
-   	$protectedPost=escape_string($_POST);
-	$protectedGet=escape_string($_GET);
-    $_COOKIE = escape_string($_COOKIE);
-}else{
+
 	$protectedPost=$_POST;
 	$protectedGet=$_GET;
-}
+
 //print_r($GLOBALS);
 @set_time_limit(0);
-//global $protectedPost,$protectedGet;
 
-//pour ne pas tenir compte des erreurs renvoy�s par l'identification
-//pour le fuser, la variable $no_error est = 'YES'
+//Don't take care of error identify 
+//For the fuser, $no_error  = 'YES'
 if (!isset($no_error))
 $no_error='NO';
 /**************************************mise en place des r�pertoires de plugins et d'auhentification************************************/
 if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYSQL'])){
-//	$rep=explode("/", $_SERVER["DOCUMENT_ROOT"].$_SERVER["PHP_SELF"]);
-//	array_pop($rep);
+
 	$_SESSION['OCS']['backend']="backend/";
 	$_SESSION['OCS']['plugins_dir']="plugins/";
 	$_SESSION['OCS']['CONF_MYSQL']="dbconfig.inc.php";

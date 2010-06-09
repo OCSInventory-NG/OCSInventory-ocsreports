@@ -13,6 +13,61 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
  $majuscule="onKeyPress=\"return scanTouche(event,/[0-9 a-z A-Z]/)\" onkeydown='convertToUpper(this)'
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
+
+ /*
+  * 
+  * This function check an mail addresse 
+  * 
+  */  
+ function VerifyMailadd($addresse)
+{
+   $Syntaxe='#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#';
+   if(preg_match($Syntaxe,$addresse))
+      return true;
+   else
+     return false;
+}
+ 
+function send_mail($mail_to,$subjet,$body){
+	global $l;
+// few personnes
+	$to="";
+	if (is_array($mail_to)){
+		$to = implode(',',$mail_to);
+	}else
+     $to  = $mail_to;
+
+     // message
+     $message = '
+     <html>
+      <head>
+       <title>' . $subjet . '</title>
+      </head>
+      <body>
+       ' . $body . '
+      </body>
+     </html>
+     ';
+
+     // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+     $headers  = 'MIME-Version: 1.0' . "\r\n";
+     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+     // En-têtes additionnels
+     $headers .= 'To: '. implode(',',$mail_to) . "\r\n";
+     $headers .= 'From: Ocsinventory <Ocsinventory@ocsinventory.com>' . "\r\n";
+  //   $headers .= 'Cc: anniversaire_archive@example.com' . "\r\n";
+   //  $headers .= 'Bcc: anniversaire_verif@example.com' . "\r\n";
+
+     // Envoi
+     $test_mail=@mail($to, $subject, $message, $headers);
+	if (!$test_mail){
+		echo "<script>alert('" . $l->g(1057)."');</script>";		
+	}
+	
+	
+}
+ 
  
 function replace_entity_xml($txt){
 	$cherche = array("&","<",">","\"","'");
@@ -20,31 +75,7 @@ function replace_entity_xml($txt){
 	return str_replace($cherche, $replace, $txt);		
 }  
 
-function replace_slashes($array){
-	foreach($array as $key=>$value){
-		$array_tmp=array();
-		$array_tmp=explode('\\',$value);
-		$i=0;
-		$slashes='';
-		$new_value='';
-		//print_r($array_tmp);
-		while (isset($array_tmp[$i])){			
-			//echo $array_tmp[$i]."<br>";
-			if ($slashes == '' and $array_tmp[$i] == ""){
-			$slashes ="\\\\";
-			$new_value.=$slashes;
-			}elseif ($array_tmp[$i] != ""){
-				$new_value.=$array_tmp[$i];
-				$slashes ='';
-			}
-			$i++;	
-		}
-		$array_trait[$key]=$new_value;		
-	}
-	return $array_trait;
 
-	
-}
  
 function printEnTete_tab($ent) {
 	echo "<br><table border=0 WIDTH = '62%' ALIGN = 'Center' CELLPADDING='5'>
@@ -253,9 +284,13 @@ function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom
  */
 function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES",'COLS'=>30,'ROWS'=>5))
 {
-	//echo $configinput['JAVASCRIPT'];
-	global $protectedPost;
-	if ($input_type == 1){
+	global $protectedPost,$l,$pages_refs;
+	//del stripslashes if $name is not an array
+	if (!is_array($name)){
+	//	echo "toto";
+		$name=htmlspecialchars($name, ENT_QUOTES);
+	}
+		if ($input_type == 1){
 		return "<textarea name='".$input_name."' id='".$input_name."' cols='".$configinput['COLS']."' rows='".$configinput['ROWS']."'  class='down' \>".$name."</textarea>";
 	
 	}elseif ($input_type ==0)
@@ -283,6 +318,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		return $champs;
 	}elseif($input_type == 3){
 		$hid="<input type='hidden' id='".$input_name."' name='".$input_name."' value='".$name."'>";
+	//	echo $name."<br>";
 		return $name.$hid;
 	}elseif ($input_type == 4)
 	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' \>";
@@ -308,31 +344,94 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		return $champs;		
 	}elseif($input_type == 7)
 		return "<input type='hidden' id='".$input_name."' name='".$input_name."' value='".$name."'>";
+	elseif ($input_type == 8)
+		return "<input type='button' id='".$input_name."' name='".$input_name."' value='".$l->g(1048)."' OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_upload_file_popup']."&head=1&n=".$input_name."&tab=".$name."&dde=".$configinput['DDE']."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'>";
+	elseif ($input_type == 9){
+		$aff="";
+		if (is_array($name)){
+			foreach ($name as $key=>$value){
+				$aff.="<a href=# onclick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_view_file']."&prov=dde_wk&no_header=1&value=".$key."\",\"toto\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");' >".
+						$value."</a><br>";
+						/*window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_view_file']."
+							&prov=dde_wk&no_header=1&value=".$key."\",\"toto\",\"location=0,
+							status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");*/
+				//$aff.="index.php?'.PAG_INDEX.'='.$pages_refs['ms_view_file'].'&prov=dde_wk&no_header=1&value=';"
+			}
+		}
+		return $aff;
+		
+	}elseif ($input_type == 10){
+		//le format de de $name doit etre sous la forme d'une requete sql avec éventuellement
+		//des arguments. Dans ce cas, les arguments sont séparés de la requête par $$$$
+		//et les arguments entre eux par des virgules
+		//echo $name;
+		$sql=explode('$$$$',$name);
+		if (isset($sql[1])){
+			$arg_sql=explode(',',$sql[1]);	
+			$i=0;
+			while ($arg_sql[$i]){
+				$arg[$i]=$protectedPost[$arg_sql[$i]];
+				$i++;	
+			}
+		}
+		if (isset($arg_sql))
+		$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"],$arg);
+		else
+		$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"]);
+		if (isset($result) and $result != ''){
+			$i=0;
+			while($colname = mysql_fetch_field($result))
+			$entete2[$i++]=$colname->name;
+			
+			$i=0;		
+			while ($item = mysql_fetch_object($result)){
+				$j=0;
+				while ($entete2[$j]){
+					$data2[$i][$entete2[$j]]=$item ->$entete2[$j];
+					$j++;
+				}
+				$i++;
+			}
+		}
+	 		return tab_entete_fixe($entete2,$data2,"",60,300);		
+		
+	}
 }
 
 function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='CHANGE')
 {
 	global $l,$protectedPost;
 	if ($form_name != 'NO_FORM')
-	echo "<form name='".$form_name."' id='".$form_name."' action='' method='POST'>";
+	echo "<form name='" . $form_name . "' id='" 
+		. $form_name . "' action='' method='POST'>";
 	echo '<div class="mvt_bordure" >';
+	
 	echo "<table align='center' border='0' cellspacing=20 >";
-	echo "<tr><td colspan=10 align='center'><font color=red><b><i>".$title."</i></b></font></td></tr>";
+	echo "<tr><td colspan=10 align='center'><font color=red><b><i>" . $title . "</i></b></font></td></tr>";
     foreach ($tab_name as $key=>$values)
 	{
-		echo "<tr><td>".$values."</td><td>".$tab_typ_champ[$key]['COMMENT_BEFORE'].show_modif($tab_typ_champ[$key]['DEFAULT_VALUE'],$tab_typ_champ[$key]['INPUT_NAME'],$tab_typ_champ[$key]['INPUT_TYPE'],$tab_typ_champ[$key]['RELOAD'],$tab_typ_champ[$key]['CONFIG']).$tab_typ_champ[$key]['COMMENT_BEHING']."</td></tr>";
+		//print_r($tab_typ_champ[$key]['DEFAULT_VALUE']);
+		echo "<tr><td>" . $values . "</td><td>" . $tab_typ_champ[$key]['COMMENT_BEFORE']
+		   . show_modif($tab_typ_champ[$key]['DEFAULT_VALUE'],$tab_typ_champ[$key]['INPUT_NAME'],$tab_typ_champ[$key]['INPUT_TYPE'],$tab_typ_champ[$key]['RELOAD'],$tab_typ_champ[$key]['CONFIG']).$tab_typ_champ[$key]['COMMENT_BEHING']."</td></tr>";
 	}
  echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
  	if ($showbutton){
-		echo "<tr><td><input title='".$l->g(625)."'  class='image' type='image'  src='image/modif_valid_v2.png' name='Valid_".$name_button."'>";
-		echo "<input title='".$l->g(626)."' class='image' type='image'  src='image/modif_anul_v2.png' name='Reset_".$name_button."'></td></tr>";
+		echo "<tr><td><input title='" . $l->g(625) 
+					. "'  class='image' type='image'  src='image/modif_valid_v2.png' name='Valid_" 
+					. $name_button 
+					."'>";
+		echo "<input title='" . $l->g(626) 
+				. "' class='image' type='image'  src='image/modif_anul_v2.png' name='Reset_"
+				. $name_button . "'></td></tr>";
  	}
 	echo "</table>";
         echo "</div>";    
-    if ($tab_hidden != ""){                 
+    if ($tab_hidden != ""){
+    		
 		foreach ($tab_hidden as $key=>$value)
 		{
-			echo "<input type='hidden' name='".$key."' value='".$value."'>";
+			echo "<input type='hidden' name='" . $key 
+				. "' value='" . htmlspecialchars($value, ENT_QUOTES) . "'>";
 	
 		}
     }
@@ -870,7 +969,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		//$queryDetails="select SQL_CALC_FOUND_ROWS ".substr($queryDetails,6);
 		$resultDetails = mysql_query($queryDetails, $link) or mysql_error($link);
 		flush();
-//	echo "<br>".$queryDetails;
+	//echo "<br>".$queryDetails;
 //	flush();
 //		
 		$i=0;
@@ -883,7 +982,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		if ($index>$num_rows_result){
 			$value_data_end=$num_rows_result-1;
 		}
-		//print_r($limit)
+	//	echo $resultDetails
 		while($item = mysql_fetch_object($resultDetails)){
 			
 			unset($champs_index);
@@ -1028,11 +1127,13 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 	//print_r($list_col_cant_del);//print_r($sql_data);
 	if (isset($sql_data)){
 		foreach ($sql_data as $i=>$donnees){
+			//print_r($donnees);
 			foreach($list_fields as $key=>$value){
 				$truelabel=$key;
 				//gestion des as de colonne
 				if ($tab_options['AS'][$value])
-				$value=$tab_options['AS'][$value];				
+				$value=$tab_options['AS'][$value];
+				//echo $value."<br>";				
 				$num_col=$key;
 				if ($default_fields[$key])
 				$correct_list_fields[$num_col]=$num_col;
@@ -1049,7 +1150,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				$no_alias_value=substr(strstr($value, '.'), 1);
 				}else
 				 $no_alias_value=$value;
-				
+			//	echo $no_alias_value."<br>";
 				//echo $donnees[$no_alias_value]."<br>";
 				
 				//si aucune valeur, on affiche un espace
@@ -1124,7 +1225,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				if (is_array($tab_options) and !$tab_options['SHOW_ONLY'][$key][$value_of_field] and $tab_options['SHOW_ONLY'][$key]){
 					$key = "NULL";
 				}		
-	
 				if ($affich == 'OK'){
 				//	echo $key."<br>";
 					if ($key == "NULL"){

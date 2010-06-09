@@ -400,9 +400,9 @@ function create_pack($sql_details,$info_details){
 		//suppression du paquet qui aurait le m�me id
 		mysql_query( "DELETE FROM download_available WHERE FILEID='".$sql_details['timestamp']."'", $_SESSION['OCS']["writeServer"]);
 		//insertion du nouveau paquet
-		$req = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT) VALUES
+		$req = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT,ID_WK) VALUES
 		( '".$sql_details['timestamp']."', '".$sql_details['name']."','".$info_details['PRI']."', '".$sql_details['nbfrags']."',
-		'".$sql_details['size']."', '".$sql_details['os']."', '".$sql_details['description']."' )";
+		'".$sql_details['size']."', '".$sql_details['os']."', '".$sql_details['description']."','".$sql_details['id_wk']."' )";
 		mysql_query( $req, $_SESSION['OCS']["writeServer"] ) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 		addLog($l->g(512), $l->g(617)." ".$sql_details['timestamp'] );
 		//message d'info

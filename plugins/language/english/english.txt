@@ -926,25 +926,77 @@
 1030 Unchanged
 1031 workflow for Teledeploy
 1032 Activate workflow for Teledeploy
-1033 Inf. demandeur
-1034 Inf. générales Paquet
-1035 Inf. techniques Paquet
-1036 Inf. validation
-1037 Nom du paquet
-1038 Demandeur
-1039 Priorité
-1040 Utilisateur notifié
-1041 Utilisateur peut reporter
-1042 Entraine un reboot
-1043 Actions de contrôle pour valider l'installation
-1044 Par liste
-1045 Par visuel
+1033 Requester Information
+1034 General Information Package
+1035 Technical Information Package
+1036 Validation information
+1037 Package Name
+1038 Requester
+1039 Priority
+1040 User notified
+1041 User can defer
+1042 triggers a reboot
+1043 Stock control to validate the installation
+1044 By list
+1045 By visual
 1046 Statut
 1047 INFO
 1048 Add file
 1049 BAD ACTION
 1050 Soft search
 1051 Search
+1052 History
+1053 Demande modifiee
+1054 Demande effectuee
+1055 Your email is not valid
+1056 Contact your OCS administrator
+1057 Failed to connect to mailserver
+1058 no email is valid
+1059 Data available
+1060 New data
+1061 Tab
+1062 Field
+1063 Wording 
+1064 Mandatory
+1065 Field restraint
+1066 Linked to a status
+1067 Field name is already used
+1068 The name of the field can not be empty
+1069 Adding value done
+1070 New Field
+1071 Field Type
+1072 Pending resquests
+1073 Make a request
+1074 'Workflow' fonction is not activate. 
+1075 Active it for use it
+1076 ERROR: SEARCH STATUS IS NOT DEFINE
+1077 Status for creating package
+1078 Test status
+1079 restraint perimeter status
+1080 global perimeter status
+1081 Information by mail
+1082 Workflow admin group
+1083 Perimeter identification
+1084 Group name for test
+1085 Group name for restraint perimeter 
+1086 TAG value for test
+1088 TAG value for restraint perimeter 
+1089 No status is active. Start by activating one
+1090 has modify request n°
+1091 A new request has been posted
+1092 post a new request
+1093 Database is incomplete
+1094 Please replay the complete installation of the database
+1095 Status Admin
+1096 Fields list
+1097 Tabs list
+1098 Field name
+1099 Default value
+1100 Status list
+1101 This field can't be updated
+1102 Active status
+1103 Status ID
+1104 Level
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

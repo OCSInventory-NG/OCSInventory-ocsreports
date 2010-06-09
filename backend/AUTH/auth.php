@@ -50,6 +50,7 @@ if (isset($login) && isset($mdp)){
 if($login_successful == "OK" and isset($login_successful)) {
 	$_SESSION['OCS']["loggeduser"]=$login;
 	$_SESSION['OCS']['cnx_origine']=$cnx_origine;
+	$_SESSION['OCS']['user_group']=$user_group;
 	unset($protectedGet);
 }else{	
 	//affichage d'un formulaire HTML

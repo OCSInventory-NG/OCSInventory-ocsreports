@@ -21,8 +21,6 @@ ALERTE_MSG:NO
 
 <PAGE_PROFIL>
 ms_all_computers
-ms_maps
-ms_maps_show
 ms_repart_tag
 ms_groups
 ms_all_soft

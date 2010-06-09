@@ -11,6 +11,7 @@
 //Modified on $Date: 2007/07/23 10:30:26 $$Author: plemmet $($Revision: 1.12 $)
 
 require_once('require/function_telediff.php');
+require_once('require/function_telediff_wk.php');
 foreach ($_POST as $key=>$value){
 	if (get_magic_quotes_gpc()==true and stristr($value, '\\') == true){
 		while (stristr($value, '\\'))
@@ -28,7 +29,8 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 					   'name'=>$protectedPost['NAME'],
 					   'os'=>$protectedPost['OS'],
 					   'description'=>$protectedPost['DESCRIPTION'].'  [Type='.$protectedPost['TYPE_PACK']."]".'  [VISIBLE='.$protectedPost['VISIBLE']."]",
-					   'size'=>$protectedPost['SIZE']);
+					   'size'=>$protectedPost['SIZE'],
+					   'id_wk'=>$protectedPost['LIST_DDE_CREAT']);
 					   
 	$info_details=array('PRI'=>$protectedPost['PRIORITY'],
 						'ACT'=>$protectedPost['ACTION'],
@@ -81,7 +83,8 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 					   'name'=>$protectedPost['NAME'].'_redistrib',
 					   'os'=>$protectedPost['OS'],
 					   'description'=>'[PACK REDISTRIBUTION '.$protectedPost['timestamp'].']',
-					   'size'=>$fSize);
+					   'size'=>$fSize,
+					   'id_wk'=>$protectedPost['LIST_DDE_CREAT']);
 					   
 		$info_details=array('PRI'=>$protectedPost['REDISTRIB_PRIORITY'],
 						'ACT'=>'STORE',
@@ -367,7 +370,48 @@ echo " style='display:none;'";
 echo ">";
 printEnTete($l->g(434));
 echo "<br>";
+$activate=option_conf_activate('TELEDIFF_WK');
 
+//Si le workflow est activé
+//on bloque la création de paquets aux seules demandes valides
+if ($activate){
+	echo "<font color = green><b>La fonctionnalité de Workflow pour le télédéploiement est activée
+			<br> Il n'est possible de créer un paquet que si une demande préalable existe
+			<br> Et qu'elle soit en statut de création de paquet</b></font>";
+	//recherche des demandes de télédéploiement en statut de création de paquet
+	$conf_creat_Wk=look_default_values(array('IT_SET_NIV_CREAT'));
+	//print_r($conf_creat_Wk);
+	$info_dde_statut_creat=info_dde(find_dde_by_status($conf_creat_Wk['tvalue']['IT_SET_NIV_CREAT']));
+	$array_id_fields=find_id_field(array('NAME_TELEDEPLOY','PRIORITY','NOTIF_USER','REPORT_USER','INFO_PACK'));
+
+	//contruction des champs de recherche
+	$id_name="fields_".$array_id_fields['NAME_TELEDEPLOY']->id;
+	$id_description="fields_".$array_id_fields['INFO_PACK']->id;
+	$id_priority="fields_".$array_id_fields['PRIORITY']->id;
+	$id_notify_user="fields_".$array_id_fields['NOTIF_USER']->id;
+	
+	foreach ($info_dde_statut_creat as $id=>$tab_value){
+		$list_dde_creat[$tab_value->ID]=$tab_value->$id_name;
+	}
+//	print_r($info_dde_statut_creat);
+	echo "<br><b>Liste des paquets à créer:</b>".show_modif($list_dde_creat,'LIST_DDE_CREAT',2,$form_name);
+	if (!$protectedPost['LIST_DDE_CREAT'] or $protectedPost['LIST_DDE_CREAT'] == ""){
+		echo "</form>";
+		require_once($_SESSION['OCS']['FOOTER_HTML']);
+		die();
+	}else{
+		$protectedPost['NAME']=$info_dde_statut_creat[$protectedPost['LIST_DDE_CREAT']]->$id_name;
+		$protectedPost['DESCRIPTION']=$info_dde_statut_creat[$protectedPost['LIST_DDE_CREAT']]->$id_description;
+		$NAME_TYPE=3;
+		$DESCRIPTION_TYPE=3;
+		
+	}
+	
+}else{
+	$NAME_TYPE=0;
+	$DESCRIPTION_TYPE=1;
+	
+}
 $config_input=array('MAXLENGTH'=>255,'SIZE'=>50);
 $title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(438)."</b></td></tr>";
 $title_user="<tr height='30px' BGCOLOR='#C7D9F5'><td align='center' colspan='10'><b>".$l->g(447)."</b></td></tr>";
@@ -389,8 +433,8 @@ $yes_no['1']=$l->g(455);
 
 $sous_tab_beg="<table BGCOLOR='#C7D9F5' BORDER='3'><tr><td>";
 $sous_tab_end="</td></tr></table>";
-$nom= $lign_begin.$l->g(49).$td_colspan2.show_modif($protectedPost['NAME'],'NAME',0,'',$config_input).$lign_end;
-$descr=$lign_begin.$l->g(53).$td_colspan2.show_modif($protectedPost['DESCRIPTION'],'DESCRIPTION',1).$lign_end;
+$nom= $lign_begin.$l->g(49).$td_colspan2.show_modif($protectedPost['NAME'],'NAME',$NAME_TYPE,'',$config_input).$lign_end;
+$descr=$lign_begin.$l->g(53).$td_colspan2.show_modif($protectedPost['DESCRIPTION'],'DESCRIPTION',$DESCRIPTION_TYPE).$lign_end;
 $os=$lign_begin.$l->g(25).$td_colspan2.champ_select_block($list_os,'OS',array('OS'=>'WINDOWS')).$lign_end;
 $proto=$lign_begin.$l->g(439).$td_colspan2.show_modif($list_proto,'PROTOCOLE',2,'').$lign_end;
 $prio=$lign_begin.$l->g(440).$td_colspan2.show_modif($list_prio,'PRIORITY',2,'').$lign_end;

@@ -969,6 +969,59 @@
 1049 ACTION INTERDITE
 1050 Recherche logiciels
 1051 Recherche
+1052 Historique
+1053 Demande modifiée
+1054 Demande effectuée
+1055 Votre adresse mail n'est pas valide
+1056 Contactez votre administrateur OCS
+1057 Impossible de se connecter au serveur de mail
+1058 Aucun email n'est valide
+1059 Données existantes
+1060 Nouvelle donnée
+1061 Onglet
+1062 Champ
+1063 Libellé
+1064 Champ obligatoire
+1065 Champ restraint
+1066 Lié à un statut
+1067 Ce nom de champ est déjà utilisé
+1068 Le nom du champ ne peut pas être vide
+1069 Ajout de la valeur effectuée
+1070 Nouveau Champ
+1071 Type de champ
+1072 Suivi des demandes
+1073 Faire une demande
+1074 La fonctionnalité 'Workflow' n'est pas activée. 
+1075 Veuillez l'activer pour l'utiliser
+1076 ERROR: STATUS RECHERCHE NON DEFINI
+1077 Niveau de création de paquet
+1078 Niveau de test
+1079 Niveau du périmètre restraint
+1080 Niveau du périmètre total
+1081 Signalement par mail
+1082 Groupe des administrateurs du workflow
+1083 Identification des périmètres
+1084 Nom du groupe de test
+1085 Nom du groupe du périmètre restraint
+1086 Libellé du TAG de définition du paramètre
+1087 Valeur du tag de test
+1088 Valeur du tag du périmètre restraint
+1089 Aucun status n'est actif. Commencer par en activer un.
+1090 a modifié la demande n°
+1091 Une nouvelle demande vient d'être postée
+1092 a posté une nouvelle demande
+1093 La base de donnée est incomplète
+1094 Veuillez rejouer l installation complète de la base
+1095 Admin status
+1096 Liste des champs
+1097 Liste des onglets
+1098 Nom du champ
+1099 Valeur par défaut
+1100 Liste des statuts
+1101 Ce champ n'est pas modifiable
+1102 Statut actif
+1103 ID du statut
+1104 Niveau
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

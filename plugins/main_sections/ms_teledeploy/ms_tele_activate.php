@@ -86,6 +86,7 @@ echo "<script language='javascript'>
 
 
 $list_fields= array('Timestamp'=>'FILEID',
+					$l->g(593)=>'from_unixtime(FILEID)',
 							'SHOWACTIVE'=>'NAME',
 							$l->g(440)=>'PRIORITY',
 							$l->g(464)=>'FRAGMENTS',
@@ -105,6 +106,7 @@ $list_fields= array('Timestamp'=>'FILEID',
 $tab_options['LBL_POPUP']['SUP']='NAME';
 $table_name="LIST_PACK";
 $default_fields= array('Timestamp'=>'Timestamp',
+					   $l->g(593)=>$l->g(593),
 					   'SHOWACTIVE'=>'SHOWACTIVE',
 					   'CHECK'=>'CHECK','NOTI'=>'NOTI','SUCC'=>'SUCC',
 					   'ERR_'=>'ERR_','SUP'=>'SUP','ACTIVE'=>'ACTIVE','STAT'=>'STAT','ZIP'=>'ZIP');

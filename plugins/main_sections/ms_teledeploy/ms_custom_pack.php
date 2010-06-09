@@ -8,6 +8,80 @@
 
 require_once('require/function_telediff.php');
 require_once('require/function_search.php');
+require_once('require/function_telediff_wk.php');
+//TELEDIFF_WK
+$activate=option_conf_activate('TELEDIFF_WK');
+if ($activate){
+	echo "<font color = green><b>La fonctionnalité de Workflow pour le télédéploiement est activée.
+			<br> L'affectation d'un paquet dépend du statut de la demande</b></font>";
+	//recherche du niveau d'affectation du paquet
+	$conf_Wk=look_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
+									   'IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
+									   'IT_SET_NIV_TEST','IT_SET_NIV_REST'));
+	//savoir comment sont définis les périmètres
+	if ($conf_Wk['ivalue']['IT_SET_PERIM'] == 1){
+		$perim='TAG';
+		echo "<br><font color=red><b>Vous ne pouvez affecter des paquets 
+					que de niveau supérieur à ".$conf_Wk['tvalue']['IT_SET_NIV_REST']."
+					<br>Rappel: la configuration du workflow de télédéploiement est actuellement sur ".$perim."</b></font>";
+	
+	
+	
+	}else{
+		$perim='GROUPS';
+		//si on vient de la page des groupes	
+		if ($protectedGet['origine'] == "group"){
+			//recherche des infos du groupe
+			$queryMachine   = "SELECT REQUEST,
+						  CREATE_TIME,
+						  NAME,
+						  XMLDEF,
+						  DESCRIPTION,LASTDATE,OSCOMMENTS,DEVICEID FROM hardware h left join groups g on g.hardware_id=h.id 
+				  WHERE ID='".$protectedGet['idchecked']."' AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
+			$result   = mysql_query( $queryMachine, $_SESSION['OCS']["readServer"] ) or mysql_error($_SESSION['OCS']["readServer"]);
+			$item     = mysql_fetch_object($result);
+			print_r($conf_Wk);
+			$msg_wk="";
+			//si ce groupe est défini comme un groupe de test
+			if ($item->NAME == $conf_Wk['tvalue']['IT_SET_NAME_TEST']){
+				$restrict=$conf_Wk['tvalue']['IT_SET_NIV_TEST'];
+				$msg_wk="<br>Groupe pouvant recevoir des paquets de TEST";
+			}		
+			//si ce groupe est défini comme un groupe de périmètre restraint	
+			if ($item->NAME == $conf_Wk['tvalue']['IT_SET_NAME_LIMIT']){
+				if (!isset($restrict))
+				$restrict=$conf_Wk['tvalue']['IT_SET_NIV_REST'];
+				$msg_wk.="<br>Groupe pouvant recevoir des paquets de périmètre RESTRAINT";
+			}
+			//si le groupe n'est pas pris en compte dans le 
+			//système de workflow de télédiff
+			if (!isset($restrict)){
+				$msg_wk="Seuls les paquets de niveau supérieur à ".$conf_Wk['tvalue']['IT_SET_NIV_REST']." peuvent être affectés";
+				
+				
+			}
+			
+			
+			//if ($conf_Wk['tvalue']['IT_SET_NIV_TEST']==
+			
+			
+			//on doit vérifier que l'on peut affecter les paquets de TEST ou de RESTRAINT 
+		//	$protectedGet['idchecked']
+			
+		/*	echo "<br><font color=green><b>Seuls les paquets en statut > au ".$conf_Wk['tvalue']['IT_SET_NIV_TEST']."
+					<br>peuvent être affectés sur ce groupe
+					<br>Rappel: la configuration du workflow de télédéploiement est actuellement sur ".$perim."</b></font>";*/
+			
+		}
+
+		
+	}
+	
+		
+	if ($msg_wk != '')
+	echo "<br><font color=green><b>".$msg_wk."</b></font>";
+	
+}
 $form_name="pack_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 $list_id=multi_lot($form_name,$l->g(601));
@@ -33,7 +107,7 @@ $def_onglets['MACH']=$l->g(980); //DYNAMICS GROUPS
 $def_onglets['SERV_GROUP']=$l->g(981); //STATICS GROUPS
 
 //show tab
-if ($list_id){
+if ($list_id){	
 	onglet($def_onglets,$form_name,'onglet',7);
 	echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";
 	if ($protectedPost['onglet'] == 'SERV_GROUP'){
@@ -104,6 +178,7 @@ if ($list_id){
 		$querypack .= ", hardware h where a.FILEID=e.FILEID and h.id=e.group_id and  e.SERVER_ID is not null ";
 		$tab_options['QUESTION']['SELECT']=$l->g(699);
 		$tab_options['FILTRE']=array('e.FILEID'=>'Timestamp','a.NAME'=>$l->g(49));
+		
 		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack,$form_name,100,$tab_options); 
 	}
 	echo "</td></tr></table>";

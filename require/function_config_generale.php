@@ -207,6 +207,17 @@ function look_default_values($field_name){
 	return $result;
 }
 
+
+function option_conf_activate($value){
+	$conf_Wk=look_default_values(array($value));
+	if ($conf_Wk['ivalue'][$value] == 1)
+	    $activate=1;
+	else
+		$activate=0;	
+	return $activate;
+}
+
+
 /*
  * 
  * 
@@ -258,7 +269,8 @@ function update_default_value($POST){
 	$array_simple_tvalue=array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT','OCS_FILES_FORMAT','OCS_FILES_PATH',
 							   'LOCAL_SERVER','CONEX_LDAP_SERVEUR','CONEX_LDAP_PORT','CONEX_DN_BASE_LDAP','CONEX_LOGIN_FIELD',
 							   'CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN','CONEX_ROOT_PW','LBL_TAG',
-							   'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME');
+							   'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME','IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST',
+ 				               'IT_SET_NIV_TOTAL');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -269,7 +281,7 @@ function update_default_value($POST){
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
 						'LOCAL_PORT','LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
-						'IT_SET_PERIM');
+						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -698,54 +710,65 @@ function pagegroups($form_name){
  	$champs=array( 'IT_SET_PERIM'=>'IT_SET_PERIM',
 				  'IT_SET_TAG_NAME'=>'IT_SET_TAG_NAME',
 				  'IT_SET_NAME_TEST'=>'IT_SET_NAME_TEST',
-				  'IT_SET_NAME_LIMIT'=>'IT_SET_NAME_LIMIT');
+				  'IT_SET_NAME_LIMIT'=>'IT_SET_NAME_LIMIT',
+ 				  'IT_SET_NIV_CREAT'=>'IT_SET_NIV_CREAT',
+ 				  'IT_SET_NIV_TEST'=>'IT_SET_NIV_TEST',
+ 				  'IT_SET_NIV_REST'=>'IT_SET_NIV_REST',
+ 				  'IT_SET_NIV_TOTAL'=>'IT_SET_NIV_TOTAL',
+ 				  'IT_SET_MAIL'=>'IT_SET_MAIL',
+ 				  'IT_SET_MAIL_ADMIN'=>'IT_SET_MAIL_ADMIN');
 	$values=look_default_values($champs);
-	
-	
- 	debut_tab();
- 	//liste des @email dans la boucle
-	//ligne('IT_SET_EMAIL_VALID','Liste des @mail devant connaitre l\'évolution du télédéploiement<br>(séparer les différentes adresses avec des ;)','long_text',array('VALUE'=>$values['tvalue']['IT_SET_EMAIL_VALID'],'COLS'=>60,'ROWS'=>5));
-	ligne('IT_SET_PERIM','Identification des périmètres','radio',array(1=>'TAG',0=>'GROUP','VALUE'=>$values['ivalue']['IT_SET_PERIM'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
-	if (!isset($values['ivalue']['IT_SET_PERIM']) or $values['ivalue']['IT_SET_PERIM'] == 0){
-		
-		$lbl_name_test="Nom du groupe de test";
-		$lbl_name_limit="Nom du groupe du périmètre restraint";
-		$sql_list_group="select name from hardware where deviceid='_SYSTEMGROUP_'";
-		$result_list_group = mysql_query($sql_list_group, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-		while($value=mysql_fetch_array($result_list_group)){
-			$list_group[$value['name']]=$value['name'];	
-		}
-		ligne('IT_SET_NAME_TEST',"Nom du groupe de test",'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SELECT_VALUE'=>$list_group));
-		ligne('IT_SET_NAME_LIMIT',"Nom du groupe du périmètre restraint",'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SELECT_VALUE'=>$list_group));
-		
-	}else{
-		$sql_list_tag="SHOW COLUMNS FROM accountinfo";
-		$result_list_tag = mysql_query($sql_list_tag, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-		while($colname=mysql_fetch_array($result_list_tag)){
-			if ($colname["Field"] != 'HARDWARE_ID'){
-				if ($colname["Field"] == 'TAG')
-					$real_name=$_SESSION['OCS']['TAG_LBL'];
-				else
-					$real_name=$colname["Field"];
-				$list_tag[$colname["Field"]]=$real_name;	
-			}
-		}
-		ligne('IT_SET_TAG_NAME','Libellé du TAG de définition du paramètre','select',array('VALUE'=>$values['tvalue']['IT_SET_TAG_NAME'],'SELECT_VALUE'=>$list_tag));		
-		ligne('IT_SET_NAME_TEST',"Valeur du tag de test",'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SIZE'=>50,'MAXLENGHT'=>50));
-		ligne('IT_SET_NAME_LIMIT',"Valeur du tag du périmètre restraint",'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SIZE'=>50,'MAXLENGHT'=>50));
-		
+	debut_tab();
+	$infos_status=list_status();
+	if ($infos_status['NIV_BIS'] == ""){
+		echo "<font color=RED><b>".$l->g(1089)."</b></font>";
+		fin_tab($form_name,1); 	
+		return false;	
 	}
+	else{
+		ligne('IT_SET_NIV_CREAT',$l->g(1077),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_CREAT'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
+		ligne('IT_SET_NIV_TEST',$l->g(1078),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_TEST'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
+		ligne('IT_SET_NIV_REST',$l->g(1079),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_REST'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
+		ligne('IT_SET_NIV_TOTAL',$l->g(1080),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_TOTAL'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
+		ligne('IT_SET_MAIL',$l->g(1081),'radio',array(1=>$l->g(455),0=>$l->g(454),'VALUE'=>$values['ivalue']['IT_SET_MAIL'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
+		if (isset($values['ivalue']['IT_SET_MAIL']) and $values['ivalue']['IT_SET_MAIL'] == 1){
+			$sql_list_group_user="select IVALUE,TVALUE from config where name like 'USER_GROUP_%'";
+			$result_list_group_user = mysql_query($sql_list_group_user, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			while($value=mysql_fetch_array($result_list_group_user)){
+				$list_group_user[$value['IVALUE']]=$value['TVALUE'];	
+			}
+			ligne('IT_SET_MAIL_ADMIN',$l->g(1082),'select',array('VALUE'=>$values['ivalue']['IT_SET_MAIL_ADMIN'],'SELECT_VALUE'=>$list_group_user));		
+			
+			
+		}
+		ligne('IT_SET_PERIM',$l->g(1083),'radio',array(1=>'TAG',0=>'GROUP','VALUE'=>$values['ivalue']['IT_SET_PERIM'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
+		if (!isset($values['ivalue']['IT_SET_PERIM']) or $values['ivalue']['IT_SET_PERIM'] == 0){
+			$sql_list_group="select name from hardware where deviceid='_SYSTEMGROUP_'";
+			$result_list_group = mysql_query($sql_list_group, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			while($value=mysql_fetch_array($result_list_group)){
+				$list_group[$value['name']]=$value['name'];	
+			}
+			ligne('IT_SET_NAME_TEST',$l->g(1084),'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SELECT_VALUE'=>$list_group));
+			ligne('IT_SET_NAME_LIMIT',$l->g(1085),'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SELECT_VALUE'=>$list_group));
+			
+		}else{
+			$sql_list_tag="SHOW COLUMNS FROM accountinfo";
+			$result_list_tag = mysql_query($sql_list_tag, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			while($colname=mysql_fetch_array($result_list_tag)){
+				if ($colname["Field"] != 'HARDWARE_ID'){
+					if ($colname["Field"] == 'TAG')
+						$real_name=$_SESSION['OCS']['TAG_LBL'];
+					else
+						$real_name=$colname["Field"];
+					$list_tag[$colname["Field"]]=$real_name;	
+				}
+			}
+			ligne('IT_SET_TAG_NAME',$l->g(1086),'select',array('VALUE'=>$values['tvalue']['IT_SET_TAG_NAME'],'SELECT_VALUE'=>$list_tag));		
+			ligne('IT_SET_NAME_TEST',$l->g(1087),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SIZE'=>50,'MAXLENGHT'=>50));
+			ligne('IT_SET_NAME_LIMIT',$l->g(1088),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SIZE'=>50,'MAXLENGHT'=>50));
+		}
 	
-	
-	//	echo "<textarea name='".$name."' id='".$name."' cols='".$data['COLS']."' rows='".$data['ROWS']."'  class='down' \ ".$data['JAVASCRIPT'].">".$data['VALUE']."</textarea>".$data['END'];		
-	
-	//	ligne('CONEX_ROOT_DN',$l->g(1016).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_DN'],'SIZE'=>50,'MAXLENGHT'=>200));
-//	ligne('CONEX_ROOT_PW',$l->g(1017).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_PW'],'SIZE'=>50,'MAXLENGHT'=>200));
-//	ligne('CONEX_LDAP_PORT',$l->g(831),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PORT'],'SIZE'=>20,'MAXLENGHT'=>20));
-//	ligne('CONEX_DN_BASE_LDAP',$l->g(832),'input',array('VALUE'=>$values['tvalue']['CONEX_DN_BASE_LDAP'],'SIZE'=>70,'MAXLENGHT'=>200));
-//	ligne('CONEX_LOGIN_FIELD',$l->g(833),'input',array('VALUE'=>$values['tvalue']['CONEX_LOGIN_FIELD'],'SIZE'=>50,'MAXLENGHT'=>200));
-//	ligne('CONEX_LDAP_PROTOCOL_VERSION',$l->g(834),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'],'SIZE'=>3,'MAXLENGHT'=>5));
-
+	}
 		fin_tab($form_name); 	
  	
  	

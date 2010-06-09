@@ -1,6 +1,7 @@
 <RESTRICTION>
 GUI:NO
-TELEDIFF_WK:TAG
+TELEDIFF_WK:USER_GROUP
+TELEDIFF_WK_FIELDS:YES
 </RESTRICTION>
 
 <ADMIN_BLACKLIST>
@@ -22,4 +23,6 @@ ALERTE_MSG:NO
 ms_teledeploy_workflow
 ms_help
 ms_config_account
+ms_upload_file_popup
+ms_view_file
 </PAGE_PROFIL>

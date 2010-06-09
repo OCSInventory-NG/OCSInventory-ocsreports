@@ -1,6 +1,6 @@
 <?php
 /*
- * Add tags for users
+ * Administre your DATA for download workflow
  * 
  */
  
@@ -8,26 +8,43 @@ if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_telediff_wk';
 $table_name=$form_name;
-$data_on[1]="Données existantes";
-$data_on[2]="Nouvelle donnée";
-$yes_no=array('NON','OUI');
-$multi_choice=array('TEXT','TEXTAREA','SELECT','Affiche la donnée','PASSWORD','CHECKBOX','LISTE');
+$data_on[1]=$l->g(1059);
+$data_on[2]=$l->g(1060);
+$yes_no=array($l->g(454),$l->g(455));
+$multi_choice=array('TEXT','TEXTAREA','SELECT',
+					$l->g(802),'PASSWORD','CHECKBOX',
+					'LIST','HIDDEN','BLOB (FILE)','LIST LINK','TAB');
+
 echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($data_on,$form_name,"onglet",2);
 echo '<div class="mlt_bordure" >';
 
 if ($protectedGet['admin'] == "tab"){
-	$table="itmgmt_tab_values";
+	$table="downloadwk_tab_values";
 	$array_fields=array('FIELD'=>'FIELD','Valeur'=>'VALUE','Libellé'=>'LBL');	
 	$array_values=array($protectedGet["value"],$protectedPost["newfield"],$protectedPost["newlbl"]);
 	$field_search="field";	
 }elseif ($protectedGet['admin'] == "fields"){
-	$table="itmgmt_fields";
-	$array_fields=array('Onglet'=>'TAB','FIELD'=>'FIELD','Type'=>'TYPE','Libellé'=>'LBL','Champ obligatoire'=>'MUST_COMPLETED');	
-	$array_values=array($protectedGet["value"],$protectedPost["newfield"],$protectedPost["newtype"],$protectedPost["newlbl"],$protectedPost["must_completed"]);	
+	$table="downloadwk_fields";
+	$sql_status="SELECT id,lbl FROM downloadwk_statut_request";
+	$res_status = mysql_query( $sql_status, $_SESSION['OCS']["readServer"] );
+	$status['0']= $l->g(454);
+	while ($val_status = mysql_fetch_array( $res_status ))
+	$status[$val_status['id']]=$val_status['lbl'];
+	
+	$array_fields=array($l->g(1061)=>'TAB',
+						$l->g(1062)=>'FIELD',
+						$l->g(66)=>'TYPE',
+						$l->g(1063)=>'LBL',
+						$l->g(1064)=>'MUST_COMPLETED',
+						$l->g(1065)=>'RESTRICTED',
+						$l->g(1066)=>'LINK_STATUS');	
+	$array_values=array($protectedGet["value"],$protectedPost["newfield"],$protectedPost["newtype"],$protectedPost["newlbl"],
+						$protectedPost["must_completed"],
+						$protectedPost["restricted"],$protectedPost["link_status"]);	
 	$field_search="tab";
 }else{
-	$table="itmgmt_conf_values";
+	$table="downloadwk_conf_values";
 	$array_fields=array('FIELD'=>'FIELD','Valeur'=>'VALUE');
 	$array_values=array($protectedGet["value"],$protectedPost["newfield"]);
 	$field_search="field";		
@@ -38,32 +55,17 @@ $values=implode("','",$array_values);
 
 if ($protectedPost['onglet'] == 1){
 	$tab_options['CACHE']='RESET';
-		//vérification si champ par défaut.
-		//Peut-on supprimer ce champ?
-//	if ($protectedPost['del_check'] != '' or $protectedPost['SUP_PROF'] != ''){			
-//		$sql="select id from ".$table." where id in (".$protectedPost['del_check'].$protectedPost['SUP_PROF'].") and (default_field!=1 or default_field is null)";
-//		$res = mysql_query( $sql,$_SESSION['OCS']["readServer"]);
-//		$val = mysql_fetch_object($res);
-//		if (!isset($val->id)){
-//
-//			echo "<script>alert('Vous ne pouvez supprimer ce champ car c\'est un champ par défaut');</script>";
-//			unset($protectedPost['del_check'],$protectedPost['SUP_PROF']);		
-//		}
-//	}
-//	unset($protectedPost['del_check'],$protectedPost['SUP_PROF']);		
-	//suppression d'une liste de type
 	if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){		
 		$list = $protectedPost['del_check'];
-		//suppression des valeurs déjà entrées
-		if ($table=="itmgmt_fields"){ 
+		if ($table=="downloadwk_fields"){ 
 			$tab_values=explode(',',$list);
 			$i=0;
 			while($tab_values[$i]){
-				$sql_drop_column="ALTER TABLE itmgmt_pack DROP COLUMN fields_".$tab_values[$i];
+				$sql_drop_column="ALTER TABLE downloadwk_pack DROP COLUMN fields_".$tab_values[$i];
 				mysql_query( $sql_drop_column, $_SESSION['OCS']["writeServer"]  ) or mysql_error($_SESSION['OCS']["writeServer"]);		
 				$i++;				
 			}
-			$sql_delete="DELETE FROM itmgmt_conf_values WHERE field in (".$list.")";
+			$sql_delete="DELETE FROM downloadwk_conf_values WHERE field in (".$list.")";
 			mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));				
 		}
 		$sql_delete="DELETE FROM ".$table." WHERE id in (".$list.")";
@@ -72,16 +74,17 @@ if ($protectedPost['onglet'] == 1){
 	
 	if(isset($protectedPost['SUP_PROF'])) {
 		@mysql_query( "DELETE FROM ".$table." WHERE ID='".$protectedPost['SUP_PROF']."'", $_SESSION['OCS']["writeServer"]  );
-	//si on supprime un champ, il faut supprimer la colonne dans la table itmgmt_pack
-		if ($table=="itmgmt_fields"){ 
-			$sql_delete="DELETE FROM itmgmt_conf_values WHERE field ='".$protectedPost['SUP_PROF']."'";
+	//If you delete a field, you must delete colomn on downloadwk_pack table
+		if ($table=="downloadwk_fields"){ 
+			$sql_delete="DELETE FROM downloadwk_conf_values WHERE field ='".$protectedPost['SUP_PROF']."'";
 			mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));				
 			
-			$sql_drop_column="ALTER TABLE itmgmt_pack DROP COLUMN fields_".$protectedPost['SUP_PROF'];
+			$sql_drop_column="ALTER TABLE downloadwk_pack DROP COLUMN fields_".$protectedPost['SUP_PROF'];
 			mysql_query( $sql_drop_column, $_SESSION['OCS']["writeServer"]  ) or mysql_error($_SESSION['OCS']["writeServer"]);		
 		}
 	}	
-	$queryDetails ="select ID,".$fields." from ".$table." where ".$field_search."='".$protectedGet['value']."' and default_field is null";
+	$queryDetails ="select ID,".$fields." from ".$table." where ".$field_search."='".$protectedGet['value']."' 
+					and (default_field is null or default_field=0) ";
 	$resTypes = mysql_query( $queryDetails, $_SESSION['OCS']["readServer"] );
 	$valTypes = mysql_fetch_array( $resTypes );
 	if (is_array($valTypes)){
@@ -96,17 +99,10 @@ if ($protectedPost['onglet'] == 1){
 	$list_fields['CHECK']='ID'; 
 	$list_col_cant_del=$list_fields;
 	$default_fields=$list_col_cant_del; 
-//	$queryDetails = 'SELECT ID,';
-//	//print_r($list_fields);
-//	foreach ($list_fields as $key=>$value){
-//		if($key != 'SUP' and $key != 'CHECK')
-//		$queryDetails .= $value.',';		
-//	} 
-//	$queryDetails=substr($queryDetails,0,-1);
-//	$queryDetails .= " FROM ".$table." where ".$field_search."='".$protectedGet['value']."'";
-	//$tab_options['FILTRE']=$fields;
-	$tab_options['REPLACE_VALUE']['Type']=$multi_choice;
-	$tab_options['REPLACE_VALUE']['Champ obligatoire']=$yes_no;
+	$tab_options['REPLACE_VALUE'][$l->g(66)]=$multi_choice;
+	$tab_options['REPLACE_VALUE'][$l->g(1064)]=$yes_no;
+	$tab_options['REPLACE_VALUE'][$l->g(1065)]=$yes_no;
+	$tab_options['REPLACE_VALUE'][$l->g(1066)]=$status;
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 	//traitement par lot
 	$img['image/sup_search.png']=$l->g(162);
@@ -127,9 +123,7 @@ if ($protectedPost['onglet'] == 1){
 		</script>";
 		echo "<table align='center' width='30%' border='0'>";
 		echo "<tr><td>";
-		//foreach ($img as $key=>$value){
 			echo "<td align=center><a href=# onclick=garde_check(\"image/sup_search.png\",\"\")><img src='image/sup_search.png' title='".$l->g(162)."' ></a></td>";
-		//}
 	 echo "</tr></tr></table>";
 	 echo "<input type='hidden' id='del_check' name='del_check' value=''>";
 	
@@ -138,29 +132,34 @@ if ($protectedPost['onglet'] == 1){
 	
 }elseif ($protectedPost['onglet'] == 2){
 	if( $protectedPost['Valid_modif_x'] != "" ) {
-		//vérification que le nom du champ n'existe pas pour les nouveaux champs
-		if ($table=="itmgmt_fields"){
+		//Is this name already exist? 
+		if ($table=="downloadwk_fields"){
 			if (trim($protectedPost['newfield']) != ''){
-				$sql_verif="SELECT count(*) FROM ".$table." WHERE FIELD = '".$protectedPost['newfield']."'";
+				$sql_verif="SELECT count(*) c FROM ".$table." WHERE FIELD = '".$protectedPost['newfield']."'";
 				$res_verif = mysql_query( $sql_verif, $_SESSION['OCS']["readServer"] );
-				if ($val_verif = mysql_fetch_array( $res_verif ) > 0)
-					$ERROR="Ce nom de champ est déjà utilisé";				
+				$val_verif = mysql_fetch_array( $res_verif );
+				//this name is already exist
+				if ($val_verif['c'] > 0)
+					$ERROR=$l->g(1067);				
 			}else
-				$ERROR="Le nom du champ ne peut pas être vide";			
+				//name can't be null
+				$ERROR=$l->g(1068);		
 		}
 		
 		if (!isset($ERROR)){		
 			mysql_query( "INSERT INTO ".$table." (".$fields.") VALUES('".$values."')", $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["writeServer"]);
-			//si on ajoute un champ, il faut créer la colonne dans la table itmgmt_pack
-			if ($table=="itmgmt_fields"){ 
+			//If we add a field, you must add a new colonm in downloadwk_pack table
+			if ($table=="downloadwk_fields"){ 
 				if ($protectedPost["newtype"] == 1)
 					$type="LONGTEXT";
+				elseif ($protectedPost["newtype"] == 8)
+					$type="BLOB";
 				else
 					$type="VARCHAR(255)";
-				$sql_add_column="ALTER TABLE itmgmt_pack ADD COLUMN fields_".mysql_insert_id()." ".$type." default NULL";
+				$sql_add_column="ALTER TABLE downloadwk_pack ADD COLUMN fields_".mysql_insert_id()." ".$type." default NULL";
 				mysql_query( $sql_add_column, $_SESSION['OCS']["writeServer"]  ) or mysql_error($_SESSION['OCS']["writeServer"]);		
 			}
-			echo "<font color=green><b>Ajout de la valeur effectuée</b></font>";
+			echo "<font color=green><b>".$l->g(1069)."</b></font>";
 		}else
 			echo "<font color=red><b>".$ERROR."</b></font>";
 	}
@@ -169,7 +168,7 @@ if ($protectedPost['onglet'] == 1){
 		unset($protectedPost['newfield'],$protectedPost['newlbl']);
 	//NAME FIELD
 	$name_field=array("newfield");
-	$tab_name= array("Nouveau Champ: ");
+	$tab_name= array($l->g(1070).": ");
 	$type_field= array(0);
 	$value_field=array($protectedPost['newfield']);
 	if (isset($protectedGet['admin'])){
@@ -178,16 +177,29 @@ if ($protectedPost['onglet'] == 1){
 		array_push($type_field,0);
 		array_push($value_field,$protectedPost['newlbl']);
 		if ($protectedGet['admin'] == "fields"){
+			
+			array_push($name_field,"newtype");
+			array_push($tab_name,$l->g(1071).":");
+			array_push($type_field,2);
+			array_push($value_field,$multi_choice);	
 				
 			array_push($name_field,"must_completed");
-			array_push($tab_name,"Champ obligatoire:");
+			array_push($tab_name,$l->g(1064).":");
 			array_push($type_field,2);
 			array_push($value_field,$yes_no);
-							
-			array_push($name_field,"newtype");
-			array_push($tab_name,"Type de champ:");
+
+			array_push($name_field,"restricted");
+			array_push($tab_name,$l->g(1065).":");
 			array_push($type_field,2);
-			array_push($value_field,$multi_choice);				
+			array_push($value_field,$yes_no);
+			
+			array_push($name_field,"link_status");
+			array_push($tab_name,$l->g(1066).":");
+			array_push($type_field,2);
+			array_push($value_field,$status);
+			
+			
+			
 		}
 	}
 
