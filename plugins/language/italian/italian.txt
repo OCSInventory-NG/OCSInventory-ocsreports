@@ -60,12 +60,11 @@
 95 Indirizzo MAC
 96 Suono
 97 Monitor
-98 Attenzione, puoi selezionare solo 8 opzioni!
 99 Dettagli del computer
 103 Aggiorna
 107 Configurazione
 108 Richieste registro
-111 Windows ID
+111 Licenza Windows
 113 Annulla
 114 Registra
 115 Aggiorna
@@ -87,14 +86,14 @@
 173 non è stato aggiunto al database
 174 Sicurezza
 175 Duplicati
-176 Ips
+176 IP
 177 Unisci i computer duplicati
 178 Etichetta / Numero di ripartizione PC
 180 Nome utente o password errata
 182 I computer hanno un'etichetta assegnata
 183 Scarica
 184 Questo file non contiene "use constant version"
-185 La versione deve essere maggiore della 1
+185 La versione deve essere >= 1
 186 Il file non contiene la versione
 187 Questo non è un file zip valido
 188 Indietro
@@ -117,7 +116,7 @@
 205 Abilitato
 206 salvato per
 207 Gateway
-208 maschera
+208 netmask
 209 Versione BIOS
 210 Data BIOS
 211 Registro
@@ -189,7 +188,7 @@
 277 Versione
 278 Driver
 279 Porta
-280 Tipo MIB 
+280 Tipo MIB
 281 DHCP IP
 282 Gateway
 283 Scopo
@@ -209,7 +208,7 @@
 297 Non è possibile scrivere nella directory
 298 Tutti i campi devono essere riempiti
 299 Indirizzo IP errato (deve essere: x.x.x.x)
-300 Maschera errata: deve essere: x.x.x.x or xx (xx<32)
+300 Netmask errata: deve essere: x.x.x.x o xx (xx<32)
 301 La rete è stata inserita
 302 La rete è stata eliminata
 303 Aggiungi una sottorete
@@ -235,7 +234,7 @@
 323 generate da
 324 APPARATI ANALIZZATI COME
 325 vuoto
-326 non è stata inserita la maschera
+326 non è stata inserita la netmask
 327 Dettagli computer
 328 Ricercati
 329 Inventariati
@@ -248,12 +247,12 @@
 336 Descrizione apparato
 337 IL PROGRAMMA NON HA INVIATO NULLA
 338 Modalità limitata
-339 Serve IpDiscover-util.pl (solo Linux) in modalità avanzata
+339 Hai bisogno di IpDiscover-util.pl (solo Linux) in modalità avanzata
 340 Visualizza
 341 Non è eseguibile, devi assegnare i diritti di esecuzione
 342 Devi assegnare i diritti di scrittura sulla root directory per usarlo
 344 Errore
-345 L'ANALISI E' ANCORA IN ESECUZIONE, RIPROVA TRA QUALCHE MINUTO
+345 L'ANALISI E' ANCORA IN ESECUZIONE, RIPROVA TRA POCO
 346 PRIMA
 347 DOPO
 348 Utente Windows
@@ -266,7 +265,7 @@
 355 Società
 356 Proprietario
 357 Versione agente
-358 Jolly: ? (un solo carattere), * (più caratteri)
+358 Caratteri jolly: ? (un solo carattere), * (più caratteri)
 359 Numero di serie del monitor
 360 Costruito nel (settimana/anno)
 362 La rete
@@ -317,7 +316,7 @@
 420 Distribuzione automatica del programma: consultare la documentazione.
 421 Distribuzione automatica del programma: consultare la documentazione.
 422 Distribuzione automatica del programma: consultare la documentazione.
-423 Distribuzione automatica del programma: consultare la documentazione. (I componenti con una priorità uguale o maggiore non devono essere scaricati ulteriormente).
+423 Distribuzione automatica del programma: consultare la documentazione. (I componenti con una priorità >= non devono essere scaricati ulteriormente)
 424 Validità di un pacchetto come come considerato dall'agente
 425 Numero massimo di computer per gateway trovati sulla rete
 426 Validità degli inventari (SEMPRE: inventario ad ogni login - MAI: nessun inventario)
@@ -391,7 +390,7 @@
 494 Frequenza di inventario personalizzata
 495 Inventariato ogni
 496 giorni
-497 Default (usa il parametro 'FREQUENCY')
+497 Predefinito (usa il parametro 'FREQUENCY')
 498 Pacchetto
 499 Server
 500 Personalizzazione
@@ -442,7 +441,7 @@
 545 Sabato
 546 in posizione
 547 tutti
-548 tutti ma RIUSCITI
+548 tutti i RIUSCITI
 549 File (distribuito sui computer client)
 550 File (non vincolante, può essere usato dal comando "esegui")
 551 Il nome del pacchetto esiste già
@@ -493,7 +492,7 @@
 598 Incluso
 599 Reset
 600 Escluso
-601 Mass affectation
+601 Assegnazione di massa
 602 Devi inviare un file
 603 Nessun computer trovato, verifica il tuo file
 604 computer interessati con successo
@@ -503,12 +502,12 @@
 608 creato
 609 sovrascritto
 610 INCLUSO STATICAMENTE
-611 NO CACHE
+611 Nessuna cache
 612 STATICO
 613 DINAMICO
 614 ESCLUSO
 615 Query
-616 Perimetro dell'utente
+616 Perimetro utente
 617 Nuovo
 618 Perimetro
 619 Utente locale
@@ -517,14 +516,14 @@
 622 Cache
 623 L'informazione che stai cercando non esiste
 624 Vuoi davvero eliminare il gruppo
-625 Abilita questa variazione
-626 Disabilita questa variazione
+625 Conferma
+626 Annulla
 627 Almeno uno dei campi è vuoto... Aggiornamento non effettuato.
 628 Server di ridistribuzione
 629 Nuovo gruppo di server di ridistribuzione
 630 Gruppo di server esistenti
 631 Aggiungi a
-632 Crush
+632 Eliminare
 633 Organizza gruppi di server
 634 Azione desiderata
 635 Nuovo nome
@@ -562,7 +561,7 @@
 667 PER IL PACCHETTO
 668 quale regola applicare?
 669 ATTENZIONE: ci sono duplicati di priorità <br> Una singola regola verrà mantenuta!
-670 Una regola già porta questo nome
+670 Una regola ha già questo nome
 671 Il nome di questa regola non può essere vuoto!
 672 Questa regola non esiste!
 673 Amministrazione delle regole di comportamento
@@ -618,7 +617,7 @@
 723 massima priorità dei pacchetti scaricati<br>(i pacchetti con priorità superiore sono ignorati)
 724 Tempo tra 2 contatti tra agente e server
 725 (in ore)
-726 URI dei server di ridistribuzione ($IP e NAME$ sono valori generici)
+726 URI dei server di ridistribuzione ($IP$ e $NAME$ sono valori generici)
 727 Directory di destinazione dei pacchetti.
 728 Inventario
 729 computer
@@ -650,9 +649,9 @@
 756 Definizione del periodo per INVENTORY_FILTER_FLOOD_IP
 757 Attiva il filtro stack inventario
 758 Specificare se si desidera tenere traccia dei pacchetti destinati ad un gruppo a livello computer
-759 Deve essere maggiore od uguale a
+759 Deve essere >=
 760 Webservice
-761 Abilita/Disabilita il servizio soap
+761 Abilita/Disabilita il servizio webservice
 762 Dimensioni della pagina dei risultati (influeza le prestazioni)
 763 File di inclusione delle proprie estensioni
 764 Le seguenti opzioni non sono selezionabili tramite GUI.<br>(vedi ocsinventory-server.conf)
@@ -679,10 +678,10 @@
 785 Tipo di CPU
 786 Risoluzioni video utilizzate
 787 Macchine con CPU >=
-788 Macchine con CPU =<
+788 Macchine con CPU <=
 789 Macchine con CPU tra
 790 Macchine con RAM >=
-791 Macchine con RAM =<
+791 Macchine con RAM <=
 792 Macchine con RAM tra
 793 Macchine inventariate
 794 Macchine conosciute
@@ -713,8 +712,8 @@
 819 Macchine aggiunte ai gruppi
 820 Ultimo contatto
 821 SERVER CONFIGURATION MODIFICATION
-822 Personalizza
-823 Predefinita
+822 Personalizzato
+823 Predefinito
 824 Attivazione interfaccia di log
 825 Directory dei log
 826 Indirizzo dove trovare i file del pacchetto Teledeploy da attivare
@@ -722,12 +721,12 @@
 828 Cancella i computer il cui inventario è più vecchio di
 829 Directory di creazione dei pacchetti per la distribuzione
 830 Indirizzo del server LDAP
-831 Porta del server (Default=389)
+831 Porta del server (Predefinita=389)
 832 Valore BaseDN + dc
 833 Nome del campo login
 834 Versione del protocollo
 835 Aggiungi RSX
-836 Gestione dei TYPES
+836 Gestione dei tipi
 837 Non hai accesso a questi dati
 838 Dischi: Lettera del drive
 839 Dischi: Tipo
@@ -784,13 +783,13 @@
 890 Il programma è impegnato in una ricerca con criteri vari
 891 Rimouovi il LOCK sull'interfaccia
 892 connessione con altro account
-893 NESSUN TAG INTERESSA IL TUO PROFILO
+893 NESSUNA ETICHETTA INTERESSA IL TUO PROFILO
 894 NESSUN LIVELLO DI PERMESSO DEFINITO PER IL TUO PROFILO
-895 Modifica TAG
+895 Modifica ETICHETTA
 896 Nota
 897 Data
-898 Autore
-899 Autore
+898 Autore della nota
+899 Editore
 900 Vuoi davvero cancellare le voci selezionate?
 901 Azione in base al risultato della query
 902 Azione in base al risultato della selezione
@@ -807,7 +806,7 @@
 913 Interfacce di rete non inventoriate
 914 Numero degli agenti che non hanno inviato inventari da almeno
 915 messaggi
-916 Il valore deve essere maggiore di
+916 Il valore deve essere > di
 917 Valore di FREQUENCY
 918 Differenza tra LASTDATE e LASTCOME
 919 Sei sicuro di voler cancellare questo messaggio
@@ -826,7 +825,7 @@
 932 Il campo indirizzo IP non può essere vuoto
 933 Il campo nome della rete non può essere vuoto
 934 Il campo ID della rete non può essere vuoto
-935 Il campo maschera di rete non può essere vuoto
+935 Il campo netmask non può essere vuoto
 936 Il campo tipo non può essere vuoto
 937 Questo tipo già esiste
 938 Nuovo tipo
@@ -853,8 +852,8 @@
 959 TROPPI SOFTWARE TROVATI. SII PIU' SPECIFICO NELLA RICERCA
 960 NESSUN SOFTWARE TROVATO
 961 LISTA DI
-962 (uno, tra tutti)
-963 LISTA DI DIFFERENTI
+962 (uno ',' tra ogni)
+963 LISTA DEI DIFFERENTI
 964 Nome partizione
 965 Linux (tutti)
 966 Windows (tutti)
@@ -869,10 +868,10 @@
 973 COMPUTER AGGIUNTI AL GRUPPO
 974 computer inseriti nella cache
 975 Aggiungi a gruppo
-976 INTERFACE LOCK ON REQUEST RESULT
+976 INTERFACCIA BLOCCATA SUI RISULTATI OTTENUTI
 977 BLOCCO ATTIVATO
 978 Stai per bloccare tutte le interfacce sui risultati di ricerca con vari criteri
-979 Per ritornare allo stato predefinito, devi cliccare sull'icona <img src='image/cadena_op.png'> che si trova in alto a destra dell'interfaccia
+979 Per ritornare allo stato predefinito, devi cliccare sull'icona <img src='image/cadena_op.png'> che si trova in alto a destra sull'interfaccia
 980 Pacchetti nei computer
 981 Pacchetti nei gruppi di server
 982 NON SONO DISPONIBILI REGOLE VALIDE. NON E' POSSIBLE PROSEGUIRE LA RIDISTRIBUZIONE.
@@ -882,11 +881,11 @@
 986 RIMUOVI I COMPUTER PER
 987 Questa chiave di registro esiste già
 988 DEVI RIEMPIRE TUTTI I CAMPI
-989 I DATI NON ESISTONO. STATES HOURS PER QUESTO PACCHETTO NON PRESENTE NEL DATABASE
+989 I DATI NON ESISTONO. STATO DELLE ORE PER QUESTO PACCHETTO NON PRESENTE NEL DATABASE
 990 Pacchetto creato manualmente
 991 Pacchetto creato automaticamente
 992 Tempo stimato per l'installazione
-993 I campi in rosso contengono errori
+993 I campi in rosso presentano errori
 994 PDA/SMARTPHONE
 995 ID utente
 996 Cognome
@@ -894,11 +893,11 @@
 998 scegli un profilo valido
 999 Questo ID utente è già presente
 1000 Notificato
-1001 I campi in rosso contengono errori!
+1001 I campi in rosso presentano errori!
 1002 Tempo stimato per l'installazione
 1003 Parametri dei pacchetti dei server di distribuzione
 1004 Non è possibile creare la directory per la realizzazione del pacchetto
-1005 Non è possibile creare il pacchetto quindi
+1005 Non è possibile creare il pacchetto
 1006 non hai i diritti di scrittura
 1007 La directory
 1008 Utilizzalo in questo pacchetto di ridistribuzione
@@ -907,44 +906,96 @@
 1011 DEBUG
 1012 TRADUZIONE
 1013 MANUTENZIONE
-1014 Passa alla modalità
+1014 Modalità operativa
 1015 Modalità utente
 1016 Login per l'autenticazione
 1017 Password
-1018 (Non inserire nulla se vuoi utilizzare connessioni anonime)
+1018 (Non inserire nulla per utilizzare connessioni anonime)
 1019 Risultato bloccato
 1020 Nome dell'etichetta informativa
 1021 Amministrazione Teledeploy
-1022 Amministrazione TAG
+1022 Amministrazione etichette
 1023 Pacchetti coinvolti in base allo stato
 1024 sarà cancellato
 1025 Non coinvolto
-1026 Pacchetto cancellato sui computer
+1026 Pacchetto rimosso dai computer
 1027 Categorie
 1028 Nuovo
 1029 Ignorato
 1030 Invariato
-1031 IT Set Management
-1032 Attiva IT Set Management per il Teledeploy
-1033 Inf. richiedente
-1034 Inf. generali del pacchetto
-1035 Inf. tecniche del pacchetto
-1036 Inf. di convalida
+1031 Applicazioni
+1032 Attiva workflow per il Teledeploy
+1033 Informazioni del richiedente
+1034 Informazioni generali del pacchetto
+1035 Informazioni tecniche del pacchetto
+1036 Informazioni di convalida
 1037 Nome del pacchetto
 1038 Richiedente
 1039 Priorità
 1040 Notifica utente
-1041 L'utente può vedere
+1041 L'utente può ritardare
 1042 Provoca un riavvio
 1043 Azioni di controllo per convalidare l'installazione
-1044 Par liste
-1045 Par visuel
-1046 Statut
+1044 Da lista
+1045 Da visualizzazione
+1046 Stato
 1047 INFO
 1048 Aggiungi un file
-1049 ACTION INTERDITE
+1049 AZIONE NON PERMESSA
 1050 Ricerca software
 1051 Ricerca
+1052 Cronologia
+1053 Richiesta modificata
+1054 Richiesta eseguita
+1055 La tua e-mail non è valida
+1056 Contatta l'amministratore di OCS
+1057 Errore nella connessione al server e-mail
+1058 Alcune e-mail non sono valide
+1059 Dati esistenti
+1060 Nuovi dati
+1061 Tab
+1062 Campo
+1063 Dicitura
+1064 Obbligatorio
+1065 Campo di controllo
+1066 Linked to a status
+1067 Nome del campo già in uso
+1068 Il nome del campo non può essere vuoto
+1069 Valore aggiunto correttamente
+1070 Nuovo campo
+1071 Tipo campo
+1072 Richieste in attesa
+1073 Crea una richiesta
+1074 La funzionalità 'Workflow' non è attivata.
+1075 Attivala prima di utilizzarla
+1076 ERRORE: STATO RICERCA NON DEFINITO
+1077 Stato della creazione del pacchetto
+1078 Test dello stato
+1079 controllo perimetro di stato
+1080 perimetro di stato globale
+1081 Informazioni tramite e-mail
+1082 Gruppo amministrativo Workflow
+1083 Identificazione del perimetro
+1084 Nome del gruppo per test
+1085 Nome del gruppo per la restrizione del perimetro
+1086 Valore dell'etichetta per test
+1088 Valore dell'etichetta per la restrizione del perimetro
+1089 Nessuno stato è attivo. Inizia attivandone uno.
+1090 E' stata modificata la richiesta n°
+1091 E' stata inviata una nuova richiesta
+1092 invia una nuova richiesta
+1093 Il database è incompleto
+1094 Per favore, ripeti da capo l'installazione del database
+1095 Amministrazione stato
+1096 Lista dei campi
+1097 Lista dei Tab
+1098 Nome campo
+1099 Valore predefinito
+1100 Lista dello stato
+1101 Questo campo non può essere aggiornato
+1102 Stato attivo
+1103 ID stato
+1104 Livello
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
