@@ -1022,6 +1022,9 @@
 1102 Statut actif
 1103 ID du statut
 1104 Niveau
+1105 La fonctionnalité de Workflow pour le télédéploiement est activée
+1106 Il n'est possible de créer un paquet que si une demande préalable existe
+1107 Et qu'elle soit en statut de création de paquet
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
