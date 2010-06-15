@@ -8,8 +8,8 @@ if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_users_groups';
 $table_name=$form_name;
-$data_on[1]="Données existantes";
-$data_on[2]="Nouvelle donnée";
+$data_on[1]=$l->g(1059);
+$data_on[2]=$l->g(1060);
 echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($data_on,$form_name,"onglet",2);
 echo '<div class="mlt_bordure" >';
@@ -76,9 +76,11 @@ if ($protectedPost['onglet'] == 1){
 				//echo $val_verif = mysql_fetch_array( $res_verif );
 				$val_verif = mysql_fetch_array( $res_verif );
 				if ($val_verif['c'] > 0)
-					$ERROR="Ce nom de groupe est déjà utilisé";				
+				//Ce nom de groupe est déjà utilisé
+				$ERROR=$l->g(621);
 			}else
-				$ERROR="Le nom du groupe ne peut pas être vide";			
+				//Le nom du groupe ne peut pas être vide
+				$ERROR=$l->g(638);
 		
 		
 		if (!isset($ERROR)){
@@ -90,14 +92,14 @@ if ($protectedPost['onglet'] == 1){
 			$val_new_value['max']++;
 			mysql_query( "INSERT INTO config (NAME,TVALUE,IVALUE) VALUES('USER_GROUP_".$val_new_value['max']."','".$protectedPost['newfield']."','".$val_new_value['max']."')", $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["writeServer"]);
 			//si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
-			echo "<font color=green><b>Ajout de la valeur effectuée</b></font>";
+			echo "<font color=green><b>".$l->g(1069)."</b></font>";
 		}else
 			echo "<font color=red><b>".$ERROR."</b></font>";
 	}
 
 	//NAME FIELD
 	$name_field=array("newfield");
-	$tab_name= array("Nouveau groupe: ");
+	$tab_name[0]=$l->g(577);
 	$type_field= array(0);
 	$value_field=array($protectedPost['newfield']);
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field);

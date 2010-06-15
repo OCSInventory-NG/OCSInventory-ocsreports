@@ -573,7 +573,7 @@
 679 NOME
 680 DOMINIO
 681 UTENTE
-682 per aggiungere una condizione supplementare
+682 aggiungi una condizione supplementare
 683 Convalida la regola
 684 I seguenti campi devono essere bloccati
 685 Aggiungi una regola
@@ -996,6 +996,10 @@
 1102 Stato attivo
 1103 ID stato
 1104 Livello
+1105 La funzionalità 'Workflow' è attivata
+1106 E' possibile creare un pacchetto solo se esiste una prcedente richiesta
+1107 e lo stato è corretto
+1108 Configurazione LDAP
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

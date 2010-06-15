@@ -91,7 +91,7 @@ function admin_user($lvl,$id_user=''){
 				$list_groups[$row->IVALUE]=$row->TVALUE;			
 			}
 			$name_field=array("ID","ACCESSLVL","USER_GROUP");
-			$tab_name=array($l->g(995).": ",$l->g(66).":","Groupe de l'utilisateur: ");
+			$tab_name=array($l->g(995).": ",$l->g(66).":",$l->g(607).":");
 			$type_field= array(0,2,2);	
 			
 		}
