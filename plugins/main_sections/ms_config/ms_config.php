@@ -21,7 +21,7 @@ $def_onglets[$l->g(734)]=$l->g(734); //Fichiers d'inventaire
 $def_onglets[$l->g(735)]=$l->g(735); //Filtres
 $def_onglets[$l->g(760)]=$l->g(760); //Webservice
 $def_onglets[$l->g(84)]=$l->g(84); //GUI
-$def_onglets['connexion']="Connexion Ldap"; //connexion a l'applicatioon
+$def_onglets[$l->g(1108)]=$l->g(1108); //connexion a l'applicatioon
 
 
 
@@ -47,7 +47,7 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 
 onglet($def_onglets,$form_name,'onglet',7);
 echo '<div class="mlt_bordure" >';
-if ($protectedPost['onglet'] == "connexion" ){
+if ($protectedPost['onglet'] == $l->g(1108) ){
 	
 	pageConnexion($form_name);
 	
