@@ -501,7 +501,7 @@ function filtre($tab_field,$form_name,$query){
 	//echo $query;
 	$view=show_modif($tab_field,'FILTRE',2);
 	$view.=show_modif(stripslashes($protectedPost['FILTRE_VALUE']),'FILTRE_VALUE',0);
-	echo $l->g(883).": ".$view."<input type='submit' value='Filtrer' name='SUB_FILTRE'><a href=# onclick='return pag(\"RAZ\",\"RAZ_FILTRE\",\"".$form_name."\");'><img src=image/supp.png></a></td></tr><tr><td align=center>";
+	echo $l->g(883).": ".$view."<input type='submit' value='".$l->g(1109)."' name='SUB_FILTRE'><a href=# onclick='return pag(\"RAZ\",\"RAZ_FILTRE\",\"".$form_name."\");'><img src=image/supp.png></a></td></tr><tr><td align=center>";
 	echo "<input type=hidden name='RAZ_FILTRE' id='RAZ_FILTRE' value=''>";
 	return $query;
 }
@@ -1079,7 +1079,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$title=$num_rows_result." ".$l->g(90);
 		if (isset($tab_options['LOGS']))
 		addLog($tab_options['LOGS'],$num_rows_result." ".$l->g(90));
-		$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small>(".$l->g(183).")</small></a>";
+		$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
 		//print_r($correct_list_col_cant_del);
 		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
 	//	print_r($result_with_col['data']);
