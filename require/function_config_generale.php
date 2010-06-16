@@ -266,11 +266,18 @@ function update_default_value($POST){
 	global $l;
 	$i=0;
 	//tableau des champs ou il faut juste mettre � jour le tvalue
-	$array_simple_tvalue=array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT','OCS_FILES_FORMAT','OCS_FILES_PATH',
-							   'LOCAL_SERVER','CONEX_LDAP_SERVEUR','CONEX_LDAP_PORT','CONEX_DN_BASE_LDAP','CONEX_LOGIN_FIELD',
-							   'CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN','CONEX_ROOT_PW','LBL_TAG',
-							   'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME','IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST',
- 				               'IT_SET_NIV_TOTAL');
+	$array_simple_tvalue=array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT',
+							   'OCS_FILES_FORMAT','OCS_FILES_PATH','LOCAL_SERVER',
+							   'CONEX_LDAP_SERVEUR','CONEX_LDAP_PORT','CONEX_DN_BASE_LDAP',
+							   'CONEX_LOGIN_FIELD','CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN',
+							   'CONEX_ROOT_PW','CONEX_LDAP_CHECK_FIELD1_NAME', 'CONEX_LDAP_CHECK_FIELD1_VALUE',
+                            //   'CONEX_LDAP_CHECK_FIELD1_USERLEVEL',
+                               'CONEX_LDAP_CHECK_FIELD1_ROLE', 
+                               'CONEX_LDAP_CHECK_FIELD2_NAME', 'CONEX_LDAP_CHECK_FIELD2_VALUE',
+                            //   'CONEX_LDAP_CHECK_FIELD2_USERLEVEL',
+							   'CONEX_LDAP_CHECK_FIELD2_ROLE',
+                               'LBL_TAG','IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
+                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -681,6 +688,8 @@ function pagegroups($form_name){
  
  function pageConnexion($form_name){
  	global $l,$numeric,$sup1;
+ 	require_once('require/function_users.php');
+ 	
  		//what ligne we need?
  	$champs=array( 'CONEX_LDAP_SERVEUR'=>'CONEX_LDAP_SERVEUR',
 				  'CONEX_LDAP_PORT'=>'CONEX_LDAP_PORT',
@@ -688,10 +697,18 @@ function pagegroups($form_name){
 				  'CONEX_LOGIN_FIELD'=>'CONEX_LOGIN_FIELD',
 				  'CONEX_LDAP_PROTOCOL_VERSION'=>'CONEX_LDAP_PROTOCOL_VERSION',
 				  'CONEX_ROOT_DN'=>'CONEX_ROOT_DN',
-				  'CONEX_ROOT_PW'=>'CONEX_ROOT_PW');
+				  'CONEX_ROOT_PW'=>'CONEX_ROOT_PW',
+                  'CONEX_LDAP_CHECK_FIELD1_NAME'=>'CONEX_LDAP_CHECK_FIELD1_NAME',
+                  'CONEX_LDAP_CHECK_FIELD1_VALUE'=>'CONEX_LDAP_CHECK_FIELD1_VALUE',
+                  //'CONEX_LDAP_CHECK_FIELD1_USERLEVEL'=>'CONEX_LDAP_CHECK_FIELD1_USERLEVEL',
+                  'CONEX_LDAP_CHECK_FIELD1_ROLE'=>'CONEX_LDAP_CHECK_FIELD1_ROLE',
+                  'CONEX_LDAP_CHECK_FIELD2_NAME'=>'CONEX_LDAP_CHECK_FIELD2_NAME',
+                  'CONEX_LDAP_CHECK_FIELD2_VALUE'=>'CONEX_LDAP_CHECK_FIELD2_VALUE',
+                 // 'CONEX_LDAP_CHECK_FIELD2_USERLEVEL'=>'CONEX_LDAP_CHECK_FIELD2_USERLEVEL',
+                  'CONEX_LDAP_CHECK_FIELD2_ROLE'=>'CONEX_LDAP_CHECK_FIELD2_ROLE');
 	$values=look_default_values($champs);
 	
-	
+	$role1=search_profil();
  	debut_tab();
 	ligne('CONEX_LDAP_SERVEUR',$l->g(830),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_SERVEUR'],'SIZE'=>50,'MAXLENGHT'=>200));
 	ligne('CONEX_ROOT_DN',$l->g(1016).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_DN'],'SIZE'=>50,'MAXLENGHT'=>200));
@@ -700,8 +717,15 @@ function pagegroups($form_name){
 	ligne('CONEX_DN_BASE_LDAP',$l->g(832),'input',array('VALUE'=>$values['tvalue']['CONEX_DN_BASE_LDAP'],'SIZE'=>70,'MAXLENGHT'=>200));
 	ligne('CONEX_LOGIN_FIELD',$l->g(833),'input',array('VALUE'=>$values['tvalue']['CONEX_LOGIN_FIELD'],'SIZE'=>50,'MAXLENGHT'=>200));
 	ligne('CONEX_LDAP_PROTOCOL_VERSION',$l->g(834),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'],'SIZE'=>3,'MAXLENGHT'=>5));
-
-		fin_tab($form_name); 	
+    ligne('CONEX_LDAP_CHECK_FIELD1_NAME',$l->g(1111),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_NAME'],'SIZE'=>50,'MAXLENGHT'=>200));
+    ligne('CONEX_LDAP_CHECK_FIELD1_VALUE',$l->g(1112),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_VALUE'],'SIZE'=>50,'MAXLENGHT'=>200));
+   // ligne('CONEX_LDAP_CHECK_FIELD1_USERLEVEL',$l->g(1113),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_USERLEVEL'],'SIZE'=>50,'MAXLENGHT'=>200));
+    ligne('CONEX_LDAP_CHECK_FIELD1_ROLE',$l->g(1114),'select',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_ROLE'],'SELECT_VALUE'=>$role1));
+    ligne('CONEX_LDAP_CHECK_FIELD2_NAME',$l->g(1115),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_NAME'],'SIZE'=>50,'MAXLENGHT'=>200));
+    ligne('CONEX_LDAP_CHECK_FIELD2_VALUE',$l->g(1116),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_VALUE'],'SIZE'=>50,'MAXLENGHT'=>200));
+  //  ligne('CONEX_LDAP_CHECK_FIELD2_USERLEVEL',$l->g(1117),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_USERLEVEL'],'SIZE'=>50,'MAXLENGHT'=>200));
+    ligne('CONEX_LDAP_CHECK_FIELD2_ROLE',$l->g(1118),'select',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_ROLE'],'SELECT_VALUE'=>$role1));
+    fin_tab($form_name); 	
  }
  
  function pageTELEDIFF_WK($form_name){
