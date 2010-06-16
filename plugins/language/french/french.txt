@@ -1030,12 +1030,10 @@
 1110 L'affectation d'un paquet dépend du statut de la demande
 1111 Nom du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1112 Valeur du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
-1113 Si le premier attribut est trouvé et la valeur correspond, réglez ce niveau de l'utilisateur automatiquement
-1114 Si le premier attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
-1115 Nom du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
-1116 Valeur du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
-1117 Si le second attribut est trouvé et la valeur correspond, réglez ce niveau de l'utilisateur automatiquement
-1118 Si le second attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
+1113 Si le premier attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
+1114 Nom du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1115 Valeur du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1116 Si le second attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

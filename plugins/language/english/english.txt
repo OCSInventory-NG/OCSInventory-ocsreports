@@ -1005,12 +1005,10 @@
 1110 
 1111 Name of the first attribute that will be used for evaluating the security level of a LDAP user (blank for none)
 1112 Value of the first  attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1113 If the first attribute is found and the value matches, set this user level automatically
-1114 If the first attribute is found and the value matches, set this user role automatically
-1115 Name of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1116 Value of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1117 If the second attribute is found and the value matches, set this user level automatically
-1118 If the second attribute is found and the value matches, set this user role automatically
+1113 If the first attribute is found and the value matches, set this user role automatically
+1114 Name of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1115 Value of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1116 If the second attribute is found and the value matches, set this user role automatically
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]

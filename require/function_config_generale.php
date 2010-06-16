@@ -720,11 +720,11 @@ function pagegroups($form_name){
     ligne('CONEX_LDAP_CHECK_FIELD1_NAME',$l->g(1111),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_NAME'],'SIZE'=>50,'MAXLENGHT'=>200));
     ligne('CONEX_LDAP_CHECK_FIELD1_VALUE',$l->g(1112),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_VALUE'],'SIZE'=>50,'MAXLENGHT'=>200));
    // ligne('CONEX_LDAP_CHECK_FIELD1_USERLEVEL',$l->g(1113),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_USERLEVEL'],'SIZE'=>50,'MAXLENGHT'=>200));
-    ligne('CONEX_LDAP_CHECK_FIELD1_ROLE',$l->g(1114),'select',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_ROLE'],'SELECT_VALUE'=>$role1));
-    ligne('CONEX_LDAP_CHECK_FIELD2_NAME',$l->g(1115),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_NAME'],'SIZE'=>50,'MAXLENGHT'=>200));
-    ligne('CONEX_LDAP_CHECK_FIELD2_VALUE',$l->g(1116),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_VALUE'],'SIZE'=>50,'MAXLENGHT'=>200));
+    ligne('CONEX_LDAP_CHECK_FIELD1_ROLE',$l->g(1113),'select',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_ROLE'],'SELECT_VALUE'=>$role1));
+    ligne('CONEX_LDAP_CHECK_FIELD2_NAME',$l->g(1114),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_NAME'],'SIZE'=>50,'MAXLENGHT'=>200));
+    ligne('CONEX_LDAP_CHECK_FIELD2_VALUE',$l->g(1115),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_VALUE'],'SIZE'=>50,'MAXLENGHT'=>200));
   //  ligne('CONEX_LDAP_CHECK_FIELD2_USERLEVEL',$l->g(1117),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_USERLEVEL'],'SIZE'=>50,'MAXLENGHT'=>200));
-    ligne('CONEX_LDAP_CHECK_FIELD2_ROLE',$l->g(1118),'select',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_ROLE'],'SELECT_VALUE'=>$role1));
+    ligne('CONEX_LDAP_CHECK_FIELD2_ROLE',$l->g(1116),'select',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_ROLE'],'SELECT_VALUE'=>$role1));
     fin_tab($form_name); 	
  }
  
