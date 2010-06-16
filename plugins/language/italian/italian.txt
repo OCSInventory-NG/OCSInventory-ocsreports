@@ -107,7 +107,7 @@
 196 Solo nome computer
 197 Solo numero di serie
 198 Solo indirizzo MAC
-199 Duplicazione
+199 Duplicazioni
 200 Diminuzione interruttore corrispondente
 201 MINORE DI
 202 MAGGIORE DI
@@ -1000,6 +1000,7 @@
 1106 E' possibile creare un pacchetto solo se esiste una prcedente richiesta
 1107 e lo stato è corretto
 1108 Configurazione LDAP
+1109 Filtra
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

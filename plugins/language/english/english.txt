@@ -1001,6 +1001,7 @@
 1106 It is possible to create a package only if a request exist before
 1107 And the status is correct
 1108 LDAP configuration
+1109 Filter
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

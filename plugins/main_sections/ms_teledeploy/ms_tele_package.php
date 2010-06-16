@@ -310,7 +310,7 @@ echo "<script language='javascript'>
 				else
 					var debut=name_file.length-6;
 				if (document.getElementById('ACTION').value != 'EXECUTE' && document.getElementById(champs_ACTION[n]).value == ''){
-					alert('Vous devez ajouter un fichier');
+					alert('".$l->g(602)."');
 				 	document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 				 	msg='NULL';
 				 }
@@ -514,7 +514,7 @@ echo "</table></td></tr>";
 echo "</div>";
 
 echo "</table>";
-echo "<br><input type='submit' name='valid' id='valid' value='Suivant' OnClick='return verif();' >";
+echo "<br><input type='submit' name='valid' id='valid' value='".$l->g(13)."' OnClick='return verif();' >";
 echo "<input type='hidden' id='digest_algo' name='digest_algo' value='MD5'>
 	  <input type='hidden' id='digest_encod' name='digest_encod' value='Hexa'>
 	  <input type='hidden' id='download_rep_creat' name='download_rep_creat' value='".$default['DOWNLOAD_REP_CREAT']."'>
