@@ -4,7 +4,7 @@ die('FORBIDDEN');
 @session_start();
 require_once('fichierConf.class.php');
 /*****************************************************LOGOUT*********************************************/
-if ($_POST['LOGOUT'] == 'ON'){
+if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 	unset($_SESSION['OCS']);
 	unset($_GET);
 }
@@ -81,6 +81,19 @@ if (!isset($_SESSION['OCS']['URL'])){
 $pages_refs=$_SESSION['OCS']['URL'];
 /**********************************************************GESTION DES COLONNES DES TABLEAUX PAR COOKIES***********************************/
 require_once('require/function_cookies.php');
+
+//Delete all cookies if GUI_VER change
+if (!isset($_COOKIE["VERS"]) or $_COOKIE["VERS"] != GUI_VER){
+	if( isset( $_COOKIE) ) {	
+		foreach( $_COOKIE as $key=>$val ) {
+			cookies_reset($key);		
+		}
+		unset( $_COOKIE );
+	}
+	cookies_add("VERS", GUI_VER);
+}
+
+
 if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
 	unset($_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
 	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
@@ -88,7 +101,9 @@ if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and iss
 if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != ""){
 	cookies_reset($protectedPost['TABLE_NAME']);
 }
-if (isset($protectedPost['restCol'.$protectedPost['TABLE_NAME']]) and $protectedPost['restCol'.$protectedPost['TABLE_NAME']] != ''){
+if (isset($protectedPost['TABLE_NAME']) and 
+	isset($protectedPost['restCol'.$protectedPost['TABLE_NAME']]) 
+	and $protectedPost['restCol'.$protectedPost['TABLE_NAME']] != ''){
 	$_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
 	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
 }
@@ -139,9 +154,9 @@ require_once('backend/identity/identity.php');
 
 
 /**********************************************************gestion des droits sur l'ipdiscover****************************************************/
-if (!isset($_SESSION['OCS']["ipdiscover"]) and $protectedGet[PAG_INDEX] == $pages_refs['ms_ipdiscover'])
+if (!isset($_SESSION['OCS']["ipdiscover"]) and isset($protectedGet[PAG_INDEX]) and $protectedGet[PAG_INDEX] == $pages_refs['ms_ipdiscover'])
 require_once('backend/ipdiscover/ipdiscover.php');
-elseif($protectedGet[PAG_INDEX] != $pages_refs['ms_ipdiscover'])
+elseif(isset($protectedGet[PAG_INDEX]) and $protectedGet[PAG_INDEX] != $pages_refs['ms_ipdiscover'])
 unset($_SESSION['OCS']['ipdiscover']);
 
 /*********************************************************gestion de la suppression automatique des machines trop vieilles*************************/
