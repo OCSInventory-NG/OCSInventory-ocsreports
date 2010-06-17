@@ -57,6 +57,19 @@ if( !in_array( $_GET["multi"], array(20,21,26,22,24,27)) ) {
 		$_SESSION["queryString"] .= "&".$key."=".$val;
 }
 
+
+//Delete all cookies if GUI_VER change
+if ($_COOKIE["VERS"] != GUI_VER){
+	if( isset( $_COOKIE["col"] ) ) {		
+		foreach( $_COOKIE["col"] as $key=>$val ) {
+			setcookie( "col[$key][value]", FALSE, time() - 3600 ); // deleting corresponding cookie
+			setcookie( "col[$key][rang]", FALSE, time() - 3600 ); // deleting corresponding cookie			
+		}
+		unset( $_COOKIE["col"] );
+		setcookie( "VERS", GUI_VER, time() + 3600 * 24 * 365 ); //expires in 365 days			
+	}
+}
+
 if( isset($_GET["uid"]) ) {
 	setcookie( "DefNetwork", $_GET["uid"], time() + 3600 * 24 * 15 );
 }
@@ -369,7 +382,7 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 				$_POST[$var]=0+$_POST[$var];// si un nombre est attendu, on transforme en nombre
 			
 			$req->where=str_replace("option$ind",$_POST[$var],$req->where); 
-			// on remplace les strings "optionX" de la requete par leurs valeurs présentes dans les variables en POST
+			// on remplace les strings "optionX" de la requete par leurs valeurs prï¿½sentes dans les variables en POST
 			$ind++;
 			$var="option".$ind;			
 		}
@@ -575,7 +588,7 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 		if( $req->countId == "h.id" ) //computer in devices
 			echo "<td width='15px'>&nbsp;</td>";*/
 			
-		while($colname=mysql_fetch_field($result)) // On récupère le nom de toutes les colonnes		
+		while($colname=mysql_fetch_field($result)) // On rï¿½cupï¿½re le nom de toutes les colonnes		
 		{
 			if($colname->name!="h.id"&&$colname->name!="deviceid")
 			{							
@@ -691,7 +704,7 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 				$listIdGroup .= $valIdGroup['ID'].",";
 			}
 			$listIdGroup=substr($listIdGroup,0,-1);
-		while($item = mysql_fetch_array($result)) // Parcour de toutes les lignes résultat
+		while($item = mysql_fetch_array($result)) // Parcour de toutes les lignes rï¿½sultat
 		{	
 			flush();
 			echo "<TR height=20px ". ($x == 1 ? "bgcolor='#FFFFFF'" : "bgcolor='#F2F2F2'") .">";	// on alterne les couleurs de ligne
@@ -734,7 +747,7 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 						echo "<td>&nbsp;</td>";
 			}*/			
 
-			foreach($tabChamps as $chmp) {// Affichage de toutes les valeurs résultats
+			foreach($tabChamps as $chmp) {// Affichage de toutes les valeurs rï¿½sultats
                 echo "<td align='center'>";
                 $isLink = FALSE;
 				if($chmp==TAG_LBL)
@@ -795,14 +808,14 @@ function ShowResults($req,$sortable=true,$modeCu=false,$modeRedon=false,$deletab
 //affichage des statistiques pour l'activation de paquet
 			if( $teledeploy ) {
 				$statResult="";
-				//recherche tous les ID dans download_enable qui correspondent à ce timestamp
+				//recherche tous les ID dans download_enable qui correspondent ï¿½ ce timestamp
 				$sqlStat="SELECT ID 
 							FROM download_enable 
 							WHERE fileid='".$item["Timestamp"]."'";
 				$resStat = mysql_query( $sqlStat, $_SESSION["readServer"] );
 				$listIdstat="";
 				while( $valStat = mysql_fetch_array( $resStat ) ) {
-					//création de la list pour effectuer un "in"
+					//crï¿½ation de la list pour effectuer un "in"
 					$listIdstat .= $valStat["ID"].",";
 				}
 				$listIdstat=substr($listIdstat,0,-1);
@@ -1402,7 +1415,7 @@ function printNavigation( $lesGets, $numPages) {
 		echo "<p align='center'>";
 		if( $numPages > 1 ) {			
 			if( $_SESSION["pageCur"] == 1) {				
-				echo "&nbsp;&nbsp;";//voir grisé
+				echo "&nbsp;&nbsp;";//voir grisï¿½
 				echo "&nbsp;&nbsp;1&nbsp;..";							
 			} else {
 				echo "&nbsp;&nbsp;{$prefG}-1><img src='image/prec24.png'></a>";
@@ -1415,7 +1428,7 @@ function printNavigation( $lesGets, $numPages) {
 			
 			if( $_SESSION["pageCur"] >= $numPages) {
 				echo "..&nbsp;&nbsp;$numPages&nbsp;";
-				//echo "<img src='image/proch24.png'>&nbsp;&nbsp;"; voir grisé
+				//echo "<img src='image/proch24.png'>&nbsp;&nbsp;"; voir grisï¿½
 			} else {
 				echo "..&nbsp;{$prefG}$numPages>$numPages</a>&nbsp;";
 				echo "{$prefG}-2><img src='image/proch24.png'></a>&nbsp;&nbsp;";
