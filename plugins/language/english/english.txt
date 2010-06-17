@@ -1009,7 +1009,7 @@
 1114 Name of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
 1115 Value of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
 1116 If the second attribute is found and the value matches, set this user role automatically
-
+1117 E-mail
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
