@@ -59,15 +59,15 @@ if( !in_array( $_GET["multi"], array(20,21,26,22,24,27)) ) {
 
 
 //Delete all cookies if GUI_VER change
-if ($_COOKIE["VERS"] != GUI_VER){
+if (!isset($_COOKIE["VERS"]) or  $_COOKIE["VERS"] != GUI_VER){
 	if( isset( $_COOKIE["col"] ) ) {		
 		foreach( $_COOKIE["col"] as $key=>$val ) {
 			setcookie( "col[$key][value]", FALSE, time() - 3600 ); // deleting corresponding cookie
 			setcookie( "col[$key][rang]", FALSE, time() - 3600 ); // deleting corresponding cookie			
 		}
-		unset( $_COOKIE["col"] );
-		setcookie( "VERS", GUI_VER, time() + 3600 * 24 * 365 ); //expires in 365 days			
+		unset( $_COOKIE["col"] );	
 	}
+	setcookie( "VERS", GUI_VER, time() + 3600 * 24 * 365 ); //expires in 365 days		
 }
 
 if( isset($_GET["uid"]) ) {
