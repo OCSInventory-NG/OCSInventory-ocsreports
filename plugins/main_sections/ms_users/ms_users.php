@@ -56,11 +56,11 @@ if ($protectedPost['onglet'] == 4
 	echo "<tr><td align=center>";
 	//affichage
 	$list_fields= array('ID'=>'ID',
-						'FIRSTNAME'=>'FIRSTNAME',
-						'LASTNAME'=>'LASTNAME',
-						'ACCESSLVL'=>'NEW_ACCESSLVL',
-						'COMMENTS'=>'COMMENTS',
-						'EMAIL'=>'EMAIL',
+						$l->g(49)=>'FIRSTNAME',
+						$l->g(996)=>'LASTNAME',
+						$l->g(66)=>'NEW_ACCESSLVL',
+						$l->g(51)=>'COMMENTS',
+						$l->g(1117)=>'EMAIL',
 						'USER_GROUP'=>'USER_GROUP',
 						'SUP'=>'ID',
 						'MODIF'=>'ID',

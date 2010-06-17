@@ -280,7 +280,7 @@
 371 Tutti i componenti
 372 Scegli i componenti
 373 Utente registrato
-374 Azienda registrata
+374 Utente aggiornato
 375 Versione agente OCS-NG
 376 Computer bloccato. Riprova tra qualche minuto
 377 Velocità CPU (MHz)
@@ -334,8 +334,8 @@
 438 Generazione nuovo pacchetto
 439 Protocollo
 440 Priorità
-441 Algoritmo di raccolta
-442 Codifica di raccolta
+441 Algoritmo di hash
+442 Codifica di hash
 443 Azione
 444 Comando
 445 Percorso
@@ -350,11 +350,11 @@
 454 NO
 455 SI
 456 Esegui
-457 Magazzino
-458 Esegui
+457 Immagazzina
+458 Lancia
 459 Il conto alla rovescia deve essere un numero
 460 Identificatore univoco
-461 Raccolta
+461 Hash
 462 Dimensione totale
 463 Dimensione frammenti (min. 1 KB)
 464 Numero frammenti
@@ -1001,6 +1001,14 @@
 1107 e lo stato è corretto
 1108 Configurazione LDAP
 1109 Filtra
+1110 L'affectation d'un paquet dépend du statut de la demande
+1111 Nom du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1112 Valeur du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1113 Si le premier attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
+1114 Nom du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1115 Valeur du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1116 Si le second attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
+1117 E-mail
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
