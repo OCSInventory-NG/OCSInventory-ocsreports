@@ -9,12 +9,13 @@ if (isset($protectedGet["tab"]) and $protectedGet["tab"]!=''){
 	$table='downloadwk_pack';
 }
 
-$sql="show fields from ".$table." 
-	where (field='".$protectedGet["n"]."' 
-		or field='fields_".$protectedGet["n"]."')";
+$sql_show="show fields from %s
+	where (field='%s' 
+		or field='fields_%s')";
+$var_show=array($table,$protectedGet["n"],$protectedGet["n"]);
+$result = mysql2_query_secure($sql_show,$_SESSION['OCS']["readServer"],$var_show);	
+$item = mysql_fetch_object($result);
 
-$result = @mysql_query($sql, $_SESSION['OCS']["readServer"]);
-$item = @mysql_fetch_object($result);
 $field=$item->Field;
 if (isset($field) and $field != ''){
 	echo "<script language='javascript'>
@@ -40,18 +41,24 @@ if (isset($field) and $field != ''){
 		$fd = fopen($filename, "r");
 		$contents = fread($fd, filesize ($filename));
 		fclose($fd);
-		$binary = addslashes($contents);
+		//$binary = addslashes($contents);
 		$sql_insert="insert into temp_files (TABLE_NAME,FIELDS_NAME,FILE,AUTHOR,FILE_NAME,FILE_TYPE,FILE_SIZE)
-			values ('".$table."','".$field."','".$binary."','".$_SESSION['OCS']['loggeduser']."','".$_FILES['file_upload']['name']."',
-					'".$_FILES['file_upload']['type']."','".$_FILES['file_upload']['size']."')";
-		mysql_query($sql_insert, $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+			values ('%s','%s','%s','%s','%s','%s','%s')";
+		$var_insert=array($table,$field,$contents,
+						$_SESSION['OCS']['loggeduser'],
+						$_FILES['file_upload']['name'],
+						$_FILES['file_upload']['type'],
+						$_FILES['file_upload']['size']);
+		mysql2_query_secure($sql_insert,$_SESSION['OCS']["writeServer"],$var_insert);	
+	//	mysql_query($sql_insert, $_SESSION['OCS']["writeServer"],$_FILES['file_upload']['name'],$_FILES['file_upload']['type'],$_FILES['file_upload']['size']);
 		$tab_options['CACHE']='RESET';
 		
 	}
 	
 	if (isset($protectedPost['SUP_PROF']) and is_numeric($protectedPost['SUP_PROF'])){
-		$sql_delete='delete from temp_files where id ="'.$protectedPost['SUP_PROF'].'"';
-		mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+		$sql_delete="delete from temp_files where id ='%s'";
+		$var_delete=array($protectedPost['SUP_PROF']);
+		mysql2_query_secure($sql_delete,$_SESSION['OCS']["writeServer"],$var_delete);	
 		$tab_options['CACHE']='RESET';	
 	}
 	
