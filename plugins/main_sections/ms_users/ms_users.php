@@ -61,11 +61,11 @@ if ($protectedPost['onglet'] == 4
 						$l->g(66)=>'NEW_ACCESSLVL',
 						$l->g(51)=>'COMMENTS',
 						$l->g(1117)=>'EMAIL',
-						'USER_GROUP'=>'USER_GROUP',
-						'SUP'=>'ID',
-						'MODIF'=>'ID',
+						$l->g(607)=>'USER_GROUP',
+						$l->g(122)=>'ID',
+						$l->g(1118)=>'ID',
 						'CHECK'=>'ID');
-	$list_col_cant_del=array('ID'=>'ID','SUP'=>'SUP','MODIF'=>'MODIF','CHECK'=>'CHECK');
+	$list_col_cant_del=array('ID'=>'ID','$l->g(122)'=>'SUP','$l->g(1118)'=>'MODIF','CHECK'=>'CHECK');
 	$default_fields=$list_fields; 
 	$queryDetails = 'SELECT ';
 	foreach ($list_fields as $key=>$value){
@@ -84,7 +84,7 @@ if ($protectedPost['onglet'] == 4
 	while ($val_user_groups = mysql_fetch_array( $res_user_groups ))
 	$user_groups[$val_user_groups['IVALUE']]=$val_user_groups['TVALUE'];
 		
-	$tab_options['REPLACE_VALUE']['USER_GROUP']=$user_groups;
+	$tab_options['REPLACE_VALUE'][$l->g(607)]=$user_groups;
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 		//traitement par lot
 	$img['image/sup_search.png']=$l->g(162);

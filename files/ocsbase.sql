@@ -884,6 +884,7 @@ CREATE TABLE languages (
 
 CREATE TABLE temp_files (
   ID int(11) NOT NULL AUTO_INCREMENT,
+  TABLE_NAME varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
   FIELDS_NAME varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
   FILE blob,
   COMMENT longtext CHARACTER SET latin1,
@@ -891,6 +892,7 @@ CREATE TABLE temp_files (
   FILE_NAME varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
   FILE_TYPE varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
   FILE_SIZE int(11) DEFAULT NULL,
+  ID_DDE int(11) DEFAULT NULL,
   PRIMARY KEY (ID)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
