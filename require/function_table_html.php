@@ -1233,14 +1233,14 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$lien = 'KO';
 					}elseif ($key == "GROUP_NAME"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
-					}elseif ($key == $l->g(122)){
+					}elseif ($key == "SUP"){
 						if (isset($tab_options['LBL_POPUP'][$key]))
 						$lbl_msg=$donnees[$tab_options['LBL_POPUP'][$key]];
 						else
 						$lbl_msg=$value_of_field;
 						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)." ".$lbl_msg."\");'><img src=image/supp.png></a>";
 						$lien = 'KO';
-					}elseif ($key == $l->g(1118)){
+					}elseif ($key == "MODIF"){
 						if (!isset($tab_options['MODIF']['IMG']))
 						$image="image/modif_tab.png";
 						else
