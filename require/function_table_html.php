@@ -560,7 +560,7 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 	echo "<table cellspacing='5' width='".$taille_cadre."%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='".$bgcolor."' BORDERCOLOR='".$bordercolor."'><tr><td align=center>";
 	//$machNmb = array(5,10,15,20,50,100,200,300,500,800,1000);
 	    $machNmb = array(5=>5,10=>10,15=>15,20=>20,50=>50,100=>100,200=>200);
-      $pcParPageHtml= $l->g(340).":".show_modif($machNmb,'pcparpage',2,$form_name,array('DEFAULT'=>'NO'));
+      $pcParPageHtml= $l->g(340).": ".show_modif($machNmb,'pcparpage',2,$form_name,array('DEFAULT'=>'NO'));
 	$pcParPageHtml .=  "</td></tr></table>
 	</td></tr><tr><td align=center>";
 	echo $pcParPageHtml;
@@ -743,7 +743,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 
 	}
 	if (is_array ($list_rest)){
-		$select_restCol= $l->g(349).":".show_modif($list_rest,'restCol'.$tab_name,2,$form_name);
+		$select_restCol= $l->g(349).": ".show_modif($list_rest,'restCol'.$tab_name,2,$form_name);
 		$select_restCol .=  "<a href=# OnClick='pag(\"".$tab_name."\",\"RAZ\",\"".$id_form."\");'><img src=image/supp.png></a></td></tr></table>"; //</td></tr><tr><td align=center>
 		echo $select_restCol;
 	}else

@@ -1037,6 +1037,7 @@
 1117 E-mail
 1118 Editer
 1119 Selectionne
+1120 Quantité
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

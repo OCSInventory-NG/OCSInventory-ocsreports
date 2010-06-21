@@ -29,7 +29,7 @@ require_once($fichierdemerde);
 		foreach ($dpt as $key=>$value){
 			$list_index[$key]=$value;
 		}
-		 echo $l->g(562).show_modif($list_index,'DPT_CHOISE',2,$form_name);
+		 echo $l->g(562)." ".show_modif($list_index,'DPT_CHOISE',2,$form_name);
  	}
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != ''){
 	 	

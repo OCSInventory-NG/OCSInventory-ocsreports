@@ -145,7 +145,7 @@ echo "
 	<table width='60%'>
 	<tr>
 		<td align='right' width='50%'>
-			<font face='Verdana' size='-1'>".$l->g(228)." :&nbsp;&nbsp;&nbsp;&nbsp;</font>
+			<font face='Verdana' size='-1'>".$l->g(228).":&nbsp;&nbsp;&nbsp;&nbsp;</font>
 		</td>
 		<td width='50%' align='left'><input size=40 name='nom'>
 		</td>
