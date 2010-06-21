@@ -13,7 +13,7 @@ if (isset($_GET['choise'])) $_POST['choose_blacklist']= $_GET['choise'];
 ?>
 	<script language=javascript>
 		function confirme(did){
-			if(confirm("<?echo $l->g(640)?> id "+did+" ?"))
+			if(confirm("<?php echo $l->g(640)?> id "+did+" ?"))
 				window.location="index.php?multi=<?php echo $_GET["multi"]?>&choise=<?php echo $_POST['choose_blacklist']?>&suppAcc="+did;
 		}
 		function convertToUpper(v_string){
