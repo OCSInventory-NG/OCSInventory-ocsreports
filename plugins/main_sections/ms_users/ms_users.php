@@ -61,7 +61,7 @@ if ($protectedPost['onglet'] == 4
 						$l->g(66)=>'NEW_ACCESSLVL',
 						$l->g(51)=>'COMMENTS',
 						$l->g(1117)=>'EMAIL',
-						'USER_GROUP'=>'USER_GROUP',
+						$l->g(607)=>'USER_GROUP',
 						'SUP'=>'ID',
 						'MODIF'=>'ID',
 						'CHECK'=>'ID');
@@ -83,8 +83,11 @@ if ($protectedPost['onglet'] == 4
 	$res_user_groups = mysql_query( $sql_user_groups, $_SESSION['OCS']["readServer"] );
 	while ($val_user_groups = mysql_fetch_array( $res_user_groups ))
 	$user_groups[$val_user_groups['IVALUE']]=$val_user_groups['TVALUE'];
-		
-	$tab_options['REPLACE_VALUE']['USER_GROUP']=$user_groups;
+
+	$tab_options['REPLACE_VALUE'][$l->g(607)]=$user_groups;
+	$tab_options['LBL']['SUP']=$l->g(122);
+	$tab_options['LBL']['MODIF']=$l->g(1118);
+	$tab_options['LBL']['CHECK']=$l->g(1119);
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 		//traitement par lot
 	$img['image/sup_search.png']=$l->g(162);
