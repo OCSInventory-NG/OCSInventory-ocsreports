@@ -6,7 +6,6 @@
  */
 require_once('require/function_admininfo.php');
 $array_tab_account=find_all_account_tab();
- $protectedGet['admin'] = "fields";
 if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_info';
@@ -15,7 +14,17 @@ $data_on[1]=$l->g(1059);
 $data_on[2]=$l->g(1060);
 
 //$yes_no=array($l->g(454),$l->g(455));
-
+if (isset($protectedPost['MODIF']) 
+	and is_numeric($protectedPost['MODIF']) 
+	and !isset($protectedPost['Valid_modif_x'])){
+	 $protectedPost['onglet'] = 2;
+	 $accountinfo_detail= find_info_accountinfo($protectedPost['MODIF']);
+	 $protectedPost['newfield']=$accountinfo_detail[$protectedPost['MODIF']]['name'];
+	 $protectedPost['newlbl']=$accountinfo_detail[$protectedPost['MODIF']]['comment'];
+	 $protectedPost['newtype']=$accountinfo_detail[$protectedPost['MODIF']]['type'];
+	 $protectedPost['account_tab']=$accountinfo_detail[$protectedPost['MODIF']]['id_tab'];
+	 $hidden=$protectedPost['MODIF'];
+}
 
 echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($data_on,$form_name,"onglet",2);
@@ -41,6 +50,7 @@ if ($protectedPost['onglet'] == 1){
 		del_accountinfo($protectedPost['SUP_PROF']);
 	}	
 	$array_fields=array($l->g(1098)=>'NAME',
+						$l->g(1063)=>'COMMENT',
 						$l->g(66)=>'TYPE',
 						$l->g(1061)=>'ID_TAB');						
 	
@@ -55,13 +65,15 @@ if ($protectedPost['onglet'] == 1){
 
 	$list_fields['SUP']='ID';
 	$list_fields['CHECK']='ID'; 
-	$list_col_cant_del=$list_fields;
+	$list_fields['MODIF']='ID'; 
+	$list_col_cant_del=array($l->g(1063)=>$l->g(1063),$l->g(66)=>$l->g(66),$l->g(1061)=>$l->g(1061),'SUP'=>'SUP','CHECK'=>'CHECK','MODIF'=>'MODIF');
 	$default_fields=$list_col_cant_del; 
 	$tab_options['REPLACE_VALUE'][$l->g(66)]=$type_accountinfo;
 	$tab_options['REPLACE_VALUE'][$l->g(1061)]=$array_tab_account;
 	$tab_options['LBL_POPUP']['SUP']='NAME';
 	$tab_options['LBL']['SUP']=$l->g(122);
 	$tab_options['LBL']['CHECK']=$l->g(1119);
+	$tab_options['LBL']['MODIF']=$l->g(115);
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 	//traitement par lot
 	del_selection($form_name);
@@ -70,8 +82,20 @@ if ($protectedPost['onglet'] == 1){
 	
 }elseif ($protectedPost['onglet'] == 2){
 	
-	//ADD NEW VALUE
-	if( $protectedPost['Valid_modif_x'] != "" ) {
+	
+	if (isset($protectedPost['MODIF_OLD']) 
+		and is_numeric($protectedPost['MODIF_OLD']) 
+		and $protectedPost['Valid_modif_x'] != ""){
+		//UPDATE VALUE
+		echo update_accountinfo($protectedPost['MODIF_OLD'],
+								array('TYPE'=>$protectedPost['newtype'],
+									  'NAME'=>$protectedPost['newfield'],
+									  'COMMENT'=>$protectedPost['newlbl'],
+								 	  'ID_TAB'=>$protectedPost['account_tab']));
+		$hidden=$protectedPost['MODIF_OLD'];		
+		
+	}elseif( $protectedPost['Valid_modif_x'] != "" ) {
+	//ADD NEW VALUE	
 		echo add_accountinfo($protectedPost['newfield'],$protectedPost['newtype'],$protectedPost['newlbl'],$protectedPost['account_tab']);		
 	}
 	
@@ -82,26 +106,26 @@ if ($protectedPost['onglet'] == 1){
 	$type_field= array(0);
 	$value_field=array($protectedPost['newfield']);
 	
+	if ( isset($hidden) and is_numeric($hidden)){
+		$tab_hidden['MODIF_OLD']=$hidden;		
+	}
 	
-	if (isset($protectedGet['admin'])){
+	//if (isset($protectedGet['admin'])){
 		array_push($name_field,"newlbl");
 		array_push($tab_name,$l->g(80)." :");
 		array_push($type_field,0);
 		array_push($value_field,$protectedPost['newlbl']);
-		if ($protectedGet['admin'] == "fields"){
 			
-			array_push($name_field,"newtype");
-			array_push($tab_name,$l->g(1071).":");
-			array_push($type_field,2);
-			array_push($value_field,$type_accountinfo);	
-				
-			array_push($name_field,"account_tab");
-			array_push($tab_name,$l->g(1061).":");
-			array_push($type_field,2);
-			array_push($value_field,$array_tab_account);
+		array_push($name_field,"newtype");
+		array_push($tab_name,$l->g(1071).":");
+		array_push($type_field,2);
+		array_push($value_field,$type_accountinfo);	
 			
-		}
-	}
+		array_push($name_field,"account_tab");
+		array_push($tab_name,$l->g(1061).":");
+		array_push($type_field,2);
+		array_push($value_field,$array_tab_account);
+
 
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 	$tab_typ_champ[0]['CONFIG']['SIZE']=30;
