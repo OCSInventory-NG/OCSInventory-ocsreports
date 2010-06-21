@@ -17,6 +17,7 @@ CONSOLE:YES
 IPDISCOVER:YES
 TELEDIFF_WK:YES
 ALERTE_MSG:YES
+ACCOUNTINFO:YES
 </CONFIGURATION>
 
 <PAGE_PROFIL>
@@ -82,4 +83,5 @@ ms_admin_management
 ms_view_file
 ms_search_soft
 ms_options
+ms_adminvalues
 </PAGE_PROFIL>

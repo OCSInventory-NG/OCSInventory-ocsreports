@@ -1,5 +1,5 @@
 <?php
-if ($protectedGet['head'] == 1)
+if (isset($protectedGet['head']) and $protectedGet['head'] == 1)
 $ban_head='no';
 /*******************************************************AFFICHAGE HTML DU HEADER*******************************************/
 //require("fichierConf.class.php");
@@ -27,7 +27,7 @@ echo "<body bottommargin='0' leftmargin='0' topmargin='0' rightmargin='0' margin
 //on affiche l'entete de la page
 if( !isset($protectedGet["popup"] )) {
 	//si unlock de l'interface
-	if ($protectedPost['LOCK'] == 'RESET'){
+	if (isset($protectedPost['LOCK']) and $protectedPost['LOCK'] == 'RESET'){
 		 $_SESSION['OCS']["mesmachines"]=$_SESSION['OCS']["TRUE_mesmachines"];
 		unset($_SESSION['OCS']["TRUE_mesmachines"]);
 	}
@@ -56,7 +56,8 @@ echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td ali
 	//pass in debug mode if plugin debug exist
 	if (isset($pages_refs['ms_debug'])){
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'";
-		if($_SESSION['OCS']['DEBUG']=='ON' or $_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
+		if((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON') 
+			or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
 			echo "<br><a ".$javascript."><img src=image/red.png></a><br>";
 			if ($_SESSION['OCS']['DEBUG']=='ON')
 			echo "<font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>wait...</div>";

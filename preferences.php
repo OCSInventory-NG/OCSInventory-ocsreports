@@ -1,5 +1,4 @@
 <?php 
-error_reporting(E_ALL & ~E_NOTICE);
 @session_start();
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');

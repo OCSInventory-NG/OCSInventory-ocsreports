@@ -5,7 +5,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-include 'fonction.inc.php';
+require_once('require/fonction.inc.php');
 
 //http://dcabasson.developpez.com/articles/javascript/ajax/ajax-autocompletion-pas-a-pas/
 header('Content-Type: text/xml;charset=utf-8');

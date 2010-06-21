@@ -6,7 +6,7 @@
 //====================================================================================
  
 
-include 'fonction.inc.php' ;
+require_once('require/fonction.inc.php');
 $form_name="search_soft";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //html
