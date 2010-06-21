@@ -27,7 +27,7 @@ echo "\n".'<script type="text/javascript">
 
 //echo "\n".'<body>';
 //echo "\n".'<div id="en-tete"><p><img src="intranet.gif" alt="intranet" id="intranet" /></p></div>';
-echo "\n".'<i>Logiciel : ';
+echo "\n".'<i>'.$l->g(20).": ";
 //echo "\n".'</i><select name="logiciel_select" >'."\n";
 
 // voir fontion.php
@@ -40,7 +40,7 @@ echo "\n".'</form>';*/
 //echo "\n".'<form  method="post" name="form-test" id="form-test" >';
 //echo "\n".'<input type="hidden" name="ms_options" id="ms_options" value="index.php?function=search_soft_option&no_header=1">';
 echo "\n".'<br><br><input type="text" name="logiciel_text" value="'.$protectedPost['logiciel_text'].'" id="champ-texte"  size="15"/>';
-echo "\n".'<br><input type="submit" id="bouton-submit" value="Afficher" name="bouton-submit">';
+echo "\n".'<br><input type="submit" id="bouton-submit" value="'.$l->g(965).'" name="bouton-submit">';
 //echo "\n".'</form>';
 
 
@@ -66,7 +66,7 @@ echo "\n".'<div id="fr">';
 if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_select'] != '')
 	 or (isset($protectedPost['logiciel_text']) and $protectedPost['logiciel_text'] != ''))                                   //logiciel du select name='logiciel'
 	{
-			echo "\n".'<input type="button" id="bouton-print" value="Imprimer" onclick="imprime_zone(\'tableau\',\'fr\');">';
+			echo "\n".'<input type="button" id="bouton-print" value="'.$l->g(214).'" onclick="imprime_zone(\'tableau\',\'fr\');">';
 		
 	if (isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_select'] != '')
 	$logiciel=$protectedPost['logiciel_select'];
@@ -96,6 +96,13 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	
 	$queryDetails.= " FROM hardware h ,softwares a
 				   WHERE a.HARDWARE_ID =h.ID and a.NAME='".$logiciel."'";
+	
+	$tab_options['LBL']['NAME']=$l->g(478);
+	$tab_options['LBL']['ip']=$l->g(176);
+	$tab_options['LBL']['domaine']=$l->g(680);
+	$tab_options['LBL']['snom']=$l->g(847);
+	$tab_options['LBL']['sversion']=$l->g(848);
+	$tab_options['LBL']['sfold']=$l->g(849);
 	
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
 

@@ -137,6 +137,8 @@ if (isset($sql)){
 	$list_col_cant_del=$default_fields;
 	$tab_options['LIEN_LBL']['nbre']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=allsoft&value=';
 	$tab_options['LIEN_CHAMP']['nbre']='name';
+	$tab_options['LBL']['name']=$l->g(847);
+	$tab_options['LBL']['nbre']=$l->g(1120);
 	//$tab_options['nbre'][]
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 }
