@@ -322,7 +322,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		return $name.$hid;
 	}elseif ($input_type == 4)
 	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' \>";
-	elseif ($input_type == 5 and isset($name)){	
+	elseif ($input_type == 5 and isset($name) and is_array($name)){	
 		foreach ($name as $key=>$value){
 			$champs.= $value."<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";
 			if ($protectedPost[$input_name."_".$key] == 'on' )
@@ -439,17 +439,44 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 	echo "</form>";
 }
 
-function show_field($name_field,$type_field,$value_field){
+function show_field($name_field,$type_field,$value_field,$config=array()){
 	global $protectedPost;
 	$i=0;
 	foreach($name_field as $key=>$value){
 		$tab_typ_champ[$key]['DEFAULT_VALUE']=$value_field[$key];
 		$tab_typ_champ[$key]['INPUT_NAME']=$name_field[$key];
 		$tab_typ_champ[$key]['INPUT_TYPE']=$type_field[$key];
-		$tab_typ_champ[$key]['CONFIG']['ROWS']=7;
-		$tab_typ_champ[$key]['CONFIG']['COLS']=40;
-		$tab_typ_champ[$key]['CONFIG']['SIZE']=50;
-		$tab_typ_champ[$key]['CONFIG']['MAXLENGTH']=255;		
+		
+		if (!isset($config['ROWS'][$key]) or $config['ROWS'][$key] == '')
+			$tab_typ_champ[$key]['CONFIG']['ROWS']=7;
+		else
+			$tab_typ_champ[$key]['CONFIG']['ROWS']=$config['ROWS'][$key];
+			
+		if (!isset($config['COLS'][$key]) or $config['COLS'][$key] == '')
+			$tab_typ_champ[$key]['CONFIG']['COLS']=40;
+		else
+			$tab_typ_champ[$key]['CONFIG']['COLS']=$config['COLS'][$key];		
+		
+		if (!isset($config['SIZE'][$key]) or $config['SIZE'][$key] == '')
+			$tab_typ_champ[$key]['CONFIG']['SIZE']=50;
+		else
+			$tab_typ_champ[$key]['CONFIG']['SIZE']=$config['SIZE'][$key];
+		
+		if (!isset($config['MAXLENGTH'][$key]) or $config['MAXLENGTH'][$key] == '')
+			$tab_typ_champ[$key]['CONFIG']['MAXLENGTH']=255;
+		else
+			$tab_typ_champ[$key]['CONFIG']['MAXLENGTH']=$config['MAXLENGTH'][$key];
+			
+		if (isset($config['COMMENT_BEHING'][$key]))	{
+			$tab_typ_champ[$key]['COMMENT_BEHING']=	$config['COMMENT_BEHING'][$key];
+		}		
+		
+		if (isset($config['SELECT_DEFAULT'][$key]))	{
+			$tab_typ_champ[$key]['DEFAULT']=$config['SELECT_DEFAULT'][$key];
+		}
+		if (isset($config['JAVASCRIPT'][$key]))	{
+			$tab_typ_champ[$key]['CONFIG']['JAVASCRIPT']=$config['JAVASCRIPT'][$key];
+		}
 		$i++;
 	}
 //	$i=0;
