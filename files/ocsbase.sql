@@ -791,7 +791,7 @@ INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '5015', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '5016', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -998,6 +998,15 @@ CREATE TABLE downloadwk_history (
   AUTHOR varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
   DATE date DEFAULT NULL,
   ACTION longtext CHARACTER SET latin1,
+  PRIMARY KEY (ID)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+CREATE TABLE accountinfo_config(
+  ID int(11) NOT NULL AUTO_INCREMENT,
+  TYPE int(11) DEFAULT NULL,
+  NAME varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
+  ID_TAB int(11) DEFAULT NULL,
+  COMMENT varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
   PRIMARY KEY (ID)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 

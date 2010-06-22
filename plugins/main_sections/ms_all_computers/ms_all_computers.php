@@ -73,6 +73,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	//$queryDetails  .=" limit 200";
 	$list_fields['SUP']='h.id';
 	$tab_options['LBL_POPUP']['SUP']='name';
+	$tab_options['LBL']['SUP']=$l->g(122);
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
 	echo "</form>";
 

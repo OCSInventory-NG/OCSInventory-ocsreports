@@ -1340,7 +1340,7 @@ echo "<script language=javascript>
 			 {
 				var idchecked = '';
 				for(i=0; i<document.".$form_name.".elements.length; i++)
-				{
+				{					
 					if(document.".$form_name.".elements[i].name.substring(0,5) == 'check'){
 				        if (document.".$form_name.".elements[i].checked)
 							idchecked = idchecked + document.".$form_name.".elements[i].name.substring(5) + ',';

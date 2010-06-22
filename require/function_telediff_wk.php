@@ -854,7 +854,7 @@ function dde_show($form_name){
 		global $l,$protectedPost,$protectedGet,$pages_refs;
 		
 		//suppression d'une demande
-		if(isset($protectedPost['SUP_PROF'])) {
+		if(isset($protectedPost['SUP_PROF']) and is_numeric($protectedPost['SUP_PROF'])) {
 				//on récupère l'id du champ status
 				$item_id_STATUS =find_id_field();
 				$sql="UPDATE downloadwk_pack 
