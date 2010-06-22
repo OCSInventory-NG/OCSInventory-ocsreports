@@ -186,12 +186,14 @@ if ($protectedPost['detail'] != ''){
 
 	//liste des champs du tableau des doublons
 	$list_fields= array($_SESSION['OCS']['TAG_LBL']=>'a.TAG',
-						'macaddr'=>'n.macaddr',
-						'serial'=>'b.SSN',
-//						$l->g(36)=>'b.ssn',
+//						'macaddr'=>'n.macaddr',
+						$l->g(95)=>'n.macaddr',
+//						'serial'=>'b.SSN',
+						$l->g(36)=>'b.ssn',
 						$l->g(23).": id"=>'h.ID',
 						$l->g(23).": ".$l->g(46)=>'h.LASTDATE',
-						'NAME'=>'h.NAME',
+//						'NAME'=>'h.NAME',
+						$l->g(35)=>'h.NAME',
 						$l->g(82).": ".$l->g(33)=>'h.WORKGROUP',
 						$l->g(23).": ".$l->g(25)=>'h.OSNAME',
 						$l->g(23).": ".$l->g(24)=>'h.USERID',
@@ -239,7 +241,8 @@ if ($protectedPost['detail'] != ''){
  if ($tab_id_mes_machines != ""){
 		$queryDetails .= "";
 	}
-	$tab_options['FILTRE']=array('NAME'=>'Nom','b.ssn'=>'Num�ro de s�rie','n.macaddr'=>'Adresse MAC');
+//	$tab_options['FILTRE']=array('NAME'=>'Nom','b.ssn'=>'Num�ro de s�rie','n.macaddr'=>'Adresse MAC');
+	$tab_options['FILTRE']=array('NAME'=>$l->g(35),'b.ssn'=>$l->g(36),'n.macaddr'=>$l->g(95));
 
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,'95',$tab_options);
 	echo "<br><input type='submit' value='".$l->g(177)."' name='FUSION'>";

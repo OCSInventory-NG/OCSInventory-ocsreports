@@ -112,7 +112,7 @@ if ($protectedPost['onglet'] == 1){
 	
 	//if (isset($protectedGet['admin'])){
 		array_push($name_field,"newlbl");
-		array_push($tab_name,$l->g(80)." :");
+		array_push($tab_name,$l->g(80).":");
 		array_push($type_field,0);
 		array_push($value_field,$protectedPost['newlbl']);
 			

@@ -43,7 +43,7 @@
 69 Produttore
 70 Unità
 79 Stampanti
-80 Modello
+80 Nome
 81 Stato
 82 Reti
 83 Capacità
@@ -955,7 +955,7 @@
 1060 Nuovi dati
 1061 Tab
 1062 Campo
-1063 Dicitura
+1063 Nome
 1064 Obbligatorio
 1065 Campo di controllo
 1066 Linked to a status

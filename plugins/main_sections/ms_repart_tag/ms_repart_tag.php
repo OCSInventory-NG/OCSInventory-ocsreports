@@ -9,6 +9,7 @@
 //	$tab_options['LBL']['LBL_UNIT']="libell� unit�";
 	$tab_options['LIEN_LBL']['Nbr_mach']="index.php?".PAG_INDEX."=".$pages_refs['ms_all_computers']."&filtre=a.tag&value=";
 	$tab_options['LIEN_CHAMP']['Nbr_mach']="ID";
+	$tab_options['LBL']['Nbr_mach']=$l->g(1120);
 	$list_col_cant_del=array($_SESSION['OCS']['TAG_LBL']=>$_SESSION['OCS']['TAG_LBL']);
 	$default_fields= $list_fields;
 	$queryDetails  = "SELECT count(hardware_id) c, a.tag as ID from accountinfo a ";

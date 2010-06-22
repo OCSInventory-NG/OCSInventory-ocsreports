@@ -44,7 +44,7 @@ echo '<div class="mlt_bordure" >';
 //	echo "<table ALIGN = 'Center'><tr><td align =center>";
 //echo "<tr><td align=center>";
 if ($protectedPost['onglet'] == 1){
-	$table_name="blacklist_macaddresses";	
+	$table_name="blacklist_macaddresses";
 	$list_fields= array('ID'=>'ID',
 						'MACADDRESS'=>'MACADDRESS',
 						'SUP'=>'ID',
@@ -53,7 +53,10 @@ if ($protectedPost['onglet'] == 1){
 	$list_col_cant_del=$list_fields;
 	$default_fields=$list_fields; 
 	$tab_options['FILTRE']=array('MACADDRESS'=>'MACADDRESS');
-	$tab_options['LBL_POPUP']['SUP']='MACADDRESS';	
+	$tab_options['LBL_POPUP']['SUP']='MACADDRESS';
+	$tab_options['LBL']['MACADDRESS']=$l->g(95);
+	$tab_options['LBL']['SUP']=$l->g(122);
+	$tab_options['LBL']['CHECK']=$l->g(1119);
 }elseif($protectedPost['onglet'] == 2){
 	$table_name="blacklist_serials";
 	$list_fields= array('ID'=>'ID',
@@ -65,10 +68,13 @@ if ($protectedPost['onglet'] == 1){
 	$default_fields=$list_fields; 
 	$tab_options['FILTRE']=array('SERIAL'=>'SERIAL');
 	$tab_options['LBL_POPUP']['SUP']='SERIAL';
+	$tab_options['LBL']['SERIAL']=$l->g(36);
+	$tab_options['LBL']['SUP']=$l->g(122);
+	$tab_options['LBL']['CHECK']=$l->g(1119);
 }elseif ($protectedPost['onglet'] == 3){
 	$list_action[1]=$l->g(95);
 	$list_action[2]=$l->g(36);
-	echo $l->g(700)." : ".show_modif($list_action,"BLACK_CHOICE",2,$form_name)."<br>";
+	echo $l->g(700).": ".show_modif($list_action,"BLACK_CHOICE",2,$form_name)."<br>";
 	if ($protectedPost['BLACK_CHOICE'] == 1){
 		$javascript="onKeyPress='return scanTouche(event,/[0-9 a-f A-F]/)' 
 		  onkeydown='convertToUpper(this)'
@@ -76,15 +82,19 @@ if ($protectedPost['onglet'] == 1){
 		  onblur='convertToUpper(this)'
 		  onclick='convertToUpper(this)'";
 		$i=1;
-		$aff=$l->g(654)." ";
+		$aff=$l->g(654).": ";
 		while ($i<7){
-			$aff.=":".show_modif($protectedPost['ADD_MAC_'.$i],'ADD_MAC_'.$i,0,'',array('MAXLENGTH'=>2,'SIZE'=>3,'JAVASCRIPT'=>$javascript));
+			if($i==1){
+			    $aff.=show_modif($protectedPost['ADD_MAC_'.$i],'ADD_MAC_'.$i,0,'',array('MAXLENGTH'=>2,'SIZE'=>3,'JAVASCRIPT'=>$javascript));
+			}else{
+			    $aff.=":".show_modif($protectedPost['ADD_MAC_'.$i],'ADD_MAC_'.$i,0,'',array('MAXLENGTH'=>2,'SIZE'=>3,'JAVASCRIPT'=>$javascript));
+			}
 			$i++;
 		}
 		$aff.="<br>";	
 				
 	}elseif ($protectedPost['BLACK_CHOICE'] == 2){
-		$aff=$l->g(702)." : ".show_modif($protectedPost['ADD_SERIAL'],'ADD_SERIAL',0,'',array('MAXLENGTH'=>100,'SIZE'=>30))."<br>";	
+		$aff=$l->g(702).": ".show_modif($protectedPost['ADD_SERIAL'],'ADD_SERIAL',0,'',array('MAXLENGTH'=>100,'SIZE'=>30))."<br>";	
 		//$aff.="</td></tr>";	
 	}
 	
