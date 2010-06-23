@@ -21,6 +21,7 @@ require_once('require/function_files.php');
 $item=info($protectedGet,$protectedPost['systemid']);
 if (!is_object($item)){
 	echo "<center><B><font color=red size=4>".$item."</font></B></center>";
+	require_once($_SESSION['OCS']['FOOTER_HTML']);
 	die();
 }
 //you can't view groups'detail by this way

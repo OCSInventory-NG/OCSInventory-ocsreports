@@ -58,6 +58,7 @@ function NewCal(pCtrl,pFormat,pShowTime,pTimeMode,pCheck)
 		Cal.Ctrl=pCtrl;
 	if (pFormat!=null)
 		Cal.Format=pFormat.toUpperCase();
+	
 	exDateTime=document.getElementById(pCtrl).value;
 	if (exDateTime!="")//Parse Date String
 	{
@@ -104,7 +105,7 @@ function NewCal(pCtrl,pFormat,pShowTime,pTimeMode,pCheck)
 		if (YearPattern.test(strYear))
 			Cal.Year=parseInt(strYear,10);
 			
-		if( Cal.Year == 0 ) Cal.Year = 2005;
+		if( Cal.Year == 0 ) Cal.Year = dtToday.getFullYear();
 		//end parse year
 		//parse time
 		if (Cal.ShowTime==true)
@@ -119,7 +120,7 @@ function NewCal(pCtrl,pFormat,pShowTime,pTimeMode,pCheck)
 			Cal.SetSecond(strSecond);
 		}	
 	}
-	winCal=window.open("","DateTimePicker","toolbar=0,status=0,menubar=0,fullscreen=no,width=195,height=210,resizable=1,top="+cnTop+",left="+cnLeft);
+	winCal=window.open("","DateTimePicker","toolbar=0,status=0,menubar=0,fullscreen=no,width=195,height=210,resizable=0,top="+cnTop+",left="+cnLeft);
 	docCal=winCal.document;
 	RenderCal();
 }
