@@ -327,9 +327,9 @@ if (isset($default)){
 		query_with_condition("where memory>".$list_option['RAM_MINI']." and memory <".$list_option['RAM_MAX'],
 								$lbl_field['NB_LIMIT_MEM_B']." ".$list_option['RAM_MINI']." MB ".$l->g(582)." ".$list_option['RAM_MAX']." MB",'NB_LIMIT_MEM_B');
 		
-		query_with_condition("where h.type='Hard Drive' and h.free >=".$list_option['DD_MAX'],$lbl_field['NB_HARD_DISK_H']." ".$list_option['DD_MAX']." Mo",'NB_HARD_DISK_H',"drives");
-		query_with_condition("where h.type='Hard Drive' and h.free <=".$list_option['DD_MINI'],	$lbl_field['NB_HARD_DISK_M']." ".$list_option['DD_MINI']." Mo",'NB_HARD_DISK_M',"drives");
-		query_with_condition("where h.type='Hard Drive' and h.free>".$list_option['DD_MINI']." and h.free <".$list_option['DD_MAX'],$lbl_field['NB_HARD_DISK_B']." ".$list_option['DD_MINI']." Mo ".$l->g(582)." ".$list_option['DD_MAX']." Mo",'NB_HARD_DISK_B',"drives");
+		query_with_condition("where h.type='Hard Drive' and h.free >=".$list_option['DD_MAX'],$lbl_field['NB_HARD_DISK_H']." ".$list_option['DD_MAX']." MB",'NB_HARD_DISK_H',"drives");
+		query_with_condition("where h.type='Hard Drive' and h.free <=".$list_option['DD_MINI'],	$lbl_field['NB_HARD_DISK_M']." ".$list_option['DD_MINI']." MB",'NB_HARD_DISK_M',"drives");
+		query_with_condition("where h.type='Hard Drive' and h.free>".$list_option['DD_MINI']." and h.free <".$list_option['DD_MAX'],$lbl_field['NB_HARD_DISK_B']." ".$list_option['DD_MINI']." MB ".$l->g(582)." ".$list_option['DD_MAX']." MB",'NB_HARD_DISK_B',"drives");
 		
 	}
 	
