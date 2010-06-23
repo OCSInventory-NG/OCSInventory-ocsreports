@@ -1039,6 +1039,9 @@
 1119 Sélectionner
 1120 Quantité
 1121 Mise à jour effectuée
+1122 Wiki
+1123 IRC
+1124 Forums
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
