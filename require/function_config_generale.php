@@ -197,8 +197,16 @@ function fin_tab($form_name,$disable=''){
 }
 
 function look_default_values($field_name){
-	$sql="select NAME,IVALUE,TVALUE from config where NAME in ('".implode("','", $field_name)."')";
-	$resdefaultvalues = mysql_query( $sql, $_SESSION['OCS']["readServer"]);
+	
+	$sql="select NAME,IVALUE,TVALUE from config where NAME in ('";
+	$arg_field=array();
+	foreach ($field_name as $key=>$value){
+		array_push($arg_field,$value);
+		$sql.="%s','" ;
+		
+	}
+	$sql = substr($sql,0,-2) . ")";
+	$resdefaultvalues=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg_field);		
 	while($item = mysql_fetch_object($resdefaultvalues)){
 			$result['name'][$item ->NAME]=$item ->NAME;
 			$result['ivalue'][$item ->NAME]=$item ->IVALUE;
@@ -250,17 +258,20 @@ function option_conf_activate($value){
 
  function delete($name){
  	global $l;
- 	$sql="delete from config where name='".$name."'";
- 	if ($_SESSION['OCS']['DEBUG'] == 'ON')
-	 		echo "<br><b><font color=red>".$l->g(5001).$sql."</font></b>";
- 	if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] )) {
-		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
-		return false;
-	}		
-	@mail("root@localhost", "Changement de configation dans OCS par ".$_SESSION['OCS']["loggedDetUser"], $sql);
- 	addLog($l->g(821),$sql );
+ 	$sql="delete from config where name='%s'";
+ 	$arg=array($name);
+ 	mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);	
  }
 
+ function update_config($name,$field,$value){
+ 	global $l;
+ 	$sql="update config set %s='%s' where name='%s'";
+ 	$arg=array($field,$value,$name);
+ 	mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);	
+ 	return "<font color=green><b>".$l->g(1069)."</b></font>";
+ }
+ 
+ 
 
 function update_default_value($POST){
 	global $l;
