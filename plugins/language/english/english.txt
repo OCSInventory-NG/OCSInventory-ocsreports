@@ -1014,6 +1014,9 @@
 1119 Select
 1120 Quantity
 1121 Update done
+1122 Wiki
+1123 IRC
+1124 Forums
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

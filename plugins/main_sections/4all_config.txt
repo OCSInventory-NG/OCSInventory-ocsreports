@@ -169,6 +169,7 @@ ms_admin_profil:ms_users
 ms_view_file:ms_upload_file
 ms_search_soft:ms_search_soft
 ms_options:ms_search_soft
+ms_help:ms_help
 </DIRECTORY>
 
 
