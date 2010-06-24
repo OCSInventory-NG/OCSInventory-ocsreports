@@ -2,12 +2,12 @@
 //type of choice
 $type_accountinfo=array('TEXT','TEXTAREA','SELECT',
 					strtoupper($l->g(802)),'CHECKBOX',
-					'BLOB (FILE)','DATE');
+					'BLOB (FILE)','DATE','RADIOBUTTON');
 $sql_type_accountinfo=array('VARCHAR(255)','LONGTEXT','VARCHAR(255)',
-							'VARCHAR(255)','VARCHAR(255)','BLOB','VARCHAR(10)');
+							'VARCHAR(255)','VARCHAR(255)','BLOB','VARCHAR(10)','VARCHAR(255)');
 
 
-$convert_type=array('0','1','2','3','5','8','0');
+$convert_type=array('0','1','2','3','5','8','0','11');
 
 /*
  * When you add a new accountinfo

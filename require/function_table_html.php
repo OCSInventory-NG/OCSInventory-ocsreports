@@ -324,10 +324,10 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' \>";
 	elseif ($input_type == 5 and isset($name) and is_array($name)){	
 		foreach ($name as $key=>$value){
-			$champs.= $value."<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";
+			$champs.= "<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";
 			if ($protectedPost[$input_name."_".$key] == 'on' )
 			$champs.= " checked ";
-			$champs.= " > ";
+			$champs.= " >" . $value . " <br>";
 		}
 		return $champs;
 	}elseif($input_type == 6){
@@ -395,6 +395,15 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		}
 	 		return tab_entete_fixe($entete2,$data2,"",60,300);		
 		
+	}elseif($input_type == 11 and isset($name) and is_array($name)){	
+		foreach ($name as $key=>$value){
+			$champs.= "<input type='radio' name='".$input_name."' id='".$input_name."' value='" . $key . "'";
+			if ($protectedPost[$input_name] == $key ){
+				$champs.= " checked ";
+			}
+			$champs.= " >" . $value . " <br>";
+		}
+		return $champs;		
 	}
 }
 
