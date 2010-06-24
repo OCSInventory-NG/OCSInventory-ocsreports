@@ -32,8 +32,9 @@ if (isset($protectedPost['enre'])){
 	}
 	if (isset($table)){
 		$sql="insert into ".$table." (".$field.") value ('".$field_value."')";
+		$arg=array($table,$field,$field_value);
 //		//no error
-		mysql_query($sql, $_SESSION['OCS']["writeServer"]);
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		echo "<br><br><center><font face='Verdana' size=-1 color='green'><b>".$l->g(655)."</b></font></center><br>";
 		
 	}
@@ -105,11 +106,14 @@ if ($protectedPost['onglet'] == 1){
 if (isset($list_fields)){
 	//cas of delete mac address or serial
 	if(isset($protectedPost["SUP_PROF"]) and is_numeric($protectedPost["SUP_PROF"])){
-		mysql_query("delete from ".$table_name." where id=".$protectedPost["SUP_PROF"], $_SESSION['OCS']["writeServer"]);
+		$sql="delete from %s where id=%s";
+		$arg=array($table_name,$protectedPost["SUP_PROF"]);
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 	}
 	if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
-		$sql="delete from ".$table_name." where id in (".$protectedPost['del_check'].")";
-		mysql_query($sql, $_SESSION['OCS']["writeServer"]);
+		$sql="delete from %s where id in (%s)";
+		$arg=array($table_name,$protectedPost['del_check']);
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		$tab_options['CACHE']='RESET';
 	}
 	//print_r($protectedPost);
