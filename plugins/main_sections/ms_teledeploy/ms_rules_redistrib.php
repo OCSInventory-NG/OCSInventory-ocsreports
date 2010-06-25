@@ -75,7 +75,7 @@ if ($protectedPost['NEW_RULE'] or $protectedPost['NUM_RULES'] or $protectedPost[
 	else
 	$modif=$protectedPost['OLD_MODIF'];
 	$numero=$protectedPost['NUM_RULES']+1;
-	$tab_nom=$l->g(674).show_modif($protectedPost['RULE_NAME'],"RULE_NAME","0");
+	$tab_nom=$l->g(674)." ".show_modif($protectedPost['RULE_NAME'],"RULE_NAME","0");
 	$tab="<table align='center'>";
 	$i=1;
 	while($i<$numero+1){

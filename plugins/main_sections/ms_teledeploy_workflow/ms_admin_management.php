@@ -21,7 +21,8 @@ echo '<div class="mlt_bordure" >';
 
 if ($protectedGet['admin'] == "tab"){
 	$table="downloadwk_tab_values";
-	$array_fields=array('FIELD'=>'FIELD','Valeur'=>'VALUE','Libellé'=>'LBL');	
+//	$array_fields=array('FIELD'=>'FIELD','Valeur'=>'VALUE','Libellé'=>'LBL');	
+	$array_fields=array('FIELD'=>'FIELD',$l->g(224)=>'VALUE','Libellé'=>'LBL');	
 	$array_values=array($protectedGet["value"],$protectedPost["newfield"],$protectedPost["newlbl"]);
 	$field_search="field";	
 }elseif ($protectedGet['admin'] == "fields"){
@@ -45,7 +46,8 @@ if ($protectedGet['admin'] == "tab"){
 	$field_search="tab";
 }else{
 	$table="downloadwk_conf_values";
-	$array_fields=array('FIELD'=>'FIELD','Valeur'=>'VALUE');
+//	$array_fields=array('FIELD'=>'FIELD','Valeur'=>'VALUE');
+	$array_fields=array('FIELD'=>'FIELD',$l->g(224)=>'VALUE');
 	$array_values=array($protectedGet["value"],$protectedPost["newfield"]);
 	$field_search="field";		
 }
