@@ -190,6 +190,14 @@ require_once($fichierdemerde);
 	$tab_options['LIEN_TYPE']['IDENTIFIE']='POPUP';
 	$tab_options['POPUP_SIZE']['IDENTIFIE']="width=900,height=600";
 	
+	$tab_options['LBL']['LBL_RSX']=$l->g(863);
+	$tab_options['LBL']['RSX']=$l->g(869);
+	$tab_options['LBL']['INVENTORIE']=$l->g(364);
+	$tab_options['LBL']['NON_INVENTORIE']=$l->g(365);
+	$tab_options['LBL']['IPDISCOVER']=$l->g(312);
+	$tab_options['LBL']['IDENTIFIE']=$l->g(366);
+	$tab_options['LBL']['PERCENT_BAR']=$l->g(1125);
+
 	//mise a jour possible des r�seaux si on travaille sur le r�f�rentiel local
 	if ( $_SESSION['OCS']["ipdiscover_methode"] == "local.php" and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
 		$tab_options['LIEN_LBL']['LBL_RSX']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_admin_rsx'].'&prov=ident&head=1&value=';

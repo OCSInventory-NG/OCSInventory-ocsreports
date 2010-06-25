@@ -1002,7 +1002,7 @@
 1107 And the status is correct
 1108 LDAP configuration
 1109 Filter
-1110 
+1110 The assignment of a package depends on the status of the request
 1111 Name of the first attribute that will be used for evaluating the security level of a LDAP user (blank for none)
 1112 Value of the first  attribute that will be used for evaluating the security level of a LDAP user (blank for none)
 1113 If the first attribute is found and the value matches, set this user role automatically
@@ -1017,6 +1017,7 @@
 1122 Wiki
 1123 IRC
 1124 Forums
+1125 Percentage
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
