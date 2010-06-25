@@ -1003,6 +1003,7 @@ CREATE TABLE downloadwk_history (
 
 CREATE TABLE accountinfo_config(
   ID int(11) NOT NULL AUTO_INCREMENT,
+  NAME_ACCOUNTINFO varchar(255) DEFAULT NULL,
   TYPE int(11) DEFAULT NULL,
   NAME varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
   ID_TAB int(11) DEFAULT NULL,

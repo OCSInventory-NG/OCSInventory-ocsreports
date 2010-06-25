@@ -71,9 +71,6 @@ if ($protectedPost['onglet'] == 1){
 	$tab_options['REPLACE_VALUE'][$l->g(66)]=$type_accountinfo;
 	$tab_options['REPLACE_VALUE'][$l->g(1061)]=$array_tab_account;
 	$tab_options['LBL_POPUP']['SUP']='NAME';
-	$tab_options['LBL']['SUP']=$l->g(122);
-	$tab_options['LBL']['CHECK']=$l->g(1119);
-	$tab_options['LBL']['MODIF']=$l->g(115);
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 	//traitement par lot
 	del_selection($form_name);
@@ -103,7 +100,11 @@ if ($protectedPost['onglet'] == 1){
 	//NAME FIELD
 	$name_field=array("newfield");
 	$tab_name= array($l->g(1070).": ");
-	$type_field= array(0);
+	if (isset($protectedPost['MODIF_OLD']) or $protectedPost['MODIF']!='')
+		$type_field= array(3);
+	else
+		$type_field= array(0);
+		
 	$value_field=array($protectedPost['newfield']);
 	
 	if ( isset($hidden) and is_numeric($hidden)){

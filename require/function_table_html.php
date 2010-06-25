@@ -1276,6 +1276,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$lbl_msg=$value_of_field;
 						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)." ".$lbl_msg."\");'><img src=image/supp.png></a>";
 						$lien = 'KO';
+						if (!$entete[$num_col] or $entete[$num_col] == $key)
+						$entete[$num_col]=$l->g(122);
 					}elseif ($key == "MODIF"){
 						if (!isset($tab_options['MODIF']['IMG']))
 						$image="image/modif_tab.png";
@@ -1283,6 +1285,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$image=$tab_options['MODIF']['IMG'];
 						$data[$i][$num_col]="<a href=# OnClick='pag(\"".$value_of_field."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
 						$lien = 'KO';
+						if (!$entete[$num_col] or $entete[$num_col] == $key)
+						$entete[$num_col]=$l->g(115);
 					}elseif ($key == "SELECT"){
 						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SELECT\",\"".$tab_options['QUESTION']['SELECT']."\");'><img src=image/prec16.png></a>";
 						$lien = 'KO';
@@ -1302,9 +1306,11 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";
 					}
 					elseif ($key == "CHECK"){
+						if (!$entete[$num_col] or $entete[$num_col] == $key)
+						$entete[$num_col]=$l->g(1119);
 						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
 						$entete[$num_col].="<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>";		
-						$lien = 'KO';		
+						$lien = 'KO';							
 					}elseif ($key == "NAME"){
 							$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$donnees['ID']."'  target='_blank'>".$value_of_field."</a>";
 							if (!$entete[$num_col] or $entete[$num_col] == $key)
