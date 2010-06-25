@@ -20,7 +20,6 @@ if ($list_tab != ''){
 	
 	$info_account_id=admininfo_computer($systemid);
 	
-	
 	if (!isset($protectedPost['onglet']) or $protectedPost['onglet'] =='' or !is_numeric($protectedPost['onglet']))
 		 $protectedPost['onglet'] = $list_tab['FIRST'];
 	unset($list_tab['FIRST']);
@@ -46,7 +45,9 @@ if ($list_tab != ''){
 	
 	
 	while ($val_admin_info = mysql_fetch_array( $res_admin_info )){
-			if ($val_admin_info['TYPE'] == 2 or $val_admin_info['TYPE'] == 4){
+			if ($val_admin_info['TYPE'] == 2 
+				or $val_admin_info['TYPE'] == 4
+				or $val_admin_info['TYPE'] == 7){
 				array_push($config['JAVASCRIPT'],'');
 				array_push($config['SIZE'],'');
 				if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
@@ -72,7 +73,7 @@ if ($list_tab != ''){
 				array_push($config['COMMENT_BEHING'],datePick('fields_' . $val_admin_info['ID']));
 				array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick('fields_' . $val_admin_info['ID']));
 				array_push($config['SELECT_DEFAULT'],'');
-				array_push($config['SIZE'],'8');
+				array_push($config['SIZE'],'8');	
 			}else{
 				array_push($value_field,$info_account_id['fields_' . $val_admin_info['ID']]);
 				array_push($config['COMMENT_BEHING'],'');
