@@ -19,12 +19,11 @@ elseif (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' an
 if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 	$admin_accountinfo=true;
 	
-
 $list_tab=find_all_account_tab(1,1);	
 if ($list_tab != ''){
 	if ($protectedPost['Valid_modif_x'] != ""){
 		foreach ($protectedPost as $field=>$value){
-			if (isset($info_account_id[$field])){
+			if (array_key_exists($field,$info_account_id)){
 				$temp_field=explode('_',$field);
 				//cas of checkbox
 				if (isset($temp_field[2]))
@@ -34,7 +33,9 @@ if ($list_tab != ''){
 	
 			}
 		}
-		updateinfo_computer($systemid,$data_fields_account);	
+		updateinfo_computer($systemid,$data_fields_account);
+		//search all admininfo for this computer
+		$info_account_id=admininfo_computer($systemid);	
 	}
 		unset($action_updown);
 		//UP/DOWN
