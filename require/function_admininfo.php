@@ -9,6 +9,16 @@ $sql_type_accountinfo=array('VARCHAR(255)','LONGTEXT','VARCHAR(255)',
 
 $convert_type=array('0','1','2','3','5','8','0','11');
 
+function max_order($table,$field){
+	$sql="SELECT max(%s) as max_id FROM %s";
+	$arg=array($field,$table);
+	$result=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);			
+	$val = mysql_fetch_array( $result );
+	return $val['max_id']+1;
+}
+
+
+
 /*
  * When you add a new accountinfo
  * you need to add few fields on 
@@ -20,14 +30,15 @@ $convert_type=array('0','1','2','3','5','8','0','11');
 function add_accountinfo($newfield,$newtype,$newlbl,$tab){	
 	global $l,$sql_type_accountinfo;
 	
-	$ERROR=dde_exist($newfield);	
+	$ERROR=dde_exist($newfield);
+	$id_order=max_order('accountinfo_config','SHOW_ORDER');	
 		
 	if ($ERROR == ''){				
-		$sql_insert_config="INSERT INTO accountinfo_config (TYPE,NAME,ID_TAB,COMMENT) values(%s,'%s',%s,'%s')";
+		$sql_insert_config="INSERT INTO accountinfo_config (TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER) values(%s,'%s',%s,'%s',%s)";
 		$arg_insert_config=array($newtype,
 								 $newfield,
 								 $tab,
-								 $newlbl);
+								 $newlbl,$id_order);
 		mysql2_query_secure($sql_insert_config,$_SESSION['OCS']["writeServer"],$arg_insert_config);					
 		
 		$sql_add_column="ALTER TABLE accountinfo ADD COLUMN fields_%s %s default NULL";
