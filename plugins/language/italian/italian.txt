@@ -366,10 +366,10 @@
 470 Indirizzo Https
 471 Indirizzo dei frammenti
 472 ERRORE: la cartella non può essere eliminata
-473 Il contatore deve essere un numero
-474 Il contatore deve essere lungo 10 cifre
-475 Contatore
-476 O attivare un pacchetto manualmente
+473 L'identificativo deve essere un numero
+474 L'identificativo deve essere lungo 10 cifre
+475 Identificativo
+476 od attivare un pacchetto manualmente
 477 Interessa il pacchetto
 478 Computer
 479 Nessun computer selezionato
@@ -419,7 +419,7 @@
 523 Ritorna allo stato originario
 524 NON più di interesse
 525 SEI SICURO?
-526 NESSUN COMPUTER SOGGETTO
+526 NESSUN COMPUTER INTERESSATO
 527 Gennaio
 528 Febbraio
 529 Marzo
@@ -445,7 +445,7 @@
 549 File (distribuito sui computer client)
 550 File (non vincolante, può essere usato dal comando "esegui")
 551 Il nome del pacchetto esiste già
-552 <i>Devi eseguire una ricerca computer, quindi cliccare 'distribuire' perchè venga distribuito il pacchetto<br>Puoi anche distribuire un pacchetto su un singolo computer usando la linguetta 'personalizzazione'</i>.
+552 <i>Devi eseguire una ricerca computer, quindi cliccare 'distribuire' perchè venga distribuito il pacchetto.<br>Puoi anche distribuire un pacchetto su un singolo computer usando la linguetta 'personalizzazione'</i>.
 553 Windows S/N
 554 Monitor: numero di serie
 555 Monitor: produttore
@@ -467,7 +467,7 @@
 571 Convalida tutti
 572 Fatto
 573 Errore
-574 Stat
+574 Statistiche
 575 Non interessati non notificati
 576 IpDiscover personalizzato
 577 Nome gruppo
