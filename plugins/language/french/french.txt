@@ -552,7 +552,6 @@
 633 Gestion des groupes de serveurs
 634 Action désirée
 635 Nouveau nom
-636 Description
 637 Remplacer
 638 LE NOM DU GROUPE NE PEUT ETRE VIDE
 639 CE GROUPE DE SERVEUR N EXISTE PAS

@@ -527,7 +527,6 @@
 633 Zarządzanie grupami serwerów
 634 Wybrane działania
 635 Nowa nazwa
-636 Opis
 637 Wymień
 638 Nazwa grupy nie może być puste
 639 tej grupy SERVER NIE ISTNIEJE

@@ -7,7 +7,7 @@ function affich_detail_simple($form_name,$list_fields,$list_col_cant_del,$defaul
 //					   $l->g(49) => 'NAME',
 //					   $l->g(66) => 'TYPE',
 //					   'Caption'=>'CAPTION',
-//					   $l->g(636)=>'DESCRIPTION',
+//					   $l->g(53)=>'DESCRIPTION',
 //					   $l->g(277)=> 'VERSION');
 //	//$list_fields['SUP']= 'ID';
 //	$list_col_cant_del[$l->g(66)]=$l->g(66);
