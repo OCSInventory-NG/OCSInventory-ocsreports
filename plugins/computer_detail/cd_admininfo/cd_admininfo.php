@@ -1,11 +1,30 @@
-<?php 
+<?php
+function updown($field){
+	global $form_name;
+	return "<a href=# OnClick='pag(\"" . $field . "\",\"DOWN\",\"".$form_name."\");'><img src='image/down.png'></a><a href=# OnClick='pag(\"" . $field . "\",\"UP\",\"".$form_name."\");'><img src='image/up.png'></a>";
+}
+
+
 require_once('require/function_admininfo.php');
+$form_name='admin_info_computer';
+$table_name=$form_name;
+	
+//search all admininfo for this computer
+$info_account_id=admininfo_computer($systemid);
+if (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' and !isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+	$_SESSION['OCS']['ADMIN']['ACCOUNTINFO']=true;
+elseif (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+	unset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']);
+
+if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+	$admin_accountinfo=true;
+	
 
 $list_tab=find_all_account_tab(1,1);	
 if ($list_tab != ''){
 	if ($protectedPost['Valid_modif_x'] != ""){
 		foreach ($protectedPost as $field=>$value){
-			if (substr_count($field, 'fields_')){
+			if (isset($info_account_id[$field])){
 				$temp_field=explode('_',$field);
 				//cas of checkbox
 				if (isset($temp_field[2]))
@@ -17,19 +36,36 @@ if ($list_tab != ''){
 		}
 		updateinfo_computer($systemid,$data_fields_account);	
 	}
+		unset($action_updown);
+		//UP/DOWN
+		if ((isset($protectedPost['UP']) and $protectedPost['UP'] != ''))
+			$action_updown='UP';
+		if (isset($protectedPost['DOWN']) and $protectedPost['DOWN'] != '')
+			$action_updown='DOWN';	
+		
+		if (isset($action_updown)){				
+			$new_order=find_new_order($action_updown,$protectedPost[$action_updown]);
+			if ($new_order){
+			//	$array_info_account=find_info_accountinfo($new_order['NEW']);
+				update_accountinfo_config($new_order['OLD'],array('SHOW_ORDER'=>$new_order['NEW_VALUE']));
+				update_accountinfo_config($new_order['NEW'],array('SHOW_ORDER'=>$new_order['OLD_VALUE']));
+			}
+		}
 	
-	$info_account_id=admininfo_computer($systemid);
-	
+	//print_r($info_account_id);
 	if (!isset($protectedPost['onglet']) or $protectedPost['onglet'] =='' or !is_numeric($protectedPost['onglet']))
 		 $protectedPost['onglet'] = $list_tab['FIRST'];
 	unset($list_tab['FIRST']);
-	$form_name='admin_info_computer';
-	$table_name=$form_name;	
 	
 	echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
 	onglet($list_tab,$form_name,"onglet",6);
 	echo '<div class="mlt_bordure" >';
-	$sql_admin_info="select ID,TYPE,NAME,COMMENT from accountinfo_config where ID_TAB = %s";
+	if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
+	$show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'><img src=image/modif_tab.png></a>";
+	else
+	$show_admin_button='';
+	$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER from accountinfo_config where ID_TAB = %s 
+						order by SHOW_ORDER ASC";
 	$arg_admin_info=array($protectedPost['onglet']);
 	$res_admin_info=mysql2_query_secure($sql_admin_info,$_SESSION['OCS']["readServer"],$arg_admin_info);
 	
@@ -41,58 +77,94 @@ if ($list_tab != ''){
 	$config['SELECT_DEFAULT']=array();
 	$config['JAVASCRIPT']=array();
 	$config['SIZE']=array();
+	$config['DDE']=array();
 	
 	
-	
-	while ($val_admin_info = mysql_fetch_array( $res_admin_info )){
-			if ($val_admin_info['TYPE'] == 2 
+	while ($val_admin_info = mysql_fetch_array( $res_admin_info )){	
+		array_push($config['DDE'],$systemid);	
+		//if name_accountinfo is not null 
+		//column name in accountinfo table is name_accountinfo 
+		//functionnality for compatibily with older version of OCS
+		//we can't change the name TAG in accountinfo table 
+		if ($val_admin_info['NAME_ACCOUNTINFO'] != '')
+			$name_accountinfo=trim($val_admin_info['NAME_ACCOUNTINFO']);
+		else
+			$name_accountinfo='fields_' . $val_admin_info['ID'];
+		
+			
+			
+		if ($val_admin_info['TYPE'] == 2 
 				or $val_admin_info['TYPE'] == 4
 				or $val_admin_info['TYPE'] == 7){
 				array_push($config['JAVASCRIPT'],'');
 				array_push($config['SIZE'],'');
-				if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
-					array_push($config['COMMENT_BEHING'],"<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")>+++</a>");
-					
+				if ($admin_accountinfo)
+					array_push($config['COMMENT_BEHING'],updown($val_admin_info['ID']) . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")>+++</a>");
+				else
+					array_push($config['COMMENT_BEHING'],'');
 				array_push($config['SELECT_DEFAULT'],'YES');
 				$field_select_values=find_value_field($val_admin_info['NAME']);
 				array_push($value_field,$field_select_values);
 				//cas of checkbox
 				if ($val_admin_info['TYPE'] == 4){
-				$temp_val=explode('&&&',$info_account_id['fields_' . $val_admin_info['ID']]);
+				$temp_val=explode('&&&',$info_account_id[$name_accountinfo]);
 				$i=0;
 				while (isset($temp_val[$i])){
-					$protectedPost['fields_' . $val_admin_info['ID'] . '_' . $temp_val[$i]]='on';
+					$protectedPost[$name_accountinfo . '_' . $temp_val[$i]]='on';
 					$i++;			
 				}
 				
 				}else
-				$protectedPost['fields_' . $val_admin_info['ID']]=$info_account_id['fields_' . $val_admin_info['ID']];		
+				$protectedPost[$name_accountinfo]=$info_account_id[$name_accountinfo];		
 	
 			}elseif ($val_admin_info['TYPE'] == 6){	
-				array_push($value_field,$info_account_id['fields_' . $val_admin_info['ID']]);
-				array_push($config['COMMENT_BEHING'],datePick('fields_' . $val_admin_info['ID']));
-				array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick('fields_' . $val_admin_info['ID']));
+				array_push($value_field,$info_account_id[$name_accountinfo]);
+				if ($admin_accountinfo)
+					array_push($config['COMMENT_BEHING'],updown($val_admin_info['ID']) . datePick($name_accountinfo));
+				else
+					array_push($config['COMMENT_BEHING'],datePick($name_accountinfo));
+				array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick($name_accountinfo));
 				array_push($config['SELECT_DEFAULT'],'');
 				array_push($config['SIZE'],'8');	
+			}elseif ($val_admin_info['TYPE'] == 5){
+				array_push($value_field,"accountinfo");
+				if ($admin_accountinfo)
+					array_push($config['COMMENT_BEHING'],updown($val_admin_info['ID']));
+				else
+					array_push($config['COMMENT_BEHING'],"");
+				array_push($config['SELECT_DEFAULT'],'');
+				array_push($config['JAVASCRIPT'],'');
+				array_push($config['SIZE'],'');
+				
+				
 			}else{
-				array_push($value_field,$info_account_id['fields_' . $val_admin_info['ID']]);
-				array_push($config['COMMENT_BEHING'],'');
+				array_push($value_field,$info_account_id[$name_accountinfo]);
+				if ($admin_accountinfo)
+					array_push($config['COMMENT_BEHING'],updown($val_admin_info['ID']));
+				else
+					array_push($config['COMMENT_BEHING'],"");
 				array_push($config['SELECT_DEFAULT'],'');
 				array_push($config['JAVASCRIPT'],'');
 				array_push($config['SIZE'],'');
 			}
 			
-			array_push($name_field,'fields_' . $val_admin_info['ID']);
+			array_push($name_field,$name_accountinfo);
 			array_push($tab_name,$val_admin_info['COMMENT']);
-			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == 'YES')
+			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'])
 				array_push($type_field,$convert_type[$val_admin_info['TYPE']]);
 			else
 				array_push($type_field,3);
+				
+			
 	
 	}	
 	
 		$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
-		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
+		if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
+			$tab_hidden=array('ADMIN'=>'','UP'=>'','DOWN'=>'');
+		//echo "<input type='hidden' name='ADMIN' id='ADMIN' value=''>";
+		
+		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM',$show_admin_button);
 	
 	echo "</div>"; 
 	echo "</form>";

@@ -1042,7 +1042,7 @@
 1122 Wiki
 1123 IRC
 1124 Forums
-1125 Percentage
+1125 Pourcentage
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

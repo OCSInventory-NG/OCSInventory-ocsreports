@@ -1011,3 +1011,7 @@ CREATE TABLE accountinfo_config(
   PRIMARY KEY (ID)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
+insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on accountinfo');
+INSERT INTO accountinfo_config (NAME_ACCOUNTINFO,TYPE,NAME,ID_TAB,COMMENT) values ('TAG',0,'TAG','1','TAG');
+
+

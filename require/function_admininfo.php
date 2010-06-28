@@ -119,14 +119,18 @@ function find_value_field($name){
  * 
  */
 
-function find_info_accountinfo($id){
+function find_info_accountinfo($id = ''){
+	$list_field=array('id','type','name','id_tab','comment','show_order');
 	if (is_array($id)){
-		$sql_info_account="select id,type,name,id_tab,comment from accountinfo_config where id in (%s)";
+		$sql_info_account="select " . implode(',',$list_field) . " from accountinfo_config where id in (%s) order by show_order DESC";
 		$arg_info_account=array(implode(',',$id));		
 		
-	}else{
-		$sql_info_account="select id,type,name,id_tab,comment from accountinfo_config where id=%s";
+	}elseif ($id != ''){
+		$sql_info_account="select " . implode(',',$list_field) . " from accountinfo_config where id=%s order by show_order DESC";
 		$arg_info_account=array($id);		
+	}else{
+		$sql_info_account="select " . implode(',',$list_field) . " from accountinfo_config order by show_order DESC";
+		$arg_info_account=array();				
 	}
 	
 	$result_info_account=mysql2_query_secure($sql_info_account,$_SESSION['OCS']["readServer"],$arg_info_account);					
@@ -137,19 +141,8 @@ function find_info_accountinfo($id){
 	
 }
 
-
-/*
- * update an accountinfo
- * 
- * 
- */
-
-function update_accountinfo($id,$array_new_values){
-	global $l,$sql_type_accountinfo;
-	//print_r($array_new_values);
-	$error=dde_exist($array_new_values['NAME'],$id);
-	if ($error == ''){
-		//Update
+function update_accountinfo_config($id,$array_new_values){
+	//Update
 		$sql_update_config="UPDATE accountinfo_config SET ";
 		$arg_update_config=array();
 		foreach ($array_new_values as $field=>$value){
@@ -164,6 +157,67 @@ function update_accountinfo($id,$array_new_values){
 		$sql_update_config.="  WHERE ID = '%s'";
 		array_push($arg_update_config,$id);
 		mysql2_query_secure($sql_update_config,$_SESSION['OCS']["writeServer"],$arg_update_config);
+	
+}
+
+function find_new_order($updown,$id){
+	$tab_order=array();
+	$array_info_account=find_info_accountinfo();
+	$j=0;
+	foreach ($array_info_account as $id_account=>$array_value){
+		$order[$id_account]=$array_value['show_order'];		
+		$tab_order[$j]=$id_account;
+		$j++;
+	}
+	if ($updown == 'UP'){
+		$i=0;
+		while ($tab_order[$i]){
+			if ($id == $tab_order[$i]){
+				$old_order=$tab_order[$i];
+				$old_value=$order[$tab_order[$i]];
+				if (isset($tab_order[$i+1])){
+					$neworder= $tab_order[$i+1];
+					$newvalue= $order[$tab_order[$i+1]];				
+				}
+				else
+				return false;				
+			}				
+			$i++;	
+		}
+		
+	}elseif ($updown == 'DOWN'){
+		$j--;
+		while ($tab_order[$j]){
+			if ($id == $tab_order[$j]){
+				$old_order=$tab_order[$j];
+				$old_value=$order[$tab_order[$j]];
+				if (isset($tab_order[$j-1])){
+					$neworder= $tab_order[$j-1];
+					$newvalue= $order[$tab_order[$j-1]];		
+				}else
+				return false;				
+			}				
+			$j--;	
+		}
+		
+	}
+	return array('NEW'=>$neworder,'OLD'=>$old_order,'OLD_VALUE'=>$old_value,'NEW_VALUE'=>$newvalue);
+	
+}
+
+/*
+ * update an accountinfo
+ * 
+ * 
+ */
+
+function update_accountinfo($id,$array_new_values){
+	global $l,$sql_type_accountinfo;
+	//print_r($array_new_values);
+	$error=dde_exist($array_new_values['NAME'],$id);
+	if ($error == ''){
+		//Update
+		update_accountinfo_config($id,$array_new_values);
 		//update column type in accountinfo table
 		$sql_update_column="ALTER TABLE accountinfo change fields_%s fields_%s %s";
 		$arg_update_column=array($id,$id,$new_type_field);
