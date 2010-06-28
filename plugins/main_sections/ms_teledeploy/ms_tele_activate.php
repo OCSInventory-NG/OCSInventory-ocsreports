@@ -85,14 +85,15 @@ echo "<script language='javascript'>
 	</script>";
 
 
-$list_fields= array('Timestamp'=>'FILEID',
-					$l->g(593)=>'from_unixtime(FILEID)',
+//$list_fields= array('Timestamp'=>'FILEID',
+$list_fields= array($l->g(475)=>'FILEID',
+							$l->g(593)=>'from_unixtime(FILEID)',
 							'SHOWACTIVE'=>'NAME',
 							$l->g(440)=>'PRIORITY',
 							$l->g(464)=>'FRAGMENTS',
-							$l->g(462)." Ko"=>'round(SIZE/1024,2)',
+							$l->g(462)." KB"=>'round(SIZE/1024,2)',
 							$l->g(25)=>'OSNAME',
-							'COMMENT'=>'COMMENT',
+							$l->g(636)=>'COMMENT',
 							'NO_NOTIF'=>'NO_NOTIF',
 							'NOTI'=>'NOTI',
 							'SUCC'=>'SUCC',
@@ -101,7 +102,7 @@ $list_fields= array('Timestamp'=>'FILEID',
 							'STAT'=>'FILEID',
 							'ACTIVE'=>'FILEID',
 							'SUP'=>'FILEID',
-							'CHECK'=>'FILEID'			
+							'CHECK'=>'FILEID'
 							);
 $tab_options['LBL_POPUP']['SUP']='NAME';
 $table_name="LIST_PACK";
@@ -176,15 +177,11 @@ del_selection($form_name);
 if ($protectedPost['SHOW_SELECT'] == 'download'){
 	$config_input=array('MAXLENGTH'=>10,'SIZE'=>15);
 	$activ_manuel=show_modif($protectedPost['manualActive'],'manualActive',0,'',$config_input);
-	echo "<b>".$l->g(476)."</b>&nbsp;&nbsp;&nbsp;".$l->g(475)." : ".$activ_manuel."";
+	echo "<b>".$l->g(476)."</b>&nbsp;&nbsp;&nbsp;".$l->g(475).": ".$activ_manuel."";
 	echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
 }
 	echo "<input type='hidden' id='del_check' name='del_check' value=''>";
 echo "</form>";
-
-
-
-
 
 
 

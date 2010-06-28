@@ -182,7 +182,7 @@ if (isset($protectedPost['valid'])){
 	}
 	$digName = $protectedPost["digest_algo"]. " / ".$protectedPost["digest_encod"];
 	
-	$title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(435)."[".$protectedPost['NAME']."]</b></td></tr>";
+	$title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(435)." "."[".$protectedPost['NAME']."]</b></td></tr>";
 	$name_file=$lign_begin.$l->g(446).$td_colspan2.$_FILES["teledeploy_file"]["name"].$lign_end;
 	$ident=$lign_begin.$l->g(460).$td_colspan2.$protectedPost['timestamp'].$lign_end;
 	$view_digest=$lign_begin.$l->g(461)." ".$digName.$td_colspan2.$digest.$lign_end;
