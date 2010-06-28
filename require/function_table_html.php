@@ -344,9 +344,9 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		return $champs;		
 	}elseif($input_type == 7)
 		return "<input type='hidden' id='".$input_name."' name='".$input_name."' value='".$name."'>";
-	elseif ($input_type == 8)
+	elseif ($input_type == 8){
 		return "<input type='button' id='".$input_name."' name='".$input_name."' value='".$l->g(1048)."' OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_upload_file_popup']."&head=1&n=".$input_name."&tab=".$name."&dde=".$configinput['DDE']."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'>";
-	elseif ($input_type == 9){
+	}elseif ($input_type == 9){
 		$aff="";
 		if (is_array($name)){
 			foreach ($name as $key=>$value){
@@ -407,16 +407,18 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	}
 }
 
-function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='CHANGE')
+function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='CHANGE',$showbutton_action='')
 {
 	global $l,$protectedPost;
 	if ($form_name != 'NO_FORM')
 	echo "<form name='" . $form_name . "' id='" 
 		. $form_name . "' action='' method='POST'>";
 	echo '<div class="mvt_bordure" >';
-	
+	if ($showbutton_action != '')
+		echo "<table align='right' border='0'><tr><td colspan=10 align='right'>" . $showbutton_action . "</td></tr></table>";
 	echo "<table align='center' border='0' cellspacing=20 >";
 	echo "<tr><td colspan=10 align='center'><font color=red><b><i>" . $title . "</i></b></font></td></tr>";
+	
     foreach ($tab_name as $key=>$values)
 	{
 		//print_r($tab_typ_champ[$key]['DEFAULT_VALUE']);
@@ -439,7 +441,7 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
     		
 		foreach ($tab_hidden as $key=>$value)
 		{
-			echo "<input type='hidden' name='" . $key 
+			echo "<input type='hidden' name='" . $key ."' id='" . $key  
 				. "' value='" . htmlspecialchars($value, ENT_QUOTES) . "'>";
 	
 		}
@@ -455,6 +457,7 @@ function show_field($name_field,$type_field,$value_field,$config=array()){
 		$tab_typ_champ[$key]['DEFAULT_VALUE']=$value_field[$key];
 		$tab_typ_champ[$key]['INPUT_NAME']=$name_field[$key];
 		$tab_typ_champ[$key]['INPUT_TYPE']=$type_field[$key];
+		
 		
 		if (!isset($config['ROWS'][$key]) or $config['ROWS'][$key] == '')
 			$tab_typ_champ[$key]['CONFIG']['ROWS']=7;
@@ -479,6 +482,11 @@ function show_field($name_field,$type_field,$value_field,$config=array()){
 		if (isset($config['COMMENT_BEHING'][$key]))	{
 			$tab_typ_champ[$key]['COMMENT_BEHING']=	$config['COMMENT_BEHING'][$key];
 		}		
+		
+			
+		if (isset($config['DDE'][$key]))	{
+			$tab_typ_champ[$key]['CONFIG']['DDE']=$config['DDE'][$key];
+		}	
 		
 		if (isset($config['SELECT_DEFAULT'][$key]))	{
 			$tab_typ_champ[$key]['DEFAULT']=$config['SELECT_DEFAULT'][$key];
@@ -1216,21 +1224,24 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$value_of_field=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
 				
 				}
+				unset($key2);
 				if (isset($tab_condition[$key])){
-						if (!$tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]]){
-							if ($key == "STAT"){
-							$key = "NULL";
+						if ((!$tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]] and !$tab_options['EXIST'][$key])
+							or ($tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]] and $tab_options['EXIST'][$key])){
+							if ($key == "STAT" or $key == "SUP" or $key == "CHECK"){
+								$key2 = "NULL";
 							}else{
-							$data[$i][$num_col]=$value_of_field;
-							$affich="KO";
+								$data[$i][$num_col]=$value_of_field;
+								$affich="KO";
 							}
 						}
 				}
-				if (!isset($tab_options['LBL'][$key])){
-				$entete[$num_col]=$key;
-				}else
-				$entete[$num_col]=$tab_options['LBL'][$key];
-				
+				//if (!isset($entete[$num_col])){
+					if (!isset($tab_options['LBL'][$key])){
+					$entete[$num_col]=$key;
+					}else
+					$entete[$num_col]=$tab_options['LBL'][$key];
+				//}
 				//si un lien doit �tre mis sur le champ
 				//l'option $tab_options['NO_LIEN_CHAMP'] emp�che de mettre un lien sur certaines
 				//valeurs du champs
@@ -1265,6 +1276,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				//	echo $key."<br>";
 					if ($key == "NULL"){
 						$data[$i][$num_col]="&nbsp";
+						//if (!isset($entete[$num_col]))
 						$entete[$num_col]=$truelabel;
 						$lien = 'KO';
 					}elseif ($key == "GROUP_NAME"){
@@ -1278,6 +1290,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$lien = 'KO';
 						if (!$entete[$num_col] or $entete[$num_col] == $key)
 						$entete[$num_col]=$l->g(122);
+						if (isset($key2))
+						$data[$i][$num_col]="&nbsp";
 					}elseif ($key == "MODIF"){
 						if (!isset($tab_options['MODIF']['IMG']))
 						$image="image/modif_tab.png";
@@ -1287,6 +1301,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$lien = 'KO';
 						if (!$entete[$num_col] or $entete[$num_col] == $key)
 						$entete[$num_col]=$l->g(115);
+						if (isset($key2))
+						$data[$i][$num_col]="&nbsp";
 					}elseif ($key == "SELECT"){
 						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SELECT\",\"".$tab_options['QUESTION']['SELECT']."\");'><img src=image/prec16.png></a>";
 						$lien = 'KO';
@@ -1307,10 +1323,11 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}
 					elseif ($key == "CHECK"){
 						if (!$entete[$num_col] or $entete[$num_col] == $key)
-						$entete[$num_col]=$l->g(1119);
+						$entete[$num_col]=$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>";
 						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
-						$entete[$num_col].="<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>";		
-						$lien = 'KO';							
+						$lien = 'KO';		
+						if (isset($key2))
+						$data[$i][$num_col]="&nbsp";					
 					}elseif ($key == "NAME"){
 							$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$donnees['ID']."'  target='_blank'>".$value_of_field."</a>";
 							if (!$entete[$num_col] or $entete[$num_col] == $key)

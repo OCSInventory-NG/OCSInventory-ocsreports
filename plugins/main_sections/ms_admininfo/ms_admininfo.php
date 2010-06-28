@@ -71,6 +71,13 @@ if ($protectedPost['onglet'] == 1){
 	$tab_options['REPLACE_VALUE'][$l->g(66)]=$type_accountinfo;
 	$tab_options['REPLACE_VALUE'][$l->g(1061)]=$array_tab_account;
 	$tab_options['LBL_POPUP']['SUP']='NAME';
+	$tab_options['REQUEST']['SUP']='select name_accountinfo AS FIRST from accountinfo_config';
+	$tab_options['FIELD']['SUP']='NAME';
+	$tab_options['EXIST']['SUP']='NAME';
+	$tab_options['REQUEST']['CHECK']='select name_accountinfo AS FIRST from accountinfo_config';
+	$tab_options['FIELD']['CHECK']='NAME';
+	$tab_options['EXIST']['CHECK']='NAME';
+	
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 	//traitement par lot
 	del_selection($form_name);

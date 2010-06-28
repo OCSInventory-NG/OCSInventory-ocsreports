@@ -4,7 +4,7 @@
  */
 
 $form_name="blacklist";
-printEnTete($l->g(703));
+//printEnTete($l->g(703));
 if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
 $protectedPost['onglet']=1;
  //d�finition des onglets
