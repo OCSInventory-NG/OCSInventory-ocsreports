@@ -135,7 +135,7 @@ if ($protectedPost['onglet'] == "STAT"){
 //on ajoute un javascript lorsque l'on clic sur la visibilit� du groupe pour tous
 $tab_options['JAVA']['CHECK']['NAME']="NAME";
 $tab_options['JAVA']['CHECK']['QUESTION']=$l->g(811);
-$tab_options['FILTRE']=array('NAME'=>$l->g(679),'DESCRIPTION'=>$l->g(636));
+$tab_options['FILTRE']=array('NAME'=>$l->g(679),'DESCRIPTION'=>$l->g(53));
 //affichage du tableau
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querygroup,$form_name,100,$tab_options); 
 

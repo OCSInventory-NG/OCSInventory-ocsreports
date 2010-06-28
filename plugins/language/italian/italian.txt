@@ -527,7 +527,6 @@
 633 Organizza gruppi di server
 634 Azione desiderata
 635 Nuovo nome
-636 Descrizione
 637 Rimpiazza
 638 IL NOME DEL GRUPPO NON PUO' ESSERE VUOTO
 639 QUESTO GRUPPO DI SERVER NON ESISTE

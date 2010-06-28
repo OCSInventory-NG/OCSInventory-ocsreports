@@ -527,7 +527,6 @@
 633 Administración de grupos de servidores
 634 Acción deseada
 635 Nuevo nombre
-636 Descripción
 637 Reemplazar
 638 EL NOMBRE DEL GRUPO NO PUEDE ESTAR VACÍO
 639 ESTE SERVIDOR DE GRUPOS NO EXISTE

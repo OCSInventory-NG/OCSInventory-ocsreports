@@ -527,7 +527,6 @@
 633 Management groups servers
 634 Wished action
 635 New name
-636 Description
 637 Replace
 638 THE GROUP'S NAME CAN'T BE EMPTY
 639 THIS GROUP'S SERVER NOT EXIST
