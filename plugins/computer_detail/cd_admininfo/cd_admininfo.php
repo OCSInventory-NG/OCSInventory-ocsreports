@@ -1,7 +1,11 @@
 <?php
-function updown($field){
+function updown($field,$type){
 	global $form_name;
-	return "<a href=# OnClick='pag(\"" . $field . "\",\"DOWN\",\"".$form_name."\");'><img src='image/down.png'></a><a href=# OnClick='pag(\"" . $field . "\",\"UP\",\"".$form_name."\");'><img src='image/up.png'></a>";
+	if ($type == 'UP'){
+		return "<a href=# OnClick='pag(\"" . $field . "\",\"UP\",\"".$form_name."\");'><img src='image/up.png'></a>";
+	}elseif ($type == 'DOWN'){	
+		return "<a href=# OnClick='pag(\"" . $field . "\",\"DOWN\",\"".$form_name."\");'><img src='image/down.png'></a>";
+	}
 }
 
 
@@ -69,7 +73,7 @@ if ($list_tab != ''){
 						order by SHOW_ORDER ASC";
 	$arg_admin_info=array($protectedPost['onglet']);
 	$res_admin_info=mysql2_query_secure($sql_admin_info,$_SESSION['OCS']["readServer"],$arg_admin_info);
-	
+	$num_row=mysql_num_rows($res_admin_info);
 	$name_field=array();
 	$tab_name=array();
 	$type_field=array();
@@ -80,7 +84,7 @@ if ($list_tab != ''){
 	$config['SIZE']=array();
 	$config['DDE']=array();
 	
-	
+	$nb_row=1;
 	while ($val_admin_info = mysql_fetch_array( $res_admin_info )){	
 		array_push($config['DDE'],$systemid);	
 		//if name_accountinfo is not null 
@@ -92,7 +96,13 @@ if ($list_tab != ''){
 		else
 			$name_accountinfo='fields_' . $val_admin_info['ID'];
 		
+		$up_png="";
 			
+		if ($nb_row!=1)
+			$up_png.=updown($val_admin_info['ID'],'UP');
+			
+		if ($nb_row!=$num_row)
+			$up_png.=updown($val_admin_info['ID'],'DOWN');	
 			
 		if ($val_admin_info['TYPE'] == 2 
 				or $val_admin_info['TYPE'] == 4
@@ -100,7 +110,7 @@ if ($list_tab != ''){
 				array_push($config['JAVASCRIPT'],'');
 				array_push($config['SIZE'],'');
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_BEHING'],updown($val_admin_info['ID']) . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")>+++</a>");
+					array_push($config['COMMENT_BEHING'],$up_png . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")>+++</a>");
 				else
 					array_push($config['COMMENT_BEHING'],'');
 				array_push($config['SELECT_DEFAULT'],'YES');
@@ -121,7 +131,7 @@ if ($list_tab != ''){
 			}elseif ($val_admin_info['TYPE'] == 6){	
 				array_push($value_field,$info_account_id[$name_accountinfo]);
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_BEHING'],updown($val_admin_info['ID']) . datePick($name_accountinfo));
+					array_push($config['COMMENT_BEHING'],$up_png . datePick($name_accountinfo));
 				else
 					array_push($config['COMMENT_BEHING'],datePick($name_accountinfo));
 				array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick($name_accountinfo));
@@ -130,7 +140,7 @@ if ($list_tab != ''){
 			}elseif ($val_admin_info['TYPE'] == 5){
 				array_push($value_field,"accountinfo");
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_BEHING'],updown($val_admin_info['ID']));
+					array_push($config['COMMENT_BEHING'],$up_png);
 				else
 					array_push($config['COMMENT_BEHING'],"");
 				array_push($config['SELECT_DEFAULT'],'');
@@ -141,7 +151,7 @@ if ($list_tab != ''){
 			}else{
 				array_push($value_field,$info_account_id[$name_accountinfo]);
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_BEHING'],updown($val_admin_info['ID']));
+					array_push($config['COMMENT_BEHING'],$up_png);
 				else
 					array_push($config['COMMENT_BEHING'],"");
 				array_push($config['SELECT_DEFAULT'],'');
@@ -157,7 +167,7 @@ if ($list_tab != ''){
 				array_push($type_field,3);
 				
 			
-	
+		$nb_row++;
 	}	
 	
 		$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
@@ -170,90 +180,4 @@ if ($list_tab != ''){
 	echo "</div>"; 
 	echo "</form>";
 }
-
-/*
-	$list_fields=array();
-	if (!isset($protectedPost['SHOW']))
-		$protectedPost['SHOW'] = 'NOSHOW';
-
-
-	$form_name="affich_tag";
-	$table_name=$form_name;
-	if (isset($protectedPost['Valid_modif_x'])){
-		if ($protectedPost['TAG_MODIF'] == $_SESSION['OCS']['TAG_LBL'])
-		$lbl_champ='TAG';
-		else
-		$lbl_champ=$protectedPost['TAG_MODIF'];
-		$sql=" update accountinfo set ".$lbl_champ."='";
-		if ($protectedPost['FIELD_FORMAT'] == "date")
-		$sql.= dateToMysql($protectedPost['NEW_VALUE'])."'";
-		else
-		$sql.= $protectedPost['NEW_VALUE']."'";
-		$sql.=" where hardware_id=".$systemid; 
-		mysql_query($sql, $_SESSION['OCS']["writeServer"]);
-		//reg�n�ration du cache
-		$tab_options['CACHE']='RESET';
-	}
-	
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-
-	$queryDetails = "SELECT * FROM accountinfo WHERE hardware_id=$systemid";
-	$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-	$item=mysql_fetch_array($resultDetails,MYSQL_ASSOC);
-	$i=0;
-	$queryDetails = "";
-	while (@mysql_field_name($resultDetails,$i)){
-		if(mysql_field_type($resultDetails,$i)=="date"){
-			//echo dateFromMysql($item[mysql_field_name($resultDetails,$i)])." => ".mysql_field_name($resultDetails,$i);
-			$value = "'".dateFromMysql($item[mysql_field_name($resultDetails,$i)])."'";
-		}else
-			$value = mysql_field_name($resultDetails,$i);
-		$lbl=mysql_field_name($resultDetails,$i);	
-		if ($lbl != 'HARDWARE_ID'){
-			if ($lbl == 'TAG')
-			$lbl=$_SESSION['OCS']['TAG_LBL'];
-			$queryDetails .= "SELECT hardware_id as ID,'".$lbl."' as libelle, ".$value." as valeur FROM accountinfo WHERE hardware_id=".$systemid." UNION ";
-		}
-		$type_field[$lbl]=mysql_field_type($resultDetails,$i);
-		$i++;
-	}
-	$queryDetails=substr($queryDetails,0,-6);
-	$list_fields['Information']='libelle';
-	$list_fields['Valeur']='valeur';
-	//$list_fields['SUP']= 'ID';
-	$list_fields['MODIF']= 'libelle';
-	$list_col_cant_del=$list_fields;
-	$default_fields= $list_fields;
-
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
-	//print_r($type_field);
-	if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
-		switch ($type_field[$protectedPost['MODIF']]){
-			case "int" : $java = $chiffres;
-							break;
-			case "string"  : $java = $majuscule;
-							break;
-			case "date"  : $java = "READONLY ".dateOnClick('NEW_VALUE');
-							break;
-			default : $java;
-		}
-		
-		$truename=$protectedPost['MODIF'];
-		if ($protectedPost['MODIF'] == $_SESSION['OCS']['TAG_LBL'])
-			$truename='TAG';			
-		if ($type_field[$protectedPost['MODIF']]=="date"){
-		$tab_typ_champ[0]['COMMENT_BEHING'] =datePick('NEW_VALUE');
-		$tab_typ_champ[0]['DEFAULT_VALUE']=dateFromMysql($item[$truename]);
-		}else
-		$tab_typ_champ[0]['DEFAULT_VALUE']=$item[$truename];
-		$tab_typ_champ[0]['INPUT_NAME']="NEW_VALUE";
-		$tab_typ_champ[0]['INPUT_TYPE']=0;
-		$tab_typ_champ[0]['CONFIG']['JAVASCRIPT']=$java;
-		$tab_typ_champ[0]['CONFIG']['MAXLENGTH']=100;
-		$tab_typ_champ[0]['CONFIG']['SIZE']=40;
-		$data_form[0]=$protectedPost['MODIF'];
-		tab_modif_values($data_form,$tab_typ_champ,array('TAG_MODIF'=>$protectedPost['MODIF'],'FIELD_FORMAT'=>$type_field[$protectedPost['MODIF']]),$l->g(895),"");
-		
-	}
-	echo "</form>";*/
 ?>

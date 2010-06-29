@@ -10,7 +10,6 @@
 //====================================================================================
 //Modified on $Date: 2007/02/08 16:05:52 $$Author: plemmet $($Revision: 1.13 $)
 
-error_reporting(E_ALL & ~E_NOTICE);
 require("fichierConf.class.php");
 @session_start();
 

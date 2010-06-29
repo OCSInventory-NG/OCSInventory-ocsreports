@@ -63,11 +63,11 @@ function del_accountinfo($id){
 
 	//DELETE INTO CONFIG TABLE
 	$sql_delete_config="DELETE FROM accountinfo_config WHERE ID = '%s'";
-	$arg_delete_config=array($id);
+	$arg_delete_config=$id;
 		mysql2_query_secure($sql_delete_config,$_SESSION['OCS']["writeServer"],$arg_delete_config);					
 	//ALTER TABLE ACCOUNTINFO
 	$sql_DEL_column="ALTER TABLE accountinfo DROP COLUMN fields_%s";
-	$arg_DEL_column=array($id);
+	$arg_DEL_column=$id;
 	mysql2_query_secure($sql_DEL_column,$_SESSION['OCS']["writeServer"],$arg_DEL_column);
 		
 }
@@ -94,7 +94,7 @@ function find_all_account_tab($onlyactiv='',$first=''){
 		$sql_tab_account .= "and accountinfo_config.id_tab=config.ivalue";
 	}
 	
-	$arg_tab_account=array('TAB_ACCOUNTAG%');
+	$arg_tab_account='TAB_ACCOUNTAG%';
 	
 	$result_tab_account=mysql2_query_secure($sql_tab_account,$_SESSION['OCS']["readServer"],$arg_tab_account);					
 	while ($val_tab_account = mysql_fetch_array( $result_tab_account )){
@@ -110,7 +110,7 @@ function find_value_field($name){
 	  
 	$sql_tab_account="select IVALUE,TVALUE from config ";
 	$sql_tab_account .= " where config.name like '%s'";
-	$arg_tab_account=array('ACCOUNT_VALUE_' . $name . "%");
+	$arg_tab_account='ACCOUNT_VALUE_' . $name . "%";
 	
 	$result_tab_account=mysql2_query_secure($sql_tab_account,$_SESSION['OCS']["readServer"],$arg_tab_account);					
 	while ($val_tab_account = mysql_fetch_array( $result_tab_account )){
