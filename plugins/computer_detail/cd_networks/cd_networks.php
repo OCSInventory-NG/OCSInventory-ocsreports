@@ -3,11 +3,15 @@
 		if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
 	if ($protectedPost['OTHER_BIS'] != ''){
-		mysql_query("INSERT INTO blacklist_macaddresses (macaddress) value ('".$protectedPost['OTHER_BIS']."')", $_SESSION['OCS']["writeServer"]);		
+		$sql="INSERT INTO blacklist_macaddresses (macaddress) value ('%s')";
+		$arg=$protectedPost['OTHER_BIS'];
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);		
 		$tab_options['CACHE']='RESET';
 	}
 	if ($protectedPost['OTHER'] != ''){
-		@mysql_query("DELETE FROM blacklist_macaddresses WHERE macaddress='".$protectedPost['OTHER']."'", $_SESSION['OCS']["writeServer"]);
+		$sql="DELETE FROM blacklist_macaddresses WHERE macaddress='%s'";
+		$arg=$protectedPost['OTHER'];
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		$tab_options['CACHE']='RESET';
 	}
 	$form_name="affich_networks";
@@ -27,11 +31,13 @@
 		//$list_fields['OTHER_GREEN']='MACADDR';
 		//$list_col_cant_del['OTHER_GREEN']='OTHER_GREEN';
 		//	$tab_options['LBL']['OTHER_GREEN']=$l->g(703);
-		$sql="select MACADDR from networks WHERE (hardware_id=$systemid)";
-		$resultDetails = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$sql="select MACADDR from networks WHERE (hardware_id=%s)";
+		$arg=$systemid;
+		$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 		while($item = mysql_fetch_object($resultDetails)){
-			$sql="select ID from blacklist_macaddresses where macaddress='".$item->MACADDR."'";		
-			$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			$sql="select ID from blacklist_macaddresses where macaddress='%s'";	
+			$arg=$item->MACADDR;
+			$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 			if (mysql_num_rows($result) == 1){
 				$tab_options['OTHER'][$l->g(95)][$item->MACADDR]=$item->MACADDR;
 				$tab_options['OTHER']['IMG']='image/red.png';

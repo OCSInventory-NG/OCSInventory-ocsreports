@@ -10,14 +10,16 @@
 	//suppression en masse
 	if ($protectedPost['del_check'] != ''){
 			$sql="update itmgmt_comments set visible=0 where id in (".$protectedPost['del_check'].")";
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]);
+			echo $sql;
+		//	mysql_query($sql, $_SESSION['OCS']["writeServer"]);
 		 	//reg�n�ration du cache
 			$tab_options['CACHE']='RESET';	 	
 	 }	
 
 	if ($protectedPost['SUP_PROF'] != '' and isset($protectedPost['SUP_PROF'])){
-		$sql="update itmgmt_comments set visible=0 where id=".$protectedPost['SUP_PROF'];
-		mysql_query($sql, $_SESSION['OCS']["writeServer"]);
+		$sql="update itmgmt_comments set visible=0 where id=%s";
+		$arg=array($protectedPost['SUP_PROF']);
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		//reg�n�ration du cache
 		$tab_options['CACHE']='RESET';
 		addLog($l->g(896), " DEL => ".$protectedPost['SUP_PROF']);
@@ -29,16 +31,21 @@
 		//ajout de note
 		if (trim($protectedPost['NOTE']) != '' and isset($protectedPost['NOTE'])){
 			$sql="insert into itmgmt_comments (HARDWARE_ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION) 
-					value (".$systemid.",sysdate(),'".$_SESSION['OCS']["loggeduser"]."','".xml_encode($protectedPost['NOTE'])."','ADD_NOTE_BY_USER')";
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+					value (%s,%s,'%s','%s','%s')";
+			$arg=array($systemid,"sysdate()",$_SESSION['OCS']["loggeduser"],$protectedPost['NOTE'],"ADD_NOTE_BY_USER");
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 			//reg�n�ration du cache
 			$tab_options['CACHE']='RESET';			
 		}elseif (trim($protectedPost['NOTE_MODIF']) != '' and isset($protectedPost['NOTE_MODIF'])){
-			$sql="update itmgmt_comments set COMMENTS='".xml_encode($protectedPost['NOTE_MODIF'])."'";
-			if (!strstr($protectedPost['USER_INSERT'], $_SESSION['OCS']["loggeduser"]))
-			$sql.=" , USER_INSERT = '".$protectedPost['USER_INSERT']."/".$_SESSION['OCS']["loggeduser"]."'";
-			$sql.=" where id=".$protectedPost['ID_MODIF'];
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			$sql="update itmgmt_comments set COMMENTS='%s'";
+			$arg=array($protectedPost['NOTE_MODIF']);
+			if (!strstr($protectedPost['USER_INSERT'], $_SESSION['OCS']["loggeduser"])){
+				$sql.=" , USER_INSERT = '%s/%s'";
+				array_push($arg,$protectedPost['USER_INSERT'],$_SESSION['OCS']["loggeduser"]);
+			}
+			$sql.=" where id=%s";
+			array_push($arg,$protectedPost['ID_MODIF']);
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 			//reg�n�ration du cache
 			$tab_options['CACHE']='RESET';				
 			addLog($l->g(896), " UPDATE ".$protectedPost['ID_MODIF'].". => ".$protectedPost['OLD_COMMENTS'] );
@@ -79,12 +86,13 @@
 	del_selection($form_name);
 	
 	if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
-		$queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE id=".$protectedPost['MODIF'];
-		$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE id=%s";
+		$argDetail=array($protectedPost['MODIF']);
+		$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"],$argDetail);
 		$item=mysql_fetch_array($resultDetails,MYSQL_ASSOC);
-		$tab_name[1]=" Date de la note : ";
-		$tab_name[2]=" Auteur de la note : ";
-		$tab_name[3]=" Note : ";
+		$tab_name[1]= $l->g(1126) . " : ";
+		$tab_name[2]= $l->g(1127) . " : ";
+		$tab_name[3]= $l->g(1128) . " : ";
 		$tab_typ_champ[1]['DEFAULT_VALUE']=$item['DATE_INSERT'];
 		$tab_typ_champ[2]['DEFAULT_VALUE']=$item['USER_INSERT'];
 		$tab_typ_champ[3]['DEFAULT_VALUE']=$item['COMMENTS'];

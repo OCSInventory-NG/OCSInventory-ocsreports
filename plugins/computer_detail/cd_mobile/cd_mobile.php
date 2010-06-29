@@ -2,8 +2,9 @@
 	print_item_header($l->g(908));
 	$td1	  = "<td height=20px id='color' align='center'><FONT FACE='tahoma' SIZE=2 color=blue><b>";
 	$td2      = "<td height=20px bgcolor='white' align='center'>";
-	$queryDetails = 'SELECT JAVANAME,JAVAPATHLEVEL,JAVACOUNTRY,JAVACLASSPATH,JAVAHOME FROM javainfo WHERE hardware_id='.$systemid;
-	$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+	$queryDetails = 'SELECT JAVANAME,JAVAPATHLEVEL,JAVACOUNTRY,JAVACLASSPATH,JAVAHOME FROM javainfo WHERE hardware_id=%s';
+	$argDetails=array($systemid);
+	$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"],$argDetails);
 	$item = mysql_fetch_object($resultDetails);
 	echo '<br><table BORDER="0" WIDTH = "95%" ALIGN = "Center" CELLPADDING="0" BGCOLOR="#C7D9F5" BORDERCOLOR="#9894B5">';
 	echo "<tr>";

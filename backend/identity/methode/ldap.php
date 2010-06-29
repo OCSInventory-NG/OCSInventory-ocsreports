@@ -37,23 +37,25 @@
 require_once ('require/function_files.php');
 // page name
 $name="ldap.php";
-connexion_local();
+connexion_local_read();
 
 // select the main database
 mysql_select_db($db_ocs,$link_ocs);
 
 
 // retrieve LDAP-related config values into an array
-$sql="select substr(NAME,7) as NAME,TVALUE from config where NAME like '%CONEX%'";
-$res=mysql_query($sql, $link_ocs) or die(mysql_error($link_ocs));
+$sql="select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
+$arg=array("%CONEX%");
+$res=mysql2_query_secure($sql, $link_ocs,$arg);
 while($item = mysql_fetch_object($res)){
     $config[$item->NAME]=$item->TVALUE;
     define ($item->NAME,$item->TVALUE);
 }
 
 // checks if the user already exists 
-$reqOp="SELECT new_accesslvl as accesslvl FROM operators WHERE id='".$_SESSION['OCS']["loggeduser"]."'";
-$resOp=mysql_query($reqOp, $link_ocs) or die(mysql_error($link_ocs));
+$reqOp="SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
+$argOp=array($_SESSION['OCS']["loggeduser"]);
+$resOp=mysql2_query_secure($reqOp, $link_ocs,$argOp);
 
 // defines the user level according to specific LDAP attributes
 // default: normal user
@@ -96,8 +98,8 @@ if ($f2_value != '')
 if (!mysql_fetch_object($resOp)) {
 
 
-    $reqInsert="INSERT INTO ocsweb.operators (
-        ID,
+    $reqInsert="INSERT INTO operators (
+    	ID,
         FIRSTNAME,
         LASTNAME,
         PASSWD,
@@ -106,31 +108,59 @@ if (!mysql_fetch_object($resOp)) {
         EMAIL,
         USER_GROUP
             )
-            VALUES (
-                    '".$_SESSION['OCS']["loggeduser"]."', '".$_SESSION['OCS']['details']['sn']."', '', NULL, 'LDAP', '".$defaultRole."', '".$_SESSION['OCS']['details']['mail']."', NULL )";
+            VALUES ('%s','%s', '%s', '%s','%s', '%s', '%s', '%s')";
 
+    $arg_insert=array($_SESSION['OCS']["loggeduser"],
+   					$_SESSION['OCS']['details']['sn'],
+   					$_SESSION['OCS']["loggeduser"],
+   					"",
+   					"LDAP",
+   					$defaultRole,
+   					$_SESSION['OCS']['details']['mail'],
+   					"NULL"
+   					 );
+    
 }
 else
 {
 
     // else update it
     $reqInsert="UPDATE ocsweb.operators SET 
-        FIRSTNAME='".$_SESSION['OCS']['details']['sn']."',
-        LASTNAME='',
-        PASSWD=NULL,
-        COMMENTS='LDAP',
-        NEW_ACCESSLVL='".$defaultRole."',
-        EMAIL='".$_SESSION['OCS']['details']['mail']."',
-        USER_GROUP=NULL
-            WHERE ID='".$_SESSION['OCS']["loggeduser"]."';";
-};
-
+        FIRSTNAME='%s',
+        LASTNAME='%s',
+        PASSWD='%s',
+        COMMENTS='%s',
+        NEW_ACCESSLVL='%s',
+        EMAIL='%s',
+        USER_GROUP='%s'
+            WHERE ID='%s'";
+    
+    $arg_insert=array($_SESSION['OCS']['details']['sn'],
+   					$_SESSION['OCS']["loggeduser"],
+   					$_SESSION['OCS']["loggeduser"],
+   					"",
+   					"LDAP",
+   					$defaultRole,
+   					$_SESSION['OCS']['details']['mail'],
+   					"NULL",
+   					$_SESSION['OCS']["loggeduser"]
+   					 );
+}
+connexion_local_write();
+// select the main database
+mysql_select_db($db_ocs,$link_ocs);
 // Execute the query to insert/update the user record
-mysql_query($reqInsert) or die ("error inserting user: ".mysql_error($link_ocs));
+mysql2_query_secure($reqInsert,$link_ocs,$arg_insert);
+
+
 
 // repeat the query and define the needed OCS variables
 // note: original OCS code below
-$resOp=mysql_query($reqOp, $link_ocs) or die(mysql_error($link_ocs));
+connexion_local_read();
+
+// select the main database
+mysql_select_db($db_ocs,$link_ocs);
+$resOp=mysql2_query_secure($reqOp, $link_ocs,$argOp);
 $rowOp=mysql_fetch_object($resOp);
 
 if (isset($rowOp -> accesslvl)){
@@ -142,8 +172,9 @@ if (isset($rowOp -> accesslvl)){
     //Si l'utilisateur a des droits limit�s
     //on va rechercher les tags sur lesquels il a des droits
     if ($restriction == 'YES'){
-        $sql="select tag from tags where login='".$_SESSION['OCS']["loggeduser"]."'";
-        $res=mysql_query($sql, $link_ocs) or die(mysql_error($link_ocs));
+        $sql="select tag from tags where login='%s'";
+        $arg=array($_SESSION['OCS']["loggeduser"]);
+        $res=mysql2_query_secure($sql, $link_ocs,$arg);
         while ($row=mysql_fetch_object($res)){    
             $list_tag[$row->tag]=$row->tag;
         }

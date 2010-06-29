@@ -50,7 +50,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	asort($tab_options['FILTRE']); 
 	$list_fields['NAME'] = "h.name";
 	$reqAc = "SHOW COLUMNS FROM accountinfo";
-	$resAc = mysql_query($reqAc, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$resAc = mysql2_query_secure($reqAc, $_SESSION['OCS']["readServer"]);
 	while($colname=mysql_fetch_array($resAc)){
 		if ($colname["Field"] != 'TAG' and $colname["Field"] != 'HARDWARE_ID')
 		$list_fields[$colname["Field"]]='a.'.$colname["Field"];

@@ -1017,6 +1017,10 @@
 1123 IRC
 1124 Forums
 1125 Percentage
+1126 Date of Note
+1127 Autor of note
+1128 Note
+1129 REMOVED PACKAGE
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

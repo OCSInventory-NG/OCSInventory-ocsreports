@@ -1,5 +1,5 @@
 <?php
-//page de connection � OCS
+//connexion page for ocs
 /*
  * Vous pouvez rajouter tout type de connection pour acc�der � OCS
  * Par d�faut, 2 types sont pr�sents:
@@ -26,7 +26,7 @@
  //					   local.php => Connection � la base OCS
  //					   always_ok.php => Connection toujours OK
  $list_methode=array(0=>"local.php");
- 
+ //$list_methode=array(0=>"always_ok.php");
  if ($affich_method == 'HTML' and isset($protectedPost['VALID']) and trim($protectedPost['LOGIN']) != ""){
  	$login=$protectedPost['LOGIN'];
  	$mdp=$protectedPost['PASSWD']; 	
