@@ -277,20 +277,16 @@ function generate_sql($table_name)
 }
 
 
-function witch_field_more($tab_table){
-	foreach($tab_table as $table=>$poids){
-		$table_min=strtolower($table);
-		$sql_show_colomn="SHOW COLUMNS FROM ".$table_min;
-		$result_show_colomn = mysql_query($sql_show_colomn, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-		
-		while($item = mysql_fetch_object($result_show_colomn)){
-					//print_r($item);
-			if ($item ->Field != 'ID' and $item ->Field != 'HARDWARE_ID')
-				$list_fields[$table][]=$item ->Field;
-		}
-		
+function witch_field_more(){
+	
+	$sql_accountinfo="select NAME,ID,COMMENT from accountinfo_config";
+	$result_accountinfo = mysql2_query_secure($sql_accountinfo,$_SESSION['OCS']["readServer"]);
+	
+	while($item = mysql_fetch_object($result_accountinfo)){
+		$list_fields[$item->ID]=$item->COMMENT;
+		$list_name[$item->ID]=$item->NAME;
 	}
-	return $list_fields;
+	return array('LIST_FIELDS'=>$list_fields,'LIST_NAME'=>$list_name);
 }
  //fonction qui permet d'afficher la ligne de recherche en fonction 
 //du type du champ

@@ -17,6 +17,8 @@ require_once('require/function_computers.php');
 $form_name='multisearch';
 //nom du tableau d'affichage
 $table_tabname="TAB_MULTICRITERE";	
+
+
 //cas o� l'on arrive d'une autre page
 //ex: la page des stats
 //$_SESSION['OCS']['DEBUG'] = 'ON';
@@ -71,19 +73,18 @@ if (isset($protectedPost['GET'])){
 	echo "<input type=hidden name='GET' value='".$protectedPost['GET']."'>";
 }
 //recherche des diff�rents champs de accountinfo
-$field_of_accountinfo=witch_field_more(array('ACCOUNTINFO'=>1));
-$j=0;
-while($field_of_accountinfo['ACCOUNTINFO'][$j]){
-	
-	if ($field_of_accountinfo['ACCOUNTINFO'][$j] == "TAG"){
-		$list_fields_account_info[$_SESSION['OCS']['TAG_LBL']]="a.".$field_of_accountinfo['ACCOUNTINFO'][$j];
-		$optaccountinfo['ACCOUNTINFO-'.$field_of_accountinfo['ACCOUNTINFO'][$j]]="Tag: ".$_SESSION['OCS']['TAG_LBL'];
+$field_of_accountinfo=witch_field_more();
+foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
+	if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
+		$list_fields_account_info['Accinf: '.$lbl]="a.TAG";
+		$optaccountinfo['ACCOUNTINFO-TAG']="Accinf: ".$lbl;
+		$delfault_tag="Accinf: ".$lbl;
 	}else{
-		$optaccountinfo['ACCOUNTINFO-'.$field_of_accountinfo['ACCOUNTINFO'][$j]]="Tag: ".$field_of_accountinfo['ACCOUNTINFO'][$j];
-		$list_fields_account_info["Tag: ".$field_of_accountinfo['ACCOUNTINFO'][$j]]="a.".$field_of_accountinfo['ACCOUNTINFO'][$j];
+		$list_fields_account_info['Accinf: '.$lbl]="a.fields_".$id;
+		$optaccountinfo['ACCOUNTINFO-fields_' . $id]="Accinf: ".$lbl;
 	}
-	$j++;
 }
+
 //si on ajoute un champ de recherche
 //on efface les donn�es pr�cedemment en cache
 if ($protectedPost['delfield']!="" or $protectedPost['multiSearch'] != $l->g(32)){
@@ -630,24 +631,24 @@ if (($protectedPost['Valid-search'] and $protectedPost['Valid'] == '')){
 //echo $list_id;
 /********************************************AFFICHAGE DES RESULTATS********************************************/
 if ($list_id != "")	{	
-	$list_fields= array('Machine: id'=>'h.ID',
-						'Machine: '.$l->g(46)=>'h.LASTDATE',
-						"Machine: ".$l->g(820)=>'h.LASTCOME',
+	$list_fields= array($l->g(652).': id'=>'h.ID',
+						$l->g(652).': '.$l->g(46)=>'h.LASTDATE',
+						$l->g(652).": ".$l->g(820)=>'h.LASTCOME',
 						'NAME'=>'h.NAME',
-						"Machine: ".$l->g(24)=>'h.USERID',
-						"Machine: ".$l->g(25)=>'h.OSNAME',
-						"Machine: ".$l->g(357)=>'h.USERAGENT',
-						"R�seau: ".$l->g(33)=>'h.WORKGROUP',						
-						"Machine: ".$l->g(26)=>'h.MEMORY',
-						"Machine: ".$l->g(569)=>'h.PROCESSORS',
-						"Machine: ".$l->g(34)=>'h.IPADDR',
-						"Machine: ".$l->g(53)=>'h.DESCRIPTION',
-						"Machine: ".$l->g(354)=>'h.FIDELITY',					
-						"Machine: ".$l->g(351)=>'h.PROCESSORN',
-						"Machine: ".$l->g(350)=>'h.PROCESSORT',
-						"Machine: ".$l->g(50)=>'h.SWAP',
-						"Machine: ".$l->g(111)=>'h.WINPRODKEY',
-						"Machine: ".$l->g(553)=>'h.WINPRODID');
+						$l->g(652).": ".$l->g(24)=>'h.USERID',
+						$l->g(652).": ".$l->g(25)=>'h.OSNAME',
+						$l->g(652).": ".$l->g(357)=>'h.USERAGENT',
+						$l->g(82).": ".$l->g(33)=>'h.WORKGROUP',						
+						$l->g(652).": ".$l->g(26)=>'h.MEMORY',
+						$l->g(652).": ".$l->g(569)=>'h.PROCESSORS',
+						$l->g(652).": ".$l->g(34)=>'h.IPADDR',
+						$l->g(652).": ".$l->g(53)=>'h.DESCRIPTION',
+						$l->g(652).": ".$l->g(354)=>'h.FIDELITY',					
+						$l->g(652).": ".$l->g(351)=>'h.PROCESSORN',
+						$l->g(652).": ".$l->g(350)=>'h.PROCESSORT',
+						$l->g(652).": ".$l->g(50)=>'h.SWAP',
+						$l->g(652).": ".$l->g(111)=>'h.WINPRODKEY',
+						$l->g(652).": ".$l->g(553)=>'h.WINPRODID');
 	$list_fields=array_merge ($list_fields_account_info,$list_fields);
 	$queryDetails = 'SELECT ';
 	//changement de nom lors de la requete
@@ -679,7 +680,14 @@ if ($list_id != "")	{
 	$list_fields['SUP']='h.ID';
 	$list_fields['CHECK']='h.ID';
 	$list_col_cant_del=array('SUP'=>'SUP','NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields=array($_SESSION['OCS']['TAG_LBL']=>$_SESSION['OCS']['TAG_LBL'],'Machine: '.$l->g(46)=>'Machine: '.$l->g(46),"Machine: ".$l->g(820)=>"Machine: ".$l->g(820),'NAME'=>'NAME',"Machine: ".$l->g(24)=>"Machine: ".$l->g(24),"Machine: ".$l->g(25)=>"Machine: ".$l->g(25),"Machine: ".$l->g(357)=>"Machine: ".$l->g(357),'SUP'=>'SUP','CHECK'=>'CHECK');
+	$default_fields=array($delfault_tag=>$delfault_tag,
+						$l->g(652).': '.$l->g(46)=>$l->g(652).': '.$l->g(46),
+						$l->g(652).": ".$l->g(820)=>$l->g(652).": ".$l->g(820),
+						'NAME'=>'NAME',
+						$l->g(652).": ".$l->g(24)=>$l->g(652).": ".$l->g(24),
+						$l->g(652).": ".$l->g(25)=>$l->g(652).": ".$l->g(25),
+						$l->g(652).": ".$l->g(357)=>$l->g(652).": ".$l->g(357),
+						'SUP'=>'SUP','CHECK'=>'CHECK');
 
 	//print_r($list_fields);
 	//on modifie le type de champs en num�ric de certain champs
