@@ -8,8 +8,9 @@ $list_registry_key=array('HKEY_CLASSES_ROOT',
 //require_once('require/function_registry.php');
 //cas d'une suppression d'une cl� de registre
 if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){	
-	$sql_reg="delete from regconfig where id='".$protectedPost['SUP_PROF']."'";
-	mysql_query($sql_reg, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+	$sql_reg="delete from regconfig where id='%s'";
+	$arg_reg=array($protectedPost['SUP_PROF']);
+	mysql2_query_secure($sql_reg,$_SESSION['OCS']["writeServer"],$arg_reg);
 	$tab_options['CACHE']='RESET';
 }
 
@@ -23,28 +24,34 @@ if (isset($protectedPost['Valid_modif_x'])){
 		unset($req);
 		if (isset($protectedPost['id'])){
 			$req = "UPDATE regconfig SET ".	
-				"NAME='".$protectedPost["NAME"]."',".
-				"REGTREE='".$protectedPost["REGTREE"]."',".
-				"REGKEY='".$protectedPost["REGKEY"]."',".
-				"REGVALUE='".$protectedPost["REGVALUE"]."' ".
-				"where ID='".$protectedPost['id']."'";
+				"NAME='%s',".
+				"REGTREE='%s',".
+				"REGKEY='%s',".
+				"REGVALUE='%s' ".
+				"where ID='%s'";
+			$arg_req=array($protectedPost["NAME"],$protectedPost["REGTREE"],
+						   $protectedPost["REGKEY"],$protectedPost["REGVALUE"],
+						   $protectedPost['id']);
 		}else{
 			$sql_verif="select ID from regconfig 
-						where REGTREE='".$protectedPost["REGTREE"]."' 
-							and REGKEY='".$protectedPost["REGKEY"]."'
-							and REGVALUE='".$protectedPost["REGVALUE"]."'";
-			$res=mysql_query($sql_verif, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+						where REGTREE='%s' 
+							and REGKEY='%s'
+							and REGVALUE='%s'";
+			$arg_verif=array($protectedPost["REGTREE"],$protectedPost["REGKEY"],$protectedPost['MODIF'],$protectedPost["REGVALUE"]);
+			$res=mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"],$arg_verif);
 			$row=mysql_fetch_object($res);
 			if (!is_numeric($row->ID)){				
 			$req = "INSERT INTO regconfig (NAME,REGTREE,REGKEY,REGVALUE)
-					VALUES('".$protectedPost["NAME"]."','".$protectedPost["REGTREE"]."','".$protectedPost["REGKEY"]."','".$protectedPost["REGVALUE"]."')";
+					VALUES('%s','%s','%s','%s')";
+			$arg_req=array($protectedPost["NAME"],$protectedPost["REGTREE"],
+						   $protectedPost["REGKEY"],$protectedPost["REGVALUE"]);
 			}else
 			$error=$l->g(987);
 			
 		}
 		
 		if (isset($req)){
-			$result = mysql_query($req, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+			mysql2_query_secure($req,$_SESSION['OCS']["writeServer"],$arg_req);
 			$tab_options['CACHE']='RESET';
 		}
 	}else{
