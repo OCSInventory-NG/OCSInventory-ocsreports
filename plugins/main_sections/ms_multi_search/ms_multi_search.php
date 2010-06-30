@@ -932,8 +932,7 @@ $sort_list = array_merge($sort_accountinfo,
 						 $sort_list_2Select,
 						 $sort_list_2SelectField,
 						 $sort_list_Select);
-						 
-						 print_r($sort_list);
+
 asort($sort_list);
 $countHl++;
 $optArray_trait[$l->g(32)]=$l->g(32);
