@@ -73,16 +73,30 @@ if (isset($protectedPost['GET'])){
 	echo "<input type=hidden name='GET' value='".$protectedPost['GET']."'>";
 }
 //recherche des diff�rents champs de accountinfo
+//require_once('require/function_admininfo.php');
 $field_of_accountinfo=witch_field_more();
+$optSelectField_account=array();
+$opt2Select_account=array();
 foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
 	if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
-		$list_fields_account_info['Accinf: '.$lbl]="a.TAG";
-		$optaccountinfo['ACCOUNTINFO-TAG']="Accinf: ".$lbl;
+		$name_field_accountinfo="TAG";	
 		$delfault_tag="Accinf: ".$lbl;
-	}else{
-		$list_fields_account_info['Accinf: '.$lbl]="a.fields_".$id;
-		$optaccountinfo['ACCOUNTINFO-fields_' . $id]="Accinf: ".$lbl;
-	}
+	}else
+		$name_field_accountinfo="fields_" . $id;	
+	
+		if (in_array($field_of_accountinfo['LIST_TYPE'][$id],array(0,1,3,6))){
+			$optSelectField_account['ACCOUNTINFO-' . $name_field_accountinfo]= "Accinf: ".$lbl;
+			if ($field_of_accountinfo['LIST_TYPE'][$id] == 6){
+				$optSelectField_account["ACCOUNTINFO-" . $name_field_accountinfo . "-LBL"]="calendar";	
+				$optSelectField_account["ACCOUNTINFO-" . $name_field_accountinfo . "-SELECT"]=array("exact"=>$l->g(410),"small"=>$l->g(346),"tall"=>$l->g(347));
+			}			
+		}elseif (in_array($field_of_accountinfo['LIST_TYPE'][$id],array(2,4,7))){
+			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo] = "Accinf: ".$lbl;
+			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo . "-SQL1"] = "select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_" . $field_of_accountinfo['LIST_NAME'][$id] . "%' order by 2";
+			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo . "-SELECT"] = array('exact'=>$l->g(507),'diff'=>$l->g(508));
+		}
+		$list_fields_account_info['Accinf: '.$lbl]="a." . $name_field_accountinfo;		
+		
 }
 
 //si on ajoute un champ de recherche
@@ -728,6 +742,8 @@ if ($no_result == "NO RESULT" and !isset($ERROR)){
 
 if ($_SESSION['OCS']["mesmachines"] != '')
 		$list_id_computer=computer_list_by_tag();
+		
+
 //pour tous les tableaux:
 //TABLE-NOMCHAMP =>lbl du champ
 //option: TABLE-NOMCHAMP-LBL => commentaire � ajouter apr�s le champ de saisi
@@ -736,9 +752,10 @@ if ($_SESSION['OCS']["mesmachines"] != '')
 // option: TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (affichage du select)
 // si option absente le select affiche array('exact'=> 'EXACTEMENT','ressemble'=>'RESSEMBLE','diff'=>'DIFFERENT')
 //a l'affichage on se retrouve avec le lbl du champ,un select et un champ de saisi
+
 $optSelectField=array( "HARDWARE-IPADDR"=>$l->g(82).": ".$l->g(34),
 			   "NETWORKS-MACADDR"=>$l->g(82).": ".$l->g(95),
-			   "ACCOUNTINFO-TAG-SELECT"=>array("exact"=>$l->g(410),"list"=>$l->g(961)." ".$_SESSION['OCS']['TAG_LBL']." ".$l->g(962),"notlist"=>$l->g(963)." ".$_SESSION['OCS']['TAG_LBL']." ".$l->g(962)),
+		//	   "ACCOUNTINFO-TAG-SELECT"=>array("exact"=>$l->g(410),"list"=>$l->g(961)." ".$_SESSION['OCS']['TAG_LBL']." ".$l->g(962),"notlist"=>$l->g(963)." ".$_SESSION['OCS']['TAG_LBL']." ".$l->g(962)),
 			   "SOFTWARES-NAME"=>$l->g(20).": ".$l->g(49),
 			   "SOFTWARES-VERSION"=>$l->g(20).": ".$l->g(277),
 			   "HARDWARE-DESCRIPTION"=>$l->g(25).": ".$l->g(53),
@@ -767,8 +784,9 @@ $optSelectField=array( "HARDWARE-IPADDR"=>$l->g(82).": ".$l->g(34),
 			   "HARDWARE-LASTCOME-LBL"=>"calendar",
 			   "HARDWARE-LASTCOME-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(346),"tall"=>$l->g(347)),
 			   "HARDWARE-WORKGROUP"=>$l->g(82).": ".$l->g(33));
+
 	//ajout des champs de accountinfo
-$optSelectField = array_merge($optaccountinfo,$optSelectField);
+$optSelectField = array_merge($optSelectField_account,$optSelectField);
 //composotion du tableau
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut �galement �tre un tableau de donn�es
 //� l'affichage on se retrouve avec le lbl du champ et un select
@@ -823,6 +841,8 @@ $opt2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
 				 									),
 
 				 );
+		//ajout des champs de accountinfo
+$opt2Select = array_merge($opt2Select_account,$opt2Select);			 
 //� l'affichage on se retrouve avec  le lbl du champ, un select et deux champs de saisi
 //option : TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ( select)
 //ATTENTION: le deuxi�me champ de saisi est invisible. Pour le rendre visible, faire passer

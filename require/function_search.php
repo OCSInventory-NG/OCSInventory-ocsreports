@@ -279,14 +279,15 @@ function generate_sql($table_name)
 
 function witch_field_more(){
 	
-	$sql_accountinfo="select NAME,ID,COMMENT from accountinfo_config";
+	$sql_accountinfo="select NAME,ID,COMMENT,TYPE from accountinfo_config";
 	$result_accountinfo = mysql2_query_secure($sql_accountinfo,$_SESSION['OCS']["readServer"]);
 	
 	while($item = mysql_fetch_object($result_accountinfo)){
 		$list_fields[$item->ID]=$item->COMMENT;
 		$list_name[$item->ID]=$item->NAME;
+		$list_type[$item->ID]=$item->TYPE;
 	}
-	return array('LIST_FIELDS'=>$list_fields,'LIST_NAME'=>$list_name);
+	return array('LIST_FIELDS'=>$list_fields,'LIST_NAME'=>$list_name,'LIST_TYPE'=>$list_type);
 }
  //fonction qui permet d'afficher la ligne de recherche en fonction 
 //du type du champ
