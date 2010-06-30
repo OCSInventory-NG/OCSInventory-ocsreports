@@ -9,6 +9,16 @@ $sql_type_accountinfo=array('VARCHAR(255)','LONGTEXT','VARCHAR(255)',
 
 $convert_type=array('0','1','2','3','5','8','0','11');
 
+function max_order($table,$field){
+	$sql="SELECT max(%s) as max_id FROM %s";
+	$arg=array($field,$table);
+	$result=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);			
+	$val = mysql_fetch_array( $result );
+	return $val['max_id']+1;
+}
+
+
+
 /*
  * When you add a new accountinfo
  * you need to add few fields on 
@@ -20,14 +30,15 @@ $convert_type=array('0','1','2','3','5','8','0','11');
 function add_accountinfo($newfield,$newtype,$newlbl,$tab){	
 	global $l,$sql_type_accountinfo;
 	
-	$ERROR=dde_exist($newfield);	
+	$ERROR=dde_exist($newfield);
+	$id_order=max_order('accountinfo_config','SHOW_ORDER');	
 		
 	if ($ERROR == ''){				
-		$sql_insert_config="INSERT INTO accountinfo_config (TYPE,NAME,ID_TAB,COMMENT) values(%s,'%s',%s,'%s')";
+		$sql_insert_config="INSERT INTO accountinfo_config (TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER) values(%s,'%s',%s,'%s',%s)";
 		$arg_insert_config=array($newtype,
 								 $newfield,
 								 $tab,
-								 $newlbl);
+								 $newlbl,$id_order);
 		mysql2_query_secure($sql_insert_config,$_SESSION['OCS']["writeServer"],$arg_insert_config);					
 		
 		$sql_add_column="ALTER TABLE accountinfo ADD COLUMN fields_%s %s default NULL";
@@ -52,11 +63,11 @@ function del_accountinfo($id){
 
 	//DELETE INTO CONFIG TABLE
 	$sql_delete_config="DELETE FROM accountinfo_config WHERE ID = '%s'";
-	$arg_delete_config=array($id);
+	$arg_delete_config=$id;
 		mysql2_query_secure($sql_delete_config,$_SESSION['OCS']["writeServer"],$arg_delete_config);					
 	//ALTER TABLE ACCOUNTINFO
 	$sql_DEL_column="ALTER TABLE accountinfo DROP COLUMN fields_%s";
-	$arg_DEL_column=array($id);
+	$arg_DEL_column=$id;
 	mysql2_query_secure($sql_DEL_column,$_SESSION['OCS']["writeServer"],$arg_DEL_column);
 		
 }
@@ -83,7 +94,7 @@ function find_all_account_tab($onlyactiv='',$first=''){
 		$sql_tab_account .= "and accountinfo_config.id_tab=config.ivalue";
 	}
 	
-	$arg_tab_account=array('TAB_ACCOUNTAG%');
+	$arg_tab_account='TAB_ACCOUNTAG%';
 	
 	$result_tab_account=mysql2_query_secure($sql_tab_account,$_SESSION['OCS']["readServer"],$arg_tab_account);					
 	while ($val_tab_account = mysql_fetch_array( $result_tab_account )){
@@ -99,7 +110,7 @@ function find_value_field($name){
 	  
 	$sql_tab_account="select IVALUE,TVALUE from config ";
 	$sql_tab_account .= " where config.name like '%s'";
-	$arg_tab_account=array('ACCOUNT_VALUE_' . $name . "%");
+	$arg_tab_account='ACCOUNT_VALUE_' . $name . "%";
 	
 	$result_tab_account=mysql2_query_secure($sql_tab_account,$_SESSION['OCS']["readServer"],$arg_tab_account);					
 	while ($val_tab_account = mysql_fetch_array( $result_tab_account )){

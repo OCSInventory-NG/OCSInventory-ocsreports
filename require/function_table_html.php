@@ -285,12 +285,16 @@ function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom
 function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES",'COLS'=>30,'ROWS'=>5))
 {
 	global $protectedPost,$l,$pages_refs;
+	
+	if ($configinput == "")
+		$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES",'COLS'=>30,'ROWS'=>5);
 	//del stripslashes if $name is not an array
 	if (!is_array($name)){
 	//	echo "toto";
 		$name=htmlspecialchars($name, ENT_QUOTES);
 	}
 		if ($input_type == 1){
+			
 		return "<textarea name='".$input_name."' id='".$input_name."' cols='".$configinput['COLS']."' rows='".$configinput['ROWS']."'  class='down' \>".$name."</textarea>";
 	
 	}elseif ($input_type ==0)
@@ -410,6 +414,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='CHANGE',$showbutton_action='')
 {
 	global $l,$protectedPost;
+
 	if ($form_name != 'NO_FORM')
 	echo "<form name='" . $form_name . "' id='" 
 		. $form_name . "' action='' method='POST'>";
@@ -423,7 +428,9 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 	{
 		//print_r($tab_typ_champ[$key]['DEFAULT_VALUE']);
 		echo "<tr><td>" . $values . "</td><td>" . $tab_typ_champ[$key]['COMMENT_BEFORE']
-		   . show_modif($tab_typ_champ[$key]['DEFAULT_VALUE'],$tab_typ_champ[$key]['INPUT_NAME'],$tab_typ_champ[$key]['INPUT_TYPE'],$tab_typ_champ[$key]['RELOAD'],$tab_typ_champ[$key]['CONFIG']).$tab_typ_champ[$key]['COMMENT_BEHING']."</td></tr>";
+		   . show_modif($tab_typ_champ[$key]['DEFAULT_VALUE'],$tab_typ_champ[$key]['INPUT_NAME'],$tab_typ_champ[$key]['INPUT_TYPE'],$tab_typ_champ[$key]['RELOAD'],
+		   				$tab_typ_champ[$key]['CONFIG']).$tab_typ_champ[$key]['COMMENT_BEHING']
+		   . "</td></tr>";
 	}
  echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
  	if ($showbutton){

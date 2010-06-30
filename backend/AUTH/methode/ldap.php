@@ -13,10 +13,10 @@
 
 
 
-connexion_local();
-mysql_select_db($db_ocs,$link_ocs);
-$sql="select substr(NAME,7) as NAME,TVALUE from config where NAME like '%CONEX%'";
-$res=mysql_query($sql, $link_ocs) or die(mysql_error($link_ocs));
+connexion_local_read();
+$sql="select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
+$arg=array('%CONEX%');	
+$res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
 
 while($item = mysql_fetch_object($res)){
 	$config[$item->NAME]=$item->TVALUE;

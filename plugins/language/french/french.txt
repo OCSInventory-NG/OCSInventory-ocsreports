@@ -1042,6 +1042,10 @@
 1123 IRC
 1124 Forums
 1125 Pourcentage
+1126 Date de la note
+1127 Auteur de la note
+1128 Note
+1129 PAQUET SUPPRIME
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

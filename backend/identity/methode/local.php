@@ -12,11 +12,12 @@
 require_once ('require/function_files.php');
 //nom de la page
 $name="local.php";
-connexion_local();
+connexion_local_read();
 mysql_select_db($db_ocs,$link_ocs);
 //recherche du niveau de droit de l'utilisateur
-$reqOp="SELECT new_accesslvl as accesslvl FROM operators WHERE id='".$_SESSION['OCS']["loggeduser"]."'";
-$resOp=mysql_query($reqOp, $link_ocs) or die(mysql_error($link_ocs));
+$reqOp="SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
+$argOp=array($_SESSION['OCS']["loggeduser"]);
+$resOp=mysql2_query_secure($reqOp,$link_ocs,$argOp);
 $rowOp=mysql_fetch_object($resOp);
 if (isset($rowOp -> accesslvl)){
 	$lvluser=$rowOp -> accesslvl;
@@ -27,8 +28,9 @@ if (isset($rowOp -> accesslvl)){
 	//Si l'utilisateur a des droits limit�s
 	//on va rechercher les tags sur lesquels il a des droits
 	if ($restriction == 'YES'){
-		$sql="select tag from tags where login='".$_SESSION['OCS']["loggeduser"]."'";
-		$res=mysql_query($sql, $link_ocs) or die(mysql_error($link_ocs));
+		$sql="select tag from tags where login='%s'";
+		$arg=array($_SESSION['OCS']["loggeduser"]);
+		$res=mysql2_query_secure($sql, $link_ocs,$arg);
 		while ($row=mysql_fetch_object($res)){	
 			$list_tag[$row->tag]=$row->tag;
 		}

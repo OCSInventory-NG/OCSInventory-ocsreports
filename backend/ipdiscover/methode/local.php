@@ -2,7 +2,7 @@
 
 //nom de la page
 $name="local.php";
-connexion_local();
+connexion_local_read();
 mysql_select_db($db_ocs,$link_ocs);
  
 $req="select distinct ipsubnet,s.name,s.id 

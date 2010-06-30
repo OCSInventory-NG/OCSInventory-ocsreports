@@ -1,8 +1,13 @@
 <?php
 //suppression des paquets qui restent en notifi� et qui sont plus vieux de 3 mois
 if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_notified'])){
-	$sql=" delete from devices where name='DOWNLOAD' and tvalue = 'NOTIFIED' and IVALUE='".$protectedGet['reset_notified']."' and hardware_id=".$systemid; 
-	mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));	
+	$sql=" delete from devices 
+			where name='%s' 
+				and tvalue = '%s' 
+				and IVALUE='%s' 
+				and hardware_id=%s"; 
+	$arg=array("DOWNLOAD","NOTIFIED",$protectedGet['reset_notified'],$systemid);
+	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);	
 }
 
 
@@ -12,18 +17,23 @@ if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_n
 if ($protectedPost['Valid_modif_x']){
 	if (trim($protectedPost['MOTIF'])){
 		if ($protectedPost["ACTION"] == "again"){
-			$sql=" update devices set TVALUE=null
-					where name='DOWNLOAD' and tvalue like 'ERR_%' and IVALUE='".$protectedGet['affect_again']."' and hardware_id=".$systemid; 
+			$sql=" update devices set TVALUE=%s
+					where name='%s' and tvalue like '%s' and IVALUE='%s' and hardware_id=%s"; 
+			$arg=array("null","DOWNLOAD","ERR_%",$protectedGet['affect_again'],$systemid);
 		}elseif($protectedPost["ACTION"] == "reset"){
-			$sql=" delete from devices where name='DOWNLOAD' and tvalue like 'ERR_%' and IVALUE='".$protectedGet['affect_reset']."' and hardware_id=".$systemid; 
+			$sql=" delete from devices 
+			where name='%s' and tvalue like '%s' and IVALUE='%s' and hardware_id=%s"; 
+			$arg=array("DOWNLOAD","ERR_%",$protectedGet['affect_again'],$systemid);
 		}
-		mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
+		
 		if (mysql_affected_rows() != 0){
-			$txt_trait=xml_encode(stripslashes($protectedPost['MOTIF']));
+			//$txt_trait=xml_encode(stripslashes($protectedPost['MOTIF']));
 			$sql="INSERT INTO itmgmt_comments (hardware_id,comments,user_insert,date_insert,action) 
-					values ('".$systemid."','".$txt_trait."','".$_SESSION['OCS']["loggeduser"]."',
-							sysdate(),'".$protectedPost["ACTION"]." => ".$protectedPost['NAME_PACK']."')"; 
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+					values ('%s','%s','%s',%s,'%s => %s')"; 
+			$arg=array($systemid,$protectedPost['MOTIF'],$_SESSION['OCS']["loggeduser"],
+						"sysdate()",$protectedPost["ACTION"],$protectedPost['NAME_PACK']);
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		}
 	}else
 	echo "<script>alert(\"".$l->g(903)."\")</script>";	
@@ -48,12 +58,12 @@ if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
 	$sql="select da.name from devices d, 
 						  download_enable de,
 							download_available da
-          where de.id='".$id_pack_affect."' and de.FILEID=da.FILEID
+          where de.id='%s' and de.FILEID=da.FILEID
 			and d.IVALUE=de.ID
-			AND d.hardware_id='".$protectedGet['systemid']."' AND d.name='DOWNLOAD'
-			and tvalue like 'ERR_%'";
-			//echo $sql;
-	$res = mysql_query( $sql, $_SESSION['OCS']["readServer"] );
+			AND d.hardware_id='%s' AND d.name='%s'
+			and tvalue like '%s'";
+	$arg=array($id_pack_affect,$protectedGet['systemid'],"DOWNLOAD","ERR_%");		//echo $sql;
+	$res = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
 		$val = mysql_fetch_array( $res ); 
 	if (isset($val['name'])){		
 		$tab_typ_champ[0]['INPUT_NAME']="MOTIF";
@@ -64,9 +74,14 @@ if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
 	}
 }
 if( isset( $protectedGet["suppack"] ) &  $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" ) {
-	if( $_SESSION['OCS']["justAdded"] == false )
-		@mysql_query("DELETE FROM devices WHERE ivalue=".$protectedGet["suppack"]." AND hardware_id='$systemid' AND name='DOWNLOAD'", $_SESSION['OCS']["writeServer"]);
-	else $_SESSION['OCS']["justAdded"] = false;
+	
+	if( $_SESSION['OCS']["justAdded"] == false ){
+		
+		$sql="DELETE FROM devices WHERE ivalue=%s AND hardware_id='%s' AND name='%s'";
+		$arg=array($protectedGet["suppack"],$systemid,"DOWNLOAD");
+		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+		
+	}else $_SESSION['OCS']["justAdded"] = false;
 	addLog($l->g(512), $l->g(886)." ".$protectedGet["suppack"]." => ".$systemid );
 }
 else 
@@ -80,17 +95,20 @@ if( isset( $protectedGet["actgrp"] )) {
 		//If you hav'nt permission => see only visible groups
 		if (!($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"))
 			$reqGroups .= " and h.workgroup = 'GROUP_4_ALL'";
-		$resGroups = mysql_query( $reqGroups, $_SESSION['OCS']["readServer"] );
+		$resGroups = mysql2_query_secure( $reqGroups, $_SESSION['OCS']["readServer"] );
 		$valGroups = mysql_fetch_array( $resGroups ); 
 		if (isset($valGroups['id'])){
-			$reqDelete = "DELETE FROM groups_cache WHERE hardware_id=".$systemid." AND group_id=".$protectedGet["grp"];
+			$reqDelete = "DELETE FROM groups_cache WHERE hardware_id=%s AND group_id=%s";
 			
 			if( $protectedGet["actgrp"] == 0 ) 
 				$reqDelete .= " AND static<>0";
-			$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (".$systemid.", ".$protectedGet["grp"].", ".$protectedGet["actgrp"].")";
-			@mysql_query( $reqDelete, $_SESSION['OCS']["writeServer"] );
+			$argDelete=array($systemid,$protectedGet["grp"]);
+			$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) 
+								VALUES (%s, %s, %s)";
+			$argInsert=array($systemid,$protectedGet["grp"],$protectedGet["actgrp"]);
+			mysql2_query_secure( $reqDelete, $_SESSION['OCS']["writeServer"],$argDelete );
 			if( $protectedGet["actgrp"] != 0 )
-				@mysql_query( $reqInsert, $_SESSION['OCS']["writeServer"] );
+				mysql2_query_secure( $reqInsert, $_SESSION['OCS']["writeServer"],$argInsert );
 		}
 }
 
@@ -99,8 +117,9 @@ $td2      = "<td height=20px bgcolor='white' align='center'>";
 $td3      = $td2;
 $td4      = "<td height=20px bgcolor='#F0F0F0' align='center'>";
 $i=0;
-	$queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
-	$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$queryDetails = "SELECT * FROM devices WHERE hardware_id=%s";
+	$argDetail=$systemid;
+	$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"],$argDetail);
 	echo "<table BORDER='1' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
 	//echo "<tr><td>&nbsp;&nbsp;</td> $td1 "."Libell�"." </td> $td1 "."Valeur"." </td><td>&nbsp;</td></tr>";		
@@ -117,7 +136,7 @@ $i=0;
 															'DOWNLOAD_PERIOD_LATENCY',	
 															'DOWNLOAD_TIMEOUT',
 															'PROLOG_FREQ')";
-	$result_default_value = mysql_query($sql_default_value, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$result_default_value = mysql2_query_secure($sql_default_value, $_SESSION['OCS']["readServer"]);
 	while($default=mysql_fetch_array($result_default_value)) {
 		$optdefault[$default["NAME"] ] = $default["IVALUE"];
 	}	
@@ -187,8 +206,10 @@ $i=0;
 	//PROLOG_FREQ
 	optperso("DOWNLOAD_TIMEOUT",$l->g(424)." <font color=green size=1><i>DOWNLOAD_TIMEOUT</i></font>",$optPerso,0,$optdefault["DOWNLOAD_TIMEOUT"],$l->g(496));
 	//GROUPS
-	$sql_groups="SELECT static, name, group_id,workgroup  FROM groups_cache g, hardware h WHERE g.hardware_id=$systemid AND h.id=g.group_id";
-	$resGroups = @mysql_query($sql_groups, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"])); 
+	$sql_groups="SELECT static, name, group_id,workgroup  
+				FROM groups_cache g, hardware h WHERE g.hardware_id=%s AND h.id=g.group_id";
+	$arg_groups=$systemid;
+	$resGroups = mysql2_query_secure($sql_groups, $_SESSION['OCS']["readServer"],$arg_groups); 
 	echo "<tr><td colspan=100></td></tr>";
 	if( mysql_num_rows( $resGroups )>0 ) {
 		while( $valGroups = mysql_fetch_array( $resGroups ) ) {
@@ -226,14 +247,15 @@ $i=0;
 			FROM devices d left join download_enable e on e.id=d.ivalue
 						LEFT JOIN download_available a ON e.fileid=a.fileid
 						LEFT JOIN hardware h on h.id=e.server_id
-			WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != ''   AND d.hardware_id=".$systemid."
+			WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != ''   AND d.hardware_id=%s
 			union
-			SELECT 'PAQUET SUPPRIME', d.tvalue,d.ivalue,d.comments,e.fileid, 'PAQUET SUPPRIME',h.name,h.id 
+			SELECT '" . $l->g(1129) . "', d.tvalue,d.ivalue,d.comments,e.fileid, '" . $l->g(1129) . "',h.name,h.id 
 			FROM devices d left join download_enable e on e.id=d.ivalue
 						LEFT JOIN download_available a ON e.fileid=a.fileid
 						LEFT JOIN hardware h on h.id=e.server_id
-			WHERE d.name='DOWNLOAD' and a.name is null and pack_loc is null  AND d.hardware_id=".$systemid;
-	$resDeploy = @mysql_query($query, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"])); 
+			WHERE d.name='DOWNLOAD' and a.name is null and pack_loc is null  AND d.hardware_id=%s";
+	$arg_query=array($systemid,$systemid);
+	$resDeploy = mysql2_query_secure($query, $_SESSION['OCS']["readServer"],$arg_query); 
 	if( mysql_num_rows( $resDeploy )>0 ) {
 			
 		while( $valDeploy = mysql_fetch_array( $resDeploy ) ) {
@@ -297,7 +319,7 @@ $i=0;
 					  WHERE h.deviceid='_SYSTEMGROUP_'";
 		if( !($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES") )
 			$reqGroups .= " and workgroup = 'GROUP_4_ALL'";
-		$resGroups = mysql_query( $reqGroups, $_SESSION['OCS']["readServer"] );
+		$resGroups =mysql2_query_secure( $reqGroups, $_SESSION['OCS']["readServer"] );
 		$first = true;
 		while( $valGroups = mysql_fetch_array( $resGroups ) ) {
 			if( $first ) {

@@ -5,10 +5,10 @@
  */
  
  
-connexion_local();
-mysql_select_db($db_ocs,$link_ocs);
-$reqOp="SELECT id,user_group FROM operators WHERE id='".$login."' and passwd ='".md5($mdp)."'";
-$resOp=mysql_query($reqOp, $link_ocs) or die(mysql_error($link_ocs));
+connexion_local_read();
+$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
+$arg_reqOp=array($login,md5($mdp));	
+$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
 $rowOp=mysql_fetch_object($resOp);
 if (isset($rowOp -> id)){
 	$login_successful = "OK";
