@@ -58,9 +58,7 @@ function mysql2_query_secure($sql,$link,$arg=''){
 
 	if (isset($arg_escape_string)){
 		if (is_array($arg_escape_string)){
-			//foreach ($arg_escape_string as $key=>$value){
 				$sql = vsprintf($sql,$arg_escape_string);
-			//}
 		}else
 			$sql = sprintf($sql,$arg_escape_string);
 	}

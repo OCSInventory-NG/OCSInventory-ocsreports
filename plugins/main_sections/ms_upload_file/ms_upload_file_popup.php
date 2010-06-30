@@ -42,13 +42,14 @@ if (isset($field) and $field != ''){
 		$contents = fread($fd, filesize ($filename));
 		fclose($fd);
 		//$binary = addslashes($contents);
-		$sql_insert="insert into temp_files (TABLE_NAME,FIELDS_NAME,FILE,AUTHOR,FILE_NAME,FILE_TYPE,FILE_SIZE)
-			values ('%s','%s','%s','%s','%s','%s','%s')";
+		$sql_insert="insert into temp_files (TABLE_NAME,FIELDS_NAME,FILE,AUTHOR,FILE_NAME,FILE_TYPE,FILE_SIZE,ID_DDE)
+			values ('%s','%s','%s','%s','%s','%s','%s','%s')";
 		$var_insert=array($table,$field,$contents,
 						$_SESSION['OCS']['loggeduser'],
 						$_FILES['file_upload']['name'],
 						$_FILES['file_upload']['type'],
-						$_FILES['file_upload']['size']);
+						$_FILES['file_upload']['size'],
+						$protectedGet["dde"]);
 		mysql2_query_secure($sql_insert,$_SESSION['OCS']["writeServer"],$var_insert);	
 	//	mysql_query($sql_insert, $_SESSION['OCS']["writeServer"],$_FILES['file_upload']['name'],$_FILES['file_upload']['type'],$_FILES['file_upload']['size']);
 		$tab_options['CACHE']='RESET';

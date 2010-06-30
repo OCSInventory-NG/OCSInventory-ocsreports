@@ -78,14 +78,16 @@ $field_of_accountinfo=witch_field_more();
 $optSelectField_account=array();
 $opt2Select_account=array();
 foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
-	if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
-		$name_field_accountinfo="TAG";	
-		$delfault_tag="Accinf: ".$lbl;
-	}else
-		$name_field_accountinfo="fields_" . $id;	
-	
+		if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
+			$name_field_accountinfo="TAG";	
+			$delfault_tag="Accinf: ".$lbl;
+		}else
+			$name_field_accountinfo="fields_" . $id;	
+			
+		$sort_accountinfo['ACCOUNTINFO-' . $name_field_accountinfo] = "Accinf: ".$lbl;
 		if (in_array($field_of_accountinfo['LIST_TYPE'][$id],array(0,1,3,6))){
-			$optSelectField_account['ACCOUNTINFO-' . $name_field_accountinfo]= "Accinf: ".$lbl;
+		
+			$optSelectField_account['ACCOUNTINFO-' . $name_field_accountinfo]= $sort_accountinfo['ACCOUNTINFO-' . $name_field_accountinfo];//"Accinf: ".$lbl;
 			if ($field_of_accountinfo['LIST_TYPE'][$id] == 6){
 				$optSelectField_account["ACCOUNTINFO-" . $name_field_accountinfo . "-LBL"]="calendar";	
 				$optSelectField_account["ACCOUNTINFO-" . $name_field_accountinfo . "-SELECT"]=array("exact"=>$l->g(410),"small"=>$l->g(346),"tall"=>$l->g(347));
@@ -752,59 +754,91 @@ if ($_SESSION['OCS']["mesmachines"] != '')
 // option: TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (affichage du select)
 // si option absente le select affiche array('exact'=> 'EXACTEMENT','ressemble'=>'RESSEMBLE','diff'=>'DIFFERENT')
 //a l'affichage on se retrouve avec le lbl du champ,un select et un champ de saisi
-
-$optSelectField=array( "HARDWARE-IPADDR"=>$l->g(82).": ".$l->g(34),
-			   "NETWORKS-MACADDR"=>$l->g(82).": ".$l->g(95),
+$sort_list=array("HARDWARE-IPADDR" =>$l->g(82).": ".$l->g(34),
+				 "NETWORKS-MACADDR"=>$l->g(82).": ".$l->g(95),
+				 "SOFTWARES-NAME"=>$l->g(20).": ".$l->g(49),
+			  	 "SOFTWARES-VERSION"=>$l->g(20).": ".$l->g(277),
+			  	 "HARDWARE-DESCRIPTION"=>$l->g(25).": ".$l->g(53),
+				 "HARDWARE-USERDOMAIN"=>$l->g(82).": ".$l->g(557),
+			   	 "BIOS-BVERSION"=>$l->g(273).": ".$l->g(209),
+			     "HARDWARE-USERID"=>$l->g(243).": ".$l->g(49),
+			     "HARDWARE-OSCOMMENTS"=>$l->g(25).": ".$l->g(51),
+			     "NETWORKS-IPGATEWAY"=>$l->g(82).": ".$l->g(207),
+			     "NETWORKS-IPSUBNET"=>$l->g(82).": ".$l->g(331),
+			     "NETWORKS-IPDHCP"=>$l->g(82).": ".$l->g(281),
+			     "BIOS-SSN"=>$l->g(273).": ".$l->g(36),
+			     "BIOS-SMODEL"=>$l->g(273).": ".$l->g(65),
+			     "HARDWARE-NAME"=>$l->g(729).": ".$l->g(49),
+			     "HARDWARE-PROCESSORT"=>$l->g(54).": ".$l->g(66),
+			     "BIOS-SMANUFACTURER"=>$l->g(729).": ".$l->g(64),
+			     "MONITORS-SERIAL"=>$l->g(554),
+			     "MONITORS-DESCRIPTION"=>$l->g(556),
+			     "MONITORS-MANUFACTURER"=>$l->g(555),
+			     "DRIVES-VOLUMN"=>$l->g(92).": ".$l->g(964),
+			     "BIOS-BMANUFACTURER"=>$l->g(273).": ".$l->g(284),
+			     "BIOS-BVERSION"=>$l->g(273).": ".$l->g(277),
+			     "HARDWARE-LASTDATE"=>"OCS: ".$l->g(46),
+				 "HARDWARE-LASTCOME"=>"OCS: ".$l->g(820),
+				 "HARDWARE-WORKGROUP"=>$l->g(82).": ".$l->g(33));
+		
+		
+$optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
+			   "NETWORKS-MACADDR"=>$sort_list["NETWORKS-MACADDR"],//$l->g(82).": ".$l->g(95),
 		//	   "ACCOUNTINFO-TAG-SELECT"=>array("exact"=>$l->g(410),"list"=>$l->g(961)." ".$_SESSION['OCS']['TAG_LBL']." ".$l->g(962),"notlist"=>$l->g(963)." ".$_SESSION['OCS']['TAG_LBL']." ".$l->g(962)),
-			   "SOFTWARES-NAME"=>$l->g(20).": ".$l->g(49),
-			   "SOFTWARES-VERSION"=>$l->g(20).": ".$l->g(277),
-			   "HARDWARE-DESCRIPTION"=>$l->g(25).": ".$l->g(53),
-			   "HARDWARE-USERDOMAIN"=>$l->g(82).": ".$l->g(557),
-			   "BIOS-BVERSION"=>$l->g(273).": ".$l->g(209),
-			   "HARDWARE-USERID"=>$l->g(243).": ".$l->g(49),
-			   "HARDWARE-OSCOMMENTS"=>$l->g(25).": ".$l->g(51),
-			   "NETWORKS-IPGATEWAY"=>$l->g(82).": ".$l->g(207),
-			   "NETWORKS-IPSUBNET"=>$l->g(82).": ".$l->g(331),
-			   "NETWORKS-IPDHCP"=>$l->g(82).": ".$l->g(281),
-			   "BIOS-SSN"=>$l->g(273).": ".$l->g(36),
-			   "BIOS-SMODEL"=>$l->g(273).": ".$l->g(65),
-			   "HARDWARE-NAME"=>$l->g(729).": ".$l->g(49),
-			   "HARDWARE-PROCESSORT"=>$l->g(54).": ".$l->g(66),
-			   "BIOS-SMANUFACTURER"=>$l->g(729).": ".$l->g(64),
-			   "MONITORS-SERIAL"=>$l->g(554),
-			   "MONITORS-DESCRIPTION"=>$l->g(556),
-			   "MONITORS-MANUFACTURER"=>$l->g(555),
-			    "DRIVES-VOLUMN"=>$l->g(92).": ".$l->g(964),
-			   "BIOS-BMANUFACTURER"=>$l->g(273).": ".$l->g(284),
-			   "BIOS-BVERSION"=>$l->g(273).": ".$l->g(277),
-			   "HARDWARE-LASTDATE"=>"OCS: ".$l->g(46),
+			   "SOFTWARES-NAME"=>$sort_list["SOFTWARES-NAME"],//$l->g(20).": ".$l->g(49),
+			   "SOFTWARES-VERSION"=>$sort_list["SOFTWARES-VERSION"],//$l->g(20).": ".$l->g(277),
+			   "HARDWARE-DESCRIPTION"=>$sort_list["HARDWARE-DESCRIPTION"],//$l->g(25).": ".$l->g(53),
+			   "HARDWARE-USERDOMAIN"=>$sort_list["HARDWARE-USERDOMAIN"],//$l->g(82).": ".$l->g(557),
+			   "BIOS-BVERSION"=>$sort_list["BIOS-BVERSION"],//$l->g(273).": ".$l->g(209),
+			   "HARDWARE-USERID"=>$sort_list["HARDWARE-USERID"],//$l->g(243).": ".$l->g(49),
+			   "HARDWARE-OSCOMMENTS"=>$sort_list["HARDWARE-OSCOMMENTS"],//$l->g(25).": ".$l->g(51),
+			   "NETWORKS-IPGATEWAY"=>$sort_list["NETWORKS-IPGATEWAY"],//$l->g(82).": ".$l->g(207),
+			   "NETWORKS-IPSUBNET"=>$sort_list["NETWORKS-IPSUBNET"],//$l->g(82).": ".$l->g(331),
+			   "NETWORKS-IPDHCP"=>$sort_list["NETWORKS-IPDHCP"],//$l->g(82).": ".$l->g(281),
+			   "BIOS-SSN"=>$sort_list["BIOS-SSN"],//$l->g(273).": ".$l->g(36),
+			   "BIOS-SMODEL"=>$sort_list["BIOS-SMODEL"],//$l->g(273).": ".$l->g(65),
+			   "HARDWARE-NAME"=>$sort_list["HARDWARE-NAME"],//$l->g(729).": ".$l->g(49),
+			   "HARDWARE-PROCESSORT"=>$sort_list["HARDWARE-PROCESSORT"],//$l->g(54).": ".$l->g(66),
+			   "BIOS-SMANUFACTURER"=>$sort_list["BIOS-SMANUFACTURER"],//$l->g(729).": ".$l->g(64),
+			   "MONITORS-SERIAL"=>$sort_list["MONITORS-SERIAL"],//$l->g(554),
+			   "MONITORS-DESCRIPTION"=>$sort_list["MONITORS-DESCRIPTION"],//$l->g(556),
+			   "MONITORS-MANUFACTURER"=>$sort_list["MONITORS-MANUFACTURER"],//$l->g(555),
+			    "DRIVES-VOLUMN"=>$sort_list["DRIVES-VOLUMN"],//$l->g(92).": ".$l->g(964),
+			   "BIOS-BMANUFACTURER"=>$sort_list["BIOS-BMANUFACTURER"],//$l->g(273).": ".$l->g(284),
+			   "BIOS-BVERSION"=>$sort_list["BIOS-BVERSION"],//$l->g(273).": ".$l->g(277),
+			   "HARDWARE-LASTDATE"=>$sort_list["HARDWARE-LASTDATE"],//"OCS: ".$l->g(46),
 			   "HARDWARE-LASTDATE-LBL"=>"calendar",
 			   "HARDWARE-LASTDATE-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(346),"tall"=>$l->g(347)),
-			   "HARDWARE-LASTCOME"=>"OCS: ".$l->g(820),
+			   "HARDWARE-LASTCOME"=>$sort_list["HARDWARE-LASTCOME"],//"OCS: ".$l->g(820),
 			   "HARDWARE-LASTCOME-LBL"=>"calendar",
 			   "HARDWARE-LASTCOME-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(346),"tall"=>$l->g(347)),
-			   "HARDWARE-WORKGROUP"=>$l->g(82).": ".$l->g(33));
+			   "HARDWARE-WORKGROUP"=>$sort_list["HARDWARE-WORKGROUP"]);//$l->g(82).": ".$l->g(33));
 
 	//ajout des champs de accountinfo
 $optSelectField = array_merge($optSelectField_account,$optSelectField);
 //composotion du tableau
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut �galement �tre un tableau de donn�es
 //� l'affichage on se retrouve avec le lbl du champ et un select
-$optSelect=array("HARDWARE-OSNAME"=>$l->g(729).": ".$l->g(25),
+$sort_list_Select=array("HARDWARE-OSNAME"=>$l->g(729).": ".$l->g(25),
+						"VIDEOS-RESOLUTION"=>$l->g(965).": ".$l->g(62));
+$optSelect=array("HARDWARE-OSNAME"=>$sort_list_Select["HARDWARE-OSNAME"],//$l->g(729).": ".$l->g(25),
 				 "HARDWARE-OSNAME-SQL1"=>"select 'ALL_LINUX' as ID, '".$l->g(965)."' as NAME union select 'ALL_WIN', '".$l->g(966)."' union select OSNAME,OSNAME from hardware_osname_cache where osname != '' ",
-				 "VIDEOS-RESOLUTION"=>$l->g(965).": ".$l->g(62),
+				 "VIDEOS-RESOLUTION"=>$sort_list_Select["VIDEOS-RESOLUTION"],//$l->g(965).": ".$l->g(62),
 				 "VIDEOS-RESOLUTION-SQL1"=>"select DISTINCT RESOLUTION as 'ID', RESOLUTION as 'NAME' from videos ".(isset($list_id_computer)? " where hardware_id in ".$list_id_computer : '')." order by 1");
 //composotion du tableau
 //option : TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (1er select)
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut �galement �tre un tableau de donn�es (2eme select)
 //� l'affichage on se retrouve avec  le lbl du champ, 2 select et un champ de saisi
-$opt2SelectField=array("REGISTRY-REGVALUE"=>$l->g(211).": ".$l->g(212),
+$sort_list_2SelectField=array("REGISTRY-REGVALUE"=>$l->g(211).": ".$l->g(212),
+						 "DRIVES-FREE"=>$l->g(92).": ".$l->g(45));
+
+$opt2SelectField=array("REGISTRY-REGVALUE"=>$sort_list_2SelectField["REGISTRY-REGVALUE"],//$l->g(211).": ".$l->g(212),
 				"REGISTRY-REGVALUE-SQL1"=>"select NAME from registry_name_cache order by 1",
 				"REGISTRY-REGVALUE-LBL"=>"calendar",
 				"REGISTRY-REGVALUE-SELECT"=>array('exact'=> $l->g(410),'ressemble'=>$l->g(129),
 					'diff'=>$l->g(130),
 					"small"=>$l->g(346),"tall"=>$l->g(347)),
-				 "DRIVES-FREE"=>$l->g(92).": ".$l->g(45),
+				 "DRIVES-FREE"=>$sort_list_2SelectField["DRIVES-FREE"],//$l->g(92).": ".$l->g(45),
 				 "DRIVES-FREE-SQL1"=>"select distinct LETTER from drives where letter != '' ".(isset($list_id_computer)? " and hardware_id in ".$list_id_computer : '')."
 									 union select distinct volumn from drives where letter = '' and volumn != '' ".(isset($list_id_computer)? " and hardware_id in ".$list_id_computer : '')." order by 1",
 				 "DRIVES-FREE-LBL"=>"MB",
@@ -814,27 +848,33 @@ $opt2SelectField=array("REGISTRY-REGVALUE"=>$l->g(211).": ".$l->g(212),
 //option : TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (1er select)
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut �galement �tre un tableau de donn�es (2eme select)
 //� l'affichage on se retrouve avec le lbl du champ et 2 select
-$opt2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
+$sort_list_2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
+						 "DEVICES-IPDISCOVER"=>$l->g(107).": ".$l->g(312),
+						 "DEVICES-FREQUENCY"=>$l->g(107).": ".$l->g(429),
+						 "GROUPS_CACHE-GROUP_ID"=>$l->g(583).": ".$l->g(49),
+						 "DOWNLOAD_HISTORY-PKG_ID"=>$l->g(512).": ".$l->g(969));
+
+$opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"],//"OCS: ".$l->g(966),
 				 "HARDWARE-USERAGENT-SQL1"=>"select distinct USERAGENT as 'NAME' from hardware where USERAGENT != '' ".(isset($list_id_computer)? " and id in ".$list_id_computer : '')." order by 1",
 				 "HARDWARE-USERAGENT-SELECT"=>array('exact'=>$l->g(410)
 				 									,'diff'=>$l->g(130)
 				 									),
-				 "DEVICES-IPDISCOVER"=>$l->g(107).": ".$l->g(312),
+				 "DEVICES-IPDISCOVER"=>$sort_list_2Select["DEVICES-IPDISCOVER"],//$l->g(107).": ".$l->g(312),
 				 "DEVICES-IPDISCOVER-SQL1"=>array("1"=>$l->g(502),"2"=>$l->g(503),"0"=>$l->g(506),"DEFAULT1"=>$l->g(504),"DEFAULT0"=>$l->g(505)),
 				 "DEVICES-IPDISCOVER-SELECT"=>array('exact'=>$l->g(410)
 				 									,'diff'=>$l->g(130)
 				 									),
-				 "DEVICES-FREQUENCY"=>$l->g(107).": ".$l->g(429),
+				 "DEVICES-FREQUENCY"=>$sort_list_2Select["DEVICES-FREQUENCY"],//$l->g(107).": ".$l->g(429),
 				 "DEVICES-FREQUENCY-SQL1"=>array("0"=>$l->g(485),"DEFAULT"=>$l->g(488),"-1"=>$l->g(486),"PERSO"=>$l->g(487)),
 				 "DEVICES-FREQUENCY-SELECT"=>array('exact'=>$l->g(410)
 												,'diff'=>$l->g(130)
 												),
-				 "GROUPS_CACHE-GROUP_ID"=>$l->g(583).": ".$l->g(49),
+				 "GROUPS_CACHE-GROUP_ID"=>$sort_list_2Select["GROUPS_CACHE-GROUP_ID"],//$l->g(583).": ".$l->g(49),
 				 "GROUPS_CACHE-GROUP_ID-SQL1"=>"select ID,NAME from hardware where deviceid = '_SYSTEMGROUP_' order by 2",
 				 "GROUPS_CACHE-GROUP_ID-SELECT"=>array('exact'=>$l->g(967)
 				 										,'diff'=>$l->g(968)
 				 										),
-				 "DOWNLOAD_HISTORY-PKG_ID"=>$l->g(512).": ".$l->g(969),
+				 "DOWNLOAD_HISTORY-PKG_ID"=>$sort_list_2Select["DOWNLOAD_HISTORY-PKG_ID"],//$l->g(512).": ".$l->g(969),
 				 "DOWNLOAD_HISTORY-PKG_ID-SQL1"=>"select FILEID as ID,NAME from download_available order by 2",
 				 "DOWNLOAD_HISTORY-PKG_ID-SELECT"=>array('exact'=>$l->g(507)
 				 									,'diff'=>$l->g(508)
@@ -858,10 +898,13 @@ $lbl_default= array('exact'=> $l->g(410),'ressemble'=>$l->g(129)
 											  'tall'=>"onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
 											  'between'=>"onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"inline\";'"));
 
-$optSelect2Field=array("HARDWARE-MEMORY"=>$l->g(25).": ".$l->g(26),
+$sort_list_Select2Field=array("HARDWARE-MEMORY"=>$l->g(25).": ".$l->g(26),
+						 "HARDWARE-PROCESSORS"=>$l->g(54).": ".$l->g(377));
+
+$optSelect2Field=array("HARDWARE-MEMORY"=>$sort_list_Select2Field["HARDWARE-MEMORY"],//$l->g(25).": ".$l->g(26),
 					   "HARDWARE-MEMORY-LBL"=>"MB",
 					   "HARDWARE-MEMORY-SELECT"=>$lbl_default,
-					   "HARDWARE-PROCESSORS"=>$l->g(54).": ".$l->g(377),
+					   "HARDWARE-PROCESSORS"=>$sort_list_Select2Field["HARDWARE-PROCESSORS"],//$l->g(54).": ".$l->g(377),
 					   "HARDWARE-PROCESSORS-LBL"=>"Mhz",
 					   "HARDWARE-PROCESSORS-SELECT"=>$lbl_default);
 //composotion du tableau
@@ -870,7 +913,8 @@ $optSelect2Field=array("HARDWARE-MEMORY"=>$l->g(25).": ".$l->g(26),
 // TABLE-NOMCHAMP-SQL2 => requete avec les champs ID (option) et NAME. Peut �galement �tre un tableau de donn�es (3eme select)
 
 //� l'affichage on se retrouve avec  le lbl du champ et 3 select
-$opt3Select=array("DEVICES-DOWNLOAD"=>$l->g(512).": ".$l->g(970),
+$sort_list_3Select=array("DEVICES-DOWNLOAD"=>$l->g(512).": ".$l->g(970));
+$opt3Select=array("DEVICES-DOWNLOAD"=>$sort_list_3Select["DEVICES-DOWNLOAD"],//$l->g(512).": ".$l->g(970),
 				 "DEVICES-DOWNLOAD-SQL1"=>"select 'NULL' as 'ID', '***".$l->g(509)."***' as NAME "./*union select 'ALL' as ID,'***TOUS LES PAQUETS***' as NAME */"union select FILEID as ID,NAME from download_available order by 2",
 				 "DEVICES-DOWNLOAD-SQL2"=>"select '***".$l->g(509)."***' as 'NAME' union select '***".$l->g(548)."***' union select '***".$l->g(956)."***' union select '***".$l->g(957)."***' union select '".$l->g(482)."' union select distinct TVALUE from devices where name='DOWNLOAD' and tvalue!='' order by 1",
 				 "DEVICES-DOWNLOAD-SELECT"=>array('exact'=>$l->g(507),'diff'=>$l->g(508))
@@ -881,17 +925,22 @@ $optArray = array_merge( $optSelectField,
 						 $optSelect,
 						 $optSelect2Field,
 						 $opt3Select);
-asort($optArray);
+$sort_list = array_merge($sort_accountinfo,
+						 $sort_list,
+						 $sort_list_3Select,
+						 $sort_list_Select2Field,
+						 $sort_list_2Select,
+						 $sort_list_2SelectField,
+						 $sort_list_Select);
+						 
+						 print_r($sort_list);
+asort($sort_list);
 $countHl++;
 $optArray_trait[$l->g(32)]=$l->g(32);
-foreach( $optArray as $key=>$value) {
-	if (substr($key,-5,-1) != '-SQL'
-		and substr($key,-7) != '-SELECT'
-		and substr($key,-4) != '-LBL'
-		){
-		$optArray_trait[$key]=$value;
+foreach( $sort_list as $key=>$value) {
+		$optArray_trait[$key]=ucfirst($value);
 $countHl++;
-	}
+
 }
 $protectedPost['multiSearch']=$l->g(32);
 $aff_field_search= $l->g(31).": ".show_modif($optArray_trait,'multiSearch',2,$form_name,array('DEFAULT'=>'NO'));
