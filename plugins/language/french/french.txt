@@ -1047,6 +1047,105 @@
 1128 Note
 1129 PAQUET SUPPRIME
 
+2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
+2001 ERROR:
+2002 ERROR: line
+2003 MySQL error:
+2004 (using new ocs account)
+2005 Subnet
+2006 WARNING:
+2007 account
+2008 error
+2009 failed
+2010 host
+2011 login
+2012 not inserted
+2013 needed
+2014 password
+2015 query
+2016 successful
+2017 using
+2018 was imported
+2019 were already imported
+2030 OCS Inventory Installation
+2031 Current installed version
+2032 is lower than this version
+2033 automatic install launched
+2034 DB configuration not completed. Automatic install launched
+2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php4-session package.
+2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
+2037 ERROR: MySql for PHP is not properly installed.<br>Try installing mysql for php package (Debian: php4-mysql)
+2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php4-gd package (Linux).
+2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php4-openssl package (Linux).
+2040 WARNING: You will not be able to build any deployment package with size greater than
+2041 You must raise both post_max_size and upload_max_filesize in your php.ini to encrease this limit.
+2042 WARNING: your the default root password is set on your mysql server. Change it asap. (using root password=blank)
+2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global max_allowed_packet mysql value to at least 2MB in your server config file.
+2044 Label added
+2045 Label NOT added (not tag will be asked on client launch)
+2046 ERROR: MySql authentication problem.
+2047 You must add the 'old-passwords' in your mysql configuration file (my.ini). Then restart mysql, and relaunch install.php
+2048 ERROR: MySql authentication problem.
+2049 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
+2050 Installation finished you can log in index.php with login=admin and pass=admin
+2051 Click here to enter OCS-NG GUI
+2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
+2053 Please wait, database update may take up to 30 minutes...
+2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
+2055 Database successfully generated
+2056 MySql config file successfully written
+2057 Existing database updated
+2058 Database engine checking...
+2059 ERROR: Alter query failed
+2060 ERROR: Show table status query failed
+2061 ERROR: InnoDB conversion failed, install InnoDB  mysql engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your mysql config file.)<br>Reinstall when corrected.
+2062 ERROR: HEAP conversion failed, install HEAP mysql engine support on your server<br>or you will experience severe performance issues.
+2063 Database engine successfully updated
+2064 table(s) altered
+2065 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
+2066 WARNING: 'files' directory missing, can't import
+2067 from it
+2068 was not inserted. You need to set the max_allowed_packet mysql value to at least 2MB
+2069 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
+2070 missing, if you do not reinstall the DEPLOY feature won't be available
+2071 WARNING: One or more files were already inserted
+2072 Deploy files successfully inserted
+2073 Table 'files' truncated
+2074 Table 'files' was empty
+2075 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
+2076 No subnet.csv file to import
+2077 Inserting subnet.csv networks
+2078 ERROR: Could not insert network
+2079 in the subnet table, error
+2080 WARNING: Network
+2081 was not inserted (invalid ip or mask
+2082 Network netid computing. Please wait...
+2083 ERROR: Could not update netid to
+2084 Network netid was computed
+2085 were already computed
+2086 were not computable
+2087 Netmap netid computing. Please wait...
+2088 ERROR: Could not update netid to
+2089 Netmap netid was computed
+2090 Cleaning orphans...
+2091 ERROR: Could not clean
+2092 orphan lines deleted
+2093 Cleaning netmap...
+2094 ERROR: Could not clean netmap
+2095 netmap lines deleted
+2096 Please enter the label of the windows client tag input box:
+2097 Leave empty if you don't want a popup to be shown on each agent launch
+
+3000 * Edition langue 3000-3020 *
+3001 EDITION LANGUE
+3002 Action
+3003 Mot
+3004 ID mot
+3005 Nouveau libellé
+3006 modifier
+3007 supprimer
+3008 ajouter
+
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
 5002 [DEBUG] => poids: [DEBUG]
