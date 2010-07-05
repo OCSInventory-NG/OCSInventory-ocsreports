@@ -23,7 +23,7 @@ require_once("preferences.php");
 /******************************************Checking sql update*********************************************/
 if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])){
 	$sql_log="select TVALUE from config where name='GUI_VERSION'";
-	$result_log = mysql_query($sql_log, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$result_log = mysql2_query_secure($sql_log, $_SESSION['OCS']["readServer"]);
 	while($value=mysql_fetch_array($result_log))
 		$_SESSION['OCS']['SQL_BASE_VERS'] = $value['TVALUE'];	
 }
@@ -117,10 +117,20 @@ if (isset($protectedPost['Valid_EDITION_x'])){
 		}else{
 			$_SESSION['OCS']['LANGUAGE_FILE']->tableauMots[$protectedPost['ID_WORD']]=$protectedPost['UPDATE'];
 		}
-		$sql="update languages set json_value = '".mysql_real_escape_string(json_encode($_SESSION['OCS']['LANGUAGE_FILE']->tableauMots))."'
-				where name= '".$_SESSION['OCS']['LANGUAGE']."'"; 
-		if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] ))
-				echo mysql_error($_SESSION['OCS']["writeServer"]);
+		
+		/*$file_name=$_SESSION['OCS']['plugins_dir']."language/".$language."/".$_SESSION['OCS']['LANGUAGE'].".txt";
+		
+		
+		$file=fopen($file_name."_old","x+");
+		foreach ($_SESSION['OCS']['LANGUAGE_FILE'] as $key=>$value){
+				fwrite($file,$key." ".$value."/r/n");			
+		}
+		fclose($file);*/
+		
+	/*	$sql="update languages set json_value = '%s'
+				where name= '%s'"; 
+		$arg=array(json_encode($_SESSION['OCS']['LANGUAGE_FILE']->tableauMots),$_SESSION['OCS']['LANGUAGE']);
+		mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg);*/
 		}
 }
 unset($_SESSION['OCS']['EDIT_LANGUAGE']);
@@ -165,7 +175,7 @@ unset($_SESSION['OCS']['ipdiscover']);
 /***********************************************************gestion des logs*************************************************************************/
 if (!isset($_SESSION['OCS']['LOG_GUI'])){
 	$sql_log="select name,ivalue,tvalue from config where name= 'LOG_GUI' or name='LOG_DIR' or name='LOG_SCRIPT'";
-	$result_log = mysql_query($sql_log, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$result_log = mysql2_query_secure($sql_log, $_SESSION['OCS']["readServer"]);
 	while($value_log=mysql_fetch_array($result_log)) {
 		if ($value_log["name"] == 'LOG_GUI')
 			$_SESSION['OCS']['LOG_GUI'] = $value_log['ivalue'];
@@ -184,15 +194,15 @@ if (!isset($_SESSION['OCS']['LOG_GUI'])){
 /****************END GESTION LOGS***************/
 
 /*********************************************GESTION OF LBL_TAG*************************************/
-if (!isset($_SESSION['OCS']['LBL_TAG'])){
+/*if (!isset($_SESSION['OCS']['LBL_TAG'])){
 	$sql_tag="select tvalue from config where name= 'LBL_TAG'";
-	$result_tag = mysql_query($sql_tag, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$result_tag = mysql2_query_secure($sql_tag, $_SESSION['OCS']["readServer"]);
 	$value_tag=mysql_fetch_array($result_tag);
 	if ($value_tag["tvalue"] != '')
 		$_SESSION['OCS']['TAG_LBL'] = $value_tag['tvalue'];
 	else
 		$_SESSION['OCS']['TAG_LBL'] = "TAG";
-}
+}*/
 /*******************************************GESTION OF PLUGINS (MAIN SECTIONS)****************************/
 if (!isset($_SESSION['OCS']['all_menus'])){	
 	require_once($_SESSION['OCS']['main_sections_dir']."sections.php");

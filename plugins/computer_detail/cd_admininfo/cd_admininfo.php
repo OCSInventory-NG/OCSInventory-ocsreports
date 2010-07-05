@@ -27,11 +27,12 @@ $list_tab=find_all_account_tab(1,1);
 if ($list_tab != ''){
 	if ($protectedPost['Valid_modif_x'] != ""){
 		foreach ($protectedPost as $field=>$value){
-			if (array_key_exists($field,$info_account_id)){
-				$temp_field=explode('_',$field);
+			$temp_field=explode('_',$field);
+			if (array_key_exists( $temp_field[0] . '_' . $temp_field[1],$info_account_id)){
 				//cas of checkbox
-				if (isset($temp_field[2]))
+				if (isset($temp_field[2])){
 				$data_fields_account[$temp_field[0] . "_" . $temp_field[1]].=$temp_field[2] . "&&&";	
+				}
 				else
 				$data_fields_account[$field]=$value;	
 	

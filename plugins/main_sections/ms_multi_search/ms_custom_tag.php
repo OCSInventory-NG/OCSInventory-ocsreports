@@ -1,61 +1,64 @@
 <?php
 require_once('require/function_search.php');
-//if ($protectedPost['CHOISE'] == 'SEL'){
-//			$array_id=$protectedGet['idchecked'];		
-//		}elseif ($protectedPost['CHOISE'] == 'REQ'){
-//			if (is_array($_SESSION['OCS']['ID_REQ']))
-//			$array_id=implode(',',$_SESSION['OCS']['ID_REQ']);	
-//			else
-//			$array_id=$_SESSION['OCS']['ID_REQ'];	
-//			//print_r($_SESSION['OCS']['ID_REQ']);
-//}
+require_once('require/function_admininfo.php');
+
 $form_name="lock_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''><div align=center>";
 $list_id=multi_lot($form_name,$l->g(601));
-//$list_fields=array();
-//if (!isset($protectedPost['SHOW']))
-//		$protectedPost['SHOW'] = 'NOSHOW';
-if (isset($protectedPost['Valid_modif_x'])){
-		foreach ($protectedPost as $key=>$value){
-			$temp="";
-			if (substr($key, 0, 5) == "check"){
-				$temp=substr($key, 5);
-				$tag_value=$protectedPost[$temp];
-				if ($temp == $_SESSION['OCS']['TAG_LBL'])
-					$temp="TAG";
-				$list_tag[$temp]=$tag_value;
-			} 				
+
+
+if (isset($protectedPost['Valid_modif_x']) and $protectedPost['Valid_modif_x'] != ''){
+	$info_account_id=admininfo_computer();
+
+	foreach ($protectedPost as $field=>$value){
+			
+			if (substr($field, 0, 5) == "check"){
+				$temp=substr($field, 5);
+				if (array_key_exists($temp,$info_account_id)){
+					//cas of checkbox
+					foreach ($protectedPost as $field2=>$value2){
+						$casofcheck=explode('_',$field2);
+						if ($casofcheck[0] . '_' . $casofcheck[1] == $temp){
+							if (isset($casofcheck[2]))
+								$data_fields_account[$temp] .= $casofcheck[2] . "&&&";
+							
+						}						
+					}
+					if (!isset($data_fields_account[$temp]))
+					$data_fields_account[$temp]=$protectedPost[$temp];	
+		
+				}			
+			
+			}
 		}
-	if (isset($list_tag)){	
-		$sql= "update accountinfo set ";
-		foreach($list_tag as $tag=>$value){
-			 $sql.=$tag." = \"".$value."\" ,";
-		}
-		$sql=substr($sql,0, -1)." where hardware_id in (".$list_id.")";
-		//echo "<br>".$sql;
-		mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
+
+	if (isset($data_fields_account)){	
+		updateinfo_computer($list_id,$data_fields_account,'LIST');
 		unset($_SESSION['OCS']['DATA_CACHE']['TAB_MULTICRITERE']);
 		echo "<script language='javascript'> window.opener.document.multisearch.submit();</script>";
-		//echo $sql;
-	}		
+	}
 }
+
 
 if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedPost['pack_list'] != ""){
 	$sql="select ID from download_enable 
-			where fileid='".$protectedPost['pack_list']."'";
-	$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));	
+			where fileid='%s'";
+	$arg=$protectedPost['pack_list'];
+	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 	while($item = mysql_fetch_object($result)){	
 		$list_download_id[]=$item->ID;
 	}
-	//		and d.hardware_id in (".$array_id.")";
-			
-			
+
 	$sql="delete from devices 
-			where IVALUE in (".implode(',',$list_download_id).") 
-			and NAME='DOWNLOAD'
-			and hardware_id in (".$list_id.")";
-	echo $sql."<br>";
-	mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
+			where IVALUE in ";	
+	$arg=array();
+	$tab_result=mysql2_prepare($sql,$arg,$list_download_id);
+	$sql=$tab_result['SQL'];
+	$arg=$tab_result['ARG'];
+	$sql .= "and NAME='DOWNLOAD' 
+			 and hardware_id in ";
+	$tab_result=mysql2_prepare($sql,$arg,$list_id);
+	mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["writeServer"],$tab_result['ARG']);	
 	echo "<br><font color=green>".mysql_affected_rows()." ".$l->g(1026)."</font>";
 	
 }
@@ -70,45 +73,56 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 	
 	//print_r($protectedPost);
 	if (isset($protectedPost['CHOISE']) and $protectedPost['CHOISE'] != ""){
-		if ($protectedPost['onglet']=="TAG" or !isset($protectedPost['onglet'])){		
-			$queryDetails = "show columns from accountinfo";
-			$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		if ($protectedPost['onglet']=="TAG" or !isset($protectedPost['onglet'])){	
+			require_once('require/function_admininfo.php');
+			$field_of_accountinfo=witch_field_more();
+			$tab_typ_champ=array();
 			$i=0;
-			while($item = mysql_fetch_object($resultDetails)){
-				if ($item->Field != "HARDWARE_ID"){
-					if ($item->Field == "TAG")
-						$truename=$_SESSION['OCS']['TAG_LBL'];
-					else
-						$truename=$item->Field;
-					$java="";
-					switch ($item->Type){
-						case "int(11)" : $java = $chiffres;
-										break;
-						case "varchar(255)"  : $java = $majuscule;
-										break;
-						case "date"  : $java = "READONLY ".dateOnClick($truename);
-										//$tab_typ_champ[$i]['COMMENT_BEHING'] =datePick($truename);
-										break;
-						default : $java;
-					}
-					$tab_typ_champ[$i]['COMMENT_BEHING']="<input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
-					$tab_typ_champ[$i]['INPUT_NAME']=$truename;
-					$tab_typ_champ[$i]['INPUT_TYPE']=0;
-					$tab_typ_champ[$i]['CONFIG']['JAVASCRIPT']=$java." onclick='document.getElementById(\"check".$truename."\").checked = true' ";
-					$tab_typ_champ[$i]['CONFIG']['MAXLENGTH']=100;
-					$tab_typ_champ[$i]['CONFIG']['SIZE']=40;
-					$tab_typ_champ[$i]['DEFAULT_VALUE']=$protectedPost[$truename];
-					$tab_name[$i]=$truename;
-					$i++;
+			foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
+				if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
+					$truename="TAG";	
+				//	$delfault_tag="Accinf: ".$lbl;
+				}else
+					$truename="fields_" . $id;
+				//	echo $field_of_accountinfo['LIST_TYPE'][$id];
+			if ($field_of_accountinfo['LIST_TYPE'][$id] == 6){
+				$tab_typ_champ[$i]['CONFIG']['MAXLENGTH']=10;
+				$tab_typ_champ[$i]['CONFIG']['SIZE']=10;
+				$tab_typ_champ[$i]['COMMENT_BEHING']=calendars($truename,"DDMMYYYY")."</a></td><td><input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
+			}elseif (in_array($field_of_accountinfo['LIST_TYPE'][$id],array(2,4,7))){
+				$sql="select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_%s' order by 2";
+				$arg= $field_of_accountinfo['LIST_NAME'][$id]."%";
+				$result=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
+				while ($val = mysql_fetch_array( $result )){
+					$tab_typ_champ[$i]['DEFAULT_VALUE'][$val['ID']]=$val['NAME'];
+					
 				}
+				$tab_typ_champ[$i]['COMMENT_BEHING']="</td><td><input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
+				
+				
+			}else{
+				$tab_typ_champ[$i]['COMMENT_BEHING']="</td><td><input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
+				$tab_typ_champ[$i]['CONFIG']['MAXLENGTH']=100;
+				$tab_typ_champ[$i]['CONFIG']['SIZE']=30;
+				
 			}
-		
-				tab_modif_values($tab_name,$tab_typ_champ,array('TAG_MODIF'=>$protectedPost['MODIF'],'FIELD_FORMAT'=>$type_field[$protectedPost['MODIF']]),$l->g(895),"");
+				$tab_typ_champ[$i]['INPUT_NAME']=$truename;
+				$tab_typ_champ[$i]['INPUT_TYPE']=$convert_type[$field_of_accountinfo['LIST_TYPE'][$id]];
+				$tab_typ_champ[$i]['CONFIG']['JAVASCRIPT']=$java." onclick='document.getElementById(\"check".$truename."\").checked = true' ";
+				
+				//$tab_typ_champ[$i]['DEFAULT_VALUE']=$protectedPost[$truename];
+				$tab_name[$i]=$lbl;
+				$i++;
+			}
+			tab_modif_values($tab_name,$tab_typ_champ,array('TAG_MODIF'=>$protectedPost['MODIF'],'FIELD_FORMAT'=>$type_field[$protectedPost['MODIF']]),$l->g(895),"");
+			
 		}elseif ($protectedPost['onglet']=="SUP_PACK"){
 			echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
 			
-			$queryDetails = "select d_a.fileid,d_a.name from download_available d_a, download_enable d_e where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
-			$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			$queryDetails = "select d_a.fileid,d_a.name 
+								from download_available d_a, download_enable d_e 
+								where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
+			$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
 			while($val = mysql_fetch_array($resultDetails)){
 				$List[$val["fileid"]]=$val["name"];		
 			}
@@ -116,10 +130,12 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 			echo  "<tr><td align=center>".$l->g(970)." :".$select."</td></tr>";
 			if ($protectedPost['pack_list'] != ""){
 				$sql ="select count(*) c, tvalue from download_enable d_e,devices d
-						where d.name='DOWNLOAD' and d.IVALUE=d_e.ID and d_e.fileid=".$protectedPost['pack_list']."
-						and d.hardware_id in (".$list_id.") group by tvalue";
-	
-				$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+						where d.name='DOWNLOAD' and d.IVALUE=d_e.ID and d_e.fileid='%s'
+						and d.hardware_id in ";				
+				$arg = array($protectedPost['pack_list']);
+				$tab_result=mysql2_prepare($sql,$arg,$list_id);
+				$sql= $tab_result['SQL'] . " group by tvalue";
+				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$tab_result['ARG'] );
 				while ($item = mysql_fetch_object($result)){
 					if ($item->tvalue == "")
 						$value=$l->g(482);
