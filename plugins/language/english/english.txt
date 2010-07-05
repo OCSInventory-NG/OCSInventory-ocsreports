@@ -1021,6 +1021,10 @@
 1127 Autor of note
 1128 Note
 1129 REMOVED PACKAGE
+1130 Language editor
+1131 Word
+1132 ID word
+1133 New word
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
@@ -1061,7 +1065,6 @@
 2046 ERROR: MySql authentication problem.
 2047 You must add the 'old-passwords' in your mysql configuration file (my.ini). Then restart mysql, and relaunch install.php
 2048 ERROR: MySql authentication problem.
-2049 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2050 Installation finished you can log in index.php with login=admin and pass=admin
 2051 Click here to enter OCS-NG GUI
 2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
@@ -1081,13 +1084,11 @@
 2066 WARNING: 'files' directory missing, can't import
 2067 from it
 2068 was not inserted. You need to set the max_allowed_packet mysql value to at least 2MB
-2069 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2070 missing, if you do not reinstall the DEPLOY feature won't be available
 2071 WARNING: One or more files were already inserted
 2072 Deploy files successfully inserted
 2073 Table 'files' truncated
 2074 Table 'files' was empty
-2075 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2076 No subnet.csv file to import
 2077 Inserting subnet.csv networks
 2078 ERROR: Could not insert network
@@ -1111,15 +1112,7 @@
 2096 Please enter the label of the windows client tag input box:
 2097 Leave empty if you don't want a popup to be shown on each agent launch
 
-3000 * Language editor 3000-3020 *
-3001 Language editor
-3002 Action
-3003 Word
-3004 ID word
-3005 New word
-3006 modify
-3007 delete
-3008 add
+
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

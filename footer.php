@@ -23,22 +23,22 @@ if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 	
 	$form_language="ADMIN_LANGUAGE";
 	echo "<hr/>";
-	$action['MODIF']=$l->g(3006);
-	$action['DEL']=$l->g(3007);
-	$action['ADD']=$l->g(3008);
+	$action['MODIF']=$l->g(115);
+	$action['DEL']=$l->g(392);
+	$action['ADD']=$l->g(116);
 	$tab_typ_champ[0]['DEFAULT_VALUE']=$action;
 	$tab_typ_champ[0]['INPUT_NAME']="ACTION";
 	$tab_typ_champ[0]['INPUT_TYPE']=2;
 	$tab_typ_champ[0]['RELOAD']=$form_language;
 	//$tab_typ_champ[0]['CONFIG']['JAVASCRIPT']="onclick='report_id();'";
-	$tab_name[0]=$l->g(3002).":";
+	$tab_name[0]=$l->g(443).":";
 	if (isset($protectedPost['ACTION']) and $protectedPost['ACTION'] != ''){
 		if ($protectedPost['ACTION'] != 'ADD'){
 			$tab_typ_champ[1]['DEFAULT_VALUE']=$_SESSION['OCS']['EDIT_LANGUAGE'];
 			$tab_typ_champ[1]['INPUT_NAME']="WORD";
 			$tab_typ_champ[1]['INPUT_TYPE']=2;
 			$tab_typ_champ[1]['CONFIG']['JAVASCRIPT']="onclick='report_id();'";
-			$tab_name[1]=$l->g(3003).":";
+			$tab_name[1]=$l->g(1131).":";
 			$function_javascript="report_lbl();";
 		}else
 		$function_javascript="";
@@ -48,7 +48,7 @@ if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 		$tab_typ_champ[2]['CONFIG']['SIZE']=5;
 		$tab_typ_champ[2]['CONFIG']['MAXLENGTH']=20;
 		$tab_typ_champ[2]['CONFIG']['JAVASCRIPT']="onclick='".$function_javascript."' onKeyPress='return scanTouche(event,/[0-9]/)' onkeydown='".$function_javascript."' onkeyup='".$function_javascript."' onblur='".$function_javascript."'";
-		$tab_name[2]=$l->g(3004).":";
+		$tab_name[2]=$l->g(1132).":";
 		
 		if($protectedPost['ACTION'] != 'DEL'){
 			$tab_typ_champ[3]['DEFAULT_VALUE']=$protectedPost['UPDATE'];
@@ -56,12 +56,12 @@ if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 			$tab_typ_champ[3]['INPUT_TYPE']=0;
 			$tab_typ_champ[3]['CONFIG']['SIZE']=60;
 			$tab_typ_champ[3]['CONFIG']['MAXLENGTH']=255;
-			$tab_name[3]=$l->g(3005).":";
+			$tab_name[3]=$l->g(1133).":";
 		}
 		$show_buttons=true;
 	}else
 	$show_buttons=false;
-	tab_modif_values($tab_name,$tab_typ_champ,'',$l->g(3001),$comment="","EDITION",$show_buttons,$form_language);
+	tab_modif_values($tab_name,$tab_typ_champ,'',$l->g(1130),$comment="","EDITION",$show_buttons,$form_language);
 }
 
 if ($_SESSION['OCS']['DEBUG'] == 'ON'){

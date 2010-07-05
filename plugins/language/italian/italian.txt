@@ -1021,6 +1021,11 @@
 1127 Autore della nota
 1128 Nota
 1129 PACCHETTO RIMOSSO
+1130 Editor della lingua
+1131 Parola
+1132 ID parola
+1133 Nuova parola
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
@@ -1062,7 +1067,6 @@
 2046 ERRORE: MySql authentication problem.
 2047 You must add the 'old-passwords' in your mysql configuration file (my.ini). Then restart mysql, and relaunch install.php
 2048 ERRORE: MySql authentication problem.
-2049 ERRORE: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2050 Installation finished you can log in index.php with login=admin and pass=admin
 2051 Click here to enter OCS-NG GUI
 2052 ERRORE: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
@@ -1082,13 +1086,11 @@
 2066 ATTENZIONE: 'files' directory missing, can't import
 2067 from it
 2068 was not inserted. You need to set the max_allowed_packet mysql value to at least 2MB
-2069 ERRORE: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2070 missing, if you do not reinstall the DEPLOY feature won't be available
 2071 ATTENZIONE: One or more files were already inserted
 2072 Deploy files successfully inserted
 2073 Table 'files' truncated
 2074 Table 'files' was empty
-2075 ERRORE: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2076 No subnet.csv file to import
 2077 Inserting subnet.csv networks
 2078 ERRORE: Could not insert network
@@ -1112,15 +1114,7 @@
 2096 Please enter the label of the windows client tag input box:
 2097 Leave empty if you don't want a popup to be shown on each agent launch
 
-3000 * Editor della lingua 3000-3020 *
-3001 Editor della lingua
-3002 Azione
-3003 Parola
-3004 ID parola
-3005 Nuova parola
-3006 modifica
-3007 elimina
-3008 aggiungi
+
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
