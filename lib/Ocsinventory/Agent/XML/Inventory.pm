@@ -497,6 +497,7 @@ sub addNetwork {
   my $status = $args->{STATUS};
   my $type = $args->{TYPE};
   my $virtualdev = $args->{VIRTUALDEV};
+  my $speed = $args->{SPEED};
 
 #  return unless $ipaddress;
 
@@ -515,6 +516,7 @@ sub addNetwork {
     STATUS => [$status?$status:''],
     TYPE => [$type?$type:''],
     VIRTUALDEV => [$virtualdev?$virtualdev:''],
+    SPEED => [$speed?$speed:''],
 
   };
 }
