@@ -22,7 +22,8 @@
 					   'Type'=> 'TYPE',
 					   $l->g(284) => 'BMANUFACTURER',
 					   $l->g(209) => 'BVERSION',
-					   $l->g(210) => 'BDATE');
+					   $l->g(210) => 'BDATE',
+					   'ASSETTAG' =>'ASSETTAG');
 	$sql="select SSN from bios WHERE (hardware_id=%s)";
 	$arg=array($systemid);
 	$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
