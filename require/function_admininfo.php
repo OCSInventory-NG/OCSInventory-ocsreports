@@ -44,7 +44,7 @@ function add_accountinfo($newfield,$newtype,$newlbl,$tab){
 		$sql_add_column="ALTER TABLE accountinfo ADD COLUMN fields_%s %s default NULL";
 		$arg_add_column=array(mysql_insert_id(),$sql_type_accountinfo[$newtype]);
 		mysql2_query_secure($sql_add_column,$_SESSION['OCS']["writeServer"],$arg_add_column);			
-		unset($newfield,$newlbl);
+		unset($newfield,$newlbl,$_SESSION['OCS']['TAG_LBL']);
 		return "<font color=green><b>".$l->g(1069)."</b></font>";			
 	}else
 		return "<font color=red><b>".$ERROR."</b></font>";
@@ -69,7 +69,7 @@ function del_accountinfo($id){
 	$sql_DEL_column="ALTER TABLE accountinfo DROP COLUMN fields_%s";
 	$arg_DEL_column=$id;
 	mysql2_query_secure($sql_DEL_column,$_SESSION['OCS']["writeServer"],$arg_DEL_column);
-		
+	unset($_SESSION['OCS']['TAG_LBL']);	
 }
 
 /*
@@ -196,6 +196,7 @@ function update_accountinfo_config($id,$array_new_values){
 		}
 		
 		mysql2_query_secure($sql_update_config,$_SESSION['OCS']["writeServer"],$arg_update_config);
+		unset($_SESSION['OCS']['TAG_LBL']);
 	
 }
 

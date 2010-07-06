@@ -18,7 +18,7 @@ while( $val = mysql_fetch_array($result) ){
 		if (trim($val['name']) != '' and $no_show == 'OK') 
 		$list_soft[]=addslashes(utf8_decode($val['name']));
 }
-$fields= array("a.tag"=>$_SESSION['OCS']['TAG_LBL'],
+$fields= array("a.tag"=>$_SESSION['OCS']['TAG_LBL']['TAG'],
 			   "s.name"=>$l->g(20),
 			   "h.name"=>$l->g(23),
 			   "h.userid"=>$l->g(24),

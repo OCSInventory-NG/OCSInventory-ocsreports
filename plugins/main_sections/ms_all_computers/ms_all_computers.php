@@ -18,7 +18,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	$form_name="show_all";
 	$table_name="list_show_all";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields = array ( $_SESSION['OCS']['TAG_LBL']   => "a.tag", 
+	$list_fields = array ( $_SESSION['OCS']['TAG_LBL']['TAG']   => "a.tag", 
 						   $l->g(46) => "h.lastdate", 
 						   $l->g(949) => "ID",
 						   $l->g(24) => "h.userid",
@@ -57,7 +57,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 		
 	}
 	$list_col_cant_del=array('SUP'=>'SUP');
-	$default_fields= array($_SESSION['OCS']['TAG_LBL']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
+	$default_fields= array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
 							$l->g(24)=>$l->g(24),$l->g(25)=>$l->g(25),$l->g(568)=>$l->g(568),
 							$l->g(569)=>$l->g(569));
 	$queryDetails  = "SELECT h.id, ";

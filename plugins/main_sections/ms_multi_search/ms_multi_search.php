@@ -784,7 +784,6 @@ $sort_list=array("HARDWARE-IPADDR" =>$l->g(82).": ".$l->g(34),
 		
 $optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
 			   "NETWORKS-MACADDR"=>$sort_list["NETWORKS-MACADDR"],//$l->g(82).": ".$l->g(95),
-		//	   "ACCOUNTINFO-TAG-SELECT"=>array("exact"=>$l->g(410),"list"=>$l->g(961)." ".$_SESSION['OCS']['TAG_LBL']." ".$l->g(962),"notlist"=>$l->g(963)." ".$_SESSION['OCS']['TAG_LBL']." ".$l->g(962)),
 			   "SOFTWARES-NAME"=>$sort_list["SOFTWARES-NAME"],//$l->g(20).": ".$l->g(49),
 			   "SOFTWARES-VERSION"=>$sort_list["SOFTWARES-VERSION"],//$l->g(20).": ".$l->g(277),
 			   "HARDWARE-DESCRIPTION"=>$sort_list["HARDWARE-DESCRIPTION"],//$l->g(25).": ".$l->g(53),

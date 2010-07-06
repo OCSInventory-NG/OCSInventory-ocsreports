@@ -2,15 +2,15 @@
 	$form_name="repart_tag";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields = array ( $_SESSION['OCS']['TAG_LBL']   => "ID", 
+	$list_fields = array ( $_SESSION['OCS']['TAG_LBL']['TAG']   => "ID", 
 						   'Nbr_mach'=>'c');
-	$tab_options['FILTRE']['a.tag']=$_SESSION['OCS']['TAG_LBL'];
+	$tab_options['FILTRE']['a.tag']=$_SESSION['OCS']['TAG_LBL']['TAG'];
 //	$tab_options['NO_TRI']['LBL_UNIT']='LBL_UNIT';
 //	$tab_options['LBL']['LBL_UNIT']="libell� unit�";
 	$tab_options['LIEN_LBL']['Nbr_mach']="index.php?".PAG_INDEX."=".$pages_refs['ms_all_computers']."&filtre=a.tag&value=";
 	$tab_options['LIEN_CHAMP']['Nbr_mach']="ID";
 	$tab_options['LBL']['Nbr_mach']=$l->g(1120);
-	$list_col_cant_del=array($_SESSION['OCS']['TAG_LBL']=>$_SESSION['OCS']['TAG_LBL']);
+	$list_col_cant_del=array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL']['TAG']);
 	$default_fields= $list_fields;
 	$queryDetails  = "SELECT count(hardware_id) c, a.tag as ID from accountinfo a ";
 	
