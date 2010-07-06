@@ -780,7 +780,10 @@ $sort_list=array("HARDWARE-IPADDR" =>$l->g(82).": ".$l->g(34),
 				 "BIOS-ASSETTAG"=>$l->g(273).": ASSETTAG",
 			     "HARDWARE-LASTDATE"=>"OCS: ".$l->g(46),
 				 "HARDWARE-LASTCOME"=>"OCS: ".$l->g(820),
-				 "HARDWARE-WORKGROUP"=>$l->g(82).": ".$l->g(33));
+				 "HARDWARE-WORKGROUP"=>$l->g(82).": ".$l->g(33),
+				 "STORAGES-NAME"=>$l->g(63).": ".$l->g(49),
+				 "STORAGES-SERIALNUMBER"=>$l->g(63).": ".$l->g(36),
+				 "STORAGES-DISKSIZE"=>$l->g(63).": ".$l->g(67));
 		
 		
 $optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
@@ -813,7 +816,12 @@ $optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
 			   "HARDWARE-LASTCOME"=>$sort_list["HARDWARE-LASTCOME"],//"OCS: ".$l->g(820),
 			   "HARDWARE-LASTCOME-LBL"=>"calendar",
 			   "HARDWARE-LASTCOME-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(346),"tall"=>$l->g(347)),
-			   "HARDWARE-WORKGROUP"=>$sort_list["HARDWARE-WORKGROUP"]);//$l->g(82).": ".$l->g(33));
+			   "HARDWARE-WORKGROUP"=>$sort_list["HARDWARE-WORKGROUP"],
+			   "STORAGES-NAME"=>$sort_list["STORAGES-NAME"],
+			   "STORAGES-SERIALNUMBER"=>$sort_list["STORAGES-SERIALNUMBER"],
+			   "STORAGES-DISKSIZE" =>$sort_list["STORAGES-DISKSIZE"],
+			   "STORAGES-DISKSIZE-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
+			   "STORAGES-DISKSIZE-LBL"=>"MB",);//$l->g(82).": ".$l->g(33));
 
 	//ajout des champs de accountinfo
 $optSelectField = array_merge($optSelectField_account,$optSelectField);
@@ -853,7 +861,10 @@ $sort_list_2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
 						 "DEVICES-IPDISCOVER"=>$l->g(107).": ".$l->g(312),
 						 "DEVICES-FREQUENCY"=>$l->g(107).": ".$l->g(429),
 						 "GROUPS_CACHE-GROUP_ID"=>$l->g(583).": ".$l->g(49),
-						 "DOWNLOAD_HISTORY-PKG_ID"=>$l->g(512).": ".$l->g(969));
+						 "DOWNLOAD_HISTORY-PKG_ID"=>$l->g(512).": ".$l->g(969),
+						 "STORAGES-TYPE"=>$l->g(63).": ".$l->g(66),
+						 "STORAGES-DESCRIPTION"=>$l->g(63).": ".$l->g(53),
+						 "STORAGES-MODEL"=>$l->g(63).": ".$l->g(65));
 
 $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"],//"OCS: ".$l->g(966),
 				 "HARDWARE-USERAGENT-SQL1"=>"select distinct USERAGENT as 'NAME' from hardware where USERAGENT != '' ".(isset($list_id_computer)? " and id in ".$list_id_computer : '')." order by 1",
@@ -880,7 +891,21 @@ $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"]
 				 "DOWNLOAD_HISTORY-PKG_ID-SELECT"=>array('exact'=>$l->g(507)
 				 									,'diff'=>$l->g(508)
 				 									),
-
+				 "STORAGES-TYPE"=>$sort_list_2Select["STORAGES-TYPE"],//$l->g(512).": ".$l->g(969),
+				 "STORAGES-TYPE-SQL1"=>"select distinct type as ID,type as NAME from storages order by 2",
+				 "STORAGES-TYPE-SELECT"=>array('exact'=>$l->g(507)
+				 									,'diff'=>$l->g(508)
+				 									),					
+				 "STORAGES-DESCRIPTION"=>$sort_list_2Select["STORAGES-DESCRIPTION"],//$l->g(512).": ".$l->g(969),
+				 "STORAGES-DESCRIPTION-SQL1"=>"select distinct description as ID,description as NAME from storages order by 2",
+				 "STORAGES-DESCRIPTION-SELECT"=>array('exact'=>$l->g(507)
+				 									,'diff'=>$l->g(508)
+				 									),		
+				 "STORAGES-MODEL"=>$sort_list_2Select["STORAGES-MODEL"],//$l->g(512).": ".$l->g(969),
+				 "STORAGES-MODEL-SQL1"=>"select distinct MODEL as ID,MODEL as NAME from storages order by 2",
+				 "STORAGES-MODEL-SELECT"=>array('exact'=>$l->g(507)
+				 									,'diff'=>$l->g(508)
+				 									),		
 				 );
 		//ajout des champs de accountinfo
 $opt2Select = array_merge($opt2Select_account,$opt2Select);			 
