@@ -185,7 +185,7 @@ if ($protectedPost['detail'] != ''){
 //	$_SESSION['SQL_DATA_FIXE'][$table_name]['serial']="select HARDWARE_ID,bios.SSN as serial from bios where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
 
 	//liste des champs du tableau des doublons
-	$list_fields= array($_SESSION['OCS']['TAG_LBL']=>'a.TAG',
+	$list_fields= array($_SESSION['OCS']['TAG_LBL']['TAG']=>'a.TAG',
 //						'macaddr'=>'n.macaddr',
 						$l->g(95)=>'n.macaddr',
 //						'serial'=>'b.SSN',
@@ -212,7 +212,7 @@ if ($protectedPost['detail'] != ''){
 	$list_fields['CHECK']='h.ID';
 	
 	$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields=array($l->g(23).": ".$l->g(34)=>$l->g(23).": ".$l->g(34),$_SESSION['OCS']['TAG_LBL']=>$_SESSION['OCS']['TAG_LBL'],'NAME'=>'NAME',$l->g(23).": ".$l->g(25)=>$l->g(23).": ".$l->g(25),'CHECK'=>'CHECK');
+	$default_fields=array($l->g(23).": ".$l->g(34)=>$l->g(23).": ".$l->g(34),$_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL']['TAG'],'NAME'=>'NAME',$l->g(23).": ".$l->g(25)=>$l->g(23).": ".$l->g(25),'CHECK'=>'CHECK');
 
 	//on modifie le type de champs en num�ric de certain champs
 	//pour que le tri se fasse correctement

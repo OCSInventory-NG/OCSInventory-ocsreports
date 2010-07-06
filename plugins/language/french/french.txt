@@ -1051,7 +1051,6 @@
 1132 ID mot
 1133 Nouveau libellé
 
-
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
 2002 ERREUR: ligne
@@ -1077,11 +1076,11 @@
 2032 est inférieur à cette version
 2033 Installation automatique lancé
 2034 DB de configuration n'est pas terminée. Installation automatique lancé
-2035 ERREUR: Sessions pour PHP n'est pas installé correctement. <br> Essayez d'installer le paquet php4-session.
+2035 ERREUR: Sessions pour PHP n'est pas installé correctement. <br> Essayez d'installer le paquet php-session.
 2036 AVERTISSEMENT: XML pour PHP n'est pas installé correctement, vous ne serez pas en mesure d'utiliser ipdiscover-util.
-2037 ERREUR: MySQL pour PHP n'est pas installé correctement. <br> Essayez d'installer MySQL pour PHP paquet (Debian: php4-mysql)
-2038 AVERTISSEMENT: GD de PHP n'est pas installé correctement. <br> Vous ne serez pas en mesure de voir tout <br> affichage graphique : Essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php4-gd (Linux).
-2039 AVERTISSEMENT: OpenSSL pour PHP n'est pas installé correctement. <br> Certaines fonctionnalités de déploiement automatique ne sera pas disponible <br> Essayez en décommentant extension = php_openssl.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php4-openssl (Linux).
+2037 ERREUR: MySQL pour PHP n'est pas installé correctement. <br> Essayez d'installer MySQL pour PHP paquet (Debian: php5-mysql)
+2038 AVERTISSEMENT: GD de PHP n'est pas installé correctement. <br> Vous ne serez pas en mesure de voir tout <br> affichage graphique : Essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php5-gd (Linux).
+2039 AVERTISSEMENT: OpenSSL pour PHP n'est pas installé correctement. <br> Certaines fonctionnalités de déploiement automatique ne sera pas disponible <br> Essayez en décommentant extension = php_openssl.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-openssl (Linux).
 2040 AVERTISSEMENT: Vous ne serez pas en mesure de construire un paquet de déploiement avec une plus grande taille que
 2041 Vous devez modifier post_max_size et upload_max_filesize dans php.ini, pour augmenter cette limite.
 2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur mysql. Changez-le dès que possible. (Mot de passe root = vide)
@@ -1090,7 +1089,6 @@
 2045 Label pas encore ajouté (pas les balises seront invités au lancement du client)
 2046 ERREUR: problème d'authentification MySql.
 2047 Vous devez ajouter les "old-passwords" dans votre fichier de configuration MySQL (my.ini). Puis redémarrer MySQL, et relancez install.php
-2048 ERREUR: problème d'authentification MySql.
 2050 Installation terminée, vous pouvez vous connecter avec le login = admin et pass = admin
 2051 Cliquez ici pour entrer dans l'interface OCS-NG
 2052 ERREUR: impossible d'écrire dans le répertoire (dans dbconfig.inc.php), veuillez définir les droits nécessaires pour installer ocsinventory (vous devez supprimer le mode d'écriture, et relancer l'installation)
@@ -1127,7 +1125,6 @@
 2085 étaient déjà calculés
 2086 ne sont pas calculables
 2087 Netmap netid computing. Please wait...
-2088 ERREUR: Impossible de mettre à jour à netid
 2089 a été calculé netid NETMAP
 2090 orphelins de nettoyage ...
 2091 ERREUR: Impossible de nettoyer
@@ -1137,7 +1134,6 @@
 2095 lignes NETMAP supprimé
 2096 Please enter the label of the windows client tag input box:
 2097 Laissez vide si vous ne voulez pas qu'une popup s'affiche au premier lancement de l'agent
-
 
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]

@@ -787,17 +787,9 @@ function pagegroups($form_name){
 			ligne('IT_SET_NAME_LIMIT',$l->g(1085),'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SELECT_VALUE'=>$list_group));
 			
 		}else{
-			$sql_list_tag="SHOW COLUMNS FROM accountinfo";
-			$result_list_tag = mysql_query($sql_list_tag, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-			while($colname=mysql_fetch_array($result_list_tag)){
-				if ($colname["Field"] != 'HARDWARE_ID'){
-					if ($colname["Field"] == 'TAG')
-						$real_name=$_SESSION['OCS']['TAG_LBL'];
-					else
-						$real_name=$colname["Field"];
-					$list_tag[$colname["Field"]]=$real_name;	
-				}
-			}
+			require_once('require/function_admininfo.php');
+			$info_account=witch_field_more();
+			$list_tag=$info_account['LIST_FIELDS'];
 			ligne('IT_SET_TAG_NAME',$l->g(1086),'select',array('VALUE'=>$values['tvalue']['IT_SET_TAG_NAME'],'SELECT_VALUE'=>$list_tag));		
 			ligne('IT_SET_NAME_TEST',$l->g(1087),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SIZE'=>50,'MAXLENGHT'=>50));
 			ligne('IT_SET_NAME_LIMIT',$l->g(1088),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SIZE'=>50,'MAXLENGHT'=>50));

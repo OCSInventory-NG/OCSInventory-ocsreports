@@ -208,7 +208,7 @@ if($_POST["fin"]=="fin") {
 		unlink("dbconfig.inc.php");
 	}
 	else {
-		echo "<br><center><font color=green><b>" . $l->g(2050) . "</b><br><br><b><a href='index.php'>Click here to enter OCS-NG GUI</a></b></font></center>";
+		echo "<br><center><font color=green><b>" . $l->g(2050) . "</b><br><br><b><a href='index.php'>" . $l->g(2051) . "</a></b></font></center>";
 	}	
 	die();
 }
@@ -608,7 +608,7 @@ while ($valNet = mysql_fetch_array($resNet) ) {
 		mysql_query("UPDATE netmap SET netid= '$netid' WHERE mac='" . $valNet["mac"] . "' AND ip='" . $valNet["ip"] . "'");
 		if( mysql_errno() != "") {
 			$errNet++;
-			echo "<br><center><font color=red><b>" . $l->g(2088) . 
+			echo "<br><center><font color=red><b>" . $l->g(2083) . 
 											   " " . $netid      .
 											  " ," . $l->g(2008) .
 											   " " . mysql_errno() . 

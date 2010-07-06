@@ -1051,11 +1051,11 @@
 2032 is lower than this version
 2033 automatic install launched
 2034 DB configuration not completed. Automatic install launched
-2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php4-session package.
+2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
-2037 ERROR: MySql for PHP is not properly installed.<br>Try installing mysql for php package (Debian: php4-mysql)
-2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php4-gd package (Linux).
-2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php4-openssl package (Linux).
+2037 ERROR: MySql for PHP is not properly installed.<br>Try installing mysql for php package (Debian: php5-mysql)
+2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
+2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
 2041 You must raise both post_max_size and upload_max_filesize in your php.ini to encrease this limit.
 2042 WARNING: your the default root password is set on your mysql server. Change it asap. (using root password=blank)
@@ -1064,8 +1064,7 @@
 2045 Label NOT added (not tag will be asked on client launch)
 2046 ERROR: MySql authentication problem.
 2047 You must add the 'old-passwords' in your mysql configuration file (my.ini). Then restart mysql, and relaunch install.php
-2048 ERROR: MySql authentication problem.
-2050 Installation finished you can log in index.php with login=admin and pass=admin
+2050 Installation finished you can log in index.php with login=admin and password=admin
 2051 Click here to enter OCS-NG GUI
 2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
 2053 Please wait, database update may take up to 30 minutes...
@@ -1101,7 +1100,6 @@
 2085 were already computed
 2086 were not computable
 2087 Netmap netid computing. Please wait...
-2088 ERROR: Could not update netid to
 2089 Netmap netid was computed
 2090 Cleaning orphans...
 2091 ERROR: Could not clean

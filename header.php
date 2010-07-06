@@ -194,15 +194,14 @@ if (!isset($_SESSION['OCS']['LOG_GUI'])){
 /****************END GESTION LOGS***************/
 
 /*********************************************GESTION OF LBL_TAG*************************************/
-/*if (!isset($_SESSION['OCS']['LBL_TAG'])){
-	$sql_tag="select tvalue from config where name= 'LBL_TAG'";
-	$result_tag = mysql2_query_secure($sql_tag, $_SESSION['OCS']["readServer"]);
-	$value_tag=mysql_fetch_array($result_tag);
-	if ($value_tag["tvalue"] != '')
-		$_SESSION['OCS']['TAG_LBL'] = $value_tag['tvalue'];
-	else
-		$_SESSION['OCS']['TAG_LBL'] = "TAG";
-}*/
+if (!isset($_SESSION['OCS']['LBL_TAG'])){
+	require_once('require/function_admininfo.php');
+	$all_tag_lbl=witch_field_more();
+	foreach ($all_tag_lbl['LIST_NAME'] as $key=>$value){
+		$_SESSION['OCS']['TAG_LBL'][$value]=$all_tag_lbl['LIST_FIELDS'][$key];
+		$_SESSION['OCS']['TAG_ID'][$key]=$value;
+	}
+}
 /*******************************************GESTION OF PLUGINS (MAIN SECTIONS)****************************/
 if (!isset($_SESSION['OCS']['all_menus'])){	
 	require_once($_SESSION['OCS']['main_sections_dir']."sections.php");
