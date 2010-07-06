@@ -152,6 +152,21 @@ function find_info_accountinfo($id = ''){
 	
 }
 
+function witch_field_more(){
+	$list_field=array('ID','TYPE','NAME','COMMENT');
+	$sql_accountinfo="select " . implode(',',$list_field) . " from accountinfo_config";
+	$result_accountinfo = mysql2_query_secure($sql_accountinfo,$_SESSION['OCS']["readServer"]);
+	
+	while($item = mysql_fetch_object($result_accountinfo)){
+		$list_fields[$item->ID]=$item->COMMENT;
+		$list_name[$item->ID]=$item->NAME;
+		$list_type[$item->ID]=$item->TYPE;
+	}
+	return array('LIST_FIELDS'=>$list_fields,'LIST_NAME'=>$list_name,'LIST_TYPE'=>$list_type);
+}
+
+
+
 function update_accountinfo_config($id,$array_new_values){
 	//Update
 		$sql_update_config="UPDATE accountinfo_config SET ";
@@ -165,8 +180,21 @@ function update_accountinfo_config($id,$array_new_values){
 			array_push($arg_update_config,$value);
 		}
 		$sql_update_config = substr($sql_update_config,0,-2);
-		$sql_update_config.="  WHERE ID = '%s'";
-		array_push($arg_update_config,$id);
+		
+		if (is_numeric($id)){		
+			$sql_update_config.="  WHERE ID = '%s'";
+			array_push($arg_update_config,$id);
+		}else{
+			$temp_id=explode(',',$id);
+			$sql_update_config.="  WHERE ID IN (";
+			foreach ($temp_id as $key=>$value){
+				$sql_update_config.=$value . "%s,";
+				array_push($arg_update_config,$value);
+			}
+			$sql_update_config = substr($sql_update_config,0,-1) . ")";
+			
+		}
+		
 		mysql2_query_secure($sql_update_config,$_SESSION['OCS']["writeServer"],$arg_update_config);
 	
 }
@@ -275,21 +303,26 @@ function dde_exist($name,$id=''){
  * a computer
  * 
  */
-function admininfo_computer($id){
+function admininfo_computer($id = ""){
 	global $l;
-	if (!is_numeric($id))
+	if (!is_numeric($id) and $id != "")
 		return $l->g(400);		
-		
-	$sql_account_data="SELECT * FROM accountinfo WHERE hardware_id=%s";
-	$arg_account_data=array($id);
+	$arg_account_data=array();	
+	$sql_account_data="SELECT * FROM accountinfo ";
+	if (is_numeric($id)){
+		$sql_account_data.= " WHERE hardware_id=%s";
+		$arg_account_data=array($id);
+	}else
+		$sql_account_data.= " LIMIT 1 ";
+	
 	$res_account_data=mysql2_query_secure($sql_account_data,$_SESSION['OCS']["readServer"],$arg_account_data);
 	$val_account_data = mysql_fetch_array( $res_account_data );
 	return $val_account_data;	
 }
 
-function updateinfo_computer($id,$values){
+function updateinfo_computer($id,$values,$list=''){
 	global $l;
-	if (!is_numeric($id))
+	if (!is_numeric($id) and $list == '')
 		return $l->g(400);		
 	$arg_account_data=array();	
 	$sql_account_data="UPDATE accountinfo SET ";
@@ -299,7 +332,11 @@ function updateinfo_computer($id,$values){
 		array_push($arg_account_data,$val);		
 	}
 	$sql_account_data = substr($sql_account_data,0,-2);
+	if (is_numeric($id) and $list == '')
 	$sql_account_data.=" WHERE hardware_id=%s";
+	if ($list != '')
+	$sql_account_data.=" WHERE hardware_id in (%s)";
+	
 	array_push($arg_account_data,$id);	
 	mysql2_query_secure($sql_account_data,$_SESSION['OCS']["readServer"],$arg_account_data);
 	return $l->g(1121);	

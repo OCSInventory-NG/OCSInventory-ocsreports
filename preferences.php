@@ -69,6 +69,34 @@ function mysql2_query_secure($sql,$link,$arg=''){
 	return $result;
 }
 
+/*
+ * use this function before mysql2_query_secure
+ * $sql= requeste
+ * $arg_sql = arguments for mysql2_query_secure
+ * $arg_tab = arguments to implode 
+ * 
+ */
+
+function mysql2_prepare($sql,$arg_sql,$arg_tab=''){
+
+	if (!is_array($arg_tab)){
+		$arg_tab=explode(',',$arg_tab);
+	}
+
+	$sql.=" ( ";
+	foreach ($arg_tab as $key=>$value){
+		$sql.=" '%s', ";
+		array_push($arg_sql,$value);			
+	}
+	$sql = substr($sql,0,-2) . " ) ";
+	return array('SQL'=>$sql,'ARG'=>$arg_sql); 
+		
+	
+	
+	
+}
+
+
 
 
 function addComputersToGroup( $gName, $ids ) {

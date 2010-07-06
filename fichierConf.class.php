@@ -47,17 +47,17 @@ class language
 					$this->tableauMots[$tok1] = $tok2;
 				}
 				fclose($file);	
-				$toto=$this->tableauMots;
+			/*	$toto=$this->tableauMots;
 				if (!isset($item->json_value) and $table_exist){
 					$sql="insert into languages (name,json_value) values ('".$language."','".mysql_real_escape_string(json_encode($toto))."')"; 
 					@mysql_query( $sql, $_SESSION['OCS']["writeServer"] );
-				}
+				}*/
 			
 			} 
 		}
-		else{
+		/*else{
 			$this->tableauMots=json_decode($item->json_value,true);
-		}
+		}*/
 	}		
 	function g($i)
 	{

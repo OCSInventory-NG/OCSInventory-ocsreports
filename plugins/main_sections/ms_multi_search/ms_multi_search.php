@@ -73,7 +73,7 @@ if (isset($protectedPost['GET'])){
 	echo "<input type=hidden name='GET' value='".$protectedPost['GET']."'>";
 }
 //recherche des diff�rents champs de accountinfo
-//require_once('require/function_admininfo.php');
+require_once('require/function_admininfo.php');
 $field_of_accountinfo=witch_field_more();
 $optSelectField_account=array();
 $opt2Select_account=array();
@@ -933,14 +933,14 @@ $sort_list = array_merge($sort_accountinfo,
 						 $sort_list_2SelectField,
 						 $sort_list_Select);
 
-asort($sort_list);
 $countHl++;
-$optArray_trait[$l->g(32)]=$l->g(32);
+$optArray_trait[$l->g(32)]="... ".$l->g(32)." ...";
 foreach( $sort_list as $key=>$value) {
 		$optArray_trait[$key]=ucfirst($value);
 $countHl++;
-
 }
+asort($optArray_trait);
+ 
 $protectedPost['multiSearch']=$l->g(32);
 $aff_field_search= $l->g(31).": ".show_modif($optArray_trait,'multiSearch',2,$form_name,array('DEFAULT'=>'NO'));
 $aff_field_search.="<img src='image/delete_all.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."'>";
