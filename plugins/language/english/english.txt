@@ -1025,6 +1025,7 @@
 1131 Word
 1132 ID word
 1133 New word
+1134 No ipdiscover data
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

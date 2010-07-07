@@ -5,23 +5,21 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- // Patch anti-eclipse V3.1.1 tx to hunal
- $fichierdemerde='require/function_ipdiscover.php';
-require_once($fichierdemerde);
+require_once('require/function_ipdiscover.php');
 
  $form_name='ipdiscover';
  echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
  	//suppression d'un sous-reseau
  	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
  	//	$del=mysql_real_escape_string($protectedPost['SUP_PROF']);
- 		$sql_del="delete from subnet where id='".$protectedPost['SUP_PROF']."'";
- 		mysql_query($sql_del, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+ 		$sql_del="delete from subnet where id='%s'";
+ 		$arg_del=$protectedPost['SUP_PROF'];
+ 		mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"],$arg_del);
 		//suppression du cache pour prendre en compte la modif
 		unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER']);
  		
  	}
- 
- 	if (isset($_SESSION['OCS']["ipdiscover"])){
+ 	if (isset($_SESSION['OCS']["ipdiscover"]) and !$_SESSION['OCS']["ipdiscover"]['local.php']){
 		ksort($_SESSION['OCS']["ipdiscover"]);
 		$dpt=array_keys($_SESSION['OCS']["ipdiscover"]);
 		array_unshift($dpt,"");
@@ -30,7 +28,8 @@ require_once($fichierdemerde);
 			$list_index[$key]=$value;
 		}
 		 echo $l->g(562)." ".show_modif($list_index,'DPT_CHOISE',2,$form_name);
- 	}
+ 	}else
+ 		echo "<font color=red>" . strtoupper($l->g(1134)) . "</font><br>";
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != ''){
 	 	
 	 	$array_rsx=escape_string(array_keys($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]));
@@ -226,10 +225,12 @@ require_once($fichierdemerde);
 		echo "<br><br>";
 
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
-	// 	echo $sql;
-	 if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
+	if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
 		function_admin();
-	 }
+}
+
+
+	
 
 echo "</form>";
 ?>

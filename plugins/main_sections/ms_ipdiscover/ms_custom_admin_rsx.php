@@ -77,14 +77,14 @@ if (isset($protectedPost['Valid_modif_x'])){
 
 $tab_typ_champ[0]['DEFAULT_VALUE']=$protectedPost['RSX_NAME'];
 $tab_typ_champ[0]['INPUT_NAME']="RSX_NAME";
-$tab_typ_champ[0]['CONFIG']['SIZE']=60;
+$tab_typ_champ[0]['CONFIG']['SIZE']=30;
 $tab_typ_champ[0]['CONFIG']['MAXLENGTH']=255;
 $tab_typ_champ[0]['INPUT_TYPE']=0;
 $tab_name[0]=$l->g(304).": ";
 $tab_typ_champ[1]['DEFAULT_VALUE']=$protectedPost['ID_NAME'];
 $tab_typ_champ[1]['INPUT_NAME']="ID_NAME";
 $tab_typ_champ[1]['INPUT_TYPE']=0;
-$tab_name[1]=$_SESSION['OCS']["ipdiscover_id"].":";
+$tab_name[1]=(isset($_SESSION['OCS']["ipdiscover_id"])? $_SESSION['OCS']["ipdiscover_id"] : $l->g(305)) .":";
 $tab_typ_champ[2]['DEFAULT_VALUE']=$protectedPost['ADD_IP'];
 $tab_typ_champ[2]['INPUT_NAME']="ADD_IP";
 $tab_name[2]=$l->g(34).": ";
