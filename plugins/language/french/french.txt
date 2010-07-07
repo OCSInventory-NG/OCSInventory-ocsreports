@@ -72,7 +72,7 @@
 122 Supprimer
 129 RESSEMBLE
 130 DIFFERENT
-131 Fichier icône 
+131 Fichier icône
 132 Fichier image
 133 Inventaire
 134 Ajout d'un nouveau fichier dans la base
@@ -185,9 +185,9 @@
 249 Impossible de se connecter à MySql sur localhost, merci d'entrer un login/mot de passe MySql valide
 250 MySql HostName
 251 Déconnexion
-252 Nom (au choix)        	
-253 Ruche registre     	
-254 Chemin de la clé (Ex: SOFTWARE\Mozilla)  	
+252 Nom (au choix)
+253 Ruche registre
+254 Chemin de la clé (Ex: SOFTWARE\Mozilla)
 255 Nom de la clé à lire (* pour toutes)
 256 Sélectionnez la requête registre à modifier
 257 Clé de registre
@@ -1082,9 +1082,9 @@
 2038 AVERTISSEMENT: GD de PHP n'est pas installé correctement. <br> Vous ne serez pas en mesure de voir tout <br> affichage graphique : Essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php5-gd (Linux).
 2039 AVERTISSEMENT: OpenSSL pour PHP n'est pas installé correctement. <br> Certaines fonctionnalités de déploiement automatique ne sera pas disponible <br> Essayez en décommentant extension = php_openssl.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-openssl (Linux).
 2040 AVERTISSEMENT: Vous ne serez pas en mesure de construire un paquet de déploiement avec une plus grande taille que
-2041 Vous devez modifier post_max_size et upload_max_filesize dans php.ini, pour augmenter cette limite.
+2041 Vous devez modifier <font color="red">post_max_size</font> et <font color="red">upload_max_filesize</font> dans php.ini, pour augmenter cette limite.
 2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur mysql. Changez-le dès que possible. (Mot de passe root = vide)
-2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de max_allowed_packet de mysql à au moins 2 Mo sur votre serveur le fichier de configuration.
+2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de <font color="red">max_allowed_packet</font> de mysql à au moins 2 Mo sur votre serveur le fichier de configuration.
 2044 Label ajouté
 2045 Label pas encore ajouté (pas les balises seront invités au lancement du client)
 2046 ERREUR: problème d'authentification MySql.
@@ -1134,6 +1134,7 @@
 2095 lignes NETMAP supprimé
 2096 Please enter the label of the windows client tag input box:
 2097 Laissez vide si vous ne voulez pas qu'une popup s'affiche au premier lancement de l'agent
+2098 ERROR: Zip for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
 
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
