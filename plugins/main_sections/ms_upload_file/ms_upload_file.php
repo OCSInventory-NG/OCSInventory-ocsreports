@@ -12,7 +12,7 @@
 
 if( ! function_exists ( "zip_open" )) {
 	function zip_open($st) {
-		echo "<br><center><font color=red><b>ERROR: Zip for PHP is not properly installed.<br>Try uncommenting \";extension=php_zip.dll\" (windows) by removing the semicolon in file php.ini, or try installing the php4-zip package.</b></font></center>";
+		echo "<br><center><font color=red><b>" . $l->g(2098) . "</b></font></center>";
 		die();
 	}
 }

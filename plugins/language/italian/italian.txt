@@ -160,8 +160,8 @@
 249 Impossibile connettersi a MySql. Inserisci utente e/o password validi.
 250 Server MySql
 251 Esci
-252 Nome (scelto)
-253 Chiave (hive) registro
+252 Nome (scegli)
+253 Chiave di registro (hive)
 254 Percorso della chiave (Es: SOFTWAREMozilla)
 255 Nome della chiave che si vuole leggere (* per tutte)
 256 Scelta
@@ -1030,7 +1030,7 @@
 2001 ERRORE:
 2002 ERRORE: linea
 2003 Errore MySQL:
-2004 (using new ocs account)
+2004 (usando il nuovo account ocs)
 2005 Subnet
 2006 ATTENZIONE:
 2007 account
@@ -1056,11 +1056,11 @@
 2036 ATTENZIONE: l'estensione XML per PHP non installata correttamente, non sarai in grado di utilizzare ipdiscover-util.
 2037 ERRORE: l'estensione MySql per PHP non installata correttamente.<br>Installa il pacchetto MySql per PHP (Debian: php5-mysql)
 2038 ATTENZIONE: l'estensione GD non installata correttamente.<br>Non sarai in grado di visualizzare nessun oggetto grafico<br>Prova ad abilitare la voce extension=php_gd2.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php5-gd (Linux).
-2039 ATTENZIONE: OpenSSL per PHP non installata correttamente.<br>Alcune caratteristiche dell'installazione automatica non saranno disponibili.<br>Prova ad abilitare la voce extension=php_openssl.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php-openssl (Linux).
-2040 ATTENZIONE: non sarai in grado di creare nessun pacchetto di installazione di grandezza superiore a
-2041 Devi incrementare entrambi i parametri post_max_size e upload_max_filesize nel file php.ini per superare questo limite.
+2039 ATTENZIONE: l'estensione OpenSSL per PHP non installata correttamente.<br>Alcune caratteristiche dell'installazione automatica non saranno disponibili.<br>Prova ad abilitare la voce extension=php_openssl.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php-openssl (Linux).
+2040 ATTENZIONE: non sarai in grado di creare nessun pacchetto d'installazione di grandezza superiore a
+2041 Devi incrementare entrambi i parametri <font color="red">post_max_size</font> e <font color="red">upload_max_filesize</font> nel file php.ini per superare questo limite.
 2042 ATTENZIONE: il tuo account root in MySql ha la password predefinita. Cambiala appena possibile. (root password=blank)
-2043 ATTENZIONE: l'utente fornito non è root.<br>Se hai problemi con il caricamento di file, prova a modificare il parametro globale di MySql max_allowed_packet ad un valore si almeno 2MB nel file di configurazione.
+2043 ATTENZIONE: l'utente fornito non è root.<br>Se hai problemi con il caricamento di file, prova a modificare il parametro globale di MySql <font color="red">max_allowed_packet</font> ad un valore di almeno 2MB nel file di configurazione.
 2044 Etichetta inserita
 2045 Etichetta NON inserita (all'avvio del client non sarà richiesto nessun tag)
 2046 ERRORE: MySql ha rilevato problemi con autenticazione.
@@ -1071,7 +1071,7 @@
 2053 Attendere prego, l'aggiornamento del database potrebbe richiedere fino a 30 minuti...
 2054 fallita, KEY troppo lunga<br>Devi eseguire nuovamente questa query in futuro altrimenti potresti riscontrare problemi di prestazioni.
 2055 Database generato correttamente
-2056 La configurazione di MySql è stata registrata correttamente
+2056 La configurazione di MySql è stata salvata correttamente
 2057 Il database esistente è stato aggiornato
 2058 Controllo della versione del database...
 2059 ERRORE: alter query fallita
@@ -1098,18 +1098,19 @@
 2082 Calcolo netid delle reti. Attendere prego...
 2083 ERRORE: non posso aggiornare netid a
 2084 Reti netid sono state calcolate
-2085 era state già calcolate
+2085 erano state già calcolate
 2086 non erano state calcolate
-2087 Calcolo Netmap netid. Attendere prego...
-2089 Netmap netid calcolate
+2087 Calcolo NETMAP netid. Attendere prego...
+2089 NETMAP netid calcolate
 2090 Pulizia linee orfane...
 2091 ERRORE: pulizia non eseguita
 2092 linee orfane cancellate
-2093 Pulizia netmap...
-2094 ERRORE: non posso pulire netmap
-2095 linee netmap cancellate
+2093 Pulizia NETMAP...
+2094 ERRORE: non posso pulire NETMAP
+2095 linee NETMAP cancellate
 2096 Per favore inserisci il nome dell'etichetta da inserire nella finestra di input dei client:
 2097 Non inserire nulla se non vuoi far apparire il popup al lancio dell'agente
+2098 ERRORE: l'estensione Zip per PHP non installata correttamente.<br>Prova ad abilitare la voce extension=php_zip.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto libphp-pclzip (Linux).
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]

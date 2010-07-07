@@ -17,6 +17,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 <head>
 <TITLE>OCS Inventory Installation</TITLE>
 <LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8>
 </head><body>
 
 <?php
@@ -308,7 +309,7 @@ if ($keepuser) {
 	fwrite($ch,"define(\"PSWD_BASE\",\"" . $_POST["pass"] . "\");\n");					
 	fwrite($ch,"?>");
 	fclose($ch);
-	echo "<br><center><font color=green><b>" . $l->g(2056) . "( " . 
+	echo "<br><center><font color=green><b>" . $l->g(2056) . " (" .
 											   $l->g(2017) . " " . 
 											   $_POST["name"] . 
 											   $l->g(2007) .
