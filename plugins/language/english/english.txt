@@ -778,7 +778,7 @@
 885 unknown
 886 Simple desaffection
 887 It's possible that this package is not affected to redistribution servers 
-888 Removal 
+888 Removal
 889 Connected as
 890 Interface is actually locked on a search with various criterias
 891 Remove interface LOCK
@@ -786,10 +786,8 @@
 893 NO TAG AFFECTEID TO YOUR PROFILE
 894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
 895 TAG Modification
-896 Annotations
-897 Note date
-898 Note author
-899 Writer 
+898 Add an annotation
+899 Writer
 900 Do you really want to delete selection ?
 901 Action sur le résultat de la requête
 902 Action sur le résultat de la sélection

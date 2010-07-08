@@ -810,9 +810,7 @@
 893 PAS DE TAG AFFECTE A VOTRE PROFIL
 894 PAS DE NIVEAU DE DROITS DEFINI POUR VOTRE PROFIL
 895 Modification d'un TAG
-896 Annotations
-897 Date de la note
-898 Auteur de la note
+898 Ajouter une annotation
 899 Rédacteur
 900 Etes-vous sûr de vouloir supprimer la sélection?
 901 Action sur le résultat de la requête
