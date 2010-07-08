@@ -785,9 +785,7 @@
 893 NESSUNA ETICHETTA INTERESSA IL TUO PROFILO
 894 NESSUN LIVELLO DI PERMESSO DEFINITO PER IL TUO PROFILO
 895 Modifica ETICHETTA
-896 Nota
-897 Data
-898 Autore della nota
+898 Aggiungi una nota
 899 Editore
 900 Vuoi davvero cancellare le voci selezionate?
 901 Azione in base al risultato della query
@@ -1025,6 +1023,7 @@
 1131 Parola
 1132 ID parola
 1133 Nuova parola
+1134 Nessun dato ipdiscover
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:

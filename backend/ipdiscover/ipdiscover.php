@@ -45,5 +45,6 @@ if (isset($tab_ip)){
 
 if (isset($tab_info) and !isset($_SESSION['OCS']["ipdiscover"])){
 	$_SESSION['OCS']["ipdiscover"]=$tab_info;	
+	$_SESSION['OCS']["ipdiscover_methode"]=$list_methode[0];
 }
 ?>

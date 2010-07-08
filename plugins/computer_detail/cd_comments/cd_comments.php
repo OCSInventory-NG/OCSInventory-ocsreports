@@ -2,7 +2,7 @@
 	$list_fields=array();
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
-	print_item_header($l->g(896));
+	print_item_header($l->g(1128));
 	$form_name="affich_notes";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
@@ -22,7 +22,7 @@
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		//reg�n�ration du cache
 		$tab_options['CACHE']='RESET';
-		addLog($l->g(896), " DEL => ".$protectedPost['SUP_PROF']);
+		addLog($l->g(1128), " DEL => ".$protectedPost['SUP_PROF']);
 
 	}
 	
@@ -48,15 +48,15 @@
 			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 			//reg�n�ration du cache
 			$tab_options['CACHE']='RESET';				
-			addLog($l->g(896), " UPDATE ".$protectedPost['ID_MODIF'].". => ".$protectedPost['OLD_COMMENTS'] );
+			addLog($l->g(1128), " UPDATE ".$protectedPost['ID_MODIF'].". => ".$protectedPost['OLD_COMMENTS'] );
 
 		}		
 		
 	}
 	if ($protectedPost['ADD_NOTE']){
-		$tab_name[1]=$l->g(897)." : ";
-		$tab_name[2]=$l->g(898)." : ";
-		$tab_name[3]=$l->g(896)." : ";
+		$tab_name[1]=$l->g(1126).": ";
+		$tab_name[2]=$l->g(1127).": ";
+		$tab_name[3]=$l->g(1128).": ";
 		$tab_typ_champ[1]['DEFAULT_VALUE']=date("d/m/Y");
 		$tab_typ_champ[2]['DEFAULT_VALUE']=$_SESSION['OCS']["loggeduser"];
 		$tab_typ_champ[1]['INPUT_TYPE']=3;
@@ -67,7 +67,7 @@
 	}
 	
 	$queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE (visible is null or visible =1) and hardware_id=$systemid";
-	$list_fields=array($l->g(897) => 'DATE_INSERT',
+	$list_fields=array($l->g(1126) => 'DATE_INSERT',
 					   $l->g(899) => 'USER_INSERT',
 					   $l->g(51) => 'COMMENTS',
 					   $l->g(443)=>'ACTION',
@@ -82,7 +82,7 @@
 
 	
 	echo "<input type='hidden' id='del_check' name='del_check' value=''>";
-	echo "<br><input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='Ajouter une annotation'>";	
+	echo "<br><input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='" . $l->g(898) . "'>";
 	del_selection($form_name);
 	
 	if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
