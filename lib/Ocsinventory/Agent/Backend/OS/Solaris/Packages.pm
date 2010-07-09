@@ -15,6 +15,8 @@ sub check {
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
+  my $chaine ;
+  my @tab;
 
   my $name;
   my $version;
@@ -43,6 +45,29 @@ sub run {
     } elsif (/DESC:\s+(.+)/) {
       $comments = $1;
     }
+  }
+  my $testrep;
+  $testrep=0;
+  #opendir(DIR,'/var/sis/') || exit ;
+  opendir(DIR,'/var/sis/') || ($testrep=1) ;
+  if ($testrep==0)
+  {
+	
+	
+	  foreach (`ls /var/sis/*.SIS`)
+	  {
+		$chaine= `cat $_` ;
+		@tab = split(/;/, $chaine);
+		if (/^\/var\/sis\/(\S+).SIS/){
+				$inventory->addSoftware({
+					'VERSION'       => $tab[2],
+					'NAME'          => $tab[0]." ($1)",
+					'PUBLISHER'     => $tab[1],
+					'COMMENTS' 		=> $1,
+				});
+			}
+		
+	  }
   }
 }
 

@@ -22,6 +22,8 @@ sub run {
   my $flag_mt=0;
   my $caption;
   my $sun_class=0;
+  my $OSLevel;
+  my $zone;
   # for debug only
   my $j=0;
 
@@ -30,26 +32,66 @@ sub run {
   # from server model to server model
   # we try to classified our box in one of the known classes
 
-  $model=`uname -i`;
+   $OSLevel=`uname -r`;	  
+  
+  if ( $OSLevel =~ /5.8/ ){
+	$zone = "global";
+  }else{
+	  foreach (`zoneadm list -p`){
+		$zone=$1 if /^0:([a-z]+):.*$/;
+	  } 
+  }
+    
+  #print "Nom :".$zone."*************************\n";
+  
+  if ($zone)
+  {  
+  # first, we need determinate on which model of Sun Server we run,
+  # because prtdiags output (and with that memconfs output) is differend
+  # from server model to server model
+  # we try to classified our box in one of the known classes
+	$model=`uname -i`;
+  # debug print model  
+  # cut the CR from string model
+	$model = substr($model, 0, length($model)-1);
+  }else{
+	$model="Solaris Containers";
+  }
+  
+  #print "Memory Model: $model\n";
+  
+  
+  #$model=`uname -i`;
   # debug print model
   #print "Model: '$model'";
   # cut the CR from string model
-  $model = substr($model, 0, length($model)-1);
+  #$model = substr($model, 0, length($model)-1);
   # we map (hopfully) our server model to a known class 
-  if ($model eq "SUNW,Sun-Fire-280R") { $sun_class = 1; }
-  if ($model eq "SUNW,Sun-Fire-480R") { $sun_class = 1; }
-  if ($model eq "SUNW,Sun-Fire-V490") { $sun_class = 1; }
-  if ($model eq "SUNW,Sun-Fire-880")  { $sun_class = 1; }
-  if ($model eq "SUNW,Sun-Fire-V240") { $sun_class = 2; }
-  if ($model eq "SUNW,Sun-Fire-V440") { $sun_class = 2; }
-  if ($model eq "SUNW,Sun-Fire-V250") { $sun_class = 2; }
-  if ($model eq "SUNW,Sun-Fire-T200") { $sun_class = 3; }
-  if ($model eq "SUNW,Sun-Fire-T1000") { $sun_class = 3; }
-  if ($model eq "SUNW,SPARC-Enterprise-T5220") { $sun_class = 4; }
-  if ($model eq "SUNW,SPARC-Enterprise") { $sun_class = 5; } # for M5000 && M4000
+  #if ($model eq "SUNW,Sun-Fire-280R") { $sun_class = 1; }
+  #if ($model eq "SUNW,Sun-Fire-480R") { $sun_class = 1; }
+  #if ($model eq "SUNW,Sun-Fire-V490") { $sun_class = 1; }
+  #if ($model eq "SUNW,Sun-Fire-880")  { $sun_class = 1; }
+  #if ($model eq "SUNW,Sun-Fire-V240") { $sun_class = 2; }
+  #if ($model eq "SUNW,Sun-Fire-V440") { $sun_class = 2; }
+  #if ($model eq "SUNW,Sun-Fire-V250") { $sun_class = 2; }
+  #if ($model eq "SUNW,Sun-Fire-T200") { $sun_class = 3; }
+  #if ($model eq "SUNW,Sun-Fire-T1000") { $sun_class = 3; }
+  #if ($model eq "SUNW,SPARC-Enterprise-T5220") { $sun_class = 4; }
+  #if ($model eq "SUNW,SPARC-Enterprise") { $sun_class = 5; } # for M5000 && M4000
+  
+  if ($model  =~ /SUNW,SPARC-Enterprise/) { $sun_class = 5; } # for M5000 && M4000
+  if ($model  =~ /SUNW,SPARC-Enterprise-T\d/){ $sun_class = 4; }
+  if ($model  =~ /SUNW,Netra-T/){ $sun_class = 2; }
+  if ($model  =~ /SUNW,Sun-Fire-\d/){ $sun_class = 1; }
+  if ($model  =~ /SUNW,Sun-Fire-V/){ $sun_class = 2; }  
+  if ($model  =~ /SUNW,Sun-Fire-T\d/) { $sun_class = 3; }
+  if ($model  =~ /SUNW,T\d/) { $sun_class = 3; }
+  if ($model  =~ /Solaris Containers/){ $sun_class = 7; } 
+ 
+  
   if ($model eq "i86pc") { $sun_class = 6; }
   # debug print model
-  #print "sunclass: $sun_class\n";
+  #print "Sunclass: $sun_class\n";
   # now we can look at memory information, depending from our class
 
   if($sun_class == 0) 
@@ -249,7 +291,7 @@ sub run {
             last;
           }
           # debug
-          #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
+          print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
           $empty_slots++;
           $inventory->addMemory({
             CAPACITY => $capacity,
@@ -386,6 +428,30 @@ sub run {
     #print "# of empty slots: " . $empty_slots . "\n";
   }
 
+  if ($sun_class == 7)
+  {
+  foreach (`prctl -n project.max-shm-memory $$ 2>&1`)
+	{
+		
+		$description = $1 if /^project.(\S+)$/;		
+		$capacity = $1 if /^\s*system+\s*(\d+).*$/;		
+		if(($description && $capacity)){
+			$capacity = $capacity * 1024;
+			$numslots = 1 ;
+			$description = "Memory Allocated";
+			$caption = "Memory Share";
+			#print $description."_".$capacity."***\n";
+			$inventory->addMemory({
+			  CAPACITY => $capacity,
+			  DESCRIPTION => $description,
+			  CAPTION => $caption,
+			  SPEED => $speed,
+			  TYPE => $type,
+			  NUMSLOTS => $numslots
+			})
+		}
+	}
+  }	
   
 }
 #run();

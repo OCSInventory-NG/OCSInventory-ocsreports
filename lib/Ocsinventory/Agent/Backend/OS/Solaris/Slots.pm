@@ -11,7 +11,7 @@ sub run {
   my $designation;
   my $name;
   my $status;  
-
+  my @pci;
   my $flag;
   my $flag_pci;
   my $model;
@@ -24,12 +24,13 @@ sub run {
   $model = substr($model, 0, length($model)-1);
   # we map (hopfully) our server model to a known class
   if ($model eq "SUNW,SPARC-Enterprise") { $sun_class = 1; }
+  if ($model eq "SUNW,SPARC-Enterprise-T5120") { $sun_class = 2 ; }
   else { $sun_class = 0; }
   #Debug
   #print "sun_class : $sun_class\n";
 
 
-    foreach (`prtdiag`) {
+    foreach (`prtdiag `) {
     #print $_."\n";
  
    if ( $sun_class == 0 )
@@ -60,6 +61,7 @@ sub run {
     if($flag_pci && /^-+/){$flag = 1;}
 
    }
+   
    if ( $sun_class == 1 )
    {
 	last if(/^\=+/ && $flag_pci && $flag);
@@ -89,6 +91,25 @@ sub run {
         }
         if(/^=+\S+\s+IO Cards/){$flag_pci = 1;  }
         if($flag_pci && /^-+/){$flag = 1;}
+   }
+   if ( $sun_class == 2 )
+   {
+	if (/pci/)
+	{
+	@pci = split(/ +/);
+	$name=$pci[4]." ".$pci[5];
+	$description=$pci[0]." (".$pci[1].")";
+	$designation=$pci[3];
+	$status="";
+	$inventory->addSlot({
+          DESCRIPTION =>  $description,
+          DESIGNATION =>  $designation,
+          NAME            =>  $name,
+          STATUS          =>  $status,
+          });
+	
+	}
+	
    }
   }
 }

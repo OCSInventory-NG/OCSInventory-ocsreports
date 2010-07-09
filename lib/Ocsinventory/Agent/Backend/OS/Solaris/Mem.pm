@@ -14,11 +14,13 @@ sub run {
 
 # Memory informations
   foreach(`prtconf`){
-    if(/^Memory\ssize:\s+(\S+)/){$PhysicalMemory = $1}; 	
+    if(/^Memory\ssize:\s+(\S+)/){
+	#print "total memoire: $1";
+	$PhysicalMemory = $1}; 	
   } 
 #Swap Informations 
   foreach(`swap -l`){
-    if(/\s+(\S+)$/){$SwapFileSize += $1}; 
+    if(/\s+(\S+)$/){$SwapFileSize = $1}; 
   }
 
   $inventory->setHardware({
