@@ -75,7 +75,6 @@
 122 Delete
 129 LIKE
 130 DIFFERENT
-133 Inventory
 134 Add a new file in the database
 135 Be careful, you're about to delete this file definitively !
 137 File
@@ -297,7 +296,6 @@
 389 Nothing
 390 Dictionnary categories
 391 Category name
-392 Delete
 393 Search
 394 Search Category
 395 Search software EVERYWHERE

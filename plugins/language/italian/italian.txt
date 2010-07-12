@@ -74,7 +74,6 @@
 122 Elimina
 129 COME
 130 DIVERSO
-133 Inventario
 134 Aggiungi un nuovo file nel database
 135 Attenzione, stai per eliminare questo file definitivamente!
 137 File
@@ -296,7 +295,6 @@
 389 Niente
 390 Categorie del dizionario
 391 Nome categoria
-392 Elimina
 393 Cerca
 394 Cerca categoria
 395 Cerca software OVUNQUE
