@@ -41,14 +41,14 @@
 66 Tipo
 67 Capacità disco
 69 Produttore
-70 Unità
+70 Etichetta di volume
 79 Stampanti
 80 Nome
 81 Stato
 82 Reti
 83 Capacità
 84 Interfaccia
-85 Unità
+85 Lettera
 86 File system
 87 Totale
 88 Spazio disponibile
@@ -69,7 +69,6 @@
 114 Registra
 115 Aggiorna
 116 Aggiungi
-117 Registro
 119 Vuoi veramente eliminare il computer
 122 Elimina
 129 COME
@@ -123,7 +122,6 @@
 213 Valore chiave
 214 Stampa questa pagina
 215 Mostra tutto
-216 Nome utente o password errata
 217 Password
 218 Versione agente
 219 Interfacce di rete non inventariate
@@ -284,7 +282,7 @@
 376 Computer bloccato. Riprova tra qualche minuto
 377 Velocità CPU (MHz)
 380 Dizionario
-381 Numero
+381 Numero di installazioni
 382 Nome del software
 383 La pagina
 384 Sposta tutto
@@ -488,7 +486,6 @@
 596 INCLUSO DINAMICAMENTE
 597 ESCLUSO STATICAMENTE
 598 Incluso
-599 Reset
 600 Escluso
 601 Assegnazione di massa
 602 Devi inviare un file
@@ -652,7 +649,7 @@
 762 Dimensioni della pagina dei risultati (influeza le prestazioni)
 763 File di inclusione delle proprie estensioni
 764 Le seguenti opzioni non sono selezionabili tramite GUI.<br>(vedi ocsinventory-server.conf)
-765 Tutti i software
+765 tutti i software
 766 NESSUN RISULTATO
 767 ATTENZIONE: RISULTATO FILTRATO
 768 Numero di record
@@ -904,7 +901,7 @@
 1014 Modalità operativa
 1015 Modalità utente
 1016 Login per l'autenticazione
-1017 Password
+1017 Password di root
 1018 (Non inserire nulla per utilizzare connessioni anonime)
 1019 Risultato bloccato
 1020 Nome dell'etichetta informativa

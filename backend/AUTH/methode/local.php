@@ -14,7 +14,7 @@ if (isset($rowOp -> id)){
 	$login_successful = "OK";
 	$user_group=$rowOp -> user_group;
 }else
-$login_successful = $l->g(216);
+$login_successful = $l->g(180);
 $cnx_origine="LOCAL";
 
 ?>

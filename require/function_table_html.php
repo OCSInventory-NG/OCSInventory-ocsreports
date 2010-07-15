@@ -234,7 +234,7 @@ function tri($sql)
 	echo "</tr></tbody></table></div>";	
 	}
 	else{
-	echo "<center><font size=5 color=red>".$l->g(766)."</font></center>";
+	echo "<center><font size=5 color=red>".$l->g(766). " " . "</font></center>";
 	return FALSE;
 	}
 	echo "</div>";
@@ -1150,7 +1150,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
 		return TRUE;
 	}else{
-	echo "</td></tr></table><font color=red size=5><B>".$l->g(766)."</B></font>";
+	echo "</td></tr></table><font color=red size=5><B>".$l->g(766). " " . "</B></font>";
 	return FALSE;
 	}
 }
