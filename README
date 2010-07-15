@@ -44,6 +44,8 @@ PREREQUISITES
 
     If available, Net::CUPS is used to detect the printer
 
+    Nmap (v3.90 or superior) and Nmap::Parser to scan network devices for Ipdiscover
+    
 
   The following module is needed if you plan to prepare a tarball or install
   directly from the Bazaar devel branch. (See SOURCES below.):

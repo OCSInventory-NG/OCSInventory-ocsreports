@@ -9,6 +9,7 @@ sub check {
   my $params = shift;
 
   return unless can_run("nmap");
+  return unless can_load("Nmap::Parser");
 
   # Do we have nmap 3.90 (or >) 
   foreach (`nmap -v 2>&1`) {
@@ -47,21 +48,30 @@ sub run {
     return;
   }
 
-  $logger->debug("scanning the $network network");
+  #Let's go scanning the network and parsing the results
+  $logger->debug("Scanning the $network network");
+  my $nmaparser = new Nmap::Parser;
+  $nmaparser->parsescan("nmap","-sP","-PR","$network/24");
 
-  my $ip;
-  my $cmd = "nmap -sP -PR $network/24";
-  foreach (`$cmd`) {
-      print;
-      if (/^Host (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
-          $ip = $1;
-      } elsif (/MAC Address: (\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/) {
-          $inventory->addIpDiscoverEntry({
-             IPADDRESS => $ip,
-                MACADDR => lc($1),
-             });
-      }
+  for my $host ($nmaparser->all_hosts("up")){
+    my $ip = $host->addr;
+    my $mac = $host->mac_addr;
+    my $hostname = $host->hostname;
+
+    if ($hostname eq 0) {
+      $hostname = undef;     #it's better to send nothing instead of a '0'
+    }
+
+    $logger->debug("Host $ip found using Nmap. Adding informations in XML");
+
+    #Feeding the Inventory XML
+    $inventory->addIpDiscoverEntry({
+      IPADDRESS => $ip,
+       MACADDR => lc($mac),
+       NAME => $hostname,
+     });
   }
 }
+
 
 1;
