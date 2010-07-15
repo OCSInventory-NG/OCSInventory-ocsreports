@@ -24,7 +24,7 @@ if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 	$form_language="ADMIN_LANGUAGE";
 	echo "<hr/>";
 	$action['MODIF']=$l->g(115);
-	$action['DEL']=$l->g(392);
+	$action['DEL']=$l->g(122);
 	$action['ADD']=$l->g(116);
 	$tab_typ_champ[0]['DEFAULT_VALUE']=$action;
 	$tab_typ_champ[0]['INPUT_NAME']="ACTION";

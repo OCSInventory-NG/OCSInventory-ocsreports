@@ -74,7 +74,6 @@
 130 DIFFERENT
 131 Fichier icône
 132 Fichier image
-133 Inventaire
 134 Ajout d'un nouveau fichier dans la base
 135 Attention, vous allez supprimer ce fichier définitivement !
 137 Fichier
@@ -321,7 +320,6 @@
 389 Rien
 390 Catégories du dictionnaire
 391 Nom catégorie
-392 Supprimer
 393 Chercher
 394 Chercher catégorie
 395 Chercher logiciel PARTOUT

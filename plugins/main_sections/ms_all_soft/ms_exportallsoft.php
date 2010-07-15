@@ -23,7 +23,7 @@ $fields= array("a.tag"=>$_SESSION['OCS']['TAG_LBL']['TAG'],
 			   "h.name"=>$l->g(23),
 			   "h.userid"=>$l->g(24),
 			   "h.description"=>$l->g(53),
-			   "h.lastdate"=>$l->g(133));
+			   "h.lastdate"=>$l->g(728));
 $sql=" select ";
 $affich="";
 foreach($fields as $sql_field=>$lbl){
