@@ -202,22 +202,23 @@ require_once('require/function_ipdiscover.php');
 		$tab_options['LIEN_LBL']['LBL_RSX']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_admin_rsx'].'&prov=ident&head=1&value=';
 		$tab_options['LIEN_CHAMP']['LBL_RSX']='ID';
 		$tab_options['LIEN_TYPE']['LBL_RSX']='POPUP';
-		$tab_options['POPUP_SIZE']['LBL_RSX']="width=550,height=400";
+		$tab_options['POPUP_SIZE']['LBL_RSX']="width=550,height=500";
 	}
 	
 	
 	$tab_options['NO_LIEN_CHAMP']['IDENTIFIE']=array(0);
 	$tab_options['NO_TRI']['LBL_RSX']='LBL_RSX';
-	
-	$sql_count="SELECT COUNT(DISTINCT mac) as total
+	$arg_count=array();
+		$sql_count="SELECT COUNT(DISTINCT mac) as total
 					FROM netmap n 
 					LEFT OUTER JOIN networks ns ON ns.macaddr = mac 
 					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
 						and ( ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
-						and netid in  ('".$list_rsx."')";
-						
-	$res_count = mysql_query($sql_count, $_SESSION['OCS']["readServer"] );
+						and netid in ";
+	$detail_query=mysql2_prepare($sql_count,$arg_count,$array_rsx);
+	$res_count = mysql2_query_secure($detail_query['SQL'], $_SESSION['OCS']["readServer"],$detail_query['ARG']);
 	$val_count = mysql_fetch_array( $res_count );
+
 	$strEnTete = $_SESSION['OCS']["ipdiscover_id"]." ".$dpt[$protectedPost['DPT_CHOISE']]." <br>";
 		$strEnTete .= "<br>(<font color='red'>".$val_count["total"]."</font> ".$l->g(219).")";
 		echo "<br><br>";	

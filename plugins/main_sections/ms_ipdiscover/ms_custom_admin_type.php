@@ -8,11 +8,11 @@
 $form_name='admin_type';
 echo "<br><br><br>";	
 echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
-
 if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 	//$del_type=mysql_real_escape_string($protectedPost['SUP_PROF']);
-	$sql="delete from devicetype where id='".$protectedPost['SUP_PROF']."'";
-	mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
+	$sql="delete from devicetype where id='%s'";
+	$arg=$protectedPost['SUP_PROF'];
+	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);	
 	$tab_options['CACHE']='RESET';	
 	
 }
@@ -22,8 +22,9 @@ if (isset($protectedPost['Valid_modif_x'])){
 	if (trim($protectedPost['TYPE_NAME']) == ''){
 		$ERROR=$l->g(936);		
 	}else{
-		$sql="select ID from devicetype where NAME = '".$protectedPost['TYPE_NAME']."'";
-		$res = mysql_query($sql, $_SESSION['OCS']["readServer"] );
+		$sql="select ID from devicetype where NAME = '%s'";
+		$arg=$protectedPost['TYPE_NAME'];
+		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 		$row=mysql_fetch_object($res);
 		if (isset($row->ID))
 		$ERROR=$l->g(937);	
@@ -33,8 +34,9 @@ if (isset($protectedPost['Valid_modif_x'])){
 		$protectedPost['ADD_TYPE']="VALID";
 	}
 	else{
-		$sql="insert into devicetype (NAME) VALUES ('".$protectedPost['TYPE_NAME']."')";
-		mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
+		$sql="insert into devicetype (NAME) VALUES ('%s')";
+		$arg=$protectedPost['TYPE_NAME'];
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);	
 		$tab_options['CACHE']='RESET';	
 	}
 }

@@ -732,7 +732,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 			}
 		}
 	
-	  	echo "><a OnClick='pag(\"".mysql_escape_string($key)."\",\"".$post_name."\",\"".$form_name."\")'>".xml_decode($value)."</a></li>";
+	  	echo "><a OnClick='pag(\"".htmlspecialchars($key, ENT_QUOTES)."\",\"".$post_name."\",\"".$form_name."\")'>".htmlspecialchars($value, ENT_QUOTES)."</a></li>";
 	  $i++;	
 	  }	
 	echo "</ul>
@@ -982,11 +982,19 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					$querycount_end=stristr($queryDetails, 'from ');	
 			
 				$querycount=$querycount_begin.$querycount_end;
-				$resultcount = mysql_query($querycount, $link);
+				if (isset($tab_options['ARG_SQL']))
+					$resultcount = mysql2_query_secure($querycount, $link,$tab_options['ARG_SQL']);
+				else
+					$resultcount = mysql_query($querycount, $link);
 				//En dernier recourt, si le count n'est pas bon,
 				//on joue la requete initiale
-				if (!$resultcount)
-				$resultcount = mysql_query($queryDetails, $link);
+				if (!$resultcount){
+					if (isset($tab_options['ARG_SQL']))
+						$resultcount = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
+					else
+						$resultcount = mysql_query($queryDetails, $link);
+					
+				}
 				if ($_SESSION['OCS']['DEBUG'] == 'ON')
 		echo "<br><b><font color=red>".$l->g(5006)."<br>".$querycount."</font></b><br>";
 				$num_rows_result = mysql_num_rows($resultcount);
@@ -1018,7 +1026,10 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 		echo "<br><b><font color=red>".$l->g(5008)."<br>".$queryDetails."</font></b><br>";
 		//$queryDetails="select SQL_CALC_FOUND_ROWS ".substr($queryDetails,6);
-		$resultDetails = mysql_query($queryDetails, $link) or mysql_error($link);
+		if (isset($tab_options['ARG_SQL']))
+			$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
+		else
+			$resultDetails = mysql_query($queryDetails, $link) or mysql_error($link);
 		flush();
 	//echo "<br>".$queryDetails;
 //	flush();

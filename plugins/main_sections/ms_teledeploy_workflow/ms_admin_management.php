@@ -28,7 +28,7 @@ if ($protectedGet['admin'] == "tab"){
 }elseif ($protectedGet['admin'] == "fields"){
 	$table="downloadwk_fields";
 	$sql_status="SELECT id,lbl FROM downloadwk_statut_request";
-	$res_status = mysql_query( $sql_status, $_SESSION['OCS']["readServer"] );
+	$res_status = mysql2_query_secure( $sql_status, $_SESSION['OCS']["readServer"] );
 	$status['0']= $l->g(454);
 	while ($val_status = mysql_fetch_array( $res_status ))
 	$status[$val_status['id']]=$val_status['lbl'];
@@ -63,51 +63,62 @@ if ($protectedPost['onglet'] == 1){
 			$tab_values=explode(',',$list);
 			$i=0;
 			while($tab_values[$i]){
-				$sql_drop_column="ALTER TABLE downloadwk_pack DROP COLUMN fields_".$tab_values[$i];
-				mysql_query( $sql_drop_column, $_SESSION['OCS']["writeServer"]  ) or mysql_error($_SESSION['OCS']["writeServer"]);		
+				$sql_drop_column="ALTER TABLE downloadwk_pack DROP COLUMN fields_%s";
+				$arg_drop_column=$tab_values[$i];
+				mysql2_query_secure( $sql_drop_column, $_SESSION['OCS']["writeServer"],$arg_drop_column);		
 				$i++;				
 			}
-			$sql_delete="DELETE FROM downloadwk_conf_values WHERE field in (".$list.")";
-			mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));				
+			$arg_delete=array();
+			$sql_delete="DELETE FROM downloadwk_conf_values WHERE field in ";
+			$sql_delete=mysql2_prepare($sql_delete,$arg_delete,$list);
+			mysql2_query_secure($sql_delete['SQL'], $_SESSION['OCS']["writeServer"],$sql_delete['ARG']);				
 		}
-		$sql_delete="DELETE FROM ".$table." WHERE id in (".$list.")";
-		mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));				
+		$arg_delete=array();
+		$sql_delete="DELETE FROM ".$table." WHERE id in ";
+		$sql_delete=mysql2_prepare($sql_delete,$arg_delete,$list);
+		mysql2_query_secure($sql_delete['SQL'], $_SESSION['OCS']["writeServer"],$sql_delete['ARG']);				
 	}
 	
 	if(isset($protectedPost['SUP_PROF'])) {
-		@mysql_query( "DELETE FROM ".$table." WHERE ID='".$protectedPost['SUP_PROF']."'", $_SESSION['OCS']["writeServer"]  );
+		$sql_delete="DELETE FROM ".$table." WHERE ID='%s'";
+		$arg_delete=$protectedPost['SUP_PROF'];
+		mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"],$arg_delete);		
 	//If you delete a field, you must delete colomn on downloadwk_pack table
 		if ($table=="downloadwk_fields"){ 
-			$sql_delete="DELETE FROM downloadwk_conf_values WHERE field ='".$protectedPost['SUP_PROF']."'";
-			mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));				
+			$sql_delete="DELETE FROM downloadwk_conf_values WHERE field ='%s'";
+			$arg_delete=$protectedPost['SUP_PROF'];
+			mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"],$arg_delete);				
 			
-			$sql_drop_column="ALTER TABLE downloadwk_pack DROP COLUMN fields_".$protectedPost['SUP_PROF'];
-			mysql_query( $sql_drop_column, $_SESSION['OCS']["writeServer"]  ) or mysql_error($_SESSION['OCS']["writeServer"]);		
+			$sql_drop_column="ALTER TABLE downloadwk_pack DROP COLUMN fields_%s";
+			$arg_drop_column=$protectedPost['SUP_PROF'];
+			mysql2_query_secure( $sql_drop_column, $_SESSION['OCS']["writeServer"],$arg_drop_column );		
 		}
 	}	
-	$queryDetails ="select ID,".$fields." from ".$table." where ".$field_search."='".$protectedGet['value']."' 
+	$queryDetails ="select ID,".$fields." from ".$table." where ".$field_search."='%s' 
 					and (default_field is null or default_field=0) ";
-	$resTypes = mysql_query( $queryDetails, $_SESSION['OCS']["readServer"] );
+	$argDetail=$protectedGet['value'];
+	$resTypes = mysql2_query_secure( $queryDetails, $_SESSION['OCS']["readServer"],$argDetail);
 	$valTypes = mysql_fetch_array( $resTypes );
 	if (is_array($valTypes)){
-	if (!isset($protectedPost['SHOW']))
-		$protectedPost['SHOW'] = 'NOSHOW';
-	if (!(isset($protectedPost["pcparpage"])))
-		 $protectedPost["pcparpage"]=5;
-	array_shift($array_fields);
-	$list_fields= $array_fields;
-
-	$list_fields['SUP']='ID';
-	$list_fields['CHECK']='ID'; 
-	$list_col_cant_del=$list_fields;
-	$default_fields=$list_col_cant_del; 
-	$tab_options['REPLACE_VALUE'][$l->g(66)]=$multi_choice;
-	$tab_options['REPLACE_VALUE'][$l->g(1064)]=$yes_no;
-	$tab_options['REPLACE_VALUE'][$l->g(1065)]=$yes_no;
-	$tab_options['REPLACE_VALUE'][$l->g(1066)]=$status;
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
-	//traitement par lot
-	del_selection($form_name);
+		$tab_options['ARG_SQL']=$protectedGet['value'];
+		if (!isset($protectedPost['SHOW']))
+			$protectedPost['SHOW'] = 'NOSHOW';
+		if (!(isset($protectedPost["pcparpage"])))
+			 $protectedPost["pcparpage"]=5;
+		array_shift($array_fields);
+		$list_fields= $array_fields;
+	
+		$list_fields['SUP']='ID';
+		$list_fields['CHECK']='ID'; 
+		$list_col_cant_del=$list_fields;
+		$default_fields=$list_col_cant_del; 
+		$tab_options['REPLACE_VALUE'][$l->g(66)]=$multi_choice;
+		$tab_options['REPLACE_VALUE'][$l->g(1064)]=$yes_no;
+		$tab_options['REPLACE_VALUE'][$l->g(1065)]=$yes_no;
+		$tab_options['REPLACE_VALUE'][$l->g(1066)]=$status;
+		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
+		//traitement par lot
+		del_selection($form_name);
 	
 	
 	}	
