@@ -67,7 +67,6 @@
 114 Enregistrer
 115 Modifier
 116 Ajouter
-117 Registre
 119 Voulez-vous vraiment supprimer la machine 
 122 Supprimer
 129 RESSEMBLE
@@ -148,7 +147,6 @@
 213 Valeur de la clé
 214 Imprimer cette page
 215 Tout afficher
-216 Utilisateur ou mot de passe incorrect
 217 Mot de passe
 218 Versions des agents
 219 interfaces réseau non inventoriées
@@ -513,7 +511,6 @@
 596 INCLU DYNAMIQUEMENT
 597 EXCLU STATIQUEMENT
 598 Inclure
-599 Réinitialiser
 600 Exclure
 601 Affectation de masse
 602 Vous devez envoyer un fichier

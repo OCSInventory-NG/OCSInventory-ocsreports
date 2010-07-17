@@ -234,7 +234,7 @@ $i=0;
 				switch( $valGroups["static"] ) {
 					case 0: echo $td3."<a href='$hrefBase&actgrp=1'>".$l->g(598)."</a>&nbsp; &nbsp; &nbsp;<a href='$hrefBase&actgrp=2'>".$l->g(600)."</a></td>"; break;
 					case 1: echo $td3."<a href='$hrefBase&actgrp=0'>".$l->g(818)."</a></td>"; break;
-					case 2: echo $td3."<a href='$hrefBase&actgrp=1'>".$l->g(598)."</a>&nbsp; &nbsp; &nbsp;<a href='$hrefBase&actgrp=0'>".$l->g(599)."</a></td>"; break;
+					case 2: echo $td3."<a href='$hrefBase&actgrp=1'>".$l->g(598)."</a>&nbsp; &nbsp; &nbsp;<a href='$hrefBase&actgrp=0'>".$l->g(41)."</a></td>"; break;
 				}
 			}			
 			echo "</td>";

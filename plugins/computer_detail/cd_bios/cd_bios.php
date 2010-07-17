@@ -19,7 +19,7 @@
 	$list_fields=array($l->g(36) => 'SSN',
 					   $l->g(64) => 'SMANUFACTURER',
 					   $l->g(65) => 'SMODEL',
-					   'Type'=> 'TYPE',
+					   $l->g(66) => 'TYPE',
 					   $l->g(284) => 'BMANUFACTURER',
 					   $l->g(209) => 'BVERSION',
 					   $l->g(210) => 'BDATE',

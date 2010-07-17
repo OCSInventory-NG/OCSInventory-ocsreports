@@ -9,8 +9,8 @@
 					   $l->g(66) => 'TYPE',
 					   $l->g(70) => 'VOLUMN',
 					   $l->g(86) => 'FILESYSTEM',
-					   $l->g(88)." (MB)."=>'FREE',
-					   $l->g(87)." (MB)."=> 'TOTAL',
+					   $l->g(88)." (MB)"=>'FREE',
+					   $l->g(87)." (MB)"=> 'TOTAL',
 					   "PERCENT_BAR" => 'CAPACITY');
 	$list_col_cant_del=array('PERCENT_BAR'=>'PERCENT_BAR',$l->g(85)=>$l->g(85));
 	$default_fields= $list_fields;

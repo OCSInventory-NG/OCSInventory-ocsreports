@@ -70,7 +70,6 @@
 114 Register
 115 Update
 116 Add
-117 Registry
 119 Do you really want to delete computer 
 122 Delete
 129 LIKE
@@ -124,7 +123,6 @@
 213 Key value
 214 Print this page
 215 Show everything
-216 Password error
 217 Password
 218 Agents versions
 219 uninventoried network interfaces
@@ -489,7 +487,6 @@
 596 DYNAMICALLY INCLUDED
 597 STATICALLY EXCLUDED
 598 Include
-599 Reset
 600 Exclude
 601 Mass affectation
 602 You need to send a file
