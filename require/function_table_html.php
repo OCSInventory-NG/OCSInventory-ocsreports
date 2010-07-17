@@ -525,20 +525,11 @@ function filtre($tab_field,$form_name,$query){
 		$temp_query=explode("GROUP BY",$query);
 		if ($temp_query[0] == $query)
 		$temp_query=explode("group by",$query);
-//		if ($temp_query[0] == '')
-//		$temp_query[0]=$query;
-		
-//		$t_query=explode("WHERE",$temp_query[0]);
-//		if ($t_query[0] == '')
-//		$t_query[0]=$temp_query[0];
 		
 		if (substr_count(strtoupper ($temp_query[0]), "WHERE")>0){
 			$t_query=explode("WHERE",$temp_query[0]);
 			if ($t_query[0] == $temp_query[0])
 			$t_query=explode("where",$temp_query[0]);
-//			echo "<br>";
-//			print_r($t_query);
-//			echo "<br>";
 			$temp_query[0]= $t_query[0]." WHERE (".$t_query[1].") and ";
 		
 		}else
@@ -546,10 +537,7 @@ function filtre($tab_field,$form_name,$query){
 	$query=$temp_query[0].$protectedPost['FILTRE']." like '%".$protectedPost['FILTRE_VALUE']."%' ";
 	if (isset($temp_query[1]))
 	$query.="GROUP BY ".$temp_query[1];
-	//$query=strtolower($query);
-	//echo $query;
 	}
-	//echo $query;
 	$view=show_modif($tab_field,'FILTRE',2);
 	$view.=show_modif(stripslashes($protectedPost['FILTRE_VALUE']),'FILTRE_VALUE',0);
 	echo $l->g(883).": ".$view."<input type='submit' value='".$l->g(1109)."' name='SUB_FILTRE'><a href=# onclick='return pag(\"RAZ\",\"RAZ_FILTRE\",\"".$form_name."\");'><img src=image/supp.png></a></td></tr><tr><td align=center>";
@@ -587,7 +575,7 @@ function tab_list_error($data,$title)
 
 function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='#9894B5'){
 	global $protectedPost,$l;
-	//print_r($protectedPost);
+
 	if ($protectedPost['old_pcparpage'] != $protectedPost['pcparpage'])
 	$protectedPost['page']=0;
 	if (!(isset($protectedPost["pcparpage"])) or $protectedPost["pcparpage"] == "")
@@ -609,31 +597,21 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 	echo " style='display:none;'";
 	echo "><tr><td align=center>";
 	echo "<table cellspacing='5' width='".$taille_cadre."%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='".$bgcolor."' BORDERCOLOR='".$bordercolor."'><tr><td align=center>";
-	//$machNmb = array(5,10,15,20,50,100,200,300,500,800,1000);
+
 	    $machNmb = array(5=>5,10=>10,15=>15,20=>20,50=>50,100=>100,200=>200);
       $pcParPageHtml= $l->g(340).": ".show_modif($machNmb,'pcparpage',2,$form_name,array('DEFAULT'=>'NO'));
 	$pcParPageHtml .=  "</td></tr></table>
 	</td></tr><tr><td align=center>";
 	echo $pcParPageHtml;
-	
-//        $machNmb = array(5,10,15,20,50,100,200);
-//	$pcParPageHtml = "<li>".$l->g(340).": <select name='pcparpage' onChange='document.".$form_name.".submit();'>";
-//	$countHl=0;
-//	foreach( $machNmb as $nbm ) {
-//		$pcParPageHtml .=  "<option".($protectedPost["pcparpage"] == $nbm ? " selected" : "").($countHl%2==1?" class='hi'":"").">$nbm</option>";
-//		$countHl++;
-//	}
-//	echo $pcParPageHtml."</select></li></span>";
+
 
 	if (isset($protectedPost["pcparpage"])){
 		$deb_limit=$protectedPost['page']*$protectedPost["pcparpage"];
 		$fin_limit=$deb_limit+$protectedPost["pcparpage"]-1;		
 	}
-	
-//	echo $deb_limit."=>".$fin_limit."<br>";
-	//echo "deb => ".$deb_limit."    fin => ".$fin_limit."<br>";
+
 	echo "<input type='hidden' id='SHOW' name='SHOW' value='".$protectedPost['SHOW']."'>";
-	//return (array("BEGIN"=>$protectedPost["pcparpage"],"END"=>$deb_limit));
+
 	return (array("BEGIN"=>$deb_limit,"END"=>$fin_limit));
 }
 
@@ -810,7 +788,6 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,$width='100',$tab_options='')
 {
 	global $protectedPost,$l,$pages_refs;
-	//print_r($tab_options);
 	if (!$tab_options['AS'])
 	$tab_options['AS']=array();
 	echo "<script language='javascript'>
@@ -830,33 +807,22 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 
 	$link=$_SESSION['OCS']["readServer"];	
 	
-
+	//show select nb page
 	$limit=nb_page($form_name,100,"","");
-	//explode(" ", $pizza);
 	
-	
-	
-	
+	//you want to filter your result
 	if (isset($tab_options['FILTRE']))
 	$queryDetails=filtre($tab_options['FILTRE'],$form_name,$queryDetails);
+	
+	//by default, sort by column 1
 	if ($protectedPost['tri2'] == "" or (!in_array ($protectedPost['tri2'], $list_fields) and !in_array ($protectedPost['tri2'], $tab_options['AS'])))
 	$protectedPost['tri2']=1;
-//	echo $protectedPost['tri2'];
-	
-	//si le tri se fait sur un champ fixe
-	/*if ( strrpos($protectedPost['tri2'], ".") and ((substr($protectedPost['tri2'],1,1) != '.' and $protectedPost['tri2']!=1)
-		 or ($protectedPost['tri_fixe']!= '' and $protectedPost['tri2'] == ""))){
-		//echo "<b>".$protectedPost['tri2']."</b>";
-		if ($protectedPost['tri_fixe'] !=  $protectedPost['tri2'])
-		$protectedPost['tri_fixe']=$protectedPost['tri2'];
-		//on veut savoir sur quelle table le tri doit avoir lieu
-		$tablename_fixe_value=explode(".", $protectedPost['tri_fixe']);			
-		$protectedPost['tri2']=1;		
-	}*/
-//echo $protectedPost['tri2'];
+
+	//by default, sort ASC
 	if ($protectedPost['sens'] == "")
 	$protectedPost['sens']='ASC';
-	//on modifie le type du champ pour pouvoir trier correctement
+	
+	//if data is signed
 	if ($tab_options['TRI']['SIGNED'][$protectedPost['tri2']])
 		$queryDetails.= " order by cast(".$protectedPost['tri2']." as signed) ".$protectedPost['sens'];
 	else
@@ -869,33 +835,27 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	if ($_SESSION['OCS']['csv'][$table_name] != $queryDetails ){
 		unset($protectedPost['page']);
 		$tab_options['CACHE']='RESET';
-
 	}
-	//si la limite de fin est sup�rieure aux totals de r�sultat
-	//on force la limite END avec la derni�re valeur du r�sultat
-//	if ($limit["END"]>$_SESSION['OCS']['NUM_ROW'][$table_name]-1 and isset($_SESSION['OCS']['NUM_ROW'][$table_name]))
-//		$limit["END"]=$_SESSION['OCS']['NUM_ROW'][$table_name];
+
 	
-	//Effacage du cache pour la reg�n�ration
+	//Delete cache 
 	if ($tab_options['CACHE']=='RESET' or (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') ){
 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 	 		echo "<br><b><font color=red>".$l->g(5003)."</font></b><br>";
 		unset($_SESSION['OCS']['DATA_CACHE'][$table_name]);
 		unset($_SESSION['OCS']['NUM_ROW'][$table_name]);	
 	}
-//	print_r($_SESSION['OCS']['DATA_CACHE'][$table_name]);
-//echo $limit["END"];
-//		$value_data_begin=$protectedPost['page']*$protectedPost['pcparpage'];
-//		$value_data_end=$value_data_begin+$protectedPost['pcparpage'];
-		if (isset($_SESSION['OCS']['NUM_ROW'][$table_name])
-			 and $_SESSION['OCS']['NUM_ROW'][$table_name]>$limit["BEGIN"] 
-			 and $_SESSION['OCS']['NUM_ROW'][$table_name]<=$limit["END"]
-			 and !isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]])){
-			 	if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			 	echo "<br><b><font color=red>".$l->g(5004)." ".$limit["END"]." => ".($_SESSION['OCS']['NUM_ROW'][$table_name]-1)." </font></b><br>";
+
+	if (isset($_SESSION['OCS']['NUM_ROW'][$table_name])
+			and $_SESSION['OCS']['NUM_ROW'][$table_name]>$limit["BEGIN"] 
+			and $_SESSION['OCS']['NUM_ROW'][$table_name]<=$limit["END"]
+			and !isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]])){
+				
+		if ($_SESSION['OCS']['DEBUG'] == 'ON')
+			 echo "<br><b><font color=red>".$l->g(5004)." ".$limit["END"]." => ".($_SESSION['OCS']['NUM_ROW'][$table_name]-1)." </font></b><br>";
 		$limit["END"]=$_SESSION['OCS']['NUM_ROW'][$table_name]-1;
 
-			 }
+	}
 		
 		
 		
@@ -909,13 +869,11 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	 			$sql_data[$var_limit]=$_SESSION['OCS']['DATA_CACHE'][$table_name][$var_limit];
 	 			$var_limit++;
 	 		}
-			//$sql_data=$_SESSION['OCS']['DATA_CACHE'][$table_name];
 			$num_rows_result=$_SESSION['OCS']['NUM_ROW'][$table_name];
 			$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails);
 			$data=$result_data['DATA'];
 			
 			$entete=$result_data['ENTETE'];
-			//print_r($entete);
 			$correct_list_col_cant_del=$result_data['correct_list_col_cant_del'];
 			$correct_list_fields=$result_data['correct_list_fields'];
 		$i=1;		
@@ -1033,10 +991,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		flush();
 	//echo "<br>".$queryDetails;
 //	flush();
-//		
-		$i=0;
-	//	$j=0;
-		//$queryDetails.=" limit 200";
+
+		$i=floor($limit["END"]/$limit_result_cache)*$limit_result_cache;
 		$index=$limit["BEGIN"];
 		$value_data_begin=$limit["BEGIN"];
 		$value_data_end=$limit["END"]+1;
@@ -1044,54 +1000,60 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		if ($index>$num_rows_result){
 			$value_data_end=$num_rows_result-1;
 		}
-	//	echo $resultDetails
+		//echo $queryDetails;
 		while($item = mysql_fetch_object($resultDetails)){
-			
-			unset($champs_index);
-			if ($item->ID != "")
-			$champs_index=$item->ID;
-			elseif($item->FILEID != "")
-			$champs_index=$item->FILEID;
-
-			if (isset($list_id_tri_fixe))
-			$index=$champs_index;
-			if ($index>$num_rows_result){
-				break;
+			echo "<br>INDEX=".$index;
+			if ($i>=$index){
+				//print_r($item);
+				unset($champs_index);
+				if ($item->ID != "")
+				$champs_index=$item->ID;
+				elseif($item->FILEID != "")
+				$champs_index=$item->FILEID;
+	
+				if (isset($list_id_tri_fixe)){
+					$index=$champs_index;	
+				}
+				
+				if ($index>$num_rows_result){
+					break;
+				}
+				
+						//on arr�te le traitement si on est au dessus du nombre de ligne
+				
+				
+				
+				foreach($item as $key => $value){
+					$sql_data_cache[$index][$key]=$value;					
+					if ($index<$value_data_end and $index>=$value_data_begin){
+						flush();
+						$sql_data[$index][$key]=$value;							
+						foreach ($list_fields as $key=>$value){
+							if ($tab_options['VALUE'][$key]){
+								echo "toto";
+								if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
+								$sql_data[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
+								else
+								$sql_data[$index][$value]=$tab_options['VALUE'][$key][$champs_index];
+							}
+							//echo $sql_data[$index][$value]."<br>";
+						}
+					//	print_r($sql_data);
+					}			
+					//ajout des valeurs statiques
+						foreach ($list_fields as $key=>$value){
+							if ($tab_options['VALUE'][$key]){
+								echo "toto2";
+								if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
+								$sql_data_cache[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
+								else
+								$sql_data_cache[$index][$value]=$tab_options['VALUE'][$key][$champs_index];
+							}
+						
+						}
+				}		
+				$index++;
 			}
-			
-					//on arr�te le traitement si on est au dessus du nombre de ligne
-			
-			
-			
-			foreach($item as $key => $value){
-				//echo "key=>".$index."<br>";
-			$sql_data_cache[$index][$key]=$value;
-				if ($index<$value_data_end and $index>=$value_data_begin){
-
-					flush();
-					$sql_data[$index][$key]=$value;							
-					foreach ($list_fields as $key=>$value){
-						if ($tab_options['VALUE'][$key]){
-							if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
-							$sql_data[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
-							else
-							$sql_data[$index][$value]=$tab_options['VALUE'][$key][$champs_index];
-						}
-					
-					}
-				}			
-				//ajout des valeurs statiques
-					foreach ($list_fields as $key=>$value){
-						if ($tab_options['VALUE'][$key]){
-							if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
-							$sql_data_cache[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
-							else
-							$sql_data_cache[$index][$value]=$tab_options['VALUE'][$key][$champs_index];
-						}
-					
-					}
-			}		
-			$index++;
 			$i++;
 		}
 //		if ($i == 1){
@@ -1172,7 +1134,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 //fonction qui permet de g�rer les donn�es � afficher dans le tableau
 function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails){
 	global $l,$protectedPost,$pages_refs;
-	
 	$_SESSION['OCS']['list_fields']=$list_fields;
 	//requete de condition d'affichage
 	//attention: la requete doit etre du style:

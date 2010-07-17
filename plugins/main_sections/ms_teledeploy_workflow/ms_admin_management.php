@@ -79,7 +79,7 @@ if ($protectedPost['onglet'] == 1){
 		mysql2_query_secure($sql_delete['SQL'], $_SESSION['OCS']["writeServer"],$sql_delete['ARG']);				
 	}
 	
-	if(isset($protectedPost['SUP_PROF'])) {
+	if(isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') {
 		$sql_delete="DELETE FROM ".$table." WHERE ID='%s'";
 		$arg_delete=$protectedPost['SUP_PROF'];
 		mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"],$arg_delete);		
