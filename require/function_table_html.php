@@ -1002,7 +1002,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		}
 		//echo $queryDetails;
 		while($item = mysql_fetch_object($resultDetails)){
-			echo "<br>INDEX=".$index;
+			//echo "<br>INDEX=".$index;
 			if ($i>=$index){
 				//print_r($item);
 				unset($champs_index);
@@ -1030,7 +1030,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 						$sql_data[$index][$key]=$value;							
 						foreach ($list_fields as $key=>$value){
 							if ($tab_options['VALUE'][$key]){
-								echo "toto";
+								//echo "toto";
 								if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
 								$sql_data[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
 								else
@@ -1043,7 +1043,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					//ajout des valeurs statiques
 						foreach ($list_fields as $key=>$value){
 							if ($tab_options['VALUE'][$key]){
-								echo "toto2";
+							//	echo "toto2";
 								if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
 								$sql_data_cache[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
 								else
