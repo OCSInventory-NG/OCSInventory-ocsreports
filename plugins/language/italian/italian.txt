@@ -1,7 +1,7 @@
 2 Tutti i computer
 3 Computer con software...
 5 Apparati di cui sono responsabile
-9 Ricerca con vari criteri
+9 Ricerca con criteri multipli
 12 Valore etichetta
 13 Invia
 17 Agente
@@ -774,8 +774,8 @@
 887 E' possibile che questo pacchetto non sia interessato dalla distribuzione dei server
 888 Rimosso
 889 Connesso come
-890 Il programma è impegnato in una ricerca con criteri vari
-891 Rimouovi il LOCK sull'interfaccia
+890 L'interfaccia è attualmente bloccata in una ricerca con criteri multipli
+891 Rimouovi il blocco sull'interfaccia
 892 connessione con altro account
 893 NESSUNA ETICHETTA INTERESSA IL TUO PROFILO
 894 NESSUN LIVELLO DI PERMESSO DEFINITO PER IL TUO PROFILO
@@ -861,9 +861,9 @@
 974 computer inseriti nella cache
 975 Aggiungi a gruppo
 976 INTERFACCIA BLOCCATA SUI RISULTATI OTTENUTI
-977 BLOCCO ATTIVATO
-978 Stai per bloccare tutte le interfacce sui risultati di ricerca con vari criteri
-979 Per ritornare allo stato predefinito, devi cliccare sull'icona <img src='image/cadena_op.png'> che si trova in alto a destra sull'interfaccia
+977 Blocca
+978 Stai per bloccare tutte le interfacce sui risultati di ricerca con criteri multipli
+979 Per ritornare allo stato predefinito, devi cliccare sull'icona <img src='image/cadena_op.png'> che si trova in alto a destra dell'interfaccia
 980 Pacchetti nei computer
 981 Pacchetti nei gruppi di server
 982 NON SONO DISPONIBILI REGOLE VALIDE. NON E' POSSIBLE PROSEGUIRE LA RIDISTRIBUZIONE.

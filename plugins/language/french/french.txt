@@ -886,7 +886,7 @@
 974 machines insérées dans le cache
 975 Ajouter au groupe
 976 LOCK de L'INTERFACE SUR LE RESULTAT DE LA REQUETE
-977 LOCK POUR
+977 Serrure
 978 Vous aller verrouiller toute l'interface sur les résultats de cette recherche multicritère
 979 Pour revenir à un état normal, vous cliquerez sur l'icône <img src='image/cadena_op.png' > se trouvant en haut à droite de l'interface
 980 Paquets sur les machines
