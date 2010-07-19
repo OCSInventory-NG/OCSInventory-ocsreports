@@ -194,7 +194,8 @@ if (!isset($_SESSION['OCS']['LOG_GUI'])){
 /****************END GESTION LOGS***************/
 
 /*********************************************GESTION OF LBL_TAG*************************************/
-if (!isset($_SESSION['OCS']['LBL_TAG'])){
+
+if (!isset($_SESSION['OCS']['TAG_LBL'])){
 	require_once('require/function_admininfo.php');
 	$all_tag_lbl=witch_field_more();
 	foreach ($all_tag_lbl['LIST_NAME'] as $key=>$value){

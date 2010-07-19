@@ -14,17 +14,18 @@ if ($_SESSION['OCS']['ipdiscover_methode'] != 'local.php'){
 	die();
 }
 
+
 if (isset($protectedGet['value'])){
 	$title=$l->g(931);
-	$netid=mysql_escape_string($protectedGet['value']);
-	$protectedPost["ADD_IP"]=$netid;
+	$protectedPost["ADD_IP"]=$protectedGet['value'];
 	if (!isset($protectedPost["RSX_NAME"])){
-		$sql="select NAME,ID,MASK from subnet where netid='".$netid."'";
-		$res=mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$sql="select NAME,ID,MASK from subnet where netid='%s'";
+		$arg=$protectedGet['value'];
+		$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 		$row=mysql_fetch_object($res);
-		$protectedPost["RSX_NAME"]=xml_decode($row->NAME);
-		$protectedPost["ID_NAME"]=xml_decode($row->ID);
-		$protectedPost["ADD_SX_RSX"]=xml_decode($row->MASK);
+		$protectedPost["RSX_NAME"]=$row->NAME;
+		$protectedPost["ID_NAME"]=$row->ID;
+		$protectedPost["ADD_SX_RSX"]=$row->MASK;
 	}
 	$tab_typ_champ[2]['INPUT_TYPE']=3;
 
@@ -40,7 +41,6 @@ if (isset($protectedPost['Reset_modif_x'])){
 }
 
 if (isset($protectedPost['Valid_modif_x'])){
-	print_r($protectedPost);
 	if (trim($protectedPost['ADD_IP']) == '')
 	$ERROR=$l->g(932);	
 	if (trim($protectedPost['RSX_NAME']) == '')
@@ -51,18 +51,21 @@ if (isset($protectedPost['Valid_modif_x'])){
 	$ERROR=$l->g(935);
 	if (!isset($ERROR)){
 		//$post=escape_string($protectedPost);
-		$sql_verif="select NETID from subnet where netid='".$protectedPost['ADD_IP']."'";
-		$res_verif=mysql_query($sql_verif, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$sql_verif="select NETID from subnet where netid='%s'";
+		$arg_verif=$protectedPost['ADD_IP'];
+		$res_verif=mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"],$arg_verif);
 		$row_verif=mysql_fetch_object($res_verif);
 		if (isset($row_verif->NETID)){
-			$sql="update subnet set name='".$protectedPost['RSX_NAME']."', id='".$protectedPost['ID_NAME']."', MASK='".$protectedPost['ADD_SX_RSX']."'
-				where netid = '".$protectedPost['ADD_IP']."'";			
+			$sql="update subnet set name='%s', id='%s', MASK='%s'
+				where netid = '%s'";			
+			$arg=array($protectedPost['RSX_NAME'],$protectedPost['ID_NAME'],$protectedPost['ADD_SX_RSX'],$protectedPost['ADD_IP']);
 		}else{	
-			$sql="insert into subnet (netid,name,id,mask) VALUES ('".$protectedPost['ADD_IP']."','".$protectedPost['RSX_NAME']."',
-					'".$protectedPost['ID_NAME']."','".$protectedPost['ADD_SX_RSX']."')";
+			$sql="insert into subnet (netid,name,id,mask) VALUES ('%s','%s',
+					'%s','%s')";
+			$arg=array($protectedPost['ADD_IP'],$protectedPost['RSX_NAME'],$protectedPost['ID_NAME'],$protectedPost['ADD_SX_RSX']);
 		}
 		//echo $sql;
-		mysql_query($sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		//suppression du cache pour prendre en compte la modif
 		unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER']);
 		echo "<script>";
@@ -92,8 +95,6 @@ $tab_typ_champ[3]['DEFAULT_VALUE']=$protectedPost['ADD_SX_RSX'];
 $tab_typ_champ[3]['INPUT_NAME']="ADD_SX_RSX";
 $tab_typ_champ[3]['INPUT_TYPE']=0;
 $tab_name[3]=$l->g(208).": ";
-$tab_hidden['NETID']=$netid;
+$tab_hidden['NETID']=$protectedGet['value'];
 tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");
-	
-require_once($_SESSION['OCS']['FOOTER_HTML']);
 ?>

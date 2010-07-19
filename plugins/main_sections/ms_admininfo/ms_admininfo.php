@@ -138,7 +138,7 @@ if ($protectedPost['onglet'] == 1){
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 	$tab_typ_champ[0]['CONFIG']['SIZE']=30;
 	$tab_typ_champ[1]['CONFIG']['SIZE']=30;
-	$tab_typ_champ[3]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=TAB_ACCOUNTAG\",\"TAB_ACCOUNTAG\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")>+++</a>";
+	$tab_typ_champ[3]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=TAB_ACCOUNTAG\",\"TAB_ACCOUNTAG\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
 }
