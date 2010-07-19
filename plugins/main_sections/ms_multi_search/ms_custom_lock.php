@@ -13,7 +13,7 @@ if ($protectedPost['LOCK'] != '' and isset($protectedPost['LOCK'])){
 if ($protectedPost['CHOISE'] != ""){
 	echo "<br><br><b>".$l->g(978)."</b>";
 	echo "<br><br>".$l->g(979);
-	echo "<br><br><input type='submit' value=\"Locker\" name='LOCK'>";
+	echo "<br><br><input type='submit' value=" . $l->g(977) . " name='LOCK'>";
 }
 echo "</div></form>";//<input type=submit value='Supprimer TOUTES les machines?' name='delete'>
 

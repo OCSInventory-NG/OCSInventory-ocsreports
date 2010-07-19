@@ -862,7 +862,7 @@
 974 computers inserted into cache
 975 Add to group
 976 INTERFACE LOCK ON REQUEST RESULT
-977 LOCK ON 
+977 Lock
 978 You are going to lock all the interface on the search with criterias results
 979 PTo come back to a standard state, you will have to cli on the icon e <img src='image/cadena_op.png' > which is at the right top of the interfaceace
 980 Packages on computers
