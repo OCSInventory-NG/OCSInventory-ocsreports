@@ -14,6 +14,22 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
 
+ 
+ function prepare_sql_tab($list_fields,$explu){
+ 	$begin_arg=array();
+ 	$begin_sql="SELECT ";
+ 	foreach ($list_fields as $key=>$value){
+ 		if (!in_array($key,$explu)){
+			$begin_sql .= '%s,';
+			array_push($begin_arg,$value);		
+ 		}
+	} 
+	return array('SQL'=>substr($begin_sql,0,-1),'ARG'=>$begin_arg); 	
+ 	
+ }
+ 
+ 
+ 
  /*
   * 
   * This function check an mail addresse 

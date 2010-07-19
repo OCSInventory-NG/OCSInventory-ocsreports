@@ -80,12 +80,10 @@ $tab_options['LBL']['GROUP_NAME']="Nom";
 $table_name="LIST_GROUPS";
 $default_fields= array('GROUP_NAME'=>'GROUP_NAME','DESCRIPTION'=>'DESCRIPTION','CREATE'=>'CREATE','NBRE'=>'NBRE','SUP'=>'SUP','CHECK'=>'CHECK');
 $list_col_cant_del=array('GROUP_NAME'=>'GROUP_NAME','SUP'=>'SUP','CHECK'=>'CHECK');
-$querygroup = 'SELECT ';
-foreach ($list_fields as $key=>$value){
-	if($key != 'SUP' and $key != 'CHECK' and $key != 'NBRE')
-	$querygroup .= $value.',';		
-} 
-$querygroup=substr($querygroup,0,-1);
+$query=prepare_sql_tab($list_fields,array('SUP','CHECK','NBRE'));
+$tab_options['ARG_SQL']=$query['ARG'];
+$querygroup=$query['SQL'];
+
 //requete pour les groupes de serveurs
 if ($protectedPost['onglet'] == "SERV"){
 	$querygroup .= " from hardware h,download_servers ds where ds.group_id=h.id and h.deviceid = '_DOWNLOADGROUP_'";	
@@ -113,7 +111,7 @@ if ($protectedPost['onglet'] == "SERV"){
 
 }
 $querygroup.=" group by h.ID";
-$result = mysql_query($sql_nb_mach, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+$result = mysql2_query_secure($sql_nb_mach, $_SESSION['OCS']["readServer"]) ;
 while($item = mysql_fetch_object($result)){
 	//on force les valeurs du champ "nombre" � l'affichage
 	$tab_options['VALUE']['NBRE'][$item -> group_id]=$item -> nb;
@@ -127,7 +125,7 @@ $tab_options['VALUE']['NBRE'][]=0;
 //on recherche les groupes visible pour cocher la checkbox � l'affichage
 if ($protectedPost['onglet'] == "STAT"){
 	$sql="select id from hardware where workgroup='GROUP_4_ALL'";
-	$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 	while($item = mysql_fetch_object($result)){
 		$protectedPost['check'.$item ->id]="check";
 	}

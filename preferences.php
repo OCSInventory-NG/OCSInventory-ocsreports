@@ -89,12 +89,10 @@ function mysql2_prepare($sql,$arg_sql,$arg_tab=''){
 		array_push($arg_sql,$value);			
 	}
 	$sql = substr($sql,0,-2) . " ) ";
-	return array('SQL'=>$sql,'ARG'=>$arg_sql); 
-		
-	
-	
-	
+	return array('SQL'=>$sql,'ARG'=>$arg_sql); 	
 }
+
+
 
 
 
