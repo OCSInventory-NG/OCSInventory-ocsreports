@@ -70,12 +70,14 @@ function bandeau($data,$lbl){
 			<table align=center border='0' width='95%'><tr>";
 	$i=0;
 	foreach ($data as $name=>$value){
-		if ($i == $nb_col){
-			echo "</tr><tr>";
-			$i=0;			
+		if (trim($value) != ''){
+			if ($i == $nb_col){
+				echo "</tr><tr>";
+				$i=0;			
+			}
+			echo "<td >&nbsp;<b>".$lbl[$name]." :</b></td><td >".$value."</td>";
+			$i++;
 		}
-		echo "<td >&nbsp;<b>".$lbl[$name]." :</b></td><td >".$value."</td>";
-		$i++;
 	}
 	echo "</tr></table></td></tr></table>";	
 }
