@@ -379,7 +379,7 @@ if ($activate){
 			<br> " . $l->g(1106) . "
 			<br> " . $l->g(1107) . "</b></font>";
 	//recherche des demandes de télédéploiement en statut de création de paquet
-	$conf_creat_Wk=look_default_values(array('IT_SET_NIV_CREAT'));
+	$conf_creat_Wk=look_config_default_values(array('IT_SET_NIV_CREAT'));
 	//print_r($conf_creat_Wk);
 	$info_dde_statut_creat=info_dde(find_dde_by_status($conf_creat_Wk['tvalue']['IT_SET_NIV_CREAT']));
 	if ($info_dde_statut_creat != ''){

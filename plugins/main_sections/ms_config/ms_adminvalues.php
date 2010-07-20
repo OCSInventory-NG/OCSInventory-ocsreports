@@ -22,7 +22,7 @@ if (isset($protectedPost['MODIF'])
 	and is_numeric($protectedPost['MODIF']) 
 	and !isset($protectedPost['Valid_modif_x'])){
 	 $protectedPost['onglet'] = 2;
-	 $val_info=look_default_values(array($protectedGet['tag']."_".$protectedPost['MODIF']));
+	 $val_info=look_config_default_values(array($protectedGet['tag']."_".$protectedPost['MODIF']));
 	 $protectedPost['newfield']=$val_info['tvalue'][$protectedGet['tag']."_".$protectedPost['MODIF']];
 	 $hidden=$protectedPost['MODIF'];
 }

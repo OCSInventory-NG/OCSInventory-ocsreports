@@ -10,13 +10,6 @@ if( ! isset($_SESSION['OCS']["debug"]) ) {
 	$_SESSION['OCS']["debug"] = 0 ;
 }
 
-if( isset( $protectedGet["cache"] ) ) {
-	$_SESSION['OCS']["usecache"] = $protectedGet["cache"];
-}
-else if( ! isset($_SESSION['OCS']["usecache"]) ) {
-	$_SESSION['OCS']["usecache"] = USE_CACHE ;
-}
-
 
 //LOGS ADMIN
 if ($_SESSION['OCS']['LOG_GUI'] == 1){
@@ -92,7 +85,20 @@ function mysql2_prepare($sql,$arg_sql,$arg_tab=''){
 	return array('SQL'=>$sql,'ARG'=>$arg_sql); 	
 }
 
-
+//looking for default value of ocs config
+function look_config_default_values($field_name){
+	
+	$sql="select NAME,IVALUE,TVALUE from config where NAME in ";
+	$arg_sql=array();
+	$arg=mysql2_prepare($sql,$arg_sql,$field_name);
+	$resdefaultvalues=mysql2_query_secure($arg['SQL'],$_SESSION['OCS']["readServer"],$arg['ARG']);		
+	while($item = mysql_fetch_object($resdefaultvalues)){
+			$result['name'][$item ->NAME]=$item ->NAME;
+			$result['ivalue'][$item ->NAME]=$item ->IVALUE;
+			$result['tvalue'][$item ->NAME]=$item ->TVALUE;
+	}
+	return $result;
+}
 
 
 

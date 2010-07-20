@@ -40,7 +40,7 @@ if ($protectedPost['SHOW_SELECT'] == 'download'){
 		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
 }else
 		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_REP_CREAT'";
-$res_document_root = mysql_query( $sql_document_root, $_SESSION['OCS']["readServer"] );
+$res_document_root = mysql2_query_secure( $sql_document_root, $_SESSION['OCS']["readServer"] );
 $val_document_root = mysql_fetch_array( $res_document_root );
 $document_root = $val_document_root["tvalue"];
 //if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
@@ -77,7 +77,7 @@ echo "<script language='javascript'>
 				alert (msg);
 				return false;
 			}else{
-				lien='tele_popup_active.php?active='+ document.getElementById('manualActive').value;
+				lien='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active='+ document.getElementById('manualActive').value;
  				window.open(lien,\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\");
 					
 			}	
@@ -112,33 +112,22 @@ $default_fields= array('Timestamp'=>'Timestamp',
 					   'CHECK'=>'CHECK','NOTI'=>'NOTI','SUCC'=>'SUCC',
 					   'ERR_'=>'ERR_','SUP'=>'SUP','ACTIVE'=>'ACTIVE','STAT'=>'STAT','ZIP'=>'ZIP');
 $list_col_cant_del=array('SHOWACTIVE'=>'SHOWACTIVE','SUP'=>'SUP','ACTIVE'=>'ACTIVE','STAT'=>'STAT','ZIP'=>'ZIP','CHECK'=>'CHECK');
-$querypack = 'SELECT distinct ';
-foreach ($list_fields as $key=>$value){
-		if($key != 'SELECT' 
-			and $key != 'ZIP' 
-			and $key != 'STAT' 
-			and $key != 'ACTIVE' 
-			and $key != 'SUP'
-			and $key !='CHECK'
-			and $key !='NO_NOTIF'
-			and $key !='NOTI'
-			and $key !='SUCC'
-			and $key !='ERR_')
-		//	if ()
-		$querypack .= $value.',';		
-} 
+$querypack=prepare_sql_tab($list_fields,array('SELECT','ZIP','STAT','ACTIVE','SUP','CHECK','NO_NOTIF','NOTI','SUCC','ERR_'));
+
 //pas de tri possible sur les colonnes de calcul
 $tab_options['NO_TRI']['NOTI']=1;
 $tab_options['NO_TRI']['NO_NOTIF']=1;
 $tab_options['NO_TRI']['SUCC']=1;
 $tab_options['NO_TRI']['ERR_']=1;
 
-$querypack=substr($querypack,0,-1);
-$querypack .= " from download_available ";
+$querypack['SQL'] .= " from download_available ";
 if ($protectedPost['SHOW_SELECT'] == 'download')
-$querypack .= " where comment not like '[PACK REDISTRIBUTION%' or comment is null or comment = ''";
+	$querypack['SQL'] .= " where comment not like '%s' or comment is null or comment = ''";
 else
-$querypack .= " where comment like '[PACK REDISTRIBUTION%'";
+	$querypack['SQL'] .= " where comment like '%s'";
+array_push($querypack['ARG'],"[PACK REDISTRIBUTION%");		
+$tab_options['ARG_SQL']=$querypack['ARG'];
+$tab_options['ARG_SQL_COUNT']=array("[PACK REDISTRIBUTION%");
 //echo $querypack;
 $tab_options['LBL']=array('ZIP'=>"Archives",
 							  'STAT'=>$l->g(574),
@@ -171,7 +160,7 @@ $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['NO_NOTIF']="select count(*) as N
 	
 $tab_options['FILTRE']=array('FILEID'=>'Timestamp','NAME'=>$l->g(49));
 $tab_options['TYPE']['ZIP']=$protectedPost['SHOW_SELECT'];
-$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack,$form_name,95,$tab_options); 
+$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack['SQL'],$form_name,95,$tab_options); 
 	//traitement par lot
 del_selection($form_name);
 if ($protectedPost['SHOW_SELECT'] == 'download'){

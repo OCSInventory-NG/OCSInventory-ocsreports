@@ -12,15 +12,15 @@
 
 @set_time_limit(0);
 error_reporting(E_ALL & ~E_NOTICE);
-?>
+echo "
 <html>
 <head>
 <TITLE>OCS Inventory Installation</TITLE>
+<link rel='shortcut icon' href='favicon.ico' />
 <LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8>
-</head><body>
-
-<?php
+<META HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=utf-8>
+</head><body>";
+//require_once('var.php');
 require_once('fichierConf.class.php');
 if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
     if (isset($_COOKIE['LANG']))
@@ -29,6 +29,7 @@ if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FI
         $_SESSION['OCS']['LANGUAGE']=DEFAULT_LANGUAGE;
     $_SESSION['OCS']["LANGUAGE_FILE"]=new language($_SESSION['OCS']['LANGUAGE']);
 }
+
 
 $l = $_SESSION['OCS']["LANGUAGE_FILE"];
 

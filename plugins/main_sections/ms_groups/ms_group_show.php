@@ -124,7 +124,7 @@ echo "<br><br><table align='center' width='65%' border='0' cellspacing=20 bgcolo
 
 //pour l'utilisation du workflow de télédiff
 require_once('require/function_telediff_wk.php');
-$conf_Wk=look_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
+$conf_Wk=look_config_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
 									   'IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
 									   'IT_SET_NIV_TEST','IT_SET_NIV_REST'));
 //configuration sur le groupe

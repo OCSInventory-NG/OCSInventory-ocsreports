@@ -15,7 +15,7 @@ if ($activate){
 	echo "<font color = green><b>" . $l->g(1105) . "
 			<br>" . $l->g(1108) . "</b></font>";
 	//recherche du niveau d'affectation du paquet
-	$conf_Wk=look_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
+	$conf_Wk=look_config_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
 									   'IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
 									   'IT_SET_NIV_TEST','IT_SET_NIV_REST'));
 	//savoir comment sont définis les périmètres

@@ -956,21 +956,20 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					$querycount_end=stristr($queryDetails, 'from ');	
 			
 				$querycount=$querycount_begin.$querycount_end;
-				if (isset($tab_options['ARG_SQL']))
-					$resultcount = mysql2_query_secure($querycount, $link,$tab_options['ARG_SQL']);
+				if (isset($tab_options['ARG_SQL_COUNT'])){
+						$resultcount = mysql2_query_secure($querycount, $link,$tab_options['ARG_SQL_COUNT']);
+				}
 				else
-					$resultcount = mysql_query($querycount, $link);
+					$resultcount = mysql2_query_secure($querycount, $link);
 				//En dernier recourt, si le count n'est pas bon,
 				//on joue la requete initiale
 				if (!$resultcount){
 					if (isset($tab_options['ARG_SQL']))
 						$resultcount = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
 					else
-						$resultcount = mysql_query($queryDetails, $link);
+						$resultcount = mysql2_query_secure($queryDetails, $link);
 					
 				}
-				if ($_SESSION['OCS']['DEBUG'] == 'ON')
-		echo "<br><b><font color=red>".$l->g(5006)."<br>".$querycount."</font></b><br>";
 				$num_rows_result = mysql_num_rows($resultcount);
 				if ($num_rows_result==1){
 					$count=mysql_fetch_object($resultcount);
@@ -997,13 +996,11 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 //			if ($limit["BEGIN"] != 0)
 //			$queryDetails.=",".$limit["BEGIN"];
 		}
-		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-		echo "<br><b><font color=red>".$l->g(5008)."<br>".$queryDetails."</font></b><br>";
 		//$queryDetails="select SQL_CALC_FOUND_ROWS ".substr($queryDetails,6);
 		if (isset($tab_options['ARG_SQL']))
 			$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
 		else
-			$resultDetails = mysql_query($queryDetails, $link) or mysql_error($link);
+			$resultDetails = mysql2_query_secure($queryDetails, $link);
 		flush();
 	//echo "<br>".$queryDetails;
 //	flush();

@@ -2,14 +2,17 @@
 function desactive_mach_serv($list_id,$packid){
 	global $l;
 	$id_pack=found_id_pack_serv($packid);
-	$sql_desactive="delete from devices where hardware_id in (".$list_id.") and name='DOWNLOAD' and IVALUE in (".implode(',',$id_pack).")";
-	$res_active = mysql_query($sql_desactive, $_SESSION['OCS']["writeServer"]) or die(mysql_error()); 	
+	$sql_desactive="delete from devices where hardware_id in ";
+	$arg_desactive=mysql2_prepare($sql_desactive,array(),$list_id);
+	$arg_desactive=mysql2_prepare($arg_desactive['SQL'] . " and name='DOWNLOAD' and IVALUE in ",$arg_desactive['ARG'],$id_pack);
+	$res_active = mysql2_query_secure($arg_desactive['SQL'], $_SESSION['OCS']["writeServer"],$arg_desactive['ARG']); 	
 	addLog($l->g(512), $l->g(876).$packid." => ".$list_id );
  }
  
  function found_id_pack_serv($packid){
- 	$sql_id_pack="select ID from download_enable where fileid=".$packid." and ( group_id != '' and group_id is not null)";
- 	$result = mysql_query( $sql_id_pack, $_SESSION['OCS']["readServer"] );
+ 	$sql_id_pack="select ID from download_enable where fileid=%s and ( group_id != '' and group_id is not null)";
+ 	$arg=$packid;
+ 	$result = mysql2_query_secure( $sql_id_pack, $_SESSION['OCS']["readServer"], $arg );
 	while($id_pack = mysql_fetch_array( $result )){
 		
 		$id_paquets[]=$id_pack['ID'];
@@ -28,21 +31,19 @@ function desactive_mach_serv($list_id,$packid){
 //et dans lesquels ils se trouvent
 function exist_server($list_id){
 	global $l;
-	if (is_array($list_id))
-	$list_id=implode(",", $list_id);
 	
 	$sql="SELECT count(hardware_id) c,group_id,name 
 		  FROM download_servers,hardware
 			where hardware.id=download_servers.group_id
-			and hardware_id in (".$list_id.")
-			group by group_id ";
-	$res= mysql_query( $sql, $_SESSION['OCS']["readServer"]);
+			and hardware_id in ";
+	$arg=mysql2_prepare($sql,array(),$list_id);
+	$res= mysql2_query_secure( $arg['SQL'] . " group by group_id ", $_SESSION['OCS']["readServer"],$arg['ARG']);
 	$msg= "";
 	while( $val = mysql_fetch_array( $res ) ){
-		$msg.= $val['c']." machine(s) sont d�j� pr�sentes dans le groupe de serveur ".$val['name']."<br>";
+		$msg.= $val['c'] . " " . $l->g(1135) . " " . $val['name'] . "<br>";
 	}
 	if ($msg != ""){
-	 echo "<br><div align=center><font color=RED size=3><b>".$l->g(877)." <br>".$msg." ".$l->g(878)."</b></font></div><br>";	
+	 echo "<br><div align=center><font color=RED size=3><b>" . $l->g(877) . " <br>" . $msg . " " . $l->g(878) . "</b></font></div><br>";	
 	}
 }
 // fonction qui permet de supprimer des serveurs 
@@ -50,8 +51,10 @@ function exist_server($list_id){
 function remove_list_serv($id_group,$list_id){
 	if (is_array($list_id))
 	$list_id=implode(",", $list_id);
-	$sql_del="DELETE FROM download_servers WHERE group_id='".$id_group."' and hardware_id in (".$list_id.")";
-	mysql_query( $sql_del, $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );
+	$sql_del="DELETE FROM download_servers WHERE group_id='%s' and hardware_id in ";
+	$arg_del=array($id_group);
+	$arg=mysql2_prepare($sql_del,$arg_del,$list_id);
+	mysql2_query_secure( $arg['SQL'], $_SESSION['OCS']["writeServer"] ,$arg['ARG']);
 	$cached = mysql_affected_rows($_SESSION['OCS']["writeServer"]);
 	return $cached;
 }
@@ -64,12 +67,14 @@ function replace_var_generic($hardware_id,$url_group_server,$id_group=false)
 	if ($count_add_ip>0 or $count_name>0){
 		$sql="select IPADDR,NAME,ID from hardware where ID";
 		if ($hardware_id != 'ALL'){
-			$sql.=" = ".$hardware_id;
+			$sql .= " = %s";
+			$arg = $hardware_id;
 		}
 		else{
-			$sql.=" in (select hardware_id from groups_cache where group_id = ".$id_group.")";
+			$sql .= " in (select hardware_id from groups_cache where group_id = %s)";
+			$arg = $id_group;
 		}
-		$resdefaultvalues = mysql_query( $sql, $_SESSION['OCS']["readServer"]);
+		$resdefaultvalues = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg);
 
 		while ($item = mysql_fetch_object($resdefaultvalues))
 		{
@@ -81,9 +86,10 @@ function replace_var_generic($hardware_id,$url_group_server,$id_group=false)
 	elseif($hardware_id != 'ALL')
 	$url[$hardware_id]=$url_group_server;
 	else{
-		$sql="select ID from hardware where ID";
-		$sql.=" in (select hardware_id from groups_cache where group_id = ".$id_group.")";
-		$resdefaultvalues = mysql_query( $sql, $_SESSION['OCS']["readServer"]);
+		$sql = "select ID from hardware where ID";
+		$sql .= " in (select hardware_id from groups_cache where group_id = %s)";
+		$arg=$id_group;
+		$resdefaultvalues = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg);
 
 		while ($item = mysql_fetch_object($resdefaultvalues))
 		{
@@ -95,37 +101,25 @@ function replace_var_generic($hardware_id,$url_group_server,$id_group=false)
 
 }
 
-//function looking for default values of servers' var
-function look_default_values()
-{
-	$sql="select NAME,IVALUE,TVALUE from config where NAME = 'DOWNLOAD_SERVER_URI'
-			union select NAME,IVALUE,TVALUE from config where NAME = 'DOWNLOAD_SERVER_DOCROOT'";
-	$resdefaultvalues = mysql_query( $sql, $_SESSION['OCS']["readServer"]);
-
-	while($item = mysql_fetch_object($resdefaultvalues)){
-			$result['name'][$item ->NAME]=$item ->NAME;
-			$result['ivalue'][$item ->NAME]=$item ->IVALUE;
-			$result['tvalue'][$item ->NAME]=$item ->TVALUE;
-	}
-	return $result;
-}
 
 //function for add machine in server's group
 function add_mach($id_group,$list_mach)
 {
-	$default_values=look_default_values();
+	$default_values=look_config_default_values();
 	if (is_array($list_mach)){
 		foreach ($list_mach as $key=>$value){
 			$reqCache = "INSERT IGNORE INTO download_servers(hardware_id, url, add_rep,GROUP_ID) 
-						VALUES (".$value.",'".str_replace("\\", "\\\\", $default_values['tvalue']['DOWNLOAD_SERVER_URI'])."','".str_replace("\\", "\\\\", $default_values['tvalue']['DOWNLOAD_SERVER_DOCROOT'])."',".$id_group.")";
-			$cachedRes = mysql_query( $reqCache , $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );		
+						VALUES (%s,'%s','%s',%s)";
+			$argcache=array($value,$default_values['tvalue']['DOWNLOAD_SERVER_URI'],$default_values['tvalue']['DOWNLOAD_SERVER_DOCROOT'],$id_group);
+			$cachedRes = mysql2_query_secure( $reqCache , $_SESSION['OCS']["writeServer"] , $argcache);		
 		}
 	}else{
 		$reqCache = "INSERT IGNORE INTO download_servers(hardware_id, url, add_rep,GROUP_ID) 
-						select id,'".str_replace("\\", "\\\\", $default_values['tvalue']['DOWNLOAD_SERVER_URI'])."'
-							     ,'".str_replace("\\", "\\\\", $default_values['tvalue']['DOWNLOAD_SERVER_DOCROOT'])."',".$id_group."
-					    from hardware where id in (".$list_mach.")";
-		$cachedRes = mysql_query( $reqCache , $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );	
+						select id,'%s','%s',%s
+					    from hardware where id in ";
+		$argCache=array($default_values['tvalue']['DOWNLOAD_SERVER_URI'],$default_values['tvalue']['DOWNLOAD_SERVER_DOCROOT'],$id_group);
+		$arg=mysql2_prepare($reqCache,$argCache,$list_mach);
+		$cachedRes = mysql2_query_secure( $arg['SQL'], $_SESSION['OCS']["writeServer"],$arg['ARG'] );	
 	}
 	return mysql_affected_rows($_SESSION['OCS']["writeServer"]);
 
@@ -144,8 +138,9 @@ function admin_serveur($action,$name_server,$descr,$mach) {
 	$idGroupServer=$name_server;
 	else{
 		//verification group not have the same name
-		$reqGetId = "SELECT id FROM hardware WHERE name='".$name_server."'";
-	     $resGetId = mysql_query( $reqGetId, $_SESSION['OCS']["readServer"]);
+		$reqGetId = "SELECT id FROM hardware WHERE name='%s'";
+		$arg=$name_server;
+	     $resGetId = mysql2_query_secure( $reqGetId, $_SESSION['OCS']["readServer"],$arg);
 		if( $valGetId = mysql_fetch_array( $resGetId ) )
 			$idGroupServer = $valGetId['id'];
 	}
@@ -154,154 +149,35 @@ function admin_serveur($action,$name_server,$descr,$mach) {
 		//if the name not exist in the base
 		if (!isset($idGroupServer)){
 		$deviceid='_DOWNLOADGROUP_';
-		$sql="INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '$deviceid' , '".$name_server."', '".$descr."', NOW() )";
-		mysql_query( $sql, $_SESSION['OCS']["writeServer"] )
-		or die( mysql_error($_SESSION['OCS']["writeServer"]));
+		$sql="INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '%s' , '%s', '%s', NOW() )";
+		$arg=array($deviceid,$name_server,$descr);
+		mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg);
 		//Getting hardware id
 		$insertId = mysql_insert_id( $_SESSION['OCS']["writeServer"] );
 			exist_server($mach);
 			$nb_mach=add_mach($insertId,$mach);
-			return "<font color=green><b>".$l->g(880)."</b><br>".$nb_mach." ".$l->g(881)."</font>"; 			
+			return "<font color=green><b>" . $l->g(880) . "</b><br>" . $nb_mach . " " . $l->g(881) . "</font>"; 			
 		}else
-		return "<font color=red>".$l->g(621)."</font>"; //this name allready exist 
+		return "<font color=red>" . $l->g(621) . "</font>"; //this name allready exist 
 
 	}//if the machines add to the group or the group is replace
 	elseif ($action == 'add_serv' or $action == 'replace_serv'){
 		if ($action == 'replace_serv'){
 			$lblreturn="<font color=green><b> ".$l->g(879)." </b></font><br>";
-			mysql_query( "DELETE FROM download_servers WHERE GROUP_ID=".$idGroupServer, $_SESSION['OCS']["writeServer"] )
-			or die( mysql_error($_SESSION['OCS']["writeServer"]) );
+			$sql="DELETE FROM download_servers WHERE GROUP_ID=%s";
+			$arg=$idGroupServer;
+			mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg );
 		}
 		exist_server($mach);
 		$nb_mach=add_mach($idGroupServer,$mach);
-		return $lblreturn."<font color=green><b>".$nb_mach." ".$l->g(881)."</b></font>"; 
+		return $lblreturn."<font color=green><b>" . $nb_mach . " " . $l->g(881) . "</b></font>"; 
 	}elseif($action == 'del_serv'){
 		$nb_mach=remove_list_serv($idGroupServer,$mach);
-		return "<font color=green><b>".$nb_mach." ".$l->g(882)."</b></font>"; 
+		return "<font color=green><b>" . $nb_mach . " " . $l->g(882) . "</b></font>"; 
 	}
 }
 
 //function for insert machine with rules
-function insert_with_rules_opt($ID_HARDWARE,$cfield,$op,$compto,$serv_value){
-	
-	global $protectedPost;
-	if (is_array($ID_HARDWARE))
-	$list_id_hardware=implode(',',$ID_HARDWARE);
-	else
-	$list_id_hardware=$ID_HARDWARE;
-	//for servers
-	//recherche de tous les hardware_id des servers et des id de download_enable correspondant
-	$sql_infoServ="select server_id,id from download_enable where group_id=".$protectedPost['GROUP_ID']." 
-								and fileid=".$protectedPost['TIMESTAMP'];
-	$res_infoServ = mysql_query( $sql_infoServ, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));	
-	//cr�ation de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
-	while( $val_infoServ = mysql_fetch_array($res_infoServ)) {
-		$list_serverId[$val_infoServ['server_id']] = $val_infoServ['server_id'];
-		$tab_Server[$val_infoServ['server_id']]=$val_infoServ['id'];
-	}
-	
-	if ($compto == "NAME" or $compto =="WORKGROUP" or $compto =="USERID"){
-		$tablecompto="hardware";
-		$id_server="ID";
-	}
-	
-	if ($compto == "IPSUBNET" or $compto == "IPADDRESS"){
-		$tablecompto="networks";
-		$id_server="HARDWARE_ID";
-	}
-
-
-	$sql_servValues = "select a.".$compto.",a.".$id_server.",d.id as id_download_enable from ".$tablecompto." a,download_enable d
-						 where a.".$id_server." in (".implode(',',$list_serverId).") and d.server_id=a.".$id_server;
-	$res_servValues = mysql_query( $sql_servValues, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));	
-	//echo $sql_servValues;
-	while( $val_servValues = mysql_fetch_array($res_servValues)) {
-		$tab_serValues[$val_servValues[$compto]]=$val_servValues[$id_server];
-		$correspond_servers[$val_servValues[$id_server]]=$val_servValues['id_download_enable'];
-	}
-	
-	//for machines
-	if ($cfield == "NAME" or $cfield =="WORKGROUP" or $cfield =="USERID"){
-		$tablefield="hardware";
-		$id_mach="ID";
-	}
-	if ($cfield == "IPSUBNET" or $cfield == "IPADDRESS"){
-		$tablefield="networks";		
-		$id_mach="HARDWARE_ID";
-	}
-	
-	$sql_machValue="select ".$cfield.",".$id_mach." from ".$tablefield." where ".$id_mach." in (".$list_id_hardware.")";
-	$res_machValue = mysql_query( $sql_machValue, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));	
-	$nb_notMatch=0;
-	while( $val_machValue = mysql_fetch_array($res_machValue)) {
-		if ($op == "EGAL"){
-			//cas of egal
-			if (isset($tab_serValues[$val_machValue[$cfield]])){
-				$tab_final[$val_machValue[$id_mach]]=$correspond_servers[$tab_serValues[$val_machValue[$cfield]]];	
-				$verif_idMach[$val_machValue[$id_mach]]=$val_machValue[$id_mach];
-			}
-			else{
-				$not_match[$nb_notMatch]=$val_machValue[$id_mach];	
-				$nb_notMatch++;		
-			}		
-			
-			
-		}
-		elseif ($op == "DIFF"){
-			if (!isset($tab_serValues[$val_machValue[$cfield]])){
-				$tab_final[$val_machValue[$id_mach]]=$correspond_servers[$tab_serValues[$val_machValue[$cfield]]];	
-				$verif_idMach[$val_machValue[$id_mach]]=$val_machValue[$id_mach];
-			}
-			else{
-				$not_match[$nb_notMatch]=$val_machValue[$id_mach];	
-				$nb_notMatch++;		
-			}		
-
-		}
-		
-	}
-	if (isset($verif_idMach)){
-		//verification des doublons
-		$sql_verif="select d.hardware_id as hardware_id
-			  from devices d,download_enable d_e 
-			  where d.ivalue=d_e.id and fileid=".$protectedPost['TIMESTAMP']."
-				AND d.HARDWARE_ID in (".implode(',',$verif_idMach).") and d.name='DOWNLOAD'";
-		$res_verif = mysql_query( $sql_verif, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));
-		$nb_exist=0;
-		//recup�ration des machines en doublon
-		while( $val_verif = mysql_fetch_array($res_verif)) {	
-	
-			//cr�ation du tableau de doublon
-			$exist[$nb_exist]=$val_verif['hardware_id'];
-			
-			//suppression des doublons
-			unset($tab_final[$val_verif['hardware_id']]);
-			$nb_exist++;
-		}
-	//	print_r($tab_final);
-		//insertion en base 
-		foreach ($tab_final as $key=>$value){
-		$query="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$key."', 'DOWNLOAD','".$value."')";
-		mysql_query( $query, $_SESSION['OCS']["writeServer"] ) 
-					or die(mysql_error($_SESSION['OCS']["writeServer"]));		
-		}	
-		
-	}
-	
-	
-	
-	//retour des erreurs
-	$don['not_match']=$not_match;
-	$don['nb_not_match']=$nb_notMatch;
-	$don['exist']=$exist;
-	$don['nb_exist']=$nb_exist;
-	//print_r($tab_final);
-	return $don;
-	
-	
-	
-}
-//affectation de paquets avec l'application des r�gles de serveur de redistribution
 //$rule_detail=array($cfield[$key],$op[$key],$compto[$key]);
 function insert_with_rules($list_id,$rule_detail,$fileid){
 	if (is_array($list_id))
@@ -314,9 +190,10 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 	//for servers
 	//recherche de tous les hardware_id des servers et des id de download_enable correspondant
 	$sql_infoServ="select server_id,id from download_enable where group_id != '' 
-								and fileid=".$fileid;
+								and fileid=%s";
+	$arg_infoServ=$fileid;
 	//echo $sql_infoServ;
-	$res_infoServ = mysql_query( $sql_infoServ, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));	
+	$res_infoServ = mysql2_query_secure( $sql_infoServ, $_SESSION['OCS']["readServer"],$arg_infoServ);	
 	//cr�ation de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
 	while( $val_infoServ = mysql_fetch_array($res_infoServ)) {
 		$list_serverId[$val_infoServ['server_id']] = $val_infoServ['server_id'];
@@ -334,9 +211,16 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 	}
 
 
-	$sql_servValues = "select a.".$rule_detail['compto'].",a.".$id_server.",d.id as id_download_enable from ".$tablecompto." a,download_enable d
-						 where a.".$id_server." in (".implode(',',$list_serverId).") and d.server_id=a.".$id_server." and fileid='".$fileid."'";
-	$res_servValues = mysql_query( $sql_servValues, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));	
+	$sql_servValues = "select a.%s,a.%s,d.id as id_download_enable from %s a,download_enable d
+						 where a.%s in ";
+	
+	$arg_servValues = array($rule_detail['compto'],$id_server,$tablecompto,$id_server);
+	$arg=mysql2_prepare($sql_servValues,$arg_servValues,$list_serverId);
+	$arg['SQL'] .= " and d.server_id=a.%s  and fileid='%s'";
+	array_push($arg['ARG'],$id_server);	
+	array_push($arg['ARG'],$fileid);	
+	$res_servValues = mysql2_query_secure( $arg['SQL'], $_SESSION['OCS']["readServer"], $arg['ARG']);	
+	
 	//echo $sql_servValues."<br><br>";
 	while( $val_servValues = mysql_fetch_array($res_servValues)) {
 		$tab_serValues[$val_servValues[$rule_detail['compto']]]=$val_servValues[$id_server];
@@ -353,8 +237,10 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 		$id_mach="HARDWARE_ID";
 	}
 	
-	$sql_machValue="select ".$rule_detail['cfield'].",".$id_mach." from ".$tablefield." where ".$id_mach." in (".$list_id_hardware.")";
-	$res_machValue = mysql_query( $sql_machValue, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));	
+	$sql_machValue="select %s,%s from %s where %s in ";
+	$arg_machValue=array($rule_detail['cfield'],$id_mach,$tablefield,$id_mach);
+	$arg=mysql2_prepare($sql_machValue,$arg_machValue,$list_id_hardware);	
+	$res_machValue = mysql2_query_secure( $arg['SQL'], $_SESSION['OCS']["readServer"],$arg['ARG']);	
 	//print_r($tab_serValues);
 	while( $val_machValue = mysql_fetch_array($res_machValue)) {
 		if ($rule_detail['op'] == "EGAL"){
@@ -386,13 +272,14 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 		
 	}
 	if (isset($verif_idMach)){
-		//verification des doublons
 		$sql_verif="select d.hardware_id as hardware_id
 			  from devices d,download_enable d_e 
-			  where d.ivalue=d_e.id and fileid=".$fileid."
-				AND d.HARDWARE_ID in (".implode(',',$verif_idMach).") and d.name='DOWNLOAD'";
-		$res_verif = mysql_query( $sql_verif, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));
-		//$nb_exist=0;
+			  where d.ivalue=d_e.id and fileid=%s
+				AND d.HARDWARE_ID in ";
+		$arg_verif=array($fileid);
+		$arg=mysql2_prepare($sql_verif,$arg_verif,$verif_idMach);	
+		$arg['SQL'].=" and d.name='DOWNLOAD'";
+		$res_verif = mysql2_query_secure( $arg['SQL'], $_SESSION['OCS']["readServer"],$arg['ARG']);
 		//recup�ration des machines en doublon
 		while( $val_verif = mysql_fetch_array($res_verif)) {	
 	
@@ -409,25 +296,28 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 		//insertion en base 
 		$nb_insert=0;
 		foreach ($tab_final as $key=>$value){
-			$query="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$key."', 'DOWNLOAD','".$value."')";
-			mysql_query( $query, $_SESSION['OCS']["writeServer"] ) 
-					or die(mysql_error($_SESSION['OCS']["writeServer"]));	
+			$query="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('%s', '%s','%s')";
+			$arg=array($key,'DOWNLOAD',$value);
+			mysql2_query_secure( $query, $_SESSION['OCS']["writeServer"],$arg );		
 			$insert[$key]=$value;
 			$nb_insert++;	
 		}	
 		
 	}
 	$not_found=array();
-	foreach($not_match as $key=>$value){
-		$not_found[]=$value;		
+	if (is_array($not_match)) {
+		foreach($not_match as $key=>$value){
+			$not_found[]=$value;		
+		}
 	}
 	
 	$already_exist=array();
-	foreach($exist as $key=>$value){
-		if (!isset($insert[$key]))
-		$already_exist[]=$value;
+	if (is_array($exist)){
+		foreach($exist as $key=>$value){
+			if (!isset($insert[$key]))
+			$already_exist[]=$value;
+		}
 	}
-	
 	
 	//retour des erreurs
 	$don['not_match']=$not_found;
@@ -440,19 +330,4 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 	
 }
 
-function verification($sql){
-	
-	foreach ($sql as $key=>$value){
-		$result = mysql_query($sql[$key]['sql'], $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-		$item = mysql_fetch_array($result);
-	//echo "sql=".$sql[$key]['sql']." item=>".$item[0];echo " condition =>".$sql[$key]['condition'];echo "<br>";
-		if ((isset($item[0]) and $sql[$key]['condition'] == 'EXIST')
-			or (!(isset($item[0])) and $sql[$key]['condition'] == 'NOT EXIST')){
-		echo "<script>alert('".$sql[$key]['MSG_ERROR']."');</script>";
-		return ;
-		}
-				
-	}
-	return "OK";
-}
 ?>
