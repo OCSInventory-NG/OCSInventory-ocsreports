@@ -959,6 +959,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 				if (isset($tab_options['ARG_SQL_COUNT'])){
 						$resultcount = mysql2_query_secure($querycount, $link,$tab_options['ARG_SQL_COUNT']);
 				}
+				elseif (isset($tab_options['ARG_SQL']))
+					$resultcount = mysql2_query_secure($querycount, $link,$tab_options['ARG_SQL']);
 				else
 					$resultcount = mysql2_query_secure($querycount, $link);
 				//En dernier recourt, si le count n'est pas bon,
