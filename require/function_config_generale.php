@@ -220,19 +220,15 @@ function option_conf_activate($value){
  function insert_update($name,$value,$default_value,$field){
  	global $l;
  //	echo $field."=>".$value."=>".$default_value."<br>";
- if ($default_value != $value){
- 	if ($default_value != '')
-			$sql="update config set ".$field." = '".$value."' where NAME ='".$name."'";
-	else
-			$sql="insert into config (".$field.", NAME) value ('".$value."','".$name."')";
-	if ($_SESSION['OCS']['DEBUG'] == 'ON')
-	 		echo "<br><b><font color=red>".$l->g(5001).$sql."</font></b>";
- 	if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] )) {
-		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
-		return false;
-	}		
- 	addLog( $l->g(821),$sql );
- }
+ 	if ($default_value != $value){
+	 	$arg=array($field,$value,$name);
+	 	if ($default_value != '')
+				$sql="update config set %s = '%s' where NAME ='%s'";
+		else
+				$sql="insert into config (%s, NAME) value ('%s','%s')";
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
+	 	addLog( $l->g(821),$sql );
+ 	}
 
  }
 
@@ -290,7 +286,7 @@ function update_default_value($POST){
 	
 	//recherche des valeurs par d�faut
 	$sql_exist=" select NAME,ivalue,tvalue from config ";
-	$result_exist = mysql_query($sql_exist, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$result_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"]);
 	while($value_exist=mysql_fetch_array($result_exist)) {
 		if ($value_exist["ivalue"] != null)
 		$optexist[$value_exist["NAME"] ] = $value_exist["ivalue"];
@@ -745,8 +741,9 @@ function pagegroups($form_name){
 		ligne('IT_SET_NIV_TOTAL',$l->g(1080),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_TOTAL'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
 		ligne('IT_SET_MAIL',$l->g(1081),'radio',array(1=>$l->g(455),0=>$l->g(454),'VALUE'=>$values['ivalue']['IT_SET_MAIL'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
 		if (isset($values['ivalue']['IT_SET_MAIL']) and $values['ivalue']['IT_SET_MAIL'] == 1){
-			$sql_list_group_user="select IVALUE,TVALUE from config where name like 'USER_GROUP_%'";
-			$result_list_group_user = mysql_query($sql_list_group_user, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			$sql_list_group_user="select IVALUE,TVALUE from config where name like '%s'";
+			$arg_list_group_user='USER_GROUP_%';
+			$result_list_group_user = mysql2_query_secure($sql_list_group_user, $_SESSION['OCS']["readServer"],$arg_list_group_user);
 			while($value=mysql_fetch_array($result_list_group_user)){
 				$list_group_user[$value['IVALUE']]=$value['TVALUE'];	
 			}
@@ -756,8 +753,9 @@ function pagegroups($form_name){
 		}
 		ligne('IT_SET_PERIM',$l->g(1083),'radio',array(1=>'TAG',0=>'GROUP','VALUE'=>$values['ivalue']['IT_SET_PERIM'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
 		if (!isset($values['ivalue']['IT_SET_PERIM']) or $values['ivalue']['IT_SET_PERIM'] == 0){
-			$sql_list_group="select name from hardware where deviceid='_SYSTEMGROUP_'";
-			$result_list_group = mysql_query($sql_list_group, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			$sql_list_group="select name from hardware where deviceid='%s'";
+			$arg_list_group='_SYSTEMGROUP_';
+			$result_list_group = mysql2_query_secure($sql_list_group, $_SESSION['OCS']["readServer"],$arg_list_group);
 			while($value=mysql_fetch_array($result_list_group)){
 				$list_group[$value['name']]=$value['name'];	
 			}

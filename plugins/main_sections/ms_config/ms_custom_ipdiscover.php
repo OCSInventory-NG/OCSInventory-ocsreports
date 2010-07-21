@@ -35,17 +35,20 @@ else if( $optvalue['IPDISCOVER']==="0" ) {
 	echo "<br><center><b>".$l->g(521)."</b></center>";
 	$mode = 2;	
 }
-elseif(isset($protectedGet['systemid'])) {
+elseif(isset($protectedGet['idchecked'])) {
 	echo "<br><center><b>".$l->g(522)."</b></center>";		
 }
-elseif(!isset($protectedGet['systemid'])){
+elseif(!isset($protectedGet['idchecked'])){
 	$mode = 2;	
 }
-if (isset($protectedGet['systemid']) and is_numeric($protectedGet['systemid'])){
-	$resInt = mysql_query("SELECT ipaddress FROM networks WHERE hardware_id=".$protectedGet['systemid'],$_SESSION['OCS']["readServer"] );
+if (isset($protectedGet['idchecked']) and is_numeric($protectedGet['idchecked'])){
+	$sql="SELECT ipaddress FROM networks WHERE hardware_id=%s";
+	$arg=$protectedGet['idchecked'];
+	$resInt = mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg );
 	while( $valInt = mysql_fetch_array( $resInt )){
-		if( ! ($res = @mysql_query( "SELECT ipsubnet FROM networks WHERE ipaddress='".$valInt["ipaddress"]."' AND hardware_id='".$protectedGet["systemid"]."'", $_SESSION['OCS']["readServer"] ))) {
-					echo "<br><center><font color=red><b>ERROR: MySql problem<br>".mysql_error($_SESSION['OCS']["readServer"])."</b></font></center>";	}
+		$sql="SELECT ipsubnet FROM networks WHERE ipaddress='%s' AND hardware_id=%s";
+		$arg=array($valInt["ipaddress"],$protectedGet["idchecked"]);
+		$res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg );
 		while( $val = mysql_fetch_array( $res ))
 		$lesRez[$val["ipsubnet"]] = $val["ipsubnet"];
 	}

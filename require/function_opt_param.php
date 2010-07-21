@@ -13,21 +13,18 @@ function recharge(modif,origine){
  
  //function for erase param values 
  function erase($NAME){
- 	global $protectedPost,$list_hardware_id,$tab_hadware_id;
+ 	global $protectedPost,$protectedGet,$list_hardware_id,$tab_hadware_id;
 	// if it's for group or a machine
  	if( isset($list_hardware_id)) {
- 		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id='".$protectedPost["systemid"]."'", $_SESSION['OCS']["writeServer"] )) {
- 				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
-				return false;
-			}
+ 		$sql="DELETE FROM devices WHERE name='%s' AND hardware_id='%s'";
+ 		$arg=array($NAME,$protectedGet["idchecked"]);
+ 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"] ,$arg);
 	}
 	else { //else : request 
-		if( ! @mysql_query( "DELETE FROM devices WHERE name='".$NAME."' AND hardware_id in (".implode(',',$tab_hadware_id).")", $_SESSION['OCS']["writeServer"] )) {
-				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
-				return false;
-			}
-			
-
+		$sql="DELETE FROM devices WHERE name='%s' AND hardware_id in ";
+		$arg_sql=array($NAME);
+		$arg=mysql2_prepare($sql,$arg_sql,$tab_hadware_id);
+		mysql2_query_secure($arg['SQL'], $_SESSION['OCS']["writeServer"] ,$arg['ARG']);
 	}
 
 }
@@ -36,32 +33,30 @@ function recharge(modif,origine){
  function insert($NAME,$IVALUE,$TVALUE = ""){
  	global $list_hardware_id,$tab_hadware_id; 		
  	//delete old value before insert new 
- 	
  	erase($NAME);
  	// if it's for group or a machine
 	if( isset($list_hardware_id)) {
-			if ($TVALUE != "")
-				$sql="INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('".$list_hardware_id."', '".$NAME."', '".$IVALUE."', '".$TVALUE."')";
-			else
-				$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$list_hardware_id."', '".$NAME."', '".$IVALUE."')";
-			if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] )) {
-				echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
-				return false;
-			}
+		$arg=array($list_hardware_id,$NAME,$IVALUE);
+		if ($TVALUE != ""){
+			$sql="INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('%s', '%s', '%s', '%s')";
+			array_push($arg,$TVALUE);	
+		}else
+			$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('%s', '%s', '%s')";
+			
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"] ,$arg);		
 	}
 	else {//else : request 
 		$i=0;
 		while( $tab_hadware_id[$i]) {
-			if ($TVALUE != "")
-				$sql="INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('".$tab_hadware_id[$i]."', '".$NAME."', '".$IVALUE."', '".$TVALUE."')";
-			else
-				$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES (".$tab_hadware_id[$i].", '".$NAME."', $IVALUE)";
+			$arg=array($tab_hadware_id[$i],$NAME,$IVALUE);
+			if ($TVALUE != ""){
+				$sql="INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('%s', '%s', '%s', '%s')";
+				array_push($arg,$TVALUE);	
+			}else
+				$sql="INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES ('%s', '%s', '%s')";
 		
-			if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] )) {
-					echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
-					return false;
-				}
-				$i++;
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"] ,$arg);		
+			$i++;
 		}
 	}
 	
