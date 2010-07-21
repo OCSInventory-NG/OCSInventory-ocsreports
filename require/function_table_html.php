@@ -1215,9 +1215,22 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				else
 				$lien='OK';
 				if (isset($tab_options['REPLACE_VALUE'][$key])){
-					$value_of_field=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
-				
+					$value_of_field=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
 				}
+				if (isset($tab_options['REPLACE_WITH_CONDITION'][$key][$value_of_field])){
+					if (!is_array($tab_options['REPLACE_WITH_CONDITION'][$key][$value_of_field]))
+						$value_of_field= $tab_options['REPLACE_WITH_CONDITION'][$key][$value_of_field];
+					else{
+						foreach ($tab_options['REPLACE_WITH_CONDITION'][$key][$value_of_field] as $condition=>$condition_value){
+							if ($donnees[$condition] == '' or is_null($donnees[$condition]))
+							{
+								$value_of_field=$condition_value;
+							}
+						}
+						
+					}
+				}
+				
 				unset($key2);
 				if (isset($tab_condition[$key])){
 						if ((!$tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]] and !$tab_options['EXIST'][$key])

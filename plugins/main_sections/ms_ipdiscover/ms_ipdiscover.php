@@ -32,9 +32,8 @@ require_once('require/function_ipdiscover.php');
  		echo "<font color=red>" . strtoupper($l->g(1134)) . "</font><br>";
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != ''){
 	 	
-	 	$array_rsx=escape_string(array_keys($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]));
-	 	
-	 	$list_rsx=implode("','",$array_rsx);
+	 	$array_rsx=array_keys($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
+	$list_rsx=implode("','",$array_rsx);
 	 	
 	 	//print_r($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
 	 	$tab_options['VALUE']['LBL_RSX']=$_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]];
@@ -44,7 +43,7 @@ require_once('require/function_ipdiscover.php');
 					  non_ident.c as 'NON_INVENTORIE',
 					  ipdiscover.c as 'IPDISCOVER',
 					  ident.c as 'IDENTIFIE',
-					  round(100-(non_ident.c*100/(inv.c+ident.c+non_ident.c)),1) as 'pourcentage'
+					  round(100-(non_ident.c*100/(ident.c+non_ident.c)),1) as 'pourcentage'
 			  from (SELECT COUNT(DISTINCT hardware_id) as c,'IPDISCOVER' as TYPE,tvalue as RSX
 					FROM devices 
 					WHERE name='IPDISCOVER' and tvalue in  ('".$list_rsx."')
@@ -68,100 +67,7 @@ require_once('require/function_ipdiscover.php');
 						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
 						and n.netid in  ('".$list_rsx."')
 						GROUP BY n.netid) 
-				non_ident on non_ident.RSX=ipdiscover.RSX where non_ident.c is not null and ident.c is not null
-					union
-				select inv.RSX,
-					  inv.c,
-					  0,
-					  ipdiscover.c,
-					  ident.c,
-					  100
-			  from (SELECT COUNT(DISTINCT hardware_id) as c,'IPDISCOVER' as TYPE,tvalue as RSX
-					FROM devices 
-					WHERE name='IPDISCOVER' and tvalue in  ('".$list_rsx."')
-					GROUP BY tvalue) 
-				ipdiscover right join
-				   (SELECT count(distinct(id)) as c,'INVENTORIE' as TYPE,ipsubnet as RSX
-					FROM networks 
-					WHERE ipsubnet in  ('".$list_rsx."')
-					GROUP BY ipsubnet) 
-				inv on ipdiscover.RSX=inv.RSX left join
-					(SELECT COUNT(DISTINCT mac) as c,'IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap 
-					WHERE mac IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and netid in  ('".$list_rsx."')
-					GROUP BY netid) 
-				ident on ipdiscover.RSX=ident.RSX left join
-					(SELECT COUNT(DISTINCT mac) as c,'NON IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap n
-					LEFT JOIN networks ns ON ns.macaddr=n.mac
-					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
-						and n.netid in  ('".$list_rsx."')
-						GROUP BY n.netid) 
-				non_ident on non_ident.RSX=ipdiscover.RSX where non_ident.c is null and ident.c is not null
-				union
-				select inv.RSX,
-					  inv.c,
-					  non_ident.c,
-					  ipdiscover.c,
-					  0,
-					  round(100-(non_ident.c*100/(inv.c+non_ident.c)),1)
-			  from (SELECT COUNT(DISTINCT hardware_id) as c,'IPDISCOVER' as TYPE,tvalue as RSX
-					FROM devices 
-					WHERE name='IPDISCOVER' and tvalue in  ('".$list_rsx."')
-					GROUP BY tvalue) 
-				ipdiscover right join
-				   (SELECT count(distinct(id)) as c,'INVENTORIE' as TYPE,ipsubnet as RSX
-					FROM networks 
-					WHERE ipsubnet in  ('".$list_rsx."')
-					GROUP BY ipsubnet) 
-				inv on ipdiscover.RSX=inv.RSX left join
-					(SELECT COUNT(DISTINCT mac) as c,'IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap 
-					WHERE mac IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and netid in  ('".$list_rsx."')
-					GROUP BY netid) 
-				ident on ipdiscover.RSX=ident.RSX left join
-					(SELECT COUNT(DISTINCT mac) as c,'NON IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap n
-					LEFT JOIN networks ns ON ns.macaddr=n.mac
-					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
-						and n.netid in  ('".$list_rsx."')
-						GROUP BY n.netid) 
-				non_ident on non_ident.RSX=ipdiscover.RSX where ident.c is null and non_ident.c is not null
-				union
-				select inv.RSX,
-					  inv.c,
-					  0,
-					  ipdiscover.c,
-					  0,
-					  100
-			  from (SELECT COUNT(DISTINCT hardware_id) as c,'IPDISCOVER' as TYPE,tvalue as RSX
-					FROM devices 
-					WHERE name='IPDISCOVER' and tvalue in  ('".$list_rsx."')
-					GROUP BY tvalue) 
-				ipdiscover right join
-				   (SELECT count(distinct(id)) as c,'INVENTORIE' as TYPE,ipsubnet as RSX
-					FROM networks 
-					WHERE ipsubnet in  ('".$list_rsx."')
-					GROUP BY ipsubnet) 
-				inv on ipdiscover.RSX=inv.RSX left join
-					(SELECT COUNT(DISTINCT mac) as c,'IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap 
-					WHERE mac IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and netid in  ('".$list_rsx."')
-					GROUP BY netid) 
-				ident on ipdiscover.RSX=ident.RSX left join
-					(SELECT COUNT(DISTINCT mac) as c,'NON IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap n
-					LEFT JOIN networks ns ON ns.macaddr=n.mac
-					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
-						and n.netid in  ('".$list_rsx."')
-						GROUP BY n.netid) 
-				non_ident on non_ident.RSX=ipdiscover.RSX where ident.c is null and non_ident.c is null
+				non_ident on non_ident.RSX=ipdiscover.RSX 
 				) toto";
 
 		$list_fields= array('LBL_RSX' => 'LBL_RSX','RSX'=>'ID',
@@ -188,6 +94,16 @@ require_once('require/function_ipdiscover.php');
 	$tab_options['LIEN_CHAMP']['IDENTIFIE']='ID';
 	$tab_options['LIEN_TYPE']['IDENTIFIE']='POPUP';
 	$tab_options['POPUP_SIZE']['IDENTIFIE']="width=900,height=600";
+	
+	$tab_options['REPLACE_WITH_CONDITION']['INVENTORIE']['&nbsp']='0';
+	$tab_options['REPLACE_WITH_CONDITION']['IPDISCOVER']['&nbsp']='0';
+	$tab_options['REPLACE_WITH_CONDITION']['NON_INVENTORIE']['&nbsp']='0';
+	$tab_options['REPLACE_WITH_CONDITION']['IDENTIFIE']['&nbsp']='0';
+	
+	
+	$tab_options['REPLACE_WITH_CONDITION']['PERCENT_BAR']['&nbsp']=array('IDENTIFIE'=>'0','NON_INVENTORIE'=>'100');
+	
+	
 	
 	$tab_options['LBL']['LBL_RSX']=$l->g(863);
 	$tab_options['LBL']['RSX']=$l->g(869);
