@@ -20,7 +20,6 @@ use Fcntl qw/:flock/;
 use XML::Simple;
 use LWP::UserAgent;
 use Compress::Zlib;
-use Ocsinventory::Agent::Common qw/_uncompress _get_path _already_in_array/;
 use Digest::MD5;
 use File::Path;
 use Socket;
@@ -45,8 +44,11 @@ sub new {
    
    #Create a special logger for the module
    $self->{logger} = new Ocsinventory::Logger ({
-            config => $context->{config}
+            config => $context->{config},
    });
+
+   #We use the common object for the module
+   $self->{common} = $context->{common};
 
    $self->{context} = $context;
    $self->{logger}->{header}="[$name]";
@@ -97,6 +99,7 @@ sub download_prolog_reader{      #Read prolog response
 	
 	my $context = $self->{context};
 	my $logger = $self->{logger};
+	my $common = $self->{common};
 	my $settings = $self->{settings};
 	my $messages = $self->{messages};
 	my $packages = $self->{packages};
@@ -209,7 +212,7 @@ sub download_prolog_reader{      #Read prolog response
 		my $infofile = 'info';
 		my $location = $packages->{$_}->{'INFO_LOC'};
 
-		if(_already_in_array($fileid, @done)){
+		if($common->already_in_array($fileid, @done)){
 			$logger->info("Will not download $fileid. (already in history file)");
 			&download_message($fileid, $messages->{err_already_setup},$logger,$context);
 			next;
@@ -381,6 +384,7 @@ sub download_end_handler{    	# Get global structure
 	
    my $context = $self->{context};
    my $logger = $self->{logger};
+   my $common = $self->{common};
    my $settings = $self->{settings};
    my $messages = $self->{messages};
    my $packages = $self->{packages};
@@ -680,6 +684,8 @@ sub download {
 sub execute{
 	my ($id,$logger,$context,$messages,$settings,$packages) = @_;
 
+   my $common = $context->{common};
+
 	my $tmp = $id."/tmp";
 	my $exit_code;
 	
@@ -742,7 +748,7 @@ sub execute{
 				
 				$logger->debug("Storing package to $packages->{$id}->{'PATH'}...");
 				# Stefano Brandimarte => Stevenson! <stevens@stevens.it>
-				system(&_get_path('cp')." -pr * ".$packages->{$id}->{'PATH'}) and die();
+				system($common->get_path('cp')." -pr * ".$packages->{$id}->{'PATH'}) and die();
 			}
 		};
 		if($@){
@@ -762,6 +768,8 @@ sub execute{
 # Check package integrity
 sub build_package{
 	my ($id,$logger,$context,$messages,$packages) = @_;
+
+   my $common = $context->{common};
 
 	my $count = $packages->{$id}->{'FRAGS'};
 	my $i;
@@ -800,7 +808,7 @@ sub build_package{
 		return 1;
 	}
 	
-	if( system( &_get_path("tar")." -xvzf $tmp/build.tar.gz -C $tmp") ){
+	if( system( $common->get_path("tar")." -xvzf $tmp/build.tar.gz -C $tmp") ){
 		$logger->error("Cannot extract $id.");
 		download_message($id,$messages->{err_build},$logger,$context);
 		return 1;
@@ -926,6 +934,8 @@ sub begin{
 sub done{	
 	my ($id,$suffix,$logger,$context,$messages,$settings,$packages) = @_;
 
+   my $common = $context->{common};
+
 	my $frag_latency_default = $settings->{frag_latency_default};
 
 	$logger->debug("Package $id... Done. Sending message...");
@@ -936,7 +946,7 @@ sub done{
 	open HISTORY, ">>history" or warn("Cannot open history file: $!");
 	flock(HISTORY, LOCK_EX);
 	my @historyIds = <HISTORY>;
-	if( &_already_in_array($id, @historyIds) ){
+	if( $common->already_in_array($id, @historyIds) ){
 		$logger->debug("Warning: id $id has been found in the history file!!");
 	}
 	else {
