@@ -64,30 +64,19 @@ $list_id=multi_lot($form_name,$l->g(601));
 		}else
 		echo "<script>alert('".$l->g(983)."')</script>";
 	 }
-	/*if ($protectedPost['origine'] == "machine"){
-	$direction=	"index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&option=cd_configuration&systemid=".$protectedPost["systemid"];	
-	}elseif ($protectedPost['origine'] == "group")
-	$direction=	"index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$protectedPost["systemid"];
-	else*/
-//	$direction="index.php?redo=1".$_SESSION['OCS']["queryString"];	
 	
-	$sql_default_value="select NAME,IVALUE from config where NAME	in ('DOWNLOAD',
-																'DOWNLOAD_CYCLE_LATENCY',
-																'DOWNLOAD_PERIOD_LENGTH',
-																'DOWNLOAD_FRAG_LATENCY',
-																'DOWNLOAD_PERIOD_LATENCY',	
-																'DOWNLOAD_TIMEOUT',
-																'PROLOG_FREQ')";
-	$result_default_value = mysql_query($sql_default_value, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-	while($default=mysql_fetch_array($result_default_value)) {
-		$optdefault[$default["NAME"] ] = $default["IVALUE"];
-	}	
+	$default=look_config_default_values(array('DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_PERIOD_LENGTH',
+											  'DOWNLOAD_FRAG_LATENCY','DOWNLOAD_PERIOD_LATENCY',	
+											  'DOWNLOAD_TIMEOUT','PROLOG_FREQ'));
+	$optdefault = $default["ivalue"];
+
 	
 	//not a sql query
 	if (isset($protectedGet['origine']) and is_numeric($protectedGet['idchecked'])){
 		//looking for value of systemid
-		$sql_value_idhardware="select * from devices where name != 'DOWNLOAD' and hardware_id=".$protectedGet['idchecked'];
-		$result_value = mysql_query($sql_value_idhardware, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$sql_value_idhardware="select NAME,IVALUE,TVALUE from devices where name != 'DOWNLOAD' and hardware_id=%s";
+		$arg_value_idhardware=$protectedGet['idchecked'];
+		$result_value = mysql2_query_secure($sql_value_idhardware, $_SESSION['OCS']["readServer"],$arg_value_idhardware);
 		while($value=mysql_fetch_array($result_value)) {
 			$optvalue[$value["NAME"] ] = $value["IVALUE"];
 			$optvalueTvalue[$value["NAME"]]=$value["TVALUE"];
@@ -98,15 +87,10 @@ $list_id=multi_lot($form_name,$l->g(601));
 		$champ_ignored=1;
 	}
 	
-	
-	/*if(isset($direction)){
-	//link for return 
-		echo "<br><center><a href='#' OnClick=\"window.location='".$direction."';\"><= ".$l->g(188)."</a></center>";
-		
-	}*/
+
 	if ($list_id){
 		onglet($def_onglets,$form_name,'onglet',7);
-			echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td>";
+		echo '<div class="mlt_bordure" >';
 		if ($protectedPost['onglet'] == $l->g(728)){
 			include ('ms_custom_frequency.php');
 		}
@@ -121,11 +105,8 @@ $list_id=multi_lot($form_name,$l->g(601));
 			include ('ms_custom_ipdiscover.php');
 		
 		}
-		/*if (isset($protectedPost['origine'])){
-		echo "<input type='hidden' id='systemid' name='systemid' value='".$protectedPost['systemid']."'>";
-			echo "<input type='hidden' id='origine' name='origine' value='".$protectedPost['origine']."'>";
-		} */
-		echo "</td></tr></table>";
+		echo "</div>";
 	}
+	
  echo "</form>";
 ?>

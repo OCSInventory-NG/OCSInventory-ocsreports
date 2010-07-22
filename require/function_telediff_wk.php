@@ -515,7 +515,7 @@ function dde_form($form_name){
 					$mail_active=option_conf_activate('IT_SET_MAIL');
 					if ($mail_active){
 						//mail for admin of workflow
-						$group_admin_mail=look_default_values(array('IT_SET_MAIL_ADMIN'));
+						$group_admin_mail=look_config_default_values(array('IT_SET_MAIL_ADMIN'));
 						if (isset($group_admin_mail['ivalue']['IT_SET_MAIL_ADMIN'])){
 							$sql_mail="select email 
 										from operators 

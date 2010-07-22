@@ -196,28 +196,8 @@ function fin_tab($form_name,$disable=''){
 	
 }
 
-function look_default_values($field_name){
-	
-	$sql="select NAME,IVALUE,TVALUE from config where NAME in ('";
-	$arg_field=array();
-	foreach ($field_name as $key=>$value){
-		array_push($arg_field,$value);
-		$sql.="%s','" ;
-		
-	}
-	$sql = substr($sql,0,-2) . ")";
-	$resdefaultvalues=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg_field);		
-	while($item = mysql_fetch_object($resdefaultvalues)){
-			$result['name'][$item ->NAME]=$item ->NAME;
-			$result['ivalue'][$item ->NAME]=$item ->IVALUE;
-			$result['tvalue'][$item ->NAME]=$item ->TVALUE;
-	}
-	return $result;
-}
-
-
 function option_conf_activate($value){
-	$conf_Wk=look_default_values(array($value));
+	$conf_Wk=look_config_default_values(array($value));
 	if ($conf_Wk['ivalue'][$value] == 1)
 	    $activate=1;
 	else
@@ -240,19 +220,15 @@ function option_conf_activate($value){
  function insert_update($name,$value,$default_value,$field){
  	global $l;
  //	echo $field."=>".$value."=>".$default_value."<br>";
- if ($default_value != $value){
- 	if ($default_value != '')
-			$sql="update config set ".$field." = '".$value."' where NAME ='".$name."'";
-	else
-			$sql="insert into config (".$field.", NAME) value ('".$value."','".$name."')";
-	if ($_SESSION['OCS']['DEBUG'] == 'ON')
-	 		echo "<br><b><font color=red>".$l->g(5001).$sql."</font></b>";
- 	if( ! @mysql_query( $sql, $_SESSION['OCS']["writeServer"] )) {
-		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($_SESSION['OCS']["writeServer"])."</b></font></center>";
-		return false;
-	}		
- 	addLog( $l->g(821),$sql );
- }
+ 	if ($default_value != $value){
+	 	$arg=array($field,$value,$name);
+	 	if ($default_value != '')
+				$sql="update config set %s = '%s' where NAME ='%s'";
+		else
+				$sql="insert into config (%s, NAME) value ('%s','%s')";
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
+	 	addLog( $l->g(821),$sql );
+ 	}
 
  }
 
@@ -310,7 +286,7 @@ function update_default_value($POST){
 	
 	//recherche des valeurs par d�faut
 	$sql_exist=" select NAME,ivalue,tvalue from config ";
-	$result_exist = mysql_query($sql_exist, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$result_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"]);
 	while($value_exist=mysql_fetch_array($result_exist)) {
 		if ($value_exist["ivalue"] != null)
 		$optexist[$value_exist["NAME"] ] = $value_exist["ivalue"];
@@ -410,7 +386,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 				  'LOG_GUI'=>'LOG_GUI',
 				  'LOG_DIR'=>'LOG_DIR',
 				  );
-	$values=look_default_values($champs);
+	$values=look_config_default_values($champs);
 	if (isset($values['tvalue']['DOWNLOAD_PACK_DIR']))
 	$select_pack='CUSTOM';
 	else
@@ -459,7 +435,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 				  'DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG',
 				  'TELEDIFF_WK'=>'TELEDIFF_WK');
 	
- 	$values=look_default_values($champs);
+ 	$values=look_config_default_values($champs);
  	if (isset($values['tvalue']['DOWNLOAD_URI_INFO']))
 	$select_info='CUSTOM';
 	else
@@ -495,7 +471,7 @@ function pagegroups($form_name){
 				  'GROUPS_CACHE_OFFSET'=>'GROUPS_CACHE_OFFSET',
 				  'GROUPS_CACHE_REVALIDATE'=>'GROUPS_CACHE_REVALIDATE');
 	
- 	$values=look_default_values($champs);			 
+ 	$values=look_config_default_values($champs);			 
  	debut_tab();
 	//create diff lign for general config	
  	//create diff lign for general config	
@@ -519,7 +495,7 @@ function pagegroups($form_name){
 				  'LOCK_REUSE_TIME'=>'LOCK_REUSE_TIME',
 				  'TRACE_DELETED'=>'TRACE_DELETED',
 				  'SESSION_VALIDITY_TIME'=>'SESSION_VALIDITY_TIME');
- 	$values=look_default_values($champs);
+ 	$values=look_config_default_values($champs);
  	if (isset($champs['AUTO_DUPLICATE_LVL']))
  	//on utilise la fonction pour conna�tre les cases coch�es correspondantes au chiffre en base de AUTO_DUPLICATE_LVL
  	$check=auto_duplicate_lvl_poids($values['ivalue']['AUTO_DUPLICATE_LVL'],1);
@@ -553,7 +529,7 @@ function pagegroups($form_name){
 				  'INVENTORY_SESSION_ONLY'=>'INVENTORY_SESSION_ONLY',
 				  'INVENTORY_CACHE_REVALIDATE'=>'INVENTORY_CACHE_REVALIDATE',
 				  'INVENTORY_VALIDITY'=>'INVENTORY_VALIDITY');
-	$values=look_default_values($champs);
+	$values=look_config_default_values($champs);
 	if (isset($champs['INVENTORY_VALIDITY'])){
  		$validity=$values['ivalue']['INVENTORY_VALIDITY'];
  		//gestion des diff�rentes valeurs de l'ipdiscover
@@ -584,7 +560,7 @@ function pagegroups($form_name){
  	global $l,$numeric,$sup1;
  		//what ligne we need?
  	$champs=array('REGISTRY'=>'REGISTRY');
-	$values=look_default_values($champs);
+	$values=look_config_default_values($champs);
 	debut_tab();
 	ligne('REGISTRY',$l->g(412),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['REGISTRY']));
  	fin_tab($form_name);
@@ -600,7 +576,7 @@ function pagegroups($form_name){
 				  'IPDISCOVER_NO_POSTPONE'=>'IPDISCOVER_NO_POSTPONE',
 				  'IPDISCOVER_USE_GROUPS'=>'IPDISCOVER_USE_GROUPS');
  	
- 	$values=look_default_values($champs);
+ 	$values=look_config_default_values($champs);
  	if (isset($champs['IPDISCOVER'])){
  		$ipdiscover=$values['ivalue']['IPDISCOVER'];
  		//gestion des diff�rentes valeurs de l'ipdiscover
@@ -627,7 +603,7 @@ function pagegroups($form_name){
  	$champs=array('DOWNLOAD_SERVER_URI'=>'DOWNLOAD_SERVER_URI',
 				  'DOWNLOAD_SERVER_DOCROOT'=>'DOWNLOAD_SERVER_DOCROOT',
 				  'DOWNLOAD_REP_CREAT' =>'DOWNLOAD_REP_CREAT');
- 	$values=look_default_values($champs);
+ 	$values=look_config_default_values($champs);
  	$i=0;
  	while ($i<10){
  		$priority[$i]=$i;
@@ -652,7 +628,7 @@ function pagegroups($form_name){
 				  'OCS_FILES_FORMAT'=>'OCS_FILES_FORMAT',
 				  'OCS_FILES_OVERWRITE'=>'OCS_FILES_OVERWRITE',
 				  'OCS_FILES_PATH'=>'OCS_FILES_PATH');
- 	$values=look_default_values($champs);
+ 	$values=look_config_default_values($champs);
  	debut_tab(); 
  	ligne('GENERATE_OCS_FILES',$l->g(749),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['GENERATE_OCS_FILES']));
 	ligne('OCS_FILES_FORMAT',$l->g(750),'select',array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>array('OCS'=>'OCS','XML'=>'XML')));
@@ -669,7 +645,7 @@ function pagegroups($form_name){
 				  'INVENTORY_FILTER_FLOOD_IP'=>'INVENTORY_FILTER_FLOOD_IP',
 				  'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME'=>'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',
 				  'INVENTORY_FILTER_ON'=>'INVENTORY_FILTER_ON');
- 	$values=look_default_values($champs);
+ 	$values=look_config_default_values($champs);
  	debut_tab(); 
 	ligne('PROLOG_FILTER_ON',$l->g(753),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['PROLOG_FILTER_ON']));
 	ligne('INVENTORY_FILTER_ENABLED',$l->g(754),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_FILTER_ENABLED']));
@@ -685,7 +661,7 @@ function pagegroups($form_name){
  	$champs=array('WEB_SERVICE_ENABLED'=>'WEB_SERVICE_ENABLED',
 				  'WEB_SERVICE_RESULTS_LIMIT'=>'WEB_SERVICE_RESULTS_LIMIT',
 				  'WEB_SERVICE_PRIV_MODS_CONF'=>'WEB_SERVICE_PRIV_MODS_CONF');
- 	$values=look_default_values($champs);
+ 	$values=look_config_default_values($champs);
  	debut_tab(); 
 					echo "<tr><td align=center colspan=100><font size=4 color=red><b>".$l->g(764)."</b></font></td></tr>";
 	ligne('WEB_SERVICE_ENABLED',$l->g(761),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['WEB_SERVICE_ENABLED']),'',"readonly");
@@ -715,7 +691,7 @@ function pagegroups($form_name){
                   'CONEX_LDAP_CHECK_FIELD2_VALUE'=>'CONEX_LDAP_CHECK_FIELD2_VALUE',
                  // 'CONEX_LDAP_CHECK_FIELD2_USERLEVEL'=>'CONEX_LDAP_CHECK_FIELD2_USERLEVEL',
                   'CONEX_LDAP_CHECK_FIELD2_ROLE'=>'CONEX_LDAP_CHECK_FIELD2_ROLE');
-	$values=look_default_values($champs);
+	$values=look_config_default_values($champs);
 	
 	$role1=search_profil();
  	debut_tab();
@@ -750,7 +726,7 @@ function pagegroups($form_name){
  				  'IT_SET_NIV_TOTAL'=>'IT_SET_NIV_TOTAL',
  				  'IT_SET_MAIL'=>'IT_SET_MAIL',
  				  'IT_SET_MAIL_ADMIN'=>'IT_SET_MAIL_ADMIN');
-	$values=look_default_values($champs);
+	$values=look_config_default_values($champs);
 	debut_tab();
 	$infos_status=list_status();
 	if ($infos_status['NIV_BIS'] == ""){
@@ -765,8 +741,9 @@ function pagegroups($form_name){
 		ligne('IT_SET_NIV_TOTAL',$l->g(1080),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_TOTAL'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
 		ligne('IT_SET_MAIL',$l->g(1081),'radio',array(1=>$l->g(455),0=>$l->g(454),'VALUE'=>$values['ivalue']['IT_SET_MAIL'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
 		if (isset($values['ivalue']['IT_SET_MAIL']) and $values['ivalue']['IT_SET_MAIL'] == 1){
-			$sql_list_group_user="select IVALUE,TVALUE from config where name like 'USER_GROUP_%'";
-			$result_list_group_user = mysql_query($sql_list_group_user, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			$sql_list_group_user="select IVALUE,TVALUE from config where name like '%s'";
+			$arg_list_group_user='USER_GROUP_%';
+			$result_list_group_user = mysql2_query_secure($sql_list_group_user, $_SESSION['OCS']["readServer"],$arg_list_group_user);
 			while($value=mysql_fetch_array($result_list_group_user)){
 				$list_group_user[$value['IVALUE']]=$value['TVALUE'];	
 			}
@@ -776,8 +753,9 @@ function pagegroups($form_name){
 		}
 		ligne('IT_SET_PERIM',$l->g(1083),'radio',array(1=>'TAG',0=>'GROUP','VALUE'=>$values['ivalue']['IT_SET_PERIM'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
 		if (!isset($values['ivalue']['IT_SET_PERIM']) or $values['ivalue']['IT_SET_PERIM'] == 0){
-			$sql_list_group="select name from hardware where deviceid='_SYSTEMGROUP_'";
-			$result_list_group = mysql_query($sql_list_group, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			$sql_list_group="select name from hardware where deviceid='%s'";
+			$arg_list_group='_SYSTEMGROUP_';
+			$result_list_group = mysql2_query_secure($sql_list_group, $_SESSION['OCS']["readServer"],$arg_list_group);
 			while($value=mysql_fetch_array($result_list_group)){
 				$list_group[$value['name']]=$value['name'];	
 			}

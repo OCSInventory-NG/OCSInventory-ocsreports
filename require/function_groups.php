@@ -26,7 +26,7 @@ function all_groups($group_type){
 								or (xmldef is not null and trim(xmldef) != ''))";				
 		}		
 	}	
-	$resGetId = mysql_query( $reqGetId, $_SESSION['OCS']["readServer"]);
+	$resGetId = mysql2_query_secure( $reqGetId, $_SESSION['OCS']["readServer"]);
 	while( $valGetId = mysql_fetch_array( $resGetId ) ){
 		$list_group[$valGetId['id']]=$valGetId['name'];
 	}
@@ -38,8 +38,11 @@ function all_groups($group_type){
 
 //fonction pour sortir les machines d'un groupe
 function remove_of_group($id_group,$list_id){
-	$sql_delcache="DELETE FROM groups_cache WHERE group_id='".$id_group."' and hardware_id in (".$list_id.")";
-	mysql_query( $sql_delcache, $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );
+	$sql_delcache="DELETE FROM groups_cache WHERE group_id='%s' and hardware_id in ";
+	$arg_delcache[]=$id_group;
+	$delcache=mysql2_prepare($sql_delcache,$arg_delcache,$list_id);
+	
+	mysql2_query_secure( $delcache['SQL'], $_SESSION['OCS']["writeServer"], $delcache['ARG']);
 	$cached = mysql_affected_rows($_SESSION['OCS']["writeServer"]);	
 	return $cached;
 }
@@ -113,10 +116,10 @@ function add_computers_cache($list_id,$groupid,$static){
 	//Generating cache
 	if( lock($groupid) ) {	
 		$reqCache = "INSERT IGNORE INTO groups_cache(hardware_id, group_id, static) 
-						SELECT id, ".$groupid.", ".$static." from hardware where id in (".$list_id.")" ;
-		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			echo "<br>".$l->g(5000).$reqCache."<br>";
-		$cachedRes = mysql_query( $reqCache , $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );
+						SELECT id, %s, %s from hardware where id in " ;
+		$argCache=array($groupid,$static);
+		$cache=mysql2_prepare($reqCache,$argCache,$list_id);	
+		mysql2_query_secure( $cache['SQL'], $_SESSION['OCS']["writeServer"], $cache['ARG']);
 		$cached = mysql_affected_rows($_SESSION['OCS']["writeServer"]);	
 		unlock($groupid);
 		return $cached;
@@ -155,21 +158,18 @@ function delete_group($id_supp){
 	if (!is_numeric($id_supp))
 	return array('RESULT'=>'ERROR', 'LBL'=> "ID IS NOT NUMERIC");
 	
-	$sql_verif_group="select id from hardware where id=".$id_supp." and DEVICEID='_SYSTEMGROUP_' or DEVICEID='_DOWNLOADGROUP_'";
-	$res_verif_group = mysql_query( $sql_verif_group, $_SESSION['OCS']["readServer"]);
+	$sql_verif_group="select id from hardware where id=%s and DEVICEID='_SYSTEMGROUP_' or DEVICEID='_DOWNLOADGROUP_'";
+	$arg_verif_group=$id_supp;
+	$res_verif_group = mysql2_query_secure( $sql_verif_group, $_SESSION['OCS']["readServer"],$arg_verif_group);
 	if( $val_verif_group = mysql_fetch_array( $res_verif_group ) ){	
-		$del_groups_TAG="DELETE FROM accountinfo where HARDWARE_ID=".$id_supp;
-		mysql_query($del_groups_TAG, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
-		$del_groups_cache="DELETE FROM groups_cache WHERE group_id=".$id_supp;
-		mysql_query($del_groups_cache, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
-		$del_groups="DELETE FROM groups WHERE hardware_id=".$id_supp;
-		mysql_query($del_groups, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
-		$del_hardware="DELETE FROM download_servers where group_id=".$id_supp;
-		mysql_query($del_hardware, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
-		$del_hardware="DELETE FROM download_enable where group_id=".$id_supp;
-		mysql_query($del_hardware, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
-		$del_hardware="DELETE FROM hardware where id=".$id_supp;
-		mysql_query($del_hardware, $_SESSION['OCS']["writeServer"]) or die(mysql_error());	
+		$del[]="DELETE FROM accountinfo where HARDWARE_ID=%s";
+		$del[]="DELETE FROM groups_cache WHERE group_id=%s";
+		$del[]="DELETE FROM groups WHERE hardware_id=%s";
+		$del[]="DELETE FROM download_servers where group_id=%s";
+		$del[]="DELETE FROM download_enable where group_id=%s";
+		$del[]="DELETE FROM hardware where id=%s";
+		foreach ($del as $key=>$value)		
+			mysql2_query_secure($value, $_SESSION['OCS']["writeServer"],$arg_verif_group);
 		addLog("DELETE GROUPE",$id_supp);
 		return array('RESULT'=>'OK', 'LBL'=> "GROUPE SUPPRIME");
 	}else
@@ -184,17 +184,18 @@ function group_4_all($id_group){
 	if (!is_numeric($id_group))
 	return array('RESULT'=>'ERROR', 'LBL'=> "ID IS NOT NUMERIC");
 	
-	$sql_verif="select WORKGROUP from hardware where id=".$id_group;
-	$res = mysql_query($sql_verif, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$sql_verif="select WORKGROUP from hardware where id=%s";
+	$arg_verif=$id_group;
+	$res = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"],$arg_verif);
 	$item = mysql_fetch_object($res);
 	if ($item->WORKGROUP != "GROUP_4_ALL"){	
-		$sql_update="update hardware set workgroup= 'GROUP_4_ALL' where id=".$id_group;
+		$sql_update="update hardware set workgroup= 'GROUP_4_ALL' where id=%s";
 		$return_result['LBL']="Groupe visible pour tous";
 	}else{
-		$sql_update="update hardware set workgroup= '' where id=".$id_group;
+		$sql_update="update hardware set workgroup= '' where id=%s";
 		$return_result['LBL']="Groupe invisible";
 	}
-	mysql_query($sql_update, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
+	mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"],$arg_verif);	
 	$return_result['RESULT']="OK";
 	addLog("ACTION VISIBILITY OF GROUPE",$id_group);
 	return $return_result;

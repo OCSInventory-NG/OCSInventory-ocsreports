@@ -22,10 +22,8 @@ else
 require_once("preferences.php");
 /******************************************Checking sql update*********************************************/
 if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])){
-	$sql_log="select TVALUE from config where name='GUI_VERSION'";
-	$result_log = mysql2_query_secure($sql_log, $_SESSION['OCS']["readServer"]);
-	while($value=mysql_fetch_array($result_log))
-		$_SESSION['OCS']['SQL_BASE_VERS'] = $value['TVALUE'];	
+	$values=look_config_default_values('GUI_VERSION');
+	$_SESSION['OCS']['SQL_BASE_VERS']=$values['tvalue']['GUI_VERSION'];
 }
 if (GUI_VER	> $_SESSION['OCS']['SQL_BASE_VERS']){
 	unset($_SESSION['OCS']['SQL_BASE_VERS']);
@@ -39,9 +37,6 @@ if (!defined("SERVER_READ")){
 	require('install.php');
 	die();	
 }
-
-
-
 
 //SECURITY
 
@@ -174,24 +169,23 @@ unset($_SESSION['OCS']['ipdiscover']);
 
 /***********************************************************gestion des logs*************************************************************************/
 if (!isset($_SESSION['OCS']['LOG_GUI'])){
-	$sql_log="select name,ivalue,tvalue from config where name= 'LOG_GUI' or name='LOG_DIR' or name='LOG_SCRIPT'";
-	$result_log = mysql2_query_secure($sql_log, $_SESSION['OCS']["readServer"]);
-	while($value_log=mysql_fetch_array($result_log)) {
-		if ($value_log["name"] == 'LOG_GUI')
-			$_SESSION['OCS']['LOG_GUI'] = $value_log['ivalue'];
-		if ($value_log["name"] == 'LOG_DIR')
-			$_SESSION['OCS']['LOG_DIR'] = $value_log['tvalue'];
-		if ($value_log["name"] == 'LOG_SCRIPT')
-			$_SESSION['OCS']['LOG_SCRIPT'] = $value_log['tvalue'];
-	}
-	if (!isset($_SESSION['OCS']['LOG_GUI']))
-		$_SESSION['OCS']['LOG_GUI']=0;
-	if (!isset($_SESSION['OCS']['LOG_DIR']))
-		$_SESSION['OCS']['LOG_DIR']='';
-	if (!isset($_SESSION['OCS']['LOG_SCRIPT']))
-		$_SESSION['OCS']['LOG_SCRIPT']='';
+	$values=look_config_default_values(array('LOG_GUI','LOG_DIR','LOG_SCRIPT'));
+	$_SESSION['OCS']['LOG_GUI']=$values['ivalue']['LOG_GUI'];
+	$_SESSION['OCS']['LOG_DIR']=$values['tvalue']['LOG_DIR'];
+	$_SESSION['OCS']['LOG_SCRIPT'] = $values['tvalue']['LOG_SCRIPT'];
 }
 /****************END GESTION LOGS***************/
+
+/********************GESTION CACHE******************/
+if (!isset($_SESSION['OCS']["usecache"])){
+	$values=look_config_default_values(array('INVENTORY_CACHE_ENABLED'));
+	$_SESSION['OCS']['usecache']=$values['ivalue']['INVENTORY_CACHE_ENABLED'];
+	if (!isset($_SESSION['OCS']["usecache"]))
+		$_SESSION['OCS']["usecache"]=1;
+}
+
+/********************END GESTION CACHE******************/
+
 
 /*********************************************GESTION OF LBL_TAG*************************************/
 

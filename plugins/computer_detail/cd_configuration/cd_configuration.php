@@ -315,8 +315,8 @@ $i=0;
 		$l->g(589)."</a>";
 	
 		$reqGroups = "SELECT h.name,h.id,h.workgroup 
-					  FROM hardware h 
-					  WHERE h.deviceid='_SYSTEMGROUP_'";
+					  FROM hardware h,groups g 
+					  WHERE  g.hardware_id=h.id  and h.deviceid='_SYSTEMGROUP_'";
 		if( !($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES") )
 			$reqGroups .= " and workgroup = 'GROUP_4_ALL'";
 		$resGroups =mysql2_query_secure( $reqGroups, $_SESSION['OCS']["readServer"] );

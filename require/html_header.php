@@ -12,6 +12,7 @@ header("Content-type: text/html; charset=utf-8");
 <html>
 <head>
 <TITLE>OCS Inventory</TITLE>
+
 <link rel="shortcut icon" href="favicon.ico" />
 <LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
 <?php incPicker(); 

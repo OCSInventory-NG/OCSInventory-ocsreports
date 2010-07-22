@@ -18,7 +18,6 @@ require_once ('require/function_index.php');
 $sleep=1;
 $debut = getmicrotime();
 require ('header.php');
-require ('donnees.php');
 
 if( !isset($protectedGet["popup"] ))
 	require ($_SESSION['OCS']['FOOTER_HTML']);
