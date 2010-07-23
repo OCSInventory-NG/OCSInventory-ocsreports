@@ -537,8 +537,6 @@ sub addProcess {
   };
 }
 
-
-
 sub addIpDiscoverEntry {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -559,6 +557,28 @@ sub addIpDiscoverEntry {
   };
 }
 
+
+sub addInput {
+  my ($self, $args) = @_;
+  my $xmltags=$self->{xmltags};
+
+  my $type = $args->{TYPE};
+  my $caption = $args->{CAPTION};
+  my $manufacturer = $args->{MANUFACTURER};
+  my $description = $args->{DESCRIPTION};
+  my $interface = $args->{INTERFACE};
+  my $pointtype = $args->{POINTTYPE};
+
+  push @{$xmltags->{INPUTS}},
+  {
+    TYPE => [$type?$type:''],
+    CAPTION => [$caption?$caption:''],
+    MANUFACTURER => [$manufacturer?$manufacturer:''],
+    DESCRIPTION  => [$description?$description:''],
+    INTERFACE=> [$interface?$interface:''],
+    POINTTYPE => [$pointtype?$pointtype:''],
+  };
+}
 
 #### Old subroutines from the former Common.pm used by Download.pm #######
 
