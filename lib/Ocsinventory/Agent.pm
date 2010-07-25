@@ -84,7 +84,9 @@ sub run {
             config => $config->{config}
     });
 
-    my $common = new Ocsinventory::Agent::Common; 
+    my $common = new Ocsinventory::Agent::Common({
+            logger => $logger,
+    }); 
 
 	# $< == $REAL_USER_ID
     if ( $< ne '0' ) {

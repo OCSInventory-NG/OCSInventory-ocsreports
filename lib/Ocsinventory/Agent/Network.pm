@@ -15,7 +15,6 @@ sub new {
   
   $self->{accountconfig} = $params->{accountconfig}; 
   $self->{accountinfo} = $params->{accountinfo}; 
-  $self->{compatibilityLayer} = $params->{compatibilityLayer}; 
   my $logger = $self->{logger} = $params->{logger};
 use Data::Dumper;
   $self->{config} = $params->{config};
