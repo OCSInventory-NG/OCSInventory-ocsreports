@@ -59,14 +59,12 @@ use Data::Dumper;
 }
 
 
-sub send {
+sub sendXML {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
-  #my $compatibilityLayer = $self->{compatibilityLayer};
   my $compress = $self->{compress};
   my $message = $args->{message};
-  my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
 
   my $req = HTTP::Request->new(POST => $self->{URI});
 
@@ -76,9 +74,9 @@ sub send {
   $logger->debug ("sending XML");
 
 
-  $logger->debug ("sending: ".$message->getContent());
+  $logger->debug ("sending: ".$message);
 
-  my $compressed = $compress->compress( $message->getContent() );
+  my $compressed = $compress->compress($message);
 
   if (!$compressed) {
     $logger->error ('failed to compress data');
@@ -95,22 +93,23 @@ sub send {
     return;
   }
 
-  # stop or send in the http's body
+  return $res ;
 
+}
 
-  ########## Response #######################
+sub getXMLResp {
 
+  my ($self, $res, $msgtype) = @_;
+  my $logger = $self->{logger};
+  my $compress = $self->{compress};
+
+  #Reading the XML response from OCS server
   my $content = $compress->uncompress($res->content);
 
   if (!$content) {
     $logger->error ("Deflating problem");
     return;
   }
-
- 
-  # AutoLoad the proper response object
-  my $msgType = ref($message); # The package name of the message object
-
 
   my $tmp = "Ocsinventory::Agent::XML::Response::".$msgtype;
   eval "require $tmp";
@@ -119,16 +118,14 @@ sub send {
   }
   $tmp->import();
   my $response = $tmp->new ({
-
      accountconfig => $self->{accountconfig},
      accountinfo => $self->{accountinfo},
      content => $content,
-     #content => $message,
      logger => $logger,
-     origmsg => $message,
+     #origmsg => $message,
      config => $self->{config}
 
-      });
+  });
 
   return $response;
 }
