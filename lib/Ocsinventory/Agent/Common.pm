@@ -19,8 +19,12 @@ use warnings;
 ##################################################################################
 
 sub new {
+  my (undef, $params) = @_;
 
   my $self = {};
+
+  $self->{logger} = $params->{logger};
+
   $self->{xmltags}={};
 
   bless $self;
@@ -117,8 +121,6 @@ sub addDrive {
 sub addStorages {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
-
-  my $logger = $self->{logger};
 
   my $description = $args->{DESCRIPTION};
   my $disksize = $args->{DISKSIZE};
@@ -559,6 +561,58 @@ sub addIpDiscoverEntry {
     M => [$macaddr?$macaddr:""],
     N => [$name?$name:"-"], # '-' is the default value reteurned by ipdiscover
   };
+}
+
+### Generic shared subroutines #####
+
+sub can_run {
+  my $self = shift;
+  my $binary = shift;
+
+  my $logger = $self->{logger};
+
+  my $calling_namespace = caller(0);
+  chomp(my $binpath=`which $binary 2>/dev/null`);
+  return unless -x $binpath;
+  $self->{logger}->debug(" - $binary found");
+  1;
+}
+
+sub can_load {
+  my $self = shift;
+  my $module = shift;
+
+  my $logger = $self->{logger};
+
+  my $calling_namespace = caller(0);
+  eval "package $calling_namespace; use $module;";
+  return if $@;
+  $self->{logger}->debug(" - $module loaded");
+  1;
+}
+
+
+sub can_read {
+  my $self = shift;
+  my $file = shift;
+
+  my $logger = $self->{logger};
+
+  return unless -r $file;
+  $self->{logger}->debug(" - $file can be read");
+  1;
+}
+
+sub runcmd {
+  my $self = shift;
+  my $cmd = shift;
+
+  my $logger = $self->{logger};
+
+  return unless $cmd;
+
+  # $self->{logger}->debug(" - run $cmd");
+  return `$cmd`;
 }
 
 
