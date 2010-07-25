@@ -227,7 +227,7 @@ sub run {
 
 ################# Now we can create a context hash #########################################################
 
-	my $context = {
+    my $context = {
       #logpath => $config->{logdir}."modexec.log",
       #serveruri => $ocsAgentServerUri,
       installpath => $config->{config}->{vardir},
@@ -268,16 +268,16 @@ sub run {
         }
 
 
-	# Create an hook object to use handlers of modules. 
-    	my $hooks = new Ocsinventory::Agent::Hooks($context);
+	     # Create an hook object to use handlers of modules. 
+        my $hooks = new Ocsinventory::Agent::Hooks($context);
 
 
-	#Using start_handler hook	
-      	$hooks->run({name => 'start_handler'});
+        #Using start_handler hook	
+        $hooks->run({name => 'start_handler'});
 		
 
 
-	#################### Local Mode #######################
+        #################### Local Mode #######################
         if ($config->{config}{stdout} || $config->{config}{local}) {
 
             # TODO, avoid to create Backend at two different places
@@ -288,19 +288,17 @@ sub run {
                     logger => $logger,
                     config => $config->{config},
 
-                });
+            });
 
 
             my $inventory = new Ocsinventory::Agent::XML::Inventory ({
-
                     # TODO, check if the accoun{info,config} are needed in localmode
                     accountinfo => $accountinfo,
                     accountconfig => $accountinfo,
                     backend => $backend,
                     config => $config->{config},
                     logger => $logger,
-
-                });
+            });
 
             if ($config->{config}{stdout}) {
                 $inventory->printXML();
@@ -310,116 +308,112 @@ sub run {
 
 
         } 
-	###############################################################
 	
-	else { 
+	     else { 
 
-	############ I've to contact the server ########################"
-
-            my $net = new Ocsinventory::Agent::Network ({
-
+	         ############ I've to contact the server ########################"
+            my $network = new Ocsinventory::Agent::Network ({
                     accountconfig => $accountconfig,
                     accountinfo => $accountinfo,
                     logger => $logger,
                     config => $config->{config},
+             });
 
-                });
+             #Adding the network object in $context
+             $context->{network}= $network;
 
-            my $sendInventory = 1;
-            my $prologresp;
-            if (!$config->{config}{force}) {
-                my $prolog = new Ocsinventory::Agent::XML::Prolog({
+             my $sendInventory = 1;
+             my $httpresp;
+             my $prologresp;
 
+             if (!$config->{config}{force}) {
+                 my $prolog = new Ocsinventory::Agent::XML::Prolog({
                         accountinfo => $accountinfo,
                         logger => $logger,
                         config => $config->{config},
+                 });
 
-                    });
+                 #Using prolog_writer hook
+                 $hooks->run({name => 'prolog_writer'}, $prolog);
 
-		
-		#Using prolog_writer hook
-		$hooks->run({name => 'prolog_writer'}, $prolog);
+					  #Formatting the XML 
+                 my $prologXML = $prolog->getContent(); 
 
-      $prologresp = $net->send({message => $prolog});
+                 $httpresp = $network->sendXML({message => $prologXML});
+                 $prologresp = $network->getXMLResp($httpresp,'Prolog');
+
+                 #Using prolog_reader hook
+                 $hooks->run({name => 'prolog_reader'}, $prologresp->getRawXML());
 
 
-		#Using prolog_reader hook
-		$hooks->run({name => 'prolog_reader'}, $prologresp->getRawXML());
-
-
-                if (!$prologresp) { # Failed to reach the server
-                    if ($config->{config}{lazy}) {
-                        # To avoid flooding a heavy loaded server
-                        my $previousPrologFreq;
-                        if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
-                            $previousPrologFreq = $config->{config}{delaytime};
-                            $logger->info("No previous PROLOG_FREQ found - using fallback delay(".$config->{config}{delaytime}." seconds)");
-                        }
-                        else{
-                            $logger->info("Previous PROLOG_FREQ found ($previousPrologFreq)");
-                            $previousPrologFreq = $previousPrologFreq*3600;
-                        }
-                        my $time = time + $previousPrologFreq;
-                        utime $time,$time,$config->{config}{next_timefile};
-                    }
-                    exit 1 unless $config->{config}{daemon};
-                    $sendInventory = 0;
+                 if (!$prologresp) { # Failed to reach the server
+                     if ($config->{config}{lazy}) {
+                         # To avoid flooding a heavy loaded server
+                         my $previousPrologFreq;
+                         if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
+                             $previousPrologFreq = $config->{config}{delaytime};
+                             $logger->info("No previous PROLOG_FREQ found - using fallback delay(".$config->{config}{delaytime}." seconds)");
+                         }
+                         else{
+                             $logger->info("Previous PROLOG_FREQ found ($previousPrologFreq)");
+                             $previousPrologFreq = $previousPrologFreq*3600;
+                         }
+                         my $time = time + $previousPrologFreq;
+                         utime $time,$time,$config->{config}{next_timefile};
+                     }
+                     exit 1 unless $config->{config}{daemon};
+                     $sendInventory = 0;
                 } elsif (!$prologresp->isInventoryAsked()) {
                     $sendInventory = 0;
                 }
-            }
+             }
 
-            if (!$sendInventory) {
+             if (!$sendInventory) {
+                 $logger->info("Don't send the inventory");
 
-                $logger->info("Don't send the inventory");
+             } else { # Send the inventory!
 
-            } else { # Send the inventory!
-
-                my $backend = new Ocsinventory::Agent::Backend ({
-
+                 my $backend = new Ocsinventory::Agent::Backend ({
                         accountinfo => $accountinfo,
                         accountconfig => $accountconfig,
                         logger => $logger,
                         config => $config->{config},
                         prologresp => $prologresp,
+                 });
 
-                    });
-
-                my $inventory = new Ocsinventory::Agent::XML::Inventory ({
-
+                 my $inventory = new Ocsinventory::Agent::XML::Inventory ({
                         # TODO, check if the accoun{info,config} are needed in localmode
                         accountinfo => $accountinfo,
                         accountconfig => $accountinfo,
                         backend => $backend,
                         config => $config->{config},
                         logger => $logger,
+                 });
 
-                    });
+                 $backend->feedInventory ({inventory => $inventory});
 
-                $backend->feedInventory ({inventory => $inventory});
+                 #Using inventory_writer hook 
+                 $hooks->run({name => 'inventory_handler'}, $inventory);
 
+					  #Formatting the XML 
+                 my $inventoryXML = $inventory->getContent(); 
 
-
-		#Using inventory_writer hook 
-		$hooks->run({name => 'inventory_handler'}, $inventory);
-
-
-		#Sending Inventory
-		if (my $invresp = $net->send({message => $inventory})) {
-                    #if ($response->isAccountUpdated()) {
-                    $inventory->saveLastState();
-                    #}
-                } else {
-                    exit (1) unless $config->{config}{daemon};
-                }
+                 #Sending Inventory
+                 $httpresp = $network->sendXML({message => $inventoryXML}); 
+                 if (my $invresp = $network->getXMLResp($httpresp,'Inventory')) {
+                     #if ($response->isAccountUpdated()) {
+                     $inventory->saveLastState();
+                     #}
+                 } else {
+                     exit (1) unless $config->{config}{daemon};
+                 }
             }
 
         }
 
-
-
-
+        #Using end_handler_hook 
         $hooks->run({name => 'end_handler'});
+
         exit (0) unless $config->{config}{daemon};
 
     }
