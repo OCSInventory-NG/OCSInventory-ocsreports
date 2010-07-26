@@ -11,6 +11,6 @@ if (isset($protectedPost['Valid_modif_x'])){
 }
 $form_name="pass";
 echo "<br><form name=".$form_name." action=# method=post>";
-admin_user('USER',$_SESSION['OCS']["loggeduser"]);
+admin_user($_SESSION['OCS']["loggeduser"]);
 echo "</form>";
 ?>	

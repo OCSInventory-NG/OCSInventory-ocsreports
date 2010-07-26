@@ -30,7 +30,7 @@ if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 
 //suppression d'un user
 if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
-	delete_user($protectedPost['SUP_PROF']);	
+	delete_list_user($protectedPost['SUP_PROF']);	
 	$tab_options['CACHE']='RESET';
 }
 
@@ -50,7 +50,7 @@ echo '<div class="mlt_bordure" >';
 //add user or modif
 if ($protectedPost['onglet'] == 4 
 	or (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != '')){	
-	admin_user('ADMIN',$protectedPost['MODIF']);
+	admin_user($protectedPost['MODIF']);
 
 }else{
 	echo "<tr><td align=center>";
