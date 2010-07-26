@@ -32,7 +32,7 @@ Vincent KNECHT: wording patch
 Barius DRUBECK: documentation patch
 Stéphane URBANOVSKI: patch
 Jerome LEBASE: Solaris patches
-François MERMET: HP-UX support
+François ERMET: HP-UX support and SNMP integration
 Dmitry ILYIN: Patches
 Guillaume ROUSSE: various patches for Xen support
 Lucas MASSE: various patches for Solaris support

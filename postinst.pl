@@ -352,19 +352,19 @@ if (@cacert) { # we need to migrate the certificat
 }
 
 my $download_enable = ask_yn("Do you want to use OCS-Inventory software deployment feature?", 'y');
+my $snmp_enable = ask_yn("Do you want to use OCS-Inventory SNMP scans feature?", 'y');
 
 open MODULE, ">$configdir/modules.conf" or die "Can't write modules.conf in $configdir: ".$!;
 print MODULE "# this list of module will be load by the at run time\n";
 print MODULE "# to check its syntax do:\n";
 print MODULE "# #perl modules.conf\n";
 print MODULE "# You must have NO error. Else the content will be ignored\n";
-print MODULE "# This mechanism goal it to keep compatibility with 'plugin'\n";
-print MODULE "# created for the previous linux_agent.\n";
-print MODULE "# The new unified_agent have its own extension system that allow\n";
-print MODULE "# user to add new information easily.\n";
+print MODULE "# This mechanism goal is to launch agent extension modules\n";
 print MODULE "\n";
 print MODULE ($download_enable?'':'#');
-print MODULE "use Ocsinventory::Agent::Option::Download;\n";
+print MODULE "use Ocsinventory::Agent::Modules::Download;\n";
+print MODULE ($snmp_enable?'':'#');
+print MODULE "use Ocsinventory::Agent::Modules::Snmp;\n";
 print MODULE "\n";
 print MODULE "# DO NOT REMOVE THE 1;\n";
 print MODULE "1;\n";
