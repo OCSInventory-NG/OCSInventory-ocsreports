@@ -1,5 +1,7 @@
 <?php
 
+
+
 if (isset($protectedGet['filtre'])){
 	$protectedPost['FILTRE']=$protectedGet['filtre'];
 	$protectedPost['FILTRE_VALUE']=$protectedGet['value'];	
@@ -20,6 +22,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	$list_fields = array ( $_SESSION['OCS']['TAG_LBL']['TAG']   => "a.tag", 
 						   $l->g(46) => "h.lastdate", 
+						   'NAME'=>'h.name',
 						   $l->g(949) => "ID",
 						   $l->g(24) => "h.userid",
 						   $l->g(25) => "h.osname",
@@ -48,30 +51,33 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	$tab_options['FILTRE']=array_flip($list_fields);
 	$tab_options['FILTRE']['h.name']=$l->g(23);
 	asort($tab_options['FILTRE']); 
-	$list_fields['NAME'] = "h.name";
-	$reqAc = "SHOW COLUMNS FROM accountinfo";
-	$resAc = mysql2_query_secure($reqAc, $_SESSION['OCS']["readServer"]);
-	while($colname=mysql_fetch_array($resAc)){
-		if ($colname["Field"] != 'TAG' and $colname["Field"] != 'HARDWARE_ID')
-		$list_fields[$colname["Field"]]='a.'.$colname["Field"];
-		
+	
+	//BEGIN SHOW ACCOUNTINFO
+	require_once('require/function_admininfo.php');
+	$info_tag=find_info_accountinfo();
+	foreach ($info_tag as $key=>$value){
+		$info_value_tag= accountinfo_tab($value['id']);		
+		if (is_array($info_value_tag)){
+			$tab_options['REPLACE_VALUE'][$value['comment']]=$info_value_tag;
+		}		
+		if ($value['name'] != 'TAG' and $info_value_tag)
+		$list_fields[$value['comment']]='a.fields_'.$value['id'];		
 	}
+	//END SHOW ACCOUNTINFO
+	$list_fields['SUP']='h.id';
+	
 	$list_col_cant_del=array('SUP'=>'SUP');
 	$default_fields= array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
 							$l->g(24)=>$l->g(24),$l->g(25)=>$l->g(25),$l->g(568)=>$l->g(568),
 							$l->g(569)=>$l->g(569));
-	$queryDetails  = "SELECT h.id, ";
-	foreach ($list_fields as $lbl=>$value){
-		$queryDetails .= $value;
-				$queryDetails .=",";		
-	}
-	$queryDetails  = substr($queryDetails,0,-1)." from hardware h 
+	$sql=prepare_sql_tab($list_fields,array('SUP'));
+	$tab_options['ARG_SQL']=$sql['ARG'];
+	$queryDetails  = $sql['SQL']." from hardware h 
 					LEFT JOIN accountinfo a ON a.hardware_id=h.id 
 					LEFT JOIN bios e ON e.hardware_id=h.id where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
 	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
 		$queryDetails  .= "AND ".$_SESSION['OCS']["mesmachines"];
 	//$queryDetails  .=" limit 200";
-	$list_fields['SUP']='h.id';
 	$tab_options['LBL_POPUP']['SUP']='name';
 	$tab_options['LBL']['SUP']=$l->g(122);
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);

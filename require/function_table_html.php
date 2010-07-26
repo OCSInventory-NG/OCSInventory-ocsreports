@@ -1215,7 +1215,15 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				else
 				$lien='OK';
 				if (isset($tab_options['REPLACE_VALUE'][$key])){
-					$value_of_field=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
+					//if multi value, $temp_val[1] isset
+					$temp_val=explode('&&&',$value_of_field);
+					$multi_value=0;
+					$temp_value_of_field="";					
+					while ($temp_val[$multi_value]){
+						$temp_value_of_field.=$tab_options['REPLACE_VALUE'][$key][$temp_val[$multi_value]]."<br>";	
+						$multi_value++;
+					}
+					$value_of_field=$temp_value_of_field;	
 				}
 				if (isset($tab_options['REPLACE_WITH_CONDITION'][$key][$value_of_field])){
 					if (!is_array($tab_options['REPLACE_WITH_CONDITION'][$key][$value_of_field]))
