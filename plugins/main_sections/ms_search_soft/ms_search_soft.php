@@ -40,7 +40,7 @@ echo "\n".'</form>';*/
 //echo "\n".'<form  method="post" name="form-test" id="form-test" >';
 //echo "\n".'<input type="hidden" name="ms_options" id="ms_options" value="index.php?function=search_soft_option&no_header=1">';
 echo "\n".'<br><br><input type="text" name="logiciel_text" value="'.$protectedPost['logiciel_text'].'" id="champ-texte"  size="15"/>';
-echo "\n".'<br><input type="submit" id="bouton-submit" value="'.$l->g(965).'" name="bouton-submit">';
+echo "\n".'<br><input type="submit" id="bouton-submit" value="'.$l->g(13).'" name="bouton-submit">';
 //echo "\n".'</form>';
 
 
