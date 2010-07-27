@@ -848,7 +848,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	//$tab_options['CACHE']='RESET';
 	//suppression de la limite de cache
 	//si on est sur la m�me page mais pas sur le m�me onglet
-	if ($_SESSION['OCS']['csv'][$table_name] != $queryDetails ){
+	if ($_SESSION['OCS']['csv']['SQL'][$table_name] != $queryDetails or (isset($tab_options['ARG_SQL']) and $tab_options['ARG_SQL'] != $_SESSION['OCS']['csv']['ARG'][$table_name])){
 		unset($protectedPost['page']);
 		$tab_options['CACHE']='RESET';
 	}
@@ -944,7 +944,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		//on vide les valeurs pr�c�dentes
 		//pour optimiser la place sur le serveur
 		unset($_SESSION['OCS']['csv'],$_SESSION['OCS']['list_fields']);		
-		$_SESSION['OCS']['csv'][$table_name]=$queryDetails;
+		$_SESSION['OCS']['csv']['SQL'][$table_name]=$queryDetails;
+		if (isset($tab_options['ARG_SQL']))
+		$_SESSION['OCS']['csv']['ARG'][$table_name]=$tab_options['ARG_SQL'];
 		
 		//requete de count
 		if (!isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
