@@ -16,8 +16,8 @@ if($protectedPost['Valid_modif_x']){
 	$msg=$result['RESULT'];	
 	$tab_options['CACHE']='RESET';
 }
-//annule la cr�ation d'un groupe statique
-if ($protectedPost['Reset_modif_x']) 
+//reset add static group
+if ($protectedPost['Reset_modif_x'] or ($protectedPost['onglet'] != $protectedPost['old_onglet'])) 
  unset($protectedPost['add_static_group']);
  
 //view only your computers
@@ -137,7 +137,7 @@ $tab_options['FILTRE']=array('NAME'=>$l->g(679),'DESCRIPTION'=>$l->g(53));
 //affichage du tableau
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querygroup,$form_name,100,$tab_options); 
 
-//si super admin, on donne la possibilit� d'ajouter un nouveau groupe statique	
+//if your profil is an admin groups, you can create one
 if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	echo "</td></tr></table>";	
 	if ($protectedPost['onglet'] == "STAT")
@@ -146,32 +146,22 @@ if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 
 //if user want add a new group
 if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
-	$tdhdpb = "<td  align='left' width='20%'>";
-	$tdhfpb = "</td>";
-	$tdhd = "<td  align='left' width='20%'><b>";
-	$tdhf = ":</b></td>";
-	$img_modif="";
-		//list of input we can modify
-		$name=show_modif($protectedPost['NAME'],'NAME',0);
-		$description=show_modif($protectedPost['DESCR'],'DESCR',1);
-		//show new bottons
-		$button_valid="<input title='".$l->g(625)."' type='image'  src='image/modif_valid_v2.png' name='Valid_modif'>";
-		$button_reset="<input title='".$l->g(626)."' type='image'  src='image/modif_anul_v2.png' name='Reset_modif'>";
-	
-	echo "<br><br><table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
-	echo "<tr>".$tdhd.$l->g(577).$tdhf.$tdhdpb.$name.$tdhfpb;
-	echo "</tr>";
-	echo $tdhd."</b></td><td  align='left' width='20%' colspan='3'>";
-	echo "</tr><tr>".$tdhd.$l->g(53).$tdhf.$tdhdpb.$description.$tdhfpb;
-	echo "<tr><td align='left' colspan=4>".$button_valid."&nbsp&nbsp".$button_reset."&nbsp&nbsp".$img_modif."</td></tr>";
-	echo "$tdhfpb</table>";
-	echo "<input type='hidden' id='add_static_group' name='add_static_group' value='BYHIDDEN'>";
+	//NAME FIELD
+	$name_field[]="NAME";
+	$tab_name[]=$l->g(577);
+	$type_field[]=0;
+	$value_field[]=$protectedPost['NAME'];
+	$name_field[]="DESCR";
+	$tab_name[]=$l->g(53);
+	$type_field[]=1;
+	$value_field[]=$protectedPost['DESC'];
+	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
+	$tab_typ_champ[0]['CONFIG']['SIZE']=20;
+	$tab_hidden['add_static_group']='add_static_group';
+	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
 }
-
 			
-
-	echo '	</div>
-		';
+echo '</div>';
 //fermeture du formulaire
 echo "</form>";
 ?>
