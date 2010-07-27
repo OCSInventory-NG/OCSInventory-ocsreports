@@ -54,7 +54,7 @@ sub _ipdhcp {
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $logger = $params->{logger};
 
   my $description;
@@ -77,7 +77,7 @@ sub run {
   }
 
   if (defined ($gateway{'0.0.0.0'})) {
-    $inventory->setHardware({
+    $common->setHardware({
         DEFAULTGATEWAY => $gateway{'0.0.0.0'}
       });
   }
@@ -130,7 +130,7 @@ sub run {
         }
       }
 
-      $inventory->addNetwork({
+      $common->addNetwork({
 
           DESCRIPTION => $description,
           DRIVER => $driver,

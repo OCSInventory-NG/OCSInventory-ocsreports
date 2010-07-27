@@ -4,7 +4,7 @@ sub check  { $^O =~ /hpux/ }
 
 sub run {
    my $params = shift;
-   my $inventory = $params->{inventory};
+   my $common = $params->{common};
 
    my @all_type = ("tape","disk") ;
    my $type;
@@ -55,7 +55,7 @@ sub run {
 		   };
                  };
                  #print "vendor $vendor ref $ref type $type description $description path $path size $size\n";
-                 $inventory->addStorages({
+                 $common->addStorages({
                     MANUFACTURER => $vendor,
                     MODEL => $ref,
                     NAME => $devdsk,
@@ -70,7 +70,7 @@ sub run {
            # We look for tapes
 	   if ( /^\s+(\/dev\/rmt\/\Sm)\s+/ ) {
 	      $devdsk=$1;
-	   $inventory->addStorages({
+	   $common->addStorages({
                  MANUFACTURER => $vendor,
                  MODEL => $ref,
                  NAME => $devdsk,

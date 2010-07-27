@@ -5,7 +5,7 @@ sub check { $^O =~ /hpux/ }
 
 sub run { 
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $mem;
   my $swap;
@@ -19,7 +19,7 @@ sub run {
   $swap = `swapinfo -mdfq`;
 
 
-  $inventory->setHardware({
+  $common->setHardware({
       MEMORY =>  $mem,
       SWAP =>    $swap,
 			 });

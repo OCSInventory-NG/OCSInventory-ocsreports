@@ -4,14 +4,14 @@ sub check {can_run("pacman")}
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   foreach(`pacman -Q`){
       /^(\S+)\s+(\S+)/;
       my $name = $1;
       my $version = $2;
      
-      $inventory->addSoftware({
+      $common->addSoftware({
       'NAME' => $name,
       'VERSION' => $version
       });

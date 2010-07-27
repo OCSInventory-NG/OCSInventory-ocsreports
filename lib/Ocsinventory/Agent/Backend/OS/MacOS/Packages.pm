@@ -15,7 +15,7 @@ sub check {
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my $prof = Mac::SysProfile->new();
     my $apps = $prof->gettype('SPApplicationsDataType'); # might need to check version of darwin
@@ -27,7 +27,7 @@ sub run {
         my $a = $apps->{$app};
         my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
-        $inventory->addSoftware({
+        $common->addSoftware({
             'NAME'      => $app,
             'VERSION'   => $a->{'Version'} || 'unknown',
             'COMMENTS'  => $comments,

@@ -8,7 +8,7 @@ sub check { 1 }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   # Using "type 0" section
   my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
@@ -59,7 +59,7 @@ sub run {
   $BiosVersion .= "(Firmware :".$fw.")";
 
   # Writing data
-  $inventory->setBios ({
+  $common->setBios ({
       SMANUFACTURER => $SystemManufacturer,
       SMODEL => $SystemModel,
       SSN => $SystemSerial,

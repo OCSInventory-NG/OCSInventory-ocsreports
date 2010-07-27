@@ -8,7 +8,7 @@ sub check { can_run('virsh') }
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
 
     foreach (`virsh list --all`) {
@@ -37,7 +37,7 @@ sub run {
 
             };
 
-            $inventory->addVirtualMachine($machine);
+            $common->addVirtualMachine($machine);
 
         }
     }

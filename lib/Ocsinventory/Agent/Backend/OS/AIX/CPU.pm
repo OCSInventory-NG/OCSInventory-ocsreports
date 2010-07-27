@@ -46,7 +46,7 @@ sub lsattrForAIX4 {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   
   # TODO Need to be able to register different CPU speed!
   
@@ -84,7 +84,7 @@ sub run {
   }
   $processort =~ s/_/ /;
   
-  $inventory->setHardware({
+  $common->setHardware({
 
       PROCESSORT => $processort,
       PROCESSORN => $processorn,

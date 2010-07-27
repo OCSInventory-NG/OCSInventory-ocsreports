@@ -11,7 +11,7 @@ sub check { return can_run('VirtualBox') and can_run('VBoxManage') }
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
     my $scanhomedirs = $params->{accountinfo}{config}{scanhomedirs};
   
     my $cmd_list_vms = "VBoxManage -nologo list vms";
@@ -36,7 +36,7 @@ sub run {
             if ($line =~ m/^\s*$/) {                        # finish
                 $in = 0 ;
                 
-                $inventory->addVirtualMachine ({
+                $common->addVirtualMachine ({
                     NAME      => $name,
                     VCPU      => 1,
                     UUID      => $uuid,
@@ -59,7 +59,7 @@ sub run {
     }
     
     if ($in == 1) {     # Anormal situation ! save the current vm information ...
-        $inventory->addVirtualMachine ({
+        $common->addVirtualMachine ({
             NAME      => $name,
             VCPU      => 1,
             UUID      => $uuid,
@@ -94,7 +94,7 @@ sub run {
                   $vmRunnings [$index] = $uuid;   # save the no-root running machine
                   $index += 1;
                 } else {
-                  $inventory->addVirtualMachine ({  # add in inventory
+                  $common->addVirtualMachine ({  # add in inventory
                     NAME      => $name,
                     VCPU      => 1,
                     UUID      => $uuid,
@@ -127,7 +127,7 @@ sub run {
             }
           }
           
-          $inventory->addVirtualMachine ({
+          $common->addVirtualMachine ({
               NAME      => $data->{Machine}->{name},
               VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
               UUID      => $uuid,
@@ -164,7 +164,7 @@ sub run {
                 }
               }
               
-              $inventory->addVirtualMachine ({
+              $common->addVirtualMachine ({
                   NAME      => $data->{Machine}->{name},
                   VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
                   UUID      => $uuid,

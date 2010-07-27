@@ -10,13 +10,13 @@ sub check {
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my %user;
   # Logged on users
   for(`who`){
     my $user = $1 if /^(\S+)./;
-    $inventory->addUser ({ LOGIN => $user });
+    $common->addUser ({ LOGIN => $user });
   }
 
 }

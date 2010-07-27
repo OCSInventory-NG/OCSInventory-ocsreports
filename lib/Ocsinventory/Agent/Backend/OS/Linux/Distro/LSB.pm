@@ -4,7 +4,7 @@ sub check {can_run("lsb_release")}
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $release;
   foreach (`lsb_release -d`) {
@@ -13,7 +13,7 @@ sub run {
   my $OSComment;
   chomp($OSComment =`uname -v`);
 
-  $inventory->setHardware({ 
+  $common->setHardware({ 
       OSNAME => $release,
       OSCOMMENTS => "$OSComment"
     });

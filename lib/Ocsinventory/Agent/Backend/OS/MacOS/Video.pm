@@ -12,7 +12,7 @@ sub check {
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     # run the profiler to get our datatype
     my $pro = Mac::SysProfile->new();
@@ -25,7 +25,7 @@ sub run {
     foreach my $x (keys %$h){
         my $memory = $h->{$x}->{'VRAM (Total)'};
         $memory =~ s/ MB$//;
-        $inventory->addVideo({
+        $common->addVideo({
                 'NAME'        => $x,
                 'CHIPSET'     => $h->{$x}->{'Chipset Model'},
                 'MEMORY'    => $memory,
@@ -38,7 +38,7 @@ sub run {
             my $ref = $h->{$x}->{$display};
             next unless(ref($ref) eq 'HASH');
 
-            $inventory->addMonitor({
+            $common->addMonitor({
                 'CAPTION'       => $ref->{'Resolution'},
                 'DESCRIPTION'   => $display,
             })

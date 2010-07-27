@@ -5,7 +5,7 @@ sub check {can_run("df")}
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $free;
   my $filesystem;
@@ -33,7 +33,7 @@ sub run {
 
     next if $filesystem =~ /procfs/;
 
-    $inventory->addDrive({
+    $common->addDrive({
 	FREE => $free,
 	FILESYSTEM => $filesystem,
 	TOTAL => $total,

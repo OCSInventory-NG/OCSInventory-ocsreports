@@ -9,7 +9,7 @@ sub check {
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $hostname;
 
@@ -20,7 +20,7 @@ sub run {
   }
   $hostname =~ s/\..*//; # keep just the hostname
 
-  $inventory->setHardware ({NAME => $hostname});
+  $common->setHardware ({NAME => $hostname});
 }
 
 1;

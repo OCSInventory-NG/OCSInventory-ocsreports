@@ -13,7 +13,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $strComputer = '.';
   my $objWMIService = Win32::OLE->GetObject('winmgmts:' . '{impersonationLevel=impersonate}!\\\\' . $strComputer . '\\root\\cimv2');
@@ -43,7 +43,7 @@ foreach ($nic->IPAddress) {
 print ">>$ipaddress\n";
     $macaddr = $nic->MACAddress;
 
-    $inventory->addNetwork({
+    $common->addNetwork({
 	  DESCRIPTION => $description,
       IPADDRESS => $ipaddress,
       IPDHCP => $ipdhcp,

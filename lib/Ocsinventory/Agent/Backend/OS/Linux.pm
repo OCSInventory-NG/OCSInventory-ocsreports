@@ -8,7 +8,7 @@ sub check { $^O =~ /^linux$/ }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   chomp (my $osversion = `uname -r`);
 
@@ -24,7 +24,7 @@ sub run {
   }
   
   # This will probably be overwritten by a Linux::Distro module.
-  $inventory->setHardware({
+  $common->setHardware({
       OSNAME => "Linux",
       OSCOMMENTS => "Unknown Linux distribution",
       OSVERSION => $osversion,

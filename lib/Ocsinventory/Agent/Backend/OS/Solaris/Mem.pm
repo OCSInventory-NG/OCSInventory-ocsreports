@@ -6,7 +6,7 @@ sub check { can_run ("swap") && can_run ("prtconf") }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 #my $unit = 1024;
 
   my $PhysicalMemory;
@@ -23,7 +23,7 @@ sub run {
     if(/\s+(\S+)$/){$SwapFileSize = $1}; 
   }
 
-  $inventory->setHardware({
+  $common->setHardware({
       MEMORY =>  $PhysicalMemory,
       SWAP =>    $SwapFileSize
       });

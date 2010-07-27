@@ -24,6 +24,7 @@ sub new {
   my $self = {};
 
   $self->{logger} = $params->{logger};
+  $self->{config} = $params->{config};
 
   $self->{xmltags}={};
 
@@ -53,6 +54,11 @@ sub setSnmpCommons {
   $xmltags->{TYPE} = [$type?$type:''];
 }
 
+=item addController()
+
+Add a controller in the inventory.
+
+=cut
 sub addController {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -75,7 +81,11 @@ sub addController {
   };
 }
 
+=item addModem()
 
+Add a modem in the inventory.
+
+=cut
 sub addModem {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -92,6 +102,20 @@ sub addModem {
   };
 }
 
+# For compatibiliy
+sub addModems {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addModems to addModem()");
+   $self->addModem(@_);
+}
+
+=item addDrive()
+
+Add a partition in the inventory.
+
+=cut
 sub addDrive {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -117,7 +141,20 @@ sub addDrive {
     VOLUMN => [$volumn?$volumn:'']
   };
 }
+# For compatibiliy
+sub addDrives {
+   my $self = shift;
+   my $logger = $self->{logger};
 
+   $logger->debug("please rename addDrives to addDrive()");
+   $self->addDrive(@_);
+}
+
+=item addStorages()
+
+Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
+
+=cut
 sub addStorages {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -157,6 +194,21 @@ sub addStorages {
   };
 }
 
+# For compatibiliy
+sub addStorage {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addStorages to addStorage()");
+   $self->addStorage(@_);
+}
+
+
+=item addMemory()
+
+Add a memory module in the inventory.
+
+=cut
 sub addMemory {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -184,6 +236,20 @@ sub addMemory {
   };
 }
 
+# For compatibiliy
+sub addMemories {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addMemories to addMemory()");
+   $self->addMemory(@_);
+}
+
+=item addPort()
+
+Add a port module in the inventory.
+
+=cut
 sub addPorts{
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -205,6 +271,20 @@ sub addPorts{
   };
 }
 
+# For compatibiliy
+sub addPort {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addPorts to addPort()");
+   $self->addPort(@_);
+}
+
+=item addSlot()
+
+Add a slot in the inventory. 
+
+=cut
 sub addSlot {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -215,7 +295,7 @@ sub addSlot {
   my $status = $args->{STATUS};
 
 
-  push @{$xmltags->{xmlroot}{CONTENT}{SLOTS}},
+  push @{$xmltags->{SLOTS}},
   {
 
     DESCRIPTION => [$description?$description:''],
@@ -226,6 +306,20 @@ sub addSlot {
   };
 }
 
+# For compatibiliy
+sub addSlots {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addSlots to addSlot()");
+   $self->addSlot(@_);
+}
+
+=item addSoftware()
+
+Register a software in the inventory.
+
+=cut
 sub addSoftware {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -255,6 +349,20 @@ sub addSoftware {
   };
 }
 
+# For compatibiliy
+sub addSoftwares {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addSoftwares to addSoftware()");
+   $self->addSoftware(@_);
+}
+
+=item addMonitor()
+
+Add a monitor (screen) in the inventory.
+
+=cut
 sub addMonitor {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -280,6 +388,20 @@ sub addMonitor {
   };
 }
 
+# For compatibiliy
+sub addMonitors {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addMonitors to addMonitor()");
+   $self->addMonitor(@_);
+}
+
+=item addVideo()
+
+Add a video card in the inventory.
+
+=cut
 sub addVideo {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -300,6 +422,20 @@ sub addVideo {
   };
 }
 
+# For compatibiliy
+sub addVideos {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addVideos to addVideo()");
+   $self->addVideo(@_);
+}
+
+=item addSound()
+
+Add a sound card in the inventory.
+
+=cut
 sub addSound {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -318,6 +454,20 @@ sub addSound {
   };
 }
 
+# For compatibiliy
+sub addSounds {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addSounds to addSound()");
+   $self->addSound(@_);
+}
+
+=item addNetwork()
+
+Register a network in the inventory.
+
+=cut
 sub addNetwork {
   # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
   my ($self, $args) = @_; 
@@ -357,7 +507,24 @@ sub addNetwork {
 
   };
 }
+# For compatibiliy
+sub addNetworks {
+   my $self = shift;
+   my $logger = $self->{logger};
 
+   $logger->debug("please rename addNetworks to addNetwork()");
+   $self->addNetwork(@_);
+}
+
+
+=item setHardware()
+
+Save global information regarding the machine.
+
+The use of setHardware() to update USERID and PROCESSOR* informations is
+deprecated, please, use addUser() and addCPU() instead.
+
+=cut
 sub setHardware {
   my ($self, $args, $nonDeprecated) = @_; 
   my $xmltags=$self->{xmltags};
@@ -383,6 +550,11 @@ sub setHardware {
 }
 
 
+=item setBios()
+
+Set BIOS informations.
+
+=cut
 sub setBios {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -395,6 +567,11 @@ sub setBios {
   }
 }
 
+=item addCPU()
+
+Add a CPU in the inventory.
+
+=cut
 sub addCPU {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -416,9 +593,9 @@ sub addCPU {
   };
 
   # For the compatibility with HARDWARE/PROCESSOR*
-  my $processorn = int @{$self->{xmlroot}{CONTENT}{CPUS}};
-  my $processors = $self->{xmlroot}{CONTENT}{CPUS}[0]{SPEED}[0];
-  my $processort = $self->{xmlroot}{CONTENT}{CPUS}[0]{TYPE}[0];
+  my $processorn = int @{$xmltags->{CPUS}};
+  my $processors = $xmltags->{CPUS}[0]{SPEED}[0];
+  my $processort = $xmltags->{CPUS}[0]{TYPE}[0];
 
   $self->setHardware ({
     PROCESSORN => $processorn,
@@ -428,6 +605,11 @@ sub addCPU {
 
 }
 
+=item addUser()
+
+Add an user in the list of logged user.
+
+=cut
 sub addUser {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -440,7 +622,7 @@ sub addUser {
   return unless $login;
 
   # Is the login, already in the XML ?
-  foreach my $user (@{$self->{xmlroot}{CONTENT}{USERS}}) {
+  foreach my $user (@{$xmltags->{USERS}}) {
       return if $user->{LOGIN}[0] eq $login;
   }
 
@@ -454,7 +636,7 @@ sub addUser {
 
   };
 
-  my $userString = $self->{xmlroot}{CONTENT}{HARDWARE}{USERID}[0] || "";
+  my $userString = $xmltags->{HARDWARE}->{USERID}[0] || "";
 
   $userString .= '/' if $userString;
   $userString .= $login;
@@ -465,6 +647,11 @@ sub addUser {
 
 }
 
+=item addPrinter()
+
+Add a printer in the inventory.
+
+=cut
 sub addPrinter {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -485,6 +672,20 @@ sub addPrinter {
   };
 }
 
+# For compatibiliy
+sub addPrinters {
+   my $self = shift;
+   my $logger = $self->{logger};
+
+   $logger->debug("please rename addPrinters to addPrinter()");
+   $self->addPrinter(@_);
+}
+
+=item addVirtualMachine()
+
+Add a Virtual Machine in the inventory.
+
+=cut
 sub addVirtualMachine {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -515,6 +716,11 @@ sub addVirtualMachine {
 
 }
 
+=item addProcess()
+
+Record a running process in the inventory.
+
+=cut
 sub addProcess {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -542,7 +748,14 @@ sub addProcess {
 }
 
 
+=item addIpDiscoverEntry()
 
+IpDiscover is used to identify network interface on the local network. This
+is done on the ARP level.
+
+This function adds a network interface in the inventory.
+
+=cut
 sub addIpDiscoverEntry {
   my ($self, $args) = @_; 
   my $xmltags=$self->{xmltags};
@@ -562,6 +775,34 @@ sub addIpDiscoverEntry {
     N => [$name?$name:"-"], # '-' is the default value reteurned by ipdiscover
   };
 }
+
+
+=item setAccessLog()
+
+What is that for? :)
+
+=cut
+sub setAccessLog {
+  my ($self, $args) = @_;
+
+  foreach my $key (qw/USERID LOGDATE/) {
+
+    if (exists $args->{$key}) {
+      $self->{xmlroot}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
+    }
+  }
+}
+
+=item flushXMLTags()
+
+Clear the content of $common->{xmltags} (to use after adding it in XML)
+
+=cut
+sub flushXMLTags {
+  my $self= shift;
+  $self->{xmltags} = {};
+}
+
 
 ### Generic shared subroutines #####
 
@@ -653,8 +894,6 @@ sub already_in_array {
    }
    return 0;
 }
-
-
 
 
 1;

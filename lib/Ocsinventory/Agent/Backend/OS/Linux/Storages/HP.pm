@@ -31,7 +31,7 @@ sub run {
 
 
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
     my $logger = $params->{logger};
 
     my ($pd, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
@@ -98,7 +98,7 @@ sub run {
 
                     $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
 
-                    $inventory->addStorages({
+                    $common->addStorages({
                             NAME => $model,
                             MANUFACTURER => $manufacturer,
                             MODEL => $model,

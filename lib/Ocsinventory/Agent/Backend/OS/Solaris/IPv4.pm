@@ -5,7 +5,7 @@ sub check { can_run ("ifconfig") }
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my %ip;
   my $ip;
   my $hostn;
@@ -40,7 +40,7 @@ sub run {
   }
 
 
-  $inventory->setHardware({IPADDR => $ip});
+  $common->setHardware({IPADDR => $ip});
 }
 
 1;

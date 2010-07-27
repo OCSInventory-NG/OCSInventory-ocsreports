@@ -12,7 +12,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   
   my @tabOS;
   my $OSName;
@@ -28,7 +28,7 @@ sub run {
   $OSComment="Maintenance Level :".@tabOS[1];
 
   $OSVersion =~ s/(.0)*$//;
-  $inventory->setHardware({
+  $common->setHardware({
       OSNAME => "$OSName $OSVersion",
       OSCOMMENTS => $OSComment,
       OSVERSION => $OSLevel,

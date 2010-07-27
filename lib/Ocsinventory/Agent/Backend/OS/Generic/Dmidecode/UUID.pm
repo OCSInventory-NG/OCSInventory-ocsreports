@@ -6,7 +6,7 @@ sub check { return can_run('dmidecode') }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $uuid;
 
@@ -14,7 +14,7 @@ sub run {
   chomp($uuid);
   $uuid =~ s/\s+$//g;
 
-   $inventory->setHardware({
+   $common->setHardware({
       UUID => $uuid,
    });
 

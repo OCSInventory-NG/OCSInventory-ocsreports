@@ -5,7 +5,7 @@ sub check {can_run("lspci")}
 
 sub run {
 	my $params = shift;
-	my $inventory = $params->{inventory};
+	my $common = $params->{common};
 
 	my $driver;
 	my $name;
@@ -38,7 +38,7 @@ sub run {
 		
 
 		if ($pcislot && /^$/) {
-			$inventory->addController({
+			$common->addController({
 					'DRIVER'        => $driver,
 					'NAME'          => $name,
 					'MANUFACTURER'  => $manufacturer,

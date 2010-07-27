@@ -8,7 +8,7 @@ sub check {$^O =~ /^solaris$/}
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $OSName;
   my $OSComment;
@@ -40,7 +40,7 @@ sub run {
   chomp($platform=`uname -i`);
   $HWDescription = "$platform($karch)/$proct HostID=$hostid";
 
-  $inventory->setHardware({
+  $common->setHardware({
       OSNAME => "$OSName $OSLevel",
       OSCOMMENTS => $OSComment,
       OSVERSION => $OSVersion,

@@ -65,7 +65,7 @@ sub _ipdhcp {
 # Initialise the distro entry
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my $description;
     my $ipaddress;
@@ -115,7 +115,7 @@ sub run {
         my $binsubnet = $binip & $binmask;
         $ipsubnet = ip_bintoip($binsubnet,4);
         my $mask = ip_bintoip($binmask,4);
-        $inventory->addNetwork({
+        $common->addNetwork({
 
             DESCRIPTION => $description,
             IPADDRESS => ($status?$ipaddress:undef),

@@ -6,7 +6,7 @@ sub check {-r '/etc/fstab'}
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my @values;
   my @devices;
@@ -33,7 +33,7 @@ sub run {
     $model =~ s/^(\s|,)*//;
     $model =~ s/(\s|,)*$//;
 
-    $inventory->addStorages({
+    $common->addStorages({
 	MANUFACTURER => $manufacturer,
 	MODEL => $model,
 	DESCRIPTION => $dev,

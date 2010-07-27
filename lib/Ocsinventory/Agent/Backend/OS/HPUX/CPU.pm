@@ -15,7 +15,7 @@ sub check  { $^O =~ /hpux/ }
 
 sub run {
    my $params = shift;
-   my $inventory = $params->{inventory};
+   my $common = $params->{common};
 
    my $processort;
    my $processorn;
@@ -123,7 +123,7 @@ sub run {
    {
       $processort="PA$processort";
    }
-   $inventory->setHardware({
+   $common->setHardware({
 
       PROCESSORT => $processort,
       PROCESSORN => $processorn,

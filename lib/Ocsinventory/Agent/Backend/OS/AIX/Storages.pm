@@ -10,7 +10,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my(@disques, $device, $model, $capacity, $description, $manufacturer, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
   
@@ -40,7 +40,7 @@ sub run {
 	  if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
 	  if ((/^FC .+/) && $flag) {$flag=0;last}
 	}
-	$inventory->addStorages({
+	$common->addStorages({
 	  NAME => $device,
 	  MANUFACTURER => $manufacturer,
 	  MODEL => $model,
@@ -75,7 +75,7 @@ sub run {
 			$capacity=0;
 		}
 	}
-        $inventory->addStorages({
+        $common->addStorages({
           MANUFACTURER => "VIO Disk",
           MODEL => "Virtual Disk",
           DESCRIPTION => $description,
@@ -116,7 +116,7 @@ sub run {
 		if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
 		if ((/^FC .+/) && $flag) {$flag=0;last}
       }
-      $inventory->addStorages({
+      $common->addStorages({
 	    NAME => $device,
 	    MANUFACTURER => $manufacturer,
 	    MODEL => $model,
@@ -156,7 +156,7 @@ sub run {
 		if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
 		if ((/^FC .+/) && $flag) {$flag=0;last}
    	  }
-   	  $inventory->addStorages({
+   	  $common->addStorages({
 	    NAME => $device,
 	    MANUFACTURER => $manufacturer,
 	    MODEL => $model,
@@ -191,7 +191,7 @@ sub run {
       }
       #On le force en retour taille disquette non affichable
       $capacity ="";
-      $inventory->addStorages({
+      $common->addStorages({
 	    NAME => $device,
 	    MANUFACTURER => 'N/A',
 	    MODEL => 'N/A',

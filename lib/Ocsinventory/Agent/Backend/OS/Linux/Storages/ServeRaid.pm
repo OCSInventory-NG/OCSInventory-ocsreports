@@ -30,7 +30,7 @@ sub check {
 sub run {
 
 	my $params = shift;
-	my $inventory = $params->{inventory};
+	my $common = $params->{common};
 	my $logger = $params->{logger};
 	my $slot;
 
@@ -83,7 +83,7 @@ sub run {
 
 				 	$logger->debug("ServeRaid: found $model, $manufacturer, $model, SCSI, disk, $capacity, $serial, ");
 
-					$inventory->addStorages({
+					$common->addStorages({
 						NAME 		=> "$manufacturer $model",
 						MANUFACTURER 	=> $manufacturer,
 						MODEL 		=> $model,

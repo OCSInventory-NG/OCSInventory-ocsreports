@@ -9,7 +9,7 @@ sub check {
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     # create sysprofile obj. Return undef unless we get a return value
     my $pro = Mac::SysProfile->new();
@@ -46,7 +46,7 @@ sub run {
     }
 
 
-    $inventory->setHardware({
+    $common->setHardware({
         PROCESSORT  => $processort,
         PROCESSORN  => $processorn,
         PROCESSORS  => $processors,

@@ -8,7 +8,7 @@ sub check {
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $hostname;
 
@@ -19,7 +19,7 @@ sub run {
   
   $hostname = $nfo->{'System Software Overview'}->{'Computer Name'};
   
-  $inventory->setHardware ({NAME => $hostname}) if $hostname;
+  $common->setHardware ({NAME => $hostname}) if $hostname;
 }
 
 1;

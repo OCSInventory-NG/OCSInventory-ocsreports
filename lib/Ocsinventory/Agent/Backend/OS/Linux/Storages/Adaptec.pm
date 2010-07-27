@@ -25,7 +25,7 @@ sub check {
 sub run {
 
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $logger = $params->{logger};
 
   if (-r '/proc/scsi/scsi') {
@@ -60,7 +60,7 @@ sub run {
             $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
             $host = undef;
 
-            $inventory->addStorages({
+            $common->addStorages({
                 NAME => $hd->{NAME},
                 MANUFACTURER => $manufacturer,
                 MODEL => $model,

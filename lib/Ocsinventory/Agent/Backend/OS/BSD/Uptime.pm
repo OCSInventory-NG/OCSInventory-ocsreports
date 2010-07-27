@@ -9,7 +9,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   
   chomp (my $boottime = `sysctl -n kern.boottime`);
   $boottime = $1 if $boottime =~ /sec\s*=\s*(\d+)/;
@@ -24,7 +24,7 @@ sub run {
   
   chomp(my $DeviceType =`uname -m`);
 #  TODO$h->{'CONTENT'}{'HARDWARE'}{'DESCRIPTION'} = [ "$DeviceType/$uptime" ];
-  $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
+  $common->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
 }
 
 1

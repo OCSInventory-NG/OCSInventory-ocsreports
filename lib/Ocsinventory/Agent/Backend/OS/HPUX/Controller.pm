@@ -5,7 +5,7 @@ sub check { $^O =~ /hpux/ }
 
 sub run { 
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $name;
   my $interface;
@@ -22,7 +22,7 @@ sub run {
            $interface=$3;
            $info=$4;
            $type=$1;
-           $inventory->addController({
+           $common->addController({
                         'NAME'          => $name,
                         'MANUFACTURER'  => "$interface $info",
                         'TYPE'          => $type,

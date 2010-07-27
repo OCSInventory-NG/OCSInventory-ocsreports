@@ -22,7 +22,7 @@ sub check { can_read ("/proc/cpuinfo") };
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my @cpus;
   my $current;
@@ -51,7 +51,7 @@ sub run {
 
   foreach my $cpu (@cpus) {
     $cpu->{MANUFACTURER} = 'IBM' if $isIBM;
-    $inventory->addCPU($cpu);
+    $common->addCPU($cpu);
   }
 }
 

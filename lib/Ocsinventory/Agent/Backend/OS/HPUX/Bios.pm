@@ -13,7 +13,7 @@ sub check { $^O =~ /hpux/ }
 
 sub run { 
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $BiosVersion;
   my $BiosDate;
@@ -54,7 +54,7 @@ sub run {
      }
   }
 
-  $inventory->setBios ({
+  $common->setBios ({
       BVERSION => $BiosVersion,
       BDATE => $BiosDate,
       BMANUFACTURER => "HP",

@@ -14,7 +14,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $chaine ;
   my @tab;
 
@@ -24,7 +24,7 @@ sub run {
   my $publisher;
   foreach (`pkginfo -l`) {
     if (/^\s*$/) {
-      $inventory->addSoftware({
+      $common->addSoftware({
           'NAME'          => $name,
           'VERSION'       => $version,
           'COMMENTS'      => $comments,
@@ -59,7 +59,7 @@ sub run {
 		$chaine= `cat $_` ;
 		@tab = split(/;/, $chaine);
 		if (/^\/var\/sis\/(\S+).SIS/){
-				$inventory->addSoftware({
+				$common->addSoftware({
 					'VERSION'       => $tab[2],
 					'NAME'          => $tab[0]." ($1)",
 					'PUBLISHER'     => $tab[1],

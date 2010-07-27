@@ -5,7 +5,7 @@ sub check {can_run("ifconfig")}
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my @ip;
 
   #Looking for ip addresses with ifconfig, except loopback
@@ -15,7 +15,7 @@ sub run {
     if(/^\s*inet\s+(\S+).*/){($1=~/127.+/)?next:push @ip, $1};
   }
   $ip=join "/", @ip;
-  $inventory->setHardware({IPADDR => $ip});
+  $common->setHardware({IPADDR => $ip});
 }
 
 1;

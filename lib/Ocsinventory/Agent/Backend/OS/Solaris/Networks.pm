@@ -18,7 +18,7 @@ sub check {
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $description;
   my $ipaddress;
@@ -65,7 +65,7 @@ sub run {
 			  my $binsubnet = $binip & $binmask;
 			  $ipsubnet = ip_bintoip($binsubnet,4);     
 
-			  $inventory->addNetwork({
+			  $common->addNetwork({
 			  DESCRIPTION => $description,
 			  IPADDRESS => $ipaddress,	  
 			  IPGATEWAY => $ipgateway,
@@ -107,7 +107,7 @@ sub run {
 			  my $binsubnet = $binip & $binmask;
 			  $ipsubnet = ip_bintoip($binsubnet,4);     
 
-			  $inventory->addNetwork({
+			  $common->addNetwork({
 			  DESCRIPTION => $description,
 			  IPADDRESS => $ipaddress,	  
 			  IPGATEWAY => $ipgateway,

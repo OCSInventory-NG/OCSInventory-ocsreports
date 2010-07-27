@@ -9,7 +9,7 @@ sub check { return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun')
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
     my $logger = $params->{logger};
 
     my $uuid;
@@ -40,7 +40,7 @@ sub run {
             }
         }
 
-        $inventory->addVirtualMachine ({
+        $common->addVirtualMachine ({
                 NAME      => $name,
                 VCPU      => 1,
                 UUID      => $uuid,

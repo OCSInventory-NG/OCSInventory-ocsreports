@@ -5,7 +5,7 @@ sub check { $^O =~ /hpux/ }
 
 sub run { 
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $capacity=0;
   my $caption;
@@ -28,13 +28,13 @@ sub run {
          }
          elsif ( /(\w+IMM)\s+(\w+)\s+(\S+)\s+(\w+IMM)\s+(\w+)\s+(\S+)/ )
          {
-             $inventory->addMemories({
+             $common->addMemories({
                    CAPACITY => $3,
                    CAPTION => $2 ,
                    NUMSLOTS => "1" ,
                    TYPE => $1,
 			    });
-             $inventory->addMemories({
+             $common->addMemories({
                    CAPACITY => $6,
                    CAPTION => $5 ,
                    NUMSLOTS => "1" ,
@@ -96,7 +96,7 @@ sub run {
                    }
                 }
              }
-             $inventory->addMemories({
+             $common->addMemories({
                    CAPACITY => $capacity,
 	           CAPTION => "Ext $subnumslot Slot $numslot" ,
                    DESCRIPTION => "Part Number $description",

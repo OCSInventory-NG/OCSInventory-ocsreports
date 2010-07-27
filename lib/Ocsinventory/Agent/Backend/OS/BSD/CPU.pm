@@ -13,7 +13,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $processort;
   my $processorn;
@@ -35,7 +35,7 @@ sub run {
     $processort = `sysctl -n hw.model`;
   }
   
-  $inventory->setHardware({
+  $common->setHardware({
 
       PROCESSORT => $processort,
       PROCESSORN => $processorn,

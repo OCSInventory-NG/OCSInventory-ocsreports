@@ -3,7 +3,7 @@ use strict;
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $domain;
 
   #Domain name 
@@ -16,7 +16,7 @@ sub run {
   unless (defined($domain)){chomp($domain="WORKGROUP");}
   $domain=~s/^.\.(.)/$1/;
 
-  $inventory->setHardware({
+  $common->setHardware({
       WORKGROUP => $domain
     });
 

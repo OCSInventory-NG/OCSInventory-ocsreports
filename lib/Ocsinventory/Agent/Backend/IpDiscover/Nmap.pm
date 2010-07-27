@@ -30,7 +30,7 @@ sub check {
 sub run {
   my $params = shift;
 
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $prologresp = $params->{prologresp};
   my $logger = $params->{logger};
 
@@ -65,7 +65,7 @@ sub run {
     $logger->debug("Host $ip found using Nmap. Adding informations in XML");
 
     #Feeding the Inventory XML
-    $inventory->addIpDiscoverEntry({
+    $common->addIpDiscoverEntry({
       IPADDRESS => $ip,
        MACADDR => lc($mac),
        NAME => $hostname,

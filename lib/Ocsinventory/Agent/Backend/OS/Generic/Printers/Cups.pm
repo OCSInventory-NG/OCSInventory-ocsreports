@@ -10,7 +10,7 @@ sub check {
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my $cups = Net::CUPS->new();
     my $printer = $cups->getDestination();
@@ -20,7 +20,7 @@ sub run {
     # Just grab the default printer, is I use getDestinations, CUPS
     # returns all the printer of the local subnet (is it can)
     # TODO There is room for improvement here
-    $inventory->addPrinter({
+    $common->addPrinter({
             NAME    => $printer->getName(),
             DESCRIPTION => $printer->getDescription(),
 #                DRIVER =>  How to get the PPD?!!

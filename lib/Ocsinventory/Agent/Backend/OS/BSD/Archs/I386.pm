@@ -14,7 +14,7 @@ sub check{
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
     $BiosVersion, $BiosDate);
@@ -40,7 +40,7 @@ sub run {
   }
 
 # Writing data
-  $inventory->setBios ({
+  $common->setBios ({
       SMANUFACTURER => $SystemManufacturer,
       SMODEL => $SystemModel,
       SSN => $SystemSerial,
@@ -49,7 +49,7 @@ sub run {
       BDATE => $BiosDate,
     });
 
-  $inventory->setHardware({
+  $common->setHardware({
 
       PROCESSORT => $processort,
       PROCESSORN => $processorn,

@@ -30,7 +30,7 @@ sub run {
 
 
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $logger = $params->{logger};
 
   my $serialnumber;
@@ -59,7 +59,7 @@ sub run {
         my $manufacturer = Ocsinventory::Agent::Backend::OS::Linux::Storages::getManufacturer($model);
         $logger->debug("Lsilogic: $hd->{NAME}, $manufacturer, $model, SATA, disk, $size, $serialnumber, $firmware");
 
-        $inventory->addStorages({
+        $common->addStorages({
             NAME => $hd->{NAME},
             MANUFACTURER => $manufacturer,
             MODEL => $model,

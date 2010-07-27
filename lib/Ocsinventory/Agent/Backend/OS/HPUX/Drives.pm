@@ -4,7 +4,7 @@ sub check  { $^O =~ /hpux/ }
 
 sub run {
    my $params = shift;
-   my $inventory = $params->{inventory};
+   my $common = $params->{common};
 
    my $type;
    my $fs;
@@ -22,7 +22,7 @@ sub run {
            $total=$2;
            $free=$3;
            $fs=$6;
-	   $inventory->addDrives({
+	   $common->addDrives({
                FREE => $free,
                FILESYSTEM => $fs,
                TOTAL => $total,
@@ -39,7 +39,7 @@ sub run {
 	   $free=$3;
 	   $fs=$5;
 	# print "fs $fs lv $lv total $total free $free type $type\n";
-        $inventory->addDrives({
+        $common->addDrives({
            FREE => $free,
            FILESYSTEM => $fs,
            TOTAL => $total,

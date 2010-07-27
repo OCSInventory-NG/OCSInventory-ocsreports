@@ -15,7 +15,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my @list;
   my $buff;
@@ -25,7 +25,7 @@ sub run {
     next unless ($entry[1]);
     next if $entry[1] =~ /^device/;
 
-    $inventory->addSoftware({
+    $common->addSoftware({
 	'COMMENTS'      => $entry[6],
 	'FOLDER'	=> $entry[0],
 	'NAME'          => $entry[1],

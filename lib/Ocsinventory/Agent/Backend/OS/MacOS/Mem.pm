@@ -9,7 +9,7 @@ sub check {
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my $PhysicalMemory;
 
@@ -48,7 +48,7 @@ sub run {
                 $size =~ s/GB$//;
                 $size *= 1024;
         }
-        $inventory->addMemory({
+        $common->addMemory({
             'CAPACITY'      => $size,
             'SPEED'         => $h->{$x}->{'Speed'},
             'TYPE'          => $h->{$x}->{'Type'},

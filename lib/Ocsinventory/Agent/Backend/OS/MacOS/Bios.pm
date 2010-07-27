@@ -5,7 +5,7 @@ sub check { return can_load("Mac::SysProfile") }
 
 sub run {
         my $params = shift;
-        my $inventory = $params->{inventory};
+        my $common = $params->{common};
 
         # use Mac::SysProfile to get the respected datatype
         my $prof = Mac::SysProfile->new();
@@ -17,7 +17,7 @@ sub run {
 		my $h = $nfo->{'Hardware Overview'};
 
         # set the bios informaiton from the apple system profiler
-        $inventory->setBios({
+        $common->setBios({
                 SMANUFACTURER   => 'Apple Inc', # duh
                 SMODEL          => $h->{'Model Identifier'} || $h->{'Machine Model'},
         #       SSN             => $h->{'Serial Number'}

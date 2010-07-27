@@ -8,7 +8,7 @@ sub check  { $^O =~ /hpux/ }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $OSName;
   my $OSVersion;
   my $OSComment;
@@ -20,7 +20,7 @@ sub run {
   chomp($OSVersion = `uname -r`);
   chomp($OSComment = `uname -l`);
 
-  $inventory->setHardware({
+  $common->setHardware({
       OSNAME => $OSName,
       OSCOMMENTS => $OSComment,
       OSVERSION => $OSVersion,

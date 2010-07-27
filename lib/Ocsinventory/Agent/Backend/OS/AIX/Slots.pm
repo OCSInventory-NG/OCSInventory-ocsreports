@@ -4,7 +4,7 @@ sub check {can_run("lsdev")}
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   
   my $description;
   my $designation;
@@ -29,7 +29,7 @@ sub run {
 	    }
 	 if ((/^FC .+/) && $flag) {$flag=0;last}
 	 }	 	 
-    $inventory->addSlot({
+    $common->addSlot({
 	  DESCRIPTION =>  $description,
 	  DESIGNATION =>  $designation,
 	  NAME 		  =>  $name,

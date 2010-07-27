@@ -59,7 +59,7 @@ sub check {
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my $dmidecode = '/usr/sbin/dmidecode';
     my $cmd = '$dmidecode -t system';
@@ -86,7 +86,7 @@ sub run {
           $status = "Xen";
 
           # those information can't be extracted from dmidecode
-          $inventory->setBios ({
+          $common->setBios ({
             SMANUFACTURER => 'Xen',
             SMODEL => 'PVM domU'
           });
@@ -206,7 +206,7 @@ sub run {
         close(HSCSI);
     }
 
-    $inventory->setHardware ({
+    $common->setHardware ({
       VMSYSTEM => $status,
       });
 }

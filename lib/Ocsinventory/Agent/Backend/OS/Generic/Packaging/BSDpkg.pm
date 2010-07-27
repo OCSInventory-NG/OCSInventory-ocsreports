@@ -4,7 +4,7 @@ sub check {can_run("pkg_info")}
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   foreach(`pkg_info`){
       /^(\S+)-(\d+\S*)\s+(.*)/;
@@ -12,7 +12,7 @@ sub run {
       my $version = $2;
       my $comments = $3;
       
-      $inventory->addSoftware({
+      $common->addSoftware({
 	  'COMMENTS' => $comments,
 	  'NAME' => $name,
 	  'VERSION' => $version

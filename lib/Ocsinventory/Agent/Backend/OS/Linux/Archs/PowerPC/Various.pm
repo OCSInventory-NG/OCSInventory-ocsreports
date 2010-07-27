@@ -6,7 +6,7 @@ sub check { 1 };
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
 ############ Motherboard
   my $SystemManufacturer;
@@ -52,7 +52,7 @@ sub run {
    }
  }
   
-  $inventory->setBios ({
+  $common->setBios ({
       SMANUFACTURER => $SystemManufacturer,
       SMODEL => $SystemModel,
       SSN => $SystemSerial,

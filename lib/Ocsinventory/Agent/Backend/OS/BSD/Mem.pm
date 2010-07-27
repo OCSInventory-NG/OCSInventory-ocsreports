@@ -11,7 +11,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $PhysicalMemory;
   my $SwapFileSize;
@@ -26,7 +26,7 @@ sub run {
 	$PhysicalMemory=$PhysicalMemory/1024;
 	
 # Send it to inventory object
-  $inventory->setHardware({
+  $common->setHardware({
 
       MEMORY =>  sprintf("%i",$PhysicalMemory/1024),
       SWAP =>    sprintf("%i", $SwapFileSize/1024),

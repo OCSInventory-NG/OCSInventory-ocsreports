@@ -5,7 +5,7 @@ sub check { can_read ("/proc/meminfo") }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $unit = 1024;
 
   my $PhysicalMemory;
@@ -18,7 +18,7 @@ sub run {
     $SwapFileSize=$1 if /^swaptotal\s*:\s*(\S+)/i;
   }
 # TODO
-  $inventory->setHardware({
+  $common->setHardware({
 
       MEMORY =>  sprintf("%i",$PhysicalMemory/$unit),
       SWAP =>    sprintf("%i", $SwapFileSize/$unit),

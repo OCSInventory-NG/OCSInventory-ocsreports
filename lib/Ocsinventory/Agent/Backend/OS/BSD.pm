@@ -9,7 +9,7 @@ sub check { $^O =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd/ }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $OSName;
   my $OSComment;
@@ -33,7 +33,7 @@ sub run {
   # if there is a problem use uname -v
   chomp($OSComment=`uname -v`) unless $OSComment; 
   
-  $inventory->setHardware({
+  $common->setHardware({
       OSNAME => $OSName." ".$OSArchi,
       OSCOMMENTS => $OSComment,
       OSVERSION => $OSVersion,

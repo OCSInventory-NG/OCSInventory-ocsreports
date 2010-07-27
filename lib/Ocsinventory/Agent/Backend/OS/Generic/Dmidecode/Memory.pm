@@ -3,7 +3,7 @@ use strict;
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $dmidecode = `dmidecode`; # TODO retrieve error
   # some versions of dmidecode do not separate items with new lines
@@ -33,7 +33,7 @@ sub run {
     } elsif ($flag && /^$/) { # end of section
       $flag = 0;
 
-      $inventory->addMemory({
+      $common->addMemory({
 
 	  CAPACITY => $capacity,
 	  DESCRIPTION => $description,

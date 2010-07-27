@@ -10,7 +10,7 @@ sub check {
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my %user;
   # Logged on users
@@ -20,7 +20,7 @@ sub run {
 
   my $UsersLoggedIn = join "/", keys %user;
 
-  $inventory->setHardware ({ USERID => $UsersLoggedIn });
+  $common->setHardware ({ USERID => $UsersLoggedIn });
 
 }
 

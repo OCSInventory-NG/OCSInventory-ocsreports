@@ -10,7 +10,7 @@ sub check {
 
 sub run {
 	my $params = shift;
-	my $inventory = $params->{inventory};
+	my $common = $params->{common};
 	
 	my $name;
 	my $type;
@@ -22,7 +22,7 @@ sub run {
 		my $name = $1;
 		my $type = $2;
 		my $manufacturer = $3;
-		$inventory->addController({
+		$common->addController({
                         'NAME'          => $name,
                         'MANUFACTURER'  => $manufacturer,
                         'TYPE'          => $type,

@@ -4,7 +4,7 @@ sub check  { can_load("Net::IP qw(:PROC)"); }
 
 sub run {
    my $params = shift;
-   my $inventory = $params->{inventory};
+   my $common = $params->{common};
 
    my $name;
    my $lanid;
@@ -73,7 +73,7 @@ sub run {
        $binsubnet = $binip & $binmask;
        $ipsubnet = ip_bintoip($binsubnet,4);
 
-      $inventory->addNetworks({
+      $common->addNetworks({
 
           DESCRIPTION => $description,
           IPADDRESS => $ipaddress,

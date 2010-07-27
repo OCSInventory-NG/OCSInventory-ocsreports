@@ -5,7 +5,7 @@ sub check { can_read("/proc/cpuinfo") }
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my @cpu;
     my $current;
@@ -15,7 +15,7 @@ sub run {
         if (/^system type\s+:\s*:/) {
 
             if ($current) {
-                $inventory->addCPU($current);
+                $common->addCPU($current);
             }
 
             $current = {
@@ -29,7 +29,7 @@ sub run {
     }
 
     # The last one
-    $inventory->addCPU($current);
+    $common->addCPU($current);
 }
 
 1

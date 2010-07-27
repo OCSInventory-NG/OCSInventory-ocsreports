@@ -45,7 +45,7 @@ sub run {
   my $memcap;
   my $vcpu;
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $logger = $params->{logger};
 
   @zones = `/usr/sbin/zoneadm list -p`;
@@ -89,7 +89,7 @@ sub run {
 
         };
 
-        $inventory->addVirtualMachine($machine);
+        $common->addVirtualMachine($machine);
 
     }
 }

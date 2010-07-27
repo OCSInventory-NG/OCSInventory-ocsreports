@@ -13,7 +13,7 @@ sub check { can_run ("df") }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $free;
   my $filesystem;
@@ -45,7 +45,7 @@ sub run {
       }
       else {$type="";}	 
 #print "FILESYS ".$filesystem." FILETYP ".$type." TOTAL ".$total." FREE ".$free." VOLUMN ".$volumn."\n";
-      $inventory->addDrive({
+      $common->addDrive({
 	  FREE => $free,
 	  FILESYSTEM => $filesystem,
 	  TOTAL => $total,

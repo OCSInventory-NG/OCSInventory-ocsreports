@@ -11,11 +11,14 @@ sub new {
 
   my $self = {};
 
-  $self->{accountconfig} = $params->{accountconfig};
-  $self->{accountinfo} = $params->{accountinfo};
-  $self->{config} = $params->{config};
+  $self->{accountconfig} = $params->{context}->{accountconfig};
+  $self->{accountinfo} = $params->{context}->{accountinfo};
+  $self->{config} = $params->{context}->{config};
   $self->{inventory} = $params->{inventory};
-  my $logger = $self->{logger} = $params->{logger};
+
+  $self->{common} = $params->{context}->{common};
+
+  my $logger = $self->{logger} = $params->{context}->{logger};
   $self->{prologresp} = $params->{prologresp};
 
   $self->{modules} = {};
@@ -189,6 +192,7 @@ sub initModList {
 	    prologresp => $self->{prologresp},
 	    mem => $self->{modules}->{$m}->{mem},
 	    storage => $self->{modules}->{$m}->{storage},
+	    common => $self->{common},
 	})) {
       $logger->debug ($m." ignored");
       foreach (keys %{$self->{modules}}) {
@@ -232,7 +236,7 @@ sub runMod {
   my $logger = $self->{logger};
 
   my $m = $params->{modname};
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   return if (!$self->{modules}->{$m}->{enable});
   return if ($self->{modules}->{$m}->{done});
@@ -254,7 +258,7 @@ sub runMod {
       $logger->fault ("Circular dependency hell with $m and $_->{name}");
     }
     $self->runMod({
-        inventory => $inventory,
+        common => $common,
         modname => $_->{name},
       });
   }
@@ -269,12 +273,13 @@ sub runMod {
               accountconfig => $self->{accountconfig},
               accountinfo => $self->{accountinfo},
               config => $self->{config},
-              inventory => $inventory,
+              common => $common,
               logger => $logger,
               params => $self->{params}, # For compat with agent 0.0.10 <=
               prologresp => $self->{prologresp},
               mem => $self->{modules}->{$m}->{mem},
               storage => $self->{modules}->{$m}->{storage},
+              common => $self->{common},
           }
       );
   } else {
@@ -287,6 +292,9 @@ sub runMod {
 
 sub feedInventory {
   my ($self, $params) = @_;
+
+  my $common = $self->{common};
+
 
   my $inventory;
   if ($params->{inventory}) {
@@ -301,15 +309,17 @@ sub feedInventory {
   foreach my $m (sort keys %{$self->{modules}}) {
     die ">$m Houston!!!" unless $m;
       $self->runMod ({
-	  inventory => $inventory,
+	  common => $common,
 	  modname => $m,
 	  });
   }
 
 # Execution time
-  $inventory->setHardware({ETIME => time() - $begin});
+  #$common->setHardware({ETIME => time() - $begin});
 
   $inventory->{isInitialised} = 1;
+  $inventory->{xmlroot}->{CONTENT} = $common->{xmltags};
+
 
 }
 

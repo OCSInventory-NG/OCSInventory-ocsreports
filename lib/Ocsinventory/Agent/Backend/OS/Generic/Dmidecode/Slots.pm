@@ -4,7 +4,7 @@ use strict;
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $dmidecode = `dmidecode`;
   # some versions of dmidecode do not separate items with new lines
@@ -31,7 +31,7 @@ sub run {
     } elsif ($flag && /^$/) {
       $flag=0;
 
-      $inventory->addSlot({
+      $common->addSlot({
 	  DESCRIPTION =>  $description,
 	  DESIGNATION =>  $designation,
 	  NAME =>  $name,

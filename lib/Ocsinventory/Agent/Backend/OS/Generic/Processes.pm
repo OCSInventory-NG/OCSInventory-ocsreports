@@ -5,7 +5,7 @@ sub check {can_run("ps")}
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my $line;   
     my $begin;   
@@ -57,7 +57,7 @@ sub run {
                 $begin=$the_year."-".$mon."-".$mday." ".$started;
             }
 
-            $inventory->addProcess({
+            $common->addProcess({
                     'USER' => $user,
                     'PID' => $pid,
                     'CPUUSAGE' => $cpu,

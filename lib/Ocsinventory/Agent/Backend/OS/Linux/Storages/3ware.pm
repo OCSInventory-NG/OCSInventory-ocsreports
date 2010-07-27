@@ -40,7 +40,7 @@ sub run {
 
 
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $logger = $params->{logger};
 
   my ($tw_cli, $hd);
@@ -133,7 +133,7 @@ sub run {
               $manufacturer = Ocsinventory::Agent::Backend::OS::Linux::Storages::getManufacturer($model);
               $port = undef;
               $logger->debug("3ware: $device, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
-              $inventory->addStorages({
+              $common->addStorages({
                   NAME => $device,
                   MANUFACTURER => $manufacturer,
                   MODEL => $model,

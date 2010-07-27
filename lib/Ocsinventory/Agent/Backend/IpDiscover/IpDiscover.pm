@@ -8,7 +8,7 @@ sub check { can_run ("ipdiscover") }
 sub run {
   my $params = shift;
 
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $prologresp = $params->{prologresp};
   my $logger = $params->{logger};
 
@@ -53,7 +53,7 @@ sub run {
 
   foreach (`$cmd`) {
     if (/<H><I>([\d\.]*)<\/I><M>([\w\:]*)<\/M><N>(\S*)<\/N><\/H>/) {
-      $inventory->addIpDiscoverEntry({
+      $common->addIpDiscoverEntry({
         IPADDRESS => $1,
         MACADDR => $2,
         NAME => $3

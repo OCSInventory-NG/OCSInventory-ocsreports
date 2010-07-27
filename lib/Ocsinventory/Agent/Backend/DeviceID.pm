@@ -4,15 +4,15 @@ package Ocsinventory::Agent::Backend::DeviceID;
 # it generates in the main script.
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $config = $params->{config};
 
   my $UsersLoggedIn = join "/", keys %user;
 
   if ($config->{old_deviceid}) {
-    $inventory->setHardware({ OLD_DEVICEID => $config->{old_deviceid} });
+    $common->setHardware({ OLD_DEVICEID => $config->{old_deviceid} });
   }
-  $inventory->setHardware({ DEVICEID => $config->{deviceid} });
+  $common->setHardware({ DEVICEID => $config->{deviceid} });
 
 }
 

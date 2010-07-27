@@ -10,7 +10,7 @@ sub check {1}
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my $free;
     my $filesystem;
@@ -29,7 +29,7 @@ sub run {
             $free = sprintf("%i",$4/1024);
             $volumn = $6;
 
-          $inventory->addDrive({
+          $common->addDrive({
               FREE => $free,
               FILESYSTEM => $filesystem,
               TOTAL => $total,

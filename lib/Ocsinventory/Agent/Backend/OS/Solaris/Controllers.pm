@@ -5,7 +5,7 @@ sub check { can_run ("cfgadm") }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $name;
   my $type;
@@ -23,7 +23,7 @@ sub run {
     if(/^\S+\s+\S+\s+(\S+)/){
       $manufacturer = $1;
     }   			
-    $inventory->addController({
+    $common->addController({
 	'NAME'          => $name,
 	'MANUFACTURER'  => $manufacturer,
 	'TYPE'          => $type,

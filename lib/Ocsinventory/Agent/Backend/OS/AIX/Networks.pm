@@ -8,7 +8,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my %info;  
 
@@ -88,7 +88,7 @@ sub run {
       my $subnet = $binip & $binmask;
       $ipsubnet = ip_bintoip($subnet,4);
     }
-    $inventory->addNetwork({
+    $common->addNetwork({
 	DESCRIPTION => $description,
 	IPADDRESS => $ipaddress,
 	IPDHCP => $ipdhcp,

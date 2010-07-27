@@ -6,7 +6,7 @@ sub check { can_run('xm') }
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
 # output: xm list
 #
@@ -66,7 +66,7 @@ sub run {
                 VMID      => $vmid,
             };
 
-            $inventory->addVirtualMachine($machine);
+            $common->addVirtualMachine($machine);
         }
 }
 

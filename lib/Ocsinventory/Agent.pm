@@ -86,6 +86,7 @@ sub run {
 
     my $common = new Ocsinventory::Agent::Common({
             logger => $logger,
+            config => $config->{config},
     }); 
 
 	# $< == $REAL_USER_ID
@@ -284,22 +285,14 @@ sub run {
 
             # TODO, avoid to create Backend at two different places
             my $backend = new Ocsinventory::Agent::Backend ({
-
-                    accountinfo => $accountinfo,
-                    accountconfig => $accountconfig,
-                    logger => $logger,
-                    config => $config->{config},
-
+                    context => $context,
             });
 
 
             my $inventory = new Ocsinventory::Agent::XML::Inventory ({
                     # TODO, check if the accoun{info,config} are needed in localmode
-                    accountinfo => $accountinfo,
-                    accountconfig => $accountinfo,
                     backend => $backend,
-                    config => $config->{config},
-                    logger => $logger,
+                    context => $context,
             });
 
             if ($config->{config}{stdout}) {
@@ -376,20 +369,14 @@ sub run {
              } else { # Send the inventory!
 
                  my $backend = new Ocsinventory::Agent::Backend ({
-                        accountinfo => $accountinfo,
-                        accountconfig => $accountconfig,
-                        logger => $logger,
-                        config => $config->{config},
                         prologresp => $prologresp,
+                        context => $context,
                  });
 
                  my $inventory = new Ocsinventory::Agent::XML::Inventory ({
                         # TODO, check if the accoun{info,config} are needed in localmode
-                        accountinfo => $accountinfo,
-                        accountconfig => $accountinfo,
                         backend => $backend,
-                        config => $config->{config},
-                        logger => $logger,
+                        context => $context,
                  });
 
                  $backend->feedInventory ({inventory => $inventory});

@@ -5,7 +5,7 @@ sub check { can_run ("prtdiag") }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $description;
   my $designation;
@@ -50,7 +50,7 @@ sub run {
       $status = $1;
     }
     if($flag && $flag_pci){
-      $inventory->addSlot({
+      $common->addSlot({
           DESCRIPTION =>  $description,
           DESIGNATION =>  $designation,
           NAME            =>  $name,
@@ -82,7 +82,7 @@ sub run {
     	#print $_."\n";
 
         if($flag && $flag_pci){
-        $inventory->addSlot({
+        $common->addSlot({
           DESCRIPTION =>  $description,
           DESIGNATION =>  $designation,
           NAME            =>  $name,
@@ -101,7 +101,7 @@ sub run {
 	$description=$pci[0]." (".$pci[1].")";
 	$designation=$pci[3];
 	$status="";
-	$inventory->addSlot({
+	$common->addSlot({
           DESCRIPTION =>  $description,
           DESIGNATION =>  $designation,
           NAME            =>  $name,

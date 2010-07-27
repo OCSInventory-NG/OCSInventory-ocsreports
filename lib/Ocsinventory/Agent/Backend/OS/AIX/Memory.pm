@@ -4,7 +4,7 @@ sub check { 1 } # TODO create a better check here
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $capacity;
   my $description;
@@ -40,7 +40,7 @@ sub run {
 	if((/^FC .+/) && ($flag)) {
 		$flag=0;
 		$numslots = $numslots +1;
-		$inventory->addMemory({
+		$common->addMemory({
 		CAPACITY => $capacity,	
 	  	DESCRIPTION => $description,
 		CAPTION => $caption,
@@ -56,7 +56,7 @@ sub run {
 		$numslots = $numslots +1;
   # End of Loop
   # The last *FC ???????? missing
-		$inventory->addMemory({
+		$common->addMemory({
 		CAPACITY => $capacity,
 		DESCRIPTION => $description,
 		CAPTION => $caption,

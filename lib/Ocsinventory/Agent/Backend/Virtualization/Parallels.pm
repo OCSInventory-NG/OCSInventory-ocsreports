@@ -6,7 +6,7 @@ sub check { return can_run('prlctl') }
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
     my $config = $params->{config};
 
     my %status_list = (
@@ -62,7 +62,7 @@ sub run {
             }
         }
 
-        $inventory->addVirtualMachine ({
+        $common->addVirtualMachine ({
                 NAME      => $name,
                 VCPU      => $cpus,
                 UUID      => $uuid,

@@ -576,7 +576,7 @@ sub group_by2 {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $logger = $params->{logger};
 
   my $raw_perl = 1;
@@ -610,7 +610,7 @@ sub run {
       chomp($base64 = `echo $raw_edid|uuencode -m -`);
     }
   }
-  $inventory->addMonitors ({
+  $common->addMonitors ({
 
       BASE64 => $base64,
       CAPTION => $caption,

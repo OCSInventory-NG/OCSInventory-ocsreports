@@ -6,7 +6,7 @@ sub check { can_read ("/proc/cpuinfo") };
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my @cpu;
     my $current = { ARCH => 'ARM' };
@@ -20,7 +20,7 @@ sub run {
     }
 
     foreach (1..$ncpus) {
-        $inventory->addCPU($current);
+        $common->addCPU($current);
     }
 }
 

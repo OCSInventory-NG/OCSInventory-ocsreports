@@ -5,7 +5,7 @@ sub check { can_run ("domainname") }
 
 sub run { 
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $domain;
 
@@ -24,7 +24,7 @@ sub run {
   }
 # If no domain name, we send "WORKGROUP"
   $domain = 'WORKGROUP' unless $domain;
-  $inventory->setHardware({
+  $common->setHardware({
       WORKGROUP => $domain
       });
 }

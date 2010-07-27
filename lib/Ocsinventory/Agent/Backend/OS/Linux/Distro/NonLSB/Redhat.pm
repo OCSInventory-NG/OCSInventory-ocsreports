@@ -21,12 +21,12 @@ sub findRelease {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $OSComment;
   chomp($OSComment =`uname -v`);
 
-  $inventory->setHardware({
+  $common->setHardware({
       OSNAME => findRelease(),
       OSCOMMENTS => "$OSComment"
     });

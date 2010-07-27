@@ -11,7 +11,7 @@ sub check {
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     # create profiler obj, bail if datatype fails
     my $pro = Mac::SysProfile->new();
@@ -20,7 +20,7 @@ sub run {
 
     # add sound cards
     foreach my $x (keys %$h){
-        $inventory->addSound({
+        $common->addSound({
             'NAME'          => $x,
             'MANUFACTURER'  => $x,
             'DESCRIPTION'   => $x,

@@ -7,7 +7,7 @@ sub check { can_run('vmware-cmd') }
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
 
     foreach my $vmx (`vmware-cmd -l`) {
@@ -52,7 +52,7 @@ sub run {
 
         };
 
-        $inventory->addVirtualMachine($machine);
+        $common->addVirtualMachine($machine);
 
 
     }

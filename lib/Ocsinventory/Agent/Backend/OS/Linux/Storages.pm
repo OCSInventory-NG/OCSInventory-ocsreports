@@ -116,7 +116,7 @@ sub correctHdparmAvailable {
 sub run {
   my $params = shift;
   my $logger = $params->{logger};
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $devices = {};
 
@@ -291,7 +291,7 @@ sub run {
         $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME});
       }
 
-      $inventory->addStorages($devices->{$device});
+      $common->addStorages($devices->{$device});
     }
 
 }

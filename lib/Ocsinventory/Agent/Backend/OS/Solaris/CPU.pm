@@ -17,7 +17,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   #modif 20100329 
   my @cpu;
@@ -267,12 +267,12 @@ sub run {
 	$current->{NUMBER} = $cpu_slot if $cpu_slot;
 	$current->{CORE} = $cpu_core if $cpu_core;
 	$current->{THREAD} = $cpu_thread if $cpu_thread;
-  $inventory->addCPU($current);
+  $common->addCPU($current);
   
   
   
   # insert to values we have found
- # $inventory->setHardware({
+ # $common->setHardware({
    #   PROCESSORT => $cpu_type,
      #PROCESSORN => $cpu_slot,
      # PROCESSORS => $cpu_speed

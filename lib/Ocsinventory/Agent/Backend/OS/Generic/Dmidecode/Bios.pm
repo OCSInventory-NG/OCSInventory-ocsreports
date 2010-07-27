@@ -3,7 +3,7 @@ use strict;
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
 # Parsing dmidecode output
 # Using "type 0" section
@@ -61,7 +61,7 @@ sub run {
   }
 
 # Writing data
-  $inventory->setBios ({
+  $common->setBios ({
       ASSETTAG => $AssetTag,
       SMANUFACTURER => $SystemManufacturer,
       SMODEL => $SystemModel,

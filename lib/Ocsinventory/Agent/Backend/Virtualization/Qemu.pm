@@ -7,7 +7,7 @@ sub check { return (can_run('qemu') || can_run('kvm') || can_run('qemu-kvm'))}
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     foreach ( `ps -ef` ) {
         if (m/^.*((qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|cdrom).*)$/) {
@@ -37,7 +37,7 @@ sub run {
                 $mem = 128;
             }
             
-            $inventory->addVirtualMachine ({
+            $common->addVirtualMachine ({
                 NAME      => $name,
                 UUID      => $uuid,
                 VCPU      => 1,

@@ -19,7 +19,7 @@ sub check {
 sub run()
 {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
     my $ligne;
     my $soft;
     my $comm;
@@ -29,12 +29,12 @@ sub run()
     my $commentaire;
     my @dots;
 
-    if (!$file || !-d $file) {
-        foreach (@{$inventory->{config}{etcdir}}) {
+    #if (!$file || !-d $file) {
+        foreach (@{$common->{config}{etcdir}}) {
             $file = $_.'/softwares';
             last if -d $file;
         }
-    }
+    #}
     my $logger = $params->{logger};
 
     if ( opendir(my $dh, $file) )
@@ -50,7 +50,7 @@ sub run()
                     $ligne = $_;
                     chomp($ligne);
                     ($vendor,$soft,$version,$commentaire) = split(/\#/,$ligne);
-                    $inventory->addSoftware ({
+                    $common->addSoftware ({
                             'PUBLISHER' => $vendor,
                             'NAME'          => $soft,
                             'VERSION'       => $version,

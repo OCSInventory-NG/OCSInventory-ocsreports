@@ -9,7 +9,7 @@ sub check {
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     # stolen code from bsd.
     chomp (my $boottime = `sysctl -n kern.boottime`);
@@ -24,6 +24,6 @@ sub run {
     $uptime=sprintf "%02d-%02d-%02d %02d:%02d:%02d", ($UYEAR-70), $UMONTH, ($UDAY-1), $UHOUR, $UMIN, $USEC;
 
     chomp(my $DeviceType =`uname -m`);
-    $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
+    $common->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
 }
 1;

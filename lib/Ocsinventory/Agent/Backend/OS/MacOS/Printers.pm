@@ -11,14 +11,14 @@ sub check {
 
 sub run {
     my $params = shift;
-    my $inventory = $params->{inventory};
+    my $common = $params->{common};
 
     my $pro = Mac::SysProfile->new();
     my $h = $pro->gettype(DATATYPE());
     return(undef) unless(ref($h) eq 'HASH');
 
     foreach my $printer (keys %$h){
-        $inventory->addPrinter({
+        $common->addPrinter({
                 NAME    => $printer,
                 DRIVER  => $h->{$printer}->{'PPD'},
 		PORT	=> $h->{$printer}->{'URI'},

@@ -7,12 +7,12 @@ sub check {can_run("equery")}
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
 # TODO: This had been rewrite from the Linux agent _WITHOUT_ being checked!
   foreach (`equery list -i`){
     if (/^([a-z]\w+-\w+\/\w+)-([0-9]+.*)/) {
-      $inventory->addSoftware({
+      $common->addSoftware({
 	  'NAME'          => $1,
 	  'VERSION'       => $2,
 	  });

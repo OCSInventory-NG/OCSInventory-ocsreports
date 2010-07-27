@@ -63,7 +63,7 @@ sub check { can_run ("showrev") }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $zone;
   my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
     $BiosVersion, $BiosDate, $aarch);
@@ -145,7 +145,7 @@ sub run {
 	}
  
   # Writing data
-  $inventory->setBios ({
+  $common->setBios ({
       BVERSION => $BiosVersion,
       BDATE => $BiosDate,
       SMANUFACTURER => $SystemManufacturer,

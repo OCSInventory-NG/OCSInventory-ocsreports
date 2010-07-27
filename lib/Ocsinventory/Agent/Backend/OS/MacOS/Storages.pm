@@ -27,7 +27,7 @@ sub run {
 
   my $params = shift;
   my $logger = $params->{logger};
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $devices = {};
 
@@ -111,7 +111,7 @@ sub run {
   }
 
   foreach my $device ( keys %$devices ) {
-    $inventory->addStorages($devices->{$device});
+    $common->addStorages($devices->{$device});
   }
   
 #  warn Dumper($devices);

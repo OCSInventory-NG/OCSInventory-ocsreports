@@ -3,7 +3,7 @@ use strict;
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   foreach(`lspci`){
 
@@ -12,7 +12,7 @@ sub run {
       my $description = $2;
 
 
-      $inventory->addModems({
+      $common->addModems({
 	  'DESCRIPTION'  => $description,
 	  'NAME'          => $name,
 	});

@@ -26,7 +26,7 @@ sub check {
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $description;
   my $ipaddress;
@@ -61,7 +61,7 @@ sub run {
   $status = 1 if $ipaddress != '0.0.0.0';
   $type = 'Ethernet';
 
-  $inventory->addNetwork({
+  $common->addNetwork({
       
       DESCRIPTION => $description,
       IPADDRESS => $ipaddress,

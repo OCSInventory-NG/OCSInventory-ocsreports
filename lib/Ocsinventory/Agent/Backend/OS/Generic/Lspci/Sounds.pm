@@ -3,13 +3,13 @@ use strict;
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   foreach(`lspci`){
 
     if(/audio/i && /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
 
-      $inventory->addSound({
+      $common->addSound({
 	  'DESCRIPTION'  => $3,
 	  'MANUFACTURER' => $2,
 	  'NAME'     => $1,

@@ -11,7 +11,7 @@ sub check  {
 
 sub run {
    my $params = shift;
-   my $inventory = $params->{inventory};
+   my $common = $params->{common};
 
    my @softList;
    my $software;
@@ -22,7 +22,7 @@ sub run {
    foreach $software (@softList) {
       chomp( $software );
       if ( $software =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
-         $inventory->addSoftwares({
+         $common->addSoftwares({
                         'NAME'          => $1  ,
                         'VERSION'       => $2 ,
                         'COMMENTS'      => $3 ,

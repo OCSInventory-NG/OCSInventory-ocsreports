@@ -8,7 +8,7 @@ sub check {
 # Initialise the distro entry
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my @ip;
   foreach (`ifconfig`){
     if(/^\s*inet add?r\s*:\s*(\S+)/){
@@ -18,7 +18,7 @@ sub run {
 
   my $ip=join "/", @ip;
 
-  $inventory->setHardware({IPADDR => $ip});
+  $common->setHardware({IPADDR => $ip});
 }
 
 1;

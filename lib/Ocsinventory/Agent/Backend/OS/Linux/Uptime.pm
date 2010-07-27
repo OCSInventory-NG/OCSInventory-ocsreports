@@ -5,7 +5,7 @@ sub check { can_read("/proc/uptime") }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   # Uptime
   open UPTIME, "/proc/uptime";
@@ -21,7 +21,7 @@ sub run {
   
   chomp(my $DeviceType =`uname -m`);
 #  TODO$h->{'CONTENT'}{'HARDWARE'}{'DESCRIPTION'} = [ "$DeviceType/$uptime" ];
-  $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
+  $common->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
 }
 
 1

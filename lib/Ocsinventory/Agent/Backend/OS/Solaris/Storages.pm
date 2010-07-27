@@ -20,7 +20,7 @@ sub check { can_run ("iostat") }
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
 
   my $manufacturer;
   my $model;
@@ -57,7 +57,7 @@ sub run {
       elsif( $rdisk_path =~ /.*->.*scsi@.*/ ) {
         $type="SCSI";
       }
-      $inventory->addStorages({
+      $common->addStorages({
 	  NAME => $name,
 	  MANUFACTURER => $manufacturer,
 	  MODEL => $model,

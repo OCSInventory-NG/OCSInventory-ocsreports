@@ -10,7 +10,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   
   my $memory;
   my $swap;
@@ -40,7 +40,7 @@ sub run {
 	}
   }
   
-  $inventory->setHardware({
+  $common->setHardware({
       MEMORY => $memory,
       SWAP => $swap 
     });

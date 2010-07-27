@@ -14,7 +14,7 @@ sub check {
 
 sub run {
   my $params = shift;
-  my $inventory = $params->{inventory};
+  my $common = $params->{common};
   my $logger = $params->{logger};
 
   my @list;
@@ -24,7 +24,7 @@ sub run {
       chomp;
       $buff .= $_;
     } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+(.*)//) {
-    $inventory->addSoftware({
+    $common->addSoftware({
         'NAME'          => $1,
         'VERSION'       => $2,
         'INSTALLDATE'   => $3,
