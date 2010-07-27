@@ -53,7 +53,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 	echo "</Td></tr></table>";
 }
 echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td align='center'>
-	<b>Ver. 2.0A &nbsp&nbsp&nbsp;</b>";
+	<b>Ver. " . GUI_VER . " &nbsp&nbsp&nbsp;</b>";
 	//pass in debug mode if plugin debug exist
 	if (isset($pages_refs['ms_debug'])){
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'";

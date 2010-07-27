@@ -25,7 +25,7 @@ if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])){
 	$values=look_config_default_values('GUI_VERSION');
 	$_SESSION['OCS']['SQL_BASE_VERS']=$values['tvalue']['GUI_VERSION'];
 }
-if (GUI_VER	> $_SESSION['OCS']['SQL_BASE_VERS']){
+if (GUI_VER	!= $_SESSION['OCS']['SQL_BASE_VERS']){
 	unset($_SESSION['OCS']['SQL_BASE_VERS']);
 	$fromAuto = true;
 	require('install.php');

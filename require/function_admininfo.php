@@ -9,6 +9,27 @@ $sql_type_accountinfo=array('VARCHAR(255)','LONGTEXT','VARCHAR(255)',
 
 $convert_type=array('0','1','2','3','5','8','0','11');
 
+
+function accountinfo_tab($id){
+	global $type_accountinfo;
+	$info_tag=find_info_accountinfo($id);
+	//print_r($info_tag);
+	if ($info_tag[$id]['type'] == 2 
+		or $info_tag[$id]['type'] == 4
+		or $info_tag[$id]['type'] == 7){
+		$info=find_value_field($info_tag[$id]['name']);		
+		return $info;
+	}elseif ( $info_tag[$id]['type'] == 5)
+		return false;
+	
+	return true;
+	//if ()
+	
+}
+
+
+
+
 function max_order($table,$field){
 	$sql="SELECT max(%s) as max_id FROM %s";
 	$arg=array($field,$table);
@@ -342,6 +363,7 @@ function updateinfo_computer($id,$values,$list=''){
 	mysql2_query_secure($sql_account_data,$_SESSION['OCS']["readServer"],$arg_account_data);
 	return $l->g(1121);	
 }
+
 
 
 

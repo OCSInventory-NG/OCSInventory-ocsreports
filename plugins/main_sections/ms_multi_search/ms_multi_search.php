@@ -666,6 +666,17 @@ if ($list_id != "")	{
 						$l->g(652).": ".$l->g(111)=>'h.WINPRODKEY',
 						$l->g(652).": ".$l->g(553)=>'h.WINPRODID');
 	$list_fields=array_merge ($list_fields_account_info,$list_fields);
+	
+	//BEGIN SHOW ACCOUNTINFO
+	require_once('require/function_admininfo.php');
+	$info_tag=find_info_accountinfo();
+	foreach ($info_tag as $key=>$value){
+		$info_value_tag= accountinfo_tab($value['id']);		
+		if (is_array($info_value_tag)){
+			$tab_options['REPLACE_VALUE']["Accinf: ".$value['comment']]=$info_value_tag;
+		}		
+	}
+	//END SHOW ACCOUNTINFO
 	$queryDetails = 'SELECT ';
 	//changement de nom lors de la requete
 	$tab_options['AS']['h.NAME']="name_of_machine";

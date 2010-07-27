@@ -33,11 +33,11 @@ require_once('require/function_ipdiscover.php');
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != ''){
 	 	
 	 	$array_rsx=array_keys($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
-	$list_rsx=implode("','",$array_rsx);
+	//$list_rsx=implode("','",$array_rsx);
 	 	
 	 	//print_r($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
 	 	$tab_options['VALUE']['LBL_RSX']=$_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]];
-	// //	foreach ($_SESSION['OCS']["ipdiscover"][]) ('".$list_rsx."')
+		$arg_sql=array();
 	 	$sql=" select * from (select inv.RSX as ID,
 					  inv.c as 'INVENTORIE',
 					  non_ident.c as 'NON_INVENTORIE',
@@ -46,30 +46,34 @@ require_once('require/function_ipdiscover.php');
 					  round(100-(non_ident.c*100/(ident.c+non_ident.c)),1) as 'pourcentage'
 			  from (SELECT COUNT(DISTINCT hardware_id) as c,'IPDISCOVER' as TYPE,tvalue as RSX
 					FROM devices 
-					WHERE name='IPDISCOVER' and tvalue in  ('".$list_rsx."')
-					GROUP BY tvalue) 
+					WHERE name='IPDISCOVER' and tvalue in  ";
+	 	$arg=mysql2_prepare($sql,$arg_sql,$array_rsx);
+	 	$arg['SQL'] .= " GROUP BY tvalue) 
 				ipdiscover right join
 				   (SELECT count(distinct(id)) as c,'INVENTORIE' as TYPE,ipsubnet as RSX
 					FROM networks 
-					WHERE ipsubnet in  ('".$list_rsx."')
-					GROUP BY ipsubnet) 
+					WHERE ipsubnet in  ";
+	 	$arg=mysql2_prepare($arg['SQL'],$arg['ARG'],$array_rsx);
+	 	$arg['SQL'] .= " GROUP BY ipsubnet) 
 				inv on ipdiscover.RSX=inv.RSX left join
 					(SELECT COUNT(DISTINCT mac) as c,'IDENTIFIE' as TYPE,netid as RSX
 					FROM netmap 
 					WHERE mac IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and netid in  ('".$list_rsx."')
-					GROUP BY netid) 
+						and netid in  ";
+	 	$arg=mysql2_prepare($arg['SQL'],$arg['ARG'],$array_rsx);
+	 	$arg['SQL'] .= " GROUP BY netid) 
 				ident on ipdiscover.RSX=ident.RSX left join
 					(SELECT COUNT(DISTINCT mac) as c,'NON IDENTIFIE' as TYPE,netid as RSX
 					FROM netmap n
 					LEFT JOIN networks ns ON ns.macaddr=n.mac
 					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
 						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
-						and n.netid in  ('".$list_rsx."')
-						GROUP BY n.netid) 
+						and n.netid in  ";
+	 	$arg=mysql2_prepare($arg['SQL'],$arg['ARG'],$array_rsx);
+	 	$arg['SQL'] .= " GROUP BY netid) 
 				non_ident on non_ident.RSX=ipdiscover.RSX 
 				) toto";
-
+	$tab_options['ARG_SQL']=$arg['ARG'];
 		$list_fields= array('LBL_RSX' => 'LBL_RSX','RSX'=>'ID',
 								'INVENTORIE'=>'INVENTORIE',
 								'NON_INVENTORIE'=>'NON_INVENTORIE',
@@ -83,13 +87,18 @@ require_once('require/function_ipdiscover.php');
 	$list_col_cant_del=array('RSX'=>'RSX','SUP'=>'SUP');
 	$tab_options['LIEN_LBL']['INVENTORIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=ipdiscover&value=';
 	$tab_options['LIEN_CHAMP']['INVENTORIE']='ID';
+	$tab_options['NO_LIEN_CHAMP']['INVENTORIE']=array(0);
+	
 	$tab_options['LIEN_LBL']['IPDISCOVER']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=ipdiscover1&value=';
 	$tab_options['LIEN_CHAMP']['IPDISCOVER']='ID';
+	$tab_options['NO_LIEN_CHAMP']['IPDISCOVER']=array(0);
+	
 	$tab_options['LIEN_LBL']['NON_INVENTORIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&prov=no_inv&head=1&value=';
 	$tab_options['LIEN_CHAMP']['NON_INVENTORIE']='ID';
 	$tab_options['LIEN_TYPE']['NON_INVENTORIE']='POPUP';
 	$tab_options['POPUP_SIZE']['NON_INVENTORIE']="width=900,height=600";
 	$tab_options['NO_LIEN_CHAMP']['NON_INVENTORIE']=array(0);
+	
 	$tab_options['LIEN_LBL']['IDENTIFIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&prov=ident&head=1&value=';
 	$tab_options['LIEN_CHAMP']['IDENTIFIE']='ID';
 	$tab_options['LIEN_TYPE']['IDENTIFIE']='POPUP';
@@ -141,7 +150,7 @@ require_once('require/function_ipdiscover.php');
 		printEnTete($strEnTete);
 		echo "<br><br>";
 
-	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
+	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$arg['SQL'] ,$form_name,80,$tab_options); 
 	if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
 		function_admin();
 }

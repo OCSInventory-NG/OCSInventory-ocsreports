@@ -83,12 +83,9 @@
 142 Administrateurs locaux
 146 Veuillez choisir un administrateur
 147 Attention, vous allez supprimer les droits définitivement !
-148 CODE INCONNU
-149 Codes unités sous la responsabilité de
 150 droit(s) ajouté(s)
 151 droit(s) supprimé(s)
 152 Attention, cette opération écrase les droits de l'administrateur cible !
-153 Aucun code unité affecté à cet administrateur
 154 Ajouter un code à un administrateur
 155 Ajouter administrateur à un code
 156 Ajouter un code unité

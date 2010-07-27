@@ -14,20 +14,19 @@ function search_profil(){
 	return $list_profil;
 }
 
+//Function to delete one or an array of user
 function delete_list_user($list_to_delete){
-	$list = "'".implode("','", explode(",",$list_to_delete))."'";
-	$sql_delete="delete from tags where login in (".$list.")";
-	mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
-	$sql_delete="delete from operators where id in (".$list.")";
-	mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
-}	
+	$table=array('tags'=>'login','operators'=>'id');
 	
-function delete_user($id_user){
-	$sql_delete="delete from tags where login='".$id_user."'";
-	mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
-	$sql_delete="delete from operators where id= '".$id_user."'";
-	mysql_query($sql_delete, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));	
-}
+	foreach ($table as $table_name=>$field){
+		$arg_sql=array($table_name,$field);
+		$sql_delete="delete from %s where %s in ";
+		$sql_delete=mysql2_prepare($sql_delete,$arg_sql,$list_to_delete);
+		mysql2_query_secure($sql_delete['SQL'], $_SESSION['OCS']["writeServer"],$sql_delete['ARG']);
+	}
+
+}	
+
 
 function add_user($data_user,$list_profil=''){
 	global $l;
@@ -38,41 +37,54 @@ function add_user($data_user,$list_profil=''){
 			$ERROR=$l->g(998);
 	}
 	if (!isset($ERROR)){
-		$sql="select id from operators where id= '".$data_user['ID']."'";
-		$res=mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$sql="select id from operators where id= '%s'";
+		$arg=$data_user['ID'];
+		$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 		$row=mysql_fetch_object($res);
 		if (isset($row->id)){
 			if ($data_user['MODIF'] != $row->id){
 				return $l->g(999);
 			}else{
 				$sql_update="update operators 
-								set firstname = '".$data_user['FIRSTNAME']."',
-									lastname='".$data_user['LASTNAME']."',
-									new_accesslvl='".$data_user['ACCESSLVL']."',
-									email='".$data_user['EMAIL']."',
-									comments='".$data_user['COMMENTS']."',
-									user_group='".$data_user['USER_GROUP']."'";
-				if (isset($data_user['PASSWORD']) and $data_user['PASSWORD'] != '')
-					$sql_update.=",passwd ='".md5($data_user['PASSWORD'])."'";
-				$sql_update.="	 where ID='".$row->id."'";
-				mysql_query($sql_update, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));		
+								set firstname = '%s',
+									lastname='%s',
+									new_accesslvl='%s',
+									email='%s',
+									comments='%s',
+									user_group='%s'";
+				$arg_update=array($data_user['FIRSTNAME'],
+								  $data_user['LASTNAME'],
+								  $data_user['ACCESSLVL'],
+								  $data_user['EMAIL'],
+								  $data_user['COMMENTS'],
+								  $data_user['USER_GROUP']);
+				if (isset($data_user['PASSWORD']) and $data_user['PASSWORD'] != ''){
+					$sql_update.=",passwd ='%s'";
+					$arg_update[]=md5($data_user['PASSWORD']);
+				}
+				$sql_update.="	 where ID='%s'";
+				$arg_update[]=$row->id;
+				mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"],$arg_update);		
 				return $l->g(374);
 			}
 		}else{		
 			$sql=" insert into operators (id,firstname,lastname,new_accesslvl,email,comments,user_group";
 			if (isset($data_user['PASSWORD']))
 				$sql.=",passwd";
-			$sql.=") value ('".$data_user['ID']."',
-							'".$data_user['FIRSTNAME']."',
-							'".$data_user['LASTNAME']."',
-							'".$data_user['ACCESSLVL']."',
-							'".$data_user['EMAIL']."',
-							'".$data_user['COMMENTS']."',
-							'".$data_user['USER_GROUP']."'";
-			if (isset($data_user['PASSWORD']))
-				$sql.=",'".md5($data_user['PASSWORD'])."'";
+			$sql.=") value ('%s','%s','%s','%s','%s','%s','%s'";
+			
+			$arg=array($data_user['ID'],$data_user['FIRSTNAME'],
+								  $data_user['LASTNAME'],
+								  $data_user['ACCESSLVL'],
+								  $data_user['EMAIL'],
+								  $data_user['COMMENTS'],
+								  $data_user['USER_GROUP']);
+			if (isset($data_user['PASSWORD'])){
+				$sql.=",'%s'";
+				$arg[]=md5($data_user['PASSWORD']);
+			}
 			$sql.=")";
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]);			
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);			
 			return $l->g(373);
 		}		
 	}else
@@ -80,13 +92,14 @@ function add_user($data_user,$list_profil=''){
 }
 
 
-function admin_user($lvl,$id_user=''){
+function admin_user($id_user=''){
 	global $protectedPost,$l,$pages_refs;
-		if ($lvl == "ADMIN"){
+		if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
 			//search all profil type
 			$list_profil=search_profil();
-			$sql="select IVALUE,TVALUE from config where name like 'USER_GROUP_%'";
-			$res=mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			$sql="select IVALUE,TVALUE from config where name like '%s'";
+			$arg="USER_GROUP_%";
+			$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 			while ($row=mysql_fetch_object($res)){
 				$list_groups[$row->IVALUE]=$row->TVALUE;			
 			}
@@ -100,7 +113,8 @@ function admin_user($lvl,$id_user=''){
 		$name_field[]="EMAIL";
 		$name_field[]="COMMENTS";
 		//$name_field[]="USER_GROUP";
-
+	
+		
 		$tab_name[]=$l->g(49).": ";
 		$tab_name[]=$l->g(996).": ";
 		$tab_name[]="Email: ";
@@ -115,12 +129,13 @@ function admin_user($lvl,$id_user=''){
 		//$type_field[]= 2; 
 		
 		
-		if ($id_user != '' or $lvl == "USER"){
+		if ($id_user != '' or $_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'NO'){
 			$tab_hidden['MODIF']=$id_user;
-			$sql="select * from operators where id= '".$id_user."'";
-			$res=mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			$sql="select * from operators where id= '%s'";
+			$arg=$id_user;
+			$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 			$row=mysql_fetch_object($res);
-			if ($lvl == "ADMIN"){
+			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
 				$protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
 				$protectedPost['USER_GROUP']=$row->USER_GOUP;
 				$value_field=array($row->ID,$list_profil,$list_groups);
@@ -130,7 +145,7 @@ function admin_user($lvl,$id_user=''){
 			$value_field[]=$row->EMAIL;
 			$value_field[]=$row->COMMENTS;
 		}else{
-			if ($lvl == "ADMIN"){
+			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
 				$value_field=array($protectedPost['ID'],$list_profil,$list_groups);
 			}
 			$value_field[]=$protectedPost['FIRSTNAME'];
@@ -145,13 +160,14 @@ function admin_user($lvl,$id_user=''){
 			$value_field[]=$protectedPost['PASSWORD'];
 		}
 		$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-		
-		if ($lvl == "ADMIN"){
+		foreach ($tab_typ_champ as $id=>$values){
+			$tab_typ_champ[$id]['CONFIG']['SIZE']=40;
+		}
+		if ($_SESSION['OCS']['CONFIGURATION']['MANAGE_USER_GROUP'] == 'YES'){
 			$tab_typ_champ[2]["CONFIG"]['DEFAULT']="YES";
 		//	$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 			$tab_typ_champ[2]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 		}
-		
 		
 		if (isset($tab_typ_champ)){
 			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);
