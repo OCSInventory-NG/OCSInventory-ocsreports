@@ -810,9 +810,9 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 										$protectedPost['actif'],
 										$protectedPost['id']);
 							mysql2_query_secure($sql_update,$_SESSION['OCS']["writeServer"],$arg);
-												
+							echo "<font color=green><b>" . $l->g(1121) . "</b></font>";					
 					}else
-						echo "<script>alert('" . $l->g(1061) . "');</script>";		
+						echo "<font color=red><b>" . $l->g(988) . "</b></font>";	
 					
 					
 				}
@@ -829,10 +829,13 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 				/*	$status['0']= "NON";
 					$status[$val_status['id']]=$val_status['lbl'];*/
 					$yes_no=array($l->g(454),$l->g(455));
-					$protectedPost['actif']=$infos_status['ACTIF'][$protectedPost['STATUS']];
+					if (!isset($protectedPost['actif']))
+						$protectedPost['actif']=$infos_status['ACTIF'][$protectedPost['STATUS']];
+					if (!isset($protectedPost['lbl']))
+						$protectedPost['lbl']=$infos_status['STAT_BIS'][$protectedPost['STATUS']];
+					if (!isset($protectedPost['name']))
+						$protectedPost['name']=$infos_status['NIV'][$protectedPost['STATUS']];
 					$protectedPost['id']=$protectedPost['STATUS'];
-					$protectedPost['lbl']=$infos_status['STAT_BIS'][$protectedPost['STATUS']];
-					$protectedPost['name']=$infos_status['NIV'][$protectedPost['STATUS']];
 					array_push($name_field,'actif','id','lbl','name');
 					array_push($tab_name,$l->g(1102) . ':',$l->g(1103) . ':',$l->g(1063) . ':',$l->g(1064) . ':');
 					array_push($type_field,2,3,0,3);
