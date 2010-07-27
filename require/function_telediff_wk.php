@@ -6,6 +6,7 @@ function hidden($name_value_hidden,$name_field){
 				and $key != 'old_cat' 
 				and $key != 'onglet' 
 				and $key != 'old_onglet'
+				and $key != 'SUBMIT_FORM'
 				and !in_array($key ,$name_field) ){
 				$tab_hidden[$key]=$value;
 			}
@@ -104,7 +105,7 @@ function find_id_field($name_field=array('STATUS'),$list_fields='id'){
 
 function dde_form($form_name){
 	global $l,$protectedPost,$protectedGet,$pages_refs;
-		
+
 	//cas of dde modification
 		if (isset($protectedPost['MODIF'])){
 			$item_modif_values=info_dde($protectedPost['MODIF']);			
@@ -234,8 +235,7 @@ function dde_form($form_name){
 			}else
 				$grise=$item->TYPE;
 			
-				
-			//echo $grise."<br>";
+			//echo $item->FIELD."=>".$grise."<br>";
 			//	print_r($item);
 			//si le champs n'est pas restraint, on l'affiche
 			//$item->LINK_STATUS
@@ -323,7 +323,6 @@ function dde_form($form_name){
 			}
 		}	
 		/*********************END initialisation***********************/
-	//print_r($value_field);
 	//echo "<br><hr><br>";
 	//DDE POST
 		if ($protectedPost['SUBMIT_FORM'] == "SUBMIT_FORM" ){
@@ -389,7 +388,7 @@ function dde_form($form_name){
 			//print_r($type_field_temp);
 			if (isset($msg_empty)){
 				echo "<script>alert('" . $l->g(684) . ":\\n" . $msg_empty . "');</script>";
-				unset($protectedPost['VALID']);
+				unset($protectedPost['SUBMIT_FORM']);
 			}else{
 				
 				//on récupère l'id du champ status
@@ -398,24 +397,27 @@ function dde_form($form_name){
 					foreach ($protectedPost as $key=>$value){						
 							//cas of checkbox
 							$checkbox=explode('_',$key);
-							if ($type_field_temp[$key] != 3 
-								and $type_field_temp[$checkbox[0]] != 3
-								and $type_field_temp[$key] != 9){
-								//echo $key."=>".$type_field_temp[$key]."<br>";
-								if (is_numeric($checkbox[0]) and is_numeric($checkbox[1]) and !isset($value_list[$checkbox[0]])){
-									$check_on[$checkbox[0]].=$checkbox[1]."**check&check**";					
-								}elseif (isset($value_list[$checkbox[0]]) and $value_list[$checkbox[0]]!=''){
-									$array_fields_form[]= "fields_".$checkbox[0];
-									$array_value_form[]= $value_list[$checkbox[0]];
-									$value_list[$checkbox[0]]='';
-								}
-								if (is_numeric($key)){
-									$array_fields_form[]= "fields_".$key;
-									//gestion du statut. La demande est faite => statut=2
-									if (($item_id_STATUS['STATUS']->id == $key and $value == '') or($item_id_STATUS['STATUS']->id == $key and !is_numeric($value)))
-									$array_value_form[]= "2";
-									else
-									$array_value_form[]= $value;
+							
+							if ($type_field_temp[$key] != 9){
+								if ((isset($protectedPost['OLD_MODIF']) and is_numeric($protectedPost['OLD_MODIF'])
+									and $type_field_temp[$key] != 3 and $type_field_temp[$checkbox[0]] != 3)
+									or !isset($protectedPost['OLD_MODIF'])){
+									//echo $key."=>".$type_field_temp[$key]."<br>";
+									if (is_numeric($checkbox[0]) and is_numeric($checkbox[1]) and !isset($value_list[$checkbox[0]])){
+										$check_on[$checkbox[0]].=$checkbox[1]."**check&check**";					
+									}elseif (isset($value_list[$checkbox[0]]) and $value_list[$checkbox[0]]!=''){
+										$array_fields_form[]= "fields_".$checkbox[0];
+										$array_value_form[]= $value_list[$checkbox[0]];
+										$value_list[$checkbox[0]]='';
+									}
+									if (is_numeric($key)){
+										$array_fields_form[]= "fields_".$key;
+										//gestion du statut. La demande est faite => statut=2
+										if (($item_id_STATUS['STATUS']->id == $key and $value == '') or($item_id_STATUS['STATUS']->id == $key and !is_numeric($value)))
+										$array_value_form[]= "2";
+										else
+										$array_value_form[]= $value;
+									}
 								}
 							}
 					}
@@ -564,7 +566,7 @@ function dde_form($form_name){
 					unset($_SESSION['OCS']['DATA_CACHE'],$_SESSION['OCS']['NUM_ROW']);
 				}else{
 					echo "<script>alert('" . $l->g(1093) . ".\\n " . $l->g(1094) . ".');</script>";
-					unset($protectedPost['VALID']);
+					unset($protectedPost['SUBMIT_FORM']);
 				}
 				
 			}
@@ -615,7 +617,7 @@ function dde_form($form_name){
 		if (isset($msg))
 		echo "<font color=green>".$msg."</font>";
 		if (isset($tab_typ_champ)){
-			//print_r($tab_typ_champ);
+			//print_r($name_field);
 			$tab_hidden= hidden($protectedPost,$name_field[$protectedPost['cat']]);
 			tab_modif_values($tab_name[$protectedPost['cat']],$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=false,'NO_FORM');
 			
@@ -625,6 +627,7 @@ function dde_form($form_name){
 			$lbl=$l->g(114);
 			echo "<input type=button name='VALID' id='VALID' value='".$lbl."' OnClick='pag(\"SUBMIT_FORM\",\"SUBMIT_FORM\",\"".$form_name."\");'>";
 			echo "<input type='hidden' name='SUBMIT_FORM' id='SUBMIT_FORM' value=''>";
+			
 		}
 }
 
@@ -902,13 +905,13 @@ function dde_show($form_name){
 			$tab_options['LBL'][$field]=$item->lbl;			
 			$list_fields[$field]=$field;
 		}
+	//	print_r($tab_options['LBL']);
 		//recherche des valeurs des différents statuts
 		$sql_statut="select id,lbl from downloadwk_statut_request";
 		$resultfields = mysql2_query_secure($sql_statut,$_SESSION['OCS']["readServer"]);
 		while($item = mysql_fetch_object($resultfields)){
 			$statut[$item->id]=$item->lbl;		
 		}
-
 		$tab_options['REPLACE_VALUE'][$id_status]=$statut;
 		$list_col_cant_del[$id_status]=$id_status;
 		$default_fields[$id_status]=$id_status;
