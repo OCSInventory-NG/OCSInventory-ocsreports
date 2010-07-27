@@ -122,6 +122,9 @@ sub snmp_end_handler {
    my $common = $self->{common};
    my $network = $self->{context}->{network};
 
+   #Flushing xmltags if it has not been done
+   $common->flushXMLTags();
+
    #We get the config
    my $config = $self->{context}->{config};
    
@@ -236,11 +239,10 @@ sub snmp_end_handler {
 
         #Add all the informations in the xml for this device
         push @{$snmp_inventory->{xmlroot}->{CONTENT}->{DEVICE}},$devicedata;
-
-        #We clear the xml data for this device 
-        $common->{xmltags} = {};
-
       }
+
+      #We clear the xml data for this device 
+      $common->flushXMLTags(); 
    }
   
   $logger->info("No more SNMP device to scan"); 
