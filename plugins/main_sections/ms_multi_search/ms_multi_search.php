@@ -942,7 +942,7 @@ $optSelect2Field=array("HARDWARE-MEMORY"=>$sort_list_Select2Field["HARDWARE-MEMO
 					   "HARDWARE-MEMORY-LBL"=>"MB",
 					   "HARDWARE-MEMORY-SELECT"=>$lbl_default,
 					   "HARDWARE-PROCESSORS"=>$sort_list_Select2Field["HARDWARE-PROCESSORS"],//$l->g(54).": ".$l->g(377),
-					   "HARDWARE-PROCESSORS-LBL"=>"Mhz",
+					   "HARDWARE-PROCESSORS-LBL"=>"MHz",
 					   "HARDWARE-PROCESSORS-SELECT"=>$lbl_default);
 //composotion du tableau
 //option : TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (1er select)

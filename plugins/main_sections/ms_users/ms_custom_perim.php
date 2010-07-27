@@ -55,7 +55,7 @@ if (isset($valTags['tag'])){
 //
 echo "<FONT FACE='tahoma' SIZE=2>";
 echo $l->g(617)." ".$_SESSION['OCS']['TAG_LBL']['TAG'].": <input type='text' id='newtag' name='newtag' value='".$protectedPost['newtag']."'>
-		<input type='submit' name='ADD_TAG' value='envoyer'>";
+		<input type='submit' name='ADD_TAG' value='" . $l->g(13) . "'>";
 echo "</form>";
 ?>
 

@@ -373,7 +373,7 @@
 374 Regisztr�lt szervezet
 375 OCS NG Agens verzi�
 376 A sz�m�t�g�p z�rolt. Pr�b�lja k�sobb
-377 Processzor sebess�g (Mhz)
+377 Processzor sebess�g (MHz)
 380 Szoftver
 381 Sz�m
 382 Szoftver n�v

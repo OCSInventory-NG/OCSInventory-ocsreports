@@ -302,7 +302,7 @@
 374 Utilisateur modifié
 375 Version Agent OCS NG
 376 Ordinateur verrouillé. Merci de réessayer plus tard
-377 Vitesse CPU (Mhz)
+377 Vitesse CPU (MHz)
 380 Dictionnaire
 381 Nombre installation
 382 Nom du logiciel

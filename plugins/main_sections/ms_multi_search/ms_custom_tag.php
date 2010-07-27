@@ -127,7 +127,7 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 				$List[$val["fileid"]]=$val["name"];		
 			}
 			$select=show_modif($List,'pack_list',2,$form_name);
-			echo  "<tr><td align=center>".$l->g(970)." :".$select."</td></tr>";
+			echo  "<tr><td align=center>".$l->g(970).": ".$select."</td></tr>";
 			if ($protectedPost['pack_list'] != ""){
 				$sql ="select count(*) c, tvalue from download_enable d_e,devices d
 						where d.name='DOWNLOAD' and d.IVALUE=d_e.ID and d_e.fileid='%s'
