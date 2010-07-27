@@ -282,7 +282,7 @@
 374 Kay�tl� Kurum
 375 OCS NG Acenta versiyonu
 376 Bilgisayar kapal�. L�tfen bir ka� saniye sonra tekrar deneyiniz.
-377 ��lemci h�z� (Mhz)
+377 ��lemci h�z� (MHz)
 380 S�zl�k
 381 Say�
 382 Yaz�l�m ad�

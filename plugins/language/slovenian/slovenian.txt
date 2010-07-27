@@ -283,7 +283,7 @@
 374 Registrirana druĹžba
 375 OCS NG Verzija agenta
 376 RaÄ?unalnik je zaklenjen. Prosim ponovno poskusi Ä?ez nekaj minut.
-377 Hitrost procesorja(Mhz)
+377 Hitrost procesorja(MHz)
 380 Slovar
 381 Ĺ tevilo
 382 Ime programske opreme

@@ -283,7 +283,7 @@
 374 Registered society
 375 Wersja agenta OCS NG
 376 Komputer zablokowany. Proszę spr�bowa� za kilka minut
-377 Szybkość procesora (Mhz)
+377 Szybkość procesora (MHz)
 380 Słownik
 381 Numer
 382 Nazwa oprogramowania

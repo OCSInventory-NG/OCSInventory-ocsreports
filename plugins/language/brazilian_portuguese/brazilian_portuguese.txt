@@ -373,7 +373,7 @@
 374 Sociedade registrada
 375 Versão do agente OCS NG
 376 Computador indisponível. Por favor tente novamente em alguns instantes.
-377 Velocidade do processador (Mhz)
+377 Velocidade do processador (MHz)
 380 Dicionário
 381 Número
 382 Nome do software
