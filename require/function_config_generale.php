@@ -714,7 +714,7 @@ function pagegroups($form_name){
  }
  
  function pageTELEDIFF_WK($form_name){
- 	global $l,$numeric,$sup1;
+ 	global $l,$numeric,$sup1,$infos_status;
  		//what ligne we need?
  	$champs=array( 'IT_SET_PERIM'=>'IT_SET_PERIM',
 				  'IT_SET_TAG_NAME'=>'IT_SET_TAG_NAME',
@@ -728,7 +728,6 @@ function pagegroups($form_name){
  				  'IT_SET_MAIL_ADMIN'=>'IT_SET_MAIL_ADMIN');
 	$values=look_config_default_values($champs);
 	debut_tab();
-	
 	ligne('IT_SET_NIV_CREAT',$l->g(1077),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_CREAT'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
 	ligne('IT_SET_NIV_TEST',$l->g(1078),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_TEST'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
 	ligne('IT_SET_NIV_REST',$l->g(1079),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_REST'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
