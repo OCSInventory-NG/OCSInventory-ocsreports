@@ -21,7 +21,7 @@ if ($protectedPost['onglet'] == 'GUI_LOGS' or $protectedPost['onglet'] == ""){
 		echo "<td align=center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&log=".$data['name'][$i]."&rep=".$Directory."'>".$data['name'][$i]."</td>";
 		echo "<td align=center>".$data['date_create'][$i]."</td>";
 		echo "<td align=center>".$data['date_modif'][$i]."</td>";
-		echo "<td align=center>".$data['size'][$i]." ko</td>";
+		echo "<td align=center>".round($data['size'][$i]/1024,3)." ko</td>";
 		echo "</tr>";		
 	$i++;
 	}
