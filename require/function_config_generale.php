@@ -728,51 +728,45 @@ function pagegroups($form_name){
  				  'IT_SET_MAIL_ADMIN'=>'IT_SET_MAIL_ADMIN');
 	$values=look_config_default_values($champs);
 	debut_tab();
-	$infos_status=list_status();
-	if ($infos_status['NIV_BIS'] == ""){
-		echo "<font color=RED><b>".$l->g(1089)."</b></font>";
-		fin_tab($form_name,1); 	
-		return false;	
-	}
-	else{
-		ligne('IT_SET_NIV_CREAT',$l->g(1077),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_CREAT'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
-		ligne('IT_SET_NIV_TEST',$l->g(1078),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_TEST'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
-		ligne('IT_SET_NIV_REST',$l->g(1079),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_REST'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
-		ligne('IT_SET_NIV_TOTAL',$l->g(1080),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_TOTAL'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
-		ligne('IT_SET_MAIL',$l->g(1081),'radio',array(1=>$l->g(455),0=>$l->g(454),'VALUE'=>$values['ivalue']['IT_SET_MAIL'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
-		if (isset($values['ivalue']['IT_SET_MAIL']) and $values['ivalue']['IT_SET_MAIL'] == 1){
-			$sql_list_group_user="select IVALUE,TVALUE from config where name like '%s'";
-			$arg_list_group_user='USER_GROUP_%';
-			$result_list_group_user = mysql2_query_secure($sql_list_group_user, $_SESSION['OCS']["readServer"],$arg_list_group_user);
-			while($value=mysql_fetch_array($result_list_group_user)){
-				$list_group_user[$value['IVALUE']]=$value['TVALUE'];	
-			}
-			ligne('IT_SET_MAIL_ADMIN',$l->g(1082),'select',array('VALUE'=>$values['ivalue']['IT_SET_MAIL_ADMIN'],'SELECT_VALUE'=>$list_group_user));		
-			
-			
-		}
-		ligne('IT_SET_PERIM',$l->g(1083),'radio',array(1=>'TAG',0=>'GROUP','VALUE'=>$values['ivalue']['IT_SET_PERIM'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
-		if (!isset($values['ivalue']['IT_SET_PERIM']) or $values['ivalue']['IT_SET_PERIM'] == 0){
-			$sql_list_group="select name from hardware where deviceid='%s'";
-			$arg_list_group='_SYSTEMGROUP_';
-			$result_list_group = mysql2_query_secure($sql_list_group, $_SESSION['OCS']["readServer"],$arg_list_group);
-			while($value=mysql_fetch_array($result_list_group)){
-				$list_group[$value['name']]=$value['name'];	
-			}
-			ligne('IT_SET_NAME_TEST',$l->g(1084),'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SELECT_VALUE'=>$list_group));
-			ligne('IT_SET_NAME_LIMIT',$l->g(1085),'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SELECT_VALUE'=>$list_group));
-			
-		}else{
-			require_once('require/function_admininfo.php');
-			$info_account=witch_field_more();
-			$list_tag=$info_account['LIST_FIELDS'];
-			ligne('IT_SET_TAG_NAME',$l->g(1086),'select',array('VALUE'=>$values['tvalue']['IT_SET_TAG_NAME'],'SELECT_VALUE'=>$list_tag));		
-			ligne('IT_SET_NAME_TEST',$l->g(1087),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SIZE'=>50,'MAXLENGHT'=>50));
-			ligne('IT_SET_NAME_LIMIT',$l->g(1088),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SIZE'=>50,'MAXLENGHT'=>50));
-		}
 	
+	ligne('IT_SET_NIV_CREAT',$l->g(1077),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_CREAT'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
+	ligne('IT_SET_NIV_TEST',$l->g(1078),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_TEST'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
+	ligne('IT_SET_NIV_REST',$l->g(1079),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_REST'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
+	ligne('IT_SET_NIV_TOTAL',$l->g(1080),'select',array('VALUE'=>$values['tvalue']['IT_SET_NIV_TOTAL'],'SELECT_VALUE'=>$infos_status['NIV_BIS']));
+	ligne('IT_SET_MAIL',$l->g(1081),'radio',array(1=>$l->g(455),0=>$l->g(454),'VALUE'=>$values['ivalue']['IT_SET_MAIL'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
+	if (isset($values['ivalue']['IT_SET_MAIL']) and $values['ivalue']['IT_SET_MAIL'] == 1){
+		$sql_list_group_user="select IVALUE,TVALUE from config where name like '%s'";
+		$arg_list_group_user='USER_GROUP_%';
+		$result_list_group_user = mysql2_query_secure($sql_list_group_user, $_SESSION['OCS']["readServer"],$arg_list_group_user);
+		while($value=mysql_fetch_array($result_list_group_user)){
+			$list_group_user[$value['IVALUE']]=$value['TVALUE'];	
+		}
+		ligne('IT_SET_MAIL_ADMIN',$l->g(1082),'select',array('VALUE'=>$values['ivalue']['IT_SET_MAIL_ADMIN'],'SELECT_VALUE'=>$list_group_user));		
+		
+		
 	}
-		fin_tab($form_name); 	
+	ligne('IT_SET_PERIM',$l->g(1083),'radio',array(1=>'TAG',0=>'GROUP','VALUE'=>$values['ivalue']['IT_SET_PERIM'],'JAVASCRIPT'=>" onChange='document.".$form_name.".submit();'"));
+	if (!isset($values['ivalue']['IT_SET_PERIM']) or $values['ivalue']['IT_SET_PERIM'] == 0){
+		$sql_list_group="select name from hardware where deviceid='%s'";
+		$arg_list_group='_SYSTEMGROUP_';
+		$result_list_group = mysql2_query_secure($sql_list_group, $_SESSION['OCS']["readServer"],$arg_list_group);
+		while($value=mysql_fetch_array($result_list_group)){
+			$list_group[$value['name']]=$value['name'];	
+		}
+		ligne('IT_SET_NAME_TEST',$l->g(1084),'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SELECT_VALUE'=>$list_group));
+		ligne('IT_SET_NAME_LIMIT',$l->g(1085),'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SELECT_VALUE'=>$list_group));
+		
+	}else{
+		require_once('require/function_admininfo.php');
+		$info_account=witch_field_more();
+		$list_tag=$info_account['LIST_FIELDS'];
+		ligne('IT_SET_TAG_NAME',$l->g(1086),'select',array('VALUE'=>$values['tvalue']['IT_SET_TAG_NAME'],'SELECT_VALUE'=>$list_tag));		
+		ligne('IT_SET_NAME_TEST',$l->g(1087),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SIZE'=>50,'MAXLENGHT'=>50));
+		ligne('IT_SET_NAME_LIMIT',$l->g(1088),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SIZE'=>50,'MAXLENGHT'=>50));
+	}
+	
+	
+	fin_tab($form_name); 	
  	
  	
  }
