@@ -971,7 +971,7 @@
 1062 Champ
 1063 Libellé
 1064 Champ obligatoire
-1065 Champ restraint
+1065 Champ restreint
 1066 Lié à un statut
 1067 Ce nom de champ est déjà utilisé
 1068 Le nom du champ ne peut pas être vide
@@ -985,16 +985,16 @@
 1076 ERROR: STATUS RECHERCHE NON DEFINI
 1077 Niveau de création de paquet
 1078 Niveau de test
-1079 Niveau du périmètre restraint
+1079 Niveau du périmètre restreint
 1080 Niveau du périmètre total
 1081 Signalement par mail
 1082 Groupe des administrateurs du workflow
 1083 Identification des périmètres
 1084 Nom du groupe de test
-1085 Nom du groupe du périmètre restraint
+1085 Nom du groupe du périmètre restreint
 1086 Libellé du TAG de définition du paramètre
 1087 Valeur du tag de test
-1088 Valeur du tag du périmètre restraint
+1088 Valeur du tag du périmètre restreint
 1089 Aucun status n'est actif. Commencer par en activer un.
 1090 a modifié la demande n°
 1091 Une nouvelle demande vient d'être postée

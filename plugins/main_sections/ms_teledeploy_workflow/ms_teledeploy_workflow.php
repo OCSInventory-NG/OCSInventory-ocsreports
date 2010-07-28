@@ -3,6 +3,7 @@
  * workflow for Teledeploy 
  * 
  */
+
 require_once('require/function_telediff_wk.php');
 //TELEDIFF_WK
 $activate=option_conf_activate('TELEDIFF_WK');
@@ -27,7 +28,7 @@ if ($activate){
 	$table_name=$form_name;	
 	
 	echo '<div class="mlt_bordure" >';	
-	if ($protectedPost['onglet'] == 2){	
+	if ($protectedPost['onglet'] == 2){			
 		dde_form($form_name);
 	}elseif ($protectedPost['onglet'] == 4){
 		dde_conf($form_name);

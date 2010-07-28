@@ -54,7 +54,7 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 		$i++;
 	}
 	//$toBeWritten = "toto";
-}elseif (isset($_SESSION['OCS']['csv'][$protectedGet['tablename']])){
+}elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 	$toBeWritten="";
 	//gestion des entetes
 	foreach ($_SESSION['OCS']['col_tab'][$protectedGet['tablename']] as $name){
@@ -94,7 +94,11 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 	}
 	//print_r($data_fixe);
 	//gestion de la requete de r�sultat
-	$result=mysql_query($_SESSION['OCS']['csv'][$protectedGet['tablename']], $link) or die(mysql_error($link));
+	if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])
+		$arg=$_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
+	else
+		$arg='';	
+	$result=mysql2_query_secure($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']], $link,$arg);
 	$i=0;
 	while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
 		foreach ($col as $field => $lbl){
