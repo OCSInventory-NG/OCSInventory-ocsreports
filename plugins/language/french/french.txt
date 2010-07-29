@@ -72,6 +72,10 @@
 134 Ajout d'un nouveau fichier dans la base
 135 Attention, vous allez supprimer ce fichier définitivement !
 137 Fichier
+140 Super administrateurs
+141 dde_teledeploy
+142 Administrateurs
+143 Administrateurs locaux
 162 Supprimer la sélection
 168 Ce format de fichier n'est pas utilisable (il doit être zip, pl ou binaire unix)
 170 Il existe déjà un tel fichier!

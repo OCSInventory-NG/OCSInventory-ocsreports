@@ -72,6 +72,10 @@
 134 Add a new file in the database
 135 Be careful, you're about to delete this file definitively !
 137 File
+140 Super administrators
+141 dde_teledeploy
+142 Administrators
+143 Local administrators
 162 Remove Selected
 168 This format file is invalid (it must be zip, pl or unix binary)
 170 The same file already exists !

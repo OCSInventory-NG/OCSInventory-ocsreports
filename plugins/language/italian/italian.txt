@@ -72,6 +72,10 @@
 134 Aggiungi un nuovo file nel database
 135 Attenzione, stai per eliminare questo file definitivamente!
 137 File
+140 Super amministratori
+141 dde_teledeploy
+142 Amministratori
+143 Amministratori locali
 162 Elimina selezionati
 168 Il formato del file non è valido (deve essere zip, pl o binario unix)
 170 Esiste già lo stesso file!
