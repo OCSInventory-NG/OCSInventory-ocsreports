@@ -140,26 +140,7 @@
 140 Szuper adminisztr�torok
 141 Adminisztr�torok
 142 Helyi adminisztr�torok
-143 The super administrators see all the machines and can give unity tag to the administrators.
-144 The administrators see all the machines but cannot give unity tag.
-145 The local administrators see only their machine and cannot give unity tag.
-146 Choose an administrator
-147 Be careful, you're about to delete the rights definitively !
-148 ISMERETLEN TAG
-149 Unity tags under the responsibility of
-150 jog(ok) m�dos�tva
-151 jog(ok) t�r�lve
-152 Vigy�zat, ez a muvelet t�rli az �rintett adminisztr�tor jogait !
-153 No tag unity affected to this administator
-154 Add a tag to an administrador
-155 Add administrator to a tag
-156 Add a unity tag
-157 M�sol
-158 Copy the rights to
-159 rights copied from
-160 No administrator for this tag
-161 Unity tag under the responsibility of
-162 Delete the selection
+143 Teledeploy requesters
 163 Service Grade Name
 164 Persons responsible of unity tag
 165 You have to enter a name or a difusion list to search !

@@ -141,25 +141,7 @@
 140 Super administradores
 141 Administradores
 142 Administradores locais
-143 Os administradores visualizam todas as máquinas e podem fornecer etiqueta de unidade aos administradores.
-144 Os administradores visualizam todas as máquinas, mas não podem atribuir etiqueta de unidade.
-145 Os administradores locais visualizam somente suas máquinas e não podem atribuir etiqueta de unidade.
-146 Escolha um administrador
-147 Cuidado, você estará apagando os direitos definitivamente !!!
-148 ETIQUETA DESCONHECIDA
-149 Etiqueta de unidade sob a responsabilidade de
-150 direito(s) adicionados
-151 direito(s) apagados
-152 Cuidado, esta operação elimina os direitos desse administrador!!!
-153 Nenhuma etiqueta de unidade relacionada a esse administrador
-154 Adiciona uma etiqueta a um administrador
-155 Adiciona um administrador a uma etiqueta
-156 Adiciona uma etiqueta de unidade
-157 Copia
-158 Copia os direitos para
-159 direitos copiados de
-160 Nenhum administrador para essa etiqueta
-161 Etiqueta de unidade sob responsabilidade de
+143 teledeploy requesters
 162 Apague a seleção
 163 Número do tipo de registro
 164 Pessoas responsáveis pela etiqueta de unidade

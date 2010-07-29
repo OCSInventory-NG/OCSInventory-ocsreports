@@ -79,6 +79,11 @@
 135 Ostrożnie, ten plik zostanie usunięty definitywnie !
 136 Pobierz
 137 Plik
+140 Super administrators
+141 Administrators
+142 Local administrators
+143 teledeploy requesters
+162 Remove Selected
 168 Ten format pliku jest nieodpowiedni (to musi być zip, pl albo unixowa binarka)
 170 Taki sam plik już istnieje !
 171 Plik usunięty
