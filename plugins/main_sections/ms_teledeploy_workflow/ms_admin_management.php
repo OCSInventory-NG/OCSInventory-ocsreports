@@ -4,6 +4,8 @@
  * 
  */
  
+require_once ('require/function_admin_management.php');
+
 if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_telediff_wk';
@@ -54,46 +56,22 @@ if ($protectedGet['admin'] == "tab"){
 $fields=implode(',',$array_fields);
 $values=implode("','",$array_values);
 
-
 if ($protectedPost['onglet'] == 1){
 	$tab_options['CACHE']='RESET';
-	if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){		
-		$list = $protectedPost['del_check'];
-		if ($table=="downloadwk_fields"){ 
-			$tab_values=explode(',',$list);
-			$i=0;
-			while($tab_values[$i]){
-				$sql_drop_column="ALTER TABLE downloadwk_pack DROP COLUMN fields_%s";
-				$arg_drop_column=$tab_values[$i];
-				mysql2_query_secure( $sql_drop_column, $_SESSION['OCS']["writeServer"],$arg_drop_column);		
-				$i++;				
-			}
-			$arg_delete=array();
-			$sql_delete="DELETE FROM downloadwk_conf_values WHERE field in ";
-			$sql_delete=mysql2_prepare($sql_delete,$arg_delete,$list);
-			mysql2_query_secure($sql_delete['SQL'], $_SESSION['OCS']["writeServer"],$sql_delete['ARG']);				
-		}
-		$arg_delete=array();
-		$sql_delete="DELETE FROM ".$table." WHERE id in ";
-		$sql_delete=mysql2_prepare($sql_delete,$arg_delete,$list);
-		mysql2_query_secure($sql_delete['SQL'], $_SESSION['OCS']["writeServer"],$sql_delete['ARG']);				
+	if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != '') 
+		$post_delete=$protectedPost['del_check'];
+	if(isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') 
+		$post_delete=$protectedPost['SUP_PROF'];
+		
+	if (isset($post_delete)){
+		if ($table == "downloadwk_tab_values")
+			delete_tab($post_delete);
+		if ($table == "downloadwk_fields")	
+			delete_field($post_delete);
+		if ($table == "downloadwk_conf_values")	
+			delete_conf($post_delete);
 	}
-	
-	if(isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') {
-		$sql_delete="DELETE FROM ".$table." WHERE ID='%s'";
-		$arg_delete=$protectedPost['SUP_PROF'];
-		mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"],$arg_delete);		
-	//If you delete a field, you must delete colomn on downloadwk_pack table
-		if ($table=="downloadwk_fields"){ 
-			$sql_delete="DELETE FROM downloadwk_conf_values WHERE field ='%s'";
-			$arg_delete=$protectedPost['SUP_PROF'];
-			mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"],$arg_delete);				
-			
-			$sql_drop_column="ALTER TABLE downloadwk_pack DROP COLUMN fields_%s";
-			$arg_drop_column=$protectedPost['SUP_PROF'];
-			mysql2_query_secure( $sql_drop_column, $_SESSION['OCS']["writeServer"],$arg_drop_column );		
-		}
-	}	
+
 	$queryDetails ="select ID,".$fields." from ".$table." where ".$field_search."='%s' 
 					and (default_field is null or default_field=0) ";
 	$argDetail=$protectedGet['value'];
@@ -197,8 +175,8 @@ if ($protectedPost['onglet'] == 1){
 	}
 
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-	$tab_typ_champ[0]['CONFIG']['SIZE']=30;
-	$tab_typ_champ[1]['CONFIG']['SIZE']=30;
+	$tab_typ_champ[0]['CONFIG']['SIZE']=20;
+	$tab_typ_champ[1]['CONFIG']['SIZE']=20;
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
 }
 

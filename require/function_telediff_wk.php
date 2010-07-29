@@ -752,57 +752,59 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 					$sql_detailField="select type,field,lbl,must_completed,
 										value,restricted,link_status 
 									  FROM downloadwk_fields 
-									  where id='%s'";	
-					$arg=array($protectedPost['FIELDS']);		
+									  where id='%s' and tab='%s' ";	
+					$arg=array($protectedPost['FIELDS'],$protectedPost['TAB']);		
 					$result_detailField = mysql2_query_secure($sql_detailField, $_SESSION['OCS']["readServer"],$arg);
 					$item_detailField = mysql_fetch_object($result_detailField);
-					$protectedPost['type']=$item_detailField->type;
-					$protectedPost['must_completed']=$item_detailField->must_completed;
-					$protectedPost['restricted']=$item_detailField->restricted;
-					$protectedPost['link_status']=$item_detailField->link_status;
-
-					$name_field=array('type','field','lbl','must_completed','value','restricted','link_status');
-					$tab_name= array($l->g(1071) . ':',$l->g(1098) . ':',$l->g(1063) . ':',$l->g(1064) . ':',$l->g(1099) . ':',$l->g(1065) . ':',$l->g(1066) . ':');					
 					
-					if ($default_field[$protectedPost['FIELDS']])	{
-						$title= $l->g(1101);
-						//$showbutton=false;
-						$type_field= array(3,3,3,3,0,3,3,7);
-						$value_field=array($list_type[$item_detailField->type],
-										$item_detailField->field,
-										$l->g($item_detailField->lbl),
-										$yes_no[$item_detailField->must_completed],
-										$item_detailField->value,
-										$yes_no[$item_detailField->restricted],
-										$status[$item_detailField->link_status],'value');
-						if ($item_detailField->field == "STATUS"){
-							$type_field[4]= 2;
-							unset($status[0]);
-							$value_field[4]=$status;
-							$protectedPost['value']=$item_detailField->value;
-						}
-						$name_field[7]='DEFAULT_FIELD';
-						$tab_name[7]='';
-					}else{
-						$title="";
-						//$showbutton=true;
-						$type_field= array(2,0,0,2,0,2,2);
-						$value_field=array($list_type,
-										$item_detailField->field,
-										$item_detailField->lbl,
-										$yes_no,
-										$item_detailField->value,
-										$yes_no,
-										$status);	
-					}
-					
-					
-					
-					
-					$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-					tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="",$name_button="fields",$showbutton=true,$form_name='NO_FORM');
-				}
+					//if there is no result or more than 1, don't show update table
+					$num_row=mysql_numrows($result_detailField);
+					if ($num_row == 1){
+						$protectedPost['type']=$item_detailField->type;
+						$protectedPost['must_completed']=$item_detailField->must_completed;
+						$protectedPost['restricted']=$item_detailField->restricted;
+						$protectedPost['link_status']=$item_detailField->link_status;
+	
+						$name_field=array('type','field','lbl','must_completed','value','restricted','link_status');
+						$tab_name= array($l->g(1071) . ':',$l->g(1098) . ':',$l->g(1063) . ':',$l->g(1064) . ':',$l->g(1099) . ':',$l->g(1065) . ':',$l->g(1066) . ':');					
+						
+						if ($default_field[$protectedPost['FIELDS']])	{
+							$title= $l->g(1101);
+							//$showbutton=false;
+							$type_field= array(3,3,3,3,0,3,3,7);
+							$value_field=array($list_type[$item_detailField->type],
+											$item_detailField->field,
+											$l->g($item_detailField->lbl),
+											$yes_no[$item_detailField->must_completed],
+											$item_detailField->value,
+											$yes_no[$item_detailField->restricted],
+											$status[$item_detailField->link_status],'value');
+							if ($item_detailField->field == "STATUS"){
+								$type_field[4]= 2;
+								unset($status[0]);
+								$value_field[4]=$status;
+								$protectedPost['value']=$item_detailField->value;
+							}
+							$name_field[7]='DEFAULT_FIELD';
+							$tab_name[7]='';
+						}else{
+							$title="";
+							//$showbutton=true;
+							$type_field= array(2,0,0,2,0,2,2);
+							$value_field=array($list_type,
+											$item_detailField->field,
+											$item_detailField->lbl,
+											$yes_no,
+											$item_detailField->value,
+											$yes_no,
+											$status);	
+						}						
+						
+						$tab_typ_champ=show_field($name_field,$type_field,$value_field);
+						tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="",$name_button="fields",$showbutton=true,$form_name='NO_FORM');
 				
+					}
+				}
 			}elseif($protectedPost['conf']=="STATUS"){
 				//mise à jour des valeurs de statuts
 				if ($protectedPost['Valid_fields_x'] != ''){

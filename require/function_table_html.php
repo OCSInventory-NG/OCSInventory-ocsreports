@@ -15,7 +15,7 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 		  onblur='convertToUpper(this)'";
 
  
- function prepare_sql_tab($list_fields,$explu){
+ function prepare_sql_tab($list_fields,$explu=array()){
  	$begin_arg=array();
  	$begin_sql="SELECT ";
  	foreach ($list_fields as $key=>$value){

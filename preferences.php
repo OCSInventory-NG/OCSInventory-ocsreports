@@ -86,11 +86,15 @@ function mysql2_prepare($sql,$arg_sql,$arg_tab=''){
 }
 
 //looking for default value of ocs config
-function look_config_default_values($field_name){
-	
-	$sql="select NAME,IVALUE,TVALUE from config where NAME in ";
-	$arg_sql=array();
-	$arg=mysql2_prepare($sql,$arg_sql,$field_name);
+function look_config_default_values($field_name,$like=''){
+	if ($like == ''){
+		$sql="select NAME,IVALUE,TVALUE from config where NAME in ";
+		$arg_sql=array();
+		$arg=mysql2_prepare($sql,$arg_sql,$field_name);
+	}else{
+		$arg['SQL']="select NAME,IVALUE,TVALUE from config where NAME like '%s'";
+		$arg['ARG']=$field_name;		
+	}
 	$resdefaultvalues=mysql2_query_secure($arg['SQL'],$_SESSION['OCS']["readServer"],$arg['ARG']);		
 	while($item = mysql_fetch_object($resdefaultvalues)){
 			$result['name'][$item ->NAME]=$item ->NAME;
