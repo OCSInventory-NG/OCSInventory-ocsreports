@@ -693,12 +693,11 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
 	$protectedPost['page']=0;
 	}
-	if (!isset($protectedPost[$post_name])){
+	if (!isset($protectedPost[$post_name]) and is_array($def_onglets)){
 		foreach ($def_onglets as $key=>$value){
 			$protectedPost[$post_name]=$key;
 			break;
-		}
-		
+		}		
 	}
 	/*This fnction use code of Douglas Bowman (Sliding Doors of CSS)
 	http://www.alistapart.com/articles/slidingdoors/
