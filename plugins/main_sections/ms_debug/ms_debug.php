@@ -13,7 +13,7 @@ echo "<br><br><br>";
 $tab_typ_champ[0]['DEFAULT_VALUE']=$list_mode;
 	$tab_typ_champ[0]['INPUT_NAME']="MODE";
 	$tab_typ_champ[0]['INPUT_TYPE']=2;
-	$tab_name[0]=$l->g(1014)." :";
+	$tab_name[0]=$l->g(1014).":";
 	$tab_typ_champ[0]['RELOAD']="CHANGE";
 if ($protectedPost['MODE'] == 5){
 	$tab_typ_champ[1]['DEFAULT_VALUE']=$protectedPost['FUSER'];

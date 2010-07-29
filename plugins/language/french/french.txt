@@ -22,12 +22,10 @@
 43 Menu principal
 45 Espace libre
 46 Dernier inventaire
-47 Page précédente
 48 Affichage système
 49 Nom
 50 Espace de Swap 
 51 Commentaires
-52 Licence
 53 Description
 54 Processeur(s)
 55 Nombre
@@ -71,35 +69,11 @@
 122 Supprimer
 129 RESSEMBLE
 130 DIFFERENT
-131 Fichier icône
-132 Fichier image
 134 Ajout d'un nouveau fichier dans la base
 135 Attention, vous allez supprimer ce fichier définitivement !
 137 Fichier
-138 Créer
-139 Création / Suppression des 
-140 Super administrateurs
-141 Administrateurs
-142 Administrateurs locaux
-146 Veuillez choisir un administrateur
-147 Attention, vous allez supprimer les droits définitivement !
-150 droit(s) ajouté(s)
-151 droit(s) supprimé(s)
-152 Attention, cette opération écrase les droits de l'administrateur cible !
-154 Ajouter un code à un administrateur
-155 Ajouter administrateur à un code
-156 Ajouter un code unité
-157 Copier
-158 Copier les droits vers
-159 droits copiés de 
-160 Aucun administrateur pour ce code
 162 Supprimer la sélection
-164 Personnes responsables du code unité
-165 Veuillez saisir un nom de boîte aux lettres ou une liste de diffusion à rechercher !
-166 Veuillez choisir un élément dans la liste !
-167 Voir les détails
 168 Ce format de fichier n'est pas utilisable (il doit être zip, pl ou binaire unix)
-169 inséré dans la base
 170 Il existe déjà un tel fichier!
 171 Fichier supprimé
 172 Une erreur est survenue, le fichier

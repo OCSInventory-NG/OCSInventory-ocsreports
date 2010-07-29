@@ -8,7 +8,7 @@
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	$list_fields=array($l->g(66) => 'TYPE',
 					   $l->g(49) => 'NAME',
-					   $l->g(88) => 'CAPTION',
+					   $l->g(84) => 'CAPTION',
 					   $l->g(53) => 'DESCRIPTION');
 	$list_col_cant_del=$list_fields;
 	$default_fields= $list_fields;
