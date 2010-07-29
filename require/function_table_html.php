@@ -533,7 +533,7 @@ function show_field($name_field,$type_field,$value_field,$config=array()){
 	return $tab_typ_champ;
 }
 
-function filtre($tab_field,$form_name,$query){
+function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 	global $protectedPost,$l;
 	if ($protectedPost['RAZ_FILTRE'] == "RAZ")
 	unset($protectedPost['FILTRE_VALUE'],$protectedPost['FILTRE']);
@@ -550,15 +550,24 @@ function filtre($tab_field,$form_name,$query){
 		
 		}else
 		$temp_query[0].= " where ";
-	$query=$temp_query[0].$protectedPost['FILTRE']." like '%".$protectedPost['FILTRE_VALUE']."%' ";
+	if ($arg == '')
+		$query=$temp_query[0].$protectedPost['FILTRE']." like '%".$protectedPost['FILTRE_VALUE']."%' ";
+	else{
+		$query=$temp_query[0].$protectedPost['FILTRE']." like '%s' ";
+		array_push($arg,'%' . $protectedPost['FILTRE_VALUE'] . '%');
+		if (is_array($arg_count))	
+			array_push($arg_count,'%' . $protectedPost['FILTRE_VALUE'] . '%');
+		else
+			$arg_count[]='%' . $protectedPost['FILTRE_VALUE'] . '%';
+	}
 	if (isset($temp_query[1]))
 	$query.="GROUP BY ".$temp_query[1];
 	}
 	$view=show_modif($tab_field,'FILTRE',2);
-	$view.=show_modif(stripslashes($protectedPost['FILTRE_VALUE']),'FILTRE_VALUE',0);
+	$view.=show_modif($protectedPost['FILTRE_VALUE'],'FILTRE_VALUE',0);
 	echo $l->g(883).": ".$view."<input type='submit' value='".$l->g(1109)."' name='SUB_FILTRE'><a href=# onclick='return pag(\"RAZ\",\"RAZ_FILTRE\",\"".$form_name."\");'><img src=image/supp.png></a></td></tr><tr><td align=center>";
 	echo "<input type=hidden name='RAZ_FILTRE' id='RAZ_FILTRE' value=''>";
-	return $query;
+	return array('SQL'=>$query,'ARG'=>$arg,'ARG_COUNT'=>$arg_count);
 }
 
 
@@ -683,6 +692,13 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 	$protectedPost['old_onglet_soft']=stripslashes($protectedPost['old_onglet_soft']);*/
 	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
 	$protectedPost['page']=0;
+	}
+	if (!isset($protectedPost[$post_name])){
+		foreach ($def_onglets as $key=>$value){
+			$protectedPost[$post_name]=$key;
+			break;
+		}
+		
 	}
 	/*This fnction use code of Douglas Bowman (Sliding Doors of CSS)
 	http://www.alistapart.com/articles/slidingdoors/
@@ -827,9 +843,14 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	$limit=nb_page($form_name,100,"","");
 	
 	//you want to filter your result
-	if (isset($tab_options['FILTRE']))
-	$queryDetails=filtre($tab_options['FILTRE'],$form_name,$queryDetails);
-	
+	if (isset($tab_options['FILTRE'])){
+		$Details=filtre($tab_options['FILTRE'],$form_name,$queryDetails,$tab_options['ARG_SQL'],$tab_options['ARG_SQL_COUNT']);
+		$queryDetails=$Details['SQL'];
+		if (is_array($Details['ARG']))
+		$tab_options['ARG_SQL']=$Details['ARG'];
+		if (is_array($Details['ARG_COUNT']))
+		$tab_options['ARG_SQL_COUNT']=$Details['ARG_COUNT'];
+	}
 	//by default, sort by column 1
 	if ($protectedPost['tri2'] == "" or (!in_array ($protectedPost['tri2'], $list_fields) and !in_array ($protectedPost['tri2'], $tab_options['AS'])))
 	$protectedPost['tri2']=1;

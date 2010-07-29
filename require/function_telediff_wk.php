@@ -633,13 +633,14 @@ function dde_form($form_name){
 
 
 function dde_conf($form_name){
-	global $l,$protectedPost,$protectedGet,$pages_refs;
+	global $l,$protectedPost,$protectedGet,$pages_refs,$infos_status;
 if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
-			if (!isset($protectedPost['conf']))
-				$protectedPost['conf']='GENERAL';
+			
 			//sous onglets 
-			$conf_value['GENERAL']=$l->g(107);
-			$conf_value['GUI']=$l->g(84);
+			if ($infos_status['NIV_BIS'] != ''){
+				$conf_value['GENERAL']=$l->g(107);
+				$conf_value['GUI']=$l->g(84);
+			}
 			$conf_value['STATUS']=$l->g(1095);;
 			//$conf_value['ADMIN']='Administration';
 			onglet($conf_value,$form_name,"conf",7);

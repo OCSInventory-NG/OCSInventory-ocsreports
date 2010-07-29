@@ -29,7 +29,8 @@ if (!isset($_SESSION['OCS']["lvluser"])){
 if (!isset($tab_tag) and $restriction != 'NO'){
 	$LIST_ERROR="";
 	foreach ($tab_error as $script=>$error){
-			$LIST_ERROR.="<font color=red size=5>".$error."</font><br>";		
+			$LIST_ERROR.="<font color=red size=5>".$error."</font><br>";	
+			addLog('ERROR_IDENTITY',$error);	
 	}	
 }elseif(isset($tab_tag)){
 	//print_r($tab_tag);

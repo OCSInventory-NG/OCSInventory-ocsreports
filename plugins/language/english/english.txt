@@ -1,8 +1,5 @@
 2 All computers
-3 Computers with sotfware...
-5 Unity codes under my responsibility
 9 Search with various criteria
-12 Tag value
 13 Send
 17 Agent
 19 Software version
@@ -60,8 +57,6 @@
 95 MAC address
 96 Sound
 97 Monitor(s)
-98 Be careful, you can only select 8 options !
-99 Computer details
 103 Update
 107 Config
 108 Registry requests
@@ -282,7 +277,7 @@
 375 OCS NG Agent Vesion
 376 Computer locked. Please retry in a few minutes
 377 Processor Speed (MHz)
-380 Dictionnary
+380 Dictionary
 381 Number of installation
 382 Software name
 383 The page
@@ -292,7 +287,7 @@
 387 to an existing category
 388 Category
 389 Nothing
-390 Dictionnary categories
+390 Dictionary categories
 391 Category name
 393 Search
 394 Search Category
@@ -972,6 +967,7 @@
 1084 Group name for test
 1085 Group name for restraint perimeter 
 1086 TAG value for test
+1087 Value of the test tag
 1088 TAG value for restraint perimeter 
 1089 No status is active. Start by activating one
 1090 has modify request n°

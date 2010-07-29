@@ -1,8 +1,5 @@
 2 Tutti i computer
-3 Computer con software...
-5 Apparati di cui sono responsabile
 9 Ricerca con criteri multipli
-12 Valore etichetta
 13 Invia
 17 Agente
 19 Versione software
@@ -60,7 +57,6 @@
 95 Indirizzo MAC
 96 Suono
 97 Monitor
-99 Dettagli del computer
 103 Aggiorna
 107 Configurazione
 108 Richieste registro
@@ -1019,6 +1015,7 @@
 1132 ID parola
 1133 Nuova parola
 1134 Nessun dato ipdiscover
+1135 computer già presenti nel gruppo di server
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
