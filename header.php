@@ -1,4 +1,5 @@
 <?php
+
 if (!isset($debut))
 die('FORBIDDEN');
 @session_start();
@@ -20,6 +21,17 @@ if( (!$fconf=@fopen("dbconfig.inc.php","r"))
 else
 	fclose($fconf);
 require_once("preferences.php");
+/***********************************************************gestion des logs*************************************************************************/
+if (!isset($_SESSION['OCS']['LOG_GUI'])){
+	$values=look_config_default_values(array('LOG_GUI','LOG_DIR','LOG_SCRIPT'));
+	$_SESSION['OCS']['LOG_GUI']=$values['ivalue']['LOG_GUI'];
+	$_SESSION['OCS']['LOG_DIR']=$values['tvalue']['LOG_DIR'];
+	$_SESSION['OCS']['LOG_SCRIPT'] = $values['tvalue']['LOG_SCRIPT'];
+}
+/****************END GESTION LOGS***************/
+
+
+
 /******************************************Checking sql update*********************************************/
 if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])){
 	$values=look_config_default_values('GUI_VERSION');
@@ -42,7 +54,7 @@ if (!defined("SERVER_READ")){
 
 	$protectedPost=$_POST;
 	$protectedGet=$_GET;
-
+	
 //print_r($GLOBALS);
 @set_time_limit(0);
 
@@ -159,22 +171,18 @@ require_once('backend/identity/identity.php');
 
 
 /**********************************************************gestion des droits sur l'ipdiscover****************************************************/
-if (!isset($_SESSION['OCS']["ipdiscover"]) and isset($protectedGet[PAG_INDEX]) and $protectedGet[PAG_INDEX] == $pages_refs['ms_ipdiscover'])
-require_once('backend/ipdiscover/ipdiscover.php');
+if (!isset($_SESSION['OCS']["ipdiscover"]) and isset($protectedGet[PAG_INDEX]) and $protectedGet[PAG_INDEX] == $pages_refs['ms_ipdiscover']){
+	loadMac();
+	require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
+
+}
 elseif(isset($protectedGet[PAG_INDEX]) and $protectedGet[PAG_INDEX] != $pages_refs['ms_ipdiscover'])
 unset($_SESSION['OCS']['ipdiscover']);
 
 /*********************************************************gestion de la suppression automatique des machines trop vieilles*************************/
 //require_once('plugins/options_config/del_old_computers.php');
 
-/***********************************************************gestion des logs*************************************************************************/
-if (!isset($_SESSION['OCS']['LOG_GUI'])){
-	$values=look_config_default_values(array('LOG_GUI','LOG_DIR','LOG_SCRIPT'));
-	$_SESSION['OCS']['LOG_GUI']=$values['ivalue']['LOG_GUI'];
-	$_SESSION['OCS']['LOG_DIR']=$values['tvalue']['LOG_DIR'];
-	$_SESSION['OCS']['LOG_SCRIPT'] = $values['tvalue']['LOG_SCRIPT'];
-}
-/****************END GESTION LOGS***************/
+
 
 /********************GESTION CACHE******************/
 if (!isset($_SESSION['OCS']["usecache"])){

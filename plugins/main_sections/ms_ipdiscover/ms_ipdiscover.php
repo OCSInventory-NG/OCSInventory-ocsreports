@@ -33,7 +33,6 @@ require_once('require/function_ipdiscover.php');
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != ''){
 	 	
 	 	$array_rsx=array_keys($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
-	//$list_rsx=implode("','",$array_rsx);
 	 	
 	 	//print_r($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
 	 	$tab_options['VALUE']['LBL_RSX']=$_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]];
