@@ -7,6 +7,9 @@
  */
 require_once('require/function_ipdiscover.php');
 
+if (!isset($_SESSION['OCS']["mac"]))
+	loadMac();
+	
  $form_name='ipdiscover';
  echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
  	//suppression d'un sous-reseau

@@ -171,13 +171,10 @@ require_once('backend/identity/identity.php');
 
 
 /**********************************************************gestion des droits sur l'ipdiscover****************************************************/
-if (!isset($_SESSION['OCS']["ipdiscover"]) and isset($protectedGet[PAG_INDEX]) and $protectedGet[PAG_INDEX] == $pages_refs['ms_ipdiscover']){
-	loadMac();
+if (!isset($_SESSION['OCS']["ipdiscover"])){
 	require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
-
 }
-elseif(isset($protectedGet[PAG_INDEX]) and $protectedGet[PAG_INDEX] != $pages_refs['ms_ipdiscover'])
-unset($_SESSION['OCS']['ipdiscover']);
+
 
 /*********************************************************gestion de la suppression automatique des machines trop vieilles*************************/
 //require_once('plugins/options_config/del_old_computers.php');
