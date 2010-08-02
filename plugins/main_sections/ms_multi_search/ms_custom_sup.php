@@ -1,5 +1,6 @@
 <?php
 require_once('require/function_search.php');
+require_once('require/function_computers.php');
 PrintEnTete($l->g(985));
 $form_name="del_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''><div align=center>";

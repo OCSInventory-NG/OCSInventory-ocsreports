@@ -113,6 +113,7 @@ function creat_group ($name,$descr,$list_id,$req,$group_type)
 
 //function to add computer in groups_cache
 function add_computers_cache($list_id,$groupid,$static){
+	require_once('function_computers.php');
 	//Generating cache
 	if( lock($groupid) ) {	
 		$reqCache = "INSERT IGNORE INTO groups_cache(hardware_id, group_id, static) 

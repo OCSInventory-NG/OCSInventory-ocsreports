@@ -226,8 +226,8 @@ function option_conf_activate($value){
 				$sql="update config set %s = '%s' where NAME ='%s'";
 		else
 				$sql="insert into config (%s, NAME) value ('%s','%s')";
-		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
-	 	addLog( $l->g(821),$sql );
+			//	$lbl_log=$l->g(821)
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,$l->g(821));
  	}
 
  }
@@ -275,7 +275,7 @@ function update_default_value($POST){
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
 						'LOCAL_PORT','LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
-						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN');
+						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -769,6 +769,18 @@ function pagegroups($form_name){
  	
  	
  }
+ 
+ 
+ function pagesnmp($form_name){
+ 	global $l,$numeric,$sup1;
+ 	//what ligne we need?
+ 	$champs=array('SNMP'=>'SNMP');
+ 	$values=look_config_default_values($champs);
+ 	debut_tab(); 
+	ligne('SNMP',$l->g(1137),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['SNMP']));
+ 	fin_tab($form_name);
+ }
+  
  
  
  

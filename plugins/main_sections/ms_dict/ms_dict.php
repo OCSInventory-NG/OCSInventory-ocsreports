@@ -155,10 +155,7 @@ if ($protectedPost['onglet'] == 'NEW'){
 		$result_list_alpha = mysql_query( $sql_list_alpha, $_SESSION['OCS']["readServer"]);
 		$i=1;
 		 while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
-		 	if (strtoupper($item_list_alpha -> alpha) != "" 
-				and strtoupper($item_list_alpha -> alpha) != �
-				and strtoupper($item_list_alpha -> alpha) != �
-				and strtoupper($item_list_alpha -> alpha) != �){
+		 	if (strtoupper($item_list_alpha -> alpha) != ""){
 					if ($first == ''){
 						$first=$i;
 					}

@@ -169,7 +169,6 @@ if ($protectedPost['SHOW_SELECT'] == 'download'){
 	echo "<b>".$l->g(476)."</b>&nbsp;&nbsp;&nbsp;".$l->g(475).": ".$activ_manuel."";
 	echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
 }
-	echo "<input type='hidden' id='del_check' name='del_check' value=''>";
 echo "</form>";
 
 

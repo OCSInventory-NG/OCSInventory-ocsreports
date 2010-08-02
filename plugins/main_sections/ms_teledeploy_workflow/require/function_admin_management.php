@@ -108,7 +108,6 @@ function delete_field($id_field){
 	$id_field=prepare_id($id_field);
 	if (is_array($id_field)){	
 		$i=0;
-		print_r($id_field);
 		foreach($id_field as $id=>$value){
 			$sql_downloadwk_pack="ALTER TABLE downloadwk_pack DROP COLUMN fields_%s";
 			$arg_downloadwk_pack=$value;

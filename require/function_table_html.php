@@ -14,19 +14,62 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
 
+if( ! function_exists ( "utf8_decode" )) {
+	function utf8_decode($st) {
+		return $st;
+	}
+}
  
- function prepare_sql_tab($list_fields,$explu=array()){
- 	$begin_arg=array();
- 	$begin_sql="SELECT ";
- 	foreach ($list_fields as $key=>$value){
- 		if (!in_array($key,$explu)){
-			$begin_sql .= '%s,';
-			array_push($begin_arg,$value);		
- 		}
-	} 
-	return array('SQL'=>substr($begin_sql,0,-1),'ARG'=>$begin_arg); 	
- 	
- }
+ 
+function printEnTete($ent) {
+	echo "<br><table border=1 class= \"Fenetre\" WIDTH = '62%' ALIGN = 'Center' CELLPADDING='5'>
+	<th height=40px class=\"Fenetre\" colspan=2><b>".$ent."</b></th></table>";
+}
+ 
+ 
+/**
+  * Includes the javascript datetime picker
+  */
+function incPicker() {
+
+	global $l;
+	echo "<script language=\"javascript\">
+	var MonthName=[";
+	
+	for( $mois=527; $mois<538; $mois++ )
+		echo "\"".$l->g($mois)."\",";
+	echo "\"".$l->g(538)."\"";
+	
+	echo "];
+	var WeekDayName=[";
+	
+	for( $jour=539; $jour<545; $jour++ )
+		echo "\"".$l->g($jour)."\",";
+	echo "\"".$l->g(545)."\"";	
+	
+	echo "];
+	</script>	
+		<script language=\"javascript\" type=\"text/javascript\" src=\"js/datetimepicker.js\">
+	</script>";
+}
+ 
+ 
+function dateOnClick($input, $checkOnClick=false) {
+	global $l;
+	$dateForm = $l->g(269) == "%m/%d/%Y" ? "MMDDYYYY" : "DDMMYYYY" ;
+	if( $checkOnClick ) $cOn = ",'$checkOnClick'";
+	$ret = "OnClick=\"javascript:NewCal('$input','$dateForm',false,24{$cOn});\"";
+	return $ret;
+}
+
+function datePick($input, $checkOnClick=false) {
+	global $l;
+	$dateForm = $l->g(269) == "%m/%d/%Y" ? "MMDDYYYY" : "DDMMYYYY" ;
+	if( $checkOnClick ) $cOn = ",'$checkOnClick'";
+	$ret = "<a href=\"javascript:NewCal('$input','$dateForm',false,24{$cOn});\">";
+	$ret .= "<img src=\"image/cal.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"Pick a date\"></a>";
+	return $ret;
+}
  
  
  

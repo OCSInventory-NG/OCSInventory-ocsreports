@@ -10,18 +10,19 @@
 require_once('require/function_config_generale.php');
 
 
-$def_onglets[$l->g(728)]=$l->g(728); //Inventaire
-$def_onglets[$l->g(499)]=$l->g(499); //Serveur
+$def_onglets[$l->g(728)]=$l->g(728); //Inventory
+$def_onglets[$l->g(499)]=$l->g(499); //Server
 $def_onglets[$l->g(312)]=$l->g(312); //IP Discover
-$def_onglets[$l->g(512)]=$l->g(512); //T�l�d�ploiement
-$def_onglets[$l->g(628)]=$l->g(628); //Serveur de redistribution
-$def_onglets[$l->g(583)]=$l->g(583); //Groupes
-$def_onglets[$l->g(211)]=$l->g(211); //Registre
-$def_onglets[$l->g(734)]=$l->g(734); //Fichiers d'inventaire
-$def_onglets[$l->g(735)]=$l->g(735); //Filtres
+$def_onglets[$l->g(512)]=$l->g(512); //Teledeploy
+$def_onglets[$l->g(628)]=$l->g(628); //redistribution servers
+$def_onglets[$l->g(583)]=$l->g(583); //Groups
+$def_onglets[$l->g(211)]=$l->g(211); //Registry
+$def_onglets[$l->g(734)]=$l->g(734); //Inventory file
+$def_onglets[$l->g(735)]=$l->g(735); //Filter
 $def_onglets[$l->g(760)]=$l->g(760); //Webservice
 $def_onglets[$l->g(84)]=$l->g(84); //GUI
-$def_onglets[$l->g(1108)]=$l->g(1108); //connexion a l'applicatioon
+$def_onglets[$l->g(1108)]=$l->g(1108); //connexion
+$def_onglets[$l->g(1136)]=$l->g(1136); //SNMP
 
 
 
@@ -100,6 +101,9 @@ if ($protectedPost['onglet'] == $l->g(760)){
 	
 	pagewebservice($form_name);
 }
-
+if ($protectedPost['onglet'] == $l->g(1136)){
+	
+	pagesnmp($form_name);
+}
 
 echo "</div></form>";
