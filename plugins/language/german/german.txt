@@ -140,25 +140,7 @@
 140 Super Administratoren
 141 Administratoren
 142 Lokale Administratoren
-143 Die Super Administratoren sehen alle Geraete und koennen den Unity Tag vergeben
-144 Die Administratoren sehen alle Geraete aber koennen den Unity Tag nicht vergeben
-145 Die Lokalen Administratoren sehen nur Ihre Geraete und koennen den Unity Tag nicht vergeben
-146 Administrator waehlen
-147 Vorsicht, Sie werden die Rechte wirklich loeschen!
-148 UNBEKANNTER TAG
-149 Unity Tags unter Verantwortung von
-150 Recht(e) vergeben 
-151 Recht(e) geloescht
-152 Vorsicht, Sie werden die Rechte des Ziel Administrators loeschen!
-153 Keine tag unity bestimmt fuer diesen Administator
-154 Tag zu Administrator zuordnen
-155 Administrator zu Tag zuordnen
-156 Unity Tag hinzufuegen
-157 Kopieren
-158 Kopiere Rechte auf
-159 Rechte kopiert von 
-160 Kein Administrator zu diesem Tag
-161 Unity Tag unter Verantwortung von
+143 Teledeploy requesters
 162 Auswahl loeschen
 163 Service Grade Name
 164 Personen verantwortlich fuer Unity Tag

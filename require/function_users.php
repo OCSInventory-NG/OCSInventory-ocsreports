@@ -4,27 +4,15 @@ function search_profil(){
 	require_once('require/function_files.php');
 	$Directory=$_SESSION['OCS']['plugins_dir']."/main_sections/";
 	$data=ScanDirectory($Directory,"txt");
+	$array_lbl=array("sadmin"=>$l->g(140),"dde_teledeploy"=>$l->g(143),"admin"=>$l->g(141),"ladmin"=>$l->g(142));
 	$i=0;
 	while ($data['name'][$i]){
 		if ($data['name'][$i] != '4all_config.txt' and substr($data['name'][$i],-11) == "_config.txt"){	
 			$name=substr($data['name'][$i],0,-11);
-			$list_profil[$name]=$name;
-
-			if ($list_profil[$name]=="sadmin"){
-			    $list_profil[$name]=$l->g(140);
-			}
-			if ($list_profil[$name]=="dde_teledeploy"){
-			    $list_profil[$name]=$l->g(141);
-			}
-
-			if ($list_profil[$name]=="admin"){
-			    $list_profil[$name]=$l->g(142);
-			}
-
-			if ($list_profil[$name]=="ladmin"){
-			    $list_profil[$name]=$l->g(143);
-			}
-
+			if (isset($array_lbl[$name]))
+				$list_profil[$name]=$array_lbl[$name];
+			else			
+				$list_profil[$name]=$name;
 		}
 		$i++;
 	}	
