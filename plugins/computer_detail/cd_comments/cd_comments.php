@@ -1,4 +1,5 @@
 <?php 
+	$lbl_log=$l->g(1128);
 	$list_fields=array();
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
@@ -7,23 +8,23 @@
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	
-	//suppression en masse
+	//delete a list of notes
 	if ($protectedPost['del_check'] != ''){
-			$sql="update itmgmt_comments set visible=0 where id in (".$protectedPost['del_check'].")";
-			echo $sql;
-		//	mysql_query($sql, $_SESSION['OCS']["writeServer"]);
-		 	//reg�n�ration du cache
+		$arg_sql=array();
+			$sql="update itmgmt_comments set visible=0 where id in ";
+			$sql=mysql2_prepare($sql,$arg_sql,$protectedPost['del_check']);
+			
+			mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"],$sql['ARG'],'DEL_NOTES');
+		 	//update table cache
 			$tab_options['CACHE']='RESET';	 	
 	 }	
 
 	if ($protectedPost['SUP_PROF'] != '' and isset($protectedPost['SUP_PROF'])){
 		$sql="update itmgmt_comments set visible=0 where id=%s";
 		$arg=array($protectedPost['SUP_PROF']);
-		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
-		//reg�n�ration du cache
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,'DEL_NOTE');
+		//update table cache
 		$tab_options['CACHE']='RESET';
-		addLog($l->g(1128), " DEL => ".$protectedPost['SUP_PROF']);
-
 	}
 	
 	if ($protectedPost['Valid_modif_x'] != '' and isset($protectedPost['Valid_modif_x'])){
@@ -33,7 +34,8 @@
 			$sql="insert into itmgmt_comments (HARDWARE_ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION) 
 					value (%s,%s,'%s','%s','%s')";
 			$arg=array($systemid,"sysdate()",$_SESSION['OCS']["loggeduser"],$protectedPost['NOTE'],"ADD_NOTE_BY_USER");
-			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
+			
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$ar,'ADD_NOTE_BY_USER');
 			//reg�n�ration du cache
 			$tab_options['CACHE']='RESET';			
 		}elseif (trim($protectedPost['NOTE_MODIF']) != '' and isset($protectedPost['NOTE_MODIF'])){
@@ -45,10 +47,10 @@
 			}
 			$sql.=" where id=%s";
 			array_push($arg,$protectedPost['ID_MODIF']);
-			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
+			$lbl_log.= "  Old Comments=".$protectedPost['OLD_COMMENTS'];
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,'UPDATE_NOTE');
 			//reg�n�ration du cache
 			$tab_options['CACHE']='RESET';				
-			addLog($l->g(1128), " UPDATE ".$protectedPost['ID_MODIF'].". => ".$protectedPost['OLD_COMMENTS'] );
 
 		}		
 		
@@ -79,9 +81,6 @@
 	$default_fields= $list_fields;
 
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
-
-	
-	echo "<input type='hidden' id='del_check' name='del_check' value=''>";
 	echo "<br><input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='" . $l->g(898) . "'>";
 	del_selection($form_name);
 	

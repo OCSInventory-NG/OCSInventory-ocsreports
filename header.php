@@ -1,9 +1,19 @@
 <?php
-
 if (!isset($debut))
 die('FORBIDDEN');
+
 @session_start();
+if ($_SESSION['OCS']['LOG_GUI'] == 1){
+		define("LOG_FILE", $_SESSION['OCS']['LOG_DIR']."/log.csv");
+		$logHandler = @fopen( LOG_FILE, "a");
+	}
+require_once('require/aide_developpement.php');
+require_once('require/function_commun.php');
+require_once('require/function_table_html.php');
 require_once('fichierConf.class.php');
+include('dbconfig.inc.php');
+require_once('var.php');
+
 /*****************************************************LOGOUT*********************************************/
 if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 	unset($_SESSION['OCS']);
@@ -20,15 +30,19 @@ if( (!$fconf=@fopen("dbconfig.inc.php","r"))
 }
 else
 	fclose($fconf);
-require_once("preferences.php");
-/***********************************************************gestion des logs*************************************************************************/
+
+//connect to databases
+dbconnect();
+/***********************************************************LOGS ADMIN*************************************************************************/
 if (!isset($_SESSION['OCS']['LOG_GUI'])){
 	$values=look_config_default_values(array('LOG_GUI','LOG_DIR','LOG_SCRIPT'));
 	$_SESSION['OCS']['LOG_GUI']=$values['ivalue']['LOG_GUI'];
 	$_SESSION['OCS']['LOG_DIR']=$values['tvalue']['LOG_DIR'];
 	$_SESSION['OCS']['LOG_SCRIPT'] = $values['tvalue']['LOG_SCRIPT'];
+	
+	
 }
-/****************END GESTION LOGS***************/
+/****************END LOGS***************/
 
 
 

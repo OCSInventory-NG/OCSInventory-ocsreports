@@ -1,5 +1,5 @@
 <?php
-
+require_once('require/function_computers.php');
 
 
 if (isset($protectedGet['filtre'])){
