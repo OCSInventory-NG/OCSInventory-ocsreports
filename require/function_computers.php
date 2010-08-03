@@ -8,10 +8,11 @@
 function lock($id) {
 	//echo "<br><font color='red'><b>LOCK $id</b></font><br>";
 	$reqClean = "DELETE FROM locks WHERE unix_timestamp(since)<(unix_timestamp(NOW())-3600)";
-	$resClean = mysql_query($reqClean, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
+	$resClean = mysql2_query_secure($reqClean, $_SESSION['OCS']["writeServer"]);
 	
-	$reqLock = "INSERT INTO locks(hardware_id) VALUES ('$id')";
-	if( $resLock = mysql_query($reqLock, $_SESSION['OCS']["writeServer"]) or die(mysql_error()))
+	$reqLock = "INSERT INTO locks(hardware_id) VALUES ('%s')";
+	$argLock=$id;
+	if( $resLock = mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"],$reqLock))
 		return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) == 1 );
 	else return false;
 }
@@ -22,8 +23,9 @@ function lock($id) {
   */
 function unlock($id) {
 	//echo "<br><font color='green'><b>UNLOCK $id</b></font><br>";
-	$reqLock = "DELETE FROM locks WHERE hardware_id='$id'";
-	$resLock = mysql_query($reqLock, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
+	$reqLock = "DELETE FROM locks WHERE hardware_id='%s'";
+	$argLock=$id;
+	$resLock = mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"],$argLock);
 	return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) == 1 );
 }
 
@@ -37,22 +39,32 @@ function errlock() {
 
 
 
-function computer_list_by_tag($tag=""){
+function computer_list_by_tag($tag="",$format='LIST'){
+	$arg_sql=array();
 	if ($tag == ""){
-		$sql_mycomputers="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
-	}elseif (is_array($tag)){
-		$sql_mycomputers="select hardware_id from accountinfo a where a.tag in (".implode(",",$tag).")";
-	}else
-		$sql_mycomputers="select hardware_id from accountinfo a where a.tag in (".$tag.")";
-	$res_mycomputers = mysql_query($sql_mycomputers, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$sql_mycomputers['SQL']="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
+	}elseif (is_array($tag)){		
+		$sql_mycomputers="select hardware_id from accountinfo a where a.tag in ";
+		$sql_mycomputers=mysql2_prepare($sql_mycomputers,$arg_sql,$tag);
+	}else{
+		$sql_mycomputers="select hardware_id from accountinfo a where a.tag in ";
+		$sql_mycomputers=mysql2_prepare($sql_mycomputers,$arg_sql,$tag);
+	}
+	$res_mycomputers = mysql2_query_secure($sql_mycomputers['SQL'], $_SESSION['OCS']["readServer"],$sql_mycomputers['ARG']);
 	$mycomputers="(";
 	while ($item_mycomputers = mysql_fetch_object($res_mycomputers)){
 		$mycomputers.= $item_mycomputers->hardware_id.",";	
+		$array_mycomputers[]=$item_mycomputers->hardware_id;
 	}
 	$mycomputers=substr($mycomputers,0,-1).")";	
-	if ($mycomputers == "()")
-	$mycomputers = "ERROR";
-	return $mycomputers;
+	if ($mycomputers == "()" or !isset($array_mycomputers))
+		$mycomputers = "ERROR";
+	if ($format == 'LIST'){
+		return $mycomputers;
+	}else{
+		return $array_mycomputers;
+		
+	}
 }
 
 

@@ -2,6 +2,8 @@
 GUI:YES
 TELEDIFF_WK:LOGIN
 TELEDIFF_WK_FIELDS:YES
+TELEDIFF_ACTIVATE:YES
+TELEDIFF_ACTIVATE:YES
 </RESTRICTION>
 
 <ADMIN_BLACKLIST>
@@ -51,4 +53,7 @@ ms_soft_csv
 ms_csv
 ms_upload_file_popup
 ms_view_file
+ms_tele_activate
+ms_tele_actives
+ms_tele_stats
 </PAGE_PROFIL>

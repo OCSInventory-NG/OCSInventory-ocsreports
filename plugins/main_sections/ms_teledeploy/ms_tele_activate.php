@@ -10,24 +10,34 @@
 //====================================================================================
 //Modified on $Date: 2008-06-18 13:26:31 $$Author: airoine $($Revision: 1.14 $)
 require_once('require/function_telediff.php');
+require_once('require/function_computers.php');
+
 $form_name='packlist';
 //ouverture du formulaire	
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 PrintEnTete($l->g(465));
 
-if($protectedPost["SUP_PROF"] != "") {
-	del_pack($protectedPost["SUP_PROF"]);
-	//reg�n�ration du cache
-		$tab_options['CACHE']='RESET';
-}
+if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_ACTIVATE'] == 'NO')
+	$cant_active=false;
+else
+	$cant_active=true;
 
-//suppression en masse
-if ($protectedPost['del_check'] != ''){
-	 foreach (explode(",", $protectedPost['del_check']) as $key){
-	 	del_pack($key);
-	 	//reg�n�ration du cache
-		$tab_options['CACHE']='RESET';	 	
-	 }	
+if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES'){
+	$restrict_computers=computer_list_by_tag('','ARRAY');
+}
+//only for profils who can activate packet
+if (!$cant_active){	
+	if($protectedPost["SUP_PROF"] != "") {
+		del_pack($protectedPost["SUP_PROF"]);
+		$tab_options['CACHE']='RESET';
+	}
+	//delete more than one packet
+	if ($protectedPost['del_check'] != ''){
+		 foreach (explode(",", $protectedPost['del_check']) as $key){
+		 	del_pack($key);
+			$tab_options['CACHE']='RESET';	 	
+		 }	
+	}
 }
 
 if (!$protectedPost['SHOW_SELECT']){
@@ -35,55 +45,63 @@ $protectedPost['SHOW_SELECT']='download';
 
 }
 echo "<BR>".show_modif(array('download'=>$l->g(990),'server'=>$l->g(991)),'SHOW_SELECT',2,$form_name)."<BR><BR>";
-//recherche du r�pertoire de cr�ation des paquets
-if ($protectedPost['SHOW_SELECT'] == 'download'){
-		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
-}else
-		$sql_document_root="select tvalue from config where NAME='DOWNLOAD_REP_CREAT'";
-$res_document_root = mysql2_query_secure( $sql_document_root, $_SESSION['OCS']["readServer"] );
-$val_document_root = mysql_fetch_array( $res_document_root );
-$document_root = $val_document_root["tvalue"];
-//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
-if (!isset($document_root)){
-		$document_root = $_SERVER["DOCUMENT_ROOT"]."/download/";
-		if ($protectedPost['SHOW_SELECT'] == "server")
-			$document_root .="server/";
-		
+
+//only for profils who can activate packet
+if (!$cant_active){	
+	//where packets are created?
+	if ($protectedPost['SHOW_SELECT'] == 'download'){
+			$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
+	}else
+			$sql_document_root="select tvalue from config where NAME='DOWNLOAD_REP_CREAT'";
+	$res_document_root = mysql2_query_secure( $sql_document_root, $_SESSION['OCS']["readServer"] );
+	$val_document_root = mysql_fetch_array( $res_document_root );
+	$document_root = $val_document_root["tvalue"];
+	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
+	if (!isset($document_root)){
+			$document_root = $_SERVER["DOCUMENT_ROOT"]."/download/";
+			if ($protectedPost['SHOW_SELECT'] == "server")
+				$document_root .="server/";
+			
 	}
-$rep = $document_root;
-$dir = @opendir($rep);
-if ($dir){
-	while($f = readdir($dir)){
-		if (is_numeric ($f))
-		$tab_options['SHOW_ONLY']['ZIP'][$f]=$f;
-	}
-	if (!$tab_options['SHOW_ONLY']['ZIP'])
+	//can we have the zip?	
+	$rep = $document_root."/download";
+	$dir = @opendir($rep);
+	if ($dir){		
+		while($f = readdir($dir)){
+			if (is_numeric ($f))
+			$tab_options['SHOW_ONLY']['ZIP'][$f]=$f;
+		}
+		if (!$tab_options['SHOW_ONLY']['ZIP'])
+		$tab_options['SHOW_ONLY']['ZIP']='NULL';
+	}else
 	$tab_options['SHOW_ONLY']['ZIP']='NULL';
 }else
-$tab_options['SHOW_ONLY']['ZIP']='NULL';
+	$tab_options['SHOW_ONLY']['ZIP']='NULL';
 
-//javascript pour l'activation manuelle
-echo "<script language='javascript'>
-		function manualActive()
-		 {
-			var msg = '';
-			var lien = '';
-			if( isNaN(document.getElementById('manualActive').value) || document.getElementById('manualActive').value=='' )
-				msg = '".$l->g(473)."';
-			if( document.getElementById('manualActive').value.length != 10 )
-				msg = '".$l->g(474)."';
-			if (msg != ''){
-				document.getElementById('manualActive').style.backgroundColor = 'RED';
-				alert (msg);
-				return false;
-			}else{
-				lien='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active='+ document.getElementById('manualActive').value;
- 				window.open(lien,\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\");
-					
-			}	
-	}
-	</script>";
-
+//only for profils who can activate packet
+if (!$cant_active){		
+	//javascript for manual activate
+	echo "<script language='javascript'>
+			function manualActive()
+			 {
+				var msg = '';
+				var lien = '';
+				if( isNaN(document.getElementById('manualActive').value) || document.getElementById('manualActive').value=='' )
+					msg = '".$l->g(473)."';
+				if( document.getElementById('manualActive').value.length != 10 )
+					msg = '".$l->g(474)."';
+				if (msg != ''){
+					document.getElementById('manualActive').style.backgroundColor = 'RED';
+					alert (msg);
+					return false;
+				}else{
+					lien='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active='+ document.getElementById('manualActive').value;
+	 				window.open(lien,\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\");
+						
+				}	
+		}
+		</script>";
+}
 
 //$list_fields= array('Timestamp'=>'FILEID',
 $list_fields= array($l->g(475)=>'FILEID',
@@ -97,14 +115,17 @@ $list_fields= array($l->g(475)=>'FILEID',
 							'NO_NOTIF'=>'NO_NOTIF',
 							'NOTI'=>'NOTI',
 							'SUCC'=>'SUCC',
-							'ERR_'=>'ERR_',
-							'ZIP'=>'FILEID',
-							'STAT'=>'FILEID',
-							'ACTIVE'=>'FILEID',
-							'SUP'=>'FILEID',
-							'CHECK'=>'FILEID'
-							);
-$tab_options['LBL_POPUP']['SUP']='NAME';
+							'ERR_'=>'ERR_');
+//only for profils who can activate packet
+if (!$cant_active){					
+	$list_fields['ZIP']='FILEID';			
+	$list_fields['ACTIVE']='FILEID';
+	$list_fields['SUP']='FILEID';
+	$list_fields['CHECK']='FILEID';
+	$tab_options['LBL_POPUP']['SUP']='NAME';
+}
+$list_fields['STAT']='FILEID';
+
 $table_name="LIST_PACK";
 $default_fields= array('Timestamp'=>'Timestamp',
 					   $l->g(593)=>$l->g(593),
@@ -137,37 +158,74 @@ $tab_options['LBL']=array('ZIP'=>"Archives",
 							  'NOTI'=>$l->g(1000),
 							  'SUCC'=>$l->g(572),
 							  'ERR_'=>$l->g(344));
-$tab_options['REQUEST']['STAT']='select distinct fileid AS FIRST from devices d,download_enable de where d.IVALUE=de.ID';
+$tab_options['REQUEST']['STAT']='select distinct fileid AS FIRST from devices d,download_enable de where d.IVALUE=de.ID ';
+if ($restrict_computers){	
+	$tab_options['REQUEST']['STAT'].= 'and d.hardware_id in ';
+	$temp=mysql2_prepare($tab_options['REQUEST']['STAT'],array(),$restrict_computers);
+	$tab_options['ARG']['STAT']=$temp['ARG'];
+	$tab_options['REQUEST']['STAT']=$temp['SQL'];
+	unset($temp);
+}
 $tab_options['FIELD']['STAT']='FILEID';
 $tab_options['REQUEST']['SHOWACTIVE']='select distinct fileid AS FIRST from download_enable';
 $tab_options['FIELD']['SHOWACTIVE']='FILEID';
 //on force le tri desc pour l'ordre des paquets
 if (!$protectedPost['sens'])
 	$protectedPost['sens']='DESC';
-$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['ERR_']="select concat('<font color=red>',count(*),'</font>') as ERR_,de.FILEID
+	
+$sql_data_fixe="select concat('<font color=%s>',count(*),'</font>') as %s,de.FILEID
 			from devices d,download_enable de 
 			where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
-			and d.tvalue LIKE 'ERR_%' group by FILEID";
-$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['SUCC']="select concat('<font color=green>',count(*),'</font>') as SUCC,de.FILEID
+			and d.tvalue %s '%s' ";
+$sql_data_fixe_bis="select concat('<font color=%s>',count(*),'</font>') as %s,de.FILEID
 			from devices d,download_enable de 
-			where d.IVALUE=de.ID  and d.name='DOWNLOAD' and d.tvalue LIKE 'SUCCESS%' group by FILEID";
-$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['NOTI']="select concat('<font color=grey>',count(*),'</font>') as NOTI,de.FILEID
-			from devices d,download_enable de 
-			where d.IVALUE=de.ID  and d.name='DOWNLOAD' and d.tvalue LIKE 'NOTI%' group by FILEID";	
-$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]['NO_NOTIF']="select count(*) as NO_NOTIF,de.FILEID
-			from devices d,download_enable de 
-			where d.IVALUE=de.ID  and d.name='DOWNLOAD' and d.tvalue IS NULL group by FILEID";							
+			where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
+			and d.tvalue %s  ";
+
+$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_']=array('RED','ERR_','LIKE','ERR_%');
+$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC']=array('GREEN','SUCC','LIKE','SUCCESS%');
+$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI']=array('GREY','NOTI','LIKE','NOTI%');
+$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF']=array('BLACK','NO_NOTIF','IS NULL');
+
+
+
+
+if ($restrict_computers){
+	$sql_data_fixe.=" and d.hardware_id in ";
+	$sql_data_fixe_bis.=" and d.hardware_id in ";
+	$temp=mysql2_prepare($sql_data_fixe,array(),$restrict_computers);
+	$temp_bis=mysql2_prepare($sql_data_fixe_bis,array(),$restrict_computers);
+}
+foreach($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key=>$value){
+	if ($restrict_computers){
+		if ($key != 'NO_NOTIF'){
+			$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
+			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL']." group by FILEID";	
+		}else{
+			$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
+			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL']." group by FILEID";				
+		}
+	}else{
+		if ($key != 'NO_NOTIF')
+			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe." group by FILEID";	
+		else
+			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe_bis." group by FILEID";	
+	}
+}
+			
 	
 $tab_options['FILTRE']=array('FILEID'=>'Timestamp','NAME'=>$l->g(49));
 $tab_options['TYPE']['ZIP']=$protectedPost['SHOW_SELECT'];
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack['SQL'],$form_name,95,$tab_options); 
-	//traitement par lot
-del_selection($form_name);
-if ($protectedPost['SHOW_SELECT'] == 'download'){
-	$config_input=array('MAXLENGTH'=>10,'SIZE'=>15);
-	$activ_manuel=show_modif($protectedPost['manualActive'],'manualActive',0,'',$config_input);
-	echo "<b>".$l->g(476)."</b>&nbsp;&nbsp;&nbsp;".$l->g(475).": ".$activ_manuel."";
-	echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
+//only for profils who can activate packet
+if (!$cant_active){		
+	del_selection($form_name);
+	if ($protectedPost['SHOW_SELECT'] == 'download'){
+		$config_input=array('MAXLENGTH'=>10,'SIZE'=>15);
+		$activ_manuel=show_modif($protectedPost['manualActive'],'manualActive',0,'',$config_input);
+		echo "<b>".$l->g(476)."</b>&nbsp;&nbsp;&nbsp;".$l->g(475).": ".$activ_manuel."";
+		echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
+	}
 }
 echo "</form>";
 
