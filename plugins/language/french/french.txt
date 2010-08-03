@@ -100,11 +100,11 @@
 191 supprimées
 192 Résumé redondance
 193 Nom d'hôte + Numéro de série
-194 Nom d'hôte + Adresse Mac
-195 Adresse Mac + Numéro de série
+194 Nom d'hôte + Adresse MAC
+195 Adresse MAC + Numéro de série
 196 Nom d'hôte uniquement
 197 Numéro de série uniquement
-198 Adresse Mac uniquement
+198 Adresse MAC uniquement
 199 Redondances
 200 Relai correspondant diminué
 201 PLUS PETIT
@@ -593,7 +593,7 @@
 705 Etes-vous sûr de vouloir déblacklister 
 706 Déblacklister
 707 ce numéro de série
-708 cette adresse mac
+708 cette adresse MAC
 709 Cycles de latence personnalisés
 710 Paramètres de téléchargements personnalisés
 711 Modifications prises en compte

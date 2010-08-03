@@ -100,11 +100,11 @@
 191 deleted
 192 Redundancy summary
 193 Hostname + Serial number
-194 Hostname + Mac address
-195 Mac address + Serial number
+194 Hostname + MAC address
+195 MAC address + Serial number
 196 Hostname only
 197 Serial only
-198 Mac address only
+198 MAC address only
 199 Redundancy
 200 Corresponding relay decremented
 201 SMALLER
@@ -193,7 +193,7 @@
 285 Select a parameter to be modified
 286 Service pack
 287 Local import
-288 Local Importation
+288 Local importation
 289 Network information
 290 Ip querying
 291 Expert mode
@@ -457,8 +457,8 @@
 565 Server used for local inventories
 566 Port used for local inventories
 567 Ipdiscover latency
-568 RAM(MB)
-569 CPU(MHz)
+568 RAM (MB)
+569 CPU (MHz)
 570 Help
 571 Validate all
 572 Success
@@ -593,7 +593,7 @@
 705 Are you sure to want to unblacklister
 706 Unblacklister
 707 this serial number
-708 this mac address
+708 this MAC address
 709 Customized PROLOG_FREQ 
 710 Customized download
 711 Taken into account modifications
@@ -783,11 +783,11 @@
 898 Add an annotation
 899 Writer
 900 Do you really want to delete selection ?
-901 Action sur le résultat de la requête
-902 Action sur le résultat de la sélection
+901 Action on the query result
+902 Action on the result of selection
 903 You must fill the explanation field
 904 Package reassignment
-905 Explanation about perfomed actions <br>on computer to be able to <br>affect packageuet
+905 Explanation about perfomed actions<br>on computer to be able to <br>affect package
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal informations
@@ -798,14 +798,14 @@
 913 Number of non inventoried network interfaces
 914 Number of agents that didn't send inventory since at least
 915 messages
-916 The value must be higher than 
+916 The value must be higher than
 917 FREQUENCY value
 918 Differential between LASTDATE and LASTCOME
 919 Are you sure to want to delete this message
 920 ERROR, the requested doesn't exists.
 921 Delete this category
 922 To merge, you have to select 2 computers at least
-923 You have no computer in count 
+923 You have no computer in count
 924 EXTRACTION REQUEST NOT CONVENTIONAL!
 925 FUSER functionality
 926 Fuser login:
@@ -863,7 +863,7 @@
 976 INTERFACE LOCK ON REQUEST RESULT
 977 Lock
 978 You are going to lock all the interface on the search with criterias results
-979 PTo come back to a standard state, you will have to cli on the icon e <img src='image/cadena_op.png' > which is at the right top of the interfaceace
+979 To come back to a standard state, you will have to click on the icon e <img src='image/cadena_op.png' > which is at the right top of the interface
 980 Packages on computers
 981 Packages on servers groups
 982 NO AFFECTATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
@@ -879,7 +879,7 @@
 992 Teledeploy time estimate
 993 Red fields are in error
 994 PDA/SMARTPHONE
-995 user ID 
+995 user ID
 996 LASTNAME
 997 You must fill user ID
 998 choose a valid profile
@@ -958,7 +958,7 @@
 1071 Field Type
 1072 Pending resquests
 1073 Make a request
-1074 'Workflow' fonction is not activate. 
+1074 'Workflow' fonction is not activate.
 1075 Active it for use it
 1076 ERROR: SEARCH STATUS IS NOT DEFINE
 1077 Status for creating package
@@ -1106,7 +1106,7 @@
 2095 netmap lines deleted
 2096 Please enter the label of the windows client tag input box:
 2097 Leave empty if you don't want a popup to be shown on each agent launch
-2098 ERROR: Zip for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
+2098 ERROR: Zip for PHP is not properly installed.<br>Try to uncomment extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try to install the libphp-pclzip package (Linux).
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
