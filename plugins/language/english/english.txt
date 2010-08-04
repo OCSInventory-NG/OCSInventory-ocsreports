@@ -1023,6 +1023,9 @@
 1136 SNMP
 1137 Enable/Disable the snmp service
 1138 Show all my subnet
+1139 Administer
+1140 Administer subnet
+1141 Subnet added
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

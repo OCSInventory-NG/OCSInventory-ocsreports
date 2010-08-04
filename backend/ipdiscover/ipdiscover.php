@@ -38,13 +38,13 @@ if (isset($tab_ip)){
 	}	
 	if (isset($list_ip)){
 		$_SESSION['OCS']["ipdiscover"]=$list_ip;	
-		$_SESSION['OCS']["ipdiscover_methode"]=$list_methode[0];	
+		$_SESSION['OCS']["ipdiscover_methode"]=$base;	
 		$_SESSION['OCS']["ipdiscover_id"]=$id_subnet;
 	}
 }
 
 if (isset($tab_info) and !isset($_SESSION['OCS']["ipdiscover"])){
 	$_SESSION['OCS']["ipdiscover"]=$tab_info;	
-	$_SESSION['OCS']["ipdiscover_methode"]=$list_methode[0];
+	$_SESSION['OCS']["ipdiscover_methode"]=$base;
 }
 ?>

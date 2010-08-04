@@ -1,7 +1,9 @@
 <?php
 
-//nom de la page
-$name="local.php";
+//if your script not use ocsbase
+//$base = 'OTHER';
+
+$base="OCS";
 connexion_local_read();
 mysql_select_db($db_ocs,$link_ocs);
 /*
@@ -18,6 +20,8 @@ $req="select distinct ipsubnet,s.name,s.id
 			and n.status='Up'";
 if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
 		$req.="	and ".$_SESSION['OCS']["mesmachines"]." order by ipsubnet";
+else
+		$req.=" union select netid,name,id from subnet";
 $res=mysql_query($req, $link_ocs) or die(mysql_error($link_ocs));
 while ($row=mysql_fetch_object($res)){
 	unset($id);

@@ -169,4 +169,14 @@ function dateToMysql($date_cible) {
 	return sprintf("%04d-%02d-%02d", $annee, $mois, $jour);	
 }
 
+function reloadform_closeme($form='',$close=false){
+	echo "<script>";
+	if ($form != '')
+		echo "window.opener.document.forms['".$form."'].submit();";
+	if ($close)
+		echo "self.close();";
+	echo "</script>";	
+}
+
+
 ?>

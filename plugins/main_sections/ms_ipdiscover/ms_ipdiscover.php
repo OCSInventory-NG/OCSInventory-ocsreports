@@ -15,12 +15,13 @@ if (!isset($_SESSION['OCS']["mac"]))
  	//suppression d'un sous-reseau
  	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
  	//	$del=mysql_real_escape_string($protectedPost['SUP_PROF']);
- 		$sql_del="delete from subnet where id='%s'";
+ 		$sql_del="delete from subnet where netid='%s'";
  		$arg_del=$protectedPost['SUP_PROF'];
  		mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"],$arg_del);
 		//suppression du cache pour prendre en compte la modif
-		unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER']);
- 		
+		unset($_SESSION['OCS']["ipdiscover"]);
+		require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
+ 		$tab_options['CACHE']='RESET';
  	}
  	if (isset($_SESSION['OCS']["ipdiscover"]) and !$_SESSION['OCS']["ipdiscover"]['local.php']){
 		ksort($_SESSION['OCS']["ipdiscover"]);
@@ -125,11 +126,11 @@ if (!isset($_SESSION['OCS']["mac"]))
 	$tab_options['LBL']['PERCENT_BAR']=$l->g(1125);
 
 	//mise a jour possible des r�seaux si on travaille sur le r�f�rentiel local
-	if ( $_SESSION['OCS']["ipdiscover_methode"] == "local.php" and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
-		$tab_options['LIEN_LBL']['LBL_RSX']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_admin_rsx'].'&prov=ident&head=1&value=';
+	if ( $_SESSION['OCS']["ipdiscover_methode"] == "OCS" and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
+		$tab_options['LIEN_LBL']['LBL_RSX']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_admin_ipdiscover'].'&head=1&value=';
 		$tab_options['LIEN_CHAMP']['LBL_RSX']='ID';
 		$tab_options['LIEN_TYPE']['LBL_RSX']='POPUP';
-		$tab_options['POPUP_SIZE']['LBL_RSX']="width=550,height=500";
+		$tab_options['POPUP_SIZE']['LBL_RSX']="width=700,height=500";
 	}
 	
 	
@@ -151,10 +152,8 @@ if (!isset($_SESSION['OCS']["mac"]))
 		echo "<br><br>";	
 		printEnTete($strEnTete);
 		echo "<br><br>";
-
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$arg['SQL'] ,$form_name,80,$tab_options); 
-	if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
-		function_admin();
+
 }
 
 
