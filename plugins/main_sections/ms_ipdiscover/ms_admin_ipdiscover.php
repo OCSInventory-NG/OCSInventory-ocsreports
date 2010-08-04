@@ -55,18 +55,27 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		if (isset($protectedPost['ADD_SUB']) or $protectedPost['MODIF']){
 			if ($protectedPost['MODIF']){
 				$title=$l->g(931);
+				
 				$result=find_info_subnet($protectedPost['MODIF']);
 				$protectedPost['RSX_NAME']=$result->NAME;
 				$protectedPost['ID_NAME']=$result->ID;
 				$protectedPost['ADD_IP']=$result->NETID;
 				$protectedPost['ADD_SX_RSX']=$result->MASK;
 				
+				if (isset($protectedGet['value']) and $protectedGet['value'] != '')
+					$protectedPost['ADD_IP']=$protectedGet['value'];					
+				
 			}else
 				$title=$l->g(303);
 			$list_id_subnet=look_config_default_values('ID_IPDISCOVER_%','LIKE');
-			foreach ($list_id_subnet['tvalue'] as $key=>$value){
-				$list_subnet[$value]=$value;
-			}
+			
+			if (isset($list_id_subnet)){
+				foreach ($list_id_subnet['tvalue'] as $key=>$value){
+					$list_subnet[$value]=$value;
+				}
+			}else
+				$list_subnet=array();
+				
 			$default_values=array('RSX_NAME'=>$protectedPost['RSX_NAME'],
 								  'ID_NAME' =>$list_subnet,
 								  'ADD_IP'  =>$protectedPost['ADD_IP'],
