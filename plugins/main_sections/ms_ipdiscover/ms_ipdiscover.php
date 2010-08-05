@@ -23,15 +23,13 @@ if (!isset($_SESSION['OCS']["mac"]))
 		require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
  		$tab_options['CACHE']='RESET';
  	}
- 	if (isset($_SESSION['OCS']["ipdiscover"]) and !$_SESSION['OCS']["ipdiscover"]['local.php']){
-		ksort($_SESSION['OCS']["ipdiscover"]);
+ 	if (isset($_SESSION['OCS']["ipdiscover"])){
 		$dpt=array_keys($_SESSION['OCS']["ipdiscover"]);
 		array_unshift($dpt,"");
-		unset($dpt[0]);
 		foreach ($dpt as $key=>$value){
 			$list_index[$key]=$value;
 		}
-		 echo $l->g(562)." ".show_modif($list_index,'DPT_CHOISE',2,$form_name);
+		 echo $l->g(562)." ".show_modif($list_index,'DPT_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
  	}else
  		echo "<font color=red>" . strtoupper($l->g(1134)) . "</font><br>";
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != ''){
@@ -77,11 +75,12 @@ if (!isset($_SESSION['OCS']["mac"]))
 				non_ident on non_ident.RSX=ipdiscover.RSX 
 				) toto";
 	$tab_options['ARG_SQL']=$arg['ARG'];
-		$list_fields= array('LBL_RSX' => 'LBL_RSX','RSX'=>'ID',
-								'INVENTORIE'=>'INVENTORIE',
-								'NON_INVENTORIE'=>'NON_INVENTORIE',
-								'IPDISCOVER'=>'IPDISCOVER',
-								'IDENTIFIE'=>'IDENTIFIE');
+		$list_fields= array('LBL_RSX' => 'LBL_RSX',
+							'RSX'=>'ID',
+							'INVENTORIE'=>'INVENTORIE',
+							'NON_INVENTORIE'=>'NON_INVENTORIE',
+							'IPDISCOVER'=>'IPDISCOVER',
+							'IDENTIFIE'=>'IDENTIFIE');
 	if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
 	$list_fields['SUP']='ID';	
 	$list_fields['PERCENT_BAR']='pourcentage';

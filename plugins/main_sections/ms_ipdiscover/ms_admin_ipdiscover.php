@@ -30,7 +30,10 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			if ($result)
 				echo "<center><font color=red size=3><b>".$result."</b></font></center>";
 			else{
-				echo "<center><font color=green size=3><b>".$l->g(1141)."</b></font></center>";
+				if (isset($protectedPost['MODIF']))
+					echo "<center><font color=green size=3><b>".$l->g(1121)."</b></font></center>";
+				else
+					echo "<center><font color=green size=3><b>".$l->g(1141)."</b></font></center>";
 				//erase ipdiscover cache
 				unset($_SESSION['OCS']['DATA_CACHE'][$table_name],$_SESSION['OCS']["ipdiscover"],$protectedPost['ADD_SUB'],$protectedPost['MODIF']);
 				require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
@@ -75,7 +78,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 				}
 			}else
 				$list_subnet=array();
-				
+			array_unshift($list_subnet,"");	
 			$default_values=array('RSX_NAME'=>$protectedPost['RSX_NAME'],
 								  'ID_NAME' =>$list_subnet,
 								  'ADD_IP'  =>$protectedPost['ADD_IP'],
@@ -110,13 +113,15 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 	}
 	
 	if (isset($protectedPost['Valid_modif_x'])){
-		$result=add_type($protectedPost['TYPE_NAME']);
+		$result=add_type($protectedPost['TYPE_NAME'],$protectedPost['MODIF']);
 		if ($result){
 			echo "<font color=red><b>".$result."</b></font>";
 			$protectedPost['ADD_TYPE']="VALID";
 		}
 		else{
 			$tab_options['CACHE']='RESET';	
+			unset($protectedPost['MODIF']);
+			$msg_ok=$l->g(1121);
 		}
 	}	
 	
@@ -137,7 +142,8 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		$tab_hidden['pcparpage']=$protectedPost["pcparpage"];
 		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
 	}else{
-	
+		if (isset($msg_ok))
+			echo "<center><font color=green size=3><b>".$msg_ok."</b></font></center>";
 		$sql="select ID,NAME from devicetype";
 		$list_fields= array('ID' => 'ID',
 							$l->g(49)=>'NAME',

@@ -15,13 +15,17 @@ function find_info_subnet($netid){
 	
 }
 
-function find_info_type($name='',$id=''){	
+function find_info_type($name='',$id='',$update=''){	
 	if ($name != ''){	
 		$sql="select ID,NAME from devicetype where NAME = '%s'";
-		$arg=$name;
+		$arg=array($name);
 	}elseif ($id != ''){
 		$sql="select ID,NAME from devicetype where ID = '%s'";
-		$arg=$id;
+		$arg=array($id);
+	}
+	if ($update != ''){
+		$sql.= " AND ID != '%s'";
+		$arg[]=$update;
 	}
 	$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 	$row=mysql_fetch_object($res);	
@@ -51,7 +55,7 @@ function form_add_subnet($title='',$default_value,$form){
 			$tab_typ_champ[$id]['CONFIG']['SIZE']=30;
 		}
 
-			$tab_typ_champ[1]["CONFIG"]['DEFAULT']="YES";
+			$tab_typ_champ[1]["CONFIG"]['DEFAULT']="NO";
 			$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ID_IPDISCOVER&form=".$form."\",\"admin_id_ipdiscover\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 
 		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");
@@ -95,18 +99,23 @@ function add_subnet($add_ip,$sub_name,$id_name,$add_sub){
 }
 
 
-function add_type($name){
+function add_type($name,$update=''){
 	global $l;
 	
 	if (trim($name) == ''){
 		return $l->g(936);		
 	}else{
-		$row=find_info_type($name);
+		$row=find_info_type($name,'',$update);
 		if (isset($row->ID))
 			return $l->g(937);	
 	}
-	$sql="insert into devicetype (NAME) VALUES ('%s')";
-	$arg=$name;
+	if ($update != ''){
+		$sql="update devicetype set NAME = '%s' where ID = '%s' ";
+		$arg=array($name,$update);
+	}else{
+		$sql="insert into devicetype (NAME) VALUES ('%s')";
+		$arg=$name;
+	}
 	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 	return false;		
 }
