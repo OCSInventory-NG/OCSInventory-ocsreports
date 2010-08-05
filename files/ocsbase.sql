@@ -1014,5 +1014,6 @@ CREATE TABLE accountinfo_config(
 
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on accountinfo');
 INSERT INTO accountinfo_config (ID,NAME_ACCOUNTINFO,TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER) values (1,'TAG',0,'TAG','1','TAG',1);
+ALTER TABLE subnet CHANGE ID ID VARCHAR(255);
 
 

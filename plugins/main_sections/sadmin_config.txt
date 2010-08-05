@@ -2,6 +2,7 @@
 GUI:NO
 TELEDIFF_WK:NO
 TELEDIFF_WK_FIELDS:NO
+TELEDIFF_ACTIVATE:NO
 </RESTRICTION>
 
 <ADMIN_BLACKLIST>
@@ -42,6 +43,7 @@ ms_regconfig
 ms_logs
 ms_admininfo
 ms_ipdiscover
+ms_admin_ipdiscover
 ms_doubles
 ms_label
 ms_users
@@ -69,8 +71,6 @@ ms_group_show
 ms_show_detail
 ms_stat
 ms_diagnos_krb
-ms_custom_admin_rsx
-ms_custom_admin_type
 ms_custom_info
 ms_debug
 ms_computer

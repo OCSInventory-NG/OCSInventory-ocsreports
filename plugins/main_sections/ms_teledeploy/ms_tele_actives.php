@@ -10,26 +10,33 @@
 //====================================================================================
 //Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.10 $)
 require_once('require/function_telediff.php');
-if ($protectedPost['DEL_ALL'] != ''){
-	$sql_listIDdel="select distinct ID from download_enable where FILEID=".$protectedPost['DEL_ALL'];
-	$res_listIDdel = mysql_query( $sql_listIDdel, $_SESSION['OCS']["readServer"] );
-	while( $val_listIDdel = mysql_fetch_array( $res_listIDdel ) ) {
-			$listIDdel[]=$val_listIDdel['ID'];
-	}	
-	if ($listIDdel != '')
-	$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue in (".implode(',',$listIDdel).")";
-	@mysql_query($reqSupp, $_SESSION['OCS']["writeServer"]) or die(mysql_error());	
-		
-	@mysql_query("DELETE FROM download_enable WHERE FILEID=".$protectedPost['DEL_ALL'], $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
-	echo "<script>window.opener.document.packlist.submit(); self.close();</script>";	
-}
-if ($protectedPost['SUP_PROF'] != ''){
-	$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue = ".$protectedPost['SUP_PROF'];
-	@mysql_query($reqSupp, $_SESSION['OCS']["writeServer"]) or die(mysql_error());	
-		
-	@mysql_query("DELETE FROM download_enable WHERE ID=".$protectedPost['SUP_PROF'], $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
-}
 
+if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_ACTIVATE'] == 'NO')
+	$cant_active=false;
+else
+	$cant_active=true;
+	
+if (!$cant_active){
+	if ($protectedPost['DEL_ALL'] != ''){
+		$sql_listIDdel="select distinct ID from download_enable where FILEID=".$protectedPost['DEL_ALL'];
+		$res_listIDdel = mysql_query( $sql_listIDdel, $_SESSION['OCS']["readServer"] );
+		while( $val_listIDdel = mysql_fetch_array( $res_listIDdel ) ) {
+				$listIDdel[]=$val_listIDdel['ID'];
+		}	
+		if ($listIDdel != '')
+		$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue in (".implode(',',$listIDdel).")";
+		@mysql_query($reqSupp, $_SESSION['OCS']["writeServer"]) or die(mysql_error());	
+			
+		@mysql_query("DELETE FROM download_enable WHERE FILEID=".$protectedPost['DEL_ALL'], $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
+		echo "<script>window.opener.document.packlist.submit(); self.close();</script>";	
+	}
+	if ($protectedPost['SUP_PROF'] != ''){
+		$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue = ".$protectedPost['SUP_PROF'];
+		@mysql_query($reqSupp, $_SESSION['OCS']["writeServer"]) or die(mysql_error());	
+			
+		@mysql_query("DELETE FROM download_enable WHERE ID=".$protectedPost['SUP_PROF'], $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
+	}
+}
 $sql_details="select distinct priority,fragments,size from download_available where fileid=".$protectedGet['timestamp'];
 $res_details = mysql_query( $sql_details, $_SESSION['OCS']["readServer"] );
 $val_details = mysql_fetch_array( $res_details ) ;
@@ -47,8 +54,10 @@ $list_fields= array($l->g(460)=>'e.ID',
 							$l->g(440)=>'a.PRIORITY',
 							$l->g(480)=>'a.FRAGMENTS',
 							$l->g(462)=>'a.SIZE',
-							$l->g(25)=>'a.OSNAME',
-							'SUP'=>'e.ID');
+							$l->g(25)=>'a.OSNAME');
+if (!$cant_active){
+	$list_fields['SUP']='e.ID';
+}	
 $table_name="LIST_ACTIVES";
 $default_fields= $list_fields;
 $list_col_cant_del=array($l->g(460)=>$l->g(460),'SUP'=>'SUP');
@@ -61,7 +70,7 @@ $querypack=substr($querypack,0,-1);
 $querypack .= " from download_enable e RIGHT JOIN download_available a ON a.fileid = e.fileid
 				where e.FILEID=".$protectedGet['timestamp'];
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack,$form_name,95,$tab_options); 
-if ($result_exist != "")
+if ($result_exist != "" and !$cant_active)
 echo "<a href=# OnClick='confirme(\"\",\"".$protectedGet['timestamp']."\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 echo "</form>";

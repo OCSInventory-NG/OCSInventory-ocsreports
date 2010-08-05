@@ -958,26 +958,33 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$i=1;		
 	}else
 	{
-		//echo $table_name;
-		//print_r($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name]);
-		//recherche des valeurs fixe avec la requete sql stock�e
+
+		//search static values
 		if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name])){
 			foreach ($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name] as $key=>$sql){
+				if (!isset($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key]))
+					$arg=array();
+				else
+					$arg=$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key];
+					
 				if ($table_name == "TAB_MULTICRITERE"){
-				$sql.=" and hardware_id in (".implode(',',$_SESSION['OCS']['ID_REQ']).")";
-				//ajout du group by pour r�gler le probl�me des r�sultats multiples sur une requete
-				//on affiche juste le premier crit�re qui match
-				$sql.=" group by hardware_id ";
+					$sql.=" and hardware_id in ";
+					$sql=mysql2_prepare($sql,$arg,$_SESSION['OCS']['ID_REQ']);
+					//ajout du group by pour r�gler le probl�me des r�sultats multiples sur une requete
+					//on affiche juste le premier crit�re qui match
+					$sql=$sql['SQL'] . " group by hardware_id ";
 				}
 				
 			
 				
-				//ajout du tri sur la requete de valeurs fixe si cela a �t� demand�
-				if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe']))
-				$sql.=" order by ".$protectedPost['tri_fixe']." ".$protectedPost['sens'];
-			//	$sql.=" limit 200";
-				$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-			//	echo "<b>".$sql."</b><br><br><br>";
+				//add sort on column if need it
+				if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe'])){
+					$sql.=" order by '%s' %s";
+					array_push($protectedPost['tri_fixe'],$arg);
+					array_push($protectedPost['sens'],$arg);
+				}
+				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+				
 			while($item = mysql_fetch_object($result)){
 				
 					if ($item->HARDWARE_ID != "")
@@ -986,8 +993,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					$champs_index=$item->FILEID;
 		//echo $champs_index."<br>";
 					if (isset($tablename_fixe_value)){
-//						echo "<br>";
-//						echo $champs_index;
 						if (strstr($sql,$tablename_fixe_value[0]))
 							$list_id_tri_fixe[]=$champs_index;
 					}
@@ -1220,7 +1225,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 	//select champ1 AS FIRST from table where...
 	if (isset($tab_options['REQUEST'])){
 		foreach ($tab_options['REQUEST'] as $field_name => $value){
-			$resultDetails = mysql_query($value, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+			$tab_condition[$field_name]=array();
+			$resultDetails = mysql2_query_secure($value, $_SESSION['OCS']["readServer"],$tab_options['ARG'][$field_name]);
 			while($item = mysql_fetch_object($resultDetails)){
 				$tab_condition[$field_name][$item -> FIRST]=$item -> FIRST;
 			}		
@@ -1318,9 +1324,9 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				}
 				//if (!isset($entete[$num_col])){
 					if (!isset($tab_options['LBL'][$key])){
-					$entete[$num_col]=$key;
+						$entete[$num_col]=$key;
 					}else
-					$entete[$num_col]=$tab_options['LBL'][$key];
+						$entete[$num_col]=$tab_options['LBL'][$key];
 				//}
 				//si un lien doit �tre mis sur le champ
 				//l'option $tab_options['NO_LIEN_CHAMP'] emp�che de mettre un lien sur certaines
@@ -1353,11 +1359,21 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$key = "NULL";
 				}		
 				if ($affich == 'OK'){
-				//	echo $key."<br>";
-					if ($key == "NULL"){
+					$lbl_column=array("SUP"=>$l->g(122),
+									  "MODIF"=>$l->g(115),
+									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>",
+									  "NAME"=>$l->g(23));
+					//modify lbl of column
+					if (!isset($entete[$num_col]) 
+						or ($entete[$num_col] == $key and !isset($tab_options['LBL'][$key]))){
+						if (array_key_exists($key,$lbl_column))
+							$entete[$num_col]=$lbl_column[$key];
+						else
+							$entete[$num_col]=$truelabel;
+					}
+
+					if ($key == "NULL" or isset($key2)){
 						$data[$i][$num_col]="&nbsp";
-						//if (!isset($entete[$num_col]))
-						$entete[$num_col]=$truelabel;
 						$lien = 'KO';
 					}elseif ($key == "GROUP_NAME"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
@@ -1367,11 +1383,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						else
 						$lbl_msg=$value_of_field;
 						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)." ".$lbl_msg."\");'><img src=image/supp.png></a>";
-						$lien = 'KO';
-						if (!$entete[$num_col] or $entete[$num_col] == $key)
-						$entete[$num_col]=$l->g(122);
-						if (isset($key2))
-						$data[$i][$num_col]="&nbsp";
+						$lien = 'KO';		
 					}elseif ($key == "MODIF"){
 						if (!isset($tab_options['MODIF']['IMG']))
 						$image="image/modif_tab.png";
@@ -1379,10 +1391,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$image=$tab_options['MODIF']['IMG'];
 						$data[$i][$num_col]="<a href=# OnClick='pag(\"".$value_of_field."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
 						$lien = 'KO';
-						if (!$entete[$num_col] or $entete[$num_col] == $key)
-						$entete[$num_col]=$l->g(115);
-						if (isset($key2))
-						$data[$i][$num_col]="&nbsp";
 					}elseif ($key == "SELECT"){
 						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SELECT\",\"".$tab_options['QUESTION']['SELECT']."\");'><img src=image/prec16.png></a>";
 						$lien = 'KO';
@@ -1402,16 +1410,10 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";
 					}
 					elseif ($key == "CHECK"){
-						if (!$entete[$num_col] or $entete[$num_col] == $key)
-						$entete[$num_col]=$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>";
 						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
 						$lien = 'KO';		
-						if (isset($key2))
-						$data[$i][$num_col]="&nbsp";					
 					}elseif ($key == "NAME"){
 							$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$donnees['ID']."'  target='_blank'>".$value_of_field."</a>";
-							if (!$entete[$num_col] or $entete[$num_col] == $key)
-							$entete[$num_col]=$l->g(23);
 					}elseif ($key == "MAC"){
 						if (isset($_SESSION['OCS']["mac"][substr($value_of_field,0,8)]))
 						$constr=$_SESSION['OCS']["mac"][substr($value_of_field,0,8)];
@@ -1438,18 +1440,18 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					
 				}
 	
-					if ($lien == 'OK'){
-						$deb="<a onclick='return tri(\"".$value."\",\"".$sens."\",\"".$form_name."\");' >";
-						$fin="</a>";
-						$entete[$num_col]=$deb.$entete[$num_col].$fin;
-						if ($protectedPost['tri2'] == $value){
-							if ($protectedPost['sens'] == 'ASC')
-								$img="<img src='image/down.png'>";
-							else
-								$img="<img src='image/up.png'>";
-							$entete[$num_col]=$img.$entete[$num_col];
-						}
+				if ($lien == 'OK'){
+					$deb="<a onclick='return tri(\"".$value."\",\"".$sens."\",\"".$form_name."\");' >";
+					$fin="</a>";
+					$entete[$num_col]=$deb.$entete[$num_col].$fin;
+					if ($protectedPost['tri2'] == $value){
+						if ($protectedPost['sens'] == 'ASC')
+							$img="<img src='image/down.png'>";
+						else
+							$img="<img src='image/up.png'>";
+						$entete[$num_col]=$img.$entete[$num_col];
 					}
+				}
 
 			}
 			

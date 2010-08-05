@@ -46,6 +46,7 @@ ms_rules_redistrib:g(662)
 ms_teledeploy_workflow:g(1031)
 ms_config:g(107)
 ms_blacklist:g(703)
+ms_admin_ipdiscover:g(1139)
 </LBL>
 
 <URL>
@@ -66,7 +67,8 @@ ms_upload_file_popup:upload_file
 ms_regconfig:admin_reg
 ms_logs:admin_logs
 ms_admininfo:admin_info
-ms_ipdiscover:admin_ipdiscover
+ms_ipdiscover:show_ipdiscover
+ms_admin_ipdiscover:admin_ipdiscover
 ms_doubles:admin_double
 ms_label:admin_lbl
 ms_users:admin_user
@@ -92,8 +94,6 @@ ms_group_show:group_show
 ms_show_detail:show_detail
 ms_stat:stat
 ms_diagnos_krb:diagnos_krb
-ms_custom_admin_rsx:admin_rsx
-ms_custom_admin_type:admin_type
 ms_custom_info:ipdiscover_info
 ms_debug:debug
 ms_computer:computer
@@ -134,9 +134,8 @@ ms_csv:ms_export
 ms_groups:ms_groups
 ms_custom_groups:ms_groups
 ms_group_show:ms_groups
+ms_admin_ipdiscover:ms_ipdiscover
 ms_ipdiscover:ms_ipdiscover
-ms_custom_admin_rsx:ms_ipdiscover
-ms_custom_admin_type:ms_ipdiscover
 ms_custom_info:ms_ipdiscover
 ms_teledeploy_workflow:ms_teledeploy_workflow
 ms_admin_management:ms_teledeploy_workflow
@@ -182,18 +181,22 @@ ms_config:ms_config
 ms_blacklist:ms_config
 ms_multi_search:ms_multi_search
 ms_search_soft:ms_multi_search
+ms_ipdiscover:ms_ipdiscover
+ms_admin_ipdiscover:ms_ipdiscover
 </MENU>
 
 <MENU_NAME>
 ms_teledeploy:teledeploy_smenu
 ms_config:config_smenu
 ms_multi_search:search_smenu
+ms_ipdiscover:ipdiscover_smenu
 </MENU_NAME>
 
 <MENU_TITLE>
 ms_teledeploy:g(512)
 ms_config:g(107)
 ms_multi_search:g(1051)
+ms_ipdiscover:g(312)
 </MENU_TITLE>
 
 <JAVASCRIPT>
