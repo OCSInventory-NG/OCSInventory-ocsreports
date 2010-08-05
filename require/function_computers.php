@@ -12,7 +12,7 @@ function lock($id) {
 	
 	$reqLock = "INSERT INTO locks(hardware_id) VALUES ('%s')";
 	$argLock=$id;
-	if( $resLock = mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"],$reqLock))
+	if( $resLock = mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"],$argLock))
 		return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) == 1 );
 	else return false;
 }
@@ -83,8 +83,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 		$valId = mysql_fetch_array($resId);
 		$idHard = $id;
 		$did = $valId["deviceid"];
-		if( $did ) {
-					
+		if( $did ) {	
 			//Deleting a network device
 			if( strpos ( $did, "NETWORK_DEVICE-" ) === false ) {
 				$resNetm = @mysql_query("SELECT macaddr FROM networks WHERE hardware_id=$idHard", $_SESSION['OCS']["readServer"]) or die(mysql_error());
