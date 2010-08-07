@@ -278,7 +278,7 @@
 297 Can't write in directory
 298 Minden mezot ki kell t�lteni
 299 Helytelen IP c�m (form�tum: x.x.x.x)
-300 Helytelen maszk: form�tum: x.x.x.x or xx (xx<32)
+300 Helytelen maszk: form�tum: x.x.x.x
 301 H�l�zat felv�ve
 302 H�l�zat t�r�lve
 303 Alh�l�zat hozz�ad�sa

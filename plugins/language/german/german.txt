@@ -279,7 +279,7 @@
 297 Kann nicht in Verzeichnis schreiben
 298 Alle Felder muessen ausgefuellt werden
 299 Ungueltige IP Adresse (muss sein: x.x.x.x)
-300 Ungueltige Maske: muss sein: x.x.x.x oder xx (xx<32)
+300 Ungueltige Maske: muss sein: x.x.x.x
 301 Netzwerk eingefuegt
 302 Netzwerk geloescht
 303 Hinzufuegen eines Subnetz

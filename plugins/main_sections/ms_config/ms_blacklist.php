@@ -2,48 +2,37 @@
 /*
  * this page makes it possible to seize the MAC addresses for blacklist
  */
-
+require_once('require/function_blacklist.php');
 $form_name="blacklist";
+
 //printEnTete($l->g(703));
 if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
 $protectedPost['onglet']=1;
  //d�finition des onglets
 $data_on[1]=$l->g(95);
 $data_on[2]=$l->g(36);
-$data_on[3]=$l->g(116);
+$data_on[3]=$l->g(2005);
+$data_on[4]=$l->g(116);
 if (isset($protectedPost['enre'])){
 	if ($protectedPost['BLACK_CHOICE'] == 1){
-		$table="blacklist_macaddresses";
-		$field="MACADDRESS";
-		$field_value=$protectedPost['ADD_MAC_1'];
-		unset($protectedPost['ADD_MAC_1']);
-		$i=2;
-		while ($i<7){
-			if ($protectedPost['ADD_MAC_'.$i] != '')
-			$field_value.=":".$protectedPost['ADD_MAC_'.$i];
-			unset($protectedPost['ADD_MAC_'.$i]);
-			$i++;
-		}	
-	}else{
-		$table="blacklist_serials";
-		$field="SERIAL";
-		$field_value=$protectedPost['ADD_SERIAL'];
-		unset($protectedPost['ADD_SERIAL']);
+		$ok=add_mac_add($protectedPost);	
 	}
-	if (isset($table)){
-		$sql="insert into ".$table." (".$field.") value ('".$field_value."')";
-		$arg=array($table,$field,$field_value);
-//		//no error
-		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
-		echo "<br><br><center><font face='Verdana' size=-1 color='green'><b>".$l->g(655)."</b></font></center><br>";
+	if ($protectedPost['BLACK_CHOICE'] == 3){
+		$ok=add_subnet_add($protectedPost);
 		
+	}	
+	if ($protectedPost['BLACK_CHOICE'] == 2){
+		$ok=add_serial_add($protectedPost);
 	}
+	if ($ok)
+		echo "<font color=red><b>".$ok."</b></font>";
+	else
+		unset($_SESSION['OCS']['DATA_CACHE'],$_SESSION['OCS']['NUM_ROW']);
 }
 echo "<form action='' name='".$form_name."' id='".$form_name."' method='POST'>";
-onglet($data_on,$form_name,"onglet",3);
+onglet($data_on,$form_name,"onglet",10);
 echo '<div class="mlt_bordure" >';
-//	echo "<table ALIGN = 'Center'><tr><td align =center>";
-//echo "<tr><td align=center>";
+
 if ($protectedPost['onglet'] == 1){
 	$table_name="blacklist_macaddresses";
 	$list_fields= array('ID'=>'ID',
@@ -68,38 +57,50 @@ if ($protectedPost['onglet'] == 1){
 	$tab_options['FILTRE']=array('SERIAL'=>'SERIAL');
 	$tab_options['LBL_POPUP']['SUP']='SERIAL';
 	$tab_options['LBL']['SERIAL']=$l->g(36);
-}elseif ($protectedPost['onglet'] == 3){
+}elseif($protectedPost['onglet'] == 3){
+	$table_name="blacklist_subnet";
+	$list_fields= array('ID'=>'ID',
+						'SUBNET'=>'SUBNET',
+						'MASK'=>'MASK',
+						'SUP'=>'ID',
+						//'MODIF'=>'ID',
+						'CHECK'=>'ID');
+	$list_col_cant_del=$list_fields;
+	$default_fields=$list_fields; 
+	$tab_options['FILTRE']=array('SUBNET'=>'SUBNET','MASK'=>'MASK');
+	$tab_options['LBL_POPUP']['SUP']='SUBNET';
+	$tab_options['LBL']['SUBNET']=$l->g(2005);
+}elseif ($protectedPost['onglet'] == 4){
 	$list_action[1]=$l->g(95);
 	$list_action[2]=$l->g(36);
+	$list_action[3]=$l->g(2005);
 	echo $l->g(700).": ".show_modif($list_action,"BLACK_CHOICE",2,$form_name)."<br>";
-	if ($protectedPost['BLACK_CHOICE'] == 1){
-		$javascript="onKeyPress='return scanTouche(event,/[0-9 a-f A-F]/)' 
-		  onkeydown='convertToUpper(this)'
-		  onkeyup='convertToUpper(this)' 
-		  onblur='convertToUpper(this)'
-		  onclick='convertToUpper(this)'";
-		$i=1;
-		$aff=$l->g(654).": ";
-		while ($i<7){
-			if($i==1){
-			    $aff.=show_modif($protectedPost['ADD_MAC_'.$i],'ADD_MAC_'.$i,0,'',array('MAXLENGTH'=>2,'SIZE'=>3,'JAVASCRIPT'=>$javascript));
-			}else{
-			    $aff.=":".show_modif($protectedPost['ADD_MAC_'.$i],'ADD_MAC_'.$i,0,'',array('MAXLENGTH'=>2,'SIZE'=>3,'JAVASCRIPT'=>$javascript));
-			}
-			$i++;
+	if (isset($protectedPost['BLACK_CHOICE']) and $protectedPost['BLACK_CHOICE'] != ''){
+		$aff="<table align=center><tr><td>";
+		if ($protectedPost['BLACK_CHOICE'] == 1){
+			$aff.=$l->g(654).": </td><td>";
+			$aff=show_blacklist_fields($MACnb_field,$protectedPost,$MACfield_name,$MACnb_value_by_field,$MACsize,$MACseparat,$javascript_mac);
+			
+			
+		}elseif ($protectedPost['BLACK_CHOICE'] == 3){
+			$aff.=$l->g(1142).": </td><td>";
+			$aff=show_blacklist_fields($SUBnb_field,$protectedPost,$SUBfield_name,$SUBnb_value_by_field,$SUBsize,$SUBseparat,$chiffres);
+			$aff.=$l->g(1143).": </td><td>";
+			$aff=show_blacklist_fields($MASKnb_field,$protectedPost,$MASKfield_name,$MASKnb_value_by_field,$MASKsize,$MASKseparat,$chiffres);
+			
+			
+		}elseif ($protectedPost['BLACK_CHOICE'] == 2){
+			$aff.=$l->g(702).": </td><td>";
+			$aff=show_blacklist_fields($SERIALnb_field,$protectedPost,$SERIALfield_name,$SERIALnb_value_by_field,$SERIALsize,$SERIALseparat);
+			//$aff.="</td></tr>";	
 		}
-		$aff.="<br>";	
-				
-	}elseif ($protectedPost['BLACK_CHOICE'] == 2){
-		$aff=$l->g(702).": ".show_modif($protectedPost['ADD_SERIAL'],'ADD_SERIAL',0,'',array('MAXLENGTH'=>100,'SIZE'=>30))."<br>";	
-		//$aff.="</td></tr>";	
+		if (isset($aff)){
+			$aff.="</td></tr></table>
+				<input class='bouton' name='enre' type='submit' value=".$l->g(114).">";
+				echo $aff;		
+		}
 	}
 	
-	if (isset($aff)){
-		$aff.="<br>
-			<input class='bouton' name='enre' type='submit' value=".$l->g(114).">";
-			echo $aff;		
-	}
 
 
 }
@@ -116,7 +117,6 @@ if (isset($list_fields)){
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		$tab_options['CACHE']='RESET';
 	}
-	//print_r($protectedPost);
 
 	$queryDetails = 'SELECT ';
 	foreach ($list_fields as $key=>$value){

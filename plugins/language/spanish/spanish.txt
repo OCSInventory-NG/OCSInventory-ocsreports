@@ -208,7 +208,7 @@
 297 No se puede escribir en el directorio
 298 Se deben llenar todos los campos
 299 Dirección IP inválida (debe ser: x.x.x.x)
-300 Máscara inválida: debe ser: x.x.x.x o xx (xx<32)
+300 Máscara inválida: debe ser: x.x.x.x
 301 Red insertada
 302 Red borrada
 303 Adicionar una subred

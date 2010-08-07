@@ -205,7 +205,7 @@
 297 Can't write in directory
 298 All fields must be filled
 299 Invalid IP adress (must be: x.x.x.x)
-300 Invalid mask: must be: x.x.x.x or xx (xx<32)
+300 Invalid mask: must be: x.x.x.x 
 301 Network inserted
 302 Network deleted
 303 Add a subnet
@@ -1026,6 +1026,10 @@
 1139 Administer
 1140 Administer subnet
 1141 Subnet added
+1142 Enter a new subnet for blacklist
+1143 Subnet mask
+1144 Invalid MAC address. (must be: XX.XX.XX.XX.XX.XX)
+1145 the value must be between
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

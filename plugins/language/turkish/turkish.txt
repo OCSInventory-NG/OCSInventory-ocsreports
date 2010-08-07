@@ -207,7 +207,7 @@
 297 Adres defterine yaz�lmad�
 298 B�t�n alanlar dolu
 299 Ge�ersiz ip adresi (olmal�: x.x.x.x)
-300 Ge�ersiz mask: olmal�: x.x.x.x or xx (xx<32)
+300 Ge�ersiz mask: olmal�: x.x.x.x
 301 A�a girildi
 302 A� silindi
 303 Alt a� ekle
