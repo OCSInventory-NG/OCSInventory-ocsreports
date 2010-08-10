@@ -213,7 +213,7 @@
 297 Nie można zapisywa� w katalogu
 298 Wszystkie pola musz� być wypełnione
 299 NieprawIdźowy adres IP (musi być: x.x.x.x)
-300 NieprawIdźowa maska: musi być: x.x.x.x or xx (xx<32)
+300 NieprawIdźowa maska: musi być: x.x.x.x 
 301 Sieć dodana
 302 Sieć usunięta
 303 Dodaj Podsieć

@@ -63,7 +63,7 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
  * 
  */
 
-function mysql2_prepare($sql,$arg_sql,$arg_tab=''){
+function mysql2_prepare($sql,$arg_sql,$arg_tab='',$nocot=false){
 
 	if (!is_array($arg_tab)){
 		$arg_tab=explode(',',$arg_tab);
@@ -71,7 +71,10 @@ function mysql2_prepare($sql,$arg_sql,$arg_tab=''){
 
 	$sql.=" ( ";
 	foreach ($arg_tab as $key=>$value){
+		if (!$nocot)
 		$sql.=" '%s', ";
+		else
+		$sql.=" %s, ";
 		array_push($arg_sql,$value);			
 	}
 	$sql = substr($sql,0,-2) . " ) ";

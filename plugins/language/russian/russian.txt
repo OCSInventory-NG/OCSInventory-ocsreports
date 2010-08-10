@@ -207,7 +207,7 @@
 297 Can't write in directory
 298 All fields must be filled
 299 Invalid IP adress (must be: x.x.x.x)
-300 Invalid mask (must be: x.x.x.x or xx)
+300 Invalid mask (must be: x.x.x.x)
 301 ��������� ����� ����
 302 ���� �������
 303 �������� �������

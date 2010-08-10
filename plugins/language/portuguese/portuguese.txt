@@ -280,7 +280,7 @@
 297 Não pode escrever no diretório
 298 Todos os campos devem ser preenchidos
 299 Endereço IP inválido (deve ser: x.x.x.x)
-300 Máscara de rede inválida: deve ser: x.x.x.x ou xx (xx<32)
+300 Máscara de rede inválida: deve ser: x.x.x.x
 301 Rede adicionada
 302 Rede apagada
 303 Adicionar uma sub-rede

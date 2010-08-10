@@ -64,7 +64,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 		$list_fields[$value['comment']]='a.fields_'.$value['id'];		
 	}
 	//END SHOW ACCOUNTINFO
-	$list_fields['SUP']='h.id';
+	$list_fields['SUP']='ID';
 	
 	$list_col_cant_del=array('SUP'=>'SUP');
 	$default_fields= array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),

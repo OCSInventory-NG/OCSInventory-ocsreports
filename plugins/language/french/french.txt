@@ -205,7 +205,7 @@
 297 Ne peut écrire dans le répertoire
 298 Tous les champs doivent être remplis
 299 Adresse IP invalide (format valide: x.x.x.x)
-300 Masque invalide: format valide: x.x.x.x ou xx (xx<32)
+300 Masque invalide: format valide: x.x.x.x
 301 Réseau inséré
 302 Réseau supprimé
 303 Ajouter un sous-réseau
@@ -1026,6 +1026,10 @@
 1139 Administrer
 1140 Administrer les sous-réseaux
 1141 Sous-réseau ajouté
+1142 Ajouter un sous-reseau à blacklister
+1143 Masque sous-reseau
+1144 Adresse MAC non valide. (format XX.XX.XX.XX.XX.XX)
+1145 La valeur doit être comprise entre
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

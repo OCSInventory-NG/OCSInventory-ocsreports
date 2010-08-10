@@ -208,7 +208,7 @@
 297 Ne morem pisati v mapo
 298 Vsa polja morajo biti polna
 299 NapaÄ?na IP ĹĄtevilka (biti mora: x.x.x.x)
-300 NapaÄ?na maska: biti mora: x.x.x.x ali xx (xx<32)
+300 NapaÄ?na maska: biti mora: x.x.x.x 
 301 OmreĹžje vstavljeno
 302 OmreĹžje izbrisano
 303 Dodaj poddomeno

@@ -205,7 +205,7 @@
 297 Non è possibile scrivere nella directory
 298 Tutti i campi devono essere riempiti
 299 Indirizzo IP errato (deve essere: x.x.x.x)
-300 Netmask errata: deve essere: x.x.x.x o xx (xx<32)
+300 Netmask errata: deve essere: x.x.x.x
 301 La rete è stata inserita
 302 La rete è stata eliminata
 303 Aggiungi una sottorete
