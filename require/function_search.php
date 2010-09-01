@@ -100,7 +100,7 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
  			if ($no_cumul == "")
  			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=$id[$i];
  			else
- 			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=ereg_replace("like", "not like", $id[$i]);
+ 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=str_replace("like", "not like", $id[$i]);
  			}
 			//si une liste d'id de machine existe,
 			//on va concat la requ�te avec les ID des machines
