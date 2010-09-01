@@ -13,7 +13,6 @@
 
 require_once('require/function_opt_param.php');
 
-require_once("preferences.php");
 if (isset($protectedGet['systemid'])) {
 	$systemid = $protectedGet['systemid'];
 	if ($systemid == "")

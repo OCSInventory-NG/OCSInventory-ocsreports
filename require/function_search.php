@@ -156,12 +156,17 @@ function class_weight($list_sql){
 //fonction qui permet de prendre en compte les requ�tes interm�diaires pour 
 //la cr�ation des groupes dynamiques
 function traitement_cache($sql_temp,$field_modif,$field_value,$field_value_complement){
-
 	if ($sql_temp != ""){
 		if ($field_modif == "field_value")
 			$field_value= " (".$sql_temp.") ";
-		else
-			$field_value_complement= " IN (".$sql_temp.") ";
+		else{
+			$value_complement_temp=explode('(',$field_value_complement);
+			$value_complement_temp2=explode(')',$value_complement_temp[1]);
+			$field_value_complement=$value_complement_temp[0]." IN (".$sql_temp.") ".$value_complement_temp2[1];
+			//p($value_complement_temp);
+			//$field_value_complement= " IN (".$sql_temp.") ";
+			
+		}
 	}			
 	$toto= array('field_value'=>$field_value,'field_value_complement'=>$field_value_complement);
 	return $toto;

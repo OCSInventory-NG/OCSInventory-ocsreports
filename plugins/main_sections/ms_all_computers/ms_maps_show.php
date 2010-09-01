@@ -13,7 +13,6 @@
 
 //@session_start();
 
-//include ('preferences.php');
   Header("Content-type: image/png");         /* Header HTTP � renvoyer : PNG */
   $im = imagecreatefrompng("image/france.png");
 	

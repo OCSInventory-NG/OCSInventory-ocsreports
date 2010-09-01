@@ -1,6 +1,6 @@
 <?php
 /*
- * Fichier de fonctions pour l'aide au débug et au dev
+ * Fichier de fonctions pour l'aide au dï¿½bug et au dev
  * 
  * 
  */
@@ -15,4 +15,9 @@ function print_r_V2($array)
   	} 
   print "</table>"; 
 } 
+
+function p($array){
+	print_r_V2($array);
+}
+
 ?>
