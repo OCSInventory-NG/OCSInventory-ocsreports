@@ -482,16 +482,18 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'>" . $showbutton_action . "</td></tr></table>";
 	echo "<table align='center' border='0' cellspacing=20 >";
 	echo "<tr><td colspan=10 align='center'><font color=red><b><i>" . $title . "</i></b></font></td></tr>";
-	
-    foreach ($tab_name as $key=>$values)
-	{
-		//print_r($tab_typ_champ[$key]['DEFAULT_VALUE']);
-		echo "<tr><td>" . $values . "</td><td>" . $tab_typ_champ[$key]['COMMENT_BEFORE']
-		   . show_modif($tab_typ_champ[$key]['DEFAULT_VALUE'],$tab_typ_champ[$key]['INPUT_NAME'],$tab_typ_champ[$key]['INPUT_TYPE'],$tab_typ_champ[$key]['RELOAD'],
-		   				$tab_typ_champ[$key]['CONFIG']).$tab_typ_champ[$key]['COMMENT_BEHING']
-		   . "</td></tr>";
-	}
- echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
+	if (is_array($tab_name)){
+	    foreach ($tab_name as $key=>$values)
+		{
+			//print_r($tab_typ_champ[$key]['DEFAULT_VALUE']);
+			echo "<tr><td>" . $values . "</td><td>" . $tab_typ_champ[$key]['COMMENT_BEFORE']
+			   . show_modif($tab_typ_champ[$key]['DEFAULT_VALUE'],$tab_typ_champ[$key]['INPUT_NAME'],$tab_typ_champ[$key]['INPUT_TYPE'],$tab_typ_champ[$key]['RELOAD'],
+			   				$tab_typ_champ[$key]['CONFIG']).$tab_typ_champ[$key]['COMMENT_BEHING']
+			   . "</td></tr>";
+		}
+	}else
+		echo $tab_name;
+ 	echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
  	if ($showbutton){
 		echo "<tr><td><input title='" . $l->g(625) 
 					. "'  class='image' type='image'  src='image/modif_valid_v2.png' name='Valid_" 
@@ -1033,6 +1035,11 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					$resultcount = mysql2_query_secure($querycount, $link,$tab_options['ARG_SQL']);
 				else
 					$resultcount = mysql2_query_secure($querycount, $link);
+
+				//if this query is only for show data (like :
+				//select '%s' as NOM,'%s' as LIBELLE)
+				if (!stristr($queryDetails,"from"))
+					unset($resultcount)	;
 				//En dernier recourt, si le count n'est pas bon,
 				//on joue la requete initiale
 				if (!$resultcount){

@@ -1,3 +1,7 @@
+<INFO>
+NAME:g(140)
+</INFO>
+
 <RESTRICTION>
 GUI:NO
 TELEDIFF_WK:NO
@@ -8,6 +12,7 @@ TELEDIFF_ACTIVATE:NO
 <ADMIN_BLACKLIST>
 SERIAL:YES
 MACADD:YES
+IPDISCOVER:YES
 </ADMIN_BLACKLIST>
 
 <CONFIGURATION>
@@ -22,6 +27,7 @@ ACCOUNTINFO:YES
 CHANGE_ACCOUNTINFO:YES
 CHANGE_USER_GROUP:YES
 MANAGE_USER_GROUP:YES
+MANAGE_PROFIL:YES
 </CONFIGURATION>
 
 <PAGE_PROFIL>
@@ -48,8 +54,6 @@ ms_doubles
 ms_label
 ms_users
 ms_custom_perim
-ms_admin_user_group
-ms_admin_profil
 ms_local
 ms_help
 ms_stats
@@ -83,8 +87,12 @@ ms_tele_compress
 ms_speed_stat
 ms_teledeploy_workflow
 ms_admin_management
+ms_admin_user_group
+ms_admin_profil
+ms_adminvalues
 ms_view_file
 ms_search_soft
 ms_options
-ms_adminvalues
+ms_new_profil
 </PAGE_PROFIL>
+

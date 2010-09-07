@@ -1030,6 +1030,41 @@
 1143 Masque sous-reseau
 1144 Adresse MAC non valide. (format XX.XX.XX.XX.XX.XX)
 1145 La valeur doit être comprise entre
+1146 Administrer les profils
+1147 Vous ne pourrez pas le modifier.
+1148 <b>ATTENTION:</b> Aucune sauvegarde automatique des fichiers de configuration ne sera possible
+1149 Nom du nouveau profil
+1150 Profil de référence
+1151 Libellé du profil
+1152 ATTENTION: la suppression des profils peut entraîner une instabilité de l'application 
+1153 Nom du profil
+1154 Sur les machines
+1155 Sur le workflow de télédéploiement
+1156 Administrer le workflow de téléploiement
+1157 Sur les champs du workflow de télédéploiement
+1158 Sur l'activation des paquets
+1159 Sur les adresses MAC
+1160 Sur les numéros de série
+1161 Sur les sous-réseaux de l'ipdiscover
+1162 Administrer la télédiff
+1163 Modifier la configuration
+1164 Administrer les groupes
+1165 Administrer la console
+1166 Voir les messages d'alerte de la GUI
+1167 Administrer les accountinfos
+1168 Peut changer les accountinfos des machines
+1169 Peut changer son groupe d'appartenance
+1170 Administrer les profils
+1171 Administrer les groupes des profils
+1172 Administrer l'ipdiscover
+1173 Information du profil
+1174 Pages utilisateur
+1175 Restrictions
+1176 Droits Blacklist
+1177 Droits configuration
+1178 Ce champ 
+1179 est une variable. Il ne peut contenir d'espace.
+1180 ne peut pas être vide
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

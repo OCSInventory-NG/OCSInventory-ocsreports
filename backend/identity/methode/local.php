@@ -24,7 +24,10 @@ if (isset($rowOp -> accesslvl)){
 	$ms_cfg_file=$_SESSION['OCS']['main_sections_dir'].$lvluser."_config.txt";
 	$search=array('RESTRICTION'=>'MULTI');
 	$res=read_configuration($ms_cfg_file,$search);
+	if (isset($res['RESTRICTION']['GUI']))
 	$restriction=$res['RESTRICTION']['GUI'];
+	else
+	$restriction=$res;
 	//Si l'utilisateur a des droits limit�s
 	//on va rechercher les tags sur lesquels il a des droits
 	if ($restriction == 'YES'){

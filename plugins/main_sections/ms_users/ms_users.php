@@ -10,9 +10,13 @@ if (isset($protectedPost['Reset_modif_x'])){
 $list_profil=search_profil();
 $data_on=$list_profil;
 $data_on[4]=$l->g(244);
+
+if ($_SESSION['OCS']['CONFIGURATION']['MANAGE_PROFIL'] == 'YES')
+	$data_on[5]=$l->g(1146);
+
 $form_name = "admins";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-onglet($data_on,$form_name,"onglet",10);
+onglet($data_on,$form_name,"onglet",4);
 $table_name="TAB_ACCESSLVL".$protectedPost['onglet'];	
 if ($protectedPost['onglet'] != $protectedPost['old_onglet']){
 unset($protectedPost['MODIF']);
@@ -52,7 +56,10 @@ if ($protectedPost['onglet'] == 4
 	or (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != '')){	
 	admin_user($protectedPost['MODIF']);
 
-}else{
+}elseif ($protectedPost['onglet'] == 5 and $_SESSION['OCS']['CONFIGURATION']['MANAGE_PROFIL'] == 'YES'){
+	admin_profil($form_name);
+}
+else{
 	echo "<tr><td align=center>";
 	//affichage
 	$list_fields= array('ID'=>'ID',

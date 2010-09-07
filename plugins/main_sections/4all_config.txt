@@ -112,6 +112,7 @@ ms_adminvalues:admin_values
 ms_view_file:view_file
 ms_search_soft:search_soft
 ms_options:search_soft_option
+ms_new_profil:new_profil
 </URL>
 
 <DIRECTORY>
@@ -165,6 +166,7 @@ ms_users:ms_users
 ms_custom_perim:ms_users
 ms_admin_user_group:ms_users
 ms_admin_profil:ms_users
+ms_new_profil:ms_users
 ms_view_file:ms_upload_file
 ms_search_soft:ms_search_soft
 ms_options:ms_search_soft

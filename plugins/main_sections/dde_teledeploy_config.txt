@@ -1,3 +1,7 @@
+<INFO>
+NAME:g(143)
+</INFO>
+
 <RESTRICTION>
 GUI:NO
 TELEDIFF_WK:USER_GROUP
@@ -8,6 +12,7 @@ TELEDIFF_ACTIVATE:YES
 <ADMIN_BLACKLIST>
 SERIAL:NO
 MACADD:NO
+IPDISCOVER:NO
 </ADMIN_BLACKLIST>
 
 <CONFIGURATION>
@@ -22,12 +27,14 @@ ACCOUNTINFO:NO
 CHANGE_ACCOUNTINFO:NO
 CHANGE_USER_GROUP:NO
 MANAGE_USER_GROUP:NO
+MANAGE_PROFIL:NO
 </CONFIGURATION>
 
 <PAGE_PROFIL>
-ms_teledeploy_workflow
-ms_help
-ms_config_account
-ms_upload_file_popup
-ms_view_file
+ms_teledeploy_workflow:ms_teledeploy_workflow
+ms_help:ms_help
+ms_config_account:ms_config_account
+ms_upload_file_popup:ms_upload_file_popup
+ms_view_file:ms_view_file
 </PAGE_PROFIL>
+
