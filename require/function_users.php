@@ -272,6 +272,7 @@ function admin_profil($form){
 						//p($forprofil);			
 						//echo $key.'=> value ='.$value;			
 					}
+					$protectedPost[$key]=$value;
 					
 				}
 				$tab_typ_champ=show_field($name_field,$type_field,$value_field);
