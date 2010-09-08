@@ -534,8 +534,8 @@
 646 URL
 647 NUMERO DU PORT
 648 REPERTOIRE STORE
-649 ACTIVATION AUTOMATIQUE
-650 ACTIVATION MANUELLE
+649 AUTOMATIQUE
+650 MANUELLE
 651 Groupe de serveurs
 652 Machine(s)
 653 Blacklist d'adresse MAC
@@ -556,7 +556,6 @@
 668 Affecter avec quelle règle?
 669 ATTENTION: il existe des doublons de priorité<br>Une seule règle sera retenue!
 670 Une règle porte déjà ce nom
-671 Le nom de la règle ne peut être vide
 672 Cette règle n'existe pas!!!
 673 Administration des règles d'affectation
 674 NOM DE LA REGLE
@@ -1065,6 +1064,9 @@
 1178 Ce champ 
 1179 est une variable. Il ne peut contenir d'espace.
 1180 ne peut pas être vide
+1181 Fonctionnalité Serveur de redistribution
+1182 Vous ne pouvez pas administrer les règles de redistribution, la fonctionnalité est désactivée
+1183 Liste des paquets à créer
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

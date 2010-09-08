@@ -534,8 +534,8 @@
 646 URL
 647 PORT NUMBER
 648 REPERTOIRE STORE
-649 AUTOMATIC ACTIVATION
-650 MANUAL ACTIVATION
+649 AUTOMATIC
+650 MANUAL
 651 Servers group
 652 Machine(s)
 653 Blacklist MAC address
@@ -1065,7 +1065,9 @@
 1178 This field
 1179 is a variable. It can not contain spaces
 1180 can't be empty
-
+1181 Redistribution server Fonctionnaly
+1182 You can't manage redistribution rules, this fonctionnality is disable
+1183 List of packages to create
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

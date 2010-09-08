@@ -496,11 +496,11 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
  	echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
  	if ($showbutton){
 		echo "<tr><td><input title='" . $l->g(625) 
-					. "'  class='image' type='image'  src='image/modif_valid_v2.png' name='Valid_" 
+					. "'  class='image' type='image'  src='image/success.png' name='Valid_" 
 					. $name_button 
 					."'>";
 		echo "<input title='" . $l->g(626) 
-				. "' class='image' type='image'  src='image/modif_anul_v2.png' name='Reset_"
+				. "' class='image' type='image'  src='image/error.png' name='Reset_"
 				. $name_button . "'></td></tr>";
  	}
 	echo "</table>";
@@ -1411,7 +1411,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&stat=".$value_of_field."\",\"stats\",\"\")><img src='image/stat.png'></a>";
 						$lien = 'KO';
 					}elseif ($key == "ACTIVE"){
-						$data[$i][$num_col]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'><img src='image/activer.png' ></a>";
+						$data[$i][$num_col]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=450\")'><img src='image/activer.png' ></a>";
 						$lien = 'KO';
 					}elseif ($key == "SHOWACTIVE"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";

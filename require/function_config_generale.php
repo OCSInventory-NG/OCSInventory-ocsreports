@@ -275,7 +275,7 @@ function update_default_value($POST){
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
 						'LOCAL_PORT','LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
-						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP');
+						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -602,7 +602,8 @@ function pagegroups($form_name){
  	//what ligne we need?
  	$champs=array('DOWNLOAD_SERVER_URI'=>'DOWNLOAD_SERVER_URI',
 				  'DOWNLOAD_SERVER_DOCROOT'=>'DOWNLOAD_SERVER_DOCROOT',
-				  'DOWNLOAD_REP_CREAT' =>'DOWNLOAD_REP_CREAT');
+				  'DOWNLOAD_REP_CREAT' =>'DOWNLOAD_REP_CREAT',
+ 				  'DOWNLOAD_REDISTRIB' => 'DOWNLOAD_REDISTRIB');
  	$values=look_config_default_values($champs);
  	$i=0;
  	while ($i<10){
@@ -612,8 +613,15 @@ function pagegroups($form_name){
  	if (isset($values['tvalue']['DOWNLOAD_REP_CREAT']))
 	$select_rep_creat='CUSTOM';
 	else
-	$select_rep_creat='DEFAULT';			
+	$select_rep_creat='DEFAULT';	
+			
+    if (isset($values['ivalue']['DOWNLOAD_REDISTRIB']))
+	$radio_redistrib=$values['ivalue']['DOWNLOAD_REDISTRIB'];
+	else
+	$radio_redistrib='ON';	
+	
  	debut_tab(); 
+ 	ligne('DOWNLOAD_REDISTRIB',$l->g(1181),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$radio_redistrib));
  	ligne('DOWNLOAD_SERVER_URI',$l->g(726),'input',array('BEGIN'=>'HTTP://','VALUE'=>$values['tvalue']['DOWNLOAD_SERVER_URI'],'SIZE'=>70,'MAXLENGHT'=>254));
  	ligne('DOWNLOAD_SERVER_DOCROOT',$l->g(727),'input',array('VALUE'=>$values['tvalue']['DOWNLOAD_SERVER_DOCROOT'],'SIZE'=>70,'MAXLENGHT'=>254));
 	ligne('DOWNLOAD_REP_CREAT',$l->g(829),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."download/server)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_rep_creat),

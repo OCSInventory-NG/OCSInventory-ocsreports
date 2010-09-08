@@ -228,6 +228,23 @@ function replace_language($info){
 			return	$l->g(substr(substr($info,2),0,-1));
 			else	
 			return $info;
-	
 }
+
+function msg($txt,$css){
+	echo "<center><div class='" . $css . "'>" . $txt . "</div></center>";	
+}
+function msg_info($txt){
+	msg($txt,'info');
+}
+function msg_success($txt){
+	msg($txt,'success');
+}
+function msg_warning($txt){
+	msg($txt,'warning');
+}
+function msg_error($txt){
+	msg($txt,'error');
+}
+
+
 ?>
