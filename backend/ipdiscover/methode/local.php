@@ -6,13 +6,13 @@
 $base="OCS";
 connexion_local_read();
 mysql_select_db($db_ocs,$link_ocs);
-/*
- * if you want to blacklist some subnet  
- * add in $subnet_to_balcklist
- * like  $subnet_to_balcklist=array('128.128','192.168','128.42','128.105');
- */
-$subnet_to_balcklist=array();
-		
+
+$sql_black="select SUBNET,MASK from blacklist_subnet";
+$res_black=mysql2_query_secure($sql_black, $link_ocs);
+while ($row=mysql_fetch_object($res_black)){
+	$subnet_to_balcklist[$row->SUBNET]=$row->MASK;
+	
+}		
 $req="select distinct ipsubnet,s.name,s.id 
 			from networks n left join subnet s on s.netid=n.ipsubnet
 			,accountinfo a
@@ -22,10 +22,14 @@ if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] !
 		$req.="	and ".$_SESSION['OCS']["mesmachines"]." order by ipsubnet";
 else
 		$req.=" union select netid,name,id from subnet";
-$res=mysql_query($req, $link_ocs) or die(mysql_error($link_ocs));
+$res=mysql2_query_secure($req, $link_ocs) or die(mysql_error($link_ocs));
 while ($row=mysql_fetch_object($res)){
 	unset($id);
-	foreach ($subnet_to_balcklist as $value){
+	foreach ($subnet_to_balcklist as $key=>$value){
+		if ($key == $row -> ipsubnet)
+			$id='--'.$l->g(703).'--';
+	}
+	/*foreach ($subnet_to_balcklist as $key=>$value){
 		$black=explode('.',$value);
 		$nb=count($black);
 		$origine=explode('.',$row->ipsubnet);
@@ -40,7 +44,7 @@ while ($row=mysql_fetch_object($res)){
 		if (!isset($verif)){
 			$id='--'.$l->g(703).'--';
 		}
-	}
+	}*/
 	//this subnet was identify
 	if ($row->id != null and !isset($id)){
 		$list_ip[$row->id][$row->ipsubnet]=$row->name;
@@ -51,7 +55,6 @@ while ($row=mysql_fetch_object($res)){
 	}else{
 		$list_ip[$id][$row->ipsubnet]=$id;
 	}
-	
 
 }
 $id_subnet="ID";

@@ -6,14 +6,16 @@
  */
 function print_r_V2($array)
 { print "<table border='1'>"; 
-  foreach($array as $key=>$val) { 
-  	print "<tr><td><font size=2>".$key."</td><td><font size=2>"; 
-  	if (is_array($array[$key])) { 
-  		print_r_V2($array[$key]); 
-  		print "</td></tr>"; } 
-  	else print $val."</td></tr>"; 
-  	} 
-  print "</table>"; 
+if (is_array($array)){
+	  foreach($array as $key=>$val) { 
+	  	print "<tr><td><font size=2>".$key."</td><td><font size=2>"; 
+	  	if (is_array($array[$key])) { 
+	  		print_r_V2($array[$key]); 
+	  		print "</td></tr>"; } 
+	  	else print $val."</td></tr>"; 
+	  	} 
+	  print "</table>"; 
+	}
 } 
 
 function p($array){
