@@ -1023,6 +1023,51 @@
 1136 SNMP
 1137 Abilita/Disabilita il servizio SNMP
 1138 Mostra tutti i miei sottorete
+1139 Amministra
+1140 Amministra subnet
+1141 Subnet aggiunta
+1142 Inserisci una nuova subnet nella blacklist
+1143 Subnet mask
+1144 Indirizzi MAC (deve essere: XX.XX.XX.XX.XX.XX)
+1145 il valore deve essere compreso
+1146 Amministra profili
+1147 Non puoi aggiornarlo.
+1148 <b>ATTENZIONE:</b>Non sarà possibile effettuare il backup automatico dei file di configurazione
+1149 Nome del nuovo profilo
+1150 Profilo di riferimento
+1151 Nome del profilo
+1152 ATTENZIONE: la cancellazione dei profili di base potrebbe causare instabilità in OCS
+1153 Nome del profilo
+1154 On computers
+1155 On teledeploy's workflow
+1156 Manage teledeploy's workflow
+1157 On the fields of teledeploy's workflow
+1158 On the packets' activation
+1159 On MAC addresses
+1160 On serial numbers
+1161 On the ipdiscover's subnet
+1162 Gestione teledeploy
+1163 Aggiorna la configurazione
+1164 Gestione gruppi
+1165 Gestione console
+1166 Visualizza messaggi di avviso della GUI
+1167 Gestione informazioni account
+1168 può cambiare le informazioni dei computer
+1169 possono cambiare il proprio gruppo di appartenenza
+1170 Gestione profili
+1171 Gestione profili di gruppo
+1172 Gestione ipdiscover
+1173 Informazione del profilo
+1174 Pagine utente
+1175 Restrizioni
+1176 Permessi sulle Blacklist
+1177 Permessi di gestione
+1178 Questo campo
+1179 è una variabile. Non può contenere spazi
+1180 non può essere vuoto
+1181 Funzionalità server di ridistribuzione
+1182 Non puoi gestire le regole di ridistribuzione, questa funzionalità è disabilitata
+1183 Lista dei pacchetti da creare
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
