@@ -100,7 +100,7 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
  			if ($no_cumul == "")
  			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=$id[$i];
  			else
- 			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=ereg_replace("like", "not like", $id[$i]);
+ 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=str_replace("like", "not like", $id[$i]);
  			}
 			//si une liste d'id de machine existe,
 			//on va concat la requ�te avec les ID des machines
@@ -156,12 +156,17 @@ function class_weight($list_sql){
 //fonction qui permet de prendre en compte les requ�tes interm�diaires pour 
 //la cr�ation des groupes dynamiques
 function traitement_cache($sql_temp,$field_modif,$field_value,$field_value_complement){
-
 	if ($sql_temp != ""){
 		if ($field_modif == "field_value")
 			$field_value= " (".$sql_temp.") ";
-		else
-			$field_value_complement= " IN (".$sql_temp.") ";
+		else{
+			$value_complement_temp=explode('(',$field_value_complement);
+			$value_complement_temp2=explode(')',$value_complement_temp[1]);
+			$field_value_complement=$value_complement_temp[0]." IN (".$sql_temp.") ".$value_complement_temp2[1];
+			//p($value_complement_temp);
+			//$field_value_complement= " IN (".$sql_temp.") ";
+			
+		}
 	}			
 	$toto= array('field_value'=>$field_value,'field_value_complement'=>$field_value_complement);
 	return $toto;

@@ -124,7 +124,7 @@ function insert_blacklist_table($table,$field,$field_value){
 	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$field_value);
 //		//no error
 	mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"],$sql['ARG']);
-	echo "<br><br><center><font face='Verdana' size=-1 color='green'><b>".$l->g(655)."</b></font></center><br>";	
+	msg_success($l->g(655));
 	
 }
 

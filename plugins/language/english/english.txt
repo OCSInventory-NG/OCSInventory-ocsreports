@@ -534,8 +534,8 @@
 646 URL
 647 PORT NUMBER
 648 REPERTOIRE STORE
-649 AUTOMATIC ACTIVATION
-650 MANUAL ACTIVATION
+649 AUTOMATIC
+650 MANUAL
 651 Servers group
 652 Machine(s)
 653 Blacklist MAC address
@@ -1030,6 +1030,44 @@
 1143 Subnet mask
 1144 Invalid MAC address. (must be: XX.XX.XX.XX.XX.XX)
 1145 the value must be between
+1146 Administer profils
+1147 You can't update it.
+1148 <b>WARNING:</b>No automatic backup of configuration files will be possible
+1149 Nom du nouveau profil
+1150 Profil de référence
+1151 Libellé du profil
+1152 WARNING: delete basic profiles may cause instability in ocs
+1153 Profil's name
+1154 On computers
+1155 On teledeploy's workflow
+1156 Manage teledeploy's workflow
+1157 On the fields of teledeploy's workflow
+1158 On the packets' activation
+1159 On MAC addresses
+1160 On serial numbers
+1161 On the ipdiscover's subnet
+1162 Manage teledeploy
+1163 Update Configuration
+1164 Manage groups
+1165 Manage console
+1166 See warning messages of the GUI
+1167 Manage accountinfos
+1168 may change accountinfos computers
+1169 may change their membership group
+1170 Manage profiles
+1171 Manage profiles group
+1172 Manage ipdiscover
+1173 Profile information
+1174 User Pages
+1175 Restrictions
+1176 Rights to Blacklist
+1177 Rights to Manage
+1178 This field
+1179 is a variable. It can not contain spaces
+1180 can't be empty
+1181 Redistribution server Fonctionnaly
+1182 You can't manage redistribution rules, this fonctionnality is disable
+1183 List of packages to create
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

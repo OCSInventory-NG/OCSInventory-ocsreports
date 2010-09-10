@@ -22,7 +22,9 @@ function ScanDirectory($Directory,$Filetype){
  * MULTI => You have few values to read 
  */
 function read_configuration($ms_cfg_file,$search){
-	$fd = fopen ($ms_cfg_file, "r");
+	$fd = @fopen ($ms_cfg_file, "r");
+	if (!$fd)
+		return "NO_FILES";
       $capture='';
       while( !feof($fd) ) {
 
@@ -53,5 +55,63 @@ function read_configuration($ms_cfg_file,$search){
    fclose( $fd );	
    return $find;
 }
+
+function update_config_file($ms_cfg_file,$new_value,$sauv='YES'){
+	if ($sauv == 'YES')
+		getcopy_config_file($ms_cfg_file);
+	$ms_cfg_file=$_SESSION['OCS']['main_sections_dir'].$ms_cfg_file."_config.txt";
+	
+	//$file=fopen($file_name,"w+");
+	$new_ms_cfg_file='';
+	foreach ($new_value as $name_bal=>$val){
+		$new_ms_cfg_file.="<".$name_bal.">\n";
+		//fwrite($file,$key." ".$value."/r/n");	
+		foreach ($val as $name_value=>$value){
+			if (isset($value) and $value != '')
+				$new_ms_cfg_file.=$name_value.':'.$value."\n";
+			else
+				$new_ms_cfg_file.=$name_value."\n";
+			//fwrite($file,$key." ".$value."/r/n");				
+		}
+		$new_ms_cfg_file.="</".$name_bal.">\n\n";		
+	}	
+	$file=fopen($ms_cfg_file,"w+");
+	fwrite($file,$new_ms_cfg_file);	
+	fclose( $file );	
+	
+}
+function getcopy_config_file($ms_cfg_file,$record='YES',$sauv=FALSE){
+	if ($record != 'YES')
+		return FALSE;
+	if (!$sauv)
+		$newfile=$_SESSION['OCS']['main_sections_dir'].'old_config_files/'.$ms_cfg_file.'_config_old_'.time();
+	else
+		$newfile=$_SESSION['OCS']['main_sections_dir'].$sauv.'_config.txt';
+		
+	$ms_cfg_file=$_SESSION['OCS']['main_sections_dir'].$ms_cfg_file."_config.txt";
+	copy($ms_cfg_file, $newfile);
+	return TRUE;
+}
+
+
+function delete_config_file($ms_cfg_file){
+	$array_files=explode(',',$ms_cfg_file);
+	$i=0;
+	while (isset($array_files[$i])){
+		getcopy_config_file($array_files[$i]);
+		$ms_file=$_SESSION['OCS']['main_sections_dir'].$array_files[$i]."_config.txt";
+		unlink($ms_file);
+		$i++;
+	}
+}
+function create_profil($new_profil,$lbl_profil,$ref_profil){
+	$new_value=read_profil_file($ref_profil);
+	$new_value['INFO']['NAME']=$lbl_profil;
+	update_config_file($new_profil,$new_value,'NO');
+	//getcopy_config_file($protectedPost['ref_profil'],'YES',$protectedPost['new_profil']);	
+	
+}
+
+
 
 ?>

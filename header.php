@@ -206,6 +206,17 @@ if (!isset($_SESSION['OCS']["usecache"])){
 /********************END GESTION CACHE******************/
 
 
+/********************MANAGE DOWNLOAD REDISTRIBUTION******************/
+if (!isset($_SESSION['OCS']["use_redistribution"])){
+	$values=look_config_default_values(array('DOWNLOAD_REDISTRIB'));
+	$_SESSION['OCS']['use_redistribution']=$values['ivalue']['DOWNLOAD_REDISTRIB'];
+	if (!isset($_SESSION['OCS']["use_redistribution"]))
+		$_SESSION['OCS']["use_redistribution"]=1;
+}
+
+/********************END DOWNLOAD REDISTRIBUTION******************/
+
+
 /*********************************************GESTION OF LBL_TAG*************************************/
 
 if (!isset($_SESSION['OCS']['TAG_LBL'])){

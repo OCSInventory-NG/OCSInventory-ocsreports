@@ -29,9 +29,11 @@ if (!isset($_SESSION['OCS']["mac"]))
 		foreach ($dpt as $key=>$value){
 			$list_index[$key]=$value;
 		}
-		 echo $l->g(562)." ".show_modif($list_index,'DPT_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
+		asort($list_index);
+		echo $l->g(562)." ".show_modif($list_index,'DPT_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
  	}else
- 		echo "<font color=red>" . strtoupper($l->g(1134)) . "</font><br>";
+ 		msg_info(strtoupper($l->g(1134)));
+
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != ''){
 	 	
 	 	$array_rsx=array_keys($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);

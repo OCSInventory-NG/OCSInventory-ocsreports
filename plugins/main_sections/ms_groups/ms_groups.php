@@ -49,7 +49,8 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	$def_onglets['DYNA']=$l->g(810); //Dynamic group
 	$def_onglets['STAT']=$l->g(809); //Static group centraux
-	$def_onglets['SERV']=strtoupper($l->g(651));
+	if ($_SESSION['OCS']["use_redistribution"] == 1)
+		$def_onglets['SERV']=strtoupper($l->g(651));
 	if ($protectedPost['onglet'] == "")
 	$protectedPost['onglet']="STAT";	
 	//show onglet

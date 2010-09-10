@@ -117,7 +117,6 @@ while ($list_plugins[$i]){
 		$fhref = "";
 	}
 	echo $href."<img title=\"";
-	
 	if (substr($list_lbl[$list_plugins[$i]],0,2) == 'g(')
 	echo $l->g(substr(substr($list_lbl[$list_plugins[$i]],2),0,-1));
 	else

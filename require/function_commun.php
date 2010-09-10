@@ -181,5 +181,70 @@ function reloadform_closeme($form='',$close=false){
 	echo "</script>";	
 }
 
+function read_profil_file($name,$writable=''){	
+	global $l;
+	//Select config file depending on user profile
+	$ms_cfg_file= $_SESSION['OCS']['main_sections_dir'].$name."_config.txt";
+	$search=array('INFO'=>'MULTI','PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'MULTI','ADMIN_BLACKLIST'=>'MULTI','CONFIGURATION'=>'MULTI');
+	if (!is_writable($_SESSION['OCS']['main_sections_dir'].'old_config_files/') and $writable!='') {
+    	echo "<br><font color=red>".$l->g(297)." ".$_SESSION['OCS']['main_sections_dir']."old_config_files/
+    				<br>".$l->g(1148);
+	}
+	return read_files($search,$ms_cfg_file,$writable);
+}
+
+function read_config_file($writable=''){
+	//Select config file depending on user profile
+	$ms_cfg_file= $_SESSION['OCS']['main_sections_dir']."4all_config.txt";
+	$search=array('ORDER_FIRST_TABLE'=>'MULTI2',
+				  'ORDER_SECOND_TABLE'=>'MULTI2',
+				  'LBL'=>'MULTI',
+				  'MENU'=>'MULTI',
+				  'MENU_TITLE'=>'MULTI',
+				  'MENU_NAME'=>'MULTI',
+				  'URL'=>'MULTI',
+				  'DIRECTORY'=>'MULTI',
+				  'JAVASCRIPT'=>'MULTI');
+	return read_files($search,$ms_cfg_file,$writable);
+}
+
+function read_files($search,$ms_cfg_file,$writable=''){
+	global $l;
+	if (!is_writable($ms_cfg_file) and $writable != '') {
+		echo "<br><font color=red>".$ms_cfg_file." ".$l->g(1006).". ".$l->g(1147)."</font><br>";
+		return FALSE;
+	}
+	
+	if (file_exists($ms_cfg_file)) {
+		$profil_data=read_configuration($ms_cfg_file,$search);
+		return $profil_data;
+	}else
+	return FALSE;		
+}
+
+function replace_language($info){
+	global $l;
+	if (substr($info,0,2) == 'g(')
+			return	$l->g(substr(substr($info,2),0,-1));
+			else	
+			return $info;
+}
+
+function msg($txt,$css){
+	echo "<center><div class='" . $css . "'>" . $txt . "</div></center>";	
+}
+function msg_info($txt){
+	msg($txt,'info');
+}
+function msg_success($txt){
+	msg($txt,'success');
+}
+function msg_warning($txt){
+	msg($txt,'warning');
+}
+function msg_error($txt){
+	msg($txt,'error');
+}
+
 
 ?>

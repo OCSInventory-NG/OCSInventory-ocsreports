@@ -24,9 +24,9 @@ if (isset($protectedPost['enre'])){
 	if ($protectedPost['BLACK_CHOICE'] == 2){
 		$ok=add_serial_add($protectedPost);
 	}
-	if ($ok)
-		echo "<font color=red><b>".$ok."</b></font>";
-	else
+	if ($ok){
+		msg_error($ok);
+	}else
 		unset($_SESSION['OCS']['DATA_CACHE'],$_SESSION['OCS']['NUM_ROW']);
 }
 echo "<form action='' name='".$form_name."' id='".$form_name."' method='POST'>";

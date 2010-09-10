@@ -1,6 +1,7 @@
 <?php
 if (!is_numeric($protectedGet["timestamp"]))
 die();
+/*echo 'toto';*/
 header("content-type: application/zip");
 header("Content-Disposition: attachment; filename=".$protectedGet["timestamp"].".zip");
 if(isset($protectedGet["timestamp"])){
@@ -14,8 +15,9 @@ if(isset($protectedGet["timestamp"])){
 	
 	$res_document_root = mysql_query( $sql_document_root, $_SESSION['OCS']["readServer"] );
 	while( $val_document_root = mysql_fetch_array( $res_document_root ) ) {
-		$document_root = $val_document_root["tvalue"];
+		$document_root = $val_document_root["tvalue"].'/download/';
 	}
+	//echo $document_root;
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root)){
 		$document_root = $_SERVER["DOCUMENT_ROOT"]."/download/";

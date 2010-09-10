@@ -366,7 +366,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 				if ($field_value_complement[$i] != "'NULL'" and 
 						$field_value_complement[$i] != "NULL")
 				 $sql_temp.=" where fileid=".$field_value_complement[$i];
-				$result_temp = mysql_query( $sql_temp, $_SESSION['OCS']["readServer"] );
+				$result_temp = mysql2_query_secure( $sql_temp, $_SESSION['OCS']["readServer"] );
 				while( $val_temp = mysql_fetch_array($result_temp) ) {
 						$list[]=addslashes($val_temp['id']); 						
 					}
@@ -561,8 +561,6 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 		$i++;
  		
 	}
-	
-
 $list_id="";
 //traitement sur les requetes
 //echo "<br><br>";
@@ -748,6 +746,10 @@ if ($list_id != "")	{
 $no_result="NO RESULT";
 
 if ($no_result == "NO RESULT" and !isset($ERROR)){
+	//choix des fonctionnalit�es pour les utilisateurs 
+	$list_fonct["image/groups_search.png"]=$l->g(583);
+	$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
+	add_trait_select($list_fonct,$list_id,$form_name,$list_pag);
 	echo "<font color=RED size=5><div align=center>".$l->g(42)."</div></font>";
 }
 

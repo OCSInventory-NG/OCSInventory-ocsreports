@@ -375,9 +375,10 @@ $activate=option_conf_activate('TELEDIFF_WK');
 //If workflow for teledeploy is activated
 //We show only the package we can create
 if ($activate){
-	echo "<font color = green><b>" . $l->g(1105) . "
+	msg_info($l->g(1105)."<br>".$l->g(1106)."<br>".$l->g(1107));
+/*	echo "<font color = green><b>" . $l->g(1105) . "
 			<br> " . $l->g(1106) . "
-			<br> " . $l->g(1107) . "</b></font>";
+			<br> " . $l->g(1107) . "</b></font>";*/
 	//recherche des demandes de télédéploiement en statut de création de paquet
 	$conf_creat_Wk=look_config_default_values(array('IT_SET_NIV_CREAT'));
 	//print_r($conf_creat_Wk);
@@ -395,7 +396,7 @@ if ($activate){
 			$list_dde_creat[$tab_value->ID]=$tab_value->$id_name;
 		}
 	//	print_r($info_dde_statut_creat);
-		echo "<br><b>Liste des paquets à créer:</b>".show_modif($list_dde_creat,'LIST_DDE_CREAT',2,$form_name);
+		echo "<br><b>" . $l->g(1183) . ":</b>".show_modif($list_dde_creat,'LIST_DDE_CREAT',2,$form_name);
 		if (!$protectedPost['LIST_DDE_CREAT'] or $protectedPost['LIST_DDE_CREAT'] == ""){
 			echo "</form>";
 			require_once($_SESSION['OCS']['FOOTER_HTML']);
@@ -459,7 +460,8 @@ echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLP
 
 echo $title_creat.$nom.$descr.$os.$proto.$prio.$file.$action;
 //redistrib
-echo $title_redistrib.$redistrib;
+if ($_SESSION['OCS']["use_redistribution"] == 1){
+	echo $title_redistrib.$redistrib;
 
 	$sql="select NAME,TVALUE from config where NAME ='DOWNLOAD_REP_CREAT'
 		  union select NAME,TVALUE from config where NAME ='DOWNLOAD_SERVER_DOCROOT'";
@@ -484,7 +486,7 @@ echo $title_redistrib.$redistrib;
 		echo $sous_tab_end;
 	echo "</div>";
 
-
+}
 //affichage de cette partie que si on est dans un systeme windows
 echo "<tr><td colspan='3'>";
 echo "<div id='OS_div' style='display:block'>";
