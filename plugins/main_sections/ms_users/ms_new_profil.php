@@ -61,7 +61,7 @@ if ($protectedPost['onglet'] == 1){
 	
 	}elseif ($protectedPost['onglet'] == 2){
 		$name_field=array("new_profil","lbl_profil","ref_profil");
-		$tab_name=array($l->g(1149)." :",$l->g(1151)." :",$l->g(1150)." :");
+		$tab_name=array($l->g(1149).": ",$l->g(1151).": ",$l->g(1150).": ");
 		if (isset($protectedPost['Valid_modif_x'])){
 			$msg="";
 			if (stripos($protectedPost['new_profil'], ' ')){

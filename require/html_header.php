@@ -77,7 +77,7 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 			echo "<img src='image/cadena_op.png' title='".$l->g(891)."' alt='".$l->g(891)."' >";
 			echo "</a>";
 		}
-		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=500\")'";
+		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=650\")'";
 		echo "<a ".$javascript."><img src=".$_SESSION['OCS']['plugins_dir']."/main_sections/img/ms_pass.png></a>";
 		echo "<form name='log_out' id='log_out' action='' method='post'>";
 		echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";

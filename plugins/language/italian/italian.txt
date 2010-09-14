@@ -1070,13 +1070,14 @@
 1183 Lista dei pacchetti da creare
 1184 Chiave aggiunta
 1185 Chiave aggiornata
+1186 Informazioni aggiornate
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
 2002 ERRORE: linea
 2003 Errore MySQL:
 2004 (usando il nuovo account ocs)
-2005 Subnet
+2005 Sottoreti
 2006 ATTENZIONE:
 2007 account
 2008 errore
@@ -1137,7 +1138,7 @@
 2076 Nessun file subnet.csv da importare
 2077 Inserimento delle reti da subnet.csv
 2078 ERRORE: non posso inserire le reti
-2079 errore nella tabella delle subnet
+2079 errore nella tabella delle sottoreti
 2080 ATTENZIONE: la rete
 2081 non è stata inserita (IP o netmask errati
 2082 Calcolo netid delle reti. Attendere prego...

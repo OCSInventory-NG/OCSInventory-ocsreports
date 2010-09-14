@@ -34,8 +34,10 @@ function delete_list_user($list_to_delete){
 
 function add_user($data_user,$list_profil=''){
 	global $l;
-		if (trim($data_user['ID']) == "")
+	
+	if (trim($data_user['ID']) == "")
 		$ERROR=$l->g(997);
+		
 	if (is_array($list_profil)){
 		if (!array_key_exists($data_user['ACCESSLVL'], $list_profil))
 			$ERROR=$l->g(998);
@@ -97,19 +99,21 @@ function add_user($data_user,$list_profil=''){
 
 
 function admin_user($id_user=''){
-	global $protectedPost,$l,$pages_refs;
+	global $protectedPost,$l,$pages_refs; 
+	if ($id_user!='')
+		$update=3;
+	else
+		$update=0;
 		if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
 			//search all profil type
 			$list_profil=search_profil();
-			$sql="select IVALUE,TVALUE from config where name like '%s'";
-			$arg="USER_GROUP_%";
-			$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-			while ($row=mysql_fetch_object($res)){
-				$list_groups[$row->IVALUE]=$row->TVALUE;			
+			$list_groups_result=look_config_default_values("USER_GROUP_%",'LIKE');
+			foreach ($list_groups_result['name'] as $key=>$value){
+				$list_groups[$list_groups_result['ivalue'][$key]]=$list_groups_result['tvalue'][$key];
 			}
 			$name_field=array("ID","ACCESSLVL","USER_GROUP");
 			$tab_name=array($l->g(995).": ",$l->g(66).":",$l->g(607).":");
-			$type_field= array(0,2,2);	
+			$type_field= array($update,2,2);	
 			
 		}
 		$name_field[]="FIRSTNAME";
@@ -135,13 +139,13 @@ function admin_user($id_user=''){
 		
 		if ($id_user != '' or $_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'NO'){
 			$tab_hidden['MODIF']=$id_user;
-			$sql="select * from operators where id= '%s'";
+			$sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
 			$arg=$id_user;
 			$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 			$row=mysql_fetch_object($res);
 			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
 				$protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
-				$protectedPost['USER_GROUP']=$row->USER_GOUP;
+				$protectedPost['USER_GROUP']=$row->USER_GROUP;
 				$value_field=array($row->ID,$list_profil,$list_groups);
 			}
 			$value_field[]=$row->FIRSTNAME;
@@ -237,7 +241,7 @@ function admin_profil($form){
 	}
 	
 	$array_profil=search_profil();
-	echo "Profils:".show_modif($array_profil,"PROFILS",2,$form);
+	echo $l->g(1187). ": " .show_modif($array_profil,"PROFILS",2,$form);
 	echo "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_new_profil']."&head=1&form=".$form."\",\"new_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=550\")><img src=image/plus.png></a>";
 	
 	if (isset($protectedPost['PROFILS']) and $protectedPost['PROFILS'] != ''){

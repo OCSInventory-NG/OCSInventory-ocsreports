@@ -1069,7 +1069,8 @@
 1183 Liste des paquets à créer
 1184 Clé ajoutée
 1185 Clé modifiée
-
+1186 Vos données ont été mises à jour
+1187 Profil
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
