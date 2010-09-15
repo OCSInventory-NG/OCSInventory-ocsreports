@@ -74,10 +74,10 @@ foreach ($nb_4_hour as $key=>$value){
 }
 $img_width= count($data)*30;
 if (isset($data) and $data != ""){
-header ("Content-type: image/png");
-Histogramme($data,$img_width,600,$legende);
+	header ("Content-type: image/png");
+	Histogramme($data,$img_width,600,$legende);
 }else
-echo "<center><font color=red><b>".$l->g(989)."</b></font></center>";
+	msg_error($l->g(989));
 
 function ImageColorLight($im,$color,$mod)
 {

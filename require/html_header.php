@@ -32,8 +32,7 @@ if( !isset($protectedGet["popup"] )) {
 		 $_SESSION['OCS']["mesmachines"]=$_SESSION['OCS']["TRUE_mesmachines"];
 		unset($_SESSION['OCS']["TRUE_mesmachines"]);
 	}
-//TODO: revoir �a!!! si la variable $ban_head est � 'no', on n'affiche pas l'entete... 
-//echo "<font color=RED><B>ENVIRONNEMENT DE DEV</B></font>";
+
 
 echo "<table  border='0' class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
@@ -41,17 +40,18 @@ echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
  	<Td align='left'><a href='index.php?first'><img src='image/logo OCS-ng-48.png'></a></Td></tr></table></td><td width= 100%>";
  	
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
-	echo "<table width= 100% align=center border='0'><tr><Td align='center' bgcolor='#f2f2f2' BORDERCOLOR='#f2f2f2' width:80%>";
+	//echo "<table width= 100% align=center border='0'><tr><Td align='center' bgcolor='#f2f2f2' BORDERCOLOR='#f2f2f2' width:80%>";
 	if( $fconf=@fopen("install.php","r"))
-	echo "<font color=red><b>ATTENTION: <br>YOUR INSTALL.PHP EXIST IN OCS REPOSITORY<br> USE THIS VERSION ONLY FOR TEST.<BR> THIS VERSION IN DEVELOPMENTAL STAGE</b></font><br>";
-//si un fuser est en cours, on indique avec quel compte le super admin est connect�
-	if( isset($_SESSION['OCS']['TRUE_USER']))
-		echo "<font color=red>".$_SESSION['OCS']['TRUE_USER']." ".$l->g(889)." ".$_SESSION['OCS']["loggeduser"]."</font>";
-	if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
-			echo "<br><b><font color=red>".$l->g(890)."</font></b>";
-		}
-	echo "</Td></tr></table>";
+		msg_warning("ATTENTION: <br>YOUR INSTALL.PHP EXIST IN OCS REPOSITORY");
 }
+
+if( isset($_SESSION['OCS']['TRUE_USER']))
+		msg_info($_SESSION['OCS']['TRUE_USER']." ".$l->g(889)." ".$_SESSION['OCS']["loggeduser"]);
+
+if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
+			msg_info($l->g(890));
+}
+
 echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td align='center'>
 	<b>Ver. " . GUI_VER . " &nbsp&nbsp&nbsp;</b>";
 	//pass in debug mode if plugin debug exist
@@ -94,6 +94,15 @@ if (!isset($_SESSION['OCS']["loggeduser"])){
 echo "</table>";		
 //echo "<form name='reload_fuser' id='reload_fuser' action='' method='post'></form>";
 echo "<div class='fond'>";
+
+if ($_SESSION['OCS']["mesmachines"] == "NOTAG" 
+	and !(isset($_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and $protectedGet[PAG_INDEX] == $pages_refs['ms_debug']) ){
+		msg_error($l->g(893));
+	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	die();
+
+}
+
 
 //if you don't want to see the icons
 if ($icon_head!='NO'){

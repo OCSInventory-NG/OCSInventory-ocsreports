@@ -132,7 +132,7 @@ $sql_id_doublon['macaddress_serial'] .= " and h.id in ".$list_id_mes_machines;
 
 foreach($sql_id_doublon as $name=>$sql_value){
 	if ($_SESSION['OCS']['DEBUG'] == 'ON')
-	echo "<br><b><font color=green>".$name."</font> ==> ".$sql_value."</b><br>";
+		msg_success($name." ==> ".$sql_value);
 	$res = mysql_query( $sql_value, $_SESSION['OCS']["readServer"] );	
 	$count_id[$name] = 0;
 	while( $val = mysql_fetch_object( $res ) ) {

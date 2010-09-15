@@ -70,9 +70,9 @@ if ($protectedPost['onglet'] == 1){
 			$val_new_value['max']++;
 			mysql_query( "INSERT INTO config (NAME,TVALUE,IVALUE) VALUES('USER_GROUP_".$val_new_value['max']."','".$protectedPost['newfield']."','".$val_new_value['max']."')", $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["writeServer"]);
 			//si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
-			echo "<font color=green><b>".$l->g(1069)."</b></font>";
+			msg_success($l->g(1069));
 		}else
-			echo "<font color=red><b>".$ERROR."</b></font>";
+			msg_error($ERROR);
 	}
 
 	//NAME FIELD

@@ -49,7 +49,8 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 	}
 	
 	if ($_SESSION['OCS']['DEBUG'] == 'ON'){
-		echo "<br><b>".$l->g(5001)."<br>".html_entity_decode($query,ENT_QUOTES)."</b><br>";			
+		$_SESSION['OCS']['SQL_DEBUG'][]=html_entity_decode($query,ENT_QUOTES);
+		//echo "<br><small><small>".$l->g(5001)."<br>".html_entity_decode($query,ENT_QUOTES)."</small></small><br>";			
 	}
 	$result=mysql_query( $query, $link ) or mysql_error($link);
 	return $result;
@@ -86,11 +87,11 @@ function prepare_sql_tab($list_fields,$explu=array()){
  	$begin_sql="SELECT ";
  	foreach ($list_fields as $key=>$value){
  		if (!in_array($key,$explu)){
-			$begin_sql .= '%s,';
+			$begin_sql .= '%s, ';
 			array_push($begin_arg,$value);		
  		}
 	} 
-	return array('SQL'=>substr($begin_sql,0,-1),'ARG'=>$begin_arg); 	
+	return array('SQL'=>substr($begin_sql,0,-2),'ARG'=>$begin_arg); 	
  	
  }
  
@@ -136,7 +137,7 @@ function addLog( $type, $value="",$lbl_sql='') {
 		if ($lbl_sql != ''){
 			$value=$lbl_sql.' => '.$value;
 		}
-		fwrite($logHandler, $_SESSION['OCS']["loggeduser"].";$date;".DB_NAME.";$type;$value;\n");
+		@fwrite($logHandler, $_SESSION['OCS']["loggeduser"].";$date;".DB_NAME.";$type;$value;\n");
 	}
 }
 
@@ -187,8 +188,8 @@ function read_profil_file($name,$writable=''){
 	$ms_cfg_file= $_SESSION['OCS']['main_sections_dir'].$name."_config.txt";
 	$search=array('INFO'=>'MULTI','PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'MULTI','ADMIN_BLACKLIST'=>'MULTI','CONFIGURATION'=>'MULTI');
 	if (!is_writable($_SESSION['OCS']['main_sections_dir'].'old_config_files/') and $writable!='') {
-    	echo "<br><font color=red>".$l->g(297)." ".$_SESSION['OCS']['main_sections_dir']."old_config_files/
-    				<br>".$l->g(1148);
+		msg_error($l->g(297)." ".$_SESSION['OCS']['main_sections_dir']."old_config_files/
+    				<br>".$l->g(1148));
 	}
 	return read_files($search,$ms_cfg_file,$writable);
 }
@@ -211,7 +212,7 @@ function read_config_file($writable=''){
 function read_files($search,$ms_cfg_file,$writable=''){
 	global $l;
 	if (!is_writable($ms_cfg_file) and $writable != '') {
-		echo "<br><font color=red>".$ms_cfg_file." ".$l->g(1006).". ".$l->g(1147)."</font><br>";
+		msg_error($ms_cfg_file." ".$l->g(1006).". ".$l->g(1147));
 		return FALSE;
 	}
 	

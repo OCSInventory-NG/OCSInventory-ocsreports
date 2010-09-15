@@ -959,7 +959,7 @@
 1072 Pending resquests
 1073 Make a request
 1074 'Workflow' fonction is not activate.
-1075 Active it for use it
+1075 Active the functionnality for use it
 1076 ERROR: SEARCH STATUS IS NOT DEFINE
 1077 Status for creating package
 1078 Test status
@@ -1071,6 +1071,15 @@
 1184 Key added
 1185 Key updated
 1186 Your data are updated
+1187 Configuration is pending
+1188 This group is declared as a TEST perimeter 
+1189 This group is declared as a RESTRAINT perimeter  
+1190 You can't assign packages higher level 
+1191 Information: the configuration of workflow is currently on 
+1192 Group may receive TEST packets 
+1193 Group may receive RESTRAINT packets 
+1194 Only packets at a higher level 
+1195 may be affected
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

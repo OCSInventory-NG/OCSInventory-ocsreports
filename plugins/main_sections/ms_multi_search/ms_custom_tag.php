@@ -59,8 +59,7 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 			 and hardware_id in ";
 	$tab_result=mysql2_prepare($sql,$arg,$list_id);
 	mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["writeServer"],$tab_result['ARG']);	
-	echo "<br><font color=green>".mysql_affected_rows()." ".$l->g(1026)."</font>";
-	
+	msg_success(mysql_affected_rows()." ".$l->g(1026));	
 }
 		$def_onglets['TAG']=$l->g(1022); 
 		$def_onglets['SUP_PACK']=$l->g(1021); 

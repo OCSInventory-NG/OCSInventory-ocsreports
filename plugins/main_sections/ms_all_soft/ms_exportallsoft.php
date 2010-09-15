@@ -62,5 +62,5 @@ header("Content-Transfer-Encoding: binary");
 header("Content-Length: ".strlen($affich));
 echo $affich;
 }else
-echo "<b><font color=red size=5>".$l->g(924)."</font></b>";
+	msg_error($l->g(924));
 ?>

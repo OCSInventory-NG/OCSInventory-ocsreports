@@ -244,7 +244,7 @@ function option_conf_activate($value){
  	$sql="update config set %s='%s' where name='%s'";
  	$arg=array($field,$value,$name);
  	mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);	
- 	return "<font color=green><b>".$l->g(1069)."</b></font>";
+ 	msg_success($l->g(1069));
  }
  
  
@@ -341,8 +341,6 @@ function update_default_value($POST){
 			}elseif($value == "NEVER"){
 				insert_update($key,'-1',$optexist[$key],$name_field_modif);					
 			}
-//			else
-//			echo "<font color=red><b>� g�rer:".$key."=>".$value."<br></b></font>";
 		}		
 	}
 }

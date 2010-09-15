@@ -66,9 +66,9 @@ function add_accountinfo($newfield,$newtype,$newlbl,$tab){
 		$arg_add_column=array(mysql_insert_id(),$sql_type_accountinfo[$newtype]);
 		mysql2_query_secure($sql_add_column,$_SESSION['OCS']["writeServer"],$arg_add_column);			
 		unset($newfield,$newlbl,$_SESSION['OCS']['TAG_LBL']);
-		return "<font color=green><b>".$l->g(1069)."</b></font>";			
+		msg_success($l->g(1069));			
 	}else
-		return "<font color=red><b>".$ERROR."</b></font>";
+		msg_error($ERROR);
 	
 	
 	
@@ -283,9 +283,9 @@ function update_accountinfo($id,$array_new_values){
 		$sql_update_column="ALTER TABLE accountinfo change fields_%s fields_%s %s";
 		$arg_update_column=array($id,$id,$new_type_field);
 		mysql2_query_secure($sql_update_column,$_SESSION['OCS']["writeServer"],$arg_update_column); 		
-		return "<font color=green><b>".$l->g(1069)."</b></font>";							
+		msg_success($l->g(1069));							
 	}else{
-		return "<font color=red><b>".$error."</b></font>";
+		msg_error($error);
 	}
 }
 

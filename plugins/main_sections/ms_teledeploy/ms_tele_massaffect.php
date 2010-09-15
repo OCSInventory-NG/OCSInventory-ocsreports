@@ -16,12 +16,12 @@ printEnTete($l->g(601));
 if( $protectedPost["sub"] ) {
 	
 	if( ! $_FILES["fichier"]["name"] ) {
-		echo "<br><center><font color=red><b>".$l->g(602)."</b></font></center><br>";
+		msg_error($l->g(602));
 	}
 	else {
 		$fSize = @filesize( $_FILES["fichier"]["tmp_name"] );
 		if( $fSize <= 0 ) {
-			echo "<br><center><font color=red><b>".$l->g(436)."</b></font></center><br>";
+			msg_error($l->g(436));
 		}
 		else {
 			$filename = $_FILES['fichier']['tmp_name'];
@@ -41,21 +41,21 @@ if( $protectedPost["sub"] ) {
 				fclose( $fd );
 				
 				if( $okComputers == 0  ) {
-					echo "<br><center><font color=red><b>".$l->g(603)."</b></font></center><br>";
+					msg_error($l->g(603));
 				}
 				else {
-					echo "<br><center><font color=green><b>".$okComputers." ".$l->g(604)."."."</b></font></center><br>";
+					msg_success($okComputers." ".$l->g(604).".");
 					
 					if( ! empty( $koComputers ) ) {
-						echo "<br><center><font color=red><b>".sizeof($koComputers)." ".$l->g(605).": "."</b></font></center><center><font color=red><b>";
+						$msg_error= "<br>".sizeof($koComputers)." ".$l->g(605).": ";
 						foreach( $koComputers as $koComputer )
-							echo "<br>".$koComputer;
-						echo "</b></font></center>";
+							$msg_error .= "<br>".$koComputer;
+						msg_error($msg_error);
 					}
 				}
 			}
 			else {
-				echo "<br><center><font color=red><b>".$l->g(436)."</b></font></center><br>";
+				msg_error($l->g(436));
 			}			
 		}
 	}

@@ -21,9 +21,14 @@ if ($protectedPost['Reset_modif_x'] or ($protectedPost['onglet'] != $protectedPo
  unset($protectedPost['add_static_group']);
  
 //view only your computers
-if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES')
+if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES'){
 	$mycomputers=computer_list_by_tag();
-
+	if ($mycomputers == "ERROR"){
+		msg_error($l->g(893));
+		require_once($_SESSION['OCS']['FOOTER_HTML']);
+		die();
+	}
+}
 //View for all profils?
 if (isset($protectedPost['CONFIRM_CHECK']) and  $protectedPost['CONFIRM_CHECK'] != "")
 	$result=group_4_all($protectedPost['CONFIRM_CHECK']);

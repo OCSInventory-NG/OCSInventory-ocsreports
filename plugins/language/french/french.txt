@@ -958,7 +958,7 @@
 1072 Suivi des demandes
 1073 Faire une demande
 1074 La fonctionnalité 'Workflow' n'est pas activée. 
-1075 Veuillez l'activer pour l'utiliser
+1075 Veuillez activer la fonctionnalité pour l'utiliser
 1076 ERROR: STATUS RECHERCHE NON DEFINI
 1077 Niveau de création de paquet
 1078 Niveau de test
@@ -1070,7 +1070,15 @@
 1184 Clé ajoutée
 1185 Clé modifiée
 1186 Vos données ont été mises à jour
-
+1187 En cours de configuration
+1188 Ce groupe est déclaré comme un périmètre de TEST
+1189 Ce groupe est déclaré comme un périmètre RESTRAINT
+1190 Vous ne pouvez affecter des paquets que de niveau supérieur à
+1191 Rappel: la configuration du workflow de télédéploiement est actuellement sur
+1192 Groupe pouvant recevoir des paquets de TEST
+1193 Groupe pouvant recevoir des paquets de périmètre RESTRAINT
+1194 Seuls les paquets de niveau supérieur à 
+1195 peuvent être affectés
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

@@ -307,7 +307,7 @@ function del_pack($fileid){
 	if (@opendir($document_root."/download/".$fileid)){
 		//suppression de tous les fichiers correspondant au paquet
 		if( ! @recursive_remove_directory( $document_root."/download/".$fileid ))  {
-			echo "<br><center><b><font color='red'>".$l->g(472)." ".$document_root."/download/".$fileid."</font></b></center>";
+			msg_error($l->g(472)." ".$document_root."/download/".$fileid);
 		}
 	}
 	addLog($l->g(512), $l->g(888)." ".$fileid );
@@ -406,7 +406,7 @@ function create_pack($sql_details,$info_details){
 		mysql_query( $req, $_SESSION['OCS']["writeServer"] ) or die(mysql_error($_SESSION['OCS']["writeServer"]));
 		addLog($l->g(512), $l->g(617)." ".$sql_details['timestamp'] );
 		//message d'info
-		return "<br><center><b><font color='green'>".$l->g(437)." ".$sql_details['document_root'].$sql_details['timestamp']."</font></b></center><br>";
+		msg_success($l->g(437)." ".$sql_details['document_root'].$sql_details['timestamp']);
 }
 
 function crypt_file($dir_FILES,$digest_algo,$digest_encod){
@@ -426,8 +426,7 @@ function creat_temp_file($directory,$dir_FILES){
 		if (! @mkdir( $directory) 
 		or !copy( $dir_FILES, $directory."/tmp" )
 			)
-			echo "<br><center><font color='red'><b>ERROR: can't create or write in ".$directory." folder, please refresh when fixed. <br>
-			<br>(or try disabling php safe mode)</b></font></center>";
+			msg_error("ERROR: can't create or write in ".$directory." folder, please refresh when fixed.<br>(or try disabling php safe mode)");
 	}
 }
 //$val_details['priority'],$val_details['fragments'],$val_details['size']
@@ -473,11 +472,9 @@ function tps_estimated($val_details)
 	$tps_total-=$heure*3600;
 	$minutes=floor($tps_total/60);
 	$tps_total-=$minutes*60;
-	//<br><br>Temps approximatif de t�l�d�ploiement :<br><font color=red>
 	$tps= $heure."h ".$minutes."min ";
 	if ($heure == 0 and $minutes == 0)
 	$tps.=floor($tps_total)." ".$l->g(511);
-	//$tps.="</b></font>";	
 	return $tps;
 	
 }

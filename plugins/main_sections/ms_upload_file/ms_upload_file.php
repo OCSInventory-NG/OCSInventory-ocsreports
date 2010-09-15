@@ -12,7 +12,7 @@
 
 if( ! function_exists ( "zip_open" )) {
 	function zip_open($st) {
-		echo "<br><center><font color=red><b>" . $l->g(2098) . "</b></font></center>";
+		msg_error($l->g(2098));
 		die();
 	}
 }
@@ -48,7 +48,7 @@ if(is_uploaded_file($_FILES['userfile']['tmp_name']))
 	}
 	else
 	{
-		echo "<br><b><center><font color=red>".$l->g(168)."</font></center></b><br>";
+		msg_error($l->g(168));
 		$ok=false;
 	}
 	
@@ -87,16 +87,15 @@ if(is_uploaded_file($_FILES['userfile']['tmp_name']))
 			$query = "INSERT INTO $table VALUES$val;";
 			if(mysql_query($query, $_SESSION['OCS']["writeServer"]))
 			{
-				echo "<br><b><center><font color='green'>".$l->g(137)." ".$_FILES['userfile']['name']." ".$l->g(234)."</font></center></b><br>";
+				msg_success($l->g(137)." ".$_FILES['userfile']['name']." ".$l->g(234));
 			}
 			else if(mysql_errno()==1062)
 			{
-				echo "<br><b><center><font color=red>".$l->g(170)."</font></center></b><br>";
+				msg_error($l->g(170));
 			}
 			else
 			{
-				echo "<br><b><center><font color=red>".$l->g(172)." ".$_FILES['userfile']['name']." ".$l->g(173)."<br>";
-				echo mysql_error($_SESSION['OCS']["writeServer"])."</font></center></b>";
+				msg_error($l->g(172)." ".$_FILES['userfile']['name']." ".$l->g(173)."<br>".mysql_error($_SESSION['OCS']["writeServer"]));
 			}
 			sleep(2);
 		}
@@ -200,7 +199,7 @@ function getVersionFromLinuxAgent($content)
 	
 	if($res[1]=="")
 	{
-		echo "<br><b><center><font color=red>".$l->g(184)."</font></center></b><br>";
+		msg_error($l->g(184));
 		return -1;
 	}
 	return str_replace ( " ", "", $res[1]);	
@@ -221,7 +220,7 @@ function getVersionFromZip($zipFile)
 					$trouve=true;
 					zip_close($zip);
 					if( $buf == "0") {
-						echo "<br><b><center><font color=red>".$l->g(185)."</font></center></b><br>";
+						msg_error($l->g(185));
 						return -1;
 					}
 					return $buf;
@@ -230,14 +229,14 @@ function getVersionFromZip($zipFile)
 		
 		if(!$trouve)
 		{
-			echo "<br><b><center><font color=red>".$l->g(186)."</font></center></b><br>";
+			msg_error($l->g(186));
 			zip_close($zip);
 			return -1;
 		}
 	}
 	else
 	{
-		echo "<br><b><center><font color=red>".$l->g(187)."</font></center></b><br>";
+		msg_error($l->g(187));
 		return -1;
 	}
 }

@@ -7,7 +7,7 @@ $data_on[2]=$l->g(1060);
 $array_profil=search_profil();
 
 echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
-echo "<font color='RED'><b>".$l->g(1152)."</b></font>";
+msg_warning($l->g(1152));
 onglet($data_on,$form_name,"onglet",2);
 echo '<div class="mlt_bordure" >';
 if ($protectedPost['onglet'] == 1){
@@ -78,7 +78,7 @@ if ($protectedPost['onglet'] == 1){
 				$i++;
 			}
 			if ($msg != '')
-				echo "<font color=red><b>" . $msg . "</b></font>";
+				 msg_error($msg);
 			else{
 				create_profil($protectedPost['new_profil'],$protectedPost['lbl_profil'],$protectedPost['ref_profil']);
 				if ($protectedGet['form'])

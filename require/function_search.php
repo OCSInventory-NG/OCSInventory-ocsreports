@@ -76,18 +76,13 @@ $lbl_fields_calcul['REGISTRY']=array($l->g(874) => 'registry.NAME',
 //et qui retourne les ID des machines qui match.
 function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 	global $l;
+	$debug='';
 	//on parcourt le tableau de requetes
 	foreach ($execute_sql as $weight => $id){
 		$i=0;
-//		echo "<br><br>";
-//		print_r_V2($id);
-//		echo "<br><br>";
 		
 		//on prends toutes les requetes qui ont le m�me poids
 		while ($id[$i]){
-//			echo "<font color=green>";
-//			print_r($id[$i]);
-//			echo "</font>";
 			//on cherche a savoir si on est sur la table hardware
  			//dans ce cas, la concat des id doit se faire avec le champ ID
  			if (substr_count($id[$i],"from hardware")){
@@ -113,25 +108,23 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 	 			unset($list_id);
 	 		}
 	 		$id[$i].=$fin_sql;
-	 		//echo "<br><br><b>".$id[$i]."</b><br><br>";
 	 		$result = mysql_query($id[$i], $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 			while($item = mysql_fetch_object($result)){
 				$list_id[$item->HARDWARE_ID]=$item->HARDWARE_ID;
 				foreach ($item as $field=>$value){
 					if ($field != "HARDWARE_ID" and $field != "ID")
 					$tab_options['VALUE'][$field][$item->HARDWARE_ID]=$value;
-//				//echo "<br>FIELD=>".$field."; value=>".$value;
 				}
 			}
 	 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-	 		echo "<br>".$l->g(5001).$id[$i].$l->g(5002).$weight;
+	 			$debug .= "<hr><br>".$l->g(5001)."<br>".$id[$i]."<br>".$l->g(5002).$weight;
 	 		//si aucun id trouv� => end
 	 		if ($list_id == '')
 	 		return ;
 		$i++;	
 		}	
 	}
-	return array($list_id,$tab_options);
+	return array($list_id,$tab_options,'DEBUG'=>$debug);
 }
 
 
@@ -471,9 +464,8 @@ function multi_lot($form_name,$lbl_choise){
 			$select_choise=show_modif($choise_req_selection,'CHOISE',2,$form_name);	
 			echo "<center>".$lbl_choise." ".$select_choise."</center><br>";
 		}
-		echo "<font color=red><b>";
 		if ($protectedPost['CHOISE'] == 'REQ' or $protectedGet['idchecked'] == ''){
-			echo $l->g(901);
+			msg_info($l->g(901));
 			if ($protectedGet['idchecked'] == ''){
 				echo "<input type='hidden' name='CHOISE' value='".$protectedPost['CHOISE']."'>";
 				$protectedPost['CHOISE'] = 'REQ';
@@ -481,7 +473,7 @@ function multi_lot($form_name,$lbl_choise){
 			$list_id=$_SESSION['OCS']['ID_REQ'];
 		}
 		if ($protectedPost['CHOISE'] == 'SEL'){
-			echo $l->g(902);
+			msg_info($l->g(902));
 			$list_id=$protectedGet['idchecked'];
 		}
 		//gestion tableau
@@ -489,7 +481,6 @@ function multi_lot($form_name,$lbl_choise){
 			$list_id=implode(",", $list_id);
 	}else
 		$list_id=$protectedGet['idchecked'];
-	echo "</b></font>";
 
 	if ($list_id != "")
 		return $list_id;

@@ -4,8 +4,6 @@ if( !isset($protectedGet["popup"] )) {
 	//si la variable RESET existe
 	//c'est que l'on a clique sur un icone d'un menu 
 	if (isset($protectedPost['RESET'])){
-		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			echo  "<br><b><font color=red>".$l->g(5003)."</font></b><br>";
 		unset($_SESSION['OCS']['DATA_CACHE']);	
 	}
 	//formulaire pour detecter le clic sur un bouton du menu

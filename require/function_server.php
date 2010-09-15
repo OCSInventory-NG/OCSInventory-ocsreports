@@ -43,7 +43,7 @@ function exist_server($list_id){
 		$msg.= $val['c'] . " " . $l->g(1135) . " " . $val['name'] . "<br>";
 	}
 	if ($msg != ""){
-	 echo "<br><div align=center><font color=RED size=3><b>" . $l->g(877) . " <br>" . $msg . " " . $l->g(878) . "</b></font></div><br>";	
+		msg_error($l->g(877) . " <br>" . $msg . " " . $l->g(878));
 	}
 }
 // fonction qui permet de supprimer des serveurs 
@@ -156,24 +156,26 @@ function admin_serveur($action,$name_server,$descr,$mach) {
 		$insertId = mysql_insert_id( $_SESSION['OCS']["writeServer"] );
 			exist_server($mach);
 			$nb_mach=add_mach($insertId,$mach);
-			return "<font color=green><b>" . $l->g(880) . "</b><br>" . $nb_mach . " " . $l->g(881) . "</font>"; 			
+			msg_success($l->g(880) . "<br>" . $nb_mach . " " . $l->g(881));
+			return ''; 			
 		}else
-		return "<font color=red>" . $l->g(621) . "</font>"; //this name allready exist 
+		return $l->g(621); //this name allready exist 
 
 	}//if the machines add to the group or the group is replace
 	elseif ($action == 'add_serv' or $action == 'replace_serv'){
 		if ($action == 'replace_serv'){
-			$lblreturn="<font color=green><b> ".$l->g(879)." </b></font><br>";
 			$sql="DELETE FROM download_servers WHERE GROUP_ID=%s";
 			$arg=$idGroupServer;
 			mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg );
 		}
 		exist_server($mach);
 		$nb_mach=add_mach($idGroupServer,$mach);
-		return $lblreturn."<font color=green><b>" . $nb_mach . " " . $l->g(881) . "</b></font>"; 
+		msg_success($l->g(879) . "<br>" . $nb_mach . " " . $l->g(881));
+		return ''; 
 	}elseif($action == 'del_serv'){
 		$nb_mach=remove_list_serv($idGroupServer,$mach);
-		return "<font color=green><b>" . $nb_mach . " " . $l->g(882) . "</b></font>"; 
+		msg_success($nb_mach . " " . $l->g(882));
+		return ''; 
 	}
 }
 

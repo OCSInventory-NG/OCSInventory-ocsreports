@@ -96,7 +96,6 @@ function creat_group ($name,$descr,$list_id,$req,$group_type)
 		
 	//Creating group
 	$sql_group="INSERT INTO groups(hardware_id, xmldef, create_time) VALUES ( ".$insertId.", '".$xml."', UNIX_TIMESTAMP() )";
-	// echo "<font color=green>.SQL=".$sql_group."</font>";
 	mysql_query( $sql_group, $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );
 		addLog("CREATE GROUPE",$name);
 	//Generating cache

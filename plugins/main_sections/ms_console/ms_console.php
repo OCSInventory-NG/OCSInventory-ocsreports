@@ -83,7 +83,7 @@ if( $_SESSION['OCS']['CONFIGURATION']['CONSOLE']=="YES") {
 			$sql="insert into config (NAME,IVALUE,TVALUE) value ('GUI_REPORT_MSG".$i."',".$protectedPost['GROUP'].",'".addslashes($protectedPost['MSG'])."')";
 			mysql_query( $sql, $_SESSION['OCS']["writeServer"] );
 		}else
-		echo "<center><b><font color=red><BIG>".$l->g(239)."</BIG></font></b></center>";
+			msg_error($l->g(239));
 		
 	}
 }
@@ -552,15 +552,8 @@ if (isset($default)){
 }
 //show messages
 if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
-	$sql_all_msg="select ivalue,tvalue from config where name like 'GUI_REPORT_MSG%'";
-	$result_all_msg = mysql_query( $sql_all_msg, $_SESSION['OCS']["readServer"]);
-	$list_id_groups="";
-	while($item_all_msg = mysql_fetch_object($result_all_msg)){
-		$list_all_msg[$item_all_msg ->ivalue]['IVALUE']=$item_all_msg ->ivalue;	
-		$list_id_groups.=$item_all_msg ->ivalue.",";
-		$list_all_msg[$item_all_msg ->ivalue]['TVALUE'][]=$item_all_msg ->tvalue;			
-	}
-	$list_id_groups= substr($list_id_groups,0,-1);
+	$info_msg=look_config_default_values('GUI_REPORT_MSG%','LIKE');
+	$list_id_groups=implode(',',$info_msg['ivalue']);
 	
 	if ($list_id_groups != ""){
 		$sql_my_msg="select distinct g_c.group_id groups 
@@ -570,15 +563,18 @@ if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 		if (isset($_SESSION['OCS']['mesmachines']) and $_SESSION['OCS']['mesmachines'] != "")
 			$sql_my_msg.= " and ".$_SESSION['OCS']['mesmachines'];
 		$result_my_msg = mysql_query( $sql_my_msg, $_SESSION['OCS']["readServer"]);
-		echo "<table align=center><tr><td align=center>";
+		//echo "<table align=center><tr><td align=center>";
 		while($item_my_msg = mysql_fetch_object($result_my_msg)){
-			$i=0;
-			while ($list_all_msg[$item_my_msg ->groups]['TVALUE'][$i]){
-				echo "<font color=red size=4>".stripslashes($list_all_msg[$item_my_msg ->groups]['TVALUE'][$i])."</font></td></tr><tr><td align=center>";		
-				$i++;
+			foreach ($info_msg['ivalue'] as $key=>$value){
+				if ($value == $item_my_msg ->groups){
+					$msg_group[$key]=$info_msg['tvalue'][$key];
+				}				
 			}
 		}	
-		echo "</td></tr></table>";
+		
+		if (isset($msg_group) and $msg_group !=''){
+			msg_warning(implode('<br>',$msg_group));
+		}
 	}
 }
 //end messages

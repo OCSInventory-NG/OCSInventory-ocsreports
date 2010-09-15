@@ -130,9 +130,9 @@ if ($protectedPost['onglet'] == 1){
 				$sql_add_column="ALTER TABLE downloadwk_pack ADD COLUMN fields_".mysql_insert_id()." ".$type." default NULL";
 				mysql_query( $sql_add_column, $_SESSION['OCS']["writeServer"]  ) or mysql_error($_SESSION['OCS']["writeServer"]);		
 			}
-			echo "<font color=green><b>".$l->g(1069)."</b></font>";
+			msg_success($l->g(1069));
 		}else
-			echo "<font color=red><b>".$ERROR."</b></font>";
+			msg_error($ERROR);
 	}
 	
 	if( $protectedPost['Valid_modif_x'] != "" ) 

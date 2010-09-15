@@ -225,39 +225,40 @@ unset ($_SESSION['OCS']['multiSearch'][$protectedPost['delfield']]);
  	}
 
 if ($_SESSION['OCS']['DEBUG'] == 'ON'){
- 	echo "<font color=black align=center>".$l->g(5009)."<table align=center border=2><tr><td>table=</td>";
+	$debug=$l->g(5009)."<br>";
  	if (isset($table)){
  		foreach($table as $key=>$value)
- 		echo "<td>".$key."</td><td>".$value."</td>";
+ 		$debug .= $key . " => " .$value . "<br>";
  	}
- 	echo "</tr><tr><td>".$l->g(5010)."</td>";
+ 	$debug .=$l->g(5010) . "<br>";
 	 	if (isset($field)){
 	 	foreach($field as $key=>$value)
-	 	echo "<td>".$key."</td><td>".$value."</td>";
+	 	$debug .= $key . " => " .$value . "<br>";
  	}
- 	echo "</tr><tr><td>".$l->g(5011)."</td>";
+ 	$debug .=$l->g(5011) . "<br>";
  	if (isset($field_compar)){
 	 	foreach($field_compar as $key=>$value)
-	 	echo "<td>".$key."</td><td>".$value."</td>";
+	 	$debug .= $key . " => " .$value . "<br>";
  	}
- 	echo "</tr><tr><td>".$l->g(5012)."</td>";
+ 	$debug .=$l->g(5012) . "<br>";
  	if (isset($field_value)){
 	 	foreach($field_value as $key=>$value)
-	 	echo "<td>".$key."</td><td>".$value."</td>";
+	 	$debug .= $key . " => " .$value . "<br>";
  	}
- 	echo "</tr><tr><td>".$l->g(5013)."</td>";
+ 	$debug .=$l->g(5013) . "<br>";
  	if (isset($field_value_complement)){
 	 	foreach($field_value_complement as $key=>$value)
-	 	echo "<td>".$key."</td><td>".$value."</td>";
+	 	$debug .= $key . " => " .$value . "<br>";
  	}
- 	echo "</tr><tr><td>".$l->g(5014)."</td>";
+ 	$debug .=$l->g(5014) . "<br>";
  	if (isset($field_and_or)){
 	 	foreach($field_and_or as $key=>$value){
 	 		if ($value != '')
-	 			echo "<td>".$key."</td><td>".$value."</td>";
+	 			$debug .= $key . " => " .$value . "<br>";
 	 	}
  	}
- 	echo "</tr></table></font>";
+ 	if (isset($debug) and $debug != '')
+ 		msg_info($debug);
 }
  	$i=0;
  	//tableau des requ�tes � executer
@@ -482,13 +483,13 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 			}
 		}
 		if ($_SESSION['OCS']['DEBUG'] == 'ON'){
-		echo "<font color=green><B><br><br>".$l->g(5016).$table[$i]."<br>".$l->g(5017).$field[$i]."<br>".$l->g(5018).$field_compar[$i]."<br>".$l->g(5019).$field_value[$i]."<br>".$l->g(5020).$field_value_complement[$i]."<br>".$l->g(5021).$field_and_or[$i]."</B></font>";	
+			msg_success($l->g(5016).$table[$i]."<br>".$l->g(5017).$field[$i]."<br>".$l->g(5018).$field_compar[$i]."<br>".$l->g(5019).$field_value[$i]."<br>".$l->g(5020).$field_value_complement[$i]."<br>".$l->g(5021).$field_and_or[$i]);
 		}
 		//si une erreur a �t� rencontr�e
 		//le traitement est arr�t� (gain de temps)
 		if (isset($ERROR)){
-		echo "<br><b><font color=red size=4>".$ERROR."</font></b><br>";
-		break;
+			msg_error($ERROR);
+			break;
 		}
 		//si on est dans le cas d'une recherche sur "diff�rent",
 		//on va cr�er les requ�tes dans le tableau $sql_seach['DIFF']
@@ -585,23 +586,29 @@ $list_id="";
 	 if ($_SESSION['OCS']['mesmachines'] != "" and isset($_SESSION['OCS']['mesmachines'])){
 		$list_id_restraint=substr(substr(computer_list_by_tag(),1),0,-1);
 	 }	
-	
-	 echo "<font color=red>";
+	 
+	 if ($_SESSION['OCS']['DEBUG'] == 'ON')
+		$debug = '';
 	 if (isset($execute_sql['NORMAL'])){
-	 	//print_r($execute_sql['NORMAL']);
-		 if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			 echo "<br><b>".$l->g(5022)."</b><br>";
+	 	
 		 $result=execute_sql_returnID($list_id_restraint,$execute_sql['NORMAL'],'',$table_tabname);
-		// echo "toto";
+		 
+		 if ($_SESSION['OCS']['DEBUG'] == 'ON'){
+			 $debug .= $l->g(5022) . "<br>" . $result['DEBUG'];
+		 }
+		 
 		 $list_id_norm=$result[0];
 		  if ($list_id_norm == "")
 		  $no_result="YES";
 		 $tab_options=$result[1];
 	 }
 	 if (isset($execute_sql['DIFF']) and $no_result != "YES"){
- 	 	if ($_SESSION['OCS']['DEBUG'] == 'ON')
-	 		echo "<br><br><b>".$l->g(5023)."</b><br>";
+ 	 
 	 	$result=execute_sql_returnID('',$execute_sql['DIFF'],'NO_CUMUL',$table_tabname);	
+	 	
+	 	if ($_SESSION['OCS']['DEBUG'] == 'ON'){
+ 	 		 $debug .= $l->g(5023) . "<br>" . $result['DEBUG']; 	 		 
+	 	}
 	 	$list_id_diff=$result[0];
 	 	//print_r($tab_options);
 //	 	if (isset($tab_options))
@@ -609,7 +616,11 @@ $list_id="";
 //	 	else
 //		$tab_options=$result[1];
 	 }
-	 echo "</font>";
+	 
+	 if ($debug != '')
+	 	msg_warning($debug);
+	 
+	 
 	 //pour le traitement des champs
 	 if ($list_id_diff != ""){
 		 $sql="select distinct ID from hardware where ID NOT IN (".implode(',',$list_id_diff).")";	
@@ -691,14 +702,14 @@ if ($list_id != "")	{
 				$queryDetails .= $value;
 				if ($tab_options['AS'][$value])
 					$queryDetails .=" as ".$tab_options['AS'][$value];	
-				$queryDetails .=",";	
+				$queryDetails .=", ";	
 	} 
-	$queryDetails=substr($queryDetails,0,-1);
+	$queryDetails=substr($queryDetails,0,-2);
 	$queryDetails .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
 	$queryDetails .= $query_add_table;
 	$queryDetails .= " where ";
 	$queryDetails .= "  h.deviceid <>'_SYSTEMGROUP_' AND h.deviceid <> '_DOWNLOADGROUP_' and  ";
-	$queryDetails .= " h.id in (".implode(',',$list_id).") group by h.ID ";
+	$queryDetails .= " h.id in (".implode(', ',$list_id).") group by h.ID ";
 
 	
 	ksort($list_fields);
@@ -750,7 +761,7 @@ if ($no_result == "NO RESULT" and !isset($ERROR)){
 	$list_fonct["image/groups_search.png"]=$l->g(583);
 	$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
 	add_trait_select($list_fonct,$list_id,$form_name,$list_pag);
-	echo "<font color=RED size=5><div align=center>".$l->g(42)."</div></font>";
+	msg_warning($l->g(42));
 }
 
 

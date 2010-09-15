@@ -67,7 +67,7 @@ onglet($_SESSION['OCS']['ONGLET_SOFT'],$form_name,"onglet",20);
 echo '<div class="mlt_bordure" >';
 if ((isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != "") or
 	((isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "")))
-echo "<font color=red size=3><b>".$l->g(767)."</b></font>";
+	msg_warning($l->g(767));
 
 
 //utilisation du cache

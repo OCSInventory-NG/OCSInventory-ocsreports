@@ -6,7 +6,6 @@
   * @param id Hardware identifier to be locked
   */
 function lock($id) {
-	//echo "<br><font color='red'><b>LOCK $id</b></font><br>";
 	$reqClean = "DELETE FROM locks WHERE unix_timestamp(since)<(unix_timestamp(NOW())-3600)";
 	$resClean = mysql2_query_secure($reqClean, $_SESSION['OCS']["writeServer"]);
 	
@@ -22,7 +21,6 @@ function lock($id) {
   * @param id Hardware identifier to be unlocked
   */
 function unlock($id) {
-	//echo "<br><font color='green'><b>UNLOCK $id</b></font><br>";
 	$reqLock = "DELETE FROM locks WHERE hardware_id='%s'";
 	$argLock=$id;
 	$resLock = mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"],$argLock);
@@ -34,7 +32,7 @@ function unlock($id) {
   */
 function errlock() {
 	global $l;
-	echo "<br><center><font color=red><b>".$l->g(376)."</b></font></center><br>";
+	msg_error($l->g(376));
 }
 
 
@@ -105,7 +103,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 			}
 			
 			if( !$silent )
-				echo "<center><font color=red><b>".$valId["name"]." ".$l->g(220)."</b></font></center>";
+				msg_error($valId["name"]." ".$l->g(220));
 			
 			foreach ($tables as $table) {
 				mysql_query("DELETE FROM $table WHERE hardware_id=$idHard;", $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
@@ -162,8 +160,8 @@ function deleteListId($listid, $checkLock = true, $traceDel = true, $silent=fals
 			}
 			
 			if( !$silent )
-				echo "<center><font color=red><b>".$valId["name"]." ".$l->g(220)."</b></font></center>";
-			
+				msg_error($valId["name"]." ".$l->g(220));
+				
 			foreach ($tables as $table) {
 				mysql_query("DELETE FROM $table WHERE hardware_id=$idHard;", $_SESSION['OCS']["writeServer"]) or die(mysql_error());		
 			}
@@ -227,7 +225,7 @@ function fusionne($afus) {
 					
 			$reqDelAccount = "DELETE FROM accountinfo WHERE hardware_id=".$afus[$maxInd]["id"];
 			mysql_query($reqDelAccount, $_SESSION['OCS']["writeServer"]) ;
-			echo "<center><font color=green>".$l->g(190)." ".$afus[$maxInd]["deviceid"]." ".$l->g(191)."</font></center>";
+			msg_success($l->g(190)." ".$afus[$maxInd]["deviceid"]." ".$l->g(191));
 			
 			$keep = array( "accountinfo",  "devices", "groups_cache" );
 			foreach( $keep as $tableToBeKept ) {
@@ -235,8 +233,7 @@ function fusionne($afus) {
 				//echo $reqRecupAccount;
 				mysql_query($reqRecupAccount, $_SESSION['OCS']["writeServer"]) ;
 			}						
-			
-			echo "<center><font color=green>".$l->g(190)." ".$afus[$minInd]["deviceid"]." ".$l->g(206)." ".$afus[$maxInd]["deviceid"]."</font></center><br>";
+			msg_success($l->g(190)." ".$afus[$minInd]["deviceid"]." ".$l->g(206)." ".$afus[$maxInd]["deviceid"]);
 			$i=0;
 			foreach($afus as $a) {
 				if($i != $maxInd) {

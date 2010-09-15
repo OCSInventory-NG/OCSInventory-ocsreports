@@ -79,7 +79,7 @@ if ($protectedPost['onglet'] == 1){
 			and is_numeric($protectedPost['MODIF_OLD']) 
 			and $protectedPost['Valid_modif_x'] != ""){
 			//UPDATE VALUE
-			echo update_config($protectedGet['tag']."_".$protectedPost['MODIF_OLD'],'TVALUE',$protectedPost['newfield']);
+			update_config($protectedGet['tag']."_".$protectedPost['MODIF_OLD'],'TVALUE',$protectedPost['newfield']);
 			
 			$hidden=$protectedPost['MODIF_OLD'];		
 			
@@ -112,11 +112,11 @@ if ($protectedPost['onglet'] == 1){
 				$arg_insert=array($protectedGet['tag']."_".$val_new_value['max'],$protectedPost['newfield'],$val_new_value['max']);
 				mysql2_query_secure($sql_insert,$_SESSION['OCS']["readServer"],$arg_insert);	
 				//si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
-				echo "<font color=green><b>".$l->g(1069)."</b></font>";
+				msg_success($l->g(1069));
 				if ($protectedGet['form'])
 					reloadform_closeme($protectedGet['form']);
 			}else
-				echo "<font color=red><b>".$ERROR."</b></font>";		
+				msg_error($ERROR);		
 		}
 		
 	

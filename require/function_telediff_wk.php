@@ -67,7 +67,7 @@ function find_dde_by_status($status){
 			//echo $sql;
 		return $list_id_dde;
 	}elseif ($_SESSION['OCS']['DEBUG'])
-	echo "<br><font color=red><b>" . $l->g(1076) . "</b></font><br>";
+		msg_error($l->g(1076));
 	
 }
 
@@ -374,7 +374,7 @@ function dde_form($form_name){
 								
 								
 								if (!isset($check)){
-									$msg_empty.=mysql_real_escape_string($tab_name[$key][$id])."\\n"; 			
+									$msg_empty.=$tab_name[$key][$id]."<br>"; 			
 								}	
 							}						
 						//si le champ est en lecture seule, on ne prend pas en compte la valeur
@@ -387,7 +387,8 @@ function dde_form($form_name){
 		//	$msg_empty="STOP";
 			//print_r($type_field_temp);
 			if (isset($msg_empty)){
-				echo "<script>alert('" . $l->g(684) . ":\\n" . $msg_empty . "');</script>";
+				msg_error($l->g(684) . ":<br>" . $msg_empty);
+			//	echo "<script>alert('" . $l->g(684) . ":\\n" . $msg_empty . "');</script>";
 				unset($protectedPost['SUBMIT_FORM']);
 			}else{
 				
@@ -615,7 +616,7 @@ function dde_form($form_name){
 		
 		
 		if (isset($msg))
-		echo "<font color=green>".$msg."</font>";
+			 msg_success($msg);
 		if (isset($tab_typ_champ)){
 			//print_r($name_field);
 			$tab_hidden= hidden($protectedPost,$name_field[$protectedPost['cat']]);
@@ -653,7 +654,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 					foreach ($etat as $name=>$value){
 						$msg.=$name." ".$l->g(759)." ".$value."<br>";
 					}
-				echo "<font color=RED ><center><b>".$msg."</b></center></font>";
+					msg_error($msg);
 					
 				}	
 			}
@@ -816,10 +817,10 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 										$protectedPost['actif'],
 										$protectedPost['id']);
 							mysql2_query_secure($sql_update,$_SESSION['OCS']["writeServer"],$arg);
-							echo "<font color=green><b>" . $l->g(1121) . "</b></font>";					
+							msg_success($l->g(1121));			
 					}else
-						echo "<font color=red><b>" . $l->g(988) . "</b></font>";	
-					
+						msg_error($l->g(988));
+										
 					
 				}
 				

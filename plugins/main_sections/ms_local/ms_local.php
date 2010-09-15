@@ -25,7 +25,7 @@ while( $valSql = mysql_fetch_array( $resSql ) ) {
 if(is_uploaded_file($_FILES['userfile']['tmp_name'])) {
 	
 	if( getFileExtension($_FILES['userfile']['name']) != "ocs" ) {
-		echo "<br><center><b><font color='red'> ".$l->g(559)."</font></b></center>";
+		msg_error($l->g(559));
 	}
 	else {
 		$fd = fopen($_FILES['userfile']['tmp_name'], "r");
@@ -37,12 +37,12 @@ if(is_uploaded_file($_FILES['userfile']['tmp_name'])) {
 		if (isset($result["errno"])) {
 			$errno = $result["errno"];
 			$errstr = $result["errstr"];
-			echo "<br><center><b><font color='red'> ".$l->g(344)." $errno / $errstr</font></b></center>";
+			msg_error($l->g(344). $errno . " / " . $errstr);
 		}else {
 			if( ! strstr ( $result[0], "200") )
-				echo "<br><center><b><font color='red'> ".$l->g(344)." ".$result[0]."</font></b></center>";
+				msg_error($l->g(344). " " . $result[0]);
 			else {
-				echo "<br><center><b><font color='green'>".$l->g(287)." OK</font></b></center>";
+				msg_success($l->g(287)." OK");
 			}
 		}
 	}

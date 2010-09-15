@@ -17,8 +17,8 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 }
 echo '<div class="mlt_bordure" >';
 if ($protectedPost['onglet'] == 'ADMIN_RSX'){
-	
-	if (!verif_base_methode('OCS')){
+	$method=verif_base_methode('OCS');
+	if (!$method){
 		if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 			delete_subnet($protectedPost['SUP_PROF']);
 			$tab_options['CACHE']='RESET';		
@@ -28,12 +28,12 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		if (isset($protectedPost['Valid_modif_x'])){
 			$result=add_subnet($protectedPost['ADD_IP'],$protectedPost['RSX_NAME'],$protectedPost['ID_NAME'],$protectedPost['ADD_SX_RSX']);
 			if ($result)
-				echo "<center><font color=red size=3><b>".$result."</b></font></center>";
+				msg_error($result);
 			else{
 				if (isset($protectedPost['MODIF']))
-					echo "<center><font color=green size=3><b>".$l->g(1121)."</b></font></center>";
+					msg_success($l->g(1121));
 				else
-					echo "<center><font color=green size=3><b>".$l->g(1141)."</b></font></center>";
+					msg_success($l->g(1141));
 				//erase ipdiscover cache
 				unset($_SESSION['OCS']['DATA_CACHE'][$table_name],$_SESSION['OCS']["ipdiscover"],$protectedPost['ADD_SUB'],$protectedPost['MODIF']);
 				require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
@@ -99,7 +99,8 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			
 			echo "<input type = submit value='".$l->g(116)."' name='ADD_SUB'>";				
 		}
-	}
+	}else 
+		msg_warning($method);
 	
 	
 }elseif($protectedPost['onglet'] == 'ADMIN_TYPE'){
@@ -115,7 +116,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 	if (isset($protectedPost['Valid_modif_x'])){
 		$result=add_type($protectedPost['TYPE_NAME'],$protectedPost['MODIF']);
 		if ($result){
-			echo "<font color=red><b>".$result."</b></font>";
+			msg_error($result);
 			$protectedPost['ADD_TYPE']="VALID";
 		}
 		else{
@@ -143,7 +144,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
 	}else{
 		if (isset($msg_ok))
-			echo "<center><font color=green size=3><b>".$msg_ok."</b></font></center>";
+			msg_success($msg_ok);
 		$sql="select ID,NAME from devicetype";
 		$list_fields= array('ID' => 'ID',
 							$l->g(49)=>'NAME',

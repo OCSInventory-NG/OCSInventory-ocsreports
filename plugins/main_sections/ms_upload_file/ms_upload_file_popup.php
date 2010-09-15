@@ -99,6 +99,6 @@ if (isset($field) and $field != ''){
 		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name2,80,$tab_options);
 		echo "</form>";
 }else
-echo "<font color=red><b>".$l->g(1049)."</b></font>";
+	msg_error($l->g(1049));
 
 ?>
