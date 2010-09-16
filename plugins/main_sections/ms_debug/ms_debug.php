@@ -9,6 +9,10 @@ $list_mode[2]=$l->g(1011);
 $list_mode[3]=$l->g(1012);
 $list_mode[4]=$l->g(1013);
 $list_mode[5]='FUSER';
+if ($_SESSION['OCS']["usecache"] == 1)
+	$list_mode[6]='NOCACHE';
+else
+	$list_mode[6]='CACHE';
 echo "<br><br><br>";	
 $tab_typ_champ[0]['DEFAULT_VALUE']=$list_mode;
 	$tab_typ_champ[0]['INPUT_NAME']="MODE";
@@ -25,14 +29,17 @@ tab_modif_values($tab_name,$tab_typ_champ,'',$l->g(1015),$comment="");
 
 
 if (isset($protectedPost['Reset_modif_x'])){
-	echo "<script>";
-	echo "self.close();</script>";
+	reloadform_closeme('',true);
 }
 
 //passage en mode
 if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 	AddLog("MODE",$list_mode[$protectedPost["MODE"]]);
-	if ($protectedPost["MODE"] == 2){
+	if ($protectedPost["MODE"] == 1){		
+		unset($_SESSION['OCS']['DEBUG'],
+			  $_SESSION['OCS']['MODE_LANGUAGE'],
+			  $_SESSION['OCS']["usecache"]);			
+	}elseif ($protectedPost["MODE"] == 2){
 		unset($_SESSION['OCS']['MODE_LANGUAGE']);
 		$_SESSION['OCS']['DEBUG']="ON";
 	}
@@ -61,12 +68,16 @@ if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 		unset($_SESSION['OCS']);		
 		$_SESSION['OCS']['loggeduser']=$loggeduser;
 		$_SESSION['OCS']['RESTRICTION']['GUI']=$restriction;
-	}else	
-	unset($_SESSION['OCS']['DEBUG'],$_SESSION['OCS']['MODE_LANGUAGE']);
+	}elseif ($protectedPost["MODE"] == 6){
+		 if (isset($_SESSION['OCS']["usecache"]) 
+		 	and $_SESSION['OCS']["usecache"] == 1)		 	
+			$_SESSION['OCS']["usecache"] =0;
+		 else
+		 	$_SESSION['OCS']["usecache"] =1;
+	}
+	
 
-	echo "<script>";
-		echo "window.opener.document.forms['log_out'].submit();";
-		echo "self.close();</script>";
+	reloadform_closeme('log_out',true);
 }
 
 ?>

@@ -17,11 +17,11 @@ if( $protectedPost["newlabel"]!="" && str_replace(" ", "", $protectedPost["newla
 	@mysql_query("DELETE FROM deploy WHERE name='label'");
 	$queryL = "INSERT INTO deploy VALUES('label','".$protectedPost["newlabel"]."');";
 	mysql_query($queryL) or die(mysql_error());
-	echo "<br><center><font color=green><b>".$l->g(260)."</b></font></center>";
+	msg_success($l->g(260));
 }
 else if(isset($protectedPost["newlabel"])) {
 	@mysql_query("DELETE FROM deploy WHERE name='label'");
-	echo "<br><center><font color=green><b>".$l->g(261)."</b></font></center>";
+	msg_success($l->g(261));
 }
 
 $reqL="SELECT content FROM deploy WHERE name='label'";

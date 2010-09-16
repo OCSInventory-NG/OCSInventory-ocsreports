@@ -115,7 +115,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 
 	$tab_hidden['mac']=$protectedPost['MODIF'];	
 	if (isset($ERROR))
-	echo "<font color=red><b>".$ERROR."</b></font>";
+		msg_error($ERROR);
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
 }
 else{ //affichage des p�riph�riques

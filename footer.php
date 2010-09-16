@@ -65,6 +65,9 @@ if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 }
 
 if ($_SESSION['OCS']['DEBUG'] == 'ON'){
+	if (isset($_SESSION['OCS']['SQL_DEBUG'])){
+		msg_info("<b>".$l->g(5001)."</b><br><br>".implode('<br><hr>',$_SESSION['OCS']['SQL_DEBUG']));
+	}
 	echo "<hr/>";
 	echo "<div align=center>VAR POST</div>";
 	if (isset($protectedPost))

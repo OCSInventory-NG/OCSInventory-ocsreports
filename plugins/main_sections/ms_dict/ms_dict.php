@@ -37,11 +37,9 @@ else{
 //show first lign of onglet
 onglet($def_onglets,$form_name,"onglet",0);
 echo '<div class="mlt_bordure" >';
-//echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>
-//<tr><td align='center' colspan=10>";
 //attention=> result with restriction
 if ($search_count != "" or $search_cache != "")
-echo "<font color=red><b>".$l->g(767)."</b></font>";
+msg_warning($l->g(767));
 /**************************************ACTION ON DICO SOFT**************************************/
 
 //transfert soft
@@ -116,10 +114,6 @@ if ($protectedPost['onglet'] == 'CAT'){
 		$querydico=substr($querydico,0,-1);
 		$querydico .= " from dico_soft left join ".$table." cache on dico_soft.extracted=cache.name
 				 where formatted='".mysql_escape_string($list_cat[$protectedPost['onglet_soft']])."' ".$search_count." group by EXTRACTED";
-	
-//	 echo "<br><font color=red>TROP DE CATEGORIES... VEUILLEZ FAIRE UNE RECHERCHE... <br>".$i." cat�gories r�pondent aux crit�res.
-//			 L'affichage est limit� � 20 cat�gories</font>";
-//	
 }
 /*******************************************************CAS OF NEW*******************************************************/
 if ($protectedPost['onglet'] == 'NEW'){

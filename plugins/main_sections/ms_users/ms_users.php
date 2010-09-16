@@ -45,9 +45,9 @@ if (isset($protectedPost['Valid_modif_x'])){
 		unset($_SESSION['OCS']['DATA_CACHE'],$protectedPost['ID'],$protectedPost['FIRSTNAME'],$protectedPost['LASTNAME'],
 		$protectedPost['ACCESSLVL'],$protectedPost['COMMENTS'],$protectedPost['PASSWORD'],$protectedPost['MODIF']);
 		$tab_options['CACHE']='RESET';	
-		echo "<font color=green><b>".$ok."</b></font>";	
+		msg_success($ok);
 	}else
-		echo "<script>alert('".$ok."')</script>";
+		msg_error($ok);
 	
 }
 echo '<div class="mlt_bordure" >';

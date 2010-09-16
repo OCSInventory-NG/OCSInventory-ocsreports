@@ -49,7 +49,7 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'NEED_DONE_ACTION'=>$protectedPost['NEED_DONE_ACTION'],
 						'NEED_DONE_ACTION_TEXT'=>$protectedPost['NEED_DONE_ACTION_TEXT'],
 						'GARDEFOU'=>"rien");
-	$msg=create_pack($sql_details,$info_details);
+	create_pack($sql_details,$info_details);
 	if ($protectedPost['REDISTRIB_USE'] == 1){
 		$timestamp_redistrib= time();
 		$server_dir=$protectedPost['download_rep_creat'];
@@ -106,7 +106,6 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 		create_pack($sql_details,$info_details);
 	}
 	unset($protectedPost,$_SESSION['OCS']['DATA_CACHE']);
-	echo $msg;
 }
 $lign_begin="<tr height='30px' bgcolor='white'><td>";
 $td_colspan2=":</td><td colspan='2'>";
@@ -249,16 +248,14 @@ if (!$protectedPost){
 	if (!$rep_exist){
 		$creat=@mkdir($document_root."/download/");	
 		if (!$creat){
-			echo "<font color=red size=4><b>".$document_root."/download/"."<br>".$l->g(1004).". 
-					<br>".$l->g(1005)."</b></font>";	
+			msg_error($document_root."/download/"."<br>".$l->g(1004).".<br>".$l->g(1005));
 			return;
 		}
 	}			
 	//v�rification que l'on ai les droits d'�criture sur ce r�pertoire
 	$rep_ok=is_writable ($document_root."/download/");
 	if (!$rep_ok){
-		echo "<font color=red size=4><b>".$l->g(1007)." ".$document_root."/download/ ".$l->g(1004).". 
-				<br>".$l->g(1005)."</b></font>";	
+		msg_error($l->g(1007)." ".$document_root."/download/ ".$l->g(1004).".<br>".$l->g(1005));
 		return;
 	}
 	$protectedPost['document_root']=$document_root."/download/";

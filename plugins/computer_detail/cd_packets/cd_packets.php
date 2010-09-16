@@ -1,4 +1,12 @@
 <?php
+
+/*
+ * 
+ * NO USE?
+ * 
+ * 
+ */
+
 	print_item_header($l->g(512));
 	$form_name="affich_packets";
 	$table_name=$form_name;

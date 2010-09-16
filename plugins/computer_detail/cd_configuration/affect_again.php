@@ -1,4 +1,10 @@
 <?php
+/*
+ * 
+ * NOT USE
+ * 
+ */
+
 //require_once('fichierConf.class.php');
 $form_name='admin_search';
 //$ban_head='no';

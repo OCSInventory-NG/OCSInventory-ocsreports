@@ -152,5 +152,5 @@ if ($toBeWritten != ""){
 	echo $toBeWritten;
 	die();
 }else
-echo "<font color=red align=center><B>".$l->g(920)."</B></font>"
+	msg_error($l->g(920));
 ?>

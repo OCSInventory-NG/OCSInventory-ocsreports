@@ -2,13 +2,14 @@
 if (!isset($debut))
 die('FORBIDDEN');
 
+unset($_SESSION['OCS']['SQL_DEBUG']);
 @session_start();
 if ($_SESSION['OCS']['LOG_GUI'] == 1){
 		define("LOG_FILE", $_SESSION['OCS']['LOG_DIR']."/log.csv");
-		$logHandler = @fopen( LOG_FILE, "a");
+		$logHandler = fopen( LOG_FILE, "a");
 	}
-require_once('require/aide_developpement.php');
 require_once('require/function_commun.php');
+require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
 require_once('fichierConf.class.php');
 include('dbconfig.inc.php');
@@ -243,9 +244,9 @@ if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_
 if (isset($protectedGet[PAG_INDEX]) 
 	and !isset($_SESSION['OCS']['PAGE_PROFIL'][$name[$protectedGet[PAG_INDEX]]])
 	and !isset($_SESSION['OCS']['TRUE_PAGES'][$name[$protectedGet[PAG_INDEX]]])){
-	echo "<br><br><center><b><font color=red>ACCESS DENIED</font></b></center><br>";
-	require_once($_SESSION['OCS']['FOOTER_HTML']);
-	die();	
+		msg_error("ACCESS DENIED");
+		require_once($_SESSION['OCS']['FOOTER_HTML']);
+		die();	
 }
 
 
@@ -254,7 +255,7 @@ if((!isset($_SESSION['OCS']["loggeduser"])
 	 or $_SESSION['OCS']["lvluser"] == "")
 	 and $no_error != 'YES')
 {		
-	echo "<br><br><center><b><font color=red>".$LIST_ERROR."</font></b></center><br>";
+	msg_error($LIST_ERROR);
 	require_once($_SESSION['OCS']['FOOTER_HTML']);
 	die();
 }

@@ -29,20 +29,22 @@ $def_onglets[$l->g(1136)]=$l->g(1136); //SNMP
 
 if ($protectedPost['Valid'] == $l->g(103)){
 	$etat=verif_champ();
-	if ($etat == "")
-	$MAJ=update_default_value($protectedPost); //function in function_config_generale.php
-	else{
+	if ($etat == ""){
+		update_default_value($protectedPost); //function in function_config_generale.php
+		$MAJ=$l->g(1121);
+	}else{
 		$msg="";
 		foreach ($etat as $name=>$value){
 			$msg.=$name." ".$l->g(759)." ".$value."<br>";
 		}
 		//print_r($etat);
-	echo "<font color=RED ><center><b>".$msg."</b></center></font>";
+	msg_error($msg);
 		
 	}
 	
 }
-echo "<font color=green ><center><b>".$MAJ."</b></center></font>";
+if (isset($MAJ) and $MAJ != '')
+	msg_success($MAJ);
 $form_name='modif_onglet';
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 

@@ -21,12 +21,8 @@ if ($activate){
 	//savoir comment sont définis les périmètres
 	if ($conf_Wk['ivalue']['IT_SET_PERIM'] == 1){
 		$perim='TAG';
-		echo "<br><font color=red><b>Vous ne pouvez affecter des paquets 
-					que de niveau supérieur à ".$conf_Wk['tvalue']['IT_SET_NIV_REST']."
-					<br>Rappel: la configuration du workflow de télédéploiement est actuellement sur ".$perim."</b></font>";
-	
-	
-	
+		msg_warning($l->g(1190) . " " .$conf_Wk['tvalue']['IT_SET_NIV_REST']);
+		msg_info($l->g(1191) . " " .$perim);
 	}else{
 		$perim='GROUPS';
 		//si on vient de la page des groupes	
@@ -45,32 +41,22 @@ if ($activate){
 			//si ce groupe est défini comme un groupe de test
 			if ($item->NAME == $conf_Wk['tvalue']['IT_SET_NAME_TEST']){
 				$restrict=$conf_Wk['tvalue']['IT_SET_NIV_TEST'];
-				$msg_wk="<br>Groupe pouvant recevoir des paquets de TEST";
+				$msg_wk="<br>".$l->g(1192);
 			}		
 			//si ce groupe est défini comme un groupe de périmètre restraint	
 			if ($item->NAME == $conf_Wk['tvalue']['IT_SET_NAME_LIMIT']){
 				if (!isset($restrict))
 				$restrict=$conf_Wk['tvalue']['IT_SET_NIV_REST'];
-				$msg_wk.="<br>Groupe pouvant recevoir des paquets de périmètre RESTRAINT";
+				$msg_wk="<br>".$l->g(1193);
 			}
 			//si le groupe n'est pas pris en compte dans le 
 			//système de workflow de télédiff
 			if (!isset($restrict)){
-				$msg_wk="Seuls les paquets de niveau supérieur à ".$conf_Wk['tvalue']['IT_SET_NIV_REST']." peuvent être affectés";
+				
+				$msg_wk=$l->g(1194) . " " . $conf_Wk['tvalue']['IT_SET_NIV_REST'] . " " . $l->g(1195);
 				
 				
 			}
-			
-			
-			//if ($conf_Wk['tvalue']['IT_SET_NIV_TEST']==
-			
-			
-			//on doit vérifier que l'on peut affecter les paquets de TEST ou de RESTRAINT 
-		//	$protectedGet['idchecked']
-			
-		/*	echo "<br><font color=green><b>Seuls les paquets en statut > au ".$conf_Wk['tvalue']['IT_SET_NIV_TEST']."
-					<br>peuvent être affectés sur ce groupe
-					<br>Rappel: la configuration du workflow de télédéploiement est actuellement sur ".$perim."</b></font>";*/
 			
 		}
 
@@ -79,7 +65,7 @@ if ($activate){
 	
 		
 	if ($msg_wk != '')
-	echo "<br><font color=green><b>".$msg_wk."</b></font>";
+		msg_info($msg_wk);
 	
 }
 $form_name="pack_affect";
@@ -91,8 +77,7 @@ if ($protectedPost['SELECT'] != ''){
 	$nb_affect=active_mach($list_id,$protectedPost['SELECT']);
 	if ($protectedPost['onglet'] == 'SERV_GROUP')
 	$nb_affect=active_serv($list_id,$protectedPost['SELECT'],$protectedPost['rule_choise']);
-	
-	echo "<br><font color=green>".$nb_affect." ".$l->g(604)."</font>";
+	msg_success($nb_affect." ".$l->g(604));
 
 }
 if ($protectedPost['sens'] == "")
@@ -126,7 +111,7 @@ if ($list_id){
 			$protectedPost['rule_choise']=$first;
 			echo "<input type=hidden value='".$first."' name='rule_choise' id='rule_choise'>";
 		}elseif ($nb_rule == 0){
-			echo "<font color=RED size=4>".$l->g(982)."</font>";
+			msg_error($l->g(982));
 		}
 	}
 	

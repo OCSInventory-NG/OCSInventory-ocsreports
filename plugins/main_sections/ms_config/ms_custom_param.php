@@ -60,7 +60,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 			 	}
 		 	}
 		 	$MAJ=$l->g(711);
-		 	echo "<font color=green><center><b>".$MAJ.$add_lbl."</b></center></font>";
+		 	msg_success($MAJ.$add_lbl);
 		}else
 		echo "<script>alert('".$l->g(983)."')</script>";
 	 }

@@ -91,7 +91,7 @@ if ($protectedPost['onglet'] == 1){
 		and is_numeric($protectedPost['MODIF_OLD']) 
 		and $protectedPost['Valid_modif_x'] != ""){
 		//UPDATE VALUE
-		echo update_accountinfo($protectedPost['MODIF_OLD'],
+		update_accountinfo($protectedPost['MODIF_OLD'],
 								array('TYPE'=>$protectedPost['newtype'],
 									  'NAME'=>$protectedPost['newfield'],
 									  'COMMENT'=>$protectedPost['newlbl'],
@@ -100,7 +100,8 @@ if ($protectedPost['onglet'] == 1){
 		
 	}elseif( $protectedPost['Valid_modif_x'] != "" ) {
 	//ADD NEW VALUE	
-		echo add_accountinfo($protectedPost['newfield'],$protectedPost['newtype'],$protectedPost['newlbl'],$protectedPost['account_tab']);		
+		add_accountinfo($protectedPost['newfield'],$protectedPost['newtype'],$protectedPost['newlbl'],$protectedPost['account_tab']);	
+			
 	}
 	
 		

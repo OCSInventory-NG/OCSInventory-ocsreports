@@ -31,7 +31,7 @@ if (isset($protectedPost['VALID_GROUP'])){
 		if (!isset($lbl))
 		$lbl="''";
 		
-		$msg=admin_serveur($action,$name_or_id,$lbl,$list_id);
+		$msg_error=admin_serveur($action,$name_or_id,$lbl,$list_id);
 
 	}//gestion groupe de machines
 	else{	
@@ -43,13 +43,13 @@ if (isset($protectedPost['VALID_GROUP'])){
 		//ajout a un groupe
 		if ($protectedPost['NEW_RAZ'] == "ADD"){
 			$nb_mach=add_computers_cache($list_id,$protectedPost['group_list'],1);
-			$msg="<font color=green>".$l->g(973);	
+			$msg_success=$l->g(973);	
 		}
 			
 		//suppression des machines du groupe en masse
 		if ($protectedPost['NEW_RAZ'] == "DEL"){
 			$nb_mach=remove_of_group($protectedPost['group_list'],$list_id);
-			$msg="<font color=green>".$l->g(971)."<br>".$l->g(972)."</font>";	
+			$msg_success=$l->g(971)."<br>".$l->g(972);	
 		}
 		//Cr�ation d'un nouveau groupe
 		if ($protectedPost['NEW_RAZ'] == "NEW"){
@@ -58,20 +58,24 @@ if (isset($protectedPost['VALID_GROUP'])){
 			$nb_mach = "ERROR";
 			else
 			$nb_mach = $result['LBL'];
-			$msg="<font color=green>".$l->g(880);		
+			$msg_success=$l->g(880);		
 		}	
 		//ecrasement d'un groupe
 		if ($protectedPost['NEW_RAZ'] == "RAZ"){
 			$nb_mach=replace_group($protectedPost['group_list'],$list_id,$_SESSION['OCS']['SEARCH_SQL_GROUP'],$group_type);
-			$msg="<font color=green>".$l->g(879);		
+			$msg_success=$l->g(879);		
 		}
 		if ($nb_mach == "ERROR"){
-			$msg="<font color=red>".$result['LBL']."</font>";
+			$msg_error=$result['LBL'];
 		}elseif (isset($nb_mach) and $protectedPost['NEW_RAZ'] != "DEL"){
-			$msg.="<br>".$nb_mach." ".$l->g(974)."</font>";		
+			$msg_success.="<br>".$nb_mach." ".$l->g(974);		
 		}
 	}
-		echo "<div align=center><b>".$msg."</b></div>";
+	
+	if (isset($msg_success) and $msg_success != '')
+		msg_success($msg_success);
+	if (isset($msg_error) and $msg_error != '')
+		msg_error($msg_error);
 }
 /*********************************************CALCUL DES CHAMPS A AFFICHER*************************************/
 if ($list_id){

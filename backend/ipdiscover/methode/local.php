@@ -18,7 +18,8 @@ $req="select distinct ipsubnet,s.name,s.id
 			,accountinfo a
 		where a.hardware_id=n.HARDWARE_ID 
 			and n.status='Up'";
-if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
+if (isset($_SESSION['OCS']["mesmachines"]) 
+		and $_SESSION['OCS']["mesmachines"] != '' and $_SESSION['OCS']["mesmachines"] != 'NOTAG')
 		$req.="	and ".$_SESSION['OCS']["mesmachines"]." order by ipsubnet";
 else
 		$req.=" union select netid,name,id from subnet";

@@ -24,6 +24,11 @@ else
 
 if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES'){
 	$restrict_computers=computer_list_by_tag('','ARRAY');
+	if ($restrict_computers == "ERROR"){
+		msg_error($l->g(893));
+		require_once($_SESSION['OCS']['FOOTER_HTML']);
+		die();
+	}
 }
 //only for profils who can activate packet
 if (!$cant_active){	

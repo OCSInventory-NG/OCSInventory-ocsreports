@@ -653,7 +653,7 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 	echo "<table align=center width='80%' border='0' bgcolor=#f2f2f2>";
 	//gestion d"une phrase d'alerte quand on utilise le filtre
 	if (isset($protectedPost['FILTRE_VALUE']) and $protectedPost['FILTRE_VALUE'] != '' and $protectedPost['RAZ_FILTRE'] != 'RAZ')
-		echo "<tr><td align=center><b><font color=red>".$l->g(884)."</font></b></td></tr>";
+		msg_warning($l->g(884));
 	echo "<tr><td align=right>";
 	if (!isset($protectedPost['SHOW']))
 	$protectedPost['SHOW'] = "SHOW";
@@ -922,7 +922,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	//Delete cache 
 	if ($tab_options['CACHE']=='RESET' or (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') ){
 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-	 		echo "<br><b><font color=red>".$l->g(5003)."</font></b><br>";
+			msg_info($l->g(5003));
 		unset($_SESSION['OCS']['DATA_CACHE'][$table_name]);
 		unset($_SESSION['OCS']['NUM_ROW'][$table_name]);	
 	}
@@ -933,7 +933,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 			and !isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]])){
 				
 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			 echo "<br><b><font color=red>".$l->g(5004)." ".$limit["END"]." => ".($_SESSION['OCS']['NUM_ROW'][$table_name]-1)." </font></b><br>";
+			msg_info($l->g(5004)." ".$limit["END"]." => ".($_SESSION['OCS']['NUM_ROW'][$table_name]-1));
+	
 		$limit["END"]=$_SESSION['OCS']['NUM_ROW'][$table_name]-1;
 
 	}
@@ -944,7 +945,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	if (isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]]) and isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
 		//echo "toto";
 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-	 		echo "<br><b><font color=red>".$l->g(5005)."</font></b><br>";
+			msg_info($l->g(5005));
+
 	 		$var_limit=$limit["BEGIN"];
 	 		while ($var_limit<=$limit["END"]){
 	 			$sql_data[$var_limit]=$_SESSION['OCS']['DATA_CACHE'][$table_name][$var_limit];
@@ -1058,31 +1060,22 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		}else{
 			$num_rows_result=$_SESSION['OCS']['NUM_ROW'][$table_name];
 			if ($_SESSION['OCS']['DEBUG'] == 'ON')
-	 		echo "<br><b><font color=red>".$l->g(5007)."</font></b><br>";
+			msg_info($l->g(5007));
 		}
 				//echo $querycount;
 		//FIN REQUETE COUNT
 		if (isset($limit)){
-			//print_r($limit);
 			if ($limit["END"]<$limit_result_cache)
 			$queryDetails.=" limit ".$limit_result_cache;
 			else{
-			//	echo "<font color=red>".floor($limit["END"]/$limit_result_cache)."</font><br>";
 			$queryDetails.=" limit ".floor($limit["END"]/$limit_result_cache)*$limit_result_cache.",".$limit_result_cache;
 			}
-//			//if ($limit["END"] != 0)
-//			$queryDetails.=$limit["END"];
-//			if ($limit["BEGIN"] != 0)
-//			$queryDetails.=",".$limit["BEGIN"];
 		}
-		//$queryDetails="select SQL_CALC_FOUND_ROWS ".substr($queryDetails,6);
 		if (isset($tab_options['ARG_SQL']))
 			$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
 		else
 			$resultDetails = mysql2_query_secure($queryDetails, $link);
 		flush();
-	//echo "<br>".$queryDetails;
-//	flush();
 
 		$i=floor($limit["END"]/$limit_result_cache)*$limit_result_cache;
 		$index=$limit["BEGIN"];
@@ -1215,8 +1208,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
 		return TRUE;
 	}else{
-	echo "</td></tr></table><font color=red size=5><B>".$l->g(766). " " . "</B></font>";
-	return FALSE;
+		echo "</td></tr></table>";
+		msg_warning($l->g(766));
+		return FALSE;
 	}
 }
 

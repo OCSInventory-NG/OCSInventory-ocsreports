@@ -129,15 +129,14 @@ $conf_Wk=look_config_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
 //configuration sur le groupe
 if ($conf_Wk['ivalue']['IT_SET_PERIM'] != 1){
 	$mes_wk="";
-	//print_r()
 	if ($conf_Wk['tvalue']['IT_SET_NAME_TEST']==$name)
-	$mes_wk="Ce groupe est déclaré comme un périmètre de TEST";
+	$mes_wk=$l->g(1188);
 	if ($conf_Wk['tvalue']['IT_SET_NAME_LIMIT']==$name)
-	$mes_wk.="<br>Ce groupe est déclaré comme un périmètre RESTRAINT";
+	$mes_wk.="<br>".$l->g(1189);
 }
 
 if ($mes_wk != ''){
-	echo "<tr><td colspan=10 align=center><b><font color=blue>".$l->g(1047)." : ".$mes_wk."</font></b></td></tr>";	
+	msg_info($l->g(1047)." : ".$mes_wk);	
 }
 
 
