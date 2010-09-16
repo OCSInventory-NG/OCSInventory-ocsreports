@@ -243,7 +243,7 @@ function admin_profil($form){
 	}
 	
 	$array_profil=search_profil();
-	echo "Profils:".show_modif($array_profil,"PROFILS",2,$form);
+	echo $l->g(1196). ": " .show_modif($array_profil,"PROFILS",2,$form);
 	echo "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_new_profil']."&head=1&form=".$form."\",\"new_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=550\")><img src=image/plus.png></a>";
 	
 	if (isset($protectedPost['PROFILS']) and $protectedPost['PROFILS'] != ''){
