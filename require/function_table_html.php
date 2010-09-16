@@ -695,7 +695,7 @@ function show_page($valCount,$form_name){
 	echo "<table align='center' width='99%' border='0' bgcolor=#f2f2f2>";
 	echo "<tr><td align=center>";
 	if ($protectedPost['page'] > 0)
-	echo "<img src='image/prec24.png' OnClick='pag(\"".$down."\",\"page\",\"".$form_name."\")'>";
+	echo "<img src='image/prec24.png' OnClick='pag(\"".$down."\",\"page\",\"".$form_name."\")'> ";
 	//if ($nbpage<10){
 		$i=0;
 		$deja="";
@@ -721,7 +721,7 @@ function show_page($valCount,$form_name){
 		}
 
 	if ($protectedPost['page']< $nbpage-1)
-	echo "<img src='image/proch24.png' OnClick='pag(\"".$up."\",\"page\",\"".$form_name."\")'>";
+	echo "<img src='image/proch24.png' OnClick='pag(\"".$up."\",\"page\",\"".$form_name."\")'> ";
 	
 	}
 	echo "</td></tr></table>";
