@@ -139,7 +139,7 @@
 231 Reale
 232 Data
 233 Tipo attuale
-234 è stato inserito con successo
+234 inserito con successo
 235 Utenti
 236 Cambio password
 237 Nuova password
@@ -959,7 +959,7 @@
 1072 Richieste in attesa
 1073 Crea una richiesta
 1074 La funzionalità 'Workflow' non è attivata.
-1075 Attivala prima di utilizzarla
+1075 Attiva la funzionalità per utilizzarla
 1076 ERRORE: STATO RICERCA NON DEFINITO
 1077 Stato della creazione del pacchetto
 1078 Test dello stato
@@ -1070,13 +1070,23 @@
 1183 Lista dei pacchetti da creare
 1184 Chiave aggiunta
 1185 Chiave aggiornata
+1186 Informazioni aggiornate
+1187 In fase di configurazione
+1188 Questo gruppo è dichiarato come perimetro TEST
+1189 Questo gruppo è dichiarato come perimetro RESTRAINT
+1190 Non puoi disporre dei pacchetti di livello superiore a
+1191 Informazione: la configurazione del flusso è attivata
+1192 Il gruppo può ricevere pacchetti TEST
+1193 Il gruppo può ricevere pacchetti RESTRAINT
+1194 Puoi disporre solo dei pacchetti di livello superiore a
+1195 possono essere interessati
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
 2002 ERRORE: linea
 2003 Errore MySQL:
 2004 (usando il nuovo account ocs)
-2005 Subnet
+2005 Sottoreti
 2006 ATTENZIONE:
 2007 account
 2008 errore
@@ -1137,7 +1147,7 @@
 2076 Nessun file subnet.csv da importare
 2077 Inserimento delle reti da subnet.csv
 2078 ERRORE: non posso inserire le reti
-2079 errore nella tabella delle subnet
+2079 errore nella tabella delle sottoreti
 2080 ATTENZIONE: la rete
 2081 non è stata inserita (IP o netmask errati
 2082 Calcolo netid delle reti. Attendere prego...
