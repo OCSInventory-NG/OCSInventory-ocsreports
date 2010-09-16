@@ -25,9 +25,11 @@ else
 $res=mysql2_query_secure($req, $link_ocs) or die(mysql_error($link_ocs));
 while ($row=mysql_fetch_object($res)){
 	unset($id);
-	foreach ($subnet_to_balcklist as $key=>$value){
-		if ($key == $row -> ipsubnet)
-			$id='--'.$l->g(703).'--';
+	if (is_array($subnet_to_balcklist)){
+		foreach ($subnet_to_balcklist as $key=>$value){
+			if ($key == $row -> ipsubnet)
+				$id='--'.$l->g(703).'--';
+		}
 	}
 	/*foreach ($subnet_to_balcklist as $key=>$value){
 		$black=explode('.',$value);

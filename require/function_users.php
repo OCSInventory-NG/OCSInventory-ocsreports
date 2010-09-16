@@ -108,8 +108,10 @@ function admin_user($id_user=''){
 			//search all profil type
 			$list_profil=search_profil();
 			$list_groups_result=look_config_default_values("USER_GROUP_%",'LIKE');
-			foreach ($list_groups_result['name'] as $key=>$value){
-				$list_groups[$list_groups_result['ivalue'][$key]]=$list_groups_result['tvalue'][$key];
+			if (is_array($list_groups_result['name'])){
+				foreach ($list_groups_result['name'] as $key=>$value){
+					$list_groups[$list_groups_result['ivalue'][$key]]=$list_groups_result['tvalue'][$key];
+				}
 			}
 			$name_field=array("ID","ACCESSLVL","USER_GROUP");
 			$tab_name=array($l->g(995).": ",$l->g(66).":",$l->g(607).":");
