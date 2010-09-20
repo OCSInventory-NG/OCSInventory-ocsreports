@@ -287,13 +287,13 @@ include('security.php');
 			<table width='80%'>
 			<tr height='30px' bgcolor='white'><td><?php echo $l->g(449); ?>:</span></td><td colspan='2'><input id='NOTIFY_TEXT' name='NOTIFY_TEXT'></div></td></tr>
 			<tr height='30px' bgcolor='white'><td><?php echo $l->g(450); ?>:</td><td colspan='2'><input id='NOTIFY_COUNTDOWN' name='NOTIFY_COUNTDOWN' size='4'>&nbsp;&nbsp;&nbsp;<?php echo $l->g(511); ?></td></tr>
-			<tr height='30px' bgcolor='white'><td><?php echo $l->g(451); ?>:</td><td colspan='2'><select id='NOTIFY_CAN_ABORT' name='NOTIFY_CAN_ABORT'><option value='0'><?php echo $l->g(454); ?></option><option value='1'><?php echo $l->g(455); ?></option></td></tr>
-			<tr height='30px' bgcolor='white'><td><?php echo $l->g(452); ?>:</td><td colspan='2'><select id='NOTIFY_CAN_DELAY' name='NOTIFY_CAN_DELAY'><option value='0'><?php echo $l->g(454); ?></option><option value='1'><?php echo $l->g(455); ?></option></td></tr>
+			<tr height='30px' bgcolor='white'><td><?php echo $l->g(451); ?>:</td><td colspan='2'><select id='NOTIFY_CAN_ABORT' name='NOTIFY_CAN_ABORT'><option value='0'><?php echo $l->g(454); ?></option><option value='1'><?php echo $l->g(455); ?></option></select></td></tr>
+			<tr height='30px' bgcolor='white'><td><?php echo $l->g(452); ?>:</td><td colspan='2'><select id='NOTIFY_CAN_DELAY' name='NOTIFY_CAN_DELAY'><option value='0'><?php echo $l->g(454); ?></option><option value='1'><?php echo $l->g(455); ?></option></select></td></tr>
 			</table>
 			<br>
 		</span>
 		</td></tr>
-		<tr height='30px' bgcolor='white'><td><?php echo $l->g(453); ?>:</td><td colspan='2'><select id='NEED_DONE_ACTION' name='NEED_DONE_ACTION' OnChange='active("divNDA", this.value);'><option value='0'><?php echo $l->g(454); ?></option><option value='1'><?php echo $l->g(455); ?></option></td></tr>
+		<tr height='30px' bgcolor='white'><td><?php echo $l->g(453); ?>:</td><td colspan='2'><select id='NEED_DONE_ACTION' name='NEED_DONE_ACTION' OnChange='active("divNDA", this.value);'><option value='0'><?php echo $l->g(454); ?></option><option value='1'><?php echo $l->g(455); ?></option></select></td></tr>
 		<tr><td colspan='10' align='right'>
 		<span id='divNDA' style='display:none'>
 			<table width='80%'>
