@@ -1080,6 +1080,8 @@
 1194 Seuls les paquets de niveau supérieur à 
 1195 peuvent être affectés
 1196 Profil
+1197 Fonctionnalité SNMP
+1198 Scans réseaux
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

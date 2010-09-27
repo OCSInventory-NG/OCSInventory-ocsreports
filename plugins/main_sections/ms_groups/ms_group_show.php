@@ -476,17 +476,9 @@ function print_perso($systemid) {
 	}
 	
 	$ii++; $td3 = $ii%2==0?$td2:$td4;
-	$sql_default_value="select NAME,IVALUE from config where NAME	in ('DOWNLOAD',
-															'DOWNLOAD_CYCLE_LATENCY',
-															'DOWNLOAD_PERIOD_LENGTH',
-															'DOWNLOAD_FRAG_LATENCY',
-															'DOWNLOAD_PERIOD_LATENCY',	
-															'DOWNLOAD_TIMEOUT',
-															'PROLOG_FREQ')";
-	$result_default_value = mysql_query($sql_default_value, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-	while($default=mysql_fetch_array($result_default_value)) {
-		$optdefault[$default["NAME"] ] = $default["IVALUE"];
-	}	
+	$field_name=array('DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_PERIOD_LENGTH','DOWNLOAD_FRAG_LATENCY',
+	    			  'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','PROLOG_FREQ','SNMP');
+	$optdefault=look_config_default_values($field_name);
 	//FREQUENCY
 	echo "<tr><td bgcolor='white' align='center' valign='center'>".(isset($optPerso["FREQUENCY"])?"<img width='15px' src='image/red.png'>":"&nbsp;")."</td>";
 	echo $td3.$l->g(494)."</td>";
@@ -511,28 +503,43 @@ function print_perso($systemid) {
 	}
 	else {
 		echo $td3.$l->g(488)."(";
-		if ($optdefault["DOWNLOAD"] == 1) echo $l->g(205); else echo $l->g(733);
+		if ($optdefault['ivalue']["DOWNLOAD"] == 1) echo $l->g(205); else echo $l->g(733);
 		echo ")</td>";
 	}
 		
 	echo "</tr>";
 	
 	//DOWNLOAD_CYCLE_LATENCY
-	optperso("DOWNLOAD_CYCLE_LATENCY",$l->g(720)." <font color=green size=1><i>DOWNLOAD_CYCLE_LATENCY</i></font>",$optPerso,1,$optdefault["DOWNLOAD_CYCLE_LATENCY"],$l->g(511));
+	optperso("DOWNLOAD_CYCLE_LATENCY",$l->g(720)." <font color=green size=1><i>DOWNLOAD_CYCLE_LATENCY</i></font>",$optPerso,1,$optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"],$l->g(511));
 	
 	//DOWNLOAD_FRAG_LATENCY
-	optperso("DOWNLOAD_FRAG_LATENCY",$l->g(721)." <font color=green size=1><i>DOWNLOAD_FRAG_LATENCY</i></font>",$optPerso,1,$optdefault["DOWNLOAD_FRAG_LATENCY"],$l->g(511));
+	optperso("DOWNLOAD_FRAG_LATENCY",$l->g(721)." <font color=green size=1><i>DOWNLOAD_FRAG_LATENCY</i></font>",$optPerso,1,$optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"],$l->g(511));
 
 	
 	//DOWNLOAD_PERIOD_LATENCY
-	optperso("DOWNLOAD_PERIOD_LATENCY",$l->g(722)." <font color=green size=1><i>DOWNLOAD_PERIOD_LATENCY</i></font>",$optPerso,1,$optdefault["DOWNLOAD_PERIOD_LATENCY"],$l->g(511));
+	optperso("DOWNLOAD_PERIOD_LATENCY",$l->g(722)." <font color=green size=1><i>DOWNLOAD_PERIOD_LATENCY</i></font>",$optPerso,1,$optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"],$l->g(511));
 	
 	//DOWNLOAD_PERIOD_LENGTH
-	optperso("DOWNLOAD_PERIOD_LENGTH",$l->g(723)." <font color=green size=1><i>DOWNLOAD_PERIOD_LENGTH</i></font>",$optPerso,1,$optdefault["DOWNLOAD_PERIOD_LENGTH"]);
+	optperso("DOWNLOAD_PERIOD_LENGTH",$l->g(723)." <font color=green size=1><i>DOWNLOAD_PERIOD_LENGTH</i></font>",$optPerso,1,$optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
 
 	//PROLOG_FREQ
-	optperso("PROLOG_FREQ",$l->g(724)." <font color=green size=1><i>PROLOG_FREQ</i></font>",$optPerso,1,$optdefault["PROLOG_FREQ"],$l->g(730));
+	optperso("PROLOG_FREQ",$l->g(724)." <font color=green size=1><i>PROLOG_FREQ</i></font>",$optPerso,1,$optdefault['ivalue']["PROLOG_FREQ"],$l->g(730));
 
+	//SNMP_SWITCH
+	echo "<tr><td bgcolor='white' align='center' valign='center'>".(isset($optPerso["SNMP_SWITCH"])?"<img width='15px' src='image/red.png'>":"&nbsp;")."</td>";
+	echo $td3.$l->g(1197)." <font color=green size=1><i>SNMP_SWITCH</i></font></td>";
+	if( isset( $optPerso["SNMP_SWITCH"] )) {
+		if( $optPerso["SNMP_SWITCH"]["IVALUE"]==0 ) echo $td3.$l->g(733)."</td>";
+		else if( $optPerso["SNMP_SWITCH"]["IVALUE"]==1 ) echo $td3.$l->g(205)."</td>";
+		else echo $td3."</td>";
+	}
+	else {
+		echo $td3.$l->g(488)."(";
+		if ($optdefault['ivalue']["SNMP"] == 1) echo $l->g(205); else echo $l->g(733);
+		echo ")</td>";
+	}	
+	echo "</tr>";
+	
 	//TELEDEPLOY
 	$resDeploy = @mysql_query("SELECT a.name, d.tvalue,d.ivalue, e.pack_loc,e.fileid  FROM devices d, download_enable e LEFT JOIN download_available a 
 	ON e.fileid=a.fileid WHERE d.name='DOWNLOAD' AND e.id=d.ivalue AND d.hardware_id=$systemid"); 

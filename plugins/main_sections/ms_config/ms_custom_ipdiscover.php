@@ -41,6 +41,8 @@ elseif(isset($protectedGet['idchecked'])) {
 elseif(!isset($protectedGet['idchecked'])){
 	$mode = 2;	
 }
+$lesRez['des']=$l->g(523);
+	$lesRez['OFF']=$l->g(524);
 if (isset($protectedGet['idchecked']) and is_numeric($protectedGet['idchecked'])){
 	$sql="SELECT ipaddress FROM networks WHERE hardware_id=%s";
 	$arg=$protectedGet['idchecked'];
@@ -53,10 +55,27 @@ if (isset($protectedGet['idchecked']) and is_numeric($protectedGet['idchecked'])
 		$lesRez[$val["ipsubnet"]] = $val["ipsubnet"];
 	}
 }
-	if( $mode==3 || $mode==2) 
-	$lesRez['des']=$l->g(523);
-	$lesRez['OFF']=$l->g(524);
+//	if( $mode==3 || $mode==2) 
+	
 ligne('IPDISCOVER',$l->g(518),'select',array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>$lesRez,'VALUE'=>$select_value));
+
+if(!isset($optvalue['SNMP_SWITCH']))
+$optvalueselected='SERVER DEFAULT';
+elseif($optvalue['SNMP_SWITCH'] == 0)
+$optvalueselected='OFF';
+elseif($optvalue['SNMP_SWITCH'] == 1)
+$optvalueselected='ON';
+$champ_value['VALUE']=$optvalueselected;
+$champ_value['ON']='ON';
+$champ_value['OFF']='OFF';
+$champ_value['SERVER DEFAULT']=$l->g(488);
+if (!isset($protectedGet['origine'])){	
+	$champ_value['IGNORED']=$l->g(718);
+	$champ_value['VALUE']='IGNORED';
+}
+ligne("SNMP_SWITCH",$l->g(1197),'radio',$champ_value);
+unset($champ_value);
+
 fin_tab($form_name);
 
 ?>
