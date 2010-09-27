@@ -4,8 +4,6 @@ use strict;
 no strict 'refs';
 use warnings;
 
-use ExtUtils::Installed;
-
 sub new {
   my (undef, $params) = @_;
 
@@ -91,14 +89,7 @@ sub initModList {
   # devlib enable, I only search for backend module in ./lib
     push (@dirToScan, './lib');
   } else {
-    my ($inst) = ExtUtils::Installed->new();
 
-    eval {@installed_files =
-      $inst->files('Ocsinventory')};
-
-# ExtUtils::Installed is nice but it needs properly installed package with
-# .packlist
-# This is a workaround for 'invalide' installations...
     foreach (@INC) {
       next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
       push @dirToScan, $_;
