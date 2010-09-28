@@ -253,6 +253,7 @@ if (isset($protectedGet[PAG_INDEX])
 if((!isset($_SESSION['OCS']["loggeduser"])
 	 or !isset($_SESSION['OCS']["lvluser"]) 
 	 or $_SESSION['OCS']["lvluser"] == "")
+	 and !isset($_SESSION['OCS']['TRUE_USER'])
 	 and $no_error != 'YES')
 {		
 	msg_error($LIST_ERROR);

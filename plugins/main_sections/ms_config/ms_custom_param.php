@@ -13,13 +13,13 @@ $form_name="param_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 $list_id=multi_lot($form_name,$l->g(601));
 	//print_r($list_id);
-	if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
-	$protectedPost['onglet'] = $l->g(499);
+	/*if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
+	$protectedPost['onglet'] = $l->g(499);*/
 	
-	$def_onglets[$l->g(499)]=$l->g(499); //Serveur
-	$def_onglets[$l->g(728)]=$l->g(728); //Inventaire
-	$def_onglets[$l->g(512)]=$l->g(512); //T�l�d�ploiement
-	$def_onglets[$l->g(312)]=$l->g(312); //ipdiscover
+	$def_onglets['SERV']=$l->g(499); //Serveur
+	$def_onglets['INV']=$l->g(728); //Inventaire
+	$def_onglets['TELE']=$l->g(512); //T�l�d�ploiement
+	$def_onglets['RSX']=$l->g(1198); //ipdiscover
 	
 
 	//update values	
@@ -91,17 +91,17 @@ $list_id=multi_lot($form_name,$l->g(601));
 	if ($list_id){
 		onglet($def_onglets,$form_name,'onglet',7);
 		echo '<div class="mlt_bordure" >';
-		if ($protectedPost['onglet'] == $l->g(728)){
+		if ($protectedPost['onglet'] == 'INV'){
 			include ('ms_custom_frequency.php');
 		}
-		if ($protectedPost['onglet'] == $l->g(499)){
+		if ($protectedPost['onglet'] == 'SERV'){
 				include ('ms_custom_prolog.php');
 		}
-		if ($protectedPost['onglet'] == $l->g(512)){
+		if ($protectedPost['onglet'] == 'TELE'){
 			include ('ms_custom_download.php');
 		
 		}
-		if ($protectedPost['onglet'] == $l->g(312)){
+		if ($protectedPost['onglet'] == 'RSX'){
 			include ('ms_custom_ipdiscover.php');
 		
 		}

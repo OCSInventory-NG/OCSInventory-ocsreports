@@ -11,7 +11,6 @@
 //Modified on $Date: 2007/01/26 17:05:42 $$Author: plemmet $($Revision: 1.10 $)
 require_once('require/function_computers.php');
 if ($protectedPost['FUSION']){
-	//print_r($protectedPost);
 	foreach ($protectedPost as $name=>$value){
 		if (substr($name,0,5) == "check"){
 			$list_id_fusion[]= substr($name,5);			
@@ -34,67 +33,86 @@ if ($protectedPost['FUSION']){
 	
 }
 
-
-
-
 //gestion des restrictions par profils
 if ($_SESSION['OCS']['mesmachines']){
-	$list_id_mes_machines=computer_list_by_tag();
-	if ($list_id_mes_machines=="ERROR"){
+	$tab_id_mes_machines=computer_list_by_tag('','ARRAY');
+	if ($tab_id_mes_machines=="ERROR"){
 		echo $l->g(923);
 		break;
 	}
-	$tab_id_mes_machines=explode(",", substr(substr($list_id_mes_machines, 1),0,-1));
 }else{
-$list_id_mes_machines="";
-$tab_id_mes_machines=array();
+	$tab_id_mes_machines="";
 }
 
 	
 printEnTete($l->g(199));
 
-//-- doublon hostname
+/************************  hostname double ***************************************/
 $sql_doublon['hostname'] = "select NAME val from hardware ";
+$arg_doublon['hostname'] = array();
 
-if (isset($list_id_mes_machines) and $list_id_mes_machines != "")
-$sql_doublon['hostname'] .= " where id in ".$list_id_mes_machines;
-
+if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+	$sql=mysql2_prepare($sql_doublon['hostname'].' where id in ',$arg_doublon['hostname'],$tab_id_mes_machines);
+	$sql_doublon['hostname']=$sql['SQL'];
+	$arg_doublon['hostname']=$sql['ARG'];
+}
 $sql_doublon['hostname'] .= "  group by NAME having count(NAME)>1";
 
-//-- doublon serial number
+/************************  serial number double ***************************************/
 $sql_doublon['ssn']="select SSN val from bios,hardware h where h.id=bios.hardware_id and SSN not in (select serial from blacklist_serials) ";
-if (isset($list_id_mes_machines) and $list_id_mes_machines != "")
-$sql_doublon['ssn'] .= " and hardware_id in ".$list_id_mes_machines;
-
+$arg_doublon['ssn'] = array();
+if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+	$sql=mysql2_prepare($sql_doublon['ssn'].' and hardware_id in ',$arg_doublon['ssn'],$tab_id_mes_machines);
+	$sql_doublon['ssn']=$sql['SQL'];
+	$arg_doublon['ssn']=$sql['ARG'];
+}
 $sql_doublon['ssn'].=" group by SSN having count(SSN)>1";
 
-//-- doublon macaddresses
+/************************  macaddress double ***************************************/
 $sql_doublon['macaddress']="select MACADDR val from networks,hardware h where h.id=networks.hardware_id and  MACADDR not in (select macaddress from blacklist_macaddresses) ";
+$arg_doublon['macaddress']=array();
+if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+	$sql=mysql2_prepare($sql_doublon['macaddress'].' and hardware_id in ',$arg_doublon['macaddress'],$tab_id_mes_machines);
+	$sql_doublon['macaddress']=$sql['SQL'];
+	$arg_doublon['macaddress']=$sql['ARG'];
+}
 
-if (isset($list_id_mes_machines) and $list_id_mes_machines != "")
-$sql_doublon['macaddress'] .= " and hardware_id in ".$list_id_mes_machines;
-
+/*****************************request execution*****************************************/
 $sql_doublon['macaddress'].=" group by MACADDR having count(MACADDR)>1";
-//print_r($sql_doublon);
 foreach($sql_doublon as $name=>$sql_value){
-	$res = mysql_query( $sql_value, $_SESSION['OCS']["readServer"] );
-	while( $val = mysql_fetch_object( $res ) ){
+	$res = mysql2_query_secure($sql_value, $_SESSION['OCS']["readServer"],$arg_doublon[$name]);
+	while( $val = mysql_fetch_object( $res ) ){		
 		$doublon[$name][] = $val->val;
 	}
 }
 
-//recherche des id des machines en doublons s�rial number
-if (is_array($doublon['ssn']))
-$sql_id_doublon['ssn']=" select distinct hardware_id id,SSN info1 from bios,hardware h where h.id=bios.hardware_id and SSN in ('".implode("','",$doublon['ssn'])."')";
-//recherche des id des machines en doublons macaddresses
-if (is_array($doublon['macaddress']))
 
-$sql_id_doublon['macaddress']=" select distinct hardware_id id,MACADDR info1 from networks,hardware h where h.id=networks.hardware_id and MACADDR in ('".implode("','",$doublon['macaddress'])."')";
-//echo $sql_id_doublon['ssn']."<br><br>".$sql_id_doublon['macaddress'];
+
+//recherche des id des machines en doublons s�rial number
+	$sql_id_doublon['ssn']=" select distinct hardware_id id,SSN info1 from bios,hardware h where h.id=bios.hardware_id and SSN in ";
+	$arg_id_doublon['ssn']=array();
+	$sql=mysql2_prepare($sql_id_doublon['ssn'],$arg_id_doublon['ssn'],$doublon['ssn']);
+	$arg_id_doublon['ssn']=$sql['ARG'];
+	$sql_id_doublon['ssn']=$sql['SQL'];
+
+//recherche des id des machines en doublons macaddresses
+
+$sql_id_doublon['macaddress']=" select distinct hardware_id id,MACADDR info1 
+								from networks,hardware h 
+								where h.id=networks.hardware_id and MACADDR in ";
+$arg_id_doublon['macaddress']=array();
+$sql=mysql2_prepare($sql_id_doublon['macaddress'],$arg_id_doublon['macaddress'],$doublon['macaddress']);
+$arg_id_doublon['macaddress']=$sql['ARG'];
+$sql_id_doublon['macaddress']=$sql['SQL'];	
+
 //recherche des id des machines en doublons hostname
-if (is_array($doublon['hostname']))
-$sql_id_doublon['hostname']=" select id, NAME info1 from hardware h,accountinfo a where a.hardware_id=h.id and NAME in ('".implode("','",$doublon['hostname'])."')";
-//echo $sql_id_doublon['hostname'];
+
+$sql_id_doublon['hostname']=" select id, NAME info1 from hardware h,accountinfo a where a.hardware_id=h.id and NAME in ";
+$arg_id_doublon['hostname']=array();
+$sql=mysql2_prepare($sql_id_doublon['hostname'],$arg_id_doublon['hostname'],$doublon['hostname']);
+$arg_id_doublon['hostname']=$sql['ARG'];
+$sql_id_doublon['hostname']=$sql['SQL'];	
+	
 //doublon hostname + serial number
 $sql_id_doublon['hostname_serial']="SELECT DISTINCT h.id,h.name info1,b.ssn info2
 						FROM hardware h 
@@ -103,8 +121,13 @@ $sql_id_doublon['hostname_serial']="SELECT DISTINCT h.id,h.name info1,b.ssn info
 						LEFT JOIN  bios b2 on b2.ssn = b.ssn
 						WHERE  b2.hardware_id = h2.id 
 						AND h.id <> h2.id and b.ssn not in (select serial from blacklist_serials) ";
-if (isset($list_id_mes_machines) and $list_id_mes_machines != "")
-$sql_id_doublon['hostname_serial'] .= " and h.id in ".$list_id_mes_machines;
+$arg_id_doublon['hostname_serial']=array();
+if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+	$sql=mysql2_prepare($sql_id_doublon['hostname_serial'].' and h.id in ',$arg_id_doublon['hostname_serial'],$tab_id_mes_machines);
+	$sql_id_doublon['hostname_serial']=$sql['SQL'];
+	$arg_id_doublon['hostname_serial']=$sql['ARG'];
+}
+
 //doublon hostname + mac address
 $sql_id_doublon['hostname_macaddress']="SELECT DISTINCT h.id,h.name info1,n.macaddr info2
 						FROM hardware h 
@@ -113,8 +136,13 @@ $sql_id_doublon['hostname_macaddress']="SELECT DISTINCT h.id,h.name info1,n.maca
 						LEFT JOIN  networks n2 on n2.MACADDR = n.MACADDR
 						WHERE  n2.hardware_id = h2.id 
 						AND h.id <> h2.id and n.MACADDR not in (select macaddress from blacklist_macaddresses)";
-if (isset($list_id_mes_machines) and $list_id_mes_machines != "")
-$sql_id_doublon['hostname_macaddress'] .= " and h.id in ".$list_id_mes_machines;
+$arg_id_doublon['hostname_macaddress']=array();
+if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+	$sql=mysql2_prepare($sql_id_doublon['hostname_macaddress'].' and h.id in ',$arg_id_doublon['hostname_macaddress'],$tab_id_mes_machines);
+	$sql_id_doublon['hostname_macaddress']=$sql['SQL'];
+	$arg_id_doublon['hostname_macaddress']=$sql['ARG'];
+}
+
 
 $sql_id_doublon['macaddress_serial']="SELECT DISTINCT h.id, n1.macaddr info1, b.ssn info2 
 									  FROM hardware h 
@@ -127,26 +155,26 @@ $sql_id_doublon['macaddress_serial']="SELECT DISTINCT h.id, n1.macaddr info1, b.
 										AND b2.hardware_id <> b.hardware_id 
 										AND b.ssn not in (select serial from blacklist_serials)
 										AND n1.macaddr not in (select macaddress from blacklist_macaddresses)";
-if (isset($list_id_mes_machines) and $list_id_mes_machines != "")
-$sql_id_doublon['macaddress_serial'] .= " and h.id in ".$list_id_mes_machines;
-
+$arg_id_doublon['macaddress_serial']=array();
+if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+	$sql=mysql2_prepare($sql_id_doublon['macaddress_serial'].' and h.id in ',$arg_id_doublon['macaddress_serial'],$tab_id_mes_machines);
+	$sql_id_doublon['macaddress_serial']=$sql['SQL'];
+	$arg_id_doublon['macaddress_serial']=$sql['ARG'];
+}
 foreach($sql_id_doublon as $name=>$sql_value){
-	if ($_SESSION['OCS']['DEBUG'] == 'ON')
-		msg_success($name." ==> ".$sql_value);
-	$res = mysql_query( $sql_value, $_SESSION['OCS']["readServer"] );	
+	$res = mysql2_query_secure($sql_value, $_SESSION['OCS']["readServer"],$arg_id_doublon[$name]);
 	$count_id[$name] = 0;
 	while( $val = mysql_fetch_object( $res ) ) {
 		//on ne compte que les machines appartenant au profil connect�
 		//si on est admin, on compte toutes les machines
-			if (!isset($list_id[$name][$val->id])){
-			 if (in_array ($val->id,$tab_id_mes_machines)){
+			if (is_array($tab_id_mes_machines) and in_array ($val->id,$tab_id_mes_machines)){
 				$list_id[$name][$val->id]=$val->id;
 				$count_id[$name]++;
-			 }elseif($list_id_mes_machines == ""){
+			}elseif ($tab_id_mes_machines == ""){
 				$list_id[$name][$val->id]=$val->id;
 				$count_id[$name]++;
-			 }
 			}
+
 		
 	}
 }
@@ -179,20 +207,12 @@ echo "<input type=hidden name=detail id=detail value='".$protectedPost['detail']
 
 //affichage des d�tails
 if ($protectedPost['detail'] != ''){
-	//if ($protectedPost['tri2'] == "macaddr")
-	
-//	$_SESSION['SQL_DATA_FIXE'][$table_name]['macaddr']="select HARDWARE_ID,networks.macaddr from networks where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
-//	$_SESSION['SQL_DATA_FIXE'][$table_name]['serial']="select HARDWARE_ID,bios.SSN as serial from bios where hardware_id in (".implode(',',$list_id[$protectedPost['detail']]).")";
-
 	//liste des champs du tableau des doublons
 	$list_fields= array($_SESSION['OCS']['TAG_LBL']['TAG']=>'a.TAG',
-//						'macaddr'=>'n.macaddr',
 						$l->g(95)=>'n.macaddr',
-//						'serial'=>'b.SSN',
 						$l->g(36)=>'b.ssn',
 						$l->g(23).": id"=>'h.ID',
 						$l->g(23).": ".$l->g(46)=>'h.LASTDATE',
-//						'NAME'=>'h.NAME',
 						$l->g(35)=>'h.NAME',
 						$l->g(82).": ".$l->g(33)=>'h.WORKGROUP',
 						$l->g(23).": ".$l->g(25)=>'h.OSNAME',
@@ -212,39 +232,22 @@ if ($protectedPost['detail'] != ''){
 	$list_fields['CHECK']='h.ID';
 	
 	$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields=array($l->g(23).": ".$l->g(34)=>$l->g(23).": ".$l->g(34),$_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL']['TAG'],'NAME'=>'NAME',$l->g(23).": ".$l->g(25)=>$l->g(23).": ".$l->g(25),'CHECK'=>'CHECK');
+	$default_fields=$list_fields;
 
 	//on modifie le type de champs en num�ric de certain champs
 	//pour que le tri se fasse correctement
-	//$tab_options['TRI']['SIGNED']['a.TAG']="a.TAG";
-	$queryDetails = 'SELECT ';
+	$sql=prepare_sql_tab($list_fields,array('SUP','CHECK'));
+	$sql['SQL'] .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
+	$sql['SQL'] .= ",bios b, ";
 
-	foreach ($list_fields as $key=>$value){
-//		if($key != 'SUP' and $key != 'CHECK' and $key!='macaddr' and $key!='serial'){
-		if ($key != 'SUP' and $key != 'CHECK'){
-                                $queryDetails .= $value;
-				if ($tab_options['AS'][$value])
-					$queryDetails .=" as ".$tab_options['AS'][$value];	
-				$queryDetails .=",";
-		}				
-	} 
-	$queryDetails  = substr($queryDetails,0,-1);
-	$queryDetails .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
-//	$queryDetails .= " networks on h.id=networks.hardware_id ";
-//	$queryDetails .= " left join bios on h.id=bios.hardware_id, ";
-	$queryDetails .= ",bios b, ";
-
-	$queryDetails .= " networks n where  h.id=n.hardware_id ";
-	$queryDetails .= " and h.id=b.hardware_id and  ";
-	$queryDetails .= " h.id in (".implode(',',$list_id[$protectedPost['detail']]).") ";
- 	$queryDetails .= " group by h.id ";
- if ($tab_id_mes_machines != ""){
-		$queryDetails .= "";
-	}
-//	$tab_options['FILTRE']=array('NAME'=>'Nom','b.ssn'=>'Num�ro de s�rie','n.macaddr'=>'Adresse MAC');
+	$sql['SQL'] .= " networks n where  h.id=n.hardware_id ";
+	$sql['SQL'] .= " and h.id=b.hardware_id and  h.id in ";
+	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_id[$protectedPost['detail']]);
+ 	$sql['SQL'] .= " group by h.id ";
+	$tab_options['ARG_SQL']=$sql['ARG'];
 	$tab_options['FILTRE']=array('NAME'=>$l->g(35),'b.ssn'=>$l->g(36),'n.macaddr'=>$l->g(95));
 
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,'95',$tab_options);
+	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,'95',$tab_options);
 	echo "<br><input type='submit' value='".$l->g(177)."' name='FUSION'>";
 	echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
 }
