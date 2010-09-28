@@ -12,7 +12,7 @@ sub snmp_run {
 
   my ($result,$name,$serialnumber,$lifecount,$countunit);
 
-  $logger->debug("Running Host_Resource_Mib module");
+  $logger->debug("Running Printer_Mib module");
 
   #prtGeneralPrinterName
   my $snmp_name="1.3.6.1.2.1.43.5.1.1.16.1";
