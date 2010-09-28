@@ -958,7 +958,7 @@
 1071 Field Type
 1072 Pending resquests
 1073 Make a request
-1074 'Workflow' fonction is not activate.
+1074 'Workflow' function is not activate.
 1075 Active the functionnality for use it
 1076 ERROR: SEARCH STATUS IS NOT DEFINE
 1077 Status for creating package
@@ -1081,8 +1081,8 @@
 1194 Only packets at a higher level 
 1195 may be affected
 1196 Profile
-1197 SNMP fonctionnality
-1198 Network scans
+1197 SNMP functionality
+1198 Networks scans
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
