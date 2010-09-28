@@ -31,29 +31,6 @@ sub new {
   bless $self;
 }
 
-sub setSnmpCommons {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
-
-  my $ip = $args->{IP};
-  my $name = $args->{NAME};
-  my $description = $args->{DESCRIPTION};
-  my $contact = $args->{CONTACT};
-  my $location = $args->{LOCATION};
-  my $uptime = $args->{UPTIME};
-  my $domain = $args->{DOMAIN};
-  my $type = $args->{DOMAIN};
-
-  $xmltags->{IP} = [$ip?$ip:''];
-  $xmltags->{NAME} = [$name?$name:''];
-  $xmltags->{DESCRIPTION}=[$description?$description:''];
-  $xmltags->{CONTACT} = [$contact?$contact:''];
-  $xmltags->{LOCATION} =[$location?$location:''];
-  $xmltags->{UPTIME} = [$uptime?$uptime:''];
-  $xmltags->{DOMAIN} = [$domain?$domain:''];
-  $xmltags->{TYPE} = [$type?$type:''];
-}
-
 =item addController()
 
 Add a controller in the inventory.
@@ -793,7 +770,7 @@ sub setAccessLog {
   }
 }
 
-=item flushXMLTags()
+=item flushXMlTags()
 
 Clear the content of $common->{xmltags} (to use after adding it in XML)
 
@@ -801,6 +778,141 @@ Clear the content of $common->{xmltags} (to use after adding it in XML)
 sub flushXMLTags {
   my $self= shift;
   $self->{xmltags} = {};
+}
+
+
+### SNMP specifics subroutines ####
+
+sub getSnmpTable {
+  my ($self,$snmp_table,$baseoid,$snmp_infos) = @_;
+
+  #$snmp_infos is a hash passed for the SNMP informations we want to get
+  #It has to be created like this :
+  #my $hash = {
+  #  INFORMATION => OID,
+  #};
+
+  my $results={};  #The final hash wich will contain one key per SNMP reference
+
+  for my $oid ( keys %$snmp_table ) {
+    if ( $oid =~ /$baseoid\.\d+\.\d+\.(\S+)/ ) {
+      my $reference=$1;    #Getting the last digits of the OID separated by a dot
+
+      #Getting information if one the values from $snmp_infos hash is found for the current OID
+      for my $value (keys %$snmp_infos) {
+        if ($oid =~ /$snmp_infos->{$value}\.$reference/) {
+        $results->{$reference}->{$value}= $snmp_table->{$oid}
+        }
+      }
+    }
+  }
+  return $results;
+}
+
+
+sub setSnmpCommons {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+
+  my $ip = $args->{IPADDR};
+  my $macaddr = $args->{MACADDR};
+  my $snmpdeviceid = $args->{SNMPDEVICEID};
+  my $name = $args->{NAME};
+  my $description = $args->{DESCRIPTION};
+  my $contact = $args->{CONTACT};
+  my $location = $args->{LOCATION};
+  my $uptime = $args->{UPTIME};
+  my $domain = $args->{DOMAIN};
+  my $type = $args->{TYPE};
+
+  push @{$xmltags->{COMMON}},
+  {
+  IPADDR => [$ip?$ip:''],
+  MACADDR => [$macaddr?$macaddr:''],
+  SNMPDEVICEID => [$snmpdeviceid?$snmpdeviceid:''],
+  NAME => [$name?$name:''],
+  DESCRIPTION => [$description?$description:''],
+  CONTACT => [$contact?$contact:''],
+  LOCATION => [$location?$location:''],
+  UPTIME => [$uptime?$uptime:''],
+  DOMAIN => [$domain?$domain:''],
+  TYPE => [$type?$type:''],
+  };
+}
+
+sub setSnmpPrinter {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+
+  my $name = $args->{NAME};
+  my $serialnumber = $args->{SERIALNUMBER};
+  my $counter = $args->{COUNTER};
+
+  push @{$xmltags->{PRINTERS}},
+  {
+  NAME => [$name?$name:''],
+  SERIALNUMBER => [$serialnumber?$serialnumber:''],
+  COUNTER => [$counter?$counter:''],
+  };
+}
+
+sub addSnmpPrinterTray {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+
+  my $name = $args->{NAME};
+  my $description = $args->{DESCRIPTION};
+  my $level = $args->{LEVEL};
+  my $maxcapacity = $args->{MAXCAPACITY};
+
+
+  push @{$xmltags->{TRAYS}},
+  {
+  NAME => [$name?$name:''],
+  DESCRIPTION => [$description?$description:''],
+  LEVEL => [$level?$level:''],
+  MAXCAPACITY => [$maxcapacity?$maxcapacity:''],
+  };
+
+}
+
+sub addSnmpPrinterCartridge {
+  my ($self,$args)=@_;
+  my $xmltags=$self->{xmltags};
+
+  my $description = $args->{DESCRIPTION};
+  my $type = $args->{TYPE};
+  my $level = $args->{LEVEL};
+  my $maxcapacity = $args->{MAXCAPACITY};
+  my $color = $args->{COLOR};
+
+  push @{$xmltags->{CARTRIDGES}},
+  {
+  DESCRIPTION => [$description?$description:''],
+  TYPE => [$type?$type:''],
+  LEVEL => [$level?$level:''],
+  MAXCAPACITY => [$maxcapacity?$maxcapacity:''],
+  COLOR=> [$color?$color:''],
+  };
+}
+
+#Subroutinne to add 0 in 'Sun like' MAC adress if needed
+sub padSnmpMacAddress {
+  my ($self,$mac) = @_;
+ 
+  print "MAC=$mac";
+
+  my @splitedAddr = split(':', $mac);
+
+  for (@splitedAddr) {
+    unless ($_ =~ /\w{2}/) {
+       $_ = sprintf("%02s", $_);
+       print "$_\n";
+    }
+  }
+
+  $mac=join (':', @splitedAddr);
+  return $mac;
 }
 
 

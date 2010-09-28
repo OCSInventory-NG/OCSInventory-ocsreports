@@ -16,6 +16,7 @@ use warnings;
 
 use Data::Dumper;
 use XML::Simple;
+use Digest::MD5;
 
 sub new {
    my $name="snmp";   #Set the name of your module here
@@ -99,7 +100,8 @@ sub snmp_prolog_reader {
             if($_->{'TYPE'} eq 'DEVICE'){
                 #Adding the IP in the devices array
                 push @{$self->{netdevices}},{
-                IP => $_->{IP}
+                IPADDR => $_->{IPADDR},
+                MACADDR => $_->{MACADDR}
                 };
             }
 
@@ -160,16 +162,17 @@ sub snmp_end_handler {
       my $session;
       my $devicedata = $common->{xmltags};     #To fill the xml informations for this device
 
-      $logger->debug("Scanning $device->{IP} device");	
+      $logger->debug("Scanning $device->{IPADDR} device");	
       # Search for the good snmp community in the table community
       LIST_SNMP: foreach $comm ( @$communities ) {
          # The snmp v3 will be implemented after
 	 ($session, $error) = Net::SNMP->session(
                 -retries     => 1 ,
                 -timeout     => 3,
-                -version     => $comm->{VERSION} ,
-                -hostname    => $device->{IP}   ,
-		          -community   => $comm->{NAME} ,
+                -version     => 'snmpv'.$comm->{VERSION},
+                -hostname    => $device->{IPADDR}   ,
+		          -community   => $comm->{NAME},
+                -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
 		#-username      => $comm->{username}, # V3 test after
 		#-authkey       => $comm->{authkey},
                 #-authpassword  => $comm->{authpasswd},
@@ -224,17 +227,26 @@ sub snmp_end_handler {
         $self->{snmp_oid_run}($self,$system_oid);
 
         $session->close;
-	     $self->{snmp_session}=undef;
+        $self->{snmp_session}=undef;
+
+        my $macaddr = $device->{MACADDR};
+
+        #Create SnmpDeviceID
+        my $md5 = Digest::MD5->new;
+        $md5->add($macaddr, $system_oid);
+        my $snmpdeviceid = $md5->hexdigest;
 
         #Adding standard informations
         $common->setSnmpCommons({ 
-          IP => $device->{IP},
+          IPADDR => $device->{IPADDR},
+          MACADDR => $macaddr,
+          SNMPDEVICEID => $snmpdeviceid,
           NAME => $device_name,
           DESCRIPTION => $description,
           CONTACT => $contact,
           LOCATION => $location,
           UPTIME => $uptime,
-          DOMAIN => $domain,
+          WORKGROUP => $domain,
         });
 
         #Add all the informations in the xml for this device
