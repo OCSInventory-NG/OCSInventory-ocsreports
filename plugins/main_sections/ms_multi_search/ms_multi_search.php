@@ -853,7 +853,7 @@ $optSelectField = array_merge($optSelectField_account,$optSelectField);
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut �galement �tre un tableau de donn�es
 //� l'affichage on se retrouve avec le lbl du champ et un select
 $sort_list_Select=array("HARDWARE-OSNAME"=>$l->g(729).": ".$l->g(25),
-						"VIDEOS-RESOLUTION"=>$l->g(965).": ".$l->g(62));
+						"VIDEOS-RESOLUTION"=>$l->g(3).": ".$l->g(62));
 $optSelect=array("HARDWARE-OSNAME"=>$sort_list_Select["HARDWARE-OSNAME"],//$l->g(729).": ".$l->g(25),
 				 "HARDWARE-OSNAME-SQL1"=>"select 'ALL_LINUX' as ID, '".$l->g(965)."' as NAME union select 'ALL_WIN', '".$l->g(966)."' union select OSNAME,OSNAME from hardware_osname_cache where osname != '' ",
 				 "VIDEOS-RESOLUTION"=>$sort_list_Select["VIDEOS-RESOLUTION"],//$l->g(965).": ".$l->g(62),

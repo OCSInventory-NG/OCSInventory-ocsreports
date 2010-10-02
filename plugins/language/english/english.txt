@@ -1,4 +1,4 @@
-2 All computers
+2 All computers 
 9 Search with various criteria
 13 Send
 17 Agent
@@ -849,7 +849,6 @@
 964 Partition name
 965 Linux (ALL)
 966 Windows (ALL)
-965 Display
 966 Agent
 967 BELONG TO
 968 DON'T BELONG TO
@@ -1083,6 +1082,10 @@
 1196 Profile
 1197 SNMP functionality
 1198 Networks scans
+1199 List of SNMP communauty
+1200 Value is updated
+1201 Display
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

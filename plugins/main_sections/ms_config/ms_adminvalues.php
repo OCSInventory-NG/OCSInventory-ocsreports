@@ -8,8 +8,10 @@ $form_name='admin_values_config'.$protectedGet['tag'];
 $table_name=$form_name;
 $data_on[1]=$l->g(1059);
 $data_on[2]=$l->g(1060);
-
-
+if (isset($protectedGet['new_field']) and is_numeric($protectedGet['new_field']))
+	$lbl_new_field=$l->g($protectedGet['new_field']);
+else
+	$lbl_new_field=$l->g(80);
 //if no tab selected
 if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
@@ -24,6 +26,9 @@ if (isset($protectedPost['MODIF'])
 	 $protectedPost['onglet'] = 2;
 	 $val_info=look_config_default_values(array($protectedGet['tag']."_".$protectedPost['MODIF']));
 	 $protectedPost['newfield']=$val_info['tvalue'][$protectedGet['tag']."_".$protectedPost['MODIF']];
+	 if (isset($protectedGet['nb_field']) and is_numeric($protectedGet['nb_field']))
+	 	$protectedPost['2newfield']=$val_info['comments'][$protectedGet['tag']."_".$protectedPost['MODIF']];
+	 
 	 $hidden=$protectedPost['MODIF'];
 }
 
@@ -80,7 +85,8 @@ if ($protectedPost['onglet'] == 1){
 			and $protectedPost['Valid_modif_x'] != ""){
 			//UPDATE VALUE
 			update_config($protectedGet['tag']."_".$protectedPost['MODIF_OLD'],'TVALUE',$protectedPost['newfield']);
-			
+			if (isset($protectedPost['2newfield']))
+				update_config($protectedGet['tag']."_".$protectedPost['MODIF_OLD'],'COMMENTS',$protectedPost['2newfield'],false);
 			$hidden=$protectedPost['MODIF_OLD'];		
 			
 		}elseif( $protectedPost['Valid_modif_x'] != "" ) {
@@ -107,9 +113,16 @@ if ($protectedPost['onglet'] == 1){
 				if ($val_new_value['max'] == "")
 				$val_new_value['max']=0;
 				$val_new_value['max']++;
-				$sql_insert="INSERT INTO config (NAME,TVALUE,IVALUE) 
-										VALUES('%s','%s','%s')";
+				$sql_insert="INSERT INTO config (NAME,TVALUE,IVALUE";
+				if (isset($protectedPost['2newfield']))
+					$sql_insert.=",COMMENTS";
+				$sql_insert.=") VALUES('%s','%s','%s'";
+				if (isset($protectedPost['2newfield']))
+					$sql_insert.=",'%s'";
+				$sql_insert.=")";
 				$arg_insert=array($protectedGet['tag']."_".$val_new_value['max'],$protectedPost['newfield'],$val_new_value['max']);
+				if (isset($protectedPost['2newfield']))
+					array_push($arg_insert,$protectedPost['2newfield']);
 				mysql2_query_secure($sql_insert,$_SESSION['OCS']["readServer"],$arg_insert);	
 				//si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
 				msg_success($l->g(1069));
@@ -126,11 +139,24 @@ if ($protectedPost['onglet'] == 1){
 		}
 		//NAME FIELD
 		$name_field=array("newfield");
-		$tab_name[0]=$l->g(80);
+		$tab_name[0]=$lbl_new_field;
 		$type_field= array(0);
 		$value_field=array($protectedPost['newfield']);
+		if (isset($protectedGet['nb_field']) and is_numeric($protectedGet['nb_field'])){
+			array_push($name_field,'2newfield');
+			array_push($tab_name,$l->g($protectedGet['nb_field']));
+			array_push($type_field,0);
+			array_push($value_field,$protectedPost['2newfield']);	
+		}
+		
+		
 		$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 		$tab_typ_champ[0]['CONFIG']['SIZE']=20;
+		if (isset($protectedGet['nb_field']) and is_numeric($protectedGet['nb_field'])){
+			$tab_typ_champ[1]['CONFIG']['SIZE']=20;			
+		}
+		
+		
 		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
 }
 
