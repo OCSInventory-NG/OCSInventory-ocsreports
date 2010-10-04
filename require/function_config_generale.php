@@ -131,6 +131,17 @@
  		echo $data['BEGIN']."<input ".$ajout_readonly."  type='text' name='".$name."' id='".$name."' value='".$data['VALUE']."' size=".$data['SIZE']." maxlength=".$data['MAXLENGHT']." ".$data['JAVASCRIPT'].">".$data['END']; 		
  	}elseif($type=='text'){
  		echo $data[0];
+ 	}elseif ($type == 'list'){
+ 		echo "<table>";
+ 		if (isset($data['END']))
+ 			echo "<tr><td>".$data['END']."</td></tr>";
+ 		if (is_array($data['VALUE'])){
+	 		foreach ($data['VALUE'] as $index=>$value){
+	 			echo "<tr><td>" . $value . "</td></tr>";	
+	 		}
+ 		}
+ 		echo "</table>";
+ 		
  	}elseif($type=='select'){
  		echo "<select name='".$name."'";
 		if (isset($data['RELOAD'])) echo " onChange='document.".$data['RELOAD'].".submit();'";
@@ -236,15 +247,16 @@ function option_conf_activate($value){
  	global $l;
  	$sql="delete from config where name='%s'";
  	$arg=array($name);
- 	mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);	
+ 	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
  }
 
- function update_config($name,$field,$value){
+ function update_config($name,$field,$value,$msg=true){
  	global $l;
  	$sql="update config set %s='%s' where name='%s'";
  	$arg=array($field,$value,$name);
- 	mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);	
- 	msg_success($l->g(1069));
+ 	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
+ 	if ($msg)	
+ 		msg_success($l->g(1200));
  }
  
  
@@ -778,12 +790,18 @@ function pagegroups($form_name){
  
  
  function pagesnmp($form_name){
- 	global $l,$numeric,$sup1;
+ 	global $l,$numeric,$sup1,$pages_refs;
  	//what ligne we need?
+ 	$champs=array('SNMP_COMMUN%'=>'SNMP_COMMUN_%');
+ 	$list=array();
+ 	$values=look_config_default_values($champs,'YES');
+ 	$list=$values['tvalue'];
  	$champs=array('SNMP'=>'SNMP');
  	$values=look_config_default_values($champs);
+ 	
  	debut_tab(); 
 	ligne('SNMP',$l->g(1137),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['SNMP']));
+	ligne('SNMP_COMMUN',$l->g(1199),'list',array('VALUE'=>$list,'END'=>"<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=SNMP_COMMUN&nb_field=217&new_field=49\",\"SNMP_COMMUN\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>"));	
  	fin_tab($form_name);
  }
   

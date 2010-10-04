@@ -3,11 +3,11 @@
 //looking for default value of ocs config
 function look_config_default_values($field_name,$like=''){
 	if ($like == ''){
-		$sql="select NAME,IVALUE,TVALUE from config where NAME in ";
+		$sql="select NAME,IVALUE,TVALUE,COMMENTS from config where NAME in ";
 		$arg_sql=array();
 		$arg=mysql2_prepare($sql,$arg_sql,$field_name);
 	}else{
-		$arg['SQL']="select NAME,IVALUE,TVALUE from config where NAME like '%s'";
+		$arg['SQL']="select NAME,IVALUE,TVALUE,COMMENTS from config where NAME like '%s'";
 		$arg['ARG']=$field_name;		
 	}
 	$resdefaultvalues=mysql2_query_secure($arg['SQL'],$_SESSION['OCS']["readServer"],$arg['ARG']);		
@@ -15,6 +15,7 @@ function look_config_default_values($field_name,$like=''){
 			$result['name'][$item ->NAME]=$item ->NAME;
 			$result['ivalue'][$item ->NAME]=$item ->IVALUE;
 			$result['tvalue'][$item ->NAME]=$item ->TVALUE;
+			$result['comments'][$item ->NAME]=$item ->COMMENTS;
 	}
 	return $result;
 }
