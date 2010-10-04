@@ -847,8 +847,7 @@
 962 (one , between every)
 963 DIFFERENT LIST OF
 964 Partition name
-965 Linux (ALL)
-966 Windows (ALL)
+965 Display
 966 Agent
 967 BELONG TO
 968 DON'T BELONG TO
@@ -1071,20 +1070,22 @@
 1185 Key updated
 1186 Your data are updated
 1187 Configuration is pending
-1188 This group is declared as a TEST perimeter 
-1189 This group is declared as a RESTRAINT perimeter  
-1190 You can't assign packages higher level 
-1191 Information: the configuration of workflow is currently on 
-1192 Group may receive TEST packets 
-1193 Group may receive RESTRAINT packets 
-1194 Only packets at a higher level 
+1188 This group is declared as a TEST perimeter
+1189 This group is declared as a RESTRAINT perimeter
+1190 You can't assign packages higher level
+1191 Information: the configuration of workflow is currently on
+1192 Group may receive TEST packets
+1193 Group may receive RESTRAINT packets
+1194 Only packets at a higher level
 1195 may be affected
 1196 Profile
 1197 SNMP functionality
 1198 Networks scans
-1199 List of SNMP communauty
+1199 List of SNMP community
 1200 Value is updated
 1201 Display
+1202 Linux (ALL)
+1203 Windows (ALL)
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

@@ -846,9 +846,8 @@
 962 (une ',' entre chaque)
 963 DIFFERENT LISTE DE
 964 Nom de la partition
-965 Linux (TOUS)
-966 Windows (TOUS)
-966-1 Agent
+965 Ecran
+966 Agent
 967 APPARTIENT
 968 N'APPARTIENT PAS
 969 Historique des paquets
@@ -1084,6 +1083,9 @@
 1199 Liste des communautés SNMP
 1200 Valeur modifiée
 1201 Ecran
+1202 Linux (TOUS)
+1203 Windows (TOUS)
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
