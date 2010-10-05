@@ -847,8 +847,6 @@
 962 (uno ',' tra ogni)
 963 LISTA DEI DIFFERENTI
 964 Nome partizione
-965 Linux (tutti)
-966 Windows (tutti)
 965 Mostra
 966 Agente
 967 APPARTENENTI A
@@ -1083,6 +1081,12 @@
 1196 Profilo
 1197 Funzionalità SNMP
 1198 Scansione delle reti
+1199 Lista delle comunità SNMP
+1200 Valore aggiornato
+1201 Mostra
+1202 Linux (tutti)
+1203 Windows (tutti)
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:

@@ -855,7 +855,7 @@ $optSelectField = array_merge($optSelectField_account,$optSelectField);
 $sort_list_Select=array("HARDWARE-OSNAME"=>$l->g(729).": ".$l->g(25),
 						"VIDEOS-RESOLUTION"=>$l->g(3).": ".$l->g(62));
 $optSelect=array("HARDWARE-OSNAME"=>$sort_list_Select["HARDWARE-OSNAME"],//$l->g(729).": ".$l->g(25),
-				 "HARDWARE-OSNAME-SQL1"=>"select 'ALL_LINUX' as ID, '".$l->g(965)."' as NAME union select 'ALL_WIN', '".$l->g(966)."' union select OSNAME,OSNAME from hardware_osname_cache where osname != '' ",
+				 "HARDWARE-OSNAME-SQL1"=>"select 'ALL_LINUX' as ID, '".$l->g(1202)."' as NAME union select 'ALL_WIN', '".$l->g(1203)."' union select OSNAME,OSNAME from hardware_osname_cache where osname != '' ",
 				 "VIDEOS-RESOLUTION"=>$sort_list_Select["VIDEOS-RESOLUTION"],//$l->g(965).": ".$l->g(62),
 				 "VIDEOS-RESOLUTION-SQL1"=>"select DISTINCT RESOLUTION as 'ID', RESOLUTION as 'NAME' from videos ".(isset($list_id_computer)? " where hardware_id in ".$list_id_computer : '')." order by 1");
 //composotion du tableau

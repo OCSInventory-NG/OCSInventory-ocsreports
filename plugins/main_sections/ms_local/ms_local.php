@@ -53,7 +53,7 @@ if(is_uploaded_file($_FILES['userfile']['tmp_name'])) {
 <br>
 <table border=1 class= "Fenetre" WIDTH = '52%' ALIGN = 'Center' CELLPADDING='5'>
 <th height=30px class="Fenetre" colspan=2>
-	<b><?php echo 'toto'.$l->g(288)." (".$l->g(560).": http://".$server.":".$port.")"; ?></b>
+	<b><?php echo $l->g(288)." (".$l->g(560).": http://".$server.":".$port.")"; ?></b>
 </th>
 	<tr bgcolor='#F2F2F2'><td><?php echo $l->g(137);?></td>
 	    <td><INPUT NAME="userfile" size='80' TYPE="file"></td></tr>	
