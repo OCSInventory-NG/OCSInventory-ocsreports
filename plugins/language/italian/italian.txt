@@ -174,7 +174,7 @@
 266 Data non valida
 267 gg/mm/aaaa
 268 Velocità
-269 %m/%d/%Y
+269 %d/%m/%Y
 270 Modem
 271 Slot
 272 Porte
