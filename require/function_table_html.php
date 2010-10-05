@@ -1054,6 +1054,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 				$num_rows_result = mysql_num_rows($resultcount);
 				if ($num_rows_result==1){
 					$count=mysql_fetch_object($resultcount);
+					if ($count->count_nb_ligne > 0)
 					$num_rows_result = $count->count_nb_ligne;
 				}
 				$_SESSION['OCS']['NUM_ROW'][$table_name]=$num_rows_result;
@@ -1362,8 +1363,9 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				if ($affich == 'OK'){
 					$lbl_column=array("SUP"=>$l->g(122),
 									  "MODIF"=>$l->g(115),
-									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>",
-									  "NAME"=>$l->g(23));
+									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>");
+					if (!isset($tab_options['NO_NAME']['NAME']))
+							$lbl_column["NAME"]=$l->g(23);
 					//modify lbl of column
 					if (!isset($entete[$num_col]) 
 						or ($entete[$num_col] == $key and !isset($tab_options['LBL'][$key]))){
@@ -1413,7 +1415,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					elseif ($key == "CHECK"){
 						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
 						$lien = 'KO';		
-					}elseif ($key == "NAME"){
+					}elseif ($key == "NAME" and !isset($tab_options['NO_NAME']['NAME'])){
 							$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$donnees['ID']."'  target='_blank'>".$value_of_field."</a>";
 					}elseif ($key == "MAC"){
 						if (isset($_SESSION['OCS']["mac"][substr($value_of_field,0,8)]))

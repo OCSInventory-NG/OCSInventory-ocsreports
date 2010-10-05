@@ -1081,12 +1081,17 @@
 1196 Profile
 1197 SNMP functionality
 1198 Networks scans
-1199 List of SNMP community
+1199 Version of SNMP communities
 1200 Value is updated
 1201 Display
 1202 Linux (ALL)
 1203 Windows (ALL)
-
+1204 IpDiscover/SNMP
+1205 Manage SNMP communities
+1206 Directory of SNMP communities file
+1207 Add community
+1208 Community added
+1209 Community updated
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

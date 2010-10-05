@@ -208,7 +208,8 @@ function admin_profil($form){
 					  'CHANGE_ACCOUNTINFO'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1168),'VALUE'=>$yes_no)),
 					  'CHANGE_USER_GROUP'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1169),'VALUE'=>$yes_no)),
 					  'MANAGE_PROFIL'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1170),'VALUE'=>$yes_no)),
-					  'MANAGE_USER_GROUP'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1171),'VALUE'=>$yes_no))
+					  'MANAGE_USER_GROUP'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1171),'VALUE'=>$yes_no)),
+					  'MANAGE_SMTP_COMMUNITIES'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1203),'VALUE'=>$yes_no)),
 						);	
 						
 	$lbl_cat=array('INFO'=>$l->g(1173),

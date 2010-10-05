@@ -291,7 +291,8 @@ function update_default_value($POST){
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
-								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG_edit','DOWNLOAD_URI_INFO'=>'DOWNLOAD_URI_INFO_edit');
+								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG_edit',
+								   'DOWNLOAD_URI_INFO'=>'DOWNLOAD_URI_INFO_edit','SNMP_DIR'=>'SNMP_DIR_edit');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour tvalue		
 	$array_interprete_ivalue=array('FREQUENCY'=>'FREQUENCY_edit','IPDISCOVER'=>'IPDISCOVER_edit','INVENTORY_VALIDITY'=>'INVENTORY_VALIDITY_edit');
 	
@@ -792,16 +793,22 @@ function pagegroups($form_name){
  function pagesnmp($form_name){
  	global $l,$numeric,$sup1,$pages_refs;
  	//what ligne we need?
- 	$champs=array('SNMP_COMMUN%'=>'SNMP_COMMUN_%');
+ /*	$champs=array('SNMP_COMMUN%'=>'SNMP_COMMUN_%');
  	$list=array();
- 	$values=look_config_default_values($champs,'YES');
- 	$list=$values['tvalue'];
- 	$champs=array('SNMP'=>'SNMP');
+ 	$values=look_config_default_values($champs,'YES');*/
+ //	$list=$values['tvalue'];
+ 	$champs=array('SNMP'=>'SNMP','SNMP_DIR'=>'SNMP_DIR');
  	$values=look_config_default_values($champs);
- 	
+ 	if (isset($values['tvalue']['SNMP_DIR']))
+		$select_rep_creat='CUSTOM';
+	else
+		$select_rep_creat='DEFAULT';
  	debut_tab(); 
 	ligne('SNMP',$l->g(1137),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['SNMP']));
-	ligne('SNMP_COMMUN',$l->g(1199),'list',array('VALUE'=>$list,'END'=>"<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=SNMP_COMMUN&nb_field=217&new_field=49\",\"SNMP_COMMUN\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>"));	
+	ligne('SNMP_DIR',$l->g(1206),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."/snmp/)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_rep_creat),
+		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['SNMP_DIR'],'SIZE'=>70));
+	
+//	ligne('SNMP_COMMUN',$l->g(1199),'list',array('VALUE'=>$list,'END'=>"<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=SNMP_COMMUN&nb_field=217&new_field=49\",\"SNMP_COMMUN\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>"));	
  	fin_tab($form_name);
  }
   

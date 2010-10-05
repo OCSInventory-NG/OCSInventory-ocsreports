@@ -34,7 +34,7 @@ ms_upload_file:g(17)
 ms_regconfig:g(211)
 ms_logs:g(928)
 ms_admininfo:g(225)
-ms_ipdiscover:g(174)
+ms_ipdiscover:g(1204)
 ms_doubles:g(175)
 ms_label:g(263)
 ms_users:g(243)
@@ -198,7 +198,7 @@ ms_ipdiscover:ipdiscover_smenu
 ms_teledeploy:g(512)
 ms_config:g(107)
 ms_multi_search:g(1051)
-ms_ipdiscover:g(312)
+ms_ipdiscover:g(82)
 </MENU_TITLE>
 
 <JAVASCRIPT>
