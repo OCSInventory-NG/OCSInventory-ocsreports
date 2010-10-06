@@ -146,5 +146,83 @@ function loadMac() {
 		fclose($file);			
 	}
 }
+
+function form_add_community($title='',$default_value,$form){
+	global $l,$pages_refs,$protectedPost;
+	
+		$name_field=array("NAME","VERSION");					
+		$tab_name=array($l->g(49).": ",$l->g(1199).": ");
+		$type_field=array(0,2);
+		$value_field=array($default_value['NAME'],$default_value['VERSION']);
+		
+		if ($protectedPost['VERSION'] == '3a'){
+			array_push($name_field,"USERNAME","AUTHKEY","AUTHPASSWD");
+			array_push($tab_name,"USERNAME : ","AUTHKEY : ","AUTHPASSWD :");
+			array_push($type_field,0,0);
+			array_push($value_field,$default_value['USERNAME'],$default_value['AUTHKEY'],$default_value['AUTHPASSWD']);
+		}
+						   			
+		$tab_typ_champ=show_field($name_field,$type_field,$value_field);
+		foreach ($tab_typ_champ as $id=>$values){
+			$tab_typ_champ[$id]['CONFIG']['SIZE']=30;
+		}
+
+		$tab_typ_champ[1]['RELOAD']=$form;
+		if (is_numeric($protectedPost['MODIF']))
+			$tab_hidden['MODIF']=$protectedPost['MODIF'];
+		$tab_hidden['ADD_COMM']=$protectedPost['ADD_COMM'];
+		$tab_hidden['ID']=$protectedPost['ID'];
+		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");
+	
+}
+
+
+function add_community($snmp_value,$new_ms_cfg_file=''){
+	$new_ms_cfg_file .="<COMMUNITY>\n";
+	foreach ($snmp_value as $key=>$value){
+		$new_ms_cfg_file .= "<".$key.">\n";
+		if ($value != "")
+		$new_ms_cfg_file .= $value."\n";
+		$new_ms_cfg_file .= "</".$key.">\n";
+	}		
+	$new_ms_cfg_file .="</COMMUNITY>\n";
+	return $new_ms_cfg_file;
+}
+
+
+function format_value_community($value){
+	$snmp_value['ID']=(isset($value['ID']) ? $value['ID'] : '0');
+	if ($value['VERSION'] != '2C')
+		$snmp_value['VERSION']=$value['VERSION']{0};
+	else
+		$snmp_value['VERSION']=$value['VERSION'];
+		
+	$snmp_value['NAME']=(isset($value['NAME']) ? $value['NAME'] : '');
+	$snmp_value['USERNAME']=(isset($value['USERNAME']) ? $value['USERNAME'] : '');
+	$snmp_value['AUTHKEY']=(isset($value['AUTHKEY']) ? $value['AUTHKEY'] : '');
+	$snmp_value['AUTHPASSWD']=(isset($value['AUTHPASSWD']) ? $value['AUTHPASSWD'] : '');	
+	return $snmp_value;
+}
+
+function del_community($id_community,$ms_cfg_file,$tabvalue,$search){
+		$field_com=read_configuration($ms_cfg_file,$search,'ID');
+		foreach ($field_com as $field=>$tabvalue){
+			foreach ($tabvalue as $index=>$value){
+				if ($index == $id_community)
+					unset($field_com[$field][$index]);					
+			}
+		}
+		foreach ($field_com['ID'] as $index=>$poub){
+			unset($data);
+			foreach ($search as $field=>$poub1){
+				$data[$field]=$field_com[$field][$index];					
+			}
+			$snmp_value=format_value_community($data);
+			$new_ms_cfg_file=add_community($snmp_value,$new_ms_cfg_file);
+		}
+		$file=fopen($ms_cfg_file,"w+");
+		fwrite($file,$new_ms_cfg_file);	
+		fclose( $file );
+}
  
 ?>

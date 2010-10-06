@@ -21,7 +21,7 @@ function ScanDirectory($Directory,$Filetype){
  * SINGLE => You have only one value to read
  * MULTI => You have few values to read 
  */
-function read_configuration($ms_cfg_file,$search){
+function read_configuration($ms_cfg_file,$search,$id_field=''){
 	$fd = @fopen ($ms_cfg_file, "r");
 	if (!$fd)
 		return "NO_FILES";
@@ -29,23 +29,31 @@ function read_configuration($ms_cfg_file,$search){
       while( !feof($fd) ) {
 
          $line = trim( fgets( $fd, 256 ) );
-		 if (substr($line,0,2) == "</")
+		 if (substr($line,0,2) == "</"){
             $capture='';
-            
-         foreach ($search as $value_2_search=>$option){
-         //	echo $value_2_search."<br>";
-         	if ($capture == 'OK_'.$value_2_search){
-         		if (strstr($line, ':')){
-         			$tab_lbl=explode(":", $line);
-           			$find[$value_2_search][$tab_lbl[0]]=$tab_lbl[1];         			
-         		}elseif ($option == 'SINGLE'){
-         			$find[$value_2_search]=$line;
-         		}elseif ($option == 'MULTI'){
-					$find[$value_2_search][$line]=$line;
-         		}elseif($option == 'MULTI2'){
-         			$find[$value_2_search][]=$line;	
-         		}
-         	}         	
+		 }
+         if ($capture != '') {  
+	         foreach ($search as $value_2_search=>$option){
+	         //	echo $value_2_search."<br>";
+	         	if ($capture == 'OK_'.$value_2_search){
+	         		if (strstr($line, ':')){
+	         			$tab_lbl=explode(":", $line);
+	           			$find[$value_2_search][$tab_lbl[0]]=$tab_lbl[1];         			
+	         		}elseif ($option == 'SINGLE'){
+	         			$find[$value_2_search]=$line;
+	         		}elseif ($option == 'MULTI'){
+						$find[$value_2_search][$line]=$line;
+	         		}elseif($option == 'MULTI2'){
+	         			//Fix your id with a field file (the first field only)
+	         			if ($id_field != '' and $value_2_search == $id_field)
+	         				$id=$line;
+	         			if (isset($id))
+	         				$find[$value_2_search][$id]=$line;	
+	         			else
+	         				$find[$value_2_search][]=$line;	
+	         		}
+	         	}         	
+	         }
          }
          
          if ($line{0} == "<"){ 	//Getting tag type for the next launch of the loop

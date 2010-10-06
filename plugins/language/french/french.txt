@@ -1080,12 +1080,17 @@
 1196 Profil
 1197 Fonctionnalité SNMP
 1198 Scans réseaux
-1199 Liste des communautés SNMP
+1199 Version SNMP
 1200 Valeur modifiée
 1201 Ecran
 1202 Linux (TOUS)
 1203 Windows (TOUS)
-
+1204 IpDiscover/SNMP
+1205 Administrer les communautés SNMP
+1206 Répertoire du fichier des communautés SNMP
+1207 Ajouter une communauté
+1208 Communauté ajoutée
+1209 Communauté modifiée
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
