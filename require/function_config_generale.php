@@ -805,7 +805,7 @@ function pagegroups($form_name){
 		$select_rep_creat='DEFAULT';
  	debut_tab(); 
 	ligne('SNMP',$l->g(1137),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['SNMP']));
-	ligne('SNMP_DIR',$l->g(1206),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."/snmp/)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_rep_creat),
+	ligne('SNMP_DIR',$l->g(1206),'radio',array('DEFAULT'=>$l->g(823). " " ."(".$_SERVER["DOCUMENT_ROOT"]."snmp/)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_rep_creat),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['SNMP_DIR'],'SIZE'=>70));
 	
 //	ligne('SNMP_COMMUN',$l->g(1199),'list',array('VALUE'=>$list,'END'=>"<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=SNMP_COMMUN&nb_field=217&new_field=49\",\"SNMP_COMMUN\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>"));	

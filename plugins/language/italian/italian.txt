@@ -236,7 +236,7 @@
 328 Ricercati
 329 Inventariati
 330 Nome NetBIOS
-331 Numero di Rete
+331 Rete
 332 Attendere prego...
 333 Aggiungi un nuovo apparato di rete
 334 Elenco apparati di rete
@@ -1081,12 +1081,18 @@
 1196 Profilo
 1197 Funzionalità SNMP
 1198 Scansione delle reti
-1199 Lista delle comunità SNMP
+1199 Versione SNMP
 1200 Valore aggiornato
 1201 Mostra
 1202 Linux (tutti)
 1203 Windows (tutti)
-
+1204 IpDiscover/SNMP
+1205 Gestione delle comunità SNMP
+1206 Directory dei file delle comunità SNMP
+1207 Aggiungi comunità
+1208 Comunità aggiunta
+1209 Comunità aggiornata
+1210 Account info:
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
