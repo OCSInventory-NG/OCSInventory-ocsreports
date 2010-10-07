@@ -79,12 +79,12 @@ $optSelectField_account=array();
 $opt2Select_account=array();
 foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
 		if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
-			$name_field_accountinfo="TAG";	
-			$delfault_tag="Accinf: ".$lbl;
+			$name_field_accountinfo="TAG";
+			$delfault_tag = $l->g(1210) . " " . $lbl;
 		}else
 			$name_field_accountinfo="fields_" . $id;	
 			
-		$sort_accountinfo['ACCOUNTINFO-' . $name_field_accountinfo] = "Accinf: ".$lbl;
+		$sort_accountinfo['ACCOUNTINFO-' . $name_field_accountinfo] = $l->g(1210) . " " . $lbl;
 		if (in_array($field_of_accountinfo['LIST_TYPE'][$id],array(0,1,3,6))){
 		
 			$optSelectField_account['ACCOUNTINFO-' . $name_field_accountinfo]= $sort_accountinfo['ACCOUNTINFO-' . $name_field_accountinfo];//"Accinf: ".$lbl;
@@ -93,11 +93,13 @@ foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
 				$optSelectField_account["ACCOUNTINFO-" . $name_field_accountinfo . "-SELECT"]=array("exact"=>$l->g(410),"small"=>$l->g(346),"tall"=>$l->g(347));
 			}			
 		}elseif (in_array($field_of_accountinfo['LIST_TYPE'][$id],array(2,4,7))){
-			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo] = "Accinf: ".$lbl;
+			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo] = $l->g(1210) . " " . $lbl;
 			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo . "-SQL1"] = "select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_" . $field_of_accountinfo['LIST_NAME'][$id] . "%' order by 2";
 			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo . "-SELECT"] = array('exact'=>$l->g(507),'diff'=>$l->g(508));
 		}
-		$list_fields_account_info['Accinf: '.$lbl]="a." . $name_field_accountinfo;		
+//		$list_fields_account_info['Accinf: '.$lbl]="a." . $name_field_accountinfo;
+		$Accinfo = $l->g(1210) . " " . $lbl;
+		$list_fields_account_info[$Accinfo]="a." . $name_field_accountinfo;
 		
 }
 
@@ -853,7 +855,7 @@ $optSelectField = array_merge($optSelectField_account,$optSelectField);
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut �galement �tre un tableau de donn�es
 //� l'affichage on se retrouve avec le lbl du champ et un select
 $sort_list_Select=array("HARDWARE-OSNAME"=>$l->g(729).": ".$l->g(25),
-						"VIDEOS-RESOLUTION"=>$l->g(3).": ".$l->g(62));
+						"VIDEOS-RESOLUTION"=>$l->g(62));
 $optSelect=array("HARDWARE-OSNAME"=>$sort_list_Select["HARDWARE-OSNAME"],//$l->g(729).": ".$l->g(25),
 				 "HARDWARE-OSNAME-SQL1"=>"select 'ALL_LINUX' as ID, '".$l->g(1202)."' as NAME union select 'ALL_WIN', '".$l->g(1203)."' union select OSNAME,OSNAME from hardware_osname_cache where osname != '' ",
 				 "VIDEOS-RESOLUTION"=>$sort_list_Select["VIDEOS-RESOLUTION"],//$l->g(965).": ".$l->g(62),
