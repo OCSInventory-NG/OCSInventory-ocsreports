@@ -121,5 +121,32 @@ function create_profil($new_profil,$lbl_profil,$ref_profil){
 }
 
 
+function parse_xml_file($file,$tag,$separe){
+	$tab_data=array();
+	 // open file
+    $fp = @fopen($file, "r");
+    if (!$fp)
+		return "NO_FILES";
+		$i=0;
+    // read line
+    while ( $ln = fgets($fp, 1024)) {    	
+		foreach ($tag as $poub=>$key){
+			//echo $key."<br>";
+			if (strrpos($ln,"<".$key.">")){
+				$search=array("<".$key.">","</".$key.">","\n","\t");
+				$replace=array('','','','');
+				$tab_data[$i][$key]=str_replace($search,$replace,$ln);				
+			}						
+		}
+		if ($ln == "</".$separe.">\n"){
+				$i++;
+				//echo htmlentities($ln)."=>".$separe."<br>";
+		}
+
+    }
+    fclose($fp);
+    return ($tab_data);
+}
+
 
 ?>
