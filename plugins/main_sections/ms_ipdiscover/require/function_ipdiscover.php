@@ -180,12 +180,12 @@ function form_add_community($title='',$default_value,$form){
 function add_community($snmp_value,$new_ms_cfg_file=''){
 	$new_ms_cfg_file .="<COMMUNITY>\n";
 	foreach ($snmp_value as $key=>$value){
-		$new_ms_cfg_file .= "<".$key.">\n";
+		$new_ms_cfg_file .= "\t<".$key.">";
 		if ($value != "")
-		$new_ms_cfg_file .= $value."\n";
+		$new_ms_cfg_file .= $value;
 		$new_ms_cfg_file .= "</".$key.">\n";
 	}		
-	$new_ms_cfg_file .="</COMMUNITY>\n";
+	$new_ms_cfg_file .="</COMMUNITY>\n\n";
 	return $new_ms_cfg_file;
 }
 
@@ -204,21 +204,18 @@ function format_value_community($value){
 	return $snmp_value;
 }
 
-function del_community($id_community,$ms_cfg_file,$tabvalue,$search){
-		$field_com=read_configuration($ms_cfg_file,$search,'ID');
-		foreach ($field_com as $field=>$tabvalue){
-			foreach ($tabvalue as $index=>$value){
-				if ($index == $id_community)
-					unset($field_com[$field][$index]);					
-			}
+function del_community($id_community,$ms_cfg_file,$search){
+		$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");
+		$i=0;
+		while ($field_com[$i]){
+			if (in_array($field_com[$i]['ID'],$id_community))	
+				unset($field_com[$i]);	
+			$i++;		
 		}
-		foreach ($field_com['ID'] as $index=>$poub){
-			unset($data);
-			foreach ($search as $field=>$poub1){
-				$data[$field]=$field_com[$field][$index];					
-			}
-			$snmp_value=format_value_community($data);
-			$new_ms_cfg_file=add_community($snmp_value,$new_ms_cfg_file);
+		
+		foreach ($field_com as $index=>$tab_field){
+			$snmp_value=format_value_community($tab_field);
+			$new_ms_cfg_file=add_community($snmp_value,$new_ms_cfg_file);			
 		}
 		$file=fopen($ms_cfg_file,"w+");
 		fwrite($file,$new_ms_cfg_file);	

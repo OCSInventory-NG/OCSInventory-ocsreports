@@ -127,7 +127,8 @@ if (isset($protectedPost['TABLE_NAME']) and
 	isset($protectedPost['restCol'.$protectedPost['TABLE_NAME']]) 
 	and $protectedPost['restCol'.$protectedPost['TABLE_NAME']] != ''){
 	$_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
-	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
+	if (is_array($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]))
+		cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
 }
 
 /********************************************************GESTION DE LA LANGUE PAR COOKIES**********************************************/

@@ -99,7 +99,7 @@ foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
 		}
 //		$list_fields_account_info['Accinf: '.$lbl]="a." . $name_field_accountinfo;
 		$Accinfo = $l->g(1210) . " " . $lbl;
-		$list_fields_account_info["$Accinfo"]="a." . $name_field_accountinfo;
+		$list_fields_account_info[$Accinfo]="a." . $name_field_accountinfo;
 		
 }
 
