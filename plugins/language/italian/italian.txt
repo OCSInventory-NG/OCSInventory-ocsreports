@@ -313,7 +313,7 @@
 421 Distribuzione automatica del programma: consultare la documentazione.
 422 Distribuzione automatica del programma: consultare la documentazione.
 423 Distribuzione automatica del programma: consultare la documentazione. (I componenti con una priorità >= non devono essere scaricati ulteriormente)
-424 Validità di un pacchetto come come considerato dall'agente
+424 Validità di un pacchetto come considerato dall'agente
 425 Numero massimo di computer per gateway trovati sulla rete
 426 Validità degli inventari (SEMPRE: inventario ad ogni login - MAI: nessun inventario)
 427 Definisce il criterio per il quale due computer devono essere uniti automaticamente
@@ -1093,6 +1093,9 @@
 1208 Comunità aggiunta
 1209 Comunità aggiornata
 1210 Account info:
+1211 URL dei file della comunità SNMP
+1212 Comunità cancellata
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
