@@ -192,7 +192,7 @@ function add_community($snmp_value,$new_ms_cfg_file=''){
 
 function format_value_community($value){
 	$snmp_value['ID']=(isset($value['ID']) ? $value['ID'] : '0');
-	if ($value['VERSION'] != '2C')
+	if ($value['VERSION'] != '2c')
 		$snmp_value['VERSION']=$value['VERSION']{0};
 	else
 		$snmp_value['VERSION']=$value['VERSION'];
@@ -222,4 +222,5 @@ function del_community($id_community,$ms_cfg_file,$search){
 		fclose( $file );
 }
  
+
 ?>
