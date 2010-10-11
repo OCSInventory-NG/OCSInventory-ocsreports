@@ -1094,6 +1094,7 @@
 1210 Account info:
 1211 URL du fichier des communautés SNMP
 1212 Communauté supprimée
+1213 Séparateur des fichiers d'export
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

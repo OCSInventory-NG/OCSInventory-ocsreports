@@ -5,7 +5,11 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-
+$values=look_config_default_values(array('EXPORT_SEP'));
+if (isset($values['tvalue']['EXPORT_SEP']) and $values['tvalue']['EXPORT_SEP'] != '')
+	$separator=$values['tvalue']['EXPORT_SEP'];
+else
+	$separator=';';
 $link=$_SESSION['OCS']["readServer"];	
 $toBeWritten = "";
 if (isset($protectedGet['log'])){
@@ -35,7 +39,7 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 			$toBeWritten .=$name.";";
 		}elseif($name == 'NAME' or $name == $l->g(23)){
 			$col['name_of_machine']="name_of_machine";
-			$toBeWritten .="machine;";
+			$toBeWritten .="machine".$separator;
 		}		
 	}
 	$i=0;
@@ -48,7 +52,7 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 			}
 		//	echo $lbl."<br>";
 			if ($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl])
-			$toBeWritten .=$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl].";";
+			$toBeWritten .=$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl].$separator;
 			
 		}
 		$i++;
@@ -69,7 +73,7 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 		}elseif($name == 'NAME' or $name == $l->g(23)){
 			//echo $name;
 			$col['name_of_machine']="name_of_machine";
-			$toBeWritten .="machine;";
+			$toBeWritten .="machine".$separator;
 		}		
 	}
 	
@@ -128,7 +132,7 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 		//echo "<br>";
 		$toBeWritten .="\r\n";
 		foreach ($data[$i] as $field_name=>$donnee){
-		$toBeWritten .=$donnee.";";		
+		$toBeWritten .=$donnee.$separator;		
 		}
 		$i++;
 	}

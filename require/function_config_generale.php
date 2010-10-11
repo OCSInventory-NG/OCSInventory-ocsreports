@@ -276,7 +276,7 @@ function update_default_value($POST){
                             //   'CONEX_LDAP_CHECK_FIELD2_USERLEVEL',
 							   'CONEX_LDAP_CHECK_FIELD2_ROLE',
                                'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
-                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','SNMP_URI');
+                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','SNMP_URI','EXPORT_SEP');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -396,6 +396,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 				  'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR',
 				  'LOG_GUI'=>'LOG_GUI',
 				  'LOG_DIR'=>'LOG_DIR',
+ 				  'EXPORT_SEP'=>'EXPORT_SEP'
 				  );
 	$values=look_config_default_values($champs);
 	if (isset($values['tvalue']['DOWNLOAD_PACK_DIR']))
@@ -423,6 +424,8 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 	ligne('LOG_GUI',$l->g(824),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOG_GUI'])); 	
 	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)."(".$_SERVER["DOCUMENT_ROOT"]."ocsreport/)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>70));	
+	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGHT'=>4));	
+			
 			
 	fin_tab($form_name);
  	
