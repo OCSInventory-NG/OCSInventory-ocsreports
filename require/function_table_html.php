@@ -849,6 +849,8 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	}
 	
 	if (is_array($data)){
+		if (!is_array($_SESSION['OCS']['col_tab'][$tab_name]))
+		$_SESSION['OCS']['col_tab'][$tab_name]=array();
 		foreach ($data as $k=>$v){
 			foreach ($v as $k2=>$v2){
 				if (in_array($k2,$_SESSION['OCS']['col_tab'][$tab_name])){
