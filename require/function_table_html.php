@@ -823,6 +823,8 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	//v�rification de l'existance des champs cant_delete dans la session
 	//print_r($list_col_cant_del);
 	if (is_array($list_col_cant_del)){
+		if (!is_array($_SESSION['OCS']['col_tab'][$tab_name]))
+			$_SESSION['OCS']['col_tab'][$tab_name]=array();
 		foreach ($list_col_cant_del as $key=>$value){
 			if (!in_array($key,$_SESSION['OCS']['col_tab'][$tab_name])){
 				$_SESSION['OCS']['col_tab'][$tab_name][$key]=$key;
@@ -831,6 +833,8 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	}
 	
 	if (is_array($entete)){
+		if (!is_array($_SESSION['OCS']['col_tab'][$tab_name]))
+			$_SESSION['OCS']['col_tab'][$tab_name]=array();
 		foreach ($entete as $k=>$v){
 			if (in_array($k,$_SESSION['OCS']['col_tab'][$tab_name])){
 				$data_with_filter['entete'][$k]=$v;	
