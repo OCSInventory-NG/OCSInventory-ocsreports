@@ -171,7 +171,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 	if (isset($snmp_dir['tvalue']['SNMP_DIR']) and $snmp_dir['tvalue']['SNMP_DIR'] != '')
 		$ms_cfg_file=$snmp_dir['tvalue']['SNMP_DIR'];
 	else
-		$ms_cfg_file= $_SERVER["DOCUMENT_ROOT"].'/snmp/';
+		$ms_cfg_file= $_SERVER["DOCUMENT_ROOT"].'snmp/';
 		
 	if (!file_exists($ms_cfg_file))
 		$error=$l->g(920) . " (".$ms_cfg_file.") <br>";	
