@@ -1,19 +1,23 @@
 ###
-#
+# SNMP: OID: 2 SYSTEM: If_Mib
 ###
 package Ocsinventory::Agent::Modules::Snmp::If_Mib;
 
 use strict;
 use warnings;
 
+sub snmp_info {
+   return ( { oid_value => "1.3.6.1.2.1.2.2.1.1.1",
+            oid_name => "If_Mib" } );
+}
 
 sub snmp_run {
    my ($session , $snmp )= @_;
    my $logger=$snmp->{logger};
    my $common=$snmp->{common};
    
-   $logger->debug("Running If_mib module");
-   # OID to get 
+   $logger->debug("Execution: If mib");
+   # OID a recuperer
    my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2";
    my $snmp_iftype="1.3.6.1.2.1.2.2.1.3.";
    my $snmp_ifspeed="1.3.6.1.2.1.2.2.1.5.";
@@ -64,6 +68,7 @@ sub snmp_run {
             }
 
 
+      #print "  mac $MACADDR pci $PCISLOT status $STATUS type $TYPE virtual $VIRTUALDEV speed $SPEED\n";
            $common->addNetwork( {
                 TYPE => $TYPE,
                 PCISLOT => $PCISLOT,
@@ -78,7 +83,7 @@ sub snmp_run {
            $SPEED="";
         }
       }
-   }
+   } # End foreach result
 }
 
 1;

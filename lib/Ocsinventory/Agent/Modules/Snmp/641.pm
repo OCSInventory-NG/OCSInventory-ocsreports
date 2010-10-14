@@ -1,9 +1,9 @@
 ###
-# SNMP: OID:11 SYSTEM:HP
+# SNMP: OID:641 SYSTEM:Lexmark
 ###
 
 
-package Ocsinventory::Agent::Modules::Snmp::11;
+package Ocsinventory::Agent::Modules::Snmp::641;
 
 use strict;
 no strict 'refs';
@@ -18,7 +18,7 @@ sub snmp_run {
 
   my $list_mib=["If_Mib","Host_Resources_Mib", "Printer_Mib"];
 
-  $logger->debug("Launching MIB HP 11");
+  $logger->debug("Execution mib Lexmark 641");
 
   foreach my $mib ( @{$list_mib} ) {
      $logger->debug("Sub mib $mib");

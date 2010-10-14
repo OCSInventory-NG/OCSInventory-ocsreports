@@ -1,5 +1,7 @@
 ###
-# SNMP: OID:9 SYSTEM:Cisco
+# SNMP: OID: 9 SYSTEM: Cisco
+###
+# Version 0.9
 ###
 
 package Ocsinventory::Agent::Modules::Snmp::9;
@@ -15,24 +17,27 @@ sub snmp_run {
    my $logger=$snmp->{logger};
    my $common=$snmp->{common};
 
-   # lines refs
+   my $list_mib=["Entity_Mib"];
+   foreach my $mib ( @{$list_mib} ) {
+      $logger->debug("Sub mib $mib");
+      $snmp->snmp_oid_run($mib);
+   }
+
+   # OID 
    my $snmp_osversion="1.3.6.1.4.1.9.2.1.73.0";
+   my $snmp_dot1dBasePortIfIndex="1.3.6.1.2.1.17.1.4.1.2.";
    my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2";
    my $snmp_iftype="1.3.6.1.2.1.2.2.1.3.";
    my $snmp_ifspeed="1.3.6.1.2.1.2.2.1.5.";
    my $snmp_physAddr="1.3.6.1.2.1.2.2.1.6.";
    my $snmp_ifadminstatus="1.3.6.1.2.1.2.2.1.7.";
-   # Cisco specific 
+   # Specific Cisco
    my $snmp_description="1.3.6.1.4.1.9.2.2.1.1.28.";
    my $snmp_cisco_deviceAddress="1.3.6.1.4.1.9.9.23.1.2.1.1.4.";
    my $snmp_cisco_deviceId="1.3.6.1.4.1.9.9.23.1.2.1.1.6.";
+   my $snmp_vtp_vlan_state="1.3.6.1.4.1.9.9.46.1.3.1.1.2";
+   my $snmp_dot1dTpFdbPort="1.3.6.1.2.1.17.4.3.1.2";
 
-   my $snmp_elements="1.3.6.1.2.1.47.1.1.1.1.8";
-   my $snmp_info="1.3.6.1.2.1.47.1.1.1.1.2";
-   my $snmp_ref="1.3.6.1.2.1.47.1.1.1.1.7";
-   my $snmp_serial="1.3.6.1.2.1.47.1.1.1.1.11";
-   my $snmp_software="1.3.6.1.2.1.47.1.1.1.1.10";
-   my $snmp_firmware="1.3.6.1.2.1.47.1.1.1.1.9";
 
    my $oid;
    my $oid_complet;
@@ -47,33 +52,93 @@ sub snmp_run {
    my $TotalEthernet=0;
    my $result_snmp;
    my $result_sub;
+   my $index_mac={};
+   my $ref_mac={};
 
-   my $DESCRIPTION=""; #Ok
-   my $DRIVER="";
-   my $SPEED=""; #Ok
+
+   my $DESCRIPTION=""; 
+   my $SPEED=""; 
    my $MACADDR="";
-   my $PCISLOT=""; #ok
-   my $STATUS=""; #Ok
+   my $DEVICEMACADDR="";
+   my $SLOT="";
+   my $STATUS="";
    my $TYPE=""; 
-   my $VIRTUALDEV="";
-   my $DEVICEID="";
+   my $DEVICENAME="";
    my $DEVICEADDRESS="";
+   my $VLAN=undef;
 
- # interesting info SNMPv2-SMI::enterprises.9.9.23.1.2.1.1.6.10140.1
+    $common->setSnmpCommons( {TYPE => "Network"} );
+
+ # Info interessante SNMPv2-SMI::enterprises.9.9.23.1.2.1.1.6.10140.1
  # SNMPv2-SMI::enterprises.9.9.25.1.1.1.2.1 
+
     # version IOS
     $result_snmp=$session->get_request(-varbindlist => [$snmp_osversion]);
     if ( defined($result_snmp->{$snmp_osversion}) ) {
        $osversion=$result_snmp->{$snmp_osversion};
-       print "osversion $osversion\n";
     }
     
+    # We are going to look for the vlan existing on this equipment
+    $result_snmp=$session->get_entries(-columns => [$snmp_vtp_vlan_state]);
+    foreach my $resultmac ( keys  %{$result_snmp} ) {
+       if ( $resultmac =~ /1\.3\.6\.1\.4\.1\.9\.9\.46\.1\.3\.1\.1\.2\.1\.(\S+)/ ) {
+           my $ref_vlan=$1;
+           # Now we can scan this vlan for mac adress
+           # We must first open a new session with the index associated with the vlan
+           my $sub_session= Net::SNMP->session(
+                -retries     => 1 ,
+                -timeout     => 3,
+                -version     => $session->version,
+                -hostname    => $session->hostname,
+                -community   => $snmp->{snmp_community}."@".$ref_vlan,
+                -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
+                #-username      => $comm->{username}, # V3 test after
+                #-authkey       => $comm->{authkey},
+                #-authpassword  => $comm->{authpasswd},
+                #-authprotocol  => $comm->{authproto},
+                #-privkey       => $comm->{privkey},
+                #-privpassword  => $comm->{privpasswd},
+                #-privprotocol  => $comm->{privproto},
+          );
+          my $result_snmp_mac=$sub_session->get_entries(-columns => [$snmp_dot1dTpFdbPort ]);
+          if ( defined ($result_snmp_mac ) ) {
+             # We scan all lines 
+             for my $ligne_snmp_mac ( keys %{$result_snmp_mac} ) {
+                 # We first take in the OID the 6 last numbers indicate in decimal the mac address
+                 if ( $ligne_snmp_mac =~ /17\.4\.3\.1\.2\.(\S+)\.(\S+)\.(\S+)\.(\S+)\.(\S+)\.(\S+)$/ ) {
+                    my $distant_mac=sprintf("%.2x:%.2x:%.2x:%.2x:%.2x:%.2x",$1,$2,$3,$4,$5,$6);
+                    my $data_values={};
+                    my $index_bridge=$result_snmp_mac->{$ligne_snmp_mac};
+
+                    # We have no table for this reference
+                    if ( ! defined ( $index_mac->{$index_bridge}) ) {
+                        # init of the table
+                        $index_mac->{$index_bridge}=[];
+                        # we take the value gived by the OID
+                        my $snmp_intero=$snmp_dot1dBasePortIfIndex.$index_bridge;
+                        # We take the index reference for the ifdesc
+                        # So when we scan this ifdesc, we can add the vlans and mac 
+                        my $ref_snmp_line=$sub_session->get_request(-varbindlist => [ $snmp_intero ]);
+                        # We transmit the ointer value to the ref_mac so we can have a double acces for the data
+                        $ref_mac->{$ref_snmp_line->{$snmp_intero}}=$index_mac->{$index_bridge};
+                    }
+                    $data_values->{MACADRESS}[0]=$distant_mac;
+                    $data_values->{VLANID}[0]=$ref_vlan;
+                    push(@{$index_mac->{$result_snmp_mac->{$ligne_snmp_mac}}},$data_values);
+                 }
+             }
+          }
+          $sub_session->close;
+       }
+       
+   }
+
     # We look for interfaces
     $result_snmp=$session->get_entries(-columns => [$snmp_ifdescr]);
     foreach my $result ( keys  %{$result_snmp} ) {
         # We work on real interface and no vlan
         if ( $result_snmp->{$result} =~ /Ethernet/ ) {
-	   $PCISLOT=$result_snmp->{$result};
+	   $SLOT=$result_snmp->{$result};
            if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.2\.(\S+)/ ) {
                $ref=$1;
 
@@ -98,6 +163,9 @@ sub snmp_run {
 			substr($MACADDR,10,2).":".
 			substr($MACADDR,12,2);
                }
+               if ( defined $ref_mac->{$ref} ) {
+                  $VLAN=$ref_mac->{$ref};
+               }
 
                $STATUS=$session->get_request(-varbindlist => [ $snmp_ifadminstatus.$ref ]);
                if ( $STATUS->{$snmp_ifadminstatus.$ref} == 1 ) {
@@ -111,7 +179,6 @@ sub snmp_run {
 		  $DESCRIPTION=$DESCRIPTION->{$snmp_description.$ref};
                }
                $DEVICEADDRESS=$session->get_entries( -columns => [ $snmp_cisco_deviceAddress.$ref ] );
-               #print Dumper ( $DEVICEADDRESS ) ;
 	       if ( defined( $DEVICEADDRESS ) ) {
                   foreach my $key ( keys %{$DEVICEADDRESS} ) {
 		     $DEVICEADDRESS=$DEVICEADDRESS->{$key} ;
@@ -121,74 +188,38 @@ sub snmp_run {
 					".".hex(substr($DEVICEADDRESS,8,2));
                   }
                }
-               $DEVICEID=$session->get_entries( -columns => [ $snmp_cisco_deviceId.$ref ] );
-	       if ( defined( $DEVICEID ) ) {
-                  foreach my $key ( keys %{$DEVICEID} ) {
-		     $DEVICEID=$DEVICEID->{$key};
+               $DEVICENAME=$session->get_entries( -columns => [ $snmp_cisco_deviceId.$ref ] );
+	       if ( defined( $DEVICENAME ) ) {
+                  foreach my $key ( keys %{$DEVICENAME} ) {
+		     $DEVICENAME=$DEVICENAME->{$key};
                   }
                }
            }
 
-	   $common->addNetwork( { 
+	   $common->addSnmpNetwork( { 
 		DESCRIPTION   => $DESCRIPTION,
-		DRIVER        => $DRIVER,
+		SPEED	      => $SPEED,
 		MACADDR       => $MACADDR,
-		PCISLOT       => $PCISLOT,
+		SLOT          => $SLOT,
 		STATUS        => $STATUS,
 		TYPE          => $TYPE,
-		VIRTUALDEV    => $VIRTUALDEV,
-      DEVICEADDRESS => $DEVICEADDRESS,
-      DEVICEID      => $DEVICEID,
+                DEVICENAME    => $DEVICENAME,
+                VLAN	      => $VLAN,
 		});
            $DESCRIPTION="";
-           $DRIVER="";
 	   $MACADDR="";
-	   $PCISLOT="";
+	   $SLOT="";
 	   $STATUS="";
 	   $TYPE="";
-	   $VIRTUALDEV="";
+           $SPEED="";
+	   $MACADDR="";
            $DEVICEADDRESS="";
-           $DEVICEID="";
+           $DEVICENAME="";
+           $VLAN=undef;
         }
     }
     # We have finished for interfaces
 
-    # We are looking for cards
-    $result_snmp=$session->get_entries(-columns => [$snmp_elements]);
-    foreach my $result ( keys  %{$result_snmp} ) {
-        if ( $result =~ /1\.3\.6\.1\.2\.1\.47\.1\.1\.1\.1\.8\.(\S+)/ ) {
-           $ref=$1;
-           my $REF="";
-           my $SERIAL="";
-           my $SOFTWARE="";
-           my $FIRMWARE="";
-           if ( $result_snmp->{$snmp_elements.".".$ref} =~ /\S+/ ) {
-             # We have a good element
-             $DESCRIPTION=$session->get_request(-varbindlist => [$snmp_info.$ref]);
-               if ( defined( $DESCRIPTION ) ) {
-                   $DESCRIPTION= $DESCRIPTION->{$snmp_info.$ref};
-               }
-             $REF=$session->get_request(-varbindlist => [$snmp_ref.$ref]);
-               if ( defined( $REF ) ) {
-                   $REF = $REF->{$snmp_ref.$ref};
-               }
-             $SERIAL=$session->get_request(-varbindlist => [$snmp_serial.$ref]);
-               if ( defined( $SERIAL ) ) {
-                   $SERIAL = $SERIAL->{$snmp_serial.$ref};
-               }
-             $FIRMWARE=$session->get_request(-varbindlist => [$snmp_firmware.$ref]);
-               if ( defined( $FIRMWARE ) ) {
-                   $FIRMWARE = $FIRMWARE->{$snmp_firmware.$ref};
-               }
-             $SOFTWARE=$session->get_request(-varbindlist => [$snmp_software.$ref]);
-               if ( defined( $SOFTWARE ) ) {
-                   $SOFTWARE = $SOFTWARE->{$snmp_software.$ref};
-               }
-           }
-        }
-    } # End cards
-
-    
-} # end function
+} 
 
 1;

@@ -8,12 +8,17 @@ use warnings;
 
 use Data::Dumper;
 
+sub snmp_info {
+   return ( { oid_value => "1.3.6.1.2.1.25.1.1.0",
+            oid_name => "Host_Resource_Mib" } );
+}
+
 sub snmp_run {
    my ($session , $snmp )= @_;
    my $logger=$snmp->{logger};
    my $common=$snmp->{common};
    
-   $logger->debug("Running Host_Resource_Mib module");
+   $logger->debug("Execution: host resource mib");
    # OID 
    my $soft="1.3.6.1.2.1.25.6.3.1.";
    my $memory="1.3.6.1.2.1.25.2.2.0";
@@ -43,10 +48,14 @@ sub snmp_run {
    foreach my $result ( keys %{$result_table} ) {
       if ( $result =~ /1\.3\.6\.1\.2\.1\.25\.6\.3\.1\.2\.(\S+)/ ) {
          $ref=$1;
-         $DATE=$session->get_request ( [ $soft."5.".$ref ]);
+         $DATE=$session->get_request ( -varbindlist => [ $soft."5.".$ref ]);
+         if ( defined ( $DATE ) ) {
+            $DATE=$DATE->{$soft."5.".$ref};
+            $DATE=sprintf("%d/%d/%d",hex(substr($DATE,2,4)),hex(substr($DATE,6,2)),hex(substr($DATE,8,2)));
+         }
          $common->addSoftware( { 
 			NAME=>$result_table->{ $result } ,
-                        DATE=>$DATE
+                        INSTALLDATE=>$DATE
 		        } );
       }
    }
@@ -105,9 +114,9 @@ sub snmp_run {
 		FREE => $FREE,
 		TOTAL => $TOTAL,
 	      }),
-         }
-      }
-   }
+         } # End looking for fixed disk
+      } # End index of the element
+   } # End foreach storages
    $result_table=$session->get_entries(-columns => [ $snmp_hrDeviceType ]);
    foreach my $result ( keys %{$result_table} ) {
       if ( $result =~ /1\.3\.6\.1\.2\.1\.25\.3\.2\.1\.2\.(\S+)/ ) {
@@ -152,7 +161,7 @@ sub snmp_run {
              $NAME=$NAME->{$snmp_Printer.$ref };
              $common->addPrinter( { NAME => $NAME } );
          }
-      } 
+      } # End Printer
       elsif  ( $result_table->{$result} =~ /3\.1\.13$/ ) {
          # We have a Keyboard
          my $DESCRIPTION=$session->get_request(-varbindlist => [ $snmp_Keyboard.$ref ] );
@@ -160,7 +169,7 @@ sub snmp_run {
              $DESCRIPTION=$DESCRIPTION->{$snmp_Keyboard.$ref };
              $common->addInput( { DESCRIPTION => $DESCRIPTION , TYPE => "Keyboard" } );
          }
-      }
+      } # End Keyboard
       elsif  ( $result_table->{$result} =~ /3\.1\.16$/ ) {
          # We have a Pointing
          my $DESCRIPTION=$session->get_request(-varbindlist => [ $snmp_Pointing.$ref ] );
@@ -168,7 +177,7 @@ sub snmp_run {
              $DESCRIPTION=$DESCRIPTION->{$snmp_Pointing.$ref };
              $common->addInput( { DESCRIPTION => $DESCRIPTION , TYPE => "Mouse" } );
          }
-      }
+      } # End Pointing
       elsif  ( $result_table->{$result} =~ /3\.1\.11$/ ) {
          # We have a Audio
          my $NAME=$session->get_request(-varbindlist => [ $snmp_Audio.$ref ] );
@@ -176,7 +185,7 @@ sub snmp_run {
              $NAME=$NAME->{$snmp_Audio.$ref };
              $common->addSound( { NAME => $NAME } );
          }
-      }
+      } # End Audio
       elsif  ( $result_table->{$result} =~ /3\.1\.10$/ ) {
          # We have a Video
          my $NAME=$session->get_request(-varbindlist => [ $snmp_Video.$ref ] );
@@ -184,7 +193,7 @@ sub snmp_run {
              $NAME=$NAME->{$snmp_Video.$ref };
              $common->addVideo( { NAME => $NAME } );
          }
-      }
+      } # End Video
       elsif  ( $result_table->{$result} =~ /3\.1\.14$/ ) {
          # We have a Modem
          my $NAME=$session->get_request(-varbindlist => [ $snmp_Modem.$ref ] );
@@ -192,7 +201,7 @@ sub snmp_run {
              $NAME=$NAME->{$snmp_Modem.$ref };
              $common->addModem( { NAME => $NAME } );
          }
-      }
+      } # End Modem
       elsif  ( $result_table->{$result} =~ /3\.1\.15$/ ) {
          # We have a ParallelPort
          my $NAME=$session->get_request(-varbindlist => [ $snmp_ParallelPort.$ref ] );
@@ -200,7 +209,7 @@ sub snmp_run {
              $NAME=$NAME->{$snmp_ParallelPort.$ref };
              $common->addPort( { NAME => $NAME , TYPE => "Parallel" } );
          }
-      }
+      } # End ParallelPort
       elsif  ( $result_table->{$result} =~ /3\.1\.17$/ ) {
          # We have a SerialPort
          my $NAME=$session->get_request(-varbindlist => [ $snmp_SerialPort.$ref ] );
@@ -208,8 +217,8 @@ sub snmp_run {
              $NAME=$NAME->{$snmp_SerialPort.$ref };
              $common->addPort( { NAME => $NAME , TYPE => "Serial" } );
          }
-      }
-   }
+      } # End SerialPort
+   } # End scan of hrDeviceType
 }
 
 1;

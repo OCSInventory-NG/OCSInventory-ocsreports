@@ -1,19 +1,15 @@
 ###
-# SNMP: OID:311 SYSTEM:Microsoft
+# SNMP: Default
 ###
 
 
-package Ocsinventory::Agent::Modules::Snmp::311;
+package Ocsinventory::Agent::Modules::Snmp::Default;
 
 use strict;
 no strict 'refs';
 use warnings;
 use Data::Dumper;
 
-sub snmp_info {
-   return ( { oid_value => "1.3.6.1.4.1.77.1.2.1.0" ,
-            oid_name => "Microsoft" } );
-}
 sub snmp_run {
    my ($session , $snmp )= @_;
    my $oid_run=$snmp->{snmp_oid_run};
@@ -22,9 +18,9 @@ sub snmp_run {
    my $logger=$snmp->{logger};
 
 
-  my $list_mib=["If_Mib", "Host_Resources_Mib"];
+  my $list_mib=["If_Mib", "Host_Resources_Mib","Printer_Mib"];
 
-  $logger->debug("Execution mib Microsoft:311");
+  $logger->debug("Execution Default mib \n");
 
   foreach my $mib ( @{$list_mib} ) {
      $logger->debug("Sub mib $mib");

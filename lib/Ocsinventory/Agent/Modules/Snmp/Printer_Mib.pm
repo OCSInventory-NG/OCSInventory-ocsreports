@@ -5,6 +5,11 @@ package Ocsinventory::Agent::Modules::Snmp::Printer_Mib;
 
 use strict;
 
+sub snmp_info {
+   return ( { oid_value => "1.3.6.1.2.1.43.5.1.1.16.1",
+            oid_name => "Printer_Mib" } );
+}
+
 sub snmp_run {
   my ($session , $snmp )= @_;
   my $logger=$snmp->{logger};
