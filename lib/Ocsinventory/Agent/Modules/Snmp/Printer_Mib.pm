@@ -15,7 +15,7 @@ sub snmp_run {
   my $logger=$snmp->{logger};
   my $common=$snmp->{common};
 
-  my ($result,$name,$serialnumber,$lifecount,$countunit);
+  my ($result,$name,$serialnumber,$lifecount,$countunit,$printerstatus,$errorstate);
 
   $logger->debug("Running Printer_Mib module");
 
@@ -33,6 +33,10 @@ sub snmp_run {
   my $snmp_markersuppliestable="1.3.6.1.2.1.43.11.1";
   #prtMarkerColorantValue
   my $snmp_colorantvalue="1.3.6.1.2.1.43.12.1.1.4";
+  #hrPrinterStatus
+  my $snmp_printerstatus="1.3.6.1.2.1.25.3.5.1.1.1";
+  #PrinterDetectedErrorState
+  my $snmp_errorstate="1.3.6.1.2.1.25.3.5.1.2.1";
 
   #Trays informations we want to get 
   my $trayinfos = {
@@ -82,6 +86,31 @@ sub snmp_run {
     14 => 'wasteWax',
   };
 
+  my $printerstatus_translation = {
+    1 => 'other',
+    2 => 'unknown',
+    3 => 'idle',
+    4 => 'printing',
+    5 => 'warmup',
+  };
+
+  my $errorstate_translation = {
+    '0x00' => 'lowPaper',
+    '0x01' => 'noPaper',
+    '0x02' => 'lowToner',
+    '0x03' => 'noToner',
+    '0x04' => 'doorOpen',
+    '0x05' => 'jammed',
+    '0x06' => 'offline',
+    '0x07' => 'serviceRequested',
+    '0x08' => 'inputTrayMissing',
+    '0x09' => 'outputTrayMissing',
+    '0x10' => 'markerSupplyMissing',
+    '0x11' => 'outputNearFull',
+    '0x12' => 'outputFull',
+    '0x13' => 'inputTrayEmpty',
+    '0x14' => 'overduePreventMaint',
+  };
 
   #####
 
@@ -98,11 +127,19 @@ sub snmp_run {
   $result=$session->get_request(-varbindlist => [$snmp_countunit]);
   $countunit=$countunit_translation->{ $result->{$snmp_countunit} };
 
+  $result=$session->get_request(-varbindlist => [$snmp_printerstatus]);
+  $printerstatus=$result->{$snmp_printerstatus};
+
+  $result=$session->get_request(-varbindlist => [$snmp_errorstate]);
+  $errorstate=$result->{$snmp_errorstate};
+
   #Adding informations to XML
   $common->setSnmpPrinter({
     NAME => $name,
     SERIALNUMBER => $serialnumber,
     COUNTER => "$lifecount $countunit",
+    STATUS => $printerstatus_translation->{$printerstatus},
+    ERRORSTATE => $errorstate_translation->{$errorstate},
   }); 
 
   #Getting trays informations using the table

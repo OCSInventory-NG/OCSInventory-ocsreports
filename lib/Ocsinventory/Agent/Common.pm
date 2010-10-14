@@ -825,7 +825,7 @@ sub setSnmpPrinter {
   my ($self,$args)=@_;
   my $xmltags=$self->{xmltags};
 
-  foreach my $key (qw/NAME SERIALNUMBER COUNTER/ ) {
+  foreach my $key (qw/NAME SERIALNUMBER COUNTER STATUS ERRORSTATE/ ) {
      if (exists $args->{$key}) {
         $xmltags->{PRINTERS}[0]{$key}[0]=$args->{$key};
      }
