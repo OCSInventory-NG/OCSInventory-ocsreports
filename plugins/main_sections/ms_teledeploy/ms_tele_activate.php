@@ -63,7 +63,7 @@ if (!$cant_active){
 	$document_root = $val_document_root["tvalue"];
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root)){
-			$document_root = $_SERVER["DOCUMENT_ROOT"]."/download/";
+			$document_root = DOCUMENT_ROOT."download/";
 			if ($protectedPost['SHOW_SELECT'] == "server")
 				$document_root .="server/";
 			

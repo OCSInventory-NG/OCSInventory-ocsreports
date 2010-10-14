@@ -75,7 +75,7 @@
 140 Super amministratori
 141 Amministratori
 142 Amministratori locali
-143 Teledeploy requesters
+143 Richiedenti Teledeploy
 162 Elimina selezionati
 168 Il formato del file non è valido (deve essere zip, pl o binario unix)
 170 Esiste già lo stesso file!
@@ -1037,14 +1037,14 @@
 1152 ATTENZIONE: la cancellazione dei profili di base potrebbe causare instabilità in OCS
 1153 Nome del profilo
 1154 Sui computer
-1155 Sul flusso del teledeploy
-1156 Gestisci flusso del teledeploy
-1157 Sui campi del flusso del teledeploy
+1155 Sul flusso del Teledeploy
+1156 Gestisci flusso del Teledeploy
+1157 Sui campi del flusso del Teledeploy
 1158 Sull'attivazione dei pacchetti
 1159 Su gli indirizzi MAC
 1160 Sui numeri di serie
 1161 Sulla sottorete dell'ipdiscover
-1162 Gestione teledeploy
+1162 Gestione Teledeploy
 1163 Aggiorna la configurazione
 1164 Gestione gruppi
 1165 Gestione console
@@ -1095,6 +1095,7 @@
 1210 Account info:
 1211 URL dei file della comunità SNMP
 1212 Comunità cancellata
+1213 Separatore del file di export
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

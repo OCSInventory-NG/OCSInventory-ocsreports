@@ -15,6 +15,15 @@ require_once('fichierConf.class.php');
 include('dbconfig.inc.php');
 require_once('var.php');
 
+/*************************************************WHAT OS USE************************************/
+if(substr($_SERVER['DOCUMENT_ROOT'],-1) != '/')
+	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']."/");
+else
+	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']);
+
+
+
+
 /*****************************************************LOGOUT*********************************************/
 if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 	unset($_SESSION['OCS']);
