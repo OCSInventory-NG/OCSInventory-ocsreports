@@ -813,87 +813,230 @@ sub getSnmpTable {
 sub setSnmpCommons {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
-
-  my $ip = $args->{IPADDR};
-  my $macaddr = $args->{MACADDR};
-  my $snmpdeviceid = $args->{SNMPDEVICEID};
-  my $name = $args->{NAME};
-  my $description = $args->{DESCRIPTION};
-  my $contact = $args->{CONTACT};
-  my $location = $args->{LOCATION};
-  my $uptime = $args->{UPTIME};
-  my $domain = $args->{DOMAIN};
-  my $type = $args->{TYPE};
-
-  push @{$xmltags->{COMMON}},
-  {
-  IPADDR => [$ip?$ip:''],
-  MACADDR => [$macaddr?$macaddr:''],
-  SNMPDEVICEID => [$snmpdeviceid?$snmpdeviceid:''],
-  NAME => [$name?$name:''],
-  DESCRIPTION => [$description?$description:''],
-  CONTACT => [$contact?$contact:''],
-  LOCATION => [$location?$location:''],
-  UPTIME => [$uptime?$uptime:''],
-  DOMAIN => [$domain?$domain:''],
-  TYPE => [$type?$type:''],
-  };
+  
+  foreach my $key (qw/IPADDR TYPE MACADDR SNMPDEVICEID NAME DESCRIPTION CONTACT LOCATION UPTIME DOMAIN TYPE / ) {
+     if (exists $args->{$key}) {
+        $xmltags->{COMMON}[0]{$key}[0]=$args->{$key};
+     }
+  }
 }
 
 sub setSnmpPrinter {
+  my ($self,$args)=@_;
+  my $xmltags=$self->{xmltags};
+
+  foreach my $key (qw/NAME SERIALNUMBER COUNTER/ ) {
+     if (exists $args->{$key}) {
+        $xmltags->{PRINTERS}[0]{$key}[0]=$args->{$key};
+     }
+  }
+}
+
+
+sub setSnmpSwitch {
+ my ($self,$args)=@_;
+  my $xmltags=$self->{xmltags};
+
+  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOTVERSION FIRMVERSION SERIALNUMBER REVISION/ ) {
+     if (exists $args->{$key}) {
+        $xmltags->{SWITCHS}[0]{$key}[0]=$args->{$key};
+     }
+  }
+}
+
+sub setSnmpFirewalls {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
 
-  my $name = $args->{NAME};
   my $serialnumber = $args->{SERIALNUMBER};
-  my $counter = $args->{COUNTER};
 
-  push @{$xmltags->{PRINTERS}},
+  push @{$xmltags->{FIREWALLS}},
   {
-  NAME => [$name?$name:''],
   SERIALNUMBER => [$serialnumber?$serialnumber:''],
-  COUNTER => [$counter?$counter:''],
   };
 }
 
-sub addSnmpPrinterTray {
+
+sub setSnmpLoadBalancer {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
 
-  my $name = $args->{NAME};
-  my $description = $args->{DESCRIPTION};
-  my $level = $args->{LEVEL};
-  my $maxcapacity = $args->{MAXCAPACITY};
+  my $serialnumber = $args->{SERIALNUMBER};
 
-
-  push @{$xmltags->{TRAYS}},
+  push @{$xmltags->{LOADBALANCERS}},
   {
-  NAME => [$name?$name:''],
-  DESCRIPTION => [$description?$description:''],
-  LEVEL => [$level?$level:''],
-  MAXCAPACITY => [$maxcapacity?$maxcapacity:''],
+  SERIALNUMBER => [$serialnumber?$serialnumber:''],
   };
+}
 
+sub setSnmpBlade {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+
+  my $serialnumber = $args->{SERIALNUMBER};
+
+  push @{$xmltags->{BLADES}},
+  {
+  SERIALNUMBER => [$serialnumber?$serialnumber:''],
+  };
 }
 
 sub addSnmpPrinterCartridge {
   my ($self,$args)=@_;
   my $xmltags=$self->{xmltags};
+  my $content={};
 
-  my $description = $args->{DESCRIPTION};
-  my $type = $args->{TYPE};
-  my $level = $args->{LEVEL};
-  my $maxcapacity = $args->{MAXCAPACITY};
-  my $color = $args->{COLOR};
+  if ( ! defined ($xmltags->{CARDS})) {
+     $xmltags->{CARDS}=[];
+  }
 
-  push @{$xmltags->{CARTRIDGES}},
-  {
-  DESCRIPTION => [$description?$description:''],
-  TYPE => [$type?$type:''],
-  LEVEL => [$level?$level:''],
-  MAXCAPACITY => [$maxcapacity?$maxcapacity:''],
-  COLOR=> [$color?$color:''],
-  };
+  foreach my $key (qw/DESCRIPTION TYPE LEVEL MAXCAPACITY COLOR/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{CARTRIDGES}},$content;
+
+}
+
+sub addSnmpPrinterTray {
+  my ($self,$args)=@_;
+  my $xmltags=$self->{xmltags};
+  my $content={};
+
+  if ( ! defined ($xmltags->{CARDS})) {
+     $xmltags->{CARDS}=[];
+  }
+
+  foreach my $key (qw/NAME DESCRIPTION LEVEL MAXCAPACITY/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{TRAYS}},$content;
+
+}
+
+sub addSnmpNetwork {
+  my ($self,$args)=@_;
+  my $xmltags=$self->{xmltags};
+  my $content={};
+  if ( ! defined ($xmltags->{NETWORKS})) {
+     $xmltags->{NETWORKS}=[];
+  }
+
+  foreach my $key (qw/DESCRIPTION MACADDR DEVICEMACADDR SLOT STATUS SPEED TYPE DEVICEADDRESS DEVICENAME/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  #if ( exists $args->{VLAN}) {
+  #	$content->{VLAN}=$args->{VLAN};
+  #}
+  push @{$xmltags->{NETWORKS}},$content;
+}
+
+sub addSnmpDrive {
+  my ($self,$args)=@_;
+  my $xmltags=$self->{xmltags};
+  my $content={};
+
+  if ( ! defined ($xmltags->{DRIVES})) {
+     $xmltags->{DRIVES}=[];
+  }
+
+  foreach my $key (qw/LETTER TYPE FILESYSTEM TOTAL FREE NUMFILES VOLUMN/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{DRIVES}},$content;
+}
+
+sub addSnmpStorage {
+  my ($self,$args)=@_;
+  my $xmltags=$self->{xmltags};
+  my $content={};
+
+  if ( ! defined ($xmltags->{STORAGES})) {
+     $xmltags->{STORAGES}=[];
+  }
+
+  foreach my $key (qw/DESCRIPTION MANUFACTURER NAME MODEL DISKSIZE TYPE SERIALNUMBER FIRMWARE/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{STORAGES}},$content;
+
+}
+
+sub addSnmpCard {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+  my $content={};
+
+  if ( ! defined ($xmltags->{CARDS})) {
+     $xmltags->{CARDS}=[];
+  }
+
+  foreach my $key (qw/DESCRIPTION REFERENCE FIRMWARE REVISION SERIAL MANUFACTURER TYPE/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{CARDS}},$content;
+
+}
+
+sub addSnmpFan {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+  my $content={};
+
+  if ( ! defined ($xmltags->{FANS})) {
+     $xmltags->{FANS}=[];
+  }
+
+  foreach my $key (qw/DESCRIPTION REFERENCE REVISION SERIAL MANUFACTURER TYPE/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{FANS}},$content;
+}
+
+sub addSnmpPowerSupply {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+  my $content={};
+
+  if ( ! defined ($xmltags->{POWERSUPPLIES})) {
+     $xmltags->{POWERSUPPLIES}=[];
+  }
+
+  foreach my $key (qw/DESCRIPTION REFERENCE REVISION SERIAL MANUFACTURER TYPE/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{POWERSUPPLIES}},$content;
+}
+
+sub addSnmpSwitch {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+  my $content={};
+  if ( ! defined ($xmltags->{SWITCH})) {
+     $xmltags->{SWITCH}=[];
+  }
+
+  foreach my $key (qw/DESCRIPTION REFERENCE REVISION FIRMWARE SERIAL MANUFACTURER TYPE/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{SWITCH}},$content;
 }
 
 #Subroutinne to add 0 in 'Sun like' MAC adress if needed
