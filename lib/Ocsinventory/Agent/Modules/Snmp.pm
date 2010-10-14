@@ -185,6 +185,10 @@ sub snmp_end_handler {
              $logger->error("Snmp ERROR: $error");
           } else {
 	          $self->{snmp_session}=$session;
+
+             $self->{snmp_community}=$comm->{NAME}; #For a use in constructor module (Cisco)
+             $self->{snmp_version}=$comm->{VERSION};
+
              $name=$session->get_request( -varbindlist => [$snmp_sysname] );
              last LIST_SNMP if ( defined $name);
              $session->close;
@@ -225,6 +229,11 @@ sub snmp_end_handler {
         }
         # We run the special treatments for the OID vendor 
         $self->{snmp_oid_run}($self,$system_oid);
+        if ( $self->{snmp_oid_run}($self,$system_oid) == 1 ) {
+          # We have no vendor oid for this equipment
+          # we use default.pm
+          $self->{snmp_oid_run}($self,"Default");
+        }        
 
         $session->close;
         $self->{snmp_session}=undef;
@@ -281,6 +290,8 @@ sub snmp_oid_run {
       # We init the default value
       $self->{func_oid}{$system_oid}={};
       $self->{func_oid}{$system_oid}{active}=0;
+      $self->{func_oid}{$system_oid}{oid_value}="1.3.6.1.2.1.1.5.0";
+      $self->{func_oid}{$system_oid}{oid_name}="Undefined";
 
       # Can we find it in the snmp directory
       foreach my $dir ( @{$self->{snmp_dir}} ) {
@@ -294,8 +305,17 @@ sub snmp_oid_run {
                 # We have execute it. We can get the function pointer on snmp_run
                 my $package=$module_found."::";
                 $self->{func_oid}{$system_oid}{snmp_run}=$package->{'snmp_run'};
+                if ( defined ( $package->{'snmp_info'} ) ) {
+                   my $return_info=&{$package->{'snmp_info'}};
+                   if ( defined $return_info->{oid_value} ) {
+                      $self->{func_oid}{$system_oid}{oid_value}=$return_info->{oid_value};
+                   }
+                   if ( defined $return_info->{oid_name} ) {
+                      $self->{func_oid}{$system_oid}{oid_name}=$return_info->{oid_name};
+                   }
+                }
                 $self->{func_oid}{$system_oid}{active}=1;
-            	 $self->{func_oid}{$system_oid}{last_exec}=0;
+               $self->{func_oid}{$system_oid}{last_exec}=0;
              }
           }
       }
@@ -303,13 +323,23 @@ sub snmp_oid_run {
 
    if ( $self->{func_oid}{$system_oid}{active} == 1 && $self->{func_oid}{$system_oid}{last_exec} < $self->{number_scan} )
    { # we test that this function as never been executed for this equipment
-      $logger->debug("Launching $system_oid\n" );
-      &{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
-      # We indicate that this equipment is the last scanned
+      # We test first that this OID exist for this equipment
+      my $oid_scan=$self->{func_oid}{$system_oid}{oid_value};
+      my $result=$session->get_request(-varbindlist => [ $oid_scan ] );
+
+      if ( length ($result->{$oid_scan}) != 0 ) {
+         # This OID exist, we can execute it
+         $logger->debug("Launching $system_oid\n" );
+         &{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
+         # We indicate that this equipment is the last scanned
+      }
       $self->{func_oid}{$system_oid}{last_exec}=$self->{number_scan};
+
+   } else {
+      return 1;
    }
+   return 0;
 
 }
-
 
 1;
