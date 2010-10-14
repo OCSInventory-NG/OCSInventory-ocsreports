@@ -822,31 +822,45 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	
 	//v�rification de l'existance des champs cant_delete dans la session
 	//print_r($list_col_cant_del);
-	foreach ($list_col_cant_del as $key=>$value){
-		if (!in_array($key,$_SESSION['OCS']['col_tab'][$tab_name])){
-			$_SESSION['OCS']['col_tab'][$tab_name][$key]=$key;
-		}
-	}
-	foreach ($entete as $k=>$v){
-		if (in_array($k,$_SESSION['OCS']['col_tab'][$tab_name])){
-			$data_with_filter['entete'][$k]=$v;	
-			if (!isset($list_col_cant_del[$k]))
-			$data_with_filter['entete'][$k].="<a href=# onclick='return pag(\"".$k."\",\"SUP_COL\",\"".$id_form."\");'><img src=image/supp.png></a>";
-		}	
-		else
-		$list_rest[$k]=$v;
-
-		
-	}
-
-	foreach ($data as $k=>$v){
-		foreach ($v as $k2=>$v2){
-			if (in_array($k2,$_SESSION['OCS']['col_tab'][$tab_name])){
-				$data_with_filter['data'][$k][$k2]=$v2;
+	if (is_array($list_col_cant_del)){
+		if (!is_array($_SESSION['OCS']['col_tab'][$tab_name]))
+			$_SESSION['OCS']['col_tab'][$tab_name]=array();
+		foreach ($list_col_cant_del as $key=>$value){
+			if (!in_array($key,$_SESSION['OCS']['col_tab'][$tab_name])){
+				$_SESSION['OCS']['col_tab'][$tab_name][$key]=$key;
 			}
 		}
-
 	}
+	
+	if (is_array($entete)){
+		if (!is_array($_SESSION['OCS']['col_tab'][$tab_name]))
+			$_SESSION['OCS']['col_tab'][$tab_name]=array();
+		foreach ($entete as $k=>$v){
+			if (in_array($k,$_SESSION['OCS']['col_tab'][$tab_name])){
+				$data_with_filter['entete'][$k]=$v;	
+				if (!isset($list_col_cant_del[$k]))
+				$data_with_filter['entete'][$k].="<a href=# onclick='return pag(\"".$k."\",\"SUP_COL\",\"".$id_form."\");'><img src=image/supp.png></a>";
+			}	
+			else
+			$list_rest[$k]=$v;
+	
+			
+		}
+	}
+	
+	if (is_array($data)){
+		if (!is_array($_SESSION['OCS']['col_tab'][$tab_name]))
+		$_SESSION['OCS']['col_tab'][$tab_name]=array();
+		foreach ($data as $k=>$v){
+			foreach ($v as $k2=>$v2){
+				if (in_array($k2,$_SESSION['OCS']['col_tab'][$tab_name])){
+					$data_with_filter['data'][$k][$k2]=$v2;
+				}
+			}
+	
+		}
+	}
+	
 	if (is_array ($list_rest)){
 		$select_restCol= $l->g(349).": ".show_modif($list_rest,'restCol'.$tab_name,2,$form_name);
 		$select_restCol .=  "<a href=# OnClick='pag(\"".$tab_name."\",\"RAZ\",\"".$id_form."\");'><img src=image/supp.png></a></td></tr></table>"; //</td></tr><tr><td align=center>

@@ -9,6 +9,12 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2007/02/08 16:59:15 $$Author: plemmet $($Revision: 1.9 $)
+$values=look_config_default_values(array('EXPORT_SEP'));
+if (isset($values['tvalue']['EXPORT_SEP']) and $values['tvalue']['EXPORT_SEP'] != '')
+	$separator=$values['tvalue']['EXPORT_SEP'];
+else
+	$separator=';';
+
 
 if( isset($_SESSION['OCS']["forcedRequest"] )) {
 	$lareq = $_SESSION['OCS']["forcedRequest"];
@@ -38,7 +44,7 @@ header("Content-Transfer-Encoding: binary");
 $toBeWritten = "";
 
 while( $colname = mysql_fetch_field($result) ) {
-	$toBeWritten .=$colname->name.";";
+	$toBeWritten .=$colname->name.$separator;
 	$cols[] = $colname->name;
 }
 $toBeWritten .="\r\n";
@@ -46,7 +52,7 @@ $toBeWritten .="\r\n";
 
 while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
 	foreach ($cols as $k=>$v){
-		$toBeWritten.=$cont[$v].";";
+		$toBeWritten.=$cont[$v].$separator;
 	}
 	$toBeWritten .="\r\n";
 	//writeTab($fp,$cont,$nameIndex);
