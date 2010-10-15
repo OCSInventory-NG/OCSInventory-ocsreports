@@ -509,6 +509,7 @@ sub _getManifacturerFromCode {
     "DWE" => "Daewoo Telecom Ltd",
     "ECS" => "ELITEGROUP Computer Systems",
     "EIZ" => "EIZO",
+    "EPI" => "Envision Peripherals, Inc.",
     "FCM" => "Funai Electric Company of Taiwan",
     "FUS" => "Fujitsu Siemens",
     "GSM" => "LG Electronics Inc. (GoldStar Technology, Inc.)",
