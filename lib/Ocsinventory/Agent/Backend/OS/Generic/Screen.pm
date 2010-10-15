@@ -493,6 +493,7 @@ sub print_edid {
 sub _getManifacturerFromCode {
   my $code = shift;
   my $h = {
+    "ACR" => "Acer America Corp.",
     "ACT" => "Targa",
     "ADI" => "ADI Corporation http://www.adi.com.tw",
     "AOC" => "AOC International (USA) Ltd.",
