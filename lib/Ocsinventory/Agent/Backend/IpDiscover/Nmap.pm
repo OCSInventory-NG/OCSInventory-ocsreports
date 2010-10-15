@@ -62,14 +62,16 @@ sub run {
       $hostname = undef;     #it's better to send nothing instead of a '0'
     }
 
-    $logger->debug("Host $ip found using Nmap. Adding informations in XML");
+    if ($mac) {
+      $logger->debug("Host $ip found using Nmap. Adding informations in XML");
 
-    #Feeding the Inventory XML
-    $common->addIpDiscoverEntry({
-      IPADDRESS => $ip,
-       MACADDR => lc($mac),
-       NAME => $hostname,
+      #Feeding the Inventory XML
+      $common->addIpDiscoverEntry({
+        IPADDRESS => $ip,
+        MACADDR => lc($mac),
+        NAME => $hostname,
      });
+    }
   }
 }
 
