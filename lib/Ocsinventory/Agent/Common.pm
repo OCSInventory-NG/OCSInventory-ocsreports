@@ -980,7 +980,7 @@ sub addSnmpCard {
      $xmltags->{CARDS}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION REFERENCE FIRMWARE REVISION SERIAL MANUFACTURER TYPE/ ) {
+  foreach my $key (qw/DESCRIPTION REFERENCE FIRMWARE SOFTWARE REVISION SERIAL MANUFACTURER TYPE/ ) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
