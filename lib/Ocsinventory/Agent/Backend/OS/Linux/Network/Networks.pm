@@ -85,7 +85,7 @@ sub run {
 
 
   foreach my $line (`ifconfig -a`) {
-    if ($line =~ /^$/ && $description && $ipaddress) {
+    if ($line =~ /^$/ && $description && $macaddr) {
       # end of interface section
       # I write the entry
       my $binip = ip_iptobin ($ipaddress ,4);
@@ -151,7 +151,7 @@ sub run {
 
     if ($line =~ /^$/) { # End of section
 
-      $description = $driver = $ipaddress = $ipgateway = $macaddr = $pcislot = $status =  $type = $virtualdev = undef;
+      $description = $driver = $ipaddress = $ipmask = $ipgateway = $macaddr = $pcislot = $status =  $type = $virtualdev = undef;
 
     } else { # In a section
 
