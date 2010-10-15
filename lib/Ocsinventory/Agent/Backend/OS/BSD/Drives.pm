@@ -17,11 +17,11 @@ sub run {
 # OpenBSD has no -m option so use -k to obtain results in kilobytes
     for(`df -P -t $t -k`){
       if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
-          $type = $1;
+          $volumn = $1;
           $filesystem = $t;
           $total = sprintf("%i",$2/1024);
           $free = sprintf("%i",$4/1024);
-          $volumn = $6;
+          $type = $6;
   
         $common->addDrive({
             FREE => $free,
@@ -29,7 +29,7 @@ sub run {
             TOTAL => $total,
             TYPE => $type,
             VOLUMN => $volumn
-          })
+          });
       }
     }
   }
