@@ -493,6 +493,7 @@ sub print_edid {
 sub _getManifacturerFromCode {
   my $code = shift;
   my $h = {
+    "ACR" => "Acer America Corp.",
     "ACT" => "Targa",
     "ADI" => "ADI Corporation http://www.adi.com.tw",
     "AOC" => "AOC International (USA) Ltd.",
@@ -509,6 +510,7 @@ sub _getManifacturerFromCode {
     "DWE" => "Daewoo Telecom Ltd",
     "ECS" => "ELITEGROUP Computer Systems",
     "EIZ" => "EIZO",
+    "EPI" => "Envision Peripherals, Inc.",
     "FCM" => "Funai Electric Company of Taiwan",
     "FUS" => "Fujitsu Siemens",
     "GSM" => "LG Electronics Inc. (GoldStar Technology, Inc.)",
