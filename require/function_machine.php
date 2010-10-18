@@ -66,8 +66,8 @@ function print_item_header($text)
 
 function bandeau($data,$lbl){
 	$nb_col=2;
-	echo "<table width='100%' border='0' bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9' align=center ><tr><td >
-			<table align=center border='0' width='95%'><tr>";
+	echo "<table ALIGN = 'Center' class='mlt_bordure' ><tr><td align =center>";
+	echo "		<table align=center border='0' width='95%'  ><tr>";
 	$i=0;
 	foreach ($data as $name=>$value){
 		if (trim($value) != ''){

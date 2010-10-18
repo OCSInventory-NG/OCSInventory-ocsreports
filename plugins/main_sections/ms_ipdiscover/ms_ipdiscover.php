@@ -81,6 +81,7 @@ if (!isset($_SESSION['OCS']["mac"]))
 							'RSX'=>'ID',
 							'INVENTORIE'=>'INVENTORIE',
 							'NON_INVENTORIE'=>'NON_INVENTORIE',
+						//	'SNMP'=>'SNMP',
 							'IPDISCOVER'=>'IPDISCOVER',
 							'IDENTIFIE'=>'IDENTIFIE');
 	if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
@@ -108,11 +109,17 @@ if (!isset($_SESSION['OCS']["mac"]))
 	$tab_options['LIEN_TYPE']['IDENTIFIE']='POPUP';
 	$tab_options['POPUP_SIZE']['IDENTIFIE']="width=900,height=600";
 	
+	/*$tab_options['LIEN_LBL']['SNMP']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&prov=snmp&value=';
+	$tab_options['LIEN_CHAMP']['SNMP']='ID';
+	$tab_options['LIEN_TYPE']['IDENTIFIE']='POPUP';
+	$tab_options['POPUP_SIZE']['IDENTIFIE']="width=900,height=600";
+	$tab_options['NO_LIEN_CHAMP']['SNMP']=array(0);*/
+	
 	$tab_options['REPLACE_WITH_CONDITION']['INVENTORIE']['&nbsp']='0';
 	$tab_options['REPLACE_WITH_CONDITION']['IPDISCOVER']['&nbsp']='0';
 	$tab_options['REPLACE_WITH_CONDITION']['NON_INVENTORIE']['&nbsp']='0';
 	$tab_options['REPLACE_WITH_CONDITION']['IDENTIFIE']['&nbsp']='0';
-	
+	//$tab_options['REPLACE_WITH_CONDITION']['SNMP']['&nbsp']='0';
 	
 	$tab_options['REPLACE_WITH_CONDITION']['PERCENT_BAR']['&nbsp']=array('IDENTIFIE'=>'0','NON_INVENTORIE'=>'100');
 	
