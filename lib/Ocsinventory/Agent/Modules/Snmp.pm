@@ -14,7 +14,6 @@ use strict;
 no strict 'refs';
 use warnings;
 
-use Data::Dumper;
 use XML::Simple;
 use Digest::MD5;
 
@@ -228,7 +227,6 @@ sub snmp_end_handler {
             $system_oid=$1;
         }
         # We run the special treatments for the OID vendor 
-        $self->{snmp_oid_run}($self,$system_oid);
         if ( $self->{snmp_oid_run}($self,$system_oid) == 1 ) {
           # We have no vendor oid for this equipment
           # we use default.pm
@@ -331,8 +329,10 @@ sub snmp_oid_run {
          # This OID exist, we can execute it
          $logger->debug("Launching $system_oid\n" );
          &{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
-         # We indicate that this equipment is the last scanned
+      } else {
+         return 1;
       }
+      # We indicate that this equipment is the last scanned for this module
       $self->{func_oid}{$system_oid}{last_exec}=$self->{number_scan};
 
    } else {
