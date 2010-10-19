@@ -54,7 +54,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	
 	//BEGIN SHOW ACCOUNTINFO
 	require_once('require/function_admininfo.php');
-	$info_tag=find_info_accountinfo();
+	$info_tag=find_info_accountinfo('','COMPUTERS');
 	foreach ($info_tag as $key=>$value){
 		$info_value_tag= accountinfo_tab($value['id']);		
 		if (is_array($info_value_tag)){
