@@ -19,6 +19,20 @@ sub snmp_run {
 
    # OID
    my $snmp_entPhysicalClass="1.3.6.1.2.1.47.1.1.1.1.5";
+   my $translation_entPhysicalClass={
+	#1 => "other",
+	#2 => "unknown",
+	3 => "chassis",
+	#4 => "backplane",
+	#5 => "container",
+	6 => "powerSupply",
+	7 => "fan",
+	#8 => "sensor",
+	9 => "module",
+	#10 => "port",
+	#11 => "stack",
+	#12 => "cpu",
+	};
 
    my $result_snmp;
    my $result;
@@ -33,21 +47,21 @@ sub snmp_run {
          my $info = {};
          if ( $PhysicalClass =~ /^[3,6,7,9,11]$/ ) {
              info_element($info,$session,$ref,$logger);
-         #print "Phys $PhysicalClass\n";
-         #print Dumper ($info);
+             $info->{TYPE}=$translation_entPhysicalClass->{$PhysicalClass};
          }
          if ( $PhysicalClass == 3 ) {
              # We have a switch
+             
              $common->addSnmpSwitch( $info ); 
-             # Infos for a switch: DESCRIPTION, REF, HARDWARE_REV, FIRMWARE, SERIAL, MANUFACTURER, TYPE
+             # Infos for a switch: DESCRIPTION, REFERENCE, REVISION, FIRMWARE, SERIAL, MANUFACTURER, TYPE
          } elsif ( $PhysicalClass == 6 ) {
-             # Infos for an alimentation DESCRIPTION, REF, HARDWARE_REV, SERIAL, MANUFACTURER, TYPE
+             # Infos for an alimentation DESCRIPTION, REFERENCE, REVISION, SERIAL, MANUFACTURER, TYPE
              $common->addSnmpPowerSupply( $info );
          } elsif ( $PhysicalClass == 7 ) {
-             # Infos for a Fan: DESCRIPTION, REF, HARDWARE_REV, SERIAL, MANUFACTURER, TYPE
+             # Infos for a Fan: DESCRIPTION, REFERENCE, REVISION, SERIAL, MANUFACTURER, TYPE
              $common->addsnmpFan( $info );
          } elsif ( $PhysicalClass == 9 && defined ($info->{SERIAL}) ) {
-             # Infor for a card: DESCRIPTION, REF,  HARDWARE_REV, FIRMWARE, SOFTWARE, SERIAL, MANUFACTURER, TYPE
+             # Infor for a card: DESCRIPTION, REFERENCE,  REVISION, FIRMWARE, SOFTWARE, SERIAL, MANUFACTURER, TYPE
              $common->addSnmpCard( $info );
          }
       }
@@ -66,7 +80,7 @@ sub info_element()
    my $snmp_software="1.3.6.1.2.1.47.1.1.1.1.10.";
    my $snmp_serial="1.3.6.1.2.1.47.1.1.1.1.11.";
    my $snmp_entPhysicalMfgName="1.3.6.1.2.1.47.1.1.1.1.12.";
-   my $snmp_entPhysicalModelName="1.3.6.1.2.1.47.1.1.1.1.13.";
+   #my $snmp_entPhysicalModelName="1.3.6.1.2.1.47.1.1.1.1.13.";
 
    my $result;
    # We have a good element
@@ -76,11 +90,11 @@ sub info_element()
    }
    $result=$session->get_request(-varbindlist => [$snmp_ref.$ref]);
    if ( defined( $result ) ) {
-      $info->{REF} = $result->{$snmp_ref.$ref};
+      $info->{REFERENCE} = $result->{$snmp_ref.$ref};
    }
    $result=$session->get_request(-varbindlist => [$snmp_hardware.$ref]);
    if ( defined( $result ) ) {
-      $info->{HARDWARE_REV} = $result->{$snmp_hardware.$ref};
+      $info->{REVISION} = $result->{$snmp_hardware.$ref};
    }
    $result=$session->get_request(-varbindlist => [$snmp_serial.$ref]);
    if ( defined( $result ) ) {
@@ -98,9 +112,9 @@ sub info_element()
    if ( defined( $result ) ) {
       $info->{MANUFACTURER} = $result->{$snmp_entPhysicalMfgName.$ref};
    }
-   $result=$session->get_request(-varbindlist => [$snmp_entPhysicalModelName.$ref]);
-   if ( defined( $result ) ) {
-      $info->{TYPE} = $result->{$snmp_entPhysicalModelName.$ref};
-   }
+   #$result=$session->get_request(-varbindlist => [$snmp_entPhysicalModelName.$ref]);
+   #if ( defined( $result ) ) {
+      #$info->{TYPE} = $result->{$snmp_entPhysicalModelName.$ref};
+   #}
 }
 1;

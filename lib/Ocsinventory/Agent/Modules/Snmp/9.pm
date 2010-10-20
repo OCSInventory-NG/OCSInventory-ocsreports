@@ -145,6 +145,9 @@ sub snmp_run {
                $TYPE=$session->get_request(-varbindlist => [$snmp_iftype.$ref]);
 	       if ( defined( $TYPE->{$snmp_iftype.$ref} ) ) {
                    $TYPE= $TYPE->{$snmp_iftype.$ref};
+                   if ( $TYPE == 6 ) {
+		      $TYPE="ethernetCsmacd";
+                   }
                }
 
                $SPEED=$session->get_request(-varbindlist => [$snmp_ifspeed.$ref]);

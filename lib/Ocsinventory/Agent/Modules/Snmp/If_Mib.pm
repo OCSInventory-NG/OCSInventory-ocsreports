@@ -26,7 +26,7 @@ sub snmp_run {
 
    my $SPEED=""; 
    my $MACADDR="";
-   my $PCISLOT=""; 
+   my $SLOT=""; 
    my $STATUS=""; 
    my $TYPE="";
 
@@ -40,7 +40,7 @@ sub snmp_run {
       if ( $result_snmp->{$result} =~ /[eE]th/ ) {
          if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.2\.(\S+)/ ) {
             $ref=$1;
-            $PCISLOT=$result_snmp->{$result};
+            $SLOT=$result_snmp->{$result};
 
             $TYPE=$session->get_request(-varbindlist => [$snmp_iftype.$ref]);
             if ( defined( $TYPE->{$snmp_iftype.$ref} ) ) {
@@ -68,16 +68,16 @@ sub snmp_run {
             }
 
 
-      #print "  mac $MACADDR pci $PCISLOT status $STATUS type $TYPE virtual $VIRTUALDEV speed $SPEED\n";
-           $common->addNetwork( {
+      #print "  mac $MACADDR pci $SLOT status $STATUS type $TYPE virtual $VIRTUALDEV speed $SPEED\n";
+           $common->addSnmpNetwork( {
                 TYPE => $TYPE,
-                PCISLOT => $PCISLOT,
+                SLOT => $PCISLOT,
                 SPEED => $SPEED,
                 MACADDR => $MACADDR,
                 STATUS => $STATUS,
                 });
            $MACADDR="";
-           $PCISLOT="";
+           $SLOT="";
            $STATUS="";
            $TYPE="";
            $SPEED="";
