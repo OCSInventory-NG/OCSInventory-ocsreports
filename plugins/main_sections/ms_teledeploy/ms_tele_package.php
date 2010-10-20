@@ -242,7 +242,7 @@ if (!$protectedPost){
 	}
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root))
-		$document_root = $_SERVER["DOCUMENT_ROOT"];
+		$document_root = DOCUMENT_ROOT;
 	$rep_exist=file_exists($document_root."/download/"); 
 	//cr�ation du r�pertoire si n'existe pas
 	if (!$rep_exist){
