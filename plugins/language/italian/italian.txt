@@ -1086,7 +1086,7 @@
 1201 Mostra
 1202 Linux (tutti)
 1203 Windows (tutti)
-1204 IpDiscover/SNMP
+1204 IpDiscover
 1205 Gestione delle comunità SNMP
 1206 Directory dei file delle comunità SNMP
 1207 Aggiungi comunità

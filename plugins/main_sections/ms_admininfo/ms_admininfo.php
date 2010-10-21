@@ -7,7 +7,7 @@
 require_once('require/function_admininfo.php');
 		
 $accountinfo_choise['COMPUTERS']=$l->g(729);
-$accountinfo_choise['SNMP']=$l->g(1214);
+$accountinfo_choise['SNMP']=$l->g(1136);
 if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_info';

@@ -47,7 +47,7 @@ ms_teledeploy_workflow:g(1031)
 ms_config:g(107)
 ms_blacklist:g(703)
 ms_admin_ipdiscover:g(1139)
-ms_snmp:g(1214)
+ms_snmp:g(1136)
 </LBL>
 
 <URL>
