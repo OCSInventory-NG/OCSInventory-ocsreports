@@ -14,10 +14,10 @@ if (!isset($_SESSION['OCS']["ipdiscover"])){
 		require_once('methode/'.$list_methode[$i]);
 		//on garde les erreurs pr�sentes
 		//entre chaque m�thode
-		if (isset($INFO)){
+		/*if (isset($INFO)){
 			$tab_info[$list_methode[$i]]=$INFO;
 			unset($INFO);
-		}
+		}*/
 		//on garde les droits de l'utilisateur sur l'ipdiscover
 		if (isset($list_ip)){
 			$tab_ip[$list_methode[$i]]=$list_ip;
@@ -32,7 +32,7 @@ if (isset($tab_ip)){
 	foreach ($list_methode as $prio=>$script){
 		if (isset($tab_ip[$script])){
 			foreach ($tab_ip[$script] as $ip=>$lbl){
-			$list_ip[$ip]=$lbl;			
+					$list_ip[$ip]=$lbl;			
 			}
 		}
 	}	
@@ -42,7 +42,6 @@ if (isset($tab_ip)){
 		$_SESSION['OCS']["ipdiscover_id"]=$id_subnet;
 	}
 }
-
 if (isset($tab_info) and !isset($_SESSION['OCS']["ipdiscover"])){
 	$_SESSION['OCS']["ipdiscover"]=$tab_info;	
 	$_SESSION['OCS']["ipdiscover_methode"]=$base;

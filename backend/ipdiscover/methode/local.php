@@ -70,7 +70,7 @@ applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinv
 
 }
 $id_subnet="ID";
-if (!isset($list_ip))
-$INFO="NO_IPDICOVER";
+/*if (!isset($list_ip))
+$INFO="NO_IPDICOVER";*/
 
 ?>
