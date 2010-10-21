@@ -74,7 +74,7 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 	if (isset($protectedPost['CHOISE']) and $protectedPost['CHOISE'] != ""){
 		if ($protectedPost['onglet']=="TAG" or !isset($protectedPost['onglet'])){	
 			require_once('require/function_admininfo.php');
-			$field_of_accountinfo=witch_field_more();
+			$field_of_accountinfo=witch_field_more('COMPUTERS');
 			$tab_typ_champ=array();
 			$i=0;
 			foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){

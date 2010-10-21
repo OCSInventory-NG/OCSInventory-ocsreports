@@ -1307,7 +1307,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$temp_val=explode('&&&',$value_of_field);
 					$multi_value=0;
 					$temp_value_of_field="";					
-					while ($temp_val[$multi_value]){
+					while (isset($temp_val[$multi_value])){
 						$temp_value_of_field.=$tab_options['REPLACE_VALUE'][$key][$temp_val[$multi_value]]."<br>";	
 						$multi_value++;
 					}

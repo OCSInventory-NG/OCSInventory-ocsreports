@@ -48,27 +48,37 @@ function max_order($table,$field){
  * 
  */
 					
-function add_accountinfo($newfield,$newtype,$newlbl,$tab){	
+function add_accountinfo($newfield,$newtype,$newlbl,$tab,$type='COMPUTERS'){	
 	global $l,$sql_type_accountinfo;
-	
+	if ($type == 'COMPUTERS')
+		$table="accountinfo";
+	elseif ($type == 'SNMP')
+		$table="snmp_accountinfo";
+	else{
+		//msg_error($type);
+		return array('ERROR'=>$type);
+	}
+		
 	$ERROR=dde_exist($newfield);
 	$id_order=max_order('accountinfo_config','SHOW_ORDER');	
 		
 	if ($ERROR == ''){				
-		$sql_insert_config="INSERT INTO accountinfo_config (TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER) values(%s,'%s',%s,'%s',%s)";
+		$sql_insert_config="INSERT INTO accountinfo_config (TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER,ACCOUNT_TYPE) values(%s,'%s',%s,'%s',%s,'%s')";
 		$arg_insert_config=array($newtype,
 								 $newfield,
 								 $tab,
-								 $newlbl,$id_order);
+								 $newlbl,$id_order,$type);
 		mysql2_query_secure($sql_insert_config,$_SESSION['OCS']["writeServer"],$arg_insert_config);					
 		
-		$sql_add_column="ALTER TABLE accountinfo ADD COLUMN fields_%s %s default NULL";
+		$sql_add_column="ALTER TABLE ".$table." ADD COLUMN fields_%s %s default NULL";
 		$arg_add_column=array(mysql_insert_id(),$sql_type_accountinfo[$newtype]);
 		mysql2_query_secure($sql_add_column,$_SESSION['OCS']["writeServer"],$arg_add_column);			
 		unset($newfield,$newlbl,$_SESSION['OCS']['TAG_LBL']);
-		msg_success($l->g(1069));			
+		//msg_success($l->g(1069));
+		return array('SUCCESS'=>$l->g(1069));
 	}else
-		msg_error($ERROR);
+		return array('ERROR'=>$ERROR);
+		//msg_error($ERROR);
 	
 	
 	
@@ -82,12 +92,25 @@ function add_accountinfo($newfield,$newtype,$newlbl,$tab){
 function del_accountinfo($id){
 	global $l;
 
+	//SNMP or COMPUTERS?
+	$sql_found_account_type="SELECT account_type FROM accountinfo_config WHERE id = '%s'";
+	$arg_found_account_type=$id;
+	$result= mysql2_query_secure($sql_found_account_type,$_SESSION['OCS']["readServer"],$arg_found_account_type);		
+	$val = mysql_fetch_array( $result );
+	if ($val['account_type'] == "SNMP")
+		$table="snmp_accountinfo";
+	elseif ($val['account_type'] == "COMPUTERS")
+		$table="accountinfo";
+	else
+		return FALSE;
+
 	//DELETE INTO CONFIG TABLE
 	$sql_delete_config="DELETE FROM accountinfo_config WHERE ID = '%s'";
 	$arg_delete_config=$id;
-		mysql2_query_secure($sql_delete_config,$_SESSION['OCS']["writeServer"],$arg_delete_config);					
+	mysql2_query_secure($sql_delete_config,$_SESSION['OCS']["writeServer"],$arg_delete_config);					
+	
 	//ALTER TABLE ACCOUNTINFO
-	$sql_DEL_column="ALTER TABLE accountinfo DROP COLUMN fields_%s";
+	$sql_DEL_column="ALTER TABLE ".$table." DROP COLUMN fields_%s";
 	$arg_DEL_column=$id;
 	mysql2_query_secure($sql_DEL_column,$_SESSION['OCS']["writeServer"],$arg_DEL_column);
 	unset($_SESSION['OCS']['TAG_LBL']);	
@@ -101,7 +124,7 @@ function del_accountinfo($id){
  */
 
 
-function find_all_account_tab($onlyactiv='',$first=''){
+function find_all_account_tab($tab_value,$onlyactiv='',$first=''){
     
 	$sql_tab_account="select IVALUE,TVALUE from config ";
 	
@@ -112,10 +135,10 @@ function find_all_account_tab($onlyactiv='',$first=''){
 	$sql_tab_account .= " where config.name like '%s'";
 	
 	if ($onlyactiv != ''){
-		$sql_tab_account .= "and accountinfo_config.id_tab=config.ivalue";
+		$sql_tab_account .= " and accountinfo_config.id_tab=config.ivalue and accountinfo_config.account_type='".$onlyactiv."'";
 	}
 	
-	$arg_tab_account='TAB_ACCOUNTAG%';
+	$arg_tab_account=$tab_value.'%';
 	
 	$result_tab_account=mysql2_query_secure($sql_tab_account,$_SESSION['OCS']["readServer"],$arg_tab_account);					
 	while ($val_tab_account = mysql_fetch_array( $result_tab_account )){
@@ -151,17 +174,25 @@ function find_value_field($name){
  * 
  */
 
-function find_info_accountinfo($id = ''){
-	$list_field=array('id','type','name','id_tab','comment','show_order');
+function find_info_accountinfo($id = '',$type=''){
+	$list_field=array('id','type','name','id_tab','comment','show_order','account_type');
+	if ($type != ''){
+		$where=" where account_type='".$type."' ";
+		$and=" and account_type='".$type."' ";
+	}else{
+		$where="";
+		$and="";		
+	}
+	
 	if (is_array($id)){
-		$sql_info_account="select " . implode(',',$list_field) . " from accountinfo_config where id in (%s) order by show_order DESC";
+		$sql_info_account="select " . implode(',',$list_field) . " from accountinfo_config where id in (%s) ".$and." order by show_order DESC";
 		$arg_info_account=array(implode(',',$id));		
 		
 	}elseif ($id != ''){
-		$sql_info_account="select " . implode(',',$list_field) . " from accountinfo_config where id=%s order by show_order DESC";
+		$sql_info_account="select " . implode(',',$list_field) . " from accountinfo_config where id=%s  ".$and." order by show_order DESC";
 		$arg_info_account=array($id);		
 	}else{
-		$sql_info_account="select " . implode(',',$list_field) . " from accountinfo_config order by show_order DESC";
+		$sql_info_account="select " . implode(',',$list_field) . " from accountinfo_config ".$where." order by show_order DESC";
 		$arg_info_account=array();				
 	}
 	
@@ -173,9 +204,11 @@ function find_info_accountinfo($id = ''){
 	
 }
 
-function witch_field_more(){
+function witch_field_more($account_type = ''){
 	$list_field=array('ID','TYPE','NAME','COMMENT');
-	$sql_accountinfo="select " . implode(',',$list_field) . " from accountinfo_config";
+	$sql_accountinfo="select " . implode(',',$list_field) . " from accountinfo_config ";
+	if ($account_type != '')
+		$sql_accountinfo.= " where account_type = '".$account_type."' ";
 	$result_accountinfo = mysql2_query_secure($sql_accountinfo,$_SESSION['OCS']["readServer"]);
 	
 	while($item = mysql_fetch_object($result_accountinfo)){
@@ -282,10 +315,10 @@ function update_accountinfo($id,$array_new_values){
 		//update column type in accountinfo table
 		$sql_update_column="ALTER TABLE accountinfo change fields_%s fields_%s %s";
 		$arg_update_column=array($id,$id,$new_type_field);
-		mysql2_query_secure($sql_update_column,$_SESSION['OCS']["writeServer"],$arg_update_column); 		
-		msg_success($l->g(1069));							
+		mysql2_query_secure($sql_update_column,$_SESSION['OCS']["writeServer"],$arg_update_column); 
+		return array('SUCCESS'=>$l->g(711));							
 	}else{
-		msg_error($error);
+		return array('ERROR'=>$error);
 	}
 }
 

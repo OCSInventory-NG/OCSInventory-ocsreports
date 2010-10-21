@@ -1085,7 +1085,7 @@
 1201 Ecran
 1202 Linux (TOUS)
 1203 Windows (TOUS)
-1204 IpDiscover/SNMP
+1204 IpDiscover
 1205 Administrer les communautés SNMP
 1206 Répertoire du fichier des communautés SNMP
 1207 Ajouter une communauté
@@ -1095,6 +1095,7 @@
 1211 URL du fichier des communautés SNMP
 1212 Communauté supprimée
 1213 Séparateur des fichiers d'export
+1214 Snmp
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

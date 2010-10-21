@@ -791,7 +791,7 @@ INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0A', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0A-1', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1024,5 +1024,14 @@ CREATE TABLE blacklist_subnet(
 	INDEX ID(ID)
 ) ENGINE = MYISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
+ALTER TABLE accountinfo_config ADD COLUMN ACCOUNT_TYPE VARCHAR(255) default NULL;
+UPDATE accountinfo_config SET ACCOUNT_TYPE='COMPUTERS' where ACCOUNT_TYPE IS NULL;
+
+CREATE TABLE snmp_accountinfo (
+  SNMP_ID INTEGER NOT NULL,
+  TAG VARCHAR(255) default 'NA',
+  primary key(SNMP_ID),
+  INDEX TAG (TAG)
+) ENGINE=INNODB ;
 
 

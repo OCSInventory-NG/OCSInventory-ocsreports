@@ -15,7 +15,8 @@ if (is_array($array)){
 	  	else print $val."</td></tr>"; 
 	  	} 
 	  print "</table>"; 
-	}
+	}else
+	print_r($array);
 } 
 
 function p($array){

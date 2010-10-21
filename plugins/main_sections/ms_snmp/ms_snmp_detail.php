@@ -1,0 +1,149 @@
+<?php 
+require('require/function_opt_param.php');
+require('require/function_graphic.php');
+require_once('require/function_files.php');
+require_once('require/function_snmp.php');
+$form_name='SNMP_DETAILS';
+//recherche des infos de la machine
+$item=info_snmp($protectedGet['id']);
+if (!is_object($item)){
+	msg_error($item);
+	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	die();
+}
+
+$systemid=$item -> ID;
+// SNMP SUMMARY
+$lbl_affich=array('NAME'=>$l->g(49),'UPTIME'=>$l->g(352),'MACADDR'=>$l->g(95),'IPADDR'=>$l->g(34),
+					'CONTACT'=>'CONTACT','LOCATION'=>$l->g(295),'DOMAIN'=>$l->g(33),'TYPE'=>$l->g(66),
+					'SNMPDEVICEID'=>'SNMPDEVICEID'
+					);					
+foreach ($lbl_affich as $key=>$lbl){
+	if ($item->$key != '')
+		$data[$key]=$item->$key;
+}
+
+$bandeau=bandeau($data,$lbl_affich);
+
+//get plugins when exist
+$Directory=$_SESSION['OCS']['plugins_dir']."snmp_detail/";
+$ms_cfg_file= $Directory."config.txt";
+
+if (file_exists($ms_cfg_file)) {
+	$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI','ISAVAIL'=>'MULTI');
+	$plugins_data=read_configuration($ms_cfg_file,$search);
+	$list_plugins=$plugins_data['ORDER'];
+	$list_lbl=$plugins_data['LBL'];
+	$list_avail=$plugins_data['ISAVAIL'];
+}
+
+foreach ($list_avail as $key=>$value){
+	$sql="select count(*) c from %s where SNMP_ID=%s";
+	$arg=array($value,$systemid);
+	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+	$valavail = mysql_fetch_array($result);
+	if ($valavail['c'] == 0)
+		unset($list_lbl[$key]);	
+}
+
+//par d�faut, on affiche les donn�es admininfo
+/*if (!isset($protectedGet['option'])){
+	$protectedGet['option']="cd_admininfo";
+}*/
+echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
+onglet($list_lbl,$form_name,"onglet",10);
+
+echo '<div class="mlt_bordure" >';
+if (isset($list_lbl[$protectedPost['onglet']])){
+	if (file_exists($Directory."/".$protectedPost['onglet']."/".$protectedPost['onglet'].".php"))
+		include ($Directory."/".$protectedPost['onglet']."/".$protectedPost['onglet'].".php");
+}
+echo "</div>";
+echo "</form>";
+/*$i=0;
+echo "<br><br><table width='90%' border=0 align='center'><tr align=center>";
+$nb_col=array(10,13,13);
+$j=0;
+$index_tab=0;
+//intitialisation du tableau de plugins
+$show_all=array();
+while ($list_plugins[$i]){
+	unset($valavail);
+	//v�rification de l'existance des donn�es
+	if (isset($list_avail[$list_plugins[$i]])){
+		$sql_avail="select count(*) from ".$list_avail[$list_plugins[$i]]." where SNMP_ID=".$systemid;
+		$resavail = mysql_query( $sql_avail, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$valavail = mysql_fetch_array($resavail);
+	}
+	if ($j == $nb_col[$index_tab]){
+		echo "</tr></table><table width='90%' border=0 align='center'><tr align=center>";
+		$index_tab++;
+		$j=0;
+	}
+	//echo substr(substr($list_lbl[$list_plugins[$i]],2),0,-1);
+	echo "<td align=center>";
+	if (!isset($valavail[0]) or $valavail[0] != 0){
+		//liste de toutes les infos de la machine
+		$show_all[]=$list_plugins[$i];
+		$href = "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i]."'>";
+		$fhref = "</a>";
+	}else{
+		$href = "";
+		$fhref = "";
+	}
+	echo $href."<img title=\"";
+	if (substr($list_lbl[$list_plugins[$i]],0,2) == 'g(')
+	echo $l->g(substr(substr($list_lbl[$list_plugins[$i]],2),0,-1));
+	else
+	echo $list_lbl[$i];
+	echo "\" src='plugins/computer_detail/img/";
+	$list_plugins[$i];
+	if (isset($valavail[0]) and $valavail[0] == 0){
+		if (file_exists($Directory."/img/".$list_plugins[$i]."_d.png"))
+			echo $list_plugins[$i]."_d.png";
+		else
+			echo "cd_default_d.png";
+	}
+	elseif ($protectedGet['option'] == $list_plugins[$i]){
+		if (file_exists($Directory."/img/".$list_plugins[$i]."_a.png"))
+			echo $list_plugins[$i]."_a.png";
+		else
+			echo "cd_default_a.png";		
+	}
+	else{
+		if (file_exists($Directory."/img/".$list_plugins[$i].".png"))
+			echo $list_plugins[$i].".png";
+		else
+			echo "cd_default.png";
+		
+	}
+	echo "'/>".$fhref."</td>";
+	$j++;
+ 	$i++;	
+}
+echo "</tr></table><br><br>";*/
+/*if ($protectedGet['tout'] == 1){
+	$list_plugins_4_all=0;
+	while (isset($show_all[$list_plugins_4_all])){
+		include ($Directory."/".$show_all[$list_plugins_4_all]."/".$show_all[$list_plugins_4_all].".php");	
+		$list_plugins_4_all++;
+	}
+	
+}else{
+	if (file_exists($Directory."/".$protectedGet['option']."/".$protectedGet['option'].".php"))
+		include ($Directory."/".$protectedGet['option']."/".$protectedGet['option'].".php");
+}
+*/
+/*echo "<br><table align='center'> <tr><td width =50%>";
+echo "<a style=\"text-decoration:underline\" onClick=print()><img src='image/print.png' title='".$l->g(214)."'></a></td>";
+
+
+//if(!isset($protectedGet["tout"]))
+		echo"<td width=50%>
+			<a style=\"text-decoration:underline\" href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode(stripslashes($systemid))."&tout=1\'>
+			<img width='60px' src='image/aff_all.png' title='".$l->g(215)."'></a></td>";
+		
+echo "</tr></table>";*/
+
+
+?>

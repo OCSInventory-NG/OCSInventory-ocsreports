@@ -779,7 +779,7 @@ function pagegroups($form_name){
 		
 	}else{
 		require_once('require/function_admininfo.php');
-		$info_account=witch_field_more();
+		$info_account=witch_field_more('COMPUTERS');
 		$list_tag=$info_account['LIST_FIELDS'];
 		ligne('IT_SET_TAG_NAME',$l->g(1086),'select',array('VALUE'=>$values['tvalue']['IT_SET_TAG_NAME'],'SELECT_VALUE'=>$list_tag));		
 		ligne('IT_SET_NAME_TEST',$l->g(1087),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SIZE'=>50,'MAXLENGHT'=>50));

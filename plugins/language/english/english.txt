@@ -1086,7 +1086,7 @@
 1201 Display
 1202 Linux (ALL)
 1203 Windows (ALL)
-1204 IpDiscover/SNMP
+1204 IpDiscover
 1205 Manage SNMP communities
 1206 Directory of SNMP communities file
 1207 Add community
@@ -1096,6 +1096,7 @@
 1211 URL where SNMP community file is
 1212 Community deleted
 1213 Separator of export file
+1214 Snmp
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

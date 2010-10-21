@@ -74,7 +74,7 @@ if (isset($protectedPost['GET'])){
 }
 //recherche des diff�rents champs de accountinfo
 require_once('require/function_admininfo.php');
-$field_of_accountinfo=witch_field_more();
+$field_of_accountinfo=witch_field_more('COMPUTERS');
 $optSelectField_account=array();
 $opt2Select_account=array();
 foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
