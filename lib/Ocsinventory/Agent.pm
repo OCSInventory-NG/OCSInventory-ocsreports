@@ -271,7 +271,7 @@ sub run {
         }
 
 
-	     # Create an hook object to use handlers of modules. 
+        # Create an hook object to use handlers of modules. 
         my $hooks = new Ocsinventory::Agent::Hooks($context);
 
 
@@ -295,6 +295,12 @@ sub run {
                     context => $context,
             });
 
+            #Launching inventory
+            $inventory->initialise();
+
+            #Using inventory_writer hook 
+            $hooks->run({name => 'inventory_handler'}, $inventory);
+
             if ($config->{config}{stdout}) {
                 $inventory->printXML();
             } elsif ($config->{config}{local}) {
@@ -303,49 +309,48 @@ sub run {
 
 
         } 
-	
-	     else { 
+        else { 
 
-	         ############ I've to contact the server ########################"
+            ############ I've to contact the server ########################"
             my $network = new Ocsinventory::Agent::Network ({
                     accountconfig => $accountconfig,
                     accountinfo => $accountinfo,
                     logger => $logger,
                     config => $config->{config},
-             });
+            });
 
-             #Adding the network object in $context
-             $context->{network}= $network;
+            #Adding the network object in $context
+            $context->{network}= $network;
 
-             my $sendInventory = 1;
-             my $httpresp;
-             my $prologresp;
+            my $sendInventory = 1;
+            my $httpresp;
+            my $prologresp;
 
-             if (!$config->{config}{force}) {
-                 my $prolog = new Ocsinventory::Agent::XML::Prolog({
-                        accountinfo => $accountinfo,
-                        logger => $logger,
-                        config => $config->{config},
-                 });
+            if (!$config->{config}{force}) {
+                my $prolog = new Ocsinventory::Agent::XML::Prolog({
+                       accountinfo => $accountinfo,
+                       logger => $logger,
+                       config => $config->{config},
+                });
 
-                 #Using prolog_writer hook
-                 $hooks->run({name => 'prolog_writer'}, $prolog);
+                #Using prolog_writer hook
+                $hooks->run({name => 'prolog_writer'}, $prolog);
 
-					  #Formatting the XML 
-                 my $prologXML = $prolog->getContent(); 
+                #Formatting the XML 
+                my $prologXML = $prolog->getContent(); 
 
-                 $httpresp = $network->sendXML({message => $prologXML});
-                 $prologresp = $network->getXMLResp($httpresp,'Prolog');
+                $httpresp = $network->sendXML({message => $prologXML});
+                $prologresp = $network->getXMLResp($httpresp,'Prolog');
 
-                 #Using prolog_reader hook
-                 $hooks->run({name => 'prolog_reader'}, $prologresp->getRawXML());
+                #Using prolog_reader hook
+                $hooks->run({name => 'prolog_reader'}, $prologresp->getRawXML());
 
 
-                 if (!$prologresp) { # Failed to reach the server
-                     if ($config->{config}{lazy}) {
-                         # To avoid flooding a heavy loaded server
-                         my $previousPrologFreq;
-                         if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
+                if (!$prologresp) { # Failed to reach the server
+                    if ($config->{config}{lazy}) {
+                        # To avoid flooding a heavy loaded server
+                        my $previousPrologFreq;
+                        if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
                              $previousPrologFreq = $config->{config}{delaytime};
                              $logger->info("No previous PROLOG_FREQ found - using fallback delay(".$config->{config}{delaytime}." seconds)");
                          }
@@ -379,12 +384,13 @@ sub run {
                         context => $context,
                  });
 
-                 $backend->feedInventory ({inventory => $inventory});
+                 #Launching inventory
+                 $inventory->initialise();
 
                  #Using inventory_writer hook 
                  $hooks->run({name => 'inventory_handler'}, $inventory);
 
-					  #Formatting the XML 
+                 #Formatting the XML 
                  my $inventoryXML = $inventory->getContent(); 
 
                  #Sending Inventory

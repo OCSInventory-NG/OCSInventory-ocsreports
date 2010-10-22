@@ -69,6 +69,7 @@ sub initialise {
   return if $self->{isInitialised};
 
   $self->{backend}->feedInventory ({inventory => $self});
+  $self->{isInitialised} = 1;
 
 }
 
@@ -84,59 +85,59 @@ sub getContent {
   my $logger = $self->{logger};
   my $common = $self->{common};
 
-  $self->initialise();
+  if ($self->{isInitialised}) {
+    $self->processChecksum();
 
-  $self->processChecksum();
+    #  checks for MAC, NAME and SSN presence
+    my $macaddr = $self->{xmlroot}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
+    my $ssn = $self->{xmlroot}->{CONTENT}->{BIOS}->{SSN}->[0];
+    my $name = $self->{xmlroot}->{CONTENT}->{HARDWARE}->{NAME}->[0];
 
-  #  checks for MAC, NAME and SSN presence
-  my $macaddr = $self->{xmlroot}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
-  my $ssn = $self->{xmlroot}->{CONTENT}->{BIOS}->{SSN}->[0];
-  my $name = $self->{xmlroot}->{CONTENT}->{HARDWARE}->{NAME}->[0];
+    my $missing;
 
-  my $missing;
+    $missing .= "MAC-address " unless $macaddr;
+    $missing .= "SSN " unless $ssn;
+    $missing .= "HOSTNAME " unless $name;
 
-  $missing .= "MAC-address " unless $macaddr;
-  $missing .= "SSN " unless $ssn;
-  $missing .= "HOSTNAME " unless $name;
-
-  if ($missing) {
-    $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
-  }
-
-  $self->{accountinfo}->setAccountInfo($self);
-
-  my $content = XMLout( $self->{xmlroot}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
-
-  my $clean_content;
-
-  # To avoid strange breakage I remove the unprintable caractere in the XML
-  foreach (split "\n", $content) {
-#      s/[[:cntrl:]]//g;
-    if (! m/\A(
-      [\x09\x0A\x0D\x20-\x7E]            # ASCII
-      | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-      |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
-      | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
-      |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
-      |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
-      | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-      |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-      )*\z/x) {
-      s/[[:cntrl:]]//g;
-      $logger->debug("non utf-8 '".$_."'");
+    if ($missing) {
+      $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
     }
 
-      s/\r|\n//g;
+    $self->{accountinfo}->setAccountInfo($self);
 
-      # Is that a good idea. Intent to drop some nasty char
-      # s/[A-z0-9_\-<>\/:\.,#\ \?="'\(\)]//g;
-      $clean_content .= $_."\n";
+    my $content = XMLout( $self->{xmlroot}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
+
+    my $clean_content;
+
+    # To avoid strange breakage I remove the unprintable caractere in the XML
+    foreach (split "\n", $content) {
+#      s/[[:cntrl:]]//g;
+      if (! m/\A(
+        [\x09\x0A\x0D\x20-\x7E]            # ASCII
+        | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+        |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+        |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+        |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+        | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+        |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+        )*\z/x) {
+        s/[[:cntrl:]]//g;
+        $logger->debug("non utf-8 '".$_."'");
+      }
+
+        s/\r|\n//g;
+
+        # Is that a good idea. Intent to drop some nasty char
+        # s/[A-z0-9_\-<>\/:\.,#\ \?="'\(\)]//g;
+        $clean_content .= $_."\n";
+    }
+
+    #Cleaning xmltags content after adding it o inventory
+    $common->flushXMLTags();
+
+    return $clean_content;
   }
-
-  #Cleaning xmltags content after adding it o inventory
-  $common->flushXMLTags();
-
-  return $clean_content;
 }
 
 =item printXML()
@@ -147,8 +148,9 @@ Only for debugging purpose. Print the inventory on STDOUT.
 sub printXML {
   my ($self, $args) = @_;
 
-  $self->initialise();
-  print $self->getContent();
+  if ($self->{isInitialised}) {
+    print $self->getContent();
+  }
 }
 
 =item writeXML()
@@ -166,19 +168,20 @@ sub writeXML {
     $logger->fault ('local path unititalised!');
   }
 
-  $self->initialise();
+  if ($self->{isInitialised}) {
 
-  my $localfile = $self->{config}{local}."/".$self->{config}{deviceid}.'.ocs';
-  $localfile =~ s!(//){1,}!/!;
+    my $localfile = $self->{config}{local}."/".$self->{config}{deviceid}.'.ocs';
+    $localfile =~ s!(//){1,}!/!;
 
-  # Convert perl data structure into xml strings
+    # Convert perl data structure into xml strings
 
-  if (open OUT, ">$localfile") {
-    print OUT $self->getContent();
-    close OUT or warn;
-    $logger->info("Inventory saved in $localfile");
-  } else {
-    warn "Can't open `$localfile': $!"
+    if (open OUT, ">$localfile") {
+      print OUT $self->getContent();
+      close OUT or warn;
+      $logger->info("Inventory saved in $localfile");
+    } else {
+      warn "Can't open `$localfile': $!"
+    }
   }
 }
 
@@ -254,7 +257,6 @@ sub processChecksum {
     }
   }
 
-  $logger->debug("CHECKSUM=$checksum");
   $common->setHardware({CHECKSUM => $checksum});
 }
 
