@@ -50,7 +50,8 @@ if ($list_tab != ''){
 			$action_updown='DOWN';	
 		
 		if (isset($action_updown)){				
-			$new_order=find_new_order($action_updown,$protectedPost[$action_updown]);
+			$new_order=find_new_order($action_updown,$protectedPost[$action_updown],'COMPUTERS',$protectedPost['onglet']);
+			p($new_order);
 			if ($new_order){
 			//	$array_info_account=find_info_accountinfo($new_order['NEW']);
 				update_accountinfo_config($new_order['OLD'],array('SHOW_ORDER'=>$new_order['NEW_VALUE']));

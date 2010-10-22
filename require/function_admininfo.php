@@ -254,48 +254,37 @@ function update_accountinfo_config($id,$array_new_values){
 	
 }
 
-function find_new_order($updown,$id){
+function find_new_order($updown,$id,$type,$onglet){
 	$tab_order=array();
-	$array_info_account=find_info_accountinfo();
-	$j=0;
-	foreach ($array_info_account as $id_account=>$array_value){
-		$order[$id_account]=$array_value['show_order'];		
-		$tab_order[$j]=$id_account;
-		$j++;
+	if (!is_numeric($id) or !is_numeric($onglet))
+	  return false;
+	$sql="select ID,SHOW_ORDER from accountinfo_config where account_type='%s' and id_tab=%s order by show_order";
+	$arg=array($type,$onglet);
+	$result = mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
+	while($item = mysql_fetch_object($result)){
+		$array_id[]=$item->ID;
+		$array_order[]=$item->SHOW_ORDER;
 	}
-	if ($updown == 'UP'){
-		$i=0;
-		while ($tab_order[$i]){
-			if ($id == $tab_order[$i]){
-				$old_order=$tab_order[$i];
-				$old_value=$order[$tab_order[$i]];
-				if (isset($tab_order[$i+1])){
-					$neworder= $tab_order[$i+1];
-					$newvalue= $order[$tab_order[$i+1]];				
-				}
-				else
-				return false;				
-			}				
-			$i++;	
-		}
-		
-	}elseif ($updown == 'DOWN'){
-		$j--;
-		while ($tab_order[$j]){
-			if ($id == $tab_order[$j]){
-				$old_order=$tab_order[$j];
-				$old_value=$order[$tab_order[$j]];
-				if (isset($tab_order[$j-1])){
-					$neworder= $tab_order[$j-1];
-					$newvalue= $order[$tab_order[$j-1]];		
-				}else
-				return false;				
-			}				
-			$j--;	
+	foreach($array_id as $key=>$value){
+		if ($array_id[$key] == $id){
+			if ($updown == 'UP'){
+					$tab_order['NEW']=$array_id[$key-1];
+				$tab_order['NEW_VALUE']=$array_order[$key-1];		
+			}else{		
+				$tab_order['NEW']=$array_id[$key+1];	
+				$tab_order['NEW_VALUE']=$array_order[$key+1];			
+				
+				
+			}
+			$tab_order['OLD']=$value;
+			$tab_order['OLD_VALUE']=$array_order[$key];
+				
 		}
 		
 	}
-	return array('NEW'=>$neworder,'OLD'=>$old_order,'OLD_VALUE'=>$old_value,'NEW_VALUE'=>$newvalue);
+	
+	
+	return $tab_order;
 	
 }
 
