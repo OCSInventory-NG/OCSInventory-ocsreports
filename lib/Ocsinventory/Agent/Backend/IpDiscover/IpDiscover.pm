@@ -48,16 +48,18 @@ sub run {
       }
   }
 
-  my $cmd = "ipdiscover $ifname ";
-  $cmd .= $ipdisc_lat if ($ipdisc_lat && !$legacymode);
+  if ($ifname) {
+    my $cmd = "ipdiscover $ifname ";
+    $cmd .= $ipdisc_lat if ($ipdisc_lat && !$legacymode);
 
-  foreach (`$cmd`) {
-    if (/<H><I>([\d\.]*)<\/I><M>([\w\:]*)<\/M><N>(\S*)<\/N><\/H>/) {
-      $common->addIpDiscoverEntry({
-        IPADDRESS => $1,
-        MACADDR => $2,
-        NAME => $3
-      });
+    foreach (`$cmd`) {
+      if (/<H><I>([\d\.]*)<\/I><M>([\w\:]*)<\/M><N>(\S*)<\/N><\/H>/) {
+        $common->addIpDiscoverEntry({
+          IPADDRESS => $1,
+          MACADDR => $2,
+          NAME => $3
+        });
+      }
     }
   }
 }
