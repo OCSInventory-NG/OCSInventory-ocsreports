@@ -14,6 +14,7 @@ use strict;
 no strict 'refs';
 use warnings;
 
+use Data::Dumper;
 use XML::Simple;
 use Digest::MD5;
 
@@ -29,8 +30,6 @@ sub new {
             config => $context->{config}
    });
    $self->{logger}->{header}="[$name]";
-
-   $self->{common} = $context->{common};
 
    $self->{context}=$context;
 
@@ -71,14 +70,21 @@ sub snmp_start_handler {
    my $self = shift;
    my $logger = $self->{logger};
    my $common = $self->{context}->{common};
+   my $config = $self->{context}->{config};
    
    $logger->debug("Calling snmp_start_handler");
 
-  #If we cannot load prerequisite, we disable the module 
-  unless ($common->can_load('Net::SNMP')) { 
-    $self->{disabled} = 1;
-    $logger->debug("Humm my prerequisites are not OK...disabling module :( :( ");
-  }
+   #Disabling module if local mode
+   if ($config->{stdout} || $config->{local}) {
+     $self->{disabled} = 1;
+     $logger->debug("Agent is running in local mode...disabling module");
+   }
+
+   #If we cannot load prerequisite, we disable the module 
+   unless ($common->can_load('Net::SNMP')) { 
+     $self->{disabled} = 1;
+     $logger->debug("Humm my prerequisites are not OK...disabling module :( :( ");
+   }
 }
 
 
@@ -99,8 +105,7 @@ sub snmp_prolog_reader {
             if($_->{'TYPE'} eq 'DEVICE'){
                 #Adding the IP in the devices array
                 push @{$self->{netdevices}},{
-                IPADDR => $_->{IPADDR},
-                MACADDR => $_->{MACADDR}
+                IP => $_->{IP}
                 };
             }
 
@@ -120,7 +125,7 @@ sub snmp_prolog_reader {
 sub snmp_end_handler {
    my $self = shift;
    my $logger = $self->{logger};
-   my $common = $self->{common};
+   my $common = $self->{context}->{common};
    my $network = $self->{context}->{network};
 
    #Flushing xmltags if it has not been done
@@ -147,6 +152,8 @@ sub snmp_end_handler {
    my $snmp_sysobjectid="1.3.6.1.2.1.1.2.0";
    # syscontact.0
    my $snmp_syscontact="1.3.6.1.2.1.1.4.0";
+   # ifPhysAddress.1
+   my $snmp_macaddr="1.3.6.1.2.1.2.2.1.6.1";
 
 
    $logger->debug("Calling snmp_end_handler");
@@ -161,7 +168,7 @@ sub snmp_end_handler {
       my $session;
       my $devicedata = $common->{xmltags};     #To fill the xml informations for this device
 
-      $logger->debug("Scanning $device->{IPADDR} device");	
+      $logger->debug("Scanning $device->{IP} device");	
       # Search for the good snmp community in the table community
       LIST_SNMP: foreach $comm ( @$communities ) {
          # The snmp v3 will be implemented after
@@ -169,7 +176,7 @@ sub snmp_end_handler {
                 -retries     => 1 ,
                 -timeout     => 3,
                 -version     => 'snmpv'.$comm->{VERSION},
-                -hostname    => $device->{IPADDR}   ,
+                -hostname    => $device->{IP}   ,
 		          -community   => $comm->{NAME},
                 -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
 		#-username      => $comm->{username}, # V3 test after
@@ -184,10 +191,6 @@ sub snmp_end_handler {
              $logger->error("Snmp ERROR: $error");
           } else {
 	          $self->{snmp_session}=$session;
-
-             $self->{snmp_community}=$comm->{NAME}; #For a use in constructor module (Cisco)
-             $self->{snmp_version}=$comm->{VERSION};
-
              $name=$session->get_request( -varbindlist => [$snmp_sysname] );
              last LIST_SNMP if ( defined $name);
              $session->close;
@@ -197,7 +200,7 @@ sub snmp_end_handler {
 		
       if ( defined $name ) { 
         # We have found the good Community, we can scan this equipment
-        my ($constr_oid,$full_oid,$device_name,$description,$location,$contact,$uptime,$domain);
+        my ($constr_oid,$full_oid,$device_name,$description,$location,$contact,$uptime,$domain,$macaddr);
 
         # We indicate that we scan a new equipment
         $self->{number_scan}++;
@@ -223,30 +226,30 @@ sub snmp_end_handler {
         $result=$session->get_request(-varbindlist => [$snmp_syscontact]);
         $contact=$result->{$snmp_syscontact};
 
+        $result=$session->get_request(-varbindlist => [$snmp_macaddr]);
+        $macaddr=$result->{$snmp_macaddr};
+
         if ( $full_oid  =~ /1\.3\.6\.1\.4\.1\.(\d+)/ ) {
             $system_oid=$1;
         }
         # We run the special treatments for the OID vendor 
-        if ( $self->{snmp_oid_run}($self,$system_oid) == 1 ) {
-          # We have no vendor oid for this equipment
-          # we use default.pm
-          $self->{snmp_oid_run}($self,"Default");
-        }        
+        $self->{snmp_oid_run}($self,$system_oid);
 
         $session->close;
-        $self->{snmp_session}=undef;
+	$self->{snmp_session}=undef;
 
-        my $macaddr = $device->{MACADDR};
+        #Adding '0' to mac adress if needed
+        my $full_macaddr = $common->padSnmpMacAddress($macaddr);
 
         #Create SnmpDeviceID
         my $md5 = Digest::MD5->new;
-        $md5->add($macaddr, $system_oid);
+        $md5->add($full_macaddr, $system_oid);
         my $snmpdeviceid = $md5->hexdigest;
 
         #Adding standard informations
         $common->setSnmpCommons({ 
-          IPADDR => $device->{IPADDR},
-          MACADDR => $macaddr,
+          IPADDR => $device->{IP},
+          MACADDR => $full_macaddr,
           SNMPDEVICEID => $snmpdeviceid,
           NAME => $device_name,
           DESCRIPTION => $description,
@@ -288,8 +291,6 @@ sub snmp_oid_run {
       # We init the default value
       $self->{func_oid}{$system_oid}={};
       $self->{func_oid}{$system_oid}{active}=0;
-      $self->{func_oid}{$system_oid}{oid_value}="1.3.6.1.2.1.1.5.0";
-      $self->{func_oid}{$system_oid}{oid_name}="Undefined";
 
       # Can we find it in the snmp directory
       foreach my $dir ( @{$self->{snmp_dir}} ) {
@@ -303,17 +304,8 @@ sub snmp_oid_run {
                 # We have execute it. We can get the function pointer on snmp_run
                 my $package=$module_found."::";
                 $self->{func_oid}{$system_oid}{snmp_run}=$package->{'snmp_run'};
-                if ( defined ( $package->{'snmp_info'} ) ) {
-                   my $return_info=&{$package->{'snmp_info'}};
-                   if ( defined $return_info->{oid_value} ) {
-                      $self->{func_oid}{$system_oid}{oid_value}=$return_info->{oid_value};
-                   }
-                   if ( defined $return_info->{oid_name} ) {
-                      $self->{func_oid}{$system_oid}{oid_name}=$return_info->{oid_name};
-                   }
-                }
                 $self->{func_oid}{$system_oid}{active}=1;
-               $self->{func_oid}{$system_oid}{last_exec}=0;
+            	 $self->{func_oid}{$system_oid}{last_exec}=0;
              }
           }
       }
@@ -321,25 +313,13 @@ sub snmp_oid_run {
 
    if ( $self->{func_oid}{$system_oid}{active} == 1 && $self->{func_oid}{$system_oid}{last_exec} < $self->{number_scan} )
    { # we test that this function as never been executed for this equipment
-      # We test first that this OID exist for this equipment
-      my $oid_scan=$self->{func_oid}{$system_oid}{oid_value};
-      my $result=$session->get_request(-varbindlist => [ $oid_scan ] );
-
-      if ( length ($result->{$oid_scan}) != 0 ) {
-         # This OID exist, we can execute it
-         $logger->debug("Launching $system_oid\n" );
-         &{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
-      } else {
-         return 1;
-      }
-      # We indicate that this equipment is the last scanned for this module
+      $logger->debug("Launching $system_oid\n" );
+      &{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
+      # We indicate that this equipment is the last scanned
       $self->{func_oid}{$system_oid}{last_exec}=$self->{number_scan};
-
-   } else {
-      return 1;
    }
-   return 0;
 
 }
+
 
 1;
