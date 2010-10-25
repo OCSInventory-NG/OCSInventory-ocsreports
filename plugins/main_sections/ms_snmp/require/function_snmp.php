@@ -89,4 +89,51 @@ function deleteDid_snmp($id){
 	mysql2_query_secure($del_sql['SQL'],$_SESSION['OCS']["writeServer"],$del_sql['ARG'],true);			
 }
 
+
+/*
+ * 
+ *Find all accountinfo for  
+ * snmp data
+ * 
+ */
+function admininfo_snmp($id = ""){
+	global $l;
+	if (!is_numeric($id) and $id != "")
+		return $l->g(400);		
+	$arg_account_data=array();	
+	$sql_account_data="SELECT * FROM snmp_accountinfo ";
+	if (is_numeric($id)){
+		$sql_account_data.= " WHERE snmp_id=%s";
+		$arg_account_data=array($id);
+	}else
+		$sql_account_data.= " LIMIT 1 ";
+	
+	$res_account_data=mysql2_query_secure($sql_account_data,$_SESSION['OCS']["readServer"],$arg_account_data);
+	$val_account_data = mysql_fetch_array( $res_account_data );
+	return $val_account_data;	
+}
+
+function updateinfo_snmp($id,$values,$list=''){
+	global $l;
+	if (!is_numeric($id) and $list == '')
+		return $l->g(400);		
+	$arg_account_data=array();	
+	$sql_account_data="UPDATE snmp_accountinfo SET ";
+	foreach ($values as $field=>$val){
+		$sql_account_data .= " %s='%s', ";
+		array_push($arg_account_data,$field);
+		array_push($arg_account_data,$val);		
+	}
+	$sql_account_data = substr($sql_account_data,0,-2);
+	if (is_numeric($id) and $list == '')
+	$sql_account_data.=" WHERE snmp_id=%s";
+	if ($list != '')
+	$sql_account_data.=" WHERE snmp_id in (%s)";
+	
+	array_push($arg_account_data,$id);	
+	mysql2_query_secure($sql_account_data,$_SESSION['OCS']["readServer"],$arg_account_data);
+	return $l->g(1121);	
+}
+
+
 ?>

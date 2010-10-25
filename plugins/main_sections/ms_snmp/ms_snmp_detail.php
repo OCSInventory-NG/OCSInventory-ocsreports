@@ -46,17 +46,27 @@ foreach ($list_avail as $key=>$value){
 		unset($list_lbl[$key]);	
 }
 
+foreach ($list_lbl as $key=>$value){
+	if (substr($value,0,2) == 'g('){
+		unset($list_lbl[$key]);
+		$list_lbl[$key]=$l->g(substr(substr($value,2),0,-1));
+		
+	}
+	
+	
+}
+
 //par d�faut, on affiche les donn�es admininfo
 /*if (!isset($protectedGet['option'])){
 	$protectedGet['option']="cd_admininfo";
 }*/
 echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
-onglet($list_lbl,$form_name,"onglet",10);
+onglet($list_lbl,$form_name,"onglet_sd",10);
 
 echo '<div class="mlt_bordure" >';
-if (isset($list_lbl[$protectedPost['onglet']])){
-	if (file_exists($Directory."/".$protectedPost['onglet']."/".$protectedPost['onglet'].".php"))
-		include ($Directory."/".$protectedPost['onglet']."/".$protectedPost['onglet'].".php");
+if (isset($list_lbl[$protectedPost['onglet_sd']])){
+	if (file_exists($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php"))
+		include ($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php");
 }
 echo "</div>";
 echo "</form>";

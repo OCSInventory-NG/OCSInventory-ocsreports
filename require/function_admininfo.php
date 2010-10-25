@@ -13,11 +13,10 @@ $convert_type=array('0','1','2','3','5','8','0','11');
 function accountinfo_tab($id){
 	global $type_accountinfo;
 	$info_tag=find_info_accountinfo($id);
-	//print_r($info_tag);
 	if ($info_tag[$id]['type'] == 2 
 		or $info_tag[$id]['type'] == 4
 		or $info_tag[$id]['type'] == 7){
-		$info=find_value_field($info_tag[$id]['name']);		
+		$info=find_value_field('ACCOUNT_VALUE_'.$info_tag[$id]['name']);		
 		return $info;
 	}elseif ( $info_tag[$id]['type'] == 5)
 		return false;
@@ -59,7 +58,7 @@ function add_accountinfo($newfield,$newtype,$newlbl,$tab,$type='COMPUTERS'){
 		return array('ERROR'=>$type);
 	}
 		
-	$ERROR=dde_exist($newfield);
+	$ERROR=dde_exist($newfield,'',$type);
 	$id_order=max_order('accountinfo_config','SHOW_ORDER');	
 		
 	if ($ERROR == ''){				
@@ -151,17 +150,14 @@ function find_all_account_tab($tab_value,$onlyactiv='',$first=''){
 
 
 function find_value_field($name){
-	  
-	$sql_tab_account="select IVALUE,TVALUE from config ";
-	$sql_tab_account .= " where config.name like '%s'";
-	$arg_tab_account='ACCOUNT_VALUE_' . $name . "%";
-	
-	$result_tab_account=mysql2_query_secure($sql_tab_account,$_SESSION['OCS']["readServer"],$arg_tab_account);					
-	while ($val_tab_account = mysql_fetch_array( $result_tab_account )){
-		$array_tab_account[$val_tab_account['IVALUE']]=$val_tab_account['TVALUE'];		
-	}	
-	 return $array_tab_account;		
-	
+	$array_tab_account=array();
+	 $data= look_config_default_values($name.'%',true);
+	 if (isset($data['name'])){
+		 foreach ($data['name'] as $field=>$value)	{
+			$array_tab_account[$data['ivalue'][$field]]=$data['tvalue'][$field];	 	
+		 }
+	 }
+	 return $array_tab_account;			
 }
 
 
@@ -273,17 +269,12 @@ function find_new_order($updown,$id,$type,$onglet){
 			}else{		
 				$tab_order['NEW']=$array_id[$key+1];	
 				$tab_order['NEW_VALUE']=$array_order[$key+1];			
-				
-				
 			}
 			$tab_order['OLD']=$value;
 			$tab_order['OLD_VALUE']=$array_order[$key];
-				
-		}
-		
+		}		
 	}
-	
-	
+		
 	return $tab_order;
 	
 }
@@ -294,10 +285,10 @@ function find_new_order($updown,$id,$type,$onglet){
  * 
  */
 
-function update_accountinfo($id,$array_new_values){
+function update_accountinfo($id,$array_new_values,$type){
 	global $l,$sql_type_accountinfo;
 	//print_r($array_new_values);
-	$error=dde_exist($array_new_values['NAME'],$id);
+	$error=dde_exist($array_new_values['NAME'],$id,$type);
 	if ($error == ''){
 		//Update
 		update_accountinfo_config($id,$array_new_values);
@@ -318,12 +309,12 @@ function update_accountinfo($id,$array_new_values){
  * and restraint your search to all other id
  * 
  */
-function dde_exist($name,$id=''){
+function dde_exist($name,$id='',$type){
 	global $l;
 	
 	if (trim($name) != ''){		
-			$sql_verif="SELECT count(*) c FROM accountinfo_config WHERE NAME = '%s'";
-			$arg_verif=array($name);
+			$sql_verif="SELECT count(*) c FROM accountinfo_config WHERE NAME = '%s' and ACCOUNT_TYPE='%s'";
+			$arg_verif=array($name,$type);
 			if ($id != '' and is_numeric($id)){
 				$sql_verif.=" AND ID != %s";
 				array_push($arg_verif,$id);
@@ -384,6 +375,15 @@ function updateinfo_computer($id,$values,$list=''){
 	array_push($arg_account_data,$id);	
 	mysql2_query_secure($sql_account_data,$_SESSION['OCS']["readServer"],$arg_account_data);
 	return $l->g(1121);	
+}
+
+function updown($field,$type){
+	global $form_name;
+	if ($type == 'UP'){
+		return "<a href=# OnClick='pag(\"" . $field . "\",\"UP\",\"".$form_name."\");'><img src='image/up.png'></a>";
+	}elseif ($type == 'DOWN'){	
+		return "<a href=# OnClick='pag(\"" . $field . "\",\"DOWN\",\"".$form_name."\");'><img src='image/down.png'></a>";
+	}
 }
 
 

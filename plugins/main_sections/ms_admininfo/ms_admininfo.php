@@ -37,7 +37,7 @@ if (isset($protectedPost['MODIF_OLD'])
 								array('TYPE'=>$protectedPost['newtype'],
 									  'NAME'=>$protectedPost['newfield'],
 									  'COMMENT'=>$protectedPost['newlbl'],
-								 	  'ID_TAB'=>$protectedPost['account_tab']));
+								 	  'ID_TAB'=>$protectedPost['account_tab']),$protectedPost['accountinfo']);
 		$hidden=$protectedPost['MODIF_OLD'];		
 	}elseif( $protectedPost['Valid_modif_x'] != "" ) {
 	//ADD NEW VALUE	
