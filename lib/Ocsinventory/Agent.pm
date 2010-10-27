@@ -317,6 +317,7 @@ sub run {
                     accountinfo => $accountinfo,
                     logger => $logger,
                     config => $config->{config},
+                    common => $common,
             });
 
             #Adding the network object in $context
