@@ -165,6 +165,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		and $_SESSION['OCS']['CONFIGURATION']['MANAGE_SMTP_COMMUNITIES'] == 'YES'){
 	$file='snmp_com.txt';
 	$error="";
+	$field_com="";
 	$search=array('ID','NAME','VERSION',     
 				  'USERNAME','AUTHKEY','AUTHPASSWD');
 	$snmp_dir=look_config_default_values('SNMP_DIR');
@@ -227,8 +228,9 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 					}
 				}
 				if (isset($msg_ok)){	
-					$new_ms_cfg_file=add_community($snmp_value);
-					$file=fopen($ms_cfg_file,"a+");
+					$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");
+					$new_ms_cfg_file=add_community($snmp_value,$field_com);
+					$file=fopen($ms_cfg_file,"w+");
 					fwrite($file,$new_ms_cfg_file);	
 					fclose( $file );
 					$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");					
@@ -257,16 +259,17 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			$list_version=array('2c'=>'2c','1a'=>'1','2a'=>'2','3a'=>'3');
 			$title=$l->g(1207);
 			if (isset($protectedPost['MODIF']) and is_numeric($protectedPost['MODIF']) and !isset($protectedPost['NAME'])){
+				$info_com=find_community_info($protectedPost['MODIF'],$ms_cfg_file,$search);
 				$default_values=array('ID'=>$protectedPost['MODIF'],
-									  'NAME'=>$field_com[$protectedPost['MODIF']]['NAME'],
+									  'NAME'=>$info_com['NAME'],
 									  'VERSION' =>$list_version,
-									  'USERNAME'  =>$field_com[$protectedPost['MODIF']]['USERNAME'],
-									  'AUTHKEY'=>$field_com[$protectedPost['MODIF']]['AUTHKEY'],
-									  'AUTHPASSWD'=>$field_com[$protectedPost['MODIF']]['AUTHPASSWD']);
-				if ($field_com[$protectedPost['MODIF']]['VERSION'] != '2c')
-					$protectedPost['VERSION']=$field_com[$protectedPost['MODIF']]['VERSION'].'a';
+									  'USERNAME'  =>$info_com['USERNAME'],
+									  'AUTHKEY'=>$info_com['AUTHKEY'],
+									  'AUTHPASSWD'=>$info_com['AUTHPASSWD']);
+				if ($info_com['VERSION'] != '2c')
+					$protectedPost['VERSION']=$info_com['VERSION'].'a';
 				else
-					$protectedPost['VERSION']=$field_com[$protectedPost['MODIF']]['VERSION'];
+					$protectedPost['VERSION']=$info_com['VERSION'];
 				
 			}else{
 				$default_values=array('ID'=>$protectedPost['ID'],
