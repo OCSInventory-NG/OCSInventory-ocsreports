@@ -3,28 +3,50 @@
  * Function for snmp details
  * 
  */
- 
-$snmp_tables=array('SNMP_BLADES','SNMP_CARDS','SNMP_CARTRIDGES',
-				'SNMP_DRIVES','SNMP_FANS','SNMP_FIREWALLS',
-				'SNMP_LOADBALANCERS','SNMP_NETWORKS','SNMP_POWERSUPPLIES',
-				'SNMP_PRINTERS','SNMP_STORAGES','SNMP_SWITCHS','SNMP_TRAYS');
+$snmp_tables_type=array('SNMP_BLADES','SNMP_FIREWALLS','SNMP_LOADBALANCERS',
+					    'SNMP_PRINTERS','SNMP_SWITCHS'); 
+
+$snmp_tables=array('SNMP_CARDS','SNMP_CARTRIDGES','SNMP_DRIVES',
+				'SNMP_FANS','SNMP_NETWORKS','SNMP_POWERSUPPLIES',
+				'SNMP_STORAGES','SNMP_TRAYS');
 
 
 //is ID exist?
 function info_snmp($snmp_id){
-	global $l;
+	global $l,$snmp_tables_type;
 	if ($snmp_id == "" or !is_numeric($snmp_id)){
 		return $l->g(837);	
 	}
-	$sql="select * from snmp where id = %s";
+	
+	//$arg=array();
+	$sql="select * from snmp where id=%s";
 	$arg=$snmp_id;
 	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-	$item = mysql_fetch_object($result);
-	if ( $item -> ID == ""){
+	$array['snmp'] = mysql_fetch_object($result);
+	if ( $array['snmp']->ID == ""){
 		return $l->g(837);	
 	}else{
-		return $item;		
+		foreach($snmp_tables_type as $id=>$table){
+			$sql="select * from %s where snmp_id=%s";
+			$arg=array(strtolower($table),$snmp_id);
+			$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+			$array[$table] = mysql_fetch_object($result);
+		}
+		return $array;		
 	}
+
+	/*foreach($snmp_tables_type as $id=>$table){
+		$table_alias[]=$var.'.*';
+		$sql.= " left join %s %s on sn.id=%s.snmp_id ";
+		array_push($arg,strtolower($table));
+		array_push($arg,$var);
+		array_push($arg,$var);
+		$var++;
+	}
+	
+	$sql= "select ".implode(',',$table_alias).$sql." where sn.id = %s";
+	array_push($arg,$snmp_id);*/
+	
 	
 	
 }
@@ -52,21 +74,33 @@ function print_item_header($text)
 	echo "</table><br>";	
 }
 
-function bandeau($data,$lbl){
+function bandeau($data,$lbl_affich){
 	$nb_col=2;
 	echo "<table ALIGN = 'Center' class='mlt_bordure' ><tr><td align =center>";
-	echo "		<table align=center border='0' width='95%'  ><tr>";
+	echo "		<table align=center border='0' width='100%'  ><tr>";
 	$i=0;
-	foreach ($data as $name=>$value){
-		if (trim($value) != ''){
-			if ($i == $nb_col){
-				echo "</tr><tr>";
-				$i=0;			
+	foreach ($data as $table=>$values){
+		if (is_object($values)){
+			foreach ($values as $field=>$field_value){
+				if (trim($field_value) != ''){
+					if ($i == $nb_col){
+						echo "</tr><tr>";
+						$i=0;			
+					}
+					echo "<td >&nbsp;<b>";
+					if (isset($lbl_affich[$field]))
+						echo $lbl_affich[$field];
+					else
+						echo $field;
+					echo " :</b></td><td >".$field_value."</td>";
+					$i++;
+				}
 			}
-			echo "<td >&nbsp;<b>".$lbl[$name]." :</b></td><td >".$value."</td>";
-			$i++;
 		}
+		
+		
 	}
+		
 	echo "</tr></table></td></tr></table>";	
 }
 

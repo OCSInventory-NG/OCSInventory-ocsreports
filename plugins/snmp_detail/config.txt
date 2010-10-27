@@ -16,6 +16,7 @@ sd_trays
 </ORDER>
 
 <LBL>
+sd_admininfo:g(56)
 sd_blades:Blades
 sd_cards:Cards
 sd_cartridges:Cartridges
@@ -29,7 +30,6 @@ sd_printers:printers
 sd_storages:storages
 sd_switchs:switchs
 sd_trays:trays
-sd_admininfo:g(56)
 </LBL>
 
 <ISAVAIL>
