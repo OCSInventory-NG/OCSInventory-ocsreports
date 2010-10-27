@@ -71,7 +71,7 @@ sub snmp_run {
       #print "  mac $MACADDR pci $SLOT status $STATUS type $TYPE virtual $VIRTUALDEV speed $SPEED\n";
            $common->addSnmpNetwork( {
                 TYPE => $TYPE,
-                SLOT => $PCISLOT,
+                SLOT => $SLOT,
                 SPEED => $SPEED,
                 MACADDR => $MACADDR,
                 STATUS => $STATUS,

@@ -1042,15 +1042,12 @@ sub addSnmpSwitch {
 #Subroutinne to add 0 in 'Sun like' MAC adress if needed
 sub padSnmpMacAddress {
   my ($self,$mac) = @_;
- 
-  print "MAC=$mac";
 
   my @splitedAddr = split(':', $mac);
 
   for (@splitedAddr) {
     unless ($_ =~ /\w{2}/) {
        $_ = sprintf("%02s", $_);
-       print "$_\n";
     }
   }
 
