@@ -31,6 +31,8 @@ sub new {
    });
    $self->{logger}->{header}="[$name]";
 
+   $self->{common} = $context->{common};
+
    $self->{context}=$context;
 
    $self->{structure}= {
@@ -91,6 +93,7 @@ sub snmp_start_handler {
 sub snmp_prolog_reader {
    my ($self, $prolog) = @_;
    my $logger = $self->{logger};
+   my $network = $self->{context}->{network};
 
    my $option;
 
@@ -105,19 +108,35 @@ sub snmp_prolog_reader {
             if($_->{'TYPE'} eq 'DEVICE'){
                 #Adding the IP in the devices array
                 push @{$self->{netdevices}},{
-                IP => $_->{IP}
+                IPADDR => $_->{IPADDR}
                 };
             }
 
             if($_->{'TYPE'} eq 'COMMUNITY'){
-                #Adding the comminity in the communties array
-                push @{$self->{communities}},{
-                  VERSION=>$_->{VERSION},
-                  NAME=>$_->{NAME}
-                };
+                #Get the uri to download file for SNMP communities
+                $self->{snmpcom_loc} = $_->{SNMPCOM_LOC}; 
             }
          }
       }
+   }
+
+   my $snmp_dir = "$self->{context}->{installpath}/snmp";
+   mkdir($snmp_dir) unless -d $snmp_dir;
+
+   #Download snmp_com.txt file using https
+   if ($network->getHttpsFile($self->{snmpcom_loc},"snmp_com.txt","$snmp_dir/snmp_com.txt","cacert.pem",$self->{context}->{installpath})) {
+     if ( -f "$snmp_dir/snmp_com.txt") {
+       my $snmp_com = XML::Simple::XMLin("$snmp_dir/snmp_com.txt", ForceArray => ['COMMUNITY']);
+
+       for (@{$snmp_com->{COMMUNITY}}){
+         push @{$self->{communities}},{
+           VERSION=>$_->{VERSION},
+           NAME=>$_->{NAME}
+         };
+       }
+     }
+   } else {
+     $logger->debug("Cannot download file for SNMP communities informations :( :(");
    }
 }
 
@@ -155,8 +174,8 @@ sub snmp_end_handler {
    # ifPhysAddress.1
    my $snmp_macaddr="1.3.6.1.2.1.2.2.1.6.1";
 
-
    $logger->debug("Calling snmp_end_handler");
+
 
    # Initalising the XML properties 
    my $snmp_inventory = $self->{inventory};
@@ -168,15 +187,16 @@ sub snmp_end_handler {
       my $session;
       my $devicedata = $common->{xmltags};     #To fill the xml informations for this device
 
-      $logger->debug("Scanning $device->{IP} device");	
+      $logger->debug("Scanning $device->{IPADDR} device");	
       # Search for the good snmp community in the table community
       LIST_SNMP: foreach $comm ( @$communities ) {
+
          # The snmp v3 will be implemented after
 	 ($session, $error) = Net::SNMP->session(
                 -retries     => 1 ,
                 -timeout     => 3,
                 -version     => 'snmpv'.$comm->{VERSION},
-                -hostname    => $device->{IP}   ,
+                -hostname    => $device->{IPADDR},
 		          -community   => $comm->{NAME},
                 -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
 		#-username      => $comm->{username}, # V3 test after
@@ -236,7 +256,7 @@ sub snmp_end_handler {
         $self->{snmp_oid_run}($self,$system_oid);
 
         $session->close;
-	$self->{snmp_session}=undef;
+	     $self->{snmp_session}=undef;
 
         #Adding '0' to mac adress if needed
         my $full_macaddr = $common->padSnmpMacAddress($macaddr);
