@@ -129,18 +129,19 @@ function parse_xml_file($file,$tag,$separe){
 		return "NO_FILES";
 		$i=0;
     // read line
-    while ( $ln = fgets($fp, 1024)) {    	
-		foreach ($tag as $poub=>$key){
-			//echo $key."<br>";
-			if (strrpos($ln,"<".$key.">")){
-				$search=array("<".$key.">","</".$key.">","\n","\t");
-				$replace=array('','','','');
+    while ( $ln = fgets($fp, 1024)) {     
+    	//echo  htmlentities ($ln)."=>";
+    	$ln=preg_replace('(\r\n|\n|\r|\t)','',$ln);
+		foreach ($tag as $poub=>$key){	
+			if (substr($ln,0,strlen($key)+2) == '<'.$key.'>'){
+				$search=array("<".$key.">","</".$key.">");
+				$replace=array('','');
 				$tab_data[$i][$key]=str_replace($search,$replace,$ln);				
 			}						
 		}
-		if ($ln == "</".$separe.">\n"){
-				$i++;
-				//echo htmlentities($ln)."=>".$separe."<br>";
+		
+		if (substr($ln,0,strlen($key)+2) == "</".$separe.">"){
+				$i++;				
 		}
 
     }

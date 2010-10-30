@@ -6,24 +6,20 @@ require_once('require/function_snmp.php');
 $form_name='SNMP_DETAILS';
 //recherche des infos de la machine
 $item=info_snmp($protectedGet['id']);
-if (!is_object($item)){
+if (!is_array($item)){
 	msg_error($item);
 	require_once($_SESSION['OCS']['FOOTER_HTML']);
 	die();
 }
 
-$systemid=$item -> ID;
+$systemid=$item['snmp']->ID;
 // SNMP SUMMARY
 $lbl_affich=array('NAME'=>$l->g(49),'UPTIME'=>$l->g(352),'MACADDR'=>$l->g(95),'IPADDR'=>$l->g(34),
 					'CONTACT'=>'CONTACT','LOCATION'=>$l->g(295),'DOMAIN'=>$l->g(33),'TYPE'=>$l->g(66),
-					'SNMPDEVICEID'=>'SNMPDEVICEID'
-					);					
-foreach ($lbl_affich as $key=>$lbl){
-	if ($item->$key != '')
-		$data[$key]=$item->$key;
-}
+					'SNMPDEVICEID'=>'SNMPDEVICEID','SERIALNUMBER'=>$l->g(36),'COUNTER'=>$l->g(55)
+					);		
 
-$bandeau=bandeau($data,$lbl_affich);
+$bandeau=bandeau($item,$lbl_affich);
 
 //get plugins when exist
 $Directory=$_SESSION['OCS']['plugins_dir']."snmp_detail/";
@@ -46,17 +42,26 @@ foreach ($list_avail as $key=>$value){
 		unset($list_lbl[$key]);	
 }
 
+foreach ($list_lbl as $key=>$value){
+	if (substr($value,0,2) == 'g('){
+		unset($list_lbl[$key]);
+		$list_lbl[$key]=$l->g(substr(substr($value,2),0,-1));
+		
+	}
+	
+	
+}
 //par d�faut, on affiche les donn�es admininfo
 /*if (!isset($protectedGet['option'])){
 	$protectedGet['option']="cd_admininfo";
 }*/
 echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
-onglet($list_lbl,$form_name,"onglet",10);
+onglet($list_lbl,$form_name,"onglet_sd",10);
 
 echo '<div class="mlt_bordure" >';
-if (isset($list_lbl[$protectedPost['onglet']])){
-	if (file_exists($Directory."/".$protectedPost['onglet']."/".$protectedPost['onglet'].".php"))
-		include ($Directory."/".$protectedPost['onglet']."/".$protectedPost['onglet'].".php");
+if (isset($list_lbl[$protectedPost['onglet_sd']])){
+	if (file_exists($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php"))
+		include ($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php");
 }
 echo "</div>";
 echo "</form>";

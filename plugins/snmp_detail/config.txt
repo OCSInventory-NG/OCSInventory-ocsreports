@@ -1,4 +1,5 @@
 <ORDER>
+sd_admininfo
 sd_blades
 sd_cards
 sd_cartridges
@@ -15,6 +16,7 @@ sd_trays
 </ORDER>
 
 <LBL>
+sd_admininfo:g(56)
 sd_blades:Blades
 sd_cards:Cards
 sd_cartridges:Cartridges
@@ -31,6 +33,7 @@ sd_trays:trays
 </LBL>
 
 <ISAVAIL>
+sd_admininfo:snmp_accountinfo
 sd_blades:snmp_blades
 sd_cards:snmp_cards
 sd_cartridges:snmp_cartridges

@@ -1,10 +1,11 @@
 <?php
 require_once('require/function_admininfo.php');
-$form_name='admin_info_computer';
 $table_name=$form_name;
 	
 //search all admininfo for this computer
-$info_account_id=admininfo_computer($systemid);
+$info_account_id=admininfo_snmp($systemid);
+
+
 if (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' and !isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 	$_SESSION['OCS']['ADMIN']['ACCOUNTINFO']=true;
 elseif (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
@@ -13,7 +14,7 @@ elseif (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' an
 if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 	$admin_accountinfo=true;
 	
-$list_tab=find_all_account_tab('TAB_ACCOUNTAG','COMPUTERS',1);	
+$list_tab=find_all_account_tab('TAB_ACCOUNTSNMP','SNMP',1);	
 if ($list_tab != ''){
 	if ($protectedPost['Valid_modif_x'] != ""){
 		foreach ($protectedPost as $field=>$value){
@@ -28,9 +29,9 @@ if ($list_tab != ''){
 	
 			}
 		}
-		updateinfo_computer($systemid,$data_fields_account);
+		updateinfo_snmp($systemid,$data_fields_account);
 		//search all admininfo for this computer
-		$info_account_id=admininfo_computer($systemid);	
+		$info_account_id=admininfo_snmp($systemid);	
 	}
 		unset($action_updown);
 		//UP/DOWN
@@ -40,7 +41,7 @@ if ($list_tab != ''){
 			$action_updown='DOWN';	
 		
 		if (isset($action_updown)){				
-			$new_order=find_new_order($action_updown,$protectedPost[$action_updown],'COMPUTERS',$protectedPost['onglet']);
+			$new_order=find_new_order($action_updown,$protectedPost[$action_updown],'SNMP',$protectedPost['onglet']);
 			if ($new_order){
 			//	$array_info_account=find_info_accountinfo($new_order['NEW']);
 				update_accountinfo_config($new_order['OLD'],array('SHOW_ORDER'=>$new_order['NEW_VALUE']));
@@ -60,7 +61,7 @@ if ($list_tab != ''){
 	$show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'><img src=image/modif_tab.png></a>";
 	else
 	$show_admin_button='';
-	$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
+	$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER from accountinfo_config where ID_TAB = %s and account_type='SNMP'
 						order by SHOW_ORDER ASC";
 	$arg_admin_info=array($protectedPost['onglet']);
 	$res_admin_info=mysql2_query_secure($sql_admin_info,$_SESSION['OCS']["readServer"],$arg_admin_info);
@@ -100,11 +101,11 @@ if ($list_tab != ''){
 				array_push($config['JAVASCRIPT'],'');
 				array_push($config['SIZE'],'');
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_BEHING'],$up_png . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>");
+					array_push($config['COMMENT_BEHING'],$up_png . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_SNMP_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_SNMP_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>");
 				else
 					array_push($config['COMMENT_BEHING'],'');
 				array_push($config['SELECT_DEFAULT'],'YES');
-				$field_select_values=find_value_field("ACCOUNT_VALUE_".$val_admin_info['NAME']);
+				$field_select_values=find_value_field("ACCOUNT_SNMP_VALUE_".$val_admin_info['NAME']);
 				array_push($value_field,$field_select_values);
 				//cas of checkbox
 				if ($val_admin_info['TYPE'] == 4){

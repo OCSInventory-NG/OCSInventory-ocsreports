@@ -74,7 +74,7 @@ function show_icon($index,$lbl_index){
                 $img .= "_a";
         }
         	if (substr($lbl_index,0,2) == 'g(')
-		$lbl= $l->g(substr(substr($lbl_index,2),0,-1));
+		$lbl= ucfirst($l->g(substr(substr($lbl_index,2),0,-1)));
 
         //si on clic sur l'icone, on charge le formulaire
         //pour obliger le cache des tableaux a se vider
@@ -103,10 +103,10 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
                 echo ".png'></a></dt>
                         <dd id=\"".$name_menu."\" onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\" onmouseout=\"javascript:show_menu('nomenu','".$_SESSION['OCS']['all_menus']."');\">
                                 <ul>
-                                        <li><b>".$title."</b></li>";
+                                        <li><b>".ucfirst(strtolower($title))."</b></li>";
                                         foreach ($data_list as $key=>$values){
                                         	if (isset($_SESSION['OCS']['PAGE_PROFIL'][$pag_name[$key]]))
-                                                echo "<li><a href=\"index.php?".PAG_INDEX."=".$key."\">".$values."</a></li>";
+                                                echo "<li><a href=\"index.php?".PAG_INDEX."=".$key."\">".ucfirst(strtolower($values))."</a></li>";
                                         }
                 echo "</ul>
                         </dd>

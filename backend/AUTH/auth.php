@@ -12,11 +12,19 @@
  require_once($_SESSION['OCS']['backend'].'require/connexion.php');
  //If you want a html form for the connexion
  //put $affich_method='HTML'
+ $affich_method='HTML';
  //If you use an SSO connexion
  //use this configuration
  //$affich_method='SSO';
  //$list_methode=array(0=>"always_ok.php");
-  $affich_method='HTML';
+ 
+ // Author: FranciX
+ // http://forums.ocsinventory-ng.org/viewtopic.php?pid=30974
+ //If you use an CAS connexion
+ //use this configuration
+ //$affich_method='CAS';
+ //$list_methode=array(0=>"always_ok.php");
+ 
  //list of the identification method
  //3 pages by default: ldap.php => LDAP Connexion
  //					   local.php => Local connexion on ocs base
@@ -25,7 +33,9 @@
  //$list_methode=array(0=>"always_ok.php");
  if ($affich_method == 'HTML' and isset($protectedPost['Valid_modif_x']) and trim($protectedPost['LOGIN']) != ""){
  	$login=$protectedPost['LOGIN'];
- 	$mdp=$protectedPost['PASSWD']; 	
+ 	$mdp=$protectedPost['PASSWD']; 
+ }elseif ($affich_method == 'CAS'){
+	require_once('methode/cas.php'); 	
  }elseif ($affich_method != 'HTML' and isset($_SERVER['PHP_AUTH_USER'])){
  	$login=$_SERVER['PHP_AUTH_USER'];
  	$mdp=$_SERVER['PHP_AUTH_PW'];  	

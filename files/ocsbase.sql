@@ -791,7 +791,7 @@ INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0A-1', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0A-2', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1012,8 +1012,10 @@ CREATE TABLE accountinfo_config(
   PRIMARY KEY (ID)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on accountinfo');
-INSERT INTO accountinfo_config (ID,NAME_ACCOUNTINFO,TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER) values (1,'TAG',0,'TAG','1','TAG',1);
+insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on computers accountinfo');
+insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTSNMP_1',1,'TAG','Default TAB on snmp accountinfo');
+INSERT INTO accountinfo_config (ID,NAME_ACCOUNTINFO,TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER,ACCOUNT_TYPE) values (1,'TAG',0,'TAG','1','TAG',1,'COMPUTERS');
+INSERT INTO accountinfo_config (ID,NAME_ACCOUNTINFO,TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER,ACCOUNT_TYPE) values (2,'TAG',0,'TAG','1','TAG',1,'SNMP');
 ALTER TABLE subnet CHANGE ID ID VARCHAR(255);
 
 CREATE TABLE blacklist_subnet(
@@ -1026,6 +1028,7 @@ CREATE TABLE blacklist_subnet(
 
 ALTER TABLE accountinfo_config ADD COLUMN ACCOUNT_TYPE VARCHAR(255) default NULL;
 UPDATE accountinfo_config SET ACCOUNT_TYPE='COMPUTERS' where ACCOUNT_TYPE IS NULL;
+
 
 CREATE TABLE snmp_accountinfo (
   SNMP_ID INTEGER NOT NULL,

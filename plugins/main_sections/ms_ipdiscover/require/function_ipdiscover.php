@@ -168,8 +168,9 @@ function form_add_community($title='',$default_value,$form){
 		}
 
 		$tab_typ_champ[1]['RELOAD']=$form;
-		if (is_numeric($protectedPost['MODIF']))
-			$tab_hidden['MODIF']=$protectedPost['MODIF'];
+		if (is_numeric($protectedPost['MODIF'])){
+			$tab_hidden['MODIF']=$protectedPost['MODIF'];	
+		}
 		$tab_hidden['ADD_COMM']=$protectedPost['ADD_COMM'];
 		$tab_hidden['ID']=$protectedPost['ID'];
 		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");
@@ -178,14 +179,38 @@ function form_add_community($title='',$default_value,$form){
 
 
 function add_community($snmp_value,$new_ms_cfg_file=''){
-	$new_ms_cfg_file .="<COMMUNITY>\n";
-	foreach ($snmp_value as $key=>$value){
-		$new_ms_cfg_file .= "\t<".$key.">";
-		if ($value != "")
-		$new_ms_cfg_file .= $value;
-		$new_ms_cfg_file .= "</".$key.">\n";
-	}		
-	$new_ms_cfg_file .="</COMMUNITY>\n\n";
+	//$new_ms_cfg_file_end = "\n";
+	$snmp_file_begin = "<CONTENT>\n";
+	$snmp_file_end = "</CONTENT>\n";
+	$snmp_file='';
+//	p($new_ms_cfg_file);
+	if 	(is_array($new_ms_cfg_file)){
+		$i=0;
+		
+		while ($new_ms_cfg_file[$i]){
+			$snmp_file.="\t<COMMUNITY>\n";
+			foreach ($new_ms_cfg_file[$i] as $key=>$value){
+				$snmp_file .= "\t\t<".$key.">";
+				if ($value != "")
+				$snmp_file .= $value;
+				$snmp_file .= "</".$key.">\n";
+			}		
+			$snmp_file .="\t</COMMUNITY>\n";				
+			$i++;	
+		}
+		
+	}
+	if (is_array($snmp_value)){
+		$snmp_file .="\t<COMMUNITY>\n";
+		foreach ($snmp_value as $key=>$value){
+			$snmp_file .= "\t\t<".$key.">";
+			if ($value != "")
+			$snmp_file .= $value;
+			$snmp_file .= "</".$key.">\n";
+		}		
+		$snmp_file .="\t</COMMUNITY>\n";
+	}
+	$new_ms_cfg_file =$snmp_file_begin.$snmp_file.$snmp_file_end;
 	return $new_ms_cfg_file;
 }
 
@@ -208,19 +233,29 @@ function del_community($id_community,$ms_cfg_file,$search){
 		$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");
 		$i=0;
 		while ($field_com[$i]){
-			if (in_array($field_com[$i]['ID'],$id_community))	
-				unset($field_com[$i]);	
+			if (!in_array($field_com[$i]['ID'],$id_community))	
+				$new_ms_cfg_file[]=$field_com[$i];
+			//	unset($field_com[$i]);	
 			$i++;		
 		}
-		
-		foreach ($field_com as $index=>$tab_field){
-			$snmp_value=format_value_community($tab_field);
-			$new_ms_cfg_file=add_community($snmp_value,$new_ms_cfg_file);			
-		}
+		p($new_ms_cfg_file);
+		$communities=add_community('',$new_ms_cfg_file);
 		$file=fopen($ms_cfg_file,"w+");
-		fwrite($file,$new_ms_cfg_file);	
+		fwrite($file,$communities);	
 		fclose( $file );
 }
  
+
+function find_community_info($id,$ms_cfg_file,$search){
+		$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");
+		$i=0;
+		while ($field_com[$i]){
+			if ($field_com[$i]['ID'] == $id)
+				return $field_com[$i];
+			$i++;		
+		}
+		return false;
+	
+}
 
 ?>
