@@ -25,22 +25,21 @@ sub run {
 # XXX Parsing dmidecode output using "type 4" section
 # for nproc type and speed
 # because no /proc on *BSD
+
+#TODO: enhance this part to get speed everytime and support for multi CPUs
   my $flag=0;
   my $status=0; ### XXX 0 if Unpopulated
   for(`dmidecode`){
-    $processorn = `sysctl -n hw.ncpu`;
-    
     $status = 1 if $flag && /^\s*status\s*:.*enabled/i;
     $processors = $1 if $flag && /^\s*current speed\s*:\s*(\d+).+/i;
-    $processort = `sysctl -n hw.model`;
   }
   
-  $common->setHardware({
+  $processorn = `sysctl -n hw.ncpu`;
+  $processort = `sysctl -n hw.model`;
 
-      PROCESSORT => $processort,
-      PROCESSORN => $processorn,
-      PROCESSORS => $processors
-
+  $common->addCPU({
+      TYPE => $processort,
+      SPEED => $processors
     });
 
 }
