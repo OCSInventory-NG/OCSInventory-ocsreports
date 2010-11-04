@@ -117,7 +117,7 @@ sub run {
 # How does this work with multiple older cards where serial for units is not implemented ?
 # Need to be tested on a system with multiple 3ware cards.
                 if (($hd->{SERIALNUMBER} eq 'AMCC_' . $sn) or ($hd->{MODEL} eq 'Logical_Disk_' . $unit_id)) {
-                  $device = %$hd->{NAME};
+                  $device = $hd->{NAME};
                 }
               }
 
