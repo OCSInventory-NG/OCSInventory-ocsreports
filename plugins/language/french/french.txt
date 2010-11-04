@@ -1095,7 +1095,7 @@
 1211 URL du fichier des communautés SNMP
 1212 Communauté supprimée
 1213 Séparateur des fichiers d'export
-
+1214 Configurer le moteur pour mettre à jour l'inventaire snmp en se basant sur la table snmp_laststate (charge inférieure backend DB)
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

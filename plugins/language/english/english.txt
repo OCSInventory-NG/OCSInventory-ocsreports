@@ -1096,6 +1096,7 @@
 1211 URL where SNMP community file is
 1212 Community deleted
 1213 Separator of export file
+1214 Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

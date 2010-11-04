@@ -791,7 +791,7 @@ INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
 GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0A-2', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0A-3', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1036,5 +1036,7 @@ CREATE TABLE snmp_accountinfo (
   primary key(SNMP_ID),
   INDEX TAG (TAG)
 ) ENGINE=INNODB ;
+
+insert into config (NAME,IVALUE,COMMENTS) values ('SNMP_INVENTORY_DIFF',1,'Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)');
 
 
