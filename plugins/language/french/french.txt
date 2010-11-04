@@ -1096,6 +1096,18 @@
 1212 Communauté supprimée
 1213 Séparateur des fichiers d'export
 1214 Configurer le moteur pour mettre à jour l'inventaire snmp en se basant sur la table snmp_laststate (charge inférieure backend DB)
+1215 Serveur Blade
+1216 Pare-feu
+1217 Répartiteur de charge
+1218 Switch
+1219 Cartes
+1220 Cartouches
+1221 Disques
+1222 Ventillateurs
+1223 Alimentation
+1224 Bacs
+1225 Capacité maximale
+1226 Couleur
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

@@ -1326,6 +1326,17 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						
 					}
 				}
+				
+				if (isset($tab_options['REPLACE_WITH_LIMIT']['UP'][$key])){
+					if ($value_of_field > $tab_options['REPLACE_WITH_LIMIT']['UP'][$key])
+						$value_of_field= $tab_options['REPLACE_WITH_LIMIT']['UPVALUE'][$key];
+				}
+				
+				if (isset($tab_options['REPLACE_WITH_LIMIT']['DOWN'][$key])){
+					if ($value_of_field < $tab_options['REPLACE_WITH_LIMIT']['DOWN'][$key])
+						$value_of_field = $tab_options['REPLACE_WITH_LIMIT']['DOWNVALUE'][$key];
+				}
+				
 				unset($key2);
 				if (isset($tab_condition[$key])){
 						if ((!$tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]] and !$tab_options['EXIST'][$key])

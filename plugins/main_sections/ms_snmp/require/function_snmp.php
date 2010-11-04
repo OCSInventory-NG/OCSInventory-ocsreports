@@ -3,8 +3,8 @@
  * Function for snmp details
  * 
  */
-$snmp_tables_type=array('SNMP_BLADES','SNMP_FIREWALLS','SNMP_LOADBALANCERS',
-					    'SNMP_PRINTERS','SNMP_SWITCHS'); 
+$snmp_tables_type=array($l->g(1215)=>'SNMP_BLADES',$l->g(1216)=>'SNMP_FIREWALLS',$l->g(1217)=>'SNMP_LOADBALANCERS',
+					    $l->g(79)=>'SNMP_PRINTERS',$l->g(1218)=>'SNMP_SWITCHS'); 
 
 $snmp_tables=array('SNMP_CARDS','SNMP_CARTRIDGES','SNMP_DRIVES',
 				'SNMP_FANS','SNMP_NETWORKS','SNMP_POWERSUPPLIES',
@@ -22,15 +22,17 @@ function info_snmp($snmp_id){
 	$sql="select * from snmp where id=%s";
 	$arg=$snmp_id;
 	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-	$array['snmp'] = mysql_fetch_object($result);
-	if ( $array['snmp']->ID == ""){
+	$array['data']['snmp'] = mysql_fetch_object($result);
+	if ( $array['data']['snmp']->ID == ""){
 		return $l->g(837);	
 	}else{
-		foreach($snmp_tables_type as $id=>$table){
+		foreach($snmp_tables_type as $lbl=>$table){
 			$sql="select * from %s where snmp_id=%s";
 			$arg=array(strtolower($table),$snmp_id);
 			$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-			$array[$table] = mysql_fetch_object($result);
+			$array['data'][$table] = mysql_fetch_object($result);
+			if ($array['data'][$table] != '')
+				$array['lbl']=$lbl;
 		}
 		return $array;		
 	}
@@ -74,15 +76,19 @@ function print_item_header($text)
 	echo "</table><br>";	
 }
 
-function bandeau($data,$lbl_affich){
+function bandeau($data,$lbl_affich,$title='',$class='mlt_bordure'){
 	$nb_col=2;
-	echo "<table ALIGN = 'Center' class='mlt_bordure' ><tr><td align =center>";
+	echo "<table ALIGN = 'Center' class='".$class."' ><tr><td align =center>";
+	if ($title != '')
+	echo "<i><big>".$title."</big><br></i></td></tr><tr><td align =center>";
 	echo "		<table align=center border='0' width='100%'  ><tr>";
 	$i=0;
 	foreach ($data as $table=>$values){
 		if (is_object($values)){
 			foreach ($values as $field=>$field_value){
-				if (trim($field_value) != ''){
+				if (trim($field_value) != '' 
+						and $field != 'ID' 
+						and $field != 'SNMP_ID'){
 					if ($i == $nb_col){
 						echo "</tr><tr>";
 						$i=0;			

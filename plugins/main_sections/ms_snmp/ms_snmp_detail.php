@@ -6,21 +6,24 @@ require_once('require/function_snmp.php');
 $form_name='SNMP_DETAILS';
 //recherche des infos de la machine
 $item=info_snmp($protectedGet['id']);
-if (!is_array($item)){
+if (!is_array($item['data'])){
 	msg_error($item);
 	require_once($_SESSION['OCS']['FOOTER_HTML']);
 	die();
 }
 
-$systemid=$item['snmp']->ID;
+$systemid=$item['data']['snmp']->ID;
 // SNMP SUMMARY
 $lbl_affich=array('NAME'=>$l->g(49),'UPTIME'=>$l->g(352),'MACADDR'=>$l->g(95),'IPADDR'=>$l->g(34),
 					'CONTACT'=>'CONTACT','LOCATION'=>$l->g(295),'DOMAIN'=>$l->g(33),'TYPE'=>$l->g(66),
 					'SNMPDEVICEID'=>'SNMPDEVICEID','SERIALNUMBER'=>$l->g(36),'COUNTER'=>$l->g(55)
 					);		
-
-$bandeau=bandeau($item,$lbl_affich);
-
+$info['snmp']=$item['data']['snmp'];
+					
+$bandeau=bandeau($info,$lbl_affich);
+unset($item['data']['snmp']);
+echo "<br>";
+$bandeau=bandeau($item['data'],$lbl_affich,$item['lbl'],'mvt_bordure');
 //get plugins when exist
 $Directory=$_SESSION['OCS']['plugins_dir']."snmp_detail/";
 $ms_cfg_file= $Directory."config.txt";
@@ -41,7 +44,6 @@ foreach ($list_avail as $key=>$value){
 	if ($valavail['c'] == 0)
 		unset($list_lbl[$key]);	
 }
-
 foreach ($list_lbl as $key=>$value){
 	if (substr($value,0,2) == 'g('){
 		unset($list_lbl[$key]);
@@ -57,7 +59,7 @@ foreach ($list_lbl as $key=>$value){
 }*/
 echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($list_lbl,$form_name,"onglet_sd",10);
-
+$msq_tab_error='<small><font color=red>ERR</font></small>';
 echo '<div class="mlt_bordure" >';
 if (isset($list_lbl[$protectedPost['onglet_sd']])){
 	if (file_exists($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php"))

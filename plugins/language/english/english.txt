@@ -1097,7 +1097,18 @@
 1212 Community deleted
 1213 Separator of export file
 1214 Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)
-
+1215 Blade server
+1216 Firewall
+1217 Load balancer
+1218 Switch
+1219 Cards
+1220 Cartridges
+1221 Drives
+1222 Fans
+1223 Power supplies
+1224 Trays
+1225 Maximum capacity
+1226 Color
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
