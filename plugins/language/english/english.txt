@@ -727,7 +727,7 @@
 840 Disk: Format
 841 Disk: Capacity
 842 Disk: Free Space
-843 Disk: Volume Name
+843 Disk: Volumn Name
 844 Group: Id
 845 Group: Static?
 846 Softwares: company
@@ -1109,6 +1109,11 @@
 1224 Trays
 1225 Maximum capacity
 1226 Color
+1227 Contact
+1228 Device SNMP
+1229 Firmware
+1230 Volumn Name
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

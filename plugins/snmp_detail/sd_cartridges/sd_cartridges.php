@@ -22,6 +22,10 @@ print_item_header($l->g(1220));
 	$tab_options['REPLACE_WITH_LIMIT']['DOWNVALUE'][$l->g(1104)]=$msq_tab_error;
 	$tab_options['REPLACE_WITH_LIMIT']['DOWN'][$l->g(1225)]=0;
 	$tab_options['REPLACE_WITH_LIMIT']['DOWNVALUE'][$l->g(1225)]=$msq_tab_error;
+	$tab_options['REPLACE_WITH_LIMIT']['DOWN']['PERCENT_BAR']=0;
+	$tab_options['REPLACE_WITH_LIMIT']['DOWNVALUE']['PERCENT_BAR']=$msq_tab_error;
+	$tab_options['REPLACE_WITH_LIMIT']['UP']['PERCENT_BAR']=100;
+	$tab_options['REPLACE_WITH_LIMIT']['UPVALUE']['PERCENT_BAR']=$msq_tab_error;
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);
 
 ?>
