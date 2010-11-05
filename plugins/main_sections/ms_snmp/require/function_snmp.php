@@ -78,9 +78,9 @@ function print_item_header($text)
 
 function bandeau($data,$lbl_affich,$title='',$class='mlt_bordure'){
 	$nb_col=2;
-	echo "<table ALIGN = 'Center' class='".$class."' ><tr><td align =center>";
+	echo "<table ALIGN = 'Center' class='".$class."' ><tr><td align =center colspan=20>";
 	if ($title != '')
-	echo "<i><big>".$title."</big><br></i></td></tr><tr><td align =center>";
+	echo "<i><b><big>".$title."</big></b><br><br></i></td></tr><tr><td align =center>";
 	echo "		<table align=center border='0' width='100%'  ><tr>";
 	$i=0;
 	foreach ($data as $table=>$values){

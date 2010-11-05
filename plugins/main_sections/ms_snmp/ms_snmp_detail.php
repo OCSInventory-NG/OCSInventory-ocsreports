@@ -59,7 +59,7 @@ foreach ($list_lbl as $key=>$value){
 }*/
 echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($list_lbl,$form_name,"onglet_sd",10);
-$msq_tab_error='<small><font color=red>ERR</font></small>';
+$msq_tab_error='<small>N/A</small>';
 echo '<div class="mlt_bordure" >';
 if (isset($list_lbl[$protectedPost['onglet_sd']])){
 	if (file_exists($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php"))

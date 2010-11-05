@@ -472,12 +472,15 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 
 function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='CHANGE',$showbutton_action='')
 {
-	global $l,$protectedPost;
+	global $l,$protectedPost,$css;
+	
+	if (!isset($css))
+		$css="mvt_bordure";
 
 	if ($form_name != 'NO_FORM')
 	echo "<form name='" . $form_name . "' id='" 
 		. $form_name . "' action='' method='POST'>";
-	echo '<div class="mvt_bordure" >';
+	echo '<div class="'.$css.'" >';
 	if ($showbutton_action != '')
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'>" . $showbutton_action . "</td></tr></table>";
 	echo "<table align='center' border='0' cellspacing=20 >";
@@ -496,11 +499,11 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
  	echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
  	if ($showbutton){
 		echo "<tr><td><input title='" . $l->g(625) 
-					. "'  class='image' type='image'  src='image/success.png' name='Valid_" 
+					. "'  type='image'  src='image/success.png' name='Valid_" 
 					. $name_button 
 					."'>";
 		echo "<input title='" . $l->g(626) 
-				. "' class='image' type='image'  src='image/error.png' name='Reset_"
+				. "'  type='image'  src='image/error.png' name='Reset_"
 				. $name_button . "'></td></tr>";
  	}
 	echo "</table>";
