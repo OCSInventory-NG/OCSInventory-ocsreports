@@ -837,7 +837,7 @@ sub setSnmpSwitch {
  my ($self,$args)=@_;
   my $xmltags=$self->{xmltags};
 
-  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOTVERSION FIRMVERSION SERIALNUMBER REVISION/ ) {
+  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOTVERSION FIRMVERSION SERIALNUMBER REVISION DESCRIPTION/ ) {
      if (exists $args->{$key}) {
         $xmltags->{SWITCHS}[0]{$key}[0]=$args->{$key};
      }
@@ -925,7 +925,7 @@ sub addSnmpNetwork {
      $xmltags->{NETWORKS}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION MACADDR DEVICEMACADDR SLOT STATUS SPEED TYPE DEVICEADDRESS DEVICENAME/ ) {
+  foreach my $key (qw/DESCRIPTION MACADDR DEVICEMACADDR SLOT STATUS SPEED TYPE DEVICEADDRESS DEVICENAME TYPEMIB IPADDR IPMASK IPGATEWAY IPSUBNET IPDHCP DRIVER VIRTUALDEV/ ) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -980,7 +980,7 @@ sub addSnmpCard {
      $xmltags->{CARDS}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION REFERENCE FIRMWARE SOFTWARE REVISION SERIAL MANUFACTURER TYPE/ ) {
+  foreach my $key (qw/DESCRIPTION REFERENCE FIRMWARE SOFTWARE REVISION SERIALNUMBER MANUFACTURER TYPE/ ) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -998,7 +998,7 @@ sub addSnmpFan {
      $xmltags->{FANS}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION REFERENCE REVISION SERIAL MANUFACTURER TYPE/ ) {
+  foreach my $key (qw/DESCRIPTION REFERENCE REVISION SERIALNUMBER MANUFACTURER TYPE/ ) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -1015,7 +1015,7 @@ sub addSnmpPowerSupply {
      $xmltags->{POWERSUPPLIES}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION REFERENCE REVISION SERIAL MANUFACTURER TYPE/ ) {
+  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SERIALNUMBER DESCRIPTION REVISION/ ) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
