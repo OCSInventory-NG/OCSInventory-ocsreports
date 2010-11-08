@@ -878,6 +878,17 @@ sub setSnmpBlade {
   }
 }
 
+sub setSnmpComputer {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+
+  foreach my $key (qw/SYSTEM/ ) {
+     if (exists $args->{$key}) {
+        $xmltags->{COMPUTERS}[0]{$key}[0]=$args->{$key};
+     }
+  }
+}
+
 sub addSnmpPrinterCartridge {
   my ($self,$args)=@_;
   my $xmltags=$self->{xmltags};
@@ -1024,7 +1035,7 @@ sub addSnmpSwitch {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
   my $content={};
-  if ( ! defined ($xmltags->{SWITCH})) {
+  if ( ! defined ($xmltags->{SWITCHS})) {
      $xmltags->{SWITCHS}=[];
   }
 
@@ -1035,6 +1046,24 @@ sub addSnmpSwitch {
   }
   push @{$xmltags->{SWITCHS}},$content;
 }
+
+sub addSnmpLocalPrinter {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+  my $content={};
+  if ( ! defined ($xmltags->{LOCALPRINTERS})) {
+     $xmltags->{LOCALPRINTERS}=[];
+  }
+
+  foreach my $key (qw/NAME/ ) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{LOCALPRINTERS}},$content;
+
+}
+
 
 #Subroutinne to add 0 in 'Sun like' MAC adress if needed
 sub padSnmpMacAddress {
