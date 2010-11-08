@@ -1112,6 +1112,8 @@
 1228 Identifiant SNMP
 1229 Firmware
 1230 Nom du volume
+1231 le format de fichier doit être en ZIP
+1232 le format de fichier doit être en TAR.GZ
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

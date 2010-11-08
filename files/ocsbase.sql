@@ -1038,5 +1038,5 @@ CREATE TABLE snmp_accountinfo (
 ) ENGINE=INNODB ;
 
 insert into config (NAME,IVALUE,COMMENTS) values ('SNMP_INVENTORY_DIFF',1,'Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)');
-
+INSERT INTO config VALUES ('SNMP_DIR','','/var/lib/ocsinventory-reports/snmp','Directory for download files');
 

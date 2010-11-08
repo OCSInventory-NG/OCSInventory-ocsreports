@@ -312,11 +312,11 @@ echo "<script language='javascript'>
 				 	msg='NULL';
 				 }
 				else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'ZIP' && document.getElementById(\"OS\").value == 'WINDOWS'){
-					alert('le format de fichier doit �tre en ZIP');
+					alert('".$l->g(1231)."');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
 				}else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'TAR.GZ' && document.getElementById(\"OS\").value != 'WINDOWS'){
-					alert('le format de fichier doit �tre en TAR.GZ');
+					alert('".$l->g(1232)."');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
 				}
