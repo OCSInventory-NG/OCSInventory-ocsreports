@@ -833,13 +833,13 @@ sub setSnmpPrinter {
 }
 
 
-sub setSnmpSwitch {
- my ($self,$args)=@_;
+sub setSnmpSwitchInfos {
+  my ($self,$args)=@_;
   my $xmltags=$self->{xmltags};
 
-  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOTVERSION FIRMVERSION SERIALNUMBER REVISION DESCRIPTION/ ) {
+  foreach my $key (qw/TYPE/ ) {
      if (exists $args->{$key}) {
-        $xmltags->{SWITCHS}[0]{$key}[0]=$args->{$key};
+        $xmltags->{SWITCHINFOS}[0]{$key}[0]=$args->{$key};
      }
   }
 }
@@ -848,12 +848,11 @@ sub setSnmpFirewalls {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
 
-  my $serialnumber = $args->{SERIALNUMBER};
-
-  push @{$xmltags->{FIREWALLS}},
-  {
-  SERIALNUMBER => [$serialnumber?$serialnumber:''],
-  };
+  foreach my $key (qw/SERIALNUMBER/ ) {
+     if (exists $args->{$key}) {
+        $xmltags->{FIREWALLS}[0]{$key}[0]=$args->{$key};
+     }
+  }
 }
 
 
@@ -861,24 +860,22 @@ sub setSnmpLoadBalancer {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
 
-  my $serialnumber = $args->{SERIALNUMBER};
-
-  push @{$xmltags->{LOADBALANCERS}},
-  {
-  SERIALNUMBER => [$serialnumber?$serialnumber:''],
-  };
+  foreach my $key (qw/SERIALNUMBER/ ) {
+     if (exists $args->{$key}) {
+        $xmltags->{LOADBALANCERS}[0]{$key}[0]=$args->{$key};
+     }
+  }
 }
 
 sub setSnmpBlade {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
 
-  my $serialnumber = $args->{SERIALNUMBER};
-
-  push @{$xmltags->{BLADES}},
-  {
-  SERIALNUMBER => [$serialnumber?$serialnumber:''],
-  };
+  foreach my $key (qw/SERIALNUMBER/ ) {
+     if (exists $args->{$key}) {
+        $xmltags->{BLADES}[0]{$key}[0]=$args->{$key};
+     }
+  }
 }
 
 sub addSnmpPrinterCartridge {
@@ -1028,15 +1025,15 @@ sub addSnmpSwitch {
   my $xmltags=$self->{xmltags};
   my $content={};
   if ( ! defined ($xmltags->{SWITCH})) {
-     $xmltags->{SWITCH}=[];
+     $xmltags->{SWITCHS}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION REFERENCE REVISION FIRMWARE SERIAL MANUFACTURER TYPE/ ) {
+  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOTVERSION FIRMVERSION SERIALNUMBER REVISION DESCRIPTION/ ) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
   }
-  push @{$xmltags->{SWITCH}},$content;
+  push @{$xmltags->{SWITCHS}},$content;
 }
 
 #Subroutinne to add 0 in 'Sun like' MAC adress if needed
