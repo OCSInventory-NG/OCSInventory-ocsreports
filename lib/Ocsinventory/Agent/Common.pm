@@ -898,7 +898,7 @@ sub addSnmpPrinterCartridge {
      $xmltags->{CARDS}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION TYPE LEVEL MAXCAPACITY COLOR/ ) {
+  foreach my $key (qw/DESCRIPTION TYPE LEVEL MAXCAPACITY COLOR/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -916,7 +916,7 @@ sub addSnmpPrinterTray {
      $xmltags->{CARDS}=[];
   }
 
-  foreach my $key (qw/NAME DESCRIPTION LEVEL MAXCAPACITY/ ) {
+  foreach my $key (qw/NAME DESCRIPTION LEVEL MAXCAPACITY/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -933,7 +933,7 @@ sub addSnmpNetwork {
      $xmltags->{NETWORKS}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION MACADDR DEVICEMACADDR SLOT STATUS SPEED TYPE DEVICEADDRESS DEVICENAME TYPEMIB IPADDR IPMASK IPGATEWAY IPSUBNET IPDHCP DRIVER VIRTUALDEV/ ) {
+  foreach my $key (qw/DESCRIPTION MACADDR DEVICEMACADDR SLOT STATUS SPEED TYPE DEVICEADDRESS DEVICENAME TYPEMIB IPADDR IPMASK IPGATEWAY IPSUBNET IPDHCP DRIVER VIRTUALDEV/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -953,7 +953,7 @@ sub addSnmpDrive {
      $xmltags->{DRIVES}=[];
   }
 
-  foreach my $key (qw/LETTER TYPE FILESYSTEM TOTAL FREE NUMFILES VOLUMN/ ) {
+  foreach my $key (qw/LETTER TYPE FILESYSTEM TOTAL FREE NUMFILES VOLUMN/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -970,7 +970,7 @@ sub addSnmpStorage {
      $xmltags->{STORAGES}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION MANUFACTURER NAME MODEL DISKSIZE TYPE SERIALNUMBER FIRMWARE/ ) {
+  foreach my $key (qw/DESCRIPTION MANUFACTURER NAME MODEL DISKSIZE TYPE SERIALNUMBER FIRMWARE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -988,7 +988,7 @@ sub addSnmpCard {
      $xmltags->{CARDS}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION REFERENCE FIRMWARE SOFTWARE REVISION SERIALNUMBER MANUFACTURER TYPE/ ) {
+  foreach my $key (qw/DESCRIPTION REFERENCE FIRMWARE SOFTWARE REVISION SERIALNUMBER MANUFACTURER TYPE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -1006,7 +1006,7 @@ sub addSnmpFan {
      $xmltags->{FANS}=[];
   }
 
-  foreach my $key (qw/DESCRIPTION REFERENCE REVISION SERIALNUMBER MANUFACTURER TYPE/ ) {
+  foreach my $key (qw/DESCRIPTION REFERENCE REVISION SERIALNUMBER MANUFACTURER TYPE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -1039,7 +1039,7 @@ sub addSnmpSwitch {
      $xmltags->{SWITCHS}=[];
   }
 
-  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOTVERSION FIRMVERSION SERIALNUMBER REVISION DESCRIPTION/ ) {
+  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOTVERSION FIRMVERSION SERIALNUMBER REVISION DESCRIPTION/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -1055,12 +1055,29 @@ sub addSnmpLocalPrinter {
      $xmltags->{LOCALPRINTERS}=[];
   }
 
-  foreach my $key (qw/NAME/ ) {
+  foreach my $key (qw/NAME/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
   }
   push @{$xmltags->{LOCALPRINTERS}},$content;
+
+}
+
+sub addSnmpInput {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+  my $content={};
+  if ( ! defined ($xmltags->{INPUTS})) {
+     $xmltags->{INPUTS}=[];
+  }
+
+  foreach my $key (qw/DESCRIPTION TYPE/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{INPUTS}},$content;
 
 }
 
