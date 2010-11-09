@@ -63,7 +63,7 @@ sub snmp_run {
    # Memory
    $result=$session->get_request(-varbindlist => [ $memory ]);
    if ( defined ($result) ) {
-      $common->setHardware( {MEMORY => $result->{$memory} } );
+      $common->addMemory( {CAPACITY => $result->{$memory} } );
    }
 
    # We look for disk
@@ -159,7 +159,7 @@ sub snmp_run {
          my $NAME=$session->get_request(-varbindlist => [ $snmp_Printer.$ref ] );
          if ( defined ($NAME) ) {
              $NAME=$NAME->{$snmp_Printer.$ref };
-             $common->addPrinter( { NAME => $NAME } );
+             $common->addSnmpLocalPrinter( { NAME => $NAME } );
          }
       } # End Printer
       elsif  ( $result_table->{$result} =~ /3\.1\.13$/ ) {
@@ -167,7 +167,7 @@ sub snmp_run {
          my $DESCRIPTION=$session->get_request(-varbindlist => [ $snmp_Keyboard.$ref ] );
          if ( defined ($DESCRIPTION) ) {
              $DESCRIPTION=$DESCRIPTION->{$snmp_Keyboard.$ref };
-             $common->addInput( { DESCRIPTION => $DESCRIPTION , TYPE => "Keyboard" } );
+             $common->addSnmpInput( { DESCRIPTION => $DESCRIPTION , TYPE => "Keyboard" } );
          }
       } # End Keyboard
       elsif  ( $result_table->{$result} =~ /3\.1\.16$/ ) {
@@ -175,7 +175,7 @@ sub snmp_run {
          my $DESCRIPTION=$session->get_request(-varbindlist => [ $snmp_Pointing.$ref ] );
          if ( defined ($DESCRIPTION) ) {
              $DESCRIPTION=$DESCRIPTION->{$snmp_Pointing.$ref };
-             $common->addInput( { DESCRIPTION => $DESCRIPTION , TYPE => "Mouse" } );
+             $common->addSnmpInput( { DESCRIPTION => $DESCRIPTION , TYPE => "Mouse" } );
          }
       } # End Pointing
       elsif  ( $result_table->{$result} =~ /3\.1\.11$/ ) {
@@ -207,7 +207,7 @@ sub snmp_run {
          my $NAME=$session->get_request(-varbindlist => [ $snmp_ParallelPort.$ref ] );
          if ( defined ($NAME) ) {
              $NAME=$NAME->{$snmp_ParallelPort.$ref };
-             $common->addPort( { NAME => $NAME , TYPE => "Parallel" } );
+             $common->addPorts( { NAME => $NAME , TYPE => "Parallel" } );
          }
       } # End ParallelPort
       elsif  ( $result_table->{$result} =~ /3\.1\.17$/ ) {
@@ -215,7 +215,7 @@ sub snmp_run {
          my $NAME=$session->get_request(-varbindlist => [ $snmp_SerialPort.$ref ] );
          if ( defined ($NAME) ) {
              $NAME=$NAME->{$snmp_SerialPort.$ref };
-             $common->addPort( { NAME => $NAME , TYPE => "Serial" } );
+             $common->addPorts( { NAME => $NAME , TYPE => "Serial" } );
          }
       } # End SerialPort
    } # End scan of hrDeviceType

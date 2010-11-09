@@ -24,7 +24,10 @@ sub snmp_run()
      $snmp->snmp_oid_run($mib);
   }
 
-
+  #This device is a computer
+  $common->setSnmpComputer({
+    SYSTEM => 'Linux',
+  });
     
 }
 
