@@ -944,41 +944,6 @@ sub addSnmpNetwork {
   push @{$xmltags->{NETWORKS}},$content;
 }
 
-sub addSnmpDrive {
-  my ($self,$args)=@_;
-  my $xmltags=$self->{xmltags};
-  my $content={};
-
-  if ( ! defined ($xmltags->{DRIVES})) {
-     $xmltags->{DRIVES}=[];
-  }
-
-  foreach my $key (qw/LETTER TYPE FILESYSTEM TOTAL FREE NUMFILES VOLUMN/) {
-     if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
-     }
-  }
-  push @{$xmltags->{DRIVES}},$content;
-}
-
-sub addSnmpStorage {
-  my ($self,$args)=@_;
-  my $xmltags=$self->{xmltags};
-  my $content={};
-
-  if ( ! defined ($xmltags->{STORAGES})) {
-     $xmltags->{STORAGES}=[];
-  }
-
-  foreach my $key (qw/DESCRIPTION MANUFACTURER NAME MODEL DISKSIZE TYPE SERIALNUMBER FIRMWARE/) {
-     if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
-     }
-  }
-  push @{$xmltags->{STORAGES}},$content;
-
-}
-
 sub addSnmpCard {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
