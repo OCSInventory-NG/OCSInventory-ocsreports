@@ -4,13 +4,15 @@
  * 
  */
 $snmp_tables_type=array($l->g(1215)=>'SNMP_BLADES',$l->g(1216)=>'SNMP_FIREWALLS',$l->g(1217)=>'SNMP_LOADBALANCERS',
-					    $l->g(79)=>'SNMP_PRINTERS',$l->g(1218)=>'SNMP_SWITCHS'); 
+					    $l->g(79)=>'SNMP_PRINTERS',$l->g(1218)=>'SNMP_SWITCHINFOS',$l->g(729)=>'SNMP_COMPUTERS'); 
 
-$snmp_tables=array('SNMP_CARDS','SNMP_CARTRIDGES','SNMP_DRIVES',
-				'SNMP_FANS','SNMP_NETWORKS','SNMP_POWERSUPPLIES',
-				'SNMP_STORAGES','SNMP_TRAYS');
+					    
+$snmp_tables=array('SNMP_ACCOUNTINFO','SNMP_CARDS','SNMP_CARTRIDGES','SNMP_CPUS','SNMP_DRIVES',
+				'SNMP_FANS','SNMP_INPUTS','SNMP_LASTSTATE','SNMP_LOCALPRINTERS','SNMP_MEMORIES',
+				'SNMP_MODEMS','SNMP_NETWORKS','SNMP_PORTS','SNMP_POWERSUPPLIES','SNMP_SOFTWARES',
+				'SNMP_SOUNDS','SNMP_STORAGES','SNMP_SWITCHS','SNMP_TRAYS','SNMP_VIDEOS');
 
-
+$all_snmp_table=array_merge($snmp_tables_type,$snmp_tables);
 //is ID exist?
 function info_snmp($snmp_id){
 	global $l,$snmp_tables_type;
@@ -111,20 +113,20 @@ function bandeau($data,$lbl_affich,$title='',$class='mlt_bordure'){
 }
 
 function deleteDid_snmp($id){
-	global $snmp_tables;
+	global $all_snmp_table;
 	if (is_array($id))
 		$id_snmp=explode(',',$id);
 	else
 		$id_snmp=$id;
-	
-	foreach ($snmp_tables as $key=>$values){
+	//p($all_snmp_table);
+	foreach ($all_snmp_table as $key=>$values){
 		$sql='delete from %s where snmp_id in ';
-		$arg=$values;
+		$arg=array(strtolower($values));
 		$del_sql=mysql2_prepare($sql,$arg,$id_snmp,$nocot=true);
 		mysql2_query_secure($del_sql['SQL'],$_SESSION['OCS']["writeServer"],$del_sql['ARG'],true);		
 	}	
 
-	$sql='delete from SNMP where id in ';
+	$sql='delete from snmp where id in ';
 	$del_sql=mysql2_prepare($sql,array(),$id_snmp,$nocot=true);
 	mysql2_query_secure($del_sql['SQL'],$_SESSION['OCS']["writeServer"],$del_sql['ARG'],true);			
 }
