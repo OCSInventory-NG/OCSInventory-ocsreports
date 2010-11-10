@@ -80,36 +80,42 @@ function print_item_header($text)
 
 function bandeau($data,$lbl_affich,$title='',$class='mlt_bordure'){
 	$nb_col=2;
-	echo "<table ALIGN = 'Center' class='".$class."' ><tr><td align =center colspan=20>";
+	$data_exist=false;
+	$show_table = "<table ALIGN = 'Center' class='".$class."' ><tr><td align =center colspan=20>";
 	if ($title != '')
-	echo "<i><b><big>".$title."</big></b><br><br></i></td></tr><tr><td align =center>";
-	echo "		<table align=center border='0' width='100%'  ><tr>";
+	$show_table .= "<i><b><big>".$title."</big></b><br><br></i></td></tr><tr><td align =center>";
+	$show_table .= "		<table align=center border='0' width='100%'  ><tr>";
 	$i=0;
 	foreach ($data as $table=>$values){
 		if (is_object($values)){
 			foreach ($values as $field=>$field_value){
+				$data_exist=true;
 				if (trim($field_value) != '' 
 						and $field != 'ID' 
 						and $field != 'SNMP_ID'){
 					if ($i == $nb_col){
-						echo "</tr><tr>";
+						$show_table .= "</tr><tr>";
 						$i=0;			
 					}
-					echo "<td >&nbsp;<b>";
+					$show_table.= "<td >&nbsp;<b>";
 					if (isset($lbl_affich[$field]))
-						echo $lbl_affich[$field];
+						$show_table.= $lbl_affich[$field];
 					else
-						echo $field;
-					echo " :</b></td><td >".$field_value."</td>";
+						$show_table.= $field;
+					$show_table.= " :</b></td><td >".$field_value."</td>";
 					$i++;
 				}
 			}
 		}
 		
 		
-	}
-		
-	echo "</tr></table></td></tr></table>";	
+	}		
+	$show_table.= "</tr></table></td></tr></table><br>";	
+	
+	if ($data_exist)
+		return $show_table;
+	return false;
+	
 }
 
 function deleteDid_snmp($id){

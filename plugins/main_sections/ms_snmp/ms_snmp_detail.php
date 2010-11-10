@@ -20,10 +20,17 @@ $lbl_affich=array('NAME'=>$l->g(49),'UPTIME'=>$l->g(352),'MACADDR'=>$l->g(95),'I
 					);		
 $info['snmp']=$item['data']['snmp'];
 					
-$bandeau=bandeau($info,$lbl_affich);
+$first_tab=bandeau($info,$lbl_affich);
 unset($item['data']['snmp']);
-echo "<br>";
-$bandeau=bandeau($item['data'],$lbl_affich,$item['lbl'],'mvt_bordure');
+$second_tab=bandeau($item['data'],$lbl_affich,$item['lbl'],'mvt_bordure');
+
+if ($first_tab)
+echo $first_tab;
+
+if ($second_tab)
+echo $second_tab;
+
+
 //get plugins when exist
 $Directory=$_SESSION['OCS']['plugins_dir']."snmp_detail/";
 $ms_cfg_file= $Directory."config.txt";
