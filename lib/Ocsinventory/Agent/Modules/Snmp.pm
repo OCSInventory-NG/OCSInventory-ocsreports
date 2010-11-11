@@ -103,6 +103,7 @@ sub snmp_prolog_reader {
 
    for $option (@{$prolog->{OPTION}}){
       if( $option->{NAME} =~/snmp/i){
+         $self->{doscans} = 1 ;
          for ( @{ $option->{PARAM} } ) {
 
             if($_->{'TYPE'} eq 'DEVICE'){
@@ -114,29 +115,29 @@ sub snmp_prolog_reader {
 
             if($_->{'TYPE'} eq 'COMMUNITY'){
                 #Get the uri to download file for SNMP communities
-                $self->{snmpcom_loc} = $_->{SNMPCOM_LOC}; 
+                my $snmpcom_loc = $_->{SNMPCOM_LOC}; 
+                my $snmp_dir = "$self->{context}->{installpath}/snmp";
+
+                mkdir($snmp_dir) unless -d $snmp_dir;
+
+                #Download snmp_com.txt file using https
+                if ($network->getHttpsFile($snmpcom_loc,"snmp_com.txt","$snmp_dir/snmp_com.txt","cacert.pem",$self->{context}->{installpath})) {
+                  if ( -f "$snmp_dir/snmp_com.txt") {
+                    my $snmp_com = XML::Simple::XMLin("$snmp_dir/snmp_com.txt", ForceArray => ['COMMUNITY']);
+
+                    for (@{$snmp_com->{COMMUNITY}}){
+                      push @{$self->{communities}},{
+                         VERSION=>$_->{VERSION},
+                         NAME=>$_->{NAME}
+                      };
+                    }
+                  }
+                } else {
+                  $logger->debug("Cannot download file for SNMP communities informations :( :(");
+                }
             }
          }
       }
-   }
-
-   my $snmp_dir = "$self->{context}->{installpath}/snmp";
-   mkdir($snmp_dir) unless -d $snmp_dir;
-
-   #Download snmp_com.txt file using https
-   if ($network->getHttpsFile($self->{snmpcom_loc},"snmp_com.txt","$snmp_dir/snmp_com.txt","cacert.pem",$self->{context}->{installpath})) {
-     if ( -f "$snmp_dir/snmp_com.txt") {
-       my $snmp_com = XML::Simple::XMLin("$snmp_dir/snmp_com.txt", ForceArray => ['COMMUNITY']);
-
-       for (@{$snmp_com->{COMMUNITY}}){
-         push @{$self->{communities}},{
-           VERSION=>$_->{VERSION},
-           NAME=>$_->{NAME}
-         };
-       }
-     }
-   } else {
-     $logger->debug("Cannot download file for SNMP communities informations :( :(");
    }
 }
 
@@ -146,6 +147,11 @@ sub snmp_end_handler {
    my $logger = $self->{logger};
    my $common = $self->{context}->{common};
    my $network = $self->{context}->{network};
+
+   $logger->debug("Calling snmp_end_handler");
+
+   #If no order form server
+   return unless $self->{doscans};
 
    #Flushing xmltags if it has not been done
    $common->flushXMLTags();
@@ -174,7 +180,6 @@ sub snmp_end_handler {
    # ifPhysAddress.1
    my $snmp_macaddr="1.3.6.1.2.1.2.2.1.6.1";
 
-   $logger->debug("Calling snmp_end_handler");
 
 
    # Initalising the XML properties 
@@ -362,7 +367,7 @@ sub snmp_oid_run {
       $self->{func_oid}{$system_oid}{last_exec}=$self->{number_scan};
       if ( length ($result->{$oid_scan}) != 0 ) {
          # This OID exist, we can execute it
-         $logger->debug("Launching $system_oid\n" );
+         #$logger->debug("Launching $system_oid\n");
          &{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
       }
    # We indicate that this equipment is the last scanned
