@@ -6,11 +6,9 @@ package Ocsinventory::Agent::Modules::Snmp::Host_Resources_Mib;
 use strict;
 use warnings;
 
-use Data::Dumper;
-
 sub snmp_info {
    return ( { oid_value => "1.3.6.1.2.1.25.1.1.0",
-            oid_name => "Host_Resource_Mib" } );
+            oid_name => "Host_Resources_Mib" } );
 }
 
 sub snmp_run {
@@ -18,7 +16,8 @@ sub snmp_run {
    my $logger=$snmp->{logger};
    my $common=$snmp->{common};
    
-   $logger->debug("Execution: host resource mib");
+   $logger->debug("Running Host Resources MIB module");
+
    # OID 
    my $soft="1.3.6.1.2.1.25.6.3.1.";
    my $memory="1.3.6.1.2.1.25.2.2.0";

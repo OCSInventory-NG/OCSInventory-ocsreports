@@ -17,12 +17,11 @@ sub snmp_run()
   my $snmp_nom="1.3.6.1.2.1.1.5.0";
   my $list_mib=["If_Mib", "Host_Resources_Mib"];
 
-  $logger->debug("Execution mib linux:8072");
+  $logger->debug("Running Linux (8072) MIB module");
   $common->setSnmpCommons( {TYPE => "Linux"} );
   $common->setSnmpComputer({SYSTEM => 'Linux'});
 
   foreach my $mib ( @{$list_mib} ) {
-     $logger->debug("Sub mib $mib");
      $snmp->snmp_oid_run($mib);
   }
 

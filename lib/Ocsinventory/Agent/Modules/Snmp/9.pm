@@ -9,17 +9,16 @@ package Ocsinventory::Agent::Modules::Snmp::9;
 use strict;
 use warnings;
 
-use Data::Dumper;
-
-
 sub snmp_run {
    my ($session , $snmp )= @_;
    my $logger=$snmp->{logger};
    my $common=$snmp->{common};
 
    my $list_mib=["Entity_Mib"];
+
+   $logger->debug("Running Cisco (9) MIB module");
+
    foreach my $mib ( @{$list_mib} ) {
-      $logger->debug("Sub mib $mib");
       $snmp->snmp_oid_run($mib);
    }
 

@@ -20,9 +20,8 @@ sub snmp_run()
   my $common = $snmp->{common};
   my $logger=$snmp->{logger};
 
-  $logger->debug("Execution mib Chekpoint 2620");
+  $logger->debug("Running Chekpoint (2620) MIB module");
   $common->setSnmpCommons( {TYPE => "Firewall"} );
-
   
 }
 

@@ -8,7 +8,6 @@ package Ocsinventory::Agent::Modules::Snmp::311;
 use strict;
 no strict 'refs';
 use warnings;
-use Data::Dumper;
 
 sub snmp_info {
    return ( { oid_value => "1.3.6.1.4.1.77.1.2.1.0" ,
@@ -24,16 +23,13 @@ sub snmp_run {
    $common->setSnmpCommons( {TYPE => "Microsoft"} );
    $common->setSnmpComputer({SYSTEM => 'Microsoft'});
 
+   my $list_mib=["If_Mib", "Host_Resources_Mib"];
 
-  my $list_mib=["If_Mib", "Host_Resources_Mib"];
+   $logger->debug("Running Microsoft (311) MIB module");
 
-  $logger->debug("Execution mib Microsoft:311");
-
-  foreach my $mib ( @{$list_mib} ) {
-     $logger->debug("Sub mib $mib");
+   foreach my $mib ( @{$list_mib} ) {
      $snmp->snmp_oid_run($mib);
-  }
-
+   }
 
 }
 1;

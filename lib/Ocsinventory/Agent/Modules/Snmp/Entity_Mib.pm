@@ -8,14 +8,12 @@ package Ocsinventory::Agent::Modules::Snmp::Entity_Mib;
 use strict;
 use warnings;
 
-use Data::Dumper;
-
 sub snmp_run {
    my ($session , $snmp )= @_;
    my $logger=$snmp->{logger};
    my $common=$snmp->{common};
 
-   $logger->debug("Execution: Entity mib");
+   $logger->debug("Running Entity MIB module");
 
    # OID
    my $snmp_entPhysicalClass="1.3.6.1.2.1.47.1.1.1.1.5";

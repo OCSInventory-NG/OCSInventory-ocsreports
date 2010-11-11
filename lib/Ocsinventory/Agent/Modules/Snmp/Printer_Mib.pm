@@ -6,7 +6,8 @@ package Ocsinventory::Agent::Modules::Snmp::Printer_Mib;
 use strict;
 
 sub snmp_info {
-   return ( { oid_value => "1.3.6.1.2.1.43.5.1.1.16.1",
+   #TODO: find a common OID from Printer_Mib (compatible with most printers) instead of using hrPrinterStatus from Host_Ressources_Mib
+   return ( { oid_value => "1.3.6.1.2.1.25.3.5.1.1.1",
             oid_name => "Printer_Mib" } );
 }
 
@@ -17,7 +18,8 @@ sub snmp_run {
 
   my ($result,$name,$serialnumber,$lifecount,$countunit,$printerstatus,$errorstate);
 
-  $logger->debug("Running Printer_Mib module");
+  $logger->debug("Running Printer MIB module");
+
   $common->setSnmpCommons( {TYPE => "Printer"} );
 
   #prtGeneralPrinterName

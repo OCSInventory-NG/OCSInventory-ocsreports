@@ -16,7 +16,8 @@ sub snmp_run {
    my $logger=$snmp->{logger};
    my $common=$snmp->{common};
    
-   $logger->debug("Execution: If mib");
+   $logger->debug("Running If MIB module");
+
    # OID a recuperer
    my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2";
    my $snmp_iftype="1.3.6.1.2.1.2.2.1.3.";

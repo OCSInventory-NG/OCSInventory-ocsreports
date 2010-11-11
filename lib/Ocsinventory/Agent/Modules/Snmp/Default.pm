@@ -8,7 +8,6 @@ package Ocsinventory::Agent::Modules::Snmp::Default;
 use strict;
 no strict 'refs';
 use warnings;
-use Data::Dumper;
 
 sub snmp_run {
    my ($session , $snmp )= @_;
@@ -20,10 +19,9 @@ sub snmp_run {
 
   my $list_mib=["If_Mib", "Host_Resources_Mib","Printer_Mib"];
 
-  $logger->debug("Execution Default mib \n");
+  $logger->debug("Running Default MIB module \n");
 
   foreach my $mib ( @{$list_mib} ) {
-     $logger->debug("Sub mib $mib");
      $snmp->snmp_oid_run($mib);
   }
 
