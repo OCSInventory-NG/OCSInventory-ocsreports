@@ -14,11 +14,11 @@ FILES="/Library/Receipts/OCSNG* /etc/ocsinventory-agent/ /var/lib/ocsinventory-a
 if [ "$OSVER" == "7.9.0" ]; then
 	FILES="$FILES /Library/StartupItems/OCSInventory"
 else
-	FILES="$FILES /Library/LaunchAgents/org.ocsng.agent.plist"
+	FILES="$FILES /Library/LaunchDaemons/org.ocsng.agent.plist"
 
 	echo 'Stopping and unloading service'
 	launchctl stop org.ocsng.agent
-	launchctl unload /Library/LaunchAgents/org.ocsng.agent.plist
+	launchctl unload /Library/LaunchDaemons/org.ocsng.agent.plist
 fi
 
 for FILE in $FILES; do

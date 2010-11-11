@@ -62,7 +62,7 @@ if [ "$OSVER" == "7.9.0" ]; then
 	sudo /System/Library/StartupItems/OCSInventory/OCSInventory start
 else
 	echo "Found Tiger or newer OS, using LaunchAgent plists"
-	TPATH="/Library/LaunchAgents/"
+	TPATH="/Library/LaunchDaemons/"
 	sudo cp $PREFIX/launchfiles/org.ocsng.agent.plist $TPATH
 	sudo chown root:wheel $TPATH/org.ocsng.agent.plist
 	sudo chmod 644 $TPATH/org.ocsng.agent.plist
