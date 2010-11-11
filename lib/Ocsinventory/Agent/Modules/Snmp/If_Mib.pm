@@ -24,11 +24,11 @@ sub snmp_run {
    my $snmp_physAddr="1.3.6.1.2.1.2.2.1.6.";
    my $snmp_ifadminstatus="1.3.6.1.2.1.2.2.1.7.";
 
-   my $SPEED=""; 
-   my $MACADDR="";
-   my $SLOT=""; 
-   my $STATUS=""; 
-   my $TYPE="";
+   my $SPEED=undef; 
+   my $MACADDR=undef;
+   my $SLOT=undef; 
+   my $STATUS=undef; 
+   my $TYPE=undef;
 
    my $ref;
    my $result_snmp;
@@ -67,8 +67,6 @@ sub snmp_run {
                $STATUS="Down";
             }
 
-
-      #print "  mac $MACADDR pci $SLOT status $STATUS type $TYPE virtual $VIRTUALDEV speed $SPEED\n";
            $common->addSnmpNetwork( {
                 TYPE => $TYPE,
                 SLOT => $SLOT,
@@ -76,11 +74,11 @@ sub snmp_run {
                 MACADDR => $MACADDR,
                 STATUS => $STATUS,
                 });
-           $MACADDR="";
-           $SLOT="";
-           $STATUS="";
-           $TYPE="";
-           $SPEED="";
+           $MACADDR=undef;
+           $SLOT=undef;
+           $STATUS=undef;
+           $TYPE=undef;
+           $SPEED=undef;
         }
       }
    } # End foreach result

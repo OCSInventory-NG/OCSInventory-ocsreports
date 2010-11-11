@@ -18,6 +18,7 @@ sub snmp_run {
   my ($result,$name,$serialnumber,$lifecount,$countunit,$printerstatus,$errorstate);
 
   $logger->debug("Running Printer_Mib module");
+  $common->setSnmpCommons( {TYPE => "Printer"} );
 
   #prtGeneralPrinterName
   my $snmp_name="1.3.6.1.2.1.43.5.1.1.16.1";

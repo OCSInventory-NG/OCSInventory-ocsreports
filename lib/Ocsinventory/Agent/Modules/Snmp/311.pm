@@ -18,8 +18,11 @@ sub snmp_run {
    my ($session , $snmp )= @_;
    my $oid_run=$snmp->{snmp_oid_run};
 
+   my $common = $snmp->{common};
    my $inventory = $snmp->{inventory};
    my $logger=$snmp->{logger};
+   $common->setSnmpCommons( {TYPE => "Microsoft"} );
+   $common->setSnmpComputer({SYSTEM => 'Microsoft'});
 
 
   my $list_mib=["If_Mib", "Host_Resources_Mib"];
@@ -31,10 +34,6 @@ sub snmp_run {
      $snmp->snmp_oid_run($mib);
   }
 
-  #This device is a computer
-  $common->setSnmpComputer({
-    SYSTEM => 'Microsoft',
-  });
 
 }
 1;

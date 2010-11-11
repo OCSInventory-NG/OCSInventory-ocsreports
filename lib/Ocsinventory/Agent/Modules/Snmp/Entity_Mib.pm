@@ -36,6 +36,7 @@ sub snmp_run {
 
    my $result_snmp;
    my $result;
+   my $nbr_switch=0;
 
    # We are looking for physical elements 
    $result_snmp=$session->get_entries(-columns => [$snmp_entPhysicalClass]);
@@ -46,26 +47,35 @@ sub snmp_run {
 
          my $info = {};
          if ( $PhysicalClass =~ /^[3,6,7,9,11]$/ ) {
-             info_element($info,$session,$ref,$logger);
-             $info->{TYPE}=$translation_entPhysicalClass->{$PhysicalClass};
-         }
-         if ( $PhysicalClass == 3 ) {
-             # We have a switch
-             
-             $common->addSnmpSwitch( $info ); 
-             # Infos for a switch: DESCRIPTION, REFERENCE, REVISION, FIRMWARE, SERIAL, MANUFACTURER, TYPE
-         } elsif ( $PhysicalClass == 6 ) {
-             # Infos for an alimentation DESCRIPTION, REFERENCE, REVISION, SERIAL, MANUFACTURER, TYPE
-             $common->addSnmpPowerSupply( $info );
-         } elsif ( $PhysicalClass == 7 ) {
-             # Infos for a Fan: DESCRIPTION, REFERENCE, REVISION, SERIAL, MANUFACTURER, TYPE
-             $common->addsnmpFan( $info );
-         } elsif ( $PhysicalClass == 9 && defined ($info->{SERIAL}) ) {
-             # Infor for a card: DESCRIPTION, REFERENCE,  REVISION, FIRMWARE, SOFTWARE, SERIAL, MANUFACTURER, TYPE
-             $common->addSnmpCard( $info );
+            info_element($info,$session,$ref,$logger);
+            $info->{TYPE}=$translation_entPhysicalClass->{$PhysicalClass};
+            if ( $PhysicalClass == 3 ) {
+                # We have a switch
+                $nbr_switch++;
+                $common->addSnmpSwitch( $info ); 
+                # Infos for a switch: DESCRIPTION, REFERENCE, REVISION, FIRMWARE, SERIALNUMBER, MANUFACTURER, TYPE
+            } elsif ( $PhysicalClass == 6 ) {
+                # Infos for an alimentation DESCRIPTION, REFERENCE, REVISION, SERIALNUMBER, MANUFACTURER, TYPE
+                $common->addSnmpPowerSupply( $info );
+            } elsif ( $PhysicalClass == 7 ) {
+                # Infos for a Fan: DESCRIPTION, REFERENCE, REVISION, SERIALNUMBER, MANUFACTURER, TYPE
+                $common->addSnmpFan( $info );
+            } elsif ( $PhysicalClass == 9 && defined ($info->{SERIALNUMBER}) ) {
+                if ( ! ($info->{DESCRIPTION} =~ /[CF]PU/ )) {
+                   # Infor for a card: DESCRIPTION, REFERENCE,  REVISION, FIRMWARE, SOFTWARE, SERIALNUMBER, MANUFACTURER, TYPE
+                   $common->addSnmpCard( $info );
+                }
+            }
          }
       }
    } 
+   # We have scaned all equipment, we know now if we have a switch or a stack of switch
+   if ( $nbr_switch == 1 ) {
+      $common->setSnmpSwitchInfos({TYPE=>"Switch"});
+   }
+   elsif ( $nbr_switch > 1 ) {
+      $common->setSnmpSwitchInfos({TYPE=>"Switchs Stack"});
+   }
 }
 
 
@@ -98,7 +108,7 @@ sub info_element()
    }
    $result=$session->get_request(-varbindlist => [$snmp_serial.$ref]);
    if ( defined( $result ) ) {
-      $info->{SERIAL} = $result->{$snmp_serial.$ref};
+      $info->{SERIALNUMBER} = $result->{$snmp_serial.$ref};
    }
    $result=$session->get_request(-varbindlist => [$snmp_firmware.$ref]);
    if ( defined( $result) ) {

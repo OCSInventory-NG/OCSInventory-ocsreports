@@ -35,6 +35,8 @@ sub snmp_run {
    my $snmp_description="1.3.6.1.4.1.9.2.2.1.1.28.";
    my $snmp_cisco_deviceAddress="1.3.6.1.4.1.9.9.23.1.2.1.1.4.";
    my $snmp_cisco_deviceId="1.3.6.1.4.1.9.9.23.1.2.1.1.6.";
+   my $snmp_cisco_devicePort="1.3.6.1.4.1.9.9.23.1.2.1.1.7.";
+   my $snmp_cisco_devicePlatform="1.3.6.1.4.1.9.9.23.1.2.1.1.8.";
    my $snmp_vtp_vlan_state="1.3.6.1.4.1.9.9.46.1.3.1.1.2";
    my $snmp_dot1dTpFdbPort="1.3.6.1.2.1.17.4.3.1.2";
 
@@ -56,15 +58,17 @@ sub snmp_run {
    my $ref_mac={};
 
 
-   my $DESCRIPTION=""; 
-   my $SPEED=""; 
-   my $MACADDR="";
-   my $DEVICEMACADDR="";
-   my $SLOT="";
-   my $STATUS="";
-   my $TYPE=""; 
-   my $DEVICENAME="";
-   my $DEVICEADDRESS="";
+   my $DESCRIPTION=undef; 
+   my $SPEED=undef; 
+   my $MACADDR=undef;
+   my $DEVICEMACADDR=undef;
+   my $SLOT=undef;
+   my $STATUS=undef;
+   my $TYPE=undef; 
+   my $DEVICENAME=undef;
+   my $DEVICEADDRESS=undef;
+   my $DEVICEPORT=undef;
+   my $DEVICETYPE=undef;
    my $VLAN=undef;
 
     $common->setSnmpCommons( {TYPE => "Network"} );
@@ -120,7 +124,11 @@ sub snmp_run {
                         # So when we scan this ifdesc, we can add the vlans and mac 
                         my $ref_snmp_line=$sub_session->get_request(-varbindlist => [ $snmp_intero ]);
                         # We transmit the ointer value to the ref_mac so we can have a double acces for the data
-                        $ref_mac->{$ref_snmp_line->{$snmp_intero}}=$index_mac->{$index_bridge};
+                        # If we have no information: the mac is not associated with a port
+                        # It's the switch mac adress
+                        if ( defined ( $ref_snmp_line->{$snmp_intero}) ) {
+                           $ref_mac->{$ref_snmp_line->{$snmp_intero}}=$index_mac->{$index_bridge};
+                        }
                     }
                     $data_values->{MACADRESS}[0]=$distant_mac;
                     $data_values->{VLANID}[0]=$ref_vlan;
@@ -159,12 +167,16 @@ sub snmp_run {
                if ( defined( $MACADDR->{$snmp_physAddr.$ref}) ) {
                   # For MACADDR, we need a translation beetween Hexa and string
                   $MACADDR=$MACADDR->{$snmp_physAddr.$ref};
-		  $MACADDR=substr($MACADDR,2,2).":".
+	          if ( length ($MACADDR) == 14 ) {
+		     $MACADDR=substr($MACADDR,2,2).":".
 			substr($MACADDR,4,2).":".
 			substr($MACADDR,6,2).":".
 			substr($MACADDR,8,2).":".
 			substr($MACADDR,10,2).":".
 			substr($MACADDR,12,2);
+                  } else {
+                     $MACADDR="";
+                  }
                }
                if ( defined $ref_mac->{$ref} ) {
                   $VLAN=$ref_mac->{$ref};
@@ -185,16 +197,34 @@ sub snmp_run {
 	       if ( defined( $DEVICEADDRESS ) ) {
                   foreach my $key ( keys %{$DEVICEADDRESS} ) {
 		     $DEVICEADDRESS=$DEVICEADDRESS->{$key} ;
-                     $DEVICEADDRESS=hex(substr($DEVICEADDRESS,2,2)).
+                     if ( length ( $DEVICEADDRESS ) == 10 ) {
+                        $DEVICEADDRESS=hex(substr($DEVICEADDRESS,2,2)).
 					".".hex(substr($DEVICEADDRESS,4,2)).
 					".".hex(substr($DEVICEADDRESS,6,2)).
 					".".hex(substr($DEVICEADDRESS,8,2));
+                     } else {
+		        $DEVICEADDRESS="";
+                     }
+                     
                   }
                }
                $DEVICENAME=$session->get_entries( -columns => [ $snmp_cisco_deviceId.$ref ] );
 	       if ( defined( $DEVICENAME ) ) {
                   foreach my $key ( keys %{$DEVICENAME} ) {
 		     $DEVICENAME=$DEVICENAME->{$key};
+                  }
+               # If we have the device name, the cdp can be used for the other informations
+                  $DEVICETYPE=$session->get_entries( -columns => [ $snmp_cisco_devicePlatform.$ref ] );
+	          if ( defined( $DEVICETYPE ) ) {
+                     foreach my $key ( keys %{$DEVICETYPE} ) {
+		        $DEVICETYPE=$DEVICETYPE->{$key};
+                     }
+                  }
+                  $DEVICEPORT=$session->get_entries( -columns => [ $snmp_cisco_devicePort.$ref ] );
+	          if ( defined( $DEVICEPORT ) ) {
+                     foreach my $key ( keys %{$DEVICEPORT} ) {
+		        $DEVICEPORT=$DEVICEPORT->{$key};
+                     }
                   }
                }
            }
@@ -207,17 +237,21 @@ sub snmp_run {
 		STATUS        => $STATUS,
 		TYPE          => $TYPE,
                 DEVICENAME    => $DEVICENAME,
+                DEVICEPORT    => $DEVICEPORT,
+                DEVICETYPE    => $DEVICETYPE,
                 VLAN	      => $VLAN,
 		});
-           $DESCRIPTION="";
-	   $MACADDR="";
-	   $SLOT="";
-	   $STATUS="";
-	   $TYPE="";
-           $SPEED="";
-	   $MACADDR="";
-           $DEVICEADDRESS="";
-           $DEVICENAME="";
+           $DESCRIPTION=undef;
+	   $MACADDR=undef;
+	   $SLOT=undef;
+	   $STATUS=undef;
+	   $TYPE=undef;
+           $SPEED=undef;
+	   $MACADDR=undef;
+           $DEVICEADDRESS=undef;
+           $DEVICENAME=undef;
+           $DEVICEPORT=undef;
+	   $DEVICETYPE=undef;
            $VLAN=undef;
         }
     }

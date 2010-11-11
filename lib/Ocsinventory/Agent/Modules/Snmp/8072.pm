@@ -18,16 +18,15 @@ sub snmp_run()
   my $list_mib=["If_Mib", "Host_Resources_Mib"];
 
   $logger->debug("Execution mib linux:8072");
+  $common->setSnmpCommons( {TYPE => "Linux"} );
+  $common->setSnmpComputer({SYSTEM => 'Linux'});
 
   foreach my $mib ( @{$list_mib} ) {
      $logger->debug("Sub mib $mib");
      $snmp->snmp_oid_run($mib);
   }
 
-  #This device is a computer
-  $common->setSnmpComputer({
-    SYSTEM => 'Linux',
-  });
+
     
 }
 
