@@ -52,6 +52,14 @@ if ($ENV{OCS_BUNDLE_RELEASE}) {
   }
 }
 
+#Ugly hack to include ipdiscover binary compilation and install fo Linux systems
+if ($^O =~ /^linux$/i && can_cc()) {
+    my $cc=$Config::Config{cc};
+    system("$cc resources/ipdiscover/ipdiscover.c -o ipdiscover");
+    if (-f 'ipdiscover') {
+      install_script 'ipdiscover';
+    }
+}
 
 
 if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
@@ -119,6 +127,7 @@ if ($^O =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
 if ($^O =~ /^solaris$/i) {
     install_script  'memconf';
 }
+
 #for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
 #auto_install;
 WriteAll;

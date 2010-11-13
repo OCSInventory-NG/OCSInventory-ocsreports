@@ -25,7 +25,7 @@ sub run {
   } else {
     return;
   }
-  $logger->debug("scanning the $network network");
+  $logger->debug("Scanning the $network network");
 
   my $legacymode;
   if( `ipdiscover` =~ /binary ver. (\d+)/ ){
