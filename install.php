@@ -233,15 +233,18 @@ $keepuser=false;
 
 $db_file = "files/ocsbase.sql";
 $error="";
-if (!mysql_query("CREATE DATABASE ".$_POST['database']) 
-	or !mysql_query("USE ".$_POST['database'])
-	or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs IDENTIFIED BY 'ocs'")
-	or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
-	$error=mysql_errno();
+$res = mysql_query("show databases like '" . $_POST['database'] . "'");
+$val = mysql_fetch_array( $res );
+if (!$val){
+	if (!mysql_query("CREATE DATABASE ".$_POST['database']) 
+		or !mysql_query("USE ".$_POST['database'])
+		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs IDENTIFIED BY 'ocs'")
+		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
+		$error=mysql_errno();
 
-
+}
 if ($error != ""){
-	echo "<font color=red>".$l->g(2046)."</font>";
+	echo "<font color=red>".$l->g(2099)."</font>";
 	die();
 }
 

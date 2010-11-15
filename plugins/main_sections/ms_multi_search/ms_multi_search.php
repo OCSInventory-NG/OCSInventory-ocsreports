@@ -77,8 +77,10 @@ require_once('require/function_admininfo.php');
 $field_of_accountinfo=witch_field_more('COMPUTERS');
 $optSelectField_account=array();
 $opt2Select_account=array();
+$sort_accountinfo=array();
 foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
-		if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
+	
+	    if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
 			$name_field_accountinfo="TAG";
 			$delfault_tag = $l->g(1210) . " " . $lbl;
 		}else
