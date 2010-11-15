@@ -67,14 +67,14 @@ function replace_group($id_group,$list_id,$req,$group_type){
 	
 }
 
-//fonction de cr�ation d'un groupe
+//create group function
 function creat_group ($name,$descr,$list_id,$req,$group_type)
 {
-
+	global $l;
 	if (trim($name) == "")
-	return array('RESULT'=>'ERROR', 'LBL'=> "NAME IS NULL");
+	return array('RESULT'=>'ERROR', 'LBL'=> $l->g(638));
 	if (trim($descr) == "")
-	return array('RESULT'=>'ERROR', 'LBL'=> "DESCR IS NULL");
+	return array('RESULT'=>'ERROR', 'LBL'=> $l->g(1234));
 	//static group?
 	if ($group_type == 'STATIC'){
 		$static=1;
@@ -85,7 +85,7 @@ function creat_group ($name,$descr,$list_id,$req,$group_type)
 	$reqGetId = "SELECT id FROM hardware WHERE name='".$name."' and deviceid = '_SYSTEMGROUP_'";
 	$resGetId = mysql_query( $reqGetId, $_SESSION['OCS']["readServer"]);
 	if( $valGetId = mysql_fetch_array( $resGetId ) )
-		return array('RESULT'=>'ERROR', 'LBL'=> "ALREADYEXIST");
+		return array('RESULT'=>'ERROR', 'LBL'=> $l->g(621));
 	
 	//insert new group
 	$sql_insert="INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '_SYSTEMGROUP_' , '".$name."', '".$descr."', NOW())";	
@@ -104,7 +104,7 @@ function creat_group ($name,$descr,$list_id,$req,$group_type)
 		return array('RESULT'=>'OK', 'LBL'=> $nb_computer);
 	}
 
-	return array('RESULT'=>'OK', 'LBL'=> 'GROUPE CREE');
+	return array('RESULT'=>'OK', 'LBL'=> $l->g(607)." ". $l->g(608));
 
 	
 }
@@ -153,6 +153,8 @@ function clean( $txt ) {
 }
 
 function delete_group($id_supp){
+	
+	global $l;
 	if ($id_supp == "")
 	return array('RESULT'=>'ERROR', 'LBL'=> "ID IS NULL");
 	if (!is_numeric($id_supp))
@@ -162,18 +164,11 @@ function delete_group($id_supp){
 	$arg_verif_group=$id_supp;
 	$res_verif_group = mysql2_query_secure( $sql_verif_group, $_SESSION['OCS']["readServer"],$arg_verif_group);
 	if( $val_verif_group = mysql_fetch_array( $res_verif_group ) ){	
-		$del[]="DELETE FROM accountinfo where HARDWARE_ID=%s";
-		$del[]="DELETE FROM groups_cache WHERE group_id=%s";
-		$del[]="DELETE FROM groups WHERE hardware_id=%s";
-		$del[]="DELETE FROM download_servers where group_id=%s";
-		$del[]="DELETE FROM download_enable where group_id=%s";
-		$del[]="DELETE FROM hardware where id=%s";
-		foreach ($del as $key=>$value)		
-			mysql2_query_secure($value, $_SESSION['OCS']["writeServer"],$arg_verif_group);
+		 deleteDid($arg_verif_group);
 		addLog("DELETE GROUPE",$id_supp);
-		return array('RESULT'=>'OK', 'LBL'=> "GROUPE SUPPRIME");
+		return array('RESULT'=>'OK', 'LBL'=> '');
 	}else
-	return array('RESULT'=>'ERROR', 'LBL'=> "GROUP DOES'NT EXIST");
+	return array('RESULT'=>'ERROR', 'LBL'=> $l->g(623));
 	
 	
 }

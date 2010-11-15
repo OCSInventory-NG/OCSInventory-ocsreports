@@ -78,6 +78,7 @@ $field_of_accountinfo=witch_field_more('COMPUTERS');
 $optSelectField_account=array();
 $opt2Select_account=array();
 $sort_accountinfo=array();
+$list_fields_account_info=array();
 foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
 	
 	    if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){

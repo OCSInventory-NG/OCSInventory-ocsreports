@@ -1115,6 +1115,7 @@
 1231 le format de fichier doit être en ZIP
 1232 le format de fichier doit être en TAR.GZ
 1233 Nom de la base donnée
+1234 La description ne peut pas être vide
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
