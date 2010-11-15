@@ -233,9 +233,11 @@ if (!isset($_SESSION['OCS']["use_redistribution"])){
 if (!isset($_SESSION['OCS']['TAG_LBL'])){
 	require_once('require/function_admininfo.php');
 	$all_tag_lbl=witch_field_more('COMPUTERS');
-	foreach ($all_tag_lbl['LIST_NAME'] as $key=>$value){
-		$_SESSION['OCS']['TAG_LBL'][$value]=$all_tag_lbl['LIST_FIELDS'][$key];
-		$_SESSION['OCS']['TAG_ID'][$key]=$value;
+	if (is_array($all_tag_lbl)){
+		foreach ($all_tag_lbl['LIST_NAME'] as $key=>$value){
+			$_SESSION['OCS']['TAG_LBL'][$value]=$all_tag_lbl['LIST_FIELDS'][$key];
+			$_SESSION['OCS']['TAG_ID'][$key]=$value;
+		}
 	}
 }
 /*******************************************GESTION OF PLUGINS (MAIN SECTIONS)****************************/
