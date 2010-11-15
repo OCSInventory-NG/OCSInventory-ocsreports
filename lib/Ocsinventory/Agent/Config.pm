@@ -32,7 +32,7 @@ my $default = {
   'nosoft'    =>  0, # DEPRECATED!
   'nosoftware'=>  0,
   'delaytime' =>  '3600', # max delay time (seconds)
-  'backendCollectTimeout'   => '180',   # timeOut of process : see Backend.pm
+  'backendCollectTimeout'   => '600',   # timeOut of process : see Backend.pm
   'scanhomedirs' => 0,
 
   # Other values that can't be changed with the
