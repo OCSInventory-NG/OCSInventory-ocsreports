@@ -1,5 +1,4 @@
-CREATE DATABASE ocsweb;
-USE ocsweb;
+
 
 CREATE TABLE hardware (
   ID INTEGER NOT NULL auto_increment,
@@ -787,9 +786,6 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
-
-GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
-GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
 
 INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0A-3', 'Version of the installed GUI and database');
 

@@ -232,6 +232,19 @@ if(!$ch = @fopen("dbconfig.inc.php","w")) {
 $keepuser=false;
 
 $db_file = "files/ocsbase.sql";
+$error="";
+if (!mysql_query("CREATE DATABASE ".$_POST['database']) 
+	or !mysql_query("USE ".$_POST['database'])
+	or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs IDENTIFIED BY 'ocs'")
+	or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
+	$error=mysql_errno();
+
+
+if ($error != ""){
+	echo "<font color=red>".$l->g(2046)."</font>";
+	die();
+}
+
 if($dbf_handle = @fopen($db_file, "r")) {
 	echo "<br><center><font color=black><b>" . $l->g(2053);
 	flush();
