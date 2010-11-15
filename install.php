@@ -126,6 +126,7 @@ if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
 		$valNme = COMPTE_BASE;
 		$valPass = PSWD_BASE;
 		$valServ = SERVER_WRITE;
+		$valdatabase = DB_NAME;
 }
 
 if( ! $instOk ) {
@@ -143,6 +144,13 @@ if( ! $instOk ) {
 			<font face='Verdana' size='-1'>" . $l->g(248) . ":&nbsp;&nbsp;&nbsp;</font>
 		</td>
 		<td width='50%' align='left'><input size=40 type='password' name='pass' value='$valPass'>
+		</td>
+	</tr>
+	<tr>
+		<td align='right' width='30%'>
+			<font face='Verdana' size='-1'>" . $l->g(1233) . ":&nbsp;&nbsp;&nbsp;</font>
+		</td>
+		<td width='50%' align='left'><input size=40 name='database' value='$valdatabase'>
 		</td>
 	</tr>
 	<tr>
@@ -172,7 +180,7 @@ if(!mysql_query("set global max_allowed_packet=2097152;")) {
 	echo "<br><center><font color=orange><b>" . $l->g(2043) . "</font></center>";
 }
 
-mysql_select_db("ocsweb"); 
+mysql_select_db($_POST['database']); 
 
 if(isset($_POST["label"])) {
 	
@@ -303,7 +311,7 @@ if ($keepuser) {
 	// Keep the account used for migration
 	//echo "toto";
 	fwrite($ch,"<?php\n");
-	fwrite($ch,"define(\"DB_NAME\", \"ocsweb\");\n");
+	fwrite($ch,"define(\"DB_NAME\", \"" .$_POST['database']. "\");\n");
 	fwrite($ch,"define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
 	fwrite($ch,"define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");				
 	fwrite($ch,"define(\"COMPTE_BASE\",\"" . $_POST["name"] . "\");\n");					
@@ -319,7 +327,7 @@ if ($keepuser) {
 } else {
 	// Use account created during installation
 	fwrite($ch,"<?php\n");
-	fwrite($ch,"define(\"DB_NAME\", \"ocsweb\");\n");
+	fwrite($ch,"define(\"DB_NAME\", \"" .$_POST['database']. "\");\n");
 	fwrite($ch,"define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
 	fwrite($ch,"define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");				
 	fwrite($ch,"define(\"COMPTE_BASE\",\"ocs\");\n");					
@@ -406,7 +414,7 @@ $dejaLance=0;
 $filMin = "";
 
 mysql_query("DELETE FROM deploy");
-mysql_select_db("ocsweb"); 
+mysql_select_db($_POST['database']); 
 foreach($filenames as $fil) {
 	$filMin = $fil;
 	if ( $ledir = @opendir("files")) {
