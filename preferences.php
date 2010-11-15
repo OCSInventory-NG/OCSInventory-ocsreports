@@ -1468,8 +1468,10 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false) {
 				"inputs","memories","modems","monitors","networks","ports","printers","registry",
 				"slots","softwares","sounds","storages","videos","devices","download_history","download_servers","groups_cache");	
 			}
-			elseif($did == "_SYSTEMGROUP_"){//Deleting a group
+			elseif($did == "_SYSTEMGROUP_" or $did == '_DOWNLOADGROUP_'){//Deleting a group
 				$tables=Array("devices");
+				$del_groups_server_cache="DELETE FROM download_servers WHERE group_id='".$idHard."'";
+				mysql_query($del_groups_server_cache, $_SESSION["writeServer"]) or die(mysql_error());
 				mysql_query("DELETE FROM groups WHERE hardware_id=$idHard", $_SESSION["writeServer"]) or die(mysql_error());
 				$resDelete = mysql_query("DELETE FROM groups_cache WHERE group_id=$idHard", $_SESSION["writeServer"]) or die(mysql_error());
 				$affectedComputers = mysql_affected_rows( $_SESSION["writeServer"] );
