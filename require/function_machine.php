@@ -65,6 +65,7 @@ function print_item_header($text)
 }
 
 function bandeau($data,$lbl){
+	$data=data_encode_utf8($data);
 	$nb_col=2;
 	echo "<table ALIGN = 'Center' class='mlt_bordure' ><tr><td align =center>";
 	echo "		<table align=center border='0' width='95%'  ><tr>";

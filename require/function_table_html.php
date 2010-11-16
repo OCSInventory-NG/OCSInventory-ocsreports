@@ -1268,8 +1268,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				if ($list_col_cant_del[$key])
 				$correct_list_col_cant_del[$num_col]=$num_col;
 				
-//				if (strstr($value, '.')){
-//					echo "<br>".$value;
+
 				if (substr($value,0,2) == "h." 
 						or substr($value,0,2) == "a." 
 						or substr($value,0,2) == "e."
@@ -1278,8 +1277,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				$no_alias_value=substr(strstr($value, '.'), 1);
 				}else
 				 $no_alias_value=$value;
-			//	echo $no_alias_value."<br>";
-				//echo $donnees[$no_alias_value]."<br>";
+
 				
 				//si aucune valeur, on affiche un espace
 				if ($donnees[$no_alias_value] == "")
@@ -1291,8 +1289,10 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}else
 					$value_of_field=$donnees[$no_alias_value];
 				}
-			//	echo $value_of_field."<br>";
-				//$value_of_field=utf8_encode($value_of_field);
+				
+				//utf8 or not?
+				$value_of_field=data_encode_utf8($value_of_field);
+				
 				$col[$i]=$key;
 				if ($protectedPost['sens'] == "ASC")
 					$sens="DESC";

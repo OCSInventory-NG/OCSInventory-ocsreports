@@ -288,7 +288,7 @@ if (isset($default)){
 			if (isset($totNinvReqLoc)){
 			$totNinvResLoc = mysql_query( $totNinvReqLoc, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			$totNinvValLoc = mysql_fetch_array( $totNinvResLoc );
-			$data['NB_IPDISCOVER']['data']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ipdiscover']."' target='_blank'>".$totNinvValLoc['total']."</a>";
+			$data['NB_IPDISCOVER']['data']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_ipdiscover']."' target='_blank'>".$totNinvValLoc['total']."</a>";
 		 	$data['NB_IPDISCOVER']['lbl']=$lbl_field['NB_IPDISCOVER'];
 			}
 		}
