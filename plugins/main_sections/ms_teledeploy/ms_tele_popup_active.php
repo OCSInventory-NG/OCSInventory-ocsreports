@@ -59,18 +59,16 @@ if (is_numeric($protectedGet["active"])){
 			$error .= "<br>".$l->g(468)."<br>";
 			$error .= "<input type='submit' name='YES' value='".$l->g(455)."'>&nbsp&nbsp&nbsp<input type='submit' name='NO' value='".$l->g(454)."'>";
 		}
-		
 		if ($error != '')
 			msg_warning($error);
 					
 	}	
-	
-	if ((!$error and $protectedPost['valid'] and $protectedPost['choix_activ'] == "MAN") or $protectedPost['YES']){
+	if (($error == "" and $protectedPost['Valid_modif_x'] and $protectedPost['choix_activ'] == "MAN") or $protectedPost['YES']){
 		activ_pack($protectedGet["active"],$protectedPost["HTTPS_SERV"],$protectedPost['FILE_SERV']);
 		echo "<script> alert('".$l->g(469)."');window.opener.document.packlist.submit(); self.close();</script>";	
 	}
 		
-	if (!$error and $protectedPost['valid'] and $protectedPost['choix_activ'] == "AUTO"){
+	if ($error == "" and $protectedPost['Valid_modif_x'] and $protectedPost['choix_activ'] == "AUTO"){
 		activ_pack_server($protectedGet["active"],$protectedPost["HTTPS_SERV"],$protectedPost['choix_groupserv']);
 		echo "<script> alert('".$l->g(469)."');window.opener.document.packlist.submit(); self.close();</script>";	
 	}			
