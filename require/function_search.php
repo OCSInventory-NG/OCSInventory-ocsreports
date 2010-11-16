@@ -343,6 +343,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		}else{
 			$result = mysql_query( $data[$value.'-SQL1'], $_SESSION['OCS']["readServer"] );
 			while( $val = mysql_fetch_array( $result ) ) {
+				$val=data_encode_utf8($val);
 				foreach ($val as $name_of_field=>$value_of_request){
 					if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
 						if (!isset($val['ID']))
