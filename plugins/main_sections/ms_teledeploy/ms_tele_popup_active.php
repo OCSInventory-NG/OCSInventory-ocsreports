@@ -9,8 +9,8 @@ if (is_numeric($protectedGet["active"])){
 	if (!isset($protectedPost['FILE_SERV'])){
 		$default="localhost/DOWNLOAD";
 		$values=look_config_default_values(array('DOWNLOAD_URI_INFO','DOWNLOAD_URI_FRAG'));
-		$protectedPost['FILE_SERV']=$values['DOWNLOAD_URI_FRAG']['TVALUE'];
-		$protectedPost['HTTPS_SERV']=$values['DOWNLOAD_URI_INFO']['TVALUE'];
+		$protectedPost['FILE_SERV']=$values['tvalue']['DOWNLOAD_URI_FRAG'];
+		$protectedPost['HTTPS_SERV']=$values['tvalue']['DOWNLOAD_URI_INFO'];
 		if ($protectedPost['FILE_SERV'] == "")
 			$protectedPost['FILE_SERV']=$default;
 		if ($protectedPost['HTTPS_SERV'] == "")
