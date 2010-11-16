@@ -80,7 +80,6 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 	//on parcourt le tableau de requetes
 	foreach ($execute_sql as $weight => $id){
 		$i=0;
-		
 		//on prends toutes les requetes qui ont le m�me poids
 		while ($id[$i]){
 			//on cherche a savoir si on est sur la table hardware
@@ -120,7 +119,7 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 	 			$debug .= "<hr><br>".$l->g(5001)."<br>".$id[$i]."<br>".$l->g(5002).$weight;
 	 		//si aucun id trouv� => end
 	 		if ($list_id == '')
-	 		return ;
+	 			return array('',$tab_options,'DEBUG'=>$debug);
 		$i++;	
 		}	
 	}
@@ -348,6 +347,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 					if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
 						if (!isset($val['ID']))
 							$val['ID']=$value_of_request;
+						//	echo $val['ID']."=>".$value_of_request."<br>";
 						$select2 .= "<option value='".$val['ID']."' ".($protectedPost[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
 					}
 				}

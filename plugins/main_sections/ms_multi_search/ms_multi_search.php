@@ -595,9 +595,7 @@ $list_id="";
 	 if ($_SESSION['OCS']['DEBUG'] == 'ON')
 		$debug = '';
 	 if (isset($execute_sql['NORMAL'])){
-	 	
 		 $result=execute_sql_returnID($list_id_restraint,$execute_sql['NORMAL'],'',$table_tabname);
-		 
 		 if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 			 $debug .= $l->g(5022) . "<br>" . $result['DEBUG'];
 		 }

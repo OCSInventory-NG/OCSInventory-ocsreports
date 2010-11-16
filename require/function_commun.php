@@ -121,7 +121,7 @@ function dbconnect() {
 		require('install.php');
 		die();
 	}
-	
+	mysql_query("SET NAMES 'utf8'");
 	$_SESSION['OCS']["writeServer"] = $link2;	
 	$_SESSION['OCS']["readServer"] = $link;
 	return $link2;
@@ -249,26 +249,5 @@ function msg_error($txt){
 }
 
 
-/*
- * 
- * Encode your data on UTF-8 
- * $data can be an array or a string
- * 
- */
-
-function data_encode_utf8($data){
-	if (is_array($data)){
-		$data_utf8=array();
-		foreach ($data as $key=>$value){
-			if (mb_detect_encoding($value, "UTF-8") == "UTF-8" )
-				$data_utf8[$key]=utf8_encode($value);
-			else
-				$data_utf8[$key]=$value;	
-		}
-		return $data_utf8;
-	}
-	if (mb_detect_encoding($data, "UTF-8") == "UTF-8" )
-		return utf8_encode($data);	
-}
 
 ?>

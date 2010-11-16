@@ -1290,9 +1290,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$value_of_field=$donnees[$no_alias_value];
 				}
 				
-				//utf8 or not?
-				$value_of_field=data_encode_utf8($value_of_field);
-				
 				$col[$i]=$key;
 				if ($protectedPost['sens'] == "ASC")
 					$sens="DESC";
