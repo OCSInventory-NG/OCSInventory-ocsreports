@@ -122,7 +122,7 @@ function dbconnect() {
 		die();
 	}
 	//if (mb_detect_encoding($value, "UTF-8") == "UTF-8" )
-	//	mysql_query("SET NAMES 'utf8'");
+		mysql_query("SET NAMES 'utf8'");
 	$_SESSION['OCS']["writeServer"] = $link2;	
 	$_SESSION['OCS']["readServer"] = $link;
 	return $link2;
@@ -258,8 +258,8 @@ function msg_error($txt){
  */
 
 function data_encode_utf8($data){
-	
-	if (is_array($data)){
+	return $data;
+	/*if (is_array($data)){
 		$data_utf8=array();
 		foreach ($data as $key=>$value){
 			if (mb_detect_encoding($value) != "UTF-8" )
@@ -274,7 +274,7 @@ function data_encode_utf8($data){
 	if (mb_detect_encoding($data) != "UTF-8" ){
 		return utf8_encode($data);	
 	}else
-		return $data;
+		return $data;*/
 }
 
 ?>
