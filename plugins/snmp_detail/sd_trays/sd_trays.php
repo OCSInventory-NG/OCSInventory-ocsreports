@@ -1,5 +1,5 @@
 <?php
-print_item_header($l->g(1224));
+	print_item_header($l->g(1224));
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
 	$table_name="sd_trays";
@@ -27,6 +27,5 @@ print_item_header($l->g(1224));
 	$tab_options['REPLACE_WITH_LIMIT']['UP']['PERCENT_BAR']=100;
 	$tab_options['REPLACE_WITH_LIMIT']['UPVALUE']['PERCENT_BAR']=$msq_tab_error;
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);
-
 
 ?>

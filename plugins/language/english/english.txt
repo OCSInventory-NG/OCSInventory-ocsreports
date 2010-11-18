@@ -1100,7 +1100,7 @@
 1215 Blade server
 1216 Firewall
 1217 Load balancer
-1218 Switch
+1218 Switch(es)
 1219 Cards
 1220 Cartridges
 1221 Drives
@@ -1117,6 +1117,10 @@
 1232 The file format must be TAR.GZ
 1233 Name of Database
 1234 Description can't be empty
+1235 Reference
+1236 Soft version
+1237 Firmware version
+1238 Installation date
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

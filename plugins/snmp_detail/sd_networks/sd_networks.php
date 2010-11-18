@@ -6,28 +6,31 @@
  */
 
 print_item_header($l->g(82));
-	if (!isset($protectedPost['SHOW']))
-		$protectedPost['SHOW'] = 'NOSHOW';
 	$table_name="sd_networks";
+ 
 	$list_fields=array($l->g(53)=>'DESCRIPTION',
+					   $l->g(95)=>'MACADDR',
+					   'DEVICEMACADDR'=>'DEVICEMACADDR',
+					   $l->g(271)=>'SLOT',
+					   $l->g(1046)=>'STATUS',
+					   $l->g(268)=>'SPEED',
 					   $l->g(66) => 'TYPE',
-					   'TYPEMIB'=>'TYPEMIB',
-					   'SPEED'=>'SPEED',
-					   'MACADDR'=>'MACADDR',
-					   'STATUS'=>'STATUS',
-					   'IPADDRESS'=>'IPADDRESS',
-					   'IPMASK'=>'IPMASK',
-					   'IPGATEWAY'=>'IPGATEWAY',
-					   'IPSUBNET'=>'IPSUBNET',
-					   'IPDHCP'=>'IPDHCP',
-					   'DRIVER'=>'DRIVER',
-					   'VIRTUALDEV'=>'VIRTUALDEV',
-					   'DEVICEID'=>'DEVICEID');
+					   'DEVICEADDRESS'=>'DEVICEADDRESS',
+					   'DEVICENAME'=>'DEVICENAME',	
+					   $l->g(280)=>'TYPEMIB',			   
+					   $l->g(34)=>'IPADDR',
+					   $l->g(208)=>'IPMASK',
+					   $l->g(207)=>'IPGATEWAY',
+					   $l->g(316)=>'IPSUBNET',
+					   $l->g(281)=>'IPDHCP',
+					   $l->g(278)=>'DRIVER',
+					   'VIRTUALDEV'=>'VIRTUALDEV'
+					   );
 	//$list_fields['SUP']= 'ID';
 	$sql=prepare_sql_tab($list_fields);
 	//$list_fields["PERCENT_BAR"] = 'CAPACITY';
-	$list_col_cant_del=$list_fields;
-	$default_fields= $list_fields;
+	$list_col_cant_del=array($l->g(53)=>$l->g(53));
+	$default_fields= array($l->g(53)=>$l->g(53),$l->g(34)=>$l->g(34),$l->g(95)=>$l->g(95),$l->g(1046)=>$l->g(1046),$l->g(280)=>$l->g(280));
 	$sql['SQL']  = $sql['SQL']." FROM %s WHERE (snmp_id=%s)";
 	$sql['ARG'][]='snmp_networks';
 	$sql['ARG'][]=$systemid;
