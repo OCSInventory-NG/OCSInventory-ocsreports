@@ -7,7 +7,7 @@ use strict;
 use warnings;
 
 sub snmp_info {
-   return ( { oid_value => "1.3.6.1.2.1.2.2.1.1.1",
+   return ( { oid_value => "1.3.6.1.2.1.2.1.0",
             oid_name => "If_Mib" } );
 }
 
@@ -16,7 +16,7 @@ sub snmp_run {
    my $logger=$snmp->{logger};
    my $common=$snmp->{common};
    
-   $logger->debug("Running If MIB module");
+   $logger->debug("Running If MIB module");   
 
    # OID a recuperer
    my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2";
@@ -38,7 +38,7 @@ sub snmp_run {
    $result_snmp=$session->get_entries(-columns => [$snmp_ifdescr]);
    foreach my $result ( keys  %{$result_snmp} ) {
       # We work on real interface and no vlan
-      if ( $result_snmp->{$result} =~ /[eE]th/ ) {
+      if ( $result_snmp->{$result} =~ /[eE]th|FC/ ) {
          if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.2\.(\S+)/ ) {
             $ref=$1;
             $SLOT=$result_snmp->{$result};
@@ -46,6 +46,10 @@ sub snmp_run {
             $TYPE=$session->get_request(-varbindlist => [$snmp_iftype.$ref]);
             if ( defined( $TYPE->{$snmp_iftype.$ref} ) ) {
                $TYPE= $TYPE->{$snmp_iftype.$ref};
+               if ( $TYPE == 6 ) {
+                  $TYPE="ethernetCsmacd";
+               }
+
             }
 
             $SPEED=$session->get_request(-varbindlist => [$snmp_ifspeed.$ref]);
