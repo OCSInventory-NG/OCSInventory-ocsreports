@@ -1010,8 +1010,7 @@ CREATE TABLE accountinfo_config(
 
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on computers accountinfo');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTSNMP_1',1,'TAG','Default TAB on snmp accountinfo');
-INSERT INTO accountinfo_config (ID,NAME_ACCOUNTINFO,TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER,ACCOUNT_TYPE) values (1,'TAG',0,'TAG','1','TAG',1,'COMPUTERS');
-INSERT INTO accountinfo_config (ID,NAME_ACCOUNTINFO,TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER,ACCOUNT_TYPE) values (2,'TAG',0,'TAG','1','TAG',1,'SNMP');
+INSERT INTO accountinfo_config VALUES (1,'TAG',0,'TAG',1,'TAG',1,'COMPUTERS'),(2,'TAG',0,'TAG',1,'TAG',1,'SNMP');
 ALTER TABLE subnet CHANGE ID ID VARCHAR(255);
 
 CREATE TABLE blacklist_subnet(

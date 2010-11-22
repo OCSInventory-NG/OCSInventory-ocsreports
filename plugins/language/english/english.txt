@@ -515,16 +515,16 @@
 626 Disable this alteration
 627 At least one of the fields is empty... Not made Update.
 628 Redistribution Servers
-629 New group of servers of redistribution
-630 A group of existing servers
+629 New group of redistribution
+630 A group of existing redistribution
 631 Add to
 632 Crush
-633 Management groups servers
+633 Management redistribution groups 
 634 Wished action
 635 New name
 637 Replace
 638 THE GROUP'S NAME CAN'T BE EMPTY
-639 THIS GROUP'S SERVER NOT EXIST
+639 THIS GROUP'S REDISTRIBUTION NOT EXIST
 640 Do you really want to delete
 641 Management of the redistribution servers
 642 the group
@@ -536,7 +536,7 @@
 648 REPERTOIRE STORE
 649 AUTOMATIC
 650 MANUAL
-651 Servers group
+651 Redistribution group
 652 Machine(s)
 653 Blacklist MAC address
 654 Enter a new MAC address for blacklist
@@ -545,13 +545,13 @@
 657 Fields in red are in error!!! (Empty fields or size < 2) 
 658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
 659 Machines already have this teledeploy package. This package's status for these machines is now 
-660 GROUP OF SERVEUR NOT EXIST
-661 PACKAGES FOR SERVER OF REDISTRIBUTION
+660 GROUP OF REDISTRIBUTION NOT EXIST
+661 PACKAGES FOR REDISTRIBUTION
 662 Rules of affectation
 663 INTERNES PROBLEM
 664 Action made
-665 NO SELECTED MACHINE. GROUP OF SERVER NOT CREATED 
-666 Group of server made
+665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED 
+666 Group of redistribution made
 667 FOR THE PACKAGE
 668 to Affect with which rule?
 669 ATTENTION: there are doubloons of priority < br > A single rule will be retained!
@@ -580,10 +580,10 @@
 692 You modify ALL the values of the servers
 693 You modify the values of the following server:
 694 to find the default values, validate the vacuous fields
-695 You modify the group of servers
+695 You modify the group of redistribution
 696 to Show packages activated to affect on
 697 a machine
-698 a group of server
+698 a group of redistribution
 699 Are you sure to want to affect this package in these machines?
 700 Blacklist choices
 701 Blacklist of serial number
@@ -762,7 +762,7 @@
 875 Registry key: Value
 876 Simple unaffect REDISTRIBUTION GROUP
 877 SOME COMPUTERS HAVEN'T BEEN ADDED TO GROUP BECAUSE:
-878 Reminder: a computer can be a member of one server group only
+878 Reminder: a computer can be a member of one redistribution group only
 879 GROUPE REPLACED
 880 GROUP CREATED
 881 Computers added
@@ -1017,7 +1017,7 @@
 1132 ID word
 1133 New word
 1134 No ipdiscover data
-1135 computer(s) are already exist on server group
+1135 computer(s) are already exist on redistribution group
 1136 SNMP
 1137 Enable/Disable the snmp service
 1138 Show all my subnet

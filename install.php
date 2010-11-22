@@ -231,23 +231,25 @@ if(!$ch = @fopen("dbconfig.inc.php","w")) {
 
 $keepuser=false;
 
-$db_file = "files/ocsbase.sql";
+
 $error="";
 $res = mysql_query("show databases like '" . $_POST['database'] . "'");
 $val = mysql_fetch_array( $res );
 if (!$val){
+	$db_file = "files/ocsbase_new.sql";
 	if (!mysql_query("CREATE DATABASE ".$_POST['database']) 
 		or !mysql_query("USE ".$_POST['database'])
 		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs IDENTIFIED BY 'ocs'")
 		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
 		$error=mysql_errno();
-
-}
+}else
+	$db_file = "files/ocsbase.sql";
+	
 if ($error != ""){
 	echo "<font color=red>".$l->g(2099)."</font>";
 	die();
 }
-
+//$db_file = "files/ocsbase_new.sql";
 if($dbf_handle = @fopen($db_file, "r")) {
 	echo "<br><center><font color=black><b>" . $l->g(2053);
 	flush();
@@ -255,11 +257,23 @@ if($dbf_handle = @fopen($db_file, "r")) {
 	fclose($dbf_handle);
 	$dejaLance=0;
 	$li = 0;
-	foreach ( explode(";", "$sql_query") as $sql_line) {
+	$data_sql=explode("--", $sql_query);
+	foreach ($data_sql as $key=>$value){
+		if (strpos($value, ";") !== false){
+			$valuesql=explode(';', $value);
+			$i=0;
+			while (isset($valuesql[$i])){
+				$execute_sql[]=$valuesql[$i];
+				$i++;				
+			}
+		}		
+	}
+
+	foreach ( $execute_sql as $sql_line) {
 		$li++;
 		//echo $sql_line."<br>";
 		if(!mysql_query($sql_line)) {
-			if (mysql_errno()==1044 && strpos($sql_line, "GRANT ALL")!==false) {
+			if (mysql_errno()==1044) {
 				// Provided user not MySQL Administror
 				$keepuser=true;
 				continue;
