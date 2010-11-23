@@ -104,9 +104,8 @@ if( !isset($_GET["popup"] )) {
 <tr height=25px>
 	<td><a href='index.php?first'><img src='image/logo OCS-ng-48.png'></a></td>
 	<td align='center' width='33%'><a href='index.php?first'><img src=image/banner-ocs.png></a></td><td width='33%' align='right'>
-	<b>Ver. 1.3.2&nbsp&nbsp&nbsp;</b>	
+	<b>Ver. 1.3.3&nbsp&nbsp&nbsp;</b>	
 <?php 
-
 if($_SESSION["debug"]==1)
 	echo "<br><font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>Calcul...</div>";
 }
@@ -157,7 +156,11 @@ if($_SESSION["debug"]==1)
 		echo ".png' title='".$l->g(236)."' alt='".$l->g(236)."' width=40px>";
 		echo "</a>";
 	}
-	echo "</td></tr></table>";
+	echo "</td></tr>";
+	if( $fconf=@fopen("install.php","r") and $_SESSION["lvluser"] == 1)
+		echo "<tr><td colspan=200><center><font color=red><b>WARNING: <br>YOUR INSTALL.PHP EXIST IN OCS REPOSITORY</b></center></font></td></tr>";
+	
+	echo "</table>";
 	
 	if( isset($err) )
 		echo $err;

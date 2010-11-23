@@ -356,7 +356,7 @@ function dbconnect() {
 		require('install.php');
 		die();
 	}
-	
+
 	$_SESSION["writeServer"] = $link2;	
 	$_SESSION["readServer"] = $link;
 	return $link2;

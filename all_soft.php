@@ -42,9 +42,10 @@ if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($_POST['onglet_bis'
 	$result_list_alpha = mysql_query( $sql_list_alpha, $_SESSION["readServer"]);
  	while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
  		if (strtoupper($item_list_alpha -> alpha) != "" 
-			and strtoupper($item_list_alpha -> alpha) != Ã
-			and strtoupper($item_list_alpha -> alpha) != Â
-			and strtoupper($item_list_alpha -> alpha) != Ä){
+ 			and strtoupper($item_list_alpha -> alpha) != "'"
+			and strtoupper($item_list_alpha -> alpha) != ï¿½
+			and strtoupper($item_list_alpha -> alpha) != ï¿½
+			and strtoupper($item_list_alpha -> alpha) != ï¿½){
 				if (!isset($_POST['onglet_bis']))
 					$_POST['onglet_bis']=strtoupper($item_list_alpha -> alpha);
 				$list_alpha[strtoupper($item_list_alpha -> alpha)]=strtoupper($item_list_alpha -> alpha);
@@ -123,6 +124,7 @@ if (isset($_POST['NBRE']) and $_POST['NBRE'] != ""){
 
 if ((!isset($count_soft) or $count_soft == 0) or (isset($_POST['NBRE']) and $_POST['NBRE'] != "" )){
 	$reqCount="select count(*) nb from (".$sql.") toto";
+//	echo $reqCount;
 	$resCount = mysql_query($reqCount, $_SESSION["readServer"]) or die(mysql_error($_SESSION["readServer"]));
 	$valCount = mysql_fetch_array($resCount);
 	$count_soft=$valCount['nb'];
@@ -130,6 +132,7 @@ if ((!isset($count_soft) or $count_soft == 0) or (isset($_POST['NBRE']) and $_PO
 
 $sql.="	order by 2 desc limit ".$limit['BEGIN'].",".$limit['END'];
 $_SESSION["forcedRequest"]=$sql_csv;
+
 $result = mysql_query( $sql, $_SESSION["readServer"]);
 $num_rows_reality = mysql_num_rows($result);
 	$i=0;

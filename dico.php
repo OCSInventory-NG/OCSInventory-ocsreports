@@ -144,13 +144,14 @@ if ($_POST['onglet'] == 'NEW'){
 				 where substr(trim(name),1,1) is not null and name not in (".$list_dico_soft.")
 			and name not in (".$list_ignored_soft.") ".$search_cache;	
 	$first='';
+
 	//execute the query only if necessary 
 	if($_SESSION['REQ_ONGLET_SOFT'] != $sql_list_alpha){
 		$result_list_alpha = mysql_query( $sql_list_alpha, $_SESSION["readServer"]);
 		$i=1;
 		 while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
 		 	if (strtoupper($item_list_alpha -> alpha) != "" 
-				and strtoupper($item_list_alpha -> alpha) != �
+				and strtoupper($item_list_alpha -> alpha) != "'"
 				and strtoupper($item_list_alpha -> alpha) != �
 				and strtoupper($item_list_alpha -> alpha) != �){
 					if ($first == ''){
