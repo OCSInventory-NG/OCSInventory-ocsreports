@@ -239,7 +239,7 @@ if ($server_group){
 	$lblAdm = Array($l->g(500));
 	$imgAdm = Array("ms_config");
 	$lblHdw = Array($l->g(580), $l->g(581));
-	$imgHdw = Array("ms_all_computersred.png", "ms_all_computers",);
+	$imgHdw = Array("ms_all_computersred", "ms_all_computers",);
 	
 	echo "<br><br>";
 	
