@@ -515,16 +515,16 @@
 626 Annulla
 627 Almeno uno dei campi è vuoto... Aggiornamento non effettuato.
 628 Server di ridistribuzione
-629 Nuovo gruppo di server di ridistribuzione
-630 Gruppo di server esistenti
+629 Nuovo gruppo di ridistribuzione
+630 Gruppo di ridistribuzione esistente
 631 Aggiungi a
 632 Eliminare
-633 Organizza gruppi di server
+633 Gestione dei gruppi di ridistribuzione
 634 Azione desiderata
 635 Nuovo nome
 637 Rimpiazza
 638 IL NOME DEL GRUPPO NON PUO' ESSERE VUOTO
-639 QUESTO GRUPPO DI SERVER NON ESISTE
+639 QUESTO GRUPPO DI RIDISTRIBUZIONE NON ESISTE
 640 Vuoi davvero eliminare
 641 Amministrazione dei server di ridistribuzione
 642 il gruppo
@@ -536,7 +536,7 @@
 648 REPERTOIRE STORE
 649 AUTOMATICA
 650 MANUALE
-651 Gruppi server
+651 Gruppo di ridistribuzione
 652 Macchine
 653 Blacklist indirizzi MAC
 654 Inserisci un nuovo indirizzo MAC nella blacklist
@@ -545,13 +545,13 @@
 657 I campi in rosso contengono errori! (Campo vuoto o valore < 2)
 658 macchine senza server di ridistribuzione.<br>Pertanto è necessario agire sul pacchetto individualmente.
 659 Le macchine hanno già questo pacchetto Teledeploy. Lo stato del pacchetto per queste macchine è ora
-660 IL GRUPPO DEI SERVER NON ESISTE
-661 PACCHETTI PER I SERVER DI RIDISTRIBUZIONE
+660 IL GRUPPO DI RIDISTRIBUZIONE NON ESISTE
+661 PACCHETTI PER LA RIDISTRIBUZIONE
 662 Regole di comportamento
 663 PROBLEMA INTERNO
 664 Azione effettuata
-665 NESSUNA MACCHINA SELEZIONATA. GRUPPO DI SERVER NON CREATO 
-666 Gruppo di server creato
+665 NESSUNA MACCHINA SELEZIONATA. GRUPPO DI RIDISTRIBUZIONE NON CREATO 
+666 Gruppo di ridistribuzione creato
 667 PER IL PACCHETTO
 668 quale regola applicare?
 669 ATTENZIONE: ci sono duplicati di priorità <br> Una singola regola verrà mantenuta!
@@ -580,10 +580,10 @@
 692 Stai cambiando TUTTI i valori dei server
 693 Stai cambiando i valori del seguente server:
 694 per ripristinare i valori di default, convalidare i campi vuoti
-695 Modifica il gruppo dei server
+695 Modifica il gruppo di ridistribuzione
 696 per mostrare i pacchetti attivati da applicare
 697 una macchina
-698 un gruppo di server
+698 un gruppo di ridistribuzione
 699 Sei sicuro di voler far puntare questo pacchetto a queste macchine?
 700 Scelta blacklist
 701 Numeri di serie nella blacklist
@@ -762,7 +762,7 @@
 875 Chiave del registro: Valore
 876 Simple unaffect REDISTRIBUTION GROUP
 877 ALCUNI COMPUTER NON SONO STATI AGGIUNTI AL GRUPPO IN QUANTO:
-878 Ricorda: un computer può essere membro di un solo gruppo server
+878 Ricorda: un computer può essere membro di un solo gruppo di ridistribuzione
 879 GRUPPO SOSTITUITO
 880 GROUP CREATO
 881 Computer aggiunto
@@ -1017,7 +1017,7 @@
 1132 ID parola
 1133 Nuova parola
 1134 Nessun dato ipdiscover
-1135 computer già presenti nel gruppo di server
+1135 computer già presenti nel gruppo di ridistribuzione
 1136 SNMP
 1137 Abilita/Disabilita il servizio SNMP
 1138 Mostra tutte le mie sottoreti
@@ -1096,7 +1096,31 @@
 1211 URL dei file della comunità SNMP
 1212 Comunità cancellata
 1213 Separatore del file di export
-
+1214 Configura il motore per aggiornare l'inventario SNMP secondo il valore di snmp_laststate table (diminuisce il carico del DB backend)
+1215 Blade server
+1216 Firewall
+1217 Load balancer
+1218 Switch
+1219 Cards
+1220 Cartridges
+1221 Drives
+1222 Ventole
+1223 Alimentatori
+1224 Tray
+1225 Capacità massima
+1226 Colore
+1227 Contatto
+1228 Device SNMP
+1229 Firmware
+1230 Nome volume
+1231 Il formato del file deve essere ZIP
+1232 Il formato del file deve essere TAR.GZ
+1233 Nome del database
+1234 La descrizione non può essere vuota
+1235 Reference
+1236 Versione software
+1237 Versione firmware
+1238 Data di installazione
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
@@ -1182,8 +1206,8 @@
 2095 linee NETMAP cancellate
 2096 Per favore inserisci il nome dell'etichetta da inserire nella finestra di input dei client:
 2097 Non inserire nulla se non vuoi far apparire il popup al lancio dell'agente
-2098 ERRORE: l'estensione Zip per PHP non installata correttamente.<br>Prova ad abilitare la voce extension=php_zip.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto libphp-pclzip (Linux).
-
+2098 ERRORE: l'estensione ZIP per PHP non installata correttamente.<br>Prova ad abilitare la voce extension=php_zip.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto libphp-pclzip (Linux).
+2099 ERRORE: le credenziali MySql fornite non hanno i diritti necessari per la creazione del database
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
