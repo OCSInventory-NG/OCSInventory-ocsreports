@@ -3,14 +3,16 @@
  * Function for snmp details
  * 
  */
-$snmp_tables_type=array('SNMP_BLADES','SNMP_FIREWALLS','SNMP_LOADBALANCERS',
-					    'SNMP_PRINTERS','SNMP_SWITCHS'); 
+$snmp_tables_type=array($l->g(1215)=>'SNMP_BLADES',$l->g(1216)=>'SNMP_FIREWALLS',$l->g(1217)=>'SNMP_LOADBALANCERS',
+					    $l->g(79)=>'SNMP_PRINTERS',$l->g(1218)=>'SNMP_SWITCHINFOS',$l->g(729)=>'SNMP_COMPUTERS'); 
 
-$snmp_tables=array('SNMP_CARDS','SNMP_CARTRIDGES','SNMP_DRIVES',
-				'SNMP_FANS','SNMP_NETWORKS','SNMP_POWERSUPPLIES',
-				'SNMP_STORAGES','SNMP_TRAYS');
+					    
+$snmp_tables=array('SNMP_ACCOUNTINFO','SNMP_CARDS','SNMP_CARTRIDGES','SNMP_CPUS','SNMP_DRIVES',
+				'SNMP_FANS','SNMP_INPUTS','SNMP_LOCALPRINTERS','SNMP_MEMORIES',
+				'SNMP_MODEMS','SNMP_NETWORKS','SNMP_PORTS','SNMP_POWERSUPPLIES','SNMP_SOFTWARES',
+				'SNMP_SOUNDS','SNMP_STORAGES','SNMP_SWITCHS','SNMP_TRAYS','SNMP_VIDEOS');
 
-
+$all_snmp_table=array_merge($snmp_tables_type,$snmp_tables);
 //is ID exist?
 function info_snmp($snmp_id){
 	global $l,$snmp_tables_type;
@@ -22,15 +24,17 @@ function info_snmp($snmp_id){
 	$sql="select * from snmp where id=%s";
 	$arg=$snmp_id;
 	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-	$array['snmp'] = mysql_fetch_object($result);
-	if ( $array['snmp']->ID == ""){
+	$array['data']['snmp'] = mysql_fetch_object($result);
+	if ( $array['data']['snmp']->ID == ""){
 		return $l->g(837);	
 	}else{
-		foreach($snmp_tables_type as $id=>$table){
+		foreach($snmp_tables_type as $lbl=>$table){
 			$sql="select * from %s where snmp_id=%s";
 			$arg=array(strtolower($table),$snmp_id);
 			$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-			$array[$table] = mysql_fetch_object($result);
+			$array['data'][$table] = mysql_fetch_object($result);
+			if ($array['data'][$table] != '')
+				$array['lbl']=$lbl;
 		}
 		return $array;		
 	}
@@ -74,51 +78,61 @@ function print_item_header($text)
 	echo "</table><br>";	
 }
 
-function bandeau($data,$lbl_affich){
+function bandeau($data,$lbl_affich,$title='',$class='mlt_bordure'){
 	$nb_col=2;
-	echo "<table ALIGN = 'Center' class='mlt_bordure' ><tr><td align =center>";
-	echo "		<table align=center border='0' width='100%'  ><tr>";
+	$data_exist=false;
+	$show_table = "<table ALIGN = 'Center' class='".$class."' ><tr><td align =center colspan=20>";
+	if ($title != '')
+	$show_table .= "<i><b><big>".$title."</big></b><br><br></i></td></tr><tr><td align =center>";
+	$show_table .= "		<table align=center border='0' width='100%'  ><tr>";
 	$i=0;
 	foreach ($data as $table=>$values){
 		if (is_object($values)){
 			foreach ($values as $field=>$field_value){
-				if (trim($field_value) != ''){
+				$data_exist=true;
+				if (trim($field_value) != '' 
+						and $field != 'ID' 
+						and $field != 'SNMP_ID'){
 					if ($i == $nb_col){
-						echo "</tr><tr>";
+						$show_table .= "</tr><tr>";
 						$i=0;			
 					}
-					echo "<td >&nbsp;<b>";
+					$show_table.= "<td >&nbsp;<b>";
 					if (isset($lbl_affich[$field]))
-						echo $lbl_affich[$field];
+						$show_table.= $lbl_affich[$field];
 					else
-						echo $field;
-					echo " :</b></td><td >".$field_value."</td>";
+						$show_table.= $field;
+					$show_table.= " :</b></td><td >".$field_value."</td>";
 					$i++;
 				}
 			}
 		}
 		
 		
-	}
-		
-	echo "</tr></table></td></tr></table>";	
+	}		
+	$show_table.= "</tr></table></td></tr></table><br>";	
+	
+	if ($data_exist)
+		return $show_table;
+	return false;
+	
 }
 
 function deleteDid_snmp($id){
-	global $snmp_tables;
+	global $all_snmp_table;
 	if (is_array($id))
 		$id_snmp=explode(',',$id);
 	else
 		$id_snmp=$id;
-	
-	foreach ($snmp_tables as $key=>$values){
+	//p($all_snmp_table);
+	foreach ($all_snmp_table as $key=>$values){
 		$sql='delete from %s where snmp_id in ';
-		$arg=$values;
+		$arg=array(strtolower($values));
 		$del_sql=mysql2_prepare($sql,$arg,$id_snmp,$nocot=true);
 		mysql2_query_secure($del_sql['SQL'],$_SESSION['OCS']["writeServer"],$del_sql['ARG'],true);		
 	}	
 
-	$sql='delete from SNMP where id in ';
+	$sql='delete from snmp where id in ';
 	$del_sql=mysql2_prepare($sql,array(),$id_snmp,$nocot=true);
 	mysql2_query_secure($del_sql['SQL'],$_SESSION['OCS']["writeServer"],$del_sql['ARG'],true);			
 }

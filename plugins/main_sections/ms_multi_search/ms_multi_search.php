@@ -77,8 +77,11 @@ require_once('require/function_admininfo.php');
 $field_of_accountinfo=witch_field_more('COMPUTERS');
 $optSelectField_account=array();
 $opt2Select_account=array();
+$sort_accountinfo=array();
+$list_fields_account_info=array();
 foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
-		if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
+	
+	    if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG"){
 			$name_field_accountinfo="TAG";
 			$delfault_tag = $l->g(1210) . " " . $lbl;
 		}else
@@ -592,9 +595,7 @@ $list_id="";
 	 if ($_SESSION['OCS']['DEBUG'] == 'ON')
 		$debug = '';
 	 if (isset($execute_sql['NORMAL'])){
-	 	
 		 $result=execute_sql_returnID($list_id_restraint,$execute_sql['NORMAL'],'',$table_tabname);
-		 
 		 if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 			 $debug .= $l->g(5022) . "<br>" . $result['DEBUG'];
 		 }

@@ -8,12 +8,13 @@ require_once('require/function_computers.php');
 //ADD new static group
 if($protectedPost['Valid_modif_x']){
 	$result=creat_group ($protectedPost['NAME'],$protectedPost['DESCR'],'','','STATIC');
-	if ($result['RESULT'] == "OK"){
-		$color="green";
-		unset($protectedPost['add_static_group']);
-	}else
-	$color="red";
-	$msg=$result['RESULT'];	
+	if ($result['RESULT'] == "ERROR"){
+		msg_error($result['LBL']);
+		
+	}elseif ($result['RESULT'] == "OK"){
+		msg_success($result['LBL']);
+		unset($protectedPost['add_static_group']);	
+	}
 	$tab_options['CACHE']='RESET';
 }
 //reset add static group
@@ -37,17 +38,10 @@ if (isset($protectedPost['CONFIRM_CHECK']) and  $protectedPost['CONFIRM_CHECK'] 
 if ($protectedPost['SUP_PROF'] != ""){
 	$result=delete_group($protectedPost['SUP_PROF']);	
 	if ($result['RESULT'] == "ERROR")
-	$color="red";
-	else
-	$color="green";
-	$msg=$result['LBL'];
+	msg_error($result['LBL']);
 	$tab_options['CACHE']='RESET';
 }
-//si un message
-if ($msg != "")
-echo "<font color = ".$color." ><b>".$result['LBL']."</b></font>";
 
-//ouverture du formulaire de la page
 $form_name='groups';
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //view all groups
@@ -62,8 +56,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	onglet($def_onglets,$form_name,"onglet",0);
 	echo '<div class="mlt_bordure" >';
 
-	
-//	echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center>";
+
 }else{	
 	$protectedPost['onglet']="STAT";
 }
@@ -160,7 +153,7 @@ if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['CONFIGURATIO
 	$name_field[]="DESCR";
 	$tab_name[]=$l->g(53);
 	$type_field[]=1;
-	$value_field[]=$protectedPost['DESC'];
+	$value_field[]=$protectedPost['DESCR'];
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 	$tab_typ_champ[0]['CONFIG']['SIZE']=20;
 	$tab_hidden['add_static_group']='add_static_group';

@@ -472,12 +472,15 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 
 function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='CHANGE',$showbutton_action='')
 {
-	global $l,$protectedPost;
+	global $l,$protectedPost,$css;
+	
+	if (!isset($css))
+		$css="mvt_bordure";
 
 	if ($form_name != 'NO_FORM')
 	echo "<form name='" . $form_name . "' id='" 
 		. $form_name . "' action='' method='POST'>";
-	echo '<div class="mvt_bordure" >';
+	echo '<div class="'.$css.'" >';
 	if ($showbutton_action != '')
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'>" . $showbutton_action . "</td></tr></table>";
 	echo "<table align='center' border='0' cellspacing=20 >";
@@ -496,11 +499,11 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
  	echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
  	if ($showbutton){
 		echo "<tr><td><input title='" . $l->g(625) 
-					. "'  class='image' type='image'  src='image/success.png' name='Valid_" 
+					. "'  type='image'  src='image/success.png' name='Valid_" 
 					. $name_button 
 					."'>";
 		echo "<input title='" . $l->g(626) 
-				. "' class='image' type='image'  src='image/error.png' name='Reset_"
+				. "'  type='image'  src='image/error.png' name='Reset_"
 				. $name_button . "'></td></tr>";
  	}
 	echo "</table>";
@@ -1265,8 +1268,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				if ($list_col_cant_del[$key])
 				$correct_list_col_cant_del[$num_col]=$num_col;
 				
-//				if (strstr($value, '.')){
-//					echo "<br>".$value;
+
 				if (substr($value,0,2) == "h." 
 						or substr($value,0,2) == "a." 
 						or substr($value,0,2) == "e."
@@ -1275,8 +1277,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				$no_alias_value=substr(strstr($value, '.'), 1);
 				}else
 				 $no_alias_value=$value;
-			//	echo $no_alias_value."<br>";
-				//echo $donnees[$no_alias_value]."<br>";
+
 				
 				//si aucune valeur, on affiche un espace
 				if ($donnees[$no_alias_value] == "")
@@ -1288,8 +1289,10 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}else
 					$value_of_field=$donnees[$no_alias_value];
 				}
-			//	echo $value_of_field."<br>";
-				//$value_of_field=utf8_encode($value_of_field);
+				
+				//utf8 or not?
+				$value_of_field=data_encode_utf8($value_of_field);
+				
 				$col[$i]=$key;
 				if ($protectedPost['sens'] == "ASC")
 					$sens="DESC";
@@ -1326,6 +1329,17 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						
 					}
 				}
+				
+				if (isset($tab_options['REPLACE_WITH_LIMIT']['UP'][$key])){
+					if ($value_of_field > $tab_options['REPLACE_WITH_LIMIT']['UP'][$key])
+						$value_of_field= $tab_options['REPLACE_WITH_LIMIT']['UPVALUE'][$key];
+				}
+				
+				if (isset($tab_options['REPLACE_WITH_LIMIT']['DOWN'][$key])){
+					if ($value_of_field < $tab_options['REPLACE_WITH_LIMIT']['DOWN'][$key])
+						$value_of_field = $tab_options['REPLACE_WITH_LIMIT']['DOWNVALUE'][$key];
+				}
+				
 				unset($key2);
 				if (isset($tab_condition[$key])){
 						if ((!$tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]] and !$tab_options['EXIST'][$key])

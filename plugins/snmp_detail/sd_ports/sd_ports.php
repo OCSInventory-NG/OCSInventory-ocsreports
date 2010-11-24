@@ -1,21 +1,27 @@
 <?php
-	print_item_header('sd_blades');
+/*
+ * 
+ * Show sd_ports data
+ * 
+ * 
+ */
+
+print_item_header($l->g(272));
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
-	$form_name="sd_blades";
-	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array('SNMP_ID' => 'SNMP_ID',
-					   'SERIALNUMBER' => 'SERIALNUMBER');
+	$table_name="sd_ports";
+	$list_fields=array($l->g(49)=>'NAME', 
+					   $l->g(66) => 'TYPE');
 	//$list_fields['SUP']= 'ID';
+	$sql=prepare_sql_tab($list_fields);
+	//$list_fields["PERCENT_BAR"] = 'CAPACITY';
 	$list_col_cant_del=$list_fields;
 	$default_fields= $list_fields;
-	$sql=prepare_sql_tab($list_fields);
 	$sql['SQL']  = $sql['SQL']." FROM %s WHERE (snmp_id=%s)";
-	$sql['ARG'][]='snmp_blades';
+	$sql['ARG'][]='snmp_ports';
 	$sql['ARG'][]=$systemid;
 	$tab_options['ARG_SQL']=$sql['ARG'];
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);
-	echo "</form>";
+
 
 ?>

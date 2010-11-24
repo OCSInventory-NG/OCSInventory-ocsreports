@@ -202,6 +202,9 @@ function find_info_accountinfo($id = '',$type=''){
 
 function witch_field_more($account_type = ''){
 	$list_field=array('ID','TYPE','NAME','COMMENT');
+	$list_fields=array();
+	$list_name=array();
+	$list_type=array();
 	$sql_accountinfo="select " . implode(',',$list_field) . " from accountinfo_config ";
 	if ($account_type != '')
 		$sql_accountinfo.= " where account_type = '".$account_type."' ";

@@ -515,16 +515,16 @@
 626 Annuler les modifications
 627 Au moins un des champs est vide... Mise à jour non effectuée.
 628 Serveurs de redistribution
-629 Nouveau groupe de serveurs de redistribution
-630 Un groupe de serveurs existants
+629 Nouveau groupe de redistribution
+630 Un groupe de redistribution existants
 631 Ajouter à
 632 Ecraser
-633 Gestion des groupes de serveurs
+633 Gestion des groupes de redistribution
 634 Action désirée
 635 Nouveau nom
 637 Remplacer
 638 LE NOM DU GROUPE NE PEUT ETRE VIDE
-639 CE GROUPE DE SERVEUR N EXISTE PAS
+639 CE GROUPE DE REDISTRIBUTION N EXISTE PAS
 640 Etes-vous sûr de vouloir supprimer
 641 Administration des serveurs de redistribution
 642 le groupe
@@ -536,7 +536,7 @@
 648 REPERTOIRE STORE
 649 AUTOMATIQUE
 650 MANUELLE
-651 Groupe de serveurs
+651 Groupe de redistribution
 652 Machine(s)
 653 Blacklist d'adresse MAC
 654 Entrez une nouvelle adresse MAC à blacklister
@@ -545,13 +545,13 @@
 657 Les champs en rouge sont en erreur!!! (champs vides ou taille <2)
 658 machines n'ont pas de serveurs de redistribution. <br>Il faut donc affecter ce paquet individuellement.
 659 machines ont déjà ce paquet télédéployé. Le statut de ce paquet pour ces machines est donc à nouveau  
-660 GROUPE DE SERVEUR INEXISTANT
-661 PAQUETS POUR SERVEUR DE REDISTRIBUTION
+660 GROUPE DE REDISTRIBUTION INEXISTANT
+661 PAQUETS POUR LA REDISTRIBUTION
 662 Règles d'affectation
 663 PROBLEME INTERNE
 664 Action effectuée
-665 AUCUNE MACHINE SELECTIONNEE. GROUPE DE SERVEUR NON CREE
-666 Groupe de serveur créé
+665 AUCUNE MACHINE SELECTIONNEE. GROUPE DE REDISTRIBUTION NON CREE
+666 Groupe de redistribution créé
 667 POUR LE PAQUET
 668 Affecter avec quelle règle?
 669 ATTENTION: il existe des doublons de priorité<br>Une seule règle sera retenue!
@@ -579,10 +579,10 @@
 692 Vous modifiez TOUTES les valeurs des serveurs
 693 Vous modifiez les valeurs du serveur suivant:
 694 Pour retrouver les valeurs par défaut, valider les champs à vide
-695 Vous modifiez le groupe de serveurs
+695 Vous modifiez le groupe de redistribution
 696 Visualiser les paquets activés à affecter sur
 697 une machine
-698 un groupe de serveurs
+698 un groupe de redistribution
 699 Etes-vous sûr de vouloir affecter ce paquet à ces machines?
 700 Choix Blacklist
 701 Blacklist de numéro de série
@@ -761,7 +761,7 @@
 875 Clé de registre: Valeur
 876 DESaffectation simple GROUPE REDISTRIBUTION 
 877 DES MACHINES N'ONT PAS ETE AJOUTEES AU GROUPE CAR:
-878 Rappel: une machine ne peut faire partie que d'un seul groupe de serveur
+878 Rappel: une machine ne peut faire partie que d'un seul groupe de redistribution
 879 GROUPE REMPLACE
 880 GROUPE CREE
 881 machines ajoutées
@@ -862,7 +862,7 @@
 978 Vous aller verrouiller toute l'interface sur les résultats de cette recherche multicritère
 979 Pour revenir à un état normal, vous cliquerez sur l'icône <img src='image/cadena_op.png' > se trouvant en haut à droite de l'interface
 980 Paquets sur les machines
-981 Paquets sur les groupes de serveurs
+981 Paquets sur les groupes de redistribution
 982 AUCUNE REGLE D'AFFECTATION N'EXISTE. PAS DE REDISTRIBUTION POSSIBLE.
 983 Vous devez choisir sur quel type doit s'effectuer les modifications
 984 Modifications
@@ -1016,7 +1016,7 @@
 1132 ID mot
 1133 Nouveau libellé
 1134 Pas de donnée Ipdiscover
-1135 machine(s) sont déjà présentes dans le groupe de serveur
+1135 machine(s) sont déjà présentes dans le groupe de redistribution
 1136 SNMP
 1137 Activer/désactiver le snmp
 1138 Afficher tous mes réseaux
@@ -1095,7 +1095,31 @@
 1211 URL du fichier des communautés SNMP
 1212 Communauté supprimée
 1213 Séparateur des fichiers d'export
-
+1214 Configurer le moteur pour mettre à jour l'inventaire snmp en se basant sur la table snmp_laststate (charge inférieure backend DB)
+1215 Serveur Blade
+1216 Pare-feu
+1217 Répartiteur de charge
+1218 Switch(s)
+1219 Cartes
+1220 Cartouches
+1221 Disques
+1222 Ventillateurs
+1223 Alimentation
+1224 Bacs
+1225 Capacité maximale
+1226 Couleur
+1227 Contact
+1228 Identifiant SNMP
+1229 Firmware
+1230 Nom du volume
+1231 le format de fichier doit être en ZIP
+1232 le format de fichier doit être en TAR.GZ
+1233 Nom de la base donnée
+1234 La description ne peut pas être vide
+1235 Référence
+1236 Version du logiciel
+1237 Version du firmware 
+1238 Date d'installation
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1181,7 +1205,7 @@
 2096 Please enter the label of the windows client tag input box:
 2097 Laissez vide si vous ne voulez pas qu'une popup s'affiche au premier lancement de l'agent
 2098 ERROR: Zip for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
-
+2099 ERROR: ce compte mysql n'a pas les droits de création de database 
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

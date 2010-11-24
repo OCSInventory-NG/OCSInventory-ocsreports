@@ -80,7 +80,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 			$tab_typ_champ[$id]['CONFIG']['SIZE']=20;
 		}
 		if (isset($tab_typ_champ)){
-		//	echo '<div class="mvt_bordure" >';
+			$css='mlt_bordure';
 			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);
 		//	echo "</div>";
 		}	

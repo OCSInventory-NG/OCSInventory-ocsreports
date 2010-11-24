@@ -126,6 +126,7 @@ if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
 		$valNme = COMPTE_BASE;
 		$valPass = PSWD_BASE;
 		$valServ = SERVER_WRITE;
+		$valdatabase = DB_NAME;
 }
 
 if( ! $instOk ) {
@@ -143,6 +144,13 @@ if( ! $instOk ) {
 			<font face='Verdana' size='-1'>" . $l->g(248) . ":&nbsp;&nbsp;&nbsp;</font>
 		</td>
 		<td width='50%' align='left'><input size=40 type='password' name='pass' value='$valPass'>
+		</td>
+	</tr>
+	<tr>
+		<td align='right' width='30%'>
+			<font face='Verdana' size='-1'>" . $l->g(1233) . ":&nbsp;&nbsp;&nbsp;</font>
+		</td>
+		<td width='50%' align='left'><input size=40 name='database' value='$valdatabase'>
 		</td>
 	</tr>
 	<tr>
@@ -172,7 +180,7 @@ if(!mysql_query("set global max_allowed_packet=2097152;")) {
 	echo "<br><center><font color=orange><b>" . $l->g(2043) . "</font></center>";
 }
 
-mysql_select_db("ocsweb"); 
+mysql_select_db($_POST['database']); 
 
 if(isset($_POST["label"])) {
 	
@@ -223,7 +231,25 @@ if(!$ch = @fopen("dbconfig.inc.php","w")) {
 
 $keepuser=false;
 
-$db_file = "files/ocsbase.sql";
+
+$error="";
+$res = mysql_query("show databases like '" . $_POST['database'] . "'");
+$val = mysql_fetch_array( $res );
+if (!$val){
+	$db_file = "files/ocsbase_new.sql";
+	if (!mysql_query("CREATE DATABASE ".$_POST['database']) 
+		or !mysql_query("USE ".$_POST['database'])
+		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs IDENTIFIED BY 'ocs'")
+		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
+		$error=mysql_errno();
+}else
+	$db_file = "files/ocsbase.sql";
+	
+if ($error != ""){
+	echo "<font color=red>".$l->g(2099)."</font>";
+	die();
+}
+//$db_file = "files/ocsbase_new.sql";
 if($dbf_handle = @fopen($db_file, "r")) {
 	echo "<br><center><font color=black><b>" . $l->g(2053);
 	flush();
@@ -231,11 +257,23 @@ if($dbf_handle = @fopen($db_file, "r")) {
 	fclose($dbf_handle);
 	$dejaLance=0;
 	$li = 0;
-	foreach ( explode(";", "$sql_query") as $sql_line) {
+	$data_sql=explode("--", $sql_query);
+	foreach ($data_sql as $key=>$value){
+		if (strpos($value, ";") !== false){
+			$valuesql=explode(';', $value);
+			$i=0;
+			while (isset($valuesql[$i])){
+				$execute_sql[]=$valuesql[$i];
+				$i++;				
+			}
+		}		
+	}
+
+	foreach ( $execute_sql as $sql_line) {
 		$li++;
 		//echo $sql_line."<br>";
 		if(!mysql_query($sql_line)) {
-			if (mysql_errno()==1044 && strpos($sql_line, "GRANT ALL")!==false) {
+			if (mysql_errno()==1044) {
 				// Provided user not MySQL Administror
 				$keepuser=true;
 				continue;
@@ -303,7 +341,7 @@ if ($keepuser) {
 	// Keep the account used for migration
 	//echo "toto";
 	fwrite($ch,"<?php\n");
-	fwrite($ch,"define(\"DB_NAME\", \"ocsweb\");\n");
+	fwrite($ch,"define(\"DB_NAME\", \"" .$_POST['database']. "\");\n");
 	fwrite($ch,"define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
 	fwrite($ch,"define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");				
 	fwrite($ch,"define(\"COMPTE_BASE\",\"" . $_POST["name"] . "\");\n");					
@@ -319,7 +357,7 @@ if ($keepuser) {
 } else {
 	// Use account created during installation
 	fwrite($ch,"<?php\n");
-	fwrite($ch,"define(\"DB_NAME\", \"ocsweb\");\n");
+	fwrite($ch,"define(\"DB_NAME\", \"" .$_POST['database']. "\");\n");
 	fwrite($ch,"define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
 	fwrite($ch,"define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");				
 	fwrite($ch,"define(\"COMPTE_BASE\",\"ocs\");\n");					
@@ -406,7 +444,7 @@ $dejaLance=0;
 $filMin = "";
 
 mysql_query("DELETE FROM deploy");
-mysql_select_db("ocsweb"); 
+mysql_select_db($_POST['database']); 
 foreach($filenames as $fil) {
 	$filMin = $fil;
 	if ( $ledir = @opendir("files")) {

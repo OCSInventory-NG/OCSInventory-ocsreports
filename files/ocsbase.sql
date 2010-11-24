@@ -1,5 +1,4 @@
-CREATE DATABASE ocsweb;
-USE ocsweb;
+
 
 CREATE TABLE hardware (
   ID INTEGER NOT NULL auto_increment,
@@ -788,10 +787,7 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
-GRANT ALL PRIVILEGES ON ocsweb.* TO ocs IDENTIFIED BY 'ocs';
-GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost IDENTIFIED BY 'ocs';
-
-INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0A-2', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0A-3', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1014,8 +1010,7 @@ CREATE TABLE accountinfo_config(
 
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on computers accountinfo');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTSNMP_1',1,'TAG','Default TAB on snmp accountinfo');
-INSERT INTO accountinfo_config (ID,NAME_ACCOUNTINFO,TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER,ACCOUNT_TYPE) values (1,'TAG',0,'TAG','1','TAG',1,'COMPUTERS');
-INSERT INTO accountinfo_config (ID,NAME_ACCOUNTINFO,TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER,ACCOUNT_TYPE) values (2,'TAG',0,'TAG','1','TAG',1,'SNMP');
+INSERT INTO accountinfo_config VALUES (1,'TAG',0,'TAG',1,'TAG',1,'COMPUTERS'),(2,'TAG',0,'TAG',1,'TAG',1,'SNMP');
 ALTER TABLE subnet CHANGE ID ID VARCHAR(255);
 
 CREATE TABLE blacklist_subnet(
@@ -1037,4 +1032,6 @@ CREATE TABLE snmp_accountinfo (
   INDEX TAG (TAG)
 ) ENGINE=INNODB ;
 
+insert into config (NAME,IVALUE,COMMENTS) values ('SNMP_INVENTORY_DIFF',1,'Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)');
+INSERT INTO config VALUES ('SNMP_DIR','','/var/lib/ocsinventory-reports/snmp','Directory for download files');
 

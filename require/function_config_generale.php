@@ -287,7 +287,7 @@ function update_default_value($POST){
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
 						'LOCAL_PORT','LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
-						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB');
+						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -566,7 +566,8 @@ function pagegroups($form_name){
 		ligne('INVENTORY_WRITE_DIFF',$l->g(743),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_WRITE_DIFF']));
 		ligne('INVENTORY_SESSION_ONLY',$l->g(744),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_SESSION_ONLY']));
 	 	ligne('INVENTORY_CACHE_REVALIDATE',$l->g(745),'input',array('END'=>$l->g(496).$sup1,'VALUE'=>$values['ivalue']['INVENTORY_CACHE_REVALIDATE'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
-		ligne('INVENTORY_VALIDITY',$l->g(828),'radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_VALIDITY']),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$validity,'END'=>$l->g(496),'JAVASCRIPT'=>$numeric,'SIZE'=>3));
+
+	 	ligne('INVENTORY_VALIDITY',$l->g(828),'radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_VALIDITY']),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$validity,'END'=>$l->g(496),'JAVASCRIPT'=>$numeric,'SIZE'=>3),"readonly");
 	fin_tab($form_name);
  	
  }
@@ -800,7 +801,7 @@ function pagegroups($form_name){
  	$list=array();
  	$values=look_config_default_values($champs,'YES');*/
  //	$list=$values['tvalue'];
- 	$champs=array('SNMP'=>'SNMP','SNMP_DIR'=>'SNMP_DIR','SNMP_URI'=>'SNMP_URI');
+ 	$champs=array('SNMP'=>'SNMP','SNMP_DIR'=>'SNMP_DIR','SNMP_URI'=>'SNMP_URI','SNMP_INVENTORY_DIFF'=>'SNMP_INVENTORY_DIFF');
  	$values=look_config_default_values($champs);
  	if (isset($values['tvalue']['SNMP_DIR']))
 		$select_rep_creat='CUSTOM';
@@ -811,7 +812,7 @@ function pagegroups($form_name){
 	ligne('SNMP_DIR',$l->g(1206),'radio',array('DEFAULT'=>$l->g(823). " " ."(".DOCUMENT_ROOT."snmp/)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_rep_creat),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['SNMP_DIR'],'SIZE'=>70));
 	ligne('SNMP_URI',$l->g(1211),'input',array('BEGIN'=>'HTTPS://','VALUE'=>$values['tvalue']['SNMP_URI'],'SIZE'=>50,'MAXLENGHT'=>50));
-	
+	ligne('SNMP_INVENTORY_DIFF',$l->g(1214),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['SNMP_INVENTORY_DIFF']));
 //	ligne('SNMP_COMMUN',$l->g(1199),'list',array('VALUE'=>$list,'END'=>"<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=SNMP_COMMUN&nb_field=217&new_field=49\",\"SNMP_COMMUN\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>"));	
  	fin_tab($form_name);
  }

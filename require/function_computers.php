@@ -108,7 +108,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 			}
 			
 			if( !$silent )
-				msg_error($valId["name"]." ".$l->g(220));
+				msg_success($valId["name"]." ".$l->g(220));
 			
 			foreach ($tables as $table) {
 				$sql="DELETE FROM %s WHERE hardware_id='%s'";
