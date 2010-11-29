@@ -16,7 +16,6 @@ ms_logs
 ms_admininfo
 ms_ipdiscover
 ms_doubles
-ms_label
 ms_users
 ms_local
 ms_help
@@ -186,6 +185,7 @@ ms_rules_redistrib:ms_teledeploy
 ms_teledeploy_workflow:ms_teledeploy
 ms_config:ms_config
 ms_blacklist:ms_config
+ms_label:ms_config
 ms_multi_search:ms_multi_search
 ms_search_soft:ms_multi_search
 ms_ipdiscover:ms_ipdiscover
