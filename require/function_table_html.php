@@ -1,10 +1,14 @@
 <?php
-/*
- *  
- * function for new tab
- * 
- * 
- */
+//====================================================================================
+// OCS INVENTORY REPORTS
+// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
+// Web: http://www.ocsinventory-ng.org
+//
+// This code is open source and may be copied and modified as long as the source
+// code is always made freely available.
+// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
+//====================================================================================
+
 
 $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToUpper(this)'
 		  onkeyup='convertToUpper(this)' 
@@ -349,7 +353,6 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES",'COLS'=>30,'ROWS'=>5);
 	//del stripslashes if $name is not an array
 	if (!is_array($name)){
-	//	echo "toto";
 		$name=htmlspecialchars($name, ENT_QUOTES);
 	}
 		if ($input_type == 1){
@@ -937,7 +940,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 
 	
 	//Delete cache 
-	if ($tab_options['CACHE']=='RESET' or (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') ){
+	if ($tab_options['CACHE']=='RESET'
+		 or (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '')
+		 or (isset($protectedPost['RESET']) and $protectedPost['RESET'] != '') ){
 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 			msg_info($l->g(5003));
 		unset($_SESSION['OCS']['DATA_CACHE'][$table_name]);
@@ -1038,8 +1043,11 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$_SESSION['OCS']['csv']['ARG'][$table_name]=$tab_options['ARG_SQL'];
 		
 		//requete de count
+		unset($_SESSION['OCS']['NUM_ROW']);
 		if (!isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
 			unset($_SESSION['OCS']['NUM_ROW']);
+			
+			if (!isset($tab_options['SQL_COUNT'])){
 				$querycount_begin="select count(*) count_nb_ligne ";
 				if (stristr($queryDetails,"group by") and substr_count($queryDetails,"group by") == 1){
 					$querycount_end=",".substr(	$queryDetails,6);	
@@ -1047,6 +1055,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					$querycount_end=stristr($queryDetails, 'from ');	
 			
 				$querycount=$querycount_begin.$querycount_end;
+			}else
+				$querycount=$tab_options['SQL_COUNT'];
+		
 				if (isset($tab_options['ARG_SQL_COUNT'])){
 						$resultcount = mysql2_query_secure($querycount, $link,$tab_options['ARG_SQL_COUNT']);
 				}
@@ -1258,8 +1269,9 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 			//print_r($donnees);
 			foreach($list_fields as $key=>$value){
 				$truelabel=$key;
+			//	p($tab_options);
 				//gestion des as de colonne
-				if ($tab_options['AS'][$value])
+				if (isset($tab_options['AS'][$value]))
 				$value=$tab_options['AS'][$value];
 				//echo $value."<br>";				
 				$num_col=$key;
@@ -1409,11 +1421,14 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}elseif ($key == "GROUP_NAME"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
 					}elseif ($key == "SUP"){
-						if (isset($tab_options['LBL_POPUP'][$key]))
-						$lbl_msg=$donnees[$tab_options['LBL_POPUP'][$key]];
-						else
-						$lbl_msg=$value_of_field;
-						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)." ".$lbl_msg."\");'><img src=image/supp.png></a>";
+						if (isset($tab_options['LBL_POPUP'][$key])){
+							if (isset($donnees[$tab_options['LBL_POPUP'][$key]]))
+								$lbl_msg=$l->g(640)." ".$donnees[$tab_options['LBL_POPUP'][$key]];
+							else
+								$lbl_msg=$tab_options['LBL_POPUP'][$key];
+						}else
+							$lbl_msg=$l->g(640)." ".$value_of_field;
+						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SUP_PROF\",\"".$lbl_msg."\");'><img src=image/supp.png></a>";
 						$lien = 'KO';		
 					}elseif ($key == "MODIF"){
 						if (!isset($tab_options['MODIF']['IMG']))
@@ -1530,4 +1545,20 @@ echo "<script language=javascript>
 	 echo "</tr></tr></table>";
 	 echo "<input type='hidden' id='del_check' name='del_check' value=''>";
 }
+
+function js_tooltip(){
+	echo "<script language='javascript' type='text/javascript' src='js/tooltip.js'></script>";
+	echo "<div id='mouse_pointer' class='tooltip'></div>";	
+}
+
+/*js_bulle_info();
+$bulle=bulle_info("");
+echo "<a ".$bulle.">testst</a>";*/
+
+function tooltip($txt){
+	return " onmouseover=\"show_me('".addslashes($txt)."');\" onmouseout='hidden_me();'";
+}
+
+
+
 ?>

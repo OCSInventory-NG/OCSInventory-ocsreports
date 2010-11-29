@@ -1,4 +1,14 @@
 <?php
+//====================================================================================
+// OCS INVENTORY REPORTS
+// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
+// Web: http://www.ocsinventory-ng.org
+//
+// This code is open source and may be copied and modified as long as the source
+// code is always made freely available.
+// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
+//====================================================================================
+
 
 
 /**
@@ -100,6 +110,9 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 			}
 			elseif($did == "_SYSTEMGROUP_"){//Deleting a group
 				$tables=Array("devices");
+				//del messages on this group
+				$sql_group_msg="DELETE FROM config WHERE name like '%s' and ivalue='%s'";
+				mysql2_query_secure($sql_group_msg, $_SESSION['OCS']["writeServer"],array('GUI_REPORT_MSG%',$idHard));
 				$sql_group="DELETE FROM groups WHERE hardware_id='%s'";
 				mysql2_query_secure($sql_group, $_SESSION['OCS']["writeServer"],$idHard);
 				$sql_group_cache="DELETE FROM groups_cache WHERE group_id='%s'";

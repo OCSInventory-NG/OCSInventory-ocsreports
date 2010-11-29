@@ -1,4 +1,14 @@
 <?php
+//====================================================================================
+// OCS INVENTORY REPORTS
+// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
+// Web: http://www.ocsinventory-ng.org
+//
+// This code is open source and may be copied and modified as long as the source
+// code is always made freely available.
+// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
+//====================================================================================
+
 if (isset($protectedGet['head']) and $protectedGet['head'] == 1)
 $ban_head='no';
 /*******************************************************AFFICHAGE HTML DU HEADER*******************************************/
@@ -17,7 +27,6 @@ header("Content-type: text/html; charset=utf-8");
 <LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
 <?php incPicker(); 
 echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
-
 if (isset($_SESSION['OCS']['JAVASCRIPT'])){
 	foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file => $rep){
 		echo "<script language='javascript' type='text/javascript' src='".$_SESSION['OCS']['main_sections_dir'].$rep.$file."'></script>";

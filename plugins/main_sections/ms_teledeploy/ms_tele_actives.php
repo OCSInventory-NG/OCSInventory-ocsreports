@@ -2,13 +2,13 @@
 //====================================================================================
 // OCS INVENTORY REPORTS
 // Copyleft Pierre LEMMET 2006
-// Web: http://ocsinventory.sourceforge.net
+// Web: http://www.ocsinventory-ng.org
 //
 // This code is open source and may be copied and modified as long as the source
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-//Modified on $Date: 2008-02-27 12:34:12 $$Author: hunal $($Revision: 1.10 $)
+//Modified on $Date: 2010 $$Author: Erwan Goalou
 require_once('require/function_telediff.php');
 
 if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_ACTIVATE'] == 'NO')

@@ -10,7 +10,7 @@
  */
  
  //fonction camenbert
-# - Date de création : 18/09/2005
+# - Date de crï¿½ation : 18/09/2005
 # - nom : camembert.php
 # - auteur : opossum_farceur.
 # - Object : les camemberts 3D.
@@ -18,46 +18,46 @@
 # 
   function camembert($arr)
    {    
-      $size=2; /* taille de la police, largeur du caractère */
+      $size=2; /* taille de la police, largeur du caractï¿½re */
       $ifw=imagefontwidth($size);                            
        
       $w=850; /* largeur de l'image */
       $h=400; /* hauteur de l'image */
       $a=200; /* grand axe du camembert */
       $b=$a/2; /* 60 : petit axe du camembert */
-      $d=$a/2; /* 60 : "épaisseur" du camembert */
+      $d=$a/2; /* 60 : "ï¿½paisseur" du camembert */
       $cx=$w/2-1; /* abscisse du "centre" du camembert */
-      $cy=($h-$d)/2; /* 95 : ordonnée du "centre" du camembert */
+      $cy=($h-$d)/2; /* 95 : ordonnï¿½e du "centre" du camembert */
        
       $A=138+80; /* grand axe de l'ellipse "englobante" */
       $B=102+80; /* petit axe de l'ellipse "englobante" */
-      $oy=-$d/2; /* -30 : du "centre" du camembert à celui de l'ellipse "englobante"*/
+      $oy=-$d/2; /* -30 : du "centre" du camembert ï¿½ celui de l'ellipse "englobante"*/
     
       $img=imagecreate($w,$h);
       $bgcolor=imagecolorallocate($img,0xCD,0xCD,0xCD);    
       imagecolortransparent($img,$bgcolor);
       $black=imagecolorallocate($img,0,0,0);
-                                /* calcule la somme des données */
+                                /* calcule la somme des donnï¿½es */
       for ($i=$sum=0,$n=count($arr);$i<$n;$i++) $sum+=$arr[$i][0];    
        
-      /* fin des préliminaires : on peut vraiment commencer! */
+      /* fin des prï¿½liminaires : on peut vraiment commencer! */
       for ($i=$v[0]=0,$x[0]=$cx+$a,$y[0]=$cy,$doit=true;$i<$n;$i++) {                                                        
          for ($j=0,$k=16;$j<3;$j++,$k-=8) $t[$j]=($arr[$i][1]>>$k) & 0xFF;
-                                /* détermine les "vraies" couleurs */
+                                /* dï¿½termine les "vraies" couleurs */
          $color[$i]=imagecolorallocate($img,$t[0],$t[1],$t[2]);
-                                /* calcule l'angle des différents "secteurs" */
+                                /* calcule l'angle des diffï¿½rents "secteurs" */
          $v[$i+1]=$v[$i]+round($arr[$i][0]*360/$sum);    
                                                            
-         if ($doit) { /* détermine les couleurs "ombrées" */
+         if ($doit) { /* dï¿½termine les couleurs "ombrï¿½es" */
             $shade[$i]=imagecolorallocate($img,max(0,$t[0]-50),max(0,$t[1]-50),max(0,$t[2]-50));
                                                            
-            if ($v[$i+1]<180) { /* calcule les coordonnées des différents parallélogrammes */
+            if ($v[$i+1]<180) { /* calcule les coordonnï¿½es des diffï¿½rents parallï¿½logrammes */
                $x[$i+1]=$cx+$a*cos($v[$i+1]*M_PI/180);        
                $y[$i+1]=$cy+$b*sin($v[$i+1]*M_PI/180);    
             }                                        
             else {
                $m=$i+1;
-               $x[$m]=$cx-$a; /* c'est comme si on remplaçait $v[$i+1] par 180° */
+               $x[$m]=$cx-$a; /* c'est comme si on remplaï¿½ait $v[$i+1] par 180ï¿½ */
                $y[$m]=$cy;    
                $doit=false; /* indique qu'il est inutile de continuer! */
             }
@@ -78,19 +78,19 @@
     
       /*imageellipse($img,$cx,$cy-$oy,2*$A,2*$B,$black);    // dessine l'ellipse "englobante" */
        
-      /* dessine les "flêches" et met en place le texte */
+      /* dessine les "flï¿½ches" et met en place le texte */
       for ($i=0,$AA=$A*$A,$BB=$B*$B;$i<$n;$i++) if ($arr[$i][0]) {
          $phi=($v[$i+1]+$v[$i])/2;
-                                /* intersection des "flêches" avec l'ellipse "englobante" */
+                                /* intersection des "flï¿½ches" avec l'ellipse "englobante" */
          $px=$a*3*cos($phi*M_PI/180)/4;        
          $py=$b*3*sin($phi*M_PI/180)/4;        
-                                /* équation du 2ème degré avec 2 racines réelles et distinctes */    
+                                /* ï¿½quation du 2ï¿½me degrï¿½ avec 2 racines rï¿½elles et distinctes */    
          $U=$AA*$py*$py+$BB*$px*$px;
          $V=$AA*$oy*$px*$py;                        
          $W=$AA*$px*$px*($oy*$oy-$BB);    
-                                /* calcule le pourcentage à afficher */
+                                /* calcule le pourcentage ï¿½ afficher */
          $value=number_format(100*$arr[$i][0]/$sum,1,",","")."%";
-                                /* écrit le texte à droite */    
+                                /* ï¿½crit le texte ï¿½ droite */    
          if ($phi<=90 || $phi>270) {
             $root=(-$V+sqrt($V*$V-$U*$W))/$U;
             imageline($img,$px+$cx,$py+$cy,$qx=$root+$cx,$qy=$root*$py/$px+$cy,$black);
@@ -99,7 +99,7 @@
             imagestring($img,$size,$qx+14,$qy-12,$arr[$i][2],$black);
             imagestring($img,$size,$qx+14,$qy-2,$value,$black);
          }
-         else { /* écrit le texte à gauche */
+         else { /* ï¿½crit le texte ï¿½ gauche */
             $root=(-$V-sqrt($V*$V-$U*$W))/$U;
             imageline($img,$px+$cx,$py+$cy,$qx=$root+$cx,$qy=$root*$py/$px+$cy,$black);
             imageline($img,$qx,$qy,$qx-10,$qy,$black);        

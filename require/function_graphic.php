@@ -1,7 +1,14 @@
 <?php
-/*
-OCS Graphics ADD by Nicolas DEROUET
-*/
+//====================================================================================
+// OCS INVENTORY REPORTS
+// Copyleft Nicolas DEROUET 2009 
+//
+// This code is open source and may be copied and modified as long as the source
+// code is always made freely available.
+// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
+//====================================================================================
+
+
 echo "<LINK REL='StyleSheet' TYPE='text/css' HREF='css/graphic.css'>\n";
 
 function percent_bar($status)

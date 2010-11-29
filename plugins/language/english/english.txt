@@ -451,7 +451,7 @@
 559 This file is not .ocs
 560 To server
 561 Unknown (deleted package)
-562 Networks having uid:
+562 Show networks having uid:
 563 Manufacturer
 564 Agent auto-launching frequency
 565 Server used for local inventories
@@ -1121,6 +1121,10 @@
 1236 Soft version
 1237 Firmware version
 1238 Installation date
+1239 MHz
+1240 MB
+1241 Number of SNMP devices 
+1242 m/d/y
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
