@@ -70,7 +70,7 @@ sub getDescription {
   return "USB" if (defined ($description) && $description =~ /usb/i);
 
   if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
-    if ($manufacturer =~ /ATA/ || $serialnumber =~ /ATA/) {
+    if ($manufacturer =~ /ATA/ || $serialnumber =~ /ATA/ || $description =~ /ATA/i) {
       return  "SATA";
     } else {
       return "SCSI";
@@ -164,47 +164,12 @@ sub run {
   }
 
 
-
-  foreach (glob ("/dev/.udev/db/*")) {
-    if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/) {
-      my $path = $1;
-      my $device = $2;
-      my $serial_short;
-
-      open (PATH, $1 . $2);
-      while (<PATH>) {
-        if (/^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
-
-          # Not accepted yet in the final XML
-          $devices->{$device}->{SCSI_COID} = $1;
-          $devices->{$device}->{SCSI_CHID} = $2;
-          $devices->{$device}->{SCSI_UNID} = $3;
-          $devices->{$device}->{SCSI_LUN} = $4;
-
-        }
-
-        if (!$devices->{$device}->{MANUFACTURER} && /^E:ID_VENDOR=(.*)/) {
-          $devices->{$device}->{MANUFACTURER} = $1;
-        }
-        if (!$devices->{$device}->{SERIALNUMBER} && /^E:ID_SERIAL=(.*)/) {
-          $devices->{$device}->{SERIALNUMBER} = $1;
-        }
-        if (!$devices->{$device}->{TYPE} && /^E:ID_TYPE=(.*)/) {
-          $devices->{$device}->{TYPE} = $1;
-        }
-        if (!$devices->{$device}->{DESCRIPTION} && /^E:ID_BUS=(.*)/) {
-          $devices->{$device}->{DESCRIPTION} = $1;
-        }
-
+  foreach my $device (getFromUdev()) {
+    my $name = $device->{NAME};
+    foreach my $f ("NAME", "MANUFACTURER", "MODEL", "DESCRIPTION", "TYPE", "DISKSIZE", "SERIALNUMBER", "FIRMWARE", "SCSI_COID", "SCSI_CHID", "SCSI_UNID", "SCSI_LUN") {
+      if (!$devices->{$name}->{$f}) {
+        $devices->{$name}->{$f} = $device->{$f};
       }
-
-      if (!$devices->{$device}->{SERIALNUMBER}) {
-        $devices->{$device}->{SERIALNUMBER} = $serial_short;
-      }
-      if (!$devices->{$device}->{DISKSIZE}) {
-        $devices->{$device}->{DISKSIZE} = getCapacity($device);
-      }
-      close (PATH);
     }
   }
 
