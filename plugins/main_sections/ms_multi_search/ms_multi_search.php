@@ -58,7 +58,7 @@ if (isset($protectedGet['fields']) and (!isset($protectedPost['GET']) or $protec
 	}
 }
 
-/*
+//need to delete this part... 
 if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protectedPost['GET'] == '')){
 	unset($protectedPost);
 	foreach ($_SESSION['OCS'] as $key=>$value){
@@ -101,7 +101,9 @@ if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protecte
 		$protectedPost['Valid']=1;
 	}	
 	$protectedPost['GET']=$protectedGet['prov'];
-}*/
+}
+//end need to delete this part...
+
 //initialisation du tableau
 //$list_fields_calcul=array();
 //ouverture du formulaire
