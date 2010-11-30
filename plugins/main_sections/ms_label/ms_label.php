@@ -2,44 +2,48 @@
 //====================================================================================
 // OCS INVENTORY REPORTS
 // Copyleft Pierre LEMMET 2005
-// Web: http://ocsinventory.sourceforge.net
+// Web: http://www.ocsinventory-ng.org
 //
 // This code is open source and may be copied and modified as long as the source
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-//Modified on $Date: 2006-12-21 18:13:46 $$Author: plemmet $($Revision: 1.4 $)
+//Modified on $Date: 2010 $$Author: Erwan Goalou
 
+//UPDATE/DELETE
+if ($protectedPost['Valid_modif_x']){
+	$sql="DELETE FROM deploy WHERE name='%s'";
+	$arg="label";
+	$msg=$l->g(261);
+	
+	if (trim ($protectedPost['lbl']) != ""){
+		$protectedPost["lbl"] = str_replace(array("\t","\n","\r"), array("","",""), $protectedPost["lbl"] );
+		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
+		$sql="INSERT INTO deploy VALUES('%s','%s')";
+		$arg=array('label',$protectedPost["lbl"]);
+		$msg=$l->g(260);
+	}
+	
+	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
+	msg_success($msg);
+}
+//Looking for the label
+$reqL="SELECT content FROM deploy WHERE name='%s'";
+$arg="label";
+$resL=mysql2_query_secure($reqL,$_SESSION['OCS']["readServer"],$arg);
+$val = mysql_fetch_object($resL);
 printEntete($l->g(263));
+$form_name='admin_info';
+echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
 
-if( $protectedPost["newlabel"]!="" && str_replace(" ", "", $protectedPost["newlabel"] )!="" ) {
-	$protectedPost["newlabel"] = str_replace(array("\t","\n","\r"), array("","",""), $protectedPost["newlabel"] );
-	@mysql_query("DELETE FROM deploy WHERE name='label'");
-	$queryL = "INSERT INTO deploy VALUES('label','".$protectedPost["newlabel"]."');";
-	mysql_query($queryL) or die(mysql_error());
-	msg_success($l->g(260));
-}
-else if(isset($protectedPost["newlabel"])) {
-	@mysql_query("DELETE FROM deploy WHERE name='label'");
-	msg_success($l->g(261));
-}
+$name_field=array("lbl");
+$tab_name= array($l->g(262).": ");
+$type_field= array(1);		
+$value_field=array($val->content);
 
-$reqL="SELECT content FROM deploy WHERE name='label'";
-$resL=mysql_query($reqL) or die(mysql_error());
-$con = mysql_fetch_row($resL);
+$tab_typ_champ=show_field($name_field,$type_field,$value_field);
+//$tab_typ_champ[0]['CONFIG']['SIZE']=100;
+tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
 
-if($con[0]) {
-	//echo "<br><center><FONT FACE='tahoma' SIZE=2 color='green'><b>Label actuel: \"".$con[0]."\"</b></font></center>";
-}
-else {
-	if(!isset($protectedPost["newlabel"]))
-		echo "<br><center><FONT FACE='tahoma' SIZE=2 color='green'><b>".$l->g(264)."</b></font></center>";
-}
-$con[0] = stripslashes($con[0]);
-?><br>
-<center><b><?php echo $l->g(262);?></b>
-<form name='lab' method='post'>
-	<textarea name='newlabel'><?php echo $con[0]?></textarea><br>
-	<input name='sublabel' type='submit' value='<?php echo $l->g(13);?>'>
-</form>
-</center>
+echo "</form>";
+	?>

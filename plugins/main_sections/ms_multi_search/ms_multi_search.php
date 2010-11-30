@@ -1,10 +1,14 @@
 <?php
-/*
- * Nouvelle recherche multicrit�re
- * avec utilisation du cache
- * et possibilit� de multivaluer les champs
- * 
- */
+//====================================================================================
+// OCS INVENTORY REPORTS
+// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
+// Web: http://www.ocsinventory-ng.org
+//
+// This code is open source and may be copied and modified as long as the source
+// code is always made freely available.
+// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
+//====================================================================================
+
 //limite du nombre de r�sultat
 //sur les tables de cache
 //ex: software_name_cache, osname_cache...
@@ -21,7 +25,40 @@ $table_tabname="TAB_MULTICRITERE";
 
 //cas o� l'on arrive d'une autre page
 //ex: la page des stats
-//$_SESSION['OCS']['DEBUG'] = 'ON';
+
+if (isset($protectedGet['fields']) and (!isset($protectedPost['GET']) or $protectedPost['GET'] == '')){
+		unset($protectedPost);
+
+	foreach ($_SESSION['OCS'] as $key=>$value){
+		$valeur=explode("-", $key); 
+		if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue" or $valeur[0] == "SelFieldValue3"	or $valeur[0] == "SelAndOr" or $valeur[0] == "SelComp" )
+			unset($_SESSION['OCS'][$key]);
+	}
+	$tab_session=explode(',',$protectedGet['fields']);
+	$sel_comp=explode(',',$protectedGet['comp']);
+	$fields_values=explode(',',$protectedGet['values']);
+	$fields_values2=explode(',',$protectedGet['values2']);
+	if (is_array($tab_session)){
+		unset($_SESSION['OCS']['multiSearch']);
+		foreach ($tab_session as $key=>$value){
+			$_SESSION['OCS']['multiSearch'][]=$value;
+			$_SESSION['OCS']['SelComp-'.$value."-".$key]=$sel_comp[$key];
+			$_SESSION['OCS']['InputValue-'.$value."-".$key]=$fields_values[$key];
+			$_SESSION['OCS']['SelFieldValue-'.$value."-".$key]=$fields_values[$key];
+			$_SESSION['OCS']['SelFieldValue2-'.$value."-".$key]=$fields_values2[$key];
+			$protectedPost['SelComp-'.$value."-".$key]=$sel_comp[$key];
+			$protectedPost['InputValue-'.$value."-".$key]=$fields_values[$key];
+			$protectedPost['SelFieldValue-'.$value."-".$key]=$fields_values[$key];
+			$protectedPost['SelFieldValue2-'.$value."-".$key]=$fields_values2[$key];
+		}
+		$protectedPost['Valid-search']=$l->g(30);
+		$protectedPost['multiSearch'] = $l->g(32);
+		$protectedPost['Valid']=1;
+		$protectedPost['GET']='GET';
+	}
+}
+
+//need to delete this part... 
 if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protectedPost['GET'] == '')){
 	unset($protectedPost);
 	foreach ($_SESSION['OCS'] as $key=>$value){
@@ -65,6 +102,8 @@ if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protecte
 	}	
 	$protectedPost['GET']=$protectedGet['prov'];
 }
+//end need to delete this part...
+
 //initialisation du tableau
 //$list_fields_calcul=array();
 //ouverture du formulaire

@@ -54789,11 +54789,23 @@ company_id			Organization
 				Cornedo Vicentino Vicenza 36073
 				ITALY
 
+00-22-19   (hex)		Dell Inc
+002219     (base 16)		Dell Inc
+				One Dell Way, MS RR5-45
+				Round Rock Texas 78682
+				UNITED STATES
+
 00-26-54   (hex)		3Com Corporation
 002654     (base 16)		3Com Corporation
 				5353 Betsy Ross Drive
 				Bldg 14, M/S 1425
 				Santa Clara California 95054-1162
+				UNITED STATES
+
+00-26-B9   (hex)		Dell Inc
+0026B9     (base 16)		Dell Inc
+				One Dell Way, MS RR5-45
+				Round Rock Texas 78682
 				UNITED STATES
 
 00-30-00   (hex)		ALLWELL TECHNOLOGY CORP.
@@ -72467,7 +72479,13 @@ company_id			Organization
 
 11-00-AA   (hex)		PRIVATE
 1100AA     (base 16)		 
-				 
+
+20-CF-30   (hex)		ASUSTek COMPUTER INC.
+20CF30     (base 16)		ASUSTek COMPUTER INC.
+				15,Li-Te Rd.,Peitou, 
+				Taipei  112
+				TAIWAN, REPUBLIC OF CHINA
+
 80-00-10   (hex)		ATT BELL LABORATORIES
 800010     (base 16)		ATT BELL LABORATORIES
 				1100 EAST WARRENVILLE ROAD
@@ -72516,4 +72534,10 @@ AA0004     (base 16)		DIGITAL EQUIPMENT CORPORATION
 				UNITED STATES
 
 AC-DE-48   (hex)		PRIVATE
-ACDE48     (base 16)		 
+ACDE48     (base 16)		
+
+B8-AC-6F   (hex)		Dell Inc
+B8AC6F     (base 16)		Dell Inc
+				One Dell Way, MS RR5-45
+				Round Rock TX 78748
+				UNITED STATES

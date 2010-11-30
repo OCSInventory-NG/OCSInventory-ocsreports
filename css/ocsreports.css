@@ -358,3 +358,14 @@ th.ta:last-child {border-right: solid 1px #9894B5;}
     background-color: #FFCCBA;
     background-image: url('../image/validation.png');
 }
+
+.tooltip{
+    position: absolute;   
+    visibility : hidden;
+    border: 1px solid Black;
+    padding: 10px;
+    font-family: Verdana, Arial;
+    font-size: 10px;
+    background-color: #FFFFCC;
+}
+

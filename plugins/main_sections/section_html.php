@@ -1,17 +1,16 @@
 <?php
+//====================================================================================
+// OCS INVENTORY REPORTS
+// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
+// Web: http://www.ocsinventory-ng.org
+//
+// This code is open source and may be copied and modified as long as the source
+// code is always made freely available.
+// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
+//====================================================================================
+
 //Initiating icons
 if( !isset($protectedGet["popup"] )) {
-	//si la variable RESET existe
-	//c'est que l'on a clique sur un icone d'un menu 
-	if (isset($protectedPost['RESET'])){
-		unset($_SESSION['OCS']['DATA_CACHE']);	
-	}
-	//formulaire pour detecter le clic sur un bouton du menu
-	//permet de donner la fonctionnalite
-	//de reset du cache des tableaux
-	//si on reclic sur le meme icone
-	
-	//echo $ban_head;
 	echo "<table width='95%' border=0 align=center";
 	echo "><tr><td >
 			<table BORDER='0' ALIGN = 'left' CELLPADDING='0'";

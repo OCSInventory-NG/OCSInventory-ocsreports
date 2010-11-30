@@ -2,13 +2,13 @@
 //====================================================================================
 // OCS INVENTORY REPORTS
 // Copyleft Pierre LEMMET 2005
-// Web: http://ocsinventory.sourceforge.net
+// Web: http://www.ocsinventory-ng.org
 //
 // This code is open source and may be copied and modified as long as the source
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-//Modified on $Date: 2008-03-04 17:07:55 $$Author: dliroulet $($Revision: 1.19 $)
+//Modified on $Date: 2010 $$Author: Erwan Goalou
 
 @set_time_limit(0);
 error_reporting(E_ALL & ~E_NOTICE);
