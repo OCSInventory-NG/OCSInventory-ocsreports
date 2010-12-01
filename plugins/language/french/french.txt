@@ -1124,6 +1124,7 @@
 1240 MB
 1241 Nombre de périphériques SNMP remontés
 1242 d/m/y
+1243 Seuls les fichiers ocsagent.exe et ocspackage.exe peuvent être envoyés
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

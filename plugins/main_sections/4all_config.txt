@@ -9,7 +9,6 @@ ms_multi_search
 <ORDER_SECOND_TABLE>
 ms_teledeploy
 ms_dict
-ms_upload_file
 ms_config
 ms_regconfig
 ms_logs
@@ -186,6 +185,7 @@ ms_teledeploy_workflow:ms_teledeploy
 ms_config:ms_config
 ms_blacklist:ms_config
 ms_label:ms_config
+ms_upload_file:ms_config
 ms_multi_search:ms_multi_search
 ms_search_soft:ms_multi_search
 ms_ipdiscover:ms_ipdiscover

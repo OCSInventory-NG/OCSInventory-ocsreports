@@ -21,7 +21,7 @@ if ($_SESSION['OCS']['LOG_GUI'] == 1){
 require_once('require/function_commun.php');
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
-require_once('fichierConf.class.php');
+require_once('require/fichierConf.class.php');
 include('dbconfig.inc.php');
 require_once('var.php');
 
@@ -103,7 +103,7 @@ if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYS
 	$_SESSION['OCS']['plugins_dir']="plugins/";
 	$_SESSION['OCS']['CONF_MYSQL']="dbconfig.inc.php";
 	$_SESSION['OCS']['HEADER_HTML']="require/html_header.php";
-	$_SESSION['OCS']['FOOTER_HTML']="footer.php";
+	$_SESSION['OCS']['FOOTER_HTML']="require/footer.php";
 	$_SESSION['OCS']['main_sections_dir']=$_SESSION['OCS']['plugins_dir']."main_sections/";
 }
 

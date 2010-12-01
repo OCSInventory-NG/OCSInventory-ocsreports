@@ -12,7 +12,7 @@
 if (isset($protectedGet['head']) and $protectedGet['head'] == 1)
 $ban_head='no';
 /*******************************************************AFFICHAGE HTML DU HEADER*******************************************/
-//require("fichierConf.class.php");
+
 header("Pragma: no-cache");
 header("Expires: -1");
 header("Cache-control: must-revalidate, post-check=0, pre-check=0");

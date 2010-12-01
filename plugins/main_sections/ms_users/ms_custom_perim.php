@@ -14,7 +14,7 @@
  * 
  */
  
-//require ('fichierConf.class.php');
+
 $form_name='taguser';
 printEnTete($l->g(616)." ".$protectedGet["id"] );
 if( $protectedPost['ADD_TAG'] != "" ) {

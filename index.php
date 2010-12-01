@@ -9,14 +9,14 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-require("fichierConf.class.php");
+require("require/fichierConf.class.php");
 @session_start();
 
 require_once ('require/function_index.php');
 
 $sleep=1;
 $debut = getmicrotime();
-require ('header.php');
+require ('require/header.php');
 
 if( !isset($protectedGet["popup"] ))
 	require ($_SESSION['OCS']['FOOTER_HTML']);

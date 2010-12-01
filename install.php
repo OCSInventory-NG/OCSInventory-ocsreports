@@ -21,7 +21,7 @@ echo "
 <META HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=utf-8>
 </head><body>";
 //require_once('var.php');
-require_once('fichierConf.class.php');
+require_once('require/fichierConf.class.php');
 if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
     if (isset($_COOKIE['LANG']))
         $_SESSION['OCS']['LANGUAGE']=$_COOKIE['LANG'];

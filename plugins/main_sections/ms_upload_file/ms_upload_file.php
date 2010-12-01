@@ -10,199 +10,52 @@
 //====================================================================================
 //Modified on $Date: 2007-02-08 15:53:24 $$Author: plemmet $($Revision: 1.8 $)
 
-if( ! function_exists ( "zip_open" )) {
-	function zip_open($st) {
-		msg_error($l->g(2098));
-		die();
-	}
-}
+echo "<script language='javascript'>  
+    
+    function getext(filename){
+    	 var parts = filename.split('.');
+   		return(parts[(parts.length-1)]);    
+    }
+    
+    function namefile(filename){
+     	var parts = filename.split('.');
+    	return(parts[0]);    
+    }    
 
-if(is_uploaded_file($_FILES['userfile']['tmp_name']))
-{	
-	$nomFich=$_FILES['userfile']['name'];
-	
-	ereg( "(.*)\.(.*)$" , $_FILES['userfile']['name'] , $results );
-
-	$ext = $results[2];
-	$cp = $results[1];
-	$ok=true;
-
-	if($ext=="zip")
-	{
-		$fname="agent";
-		$platform="windows";
-	}
-	else if($ext=="pl")
-	{
-		$fname="agent";
-		$platform="linux";		
-	}
-	else if((strcasecmp($ext,"exe")==0)&&((strcasecmp($cp,"ocsagent")==0) ||(strcasecmp($cp,"ocspackage")==0))) {
-		$fname = strtolower($cp."."."exe");
-		$platform="windows";
-	}
-	else if(is_numeric($ext))
-	{
-		$fname=$cp;
-		$platform="linux";
-	}
-	else
-	{
-		msg_error($l->g(168));
-		$ok=false;
-	}
-	
-	if($ok)
-	{
-		$filename = $_FILES['userfile']['tmp_name'];
-		$fd = fopen($filename, "r");
-
-		$contents = fread($fd, filesize ($filename));
-		fclose($fd);
-		
-		$binary = addslashes($contents);
-		if($ext=="zip")
+    function verif_file_format(champ){
+        
+	    var ExtList=new Array('exe','pl','zip');
+		filename = document.getElementById(champ).value.toLowerCase();
+		fileExt = getext(filename);
+		for (i=0; i<ExtList.length; i++)
 		{
-			$version=getVersionFromZip($filename);	
-		}
-		else if($ext=="pl")
-		{
-			$version=getVersionFromLinuxAgent($binary);		
-		}
-		else
-		{
-			$version=$ext;
-		}
-		
-		if($version!=-1&&$version!="")
-		{	
-			$table = "files";
-			$val = "('$fname','$version','$platform','$binary')";
-			if( $fname == "ocsagent.exe" || $fname == "ocspackage.exe" ) {
-				@mysql_query("DELETE FROM deploy WHERE name='$fname'");
-				$table = "deploy";
-				$val = "('$fname','$binary')";
-			}
-			
-			$query = "INSERT INTO $table VALUES$val;";
-			if(mysql_query($query, $_SESSION['OCS']["writeServer"]))
+			if ( fileExt == ExtList[i] ) 
 			{
-				msg_success($l->g(137)." ".$_FILES['userfile']['name']." ".$l->g(234));
-			}
-			else if(mysql_errno()==1062)
-			{
-				msg_error($l->g(170));
-			}
-			else
-			{
-				msg_error($l->g(172)." ".$_FILES['userfile']['name']." ".$l->g(173)."<br>".mysql_error($_SESSION['OCS']["writeServer"]));
-			}
-			sleep(2);
-		}
-	}	
-}
-
-if($protectedGet["o"]&&$protectedGet["n"]&&$protectedGet["v"]&&$protectedGet["supp"]==1)
-{
-	if( strtolower($protectedGet["n"]) == "ocsagent.exe" ) {
-		@mysql_query("DELETE FROM deploy WHERE name='ocsagent.exe'");
-	}
-	else if( strtolower($protectedGet["n"]) == "ocspackage.exe" ) {
-		@mysql_query("DELETE FROM deploy WHERE name='ocspackage.exe'");
-	}
-	else
-	{	
-		$suppQuery="DELETE FROM files WHERE name='".$protectedGet["n"]."' AND os='".$protectedGet["o"]."' AND version='".$protectedGet["v"]."'";
-		@mysql_query($suppQuery, $_SESSION['OCS']["writeServer"]);
-	}
-	echo "<br><b><center>".$l->g(171)."</center></b><br>";
-	sleep(2);
-}
-?>
-<script language=javascript>
-				function confirme(v,o,n)
-				{
-					if(confirm("<?php echo $l->g(135);?>"))
-						window.location="index.php?<?php echo PAG_INDEX ; ?>=<?php echo $pages_refs['upload_file']; ?>&supp=1&v="+v+"&o="+o+"&n="+n;
+				filenamenoext=namefile(filename);
+				if (filenamenoext != 'ocsagent' && filenamenoext != 'ocspackage' && ExtList[i] == 'exe'){
+					alert('".mysql_real_escape_string($l->g(1243))."');
+					return (false);
 				}
-</script>
-<br>
-<FORM ENCTYPE="multipart/form-data"  METHOD="POST">
-<br>
-<table border=1 class= "Fenetre" WIDTH = '52%' ALIGN = 'Center' CELLPADDING='5'>
-<th height=30px class="Fenetre" colspan=2>
-	<b><?php echo $l->g(134);?></b>
-</th>
-	<tr bgcolor='#F2F2F2'><td><?php echo $l->g(137);?></td>
-	    <td><INPUT NAME="userfile" TYPE="file"></td></tr>	
-	<tr bgcolor='white'>
-	    <td colspan=2 align=right><INPUT TYPE="submit" VALUE="<?php echo $l->g(13);?>"></td>
-	</tr>
-</table>
-</FORM>
-<br><br>
-
-<table BORDER='0' WIDTH = '65%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>
-<tr>		
-		<td align=center><B><?php echo $l->g(283);?></B></td>
-		<td align=center><B><?php echo $l->g(19);?></B></td>
-		<td align=center><B><?php echo $l->g(25);?></B></td>
-		<td align=center><B><?php echo $l->g(49);?></B></td>
-		<td align=center width=20px><B><?php echo $l->g(183);?></B></td>
-		<td align=center width=20px><B><?php echo $l->g(122);?></B></td>
-</tr>
-<?php 
-	$queryD = "SELECT '-' as version, 'windows' as os,name FROM deploy WHERE name<>'label'";
-	if(!$resultD=mysql_query($queryD, $_SESSION['OCS']["readServer"])) 
-		echo mysql_error($_SESSION['OCS']["readServer"]);
-	
-	$query="SELECT version, os,name FROM files ORDER BY version DESC,os ASC,name ASC";
-	
-	if(!$result=mysql_query($query, $_SESSION['OCS']["readServer"])) 
-		echo mysql_error($_SESSION['OCS']["readServer"]);
-	$x=0;
-	
-	$item = mysql_fetch_object($resultD);
-	if( $item->name =="")
-		$item=mysql_fetch_object($result);
-		
-	if( $item->name !="")
-	do
-	{
-		echo "<TR height=20px bgcolor='". ($x == 1 ? "#FFFFFF" : "#F2F2F2") ."'>";	// on alterne les couleurs de ligne
-		$x = ($x == 1 ? 0 : 1) ;
-		
-		if(strcasecmp($item->name,"ocsagent.exe") ==0 || strcasecmp($item->name,"ocspackage.exe") ==0 )
-			echo "<td align=center><b><font color='blue'>".$l->g(370)."</font></b></td>";
-		else
-			echo "<td align=center><b><font color='green'>".$l->g(103)."</font></b></td>";
-	?>		
-		<td align=center><?php echo $item->version?></td>
-		<td align=center><?php echo $item->os?></td>
-		<td align=center><?php echo $item->name?></td>
-		<td align=center><a href=javascript:void(0); OnClick='window.open("download.php?dl=1&v=<?php echo $item->version?>&o=<?php echo $item->os?>&n=<?php echo $item->name?>","fen","location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=1,height=1")'><img src=image/Gest_admin1.png></a></FONT></td>
-		<td align=center><a href=# OnClick='confirme("<?php echo $item->version?>","<?php echo $item->os?>","<?php echo $item->name?>");'><img src=image/supp.png></a></FONT></td>
-		</tr>
-	<?php }
-	while($item=mysql_fetch_object($resultD));
-?>
-<table><br>
-	
-
-<?php 
-
+				return (true);
+			}
+		}
+		alert('".mysql_real_escape_string($l->g(168))."');
+		return (false);
+     }
+          
+</script>";
 function getVersionFromLinuxAgent($content)
 {
 	global $l;
 	$res=Array();
-	ereg("use constant VERSION =>([^;]*);", $content , $res);	
+	$res=explode("use constant VERSION =>", $content);	
 	
 	if($res[1]=="")
 	{
 		msg_error($l->g(184));
 		return -1;
 	}
-	return str_replace ( " ", "", $res[1]);	
+	return trim($res[1]);	
 }
 
 function getVersionFromZip($zipFile)
@@ -240,3 +93,115 @@ function getVersionFromZip($zipFile)
 		return -1;
 	}
 }
+
+$form_name="upload_client";
+$table_name=$form_name;
+if (isset($protectedPost['GO']) and $protectedPost['GO']!= ''){
+	//récupération du nom et de l'extention
+	$exp_file=explode('.',$_FILES['file_upload']['name']);
+	$name_file=$exp_file[0];
+	$ext = $exp_file[1];
+	if ($ext == "zip" or $ext == "exe"){
+		if ($ext == "zip")
+			$fname="agent";
+		else
+			$fname=$name_file.".".$ext;
+			
+		$platform="windows";
+	}elseif ($ext=="pl" or is_numeric($ext)){
+		if ($ext == "zip")
+			$fname="pl";
+		else
+			$fname=$name_file.".".$ext;
+			
+		$platform="linux";		
+	}
+	
+	$filename = $_FILES['file_upload']['tmp_name'];
+	$fd = fopen($filename, "r");
+	$contents = fread($fd, filesize ($filename));
+	fclose($fd);	
+//	$binary = addslashes($contents);	
+	$binary = $contents;
+	if($ext=="zip"){
+		$version=getVersionFromZip($filename);	
+	}
+	else if($ext=="pl"){
+		$version=getVersionFromLinuxAgent($binary);		
+	}
+	else
+	{
+		$version=$ext;
+	}
+		
+	if($version!=-1){
+		if ($ext == "exe"){
+			$sql="DELETE FROM deploy where name='%s'";
+			$arg=$_FILES['userfile']['name'];
+			mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+			$sql="INSERT INTO deploy values ('%s','%s')";
+			$arg=array($fname,$binary);
+			mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+		}else{
+			$sql="INSERT INTO files values ('%s','%s','%s','%s')";
+			$arg=array($fname,$version,$platform,$binary);
+			mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+			
+		}
+		msg_success($l->g(137)." ".$_FILES['file_upload']['name']." ".$l->g(234));
+		$tab_options['CACHE']='RESET';
+	}
+	
+	
+}
+
+if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
+	$sql="DELETE FROM deploy where name='%s'";
+	$arg=$protectedPost['SUP_PROF'];
+	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+	
+	$sql="DELETE FROM files where name='%s'";
+	$arg=$protectedPost['SUP_PROF'];
+	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+}
+
+
+
+
+echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	$list_fields=array($l->g(283)=>'function',
+					   $l->g(19) => 'version',
+					   $l->g(25) => 'os',
+					   $l->g(49) => 'name',
+					   'SUP'=>'name'
+					   );
+	$list_col_cant_del=$list_fields;
+	$default_fields= $list_fields;
+
+	$sql= "select '%s' as function,%s,%s,%s,'files' as tab FROM files union select '%s','%s','%s',%s,'deploy' from deploy";
+	$tab_options['ARG_SQL']=array($l->g(103),'os','version','name',$l->g(370),'windows','-','name');
+	$tab_options['LIEN_LBL'][$l->g(49)]='index.php?'.PAG_INDEX.'='.$pages_refs['ms_view_file'].'&prov=agent&no_header=1&value=';
+	$tab_options['LIEN_CHAMP'][$l->g(49)]='name';
+	$tab_options['LIEN_TYPE'][$l->g(49)]='POPUP';
+	$tab_options['POPUP_SIZE'][$l->g(49)]="width=900,height=600";
+	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options);
+	//echo show_modif($name,'ADD_FILE',8,"",$configinput=array('DDE'=>100));
+	echo "<input type=submit name=ADD_FILE value='".$l->g(1048)."'>";
+		echo "</form>";
+
+
+if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
+	$css="mvt_bordure";
+	$form_name1="SEND_FILE";
+	
+	echo "<form name='".$form_name1."' id='".$form_name1."' method='POST' action='' enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\">";
+	echo '<div class="'.$css.'" >';
+	echo $l->g(1048).":<input id='file_upload' name='file_upload' type='file' accept=''>";
+	echo "<br><br><input name='GO' id='GO' type='submit' value='".$l->g(13)."'>&nbsp;&nbsp;<input type='button' name='RESET' id='RESET' value='".$l->g(113)."' onclick='submit(".$form_name.")'>";
+	echo "</form>";
+	echo "<br>";
+	echo "</div>";
+}
+
+
+?>
