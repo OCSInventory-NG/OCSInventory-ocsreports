@@ -109,7 +109,8 @@ sub snmp_prolog_reader {
             if($_->{'TYPE'} eq 'DEVICE'){
                 #Adding the IP in the devices array
                 push @{$self->{netdevices}},{
-                IPADDR => $_->{IPADDR}
+                IPADDR => $_->{IPADDR},
+                MACADDR => $_->{MACADDR},
                 };
             }
 
@@ -177,8 +178,6 @@ sub snmp_end_handler {
    my $snmp_sysobjectid="1.3.6.1.2.1.1.2.0";
    # syscontact.0
    my $snmp_syscontact="1.3.6.1.2.1.1.4.0";
-   # ifPhysAddress.1
-   my $snmp_macaddr="1.3.6.1.2.1.2.2.1.6.1";
 
 
 
@@ -255,9 +254,6 @@ sub snmp_end_handler {
         $result=$session->get_request(-varbindlist => [$snmp_syscontact]);
         $contact=$result->{$snmp_syscontact};
 
-        $result=$session->get_request(-varbindlist => [$snmp_macaddr]);
-        $macaddr=$result->{$snmp_macaddr};
-
         if ( $full_oid  =~ /1\.3\.6\.1\.4\.1\.(\d+)/ ) {
             $system_oid=$1;
         }
@@ -272,18 +268,17 @@ sub snmp_end_handler {
         $session->close;
 	$self->{snmp_session}=undef;
 
-        #Adding '0' to mac adress if needed
-        my $full_macaddr = $common->padSnmpMacAddress($macaddr);
+        $macaddr = $device->{MACADDR};
 
         #Create SnmpDeviceID
         my $md5 = Digest::MD5->new;
-        $md5->add($full_macaddr, $system_oid);
+        $md5->add($macaddr, $system_oid);
         my $snmpdeviceid = $md5->hexdigest;
 
         #Adding standard informations
         $common->setSnmpCommons({ 
           IPADDR => $device->{IPADDR},
-          MACADDR => $full_macaddr,
+          MACADDR => $macaddr,
           SNMPDEVICEID => $snmpdeviceid,
           NAME => $device_name,
           DESCRIPTION => $description,
