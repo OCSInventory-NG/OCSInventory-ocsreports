@@ -21,14 +21,28 @@
 	
 */
 
-//on vient du formulaire de télédploiement
+//origin = workflow teledeploy
 if ($protectedGet['prov'] == "dde_wk"){
-	$queryDetails = "select FILE,FILE_NAME,FILE_TYPE,FILE_SIZE
+	$sql = "select FILE,FILE_NAME,FILE_TYPE,FILE_SIZE
 			 FROM temp_files 
-			 where id = '".$protectedGet["value"]."' and author='".$_SESSION['OCS']['loggeduser']."'";
-	$res_document_root = mysql_query( $queryDetails, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));;
+			 where id = '%s' and author='%s'";
+	$arg=array($protectedGet["value"],$_SESSION['OCS']['loggeduser']);
+}
+
+if ($protectedGet['prov'] == "agent"){
+	$sql= "select %s as FILE,name as FILE_NAME FROM files where name = '%s' union select %s,name from deploy where name = '%s'";
+	$arg=array('content',$protectedGet["value"],'content',$protectedGet["value"]);	
+}
+
+if (isset($sql) and $sql!=''){
+	$res_document_root = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
 	$val_document_root = mysql_fetch_array( $res_document_root );
-	
+	if (!isset($val_document_root['FILE_TYPE']) or $val_document_root['FILE_TYPE']!=''){
+		$val_document_root['FILE_TYPE']="application/force-download";
+	}
+	if (!isset($val_document_root['FILE_SIZE']) or $val_document_root['FILE_SIZE']!=''){
+		$val_document_root['FILE_SIZE']=strlen($val_document_root['FILE']);
+	}
 	
 }
 
@@ -48,9 +62,5 @@ if (isset($val_document_root['FILE_NAME'])){
 	echo $val_document_root['FILE'];
 	die();
 }
-	
-	
-
-
 
 ?>
