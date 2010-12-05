@@ -195,7 +195,7 @@ $i=0;
 		else echo $td3."</td>";
 	}
 	else {
-		echo $td3.$l->g(488)."(";
+		echo $td3.$l->g(488)." (";
 		if ($optdefault['ivalue']["DOWNLOAD"] == 1) echo $l->g(205); else echo $l->g(733);
 		echo ")</td>";
 	}	
@@ -231,7 +231,7 @@ $i=0;
 		else echo $td3."</td>";
 	}
 	else {
-		echo $td3.$l->g(488)."(";
+		echo $td3.$l->g(488)." (";
 		if ($optdefault['ivalue']["SNMP"] == 1) echo $l->g(205); else echo $l->g(733);
 		echo ")</td>";
 	}	
