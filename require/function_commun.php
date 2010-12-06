@@ -11,7 +11,9 @@
 
 @session_start();
 //looking for default value of ocs config
-function look_config_default_values($field_name,$like=''){
+//default_values => replace with your data if config data is null or empty
+//default_values => array(array())// ex: array('LOCAL_SERVER'=>array('TVALUE'=>'http:\\localhost'))
+function look_config_default_values($field_name,$like='',$default_values=''){
 	if ($like == ''){
 		$sql="select NAME,IVALUE,TVALUE,COMMENTS from config where NAME in ";
 		$arg_sql=array();
@@ -27,6 +29,21 @@ function look_config_default_values($field_name,$like=''){
 			$result['tvalue'][$item ->NAME]=$item ->TVALUE;
 			$result['comments'][$item ->NAME]=$item ->COMMENTS;
 	}
+	
+	if (is_array($default_values)){
+		foreach ($default_values as $key=>$value){
+			$key=strtolower($key);
+			if (is_array($value)){
+				foreach ($value as $name=>$val){
+					if (!isset($result[$key][$name]) or $result[$key][$name] == '')
+						$result[$key][$name] = $val;
+				}
+				
+			}
+		}
+		
+	}
+	
 	return $result;
 }
 /******************************************************SQL FUNCTION****************************************************/

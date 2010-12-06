@@ -77,7 +77,7 @@
 142 Administrateurs locaux
 143 Demandeurs télédéploiement
 162 Supprimer la sélection
-168 Ce format de fichier n'est pas utilisable (il doit être zip, pl ou binaire unix)
+168 Ce format de fichier n'est pas utilisable (il doit être exe)
 170 Il existe déjà un tel fichier!
 171 Fichier supprimé
 172 Une erreur est survenue, le fichier
@@ -1125,6 +1125,8 @@
 1241 Nombre de périphériques SNMP remontés
 1242 d/m/y
 1243 Seuls les fichiers ocsagent.exe et ocspackage.exe peuvent être envoyés
+1244 Le fichier ne peut pas être vide
+1245 Administrer les clients OCS
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

@@ -159,5 +159,36 @@ function parse_xml_file($file,$tag,$separe){
     return ($tab_data);
 }
 
+function post_ocs_file_to_server($datastream, $url, $port) {
+	
+	$url = preg_replace("@^http://@i", "", $url);
+	$host = substr($url, 0, strpos($url, "/"));
+	$uri = strstr($url, "/");
+	$reqbody = $datastream;
+	
+	$contentlength = strlen($reqbody);
+	$reqheader =  "POST $uri HTTP/1.1\r\n".
+	"Host: $host\n". "User-Agent: OCS_local_".GUI_VER."\r\n".
+	"Content-type: application/x-compress\r\n".
+	"Content-Length: $contentlength\r\n\r\n".
+	"$reqbody\r\n";
+	
+	$socket = @fsockopen($host, $port, $errno, $errstr);
+	
+	if (!$socket) {
+		$result["errno"] = $errno;
+		$result["errstr"] = $errstr;
+		return $result;
+	}
+	fputs($socket, $reqheader);
+	
+	while (!feof($socket)) {
+		$result[] = fgets($socket, 4096);
+	}
+	
+	fclose($socket);
+	return $result;
+}
+
 
 ?>

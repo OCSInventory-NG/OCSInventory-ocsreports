@@ -77,7 +77,7 @@
 142 Amministratori locali
 143 Richiedenti Teledeploy
 162 Elimina selezionati
-168 Il formato del file non è valido (deve essere zip, pl o binario unix)
+168 Il formato del file non è valido (deve essere exe)
 170 Esiste già lo stesso file!
 171 File eliminato
 172 Errore, il file

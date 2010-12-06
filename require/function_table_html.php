@@ -1262,11 +1262,15 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 			}		
 		}
 	}
+	
+	
+	
+	
 	//echo "toto";
 	//print_r($list_col_cant_del);//print_r($sql_data);
 	if (isset($sql_data)){
 		foreach ($sql_data as $i=>$donnees){
-			//print_r($donnees);
+
 			foreach($list_fields as $key=>$value){
 				$truelabel=$key;
 			//	p($tab_options);
@@ -1370,14 +1374,37 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}else
 						$entete[$num_col]=$tab_options['LBL'][$key];
 				//}
+				
+				if (isset($tab_options['NO_LIEN_CHAMP']['SQL'][$key])){
+					$exit=false;
+					foreach ($tab_options['NO_LIEN_CHAMP']['SQL'][$key] as $id=>$sql_rest){
+						$sql=$sql_rest;
+						if (isset($tab_options['NO_LIEN_CHAMP']['ARG'][$id][$key]))
+							$arg=$donnees[$tab_options['NO_LIEN_CHAMP']['ARG'][$id][$key]];
+						else
+							$arg="";
+						$result_lien = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+						if ($item = mysql_fetch_object($result_lien)){
+						  $data[$i][$num_col]="<a href='".$tab_options['LIEN_LBL'][$key][$id].$donnees[$tab_options['LIEN_CHAMP'][$key][$id]]."' target='_blank'>".$value_of_field."</a>";				
+						 // $exit=true;
+						 break;
+						}else
+						echo 'toto';	
+									
+						
+					}
+				}
+				
+				
 				//si un lien doit �tre mis sur le champ
 				//l'option $tab_options['NO_LIEN_CHAMP'] emp�che de mettre un lien sur certaines
 				//valeurs du champs
 				//exemple, si vous ne voulez pas mettre un lien si le champ est 0,
 				//$tab_options['NO_LIEN_CHAMP'][$key] = array(0);
-				if (isset($tab_options['LIEN_LBL'][$key]) 
+				if (isset($tab_options['LIEN_LBL'][$key]) and !is_array($tab_options['LIEN_LBL'][$key])
 					and (!isset($tab_options['NO_LIEN_CHAMP'][$key]) or !in_array($value_of_field,$tab_options['NO_LIEN_CHAMP'][$key]))){
-				$affich="KO";
+					$affich="KO";
+				
 					if (!isset($tab_options['LIEN_TYPE'][$key]))
 					$data[$i][$num_col]="<a href='".$tab_options['LIEN_LBL'][$key].$donnees[$tab_options['LIEN_CHAMP'][$key]]."' target='_blank'>".$value_of_field."</a>";
 					else{

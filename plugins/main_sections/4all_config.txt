@@ -141,8 +141,8 @@ ms_ipdiscover:ms_ipdiscover
 ms_custom_info:ms_ipdiscover
 ms_teledeploy_workflow:ms_teledeploy_workflow
 ms_admin_management:ms_teledeploy_workflow
-ms_label:ms_label
-ms_local:ms_local
+ms_label:ms_config
+ms_local:ms_upload_file
 ms_logs:ms_logs
 ms_multi_search:ms_multi_search
 ms_custom_lock:ms_multi_search
