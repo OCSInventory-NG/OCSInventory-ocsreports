@@ -1010,7 +1010,6 @@ CREATE TABLE accountinfo_config(
 
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on computers accountinfo');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTSNMP_1',1,'TAG','Default TAB on snmp accountinfo');
-INSERT INTO accountinfo_config VALUES (1,'TAG',0,'TAG',1,'TAG',1,'COMPUTERS'),(2,'TAG',0,'TAG',1,'TAG',1,'SNMP');
 ALTER TABLE subnet CHANGE ID ID VARCHAR(255);
 
 CREATE TABLE blacklist_subnet(
@@ -1022,6 +1021,7 @@ CREATE TABLE blacklist_subnet(
 ) ENGINE = MYISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 ALTER TABLE accountinfo_config ADD COLUMN ACCOUNT_TYPE VARCHAR(255) default NULL;
+INSERT INTO accountinfo_config VALUES (1,'TAG',0,'TAG',1,'TAG',1,'COMPUTERS'),(2,'TAG',0,'TAG',1,'TAG',1,'SNMP');
 UPDATE accountinfo_config SET ACCOUNT_TYPE='COMPUTERS' where ACCOUNT_TYPE IS NULL;
 
 
