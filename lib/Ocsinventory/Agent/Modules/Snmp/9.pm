@@ -160,6 +160,17 @@ sub snmp_run {
                $SPEED=$session->get_request(-varbindlist => [$snmp_ifspeed.$ref]);
                if ( defined( $SPEED->{$snmp_ifspeed.$ref}) ) {
                    $SPEED=$SPEED->{$snmp_ifspeed.$ref};
+                   if ( $SPEED / 1000000000000 >= 1 ) {
+                      $SPEED=$SPEED / 1000000000000;
+                      $SPEED=$SPEED." T";
+                   } elsif ( $SPEED / 1000000000 >= 1 ) {
+                      $SPEED=$SPEED / 1000000000;
+                      $SPEED=$SPEED." G";
+                   } elsif ( $SPEED / 1000000 >= 1 ) {
+                      $SPEED=$SPEED / 1000000;
+                      $SPEED=$SPEED." M";
+                   }
+
                }
 
                $MACADDR=$session->get_request(-varbindlist => [$snmp_physAddr.$ref]);
