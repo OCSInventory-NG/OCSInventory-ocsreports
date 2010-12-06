@@ -34,6 +34,7 @@ if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FI
 $l = $_SESSION['OCS']["LANGUAGE_FILE"];
 
 printEnTeteInstall($l->g(2030));
+echo "<br>";
 
 if( isset($fromAuto) && $fromAuto==true)
    echo "<center><br><font color='green'><b>" . $l->g(2031) . " " .

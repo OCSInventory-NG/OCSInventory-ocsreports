@@ -1095,32 +1095,38 @@
 1210 Account info:
 1211 URL dei file della comunità SNMP
 1212 Comunità cancellata
-1213 Separatore del file di export
+1213 Carattere separatore per il file di export
 1214 Configura il motore per aggiornare l'inventario SNMP secondo il valore di snmp_laststate table (diminuisce il carico del DB backend)
 1215 Blade server
 1216 Firewall
 1217 Load balancer
 1218 Switch
-1219 Cards
-1220 Cartridges
-1221 Drives
+1219 Scheda
+1220 Cartuccia
+1221 Drive
 1222 Ventole
 1223 Alimentatori
-1224 Tray
+1224 Alloggiamento
 1225 Capacità massima
 1226 Colore
 1227 Contatto
-1228 Device SNMP
+1228 Periferica SNMP
 1229 Firmware
 1230 Nome volume
 1231 Il formato del file deve essere ZIP
 1232 Il formato del file deve essere TAR.GZ
 1233 Nome del database
 1234 La descrizione non può essere vuota
-1235 Reference
+1235 Riferimento
 1236 Versione software
 1237 Versione firmware
 1238 Data di installazione
+1239 MHz
+1240 MB
+1241 Numero di periferiche SNMP.
+1242 d/m/y
+1243 I soli file ammessi sono ocsagent.exe ed ocspackage.exe
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
