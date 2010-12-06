@@ -130,6 +130,8 @@ $i=0;
 	$queryDetails = "SELECT * FROM devices WHERE hardware_id=%s";
 	$argDetail=$systemid;
 	$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"],$argDetail);
+	$form_name='config_mach';
+	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	echo "<table BORDER='1' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
 	//echo "<tr><td>&nbsp;&nbsp;</td> $td1 "."Libell�"." </td> $td1 "."Valeur"." </td><td>&nbsp;</td></tr>";		
@@ -369,5 +371,5 @@ $i=0;
 		echo "</td></tr>";		
 	//}
 	echo "</table><br>";
-	
+	echo "</form>";
 ?>

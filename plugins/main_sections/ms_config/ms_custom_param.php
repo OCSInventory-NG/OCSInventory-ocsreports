@@ -65,6 +65,16 @@ $list_id=multi_lot($form_name,$l->g(601));
 		 	}
 		 	$MAJ=$l->g(711);
 		 	msg_success($MAJ.$add_lbl);
+		 	if (isset($protectedGet['origine']) and $protectedGet['origine'] == 'machine'){
+				$form_to_reload='config_mach';
+		 	}elseif (isset($protectedGet['origine']) and $protectedGet['origine'] == 'group'){
+		 		$form_to_reload='config_group';
+		 	}
+			if (isset($form_to_reload))
+				echo "<script language='javascript'> window.opener.document.".$form_to_reload.".submit();</script>";
+				
+		 	
+		 	
 		}else
 		echo "<script>alert('".$l->g(983)."')</script>";
 	 }

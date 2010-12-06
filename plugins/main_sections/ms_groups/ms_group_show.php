@@ -443,7 +443,8 @@ function print_perso($systemid) {
 	$i=0;
 	$queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
 	$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-					
+		$form_name='config_group';
+	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";				
 		echo "<table BORDER='0' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
 	//echo "<tr><td>&nbsp;&nbsp;</td> $td1 "."Libell�"." </td> $td1 "."Valeur"." </td><td>&nbsp;</td></tr>";		
@@ -569,6 +570,7 @@ function print_perso($systemid) {
 		</td></tr>";
 	}
 	echo "</table><br>";
+	echo "</form>";
 }
 
 function print_item_header($text)
