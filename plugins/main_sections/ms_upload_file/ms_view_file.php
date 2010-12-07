@@ -30,8 +30,8 @@ if ($protectedGet['prov'] == "dde_wk"){
 }
 
 if ($protectedGet['prov'] == "agent"){
-	$sql= "select %s as FILE,name as FILE_NAME FROM files where name = '%s' union select %s,name from deploy where name = '%s'";
-	$arg=array('content',$protectedGet["value"],'content',$protectedGet["value"]);	
+	$sql= "select %s as FILE,name as FILE_NAME from deploy where name = '%s'";
+	$arg=array('content',$protectedGet["value"]);	
 }
 
 if (isset($sql) and $sql!=''){

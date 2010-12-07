@@ -77,7 +77,7 @@
 142 Local administrators
 143 teledeploy requesters
 162 Remove Selected
-168 This format file is invalid (it must be zip, pl or unix binary)
+168 This format file is invalid (it must be exe)
 170 The same file already exists !
 171 File deleted
 172 An error is appeared, the file
@@ -1126,6 +1126,8 @@
 1241 Number of SNMP devices 
 1242 m/d/y
 1243 Only ocsagent.exe and ocspackage.exe files can be post
+1244 This file can't be empty
+1245 Manage your OCS clients
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

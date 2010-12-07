@@ -45,6 +45,19 @@ print_item_header($l->g(82));
 	$sql['ARG'][]='snmp_networks';
 	$sql['ARG'][]=$systemid;
 	$tab_options['ARG_SQL']=$sql['ARG'];
+	
+	//link if macadd match with computer
+	$tab_options['LIEN_LBL'][$l->g(95)][]="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=";
+	$tab_options['LIEN_CHAMP'][$l->g(95)][]='ID';
+	$tab_options['NO_LIEN_CHAMP']['SQL'][$l->g(95)][]="select ID from networks where macaddr='%s'";
+	$tab_options['NO_LIEN_CHAMP']['ARG'][$l->g(95)][]='MACADDR';
+//	$tab_options['NO_LIEN_CHAMP']['SQL'][$key]
+	//link if macadd match with snmp device
+	$tab_options['LIEN_LBL'][$l->g(95)][]="index.php?".PAG_INDEX."=".$pages_refs['ms_snmp_detail']."&head=1&id=";
+	$tab_options['LIEN_CHAMP'][$l->g(95)][]='ID';
+	$tab_options['NO_LIEN_CHAMP']['SQL'][$l->g(95)][]="select ID from snmp where macaddr='%s'";
+	$tab_options['NO_LIEN_CHAMP']['ARG'][$l->g(95)][]='MACADDR';
+	
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);
 
 
