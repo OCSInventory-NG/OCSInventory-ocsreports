@@ -21,7 +21,9 @@ print_item_header($l->g(20));
 		$protectedPost['SHOW'] = 'NOSHOW';
 	$table_name="sd_softwares";
 	$list_fields=array($l->g(49)=>'NAME', 
-					   $l->g(1238) => 'INSTALLDATE');
+					   $l->g(1238) => 'INSTALLDATE',
+					   $l->g(51)=>'COMMENTS',
+					   $l->g(277)=>'VERSION');
 	//$list_fields['SUP']= 'ID';
 	$sql=prepare_sql_tab($list_fields);
 	//$list_fields["PERCENT_BAR"] = 'CAPACITY';
