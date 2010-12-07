@@ -9,7 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-//suppression des paquets qui restent en notifi� et qui sont plus vieux de 3 mois
+//you can delete all packets if status=NOTIFIED and date>3 mounths
 if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_notified'])){
 	$sql=" delete from devices 
 			where name='%s' 
@@ -22,8 +22,7 @@ if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_n
 
 
 
-//r�affectation de paquet
-//traitement de la r�affectation du paquet
+//affect again a packet
 if ($protectedPost['Valid_modif_x']){
 	if (trim($protectedPost['MOTIF'])){
 		if ($protectedPost["ACTION"] == "again"){
@@ -38,7 +37,6 @@ if ($protectedPost['Valid_modif_x']){
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		
 		if (mysql_affected_rows() != 0){
-			//$txt_trait=xml_encode(stripslashes($protectedPost['MOTIF']));
 			$sql="INSERT INTO itmgmt_comments (hardware_id,comments,user_insert,date_insert,action) 
 					values ('%s','%s','%s',%s,'%s => %s')"; 
 			$arg=array($systemid,$protectedPost['MOTIF'],$_SESSION['OCS']["loggeduser"],
@@ -72,7 +70,7 @@ if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
 			and d.IVALUE=de.ID
 			AND d.hardware_id='%s' AND d.name='%s'
 			and tvalue like '%s'";
-	$arg=array($id_pack_affect,$protectedGet['systemid'],"DOWNLOAD","ERR_%");		//echo $sql;
+	$arg=array($id_pack_affect,$protectedGet['systemid'],"DOWNLOAD","ERR_%");		
 	$res = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
 		$val = mysql_fetch_array( $res ); 
 	if (isset($val['name'])){		
@@ -96,9 +94,9 @@ if( isset( $protectedGet["suppack"] ) &  $_SESSION['OCS']['CONFIGURATION']['TELE
 }
 else 
 	$_SESSION['OCS']["justAdded"] = false;
-	//TODO: voir si on loggue les evenements de groupe
+
 if( isset( $protectedGet["actgrp"] )) {	
-		//v�rification si la valeur correspond � un groupe
+		//this id is it a group?
 		$reqGroups = "SELECT h.id id
 					  FROM hardware h 
 					  WHERE h.deviceid='_SYSTEMGROUP_' ";
@@ -134,7 +132,7 @@ $i=0;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	echo "<table BORDER='1' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
-	//echo "<tr><td>&nbsp;&nbsp;</td> $td1 "."Libell�"." </td> $td1 "."Valeur"." </td><td>&nbsp;</td></tr>";		
+	
 	while($item=mysql_fetch_array($resultDetails,MYSQL_ASSOC)) {
 		$optPerso[ $item["NAME"] ][ "IVALUE" ] = $item["IVALUE"];
 		$optPerso[ $item["NAME"] ][ "TVALUE" ] = $item["TVALUE"];
@@ -144,18 +142,7 @@ $i=0;
 	$field_name=array('DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_PERIOD_LENGTH','DOWNLOAD_FRAG_LATENCY',
 	    			  'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','PROLOG_FREQ','SNMP');
 	$optdefault=look_config_default_values($field_name);
-	//p($optdefault);
-	/*$sql_default_value="select NAME,IVALUE from config where NAME	in ('DOWNLOAD',
-															'DOWNLOAD_CYCLE_LATENCY',
-															'DOWNLOAD_PERIOD_LENGTH',
-															'DOWNLOAD_FRAG_LATENCY',
-															'DOWNLOAD_PERIOD_LATENCY',	
-															'DOWNLOAD_TIMEOUT',
-															'PROLOG_FREQ')";
-	$result_default_value = mysql2_query_secure($sql_default_value, $_SESSION['OCS']["readServer"]);
-	while($default=mysql_fetch_array($result_default_value)) {
-		$optdefault[$default["NAME"] ] = $default["IVALUE"];
-	}	*/
+
 	
 	
 	//IPDISCOVER
@@ -320,7 +307,7 @@ $i=0;
 					urlencode($systemid)."&option=cd_configuration'>".$l->g(113)."</a>";
 				if ($valDeploy["name"] != "PAQUET SUPPRIME")
 				echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&affect_again=".$valDeploy["ivalue"]."&systemid=".
-					urlencode($systemid)."&option=cd_configuration'>R�-".$l->g(433)."</a></td>";				
+					urlencode($systemid)."&option=cd_configuration'>".$l->g(1246)."</a></td>";				
 			}elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')){	
 					if (isset($valDeploy["comments"]) and strtotime ($valDeploy["comments"])<strtotime ("-12 week")){
 						$possible_desafect='YES';
