@@ -1127,6 +1127,9 @@
 1243 Seuls les fichiers ocsagent.exe et ocspackage.exe peuvent être envoyés
 1244 Le fichier ne peut pas être vide
 1245 Administrer les clients OCS
+1246 Affecter à nouveau
+1247 Architecture
+1248 Répertoire
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

@@ -966,12 +966,15 @@ CREATE TABLE `softwares` (
   `FILENAME` varchar(255) DEFAULT NULL,
   `FILESIZE` int(11) DEFAULT '0',
   `SOURCE` int(11) DEFAULT NULL,
+  `GUID` varchar(255) DEFAULT NULL,
+  `LANGUAGE` varchar(255) DEFAULT NULL,
+  `INSTALLDATE` DATETIME DEFAULT NULL,
+  `BITSWIDTH` int(11) DEFAULT NULL,
   PRIMARY KEY (`HARDWARE_ID`,`ID`),
   KEY `NAME` (`NAME`),
   KEY `VERSION` (`VERSION`),
   KEY `ID` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
 
 --
 -- Table structure for table `softwares_name_cache`

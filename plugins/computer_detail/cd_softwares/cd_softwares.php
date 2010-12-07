@@ -19,7 +19,16 @@
 					   $l->g(51)=>'COMMENTS');
 	$list_col_cant_del=array($l->g(49)=>$l->g(49));
 	$default_fields= $list_fields;
-	$tab_options['FILTRE']=array('NAME'=>$l->g(49),'VERSION'=>$l->g(277),'PUBLISHER'=>$l->g(69));
+	$list_fields[$l->g(1248)]='FOLDER';
+	$list_fields[$l->g(446)]='FILENAME';	
+	$list_fields[ucfirst(strtolower($l->g(953)))]='FILESIZE';
+	
+	$list_fields['GUID']='GUID';
+	$list_fields[ucfirst(strtolower($l->g(1012)))]='LANGUAGE';	
+	$list_fields[$l->g(1238)]='INSTALLDATE';
+	$list_fields[$l->g(1247)]='BITSWIDTH';
+
+	$tab_options['FILTRE']=array_flip($list_fields);//array('NAME'=>$l->g(49),'VERSION'=>$l->g(277),'PUBLISHER'=>$l->g(69));
 	$queryDetails  = "SELECT * FROM softwares WHERE (hardware_id=$systemid)";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
 	echo "</form>";

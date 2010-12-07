@@ -76,12 +76,18 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 $list_id=multi_lot($form_name,$l->g(601));
 
 if ($protectedPost['SELECT'] != ''){
+	if ($protectedGet['origine'] == "group"){
+		$form_to_reload='config_group';
+	}elseif ($protectedGet['origine'] == "mach"){
+		$form_to_reload='config_mach';
+	}
 	if ($protectedPost['onglet'] == 'MACH')
 	$nb_affect=active_mach($list_id,$protectedPost['SELECT']);
 	if ($protectedPost['onglet'] == 'SERV_GROUP')
 	$nb_affect=active_serv($list_id,$protectedPost['SELECT'],$protectedPost['rule_choise']);
 	msg_success($nb_affect." ".$l->g(604));
-
+	if (isset($form_to_reload))
+	echo "<script language='javascript'> window.opener.document.".$form_to_reload.".submit();</script>";
 }
 if ($protectedPost['sens'] == "")
 	$protectedPost['sens']='DESC';
