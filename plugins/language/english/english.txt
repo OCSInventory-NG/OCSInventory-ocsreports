@@ -1129,6 +1129,8 @@
 1244 This file can't be empty
 1245 Manage your OCS clients
 1246 Affect again
+1247 Architecture
+1248 Folder
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

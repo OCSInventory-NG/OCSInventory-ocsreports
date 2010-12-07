@@ -1035,3 +1035,8 @@ CREATE TABLE snmp_accountinfo (
 insert into config (NAME,IVALUE,COMMENTS) values ('SNMP_INVENTORY_DIFF',1,'Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)');
 INSERT INTO config VALUES ('SNMP_DIR','','/var/lib/ocsinventory-reports/snmp','Directory for download files');
 
+ALTER TABLE softwares ADD COLUMN GUID VARCHAR(255) DEFAULT NULL;
+ALTER TABLE softwares ADD COLUMN LANGUAGE VARCHAR(255) DEFAULT NULL;
+ALTER TABLE softwares ADD COLUMN INSTALLDATE DATETIME DEFAULT NULL ;
+ALTER TABLE softwares ADD COLUMN BITSWIDTH int(11) DEFAULT NULL;
+
