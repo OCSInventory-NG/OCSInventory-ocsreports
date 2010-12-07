@@ -266,7 +266,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			}else
 				$protectedPost['ID']=0;
 				
-			$list_version=array('2c'=>'2c','1a'=>'1','2a'=>'2','3a'=>'3');
+			$list_version=array('2c'=>'2c','1a'=>'1','2a'=>'2'/*,'3a'=>'3'*/);
 			$title=$l->g(1207);
 			if (isset($protectedPost['MODIF']) and is_numeric($protectedPost['MODIF']) and !isset($protectedPost['NAME'])){
 				$info_com=find_community_info($protectedPost['MODIF'],$ms_cfg_file,$search);
