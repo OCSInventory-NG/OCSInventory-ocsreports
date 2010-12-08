@@ -108,7 +108,8 @@ while ($list_plugins[$i]){
 	if (!isset($valavail[0]) or $valavail[0] != 0){
 		//liste de toutes les infos de la machine
 		$show_all[]=$list_plugins[$i];
-		$href = "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i]."'>";
+		$llink="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i];
+		$href = "<a onclick='clic(\"".$llink."\");' href='".$llink."'>";
 		$fhref = "</a>";
 	}else{
 		$href = "";

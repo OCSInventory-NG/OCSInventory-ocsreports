@@ -77,7 +77,7 @@ function show_icon($index,$lbl_index){
 
         //si on clic sur l'icone, on charge le formulaire
         //pour obliger le cache des tableaux a se vider
-        echo "<td onmouseover=\"javascript:show_menu('nomenu','".$_SESSION['OCS']['all_menus']."');\"><a onclick='clic(\"".$llink."\");'><img title=\"".$lbl."\" src='".$_SESSION['OCS']['main_sections_dir']."/img/$img.png'></a></td>";
+        echo "<td onmouseover=\"javascript:show_menu('nomenu','".$_SESSION['OCS']['all_menus']."');\"><a onclick='clic(\"".$llink."\");' href='".$llink."'><img title=\"".$lbl."\" src='".$_SESSION['OCS']['main_sections_dir']."/img/$img.png'></a></td>";
 	}
 	
 //}
