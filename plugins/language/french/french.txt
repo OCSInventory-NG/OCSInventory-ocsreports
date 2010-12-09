@@ -1218,6 +1218,7 @@
 2099 ERROR: ce compte MySql n'a pas les droits de création de database 
 2100 Update anciens accountinfos
 2101 Ajouté par script
+2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur
 
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
