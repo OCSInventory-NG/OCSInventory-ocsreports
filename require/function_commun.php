@@ -94,6 +94,9 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 
 function mysql2_prepare($sql,$arg_sql,$arg_tab='',$nocot=false){
 
+	if ($arg_sql == '')
+		$arg_sql = array();
+		
 	if (!is_array($arg_tab)){
 		$arg_tab=explode(',',$arg_tab);
 	}
@@ -119,7 +122,7 @@ function prepare_sql_tab($list_fields,$explu=array()){
 			array_push($begin_arg,$value);		
  		}
 	} 
-	return array('SQL'=>substr($begin_sql,0,-2),'ARG'=>$begin_arg); 	
+	return array('SQL'=>substr($begin_sql,0,-2)." ",'ARG'=>$begin_arg); 	
  	
  }
  
