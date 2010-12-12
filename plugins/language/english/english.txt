@@ -152,10 +152,10 @@
 244 Add a new user
 245 was successfully deleted
 246 Are you sure you want to delete user
-247 MySql login
-248 MySql password
-249 Can't connect to MySql. Please enter a valid login/pass.
-250 MySql HostName
+247 MySQL login
+248 MySQL password
+249 Can't connect to MySQL. Please enter a valid login/password.
+250 MySQL HostName
 251 Logout
 252 Name (you choose)
 253 Registry hive
@@ -278,7 +278,7 @@
 372 Choose the components
 373 Registered user
 374 Updated user
-375 OCS NG Agent Vesion
+375 OCS-NG Agent Version
 376 Computer locked. Please retry in a few minutes
 377 Processor Speed (MHz)
 380 Dictionary
@@ -304,19 +304,19 @@
 412 Registry key gathering functionality
 413 Automatic update functionality
 414 Automatic deployment functionality
-415 Deletion logging functionality (needed by GLPI).
-416 Logging functionality.
-417 Automatic software distribution functionality.
-418 Differentiate inventories functionality.
-419 Maximum number of day before an ipdiscover computer is replaced.
+415 Deletion logging functionality (needed by GLPI)
+416 Logging functionality
+417 Automatic software distribution functionality
+418 Differentiate inventories functionality
+419 Maximum number of day before an ipdiscover computer is replaced
 420 Automatic software distribution: see documentation.
 421 Automatic software distribution: see documentation.
 422 Automatic software distribution: see documentation.
-423 Automatic software distribution: see documentation. (Packages with a higher or equals priority won't be downloaded anymore).
+423 Automatic software distribution: see documentation. (Packages with a higher or equal priority won't be downloaded anymore).
 424 Validity of a package as from its consideration by the agent
-425 Max number of computers per gateway retrieving IP on the network.
+425 Max number of computers per gateway retrieving IP on the network
 426 Validity of inventories. (ALWAYS: inventory at each login. NEVER: no inventory)
-427 Defines criteria that must be equals for two computers to be automatically merged.
+427 Defines criteria that must be equal for two computers to be automatically merged
 428 Deploy
 429 Frequency
 430 Mass processing
@@ -388,7 +388,7 @@
 496 day(s)
 497 Default, uses the 'FREQUENCY' parameter.
 498 Package
-499 server
+499 Server
 500 Customization
 501 Add package
 502 Elected
@@ -608,7 +608,7 @@
 720 Waiting time between 2 cycles of deployment
 721 Waiting time between 2 downloaded fragments
 722 Waiting times between 2 periods of deployment
-723 maximum Priority of the downloaded packages <br> (The packages of a superior priority are ignored)
+723 maximum priority of the downloaded packages <br> (The packages of a superior priority are ignored)
 724 Time between 2 contacting between the agent and the server
 725 (in the hour)
 726 URI of the servers of redistribution ($IP and NAME$ are the generic values)
@@ -625,10 +625,10 @@
 737 Random number computed in the defined range. Designed to avoid computing many groups in the same process
 738 Specify the validity of computer's groups (default: compute it once a day - see offset)
 740 Validity of a computer's lock
-741 Configure engine to update inventory regarding to CHECKSUM agent value (lower DB backend load)
+741 Configure engine to update inventory using the CHECKSUM agent value (lower DB backend load)
 742 Make engine consider an inventory as a transaction (lower concurency, better disk usage)
-743 Configure engine to make a differential update of inventory sections (row level). Lower DB backend load, higher frontend load
-744 Accept an inventory only if required by server ( Refuse "forced" inventory)
+743 Configure engine to make a differential update of inventory sections (row level). (Lower DB backend load, higher frontend load)
+744 Accept an inventory only if required by server (refuse "forced" inventory)
 745 Specify when the engine will clean the inventory cache structures
 746 Specify the minimal difference to replace an ipdiscover agent
 747 Disable the time before a first election (not recommended)
@@ -636,14 +636,14 @@
 749 Use with ocsinventory-local, enable the multi entities feature
 750 Generate either compressed file or clear XML text
 751 Specify if you want to keep trace of all inventory between to synchronisation with the higher level server
-752 Path to ocs files directory (must be writeable)
+752 Path to ocs files directory (must be writable)
 753 Enable prolog filter stack
 754 Enable core filter system to modify some things "on the fly"
 755 Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period
 756 Period definition for INVENTORY_FILTER_FLOOD_IP
 757 Enable inventory filter stack
 758 Specify if you want to track packages affected to a group on computer's level
-759 Must be superior or egal in
+759 Must be greater than or equal to
 760 Webservice
 761 Enable/Disable the soap service
 762 Result page size (be aware of performances issues)
@@ -938,7 +938,7 @@
 1053 Demande modifiee
 1054 Demande effectuee
 1055 Your email is not valid
-1056 Contact your OCS administrator
+1056 Contact your OCS-NG administrator
 1057 Failed to connect to mailserver
 1058 no email is valid
 1059 Data available
@@ -1034,7 +1034,7 @@
 1149 Name of new profile
 1150 Reference profile
 1151 Text profile
-1152 WARNING: delete basic profiles may cause instability in OCS
+1152 WARNING: delete basic profiles may cause instability in OCS-NG
 1153 Profile name
 1154 On computers
 1155 On teledeploy's workflow
@@ -1127,7 +1127,7 @@
 1242 m/d/y
 1243 Only ocsagent.exe and ocspackage.exe files can be post
 1244 This file can't be empty
-1245 Manage your OCS clients
+1245 Manage your OCS-NG clients
 1246 Affect again
 1247 Architecture
 1248 Folder
@@ -1152,43 +1152,43 @@
 2017 using
 2018 was imported
 2019 were already imported
-2030 OCS Inventory Installation
+2030 OCS-NG Inventory Installation
 2031 Current installed version
 2032 is lower than this version
 2033 automatic install launched
 2034 DB configuration not completed. Automatic install launched
 2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
-2037 ERROR: MySql for PHP is not properly installed.<br>Try installing mysql for php package (Debian: php5-mysql)
+2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php5-mysql)
 2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
-2042 WARNING: your the default root password is set on your mysql server. Change it asap. (using root password=blank)
-2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> mysql value to at least 2MB in your server config file.
+2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
+2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
-2046 ERROR: MySql authentication problem.
-2047 You must add the 'old-passwords' in your mysql configuration file (my.ini). Then restart mysql, and relaunch install.php
+2046 ERROR: MySQL authentication problem.
+2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
 2050 Installation finished you can log in index.php with login=admin and password=admin
 2051 Click here to enter OCS-NG GUI
 2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
 2053 Please wait, database update may take up to 30 minutes...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Database successfully generated
-2056 MySql config file successfully written
+2056 MySQL config file successfully written
 2057 Existing database updated
 2058 Database engine checking...
 2059 ERROR: Alter query failed
 2060 ERROR: Show table status query failed
-2061 ERROR: InnoDB conversion failed, install InnoDB  mysql engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your mysql config file.)<br>Reinstall when corrected.
-2062 ERROR: HEAP conversion failed, install HEAP mysql engine support on your server<br>or you will experience severe performance issues.
+2061 ERROR: InnoDB conversion failed, install InnoDB MySQL engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your MySQL config file.)<br>Reinstall when corrected.
+2062 ERROR: HEAP conversion failed, install HEAP MySQL engine support on your server<br>or you will experience severe performance issues.
 2063 Database engine successfully updated
 2064 table(s) altered
 2065 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2066 WARNING: 'files' directory missing, can't import
 2067 from it
-2068 was not inserted. You need to set the max_allowed_packet mysql value to at least 2MB
+2068 was not inserted. You need to set the max_allowed_packet MySQL value to at least 2MB
 2070 missing, if you do not reinstall the DEPLOY feature won't be available
 2071 WARNING: One or more files were already inserted
 2072 Deploy files successfully inserted
@@ -1216,8 +1216,8 @@
 2096 Please enter the label of the windows client tag input box:
 2097 Leave empty if you don't want a popup to be shown on each agent launch
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try to uncomment extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try to install the libphp-pclzip package (Linux).
-2099 ERROR: this MySql login doesn't have the rights to create the database
-2100 Update old accountinfos
+2099 ERROR: this MySQL login doesn't have the rights to create the database
+2100 Update old account infos
 2101 Add by script
 2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
 
