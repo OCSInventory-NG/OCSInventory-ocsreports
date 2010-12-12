@@ -131,7 +131,7 @@ if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
 }
 
 if( ! $instOk ) {
-
+	echo "<br><b><font color=red size=2>".$l->g(2102)."</font></b>";
 	echo "<br><form name='fsub' action='install.php' method='POST'><table width='100%'>
 	<tr>
 		<td align='right' width='30%'>
@@ -151,7 +151,7 @@ if( ! $instOk ) {
 		<td align='right' width='30%'>
 			<font face='Verdana' size='-1'>" . $l->g(1233) . ":&nbsp;&nbsp;&nbsp;</font>
 		</td>
-		<td width='50%' align='left'><input size=40 name='database' value='$valdatabase'>
+		<td width='50%' align='left'><input size=40 name='database' value='".(isset($valdatabase) && $valdatabase!= 'DB_NAME'? $valdatabase: "ocsweb")."'>
 		</td>
 	</tr>
 	<tr>

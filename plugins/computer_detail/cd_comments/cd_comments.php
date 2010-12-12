@@ -45,7 +45,7 @@
 					value (%s,%s,'%s','%s','%s')";
 			$arg=array($systemid,"sysdate()",$_SESSION['OCS']["loggeduser"],$protectedPost['NOTE'],"ADD_NOTE_BY_USER");
 			
-			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$ar,'ADD_NOTE_BY_USER');
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,'ADD_NOTE_BY_USER');
 			//reg�n�ration du cache
 			$tab_options['CACHE']='RESET';			
 		}elseif (trim($protectedPost['NOTE_MODIF']) != '' and isset($protectedPost['NOTE_MODIF'])){

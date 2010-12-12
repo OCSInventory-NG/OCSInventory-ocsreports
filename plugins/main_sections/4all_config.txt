@@ -46,6 +46,8 @@ ms_config:g(107)
 ms_blacklist:g(703)
 ms_admin_ipdiscover:g(1139)
 ms_snmp:g(1136)
+ms_update_new_tag:g(2100)
+
 </LBL>
 
 <URL>
@@ -114,6 +116,7 @@ ms_options:search_soft_option
 ms_new_profil:new_profil
 ms_snmp:snmp
 ms_snmp_detail:snmp_detail
+ms_update_new_tag:script_new_tag
 </URL>
 
 <DIRECTORY>
@@ -174,6 +177,7 @@ ms_options:ms_search_soft
 ms_help:ms_help
 ms_snmp:ms_snmp
 ms_snmp_detail:ms_snmp
+ms_update_new_tag:ms_scripts
 </DIRECTORY>
 
 
@@ -186,6 +190,7 @@ ms_config:ms_config
 ms_blacklist:ms_config
 ms_label:ms_config
 ms_upload_file:ms_config
+ms_update_new_tag:ms_config
 ms_multi_search:ms_multi_search
 ms_search_soft:ms_multi_search
 ms_ipdiscover:ms_ipdiscover

@@ -1217,6 +1217,9 @@
 2097 Leave empty if you don't want a popup to be shown on each agent launch
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try to uncomment extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try to install the libphp-pclzip package (Linux).
 2099 ERROR: this MySql login doesn't have the rights to create the database
+2100 Update old accountinfos
+2101 Add by script
+2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
