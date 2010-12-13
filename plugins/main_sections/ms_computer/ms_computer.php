@@ -70,7 +70,7 @@ $bandeau=bandeau($data,$lbl_affich);
 
 //get plugins when exist
 $Directory=$_SESSION['OCS']['plugins_dir']."computer_detail/";
-$ms_cfg_file= $Directory."config.txt";
+$ms_cfg_file= $Directory."cd_config.txt";
 
 if (file_exists($ms_cfg_file)) {
 	$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI','ISAVAIL'=>'MULTI');

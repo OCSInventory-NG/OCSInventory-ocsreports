@@ -43,7 +43,7 @@ echo $second_tab;
 
 //get plugins when exist
 $Directory=$_SESSION['OCS']['plugins_dir']."snmp_detail/";
-$ms_cfg_file= $Directory."config.txt";
+$ms_cfg_file= $Directory."snmp_config.txt";
 
 if (file_exists($ms_cfg_file)) {
 	$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI','ISAVAIL'=>'MULTI');
