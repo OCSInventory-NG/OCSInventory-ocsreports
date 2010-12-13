@@ -111,6 +111,7 @@ if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYS
 //Config for all user
 if (!isset($_SESSION['OCS']['URL'])){
 	require_once('require/function_files.php');
+	
 	$ms_cfg_file= $_SESSION['OCS']['plugins_dir']."main_sections/4all_config.txt";	
 	//show only true sections
 	if (file_exists($ms_cfg_file)) {
@@ -217,11 +218,14 @@ if (!isset($_SESSION['OCS']["ipdiscover"])){
 
 
 /********************GESTION CACHE******************/
-if (!isset($_SESSION['OCS']["usecache"])){
-	$values=look_config_default_values(array('INVENTORY_CACHE_ENABLED'));
+if (!isset($_SESSION['OCS']["usecache"]) or !isset($_SESSION['OCS']["tabcache"])){
+	$values=look_config_default_values(array('INVENTORY_CACHE_ENABLED','TAB_CACHE'));
 	$_SESSION['OCS']['usecache']=$values['ivalue']['INVENTORY_CACHE_ENABLED'];
+	$_SESSION['OCS']['tabcache']=$values['ivalue']['TAB_CACHE'];
 	if (!isset($_SESSION['OCS']["usecache"]))
 		$_SESSION['OCS']["usecache"]=1;
+	if (!isset($_SESSION['OCS']["tabcache"]))
+		$_SESSION['OCS']["tabcache"]=0;
 }
 
 /********************END GESTION CACHE******************/

@@ -884,6 +884,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	global $protectedPost,$l,$pages_refs;
 	if (!$tab_options['AS'])
 	$tab_options['AS']=array();
+	if ($_SESSION['OCS']["tabcache"] == 0)
 	$tab_options['CACHE']='RESET';
 	
 	echo "<script language='javascript'>

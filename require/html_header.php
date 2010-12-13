@@ -115,10 +115,7 @@ if ($_SESSION['OCS']["mesmachines"] == "NOTAG"
 
 //if you don't want to see the icons
 if ($icon_head!='NO'){
-//getting existing plugins by using tags in config.txt file
-//$Directory=$_SESSION['OCS']['plugins_dir']."main_sections/";
 require_once($_SESSION['OCS']['plugins_dir']."main_sections/section_html.php");
-//if ($ban_head!='no'){
 echo "<form action='' name='ACTION_CLIC' id='ACTION_CLIC' method='POST'>";
 	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 	echo "</form>";
