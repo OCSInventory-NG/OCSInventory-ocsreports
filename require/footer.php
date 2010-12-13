@@ -11,7 +11,7 @@
 
 //pour le d�bug
 if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
-	echo "<script language=javascript>
+	/*echo "<script language=javascript>
 			function report_id(){				
 				document.getElementById('ID_WORD').value=document.getElementById('WORD').value;
 			}
@@ -61,7 +61,7 @@ if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 		$show_buttons=true;
 	}else
 	$show_buttons=false;
-	tab_modif_values($tab_name,$tab_typ_champ,'',$l->g(1130),$comment="","EDITION",$show_buttons,$form_language);
+	tab_modif_values($tab_name,$tab_typ_champ,'',$l->g(1130),$comment="","EDITION",$show_buttons,$form_language);*/
 }
 
 if ($_SESSION['OCS']['DEBUG'] == 'ON'){

@@ -72,7 +72,7 @@ class language
 		if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 			if (!in_array($i, $tab_dont_see))
 			$_SESSION['OCS']['EDIT_LANGUAGE'][$i]=$word;
-			$word.="{<i><b>".$i."</b></i>}";		
+			$word.="{".$i."}";
 		}
 		return stripslashes($word);
 	}
