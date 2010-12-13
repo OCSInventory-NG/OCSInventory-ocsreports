@@ -174,8 +174,6 @@ function xml_encode( $txt ) {
 function xml_decode( $txt ) {
 		$cherche = array( "&acirc;","&ecirc;","&ccedil;","&agrave;","&lt;","&gt;", "&quot;", "&apos;","&eacute;","&egrave;","&ocirc;","&Icirc;","&icirc;","&amp;");
 		$replace = array( "â","ê","ç","à","<",">","\"","'","é","è","ô","Î","î", "&" );
-	//	echo $txt;
-		//echo str_replace("&toto;","ç",$txt);
 		return str_replace($cherche, $replace, $txt);		
 	
 }
@@ -418,10 +416,6 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 			foreach ($name as $key=>$value){
 				$aff.="<a href=# onclick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_view_file']."&prov=dde_wk&no_header=1&value=".$key."\",\"toto\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");' >".
 						$value."</a><br>";
-						/*window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_view_file']."
-							&prov=dde_wk&no_header=1&value=".$key."\",\"toto\",\"location=0,
-							status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");*/
-				//$aff.="index.php?'.PAG_INDEX.'='.$pages_refs['ms_view_file'].'&prov=dde_wk&no_header=1&value=';"
 			}
 		}
 		return $aff;
@@ -884,8 +878,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	global $protectedPost,$l,$pages_refs;
 	if (!$tab_options['AS'])
 	$tab_options['AS']=array();
+	
 	if ($_SESSION['OCS']["tabcache"] == 0)
-	$tab_options['CACHE']='RESET';
+		$tab_options['CACHE']='RESET';
 	
 	echo "<script language='javascript'>
 		function checkall()
@@ -912,9 +907,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$Details=filtre($tab_options['FILTRE'],$form_name,$queryDetails,$tab_options['ARG_SQL'],$tab_options['ARG_SQL_COUNT']);
 		$queryDetails=$Details['SQL'];
 		if (is_array($Details['ARG']))
-		$tab_options['ARG_SQL']=$Details['ARG'];
+			$tab_options['ARG_SQL']=$Details['ARG'];
 		if (is_array($Details['ARG_COUNT']))
-		$tab_options['ARG_SQL_COUNT']=$Details['ARG_COUNT'];
+			$tab_options['ARG_SQL_COUNT']=$Details['ARG_COUNT'];
 	}
 	//by default, sort by column 1
 	if ($protectedPost['tri2'] == "" or (!in_array ($protectedPost['tri2'], $list_fields) and !in_array ($protectedPost['tri2'], $tab_options['AS'])))
@@ -966,7 +961,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		
 		
 	if (isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]]) and isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
-		//echo "toto";
 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 			msg_info($l->g(5005));
 
@@ -1145,7 +1139,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 						$sql_data[$index][$key]=$value;							
 						foreach ($list_fields as $key=>$value){
 							if ($tab_options['VALUE'][$key]){
-								//echo "toto";
 								if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
 								$sql_data[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
 								else
@@ -1158,7 +1151,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					//ajout des valeurs statiques
 						foreach ($list_fields as $key=>$value){
 							if ($tab_options['VALUE'][$key]){
-							//	echo "toto2";
 								if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
 								$sql_data_cache[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
 								else
@@ -1266,9 +1258,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 	
 	
 	
-	
-	//echo "toto";
-	//print_r($list_col_cant_del);//print_r($sql_data);
 	if (isset($sql_data)){
 		foreach ($sql_data as $i=>$donnees){
 

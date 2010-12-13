@@ -39,7 +39,6 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 			else
 			$lbl=$_SESSION['OCS']['list_fields'][$name];
 			$col[$lbl]=$name;
-			//echo "toto".substr(strrchr($_SESSION['OCS']['list_fields'][$name], "."), 1);
 			$toBeWritten .=$name.";";
 		}elseif($name == 'NAME' or $name == $l->g(23)){
 			$col['name_of_machine']="name_of_machine";
@@ -47,21 +46,18 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 		}		
 	}
 	$i=0;
-	//print_r($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']]);
 	while ($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i]){
 		$toBeWritten .="\r\n";
 		foreach ($col as $lbl => $name){
 			if ($lbl == "name_of_machine" and !isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][0])){
 				$lbl='name';
 			}
-		//	echo $lbl."<br>";
 			if ($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl])
 			$toBeWritten .=$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl].$separator;
 			
 		}
 		$i++;
 	}
-	//$toBeWritten = "toto";
 }elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 	$toBeWritten="";
 	//gestion des entetes
@@ -72,10 +68,8 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 			else
 			$lbl=$_SESSION['OCS']['list_fields'][$name];
 			$col[$lbl]=$name;
-			//echo "toto".substr(strrchr($_SESSION['OCS']['list_fields'][$name], "."), 1);
 			$toBeWritten .=$name.";";
 		}elseif($name == 'NAME' or $name == $l->g(23)){
-			//echo $name;
 			$col['name_of_machine']="name_of_machine";
 			$toBeWritten .="machine".$separator;
 		}		

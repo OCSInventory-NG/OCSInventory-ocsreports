@@ -11,7 +11,6 @@
 
 if (!is_numeric($protectedGet["timestamp"]))
 die();
-/*echo 'toto';*/
 header("content-type: application/zip");
 header("Content-Disposition: attachment; filename=".$protectedGet["timestamp"].".zip");
 if(isset($protectedGet["timestamp"])){
