@@ -526,7 +526,6 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 
 function show_field($name_field,$type_field,$value_field,$config=array()){
 	global $protectedPost;
-	$i=0;
 	foreach($name_field as $key=>$value){
 		$tab_typ_champ[$key]['DEFAULT_VALUE']=$value_field[$key];
 		$tab_typ_champ[$key]['INPUT_NAME']=$name_field[$key];
@@ -568,7 +567,6 @@ function show_field($name_field,$type_field,$value_field,$config=array()){
 		if (isset($config['JAVASCRIPT'][$key]))	{
 			$tab_typ_champ[$key]['CONFIG']['JAVASCRIPT']=$config['JAVASCRIPT'][$key];
 		}
-		$i++;
 	}
 //	$i=0;
 //	while ($name_field[$i]){
@@ -886,6 +884,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	global $protectedPost,$l,$pages_refs;
 	if (!$tab_options['AS'])
 	$tab_options['AS']=array();
+	$tab_options['CACHE']='RESET';
+	
 	echo "<script language='javascript'>
 		function checkall()
 		 {
