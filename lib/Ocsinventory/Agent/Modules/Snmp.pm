@@ -14,7 +14,6 @@ use strict;
 no strict 'refs';
 use warnings;
 
-use Data::Dumper;
 use XML::Simple;
 use Digest::MD5;
 
