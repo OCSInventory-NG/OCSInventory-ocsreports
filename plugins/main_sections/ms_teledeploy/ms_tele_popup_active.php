@@ -17,7 +17,7 @@ if (is_numeric($protectedGet["active"])){
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	
 	if (!isset($protectedPost['FILE_SERV'])){
-		$default="localhost/DOWNLOAD";
+		$default="localhost/download";
 		$values=look_config_default_values(array('DOWNLOAD_URI_INFO','DOWNLOAD_URI_FRAG'));
 		$protectedPost['FILE_SERV']=$values['tvalue']['DOWNLOAD_URI_FRAG'];
 		$protectedPost['HTTPS_SERV']=$values['tvalue']['DOWNLOAD_URI_INFO'];
