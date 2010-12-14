@@ -12,32 +12,43 @@
 $tab_dont_see=array(527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545);
 class language
 {		
-	var  	$tableauMots;    // tableau contenant tous les mots du fichier 			
-	function language($language) // constructeur
+	var  	$tableauMots;    // tableau contenant tous les mots du fichier 	
+	var 	$plug_language;		
+	function language($language,$plugin='') // constructeur
 	{
-		//looking for if languages table exist
-		$table_exist=false;
-		$sql="SHOW TABLES";
-		$result = @mysql_query($sql, $_SESSION['OCS']["readServer"]);
-		while ($table = @mysql_fetch_object($result)){
-			foreach ($table as $value){
-				if ($value == "languages")
-				$table_exist=true;
+		if ($plugin != ''){
+			require_once('require/function_files.php');
+			$rep_list=ScanDirectory($_SESSION['OCS']['main_sections_dir'],'.');
+			foreach ($rep_list as $key){
+				if (file_exists ($_SESSION['OCS']['main_sections_dir'].$key.'/language/'.$language.".txt"))	{
+					$file=fopen($_SESSION['OCS']['main_sections_dir'].$key.'/language/'.$language.".txt","r");
+					while (!feof($file)) {
+							$val = fgets($file, 1024);
+							$tok1   =  rtrim(strtok($val," "));
+							$tok2   =  rtrim(strtok(""));
+							$this->plug_language[$tok1] = $tok2;
+						}
+					fclose($file);		
+						echo $_SESSION['OCS']['main_sections_dir'].$key.'/language/'.$language.".txt<br>";
+				}
+					/*if ($file) {	
+						while (!feof($file)) {
+							$val = fgets($file, 1024);
+							$tok1   =  rtrim(strtok($val," "));
+							$tok2   =  rtrim(strtok(""));
+							$this->plug_language[$tok1] = $tok2;
+						}
+						fclose($file);				
+					} */
 			}
-			
+			//echo $_SESSION['OCS']['main_sections_dir'].$key.'/language/'.$language.".txt";
+			//p($rep_list);
 		}
-		//TEMPORAIRE=> PAS DE JSON
-//		if ($table_exist){
-//			$sql="select json_value from languages where name ='".$language."'";
-//			$result = @mysql_query($sql, $_SESSION['OCS']["readServer"]);
-//			$item = @mysql_fetch_object($result);
-//		}
+
 		if (!isset($_SESSION['OCS']['plugins_dir']) or $_SESSION['OCS']['plugins_dir'] == "")
 		$_SESSION['OCS']['plugins_dir']="plugins/";
 		$language_file=$_SESSION['OCS']['plugins_dir']."language/".$language."/".$language.".txt";
-		if (file_exists ( $language_file) 
-		and !isset($item->json_value)
-		){		
+		if (file_exists ( $language_file) ){		
 			$file=fopen($language_file,"r");		
 			if ($file) {	
 				while (!feof($file)) {
@@ -47,24 +58,17 @@ class language
 					$this->tableauMots[$tok1] = $tok2;
 				}
 				fclose($file);	
-			/*	$toto=$this->tableauMots;
-				if (!isset($item->json_value) and $table_exist){
-					$sql="insert into languages (name,json_value) values ('".$language."','".mysql_real_escape_string(json_encode($toto))."')"; 
-					@mysql_query( $sql, $_SESSION['OCS']["writeServer"] );
-				}*/
 			
 			} 
 		}
-		/*else{
-			$this->tableauMots=json_decode($item->json_value,true);
-		}*/
+
 	}		
 	function g($i)
 	{
 		global $tab_dont_see;
 		//If word doesn't exist for language, return default english word 
 		if ($this->tableauMots[$i] == NULL) {
-			$defword = new language(english);
+			$defword = new language('english');
 			$word= $defword->tableauMots[$i];
 		}else
 			$word=$this->tableauMots[$i]; 
@@ -75,6 +79,16 @@ class language
 			$word.="{".$i."}";
 		}
 		return stripslashes($word);
+	}
+	
+	
+	function g_plug($i){
+		if ($this->plug_language[$i] == NULL) {
+			$defword = new language('english','plugin');
+			$word= $defword->plug_language[$i];
+		}else
+			$word=$this->plug_language[$i]; 
+		return stripslashes($word);		
 	}
 
 }		
