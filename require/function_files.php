@@ -15,11 +15,16 @@ function ScanDirectory($Directory,$Filetype){
   if (!$MyDirectory)
   	return FALSE; 
   while($Entry = @readdir($MyDirectory)) {
-  	if (substr($Entry,-strlen($Filetype)) == $Filetype){
+  	if (substr($Entry,-strlen($Filetype)) == $Filetype and $Filetype != "."){
   		$data['name'][]=$Entry;
   		$data['date_create'][]=date ("d M Y H:i:s.", filectime($Directory.$Entry));
   		$data['date_modif'][]=date ("d M Y H:i:s.", filemtime($Directory.$Entry));
   		$data['size'][]=filesize($Directory.$Entry);
+  	}elseif ($Filetype == "."){
+  		if (!strripos($Entry,$Filetype))
+  		$data[$Entry]=$Entry;
+  		unset($data['.'],$data['..']);
+  		
   	}
   }
   closedir($MyDirectory);
