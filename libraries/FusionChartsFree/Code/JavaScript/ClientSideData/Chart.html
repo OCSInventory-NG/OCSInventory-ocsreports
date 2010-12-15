@@ -1,0 +1,134 @@
+<HTML>
+<HEAD>
+	<TITLE>FusionCharts Free - Client Side Chart Plotting</TITLE>	
+	<style type="text/css">
+	<!--
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+	}
+	-->
+	</style>
+	<SCRIPT LANGUAGE="Javascript" SRC="../../FusionCharts/FusionCharts.js"></SCRIPT>
+	
+	<SCRIPT LANGUAGE="JavaScript">
+		//In this example, we'll show you how to plot and update charts on the
+		//client side. Here, we first store our data (to be plotted) in client side
+		//JavaScript arrays. This data is hard-coded in this example. However,
+		//in your applications, you can build this JavaScript arrays with live
+		//data using server side scripting languages.
+		// Or, you can make AJAX calls to get this data live.
+		
+		//We store all our data in an array data. It contains data for three Products
+		//for 3 quarters. The first column of each array contains the product Name.
+		//Thereafter 4 columns contain data for 4 quarters.
+		var data = new Array();
+		//Data for each product
+		data[0] = new Array("Product A",659400,465400,764500,650500);
+		data[1] = new Array("Product B",546300,436500,546500,332500);
+		data[2] = new Array("Product C",657600,564600,348600,436600);
+		data[3] = new Array("Product D",436500,765700,453900,326400);
+
+		//the array of colors contains 4 unique Hex coded colours (without #) for the 4 products
+		var colors=new Array("AFD8F8", "F6BD0F", "8BBA00", "FF8E46");
+		
+		/**
+		 * updateChart method is called, when user changes any of the checkboxes.
+		 * Here, we generate the XML data again and build the chart.		  
+		 *	@param	domId	domId of the Chart
+		*/
+		function updateChart(domId){			
+				//Update it's XML - set animate Flag from AnimateChart checkbox in form
+				//using updateChartXML method defined in FusionCharts.js
+				updateChartXML(domId,generateXML(this.document.productSelector.AnimateChart.checked));
+		}
+
+		/**
+		 * generateXML method returns the XML data for the chart based on the
+		 * checkboxes which the user has checked.
+		 *	@param	animate		Boolean value indicating to  animate the chart.
+		 *	@return				XML Data for the entire chart.
+		*/		
+		function generateXML(animate){			
+			//Variable to store XML
+			var strXML="";
+			
+			//<graph> element
+			//Added animation parameter based on animate parameter			
+			//Added value related attributes if show value is selected by the user
+			strXML = "<graph numberPrefix='$' decimalPrecision='0' animation='" + ((animate==true)?"1":"0") + "' " + ((this.document.productSelector.ShowValues.checked==true)?("showValues='1' rotateValues='1'"):(" showValues='0' ")) + "yaxismaxvalue='800000'>";
+
+			//Store <categories> and child <category> elements
+			strXML = strXML + "<categories><category name='Quarter 1' /><category name='Quarter 2' /><category name='Quarter 3' /><category name='Quarter 4' /></categories>";
+
+			//Based on the products for which we've to generate data, generate XML			
+			strXML = (this.document.productSelector.ProductA.checked==true)?(strXML + getProductXML(0)):(strXML);
+			strXML = (this.document.productSelector.ProductB.checked==true)?(strXML + getProductXML(1)):(strXML);
+			strXML = (this.document.productSelector.ProductC.checked==true)?(strXML + getProductXML(2)):(strXML);
+			strXML = (this.document.productSelector.ProductD.checked==true)?(strXML + getProductXML(3)):(strXML);			
+
+			//Close <graph> element;
+			strXML = strXML + "</graph>";
+
+			//Return data
+			return strXML;
+		}
+		
+		/**
+		 * getProductXML method returns the <dataset> and <set> elements XML for
+		 * a particular product index (in data array). 
+		 *	@param	productIndex	Product index (in data array)
+		 *	@return					XML Data for the product.
+		*/
+		function getProductXML(productIndex){		
+			var productXML;
+			//Create <dataset> element taking data from 'data' array and color vaules from 'colors' array defined above
+			productXML = "<dataset seriesName='" + data[productIndex][0] + "' color='"+ colors[productIndex]  +"' >";			
+			//Create set elements
+			for (var i=1; i<=4; i++){
+				productXML = productXML + "<set value='" + data[productIndex][i] + "' />";
+			}
+			//Close <dataset> element
+			productXML = productXML + "</dataset>";
+			//Return dataset data
+			return productXML;			
+		}
+		
+	</SCRIPT>
+</HEAD>
+<BODY>
+	<CENTER>
+		<h2>FusionCharts Free - Client Side JavaScript Charting</h2>
+
+		<!-- Embed a chart -->
+		
+		<!-- Create the form for selecting products -->
+		<FORM NAME='productSelector' Id='productSelector' action='Chart.html' method='POST' >
+			<h4>Please select the products for which you want to plot the chart:</h4>
+			<INPUT TYPE='Checkbox' name='ProductA' onClick="JavaScript:updateChart('chart1Id');" checked />&nbsp;Product A&nbsp;&nbsp;
+			<INPUT TYPE='Checkbox' name='ProductB' onClick="JavaScript:updateChart('chart1Id');" checked />&nbsp;Product B&nbsp;&nbsp;
+			<INPUT TYPE='Checkbox' name='ProductC' onClick="JavaScript:updateChart('chart1Id');" checked />&nbsp;Product C&nbsp;&nbsp;
+			<INPUT TYPE='Checkbox' name='ProductD' onClick="JavaScript:updateChart('chart1Id');" checked />&nbsp;Product D&nbsp;&nbsp;
+			
+			<BR /><BR />
+			<B>Chart Configuration:</B>
+			<INPUT TYPE='Checkbox' name='AnimateChart' />Animate chart while changing data?&nbsp;&nbsp;
+			<INPUT TYPE='Checkbox' name='ShowValues' onClick="JavaScript:updateChart('chart1Id');" checked />Show Data Values?&nbsp;&nbsp;
+		</FORM>
+		
+		<div id="chart1div">
+			FusionCharts
+		</div>
+		
+		<script language="JavaScript">					
+			var chart1 = new FusionCharts("../../FusionCharts/FCF_MSColumn3D.swf", "chart1Id", "600", "400");		   
+			//Initialize graph with chart data returned by generateXML() function. [ note: the parameter 'this.document.productSelector.AnimateChart.checked' is passed to set animation property of the chart]
+			//loading XML data into variable strXML 
+			var strXML=generateXML(this.document.productSelector.AnimateChart.checked);
+			chart1.setDataXML(strXML);
+			chart1.render("chart1div");
+		</script>
+		<BR />
+	</CENTER>
+</BODY>
+</HTML>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts and JavaScript &gt; Example Application </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we're going to create a simple application to demonstrate the integration of FusionCharts and JavaScript. Our application would be completely built in HTML using HTML, JavaScript and FusionCharts. </p>
+      <p class="highlightBlock">We recommend that you please go through the previous topics in this section, if you've not already gone through them. This example uses a lot of concepts explained in previous topics. </p>
+      <p>Our application would look as under once we're done: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_JSEx.jpg" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">The code for this application is present in Download Package &gt; Code &gt; JavaScript &gt; ClientSideData folder. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Application Description </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the image above:</p>
+      <ul>
+        <li>We're building a chart to compare Quarterly sales of 4 products in a given year. </li>
+        <li>The user can select which products to compare and the comparison will be reflected on the chart at client side (remember, this application is build purely in HTML and JavaScript - so it does not need any server or server side scripting language). </li>
+        <li>The data for the entire application is stored in client-side JavaScript arrays, which we'll soon see. </li>
+        <li>We've also provided a few chart configuration parameters like &quot;Animate Chart&quot; and &quot;Show Values&quot; to enrich end-user experience.</li>
+        <li>Entire application is run using client side JavaScript functions, which we would soon explore. </li>
+      </ul>
+    <p>Before we get to the code of the application, let's first see the process flow. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Process Flow </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The process flow for this application can be enlisted as under: </p>
+      <ol>
+        <li>The HTML page loads with pre-defined JavaScript functions, data in JavaScript arrays and the chart object itself.</li>
+        <li> We build the chart for first time showing data for all the 4 products.</li>
+        <li>In the HTML code, we present a form to the user where he can select the products for which he wants to see the data.</li>
+        <li>Now, when the user changes his product selection or changes a chart configuration (also present as HTML form elements), we update the chart XML data depending on product and options selected.</li>
+        <li>To update the chart and build the XML, we've used various JavaScript functions in the page, like<span class="codeInline"> updateChart()</span>, <span class="codeInline">generateXML()</span>, <span class="codeInline">getProductXML()</span>.   </li>
+      </ol>
+    <p>Let's now see the code for this application. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Code </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The code for the above application is present in<span class="codeInline"> Chart.html</span> and can be listed as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;HTML&gt;<br />
+  &lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts - Client Side Chart Plotting&lt;/TITLE&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//In this example, we'll show you how to plot and update charts on the<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//client side. Here, we first store our data (to be plotted) in client side<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//JavaScript arrays. This data is hard-coded in this example. However,<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//in your applications, you can build this JavaScript arrays with live<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//data using server side scripting languages. Or, you can make AJAX calls<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//to get this data live.<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//We store all our data in an array data. It contains data for three Products<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//for 3 quarters. The first column of each array contains the product Name.<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Thereafter 4 columns contain data for 4 quarters.</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var data = new Array();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Data for each product</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data[0] = new Array(&quot;Product A&quot;,659400,465400,764500,650500);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data[1] = new Array(&quot;Product B&quot;,546300,436500,546500,332500);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data[2] = new Array(&quot;Product C&quot;,657600,564600,348600,436600);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data[3] = new Array(&quot;Product D&quot;,436500,765700,453900,326400);<br />
+  <br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//the array of colors contains 4 unique Hex coded colours (without #) for the 4 products</span><br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var colors=new Array(&quot;AFD8F8&quot;, &quot;F6BD0F&quot;, &quot;8BBA00&quot;, &quot;FF8E46&quot;);</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;/**<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* updateChart method is called, when user changes any of the checkboxes.<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Here, we generate the XML data again and build the chart. <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*	@param	domId	domId of the Chart<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function updateChart(domId){ <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Update it's XML - set animate Flag from AnimateChart checkbox in form</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//using updateChartXML method defined in FusionCharts</span> JavaScript class <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateChartXML(domId,generateXML(this.document.productSelector.AnimateChart.checked));
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/**<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* generateXML method returns the XML data for the chart based on the<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* checkboxes which the user has checked.<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*	@param	animate		Boolean value indicating to  animate the chart.<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*	@return				XML Data for the entire chart.<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/ </span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function generateXML(animate){ <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Variable to store XML</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var strXML;<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&lt;graph&gt; element<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Added animation parameter based on animate parameter <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Added value related attributes if show value is selected by the user<br />
+        </span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph numberPrefix='$' decimalPrecision='0' animation='&quot; + ((animate==true)?&quot;1&quot;:&quot;0&quot;) + &quot;' &quot; + ((this.document.productSelector.ShowValues.checked==true) ? (&quot;showValues='1' rotateValues='1'&quot;):(&quot; showValues='0' &quot;)) + &quot;yaxismaxvalue='800000'&gt;&quot;;<br />
+        <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Store &lt;categories&gt; and child &lt;category&gt; elements</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;categories&gt;&lt;category name='Quarter 1' /&gt;&lt;category name='Quarter 2' /&gt;&lt;category name='Quarter 3' /&gt;&lt;category name='Quarter 4' /&gt;&lt;/categories&gt;&quot;;<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Based on the products for which we've to generate data, generate XML </span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = (this.document.productSelector.ProductA.checked==true)?(strXML + getProductXML(0)):(strXML);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = (this.document.productSelector.ProductB.checked==true)?(strXML + getProductXML(1)):(strXML);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = (this.document.productSelector.ProductC.checked==true)?(strXML + getProductXML(2)):(strXML);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = (this.document.productSelector.ProductD.checked==true)?(strXML + getProductXML(3)):(strXML); <br />
+        <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;//Close &lt;graph&gt; element;</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;/graph&gt;&quot;;<br />
+        <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;//Return data</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return strXML; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;/**<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* getProductXML method returns the &lt;dataset&gt; and &lt;set&gt; elements XML for<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* a particular product index (in data array). <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*	@param	productIndex	Product index (in data array)<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*	@return					XML Data for the product.<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function getProductXML(productIndex){ <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var productXML;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create &lt;dataset&gt; element from 'data' array<br />
+  </span><span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//and color vaules from 'colors' array defined above </span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productXML = &quot;&lt;dataset seriesName='&quot; + data[productIndex][0] + &quot;' color='&quot;+ colors[productIndex]  +&quot;' &gt;&quot;; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create set elements</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (var i=1; i&lt;=4; i++){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productXML = productXML + &quot;&lt;set value='&quot; + data[productIndex][i] + &quot;' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Close &lt;dataset&gt; element</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productXML = productXML + &quot;&lt;/dataset&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;//Return </span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return productXML; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+&lt;/HEAD&gt;<br />
+&lt;BODY&gt;<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&lt;!-- Embed a chart --&gt;<br />
+    <br />
+&nbsp;&nbsp;&nbsp;&lt;!-- Create the form for selecting products. --&gt;</span><br />
+&nbsp;&nbsp;&nbsp;&lt;FORM NAME='productSelector' Id='productSelector' action='Chart.html' method='POST' &gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Please select the products for which you want to plot the chart:&lt;/h4&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ProductA' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;&amp;nbsp;Product A&amp;nbsp;&amp;nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ProductB' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;&amp;nbsp;Product B&amp;nbsp;&amp;nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ProductC' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;&amp;nbsp;Product C&amp;nbsp;&amp;nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ProductD' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;&amp;nbsp;Product D&amp;nbsp;&amp;nbsp;<br />
+        <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;B&gt;Chart Configuration:&lt;/B&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='AnimateChart'&gt;Animate chart while changing data?&amp;nbsp;&amp;nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ShowValues' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;Show Data Values?&amp;nbsp;&amp;nbsp; <br />
+        <br />
+&nbsp;&nbsp;&nbsp;&lt;/FORM&gt;<br />
+        <br />
+&nbsp;&nbsp;&nbsp;&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts<br />
+&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/FCF_MSColumn3D.swf&quot;, &quot;chart1Id&quot;, &quot;600&quot;, &quot;400&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;			//loading XML data into variable strXML using generateXML() method <br />
+</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var strXML=generateXML(this.document.productSelector.AnimateChart.checked);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.setDataXML(strXML);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As you can see above, we're first rendering the FORM. This form allows the user to select the products which they want to plot on the chart. We also present some chart configuration options in the same form:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;FORM NAME='productSelector' Id='productSelector' action='Chart.html' method='POST'&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ProductA' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;&amp;nbsp;Product A&amp;nbsp;&amp;nbsp;<br />
+&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ProductB' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;&amp;nbsp;Product B&amp;nbsp;&amp;nbsp;<br />
+&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ProductC' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;&amp;nbsp;Product C&amp;nbsp;&amp;nbsp;<br />
+&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ProductD' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;&amp;nbsp;Product D&amp;nbsp;&amp;nbsp;<br />
+&nbsp;&nbsp;&nbsp;&lt;B&gt;Chart Configuration:&lt;/B&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='AnimateChart'&gt;Animate chart while changing data?&amp;nbsp;&amp;nbsp;<br />
+&nbsp;&nbsp;&nbsp;&lt;INPUT TYPE='Checkbox' name='ShowValues' onClick=&quot;JavaScript:updateChart('chart1Id');&quot; checked&gt;Show Data Values?&amp;nbsp;&amp;nbsp; <br />
+&lt;/FORM&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>We've defined the <span class="codeInline">onClick</span> event for each checkbox, so that when they change, they invoke the <span class="codeInline">updateChart</span> JavaScript function. </p>
+    <p>After the form, we've created a 3D Column chart with DOM Id as <span class="codeInline">chart1Id</span>.</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;div id=&quot;chart1div&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;FusionCharts&nbsp;&nbsp;<br />
+      &lt;/div&gt;<br />
+      &lt;script language=&quot;JavaScript&quot;&gt; <br />
+      &nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/FCF_MSColumn3D.swf&quot;, &quot;chart1Id&quot;, &quot;600&quot;, &quot;400&quot;); <br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">//loading XML data into variable strXML using generateXML() method <br />
+      </span> &nbsp;&nbsp;&nbsp;var strXML=generateXML(this.document.productSelector.AnimateChart.checked);<br />
+&nbsp;&nbsp;&nbsp;chart1.setDataXML(strXML);<br />
+&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />&lt;/script&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>This is all about the HTML part of the application. </p>
+      <p>Now, let's get to the JavaScript side of story. We begin with including <span class="codeInline">FusionCharts.js</span> file, which provides all the wrapper functions to deal with FusionCharts. </p>
+    <p>Thereafter, we define our data for this application in JavaScript arrays:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock"><span class="codeComment">//We store all our data in an array data. It contains data for three Products<br />
+//for 3 quarters. The first column of each array contains the product Name.<br />
+//Thereafter 4 columns contain data for 4 quarters.</span><br />
+var data = new Array();<br />
+<span class="codeComment">//Data for each product</span><br />
+data[0] = new Array(&quot;Product A&quot;,659400,465400,764500,650500);<br />
+data[1] = new Array(&quot;Product B&quot;,546300,436500,546500,332500);<br />
+data[2] = new Array(&quot;Product C&quot;,657600,564600,348600,436600);<br />
+data[3] = new Array(&quot;Product D&quot;,436500,765700,453900,326400);</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We also keep another array to store color values for each column representing each product : </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&nbsp;<span class="codeComment">//the array of colors contains 4 unique Hex coded colours (without #) for the 4 products</span><br />
+      &nbsp;var colors=new Array(&quot;AFD8F8&quot;, &quot;F6BD0F&quot;, &quot;8BBA00&quot;, &quot;FF8E46&quot;);</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Before moving to <span class="codeInline">updateChart()</span> function, let's first see the other two functions: <span class="codeInline">generateXML() </span>and <span class="codeInline">getProductXML().</span> </p>
+    <p><span class="codeInline">getProductXML</span> function basically takes in the numeric index of a product and returns the XML data document for data pertinent to that product. The data is returned in multi-series XML format, as we're using a multi-series 3D Column Chart. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">function <strong>getProductXML(productIndex)</strong>{ <br />
+&nbsp;&nbsp;&nbsp;var productXML;<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;//Create &lt;dataset&gt; element </span><br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;//and color vaules from 'colors' array defined above </span><br />
+&nbsp;&nbsp;&nbsp;productXML = &quot;&lt;dataset seriesName='&quot; + data[productIndex][0] + &quot;' color='&quot;+ colors[productIndex]  +&quot;' &gt;&quot;;<br />
+<br />&nbsp;&nbsp;<span class="codeComment">&nbsp;//Create set elements</span><br />
+&nbsp;&nbsp;&nbsp;for (var i=1; i&lt;=4; i++){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productXML = productXML + &quot;&lt;set value='&quot; + data[productIndex][i] + &quot;' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;<span class="codeComment">&nbsp;//Close &lt;dataset&gt; element</span><br />
+&nbsp;&nbsp;&nbsp;productXML = productXML + &quot;&lt;/dataset&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Return </span><br />
+&nbsp;&nbsp;&nbsp;return productXML; <br />
+}</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="codeInline">generateXML</span> function generates the full XML data document for the selected products and returns it. It also reads the chart configuration parameters from FORM elements and then puts it in XML Data document. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">function <strong>generateXML(animate)</strong>{ <br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Variable to store XML</span><br />
+&nbsp;&nbsp;&nbsp;var strXML;<br />
+<br />
+&nbsp;<span class="codeComment">&nbsp;&nbsp;//&lt;graph&gt; element<br />
+&nbsp;&nbsp;&nbsp;//Added animation parameter based on animate parameter <br />
+&nbsp;&nbsp;&nbsp;//Added value related attributes if show value is selected by the user<br />
+</span> &nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph numberPrefix='$' decimalPrecision='0' animation='&quot; + ((animate==true)?&quot;1&quot;:&quot;0&quot;) + &quot;' &quot; + ((this.document.productSelector.ShowValues.checked==true) ? (&quot;showValues='1' rotateValues='1'&quot;):(&quot; showValues='0' &quot;)) + &quot;yaxismaxvalue='800000'&gt;&quot;;<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Store &lt;categories&gt; and child &lt;category&gt; elements</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;categories&gt;&lt;category name='Quarter 1' /&gt;&lt;category name='Quarter 2' /&gt;&lt;category name='Quarter 3' /&gt;&lt;category name='Quarter 4' /&gt;&lt;/categories&gt;&quot;;<br />
+<br />
+&nbsp;&nbsp;<span class="codeComment">&nbsp;//Based on the products for which we've to generate data, generate XML </span><br />
+&nbsp;&nbsp;&nbsp;strXML = (this.document.productSelector.ProductA.checked==true)?(strXML + getProductXML(0)):(strXML);<br />
+&nbsp;&nbsp;&nbsp;strXML = (this.document.productSelector.ProductB.checked==true)?(strXML + getProductXML(1)):(strXML);<br />
+&nbsp;&nbsp;&nbsp;strXML = (this.document.productSelector.ProductC.checked==true)?(strXML + getProductXML(2)):(strXML);<br />
+&nbsp;&nbsp;&nbsp;strXML = (this.document.productSelector.ProductD.checked==true)?(strXML + getProductXML(3)):(strXML); <br />
+<br />
+&nbsp;&nbsp;<span class="codeComment">&nbsp;//Close &lt;graph&gt; element;</span><br />
+&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;/graph&gt;&quot;;<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;//Return data</span><br />
+&nbsp;&nbsp;&nbsp;return strXML; <br />
+}</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Finally we've the <span class="codeInline">updateChart()</span> function, which is the main function responsible for updating the chart. This function is invoked when the user changes the state of any checkbox in the form. In this function:
+      <ul>
+        <li>We generate the XML Data document (pertinent to the products and configuration selected by the user) and then update the chart using <span class="codeInline">updateChartXML</span> method defined in FusionCharts JavaScript class. </li>
+    </ul>
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&nbsp;function <strong>updateChart(domId)</strong>{ <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Update it's XML - set animate Flag from AnimateChart checkbox in form</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//using updateChartXML method defined in FusionCharts  JavaScript class</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;updateChartXML(domId,generateXML(this.document.productSelector.AnimateChart.checked)); <br />
+&nbsp;}</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">And that's it - this marks the end of code required for this application. When you now view this application, you'll get exactly what you were looking for. </td>
+  </tr>
+</table>
+</body>
+</html>

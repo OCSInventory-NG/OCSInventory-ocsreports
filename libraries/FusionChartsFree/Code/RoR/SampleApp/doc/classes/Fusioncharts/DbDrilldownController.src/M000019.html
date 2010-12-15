@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>detailed (Fusioncharts::DbDrilldownController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/fusioncharts/db_drilldown_controller.rb, line 40</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">detailed</span>
+      <span class="ruby-identifier">headers</span>[<span class="ruby-value str">&quot;content-type&quot;</span>]=<span class="ruby-value str">&quot;text/html&quot;</span>;
+      <span class="ruby-ivar">@factory_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:FactoryId</span>]
+      <span class="ruby-ivar">@factory_data</span> = []
+      
+      <span class="ruby-identifier">factory_master</span> = <span class="ruby-constant">Fusioncharts</span><span class="ruby-operator">::</span><span class="ruby-constant">FactoryMaster</span>. <span class="ruby-identifier">find</span>(<span class="ruby-ivar">@factory_id</span>)
+      <span class="ruby-identifier">factory_master</span>.<span class="ruby-identifier">factory_output_quantities</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">factory_output</span><span class="ruby-operator">|</span>
+                      <span class="ruby-identifier">date_of_production</span> = <span class="ruby-identifier">factory_output</span>.<span class="ruby-identifier">date_pro</span>
+                      <span class="ruby-comment cmt"># Formats the date to dd/mm</span>
+                      <span class="ruby-comment cmt">#formatted_date = date_of_production.strftime('%d/%m')</span>
+                      <span class="ruby-comment cmt"># Formats the date to dd/mm without leading zeroes</span>
+                      <span class="ruby-identifier">formatted_date</span> = <span class="ruby-identifier">format_date_remove_zeroes</span>(<span class="ruby-identifier">date_of_production</span>)
+                      <span class="ruby-identifier">quantity_number</span> = <span class="ruby-identifier">factory_output</span>.<span class="ruby-identifier">quantity</span>
+                      <span class="ruby-ivar">@factory_data</span><span class="ruby-operator">&lt;&lt;</span>{<span class="ruby-identifier">:date_of_production=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">formatted_date</span>,<span class="ruby-identifier">:quantity_number=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">quantity_number</span>}
+      <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

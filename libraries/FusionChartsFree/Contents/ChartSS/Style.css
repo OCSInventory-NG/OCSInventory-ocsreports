@@ -1,0 +1,108 @@
+.pageHeader{
+	COLOR: #291E40;
+	FONT-FAMILY: Verdana;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 12pt;
+}
+.quickLinksText{
+	COLOR: #291E40;
+	FONT-FAMILY: Verdana;
+	FONT-SIZE: 8pt;
+	FONT-DECORATION:underline;
+
+}
+.tableGreyBorder
+{
+	BORDER: 1px solid #57686A;
+}
+.tableYellowBorder
+{
+	BORDER: 1px solid #FE9B00;
+	
+}
+.trAttHeader{
+	BACKGROUND: #FEF2CF;
+}
+.trGreyBg
+{
+	BACKGROUND: #F1F1F1;
+}
+.trLightBlueBg{
+	BACKGROUND: #F7F4FB;
+}
+.trDarkGreyBg
+{
+	BACKGROUND: #999999;
+}
+.trDarkYellowBg
+{
+	BACKGROUND: #FCCC22;
+}
+.trLightYellowBg
+{
+	BACKGROUND: #FEECB4;
+}
+.trVeryLightYellowBg
+{
+	BACKGROUND: #FFFCF0;
+}
+
+.text
+{
+	COLOR: #291E40;
+	FONT-FAMILY: Verdana;
+	FONT-SIZE: 8pt;	
+}
+.header
+{
+	COLOR: #291E40;
+	FONT-FAMILY: Verdana;
+	FONT-SIZE: 10pt;
+	FONT-WEIGHT: bold;
+}
+.textbold
+{
+	COLOR: #291E40;
+	FONT-FAMILY: Verdana;
+	FONT-SIZE: 8pt;
+	FONT-WEIGHT: bold;
+}
+.textError
+{
+	COLOR: #FF0000;
+	FONT-FAMILY: Verdana;
+	FONT-SIZE: 8pt;
+	
+}
+.codeBlock
+{
+	BACKGROUND: #FFFCF0;
+	COLOR: #291E40;
+	FONT-FAMILY: Courier New;
+	FONT-SIZE: 12px;
+	LETTER-SPACING: -0.2pt;
+	PADDING: 10px;
+}
+.codeInline
+{	
+	COLOR: #291E40;
+	FONT-FAMILY: Courier New;
+	FONT-SIZE: 12px;
+	LETTER-SPACING: -0.2pt;
+}
+A:hover
+{
+	COLOR: #FCCC22;
+}
+A
+{
+	COLOR: #291E40;
+	FONT-FAMILY: Verdana;
+	FONT-SIZE: 8pt;	
+	
+	TEXT-DECORATION:none;
+}
+.imageBorder
+{
+	BORDER: 1px solid #57686A;
+}

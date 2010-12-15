@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Documentation Page.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>FusionCharts DOM Documentaion - Getting Started</title>
+<!-- InstanceEndEditable -->
+
+<script type="text/javascript" src="JS/lib.js"></script>
+
+<link rel="stylesheet" type="text/css" href="assets/prettify/prettify.css">
+<script type="text/javascript" src="assets/prettify/prettify.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/typoset.css">
+
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+  <noscript class="hl-red">&nbsp;<br />
+  	For maximum compatibility, it is requested that you browse this page in a JavaScript enabled browser.</noscript>
+  
+  <div id="topshadow"></div>
+  <div id="viewport">
+  <h2><!-- InstanceBeginEditable name="pagetitle" --> Getting Started with FusionCharts DOM<!-- InstanceEndEditable --></h2>
+
+  <div id="contents"><!-- InstanceBeginEditable name="pagebody" -->
+    <p>If  you're already excited enough to cut down the fats from your HTML code, let's  quickly get started.</p>
+    <p>We will cover the following steps here:</p>
+    <ol>
+      <li> <a href="#gettingstarted">Getting Started</a></li>
+      <li> <a href="#simplechart">Creating a Simple Chart from a set of data</a></li>
+      <li> <a href="#simpleparams">Providing Chart Parameters</a></li>
+      <li> <a href="#multiplecharts">Adding more charts (multiple charts) in one page</a></li>
+      <li> <a href="#externalxml">Providing data from external XML Document</a></li>
+      </ol>
+    <p>&nbsp;</p>
+    <blockquote> All codes discussed here are present in <span class="code-inline">Download Package > Code > DOM</span>  folder. </blockquote>
+    <p>&nbsp;</p>
+    <h3><a name="gettingstarted"></a>Getting Started</h3>
+    <p>For your charts to come alive, you will require  the <em>FusionCharts</em> SWF files and the <em>FusionCharts DOM</em> javascript files. These files are available inside the FusionCharts DOM downloadable package. The files should be organized within your site's root folder in the manner as specified below.</p>
+    <p><img src="images/screenshot_directorystruct.gif" alt="Required Files"/></p>
+    <p>&nbsp;</p>
+    <p>Now that you have the required files, include the following snippet of code within the <span class="code-inline">&lt;head&gt; ... &lt;/head&gt;</span> tag
+    of your HTML document. In case your JS files are located somewhere else, you should change the &quot;<span class="code-inline">src</span>&quot; paths accordingly.</p>
+    <pre class="prettyprint lang-html">
+&lt;!-- begin FusionCharts include files --&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;JavaScripts/FusionCharts.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;JavaScripts/FusionChartsDOM.js&quot;&gt;&lt;/script&gt;
+&lt;!-- end FusionCharts include files --&gt;</pre>
+    <p>That's it! You are now ready to display impressive charts with just a couple of lines of code.</p>
+    <p>&nbsp;</p>
+    <h3><a name="simplechart"></a>Creating a Simple Chart</h3>
+    <p>Here, we'll guide you through the process of creating your first chart. For a head start, we'll create a simple
+    3D Column Chart to visually depict the Annual<em> Sales Summary of</em> a company.</p>
+    <p>Before we build the chart, we first need to have the data that we'll represent on the chart. Since we're plotting yearly
+       sales summary for a given period, our data in tabular form would look something like below. Each year given below would
+    be represented on the chart as a 3D column.</p>
+    <table width="320">
+      <tr>
+        <th width="60%">Year</th>
+        <th><div align="right">Net Revenue</div></th>
+      </tr>
+      <tr>
+        <td>2004</td>
+        <td><div align="right">$37800</div></td>
+      </tr>
+      <tr>
+        <td>2005</td>
+        <td><div align="right">$21900</div></td>
+      </tr>
+      <tr>
+        <td>2006</td>
+        <td><div align="right">$32900</div></td>
+      </tr>
+      <tr>
+        <td>2007</td>
+        <td><div align="right">$39800</div></td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    
+    <p>Now that you have your data ready, you will need to convert it to XML format. <span class="hl-red">FusionCharts necessarily needs its data in pre-defined XML format.
+    </span>It <strong>cannot</strong> read any other format (including Excel, CSV or text data) apart from XML. So,         we need to convert this data into XML. </p>
+    <p>&nbsp;</p>
+    <p>The converted XML data would look as under: </p>
+    <pre class="prettyprint lang-xml">&lt;graph caption=&quot;Annual Sales Summary&quot; subcaption=&quot;For the period of 2004 to 2007&quot;
+ xAxisName=&quot;Year&quot; yAxisName=&quot;Sales&quot; numberPrefix=&quot;$&quot;&gt;<br />   &lt;set name=&quot;2004&quot; value=&quot;37800&quot; color='F6BD0F' /&gt;<br />   &lt;set name=&quot;2005&quot; value=&quot;21900&quot; color='8BBA00' /&gt;<br />   &lt;set name=&quot;2006&quot; value=&quot;32900&quot; color='FF8E46' /&gt;<br />   &lt;set name=&quot;2007&quot; value=&quot;39800&quot; color='008E8E' /&gt;
+&lt;/graph&gt;</pre>
+
+	<p id="__mi1_" class="visible"><img src="images/icons/nolines_plus.gif" align="absmiddle"/><label class="link" onclick="return g.sh('__mi1', '__mi1_')">More information about this XML</label></p>
+    
+    <span id="__mi1" class="hidden">
+    <p><img src="images/icons/nolines_minus.gif" align="absmiddle"/><label class="link" onclick="return g.sh('__mi1_', '__mi1')">Less information</label></p>
+    <p>Basically, what we've done above can be listed in the following points:</p>
+    <ul>
+      <li>We've created the root &lt;graph&gt; element with a few attributes to define captions, axis names and number             
+      	  prefix character, to consist everything. </li>
+      <li>For each data row, we've created a &lt;set&gt; element. label attribute of this element represents the month name 
+      and value attribute represents the data that we want to plot.</li>
+    </ul>
+    </span>
+    
+    <p>&nbsp;</p>
+    <p>Other than the XML data, we would also require the FusionCharts DOM code that will convert this data into an impressive animated chart. <strong>We don't need to write complex javascripts or flash object embedding scripts while using FusionCharts DOM.</strong>     The DOM code, which will be put inside the <span class="code-inline">&lt;body&gt;...&lt;/body&gt;</span> tag of a document, will look somewhat like this:</p>
+    <pre class="prettyprint lang-html">&lt;fusioncharts chartType=&quot;Column3D&quot;&gt;
+  &lt;data&gt;&lt;!--[CDATA[
+ 
+     Our XML Data will be included here!
+ 
+  ]]--&gt;&lt;/data&gt;
+&lt;/fusioncharts&gt;</pre>
+
+    <p id="__mi2_" class="visible"><img src="images/icons/nolines_plus.gif" align="absmiddle"/><label class="link" onclick="return g.sh('__mi2', '__mi2_')">More information about this DOM code</label></p>
+    
+    <span id="__mi2" class="hidden">
+    <p><img src="images/icons/nolines_minus.gif" align="absmiddle"/><label class="link" onclick="return g.sh('__mi2_', '__mi2')">Less information</label></p>
+    <p>DOM (Document Object Model) codes are just like HTML / XML codes. If you know only HTML, using FusionCharts DOM will be a piece of cake. What we have here is:</p>
+    <ul>
+      <li>a &lt;FusionCharts&gt; tag with an attribute called &quot;chartType&quot;, whose value we set to &quot;Column3D&quot;.</li>
+      <li>inside the &lt;FusionCharts&gt; tag, we have a &lt;data&gt; tag that
+        encapsulates our XML data as Character Data (CDATA).</li>
+    </ul>
+    </span>
+    <p>&nbsp;</p>
+    <p>And now, if you're running out of your patience to see this data in chart format, let's quickly include our chart within an 
+      HTML document.      The final HTML document containing our above-mentioned FusionCharts code will look something like below:</p>
+    <pre class="prettyprint lang-html">&lt;html&gt;<br />  &lt;head&gt;<br />  &lt;title&gt;My First FusionCharts&lt;/title&gt;
+ 
+  &lt;!-- begin FusionCharts include files --&gt;<br />  &lt;script type=&quot;text/javascript&quot; src=&quot;JavaScripts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />  &lt;script type=&quot;text/javascript&quot; src=&quot;JavaScripts/FusionChartsDOM.js&quot;&gt;&lt;/script&gt;<br />  &lt;!-- end FusionCharts include files --&gt;
+<br />  &lt;/head&gt;
+ 
+  &lt;body&gt;
+ 
+    &lt;fusioncharts chartType=&quot;Column3D&quot;&gt;
+      &lt;data&gt;&lt;!--[CDATA[
+<span class="prettyprint lang-xml">        &lt;graph caption=&quot;Annual Sales Summary&quot; subcaption=&quot;For the period of 2004 to 2007&quot;
+         xAxisName=&quot;Year&quot; yAxisName=&quot;Sales&quot; numberPrefix=&quot;$&quot;&gt;<br />          &lt;set name=&quot;2004&quot; value=&quot;37800&quot; color='F6BD0F' /&gt;<br />          &lt;set name=&quot;2005&quot; value=&quot;21900&quot; color='8BBA00' /&gt;<br />          &lt;set name=&quot;2006&quot; value=&quot;32900&quot; color='FF8E46' /&gt;<br />          &lt;set name=&quot;2007&quot; value=&quot;39800&quot; color='008E8E' /&gt;<br />        &lt;/graph&gt;</span>
+      ]]--&gt;&lt;/data&gt;
+    &lt;/fusioncharts&gt;
+ 
+  &lt;/body&gt;<br />&lt;/html&gt;</pre>
+     <p><span class="visible"><img src="images/icons/application.gif" alt="" width="16" height="16" align="absmiddle" /><a href="" onclick="return l.op('../Code/DOM/basic_simple.html', 'bs')">See this chart in action</a>
+     </span><br />
+     Your chart will appear like below:</p>
+   <p>
+       <a href="" onclick="return l.op('../Code/DOM/basic_simple.html', 'bs')"><img class="image"  border='0'
+       		src="images/screenshot_basicsimplechart.jpg" alt="simple chart screenshot" align="absmiddle"/></a>    </p>
+    <p>&nbsp;</p>
+    <h3><a name="simpleparams"></a>Providing Chart Parameters</h3>
+
+     <p>Customizing your chart parameters is very easy.
+     In FusionChartsDOM, chart parameters can be customized using attributes in the <span class="code-inline">&lt;FusionCharts&gt;</span> tag itself.</p>
+     <p>We will now modify our previous chart code to draw a Pie Chart and also modify the dimension of the chart.<br />
+     Our newly modified code will look somewhat like this:</p>
+     <pre class="prettyprint lang-html">&lt;fusioncharts chartType=&quot;Pie3D&quot; width=&quot;480&quot; height=&quot;320&quot;&gt;
+  &lt;data&gt;&lt;!--[CDATA[
+ 
+     Our XML Data will be included here!
+ 
+  ]]--&gt;&lt;/data&gt;
+&lt;/fusioncharts&gt;</pre>
+<p>You must have noticed that to make the modifications, we have done the following:</p>
+<ul>
+  <li>Changed the &quot;chartType&quot; attribute to &quot;Pie3D&quot;.</li>
+  <li>Added two new attributes called &quot;width&quot; and &quot;height&quot; and specified our new values to them.</li>
+  </ul>
+<p><span class="visible"><img src="images/icons/application.gif" alt="" width="16" height="16" align="absmiddle" /><a href="" onclick="return l.op('../Code/DOM/basic_simple_customized.html', 'bsc')">See this chart in action</a>
+</span></p>
+<p>&nbsp;</p>
+<blockquote>A list of documented attributes of the &lt;FusionCharts&gt; tag can be found in the &quot;<a href="FCDomReference.html">FusionChartsDOM API and Reference</a>&quot; section.<br />
+Charts can be further customized via the data XML. An explanation on this can be found in the &quot;<a href="XMLOverview.html" target="_blank">FusionCharts and XML</a>&quot; section.</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3><a name="multiplecharts"></a>Adding Multiple Charts</h3>
+<p>Adding multiple chart in your HTML document is just as easy as putting a new <span class="code-inline">&lt;FusionCharts&gt;</span> tag in the place where you want the chart to appear.</p>
+<p>Let us now include both of the above charts, Column3D and Pie3D within the same HTML document.<br />
+The HTML code would look like below:</p>
+<pre class="prettyprint lang-html">&lt;html&gt;<br />  &lt;head&gt;<br />  &lt;title&gt;Multiple FusionCharts&lt;/title&gt;
+ 
+  &lt;!-- begin FusionCharts include files --&gt;<br />  &lt;script type=&quot;text/javascript&quot; src=&quot;JavaScripts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />  &lt;script type=&quot;text/javascript&quot; src=&quot;JavaScripts/FusionChartsDOM.js&quot;&gt;&lt;/script&gt;<br />  &lt;!-- end FusionCharts include files --&gt;
+<br />  &lt;/head&gt;
+ 
+  &lt;body&gt;
+ 
+    &lt;h2&gt;Column Chart&lt;/h2&gt; 
+    &lt;fusioncharts chartType=&quot;Column3D&quot;&gt;
+      &lt;data&gt;&lt;!--[CDATA[
+<span class="prettyprint lang-xml">        &lt;graph caption=&quot;Annual Sales Summary&quot; subcaption=&quot;For the period of 2004 to 2007&quot;
+         xAxisName=&quot;Year&quot; yAxisName=&quot;Sales&quot; numberPrefix=&quot;$&quot;&gt;
+          &lt;set name=&quot;2004&quot; value=&quot;37800&quot; color='F6BD0F' /&gt;<br />          &lt;set name=&quot;2005&quot; value=&quot;21900&quot; color='8BBA00' /&gt;<br />          &lt;set name=&quot;2006&quot; value=&quot;32900&quot; color='FF8E46' /&gt;<br />          &lt;set name=&quot;2007&quot; value=&quot;39800&quot; color='008E8E' /&gt;
+        &lt;/graph&gt;</span>
+      ]]--&gt;&lt;/data&gt;
+    &lt;/fusioncharts&gt;
+ 
+    &lt;h2&gt;Pie Chart&lt;/h2&gt; 
+    &lt;fusioncharts chartType=&quot;Pie3D&quot; width=&quot;480&quot; height=&quot;320&quot;&gt;
+      &lt;data&gt;&lt;!--[CDATA[
+<span class="prettyprint lang-xml">        &lt;graph caption=&quot;Annual Sales Summary&quot; subcaption=&quot;For the period of 2004 to 2007&quot;
+         xAxisName=&quot;Year&quot; yAxisName=&quot;Sales&quot; numberPrefix=&quot;$&quot;&gt;
+          &lt;set name=&quot;2004&quot; value=&quot;37800&quot; /&gt;
+          &lt;set name=&quot;2005&quot; value=&quot;21900&quot; /&gt;
+          &lt;set name=&quot;2006&quot; value=&quot;32900&quot; /&gt;
+          &lt;set name=&quot;2007&quot; value=&quot;39800&quot; /&gt;
+        &lt;/graph&gt;</span>
+      ]]--&gt;&lt;/data&gt;
+    &lt;/fusioncharts&gt; 
+    
+  &lt;/body&gt;<br />&lt;/html&gt;</pre>
+<p><span class="visible"><img src="images/icons/application.gif" alt="" width="16" height="16" align="absmiddle" /><a href="" onclick="return l.op('../Code/DOM/basic_simple_multiple.html', 'bsc')">See this document in action</a>
+</span></p>
+<p>&nbsp;</p>
+<h3><a name="externalxml"></a>Using External XML Document</h3>
+<p>You may be already asking &quot;what if I have the same data for many charts and pages?&quot; or &quot;what if I want to avoid including the XML data within the HTML document?&quot; The answer to that is simple and two-step.</p>
+<ul>
+  <li>Create an XML document with the data that we already have.</li>
+  <li>Link this XML document with your existing charts.</li>
+  </ul>
+<p>Create an XML document containing the XML data we already have from above, and saved it as <span class="code-inline">&quot;datasource.xml</span>&quot;. Our XML document will look somewhat like this:</p>
+<pre class="prettyprint lang-xml">&lt;graph caption=&quot;Annual Sales Summary&quot; subcaption=&quot;For the period of 2004 to 2007&quot;
+ xAxisName=&quot;Year&quot; yAxisName=&quot;Sales&quot; numberPrefix=&quot;$&quot;&gt;<br />   &lt;set name=&quot;2004&quot; value=&quot;37800&quot; color='F6BD0F' /&gt;<br />   &lt;set name=&quot;2005&quot; value=&quot;21900&quot; color='8BBA00' /&gt;
+   &lt;set name=&quot;2006&quot; value=&quot;32900&quot; color='FF8E46' /&gt;<br />   &lt;set name=&quot;2007&quot; value=&quot;39800&quot; color='008E8E' /&gt;
+&lt;/graph&gt;</pre>
+<p><img src="images/icons/download.gif" width="16" height="16" align="absmiddle" /><a href="../Code/DOM/Data/datasource.xml" target="_blank">View a copy of this file</a>.</p>
+<p>Now, we will modify the FusionChartsDOM code with a new tag called &quot;<strong>dataURL</strong>&quot; to specify the url of the XML file.</p>
+<pre class="prettyprint lang-html">&lt;fusioncharts chartType=&quot;Column3D&quot; dataUrl=&quot;datasource.xml&quot;&gt;&lt;/fusioncharts&gt;</pre>
+<p>This new code has the following changes:</p>
+<ul>
+  <li>It does not have the <span class="code-inline">&lt;data&gt;</span> child-tag and hence, there is no XML data within within the chart tags.</li>
+  <li>It has a new attribute called &quot;dataUrl&quot; that has the url to the source xml file.</li>
+  </ul>
+<p>See Examples: <img src="images/icons/application.gif" width="16" height="16" align="absmiddle" /><a href="" onclick="return l.op('../Code/DOM/basic_externaldata_single.html')">Simple Column Chart</a> | <img src="images/icons/application.gif" alt="" width="16" height="16" align="absmiddle" /><a href="" onclick="return l.op('../Code/DOM/basic_externaldata_multiple.html')">Multiple Charts</a></p>
+<p>&nbsp;</p>
+<h3>Advantages of using External Data XML</h3>
+<ul>
+  <li>FusionChartsDOM codes become more manageable and human-readable.</li>
+  <li>Your HTML documents become lighter and take less time to load.</li>
+  <li>Same data can be re-used for multiple charts.</li>
+  </ul>
+<p>&nbsp;</p>
+<blockquote>In case you encounter any error during implementing these codes, kindly go through our "<a href="FCDomTrouble.html">Troubleshooting</a>" section.</blockquote>
+<p>&nbsp;</p>
+
+  <!-- InstanceEndEditable --></div>
+  
+  <div id="footer"><!-- InstanceBeginEditable name="pageFooter" --><!-- InstanceEndEditable --></div>
+  </div>
+  
+</div>
+
+</body>
+<!-- InstanceEnd --></html>

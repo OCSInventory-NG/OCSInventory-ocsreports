@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts  PHP Class &gt; Basic Examples </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts can effectively be used with PHP to plot dynamic data-driven charts. With FusionCharts PHP Class chart rendering becomes even easier. Let's see how to make use of FusionCharts PHP Class functions and create charts in few easy steps. </p>
+      <p>We'll cover the following examples here:</p>
+    <ol>
+      <li>Creating a simple chart using FusionCharts PHP Class </li>
+      <li>Creating a chart with external XML file created using FusionCharts PHP Class</li>
+      </ol>
+    <p>Let's quickly see each of them. <strong>Before you proceed with the contents in this page, we strictly recommend you to please go through the section &quot;How FusionCharts works?&quot;.</strong> </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">All code discussed here is present in <span class="codeInline">Download Package &gt; Code &gt; PHPClass</span> &gt; <span class="codeInline">BasicExample</span> folder. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the charts for use </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In our code, we've used the charts and <span class="codeInline">FusionCharts.js</span> contained in <span class="codeInline">Download Package &gt; Code &gt; FusionCharts</span> folder. We have kept FusionCharts_Gen.php and FusionCharts.php in <span class="codeInline">Download Package &gt; Code &gt; PHPClass &gt; Includes </span>folder. When you run your samples, you need to make sure that all the files are in proper location. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating a simple chart</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's now get to building our first chart. In this example, we'll create a &quot;Monthly Unit Sales&quot; chart. </p>      </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+        <span class="codeComment">//We've included ../Includes/FusionCharts_Gen.php, which contains FusionCharts PHP Class<br />
+        //to help us easily embed the charts.</span><br />
+        include(&quot;../Includes/FusionCharts_Gen.php&quot;);<br />
+        ?&gt;<br />
+        &lt;HTML&gt;<br />
+        &lt;HEAD&gt;<br />
+&nbsp;&nbsp;&lt;TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Simple Column 3D Chart <br />
+&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+<br />
+&nbsp;&nbsp;&lt;?php<br />
+<span class="codeComment">&nbsp;&nbsp;//You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct. <br />
+&nbsp;&nbsp;//Else, you would get JavaScript errors.</span><br />
+&nbsp;&nbsp;?&gt; <br />
+&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&lt;/HEAD&gt;
+      <p>&lt;BODY&gt;</p>
+      <p>&nbsp;&nbsp;&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//This page demonstrates the ease of generating charts using FusionCharts PHP Class.<br />
+        &nbsp;&nbsp;//For this chart, we've created an instance of FusionCharts PHP Class,<br />
+        &nbsp;&nbsp;//fed chart data and configuration parameters to it and rendered chart using the instance.<br />
+        <br />
+        &nbsp;&nbsp;//Here, we've kept this example very simple.</span><br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;# Create object for Column 3D chart</span><br />
+        &nbsp;&nbsp;$FC = new FusionCharts(&quot;Column3D&quot;,&quot;600&quot;,&quot;300&quot;); </p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Setting Relative Path of chart swf file.</span><br />
+        &nbsp;&nbsp;$FC-&gt;setSwfPath(&quot;../../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;# Store chart attributes in a variable</span><br />
+      &nbsp;&nbsp;$strParam=&quot;caption=Monthly Unit Sales;xAxisName=Month;yAxisName=Units;decimalPrecision=0; formatNumberScale=0&quot;;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;#  Set chart attributes</span><br />
+        &nbsp;&nbsp;$FC-&gt;setChartParams($strParam);<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;# Add chart data along with category names</span> <br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;462&quot;,&quot;name=Jan&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;857&quot;,&quot;name=Feb&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;671&quot;,&quot;name=Mar&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;494&quot;,&quot;name=Apr&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;761&quot;,&quot;name=May&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;960&quot;,&quot;name=Jun&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;629&quot;,&quot;name=Jul&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;622&quot;,&quot;name=Aug&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;376&quot;,&quot;name=Sep&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;494&quot;,&quot;name=Oct&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;761&quot;,&quot;name=Nov&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;960&quot;,&quot;name=Dec&quot;);<br />
+        <br />
+        <span class="codeComment"><br />
+        &nbsp;&nbsp;# Render chart </span><br />
+      &nbsp;&nbsp;$FC-&gt;renderChart();</p>
+      <p>&nbsp;&nbsp;?&gt;<br />
+      <br />
+        &lt;/BODY&gt;<br />
+    &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>What we did in this program? </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" style="line-height:20px;"><ul>
+      <li>Included <span class="codeInline">FusionCharts_Gen.php</span> class and <span class="codeInline">FusionCharts.js</span> class</li>
+      <li>Created FusionCharts PHP class object <span class="codeInline">$FC</span> for a Column 3D chart with 600 pixels width and 300 pixels height</li>
+      <li>Set relative path of  chart SWF file using <span class="codeInline">setSwfPath</span></li>
+      <li>Stored delimiter separated chart attributes in a variable <span class="codeInline">$strParam</span></li>
+      <li>Set these chart attributes to our chart using <span class="codeInline">setChartParams</span> </li>
+      <li>Added chart values and category names that are to be plotted on the Column 3D chart  </li>
+      <li>Finally rendered the chart using <span class="codeInline">renderChart</span> </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="PHPClassAPI/Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>When you now run this page, you'll see a chart like the one below. </p>
+    <p class="highlightBlock">If you do not see a chart like the one below, please follow the steps listed in <span class="codeInline">Debugging your Charts</span> section of this documentation. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_BasicChart.jpg"  /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">So, you just saw how simple it is to create a chart using FusionCharts PHP Class functions.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating a chart with external XML file</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now, we will create the same chart in a different way. Here, we will be using two different programs. One program creates the chart XML using FusionCharts PHP Class and the other uses this XML to render the chart using dataURL method. Code written inside <span class="codeInline">Data.php</span> file creates the XML and <span class="codeInline">SimpleChart.php</span> file uses the XML to render chart. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">All code discussed here is present in <span class="codeInline">Download Package &gt; Code &gt; PHPClass</span> &gt; <span class="codeInline">BasicExample</span> folder and <span class="codeInline">Download Package &gt; Code &gt; PHPClass</span> &gt; <span class="codeInline">BasicExample &gt; Data folder.</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's consider the code in <span class="codeInline">Data.php</span> file first. This code is similar like the code in the above example; the only difference is it does not render the chart but streams XML to<span class="codeInline"> SimpleChart.php</span> file. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//We've included ../../Includes/FusionCharts_Gen.php - FusionCharts PHP Class<br />
+        &nbsp;&nbsp;//to help us easily embed the charts.</span><br />
+        &nbsp;&nbsp;include(&quot;../../Includes/FusionCharts_Gen.php&quot;);<br />
+        ?&gt;</p>
+      <p>&lt;?php<br />
+          <br />
+          <span class="codeComment">&nbsp;&nbsp;//This page demonstrates the ease of generating charts using FusionCharts PHPClass.<br />
+        &nbsp;&nbsp;//We create a FusionCharts object instance<br />
+        &nbsp;&nbsp;//Set chart values and configurations and retunns the XML using getXML() funciton<br />
+        &nbsp;&nbsp;//and write it to the response stream to build the XML<br />
+        <br />
+        &nbsp;&nbsp;//Here, we've kept this example very simple.<br />
+        <br />
+        &nbsp;&nbsp;# Create a column 3d chart object </span><br />
+        &nbsp;&nbsp;$FC = new FusionCharts(&quot;column3D&quot;,&quot;600&quot;,&quot;300&quot;); </p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Set Relative Path of chart swf file. </span><br />
+        &nbsp;&nbsp;$FC-&gt;setSwfPath(&quot;../../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;# Store Chart attributes in a variable</span><br />
+      &nbsp;&nbsp;$strParam=&quot;caption=Monthly Unit Sales;xAxisName=Month;yAxisName=Units;decimalPrecision=0; formatNumberScale=0;showNames=1&quot;;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;#  Set chart attributes</span><br />
+        &nbsp;&nbsp;$FC-&gt;setChartParams($strParam);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;#  Add chart data values and category names</span><br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;462&quot;,&quot;name=Jan&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;857&quot;,&quot;name=Feb&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;671&quot;,&quot;name=Mar&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;494&quot;,&quot;name=Apr&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;761&quot;,&quot;name=May&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;960&quot;,&quot;name=Jun&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;629&quot;,&quot;name=Jul&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;622&quot;,&quot;name=Aug&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;376&quot;,&quot;name=Sep&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;494&quot;,&quot;name=Oct&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;761&quot;,&quot;name=Nov&quot;);<br />
+        &nbsp;&nbsp;$FC-&gt;addChartData(&quot;960&quot;,&quot;name=Dec&quot;);<br />
+  <br />
+        <span class="codeComment"><strong>&nbsp;&nbsp;# Get the chart XML </strong></span><strong><br />
+        &nbsp;&nbsp;$strXML=$FC-&gt;getXML();<br />
+              </strong><br />
+        <span class="codeComment">&nbsp;&nbsp;// Set content type as XML</span><br />
+        &nbsp;&nbsp;header('Content-type: text/xml');<br />
+        <br />
+        <span class="codeComment"><strong>&nbsp;&nbsp;# Return the chart XML for Column 3D Chart </strong></span><strong><br />
+        &nbsp;&nbsp;print $strXML;</strong><br />
+        ?&gt;<br />
+      </p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>What we did here: </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" style="line-height:20px;"><ul>
+      <li>Included <span class="codeInline">FusionCharts_Gen.php</span> class and <span class="codeInline">FusionCharts.js</span> class</li>
+      <li>Created FusionCharts PHP class object <span class="codeInline">$FC</span> for a Column 3D chart with 600 pixels width and 300 pixels height</li>
+      <li>Set relative path of  chart SWF file</li>
+      <li>Stored delimiter separated chart attributes in a variable <span class="codeInline">$strParam</span></li>
+      <li>Set these chart attributes to our chart</li>
+      <li>Added chart data that are to be plotted on the Column 3D chart</li>
+      <li>Finally returned the XML and wrote it to the response stream </li>
+    </ul>    </td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's now look at <span class="codeInline">SimpleChart.php</span> function: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php<br />
+        <span class="codeComment">//We've included ../Includes/FusionCharts.php, which contains functions<br />
+      //to help us easily embed the charts.</span><br />
+      include(&quot;../Includes/FusionCharts.php&quot;);<br />
+      ?&gt;<br />
+      &lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+      <br />
+  &nbsp;&nbsp;&lt;TITLE&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Simple Column 3D Chart using dataURL method<br />
+  &nbsp;&nbsp;&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&lt;?php<br />
+      <span class="codeComment">&nbsp;&nbsp;//You need to include the following JS file, if you intend to embed the chart using 			        JavaScript.<br />
+      &nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+      &nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct. Else, you <br />
+      &nbsp;&nbsp;//would get JavaScript errors.</span><br />
+      &nbsp;&nbsp;?&gt; <br />
+      <br />
+  &nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  <br />
+  &lt;/HEAD&gt;<br />
+  <br />
+  &lt;BODY&gt;<br />
+  &lt;?php<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;//For this chart, we've used a Data.php which uses FusionCharts PHP Class (contained in /Data/ &nbsp;&nbsp;//folder)<br />
+        &nbsp;&nbsp;//Data.php generates the chart  XML and pass it this file<br />
+        &nbsp;&nbsp;//We will use FusionCharts PHP chart embedding function - renderChart() to render the chart<br />        
+        &nbsp;&nbsp;//For a head-start, we've kept this example very simple.<br />
+        <br />
+        <br />
+        <strong>&nbsp;&nbsp;//Create the chart - Column 3D Chart with data from Data/Data.php</strong></span><br />
+        <strong>&nbsp;&nbsp;echo renderChart(&quot;../../FusionCharts/FCF_Column3D.swf&quot;, &quot;Data/Data.php&quot;, &quot;&quot;, &quot;myFirst&quot;, 600, 300, false, false);</strong><br />
+        ?&gt;<br />
+        <br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;<br />
+    </p>    </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Steps involved in this function: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"  style="line-height:20px;"><ul>
+      <li>Include <span class="codeInline">FusionCharts.php</span> and <span class="codeInline">FusionCharts.js</span> class</li>
+      <li>Call <span class="codeInline">renderChart()</span> function with data from <span class="codeInline">Data.php</span> function.</li>
+    </ul></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock"><strong>Note:</strong> The <span class="codeInline">renderChart()</span> function used in this code is not the same with the one we used in the previous example, though they bear same name. This is FusionCharts PHP chart embedding function; please go through <a href="PHP_BasicExample.html">Using with PHP &gt; Basic Examples</a> to know more about it. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here is the output. As you can see, the same chart has been created but in a different way. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_BasicChart.jpg"></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

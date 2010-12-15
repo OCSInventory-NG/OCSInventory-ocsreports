@@ -1,0 +1,100 @@
+@charset "utf-8";
+/*
+*	author:  Shamasis Bhattacharya
+* 	
+*	publish: 03/10/2008
+*	version: 1.0.0
+*
+*	copyright: 	 Infosoft Global Private Limited (http://infosoftglobal.com)
+*  description: All styling for elements within the documentation pages.
+*  
+*/
+
+p, ul, ol {
+    COLOR: #291E40;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+}
+
+ol li a {
+    line-height: 21px;
+}
+
+h2 {
+    COLOR: #291E40;
+    FONT-FAMILY: Verdana;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 12pt;
+}
+
+h3 {
+    COLOR: #291E40;
+    FONT-FAMILY: Verdana;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 9pt;
+}
+
+a, .link {
+    COLOR: #291E40;
+}
+
+a:hover, .link:hover {
+    COLOR: #FFA000;
+}
+
+.link { cursor: hand; cursor: pointer; }
+
+blockquote {
+    BACKGROUND: #F1F1F1;
+    COLOR: #291E40;
+    BORDER: 1px solid #291E40;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+
+    PADDING: 10px;
+}
+
+pre.prettyprint {
+    BACKGROUND: #FFFCF0;
+    COLOR: #291E40;
+    FONT-FAMILY: "Courier New";
+    FONT-SIZE: 12px;
+
+    PADDING: 10px;
+}
+
+table {
+    border: 1px solid #ccc;
+}
+table th { background-color: #f1f1f1;}
+table th, table td {
+    padding: 3px; margin: 0;
+    text-align: left;
+    border: 1px solid #f1f1f1;
+    vertical-align: top;
+
+    COLOR: #291E40;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+}
+
+.image {
+    BORDER: 1px solid #f1f1f1;	
+}
+
+.code-inline {
+    COLOR: #291E40;
+	FONT-FAMILY: "Courier New";
+	FONT-SIZE: 12px;
+}
+
+
+.visible { display: inherit; }
+.hidden { display: none; }
+
+@media print {
+    .visible { display: none; }
+    .hidden { display: inherit; }
+}
+
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Using Multi-lingual text in FusionCharts </span></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts allows you to use multi-lingual (UTF-8) characters on the charts. Shown below is an example where we've used names using various languages on the chart:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SpChar_1.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The XML for the above chart is :</p>
+      <p class="codeBlock">&lt;graph rotatenames='0' xaxisname=<strong>'&Epsilon;&lambda;&lambda;&#940;&sigmaf;</strong>' yaxisname='<strong>&#1096;&#1072;&#1103;&#1100;&#1077;&#1076;&#1091; Y-Axis</strong>' caption='<strong>&Epsilon;&lambda;&lambda;&#940;&sigmaf;</strong>' subCaption='<strong>&#1088;&#1099;&#1097;&#1094;</strong>' numdivlines='4' lineThickness='3' pieborderColor='FFFFFF' pieFillAlpha='95' pieRadius='95'&gt;<br />
+&nbsp;&nbsp; &lt;set name='<strong>&#3611;&#3619;&#3632;&#3648;&#3607;&#3624;&#3652;&#3607;&#3618;</strong>' value='90' color='AFD8F8' isSliced='1'/&gt; <br />
+&nbsp;&nbsp; &lt;set name='&#1497;<strong>&#1513;&#1512;&#1488;&#1500;</strong>' value='95' color='F6BD0F' isSliced='1'/&gt; <br />
+&nbsp;&nbsp; &lt;set name='<strong>&#1056;&#1086;&#1089;&#1089;&#1080;&#1103;</strong>' value='91' color='8BBA00' isSliced='1'/&gt; <br />
+&nbsp;&nbsp; &lt;set name='<strong>&#1059;&#1082;&#1088;&#1072;&#1111;&#1085;&#1072;</strong>'  value='65'  color='A66EDD' isSliced='1'/&gt; <br />
+&nbsp;&nbsp; &lt;set name='<strong>&#1575;&#1604;&#1575;&#1605;&#1575;&#1585;&#1575;&#1578;&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;&#1575;&#1604;&#1605;&#1578;&#1581;&#1583;&#1577;</strong> ' value='88' color='F984A1' isSliced='1'/&gt;<br />
+&nbsp;&nbsp; &lt;set name='<strong>&#1582;&#1608;&#1588;&#1570;&#1605;&#1583;&#1740;&#1583;</strong>' value='30' color='B2FF66' isSliced='1'/&gt; <br />
+&nbsp;&nbsp; &lt;set name='<strong>&#1605;&#1585;&#1581;&#1576;&#1575;&#1611;</strong>' value='56' color='ffd1aa' isSliced='1'/&gt;<br />
+ <br />
+&nbsp;&nbsp; &lt;trendlines&gt;<br />
+  &nbsp;&nbsp;&nbsp; &nbsp; &lt;line value='85' color='FF9900' thickness='1' /&gt;<br />
+  &nbsp; &lt;/trendlines&gt;<br />
+  &lt;/graph&gt;<br />
+    </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML is using texts in various languages (put in bold). To make the charts show these languages (and many other languages not included here) you have to store the file in UTF-8 Unicode Encoding Format with proper BOM mark. With out BOM mark the chart may somewhat look like the chart below : </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SpChar_11.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can use multi-lingual characters in all the charts in FusionCharts  suite. However, <strong>any rotated text on chart cannot show non-English characters</strong>. That is, if you want to use multi-lingual characters, you'll need to show horizontal x-axis labels without being rotated (using <span class="codeInline">&lt;graph rotateNames='0' ..&gt;</span>). </p>
+      <p class="highlightBlock">FusionCharts supports only left-to-right languages as of now. It doesn't have native support for right-to-left languages like Hebrew. So, if you want to use Hebrew with FusionCharts, you'll have to <span style="font-family:Verdana; font-size:8.0pt; color:#291E40; ">programmatically </span> change the text sequence and then provide the data to FusionCharts. </p>    </td>
+  
+  
+</table>
+</body>
+</html>

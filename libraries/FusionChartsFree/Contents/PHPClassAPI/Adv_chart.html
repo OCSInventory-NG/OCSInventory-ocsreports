@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Advanced Usage &gt; Chart  Attributes </h2></td>
+  </tr>
+  
+
+  <tr>
+     <td valign="top" class="text">FusionCharts PHP Class API lets you configure a chart by providing various chart attributes.</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><p>All chart attributes are provided using either of the 2 functions - <span class="codeInline">setChartParam </span>or <span class="codeInline">setChartParams. </span></p>
+        <ul>
+           <li><span class="codeInline"><strong>setChartParam  </strong></span><span class="text">adds a single attribute, while</span></li>
+           <li><span class="codeInline"><strong>setChartParams </strong></span><span class="text">provides a list of chart attributes separated by delimiter (default delimiter is ;). </span><span class="codeInline"><br />
+                </span></li>
+      </ul></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="header">Using<strong> setChartParam</strong></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">We can use <strong>setChartParam</strong> to set a single chart attribute. We will pass the attribute name and its value as two string parameters. For example, to add <span class="codeInline">caption</span> and <span class="codeInline">subCaption </span> attributes, we will do this: </td>
+  </tr>
+  <tr>
+     <td valign="top" class="codeBlock">$FC-&gt;setChartParam(&quot;caption&quot;,&quot;Monthly Sales&quot;);<br />
+        $FC-&gt;setChartParam(&quot;subCaption&quot;,&quot;July&quot;);</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="header">Using<strong> setChartParams</strong></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">We can use <strong>setChartParams</strong> to set any number of chart attributes. The attributes and corresponding values are to be put in a string list, each attribute separated by the delimiter (default is ;). For example, to add <span class="codeInline">caption</span> and <span class="codeInline">subCaption </span> attributes we will do this: </td>
+  </tr>
+  <tr>
+     <td valign="top" class="codeBlock">$FC-&gt;setChartParams(&quot;caption=Monthly Sales;subCaption=July&quot;);</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">Using any of the above two functions you can provide various chart attributes as listed under <span class="codeInline">&lt;chart&gt;</span> element in each Chart's page in <span class="text"><strong>Chart XML Reference </strong></span>Secion. </td>
+  </tr>
+</table>
+</body>
+</html>

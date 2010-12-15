@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>default (Fusioncharts::DbDrilldownController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/fusioncharts/db_drilldown_controller.rb, line 12</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">default</span>
+     <span class="ruby-identifier">headers</span>[<span class="ruby-value str">&quot;content-type&quot;</span>]=<span class="ruby-value str">&quot;text/html&quot;</span>;
+    <span class="ruby-identifier">str_data_url</span> = <span class="ruby-value str">''</span>;
+    <span class="ruby-comment cmt">#Get data from factory masters table</span>
+    
+    <span class="ruby-identifier">factory_masters</span> = <span class="ruby-constant">Fusioncharts</span><span class="ruby-operator">::</span><span class="ruby-constant">FactoryMaster</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:all</span>)
+    
+    <span class="ruby-ivar">@factory_data</span> = []
+    <span class="ruby-comment cmt">#Loop through each record</span>
+      <span class="ruby-identifier">factory_masters</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">factory_master</span><span class="ruby-operator">|</span> 
+          <span class="ruby-identifier">total</span> = <span class="ruby-value">0</span><span class="ruby-value">.0</span>
+          <span class="ruby-comment cmt">#Get factoryid and factoryname </span>
+          <span class="ruby-identifier">factory_id</span> = <span class="ruby-identifier">factory_master</span>.<span class="ruby-identifier">id</span>
+          <span class="ruby-identifier">factory_name</span> = <span class="ruby-identifier">factory_master</span>.<span class="ruby-identifier">name</span>
+          <span class="ruby-identifier">factory_master</span>.<span class="ruby-identifier">factory_output_quantities</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">factory_output</span><span class="ruby-operator">|</span>
+                  <span class="ruby-identifier">total</span> = <span class="ruby-identifier">total</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">factory_output</span>.<span class="ruby-identifier">quantity</span>
+          <span class="ruby-keyword kw">end</span>
+          <span class="ruby-comment cmt"># Escape the URL </span>
+          <span class="ruby-identifier">str_data_url</span> = <span class="ruby-constant">CGI</span>.<span class="ruby-identifier">escape</span>(<span class="ruby-value str">&quot;/Fusioncharts/db_drilldown/detailed?FactoryId=&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">factory_id</span>.<span class="ruby-identifier">to_s</span>)
+          <span class="ruby-comment cmt"># Put the hash of values in the array</span>
+          <span class="ruby-ivar">@factory_data</span><span class="ruby-operator">&lt;&lt;</span>{<span class="ruby-identifier">:str_data_url=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">str_data_url</span>, <span class="ruby-identifier">:factory_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">factory_name</span>, <span class="ruby-identifier">:factory_output=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">total</span>}
+      <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

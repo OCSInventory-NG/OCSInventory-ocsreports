@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Documentation Page.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>FudionCharts DOM Documentation - Features</title>
+<!-- InstanceEndEditable -->
+
+<script type="text/javascript" src="JS/lib.js"></script>
+
+<link rel="stylesheet" type="text/css" href="assets/prettify/prettify.css">
+<script type="text/javascript" src="assets/prettify/prettify.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/typoset.css">
+
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+  <noscript class="hl-red">&nbsp;<br />
+  	For maximum compatibility, it is requested that you browse this page in a JavaScript enabled browser.</noscript>
+  
+  <div id="topshadow"></div>
+  <div id="viewport">
+  <h2><!-- InstanceBeginEditable name="pagetitle" -->
+  FusionCharts DOM  Features
+  Explained<!-- InstanceEndEditable --></h2>
+
+  <div id="contents"><!-- InstanceBeginEditable name="pagebody" -->
+    <p>Now that we have caught your attention by implementing those messy JavaScripts and OBJECT/EMBED tags in such simple fashion, lets have a look at what's on for dinner!</p>
+    <p>Other than the myriad list of features available for FusionCharts, FusionCharts DOM adds the following features:</p>
+    <ol>
+      <li><a href="#htmllike">Easy HTML-like Chart Inclusion</a></li>
+      <li><a href="#inlinexml">Inline XML Data Embedding</a></li>
+      <li> <a href="#defaultparams">Default Chart Parameters Specification</a></li>
+      <li><a href="#advancedsettings">Advanced Settings</a></li>
+    </ol>
+    <h3><a name="htmllike" id="htmllike"></a>Easy HTML-like Chart Inclusion</h3>
+    <p>FusionCharts DOM facilitates the writing of simple HTML-like <span class="code-inline">&lt;fusioncharts&gt;</span> tag instead of complex JavaScript or Object/Embed tags. Just as one would include an image within an HTML document by writing <span class="code-inline">&lt;img src=&quot;my_image.jpg&quot; width=&quot;320&quot; height=&quot;240&quot; /&gt;</span> code, similarly you can include FusionCharts within your documents using a code like <span class="code-inline">&lt;fusioncharts dataUrl=&quot;my_data.xml&quot; width=&quot;320&quot; height=&quot;240&quot; &gt;&lt;/fusioncharts&gt;</span>. Yes it is that simple!</p>
+    <p>The magic code here is the <span class="code-inline">&lt;fusioncharts&gt;&lt;/fusioncharts&gt;</span> tag. All such &quot;fusioncharts&quot; tags are converted to corresponding 'FusionCharts' flash object. (Everything is done silently and behind the scenes by the FusionChartsDOM javascripts.)</p>
+    <p>The chart parameters can be specified as attributes to this <span class="code-inline">&lt;fusioncharts&gt;</span> element. The attributes look just like any other HTML attribute: &quot;width&quot;, &quot;height&quot;, etc. Thus, if you want to specify the chart-type as &quot;Pie3D&quot; and also set the width to 320 pixels, the code would appear something like below:</p>
+    <pre class="prettyprint lang-html">&lt;fusioncharts <strong>chartType=&quot;Pie3D&quot; width=&quot;320&quot; dataUrl=&quot;my_data.xml&quot;</strong>&gt;&lt;/fusioncharts&gt;</pre>
+    <p>&quot;chartType&quot;, &quot;width&quot; and &quot;dataUrl&quot; are the parameters that we have used here in format <strong>attributeName=&quot;myValue&quot;</strong>. The list of all valid attributes can be found in our &quot;<a href="FCDomReference.html">API and References</a>&quot; section.</p>
+    <p>&nbsp;</p>
+    <blockquote>
+      More example codes on how to include FusionCharts using 'FusionCharts DOM' are provided in our &quot;<a href="FCDomGettingStarted.html">Getting Started</a>&quot; article    </blockquote>
+    <p>&nbsp;</p>
+    <h3><a name="inlinexml" id="inlinexml"></a>Inline XML Data Embedding</h3>
+    <p>With FusionCharts DOM, your XML data can be directly provided inside your web pages. This is even as simple as typing in your HTML code.</p>
+    <p>The detailed procedure embed inline XML data is explained in the &quot;<a href="FCDomGettingStarted.html#externalxml">Providing data from external XML Document</a>&quot; within the <a href="FCDomGettingStarted.html">Getting Started</a> section.</p>
+    <p>&nbsp;</p>
+    <h3><a name="defaultparams" id="defaultparams"></a>Default Chart Parameters Specification</h3>
+    <p>It may be so that you have a number of charts on your page and you would like to have a common set of look-and-feel for all your charts. The procedure to do that is to provide &quot;default parameters&quot; to your charts. The default parameters can be provided within the <span class="code-inline">&lt;script&gt; ... &lt;/script&gt;</span> tag of your FusionChartsDOM.js include file.</p>
+    <p>Let us provide default parameters so that all FusionCharts within a particular web page appears as &quot;Column3D&quot; and with a dimension of 320x240 pixels. The code to do that is explained below:</p>
+    <pre class="prettyprint lang-html">&lt;!-- begin FusionCharts include files --&gt;
+&lt;script src=&quot;JavaScripts/FusionCharts.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;JavaScripts/FusionChartsDOM.js&quot; type=&quot;text/javascript&quot;
+    <strong>parameters=&quot;chartType: 'Column3D', width: '320', height: '240'&quot;</strong>&gt;&lt;/script&gt;
+&lt;!-- end FusionCharts include files --&gt;</pre>
+    <p>If you carefully look into the code, you will see that there is a new 'parameters' attribute to the <span class="code-inline">&lt;script src=&quot;JavaScripts/FusionChartsDOM.js&quot; ...&gt;&lt;script&gt;</span> tag. The format to provide values inside this tag is <strong>parameterName: 'parameterValue'</strong>. Multiple parameters can be specified by separating them using comma. The list of all valid attributes (chart parameters) can be found in our &quot;<a href="FCDomReference.html">API and References</a>&quot; section.</p>
+    <p>&nbsp;</p>
+    <h3><a name="advancedsettings" id="advancedsettings"></a>Advanced FusionCharts DOM Settings</h3>
+    <p>FusionChartsDOM has certain useful settings that can be modified to suit your needs. They allow you to change various FusionCharts DOM behaviors, such as &quot;whether to display a message when error occurs&quot; or &quot;whether to generate chart Id automatically or not&quot;, etc. Specifying these are similar to specifying &quot;default parameters&quot; explained above. An example code that enables display of error messages would be like:</p>
+    <pre class="prettyprint lang-html">&lt;!-- begin FusionCharts include files --&gt;
+&lt;script src=&quot;JavaScripts/FusionCharts.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;JavaScripts/FusionChartsDOM.js&quot; type=&quot;text/javascript&quot;
+    <strong>settings=&quot;debugMode: '1';</strong>&gt;&lt;/script&gt;
+&lt;!-- end FusionCharts include files --&gt;</pre>
+    <p>If you carefully look into the code, you will see that there is a new 'settings' attribute to the <span class="code-inline">&lt;script src=&quot;JavaScripts/FusionChartsDOM.js&quot; ...&gt;&lt;script&gt;</span> tag. The format to provide values inside this tag is <strong>parameterName: 'parameterValue'</strong>. Multiple parameters can be specified by separating them using comma.</p>
+    <p>The list of all valid settings can be found in our &quot;<a href="FCDomReference.html">API and References</a>&quot; section.</p>
+    <p>&nbsp;</p>
+  <!-- InstanceEndEditable --></div>
+  
+  <div id="footer"><!-- InstanceBeginEditable name="pageFooter" --><!-- InstanceEndEditable --></div>
+  </div>
+  
+</div>
+
+</body>
+<!-- InstanceEnd --></html>

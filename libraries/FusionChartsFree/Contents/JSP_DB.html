@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td> 
+      <h2 class="pageHeader">Using FusionCharts with JSP &gt; Plotting data from 
+        a database </h2>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> 
+      <p>In this section, we'll show you how to use FusionCharts and JSP to plot 
+        charts from data contained in a database. We'll create a pie chart to 
+        show &quot;Production by Factory&quot; using: </p>
+      <ul>
+        <li><span class="codeInline">dataXML</span> method first.</li>
+        <li>Thereafter, we'll convert this chart to use <span class="codeInline">dataURL</span> 
+          method. </li>
+      </ul>
+      <p>For the sake of ease, we'll use MySQL Database. The database is present 
+        in <span class="codeInline">Download Package &gt; Code &gt; JSP &gt; DB 
+        </span>folder. You can, however, use any database with FusionCharts including 
+        MS Access, MS SQL Server, Oracle. Database creation script for MySQL is also present 
+        in the same folder.</p>
+      <p><strong>Before you go further with this page, we recommend you to please 
+        see the previous section &quot;Basic Examples&quot; as we start off from 
+        concepts explained in that page. </strong></p>
+      <p class="highlightBlock">The code examples contained in this page are present 
+        in <span class="codeInline">Download Package &gt; Code &gt; JSP &gt; DBExample 
+        </span> folder. <br />
+        The  database scripts are present in <span class="codeInline">Download 
+        Package &gt; Code &gt; JSP &gt;</span> <span class="codeInline">DB</span>. 
+      </p>
+	  <p class="header">Database Structure </p>
+	  <p class="text">Before we code the JSP pages to retrieve data, let's quickly have a look at the database structure. </p>
+	  <p class="text"></p>
+	  <p class="text"><img src="Images/Code_DB.gif" width="372" height="124" class="imageBorder" />
+</p>
+	  <p>The database contains just 2 tables:</p>
+	  <ol>
+        <li><span class="codeInline">Factory_Master</span>: To store the name and id of each factory</li>
+        <li><span class="codeInline">Factory_Output</span>: To store the number of units produced by each factory for a given date.</li>
+      </ol>
+	  <p>For demonstration, we've fed some dummy data in the database. Let's now shift our attention to the JSP page that will interact with the database, fetch data and then render a chart. </p>	  
+	  <p class="header">Database Configuration </p>
+	  <ol>
+        <li>The database configuration is present in the file Download Package &gt; Code &gt; JSP &gt; META-INF &gt; context.xml file. Here we need to specify the database name, user name and password to access the database. We have used the MySQL database for our examples. We assume that you have created the database with the name <span class="codeInline">factorydb</span>, username <span class="codeInline">root</span> with no password. </li>
+        <li>Once this is done, we need to create the required tables. The  sql script &quot;FactoryDBCreation.sql&quot;  present in the folder <span class="codeInline">Download Package > Code > JSP > DB </span>will create the database with two tables and sample data.Note that these scripts will not create foreign key relationships. You would have to manually alter the table to create the relationship, if you think necessary. </li>
+        <li> Once this is done, we need to create the tables required for the UTF8 examples. The required sql script &quot;UTFExampleTablesCreation.sql&quot; is present in the  <span class="codeInline">Download Package > Code > JSP > DB</span> folder. You could run this script in your mysql - this will alter the database to use UTF8 as default character set, create the Japanese_Factory_Master and French_Factory_Master tables and insert sample data into them.</li>
+      </ol>	  <p class="header">Building the JSP Page for dataXML Method </p>      <p class="text">The JSP page for <span class="codeInline">dataXML</span> method example is named as <span class="codeInline">BasicDBExample.jsp</span> (in <span class="codeInline">DBExample</span> folder). It contains the following code: </p>
+      <p class="codeBlock">&lt;%@ include file=&quot;../Includes/DBConn.jsp&quot;%&gt;<br />
+        &lt;%@ page import=&quot;java.sql.Statement&quot;%&gt;<br />
+&lt;%@ page import=&quot;java.sql.ResultSet&quot;%&gt;<br />
+&lt;%@ page import=&quot;java.sql.Date&quot;%&gt;<br />
+&lt;HTML&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - Database Example&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/*You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When you make your own charts, make sure that the path to this JS file is correct. Else, you would get JavaScript errors.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;.text{<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;&lt;a href=&quot;http://www.fusioncharts.com&quot; target=&quot;_blank&quot;&gt;FusionCharts Free&lt;/a&gt; Database Example&lt;/h2&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/*<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this example, we show how to connect FusionCharts to a database.<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the sake of ease, we've used a database which contains two tables, which are linked to each<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;other. <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Database Objects - Initialization</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement st1,st2;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs1,rs2;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String strQuery=&quot;&quot;;<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//strXML will be used to store the entire XML document generated</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String strXML=&quot;&quot;;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Generate the chart element</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity' decimalPrecision='0' showNames='1' numberSuffix=' Units' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieSliceDepth='30' formatNumberScale='0'&gt;&quot;;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="codeComment">//Construct the query to retrieve data</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select * from Factory_Master&quot;;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  st1=oConn.createStatement();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs1=st1.executeQuery(strQuery);<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String factoryId=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String factoryName=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String totalOutput=&quot;&quot;;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Iterate through each factory </span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(rs1.next()) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factoryId=rs1.getString(&quot;FactoryId&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factoryName=rs1.getString(&quot;FactoryName&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Now create second recordset to get details for this factory</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; + factoryId;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st2=oConn.createStatement();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs2 = st2.executeQuery(strQuery);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(rs2.next()){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalOutput=rs2.getString(&quot;TotOutput&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Generate &lt;set name='..' value='..'/&gt;</span> <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='&quot; + factoryName + &quot;' value='&quot; +totalOutput+ &quot;'/&gt;&quot;;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Close resultset</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=rs2){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs2.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs2=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//do something</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the resultset&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try{<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=st2) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st2.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st2=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//do something<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the statement&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="codeComment">//end of while</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Finally, close &lt;graph&gt; element</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;/graph&gt;&quot;;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//close the resulset,statement,connection</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=rs1){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs1.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs1=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//do something</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the resultset&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=st1) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st1.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st1=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//do something</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the statement&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=oConn) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//do something</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the connection&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart - Pie 3D Chart with data from strXML </span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:include page=&quot;../Includes/FusionChartsRenderer.jsp&quot; flush=&quot;true&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/FCF_Pie3D.swf&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strURL&quot; value=&quot;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strXML&quot; value=&quot;&lt;%=strXML %&gt;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartId&quot; value=&quot;FactorySum&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;650&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartHeight&quot; value=&quot;450&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;registerWithJS&quot; value=&quot;false&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/jsp:include&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='../NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the chart above?&lt;/a&gt;&lt;BR&gt;&lt;H5 &gt;&lt;a href='../default.htm'&gt;&amp;laquo; Back to list of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples&lt;/a&gt;&lt;/h5&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt;<br />
+      </p>
+      <p>The following actions are taking place in this code:</p>
+      <ol>
+        <li>We first include <span class="codeInline">FusionCharts.js</span> JavaScript class  to enable easy embedding of FusionCharts.</li>
+        <li>We then include <span class="codeInline"> DBConn.jsp</span>, which connects to the database and stores the connection in oConn Connection object. </li>
+        <li>Thereafter, we generate the XML data document by iterating through the resultset and store it in <span class="codeInline">strXML</span> variable. </li>
+        <li>Finally, we render the chart by including FusionChartsRenderer.jsp and passing <span class="codeInline">strXML </span>and other parameters to it . </li>
+      </ol>
+      <p>When you now run the code, you'll get an output as under: </p>      <p class="text"><img src="Images/Code_DBOut.jpg" width="572" height="273" class="imageBorder" /></p>
+      <p class="header">Converting the example to use dataURL method </p>
+      <p>Let's not convert this example to use dataURL method. As previously explained, in dataURL mode, you need two pages:</p>
+      <p>
+	  <ol>
+        <li><strong>Chart Container Page</strong> - The page which embeds the HTML code to render the chart. This page also tells the chart where to load the data from. We'll name this page as <span class="codeInline">Default.jsp</span>. </li>
+        <li><strong>Data Provider Page</strong> - This page provides the XML data to the chart. We'll name this page as <span class="codeInline">PieData.jsp</span></li>
+      </ol> 
+	   <p class="highlightBlock">The pages in this example are contained in<span class="codeInline"> 
+        Download Package &gt; Code &gt; JSP &gt; DB_dataURL</span> folder. </p>
+	  <p class="header">Chart Container Page - <span class="codeInline">Default.jsp </span></p>
+	  <p class="text"><span class="codeInline">Default.jsp</span> contains the following code to render the chart: ( relevant portions of the jsp are only shown) </p>
+	  <p class="codeBlock">&lt;%<br />
+<span class="codeComment">/*<br />
+In this example, we show how to connect FusionCharts to a database <br />
+using dataURL method. In our other examples, we've used dataXML method<br />
+where the XML is generated in the same page as chart. Here, the XML data<br />
+for the chart would be generated in PieData.jsp.<br />
+*/</span><br />
+<br />
+<span class="codeComment">/*<br />
+To illustrate how to pass additional data as querystring to dataURL, <br />
+we've added an animate property, which will be passed to PieData.jsp. <br />
+PieData.jsp would handle this animate property and then generate the <br />
+XML accordingly.<br />
+*/</span><br />
+<br />
+<span class="codeComment">/*For the sake of ease, we've used MySQL database which <br />
+&nbsp;&nbsp;contains two tables, which are linked to each other.<br />
+
+*/</span><br />
+<br />
+//Variable to contain dataURL<br />
+String strDataURL=&quot;&quot;;<br />
+<br />
+//NOTE: It's necessary to encode the dataURL if you've added parameters to it<br />
+strDataURL = &quot;PieData.jsp&quot;;<br />
+<br />
+//Create the chart - Pie 3D Chart with dataURL as strDataURL<br />
+%&gt; <br />
+&lt;jsp:include page=&quot;../Includes/FusionChartsRenderer.jsp&quot; flush=&quot;true&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/FCF_Pie3D.swf&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strURL&quot; value=&quot;&lt;%=strDataURL%&gt;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strXML&quot; value=&quot;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartId&quot; value=&quot;FactorySum&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;650&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartHeight&quot; value=&quot;450&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;registerWithJS&quot; value=&quot;false&quot; /&gt;<br />
+&lt;/jsp:include&gt;</p>
+	  <p>In this page:</p>
+	  <ol>
+        <li><span class="codeInline">FusionCharts.js</span> JavaScript file is included. <span class="codeInline"></span></li>
+        <li>The <span class="codeInline">dataURL</span> string with value &quot;PieData.jsp&quot; is stored  in <span class="codeInline">strDataURL</span> variable. </li>
+        <li>Finally, we render the chart using FusionChartsRenderer.jsp and pass <span class="codeInline">strURL</span> parameter with value present in <span class="codeInline">strDataURL</span>. </li>
+      </ol>	  <p class="header">Creating the data provider page <span class="codeInline">PieData.jsp </span></p>      <p class="text">PieData.jsp contains the following code to output XML Data: </p>
+      <p class="codeBlock">&lt;?xml version='1.0'?&gt;&lt;%<br />
+<span class="codeComment">/*<br />
+We've included ../Includes/DBConn.jsp, to get a connection to the specific database. Which database to connect to is <br />
+decided based on a config param present in the web.xml.<br />
+Note that we have not used the jsp:include tag instead of the @include file directive.Either of them<br />
+could be used.<br />
+*/</span><br />
+%&gt;&lt;%@ include file=&quot;../Includes/DBConn.jsp&quot; %&gt;&lt;%@ page import=&quot;java.sql.Statement&quot;%&gt;&lt;%@ page import=&quot;java.sql.ResultSet&quot;%&gt;&lt;%<br />
+<span class="codeComment">/*This page generates the XML data for the Pie Chart contained in<br />
+Default.jsp. <br />
+<br />
+For the sake of ease, we've used a database which just contains two tables, which are linked to each<br />
+other. <br />
+*/</span><br />
+<br />
+<span class="codeComment">//Database Objects - Initialization</span><br />
+Statement st1=null,st2=null;<br />
+ResultSet rs1=null,rs2=null;<br />
+<br />
+String strQuery=&quot;&quot;;<br />
+<span class="codeComment">//strXML will be used to store the entire XML document generated</span><br />
+  String strXML=&quot;&quot;;<br />
+  <span class="codeComment">//Generate the chart element</span><br />
+  strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity' decimalPrecision='0' showNames='1' numberSuffix=' Units' pieSliceDepth='30' formatNumberScale='0'&gt;&quot;;<br />
+  <br />
+  <span class="codeComment">//Query to retrieve data about factory<br />
+  /*<br />
+  If the query varies from one database to another,get the database name from <br />
+  the Servlet context, like this :<br />
+  String dbName=getServletContext().getInitParameter(&quot;dbName&quot;);<br />
+  And check this against the db name constants defined in <br />
+  com.infosoftglobal.fusioncharts.Constants java class.<br />
+  And then for each db you can write a different query.<br />
+  */</span><br />
+  <br />
+  strQuery = &quot;select * from Factory_Master&quot;;<br />
+  <span class="codeComment">//Create the statement</span><br />
+  st1=oConn.createStatement();<br />
+ <span class="codeComment"> //Execute the query</span><br />
+  rs1=st1.executeQuery(strQuery);<br />
+  <br />
+  String factoryId=null;<br />
+  String factoryName=null;<br />
+  String totalOutput=&quot;&quot;;<br />
+  <br />
+  while(rs1.next()) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;factoryId=rs1.getString(&quot;FactoryId&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;factoryName=rs1.getString(&quot;FactoryName&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Now create second resultset to get details for this factory</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; + factoryId;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;st2=oConn.createStatement();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;rs2 = st2.executeQuery(strQuery);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;if(rs2.next()){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalOutput=rs2.getString(&quot;TotOutput&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Generate &lt;set name='..' value='..'/&gt; </span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='&quot; + factoryName + &quot;' value='&quot; +totalOutput+ &quot;' /&gt;&quot;;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=rs2){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs2.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs2=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the resultset&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;try{<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=st2) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st2.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st2=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the statement&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  }<br />
+  <span class="codeComment">//Finally, close &lt;graph&gt; element</span><br />
+  strXML += &quot;&lt;/graph&gt;&quot;;<br />
+  <br />
+  try {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;if(null!=rs1){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs1.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs1=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  }catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//do something</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the resultset&quot;);<br />
+  } <br />
+  try {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;if(null!=st1) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st1.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st1=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the statement&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  try {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;if(null!=oConn) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn=null;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  }catch(java.sql.SQLException e){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the connection&quot;);<br />
+  }<br />
+  <span class="codeComment">//Set Proper output content-type</span><br />
+  response.setContentType(&quot;text/xml&quot;); <br />
+  <br />
+  <span class="codeComment">//Just write out the XML data<br />
+  //NOTE THAT THIS PAGE DOESN'T CONTAIN ANY HTML TAG, WHATSOEVER</span><br />
+  %&gt;&lt;%=strXML%&gt;</p>
+      <p>In the above page:</p>
+      <ol>
+        <li>We query the database to get the total output of each factory. </li>
+        <li>We generate the xml from this data and store it in <span class="codeInline">strXML</span> variable</li>
+        <li>Finally, we write this data to output stream without any HTML tags.</li>
+      </ol>
+      <p>When you view this page, you'll get the same output as before.</p>
+      <span class="header">About the database connection:</span><br />
+Database connection can be got in 2 ways:
+<ol>
+  <li>By including DBConn.jsp in the page as shown in the above example</li>
+  <li>By using the DBConnection class as a bean in the application scope</li>
+</ol>
+We have seen how to use DBConn.jsp to get a Connection. Now let us see how to acheive 
+the same result using DBConnection bean.
+<p class="text">The JSP page for <span class="codeInline">dataXML</span> method example using DBConnection class is named as <span class="codeInline">BasicDBExampleUsingConnectionClass.jsp</span> (in <span class="codeInline">DBExample</span> folder). In order to get a connection using the Java 
+      class DBConnection, first you need to use the DBConnection class as a bean
+in application scope and import java.sql.Connection class.</p>
+<p class="codeBlock">&lt;jsp:useBean id=&quot;dbConn&quot; class=&quot;com.infosoftglobal.fusioncharts.DBConnection&quot; scope=&quot;application&quot; /&gt;<br />
+&lt;%@ page import=&quot;java.sql.Connection&quot;%&gt;</p>
+<p class="text">Wherever a Connection to the database is required, call the getConnection method in the DBConnection class as follows.</p>
+<p class="codeBlock">Connection oConn=dbConn.getConnection(); </p>
+<p class="text">Once the connection is got, use it to create Statement, ResultSet objects and finally close it. This can be done in a try-catch block in the following manner.</p><p class="codeBlock">&nbsp;&nbsp;try {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=oConn) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn.close();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn=null;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//do some exception handling</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the connection&quot;);<br />
+&nbsp;&nbsp;&nbsp;}</p>
+<p>So, this is how we use the DBConnection class to get a Connection.After getting the connection, you can perform the queries to get the data. All the work of configuring the database name, MySQL db Datasource name (i.e, all the database related configuration) is done in the configuration file - context.xml. </p>
+<p class="text">This was just a basic example. For advanced demos, you can see and download our FusionCharts Blueprint/Demo Applications. </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">
+    </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<% @page_title=" FusionCharts Free - Form Based Data Charting Example " %>
+<% @page_heading="Form-Based Data Example" %>
+<% @page_subheading="Restaurant Sales Chart below" %>
+
+<%
+	# The xml is obtained as a string from builder template.
+	str_xml =render "fusioncharts/form_based/form_based_data",{:str_soups => @str_soups,:str_salads => @str_salads,:str_sandwiches => @str_sandwiches,:str_beverages => @str_beverages,:str_desserts => @str_desserts}
+	
+	#Create the chart - Pie 3D Chart with data from str_xml
+	render_chart '/FusionCharts/FCF_Pie3D.swf','',str_xml,'Sales', 600, 350, false, false do-%>
+<% end -%>
+<a href='javascript:history.go(-1);'>Enter data again</a> 

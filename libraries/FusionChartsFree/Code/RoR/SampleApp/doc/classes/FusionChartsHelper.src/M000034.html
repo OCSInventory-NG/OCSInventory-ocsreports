@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>add_cache_to_data_url (FusionChartsHelper)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/fusioncharts_helper.rb, line 184</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_cache_to_data_url</span>(<span class="ruby-identifier">str_data_url</span>)
+    <span class="ruby-identifier">cache_buster</span>= <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-value str">'%d_%m_%y_%H_%M_%S'</span>)
+    <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">str_data_url</span>.<span class="ruby-identifier">index</span>(<span class="ruby-value str">'?'</span>)<span class="ruby-operator">==</span><span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">str_data_url</span> = <span class="ruby-identifier">str_data_url</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;?FCCurrTime=&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">cache_buster</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">str_data_url</span> = <span class="ruby-identifier">str_data_url</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;&amp;FCCurrTime=&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">cache_buster</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-value str">&quot;The URL after appending time is &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str_data_url</span>)
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">str_data_url</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

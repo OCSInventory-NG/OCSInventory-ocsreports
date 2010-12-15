@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+<style type="text/css">
+<!--
+.style4 {color: #E0E0E0}
+-->
+</style>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using JavaScript functions as links</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Instead of using simple links, you can also 
+        set JavaScript links using FusionCharts i.e., you can invoke a JavaScript 
+        function present in the same page (in which the chart is present) when 
+        the end viewer clicks a data element on the chart. To attain this, all 
+        you need to do is place the name of JavaScript function instead of the 
+        link URL, as under:</p>
+      <p class="codeInline"><span class="codeBlock">&lt;set name='Japan' 
+      value='123' <strong>link=&quot;JavaScript:myJS('Japan, 123');&quot;</strong> color='F6BD0F'/&gt; </span></p>
+      <p>In the above code, <span class="codeInline">myJS</span> refers to a custom 
+        JavaScript function present in the HTML page that embeds this chart. You 
+        can also specify any number of parameters for this function. When you 
+        now click the data item (column, pie, bar etc.) for this particular data, 
+        <span class="codeInline">myJS </span>function would be invoked and 'Japan, 
+        123' would be passed to the function as the function parameter. Here, 
+        we've passed the data label and value just for demonstration purposes. 
+        In actual charts, you can pass identifier numbers or strings to each data. 
+        When the user clicks on the link, these identifiers can be sent back to 
+        your JavaScript functions for further actions (like loading detailed data 
+        for that identifier using AJAX or anything - the possibilities are endless).</p>
+      <p>Let's quickly put up an example for this kind of links. We'll create 
+        a simple 2D Column chart indicating &quot;ABC Bank Branches&quot; in Asia. 
+        Each column when clicked, would pass its label and value to our custom 
+        JavaScript function <span class="codeInline">myJS</span>, which (for the 
+        sake of demonstration) would just write it out in an alert box. </p>
+      <p>We create <span class="codeInline">JSExample.html</span> for this example 
+        in <span class="codeInline">DrillDown</span> folder. It contains the following 
+        HTML code:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;JavaScript Link Example&lt;/title&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot; 
+      src=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br /> 
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function myJS(myVar){<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window.alert(myVar);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//--&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+      </strong>&nbsp;&nbsp;&nbsp;&lt;/head&gt; <p>&lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp; &lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;The 
+        chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var myChart = new FusionCharts(&quot;../FusionCharts/FCF_Column2D.swf&quot;, 
+        &quot;myChartId&quot;, &quot;500&quot;, &quot;300&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.setDataURL(&quot;JSExample.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.render(&quot;chartdiv&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&lt;/script&gt;<br />
+        &lt;/body&gt;<br />
+        &lt;/html&gt;<br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Here, we've a defined a function <span class="codeInline">myJS</span> 
+        which will respond to the clicks generated from the chart.</p>
+      <p>And now<span class="codeInline"> JSExample.xml</span> looks as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;graph caption='ABC Bank Branches' subCaption='(In Asian Countries)' yaxislabel='Branches' xaxislabel='Country'  decimalPrecision='0'  bgcolor='F3f3f3' &gt;<br />      
+      &nbsp;&nbsp;&lt;set 
+      name='Hong Kong' value='235' <strong>link=&quot;JavaScript:myJS('Hong Kong, 
+      235');&quot;</strong> color='AFD8F8'/&gt; <br /> 
+      &nbsp;&nbsp;&lt;set name='Japan' 
+      value='123' <strong>link=&quot;JavaScript:myJS('Japan, 123');&quot;</strong> color='F6BD0F'/&gt; 
+      <br /> 
+      &nbsp;&nbsp;&lt;set name='Singapore' value='129' <strong>link=&quot;JavaScript:myJS('Singapore, 
+      129');&quot; </strong>color='8BBA00'/&gt; <br /> 
+      &nbsp;&nbsp;&lt;set name='Malaysia' 
+      value='121' <strong>link=&quot;JavaScript:myJS('Malaysia, 121');&quot; </strong>color='FF8E46'/&gt; 
+      <br /> 
+      &nbsp;&nbsp;&lt;set name='Taiwan' value='110' <strong>link=&quot;JavaScript:myJS('Taiwan, 
+      110');&quot; </strong>color='008E8E'/&gt; <br /> 
+      &nbsp;&nbsp;&lt;set name='China' 
+      value='90' <strong>link=&quot;JavaScript:myJS('China, 90');&quot;</strong> color='D64646' /&gt; 
+      <br /> 
+      &nbsp;&nbsp;&lt;set name='S. Korea' value='86' <strong>link=&quot;JavaScript:myJS('S. 
+      Korea, 86');&quot; </strong>color='8E468E'/&gt; <br /> 
+    &lt;/graph&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">As you can see above, for each data item, we've 
+      defined a JavaScript link, that points to the custom function <span class="codeInline">myJS</span>. 
+      To this function, we're passing the name and value of the data item. 
+      <p>When you view the chart and click on a column, you'll see something like 
+        under:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/JavaScript.jpg" /></td>
+  </tr>
+</table>
+</body>
+</html>

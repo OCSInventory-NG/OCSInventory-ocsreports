@@ -1,0 +1,7 @@
+﻿<% @page_title="FusionCharts Free - UTF8 日本語 (Japanese) Example" %>
+<% @page_heading="UTF8 日本語 (Japanese) Example" %>
+<% @page_subheading="Basic example using data from pre-built JapaneseData.xml" %>
+<%
+	#Create the chart - Column 3D Chart with data from /Data/JapaneseData.xml
+	render_chart "/FusionCharts/FCF_Column3D.swf", "/Data/JapaneseData.xml", "", "JapaneseChart", 600, 300, false, false do-%> 
+<% end -%>

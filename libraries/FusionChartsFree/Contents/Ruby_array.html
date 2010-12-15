@@ -1,0 +1,160 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with RoR - Charting Data from an Array </h2></td>
+  </tr>
+  <tr>
+   <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts and Ruby to plot charts from data contained in Ruby arrays. We'll cover the following examples here:</p>
+      <ul>
+	  <li>Single series </li>
+      <li>Multi series </li>
+      </ul>
+      <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;Basic Examples&quot; as we start off from concepts explained in that page. </strong></p>
+    <p class="highlightBlock">All code discussed here is present in <br>
+    <span class="codeInline">Controller : Download Package > Code > RoR > SampleApp &gt;  app > controllers > fusioncharts &gt;  array_example_controller.rb</span>. <br> 
+    <span class="codeInline">Rhtml : Download Package > Code > RoR > SampleApp &gt;  app > views  > fusioncharts &gt;  array_example</span> folder. </p>
+    <p class="header">Single-series chart from arrays </p>    <p class="text">Let us now plot a single-series chart from data contained in arrays. Take a look at the controller array_example_controller.rb and the view single_series.html.erb. Here is the code:</p>    <p class="codeBlock"><b>Controller: Fusioncharts::ArrayExampleController<br>
+  Action: single_series</b><span class="codeComment"><br>
+        # This controller class will show ways of generating chart by<br>
+        # * using sales data of products with their names present in an array. <br>
+        # * using sales data of products for current year and previous year with their names present in an array.<br>
+        # * using sales figure and quantity sold in each quarter of a year of a product present in an array.<br>
+        # * using sales information of two products in each quarter of a year present in an array .<br>
+        # All the views related to this controller will use the &quot;common&quot; layout.<br>
+        # As per Ruby On Rails conventions, we have the corresponding views with the same name as the function name in the controller.</span><br>
+        class Fusioncharts::ArrayExampleController &lt; ApplicationController<br>
+        <span class="codeComment">#This is the layout which all functions in the controller make use of.</span><br>
+  layout &quot;common&quot;<br>
+  <br>
+  <span class="codeComment">#In this function, we plot a single series chart from data contained<br>
+  #in an array. Each element in the array will have two values - first one for data label<br>
+  #and the next one for data value.<br>
+  #The sales data and product names for 6 products are stored in the array.<br>
+  #These values in the array will be used by the builder to build an appropriate xml, <br>
+  #which is then rendered by the corresponding view. </span><br>
+  def single_series<br>
+&nbsp;&nbsp;&nbsp;&nbsp;headers[&quot;content-type&quot;]=&quot;text/html&quot;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data = []<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product A','567500']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product B','815300']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product C','556800']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product D','734500']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product E','676800']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product F','648500']<br>
+  end <br>
+  <b><br>
+  View:</b><br>
+&lt;%<br>
+<span class="codeComment"># The following three variables are used in the &quot;common&quot; layout</span><br>
+%&gt;<br>
+&lt;% @page_title=&quot;FusionCharts Free - Array Example using Single Series Column 3D Chart&quot; %&gt;<br>
+&lt;% @page_heading=&quot;Examples&quot; %&gt;<br>
+&lt;% @page_subheading=&quot;Plotting single series chart from data contained in Array.&quot; %&gt;<br>
+&lt;%<br>
+<span class="codeComment"># The xml is obtained as a string from builder template.</span><br>
+str_xml = render &quot;fusioncharts/array_example/ss_array_data&quot;,{:arr_data =&gt; @arr_data}<br>
+<br>
+<span class="codeComment">#Create the chart - Column 3D Chart with data contained in str_xml</span><br>
+render_chart '/FusionCharts/FCF_Column3D.swf', '', str_xml, 'productSales', 600, 300, false, false do-%&gt;<br>
+&lt;% end -%&gt;</p>    
+    <p class="text">Here are the steps:</p>    <ol>
+        <li>In the controller, define an array. Each element in this array, is itself an array (simulating a 2-dimensional array) containing the product name and sales value. We have constructed the array by pushing values into it for Product A to Product F and the corresponding sales value. </li>
+        <li> Write the builder template to create an xml based on array values. (as shown below) </li>
+        <li>In the view, we render the builder xml and assign it to a variable. Finally we call the <span class="codeInline">render_chart</span> function with the appropriate parameters including <span class="codeInline">str_xml</span> as the dataXML. </li>
+      </ol>    <p class="codeBlock"><b>Builder - ss_array_data.builder</b><br>
+       <span class="codeComment"> #Creates xml with values for sales data of products <br>
+        #along with their names.<br>
+        #The values required for building the xml is obtained as parameter arr_data<br>
+        #It expects an array in which each element is <br>
+        #itself an array with first element as label and second element as value</span><br>
+        xml = Builder::XmlMarkup.new<br>
+xml.graph(:caption=&gt;'Sales by Product', :numberPrefix=&gt;'$', :formatNumberScale=&gt;'0',:decimalPrecision=&gt;'0') do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for item in arr_data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:name=&gt;item[0], :value=&gt;item[1],:color=&gt;''+get_FC_color)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end</p>    
+      <p class="text">
+  This is a simple chart xml with outermost
+    <span class="codeInline">&lt;graph&gt;</span> tag, <span class="codeInline">&lt;set&gt;</span> tag inside it with attributes <span class="codeInline">label</span> and <span class="codeInline">value</span>. To build the <span class="codeInline">&lt;set&gt;</span> tags, we iterate through the array obtained as parameter from the view.</p>
+      <p class="text">The application_helper  contains the default color set for  FusionCharts. These colors in Hex code are optimized to give a snazzy look to the charts.The <span class="codeInline">get_FC_color()</span> function in cyclic iteration returns these color values.</p>
+      <p class="text">When you view the chart, you'll see a chart as under: </p>    <p class="text"><img src="Images/Code_ArraySS.jpg" width="584" height="287" class="imageBorder" /> </p>    <p class="header">Multi-series chart from arrays</p>    <p class="text">The code to create a multi series chart can be listed as under: </p>    
+      <p class="codeBlock"><b>Controller: Fusioncharts::ArrayExampleController<br>
+  Action: multi_series<br>
+  </b><span class="codeComment">#In this function, we plot a multi-series chart from data contained<br>
+  #in an array. Each element in the array will have three values - first one for data label (product)<br>
+  #and the next one store sales information<br>
+  #for current year and the last one stores sales information for previous year.<br>
+  #The sales data and product names for 6 products are thus, stored. <br>
+  #These values in the array will be used by the builder to build an appropriate xml, <br>
+  #which is then rendered by the corresponding view. </span><b><br>
+  </b>def multi_series<br>
+&nbsp;&nbsp;&nbsp;&nbsp;headers[&quot;content-type&quot;]=&quot;text/html&quot;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data = []<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product A','567500','547300']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product B','815300','584500']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product C','556800','75400']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product D','734500','456300']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product E','676800','754500']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@arr_data &lt;&lt; ['Product F','648500','437600']<br>
+  end<br>
+  <br>
+  <b>View:<br>
+  </b>&lt;%<br>
+  <span class="codeComment"># The following three variables are used in the &quot;common&quot; layout</span><br>
+  %&gt;<br>
+  &lt;% @page_title=&quot;FusionCharts Free - Array Example using Multi Series Column 3D Chart &quot; %&gt;<br>
+  &lt;% @page_heading=&quot;Examples&quot; %&gt;<br>
+  &lt;% @page_subheading=&quot;Plotting multi-series chart from data contained in Array.&quot; %&gt;<br>
+  &lt;%<br>
+  <span class="codeComment"># The xml is obtained as a string from builder template.</span><br>
+str_xml = render &quot;fusioncharts/array_example/ms_array_data&quot;,{:arr_data =&gt; @arr_data}<br>
+<span class="codeComment">#Create the chart - MS Column 3D Chart with data contained in str_xml</span><br>
+render_chart '/FusionCharts/FCF_MSColumn3D.swf', '', str_xml, 'productSales', 600, 300, false, false do-%&gt;<br>
+&lt;% end -%&gt;</p>    
+      <p class="text">Steps involved: </p>    <ol>
+    <li>The controller code is very simple. We store the sales of 6 products in an array. For each product we store the name, sales in the current year and previous year in another array and append this array into the outer array. </li>
+    <li>The view is  similar to the single_series view that we had seen previously. We render the xml using the builder file <span class="codeInline">ms_array_data.builder </span>and assign it to a variable <span class="codeInline">str_xml</span>. This xml is passed to <span class="codeInline">render_chart</span> as parameter.</li>
+    <li>The builder template contains the logic of creating the categories, dataset elements as described below.</li>
+    </ol>    <p class="codeBlock"><b>Builder: ms_array_data.builder<br>
+    </b><span class="codeComment">#Creates xml with values for sales data of products <br>
+    #for the current year and the previous year.<br>
+    #The values required for building the xml is obtained as parameter arr_data<br>
+    #It expects an array in which each element is <br>
+    #itself an array with first element as label, second element as current year sales value<br>
+    #and third element as previous year value</span><br>
+    xml = Builder::XmlMarkup.new<br>
+    xml.graph(:caption=&gt;'Sales by Product', :numberPrefix=&gt;'$', :formatNumberScale=&gt;'1', :rotateValues=&gt;'1', :placeValuesInside=&gt;'1',:decimalPrecision=&gt;'0') do<br>
+    <span class="codeComment"># Iterate through the array to create the &lt;category&gt; tags within &lt;categories&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;xml.categories do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for item in arr_data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml.category(:name=&gt;item[0]) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+<span class="codeComment"># Iterate through the array to create the &lt;set&gt; tags within dataset for series 'Current Year'</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;xml.dataset(:seriesName=&gt;'Current Year',:color=&gt;'AFD8F8') do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for item in arr_data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:value=&gt;item[1])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+<span class="codeComment"># Iterate through the array to create the &lt;set&gt; tags within dataset for series 'Previous Year'</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;xml.dataset(:seriesName=&gt;'Previous Year',:color=&gt;'F6BD0F') do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for item in arr_data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:value=&gt;item[2])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end</p>    
+    <p class="text">Now when you view the chart in the browser, you would see:</p>    <p class="text"><img src="Images/Code_ArrayMS.jpg" width="584" height="287" class="imageBorder"> </p>   
+	<p class="highlightBlock">In <span class="codeInline">Download Package > Code > RoR > SampleApp &gt; app > controllers &gt; fusioncharts > array_example_controller.rb</span>, 
+  we've more example codes to create Stacked and Combination Charts too, which have not been explained here, 
+  as they're similar in concept. You can directly see the code and get more insight into it. </p></td>
+  </tr>
+</table>
+</body>
+</html>

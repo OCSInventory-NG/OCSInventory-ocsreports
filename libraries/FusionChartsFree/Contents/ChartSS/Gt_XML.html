@@ -1,0 +1,955 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><!-- InstanceBegin template="/Templates/DocMain.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>FusionCharts</title>
+<!-- InstanceEndEditable --> 
+<link rel='stylesheet' href="Style.CSS">
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+</head>
+
+<body leftmargin="0" topmargin="0">
+<!-- InstanceBeginEditable name="MainTable" -->
+<table width="98%" border="0" align="right" cellpadding="2" cellspacing="1">
+  <tr> 
+    <td><span class="header">Gantt Chart &gt; XML Structure</span></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>In this section, we'll be discussing all the elements 
+        and attributes supported by the Gantt chart. A typical XML data document 
+        for the Gantt chart look as under: </p></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock">&lt;chart dateFormat='dd/mm/yyyy' showTaskNames='1' ganttWidthPercent='70' 
+      gridBorderAlpha='100' canvasBorderColor='333333' canvasBorderThickness='0' 
+      hoverCapBgColor='FFFFFF' hoverCapBorderColor='333333' extendcategoryBg='0' 
+      ganttLineColor='99cc00' ganttLineAlpha='20' baseFontColor='333333' gridBorderColor='99cc00'&gt;<br> 
+      <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;categories bgColor='333333' fontColor='99cc00' 
+      isBold='1' fontSize='14' &gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/9/2004' end='31/12/2004' name='2004' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/1/2005' end='31/7/2005' name='2005' /&gt; <br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;/categories&gt;<br> 
+      <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;categories bgColor='99cc00' bgAlpha='40' fontColor='333333' 
+      align='center' fontSize='10' isBold='1'&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/9/2004' end='30/9/2004' name='Sep' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/10/2004' end='31/10/2004' name='Oct' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/11/2004' end='30/11/2004' name='Nov' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/12/2004' end='31/12/2004' name='Dec' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/1/2005' end='31/1/2005' name='Jan' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/2/2005' end='28/2/2005' name='Feb' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/3/2005' end='31/3/2005' name='March' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/4/2005' end='30/4/2005' name='Apr' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/5/2005' end='31/5/2005' name='May' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/6/2005' end='30/6/2005' name='June' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/7/2005' end='31/7/2005' name='July' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;/categories&gt;<br> 
+      <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;processes positionInGrid='right' align='center' 
+      headerText='Leader' fontColor='333333' fontSize='11' isBold='1' isAnimated='1' 
+      bgColor='99cc00' headerbgColor='333333' headerFontColor='99cc00' headerFontSize='16' 
+      bgAlpha='40'&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;process 
+      Name='Ashok' id='1' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;process 
+      Name='Pallav' id='2' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;process 
+      Name='Akhil' id='3' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;process 
+      Name='Sanket' id='4' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;process 
+      Name='Srishti' id='5' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;process 
+      Name='Kisor' id='6' /&gt;<br> &lt;/processes&gt;<br> <br>      &nbsp;&nbsp;&nbsp;&nbsp;&lt;dataTable 
+      fontColor='333333' fontSize='11' isBold='1' headerFontColor='000000' headerFontSize='11' 
+      &gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dataColumn 
+      headerbgColor='333333' width='150' headerfontSize='16' headerAlign='left' 
+      headerfontcolor='99cc00' bgColor='99cc00' headerText=' Team' align='left' 
+      bgAlpha='65'&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' MANAGEMENT' /&gt; <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' PRODUCT MANAGER' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' CORE DEVELOPMENT' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' Q &amp;amp; A / DOC.' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' WEB TEAM' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' MANAGEMENT' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataColumn&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataTable&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;<br>      
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tasks&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task name='Survey' hoverText='Market 
+      Survey' processId='1' start='7/9/2004' end='10/10/2004' id='Srvy' color='99cc00' 
+      alpha='60' topPadding='19' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Concept' hoverText= 'Develop Concept for Product' processId='1' start='25/10/2004' 
+      end='9/11/2004' id='Cpt1' color='99cc00' alpha='60' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Concept' showName='0' hoverText= 'Develop Concept for Product' processId='2' 
+      start='25/10/2004' end='9/11/2004' id='Cpt2' color='99cc00' alpha='60' /&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task name='Design' hoverText= 
+      'Preliminary Design' processId='2' start='12/11/2004' end='25/11/2004' id='Desn' 
+      color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Product Development' processId='2' start='6/12/2004' end='2/3/2005' 
+      id='PD1' color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Product Development' processId='3' start='6/12/2004' end='2/3/2005' 
+      id='PD2' color='99cc00' alpha='60' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Doc Outline' hoverText='Documentation Outline' processId='2' start='6/4/2005' 
+      end='1/5/2005' id='DocOut' color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Alpha' hoverText='Alpha Release' processId='4' start='15/3/2005' end='2/4/2005' 
+      id='alpha' color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      &lt;task name='Beta' hoverText='Beta Release' processId='3' start='10/5/2005' 
+      end='2/6/2005' id='Beta' color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Doc.' hoverText='Documentation' processId='4' start='12/5/2005' end='29/5/2005' 
+      id='Doc' color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Website Design' hoverText='Website Design' processId='5' start='18/5/2005' 
+      end='22/6/2005' id='Web' color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Release' hoverText='Product Release' processId='6' start='5/7/2005' 
+      end='29/7/2005' id='Rls' color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='Dvlp' hoverText='Development on Beta Feedback' processId='3' start='10/6/2005' 
+      end='1/7/2005' id='Dvlp' color='99cc00' alpha='60'/&gt; <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='QA' hoverText='QA Testing' processId='4' start='9/4/2005' end='22/4/2005' 
+      id='QA1' color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task 
+      name='QA2' hoverText='QA Testing-Phase 2' processId='4' start='25/6/2005' 
+      end='5/7/2005' id='QA2' color='99cc00' alpha='60'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;/tasks&gt;<br> 
+      <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;connectors&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector 
+      fromTaskId='Cpt1' toTaskId='Cpt2' color='99cc00' thickness='2' fromTaskConnectStart='1'/&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector fromTaskId='PD1' 
+      toTaskId='PD2' color='99cc00' thickness='2' fromTaskConnectStart='1'/&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector fromTaskId='PD1' 
+      toTaskId='alpha' color='99cc00' thickness='2' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector 
+      fromTaskId='PD2' toTaskId='alpha' color='99cc00' thickness='2' /&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector fromTaskId='DocOut' 
+      toTaskId='Doc' color='99cc00' thickness='2' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector 
+      fromTaskId='QA1' toTaskId='beta' color='99cc00' thickness='2' /&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector fromTaskId='Dvlp' 
+      toTaskId='QA2' color='99cc00' thickness='2' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector 
+      fromTaskId='QA2' toTaskId='Rls' color='99cc00' thickness='2' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp; 
+      &lt;/connectors&gt;<br> <br>      &nbsp;&nbsp;&nbsp;&nbsp;&lt;milestones&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;milestone 
+      date='29/7/2005' taskId='Rls' radius='10' color='333333' shape='Star' numSides='5' 
+      borderThickness='1'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;milestone 
+      date='2/3/2005' taskId='PD1' radius='10' color='333333' shape='Star' numSides='5' 
+      borderThickness='1' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;milestone 
+      date='2/3/2005' taskId='PD2' radius='10' color='333333' shape='Star' numSides='5' 
+      borderThickness='1'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;/milestones&gt; 
+    <br> <br>    &lt;/chart&gt;</td>
+  </tr>
+  <tr> 
+    <td class="text">This XML leads to a chart as under:</td>
+  </tr>
+  <tr> 
+    <td class="text"><img src="Images/Gantt_Output.gif" width="500" height="270"></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>Like all other FusionCharts chart, the Gantt charts' XML 
+        document too has <span class="codeInline">&lt;chart&gt;</span> as it's document 
+        element. By specifying attributes of this element, you can set the cosmetic 
+        and functional properties of the chart. </p>
+      <p>Let's first see the attributes supported by the <span class="codeInline">&lt;chart&gt;</span> 
+        element:</p></td>
+  </tr>
+  <tr>
+    <td class="trGreyBg header">&lt;chart&gt; element </td>
+  </tr>
+  <tr> 
+    <td class="text"><p><strong>Background Properties</strong></p>
+      <ul>
+        <li><span class="codeInline">bgColor='HexColorCode'</span>: This 
+          attribute sets the background color for the chart. You can set any hex 
+          color code as the value of this attribute. Remember that you DO NOT 
+          need to assign a &quot;#&quot; at the beginning of the hex color code. 
+          In fact, whenever you need to provide any hex color code in FusionCharts 
+          XML data document, you do not have to assign the # at the beginning. 
+          <br>
+          Default value: FFFFFF <br>
+        </li>
+        <li><span class="codeInline"> bgAlpha='NumericalValue(0-100)'</span>: This attribute helps you set the alpha (transparency) of the 
+          graph. This is particularly useful when you need to load the chart in 
+          one of your Flash movies or when you want to set a background image 
+          (.swf) for the chart. <br>
+          Default value: 100<br>
+        </li>
+        <li><span class="codeInline">bgSWF='Path of SWF File'</span>: 
+          This attribute helps you load an external .swf file as a background 
+          for the chart. For more information on this, please see <span class="codetext"><a href="../Adv_BgSWF.html">Advanced 
+          Charting &gt; Setting background SWFs</a></span>. </li>
+      </ul>
+      <p><strong><span class="text">Canvas Properties</span></strong></p>
+      <ul>
+        <li> <span class="codeInline">canvasBgColor='HexColorCode'</span>: 
+          This attribute helps you set the background color of the canvas. </li>
+        <li><span class="codeInline"> canvasBgAlpha='NumericalValue(0-100)'</span>: This attribute helps you set the alpha (transparency) of the 
+          canvas. </li>
+        <li> <span class="codeInline">canvasBorderColor='HexColorCode'</span>: This attribute helps you set the border color of the canvas. </li>
+        <li> <span class="codeInline">canvasBorderThickness='NumericalValue(0-100)'</span>: This attribute helps you set the border thickness (in pixels) of the 
+          canvas. </li>
+      </ul>
+      <p><strong>General Properties</strong></p>
+      <ul>
+        <li><span class="codeInline">dateFormat='mm/dd/yyyy or dd/mm/yyyy or yyyy/mm/dd'</span>: 
+          This is the most important attribute, which you'll need to specify for 
+          all the Gantt charts that you build. With the help of this attribute, 
+          you're basically specifying the format in which you'll be providing 
+          your dates to FusionCharts in XML format.</li>
+        <li><span class="codeInline">animation='1/0'</span>: This attribute sets 
+          whether the Gantt task bars need to be animated or not.</li>
+        <li><span class="codeInline">showTaskStartDate='1/0'</span>: This attribute 
+          sets whether the start date of each task will be shown on the left of 
+          the task bar.</li>
+        <li> <span class="codeInline">showTaskEndDate='1/0'</span>: This attribute 
+          sets whether the end date of each task will be shown on the right of 
+          the task bar.</li>
+        <li> <span class="codeInline">showTaskNames='1/0'</span>: This attribute 
+          sets whether the name of each task will be shown over the task bar.</li>
+        <li> <span class="codeInline">taskDatePadding='1/0'</span>: If you opt to 
+          show the task start or end date, this attribute helps you configure 
+          the distance between the date textbox and the task bar.</li>
+        <li><span class="codeInline">extendCategoryBg='1/0'</span>: This attribute 
+          lets you set whether the background for the last sub-category (date 
+          range on the top of chart) will extend till the bottom of the chart.</li>
+      </ul>
+      <p><strong>Gantt General Properties</strong></p>
+      <ul>
+        <li><span class="codeInline">ganttWidthPercent='Number between 0-100'</span>: 
+          The Gantt chart consists of two parts - the Gantt chart and the data 
+          table (including process names). This attribute lets you set the width 
+          of the gantt part, in percentage, with respect to the whole chart.</li>
+        <li><span class="codeInline">ganttLineColor='Hex Color'</span>: Using this 
+          attribute, you can set the color of the lines running through the Gantt 
+          chart as background.</li>
+        <li><span class="codeInline">ganttLineThickness='Numerical Value'</span>: 
+          Using this attribute, you can set the thickness of the lines running 
+          through the Gantt chart as background.</li>
+        <li><span class="codeInline">ganttLineAlpha='Numerical Value 0-100'</span>: 
+          Using this attribute, you can set the alpha (transparency) of the lines 
+          running through the Gantt chart as background.</li>
+      </ul>
+      <p><strong>Data Table Properties</strong></p>
+      <ul>
+        <li><span class="codeInline">gridBorderColor='Hex Color'</span>: This attribute 
+          sets the color of the border of data table (which shows the process 
+          names and additional information).</li>
+        <li><span class="codeInline">gridBorderAlpha='Numerical Value 0-100'</span>: 
+          This attribute sets the alpha of the border of data table (which shows 
+          the process names and additional information).</li>
+        <li><span class="codeInline">gridResizeBarColor='Hex Color'</span>: If you 
+          show two columns of information in the data table, you'll find that 
+          the data table is draggable i.e., you can resize each of the columns 
+          using a resize bar. This attribute helps you set the color of that resize 
+          bar.</li>
+        <li><span class="codeInline">gridResizeBarThickness='Numeric Value'</span>: 
+          This attribute helps you set the thickness of the resize bar.</li>
+        <li><span class="codeInline">gridResizeBarAlpha='Numeric Value 0-100'</span>: 
+          This attribute helps you set the alpha of the resize bar.</li>
+      </ul>
+      <p><strong>Font Properties</strong></p>
+      <ul>
+        <li><span class="codeInline">baseFont='FontName'</span>: This 
+          attribute sets the base font family of the chart font which lies on 
+          the canvas i.e., all the values and the names in the chart which lie 
+          on the canvas will be displayed using the font name provided here.</li>
+        <li><span class="codeInline"> baseFontSize='FontSize'</span>: 
+          This attribute sets the base font size of the chart i.e., all the values 
+          and the names in the chart which lie on the canvas will be displayed 
+          using the font size provided here. </li>
+        <li><span class="codeInline"> baseFontColor='HexColorCode'</span>: 
+          This attribute sets the base font color of the chart i.e., all the values 
+          and the names in the chart which lie on the canvas will be displayed 
+          using the font color provided here. </li>
+      </ul>
+      <p><strong>Hover Caption Properties</strong></p>
+      <p>The hover caption is the tool tip which shows up when the user moves 
+        his mouse over a particular data item (column, line, pie, bar etc.).</p>
+      <ul>
+        <li><span class="codeInline">showhovercap='1/0'</span>: Option 
+          whether to show/hide hover caption box. </li>
+        <li><span class="codeInline"> hoverCapBgColor='HexColorCode'</span>: Background color of the hover caption box.</li>
+        <li><span class="codeInline"> hoverCapBorderColor='HexColorCode'</span>: Border color of the hover caption box.</li>
+        <li> <span class="codeInline">hoverCapSepChar='Char'</span>: 
+          The character specified as the value of this attribute separates the 
+          name and value displayed in the hover caption box. </li>
+      </ul>
+      <p>Now that we're done with <span class="codeInline">&lt;chart&gt;</span> element, let's shift to <span class="codeInline">&lt;categories&gt;</span> 
+        element.</p></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="trGreyBg header">&lt;categories&gt; element</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>Each <span class="codeInline">&lt;categories&gt;</span> 
+        element helps you define a date range on the top of the chart. Like, in 
+        our above chart, we had two rows of date range - the first row showed 
+        the years 2004 and 2005, and the second row showed the month wise breakdown 
+        of each year.</p>
+      <p>It is compulsory to have atleast one <span class="codeInline">&lt;categories&gt;</span> 
+        element on the chart, as that defines the starting and ending date of 
+        the chart. The value which you put as <span class="codeInline">startDate</span> 
+        and <span class="codeInline">endDate</span> under the first <span class="codeInline">&lt;categories&gt;</span> 
+        element is deemed to be the date span of the chart. The <span class="codeInline">&lt;categories&gt;</span> 
+        element can have the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">bgColor='Hex Color'</span>: Defines the background 
+          color for the same.</li>
+        <li><span class="codeInline">bgAlpha='Numeric Value 0-100'</span>: Define 
+          the background transparency level for the same.</li>
+        <li><span class="codeInline">font='Font Face'</span>: Defines the font face 
+          in which text will be rendered.</li>
+        <li> <span class="codeInline">fontSize='Numeric Value'</span>: Defines the 
+          font size in which text will be rendered.</li>
+        <li> <span class="codeInline">fontColor='Hex Color'</span>: Defines the 
+          color in which text will be rendered.</li>
+        <li> <span class="codeInline">isBold='1/0'</span>: Sets whether the text 
+          will be shown as bold or not.</li>
+        <li> <span class="codeInline">isUnderLine='1/0'</span>: Sets whether the 
+          text will be shown as underline.</li>
+        <li> <span class="codeInline">verticalPadding='Numeric Value'</span>: Specifies 
+          the top margin. </li>
+        <li><span class="codeInline">align='left/center/right'</span>: Specifies 
+          the horizontal alignment of text.</li>
+        <li> <span class="codeInline">vAlign='left/center/right'</span>: Specifies 
+          the vertical alignment of text.</li>
+      </ul>
+      <p>Basically, you specify the attributes of <span class="codeInline">&lt;categories&gt;</span> element, 
+        so that all the<span class="codeInline"> &lt;category&gt;</span> element 
+        within that particular <span class="codeInline">&lt;categories&gt;</span> 
+        element can acquire these values, if not individually specified for each 
+        of them. For example, you can set the font properties for an entire date 
+        range (vertical row of date). Then, you would not have to define the font 
+        property for each part of date (like for each month). It will automatically 
+        take the values assigned for that <span class="codeInline">&lt;categories&gt;</span>.</p>
+      <p>Let's now see the actual elements which help us set the date ranges - 
+        <span class="codeInline">&lt;category&gt;</span> element. </p></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="trGreyBg header">&lt;category&gt; element</td>
+  </tr>
+  <tr> 
+    <td class="text">The <span class="codeInline">&lt;category&gt;</span> element 
+      appear as children of <span class="codetext">&lt;categories&gt;</span> element 
+      as under:</td>
+  </tr>
+  <tr> 
+    <td class="codeBlock">&lt;categories bgColor='333333' fontColor='99cc00' isBold='1' 
+      fontSize='14' &gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/9/2004' end='31/12/2004' name='2004' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/1/2005' end='31/7/2005' name='2005' /&gt; <br>
+      &lt;/categories&gt;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>In the above example, considering it as the first <span class="codeInline">&lt;categories&gt;</span> 
+        element of the chart, we've defined the chart's date range from 1/9/2004 
+        to 31/7/2005 (dates in dd/mm/yyyy format). To do so, we've used two <span class="codeInline">&lt;category&gt;</span> 
+        elements and specified their individual date range and the name to be 
+        displayed on the top of the chart. </p>
+      <p>Similarly, if we wanted to show more detailed break-up of dates, we would 
+        introduce a new <span class="codeInline">&lt;categories&gt;</span> element 
+        with it's children as under:</p></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock">&nbsp;&lt;categories bgColor='99cc00' bgAlpha='40' fontColor='333333' 
+      align='center' fontSize='10' isBold='1'&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/9/2004' end='30/9/2004' name='Sep' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/10/2004' end='31/10/2004' name='Oct' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/11/2004' end='30/11/2004' name='Nov' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/12/2004' end='31/12/2004' name='Dec' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/1/2005' end='31/1/2005' name='Jan' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/2/2005' end='28/2/2005' name='Feb' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/3/2005' end='31/3/2005' name='March' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/4/2005' end='30/4/2005' name='Apr' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/5/2005' end='31/5/2005' name='May' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/6/2005' end='30/6/2005' name='June' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      start='1/7/2005' end='31/7/2005' name='July' /&gt;<br> 
+      &nbsp;&lt;/categories&gt;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>As you can see in the code above, we're breaking down 
+        the dates into smaller values for display on the chart.</p>
+      <p>Let's quickly skim through the attributes of the <span class="codetext">&lt;category&gt;</span> 
+        element:</p>
+      <ul>
+        <li><span class="codeInline">start='Date'</span>: Specifies the start date 
+          of that date range.</li>
+        <li><span class="codeInline">end='Date'</span>: Specified the end date of 
+          the date range.</li>
+        <li><span class="codeInline">name='String Name'</span>: Specifies the name 
+          of the date range, that actually appears on the chart.</li>
+        <li> <span class="codeInline">link='URL Encoded link'</span>: If you want 
+          the date range name on the chart to behave as a hyperlink, you can specify 
+          the URL Encoded link here.</li>
+        <li><span class="codeInline">bgColor='Hex Color</span><span class="codetext">'</span>: Defines the background 
+          color for the same.</li>
+        <li><span class="codeInline">bgAlpha='Numeric Value 0-100'</span>: Define 
+          the background transparency level for the same.</li>
+        <li><span class="codeInline">font='Font Face'</span>: Defines the font face 
+          in which text will be rendered.</li>
+        <li> <span class="codeInline">fontSize='Numeric Value'</span>: Defines the 
+          font size in which text will be rendered.</li>
+        <li> <span class="codeInline">fontColor='Hex Color'</span>: Defines the 
+          color in which text will be rendered.</li>
+        <li> <span class="codeInline">isBold='1/0'</span>: Sets whether the text 
+          will be shown as bold or not.</li>
+        <li> <span class="codeInline">isUnderLine='1/0'</span>: Sets whether the 
+          text will be shown as underline.</li>
+        <li> <span class="codeInline">verticalPadding='Numeric Value'</span>: Specifies 
+          the top margin. </li>
+        <li><span class="codeInline">align='left/center/right'</span>: Specifies 
+          the horizontal alignment of text.</li>
+        <li> <span class="codeInline">vAlign='left/center/right'</span>: Specifies 
+          the vertical alignment of text.</li>
+      </ul>
+      <p>Let's now move to <span class="codeInline">&lt;processes&gt;</span> element, which help us define the 
+        processes on the chart.</p></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="trGreyBg header">&lt;processes&gt; element</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>The <span class="codeInline">&lt;processes&gt;</span> element 
+        and its children help us define the list of processes on the chart. Each 
+        Gantt chart depicts a list of processes - you can specify all of them 
+        and configure their visual properties using this element and its attributes. 
+        The following attributes are supported by the <span class="codeInline">&lt;processes&gt;</span> 
+        element:</p>
+      <ul>
+        <li><span class="codeInline">headerText='String'</span><span class="codetext">:</span> This attribute 
+          helps you set the caption for the processes, that would appear in the 
+          1st row of data table. For instance, in our chart, we've the header 
+          of processes set as &quot;Leader&quot;.</li>
+        <li><span class="codeInline">bgColor='Hex Color'</span>: Defines the background 
+          color for the same.</li>
+        <li><span class="codeInline">bgAlpha='Numeric Value 0-100'</span>: Define 
+          the background transparency level for the same.</li>
+        <li><span class="codeInline">font='Font Face'</span>: Defines the font face 
+          in which text will be rendered.</li>
+        <li> <span class="codeInline">fontSize='Numeric Value'</span>: Defines the 
+          font size in which text will be rendered.</li>
+        <li> <span class="codeInline">fontColor='Hex Color'</span>: Defines the 
+          color in which text will be rendered.</li>
+        <li> <span class="codeInline">isBold='1/0'</span>: Sets whether the text 
+          will be shown as bold or not.</li>
+        <li> <span class="codeInline">isUnderLine='1/0'</span>: Sets whether the 
+          text will be shown as underline.</li>
+        <li> <span class="codeInline">verticalPadding='Numeric Value'</span>: Specifies 
+          the top margin. </li>
+        <li><span class="codeInline">align='left/center/right'</span>: Specifies 
+          the horizontal alignment of text.</li>
+        <li> <span class="codeInline">vAlign='left/center/right'</span>: Specifies 
+          the vertical alignment of text.</li>
+        <li><span class="codeInline">headerFont='Font'</span>: Defines the font 
+          for the header.</li>
+        <li> <span class="codeInline">headerFontSize='Size'</span>: Defines the 
+          font size for the header.</li>
+        <li> <span class="codeInline">headerFontColor='Color'</span>: Defines the 
+          font color for the header.</li>
+        <li> <span class="codeInline">headerIsBold='1/0'</span>: Sets whether the 
+          header is bold or not.</li>
+        <li> <span class="codeInline">headerIsUnderline='1/0'</span>: Sets whether 
+          the header will appear with an underline.</li>
+        <li> <span class="codeInline">headerAlign='left/center/right'</span>: Sets 
+          the horizontal align position of the header.</li>
+        <li> <span class="codeInline">headerVAlign='left/center/right'</span>: Sets 
+          the vertical align position of the header.</li>
+        <li> <span class="codeInline">headerBgColor='Color'</span>: Sets the background 
+          color of header cell.</li>
+        <li> <span class="codeInline">headerBgAlpha='Numeric Value'</span>: Sets 
+          the background alpha of header cell. </li>
+        <li><span class="codeInline">width='Number'</span>: This is an optional 
+          value, using which you can set the exact width (in pixels) of the processes 
+          column in the data table.</li>
+        <li><span class="codeInline">positionInGrid='Left/Right'</span>: This option 
+          lets you set whether the process column will appear as the right most 
+          column of the data table or left most.</li>
+      </ul>
+      <p>Like <span class="codeInline">&lt;categories&gt;</span>, the motive behind 
+        specifying attributes for <span class="codetext">&lt;processes&gt; </span>element 
+        is to convey these properties to all the <span class="codeInline">&lt;process&gt;</span> element contained 
+        within this element.</p></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="trGreyBg header">&lt;process&gt; element</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>The <span class="codeInline">&lt;process&gt;</span> element 
+        can have the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">name='Display Name'</span>: This attribute 
+          sets the name of the process, which will be displayed on the chart.</li>
+        <li><span class="codeInline">id='Alphanumeric Id'</span>: Each process needs 
+          to have an ID specified by you. Based on this id, the tasks related 
+          to this process will be plotted against it.</li>
+        <li><span class="codeInline">link='URL Encoded link'</span>: If you wish 
+          to hyperlink each process name on the chart, you can use this attribute 
+          to specify the link for each process name.</li>
+        <li><span class="codeInline">font='Font Face'</span>: Defines the font face 
+          in which text will be rendered.</li>
+        <li> <span class="codeInline">fontSize='Numeric Value'</span>: Defines the 
+          font size in which text will be rendered.</li>
+        <li> <span class="codeInline">fontColor='Hex Color'</span>: Defines the 
+          color in which text will be rendered.</li>
+        <li> <span class="codeInline">isBold='1/0'</span>: Sets whether the text 
+          will be shown as bold or not.</li>
+        <li> <span class="codeInline">isUnderLine='1/0'</span>: Sets whether the 
+          text will be shown as underline.</li>
+        <li> <span class="codeInline">verticalPadding='Numeric Value'</span>: Specifies 
+          the top margin. </li>
+        <li><span class="codeInline">align='left/center/right'</span>: Specifies 
+          the horizontal alignment of text.</li>
+        <li> <span class="codeInline">vAlign='left/center/right'</span>: Specifies 
+          the vertical alignment of text.</li>
+      </ul>
+      <p>With this much in place, let's now see how we can specify more information 
+        alongside the process names, in the form of a data table.</p></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="trGreyBg header">Data Table</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>Each Gantt chart can have one data table, which can show 
+        tabular information along side the process names. The table will have 
+        as many rows as the number of processes that you've specified in the XML. 
+        The number of columns of this table can be defined by you. </p>
+      <p>To create a data table, you use the <span class="codeInline">&lt;dataTable&gt;</span> 
+        element as under:</p></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock">&nbsp;&lt;dataTable fontColor='333333' fontSize='11' isBold='1' 
+      headerFontColor='000000' headerFontSize='11' &gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>This element can have the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">bgColor='Hex Color'</span>: Defines the background 
+          color for the same.</li>
+        <li><span class="codeInline">bgAlpha='Numeric Value 0-100'</span>: Define 
+          the background transparency level for the same.</li>
+        <li><span class="codeInline">font='Font Face'</span>: Defines the font face 
+          in which text will be rendered.</li>
+        <li> <span class="codeInline">fontSize='Numeric Value'</span>: Defines the 
+          font size in which text will be rendered.</li>
+        <li> <span class="codeInline">fontColor='Hex Color'</span>: Defines the 
+          color in which text will be rendered.</li>
+        <li> <span class="codeInline">isBold='1/0'</span>: Sets whether the text 
+          will be shown as bold or not.</li>
+        <li> <span class="codeInline">isUnderLine='1/0'</span>: Sets whether the 
+          text will be shown as underline.</li>
+        <li> <span class="codeInline">verticalPadding='Numeric Value'</span>: Specifies 
+          the top margin. </li>
+        <li><span class="codeInline">align='left/center/right'</span>: Specifies 
+          the horizontal alignment of text.</li>
+        <li> <span class="codeInline">vAlign='left/center/right'</span>: Specifies 
+          the vertical alignment of text.</li>
+        <li><span class="codeInline">headerFont='Font'</span>: Defines the font 
+          for the header.</li>
+        <li> <span class="codeInline">headerFontSize='Size'</span>: Defines the 
+          font size for the header.</li>
+        <li> <span class="codeInline">headerFontColor='Color'</span>: Defines the 
+          font color for the header.</li>
+        <li> <span class="codeInline">headerIsBold='1/0'</span>: Sets whether the 
+          header is bold or not.</li>
+        <li> <span class="codeInline">headerIsUnderline='1/0'</span>: Sets whether 
+          the header will appear with an underline.</li>
+        <li> <span class="codeInline">headerAlign='left/center/right'</span>: Sets 
+          the horizontal align position of the header.</li>
+        <li> <span class="codeInline">headerVAlign='left/center/right'</span>: Sets 
+          the vertical align position of the header.</li>
+        <li> <span class="codeInline">headerBgColor='Color'</span>: Sets the background 
+          color of header cell.</li>
+        <li> <span class="codeInline">headerBgAlpha='Numeric Value'</span>: Sets 
+          the background alpha of header cell. </li>
+      </ul>
+      <p>To define a column inside this data table, we use the <span class="codeInline">&lt;datacolumn&gt;</span> 
+        element as under:</p></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock">&nbsp;&lt;dataColumn headerbgColor='333333' width='150' headerfontSize='16' 
+      headerAlign='left' headerfontcolor='99cc00' bgColor='99cc00' headerText=' 
+      Team' align='left' bgAlpha='65'&gt;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>The <span class="codeInline">&lt;dataColumn&gt;</span> element 
+        can have the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">width='Numerical Value'</span>: This is an 
+          optional attribute which lets you specify the width for a particular 
+          data column, in pixels. However, if you don't specify this, FusionCharts 
+          will automatically set it to the best value.</li>
+        <li><span class="codeInline">bgColor='Hex Color'</span>: Defines the background 
+          color for the same.</li>
+        <li><span class="codeInline">bgAlpha='Numeric Value 0-100'</span>: Define 
+          the background transparency level for the same.</li>
+        <li><span class="codeInline">font='Font Face'</span>: Defines the font face 
+          in which text will be rendered.</li>
+        <li> <span class="codeInline">fontSize='Numeric Value'</span>: Defines the 
+          font size in which text will be rendered.</li>
+        <li> <span class="codeInline">fontColor='Hex Color'</span>: Defines the 
+          color in which text will be rendered.</li>
+        <li> <span class="codeInline">isBold='1/0'</span>: Sets whether the text 
+          will be shown as bold or not.</li>
+        <li> <span class="codeInline">isUnderLine='1/0'</span>: Sets whether the 
+          text will be shown as underline.</li>
+        <li> <span class="codeInline">verticalPadding='Numeric Value'</span>: Specifies 
+          the top margin. </li>
+        <li><span class="codeInline">align='left/center/right'</span>: Specifies 
+          the horizontal alignment of text.</li>
+        <li> <span class="codeInline">vAlign='left/center/right'</span>: Specifies 
+          the vertical alignment of text.</li>
+        <li><span class="codeInline">headerText='Label'</span>: This attribute sets 
+          the display label of the header for that column.</li>
+        <li><span class="codeInline">headerLink='URL Encoded Link'</span>: If you 
+          need to specify a link for the header, you can use this attribute to 
+          specify. </li>
+        <li><span class="codeInline">headerFont='Font'</span>: Defines the font 
+          for the header.</li>
+        <li> <span class="codeInline">headerFontSize='Size'</span>: Defines the 
+          font size for the header.</li>
+        <li> <span class="codeInline">headerFontColor='Color'</span>: Defines the 
+          font color for the header.</li>
+        <li> <span class="codeInline">headerIsBold='1/0'</span>: Sets whether the 
+          header is bold or not.</li>
+        <li> <span class="codeInline">headerIsUnderline='1/0'</span>: Sets whether 
+          the header will appear with an underline.</li>
+        <li> <span class="codeInline">headerAlign='left/center/right'</span>: Sets 
+          the horizontal align position of the header.</li>
+        <li> <span class="codeInline">headerVAlign='left/center/right'</span>: Sets 
+          the vertical align position of the header.</li>
+        <li> <span class="codeInline">headerBgColor='Color'</span>: Sets the background 
+          color of header cell.</li>
+        <li> <span class="codeInline">headerBgAlpha='Numeric Value'</span>: Sets 
+          the background alpha of header cell. </li>
+      </ul>
+      <p>Now, inside each data column, to represent a row of text, you use the 
+        <span class="codeInline">&lt;text&gt;</span> element as under:</p></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock">&lt;dataTable fontColor='333333' fontSize='11' isBold='1' 
+      headerFontColor='000000' headerFontSize='11' &gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dataColumn 
+      headerbgColor='333333' width='150' headerfontSize='16' headerAlign='left' 
+      &gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' MANAGEMENT' /&gt; <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' PRODUCT MANAGER' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' CORE DEVELOPMENT' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' Q &amp;amp; A / DOC.' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' WEB TEAM' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;text 
+      label=' MANAGEMENT' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataColumn&gt;<br>
+      &lt;/dataTable&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>The <span class="codeInline">&lt;text&gt;</span> 
+        element can have the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">label='URL Encoded String label'</span>: This attribute sets the value that 
+          would be displayed in the chart, as the contents of that specific cell.</li>
+        <li><span class="codeInline">link='URL Encoded link'</span>: If you need to hyperlink the content of the 
+          cell, you can use this attribute to specify the link.</li>
+        <li><span class="codeInline">bgColor='Hex Color'</span>: Defines the background 
+          color for the same.</li>
+        <li><span class="codeInline">bgAlpha='Numeric Value 0-100'</span>: Define 
+          the background transparency level for the same.</li>
+        <li><span class="codeInline">font='Font Face'</span>: Defines the font face 
+          in which text will be rendered.</li>
+        <li> <span class="codeInline">fontSize='Numeric Value'</span>: Defines the 
+          font size in which text will be rendered.</li>
+        <li> <span class="codeInline">fontColor='Hex Color'</span>: Defines the 
+          color in which text will be rendered.</li>
+        <li> <span class="codeInline">isBold='1/0'</span>: Sets whether the text 
+          will be shown as bold or not.</li>
+        <li> <span class="codeInline">isUnderLine='1/0'</span>: Sets whether the 
+          text will be shown as underline.</li>
+        <li><span class="codeInline">align='left/center/right'</span>: Specifies 
+          the horizontal alignment of text.</li>
+        <li> <span class="codeInline">vAlign='left/center/right'</span>: Specifies 
+          the vertical alignment of text.</li>
+      </ul>
+      <p>Now that we're done with data table too, we next move on to specify the 
+        main portion of the data - the data related to task bars.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="trGreyBg header">&lt;tasks&gt; element </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>The <span class="codeInline">&lt;tasks&gt;</span> element is used to group 
+        all the tasks that are to be depicted on the chart. This element can have 
+        the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">font='Font Face'</span>: Defines the font face 
+          in which text will be rendered.</li>
+        <li> <span class="codeInline">fontSize='Numeric Value'</span>: Defines the 
+          font size in which text will be rendered.</li>
+        <li> <span class="codeInline">fontColor='Hex Color'</span>: Defines the 
+          color in which text will be rendered.</li>
+        <li> <span class="codeInline">color='Hex Color'</span><span class="codetext">:</span><span class="text"> 
+          This attribute helps you define the background color for the task bar. 
+          If you need to show a gradiented background, just specify the list of 
+          colors here using a comma.</span></li>
+        <li> <span class="codeInline">alpha='Numeric Value'</span>: This attribute 
+          helps you specify the transparency of the task bar.</li>
+        <li><span class="codeInline">showBorder='1/0'</span>: This attribute lets 
+          you specify whether a border would appear around the task bar.</li>
+        <li> <span class="codeInline">borderColor='Hex Color'</span>: Color of the 
+          task bar border.</li>
+        <li> <span class="codeInline">borderThickness='Numeric Value'</span>: Thickness 
+          of the task bar border.</li>
+        <li><span class="codeInline">showTaskNames='1/0'</span>: Configuration whether 
+          to show the names of the tasks over the task bars.</li>
+        <li> <span class="codeInline">showTaskStartDate='1/0'</span>: Configuration 
+          whether to show the start dates of the tasks on the left of task bars.</li>
+        <li> <span class="codeInline">showTaskEndDate='1/0'</span>: Configuration 
+          whether to show the end dates of the tasks on the right side of the 
+          task bars.</li>
+      </ul>
+      <p>Now, to define each individual task, you need to create a <span class="codeInline">&lt;task&gt;</span> 
+        element for each task, as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p class="codeBlock">&nbsp;&lt;tasks&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task name='Survey' 
+        hoverText='Market Survey' processId='1' start='7/9/2004' end='10/10/2004' 
+        id='Srvy' color='99cc00' alpha='60' topPadding='19' /&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;task name='Concept' 
+        hoverText= 'Develop Concept for Product' processId='1' start='25/10/2004' 
+        end='9/11/2004' id='Cpt1' color='99cc00' alpha='60' /&gt;<br>
+        .... More tasks .... <br>
+        &nbsp;&lt;/tasks&gt; </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>The <span class="codeInline">&lt;task&gt;</span> element can have the following attributes:</p>
+      <ul>
+        <li> 
+          <span class="codeInline">start='Date'</span>: This attribute sets the start date for this particular 
+            task. This attribute is compulsory.        </li>
+        <li>
+          <span class="codeInline">end='Date'</span>: This attribute sets the end date for this particular 
+            task. This attribute is compulsory.        </li>
+        <li> 
+          <span class="codeInline">processId='Process Id'</span>: Each task needs 
+            to belong a process, as we had earlier indicated. For this attribute, 
+            you need to specify the process id, against which you want to plot 
+            this task. Process id was earlier assigned by you in the <span class="codetext">&lt;process&gt;</span> 
+            element. You need to duplicate that same id here.        </li>
+        <li> 
+         <span class="codeInline">Id='Alphanumeric Value'</span>: Each task 
+            needs to have a id, so that it can be easily referenced back in XML. 
+            You can set the id of the task using this attribute.        </li>
+        <li><span class="codeInline">name='String Name'</span>: This attributes 
+          sets the name of the task, which will be displayed on the chart.</li>
+        <li><span class="codeInline">hoverText='hover caption text'</span>: If you 
+          want to display more information as the tool tip of this task bar, you 
+          can specify that hover text here.</li>
+        <li><span class="codeInline">link='URL Encoded link'</span>: If you intend 
+          to provide a hyper link for the task bar, you can set the link in this 
+          attribute.</li>
+        <li><span class="codeInline">animation='1/0'</span>: This attribute lets 
+          you set whether this particular task bar would animate or not.</li>
+        <li><span class="codeInline">font='Font Face'</span>: Defines the font face 
+          in which text will be rendered.</li>
+        <li> <span class="codeInline">fontSize='Numeric Value'</span>: Defines the 
+          font size in which text will be rendered.</li>
+        <li> <span class="codeInline">fontColor='Hex Color'</span>: Defines the 
+          color in which text will be rendered.</li>
+        <li> <span class="codeInline">color='Hex Color'</span><span class="codetext">:</span><span class="text"> 
+          This attribute helps you define the background color for the task bar. 
+          If you need to show a gradiented background, just specify the list of 
+          colors here using a comma.</span></li>
+        <li> <span class="codeInline">alpha='Numeric Value'</span>: This attribute 
+          helps you specify the transparency of the task bar.</li>
+        <li><span class="codeInline">showBorder='1/0'</span>: This attribute lets 
+          you specify whether a border would appear around the task bar.</li>
+        <li> <span class="codeInline">borderColor='Hex Color'</span>: Color of the 
+          task bar border.</li>
+        <li> <span class="codeInline">borderThickness='Numeric Value'</span>: Thickness 
+          of the task bar border.</li>
+        <li><span class="codeInline">borderAlpha='Numeric Value 0-100'</span>: 
+          Alpha of the task bar border.</li>
+        <li><span class="codeInline">showName='1/0'</span>: Configuration whether 
+          to show the name of this tasks over the task bar.</li>
+        <li> <span class="codeInline">showStartDate='1/0'</span>: Configuration 
+          whether to show the start date of this task on the left of task bar.</li>
+        <li> <span class="codeInline">showEndDate='1/0'</span>: Configuration whether 
+          to show the end date of this task on the right side of the task bar.</li>
+        <li><span class="codeInline">height='Numeric Value'</span>: If you intend to specify an explicit height 
+          for the task bar, you can do so using this attribute. Otherwise, FusionCharts 
+          automatically calculates the best possible value.</li>
+        <li> <span class="codeInline">topPadding='Numeric Value'</span>: If you intend to specify an explicit 
+          top padding for the task bar, you can do so using this attribute. Otherwise, 
+          FusionCharts automatically calculates the best possible value.</li>
+        <li><span class="codeInline">taskDatePadding='Numeric Value'</span>: If you intend to specify an explicit 
+          distance between task bar and date textbox, you can do so using this 
+          attribute. Otherwise, FusionCharts automatically calculates the best 
+          possible value.</li>
+      </ul>
+      <p>And this should be enough to plot all your task bars on the chart. We'll 
+        next see how to render milestones on the Gantt chart.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="trGreyBg header">Milestones</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">To render milestones on the chart, you use the 
+      <span class="codeInline">&lt;mileStones&gt;</span> and <span class="codeInline">&lt;mileStone&gt;</span> element as under:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;milestones&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;milestone 
+      date='29/7/2005' taskId='Rls' radius='10' color='333333' shape='Star' numSides='5' 
+      borderThickness='1'/&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;milestone 
+      date='2/3/2005' taskId='PD1' radius='10' color='333333' shape='Star' numSides='5' 
+      borderThickness='1' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;milestone 
+      date='2/3/2005' taskId='PD2' radius='10' color='333333' shape='Star' numSides='5' 
+      borderThickness='1'/&gt;<br>
+      &lt;/milestones&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>The <span class="codeInline">&lt;mileStone&gt;</span> element can have the 
+        following attributes:</p>
+      <ul>
+        <li><span class="codeInline">date='Date'</span>: Date where you want the milestone to be placed.</li>
+        <li> <span class="codeInline">taskId='Task Id'</span>: The id of the task over whose bar you want the 
+          milestone to be placed.</li>
+        <li> <span class="codeInline">shape = 'star/polygon'</span>: Shape of the milestone.</li>
+        <li> <span class="codeInline">numSides='Numeric Value 3-x'</span>: Number of sides that the milestone 
+          would have. For example, for a diamond, you can set shape to star and 
+          then set this value to 4.</li>
+        <li> <span class="codeInline">startAngle='Angle'</span>: Starting angle of the polygon/star drawn as milestone.</li>
+        <li> <span class="codeInline">radius='Numeric value'</span>: Radius of the polygon/star drawn as milestone.</li>
+        <li> <span class="codeInline">borderColor='Hex Color'</span>: Border color of the milestone.</li>
+        <li> <span class="codeInline">borderThickness='Numeric Value'</span>: Border thickness of the milestone.</li>
+        <li> <span class="codeInline">color='Hex Color'</span>: Background fill color of the milestone.</li>
+        <li> <span class="codeInline">alpha='Numeric Value 0-100'</span>: Transparency level of the milestone.</li>
+      </ul>
+      <p>Let's now look at the trendlines option that the Gantt chart offers.      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="trGreyBg header">Trend lines</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">To draw a trend line/zone on the chart, you 
+      use the <span class="codeInline">&lt;trendLines&gt;</span> and <span class="codeInline">&lt;line&gt;</span> 
+      element as under:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;trendlines&gt;<br> &lt;line start='28/6/2005' 
+      displayValue='Today' color='666666' isTrendZone='1' 
+      alpha='20' /&gt; <br> &lt;line start='13/6/2005' end='23/6/2005' 
+      displayValue='Under Monitor' color='FF5904' alpha='5' 
+      isTrendZone='1' /&gt; <br> &lt;/trendlines&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>The <span class="codeInline">&lt;lines&gt;</span> 
+        element can have the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">start='Date'</span>: Start date for the trend 
+          zone. </li>
+        <li> <span class="codeInline">end='Date'</span>: End date for the trend 
+          zone. If you intend to draw a trend line instead of a trend zone, then 
+          you do not need to specify a value for this attribute.</li>
+        <li> <span class="codeInline">displayValue='String Value'</span>: If you 
+          want to display your custom value beneath the trend line, you can do 
+          so here. Example, you can show the trend line and label it as &quot;Today&quot;.</li>
+        <li> <span class="codeInline">color='Hex Color'</span>: Color of the trend 
+          line.</li>
+        <li> <span class="codeInline">thickness='Numeric Value'</span>: Thickness 
+          (in pixels) of the trend line.</li>
+        <li> <span class="codeInline">alpha='Numeric Value 0-100'</span>: Transparency 
+          level of the trend line/zone.</li>
+        <li> <span class="codeInline">isTrendZone='1/0'</span>: Option to set whether 
+          it will appear as a trend zone or a trend line.</li>
+      </ul>
+      <p>And with this, we move over to the last item supported by the Gantt Chart 
+        - connectors.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="trGreyBg header">Task Connectors</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Task connectors are used to connect various 
+        task bars on the chart, to indicate the flow of process. Like, using task 
+        connectors, we can show the dependency of one task over another, or the 
+        general flow of the entire set of tasks.</p>
+      <p>To create connectors on the chart, we use the <span class="codeInline">&lt;connectors&gt;</span> and 
+        <span class="codeInline">&lt;connector&gt;</span> element as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;connectors&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector 
+      fromTaskId='Cpt1' toTaskId='Cpt2' color='99cc00' thickness='2' fromTaskConnectStart='1'/&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector fromTaskId='PD1' 
+      toTaskId='PD2' color='99cc00' thickness='2' fromTaskConnectStart='1'/&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector fromTaskId='PD1' 
+      toTaskId='alpha' color='99cc00' thickness='2' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector 
+      fromTaskId='PD2' toTaskId='alpha' color='99cc00' thickness='2' /&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector fromTaskId='DocOut' 
+      toTaskId='Doc' color='99cc00' thickness='2' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector 
+      fromTaskId='QA1' toTaskId='beta' color='99cc00' thickness='2' /&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector fromTaskId='Dvlp' 
+      toTaskId='QA2' color='99cc00' thickness='2' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;connector 
+      fromTaskId='QA2' toTaskId='Rls' color='99cc00' thickness='2' /&gt;<br>
+      &lt;/connectors&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>The <span class="codeInline">&lt;connectors&gt;</span> 
+        element can have the following attributes (which applies to all connectors, 
+        unless otherwise specified for each connector individually):</p>
+      <ul>
+        <li><span class="codeInline">Color='Hex Code'</span>: Color of the connector</li>
+        <li> <span class="codeInline">Thickness='Numeric Value'</span>: Thickness 
+          of the connector line in pixels.</li>
+        <li> <span class="codeInline">Alpha='Numeric Value 0-100'</span>: Tranparency 
+          of the connector line.</li>
+        <li> <span class="codeInline">isDashed='1/0'</span>: Configuration whether 
+          the connector line will appear as dashed/solid line.</li>
+      </ul>
+      <p>And for each connector, you can specify the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">fromTaskId='Task Id'</span>: Id of the task 
+          (which you had earlier specified as an attribute of &lt;task&gt; element) 
+          from where the connector will originate.</li>
+        <li> <span class="codeInline">toTaskId='Task Id'</span>: Id of the task 
+          (which you had earlier specified as an attribute of &lt;task&gt; element) 
+          from where the connector will terminate.</li>
+        <li> <span class="codeInline">fromTaskConnectStart='1/0'</span>: Configuration 
+          whether the connector will join the originating task bar at the start 
+          position or end position.</li>
+        <li> <span class="codeInline">toTaskConnectStart='1/0'</span>: Configuration 
+          whether the connector will join the terminating task bar at the start 
+          position or end position.</li>
+        <li><span class="codeInline">Color='Hex Code'</span>: Color of the connector.</li>
+        <li> <span class="codeInline">Thickness='Numeric Value'</span>: Thickness 
+          of the connector line in pixels.</li>
+        <li> <span class="codeInline">Alpha='Numeric Value 0-100'</span>: Tranparency 
+          of the connector line.</li>
+        <li> <span class="codeInline">isDashed='1/0'</span>: Configuration whether 
+          the connector line will appear as dashed/solid line.</li>
+      </ul>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+<!-- InstanceEndEditable -->
+</body>
+<!-- InstanceEnd --></html>

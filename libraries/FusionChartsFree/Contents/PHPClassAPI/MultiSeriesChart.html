@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Creating Multi-series Chart </h2></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p>To plot multiple datasets we use Multiseries charts.  Consider the Weekly Sales chart for two consecutive months. Here for each week, we have data from two months - This Month and Previous Month. </p></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">Let's examine the following data for a multi-series chart.</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">
+	  	<table width="300px" cellspacing="0" cellpadding="5" class="text" style="border:1px solid #cccccc;">
+        <tr >
+           <td width="25%" height="24" class="borderBottom"><strong>Week</strong></td>
+           <td width="35%"  class="borderBottom"><div align="right"><strong>Current Month </strong></div></td>
+           <td width="40%" class="borderBottom"><div align="right"><strong>Previous Month </strong></div></td>
+        </tr>
+        <tr>
+           <td height="22" class="borderBottom">&nbsp;</td>
+           <td class="borderBottom"><div align="right"><strong>Sales </strong></div></td>
+           <td class="borderBottom"><div align="right"><strong>Sales </strong></div></td>
+        </tr>
+        <tr>
+           <td height="25" class="borderBottom">Week 1 </td>
+           <td class="borderBottom"><div align="right">$40800</div></td>
+           <td class="borderBottom"><div align="right">$38300</div></td>
+        </tr>
+        <tr>
+           <td height="25" class="borderBottom">Week 2 </td>
+           <td class="borderBottom"><div align="right">$31400</div></td>
+           <td class="borderBottom"><div align="right">$28400</div></td>
+        </tr>
+        <tr>
+           <td height="25" class="borderBottom">Week 3 </td>
+           <td class="borderBottom"><div align="right">$26700</div></td>
+           <td class="borderBottom"><div align="right">$15700</div></td>
+        </tr>
+        <tr>
+           <td height="25">Week 4 </td>
+           <td><div align="right">$54400</div></td>
+           <td><div align="right">$48100</div></td>
+        </tr>
+     </table>     </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="Images/PHPClassMultiSeries.jpg" width="324" height="288" class="imageBorder" /></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="highlightBlock" ><p><strong>Before you go further with this page, we recommend you to please see   the previous page &quot;Creating First Chart &quot; as we start off from concepts explained in   that page. </strong></p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's go through the code that builds this chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php</p>
+      <p> <span class="codeComment">&nbsp; # Include FusionCharts PHP Class</span><br />
+         <span class="codeComment">&nbsp; </span>include('../Class/FusionCharts_Gen.php');</p>
+      <p> <span class="codeComment">&nbsp; # Create Multiseries Column3D chart object using FusionCharts PHP Class </span><br />
+         <span class="codeComment">&nbsp; </span>$FC = new FusionCharts(&quot;MSColumn3D&quot;,&quot;350&quot;,&quot;300&quot;);<br /> 
+         <br />
+        <span class="codeComment">&nbsp; # Set the relative path of the swf file</span><br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp; #  Store chart attributes in a variable </span><br />
+        <span class="codeComment">&nbsp; </span>$strParam=&quot;caption=Weekly Sales;subcaption=Comparison;xAxisName=Week;yAxisName=Revenue;numberPrefix=$;decimalPrecision=0&quot;;</p>
+      <p> <span class="codeComment">&nbsp; # Set chart attributes</span> <br />
+         <span class="codeComment">&nbsp; </span>$FC-&gt;setChartParams($strParam);<br />
+          <br />
+          <br />
+          <span class="codeComment">&nbsp; # Add category names</span><br />
+          <span class="codeComment">&nbsp; </span>$FC-&gt;addCategory(&quot;Week 1&quot;);<br />
+          <span class="codeComment">&nbsp; </span>$FC-&gt;addCategory(&quot;Week 2&quot;);<br />
+          <span class="codeComment">&nbsp; </span>$FC-&gt;addCategory(&quot;Week 3&quot;);<br />
+          <span class="codeComment">&nbsp; </span>$FC-&gt;addCategory(&quot;Week 4&quot;);</p>
+      <p> <span class="codeComment">&nbsp; # Create a new dataset </span><br />
+         <span class="codeComment">&nbsp; </span>$FC-&gt;addDataset(&quot;This Month&quot;); <br />
+        <span class="codeComment">&nbsp; # Add chart values for the above dataset</span><br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;40800&quot;);<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;31400&quot;);<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;26700&quot;);<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;54400&quot;);</p>
+      <p> <span class="codeComment">&nbsp; # Create second dataset </span><br />
+         <span class="codeComment">&nbsp; </span>$FC-&gt;addDataset(&quot;Previous Month&quot;); <br />
+        <span class="codeComment">&nbsp; # Add chart values for the second dataset</span><br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;38300&quot;);<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;28400&quot;);<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;15700&quot;);<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;48100&quot;);</p>
+      <p>?&gt;</p>
+      <p> &lt;html&gt;<br />
+         <span class="codeComment">&nbsp; </span>&lt;head&gt;<br />
+         <span class="codeComment">&nbsp; </span><span class="codeComment">&nbsp; </span>&lt;title&gt;First Chart Using FusionCharts PHP Class&lt;/title&gt;<br />
+         <span class="codeComment">&nbsp; </span><span class="codeComment">&nbsp; </span>&lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+         <span class="codeComment">&nbsp; </span>&lt;/head&gt;<br />
+         <span class="codeComment">&nbsp; </span>&lt;body&gt;</p>
+      <p><span class="codeComment">&nbsp; </span><span class="codeComment">&nbsp; </span>&lt;?<br />
+        <span class="codeComment">&nbsp; &nbsp; &nbsp; # Render Chart </span><br />
+        <span class="codeComment">&nbsp; </span><span class="codeComment">&nbsp; &nbsp; </span>$FC-&gt;renderChart();<br />
+        <span class="codeComment">&nbsp; </span><span class="codeComment">&nbsp; </span>?&gt;</p>
+      <p><br />
+   &lt;/body&gt;<br />
+   &lt;/html&gt;</p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the above code, we're doing the following:</p>
+      <ul type="disc">
+        <li>We include <span class="codeInline">FusionCharts_Gen.php</span>.<br />
+           <br />
+        </li>
+        <li>We create       an object for Multi-series Column3D chart and set relative file path to the SWF file.<br />
+               <br />
+                  <span class="codeInline"> $FC = new FusionCharts(&quot;<strong>MSColumn3D</strong>&quot;,&quot;350&quot;,&quot;300&quot;);<br />
+              $FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);<br />
+                  </span><br />
+        </li>
+        <li>We store       chart attributes in <span class="codeInline">$strParam</span> variable and pass it to <span class="codeInline"> setChartParams()</span> function. It       sets chart attributes.<br />
+           <br />
+</li>
+        <li>For multi-series charts, we need to add the category names separately using <span class="codeInline">addCategory()</span> function. <br />
+           <br />
+          <span class="codeInline">$FC-&gt;addCategory(&quot;Week 1&quot;);<br />
+          $FC-&gt;addCategory(&quot;Week 2&quot;);<br />
+          $FC-&gt;addCategory(&quot;Week 3&quot;);<br />
+        $FC-&gt;addCategory(&quot;Week 4&quot;);</span><br />
+        <br />
+        </li>
+        <li>Now, we need to define a dataset first. Hence we call <span class="codeInline">addDataset() </span>function. We set the dataset's name as 'This Month'.<br />
+           <br />
+          <span class="codeInline">$FC-&gt;addDataset(&quot;This Month&quot;); <br />
+          <br /></span></li>
+			 <li>We provide chart data specific to the above dataset. Remember to provide chart data just after the dataset is defined. Unlike single series charts (as we saw in the First Chart example), we need not specify other chart parameters here. <br /> 
+			    <br />
+        <span class="codeInline">
+          $FC-&gt;addChartData(&quot;40800&quot;);<br />
+          $FC-&gt;addChartData(&quot;31400&quot;);<br />
+          $FC-&gt;addChartData(&quot;26700&quot;);<br />
+          $FC-&gt;addChartData(&quot;54400&quot;);</span><br />
+          <br />
+        Please note that as we have 4  categories, we have entered 4 values for the dataset 'This Month'.<br />
+        <br />
+			 </li>
+        <li>Next, we create the second dataset for 'Previous Month' and provide its data values. <br />
+           <br />
+          <span class="codeInline">$FC-&gt;addDataset(&quot;Previous Month&quot;); <br />
+  $FC-&gt;addChartData(&quot;38300&quot;);<br />
+  $FC-&gt;addChartData(&quot;28400&quot;);<br />
+  $FC-&gt;addChartData(&quot;15700&quot;);<br />
+  $FC-&gt;addChartData(&quot;48100&quot;);</span><br />
+  <br />
+        </li>
+        <li>We add       <span class="codeInline">FusionCharts.js</span>.<br />
+           <br />
+        </li>
+        <li> Finally, we render the chart.<br />
+           <br />
+          <span class="codeInline">$FC-&gt;renderChart();</span></li>
+      </ul>    </td>
+  </tr>
+  <tr>
+     <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">And the Multi-series chart is ready! </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PHPClassMultiSeries.jpg" width="324" height="288" class="imageBorder" /></td>
+  </tr>
+  
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

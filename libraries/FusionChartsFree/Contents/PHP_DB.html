@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with PHP &gt; Plotting data from a database </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts and PHP to plot charts from data contained in a database. We'll create a pie chart to show &quot;Production by Factory&quot; using: </p>
+      <ul>
+        <li><span class="codeInline">dataXML</span>  method first.</li>
+        <li>Thereafter, we'll convert this chart to use <span class="codeInline">dataURL</span>  method. </li>
+      </ul>
+      <p>We've used  MySQL database here. The database dump is present in <span class="codeInline">Download Package &gt; Code &gt; PHP &gt; DB </span>folder. You can, however, use any database with FusionCharts including MS SQL, Oracle, Access etc. </p>
+      <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;Basic Examples&quot; as we start off from concepts explained in that page. </strong></p>
+      <p class="highlightBlock">The code examples contained in this page are present in <span class="codeInline">Download Package &gt; Code &gt; PHP &gt; DBExample </span> folder. The MySQL database dump is present in <span class="codeInline">Download Package &gt; Code &gt; PHP &gt;</span> <span class="codeInline">DB</span>. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Database Structure </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Before we code the PHP pages to retrieve data, let's quickly have a look at the database structure. </td>
+  </tr><tr>
+    <td valign="top" class="text"><img src="Images/Code_DB.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The database contains just 2 tables:</p>
+      <ol>
+        <li><span class="codeInline">Factory_Master</span>: To store the name and id of each factory (Columns : FactoryID &amp; FactoryName ) . </li>
+        <li><span class="codeInline">Factory_Output</span>: To store the number of units produced by each factory for a given date.(Columns : FacrotyId, DatePro, Quantity) .</li>
+      </ol>
+    <p>For demonstration, we've fed some dummy data in the database. Let's now shift our attention to the PHP page that will interact with the database, fetch data and then render a chart. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Building the PHP Page for dataXML Method </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The PHP page for <span class="codeInline">dataXML</span> method example is named as <span class="codeInline">BasicDBExample.php</span> (in <span class="codeInline">DBExample</span> folder). It contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+      <span class="codeComment">
+      //We've included ../Includes/FusionCharts.php and ../Includes/DBConn.php, which contains<br />
+      //functions to help us easily embed the charts and connect to a database.</span><br />
+      include(&quot;../Includes/FusionCharts.php&quot;);<br />
+      include(&quot;../Includes/DBConn.php&quot;);<br />
+      ?&gt;<br />
+      &lt;HTML&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - Database Example&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;?php&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;<span class="codeComment">&nbsp;//In this example, we show how to connect FusionCharts to a database.<br />
+&nbsp;&nbsp;&nbsp;//For the sake of ease, we've used a MySQL database containing two<br />
+&nbsp;&nbsp;&nbsp;//tables.<br />
+  <br />
+&nbsp;&nbsp;&nbsp;//Connect to the DB</span><br />
+&nbsp;&nbsp;&nbsp;$link = connectToDB();<br /><br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//$strXML will be used to store the entire XML document generated<br />
+&nbsp;&nbsp;&nbsp;//Generate the graph element</span>
+  <br />
+        &nbsp;&nbsp;&nbsp;$strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity'   decimalPrecision='0' showNames='1' numberSuffix=' Units' pieSliceDepth='30'   formatNumberScale='0'&gt;&quot;;<br />
+  <br />
+        &nbsp;<span class="codeComment">&nbsp;&nbsp;//Fetch all factory records</span><br />
+        &nbsp;&nbsp;&nbsp;$strQuery = &quot;select * from Factory_Master&quot;;<br />
+        &nbsp;&nbsp;&nbsp;$result = mysql_query($strQuery) or die(mysql_error());<br />
+  <br />
+        &nbsp;<span class="codeComment">&nbsp;&nbsp;//Iterate through each factory</span><br />
+        &nbsp;&nbsp;&nbsp;if ($result) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while($ors = mysql_fetch_array($result)) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Now create a second query to get details for this factory</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; . $ors['FactoryId'];<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$result2 = mysql_query($strQuery) or die(mysql_error()); <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ors2 = mysql_fetch_array($result2); <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Generate &lt;set name='..' value='..'/&gt;
+        </span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='&quot; . $ors['FactoryName'] . &quot;' value='&quot; . $ors2['TotOutput'] . &quot;' /&gt;&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//free the resultset</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mysql_free_result($result2);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;mysql_close($link);<br /><br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//Finally, close &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;/graph&gt;&quot;;<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Create the chart - Pie 3D Chart with data from $strXML</span><br />
+        &nbsp;&nbsp;&nbsp;echo renderChart(&quot;../../FusionCharts/FCF_Pie3D.swf&quot;, &quot;&quot;, $strXML, &quot;FactorySum&quot;, 650, 450);<br />
+        ?&gt;<br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The following actions are taking place in this code:</p>
+      <ol>
+        <li>We first include <span class="codeInline">FusionCharts.js</span> JavaScript class and <span class="codeInline">FusionCharts.php</span> , to enable easy embedding of FusionCharts.</li>
+        <li>We then include <span class="codeInline">  DBConn.php</span>, which contains connection parameters to connect to MySQL database. </li>
+        <li>Thereafter, we generate the XML data document by iterating through each record and store it in <span class="codeInline">strXML</span> variable. </li>
+        <li>Finally, we render the chart using <span class="codeInline">renderChart()</span> method and pass <span class="codeInline">strXML</span> as <span class="codeInline">dataXML</span>. </li>
+      </ol>
+    <p>When you now run the code, you'll get an output as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_DBOut.jpg" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Converting the example to use dataURL method </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's now convert this example to use dataURL method. As previously explained, in dataURL mode, you need two pages:</p>
+      <ol>
+        <li><strong>Chart Container Page</strong> - The page which embeds the HTML code to render the chart. This page also tells the chart where to load the data from. We'll name this page as <span class="codeInline">Default.php</span>. </li>
+        <li><strong>Data Provider Page</strong> - This page provides the XML data to the chart. We'll name this page as <span class="codeInline">PieData.php</span></li>
+      </ol>
+      <p class="highlightBlock">The pages in this example are contained in<span class="codeInline"> Download Package &gt; Code &gt; PHP &gt; DB_dataURL</span> folder. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Chart Container Page - <span class="codeInline">Default.php </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="codeInline">Default.php</span> contains the following code to render the chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <span class="codeComment">//We've included ../Includes/FusionCharts.php, which contains functions<br />
+      //to help us easily embed the charts.</span><br />
+      include(&quot;../Includes/FusionCharts.php&quot;);<br />
+      ?&gt;<br />
+      &lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;	FusionCharts Free - dataURL and Database  Example&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&lt;/HEAD&gt;<br />
+&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;?php<br />
+&nbsp;&nbsp;<span class="codeComment">&nbsp;//In this example, we show how to connect FusionCharts to a database <br />
+&nbsp;&nbsp;&nbsp;//using dataURL method. In our previous example, we've used dataXML method<br />
+&nbsp;&nbsp;&nbsp;//where the XML is generated in the same page as chart. Here, the XML data<br />
+&nbsp;&nbsp;&nbsp;//for the chart would be generated in PieData.php.<br />
+<br />
+&nbsp;&nbsp;&nbsp;//For the sake of ease, we've used an an MySQL databases containing two<br />
+&nbsp;&nbsp;&nbsp;//tables.<br />
+<br />
+&nbsp;&nbsp;&nbsp;//the php script in piedata.php interacts with the   database,<br />
+&nbsp;&nbsp;&nbsp;//converts the data into proper XML form and   finally <br />
+&nbsp;&nbsp;&nbsp;//relays XML data document to the chart<br />
+&nbsp;&nbsp;&nbsp;</span>$strDataURL = &quot;PieData.php&quot;;<br />
+<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart - Pie 3D Chart with dataURL as strDataURL</span><br />
+&nbsp;&nbsp;&nbsp;echo renderChart(&quot;../../FusionCharts/FCF_Pie3D.swf&quot;, $strDataURL, &quot;&quot;, &quot;FactorySum&quot;, 650, 450);<br />
+?&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're:</p>
+      <ol>
+        <li>Including <span class="codeInline">FusionCharts.js</span> JavaScript class and <span class="codeInline">FusionCharts.php</span></li>
+        <li>Create the <span class="codeInline">dataURL</span> string and store it in <span class="codeInline">strDataURL</span> variable. </li>
+        <li>Finally, we render the chart using <span class="codeInline">renderChart()</span> method and set <span class="codeInline">dataURL</span> as <span class="codeInline">strDataURL</span>. </li>
+      </ol>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating the data provider page <span class="codeInline">PieData.php </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">PieData.php contains the following code to output XML Data: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+      <span class="codeComment">
+&nbsp;&nbsp;&nbsp;//We've included  ../Includes/DBConn.php, which contains functions <br />
+&nbsp;&nbsp;&nbsp;//to help us easily connect to a database.</span><br />
+&nbsp;&nbsp;&nbsp;include(&quot;../Includes/DBConn.php&quot;);<br /><br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//This page generates the XML data for the Pie Chart contained in<br />
+&nbsp;&nbsp;&nbsp;//Default.php.<br />
+  <br />
+&nbsp;&nbsp;&nbsp;//For the sake of ease, we've used an an MySQL databases containing two<br />
+&nbsp;&nbsp;&nbsp;//tables.</span><br />
+  <br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//Connect to the DB</span><br />
+        &nbsp;&nbsp;&nbsp;$link = connectToDB();<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;<span class="codeComment">//$strXML will be used to store the entire XML document generated<br />
+        &nbsp;&nbsp;&nbsp;//Generate the graph element</span><br />
+        &nbsp;&nbsp;&nbsp;$strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity'   decimalPrecision='0' showNames='1' numberSuffix=' Units' pieSliceDepth='30'   formatNumberScale='0'&gt;&quot;;<br />
+  <br />
+        &nbsp;<span class="codeComment">&nbsp;&nbsp;//Fetch all factory records</span><br />
+        &nbsp;&nbsp;&nbsp;$strQuery = &quot;select * from Factory_Master&quot;;<br />
+        &nbsp;&nbsp;&nbsp;$result = mysql_query($strQuery) or die(mysql_error());<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;'Iterate through each factory</span>
+  <br />
+        &nbsp;&nbsp;&nbsp;if ($result) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while($ors = mysql_fetch_array($result)) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Now create a second query to get details for this factory</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; . $ors['FactoryId']<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$result2 = mysql_query($strQuery) or die(mysql_error());<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ors2 = mysql_fetch_array($result2);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Generate &lt;set name='..' value='..' /&gt;</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='&quot; . $ors['FactoryName'] . &quot;' value='&quot; . $ors2['TotOutput'] . &quot;' /&gt;&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//free the resultset</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mysql_free_result($result2);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;mysql_close($link);<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Finally, close &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;/graph&gt;&quot;;<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Set Proper output content-type</span><br />
+        &nbsp;&nbsp;&nbsp;header('Content-type: text/xml');<br />
+  <br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//Just write out the XML data<br />
+        <strong>&nbsp;&nbsp;&nbsp;//NOTE THAT THIS PAGE DOESN'T CONTAIN ANY HTML TAG, WHATSOEVER</strong></span><br />
+        &nbsp;&nbsp;&nbsp;echo $strXML;<br />
+        ?&gt;<br />
+    </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above page:</p>
+      <ol><li>We generate the data and store it in <span class="codeInline">strXML</span> variable</li>
+        <li>Finally, we write this data to output stream without any HTML tags. </li>
+      </ol>
+    <p>When you view this page, you'll get the same output as before. </p></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Single Series Chart XML</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Single Series Charts depict only one set of data on the chart. A simple 2D single series looks like this:
+	
+	
+	</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="ChartSS/Images/Col_2D.jpg" /></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">
+	<p>
+	  In this section, the XML structure of single series chart has been explained 
+	  in a generic way. Let's recall our previous XML. It looked something like this 
+	  (minus a few new nodes):
+	</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock"><p>
+	&lt;graph caption='Business Results 2006' xAxisName='Month' yAxisName='Revenue' showValues='0' <br/>
+	&nbsp;&nbsp;numberPrefix='$' decimalPrecision='0'  bgcolor='F3f3f3' bgAlpha='70' showColumnShadow='1'<br/>
+	&nbsp;&nbsp;divlinecolor='c5c5c5' divLineAlpha='60' showAlternateHGridColor='1' alternateHGridColor='f8f8f8'<br/>
+	&nbsp;&nbsp;alternateHGridAlpha='60' &gt; <br /><br/>
+  &nbsp;&nbsp; &lt;set name='Jan' value='27400' color='AFD8F8'/&gt;<br />
+  &nbsp;&nbsp; &lt;set name='Feb' value='29800' color='F6BD0F' /&gt;<br />
+ &nbsp;&nbsp; &lt;set name='Mar' value='25800' color='8BBA00'/&gt;<br />
+ &nbsp;&nbsp; &lt;set name='Apr' value='26800' color='FF8E46'/&gt;<br />
+&nbsp;&nbsp; &lt;set name='May'  value='29600' color='008E8E' /&gt;<br />
+&nbsp;&nbsp; &lt;set name='Jun'  value='32600' color='D64646'/&gt;<br />
+&nbsp;&nbsp;  &lt;set name='Jul'  value='31800' color='8E468E'/&gt;<br />
+&nbsp;&nbsp;  &lt;set name='Aug' value='36700' color='588526'/&gt;<br />
+&nbsp;&nbsp;  &lt;set name='Sep' value='29700' color='B3AA00'/&gt;<br />
+&nbsp;&nbsp;  &lt;set name='Oct' value='31900' color='008ED6'/&gt;<br />
+&nbsp;&nbsp;  &lt;set name='Nov' value='34800' color='9D080D'/&gt;<br />
+&nbsp;&nbsp;  &lt;set name='Dec' value='24800' color='A186BE' /&gt;<br />
+        <br />
+ 
+&nbsp;&lt;trendlines&gt;<br />
+&nbsp;&nbsp;  &lt;line startValue='26000' color='91C728' displayValue='Target' showOnTop='1'/&gt;<br />
+&nbsp;&lt;/trendlines&gt;<br />
+        <br />
+  &lt;/graph&gt;</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Brief Explanation</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>The <span class="codeInline">&lt;graph&gt;</span> 
+        element is the main element of any FusionCharts XML document - it represents 
+        the starting point and the ending point of data. The <span class="codeInline">&lt;graph&gt;</span> 
+        element has a number of attributes which helps to manipulate the chart. 
+        You can find the list of all the attributes for this element in &quot;<span class="codeInline">Chart 
+        XML Reference</span>&quot; of each chart.</p>
+      <p>In the most general form, attributes have the following form:<br>
+        <span class="codeInline">attributeName = &quot;Value&quot;<br>
+        e.g., xAxisName=&quot;Month&quot;</span> </p>
+      <p>The attributes can occur in any order and quotes can be single or double 
+        like <span class="codeInline">xAxisName='Month'. </span><span class="text">However, 
+        you need to make sure that a particular attribute occurs only once for 
+        a given element.</span></p>
+      <p>Moving on, each <span class="codeInline">&lt;set&gt;</span> element (which 
+        is a child element of the <span class="codeInline">&lt;graph&gt;</span> 
+        element) represents a set of data which is to be plotted on the graph 
+        and determines a set of data which would appear on the graph. A typical 
+        <span class="codeInline"> &lt;set&gt;</span> element would look like:</p>
+      <p class="codeInline">&lt;set name='Jan' value='27400' color='AFD8F8' hoverText=&quot;January, 17400&quot; link=&quot;details.asp?month=jan&quot; 
+        showName=&quot;1&quot;/&gt;</p>
+      <p>Next we have the <span class="codeInline">&lt;trendLines&gt;</span> element. 
+        Using this function of the chart, you could draw custom lines on the chart 
+        to represent a trend. For example, in our above XML, we have defined a 
+      line at 26000 to represent the average target sales for the period. </p>
+      <p class="codeInline"> &lt;line startValue='26000' color='91C728' displayValue='Target' showOnTop='1'/&gt;</p>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

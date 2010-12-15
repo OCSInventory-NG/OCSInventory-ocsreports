@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with PHP &gt; Basic Examples </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts can effectively be used with PHP to plot dynamic data-driven charts. In this section, we'll show a few basic examples to help you get started.</p>
+      <p>We'll cover the following examples here:</p>
+    <ol>
+      <li>We'll use FusionCharts in PHP with a pre-built Data.xml (which contains data to plot)</li>
+      <li>We'll then change the above chart into a single page chart using dataXML method.</li>
+      <li>Finally, we'll use FusionCharts JavaScript class to embed the chart.</li>
+      </ol>
+    <p>Let's quickly see each of them. <strong>Before you proceed with the contents in this page, we strictly recommend you to please go through the section &quot;How FusionCharts works?&quot; and 
+			&quot;<a href="PHP_DB.html">Plotting from Database Example</a>&quot;, as we'll directly use a lot of concepts defined in those sections.</strong></p>
+    <p class="highlightBlock">All code discussed here is present in <span class="codeInline">Download Package &gt; Code &gt; PHP</span> &gt; <span class="codeInline">UTF8Example</span> folder. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Plotting a chart from data contained in <span class="codeInline">JapaneseData.xml</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>While using FusionCharts with UTF-8 characters, please remember the following:</p>
+        <ul>
+            <li>dataURL method has to be used to get the xml.</li>
+            <li>Rotated text cannot render UTF-8 characters. For example, UTF-8 characters in the rotated labels will not be rendered correctly.</li>
+            <li>BOM has to present in the xml given as input to the chart. </li>
+        </ul>
+        <p> In our code, we've used the charts contained in <span class="codeInline">Download Package &gt; Code &gt; FusionCharts</span> folder. When you run your samples, you need to make sure that the SWF files are in proper location. Also the JapaneseData.xml file used in <span class="codeInline">JapaneseXMLFileExample.php</span> is present in the <span class="codeInline">Download Package &gt; Code &gt; PHP &gt; UTF8Example &gt; Data </span>folder.</p>
+        <p>Let's now get to building our first example. In this example, we'll create a &quot;Monthly Unit Sales&quot; chart using <span class="codeInline">dataURL</span> method. For a start, we'll hard code our XML data in a physical XML document <span class="codeInline">JapaneseData.xml </span>and then utilize it in our chart contained in an PHP Page (<span class="codeInline">JapaneseXMLFileExample.php</span>). </p>        <p>Let's first have a look at the XML Data document:</p>
+        <p class="codeBlock"> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br />
+&lt;graph caption='&#26376;&#38291;&#36009;&#22770;' xAxisName='&#26376;' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#19968;&#26376;' value='462' color='AFD8F8' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20108;&#26376;' value='857' color='F6BD0F' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#19977;&#26376;' value='671' color='8BBA00' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#22235;&#26376;' value='494' color='FF8E46' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20116;&#26376;' value='761' color='008E8E' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20845;&#26376;' value='960' color='D64646' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#19971;&#26376;' value='629' color='8E468E' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20843;&#26376;' value='622' color='588526' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20061;&#26376;' value='376' color='B3AA00' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#21313;&#26376;' value='494' color='008ED6' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#21313;&#19968;&#26376;' value='761' color='9D080D' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#21313;&#20108;&#26376;' value='960' color='A186BE' /&gt;<br />
+&lt;/graph&gt;</p>        
+        <p class="text">The XML document should begin with an <strong>XML declaration </strong> which specifies the version of XML being used and the encoding as seen in the above xml:<br />
+                <span class="codeInline">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt; </span></p>
+        <p class="text">As you would notice, the caption, x-axisname and names of the months in the xml are in Japanese. The xml tags itself are same as the ones seen in <span class="codeInline">BasicExample</span>. </p>
+        <p>The php which uses this xml is JapaneseXMLFileExample.php which contains the following code:</p>        
+      <p class="codeBlock">&lt;?php<br />
+            <span class="codeComment">&nbsp;&nbsp; //We've included ../Includes/FusionCharts.php, which contains functions<br />
+         &nbsp;&nbsp; //to help us easily embed the charts.</span><br />
+           &nbsp;&nbsp; include(&quot;../Includes/FusionCharts.php&quot;);<br />
+            ?&gt;<br />
+            &lt;HTML&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - UTF8 &#26085;&#26412;&#35486; (Japanese) Example<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;//You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct. Else, you <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//would get JavaScript errors.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;&lt;a href=&quot;http://www.fusioncharts.com&quot; target=&quot;_blank&quot;&gt;FusionCharts Free&lt;/a&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UTF8&#26085;&#26412;&#35486;(Japanese) Example&lt;/h2&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Basic example using pre-built JapaneseData.xml&lt;/h4&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this example, we show how to use UTF characters in charts created with FusionCharts <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here, the XML data for the chart is present in Data/JapaneseData.xml. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The xml file should be created and saved with an editor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which places the UTF8 BOM. The first line of the xml should contain the<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml declaration like this: &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+    <br />
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;//Create the chart - Column 3D Chart with data from Data/JapaneseData.xml<br />
+    </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo renderChart(&quot;../../FusionCharts/FCF_Column3D.swf&quot;, &quot;Data/JapaneseData.xml&quot;, &quot;&quot;, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;JapaneseChart&quot;, 600, 300);<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='../NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the chart above?&lt;/a&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;H5 &gt;&lt;a href='../default.htm'&gt;&amp;laquo; Back to list of examples&lt;/a&gt;&lt;/h5&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+        &nbsp;&lt;/BODY&gt;<br />
+        &lt;/HTML&gt;</p>
+<p>This code is similar to the code present in <span class="codeInline">BasicExample/SimpleChart.php.</span> As you would notice, there is nothing specific to be done in the Chart container page to ensure UTF-8 output. As a practice, you  could have the &lt;meta&gt; tag in the head section of the html with the charset defined as UTF-8 as shown below.<br />
+            <br />
+            <span class="codeBlock">&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt; </span></p>
+        <p class="text">That's the only effort involved in rendering a chart with UTF8 characters with data from a xml file. The chart with Japanese text will look as shown:</p>
+        <p class="text"><img src="Images/Code_JapXMLFileChart.jpg" width="577" height="274" class="imageBorder" /> </p>
+        <p class="text">Let' move on to our next example where we get the data from the database and dynamically create the xml. </p>
+        <p class="header">Plotting a chart with Japanese text from the database </p>
+        <p class="text">Let us now create a chart with UTF characters present in the database. For this we will modify the database and add a table to contain the Japanese data. </p>
+        <p class="header">Database Configuration </p>
+        <ol>
+            <li>Please refer to <a href="PHP_DB.html">Plotting From Database</a> section for basic setup and configuration of the database.</li>
+            <li>Ensure that the tables required for the UTF8 examples have been created. The required sql script &quot;UTFExampleTablesCreation.sql&quot; is present in the <span class="codeInline">Download Package > Code > PHP > DB </span>folder. You could run this script in your mysql, (if not already done)- this will alter the database to use UTF8 as default character set, create the Japanese_Factory_Master and French_Factory_Master tables and insert sample data.</li>
+        </ol>
+        <p>Let's now shift our attention to the code that will interact with the database, fetch data and then render a chart. We will create two php files - JapaneseDBExample.php and PieDataJapanese.php for this example. </p>
+        <p class="text">JapaneseDBExample.php will act as the chart container and PieDataJapanese.php will be the xml data provider.</p>
+        <p class="text">The code contained in JapaneseDBExample.php is as follows:</p>
+        <p class="codeBlock">&lt;?php<br />
+           &nbsp; <span class="codeComment">//We've included ../Includes/FusionCharts.php, which contains functions<br />
+           &nbsp; //to help us easily embed the charts.</span><br />
+           &nbsp; include(&quot;../Includes/FusionCharts.php&quot;);<br />
+            ?&gt;<br />
+            &lt;HTML&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;META http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=UTF-8&quot;/&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - UTF8 &#26085;&#26412;&#35486; (Japanese) Database Example<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct. Else, you </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="codeComment">would get JavaScript errors.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.text{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;&lt;a href=&quot;http://www.fusioncharts.com&quot; target=&quot;_blank&quot;&gt;FusionCharts Free&lt;/a&gt; - UTF8 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#26085;&#26412;&#35486; (Japanese) Example With Data from Database &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/h2&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this example, we show how to use UTF characters in chart created with FusionCharts <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here, the XML data for the chart is dynamically generated by PieDataJapanese.php. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this example, FusionCharts uses dataURL method to get the xml from the data in &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the database. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order to store and retrieve UTF8 characters from database, in our example, MySQL,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;we have to alter the database default charset to UTF8. This can be done using the command:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ALTER DATABASE DEFAULT CHARACTER SET = utf8; on the &quot;factorydb&quot; database.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this example, we will use another table Japanese_Factory_Master containing the names of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the factories<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in Japanese language. This table should also be defined to use UTF8 as DEFAULT CHARSET. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The sql script that needs to be executed before running this example is &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UTFExampleTablesCreation.sql <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;present in Code/JSP/DB folder.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strDataURL = &quot;PieDataJapanese.php&quot;;<br />
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart - Pie 3D Chart with dataURL as strDataURL</span><br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo renderChart(&quot;../../FusionCharts/FCF_Pie3D.swf&quot;, $strDataURL, &quot;&quot;, &quot;FactorySum&quot;, 650, 450);<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='../NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the chart above?&lt;/a&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;H5 &gt;&lt;a href='../default.htm'&gt;&amp;laquo; Back to list of examples&lt;/a&gt;&lt;/h5&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>
+        <p class="text">In the above Chart container page, as far as UTF-8 specific changes is concerned, only the &lt;meta&gt; tag in the head section of the html with the charset defined as UTF-8 as shown below: <br />
+                <br />
+                <span class="codeBlock">&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt; </span><br />
+                <br />
+      </p>
+        <p>Let's move on to PieDataJapanese.php which contains the code to connect to the database and retrieve data. Here is the code present in PieDataJapanese.php:</p>
+        <p class="codeBlock">&lt;?php<br />
+echo pack(&quot;CCC&quot;,0xef,0xbb,0xbf);<br />
+<span class="codeComment">//We've included ../Includes/DBConn.php, which contains functions<br />
+//to help us easily connect to a database.<br />
+include(&quot;../Includes/DBConn.php&quot;);<br />
+/*<br />
+    This page generates the XML data for the Pie Chart contained in JapaneseDBExample.php. <br />
+    <br />
+    For the sake of ease, we've used the same database as used by other examples. <br />
+    We have added one more table Japanese_Factory_Master with stores the names of the factory in Japanese language.<br />
+    <br />
+    Steps to ensure UTF8 xml output for FusionCharts:<br />
+    1. Output the BOM bytes 0xef 0xbb 0xbf as shown above in the first few lines<br />
+    2. Put the xml declaration &lt;?xml version='1.0' encoding='UTF-8'?&gt; immediately after the output from previous step.<br />
+    3. Declare contentType to be text/xml, charSet.<br />
+    4. Use getBytes to get the data from UTF field in the database and to convert it into String, use new String(bytes,&quot;UTF-8&quot;)<br />
+    Do not output anything other than the BOM, xml declaration and the xml itself. (no empty lines too!)<br />
+    */ </span><br />
+    <br />
+    <span class="codeComment">//Connect to the DB</span><br />
+    $link = connectToDB();<br />
+    $useUTFQuery = &quot;SET NAMES 'utf8'&quot;;<br />
+    $utfQueryResult = mysql_query($useUTFQuery);<br />
+    <span class="codeComment">//$strXML will be used to store the entire XML document generated<br />
+    //Generate the graph element</span><br />
+    $strXML = &quot;&lt;graph caption='&#24037;&#22580;&#20986;&#21147;&#12524;&#12509;&#12540;&#12488;' subCaption='&#37327;&#12391;' decimalPrecision='0' showNames='1' numberSuffix=' Units' decimalPrecision='0' pieSliceDepth='30' &gt;&quot;;<br />
+    <br />
+    <span class="codeComment">// Fetch all factory records<br />
+    $strQuery = &quot;select * from Japanese_Factory_Master&quot;;<br />
+    $result = mysql_query($strQuery) or die(mysql_error());<br />
+    <br />
+    //Iterate through each factory</span><br />
+    if ($result) {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;while($ors = mysql_fetch_array($result)) {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Now create a second query to get details for this factory<br />
+&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; . $ors['FactoryId'];<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$result2 = mysql_query($strQuery) or die(mysql_error()); <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ors2 = mysql_fetch_array($result2);<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Generate &lt;set name='..' value='..'/&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='&quot; . $ors['FactoryName'] . &quot;' value='&quot; . $ors2['TotOutput'] . &quot;' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//free the resultset</span><br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mysql_free_result($result2);<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+    }<br />
+    mysql_close($link);<span class="codeComment"><br />
+//Finally, close &lt;graph&gt; element<br />
+    </span>$strXML .= &quot;&lt;/graph&gt;&quot;;<br />
+    <br />
+    <span class="codeComment">//Set Proper output content-type and charset</span><br />
+    header('Content-type: text/xml;charset=UTF-8');<br />
+    <br />
+    <span class="codeComment">//Just write out the XML data<br />
+    //NOTE THAT THIS PAGE DOESN'T CONTAIN ANY HTML TAG, WHATSOEVER</span><br />
+    ?&gt;<br />
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;?php echo $strXML; ?&gt;</p>
+        <p class="text">This code is similar to PieData.php seen in DBExample with dataURL method. There are some UTF-8 specific points to be noted here.<br />
+    If the XML data provider is a PHP file, as in this case, then the output should follow this sequence: </p>
+        <ol>
+            <li> The php should output the BOM as shown in the  code below:<br />
+                <span class="textBold">&lt;?php<br />
+                echo pack(&quot;CCC&quot;,0xef,0xbb,0xbf);<br />
+                ?&gt;</span><br />
+This should be the first output from this php. </li>
+            <li>Next, the xml declaration should be output: &lt;?xml version='1.0' encoding='UTF-8'?&gt;</li>
+            <li>Finally, the xml data should be output</li>
+        </ol>
+        <p>Try not to put any empty lines or spaces in the output xml.</p>
+        <p>When connecting to the database, the following query should be executed, before running query to get data in UTF8:</p>
+        <p class="codeBlock"> mysql_query ( "SET&nbsp;NAMES&nbsp;'UTF8'" );&nbsp; </p>        
+        <p> This will inform mysql that all incoming data are UTF-8, it will convert them into table/column encoding. Same will happen when mysql sends you the data back - they will be converted into UTF-8. </p>
+        <p>You will also have to assure that you set the content-type response header to indicate the UTF-8 encoding of the page as shown:</p>
+        <p><span class="codeBlock">header('Content-type: text/xml;charset=UTF-8');</span> </p>
+        <p>When we view the chart in the browser, it would look as under: </p>        
+        <p> </p>
+        <p><img src="Images/Code_JapDBChart.jpg" class="imageBorder" /> </p>
+        <p class="highlightBlock">In <span class="codeInline">Download Package > Code > PHP > UTF8Example</span>, we've more example codes for French language too, which have not been explained here, as they're similar in concept. You can directly see the code and get more insight into it.</p>        </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

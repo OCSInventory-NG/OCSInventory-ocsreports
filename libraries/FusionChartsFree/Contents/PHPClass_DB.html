@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts  PHP Class &gt; Plotting data from a database </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts and PHP to plot charts from data contained in a database. We'll create a pie chart to show &quot;Production by Factory&quot; using: </p>
+      <ul>
+        <li>A simple method first.</li>
+        <li>Thereafter, we'll convert this chart to use <span class="codeInline">dataURL</span>  method. </li>
+      </ul>
+      <p>We've used  MySQL database here. The database dump is present in <span class="codeInline">Download Package &gt; Code &gt; PHPClass &gt; DB </span>folder. You can, however, use any database with FusionCharts including MS SQL, Oracle, Access etc. </p>
+      <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;Basic Examples&quot; as we start off from concepts explained in that page. </strong></p>
+      <p class="highlightBlock">The code examples contained in this page are present in <span class="codeInline">Download Package &gt; Code &gt; PHPClass &gt; DBExample </span> folder. The MySQL database dump is present in <span class="codeInline">Download Package &gt; Code &gt; PHPClass &gt;</span> <span class="codeInline">DB</span>. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Database Structure </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Before we code the PHP pages to retrieve data, let's quickly have a look at the database structure. </td>
+  </tr><tr>
+    <td valign="top" class="text"><img src="Images/Code_DB.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The database contains just 2 tables:</p>
+      <ol>
+        <li><span class="codeInline">Factory_Master</span>: To store the name and id of each factory (Columns : FactoryID &amp; FactoryName ) . </li>
+        <li><span class="codeInline">Factory_Output</span>: To store the number of units produced by each factory for a given date.(Columns : FacrotyId, DatePro, Quantity) .</li>
+      </ol>
+    <p>For demonstration, we've fed some dummy data in the database. Let's now shift our attention to the PHP page that will interact with the database, fetch data and then render a chart. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Building the PHP Page</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The PHP page for this example is named as <span class="codeInline">BasicDBExample.php</span> (in <span class="codeInline">DBExample</span> folder). It contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//We've included ../Includes/FusionCharts_Gen.php, which contains<br />
+        &nbsp;&nbsp;//FusionCharts PHP Class to help us easily embed charts <br />
+        &nbsp;&nbsp;//We've also used ../Includes/DBConn.php to easily connect to a database.</span><br />
+        &nbsp;&nbsp;include(&quot;../Includes/FusionCharts_Gen.php&quot;);<br />
+      &nbsp;&nbsp;include(&quot;../Includes/DBConn.php&quot;);<br />
+      ?&gt;<br />
+        <br />
+        &lt;HTML&gt;<br />
+        &lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&lt;TITLE&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Database Example<br />
+  &nbsp;&nbsp;&lt;/TITLE&gt;<br />
+  <br />
+  &lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+        &nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+        &nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct. <br />
+        &nbsp;&nbsp;//Else, you would JavaScript errors.</span><br />
+        ?&gt; <br />
+  &lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  <br />
+  &lt;/HEAD&gt;<br />
+  &lt;BODY&gt;<br />
+  &lt;CENTER&gt;<br />
+  <br />
+  &lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//In this example, we show how to connect FusionCharts to a database.<br />
+        &nbsp;&nbsp;//For the sake of ease, we've used an MySQL databases containing two<br />
+        &nbsp;&nbsp;//tables.<br />
+        <br />
+        &nbsp;&nbsp;// Connect to the Database<br />
+      &nbsp;&nbsp;</span>$link = connectToDB();</p>
+      <p><span class="codeComment"> &nbsp;&nbsp;#  Create pie 3d chart object using FusionCharts PHP Class</span><br />
+        &nbsp;&nbsp;$FC = new FusionCharts(&quot;Pie3D&quot;,&quot;650&quot;,&quot;450&quot;); </p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Set Relative Path of chart swf file.</span><br />
+        &nbsp;&nbsp;$FC-&gt;setSwfPath(&quot;../../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;//Store chart attributes in a variable for ease of use</span><br />
+        &nbsp;&nbsp;$strParam=&quot;caption=Factory Output report;subCaption=By Quantity;pieSliceDepth=30; showBorder=1;showNames=1;formatNumberScale=0;numberSuffix= Units;decimalPrecision=0&quot;;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;#  Set chart attributes</span><br />
+        &nbsp;&nbsp;$FC-&gt;setChartParams($strParam);<br />
+      </p>
+      <p> <span class="codeComment"><strong>&nbsp;&nbsp;// Fetch all factory records using SQL Query</strong></span><br />
+         &nbsp; <span class="codeComment"><strong>// Store chart data values in 'total' column/field <br />
+           &nbsp; //
+            and category names in 'FactoryName'</strong></span><br />
+        &nbsp;&nbsp;$strQuery = &quot;select a.FactoryID, b.FactoryName, sum(a.Quantity) as total from Factory_output a, Factory_Master b where a.FactoryId=b.FactoryId group by a.FactoryId,b.FactoryName&quot;;<br />
+        &nbsp;&nbsp;<br />
+        &nbsp; $result = mysql_query($strQuery) or die(mysql_error());<br />
+  <br />
+        <span class="codeComment"><strong>&nbsp;&nbsp;//Pass the SQL Query result to the FusionCharts PHP Class function<br />
+        &nbsp; //along with field/column names that are storing chart values and corresponding category names <br />  
+       &nbsp; //to set chart data from database</strong></span><strong><br />
+        &nbsp;&nbsp;if ($result) <br />
+&nbsp;        {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$FC-&gt;addDataFromDatabase($result, &quot;total&quot;, &quot;FactoryName&quot;);<br />
+        &nbsp;&nbsp;}</strong><br />
+        &nbsp;&nbsp;<br />
+        &nbsp;&nbsp;mysql_close($link);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Render the chart</span><br />
+        &nbsp;&nbsp;$FC-&gt;renderChart();<br />
+        ?&gt;<br />
+        <br />
+  &lt;/CENTER&gt;<br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">These are the steps that we performed in the above code:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" style="line-height:20px;">
+      <ol>
+        <li>Include <span class="codeInline">FusionCharts_Gen.php</span>, <span class="codeInline">DBConn.php</span> and <span class="codeInline">FusionCharts.js</span> files for easy chart rendering and database connection set up. <span class="codeInline">DBConn.php</span> contains connection parameters to   connect to MySQL database.</li>
+        <li>Connect to database thorugh <span class="codeInline">connectToDB()</span> function</li>
+        <li>Create an object of FusionCharts PHP class for Pie 3D chart</li>
+        <li>Set relative path of chart SWF file</li>
+        <li>Store chart attributes in a variable <span class="codeInline">$strParam</span> </li>
+        <li>Set chart attributes through <span class="codeInline">setChartParams()</span> function</li>
+        <li>Fetch factory records and store in <span class="codeInline">$result</span><span class="text">. The query result creates a column/field </span><span class="codeInline">total </span><span class="text">to store chart data and another column </span><span class="codeInline">FactoryName </span><span class="text">to store category names.</span> </li>
+        <li>Add data using <span class="codeInline">addDataFromDatabase()</span> function passing the column names that store chart data values and category names </li>
+        <li>Close database connection </li>
+        <li>Render chart by <span class="codeInline">renderChart()</span> function </li>
+    </ol>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="PHPClassAPI/Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+	</tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you now run the code, you'll get an output as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_DBOut.jpg" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Converting the example to  dataURL method </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's now convert this example to use <a href="HowFCWorksDURL.html">dataURL method</a>. As previously explained, in dataURL mode, you need two pages:</p>
+      <ol>
+        <li><strong>Chart Container Page</strong> - The page which embeds the HTML code to render the chart. This page also tells the chart where to load the data from. We'll name this page as <span class="codeInline">Default.php</span>. </li>
+        <li><strong>Data Provider Page</strong> - This page provides the XML data to the chart. We'll name this page as <span class="codeInline">PieData.php</span></li>
+      </ol>
+      <p class="highlightBlock">The pages in this example are contained in<span class="codeInline"> Download Package &gt; Code &gt; PHPClass &gt; DB_dataURL</span> folder. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Chart Container Page - <span class="codeInline">Default.php </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="codeInline">Default.php</span> contains the following code to render the chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php<br />
+        &nbsp;&nbsp;<span class="codeComment">//We've included ../Includes/FusionCharts.php, which contains functions<br />
+      &nbsp;&nbsp;//to help us easily embed the charts.</span><br />
+      &nbsp;&nbsp;include(&quot;../Includes/FusionCharts.php&quot;);<br />
+      ?&gt;<br />
+      &lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&lt;TITLE&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - dataURL and Database  Example<br />
+  &nbsp;&nbsp;&lt;/TITLE&gt;<br />
+  &lt;?php<br />
+      <span class="codeComment">&nbsp;&nbsp;//You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+      &nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+      &nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct. <br />
+      &nbsp;&nbsp;//Else, you would get JavaScript errors.</span><br />
+      ?&gt; <br />
+  &nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  &lt;/HEAD&gt;<br />
+  &lt;BODY&gt;<br />
+  &lt;CENTER&gt;<br />
+  <br />
+  &lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//In this example, we show how to connect FusionCharts to a database <br />
+        &nbsp;&nbsp;//using FusionCharts PHP class. In our other examples, we've used dataXML method<br />
+        &nbsp;&nbsp;//where the XML is generated in the same page as chart. Here, the XML data<br />
+        &nbsp;&nbsp;//for the chart would be generated in PieData.php.</span></p>
+      <p><span class="codeComment"> &nbsp;&nbsp;//For the sake of ease, we've used an MySQL databases containing two tables.<br />
+          <br />
+        &nbsp;&nbsp;//the php script in piedata.php interacts with the database, <br />
+        &nbsp;&nbsp;//converts the data into proper XML form and finally <br />
+        &nbsp;&nbsp;//relays XML data document to the chart</span><br />
+        &nbsp;&nbsp;$strDataURL = &quot;PieData.php&quot;;<br />
+  <br />
+        <span class="codeComment"><strong>&nbsp;&nbsp;//Create the chart - Pie 3D Chart with dataURL as strDataURL</strong></span><strong><br />
+        &nbsp;&nbsp;echo renderChart(&quot;../../FusionCharts/FCF_Pie3D.swf&quot;, $strDataURL, &quot;&quot;, &quot;FactorySum&quot;, 650, 450, false, false);</strong><br />
+        ?&gt;<br />
+        <br />
+  &lt;/CENTER&gt;<br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the above code, we have: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+      <ol>
+        <li>Included <span class="codeInline">FusionCharts.js</span> JavaScript class and <span class="codeInline">FusionCharts.php</span> that uses codes to easily render FusionCharrts  </li>
+        <li>Stroe the return value of PieData.php in <span class="codeInline">$strDataURL</span> </li>
+        <li>Finally, we render the chart using <span class="codeInline">renderChart()</span> method using  <span class="codeInline">dataURL</span> method. </li>
+      </ol>    </td>
+  </tr>
+  <tr>
+     <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+<td valign="top" class="highlightBlock"><strong>Note:</strong> The <span class="codeInline">renderChart()</span> function used in this code is not the same with the one we used in the previous example, though they bear same name. This is FusionCharts PHP chart embedding function; please go through <a href="PHP_BasicExample.html">Using with PHP &gt; Basic Examples</a> to know more about it. </td>  </tr>
+  <tr>
+     <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating the data provider page <span class="codeInline">PieData.php </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="codeInline">PieData.php</span> contains the following code to output XML Data. This code is similar like the Simple DB Example. The only difference is, here we do not render the chart but send the full XML as output stream. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+        &nbsp;&nbsp;<span class="codeComment">//We've included  ../Includes/DBConn.php, which contains functions<br />
+&nbsp;&nbsp;//to help us easily connect to a database.</span><br />
+&nbsp;&nbsp;include(&quot;../Includes/DBConn.php&quot;);<br />
+<span class="codeComment">&nbsp;&nbsp;//We've included ../Includes/FusionCharts_Gen.php, which contains FusionCharts PHP Class<br />
+&nbsp;&nbsp;//to help us easily embed the charts.</span><br />
+&nbsp;&nbsp;include(&quot;../Includes/FusionCharts_Gen.php&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;//This page generates the XML data for the Pie Chart contained in<br />
+        &nbsp;&nbsp;//Default.php. <br />
+        <br />
+        &nbsp;&nbsp;//For the sake of ease, we've used an MySQL databases containing two<br />
+        &nbsp;&nbsp;//tables.<br />
+        <br />
+        &nbsp;&nbsp;//Connect to the Database</span><br />
+      &nbsp;&nbsp;$link = connectToDB();</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;#  Create a pie 3d chart object  </span><br />
+      &nbsp;&nbsp;$FC = new FusionCharts(&quot;Pie3D&quot;,&quot;650&quot;,&quot;450&quot;); </p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Set Relative Path of swf file. </span><br />
+      &nbsp;&nbsp;$FC-&gt;setSwfPath(&quot;../../FusionCharts/&quot;);      </p>
+      <p> <span class="codeComment">&nbsp;&nbsp;#Store chart attributes in a variable </span><br />
+        &nbsp;&nbsp;$strParam=&quot;caption=Factory Output report;subCaption=By Quantity;pieSliceDepth=30;showBorder=1;showNames=1;formatNumberScale=0;numberSuffix= Units;decimalPrecision=0&quot;;<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;#Set chart attributes</span><br />
+        &nbsp;&nbsp;$FC-&gt;setChartParams($strParam);<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;// Fetch all factory records using SQL Query<br />
+&nbsp; // Store chart data values in 'total' column/field <br />
+&nbsp; //
+            and category names in 'FactoryName'</span><br />
+        &nbsp;&nbsp;$strQuery = &quot;select a.FactoryID, b.FactoryName, sum(a.Quantity) as total from Factory_output a, Factory_Master b where a.FactoryId=b.FactoryId group by a.FactoryId,b.FactoryName&quot;;<br />
+        <br />
+&nbsp;        $result = mysql_query($strQuery) or die(mysql_error());<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;//Pass the SQL Query result to the FusionCharts PHP Class function<br />
+&nbsp; //along with field/column names that are storing chart values and corresponding category names <br />
+&nbsp; //to set chart data from database</span><strong><br />
+&nbsp;&nbsp;if ($result) <br />
+&nbsp;        {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$FC-&gt;addDataFromDatabase($result, &quot;total&quot;, &quot;FactoryName&quot;);<br />
+&nbsp;&nbsp;}</strong><br />
+        &nbsp;&nbsp;mysql_close($link);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;//Set Proper output content-type</span><br />
+        &nbsp;&nbsp;header('Content-type: text/xml');<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;//Just write out the XML data<br />
+        &nbsp;&nbsp;//NOTE THAT THIS PAGE DOESN'T CONTAIN ANY HTML TAG, WHATSOEVER</span><br />
+        &nbsp;&nbsp;<strong>print  $FC-&gt;getXML();</strong><br />
+        ?&gt;</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the above code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" style="line-height:20px;">
+      <ol>
+        <li>We include <span class="codeInline">FusionCharts_Gen.php</span> and <span class="codeInline">DBConn.php</span> files</li>
+        <li>Set connection to database through <span class="codeInline">connectToDB()</span> function</li>
+        <li>Create an object of FusionCharts PHP class for Pie 3D chart</li>
+        <li>Set relative path of chart SWF file</li>
+        <li>Store chart attributes in <span class="codeInline">$strParam</span> variable</li>
+        <li>Set chart attributes using <span class="codeInline">setChartParams()</span> function</li>
+        <li>Fetch records from database and store the query output in <span class="codeInline">$result</span></li>
+        <li>Pass <span class="codeInline">$result</span> to <span class="codeInline">addDataFromDatabase()</span> function to add chart data</li>
+        <li>Write the XML to output stream </li>
+      </ol>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="PHPClassAPI/Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+	</tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you view this page, you'll get the same output as before. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

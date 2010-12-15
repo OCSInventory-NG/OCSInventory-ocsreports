@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td> 
+      <h2 class="pageHeader">Using FusionCharts with JSP &gt; Basic Examples </h2>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> 
+      <p>FusionCharts can effectively be used with JSP to plot dynamic data-driven 
+        charts. In this example, we'll show a few basic examples to help you get 
+        started.</p>
+      <p>We'll cover the following examples here:</p>
+      <ol>
+        <li>We'll use FusionCharts in JSP with a pre-built Data.xml (which contains 
+          data to plot)</li>
+        <li>We'll then change the above chart into a single page chart using dataXML 
+          method.</li>
+        <li>Finally, we'll use FusionCharts JavaScript class to embed the chart.</li>
+      </ol>
+      <p>Let's quickly see each of them. <strong>Before you proceed with the contents 
+        in this page, we strictly recommend you to please go through the section 
+        &quot;How FusionCharts works?&quot;.</strong> </p>
+   
+    <p class="highlightBlock">All code discussed here is present 
+      in <span class="codeInline">Download Package &gt; Code &gt; JSP</span> &gt; 
+      <span class="codeInline">BasicExample</span> folder. </p>
+    <p class="text">
+<span class="header">Setting up the charts for use </span></p>
+    <p>In our code, we've used the charts contained in <span class="codeInline">Download Package &gt; Code &gt; FusionCharts</span> folder. When you run your samples, you need to make sure that the SWF files are in proper location. </p>
+    <p class="header">Plotting a chart from data contained in <span class="codeInline">Data.xml</span></p>
+    <p class="text">Let's now get to building our first example. In this example, we'll create a &quot;Monthly Unit Sales&quot; chart using <span class="codeInline">dataURL</span> method. For a start, we'll hard code our XML data in a physical XML document <span class="codeInline">Data.xml </span>and then utilize it in our chart contained in an JSP Page (<span class="codeInline">BasicChart.jsp</span>). </p>
+    <p class="text">Let's first have a look at the XML Data document:</p>
+    <p class="codeBlock">&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jan' value='462' color='AFD8F8' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Feb' value='857' color='F6BD0F' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Mar' value='671' color='8BBA00' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Apr' value='494' color='FF8E46' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='May' value='761' color='008E8E' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jun' value='960' color='D64646' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jul' value='629' color='8E468E' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Aug' value='622' color='588526' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Sep' value='376' color='B3AA00' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Oct' value='494' color='008ED6' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Nov' value='761' color='9D080D' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Dec' value='960' color='A186BE' /&gt;<br />
+    &lt;/graph&gt;</p>
+  
+    <p class="text"> 
+      <p>This XML is stored as <span class="codeInline">Data.xml</span> in <span class="codeInline">Data 
+        </span>Folder under <span class="codeInline">BasicExample</span> folder. 
+        It basically contains the data to create a single series chart to show 
+        &quot;Monthly Unit Sales&quot;. We'll plot this on a Column 3D Chart. 
+        Let's see how to do that. </p>
+      <p>To plot a Chart that consumes this data, you need to include the HTML 
+        code to embed a Flash object and then provide the requisite parameters. 
+        To make things simpler for you, we've put all this functionality in an 
+        JSP named<span class="codeInline"> FusionChartsHTMLRenderer.jsp</span>. 
+        This jsp is present in <span class="codeInline">Download Package 
+        &gt; Code &gt; JSP &gt; Includes</span>. So, 
+        whenever you need to work with <span class="codeInline">FusionCharts</span> in JSP, just include this 
+        file in your page, where you want to render the chart and then you can work with <span class="codeInline">FusionCharts</span> very easily. 
+         Let 
+        us see how to use the <span class="codeInline">FusionChartsHTMLRenderer.jsp</span>.</p>
+      <p>Let's see it in example. <span class="codeInline">BasicChart.jsp</span> 
+        contains the following code: </p>
+    
+   <p class="codeBlock">&lt;HTML&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - Simple Column 3D Chart&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;&lt;a href=&quot;http://www.fusioncharts.com&quot; target=&quot;_blank&quot;&gt;FusionCharts Free&lt;/a&gt; Examples&lt;/h2&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Basic example using pre-built Data.xml&lt;/h4&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This page demonstrates the ease of generating charts using FusionCharts.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this chart, we've used a pre-defined Data.xml (contained in /Data/ folder)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ideally, you would NOT use a physical data file. Instead you'll have <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;your own JSP to create the XML data document. Such examples are also present.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For a head-start, we've kept this example very simple.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Create the chart - Column 3D Chart with data from Data/Data.xml</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:include page=&quot;../Includes/FusionChartsHTMLRenderer.jsp&quot; flush=&quot;true&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/FCF_Column3D.swf&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strURL&quot; value=&quot;Data/Data.xml&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strXML&quot; value=&quot;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartId&quot; value=&quot;myFirst&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;600&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartHeight&quot; value=&quot;300&quot; /&gt; <br />
+<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/jsp:include&gt;</strong><br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='../NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the chart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;above?&lt;/a&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;&lt;H5 &gt;&lt;a href='../default.htm'&gt;&amp;laquo; Back to list of examples&lt;/a&gt;&lt;/h5&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>
+
+      <p class="text">As you can see above, we've  included <span class="codeInline">FusionChartsHTMLRenderer.jsp</span> 
+        to help us  render the chart.  To this include, you need to pass the following parameters :</p>
+
+    <p class="text"> 
+      <table width="95%" border="1" align="center" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+        <tr> 
+          <td width="10%" valign="top" class="header">Parameter</td>
+          <td width="12%" valign="top" class="header">Type</td>
+          <td width="78%" valign="top" class="header">Description</td>
+        </tr>
+        <tr> 
+          <td valign="top" class="codeInline" width="10%" height="42">chartSWF</td>
+          <td valign="top" class="text" width="12%" height="42">String</td>
+          <td valign="top" class="text" width="78%" height="42">SWF File Name 
+            (and Path) of the chart which you intend to plot. Here, we are plotting 
+            a Column 3D chart. So, we've specified it as <span class="codeInline">../../FusionCharts/FCF_Column3D.swf</span></td>
+        </tr>
+        <tr> 
+          <td valign="top" class="codeInline" width="10%">strURL</td>
+          <td valign="top" class="text" width="12%">String</td>
+          <td valign="top" class="text" width="78%">If you intend to use <span class="codeInline">dataURL</span> 
+            method for the chart, pass the URL as this parameter. Else, set it 
+            to &quot;&quot; (in case of <span class="codeInline">dataXML</span> 
+            method). In this case, we're using <span class="codeInline">Data.xml</span> 
+            file, so we specify <span class="codeInline">Data/Data.xml</span></td>
+        </tr>
+        <tr> 
+          <td valign="top" class="codeInline" width="10%">strXML</td>
+          <td valign="top" class="text" width="12%">String</td>
+          <td valign="top" class="text" width="78%">If you intend to use <span class="codeInline">dataXML</span> 
+            method for this chart, pass the XML data as this parameter. Else, 
+            set it to &quot;&quot; (in case of <span class="codeInline">dataURL</span> 
+            method). Since we're using <span class="codeInline">dataURL</span> 
+            method, we specify this parameter as &quot;&quot;.</td>
+        </tr>
+        <tr> 
+          <td valign="top" class="codeInline" width="10%">chartId</td>
+          <td valign="top" class="text" width="12%">String</td>
+          <td valign="top" class="text" width="78%"> Id for the chart, using which 
+            it will be recognized in the HTML page. <strong>Each chart on the 
+            page needs to have a unique Id.</strong></td>
+        </tr>
+        <tr> 
+          <td valign="top" class="codeInline" width="10%">chartWidth</td>
+          <td valign="top" class="text" width="12%">int value </td>
+          <td valign="top" class="text" width="78%">Intended width for the chart 
+            (in pixels)</td>
+        </tr>
+        <tr> 
+          <td valign="top" class="codeInline" width="10%">chartHeight</td>
+          <td valign="top" class="text" width="12%">int value </td>
+          <td valign="top" class="text" width="78%">Intended height for the chart 
+            (in pixels)</td>
+        </tr>
+        <tr>
+            <td valign="top" class="codeInline">debugMode</td>
+            <td valign="top" class="text">true/false String </td>
+            <td valign="top" class="text">Whether to start the chart in debug mode. This feature is not available in Free version. </td>
+        </tr>
+      </table>
+   
+  </p>
+  <p class="text"> 
+     When you now run this page, you'll see a chart like the one below. </p>
+      <p class="highlightBlock">If you do not see a chart like the one below, 
+        please follow the steps listed in <span class="codeInline">Debugging your 
+        Charts &gt; Basic Troubleshooting</span> section of this documentation. 
+      </p>
+  
+    <p class="imageBorder"><img src="Images/Code_BasicChart.jpg" />
+  <p class="text">We will see in our next example, how to use 
+      FusionChartsCreator.java instead of FusionCharts.jsp for creating charts 
+      easily. Note that this is the preferred way of creating charts.</p>
+
+    <p class="text">So, you just saw how simple it is to create a chart using JSP and FusionCharts. Let's now convert the above chart to use <span class="codeInline">dataXML</span> method. </p>
+    <p class="text"><span class="header">Changing the above chart into a single page chart using dataXML method</span></p>
+    <p class="text">To convert this chart to use dataXML method, we create another page <span class="codeInline">BasicDataXML.jsp</span> in the same folder with following code: </p>
+    <p class="codeBlock">&lt;HTML&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - Simple Column 3D Chart using dataXML method&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;&lt;a href=&quot;http://www.fusioncharts.com&quot; target=&quot;_blank&quot;&gt;FusionCharts Free&lt;/a&gt; Examples&lt;/h2&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Basic example using dataXML method (with XML data hard-coded in<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSP page itself)&lt;/h4&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;If you view the source of this page, you'll see that the XML data<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is present in this same page (inside HTML code). We're not calling any<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;external XML files to serve XML data. dataXML method is<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ideal when you've to plot small amounts of data.&lt;/p&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*This page demonstrates the ease of generating charts using FusionCharts.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this chart, we've used a string variable to contain our entire XML data.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ideally, you would generate XML data documents at run-time, after interfacing with<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;forms or databases etc.Such examples are also present.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here, we've kept this example very simple.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Create an XML data document in a string variable</span><br />
+<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String strXML=&quot;&quot;;<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Jan' value='462' color='AFD8F8'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Feb' value='857' color='F6BD0F'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Mar' value='671' color='8BBA00'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Apr' value='494' color='FF8E46'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='May' value='761' color='008E8E'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Jun' value='960' color='D64646'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Jul' value='629' color='8E468E'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Aug' value='622' color='588526'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Sep' value='376' color='B3AA00'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Oct' value='494' color='008ED6'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Nov' value='761' color='9D080D'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='Dec' value='960' color='A186BE'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;/graph&gt;&quot;;</strong><br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Create the chart - Column 3D Chart with data from strXML variable using dataXML method</span><br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:include page=&quot;../Includes/FusionChartsHTMLRenderer.jsp&quot; flush=&quot;true&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/FCF_Column3D.swf&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strURL&quot; value=&quot;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strXML&quot; value=&quot;&lt;%=strXML%&gt;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartId&quot; value=&quot;myNext&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;600&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartHeight&quot; value=&quot;300&quot; /&gt; <br />
+<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/jsp:include&gt;</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='../NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the chart above?&lt;/a&gt;&lt;BR&gt;&lt;H5 &gt;&lt;a href='../default.htm'&gt;&amp;laquo; Back to list of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples&lt;/a&gt;&lt;/h5&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>
+    <p>As you can see above, we:</p>
+    <ol>
+      <li>Create the XML data document in an JSP variable <span class="codeInline">strXML </span>using string concatenation. Here, we're hard-coding the data. In your applications, you can build this data dynamically after interacting with databases or external sources of data. </li>
+      <li>Include <span class="codeInline">FusionChartsHTMLRenderer.jsp</span> file wherever the chart needs to be rendered.</li>
+      <li>Pass appropriate parameters to this page. The parameter &quot;strXML&quot; is set with the value present in strXML variable created in step 1. </li>
+    </ol>    <p>When you see this chart, you'll get the same results as before. </p>
+    <p><span class="header">Using FusionCharts JavaScript class to embed the chart.</span></p>
+    <p>If you see the charts from previous examples in the latest versions of Internet Explorer, you'll see a screen as below: </p>
+    <p><img src="Images/Code_Activate.jpg" width="606" height="310" class="imageBorder" /></p>
+    <p>Internet Explorer asks you to <span class="codeInline">&quot;Click and activate...&quot; </span>to use the chart. This is happening because of a patent that Microsoft lost to Eolas. As such, all Flash movies need to be clicked once before you can start interacting with them. </p>
+    <p>However, the good news is that there's a solution to it. This thing happens only when you directly embed the HTML code of the chart. It would NOT happen when you use JavaScript to embed the chart. To see how to embed using JavaScript at code level, please see <span class="codeInline">Creating Your First Chart &gt; JavaScript Embedding</span> Section. </p>
+    <p>Again, to make things simpler for you, we've provided an JSP function called <span class="codeInline">createChart() </span>which helps you wrap this JavaScript function, so that you don't have to get your hands dirty with JavaScript, Flash and HTML. This function is contained in the previously used <span class="codeInline">FusionCharts.jsp or FusionChartsCreator.java</span> file. </p>
+    <p>Let's now quickly put up a sample to show the use of this function. We create another JSP page <span class="codeInline">SimpleChart.jsp</span> to use this function to plot a chart from data contained in our previously created<span class="codeInline"> Data.xml</span> file. It contains the following code: </p>
+    <p class="codeBlock">&lt;HTML&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - Simple Column 3D Chart&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/*You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When you make your own charts, make sure that the path to this JS file is correct. Else, you would get JavaScript errors.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt;<br />
+<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;&lt;a href=&quot;http://www.fusioncharts.com&quot; target=&quot;_blank&quot;&gt;FusionCharts Free&lt;/a&gt; Examples&lt;/h2&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Embedding chart using FusionCharts JavaScript class and using dataURL method.&lt;/h4&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/*This page demonstrates the ease of generating charts using FusionCharts.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this chart, we've used a pre-defined Data.xml (contained in /Data/ folder)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ideally, you would NOT use a physical data file. Instead you'll have <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;your own code virtually relay the XML data document. Such examples are also present.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For a head-start, we've kept this example very simple.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Create the chart - Column 3D Chart with data from Data/Data.xml<br />
+</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:include page=&quot;<strong>../Includes/FusionChartsRenderer.jsp</strong>&quot; flush=&quot;true&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/FCF_Column3D.swf&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strURL&quot; value=&quot;Data/Data.xml&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strXML&quot; value=&quot;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartId&quot; value=&quot;myFirst&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;600&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartHeight&quot; value=&quot;300&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;registerWithJS&quot; value=&quot;false&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/jsp:include&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='../NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the chart above?&lt;/a&gt;&lt;BR&gt;&lt;H5 &gt;&lt;a href='../default.htm'&gt;&amp;laquo; Back to list of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples&lt;/a&gt;&lt;/h5&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt;<br />
+    </p>
+    <p>As you can see above, we've:</p>
+    <ol>
+      <li>Included <span class="codeInline">FusionCharts.js</span> file, which is required when using the JavaScript method.</li>
+      <li>Included <span class="codeInline">FusionChartsRenderer.jsp</span> file wherever the chart needs to be rendered.</li>
+      <li>Passed appropriate parameters to this include. </li>
+      </ol>
+    <p>The included page FusionChartsRenderer.jsp is present in the Includes folder. It expects the following parameters:</p>
+    <table width="95%" border="1" align="center" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr>
+        <td width="19%" valign="top" class="header">Parameter</td>
+        <td width="12%" valign="top" class="header">Type</td>
+        <td width="81%" valign="top" class="header">Description</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartSWF</td>
+        <td valign="top" class="text" width="12%" height="42">String</td>
+        <td valign="top" class="text">SWF File Name (and Path) of the chart which you intend to plot. Here, we are plotting a Column 3D chart. So, we've specified it as <span class="codeInline">../../FusionCharts/FCF_Column3D.swf</span></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">strURL</td>
+        <td valign="top" class="text" width="12%">String</td>
+        <td valign="top" class="text">If you intend to use <span class="codeInline">dataURL</span> method for the chart, pass the URL as this parameter. Else, set it to &quot;&quot; (in case of <span class="codeInline">dataXML</span> method). In this case, we're using <span class="codeInline">Data.xml</span> file, so we specify <span class="codeInline">Data/Data.xml</span></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">strXML</td>
+        <td valign="top" class="text" width="12%">String</td>
+        <td valign="top" class="text">If you intend to use <span class="codeInline">dataXML</span> method for this chart, pass the XML data as this parameter. Else, set it to &quot;&quot; (in case of <span class="codeInline">dataURL</span> method). Since we're using <span class="codeInline">dataURL</span> method, we specify this parameter as &quot;&quot;.</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartId</td>
+        <td valign="top" class="text" width="12%">String</td>
+        <td valign="top" class="text"> Id for the chart, using which it will be recognized in the HTML page. <strong>Each chart on the page needs to have a unique Id.</strong></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartWidth</td>
+        <td valign="top" class="text" width="12%">int</td>
+        <td valign="top" class="text">Intended width for the chart (in pixels)</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartHeight</td>
+        <td valign="top" class="text" width="12%">int</td>
+        <td valign="top" class="text">Intended height for the chart (in pixels)</td>
+      </tr>
+      <tr>
+          <td valign="top" class="codeInline">debugMode</td>
+          <td valign="top" class="text">true/false String </td>
+          <td valign="top" class="text">Whether to start the chart in debug mode. This feature is not available in Free version. </td>
+      </tr>
+      <tr>
+          <td valign="top" class="codeInline">registerWithJS</td>
+          <td valign="top" class="text">boolean</td>
+          <td valign="top" class="text"> Whether to register the chart with JavaScript. This feature is not available in Free version</td>
+      </tr>
+    </table>    
+    <p>These parameters are similar to the parameters expected by <span class="codeInline">FusionChartsHTMLRenderer.jsp</span>. <span class="codeInline">debugMode</span> and <span class="codeInline">registerWithJS</span> are not used in Free version. The only difference is <span class="codeInline">FusionChartsRenderer.jsp</span> uses javascript to render the chart. When you now view the chart, you'll see that 
+    no activation is required even in Internet Explorer. </p>
+	</td>
+  </tr>
+</table>
+</body>
+</html>

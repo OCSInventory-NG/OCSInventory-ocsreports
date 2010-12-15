@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+	<body>
+		<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+			<tr>
+				<td><h2 class="pageHeader">Combining FusionCharts, ASP.NET &amp; JavaScript (dataXML) 
+						method
+					</h2>				</td>
+			</tr>
+			<tr>
+				<td valign="top" class="text"><p>In this example, we will see how to <strong> provide updated XML data to chart using JavaScript </strong>
+					functions. The chart will simply accept that XML data and then render.					</p>
+					<p class="highlightBlock">This method can effectively be used in your AJAX 
+						applications, where your JavaScript code gets the updated XML from server and 
+						then provides it to charts locally. You can process the data received from AJAX 
+						Calls, build XML from it and finally provide it to the chart.					</p>
+					<p><strong>Before you proceed with the contents in this page, we strictly recommend you 
+							to please go through the sections &quot;How FusionCharts works?&quot; and 
+							&quot;<a href="CS_DB.html">Plotting from Database  Example</a>&quot;, as we'll directly use a lot of concepts defined in 
+							those sections.</strong></p>
+					<p class="highlightBlock">The code discussed in this example is present in<span class="codeInline"> Download Package &gt; Code &gt; CNET &gt; DB_JS </span>folder.					</p>				</td>
+			</tr>
+			<tr>
+				<td valign="top" class="text">&nbsp;</td>
+			</tr>
+			<tr>
+				<td valign="top" class="header">Defining the applicaton				</td>
+			</tr>
+			<tr>
+				<td valign="top" class="text"><p>Let us first define what we want to achieve in this example. We'll carry on   from our previous drill-down example and convert it into a single page example.   In our previous example, we were showing the Production Summary of all the   factories in a pie chart. When the user clicked on a pie slice, he was taken to   another page, where a detailed date-wise chart was shown for the required   factory. </p>
+					<p>In this example we will put both the charts together on a single page where clicking on a pie slice of the Production Summary chart will open the detailed chart on the same page without page refresh.</p>
+					<ol>
+						<li>
+							Contain both the pie chart (summary) and column chart (detailed) in one page (<span class="codeInline">Default.aspx</span>).</li>
+						<li>
+							When the page loads, the pie chart would use
+							<span class="codeInline">dataXML</span>
+							method to show summary of all factories. This data will be built in
+							<span class="codeInline">Default.aspx</span>
+							itself.						</li>
+						<li>
+							There will be a JavaScript array named as
+							<span class="codeInline">data</span>
+							in this page. This array will contain detailed data for the factories. The 
+							array will be dynamically built using ASP.NET and then outputted as JavaScript 
+							code.						</li>
+						<li>
+							Apart from the data in JavaScript, we'll also have a local JavaScript function
+							<span class="codeInline">updateChart()</span>, which would process the data in 
+							this array and convert it to XML data document, for direct usage by the column 
+							chart.						</li>
+						<li>
+							The column chart would initialize with no data, as the user has not selected a 
+							factory initially. We'll customize the &quot;<span class="codeInline">No data to display</span>&quot; 
+							message of the chart to show a friendly message.</li>
+						<li>
+							The pie chart would have JavaScript links defined for each pie slice. This 
+							JavaScript links refer to
+							<span class="codeInline">updateChart()</span>
+							JavaScript function present on the same page. We'll later see how to hand code 
+							this function. When a pie is clicked, the
+							<span class="codeInline">factory ID </span>is passed to this function.						</li>
+						<li>
+							The
+							<span class="codeInline">  updateChart()</span>
+							function is responsible for udapting the column chart. It generates the XML 
+							data from data stored in JavaScript
+							<span class="codeInline">data</span>
+							array and conveys it to the column chart.</li>
+						<li>
+							The column chart would now accept this XML data, parse it and finally render.</li>
+					</ol>				</td>
+			</tr>
+			<tr>
+				<td valign="top" class="text">&nbsp;</td>
+			</tr>
+			<tr>
+				<td valign="top" class="header">Creating the page - Default.aspx				</td>
+			</tr>
+			<tr>
+				<td valign="top" class="text">Both the charts and JavaScript functions to 
+					manipulate the charts is contained in
+					<span class="codeInline">Default.aspx</span>. It has the following code:				</td>
+			</tr>
+			<tr>
+				<td valign="top" class="codeBlock"><p>&lt;%@ Page Language=&quot;C#&quot; AutoEventWireup=&quot;false&quot; CodeFile=&quot;Default.aspx.cs&quot; Inherits=&quot;DB_JS_Default&quot; %&gt;</p>
+				  <p>&lt;HTML&gt;<br />
+&nbsp;&nbsp;&lt;HEAD&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Client Side Dynamic Chart ( using Database) Example<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+  <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../FusionCharts/FusionCharts.js&quot;&gt;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//You need to include the above JS file, if you intend to embed the chart using JavaScript.</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+  <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot; &gt;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Here, we use a mix of server side script (ASP) and JavaScript to<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//render our data for factory chart in JavaScript variables. We'll later<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//utilize this data to dynamically plot charts.<br />
+                    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//All our data is stored in the data array. From ASP, we iterate through<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//each recordset of data and then store it as nested arrays in this data array.</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var data = new Array();<br />
+                    <br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Write the data as JavaScript variables here</span><strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%=jsVarString%&gt;</strong><br />
+  <br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//The data is now present as arrays in JavaScript. Local JavaScript functions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//can access it and make use of it. We'll see how to make use of it.<br />
+                    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/** <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* updateChart method is invoked when the user clicks on a pie slice.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* In this method, we get the index of the factory, build the XML data<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* for that that factory, using data stored in data array, and finally<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* update the Column Chart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*	@param	factoryIndex	Sequential Index of the factory.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/ </span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function updateChart(factoryIndex)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				    {<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//defining array of colors<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//We also initiate a counter variable to help us cyclically rotate through<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//the array of colors.</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var FC_ColorCounter=0;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//var arr_FCColors= new Array(20);</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var arr_FCColors= new Array(&quot;1941A5&quot; , &quot;AFD8F8&quot;, &quot;F6BD0F&quot;, &quot;8BBA00&quot;, &quot;A66EDD&quot;, &quot;F984A1&quot;, &quot;CCCC00&quot;, &quot;999999&quot;, &quot;0099CC&quot;, &quot;FF0000&quot;, &quot;006F00&quot;, &quot;0099FF&quot;, &quot;FF66CC&quot;, &quot;669966&quot;, &quot;7C7CB4&quot;, &quot;FF9933&quot;, &quot;9900FF&quot;, &quot;99FFCC&quot;, &quot;CCCCFF&quot;, &quot;669900&quot;);<br />
+                    <br />
+                    <br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Storage for XML data document</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var strXML = &quot;&lt;graph caption='Factory &quot; + factoryIndex  + &quot; Output ' subcaption='(In Units)' xAxisName='Date' decimalPrecision='0' rotateNames='1' &gt;&quot;;<br />
+                    <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Add &lt;set&gt; elements</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var i=0;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i=0; i&lt;data[factoryIndex].length; i++)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				    {<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;set name='&quot; + data[factoryIndex][i][0] + &quot;' value='&quot; + data[factoryIndex][i][1] + &quot;' color='&quot;+ arr_FCColors[++FC_ColorCounter % arr_FCColors.length] +&quot;' /&gt;&quot;;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                    <br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Closing graph Element</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;/graph&gt;&quot;;<br />
+                    <br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Update it's XML</span><br />
+			      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateChartXML(&quot;FactoryDetailed&quot;,strXML);</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+  <br />
+  &nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  <br />
+  &nbsp;&nbsp;&lt;BODY&gt;<b><br />
+&nbsp;&nbsp;&nbsp;&lt;asp:Literal ID=&quot;FCLiteral1&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;asp:Literal ID=&quot;FCLiteral2&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt;</b><br />
+				    &nbsp;&nbsp;&lt;/BODY&gt;<br />
+				    <br />
+				    &lt;/HTML&gt;</p>
+				  <p><br>
+				    <br>
+			      </p>
+				  <p><strong><u>Code in code behind page (<span class="codeInline">Default.aspx</span>.vb file in DB_JS folder):</u></strong> <br>
+				    <br />
+				    using System;<br />
+				    using System.Data;<br />
+				    using System.Configuration;<br />
+				    using System.Collections;<br />
+				    using System.Web;<br />
+				    using System.Web.Security;<br />
+				    using System.Web.UI;<br />
+				    using System.Web.UI.WebControls;<br />
+				    using System.Web.UI.WebControls.WebParts;<br />
+				    using System.Web.UI.HtmlControls;<br />
+				    using DataConnection;<br />
+				    using InfoSoftGlobal;</p>
+				  <p>public partial class DB_JS_Default : System.Web.UI.Page<br />
+				    {<br />
+				    &nbsp;&nbsp;public string jsVarString;<br />
+				    &nbsp;&nbsp;public int indexCount;</p>
+				  <p> &nbsp;&nbsp;&nbsp;protected void <b>Page_Load(object sender, EventArgs e)</b><br />
+&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeInline">// This string will be built in ASP.Net and rendered at run-time as JavaScript</span><br />
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetjsVar()</b>;<span class="codeComment"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Generate chart in Literal Control<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Pie chart with sum of production for each of the factories</span><br />
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FCLiteral1.Text = CreateChart();</b><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;// Generate chart in Literal Control<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Column 2D Chart with changed &quot;No data to display&quot; message</span><br />
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FCLiteral2.Text = ShowNextChart();</b></p>
+				  <p> }</p>
+				  <p><br />
+				    <br />
+  &nbsp;&nbsp;public void <strong>GetjsVar()</strong><br />
+  &nbsp;&nbsp;{</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//In this example, we show a combination of database + JavaScript rendering using FusionCharts.</span></p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//The entire app (page) can be summarized as under. This app shows the break-down<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//of factory wise output generated. In a pie chart, we first show the sum of quantity<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//generated by each factory. These pie slices, when clicked would show detailed date-wise<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//output of that factory.</span></p>
+				  <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//The XML data for the pie chart is fully created in ASP at run-time. ASP interacts<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//with the database and creates the XML for this.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//Now, for the column chart (date-wise output report), we do not submit request to the server.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//Instead we store the data for the factories in JavaScript arrays. These JavaScript<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//arrays are rendered by our ASP Code (at run-time). We also have a few defined JavaScript<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//functions which react to the click event of pie slice.</span></p>
+				  <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//We've used an Access database which is present in ../DB/FactoryDB.mdb. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;//It just contains two tables, which are linked to each other. </span></p>
+				  <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Before the page is rendered, we need to connect to the database and get the<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//data, as we'll need to convert this data into JavaScript variables.</span></p>
+				  <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//The following string will contain the JS Data and variables.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//This string will be built in ASP and rendered at run-time as JavaScript.</span></p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;jsVarString = &quot;&quot;;</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Database Objects</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;DbConn oRs; string strQuery;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;indexCount = 0;</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Iterate through each factory</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select * from Factory_Master&quot;;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;oRs = new DbConn(strQuery);</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;while(oRs.ReadData.Read())<br />
+&nbsp;&nbsp;&nbsp;				    {<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;indexCount++;</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create JavaScript code to add sub-array to data array<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//data is an array defined in JavaScript (see below)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//We've added vbTab &amp; vbCRLF to data so that if you View Source of the<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//output HTML, it will appear properly. It helps during debugging</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jsVarString += &quot;\t\t data[&quot; + indexCount + &quot;] = new Array();&quot; + &quot;\n&quot;;</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Now create second recordset to get date-wise details for this factory</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select * from Factory_Output where FactoryId=&quot; + oRs.ReadData[&quot;FactoryId&quot;].ToString() + &quot; order by DatePro Asc&quot;;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DbConn oRs2 = new DbConn(strQuery);<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(oRs2.ReadData.Read())<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				    {<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Put this data into JavaScript as another nested array.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Finally the array would look like data[factoryIndex][i][dataLabel,dataValue]</span><br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jsVarString += &quot;\t\t data[&quot; + indexCount + &quot;].push(new Array('&quot; + Convert.ToDateTime(oRs2.ReadData[&quot;DatePro&quot;]).ToString(&quot;dd/MM/yyyy&quot;) + &quot;',&quot; + oRs2.ReadData[&quot;Quantity&quot;].ToString() + &quot;));&quot; + &quot;\n&quot;;</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Close recordset</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs2.ReadData.Close();</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;oRs.ReadData.Read();</p>
+				  <p> &nbsp;&nbsp;}</p>
+				  <p> &nbsp;&nbsp;public string <strong>CreateChart()</strong><br />
+&nbsp;				    {<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Initialize the Pie chart with sum of production for each of the factories<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//strXML will be used to store the entire XML document generated</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string strXML, strQuery;</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Re-initialize Index</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;indexCount = 0;</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Generate the graph element</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity' decimalPrecision='0' showNames='1' numberSuffix=' Units' pieSliceDepth='20' formatNumberScale='0' &gt;&quot;;</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Iterate through each factory</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select * from Factory_Master&quot;;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DbConn oRs = new DbConn(strQuery);</p>
+				  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(oRs.ReadData.Read())<br />
+&nbsp;&nbsp;&nbsp;&nbsp;				    &nbsp;{<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Update index count - sequential</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;indexCount++;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Now create second recordset to get details for this factory</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; + oRs.ReadData[&quot;FactoryId&quot;].ToString();<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DbConn oRs2 = new DbConn(strQuery);<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs2.ReadData.Read();<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Generate &lt;set name='..' value='..' link='..' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Note that we're setting link as updateChart(factoryIndex) - JS Function</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='&quot; + oRs.ReadData[&quot;FactoryName&quot;].ToString() + &quot;' value='&quot; + oRs2.ReadData[&quot;TotOutput&quot;].ToString() + &quot;' link='javascript:updateChart(&quot; + indexCount + &quot;)'/&gt;&quot;;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Close recordset</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs2.ReadData.Close();<br />
+  <br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Finally, close &lt;graph&gt; element</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;/graph&gt;&quot;;<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;oRs.ReadData.Read();<br />
+  <br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart - Pie 3D Chart with data from strXML</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;<strong>return FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Pie3D.swf&quot;, &quot;&quot;, strXML, &quot;FactorySum&quot;, &quot;650&quot;, &quot;300&quot;, false, true);</strong></p>
+				  <p> &nbsp;&nbsp;}<br />
+				    &nbsp;&nbsp;public string <strong>ShowNextChart()</strong><br />
+&nbsp;				    {<br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Column 2D Chart with changed &quot;No data to display&quot; message<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//We initialize the chart with &lt;graph&gt;&lt;/graph&gt;</span><br />
+				    &nbsp;&nbsp;&nbsp;&nbsp;<strong>return FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Column2D.swf?ChartNoDataText=Please click on a pie slice above to view detailed data.&quot;, &quot;&quot;, &quot;&lt;graph&gt;&lt;/graph&gt;&quot;, &quot;FactoryDetailed&quot;, &quot;600&quot;, &quot;300&quot;, false, true);</strong><br />
+				    &nbsp;&nbsp;}<br />
+				    }</p></td>
+			</tr>
+			<tr>
+				<td valign="top" class="text"><p>				  In this page, before rendering any HTML code, we first 
+						fetch all the data in database and sotre it as JavaScript array. To do so, we use string 
+						concatenation in ASP.NET variables to store all data as JavaScript array code. 
+						Once the JavaScript code is built in our ASP.NET variable, we write it out in 
+						the
+						<span class="codeInline">&lt;SCRIPT&gt;</span>
+						section of HTML
+						<span class="codeInline">&lt;HEAD&gt;</span>.
+					</p>
+					<p class="codeInline">&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot; &gt;</p>
+					<p class="codeInline">var data = new Array();</p>
+					<p><span class="codeInline"><strong>&lt;%=jsVarString%&gt;</strong><br />
+				    ........<br />
+                    <br />
+                  &lt;/SCRIPT&gt;</span></p>
+				  <p>Also, the <span class="codeInline">Page_Load</span> event listener calls the <span class="codeInline">GetjsVar()</span> function which creates and intialises all the JavaScript variables.</p>
+					<p><br />
+					  <br />
+					  If you run this page and view the source JavaScript code, you'll see the 
+					  following: </p></td>
+			</tr>
+			<tr>
+				<td valign="top" class="codeBlock">var data = new Array();<br />
+					<br />
+					data[1] = new Array();<br />
+					data[1].push(new Array('1/1',21));<br />
+					data[1].push(new Array('2/1',23));<br />
+					data[1].push(new Array('3/1',22));<br />
+					data[1].push(new Array('4/1',24));<br />
+					data[1].push(new Array('5/1',32));<br />
+					data[1].push(new Array('6/1',21));<br />
+					data[1].push(new Array('7/1',34));<br />
+					data[1].push(new Array('8/1',32));<br />
+					data[1].push(new Array('9/1',32));<br />
+					data[1].push(new Array('10/1',23));<br />
+					data[1].push(new Array('11/1',23));<br />
+					data[1].push(new Array('12/1',32));<br />
+					data[1].push(new Array('13/1',53));<br />
+					data[1].push(new Array('14/1',23));<br />
+					data[1].push(new Array('15/1',26));<br />
+					data[1].push(new Array('16/1',43));<br />
+					data[1].push(new Array('17/1',16));<br />
+					data[1].push(new Array('18/1',45));<br />
+					data[1].push(new Array('19/1',65));<br />
+					data[1].push(new Array('20/1',54));<br />
+					data[2] = new Array();<br />
+					data[2].push(new Array('1/1',121));<br />
+					data[2].push(new Array('2/1',123));<br />
+					data[2].push(new Array('3/1',122));<br />
+					data[2].push(new Array('4/1',124));<br />
+					data[2].push(new Array('5/1',132));<br />
+					data[2].push(new Array('6/1',121));<br />
+					data[2].push(new Array('7/1',134));<br />
+					data[2].push(new Array('8/1',132));<br />
+					data[2].push(new Array('9/1',132));<br />
+					data[2].push(new Array('10/1',123));<br />
+					data[2].push(new Array('11/1',123));<br />
+					data[2].push(new Array('12/1',132));<br />
+					data[2].push(new Array('13/1',153));<br />
+					data[2].push(new Array('14/1',123));<br />
+					data[2].push(new Array('15/1',126));<br />
+					data[2].push(new Array('16/1',143));<br />
+					data[2].push(new Array('17/1',116));<br />
+					data[2].push(new Array('18/1',145));<br />
+					data[2].push(new Array('19/1',165));<br />
+					data[2].push(new Array('20/1',154));<br />
+					data[3] = new Array();<br />
+					data[3].push(new Array('1/1',54));<br />
+					data[3].push(new Array('2/1',56));<br />
+					data[3].push(new Array('3/1',89));<br />
+					data[3].push(new Array('4/1',56));<br />
+					data[3].push(new Array('5/1',98));<br />
+					data[3].push(new Array('6/1',76));<br />
+					data[3].push(new Array('7/1',65));<br />
+					data[3].push(new Array('8/1',45));<br />
+					data[3].push(new Array('9/1',75));<br />
+					data[3].push(new Array('10/1',54));<br />
+					data[3].push(new Array('11/1',75));<br />
+					data[3].push(new Array('12/1',76));<br />
+					data[3].push(new Array('13/1',34));<br />
+					data[3].push(new Array('14/1',97));<br />
+					data[3].push(new Array('15/1',55));<br />
+					data[3].push(new Array('16/1',43));<br />
+					data[3].push(new Array('17/1',16));<br />
+					data[3].push(new Array('18/1',35));<br />
+					data[3].push(new Array('19/1',78));<br />
+					data[3].push(new Array('20/1',75));</td>
+			</tr>
+			<tr>
+				<td valign="top" class="text"><p>You can clearly see that our ASP.NET code has 
+						outputted JavaScript code that can now locally create an array and feed it with 
+						requisite data.
+					</p>
+					<p>Now, before we get to the JavaScript functions, let's first see what we're doing 
+						in our ASP.NET Code:
+				  <ul>
+						<li>We first create the XML data document for Pie chart - summary of factory output. 
+						For each
+						<span class="codeInline">&lt;set&gt;</span>, we provide a JavaScript link to 
+						the
+						<span class="codeInline">updateChart()</span>
+						function and pass the factory ID to it as shown in the line below:<br />
+						<br />
+						<span class="codeInline">strXML += &quot;&lt;set name='&quot; + oRs.ReadData[&quot;FactoryName&quot;].ToString() + &quot;' value='&quot; + oRs2.ReadData[&quot;TotOutput&quot;].ToString() + &quot;' link='javascript:updateChart(&quot; + indexCount + &quot;)'/&gt;&quot;;</span><br />
+						<br /></li>
+					<li>We now render the Pie 3D chart using dataXML method. The Pie 3D chart has its 
+				DOM Id as
+                  <span class="codeInline">FactorySum</span>:<br />
+		                <br />
+		                <span class="codeInline">FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Pie3D.swf&quot;, &quot;&quot;, <strong>strXML</strong>, &quot;<strong>FactorySum</strong>&quot;, &quot;650&quot;, &quot;300&quot;, False, True)</span><br />
+						<br />
+						</li>
+						<li>Now, we render an empty Column 2D chart with
+						<span class="codeInline">&lt;graph&gt;&lt;/graph&gt;</span> data initially. We also change the &quot;<span class="codeInline">No data to display.</span>&quot; 
+						error to a friendly and intuitive &quot;<span class="codeInline">Please select a factory from pie chart above to view detailed data.</span>&quot; 
+						This chart has its <span class="codeInline">DOM Id</span> as
+						<span class="codeInline">FactoryDetailed</span>.<br />
+						<br />
+						<span class="codeInline">FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Column2D.swf?<strong>ChartNoDataText=Please click on a pie slice above to view detailed data.</strong>&quot;, &quot;&quot;, &quot;<strong>&lt;graph&gt;&lt;/graph&gt;</strong>&quot;, &quot;<strong>FactoryDetailed</strong>&quot;, &quot;600&quot;, &quot;300&quot;, False, True)</span></li>
+						</ul>
+					        <p>					          Effectively, our page is now set to show two charts. The pie chart shows the 
+						summary data provided to it using dataXML method. The column chart shows the 
+						above &quot;friendly&quot; error message. Now, when each pie slice is clicked, 
+						the
+						<span class="codeInline">updateChart()</span>
+						JavaScript function is called and the
+						<span class="codeInline">factoryID</span>
+						of the pie is passed to it. This function is responsible for updating the 
+				  column chart and contains the following code:					</p>				</td>
+			</tr>
+			<tr>
+				<td valign="top" class="codeBlock"><p>function updateChart(factoryIndex){<br />
+				    <span class="codeComment">&nbsp;&nbsp;//defining array of colors<br />
+				  &nbsp;&nbsp;//We also initiate a counter variable to help us cyclically rotate through<br />
+				  &nbsp;&nbsp;//the array of colors.</span><br />
+				  <span class="codeComment">&nbsp;&nbsp;</span>var FC_ColorCounter=0;<br />
+				  <span class="codeComment">&nbsp;&nbsp;//var arr_FCColors= new Array(20);</span><br />
+				  <span class="codeComment">&nbsp;&nbsp;</span>var arr_FCColors= new Array(&quot;1941A5&quot; , &quot;AFD8F8&quot;, &quot;F6BD0F&quot;, &quot;8BBA00&quot;, &quot;A66EDD&quot;, &quot;F984A1&quot;, &quot;CCCC00&quot;, &quot;999999&quot;, &quot;0099CC&quot;, &quot;FF0000&quot;, &quot;006F00&quot;, &quot;0099FF&quot;, &quot;FF66CC&quot;, &quot;669966&quot;, &quot;7C7CB4&quot;, &quot;FF9933&quot;, &quot;9900FF&quot;, &quot;99FFCC&quot;, &quot;CCCCFF&quot;, &quot;669900&quot;);<br />
+  <br />
+  <br />
+				  <span class="codeComment">&nbsp;&nbsp;//Storage for XML data document</span><br />
+				  <span class="codeComment">&nbsp;&nbsp;</span>var strXML = &quot;&lt;graph caption='Factory &quot; + factoryIndex  + &quot; Output ' subcaption='(In Units)' xAxisName='Date' decimalPrecision='0' rotateNames='1' &gt;&quot;;<br />
+  <br />
+				  <span class="codeComment">&nbsp;&nbsp;//Add &lt;set&gt; elements</span><br />
+				  <span class="codeComment">&nbsp;&nbsp;</span>var i=0;<br />
+				  <span class="codeComment">&nbsp;&nbsp;</span>for (i=0; i&lt;data[factoryIndex].length; i++){<br />
+				  strXML = strXML + &quot;&lt;set name='&quot; + data[factoryIndex][i][0] + &quot;' value='&quot; + data[factoryIndex][i][1] + &quot;' color='&quot;+ arr_FCColors[++FC_ColorCounter % arr_FCColors.length] +&quot;' /&gt;&quot;;<br />
+				  <span class="codeComment">&nbsp;&nbsp;</span>}<br />
+  <br />
+				  <span class="codeComment">&nbsp;&nbsp;//Closing graph Element</span><br />
+				  <span class="codeComment">&nbsp;&nbsp;</span>strXML = strXML + &quot;&lt;/graph&gt;&quot;;<br />
+  <br />
+				  <span class="codeComment">&nbsp;&nbsp;//Update it's XML</span><br />
+				  <span class="codeComment">&nbsp;&nbsp;</span>updateChartXML(&quot;FactoryDetailed&quot;,strXML);</p>
+			    <p> }</p></td>
+			</tr>
+			<tr>
+				<td valign="top" class="text">Here,<br />
+					<ol>
+						<li>
+							We first create the XML data document for the column chart by iterating through 
+							data contained in our JavaScript
+							<span class="codeInline">data</span>
+							array.						</li>
+						<li>This XML data is stored in <span class="codeInline">strXML</span>. </li>
+						<li>
+							Thereafter, we convery this XML data and DOM Id
+							<span class="codeInline">FactoryDetailed</span> to <span class="codeInline">updateChartXML()</span>
+						method of the chart.</li>
+						<li>
+							This updates the chart with new data.						</li>
+					</ol>
+					    
+					<p>When you now see the application, the initial state would look as under:					</p>				</td>
+			</tr>
+			<tr>
+				<td valign="top" class="text"><img src="Images/Code_JS_XML_Ini.jpg" class="imageBorder" /></td>
+			</tr>
+			<tr>
+				<td valign="top" class="text">And when you click on a pie slice, the following 
+					would appear on the same page (without involving any browser refreshes):				</td>
+			</tr>
+			<tr>
+				<td valign="top" class="text"><img src="Images/Code_JS_XML_Fin.jpg" class="imageBorder" /></td>
+			</tr>
+			<tr>
+				<td valign="top" class="text">This example demonstrated a very basic sample of the 
+					integration capabilities possible with FusionCharts Free. For advanced demos, you 
+					can see and download our FusionCharts Blueprint/Demo Applications.				</td>
+			</tr>
+		</table>
+	</body>
+</html>

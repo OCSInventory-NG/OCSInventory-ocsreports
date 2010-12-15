@@ -1,0 +1,18 @@
+<% @page_title=" FusionCharts Free- Database and Drill-Down Example " %>
+<% @page_heading="Database and Drill-Down Example" %>
+<% @page_subheading="Detailed report for the factory" %>
+<%
+	#This page is invoked from default action in controller. When the user clicks on a pie
+	#slice rendered by default.html.erb, the factoryId is passed as a parameter to detailed function
+	#in the controller. We need to get that factory id, get the information from database and then show
+	#a detailed chart.
+			
+	# The xml is obtained as a string from builder template.
+	str_xml = render "fusioncharts/db_drilldown/factory_details", {:factory_data=>@factory_data,:factory_id=>@factory_id}
+			
+	#Create the chart - Column 2D Chart with data from strXML
+	render_chart '/FusionCharts/FCF_Column2D.swf', '', str_xml, 'FactoryDetailed', 600, 300, false, false   do -%> 
+<% end-%> 
+		
+<BR>
+<a href='default'>Back to Summary</a>

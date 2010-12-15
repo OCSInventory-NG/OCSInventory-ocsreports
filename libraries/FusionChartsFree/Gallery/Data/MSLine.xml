@@ -1,0 +1,52 @@
+<graph caption='Daily Visits' subcaption='(from 8/6/2006 to 8/12/2006)' hovercapbg='FFECAA' hovercapborder='F47E00' formatNumberScale='0' decimalPrecision='0' showvalues='0' numdivlines='3' numVdivlines='0' yaxisminvalue='1000' yaxismaxvalue='1800'  rotateNames='1'>
+<categories >
+<category name='8/6/2006' />
+<category name='8/7/2006' />
+<category name='8/8/2006' />
+<category name='8/9/2006' />
+<category name='8/10/2006' />
+<category name='8/11/2006' />
+<category name='8/12/2006' />
+
+</categories>
+<dataset seriesName='Offline Marketing' color='1D8BD1' anchorBorderColor='1D8BD1' anchorBgColor='1D8BD1'>
+	<set value='1327' />
+	<set value='1826' />
+	<set value='1699' />
+	<set value='1511' />
+	<set value='1904' />
+	<set value='1957' />
+	<set value='1296' />
+	</dataset>
+
+<dataset seriesName='Search' color='F1683C' anchorBorderColor='F1683C' anchorBgColor='F1683C'>
+	<set value='2042' />
+	<set value='3210' />
+	<set value='2994' />
+	<set value='3115' />
+	<set value='2844' />
+	<set value='3576' />
+	<set value='1862' />
+</dataset>
+
+<dataset seriesName='Paid Search' color='2AD62A' anchorBorderColor='2AD62A' anchorBgColor='2AD62A'>
+	<set value='850' />
+	<set value='1010' />
+	<set value='1116' />
+	<set value='1234' />
+	<set value='1210' />
+	<set value='1054' />
+	<set value='802' />
+</dataset>
+
+<dataset seriesName='From Mail' color='DBDC25' anchorBorderColor='DBDC25' anchorBgColor='DBDC25'>
+	<set value='541' />
+	<set value='781' />
+	<set value='920' />
+	<set value='754' />
+	<set value='840' />
+	<set value='893' />
+	<set value='451' />
+</dataset>
+
+</graph>

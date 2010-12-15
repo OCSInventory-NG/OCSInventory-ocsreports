@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Multi-Series Chart XML</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Multi-series charts are charts where you 
+        compare multiple series of data. Like, in our previous example we had 
+        seen how to plot a chart indicating Monthly sales summary for 1 year. 
+        This data belonged to one particular series, that is for the year say, 
+        2005. Now, if you need to compare the data for 2 or more years, you'll 
+        have to use multi-series charts. Using multi-series charts, you can compare 
+        data for 2 or more number of series. A simple 2D multi-series chart looks 
+        as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="ChartSS/Images/MS_Col2D.jpg" /></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">As you can see above, here we are comparing 
+      data for the year 2006 and 2005. 
+      <p>The XML for this chart looks as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;graph caption='Business Results 2005 v 2006' xAxisName='Month' yAxisName='Revenue'<br />
+      &nbsp;&nbsp;showValues='0' numberPrefix='$' decimalPrecision='0'  bgcolor='F3f3f3' bgAlpha='70' <br />
+      &nbsp;&nbsp;showColumnShadow='1' divlinecolor='c5c5c5' divLineAlpha='60' showAlternateHGridColor='1' <br/>
+	  &nbsp;&nbsp;alternateHGridColor='f8f8f8' alternateHGridAlpha='60'    &gt;<br /><br/>
+  &nbsp;&nbsp;&lt;categories&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Jan' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Feb' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Mar' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Apr' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='May' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Jun' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Jul' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Aug' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Sep' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Oct' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Nov' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='Dec' /&gt;<br />
+ &nbsp;&nbsp;&lt;/categories&gt;<br/><br/>
+  &nbsp;&nbsp;&lt;dataset seriesName='2006' color='c4e3f7' &gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='27400' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='25800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='26800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29600' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='32600' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='31800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='36700' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29700' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='31900' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='34800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='24800' /&gt;<br />
+  &nbsp;&nbsp;&lt;/dataset&gt;<br/><BR/>
+  &nbsp;&nbsp;&lt;dataset seriesName='2005' color='Fad35e'  &gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='10000'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11500'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='12500'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='15000'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11000' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='9800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='19700' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='21700' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='21900' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='22900' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='20800' /&gt;<br />
+  &nbsp;&nbsp;&lt;/dataset&gt;<BR/><BR/>
+  &nbsp;&nbsp;&lt;trendlines&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;line startValue='26000' color='91C728' displayValue='Target' showOnTop='1'/&gt;<br />
+  &nbsp;&nbsp;&lt;/trendlines&gt;<BR/><BR/>
+  &lt;/graph&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Brief Explanation</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>If you've already gone through the single 
+        series XML structure, you'll find notable differences between the two 
+        XML structures. There is the new <span class="codeInline">&lt;category&gt;</span> 
+        and <span class="codeInline">&lt;dataset&gt;</span> elements and the <span class="codeInline">&lt;set&gt;</span> 
+        elements now just contain the value attribute.</p>
+      <p>However, if you're still unaware of the FusionCharts XML structure, let's 
+        get to the basics first. The <span class="codeInline">&lt;graph&gt;</span> 
+        element is the main element of any FusionCharts XML document - it represents 
+        the starting point and the ending point of data. The <span class="codeInline">&lt;graph&gt;</span> 
+        element has a number of attributes which helps to manipulate the chart. 
+        You can find the full list of attributes in &quot;<span class="codeInline">Chart 
+        XML Reference</span>&quot; of each chart.</p>
+      <p>In the most general form, attributes have the following form:<br>
+        <span class="codeInline">attributeName = &quot;Value&quot;<br>
+        e.g., xAxisName=&quot;Month&quot;</span> </p>
+      <p>The attributes can occur in any order and quotes can be single or double 
+        like <span class="codeInline">xAxisName='Month'. </span><span class="text">However, 
+        you need to make sure that a particular attribute occurs only once for 
+        a given element.</span></p>
+      <p>Next to the <span class="codeInline">&lt;graph&gt;</span> element is 
+        <span class="codeInline">&lt;categories&gt;</span> element and its child 
+        <span class="codeInline"> &lt;category&gt;</span> elements. Each <span class="codeInline">&lt;category&gt;</span> 
+        element represents a name on the x-axis. The <span class="codeInline">&lt;category&gt;</span> 
+        elements need to be defined for all the multi-series charts before you 
+        can define the data. For example, in our chart, the categories are the 
+        month names (Jan, Feb, Mar ...) as we're plotting a chart to show monthly 
+        sales summary for two consecutive years. </p>
+      <p>Now, in a multi-series chart, each series of data (i.e., each set of 
+        data) needs to be enclosed between a <span class="codeInline">&lt;dataset&gt;</span> 
+        element. Like in our example, we're plotting a chart showing the monthly 
+        sales trend for 2 different years - the first dataset element's childnodes 
+        would be the data for the year 2006 and the second one for 2005. Depending 
+        on the chart type, there are a number of properties which you can define 
+        for each <span class="codeInline">&lt;dataset&gt;</span> element, which 
+      you can see in &quot;Chart XML Reference&quot; of that chart.</p>
+      <p>Moving on, each <span class="codeInline">&lt;set&gt;</span> element (which 
+        is a child element of the <span class="codeInline">&lt;dataset&gt;</span> 
+        element) represents a set of data which is to be plotted on the graph 
+        and determines a set of data which would appear on the graph. A typical 
+        <span class="codeInline"> &lt;set&gt;</span> element would look like:</p>
+      <p class="codeInline">&lt;set value=&quot;27400&quot;/&gt;</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="highlightBlock">You should note that the number of 
+      <span class="codeInline">&lt;category&gt;</span> elements should be equal 
+      to the number of data rows in each data sets, i.e., if you mention twelve 
+      categories (twelve months), the data for both years (2005 &amp; 2006) should 
+      also contain twelve <span class="codeInline">&lt;set&gt; </span>elements 
+      (twelve rows of data).</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Next we have the <span class="codeInline">&lt;trendLines&gt;</span> 
+        element. Using this function of the chart, you could draw custom lines 
+        on the chart to represent a trend. For example, in our above XML, we have 
+        defined a line at 26000 to represent the Target sales for the period. 
+      </p>
+      </td>
+  </tr>
+</table>
+</body>
+</html>

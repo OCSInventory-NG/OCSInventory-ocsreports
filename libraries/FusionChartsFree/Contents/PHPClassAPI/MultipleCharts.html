@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Creating multiple charts in one page </h2></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p>While developing web pages or applications, we may need to  display multiple charts on the same page. For example, reporting Weekly Sales Qunatity along with Revenue gives us a better insight. Let's see how we can accomplish this  using FusionCharts PHP Class. The code below generates two Column 3D charts  on the same page. </p>    </td>
+  </tr>
+  
+  <tr>
+     <td valign="top" >&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="highlightBlock" ><p><strong>Before you go further with this page, we recommend you to please see   the previous page &quot;Creating First Chart &quot; as we start off from concepts explained in   that page. </strong></p></td>
+  </tr>
+  <tr>
+    <td valign="top" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php</p>
+      <p> <span class="codeComment">&nbsp; # Include FusionCharts PHP Class</span><br />
+         <span class="codeComment">&nbsp; </span>include('../Class/FusionCharts_Gen.php');<br />
+      <br />
+    <br />
+          <span class="codeComment">&nbsp; //---------- <strong>Configuring First Chart</strong> ----------//<br />
+        &nbsp; # Create Column3D chart object </span><br />
+        <span class="codeComment">&nbsp; </span>$FC = new FusionCharts(&quot;Column3D&quot;,&quot;300&quot;,&quot;250&quot;); <br />
+        <span class="codeComment">&nbsp; # set the relative path of the swf file</span><br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp; # Store chart attributes in a variable </span><br />
+        <span class="codeComment">&nbsp; </span>$strParam=&quot;caption=Weekly Sales;subcaption=Revenue;xAxisName=Week;yAxisName=Revenue;numberPrefix=$;decimalPrecision=0&quot;;<br />
+        <br />
+        <span class="codeComment">&nbsp; #  Set chart attributes</span><br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;setChartParams($strParam);<br />
+          <br />
+          <span class="codeComment">&nbsp; # Add chart values and category names for the First Chart</span><br />
+          <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;40800&quot;,&quot;name=Week 1&quot;);<br />
+          <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;31400&quot;,&quot;name=Week 2&quot;);<br />
+          <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;26700&quot;,&quot;name=Week 3&quot;);<br />
+          <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;54400&quot;,&quot;name=Week 4&quot;);<br />
+        <span class="codeComment">&nbsp; //--------------------------------------------------------- </span></p>
+      <p><span class="codeComment">&nbsp; //---------- <strong>Configuring Second Chart</strong> ----------//<br />
+        &nbsp; # Create another Column3D chart object</span><br />
+        <span class="codeComment">&nbsp; </span>$FC2 = new FusionCharts(&quot;Column3D&quot;,&quot;300&quot;,&quot;250&quot;); <br />
+        <span class="codeComment">&nbsp; # set the relative path of the swf file</span><br />
+        <span class="codeComment">&nbsp; </span>$FC2-&gt;setSWFPath(&quot;../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp; #  Store chart attributes in a variable </span><br />
+        <span class="codeComment">&nbsp; </span>$strParam=&quot;caption=Weekly Sales;subcaption=Quantity;xAxisName=Week;yAxisName=Quantity;decimalPrecision=0&quot;;</p>
+      <p> <span class="codeComment">&nbsp; #  Set chart attributes</span><br />
+         <span class="codeComment">&nbsp; </span>$FC2-&gt;setChartParams($strParam);<br />
+          <br />
+          <span class="codeComment">&nbsp; # Add chart values and  category names for the second chart</span><br />
+          <span class="codeComment">&nbsp; </span>$FC2-&gt;addChartData(&quot;32&quot;,&quot;name=Week 1&quot;);<br />
+          <span class="codeComment">&nbsp; </span>$FC2-&gt;addChartData(&quot;35&quot;,&quot;name=Week 2&quot;);<br />
+          <span class="codeComment">&nbsp; </span>$FC2-&gt;addChartData(&quot;26&quot;,&quot;name=Week 3&quot;);<br />
+          <span class="codeComment">&nbsp; </span>$FC2-&gt;addChartData(&quot;44&quot;,&quot;name=Week 4&quot;);<br />
+          <span class="codeComment">&nbsp; //--------------------------------------------------------</span></p>
+      <p>?&gt;<br />
+        &lt;html&gt;<br />
+        <span class="codeComment">&nbsp; </span>&lt;head&gt;<br />
+        <span class="codeComment">&nbsp; </span><span class="codeComment">&nbsp; </span>&lt;title&gt;First Chart Using FusionCharts PHP Class&lt;/title&gt;<br />
+        <span class="codeComment">&nbsp; </span><span class="codeComment">&nbsp; </span>&lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+        <span class="codeComment">&nbsp; </span>&lt;/head&gt;<br />
+        <span class="codeComment">&nbsp; </span>&lt;body&gt;</p>
+      <p><span class="codeComment">&nbsp; &nbsp; </span>&lt;?<br />
+        <span class="codeComment">&nbsp; &nbsp; &nbsp; # Render First Chart</span><br />
+        <span class="codeComment">&nbsp; &nbsp; </span><span class="codeComment">&nbsp; </span>$FC-&gt;renderChart();</p>
+      <p> <span class="codeComment">&nbsp; &nbsp; &nbsp; # Render Second Chart</span><br />
+         <span class="codeComment">&nbsp; &nbsp; </span><span class="codeComment">&nbsp; </span>$FC2-&gt;renderChart();<br />
+  <br />
+        <span class="codeComment">&nbsp; &nbsp; </span>?&gt;</p>
+      <p>
+            <span class="codeComment">&nbsp; </span>&lt;/body&gt;<br />
+   &lt;/html&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's go through the steps involved in this code:
+      <ul type="disc">
+        <li>Include       <span class="codeInline">FusionCharts_Gen.php</span>.<br />
+           <br />
+        </li>
+        <li>Create object for the <strong>First Chart</strong>     that shows weekly revenue report.<br />
+           <br />
+          <span class="codeInline">$FC = new FusionCharts(&quot;Column3D&quot;,&quot;300&quot;,&quot;250&quot;); </span><br />
+          <br />
+        </li>
+        <li>Set relative path for the SWF file.<br />
+           <br />
+          <span class="codeInline">$FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);</span><br />
+          <br />
+        </li>
+        <li> Set        attributes for the first chart using <span class="codeInline">setChartParams()</span> function. <br />
+           <br />
+          <span class="codeInline">$strParam=&quot;caption=Weekly Sales;subcaption=Revenue;xAxisName=Week;yAxisName=Revenue;numberPrefix=$;decimalPrecision=0&quot;;<br />
+        $FC-&gt;setChartParams($strParam);</span><br />
+        <br />
+        </li>
+        <li>Add       data values for this chart.<br />
+           <br />
+          <span class="codeInline">$FC-&gt;addChartData(&quot;40800&quot;,&quot;name=Week 1&quot;);<br />
+          $FC-&gt;addChartData(&quot;31400&quot;,&quot;name=Week 2&quot;);<br />
+          $FC-&gt;addChartData(&quot;26700&quot;,&quot;name=Week 3&quot;);<br />
+        $FC-&gt;addChartData(&quot;54400&quot;,&quot;name=Week 4&quot;);</span><br />
+        <br />
+        </li>
+        <li>Now, the same steps are repeated for the <strong>Second Chart</strong>, i.e., the 'units sold' chart. Create object for this chart.<br />
+           <br />
+          <span class="codeInline">$FC2 = new FusionCharts(&quot;Column3D&quot;,&quot;300&quot;,&quot;250&quot;);</span><br />
+          <br />
+        </li>
+        <li>Set relative path for the SWF file.<br />
+           <br />
+          <span class="codeInline">$FC2-&gt;setSWFPath(&quot;FusionCharts/&quot;);</span><br />
+          <br />
+        </li>
+        <li>Set        attributes for the first chart using <span class="codeInline">setChartParams()</span> function. <br />
+           <br />
+          <span class="codeInline">$strParam=&quot;caption=Weekly Sales;subcaption=Quantity;xAxisName=Week;yAxisName=Quantity;decimalPrecision=0&quot;;<br />
+        $FC2-&gt;setChartParams($strParam);</span><br />
+        <br />
+        </li>
+        <li>Add       data values for the second chart.<br />
+           <br />
+          <span class="codeInline">$FC2-&gt;addChartData(&quot;32&quot;,&quot;name=Week 1&quot;);<br />
+          $FC2-&gt;addChartData(&quot;35&quot;,&quot;name=Week 2&quot;);<br />
+          $FC2-&gt;addChartData(&quot;26&quot;,&quot;name=Week 3&quot;);<br />
+        $FC2-&gt;addChartData(&quot;44&quot;,&quot;name=Week 4&quot;);</span><br />
+        <br />
+        </li>
+        <li>Include        <span class="codeInline">FusionCharts.js</span>.<br />
+           <br />
+        </li>
+        <li>Finally, render the 2 charts using <span class="codeInline">renderChart()</span> function.<br />
+           <br />
+          <span class="codeInline">$FC-&gt;renderChart();<br />
+        $FC2-&gt;renderChart();</span><br />
+        </li>
+    </ul>    </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here is the output. Both the charts have been rendered on same page.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PHPClassMultiCharts.jpg" class="imageBorder" />&nbsp;</td>
+  </tr>
+  
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

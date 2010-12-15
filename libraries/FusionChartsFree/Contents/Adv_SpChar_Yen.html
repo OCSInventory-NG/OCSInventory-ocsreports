@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Using Yen Character on chart </span></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">When using dataURL method </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">If you're using dataURL method, you need to encode Yen character to <span class="codeInline"></span>%A5 in your XML and then use it as under:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph decimalPrecision='0' numberPrefix='<strong>%A5 </strong>' &gt;<br />
+&nbsp;&nbsp; &lt;set name='John' value='420' color='AFD8F8' /&gt;<br />
+&nbsp;&nbsp; &lt;set name='Mary'  value='295' color='F6BD0F' /&gt;<br />
+&nbsp;&nbsp; &lt;set name='Tom' value='523' color='8BBA00' /&gt;<br />
+&lt;/graph&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You'll now get the following output: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/YenChar.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">When using dataXML method </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Also, when using dataXML method, you need to encode Yen character to <span class="codeInline"></span>%A5 - else, you'll get an error on many browsers. Following is the full HTML Code to embed the chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;div id=&quot;chart1div&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;This text is replaced by the chart.<br />
+  &lt;/div&gt;<br />
+  &lt;script type=&quot;text/javascript&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;FCF_Column2D.swf&quot;, &quot;ChId1&quot;, &quot;350&quot;, &quot;200&quot;);<br />
+      &nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;graph decimalPrecision='0' <strong>numberPrefix='%A5 '</strong>&gt;<br />
+      &nbsp;&nbsp; &lt;set name='John' value='420' color='AFD8F8' /&gt;<br />
+      &nbsp;&nbsp; &lt;set name='Mary' value='295' color='F6BD0F' /&gt;<br />
+      &nbsp;&nbsp; &lt;set name='Tom' value='523' color='8BBA00' /&gt;&nbsp; <br />
+      &nbsp;&nbsp; &lt;/graph&gt;&quot;);<br />
+        &nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+  &lt;/script&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You'll again get the same output as before. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/YenChar.jpg" /></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Embedding a Chart Using JavaScript </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In both our previous examples, we had used 
+        direct HTML code (shown below) to embed a chart:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br />
+      ... <br /> 
+      <strong>&nbsp;&nbsp;&nbsp;</strong>&lt;OBJECT classid=&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot; codebase=http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0&quot;  
+      width=&quot;600&quot; height=&quot;500&quot; id=&quot;Column3D&quot; &gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param name=&quot;movie&quot; value=&quot;../FusionCharts/FCF_Column3D.swf&quot; 
+      /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param name=&quot;FlashVars&quot; 
+      value=&quot;&amp;dataURL=Data.xml&amp;chartWidth=600&amp;chartHeight=500&quot;&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param 
+      name=&quot;quality&quot; value=&quot;high&quot; /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;embed 
+      src=&quot;../FusionCharts/FCF_Column3D.swf&quot; flashVars=&quot;&amp;dataURL=Data.xml&amp;chartWidth=600&amp;chartHeight=500&quot; 
+      quality=&quot;high&quot; width=&quot;600&quot; height=&quot;500&quot; name=&quot;Column3D&quot; 
+      type=&quot;application/x-shockwave-flash&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; 
+      /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;/object&gt;<br />
+      ... <br /> &lt;/html&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>As you can see above, we've used the <span class="codeInline">&lt;OBJECT&gt;</span> 
+        and<span class="codeInline"> &lt;EMBED&gt;</span> tags to embed the chart 
+        in an HTML page. This method of embedding is known as direct HTML embedding. 
+      </p>
+      <p>However, with the recent updates in the way Internet Explorer handles 
+        ActiveX Object (Flash is ActiveX Object), end users would first be required 
+        to click the chart to activate it. Shown below is an example:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="Images/ClickToActivate.jpg" class="imageBorder"/></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Until the user clicks the chart, he wouldn't 
+        be able to interact with the chart i.e., the tool tips and links won't 
+        function. This can sometimes be misleading when you've links in your chart.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">JavaScript as Solution</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>As a solution to the above &quot;Click to 
+        activate...&quot; problem, you'll need to use JavaScript to embed FusionCharts 
+        in your HTML pages. When you use JavaScript to write the tags for an ActiveX 
+        object, Internet Explorer doesn't display the above border and message, 
+        and the objects do not need to be activated by clicking. </p>
+      <p>To make things easier, we've provided a JavaScript class named as <span class="codeInline">FusionCharts</span>, 
+        which helps you do the same in a very user-friendly way. This class can 
+        be found in Download Package &gt; <span class="codeInline">JSClass</span> 
+      folder. The file is named as <span class="codeInline">FusionCharts.js</span>.      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="highlightBlock">We wouldn't cover the technical details 
+      of this class. If you're interested in that, you can directly see the source 
+      of the JavaScript Class file. Instead, we'll see usage examples of this 
+      class here.</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">Let's now modify our previous Column 3D Chart 
+      (My First Chart) example to use this JavaScript class to embed the chart.    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Making <span class="codeInline">FusionCharts.js</span> 
+      globally accessible</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Since all of your pages that contain FusionCharts 
+        would now use this JavaScript class, it's a better idea to keep this JS 
+        file in a root folder, which is globally accessible. We copy this file 
+        into our previously created <span class="codeInline">FusionCharts</span> 
+        folder, which already contains the chart SWF files. Copying here makes 
+        sure that all the charts and this JS file can be used in all pages from 
+        this central location.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Using the class in HTML page</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>We'll now modify our HTML page to use this 
+        class to embed the chart. </p>
+      <p>Create a copy of <span class="codeInline">Chart.html</span> and save 
+        it as <span class="codeInline">JSChart.html</span> in the same folder. 
+        Make the following changes to it:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;script language=&quot;JavaScript&quot; 
+      src=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;</strong><br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt; <p>&lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;The 
+        chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var myChart = new FusionCharts(&quot;../FusionCharts/FCF_Column3D.swf&quot;, 
+        &quot;myChartId&quot;, &quot;600&quot;, &quot;500&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.setDataURL(&quot;Data.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.render(&quot;chartdiv&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;</strong><br />
+        &lt;/body&gt;<br />
+        &lt;/html&gt;<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Here, we first include the <span class="codeInline">FusionCharts</span> 
+        JavaScript class file using : </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock"><span class="codeInline">&lt;script language=&quot;JavaScript&quot; 
+      src=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt; </span></td>
+  </tr>
+  
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Create a DIV in the page body with a unique 
+        id (<span class="codeInline">chartdiv</span> in example above). </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;...&lt;/div&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Instantiate a chart using the following code:<br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock"><span class="codeInline">var myChart = 
+      new FusionCharts(&quot;../FusionCharts/FCF_Column3D.swf&quot;, &quot;myChartId&quot;, 
+      &quot;600&quot;, &quot;500&quot;);</span>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Here, <span class="codeInline">myChart</span> 
+        is the name of the JavaScript object that contains reference to our chart.</p>
+      <p>As parameters, we pass:</p>
+      <ol>
+        <li>URL of SWF file of the chart type that we intend to use</li>
+        <li>Id for the chart - You can give any id for the chart. Just make sure 
+          that if you're using multiple charts in the same HTML page, each chart 
+          should have a unique Id.</li>
+        <li>Required width and height of the chart.</li>
+      </ol>
+      <p>Convey the XML data path to the chart using:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock"> <span class="codeInline">myChart.setDataURL(&quot;Data.xml&quot;);</span>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Finally, render the chart by calling <span class="codeInline">render()</span> 
+        method of the class and specifying the <span class="codeInline">Id</span> 
+        of the DIV which we want the chart to occupy.<br /></p>      </td>
+	</tr>
+	<tr>  
+	  <td valign="top" class="codeBlock"> <span class="codeInline">myChart.render(&quot;chartdiv&quot;);</span></td> 
+      </tr>
+     <tr> <td valign="top" > 
+	  <p class="text">When you now run this page in Internet Explorer, you'll see the same 
+        old Column 3D chart - but the &quot;Click to activate...&quot; message 
+        wouldn't show up. Also, you won't be required to click the chart to activate.      </p></td>
+  </tr>
+</table>
+</body>
+</html>

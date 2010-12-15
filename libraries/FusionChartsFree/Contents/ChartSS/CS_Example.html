@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+
+<body leftmargin="0" topmargin="0">
+<table width="98%" border="0" align="right" cellpadding="2" cellspacing="1">
+  <tr> 
+    <td><span class="pageHeader">Candlestick Chart &gt; XML Examples</span></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text">In this part of the document, we'll see some examples of 
+      candlestick charts and their corresponding XML data.</td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="header">3 month data without specifying the xIndex</td>
+  </tr>
+  <tr> 
+    <td class="text">In this XML document, we'll see a 3 months continuous data 
+      without a <span class="codeInline">xIndex</span> for any <span class="codeInline">&lt;set&gt;</span> 
+      value. The XML document for this example looks as under:</td>
+  </tr>
+  <tr> 
+    <td class="codeBlock">&lt;graph caption='3 Months - As on 04/02/04' yAxisMinValue='24' 
+      yAxisMaxValue='29' canvasBorderColor='DAE1E8' canvasBgColor='FFFFFF' bgColor='EEF2FB' 
+      numDivLines='9' divLineColor='DAE1E8' decimalPrecision='2' numberPrefix='$' 
+      showNames='1' bearBorderColor='E33C3C' bearFillColor='E33C3C' bullBorderColor='1F3165' 
+      baseFontColor='444C60' outCnvBaseFontColor='444C60' hoverCapBorderColor='DAE1E8' 
+      hoverCapBgColor='FFFFFF' rotateNames='0'&gt; <p>&lt;categories font='' fontSize='10' 
+        fontColor='' verticalLineColor='' verticalLineThickness='1' verticalLineAlpha='100'&gt;<br>
+        &lt;category Name='2004' xIndex='1' showLine='1'/&gt;<br>
+        &lt;category Name='Feb' xIndex='31' showLine='1'/&gt;<br>
+        &lt;category Name='March' xIndex='59' showLine='1'/&gt;<br>
+        &lt;/categories&gt;<br>
+        <br>
+        &lt;data&gt;<br>
+        &lt;set open='24.6' high='25.24' low='24.58' close='25.19' /&gt;<br>
+        &lt;set open='24.36' high='24.58' low='24.18' close='24.41' /&gt;<br>
+        &lt;set open='24.63' high='24.66' low='24.11' close='24.15' /&gt;<br>
+        &lt;set open='24.53' high='24.84' low='24.01' close='24.5' /&gt;<br>
+        &lt;set open='24.84' high='24.94' low='24.56' close='24.63' /&gt;<br>
+        &lt;set open='24.96' high='25.03' low='24.58' close='24.89' /&gt;<br>
+        &lt;set open='25.25' high='25.46' low='25.11' close='25.13' /&gt;<br>
+        &lt;set open='25.27' high='25.37' low='25.0999' close='25.18' /&gt;<br>
+        &lt;set open='25.33' high='25.43' low='25.06' close='25.16' /&gt;<br>
+        &lt;set open='25.38' high='25.51' low='25.23' close='25.38' /&gt;<br>
+        &lt;set open='25.2' high='25.78' low='25.07' close='25.09' /&gt;<br>
+        &lt;set open='25.66' high='25.8' low='25.35' close='25.37' /&gt;<br>
+        &lt;set open='25.77' high='25.97' low='25.54' close='25.72' /&gt;<br>
+        &lt;set open='26.31' high='26.35' low='25.81' close='25.83' /&gt;<br>
+        &lt;set open='26.23' high='26.6' low='26.2' close='26.35' /&gt;<br>
+        &lt;set open='26.37' high='26.42' low='26.21' close='26.37' /&gt;<br>
+        &lt;set open='26.35' high='26.55' low='26.22' close='26.37' /&gt;<br>
+        &lt;set open='26.63' high='26.69' low='26.35' close='26.39' /&gt;<br>
+        &lt;set open='26.65' high='26.72' low='26.5' close='26.7' /&gt;<br>
+        &lt;set open='26.48' high='26.62' low='26.35' close='26.53' /&gt;<br>
+        &lt;set open='26.63' high='26.65' low='26.41' close='26.5' /&gt;<br>
+        &lt;set open='26.89' high='26.99' low='26.61' close='26.7' /&gt;<br>
+        &lt;set open='26.6' high='26.95' low='26.55' close='26.88' /&gt;<br>
+        &lt;set open='26.75' high='26.76' low='26.4799' close='26.61' /&gt;<br>
+        &lt;set open='26.65' high='26.795' low='26.5' close='26.57' /&gt;<br>
+        &lt;set open='26.9' high='26.98' low='26.43' close='26.46' /&gt;<br>
+        &lt;set open='26.92' high='27.11' low='26.74' close='26.77' /&gt;<br>
+        &lt;set open='26.7' high='27.1' low='26.59' close='26.99' /&gt;<br>
+        &lt;set open='26.98' high='27.06' low='26.5' close='26.59' /&gt;<br>
+        &lt;set open='27.09' high='27.15' low='26.93' close='26.95' /&gt;<br>
+        &lt;set open='26.95' high='27.23' low='26.85' close='27.15' /&gt;<br>
+        &lt;set open='26.86' high='27.15' low='26.82' close='27.02' /&gt;<br>
+        &lt;set open='27.18' high='27.229' low='26.85' close='26.9' /&gt;<br>
+        &lt;set open='27' high='27.19' low='26.93' close='27.08' /&gt;<br>
+        &lt;set open='27.06' high='27.17' low='26.83' close='26.96' /&gt;<br>
+        &lt;set open='27.15' high='27.43' low='27.01' close='27.01' /&gt;<br>
+        &lt;set open='27.42' high='27.55' low='27.18' close='27.29' /&gt;<br>
+        &lt;set open='27.63' high='27.8' low='27.24' close='27.4' /&gt;<br>
+        &lt;set open='27.85' high='27.9' low='27.55' close='27.65' /&gt;<br>
+        &lt;set open='27.78' high='27.95' low='27.57' close='27.91' /&gt;<br>
+        &lt;set open='28.28' high='28.44' low='27.47' close='27.71' /&gt;<br>
+        &lt;set open='28.6' high='28.72' low='28.22' close='28.25' /&gt;<br>
+        &lt;set open='28.49' high='28.83' low='28.32' close='28.8' /&gt;<br>
+        &lt;set open='28.27' high='28.76' low='28.22' close='28.48' /&gt;<br>
+        &lt;set open='28.37' high='28.44' low='27.94' close='28.01' /&gt;<br>
+        &lt;set open='28.13' high='28.3' low='27.85' close='28.3' /&gt;<br>
+        &lt;set open='27.99' high='28.2' low='27.93' close='28.1' /&gt;<br>
+        &lt;set open='27.74' high='27.88' low='27.53' close='27.81' /&gt;<br>
+        &lt;set open='27.55' high='27.72' low='27.42' close='27.54' /&gt;<br>
+        &lt;set open='27.51' high='27.73' low='27.47' close='27.7' /&gt;<br>
+        &lt;set open='27.54' high='27.64' low='27.26' close='27.43' /&gt;<br>
+        &lt;set open='27.67' high='27.73' low='27.35' close='27.57' /&gt;<br>
+        &lt;set open='28.03' high='28.061' low='27.59' close='27.66' /&gt;<br>
+        &lt;set open='28.39' high='28.48' low='28' close='28.16' /&gt;<br>
+        &lt;set open='28.17' high='28.31' low='28.01' close='28.21' /&gt;<br>
+        &lt;set open='28.19' high='28.28' low='28.07' close='28.24' /&gt;<br>
+        &lt;set open='27.73' high='28.18' low='27.72' close='28.14' /&gt;<br>
+        &lt;set open='27.58' high='27.77' low='27.33' close='27.45' /&gt;<br>
+        &lt;set open='27.42' high='27.55' low='27.23' close='27.37' /&gt;<br>
+        &lt;set open='27.41' high='27.55' low='27.4' close='27.52' /&gt;<br>
+        &lt;set open='27.21' high='27.53' low='27.16' close='27.46' /&gt;<br>
+        &lt;set open='27.05' high='27.25' low='27' close='27.21' /&gt;</p>
+      <p> &lt;/data&gt;<br>
+    &lt;/graph&gt;</p></td>
+  </tr>
+  <tr> 
+    <td class="text">And the chart would look as under:</td>
+  </tr>
+  <tr> 
+    <td class="text"><img src="Images/CC_XML_Out1.gif" /></td>
+  </tr>
+  <tr> 
+    <td class="text">As you can see above, FusionCharts has automatically numbered 
+      the <span class="codeInline">&lt;set&gt;</span> in the same order in which 
+      it is present in the XML document. That is, the category label with <span class="codeInline">xIndex</span> 
+      as 1 is appearing at the beginning of the chart.</td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="header">15 days data with xIndex and a missing data</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>In this XML document, we'll see the data for 15 days which 
+        have an <span class="codeInline">xIndex</span> specified for each <span class="codeInline">&lt;set&gt;</span> 
+        element. We'll also see how to cope with missing data - for example, we 
+        have set a missing data here with caption as holiday. Apart from that, 
+        we've also hightlighted one particular candle using contrast colors. Also, 
+        in this example, you can see how to use category names and lines (with 
+        exact <span class="codeInline">xIndex</span> specified) to denote items 
+        such as Split, Dividend etc. </p>
+      <p>The XML looks as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;graph caption='Past 15 days' yaXisMinValue='89' 
+      yaXisMaxValue='102' canvasBorderColor='DAE1E8' canvasBgColor='FFFFFF' bgColor='EEF2FB' 
+      numDivLines='12' divLineColor='DAE1E8' decimalPrecision='1' numberPrefix='$' 
+      showNames='1' bearBorderColor='E33C3C' bearFillColor='E33C3C' bullBorderColor='1F3165' 
+      baseFontColor='444C60' outCnvBaseFontColor='444C60' hoverCapBorder='DAE1E8' 
+      hoverCapBg='FFFFFF' rotateNames='0' candleWidth='5'&gt; <p>&lt;categories 
+        font='' fontSize='10' fontColor='' verticalLineColor='' verticalLineThickness='1' 
+        verticalLineAlpha='100'&gt;<br>
+        &lt;category Name='Split' xIndex='3' showLine='1'/&gt;<br>
+        &lt;category Name='Holiday' xIndex='10' showLine='1'/&gt;<br>
+        &lt;category Name='Dividend' xIndex='13' showLine='1'/&gt;<br>
+        &lt;/categories&gt;<br>
+        <br>
+        &lt;data&gt;<br>
+        &lt;set open='92.57' high='93.79' low='92.45' close='93.39' color='' xIndex='1' 
+        link='abc.html' date='01/01/2001'/&gt;<br>
+        &lt;set open='92.4' high='92.7' low='91.42' close='92.45' xIndex='2' date='01/01/2001'/&gt;<br>
+        &lt;set open='92.6' high='92.69' low='90.88' close='91.82' xIndex='3' 
+        date='01/02/2001'/&gt;<br>
+        &lt;set open='92' high='93.38' low='91.68' close='93.3' xIndex='4' date='01/03/2001'/&gt;<br>
+        &lt;set open='92' high='92.98' low='91.15' close='91.21' xIndex='5' date='01/04/2001'/&gt;<br>
+        &lt;set open='94.38' high='94.74' low='92.68' close='93.06' xIndex='6' 
+        date='01/05/2001'/&gt;<br>
+        &lt;set open='94.3' high='95.28' low='93.77' close='94.53' xIndex='7' 
+        date='01/06/2001'/&gt;<br>
+        &lt;set open='96.49' high='96.88' low='94.59' close='94.59' xIndex='8' 
+        date='01/07/2001' <strong>color='00FF00' brdrColor='006600'</strong>/&gt; 
+        <br>
+        <em> &lt;!-- Contrast Color --&gt;</em><br>
+        &lt;set open='95.95' high='96.98' low='95.56' close='96.45' xIndex='9' 
+        date='01/08/2001' /&gt;<br>
+        <em>&lt;!-- Set with xIndex of 10 missing - to provide for missing data 
+        --&gt;</em><br>
+        &lt;set open='96.57' high='96.89' low='95.6' close='96.84' xIndex='11' 
+        date='01/10/2001'/&gt;<br>
+        &lt;set open='97.6' high='97.6' low='96.62' close='96.82' xIndex='12' 
+        date='01/11/2001'/&gt;<br>
+        &lt;set open='96.5' high='97.25' low='96.15' close='97.04' xIndex='13' 
+        date='01/12/2001'/&gt;<br>
+        &lt;set open='96.8' high='97.38' low='96.1' close='96.5' xIndex='14' date='01/13/2001'/&gt;<br>
+        &lt;set open='96.27' high='97.26' low='96.25' close='96.79' xIndex='15' 
+        date='01/14/2001'/&gt;<br>
+        &lt;/data&gt;<br>
+    &lt;/graph&gt;</p></td>
+  </tr>
+  <tr> 
+    <td class="text">And the chart output looks as under:</td>
+  </tr>
+  <tr> 
+    <td class="text"><img src="Images/CC_XML_Out2.gif" width="340" height="274"></td>
+  </tr>
+  <tr> 
+    <td class="text">To convert the above chart to a stock bar chart, we just 
+      add <span class="codeInline">showAsBars=&quot;1&quot;</span> attribute to 
+      the<span class="codeInline"> &lt;graph&gt;</span> element, and get the following 
+      output:</td>
+  </tr>
+  <tr> 
+    <td class="text"><img src="Images/CC_4.gif" width="343" height="289"></td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

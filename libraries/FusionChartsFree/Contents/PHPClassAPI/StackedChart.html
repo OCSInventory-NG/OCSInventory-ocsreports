@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Creating Stacked Chart </h2></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts Free v2 offers Stacked Chart &ndash; a type of  Multi-series chart where multiple datasets are stacked one above the other in  each column. Look at the image below; this is how a Stacked Chart looks like:</p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="Images/PHPClassStacked.jpg" width="351" height="276" class="imageBorder" /></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+      <td valign="top" class="highlightBlock" ><p><strong>Before you go further with this page, we recommend you to please see   the previous pages &quot;Creating First Chart &quot; &amp; &quot;Creating Multi-series chart&quot;  as we start off from concepts explained in   that page. </strong></p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The process of generating Stacked chart is same as  Multi-series chart. The only difference is here we need to specify a different  chart type. Open and modify the Mulit-series chart you have created in the previous page thus:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php</p>
+      <p>&nbsp;<span class="codeComment"># Include  FusionCharts PHP Class</span><br />
+  &nbsp;include('../Class/FusionCharts_Gen.php');</p>
+      <p><span class="codeComment">&nbsp;# Create <strong>Stacked Column3D</strong> chart object using FusionCharts PHP Class </span><br />
+  &nbsp;$FC = new  FusionCharts(&quot;<strong>StackedColumn3D</strong>&quot;,&quot;350&quot;,&quot;300&quot;); <br />
+  <br />
+  &nbsp;<span class="codeComment"># Set the relative  path of the swf file</span><br />
+  &nbsp;$FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);</p>
+      <p><br />
+   &nbsp;...<br />
+      </p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><p>As you can see, we have only chaged the chart type to <span class="codeInline">stackedColumn3D </span>while creating the chart object : </p>
+        <p><span class="codeInline">$FC = new FusionCharts(<strong>&quot;StackedColumn3D&quot;</strong>,&quot;350&quot;,&quot;300&quot;);</span></p>
+      <p>This does the trick and you will see that instead of a multiseries chart we render a stacked chart. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>&nbsp;</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here comes the output: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PHPClassStacked.jpg" width="351" height="276" class="imageBorder" /></td>
+  </tr>
+  
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

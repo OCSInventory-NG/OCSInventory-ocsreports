@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" /></head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with ASP &gt; Charting Data from Forms </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts with ASP to plot data collected in forms. </p>
+      <p>We'll build a simple restaurant sales example, where the user will enter the items sold by a restaurant in a given week. This data will be submitted in a form to the server. We'll acquire this data and plot in on a chart. For the sake of simplicity, we wouldn't do any processing on this data. However, your real life applications might process data before presenting it on the chart. </p>
+    <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;<a href="ASP_BasicExample.html">Basic Examples</a>&quot; as we start off from concepts explained in that page. </strong></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">The code examples contained in this page are present in<span class="codeInline"> Download Package &gt; Code &gt; ASP</span> &gt; <span class="codeInline">FormBased</span> folder. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Building the Form </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The form is contained in <span class="codeInline">Default.asp</span> and looks as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_Form.gif" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">It's a very simple form which submits to <span class="codeInline">Chart.asp</span>. As such, we wouldn't go into the code of this form. You can directly open the source from download and see it. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Requesting the data and Creating the Chart </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The work of requesting the data from submitted form and creating the chart is done in <span class="codeInline">Chart.asp</span>, present in the same folder. It contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p class="codeBlock">&lt;%@ Language=VBScript %&gt;<br />
+      &lt;HTML&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - Form Based Data Charting Example&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;!-- #INCLUDE FILE=&quot;../Includes/FusionCharts.asp&quot; --&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;%&nbsp;&nbsp;&nbsp;<br />
+  <br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">'We first request the data from the form (Default.asp)</span><br />
+      &nbsp;&nbsp;&nbsp;Dim intSoups, intSalads, intSandwiches, intBeverages, intDesserts<br />
+      &nbsp;&nbsp;&nbsp;intSoups = Int(Request.Form(&quot;Soups&quot;))<br />
+      &nbsp;&nbsp;&nbsp;intSalads = Int(Request.Form(&quot;Salads&quot;))<br />
+      &nbsp;&nbsp;&nbsp;intSandwiches = Int(Request.Form(&quot;Sandwiches&quot;))<br />
+      &nbsp;&nbsp;&nbsp;intBeverages = Int(Request.Form(&quot;Beverages&quot;))<br />
+      &nbsp;&nbsp;&nbsp;intDesserts   = Int(Request.Form(&quot;Desserts&quot;))<br />
+  <br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">'Now that we've the data in variables, we need to convert this into XML.<br />
+&nbsp;&nbsp;&nbsp;'The simplest method to convert data into XML is using string concatenation. </span><br />
+      &nbsp;&nbsp;&nbsp;Dim strXML<br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">'Initialize &lt;graph&gt; element</span><br />
+      &nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Sales by Product Category' subCaption='For this week' showPercentageInLabel='1' pieSliceDepth='25' showNames='1'  decimalPrecision='0' &gt;&quot;<br />
+      &nbsp;&nbsp;<span class="codeComment">&nbsp;'Add all data</span><br />
+      &nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Soups' value='&quot; &amp; intSoups &amp; &quot;' /&gt;&quot;<br />
+      &nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Salads' value='&quot; &amp; intSalads &amp; &quot;' /&gt;&quot;<br />
+      &nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Sandwiches' value='&quot; &amp; intSandwiches &amp; &quot;' /&gt;&quot;<br />
+      &nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Beverages' value='&quot; &amp; intBeverages &amp; &quot;' /&gt;&quot;<br />
+      &nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Desserts' value='&quot; &amp; intDesserts &amp; &quot;' /&gt;&quot;<br />
+      &nbsp;<span class="codeComment">&nbsp;&nbsp;'Close &lt;graph&gt; element</span><br />
+      &nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;/graph&gt;&quot;<br />
+  <br />
+      &nbsp;&nbsp;<span class="codeComment">&nbsp;'Create the chart - Pie 3D Chart with data from strXML</span><br />
+      &nbsp;&nbsp;&nbsp;Call renderChart(&quot;../../FusionCharts/FCF_Pie3D.swf&quot;, &quot;&quot;, strXML, &quot;Sales&quot;, 600, 350)<br />
+      %&gt;</p>
+      <p>&lt;/BODY&gt;<br />
+    &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the above code, we're doing the following:</p>
+      <ul>
+        <li>Including <span class="codeInline">FusionCharts.js</span> and<span class="codeInline"> FusionCharts.asp</span> in this page.  </li>
+        <li>Requesting data from the submitted form and storing it in local variables</li>
+        <li>Creating an XML data document using string concatenation and storing it in <span class="codeInline">strXML</span> variable  </li>
+        <li>Creating a Pie 3D chart using <span class="codeInline">renderChart()</span> function and passing <span class="codeInline">strXML</span> as <span class="codeInline">dataXML</span> for the chart. </li>
+      </ul>
+    <p>When you finally run the code, you'll see a chart as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_FormChart.jpg" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

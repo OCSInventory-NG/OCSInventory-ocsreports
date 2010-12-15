@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">dataURL Method </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this method, you provide the URL of XML Data Document to FusionCharts. The chart now sends a request for XML data to the specified URL, reads it, parses it and then renders the charts accordingly. The following diagram would help you understand better:</p>
+      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/dataURLMethod.jpg"  class="imageBorder"/></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, the following steps are involved in this process:</p>
+      <ol>
+        <li>You first send the HTML content and SWF file to the end viewer's browser. Along with the SWF, you also tell where the data is to be pulled from. This URL points to your server side scripts which would output the XML data document for the chart.<br/><br/>
+        Once the SWF is loaded on the end viewer's machine, it sends a request for XML data document to the specified URL.<br />
+        <br />
+        </li>
+        <li>Your server side scripts at this URL now
+			<ul>
+				<li>Take in the passed parameters (if any) </li>
+		         <li>Process them </li>
+          		 <li>Interact with the database. [ Server side scripts also can use forms or arrays as data source. ]</li>
+	             <li>Get data from data base in native objects like Recordsets, Data Readers etc. </li>
+		         <li>Convert this data into XML format using simple string concatenations or using XML DOM.</li> 
+          		 <li>Finally write this data to output stream (NOT physically on server). </li>
+		    </ul>
+          <br />
+        <li>FusionCharts now accepts this XML data, parses it and finally renders the chart. </li>
+      </ol>    
+      <p class="highlightBlock">If your <span class="codeInline">dataURL</span> contains special characters like ?, &amp; etc., you need to URL Encode the entire URL. Also, if you want to pass any parameters as part of <span class="codeInline">dataURL</span> to your server side scripts, you'll need to URL Encode the entire <span class="codeInline">dataURL</span>. Example: if you want to provide data URL as <span class="codeInline">Data.asp?id=1&amp;subId=2</span>, it should be provided as <span class="codeInline">Data%2Easp%3Fid%3D1%26subId%3D2</span>.</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As explained earlier, you need the following elements to build a chart using dataURL method:</p>
+      <ol>
+        <li><strong>Chart Container Page </strong>- The page which contains the HTML code  to embed and show the chart. This page contains the URL for XML Data Document also.</li>
+        <li><strong>Chart SWF File</strong></li>
+        <li><strong>Data  Provider Page </strong>- The page which will provide XML Data to FusionCharts. This page outputs ONLY XML and no HTML tags. </li>
+    </ol></td>
+  </tr>
+  <tr>    <td valign="top" class="text">&nbsp;</td>  </tr>
+  <tr>
+    <td valign="top" class="header">Sample Usage of dataURL method using FusionCharts JavaScript Class receiving data from a pre-built XML document </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;This text is replaced by the chart.<br />
+&lt;/div&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;Column2D.swf&quot;, &quot;ChId1&quot;, &quot;600&quot;, &quot;400&quot;, &quot;0&quot;, &quot;0&quot;);
+<strong><br />
+&nbsp;&nbsp;&nbsp;chart1.setDataURL(&quot;Data.xml&quot;);</strong><br />
+&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&lt;/script&gt;
+</td>
+  </tr> 
+  <tr>    <td valign="top" class="text">&nbsp;</td>  </tr>
+  <tr>
+    <td valign="top" class="header">Sample Usage of dataURL method using FusionCharts JavaScript Class receiving data from a server side script file </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;This text is replaced by the chart.<br />
+&lt;/div&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;Column2D.swf&quot;, &quot;ChId1&quot;, &quot;600&quot;, &quot;400&quot;, &quot;0&quot;, &quot;0&quot;);
+<strong><br />
+&nbsp;&nbsp;&nbsp;chart1.setDataURL(&quot;Data.asp&quot;);</strong><br />
+&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&lt;/script&gt;</td>
+  </tr>
+  <tr>    <td valign="top" class="text">&nbsp;</td>  </tr>
+  <tr>
+    <td valign="top" class="header">Sample Usage of dataURL method using FusionCharts JavaScript Class passing parameters to server side script file</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;This text is replaced by the chart.<br />
+&lt;/div&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;Column2D.swf&quot;, &quot;ChId1&quot;, &quot;600&quot;, &quot;400&quot;, &quot;0&quot;, &quot;0&quot;);
+<br />
+<strong>&nbsp;&nbsp;&nbsp;<span class="codeComment">//To pass parameters, URLEncode the dataURL. Use escape()  in JavaScript </span><br />
+&nbsp;&nbsp;&nbsp;chart1.setDataURL(escape(&quot;Data.asp?id=1&amp;subId=2&quot;));</strong><br />
+&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&lt;/script&gt;
+ <p class="highlightBlock">Since parameter query string passed to the server side script contains characters like ?, &amp; etc. , you need to URL Encode the entire dataURL. For example, if you want to provide data URL as <span class="codeInline">Data.asp?id=1&amp;subId=2</span>, it should be provided as <span class="codeInline">Data%2Easp%3Fid%3D1%26subId%3D2</span>.
+    In JavaScript you can use <span class="codeInline">escape(dataURL)</span> function.  In ASP and ASP.NET pages you can use <span class="codeInline">Server.URLEncode(dataURL)</span> function. In PHP pages you can use <span class="codeInline">urlencode(dataURL)</span> function.  </p>      </td>
+
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Sample Usage of dataURL method using direct HTML Embedding and receiving data from a pre-built XML document </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;object classid=&quot;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&quot; codebase=&quot;http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0&quot; width=&quot;500&quot; height=&quot;300&quot; id=&quot;Column2D&quot; align=&quot;middle&quot;&gt;
+      <br />
+      &nbsp;&nbsp;&nbsp;&lt;param name=&quot;movie&quot; value=&quot;Column2D.swf&quot; /&gt;<br />
+      <strong>&nbsp;&nbsp;&nbsp;&lt;param name=&quot;FlashVars&quot; value=&quot;&amp;dataURL=Data.xml</strong>&amp;chartWidth=500&amp;chartHeight=300<strong>&quot; /&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&lt;param name=&quot;quality&quot; value=&quot;high&quot; /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;embed src=&quot;Column2D.swf&quot; <strong>FlashVars=&quot;&amp;dataURL=Data.xml</strong>&amp;chartWidth=500&amp;chartHeight=300<strong>&quot;</strong> quality=&quot;high&quot; bgcolor=&quot;#ffffff&quot; width=&quot;400&quot; height=&quot;300&quot; name=&quot;Column2D&quot; align=&quot;middle&quot; allowScriptAccess=&quot;sameDomain&quot; type=&quot;application/x-shockwave-flash&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; /&gt;<br />
+    &lt;/object&gt;</td>
+  </tr>
+    <tr>    <td valign="top" class="text">&nbsp;</td>  </tr>
+
+  <tr>
+    <td valign="top" class="header">Sample Usage of dataURL method using direct HTML Embedding  and a server side script as data provider </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;object classid=&quot;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&quot; codebase=&quot;http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0&quot; width=&quot;500&quot; height=&quot;300&quot; id=&quot;Column2D&quot; align=&quot;middle&quot;&gt;
+      <br />
+      &nbsp;&nbsp;&nbsp;&lt;param name=&quot;movie&quot; value=&quot;Column2D.swf&quot; /&gt;<br />
+      <strong>&nbsp;&nbsp;&nbsp;&lt;param name=&quot;FlashVars&quot; value=&quot;&amp;dataURL=Data.asp</strong>&amp;chartWidth=500&amp;chartHeight=300<strong>&quot; /&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&lt;param name=&quot;quality&quot; value=&quot;high&quot; /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;embed src=&quot;Column2D.swf&quot; <strong>FlashVars=&quot;&amp;dataURL=Data.asp</strong>&amp;chartWidth=500&amp;chartHeight=300<strong>&quot;</strong> quality=&quot;high&quot; bgcolor=&quot;#ffffff&quot; width=&quot;400&quot; height=&quot;300&quot; name=&quot;Column2D&quot; align=&quot;middle&quot; allowScriptAccess=&quot;sameDomain&quot; type=&quot;application/x-shockwave-flash&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; /&gt;<br />
+    &lt;/object&gt;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock"><span class="codeInline">dataURL</span> method is the recommended method, as it does not place any limits on the size of XML Data. Also, if you're using special characters (UTF-8 or double byte characters) in your XML, you need to necessarily use dataURL method. </td>
+  </tr>
+</table>
+</body>
+</html>

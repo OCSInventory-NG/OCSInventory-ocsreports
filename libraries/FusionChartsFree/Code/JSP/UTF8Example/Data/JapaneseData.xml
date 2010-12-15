@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<graph caption='月間販売' xAxisName='月' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'>
+<set name='一月' value='462' color='AFD8F8' />
+<set name='二月' value='857' color='F6BD0F' />
+<set name='三月' value='671' color='8BBA00' />
+<set name='四月' value='494' color='FF8E46' />
+<set name='五月' value='761' color='008E8E' />
+<set name='六月' value='960' color='D64646' />
+<set name='七月' value='629' color='8E468E' />
+<set name='八月' value='622' color='588526' />
+<set name='九月' value='376' color='B3AA00' />
+<set name='十月' value='494' color='008ED6' />
+<set name='十一月' value='761' color='9D080D' />
+<set name='十二月' value='960' color='A186BE' />
+</graph>

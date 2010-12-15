@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Setting backgrounds for charts </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts allows you to easily set a background image/movie for your   chart. You can use this option to embed background images (progressive JPEG only) or other SWF Files as your chart background. </p>
+      <p>To embed an image, all you need to do is set <span class="codeInline">bgSWF</span> property of <span class="codeInline">&lt;graph&gt;</span> element as shown below. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;graph 
+        <strong>bgSWF='nectarBg.jpg'</strong> canvasBgColor='e4b84b' 
+      canvasBgAlpha='20' canvasBorderColor='7B3F00' canvasBorderThickness='0' 
+      divLineColor='a82925' caption='Sales Figures' baseFont='Arial Black' <br />
+      baseFontSize='12' baseFontColor='fDe3bB' outCnvBaseFontSize='12' outCnvBaseFont='Arial' 
+      outCnvBaseFontColor='FFFAF0' chartTopMargin='55' showNames='1' showValues='1'
+      decimalPrecision='0' numberPrefix='$' formatNumberScale='0' yaxismaxvalue='2000'&gt;</p>
+      <p>&nbsp;&nbsp; &lt;set name='Strawberry Delight' value='1305' color='da2625' alpha='70' /&gt;<br />
+  &nbsp;&nbsp; &lt;set name='Sweet Grape' value='1890' color='a17da9' alpha='70'/&gt;<br />
+  &nbsp;&nbsp; &lt;set name='Summer Lemon' value='480' color='a9c120' alpha='70'/&gt;<br />
+  &nbsp;&nbsp; &lt;set name='Pure Orange' value='1500' color='ed9f01' alpha='70' /&gt;</p>
+      <p>&lt;/graph&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're:</p>
+      <ul>
+        <li>Loading a background <span class="codeInline">imagenectarBg.jpg</span> by setting it as <span class="codeInline">bgSWF</span> attribute. If your image file is in a different location, you'll need to specify the full path. Also, due to security restrictions, your image file has to reside on the same sub-domain as chart SWF File. </li>
+        <li>Setting canvas alpha as 20, so that it becomes see-through for the background to appear.</li>
+      </ul>
+    <p>When you view this chart (with the background image), you'll get something as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/bgSWF.jpg"  /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Simple and effective - isn't it? </p>
+    <p>For best results, you need to make sure that the background image and your chart have the same dimensions (width and height). Else, the loaded image would align at top left of the chart. </p></td>
+  </tr>
+</table>
+</body>
+</html>

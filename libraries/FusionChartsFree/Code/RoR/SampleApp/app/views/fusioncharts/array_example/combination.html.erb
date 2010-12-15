@@ -1,0 +1,13 @@
+<%
+# The following three variables are used in the "common" layout
+%>
+<% @page_title="FusionCharts Free - Array Example using Combination Column 3D Line Chart" %>
+<% @page_heading="Examples" %>
+<% @page_subheading="Plotting Combination chart from data contained in Array." %>
+<%
+		# The xml is obtained as a string from builder template.
+		str_xml = render "fusioncharts/array_example/combination_data",{:arr_data => @arr_data}
+
+          # Create the chart - MS Column 3D Line Combination Chart with data contained in str_xml
+		render_chart '/FusionCharts/FCF_MSColumn3DLineDY.swf','',str_xml,'productSales', 600, 300, false, false do -%>
+<% end -%>

@@ -1,0 +1,10 @@
+﻿<%	str_xml = get_UTF8_BOM #Function present in fusioncharts_helper library
+	
+	str_xml +="<?xml version='1.0' encoding='UTF-8'?>"
+	str_xml +="<graph caption='工場出力レポート' subCaption='数量面で' decimalPrecision='0' showNames='1' numberSuffix=' units' pieSliceDepth='30' formatNumberScale='0'>"
+	for item in @factory_data
+		str_xml += "<set name='"+item[0]+"' value='"+item[1].to_s+"'/>"
+	end
+	str_xml+="</graph>"
+	#Create the chart - Pie 3D Chart with data from strXML
+ %><%=str_xml%>

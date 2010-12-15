@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Handling long x-axis names </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Often, in your chart data, you might have long x-axis names (category names).   Fitting them on a small chart space becomes a little cumbersome, as they make   the chart look too cluttered. FusionCharts offers a myriad of options to help you gain control over long/too many x-axis names. Here, we've explained a few such methods including:</p>
+      <ul>
+        <li>Using rotated names</li>
+        <li>Showing every n-th name </li>
+        <li> Displaying short abbreviated names on axis and showing full name as tool tip</li>
+      </ul>
+    <p class="highlightBlock"><a href="http://www.fusioncharts.com" target="_blank">FusionCharts v3 </a>offers lot more options for handling long x-axis labels- like Wrap mode, slant mode, stagger mode, skip mode etc. </p>
+    <p>Let's see each of them one by one. </p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Rotating Names </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can opt to rotate the x-axis labels by using <span class="codeInline">&lt;graph rotateNames='1' ..&gt;</span>. </p>
+    <p class="highlightBlock">This method wouldn't work if you've non-english characters in your x-axis labels as FusionCharts uses embedded fonts to render rotated names. </p>
+    <p>Consider the XML below: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph numberPrefix='$' <strong>rotateNames='1'</strong>&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jan 2006' value='434' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Feb 2006' value='376' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Mar 2006' value='343' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Apr 2006' value='234' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='May 2006' value='356' /&gt;<br />
+&lt;/graph&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">It yields the following chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_Rotate.jpg" /></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Showing every n-th label </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">If your x-axis labels represent a continuous quantity like time, date etc. which are incremental in nature, you can opt to show every n-th label instead of all the labels. This enhances the clarity of the chart. Consider the XML below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph numberPrefix='$'<strong> </strong>showValues='0'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jan 2006' value='434'  /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Feb 2006' value='376' <strong>showName='0'</strong> /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Mar 2006' value='343'<strong> showName='0'</strong> /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Apr 2006' value='234' <strong>showName='0'</strong> /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='May 2006' value='356' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jun 2006' value='183' <strong>showName='0'</strong> /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jul 2006' value='365' <strong>showName='0'</strong> /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Aug 2006' value='357' <strong>showName='0'</strong> /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Sep 2006' value='375' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Oct 2006' value='345' <strong>showName='0'</strong> /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Nov 2006' value='655' <strong>showName='0'</strong> /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Dec 2006' value='435' <strong>showName='0'</strong> /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jan 2007' value='586' /&gt;<br />
+&lt;/graph&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above chart, we're plotting consecutive months on the chart. So, if we show all the months, the chart gets cluttered. To avoid this, we've set labelStep as 4, so that every 4th x-axis label is only shown. </p>
+    <p>When you view the chart, you'll get following output: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_Step.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"> Displaying short label on axis and showing full name as tool tip</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">If you're working on a small chart size, you can also opt to show abbreviated names on x-axis, but show full names as tool tip. Consider the XML below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph numberPrefix='$' showValues='0' decimalPrecision='0' bgcolor='F3f3f3' <br />
+      divlinecolor='c5c5c5' showAlternateHGridColor='1' alternateHGridColor='f8f8f8'  &gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='J' hoverText='Jan 2006' value='434' color='AFD8F8' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='F' hoverText='Feb 2006' value='376' color='F6BD0F' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='M' hoverText='Mar 2006' value='343' color='8BBA00' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='A' hoverText='Apr 2006' value='234' color='FF8E46' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='M' hoverText='May 2006' value='356' color='008E8E' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='J' hoverText='Jun 2006' value='183' color='D64646' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='J' hoverText='Jul 2006' value='365' color='8E468E' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='A' hoverText='Aug 2006' value='357' color='588526' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='S' hoverText='Sep 2006' value='375' color='B3AA00' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='O' hoverText='Oct 2006' value='345' color='008ED6' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='N' hoverText='Nov 2006' value='655' color='9D080D' /&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;set name='D' hoverText='Dec 2006' value='435' color='A186BE' /&gt;<br />
+    &lt;/graph&gt; <br /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the above XML, we're showing only the first character of each month name on x-axis. The rest of information is shown as tool tip as below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_ToolTip.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In this section, we've just given you a brief idea of your control over x-axis. You can mix and match these ideas to effectively get a much better control over the x-axis. </td>
+  </tr>
+</table>
+</body>
+</html>

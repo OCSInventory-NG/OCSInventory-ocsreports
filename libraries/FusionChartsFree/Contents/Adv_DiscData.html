@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Plotting Discontinuous data </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>You might often want to plot charts with incomplete data points - i.e.,   missing data. For example, when plotting a monthly sales chart, you might not have   data for all the months. So, you might just want to indicate the missing data with a   blank space on the chart not plotting anything at that particular place. FusionCharts lets you do this very easily.</p>
+      <p>Consider the following XML:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jan' value='420' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Feb' value='295' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Mar' value='523' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Apr' value='473' /&gt; <br />
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='May'  /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jun' /&gt; </strong><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jul' value='354' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Aug' value='457' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Sep' value='127' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Oct' value='354' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Nov' value='485' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Dec' value='486' /&gt; <br />
+    &lt;/graph&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we do not have data for May and June. So, we're not providing any value attribute for the same. The chart will look as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/DiscChart.jpg" alt="" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can see that there are no columns for May and June in this chart. </p>
+    <p>If you run the same data against a line chart, you'll see the following output:   </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/DiscChart2.jpg"  /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The line chart shows a break for May and Jun as there's no data for the same. If you do not even have data labels for the missing data, you can write empty set elements for the missing data as under:</p>
+      <p class="codeInline">&lt;set /&gt;</p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p>Multi-series charts can plot discontinuous data too. For example : </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/DiscChart22.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>And, the data for this is as under:</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph caption='Discontinuous Data Demo' numdivlines='4' showgridbg='1'   showhovercap='1' lineThickness='1' animation='1' hoverCapSepChar=' '   anchorScale='0' showNames='1' showValues='0' numVDivLines='12' anchorscale='0'   rotateNames='1'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;categories&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='5/2001'   showName='1'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='6/2001'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='7/2001'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='8/2001'   showName='1'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='9/2001'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='10/2001'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='11/2001'   showName='1'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='12/2001'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='1/2002'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='2/2002'   showName='1'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='3/2002'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='4/2002'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='5/2002'   showName='1'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='6/2002'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='7/2002'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='8/2002'   showName='1'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='9/2002'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='10/2002'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='11/2002'   showName='1'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='12/2002'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='1/2003'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='2/2003'   showName='1'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='3/2003'   showName='0'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category name='4/2003'   showName='1'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;/categories&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;dataset seriesname='Series   1' color='00A900' showValue='0' lineThickness='2' yaxismaxvalue='100'   anchorAlpha='0'&gt;<br />
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set   /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='0' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set   value='1' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='2' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='3'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='5' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='8'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='16'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='23' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='31'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='40' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='49'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='59' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='68'   /&gt;<br />
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='89'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='94' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='97'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='99' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='100'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;dataset seriesname='Series 2'   color='0000FF' showValue='0' lineThickness='2' yaxismaxvalue='100'   anchorAlpha='0'&gt;<br />
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='0'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='0' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='0'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='0' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='6'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='26' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='43'   /&gt;<br />
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set   /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='43' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set   value='53' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='66' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='78'   /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='91' /&gt;<br />
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set   /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set /&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<br />
+    &lt;/graph&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

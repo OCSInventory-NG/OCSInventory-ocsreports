@@ -1,0 +1,30 @@
+<graph xaxisname='Continent' yaxisname='Export' hovercapbg='DEDEBE' hovercapborder='889E6D' rotateNames='0' yAxisMaxValue='100' numdivlines='9' divLineColor='CCCCCC' divLineAlpha='80' decimalPrecision='0' showAlternateHGridColor='1' AlternateHGridAlpha='30' AlternateHGridColor='CCCCCC' caption='Global Export' subcaption='In Millions Tonnes per annum pr Hectare' >
+   <categories font='Arial' fontSize='11' fontColor='000000'>
+      <category name='N. America' hoverText='North America'/>
+      <category name='Asia' />
+      <category name='Europe' />
+      <category name='Australia' />
+      <category name='Africa' />
+   </categories>
+   <dataset seriesname='Rice' color='FDC12E'>
+      <set value='30' />
+      <set value='26' />
+      <set value='29' />
+      <set value='31' />
+      <set value='34' />
+   </dataset>
+    <dataset seriesname='Wheat' color='56B9F9'>
+      <set value='67' />
+      <set value='98' />
+      <set value='79' />
+      <set value='73' />
+      <set value='80' />
+   </dataset>
+    <dataset seriesname='Grain' color='C9198D' >
+      <set value='27' />
+      <set value='25' />
+      <set value='28' />
+      <set value='26' />
+      <set value='10' />
+   </dataset>
+</graph>

@@ -1,0 +1,11 @@
+<% @page_title="FusionCharts Free - Database and Drill-Down Example " %>
+<% @page_heading="Database and Drill-Down Example" %>
+<% @page_subheading="Click on any pie slice to see detailed data." %>
+<%
+	# The xml is obtained as a string from builder template.
+	str_xml = render "fusioncharts/db_drilldown/default_factories_quantity",{:factory_data => @factory_data}
+
+	#Create the chart - Pie 3D Chart with data from strXML
+	render_chart '/FusionCharts/FCF_Pie3D.swf','', str_xml, 'FactorySum', 650, 450, false, false  do-%>
+<% end-%> 
+

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts PHP Class &gt; Charting Data from Array </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts  PHP class functions to plot charts from data contained in PHP arrays. We'll cover the following examples here:</p>
+      <ul>
+        <li>Creating a single series chart from data contained in an array</li>
+        <li>Creating a multi-series chart from data contained in arrays </li>
+      </ul>
+      <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;Basic Examples&quot; as we start off from concepts explained in that page. </strong></p>
+      <p class="highlightBlock">The code examples contained in this page are present in <span class="codeInline">Download Package &gt; Code &gt; PHPClass &gt; ArrayExample</span> folder. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating a single series chart from data contained in arrays</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The code to create a single series chart is contained in <span class="codeInline">SingleSeries.php</span> and can be listed as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//We've included ../Includes/FusionCharts_Gen.php, which contains FusionCharts PHP Class<br />
+        &nbsp;&nbsp;//to help us easily embed the charts.</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>include(&quot;../Includes/FusionCharts_Gen.php&quot;);<br />
+        ?&gt;<br />
+        &lt;HTML&gt;<br />
+        &lt;HEAD&gt;<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;</span>&lt;TITLE&gt;<br />
+<span class="codeComment">&nbsp;&nbsp;</span><span class="codeComment">&nbsp;&nbsp;</span>FusionCharts Free - Array Example using Single Series Column 3D Chart<br />
+<span class="codeComment">&nbsp;&nbsp;</span>&lt;/TITLE&gt;<br />
+<br />
+&lt;?php<br />
+<span class="codeComment">&nbsp;&nbsp;//You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct. <br />
+&nbsp;&nbsp;//Else, you would get JavaScript errors.</span><br />
+?&gt; <br />
+<span class="codeComment">&nbsp;&nbsp;</span>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+<br />
+&lt;/HEAD&gt;<br />
+<br />
+&lt;BODY&gt;<br />
+&lt;CENTER&gt;<br />
+      <br />
+        &lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//In this example, using FusionCharts PHP Class we plot a single series chart <br />
+        &nbsp;&nbsp;//from data contained in an array. <br />
+        <br />
+        &nbsp;&nbsp;//The array needs to have two columns - first one for data labels/names<br />
+        &nbsp;&nbsp;//and the next one for data values.<br />
+        <br />
+        &nbsp;&nbsp;//Let's store the sales data for 6 products in our array. We also store<br />
+        &nbsp;&nbsp;//the name of products.<br /> 
+        <br />
+        &nbsp;&nbsp;<strong>//Store Name of Products in the first column of the array </strong></span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][0] = &quot;Product A&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][0] = &quot;Product B&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[2][0] = &quot;Product C&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[3][0] = &quot;Product D&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[4][0] = &quot;Product E&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[5][0] = &quot;Product F&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;<br />
+&nbsp;&nbsp;<strong>//Store sales data in the second column of the array </strong></span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][1] = 567500;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][1] = 815300;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[2][1] = 556800;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[3][1] = 734500;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[4][1] = 676800;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[5][1] = 648500;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Create FusionCharts PHP Class object for single series column3d chart</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC = new FusionCharts(&quot;Column3D&quot;,&quot;600&quot;,&quot;300&quot;); </p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Set Relative Path of chart swf file.</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;setSwfPath(&quot;../../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;# Store chart attributes in a variable</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$strParam=&quot;caption=Sales by Product;numberPrefix=$;formatNumberScale=0;decimalPrecision=0&quot;;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;#  Set chart attributes</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;setChartParams($strParam);<br />
+  <br />
+  <br />
+        <span class="codeComment"><strong>&nbsp;&nbsp;# Call FusionCharts PHP Class Function to add data from the array </strong></span><strong><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;addChartDataFromArray($arrData);</strong><br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;# Render the chart</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;renderChart();<br />
+        ?&gt;<br />
+        <br />
+        &lt;/CENTER&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" style="line-height:20px;">In the above example: 
+	<ul>
+	<li>We have included <span class="codeInline">FusionCharts_Gen.php</span> and <span class="codeInline">FusionCharts.js</span>.</li>
+      <li>Stored the category names/labels in the first column of the 2-dimensional array <span class="codeInline">$arrData[]</span> </li>
+      <li>Then we  stored respective data values in the second column of the 2-dimensional array <span class="codeInline">$arrData[]</span> </li>
+      <li>Created an instance of the FusionCharts PHP class for Column 3D chart with 600 pixels width, 300 pixels height.</li>
+      <li>Set relative path of  chart SWF file</li>
+      <li>Rendered chart using <span class="codeInline">renderChart()</span> function </li></ul>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="PHPClassAPI/Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you view the chart, you'll see a chart as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_ArraySS.jpg"  /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating a multi-series chart from data contained in arrays </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let us now create a multi-series chart from data contained in arrays. We create a file <span class="codeInline">MultiSeries.php</span> with the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//We've included ../Includes/FusionCharts_Gen.php, which contains FusionCharts PHP Class<br />
+        &nbsp;&nbsp;//to help us easily embed the charts.</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>include(&quot;../Includes/FusionCharts_Gen.php&quot;);<br />
+        ?&gt;<br />
+        <br />
+        &lt;HTML&gt;<br />
+        &lt;HEAD&gt;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>&lt;TITLE&gt;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span><span class="codeComment">&nbsp;&nbsp;</span>FusionCharts Free - Array Example using Multi Series Column 3D Chart<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>&lt;/TITLE&gt;<br />
+        <br />
+        &lt;?php<br />
+<span class="codeComment">&nbsp;&nbsp;//You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct.<br /> 
+&nbsp;&nbsp;//Else, you would get JavaScript errors.</span><br />
+?&gt; <br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;</span>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&lt;/HEAD&gt;<br />
+<br />
+&lt;BODY&gt;<br />
+&lt;CENTER&gt;<br />
+      <br />
+        &lt;?php</p>
+      <p> <br />
+        <span class="codeComment">&nbsp;&nbsp;//In this example, using FusionCharts PHP Class  <br />
+        &nbsp;&nbsp;//we plot a mulitseries chart from data contained in arrays<br />
+        <br />
+        &nbsp;&nbsp;/* The arrays need to be of the following  structure :<br />
+        <br />
+        &nbsp;&nbsp;1. Array to store Category Names :<br />
+        <br />
+        &nbsp;&nbsp;A single dimensional array storing the category names<br />
+        <br />
+        &nbsp;&nbsp;2. A 2 Dimensional Array to store data values </span></p>
+      <p><span class="codeComment"> &nbsp;&nbsp;** Each row will store data for 1 dataset<br />
+          <br />
+        &nbsp;&nbsp;Column 1 will store : Dataset Series Name.<br />
+        &nbsp;&nbsp;Column 2 will store : Dataset attributes <br />
+        &nbsp;&nbsp;(as list separated by delimiter.)<br />
+        &nbsp;&nbsp;Column 3 and rest will store : values of the dataset<br />
+        <br />
+        &nbsp;&nbsp;*/<br />
+        &nbsp;&nbsp;//Let's store the sales data for 6 products in our array. We also store the name of products. <br />
+        <br />
+        &nbsp;&nbsp;<strong>//Store Name of Products</strong></span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrCatNames[0] = &quot;Product A&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrCatNames[1] = &quot;Product B&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrCatNames[2] = &quot;Product C&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrCatNames[3] = &quot;Product D&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrCatNames[4] = &quot;Product E&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrCatNames[5] = &quot;Product F&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;<strong>//Store sales data for current year</strong></span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][0] = &quot;Current Year&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][1] = &quot;&quot;;<span class="codeComment"> // Dataset Parameters</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][2] = 567500;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][3] = 815300;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][4] = 556800;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][5] = 734500;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][6] = 676800;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[0][7] = 648500;<br />
+        <span class="codeComment">&nbsp;&nbsp;<strong>//Store sales data for previous year</strong></span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][0] = &quot;Previous Year&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][1] = &quot;&quot;; <span class="codeComment">// Dataset Parameter</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][2] = 547300;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][3] = 584500;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][4] = 754000;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][5] = 456300;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][6] = 754500;<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$arrData[1][7] = 437600;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Create FusionCharts PHP Class object for multiseies column3d chart</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC = new FusionCharts(&quot;MSColumn3D&quot;,&quot;600&quot;,&quot;300&quot;); </p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Set Relative Path of chart swf file.</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;setSwfPath(&quot;../../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;# Store chart attributes in a variable</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$strParam=&quot;caption=Sales by Product;numberPrefix=$;formatNumberScale=1;rotateValues=1;decimalPrecision=0&quot;;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;# Set chart attributes</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;setChartParams($strParam);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;<strong># Pass the 2 arrays storing data and category names to <br />
+&nbsp;&nbsp;# FusionCharts PHP Class function addChartDataFromArray</strong></span><strong><br />
+&nbsp;&nbsp;$FC-&gt;addChartDataFromArray($arrData, $arrCatNames);</strong><br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;# Render the Chart </span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;renderChart();</p>
+      <p>?&gt;<br />
+        <br />
+        &lt;/CENTER&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" style="line-height:20px;">Let's analyze what we have done in the code above: 
+	    <ul>
+	<li>We included <span class="codeInline">FusionCharts_Gen.php</span> class and <span class="codeInline">FusionCharts.js</span> classes</li>
+	<li>We cteated 2 arrays - one single dimensional aray and one 2-dimensional array. The single dimensional array <span class="codeInline">$arrCatNames</span> stores category names. The 2-dimensional array <span class="codeInline">$arrData</span> stores dataset name, dataset parameters and values in its each row.<br />
+	    <strong>Note:</strong> dataset parameters separated by delimiters should be stored as string. It is optional for multi series charts, but compulsory for combination charts. </li>
+	<li>We created FusionCharts PHP class object for Multi-series Column 3D chart with 600 pixels width, 300 pixels height </li>
+	<li>We set relative path of  chart SWF file using <span class="codeInline">setSwfPath()</span> function</li>
+	<li>We stored delimiter separated chart attributes in <span class="codeInline">$strParam</span> variable and paseed this variable through <span class="codeInline"><br />
+	  setChartParams()</span> function to set chart attributes. </li>
+	<li>Next, we called <span class="codeInline">addChartDataFromArray()</span> function and passed <span class="codeInline">$arrData</span> and <span class="codeInline">$arrCatNames</span>  arrays through it. The arrays should be passed in this order only, i.e., <span class="codeInline">$arrData</span> is to be the first parameter and <span class="codeInline">$arrCatNames</span> the second.</li>
+	<li>Finally we rendered the chart using <span class="codeInline">renderChart()</span> function</li>
+	</ul>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="PHPClassAPI/Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you view the chart, you'll see a chart as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_ArrayMS.jpg" alt=""  /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">In <span class="codeInline">Download Package &gt; Code &gt; PHPClass &gt; ArrayExample</span>, we've more example codes to create Stacked and Combination Charts too, which have not been explained here, as they're similar in concept. You can directly see the code if you want to. </td>
+  </tr>
+</table>
+</body>
+</html>

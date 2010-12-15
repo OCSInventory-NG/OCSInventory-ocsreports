@@ -1,0 +1,17 @@
+<html>
+<head>
+	<title>Simple Link Example</title>
+	<script language="JavaScript" src="../FusionCharts/FusionCharts.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart = new FusionCharts("../FusionCharts/FCF_Column2D.swf", "myChartId", "500", "300");
+	myChart.setDataURL("Data.xml");
+	myChart.render("chartdiv");
+   </script>
+
+</body>
+</html>

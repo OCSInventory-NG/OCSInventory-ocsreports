@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" /></head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with C# (ASP.NET) &gt; Initial Settings </h2></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">FusionCharts Free can effectively be used within ASP.NET applications.  For the sake of better understanding, we have developed few sample  applications using ASP.NET C#, where we have shown how easily  FusionCharts can be integrated with ASP.NET.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">System Requirements</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We have used .NET Framework 2.0 to develop our applications. You can  download .NET Framework 2.0 for Free from Microsoft Download Center. While developing your own project,  you can integrate FusionCharts with any lower version of .NET Framework  as well.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Getting Started </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We have used <a href="http://msdn2.microsoft.com/hi-in/express/aa700797.aspx">Microsoft Visual Web Developer 2005 Express Edition</a><em> </em>to build the projects. You may use a higher version too. Let's see how to get started with a new ASP.NET application: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+      <li>Start <em>Microsoft Visual Web Developer 2005 Express Editi</em><em>on</em>.</li>
+      <li>Once the Start Page appears, click on the <em>File</em> menu and select <em>New Web Site...</em> option. </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ASPNETSettings1.jpg" width="354" height="88" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+      <li>A new window opens up that prompts for <em>Template, Language</em> and <em>Location</em> of your application.
+        <ul>
+          <li>select the <em>Template</em> for your application (here it's <em>ASP.NET Web Site</em>)</li>
+          <li>select the <em>Language</em> from the list (here it's <em>Visual C#</em>)</li>
+          <li>select/type the <em>Location</em> of your application (say, <span class="codeInline">C:\FusionChartsASPNETCS</span>)</li>
+        </ul>
+      </li>
+      <li>Click OK</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ASPNETSettingsCS2.jpg" width="395" height="444" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+      <li><span class="codeInline">Default.aspx</span> page opens.</li>
+      <li>Go to the <em>Solution Explorer</em> window. If you cannot find the <em>Solution Explorer</em> window at upper right corner, click on <em>View</em> menu and select <em>Solution Explorer</em> to show the window. Or simply press Ctrl+Alt+L.</li>
+      <li>In the <em>Solution Explorer</em> window right click on the root folder i.e., <span class="codeInline">C:\FusionChartsASPNETCS\</span>.</li>
+      <li>In the context menu move the mouse to the item <em>Add ASP.NET Folder</em>  to open the list of folders.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ASPNETSettingsCS3.jpg" width="350" height="186" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+      <li>Add the <span class="codeInline">Bin</span> folder.</li>
+      <li>Again right click on <span class="codeInline"> C:\FusionChartsASPNETCS\</span>  to add <span class="codeInline">App_Code</span> folder. </li>
+      <li>Again right click on <span class="codeInline">C:\FusionChartsASPNETCS\</span> in the <em>Solution Explorer</em> window to add a New Folder. Rename this New Folder as <span class="codeInline">FusionCharts</span> so as the whole set up looks like the snap below: </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ASPNETSettings4.jpg" width="159" height="124" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+      <li>Now, we have to add the Items from FusionCharts download pack in all the folders <span class="codeInline">App_Code, App_Data, Bin</span> and <span class="codeInline">FusionCharts</span>. To do this, simple right click on each folder and select the items that you want to add.
+        <ul>
+          <li>Let's start with <span class="codeInline">Bin</span> folder: Right click on <span class="codeInline">Bin</span> folder and select <em>Add Existing Item</em> from the context menu.  </li>
+        </ul>
+      </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><div align="left"><img src="Images/ASPNETSettings5.jpg" width="220" height="103" class="imageBorder" /></div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+      <ul>
+        <li>Select <span class="codeInline">FusionCharts.dll</span> file from FusionCharts Download Pack to add it in the <span class="codeInline">Bin</span> folder. </li>
+        <li>Similarly, add <span class="codeInline">Util.vb</span> in <span class="codeInline">App_Code</span> folder and required chart SWF files in <span class="codeInline">FusionCharts</span> folder. </li>
+        <li>In the subsequent examples we will use an MS Access Database. Hence we will also add <span class="codeInline">FactoryDB.mdb</span> database in <span class="codeInline">App_Data</span> folder and <span class="codeInline">DbConn.vb</span> (a class to connect to database) in<span class="codeInline"> App_Code</span> folder.</li>
+        </ul>
+      <p>The folder arrangements looks like the image below: </p>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ASPNETSettings6CS.jpg" width="188" height="262" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">That's all you need to use FusionCharts in your application. You can start writing your code in the <span class="codeInline">Default.aspx</span> file (or any other file in separate folder) to start building your application. </td>
+  </tr>
+  
+  
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

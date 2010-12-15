@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+<style type="text/css">
+<!--
+.style2 {	color: #FF0000;
+	font-weight: bold;
+}
+-->
+</style>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr>
+    <td valign="top" class="pageHeader">FusionCharts, JavaScript and <em>updateChartXML</em> Method  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can change the data of a chart at client side using the <span class="codeInline">updateChartXML</span> method of chart. Consider the following code contained in <span class="codeInline">ChangeDataXML.html</span>:</p>
+      <p class="highlightBlock">Code examples discussed in this section are present in <span class="codeInline">Download Package &gt; Code &gt; JavaScript  &gt; Basics</span> folder. </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;HTML&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free &amp; JavaScript - Updating chart using setDataXML() Method&lt;/TITLE&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * updateChart method is called, when user clicks the button <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Here, we generate the XML data again and build the chart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *	@param	domId	domId of the Chart</span><br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function updateChart(DOMId){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//using updateChartXML method defined in FusionCharts JavaScript class</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateChartXML(domId,&quot;&lt;graph&gt;&lt;set name='A' value='32' /&gt;&lt;/graph&gt;&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Disable the button</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.document.frmUpdate.btnUpdate.disabled = true;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/FCF_Column3D.swf&quot;, &quot;chart1Id&quot;, &quot;400&quot;, &quot;300&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;graph&gt;&lt;set name='A' value='10' color='D64646' /&gt;&lt;set name='B' value='11' color='AFD8F8' /&gt;&lt;/graph&gt;&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;form name='frmUpdate'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type='button' value='Change Data' onClick=&quot;javaScript:updateChart('chart1Id');&quot; name='btnUpdate'&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;
+<br />
+&lt;/HTML&gt;<br /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're first creating a Column 3D chart with DOM Id as <span class="codeInline">chart1Id</span>. We initially provide the following data to the chart and ask it to render:</p>
+    <p class="codeInline">&lt;graph&gt;&lt;set name='A' value='10' color='D64646' /&gt;&lt;set name='B' value='11' color='AFD8F8' /&gt;&lt;/graph&gt;</p>
+    <p>Thereafter, we're creating a button, which when clicked would update the chart with new XML data. The button calls the <span class="codeInline">updateChart()</span> JavaScript function when clicked. </p>
+    <p>The <span class="codeInline">updateChart() </span>JavaScript function has the following code to update the chart: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&nbsp;&nbsp;&nbsp;function <strong>updateChart(DOMId)</strong>{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//using updateChartXML method defined in FusionCharts JavaScript class</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateChartXML(domId,&quot;&lt;graph&gt;&lt;set name='A' value='32' /&gt;&lt;/graph&gt;&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Disable the button</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.document.frmUpdate.btnUpdate.disabled = true;<br />
+&nbsp;&nbsp;&nbsp;}</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, we first get a reference to the chart using its DOM Id - passed as a parameter. </p>
+      <p>Using this domId, we simply call <span class="codeInline">updateChartXML()</span> method (defined in FusionCharts  JavaScript class) and pass the new XML data to this function. This method forces the chart to read the new XML data and redraw accordingly. Finally, we disable the button, as it has already been clicked once. </p>
+      <p>When you now view this page, you'll first see a Column Chart with 2 columns as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_JS_Ini.jpg" " class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you click on the button, you'll get the following chart, and also the button is now disabled: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_JS_Fin.jpg" width="392" height="350"  class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The entire thing happens at client side, without any page refreshes or calls to server. </p>
+    <p class="highlightBlock">If you wish to update the dataURL of the chart using JavaScript, you cannot do so using FusionCharts Free. This feature is present only in <a href="http://www.fusioncharts.com" target="_blank">FusionCharts v3</a>. </p></td>
+  </tr>
+</table>
+</body>
+</html>

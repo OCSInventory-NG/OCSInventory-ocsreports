@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with PHP &gt; Basic Examples </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts can effectively be used with PHP to plot dynamic data-driven charts. In this section, we'll show a few basic examples to help you get started.</p>
+      <p>We'll cover the following examples here:</p>
+    <ol>
+      <li>We'll use FusionCharts in PHP with a pre-built Data.xml (which contains data to plot)</li>
+      <li>We'll then change the above chart into a single page chart using dataXML method.</li>
+      <li>Finally, we'll use FusionCharts JavaScript class to embed the chart.</li>
+      </ol>
+    <p>Let's quickly see each of them. <strong>Before you proceed with the contents in this page, we strictly recommend you to please go through the section &quot;How FusionCharts works?&quot;.</strong> </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">All code discussed here is present in <span class="codeInline">Download Package &gt; Code &gt; PHP</span> &gt; <span class="codeInline">BasicExample</span> folder. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the charts for use </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In our code, we've used the charts contained in <span class="codeInline">Download Package &gt; Code &gt; FusionCharts</span> folder. When you run your samples, you need to make sure that the SWF files are in proper location. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Plotting a chart from data contained in <span class="codeInline">Data.xml</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's now get to building our first example. In this example, we'll create a &quot;Monthly Unit Sales&quot; chart using <span class="codeInline">dataURL</span> method. For a start, we'll hard code our XML data in a physical XML document <span class="codeInline">Data.xml </span>and then utilize it in our chart contained in an PHP Page (<span class="codeInline">BasicChart.php</span>). </p>
+    <p>Let's first have a look at the XML Data document:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'&gt;<br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jan' value='462' color='AFD8F8' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Feb' value='857' color='F6BD0F' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Mar' value='671' color='8BBA00' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Apr' value='494' color='FF8E46' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='May' value='761' color='008E8E' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jun' value='960' color='D64646' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jul' value='629' color='8E468E' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Aug' value='622' color='588526' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Sep' value='376' color='B3AA00' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Oct' value='494' color='008ED6' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Nov' value='761' color='9D080D' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Dec' value='960' color='A186BE' /&gt;<br />
+    &lt;/graph&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>This XML is stored as <span class="codeInline">Data.xml</span> in <span class="codeInline">Data </span>Folder under <span class="codeInline">BasicExample</span> folder. It basically contains the data to create a single series chart to show &quot;Monthly Unit Sales&quot;. We'll plot this on a Column 3D Chart. Let's see how to do that. </p>
+      <p>To plot a Chart that consumes this data, you need to include the HTML code to embed a Flash object and then provide the requisite parameters. To make things simpler for you, we've put all this functionality in an PHP function named as <span class="codeInline">renderChartHTML()</span>. This function is contained in <span class="codeInline">Download Package &gt; Code &gt; PHP &gt; Includes &gt; FusionCharts.php</span> file. So, whenever you need to work with FusionCharts in PHP, just include this file in your page and then you can work with FusionCharts very easily. </p>
+      <p>Let's see it in example. <span class="codeInline">BasicChart.php</span> contains the following code to render the chart:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+      <span class="codeComment">
+      //We've included ../Includes/FusionCharts.php, which contains functions<br />
+      //to help us easily embed the charts.</span><br />
+      include(&quot;../Includes/FusionCharts.php&quot;);<br />
+      ?&gt;<br />
+      &lt;HTML&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - Simple Column 3D Chart&lt;/TITLE&gt; <br />
+&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;?php<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;//Create the chart - Column 3D Chart with data from Data/Data.xml</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>echo renderChartHTML(&quot;../../FusionCharts/FCF-Column3D.swf&quot;, &quot;Data/Data.xml&quot;, &quot;&quot;, &quot;myFirst&quot;, 600, 300);</strong> <br />
+&nbsp;&nbsp;&nbsp;?&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, we've first included <span class="codeInline">FusionCharts.php</span> to help us easily create charts. After that, we've simply invoked the <span class="codeInline">renderChartHTML</span> function to render the chart. To this function, you can pass the following parameters (in same order):</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="95%" border="1" align="center" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr>
+        <td width="19%" valign="top" class="header">Parameter</td>
+        <td width="81%" valign="top" class="header">Description</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartSWF</td>
+        <td valign="top" class="text">SWF File Name (and Path) of the chart which you intend to plot. Here, we are plotting a Column 3D chart. So, we've specified it as <span class="codeInline">../../FusionCharts/FCF_Column3D.swf</span></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">strURL</td>
+        <td valign="top" class="text">If you intend to use dataURL method for the chart,   pass the URL as this parameter. Else, set it to &quot;&quot; (in case you are using dataXML method by using strXML   parameter). In this case, we're using Data.xml file, so we specify Data/Data.xml</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">strXML</td>
+        <td valign="top" class="text">If you intend to use dataXML method for this   chart, pass the XML data as this parameter. Else, set it to &quot;&quot; (in case you are   using dataURL method by using strURL parameter). Since we're using dataURL method, we specify this parameter as &quot;&quot;.</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartId</td>
+        <td valign="top" class="text"> Id for the chart, using which it will be recognized in the HTML page. <strong>Each chart on the page needs to have a unique Id.</strong></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartWidth</td>
+        <td valign="top" class="text">Intended width for the chart (in pixels)</td>
+      </tr>
+      
+      <tr>
+        <td valign="top" class="codeInline">chartHeight</td>
+        <td valign="top" class="text">Intended height for the chart (in pixels)</td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>When you now run this page, you'll see a chart like the one below. </p>
+    <p class="highlightBlock">If you do not see a chart like the one below, please follow the steps listed in <span class="codeInline">Debugging your Charts</span> section of this documentation. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_BasicChart.jpg"  /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">So, you just saw how simple it is to create a chart using PHP and FusionCharts. Let's now convert the above chart to use <span class="codeInline">dataXML</span> method. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Changing the above chart into a single page chart using dataXML method</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To convert this chart to use dataXML method, we create another page <span class="codeInline">BasicDataXML.php</span> in the same folder with following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+      <span class="codeComment">
+      //We've included ../Includes/FusionCharts.php, which contains functions<br />
+      //to help us easily embed the charts.</span><br />
+      include(&quot;../Includes/FusionCharts.php&quot;);<br />
+      ?&gt;<br />
+      &lt;HTML&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - Simple Column 3D Chart using dataXML method&lt;/TITLE&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  &lt;BODY&gt;</p>
+      <p>&lt;?php<br />
+        &nbsp;<span class="codeComment">&nbsp;&nbsp;//Create an XML data document in a string variable</span><br />
+        &nbsp;&nbsp;&nbsp;$strXML &nbsp;= &quot;&quot;;<br />
+        &nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units'<br />
+		&nbsp;&nbsp;&nbsp;decimalPrecision='0' formatNumberScale='0'&gt;&quot;;<br />
+		&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Jan' value='462'  color='AFD8F8' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Feb' value='857' color='F6BD0F' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Mar' value='671' color='8BBA00'  /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Apr' value='494' color='FF8E46'  /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='May' value='761' color='008E8E'  /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Jun' value='960' color='D64646'  /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Jul' value='629'  color='8E468E' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Aug' value='622' color='588526' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Sep' value='376'  color='B3AA00' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Oct' value='494' color='008ED6' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Nov' value='761' color='9D080D' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;set name='Dec' value='960'  color='A186BE' /&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;$strXML .= &quot;&lt;/graph&gt;&quot;;<br />
+  <br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart - Column 3D Chart with data from strXML variable using dataXML method</span><br />
+        &nbsp;&nbsp;<strong>&nbsp;echo renderChartHTML(&quot;../../FusionCharts/FCF_Column3D.swf&quot;, &quot;&quot;, $strXML, &quot;myNext&quot;, 600, 300);</strong><br />
+        ?&gt;<br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, we:</p>
+      <ol>
+        <li>Include <span class="codeInline">FusionCharts.php</span> file to render charts easily</li>
+        <li>Create the XML data document in an PHP variable <span class="codeInline">strXML </span><span class="text">using string concatenation. Here, we're hard-coding the data. In your applications, you can build this data dynamically after interacting with databases or external sources of data.</span> </li>
+        <li>Finally, create the chart and set the <span class="codeInline">dataXML</span> parameter as <span class="codeInline">strXML</span>. We leave <span class="codeInline">dataURL</span> parameter blank.</li>
+      </ol>
+    <p>When you see this chart, you'll get the same results as before. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using FusionCharts JavaScript class to embed the chart.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">If you see the charts from previous examples in the latest versions of Internet Explorer, you'll see a screen as below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_Activate.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Internet Explorer asks you to <span class="codeInline">&quot;Click and activate...&quot; </span>to use the chart. This is happening because of a technical issue in Internet Explorer on part of Microsoft Corporation. As such, all Flash movies need to be clicked once before you can start interacting with them. </p>
+    <p>However, the good news is that there's a solution to it. This thing happens only when you directly embed the HTML code of the chart. It would NOT happen when you use JavaScript to embed the chart. To see how to embed using JavaScript at code level, please see <span class="codeInline">Creating Your First Chart &gt; JavaScript Embedding</span> Section. </p>
+    <p>Again, to make things simpler for you, we've provided an PHP function called <span class="codeInline">renderChart() </span>which helps you wrap this JavaScript function in PHP function, so that you don't have to get your hands dirty with JavaScript, Flash and HTML. This function is contained in the previously used <span class="codeInline">FusionCharts.php</span> file. </p>
+    <p>Let's now quickly put up a sample to show the use of this function. We create another PHP page <span class="codeInline">SimpleChart.php</span> to use this function to plot a chart from data contained in our previously created<span class="codeInline"> Data.xml</span> file. It contains the following code: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+      <span class="codeComment">
+      //We've included ../Includes/FusionCharts.php, which contains functions<br />
+      //to help us easily embed the charts.</span><br />
+      include(&quot;../Includes/FusionCharts.php&quot;);<br />
+      ?&gt;<br />
+      &lt;HTML&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts - Simple Column 3D Chart&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct. Else, you<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//would get JavaScript errors.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;</strong><br />
+&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;?php<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart - Column 3D Chart with data from Data/Data.xml</span><br />
+&nbsp;&nbsp;<strong>&nbsp;echo renderChart(&quot;../../FusionCharts/FCF_Column3D.swf&quot;, &quot;Data/Data.xml&quot;, &quot;&quot;, &quot;myFirst&quot;, 600, 300);</strong><br />
+&nbsp;&nbsp;&nbsp;?&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, we've:</p>
+      <ol>
+        <li>Included <span class="codeInline">FusionCharts.js</span> file, which is required when using the JavaScript method.</li>
+        <li>Included <span class="codeInline">FusionCharts.php</span> file. </li>
+        <li>Created the chart using <span class="codeInline">renderChart()</span> method.   </li>
+      </ol>
+    <p>The<span class="codeInline"> renderChart()</span> method takes in the following parameters: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="95%" border="1" align="center" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr>
+        <td width="19%" valign="top" class="header">Parameter</td>
+        <td width="81%" valign="top" class="header">Description</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartSWF</td>
+        <td valign="top" class="text">SWF File Name (and Path) of the chart which you intend to plot. Here, we are plotting a Column 3D chart. So, we've specified it as <span class="codeInline">../../FusionCharts/FCF_Column3D.swf</span></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">strURL</td>
+        <td valign="top" class="text">If you intend to use dataURL method for the chart,   pass the URL as this parameter. Else, set it to &quot;&quot; (in case you are using dataXML method by using strXML   parameter). In this case, we're using Data.xml file, so we specify Data/Data.xml</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">strXML</td>
+        <td valign="top" class="text">If you intend to use dataXML method for this   chart, pass the XML data as this parameter. Else, set it to &quot;&quot; (in case you are   using dataURL method by using strURL parameter). Since we're using dataURL method, we specify this parameter as &quot;&quot;.</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartId</td>
+        <td valign="top" class="text"> Id for the chart, using which it will be recognized in the HTML page. <strong>Each chart on the page needs to have a unique Id.</strong></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartWidth</td>
+        <td valign="top" class="text">Intended width for the chart (in pixels)</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">chartHeight</td>
+        <td valign="top" class="text">Intended height for the chart (in pixels)</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you now view the chart, you'll see that no activation is required even in Internet Explorer. </td>
+  </tr>
+</table>
+</body>
+</html>

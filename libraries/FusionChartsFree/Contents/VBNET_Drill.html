@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with VB.NET (ASP.NET) &gt; Creating Drill-down charts </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous example, we had used FusionCharts to plot a chart using data stored in database. We'll now extend that example itself to create a drill-down chart which can show more information.</p>
+	<p><strong>Before you go further with this page, we recommend you to please see the previous sections like &quot;<a href="VBNET_DB.html">Plotting from Database Example</a>&quot;,  as we start off from concepts explained in those pages. </strong></p>
+    <p>If you recall from <a href="VBNET_DB.html">previous example</a>, we were showing the sum of factory output in a pie chart as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_DBOut.jpg" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In this example, we'll extend this example, so that when a user clicks on a pie slice for a factory, he can drill down to see date wise production for that factory. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the pie chart for Link </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To set up the pie chart to enable links for drill-down involves just minor tweaking of our previous <span class="codeInline">BasicDBExample.aspx</span>. We basically need to add the <span class="codeInline">link</span> attribute for each<span class="codeInline"> &lt;set&gt;</span> element. We create a new page <span class="codeInline">Default.aspx</span> (in<span class="codeInline"> DB_DrillDown</span> folder) from the previous page with the following code changes:
+      <p class="highlightBlock">The code examples contained in this page are contained in<span class="codeInline"> Download Package &gt; Code &gt; VBNET &gt; DB_DrillDown</span> folder. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ Page Language=&quot;VB&quot; AutoEventWireup=&quot;false&quot; CodeFile=&quot;Default.aspx.vb&quot; <br />
+      Inherits=&quot;DB_DrillDown_Default&quot; %&gt;</p>
+      <p>&lt;HTML&gt;<br />
+        &nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;	FusionCharts Free - Database and Drill-Down Example	&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'You need to include the following JS file, if you intend to embed the chart using JavaScript.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  <br />
+  &nbsp;&nbsp;&lt;BODY&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;asp:Literal ID=&quot;FCLiteral&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/BODY&gt;<br />
+        <br />
+    &lt;/HTML&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we have included <span class="codeInline">FusionCharts.js</span> file to enable us embed the chart using JavaScript. We are also adding an ASP control literal which acts as the container for the charts. The  <span class="codeInline"><strong>CreateCharts()</strong></span> function does the generation, and is the code behind the file <span class="codeInline">Default.aspx.vb</span>. Here is the content of the <span class="codeInline">Default.aspx.vb</span>: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>Imports DataConnection<br />
+      Imports InfoSoftGlobal<br />
+      </p>
+      <p>Partial Class DB_DrillDown_Default<br />
+        &nbsp;&nbsp;&nbsp;Inherits System.Web.UI.Page</p>
+      <p>&nbsp;&nbsp;&nbsp;Protected Sub <b>Page_Load</b>(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">' Generate chart in Literal Control</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>FCLiteral.Text = CreateCharts()</b><br />
+&nbsp;&nbsp;&nbsp;&nbsp;End Sub<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;Public Function CreateChart() As String<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'In this example, we show how to connect FusionCharts to a database.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'For the sake of ease, we've used an Access database which is present in<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'../App_Data/FactoryDB.mdb. It just contains two tables, which are linked to each<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'other. </span></p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Database Objects - Initialization</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim oRs As DbConn, strQuery As String<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'strXML will be used to store the entire XML document generated</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim strXML As String</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Generate the graph element</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decimalPrecision='0' showNames='1' numberSuffix=' Units' pieSliceDepth='30'  formatNumberScale='0' &gt;&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' SQL Query</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select a.FactoryId,a.FactoryName, sum(b.Quantity) as TotOutput from &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory_master a,factory_output b where a.FactoryId=b.FactoryId group by &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.FactoryId,a.FactoryName&quot;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;' Open data reader</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs = New DbConn(strQuery)</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;'Iterate through each factory</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While oRs.ReadData.Read()<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Generate &lt;set name='..' value='..' link='..' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Note that we're setting link as Detailed.asp?FactoryId=&lt;&lt;FactoryId&gt;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&amp;FactoryName=&lt;&lt;FactoryName&gt;&gt;</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='&quot; &amp; oRs.ReadData(&quot;FactoryName&quot;).ToString() &amp; &quot;' value='&quot; &amp; oRs.ReadData(&quot;TotOutput&quot;).ToString() &amp; &quot;' link='&quot; &amp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server.UrlEncode(&quot;Detailed.aspx?FactoryId=&quot; &amp; oRs.ReadData(&quot;FactoryId&quot;).ToString()) &amp; &quot;&amp;FactoryName=&quot; &amp; oRs.ReadData(&quot;FactoryName&quot;).ToString() &amp; &quot;'/&gt;&quot;<br />
+  <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End While<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;'Finally, close &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;/graph&gt;&quot;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">' Close Data Reader</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs.ReadData.Close()</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;'Create the chart - Pie 3D Chart with data from strXML</span><br />
+        <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Pie3D.swf&quot;, &quot;&quot;, strXML, &quot;FactorySum&quot;, &quot;650&quot;, &quot;450&quot;, False, False)</b><br />
+        &nbsp;&nbsp;&nbsp;End Function</p>
+      <p><br />
+        End Class<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the code above, we're doing the following:</p>
+      <ol>
+        <li>Include <span class="codeInline">DataConnection</span>  and <span class="codeInline">InfoSoftGlobal</span> namespace to enable databse connection and easy embedding of FusionCharts.<br />
+        (Know more about <a href="VBNET_DB.html#DataConn">DataConnection namespace</a>) </li>
+        <li>Then we declare variables <span class="codeInline">strQuery</span> to store SQL Query that fetches data from our MS Access database and <span class="codeInline">strXML</span> to store XML data. </li>
+        <li>Thereafter, we generate the XML data document by iterating through the recordset. We store the XML data in <span class="codeInline">strXML</span> variable. To each <span class="codeInline">&lt;set&gt;</span> element, we add the <span class="codeInline">link</span> attribute, which points to <span class="codeInline">Detailed.aspx</span> - the page that contains the chart to show details. We pass the factory id of the respective factory by appending it to the link. We finally URL Encode the link, which is a very important step. </li>
+        <li>Finally, we render the chart using <span class="codeInline">renderChart()</span> method and pass <span class="codeInline">strXML</span> as <span class="codeInline">dataXML</span>. <span class="codeInline">RenderChart()is called form the Page_Load</span><span class="codeInline"> event listener</span>. </li>
+    </ol>      
+    <p>Let's now shift our attention to <span class="codeInline">Detailed.aspx</span> page.   </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating the detailed data chart page </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The page <span class="codeInline">Detailed.aspx</span> contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ Page Language=&quot;VB&quot; AutoEventWireup=&quot;false&quot; CodeFile=&quot;Detailed.aspx.vb&quot; <br />
+      Inherits=&quot;DB_DrillDown_Detailed&quot; %&gt;</p>
+      <p>&lt;HTML&gt;<br />
+        &nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Database and Drill-Down Example<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'You need to include the following JS file, if you intend to embed the chart using JavaScript.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  <br />
+  &nbsp;&nbsp;&lt;BODY&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;asp:Literal ID=&quot;FCLiteral&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt;</strong><br />
+  &nbsp;&nbsp;/BODY&gt;</p>
+    <p>&lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here we have included <span class="codeInline">FusionCharts.js </span>file to enable us embed the chart using JavaScript. We are also adding an ASP control literal which acts as the container for the charts. The <span class="codeInline"><strong>CreateCharts()</strong></span> function does the generation, and is the code behind the file <span class="codeInline">Detailed.aspx.vb</span>. Here is the code:  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>Imports DataConnection<br />
+      Imports Utilities<br />
+      Imports InfoSoftGlobal<br />
+      </p>
+      <p>Partial Class DB_DrillDown_Detailed<br />
+      &nbsp;&nbsp;&nbsp;Inherits System.Web.UI.Page<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;Protected Sub <b>Page_Load</b>(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">' Generate chart in Literal Control</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>FCLiteral.Text = CreateChart()</b><br />
+        &nbsp;&nbsp;&nbsp;End Sub</p>
+      <p> &nbsp;&nbsp;&nbsp;Public Function <b>CreateChart</b>() As String<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'This page is invoked from Default.asp. When the user clicks on a pie</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'slice in Default.asp, the factory Id is passed to this page. We need<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'to get that factory id, get information from database and then show<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'a detailed chart.</span></p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;'First, get the factory Id</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim FactoryId As String, FactoryName As String<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim util As New Util<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Request the factory Id from Querystring</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FactoryId = Request.QueryString(&quot;FactoryId&quot;)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FactoryName = Request.QueryString(&quot;FactoryName&quot;)</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim oRs As DbConn, strQuery As String<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;'strXML will be used to store the entire XML document generated</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim strXML As String</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;'Generate the graph element string</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Factory &quot; &amp; FactoryName &amp; &quot; Output ' subcaption='(In Units)' xAxisName='Date' showValues='1' decimalPrecision='0' rotateNames='1' &gt;&quot;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">' SQL Query</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select * from Factory_Output where FactoryId=&quot; &amp; FactoryId</p>
+      <p> &nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;' Open Data Reader</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs = New DbConn(strQuery)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Now, we get the data for that factory</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While oRs.ReadData.Read()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Here, we convert date into a more readable form for set name.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='&quot; &amp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convert.ToDateTime(oRs.ReadData(&quot;DatePro&quot;)).ToString(&quot;dd/MM/yyyy&quot;) &amp; &quot;' value='&quot; &amp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs.ReadData(&quot;Quantity&quot;).ToString() &amp; &quot;' color='&quot; &amp; util.getFCColor() &amp; &quot;'/&gt;&quot;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End While<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;'Close &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;/graph&gt;&quot;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;' Close Data Reader</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs.ReadData.Close()</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;'Create the chart - Column 2D Chart with data from strXML</span><br />
+        <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Column2D.swf&quot;, &quot;&quot;, strXML, &quot;FactoryDetailed&quot;, &quot;600&quot;, &quot;300&quot;, False, False)</b><br />
+        &nbsp;&nbsp;&nbsp;End Function</p>
+      <p><br />
+        End Class<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this page, we're:</p>
+      <ol>
+        <li>Including  <span class="codeInline">DataConnection, Utility </span><span class="text">and</span><span class="codeInline"> InfoSoftGlobal </span><span class="text">namespaces from </span><span class="codeInline">DbConn</span><span class="text"> and </span><span class="codeInline">Util</span><span class="text"> class of </span><span class="codeInline">App_Code</span><span class="text"> folder and </span><span class="codeInline">FusionCharts</span><span class="text"> class of bin folder respectively. </span><br />
+        (Know more about <a href="VBNET_DB.html#DataConn">DataConnection namespace</a>) </li>
+        <li>Requesting the factory id for which we've to show detailed data. This data was sent to us as query string, as a part of pie chart link.</li>
+        <li>We get the requisite data for this factory from database and then convert it into XML using string concatenation in the variable <span class="codeInline">strXML</span>.</li>
+        <li>Finally, we render a Column 2D chart using <span class="codeInline">RenderChart()</span> method to show detailed data. <span class="codeInline">RenderChart()is called form the Page_Load</span><span class="codeInline"> event listener</span>. </li>
+      </ol>
+    <p>When you now run the app, you'll see the detailed page as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_Drill.jpg" class="imageBorder" />&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

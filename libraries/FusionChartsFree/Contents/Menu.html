@@ -1,0 +1,292 @@
+<html>
+
+<head>
+	<title>FusionCharts Free Documentation</title>
+	<link rel="StyleSheet" href="dtree.css" type="text/css" />
+	<script type="text/javascript" src="JS/dtree.js"></script>
+</head>
+
+<body leftMargin='20'>
+
+<div class="dtree">
+	<script type="text/javascript">
+		<!--
+
+		//id, pid, name, url, title, target, icon, iconOPne, open,
+
+		d = new dTree('d');
+		d.config.target="right";		
+		d.config.folderLinks = false;
+		
+// ----------------- INTRODUCTION ------------------//
+		d.add(0,-1,'<B>FusionCharts Free</B>','','FusionCharts Free Documentation');
+		
+		d.add(1,0,'Introduction','','Introduction & Installation','','','',true);
+		d.add(101,1,'Overview','Overview.html','Introduction to FusionCharts Free');
+		d.add(102,1,'Terms of Use (License)','terms.html','Terms of Use (License)');
+		d.add(103,1,'System Requirements','SysReq.html');
+		d.add(104,1,'Installation','Installation.html');
+		d.add(105,1,'Download Contents','DownloadC.html','Folder Structure of what\'s present in your download package');
+		d.add(106,1,'List of Charts','ChartList.html');
+		d.add(107,1,'Free vs. Version 3', 'v3vsFree.html','What Additional Features do I get in FusionCharts v3 ?');
+		d.add(108,1,'Upgrading to Version 3', 'Upgrading.html','Upgrading to Version 3');
+
+// --------------- SAMPLE CHARTS -------------------- //
+		d.add(2,0,'Sample Charts','');
+		d.add(201,2,'Single Series Charts','');
+		d.add(2101,201,'Column 2D Chart','../Gallery/Column2D.html');		
+		d.add(2102,201,'Column 3D Chart','../Gallery/Column3D.html');		
+		d.add(2103,201,'Line 2D Chart','../Gallery/Line2D.html');			
+		d.add(2104,201,'Pie 3D Chart','../Gallery/Pie3D.html');				
+		d.add(2105,201,'Pie 2D Chart','../Gallery/Pie2D.html');		
+		d.add(2106,201,'Bar 2D Chart','../Gallery/Bar2D.html');		
+		d.add(2107,201,'Area 2D Chart','../Gallery/Area2D.html');		
+		d.add(2108,201,'Doughnut 2D Chart','../Gallery/Doughnut2D.html');		
+				
+		d.add(202,2,'Multi-Series Charts','');
+		d.add(2201,202,'Multi-series Column 3D Chart','../Gallery/MSColumn3D.html');		
+		d.add(2202,202,'Multi-series Column 2D Chart','../Gallery/MSColumn2D.html');		
+		d.add(2203,202,'Multi-series Area 2D Chart','../Gallery/MSArea2D.html');		
+		d.add(2204,202,'Multi-series Line 2D Chart','../Gallery/MSLine.html');				
+		d.add(2205,202,'Multi-series Bar 2D Chart','../Gallery/MSBar2D.html');		
+		
+		d.add(203,2,'Stacked Charts','');
+		d.add(2301,203,'Stacked Column 2D Chart','../Gallery/StCol2D.html');		
+		d.add(2302,203,'Stacked Column 3D Chart','../Gallery/StCol3D.html');						
+		d.add(2303,203,'Stacked Bar 2D Chart','../Gallery/StBar2D.html');		
+		d.add(2304,203,'Stacked Area 2D Chart','../Gallery/StArea2D.html');		
+
+		d.add(204,2,'Combination Charts','');
+		d.add(2401,204,'Column 3D + Line Dual Y','../Gallery/Col3DLineDY.html');		
+		d.add(2402,204,'Column 2D + Line Dual Y','../Gallery/Col2DLineDY.html');		
+
+		d.add(205,2,'Financial Charts','');
+		d.add(2501,205,'Candlestick Chart','../Gallery/CandleStick.html');		
+		
+		d.add(206,2,'Other Charts','');
+		d.add(2601,206,'Gantt Chart','../Gallery/Gantt.html');		
+		d.add(2602,206,'Funnel Chart','../Gallery/Funnel.html');		
+		
+	
+
+// ------- CREATING YOUR FIRST CHART -------------//
+		d.add(3,0,'Creating your First Chart');
+		d.add(301,3,'Creating your First Chart','FirstChart.html');
+		d.add(302,3,'Converting it to Pie Chart','ChangeChart.html');
+		d.add(303,3,'JavaScript Embedding','JSEmbed.html','How to use JavaScript to embed chart to avoid the \'Click to Activate\' issue in Internet Explorer.');
+		d.add(304,3,'dataXML Method','DataXML.html','Creating single page charts by putting XML data inside HTML page');
+		d.add(305,3,'Resizing a Chart','resizing.html','How to resize your chart');
+		d.add(306,3,'Using Multiple Charts in a single page','singlePageMultiChart.html','Creating multiple charts in a single HTML page');
+		d.add(307,3,'Basic Chart Elements','BasicChartElements.html','basic Chart Elements');
+		
+// -------------------- FUSIONCHARTS AND XML ------------------//
+		d.add(4,0,'FusionCharts and XML','');
+		d.add(401,4,'XML Overview','XMLOverview.html','Overview of FusionCharts XML');
+		d.add(402,4,'Single Series XML','SingleSeries.html','Single Series Chart XML Structure Overview');
+		d.add(403,4,'Multi Series XML','MultiSeries.html','Multi-series Chart XML Structure Overview');
+		d.add(404,4,'Combination Chart XML','CombiXML.html');
+
+// -------------- MECHANISM --------------		
+		d.add(5,0,'How FusionCharts Works ?');
+		d.add(501,5,'Basic Overview','HowFCWorks.html');
+		d.add(501,5,'Using dataURL method','HowFCWorksDURL.html');
+		d.add(502,5,'Using dataXML method','HowFCWorksDXML.html');
+		
+// --------------------- CHART SPECIFICATION SHEETS -----------------------//
+		d.add(6,0,'Chart XML Reference','');
+		d.add(601,6,'Single Series Charts','');
+		d.add(6101,601,'Column 2D Chart','ChartSS/XML_Column2D.html');		
+		d.add(6102,601,'Column 3D Chart','ChartSS/XML_Column3D.html');		
+		d.add(6103,601,'Pie 3D Chart','ChartSS/XML_Pie3D.html');				
+		d.add(6104,601,'Pie 2D Chart','ChartSS/XML_Pie2D.html');		
+		d.add(6105,601,'Line 2D Chart','ChartSS/XML_Line2D.html');			
+		d.add(6106,601,'Bar 2D Chart','ChartSS/XML_Bar2D.html');		
+		d.add(6107,601,'Area 2D Chart','ChartSS/XML_Area2D.html');		
+		d.add(6108,601,'Doughnut 2D Chart','ChartSS/XML_Doughnut2D.html');		
+				
+		d.add(602,6,'Multi-Series Charts','');
+		d.add(6201,602,'Multi-series Column 2D Chart','ChartSS/XML_MSColumn2D.html');		
+		d.add(6202,602,'Multi-series Column 3D Chart','ChartSS/XML_MSColumn3D.html');		
+		d.add(6203,602,'Multi-series Line 2D Chart','ChartSS/XML_MSLine2D.html');				
+		d.add(6204,602,'Multi-series Area 2D Chart','ChartSS/XML_MSArea2D.html');		
+		d.add(6205,602,'Multi-series Bar 2D Chart','ChartSS/XML_MSBar2D.html');		
+		
+		d.add(603,6,'Stacked Charts','');
+		d.add(6301,603,'Stacked Column 2D Chart','ChartSS/XML_StCol2D.html');		
+		d.add(6302,603,'Stacked Column 3D Chart','ChartSS/XML_StCol3D.html');			
+		d.add(6303,603,'Stacked Area 2D Chart','ChartSS/XML_StArea2D.html');		
+		d.add(6304,603,'Stacked Bar 2D Chart','ChartSS/XML_StBar2D.html');		
+
+		d.add(604,6,'Combination Charts','');
+		d.add(6401,604,'Column 3D + Line Dual Y','ChartSS/XML_Col3DLineDY.html');		
+		d.add(6402,604,'Column 2D + Line Dual Y','ChartSS/XML_Col2DLineDY.html');
+		
+		
+		d.add(605,6,'Candlestick Charts','');		
+		d.add(6501,605,'Overview','ChartSS/CS_overview.html');		
+		d.add(6502,605,'Anatomy','ChartSS/CS_anatomy.html');		
+		d.add(6503,605,'Example','ChartSS/CS_example.html');		
+		d.add(6504,605,'XML Reference','ChartSS/XML_CandleStick.html');			
+
+
+		d.add(606,6,'Funnel Charts','');		
+		d.add(6601,606,'Introduction','ChartSS/Funnel_Introduction.html');		
+		d.add(6602,606,'First Chart','ChartSS/Funnel_FirstChart.html');		
+		d.add(6603,606,'XML Reference','ChartSS/Funnel_XML.html');
+		
+
+		d.add(607,6,'Gantt Charts','');		
+		d.add(6701,607,'Overview','ChartSS/Gt_Overview.html');		
+		d.add(6702,607,'Anatomy','ChartSS/Gt_Anatomy.html');		
+		d.add(6703,607,'XML Reference','ChartSS/Gt_XML.html');
+
+// -------------------- FUSIONCHARTS DOM ------------------//
+		d.add(25,0,'FusionCharts through DOM','');
+		d.add(2501,25,'DOM Overview','FCDomOverview.html');
+		d.add(2502,25,'Getting Started with DOM','FCDomGettingStarted.html');
+		d.add(2503,25,'DOM Features Explained','FCDomFeatures.html');
+		d.add(2504,25,'Using DOM with JavaScript','FCDomJavaScript.html');
+		d.add(2505,25,'DOM API and Reference','FCDomReference.html');
+		d.add(2506,25,'DOM Troubleshooting','FCDomTrouble.html');
+
+// -------------------- FusionCharts and PHP ---------------------		
+		d.add(8,0,'Using With PHP','Using FusionCharts with PHP');
+		d.add(801,8,'Basic Examples','PHP_BasicExample.html','Very basic example of using FusionCharts with PHP');
+		d.add(802,8,'Charting data from Array','PHP_Array.html');
+		d.add(803,8,'Using with data in Forms','PHP_Form.html');
+		d.add(804,8,'Plotting from Database','PHP_DB.html');
+		d.add(805,8,'Creating Drill Down Charts','PHP_Drill.html');
+		d.add(806,8,'PHP, Javascript and dataXML','PHP_JS_XML.html','Combining FusionCharts, ASP and JavaScript (dataXML method) to create client side dynamic charts');
+		d.add(807,8,'UTF8 Examples','PHP_UTF8Example.html');
+
+//-------------PHP Class-----------------------//
+		d.add(23,0,'FusionCharts PHP Class','');		
+		d.add(2301,23,'Overview','PHPClassAPI/Overview.html','FusionCharts PHP Class Overview');		
+		d.add(2302,23,'Basic Set up','PHPClassAPI/Setup.html','FusionCharts PHP Class - Basic Setup');		
+		d.add(2303,23,'Creating First Chart','PHPClassAPI/FirstChart.html','Creating First Chart using FusionCharts PHP Class');
+		d.add(2304,23,'Creating Multiple Charts','PHPClassAPI/MultipleCharts.html','Creating multiple charts on one page using FusionCharts PHP Class');
+		d.add(2305,23,'Creating Multi-series Chart','PHPClassAPI/MultiSeriesChart.html','Creating Multi-series chart using FusionCharts PHP Class');
+		d.add(2306,23,'Creating Stacked Chart','PHPClassAPI/StackedChart.html','Creating Stacked chart using FusionCharts PHP Class');
+		d.add(2307,23,'Creating Combination Chart','PHPClassAPI/CombinationChart.html','Creating Combination chart using FusionCharts PHP Class');
+		d.add(2308,23,'Advanced Usage');
+				d.add(23801,2308,'Providing Chart Attributes','PHPClassAPI/Adv_chart.html','How to provide chart attributes using FusionCharts PHP Class');
+				d.add(23802,2308,'Providing Other Elements Attributes','PHPClassAPI/Adv_OtherElmAttribs.html','How to provide chart attributes using FusionCharts PHP Class');
+				d.add(23803,2308,'Creating Trendlines','PHPClassAPI/Adv_trendlines.html');
+				d.add(23804,2308,'Setting Chart Messages','PHPClassAPI/Adv_msg.html');
+				d.add(23805,2308,'Handling Delimiter','PHPClassAPI/Adv_delim.html');
+
+		d.add(2309,23,'FusionCharts PHP Class API Reference','PHPClassAPI/Functions.html','List of FusionCharts PHP Class functions');
+		
+//-------------Using with FusionCharts PHP Class--------------//
+		d.add(24,0,'Using With PHP Class');
+		d.add(2401,24,'Basic Examples','PHPClass_BasicExamples.html','Basic examples of creating chart using FusionCharts PHP Class');
+		d.add(2402,24,'Charting Data from Array','PHPClass_Array.html','Creating single series and multi-series charts from Array using FusionCharts PHP Class');
+		d.add(2403,24,'Using with data in Forms','PHPClass_Forms.html','Examples of creating charts where data stored in Forms using FusionCharts PHP Class');
+		d.add(2404,24,'Charting data from Database','PHPClass_DB.html','Charting data from database using FusionCharts PHP Class');
+		d.add(2405,24,'Creating Drilldown charts','PHPClass_Drill.html','How to create Drilldown charts using FusionCharts PHP Class');
+
+//--------------PHP Class ends here---------------------//		
+
+				
+// -------------------- FusionCharts and ASP ---------------------		
+		d.add(7,0,'Using With ASP','Using FusionCharts with ASP');
+		d.add(701,7,'Basic Examples','ASP_BasicExample.html','Very basic example of using FusionCharts with ASP');
+		d.add(702,7,'Charting data from Array','ASP_Array.html');
+		d.add(703,7,'Using with data in Forms','ASP_Form.html');
+		d.add(704,7,'Plotting from Database','ASP_DB.html');
+		d.add(705,7,'Creating Drill Down Charts','ASP_Drill.html');
+		d.add(706,7,'ASP, JavaScript and dataXML','ASP_JS_XML.html','Combining FusionCharts, ASP and JavaScript (dataXML method) to create client side dynamic charts');
+
+
+
+// -------------------- FusionCharts and VB.NET ---------------------		
+		d.add(9,0,'Using With VB.NET (ASP.NET)','Using FusionCharts with VB.NET (ASP.NET)');
+		d.add(907,9,'Initial Settings','VBNET_Settings.html','Folder arrangement and necessary settings');
+		d.add(901,9,'Basic Examples','VBNET_BasicExample.html','Very basic example of using FusionCharts with VB.NET');
+		d.add(902,9,'Charting data from Array','VBNET_Array.html');
+		d.add(903,9,'Using with data in Forms','VBNET_Form.html');
+		d.add(904,9,'Plotting from Database','VBNET_DB.html');
+		d.add(905,9,'Creating Drill Down Charts','VBNET_Drill.html');
+		d.add(906,9,'ASP.NET, JavaScript & dataXML','VBNET_JS_XML.html','Combining FusionCharts, ASP.NET and JavaScript (dataXML method) to create client side dynamic charts');
+		
+// -------------------- FusionCharts and C# ---------------------		
+		d.add(10,0,'Using With C# (ASP.NET)','Using FusionCharts with C# (ASP.NET)');
+		d.add(193,10,'Initial Settings','CS_Settings.html','Folder arrangement and necessary settings');
+		d.add(199,10,'Basic Examples','CS_BasicExample.html','Very basic example of using FusionCharts with C#');
+		d.add(198,10,'Charting data from Array','CS_Array.html');
+		d.add(197,10,'Using with data in Forms','CS_Form.html');
+		d.add(196,10,'Plotting from Database','CS_DB.html');
+		d.add(195,10,'Creating Drill Down Charts','CS_Drill.html');
+		d.add(194,10,'ASP.NET, JavaScript & dataXML','CS_JS_XML.html','Combining FusionCharts, ASP.NET and JavaScript (dataXML method) to create client side dynamic charts');
+
+// -------------------- FusionCharts and JSP ---------------------		
+		d.add(17,0,'Using With JSP','Using FusionCharts with JSP');
+		d.add(1701,17,'Basic Examples','JSP_BasicExample.html','Very basic example of using FusionCharts with JSP');
+		d.add(1702,17,'Charting data from Array','JSP_Array.html');
+		d.add(1703,17,'Using with data in Forms','JSP_Form.html');
+		d.add(1704,17,'Plotting from Database','JSP_DB.html');
+		d.add(1705,17,'Creating Drill Down Charts','JSP_Drill.html');
+		d.add(1706,17,'JSP, JavaScript and dataXML','JSP_JS_XML.html','Combining FusionCharts, JSP and JavaScript (dataXML method) to create client side dynamic charts');
+		d.add(1707,17,'UTF8 Examples','JSP_UTF8Example.html');
+
+// -------------------- FusionCharts and Ruby on Rails ---------------------		
+		d.add(18,0,'Using With Ruby on Rails','Using FusionCharts with Ruby on Rails');
+		d.add(1801,18,'Basic Examples','Ruby_BasicExample.html','Very basic example of using FusionCharts with RoR');
+		d.add(1802,18,'Charting data from Array','Ruby_Array.html');
+		d.add(1803,18,'Using with data in Forms','Ruby_Form.html');
+		d.add(1804,18,'Plotting from Database','Ruby_DB.html');
+		d.add(1805,18,'Creating Drill Down Charts','Ruby_Drill.html');
+		d.add(1806,18,'RoR, Javascript and dataXML','Ruby_JS_XML.html','Combining FusionCharts, RoR and JavaScript (dataXML method) to create client side dynamic charts');
+		d.add(1807,18,'UTF8 Examples','Ruby_UTF8Example.html','UTF-8 example of using FusionCharts with RoR');
+
+// -------------------- Drill Down Charts ---------------------		
+		d.add(11,0,'Drill Down Charts','Using FusionCharts to create Drill-down charts');
+		d.add(189,11,'Simple Example','DrillDown/Simple.html','Basic Example of Using FusionCharts to create drill down charts');
+		d.add(188,11,'JavaScript functions as links','DrillDown/JavaScript.html');
+// -------------------- FusionCharts and JavaScript ---------------------		
+		d.add(12,0,'FusionCharts and JavaScript');
+		d.add(179,12,'Overview','JS_Overview.html','Overview of using FusionCharts with JavaScript and AJAX');
+		d.add(178,12,'updateChartXML() Method','JS_setDataXML.html','Explanation of setDataXML() JavaScript method');
+		d.add(176,12,'Changing Chart dynamically','JS_changeChart.html','Changing chart type at client side without refreshing the page');
+		d.add(177,12,'Example Application','JS_Example.html','A simple application to demonstrate FusionCharts and JavaScript capabilities');
+
+	
+// -------------- Advanced Charting --------------		
+		d.add(13,0,'Advanced Charting');
+		d.add(610,13,'Basic Number Formatting','Adv_Number_Basics.html','Basics of Number Formatting in FusionCharts');
+		
+		d.add(630,13,'Plotting Discontinuous data','Adv_DiscData.html','Plotting discontinuous data with FusionCharts');
+		d.add(632,13,'Showing long labels on x-axis','Adv_xAxisNames.html','Show long or too many labels on x-axis');
+		d.add(636,13,'Set backgrounds for chart','Adv_BgSWF.html','How to set background images for chart?');
+		d.add(637,13,'Using Chart on SSL/HTTPS','Adv_SSL.html','Using FusionCharts over SSL/HTTPS');
+		d.add(638,13,'Changing chart messages','Adv_ChartMessages.html','Changing various chart messages');
+
+		d.add(615,13,'Using Special Characters');
+		d.add(616,615,'Using Multi-lingual text','Adv_SpChar.html','Using multi-lingual text in FusionCharts');
+		d.add(617,615,'Using Euro Sign','Adv_SpChar_Euro.html','Using Euro sign in FusionCharts');
+		d.add(618,615,'Using Pound Sign','Adv_SpChar_Pound.html','Using Pound sign in FusionCharts');
+		d.add(620,615,'Using Yen Sign','Adv_SpChar_Yen.html','Using Yen sign in FusionCharts');		
+		d.add(621,615,'Using Cent Sign','Adv_SpChar_Cent.html','Using Cent sign in FusionCharts');
+		d.add(622,615,'Using Percent Sign','Adv_SpChar_Percent.html','Using Percentage sign in FusionCharts');
+		d.add(623,615,'Using &amp; Character','Adv_SpChar_Amp.html','Using Ampersand Character in FusionCharts');
+		d.add(624,615,'Using &gt; Sign','Adv_SpChar_LT.html','Using > sign on chart');
+		d.add(625,615,"Using Apostrophe (')",'Adv_SpChar_Apos.html','Using Apostrophe Character in FusionCharts');
+
+// -------------------- Debugging ---------------------		
+		d.add(14,0,'Debugging your Charts','Debug/Basic.html','Troubleshooting / Problem Solving');
+
+		d.add(15,0,'Frequently Asked Questions','FAQ.html');
+		d.add(16,0,'Support Information','Support.html');
+		
+
+					
+		
+		document.write(d);
+
+		//-->
+	</script>
+	<p><a href="javascript: d.openAll();">Expand all</a> | <a href="javascript: d.closeAll();">Collapse all</a></p>
+</div>
+</body>
+
+</html>

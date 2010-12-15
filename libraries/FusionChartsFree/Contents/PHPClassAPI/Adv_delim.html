@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Advanced Usage &gt; Setting Delimiter </h2></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">Delimiter is the character used to separate two consecutive attributes within the chart attribute list. FusionCharts uses semicolon (;) as the default delimiter. To replace the default delimiter with a new character, simply call <span class="codeInline">setParamDelimiter()</span> function and pass the new delimiter character though it as shown in the code below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeInline"><strong>$FC-&gt;setParamDelimiter(&quot;$&quot;);</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now you can use <strong>'$'</strong> as delimiter in the following statements of your program: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeInline">$strParam=&quot;bgColor=CC66CC<strong>$</strong>canvasBgColor=BC6699<strong>$</strong>showBorder=1<strong>$</strong>borderColor=00FF00&quot;;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Consider the code below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php</p>
+      <p><span class="codeComment"># Include FusionCharts PHP Class</span><br />
+      include('class/FusionCharts_Gen.php');</p>
+      <p><span class="codeComment"># Create FusionCharts PHP object</span><br />
+        $FC = new FusionCharts(&quot;MSColumn3DLineDY&quot;,&quot;350&quot;,&quot;300&quot;); <br />
+        <span class="codeComment"># set the relative path of the swf file</span><br />
+      $FC-&gt;setSWFPath(&quot;FusionCharts/&quot;);</p>
+      <p><span class="codeComment"># Set chart attributes</span><br />
+      $strParam=&quot;caption=Weekly Sales;subcaption=Comparison;xAxisName=Week; pYAxisName=Revenue;sYAxisName=Total Quantity;decimalPrecision=0;&quot;;<br />
+      <span class="codeComment"><strong># Note that we have used semicolon (;) as the delimiter here </strong></span></p>
+      <p>$FC-&gt;setChartParams($strParam);</p>
+      <p>...<br />
+      ...</p>
+      <p><span class="codeComment"><strong># Set colon (:) as delimiter</strong></span><br />
+        <strong>$FC-&gt;setParamDelimiter(&quot;:&quot;);</strong></p>
+      <p><span class="codeComment"># Add a new dataset with dataset parameters </span><br />
+        $FC-&gt;addDataset(&quot;This Month&quot;,&quot;<strong>numberPrefix=$:showValues=0&quot;);</strong> <br />
+        <span class="codeComment"><strong># Please note that in the above line colon (:) has been used to separate consecutive attributes </strong></span><br />
+        <span class="codeComment"># Add chart data for the above dataset</span><br />
+        $FC-&gt;addChartData(&quot;40800&quot;);<br />
+        $FC-&gt;addChartData(&quot;31400&quot;);<br />
+        $FC-&gt;addChartData(&quot;26700&quot;);<br />
+      $FC-&gt;addChartData(&quot;54400&quot;);</p>
+      <p><span class="codeComment"><strong># Set hash (#) as delimiter</strong></span><strong><br />
+  $FC-&gt;setParamDelimiter(&quot;#&quot;)</strong>;</p>
+      <p><span class="codeComment"># Add aother dataset with dataset parameters </span><br />
+        $FC-&gt;addDataset(&quot;Previous Month&quot;,&quot;<strong>numberPrefix=$#showValues=0&quot;); <br />
+        <span class="codeComment"># Please note that in the above line hash (#) has been used as delimiter) </span></strong><span class="codeComment"><br />
+        # Add chart data for the second dataset</span><br />
+        $FC-&gt;addChartData(&quot;38300&quot;);<br />
+        $FC-&gt;addChartData(&quot;28400&quot;);<br />
+        $FC-&gt;addChartData(&quot;15700&quot;);<br />
+      $FC-&gt;addChartData(&quot;48100&quot;);</p>
+      <p>...<br />
+      ...</p>
+      <p>&lt;?<br />
+        <span class="codeComment"># Render Chart</span><br />
+        $FC-&gt;renderChart();</p>
+      <p>?&gt;<br />
+        &lt;/body&gt;<br />
+        &lt;/html&gt;</p>
+    <p></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The code shows that we can use different delimiters in our programs provided the delimiter is declared before using. </td>
+  </tr>
+</table>
+</body>
+</html>

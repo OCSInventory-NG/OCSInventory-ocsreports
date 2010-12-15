@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts over HTTPS (SSL) </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts can work over HTTPS (Secure Sockets Layer too) in the same way as HTTP.  </p>
+      <p>However, if you're using the <span class="codeInline">dataURL</span> method, you need to set a few headers. Loading XML files in Flash over an SSL Connection in Internet Explorer fails if the <span class="codeInline">Pragma:no-cache</span> or <span class="codeInline">Cache-control:no-cache</span> HTTP headers are set on the XML file or the XML data provider file. The &quot;<span class="codeInline">Cache: no cache</span>&quot; header causes IE to actually return 
+        <span class="codeInline">ERROR_INTERNET_UNABLE_TO_CACHE_FILE</span> HTTPS as<br />
+      the content instead of the XML data.</p>
+      <p>So, if you're using <span class="codeInline">dataURL</span> method on Internet Explorer, you need to make sure that the server does not send <span class="codeInline">no-cache</span> headers for the XML data. To do so, set the following headers for your XML Data provider page:</p>
+      <p class="codeInline">Cache-Control: cache,   must-revalidate<br />
+      Pragma:   public</p>
+      <p class="highlightBlock">When using Firefox or any other browser, you would not find this error. This error occurs only in Internet Explorer.<br />
+        <br />
+      Also, this happens only in <span class="codeInline">dataURL</span> mode and not in <span class="codeInline">dataXML</span> mode, as in <span class="codeInline">dataURL</span> mode the SWF has to download XML data. </p>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

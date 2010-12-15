@@ -1,0 +1,21 @@
+<Context path="/FusionChartsFree_JSP" docBase="FusionChartsFree_JSP"
+        debug="5" reloadable="true" crossContext="true">
+
+  <Logger className="org.apache.catalina.logger.FileLogger"
+             prefix="localhost_DBTest_log." suffix=".txt"
+             timestamp="true"/>
+  <Resource name="jdbc/FactoryDB"
+   type="javax.sql.DataSource"
+   auth="Container"
+   url="jdbc:mysql://localhost:3306/factorydb?useUnicode=true"
+   username="root"
+   password=""
+   driverClassName="com.mysql.jdbc.Driver"
+   validationQuery="select now();"
+   maxWait="5000"
+   maxActive="4"
+   maxIdle="2"
+   removeAbandoned="true"
+   removeAbandonedTimeout="30"
+   logAbandoned="false" />
+</Context>            

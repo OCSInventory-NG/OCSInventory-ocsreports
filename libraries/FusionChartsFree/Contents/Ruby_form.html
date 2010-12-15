@@ -1,0 +1,140 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr>
+    <td><h2 class="pageHeader">Using FusionCharts with RoR- Charting Data from Forms </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts with Ruby to plot data collected from form. </p>
+        <p>We'll build a simple restaurant sales example, where the user will enter the items sold by a restaurant in a given week. This data will be submitted in a form to the server. We'll acquire this data and plot it on a chart. For the sake of simplicity, we wouldn't do any processing on this data. However, your real life applications might process data before presenting it on the chart. </p>
+        <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;Basic Examples&quot; as we start off from concepts explained in that page. </strong></p>
+      <p class="highlightBlock">
+  All code discussed here is present in <br>
+        <span class="codeInline">Controller : Download Package > Code > RoR > SampleApp &gt;  app > controllers &gt; fusioncharts > form_based_controller.rb</span>. <br>
+        <span class="codeInline">Rhtml : Download Package > Code > RoR > SampleApp &gt;  app > views &gt; fusioncharts > form_based</span> folder. 
+      </p>      
+      <p class="header">Building the Form</p>      <p class="text">The form is contained in default.html.erb and looks as under: </p>      <p class="text"><img src="Images/Code_Form.gif" class="imageBorder" /></p>      
+      <p class="text">To display this form, we have defined an action default in the controller <span class="codeInline">form_based_controller.rb. </span>There is no code in this action. It just renders the view. (the form) </p>      <p class="text">Let us see the view.</p>      <p class="codeBlock">&lt;HTML&gt;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts - Form Based Data Charting Example&lt;/TITLE&gt;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.text{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;FusionCharts Form-Based Data Example&lt;/h2&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p class='text'&gt;Please enter how many items of each category you<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sold within this week. We'll plot this data on a Pie chart.&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p class='text'&gt;To keep things simple, we're not validating for<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-numeric data here. So, please enter valid numeric values only. In<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;your real-world applications, you can put your own validators.&lt;/p&gt;<br>
+  <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;% form_tag(:action=&gt;'chart') do -%&gt;</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;table width='50%' align='center' cellpadding='2' cellspacing='1'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border='0' class='text'&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%' align='right'&gt;&lt;B&gt;Soups:&lt;/B&gt; &amp;nbsp;&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%'&gt;&lt;input type='text' size='5' name='Soups'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value='108'&gt; bowls&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%' align='right'&gt;&lt;B&gt;Salads:&lt;/B&gt; &amp;nbsp;&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%'&gt;&lt;input type='text' size='5' name='Salads'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value='162'&gt; plates&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%' align='right'&gt;&lt;B&gt;Sandwiches:&lt;/B&gt; &amp;nbsp;&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%'&gt;&lt;input type='text' size='5' name='Sandwiches'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value='360'&gt; pieces&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%' align='right'&gt;&lt;B&gt;Beverages:&lt;/B&gt; &amp;nbsp;&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%'&gt;&lt;input type='text' size='5' name='Beverages'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value='171'&gt; cans&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%' align='right'&gt;&lt;B&gt;Desserts:&lt;/B&gt; &amp;nbsp;&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%'&gt;&lt;input type='text' size='5' name='Desserts'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value='99'&gt; plates&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%' align='right'&gt;&amp;nbsp;&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td width='50%'&gt;&lt;input type='submit' value='Chart it!'&gt;&lt;/td&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;table&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;% end -%&gt; </strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br>
+&lt;/HTML&gt;<br>
+        </p>      <p class="text">Here, we have used <span class="codeInline">form_tag</span> ruby <span class="codeInline">form-helper</span> function to create the form and we have assigned the action <span class="codeInline">&quot;chart&quot;</span> to it. In this example, we have the form text fields hard-coded. In real-world, you would create the form based on some Model and use ruby form-helpers to create the form, the textfields etc. What happens when you click on <span class="codeInline">Chart It</span> button? </p>      <p class="text"><span class="header">Requesting the data and Creating the Chart </span></p>      <p class="text">The work of requesting the data from submitted form and creating the chart containing the following code: </p>      <p class="codeBlock">  <b>Controller: Fusioncharts::FormBasedController<br>
+  Action: chart<br>
+  </b><span class="codeComment">#Data is obtained from the submitted form (present in the request)<br>
+  #In this example, we're directly showing this data back on chart.<br>
+  #In your apps, you can do the required processing and then show the <br>
+  #relevant data only.<br>
+  #The view for this action uses the &quot;common&quot; layout.</span><br>
+  def chart<br>
+&nbsp;&nbsp;&nbsp;&nbsp;headers[&quot;content-type&quot;]=&quot;text/html&quot;;<br>
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;# Get the values from the request using params[]</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;@str_soups = params[:Soups]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@str_salads = params[:Salads]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@str_sandwiches = params[:Sandwiches]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@str_beverages = params[:Beverages]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@str_desserts = params[:Desserts]<br>
+  <br>
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;#The common layout is used only by this function in controller.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;render(:layout =&gt; &quot;layouts/common&quot;)<br>
+  end <br>
+  <br>
+  <b>View:</b><br>
+&lt;% @page_title=&quot; FusionCharts - Form Based Data Charting Example &quot; %&gt;<br>
+&lt;% @page_heading=&quot;FusionCharts Form-Based Data Example&quot; %&gt;<br>
+&lt;% @page_subheading=&quot;Restaurant Sales Chart below&quot; %&gt;<br>
+&lt;p class='text'&gt;Click on any pie slice to see slicing effect. Or,<br>
+  right click on chart and choose &quot;Enable Rotation&quot;, and then drag and<br>
+  rotate the chart.&lt;/p&gt;<br>
+&lt;%<br>
+  <span class="codeComment"># The xml is obtained as a string from builder template.</span><br>
+  str_xml =render &quot;fusioncharts/form_based/form_based_data&quot;,{:str_soups =&gt; @str_soups,:str_salads =&gt; @str_salads,:str_sandwiches =&gt; @str_sandwiches,:str_beverages =&gt; @str_beverages,:str_desserts =&gt; @str_desserts}<br>
+    <br>
+    <span class="codeComment">#Create the chart - Pie 3D Chart with data from str_xml</span><br>
+    render_chart '/FusionCharts/Pie3D.swf','',str_xml,'Sales', 500, 300, false, false do-%&gt;<br>
+&lt;% end -%&gt;<br>
+&lt;a href='javascript:history.go(-1);'&gt;Enter data again&lt;/a&gt; </p>      <p class="text">The controller action does the following:</p>      <ol class="text">
+    <li> Gets the data submitted by the form from the request using params[...]</li>
+    <li>Stores them in global variables accessible to the view </li>
+          </ol>      <p class="text" >The view calls render function and gets the xml from the builder template <span class="codeInline">form_based_data</span> by passing the form data as parameters to it. Then it calls the render_chart function to create a Pie chart, by passing the xml as parameter. </p>      
+          <p class="text" >What does the builder do? Let's see.</p>      <p class="codeBlock" ><span class="codeComment"># Builds xml for sales of various product categories <br>
+    # of a Restaurant to be shown in form of a pie-chart.<br>
+    # The values required here are got as parameters<br>
+    # Expected parameters: str_soups,str_salads,str_sandwiches,str_beverages,str_desserts</span><br>
+    xml = Builder::XmlMarkup.new<br>
+xml.graph(:caption=&gt;'Sales by Product Category', :subCaption=&gt;'For this week', :showPercentageInLabel=&gt;'1',:pieSliceDepth=&gt;'25',:decimalPrecision=&gt;'0',:showNames=&gt;'1') do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:label=&gt;'Soups',:value=&gt;str_soups) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:label=&gt;'Salads',:value=&gt;str_salads) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:label=&gt;'Sandwiches',:value=&gt;str_sandwiches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:label=&gt;'Beverages',:value=&gt;str_beverages)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:label=&gt;'Desserts',:value=&gt;str_desserts)<br>
+  end</p>      
+          <p class="text" >The builder builds the xml with outermost tag as &lt;graph&gt; element. Inside this, it puts the &lt;set&gt; element. The attributes of the set tag are label and value. The  values are picked from the parameters received from the view. That's it. Now, when you click on &quot;Chart it&quot; button, this is what you will see:</p>      
+          <p class="text" ><img src="Images/Code_FormChart.jpg" width="468" height="268" class="imageBorder" /></p></td>
+  </tr>
+</table>
+</body>
+</html>

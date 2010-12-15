@@ -1,0 +1,15 @@
+<% @page_title="FusionCharts Free - Database Example" %>
+<% @page_heading="Database Example" %>
+<% @page_subheading="" %>
+<%
+	#In this example, we show how to connect FusionCharts to a database.
+	#For the sake of ease, we've used a database which contains two tables, which are linked to each
+	#other. 
+
+	# The xml is obtained as a string from builder template.
+	str_xml = render "fusioncharts/db_example/basic_factories_quantity",{:factory_data => @factory_data}
+
+	#Create the chart - Pie 3D Chart with data from strXML
+	render_chart '/FusionCharts/FCF_Pie3D.swf', '', str_xml, 'FactorySum', 650, 450, false, false do-%> 
+<% end-%> 
+
