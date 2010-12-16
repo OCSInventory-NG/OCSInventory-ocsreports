@@ -8,9 +8,12 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
-
-	$year_mouth['Dec']=12;
+//We've included ../Includes/FusionCharts.php, which contains functions
+//to help us easily embed the charts.
+require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FusionCharts.php");
+//a file having a list of colors to be applied to each column (using getFCColor() function)
+require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FC_Colors.php");
+$year_mouth['Dec']=12;
 	$year_mouth['Nov']=11;
 	$year_mouth['Oct']=10;
 	$year_mouth['Sep']=9;
@@ -24,25 +27,26 @@
 	$year_mouth['Jan']=1;
 	
 $sql="select count(*) c from devices d,
-download_enable d_e,download_available d_a
-where d.name='DOWNLOAD'
-and d_e.id=d.ivalue
-and d_a.fileid=d_e.fileid
-and d_e.fileid='".$protectedGet['stat']."'";
-$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+							download_enable d_e,download_available d_a
+						where d.name='DOWNLOAD'
+							and d_e.id=d.ivalue
+							and d_a.fileid=d_e.fileid
+							and d_e.fileid='%s'";
+$arg=$protectedGet['stat'];
+$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);	
 $item = mysql_fetch_object($result);
 $total_mach=$item->c;
 
-$sql="select d.hardware_id as id,d.comments as date_valid from devices d,
-download_enable d_e,download_available d_a
-where d.name='DOWNLOAD' 
-and tvalue='".$protectedGet['ta']."' 
-and comments is not null
-and d_e.id=d.ivalue
-and d_a.fileid=d_e.fileid
-and d_e.fileid='".$protectedGet['stat']."'";
-
-$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+$sql="select d.hardware_id as id,d.comments as date_valid 
+					from devices d,download_enable d_e,download_available d_a
+			where d.name='DOWNLOAD' 
+				and tvalue='%s' 
+				and comments is not null
+				and d_e.id=d.ivalue
+				and d_a.fileid=d_e.fileid
+				and d_e.fileid='%s'";
+$arg=array($protectedGet['ta'],$protectedGet['stat']);
+$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 $nb_4_hour=array();
 //$total_mach=0;
 while($item = mysql_fetch_object($result)){
@@ -82,136 +86,24 @@ foreach ($nb_4_hour as $key=>$value){
 	$data[]=(($ancienne*100) / $total_mach);
 	
 }
-$img_width= count($data)*30;
-if (isset($data) and $data != ""){
-	header ("Content-type: image/png");
-	Histogramme($data,$img_width,600,$legende);
-}else
-	msg_error($l->g(989));
 
-function ImageColorLight($im,$color,$mod)
-{
-	if ($color<0)
-	$color=2;
-  $rvb=ImageColorsForIndex($im,$color);
-  // On teste les d�bordements
-  if(($mod+$rvb['red'])>255) $rvb['red']=255-$mod;
-  if(($mod+$rvb['green'])>255) $rvb['green']=255-$mod;
-  if(($mod+$rvb['blue'])>255) $rvb['blue']=255-$mod;
-  if(($mod+$rvb['red'])<0) $rvb['red']=-$mod;
-  if(($mod+$rvb['green'])<0) $rvb['green']=-$mod;
-  if(($mod+$rvb['blue'])<0) $rvb['blue']=-$mod;
-
-  // On d�finit la nouvelle couleur
-  return ImageColorAllocate($im,$mod+$rvb['red'],$mod+$rvb['green'],$mod+$rvb['blue']);
+$strXML2="<graph caption='".$l->g(1250)." (".$protectedGet['stat'].") ".$l->g(81)." : ".$protectedGet['ta']."'  xAxisName='".$l->g(232)."'
+yAxisName='".$l->g(1125)."' numberPrefix='' showValues='0' 
+numVDivLines='10' showAlternateVGridColor='1' AlternateVGridColor='e1f5ff' 
+divLineColor='e1f5ff' vdivLineColor='e1f5ff' yAxisMaxValue='100'  yAxisMinValue='0'
+bgColor='E9E9E9' canvasBorderThickness='0' decimalPrecision='0' rotateNames='1'>
+<categories>";
+foreach ($legende as $value){
+	$strXML2.="<category name='".$value."' />";	
 }
-
-function drawPNG($im)
-{
-  imagePNG($im);
-//  echo "\"graphique\"/";
+$strXML2.="</categories>
+<dataset seriesName='' color='B1D1DC'  areaAlpha='60' showAreaborder='1' areaBorderThickness='1' areaBorderColor='7B9D9D'>";
+foreach ($data as $value){
+	$strXML2.="<set value='".$value."' />";	
 }
-
-function Histogramme($valeurs,$img_width,$img_height,$legende)
-{
-  
-$n_val=count($valeurs);           // Nombre de valeurs � inclure dans le graph
-$somme=array_sum($valeurs);       // Somme des valeurs
-
-$margin_x=10;
-$margin_y=10;
-
-$leg_larg=100;      // Largeur r�serv�e � la largeur (� droite)
-$leg_top=10;        // Espace entre le haut de l'image et le d�but de la premi�re "box
-$leg_bottom=2;
-$box_height=8;      // Hauteur d'une box
-$box_width=8;       // Largeur d'une box
-$leg_space_y=8;     // Espace vertical entre deux box
-
-$im=ImageCreate(intval($img_width),intval($img_height)); //dessus du camembert
-
-$white=ImageColorAllocate($im,255,255,255);
-ImageColorTransparent($im,$white);
-
-$black=ImageColorAllocate($im,0,0,0);
-
-$graph_width=$img_width-($leg_larg+2*$margin_x);
-$graph_height=$img_height-(2*$margin_y);
-
-// On calcule l'�chelle
-$max=100;    // valeur max du graphique, on envoie des % la valeur est donc fix�e � 100
-$scale_y=$graph_height/$max;
-$scale_x=$graph_width/$n_val;
-$scale_x=12; // Largeur d'une barre
-$space_x=6;  // espace entre 2 barres, cette valeur doit �tre >= � $relief_x
-
-$relief_x=intval($scale_x/2);     // d�calage sur l'axe X pour le relief
-$relief_y=intval($scale_x/2);     // Pareil pour Y
-
-// ---------- On dessine la base du graphique en relief ----------
-
-$col_base=ImageColorAllocate($im,192,192,192);
-$base=array(0,$img_height,
-       $graph_width,$img_height,
-       $graph_width+3*$relief_x,$img_height-(3*$relief_y),
-       3*$relief_x,$img_height-(3*$relief_y)
-       );
-ImageFilledPolygon($im, $base, 4, $col_base);
-
-$col_cotes=ImageColorLight($im,$col_base,32);
-$cotes=array(0,$img_height,
-       3*$relief_x,$img_height-(3*$relief_y),
-       3*$relief_x,$img_height-(3*$relief_y+$graph_height),
-       0,$img_height-($graph_height)
-       );
-ImageFilledPolygon($im, $cotes, 4, $col_cotes);
-
-ImageFilledRectangle($im,$graph_width+3*$relief_x,$img_height-(3*$relief_y),
-
-$relief_x,$img_height-(3*$relief_y+$graph_height),$col_cotes);
-
-ImageLine($im,3*$relief_x,$img_height-(3*$relief_y),3*$relief_x,$img_height-(3*$relief_y+$graph_height),$col_base);
-ImageLine($im,0,$img_height,0,$img_height-($graph_height),$col_base);
-
-// -----------------------------------------------------------------
-
-for($i=0;$i< $n_val;$i++)
-{
-       $col=ImageColorAllocate($im,255/($n_val/($i+1)),0,255-255/($n_val/($i+1)));
-
-       $start_x=$margin_x+$i*($scale_x+$space_x);
-       $start_y=$margin_y;
+$strXML2.="</dataset>
 
 
-       // Partie lat�rale du relief
-       $relief=array($start_x+$scale_x,$img_height-($start_y),
-             $start_x+$scale_x+$relief_x,$img_height-($start_y+$relief_y),
-             $start_x+$scale_x+$relief_x,$img_height-($start_y+$valeurs[$i]*$scale_y+$relief_y),
-             $start_x+$scale_x,$img_height-($start_y+$valeurs[$i]*$scale_y),
-             );
-       ImageFilledPolygon($im, $relief, 4, $col);
-
-       // Partie sup�rieure du relief
-       $col=ImageColorLight($im,$col,16);      // On �claircit la couleur
-       $relief=array($start_x,$img_height-($start_y+$valeurs[$i]*$scale_y),
-              $start_x+$scale_x,$img_height-($start_y+$valeurs[$i]*$scale_y),
-              $start_x+$scale_x+$relief_x,$img_height-($start_y+$valeurs[$i]*$scale_y+$relief_y),
-              $start_x+$relief_x,$img_height-($start_y+$valeurs[$i]*$scale_y+$relief_y)
-             );
-       ImageFilledPolygon($im, $relief, 4, $col);
-
-       // Partie plane qui correspond � l'histogramme en 2D
-       $col=ImageColorLight($im,$col,48);      // On �claircit la couleur
-       ImageFilledRectangle($im,$start_x,$img_height-$start_y,
-
-       $start_x+$scale_x,$img_height-($start_y+$valeurs[$i]*$scale_y),$col);
-
-Imagettftext($im,7,90,$start_x+$scale_x+$relief_x/2,$img_height-($start_y+$valeurs[$i]*$scale_y+$relief_y+2),
-$black,"./fonts/verdana.ttf",intval($valeurs[$i])."% (".$legende[$i].")");
-
-}
-
-drawPNG($im);
-ImageDestroy($im);
-}
+</graph> ";
+echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_StackedArea2D.swf", "", $strXML2, "speedStat", 800, 500);
 ?>

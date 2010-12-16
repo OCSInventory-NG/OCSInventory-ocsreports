@@ -52,8 +52,15 @@ $res =mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 $row=mysql_fetch_object($res);
 printEnTete( $l->g(498)." <b>".$row -> name."</b> (".$l->g(296).": ".$protectedGet["stat"]." )");
 
-$strXML  = "<graph caption='".$l->g(498).$row -> name."' subCaption='(".$l->g(296).": ".$protectedGet["stat"]." )' showPercentValues='1' pieSliceDepth='25' showNames='1' decimalPrecision='0' >";
-	
+$strXML  = "<graph caption='".$l->g(498).$row -> name."' subCaption='(".$l->g(296).": ".$protectedGet["stat"]." )' 
+			showPercentValues='1' pieSliceDepth='25' showNames='1' decimalPrecision='0' >";
+/*$funnelXML="<graph isSliced='1' slicingDistance='4' decimalPrecision='0'>
+	<set name='Selected' value='41' color='99CC00' alpha='85'/>
+	<set name='Tested' value='84' color='333333' alpha='85'/>
+	<set name='Interviewed' value='126' color='99CC00'  alpha='85'/>
+	<set name='Candidates Applied' value='180' color='333333' alpha='85'/>
+</chart>";*/
+
 $sqlStats="SELECT COUNT(id) as nb, tvalue as txt 
 			FROM devices d, download_enable e 
 			WHERE e.fileid='%s'
@@ -78,10 +85,17 @@ while ($row=mysql_fetch_object($resStats)){
 //Create an XML data document in a string variable
 
 $strXML .= "</graph>";
-
+$data_on[0]='Graph n°1';
+$data_on[1]='Graph n°2';
 //Create the chart - Column 3D Chart with data from strXML variable using dataXML method
+onglet($data_on,$form_name,"onglet",4);
+echo '<div class="mlt_bordure" >';
+if ($protectedPost['onglet'] == 1){
 echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Column3D.swf", "", $strXML, "myNext", 600, 300);
-echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Pie3D.swf", "", $strXML, "myNext", 1000, 800);
+}elseif ($protectedPost['onglet'] == 0)
+echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Pie3D.swf", "", $strXML, "myNext", 800, 400);
+echo '</div><br>';
+
 
 if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
 	echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
@@ -110,9 +124,10 @@ while( $j<$i ) {
 	$nb+=$count_value[$j];
 	echo "<tr><td bgcolor='".$arr_FCColors[$j]."'>&nbsp;</td><td>".$name_value[$j]."</td><td>
 			<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_multi_search']."&prov=stat&id_pack=".$protectedGet["stat"]."&stat=".urlencode($name_value[$j])."'>".$count_value[$j]."</a>";
-			
-	echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&no_header=1&ta=".$name_value[$j]."&stat=".$protectedGet["stat"]."'>&nbsp;stat</a>
-		</td></tr>";
+	
+	echo "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&head=1&ta=".$name_value[$j]."&stat=".$protectedGet["stat"]."\",\"stats_speed\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=1000,height=900\")><img src='image/stat.png'></a>";		
+	//echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&ta=".$name_value[$j]."&stat=".$protectedGet["stat"]."'>&nbsp;stat</a>
+	echo "	</td></tr>";
 	$j++;
 }
 echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>".$l->g(87)."</b></td><td><b>".$nb."</b></td></tr>";
