@@ -70,7 +70,7 @@ $bandeau=bandeau($data,$lbl_affich);
 
 //get plugins when exist
 $Directory=$_SESSION['OCS']['plugins_dir']."computer_detail/";
-$ms_cfg_file= $Directory."config.txt";
+$ms_cfg_file= $Directory."cd_config.txt";
 
 if (file_exists($ms_cfg_file)) {
 	$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI','ISAVAIL'=>'MULTI');
@@ -146,28 +146,28 @@ while ($list_plugins[$i]){
  	$i++;	
 }
 echo "</tr></table><br><br>";
-if ($protectedGet['tout'] == 1){
+/*if ($protectedGet['tout'] == 1){
 	$list_plugins_4_all=0;
 	while (isset($show_all[$list_plugins_4_all])){
 		include ($Directory."/".$show_all[$list_plugins_4_all]."/".$show_all[$list_plugins_4_all].".php");	
 		$list_plugins_4_all++;
 	}
 	
-}else{
+}else{*/
 	if (file_exists($Directory."/".$protectedGet['option']."/".$protectedGet['option'].".php"))
 		include ($Directory."/".$protectedGet['option']."/".$protectedGet['option'].".php");
-}
+//}
 
-echo "<br><table align='center'> <tr><td width =50%>";
-echo "<a style=\"text-decoration:underline\" onClick=print()><img src='image/print.png' title='".$l->g(214)."'></a></td>";
+//echo "<br><table align='center'> <tr><td width =50%>";
+//echo "<a style=\"text-decoration:underline\" onClick=print()><img src='image/print.png' title='".$l->g(214)."'></a></td>";
 
 
 //if(!isset($protectedGet["tout"]))
-		echo"<td width=50%>
+/*		echo"<td width=50%>
 			<a style=\"text-decoration:underline\" href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode(stripslashes($systemid))."&tout=1\'>
-			<img width='60px' src='image/aff_all.png' title='".$l->g(215)."'></a></td>";
+			<img width='60px' src='image/aff_all.png' title='".$l->g(215)."'></a></td>";*/
 		
-echo "</tr></table>";
+//echo "</tr></table>";
 
 
 ?>

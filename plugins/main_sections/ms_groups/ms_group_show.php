@@ -26,8 +26,9 @@ elseif (isset($protectedPost['systemid'])) {
 }
 
 if(!($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")){
-	$sql_verif="select workgroup from hardware where workgroup='GROUP_4_ALL' and ID='".$systemid."'";
-	$res_verif = mysql_query($sql_verif, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$sql_verif="select workgroup from hardware where workgroup='GROUP_4_ALL' and ID='%s'";
+	$arg=$systemid;
+	$res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"],$arg);
 	$item_verif = mysql_fetch_object($res_verif);
 	if ($item_verif == "")
 	die("FORBIDDEN");
@@ -42,8 +43,11 @@ if (isset($protectedGet['state']))
 }// fin if
 
 if( isset( $protectedGet["suppack"] ) ) {
-	if( $_SESSION['OCS']["justAdded"] == false )
-		@mysql_query("DELETE FROM devices WHERE ivalue=".$protectedGet["suppack"]." AND hardware_id='$systemid' AND name='DOWNLOAD'", $_SESSION['OCS']["writeServer"]);
+	if( $_SESSION['OCS']["justAdded"] == false ){
+		$sql="DELETE FROM devices WHERE ivalue='%s' AND hardware_id='%s' AND name='DOWNLOAD'";
+		$arg=array($protectedGet["suppack"],$systemid);
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
+	}
 	else $_SESSION['OCS']["justAdded"] = false;
 }
 else 
@@ -55,10 +59,11 @@ if ($protectedPost['Valid_modif_x'] and !isset($protectedPost['modif']))
 {
 	if (trim($protectedPost['NAME'])!= '' and trim($protectedPost['DESCR'])!=''){
 		$req = "UPDATE hardware SET ".	
-			"NAME='".$protectedPost['NAME']."',".
-			"DESCRIPTION='".$protectedPost['DESCR']."' ".
-			"where ID='".$systemid."' and (deviceid = '_SYSTEMGROUP_' or deviceid ='_DOWNLOADGROUP_')";
-		$result = mysql_query($req, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));		
+			"NAME='%s',".
+			"DESCRIPTION='%s' ".
+			"where ID='%s' and (deviceid = '_SYSTEMGROUP_' or deviceid ='_DOWNLOADGROUP_')";
+		$arg=array($protectedPost['NAME'],$protectedPost['DESCR'],$systemid);
+		$result = mysql2_query_secure($req, $_SESSION['OCS']["writeServer"],$arg);		
 	}
 	else{
 		
@@ -70,8 +75,9 @@ $queryMachine   = "SELECT REQUEST,
 						  NAME,
 						  XMLDEF,
 						  DESCRIPTION,LASTDATE,OSCOMMENTS,DEVICEID FROM hardware h left join groups g on g.hardware_id=h.id 
-				  WHERE ID=$systemid AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
-$result   = mysql_query( $queryMachine, $_SESSION['OCS']["readServer"] ) or mysql_error($_SESSION['OCS']["readServer"]);
+				  WHERE ID=%s AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
+$arg=$systemid;
+$result   = mysql2_query_secure( $queryMachine, $_SESSION['OCS']["readServer"] ,$arg);
 $item     = mysql_fetch_object($result);
 
 if( ! $item ) {
@@ -178,10 +184,11 @@ $td1	  = "<td height=20px id='color' align='center'><FONT FACE='tahoma' SIZE=2 c
 if ($server_group){
 	$sql_affect_pack="select da.NAME, da.PRIORITY,da.FRAGMENTS,da.SIZE,da.OSNAME,de.INFO_LOC,de.CERT_FILE,de.CERT_PATH,de.PACK_LOC
 			from download_enable de,download_available da 
-			where de.GROUP_ID =$systemid 
+			where de.GROUP_ID =%s 
 			and da.FILEID=de.FILEID
 			group by de.fileid;";
-	$res_affect_pack = mysql_query($sql_affect_pack, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$arg=$systemid;
+	$res_affect_pack = mysql2_query_secure($sql_affect_pack, $_SESSION['OCS']["readServer"],$arg);
 	$i=0;
 	while( $val_affect_pack = mysql_fetch_array($res_affect_pack)) {
 		$PACK_LIST[$i]['NAME'] = $val_affect_pack['NAME'];
@@ -218,7 +225,7 @@ if ($server_group){
 		}
 	echo "</table><br>";
 	}
-	require("server_redistrib.php");
+	require($_SESSION['OCS']['main_sections_dir']."/".$_SESSION['OCS']['DIRECTORY']['ms_server_redistrib']."/ms_server_redistrib.php");
 }else{
 	
 	
@@ -291,12 +298,14 @@ function print_computers_real($systemid) {
 	global $l;
 	
 	//groupe nouvelle version
-	$sql_group="SELECT xmldef FROM groups WHERE hardware_id='$systemid'";
-	$resGroup = mysql_query( $sql_group, $_SESSION['OCS']["readServer"] ) or mysql_error($_SESSION['OCS']["readServer"]);
+	$sql_group="SELECT xmldef FROM groups WHERE hardware_id='%s'";
+	$arg=$systemid;
+	$resGroup = mysql2_query_secure( $sql_group, $_SESSION['OCS']["readServer"],$arg);
 	$valGroup = mysql_fetch_array($resGroup);//groupe d'ancienne version
 	if( ! $valGroup["xmldef"] ){
-		$sql_group="SELECT request FROM groups WHERE hardware_id='$systemid'";
-		$resGroup = mysql_query( $sql_group, $_SESSION['OCS']["readServer"] ) or mysql_error($_SESSION['OCS']["readServer"]);
+		$sql_group="SELECT request FROM groups WHERE hardware_id='%s'";
+		$arg=$systemid;
+		$resGroup = mysql2_query_secure( $sql_group, $_SESSION['OCS']["readServer"] ,$arg);
 		$valGroup = mysql_fetch_array($resGroup);
 		$request=$valGroup["request"];
 	}else{
@@ -367,12 +376,14 @@ function print_computers_cached($systemid) {
 		foreach( $protectedPost as $key=>$val ) {//check65422
 			if( substr($key,0,5) == "check") {
 				//echo substr($key,5);
-				$resDelete = "DELETE FROM groups_cache WHERE hardware_id=".substr($key,5)." AND group_id=".$systemid;
+				$resDelete = "DELETE FROM groups_cache WHERE hardware_id=%s AND group_id=%s";
+				$arg=array(substr($key,5),$systemid);
 				//echo $resDelete;
-				@mysql_query( $resDelete, $_SESSION['OCS']["writeServer"] );
+				mysql2_query_secure( $resDelete, $_SESSION['OCS']["writeServer"],$arg );
 				if( $protectedPost["actshowgroup"] != 0 ) {
-					$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (".substr($key,5).", ".$systemid.", ".$protectedPost["actshowgroup"].")";
-					$resInsert = mysql_query( $reqInsert, $_SESSION['OCS']["writeServer"] );
+					$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (%s, %s, %s)";
+					$arg=array(substr($key,5),$systemid,$protectedPost["actshowgroup"]);
+					$resInsert = mysql2_query_secure( $reqInsert, $_SESSION['OCS']["writeServer"] );
 				}
 			}
 		}	
@@ -380,7 +391,7 @@ function print_computers_cached($systemid) {
 	}
 	if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 		$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
-		$res_mesMachines = mysql_query($sql_mesMachines, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$res_mesMachines = mysql2_query_secure($sql_mesMachines, $_SESSION['OCS']["readServer"]);
 		$mesmachines="(";
 		while ($item_mesMachines = mysql_fetch_object($res_mesMachines)){
 			$mesmachines.= $item_mesMachines->hardware_id.",";	

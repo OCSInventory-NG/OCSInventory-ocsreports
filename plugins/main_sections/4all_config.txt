@@ -117,6 +117,7 @@ ms_new_profil:new_profil
 ms_snmp:snmp
 ms_snmp_detail:snmp_detail
 ms_update_new_tag:script_new_tag
+ms_server_redistrib:server_redistrib
 </URL>
 
 <DIRECTORY>
@@ -178,6 +179,7 @@ ms_help:ms_help
 ms_snmp:ms_snmp
 ms_snmp_detail:ms_snmp
 ms_update_new_tag:ms_scripts
+ms_server_redistrib:ms_teledeploy
 </DIRECTORY>
 
 

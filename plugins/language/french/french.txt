@@ -152,10 +152,10 @@
 244 Ajouter un nouvel utilisateur
 245 a bien été supprimé
 246 Etes-vous sûr de vouloir supprimer l'utilisateur
-247 Login MySql
-248 Mot de passe MySql
-249 Impossible de se connecter à MySql sur localhost, merci d'entrer un login/mot de passe MySql valide
-250 MySql HostName
+247 Login MySQL
+248 Mot de passe MySQL
+249 Impossible de se connecter à MySQL sur localhost, merci d'entrer un login/mot de passe MySQL valide
+250 MySQL HostName
 251 Déconnexion
 252 Nom (au choix)
 253 Ruche registre
@@ -278,7 +278,7 @@
 372 Choisissez les composants à afficher
 373 Utilisateur enregistré
 374 Utilisateur modifié
-375 Version Agent OCS NG
+375 Version Agent OCS-NG
 376 Ordinateur verrouillé. Merci de réessayer plus tard
 377 Vitesse CPU (MHz)
 380 Dictionnaire
@@ -304,19 +304,19 @@
 412 Fonctionnalité de recherche dans le registre
 413 Fonctionnalité de mise à jour automatique
 414 Fonctionnalité de déploiement automatique de l'agent
-415 Fonctionnalité d'enregistrement des suppressions (outils tiers, ex: GLPI).
-416 Fonctionnalité de log sur le serveur.
-417 Fonctionnalité de télédéploiement (agent et serveur).
-418 Fonctionnalité d'inventaires différentiels.
+415 Fonctionnalité d'enregistrement des suppressions (outils tiers, ex: GLPI)
+416 Fonctionnalité de log sur le serveur
+417 Fonctionnalité de télédéploiement (agent et serveur)
+418 Fonctionnalité d'inventaires différentiels
 419 Nombre de jour maximal avant qu'une machine ipdiscover ne soit remplacée.
 420 Télédéploiement: voir documentation.
 421 Télédéploiement: voir documentation.
 422 Télédéploiement: voir documentation.
 423 Télédéploiement: voir documentation (Les paquets ayant une valeur supérieure ou égale ne seront plus téléchargés).
-424 Validité d'un paquet à compter de sa prise en compte par l'agent.
-425 Nombre d'ordinateurs remontant les machines de leurs réseaux.
+424 Validité d'un paquet à compter de sa prise en compte par l'agent
+425 Nombre d'ordinateurs remontant les machines de leurs réseaux
 426 Validité d'un inventaire.<br>(ALWAYS: toujours inventorié, NEVER:inventaires désactivés)
-427 Définit les critères devant être identiques pour qu'une fusion automatique ait lieu.
+427 Définit les critères devant être identiques pour qu'une fusion automatique ait lieu
 428 Télédéployer
 429 Fréquence
 430 Traitement par lots
@@ -388,7 +388,7 @@
 496 jours
 497 Par défaut, utilise le paramètre 'FREQUENCY' des options générales.
 498 Paquet
-499 serveur
+499 Serveur
 500 Traitements personnalisés
 501 Ajouter paquet
 502 Elu
@@ -937,7 +937,7 @@
 1053 Demande modifiée
 1054 Demande effectuée
 1055 Votre adresse mail n'est pas valide
-1056 Contactez votre administrateur OCS
+1056 Contactez votre administrateur OCS-NG
 1057 Impossible de se connecter au serveur de mail
 1058 Aucun email n'est valide
 1059 Données existantes
@@ -1033,7 +1033,7 @@
 1149 Nom du nouveau profil
 1150 Profil de référence
 1151 Libellé du profil
-1152 ATTENTION: la suppression des profils peut entraîner une instabilité de l'application 
+1152 ATTENTION: la suppression des profils peut entraîner une instabilité de OCS-NG
 1153 Nom du profil
 1154 Sur les machines
 1155 Sur le workflow de télédéploiement
@@ -1126,10 +1126,11 @@
 1242 d/m/y
 1243 Seuls les fichiers ocsagent.exe et ocspackage.exe peuvent être envoyés
 1244 Le fichier ne peut pas être vide
-1245 Administrer les clients OCS
+1245 Administrer les clients OCS-NG
 1246 Affecter à nouveau
 1247 Architecture
 1248 Répertoire
+1249 Activation du cache des tableaux (permet de moins soliciter la base MySQL)
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1151,7 +1152,7 @@
 2017 à l'aide
 2018 a été importé
 2019 étaient déjà importés
-2030 Installation d'OCS Inventory
+2030 Installation d'OCS-NG Inventory
 2031 version actuellement installée
 2032 est inférieur à cette version
 2033 Installation automatique lancé
@@ -1163,11 +1164,11 @@
 2039 AVERTISSEMENT: OpenSSL pour PHP n'est pas installé correctement. <br> Certaines fonctionnalités de déploiement automatique ne sera pas disponible <br> Essayez en décommentant extension = php_openssl.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-openssl (Linux).
 2040 AVERTISSEMENT: Vous ne serez pas en mesure de construire un paquet de déploiement avec une plus grande taille que
 2041 Vous devez modifier <font color="red">post_max_size</font> et <font color="red">upload_max_filesize</font> dans php.ini, pour augmenter cette limite.
-2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur mysql. Changez-le dès que possible. (Mot de passe root = vide)
-2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de <font color="red">max_allowed_packet</font> de mysql à au moins 2 Mo sur votre serveur le fichier de configuration.
+2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur MySQL. Changez-le dès que possible. (Mot de passe root = vide)
+2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de <font color="red">max_allowed_packet</font> de MySQL à au moins 2 Mo sur votre serveur le fichier de configuration.
 2044 Label ajouté
 2045 Label pas encore ajouté (pas les balises seront invités au lancement du client)
-2046 ERREUR: problème d'authentification MySql.
+2046 ERREUR: problème d'authentification MySQL.
 2047 Vous devez ajouter les "old-passwords" dans votre fichier de configuration MySQL (my.ini). Puis redémarrer MySQL, et relancez install.php
 2050 Installation terminée, vous pouvez vous connecter avec le login = admin et pass = admin
 2051 Cliquez ici pour entrer dans l'interface OCS-NG
@@ -1175,19 +1176,19 @@
 2053 Patientez, mettre à jour la base de données peut prendre jusqu'à 30 minutes ...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Base de données générée
-2056 Fichier de config MySql correctement écrit
+2056 Fichier de config MySQL correctement écrit
 2057 mise à jour de la base de données existante
 2058 contrôle du moteur de base de données ...
 2059 ERREUR: requête de mise à jour a échoué
 2060 ERREUR: requête SHOW TABLE STATUS a échoué
-2061 ERROR: InnoDB conversion failed, install InnoDB  mysql engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your mysql config file.)<br>Reinstall when corrected.
-2062 ERROR: HEAP conversion failed, install HEAP mysql engine support on your server<br>or you will experience severe performance issues.
+2061 ERROR: InnoDB conversion failed, install InnoDB  MySQL engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your MySQL config file.)<br>Reinstall when corrected.
+2062 ERROR: HEAP conversion failed, install HEAP MySQL engine support on your server<br>or you will experience severe performance issues.
 2063 Moteur de base mis à jour
 2064 table(s) modifiée(s)
 2065 Erreur: Le programme d'installation terminée en erreur, relancez install.php fois que les problèmes sont corrigés
 2066 AVERTISSEMENT: «répertoire des fichiers" manquants, ne peut pas importer
 2067 des qu'il
-2068 n'a pas été inséré. Vous devez définir la valeur de max_allowed_packet mysql pour au moins 2 Mo
+2068 n'a pas été inséré. Vous devez définir la valeur de max_allowed_packet MySQL pour au moins 2 Mo
 2070 disparus, si vous ne remettez pas le fonction de déploiement ne sera pas disponible
 2071 AVERTISSEMENT: Un ou plusieurs fichiers ont été déjà inséré
 2072 de déployer les fichiers inséré avec succès
@@ -1215,7 +1216,7 @@
 2096 Please enter the label of the windows client tag input box:
 2097 Laissez vide si vous ne voulez pas qu'une popup s'affiche au premier lancement de l'agent
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
-2099 ERROR: ce compte MySql n'a pas les droits de création de database 
+2099 ERROR: ce compte MySQL n'a pas les droits de création de database 
 2100 Update anciens accountinfos
 2101 Ajouté par script
 2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur

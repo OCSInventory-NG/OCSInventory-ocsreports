@@ -238,13 +238,20 @@ $res = mysql_query("show databases like '" . $_POST['database'] . "'");
 $val = mysql_fetch_array( $res );
 if (!$val){
 	$db_file = "files/ocsbase_new.sql";
-	if (!mysql_query("CREATE DATABASE ".$_POST['database']) 
+	if (!mysql_query("CREATE DATABASE ".$_POST['database']." CHARACTER SET utf8 COLLATE utf8_bin;") 
 		or !mysql_query("USE ".$_POST['database'])
 		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs IDENTIFIED BY 'ocs'")
 		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
 		$error=mysql_errno();
-}else
-	$db_file = "files/ocsbase.sql";
+}else{
+	$sql="SELECT DEFAULT_CHARACTER_SET_NAME FROM INFORMATION_SCHEMA.SCHEMATA where SCHEMA_NAME like '" . $_POST['database'] . "';";
+	$res = mysql_query($sql);
+	$val = mysql_fetch_array( $res );
+	if ($val['DEFAULT_CHARACTER_SET_NAME'] == 'utf8')
+		$db_file = "files/ocsbase_new.sql";
+	else
+		$db_file = "files/ocsbase.sql";	
+}
 	
 if ($error != ""){
 	echo "<font color=red>".$l->g(2099)."</font>";

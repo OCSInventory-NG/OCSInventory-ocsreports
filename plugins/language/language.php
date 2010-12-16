@@ -7,7 +7,7 @@
  */
 require_once('require/function_files.php');
 $Directory=$_SESSION['OCS']['plugins_dir'].'language/';
-$ms_cfg_file= $Directory."/config.txt";	
+$ms_cfg_file= $Directory."/lang_config.txt";	
 	//show only true sections
 if (file_exists($ms_cfg_file)) {
 		$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI');
