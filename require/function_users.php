@@ -12,8 +12,8 @@
 function search_profil(){
 	global $l;
 	require_once('require/function_files.php');
-	$Directory=$_SESSION['OCS']['plugins_dir']."main_sections/";
-	$data=ScanDirectory($Directory,"txt");
+	//$Directory=$_SESSION['OCS']['plugins_dir']."main_sections/";
+	$data=ScanDirectory($_SESSION['OCS']['CONF_PROFILS_DIR'],"txt");
 //	$array_lbl=array("sadmin"=>$l->g(140),"dde_teledeploy"=>$l->g(143),"admin"=>$l->g(141),"ladmin"=>$l->g(142));
 	$i=0;
 	while ($data['name'][$i]){

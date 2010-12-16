@@ -217,10 +217,10 @@ function reloadform_closeme($form='',$close=false){
 function read_profil_file($name,$writable=''){	
 	global $l;
 	//Select config file depending on user profile
-	$ms_cfg_file= $_SESSION['OCS']['main_sections_dir'].$name."_config.txt";
+	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR'].$name."_config.txt";
 	$search=array('INFO'=>'MULTI','PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'MULTI','ADMIN_BLACKLIST'=>'MULTI','CONFIGURATION'=>'MULTI');
-	if (!is_writable($_SESSION['OCS']['main_sections_dir'].'old_config_files/') and $writable!='') {
-		msg_error($l->g(297)." ".$_SESSION['OCS']['main_sections_dir']."old_config_files/
+	if (!is_writable($_SESSION['OCS']['OLD_CONF_DIR']) and $writable!='') {
+		msg_error($l->g(297)." ".$_SESSION['OCS']['OLD_CONF_DIR']."old_config_files/
     				<br>".$l->g(1148));
 	}
 	return read_files($search,$ms_cfg_file,$writable);
@@ -228,7 +228,7 @@ function read_profil_file($name,$writable=''){
 
 function read_config_file($writable=''){
 	//Select config file depending on user profile
-	$ms_cfg_file= $_SESSION['OCS']['main_sections_dir']."4all_config.txt";
+	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR']."4all_config.txt";
 	$search=array('ORDER_FIRST_TABLE'=>'MULTI2',
 				  'ORDER_SECOND_TABLE'=>'MULTI2',
 				  'LBL'=>'MULTI',

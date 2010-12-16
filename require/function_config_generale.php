@@ -296,7 +296,9 @@ function update_default_value($POST){
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
 								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG_edit',
-								   'DOWNLOAD_URI_INFO'=>'DOWNLOAD_URI_INFO_edit','SNMP_DIR'=>'SNMP_DIR_edit');
+								   'DOWNLOAD_URI_INFO'=>'DOWNLOAD_URI_INFO_edit','SNMP_DIR'=>'SNMP_DIR_edit',
+								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','CONF_PROFILS_DIR'=>'CONF_PROFILS_DIR_edit',
+ 				  				   'OLD_CONF_DIR'=>'OLD_CONF_DIR_edit');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour tvalue		
 	$array_interprete_ivalue=array('FREQUENCY'=>'FREQUENCY_edit','IPDISCOVER'=>'IPDISCOVER_edit','INVENTORY_VALIDITY'=>'INVENTORY_VALIDITY_edit');
 	
@@ -401,7 +403,10 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 				  'LOG_GUI'=>'LOG_GUI',
 				  'LOG_DIR'=>'LOG_DIR',
  				  'EXPORT_SEP'=>'EXPORT_SEP',
- 				  'TAB_CACHE'=>'TAB_CACHE'
+ 				  'TAB_CACHE'=>'TAB_CACHE',
+ 				  'LOG_SCRIPT'=>'LOG_SCRIPT',
+ 				  'CONF_PROFILS_DIR'=>'CONF_PROFILS_DIR',
+ 				  'OLD_CONF_DIR'=>'OLD_CONF_DIR'
 				  );
 	$values=look_config_default_values($champs);
 	if (isset($values['tvalue']['DOWNLOAD_PACK_DIR']))
@@ -416,6 +421,21 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 	$select_log='CUSTOM';
 	else
 	$select_log='DEFAULT';
+	
+	if (isset($values['tvalue']['LOG_SCRIPT']))
+	$select_scripts='CUSTOM';
+	else
+	$select_scripts='DEFAULT';
+	
+	if (isset($values['tvalue']['CONF_PROFILS_DIR']))
+	$select_profils='CUSTOM';
+	else
+	$select_profils='DEFAULT';
+	
+	if (isset($values['tvalue']['OLD_CONF_DIR']))
+	$select_old_profils='CUSTOM';
+	else
+	$select_old_profils='DEFAULT';
 
 	
 	
@@ -424,14 +444,25 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 	ligne('LOCAL_SERVER',$l->g(565),'input',array('BEGIN'=>'HTTP://','VALUE'=>$values['tvalue']['LOCAL_SERVER'],'SIZE'=>50,'MAXLENGHT'=>254));
 	ligne('DOWNLOAD_PACK_DIR',$l->g(775),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_pack),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_PACK_DIR'],'SIZE'=>70,'END'=>"/download"));
-	ligne('IPDISCOVER_IPD_DIR',$l->g(776),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."ocsreport/ipd)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_ipd),
+	ligne('IPDISCOVER_IPD_DIR',$l->g(776),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."ipd)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_ipd),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['IPDISCOVER_IPD_DIR'],'SIZE'=>70,'END'=>"/ipd"));
 	ligne('LOG_GUI',$l->g(824),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOG_GUI'])); 	
-	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."ocsreport/)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>70));	
+	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."logs)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>70,'END'=>"/logs"));	
+
+	ligne('LOG_SCRIPT',$l->g(1254),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."scripts)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_scripts),
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_SCRIPT'],'SIZE'=>70,'END'=>"/scripts"));	
+	ligne('CONF_PROFILS_DIR',$l->g(1252),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.$_SESSION['OCS']['main_sections_dir']."conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_profils),
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['CONF_PROFILS_DIR'],'SIZE'=>70,'END'=>"/conf"));	
+	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.$_SESSION['OCS']['main_sections_dir']."conf/old_conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>70,'END'=>"/old_conf"));		
 	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGHT'=>4));	
 	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			
-			
+
+	
+	
+	
+	
 	fin_tab($form_name);
  	
  }

@@ -44,7 +44,6 @@ ms_custom_pack
 ms_custom_sup
 ms_custom_tag
 ms_dict
-ms_upload_file
 ms_upload_file_popup
 ms_regconfig
 ms_logs
@@ -74,7 +73,6 @@ ms_opt_ipdiscover
 ms_admin_attrib
 ms_group_show
 ms_show_detail
-ms_stat
 ms_diagnos_krb
 ms_custom_info
 ms_debug
@@ -97,5 +95,7 @@ ms_options
 ms_new_profil
 ms_snmp
 ms_snmp_detail
+ms_update_new_tag
+ms_server_redistrib
 </PAGE_PROFIL>
 

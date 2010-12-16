@@ -1133,6 +1133,10 @@
 1248 Folder
 1249 Activation of cache tables (allows less solicit the MySQL database)
 1250 Teledeploy speed
+1251 Statistics
+1252 Conf profils files directory
+1253 Directory of old conf profils files
+1254 Directory of scripts logs
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

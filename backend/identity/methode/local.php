@@ -31,7 +31,7 @@ $resOp=mysql2_query_secure($reqOp,$link_ocs,$argOp);
 $rowOp=mysql_fetch_object($resOp);
 if (isset($rowOp -> accesslvl)){
 	$lvluser=$rowOp -> accesslvl;
-	$ms_cfg_file=$_SESSION['OCS']['main_sections_dir'].$lvluser."_config.txt";
+	$ms_cfg_file=$_SESSION['OCS']['CONF_PROFILS_DIR'].$lvluser."_config.txt";
 	$search=array('RESTRICTION'=>'MULTI');
 	$res=read_configuration($ms_cfg_file,$search);
 	if (isset($res['RESTRICTION']['GUI']))
