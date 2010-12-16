@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Creating Combination Chart </h2></td>
+  </tr>
+  
+
+  <tr>
+    <td valign="top" class="text"><p>Combination chart has two Y-axes. The Y-axis on the left  hand side is called Primary Y-Axis and that on the right hand side is called  Secondary Y-Axis. Combination charts are used when we intend to compare two  different types of data on the same chart, e.g., if we want to plot Weekly  Sales Revenue of two consecutive months and total units sold on the same chart,  we have to use a Combination Chart. See the image below and note that Y-axes are representing different data units. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PHPClassCombination.jpg" width="346" height="286" class="imageBorder" /></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="highlightBlock"><strong>Before you go further with this page, we recommend you to please see   the previous pages &quot;Creating First Chart &quot; &amp; &quot;Creating Multi-series chart&quot;  as we start off from concepts explained in   that page. </strong></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here is the code that builds up this Combination chart:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php</p>
+      <p> <span class="codeComment">&nbsp;&nbsp; # Include FusionCharts PHP Class</span><br />
+      &nbsp;&nbsp; include('../Class/FusionCharts_Gen.php');</p>
+      <p> <span class="codeComment">&nbsp;&nbsp; # Create Column 3D + Line Dual Y-Axis Combination Chart </span><br />
+        &nbsp;&nbsp; $FC = new FusionCharts(&quot;MSColumn3DLineDY&quot;,&quot;350&quot;,&quot;300&quot;); <br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp; # Set the relative path of the swf file</span><br />
+        &nbsp;&nbsp; $FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp; #  Store chart attributes in a variable </span><br />
+      &nbsp;&nbsp; $strParam=&quot;caption=Weekly Sales;subcaption=Comparison;xAxisName=Week;<strong>pYAxisName=Revenue</strong>;<strong>sYAxisName=Total 	Quantity</strong>;decimalPrecision=0;&quot;;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp; #  Set chart attributes</span><br />
+        &nbsp;&nbsp; $FC-&gt;setChartParams($strParam);<br />
+          <br />
+          <span class="codeComment">&nbsp;&nbsp; # Add  category names</span><br />
+        &nbsp;&nbsp; $FC-&gt;addCategory(&quot;Week 1&quot;);<br />
+        &nbsp;&nbsp; $FC-&gt;addCategory(&quot;Week 2&quot;);<br />
+        &nbsp;&nbsp; $FC-&gt;addCategory(&quot;Week 3&quot;);<br />
+      &nbsp;&nbsp; $FC-&gt;addCategory(&quot;Week 4&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp; # Add a new dataset with dataset parameters </span><br />
+        &nbsp;&nbsp; $FC-&gt;addDataset(&quot;This Month&quot;,&quot;<strong>numberPrefix=$</strong>;showValues=0&quot;); <br />
+        <span class="codeComment">&nbsp;&nbsp; # Add chart data for the above dataset</span><br />
+        &nbsp;&nbsp; $FC-&gt;addChartData(&quot;40800&quot;);<br />
+        &nbsp;&nbsp; $FC-&gt;addChartData(&quot;31400&quot;);<br />
+        &nbsp;&nbsp; $FC-&gt;addChartData(&quot;26700&quot;);<br />
+      &nbsp;&nbsp; $FC-&gt;addChartData(&quot;54400&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp; # Add aother dataset with dataset parameters </span><br />
+        &nbsp;&nbsp; $FC-&gt;addDataset(&quot;Previous Month&quot;,&quot;<strong>numberPrefix=$</strong>;showValues=0&quot;); <br />
+        <span class="codeComment">&nbsp;&nbsp; # Add chart data for the second dataset</span><br />
+        &nbsp;&nbsp; $FC-&gt;addChartData(&quot;38300&quot;);<br />
+        &nbsp;&nbsp; $FC-&gt;addChartData(&quot;28400&quot;);<br />
+        &nbsp;&nbsp; $FC-&gt;addChartData(&quot;15700&quot;);<br />
+      &nbsp;&nbsp; $FC-&gt;addChartData(&quot;48100&quot;);</p>
+      <p> <span class="codeComment"><strong>&nbsp;&nbsp; # Add third dataset for the secondary axis</strong></span><br />
+        &nbsp;&nbsp; $FC-&gt;addDataset(&quot;Total Quantity&quot;,&quot;<strong>parentYAxis=S</strong>&quot;); <br />
+        <span class="codeComment">&nbsp;&nbsp; # Add secondary axix's data values</span><br />
+        &nbsp;&nbsp; $FC-&gt;addChartData(&quot;64&quot;);<br />
+        &nbsp;&nbsp; $FC-&gt;addChartData(&quot;70&quot;);<br />
+        &nbsp;&nbsp; $FC-&gt;addChartData(&quot;52&quot;);<br />
+      &nbsp;&nbsp; $FC-&gt;addChartData(&quot;81&quot;);</p>
+      <p>?&gt;</p>
+      <p><br />
+   &lt;html&gt;<br />
+   &nbsp;&nbsp; &lt;head&gt;<br />
+   &nbsp;&nbsp; &nbsp;&nbsp; &lt;title&gt;First Chart Using FusionCharts PHP Class&lt;/title&gt;<br />
+   &nbsp;&nbsp; &nbsp;&nbsp; &lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+   &nbsp;&nbsp; &lt;/head&gt;<br />
+   &nbsp;&nbsp; &lt;body&gt;</p>
+      <p>&nbsp;&nbsp; &nbsp;&nbsp; &lt;?<br />
+        <span class="codeComment">&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; # Render Chart</span><br />
+        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; $FC-&gt;renderChart();<br />
+       &nbsp;&nbsp; &nbsp;&nbsp; ?&gt;</p>
+      <p>&nbsp;&nbsp; &lt;/body&gt;<br />
+   &lt;/html&gt;<br />
+      </p></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you  find in the above code, creating Combination charts is similar to creating Multi-Series charts. Here too, there are multiple datasets. Some datasets are specified for primary Y-Axis and some conform to the Secondary Y-Axis.&nbsp; We need to specify which dataset belongs to which Y-Axis. Let's see how we did that in the following steps.</p>
+      <ul type="disc">
+        <li>We include <span class="codeInline">FusionCharts_Gen.php</span>.<br />
+           <br />
+        </li>
+        <li>We create       Multiseries Column 3D - Line Combination chart object and set relative path to swf file.<br />
+              <br />
+                 <span class="codeInline"> $FC = new FusionCharts(&quot;<strong>MSColumn3DLineDY</strong>&quot;,&quot;350&quot;,&quot;300&quot;); <br />
+                 $FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);<br />
+                 </span><br />
+        </li>
+        <li>We store       chart attributes in <span class="codeInline">$strParam</span> variable :<br /> 
+           <br />
+          <span class="codeInline">$strParam=&quot;caption=Weekly Sales;subcaption=Comparison;xAxisName=Week; <strong>pYAxisName=Revenue;sYAxisName=Total 	Quantity</strong>;decimalPrecision=0;&quot;;</span><br />
+          <br />
+          Combination charts have 2 Y-Axes -Parent (p) and Secondary (s). So we have specified names for both of them. <br />
+          <br />
+        </li>
+        <li>We set these chart attributes calling <span class="codeInline">setChartParams()</span><br />
+           <br /> 
+           <span class="codeInline">$FC-&gt;setChartParams($strParam);</span><br />
+           <br />
+        </li>
+        <li>Next, like in Multi-series charts we add categories :<br />
+           <br />
+            <span class="codeInline">$FC-&gt;addCategory(&quot;Week 1&quot;);<br />
+              $FC-&gt;addCategory(&quot;Week 2&quot;);<br />
+              $FC-&gt;addCategory(&quot;Week 3&quot;);<br />
+            $FC-&gt;addCategory(&quot;Week 4&quot;);</span><br />
+            <br />
+        </li>
+        <li>We add       the first dataset 'This Month' for primary Y-Axis. If we do not specify the Y-Axis the dataset adheres to, the chart automatically sets it to primary Y-Axis. We also have set <span class="codeInline">numberPrefix</span> attribute for this dataset. <br />
+           <br />
+            <span class="codeInline">$FC-&gt;addDataset(&quot;This Month&quot;,&quot;<strong>numberPrefix=$;showValues=0</strong>&quot;); <br />
+            $FC-&gt;addChartData(&quot;40800&quot;);<br />
+$FC-&gt;addChartData(&quot;31400&quot;);<br />
+$FC-&gt;addChartData(&quot;26700&quot;);<br />
+$FC-&gt;addChartData(&quot;54400&quot;);</span><br />
+          <br />
+        </li>
+        <li>Again, we add another dataset 'Previous Month' for primary Y-Axis and set its attributes and  data values.<br /> 
+           <br />
+            <span class="codeInline">$FC-&gt;addDataset(&quot;Previous Month&quot;,&quot;numberPrefix=$;showValues=0&quot;); <br />
+              $FC-&gt;addChartData(&quot;38300&quot;);<br />
+              $FC-&gt;addChartData(&quot;28400&quot;);<br />
+              $FC-&gt;addChartData(&quot;15700&quot;);<br />
+            $FC-&gt;addChartData(&quot;48100&quot;);</span><br />
+            <br />
+        </li>
+        <li>Now, we add the <strong>third dataset for Secondary Y-axis </strong>and its data values. Here, we specify the Y-Axis passing the dataset attribute <span class="codeInline">parentYAxis=S</span>. <br />
+           <br />
+          <span class="codeInline">$FC-&gt;addDataset(&quot;Total Quantity&quot;,&quot;<strong>parentYaxis=S</strong>&quot;); <br />
+          $FC-&gt;addChartData(&quot;64&quot;);<br />
+          $FC-&gt;addChartData(&quot;70&quot;);<br />
+          $FC-&gt;addChartData(&quot;52&quot;);<br />
+        $FC-&gt;addChartData(&quot;81&quot;);</span><br />
+        <br />
+        </li>
+        <li>Finally, we add <span class="codeInline">FusionCharts.js</span> and <br />
+           <br />
+        </li>
+        <li> render the chart : <br />
+           <br />
+            <span class="codeInline">$FC-&gt;renderChart();</span></li>
+    </ul></td>
+  </tr>
+  <tr>
+     <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This code renders the Combination Chart that we needed. </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="Images/PHPClassCombination.jpg" width="346" height="286" class="imageBorder" /></td>
+  </tr>
+  
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

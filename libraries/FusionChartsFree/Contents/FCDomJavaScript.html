@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Documentation Page.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>FudionCharts DOM Documentation - Javascripting</title>
+<!-- InstanceEndEditable -->
+
+<script type="text/javascript" src="JS/lib.js"></script>
+
+<link rel="stylesheet" type="text/css" href="assets/prettify/prettify.css">
+<script type="text/javascript" src="assets/prettify/prettify.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/typoset.css">
+
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+  <noscript class="hl-red">&nbsp;<br />
+  	For maximum compatibility, it is requested that you browse this page in a JavaScript enabled browser.</noscript>
+  
+  <div id="topshadow"></div>
+  <div id="viewport">
+  <h2><!-- InstanceBeginEditable name="pagetitle" -->Using FusionCharts DOM
+  with JavaScript<!-- InstanceEndEditable --></h2>
+
+  <div id="contents"><!-- InstanceBeginEditable name="pagebody" -->
+    <p>FusionCharts DOM has an extremely efficient and object-oriented
+      javascript. It behaves well with most other javascript frameworks. It has an extremely configurable architecture.</p>
+    <p>This architecture also conforms that the charts generated using FusionChartsDOM behaves exactly like charts would had they been generated any other way. However, with FusionChartsDOM, you have the added option of accessing your charts using the FusionChartsDOM javascript object. It also has some added error handling and automation routines that would help the javascipt developers to build friendlier scripts.</p>
+    <p>&nbsp;</p>
+    <p>The process of FusionChartsDOM is so simple, that almost all your existing javascript implementations can be incorporated with FusionCharts DOM. This is illustrated by implementing the existing &quot;Example Application&quot; from the <a href="JS_Example.html">FusionCharts and JavaScript</a> section.</p>
+    <p><span class="visible">..
+        <a href="../Code/DOM/advanced_application.html"
+           onclick="return l.op('../Code/DOM/advanced_application.html', 'aa')">See this page in action</a>
+    </span></p>
+    <p><br />
+      Your chart will appear like below:</p>
+    <p><a href="../Code/DOM/advanced_application.html"><img src="images/screenshot_exampleapp1.jpg" alt="Example Application" width="400" height="270" border="0" /></a></p>
+    <p>&nbsp;</p>
+    <p class="visible" id="__mi1_"><img src="images/icons/nolines_plus.gif" alt="" align="absmiddle" /><label class="link" onclick="return g.sh('__mi1', '__mi1_')">More information about this Web Application</label></p>
+    <span id="__mi1" class="hidden">
+    <p><img src="images/icons/nolines_minus.gif" alt="" align="absmiddle" /><label class="link" onclick="return g.sh('__mi1_', '__mi1')">Less information</label>></p>
+    
+    <p><strong>Application Description</strong>:</p>
+    <ul>
+      <li>We're building a chart to compare Quarterly sales of 4 products in a given year. </li>
+      <li>The  user can select which products to compare and the comparison will be  reflected on the chart at client side (remember, this application is  build purely in HTML and JavaScript - so it doesnt need any server or  server side scripting language). </li>
+      <li>The data for the entire application is stored in client-side JavaScript arrays, which we'll soon see. </li>
+      <li>We've also provided a few chart configuration parameters like &quot;Animate Chart&quot; and &quot;Show Values&quot; to enrich end-user experience.</li>
+      <li>Entire application is run using client side JavaScript functions, which we would soon explore. </li>
+    </ul>
+    <p>Before we get to the code of the application, let's first see the process flow. </p>
+    <p><strong>The process flow</strong> for this application can be enlisted as under: </p>
+    <ol>
+      <li>The HTML page loads with pre-defined JavaScript functions, data in JavaScript arrays and the chart object itself.</li>
+      <li>The chart object is initialized with empty data.  We register it with JavaScript with DOM Id as chart1Id.</li>
+      <li>In  the HTML code, we present a form to the user where he can select the  products for which he wants to see the data. This form is disabled by  default. </li>
+      <li>In the FC_Rendered function, which is invoked when the chart is loaded, we enable this form so that user can now select the products. </li>
+      <li>In FC_Rendered function itself, we also build the chart for first time showing data for all the 4 products.</li>
+      <li>Now,  when the user changes his product selection or changes a chart  configuration (also present as HTML form elements), we update the chart  XML data depending on product and options selected.</li>
+      <li>To update the chart and build the XML, we've used various JavaScript functions in the page, like updateChart(), generateXML(), getProductXML(). </li>
+    </ol>
+    </span>
+    <p>&nbsp;</p>
+    <h3>The FusionChartsDOM Object</h3>
+    <p>The heart of FusioCharts DOM is the javascript object FusionChartsDOM. An architectural overview of the object has been pictorially represented below. Further insight on these elements can be found at the <a href="FCDomReference.html">API and Reference</a> section.</p>
+    <p><img src="images/class_diagram_3.jpg" alt="JavaScript Class Diagram" width="670" height="721" /></p>
+    <p><br />
+    </p>
+    <!-- InstanceEndEditable --></div>
+  
+  <div id="footer"><!-- InstanceBeginEditable name="pageFooter" --><!-- InstanceEndEditable --></div>
+  </div>
+  
+</div>
+
+</body>
+<!-- InstanceEnd --></html>

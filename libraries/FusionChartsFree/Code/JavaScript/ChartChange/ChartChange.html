@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+	<TITLE>FusionCharts Free & JavaScript - Updating chart at client side</TITLE>	
+	<style type="text/css">
+	<!--
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+	}
+	-->
+	</style>
+	<SCRIPT LANGUAGE="Javascript" SRC="../../FusionCharts/FusionCharts.js"></SCRIPT>
+	<SCRIPT LANGUAGE="JavaScript">
+		//We store the XML data as a string
+		var strXML = "<graph animation='0' caption='Hours worked' showNames='1'><set name='Tom' value='32' color='AFD8F8'/><set name='Mary' value='16' color='F6BD0F'/><set name='Jane' value='42' color='8BBA00'/></graph>";
+		/*
+		 * updateChart method is called, when user clicks the button
+		 * Here, we change the chart from Column to line
+		*/
+		function updateChart(chartSWF){
+			//Create another instance of the chart.
+			var chart1 = new FusionCharts(chartSWF, "chart1Id", "400", "300", "0", "0");		   			
+			chart1.setDataXML(strXML);
+			chart1.render("chart1div");
+		}
+	</SCRIPT>
+</HEAD>
+<BODY>
+	<CENTER>
+		<h2>FusionCharts Free & JavaScript - Updating chart type at client side.</h2>
+		
+		<div id="chart1div">
+			FusionCharts
+		</div>
+		<script language="JavaScript">					
+			var chart1 = new FusionCharts("../../FusionCharts/FCF_Column3D.swf", "chart1Id", "400", "300", "0", "0");
+			chart1.setDataXML(strXML);
+			chart1.render("chart1div");
+		</script>
+		<BR />
+		<form name='frmUpdate'>
+		Show as:		
+		<input type='button' value='Column' onClick="javaScript:updateChart('../../FusionCharts/FCF_Column3D.swf');" name='btnColumn' />		
+		<input type='button' value='Line' onClick="javaScript:updateChart('../../FusionCharts/FCF_Line.swf');" name='btnLine' />		
+		<input type='button' value='Pie' onClick="javaScript:updateChart('../../FusionCharts/FCF_Pie3D.swf');" name='btnPie' />		
+		</form>
+	</CENTER>
+	<p align='center'>In this example, basically, we're re-loading the new SWF file in the same DIV. As such, it simulates client side chart change effect.</p>
+	<p align='center'>Any other content in the page would not be disturbed or refreshed, when the chart is changed.</p>
+</BODY>
+</HTML>

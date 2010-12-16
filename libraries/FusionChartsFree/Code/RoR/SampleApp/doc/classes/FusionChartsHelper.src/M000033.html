@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>render_chart_get_xml_from_action (FusionChartsHelper)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/fusioncharts_helper.rb, line 173</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render_chart_get_xml_from_action</span>(<span class="ruby-identifier">chart_swf</span>,<span class="ruby-identifier">controller_name</span>,<span class="ruby-identifier">action_name</span>,<span class="ruby-identifier">params</span>,<span class="ruby-identifier">chart_id</span>,<span class="ruby-identifier">chart_width</span>,<span class="ruby-identifier">chart_height</span>,<span class="ruby-identifier">debug_mode</span>,<span class="ruby-identifier">register_with_js</span>,<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-value str">&quot;The controller to be contacted is &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">controller_name</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-value str">&quot;The action to be performed is &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">action_name</span>)
+    <span class="ruby-identifier">str_xml</span>= <span class="ruby-identifier">render_component</span>(<span class="ruby-identifier">:action=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">action_name</span>,<span class="ruby-identifier">:controller=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">controller_name</span>,<span class="ruby-identifier">:params=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-value str">&quot;The xml obtained from the given action is &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str_xml</span>)
+    <span class="ruby-identifier">render_chart</span>(<span class="ruby-identifier">chart_swf</span>,<span class="ruby-value str">&quot;&quot;</span>,<span class="ruby-identifier">str_xml</span>,<span class="ruby-identifier">chart_id</span>,<span class="ruby-identifier">chart_width</span>,<span class="ruby-identifier">chart_height</span>,<span class="ruby-identifier">debug_mode</span>,<span class="ruby-identifier">register_with_js</span>,<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

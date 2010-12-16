@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with PHP &gt; Creating Drill-down charts </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous example, we had used FusionCharts to plot a chart using data stored in database. We'll now extend that example itself to create a drill-down chart which can show more information.</p>
+    <p><strong>Before you go further with this page, we recommend you to please see the previous sections like &quot;Basic Examples&quot;, Creating Data from Array&quot; as we start off from concepts explained in those pages. </strong></p>
+    
+	<p>If you recall from previous example, we were showing the sum of factory output in a pie chart as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_DBOut.jpg" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In this example, we'll extend this example, so that when a user clicks on a pie slice for a factory, he can drill down to see date wise production for that factory. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the pie chart for Link </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To set up the pie chart to enable links for drill-down involves just minor tweaking of our previous <span class="codeInline">BasicDBExample.php</span>. We basically need to add the <span class="codeInline">link</span> attribute for each<span class="codeInline"> &lt;set&gt;</span> element. We create a new page <span class="codeInline">Default.php</span> (in DB_DrillDown folder) from the previous page with the   following code changes:
+    <p class="highlightBlock">The code examples contained in this page are contained in<span class="codeInline"> Download Package &gt; Code &gt; PHP &gt; DB_DrillDown</span> folder. </p></td>
+
+	</td>
+  
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+      <span class="codeComment">
+      //We've included ../Includes/FusionCharts.php and ../Includes/DBConn.php, which contains<br />
+      //functions to help us easily embed the charts and connect to a database.</span><br />
+      include(&quot;../Includes/FusionCharts.php&quot;);<br />
+      include(&quot;../Includes/DBConn.php&quot;);<br />
+      ?&gt;<br />
+      &lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;TITLE&gt;	FusionCharts Free - Database and Drill-Down Example	&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  &lt;/HEAD&gt;<br />
+  &lt;BODY&gt;<br />
+  &lt;?php<br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">//In this example, we show how to connect FusionCharts to a database.<br />
+&nbsp;&nbsp;&nbsp;//For the sake of ease, we've used a MySQL database containing two<br />
+&nbsp;&nbsp;&nbsp;//tables.<br />
+  <br />
+&nbsp;&nbsp;&nbsp;//Connect to database</span><br />
+      &nbsp;&nbsp;&nbsp;$link = connectToDB();<br />
+    </p>
+         <span class="codeComment">'strXML will be used to store the entire XML document generated</span><br />
+      <p> &nbsp;&nbsp;&nbsp;<span class="codeComment">'Generate the graph element</span><br />
+        &nbsp;&nbsp;&nbsp;$strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity'   decimalPrecision='0' showNames='1' numberSuffix=' Units' pieSliceDepth='30'   formatNumberScale='0'  &gt;&quot;;<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Fetch all factory records</span><br />
+        &nbsp;&nbsp;&nbsp;$strQuery = &quot;select * from Factory_Master&quot;;<br />
+        &nbsp;&nbsp;&nbsp;$result = mysql_query($strQuery) or die(mysql_error());<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Iterate through each factory</span><br />
+        &nbsp;&nbsp;&nbsp;if ($result) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while($ors = mysql_fetch_array($result)) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Now create second query to get details for this factory</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; . $ors['FactoryId'];<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$result2 = mysql_query($strQuery) or die(mysql_error());<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ors2 = mysql_fetch_array($result2);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;//Generate &lt;set name='..' value='..' link='..' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Note that we're setting link as Detailed.php?FactoryId=&lt;&lt;FactoryId&gt;&gt; and then URL Encoding it</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$strXML .=&quot;&lt;set name='&quot; . $ors['FactoryName'] . &quot;' value='&quot; . $ors2['TotOutput'] . &quot;' link='&quot; . urlencode(&quot;Detailed.php?FactoryId=&quot; . $ors['FactoryId']) . &quot;'/&gt;&quot;;</strong><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//free the resultset</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mysql_free_result($result2);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;mysql_close($link);<br /><br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//Finally, close &lt;chart&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;$strXML .=&quot;&lt;/chart&gt;&quot;;<br />
+  <br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart - Pie 3D Chart with data from $strXML</span><br />
+        &nbsp;&nbsp;&nbsp;echo renderChart(&quot;../../FusionCharts/FCF_Pie3D.swf&quot;, &quot;&quot;, $strXML, &quot;FactorySum&quot;, 600, 300);<br />
+        ?&gt;<br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the code above, we're doing the following:</p>
+      <ol>
+        <li>Include <span class="codeInline">FusionCharts.js</span> JavaScript class and <span class="codeInline">FusionCharts.php</span> , to enable easy embedding of FusionCharts.</li>
+        <li>We then include <span class="codeInline"> DBConn.php</span>, which contains connection parameters to connect to MySQL database. </li>
+        <li>Thereafter, we generate the XML data document by iterating through the recordset. We store the XML data in <span class="codeInline">strXML</span> variable. To each <span class="codeInline">&lt;set&gt;</span> element, we add the <span class="codeInline">link</span> attribute, which points to <span class="codeInline">Detailed.php</span> - the page that contains the chart to show details. We pass the factory id of the respective factory by appending it to the link. We finally URL Encode the link, which is a very important step. </li>
+        <li>Finally, we render the chart using <span class="codeInline">renderChart()</span> method and pass <span class="codeInline">strXML</span> as <span class="codeInline">dataXML</span>. </li>
+    </ol>      
+    <p>Let's now shift our attention to <span class="codeInline">Detailed.php</span> page.   </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating the detailed data chart page </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The page <span class="codeInline">Detailed.php</span> contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>&lt;?php<br />
+      <span class="codeComment">
+      //We've included ../Includes/FusionCharts.php and ../Includes/DBConn.php, which contains<br />
+      //functions to help us easily embed the charts and connect to a database.</span><br />
+      include(&quot;../Includes/FusionCharts.php&quot;);<br />
+      include(&quot;../Includes/DBConn.php&quot;);<br />
+      <span class="codeComment">//a file having a list of colors to be applied to each column (using getFCColor() function</span>)<br />
+ 	include(&quot;../Includes/FC_Colors.php&quot;);<br />
+	  ?&gt;<br />
+      &lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;TITLE&gt;	FusionCharts Free - Database and Drill-Down Example	&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  &lt;/HEAD&gt;<br />
+  &lt;BODY&gt;
+  <br />
+  &lt;?php<br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//This page is invoked from Default.php. When the user clicks on a pie<br />
+&nbsp;&nbsp;&nbsp;//slice in Default.php, the factory Id is passed to this page. We need<br />
+&nbsp;&nbsp;&nbsp;//to get that factory id, get information from database and then show<br />
+&nbsp;&nbsp;&nbsp;//a detailed chart.<br />
+  <br />
+&nbsp;&nbsp;&nbsp;//First, get the factory Id</span><br />
+        &nbsp;<span class="codeComment">&nbsp;&nbsp;//Request the factory Id from Querystring</span><br />
+        &nbsp;&nbsp;&nbsp;$FactoryId = $_GET['FactoryId'];<br />
+  <br />
+        &nbsp;<span class="codeComment">&nbsp;&nbsp;//Connect to database</span><br />
+        &nbsp;&nbsp;&nbsp;$link = connectToDB();<br />
+  <br />
+        &nbsp;<span class="codeComment">&nbsp;&nbsp;//$strXML will be used to store the entire XML document generated</span><br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Generate the chart element string</span><br />
+        &nbsp;&nbsp;&nbsp;$strXML = &quot;&lt;graph caption='Factory &quot; &amp; FactoryId &amp;&quot; Output ' subcaption='(In Units)' xAxisName='Date' showValues='1' decimalPrecision='0'&gt;&quot;;<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Now, we get the data for that factory</span><br />
+        &nbsp;&nbsp;&nbsp;$strQuery = &quot;select * from Factory_Output where FactoryId=&quot; . $FactoryId;<br />
+        &nbsp;&nbsp;&nbsp;$result = mysql_query($strQuery) or die(mysql_error());<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Iterate through each factory</span><br />
+        &nbsp;&nbsp;&nbsp;if ($result) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while($ors = mysql_fetch_array($result)) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Here, we convert date into a more readable form for set name.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strXML .=&quot;&lt;set name='&quot; . datePart(&quot;d&quot;,$ors['DatePro']) . &quot;/&quot; . datePart(&quot;m&quot;,$ors['DatePro']) . &quot;' value='&quot; . $ors['Quantity'] .  &quot;' color='&quot; . getFCColor() . &quot;'/&gt;&quot;; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;mysql_close($link);<br /><br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Close &lt;chart&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;$strXML .=&quot;&lt;/chart&gt;&quot;;<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;//Create the chart - Column 2D Chart with data from $strXML</span><br />
+        &nbsp;&nbsp;&nbsp;echo renderChart(&quot;../../FusionCharts/FCF_Column2D.swf&quot;, &quot;&quot;, $strXML, &quot;FactoryDetailed&quot;, 600, 300);<br />
+        ?&gt;<br />
+  &lt;/CENTER&gt;<br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this page, we're:</p>
+      <ol>
+        <li>Including  <span class="codeInline">FusionCharts.js</span> JavaScript class and <span class="codeInline">FusionCharts.php</span> , to enable easy embedding of FusionCharts.</li>
+        <li>Requesting the factory id for which we've to show detailed data. This data was sent to us as query string, as a part of pie chart link.</li>
+        <li>We get the requisite data for this factory from database and then convert it into XML using string concatenation.</li>
+        <li>Finally, we render a Column 2D chart using <span class="codeInline">renderChart()</span> method to show detailed data.</li>
+      </ol>
+    <p>When you now run the app, you'll see the detailed page as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_Drill.jpg"  class="imageBorder" />&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

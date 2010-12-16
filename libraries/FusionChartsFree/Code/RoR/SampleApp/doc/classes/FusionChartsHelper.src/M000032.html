@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>render_chart_html (FusionChartsHelper)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/fusioncharts_helper.rb, line 108</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render_chart_html</span>(<span class="ruby-identifier">chart_swf</span>,<span class="ruby-identifier">str_url</span>,<span class="ruby-identifier">str_xml</span>,<span class="ruby-identifier">chart_id</span>,<span class="ruby-identifier">chart_width</span>,<span class="ruby-identifier">chart_height</span>,<span class="ruby-identifier">debug_mode</span>,<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+    <span class="ruby-identifier">chart_width</span>=<span class="ruby-identifier">chart_width</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-identifier">chart_height</span>=<span class="ruby-identifier">chart_height</span>.<span class="ruby-identifier">to_s</span>
+    
+    <span class="ruby-identifier">debug_mode_num</span>=<span class="ruby-value str">&quot;0&quot;</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">debug_mode</span><span class="ruby-operator">==</span><span class="ruby-keyword kw">true</span>
+      <span class="ruby-identifier">debug_mode_num</span>=<span class="ruby-value str">&quot;1&quot;</span>
+    <span class="ruby-keyword kw">end</span> 
+    
+    <span class="ruby-identifier">str_flash_vars</span>=<span class="ruby-value str">&quot;&quot;</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">str_xml</span><span class="ruby-operator">==</span><span class="ruby-value str">&quot;&quot;</span>
+      <span class="ruby-identifier">str_flash_vars</span>=<span class="ruby-value str">&quot;chartWidth=&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">chart_width</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;&amp;chartHeight=&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">chart_height</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;&amp;debugmode=&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">debug_mode_num</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;&amp;dataURL=&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">str_url</span>
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-value str">&quot;The method used is setDataURL.The URL is &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str_url</span>)
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">str_flash_vars</span>=<span class="ruby-value str">&quot;chartWidth=&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">chart_width</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;&amp;chartHeight=&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">chart_height</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;&amp;debugmode=&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">debug_mode_num</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;&amp;dataXML=&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">str_xml</span>
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-value str">&quot;The method used is setDataXML.The XML is &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str_xml</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">concat</span>(<span class="ruby-value str">&quot;\t\t&lt;!-- START Code Block for Chart &quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">chart_id</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot; --&gt;\n\t\t&quot;</span>,<span class="ruby-identifier">block</span>.<span class="ruby-identifier">binding</span>)
+    
+    <span class="ruby-identifier">object_attributes</span>={<span class="ruby-identifier">:classid=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot;</span>}
+    <span class="ruby-identifier">object_attributes</span>=<span class="ruby-identifier">object_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:codebase=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0&quot;</span>)
+    <span class="ruby-identifier">object_attributes</span>=<span class="ruby-identifier">object_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:width=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">chart_width</span>)
+    <span class="ruby-identifier">object_attributes</span>=<span class="ruby-identifier">object_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:height=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">chart_height</span>)
+    <span class="ruby-identifier">object_attributes</span>=<span class="ruby-identifier">object_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:id=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">chart_id</span>)
+    
+    <span class="ruby-identifier">param_attributes1</span>={<span class="ruby-identifier">:name=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;allowscriptaccess&quot;</span>,<span class="ruby-identifier">:value=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;always&quot;</span>}
+    <span class="ruby-identifier">param_tag1</span>=<span class="ruby-identifier">content_tag</span>(<span class="ruby-value str">&quot;param&quot;</span>,<span class="ruby-value str">&quot;&quot;</span>,<span class="ruby-identifier">param_attributes1</span>)
+    
+    <span class="ruby-identifier">param_attributes2</span>={<span class="ruby-identifier">:name=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;movie&quot;</span>,<span class="ruby-identifier">:value=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">chart_swf</span>}
+    <span class="ruby-identifier">param_tag2</span>=<span class="ruby-identifier">content_tag</span>(<span class="ruby-value str">&quot;param&quot;</span>,<span class="ruby-value str">&quot;&quot;</span>,<span class="ruby-identifier">param_attributes2</span>)
+    
+    <span class="ruby-identifier">param_attributes3</span>={<span class="ruby-identifier">:name=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;FlashVars&quot;</span>,<span class="ruby-identifier">:value=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">str_flash_vars</span>}
+    <span class="ruby-identifier">param_tag3</span>=<span class="ruby-identifier">content_tag</span>(<span class="ruby-value str">&quot;param&quot;</span>,<span class="ruby-value str">&quot;&quot;</span>,<span class="ruby-identifier">param_attributes3</span>)
+    
+    <span class="ruby-identifier">param_attributes4</span>={<span class="ruby-identifier">:name=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;quality&quot;</span>,<span class="ruby-identifier">:value=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;high&quot;</span>}
+    <span class="ruby-identifier">param_tag4</span>=<span class="ruby-identifier">content_tag</span>(<span class="ruby-value str">&quot;param&quot;</span>,<span class="ruby-value str">&quot;&quot;</span>,<span class="ruby-identifier">param_attributes4</span>)
+    
+    <span class="ruby-identifier">embed_attributes</span>={<span class="ruby-identifier">:src=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">chart_swf</span>}
+    <span class="ruby-identifier">embed_attributes</span>=<span class="ruby-identifier">embed_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:FlashVars=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">str_flash_vars</span>)
+    <span class="ruby-identifier">embed_attributes</span>=<span class="ruby-identifier">embed_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:quality=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;high&quot;</span>)
+    <span class="ruby-identifier">embed_attributes</span>=<span class="ruby-identifier">embed_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:width=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">chart_width</span>)
+    <span class="ruby-identifier">embed_attributes</span>=<span class="ruby-identifier">embed_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:height=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">chart_height</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">chart_id</span>)
+    <span class="ruby-identifier">embed_attributes</span>=<span class="ruby-identifier">embed_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:allowScriptAccess=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;always&quot;</span>)
+    <span class="ruby-identifier">embed_attributes</span>=<span class="ruby-identifier">embed_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:type=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;application/x-shockwave-flash&quot;</span>)
+    <span class="ruby-identifier">embed_attributes</span>=<span class="ruby-identifier">embed_attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:pluginspage=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;http://www.macromedia.com/go/getflashplayer&quot;</span>)
+    
+    <span class="ruby-identifier">embed_tag</span>=<span class="ruby-identifier">content_tag</span>(<span class="ruby-value str">&quot;embed&quot;</span>,<span class="ruby-value str">&quot;&quot;</span>,<span class="ruby-identifier">embed_attributes</span>)
+    
+    <span class="ruby-identifier">concat</span>(<span class="ruby-identifier">content_tag</span>(<span class="ruby-value str">&quot;object&quot;</span>,<span class="ruby-value str">&quot;\n\t\t\t\t&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">param_tag1</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;\n\t\t\t\t&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">param_tag2</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;\n\t\t\t\t&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">param_tag3</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;\n\t\t\t\t&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">param_tag4</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;\n\t\t\t\t&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">embed_tag</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;\n\t\t&quot;</span>,<span class="ruby-identifier">object_attributes</span>),<span class="ruby-identifier">block</span>.<span class="ruby-identifier">binding</span>)
+    <span class="ruby-identifier">concat</span>(<span class="ruby-value str">&quot;\n\t\t&lt;!-- END Code Block for Chart &quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">chart_id</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot; --&gt;\n&quot;</span>,<span class="ruby-identifier">block</span>.<span class="ruby-identifier">binding</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" /></head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Creating Drill-Down Charts</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts can be easily and extensively 
+        used to create drill-down charts. All the charts in FusionCharts suite 
+        support drill down for data elements i.e., in each chart type, the data 
+        plot of that chart (columns in Column Charts, Pie slices in Pie Charts 
+        etc.) can act as hotspots for the chart. Using the drill down functionality 
+        provided by FusionCharts, you can easily produce charts that enact &quot;drill 
+        down&quot; or &quot;zoom in (data)&quot; capabilities. </p>
+      <p>In FusionCharts Free, you can define the following types of link for the 
+        data plot:</p>
+      <ul>
+        <li>Simple links that open in the same page</li>
+        <li>Simple links that open in a new page</li>
+        <li>Existing JavaScript functions (on the same page) to be invoked as 
+          links</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Defining links for a Chart</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>To define a simple link for any data plot, 
+        just define the <span class="codeInline">link</span> attribute for the 
+        <span class="codeInline">&lt;set&gt;</span> element as under:<br />
+        <span class="codeInline">&lt;set ... value='2235' ... <strong>link='ShowDetails.asp%3FMonth%3DJan'</strong> 
+        ...&gt; </span></p>
+      <p>With the above XML, the data plot (be it column, pie or line/area anchor), 
+        when clicked, will take to the page <span class="codeInline">ShowDetails.asp?Month=Jan</span>, 
+        which might contain another chart to show detailed results for the month 
+        of January.</p>
+      <p>As you will note, the above link has been URL Encoded. FusionCharts expects 
+        all the links in URL Encoded format, if you have characters special characters 
+        (like ?,&amp;, etc.) in your link. When the user clicks on the link, FusionCharts 
+        decodes it and invokes <span class="codeInline">ShowDetails.asp?Month=Jan</span>.      </p>
+      <p class="highlightBlock">All the server side scripting languages provide 
+        a generic function to URL Encode any string - like in ASP and ASP.NET, 
+        we've Server.URLEncode(strURL) , in PHP we've <span class="codeInline">urlencode(dataURL)</span>and so on.</p>      </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">XML Example:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;graph caption='Monthly Sales Summary' 
+      subcaption='For the year 2006' xAxisName='Month' yAxisName='Sales' numberPrefix='$'&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jan' value='17400' link='DemoLinkPages/DemoLink1.html'  color='AFD8F8' /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Feb' value='19800' link='DemoLinkPages/DemoLink2.html' color='F6BD0F' /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Mar' value='21800' link='DemoLinkPages/DemoLink3.html' color='8BBA00' /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Apr' value='23800' link='DemoLinkPages/DemoLink4.html' color='FF8E46' /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='May' value='29600' link='DemoLinkPages/DemoLink5.html' color='008E8E' /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jun' value='27600' link='DemoLinkPages/DemoLink6.html' color='D64646' /&gt;<br /> 
+    &lt;/graph&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML will create a chart each of whose dataplots (here columns) links to a page of its won. The Link mouse cursor appears on hovering over each column. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/drillDown.jpg" class="imageBorder"/></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">On clicking the linked  page opens up : </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/drillDownL.jpg" class="imageBorder"/></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Opening links in new window</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">Quite often, you might want to open the drill-down 
+      link in a new window instead of the same window. To have a link open in 
+      a new window, all you need to do is, add <span class="codeInline">n-</span> 
+      before any link. E.g., 
+      <p><span class="codeInline">&lt;set ... value='2235' ... <strong>link='n-ShowDetails.asp%3FMonth%3DJan'</strong> 
+        ...&gt; </span></p>
+      <p>The above link, when clicked, would open in a new window.</p>
+      <p>Example XML:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph caption='Monthly Sales Summary' 
+      subcaption='For the year 2006' xAxisName='Month' yAxisName='Sales' numberPrefix='$'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jan' value='17400' link='<strong>n-</strong>DemoLinkPages/DemoLink1.html' color='AFD8F8' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Feb' value='19800' link='<strong>n-</strong>DemoLinkPages/DemoLink2.html' color='F6BD0F' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Mar' value='21800' link='<strong>n-</strong>DemoLinkPages/DemoLink3.html' color='8BBA00' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Apr' value='23800' link='<strong>n-</strong>DemoLinkPages/DemoLink4.html' color='FF8E46' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='May' value='29600' link='<strong>n-</strong>DemoLinkPages/DemoLink5.html' color='008E8E' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='Jun' value='27600' link='<strong>n-</strong>DemoLinkPages/DemoLink6.html' color='D64646' /&gt;<br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+  	<TD>
+      <p class="highlightBlock">For more detailed description of DrillDown please refer to &quot;Creating Drill-down Charts&quot; in &quot;Using FusionCharts with ASP&quot; or &quot;Using FusionCharts with ASP.NET&quot; or &quot;Using FusionCharts with PHP&quot;.</p>	</TD>
+  </tr>
+</table>
+</body>
+</html>

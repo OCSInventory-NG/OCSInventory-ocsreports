@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with ASP &gt; Creating Drill-down charts </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous example, we had used FusionCharts to plot a chart using data stored in database. We'll now extend that example itself to create a drill-down chart which can show more information.</p>
+	<p><strong>Before you go further with this page, we recommend you to please see the previous sections like &quot;Basic Examples&quot;, Creating Data from Array&quot; as we start off from concepts explained in those pages. </strong></p>
+    <p>If you recall from previous example, we were showing the sum of factory output in a pie chart as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_DBOut.jpg" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In this example, we'll extend this example, so that when a user clicks on a pie slice for a factory, he can drill down to see date wise production for that factory. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the pie chart for Link </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To set up the pie chart to enable links for drill-down involves just minor tweaking of our previous <span class="codeInline">BasicDBExample.asp</span>. We basically need to add the <span class="codeInline">link</span> attribute for each<span class="codeInline"> &lt;set&gt;</span> element. We create a new page <span class="codeInline">Default.asp</span> (in<span class="codeInline"> DB_DrillDown</span> folder) from the previous page with the following code changes:
+      <p class="highlightBlock">The code examples contained in this page are contained in<span class="codeInline"> Download Package &gt; Code &gt; ASP &gt; DB_DrillDown</span> folder. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ Language=VBScript %&gt;<br />
+      &lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;TITLE&gt;	FusionCharts Free - Database and Drill-Down Example	&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  &lt;/HEAD&gt;<br />
+  &lt;!-- #INCLUDE FILE=&quot;../Includes/FusionCharts.asp&quot; --&gt;<br />
+  &lt;!-- #INCLUDE FILE=&quot;../Includes/DBConn.asp&quot; --&gt;<br />
+  &lt;BODY&gt;<br />
+  &lt;%<br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">'In this example, we show how to connect FusionCharts to a database.<br />
+&nbsp;&nbsp;&nbsp;'For the sake of ease, we've used an Access database which is present in<br />
+&nbsp;&nbsp;&nbsp;'../DB/FactoryDB.mdb. It just contains two tables, which are linked to each<br />
+&nbsp;&nbsp;&nbsp;'other. <br />
+  <br />
+&nbsp;&nbsp;&nbsp;'Database Objects - Initialization</span><br />
+      &nbsp;&nbsp;&nbsp;Dim oRs, oRs2, strQuery<br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">'strXML will be used to store the entire XML document generated</span><br />
+      &nbsp;&nbsp;&nbsp;Dim strXML<br /><br/>&nbsp;&nbsp;&nbsp;<span class="codeComment">'Create the recordset to retrieve data</span><br />
+      &nbsp;&nbsp;&nbsp;Set oRs = Server.CreateObject(&quot;ADODB.Recordset&quot;)</p>
+      <p> &nbsp;&nbsp;&nbsp;<span class="codeComment">'Generate the graph element</span><br />
+        &nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity' decimalPrecision='0' showNames='1'  numberSuffix=' Units'  pieSliceDepth='30' formatNumberScale='0' &gt;&quot;<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;'Iterate through each factory</span><br />
+        &nbsp;&nbsp;&nbsp;strQuery = &quot;select * from Factory_Master&quot;<br />
+        &nbsp;&nbsp;&nbsp;Set oRs = oConn.Execute(strQuery)<br />
+  <br />
+        &nbsp;&nbsp;&nbsp;While Not oRs.Eof<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Now create second recordset to get details for this factory</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set oRs2 = Server.CreateObject(&quot;ADODB.Recordset&quot;)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; &amp; ors(&quot;FactoryId&quot;)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set oRs2 = oConn.Execute(strQuery) <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;'Generate &lt;set name='..' value='..' link='..' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Note that we're setting link as Detailed.asp?FactoryId=&lt;&lt;FactoryId&gt;&gt; and then URL Encoding it</span><br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='&quot; &amp; ors(&quot;FactoryName&quot;) &amp; &quot;' value='&quot; &amp; ors2(&quot;TotOutput&quot;) &amp; &quot;' link='&quot; &amp; Server.URLEncode(&quot;Detailed.asp?FactoryId=&quot; &amp; ors(&quot;FactoryId&quot;)) &amp; &quot;'/&gt;&quot;</strong><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;'Close recordset</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set oRs2 = Nothing<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs.MoveNext<br />
+        &nbsp;&nbsp;&nbsp;Wend<br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">'Finally, close &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;/graph&gt;&quot;<br />
+        &nbsp;&nbsp;&nbsp;Set oRs = nothing<br />
+  <br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">'Create the chart - Pie 3D Chart with data from strXML</span><br />
+        &nbsp;&nbsp;&nbsp;Call renderChart(&quot;../../FusionCharts/FCF_Pie3D.swf&quot;, &quot;&quot;, strXML, &quot;FactorySum&quot;, 650, 450) <br />
+        %&gt;<br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the code above, we're doing the following:</p>
+      <ol>
+        <li>Include <span class="codeInline">FusionCharts.js</span> JavaScript class and <span class="codeInline">FusionCharts.asp</span> , to enable easy embedding of FusionCharts.</li>
+        <li>We then include <span class="codeInline"> DBConn.asp</span>, which contains connection parameters to connect to Access database. </li>
+        <li>Thereafter, we generate the XML data document by iterating through the recordset. We store the XML data in <span class="codeInline">strXML</span> variable. To each <span class="codeInline">&lt;set&gt;</span> element, we add the <span class="codeInline">link</span> attribute, which points to <span class="codeInline">Detailed.asp</span> - the page that contains the chart to show details. We pass the factory id of the respective factory by appending it to the link. We finally URL Encode the link, which is a very important step. </li>
+        <li>Finally, we render the chart using <span class="codeInline">renderChart()</span> method and pass <span class="codeInline">strXML</span> as <span class="codeInline">dataXML</span>. </li>
+    </ol>      
+    <p>Let's now shift our attention to <span class="codeInline">Detailed.asp</span> page.   </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating the detailed data chart page </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The page <span class="codeInline">Detailed.asp</span> contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ Language=VBScript %&gt;<br />
+      &lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;TITLE&gt;	FusionCharts Free - Database and Drill-Down Example	&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  &lt;/HEAD&gt;<br />
+  &lt;!-- #INCLUDE FILE=&quot;../Includes/FusionCharts.asp&quot; --&gt;<br />
+  &lt;!-- #INCLUDE FILE=&quot;../Includes/DBConn.asp&quot; --&gt;<br />
+  &nbsp;<span class="codeComment">'We've also included ../Includes/FC_Colors.asp, having a list of colors<br/>
+	&nbsp;'to apply different colors to the chart's columns.</span>
+  <br/>
+  &lt;!-- #INCLUDE FILE=&quot;../Includes/FC_Colors.asp&quot; --&gt;<br />
+  &lt;BODY&gt;
+  <br />
+  &lt;%<br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;'This page is invoked from Default.asp. When the user clicks on a pie<br />
+&nbsp;&nbsp;&nbsp;'slice in Default.asp, the factory Id is passed to this page. We need<br />
+&nbsp;&nbsp;&nbsp;'to get that factory id, get information from database and then show<br />
+&nbsp;&nbsp;&nbsp;'a detailed chart.<br />
+  <br />
+&nbsp;&nbsp;&nbsp;'First, get the factory Id</span><br />
+        &nbsp;&nbsp;&nbsp;Dim FactoryId<br />
+        &nbsp;<span class="codeComment">&nbsp;&nbsp;'Request the factory Id from Querystring</span><br />
+        &nbsp;&nbsp;&nbsp;FactoryId = Request.QueryString(&quot;FactoryId&quot;)<br />
+  <br />
+        &nbsp;&nbsp;&nbsp;Dim oRs, strQuery<br />
+        &nbsp;<span class="codeComment">&nbsp;&nbsp;'strXML will be used to store the entire XML document generated</span><br />
+        &nbsp;&nbsp;&nbsp;Dim strXML, intCounter <br />
+        &nbsp;&nbsp;&nbsp;intCounter = 0<br />
+  <br />
+        &nbsp;&nbsp;&nbsp;Set oRs = Server.CreateObject(&quot;ADODB.Recordset&quot;)<br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;'Generate the graph element string</span><br />
+        &nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Factory &quot; &amp; FactoryId &amp;&quot; Output ' subcaption='(In Units)' xAxisName='Date' showValues='1' decimalPrecision='0'&gt;&quot;<br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;'Now, we get the data for that factory</span><br />
+        &nbsp;&nbsp;&nbsp;strQuery = &quot;select * from Factory_Output where FactoryId=&quot; &amp; FactoryId<br />
+        &nbsp;&nbsp;&nbsp;Set oRs = oConn.Execute(strQuery)<br />
+        &nbsp;&nbsp;&nbsp;While Not oRs.Eof <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;'Here, we convert date into a more readable form for set name.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='&quot; &amp; datePart(&quot;d&quot;,ors(&quot;DatePro&quot;)) &amp; &quot;/&quot; &amp; datePart(&quot;m&quot;,<BR />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ors(&quot;DatePro&quot;)) &amp; &quot;' value='&quot; &amp; ors(&quot;Quantity&quot;) &amp; &quot;' color='&quot; &amp; getFCColor() &amp; &quot;' /&gt;&quot; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set oRs2 = Nothing<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs.MoveNext<br />
+        &nbsp;&nbsp;&nbsp;Wend<br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;'Close &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;/graph&gt;&quot;<br />
+        &nbsp;&nbsp;&nbsp;Set oRs = nothing<br />
+  <br />
+        &nbsp;&nbsp;<span class="codeComment">&nbsp;'Create the chart - Column 2D Chart with data from strXML</span><br />
+        &nbsp;&nbsp;&nbsp;Call renderChart(&quot;../../FusionCharts/FCF_Column2D.swf&quot;, &quot;&quot;, strXML, &quot;FactoryDetailed&quot;, 600, 300)<br />
+        %&gt;<br />
+  &lt;/CENTER&gt;<br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this page, we're:</p>
+      <ol>
+        <li>Including  <span class="codeInline">FusionCharts.js</span> JavaScript class and <span class="codeInline">FusionCharts.asp</span> , to enable easy embedding of FusionCharts.</li>
+        <li>Requesting the factory id for which we've to show detailed data. This data was sent to us as query string, as a part of pie chart link.</li>
+        <li>We get the requisite data for this factory from database and then convert it into XML using string concatenation.</li>
+        <li>Finally, we render a Column 2D chart using <span class="codeInline">renderChart()</span> method to show detailed data.</li>
+      </ol>
+    <p>When you now run the app, you'll see the detailed page as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_Drill.jpg" class="imageBorder" />&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

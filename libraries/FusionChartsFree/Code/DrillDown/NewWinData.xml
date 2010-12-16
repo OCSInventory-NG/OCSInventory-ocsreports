@@ -1,0 +1,8 @@
+<graph caption='Monthly Sales Summary' subcaption='For the year 2006' xAxisName='Month' yAxisName='Sales' numberPrefix='$'>
+	<set name='Jan' value='17400' link='n-DemoLinkPages/DemoLink1.html'/>
+	<set name='Feb' value='19800' link='n-DemoLinkPages/DemoLink2.html'/>
+	<set name='Mar' value='21800' link='n-DemoLinkPages/DemoLink3.html'/>
+	<set name='Apr' value='23800' link='n-DemoLinkPages/DemoLink4.html'/>
+	<set name='May' value='29600' link='n-DemoLinkPages/DemoLink5.html'/>
+	<set name='Jun' value='27600' link='n-DemoLinkPages/DemoLink6.html'/>
+</graph>

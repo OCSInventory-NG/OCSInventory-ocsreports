@@ -1,0 +1,8 @@
+<% @page_title="FusionCharts Free - dataURL and Database Example" %>
+<% @page_heading=" - dataURL and Database" %>
+<% @page_subheading="" %>
+<%
+	#Create the chart - Pie 3D Chart with dataURL as @str_data_url.
+
+	render_chart '/FusionCharts/FCF_Pie3D.swf',@str_data_url,'','FactorySum', 650, 450, false, false do-%>
+<% end -%>

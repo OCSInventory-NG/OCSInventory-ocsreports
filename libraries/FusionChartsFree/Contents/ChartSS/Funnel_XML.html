@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="98%" border="0" align="right" cellpadding="2" cellspacing="1">
+  <tr> 
+    <td class="pageHeader">Funnel Chart &gt; XML Structure</td>
+  </tr>
+  <tr> 
+    <td class="header">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text">In this section, we'll be discussing all the elements and 
+      attributes supported by the funnel chart. A typical XML data document for 
+      the funnel chart looks as under:<br></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;chart showNames='1' showValues='1' numberPrefix='$' 
+      numberScaleValue='1000,1000' numberScaleUnit='K,M' decimalPrecision='1' 
+      isSliced='1' slicingDistance='5'&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Buchanan' value='20000' color='0099FF' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Callahan' value='49000' color='66CC66' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Davolio' value='63000' color='CD6AC0' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Dodsworth' value='41000' color='FF5904' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Fuller' value='74000' color='0099CC' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='King' value='49000' color='FF0000' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Leverling' value='77000' color='006F00' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Peacock' value='54000' color='0099FF' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+    name='Suyama' value='14000' color='FF66CC' /&gt;<br> 
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr> 
+    <td class="header">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text">As you can see the XML of Funnel charts has two elements <span class="codeInline">&lt;chart&gt;</span><span class="codetext"> and </span><span class="codeInline">&lt;set&gt;</span><span class="codetext">. Let's go through the attributes of these two elements and see how we can use this attributes to create attractive charts: </span> 
+        <p> </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="greyTr header">&lt;chart&gt; element </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p><strong>Background Properties</strong></p>
+      <ul>
+        <li><span class="codeInline">bgColor='HexColorCode'</span>: This 
+          attribute sets the background color for the chart. You can set any hex 
+          color code as the value of this attribute. Remember that you DO NOT 
+          need to assign a &quot;#&quot; at the beginning of the hex color code. 
+          In fact, whenever you need to provide any hex color code in FusionCharts 
+          XML data document, you do not have to assign the # at the beginning. 
+          <br>
+          Default value: FFFFFF <br>
+        </li>
+        <li><span class="codeInline"> bgAlpha='NumericalValue(0-100)'</span>: This attribute helps you set the alpha (transparency) of the 
+          graph. This is particularly useful when you need to load the chart in 
+          one of your Flash movies or when you want to set a background image 
+          (.swf) for the chart. <br>
+          Default value: 100<br>
+        </li>
+        <li><span class="codeInline">bgSWF='Path of SWF File'</span>: 
+          This attribute helps you load an external .swf file as a background 
+          for the chart. For more information on this, please see <span class="codetext"><a href="../Adv_BgSWF.html">Advanced 
+          Charting &gt; Setting background for Charts</a></span>. </li>
+      </ul>
+      <p><strong>General Properties</strong></p>
+      <ul>
+        <li><span class="codeInline">showValues='1/0'</span>: This parameter 
+          sets whether the data values would be displayed on the chart or not, 
+          on the corresponding funnel segment.<br>
+          Default value: 1, i.e. by default the data values are displayed.</li>
+        <li><span class="codeInline">showNames='1/0'</span>: This parameter 
+          sets whether the data names would be displayed on the chart or not.<br>
+          Default value: 1, i.e. by default the data names are displayed.</li>
+        <li><span class="codeInline">animation='1/0'</span>: This parameter 
+          lets you define whether the chart would be animated or not.<br>
+          Default value: 1</li>
+        <li><span class="codeInline">fillAlpha='value(0-100)'</span>: 
+          This attribute helps you specify the alpha (transparency) of the funnel 
+          chart as a whole, i.e., all the funnel segments would be shown in the 
+          alpha mentioned in this attribute.<br>
+          Default value: 100</li>
+        <li><span class="codeInline">isSliced='1/0'</span><span class="text">: 
+          This attribute specifies whether the the various funnel segments would 
+          be sliced, i.e., separated from each other by a distance.<br>
+          Default value: </span>1</li>
+        <li><span class="codeInline">slicingDistance='value'</span><span class="text">: 
+          If you have set the </span><span class="codetext">isSliced</span><span class="text"> 
+          attribute to 1 or have not defined it at all (so that it takes the value 
+          1 by default), then this attribute specifies the distance (in pixels) 
+          by which the various funnel segments would be separated from each other 
+          by.<br>
+          Default value: 10</span></li>
+        <li><span class="codeInline">funnelBaseWidth='value'</span><span class="text">: 
+          This attribute sets the width of the tap, i.e., the bottom part of the 
+          funnel. </span><span class="text"><br>
+          Default value: If you don't define this attribute, it would be auto-calculated 
+          to the most suitable value for the chart.</span></li>
+        <li><span class="codeInline">funnelBaseHeight='value'</span><span class="text">: 
+          This attribute sets the height of the tap of the funnel. </span><span class="text"><br>
+          Default value: If you don't define this attribute, it would be auto-calculated 
+          to the best value for the chart.</span></li>
+      </ul>
+      <p><strong>Number Formatting Options</strong></p>
+      <ul>
+        <li><span class="codeInline">numberPrefix='Character'</span>: 
+          Using this attribute, you could add prefix to all the numbers visible 
+          on the graph. For example, to represent all dollars figure on the chart, 
+          you could specify this attribute to ' $' to show the numbers as $40000, 
+          $50000. </li>
+        <li><span class="codeInline">numberSuffix='Character'</span>: 
+          Using this attribute, you could add prefix to all the numbers visible 
+          on the graph. For example, to represent all figure quantified as per 
+          annum on the chart, you could specify this attribute to ' /a' to show 
+          like 40000/a, 50000/a. <br>
+          <br>
+          To use special characters for <span class="codeInline">numberPrefix</span> 
+          or <span class="codeInline">numberSuffix</span>, you'll need to URL Encode 
+          them. That is, suppose you wish to have <span class="codeInline">numberSuffix</span> 
+          as <span class="codetext">%</span> (as you would have in <span class="codetext">30%</span>), 
+          you'll need to specify it as under:<br>
+          <span class="codeInline">numberSuffix='%25'          </span></li>
+        <li><span class="codeInline">formatNumber='1/0'</span>: This 
+          configuration determines whether the numbers displayed on the chart 
+          will be formatted using commas (or any other separator which you have 
+          specified), e.g., 40,000 if <span class="codetext">formatNumber='1'</span> 
+          and 40000 if <span class="codetext">formatNumber='0'<br>
+          </span><span class="text">Default value: 1. i.e. the numbers gets formatted 
+          by default</span></li>
+        <LI><span class="codeInline">formatNumberScale='1/0'</span>: Configuration   whether to add K (thousands) and M (millions) to a number after truncating and   rounding it - e.g., if <span class="codeInline">formatNumberScale</span> is set to 1, 10434 would become 1.04K   (with <span class="codeInline">decimalPrecision</span> set to 2 places). Same with numbers in millions - a M   will added at the end. </LI>
+        <li><span class="codeInline">decimalSeparator='Character'</span>: This option helps you specify the character to be used as the decimal 
+          separator in a number.<br>
+        <span class="text">Default value: &quot;.&quot;</span></li>
+        <li><span class="codeInline">thousandSeparator='Character'</span>: This option helps you specify the character to be used as the thousands 
+          separator in a number.</li>
+      </ul>
+      <p><strong>Font Properties</strong> </p>
+      <ul>
+        <li><span class="codeInline">baseFont='FontName'</span>: This 
+          attribute sets the base font family for all the text in the chart i.e., 
+          all the values and the labels in the chart will be displayed using the 
+          font name provided here.<br>
+          Default value: Verdana </li>
+        <li><span class="codeInline">baseFontSize='FontSize'</span>: 
+          This attribute sets the base font size for all the text in the chart. 
+          <br>
+          Default value: 9</li>
+        <li><span class="codeInline">baseFontColor='HexColorCode(without the 
+          '#' sign)'</span>: This attribute sets the base font color for 
+          all the text in the chart. <br>
+          Default value: 000000</li>
+      </ul>
+      <p><strong>Hover Caption Properties</strong></p>
+      <p>The hover caption is the tool tip which shows up when the user moves 
+        his mouse over a funnel segment.</p>
+      <ul>
+        <li><span class="codeInline">showhovercap='1/0'</span>: Option 
+          whether to show/hide hover caption box. <br>
+          Default value: 1, i.e. the hover caption box is displayed by default.</li>
+        <li><span class="codeInline">hoverCapBgColor='HexColorCode'</span>: Background color of the hover caption box.<br>
+          Default value: F1F1F1</li>
+        <li><span class="codeInline">hoverCapBorderColor='HexColorCode'</span>: Border color of the hover caption box.<br>
+          Default value: 666666</li>
+        <li><span class="codeInline">hoverCapSepChar='Char'</span>: The 
+          character specified as the value of this attribute separates the name 
+          and value displayed in the hover caption box. <br>
+          Default value: ,</li>
+      </ul>
+      <p><strong>Border Properties</strong></p>
+      <ul>
+        <li><span class="codeInline">showBorder='1/0</span><span class="codetext">'</span>: This attribute sets 
+          whether a border would be shown around the funnel segments or not.<br>
+          Default value: 0</li>
+        <li><span class="codeInline">borderColor='Hex Color'</span>: This attribute 
+          sets the color of the border, which is displayed around the funnel segments 
+          when <span class="codetext">showBorder</span> is set as 1. <br>
+          Default value: By default, the border color of each funnel segment is 
+          the same as their background color.</li>
+        <li><span class="codeInline">borderThickness='Numerical Value'</span>: This 
+          attribute sets the thickness, in pixels, of the border, which is displayed 
+          around the funnel segments when <span class="codetext">showBorder</span> 
+          is set as 1. <br>
+          Default value: 1</li>
+        <li><span class="codeInline">borderAlpha='value(0-100)'</span>: This attribute 
+          sets the alpha of the border, which is displayed around the color range 
+          when <span class="codetext">showBorder</span> is set as 1. <br>
+          Default value: 100</li>
+      </ul>
+      <p><strong>Chart Margins</strong></p>
+      <p>Chart Margins refer to the empty spaces left on the top, bottom, left 
+        and right of the chart. That means, that much amount of space would be 
+        left empty on the chart, before it starts plotting. </p>
+      <ul>
+        <li><span class="codeInline">chartLeftMargin='Numerical Value (in pixels)'</span><span class="codetext">:</span> Space to be left unplotted on the left side of the chart.</li>
+        <li><span class="codeInline"> chartRightMargin='Numerical Value (in 
+          pixels)'</span><span class="codetext">:</span> Empty space to be left on the right side of the 
+          chart</li>
+        <li> <span class="codeInline">chartTopMargin='Numerical Value (in pixels)'</span><span class="codetext">:</span> Empty space to be left on the top of the chart.</li>
+        <li> <span class="codeInline">chartBottomMargin='Numerical Value (in 
+          pixels)'</span><span class="codetext">:</span> Empty space to be left at the bottom of the chart.</li>
+      </ul>
+      <p>That is all for the <span class="codetext">&lt;chart&gt;</span> element. 
+        We next see the possible attributes for the <span class="codeInline">&lt;set&gt;</span> 
+        element, which is used to represent a data set to be plotted on the chart.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="greyTr header">&lt;set&gt; element</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>A &lt;set&gt; element with all its attributes defined looks as under:</p>      </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;set <strong>name</strong>='Jan' value='25' 
+      <strong>color</strong>='FFFF00' <strong>link</strong>='Sales.asp?month=1' <strong>borderColor</strong>='000000' 
+      <strong>borderThickness</strong>='1' <strong>borderAlpha</strong>='100' <strong>alpha</strong>='100' 
+      <strong>hoverText</strong>='Units sold in Jan'&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>where:</p>
+      <ul>
+        <li><span class="codeInline">name</span> is the name of the data set.</li>
+        <li><span class="codeInline">value</span> is the value to be plotted on 
+          the chart for this particular data set.</li>
+        <li><span class="codeInline">color</span> is the background color of the 
+          funnel segment for this data set.</li>
+        <li><span class="codeInline">link</span> is the URL you can take the user 
+          to when he clicks on the funnel segment corresponding to this data set. 
+          <br>
+          Example: <span class="codeInline">&lt;set link='details.aspx' ..&gt;</span><span class="codetext"><br>
+          </span><span class="text">Please note that you'll need to URL Encode 
+          all the special characters (like ? and &amp;) present in the link. All 
+          the server side scripting languages provide a generic function to URL 
+          Encode any string - like in ASP and ASP.NET, we've </span><span class="codeInline">Server.URLEncode(strURL)</span><span class="text"> and so on. </span> 
+          <p class="text">To open a link in a new window, just put n- in front 
+            of the link e.g., <span class="codeInline">link='n-ShowDetails.asp%3FMonth=Jan'</span></p>
+        </li>
+        <li><span class="codeInline">borderColor</span> is the border color of the 
+          funnel segment corresponding to this data set on the chart.</li>
+        <li><span class="codeInline">borderThickness</span> is the thickness of 
+          the border of the funnel segment.</li>
+        <li><span class="codeInline">borderAlpha</span> is the thickness of the 
+          border of the funnel segment.</li>
+        <li><span class="codeInline">alpha</span> is the alpha (transparency) of 
+          the funnel segment.</li>
+        <li><span class="codeInline">hoverText</span> is the text that you like 
+          to display to the user when he hovers his mouse over this funnel segment. 
+          By default, the hover caption box displays the name and value of the 
+          corresponding data set but when you use this attribute, the hover caption 
+          box would display the hover text and the value, thus replacing the name 
+          of the data set.</li>
+      </ul>
+      <p>And finally, we move onto Custom Objects.<br>
+        <br>
+      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

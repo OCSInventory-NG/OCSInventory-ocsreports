@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with VB.NET (ASP.NET) &gt; Basic Examples </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this section we will build up simple charts using ASP.NET. We'll cover the following examples here:</p>
+        <ol>
+          <li> We'll use FusionCharts in ASP.NET with a pre-built Data.xml (which contains 
+            data to plot)</li>
+        <li> We'll then change the above chart into a single page chart using dataXML 
+          method.</li>
+        <li> Finally, we'll use FusionCharts JavaScript class to embed the chart.</li>
+      </ol>
+      <p>Let's quickly see each of them. <br />
+          <br />
+        <strong>Before you proceed with the contents in this 
+        page, we strictly recommend you to please go through the section &quot;How 
+        FusionCharts works?&quot;.</strong> </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">All code discussed here is present in <span class="codeInline">Download Package &gt; Code &gt; VB_NET</span> &gt; <span class="codeInline">BasicExample</span> folder. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the charts for use </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In our code, we've used the charts contained in <span class="codeInline">Download Package &gt; Code &gt; VB_NET &gt; FusionCharts</span> folder. When you run your samples, you need to make sure that the SWF files are 
+      in proper location. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Plotting a chart from data contained in <span class="codeInline">Data.xml</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's now get to building our first example. In this 
+      example, we'll create a &quot;Monthly Unit Sales&quot; chart using <span class="codeInline">dataURL</span> method. For a start, we'll hard code our XML data in a physical XML document <span class="codeInline">Data.xml </span>and then utilize it in our chart 
+      contained in an ASP.NET Page (<span class="codeInline">BasicChart.aspx</span>). </p>
+        <p>Let's first have a look at the XML Data document:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Jan' value='462' color='AFD8F8' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Feb' value='857' color='F6BD0F' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Mar' value='671' color='8BBA00' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Apr' value='494' color='FF8E46' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='May' value='761' color='008E8E' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Jun' value='960' color='D64646' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Jul' value='629' color='8E468E' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Aug' value='622' color='588526' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Sep' value='376' color='B3AA00' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Oct' value='494' color='008ED6' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Nov' value='761' color='9D080D' /&gt;<br />
+      &nbsp;&nbsp;&lt;set name='Dec' value='960' color='A186BE' /&gt;<br />
+    &lt;/graph&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>This XML is stored as <span class="codeInline">Data.xml</span> in <span class="codeInline">Data </span>Folder under <span class="codeInline">BasicExample</span> folder. It basically contains the data to create a single series chart to show 
+      &quot;Monthly Unit Sales&quot;. We'll plot this on a Column 3D Chart. Let's see 
+      how to do that. </p>
+        <p>To plot a Chart that consumes this data, you need to include the HTML code to 
+          embed a Flash object and then provide the requisite parameters. To make things 
+          simpler for you, we've put all this functionality in <span class="codeInline">InfoSoftGlobal.FusionCharts</span> class inside the dll file FusionCharts.dll. This dll file is 
+          contained in <span class="codeInline">Download Package &gt; Code &gt; VB_NET &gt; bin.</span> So, whenever you need to work with FusionCharts in ASP.NET, just use the 
+          defined functions in the <span class="codeInline">InfoSoftGlobal.FusionCharts</span> class and then you can work with FusionCharts very easily. </p>
+        <p>Let's see it in example. <span class="codeInline">BasicChart.aspx</span> contains the following code to render the chart:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;%@ Page Language=&quot;VB&quot; %&gt;<br />&lt;%@ Import Namespace=&quot;InfoSoftGlobal&quot; %&gt;<br />&lt;HTML&gt;<br />&lt;HEAD&gt;<br />&nbsp;&nbsp;&lt;TITLE&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Simple Column 3D Chart<br />&nbsp;&nbsp;&lt;/TITLE&gt;<br />&lt;/HEAD&gt;<br />&lt;BODY&gt;<br />&nbsp;&nbsp;&lt;%<br />&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Create the chart - Column 3D Chart with data from Data/Data.xml</span><br />
+    &nbsp;&nbsp;&nbsp;&nbsp;<strong>Response.Write(FusionCharts.RenderChartHTML(&quot;../FusionCharts/FCF_Column3D.swf&quot;, &quot;Data/Data.xml&quot;, &quot;&quot;, &quot;myFirst&quot;, &quot;600&quot;, &quot;300&quot;, False)) </strong><br />
+      &nbsp;&nbsp;%&gt;<br />&lt;/BODY&gt;<br />&lt;/HTML&gt;<br />    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we're basically rendering the chart by <span class="codeInline"><strong>RenderChartHtml()</strong></span> function. In this code, we've just used the <span class="codeInline">FusionCharts</span> class, which is contained within <span class="codeInline">InfoSoftGlobal</span> namepspace of the dll file, and called the <span class="codeInline">RenderChartHTML</span> method to return the pertinent HTML output for the chart. To use this function, you can pass the following 
+    parameters (in same order):</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="95%" border="1" align="center" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+        <tr>
+          <td width="19%" valign="top" class="header">Parameter</td>
+          <td width="81%" valign="top" class="header">Description</td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">chartSWF</td>
+          <td valign="top" class="text">SWF File Name (and Path) of the chart which you 
+            intend to plot. Here, we are plotting a Column 3D chart. So, we've specified it 
+            as <span class="codeInline">../../FusionCharts/Column3D.swf</span></td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">strURL</td>
+          <td valign="top" class="text">If you intend to use <span class="codeInline">dataURL</span> method for the chart, pass the URL as this parameter. Else, set it to 
+            &quot;&quot; (in case of <span class="codeInline">dataXML</span> method). In this case, we're using <span class="codeInline">Data.xml</span> file, so we specify <span class="codeInline">Data/Data.xml</span></td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">strXML</td>
+          <td valign="top" class="text">If you intend to use <span class="codeInline">dataXML</span> method for this chart, pass the XML data as this parameter. Else, set it to 
+            &quot;&quot; (in case of <span class="codeInline">dataURL</span> method). Since we're using <span class="codeInline">dataURL</span> method, we specify this parameter as &quot;&quot;.</td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">chartId</td>
+          <td valign="top" class="text"> Id for the chart, using which it will be recognized in the HTML page. <strong>Each 
+            chart on the page needs to have a unique Id.</strong></td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">chartWidth</td>
+          <td valign="top" class="text">Intended width for the chart (in pixels)</td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">chartHeight</td>
+          <td valign="top" class="text">Intended height for the chart (in pixels)</td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">debugMode</td>
+          <td valign="top" class="text">Whether to start the chart in debug mode. Please see <span class="codeInline">Debugging your Charts</span> section for more details on Debug Mode. This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+          <td valign="top" class="codeInline">registerWithJS</td>
+          <td valign="top" class="text">Whether to register the chart with JavaScript. Please see FusionCharts and JavaScript section for more details on this. This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+          <td valign="top" class="codeInline">transparent</td>
+          <td valign="top" class="text">Whether the the chart should have a transparent background in HTML page. Optional Property.  This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+          <td valign="top" class="codeInline">scaleMode</td>
+          <td valign="top" class="text">Scaling option of the chart. It can take any value out of the four: &quot;noscale&quot;, &quot;exactfit&quot;, &quot;noborder&quot; and &quot;showall&quot;. This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+          <td valign="top" class="codeInline">bgColor</td>
+          <td valign="top" class="text"> Background color of the chart. If background color of the chart is not defined in XML, this property would be used to set the chart&rsquo;s background. E.g. #ff0000.  This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+		<tr>
+          <td valign="top" class="codeInline">language</td>
+          <td valign="top" class="text">Preferred language. e.g. EN.  This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>When you now run this page, you'll see a chart like 
+      the one below. </p>
+        <p class="highlightBlock">If you do not see a chart like the one below, please 
+          follow the steps listed in <span class="codeInline">Debugging your Charts &gt; Basic Troubleshooting</span> section of this documentation. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_BasicChart.jpg" width="591" height="292" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">So, you just saw how simple it is to create a chart 
+      using ASP.NET and FusionCharts. Let's now convert the above chart to use <span class="codeInline">dataXML</span> method. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Changing the above chart into a single page chart 
+      using dataXML method</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To convert this chart to use dataXML method, we 
+      create another page <span class="codeInline">BasicDataXML.aspx</span> in the same folder with following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ Page Language=&quot;VB&quot; AutoEventWireup=&quot;false&quot; CodeFile=&quot;BasicDataXML.aspx.vb&quot; Inherits=&quot;BasicExample_BasicDataXML&quot; %&gt;<br />
+      &lt;HTML&gt;<br />
+      &nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Simple Column 3D Chart using dataXML method<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt; <br />
+&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;asp:Literal ID=&quot;FCLiteral&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt;</strong><br />
+&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt;<br />
+<br />
+    </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the design page we have added an ASP literal server control which acts as a FusionCharts container.  The code-behind page i.e., <span class="codeInline">BasicDataXML.aspx.vb</span> contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>Imports InfoSoftGlobal</p>
+        <p>Partial Class BasicExample_BasicDataXML<br />
+      &nbsp;&nbsp;Inherits System.Web.UI.Page</p>
+        <p> &nbsp;&nbsp;&nbsp;&nbsp;Protected Sub <b>Page_Load</b>(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load<br />
+          <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Generate chart in Literal Control</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>FCLiteral.Text = CreateCharts()</b><br />
+&nbsp;&nbsp;&nbsp;&nbsp;End Sub<br />
+          <br />
+&nbsp;&nbsp;&nbsp;        Public Function <strong>CreateCharts</strong>() As String</p>
+        <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'This page demonstrates the ease of generating charts using FusionCharts.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'For this chart, we've used a string variable to contain our entire XML data.</span></p>
+        <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Ideally, you would generate XML data documents at run-time, after interfacing with<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'forms or databases etc.Such examples are also present.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Here, we've kept this example very simple.</span></p>
+        <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Create an XML data document in a string variable</span></p>
+        <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim strXML As String<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = &quot;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Jan' value='462' color='AFD8F8' /&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Feb' value='857' color='F6BD0F' /&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Mar' value='671' color='8BBA00' /&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Apr' value='494' color='FF8E46'/&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='May' value='761' color='008E8E'/&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Jun' value='960' color='D64646'/&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Jul' value='629' color='8E468E'/&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Aug' value='622' color='588526'/&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Sep' value='376' color='B3AA00'/&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Oct' value='494' color='008ED6'/&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Nov' value='761' color='9D080D'/&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='Dec' value='960' color='A186BE'/&gt;&quot;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;/graph&gt;&quot;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Create the chart - Column 3D Chart with data from strXML variable using dataXML method</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&nbsp;Return FusionCharts.RenderChartHTML(&quot;../FusionCharts/FCF_Column3D.swf&quot;, &quot;&quot;, strXML, &quot;myNext&quot;, &quot;600&quot;, &quot;300&quot;, False)</b></p>
+        <p> &nbsp;&nbsp;&nbsp;&nbsp;End Function<br />
+          End Class</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here,</p>
+        <ol>
+          <li> We've defined the <span class="codeInline">CreateCharts</span> method, which is called from the ASP.NET page to render the chart. The <span class="codeInline">CreateCharts</span> function is called upon the page load event and returns the text into the previously specified ASP literal server control. In this function, we build the XML and HTML. </li>
+          <li> We've created the XML data document for the chart in an ASP.NET variable <span class="codeInline">strXML </span><span class="text">using string concatenation. For the sake of demo, we've hard-coded our data in this variable. In your applications, you can build this data dynamically after interacting with databases or external sources of data.</span> </li>
+          <li> Finally, we return the chart HTML using <span class="codeInline">RenderChartHTML()</span> method present in <span class="codeInline">InfoSoftGlobal.FusionCharts</span> class. We've used dataXML method here, and as such we set the <span class="codeInline">dataXML</span> parameter as <span class="codeInline">strXML</span>. We leave <span class="codeInline">dataURL</span> parameter blank.</li>
+        </ol>
+      <p>When you see this chart, you'll get the same results as before. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using FusionCharts JavaScript class to embed the 
+      chart.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">If you see the charts from previous examples in the 
+      latest versions of Internet Explorer, you'll see a screen as below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_Activate.jpg" width="606" height="310" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Internet Explorer asks you to <span class="codeInline">&quot;Click and activate...&quot; </span>to use the 
+      chart. This is happening because of a technical issue on behalf of Microsoft. As 
+      such, all Flash movies need to be clicked once before you can start interacting 
+      with them. </p>
+        <p>However, the good news is that there's a solution to it. This thing happens only 
+          when you directly embed the HTML code of the chart. It would NOT happen when 
+          you use JavaScript to embed the chart. To see how to embed using JavaScript at 
+          code level, please see <span class="codeInline">Creating Your First Chart &gt; JavaScript Embedding</span> Section. </p>
+      <p>In the design page we have added an ASP literal server control which acts as a FusionCharts container. Along with that we have attached an ASP.NET <span class="codeInline"> Page_Load</span> event listener which helps you wrap this 
+        JavaScript function in ASP.NET function, so that you don't have to get your 
+        hands dirty with JavaScript, Flash and HTML. This function is contained in the 
+        previously used <span class="codeInline">InfoSoftGlobal.FusionCharts</span> class. </p>
+      <p>Let's now quickly put up a sample to show the use of this function. We create 
+        another ASP.NET page <span class="codeInline">SimpleChart.aspx</span> to use this function to plot a chart from data contained in our previously 
+        created<span class="codeInline"> Data.xml</span> file. Like before, <span class="codeInline">SimpleChart.aspx</span> contains the following code: <br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ Page Language=&quot;VB&quot; %&gt;<br />
+  &lt;%@ Import Namespace=&quot;InfoSoftGlobal&quot; %&gt;</p>
+      <p>&lt;script runat=&quot;server&quot;&gt;</p><p>
+&nbsp;&nbsp;&nbsp;Protected Sub <b>Page_Load</b>(ByVal sender As Object, ByVal e As System.EventArgs)<br />
+<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Create the chart - Column 3D Chart with data from Data/Data.xml</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>FCLiteral.Text = FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Column3D.swf&quot;, &quot;Data/Data.xml&quot;, &quot;&quot;, &quot;myFirst&quot;, &quot;600&quot;, &quot;300&quot;, False, False)</strong><br />
+<br />
+        &nbsp;&nbsp;&nbsp;End Sub<br />
+<br />
+&lt;/script&gt;</p>
+      <p><br />
+  &lt;HTML&gt;<br />
+  &nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Simple Column 3D Chart<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;% <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'You need to include the following JS file, if you intend to embed the chart using JavaScript.</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  &lt;BODY&gt;<br />
+  &nbsp;&nbsp;<strong>&lt;asp:Literal ID=&quot;FCLiteral&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt;</strong><br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we've:</p>
+        <ol>
+          <li>Included <span class="codeInline">FusionCharts.js</span> file, which is required when using the JavaScript method. This file contains a JavaScript class that embeds FusionCharts on the client side. This file is present in <span class="codeInline">Download Package &gt; JSClass</span>. </li>
+          <li>The  <span class="codeInline"> Page_Load</span> event listener calls the internal  <strong>RenderChart()</strong> method and redirects the HTML into the ASP.NET literal control block. </li>
+        </ol>      </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p><span class="codeInline">RenderChart()</span> method is contained in <span class="codeInline">InfoSoftGlobal.FusionCharts</span> class; it returns the HTML code for the chart (using JavaScript embedding). Since we're using a physical <span class="codeInline">Data.xml</span> file here, we've used the <span class="codeInline">dataURL</span> method to provide the path of the file. </p>
+        <p>The<span class="codeInline"> RenderChart()</span> method takes in the following parameters: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="95%" border="1" align="center" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+        <tr>
+          <td width="19%" valign="top" class="header">Parameter</td>
+          <td width="81%" valign="top" class="header">Description</td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">chartSWF</td>
+          <td valign="top" class="text">SWF File Name (and Path) of the chart which you 
+            intend to plot. Here, we are plotting a Column 3D chart. So, we've specified it 
+            as <span class="codeInline">../../FusionCharts/Column3D.swf</span></td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">strURL</td>
+          <td valign="top" class="text">If you intend to use <span class="codeInline">dataURL</span> method for the chart, pass the URL as this parameter. Else, set it to 
+            &quot;&quot; (in case of <span class="codeInline">dataXML</span> method). In this case, we're using <span class="codeInline">Data.xml</span> file, so we specify <span class="codeInline">Data/Data.xml</span></td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">strXML</td>
+          <td valign="top" class="text">If you intend to use <span class="codeInline">dataXML</span> method for this chart, pass the XML data as this parameter. Else, set it to 
+            &quot;&quot; (in case of <span class="codeInline">dataURL</span> method). Since we're using <span class="codeInline">dataURL</span> method, we specify this parameter as &quot;&quot;.</td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">chartId</td>
+          <td valign="top" class="text"> Id for the chart, using which it will be recognized in the HTML page. <strong>Each 
+            chart on the page needs to have a unique Id.</strong></td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">chartWidth</td>
+          <td valign="top" class="text">Intended width for the chart (in pixels)</td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">chartHeight</td>
+          <td valign="top" class="text">Intended height for the chart (in pixels)</td>
+        </tr>
+        <tr>
+          <td valign="top" class="codeInline">debugMode</td>
+          <td valign="top" class="text">Whether to start the chart in debug mode. Please see <span class="codeInline">Debugging your Charts</span> section for more details on Debug Mode. This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+          <td valign="top" class="codeInline">registerWithJS</td>
+          <td valign="top" class="text">Whether to register the chart with JavaScript. Please see FusionCharts and JavaScript section for more details on this. This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+          <td valign="top" class="codeInline">transparent</td>
+          <td valign="top" class="text">Whether the the chart should have a transparent background in HTML page. Optional Property.  This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+          <td valign="top" class="codeInline">scaleMode</td>
+          <td valign="top" class="text">Scaling option of the chart. It can take any value out of the four: &quot;noscale&quot;, &quot;exactfit&quot;, &quot;noborder&quot; and &quot;showall&quot;. This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+          <td valign="top" class="codeInline">bgColor</td>
+          <td valign="top" class="text"> Background color of the chart. If background color of the chart is not defined in XML, this property would be used to set the chart&rsquo;s background. E.g. #ff0000.  This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+		<tr>
+          <td valign="top" class="codeInline">language</td>
+          <td valign="top" class="text">Preferred language. e.g. EN.  This parameter is only applicable to FusionCharts v3. </td>
+        </tr>
+		<tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you now view the chart, you'll see that no 
+      activation is required even in Internet Explorer. </td>
+  </tr>
+  
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

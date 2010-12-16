@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with C# (ASP.NET) &gt; Charting data from  Array </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts  with ASP.NET to plot charts from data contained in ASP.NET arrays. We'll cover the following examples here:</p>
+      <ul>
+        <li>Creating a single series chart from data contained in arrays</li>
+        <li>Creating a multi-series chart from data contained in arrays </li>
+      </ul>
+      <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;<a href="VBNET_BasicExample.html">Basic Examples</a>&quot; as we start off from concepts explained in that page. </strong></p>
+      <p class="highlightBlock">The code examples contained in this page are present in <span class="codeInline">Download Package &gt; Code &gt; CNET &gt; ArrayExample</span> folder. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating a single series chart from data contained in arrays</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The code to create a single series chart is contained in <span class="codeInline">SingleSeries.aspx</span> and can be listed as under: <br /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ Page Language=&quot;C#&quot; AutoEventWireup=&quot;false&quot; CodeFile=&quot;SingleSeries.aspx.cs&quot; Inherits=&quot;ArrayExample_SingleSeries&quot; %&gt;</p>
+      <p>&lt;HTML&gt;<br />
+        &nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Array Example using Single Series Column 3D Chart <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&lt;%<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//You need to include the following JS file, if you intend to embed the chart using JavaScript.</span><br />
+        &nbsp;&nbsp;%&gt; <br />
+  &nbsp;&nbsp;<strong>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  &nbsp;&nbsp;&lt;BODY&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;asp:Literal ID=&quot;FCLiteral&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we first include <span class="codeInline">FusionCharts.js</span> file to enable us embed the chart using JavaScript. We are also adding an ASP control literal which acts as the container for the charts. The  <span class="codeInline"><strong>CreateCharts()</strong></span> function does the generation, and is the code behind the file to <span class="codeInline">SingleSeries.aspx.cs</span>.</p>
+      <p>Let's see the code of the code behind file  					<span class="codeInline">SingleSeries.aspx.cs</span>: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text codeBlock"><p>using System;<br />
+      using System.Data;<br />
+      using System.Configuration;<br />
+      using System.Collections;<br />
+      using System.Web;<br />
+      using System.Web.Security;<br />
+      using System.Web.UI;<br />
+      using System.Web.UI.WebControls;<br />
+      using System.Web.UI.WebControls.WebParts;<br />
+      using System.Web.UI.HtmlControls;<br />
+      using Utilities;<br />
+      using InfoSoftGlobal;</p>
+      <p>public partial class ArrayExample_SingleSeries : System.Web.UI.Page<br />
+      {</p>
+      <p> &nbsp;&nbsp;&nbsp;protected void <b>Page_Load(object sender, EventArgs e)</b><br />
+&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Generate chart in Literal Control<br />
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FCLiteral.Text = CreateChart();</b><br />
+&nbsp;&nbsp;&nbsp;}</p>
+      <p><br />
+  &nbsp;&nbsp;public string <strong>CreateChart()</strong><br />
+  &nbsp;      {</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//In this example, we plot a single series chart from data contained<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//in an array. The array will have two columns - first one for data label<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//and the next one for data values.</span></p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Let's store the sales data for 6 products in our array). We also store<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//the name of products. </span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;string [,] arrData=new string[6,2];<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">// Creating util Object</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Util util=new Util();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Store Name of Products</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[0,0] = &quot;Product A&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[1,0] = &quot;Product B&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[2,0] = &quot;Product C&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[3,0] = &quot;Product D&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[4,0] = &quot;Product E&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[5,0] = &quot;Product F&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Store sales data</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[0,1] = &quot;567500&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[1,1] = &quot;815300&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[2,1] = &quot;556800&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[3,1] = &quot;734500&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[4,1] = &quot;676800&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[5,1] = &quot;648500&quot;;</p>
+      <p> &nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Now, we need to convert this data into XML. We convert using string concatenation.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;string strXML; int  i;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Initialize &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Sales by Product' numberPrefix='$' formatNumberScale='0' decimalPrecision='0'&gt;&quot;;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Convert data to XML and append</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;for(i=0;i&lt;6;i++){<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//add values using &lt;set name='...' value='...' color='...'/&gt;</span><br />
+        strXML += &quot;&lt;set name='&quot; + arrData[i,0] + &quot;' value='&quot; + arrData[i,1] + &quot;' color='&quot; + util.getFCColor() + &quot;' /&gt;&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Close &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;/graph&gt;&quot;;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart - Column 3D Chart with data contained in strXML</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<strong>return FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Column3D.swf&quot;, &quot;&quot;, strXML, &quot;productSales&quot;, &quot;600&quot;, &quot;300&quot;, false, false);</strong></p>
+      <p> &nbsp;&nbsp;}<br />
+        }</p>      </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><ul>
+      <li>In the above example, we first include <span class="codeInline">Utilites</span> and <span class="codeInline">InfoSoftGlobal</span> namespace.</li>
+      <li>Then we define the <span class="codeInline">CreateChart()</span> function. </li>
+      <li>Inside the function, we declare an array <span class="codeInline">arrData</span> to store sales data for 6 different products. The array has two columns - first one for data label and the next one for data values.</li>
+      <li>We define a variable <span class="codeInline">strXML</span> to store the entire XML data. To build the XML, we iterate through the array and using string concatenation. </li>
+      <li>Finally, we render the chart using <span class="codeInline">RenderChart()</span> function and pass <span class="codeInline">strXML</span> as <span class="codeInline">dataXML</span>.  <span class="codeInline">RenderChart()is called form the Page_Load</span><span class="codeInline"> event lsitener. </span></li>
+    </ul>
+      <p class="highlightBlock">We included <span class="codeInline">Utilities</span> namespace, which contains the default color set for the FusionCharts. These  colors in Hex code are optimized to give a snazzy look to the charts. The <span class="codeInline">getFCColor()</span> function in cyclic iteration returns these color values.</p>
+    <p>When you view the chart, you'll see a chart as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_ArraySS.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating a multi-series chart from data contained in arrays </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let us now create a multi-series chart from data contained in arrays. We create a file <span class="codeInline">MultiSeries.aspx</span> with the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ Page Language=&quot;C#&quot; AutoEventWireup=&quot;false&quot; CodeFile=&quot;MultiSeries.aspx.cs&quot; <br />
+      Inherits=&quot;ArrayExample_MultiSeries&quot; %&gt;</p>
+      <p>&lt;HTML&gt;<br />
+        &nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - Array Example using Multi Series Column 3D Chart<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//You need to include the following JS file, if you intend to embed the chart using JavaScript.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+  &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  <br />
+  &nbsp;&nbsp;&lt;BODY&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;asp:Literal ID=&quot;FCLiteral&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we first include <span class="codeInline">FusionCharts.js</span> file to enable us embed the chart using JavaScript. We also add the ASP literal control which acts as the container for the chart. </p>
+      <p>Take a look at the  code behind file  					<span class="codeInline">MultiSeries.aspx.cs</span>: </p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text codeBlock"><p>using System;<br />
+      using System.Data;<br />
+      using System.Configuration;<br />
+      using System.Collections;<br />
+      using System.Web;<br />
+      using System.Web.Security;<br />
+      using System.Web.UI;<br />
+      using System.Web.UI.WebControls;<br />
+      using System.Web.UI.WebControls.WebParts;<br />
+      using System.Web.UI.HtmlControls;<br />
+      using InfoSoftGlobal;</p>
+      <p>public partial class ArrayExample_MultiSeries : System.Web.UI.Page<br />
+      {</p>
+      <p> &nbsp;&nbsp;&nbsp;protected void <b>Page_Load(object sender, EventArgs e)</b><br />
+&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">// Generate chart in Literal Control</span><br />
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FCLiteral.Text = CreateChart();</b><br />
+&nbsp;&nbsp;&nbsp;}</p>
+      <p><br />
+  &nbsp;&nbsp;public string <strong>CreateChart()</strong><br />
+  &nbsp;&nbsp;{</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//In this example, we plot a multi series chart from data contained<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//in an array. The array will have three columns - first one for data label (product)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//and the next two for data values. The first data value column would store sales information<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//for current year and the second one for previous year.</span></p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Let's store the sales data for 6 products in our array. We also store<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//the name of products. </span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;string [,] arrData =new string[6, 3];<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Store Name of Products</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[0, 0] = &quot;Product A&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[1, 0] = &quot;Product B&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[2, 0] = &quot;Product C&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[3, 0] = &quot;Product D&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[4, 0] = &quot;Product E&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[5, 0] = &quot;Product F&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Store sales data for current year</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[0, 1] = &quot;567500&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[1, 1] = &quot;815300&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[2, 1] = &quot;556800&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[3, 1] = &quot;734500&quot;;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[4, 1] = &quot;676800&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[5, 1] = &quot;648500&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Store sales data for previous year</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[0, 2] = &quot;547300&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[1, 2] = &quot;584500&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[2, 2] = &quot;754000&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[3, 2] = &quot;456300&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[4, 2] = &quot;754500&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;arrData[5, 2] = &quot;437600&quot;;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Now, we need to convert this data into multi-series XML. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;//We convert using string concatenation.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//strXML - Stores the entire XML<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//strCategories - Stores XML for the &lt;categories&gt; and child &lt;category&gt; elements<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//strDataCurr - Stores XML for current year's sales<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//strDataPrev - Stores XML for previous year's sales</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;string strXML, strCategories, strDataCurr, strDataPrev;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;int i;</p>
+      <p> &nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Initialize &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Sales by Product' numberPrefix='$' decimalPrecision='0' &gt;&quot;;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Initialize &lt;categories&gt; element - necessary to generate a multi-series chart</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strCategories = &quot;&lt;categories&gt;&quot;;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Initiate &lt;dataset&gt; elements</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strDataCurr = &quot;&lt;dataset seriesName='Current Year' color='AFD8F8'&gt;&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strDataPrev = &quot;&lt;dataset seriesName='Previous Year' color='F6BD0F'&gt;&quot;;</p>
+      <p> &nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Iterate through the data </span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;for(i=0;i&lt;6;i++)<br />
+&nbsp;&nbsp;&nbsp;        {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Append &lt;category name='...' /&gt; to strCategories</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strCategories += &quot;&lt;category name='&quot; + arrData[i, 0] + &quot;' /&gt;&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Add &lt;set value='...' /&gt; to both the datasets</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strDataCurr += &quot;&lt;set value='&quot; + arrData[i, 1] + &quot;' /&gt;&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strDataPrev += &quot;&lt;set value='&quot; + arrData[i, 2] + &quot;' /&gt;&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Close &lt;categories&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strCategories += &quot;&lt;/categories&gt;&quot;;</p>
+      <p> &nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;//Close &lt;dataset&gt; elements</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strDataCurr += &quot;&lt;/dataset&gt;&quot;;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strDataPrev += &quot;&lt;/dataset&gt;&quot;;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Assemble the entire XML now</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;strXML += strCategories + strDataCurr + strDataPrev + &quot;&lt;/graph&gt;&quot;;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart - MS Column 3D Chart with data contained in strXML</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<strong>return FusionCharts.RenderChart(&quot;../FusionCharts/FCF_MSColumn3D.swf&quot;, &quot;&quot;, strXML, &quot;productSales&quot;, &quot;600&quot;, &quot;300&quot;, false, false);</strong></p>
+      <p> &nbsp;&nbsp;}</p>
+      <p>}</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+      <li>In the above code we include InfoSoftGlobal namespace.</li>
+      <li>Then we define the <span class="codeInline">CreateChart()</span> function.  </li>
+      <li>We declare an array <span class="codeInline">arrData</span> to store sales data for 6 different products. The array has three columns - first one for data label (product) and the next two for data values. The first data value column would store sales information for current year and the second one for previous year.</li>
+      <li>We define a variable <span class="codeInline">strXML</span> to store the entire XML data.</li>
+      <li>We also define <span class="codeInline">strCategories</span>, <span class="codeInline">strDataCurr</span> and <span class="codeInline">strDataPrev</span> variables to store XML data for categories elements, current year's dataset and previous year's dataset respectively. To build the XML, we iterate through the array and using string concatenation.</li>
+      <li>We concatenate the entire XML in <span class="codeInline">strXML</span>. </li>
+      <li>Finally, we render the chart using <span class="codeInline">RenderChart()</span> function and pass <span class="codeInline">strXML</span> as <span class="codeInline">dataXML</span>. <span class="codeInline">RenderChart()is called form the Page_Load</span><span class="codeInline"> event listener</span>. </li>
+    </ul></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p>When you view the chart, you'll see a chart as under: </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_ArrayMS.jpg" alt="" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">In <span class="codeInline">Download Package &gt; Code &gt; CNET &gt; ArrayExample</span>, we've more example codes to create Stacked and Combination Charts too, which we have not explained here, as they're similar in concept. You can directly see the code if you want to. </td>
+  </tr>
+</table>
+</body>
+</html>

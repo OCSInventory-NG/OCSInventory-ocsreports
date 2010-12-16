@@ -1,0 +1,17 @@
+<% @page_title="FusionCharts Free - Multiple Charts on one Page" %>
+<% @page_heading="Examples" %>
+<% @page_subheading="Multiple Charts on the same page. Each chart has a unique ID." %>
+<%
+	#Create the chart - Column 3D Chart with data from Data/Data.xml
+	render_chart '/FusionCharts/FCF_Column3D.swf', '/Data/Data.xml', '', 'chart1', 600, 300, false, false do-%>
+<% end -%>
+<BR><BR>
+<%
+	#Create the Column 2D chart 
+	render_chart '/FusionCharts/FCF_Column2D.swf', '/Data/Data.xml', '', 'chart2', 600, 300, false, false do-%>
+<% end -%>
+<BR><BR>
+<%
+	#Create the Line 2D chart 
+	render_chart '/FusionCharts/FCF_Line.swf', '/Data/Data.xml', '', 'chart3', 600, 300, false, false do-%>
+<% end -%>

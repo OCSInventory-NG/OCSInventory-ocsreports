@@ -1,0 +1,50 @@
+<graph caption='Monthly Sales Summary Comparison'  xAxisName='Month' yAxisName='Sales' numberPrefix='$' showValues='0' 
+numVDivLines='10' showAlternateVGridColor='1' AlternateVGridColor='e1f5ff' divLineColor='e1f5ff' vdivLineColor='e1f5ff'  
+bgColor='E9E9E9' canvasBorderThickness='0' decimalPrecision='0'>
+<categories>
+	<category name='Jan' />
+	<category name='Feb' />
+	<category name='Mar' />
+	<category name='Apr' />
+	<category name='May' />
+	<category name='Jun' />
+	<category name='Jul' />
+	<category name='Aug' />
+	<category name='Sep' />
+	<category name='Oct' />
+	<category name='Nov' />
+	<category name='Dec' />
+</categories>
+<dataset seriesName='2004' color='B1D1DC'  areaAlpha="60" showAreaborder='1' areaBorderThickness='1' areaBorderColor='7B9D9D'>
+	<set value='27400' />
+	<set value='29800'/>
+	<set value='25800' />
+	<set value='26800' />
+	<set value='29600' />
+	<set value='32600' />
+	<set value='31800' />
+	<set value='36700' />
+	<set value='29700' />
+	<set value='31900' />
+	<set value='32900' />
+	<set value='34800' />
+</dataset>
+<dataset seriesName='2003' color='C8A1D1'  areaAlpha="60" showAreaborder='1' areaBorderThickness='1' areaBorderColor='9871a1'>
+	<set  />
+	<set />
+	<set value='4500'/>
+	<set value='6500'/>
+	<set value='7600' />
+	<set value='6800' />
+	<set value='11800' />
+	<set value='19700' />
+	<set value='21700' />
+	<set value='21900' />
+	<set value='22900' />
+	<set value='29800' />
+</dataset>
+<trendlines>
+	<line startValue='22000' endValue='58000' color='3366FF' displayValue='Target' thickness='1' alpha='80' />
+</trendlines>
+
+</graph> 

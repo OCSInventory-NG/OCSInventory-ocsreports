@@ -1,0 +1,37 @@
+﻿<HTML>
+    <HEAD>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />	
+        <TITLE><%= @page_title %></TITLE>
+        <%
+        	#You need to include the following JS file, if you intend to embed the chart using JavaScript.
+        	#Embedding using JavaScripts avoids the "Click to Activate..." issue in Internet Explorer
+        	#When you make your own charts, make sure that the path to this JS file is correct. Else, you would get JavaScript errors.
+	
+	  %>
+        <%= javascript_include_tag "FusionCharts" %>
+        <style type="text/css">
+        	<!--
+	        body {
+	        	font-family: Arial, Helvetica, sans-serif;
+	        	font-size: 12px;
+	        }
+	        .text{
+	        	font-family: Arial, Helvetica, sans-serif;
+		      font-size: 12px;
+	        }
+
+	      -->
+        </style>
+    </HEAD>
+    <BODY>
+        <CENTER>
+            <h2> <a href="http://www.fusioncharts.com" target="_blank" >FusionCharts Free</a> <%= @page_heading %> </h2>
+            <h4><%= @page_subheading %></h4>
+            <%=yield%>
+            <BR>
+            <BR>
+            <a href='/NoChart.html' target="_blank">Unable to see the chart above?</a>
+            <BR><h5><%= link_to '&laquo; Back to list of examples', :controller=>'fusioncharts/index'%></h5>
+        </CENTER>
+    </BODY>
+</HTML>

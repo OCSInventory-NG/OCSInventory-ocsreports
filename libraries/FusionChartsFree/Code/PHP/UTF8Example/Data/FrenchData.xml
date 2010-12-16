@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<graph caption='Ventes mensuelles' xAxisName='Mois' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'>
+<set name='Janvier' value='462' color='AFD8F8' />
+<set name='' value='857' color='F6BD0F' />
+<set name='Mars' value='671' color='8BBA00' />
+<set name='' value='494' color='FF8E46' />
+<set name='Mai' value='761' color='008E8E' />
+<set name='' value='960' color='D64646' />
+<set name='Juillet' value='629' color='8E468E' />
+<set name='' value='622' color='588526' />
+<set name='Septembre' value='376' color='B3AA00' />
+<set name='' value='494' color='008ED6' />
+<set name='Novembre' value='761' color='9D080D' />
+<set name='' value='960' color='A186BE' />
+</graph>

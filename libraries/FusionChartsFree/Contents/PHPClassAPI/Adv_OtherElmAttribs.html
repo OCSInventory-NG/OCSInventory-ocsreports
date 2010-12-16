@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Advanced Usage &gt; Other Elements' Attributes </h2></td>
+  </tr>
+  
+
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts PHP Class API lets you configure  attributes of various chart elements like dataset, dataplot, categories etc. In this section we will see sample usage of those functions of FusionCharts PHP Class which help in achieving this. Topics include: </p>    </td>
+  </tr>
+  <tr>
+     <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header" style="line-height:22px;"><ul>
+      <li><a href="#cats">Provide categories attributes</a></li>
+      <li><a href="#cat">Provide attribute for each category</a></li>
+      <li><a href="#dataset">Provide dataset attributes </a></li>
+      <li><a href="#dataplotprops">Provide attribute to each dataplot</a></li>
+      </ul></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><a name="cats" class="header" id="cats">Provide categories attributes</a></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">Attributes which are specific to <span class="codeInline">&lt;categories&gt;</span> element can be set using <span class="codeInline">setCategoriesParams</span> function. We will pass a delimiter (default is ;) separated list of attributes to the function. </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">Example: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">$FC-&gt;setCategoriesParams(&quot;font=Arial;fontSize=13;fontColor=ff0000&quot;);</td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><a name="cat" class="header" id="cat">Provide attribute for each category</a></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">We can configure each category while adding a cetegory using <span class="codeInline">addCategory</span> function. This is done by passing category attributes as a list of delimiter separated attributes as the second parameter to the <span class="codeInline">addCategory</span> function. </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">Example:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">$FC-&gt;addCategory(&quot;Week 1&quot;,&quot;hoverText=Sales for week 1&quot;);<br />
+    $FC-&gt;addCategory(&quot;Week 2 &quot;,&quot;hoverText=Sales for second week;showName=1&quot;);<br />
+    $FC-&gt;addCategory(&quot;Week 3 &quot;,&quot;showName=0&quot;);</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><a name="dataset" class="header" id="dataset">Provide dataset attributes</a></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">To provide dataset attributes we need to use the function - <span class="codeInline">addDataset</span>. It accepts the <span class="codeInline">seriesName</span> attribute of the dataset as its first parameter. The other parameter accepts a delimiter (defalut is ;) separated list of dataset attributes. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The example below will add 2 datasets for a combination chart. The first dataset with 'Previous Month' as <span class="codeInline">seriesName</span>, will be set to Primary Y-Axis and have $ as number prefix. The second dataset with 'Total Quantity' as <span class="codeInline">seriesName</span>, will be set to Secondary Y-Axis, have a number suffix U and  tringular anchors.</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"> <p class="codeInline">$FC-&gt;addDataset(&quot;Previous Month&quot;,&quot;<strong>numberPrefix=$</strong>&quot;); </p>
+      <p class="codeInline">...<br />
+        <br />
+  $FC-&gt;addDataset(&quot;Total Quantity&quot;,&quot;<strong>parentYaxis=S;numberSuffix=U;anchorSides=3</strong>&quot;); </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The chart that follows is as shown below: </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><img src="Images/Adv_dataset.jpg" width="386" height="294" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><a name="dataplotprops" class="header">Provide attribute to each dataplot</a> </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><span class="codeInline">setChartParams()</span> function sets chart parameters globally. However, we may need to set specific properties to particular <span class="codeInline">dataplot</span>. To do so, we need to send the paramaters through <span class="codeInline">addChartData()</span> function while feeding data. Consider the code below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p><span class="codeComment"># Create a line chart object </span><br />
+   $FC = new FusionCharts(&quot;Column3D&quot;,&quot;300&quot;,&quot;250&quot;); <br />
+        <br />
+        ...</p>
+      <p><span class="codeComment"># add chart values and category names</span><br />
+        $FC-&gt;addChartData(&quot;48200&quot;, &quot;name=Week 1<strong>;color=000088;alpha=40;showName=0;showValue=0</strong>&quot;); <br />
+        $FC-&gt;addChartData(&quot;32100&quot;, &quot;name=Week 2<strong>;color=0066ff;alpha=40;showName=0;showValue=0</strong>&quot;); <br />
+        $FC-&gt;addChartData(&quot;21400&quot;, &quot;name=Week 3<strong>;color=ff0000;hoverText=Lowest;link=tooLow.php</strong>&quot;); <br />
+        $FC-&gt;addChartData(&quot;54400&quot;, &quot;name=Week 4<strong>;color=008800;showName=0;showValue=0; alpha=40; hoverText=Highest</strong>&quot;);<br />
+        <br />
+        ...<br />
+      </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we provide different color and alpha values for each dataplot. We also hide the data values and category names of all the data plots except the third one. Again we put a link yo the third dataplot.  </td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text"><img src="Images/Adv_dataplot.jpg" width="281" height="231" class="imageBorder" /></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">This way we can control individual dataplots of Line, Bar, Area and all other charts.</td>
+  </tr>
+</table>
+</body>
+</html>

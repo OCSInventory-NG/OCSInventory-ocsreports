@@ -11,20 +11,141 @@
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 
 require('require/function_stats.php');
+	//We've included ../Includes/FusionCharts.php, which contains functions
+//to help us easily embed the charts.
+require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FusionCharts.php");
+//a file having a list of colors to be applied to each column (using getFCColor() function)
+require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FC_Colors.php");
+
 if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
-	if( isset($protectedGet["delsucc"]) ) {		
-		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue LIKE 'SUCCESS%' AND
-		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION['OCS']["writeServer"]);
+
+	if( isset($protectedPost["ACTION"]) and $protectedPost["ACTION"] == "VAL_SUCC") {	
+		$sql="DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue LIKE '%s' AND
+				ivalue IN (SELECT id FROM download_enable WHERE fileid='%s') 
+				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')";
+		$arg=array('SUCCESS%',$protectedGet["stat"]);
+		$resSupp = mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 	}
-	else if( isset($protectedGet["deltout"]) ) {		
-		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue IS NOT NULL AND  
-		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION['OCS']["writeServer"]);
+	if( isset($protectedPost["ACTION"]) and $protectedPost["ACTION"] == "DEL_ALL") {	
+		$sql="DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue IS NOT NULL AND
+				ivalue IN (SELECT id FROM download_enable WHERE fileid='%s') 
+				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')";
+		$arg=$protectedGet["stat"];
+		$resSupp = mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 	}
-	else if( isset($protectedGet["delnotif"]) ) {		
-		$resSupp = mysql_query("DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue IS NULL AND 
-		ivalue IN (SELECT id FROM download_enable WHERE fileid='".$protectedGet["stat"]."') AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')", $_SESSION['OCS']["writeServer"]);
+	if( isset($protectedPost["ACTION"]) and $protectedPost["ACTION"] == "DEL_NOT") {	
+		$sql="DELETE FROM devices WHERE name='DOWNLOAD' AND tvalue IS NULL AND
+				ivalue IN (SELECT id FROM download_enable WHERE fileid='%s') 
+				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')";
+		$arg=$protectedGet["stat"];
+		$resSupp = mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 	}
 }
+
+$form_name="show_stats";
+$table_name=$form_name;	
+echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+
+$sql="SELECT name FROM download_available WHERE fileid='%s'";
+$arg=$protectedGet["stat"];
+$res =mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);		
+$row=mysql_fetch_object($res);
+printEnTete( $l->g(498)." <b>".$row -> name."</b> (".$l->g(296).": ".$protectedGet["stat"]." )");
+
+$strXML  = "<graph caption='".$l->g(498).$row -> name."' subCaption='(".$l->g(296).": ".$protectedGet["stat"]." )' 
+			showPercentValues='1' pieSliceDepth='25' showNames='1' decimalPrecision='0' >";
+/*$funnelXML="<graph isSliced='1' slicingDistance='4' decimalPrecision='0'>
+	<set name='Selected' value='41' color='99CC00' alpha='85'/>
+	<set name='Tested' value='84' color='333333' alpha='85'/>
+	<set name='Interviewed' value='126' color='99CC00'  alpha='85'/>
+	<set name='Candidates Applied' value='180' color='333333' alpha='85'/>
+</chart>";*/
+
+$sqlStats="SELECT COUNT(id) as nb, tvalue as txt 
+			FROM devices d, download_enable e 
+			WHERE e.fileid='%s'
+ 				AND e.id=d.ivalue 
+				AND name='DOWNLOAD' 
+				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
+
+$sqlStats.= " GROUP BY tvalue";
+$arg=$protectedGet["stat"];
+$resStats =mysql2_query_secure($sqlStats." ORDER BY nb DESC", $_SESSION['OCS']["readServer"],$arg);		
+$i=0;
+while ($row=mysql_fetch_object($resStats)){
+	if( $row->txt =="" )
+		$name_value[$i] = $l->g(482);
+	else
+		$name_value[$i] = $row->txt;
+	$count_value[$i]=$row->nb;
+	 $strXML .= "<set name='".$name_value[$i]."' value='".$count_value[$i]."' color='".$arr_FCColors[$i]."' />";
+	 $i++;
+	
+}
+//Create an XML data document in a string variable
+
+$strXML .= "</graph>";
+$data_on[0]='Graph n°1';
+$data_on[1]='Graph n°2';
+//Create the chart - Column 3D Chart with data from strXML variable using dataXML method
+onglet($data_on,$form_name,"onglet",4);
+echo '<div class="mlt_bordure" >';
+if ($protectedPost['onglet'] == 1){
+echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Column3D.swf", "", $strXML, "myNext", 600, 300);
+}elseif ($protectedPost['onglet'] == 0)
+echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Pie3D.swf", "", $strXML, "myNext", 800, 400);
+echo '</div><br>';
+
+
+if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
+	echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
+	echo "<td width='33%' align='center'><a OnClick='pag(\"VAL_SUCC\",\"ACTION\",\"".$form_name."\");'><b>".$l->g(483)."</b></a></td>";	
+	echo "<td width='33%' align='center'><a OnClick='pag(\"DEL_ALL\",\"ACTION\",\"".$form_name."\");'><b>".$l->g(571)."</b></a></td>";	
+	echo "<td width='33%' align='center'><a OnClick='pag(\"DEL_NOT\",\"ACTION\",\"".$form_name."\");'><b>".$l->g(575)."</b></a></td>";
+	echo "</tr></table><br><br>";
+	echo "<input type='hidden' id='ACTION' name='ACTION' value=''>";
+}
+/*if ($protectedGet['group']){
+echo "<form name='refresh' method=POST><div align=center>".$l->g(941)." <select name=selOpt OnChange='refresh.submit();'>
+			<option value='ALL'";
+if ($protectedPost['selOpt'] == "ALL")
+echo " selected ";
+echo ">".$l->g(940)."</option>
+			<option value='GROUP'";
+if ($protectedPost['selOpt'] == "GROUP")
+echo " selected ";
+echo ">".$l->g(939)."</option></select>
+	</div></form>";
+}*/
+echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'>
+<tr BGCOLOR='#C7D9F5'><td width='30px'>&nbsp;</td><td align='center'><b>".$l->g(81)."</b></td><td align='center'><b>".$l->g(55)."</b></td></tr>";
+$j=0;
+while( $j<$i ) {
+	$nb+=$count_value[$j];
+	echo "<tr><td bgcolor='".$arr_FCColors[$j]."'>&nbsp;</td><td>".$name_value[$j]."</td><td>
+			<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_multi_search']."&prov=stat&id_pack=".$protectedGet["stat"]."&stat=".urlencode($name_value[$j])."'>".$count_value[$j]."</a>";
+	
+	echo "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&head=1&ta=".$name_value[$j]."&stat=".$protectedGet["stat"]."\",\"stats_speed\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=1000,height=900\")><img src='image/stat.png'></a>";		
+	//echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&ta=".$name_value[$j]."&stat=".$protectedGet["stat"]."'>&nbsp;stat</a>
+	echo "	</td></tr>";
+	$j++;
+}
+echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>".$l->g(87)."</b></td><td><b>".$nb."</b></td></tr>";
+echo "</table><br><br>";
+      
+  /* echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+$list_fields=array($l->g(81) => 'txt',
+					$l->g(55) => 'nb',
+				   );
+$list_col_cant_del=$list_fields;
+$default_fields= $list_fields;
+$tab_options['ARG_SQL']=$arg;
+//$queryDetails  = "SELECT * FROM modems WHERE (hardware_id=$systemid)";
+tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sqlStats,$form_name,80,$tab_options);*/
+
+/*
+
+
 if ($protectedPost['selOpt'] == "GROUP" or $protectedGet['option']=="GROUP"){
 $sql_group="select hardware_id from groups_cache where group_id=".$protectedGet['group'];
 $res_group = mysql_query($sql_group, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
@@ -90,75 +211,8 @@ if( @mysql_num_rows( $resStats ) == 0 ) {
 	die();	
 }
 
-if( ! function_exists( "imagefontwidth") ) {
-	echo "<br><center><font color=red><b>ERROR: GD for PHP is not properly installed.<br>Try uncommenting \";extension=php_gd2.dll\" (windows) by removing the semicolon in file php.ini, or try installing the php4-gd package.</b></font></center>";
-	die();
-}
-else if( isset($protectedGet["generatePic"]) ) {	
-	camembert($sort);
-}
-else {
-	?>
-		<html>
-		<head>
-		<TITLE>OCS Inventory Stats</TITLE>
-		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-		<META HTTP-EQUIV="Expires" CONTENT="-1">
-		<META HTTP-EQUIV="Content-Type" CONTENT="text/html"; charset="UTF-8";>
-		<LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
-		</HEAD>
-	<?php 
-//	$ban_head='no';
-//	require_once("header.php");
-	$sqlStats="SELECT COUNT(DISTINCT HARDWARE_ID) as 'nb' FROM devices d, download_enable e WHERE e.fileid='".$protectedGet["stat"]."'
-	AND e.id=d.ivalue AND name='DOWNLOAD' AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') ";
-	if (isset($mesmachines))				
-	$sqlStats.= " AND hardware_id".$mesmachines;
-	if (isset($machines_group))
-	$sqlStats.= " AND hardware_id".$machines_group;
-	
-	$resStats = mysql_query($sqlStats, $_SESSION['OCS']["readServer"]);
-	
-	$resName = mysql_query("SELECT name FROM download_available WHERE fileid='".$protectedGet["stat"]."'", $_SESSION['OCS']["readServer"]);
-	$valName = mysql_fetch_array( $resName );
 
-	$valStats = mysql_fetch_array( $resStats );
-	
-	echo "<body OnLoad='document.title=\"".urlencode($valName["name"])."\"'>";
-	printEnTete( $l->g(498)." <b>".$valName["name"]."</b> (".$l->g(296).": ".$protectedGet["stat"]." )");
-	echo "<br><center><img src='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&generatePic=1&stat=".$protectedGet["stat"]."&group=".$protectedGet["group"]."&option=".$protectedPost['selOpt']."'></center>";
-	if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
-		echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
-		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&delsucc=1&stat=".$protectedGet["stat"]."'><b>".$l->g(483)."</b></a></td>";	
-		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&deltout=1&stat=".$protectedGet["stat"]."'><b>".$l->g(571)."</b></a></td>";	
-		echo "<td width='33%' align='center'><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&delnotif=1&stat=".$protectedGet["stat"]."'><b>".$l->g(575)."</b></a></td>";
-		echo "</tr></table><br><br>";
-	}
-	if ($protectedGet['group']){
-	echo "<form name='refresh' method=POST><div align=center>".$l->g(941)." <select name=selOpt OnChange='refresh.submit();'>
-				<option value='ALL'";
-	if ($protectedPost['selOpt'] == "ALL")
-	echo " selected ";
-	echo ">".$l->g(940)."</option>
-				<option value='GROUP'";
-	if ($protectedPost['selOpt'] == "GROUP")
-	echo " selected ";
-	echo ">".$l->g(939)."</option></select>
-		</div></form>";
-	}
-	echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'>
-	<tr BGCOLOR='#C7D9F5'><td width='30px'>&nbsp;</td><td align='center'><b>".$l->g(81)."</b></td><td align='center'><b>".$l->g(55)."</b></td></tr>";
-	foreach( $legende as $leg ) {
-		echo "<tr><td bgcolor='#".$leg["color"]."'>&nbsp;</td><td>".$leg["name"]."</td><td>
-				<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_multi_search']."&prov=stat&id_pack=".$protectedGet["stat"]."&stat=".urlencode($leg["name"])."'>".$leg["count"]."</a>";
-				
-		echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&no_header=1&ta=".$leg["name"]."&stat=".$protectedGet["stat"]."'>&nbsp;stat</a>
-			</td></tr>";
-	}
-	echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>".$l->g(87)."</b></td><td><b>".$valStats["nb"]."</b></td></tr>";
-	echo "</table><br><br>";
-}
-
- 
+*/
+ echo "</form>";
   
 ?>

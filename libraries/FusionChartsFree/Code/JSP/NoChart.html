@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Troubleshooting</title>
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.style2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; }
+.style4 {font-family: "Courier New", Courier, monospace}
+-->
+</style>
+</head>
+
+<body>
+<p class="style1">If you were unable to see the chart, please check
+for the following steps.</p>
+<p class="style3">If you get a JavaScript error message saying
+&quot;'FusionCharts' is undefined&quot; or something similar (depending
+on browser)</p>
+<ul class="style1">
+	<li>Check if you've copied <span class="style4">FusionCharts.js</span>
+	(by default, present in <span class="style4">FusionCharts</span>
+	folder) at the right location.</li>
+	<li>Check if the path to this JavaScript file is properly provided
+	in your page, under the <span class="style4">&lt;head&gt;</span>
+	element.</li>
+</ul>
+<p class="style1"><strong>SWF Movie not Loading or No chart
+shown</strong><br />
+When viewing your page containing the chart, if you see an endless
+loading progress bar in your browser, or if the right click menu (right
+click at the place where the chart is supposed to be) shows &quot;Movie
+not loaded&quot;, check the following:</p>
+<ul class="style1">
+	<li>Check if you've copied <span class="style4">FusionCharts</span>
+	folder with all the SWF chart files present in it, at the right
+	location.</li>
+	<li>Check if the SWF path provided in your page is correct.</li>
+	<li>If you're working on a case-sensitive file system Operating
+	System, check for the case of path and SWF file.</li>
+	<li>Check if you've Adobe Flash Player 8 (or above) installed on
+	your machine.</li>
+	<li>Check whether you've enabled your browser to show ActiveX
+	controls. Normally, all browsers are Flash-enabled.</li>
+</ul>
+<p class="style1"><strong>&quot;Error in Loading Data&quot;
+message</strong><br />
+If you get a &quot;Error in Loading Data&quot; message in your chart, it
+means that FusionCharts could not find XML data at the specified URL. In
+that case, check the following:</p>
+<ul class="style2">
+	<li>Check if you've actually provided <span class="style4">dataURL</span>
+	or <span class="style4">dataXML</span>. If you do not provide either,
+	FusionCharts looks for a default <span class="style4">Data.xml </span>file
+	in the same path. However, if that is also not found, it shows the
+	&quot;Error in Loading Data&quot; error.</li>
+	<li>If you're using dataURL method, paste this URL in your browser
+	to check if it's returning a valid XML. Make sure there are no
+	scripting or time-out errors and a valid XML is being returned. Also
+	make sure that the XML isn't intermingled with HTML content. The data
+	provider page should return clean XML only - not even HTML <span
+		class="style4">&lt;head&gt;</span> or <span class="style4">&lt;body&gt;</span>
+	tags.</li>
+	<li>If you've to pass parameters to your dataURL data provider
+	page from FusionCharts, make sure they're URLEncoded in the dataURL,
+	when providing to FusionCharts. e.g., if your <span class="style4">dataURL</span>
+	needs to be <span class="style4">Data.asp?id=43&amp;subId=454</span>,
+	you'll need to URL Encode it so that it becomes <span class="style4">Data%2Easp%3Fid%3D43%26subId%3D454</span>.
+	Only then FusionCharts will invoke the URL with proper parameters
+	appended to it.</li>
+	<li>When using <span class="style4">dataURL</span> method, make
+	sure that the SWF File and data provider page are on the same
+	sub-domain. Due to Flash's sandbox security model, it cannot access
+	data from external domains, unless otherwise configured.</li>
+</ul>
+<p class="style2"><strong>&quot;Invalid XML Data&quot;
+message</strong><br />
+If you get an &quot;Invalid XML Data&quot; message, it means that the
+XML data document is malformed. Check it again for common errors like:</p>
+<ul class="style2">
+	<li>Difference in case of tags. <span class="style4">&lt;chart&gt;</span>
+	should end with<span class="style4"> &lt;/chart&gt;</span> and <strong>not</strong>
+	<span class="style4">&lt;/Chart&gt;</span> or <span class="style4">&lt;/CHART&gt;
+	</span></li>
+	<li>Missing opening/closing quotation marks for any attributes.
+	e.g., <span class="style4">&lt;chart caption=Monthly Sales'</span>
+	should be<span class="style4"> &lt;chart caption='Monthly Sales'
+	</span></li>
+	<li>Missing closing tag for any element.</li>
+	<li>If you're using any special characters in your XML, make sure
+	they're properly encoded. Like, in <span class="style4">dataXML</span>
+	method, % needs to be encoded as %25, &amp; as %26 and so on. In
+	dataURL method, you can provide most of the characters directly,
+	without the need to encode.</li>
+	<li>In dataXML method, check for conflict of ' (XML Attribute
+	Character) and &quot; (HTML Parameter Character). For example, if
+	you're using direct HTML embedding method, and using &quot; for HTML
+	parameters, then you need to make sure that all your XML attributes use
+	' as containers. Example: <span class="style4">&lt;param
+	name=&quot;FlashVars&quot; value=&quot;&lt;chart showLabels='1'
+	showValues='1'&gt;...&lt;/chart&gt;&quot; /&gt; </span></li>
+	<li>If you've quotes as part of your data, XML Encode them to <span
+		class="style4">&amp;apos;</span> Example: <span class="style4">&lt;set
+	name='John&amp;apos;s House' /&gt; </span></li>
+	<li>To get more information on what the error in XML is, you can
+	either use the Debug Window (explained next) or open the XML in your
+	browser.</li>
+</ul>
+<p class="style2">If your error is not resolved using any of the
+above steps, try using the in-built debugger. To know more about
+debugger, please refer to FusionCharts Documentation.</p>
+</body>
+</html>

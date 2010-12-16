@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Troubleshooting</title>
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.style2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; }
+.style4 {font-family: "Courier New", Courier, monospace}
+-->
+</style>
+</head>
+
+<body>
+<p class="style1">If you were unable to see the chart, please check for the following steps.</p>
+<p class="style3">If you get a JavaScript error message saying "'FusionCharts' is undefined" or something similar (depending on browser) </p>
+<ul class="style1">
+  <li>Check if you've copied <span class="style4">FusionCharts.js</span> (by default, present in <span class="style4">FusionCharts</span> folder) at the right 
+  location. 
+  <li>Check if the path to this JavaScript file is properly provided in your page, under the <span class="style4">&lt;head&gt;</span> element.</li>
+</ul>
+<p class="style1"><strong>SWF Movie not Loading or No chart shown</strong><br >
+When viewing your page containing the chart, if you see an endless loading   progress bar in your browser, or if the right click menu (right click at the   place where the chart is supposed to be) shows "Movie not   loaded", check the following:</p>
+<ul class="style1">
+  <li>Check if you've copied <span class="style4">FusionCharts</span> folder with all the SWF chart files 
+  present in it, at the right location. 
+  <li>Check if the SWF path provided in your page is 
+  correct. 
+  <li>If you're working on a case-sensitive file system 
+  Operating System, check for the case of path and SWF file. 
+  <li>Check if you've Adobe Flash Player&nbsp;6 (or above) 
+  installed on your machine. 
+  <li>Check whether you've enabled your browser to show ActiveX controls.   Normally, all browsers are Flash-enabled. </li>
+</ul>
+<p class="style1"><strong>"Error in Loading Data" message</strong><br >
+If you get a "Error in Loading Data" message in your chart, it means that   FusionCharts could not find XML data at the specified URL. In that case, check   the following:</p>
+<ul class="style2">
+  <li>Check if you've actually provided <span class="style4">dataURL</span> or   <span class="style4">dataXML</span>. If you do not provide either,   FusionCharts looks for a default <span class="style4">Data.xml </span>file in the same path. However, if that 
+  is also not found, it shows the "Error in Loading Data" error. 
+  <li>If you're using dataURL method, paste this URL   in your browser to check if it's returning a valid XML. Make sure there are no   scripting or time-out errors and a valid XML is being returned. Also make sure   that the XML isn't intermingled with HTML content. The data provider page should   return clean XML only - not even HTML <span class="style4">&lt;head&gt;</span>   or <span class="style4">&lt;body&gt;</span> tags. 
+  <li>If you've to pass parameters to your dataURL   data provider page from FusionCharts, make sure they're URLEncoded in the   dataURL, when providing to FusionCharts. e.g., if your <span class="style4">dataURL</span> needs to be <span class="style4">Data.asp?id=43&amp;subId=454</span>, you'll need to URL Encode   it so that it becomes <span class="style4">Data%2Easp%3Fid%3D43%26subId%3D454</span>. Only then 
+  FusionCharts will invoke the URL with proper parameters appended to it. 
+  <li>When using <span class="style4">dataURL</span> method, make sure that the   SWF File and data provider page are on the same sub-domain. Due to Flash's   sandbox security model, it cannot access data from external domains, unless   otherwise configured. </li>
+</ul>
+<p class="style2"><strong>"Invalid XML Data" message</strong><br >
+If you get an "Invalid XML Data" message, it means that the XML data document   is malformed. Check it again for common errors like:</p>
+<ul class="style2">
+  <li>Difference in case of tags. <span class="style4">&lt;graph&gt;</span>   should end with<span class="style4"> &lt;/graph&gt;</span> and <strong>not</strong> <span class="style4">&lt;/Graph&gt;</span> or <span class="style4">&lt;/GRAPH&gt; </span>
+  <li>Missing opening/closing quotation marks for any attributes. e.g., <span class="style4">&lt;graph caption=Monthly Sales'</span> should be<span class="style4"> &lt;graph caption='Monthly Sales' </span>
+  <li>Missing closing tag for any element. 
+  <li>If you're using any special characters in your XML, make sure they're   properly encoded. Like, in <span class="style4">dataXML</span> method, % needs to be encoded as %25, 
+  &amp; as %26 and so on. In dataURL method, you can provide most of the 
+  characters directly, without the need to encode. 
+  <li>In dataXML method, check for conflict of '   (XML Attribute Character) and " (HTML Parameter Character). For example, if   you're using direct HTML embedding method, and   using " for HTML parameters, then you need to make sure that all your XML   attributes use ' as containers. Example: <span class="style4">&lt;param   name="FlashVars" value="&lt;graph showNames='1'   showValues='1'&gt;...&lt;/graph&gt;" /&gt; </span>
+  <li>If you've quotes as part of your data, XML Encode them to <span class="style4">&amp;apos;</span> Example: <span class="style4">&lt;set   name='John&amp;apos;s House' /&gt; </span></li>
+</ul>
+  <p><FONT face=Arial></FONT>                            &nbsp; </p>
+</body>
+</html>

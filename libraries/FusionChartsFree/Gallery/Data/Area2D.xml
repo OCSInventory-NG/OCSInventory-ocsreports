@@ -1,0 +1,14 @@
+<graph caption='Monthly Sales Summary' subcaption='For the year 2006' xAxisName='Month' yAxisMaxValue='45000' yAxisMinValue='15000' yAxisName='Sales' numberPrefix='$' decimalPrecision='0'>
+	<set name='Jan' value='17400' />
+	<set name='Feb' value='18100' />
+	<set name='Mar' value='21800' />
+	<set name='Apr' value='23800' />
+	<set name='May' value='29600' />
+	<set name='Jun' value='27600' />
+	<set name='Jul' value='31800' />
+	<set name='Aug' value='39700' />
+	<set name='Sep' value='37800' />
+	<set name='Oct' value='21900' />
+	<set name='Nov' value='32900' />
+	<set name='Dec' value='39800' />
+</graph> 

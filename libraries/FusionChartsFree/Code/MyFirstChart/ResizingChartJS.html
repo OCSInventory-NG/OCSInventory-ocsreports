@@ -1,0 +1,14 @@
+<html>
+<head><TITLE>Resizing a chart</TITLE>
+<script language="JavaScript" src="../FusionCharts/FusionCharts.js"></script>
+</head>
+<body bgcolor="#ffffff">
+<h2 align="center">Resizing the chart Using JavaScript Embedding Method</h2>
+<div id="chartdiv" align="center">The chart will appear within this DIV</div>
+<script type="text/javascript">
+var myChart = new FusionCharts("../FusionCharts/FCF_Column3D.swf", "myChartId", "400", "250"); 
+myChart.setDataURL("Data.xml"); 
+myChart.render("chartdiv");
+</script>
+</body>
+</html>

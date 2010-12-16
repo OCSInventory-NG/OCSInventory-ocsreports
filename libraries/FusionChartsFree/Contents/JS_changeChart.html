@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Changing chart at client side </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Using a combination of FusionCharts and JavaScript, you can simulate of process of dynamic chart type change at client side, without involving any page refreshes. That is, at client side, you can change chart type, from say column chart to pie chart or line chart, and provide it same or new data, without refreshing the page. </p>
+      <p>We do the same using the following concepts:</p>
+      <ul>
+        <li>Load the first FusionCharts  chart (say column chart) using JavaScript embedding method in a DIV called <span class="codeInline">chart1Div</span>. Now, internally, while rendering the chart, FusionCharts JavaScript class actually replaces the <span class="codeInline">innerHTML</span> of this DIV to include the chart at runtime.</li>
+        <li>When the chart type needs to be changed, create another chart instance object and render it again in the same DIV. The browser will again replace the  <span class="codeInline">innerHTML</span> of the DIV (existing chart) with the new chart.</li>
+        <li>As such, the user will get the effect of dynamic chart change at client side.</li>
+      </ul>
+      <p>Let's quickly see this in an example.</p>
+      <p class="highlightBlock">This example is present in Download Package &gt; Code &gt; ChartChange &gt; ChartChange.html.</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Code in ChartChange.html </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">ChartChange.html contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;HTML&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//We store the XML data as a string</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>var strXML = &quot;&lt;graph caption='Hours worked' showNames='1'&gt;&lt;set name='Tom' value='32' color='AFD8F8'/&gt;&lt;set name='Mary' value='16' color='F6BD0F'/&gt;&lt;set name='Jane' value='42' color='8BBA00'/&gt;&lt;/graph&gt;&quot;;</strong><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* updateChart method is called, when user clicks the button<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Here, we change the chart from Column to line or pie (based on what SWF<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* has been passed). <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>function updateChart(chartSWF){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Create another instance of the chart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(chartSWF, &quot;chart1Id&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, &quot;0&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.setDataXML(strXML);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;<strong>&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;FusionCharts<br />
+&nbsp;&nbsp;&nbsp;&lt;/div&gt;</strong><br />
+&nbsp;&nbsp;&nbsp;<strong>&lt;script language=&quot;JavaScript&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/FCF_Column3D.swf&quot;, &quot;chart1Id&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, &quot;0&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.setDataXML(strXML);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&nbsp;&nbsp;&nbsp;&lt;/script&gt;</strong><br />
+<br />
+&nbsp;&nbsp;&nbsp;&lt;form name='frmUpdate'&gt;<br />
+&nbsp;&nbsp;&nbsp;Show as: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type='button' value='Column' onClick=&quot;javaScript:updateChart('../../FusionCharts/FCF_Column3D.swf');&quot; name='btnColumn' /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type='button' value='Line' onClick=&quot;javaScript:updateChart('../../FusionCharts/FCF_Line.swf');&quot; name='btnLine' /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type='button' value='Pie' onClick=&quot;javaScript:updateChart('../../FusionCharts/FCF_Pie3D.swf');&quot; name='btnPie' /&gt; <br />
+&lt;/form&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, here we're doing the following:</p>
+      <ul>
+        <li>Storing the XML data for all the charts in a JavaScript variable strXML. For the sake of simplicity, we're using a single data for all the charts and provide the same using dataXML method. In your applications, you can use different data sources for all your charts and even use dataURL method. </li>
+        <li>Then, we're loading a 3D Column chart initially with this XML data. The chart is rendered in a DIV named as <span class="codeInline">chart1div</span>. </li>
+        <li>We create 3 buttons for the user to choose chart type.</li>
+        <li>When each of these buttons are clicked, they invoke <span class="codeInline">updateChart</span> function and pass the SWF file name of the new chart as parameter. </li>
+        <li><span class="codeInline">updateChart</span> function creates a new instance of the chart, based on the SWF file name passed and finally renders in the same DIV (<span class="codeInline">chart1div</span>). </li>
+        <li>As such, when the user now clicks on the buttons, the charts get updated at client side, without need for any page refreshes. </li>
+    </ul></td>
+  </tr>
+</table>
+</body>
+</html>

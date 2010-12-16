@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Fusioncharts::ArrayExampleController</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Fusioncharts::ArrayExampleController</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/app/controllers/fusioncharts/array_example_controller_rb.html">
+                app/controllers/fusioncharts/array_example_controller.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="../ApplicationController.html">
+                ApplicationController
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+This controller class will show ways of generating chart by
+</p>
+<ul>
+<li>using sales data of products with their names present in an array.
+
+</li>
+<li>using sales data of products for current year and previous year with their
+names present in an array.
+
+</li>
+<li>using sales figure and quantity sold in each quarter of a year of a product
+present in an array.
+
+</li>
+<li>using sales information of two products in each quarter of a year present
+in an array .
+
+</li>
+</ul>
+<p>
+All the views related to this controller will use the &quot;common&quot;
+layout. As per Ruby On Rails conventions, we have the corresponding views
+with the same name as the function name in the controller.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000012">combination</a>&nbsp;&nbsp;
+      <a href="#M000011">multi_series</a>&nbsp;&nbsp;
+      <a href="#M000010">single_series</a>&nbsp;&nbsp;
+      <a href="#M000013">stacked</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="ArrayExampleController.src/M000012.html" target="Code" class="method-signature"
+            onclick="popupCode('ArrayExampleController.src/M000012.html');return false;">
+          <span class="method-name">combination</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+In this function, we plot a Combination chart from data contained in an
+array. Each element in the array will have three values - first one for
+Quarter Name second one for sales figure and third one for quantity. These
+values in the array will be used by the builder to build an appropriate
+xml, which is then rendered by the corresponding view.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="ArrayExampleController.src/M000011.html" target="Code" class="method-signature"
+            onclick="popupCode('ArrayExampleController.src/M000011.html');return false;">
+          <span class="method-name">multi_series</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+In this function, we plot a multi-series chart from data contained in an
+array. Each element in the array will have three values - first one for
+data label (product) and the next one store sales information for current
+year and the last one stores sales information for previous year. The sales
+data and product names for 6 products are thus, stored. These values in the
+array will be used by the builder to build an appropriate xml, which is
+then rendered by the corresponding view.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="ArrayExampleController.src/M000010.html" target="Code" class="method-signature"
+            onclick="popupCode('ArrayExampleController.src/M000010.html');return false;">
+          <span class="method-name">single_series</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+In this function, we plot a single series chart from data contained in an
+array. Each element in the array will have two values - first one for data
+label and the next one for data value. The sales data and product names for
+6 products are stored in the array. These values in the array will be used
+by the builder to build an appropriate xml, which is then rendered by the
+corresponding view.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="ArrayExampleController.src/M000013.html" target="Code" class="method-signature"
+            onclick="popupCode('ArrayExampleController.src/M000013.html');return false;">
+          <span class="method-name">stacked</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+In this function, we plot a Stacked chart from data contained in an array.
+Each element in the array will have three values - first one for Quarter
+Name and the next one for sales information of Product A and the last one
+for sales information of Product B.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

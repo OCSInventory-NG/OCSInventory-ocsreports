@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Resizing  a Chart</h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table cellspacing="0" cellpadding="0" class="">
+      <tr>
+        <td class="text"><p>Often in our web pages, for various reasons we need   to either increase or decrease the size of the chart. Here, we'll see how to   resize a chart.</p>
+            <p>We'll take our previous Column (Monthly sales summary) Chart example and see   how it can be resized.</p></td>
+      </tr>
+      <tr>
+        <td class="text">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="header">Using HTML Embedding method </td>
+      </tr>
+      <tr>
+        <td class="text">To resize a chart, all we need to do is change a few parameters   in the HTML code which embeds the chart. Like, if we had to change the column   chart size to 400x250 pixels, we would use the following HTML code:</td>
+      </tr>
+    </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br />
+      ... <br /> 
+      <strong>&nbsp;&nbsp;</strong>&lt;OBJECT classid=&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot; codebase=&quot;http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0&quot; <strong>width=&quot;400&quot; height=&quot;250&quot;</strong> id=&quot;Column3D&quot; &gt;<br />
+      &nbsp;&nbsp; &lt;param name=&quot;movie&quot; value=&quot;../FusionCharts/FCF_Column3D.swf&quot; /&gt;<br />
+      &nbsp;&nbsp; &lt;param name=&quot;FlashVars&quot; value=&quot;&amp;dataURL=Data.xml<strong>&amp;chartWidth=400&amp;chartHeight=250</strong>&quot;&gt;<br />
+      &nbsp;&nbsp; &lt;param name=&quot;quality&quot; value=&quot;high&quot; /&gt;<br /> 
+     &nbsp;&nbsp; &lt;embed src=&quot;../FusionCharts/FCF_Column3D.swf&quot;  quality=&quot;high&quot; name=&quot;Column3D&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; flashVars=&quot;&amp;dataURL=Data.xml<strong>&amp;chartWidth=400&amp;chartHeight=250</strong>&quot;<strong> width=&quot;400&quot; height=&quot;250&quot;</strong>type=&quot;application/x-shockwave-flash&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; /&gt;<br />
+      &lt;/object&gt;<br />
+      ... <br /> &lt;/html&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>All in all, we need to change the width and height at 4 places:</p>
+      <ol>
+        <li>In the width and height properties of the<span class="codetext"> &lt;OBJECT&gt;</span> Tag </li>
+        <li>In the width and height properties of the <span class="codetext">&lt;EMBED&gt;</span> Tag </li>
+        <li>We also introduce two new parameters under the FlashVars parameter of <span class="codetext">OBJECT</span> Tag- <span class="codeInline">chartWidth</span> and <span class="codeInline">chartHeight</span>. </li>
+        <li>The above two parameters also get introduced in the <span class="codeInline">FlashVars</span> parameter of <span class="codetext">EMBED</span> Tag.</li>
+      </ol>
+      <p class="highlightBlock">In HTML Embedding method it is mandatory to provide the new parameters <span class="codeInline">chartWidth</span> and <span class="codeInline">chartHeight</span> else the chart will not be resized - only the container will. </p>
+      <p> Here we change the size to 400x250 pixels and get the chart (shown below) with smaller dimension : </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/resize1.jpg"  class="imageBorder"/></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="header">Using JavaScript Embedding method </span></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Resizing a chart using JavaScript Embedding Method is  easier. We just need to specify the width and height parameters of the chart while defining. Let us modify our previous JavaScript Embedded sample : </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;html&gt;<br />
+      &lt;head&gt;<br />
+  &nbsp;&nbsp; &lt;script language=&quot;JavaScript&quot; src=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />
+    &lt;/head&gt;<br />
+  &lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+  &nbsp;&nbsp; &lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;The chart will appear within this DIV&lt;/div&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp; &lt;script type=&quot;text/javascript&quot;&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var myChart = new FusionCharts(&quot;../FusionCharts/FCF_Column3D.swf&quot;, &quot;myChartId&quot;, <strong>&quot;400&quot;, &quot;250&quot;</strong>);         <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; myChart.setDataURL(&quot;Data.xml&quot;);         <br />
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; myChart.render(&quot;chartdiv&quot;);<br />
+ &nbsp;&nbsp;&nbsp;&nbsp; &lt;/script&gt;<br />
+ &lt;/body&gt;<br />
+ &lt;/html&gt;</p>      </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In the code above we have modified the required width and the height of the chart and we get the desired result. This code will produce the same chart shown above. </p>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p></td>
+  </tr>
+  
+  <tr> 
+    <td valign="top" class="highlightBlock">Note that FusionCharts can accept size only in  pixels and <strong>not</strong> in percentage or any other units. </td>
+  </tr>
+</table>
+</body>
+</html>

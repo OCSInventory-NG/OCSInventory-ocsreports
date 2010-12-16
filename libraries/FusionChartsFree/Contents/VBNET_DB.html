@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with VB.NET (ASP.NET) &gt; Plotting data from a database </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts and ASP.NET to plot charts from data contained in a database. We'll create a pie chart to show &quot;Production by Factory&quot; using: </p>
+      <ul>
+        <li><span class="codeInline">dataXML</span>  method first.</li>
+        <li>Thereafter, we'll convert this chart to use <span class="codeInline">dataURL</span>  method. </li>
+      </ul>
+      <p>For the sake of ease, we'll use an Access Database. The database is present in <span class="codeInline">Download Package &gt; Code &gt; VBNET &gt; DB </span>folder. You can, however, use any database with FusionCharts including MS SQL, Oracle, MySQL etc. </p>
+      <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;<a href="VBNET_BasicExample.html">Basic Examples</a>&quot; as we start off from concepts explained in that page. </strong></p>
+      <p class="highlightBlock">The code examples contained in this page are present in <span class="codeInline">Download Package &gt; Code &gt; VBNET &gt; DBExample </span> folder. The Access database is present in <span class="codeInline">Download Package &gt; Code &gt; VBNET &gt;</span> <span class="codeInline">DB</span>. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Database Structure </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Before we code the ASP.NET pages to retrieve data, let's quickly have a look at the database structure. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_DB.gif" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The database contains just 2 tables:</p>
+      <ol>
+        <li><span class="codeInline">Factory_Master</span>: To store the name and id of each factory</li>
+        <li><span class="codeInline">Factory_Output</span>: To store the number of units produced by each factory for a given date.</li>
+      </ol>
+    <p>For demonstration, we've fed some dummy data in the database. Let's now shift our attention to the ASP.NET page that will interact with the database, fetch data and then render a chart. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Building the ASP.NET Page for dataXML Method </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The ASP.NET page for <span class="codeInline">dataXML</span> method example is named as <span class="codeInline">BasicDBExample.aspx</span> (in <span class="codeInline">DBExample</span> folder). It contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text codeBlock"><p>&lt;%@ Page Language=&quot;VB&quot; AutoEventWireup=&quot;false&quot; CodeFile=&quot;BasicDBExample.aspx.vb&quot; Inherits=&quot;DBExample_BasicDBExample&quot; %&gt;</p>
+      <p>&lt;HTML&gt;<br />
+        &nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;	FusionCharts Free - Database Example	&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'You need to include the following JS file, if you intend to embed the chart using JavaScript.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/HEAD&gt;</p>
+      <p>&nbsp;&nbsp;&lt;BODY&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;asp:Literal ID=&quot;FCLiteral&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt;</strong><br />
+        &nbsp;&nbsp;&lt;/BODY&gt;<br />
+    &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the above code, we have included <span class="codeInline">FusionCharts.js</span> file to render chart through javascript.We are also adding an ASP control literal which acts as the container for the charts. The  <span class="codeInline"><strong>CreateCharts()</strong></span> function does the generation, and is the code behind the file, <span class="codeInline">BasicDBExample.vb</span>. Let's take a look at the code behind file:   </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="codeBlock"><p>Imports DataConnection<br />
+      Imports InfoSoftGlobal<br />
+      Partial Class DBExample_BasicDBExample<br />
+        &nbsp;&nbsp;Inherits System.Web.UI.Page</p>
+      <p>&nbsp;&nbsp;&nbsp;Protected Sub <b>Page_Load</b>(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Generate chart in Literal Control</span><br />
+        <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FCLiteral.Text = CreateChart()</b><br />
+  <br />
+        &nbsp;&nbsp;&nbsp;End Sub</p>
+      <p> &nbsp;&nbsp;&nbsp;Public Function CreateChart() As String<br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;'In this example, we show how to connect FusionCharts to a database.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'For the sake of ease, we've used an Access database which is present in<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'../App_Data/FactoryDB.mdb. It just contains two tables, which are linked to each<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'other. </span></p>
+      <p class="codeComment"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Database Objects - Initialization<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim oRs As DbConn, strQuery As String<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'strXML will be used to store the entire XML document generated<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim strXML As String</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Generate the graph element</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity' decimalPrecision='0' showNames='1'  numberSuffix=' Units'  pieSliceDepth='30' formatNumberScale='0'&gt;&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' SQL Query</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select a.FactoryId,a.FactoryName, sum(b.Quantity) as TotOutput from factory_master a,factory_output b where a.FactoryId=b.FactoryId group by a.FactoryId,a.FactoryName&quot;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;' Open Data Reader</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs = New DbConn(strQuery)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Iterate through each factory</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While oRs.ReadData.Read()</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;'Generate &lt;set name='..' value='..' /&gt; </span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;set name='&quot; &amp; oRs.ReadData(&quot;FactoryName&quot;).ToString() &amp; &quot;' value='&quot; &amp; oRs.ReadData(&quot;TotOutput&quot;).ToString() &amp; &quot;' /&gt;&quot;<br />
+  <br />
+        &nbsp;&nbsp;&nbsp;End While</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;' Close Data Reader</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oRs.ReadData.Close()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;'Finally, close &lt;graph&gt; element</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML &amp; &quot;&lt;/graph&gt;&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Create the chart - Pie 3D Chart with data from strXML</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&nbsp;Return FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Pie3D.swf&quot;, &quot;&quot;, strXML, &quot;FactorySum&quot;, &quot;650&quot;, &quot;450&quot;, False, False)</b></p>
+      <p> &nbsp;&nbsp;&nbsp;End Function</p>
+      <p>End Class<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The following actions are taking place in this code:</p>
+      <ol>
+        <li>We first include <span class="codeInline">DataConnection</span>  and <span class="codeInline">InfoSoftGlobal</span> namespace. <span class="codeInline"><a href="#DataConn">DataConnection</a></span> namespace is contained within <span class="codeInline">DataConn</span> VB.NET class inside <span class="codeInline">App_Code</span> folder of Download pack. It contains the connection parameters to connect to Access database. And <span class="codeInline">InfoSoftGlobal</span> namespace is from <span class="codeInline">FusionCharts.dll</span> file in <span class="codeInline">bin</span> directory. </li>
+        <li>We declare variables <span class="codeInline">strQuery</span> to store SQL query that fetches data from database and <span class="codeInline">strXML</span> to store XML data.</li>
+        <li>Thereafter, we generate the XML data document by iterating through the recordset and store it in <span class="codeInline">strXML</span> variable. </li>
+        <li>Finally, we render the chart using <span class="codeInline">RenderChart()</span> method and pass <span class="codeInline">strXML</span> as <span class="codeInline">dataXML</span>.  <span class="codeInline">RenderChart()is called form the Page_Load</span><span class="codeInline"> event listener</span>.</li>
+      </ol>
+    <p>When you now run the code, you'll get an output as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_DBOut.jpg" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Converting the example to use dataURL method </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's now convert this example to use dataURL method. As previously explained, in dataURL mode, you need two pages:</p>
+      <ol>
+        <li><strong>Chart Container Page</strong> - The page which embeds the HTML code to render the chart. This page also tells the chart where to load the data from. We'll name this page as <span class="codeInline">Default.aspx</span>. </li>
+        <li><strong>Data Provider Page</strong> - This page provides the XML data to the chart. We'll name this page as <span class="codeInline">PieData.aspx</span>.</li>
+      </ol>
+      <p class="highlightBlock">The pages in this example are contained in<span class="codeInline"> Download Package &gt; Code &gt; CNET &gt; DB_dataURL</span> folder. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Chart Container Page - <span class="codeInline">Default.aspx </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="codeInline">Default.aspx</span> contains the following code to render the chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ Page Language=&quot;VB&quot; %&gt;<br />
+      &lt;%@ Import Namespace=&quot;InfoSoftGlobal&quot; %&gt;<br />
+      <br />
+      &lt;script runat=&quot;server&quot;&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;Protected Sub <b>Page_Load</b>(ByVal sender As Object, ByVal e As System.EventArgs)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'In this example, we show how to connect FusionCharts to a database <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'using dataURL method. In our other examples, we've used dataXML method<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'where the XML is generated in the same page as chart. Here, the XML data<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'for the chart would be generated in PieData.aspx.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'For the sake of ease, we've used an Access database which is present in<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'../App_Data/FactoryDB.mdb. It just contains two tables, which are linked to each<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'other.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Variable to contain dataURL</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim strDataURL as string <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;'the ASP.NET script in piedata.aspx interacts with the database, <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'converts the data into proper XML form and finally <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'relays XML data document to the chart</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>strDataURL = &quot;PieData.aspx&quot;</strong><br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'Create the chart - Pie 3D Chart with dataURL as strDataURL</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>FCLiteral.Text = FusionCharts.RenderChart(&quot;../FusionCharts/FCF_Pie3D.swf&quot;, strDataURL, &quot;&quot;, &quot;FactorySum&quot;, &quot;650&quot;, &quot;450&quot;, False, False)</b><br />
+      &nbsp;&nbsp;&nbsp;End Sub</p>
+      <p> &lt;/script&gt;</p>
+      <p>&lt;HTML&gt;<br />
+        &nbsp;&nbsp;&lt;HEAD&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts Free - dataURL and Database  Example<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">'You need to include the following JS file, if you intend to embed the chart using JavaScript.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;</strong><br />
+  &nbsp;&nbsp;&lt;/HEAD&gt;<br />
+  <br />
+  &nbsp;&nbsp;&lt;BODY&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;<b>&lt;asp:Literal ID=&quot;FCLiteral&quot; runat=&quot;server&quot;&gt;&lt;/asp:Literal&gt; &nbsp;&nbsp;</b><br />
+        <br />
+&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we:s</p>
+      <ol>
+        <li>Include <span class="codeInline">InfoSoftGlobal</span> namespace and <span class="codeInline">FusionCharts.js</span> JavaScript class.<span class="codeInline"></span></li>
+        <li>Create the <span class="codeInline">dataURL</span> string and store it in <span class="codeInline">strDataURL</span> variable. </li>
+        <li>Finally, we render the chart using <span class="codeInline">RenderChart()</span> method and set <span class="codeInline">dataURL</span> as <span class="codeInline">strDataURL</span>. </li>
+      </ol>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating the data provider page <span class="codeInline">PieData.aspx.vb </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="codeInline">PieData.aspx.vb</span> contains the following code to output XML Data:  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>Imports DataConnection<br />
+        Partial Class DB_dataURL_PieData<br />
+Inherits System.Web.UI.Page</p>
+      <p><br />
+        Protected Sub <b>Page_Load</b>(ByVal obj As Object, ByVal e As EventArgs) Handles Me.Load<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'This page generates the XML data for the Pie Chart contained in<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Default.aspx. </span></p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'For the sake of ease, we've used an Access database which is present in<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'../App_Data/FactoryDB.mdb. It just contains two tables, which are linked to each<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'other. </span></p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Database Objects - Initialization</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Dim oRs As DbConn, strQuery As String<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'strXML will be used to store the entire XML document generated</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Dim strXML As String</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Generate the graph element</span><br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = &quot;&lt;graph caption='Factory Output report' subCaption='By Quantity' decimalPrecision='0' showNames='1' numberSuffix=' Units' pieSliceDepth='30' formatNumberScale='0'&gt;&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' SQL Query</span><br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>strQuery = &quot;select a.FactoryId,a.FactoryName, sum(b.Quantity) as TotOutput from factory_master a,factory_output b where a.FactoryId=b.FactoryId group by a.FactoryId,a.FactoryName&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Open Data Reader</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>oRs = New DbConn(strQuery)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Iterate through each factory</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>While oRs.ReadData.Read()<br />
+  <br />
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Generate &lt;set name='..' value='..'/&gt; </span><br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = strXML &amp; &quot;&lt;set name='&quot; &amp; oRs.ReadData(&quot;FactoryName&quot;).ToString() &amp; &quot;' value='&quot; <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&amp; oRs.ReadData(&quot;TotOutput&quot;).ToString() &amp; &quot;' /&gt;&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>End While<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Close Data Reader</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>oRs.ReadData.Close()<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Finally, close &lt;graph&gt; element</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = strXML &amp; &quot;&lt;/graph&gt;&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Set Proper output content-type</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><b>Response.ContentType = &quot;text/xml&quot;</b></p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Just write out the XML data<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'NOTE THAT THIS PAGE DOESN'T CONTAIN ANY HTML TAG, WHATSOEVER</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><b>Response.Write(strXML)</b><br />
+        &nbsp;&nbsp;&nbsp;End Sub<br />
+      End Class      </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above page:</p>
+      <ol>
+        <li>Include <a href="#DataConn">DataConnection Namespace</a> to fetch data from database. </li>
+        <li>The result is stored it in <span class="codeInline">strXML</span> variable.</li>
+        <li>Finally, we write this data to output stream without any HTML tags. </li>
+      </ol>
+    <p>When you view this page, you'll get the same output as before. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    		  </tr>
+
+			<tr>
+			  <td class="text" valign="top"><a name="DataConn" class="header" id="DataConn">Inside DataConnection Namespace</a> </td>
+		  </tr>
+			<tr>
+			  <td class="text" valign="top">We have used DataConnection Namespace in the above   code and in all subsequent Database examples. Using this class we establish connection to  the MS   Access database with ADO.NET component. Let's go through the lines of code   inside this class: </td>
+		  </tr>
+			<tr>
+
+			  <td class="text" valign="top">&nbsp;</td>
+		  </tr>
+			<tr>
+			  <td class="codeBlock" valign="top"><p>Imports Microsoft.VisualBasic<br>
+			    Imports System.Data.Odbc<br>
+			    Imports System.Data<br>
+			    Imports System.Web<br>
+
+			    Imports System.Configuration</p>
+			    <p>Namespace DataConnection</p>
+			    <p> <span class="codeComment">&nbsp;&nbsp; ''' &lt;summary&gt;<br>
+&nbsp;&nbsp; ''' DataBase Connection Class.<br>
+&nbsp;&nbsp; ''' &lt;/summary&gt;</span><br>
+
+			      &nbsp;&nbsp; Public Class DbConn<br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; Public connection As OdbcConnection<br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; Public ReadData As OdbcDataReader<br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; Public aCommand As OdbcCommand</p>
+
+			    <p> <span class="codeComment">&nbsp;&nbsp; &nbsp;&nbsp; ''' &lt;summary&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp; ''' Data Connection and get Data Reader<br>
+&nbsp;&nbsp; &nbsp;&nbsp; ''' &lt;/summary&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp; ''' &lt;param name="strQuery"&gt;SQL Query&lt;/param&gt;</span><br>
+
+			      &nbsp;&nbsp; &nbsp;&nbsp; Public Sub New(ByVal strQuery As String)<br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; Dim ConnectionString As String, connectionName As String</p>
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span class="codeComment">' MS Access DataBase Connection - Defined in Web.Config</span><br>
+
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; connectionName = "MSAccessConnection"</p>
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span class="codeComment">'' SQL Server DataBase Connection - Defined in Web.Config<br>
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; '' connectionName = "SQLServerConnection";</span></p>
+
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span class="codeComment">' Creating Connection string using web.config connection string</span><br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ConnectionString = ConfigurationManager.ConnectionStrings(connectionName).ConnectionString<br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; Try</p>
+
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span class="codeComment">' Creating OdbcConnection Oject</span><br>
+			       &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; connection = New OdbcConnection()</p>
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span class="codeComment">' Setting Conection String</span><br>
+
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; connection.ConnectionString = ConnectionString</p>
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span class="codeComment">' Open Connection</span><br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; connection.Open()</p>
+
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span class="codeComment">' get reader</span><br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; GetReader(strQuery)</p>
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; Catch ex As Exception<br>
+
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; HttpContext.Current.Response.Write(ex.Message)<br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; End Try</p>
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; End Sub<br>
+
+                    <span class="codeComment"><br>
+&nbsp;&nbsp; &nbsp;&nbsp; ''' &lt;summary&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp; ''' Create an instance dataReader<br>
+&nbsp;&nbsp; &nbsp;&nbsp; ''' &lt;/summary&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp; ''' &lt;param name="strQuery"&gt;SQL Query&lt;/param&gt;<br>
+
+&nbsp;&nbsp; &nbsp;&nbsp; ''' &lt;remarks&gt;Return type object of OdbcDataReader&lt;/remarks&gt;</span><br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; Public Sub GetReader(ByVal strQuery As String)</p>
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span class="codeComment">'  Create a Command object</span><br>
+
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; aCommand = New OdbcCommand(strQuery, connection)</p>
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span class="codeComment">' Create data reader object using strQuery string</span><br>
+			      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ReadData = aCommand.ExecuteReader(CommandBehavior.CloseConnection)</p>
+
+			    <p> &nbsp;&nbsp; &nbsp;&nbsp;End Sub<br>
+			      &nbsp;&nbsp; End Class<br>
+			      End Namespace</p>
+		      <p></p></td>
+		  </tr>
+			<tr>
+
+			  <td class="text" valign="top">&nbsp;</td>
+		  </tr>
+			<tr>
+			  <td class="text" valign="top">What it does:<br>
+                <ul>
+                  <li>Set up Connection as per the connection string defined in <span class="codeInline">web.config</span> file.<br>
+
+                    <br>
+                    <span class="codeInline">&lt;connectionStrings&gt;<br>
+                    &nbsp;&nbsp;&nbsp; &lt;add name="MSAccessConnection" providerName="System.Data.Odbc" connectionString="Driver={Microsoft Access Driver (*.mdb)};Dbq=|DataDirectory|\FactoryDB.mdb"/&gt;<br>
+&lt;/connectionStrings&gt;</span><br>
+<br>
+                    <br>
+                  To change your connection to any other database server, you only need to setup  <span class="codeInline">web.config</span> file. <br>
+
+                  <br>
+                  </li>
+                  <li>The code to connect to SQL Server Database is also given in comment form. To   connect to SQL Server you have to activate the corresponding code. <br>
+                  </li>
+                  <li>It accepts SQL Query, executes it and returns the result as ASP.NET <span class="codeInline">DataReader</span> object -<span class="codeInline">ReadData</span><span class="text">. </span> </li>
+
+              </ul></td>
+		  </tr>
+			
+			<tr>
+			  <td class="text" valign="top">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

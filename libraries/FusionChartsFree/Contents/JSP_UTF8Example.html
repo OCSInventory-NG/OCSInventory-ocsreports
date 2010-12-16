@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td> 
+      <h2 class="pageHeader">Using FusionCharts with JSP &gt; UTF8 Examples </h2>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> 
+      <p>In this section, we'll show you how to use FusionCharts and Ruby to plot charts from data containing <strong>UTF-8 characters</strong>. Using dataURL method we'll do the following: </p>
+      <ul>
+        <li>Create a column3D chart to show the Monthly Sales with Japanese data from <strong>a XML file</strong>. </li>
+        <li>Create a pie chart to show &quot;Production by Factory&quot; data from the <strong>database </strong>containing Japanese text .</li>
+      </ul>
+      <p>We'll use Japanese text in this example but you could extend it to any left-to-right language by applying the same procedure. <strong>Before you proceed with the contents in this page, we recommend you to go through the section &quot;Basic Examples &quot; and 
+			&quot;<a href="JSP_DB.html">Plotting from Database Example</a>&quot;, as we'll directly use a lot of concepts defined in those sections.</strong></p>
+      <p class="highlightBlock">The code examples contained in this page are present 
+        in <span class="codeInline">Download Package &gt; Code &gt; JSP &gt; UTF8Example 
+        </span> folder. <br />
+        The  database scripts are present in <span class="codeInline">Download 
+        Package &gt; Code &gt; JSP &gt;</span> <span class="codeInline">DB</span>. 
+    </p>  
+	
+	<p class="text">
+	</p>
+	  <p><span class="header">Plotting a chart with Japanese text from JapaneseData.xml </span><br />
+          <br />
+  While using FusionCharts with UTF-8 characters, please remember the following:</p>
+	  <ul>
+        <li>dataURL method has to be used to get the xml.</li>
+        <li>Rotated text cannot render UTF-8 characters. For example, UTF-8 characters in the rotated labels will not be rendered correctly.</li>
+        <li>BOM has to present in the xml given as input to the chart. </li>
+      </ul>
+	  <p><span class="header">Setting up the charts for use</span></p>
+	  <p>In our code, we've used the charts contained in <span class="codeInline">Download Package &gt; Code &gt; FusionCharts</span> folder. When you run your samples, you need to make sure that the SWF files are in proper location. Also the JapaneseData.xml file used in <span class="codeInline">JapaneseXMLFileExample.jsp</span> is present in the <span class="codeInline">Download Package &gt; Code &gt; JSP &gt; UTF8Example &gt; Data </span>folder.</p>
+	  <p>Let's now get to building our first example. In this example, we'll create a &quot;Monthly Unit Sales&quot; chart using dataURL method. For a start, we'll hard code our XML data in a physical XML document JapaneseData.xml, save it with UTF-8 encoding and then utilize it for our chart. </p>
+	  <p>Let's first have a look at the XML Data document:</p>
+	  <p class="codeBlock">
+
+    &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br>
+    &lt;graph caption='&#26376;&#38291;&#36009;&#22770;' xAxisName='&#26376;' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#19968;&#26376;' value='462' color='AFD8F8' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20108;&#26376;' value='857' color='F6BD0F' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#19977;&#26376;' value='671' color='8BBA00' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#22235;&#26376;' value='494' color='FF8E46' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20116;&#26376;' value='761' color='008E8E' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20845;&#26376;' value='960' color='D64646' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#19971;&#26376;' value='629' color='8E468E' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20843;&#26376;' value='622' color='588526' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#20061;&#26376;' value='376' color='B3AA00' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#21313;&#26376;' value='494' color='008ED6' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#21313;&#19968;&#26376;' value='761' color='9D080D' /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;set name='&#21313;&#20108;&#26376;' value='960' color='A186BE' /&gt;<br>
+    &lt;/graph&gt;</p>
+	  <p class="text">The XML document should begin with an <strong>XML declaration </strong> which specifies the version of XML being used and the encoding as seen in the above xml:<br />
+   <span class="codeInline">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt; </span></p>
+	  <p class="text">As you would notice, the caption, x-axisname and names of the months in the xml are in Japanese. </p>
+	  <p>The jsp which uses this xml is JapaneseXMLFileExample.jsp which contains the following code:</p>
+	  <p class="codeBlock">&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;<br />
+pageEncoding=&quot;UTF-8&quot;%&gt;<br />
+&lt;HTML&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;META http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=UTF-8&quot;/&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - UTF8 &#26085;&#26412;&#35486; (Japanese) Example&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&lt;%<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When you make your own charts, make sure that the path to this JS file is correct. Else, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; you would get JavaScript errors.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.text{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;&lt;a href=&quot;http://www.fusioncharts.com&quot; target=&quot;_blank&quot;&gt;FusionCharts Free&lt;/a&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+UTF8 &#26085;&#26412;&#35486; (Japanese) Example&lt;/h2&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Basic Example using data from pre-built JapaneseData.xml&lt;/h4&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this example, we show how to use UTF characters in charts created with FusionCharts <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here, the XML data for the chart is present in Data/JapaneseData.xml. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The xml file should be created and saved with an editor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which places the UTF8 BOM. The first line of the xml should contain the<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml declaration like this: &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The pageEncoding and chartSet headers for the page have been set to UTF-8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in the first line of this jsp file.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Variable to contain dataURL<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String strDataURL = &quot;Data/JapaneseData.xml&quot;;<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Create the chart - Pie 3D Chart with dataURL as strDataURL</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:include page=&quot;../Includes/FusionChartsRenderer.jsp&quot; flush=&quot;true&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/FCF_Column3D.swf&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strURL&quot; value=&quot;&lt;%=strDataURL%&gt;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strXML&quot; value=&quot;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartId&quot; value=&quot;FactorySum&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;600&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartHeight&quot; value=&quot;300&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;registerWithJS&quot; value=&quot;false&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/jsp:include&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='../NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the chart above?&lt;/a&gt;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;H5&gt;&lt;a href='../default.htm'&gt;&amp;laquo; Back to list of examples&lt;/a&gt;&lt;/h5&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt; </p>
+	  <br />
+	  <p>This code is similar to the code present in <span class="codeInline">BasicExample/SimpleChart.jsp.</span> Points to note in the above page (specific to UTF8) are: (Page containing the chart) </p>
+	  <ul>
+	    <li><span class="text">First the page encoding and charset have to be set as shown: <br />
+	        <br />
+	    </span> <span class="codeBlock">&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+pageEncoding=&quot;UTF-8&quot;%&gt;<br />
+	    </span></li>
+        <li>Next, it  is important to have the &lt;meta&gt; tag in the head section of the html with the charset defined as UTF-8 as shown below.<br />
+	      <br />
+	      <span class="codeBlock">&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt; </span><br />
+	    </li>
+    </ul>	  
+	  <p class="text">That's the only effort involved in rendering a chart with UTF8 characters with data from a xml file. The chart with Japanese text will look as shown:</p>
+      <p class="text"><img src="Images/Code_JapXMLFileChart.jpg" width="577" height="274" class="imageBorder" /> </p>
+    <p class="text">Let' move on to our next example where we get the data from the database and dynamically create the xml. </p>
+    <p class="header">Plotting a chart with Japanese text from the database </p>
+    <p class="text">Let us now create a chart with UTF characters present in the database. For this we will modify the database and add a table to contain the Japanese data. </p>
+    <p class="header">Database Configuration </p>
+    <ol>
+      <li>Please refer to <a href="JSP_DB.html">Plotting From Database</a> section for basic setup and configuration of the database.</li>
+      <li>Ensure that the tables required for the UTF8 examples have been created. The required sql script &quot;UTFExampleTablesCreation.sql&quot; is present in the <span class="codeInline">Download Package > Code > JSP > DB </span>folder. You could run this script in your mysql, (if not already done)- this will alter the database to use UTF8 as default character set, create the Japanese_Factory_Master and French_Factory_Master tables and insert sample data.</li>
+    </ol>
+    <p>Let's now shift our attention to the code that will interact with the database, fetch data and then render a chart. We will create two jsps - JapaneseDBExample.jsp and PieDataJapanese.jsp for this example. </p>    
+    <p class="text">JapaneseDBExample.jsp will act as the chart container and PieDataJapanese.jsp will be the xml data provider.</p>
+    <p class="text">The code contained in JapaneseDBExample.jsp is as follows:</p>
+    <p class="codeBlock"><strong>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;<br />
+    pageEncoding=&quot;UTF-8&quot;%&gt;</strong><br />
+&lt;HTML&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;META http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=UTF-8&quot;/&gt; </strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - UTF8 &#26085;&#26412;&#35486; (Japanese) Database Example&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;/*You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When you make your own charts, make sure that the path to this JS file is correct. Else, you would get JavaScript errors.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.text{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;&lt;a href=&quot;http://www.fusioncharts.com&quot; target=&quot;_blank&quot;&gt;FusionCharts Free&lt;/a&gt; UTF8 &#26085;&#26412;&#35486; (Japanese) Example With Data from Database&lt;/h2&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this example, we show how to use UTF characters in chart created with FusionCharts <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here, the XML data for the chart is dynamically generated by PieDataJapanese.jsp. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this example, FusionCharts uses dataURL method to get the xml from the data in t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; he &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; database. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order to store and retrieve UTF8 characters from database, in our example, MySQL,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;we have to alter the database default charset to UTF8. This can be done using the command:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ALTER DATABASE DEFAULT CHARACTER SET = utf8; on the &quot;factorydb&quot; database.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this example, we will use another table Japanese_Factory_Master containing the names of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the factories<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in Japanese language. This table should also be defined to use UTF8 as DEFAULT CHARSET. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The sql script that needs to be executed before running this example is &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UTFExampleTablesCreation.sql <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;present in Code/JSP/DB folder.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The pageEncoding and chartSet headers for the page have been set to UTF-8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in the first line of this jsp file.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/ <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Variable to contain dataURL<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//NOTE: It's necessary to encode the dataURL if you've added parameters to it</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>String strDataURL=&quot;PieDataJapanese.jsp&quot;;</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Create the chart - Pie 3D Chart with dataURL as strDataURL</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:include page=&quot;../Includes/FusionChartsRenderer.jsp&quot; flush=&quot;true&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/FCF_Pie3D.swf&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strURL&quot; value=&quot;&lt;%=strDataURL%&gt;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;strXML&quot; value=&quot;&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartId&quot; value=&quot;FactorySum&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;650&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartHeight&quot; value=&quot;450&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;registerWithJS&quot; value=&quot;false&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/jsp:include&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='../NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the chart above?&lt;/a&gt;&lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;H5&gt;&lt;a href='../default.htm'&gt;&amp;laquo; Back to list of examples&lt;/a&gt;&lt;/h5&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>    
+    <p class="text">In the above Chart container page following should be taken care of:</p>
+    <ul>
+      <li>It is important to have the &lt;meta&gt; tag in the head section of the html with the charset defined as UTF-8 as shown below.<br />
+        <br />
+        <span class="codeBlock">&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt; </span><br />
+      </li>
+      <li>The page encoding and charset need to be set with the following code: ( first line of the jsp)<br />
+        <br />
+        <span class="codeBlock">&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</span><br />
+        </li>
+      </ul>    
+    <p>Next, let us understand the code in PieDataJapanese.jsp</p>
+    <p class="codeBlock">&lt;% byte[] utf8Bom = new byte[]{(byte) 0xef, (byte) 0xbb, (byte) 0xbf};<br />
+      String utf8BomStr = new String(utf8Bom,&quot;UTF-8&quot;);<br />
+      %&gt;&lt;%=utf8BomStr%&gt;&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;%@ page language=&quot;java&quot; contentType=&quot;text/xml; charset=UTF-8&quot;<br />
+pageEncoding=&quot;UTF-8&quot;%&gt;&lt;%@ include file=&quot;../Includes/DBConn.jsp&quot; %&gt;&lt;%@ page import=&quot;java.sql.Statement,java.sql.ResultSet&quot;%&gt;&lt;%<br />
+<span class="codeComment">/*<br />
+This page generates the XML data for the Pie Chart contained in JapaneseDBExample.jsp. <br />
+<br />
+For the sake of ease, we've used the same database as used by other examples. <br />
+We have added one more table Japanese_Factory_Master with stores the names of the factory in Japanese language.<br />
+<br />
+Steps to ensure UTF8 xml output for FusionCharts:<br />
+1. Output the BOM bytes 0xef 0xbb 0xbf as shown above in the first few lines<br />
+2. Put the xml declaration &lt;?xml version='1.0' encoding='UTF-8'?&gt; immediately after the output from previous step.<br />
+3. Declare contentType to be text/xml, charSet and pageEncoding to be UTF-8<br />
+4. Use getBytes to get the data from UTF field in the database and to convert it into String, use new String(bytes,&quot;UTF-8&quot;)<br />
+Do not output anything other than the BOM, xml declaration and the xml itself. (no empty lines too!)<br />
+*/</span><br />
+<br />
+<span class="codeComment">//Database Objects - Initialization</span><br />
+Statement st1=null,st2=null;<br />
+ResultSet rs1=null,rs2=null;<br />
+<br />
+String strQuery=&quot;&quot;;<br />
+<span class="codeComment">//strXML will be used to store the entire XML document generated</span><br />
+  String strXML =&quot;&quot;;<br />
+  <span class="codeComment">//Generate the chart element</span><br />
+  strXML = &quot;&lt;graph caption='&#24037;&#22580;&#20986;&#21147;&#12524;&#12509;&#12540;&#12488;' subCaption='&#37327;&#12391;' decimalPrecision='0' showNames='1' numberSuffix=' Units' pieSliceDepth='30' formatNumberScale='0'&gt;&quot;;<br />
+  <br />
+  <span class="codeComment">//Query to retrieve data about factory</span><br />
+  strQuery = &quot;select * from Japanese_Factory_Master&quot;;<br />
+  <span class="codeComment">//Create the statement</span><br />
+  st1=oConn.createStatement();<br />
+  <span class="codeComment">//Execute the query</span><br />
+  rs1=st1.executeQuery(strQuery);<br />
+  <br />
+  String factoryId=null;<br />
+  String factoryName=null;<br />
+  String totalOutput=&quot;&quot;;<br />
+  <br />
+  while(rs1.next()) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;factoryId=rs1.getString(&quot;FactoryId&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;byte[] b = rs1.getBytes(&quot;FactoryName&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;factoryName=new String (b, &quot;UTF-8&quot;);<br />
+  <br />
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Now create second resultset to get details for this factory</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; + factoryId;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;st2=oConn.createStatement();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;rs2 = st2.executeQuery(strQuery);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;if(rs2.next()){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalOutput=rs2.getString(&quot;TotOutput&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Generate &lt;set name='..' value='..'/&gt; </span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;strXML += &quot;&lt;set name='&quot; + factoryName + &quot;' value='&quot; +totalOutput+ &quot;' /&gt;&quot;;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=rs2){<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs2.close();<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the resultset&quot;);<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try{<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=st2) {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st2.close();<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st2=null;<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException e){<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the statement&quot;);<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                }<br />
+                <span class="codeComment">//Finally, close &lt;graph&gt; element</span><br />
+                strXML += &quot;&lt;/graph&gt;&quot;;<br />
+                <br />
+                try {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=rs1){<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs1.close();<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs1=null;<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                }catch(java.sql.SQLException e){<br />
+                <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//do something</span><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the resultset&quot;);<br />
+                } <br />
+                try {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=st1) {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st1.close();<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st1=null;<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                }catch(java.sql.SQLException e){<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the statement&quot;);<br />
+                }<br />
+                try {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=oConn) {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn.close();<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn=null;<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                }catch(java.sql.SQLException e){<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Could not close the connection&quot;);<br />
+                }<br />
+                <br />
+                //Just write out the XML data<br />
+                //NOTE THAT THIS PAGE DOESN'T CONTAIN ANY HTML TAG, WHATSOEVER<br />
+                %&gt;&lt;%=strXML%&gt;</p>
+    <p class="text">This code is similar to PieData.jsp seen in DBExample with dataURL method. There are some UTF-8 specific points to be noted here.<br />
+      If the XML data provider is a JSP, as in this case, then the output should follow this sequence:</p>    
+    <ol>
+      <li>          The jsp should output the BOM as shown in the following code:<br />
+&lt;% byte[] utf8Bom = new byte[]{(byte) 0xef, (byte) 0xbb, (byte) 0xbf};<br />
+  String utf8BomStr = new String(utf8Bom,&quot;UTF-8&quot;);%&gt;&lt;%=utf8BomStr%&gt;</li>
+      <li>Next, the xml declaration should be output: &lt;?xml version='1.0' encoding='UTF-8'?&gt;</li>
+      <li>Finally, the xml data should be output</li>
+    </ol>    
+    <p>Try not to put any empty lines or spaces in the output xml. You will also have to assure that you set the content-type response header to indicate the UTF-8 encoding of the page as shown:</p>
+    <p class="codeBlock">&lt;%@ page language=&quot;java&quot; contentType=&quot;text/xml; charset=UTF-8&quot;
+pageEncoding=&quot;UTF-8&quot;%&gt;</p>
+    <p>When we view the chart in the browser, it would look like this: </p>    
+    <p> </p>
+    <p><img src="Images/Code_JapDBChart.jpg" class="imageBorder" /> </p>
+    <p class="highlightBlock">In <span class="codeInline">Download Package > Code > JSP > UTF8Example</span>, we've more example codes for French language too, which have not been explained here, as they're similar in concept. You can directly see the code and get more insight into it.</p>    
+	</td>
+  </tr>
+</table>
+</body>
+</html>

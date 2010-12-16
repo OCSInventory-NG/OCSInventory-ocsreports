@@ -1,0 +1,348 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Combining FusionCharts, RoR - JavaScript (dataXML) method </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous example, we had combined FusionCharts, Ruby and JavaScript to create client side dynamic charts. We were updating the chart by asking it to fetch new data from server and update itself, without incurring any page refreshes. </p>
+      <p>In this example, we will see how to <strong> provide updated XML data to chart using JavaScript </strong> functions. The chart will simply accept that XML data and then render. </p>
+      <p class="highlightBlock">This method can effectively be used in your AJAX applications, where your JavaScript code gets the updated XML from server and then provides it to charts locally. You can process the data received from AJAX Calls, build XML from it and finally provide it to the chart. </p>
+      <p><strong>Before you proceed with the contents in this page, we strictly recommend you to please go through the sections &quot;How FusionCharts works?&quot; and 
+	  &quot;<a href="PHP_DB.html">Plotting from Database Example</a>&quot;, as we'll directly use a lot of concepts defined in those sections.</strong></p>
+ <p class="highlightBlock">All code discussed here is present in <br>
+    <span class="codeInline">Controller : Download Package > Code > RoR > SampleApp &gt; app > controllers &gt; fusioncharts > db_js_controller.rb</span>. <br> 
+    <span class="codeInline">View : Download Package > Code > RoR > SampleApp &gt; app > views > fusioncharts &gt; db_js</span> folder. </p>
+ <p class="header">Defining the applicaton </p>
+     <p>Let us first define what we want to achieve in this example. We'll carry on from our previous drill-down example and convert it into a single page example. In our previous example, we were showing the Production Summary of all the factories in a pie chart. When the user clicked on a pie slice, he was taken to another page, where a detailed date-wise chart was shown for the required factory. </p>
+     <p>In this example we will put both the charts together on a single page where clicking on a pie slice of the Production Summary chart will open the detailed chart on the same page without page refresh.</p>
+     <p>Effectively, we will do the following:</p>
+     <ol>
+       <li>Contain both the pie chart (summary) and column chart (detailed) in one page (<span class="codeInline">default</span>).</li>
+       <li>When the page loads, the pie chart would use <span class="codeInline">dataXML</span> method to show summary of all factories. This data will be built in <span class="codeInline">factories_quantity</span> builder. </li>
+       <li>There will be a JavaScript array named <span class="codeInline">data</span> in this page. This array will contain detailed data for the factories. The array will be dynamically built by the controller and then outputted as JavaScript code. </li>
+       <li>Apart from the data in JavaScript, we'll also have a local JavaScript function <span class="codeInline">updateChart()</span>, which would process the data in this array and convert it to XML data document, for direct usage by the column chart. </li>
+       <li>The column chart would initialize with no data, as there is no factory selected initially. We'll customize the &quot;<span class="codeInline">No data to display</span>&quot; message of the chart to show a friendly message.</li>
+       <li>The pie chart would have JavaScript links defined for each pie slice. This JavaScript links refer to <span class="codeInline">updateChart()</span> JavaScript function present on the same page. We'll later see how to hand code this function. When a pie is clicked, the <span class="codeInline">factoryID </span>and factoryName are passed to this function. </li>
+       <li>The <span class="codeInline"> updateChart()</span> function is responsible for updating the column chart. It generates the XML data from data stored in JavaScript <span class="codeInline">data</span> array and conveys it to the column chart using the <span class="codeInline">updateChartXML</span> method.</li>
+       <li>The column chart would now accept this XML data, parse it and finally render.</li>
+      </ol>
+     <p>We will first take a look at the controller action <span class="codeInline">default</span>.</p>
+     <p><span class="header">Creating the page containing the charts</span></p>
+     <p class="codeBlock"><b>Controller: Fusioncharts::DbJsController<br>
+Action: default<br>
+</b><span class="codeComment">#In this action, the total quantity produced and name of each factory <br>
+#is obtained from the database and plotted.<br>
+#On clicking on a pie-section, it links to another chart giving detailed information <br>
+#of each output produced and the date of production. For this dataURL method is used from the js.<br>
+#of that factory. An array is created to store the index, factory name and total output. This <br>
+#array is accessible to the view. Also, a js_var_string variable is constructed.<br>
+#This variable contains javascript code to create an array, to contain the date of production<br>
+#and the factory output quantity.</span><br>
+  def default<br>
+&nbsp;&nbsp;&nbsp;&nbsp;headers[&quot;content-type&quot;]=&quot;text/html&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@factory_data = [] <br>
+&nbsp;&nbsp;&nbsp;&nbsp;@js_var_string =&quot;&quot;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;index_count = -1<br>
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;#Get data from factory masters table</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;factory_masters = FactoryMaster.find(:all)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;factory_masters.each do |factory_master| <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total=0.0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>index_count = index_count + 1</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory_id = factory_master.id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory_name = factory_master.name<br>
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Construct the javascript variable to hold an array.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;@js_var_string =@js_var_string+ &quot;data[&quot; + index_count.to_s + &quot;] = new Array();\n&quot; ; </strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory_master.factory_output_quantities.each do |factory_output|<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date_of_production = factory_output.date_pro<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment"># Formats the date to dd/mm without leading zeroes</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_date = format_date_remove_zeroes(date_of_production)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quantity_number = factory_output.quantity<br>
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Calculate the total quantity for this factory</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total = total + factory_output.quantity<br>
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Append values to the javascript array</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>@js_var_string =@js_var_string+ &quot;\t\t\t\tdata[&quot; + index_count.to_s + &quot;].push(new &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Array('&quot; + &nbsp;&nbsp;&nbsp;&nbsp;formatted_date + &quot;','&quot; +quantity_number.to_s+&quot;'));\n&quot;</strong> <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;#Formatting the output html</span><br>
+  &nbsp;&nbsp;&nbsp;<strong>&nbsp;@js_var_string =@js_var_string+&quot;\t\t\t&quot;;</strong><br>
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;#Push hash of values into the array </span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;@factory_data&lt;&lt;{:factory_index=&gt;index_count,:factory_name=&gt;factory_name,:factory_output=&gt;total}<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+  end</p>
+     <p class="text">Most of the code in the controller is the same. The changed portions have been highlighted above. <b>     </b></p>     
+     <ol>
+       <li>Perform a find on the Model FactoryMaster to select all the columns.</li>
+       <li>Iterate through the recordset obtained above and obtain the factory id and name. Also a variable index_count which starts with 0 is incremented in the beginning of this loop. This number is used as an index for this factory in the javascript array which we will create. </li>
+       <li>For each factory, iterate through the factory_output_quantities and calculates the total quantity for this factory. Also, create a variable @js_var_string to which <strong><br>
+        &quot;data[&quot; + index_count.to_s + &quot;].push(new Array('&quot; + formatted_date + &quot;','&quot;+quantity_number.to_s+&quot;'));&quot;<br>
+        </strong>is appended. This js_var_string when output to html, creates a code to construct the 2-dimensional javascript array data.  data[0], say,will contain an array with date of production and quantity values for a particular factory. So on, for all other factories. </li>
+       <li>Constructs a hash containing <span class="codeInline">index_count</span>, factory name and total output.</li>
+       <li>Appends the hash to the array <span class="codeInline">@factory_data</span>. </li>
+     </ol>     
+     <p>This array @factory_data is used by the view to generate the first chart. The <span class="codeInline">@js_var_string</span> is used in the view to create the javascript array. This is shown below: </p>
+     <p class="codeBlock"><strong>View: default.html.erb<br> 
+</strong>&lt;HTML&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts Free - Client Side Dynamic Chart (using Database) Example&lt;/TITLE&gt;<br>
+&lt;%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">#In this example, we show a combination of database + JavaScript rendering using FusionCharts.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#The entire example (page) can be summarized as under. This app shows the break-down<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#of factory wise output generated. In a pie chart, we first show the sum of quantity<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#generated by each factory. These pie slices, when clicked would show detailed date-wise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#output of that factory.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#The XML data for the pie chart is fully created in the controller at run-time. The controller interacts<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#with the database and creates the XML for this.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#Now, for the column chart (date-wise output report), we do not submit request to the server.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#Instead we store the data for the factories in JavaScript arrays. These JavaScript<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#arrays are rendered by our ruby Code (at run-time). We also have a few defined JavaScript<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#functions which react to the click event of pie slice.</span><br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">#Before the page is rendered, we need to connect to the database and get the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#data, as we'll need to convert this data into JavaScript variables.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#The js_var_string will contain the JS Data and variables.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#This string will be built in the controller and rendered at run-time as JavaScript.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;%&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;%= javascript_include_tag &quot;FusionCharts&quot; %&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;% <span class="codeComment">#You need to include the above JS file, if you intend to embed the chart using JavaScript.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#When you make your own charts, make sure that the path to this JS file is correct. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;#Else, you would get JavaScript errors.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;%&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br>
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;#Here, we use a mix of server side code (ruby) and JavaScript to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#render our data for factory chart in JavaScript variables. We'll later<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#utilize this data to dynamically plot charts.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#All our data is stored in the data array. In the controller, we iterate through<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#each resultset of data and then store it as nested arrays in this data array.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;%&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var data = new Array();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">#Write the data as JavaScript variables here<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#The data is now present as arrays in JavaScript. Local JavaScript functions<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#can access it and make use of it. We'll see how to make use of it.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;%&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;%= @js_var_string %&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;% <span class="codeComment">#The data is now present as arrays in JavaScript. Local JavaScript functions<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#can access it and make use of it. We'll see how to make use of it. </span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;%&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/** <br>
+&nbsp;&nbsp;&nbsp;&nbsp;* updateChart method is invoked when the user clicks on a pie slice.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* In this method, we get the index of the factory, build the XML data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* for that that factory, using data stored in data array, and finally<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* update the Column Chart.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* @param factoryIndex Sequential Index of the factory.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* @param factoryName Name of the factory.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*/</span> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;function updateChart(factoryIndex,factoryName){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//defining array of colors<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//We also initiate a counter variable to help us cyclically rotate through<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//the array of colors.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var FC_ColorCounter=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var arr_FCColors= new Array(&quot;1941A5&quot; , &quot;AFD8F8&quot;, &quot;F6BD0F&quot;, &quot;8BBA00&quot;, &quot;A66EDD&quot;, &quot;F984A1&quot;, &quot;CCCC00&quot;, &quot;999999&quot;, &quot;0099CC&quot;, &quot;FF0000&quot;, &quot;006F00&quot;,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;0099FF&quot;, &quot;FF66CC&quot;, &quot;669966&quot;, &quot;7C7CB4&quot;, &quot;FF9933&quot;, &quot;9900FF&quot;, &quot;99FFCC&quot;, &quot;CCCCFF&quot;, &quot;669900&quot;);<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Storage for XML data document</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var strXML = &quot;&lt;graph caption='&quot; + factoryName + &quot; Output ' subcaption='(In Units)' xAxisName='Date' decimalPrecision='0'&gt;&quot;;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Add &lt;set&gt; elements</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var i=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i=0; i&lt;data[factoryIndex].length; i++){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;set name='&quot; + data[factoryIndex][i][0] + &quot;' value='&quot; + data[factoryIndex][i][1] + &quot;' color='&quot;+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr_FCColors[++FC_ColorCounter % arr_FCColors.length] +&quot;' /&gt;&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Closing graph Element</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;/graph&gt;&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Update it's XML</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateChartXML(&quot;FactoryDetailed&quot;,strXML);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type=&quot;text/css&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-size: 12px;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.text{<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 12px;<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&gt;<br>
+&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;&lt;a href=&quot;http://www.fusioncharts.com&quot; target=&quot;_blank&quot;&gt;FusionCharts Free&lt;/a&gt; Database + JavaScript Example&lt;/h2&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h5&gt;Inter-connected charts - Click on any pie slice to see detailed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart below.&lt;/h4&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;The charts in this page have been dynamically generated using<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data contained in a database. We've NOT hard-coded the data in<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JavaScript.&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;% <br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="codeComment"># The xml is obtained as a string from builder template.</span><br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; str_xml = render &quot;fusioncharts/db_js/factories_quantity&quot;, {:factory_data=&gt;@factory_data}<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<span class="codeComment">#Create the chart - Pie 3D Chart with data from strXML</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;render_chart '/FusionCharts/FCF_Pie3D.swf', '', str_xml, 'FactorySum', 650, 300, false, false do-%&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;% end-%&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;%<br>
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Column 2D Chart with changed &quot;No data to display&quot; message<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#We initialize the chart with &lt;graph&gt;&lt;/graph&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;render_chart '/FusionCharts/FCF_Column2D.swf?ChartNoDataText=Please click on a pie slice above to view detailed data.', '',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;graph&gt;&lt;/graph&gt;','FactoryDetailed', 600, 300, false, false do-%&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;% end-%&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='/NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the charts above?&lt;/a&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;BR&gt;&lt;h5&gt;&lt;%= link_to '&amp;laquo; Back to list of examples', :controller=&gt;'fusioncharts/index'%&gt;&lt;/h5&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br>
+&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;<br>
+&lt;/HTML&gt;<br> 
+     </p>
+     <p>In this page,  we first render all the data in database as JavaScript array. To do so, output the variable that is present in the controller <span class="codeInline">@jsVarString</span> in the <span class="codeInline">&lt;SCRIPT&gt;</span> section of <span class="codeInline">&lt;HEAD&gt; tag </span>as shown.</p>
+     <p class="codeBlock">&nbsp;&nbsp;var data = new Array();<br />
+&nbsp;&nbsp;&lt;%= @jsVarString %&gt;<br />
+     </p>
+     <p>If you run this page and view the source JavaScript code, you'll see the following: </p>     <p class="codeBlock">var data = new Array();<br />
+       <br />
+		data[0] = new Array();<br>
+data[0].push(new Array('01/01','21'));<br>
+data[0].push(new Array('02/01','23'));<br>
+data[0].push(new Array('03/01','22'));<br>
+data[0].push(new Array('04/01','24'));<br>
+data[0].push(new Array('05/01','32'));<br>
+data[0].push(new Array('06/01','21'));<br>
+data[0].push(new Array('07/01','34'));<br>
+data[0].push(new Array('08/01','32'));<br>
+data[0].push(new Array('09/01','32'));<br>
+data[0].push(new Array('10/01','23'));<br>
+data[0].push(new Array('11/01','23'));<br>
+data[0].push(new Array('12/01','32'));<br>
+data[0].push(new Array('13/01','53'));<br>
+data[0].push(new Array('14/01','23'));<br>
+data[0].push(new Array('15/01','26'));<br>
+data[0].push(new Array('16/01','43'));<br>
+data[0].push(new Array('17/01','16'));<br>
+data[0].push(new Array('18/01','45'));<br>
+data[0].push(new Array('19/01','65'));<br>
+data[0].push(new Array('20/01','54'));<br>
+data[1] = new Array();<br>
+data[1].push(new Array('01/01','121'));<br>
+data[1].push(new Array('02/01','123'));<br>
+data[1].push(new Array('03/01','122'));<br>
+data[1].push(new Array('04/01','124'));<br>
+data[1].push(new Array('05/01','132'));<br>
+data[1].push(new Array('06/01','121'));<br>
+data[1].push(new Array('07/01','134'));<br>
+data[1].push(new Array('08/01','132'));<br>
+data[1].push(new Array('09/01','132'));<br>
+data[1].push(new Array('10/01','123'));<br>
+data[1].push(new Array('11/01','123'));<br>
+data[1].push(new Array('12/01','132'));<br>
+data[1].push(new Array('13/01','153'));<br>
+data[1].push(new Array('14/01','123'));<br>
+data[1].push(new Array('15/01','126'));<br>
+data[1].push(new Array('16/01','143'));<br>
+data[1].push(new Array('17/01','116'));<br>
+data[1].push(new Array('18/01','145'));<br>
+data[1].push(new Array('19/01','165'));<br>
+data[1].push(new Array('20/01','154'));<br>
+data[2] = new Array();<br>
+data[2].push(new Array('01/01','54'));<br>
+data[2].push(new Array('02/01','56'));<br>
+data[2].push(new Array('03/01','89'));<br>
+data[2].push(new Array('04/01','56'));<br>
+data[2].push(new Array('05/01','98'));<br>
+data[2].push(new Array('06/01','76'));<br>
+data[2].push(new Array('07/01','65'));<br>
+data[2].push(new Array('08/01','45'));<br>
+data[2].push(new Array('09/01','75'));<br>
+data[2].push(new Array('10/01','54'));<br>
+data[2].push(new Array('11/01','75'));<br>
+data[2].push(new Array('12/01','76'));<br>
+data[2].push(new Array('13/01','34'));<br>
+data[2].push(new Array('14/01','97'));<br>
+data[2].push(new Array('15/01','55'));<br>
+data[2].push(new Array('16/01','43'));<br>
+data[2].push(new Array('17/01','16'));<br>
+data[2].push(new Array('18/01','35'));<br>
+data[2].push(new Array('19/01','78'));<br>
+data[2].push(new Array('20/01','75'));</p>
+     <p>Now, before we get to the JavaScript functions, let's first see what we're doing in our RoR code. In the body of the html, we have rendered two charts. The first chart uses the builder template <span class="codeInline">factory_quantities.builder</span>, passes the <span class="codeInline">@factory_data</span> array constructed in the controller to it. The resulting xml is passed to <span class="codeInline">render_chart</span> function to show a Pie3D chart. </p>
+     <p>The second chart is initialized with a customized message &quot;Please select a factory from pie chart above to view detailed data.&quot;.</p>
+     <p>Let us take a look at the builder which actually does the work of creating a link to the detailed chart for each factory.</p>
+     <p class="codeBlock"><span class="codeComment">#Creates xml with values for factory output along with their names. It also creates<br>
+       #a link to javascript function updateChart<br>
+       #The values required for building the xml is obtained as parameter factory_data<br>
+       #It expects an array in which each element as <br>
+       #a hash with values for &quot;factory_name&quot;,&quot;factory_output&quot; and &quot;factory_index&quot;</span><br>
+       xml = Builder::XmlMarkup.new<br>
+       xml.graph(:caption=&gt;'Factory Output report', :subCaption=&gt;'By Quantity',:decimalPrecision=&gt;'0' ,:showNames=&gt;'1' ,:numberSuffix=&gt;' Units' ,:pieSliceDepth=&gt;'20' ,:formatNumberScale=&gt;'0' ) do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for item in factory_data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:name=&gt;item[:factory_name],:value=&gt;item[:factory_output],:link=&gt;'javaScript:updateChart('+item[:factory_index].to_s+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',&quot;'+item[:factory_name]+'&quot;);' )<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end</p>
+     <p>For each <span class="codeInline">&lt;set&gt;</span>, we provide a JavaScript link to the <span class="codeInline">updateChart()</span> function and pass the factory index and factory name to it.</p>
+     <p>Effectively, our page is now set to show two charts. The pie chart shows the summary data provided to it using dataXML method. The column chart shows the above &quot;friendly&quot; error message. Now, when each pie slice is clicked, the <span class="codeInline">updateChart()</span> JavaScript function is called and the index<span class="codeInline"> of the </span>factory in the array and the factory name  of the pie is passed to it. This function is responsible for updating the column chart and contains the following code: </p>
+     <p class="codeBlock"> <span class="codeComment">/** <br>
+* updateChart method is invoked when the user clicks on a pie slice.<br>
+* In this method, we get the index of the factory, build the XML data<br>
+* for that that factory, using data stored in data array, and finally<br>
+* update the Column Chart.<br>
+* @param factoryIndex Sequential Index of the factory.<br>
+* @param factoryName Name of the factory.<br>
+*/ </span><br>
+function updateChart(factoryIndex,factoryName){<br>
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//defining array of colors<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//We also initiate a counter variable to help us cyclically rotate through<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//the array of colors.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;var FC_ColorCounter=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var arr_FCColors= new Array(&quot;1941A5&quot; , &quot;AFD8F8&quot;, &quot;F6BD0F&quot;, &quot;8BBA00&quot;, &quot;A66EDD&quot;, &quot;F984A1&quot;, &quot;CCCC00&quot;, &quot;999999&quot;, &quot;0099CC&quot;, &quot;FF0000&quot;, &quot;006F00&quot;,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;0099FF&quot;, &quot;FF66CC&quot;, &quot;669966&quot;, &quot;7C7CB4&quot;, &quot;FF9933&quot;, &quot;9900FF&quot;, &quot;99FFCC&quot;, &quot;CCCCFF&quot;, &quot;669900&quot;);<br>
+<br>
+<br>
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Storage for XML data document</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;var strXML = &quot;&lt;graph caption='&quot; + factoryName + &quot; Output ' subcaption='(In Units)' xAxisName='Date' decimalPrecision='0'&gt;&quot;;<br>
+<br>
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Add &lt;set&gt; elements</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;var i=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for (i=0; i&lt;data[factoryIndex].length; i++){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;set name='&quot; + data[factoryIndex][i][0] + &quot;' value='&quot; + data[factoryIndex][i][1] + &quot;' color='&quot;+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr_FCColors[++FC_ColorCounter % arr_FCColors.length] +&quot;' /&gt;&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Closing graph Element</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;/graph&gt;&quot;;<br>
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Update it's XML</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;updateChartXML(&quot;FactoryDetailed&quot;,strXML);<br>
+}</p>
+     <p>Here, </p>
+     <ol>
+       <li>We first create the XML data document for the column chart by iterating through data contained in our JavaScript <span class="codeInline">data</span> array, by using the index of the factory provided as parameter. </li>
+       <li>Thereafter, we pass this XML data to the column chart. To do so, we first get a reference to the column chart using it's DOM Id <span class="codeInline">FactoryDetailed</span>. We use the <span class="codeInline">getChartFromId</span>() function defined in <span class="codeInline">FusionCharts.js</span> to do so. </li>
+       <li>Once we've the reference to the chart, we simply call the <span class="codeInline">updateChartXML</span> method of the chart and pass the chart id and XML data document as parameters. </li>
+       <li>This updates the chart with new data. </li>
+     </ol>
+     <p>When you now see the application, the initial state would look as under: </p>     <p class="text"><img src="Images/Code_JS_XML_Ini.jpg" class="imageBorder" /></p>
+     <p class="text">And when you click on a pie slice, the following would appear on the same page (without involving any browser refreshes): </p>
+     <p class="text"><img src="Images/Code_JS_XML_Fin.jpg" width="575" height="516" /> </p>
+     <p class="text">This example demonstrated a very basic sample of the integration capabilities possible with FusionCharts Free. For advanced demos, you can see and download our FusionCharts Blueprint/Demo Applications.  </p></td>
+  </tr>
+</table>
+</body>
+</html>

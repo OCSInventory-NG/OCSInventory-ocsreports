@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="98%" border="0" align="right" cellpadding="2" cellspacing="1">
+  <tr> 
+    <td class="pageHeader">Funnel Chart &gt; Your First Chart</td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>As a first funnel chart, we'll build one of the most common 
+        charts used in business scenarios - monthly comparison of sales for the 
+        year. Each funnel segment in the chart would represent a month. The final 
+        result would look as under:</p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td class="text"><div align="left"><img src="Images/Funnel_FirstChart.jpg" width="287" height="352"></div></td>
+  </tr>
+  <tr> 
+    <td class="text">The data table for the above chart is:</td>
+  </tr>
+  <tr> 
+    <td class="text"><table width="200" border="1" cellspacing="0" cellpadding="1">
+        <tr class="header"> 
+          <td><font color="#666666">Month</font></td>
+          <td><div align="right"><font color="#666666">Net Revenue</font></div></td>
+        </tr>
+        <tr class="text"> 
+          <td>January</td>
+          <td><div align="right">$17400</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>February</td>
+          <td><div align="right">$19800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>March</td>
+          <td><div align="right">$21800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>April</td>
+          <td><div align="right">$23800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>May</td>
+          <td><div align="right">$29600</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>June</td>
+          <td><div align="right">$27600</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>July</td>
+          <td><div align="right">$31800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>August</td>
+          <td><div align="right">$39700</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>September</td>
+          <td><div align="right">$37800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>October</td>
+          <td><div align="right">$21900</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>November</td>
+          <td><div align="right">$32900</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>December</td>
+          <td><div align="right">$39800</div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td class="text">With the data table in hand, lets now get started with the 
+      chart XML.</td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p><strong>Creating the chart</strong></p>
+      <p>To start with, we place the <span class="codeInline">&lt;chart&gt;</span> 
+        element. If you had a careful look at the charts, you might have seen 
+        that all the numeric values on the chart are preceded by a <span class="codeInline">'$'</span> sign. This 
+        <span class="codeInline">'$'</span> sign is what is called a number prefix. We add a number prefix using 
+        the <span class="codeInline">numberPrefix</span> attribute of the <span class="codeInline">&lt;chart&gt;</span> 
+        element. The <span class="codeInline">&lt;chart&gt;</span> element looks 
+        as under:</p></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="codeInline">&lt;chart numberPrefix='$'&gt;</td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text">Now all we need to do is pass the data values to the funnel 
+      chart. For each data row, a <span class="codeInline">&lt;set&gt;</span> element 
+      is used. Since we have 12 data rows here (for the 12 months), we would be 
+      using 12 of those elements. The data row name is passed using the <span class="codetext">name</span> 
+      attribute of the <span class="codeInline">&lt;set&gt;</span> element while 
+      the value is passed using the <span class="codetext">value</span> attribute. 
+      And finally, to set the color in which the funnel segment corresponding 
+      to the data row would be shown, the <span class="codeInline">color</span> 
+      attribute is used. The value of the <span class="codeInline">color</span> attribute should be a hex color 
+      code without the '#' sign. A <span class="codeInline">&lt;set&gt;</span> element complete with these attributes 
+      would look like:</td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="codeInline">&lt;set name='Jan' value='17400' color='0099FF' /&gt;</td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text">The names and values of each data row are displayed on the 
+      corresponding funnel segments.</td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text">After putting in 12 <span class="codeInline">&lt;set&gt;</span> elements with their attributes 
+      for the 12 months, the chart would be complete and we would just need to 
+      stick in the <span class="codeInline">&lt;/chart&gt;</span> element. To save 
+      you the misery of having to convert all of that tabular data into XML, here 
+      you have the final XML:</td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="codeBlock">&lt;chart numberPrefix='$'&gt;<br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Jan' value='17400' color='0099FF' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Feb' value='19800' color='FF66CC' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Mar' value='21800' color='996600' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Apr' value='23800' color='669966' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='May' value='29600' color='7C7CB4' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Jun' value='27600' color='FF9933' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Jul' value='31800' color='CCCC00' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Aug' value='39700' color='9900FF' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Sep' value='37800' color='999999' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Oct' value='21900' color='99FFCC' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      name='Nov' value='32900' color='CCCCFF' /&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+    name='Dec' value='39800' color='669900' /&gt;<br> &lt;/chart&gt;</td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>So now on your hands, you have your first funnel chart 
+        and that too with some very business-like data plotted on it!</p></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

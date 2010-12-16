@@ -1,0 +1,7 @@
+<% @page_title="FusionCharts - Simple Column 3D Chart" %>
+<% @page_heading="Examples" %>
+<% @page_subheading="Basic example using pre-built Data.xml" %>
+<%
+	#Create the chart - Column 3D Chart with data from Data/Data.xml
+	render_chart_html '/FusionCharts/FCF_Column3D.swf', '/Data/Data.xml', '', 'myFirstHTML', 600, 300, false do-%>
+<% end -%>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts and XML</h2></td>
+  </tr>
+  <tr> 
+    <td class="text"><p>FusionCharts uses XML (eXtensible Markup Language) to 
+        create and manipulate charts. XML is a simple and structured language 
+        that is easy to read and understand. In case you're not aware of XML as 
+        yet, here are a few basics things to know about an XML document:</p>
+      <ul>
+        <li> An XML document is a simple text file consisting of tags and data 
+          associated with them.</li>
+        <li>You can make up your own tags like <span class="codeInline">&lt;mytag&gt;&lt;/mytag&gt;</span><span class="text"> 
+          to store data</span></li>
+        <li>Every opening tag requires a matching closing tag. Like <span class="codeInline">&lt;name&gt;</span> 
+          requires <span class="codeInline">&lt;/name&gt;</span>. e.g.,<span class="codeInline"> 
+          &lt;name&gt;John Doe&lt;/name&gt;</span><span class="codetext">. </span>If 
+          an element has no content, the opening and closing tags may be combined 
+          into a single &quot;shortcut&quot; tag such as <span class="codeInline">&lt;name/&gt;</span><span class="codetext">.</span> 
+        </li>
+        <li>XML tags are case-sensitive. So <span class="codeInline">&lt;name&gt;</span> 
+          should be closed with<span class="codetext"> </span><span class="codeInline">&lt;/name&gt;</span> 
+          and not <span class="codeInline">&lt;/Name&gt;</span> or<span class="codetext"> 
+          </span><span class="codeInline">&lt;/NAME&gt;</span><span class="codetext"> 
+          </span>or any other variant of the same.</li>
+        <li>You can define attributes for a tag to render more details. e.g.,<span class="codetext"> 
+          </span><span class="codeInline">&lt;name isPetName='true'&gt;John Doe&lt;/name&gt;</span>. 
+          Here <span class="codeInline">isPetName</span> is an attribute of the 
+          <span class="codetext">name</span> element. In FusionCharts, we've 
+          four types of attributes: 
+          <ul>
+            <li><strong>Boolean</strong> - Attributes which can take a 0 or 1 
+              value. Like<span class="codeInline"> &lt;graph showNames='1' &gt;</span></li>
+            <li><strong>Number</strong> - Attributes which take a numeric value. 
+              Like <span class="codeInline">&lt;graph yAxisMaxValue='200' &gt;</span></li>
+            <li><strong>String</strong> - Attributes which take a string value. 
+              Like <span class="codeInline">&lt;graph caption='My Chart' &gt;</span></li>
+            <li><strong>Hex Color Code</strong> - Attributes that take a hex color 
+              code (without #). Like <span class="codeInline">&lt;graph bgColor='FFFFDD' 
+              &gt;</span></li>
+          </ul>
+        </li>
+        <li>Special characters like ' (quote), &quot; (double quote), % (percentage) 
+          etc are to be replaced by the XML converts. Like, the character &quot; 
+          (double quote) in a string constant must be denoted as <span class="codetext">&amp;quot;. 
+          </span></li>
+      </ul>
+      <p>The entire FusionCharts chart is controlled by XML parameters i.e., you 
+        use XML to define the cosmetic as well as functional properties for the 
+        chart. There are a lot of properties that you can define for each chart 
+        type. </p>
+      <p>However, it is not necessary to define all the attributes for a given 
+        chart. For example, if you do not want to change the default setting of 
+        the canvas (color, alpha etc.), you don't need to define any attributes 
+        for the canvas - the default values will be assumed. Thus, each chart 
+        can be generated using minimal attributes without concern  for finer details. As you become more proficient in the chart attributes, you could 
+        use it to create complex charts with a wide range of features and an informative 
+        appearance.</p>
+      <p>FusionCharts has a specific XML structure for each chart. Broadly, we 
+        define the XML structure into following types, depending on the chart 
+        type:</p>
+      <ul>
+        <li><strong><u>Single Series Charts</u></strong><br>
+          Single Series Charts are those which depict only one set of data on 
+          the chart. Like, our previous example of Monthly sales summary was a 
+          single series chart, as we had just one data set (i.e., data for 1 year). 
+          In that chart, we were not comparing data between two datasets (e.g., 
+          monthly sales comparison between two or more years).<br>
+          <br>
+          XML for the single series chart is the simplest to understand, as you've 
+          already seen in the previous examples.<br>
+          <br>
+        </li>
+        <li><strong><u>Multi-Series Charts</u></strong><u><br>
+          </u>Multi-series charts are used to compare 2 or more datasets like 
+          monthly comparison for 2 or more years. Under multi-series charts, we 
+          can define the following subcategories: 
+          <ul>
+            <li><strong>Standard Multi-series Charts</strong><br>
+              The standard multi-series charts, like multi-series column, line, 
+              area etc., are used for straightforward comparison of various datasets 
+              on the chart.<br>
+            </li>
+            <li><strong>Stacked Charts<br>
+              </strong>Stacked charts, like stacked column, area etc., are used 
+              to compare cumulative or grouped data. e.g., monthly summary of 
+              sales on a chart. Say if we wanted to show which part of revenue 
+              came from products and which part from services, we can use the 
+              stacked column chart easily to depict the data. Each month would 
+              represent a data column and the column would be divided into two 
+              parts- one representing service and the other product. <br>
+            </li>
+            <li><strong>Combination Charts</strong><br>
+              Combination Charts are a combination of two or more charts or y-axis. 
+              <br />
+              <br />
+            </li>
+          </ul>
+        </li>
+        <li><strong><u>Financial Charts </u></strong><br>
+           The candlestick chart is a special type of chart basically meant for plotting   financial stock market data. There are four elements necessary to construct a candlestick chart, the OPEN,   HIGH, LOW and CLOSE price for a given time period.<br>
+        </li>
+      </ul></td>
+  </tr>
+</table>
+</body>
+</html>

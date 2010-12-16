@@ -1,0 +1,424 @@
+<html>
+<head>
+<title>
+FusionCharts FREE - XML Structure
+</title>
+<link REL="stylesheet" HREF="Style.css" />
+</head>
+
+<body topMargin="15" leftMargin="15">
+<span class="pageHeader">Area 2D Chart Specification Sheet</span>
+<br />
+<span class="textbold">SWF: </span>
+<span class="text">FCF_Area2D.swf</span>
+<br />
+<br />
+<table width="98%" border="0" align="right" cellpadding="2" cellspacing="1">
+
+  <tr> 
+    <td valign="top" class="text">A 2D Area chart looks as under:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="Images/XML_2DArea_1.gif" width="397" height="321" /></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>And, the XML data for this chart can be 
+        listed as under:</p></td>
+  </tr>
+  <tr > 
+    <td class="codeBlock">
+			&lt;graph caption='Fruit Production for March' 
+      subCaption='(in Millions)' yaxisname='Fruit' xaxisname='Quantity' showAlternateHGridColor='1' 
+      alternateHGridAlpha='10' alternateHGridColor='AFD8F8' numDivLines='4' decimalPrecision='0' 
+      canvasBorderThickness='1' canvasBorderColor='114B78' baseFontColor='114B78' 
+      hoverCapBorderColor='114B78' hoverCapBgColor='E7EFF6'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set name='Orange' value='23' color='AFD8F8' alpha='70'/&gt; 
+      <br />
+      &nbsp;&nbsp;&nbsp;&lt;set name='Apple' value='12' color='F6BD0F' alpha='70'/&gt; 
+      <br />
+      &nbsp;&nbsp;&nbsp;&lt;set name='Banana' value='17' color='8BBA00' alpha='70'/&gt; 
+      <br />
+      &nbsp;&nbsp;&nbsp;&lt;set name='Mango' value='14' color='A66EDD' alpha='70'/&gt; 
+      <br />
+      &nbsp;&nbsp;&nbsp;&lt;set name='Litchi' value='12' color='F984A1' alpha='70'/&gt;<br />
+    &lt;/graph&gt;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>&nbsp; </p></td>
+  </tr>
+  <tr> 
+    <td class="trLightBlueBg"><span class="header">&lt;graph&gt; Attributes</span> </td>
+  </tr>
+  <tr> 
+    <td class="text">The <span class="codeInline">&lt;graph&gt;</span> element for 
+      this chart can have the following properties:    </td>
+  </tr>
+  <tr > 
+    <td valign="top" class="text"> <BR /><p class="textbold">Background Properties</p>
+      <ul>
+        <li><span class="codeInline">bgColor=&quot;HexColorCode&quot; </span>: This 
+          attribute sets the background color for the chart. You can set any hex 
+          color code as the value of this attribute. Remember that you DO NOT 
+          need to assign a &quot;#&quot; at the beginning of the hex color code. 
+          In fact, whenever you need to provide any hex color code in FusionCharts 
+          XML data document, you do not have to assign the # at the beginning.        </li>
+        <li><span class="codeInline"> bgAlpha=&quot;NumericalValue(0-100)&quot; 
+          </span>: This attribute helps you set the alpha (transparency) of the 
+          graph. This is particularly useful when you need to load the chart in 
+          one of your Flash movies or when you want to set a background image 
+          (.swf) for the chart. </li>
+        <li><span class="codeInline">bgSWF=&quot;Path of SWF File&quot; </span>: 
+          This attribute helps you load an external .swf file as a background 
+          for the chart.</li>
+      </ul>
+      <p> <span class="textbold">Canvas Properties</span></p>
+      <ul>
+        <li><span class="codeInline">canvasBgColor=&quot;HexColorCode&quot; </span>: 
+          This attribute helps you set the background color of the canvas. </li>
+        <li><span class="codeInline"> canvasBgAlpha=&quot;NumericalValue(0-100)&quot; 
+          </span>: This attribute helps you set the alpha (transparency) of the 
+          canvas. </li>
+        <li> <span class="codeInline">canvasBorderColor=&quot;HexColorCode&quot;</span> 
+          : This attribute helps you set the border color of the canvas. </li>
+        <li> <span class="codeInline">canvasBorderThickness=&quot;NumericalValue(0-100)&quot;</span> 
+          : This attribute helps you set the border thickness (in pixels) of the 
+          canvas. </li>
+      </ul>
+      <p class="textbold">Chart and Axis Titles</p>
+      <ul>
+        <li><span class="codeInline">caption=&quot;String&quot; </span>: This attribute 
+          determines the caption of the chart that would appear at the top of 
+          the chart. </li>
+        <li><span class="codeInline">subCaption=&quot;String&quot; :</span> Sub-caption 
+          of the chart </li>
+        <li><span class="codeInline">xAxisName= &quot;String&quot;</span> : x-Axis 
+          text title (if the chart supports axis) </li>
+        <li><span class="codeInline">yAxisName= &quot;String&quot;</span> : y-Axis 
+          text title (if the chart supports axis) </li>
+      </ul>
+      <p class="textbold"> Chart Numerical Limits</p>
+      <ul>
+        <li><span class="codeInline">yAxisMinValue=&quot;value&quot;</span>: This 
+          attribute determines the lower limit of y-axis.</li>
+        <li> <span class="codeInline">yAxisMaxValue=&quot;value&quot;</span> : This 
+          attribute determines the upper limit of y-axis.<br />
+          If you don't specify any of the above values, it is automatically calculated 
+          by FusionCharts based on the data provided by you.</li>
+      </ul>
+      <p class="textbold"> Generic Properties</p>
+      <ul>
+        <li><span class="codeInline">shownames=&quot;1/0&quot;</span> : This attribute 
+          can have either of the two possible values: 1,0. It sets the configuration 
+          whether the x-axis values (for the data sets) will be displayed or not. 
+          By default, this attribute assumes the value 1, which means that the 
+          x-axis names will be displayed. </li>
+        <li> <span class="codeInline">showValues=&quot;1/0&quot;</span> : This attribute 
+          can have either of the two possible values: 1,0. It sets the configuration 
+          whether the data numerical values will be displayed along with the columns, 
+          bars, lines and the pies. By default, this attribute assumes the value 
+          1, which means that the values will be displayed. </li>
+        <li><span class="codeInline">showLimits=&quot;1/0&quot;</span> : Option 
+          whether to show/hide the chart limit textboxes.</li>
+        <li><span class="codeInline">rotateNames=&quot;1/0&quot;</span> : Configuration 
+          that sets whether the category name text boxes would be rotated or not.</li>
+        <li><span class="codeInline">animation=&quot;1/0&quot;</span> : This attribute 
+          sets whether the animation is to be played or whether the entire chart 
+          would be rendered at one go.</li>
+      </ul>
+      <p class="textbold"> Area Properties</p>
+      <ul>
+        <li><span class="codeInline">showAreaBorder=&quot;1/0&quot;</span> : Configuration 
+          whether the border over the area would be shown or not.</li>
+        <li> <span class="codeInline">areaBorderThickness=&quot;Numeric Value&quot;</span> 
+          : If the area border is to be shown, this attribute sets the thickness 
+          (in pixels) of the area border.</li>
+        <li> <span class="codeInline">areaBorderColor=&quot;Hex Color&quot;</span> 
+          : If the area border is to be shown, this attribute sets the color of 
+          the area border.</li>
+        <li> <span class="codeInline">areaBgColor=&quot;Hex Color&quot; </span>: 
+          If you want the entire area chart to be filled with one color, set that 
+          color for this attribute.</li>
+        <li> <span class="codeInline">areaAlpha=&quot;0-100&quot; </span>: Transparency 
+          of the area fill.</li>
+      </ul>
+      <p class="textbold"> Font Properties</p>
+      <ul>
+        <li><span class="codeInline">baseFont=&quot;FontName&quot;</span> : This 
+          attribute sets the base font family of the chart font which lies on 
+          the canvas i.e., all the values and the names in the chart which lie 
+          on the canvas will be displayed using the font name provided here.</li>
+        <li><span class="codeInline"> baseFontSize=&quot;FontSize&quot;</span> : 
+          This attribute sets the base font size of the chart i.e., all the values 
+          and the names in the chart which lie on the canvas will be displayed 
+          using the font size provided here. </li>
+        <li><span class="codeInline"> baseFontColor=&quot;HexColorCode&quot; </span>: 
+          This attribute sets the base font color of the chart i.e., all the values 
+          and the names in the chart which lie on the canvas will be displayed 
+          using the font color provided here. </li>
+        <li><span class="codeInline"> outCnvBaseFont = &quot;FontName&quot;</span> 
+          : This attribute sets the base font family of the chart font which lies 
+          outside the canvas i.e., all the values and the names in the chart which 
+          lie outside the canvas will be displayed using the font name provided 
+          here. </li>
+        <li><span class="codeInline"> outCnvBaseFontSze=&quot;FontSize&quot;</span> 
+          : This attribute sets the base font size of the chart i.e., all the 
+          values and the names in the chart which lie outside the canvas will 
+          be displayed using the font size provided here. </li>
+        <li> <span class="codeInline">outCnvBaseFontColor=&quot;HexColorCode&quot;:</span> 
+          This attribute sets the base font color of the chart i.e., all the values 
+          and the names in the chart which lie outside the canvas will be displayed 
+          using the font color provided here.</li>
+      </ul>
+      <p class="textbold"> Number Formatting Options</p>
+      <ul>
+        <li><span class="codeInline">numberPrefix=&quot;$&quot; </span>: Using this 
+          attribute, you could add prefix to all the numbers visible on the graph. 
+          For example, to represent all dollars figure on the chart, you could 
+          specify this attribute to ' $' to show like $40000, $50000. </li>
+        <li><span class="codeInline"> numberSuffix=&quot;p.a&quot;</span> : Using 
+          this attribute, you could add prefix to all the numbers visible on the 
+          graph. For example, to represent all figure quantified as per annum 
+          on the chart, you could specify this attribute to ' /a' to show like 
+          40000/a, 50000/a. <br />
+          <strong>To use special characters for <span class="codeInline">numberPrefix</span> 
+          or <span class="codeInline">numberSuffix</span>, you'll need to URL Encode 
+          them. That is, suppose you wish to have <span class="codeInline">numberSuffix</span> 
+          as <span class="codeInline">%</span> (like <span class="codeInline">30%</span>), 
+          you'll need to specify it as under:<br />
+          <span class="codeInline">numberSuffix='%25' </span></strong></li>
+        <li><span class="codeInline"> formatNumber=&quot;1/0&quot;</span> : This 
+          configuration determines whether the numbers displayed on the chart 
+          will be formatted using commas, e.g., 40,000 if formatNumber='1' and 
+          40000 if formatNumber='0 '</li>
+        <li><span class="codeInline">formatNumberScale=&quot;1/0&quot; :</span> 
+          Configuration whether to add K (thousands) and M (millions) to a number 
+          after truncating and rounding it - e.g., if formatNumberScale is set 
+          to 1, 10434 would become 1.04K (with decimalPrecision set to 2 places). 
+          Same with numbers in millions - a M will added at the end. </li>
+        <li><span class="codeInline">decimalSeparator=&quot;.&quot;</span> : This 
+          option helps you specify the character to be used as the decimal separator 
+          in a number.</li>
+        <li> <span class="codeInline">thousandSeparator=&quot;,&quot;</span> : This 
+          option helps you specify the character to be used as the thousands separator 
+          in a number.</li>
+        <li> <span class="codeInline">decimalPrecision=&quot;2&quot;</span> : Number 
+          of decimal places to which all numbers on the chart would be rounded 
+          to.</li>
+        <li><span class="codeInline">divLineDecimalPrecision=&quot;2&quot;:</span> 
+          Number of decimal places to which all divisional line (horizontal) values 
+          on the chart would be rounded to.</li>
+        <li> <span class="codeInline">limitsDecimalPrecision=&quot;2&quot; :</span> 
+          Number of decimal places to which upper and lower limit values on the 
+          chart would be rounded to.</li>
+      </ul>
+      <p><span class="textbold">Zero Plane<br />
+        </span><br />
+        The zero plane is a simple plane (line) that signifies the 0 
+        position on the chart. If there are no negative numbers on the chart, 
+      you won't see a visible zero plane.</p>
+      <ul>
+        <li><span class="codeInline">zeroPlaneThickness=&quot;Numeric Value&quot; 
+          </span>: Thickness (in pixels) of the line indicating the zero plane.</li>
+        <li><span class="codeInline">zeroPlaneColor=&quot;Hex Code&quot; </span>: 
+          The intended color for the zero plane.</li>
+        <li><span class="codeInline">zeroPlaneAlpha=&quot;Numerical Value 0-100&quot; 
+          </span>: The intended transparency for the zero plane. </li>
+      </ul>
+      <p class="textbold">Divisional Lines (Horizontal)</p>
+      <p>Divisional Lines are horizontal or vertical lines running through the 
+        canvas. Each divisional line signfies a smaller unit of the entire axis 
+        thus aiding the users in interpreting the chart.</p>
+      <ul>
+        <li><span class="codeInline">numdivlines=&quot;NumericalValue&quot;</span> 
+          : This attribute sets the number of divisional lines to be drawn.</li>
+        <li> <span class="codeInline">divlinecolor=&quot;HexColorCode&quot;</span> 
+          : The color of grid divisional line.</li>
+        <li> <span class="codeInline">divLineThickness=&quot;NumericalValue&quot;</span> 
+          : Thickness (in pixels) of the grid divisional line.</li>
+        <li> <span class="codeInline">divLineAlpha=&quot;NumericalValue0-100&quot; 
+          </span>: Alpha (transparency) of the grid divisional line.</li>
+        <li> <span class="codeInline">showDivLineValue=&quot;1/0&quot;</span> : 
+          Option to show/hide the textual value of the divisional line.</li>
+        <li><span class="codeInline">showAlternateHGridColor=&quot;1/0&quot;</span> 
+          : Option on whether to show alternate colored horizontal grid bands.</li>
+        <li> <span class="codeInline">alternateHGridColor=&quot;HexColorCode&quot;</span> 
+          : Color of the alternate horizontal grid bands.</li>
+        <li> <span class="codeInline">alternateHGridAlpha=&quot;NumericalValue0-100&quot;</span> 
+          : Alpha (transparency) of the alternate horizontal grid bands. </li>
+      </ul>
+      <p class="textbold">Divisional Lines (Vertical)</p>
+      <ul>
+        <li> <span class="codeInline">numVDivLines=&quot;NumericalValue&quot;</span> 
+          : Sets the number of vertical divisional lines to be drawn.</li>
+        <li><span class="codeInline"> VDivlinecolor=&quot;HexColorCode&quot;</span> 
+          : Color of vertical grid divisional line. </li>
+        <li> <span class="codeInline">VDivLineThickness=&quot;NumericalValue&quot;</span> 
+          : Thickness (in pixels) of the line</li>
+        <li> <span class="codeInline">VDivLineAlpha=&quot;NumericalValue0-100&quot; 
+          </span>: Alpha (transparency) of the line.</li>
+        <li>showAlternateVGridColor=&quot;1/0&quot; : Option on whether to show 
+          alternate colored vertical grid bands.</li>
+        <li> <span class="codeInline">alternateVGridColor=&quot;HexColorCode&quot;</span> 
+          : Color of the alternate vertical grid bands.</li>
+        <li> <span class="codeInline">alternateVGridAlpha=&quot;NumericalValue0-100&quot;</span> 
+          : Alpha (transparency) of the alternate vertical grid bands.</li>
+      </ul>
+      <p class="textbold">Hover Caption Properties</p>
+      <p>The hover caption is the tool tip which shows up when the user moves 
+        his mouse over a particular data item (column, line, pie, bar etc.).</p>
+      <ul>
+        <li><span class="codeInline">showhovercap=&quot;1/0&quot;</span> : Option 
+          whether to show/hide hover caption box. </li>
+        <li><span class="codeInline"> hoverCapBgColor=&quot;HexColorCode&quot;</span> 
+          : Background color of the hover caption box.</li>
+        <li><span class="codeInline"> hoverCapBorderColor=&quot;HexColorCode&quot;</span> 
+          : Border color of the hover caption box.</li>
+        <li> <span class="codeInline">hoverCapSepChar=&quot;Char&quot; </span>: 
+          The character specified as the value of this attribute separates the 
+          name and value displayed in the hover caption box. </li>
+      </ul>
+      <p class="textbold">Chart Margins</p>
+      <p>Chart Margins refers to the empty space left on the top, bottom, left 
+        and right of the chart. That means, FusionCharts would leave that much 
+        amount of empty space on the chart, before it starts plotting. </p>
+      <ul>
+        <li><span class="codeInline">chartLeftMargin=&quot;Numerical Value (in pixels)&quot; 
+          :</span> Space to be left unplotted on the left side of the chart.</li>
+        <li><span class="codeInline"> chartRightMargin=&quot;Numerical Value (in 
+          pixels)&quot; :</span> Empty space to be left on the right side of the 
+          chart</li>
+        <li><span class="codeInline"> chartTopMargin=&quot;Numerical Value (in pixels)&quot; 
+          :</span> Empty space to be left on the top of the chart.</li>
+        <li> <span class="codeInline">chartBottomMargin=&quot;Numerical Value (in 
+          pixels)&quot; :</span> Empty space to be left at the bottom of the chart.</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="trLightBlueBg"><p class="header">&lt;set&gt; element</p></td>
+  </tr>
+  <tr> 
+    <td class="text"><p>We now move on to the <span class="codeInline">&lt;set&gt;</span> 
+        element which is a child element of the <span class="codeInline">&lt;graph&gt;</span> 
+        element and determines a set of data which would appear on the graph. 
+      </p>
+      <p>A <span class="codeInline">&lt;set&gt;</span> element looks as under: <br />
+        <span class="codeInline">&lt;set name=&quot;Jan&quot; value=&quot;54&quot; 
+        color=&quot;3300FF&quot; hoverText=&quot;January&quot; link=&quot;ShowDetails.asp%3FMonth=Jan&quot; 
+        showName=&quot;1&quot;/&gt;</span> </p>
+      <p>Now let's study the the possible attributes of the <span class="codeInline">&lt;set&gt;</span> 
+        element: </p></td>
+  </tr>
+  <tr> 
+    <td class="text"><ul>
+        <li><span class="codeInline">name=&quot;string&quot;</span><br />
+          Example: <span class="codeInline">&lt;set name='Jan' ...&gt;</span><br />
+          This attribute determines the name by which the set of data would be 
+          represented in the chart. In the above example, the value of this attribute 
+          is &quot;Jan&quot; and therefore, this set of data would be represented 
+          on the chart with the name &quot;Jan&quot;. <br />
+        </li>
+        <li><span class="codeInline">value=&quot;NumericalValue&quot;</span><br />
+          Example: <span class="codeInline">&lt;set name='Jan' value='12345' ...&gt;</span><br />
+          This attribute determines the numerical value for the set of data according 
+          to which the chart would be built for the concerned set of data. <br />
+        </li>
+        <li><span class="codeInline">color=&quot;HexCode&quot;</span><br />
+          Example: <span class="codeInline">&lt;set name='Jan' value='12345' color='636363' 
+          ...&gt;</span><br />
+          This attribute determines the color for the concerned set of data in 
+          which it would appear in the graph. <br />
+        </li>
+        <li><span class="codeInline">hoverText=&quot;String value&quot;</span><br />
+          Example: <span class="codeInline">&lt;set name='Jan' value='12345' color='636363' 
+          hoverText='January'...&gt;</span><br />
+          Sometimes, you might just want to show the abbreviated names on the 
+          x-axis (to avoid cluttering or to make the chart look more legible). 
+          However, you still have the option of showing the full name as tool 
+          tip using this attribute. Like, in our example, we're showing the abbreviated 
+          form <span class="codeInline">&quot;Jan&quot;</span> on our x-axis, but 
+          the full word <span class="codeInline">&quot;January&quot;</span> is shown 
+          as the tool tip.<br />
+        </li>
+        <li><span class="codeInline">link=&quot;URL&quot;</span><br />
+          Example: <span class="codeInline">&lt;set &#8230; link='ShowDetails.asp%3FMonth=Jan' 
+          ...&gt;</span><br />
+          This attribute defines the hotspots in your graph. The hotspots are 
+          links over the data sets. Please note that you'll need to URL Encode 
+          all the special characters (like ? and &amp;) present in the link.All 
+          the server side scripting languages provide a generic function to URL 
+          Encode any string - like in ASP and ASP.NET, we've Server.URLEncode(strURL) 
+          and so on. <br />
+          <br />
+          To open a link in a new window, just put <span class="codeInline">n-</span> 
+          in front of the link e.g., <span class="codeInline">link=&quot;n-ShowDetails.asp%3FMonth=Jan&quot;</span>. 
+          <br />
+        </li>
+        <li><span class="codeInline">showName=&quot;1&quot;</span><br />
+          Example : <span class="codeInline">&lt;set ... showName=&quot;1&quot; 
+          ...&gt;</span><br />
+          This attribute can either the value of 0 or 1. A value of 1 indicates 
+          that the name of this data set will be displayed in the graph whereas 
+          0 indicates it won't be displayed. This attribute is particular useful 
+          when you want to show/hide names of alternate data items or say every 
+          x (th) data item.</li>
+      </ul>
+      <p> At the end of the &lt;set&gt; element, you would find a &quot;/&quot; 
+        which signals that it has no more child element <br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="trLightBlueBg"><p class="header" >&lt;trendLines&gt;</p></td>
+  </tr>
+  <tr> 
+    <td class="text"><p>Using the <span class="codeInline">&lt;trendLines&gt;</span> 
+        element (and child elements), you can define trend lines on the charts. 
+        Trend lines are the horizontal lines spanning the chart canvas that aid 
+        in interpretation of data with respect to some previous pre-determined 
+        figure. For each trend line on the chart, you need to define a <span class="codeInline">&lt;line&gt;</span> 
+        element as under:<br />
+        <span class="codeInline">&lt;line startValue='89.5' endValue='98' color='FF0000' 
+        displayvalue='Roll. Avg.' thickness='2' alpha='100' isTrendZone='0' showOnTop='1'/&gt;        </span></p>
+      <p>The <span class="codeInline">&lt;line&gt;</span> element can have the following 
+        attributes:</p>
+      <ul>
+        <li><span class="codeInline">startValue='NumericalValue'</span>: The starting 
+          y-axis value for the trendline. Say, if you want to plot a slanted trendline 
+          from value 102 to 109, the startValue would 102.</li>
+        <li><span class="codeInline">endValue='NumericalValue'</span>: The ending 
+          y-axis value for the trendline. Say, if you want to plot a slanted trendline 
+          from value 102 to 109, the endValue would 109. If you do not specify 
+          a value for endValue, it would automatically assume the same value as 
+          startValue.</li>
+        <li><span class="codeInline">color='HexCode'</span> : Color of the trend 
+          line and its associated text.</li>
+        <li><span class="codeInline">displayValue='StringValue'</span> : If you 
+          want to display a string caption for the trend line by its side, you 
+          can use this attribute. Example: <span class="codeInline">displayValue='Last 
+          Month High'</span>. When you don't supply this attribute, it automatically 
+          takes the value of <span class="codeInline">startValue</span>.</li>
+        <li><span class="codeInline">thickness='NumericalValue' </span>: Thickness 
+          of the trend line</li>
+        <li> <span class="codeInline">isTrendZone='1/0': </span><span class="text">Whether 
+          the trend would display a line, or a zone (filled colored rectangle).</span>        </li>
+        <li><span class="codeInline">showOnTop='1/0'</span>: Whether the trend line/zone 
+          would be displayed over other elements of the chart.</li>
+        <li><span class="codeInline">alpha='NumericalValue0-100'</span>: Alpha (transparency) 
+          of the trend line</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td class="text"><p>At the end of the data file, you would find a <span class="codeInline">&lt;/graph&gt;</span> 
+      element, which signals the end of the data file for the graph.</p>      </td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

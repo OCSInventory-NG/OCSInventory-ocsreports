@@ -1,0 +1,13 @@
+<% @page_title="FusionCharts Free - Simple Column 3D Chart using dataXML method" %>
+<% @page_heading="Examples" %>
+<% @page_subheading="Basic example using dataXML method (with XML data hard-coded in Builder Template itself)" %>
+<p>If you view the source of this page, you'll see that the XML data
+is present in this same page (inside HTML code).  dataXML method is
+ideal when you've to plot small amounts of data.</p>
+<%
+      # The xml is obtained as a string from builder template.
+	str_xml = render "fusioncharts/basic_example/sampledata"
+
+	#Create the chart - Column 3D Chart with data from str_xml variable using dataXML method
+	render_chart '/FusionCharts/FCF_Column3D.swf', '', str_xml, 'myNext', 600, 300, false, false do-%>
+<% end -%>

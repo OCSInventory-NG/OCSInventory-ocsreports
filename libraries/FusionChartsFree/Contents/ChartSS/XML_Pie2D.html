@@ -1,0 +1,291 @@
+<html>
+<head>
+<title>
+FusionCharts FREE - XML Structure
+</title>
+<link REL="stylesheet" HREF="Style.css" />
+</head>
+
+<body topMargin="15" leftMargin="15">
+<span class="pageHeader">Pie 2D Chart Specification Sheet</span>
+<br />
+<span class="textbold">SWF: </span><span class="text">FCF_Pie2D.swf</span>
+<br />
+<br />
+<table width="98%" border="0" align="right" cellpadding="2" cellspacing="1">
+  
+  
+ <tr> 
+    <td valign="top" class="text">A 2D Pie chart looks as under:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="Images/XML_2DPie1.gif" width="322" height="258" /></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>And, the XML data for this chart can be 
+        listed as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;graph caption='Pie Chart' decimalPrecision='0' 
+      showPercentageValues='0' showNames='1' numberPrefix='$' showValues='1' showPercentageInLabel='0' 
+      pieYScale='45' pieBorderAlpha='100' pieRadius='100' animation='0' shadowXShift='4' 
+      shadowYShift='4' shadowAlpha='40' pieFillAlpha='95' pieBorderColor='FFFFFF'&gt; 
+      <br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set value='25' name='Item A' color='AFD8F8'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set value='17' name='Item B' color='F6BD0F'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set value='23' name='Item C' color='8BBA00' isSliced='1'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set value='65' name='Item D' color='A66EDD'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set value='22' name='Item E' color='F984A1'/&gt;<br /> 
+    &lt;/graph&gt;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>&nbsp; </p></td>
+  </tr>
+  <tr> 
+    <td class="trLightBlueBg"><p class="header">&lt;graph&gt; Attributes </p></td>
+  </tr>
+  <tr> 
+    <td class="text">The <span class="codeInline">&lt;graph&gt;</span> element for 
+      this chart can have the following properties: 
+      <p> </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p class="textbold">Background Properties</p>
+      <ul>
+        <li><span class="codeInline">bgColor=&quot;HexColorCode&quot; </span>: This 
+          attribute sets the background color for the chart. You can set any hex 
+          color code as the value of this attribute. Remember that you DO NOT 
+          need to assign a &quot;#&quot; at the beginning of the hex color code. 
+          In fact, whenever you need to provide any hex color code in FusionCharts 
+          XML data document, you do not have to assign the # at the beginning.        </li>
+        <li><span class="codeInline"> bgAlpha=&quot;NumericalValue(0-100)&quot; 
+          </span>: This attribute helps you set the alpha (transparency) of the 
+          graph. This is particularly useful when you need to load the chart in 
+          one of your Flash movies or when you want to set a background image 
+          (.swf) for the chart. </li>
+        <li><span class="codeInline">bgSWF=&quot;Path of SWF File&quot; </span>: 
+          This attribute helps you load an external .swf file as a background 
+          for the chart.</li>
+      </ul>
+      <p class="textbold">Chart and Axis Titles</p>
+      <ul>
+        <li><span class="codeInline">caption=&quot;String&quot; </span>: This attribute 
+          determines the caption of the chart that would appear at the top of 
+          the chart. </li>
+        <li><span class="codeInline">subCaption=&quot;String&quot; :</span> Sub-caption 
+          of the chart </li>
+      </ul>
+      <p class="textbold">Generic Properties</p>
+      <ul>
+        <li><span class="codeInline">shownames=&quot;1/0&quot;</span> : This attribute 
+          can have either of the two possible values: 1,0. It sets the configuration 
+          whether the data names will be displayed or not alongside the pie. </li>
+        <li> <span class="codeInline">showValues=&quot;1/0&quot;</span> : This attribute 
+          can have either of the two possible values: 1,0. It sets the configuration 
+          whether the data values will be displayed along with the pies.</li>
+        <li><span class="codeInline">showPercentageValues=&quot;1/0&quot;</span> 
+          : If you've opted to show the data value, this attribute helps you control 
+          whether to show percentage values or actual values.</li>
+        <li><span class="codeInline">showPercentageInLabel =&quot;1/0&quot;</span> 
+          : If you've opted to show the data value, this attribute helps you control 
+          whether to show percentage values or actual values in the pie labels.</li>
+        <li><span class="codeInline">animation=&quot;1/0&quot;</span> : This attribute 
+          sets whether the animation is to be played or whether the entire chart 
+          would be rendered at one go.</li>
+      </ul>
+      <p class="textbold">Pie Properties</p>
+      <ul>
+        <li><span class="codeInline">pieRadius=&quot;Numeric Pixels&quot;</span>: 
+          FusionCharts automatically calculates the best fit pie radius for the 
+          chart. However, if you want to enforce one of your own radius values, 
+          you can set it using this attribute.</li>
+        <li> <span class="codeInline">pieBorderThickness&quot;Numeric Value&quot;</span> 
+          : Each pie on the chart has a border, whose thickness you can specify 
+          using this attribute.</li>
+        <li> <span class="codeInline">pieBorderAlpha=&quot;0-100&quot; </span>: 
+          This attribute helps you set the border transparency for all the pie 
+          borders.</li>
+        <li> <span class="codeInline">pieFillAlpha=&quot;0-100&quot;</span> : This 
+          attribute helps you set the transparency for all the pies on the chart.</li>
+      </ul>
+      <p class="textbold">Name/Value display distance control</p>
+      <ul>
+        <li><span class="codeInline">slicingDistance=&quot;Numeric Value&quot; </span>: 
+          If you've opted to slice a particular pie, using this attribute you 
+          can control the distance between the sliced pie and the center of other 
+          pies.</li>
+        <li> <span class="codeInline">nameTBDistance=&quot;Numeric Value&quot;</span> 
+          : This attribute helps you set the distance of the name/value text boxes 
+          from the pie edge.</li>
+      </ul>
+      <p class="textbold">Pie Shadow Properties</p>
+      <ul>
+        <li><span class="codeInline">showShadow=&quot;1/0&quot;</span> : This attribute 
+          helps you set whether the pie shadow would be shown or not.</li>
+        <li> <span class="codeInline">shadowColor=&quot;Hex Code&quot;</span>: If 
+          you want to set your own shadow color, you'll need to specify that color 
+          for this attribute.</li>
+        <li> <span class="codeInline">shadowAlpha =&quot;0-100&quot; </span>: This 
+          attribute sets the transparency of the shadow.</li>
+        <li> <span class="codeInline">shadowXShift=&quot;Numeric Value&quot; </span>: 
+          This attribute helps you set the x shift of the shadow pie from the 
+          actual pie. That is, if you want to show the shadow 3 pixel right from 
+          the actual pie, set this attribute to 3. Similarly, if you want the 
+          shadow to appear on the left of the actual pie, set it to -3.</li>
+        <li> <span class="codeInline">shadowYShift=&quot;Numeric Value&quot; </span>: 
+          This attribute helps you set the y shift of the shadow pie from the 
+          actual pie. That is, if you want to show the shadow 3 pixel below the 
+          actual pie, set this attribute to 3. Similarly, if you want the shadow 
+          to appear above the actual pie, set it to -3.</li>
+      </ul>
+      <p class="textbold">Font Properties</p>
+      <ul>
+        <li><span class="codeInline">baseFont=&quot;FontName&quot;</span> : This 
+          attribute sets the base font family of the chart font which lies on 
+          the canvas i.e., all the values and the names in the chart which lie 
+          on the canvas will be displayed using the font name provided here.</li>
+        <li><span class="codeInline"> baseFontSize=&quot;FontSize&quot;</span> : 
+          This attribute sets the base font size of the chart i.e., all the values 
+          and the names in the chart which lie on the canvas will be displayed 
+          using the font size provided here. </li>
+        <li><span class="codeInline"> baseFontColor=&quot;HexColorCode&quot; </span>: 
+          This attribute sets the base font color of the chart i.e., all the values 
+          and the names in the chart which lie on the canvas will be displayed 
+          using the font color provided here. </li>
+      </ul>
+      <p class="textbold">Number Formatting Options</p>
+      <ul>
+        <li><span class="codeInline">numberPrefix=&quot;$&quot; </span>: Using this 
+          attribute, you could add prefix to all the numbers visible on the graph. 
+          For example, to represent all dollars figure on the chart, you could 
+          specify this attribute to ' $' to show like $40000, $50000. </li>
+        <li><span class="codeInline"> numberSuffix=&quot;p.a&quot;</span> : Using 
+          this attribute, you could add prefix to all the numbers visible on the 
+          graph. For example, to represent all figure quantified as per annum 
+          on the chart, you could specify this attribute to ' /a' to show like 
+          40000/a, 50000/a. <br />
+          <strong>To use special characters for <span class="codeInline">numberPrefix</span> 
+          or <span class="codeInline">numberSuffix</span>, you'll need to URL Encode 
+          them. That is, suppose you wish to have <span class="codeInline">numberSuffix</span> 
+          as <span class="codeInline">%</span> (like <span class="codeInline">30%</span>), 
+          you'll need to specify it as under:<br />
+          <span class="codeInline">numberSuffix='%25' </span></strong></li>
+        <li><span class="codeInline"> formatNumber=&quot;1/0&quot;</span> : This 
+          configuration determines whether the numbers displayed on the chart 
+          will be formatted using commas, e.g., 40,000 if formatNumber='1' and 
+          40000 if formatNumber='0 '</li>
+        <li><span class="codeInline">formatNumberScale=&quot;1/0&quot; :</span> 
+          Configuration whether to add K (thousands) and M (millions) to a number 
+          after truncating and rounding it - e.g., if formatNumberScale is set 
+          to 1, 10434 would become 1.04K (with decimalPrecision set to 2 places). 
+          Same with numbers in millions - a M will added at the end. </li>
+        <li><span class="codeInline">decimalSeparator=&quot;.&quot;</span> : This 
+          option helps you specify the character to be used as the decimal separator 
+          in a number.</li>
+        <li> <span class="codeInline">thousandSeparator=&quot;,&quot;</span> : This 
+          option helps you specify the character to be used as the thousands separator 
+          in a number.</li>
+        <li> <span class="codeInline">decimalPrecision=&quot;2&quot;</span> : Number 
+          of decimal places to which all numbers on the chart would be rounded 
+          to.</li>
+      </ul>
+      <p class="textbold">Hover Caption Properties</p>
+      <p>The hover caption is the tool tip which shows up when the user moves 
+        his mouse over a particular data item (column, line, pie, bar etc.).</p>
+      <ul>
+        <li><span class="codeInline">showhovercap=&quot;1/0&quot;</span> : Option 
+          whether to show/hide hover caption box. </li>
+        <li><span class="codeInline"> hoverCapBgColor=&quot;HexColorCode&quot;</span> 
+          : Background color of the hover caption box.</li>
+        <li><span class="codeInline"> hoverCapBorderColor=&quot;HexColorCode&quot;</span> 
+          : Border color of the hover caption box.</li>
+        <li> <span class="codeInline">hoverCapSepChar=&quot;Char&quot; </span>: 
+          The character specified as the value of this attribute separates the 
+          name and value displayed in the hover caption box. </li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td class="trLightBlueBg"><p class="header">&lt;set&gt; element</p></td>
+  </tr>
+  <tr> 
+    <td class="text"><p>We now move on to the <span class="codeInline">&lt;set&gt;</span> 
+        element which is a child element of the <span class="codeInline">&lt;graph&gt;</span> 
+        element and determines a set of data which would appear on the graph. 
+      </p>
+      <p>A <span class="codeInline">&lt;set&gt;</span> element looks as under: <br />
+        <span class="codeInline">&lt;set name=&quot;Jan&quot; value=&quot;54&quot; 
+        color=&quot;3300FF&quot; hoverText=&quot;January&quot; link=&quot;ShowDetails.asp%3FMonth=Jan&quot; 
+        showName=&quot;1&quot;/&gt;</span> </p>
+      <p>Now let's study the the possible attributes of the <span class="codeInline">&lt;set&gt;</span> 
+        element: </p></td>
+  </tr>
+  <tr> 
+    <td class="text"><ul>
+        <li><span class="codeInline">name=&quot;string&quot;</span><br />
+          Example: <span class="codeInline">&lt;set name='Jan' ...&gt;</span><br />
+          This attribute determines the name by which the set of data would be 
+          represented in the chart. In the above example, the value of this attribute 
+          is &quot;Jan&quot; and therefore, this set of data would be represented 
+          on the chart with the name &quot;Jan&quot;. <br />
+        </li>
+        <li><span class="codeInline">value=&quot;NumericalValue&quot;</span><br />
+          Example: <span class="codeInline">&lt;set name='Jan' value='12345' ...&gt;</span><br />
+          This attribute determines the numerical value for the set of data according 
+          to which the chart would be built for the concerned set of data. <br />
+        </li>
+        <li><span class="codeInline">color=&quot;HexCode&quot;</span><br />
+          Example: <span class="codeInline">&lt;set name='Jan' value='12345' color='636363' 
+          ...&gt;</span><br />
+          This attribute determines the color for the concerned set of data in 
+          which it would appear in the graph. <br />
+        </li>
+        <li><span class="codeInline">hoverText=&quot;String value&quot;</span><br />
+          Example: <span class="codeInline">&lt;set name='Jan' value='12345' color='636363' 
+          hoverText='January'...&gt;</span><br />
+          Sometimes, you might just want to show the abbreviated names on the 
+          x-axis (to avoid cluttering or to make the chart look more legible). 
+          However, you still have the option of showing the full name as tool 
+          tip using this attribute. Like, in our example, we're showing the abbreviated 
+          form <span class="codeInline">&quot;Jan&quot;</span> on our x-axis, but 
+          the full word <span class="codeInline">&quot;January&quot;</span> is shown 
+          as the tool tip.</li>
+        <li><span class="codeInline">alpha=&quot;Numerical Value 0-100&quot;</span><br />
+          Example: <span class="codeInline">&lt;set ... alpha='100' ...&gt;</span><br />
+          This attribute determines the transparency of a data set. The range 
+          for this attribute is 0 to 100. 0 means complete transparency (the data 
+          set won&#8217;t be shown on the graph) and 100 means opaque. This option 
+          is useful when you want to highlight a particular set of data. <br />
+        </li>
+        <li><span class="codeInline">link=&quot;URL&quot;</span><br />
+          Example: <span class="codeInline">&lt;set &#8230; link='ShowDetails.asp%3FMonth=Jan' 
+          ...&gt;</span><br />
+          This attribute defines the hotspots in your graph. The hotspots are 
+          links over the data sets. Please note that you'll need to URL Encode 
+          all the special characters (like ? and &amp;) present in the link.All 
+          the server side scripting languages provide a generic function to URL 
+          Encode any string - like in ASP and ASP.NET, we've Server.URLEncode(strURL) 
+          and so on. <br />
+          <br />
+          To open a link in a new window, just put <span class="codeInline">n-</span> 
+          in front of the link e.g., <span class="codeInline">link=&quot;n-ShowDetails.asp%3FMonth=Jan&quot;</span>. 
+          <br />
+        </li>
+        <li><span class="codeInline">isSliced=&quot;1&quot;</span><br />
+          Example : <span class="codeInline">&lt;set ... isSliced=&quot;1&quot; 
+          ...&gt;</span><br />
+          This attribute determines whether the pie appears as a part of the total 
+          circle or is sliced out as an individual item (highlited). <br />
+        </li>
+      </ul>
+      <p> At the end of the &lt;set&gt; element, you would find a &quot;/&quot; 
+        which signals that it has no more child element </p>
+      <p>At the end of the data file, you would find a <span class="codeInline">&lt;/graph&gt;</span> 
+        element, which signals the end of the data file for the graph.<br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

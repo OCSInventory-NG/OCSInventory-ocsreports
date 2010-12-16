@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css"></head>
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr>
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; List of Functions </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here is a  list of the functions in <span class="codeInline">FusionCharts PHP Class</span>. These functions create the required  XML output based on the parameters passed through and make the chart rendering  process easier for you.<br />
+        <br />
+        FusionCharts PHP class functions can be divided under various heads, as shown in the list below: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header" style="line-height:20px;"><ul>
+        <li><a href="#constructor">Constructor</a></li>
+        <li><a href="#pubfunction">Public Functions</a>
+          <ul>
+            <li><a href="#genfunction">General Functions</a></li>
+            <li><a href="#arrayhandling">Array Handling Functions</a></li>
+            <li><a href="#dbhandling">Database Handling Functions</a> </li>
+            <li><a href="#rendering">Chart rendering and XML generating Functions </a> </li>
+          </ul>
+        </li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><a name="constructor">Constructor</a></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class=" lightBlueTr"><div class="codeInline"><strong>FusionCharts</strong>(string <strong>$chartType,</strong> string <strong>$width,</strong> string <strong>$height</strong>[,string <strong>$chartID</strong>,boolean <strong>$isTransparent</strong> ])</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Instantiates chart object. Use the constructor to specify chart type and chart width &amp; chart height. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameters:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" style="line-height:18px;"><ul>
+        <li><span class="codeInline"><strong>$chartType</strong></span> = type of the chart. To get the list of supported Chart Types please click <a href="FirstChart.html#ChartTypesList">here</a>.</li>
+        <li><span class="codeInline"><strong>$width</strong></span> =  numeric value for chart width in pixels. </li>
+        <li><span class="codeInline"><strong>$height</strong></span> =  numeric value for chart height in pixels. </li>
+        <li><span class="codeInline"><strong>$chartID</strong></span> = (Optional) unique ID for the chart. Required, to use chart's JavaScript APIs.<br>
+
+  <p class="highlightBlock"><strong>NOTE: If no ID is specified by the developer, PHP automatically generates an ID using Session and assigns it to the chart. This ID is generated using a counter variable kept in session. Hence, one every page refresh new ID would be assigned to chart. One should provide and ID, if one wishes to interact with the chart later using JavaScript APIs like setDataXML(), setDataURL(), print(), saveAsImage() etc.  </strong></p>
+</li>
+<li><span class="codeInline"><strong>$isTransparent </strong>= </span>(Optional)(true/false) prepares the chart for  transparent background if  set to true. To set the chart transparent, one need to set <span class="codeInline">bgApha </span>chart parameter using <span class="codeInline">setChartParam()</span> or <span class="codeInline">setChartParams()</span> function.</li>
+</ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong></p>
+      <p class="codeInline">$FC= new <strong>FusionCharts</strong>(&quot;Column3D, &quot;350&quot;, &quot;250&quot;); </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><p><a name="pubfunction">Public Functions</a></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><a name="genfunction">General Functions</a> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>setParamDelimiter</strong>(string <strong>$strDelm</strong>)</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Sets the delimiter for  lists of chart attributes which are passed to function like <span class="codeInline">setChartParams, addDataset, addChartData</span> etc. Delimiter is the character used to separate consecutive  attributes  for various chart elements. Default delimiter is semicolon (;). </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameter:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+        <li><span class="codeInline"><strong>$strDelm</strong></span> =  delimiter character. The character becomes reserved and can not be as normal character in chart attributes. </li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Note: </strong>You can use this functions any number of times in a single code block for a chart. By defining a new delimiter one can use the earlier delimiter as a regular character in chart attributes. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example : </strong></p>
+      <p><span class="codeInline">$FC-&gt;<strong>setParamDelimiter(&quot;|&quot;);</strong><br />
+        $FC-&gt;setChartParams(&quot;caption=Monthly Report<strong>|</strong>subCaption=June;July;September|bgColor=efefdd&quot;);<br />
+        $FC-&gt;<strong>setParamDelimiter(&quot;\n&quot;);<br />
+        $FC-&gt;</strong>addDataset(&quot;June&quot;, &quot;color=009900<strong>\n</strong>showValues=0);</span><br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>setSWFPath</strong>(string <strong>$SWFPath</strong>) </div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Sets the path of the chart SWF file. Users may need to specify the relative file path of the SWF files while using them in  different applications. This function allows users to set the path. The default path for SWF file is set to the application folder itself. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameter:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+        <li><span class="codeInline"><strong>$SWFPath </strong></span>= relative  SWF file path of FusionCharts SWF file in string format</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Example :</p>
+      <p class="codeInline">$FC-&gt;<strong>setSWFPath</strong>(&quot;FusionCharts/&quot;);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>setChartParam</strong>(string <strong>$paramName</strong>,  string <strong>$paramValue</strong>)</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Sets a single  chart attribute at a time. Attributes listed under <span class="codeInline">&lt;graph&gt; element</span> section in <strong>Chart XML Reference</strong> can be used here.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameters:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" style="line-height:18px;"><ul>
+        <li><span class="codeInline"><strong>$paramName</strong></span> = name  of the chart attribute. </li>
+        <li><span class="codeInline"><strong>$paramValue </strong></span>= value  of the chart attribute.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example: </strong></p>
+      <p class="codeInline">$FC-&gt;<strong>setChartParam</strong>(&quot;caption&quot;,&quot;Monthly Sales&quot;);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>setChartParams</strong>(string <strong>$strParams</strong>)</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Sets multiple chart attributes in one function call. Multiple attributes from <span class="codeInline">&lt;graph&gt; element</span> section of <strong>Chart XML Reference</strong> can be passed through this function. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameter:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+        <li><span class="codeInline"><strong>$strParams </strong></span>= delimiter  separated list of attributes in string format. Note that the attribute values must not be enclosed in single or double quotes. </li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong> </p>
+      <p class="codeInline">$FC-&gt;<strong>setChartParams</strong>(&quot;caption=Factory Sales;subCaption=Year 2007;bgColor=ffccff&quot;);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>setCategoriesParams</strong>(string <strong>$catParams</strong>)</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Sets category set's attributes in Multi-Series charts. Attributes  mentioned under the <span class="codeInline">&lt;categories&gt; element</span> in <strong>Chart XML Reference</strong> section  can be set through this function.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameter:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+        <li><span class="codeInline"><strong>$catParams</strong></span> =  delimiter separated list of chart attributes for chart categories. Note that the attribute values must not be enclosed in single or double quotes.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong></p>
+      <p class="codeInline">$FC-&gt;<strong>setCategoriesParams</strong>(&quot;font=Arial;fontColor=ff0000&quot;);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="lightBlueTr" valign="top"><div class="codeInline"><strong>setInitParam</strong>( string<strong> $tname</strong>, string<strong> $tvalue</strong>) </div></td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">Sets the chart’s initializing parameters and  adds extra chart  settings as well. </td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text" valign="top"><strong>Parameters:</strong><br>    </td>
+  </tr>
+  <tr>
+    <td class="text" style="line-height: 18px;" valign="top"><ul>
+        <li><span class="codeInline"><strong>$tname </strong></span>= name of the initializing parameters. Please refer to the table below for the list of parameter names. </li>
+        <li><span class="codeInline"><strong>$tvalue</strong></span> =  
+          sets values for the initializing  parameters. It can take any one of the several parameters listed below:
+          Please refer to the table below for the possible values for each parameter name.<br>
+          <br>
+          <table class="text" style="border: 1px solid rgb(204, 204, 204);" width="80%" border="0" cellpadding="5" cellspacing="0">
+            <tbody>
+              <tr>
+                <th class="lightBlueTr" scope="row" width="24%" align="left">Parameter Name </th>
+                <td class="lightBlueTr" width="23%" align="center"><strong>Range/Value</strong></td>
+                <td class="lightBlueTr" width="53%" align="center"><strong>Description</strong></td>
+              </tr>
+              <tr>
+                <th scope="row" align="left"><strong>bgcolor</strong></th>
+                <td>Hex Coded Color </td>
+                <td> Background color of the chart. If  background color of  the chart is not defined in XML, this property would be used to set the chart’s background. E.g. <strong>#ff0000</strong> </td>
+              </tr>
+              <tr>
+                <th class="greyTr" scope="row" align="left"><strong>scaleMode</strong></th>
+                <td class="greyTr"><strong>noscale</strong> or <strong>exactfit</strong> or <strong>noborder</strong> or <strong>showall</strong></td>
+                <td class="greyTr">Scaling  option of the chart. It can take any value out of the four: "noscale", "exactfit",  "noborder" and "showall".</td>
+              </tr>
+              <tr>
+                <th scope="row" align="left"><strong>lang</strong></th>
+                <td>&nbsp;</td>
+                <td>Preferred language. e.g. <strong>EN</strong> </td>
+              </tr>
+            </tbody>
+          </table>
+        </li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>addCategory</strong>(string <strong>$label</strong>[, string <strong>$catParams</strong>])</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Adds a single category information at a time. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameters:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"  style="line-height:18px;"><ul>
+        <li><span class="codeInline"><strong>$label </strong></span>= category  name </li>
+        <li><span class="codeInline"><strong>$catParams</strong></span> = (Optional) attributes  of the category in string format.  Attributes  mentioned under the <span class="codeInline">&lt;category&gt; element</span> in <strong>Chart XML Reference</strong> section  can be set through this. Note that the attribute values must not be enclosed in single or double quotes.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong></p>
+      <p class="codeInline">$FC-&gt;<strong>addCategory</strong>(&quot;Week 1&quot;);<br />
+        $FC-&gt;<strong>addCategory</strong>(&quot;Week 2 &quot;, &quot;hoverText=Sales data for Second Week;ShowName=0&quot;);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>addDataset</strong>(string <strong>$seriesName</strong>[,  string <strong>$datasetParams</strong>])</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Adds a dataset to multi-series chart. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameters:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"  style="line-height:18px;"><ul>
+        <li><span class="codeInline"><strong>$seriesName</strong></span> = series  name of the dataset. </li>
+        <li><span class="codeInline"><strong>$datasetParams</strong></span> = (Optional) delimiter  separated attribute list of the series in string format. Attributes listed under <span class="codeInline">&lt;dataset&gt;  elements</span> in the <strong>Chart XML Reference</strong> section can be passed through this. Note that the attribute values must not be enclosed in single or double quotes.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Note:</strong> Remember to add data values  pertaining to the dataset immediately after using this function. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Example:</strong> <br />
+      <br />
+      <span class="codeInline">$FC-&gt;<strong>addDataset</strong>(&quot;This Month&quot;); <br />
+      $FC-&gt;addChartData(&quot;40800&quot;);<br />
+      $FC-&gt;addChartData(&quot;31400&quot;);<br />
+      <br />
+      $FC-&gt;<strong>addDataset</strong>(&quot;Previous Month&quot;); <br />
+      $FC-&gt;addChartData(&quot;38300&quot;); </span><br />
+      <br />
+      Data values '40800' and '31400' will be assigned to the dataset &quot;This Month&quot; and the data value '38300' will be assigned to the dataset &quot;Previous Month&quot;. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>addChartData</strong>(string <strong>$value</strong>[, string <strong>$params</strong>])</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Provides chart data. For single series charts <span class="codeInline"><strong>$params</strong></span> must be passed having atleast an attrubite <span class="codeInline">&quot;name=foo&quot;</span>. For multiseries, stacked and combination charts <strong class="codeInline">$params </strong>is optional.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameters:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"  style="line-height:18px;"><ul>
+        <li><span class="codeInline"><strong>$value </strong></span>= data  value to be plotted over the chart.</li>
+        <li><span class="codeInline"><strong>$params</strong></span> = (Optional) list  of dataplot attributes. Attributes listed under <span class="codeInline">&lt;set&gt;  elements</span> in the <strong>Chart XML Reference</strong> section can be passed through this. Note that the attribute values must not be enclosed in single or double quotes.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong></p>
+      <p>For Single-Series Charts :</p>
+      <p><span class="codeInline">$FC-&gt;<strong>addChartData</strong>(&quot;40800&quot;,&quot;name=&quot;Week 1&quot;);<br />
+        $FC-&gt;<strong>addChartData</strong>(&quot;31400&quot;,&quot;name=&quot;Week 2;color=ff0000;link=http://www.FusionCharts.com&quot;);</span></p>
+      <p>For Multi-Series Charts: </p>
+      <p><span class="codeInline">$FC-&gt;<strong>addChartData</strong>(&quot;40800&quot;);<br />
+        $FC-&gt;<strong>addChartData</strong>(&quot;31400&quot;,&quot;link=http://www.FusionCharts.com;&quot;);</span></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>addTrendLine</strong>(string <strong>$tlineParams</strong>)</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Adds a  trendline in the chart. All attributes for the <span class="codeInline">&lt;line&gt; </span>element of <span class="codeInline">&lt;trendlines&gt; </span>element like <span class="codeInline">startValue, endValue, color, displayValue,   isTrendZone, showOnTop</span> etc. are passed here. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameter:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+        <li><span class="codeInline"><strong>$tlineParams </strong></span>= delimiter  separated attributes for trend line.  Attributes  mentioned under the <span class="codeInline">&lt;line&gt; </span><span class="text">element for </span><span class="codeInline">&lt;trendlines&gt;  element</span> in <strong>Chart XML Reference</strong> section  can be set through this. Note that the attribute values must not be enclosed in single or double quotes.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Example :</strong> <span class="codeInline"><br />
+      <br />
+      $FC-&gt;<strong>addTrendLine</strong>(&quot;startValue=89.5;endValue=98;color=FF0000;displayvalue=Roll. Avg.;   thickness=2;alpha=100;isTrendZone=0;showOnTop=1&quot;);</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="lightBlueTr" valign="top"><div class="codeInline"><strong>addColors</strong>(string<strong> $colorList</strong>)</div></td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">Adds and apply user-defined colors to  chart dataplots. Although  FusionCharts v3 has a set of colors by default, this function allows the developers to provide own set of colors.</td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text" valign="top"><strong>Parameter:</strong><br></td>
+  </tr>
+  <tr>
+    <td class="text" valign="top"><ul>
+        <li><span class="codeInline"><strong>$</strong></span><strong class="codeInline">colorList</strong> =   
+          delimiter separated list of hexcoded colors. Note that the  hexcoded colors should not be  prefixed by #.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text" valign="top"><strong>Example:</strong></td>
+  </tr>
+  <tr>
+    <td class="codeBlock" valign="top"><p>// the hex-colour code series passed is a de-limiter separated string</p>
+      <p><span class="codeInline">$FC-&gt;<strong>addColors</strong>("FF0000;00FF00;0000FF;FFFF00;00FFFF");</span> // ';' is the default de-limiter </p>
+      <p>//the default de-limiter can be changed by the following method </p>
+      <p>$FC-&gt;<strong>setParamDelimiter(&quot;|&quot;);</strong></p>
+      <p><span class="codeInline">$FC-&gt;<strong>addColors</strong>(&quot;FF0000|00FF00|0000FF|FFFF00|00FFFF&quot;);</span></p></td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>setChartMessage</strong>(string <strong>$msgParam</strong>)</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Sets various chart messages. For more on chart messages please see the page: <a title="Changing various chart messages" href="../Adv_ChartMessages.html">Changing chart messages</a> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameter:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+        <li><span class="codeInline"><strong>$msgParam </strong></span>= chart messages attributes separated by delimiters. Messages attributes specified in <a title="Changing various chart messages" href="../Adv_ChartMessages.html">Changing chart messages</a> are used here. Note that the attribute values must not be enclosed in single or double quotes.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example :</strong></p>
+      <p>$FC-&gt;<span class="codeInline"><strong>setChartMessage</strong></span>(&quot;ChartNoDataText=Chart Data not provided;PBarLoadingText=Please Wait.The chart is loading...&quot;);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><a name="arrayhandling">Array Handling</a> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>addChartDataFromArray</strong>(array <strong>$dataArray</strong>[,  array <strong>$dataCatArray</strong>])</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Adds  chart data from  array(s). We can use this function for both Single Series and  Multi Series charts; however, the structure of the <span class="codeInline">$dataArray</span> should be  different for single and multi-series charts. Also, the second parameter <span class="codeInline">$dataCatArray</span> is required only for Multi Series or Combination  Charts.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameters:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" ><p><strong><span class="codeInline">$dataArray</span></strong> (required for both Single Series and Multi Series/Stacked/Combination charts)</p>
+      <p>For Single  Series charts a 2 dimnestional array (n rows x 2 columns): </p>
+      <ol  style="line-height:18px;">
+        <li>First  Column stores Category Names.</li>
+        <li>Second  Column stores data values.</li>
+      </ol>
+      <p>For MultiSeries/Stacked/Combination  charts: </p>
+      <ol  style="line-height:18px;">
+        <li>First  Column stores Dataset Names.</li>
+        <li>Second  Column stores Dataset Attributes (compulsory for combination chart) </li>
+        <li>Rest  of the columns store data values for the dataset</li>
+      </ol>
+      <p><strong> $dataCatArray</strong> (required only for Multi Series/Stacked/Combination charts)</p>
+      <ol  style="line-height:18px;">
+        <li>Category  names stored in a single dimensional array.</li>
+      </ol></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example: </strong></p>
+      <p>Single Series Chart: </p>
+      <p class="codeInline"> $arrData[0][0]=&quot;Week 1&quot;; <br />
+        $arrData[1][0]=&quot;Week 2&quot;;<br />
+        $arrData[2][0]=&quot;Week 3&quot;;<br />
+        $arrData[3][0]=&quot;Week 4&quot;; <br />
+        <br />
+        <span class="codeInline">$arrData[0][1]=&quot;100&quot;; <br />
+        $arrData[1][1]=&quot;200&quot;;<br />
+        $arrData[2][1]=&quot;300&quot;;<br />
+        $arrData[3][1]=&quot;400&quot;;</span><br />
+        <br />
+        $FC-&gt;<strong>addChartDataFromArray</strong>($arrData);<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Multi-Series/Stacked/Combination Charts:<br />
+      <br />
+      <div class="codeBlock"><br />
+        <span class="codeComment">//Store Name of Products</span><br />
+        $arrCatNames[0] = &quot;Week 1&quot;;<br />
+        $arrCatNames[1] = &quot;Week 2&quot;; <br />
+        $arrCatNames[2] = &quot;Week 3&quot;;<br />
+        $arrCatNames[3] = &quot;Week 4&quot;; <br />
+        <br />
+        <span class="codeComment">//Store sales data for current month </span><br />
+        $arrData[0][0] = &quot;Current Month&quot;; <br />
+        $arrData[0][1] = &quot;color=ff0000&quot;; <br />
+        <span class="codeComment">// Dataset Parameters </span><br />
+        $arrData[0][2] = 567500; <br />
+        $arrData[0][3] = 815300; <br />
+        $arrData[0][4] = 556800; <br />
+        $arrData[0][5] = 734500; <br />
+        <br />
+        <span class="codeComment">//Store sales data for previous month</span> <br />
+        $arrData[1][0] = &quot;Previous Month&quot;; <br />
+        $arrData[1][1] = &quot;color=0000ff&quot;; <span class="codeComment"><br />
+        // Dataset Parameter </span><br />
+        $arrData[1][2] = 547300; <br />
+        $arrData[1][3] = 584500; <br />
+        $arrData[1][4] = 754000; <br />
+        $arrData[1][5] = 456300; <br />
+        <br />
+        $FC-&gt;<strong>addChartDataFromArray</strong>($arrData,$arrCatNames);</div></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">For detailed examples on FusionCharts PHP Class' Array Handling function please go through the section <strong>Using with PHP Class</strong> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><a name="dbhandling">Database Handling</a> </td>
+  </tr>
+  <tr>
+  <tr>
+<td class="text" valign="top">&nbsp;</td></tr>
+<tr>
+<td class="lightBlueTr" valign="top"><div class="codeInline"><strong>setDataBaseType</strong>(string<strong> $dbType</strong>)</div> </td></tr>
+<tr>
+<td class="text" valign="top">&nbsp;</td></tr>
+<tr>
+<td class="text" valign="top">Sets the type of the Database. It takes either  of the two values – “mysql” or ”oracle” The default value is “mysql”. </td>
+
+</tr>
+<tr>
+<td class="text" valign="top">&nbsp;</td></tr>
+<tr>
+<td class="text" valign="top"><strong>Parameter:</strong><br>      </td></tr>
+<tr>
+<td class="text" style="line-height: 18px;" valign="top"><ul>
+<li><span class="codeInline"><strong>$dbType </strong></span>= type of the database.</li>
+</ul>    </td></tr>
+<tr>
+  <td class="text" valign="top">&nbsp;</td>
+
+</tr>
+<tr>
+<td class="text" valign="top"><strong>Example:</strong></td></tr>
+<tr>
+<td class="codeBlock" valign="top"><p>$FC-&gt;<strong>setDataBaseType</strong>("oracle");<br>
+    <br>
+    <span class="text">or</span><br>
+    <br>
+  $FC-&gt;<strong>setDataBaseType</strong>("mysql");</p></td></tr>
+
+<tr>
+<td class="text" valign="top">&nbsp;</td></tr>
+
+
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>addCategoryFromDatabase</strong>(resource <strong>$query_result</strong>, string <strong>$categoryColumn</strong>)</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Creates the set of chart Category Names from database for database driven multi-series  charts. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameters:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"  style="line-height:18px;"><ul>
+        <li><span class="codeInline"><strong>$query_result</strong></span> = the SQL query result as resource.</li>
+        <li><span class="codeInline"><strong>$categoryColumn</strong></span> =  database field name for  category names.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong></p>
+      <p class="codeInline">$strQuery = &quot;select distinct weekNames from Sales&quot;; <br />
+        $result = mysql_query($strQuery);<br />
+        $FC-&gt;<strong>addCategoryFromDatabase</strong>($result, &quot;weekNames&quot;);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">For detailed examples on FusionCharts PHP Class' Database Handling functions please go through the section <strong>Using with PHP Class </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>addDatasetsFromDatabase</strong>(resource <strong>$query_result</strong>, string <strong>$ctrlField</strong>, string <strong>$valueField</strong>[, array <strong>$datasetParamArray</strong>, string <strong>$link</strong>])</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Adds datasets with data values for each dataset (only for multiseries/stacked/combination charts) from database. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameters:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"  style="line-height:18px;"><ul>
+        <li><span class="codeInline"><strong>$query_result</strong></span> = SQL query result to fetch dataset from database.</li>
+        <li><span class="codeInline"><strong>$ctrlField</strong></span> = Control Break field. The database field that contains all series names in sorted order; the function  uses this parameter to pick series names for multiple datasets.</li>
+        <li><span class="codeInline"><strong>$valueField</strong></span> =  delimiter separated attribute list for data-set values.</li>
+        <li><span class="codeInline"><strong>$datasetParamArray</strong></span> = (Optional) an array that stores delimiter separated list of attributes for each dataset. </li>
+        <li><span class="codeInline"><strong>$link</strong></span> = (Optional) Adds hyperlink feature to dataplots. This adds the <span class="codeInline">link</span> attribute to dataplots or <span class="codeInline">&lt;set&gt;</span> elements.It can be a simple URL say, &quot;<span class="codeInline">http://www.google.com</span>&quot; or another page say, &quot;<span class="codeInline">Drill/Detailed.php</span>&quot; etc. For details on drill down and creating links using FusionCharts, please go through the section <strong>Drill Down Charts</strong>.<br />
+          <br />
+          This parameter has a link place holder format&nbsp;that helps creating dynamic links. Anything placed between ## and ## <br />
+          (for example, . FactoryID in &quot;Detailed.php?FId=##FactoryID##&quot;) will be regarded  as a field/column name in the SQL query result. Value from that column will  dynamically replcae that place holder. Hence, for each dataplot in the chart the link values will be different.<br />
+          <br />
+          For detailed exmaple on this feature, please refer to <a title="How to create Drilldown charts using FusionCharts PHP Class"  href="../PHPClass_Drill.html" >Creating Drilldown charts</a> in &quot;Using With PHP Class&quot; section. <br />
+        </li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Note: </strong>The control Break field must be sorted.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong><br />
+        <br />
+        <span class="codeInline">$strQuery = &quot;select  weekNames,revenue from Sales order by weekNames&quot;; <br />
+        $result = mysql_query($strQuery);<br />
+        $FC-&gt;<strong>addDatasetsFromDatabase</strong>($result, &quot;weekNames&quot;, &quot;revenue;quantity&quot;);</span><br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">For detailed examples on FusionCharts PHP Class' Database Handling functions please go through the section <strong>Using with PHP Class </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>addDataFromDatabase</strong>(resource <strong>$query_result</strong>, string <strong>$db_field_ChartData</strong>[, string <strong>$db_field_CategoryNames</strong>, string <strong>$strParam</strong>, string <strong>$link</strong>])</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Adds chart data and category names from database. This function is specially designed for  single-series charts, but can be used to provide chart values for a single dataset in multi-series/stacked/combination charts. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Parameters:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"  style="line-height:18px;"><ul>
+        <li><span class="codeInline"><strong>$query_result</strong></span> = SQL query result to fetch dataset from database.</li>
+        <li><span class="codeInline"><strong>$db_field_ChartData</strong></span> = database field that contains data values.</li>
+        <li><span class="codeInline"><strong>$db_field_CategoryNames</strong></span> = database field that contains category names.(Optional for multi-serise/stacked/combination charts) </li>
+        <li><span class="codeInline"><strong>$strParam</strong></span> = (Optional) delimiter separated attribute list for dataplots.</li>
+        <li><span class="codeInline"><strong>$link</strong></span> = (Optional) Adds hyperlink feature to dataplots. This adds the <span class="codeInline">link</span> attribute to dataplots or <span class="codeInline">&lt;set&gt;</span> elements.It can be a simple URL say, &quot;<span class="codeInline">http://www.google.com</span>&quot; or another page say, &quot;<span class="codeInline">Drill/Detailed.php</span>&quot; etc. For details on drill down and creating links using FusionCharts, please go through the section <strong>Drill Down Charts</strong>.<br />
+          <br />
+          This parameter has a link place holder format&nbsp;that helps creating dynamic links. Anything placed between ## and ## <br />
+          (for example, . FactoryID in &quot;Detailed.php?FId=##FactoryID##&quot;) will be regarded  as a field/column name in the SQL query result. Value from that column will  dynamically replcae that place holder. Hence, for each dataplot in the chart the link values will be different.<br />
+          <br />
+          For detailed exmaple on this feature, please refer to <a title="How to create Drilldown charts using FusionCharts PHP Class"  href="../PHPClass_Drill.html" >Creating Drilldown charts</a> in &quot;Using With PHP Class&quot; section. </li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong></p>
+      <p><span class="codeInline">$strQuery = &quot;select  weekNames,revenue from Sales order by weekNames where CMonth=1&quot;; <br />
+        $result = mysql_query($strQuery);<br />
+        $FC-&gt;<strong>addDataFromDatabase</strong>($result,  &quot;revenue&quot;, weekNames&quot;);</span></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">For detailed examples on FusionCharts PHP Class' Database Handling functions please go through the section <strong>Using with PHP Class </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><a name="rendering">Chart rendering and XML generating functions</a></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline">string <strong>getXML()</strong></div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This  function is used to get the full XML required for chart generation. FusionCharts  PHP Class functions build specific parts of chart XML. <span class="codeInline">getXML()</span> function  assembles those parts and returns the full XML. Users can use this XML to  render charts in <span class="codeInline">dataURL</span> method.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Return  Type: <br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+        <li>Chart XML  in <span class="codeInline">string</span>.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong></p>
+      <p class="codeInline">$xml=$FC-&gt;<strong>getXML()</strong>;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+    <tr>
+    <td valign="top" class="header"><a name="rendering">Chart rendering and XML generating functions</a></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>encodeXMLChars</strong>(boolean<strong> $isEnabled</strong>)</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This  function is used along with the <span class="codeInline">dataXML</span>(default) method. In case the user needs to build the XML separately (<span class="codeInline">dataURL</span> method), one needs to set the parameter to false. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong >Parameter:<br />
+    </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+        <li><span class="codeInline"><strong>$isEnabled </strong></span>=  (true/false) the chart is generated with the <span class="codeInline">dataXML</span> method by default, or if set to true. It is set to false if generation needs to be done in <span class="codeInline">dataURL</span> method.</li> 
+        
+    </ul></td>
+  </tr>  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong></p>
+      <p class="codeInline">$xml=$FC-&gt;<strong>encodeXMLChars</strong>(true);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="lightBlueTr" valign="top"><div class="codeInline"><strong>renderChart</strong>(boolean<strong> $renderAsHTML</strong>, boolean <strong>$display</strong>)</div></td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">This function builds the full XML required for chart  generation and also renders chart based on chart type, width and height as  specified. This function does not accept any parameter, nor does it return any value. </td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text" valign="top"><strong>Parameter:</strong><br></td>
+  </tr>
+  <tr>
+    <td class="text" valign="top"><ul>
+        <li><strong class="codeInline">$renderAsHTML</strong> = (true/false) renders the chart using HTML embedding method if set to true. Note that this method does not make use of FusionCharts.JS. This HTML embedding method is helpful where JavaScript is disabled or in AJAX Portback.</li>
+        <li><strong class="codeInline">$display</strong> = (true/false) renders the chart in the webpage  if it is true. The equivalent code for rendering the chart is returned as a string if set to false. This feature is helpful when you  want to use this class in another framework. </li>
+      </ul>       </td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text" valign="top"><strong>Example:</strong></td>
+  </tr>
+  <tr>
+    <td class="codeBlock" valign="top"><p class="codeComment">// The retuned string conforms with the JavaScript embeddeding method using FusionCharts.js </p>
+      <p>$FC-&gt;<strong>renderChart</strong>();  &nbsp;</p>
+      <p class="codeComment">//render as HTML</p>
+      <p>$FC-&gt;<strong>renderChart</strong>(true); </p>
+      <p class="codeComment">//returns the chart code as a string</p>
+      <p>$returnValue = $FC-&gt;<strong>renderChart</strong>(true, false); </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr"><div class="codeInline"><strong>renderChartFromExtXML</strong>(string <strong>$dataXML</strong>)</div></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Renders  chart from XML which has not been created in the program. After creating chart  object and setting relative SWF file path, this function can be used where the  full XML is passed through.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong >Parameter:<br />
+      </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><ul>
+        <li><span class="codeInline"><strong>$dataXML </strong></span>=  full XML for chart rendering in string format</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><strong>Example:</strong></p>
+      <p><span class="codeInline">$xml=&quot;&lt;graph&gt;&lt;set value='100' name='Product A' /&gt;&lt;set value='120' name='Product B' /&gt;&lt;/graph&gt;&quot;;<br />
+        $FC=new FusionCharts(&quot;Column3D&quot;,&quot;300&quot;,&quot;250&quot;);<br />
+        $FC-&gt;<strong>renderChartFromExtXML($xml)</strong>;</span><br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

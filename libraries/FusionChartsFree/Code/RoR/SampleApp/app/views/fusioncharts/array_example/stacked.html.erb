@@ -1,0 +1,18 @@
+<%
+# The following three variables are used in the "common" layout
+%>
+<% @page_title="FusionCharts Free - Array Example using Stacked Column 3D Chart" %>
+<% @page_heading="Examples" %>
+<% @page_subheading="Plotting Stacked Chart from data contained in Array." %>
+
+<%
+		#strCategories - Stores XML for the <categories> and child <category> elements
+	      #strDataProdA - Stores XML for current year's sales
+		#strDataProdB - Stores XML for previous year's sales
+		    
+		#The xml is obtained as a string from builder template.
+		str_xml = render "fusioncharts/array_example/stacked_data",{:arr_data => @arr_data}
+	
+		#Create the chart - Stacked Column 3D Chart with data contained in str_xml
+		render_chart "/FusionCharts/FCF_StackedColumn3D.swf", "", str_xml, "productSales", 600, 300, false, false do -%>
+<% end -%>

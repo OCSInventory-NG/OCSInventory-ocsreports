@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FAQs</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><table width="98%" border="0">
+       <tr>
+         <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+         <td><span class="textBold">I've just downloaded 
+      FusionCharts. Now, how do I go about installing it? </span></td>
+       </tr>
+       <tr> <td>&nbsp;</td>
+    <td><span Class="text"> 
+      <p>FusionCharts is a copy-n-paste style installation component - that is 
+        to say one does not need to install any external Active-X control or component 
+        to render charts. All you need to do is copy the ready-to-use .swf files 
+        from the download package to your web server.</p>
+      </span> <p><span class="text">To install FusionCharts on your website, just 
+        copy the required .swf files from <root> 
+        </span><span class="codeInline">Download Package  
+        &gt; Charts </span><span class="text">folder to any folder of your web 
+        application. It is always preferable to keep all these .swf files in a 
+        root folder of your application so that all your scripts can easily access 
+        these chart swf files. </span></p>
+      <span Class="text"><img src="Images/FolderStructure.gif">      </span> </td>
+  </tr>
+
+
+       <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+       <tr>
+    <td valign="top"><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+    <td><span class="textBold">I've just downloaded FusionCharts 
+      and copied sample code from your folder to my server. But, I cannot see 
+      the charts - what could be the problem? Only a blank space is appearing 
+      in place of the charts.</span></td>
+  </tr>
+  <tr><td>&nbsp;</td> 
+    <td><span Class="text"> 
+      <p>You need to check for the following points in case of this problem: </span>
+      <ul>
+        <li><span class="text">You've copied Charts folder (</span><span class="codeInline">Code 
+          &gt; Charts</span><span class="text">) from the download package to 
+          the same path in your web server where you have placed the Code folder. 
+          </span>
+        <li><span class="text">You've Flash Player 6 (or above) required to view 
+          the charts. </span><br />
+        </ul>      </td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+    <td><span class="textBold">How can I pull data from 
+      a database?</span></td>
+  </tr>
+  <tr> <td>&nbsp;</td>
+    <td> <span Class="text"> 
+      <p>You can pull data from any database (or data storage systems) using the 
+        server side script that you're using. Make the server side script to pull 
+        the data and then render it in XML format required by FusionCharts. See 
+        the previous sections of documentation for detailed information on this.
+        <br />
+        <br />
+      </p>
+      </span> </td>
+  </tr>
+  <tr valign="top" class="text">
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top" class="text">
+    <td valign="middle"><img src="Images/Bullet.gif" width="9" height="9" /></td>
+    <td valign="bottom"><strong>Can FusionCharts directly consume data from my database instead of XML? </strong></td>
+  </tr>
+  <tr valign="top" class="text">
+    <td>&nbsp;</td>
+    <td>No - FusionCharts cannot directly access any database, as it's based on Flash platform. You'll need to provide data to FusionCharts in XML format only. For this, you'll have to set a middleware script (like ASP, PHP, .NET, ColdFusion, JSP etc.), which would access your database and then build the XML output for FusionCharts. </td>
+  </tr>
+   <tr>
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+   </tr>
+   <tr>
+     <td valign="top"><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+     <td><span class="textBold">I want to use a data source 
+      like data.asp?param1=value&amp;param2=value2 as the dataURL for FusionCharts. 
+      However, when I use it FusionCharts seems to ignore everything after the 
+      first part. How do I go on with this? </span></td>
+   </tr>
+   <tr> <td>&nbsp;</td>
+    <td><span Class="text"> 
+      <p>The Flash player does not consider the ? and &amp; as a part of querystring 
+        data and as such treats it as another name-pair value. To overcome this, 
+        you'll need to convert all ? and &amp;s to URL Friendly characters (i.e., 
+        convert the special characters into a % followed by their 2 digit hexadecimal 
+        code).. FusionCharts will automatically correct it for you.</p>
+      <p>Example: </p>
+      </span>
+      <p class="codeInline">data%2Easp%3Fparam1%3Dvalue%26param2%3Dvalue2 
+        would be converted to data.asp?param1=value&amp;param2=value2</p>
+      <span Class="text">
+      <p><b>Code Example:</b></p>
+      <p class="codeInline"> &lt;OBJECT ... &gt; <br>
+        &lt;PARAM NAME='Movie' Value='FCF_Column2D.swf'&gt;<br>
+        &lt;PARAM NAME='FlashVars' Value='&amp;<b>dataURL=data%2Easp%3Fparam1%3Dvalue%26param2%3Dvalue22</b>' 
+        &gt; <br>
+        &lt;... Other Code &gt; <br>
+        &lt;EMBED src='FCF_Column2D.swf' FlashVars='&amp;<b>dataURL=data%2Easp%3Fparam1%3Dvalue%26param2%3Dvalue2</b>' 
+        ... &gt; <br>
+        &lt;/OBJECT ... &gt; </p>
+      </span> </td>
+  </tr>
+   <tr>
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+   </tr>
+   <tr>
+     <td valign="top"><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+     <td><span class="textBold">I want to use URLs like detailed.asp?Id=23&amp;subId=43 
+       as the link for hotspots in the chart. However, FusionCharts gives me an 
+       error. How can I go ahead with this? </span> </td>
+   </tr>
+   <tr>
+     <td>&nbsp;</td>
+     <td><span class="text">
+       <p>You'll need to convert all &amp;s to %26.</p>
+       <p>Example: <span class="codeInline">&lt;set ... link='data.asp?id=1&amp;subId=2' 
+         &gt;</span> would be converted to <span class="codeInline">&lt;set ... link='data.asp?id=1%26subId=2' 
+           &gt;</span></p>
+     </span> </td>
+   </tr>
+   <tr valign="top" class="text">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+   </tr>
+   <tr valign="top" class="text">
+     <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+     <td><strong>I want load the XML data  from another domain name (website). Can   you tell me how to do this? 
+     </strong></td>
+   </tr>
+   <tr valign="top" class="text">
+     <td>&nbsp;</td>
+     <td><p>Since Flash doesn't allow loading of XML documents/data from other domains, 
+       it is not directly possible to load data from other domains. However, 
+       a proxy page can do the trick.<br />
+              <br />
+       For example, use the following:<span class="codeInline"><br />
+         &lt;PARAM NAME='Movie' Value='FCF_Column2D.swf?dataURL=Relayer.aspx'&gt;</span><br />
+       Now,<span class="codetext"> Relayer.aspx</span> is the page on your server 
+       which connects to the remote (other domain) data and finally relays it 
+       in XML format (required by FusionCharts).</p></td>
+   </tr>
+  
+   <tr>
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+   </tr>
+   <tr>
+     <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+     <td><span class="textBold">I want to change the font styling 
+      properties. Is it possible?</span> </td>
+   </tr>
+   <tr> <td>&nbsp;</td>
+    <td><span Class="text"> 
+      <p>Yes. With FusionCharts, it's possible to change the font styling properties. 
+        The following attributes of the graph element help you change the font 
+        properties:</p>
+      <p><span class="codeInline">baseFont=&quot;FontName&quot;</span><br>
+        This attribute sets the base font family of the graph i.e., all the values 
+        and the names in the graph canvas will be displayed using the font name 
+        provided here. </p>
+      <p><span class="codeInline">baseFontSize=&quot;ValidFontSize&quot;</span><br>
+        This attribute sets the base font size of the graph i.e., all the values 
+        and the names in the graph canvas will be displayed using the font size 
+        provided here.</p>
+      <p><span class="codeInline">baseFontColor=&quot;HexColorWithout#&quot;</span><br>
+        This attribute sets the base font color of the graph i.e., all the values 
+        and the names in the graph canvas will be displayed using the font color 
+        provided here.</p>
+      <p><span class="codeInline">outCnvBaseFont=&quot;FontName&quot;</span><br>
+        This attribute sets the outside canvas base font family of the graph i.e., 
+        all the values and the names outside the graph canvas will be displayed 
+        using the font name provided here. </p>
+      <p><span class="codeInline">outCnvBaseFontSize=&quot;ValidFontSize&quot;</span><br>
+        This attribute sets the outside canvas base font size of the graph i.e., 
+        all the values and the names outside the graph canvas will be displayed 
+        using the font size provided here.</p>
+      <p><span class="codeInline">outCnvBaseFontColor=&quot;HexColorWithout#&quot;</span><br>
+        This attribute sets the outside canvas base font color of the graph i.e., 
+        all the values and the names outside the graph canvas will be displayed 
+        using the font color provided here.</p>
+      </span>      <p><span class="text">Example: </span><span class="codeInline">&lt;graph basefont='Verdana' bastfontsize='10' 
+        basefontcolor='0372AB' outCnvbasefont='Arial' outCnvbastfontsize='11' 
+        outCnvbasefontcolor='FF0000'...&gt;<br />
+      </span></p> </td>
+  </tr>
+  
+ 
+   <tr>
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+   </tr>
+   <tr>
+     <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+     <td><span class="textBold">Is it possible to display the 
+      name and value of each point when the mouse hovers over each one?</span> </td>
+   </tr>
+   <tr> <td height="203">&nbsp;</td>
+    <td><span Class="text">Yes. You can do so by assigning the following 
+      attribute to the graph element: 
+      <p class="codeInline">&lt;graph ... showhovercap=&quot;1&quot; ...&gt;</p>
+      <p>Moreover, you can customize the looks of the hover caption box using 
+        the following attributes:</p>
+      <p>Hover caption box's background color<br>
+        <span class="codeInline">hoverCapBgColor=&quot;HexCode&quot;</span></p>
+      <p>Hover caption box's border color<br>
+        <span class="codeInline">hoverCapBorderColor=&quot;HexCode&quot;</span></p>
+      <p>Example: <span class="codeInline">&lt;graph showHoverCap=&quot;1&quot; 
+        hoverCapBgColor=&quot;FFFFDD&quot; hoverCapBorderColor=&quot;FF0000&quot;&gt;</span></p>
+      </span> </td>
+  </tr>
+  
+
+  
+   <tr>
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+   </tr>
+   <tr>
+    <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+    <td><span class="textBold">Can I print the charts generated 
+      by FusionCharts?</span></td>
+  </tr>
+  <tr> <td>&nbsp;</td>
+    <td><span Class="text"> 
+      <p>Yes. To print a chart displayed in browser window, just right click on 
+        it and select Print or still better, use the browser's print button.</p>
+      </span> </td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+    <td><span class="textBold">Can I save the chart output 
+      made by FusionCharts as an image (GIF/JPEG/PNG etc.)? </span></td>
+  </tr>
+  <tr> <td>&nbsp;</td>
+    <td><span Class="text">
+      <p>No. FusionCharts renders the chart at the client side and as such it 
+        is not possible to save the chart output as an image (unless the end user 
+        does it himself using some screen capture utility).</p>
+      </span> </td>
+  </tr>
+ 
+ 
+  
+      <tr valign="top" class="text">
+        <td valign="middle">&nbsp;</td>
+        <td valign="bottom">&nbsp;</td>
+      </tr>
+      <tr valign="top" class="text">
+        <td valign="middle"><img src="Images/Bullet.gif" width="9" height="9" /></td>
+        <td valign="bottom"><strong>Can I email the charts?</strong> </td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>Yes - you can email the charts as ActiveX Objects. But, most of the modern day email clients wouldn't show the chart for security reasons, as it's an ActiveX object. </td>
+      </tr>
+      
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr valign="top" class="text">
+        <td valign="middle"><img src="Images/Bullet.gif" width="9" height="9" /></td>
+        <td valign="bottom"><strong>Can I stop FusionCharts from animating? </strong></td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>Yes -very much. Just set <span class="codeInline">&lt;graph animation='0' ..&gt;</span> in your XML and the charts won't animate any more. </td>
+      </tr>
+      
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr valign="top" class="text">
+        <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+        <td><strong>I've a DHTML Menu in the same page as the chart. The menu never comes over the chart even after altering the z-index. Can you please suggest a method to send the chart behind menu?</strong></td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td><p>To allow DHTML objects appear over a Flash movie just add this parameter:<br />
+          <br />
+          <span class="codeInline">WMode=Transparent</span></p>
+          <p>to the Flash <span class="codeInline">&lt;object&gt;</span> tag. It should look like this: </p>
+          <p class="codeInline"> &lt;param name=&quot;WMode&quot; value=&quot;Transparent&quot;&gt;</p>
+          <p>In order to support Mozilla-based browsers and other browsers, such as Safari, you should also include the wmode parameter in the <span class="codeInline">&lt;embed&gt;</span> tag, like this: </p>
+          <p class="codeInline">&lt;embed wmode=&quot;transparent&quot; .......&gt;&lt;/embed&gt;</p>
+          <p>Although the menus will be displayed above the Flash movie under Safari, the menu items will flicker as you move the mouse over items that fall right above the Flash movie.<br />
+          </p>          </td>
+      </tr>
+      
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr valign="top" class="text">
+        <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+        <td><strong>Can I change the chart messages like &quot;Loading Chart.&quot;, &quot;Retrieving data&quot; etc.? </strong></td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>Yes - please see <span class="codeInline">Advanced Charting</span> &gt; <span class="codeInline">Changing Chart Messages</span> section. </td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr valign="top" class="text">
+        <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+        <td><strong>Can I use FusionCharts Free with my Flash 6/MX 2004/8 applications?</strong></td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td><p>No - FusionCharts Free cannot be used with Flash 6 / MX 2004 / 8 applications . But is is possible to use FusionCharts v3, the commercial version with Flash 8 or later.</p>
+          </td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr valign="top" class="text">
+        <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+        <td><strong>Can I use the charts as a part of my commercial product under the Developer/Professional/Site/Enterprise license? </strong></td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>Yes - FusionCharts Free is completely free to use now. <a href='terms.html'>Please see the license agreement.</a> </td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr valign="top" class="text">
+        <td><img src="Images/Bullet.gif" width="9" height="9" vspace="3" /></td>
+        <td><strong>Can I upgrade from FusionCharts Free to FusionCharts v3 without any   changes to my code?</strong></td>
+      </tr>
+      <tr valign="top" class="text">
+        <td>&nbsp;</td>
+        <td><p class="text">Yes - you can seamlessly upgrade   from FusionCharts Free to FusionCharts v3. There&rsquo;s no need to change your code;   though, to use the advanced features offered by v3 charts you may have to tweak   a little. For more details please refer to Upgrading to FusionCharts v3 section. </p>
+          </td>
+      </tr>
+      
+    </table>    
+    <p>&nbsp;</p>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

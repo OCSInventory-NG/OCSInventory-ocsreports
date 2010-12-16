@@ -1,0 +1,429 @@
+<html>
+<head>
+<title>
+FusionCharts FREE - XML Structure
+</title>
+<link REL="stylesheet" HREF="Style.css" />
+</head>
+
+<body topMargin="15" leftMargin="15">
+<span class="pageHeader">Candlestick Chart Specification Sheet</span>
+<br />
+<span class="textbold">SWF: </span>
+<span class="text">FCF_Candlestick.swf</span>
+<br />
+<br />
+<table width="98%" border="0" align="right" cellpadding="2" cellspacing="1">
+  
+  <tr> 
+    <td></td>
+  </tr>
+  <tr> 
+    <td><img src="Images/CC_FC.gif" width="527" height="270" /></td>
+  </tr>
+  <tr>
+    <td class="text">A general XML document for the candlestick chart looks as 
+    under: </td>
+  </tr>
+  <tr> 
+    <td height="10"></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock">&lt;graph caption='3 Months - As on 04/02/04' 
+      yaXisMinValue='89' yaXisMaxValue='102' canvasBorderColor='DAE1E8' canvasBgColor='FFFFFF' 
+      bgColor='EEF2FB' numDivLines='12' divLineColor='DAE1E8' decimalPrecision='1' 
+      numberPrefix='$' showNames='1' bearBorderColor='E33C3C' bearFillColor='E33C3C' 
+      bullBorderColor='1F3165' baseFontColor='444C60' outCnvBaseFontColor='444C60' 
+      hoverCapBorderColor='DAE1E8' hoverCapBgColor='FFFFFF' rotateNames='0' &gt; 
+      <p>&lt;categories font='Verdana' fontSize='10' fontColor='000000' 
+        verticalLineColor='' verticalLineThickness='1' verticalLineAlpha='100'&gt;<br />
+        &lt;category Name='2004' xIndex='1' showLine='1'/&gt;<br />
+        &lt;category Name='Feb' xIndex='31' showLine='1'/&gt;<br />
+        &lt;category Name='March' xIndex='59' showLine='1'/&gt;<br />
+        &lt;category Name='Split' xIndex='44' showLine='1'/&gt;<br />
+        &lt;/categories&gt;<br />
+        <br />
+        &lt;data&gt;<br />
+        &lt;set open='92.57' high='93.79' low='92.45' close='93.39' xIndex='1' 
+        /&gt;<br />
+        &lt;set open='92.4' high='92.7' low='91.42' close='92.45' xIndex='2' /&gt;<br />
+        &lt;set open='92.6' high='92.69' low='90.88' close='91.82' xIndex='3'/&gt;<br />
+        &lt;set open='92' high='93.38' low='91.68' close='93.3' xIndex='4'/&gt;<br />
+        &lt;set open='92' high='92.98' low='91.15' close='91.21' xIndex='5'/&gt;<br />
+        <em>&lt;!-- More Data Here --&gt;</em><br />
+        &lt;set open='93.23' high='93.25' low='92.67' close='93.14' xIndex='60'/&gt;<br />
+        &lt;set open='93' high='93.38' low='92.5' close='92.73' xIndex='61'/&gt;<br />
+        &lt;set open='93.85' high='93.87' low='92.85' close='93.4' xIndex='62'/&gt;<br />
+        &lt;/data&gt;<br />
+        <br />
+        &lt;trendLines&gt;<br />
+        &lt;line startValue='89.5' endValue='98' color='FF0000' displayvalue='Roll. 
+        Avg.' thickness='2' alpha='100' isTrendZone='0'/&gt;<br />
+        &lt;/trendLines&gt;<br />
+    &lt;/graph&gt;</p></td>
+  </tr>
+  <tr> 
+    <td class="text"><p>As you can see in the above XML document, there are basically 
+        four sections of data:</p>
+      <ol>
+        <li><span class="codeInline">&lt;graph&gt;</span> section - This section 
+          helps you set the various visual attributes for the chart apart from 
+          a few other numerical attributes.</li>
+        <li><span class="codeInline">&lt;categories&gt;</span> section - This section 
+          of data lets you create the textual categories to be displayed on the 
+          chart. It also helps you configure the category vertical lines and their 
+          formatting.</li>
+        <li><span class="codeInline">&lt;data&gt;</span> section - This is the actual 
+          section where you define your financial data.</li>
+        <li><span class="codeInline">&lt;trendLines&gt; </span>section - This section 
+          helps you set the trend lines on the chart.</li>
+      </ol>
+      <p>Let's now see each of them in detail.</p></td>
+  </tr>
+  <tr> 
+    <td class="trLightBlueBg"><p class="header">&lt;graph&gt;</p> </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>Attributes of the <span class="codeInline">&lt;graph&gt;</span> 
+        element help you set the visual looks of the chart and a few functional 
+        parameters. Here we'll group those attributes by their parent chart element 
+        and then look at it.</p>
+      <p class="textbold">Graph Properties</p>
+      <ul>
+        <li><span class="codeInline">bgColor=&quot;HexColorCode&quot; </span>: This 
+          attribute helps you set the background color of the chart.</li>
+        <li><span class="codeInline"> bgAlpha=&quot;NumericalValue(0-100)&quot; 
+          </span>: This attribute helps you set the alpha (transparency) of the 
+          graph.</li>
+      </ul>
+      <p><span class="textbold">Canvas Properties</span></p>
+      <ul>
+        <li> <span class="codeInline">canvasBgColor=&quot;HexColorCode&quot; </span>: 
+          This attribute helps you set the background color of the canvas.</li>
+        <li><span class="codeInline"> canvasBgAlpha=&quot;NumericalValue(0-100)&quot; 
+          </span>: This attribute helps you set the alpha (transparency) of the 
+          canvas.</li>
+        <li> <span class="codeInline">canvasBorderColor=&quot;HexColorCode&quot;</span> 
+          : This attribute helps you set the border color of the canvas.</li>
+        <li> <span class="codeInline">canvasBorderThickness=&quot;NumericalValue(0-100)&quot;</span> 
+          : This attribute helps you set the border thickness (in pixels) of the 
+          canvas.</li>
+      </ul>
+      <p class="textbold">Chart Numerical Limits</p>
+      <ul>
+        <li> <span class="codeInline">xAxisMinValue=&quot;value&quot;</span> 
+          : This attribute determines the lower limit of x-axis.</li>
+        <li> <span class="codeInline">xAxisMaxValue=&quot;value&quot;</span>: This 
+          attribute determines the upper limit of x-axis.</li>
+        <li> <span class="codeInline">yAxisMinValue=&quot;value&quot;</span>: This 
+          attribute determines the lower limit of y-axis.</li>
+        <li> <span class="codeInline">yAxisMaxValue=&quot;value&quot;</span> : This 
+          attribute determines the upper limit of y-axis.<br />
+          If you don't specify any of the above 4 values, it is automatically 
+          calculated by FusionCharts based on the data provided by you. </li>
+        <li> <span class="codeInline">overRideLimitCalc=&quot;1/0&quot;</span>: 
+          When you provide data and the upper and lower limits to FusionCharts, 
+          FusionCharts (while rendering) checks whether the upper and lower limits 
+          are correctly provided - that is it checks whether all the data values 
+          fall within the specified range. Sometimes, this process takes a little 
+          extra time when you have a large amount of data. If in that case you 
+          don't want FusionCharts to cross check the limits explicitly provided 
+          by you, you can set this attribute value to 1 and then FusionCharts 
+          won't delve into the process of checking thus saving that extra bit 
+          of time required.</li>
+      </ul>
+      <p class="textbold">Bars or Candles</p>
+      <ul>
+        <li><span class="codeInline">showAsBars=&quot;1/0&quot;</span>: Whether 
+          to show candles or bars on the chart. </li>
+      </ul>
+      <p class="textbold">Divisional Lines (Horizontal)</p>
+      <ul>
+        <li> <span class="codeInline">numdivlines=&quot;NumericalValue&quot;</span> 
+          : This attribute sets the number of divisional lines to be drawn.</li>
+        <li> <span class="codeInline">divlinecolor=&quot;HexColorCode&quot;</span> 
+          : The color of grid divisional line.</li>
+        <li> <span class="codeInline">divLineThickness=&quot;NumericalValue&quot;</span> 
+          : Thickness (in pixels) of the grid divisional line.</li>
+        <li> <span class="codeInline">divLineAlpha=&quot;NumericalValue0-100&quot; 
+          </span>: Alpha (transparency) of the grid divisional line.</li>
+        <li> <span class="codeInline">showDivLineValue=&quot;1/0&quot;</span> : 
+          Option to show/hide the textual value of the divisional line.</li>
+        <li><span class="codeInline">showAlternateHGridColor=&quot;1/0&quot;</span> 
+          : Option on whether to show alternate colored horizontal grid bands.</li>
+        <li> <span class="codeInline">alternateHGridColor=&quot;HexColorCode&quot;</span> 
+          : Color of the alternate horizontal grid bands.</li>
+        <li> <span class="codeInline">alternateHGridAlpha=&quot;NumericalValue0-100&quot;</span> 
+          : Alpha (transparency) of the alternate horizontal grid bands.<br />
+        </li>
+      </ul>
+      <p class="textbold">Divisional Lines (Vertical)</p>
+      <ul>
+        <li> <span class="codeInline">numVDivLines=&quot;NumericalValue&quot;</span> 
+          : Sets the number of vertical divisional lines to be drawn.</li>
+        <li><span class="codeInline"> VDivlinecolor=&quot;HexColorCode&quot;</span> 
+          : Color of vertical grid divisional line. </li>
+        <li> <span class="codeInline">VDivLineThickness=&quot;NumericalValue&quot;</span> 
+          : Thickness (in pixels) of the line</li>
+        <li> <span class="codeInline">VDivLineAlpha=&quot;NumericalValue0-100&quot; 
+          </span>: Alpha (transparency) of the line.</li>
+        <li>showAlternateVGridColor=&quot;1/0&quot; : Option on whether to show 
+          alternate colored vertical grid bands.</li>
+        <li> <span class="codeInline">alternateVGridColor=&quot;HexColorCode&quot;</span> 
+          : Color of the alternate vertical grid bands.</li>
+        <li> <span class="codeInline">alternateVGridAlpha=&quot;NumericalValue0-100&quot;</span> 
+          : Alpha (transparency) of the alternate vertical grid bands.</li>
+      </ul>
+      <p class="textbold">General Properties</p>
+      <ul>
+        <li><span class="codeInline">caption=&quot;String&quot; </span>: Caption 
+          of the chart</li>
+        <li><span class="codeInline">subCaption=&quot;String&quot; :</span> Sub-caption 
+          of the chart </li>
+        <li><span class="codeInline">shownames=&quot;1/0&quot;</span> : Option whether 
+          to show/hide the category names. </li>
+        <li> <span class="codeInline">showLimits=&quot;1/0&quot;</span> : Option 
+          whether to show/hide the chart limit textboxes.</li>
+        <li><span class="codeInline">rotateNames=&quot;1/0&quot;</span> : Configuration 
+          that sets whether the category name text boxes would be rotated or not.</li>
+      </ul>
+      <p class="textbold">Number Formatting Options</p>
+      <ul>
+        <li><span class="codeInline">numberPrefix=&quot;$&quot; </span>: Using this 
+          attribute, you could add prefix to all the numbers visible on the graph. 
+          For example, to represent all dollars figure on the chart, you could 
+          specify this attribute to ' $' to show like $40000, $50000. </li>
+        <li><span class="codeInline"> numberSuffix=&quot;p.a&quot;</span> : Using 
+          this attribute, you could add prefix to all the numbers visible on the 
+          graph. For example, to represent all figure quantified as per annum 
+          on the chart, you could specify this attribute to ' /a' to show like 
+          40000/a, 50000/a. <br />
+          To use special characters for <span class="codeInline">numberPrefix</span> 
+          or <span class="codeInline">numberSuffix</span>, you'll need to URL Encode 
+          them. That is, suppose you wish to have <span class="codeInline">numberSuffix</span> 
+          as <span class="codeInline">%</span> (like <span class="codeInline">30%</span>), 
+          you'll need to specify it as under:<br />
+          <span class="codeInline">numberSuffix='%25' </span></li>
+        <li><span class="codeInline"> formatNumber=&quot;1/0&quot;</span> : This 
+          configuration determines whether the numbers displayed on the graph 
+          will be formatted using commas, e.g., 40,000 if formatNumber='1' and 
+          40000 if formatNumber='0 '</li>
+        <li><span class="codeInline">formatNumberScale=&quot;1/0&quot; :</span> 
+          Configuration whether to add K (thousands) and M (millions) to a number 
+          after truncating and rounding it - e.g., if formatNumberScale is set 
+          to 1, 10434 would become 1.04K (with decimalPrecision set to 2 places). 
+          Same with numbers in millions - a M will added at the end. </li>
+        <li><span class="codeInline">decimalSeparator=&quot;.&quot;</span> : This 
+          option helps you specify the character to be used as the decimal separator 
+          in a number.</li>
+        <li> <span class="codeInline">thousandSeparator=&quot;,&quot;</span> : This 
+          option helps you specify the character to be used as the thousands separator 
+          in a number.</li>
+        <li> <span class="codeInline">decimalPrecision=&quot;2&quot;</span> : Number 
+          of decimal places to which all numbers on the chart would be rounded 
+          to.</li>
+        <li><span class="codeInline">divLineDecimalPrecision=&quot;2&quot;:</span> 
+          Number of decimal places to which all divisional line (horizontal) values 
+          on the chart would be rounded to.</li>
+        <li> <span class="codeInline">limitsDecimalPrecision=&quot;2&quot; :</span> 
+          Number of decimal places to which upper and lower limit values on the 
+          chart would be rounded to.</li>
+      </ul>
+      <p class="textbold">Hover Caption Properties</p>
+      <ul>
+        <li><span class="codeInline">showhovercap=&quot;1/0&quot;</span> : Option 
+          whether to show/hide hover caption box. </li>
+        <li><span class="codeInline"> hoverCapBgColor=&quot;HexColorCode&quot;</span> 
+          : Background color of the hover caption box.</li>
+        <li><span class="codeInline"> hoverCapBorderColor=&quot;HexColorCode&quot;</span> 
+          : Border color of the hover caption box.</li>
+        <li> <span class="codeInline">hoverCapSepChar=&quot;Char&quot; </span>: 
+          The character specified as the value of this attribute separates the 
+          name and value displayed in the hover caption box. </li>
+      </ul>
+      <p class="textbold">Font Properties</p>
+      <ul>
+        <li><span class="codeInline">baseFont=&quot;FontName&quot;</span> : This 
+          attribute sets the base font family of the graph font which lies on 
+          the canvas i.e., all the values and the names in the graph which lie 
+          on the canvas will be displayed using the font name provided here.</li>
+        <li><span class="codeInline"> baseFontSize=&quot;FontSize&quot;</span> : 
+          This attribute sets the base font size of the graph i.e., all the values 
+          and the names in the graph which lie on the canvas will be displayed 
+          using the font size provided here. </li>
+        <li><span class="codeInline"> baseFontColor=&quot;HexColorCode&quot; </span>: 
+          This attribute sets the base font color of the graph i.e., all the values 
+          and the names in the graph which lie on the canvas will be displayed 
+          using the font color provided here. </li>
+        <li><span class="codeInline"> outCnvBaseFont = &quot;FontName&quot;</span> 
+          : This attribute sets the base font family of the graph font which lies 
+          outside the canvas i.e., all the values and the names in the graph which 
+          lie outside the canvas will be displayed using the font name provided 
+          here. </li>
+        <li><span class="codeInline"> outCnvBaseFontSize=&quot;FontSize&quot;</span> 
+          : This attribute sets the base font size of the graph i.e., all the 
+          values and the names in the graph which lie outside the canvas will 
+          be displayed using the font size provided here. </li>
+        <li> <span class="codeInline">outCnvBaseFontColor=&quot;HexColorCode&quot;:</span> 
+          This attribute sets the base font color of the graph i.e., all the values 
+          and the names in the graph which lie outside the canvas will be displayed 
+          using the font color provided here. </li>
+      </ul>
+      <p class="textbold">Candle Properties</p>
+      <ul>
+        <li><span class="codeInline">candleWidth=&quot;NumericalValue&quot;</span> 
+          (Optional): If you explicitly wish to define the width of each candle 
+          in the chart, you can use this attribute. However, this attribute is 
+          optional in the sense that FusionCharts would automatically calculate 
+          the best fit value for the candle width.</li>
+        <li><span class="codeInline"> bearBorderColor=&quot;HexColor&quot;</span>: 
+          Border Color for a bear candle.</li>
+        <li><span class="codeInline">bearFillColor=&quot;HexColor&quot;</span>: 
+          Fill Color for a bear candle.</li>
+        <li><span class="codeInline"> bullBorderColor=&quot;HexColor&quot;</span>: 
+          Border Color for a bull candle.</li>
+        <li> <span class="codeInline">bullFillColor=&quot;HexColor&quot;</span>: 
+          Fill Color for a bull candle.</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td class="trLightBlueBg"><p class="header">&lt;categories&gt; attributes and elements</p></td>
+  </tr>
+  <tr> 
+    <td class="text"><p>Attributes and child-elements of the &lt;category&gt; 
+        elements help you create the x-axis labels on the chart. They also help 
+        you create the vertical category lines on the chart and configure their 
+        visual properties.</p>
+      <p>The &lt;categories&gt; element has the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">font='FontName'</span> : This attribute helps 
+          you set the font face for the x-axis labels in specific.</li>
+        <li><span class="codeInline">fontSize='FontSize'</span> : This attribute 
+          helps you set the font size for the x-axis labels in specific.</li>
+        <li><span class="codeInline">fontColor='HexColor'</span> : This attribute 
+          helps you set the font color for the x-axis labels in specific.</li>
+        <li><span class="codeInline">verticalLineColor='HexColor'</span> : This 
+          attribute helps you set the color of the category line (i.e., the vertical 
+          line drawn through the entire span of the canvas just above the category 
+          name)</li>
+        <li> <span class="codeInline">verticalLineThickness='NumericalValue'</span> 
+          : This attribute helps you set the thickness of the category line in 
+          pixels.</li>
+        <li> <span class="codeInline">verticalLineAlpha='NumericalValue0-100'</span> 
+          : This attribute helps you set the alpha (transparency) of the category 
+          line </li>
+      </ul>
+      <p>For each category name, you'll need to define a &lt;category&gt; element 
+        as under:<br />
+        <span class="codeInline">&lt;category Name='Split' xIndex='44' showLine='1'/&gt;</span></p>
+      <p>The &lt;category&gt; element can have the following attributes:</p>
+      <ul>
+        <li><span class="codeInline">name='String'</span>: x-axis label to be displayed.</li>
+        <li><span class="codeInline">xIndex='NumericalValue'</span>: x-axis position 
+          where the category name is to be displayed. In the candlestick chart, 
+          the x-axis is also numbered - i.e., it has an upper limit and a lower 
+          limit. For example, when you're plotting a chart to show the data for 
+          a month, the lower limit of x-axis would be 1 and the upper limit 31. 
+          So, when you need to render a category label for the 15th day of the 
+          month say &quot;Mid-month&quot;, you'll have specify <span class="codeInline">xIndex</span> 
+          as 15 for that <span class="codeInline">&lt;category&gt;</span>.</li>
+        <li><span class="codeInline">showLine='1/0'</span> : Option to whether show 
+          or hide the line just above this particular category name.</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td class="trLightBlueBg"><p class="header">&lt;data&gt; child elements</p></td>
+  </tr>
+  <tr> 
+    <td class="text"><p>The actual data of the chart comes under the <span class="codeInline">&lt;data&gt;</span> 
+        element. For each data item, you've to specify a <span class="codeInline">&lt;set&gt;</span> 
+        element as under:<br />
+        <span class="codeInline">&lt;set open='92' high='93.38' low='91.68' close='93.3' 
+        xIndex='4' link='Detail.asp?day=32'/&gt;</span></p>
+      <p>The <span class="codeInline">&lt;set&gt;</span> element can have the following 
+        attributes:</p>
+      <ul>
+        <li><span class="codeInline">open=&quot;NumericalValue&quot;</span> : This 
+          attribute determines the open value for the data set. It is compulsory 
+          to provide this value.</li>
+        <li><span class="codeInline"> high=&quot;NumericalValue&quot;</span> : This 
+          attribute determines the high value for the data set. It is compulsory 
+          to provide this value.</li>
+        <li><span class="codeInline">low =&quot;NumericalValue&quot;</span> : This 
+          attribute determines the low value for the data set. It is compulsory 
+          to provide this value.</li>
+        <li> <span class="codeInline">close =&quot;NumericalValue&quot;</span> : 
+          This attribute determines the close value for the data set. It is compulsory 
+          to provide this value.</li>
+        <li> <span class="codeInline">borderColor=&quot;HexColorCode&quot;</span> 
+          [Optional]: This attribute lets you change the border color of particular 
+          candle on the chart. All the candles on the chart follow the color code 
+          as specified in <span class="codeInline">bearBorderColor</span> and <span class="codeInline">bullBorderColor</span> 
+          attributes of the <span class="codeInline">&lt;graph&gt; </span>element. 
+          However, if in some case you want to highlight one particular candle 
+          by changing it's color, you can use this option.</li>
+        <li> <span class="codeInline">color=&quot;HexColorCode&quot; [Optional]</span>: 
+          Similar to the border color (previous attribute), this attribute lets 
+          you set the fill color of a particular candle selectively.</li>
+        <li> xIndex=&quot;NumericalValue&quot; [Optional]: x-axis position of 
+          the candle. In the candlestick chart, the x-axis is also numbered - 
+          i.e., it has an upper limit and a lower limit. For example, when you're 
+          plotting a chart to show the data for a month, the lower limit of x-axis 
+          would be 1 and the upper limit 31. So, when you're providing data for 
+          15th day, you need to mention xIndex as 15. However, if you do not provide 
+          x-index for any of the <span class="codeInline">&lt;set&gt;</span> elements, 
+          FusionCharts will auto number them for you starting from 1.</li>
+        <li><span class="codeInline"> link=&quot;link&quot;</span> [Optional]: Sets 
+          the link for a particular candle</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td class="trLightBlueBg"><p class="header">&lt;trendLines&gt;</p></td>
+  </tr>
+  <tr> 
+    <td class="text"><p>Using the <span class="codeInline">&lt;trendLines&gt;</span> 
+        element (and child elements), you can define trend lines on the charts. 
+        Trend lines are the horizontal lines spanning the chart canvas that aid 
+        in interpretation of data with respect to some previous pre-determined 
+        figure. For each trend line on the chart, you need to define a <span class="codeInline">&lt;line&gt;</span> 
+        element as under:<br />
+        <span class="codeInline">&lt;line startValue='89.5' endValue='98' color='FF0000' 
+        displayvalue='Roll. Avg.' thickness='2' alpha='100' isTrendZone='0' showOnTop='1'/&gt;        </span></p>
+      <p>The <span class="codeInline">&lt;line&gt;</span> element can have the following 
+        attributes:</p>
+      <ul>
+        <li><span class="codeInline">startValue='NumericalValue'</span>: The starting 
+          y-axis value for the trendline. Say, if you want to plot a slanted trendline 
+          from value 102 to 109, the startValue would 102.</li>
+        <li><span class="codeInline">endValue='NumericalValue'</span>: The ending 
+          y-axis value for the trendline. Say, if you want to plot a slanted trendline 
+          from value 102 to 109, the endValue would 109. If you do not specify 
+          a value for endValue, it would automatically assume the same value as 
+          startValue.</li>
+        <li><span class="codeInline">color='HexCode'</span> : Color of the trend 
+          line and its associated text.</li>
+        <li><span class="codeInline">displayValue='StringValue'</span> : If you 
+          want to display a string caption for the trend line by its side, you 
+          can use this attribute. Example: <span class="codeInline">displayValue='Last 
+          Month High'</span>. When you don't supply this attribute, it automatically 
+          takes the value of <span class="codeInline">startValue</span>.</li>
+        <li><span class="codeInline">thickness='NumericalValue' </span>: Thickness 
+          of the trend line</li>
+        <li> <span class="codeInline">isTrendZone='1/0': </span><span class="text">Whether 
+          the trend would display a line, or a zone (filled colored rectangle).</span>        </li>
+        <li><span class="codeInline">showOnTop='1/0'</span>: Whether the trend line/zone 
+          would be displayed over the candles or under the candles.</li>
+        <li><span class="codeInline">alpha='NumericalValue0-100'</span>: Alpha (transparency) 
+          of the trend line</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td height="10"></td>
+  </tr>
+  <tr>
+    <td class="text">In the next section we'll see a few examples of XML document 
+      for the candlestick chart.</td>
+  </tr>
+</table>
+</body>
+</html>

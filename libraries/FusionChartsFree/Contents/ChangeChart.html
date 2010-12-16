@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Converting our previous chart to Pie Chart</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous example (<span class="codeInline">My 
+        first chart</span>), we had created a column chart to show the monthly 
+        sales summary. Here, we'll quickly convert this chart into a 3D Pie chart. 
+      </p>
+      <p>To convert a chart type, all you need to do is change the SWF file that 
+        you're using. e.g., if you're using a single series Column Chart, just 
+        changing the SWF file to Single Series Pie Chart would change the chart 
+        output to a pie - XML data remaining the same. Let's quickly see the changes 
+        we need to make. </p>
+      <p>For this example, create a copy of <span class="codeInline">Chart.html</span> 
+        and save it as <span class="codeInline">PieChart.html</span> in the same 
+        folder. And, finally edit the HTML code to reflect the following changes:<br />
+        <br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;body 
+      bgcolor=&quot;#ffffff&quot;&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;OBJECT classid=&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot; codebase=http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0&quot;  
+      width=&quot;600&quot; height=&quot;500&quot;<strong> id=&quot;Pie3D&quot;</strong> 
+      &gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param name=&quot;movie&quot; 
+      value=&quot;../FusionCharts/<strong>FCF_Pie3D.swf</strong>&quot; /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param name=&quot;FlashVars&quot; 
+      value=&quot;&amp;dataURL=Data.xml&amp;chartWidth=600&amp;chartHeight=500&quot;&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param 
+      name=&quot;quality&quot; value=&quot;high&quot; /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;embed 
+      src=&quot;../FusionCharts/<strong>FCF_Pie3D.swf</strong>&quot; flashVars=&quot;&amp;dataURL=Data.xml&amp;chartWidth=600&amp;chartHeight=500&quot; 
+      quality=&quot;high&quot; width=&quot;600&quot; height=&quot;500&quot;<strong> name=&quot;Pie3D&quot;</strong> type=&quot;application/x-shockwave-flash&quot; 
+      pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; /&gt;<br /> 
+      &lt;/object&gt;<br /> &lt;/body&gt;<br /> &lt;/html&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">In the above code, we've changed the SWF file 
+      from <span class="codeInline">FCF_Column3D.swf</span> to <span class="codeInline">FCF_Pie3D.swf</span> 
+      and the name of the name to Pie3D. Now, when you view this page in 
+      browser, you'll see a pie chart as under:</td>
+  </tr>
+  <tr> 
+    <td valign="top" align='center' class="text"><img src="Images/PieChart.jpg" /></td>
+  </tr>
+  <!--tr>
+    <td valign="top" class="highlightBlock">In <a href="http://www.fusioncharts.com"><span class="textBold">FusionCharts v3</span></a>, the commercial version. you can click on any pie slice to slice any pie or  drag &amp; rotate the pie chart.</td>
+  </tr-->
+</table>
+</body>
+</html>

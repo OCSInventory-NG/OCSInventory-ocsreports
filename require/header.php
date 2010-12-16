@@ -98,7 +98,7 @@ if (!isset($no_error))
 $no_error='NO';
 /**************************************mise en place des r�pertoires de plugins et d'auhentification************************************/
 if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYSQL'])){
-
+	$_SESSION['OCS']['FCharts']="libraries/FusionChartsFree";
 	$_SESSION['OCS']['backend']="backend/";
 	$_SESSION['OCS']['plugins_dir']="plugins/";
 	$_SESSION['OCS']['CONF_MYSQL']="dbconfig.inc.php";

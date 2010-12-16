@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>FusionCharts DOM Example</title>
+
+<!-- FusionCharts code starts -->
+   <SCRIPT LANGUAGE="Javascript" SRC="../FusionCharts/FusionCharts.js"></SCRIPT>
+   <SCRIPT LANGUAGE="Javascript" SRC="js/FusionChartsDom.js"></SCRIPT>
+<!-- FusionCharts code ends -->
+
+</head>
+
+<body>
+  <center>
+
+  
+    <h2>Simple Column Chart</h2>
+    <fusioncharts chartType="Column3D" SWFPath="../FusionCharts/" >
+      <data><!--[CDATA[
+        <graph caption="Annual Sales Summary" subcaption="For the period of 2004 to 2007"
+         xAxisName="Year" yAxisName="Sales" numberPrefix="$">
+			<set name="2004" value="37800" color='F6BD0F' />
+			<set name="2005" value="21900" color='8BBA00' />
+			<set name="2006" value="32900" color='FF8E46' />
+			<set name="2007" value="39800" color='008E8E' />
+        </graph>
+      ]]--></data>
+    </fusioncharts>
+    
+    
+
+  </center>
+</body>
+</html>

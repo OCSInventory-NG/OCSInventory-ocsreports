@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+<script type="text/JavaScript">
+<!--
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+</script>
+<style type="text/css">
+<!--
+.style1 {
+	color: #FF0000;
+	font-weight: bold;
+}
+-->
+</style>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">How FusionCharts works? </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>As you must already be aware by now, FusionCharts accepts only XML data to plot the charts. You can either provide physical XML data files or dynamically relay XML data using server-side scripts to FusionCharts. Here, we explore the various methods using which you can provide XML data to FusionCharts.</p>
+      <p>There are 3 ways using which you can provide XML data to FusionCharts:</p>
+      <ol>
+      <li><span class="codeInline"><strong>dataURL method </strong></span>- In this method, you only provide the URL of XML Data Document to FusionCharts. The chart now sends a request for XML data to the specified URL, reads it, parses it and then renders the charts accordingly. </li>
+      <li><strong class="codeInline">dataXML method </strong>- Here, you send the XML data along with the HTML Content and chart SWF file to the browser. The SWF loads, reads this data (present in same HTML page) and then renders the chart.</li>
+      <li><span class="codeInline"><strong>JavaScript method using updateChartXML </strong></span> - In this method, you provide the XML data to FusionCharts using JavaScript functions (present on the same page in which chart is present).</li>
+      </ol>
+	  <div class="highlightBlock" >The commercial version of FusionCharts - <a href="http://www.fusioncharts.com" target="_blank">FusionCharts v3</a> - offers another method, wherein, using JavaScript API you can just ask an existing chart to load data from a new URL.  This is an AJAX like method to update chart data without refreshing the webpage using   JavaScript functions present on the same page in which chart is present. Unfortunately, FusionCharts Free does not support this method. </div>    </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's discuss each of these methods in the following pages.</td>
+  </tr>
+</table>
+</body>
+</html>

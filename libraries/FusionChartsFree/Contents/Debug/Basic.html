@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Basic Troubleshooting</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>When trying to make a chart using FusionCharts, 
+        if you get any errors (or if the chart doesn't render), there could a 
+        lot of reasons for it. Here, we'll try and cover them up. </p>
+      <p>While creating your chart, 
+        if for some reasons you do not see your chart like it should, check for 
+        the following actions:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">SWF Movie not Loading or No chart shown</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>When viewing your page containing the chart, 
+        if you see an endless loading progress bar in your browser, or if the 
+        right click menu (right click at the place where the chart is supposed 
+        to be) shows &quot;<span class="codeInline">Movie not loaded</span>&quot;, 
+        check the following:</p>
+      <ul>
+        <li>Check if the SWF path is properly provided in your HTML page is correct. 
+          Also, check if the SWF file actually exists there.</li>
+        <li>If you're working on a case-sensitive file system Operating System, 
+          check for the case of path and SWF file.</li>
+        <li>Check if you've Adobe Flash Player 6 (or above) installed on your 
+          machine. </li>
+        <li>Check whether you've enabled your browser to show ActiveX controls. 
+          Normally, all browsers are Flash-enabled. </li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">&quot;Error in Loading Data&quot; message</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>If you get a &quot;Error in Loading Data&quot; 
+        message in your chart, it means that FusionCharts could not find XML data 
+        at the specified URL. In that case, check the following:</p>
+      <ul>
+        <li>Check if you've actually provided <span class="codeInline">dataURL</span> 
+          or <span class="codeInline">dataXML</span>. If you do not provide either, 
+          FusionCharts looks for a default <span class="codeInline">Data.xml </span>file 
+          in the same path. However, if that is also not found, it shows the &quot;<span class="codeInline">Error 
+          in Loading Data</span>&quot; error. </li>
+        <li>If you're using <span class="codeInline">dataURL</span> method, paste 
+          this URL in your browser to check if it's returning a valid XML. Make 
+          sure there are no scripting or time-out errors and a valid XML is being 
+          returned. Also make sure that the XML isn't intermingled with HTML content. 
+          The data provider page should return clean XML only - not even HTML 
+          <span class="codeInline">&lt;head&gt;</span> or <span class="codeInline">&lt;body&gt;</span> 
+          tags.</li>
+        <li>If you've to pass parameters to your <span class="codeInline">dataURL</span> 
+          data provider page from FusionCharts, make sure they're URLEncoded in 
+          the dataURL, when providing to FusionCharts. e.g., if your dataURL needs 
+          to be<span class="codeInline"> Data.asp?id=43&amp;subId=454</span>, 
+          you'll need to URL Encode it so that it becomes <span class="codeInline">Data%2Easp%3Fid%3D43%26subId%3D454</span>. 
+          Only then FusionCharts will invoke the URL with proper parameters appended 
+          to it.</li>
+        <li>When using <span class="codeInline">dataURL</span> method, make sure 
+          that the SWF File and data provider page are on the same sub-domain. 
+          Due to Flash's sandbox security model, it cannot access data from external 
+          domains, unless otherwise configured. </li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">&quot;Invalid XML Data&quot; message</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>If you get an &quot;Invalid XML Data&quot; 
+        message, it means that the XML data document is malformed. Check it again 
+        for common errors like:</p>
+      <ul>
+        <li>Difference in case of tags. <span class="codeInline">&lt;graph&gt;</span> 
+          should end with <span class="codeInline">&lt;/graph&gt;</span> and <strong>not</strong> 
+          <span class="codeInline">&lt;/Graph&gt;</span> or<span class="codeInline"> 
+          &lt;/GRAPH&gt;</span></li>
+        <li>Missing opening/closing quotation marks for any attributes. e.g., 
+          <span class="codeInline">&lt;graph caption=Monthly Sales' </span>should 
+          be <span class="codeInline">&lt;graph caption='Monthly Sales'</span></li>
+        <li>Missing closing tag for any element.</li>
+        <li>If you're using any special characters in your XML, make sure they're 
+          properly encoded. Like, in <span class="codeInline">dataXML</span> method, 
+          % needs to be encoded as %25, &amp; as %26 and so on. In <span class="codeInline">dataURL</span> 
+          method, you can provide most of the characters directly, without the 
+          need to encode.</li>
+        <li>In <span class="codeInline">dataXML</span> method, check for conflict 
+          of ' (XML Attribute Character) and &quot; (HTML Parameter Character). 
+          For example, if you're using <span class="codeInline">direct HTML embedding</span> 
+          method, and using &quot; for HTML parameters, then you need to make 
+          sure that all your XML attributes use ' as containers. Example: <span class="codeInline">&lt;param 
+          name=&quot;FlashVars&quot; value=&quot;&lt;chart showNames='1' showValues='1'&gt;...&lt;/chart&gt;&quot; 
+          /&gt;</span></li>
+        <li>If you've quotes as part of your data, XML Encode them to<span class="codeInline"> 
+          &amp;apos;</span> Example: <span class="codeInline">&lt;set name='John&amp;apos;s 
+          House' /&gt;</span></li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">&quot;No data to display&quot; message</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>If your chart shows a &quot;No data to display&quot; 
+        message, it could be the following scenarios:</p>
+      <ul>
+        <li>Your XML data doesn't contain any data that could be plotted by FusionCharts. 
+          In this case, your XML just contains the <span class="codeInline">&lt;graph&gt;</span> 
+          or <span class="codeInline">&lt;graph&gt;</span> tags without any 
+          data between them.</li>
+        <li>You might be using a single-series chart SWF and providing data in 
+          multi-series format or vice-versa. In this case too, you'll get &quot;No 
+          data to display&quot; message.</li>
+        <li>In  Dual Y Combination charts, you need to provide atleast one 
+          data-set for both the axis. Otherwise, you'll get a &quot;No data to 
+          display&quot; message.</li>
+      </ul>    </td>
+  </tr>
+  <TR>
+  	<TD class="text">
+		<P class="highlightBlock"><a href="http://www.fusioncharts.com" target="_blank">FusionCharts v3</a> offers an advanced method of debugging - using the in-built visual debugger. It helps you intelligently track and find possible reasons of errors that occured.</P>	</TD>
+  </TR>
+</table>
+</body>
+</html>

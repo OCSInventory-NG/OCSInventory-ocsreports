@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Advanced Usage &gt; Creating Trendlines </h2></td>
+  </tr>
+  
+
+  <tr>
+    <td valign="top" class="text"><p>Trendline is used to display trends, targets etc. on the chart. FusionCharts PHP Class lets you create trendlines on charts. Lets find out how: </p>    </td>
+  </tr>
+  <tr>
+     <td valign="top">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><span class="codeInline">addTrendLine()</span> function of FusionCharts PHP Class lets you add a Trendline. Here is an example. </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="codeBlock"><strong>$FC-&gt;addTrendLine(&quot;startValue=44000;color=ff0000;displayvalue=Target&quot;);</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This function accepts delimiter separated trendline parameters - <span class="codeInline">startValue</span>, <span class="codeInline">color</span> of the line in hex color code, <span class="codeInline">displayValue</span> or label for the trendline etc. The resultant chart might look like this. </td>
+  </tr>
+  
+  
+  <tr>
+     <td valign="top" class="text"><img src="Images/Adv_trendlines1.jpg" width="273" height="219" class="imageBorder" /></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">Similarly you can add a number of trendlines calling <span class="codeInline">addTrendline()</span> a number of times. </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="codeBlock">$FC-&gt;addTrendLine(&quot;startValue=42000;color=ff0000;displayvalue=Target;showOnTop=1&quot;);<br />
+        $FC-&gt;addTrendLine(&quot;startValue=30000;color=008800;displayvalue=Average;showOnTop=1&quot;);<br />
+      $FC-&gt;addTrendLine(&quot;startValue=50000;endValue=60000;color=0000ff;alpha=20;displayvalue=Dream Sales;showOnTop=1;isTrendZone=1&quot;);</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">And the resultant chart is: </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="Images/Adv_trendlines2.jpg" width="280" height="228" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

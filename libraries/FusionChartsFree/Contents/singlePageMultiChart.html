@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using  Multiple Charts in a Single HTML Page </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Using FusionCharts, you can create any number of charts in a single page - each chart can have its own data source, size or other properties. 
+      Let us  see how to embed 4  charts in a single HTML page. <br />
+      <br />
+    Consider the code below:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock"><p>&lt;html&gt;<br />
+  &lt;head&gt;&lt;title&gt;Multiple Charts in a single Page&lt;/title&gt; <br />
+  &nbsp;&nbsp; &lt;script language=&quot;JavaScript&quot; src=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />
+  &lt;/head&gt;<br />
+  &lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+  &nbsp;&nbsp; &lt;div id=&quot;<strong>chartdiv1</strong>&quot; align=&quot;center&quot;&gt;First Chart Container Pie 3D&lt;/div&gt;<br />
+  &nbsp;&nbsp; &lt;script type=&quot;text/javascript&quot;&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var <strong>myChart1</strong> = new FusionCharts(&quot;../FusionCharts/FCF_pie3D.swf&quot;, &quot;<strong>myChartId1</strong>&quot;, &quot;600&quot;, &quot;400&quot;); <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; myChart1.setDataURL(&quot;Data.xml&quot;);         <br />
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; myChart1.render(&quot;<strong>chartdiv1</strong>&quot;);<br />
+  &nbsp;&nbsp; &lt;/script&gt;</p>
+      <p>&nbsp; &lt;div id=&quot;<strong>chartdiv2</strong>&quot; align=&quot;center&quot;&gt;Second Chart Container Column 3D&lt;/div&gt;<br />
+&nbsp;&nbsp; &lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var <strong>myChart2</strong> = new FusionCharts(&quot;../FusionCharts/FCF_Column3D.swf&quot;,&quot;<strong>myChartId2</strong>&quot;, &quot;600&quot;,&quot;300&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; myChart2.setDataURL(&quot;Data.xml&quot;);         <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart2.render(&quot;<strong>chartdiv2</strong>&quot;);<br />
+&nbsp;&nbsp; &lt;/script&gt;</p>
+      <p>&nbsp; &lt;div id=&quot;<strong>chartdiv3</strong>&quot; align=&quot;center&quot;&gt;Third Chart Container Line 2D&lt;/div&gt;<br />
+&nbsp;&nbsp; &lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var <strong>myChart3</strong> = new FusionCharts(&quot;../FusionCharts/FCF_line.swf&quot;, &quot;<strong>myChartId3</strong>&quot;, &quot;600&quot;, &quot;300&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; myChart3.setDataURL(&quot;Data.xml&quot;);         <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+myChart3.render(&quot;<strong>chartdiv3</strong>&quot;);<br />
+&nbsp;&nbsp; &lt;/script&gt;</p>
+      <p>&nbsp; &lt;div id=&quot;<strong>chartdiv4</strong>&quot; align=&quot;center&quot;&gt;Fourth Chart Container Area 2D&lt;/div&gt;<br />
+&nbsp;&nbsp; &lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var <strong>myChart4</strong> = new FusionCharts(&quot;../FusionCharts/FCF_area2D.swf&quot;, &quot;<strong>myChartId4</strong>&quot;, &quot;400&quot;, &quot;250&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; myChart4.setDataURL(&quot;Data.xml&quot;);         <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart4.render(&quot;<strong>chartdiv4</strong>&quot;);<br />
+&nbsp;&nbsp; &lt;/script&gt;<br />
+  &lt;/body&gt;<br />
+  &lt;/html&gt;</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>As you can see above, we've created 4 DIV elements, one for each chart. Here you must be aware that one DIV element can hold only one chart. Again each DIV element is given a  unique ID i.e. no chart DIV element should be of same name (This is the first crucial point to remember). Hence the IDs of the 4 DIV elements are <span class="codeInline">chartdiv1</span>, <span class="codeInline">chartdiv2</span>, <span class="codeInline">chartdiv3</span> &amp; <span class="codeInline">chartdiv4</span>.
+      <p class="codeBlock">&hellip;&lt;div id=&quot;<strong>chartdiv1</strong>&quot; align=&quot;center&quot;&gt;First Chart Container Pie 3D&lt;/div&gt;&hellip;<br />
+        <br />
+        &hellip;&lt;div id=&quot;<strong>chartdiv2</strong>&quot; align=&quot;center&quot;&gt;First Chart Container Column 3D&lt;/div&gt;&hellip;<br />
+        <br />
+        &hellip;&lt;div id=&quot;<strong>chartdiv3</strong>&quot; align=&quot;center&quot;&gt;First Chart Container Line 2D&lt;/div&gt;&hellip;<br />
+        <br />
+        &hellip;&lt;div id=&quot;<strong>chartdiv4</strong>&quot; align=&quot;center&quot;&gt;First Chart Container Area 2D&lt;/div&gt;&hellip;<br />
+      <p>The second crucial thing to take care of is the definition of variable/object name of each chart. Each chart should be defined in a separate variable. Thus we get four variables/objects, 1 for each chart.            
+      <p class="codeBlock">&hellip;<br />
+        &nbsp; var <strong>myChart1</strong> = new FusionCharts(&quot;../FusionCharts/FCF_pie3D.swf&quot;, &quot;<strong>myChartId1</strong>&quot;, &quot;600&quot;, &quot;400&quot;); <br />
+        &hellip;<br />
+         &nbsp; var <strong>myChart2</strong> = new FusionCharts(&quot;../FusionCharts/FCF_Column3D.swf&quot;,&quot;<strong>myChartId2</strong>&quot;, &quot;600&quot;,&quot;300&quot;); <br />
+        &hellip;<br />
+        &nbsp; var <strong>myChart3</strong> = new FusionCharts(&quot;../FusionCharts/FCF_line.swf&quot;, &quot;<strong>myChartId3</strong>&quot;, &quot;600&quot;, &quot;300&quot;); <br />
+        &hellip;<br />
+      &nbsp; var <strong>myChart4</strong> = new FusionCharts(&quot;../FusionCharts/FCF_area2D.swf&quot;, &quot;<strong>myChartId4</strong>&quot;, &quot;400&quot;, &quot;250&quot;); 
+      <p>Here we define 4 separate objects <span class="codeInline">myChart1, myChart2, myChart3 &amp; myChart4</span>. Again we must remember that the chart ID that we are assigning must have unique names. Hence we give<span class="codeInline"> myChartId1, myChartId2, myChartId3 &amp; myChartId4</span> respectively for each chart.      
+      <p>Next we provide XML data to the charts using dataURL method. You can always use dataXML method if you want to. Again you can always use different data sources for different charts. <br />
+      <p>Now the last important and most crucial step is rendering of the chart. We render each chart using <span class="codeInline">render() </span>method.      
+      <p class="codeBlock"><strong>myChart1</strong>.render(&quot;<strong>chartdiv1</strong>&quot;);      <br />
+        <br />
+        <strong>myChart2</strong>.render(&quot;<strong>chartdiv2</strong>&quot;);<br />
+      <br />
+      <strong>myChart3</strong>.render(&quot;<strong>chartdiv3</strong>&quot;); <br />
+      <br />
+      <strong>myChart4</strong>.render(&quot;<strong>chartdiv4</strong>&quot;); <br />
+      <p>Again note here that we have used separate and correct chart DIV id name while rendering each chart. <span class="codeInline">myChart1 </span>is rendered in  <span class="codeInline"> chartdiv1</span>, <span class="codeInline">myChart2</span> in <span class="codeInline">chartdiv2</span> and so on. Hence we get 4 separate charts rendered (One must be very cautious here. This is because  if the same name <span class="codeInline">chartdiv1</span> is used in all cases,  only one chart, probably the last chart, will be rendered).
+      <p>      The page will create four charts in a single page as shown below:</td>
+  </tr>
+  
+  <tr>
+    <td valign="top"><img src="Images/multichart.jpg" class="imageBorder" /></td>
+  </tr>
+  
+  <tr> 
+    <td valign="top" class="text"><p>In this example, we've used the same data source for all charts. However, in your application, you can always use different data sources for these charts. Also, for each chart you can opt to select <span class="codeInline">dataURL</span> or <span class="codeInline">dataXML</span> method of providing data. </p>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

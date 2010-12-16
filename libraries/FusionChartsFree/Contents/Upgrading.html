@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Upgrading from FusionCharts Free to FusionCharts 
+        v3 </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>If at any time, you feel the need to upgrade from FusionCharts Free to FusionCharts v3 to harness the powerful and advanced features of v3, you can painlessly do so. Upgrading just involves copying and pasting the v3 SWF files and you're ready to roll. You do not even need to make any changes to your XML structure. </p>
+      <p>We've tried to make FusionCharts v3 as backward compatible as possible. 
+        Effectively, that means you can simply over-write your existing FusionCharts Free SWF 
+        files with the new v3 SWF files and they'll still work the same way, without 
+        incurring any changes in the XML. However, there might be minor differences 
+        in the looks of the new chart, as we've tried to enhance looks in v3. 
+      </p>
+      <p>To upgrade from FusionCharts Free to v3 charts, all you need to do is:</p>
+      <ol>
+        <li>Replace FusionCharts Free SWF with the new v3 SWF Files. </li>
+        <li>Either rename the v3 SWF files to use old FusionCharts Free SWF names or update 
+          your code to use new SWF names.</li>
+        <li> Clear your browser cache.<br />
+        </li>
+      </ol></td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">The above process doesn't automatically 
+      enables the chart to use ALL the new features introduced in v3. To do so, 
+      you'll have to add the appropriate v3 elements/attributes in your XML document.</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Changed Behaviors</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>There are few changed behaviors from FusionCharts Free 
+        to v3 listed below:</p>
+      <ul>
+        <li>Root element of XML data document has been changed from <span class="codeInline">&lt;graph&gt;</span> to <span class="codeInline">&lt;chart&gt;</span>. However, <span class="codeInline">&lt;graph&gt;</span> element would still continue to work from your old XML documents. But, we recommend using <span class="codeInline">&lt;chart&gt;</span> element for any new charts that you now make. </li>
+        <li><span class="codeInline">&lt;set <strong>name</strong>='' ...&gt;</span> 
+          has been changed to<span class="codeInline"> &lt;set <strong>label</strong>=''&gt;</span> 
+          for better interpretation. <span class="codeInline">&lt;set name=''&gt;</span> 
+          would still continue to work for backward compatibility, but we recommend 
+          using <span class="codeInline">&lt;set label=''&gt;</span> now.</li>
+        <li>Similarly, <span class="codeInline">&lt;category <strong>name</strong>='' 
+          ...&gt;</span> has been changed to <span class="codeInline">&lt;category 
+          <strong>label</strong>='' ...&gt;</span>.</li>
+        <li><span class="codeInline">showNames</span> and <span class="codeInline">rotateNames</span> 
+          attributes of <span class="codeInline">&lt;chart&gt;</span> element are now <span class="codeInline">showLabels</span> and <span class="codeInline">rotateLabels</span> respectively.</li>
+        <li><span class="codeInline">hoverText</span> attribute converted to <span class="codeInline">toolText</span>. 
+          Also, <span class="codeInline">toolText</span> now shows the exact information 
+          provided for the attribute thereby not adding data values as a part 
+          of tooltip.</li>
+        <li><span class="codeInline">vDivLines</span> and vertical grid colors 
+          not supported in bar and column charts any more, as vertical separator 
+          lines have been introduced.</li>
+        <li>Developers who're URLEncoding their characters in <span class="codeInline">dataURL</span> 
+          mode need not do so anymore.</li>
+        <li><span class="codeInline">showYAxisValues</span> attribute now manages 
+          both <span class="codeInline">showLimits</span> and <span class="codeInline">showDivLineValues</span>.</li>
+        <li><span class="codeInline">showAnchors</span> attribute renamed to <span class="codeInline">drawAnchors</span></li>
+        <li>In Dual Y Axis Charts, number formatting properties (like <span class="codeInline">numberPrefix</span>, <span class="codeInline">numberSuffix</span> etc.) are now provided as attributes of <span class="codeInline">&lt;chart&gt;</span> element instead of <span class="codeInline">&lt;dataset&gt;</span> element. </li>
+      </ul></td>
+  </tr>
+</table>
+</body>
+</html>

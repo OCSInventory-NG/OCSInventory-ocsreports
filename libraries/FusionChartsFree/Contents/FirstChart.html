@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Creating your First Chart</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Here, we'll guide you through the process 
+        of creating your first chart. For a head start, we'll create a simple 
+        3D Column Chart to visually depict Monthly Sales Summary. </p>
+      <p>To create any chart using FusionCharts, you need to assemble three things:</p>
+      <ol>
+        <li><strong>SWF File</strong> for the chart that you want to create. We 
+          want to create a 3D Column Chart, whose SWF file is named 
+          as <span class="codeInline">Column3D.swf</span>. All the chart SWF files 
+          are present in <span class="codeInline">Download Package</span> &gt; 
+          <span class="codeInline">Charts</span> folder. </li>
+        <li><strong>XML Data File</strong>. FusionCharts accepts data only in 
+          a pre-defined XML format. So, you'll need to convert your data to XML 
+          format - either using a server side scripting language or manually.</li>
+        <li><strong>HTML Wrapper File</strong>. This HTML file would contain the 
+          code to embed the chart.</li>
+      </ol>
+      <p>Before we get on to assemble the above items, let's create a new folder 
+        that will serve as our playground for our trials and researches. Create 
+        a new folder named as <span class="codeInline">c:\FusionCharts </span>on 
+        your computer. We'll keep all our examples within this folder. </p>
+      <p>For our first chart example, we'll create another folder within the above 
+        folder. Name the new folder as <span class="codeInline">MyFirstChart</span> 
+        so that the structure now looks like <span class="codeInline">c:\FusionCharts\MyFirstChart</span>.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="highlightBlock">All examples discussed in the documentation 
+      are present in Download Package under <span class="codeInline">Code &gt; MyFirstChart </span> 
+      folder.</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Setting the Chart SWF</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Now, to build the chart, we need to copy 
+        chart SWF files within this folder. Before that, create another folder 
+        <span class="codeInline">FusionCharts</span> under <span class="codeInline">c:\FusionCharts</span>, 
+        so that the new folder looks like <span class="codeInline">c:\FusionCharts\FusionCharts</span>. 
+        This folder would be our container for all the chart SWF files. </p>
+      <p>Copy all the chart SWF files (from Download Package &gt; <span class="codeInline">Charts</span> 
+        folder) into this newly created folder (<span class="codeInline">c:\FusionCharts\FusionCharts</span>\).</p>
+      <p>This folder serves as the central location for charts. All our examples 
+        would use the charts contained in this single folder.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="highlightBlock">Even when you're using FusionCharts 
+      on your website, it's a good idea to keep all the chart SWF files in a root 
+      level folder named as <span class="codeInline">FusionCharts</span>. This 
+      makes sure that you do not have multiple copies of the same chart SWF. So, 
+      updates of charts become easier, as you just have to copy-paste the new 
+      charts at one location.</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p>
+      <p>Now that the SWF files are set up, we move on to see how to create the 
+        XML data for our chart.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Creating the XML data document</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Before we build the chart, we first need 
+        to have the data that we'll represent on the chart. Since we're plotting 
+        monthly sales summary for a given year, our data in tabular form would 
+        look something like below. Each month given below would be represented 
+        on the chart as a 3D column.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <table width="200" border="1" cellspacing="0" cellpadding="1">
+        <tr class="textBold"> 
+          <td>Month</td>
+          <td> <div align="right">Net Revenue</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>January</td>
+          <td> <div align="right">$17400</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>February</td>
+          <td> <div align="right">$19800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>March</td>
+          <td> <div align="right">$21800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>April</td>
+          <td> <div align="right">$23800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>May</td>
+          <td> <div align="right">$29600</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>June</td>
+          <td> <div align="right">$27600</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>July</td>
+          <td> <div align="right">$31800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>August</td>
+          <td> <div align="right">$39700</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>September</td>
+          <td> <div align="right">$37800</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>October</td>
+          <td> <div align="right">$21900</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>November</td>
+          <td> <div align="right">$32900</div></td>
+        </tr>
+        <tr class="text"> 
+          <td>December</td>
+          <td> <div align="right">$39800</div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Now, as earlier mentioned, FusionCharts necessarily 
+      needs its data in pre-defined XML format. It <strong>cannot</strong> read 
+      any other format (including Excel, CSV or text data) apart from XML. So, 
+      we need to convert this data into XML. </p>
+      <p class="highlightBlock"><span class="textBold"><a href="http://www.fusioncharts.com" target="_blank">FusionCharts v3</a></span>, the commercial version, has a visual XML Generator Utility to help you easily convert this tabular data into XML.   </p>
+      <p>The converted XML data would look 
+      as under: </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units'  showNames='1' decimalPrecision='0' formatNumberScale='0'&gt;<br/>
+      &nbsp; &nbsp;&lt;set name='Jan' value='462' color='AFD8F8' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Feb' value='857' color='F6BD0F' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Mar' value='671' color='8BBA00' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Apr' value='494' color='FF8E46' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='May' value='761' color='008E8E' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Jun' value='960' color='D64646' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Jul' value='629' color='8E468E' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Aug' value='622' color='588526' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Sep' value='376' color='B3AA00' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Oct' value='494' color='008ED6' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Nov' value='761' color='9D080D' /&gt;<br />
+      &nbsp; &nbsp;&lt;set name='Dec' value='960' color='A186BE' /&gt;<br />
+    &lt;/graph&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Punch the above code in a text editor (e.g., 
+        Notepad) and save it as <span class="codeInline">Data.xml</span> under 
+        <span class="codeInline">c:\FusionCharts\MyFirstChart</span> folder.</p>
+      <p>And yeah - don't worry about whatever spaghetti stuff you have just written 
+        - we'll soon cover them. Basically, what we've done above can be listed 
+        in the following points:</p>
+      <ul>
+        <li>We've created the root <span class="codeInline">&lt;graph&gt;</span> 
+          element, with a few attributes to define captions, axis names and number 
+          prefix character, to consist everything. </li>
+        <li>For each data row, we've created a <span class="codeInline">&lt;set&gt;</span> 
+          element. <span class="codeInline">name</span> attribute of this element 
+          represents the month name and <span class="codeInline">value</span> 
+          attribute represents the data that we want to plot.</li>
+      </ul>
+      <p>Just as a measure to check if the XML document is structurally valid, 
+        open the file in your browser. You should be able to see the XML data 
+        document in a formatted way, without any errors.</p>
+      <p>And now, if you're running out of your patience to see this data in chart 
+        format, let's quickly build the HTML container for this chart.<br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Creating the HTML container for chart</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">Each chart needs to be embedded in an HTML file 
+      before it can be viewed. So, to view our chart, we'll have to create an 
+      HTML wrapper for this one too. Pull up your text editor again and throw 
+      in the following code:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;head&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;My First FusionCharts&lt;/title&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;/head&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;body bgcolor=&quot;#ffffff&quot;&gt;<br /> 
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;OBJECT classid=&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot; codebase=http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0&quot;  
+      width=&quot;600&quot; height=&quot;500&quot; id=&quot;Column3D&quot; &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param name=&quot;movie&quot; 
+      value=&quot;../FusionCharts/FCF_Column3D.swf&quot; /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param name=&quot;FlashVars&quot; 
+      value=&quot;&amp;dataURL=Data.xml&amp;chartWidth=600&amp;chartHeight=500&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param name=&quot;quality&quot; 
+      value=&quot;high&quot; /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;embed src=&quot;../FusionCharts/FCF_Column3D.swf&quot; 
+      flashVars=&quot;&amp;dataURL=Data.xml&amp;chartWidth=600&amp;chartHeight=500&quot; quality=&quot;high&quot; width=&quot;600&quot; 
+      height=&quot;500&quot; name=&quot;Column3D&quot; type=&quot;application/x-shockwave-flash&quot; 
+      pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/object&gt;</strong><br /> 
+      &lt;/body&gt;<br /> 
+      &lt;/html&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">Save this file as <span class="codeInline">Chart.html</span> 
+      under <span class="codeInline">MyFirstChart</span> folder. <p>The code in 
+        <strong>bold</strong> above is the actual code that you need to place 
+        in your page to embed a FusionCharts chart. </p>
+      <p>In the above code, we've </p>
+      <ul>
+        <li><span class="text">used</span><span class="codeInline"> &lt;OBJECT&gt;</span> 
+          and <span class="codeInline"> &lt;EMBED&gt;</span> tags to embed the 
+          3D Column Chart (<span class="codeInline">FCF_Column3D.swf</span>) within 
+          the HTML page. </li>
+        <li>used <span class="codeInline">&amp;dataUrl=Data.xml</span> under <span class="codeInline">FlashVars</span> 
+          parameter to indicate the source of data to chart &#8211; <span class="codeInline">Data.xml</span> 
+          in this case. This method of indicating data is referred to as <span class="codeInline">dataURL</span> 
+          method of providing data.</li>
+        <li>specified chart width as 600 and chart height as 300. Used <span class="codeInline">chartWidth</span> and <span class="codeInline">chartHeight</span> variables additionally in FlashVars to convey the size to chart, else only the container gets resized. </li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="highlightBlock"><p>To display a Flash movie correctly 
+        in a browser, HTML page should contain specific tags that specify the 
+        Flash movie file to be opened and played. There are two tags which are 
+        intended for it: <span class="codeInline">&lt;OBJECT&gt;</span> and<span class="codeInline"> 
+        &lt;EMBED&gt;</span> tags. </p>
+      <p>These two tags are required to display a Flash movie in different Internet 
+        browsers properly. The<span class="codeInline"> &lt;OBJECT&gt;</span> 
+        tag is used by Internet Explorer under Microsoft Windows and the<span class="codeInline"> 
+        &lt;EMBED&gt;</span> tag is used by Netscape Navigator under Microsoft 
+        Windows or Mac OS. Each of these two tags acts in the same way, however 
+        using only one tag may cause incompatibility of one of the browsers. To 
+        ensure that most browsers will play your Flash movies, you should place 
+        the <span class="codeInline">&lt;EMBED&gt;</span> tag nested within the 
+        <span class="codeInline"> &lt;OBJECT&gt;</span> tag as shown in the example. 
+        ActiveX-enabled browsers will ignore the <span class="codeInline">&lt;EMBED&gt;</span> 
+        tag inside the <span class="codeInline">&lt;OBJECT&gt;</span> tag. Netscape 
+        and old Microsoft browsers will not recognize the <span class="codeInline">&lt;OBJECT&gt;</span> 
+        tag and will use only the <span class="codeInline">&lt;EMBED&gt;</span> 
+        tag to load the Macromedia Flash Player. <br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">And, it's now time to fructify the efforts that 
+      you have put into creating your first chart. Open <span class="codeInline">Chart.html</span> 
+      in your preferred browser. You should now see a chart like this :</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="Images/FirstChart.jpg"  /></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">And we just proved how easy it is to create 
+      a chart using FusionCharts. Next, we'll show you how easy it is to convert 
+      this chart into a pie chart.</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Troubleshooting</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>If for some reasons, you do not see a chart 
+        similar to one shown above, run through the following checks:</p>
+      <p>If you see an endless loading progress bar in your browser, or if the 
+        right click menu (right click at the place where the chart is supposed 
+        to be) shows &quot;<span class="codeInline">Movie not loaded</span>&quot;, 
+        check the following:</p>
+      <ul>
+        <li>Have you pasted the chart SWF files in <span class="codeInline">FusionCharts</span> 
+          folder?</li>
+        <li>Have you provided the SWF path properly in your <span class="codeInline">Chart.html</span> 
+          page?</li>
+        <li>Do you have Adobe Flash Player 6 (or above) installed for this 
+          browser?</li>
+        <li>Have you enabled your browser to show ActiveX controls? 
+          Normally, all browsers are Flash-enabled. </li>
+      </ul>
+      <p>If you get a &quot;Error in Loading Data&quot; message, check the following:</p>
+      <ul>
+        <li>Whether <span class="codeInline">Data.xml</span> is in the same folder 
+          as the <span class="codeInline">Chart.html</span> HTML file?</li>
+        <li>Whether <span class="codeInline">Data.xml</span> is named as <span class="codeInline">Data.xml</span> 
+          and not <span class="codeInline">Data.xml.txt</span>, as many basic 
+          text editors append .txt after the file name?</li>
+      </ul>
+      <p>If you get an &quot;Invalid XML Data&quot; message, it means that the 
+        XML data document is malformed. Check it again for common errors like:</p>
+      <ul>
+        <li>Difference in case of tags. <span class="codeInline">&lt;graph&gt;</span> 
+          should end with <span class="codeInline">&lt;/graph&gt;</span> and <strong>not</strong> 
+          <span class="codeInline">&lt;/Graph&gt;</span> or<span class="codeInline"> 
+          &lt;/GRAPH&gt;</span></li>
+        <li>Missing opening/closing quotation marks for any attributes. e.g., 
+          <span class="codeInline">&lt;graph caption=Monthly Sales' </span>should 
+          be <span class="codeInline">&lt;graph='Monthly Sales'</span></li>
+        <li>Missing closing tag for any element.</li>
+      </ul>
+      <p>To check whether your final XML is ok, open it in your browser and you'll 
+        see the error.</p></td>
+  </tr>
+</table>
+</body>
+</html>

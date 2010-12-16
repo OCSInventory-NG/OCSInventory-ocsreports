@@ -618,7 +618,7 @@ function img($i,$a,$avail,$opt) {
 function show_stat($fileId){
 	global $td3,$protectedGet,$pages_refs;
 	
-	echo $td3."<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&no_header=1&stat=".$fileId."&group=".$protectedGet['systemid']."\" target=_blank><img src='image/stat.png'></a></td>";
+	echo $td3."<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$fileId."&group=".$protectedGet['systemid']."\" target=_blank><img src='image/stat.png'></a></td>";
 }
 
 

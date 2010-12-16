@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Using &gt; character in FusionCharts XML </span></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Though you can directly use  &gt; characters in FusionCharts XML this is invalid character from XML perspective. To use  &gt;, you first need to convert it into <span class="codeInline">&amp;gt;</span>. This conversion makes the XML a valid one. </p>
+      <p>Let's see an example to clear the concepts :</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph decimalprecision='0' &gt;<br />
+&nbsp;&nbsp; &lt;set name='0' value='420' color='AFD8F8' /&gt;<br />
+&nbsp;&nbsp; &lt;set name='0-10'  value='295' color='F6BD0F' /&gt;<br />
+&nbsp;&nbsp; &lt;set name='<strong>&amp;gt;</strong> 10' value='523' color='8BBA00' /&gt;<br />
+&lt;/graph&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're first defining the names after converting  &gt; to <span class="codeInline">&amp;gt;</span></p>
+    <p>When you now see the chart, you'll get the following: </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/LTGT.jpg" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Note that due to XML restrictions, you can not use < character or &lt; anywhere in FusionCharts Free.</td>
+  </tr>
+
+</table>
+</body>
+</html>

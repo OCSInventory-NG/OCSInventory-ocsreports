@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">dataXML method</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous examples, we had used the 
+        <span class="codeInline">dataURL</span> method to provide data to FusionCharts. 
+        In dataURL method, the data is contained in an external physical XML document 
+        (like <span class="codeInline">Data.xml</span>) or relayed by a URL (like 
+        <span class="codeInline">ReturnXMLData.asp</span>). </p>
+      <p>There also exists another method to provide the XML data to FusionCharts 
+        - <span class="codeInline"><strong>dataXML</strong></span><strong> method</strong>. 
+      </p>
+      <p>In this method, the XML Data exists in the same HTML page in which FusionCharts 
+        is embedded. When working with this method, you don't need to create the 
+        external XML document (like <span class="codeInline">Data.xml</span>). 
+        Instead you provide it in the HTML page. </p>
+      <p>Let's quickly see an example of the above.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Using dataXML method in direct HTML embedding</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">Create a copy of <span class="codeInline">Chart.html</span> 
+      and save it as <span class="codeInline">ChartDataXML.html</span>. Also, 
+      modify the code as under:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br /> &lt;body bgcolor=&quot;#ffffff&quot;&gt;<br /> 
+      &lt;OBJECT classid=&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot; codebase=http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0&quot; width=&quot;600&quot; height=&quot;500&quot; id=&quot;Column3D&quot; &gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;param name=&quot;movie&quot; value=&quot;../FusionCharts/FCF_Column3D.swf?chartWidth=600&amp;chartHeight=500&quot; 
+      /&gt;<br /> 
+      &nbsp;&nbsp;<strong>&nbsp;&lt;param name=&quot;FlashVars&quot; 
+      value=&quot;&amp;dataXML=&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' showNames='1' decimalPrecision='0' formatNumberScale='0'&gt;&lt;set name='Jan' value='462' color='AFD8F8' /&gt;&lt;set name='Feb' value='857' color='F6BD0F' /&gt;&lt;set name='Mar' value='671' color='8BBA00' /&gt;&lt;set name='Apr' value='494' color='FF8E46'/&gt;&lt;set name='May' value='761' color='008E8E'/&gt;&lt;set name='Jun' value='960' color='D64646'/&gt;&lt;set name='Jul' value='629' color='8E468E'/&gt;&lt;set name='Aug' value='622' color='588526'/&gt;&lt;set name='Sep' value='376' color='B3AA00'/&gt;&lt;set name='Oct' value='494' color='008ED6'/&gt;&lt;set name='Nov' value='761' color='9D080D'/&gt;&lt;set name='Dec' value='960' color='A186BE'/&gt;&lt;/graph&gt;&quot;&gt;</strong><br /> 
+      &nbsp;&nbsp;&nbsp;&lt;param 
+      name=&quot;quality&quot; value=&quot;high&quot; /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;embed 
+      src=&quot;../FusionCharts/FCF_Column3D.swf?chartWidth=600&amp;chartHeight=500&quot; <strong>flashVars=&quot;&amp;dataXML=&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' showNames='1' decimalPrecision='0' formatNumberScale='0'&gt;&lt;set name='Jan' value='462' color='AFD8F8' /&gt;&lt;set name='Feb' value='857' color='F6BD0F' /&gt;&lt;set name='Mar' value='671' color='8BBA00' /&gt;&lt;set name='Apr' value='494' color='FF8E46'/&gt;&lt;set name='May' value='761' color='008E8E'/&gt;&lt;set name='Jun' value='960' color='D64646'/&gt;&lt;set name='Jul' value='629' color='8E468E'/&gt;&lt;set name='Aug' value='622' color='588526'/&gt;&lt;set name='Sep' value='376' color='B3AA00'/&gt;&lt;set name='Oct' value='494' color='008ED6'/&gt;&lt;set name='Nov' value='761' color='9D080D'/&gt;&lt;set name='Dec' value='960' color='A186BE'/&gt;&lt;/graph&gt;&quot;</strong> 
+      quality=&quot;high&quot; width=&quot;600&quot; height=&quot;500&quot; name=&quot;Column3D&quot; 
+      type=&quot;application/x-shockwave-flash&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; 
+      /&gt;<br /> 
+      &lt;/object&gt;<br /> &lt;/body&gt;<br /> &lt;/html&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>As you can see above, we have provided the 
+        complete data by appending it as a <span class="codeInline">FlashVars</span> 
+        attribute in the following format:<br />
+        <span class="codeInline">&lt;PARAM NAME=&quot;FlashVars&quot; Value=&quot;&amp;dataXML=completeXMLData&quot;&gt;</span><br />
+        <br />
+        and in the EMBED tag, you'll have to add the following:<br />
+        <span class="codeInline">&lt;EMBED ... FlashVars=&quot;&amp;dataXML=completeXMLData&quot;&gt;</span> 
+      </p>
+      <p>This way you can have FusionCharts to load data from the same page in 
+        which it's embedded.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Using dataXML method while embedding chart 
+      using JavaScript</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">If you're using <span class="codeInline">FusionCharts</span> 
+      JavaScript class to embed the chart, you can use <span class="codeInline">dataXML</span> 
+      with it as under:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br /> &lt;head&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;script 
+      language=&quot;JavaScript&quot; src=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br /> 
+      &lt;/head&gt; <p>&lt;body bgcolor=&quot;#ffffff&quot;&gt;</p>
+      <p>&nbsp;&nbsp;&nbsp;&lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;The 
+        chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var myChart = new FusionCharts(&quot;../FusionCharts/FCF_Column3D.swf&quot;, 
+        &quot;myChartId&quot;, &quot;600&quot;, &quot;500&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;myChart.setDataXML(&quot;&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' showNames='1' decimalPrecision='0' formatNumberScale='0'&gt;&lt;set name='Jan' value='462' color='AFD8F8' /&gt;&lt;set name='Feb' value='857' color='F6BD0F' /&gt;&lt;set name='Mar' value='671' color='8BBA00' /&gt;&lt;set name='Apr' value='494' color='FF8E46'/&gt;&lt;set name='May' value='761' color='008E8E'/&gt;&lt;set name='Jun' value='960' color='D64646'/&gt;&lt;set name='Jul' value='629' color='8E468E'/&gt;&lt;set name='Aug' value='622' color='588526'/&gt;&lt;set name='Sep' value='376' color='B3AA00'/&gt;&lt;set name='Oct' value='494' color='008ED6'/&gt;&lt;set name='Nov' value='761' color='9D080D'/&gt;&lt;set name='Dec' value='960' color='A186BE'/&gt;&lt;/graph&gt;&quot;);</strong><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; myChart.render(&quot;chartdiv&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&lt;/script&gt;</p>
+      <p>&lt;/body&gt;<br />
+        &lt;/html&gt;<br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>You can clearly see above, that instead of 
+        using <span class="codeInline">setDataURL</span> method to provide the 
+        path of XML file, here we've used <span class="codeInline">setDataXML</span> 
+        method to provide the full XML data itself.</p>
+      <p>When you now view the charts, you'll get the same output as before.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="highlightBlock">With this method, however, there can 
+      sometimes be problems when you're working with larger chunks of data. This 
+      problem happens due to the limitation on <span class="codeInline">dataXML</span> 
+      string length imposed by the browser. When you specify a larger chunk of 
+      data using <span class="codeInline">dataXML</span> method, the browser ignores 
+      everything after a certain length. This causes FusionCharts to hang (nothing 
+      would be displayed on-screen) as the full data has not been supplied to 
+      it. Therefore, <span class="codeInline">dataURL</span> method is recommended 
+      for larger chunks of data (basically - multi-series/combination charts).</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

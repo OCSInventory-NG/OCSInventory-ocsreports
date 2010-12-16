@@ -1,0 +1,34 @@
+<html>
+<head><title>Multiple Charts in a single page</title> 
+	<script language="JavaScript" src="../FusionCharts/FusionCharts.js"></script>
+</head>
+<body bgcolor="#ffffff">
+<h2 align="center">Multiple Charts in a single page</h2>
+<div id="chartdiv1" align="center">First Chart Container Pie 3D</div>
+	<script type="text/javascript">
+	var myChart1 = new FusionCharts("../FusionCharts/FCF_pie3D.swf", "myChartId1", "600", "400"); 
+	myChart1.setDataURL("Data.xml"); 
+	myChart1.render("chartdiv1");	
+	</script>
+	
+	<div id="chartdiv2" align="center">First Chart Container Pie 3D</div>
+	<script type="text/javascript">
+	var myChart2 = new FusionCharts("../FusionCharts/FCF_column3D.swf", "myChartId2", "600", "300"); 
+	myChart2.setDataURL("Data.xml"); 
+	myChart2.render("chartdiv2");	
+	</script>
+	
+	<div id="chartdiv3" align="center">First Chart Container Pie 3D</div>
+	<script type="text/javascript">
+	var myChart3 = new FusionCharts("../FusionCharts/FCF_line.swf", "myChartId3", "600", "300"); 
+	myChart3.setDataURL("Data.xml"); 
+	myChart3.render("chartdiv3");	
+	</script>
+	
+	<div id="chartdiv4" align="center">First Chart Container Pie 3D</div>
+	<script type="text/javascript">
+	var myChart4 = new FusionCharts("../FusionCharts/FCF_area2D.swf", "myChartId4", "600", "300"); 
+	myChart4.setDataURL("Data.xml"); 
+	myChart4.render("chartdiv4");	
+	</script>
+</body>

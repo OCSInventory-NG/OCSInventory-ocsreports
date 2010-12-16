@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" /></head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts  PHP Class &gt; Charting Data from Forms </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts  PHP class functions to plot data collected in forms. </p>
+      <p>We'll build a simple restaurant sales example, where the user will enter the items sold by a restaurant in a given week. This data will be submitted in a form to the server. We'll acquire this data and plot it on a chart. For the sake of simplicity, we wouldn't do any processing on this data. However, your real life applications might require data validation or processing before presenting it on the chart. </p>
+      <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;Basic Examples&quot; as we start off from concepts explained in that page. </strong></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">The code examples contained in this page are present in<span class="codeInline"> Download Package &gt; Code &gt; PHPClass</span> &gt; <span class="codeInline">FormBased</span> folder. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Building the Form </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The form is contained in <span class="codeInline">Default.php</span> and looks as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_Form.gif"  class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">It's a very simple form which submits to <span class="codeInline">Chart.php</span>. As such, we wouldn't go into the code of this form. You can directly open the source from download and see it. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Requesting the data and Creating the Chart </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The work of requesting the data from submitted form and creating the chart is done in <span class="codeInline">Chart.php</span>, present in the same folder. It contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//We've included ../Includes/FusionCharts_Gen.php, which contains FusionCharts PHP Class<br />
+      &nbsp;&nbsp;//to help us easily embed the charts.</span><br />
+      <span class="codeComment">&nbsp;&nbsp;</span>include(&quot;../Includes/FusionCharts_Gen.php&quot;);<br />
+      ?&gt;<br />
+      <br />
+      &lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+      <span class="codeComment">&nbsp;&nbsp;</span>&lt;TITLE&gt;<br />
+      <span class="codeComment">&nbsp;&nbsp;</span><span class="codeComment">&nbsp;&nbsp;</span>FusionCharts Free - Form Based Data Charting Example<br />
+      <span class="codeComment">&nbsp;&nbsp;</span>&lt;/TITLE&gt;<br />
+      <br />
+&lt;?php<br />
+<span class="codeComment">&nbsp;&nbsp;//You need to include the following JS file, if you intend to embed the chart using JavaScript.<br />
+&nbsp;&nbsp;//Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet Explorer<br />
+&nbsp;&nbsp;//When you make your own charts, make sure that the path to this JS file is correct. <br />
+&nbsp;&nbsp;//Else, you would get JavaScript errors.</span><br />
+?&gt; <br />
+<span class="codeComment">&nbsp;&nbsp;</span>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+<br />
+&lt;/HEAD&gt;<br />
+<br />
+&lt;BODY&gt;<br />
+&lt;CENTER&gt;<br />
+      &lt;h4&gt;Restaurant Sales Chart below&lt;/h4&gt;<br />
+      <br />
+        &lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;//We first request the data from the form (Default.php)</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$intSoups = $_REQUEST['Soups'];<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$intSalads = $_REQUEST['Salads'];<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$intSandwiches = $_REQUEST['Sandwiches'];<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$intBeverages = $_REQUEST['Beverages'];<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$intDesserts = $_REQUEST['Desserts'];<br />
+        <span class="codeComment">&nbsp;&nbsp;//In this example, we're directly showing this data back on chart.<br />
+        &nbsp;&nbsp;//In your apps, you can do the required processing and then show the <br />
+        &nbsp;&nbsp;//relevant data only.<br />
+        <br />
+        &nbsp;&nbsp;//Now that we've the data in variables, we need to convert this into chart data using<br />
+        &nbsp;&nbsp;//FusionCharts PHP Class<br />
+        <br />
+        &nbsp;&nbsp;# Create Pie 3D chart object </span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC = new FusionCharts(&quot;Pie3D&quot;,&quot;600&quot;,&quot;300&quot;); </p>
+       <p> <span class="codeComment">&nbsp;&nbsp;# Set Relative Path of chart swf file</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;setSwfPath(&quot;../../FusionCharts/&quot;);<br />
+  <br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;//Store Chart attributes in a variable</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$strParam=&quot;caption=Sales by Product Category;subCaption=For this week;showPercentValues=1;  showPercentageInLabel=1;pieSliceDepth=25;showBorder=1;decimalPrecision=0;showNames=1&quot;;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;#  Set chart attributes</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;setChartParams($strParam);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;//Add all data</span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;addChartData($intSoups,&quot;name=Soups&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;addChartData($intSalads,&quot;name=Salads&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;addChartData($intSandwiches,&quot;name=Sandwitches&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;addChartData($intBeverages,&quot;name=Beverages&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;addChartData($intDesserts,&quot;name=Desserts&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;//Create the chart </span><br />
+        <span class="codeComment">&nbsp;&nbsp;</span>$FC-&gt;renderChart();<br />
+        ?&gt;<br />
+        <br />
+  &lt;/CENTER&gt;<br />
+  &lt;/BODY&gt;<br />
+  &lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As you can see in the above code, we're doing the following:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" style="line-height:20px;">
+      <ul>
+        <li>Including <span class="codeInline">FusionCharts_Gen.php</span> and<span class="codeInline"> FusionCharts.js</span> in this page.   </li>
+        <li>Requesting data from the form in <span class="codeInline">Default.php</span> and storing the values in local variables</li>
+        <li>Creating an instance of FusionCharts PHP class for a Pie 3D chart with 600 pixels width, 300 pixels height</li>
+        <li>Setting relative path of chart SWF file using <span class="codeInline">setSWFPath()</span> function</li>
+        <li>Storing chart attributes in <span class="codeInline">$strParam</span> variable</li>
+        <li>Setting chart attributes using <span class="codeInline">setChartParams()</span> function</li>
+        <li>Adding chart data with <span class="codeInline">addChartData()</span> function</li>
+        <li>Finally, rendering the chart using <span class="codeInline">renderChart()</span> function  </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="PHPClassAPI/Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you finally run the code, you'll see a chart as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_FormChart.jpg"  class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

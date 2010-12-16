@@ -1,0 +1,9 @@
+<graph caption='ABC Bank Branches' subCaption='(In Asian Countries)' yaxislabel='Branches' xaxislabel='Country'  decimalPrecision='0'  bgcolor='F3f3f3'  >
+	<set name='Hong Kong' value='235' link="JavaScript:myJS('Hong Kong, 235');" color='AFD8F8' /> 
+	<set name='Japan' value='123' link="JavaScript:myJS('Japan, 123');" color='F6BD0F' /> 
+	<set name='Singapore' value='129' link="JavaScript:myJS('Singapore, 129');" color='8BBA00' /> 
+	<set name='Malaysia' value='121' link="JavaScript:myJS('Malaysia, 121');" color='FF8E46' /> 
+	<set name='Taiwan' value='110' link="JavaScript:myJS('Taiwan, 110');" color='008E8E' /> 
+	<set name='China' value='90' link="JavaScript:myJS('China, 90');" color='D64646' /> 
+	<set name='S. Korea' value='86' link="JavaScript:myJS('S. Korea, 86');" color='8E468E' /> 
+</graph>
