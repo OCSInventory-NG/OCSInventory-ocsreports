@@ -75,8 +75,8 @@
  function ligne($name,$lbl,$type,$data,$data_hidden='',$readonly=''){
  global $l;
 
- 	echo "<TR height=65px class='mvt_bordure'><td align='center' width='150px'>".$name;
-	echo "<br><font size=1 color=green><i>".$lbl."</i></font></td><td align='left' width='150px'>";
+ 	echo "<TR height=65px ><td align='center' width='150px' class='mvt_bordure'>".$name;
+	echo "<br><font size=1 color=green><i>".$lbl."</i></font></td><td align='left' width='150px' class='mvt_bordure'>";
 	//si on est dans un type bouton ou boite � cocher
  	if ($type=='radio' or $type=='checkbox'){
  		if ($data_hidden != ''){
@@ -166,7 +166,7 @@
  
 function debut_tab(){
 	echo "<table cellspacing='5' border= '0'
-				 width='90%'  
+				 width='100%'
 				ALIGN = 'Center' >";
 	
 }

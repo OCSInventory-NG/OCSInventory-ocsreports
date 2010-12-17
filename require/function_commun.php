@@ -8,7 +8,6 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
 @session_start();
 //looking for default value of ocs config
 //default_values => replace with your data if config data is null or empty
@@ -162,14 +161,17 @@ function dbconnect() {
 /***********************************END SQL FUNCTION******************************************/
 
 function addLog( $type, $value="",$lbl_sql='') {
-	global $logHandler;
+	//global $logHandler;
 	if ($_SESSION['OCS']['LOG_GUI'] == 1){
+		$logHandler = @fopen( LOG_FILE, "a");
 		$dte = getDate();
 		$date = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $dte["mday"], $dte["mon"], $dte["year"], $dte["hours"], $dte["minutes"], $dte["seconds"]); 
 		if ($lbl_sql != ''){
 			$value=$lbl_sql.' => '.$value;
 		}
-		@fwrite($logHandler, $_SESSION['OCS']["loggeduser"].";$date;".DB_NAME.";$type;$value;\n");
+		$towite=$_SESSION['OCS']["loggeduser"].";".$date.";".DB_NAME.";".$type.";".$value.";".$_SERVER["HTTP_HOST"].";\n";
+		@fwrite($logHandler,$towite);
+		@fclose($logHandler);
 	}
 }
 
@@ -263,8 +265,9 @@ function replace_language($info){
 			return $info;
 }
 
-function msg($txt,$css){
+function msg($txt,$css,$log=0){
 	echo "<center><div class='" . $css . "'>" . $txt . "</div></center>";	
+	addLog('MSG_'.$css, $txt);
 }
 function msg_info($txt){
 	msg($txt,'info');

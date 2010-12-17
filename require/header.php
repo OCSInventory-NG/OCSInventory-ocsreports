@@ -31,7 +31,6 @@ if(substr($_SERVER['DOCUMENT_ROOT'],-1) != '/'){
 
 if ($_SESSION['OCS']['LOG_GUI'] == 1){	
 		define("LOG_FILE",$_SESSION['OCS']['LOG_DIR']."log.csv");
-		$logHandler = @fopen( LOG_FILE, "a");
 	}
 	
 require_once('require/function_commun.php');
@@ -342,7 +341,6 @@ else{
 	}
 		
 }
-
 
 
 ?>

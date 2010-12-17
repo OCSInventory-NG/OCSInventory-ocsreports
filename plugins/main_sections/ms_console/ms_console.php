@@ -45,9 +45,15 @@ if ($data_tab['DATA'] != array()){
 	onglet($data_tab['DATA'],$form_name,"onglet",8);
 	echo '<div class="mlt_bordure" >';
 	
-	if ($_SESSION['OCS']['CONFIGURATION']['CONSOLE'] == 'YES')
-		echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'><img src=image/modif_tab.png></td></tr></table>";
-	
+	if ($_SESSION['OCS']['CONFIGURATION']['CONSOLE'] == 'YES'){
+		echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
+		if (isset($_SESSION['ADMIN_CONSOLE']) and $_SESSION['ADMIN_CONSOLE'] == 'ADMIN')
+			echo "<img src='image/modif_tab.png'>";
+		else
+			echo "<img src='image/modif_tab.png'>";
+		echo "</a></td></tr></table>";
+		
+	}
 	if ($data_on['DATA'][$protectedPost['onglet']]){
 		$fields=list_field($protectedPost['onglet']);
 		show_console_field($fields,$form_name);

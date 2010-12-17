@@ -149,7 +149,6 @@ $HTML_chart = <<<HTMLCHART
 	</object>
 	<!-- END Code Block for Chart $chartId -->
 HTMLCHART;
-$HTML_chart.="<br><a href='http://www.fusioncharts.com/free'>Made with FusionCharts Free</a>";
   return $HTML_chart;
 }
 
