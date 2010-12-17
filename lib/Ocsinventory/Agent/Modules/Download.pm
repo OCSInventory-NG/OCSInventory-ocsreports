@@ -23,7 +23,6 @@ use Compress::Zlib;
 use Digest::MD5;
 use File::Path;
 use Socket;
-use Net::SSLeay qw(die_now die_if_ssl_error);
 
 # Can be missing. By default, we use MD5
 # You have to install it if you want to use SHA1 digest
@@ -54,7 +53,7 @@ sub new {
    $self->{logger}->{header}="[$name]";
    $self->{structure} = {
 			name => $name,
-			start_handler => undef , 
+			start_handler => $name."_start_handler", 
 			prolog_writer => undef, 
 			prolog_reader => $name."_prolog_reader", 
 			inventory_handler => $name."_inventory_handler", 
@@ -90,6 +89,22 @@ sub new {
    $self->{packages}= {};
 
    bless $self;
+}
+
+
+sub download_start_handler {
+   my $self = shift;
+   my $logger = $self->{logger};
+   my $common = $self->{context}->{common};
+   my $config = $self->{context}->{config};
+
+   $logger->debug("Calling download_start_handler");
+
+   #If we cannot load prerequisite, we disable the module 
+   unless ($common->can_load('Net::SSLeay qw(die_now die_if_ssl_error)')) {
+     $self->{disabled} = 1;
+     $logger->debug("Humm my prerequisites are not OK...disabling module :( :( ");
+   }
 }
 
 
