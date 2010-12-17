@@ -550,7 +550,7 @@
 662 Regole di comportamento
 663 PROBLEMA INTERNO
 664 Azione effettuata
-665 NESSUNA MACCHINA SELEZIONATA. GRUPPO DI RIDISTRIBUZIONE NON CREATO 
+665 NESSUNA MACCHINA SELEZIONATA. GRUPPO DI RIDISTRIBUZIONE NON CREATO
 666 Gruppo di ridistribuzione creato
 667 PER IL PACCHETTO
 668 quale regola applicare?
@@ -988,7 +988,7 @@
 1103 ID stato
 1104 Livello
 1105 La funzionalità 'Workflow' è attivata
-1106 E' possibile creare un pacchetto solo se esiste una prcedente richiesta
+1106 E' possibile creare un pacchetto solo se esiste una precedente richiesta
 1107 e lo stato è corretto
 1108 Configurazione LDAP
 1109 Filtra
@@ -1123,14 +1123,16 @@
 1238 Data di installazione
 1239 MHz
 1240 MB
-1241 Numero di periferiche SNMP.
+1241 Numero di periferiche SNMP
 1242 d/m/y
 1243 I soli file ammessi sono ocsagent.exe ed ocspackage.exe
 1244 Questo file non può essere vuoto
 1245 Gestione client OCS-NG
-1246 Affect again
+1246 Interessa nuovamente
 1247 Architettura
-1248 Folder
+1248 Cartelle
+1249 Attivazione della cache per le tabelle (consente di diminuire il carico del database MySQL)
+1250 Velocità Teledeploy
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
