@@ -47,12 +47,12 @@ if ($data_tab['DATA'] != array()){
 	
 	if ($_SESSION['OCS']['CONFIGURATION']['CONSOLE'] == 'YES'){
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
-		if (isset($_SESSION['ADMIN_CONSOLE']) and $_SESSION['ADMIN_CONSOLE'] == 'ADMIN')
-			echo "<img src='image/modif_tab.png'>";
+		if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) and $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
+			echo "<img src='image/success.png'>";
 		else
 			echo "<img src='image/modif_tab.png'>";
 		echo "</a></td></tr></table>";
-		
+		//echo $_SESSION['OCS']['ADMIN_CONSOLE'];
 	}
 	if ($data_on['DATA'][$protectedPost['onglet']]){
 		$fields=list_field($protectedPost['onglet']);
