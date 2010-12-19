@@ -1132,6 +1132,14 @@
 1248 Répertoire
 1249 Activation du cache des tableaux (permet de moins soliciter la base MySQL)
 1250 Vitesse de télédéploiement
+1251 Statistiques
+1252 Répertoire des fichiers de conf profils
+1253 Répertoire des sauvegardes des fichiers de conf profils
+1254 Répertoire des logs des scripts
+1255 Nombre de Connexion par heure
+1256 Nombre d'erreurs de connexion par heure
+
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

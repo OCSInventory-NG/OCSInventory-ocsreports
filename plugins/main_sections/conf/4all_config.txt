@@ -12,6 +12,7 @@ ms_dict
 ms_config
 ms_regconfig
 ms_logs
+ms_stats
 ms_admininfo
 ms_ipdiscover
 ms_doubles
@@ -47,7 +48,7 @@ ms_blacklist:g(703)
 ms_admin_ipdiscover:g(1139)
 ms_snmp:g(1136)
 ms_update_new_tag:g(2100)
-
+ms_stats:g(1251)
 </LBL>
 
 <URL>
@@ -93,7 +94,6 @@ ms_opt_ipdiscover:opt_ipdiscover
 ms_admin_attrib:admin_attrib
 ms_group_show:group_show
 ms_show_detail:show_detail
-ms_stat:stat
 ms_diagnos_krb:diagnos_krb
 ms_custom_info:ipdiscover_info
 ms_debug:debug
@@ -102,7 +102,7 @@ ms_config_account:account_config
 ms_exportallsoft:export_all_soft
 ms_soft_csv:export_soft
 ms_csv:export_csv
-ms_tele_stats:stat
+ms_tele_stats:tele_stat
 ms_tele_compress:compress
 ms_speed_stat:stat_speed
 ms_teledeploy_workflow:teledeploy_workflow
@@ -118,6 +118,7 @@ ms_snmp:snmp
 ms_snmp_detail:snmp_detail
 ms_update_new_tag:script_new_tag
 ms_server_redistrib:server_redistrib
+ms_stats:stats
 </URL>
 
 <DIRECTORY>
@@ -180,6 +181,7 @@ ms_snmp:ms_snmp
 ms_snmp_detail:ms_snmp
 ms_update_new_tag:ms_scripts
 ms_server_redistrib:ms_teledeploy
+ms_stats:ms_stats
 </DIRECTORY>
 
 

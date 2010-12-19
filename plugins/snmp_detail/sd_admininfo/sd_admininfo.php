@@ -67,8 +67,13 @@ if ($list_tab != ''){
 	echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
 	onglet($list_tab,$form_name,"onglet",6);
 	echo '<div class="mlt_bordure" >';
-	if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
-	$show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'><img src=image/modif_tab.png></a>";
+	if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES'){
+		$show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
+		if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+				$show_admin_button .= "<img src='image/success.png'></a>";
+			else
+				$show_admin_button =  "<img src='image/modif_tab.png'></a>";
+	}
 	else
 	$show_admin_button='';
 	$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER from accountinfo_config where ID_TAB = %s and account_type='SNMP'

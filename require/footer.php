@@ -98,7 +98,6 @@ if( function_exists("getmicrotime") ) {
 }
 
 echo"</td></tr></table>";
-
 ?>
 </body>
 </html>

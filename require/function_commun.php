@@ -8,7 +8,6 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
 @session_start();
 //looking for default value of ocs config
 //default_values => replace with your data if config data is null or empty
@@ -162,14 +161,17 @@ function dbconnect() {
 /***********************************END SQL FUNCTION******************************************/
 
 function addLog( $type, $value="",$lbl_sql='') {
-	global $logHandler;
+	//global $logHandler;
 	if ($_SESSION['OCS']['LOG_GUI'] == 1){
+		$logHandler = @fopen( LOG_FILE, "a");
 		$dte = getDate();
 		$date = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $dte["mday"], $dte["mon"], $dte["year"], $dte["hours"], $dte["minutes"], $dte["seconds"]); 
 		if ($lbl_sql != ''){
 			$value=$lbl_sql.' => '.$value;
 		}
-		@fwrite($logHandler, $_SESSION['OCS']["loggeduser"].";$date;".DB_NAME.";$type;$value;\n");
+		$towite=$_SESSION['OCS']["loggeduser"].";".$date.";".DB_NAME.";".$type.";".$value.";".$_SERVER["HTTP_HOST"].";\n";
+		@fwrite($logHandler,$towite);
+		@fclose($logHandler);
 	}
 }
 
@@ -217,10 +219,10 @@ function reloadform_closeme($form='',$close=false){
 function read_profil_file($name,$writable=''){	
 	global $l;
 	//Select config file depending on user profile
-	$ms_cfg_file= $_SESSION['OCS']['main_sections_dir'].$name."_config.txt";
+	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR'].$name."_config.txt";
 	$search=array('INFO'=>'MULTI','PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'MULTI','ADMIN_BLACKLIST'=>'MULTI','CONFIGURATION'=>'MULTI');
-	if (!is_writable($_SESSION['OCS']['main_sections_dir'].'old_config_files/') and $writable!='') {
-		msg_error($l->g(297)." ".$_SESSION['OCS']['main_sections_dir']."old_config_files/
+	if (!is_writable($_SESSION['OCS']['OLD_CONF_DIR']) and $writable!='') {
+		msg_error($l->g(297)." ".$_SESSION['OCS']['OLD_CONF_DIR']."old_config_files/
     				<br>".$l->g(1148));
 	}
 	return read_files($search,$ms_cfg_file,$writable);
@@ -228,7 +230,7 @@ function read_profil_file($name,$writable=''){
 
 function read_config_file($writable=''){
 	//Select config file depending on user profile
-	$ms_cfg_file= $_SESSION['OCS']['main_sections_dir']."4all_config.txt";
+	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR']."4all_config.txt";
 	$search=array('ORDER_FIRST_TABLE'=>'MULTI2',
 				  'ORDER_SECOND_TABLE'=>'MULTI2',
 				  'LBL'=>'MULTI',
@@ -263,8 +265,9 @@ function replace_language($info){
 			return $info;
 }
 
-function msg($txt,$css){
+function msg($txt,$css,$log=0){
 	echo "<center><div class='" . $css . "'>" . $txt . "</div></center>";	
+	addLog('MSG_'.$css, $txt);
 }
 function msg_info($txt){
 	msg($txt,'info');

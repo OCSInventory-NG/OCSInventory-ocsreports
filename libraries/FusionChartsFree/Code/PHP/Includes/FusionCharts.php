@@ -149,7 +149,6 @@ $HTML_chart = <<<HTMLCHART
 	</object>
 	<!-- END Code Block for Chart $chartId -->
 HTMLCHART;
-
   return $HTML_chart;
 }
 

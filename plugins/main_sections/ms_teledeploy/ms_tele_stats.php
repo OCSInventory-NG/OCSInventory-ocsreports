@@ -94,6 +94,7 @@ if ($protectedPost['onglet'] == 1){
 echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Column3D.swf", "", $strXML, "myNext", 600, 300);
 }elseif ($protectedPost['onglet'] == 0)
 echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Pie3D.swf", "", $strXML, "myNext", 800, 400);
+
 echo '</div><br>';
 
 

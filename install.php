@@ -86,6 +86,9 @@ if(!function_exists('openssl_open')) {
 }
 
 @mkdir($_SERVER["DOCUMENT_ROOT"]."/download");
+@mkdir($_SERVER["DOCUMENT_ROOT"]."/logs");
+@mkdir($_SERVER["DOCUMENT_ROOT"]."/scripts");
+
 $pms = "post_max_size";
 $umf = "upload_max_filesize";
 

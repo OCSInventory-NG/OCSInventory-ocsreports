@@ -82,7 +82,7 @@ function read_configuration($ms_cfg_file,$search,$id_field=''){
 function update_config_file($ms_cfg_file,$new_value,$sauv='YES'){
 	if ($sauv == 'YES')
 		getcopy_config_file($ms_cfg_file);
-	$ms_cfg_file=$_SESSION['OCS']['main_sections_dir'].$ms_cfg_file."_config.txt";
+	$ms_cfg_file=$_SESSION['OCS']['CONF_PROFILS_DIR'].$ms_cfg_file."_config.txt";
 	
 	//$file=fopen($file_name,"w+");
 	$new_ms_cfg_file='';
@@ -107,11 +107,11 @@ function getcopy_config_file($ms_cfg_file,$record='YES',$sauv=FALSE){
 	if ($record != 'YES')
 		return FALSE;
 	if (!$sauv)
-		$newfile=$_SESSION['OCS']['main_sections_dir'].'old_config_files/'.$ms_cfg_file.'_config_old_'.time();
+		$newfile=$_SESSION['OCS']['OLD_CONF_DIR'].$ms_cfg_file.'_config_old_'.time();
 	else
-		$newfile=$_SESSION['OCS']['main_sections_dir'].$sauv.'_config.txt';
+		$newfile=$_SESSION['OCS']['CONF_PROFILS_DIR'].$sauv.'_config.txt';
 		
-	$ms_cfg_file=$_SESSION['OCS']['main_sections_dir'].$ms_cfg_file."_config.txt";
+	$ms_cfg_file=$_SESSION['OCS']['CONF_PROFILS_DIR'].$ms_cfg_file."_config.txt";
 	copy($ms_cfg_file, $newfile);
 	return TRUE;
 }
@@ -122,7 +122,7 @@ function delete_config_file($ms_cfg_file){
 	$i=0;
 	while (isset($array_files[$i])){
 		getcopy_config_file($array_files[$i]);
-		$ms_file=$_SESSION['OCS']['main_sections_dir'].$array_files[$i]."_config.txt";
+		$ms_file=$_SESSION['OCS']['CONF_PROFILS_DIR'].$array_files[$i]."_config.txt";
 		unlink($ms_file);
 		$i++;
 	}

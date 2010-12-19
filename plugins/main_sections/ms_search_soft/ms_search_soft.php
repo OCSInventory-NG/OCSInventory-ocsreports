@@ -8,6 +8,8 @@
 
 require_once('require/fonction.inc.php');
 $form_name="search_soft";
+//$l_p=new language($_SESSION['OCS']['LANGUAGE'],'plugin');
+//echo $l_p->g_plug(1);
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //html
 /*echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n";

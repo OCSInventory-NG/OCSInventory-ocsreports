@@ -14,10 +14,25 @@ die('FORBIDDEN');
 
 unset($_SESSION['OCS']['SQL_DEBUG']);
 @session_start();
-if ($_SESSION['OCS']['LOG_GUI'] == 1){
-		define("LOG_FILE", $_SESSION['OCS']['LOG_DIR']."/log.csv");
-		$logHandler = fopen( LOG_FILE, "a");
+/*************************************************WHAT OS USE************************************/
+$real_dir=explode('/',$_SERVER['SCRIPT_FILENAME']);
+array_pop($real_dir);	
+
+if(substr($_SERVER['DOCUMENT_ROOT'],-1) != '/'){
+	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']."/");
+	define("DOCUMENT_REAL_ROOT",implode('/',$real_dir)."/");
+}else{
+	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']);
+	define("DOCUMENT_REAL_ROOT",implode('/',$real_dir));
+}
+	
+//echo DOCUMENT_ROOT."<br>".DOCUMENT_REAL_ROOT;
+//print_r($_SERVER);
+
+if ($_SESSION['OCS']['LOG_GUI'] == 1){	
+		define("LOG_FILE",$_SESSION['OCS']['LOG_DIR']."log.csv");
 	}
+	
 require_once('require/function_commun.php');
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
@@ -25,11 +40,7 @@ require_once('require/fichierConf.class.php');
 include('dbconfig.inc.php');
 require_once('var.php');
 
-/*************************************************WHAT OS USE************************************/
-if(substr($_SERVER['DOCUMENT_ROOT'],-1) != '/')
-	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']."/");
-else
-	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']);
+
 
 
 
@@ -60,9 +71,36 @@ if (!isset($_SESSION['OCS']['LOG_GUI'])){
 	$_SESSION['OCS']['LOG_DIR']=$values['tvalue']['LOG_DIR'];
 	$_SESSION['OCS']['LOG_SCRIPT'] = $values['tvalue']['LOG_SCRIPT'];
 	
+	if ($_SESSION['OCS']['LOG_DIR'] == '')
+		$_SESSION['OCS']['LOG_DIR'] =DOCUMENT_ROOT.'logs/';
+	else
+		$_SESSION['OCS']['LOG_DIR'] .='/logs/';
 	
+	if ($_SESSION['OCS']['LOG_SCRIPT'] == '')
+		$_SESSION['OCS']['LOG_SCRIPT'] =DOCUMENT_ROOT.'scripts/';		
+	else
+		$_SESSION['OCS']['LOG_SCRIPT'] .="/scripts/";
 }
 /****************END LOGS***************/
+
+/***********************************************************CONF DIRECTORY*************************************************************************/
+if (!isset($_SESSION['OCS']['CONF_DIRECTORY'])){
+	$values=look_config_default_values(array('CONF_PROFILS_DIR','OLD_CONF_DIR'));
+	$_SESSION['OCS']['OLD_CONF_DIR']=$values['tvalue']['OLD_CONF_DIR'];
+	$_SESSION['OCS']['CONF_PROFILS_DIR']=$values['tvalue']['CONF_PROFILS_DIR'];
+	if ($_SESSION['OCS']['OLD_CONF_DIR'] == '')
+		$_SESSION['OCS']['OLD_CONF_DIR'] =DOCUMENT_REAL_ROOT.'plugins/main_sections/conf/old_conf/';
+	else
+		$_SESSION['OCS']['OLD_CONF_DIR'] .='/old_conf/';
+		
+	if ($_SESSION['OCS']['CONF_PROFILS_DIR'] == '')
+		$_SESSION['OCS']['CONF_PROFILS_DIR'] =DOCUMENT_REAL_ROOT.'plugins/main_sections/conf/';
+	else
+		$_SESSION['OCS']['CONF_PROFILS_DIR'] .='/conf/';
+}
+/****************END LOGS***************/
+
+
 
 
 
@@ -97,6 +135,7 @@ if (!defined("SERVER_READ")){
 if (!isset($no_error))
 $no_error='NO';
 /**************************************mise en place des r�pertoires de plugins et d'auhentification************************************/
+
 if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYSQL'])){
 	$_SESSION['OCS']['FCharts']="libraries/FusionChartsFree";
 	$_SESSION['OCS']['backend']="backend/";
@@ -111,16 +150,19 @@ if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYS
 //Config for all user
 if (!isset($_SESSION['OCS']['URL'])){
 	require_once('require/function_files.php');
-	
-	$ms_cfg_file= $_SESSION['OCS']['plugins_dir']."main_sections/4all_config.txt";	
+	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR']."4all_config.txt";	
 	//show only true sections
 	if (file_exists($ms_cfg_file)) {
 		$search=array('URL'=>'MULTI');
 		$profil_data=read_configuration($ms_cfg_file,$search);
 		$pages_refs=$profil_data['URL'];
+	}else{
+		die("ERROR: CAN'T READ CONFIG FILE 4all_config.txt");
 	}
 }else
 $pages_refs=$_SESSION['OCS']['URL'];
+
+
 /**********************************************************GESTION DES COLONNES DES TABLEAUX PAR COOKIES***********************************/
 require_once('require/function_cookies.php');
 
@@ -299,7 +341,6 @@ else{
 	}
 		
 }
-
 
 
 ?>
