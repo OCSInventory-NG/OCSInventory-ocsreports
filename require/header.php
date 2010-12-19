@@ -17,13 +17,12 @@ unset($_SESSION['OCS']['SQL_DEBUG']);
 /*************************************************WHAT OS USE************************************/
 $real_dir=explode('/',$_SERVER['SCRIPT_FILENAME']);
 array_pop($real_dir);	
+define("DOCUMENT_REAL_ROOT",implode('/',$real_dir)."/");
 
 if(substr($_SERVER['DOCUMENT_ROOT'],-1) != '/'){
-	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']."/");
-	define("DOCUMENT_REAL_ROOT",implode('/',$real_dir)."/");
+	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']."/");	
 }else{
 	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']);
-	define("DOCUMENT_REAL_ROOT",implode('/',$real_dir));
 }
 	
 //echo DOCUMENT_ROOT."<br>".DOCUMENT_REAL_ROOT;
