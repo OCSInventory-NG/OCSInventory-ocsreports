@@ -77,7 +77,7 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	$list_col_cant_del=$list_fields;
 	$default_fields= $list_fields;
 
-	$sql= "select '%s' as function,%s from deploy";
+	$sql= "select '%s' as function,%s from deploy where name != 'label'";
 	$tab_options['ARG_SQL']=array($l->g(370),'name');
 	$tab_options['LIEN_LBL'][$l->g(49)]='index.php?'.PAG_INDEX.'='.$pages_refs['ms_view_file'].'&prov=agent&no_header=1&value=';
 	$tab_options['LIEN_CHAMP'][$l->g(49)]='name';
