@@ -157,7 +157,7 @@ if (!isset($_SESSION['OCS']['URL'])){
 		$profil_data=read_configuration($ms_cfg_file,$search);
 		$pages_refs=$profil_data['URL'];
 	}else{
-		die("ERROR: CAN'T READ CONFIG FILE 4all_config.txt");
+		die("ERROR: CAN'T READ CONFIG FILE ".$_SESSION['OCS']['CONF_PROFILS_DIR']."4all_config.txt");
 	}
 }else
 $pages_refs=$_SESSION['OCS']['URL'];
