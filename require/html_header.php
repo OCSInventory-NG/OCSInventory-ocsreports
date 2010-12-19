@@ -51,8 +51,10 @@ echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
 	//echo "<table width= 100% align=center border='0'><tr><Td align='center' bgcolor='#f2f2f2' BORDERCOLOR='#f2f2f2' width:80%>";
 	$msg_header='';
-	if( $fconf=@fopen("install.php","r"))
+	if( $fconf=@fopen("install.php","r")){
 		$msg_header="WARNING: <br>YOUR INSTALL.PHP EXIST IN OCSREPORTS DIRECTORY";
+	}
+	else
 		fclose($fconf);
 	if ($_SESSION['OCS']['LOG_GUI'] == 1){
 		//looking for logs directory is writable
