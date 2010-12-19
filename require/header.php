@@ -24,7 +24,6 @@ if(substr($_SERVER['DOCUMENT_ROOT'],-1) != '/'){
 }else{
 	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']);
 }
-	
 //echo DOCUMENT_ROOT."<br>".DOCUMENT_REAL_ROOT;
 //print_r($_SERVER);
 
