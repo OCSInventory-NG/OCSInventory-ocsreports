@@ -54,8 +54,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 	if( $fconf=@fopen("install.php","r")){
 		$msg_header="WARNING: <br>YOUR INSTALL.PHP EXIST IN OCSREPORTS DIRECTORY";
 	}
-	else
-		fclose($fconf);
+
 	if ($_SESSION['OCS']['LOG_GUI'] == 1){
 		//looking for logs directory is writable
 		$rep_ok=is_writable ($_SESSION['OCS']['LOG_DIR']);
