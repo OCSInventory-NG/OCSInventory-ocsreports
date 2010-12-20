@@ -75,7 +75,7 @@
  function ligne($name,$lbl,$type,$data,$data_hidden='',$readonly=''){
  global $l;
 
- 	echo "<TR height=65px ><td align='center' width='150px' class='mvt_bordure'>".$name;
+ 	echo "<TR height=65px ><td align='center' class='mvt_tab'>".$name;
 	echo "<br><font size=1 color=green><i>".$lbl."</i></font></td><td align='left' width='150px' class='mvt_bordure'>";
 	//si on est dans un type bouton ou boite � cocher
  	if ($type=='radio' or $type=='checkbox'){
@@ -179,6 +179,27 @@ function verif_champ(){
 				 "IPDISCOVER_BETTER_THRESHOLD","GROUPS_CACHE_OFFSET","GROUPS_CACHE_REVALIDATE","INVENTORY_FILTER_FLOOD_IP_CACHE_TIME",
 				 "SESSION_VALIDITY_TIME","IPDISCOVER_LATENCY");
 	$supp10=array("IPDISCOVER_LATENCY");
+	$file_exist=array('CONF_PROFILS_DIR'=>array('FIELD_READ'=>'CONF_PROFILS_DIR_edit','END'=>"/conf/",'FILE'=>"4all_config.txt",'TYPE'=>'r'),
+					  'DOWNLOAD_PACK_DIR'=>array('FIELD_READ'=>'DOWNLOAD_PACK_DIR_edit','END'=>"/download/",'FILE'=>"",'TYPE'=>'r'),
+					  'IPDISCOVER_IPD_DIR'=>array('FIELD_READ'=>'IPDISCOVER_IPD_DIR_edit','END'=>"/ipd/",'FILE'=>"",'TYPE'=>'r'),
+					  'LOG_DIR'=>array('FIELD_READ'=>'LOG_DIR_edit','END'=>"/logs/",'FILE'=>"",'TYPE'=>'r'),
+					  'LOG_SCRIPT'=>array('FIELD_READ'=>'LOG_SCRIPT_edit','END'=>"/scripts/",'FILE'=>"",'TYPE'=>'r'),
+					  'OLD_CONF_DIR'=>array('FIELD_READ'=>'OLD_CONF_DIR_edit','END'=>"/old_conf/",'FILE'=>"",'TYPE'=>'r'));
+
+	foreach ($file_exist as $key=>$value){
+			//Try to find a file
+			if ($value['FILE'] != ''){
+				if ($protectedPost[$value['FIELD_READ']]!='' and !@fopen($protectedPost[$value['FIELD_READ']].$value['END'].$value['FILE'],$value['TYPE']))
+				//if( isset($values['tvalue']['CONF_PROFILS_DIR']) and (!$fconf_profils=@fopen($values['tvalue']['CONF_PROFILS_DIR']."//conf/4all_config.txt","r"))) 
+				$tab_error[$key]=array('FILE_NOT_EXIST'=>$protectedPost[$value['FIELD_READ']].$value['END'].$value['FILE']);
+			//Try to find a directory
+			}elseif (!is_dir($protectedPost[$value['FIELD_READ']].$value['END'])) {
+				if ($protectedPost[$value['FIELD_READ']]!='')
+				$tab_error[$key]=array('FILE_NOT_EXIST'=>$protectedPost[$value['FIELD_READ']].$value['END']);
+				
+			}		
+	}
+	
 	$i=0;
 	while ($supp1[$i]){
 		if ($protectedPost[$supp1[$i]] < 1 and isset($protectedPost[$supp1[$i]]))
@@ -191,11 +212,7 @@ function verif_champ(){
 			$tab_error[$supp10[$i]]='10';	
 		$i++;
 	}
-	return $tab_error;
-	//echo $l->g(759);
-	//$error=  "doit �tre sup�rieur � 1!!!";
-	
-	
+	return $tab_error;	
 }
 
 
@@ -438,24 +455,23 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 	$select_old_profils='DEFAULT';
 
 	
-	
  	debut_tab();
 	ligne('LOCAL_PORT',$l->g(566),'input',array('VALUE'=>$values['ivalue']['LOCAL_PORT'],'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
 	ligne('LOCAL_SERVER',$l->g(565),'input',array('BEGIN'=>'HTTP://','VALUE'=>$values['tvalue']['LOCAL_SERVER'],'SIZE'=>50,'MAXLENGHT'=>254));
 	ligne('DOWNLOAD_PACK_DIR',$l->g(775),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_pack),
-		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_PACK_DIR'],'SIZE'=>70,'END'=>"/download"));
+		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_PACK_DIR'],'SIZE'=>50,'END'=>"/download" ));
 	ligne('IPDISCOVER_IPD_DIR',$l->g(776),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."ipd)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_ipd),
-		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['IPDISCOVER_IPD_DIR'],'SIZE'=>70,'END'=>"/ipd"));
+		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['IPDISCOVER_IPD_DIR'],'SIZE'=>50,'END'=>"/ipd"));
 	ligne('LOG_GUI',$l->g(824),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOG_GUI'])); 	
 	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."logs)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>70,'END'=>"/logs"));	
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>50,'END'=>"/logs"));	
 
 	ligne('LOG_SCRIPT',$l->g(1254),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."scripts)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_scripts),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_SCRIPT'],'SIZE'=>70,'END'=>"/scripts"));	
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_SCRIPT'],'SIZE'=>50,'END'=>"/scripts"));	
 	ligne('CONF_PROFILS_DIR',$l->g(1252),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.$_SESSION['OCS']['main_sections_dir']."conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_profils),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['CONF_PROFILS_DIR'],'SIZE'=>70,'END'=>"/conf"));	
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['CONF_PROFILS_DIR'],'SIZE'=>50,'END'=>"/conf"));	
 	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.$_SESSION['OCS']['main_sections_dir']."conf/old_conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>70,'END'=>"/old_conf"));		
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>50,'END'=>"/old_conf"));		
 	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGHT'=>4));	
 	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			
 
