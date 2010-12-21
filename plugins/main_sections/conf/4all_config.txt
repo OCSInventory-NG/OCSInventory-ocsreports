@@ -99,7 +99,6 @@ ms_custom_info:ipdiscover_info
 ms_debug:debug
 ms_computer:computer
 ms_config_account:account_config
-ms_exportallsoft:export_all_soft
 ms_soft_csv:export_soft
 ms_csv:export_csv
 ms_tele_stats:tele_stat
@@ -125,7 +124,6 @@ ms_stats:stats
 ms_admininfo:ms_admininfo
 ms_all_computers:ms_all_computers
 ms_all_soft:ms_all_soft
-ms_exportallsoft:ms_all_soft
 ms_computer:ms_computer
 ms_config:ms_config
 ms_config:ms_config

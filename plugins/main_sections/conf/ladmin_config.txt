@@ -53,7 +53,6 @@ ms_custom_admin_type:ms_custom_admin_type
 ms_custom_info:ms_custom_info
 ms_computer:ms_computer
 ms_config_account:ms_config_account
-ms_exportallsoft:ms_exportallsoft
 ms_soft_csv:ms_soft_csv
 ms_csv:ms_csv
 ms_upload_file_popup:ms_upload_file_popup

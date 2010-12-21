@@ -79,7 +79,6 @@ ms_custom_info
 ms_debug
 ms_computer
 ms_config_account
-ms_exportallsoft
 ms_soft_csv
 ms_csv
 ms_tele_stats
