@@ -62,6 +62,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 			$msg_header.="<br>YOUR LOGS DIRECTORY IS NOT WRITABLE";
 		}
 	}
+	if ($msg_header != '')
 	msg_warning($msg_header);
 	
 }
