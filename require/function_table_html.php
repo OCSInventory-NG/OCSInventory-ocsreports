@@ -1075,8 +1075,10 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					
 				}
 				$num_rows_result = mysql_num_rows($resultcount);
+				//echo "<b>".$num_rows_result."</b>";
 				if ($num_rows_result==1){
 					$count=mysql_fetch_object($resultcount);
+				//	echo $queryDetails;
 					if ($count->count_nb_ligne > 0)
 					$num_rows_result = $count->count_nb_ligne;
 				}
@@ -1191,31 +1193,21 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		//print_r($sql_data);
 		$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails);
 		$data=$result_data['DATA'];
-	//	print_r($data);
 		$entete=$result_data['ENTETE'];
 		$correct_list_col_cant_del=$result_data['correct_list_col_cant_del'];
 		$correct_list_fields=$result_data['correct_list_fields'];
-		//print_r($result_data);
 	}
 
 	if ($num_rows_result > 0){
-		//print_r($limit);
-//		foreach ($data as $i=>$value){
-//			if ($i>=$limit["BEGIN"] and $i<=$limit["END"])
-//			$data_limit[]=$value;
-//		}
-		//print_r($data_limit);
-//		unset($data);
-//		$data=$data_limit;
+		if (count($data) == 1)
+			$num_rows_result=1;
 		$title=$num_rows_result." ".$l->g(90);
 		if (isset($tab_options['LOGS']))
 		addLog($tab_options['LOGS'],$num_rows_result." ".$l->g(90));
 		$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
-		//print_r($correct_list_col_cant_del);
-		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
-	//	print_r($result_with_col['data']);
 
-	//echo "<br>tri=".$protectedPost['tri2'];
+		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
+
 		tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
 		show_page($num_rows_result,$form_name);
 		echo "<input type='hidden' id='tri2' name='tri2' value='".$protectedPost['tri2']."'>";
