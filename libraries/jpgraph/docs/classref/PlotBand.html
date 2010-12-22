@@ -1,194 +1,0 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
-		<!--
-		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
-		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
-		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
-        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
-        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
-        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
-		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
-        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
-
-		//-->
-		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_PLOTBAND"><b>PlotBand</b></a></div>
-<i>(Defined in: jpgraph_plotband.php : 538)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="PlotBand.html" style="font-family:arial;font-weight:bold;color:darkblue;">PlotBand</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="PlotBand.html#_PLOTBAND_PRESTROKEADJUST">PreStrokeAdjust()</a>&nbsp;<br>
-&nbsp;<a href="PlotBand.html#_PLOTBAND_SETDENSITY">SetDensity()</a>&nbsp;<br>
-&nbsp;<a href="PlotBand.html#_PLOTBAND_SETORDER">SetOrder()</a>&nbsp;<br>
-&nbsp;<a href="PlotBand.html#_PLOTBAND_SHOWFRAME">ShowFrame()</a>&nbsp;<br>
-&nbsp;<a href="PlotBand.html#_PLOTBAND___CONSTRUCT">__construct()</a>&nbsp;<br>
-</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>A "Plotband" repesent a rectangualr area in the graph that can be given a specific pattern ranging from 3D grid to simple horizntal grid lines.
-<p>
-A Plot band is then added to the graph via the Graph::AddBand() method.
- <p> &nbsp;
-<div style="font-weight:bold;font-family:arial;font-size:85%;">See also related classes:</div><a href="Graph.html">Graph</a> <p> &nbsp;<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PLOTBAND_PRESTROKEADJUST"><span style="color:#555555;">PlotBand ::</span><br><b>PreStrokeAdjust</b>($aGraph)</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i></i></span><p>
-
-<table cellspacing=0 style='border:black solid 1pt;' width=100%>
-<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aGraph</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
-</table>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PLOTBAND_SETDENSITY"><span style="color:#555555;">PlotBand ::</span><br><b>SetDensity</b>($aDens)</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i>Specify density for pattern</i></span><p>
-
-<table cellspacing=0 style='border:black solid 1pt;' width=100%>
-<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aDens</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Density [1,100]</td></tr>
-</table>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify density for pattern as an integer value between 1 and 100, 100 being very dense and 1 being very sparse.
-&nbsp;<br>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
-<span style="color: #0000BB">$uband</span><span style="color: #007700">=new&nbsp;</span><span style="color: #0000BB">PlotBand</span><span style="color: #007700">(</span><span style="color: #0000BB">HORIZONTAL</span><span style="color: #007700">,</span><span style="color: #0000BB">BAND_RDIAG</span><span style="color: #007700">,</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #DD0000">"max"</span><span style="color: #007700">,</span><span style="color: #DD0000">"green"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$uband</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ShowFrame</span><span style="color: #007700">(</span><span style="color: #0000BB">false</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$uband</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetDensity</span><span style="color: #007700">(</span><span style="color: #0000BB">50</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;50%&nbsp;line&nbsp;density<br /></span><span style="color: #0000BB">$lband</span><span style="color: #007700">=new&nbsp;</span><span style="color: #0000BB">PlotBand</span><span style="color: #007700">(</span><span style="color: #0000BB">HORIZONTAL</span><span style="color: #007700">,</span><span style="color: #0000BB">BAND_LDIAG</span><span style="color: #007700">,</span><span style="color: #DD0000">"min"</span><span style="color: #007700">,</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #DD0000">"red"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lband</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ShowFrame</span><span style="color: #007700">(</span><span style="color: #0000BB">false</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lband</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetDensity</span><span style="color: #007700">(</span><span style="color: #0000BB">20</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;20%&nbsp;line&nbsp;density<br /><br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">AddBand</span><span style="color: #007700">(</span><span style="color: #0000BB">$uband</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">AddBand</span><span style="color: #007700">(</span><span style="color: #0000BB">$lband</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
-</span>
-</b></div><br>
-<p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PLOTBAND_SETORDER"><span style="color:#555555;">PlotBand ::</span><br><b>SetOrder</b>($aDepth)</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i>Specify z-order parameter for plot</i></span><p>
-
-<table cellspacing=0 style='border:black solid 1pt;' width=100%>
-<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aDepth</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Pattern Z-order parameter</td></tr>
-</table>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify if the pattern should be in front of plot or behind the plot. Valid parameters are
-
-<ul>
-<li>DEPTH_BACK, Behind the plot
-<li>DEPTH_FRONT, In front of the plot
-</ul>
-&nbsp;<br>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
-<span style="color: #0000BB">$band</span><span style="color: #007700">=new&nbsp;</span><span style="color: #0000BB">PlotBand</span><span style="color: #007700">(</span><span style="color: #0000BB">HORIZONTAL</span><span style="color: #007700">,</span><span style="color: #0000BB">BAND_RDIAG</span><span style="color: #007700">,</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #DD0000">"max"</span><span style="color: #007700">,</span><span style="color: #DD0000">"green"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$band</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ShowFrame</span><span style="color: #007700">(</span><span style="color: #0000BB">false</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$band</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetOrder</span><span style="color: #007700">(</span><span style="color: #0000BB">DEPTH_BACK</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">AddBand</span><span style="color: #007700">(</span><span style="color: #0000BB">$band</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
-</span>
-</b></div><br>
-<p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PLOTBAND_SHOWFRAME"><span style="color:#555555;">PlotBand ::</span><br><b>ShowFrame</b>($aFlag)</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i>Display frame around pattern</i></span><p>
-
-<table cellspacing=0 style='border:black solid 1pt;' width=100%>
-<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aFlag</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">true</span>
-</span>
-</td><td>True=Display border</td></tr>
-</table>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Display frame around pattern&nbsp;<br>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
-<span style="color: #0000BB">$band</span><span style="color: #007700">=new&nbsp;</span><span style="color: #0000BB">PlotBand</span><span style="color: #007700">(</span><span style="color: #0000BB">HORIZONTAL</span><span style="color: #007700">,</span><span style="color: #0000BB">BAND_RDIAG</span><span style="color: #007700">,</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #DD0000">"max"</span><span style="color: #007700">,</span><span style="color: #DD0000">"green"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$band</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ShowFrame</span><span style="color: #007700">(</span><span style="color: #0000BB">false</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$band</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetOrder</span><span style="color: #007700">(</span><span style="color: #0000BB">DEPTH_BACK</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">AddBand</span><span style="color: #007700">(</span><span style="color: #0000BB">$band</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
-</span>
-</b></div><br>
-<p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PLOTBAND___CONSTRUCT"><span style="color:#555555;">PlotBand ::</span><br><b>__construct</b>($aDir, $aPattern, $aMin, $aMax, $aColor, $aWeight, $aDepth)</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i>Create a new Plot band of the specified type</i></span><p>
-
-<table cellspacing=0 style='border:black solid 1pt;' width=100%>
-<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aDir</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Direction of plot band</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aPattern</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Type of pattern</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aMin</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Min value for plot area</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aMax</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Max value for plot area</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aColor</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB"></span><span style="color: #DD0000">"black"</span><span style="color: #0000BB"></span>
-</span>
-</td><td>Color of pattern</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aWeight</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">1</span>
-</span>
-</td><td>Line weight</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aDepth</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">DEPTH_BACK</span>
-</span>
-</td><td>Depth. Over or under the plot.</td></tr>
-</table>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Create a new Plot band that later on can be added to the graph. The following pattern types are supported
-
-<ul>
-<li>BAND_RDIAG, Right diagonal lines
-<li>BAND_LDIAG, Left diagonal lines
-<li>BAND_SOLID, Solid one color
-<li>BAND_LVERT, Vertical lines
-<li>BAND_LHOR, Horizontal lines
-<li>BAND_VLINE, Vertical lines
-<li>BAND_HLINE, Horizontal lines
-<li>BAND_3DPLANE, "3D" Plane
-<lI>BAND_HVCROSS, Vertical/Hor crosses
-<li>BAND_DIAGCROSS, Diagonal crosses
-</ul>
-
-A plotband extends completely along one of the axis in the graph. This axis is determined by the first argument, the direction.
-
-Valid directions are
-<ol>
-<li> HORIZONTAL
-<li> VERTICAL
-</ol>
-&nbsp;<br>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
-<span style="color: #0000BB">$uband</span><span style="color: #007700">=new&nbsp;</span><span style="color: #0000BB">PlotBand</span><span style="color: #007700">(</span><span style="color: #0000BB">HORIZONTAL</span><span style="color: #007700">,</span><span style="color: #0000BB">BAND_RDIAG</span><span style="color: #007700">,</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #DD0000">"max"</span><span style="color: #007700">,</span><span style="color: #DD0000">"green"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$uband</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ShowFrame</span><span style="color: #007700">(</span><span style="color: #0000BB">false</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$uband</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetDensity</span><span style="color: #007700">(</span><span style="color: #0000BB">50</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;50%&nbsp;line&nbsp;density<br /></span><span style="color: #0000BB">$lband</span><span style="color: #007700">=new&nbsp;</span><span style="color: #0000BB">PlotBand</span><span style="color: #007700">(</span><span style="color: #0000BB">HORIZONTAL</span><span style="color: #007700">,</span><span style="color: #0000BB">BAND_LDIAG</span><span style="color: #007700">,</span><span style="color: #DD0000">"min"</span><span style="color: #007700">,</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #DD0000">"red"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lband</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ShowFrame</span><span style="color: #007700">(</span><span style="color: #0000BB">false</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lband</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetDensity</span><span style="color: #007700">(</span><span style="color: #0000BB">20</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;20%&nbsp;line&nbsp;density<br /><br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">AddBand</span><span style="color: #007700">(</span><span style="color: #0000BB">$uband</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">AddBand</span><span style="color: #007700">(</span><span style="color: #0000BB">$lband</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
-</span>
-</b></div><br>
-<p> <hr> <p></html>
