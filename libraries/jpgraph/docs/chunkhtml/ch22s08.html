@@ -1,0 +1,50 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Built in color maps</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch22.html" title="Chapter 22. Matrix graphs"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Built in color maps</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 22. Matrix graphs</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Built in color maps"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec.built-in-colormaps"></a>Built in color maps</h2></div></div></div>
+        
+        <p>There are three types of built in color maps</p>
+        <p>
+            </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                    <p><span class="bold"><strong>Standard maps</strong></span></p>
+                    <p>Includes rainbow spectrum and heat maps and combination of plain
+                        red-green-blue maps</p>
+                </li><li class="listitem">
+                    <p><span class="bold"><strong>Normalized center</strong></span></p>
+                    <p>These maps have a white:ish center. This is mostly useful to visualize the
+                        spread from a center value</p>
+                </li><li class="listitem">
+                    <p><span class="bold"><strong>Continues</strong></span></p>
+                    <p>The maps have one base color where the hue changes</p>
+                </li></ol></div><p>
+        </p>
+        <p>In the color maps in the following section the black bars under some colors in the
+            color map shows the discrete colors (the plateaus) that the color map is made up of. All
+            colors in between two "barred" colors are linear interpolations.</p>
+        <p>The script that was used to generate these color maps can be found under the example
+            directory as "<code class="filename">colormaps.php</code>".</p>
+        <div class="sect2" title="Standard maps"><div class="titlepage"><div><div><h3 class="title"><a name="id2594164"></a>Standard maps</h3></div></div></div>
+            
+            <p>To show heat gradient map 0 is the standard color map. To highlight the min and
+                max values (to get a high contrast) map 3 is a good choice. Map two is a standard
+                "rainbow" spectrum from red all up to violet.</p>
+            <div class="figure"><a name="id2594175"></a><p class="title"><b>Figure 22.13. Standard color maps</b></p><div class="figure-contents">
+                
+                <div class="mediaobject"><img src="images/colormap_standard.png" alt="Standard color maps"></div>
+            </div></div><br class="figure-break">
+        </div>
+        <div class="sect2" title="Normalized center"><div class="titlepage"><div><div><h3 class="title"><a name="id2594199"></a>Normalized center</h3></div></div></div>
+            
+            <p>These maps have a neutral (white) center and feathers out to the min/max value at
+                each end.</p>
+            <div class="figure"><a name="id2594207"></a><p class="title"><b>Figure 22.14. Centered color map</b></p><div class="figure-contents">
+                
+                <div class="mediaobject"><img src="images/colormap_center.png" alt="Centered color map"></div>
+            </div></div><br class="figure-break">
+        </div>
+        <div class="sect2" title="Continues map"><div class="titlepage"><div><div><h3 class="title"><a name="id2594189"></a>Continues map</h3></div></div></div>
+            
+            <p>These maps changes continues from the min color to the max color.</p>
+            <div class="figure"><a name="id2594238"></a><p class="title"><b>Figure 22.15. Continues color map</b></p><div class="figure-contents">
+                
+                <div class="mediaobject"><img src="images/colormap_continues.png" alt="Continues color map"></div>
+            </div></div><br class="figure-break">
+        </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch22.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

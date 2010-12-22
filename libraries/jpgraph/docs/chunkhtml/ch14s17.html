@@ -1,0 +1,74 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Adding arbitrary texts to the graph</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch14.html" title="Chapter 14. Common features for all Cartesian (x,y) graph types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Adding arbitrary texts to the graph</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 14. Common features for all Cartesian (x,y) graph types</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Adding arbitrary texts to the graph"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec.adding-texts-to-graphs"></a>Adding arbitrary texts to the graph</h2></div></div></div>
+            
+            <p>In much the same was as icon images can be added to the plot so can arbitrary text
+                strings be added. This is done by creating an or several instances of the Text class
+                (one per string that is needed). This feature is typically used to add
+                clarifications or other information related to the actual graph.</p>
+            <p>These text instances are then added to the graph via the normal
+                    <code class="code">Graph::Add()</code> method.</p>
+            <p>The position of the text in the image/graph can be given as either absolute
+                pixels, fractions of the width/height of the graph or as scale values according to
+                the specified (or automatically determined) scale.</p>
+            <p>To show some ways of positioning the text we use a very simple bar graph not to
+                distract from the text. We first just add a single text line with most of the
+                settings there default value. We do this by adding te following lines</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create an instance of the Text class and set the string at the same time</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$txt</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Text</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">This is a text</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Position the string at absolute pixels (0,20).</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> ( (0,0) is the upper left corner )</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$txt</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetPos</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">, </span><span class="hl-number">20</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set color and fonr for the text</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$txt</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">red</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$txt</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_FONT2</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> ... and add the text to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">AddText</span><span class="hl-brackets">(</span><span class="hl-var">$txt</span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>Teh resulting graph can be seen in <a class="xref" href="ch14s17.html#fig.example25" title="Figure 14.96. Adding a text object to a graph (example25.php)">Figure 14.96. Adding a text object to a graph <code class="uri"><a class="uri" href="example_src/example25.html" target="_top">(<code class="filename">example25.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="figure"><a name="fig.example25"></a><p class="title"><b>Figure 14.96. Adding a text object to a graph <code class="uri"><a class="uri" href="example_src/example25.html" target="_top">(<code class="filename">example25.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example25.png" alt="Adding a text object to a graph (example25.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>Let's make the text stand out a bit more by having a background color, framing the
+                text box and adding a drop shadow by using the method <code class="code">Text::SetBox()</code>
+                The resulting graph can be seen in <a class="xref" href="ch14s17.html#fig.example25.1" title="Figure 14.97. Making the text stand out a bit more by adding a background color and frame (example25.1.php)">Figure 14.97. Making the text stand out a bit more by adding a background color and frame <code class="uri"><a class="uri" href="example_src/example25.1.html" target="_top">(<code class="filename">example25.1.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="figure"><a name="fig.example25.1"></a><p class="title"><b>Figure 14.97. Making the text stand out a bit more by adding a background color and frame <code class="uri"><a class="uri" href="example_src/example25.1.html" target="_top">(<code class="filename">example25.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example25.1.png" alt="Making the text stand out a bit more by adding a background color and frame (example25.1.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>In order to use a text with several lines each line needs to be separated by a
+                newline ("\n'"character). The default paragraph alignment is left edge but as was
+                discussed in ?? paragraph alignment can be adjusted. </p>
+            <p>In our final example we a text with several line are place in the middle of the
+                plot area.</p>
+            <p>
+                </p><div class="figure"><a name="fig.example25.2"></a><p class="title"><b>Figure 14.98. Adding a text object with multiple rows of text. Paragraph alignment is set to "center" <code class="uri"><a class="uri" href="example_src/example25.2.html" target="_top">(<code class="filename">example25.2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example25.2.png" alt='Adding a text object with multiple rows of text. Paragraph alignment is set to "center" (example25.2.php)'></span> </div></div><p><br class="figure-break">
+            </p>
+            <div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                <p>To set the position of the text using scale positions instead use the
+                    method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p>Text::SetScalePos($aX,$aY)</p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

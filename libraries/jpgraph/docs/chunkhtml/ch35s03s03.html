@@ -1,0 +1,24 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Getting the scale and labels right</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch35s03.html" title="The Init() method"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Getting the scale and labels right</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">The Init() method</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="section" title="Getting the scale and labels right"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2622163"></a>Getting the scale and labels right</h2></div></div></div>
+                
+                <p>For this type of graph we have manually set the distance between each tick
+                    label to 25 units. This would put labels as 0,25,50, and so on. The maximum
+                    value (the user specifies) will be adjusted so that it is always an even
+                    multiple of 25 to allow the last tick mark to be at the end of the axis.</p>
+                <p>As can be seen from the previous images we are using one feature that hasn't
+                    been previously exemplified and that is the possibility to have unique colors on
+                    each label on the scale. We use this for the x-scale by having the negative
+                    labels in black and the positive labels in white. The reason is purely
+                    functional to allow the scale labels to be more easy to read against the colored
+                    background.</p>
+                <p>The color of the labels are specified as the second argument to </p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::SetColor($aAxisColor,$aLabelColor)</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>In addition we have also hidden the zero labels since they would just be
+                    disturbing in the middle and doesn't really add any information we don't already
+                    have.</p>
+                <p>Finally the labels are formatted to show a percentage sign after each label.
+                    This is done by a format string</p>
+            </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch35s03.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

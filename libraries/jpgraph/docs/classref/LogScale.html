@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_LOGSCALE"><b>LogScale</b></a> Extends <a style="font-size:14pt;text-decoration:underline;"href="LinearScale.html#_C_LINEARSCALE " style="font-face:arial;font-weight:bold;">LinearScale </a></div>
+<i>(Defined in: jpgraph_log.php : 19)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="LogScale.html" style="font-family:arial;font-weight:bold;color:darkblue;">LogScale</a>&nbsp;</td><td align="center" style="background:lightgray;" >&nbsp;<a href="LinearScale.html" style="font-family:arial;font-weight:bold;color:darkblue;">LinearScale</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="LogScale.html#_LOGSCALE_GETMAXVAL">GetMaxVal()</a>&nbsp;<br>
+&nbsp;<a href="LogScale.html#_LOGSCALE_GETMINVAL">GetMinVal()</a>&nbsp;<br>
+</td><td valign=top>&nbsp;<a href="LinearScale.html#_LINEARSCALE_SETAUTOMAX">SetAutoMax()</a>&nbsp;<br>
+&nbsp;<a href="LinearScale.html#_LINEARSCALE_SETAUTOMIN">SetAutoMin()</a>&nbsp;<br>
+&nbsp;<a href="LinearScale.html#_LINEARSCALE_SETAUTOTICKS">SetAutoTicks()</a>&nbsp;<br>
+&nbsp;<a href="LinearScale.html#_LINEARSCALE_SETGRACE">SetGrace()</a>&nbsp;<br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>Implements a logarithmic scale. Normally accessed through the axis 'scale' property, for example $graph->xaxis->sclal <p> &nbsp;
+<div style="font-weight:bold;font-family:arial;font-size:85%;">See also related classes:</div><a href="LinearScale.html">LinearScale</a> and <a href="Axis.html">Axis</a> <p> &nbsp;<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LOGSCALE_GETMAXVAL"><span style="color:#555555;">LogScale ::</span><br><b>GetMaxVal</b>()</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Get max value for scale.</i></span><p>
+<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Get max scale value for scale.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="LogScale.html#_LOGSCALE_GETMINVAL">LogScale::GetMinVal()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$max&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">yaxis</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">scale</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">GetMaxVal</span><span style="color: #007700">();</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LOGSCALE_GETMINVAL"><span style="color:#555555;">LogScale ::</span><br><b>GetMinVal</b>()</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Get minimum scale value.</i></span><p>
+<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Get minimum scale value.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="LogScale.html#_LOGSCALE_GETMAXVAL">LogScale::GetMaxVal()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$max&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">yaxis</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">scale</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">GetMinVal</span><span style="color: #007700">();</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p> <hr> <p></html>

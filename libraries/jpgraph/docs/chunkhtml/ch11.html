@@ -1,0 +1,26 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 11. NuSphere PHP accelerator</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt02.html" title="Part II. Basic graph creation"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 11. NuSphere PHP accelerator</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part II. Basic graph creation</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 11. NuSphere PHP accelerator"><div class="titlepage"><div><div><h2 class="title"><a name="chap.php-accelerator"></a>Chapter 11. NuSphere PHP accelerator</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch11.html#id2537194">11.1. Introduction and purpose</a></span></dt><dt><span class="sect1"><a href="ch11s02.html">11.2. Installing PhpExpress</a></span></dt></dl></div>
+        
+        <p>
+            </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                <p>The NuSphere encoded variant of the library is only included in the JpGraph
+                    pro version.</p>
+            </div><p>
+        </p>
+        <div class="sect1" title="Introduction and purpose"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2537194"></a>Introduction and purpose</h2></div></div></div>
+            
+            <p>One of the best way to increase the performance of large and complex PHP scripts
+                is to install one of the available PHP accelerators. JpGraph supports <span class="italic">NuSphere PhpExpress</span> accelerator. In order to take
+                advantage of this accelerator you must install the version of the library that is
+                encoded for use with the accelerator. This version is included in the Pro-version of
+                the library under the directory <code class="filename">src-encoded/</code>.</p>
+            <p>If you have the Pro-version of the library there is really no good reason not to
+                use the accelerated version of the library. It will reduce the load on your server
+                as well as significantly decrease the run time for graph scripts. In addition it
+                will also reduce some of the memory requirements needed since the parsing process
+                (translating PHP to bytecode) for the library can be avoided. Furthermore <span class="italic">NuSphere PhPExpress</span> also implements a caching mechanism
+                which means that often executed scripts will be kept in memory to avoid re-reading
+                them from disk each time they are needed. This applies to both encoded and
+                non-encoded script files.</p>
+        </div>
+        
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt02.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

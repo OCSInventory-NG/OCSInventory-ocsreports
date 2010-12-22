@@ -1,0 +1,1621 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 27. QR (2D-Barcode)</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt06.html" title="Part VI. Barcodes"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 27. QR (2D-Barcode)</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part VI. Barcodes</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 27. QR (2D-Barcode)"><div class="titlepage"><div><div><h2 class="title"><a name="id2607914"></a>Chapter 27. QR (2D-Barcode)</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch27.html#id2607928">27.1. Principle of QR Barcodes</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch27.html#id2608051">27.1.1. Summary of library features</a></span></dt><dt><span class="sect2"><a href="ch27.html#id2608266">27.1.2. Limitation in the JpGraph QR implementation</a></span></dt><dt><span class="sect2"><a href="ch27.html#id2608289">27.1.3. QR Standard</a></span></dt><dt><span class="sect2"><a href="ch27.html#id2608327">27.1.4. Structure and capacity of QR barcodes</a></span></dt><dt><span class="sect2"><a href="ch27.html#id2608334">27.1.5. QR versions and symbol size</a></span></dt><dt><span class="sect2"><a href="ch27.html#id2616457">27.1.6. Error correction level</a></span></dt><dt><span class="sect2"><a href="ch27.html#id2616507">27.1.7. Comparing the visual output with other QR-generating software</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch27s02.html">27.2. Creating barcodes</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch27s02.html#id2616673">27.2.1. Getting started</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2616978">27.2.2. Error handling</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2617132">27.2.3. Creating an encoder</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2617978">27.2.4. Encodation of input data options</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2618170">27.2.5. Reading input data from a file</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2618220">27.2.6. Creating different backends</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2618316">27.2.7. Generic backend methods</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2618431">27.2.8. Image backend methods</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2618458">27.2.9. Postscript backend methods</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2618569">27.2.10. A template to create barcodes</a></span></dt><dt><span class="sect2"><a href="ch27s02.html#id2618643">27.2.11. Sample application</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch27s03.html">27.3. Example scripts</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch27s03.html#id2618715">27.3.1. Example 1 - Store QR code to file</a></span></dt><dt><span class="sect2"><a href="ch27s03.html#id2618745">27.3.2. Example 2 - Specified error correction level</a></span></dt><dt><span class="sect2"><a href="ch27s03.html#id2618804">27.3.3. Example 3 - Manual specified encoding</a></span></dt><dt><span class="sect2"><a href="ch27s03.html#id2618868">27.3.4. Example 4 - JPEG image format</a></span></dt><dt><span class="sect2"><a href="ch27s03.html#id2618932">27.3.5. Example 5 - Multiple manual encoding</a></span></dt><dt><span class="sect2"><a href="ch27s03.html#id2619008">27.3.6. Example 6 - Reading data from file</a></span></dt><dt><span class="sect2"><a href="ch27s03.html#id2619074">27.3.7. Example 7 - Adjusting colors</a></span></dt><dt><span class="sect2"><a href="ch27s03.html#id2619119">27.3.8. Example 8 - Setting error correction level</a></span></dt><dt><span class="sect2"><a href="ch27s03.html#id2619201">27.3.9. Example 9 - Generating ASCII output</a></span></dt></dl></dd></dl></div>
+    
+    <div class="sect1" title="Principle of QR Barcodes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2607928"></a>Principle of QR Barcodes</h2></div></div></div>
+        
+        <div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>This module is only available in the pro-version of the library.</p></div>
+        <p>QR is currently the highest capacity general two-dimensional matrix symbology
+            available (up to ~7Kb numeric data can be encoded) and it is designed to encode the full
+            256 byte ASCII character set as well as the Kanji (Shift-JIS character set). QR code
+            belongs to the modern 2 dimensional codes that is designed for both high capacity as
+            well as to be efficient for scanner equipment to process and this is also the reason for
+            its name - Quick Response code.</p>
+        <p>An advantage with QR code is also there relatively small size for a given amount of
+            information </p>
+        <p>The QR code is available in 40 different square sizes each with a user selectable
+            error correction level in four steps (referred to as error correction level L,M,Q and
+            H). With the highest level of error correction used up to ~30% of the codewords can be
+            damaged and still be restored.</p>
+        <p>QR code is extensively used in some Asian countries and is finding more an more usage
+            to transfer medium sized information onto mobile phones where the QR codes are
+            interpretated by first taking a photo of the barcode with the mobile and then running a
+            QR decoding program on the cell phone. This has currently become the most expansive
+            usage of QR codes and some mobile manufactures are providing software to aid in
+            interpreting QR codes for free.</p>
+        <p>
+            </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                <p>QR codes are also finding there way into public information sharing. For
+                    example in Texas in US some cities are using QR codes to display public
+                    information.</p>
+            </div><p>
+        </p>
+        <p>
+            </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                <p>QR Codes can be freely used without royalties. QR Codes are copyrighted
+                    by:</p>
+                <p>
+                    <code class="uri"><a class="uri" href="http://www.denso-wave.com" target="_top">DENSO WAVE NCORPORATED</a></code>.</p>
+            </div><p>
+        </p>
+        <p>In <a class="xref" href="ch27.html#fig.qr-structure-detailed" title="Figure 27.1. QR Code high level structure">Figure 27.1. QR Code high level structure</a> we have amended a large version of
+            a basic QR code. In this figure the special finding patterns and timing patterns have
+            been highlighted in red and blue. </p>
+        <div class="figure"><a name="fig.qr-structure-detailed"></a><p class="title"><b>Figure 27.1. QR Code high level structure</b></p><div class="figure-contents">
+            
+            <div class="mediaobject"><img src="images/qr-structure-details.png" alt="QR Code high level structure"></div>
+        </div></div><br class="figure-break">
+        <p>The images below shows some real-life creative use of QR barcodes.</p>
+        <p>
+            </p><div class="figure"><a name="id2608042"></a><p class="title"><b>Figure 27.2. Creative usage of QR Barcodes</b></p><div class="figure-contents">
+                
+                <div class="informaltable">
+                    <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td valign="bottom"><span class="inlinemediaobject"><img src="images/qr_usage1.jpg" alt="Creative usage of QR Barcodes"></span></td><td valign="bottom"><span class="inlinemediaobject"><img src="images/qr_usage2.jpg" alt="Creative usage of QR Barcodes"></span></td><td valign="bottom"><span class="inlinemediaobject"><img src="images/qr_usage3.jpg" alt="Creative usage of QR Barcodes"></span></td></tr></tbody></table>
+                </div>
+            </div></div><p><br class="figure-break">
+        </p>
+        <div class="sect2" title="Summary of library features"><div class="titlepage"><div><div><h3 class="title"><a name="id2608051"></a>Summary of library features</h3></div></div></div>
+            
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p>Output format</p>
+                        <p>
+                            </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                    <p>Image format</p>
+                                </li><li class="listitem">
+                                    <p>Postscript and encapsulated postscript</p>
+                                </li><li class="listitem">
+                                    <p>ASCII</p>
+                                </li></ol></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>Encodation formats</p>
+                        <p>
+                            </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                    <p>Numeric</p>
+                                </li><li class="listitem">
+                                    <p>Alphanumeric</p>
+                                </li><li class="listitem">
+                                    <p>Binary</p>
+                                </li></ol></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>Supports all specified symbol sizes</p>
+                    </li><li class="listitem">
+                        <p>Supports both auto and user selectable encodation </p>
+                    </li><li class="listitem">
+                        <p>Supports both auto and user selectable symbol size </p>
+                    </li><li class="listitem">
+                        <p>Supports user specified module size </p>
+                    </li><li class="listitem">
+                        <p>Supports custom color specification (foreground, background) </p>
+                    </li><li class="listitem">
+                        <p>Symbols can be written directly to a file or sent back as an image to
+                            the browser </p>
+                    </li></ul></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Limitation in the JpGraph QR implementation"><div class="titlepage"><div><div><h3 class="title"><a name="id2608266"></a>Limitation in the JpGraph QR implementation</h3></div></div></div>
+            
+            <p>This implementation is a faithful implementation of the ISO/IEC 18004E
+                International Standard with one important exception. Version 1.0 does not support
+                the encoding of 2 byte Shift-JIS character set. This means that two byte Kanji can
+                only be encoded using binary data format which is less efficient than the native
+                Kanji encoding. </p>
+            <p>
+                </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                    <p>The computational complexity of the encodation process makes QR code
+                        generation slightly slower than both PDF417 and Datamatrix. The technical
+                        reason for most of the time is the final necessary evaluation of a bitmap
+                        mask which is chosen to give as close to 50% mix of black and white areas in
+                        the code as possible. Unfortunately this evaluation take time proportional
+                        to the square of the size of the matrix. This time can be noticeable when
+                        using "large" symbol sizes. There are existing QR code libraries that cheat
+                        on this final step and just randomly selects a bit mask to avoid this
+                        computational intensive evaluation. This is also the cause for the visual
+                        difference between this libraries final result and some other. </p>
+                    <p>In this case we claim that this library implements the proper standard
+                        much more faithfully than some other libraries that exists.</p>
+                </div><p>
+            </p>
+        </div>
+        <div class="sect2" title="QR Standard"><div class="titlepage"><div><div><h3 class="title"><a name="id2608289"></a>QR Standard</h3></div></div></div>
+            
+            <p>The QR code standard is fully described in the ISO/IEC 18004E International
+                Standard and is available for purchase from the <code class="uri"><a class="uri" href="http://www.iso.ch/iso/en/CombinedQueryResult.CombinedQueryResult?queryString=qr" target="_top">ISO Standard Organization</a></code>. for a nominal fee.</p>
+        </div>
+        <div class="sect2" title="Structure and capacity of QR barcodes"><div class="titlepage"><div><div><h3 class="title"><a name="id2608327"></a>Structure and capacity of QR barcodes</h3></div></div></div>
+            
+            <p>All QR barcode have square layout made up of equal spaced square modules.
+                Depending on the size of the QR code a certain number of finder patterns are
+                included in the code to aid in scanner decoding. The standard specifies 40 versions
+                (sizes) of the QR code from the smallest 21x21 up to 177x177 modules in size. </p>
+            <p>Examples of two basic QR codes are shown in <a class="xref" href="ch27.html#fig.qr-code-small" title="Figure 27.3. A small sized QR Code (version=2)">Figure 27.3. A small sized QR Code (version=2) </a> and <a class="xref" href="ch27.html#fig.qr-code-medium" title="Figure 27.4. A medium sized QR code (version=13)">Figure 27.4. A medium sized QR code (version=13)</a></p>
+            <p>
+                </p><div class="informaltable">
+                    <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td valign="top">
+                                    <div class="figure"><a name="fig.qr-code-small"></a><p class="title"><b>Figure 27.3. A small sized QR Code (version=2) </b></p><div class="figure-contents">
+                                        
+                                        <div class="mediaobject"><img src="images/qr-code-small.png" alt="A small sized QR Code (version=2)"></div>
+                                    </div></div><br class="figure-break">
+                                </td><td valign="top">
+                                    <div class="figure"><a name="fig.qr-code-medium"></a><p class="title"><b>Figure 27.4. A medium sized QR code (version=13)</b></p><div class="figure-contents">
+                                        
+                                        <div class="mediaobject"><img src="images/qr-code-medium.png" alt="A medium sized QR code (version=13)"></div>
+                                    </div></div><br class="figure-break">
+                                </td></tr></tbody></table>
+                </div><p>
+            </p>
+            <p>Depending on the actual data there are several compaction schema that can be used
+                in order to achieve the greatest possible compression. The standard specifies four
+                different principal schema, Numeric, Alphanumeric, Binary and Kanji. </p>
+            <p>Depending on the application the user of the library may chose to either select a
+                fixed encodation mode or let the library automatically chose the most efficient
+                encodation method. It is usually best to let the library automatically select a
+                combination of encodation schema that will give the smallest possible symbol size. </p>
+            <p>The maximum capacity for QR codes dependent on the encodation schema (using the
+                lowest possible error correction overhead) are given in <a class="xref" href="ch27.html#table.qr-capacity" title="Table 27.1. QR Data capacity">Table 27.1. QR Data capacity</a></p>
+            <p>
+                </p><div class="table"><a name="table.qr-capacity"></a><p class="title"><b>Table 27.1. QR Data capacity</b></p><div class="table-contents">
+                    
+                    <table summary="QR Data capacity" border="1"><colgroup><col width="124.65pt" class="c1"><col width="256.26pt" class="c2"></colgroup><thead><tr><th>Encoding mode</th><th>Maximum capacity</th></tr></thead><tbody><tr><td>Numeric</td><td>7089 digits (Datamatrix=3116)</td></tr><tr><td>Alphanumeric</td><td>4296 characters (Datamatrix=2335)</td></tr><tr><td>Binary</td><td>2953 (Datamatrix=1555)</td></tr><tr><td>Kanji</td><td>1817 (Datamatrix NA)</td></tr></tbody></table>
+                </div></div><p><br class="table-break">
+            </p>
+            <p>The exact number of characters that can fit in a QR symbol depends on the actual
+                encoding (or compaction) schema used. In short this is used to more efficiently
+                encode ASCII characters to fit more data into a fixed number of bytes. For example
+                if only numeric data is to be encoded then instead of using one byte to hold each
+                digit three digits is stored in 10 bits. Which gives the equivalent capacity that 12
+                digits takes only 5 bytes to encode. </p>
+            <p>To encode data into a QR symbol the following principal steps are taken. </p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>The input string (which can be any ASCII values between 0-255) is
+                            encoded using the selected encoding or encodings (it is possible to
+                            switch encoding mid-way through the string). The primary purpose of the
+                            encoding is to compress the data into a much shorter form. </p>
+                    </li><li class="listitem">
+                        <p>If needed the data is padded to fill up to the capacity of the
+                            selected symbol size. </p>
+                    </li><li class="listitem">
+                        <p>Once the string has been encoded (and possible padded) a number of
+                            error correcting code words are added so that the data can be recovered
+                            even if part of the printed symbol have been destroyed (perhaps a corner
+                            has been teared off). </p>
+                    </li><li class="listitem">
+                        <p>Finally the encoded data and the error correcting words are placed in
+                            the symbol according to an algorithm specified in the standard. This is
+                            done by placing each bit of every data byte in a specific position in
+                            the qr matrix symbol.</p>
+                    </li></ol></div><p>
+            </p>
+            <p>The above explanation is by necessity simplified and for those interested into the
+                specific details we refer to the official standard. It is also possible to review
+                the code itself to understand the details. </p>
+        </div>
+        <div class="sect2" title="QR versions and symbol size"><div class="titlepage"><div><div><h3 class="title"><a name="id2608334"></a>QR versions and symbol size</h3></div></div></div>
+            
+            <p>As mentioned in the previous section the QR standard specifies 40 different sizes
+                of the QR code and the maximum data capacity will also vary depending on the size.
+                    <a class="xref" href="ch27.html#table.qr-symbol-sizes" title="Table 27.2. Maximum data capacity for the different symbol sizes in the QR-code.">Table 27.2. Maximum data capacity for the
+                    different symbol sizes in the QR-code.</a> shows the defined sizes and for each
+                size specifies the possible Error correction levels and the maximum data capacity
+                depending on the compaction schema used.</p>
+            <p>By default the symbol size will be chosen as the smallest possible. However some
+                application require that usage of a fixed size symbol. The symbol size is a
+                parameter of the encodation schema and is adjusted in the creation of the
+                    <code class="code">QREncoder.</code>
+            </p>
+            <table xmlns="" frame="void" cellspacing="0" class="bdtable" width="700" id="table.qr-symbol-sizes">
+                <caption xmlns="" style="font-weight:bold;margin-bottom:10px;">Table 27.2. Maximum data capacity for the
+                    different symbol sizes in the QR-code.</caption>
+                <col width="1.29*"></col>
+                <col width="1.45*"></col>
+                <col width="1.74*"></col>
+                <col width="1.45*"></col>
+                <col width="1.43*"></col>
+                <col width="2.26*"></col>
+                <col width="1.14*"></col>
+                <col width="1.0*"></col>
+                <thead xmlns="">
+                    <tr class="bdhdr">
+                        <th class="bdur2">Version</th>
+                        <th class="bdur2">Modules</th>
+                        <th class="bdur2">ECC Level</th>
+                        <th class="bdur2">Data bits</th>
+                        <th class="bdur2">Numeric</th>
+                        <th class="bdur2">Alphanumeric</th>
+                        <th class="bdur2">Binary</th>
+                        <th class="bdu2">Kanji</th>
+                    </tr>
+                </thead>
+                <tbody xmlns="">
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">1</td>
+                        <td rowspan="4" class="bdur2">21x21</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">152</td>
+                        <td class="bdur">41</td>
+                        <td class="bdur">25</td>
+                        <td class="bdur">17</td>
+                        <td class="bdu">10</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">128</td>
+                        <td class="bdur">34</td>
+                        <td class="bdur">20</td>
+                        <td class="bdur">14</td>
+                        <td class="bdu">8</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">104</td>
+                        <td class="bdur">27</td>
+                        <td class="bdur">16</td>
+                        <td class="bdur">11</td>
+                        <td class="bdu">7</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">72</td>
+                        <td class="bdur2">17</td>
+                        <td class="bdur2">10</td>
+                        <td class="bdur2">7</td>
+                        <td class="bdu2">4</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 2</td>
+                        <td rowspan="4" class="bdur2"> 25x25</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 272</td>
+                        <td class="bdur"> 77</td>
+                        <td class="bdur"> 47</td>
+                        <td class="bdur"> 32</td>
+                        <td class="bdu"> 20</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 224</td>
+                        <td class="bdur"> 63</td>
+                        <td class="bdur"> 38</td>
+                        <td class="bdur"> 26</td>
+                        <td class="bdu"> 16</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 176</td>
+                        <td class="bdur"> 48</td>
+                        <td class="bdur"> 29</td>
+                        <td class="bdur"> 20</td>
+                        <td class="bdu"> 12</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 128</td>
+                        <td class="bdur2"> 34</td>
+                        <td class="bdur2"> 20</td>
+                        <td class="bdur2"> 14</td>
+                        <td class="bdu2"> 8</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">3</td>
+                        <td rowspan="4" class="bdur2">29x29</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">440</td>
+                        <td class="bdur">127</td>
+                        <td class="bdur">77</td>
+                        <td class="bdur">53</td>
+                        <td class="bdu">32</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">352</td>
+                        <td class="bdur">101</td>
+                        <td class="bdur">61</td>
+                        <td class="bdur">42</td>
+                        <td class="bdu">26</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">272</td>
+                        <td class="bdur">77</td>
+                        <td class="bdur">47</td>
+                        <td class="bdur">32</td>
+                        <td class="bdu">20</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">208</td>
+                        <td class="bdur2">58</td>
+                        <td class="bdur2">35</td>
+                        <td class="bdur2">24</td>
+                        <td class="bdu2">15</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 4</td>
+                        <td rowspan="4" class="bdur2"> 33x33</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 640</td>
+                        <td class="bdur"> 187</td>
+                        <td class="bdur"> 114</td>
+                        <td class="bdur"> 78</td>
+                        <td class="bdu"> 48</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 512</td>
+                        <td class="bdur"> 149</td>
+                        <td class="bdur"> 90</td>
+                        <td class="bdur"> 62</td>
+                        <td class="bdu"> 38</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 384</td>
+                        <td class="bdur"> 111</td>
+                        <td class="bdur"> 67</td>
+                        <td class="bdur"> 46</td>
+                        <td class="bdu"> 28</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 288</td>
+                        <td class="bdur2"> 82</td>
+                        <td class="bdur2"> 50</td>
+                        <td class="bdur2"> 34</td>
+                        <td class="bdu2"> 21</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">5</td>
+                        <td rowspan="4" class="bdur2">37x37</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">864</td>
+                        <td class="bdur">255</td>
+                        <td class="bdur">154</td>
+                        <td class="bdur">106</td>
+                        <td class="bdu">65</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">688</td>
+                        <td class="bdur">202</td>
+                        <td class="bdur">122</td>
+                        <td class="bdur">84</td>
+                        <td class="bdu">52</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">496</td>
+                        <td class="bdur">144</td>
+                        <td class="bdur">87</td>
+                        <td class="bdur">60</td>
+                        <td class="bdu">37</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">368</td>
+                        <td class="bdur2">106</td>
+                        <td class="bdur2">64</td>
+                        <td class="bdur2">44</td>
+                        <td class="bdu2">27</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 6</td>
+                        <td rowspan="4" class="bdur2"> 41x41</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 1,088</td>
+                        <td class="bdur"> 322</td>
+                        <td class="bdur"> 195</td>
+                        <td class="bdur"> 134</td>
+                        <td class="bdu"> 82</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 864</td>
+                        <td class="bdur"> 255</td>
+                        <td class="bdur"> 154</td>
+                        <td class="bdur"> 106</td>
+                        <td class="bdu"> 65</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 608</td>
+                        <td class="bdur"> 178</td>
+                        <td class="bdur"> 108</td>
+                        <td class="bdur"> 74</td>
+                        <td class="bdu"> 45</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 480</td>
+                        <td class="bdur2"> 139</td>
+                        <td class="bdur2"> 84</td>
+                        <td class="bdur2"> 58</td>
+                        <td class="bdu2"> 36</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">7</td>
+                        <td rowspan="4" class="bdur2">45x45</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">1,248</td>
+                        <td class="bdur">370</td>
+                        <td class="bdur">224</td>
+                        <td class="bdur">154</td>
+                        <td class="bdu">95</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">992</td>
+                        <td class="bdur">293</td>
+                        <td class="bdur">178</td>
+                        <td class="bdur">122</td>
+                        <td class="bdu">75</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">704</td>
+                        <td class="bdur">207</td>
+                        <td class="bdur">125</td>
+                        <td class="bdur">86</td>
+                        <td class="bdu">53</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">528</td>
+                        <td class="bdur2">154</td>
+                        <td class="bdur2">93</td>
+                        <td class="bdur2">64</td>
+                        <td class="bdu2">39</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 8</td>
+                        <td rowspan="4" class="bdur2"> 49x49</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 1,552</td>
+                        <td class="bdur"> 461</td>
+                        <td class="bdur"> 279</td>
+                        <td class="bdur"> 192</td>
+                        <td class="bdu"> 118</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 1,232</td>
+                        <td class="bdur"> 365</td>
+                        <td class="bdur"> 221</td>
+                        <td class="bdur"> 152</td>
+                        <td class="bdu"> 93</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 880</td>
+                        <td class="bdur"> 259</td>
+                        <td class="bdur"> 157</td>
+                        <td class="bdur"> 108</td>
+                        <td class="bdu"> 66</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 688</td>
+                        <td class="bdur2"> 202</td>
+                        <td class="bdur2"> 122</td>
+                        <td class="bdur2"> 84</td>
+                        <td class="bdu2"> 52</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">9</td>
+                        <td rowspan="4" class="bdur2">53x53</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">1,856</td>
+                        <td class="bdur">552</td>
+                        <td class="bdur">335</td>
+                        <td class="bdur">230</td>
+                        <td class="bdu">141</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">1,456</td>
+                        <td class="bdur">432</td>
+                        <td class="bdur">262</td>
+                        <td class="bdur">180</td>
+                        <td class="bdu">111</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">1,056</td>
+                        <td class="bdur">312</td>
+                        <td class="bdur">189</td>
+                        <td class="bdur">130</td>
+                        <td class="bdu">80</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">800</td>
+                        <td class="bdur2">235</td>
+                        <td class="bdur2">143</td>
+                        <td class="bdur2">98</td>
+                        <td class="bdu2">60</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 10</td>
+                        <td rowspan="4" class="bdur2"> 57x57</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 2,192</td>
+                        <td class="bdur"> 652</td>
+                        <td class="bdur"> 395</td>
+                        <td class="bdur"> 271</td>
+                        <td class="bdu"> 167</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 1,728</td>
+                        <td class="bdur"> 513</td>
+                        <td class="bdur"> 311</td>
+                        <td class="bdur"> 213</td>
+                        <td class="bdu"> 131</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 1,232</td>
+                        <td class="bdur"> 364</td>
+                        <td class="bdur"> 221</td>
+                        <td class="bdur"> 151</td>
+                        <td class="bdu"> 93</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 976</td>
+                        <td class="bdur2"> 288</td>
+                        <td class="bdur2"> 174</td>
+                        <td class="bdur2"> 119</td>
+                        <td class="bdu2"> 74</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">11</td>
+                        <td rowspan="4" class="bdur2">61x61</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">2,592</td>
+                        <td class="bdur">772</td>
+                        <td class="bdur">468</td>
+                        <td class="bdur">321</td>
+                        <td class="bdu">198</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">2,032</td>
+                        <td class="bdur">604</td>
+                        <td class="bdur">366</td>
+                        <td class="bdur">251</td>
+                        <td class="bdu">155</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">1,440</td>
+                        <td class="bdur">427</td>
+                        <td class="bdur">259</td>
+                        <td class="bdur">177</td>
+                        <td class="bdu">109</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">1,120</td>
+                        <td class="bdur2">331</td>
+                        <td class="bdur2">200</td>
+                        <td class="bdur2">137</td>
+                        <td class="bdu2">85</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 12</td>
+                        <td rowspan="4" class="bdur2"> 65x65</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 2,960</td>
+                        <td class="bdur"> 883</td>
+                        <td class="bdur"> 535</td>
+                        <td class="bdur"> 367</td>
+                        <td class="bdu"> 226</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 2,320</td>
+                        <td class="bdur"> 691</td>
+                        <td class="bdur"> 419</td>
+                        <td class="bdur"> 287</td>
+                        <td class="bdu"> 177</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 1,648</td>
+                        <td class="bdur"> 489</td>
+                        <td class="bdur"> 296</td>
+                        <td class="bdur"> 203</td>
+                        <td class="bdu"> 125</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 1,264</td>
+                        <td class="bdur2"> 374</td>
+                        <td class="bdur2"> 227</td>
+                        <td class="bdur2"> 155</td>
+                        <td class="bdu2"> 96</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">13</td>
+                        <td rowspan="4" class="bdur2">69x69</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">3,424</td>
+                        <td class="bdur">1,022</td>
+                        <td class="bdur">619</td>
+                        <td class="bdur">425</td>
+                        <td class="bdu">262</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">2,672</td>
+                        <td class="bdur">796</td>
+                        <td class="bdur">483</td>
+                        <td class="bdur">331</td>
+                        <td class="bdu">204</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">1,952</td>
+                        <td class="bdur">580</td>
+                        <td class="bdur">352</td>
+                        <td class="bdur">241</td>
+                        <td class="bdu">149</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">1,440</td>
+                        <td class="bdur2">427</td>
+                        <td class="bdur2">259</td>
+                        <td class="bdur2">177</td>
+                        <td class="bdu2">109</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 14</td>
+                        <td rowspan="4" class="bdur2"> 73x73</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 3,688</td>
+                        <td class="bdur"> 1,101</td>
+                        <td class="bdur"> 667</td>
+                        <td class="bdur"> 458</td>
+                        <td class="bdu"> 282</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 2,920</td>
+                        <td class="bdur"> 871</td>
+                        <td class="bdur"> 528</td>
+                        <td class="bdur"> 362</td>
+                        <td class="bdu"> 223</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 2,088</td>
+                        <td class="bdur"> 621</td>
+                        <td class="bdur"> 376</td>
+                        <td class="bdur"> 258</td>
+                        <td class="bdu"> 159</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 1,576</td>
+                        <td class="bdur2"> 468</td>
+                        <td class="bdur2"> 283</td>
+                        <td class="bdur2"> 194</td>
+                        <td class="bdu2"> 120</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">15</td>
+                        <td rowspan="4" class="bdur2">77x77</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">4,184</td>
+                        <td class="bdur">1,250</td>
+                        <td class="bdur">758</td>
+                        <td class="bdur">520</td>
+                        <td class="bdu">320</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">3,320</td>
+                        <td class="bdur">991</td>
+                        <td class="bdur">600</td>
+                        <td class="bdur">412</td>
+                        <td class="bdu">254</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">2,360</td>
+                        <td class="bdur">703</td>
+                        <td class="bdur">426</td>
+                        <td class="bdur">292</td>
+                        <td class="bdu">180</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">1,784</td>
+                        <td class="bdur2">530</td>
+                        <td class="bdur2">321</td>
+                        <td class="bdur2">220</td>
+                        <td class="bdu2">136</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 16</td>
+                        <td rowspan="4" class="bdur2"> 81x81</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 4,712</td>
+                        <td class="bdur"> 1,408</td>
+                        <td class="bdur"> 854</td>
+                        <td class="bdur"> 586</td>
+                        <td class="bdu"> 361</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 3,624</td>
+                        <td class="bdur"> 1,082</td>
+                        <td class="bdur"> 656</td>
+                        <td class="bdur"> 450</td>
+                        <td class="bdu"> 277</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 2,600</td>
+                        <td class="bdur"> 775</td>
+                        <td class="bdur"> 470</td>
+                        <td class="bdur"> 322</td>
+                        <td class="bdu"> 198</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 2,024</td>
+                        <td class="bdur2"> 602</td>
+                        <td class="bdur2"> 365</td>
+                        <td class="bdur2"> 250</td>
+                        <td class="bdu2"> 154</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">17</td>
+                        <td rowspan="4" class="bdur2">85x85</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">5,176</td>
+                        <td class="bdur">1,548</td>
+                        <td class="bdur">938</td>
+                        <td class="bdur">644</td>
+                        <td class="bdu">397</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">4,056</td>
+                        <td class="bdur">1,212</td>
+                        <td class="bdur">734</td>
+                        <td class="bdur">504</td>
+                        <td class="bdu">310</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">2,936</td>
+                        <td class="bdur">876</td>
+                        <td class="bdur">531</td>
+                        <td class="bdur">364</td>
+                        <td class="bdu">224</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">2,264</td>
+                        <td class="bdur2">674</td>
+                        <td class="bdur2">408</td>
+                        <td class="bdur2">280</td>
+                        <td class="bdu2">173</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 18</td>
+                        <td rowspan="4" class="bdur2"> 89x89</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 5,768</td>
+                        <td class="bdur"> 1,725</td>
+                        <td class="bdur"> 1,046</td>
+                        <td class="bdur"> 718</td>
+                        <td class="bdu"> 442</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 4,504</td>
+                        <td class="bdur"> 1,346</td>
+                        <td class="bdur"> 816</td>
+                        <td class="bdur"> 560</td>
+                        <td class="bdu"> 345</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 3,176</td>
+                        <td class="bdur"> 948</td>
+                        <td class="bdur"> 574</td>
+                        <td class="bdur"> 394</td>
+                        <td class="bdu"> 243</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 2,504</td>
+                        <td class="bdur2"> 746</td>
+                        <td class="bdur2"> 452</td>
+                        <td class="bdur2"> 310</td>
+                        <td class="bdu2"> 191</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">19</td>
+                        <td rowspan="4" class="bdur2">93x93</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">6,360</td>
+                        <td class="bdur">1,903</td>
+                        <td class="bdur">1,153</td>
+                        <td class="bdur">792</td>
+                        <td class="bdu">488</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">5,016</td>
+                        <td class="bdur">1,500</td>
+                        <td class="bdur">909</td>
+                        <td class="bdur">624</td>
+                        <td class="bdu">384</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">3,560</td>
+                        <td class="bdur">1,063</td>
+                        <td class="bdur">644</td>
+                        <td class="bdur">442</td>
+                        <td class="bdu">272</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">2,728</td>
+                        <td class="bdur2">813</td>
+                        <td class="bdur2">493</td>
+                        <td class="bdur2">338</td>
+                        <td class="bdu2">208</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 20</td>
+                        <td rowspan="4" class="bdur2"> 97x97</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 6,888</td>
+                        <td class="bdur"> 2,061</td>
+                        <td class="bdur"> 1,249</td>
+                        <td class="bdur"> 858</td>
+                        <td class="bdu"> 528</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 5,352</td>
+                        <td class="bdur"> 1,600</td>
+                        <td class="bdur"> 970</td>
+                        <td class="bdur"> 666</td>
+                        <td class="bdu"> 410</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 3,880</td>
+                        <td class="bdur"> 1,159</td>
+                        <td class="bdur"> 702</td>
+                        <td class="bdur"> 482</td>
+                        <td class="bdu"> 297</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 3,080</td>
+                        <td class="bdur2"> 919</td>
+                        <td class="bdur2"> 557</td>
+                        <td class="bdur2"> 382</td>
+                        <td class="bdu2"> 235</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">21</td>
+                        <td rowspan="4" class="bdur2">101x101</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">7,456</td>
+                        <td class="bdur">2,232</td>
+                        <td class="bdur">1,352</td>
+                        <td class="bdur">929</td>
+                        <td class="bdu">572</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">5,712</td>
+                        <td class="bdur">1,708</td>
+                        <td class="bdur">1,035</td>
+                        <td class="bdur">711</td>
+                        <td class="bdu">438</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">4,096</td>
+                        <td class="bdur">1,224</td>
+                        <td class="bdur">742</td>
+                        <td class="bdur">509</td>
+                        <td class="bdu">314</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">3,248</td>
+                        <td class="bdur2">969</td>
+                        <td class="bdur2">587</td>
+                        <td class="bdur2">403</td>
+                        <td class="bdu2">248</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 22</td>
+                        <td rowspan="4" class="bdur2"> 105x105</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 8,048</td>
+                        <td class="bdur"> 2,409</td>
+                        <td class="bdur"> 1,460</td>
+                        <td class="bdur"> 1,003</td>
+                        <td class="bdu"> 618</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 6,256</td>
+                        <td class="bdur"> 1,872</td>
+                        <td class="bdur"> 1,134</td>
+                        <td class="bdur"> 779</td>
+                        <td class="bdu"> 480</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 4,544</td>
+                        <td class="bdur"> 1,358</td>
+                        <td class="bdur"> 823</td>
+                        <td class="bdur"> 565</td>
+                        <td class="bdu"> 348</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 3,536</td>
+                        <td class="bdur2"> 1,056</td>
+                        <td class="bdur2"> 640</td>
+                        <td class="bdur2"> 439</td>
+                        <td class="bdu2"> 270</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">23</td>
+                        <td rowspan="4" class="bdur2">109x109</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">8,752</td>
+                        <td class="bdur">2,620</td>
+                        <td class="bdur">1,588</td>
+                        <td class="bdur">1,091</td>
+                        <td class="bdu">672</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">6,880</td>
+                        <td class="bdur">2,059</td>
+                        <td class="bdur">1,248</td>
+                        <td class="bdur">857</td>
+                        <td class="bdu">528</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">4,912</td>
+                        <td class="bdur">1,468</td>
+                        <td class="bdur">890</td>
+                        <td class="bdur">611</td>
+                        <td class="bdu">376</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">3,712</td>
+                        <td class="bdur2">1,108</td>
+                        <td class="bdur2">672</td>
+                        <td class="bdur2">461</td>
+                        <td class="bdu2">284</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 24</td>
+                        <td rowspan="4" class="bdur2"> 113x113</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 9,392</td>
+                        <td class="bdur"> 2,812</td>
+                        <td class="bdur"> 1,704</td>
+                        <td class="bdur"> 1,171</td>
+                        <td class="bdu"> 721</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 7,312</td>
+                        <td class="bdur"> 2,188</td>
+                        <td class="bdur"> 1,326</td>
+                        <td class="bdur"> 911</td>
+                        <td class="bdu"> 561</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 5,312</td>
+                        <td class="bdur"> 1,588</td>
+                        <td class="bdur"> 963</td>
+                        <td class="bdur"> 661</td>
+                        <td class="bdu"> 407</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 4,112</td>
+                        <td class="bdur2"> 1,228</td>
+                        <td class="bdur2"> 744</td>
+                        <td class="bdur2"> 511</td>
+                        <td class="bdu2"> 315</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">25</td>
+                        <td rowspan="4" class="bdur2">117x117</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">10,208</td>
+                        <td class="bdur">3,057</td>
+                        <td class="bdur">1,853</td>
+                        <td class="bdur">1,273</td>
+                        <td class="bdu">784</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">8,000</td>
+                        <td class="bdur">2,395</td>
+                        <td class="bdur">1,451</td>
+                        <td class="bdur">997</td>
+                        <td class="bdu">614</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">5,744</td>
+                        <td class="bdur">1,718</td>
+                        <td class="bdur">1,041</td>
+                        <td class="bdur">715</td>
+                        <td class="bdu">440</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">4,304</td>
+                        <td class="bdur2">1,286</td>
+                        <td class="bdur2">779</td>
+                        <td class="bdur2">535</td>
+                        <td class="bdu2">330</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 26</td>
+                        <td rowspan="4" class="bdur2"> 121x121</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 10,960</td>
+                        <td class="bdur"> 3,283</td>
+                        <td class="bdur"> 1,990</td>
+                        <td class="bdur"> 1,367</td>
+                        <td class="bdu"> 842</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 8,496</td>
+                        <td class="bdur"> 2,544</td>
+                        <td class="bdur"> 1,542</td>
+                        <td class="bdur"> 1,059</td>
+                        <td class="bdu"> 652</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 6,032</td>
+                        <td class="bdur"> 1,804</td>
+                        <td class="bdur"> 1,094</td>
+                        <td class="bdur"> 751</td>
+                        <td class="bdu"> 462</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 4,768</td>
+                        <td class="bdur2"> 1,425</td>
+                        <td class="bdur2"> 864</td>
+                        <td class="bdur2"> 593</td>
+                        <td class="bdu2"> 365</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">27</td>
+                        <td rowspan="4" class="bdur2">125x125</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">11,744</td>
+                        <td class="bdur">3,514</td>
+                        <td class="bdur">2,132</td>
+                        <td class="bdur">1,465</td>
+                        <td class="bdu">902</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">9,024</td>
+                        <td class="bdur">2,701</td>
+                        <td class="bdur">1,637</td>
+                        <td class="bdur">1,125</td>
+                        <td class="bdu">692</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">6,464</td>
+                        <td class="bdur">1,933</td>
+                        <td class="bdur">1,172</td>
+                        <td class="bdur">805</td>
+                        <td class="bdu">496</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">5,024</td>
+                        <td class="bdur2">1,501</td>
+                        <td class="bdur2">910</td>
+                        <td class="bdur2">625</td>
+                        <td class="bdu2">385</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 28</td>
+                        <td rowspan="4" class="bdur2"> 129x129</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 12,248</td>
+                        <td class="bdur"> 3,669</td>
+                        <td class="bdur"> 2,223</td>
+                        <td class="bdur"> 1,528</td>
+                        <td class="bdu"> 940</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 9,544</td>
+                        <td class="bdur"> 2,857</td>
+                        <td class="bdur"> 1,732</td>
+                        <td class="bdur"> 1,190</td>
+                        <td class="bdu"> 732</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 6,968</td>
+                        <td class="bdur"> 2,085</td>
+                        <td class="bdur"> 1,263</td>
+                        <td class="bdur"> 868</td>
+                        <td class="bdu"> 534</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 5,288</td>
+                        <td class="bdur2"> 1,581</td>
+                        <td class="bdur2"> 958</td>
+                        <td class="bdur2"> 658</td>
+                        <td class="bdu2"> 405</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">29</td>
+                        <td rowspan="4" class="bdur2">133x133</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">13,048</td>
+                        <td class="bdur">3,909</td>
+                        <td class="bdur">2,369</td>
+                        <td class="bdur">1,628</td>
+                        <td class="bdu">1,002</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">10,136</td>
+                        <td class="bdur">3,035</td>
+                        <td class="bdur">1,839</td>
+                        <td class="bdur">1,264</td>
+                        <td class="bdu">778</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">7,288</td>
+                        <td class="bdur">2,181</td>
+                        <td class="bdur">1,322</td>
+                        <td class="bdur">908</td>
+                        <td class="bdu">559</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">5,608</td>
+                        <td class="bdur2">1,677</td>
+                        <td class="bdur2">1,016</td>
+                        <td class="bdur2">698</td>
+                        <td class="bdu2">430</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 30</td>
+                        <td rowspan="4" class="bdur2"> 137x137</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 13,880</td>
+                        <td class="bdur"> 4,158</td>
+                        <td class="bdur"> 2,520</td>
+                        <td class="bdur"> 1,732</td>
+                        <td class="bdu"> 1,066</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 10,984</td>
+                        <td class="bdur"> 3,289</td>
+                        <td class="bdur"> 1,994</td>
+                        <td class="bdur"> 1,370</td>
+                        <td class="bdu"> 843</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 7,880</td>
+                        <td class="bdur"> 2,358</td>
+                        <td class="bdur"> 1,429</td>
+                        <td class="bdur"> 982</td>
+                        <td class="bdu"> 604</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 5,960</td>
+                        <td class="bdur2"> 1,782</td>
+                        <td class="bdur2"> 1,080</td>
+                        <td class="bdur2"> 742</td>
+                        <td class="bdu2"> 457</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">31</td>
+                        <td rowspan="4" class="bdur2">141x141</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">14,744</td>
+                        <td class="bdur">4,417</td>
+                        <td class="bdur">2,677</td>
+                        <td class="bdur">1,840</td>
+                        <td class="bdu">1132</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">11,640</td>
+                        <td class="bdur">3,486</td>
+                        <td class="bdur">2,113</td>
+                        <td class="bdur">1,452</td>
+                        <td class="bdu">894</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">8,264</td>
+                        <td class="bdur">2,473</td>
+                        <td class="bdur">1,499</td>
+                        <td class="bdur">1,030</td>
+                        <td class="bdu">634</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">6,344</td>
+                        <td class="bdur2">1,897</td>
+                        <td class="bdur2">1,150</td>
+                        <td class="bdur2">790</td>
+                        <td class="bdu2">486</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 32</td>
+                        <td rowspan="4" class="bdur2"> 145x145</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 15,640</td>
+                        <td class="bdur"> 4,686</td>
+                        <td class="bdur"> 2,840</td>
+                        <td class="bdur"> 1,952</td>
+                        <td class="bdu"> 1,201</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 12,328</td>
+                        <td class="bdur"> 3,693</td>
+                        <td class="bdur"> 2,238</td>
+                        <td class="bdur"> 1,538</td>
+                        <td class="bdu"> 947</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 8,920</td>
+                        <td class="bdur"> 2,670</td>
+                        <td class="bdur"> 1,618</td>
+                        <td class="bdur"> 1,112</td>
+                        <td class="bdu"> 684</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 6,760</td>
+                        <td class="bdur2"> 2,022</td>
+                        <td class="bdur2"> 1,226</td>
+                        <td class="bdur2"> 842</td>
+                        <td class="bdu2"> 518</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">33</td>
+                        <td rowspan="4" class="bdur2">149x149</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">16,568</td>
+                        <td class="bdur">4,965</td>
+                        <td class="bdur">3,009</td>
+                        <td class="bdur">2,068</td>
+                        <td class="bdu">1,273</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">13,048</td>
+                        <td class="bdur">3,909</td>
+                        <td class="bdur">2,369</td>
+                        <td class="bdur">1,628</td>
+                        <td class="bdu">1,002</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">9,368</td>
+                        <td class="bdur">2,805</td>
+                        <td class="bdur">1,700</td>
+                        <td class="bdur">1,168</td>
+                        <td class="bdu">719</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">7,208</td>
+                        <td class="bdur2">2,157</td>
+                        <td class="bdur2">1,307</td>
+                        <td class="bdur2">898</td>
+                        <td class="bdu2">553</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 34</td>
+                        <td rowspan="4" class="bdur2"> 153x153</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 17,528</td>
+                        <td class="bdur"> 5,253</td>
+                        <td class="bdur"> 3,183</td>
+                        <td class="bdur"> 2,188</td>
+                        <td class="bdu"> 1,347</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 13,800</td>
+                        <td class="bdur"> 4,134</td>
+                        <td class="bdur"> 2,506</td>
+                        <td class="bdur"> 1,722</td>
+                        <td class="bdu"> 1,060</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 9,848</td>
+                        <td class="bdur"> 2,949</td>
+                        <td class="bdur"> 1,787</td>
+                        <td class="bdur"> 1,228</td>
+                        <td class="bdu"> 756</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 7,688</td>
+                        <td class="bdur2"> 2,301</td>
+                        <td class="bdur2"> 1,394</td>
+                        <td class="bdur2"> 958</td>
+                        <td class="bdu2"> 590</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">35</td>
+                        <td rowspan="4" class="bdur2">157x157</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">18,448</td>
+                        <td class="bdur">5,529</td>
+                        <td class="bdur">3,351</td>
+                        <td class="bdur">2,303</td>
+                        <td class="bdu">1,417</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">14,496</td>
+                        <td class="bdur">4,343</td>
+                        <td class="bdur">2,632</td>
+                        <td class="bdur">1,809</td>
+                        <td class="bdu">1,113</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">10,288</td>
+                        <td class="bdur">3,081</td>
+                        <td class="bdur">1,867</td>
+                        <td class="bdur">1,283</td>
+                        <td class="bdu">790</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">7,888</td>
+                        <td class="bdur2">2,361</td>
+                        <td class="bdur2">1,431</td>
+                        <td class="bdur2">983</td>
+                        <td class="bdu2">605</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 36</td>
+                        <td rowspan="4" class="bdur2"> 161x161</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 19,472</td>
+                        <td class="bdur"> 5,836</td>
+                        <td class="bdur"> 3,537</td>
+                        <td class="bdur"> 2,431</td>
+                        <td class="bdu"> 1,496</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 15,312</td>
+                        <td class="bdur"> 4,588</td>
+                        <td class="bdur"> 2,780</td>
+                        <td class="bdur"> 1,911</td>
+                        <td class="bdu"> 1,176</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 10,832</td>
+                        <td class="bdur"> 3,244</td>
+                        <td class="bdur"> 1,966</td>
+                        <td class="bdur"> 1,351</td>
+                        <td class="bdu"> 832</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 8,432</td>
+                        <td class="bdur2"> 2,524</td>
+                        <td class="bdur2"> 1,530</td>
+                        <td class="bdur2"> 1,051</td>
+                        <td class="bdu2"> 647</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">37</td>
+                        <td rowspan="4" class="bdur2">165x165</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">20,528</td>
+                        <td class="bdur">6,153</td>
+                        <td class="bdur">3,729</td>
+                        <td class="bdur">2,563</td>
+                        <td class="bdu">1,577</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">15,936</td>
+                        <td class="bdur">4,775</td>
+                        <td class="bdur">2,894</td>
+                        <td class="bdur">1,989</td>
+                        <td class="bdu">1,224</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">11,408</td>
+                        <td class="bdur">3,417</td>
+                        <td class="bdur">2,071</td>
+                        <td class="bdur">1,423</td>
+                        <td class="bdu">876</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">8,768</td>
+                        <td class="bdur2">2,625</td>
+                        <td class="bdur2">1,591</td>
+                        <td class="bdur2">1,093</td>
+                        <td class="bdu2">673</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2"> 38</td>
+                        <td rowspan="4" class="bdur2"> 169x169</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 21,616</td>
+                        <td class="bdur"> 6,479</td>
+                        <td class="bdur"> 3,927</td>
+                        <td class="bdur"> 2,699</td>
+                        <td class="bdu"> 1,661</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 16,816</td>
+                        <td class="bdur"> 5,039</td>
+                        <td class="bdur"> 3,054</td>
+                        <td class="bdur"> 2,099</td>
+                        <td class="bdu"> 1,292</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 12,016</td>
+                        <td class="bdur"> 3,599</td>
+                        <td class="bdur"> 2,181</td>
+                        <td class="bdur"> 1,499</td>
+                        <td class="bdu"> 923</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2"> H</td>
+                        <td class="bdur2"> 9,136</td>
+                        <td class="bdur2"> 2,735</td>
+                        <td class="bdur2"> 1,658</td>
+                        <td class="bdur2"> 1,139</td>
+                        <td class="bdu2"> 701</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur2">39</td>
+                        <td rowspan="4" class="bdur2">173x173</td>
+                        <td class="bdur">L</td>
+                        <td class="bdur">22,496</td>
+                        <td class="bdur">6,743</td>
+                        <td class="bdur">4,087</td>
+                        <td class="bdur">2,809</td>
+                        <td class="bdu">1,729</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">M</td>
+                        <td class="bdur">17,728</td>
+                        <td class="bdur">5,313</td>
+                        <td class="bdur">3,220</td>
+                        <td class="bdur">2,213</td>
+                        <td class="bdu">1,362</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur">Q</td>
+                        <td class="bdur">12,656</td>
+                        <td class="bdur">3,791</td>
+                        <td class="bdur">2,298</td>
+                        <td class="bdur">1,579</td>
+                        <td class="bdu">972</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur2">H</td>
+                        <td class="bdur2">9,776</td>
+                        <td class="bdur2">2,927</td>
+                        <td class="bdur2">1,774</td>
+                        <td class="bdur2">1,219</td>
+                        <td class="bdu2">750</td>
+                    </tr>
+                    <tr align="center">
+                        <td rowspan="4" class="bdur"> 40</td>
+                        <td rowspan="4" class="bdur"> 177x177</td>
+                        <td class="bdur"> L</td>
+                        <td class="bdur"> 23,648</td>
+                        <td class="bdur"> 7,089</td>
+                        <td class="bdur"> 4,296</td>
+                        <td class="bdur"> 2,953</td>
+                        <td class="bdu"> 1,817</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> M</td>
+                        <td class="bdur"> 18,672</td>
+                        <td class="bdur"> 5,596</td>
+                        <td class="bdur"> 3,391</td>
+                        <td class="bdur"> 2,331</td>
+                        <td class="bdu"> 1,435</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> Q</td>
+                        <td class="bdur"> 13,328</td>
+                        <td class="bdur"> 3,993</td>
+                        <td class="bdur"> 2,420</td>
+                        <td class="bdur"> 1,663</td>
+                        <td class="bdu"> 1,024</td>
+                    </tr>
+                    <tr align="center">
+                        <td class="bdur"> H</td>
+                        <td class="bdur"> 10,208</td>
+                        <td class="bdur"> 3,057</td>
+                        <td class="bdur"> 1,852</td>
+                        <td class="bdur"> 1,273</td>
+                        <td class="bdu"> 784</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sect2" title="Error correction level"><div class="titlepage"><div><div><h3 class="title"><a name="id2616457"></a>Error correction level</h3></div></div></div>
+            
+            <p>As shown in <a class="xref" href="ch27.html#table.qr-symbol-sizes" title="Table 27.2. Maximum data capacity for the different symbol sizes in the QR-code.">Table 27.2. Maximum data capacity for the
+                    different symbol sizes in the QR-code.</a> the QR standard specifies
+                four different error correction levels. In the library the error correction can
+                either be set to be chosen automatically or specified manually. The properties of
+                the available error correction levels are given in <a class="xref" href="ch27.html#table.qr-error-correction-levels" title="Table 27.3. QR Error correction levels">Table 27.3. QR Error correction levels</a>. The "<span class="italic">Error correction capacity</span>" column specifies how large percentage of
+                the codewords that can be destroyed and the code still being decoded.</p>
+            <p>
+                </p><div class="table"><a name="table.qr-error-correction-levels"></a><p class="title"><b>Table 27.3. QR Error correction levels</b></p><div class="table-contents">
+                    
+                    <table summary="QR Error correction levels" border="1"><colgroup><col width="85.16pt" class="c1"><col width="164.9pt" class="c2"><col width="168.0pt" class="c3"></colgroup><thead><tr><th align="center">Error level</th><th align="center">Symbolic constant</th><th align="center">Error correction capacity</th></tr></thead><tbody><tr><td align="center">L</td><td align="center"><code class="code">QRCapacity::ErrL</code></td><td align="center">5 %</td></tr><tr><td align="center">M</td><td align="center"><code class="code">QRCapacity::ErrM</code></td><td align="center">15 %</td></tr><tr><td align="center">Q</td><td align="center"><code class="code">QRCapacity::ErrQ</code></td><td align="center">25 %</td></tr><tr><td align="center">H</td><td align="center"><code class="code">QRCapacity::ErrH</code></td><td align="center">30 %</td></tr></tbody></table>
+                </div></div><p><br class="table-break">
+            </p>
+        </div>
+        <div class="sect2" title="Comparing the visual output with other QR-generating software"><div class="titlepage"><div><div><h3 class="title"><a name="id2616507"></a>Comparing the visual output with other QR-generating software</h3></div></div></div>
+            
+            <p>It is possible that the JpGraph library gives a visually different result than
+                some other available QR encoders. As a matter of fact many QR encoders gives a
+                different visual result from the same input. This does not mean that one QR encoder
+                is more correct than any other. This is a consequence of interpretation of the
+                standard in a way that (without going into technical details) does not in any way
+                affect the decoding of the barcode. It only affects the visual appearance.</p>
+        </div>
+    </div>
+    
+    
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt06.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

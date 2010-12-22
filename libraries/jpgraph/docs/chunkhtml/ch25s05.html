@@ -1,0 +1,100 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Adjusting the output</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch25.html" title="Chapter 25. PDF417 (2D-Barcode)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Adjusting the output</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 25. PDF417 (2D-Barcode)</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Adjusting the output"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2602084"></a>Adjusting the output</h2></div></div></div>
+        
+        <p>This section deals with the way you can adjust the visual quality and appearance of
+            the output by adjusting a number of properties on the backend.</p>
+        <div class="sect2" title="Output format"><div class="titlepage"><div><div><h3 class="title"><a name="id2602136"></a>Output format</h3></div></div></div>
+            
+            <p>By choosing the appropriate backend you can choose to generate the barcode label
+                as either an image (in either PNG or JPEG format) or as Postscript (both standalone
+                and Encapsulated postscript) . For images the PNG is strongly recommended and used
+                by default. The reason is that PNG is a non-destructive format and will ensure the
+                maximum quality of the barcodes while JPEG is not well suited for this type of
+                applications since it is a destructive format. </p>
+            <p>This choice is being made by creating the appropriate backend. The backend is
+                created by calling the factory method <code class="code">PDF417BackendFactory::Create()</code>
+                specifying what type of backend and what encoder to use. The backend factory will
+                then return a suitable encoder.</p>
+            <p>The following code snippet shows how to create a backend that will generate an
+                image.</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new encode using the default error correction</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> and columns</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">PDF417Barcode</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">PDF417BackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-code">, </span><span class="hl-var">$encoder</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>It is also possible to have one encoder and two different backends to allow the
+                creation of both image and postscript output at the same time as the following
+                example shows </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$date</span><span class="hl-code">=</span><span class="hl-quotes">'</span><span class="hl-string">ABC123</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-var">$file</span><span class="hl-code">=</span><span class="hl-quotes">'</span><span class="hl-string"> ...</span><span class="hl-quotes">'</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> Some filename to write the PS file to</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new encode using the default error correction</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> and columns</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">PDF417Barcode</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$eImg</span><span class="hl-code"> = </span><span class="hl-identifier">PDF417BackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-code">, </span><span class="hl-var">$encoder</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$eEPS</span><span class="hl-code"> = </span><span class="hl-identifier">PDF417BackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">BACKEND_EPS</span><span class="hl-code">, </span><span class="hl-var">$encoder</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$eEPS</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-code">,</span><span class="hl-var">$file</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$eImg</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Summary of user settings for the backend"><div class="titlepage"><div><div><h3 class="title"><a name="id2602186"></a>Summary of user settings for the backend</h3></div></div></div>
+            
+            <p>In the list below is a short description of the available possibilities to change
+                the output. For a more detailed explanation of the parameters for each method please
+                consult the method reference at the end of this chapter</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><span class="bold"><strong>Specifying the module width.</strong></span> The
+                            module width for the barcode is user selectable, For images this
+                            specifies the number of pixels for the module and for Postscript output
+                            this specifies the number of points (1/72 inch).</p>
+                    </li><li class="listitem">
+                        <p><span class="bold"><strong>Specifying the width/height factor</strong></span>
+                            Specify the height of each individual row in the barcode as a multiple
+                            of the width. By default the height is 3x the width.</p>
+                    </li><li class="listitem">
+                        <p><span class="bold"><strong>Specifying background and foreground
+                                color</strong></span> The foreground color and the background color for
+                            the barcodes are user selectable. The colors can be specified as any of
+                            JpGraphs builtin colors.</p>
+                    </li><li class="listitem">
+                        <p><span class="bold"><strong>Adding human readable text</strong></span> This is an
+                            extension to the PDF417 standard. This adds a plaintext string of the
+                            data that has been encoded under the barcode. This is useful when
+                            debugging applications to make sure that the right values have been
+                            read, for example, from a DB.</p>
+                    </li><li class="listitem">
+                        <p>Rotating 90 degrees (Vertical output) This enables the barcode to be
+                            printed vertically.</p>
+                    </li><li class="listitem">
+                        <p>Scaling the image The resulting barcode images can be scaled by an
+                            arbitrary factor.</p>
+                    </li></ul></div><p>
+            </p>
+        </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch25.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

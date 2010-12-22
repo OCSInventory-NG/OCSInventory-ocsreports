@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_ERRORLINEPLOT"><b>ErrorLinePlot</b></a> Extends <a style="font-size:14pt;text-decoration:underline;"href="ErrorPlot.html#_C_ERRORPLOT " style="font-face:arial;font-weight:bold;">ErrorPlot </a></div>
+<i>(Defined in: jpgraph_error.php : 87)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="ErrorLinePlot.html" style="font-family:arial;font-weight:bold;color:darkblue;">ErrorLinePlot</a>&nbsp;</td><td align="center" style="background:lightgray;" >&nbsp;<a href="ErrorPlot.html" style="font-family:arial;font-weight:bold;color:darkblue;">ErrorPlot</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="ErrorLinePlot.html#_ERRORLINEPLOT___CONSTRUCT">__construct()</a>&nbsp;<br>
+</td><td valign=top>&nbsp;<a href="ErrorPlot.html#_ERRORPLOT___CONSTRUCT" style="color:darkgrey;">__construct()&nbsp;</a><br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>The error line plot is much the same as the error plot with the addition of a line between the average value of each error plot pair. The properties of the line may be accessed through the ?line? property of the ErrLinePlot, so for example to draw a red line you issue the statement
+
+$errlineplot->line->SetColor(?red?); <p> &nbsp;
+<div style="font-weight:bold;font-family:arial;font-size:85%;">See also related classes:</div><a href="LinePlot.html">LinePlot</a> and <a href="ErrorPlot.html">ErrorPlot</a> <p> &nbsp;<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_ERRORLINEPLOT___CONSTRUCT"><span style="color:#555555;">ErrorLinePlot ::</span><br><b>__construct</b>($datay, $datax)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>//---------------// CONSTRUCTOR
+</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$datay</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$datax</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">false</span>
+</span>
+</td><td>X-data value</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>In the same way as for Error plots each data value is represnted by two y-values, a minimum and maximum value for each point.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="ErrorPlot.html#_ERRORPLOT___CONSTRUCT">ErrorPlot::__construct()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$errlineplot&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">ErrorLinePlot</span><span style="color: #007700">(</span><span style="color: #0000BB">$ydata</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p> <hr> <p></html>

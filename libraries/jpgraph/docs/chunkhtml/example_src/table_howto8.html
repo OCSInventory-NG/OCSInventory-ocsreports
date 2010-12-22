@@ -1,0 +1,84 @@
+<div style="font-weight: bold;margin-left:15px;">table_howto8.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_canvas.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_table.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a canvas graph where the table can be added</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">CanvasGraph</span><span class="hl-brackets">(</span><span class="hl-number">150</span><span class="hl-code">,</span><span class="hl-number">90</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the basic table</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">,</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-brackets">)</span><span class="hl-code">, </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">6</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GTextTable</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup overall table font</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">11</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup font and color for row = 2</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetRowFont</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">11</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetRowFillColor</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">orange@0.5</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup minimum color width</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMinColWidth</span><span class="hl-brackets">(</span><span class="hl-number">35</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup overall cell alignment for the table</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetAlign</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">right</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup overall table border</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetBorder</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">black</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup overall table grid</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">setGrid</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">black</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set specific frid for row = 2</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetRowGrid</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">black</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-identifier">TGRID_DOUBLE2</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the table to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$table</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> and send it back to the browser</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

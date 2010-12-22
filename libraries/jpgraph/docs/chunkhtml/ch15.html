@@ -1,0 +1,1821 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 15. Different types of linear (cartesian) graph types</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt04.html" title="Part IV. Creating linear and non-linear graphs"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 15. Different types of linear (cartesian) graph types</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part IV. Creating linear and non-linear graphs</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 15. Different types of linear (cartesian) graph types"><div class="titlepage"><div><div><h2 class="title"><a name="id2554010"></a>Chapter 15. Different types of linear (cartesian) graph types</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch15.html#id2553962">15.1. Basic Line and area graphs</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch15.html#sec2.creating-line-graph">15.1.1. Creating a line graph</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2554907">15.1.2. Automatic interpolation of unknown data</a></span></dt><dt><span class="sect2"><a href="ch15.html#sec.adding-marks">15.1.3. Adding marks to the plot (a.k.a. plot marks)</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2555079">15.1.4. Displaying the values at the data points</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2555706">15.1.5. Adding several data series to the same graph</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2555784">15.1.6. Adding a second Y-axis</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2555973">15.1.7. Adding a legend box to the graph</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2556231">15.1.8. Changing the style of the line plot - using the step-style</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2556258">15.1.9. Optimizing line plot using "fast drawing"</a></span></dt><dt><span class="sect2"><a href="ch15.html#sec2.creating-area-graph">15.1.10. Creating a filled line graphs (a.k.a. area plots)</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2557119">15.1.11. Partially filled area graphs</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2557375">15.1.12. Filled lines with NULL values</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2557421">15.1.13. Accumulated line graphs</a></span></dt><dt><span class="sect2"><a href="ch15.html#id2557468">15.1.14. Accumulated line graphs with given X-labels</a></span></dt><dt><span class="sect2"><a href="ch15.html#sec2.creating-cubic-splines">15.1.15. Constructing smooth line plots with Cubic Splines</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch15s02.html">15.2. Bar graphs</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch15s02.html#id2558886">15.2.1. Accumulated bar plots</a></span></dt><dt><span class="sect2"><a href="ch15s02.html#id2559176">15.2.2. Grouped bar plots</a></span></dt><dt><span class="sect2"><a href="ch15s02.html#id2559365">15.2.3. Grouped accumulated bar graphs</a></span></dt><dt><span class="sect2"><a href="ch15s02.html#id2559425">15.2.4. Horizontal bar graphs</a></span></dt><dt><span class="sect2"><a href="ch15s02.html#id2559503">15.2.5. Adjusting the appearance of bar graphs</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch15s03.html">15.3. Error plot graphs</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch15s03.html#id2560625">15.3.1. Line error plots</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch15s04.html">15.4. Stock graphs</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch15s04.html#id2561152">15.4.1. Stock plot variant: Boxplot</a></span></dt><dt><span class="sect2"><a href="ch15s04.html#id2561251">15.4.2.  Image maps for Box and Stock charts</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch15s05.html">15.5. Scatter graphs</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch15s05.html#id2561472">15.5.1. Combining marks with a line</a></span></dt><dt><span class="sect2"><a href="ch15s05.html#id2561573">15.5.2. Creating impulse (or stem) - plots</a></span></dt><dt><span class="sect2"><a href="ch15s05.html#sec1.creating-field-graphs">15.5.3. Field plots</a></span></dt><dt><span class="sect2"><a href="ch15s05.html#sec1.creating-balloon-graphs">15.5.4. Balloon plots</a></span></dt><dt><span class="sect2"><a href="ch15s05.html#sec1.creating-geo-maps">15.5.5. Creating Geo-maps</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch15s06.html">15.6. Contour graphs </a></span></dt><dd><dl><dt><span class="sect2"><a href="ch15s06.html#id2562600">15.6.1. Input data for contour graphs</a></span></dt><dt><span class="sect2"><a href="ch15s06.html#sec.creating-contour-graph">15.6.2. Creating a contour graph</a></span></dt><dt><span class="sect2"><a href="ch15s06.html#id2562850">15.6.3. Adjusting the color and number of isobar lines</a></span></dt><dt><span class="sect2"><a href="ch15s06.html#sec.grid-interpolating">15.6.4. Understanding mesh interpolation</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch15s07.html">15.7. Combining several different plot types in the same graph</a></span></dt><dt><span class="sect1"><a href="ch15s08.html">15.8. Creating several graphs in the same image</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch15s08.html#id2563975">15.8.1. Creating a combined graph</a></span></dt><dt><span class="sect2"><a href="ch15s08.html#id2564308">15.8.2. Adding background images </a></span></dt><dt><span class="sect2"><a href="ch15s08.html#id2564429">15.8.3. Creating rotated combined graphs</a></span></dt><dt><span class="sect2"><a href="ch15s08.html#id2564532">15.8.4. Some caveats when using MGraph</a></span></dt></dl></dd></dl></div>
+        
+        <p>
+            </p><div class="figure"><a name="id2554057"></a><p class="title"><b>Figure 15.1. Supported linear graph types in the library</b></p><div class="figure-contents">
+                
+                <div class="informaltable">
+                    <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_line.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>a) Line plot</p>
+                                    <p>(See <a class="xref" href="ch15.html#sec2.creating-line-graph" title="Creating a line graph">Creating a line graph</a>)</p>
+                                </td><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_area.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>b) Area plot</p>
+                                    <p>(See <a class="xref" href="ch15.html#sec2.creating-area-graph" title="Creating a filled line graphs (a.k.a. area plots)">Creating a filled line graphs (a.k.a. area plots)</a>)</p>
+                                </td><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_bar.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>c) Bar plot</p>
+                                    <p>(See <a class="xref" href="ch15s02.html" title="Bar graphs">Bar graphs</a>)</p>
+                                </td></tr><tr><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_field.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>a) Field plot</p>
+                                    <p>(See <a class="xref" href="ch15s05.html#sec1.creating-field-graphs" title="Field plots">Field plots</a>)</p>
+                                </td><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_error.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>b) Error plot</p>
+                                    <p>(See <a class="xref" href="ch15s03.html" title="Error plot graphs">Error plot graphs</a>)</p>
+                                </td><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_stock.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>c) Stock plot</p>
+                                    <p>(See <a class="xref" href="ch15s04.html" title="Stock graphs">Stock graphs</a>)</p>
+                                </td></tr><tr><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_geomap.jpg" alt="Supported linear graph types in the library"></span></p>
+                                    <p>a) Geo-map plot</p>
+                                    <p>(See <a class="xref" href="ch15s05.html#sec1.creating-geo-maps" title="Creating Geo-maps">Creating Geo-maps</a>)</p>
+                                </td><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_impuls.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>b) Impuls (stem) plot</p>
+                                    <p>(See <a class="xref" href="ch15s05.html" title="Scatter graphs">Scatter graphs</a>)</p>
+                                </td><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_spline.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>c) Spline plot</p>
+                                    <p>(See <a class="xref" href="ch15.html#sec2.creating-cubic-splines" title="Constructing smooth line plots with Cubic Splines">Constructing smooth line plots with Cubic Splines</a>)</p>
+                                </td></tr><tr><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_balloon.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>a) Balloon plot</p>
+                                    <p>(See <a class="xref" href="ch15s05.html#sec1.creating-balloon-graphs" title="Balloon plots">Balloon plots</a>)</p>
+                                </td><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_scatter.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>b) Scatter plot</p>
+                                    <p>(See <a class="xref" href="ch15s05.html" title="Scatter graphs">Scatter graphs</a>)</p>
+                                </td><td align="center">
+                                    <p><span class="inlinemediaobject"><img src="images/ploticon_contour.png" alt="Supported linear graph types in the library"></span></p>
+                                    <p>c) Contour plot</p>
+                                    <p>(See <a class="xref" href="ch15s06.html" title="Contour graphs">Contour graphs </a>)</p>
+                                </td></tr></tbody></table>
+                </div>
+            </div></div><p><br class="figure-break">
+        </p>
+        <div class="sect1" title="Basic Line and area graphs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2553962"></a>Basic Line and area graphs</h2></div></div></div>
+            
+            <p>Line graphs (we will use the term line graph to refer to an entire graph and the
+                term line plot to refer to a single data series in a line graph) is together with
+                bar graphs the simplest and perhaps the most commonly used graph type. In <a class="xref" href="ch04s02.html" title="Graphing the number of sun spots during the 19th Century">Graphing the number of sun spots during the 19th Century</a> we have already shown an example of a
+                line graph without explaining to much of the details. The remainder of the section
+                will go into some more details on the options available when creating a line
+                graph.</p>
+            <div class="sect2" title="Creating a line graph"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.creating-line-graph"></a>Creating a line graph</h3></div></div></div>
+                
+                <p>A line graph always make use of one or several instances of the <code class="code">class
+                        LinePlot</code> which represent one plotted data series in the graph. In all
+                    our example we follow the naming convention to always name the instance of the
+                    LinePlot class as "<code class="code">$lineplot</code>"</p>
+                <p>The absolutely simplest line graph that is possible to create is shown in
+                        <a class="xref" href="ch15.html#fig.example0-0" title="Figure 15.2. The most simple line graph (example0-0.php)">Figure 15.2. The most simple line graph <code class="uri"><a class="uri" href="example_src/example0-0.html" target="_top">(<code class="filename">example0-0.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="example"><a name="example.example0-0"></a><p class="title"><b>Example 15.1. The most simple line graph (<code class="filename">example0-0.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_line.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Some (random) data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$ydata</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">11</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">9</span><span class="hl-code">,</span><span class="hl-number">13</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Size of the overall graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$width</span><span class="hl-code">=</span><span class="hl-number">350</span><span class="hl-code">;
+</span><span class="hl-var">$height</span><span class="hl-code">=</span><span class="hl-number">250</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the graph and set a scale.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> These two calls are always required</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-var">$width</span><span class="hl-code">,</span><span class="hl-var">$height</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">intlin</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the linear plot</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$lineplot</span><span class="hl-code">=</span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$ydata</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the plot to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$lineplot</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Display the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.example0-0"></a><p class="title"><b>Figure 15.2. The most simple line graph <code class="uri"><a class="uri" href="example_src/example0-0.html" target="_top">(<code class="filename">example0-0.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example0-0.png" alt="The most simple line graph (example0-0.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>There are a number of things to point out here</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p>Both the X and Y axis have been automatically scaled and since we
+                                didn't provide any x-scale the data point have been numbered
+                                automatically starting at 0</p>
+                        </li><li class="listitem">
+                            <p>By default the Y-grid is enabled and displayed in a "soft"
+                                color</p>
+                        </li><li class="listitem">
+                            <p>By default the overall graph has a black bordered and a light gray
+                                margin</p>
+                        </li><li class="listitem">
+                            <p>By default the size of the margin around the plot area is
+                                automatically calculated</p>
+                        </li></ul></div><p>
+                </p>
+                <p>While the above example is a perfectly fine graph it looks a bit poor and we
+                    could probably make use of a graph title as well as titles on the axis to
+                    explain the units we are working with. So lets change the simple graph in <a class="xref" href="ch15.html#fig.example0-0" title="Figure 15.2. The most simple line graph (example0-0.php)">Figure 15.2. The most simple line graph <code class="uri"><a class="uri" href="example_src/example0-0.html" target="_top">(<code class="filename">example0-0.php</code>)</a></code> </a> by adding a few lines to set some titles and
+                    get the modified graph shown in <a class="xref" href="ch15.html#fig.example2" title="Figure 15.3. Adding some titles (example2.php)">Figure 15.3. Adding some titles <code class="uri"><a class="uri" href="example_src/example2.html" target="_top">(<code class="filename">example2.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="example"><a name="example.example2"></a><p class="title"><b>Example 15.2. Adding some titles (<code class="filename">example2.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_line.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Some (random) data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$ydata</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">11</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">9</span><span class="hl-code">,</span><span class="hl-number">13</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Size of the overall graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$width</span><span class="hl-code">=</span><span class="hl-number">350</span><span class="hl-code">;
+</span><span class="hl-var">$height</span><span class="hl-code">=</span><span class="hl-number">250</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the graph and set a scale.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> These two calls are always required</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-var">$width</span><span class="hl-code">,</span><span class="hl-var">$height</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">intlin</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup margin and titles</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">40</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Calls per operator</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">subtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">(March 12, 2008)</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Operator</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">yaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string"># of calls</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the linear plot</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$lineplot</span><span class="hl-code">=</span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$ydata</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the plot to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$lineplot</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Display the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.example2"></a><p class="title"><b>Figure 15.3. Adding some titles <code class="uri"><a class="uri" href="example_src/example2.html" target="_top">(<code class="filename">example2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example2.png" alt="Adding some titles (example2.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>Worth noting in this example are</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p>The main graph class instance ($graph) is used as the base to
+                                access most properties of the overall graph</p>
+                        </li><li class="listitem">
+                            <p>The margins have been slightly increased to account for the titles
+                                of the axis</p>
+                        </li><li class="listitem">
+                            <p>The default position for the title of the x-axis is on the far
+                                right and for the y-axis it is placed centered in the middle and
+                                rotated in a 90 angle (vertical).</p>
+                        </li></ul></div><p>
+                </p>
+                <p>A nice change would now be to have the titles of the axis in a bold font and
+                    the line plot a little bit thicker and in blue color. Let's do that by adding
+                    the lines</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">title</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">SetFont</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">FF_FONT1</span><span class="hl-code"> , </span><span class="hl-identifier">FS_BOLD</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">yaxis</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">title</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">SetFont</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">FF_FONT1</span><span class="hl-code"> , </span><span class="hl-identifier">FS_BOLD</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">xaxis</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">title</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">SetFont</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">FF_FONT1</span><span class="hl-code"> , </span><span class="hl-identifier">FS_BOLD</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lineplot</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">SetColor</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">blue</span><span class="hl-quotes">'</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lineplot</span><span class="hl-code"> -&gt; </span><span class="hl-identifier">SetWeight</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-number">2</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;   </span><span class="hl-comment">//</span><span class="hl-comment"> Two pixel wide </span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>As was explained in <a class="xref" href="ch08.html" title="Chapter 8. Text and font handling">Chapter 8. <i>Text and font handling</i></a> this will adjust
+                    the fonts of the titles to make use of a bold variant of the built-in bitmap
+                    fonts. Please note the consistent naming conventions used in the library. Most
+                    objects support a common set of basic methods to adjust font, size and colors
+                    wherever such concepts make sense.</p>
+                <p>The result of adding these lines are shown in <a class="xref" href="ch15.html#fig.example3" title="Figure 15.4. Changing fonts of the axis titles and adjusting plot weight (example3.php)">Figure 15.4. Changing fonts of the axis titles and adjusting plot weight <code class="uri"><a class="uri" href="example_src/example3.html" target="_top">(<code class="filename">example3.php</code>)</a></code> </a> (click on the link in the title to see the full source).</p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3"></a><p class="title"><b>Figure 15.4. Changing fonts of the axis titles and adjusting plot weight <code class="uri"><a class="uri" href="example_src/example3.html" target="_top">(<code class="filename">example3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.png" alt="Changing fonts of the axis titles and adjusting plot weight (example3.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>As a final touch lets make the y-axis have the same color as the data series
+                    to stronger show the connection between the data and the scale. At the same time
+                    we take the opportunity to add a drop shadow to the overall graph. We do both of
+                    these things by adding the following two lines at appropriate places in the
+                    script</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetShadow</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">yaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">blue</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The results is shown in <a class="xref" href="ch15.html#fig.example3.0.1" title="Figure 15.5. Adding drop shadow and changing axis color (example3.0.1.php)">Figure 15.5. Adding drop shadow and changing axis color <code class="uri"><a class="uri" href="example_src/example3.0.1.html" target="_top">(<code class="filename">example3.0.1.php</code>)</a></code> </a> below</p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3.0.1"></a><p class="title"><b>Figure 15.5. Adding drop shadow and changing axis color <code class="uri"><a class="uri" href="example_src/example3.0.1.html" target="_top">(<code class="filename">example3.0.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.0.1.png" alt="Adding drop shadow and changing axis color (example3.0.1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>
+                    </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                        <p>Remember that the library has multiple ways to handle null data values
+                            as described in <a class="xref" href="ch13s06.html" title="Different types of NULL data handling">Different types of NULL data handling</a></p>
+                    </div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Automatic interpolation of unknown data"><div class="titlepage"><div><div><h3 class="title"><a name="id2554907"></a>Automatic interpolation of unknown data</h3></div></div></div>
+                
+                <p>Line graphs supports automatic linear interpolation of missing data point if
+                    the missing data point is replaced by a '-' (hyphen character) for more on
+                    handling of NULLs in the input data see <a class="xref" href="ch13s06.html" title="Different types of NULL data handling">Different types of NULL data handling</a>. </p>
+                <p>
+                    </p><div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                        <div class="figure"><a name="fig.example3.0.3"></a><p class="title"><b>Figure 15.6. Original null values <code class="uri"><a class="uri" href="example_src/example3.0.3.html" target="_top">(<code class="filename">example3.0.3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.0.3.png" alt="Original null values (example3.0.3.php)"></span> </div></div><br class="figure-break">
+                                    </td><td>
+                                        <div class="figure"><a name="fig.example3.0.2"></a><p class="title"><b>Figure 15.7. Using '-' to get interpolated lines <code class="uri"><a class="uri" href="example_src/example3.0.2.html" target="_top">(<code class="filename">example3.0.2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.0.2.png" alt="Using '-' to get interpolated lines (example3.0.2.php)"></span> </div></div><br class="figure-break">
+                                    </td></tr></tbody></table>
+                    </div><p>
+                </p>
+                <p>There is one option to control the behavior of the interpolation together with
+                    accumulated line plots and that is how to handle the case where the initial or
+                    ending data are unknown.</p>
+                <p>For accumulated line plots (see below) this is especially critical since each
+                    value is plotted with an offset of the "previous" plot and hence all values must
+                    be known. By default if the first data value is unknown it will be set to the
+                    same value as the first found non-null value. It is also possible, for
+                    accumulated line plots, to force the first and last unknown value to be equal to
+                    0 (zero). This is controlled by the method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">AccLinePlot::SetInterpolateMode($aForceZero)</code></p>
+                            <p>A value of true for the for the argument will force any first or
+                                last unknown values to be interpreted as 0 for an accumulated line
+                                plot.</p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Adding marks to the plot (a.k.a. plot marks)"><div class="titlepage"><div><div><h3 class="title"><a name="sec.adding-marks"></a>Adding marks to the plot (a.k.a. plot marks)</h3></div></div></div>
+                
+                <p>Another common embellishment of plots is to add markers for each data point.
+                    The library supports a large number of built-in plot marks as well as the
+                    ability to use arbitrary images as plot marks. Plot marks are instantiated as an
+                    instance of <code class="code">class PlotMark</code> defined in the module
+                        "<code class="filename">jpgraph:plotmark.inc.php</code>"</p>
+                <p>There are three types of built-in plot marks</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p><span class="bold"><strong>Line based. </strong></span></p>
+                            <p>These marks are drawn directly by the library at the appropriate
+                                places in the graph. These marks are simple rectangles, squares,
+                                stars etc The size and colors (both edge and fill) are user
+                                adjustable.</p>
+                        </li><li class="listitem">
+                            <p><span class="bold"><strong>Image based symbols. </strong></span></p>
+                            <p>These marks look much more "refined" and are actually small
+                                built-in images that are scaled and placed (copied) to the
+                                appropriate position in the graph. Since these are predefined images
+                                they are only available in a certain number of colors and shapes.
+                            </p>
+                        </li><li class="listitem">
+                            <p><span class="bold"><strong>Country flags</strong></span></p>
+                            <p>As was previously discussed the library supports (as of Dec 2008)
+                                all known countries and it is possible to use the country flags both
+                                as background in the graphs as well as plot marks.</p>
+                        </li></ol></div><p>
+                </p>
+                <p>A full list of all available built-in plot marks and there symbolic names are
+                    given in <a class="xref" href="ape.html" title="Appendix E. Available plot marks">Appendix E. <i>Available plot marks</i></a>.</p>
+                <p>For now lets keep things simple and just add a small triangle at each of the
+                    specified data points by adding the lines</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$lineplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetType</span><span class="hl-brackets">(</span><span class="hl-identifier">MARK_UTRIANGLE</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lineplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">blue</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lineplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">red</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>
+                    </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                        <p>The colors of the marks will, if you don't specify them explicitly,
+                            follow the line color. Please note that if you want different colors for
+                            the marks and the line the call to <code class="code">SetColor()</code> for the marks
+                            must be done after the call to the <code class="code">SetColor()</code> for the line
+                            since the marks color will always be reset to the lines color when you
+                            set the line color.</p>
+                    </div><p>
+                </p>
+                <p>The result after making these modifications are shown in <a class="xref" href="ch15.html#fig.example3.1" title="Figure 15.8. Adding basic plot marks to the plot (example3.1.php)">Figure 15.8. Adding basic plot marks to the plot <code class="uri"><a class="uri" href="example_src/example3.1.html" target="_top">(<code class="filename">example3.1.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3.1"></a><p class="title"><b>Figure 15.8. Adding basic plot marks to the plot <code class="uri"><a class="uri" href="example_src/example3.1.html" target="_top">(<code class="filename">example3.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.1.png" alt="Adding basic plot marks to the plot (example3.1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>
+                    </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                        <p>In addition to the built in plot marks it is also possible to use a
+                            user specified image as a plot mark. See <a class="xref" href="ch14s02.html#fig.footerex1" title="Figure 14.11. Adding a left,right and center footer (footerex1.php)">Figure 14.11. Adding a left,right and center footer <code class="uri"><a class="uri" href="example_src/footerex1.html" target="_top">(<code class="filename">footerex1.php</code>)</a></code> </a> for an example of how to use this
+                            feature. To use this feature the plot mark type is specified as
+                                <code class="code">MARK_IMG</code> and the file name of the image is given. For
+                            example the following line will us the image file "myimage.jpg" as plot
+                            marks and scale the image to 50% of its original size</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$lineplot-&gt;mark-&gt;SetType(MARK_IMG,'myimage.jpg','0.5');</span></pre></td></tr></table></div><p>
+                        </p>
+                    </div><p>
+                </p>
+                <p>As a final example we show an example of using one of the built-in image marks
+                    by adding the line</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$lineplot-&gt;mark-&gt;SetType(MARK_IMG_DIAMOND,'red',0.5);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>This will add a red diamond mark scaled to 50% of its original size to better
+                    fit the overall size of the graph. The result of adding this is shown in <a class="xref" href="ch15.html#fig.example3.1.1" title="Figure 15.9. Using one of the built-in images as plot mark, MARK_IMG_DIAMOND (example3.1.1.php)">Figure 15.9. Using one of the built-in images as plot mark, MARK_IMG_DIAMOND <code class="uri"><a class="uri" href="example_src/example3.1.1.html" target="_top">(<code class="filename">example3.1.1.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3.1.1"></a><p class="title"><b>Figure 15.9. Using one of the built-in images as plot mark, MARK_IMG_DIAMOND <code class="uri"><a class="uri" href="example_src/example3.1.1.html" target="_top">(<code class="filename">example3.1.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.1.1.png" alt="Using one of the built-in images as plot mark, MARK_IMG_DIAMOND (example3.1.1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>
+                    </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                        <p>Note that some of the built in images are available in different
+                            sizes. The reason is that even though it is possible to n scale them by
+                            the third argument there is a visual degradation to scale an image
+                            larger than it's original size since some pixels needs to be
+                            interpolated. Reducing the size with a scale &lt; 1.0 gives much better
+                            visual appearance.</p>
+                    </div><p>
+                </p>
+                <p>In order to use one of the available country flags the type is specified as
+                        <code class="code">MARK_FLAG1</code>, <code class="code">MARK_FLAG2</code>, <code class="code">MARK_FLAG3</code> or
+                        <code class="code">MARK_FLAG4</code> which represent the native size of the flag (in
+                    increasing order). The second argument to <code class="code">SetType()</code> is either the
+                    ordinal index number of the country flag or its short name (as listed <a class="xref" href="apf.html" title="Appendix F. List of all country flags">Appendix F. <i>List of all country flags</i></a>). The following example illustrates both
+                    these methods of specifying the country flags. The two critical lines are</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$p1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetType</span><span class="hl-brackets">(</span><span class="hl-identifier">MARK_FLAG1</span><span class="hl-code">,</span><span class="hl-number">197</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetType</span><span class="hl-brackets">(</span><span class="hl-identifier">MARK_FLAG1</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">united states</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>and the result of creating a graph with some data using country flags as data
+                    markers are shown in <a class="xref" href="ch15.html#fig.markflagex1" title="Figure 15.10. Using country flags as plot marks (markflagex1.php)">Figure 15.10. Using country flags as plot marks <code class="uri"><a class="uri" href="example_src/markflagex1.html" target="_top">(<code class="filename">markflagex1.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.markflagex1"></a><p class="title"><b>Figure 15.10. Using country flags as plot marks <code class="uri"><a class="uri" href="example_src/markflagex1.html" target="_top">(<code class="filename">markflagex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/markflagex1.png" alt="Using country flags as plot marks (markflagex1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>In addition the plot mark formatting shown above plot marks also supports
+                    formating through the use of a callback function. The callback function will be
+                    passed the y-value as its only argument and the callback function must return an
+                    array consisting of three value, weight, color and fill-color. This could be
+                    used to for example alter the colors of the plot marks depending on the actual
+                    value. A common use of this feature is to create "balloon" scatter plot where a
+                    variable sized filled circle is positioned at specific data points. This is a
+                    way t create a 2D plot which conveys three values at each data point, x,y and
+                    size. In the section on Scatter plot (see <a class="xref" href="ch15s05.html" title="Scatter graphs">Scatter graphs</a>) we show an example of
+                    this.</p>
+            </div>
+            <div class="sect2" title="Displaying the values at the data points"><div class="titlepage"><div><div><h3 class="title"><a name="id2555079"></a>Displaying the values at the data points</h3></div></div></div>
+                
+                <p>Lets continue the previous example by making some minor adjustments to also
+                    show the values at each data point. The data label at each data point is
+                    represented by the instance variable "$value". This is an instance of the
+                        <code class="code">class DisplayValue</code> and all normal text attributes can be
+                    adjusted (e.g. color, size, fonts etc). The value is applied to all
+                    labels.</p>
+                <p>In addition to the usual text formatting it is also possible to adjust how the
+                    numeric data labels is formatted. This is done by one of two ways.</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>by submitting a suitable format string. This format string follows
+                                the same syntax as the <code class="code">printf()</code> format string.</p>
+                        </li><li class="listitem">
+                            <p>by specifying a format callback function. This callback function
+                                must take exactly one argument (which is the data value) and return
+                                the wanted string that should be displayed.</p>
+                        </li></ol></div><p>
+                </p>
+                <p>In order to display the values the first thing that must happen is to enable
+                    the values. This is done by a call to </p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$lineplot-&gt;value-&gt;Show();</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The result of adding this line is shown in <a class="xref" href="ch15.html#fig.example3.3" title="Figure 15.11.  (example3.3.php)">Figure 15.11.  <code class="uri"><a class="uri" href="example_src/example3.3.html" target="_top">(<code class="filename">example3.3.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3.3"></a><p class="title"><b>Figure 15.11.  <code class="uri"><a class="uri" href="example_src/example3.3.html" target="_top">(<code class="filename">example3.3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.3.png" alt="(example3.3.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>We can now modify the appearance of the labels by changing the font and
+                    changing the way the labels are formatted. We do this by adding the following
+                    lines to the previous example</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$lineplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">value</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lineplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">value</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">darkred</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lineplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">value</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFormat</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">(%d)</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The resulting graph can be seen in <a class="xref" href="ch15.html#fig.example3.4" title="Figure 15.12. Changing the appearance of data labels (example3.4.php)">Figure 15.12. Changing the appearance of data labels <code class="uri"><a class="uri" href="example_src/example3.4.html" target="_top">(<code class="filename">example3.4.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3.4"></a><p class="title"><b>Figure 15.12. Changing the appearance of data labels <code class="uri"><a class="uri" href="example_src/example3.4.html" target="_top">(<code class="filename">example3.4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.4.png" alt="Changing the appearance of data labels (example3.4.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>
+                    </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                        <p>To get 1000' separators use the PHP function number_format() as a
+                            callback function</p>
+                    </div><p>
+                </p>
+                <p>
+                    </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                        <p>To use method in classes as callback the callback method has to be
+                            specified as an array with two string entries. The first entry must be
+                            the class and the second entry must be the method name. Note that
+                            callback method should be static as no instance context can be
+                            created.</p>
+                    </div><p>
+                </p>
+                <p>As a final example we make use of a callback function to format the values as
+                        <span class="italic">Roman Numerals</span> . The result of this can
+                    be seen in <a class="xref" href="ch15.html#fig.example3.4.1" title="Figure 15.13. Formatting display values as roman numerals (example3.4.1.php)">Figure 15.13. Formatting display values as roman numerals <code class="uri"><a class="uri" href="example_src/example3.4.1.html" target="_top">(<code class="filename">example3.4.1.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3.4.1"></a><p class="title"><b>Figure 15.13. Formatting display values as roman numerals <code class="uri"><a class="uri" href="example_src/example3.4.1.html" target="_top">(<code class="filename">example3.4.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.4.1.png" alt="Formatting display values as roman numerals (example3.4.1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Adding several data series to the same graph"><div class="titlepage"><div><div><h3 class="title"><a name="id2555706"></a>Adding several data series to the same graph</h3></div></div></div>
+                
+                <p>Up to now all examples we have shown have only had one data series. As was
+                    mentioned in the introduction a graph can have an unlimited number of data
+                    series (plots) although from a practical consideration (and "viewability") it is
+                    probably best to restrict the number of data series in one graph to less than
+                    5-6.</p>
+                <p>The steps to do this is exactly a repetition of what the examples have shown
+                    up to now. The only thing that is needed is to create the second data series, by
+                    creating a new instance of a the LinePlot class, set the attributes, and finally
+                    add it to the graph.</p>
+                <p>The following lines show how to create the new data series/plot and add it to
+                    the graph (we only show the new lines - not the full script)</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$ydata2</span><span class="hl-code">  = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-number">1</span><span class="hl-code"> , </span><span class="hl-number">19</span><span class="hl-code"> , </span><span class="hl-number">15</span><span class="hl-code"> , </span><span class="hl-number">7</span><span class="hl-code"> , </span><span class="hl-number">22</span><span class="hl-code"> , </span><span class="hl-number">14</span><span class="hl-code"> , </span><span class="hl-number">5</span><span class="hl-code"> , </span><span class="hl-number">9</span><span class="hl-code"> , </span><span class="hl-number">21</span><span class="hl-code"> , </span><span class="hl-number">13</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new data series with a different color</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$lineplot2</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">LinePlot</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$ydata2</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lineplot2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-number">2</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Also add the new data series to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$lineplot2</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>Making these additions will create the graph in <a class="xref" href="ch15.html#fig.example4" title="Figure 15.14. Adding a second data series (example4.php)">Figure 15.14. Adding a second data series <code class="uri"><a class="uri" href="example_src/example4.html" target="_top">(<code class="filename">example4.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example4"></a><p class="title"><b>Figure 15.14. Adding a second data series <code class="uri"><a class="uri" href="example_src/example4.html" target="_top">(<code class="filename">example4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example4.png" alt="Adding a second data series (example4.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>There are two things to note here</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>The Y-scale has changed to accommodate the larger range of
+                                Y-values for the second graph.</p>
+                        </li><li class="listitem">
+                            <p>The colors for each successive data series is allocated
+                                automatically but of course it is also possible to set the color
+                                manually.</p>
+                        </li><li class="listitem">
+                            <p>If you add several plots to the same graph they should contain the
+                                same number of data points. This is not a requirement (the graph
+                                will be automatically scaled to accommodate the plot with the
+                                largest number of points) but it will not look very good since one
+                                of the plot end in the middle of the graph.</p>
+                        </li></ol></div><p>
+                </p>
+                <p>
+                    </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                        <p>Do not mix both manually and automatically assigned colors. When the
+                            library assigns colors to a new line plot it will not check if a certain
+                            color has been previously manually set and used.</p>
+                    </div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Adding a second Y-axis"><div class="titlepage"><div><div><h3 class="title"><a name="id2555784"></a>Adding a second Y-axis</h3></div></div></div>
+                
+                <p>As was discussed in <a class="xref" href="ch14s06.html" title="Using multiple y-axis">Using multiple y-axis</a> it is possible
+                    to add multiple y-axis to a graph. The most common use of this feature is to
+                    just use one extra y-axis with a different scale on the right side of the graph.
+                    To make this common case as easy as possible to manage the library provides some
+                    convenience method to work with one second y-axis (and scale).</p>
+                <p>The second y-axis is accessed through the "<code class="code">$y2axis</code>" property of
+                    the Graph class and its use is completely analogue to the primary y-axis
+                        ("<code class="code">$yaxis</code>").</p>
+                <p>As you saw in the preceding example you could add multiple plots to the same
+                    graph and Y-axis. However what if the two plots you want to display in the graph
+                    has very different ranges? One might for example have Y-values like above but
+                    the other might have Y-values in the 100:s. Even though it is perfectly possible
+                    to add them as above the graph with the smallest values will have a very low
+                    dynamic range since the scale must accommodate for the bigger dynamic range of
+                    the second plot. (One other way of solving this particular problem could be to
+                    use a logarithmic y-scale).</p>
+                <p>The solution to this is to use a second Y-axis with a different scale and add
+                    the second plot to this Y-axis instead. Let's take a look at how that is
+                    accomplished.</p>
+                <p>First we need to create a new data array with large values and secondly we
+                    need to specify a scale for the Y2 axis. This is done by adding the lines</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$y2data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">354</span><span class="hl-code"> , </span><span class="hl-number">200</span><span class="hl-code"> , </span><span class="hl-number">265</span><span class="hl-code"> , </span><span class="hl-number">99</span><span class="hl-code"> , </span><span class="hl-number">111</span><span class="hl-code"> , </span><span class="hl-number">91</span><span class="hl-code"> , </span><span class="hl-number">198</span><span class="hl-code"> , </span><span class="hl-number">225</span><span class="hl-code"> , </span><span class="hl-number">293</span><span class="hl-code"> , </span><span class="hl-number">251</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetY2Scale</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">lin</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>To instruct the library to add this data series to the second y-axis we have
+                    to make use of the method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Graph::AddY2()</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>which is used in analogy with the usual Graph::Add()</p>
+                <p>To make the graph easier to read we set the color of the second y-axis to be
+                    the same as the second data series. The result of this is shown in <a class="xref" href="ch15.html#fig.example5" title="Figure 15.15. Adding a second y-axis to the graph (example5.php)">Figure 15.15. Adding a second y-axis to the graph <code class="uri"><a class="uri" href="example_src/example5.html" target="_top">(<code class="filename">example5.php</code>)</a></code> </a> below.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.example5"></a><p class="title"><b>Figure 15.15. Adding a second y-axis to the graph <code class="uri"><a class="uri" href="example_src/example5.html" target="_top">(<code class="filename">example5.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example5.png" alt="Adding a second y-axis to the graph (example5.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Adding a legend box to the graph"><div class="titlepage"><div><div><h3 class="title"><a name="id2555973"></a>Adding a legend box to the graph</h3></div></div></div>
+                
+                <p>Once we have multiple data series there is a need to separate them and that is
+                    usually done by adding a legend box with suitable titles. As was shown in <a class="xref" href="ch14s04.html" title="Adjusting the position and layout of the legend">Adjusting the position and layout of the legend</a> it is possible to both add a
+                    legend box and adjusts its position. Lets now continue the previous example by
+                    adding a suitable legend box to separate the two data series.</p>
+                <p>Each plot type has a '<code class="code">SetLegend()</code>' method which is used to name
+                    that plot in the legend. So to name the two plots in the previous example we
+                    have been working with so far we need to add the two lines</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$lineplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLegend</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Plot 1</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lineplot2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLegend</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Plot 2</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>As you can see the legend gets automatically sized depending on how many plots
+                    there are that have legend texts to display. By default it is placed with it's
+                    top right corner close to the upper right edge of the graph. Depending on the
+                    image you might want to adjust this or you might want to add a larger margin
+                    which is big enough to accompany the legend. Let's do both.</p>
+                <p>First we increase the right margin and then we place the legend so that it is
+                    roughly centered in the right margin area. We will also enlarge the overall
+                    image so the plot area doesn't get too squeezed.</p>
+                <p>The legend properties is accessed through the '<code class="code">$legend</code>' property
+                    of the graph. So in order to adjust the position (as was described in <a class="xref" href="ch14s04.html" title="Adjusting the position and layout of the legend">Adjusting the position and layout of the legend</a> ) we add the line</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;legend-&gt;SetPos(0.05, 0.5, 'right', 'center');</span></pre></td></tr></table></div><p>
+                </p>
+                <p>This will then give the graph shown in <a class="xref" href="ch15.html#fig.example6" title="Figure 15.16. Adding and adjusting the position of the legend box (example6.php)">Figure 15.16. Adding and adjusting the position of the legend box <code class="uri"><a class="uri" href="example_src/example6.html" target="_top">(<code class="filename">example6.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example6"></a><p class="title"><b>Figure 15.16. Adding and adjusting the position of the legend box <code class="uri"><a class="uri" href="example_src/example6.html" target="_top">(<code class="filename">example6.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example6.png" alt="Adding and adjusting the position of the legend box (example6.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>As a reminder we briefly discuss the working of the <code class="code">SetPos()</code>
+                    method.</p>
+                <p>The position is specified as a fraction of the overall width and height of the
+                    entire graph. This makes it possible for to resize the graph without disturbing
+                    the relative position of the legend. The second two arguments specifies the
+                    anchor point in the legend box that should be aligned with the specified
+                    position.</p>
+                <p>As can be seen in <a class="xref" href="ch15.html#fig.example6" title="Figure 15.16. Adding and adjusting the position of the legend box (example6.php)">Figure 15.16. Adding and adjusting the position of the legend box <code class="uri"><a class="uri" href="example_src/example6.html" target="_top">(<code class="filename">example6.php</code>)</a></code> </a> the legends are by
+                    default placed in a column. It is also possible to adjust this by calling either
+                    the <code class="code">Legend::SetLayout()</code> method or specifically set the number of
+                    columns to use by calling <code class="code">Legend::SetColumns()</code> . Lets change the
+                    layout so the legend texts are set in one row and place the legend box at the
+                    bottom of the graph. If we do this we get the result shown in <a class="xref" href="ch15.html#fig.example6.1" title="Figure 15.17. Adjusting the layout of the texts in the legend box (example6.1.php)">Figure 15.17. Adjusting the layout of the texts in the legend box <code class="uri"><a class="uri" href="example_src/example6.1.html" target="_top">(<code class="filename">example6.1.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example6.1"></a><p class="title"><b>Figure 15.17. Adjusting the layout of the texts in the legend box <code class="uri"><a class="uri" href="example_src/example6.1.html" target="_top">(<code class="filename">example6.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example6.1.png" alt="Adjusting the layout of the texts in the legend box (example6.1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>As a final example lets combine what we have learnt up to now, i.e. adding
+                    plot marks, adding multiple data series to the same graph and adding a legend
+                    box into one example. In <a class="xref" href="ch15.html#fig.builtinplotmarksex1" title="Figure 15.18. Using plot marks with several data series and a legend (builtinplotmarksex1.php)">Figure 15.18. Using plot marks with several data series and a legend <code class="uri"><a class="uri" href="example_src/builtinplotmarksex1.html" target="_top">(<code class="filename">builtinplotmarksex1.php</code>)</a></code> </a> we have
+                    in addition used the feature with "tabbed" titles which is an alternative way to
+                    put titles on graph (as discussed in <a class="xref" href="ch14s02.html#sec2.fomratting-graph-titles" title="Formatting and specifying the titles of the graph">Formatting and specifying the titles of the graph</a>).</p>
+                <p>
+                    </p><div class="figure"><a name="fig.builtinplotmarksex1"></a><p class="title"><b>Figure 15.18. Using plot marks with several data series and a legend <code class="uri"><a class="uri" href="example_src/builtinplotmarksex1.html" target="_top">(<code class="filename">builtinplotmarksex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/builtinplotmarksex1.png" alt="Using plot marks with several data series and a legend (builtinplotmarksex1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Changing the style of the line plot - using the step-style"><div class="titlepage"><div><div><h3 class="title"><a name="id2556231"></a>Changing the style of the line plot - using the step-style</h3></div></div></div>
+                
+                <p>Step style refers to an alternate way of rendering line plots by not drawing a
+                    direct line between two adjacent points but rather draw two segments. The first
+                    segment being a horizontal line to the next X-value and then a vertical line
+                    from that point to the correct Y-value at that instance. This is also known as
+                    "zero-order hold" (as compared with the first-order hold which is an alternative
+                    name for combining each data point with a straight line). Enabling step stylöe
+                    is done by calling the method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">LinePlot::SetStepStyle($aFlg=true)</code><a class="xref" href="ch15.html#fig.filledlineex01.1" title="Figure 15.21. Having the grid line on top of a filled line plot (filledlineex01.1.php)">Figure 15.21. Having the grid line on top of a filled line plot <code class="uri"><a class="uri" href="example_src/filledlineex01.1.html" target="_top">(<code class="filename">filledlineex01.1.php</code>)</a></code> </a></p>
+                        </li></ul></div><p>
+                </p>
+                <p>In <a class="xref" href="ch15.html#fig.example6.2" title='Figure 15.19. Using the "Step style" for line plots (example6.2.php)'>Figure 15.19. Using the "Step style" for line plots <code class="uri"><a class="uri" href="example_src/example6.2.html" target="_top">(<code class="filename">example6.2.php</code>)</a></code> </a> we have enabled the step style for a
+                    basic line graphs to illustrate this concept.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.example6.2"></a><p class="title"><b>Figure 15.19. Using the "Step style" for line plots <code class="uri"><a class="uri" href="example_src/example6.2.html" target="_top">(<code class="filename">example6.2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example6.2.png" alt='Using the "Step style" for line plots (example6.2.php)'></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title='Optimizing line plot using "fast drawing"'><div class="titlepage"><div><div><h3 class="title"><a name="id2556258"></a>Optimizing line plot using "fast drawing"</h3></div></div></div>
+                
+                <p>For line plots with a large amount of data point that is drawn with a solid
+                    line it is possible to speed up the construction of the graph by calling the method:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">LinePlot::SetFastStroke($aFlg=true)</code></p>
+                        </li></ul></div>
+                <p>This will avoid some of the overhead associated with drawing lines of
+                    arbitrary style. The limitations with this optimization is</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>Only solid lines, no styles on the lines are allowed (including no
+                                step-style)</p>
+                        </li><li class="listitem">
+                            <p>No plot marks</p>
+                        </li><li class="listitem">
+                            <p>No value labels</p>
+                        </li><li class="listitem">
+                            <p>No area plot , i.e. no filled line graphs and no filled partial
+                                areas</p>
+                        </li></ol></div><p>
+                </p>
+                <p>For line plots with a large amount of data point the savings can be quite
+                    substantially and in the order of 40-50% speedup.</p>
+            </div>
+            <div class="sect2" title="Creating a filled line graphs (a.k.a. area plots)"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.creating-area-graph"></a>Creating a filled line graphs (a.k.a. area plots)</h3></div></div></div>
+                
+                <p>A filled line plot (also known as an area plot) can be created in two ways
+                    depending on whether automatic color handling is sufficient or there is a need
+                    to manually specify the color.</p>
+                <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p><span class="bold"><strong>Case 1: Using automatic fill
+                                    color</strong></span></p>
+                            <p>In this case there is only need to tell that we want t filled line
+                                graph by calling the method</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                        <p><code class="code">LinePlot::SetFilled($aFlg=true)</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                            <p>The color assigned to the filled area will be set
+                                automatically</p>
+                        </li><li class="listitem">
+                            <p><span class="bold"><strong>Case 2: Setting a manual fill
+                                    color</strong></span></p>
+                            <p>In this case the method called to set the fill color will make an
+                                implicit call to <code class="code">SetFilled()</code>. Setting the fill color is
+                                done by the method</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                        <p><code class="code">LinePlot::SetFillColor($aColor)</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li></ol></div><p>In <a class="xref" href="ch15.html#fig.filledlineex01" title="Figure 15.20. A basic filled line graph (filledlineex01.php)">Figure 15.20. A basic filled line graph <code class="uri"><a class="uri" href="example_src/filledlineex01.html" target="_top">(<code class="filename">filledlineex01.php</code>)</a></code> </a> a basic filled line
+                    graph is shown which also have plot marks and an adjusted color so that the line
+                    and the fill have different colors.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.filledlineex01"></a><p class="title"><b>Figure 15.20. A basic filled line graph <code class="uri"><a class="uri" href="example_src/filledlineex01.html" target="_top">(<code class="filename">filledlineex01.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/filledlineex01.png" alt="A basic filled line graph (filledlineex01.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>There are a couple of thing worth noting</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p>If you add multiple filled line plots to one graph make sure you
+                                add the one with the highest Y-values first since it will otherwise
+                                overwrite the other plots and they will not be visible. Plots are
+                                stroked in the order they are added to the graph, so the graph you
+                                want front-most must be added last.</p>
+                        </li><li class="listitem">
+                            <p>When using legends with filled line plot the legend will show the
+                                fill color and not the bounding line color.</p>
+                        </li><li class="listitem">
+                            <p>The area filled is the area between the x-axis at y=0 and the data
+                                value</p>
+                        </li><li class="listitem">
+                            <p>By default the line color will be the same as the fill color. This
+                                means that if a different line color is needed then the call to
+                                    <code class="code">LinePlot::SetColor()</code> must be <span class="bold"><strong>after</strong></span> the call to
+                                    <code class="code">LinePlot::SetFillColor()</code></p>
+                        </li><li class="listitem">
+                            <p>Grid lines are by default drawn behind the plot (or rather the
+                                plot is drawn on top of the plot area). However, this can be
+                                adjusted so that the grid lines will always be on top of the line
+                                plots. This is done by calling the method</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">Graph::SetGridDepth($aDepth)</code> where
+                                                <code class="code">$aDepth</code> is either
+                                                <code class="code">DEPTH_BACK</code> or <code class="code">DEPTH_FRONT</code>
+                                            symbolic defines</p>
+                                    </li></ul></div><p>
+                            </p>
+                            <p>An alternative way of handling this is to make the fill color
+                                semi-transparent by setting the alpha-blending for the fill color.
+                                See <a class="xref" href="ch07s04.html#sec2.alpha-channel" title="Specifying the alpha channel (color transparency)">Specifying the alpha channel (color transparency)</a> and <a class="xref" href="ch15.html#fig.builtinplotmarksex1" title="Figure 15.18. Using plot marks with several data series and a legend (builtinplotmarksex1.php)">Figure 15.18. Using plot marks with several data series and a legend <code class="uri"><a class="uri" href="example_src/builtinplotmarksex1.html" target="_top">(<code class="filename">builtinplotmarksex1.php</code>)</a></code> </a> above for a real
+                                example. Just making this grid depth adjustments will give the
+                                result shown in <a class="xref" href="ch15.html#fig.filledlineex01.1" title="Figure 15.21. Having the grid line on top of a filled line plot (filledlineex01.1.php)">Figure 15.21. Having the grid line on top of a filled line plot <code class="uri"><a class="uri" href="example_src/filledlineex01.1.html" target="_top">(<code class="filename">filledlineex01.1.php</code>)</a></code> </a></p>
+                            <p>
+                                </p><div class="figure"><a name="fig.filledlineex01.1"></a><p class="title"><b>Figure 15.21. Having the grid line on top of a filled line plot <code class="uri"><a class="uri" href="example_src/filledlineex01.1.html" target="_top">(<code class="filename">filledlineex01.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/filledlineex01.1.png" alt="Having the grid line on top of a filled line plot (filledlineex01.1.php)"></span> </div></div><p><br class="figure-break">
+                            </p>
+                        </li></ul></div><p>
+                </p>
+                <div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>By default the fill is only done between y=0 and the line plot. In some
+                        cases it might be useful to have the fill go all the way down to whatever
+                        the minimum y-value is (for example if the x-axis is always positioned at
+                        the minimum y-value). This can be accomplished by calling the method</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">LinePlot::SetFillFromYMin($aFlg=true)</code></p>
+                            </li></ul></div><p>
+                    </p>
+                </div>
+                <div class="sect3" title="Filling from the top"><div class="titlepage"><div><div><h4 class="title"><a name="id2556711"></a>Filling from the top</h4></div></div></div>
+                    
+                    <p>As was mentioned in the previous paragraph the fill normally goes from the
+                        bottom and up to the line specified by the data series. Another variant is
+                        to have the fill go from the top of the plot area down to the line. </p>
+                    <p>There is primary one use for this type of fill and that is to create a
+                        "mask" for a background image to make the illusion that the area below the
+                        line is filled with the image while the area above the line is the normal
+                        plot background.</p>
+                    <p>This is done by first telling the library the fill shall be from the top
+                        with a call to the method</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">LinePlot::SetFillFromYMax($aFlg=true)</code></p>
+                            </li></ul></div><p>
+                    </p>
+                    <p>then we create the data series as usual but specify the fill color as the
+                        wanted background color and also add the image we want as a background
+                        image.</p>
+                    <p>Since we only want to use the first plot as a mask we can also specify the
+                        line weight to 0 (to avoid the edge lines of the plot going from the first
+                        and last point to the top. To have a nice line we can just add a second line
+                        plot which is not filled and is just used to draw the line in our specified
+                        color and weight. </p>
+                    <p>An example of how this can look is shown in <a class="xref" href="ch15.html#fig.lineimagefillex1" title="Figure 15.22. Creating the effect of an area fill with an image (lineimagefillex1.php)">Figure 15.22. Creating the effect of an area fill with an image <code class="uri"><a class="uri" href="example_src/lineimagefillex1.html" target="_top">(<code class="filename">lineimagefillex1.php</code>)</a></code> </a> below which shows a fictive growth
+                        in education which is illustrated with an old class room photography.</p>
+                    <p>
+                        </p><div class="figure"><a name="fig.lineimagefillex1"></a><p class="title"><b>Figure 15.22. Creating the effect of an area fill with an image <code class="uri"><a class="uri" href="example_src/lineimagefillex1.html" target="_top">(<code class="filename">lineimagefillex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/lineimagefillex1.png" alt="Creating the effect of an area fill with an image (lineimagefillex1.php)"></span> </div></div><p><br class="figure-break">
+                    </p>
+                    <p>
+                        </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                            <p>To have the grid lines on top of the area plot (so they are
+                                visible since they are vy default drawn at the bottom) the depth of
+                                the grid lines can be set with a call to the method</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                        <p><code class="code">Graph::SetGridDepth($aDepth)</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                            <p>For example as in</p>
+                            <p>
+                                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;SetGridDepth(DEPTH_FRONT);</span></pre></td></tr></table></div><p>
+                            </p>
+                        </div><p>
+                    </p>
+                </div>
+                <div class="sect3" title="Filling from 0 or from bottom"><div class="titlepage"><div><div><h4 class="title"><a name="id2556721"></a>Filling from 0 or from bottom</h4></div></div></div>
+                    
+                    <p>As a complement to what was described in the previous section it is also
+                        possible to fill from the bottom. By default an area is filled from the
+                        0-line to the boundary of the data series as is shown in <a class="xref" href="ch15.html#fig.manualtickex3" title="Figure 15.23. Filling from the 0-line (The default) (manualtickex3.php)">Figure 15.23. Filling from the 0-line (The default) <code class="uri"><a class="uri" href="example_src/manualtickex3.html" target="_top">(<code class="filename">manualtickex3.php</code>)</a></code> </a> below</p>
+                    <p>
+                        </p><div class="figure"><a name="fig.manualtickex3"></a><p class="title"><b>Figure 15.23. Filling from the 0-line (The default) <code class="uri"><a class="uri" href="example_src/manualtickex3.html" target="_top">(<code class="filename">manualtickex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manualtickex3.png" alt="Filling from the 0-line (The default) (manualtickex3.php)"></span> </div></div><p><br class="figure-break">
+                    </p>
+                    <p>By making a call to</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">LinePlot::SetFillFromYMin($aFlg=true)</code></p>
+                            </li></ul></div><p>
+                    </p>
+                    <p>The area will instead be filled from the bottom as is shown in <a class="xref" href="ch15.html#fig.manualtickex4" title="Figure 15.24. Filling from the bottom (manualtickex4.php)">Figure 15.24. Filling from the bottom <code class="uri"><a class="uri" href="example_src/manualtickex4.html" target="_top">(<code class="filename">manualtickex4.php</code>)</a></code> </a></p>
+                    <p>
+                        </p><div class="figure"><a name="fig.manualtickex4"></a><p class="title"><b>Figure 15.24. Filling from the bottom <code class="uri"><a class="uri" href="example_src/manualtickex4.html" target="_top">(<code class="filename">manualtickex4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manualtickex4.png" alt="Filling from the bottom (manualtickex4.php)"></span> </div></div><p><br class="figure-break">
+                    </p>
+                    <p>
+                        </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                            <p>In <a class="xref" href="ch15.html#fig.manualtickex3" title="Figure 15.23. Filling from the 0-line (The default) (manualtickex3.php)">Figure 15.23. Filling from the 0-line (The default) <code class="uri"><a class="uri" href="example_src/manualtickex3.html" target="_top">(<code class="filename">manualtickex3.php</code>)</a></code> </a> and <a class="xref" href="ch15.html#fig.manualtickex4" title="Figure 15.24. Filling from the bottom (manualtickex4.php)">Figure 15.24. Filling from the bottom <code class="uri"><a class="uri" href="example_src/manualtickex4.html" target="_top">(<code class="filename">manualtickex4.php</code>)</a></code> </a> we have used gradient fill in
+                                both the plot area and the amrgin area. This is a feature that was
+                                introduced in free-version3.0.5 and in pro-version 3.1.3p</p>
+                        </div><p>
+                    </p>
+                </div>
+                <div class="sect3" title="Using gradient fills"><div class="titlepage"><div><div><h4 class="title"><a name="id2556978"></a>Using gradient fills</h4></div></div></div>
+                    
+                    <p>In addition to the solid color fill it is also possible to use gradient
+                        fills for are graphs. To specify a gradient fill for a line graph the
+                        following method in LinePlot class is used</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">LinePlot::SetFillGradient($aFromColor,$aToColor,$aNumColors=100,$aFilled=true)</code></p>
+                                <p><code class="code">$aFromColor</code>, <code class="code">$aToColor</code>, The starting
+                                    and ending color</p>
+                                <p><code class="code">$aNumColors=100</code>, The number of colors to use in
+                                    the transition between from and to color</p>
+                                <p><code class="code">$aFilled=true</code>, Enable/disable gradient
+                                    filling</p>
+                            </li></ul></div><p>
+                    </p>
+                    <p>Some examples of typical use of this is shown below</p>
+                    <p>
+                        </p><div class="figure"><a name="fig.gradlinefillex1"></a><p class="title"><b>Figure 15.25. A basic gradient fill using default values <code class="uri"><a class="uri" href="example_src/gradlinefillex1.html" target="_top">(<code class="filename">gradlinefillex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/gradlinefillex1.png" alt="A basic gradient fill using default values (gradlinefillex1.php)"></span> </div></div><p><br class="figure-break">
+                    </p>
+                    <p>The following two examples shows the effect of changing the number of
+                        intermediate colors that are used to get from the "from color" and to the
+                        "to color".</p>
+                    <p>
+                        </p><div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                            <div class="figure"><a name="fig.gradlinefillex2"></a><p class="title"><b>Figure 15.26. Using the default number of intermediate colors <code class="uri"><a class="uri" href="example_src/gradlinefillex2.html" target="_top">(<code class="filename">gradlinefillex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/gradlinefillex2.png" alt="Using the default number of intermediate colors (gradlinefillex2.php)"></span> </div></div><br class="figure-break">
+                                        </td><td>
+                                            <div class="figure"><a name="fig.gradlinefillex3"></a><p class="title"><b>Figure 15.27. Only using 4 colors in total between start and finish color <code class="uri"><a class="uri" href="example_src/gradlinefillex3.html" target="_top">(<code class="filename">gradlinefillex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/gradlinefillex3.png" alt="Only using 4 colors in total between start and finish color (gradlinefillex3.php)"></span> </div></div><br class="figure-break">
+                                        </td></tr></tbody></table>
+                        </div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="Partially filled area graphs"><div class="titlepage"><div><div><h3 class="title"><a name="id2557119"></a>Partially filled area graphs</h3></div></div></div>
+                
+                <p>In addition to filling the entire area between the line plot and the x-axis
+                    (at y=0) the library also offers the possibility to add areas limited by the
+                    line and a specified interval on the x-axis. Several such areas can be added and
+                    each area having a different color. In ?? a basic example of how this can look
+                    is shown.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.partiallyfilledlineex1"></a><p class="title"><b>Figure 15.28. Adding two partially filled areas to a line plot <code class="uri"><a class="uri" href="example_src/partiallyfilledlineex1.html" target="_top">(<code class="filename">partiallyfilledlineex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/partiallyfilledlineex1.png" alt="Adding two partially filled areas to a line plot (partiallyfilledlineex1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>The areas (one or more) are created by calling the method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">LinePlot::AddArea($aMin=0,$aMax=0,$aFilled=LP_AREA_NOT_FILLED,$aColor="gray9",$aBorder=LP_AREA_BORDER)</code></p>
+                            <p>The extension of the area along the x-axis is given by the
+                                    <code class="code">$aMin</code> and <code class="code">$aMax</code> values. </p>
+                            <p>The third argument specifies whether the area should be filled or
+                                not. This argument can have the values</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">LP_AREA_FILLED</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">LP_AREA_NOT_FILLED</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                            <p>The fourth argument specifies the fill color and the fifth
+                                argument specifies if the area should have a border (edge) or not.
+                                If the area has a border it will be the same color as the line. The
+                                values for the fourth argument can be</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">LP_AREA_BORDER</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">LP_AREA_NO_BORDER</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Filled lines with NULL values"><div class="titlepage"><div><div><h3 class="title"><a name="id2557375"></a>Filled lines with NULL values</h3></div></div></div>
+                
+                <p>The NULL value handling follows the same principle as was described for line
+                    plots. If the NULL value is specified as '-' the line will be interpretated but
+                    if it is specified as 'x' it will be broken up as is shown in <a class="xref" href="ch15.html#fig.filledlineex03" title="Figure 15.29. Area plot with 'x' NULL values (filledlineex03.php)">Figure 15.29. Area plot with 'x' NULL values <code class="uri"><a class="uri" href="example_src/filledlineex03.html" target="_top">(<code class="filename">filledlineex03.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.filledlineex03"></a><p class="title"><b>Figure 15.29. Area plot with 'x' NULL values <code class="uri"><a class="uri" href="example_src/filledlineex03.html" target="_top">(<code class="filename">filledlineex03.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/filledlineex03.png" alt="Area plot with 'x' NULL values (filledlineex03.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Accumulated line graphs"><div class="titlepage"><div><div><h3 class="title"><a name="id2557421"></a>Accumulated line graphs</h3></div></div></div>
+                
+                <p>Accumulated line graphs are line graphs that are "stacked" on top of each
+                    other. That is, the values in the supplied data for the Y-axis is not the
+                    absolute value but rather the relative value from graph below. For example if
+                    you have two line graphs with three points each, say [3,7,5] and [6,9,7]. The
+                    first graph will be plotted on the absolute Y-values [3,7,5] the second plot
+                    will be plotted at [3+6, 7+9, 5+7], hence the values of the previous graphs will
+                    be used as offsets.</p>
+                <p>An accumulated graph plot is represented by <code class="code">class AccLinePlot</code>
+                    which is a container class for line plots. This means that the
+                        <code class="code">AccLinePlot</code> needs to be "fed" a number of ordinary instances of
+                        <code class="code">LinePlot</code>.</p>
+                <p>Any number of ordinary line graphs may be added together (up to the limit of
+                    readability of the plot).</p>
+                <p>For example, to add three line plots in an accumulated line plot graph the
+                    following code is needed</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> First create the individual plots</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$p1</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$datay_1</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p2</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$datay_2</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p3</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$datay_3</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">; 
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Then add them together to form a accumulated plot</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$ap</span><span class="hl-code">  = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">AccLinePlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$p1</span><span class="hl-code"> , </span><span class="hl-var">$p2</span><span class="hl-code"> , </span><span class="hl-var">$p3</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the accumulated line plot to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$ap</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>Using some random data for the areas can produce the result shown in <a class="xref" href="ch15.html#fig.example17" title="Figure 15.30. A basic accumulated area plot (example17.php)">Figure 15.30. A basic accumulated area plot <code class="uri"><a class="uri" href="example_src/example17.html" target="_top">(<code class="filename">example17.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example17"></a><p class="title"><b>Figure 15.30. A basic accumulated area plot <code class="uri"><a class="uri" href="example_src/example17.html" target="_top">(<code class="filename">example17.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example17.png" alt="A basic accumulated area plot (example17.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Accumulated line graphs with given X-labels"><div class="titlepage"><div><div><h3 class="title"><a name="id2557468"></a>Accumulated line graphs with given X-labels</h3></div></div></div>
+                
+                <p>Creating an accumulated line plot, (or a filled accumulated area plot), with
+                    multiple data sets at given x-coordinates poses some specific problems when the
+                    coordinates for the different data sets are not given at the same x-coordinates.
+                    This is a generic problem and has nothing to do with library in particular. This
+                    section wil deal with one possible way of handling this by making sure that
+                    missing data points are created if they are "missing".</p>
+                <p>To understand the problem we will make one simplifications (that is of no real
+                    consequence for the end result) that can be stated as </p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>the X-coordinates for all data tuples are whole positive number.
+                            </p>
+                        </li><li class="listitem">
+                            <p>the X-coordinates are in sorted order (non-descending) </p>
+                        </li></ol></div><p>
+                </p>
+                <p>The core issue can be illustrate as follows. Lets assume that we want to make
+                    an accumulated graph showing the two data sets </p>
+                <p>
+                    </p><pre class="screen">data set 1 == (0,5), (2,10), (3,10), (5,20)
+data set 2 == (0,7), (1,12), (2,5),  (5,10)
+</pre><p>
+                </p>
+                <p>In the above notation the tuple (0,5) means a data point with X-coordinate = 0
+                    and Y-coordinate = 5. </p>
+                <p>What the library now needs to do is to first plot data set 1. No problem. When
+                    it then becomes time to plot the second data set we face an issue. The only
+                    points where we now the Y-value of data set 1 is at the given discrete points
+                    (0,2,3,5). </p>
+                <p>Plotting the first tuple for data set 2 shown above gives an absolute starting
+                    point at </p>
+                <p>
+                    </p><pre class="screen">(0,5+7) == (0,12)
+</pre><p>
+                </p>
+                <p>The next data point we know for data set 2 is (1,12) so we need to plot this.
+                    But now we can see that we do not know the value for data set 1 at X-coordinate
+                    = 1. We only know the values at coordinates 0 and 2. This gives us a problem. We
+                    need to know at what offset we should plot this data point in data set 2 and we
+                    have no direct way of calculating this. </p>
+                <p>Now, one might argue that we could just interpolate between the data points
+                    (0,5) and (2,10) the Y-value at X=1 (doing a linear interpolation this would
+                    give the data point (1,7.5)) so why doesn't the library simply do this? It
+                    surely could be done. </p>
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>In real life using this approach would be much more complex. First of
+                            all we need to create a linear succession of all X-values used in all
+                            data sets to create an ordered set and then fill in the blanks so that
+                            all data sets have values at all given X-coordinates. Those of you
+                            familiar with signal processing will recognize this as an (almost)
+                            up-sampling of the original data sets followed by a low pass filter.
+                        </p>
+                    </div><p>
+                </p>
+                <p>However, by design the library doesn't do this. The crucial observation here
+                    is that it can not be a graphic libraries responsibility to "create" missing
+                    data points by making assumption that a particular polynomial interpolation is
+                    valid (in this case a first degree approximation). What if a linear
+                    interpolation is not representative for the data set given? Perhaps a second
+                    degree approximation would be more accurate. </p>
+                <p>So, this kind of data preparation must be done in the domain of the given data
+                    set where knowledge of the underlying data will allow an accurate preparation of
+                    the input to a graphing script if we insist of plotting an accumulated graph.
+                    One could argue that accumulated data plots can only be done for data series
+                    with the same X-coordinates. </p>
+                <div class="sect3" title="Preparing the input data"><div class="titlepage"><div><div><h4 class="title"><a name="id2557648"></a>Preparing the input data</h4></div></div></div>
+                    
+                    <p>So what if we are still required to do an accumulated plot even when we
+                        don't have all the data sets at the same X-coordinates? Going back to our
+                        original two data sets, hereafter referrered to as DS1 and DS2 there are 2
+                        manual steps (as described above) that needs to happen. </p>
+                    <p>
+                        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>Identify all X-data points that needs to exist </p>
+                            </li><li class="listitem">
+                                <p>Create values for all data sets at those points </p>
+                            </li></ol></div><p>
+                    </p>
+                    <p>So, in DS1 and DS2 the union of the two data sets X-coordinates are </p>
+                    <p>
+                        </p><pre class="screen">X_coordinates == union(DS1_x, DS2_x) == 0,1,2,3,5
+</pre><p>
+                    </p>
+                    <p>This will force us to augment the two data sets as </p>
+                    <p>
+                        </p><pre class="screen">data set 1 == (0,5), (1,??), (2,10), (3,10), (5,20)
+data set 2 == (0,7), (1,12), (2, 5), (3,??), (5,10)
+</pre><p>
+                    </p>
+                    <p>Where I have added '??' to indicate values that needs to be computed in
+                        order to draw an accumulated line/area plot at specific values. Now assume
+                        that we are able to find the missing data for these points by some method to
+                        be </p>
+                    <p>
+                        </p><pre class="screen">data set 1 == (0,5), (1, 8), (2,10), (3,10), (5,20)
+data set 2 == (0,7), (1,12), (2, 5), (3, 2), (5,10)
+</pre><p>
+                    </p>
+                    <p>Are we now ready to plot these data sets? Unfortunately not quite. The
+                        remaining problem is that since the library only handles accumulated plots
+                        without a given X-coordinate (using an X-coordinate for the individual line
+                        plots will have no affect - and it's behaviour is undefined). This means
+                        that the data points are assumed to be equ-distance apart - and this is
+                        almost true for the data sets above. There is 1 unit between theme apart
+                        from the two last tuples which in fact have a distance of 2 units. In fact
+                        the library only plots data sets with a given Y-coordinate and then assumes
+                        that the x-coordinate is a linear ordering of (0,1,2, ..) </p>
+                    <p>So in order to create a linear equ-distance ordered set we need to further
+                        augment the two data sets as </p>
+                    <p>
+                        </p><pre class="screen">data set 1 == (0,5), (1, 8), (2,10), (3,10), (4,??), (5,20)
+data set 2 == (0,7), (1,12), (2, 5), (3, 2), (4,??), (5,10)
+</pre><p>
+                    </p>
+                    <p>So this means that we need to manually calculate another interpolated
+                        value. If we know we can make a linear interpolation (or perhaps find the
+                        data at this point) it will give us </p>
+                    <p>
+                        </p><pre class="screen">data set 1 == (0,5), (1, 8), (2,10), (3,10), (4,15), (5,20)
+data set 2 == (0,7), (1,12), (2, 5), (3, 2), (4, 6), (5,10)
+</pre><p>
+                    </p>
+                    <p>This final data set is now ready to be sent to the
+                            <code class="code">AccLinePlot</code> class. It is left as a (non-trivial) exercise
+                        to the reader to define and implement a function that performs the steps
+                        outlined above to create proper data sets before reading on.</p>
+                </div>
+                <div class="sect3" title="Creating plots with non-trivial X-coordinates"><div class="titlepage"><div><div><h4 class="title"><a name="id2557650"></a>Creating plots with non-trivial X-coordinates</h4></div></div></div>
+                    
+                    <p>With non-trivial X-coordinates we mean for example timestamps or perhaps
+                        real numbers. For timestamps it is not so difficult. What we need to do is
+                        to identify the proper interval (in the original timestamp domain) and then
+                        create a mapping between that domain and the natural numbers (0,1,2,3,...). </p>
+                    <p>The reason for this is that the library only accepts Y-coordinates as
+                        argument to the accumulated data series and will make the implicit
+                        assumption that when it plots the data it will plot the data points at
+                        consecutive values as if the X-coordinates had been given as (0,1,2,3,..).
+                        Hence we need to manually prepare the data to match this format. </p>
+                    <p>As the final step we manually set the labels for the X-axis according to
+                        our interpretation. An example (with some code snippets) will make this
+                        approach clear. </p>
+                    <p><span class="bold"><strong>Example - using timestamps</strong></span></p>
+                    <p>Assume we have the two data sets with timestamps </p>
+                    <p>
+                        </p><pre class="screen">DS1 == (1212199200,12), (1212210000,20), (1212213600,30)
+DS1 == (1212199200,12), (1212206400, 8)
+</pre><p>
+                    </p>
+                    <p>and we now that the sampling interval between the data points are 7200s
+                        (=2 min). Following the same principle as above we need to find the
+                        additional values</p>
+                    <p>
+                        </p><pre class="screen">DS1 == (1212199200,12), (1212206400,??), (1212210000,20), (1212213600,30)
+DS1 == (1212199200,12), (1212206400, 8), (1212210000,??), (1212213600,??)
+</pre><p>
+                    </p>
+                    <p>further assuming that we (by some method) can find these value we can then
+                        interpret this data as </p>
+                    <p>
+                        </p><pre class="screen">DS1 == (1212199200,12), (1212206400,16), (1212210000,20), (1212213600,30)
+DS1 == (1212199200,12), (1212206400, 8), (1212210000, 0), (1212213600, 0)
+</pre><p>
+                    </p>
+                    <p>In the above we have made the explicit assumption that unknown data points
+                        at the end can be interpretated as 0 in this particular application. </p>
+                    <p>We now have an ordered sequence of these tuples and we can imagine a
+                        mapping that will allow us to write these sequences as </p>
+                    <p>
+                        </p><pre class="screen">DS1 == (0,12), (1,16), (2,20), (3,30)
+DS1 == (0,12), (1, 8), (2, 0), (3, 0)
+</pre><p>
+                    </p>
+                    <p>The mapping for this is <code class="code">xi=1212199200 + 7200*i, i=0..3</code> which
+                        we use when we put the final labels in the graph. </p>
+                    <p>The only steps that remain to handle timestamps is to manually replace the
+                        X-scale (which in this case would be 0,1,2,3) with the calculated values
+                        according to the mapping given above. </p>
+                    <p>We do this by creating an array of the timestamps we need to plot and then
+                        replace them - in situ - with an application of the standard PHP function
+                            <code class="code">array_walk()</code> which applies a user defined function to each
+                        value in an array and replaces that value with the return value of the user
+                        function. In this case we create a user function that implements the mapping
+                        stated above with the additional twist that given an argument as a time
+                        stamp it returns a suitable human format for that time stamp. </p>
+                    <p>The following code fragments shows how this could be done </p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">// Some userdefined human readable version of the timestamp
+function formatDate(&amp;$aVal) {
+    $aVal = date('Y-m-d H:i',$aVal);
+}
+ 
+$timeStamps = array(212199200,1212206400,1212210000,1212213600);
+ 
+array_walk($time,'formatDate');</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p>when we now have the labels in a nice human readable format we can put
+                        them on the scale labels with </p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;SetTickLabels($timeStamps);
+$graph-&gt;xaxis-&gt;SetLabelAngle(90);</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p>though strictly not necessary we have also tilted the labels 90 degrees in
+                        order to minimize the risk the labels overwrite each other. </p>
+                    <p>If we still think that the labels are too close together ea we can chose
+                        to only label every second tick mark. We do this with a call to </p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;SetTextLabelInterval(2);</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p><span class="bold"><strong>Example using real (i.e. floating point)
+                            x-coordinates</strong></span></p>
+                    <p>In principle this is handled in the same way as what we shown above for
+                        timestamps. The additional complexity here spells rounding errors. When we
+                        establish the equidistant interval between each data point it will be a real
+                        number, potentially an irrational number, which means that we cannot
+                        represent it exactly and adding the interval repeated times might cause
+                        rounding errors if we are not careful. </p>
+                    <p>Secondly we need to find a mapping between the ordered sequence of the
+                        real numbers we have as X-coordinates and the natural numbers which are the
+                        implicit X-coordinates assumed by the library. </p>
+                </div>
+                <div class="sect3" title="A full example"><div class="titlepage"><div><div><h4 class="title"><a name="id2557943"></a>A full example</h4></div></div></div>
+                    
+                    <p>In the example below we artifically create some data sets where all the
+                        sets have values at all specified timestamps with the following code </p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment">Create some test data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$xdata</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$ydata</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Timestamps - 2h (=7200s) apart starting </span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$sampling</span><span class="hl-code"> = </span><span class="hl-number">7200</span><span class="hl-code">;
+</span><span class="hl-var">$n</span><span class="hl-code"> = </span><span class="hl-number">50</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> data points</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the data arrays with some random data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$n</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$xdata</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-identifier">time</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code"> + </span><span class="hl-var">$i</span><span class="hl-code"> * </span><span class="hl-var">$sampling</span><span class="hl-code">;
+    </span><span class="hl-var">$ydata</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-number">12</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$ydata</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-number">100</span><span class="hl-code">,</span><span class="hl-number">155</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$ydata</span><span class="hl-brackets">[</span><span class="hl-number">2</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">30</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p>Since the xdata array is given as timestamps we need to make this more
+                        human readable by converting the timestamp using the <code class="code">date()</code>
+                        function. To do this we create an axillary helper function and then use the
+                            <code class="code">array_walk() </code>standard array function to apply this
+                        formatting to all existing values in the timestamp array as follows. </p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">// Formatting function to translate the timestamps into human readable labels
+function formatDate(&amp;$aVal) {
+    $aVal = date('Y-m-d H:i',$aVal);
+}
+ 
+// Apply this format to all time values in the data to prepare it to be display
+array_walk($time,'formatDate');</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p>The core of the script can now be written. For a change we make some
+                        adjustment from the default values of colors and tick mark positioning as a
+                        reminder that there is a lot of flexibility in creating the graphs. </p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the graph. </span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">  = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-number">700</span><span class="hl-code">, </span><span class="hl-number">400</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Accumulated values with specified X-axis scale</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">datlin</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup margin color</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMarginColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">green@0.95</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Adjust the margin to make room for the X-labels</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">30</span><span class="hl-code">,</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">120</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Turn the tick marks out from the plot area</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTickSide</span><span class="hl-brackets">(</span><span class="hl-identifier">SIDE_BOTTOM</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">yaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTickSide</span><span class="hl-brackets">(</span><span class="hl-identifier">SIDE_LEFT</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$p0</span><span class="hl-code"> =</span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$a</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p0</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">sandybrown</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p1</span><span class="hl-code"> =</span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$b</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">lightblue</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p2</span><span class="hl-code"> =</span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$c</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">red</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$ap</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">AccLinePlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-var">$p0</span><span class="hl-code">,</span><span class="hl-var">$p1</span><span class="hl-code">,</span><span class="hl-var">$p2</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTickLabels</span><span class="hl-brackets">(</span><span class="hl-var">$time</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTextLabelInterval</span><span class="hl-brackets">(</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the plot to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$ap</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the angle for the labels to 90 degrees</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLabelAngle</span><span class="hl-brackets">(</span><span class="hl-number">90</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Send the graph back to the browser</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p>The resulting image will now look something like what is shown in
+                        ??</p>
+                    <p>
+                        </p><div class="figure"><a name="fig.prepaccdata_example"></a><p class="title"><b>Figure 15.31. Area plot with specified x coordinates <code class="uri"><a class="uri" href="example_src/prepaccdata_example.html" target="_top">(<code class="filename">prepaccdata_example.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/prepaccdata_example.png" alt="Area plot with specified x coordinates (prepaccdata_example.php)"></span> </div></div><p><br class="figure-break">
+                    </p>
+                </div>
+                <div class="sect3" title="Helper function to create interpolated data"><div class="titlepage"><div><div><h4 class="title"><a name="id2558063"></a>Helper function to create interpolated data</h4></div></div></div>
+                    
+                    <p>The function <code class="code">InterpolateData()</code> below takes two array of
+                        arrays and one integer as arguments. The first array of arrays contains the
+                        X-coordinates for each data set and the second array of arrays contains the
+                        Y-coordinates for all the data sets. The final integer argument is the
+                        distance (or sample rate) that should be assumed between each X-coordinate. </p>
+                    <p>The function will return a tuple. The first element in the returned tuple
+                        is a single array with all the X-values that should be used and the second
+                        element is an array of arrays with all the Y-data sets with all data
+                        specified for each X-coordinate. Any missing Y values are interpolated using
+                        a linear interpolation schema. </p>
+                    <p>So using our first example above as demonstration this would be handled as </p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$datax</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> 
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$datay</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">7</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-reserved">list</span><span class="hl-brackets">(</span><span class="hl-var">$datax</span><span class="hl-code">, </span><span class="hl-var">$datay</span><span class="hl-brackets">)</span><span class="hl-code"> = </span><span class="hl-identifier">InterpolateData</span><span class="hl-brackets">(</span><span class="hl-var">$datax</span><span class="hl-code">, </span><span class="hl-var">$datay</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> $datax = array(0,1,2,3,4,5)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> $datay = array( array(5, 8,10,10,15,20),</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment">                 array(7,12, 5, 2, 6,10));</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p>One possible implementation of this function is given below. It has
+                        primarily been written for clarity and not necessary high performance. To
+                        interpolate the "missing" Y-values a linear approximation is assumed. </p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">InterpolateData</span><span class="hl-brackets">(</span><span class="hl-var">$aXData</span><span class="hl-code">,</span><span class="hl-var">$aYData</span><span class="hl-code">,</span><span class="hl-var">$aSampleInterval</span><span class="hl-code">=</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> First do some sanity checks on the input data</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$nx</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$aXData</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$ny</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$aYData</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$nx</span><span class="hl-code"> != </span><span class="hl-var">$ny</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">
+        </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-reserved">false</span><span class="hl-code">,-</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+        
+    </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$nx</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+         </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$aXData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code"> != </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">
+             </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-reserved">false</span><span class="hl-code">,-</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Create the sorted union of all X-coordinates</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$unionx</span><span class="hl-code"> = </span><span class="hl-identifier">array_union</span><span class="hl-brackets">(</span><span class="hl-var">$aXData</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$length</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$unionx</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> We now have to make sure that the distance between all</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> X-coordinates is 1 unit of the sample interval. If not</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> we will have to insert suitable X-value</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">1</span><span class="hl-code">;
+    </span><span class="hl-reserved">while</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$length</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-var">$missing</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+            </span><span class="hl-var">$diff</span><span class="hl-code"> = </span><span class="hl-var">$unionx</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code"> - </span><span class="hl-var">$unionx</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">;
+            </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$diff</span><span class="hl-code"> != </span><span class="hl-var">$aSampleInterval</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+ 
+            </span><span class="hl-comment">//</span><span class="hl-comment"> Sanity check to make sure sample interval is an even multiple</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-comment">//</span><span class="hl-comment"> of the distance between the gven X-coordinates</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$diff</span><span class="hl-code"> % </span><span class="hl-var">$aSampleInterval</span><span class="hl-code"> !== </span><span class="hl-number">0</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+              </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-reserved">false</span><span class="hl-code">,-</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+                </span><span class="hl-var">$missing</span><span class="hl-code"> = </span><span class="hl-var">$diff</span><span class="hl-code"> / </span><span class="hl-var">$aSampleInterval</span><span class="hl-code"> - </span><span class="hl-number">1</span><span class="hl-code">;
+                </span><span class="hl-var">$fill</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+                </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$j</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$j</span><span class="hl-code"> &lt; </span><span class="hl-var">$missing</span><span class="hl-code">; ++</span><span class="hl-var">$j</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                        </span><span class="hl-var">$fill</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$aSampleInterval</span><span class="hl-code">*</span><span class="hl-brackets">(</span><span class="hl-var">$j</span><span class="hl-code">+</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">+</span><span class="hl-var">$unionx</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+                </span><span class="hl-var">$unionx</span><span class="hl-code"> = </span><span class="hl-identifier">array_merge</span><span class="hl-brackets">(</span><span class="hl-code">
+                        </span><span class="hl-identifier">array_slice</span><span class="hl-brackets">(</span><span class="hl-var">$unionx</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-var">$i</span><span class="hl-brackets">)</span><span class="hl-code">,</span><span class="hl-var">$fill</span><span class="hl-code">,</span><span class="hl-identifier">array_slice</span><span class="hl-brackets">(</span><span class="hl-var">$unionx</span><span class="hl-code">,</span><span class="hl-var">$i</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+             </span><span class="hl-brackets">}</span><span class="hl-code">
+             </span><span class="hl-var">$i</span><span class="hl-code"> += </span><span class="hl-var">$missing</span><span class="hl-code">+</span><span class="hl-number">1</span><span class="hl-code">;
+             </span><span class="hl-var">$length</span><span class="hl-code"> += </span><span class="hl-var">$missing</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">    
+ 
+    </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$length</span><span class="hl-code"> != </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$unionx</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Internal error check</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-reserved">false</span><span class="hl-code">,-</span><span class="hl-number">3</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Now loop through all the individual data sets and find out </span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> which x-data is missing and hence needs to be interpolated</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$n</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$aXData</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$n</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-var">$missing_values</span><span class="hl-code"> = </span><span class="hl-identifier">array_diff</span><span class="hl-brackets">(</span><span class="hl-var">$unionx</span><span class="hl-code">, </span><span class="hl-var">$aXData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+            </span><span class="hl-comment">//</span><span class="hl-comment"> Now find the position of each missing X-coordinate</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-comment">//</span><span class="hl-comment"> and use that position in the corresponding Y array</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-comment">//</span><span class="hl-comment"> to insert an interpolated value</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-var">$m</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$missing_values</span><span class="hl-brackets">)</span><span class="hl-code">;
+            </span><span class="hl-reserved">foreach</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$missing_values</span><span class="hl-code"> </span><span class="hl-reserved">as</span><span class="hl-code"> </span><span class="hl-var">$key</span><span class="hl-code"> =&gt; </span><span class="hl-var">$val</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-var">$idx</span><span class="hl-code"> = </span><span class="hl-identifier">array_search</span><span class="hl-brackets">(</span><span class="hl-var">$val</span><span class="hl-code">,</span><span class="hl-var">$unionx</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+                </span><span class="hl-comment">//</span><span class="hl-comment"> Now split the Y-array at that position and insert</span><span class="hl-comment"></span><span class="hl-code">
+                </span><span class="hl-comment">//</span><span class="hl-comment"> a new sentinel value</span><span class="hl-comment"></span><span class="hl-code">
+                </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$idx</span><span class="hl-code"> &gt;= </span><span class="hl-number">0</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                        </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-identifier">array_merge</span><span class="hl-brackets">(</span><span class="hl-code">
+                            </span><span class="hl-identifier">array_slice</span><span class="hl-brackets">(</span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-var">$idx</span><span class="hl-brackets">)</span><span class="hl-code">,
+                            </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-reserved">NULL</span><span class="hl-brackets">)</span><span class="hl-code">,
+                            </span><span class="hl-identifier">array_slice</span><span class="hl-brackets">(</span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-var">$idx</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+            </span><span class="hl-comment">//</span><span class="hl-comment"> The next step is to actually calculate an interpolated value</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-comment">//</span><span class="hl-comment"> for the Y-coordinates we don't have. As a special case any</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-comment">//</span><span class="hl-comment"> beginning or ending non-defined coordinates are set to 0</span><span class="hl-comment"></span><span class="hl-code">
+    
+            </span><span class="hl-comment">//</span><span class="hl-comment"> Set all beginning NULL to 0</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$j</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$j</span><span class="hl-code"> &lt; </span><span class="hl-var">$length</span><span class="hl-code">; ++</span><span class="hl-var">$j</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-brackets">]</span><span class="hl-code"> !== </span><span class="hl-reserved">NULL</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">
+                        </span><span class="hl-reserved">break</span><span class="hl-code">;
+                </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+            </span><span class="hl-comment">//</span><span class="hl-comment"> Set all ending NULL to 0</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$j</span><span class="hl-code">=</span><span class="hl-var">$length</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-code">; </span><span class="hl-var">$j</span><span class="hl-code"> &gt;= </span><span class="hl-number">0</span><span class="hl-code">; --</span><span class="hl-var">$j</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-brackets">]</span><span class="hl-code"> !== </span><span class="hl-reserved">NULL</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">
+                        </span><span class="hl-reserved">break</span><span class="hl-code">;
+                </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+            </span><span class="hl-comment">//</span><span class="hl-comment"> Calculate the remaingin missing values as a linear</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-comment">//</span><span class="hl-comment"> interpolation and keeping in mind that there might be</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-comment">//</span><span class="hl-comment"> multiple missing values in a row.</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-var">$j</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+            </span><span class="hl-reserved">while</span><span class="hl-brackets">(</span><span class="hl-var">$j</span><span class="hl-code"> &lt; </span><span class="hl-var">$length</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-brackets">]</span><span class="hl-code"> === </span><span class="hl-reserved">NULL</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                        </span><span class="hl-comment">//</span><span class="hl-comment"> How many unknown values in a row?</span><span class="hl-comment"></span><span class="hl-code">
+                        </span><span class="hl-var">$cnt</span><span class="hl-code"> = </span><span class="hl-number">1</span><span class="hl-code">;
+                        </span><span class="hl-reserved">while</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$j</span><span class="hl-code">+</span><span class="hl-var">$cnt</span><span class="hl-code"> &lt; </span><span class="hl-var">$length</span><span class="hl-code"> &amp;&amp; </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-code">+</span><span class="hl-var">$cnt</span><span class="hl-brackets">]</span><span class="hl-code">===</span><span class="hl-reserved">NULL</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                            ++</span><span class="hl-var">$cnt</span><span class="hl-code">;
+                        </span><span class="hl-brackets">}</span><span class="hl-code">
+        
+                        </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$cnt</span><span class="hl-code"> == </span><span class="hl-number">1</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                            </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-brackets">(</span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">+</span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-code">+</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">/</span><span class="hl-number">2</span><span class="hl-code">;
+                        </span><span class="hl-brackets">}</span><span class="hl-code">
+                        </span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                            </span><span class="hl-var">$step</span><span class="hl-code"> = </span><span class="hl-brackets">(</span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-code">+</span><span class="hl-var">$cnt</span><span class="hl-brackets">]</span><span class="hl-code"> - </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">/</span><span class="hl-brackets">(</span><span class="hl-var">$cnt</span><span class="hl-code">+</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+                            </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$k</span><span class="hl-code">=</span><span class="hl-number">1</span><span class="hl-code">; </span><span class="hl-var">$k</span><span class="hl-code"> &lt;= </span><span class="hl-var">$cnt</span><span class="hl-code">; ++</span><span class="hl-var">$k</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                                    </span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-code">+</span><span class="hl-var">$k</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$step</span><span class="hl-code">*</span><span class="hl-var">$k</span><span class="hl-code">+</span><span class="hl-var">$aYData</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-var">$j</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">;
+                            </span><span class="hl-brackets">}</span><span class="hl-code">
+                        </span><span class="hl-brackets">}</span><span class="hl-code">
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+                ++</span><span class="hl-var">$j</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+    </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-var">$unionx</span><span class="hl-code">,</span><span class="hl-var">$aYData</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment">------------------------------------------------------------------------</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Helper function to create the union of two arrays</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment">------------------------------------------------------------------------</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the sorted union of all numeric arrays given as argument</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">array_union</span><span class="hl-brackets">(</span><span class="hl-var">$a</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+ 
+    </span><span class="hl-var">$n</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$a</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$res</span><span class="hl-code"> = </span><span class="hl-var">$a</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">;
+    </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">1</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$n</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-var">$res</span><span class="hl-code"> = </span><span class="hl-identifier">_array2_union</span><span class="hl-brackets">(</span><span class="hl-var">$res</span><span class="hl-code">,</span><span class="hl-var">$a</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+    </span><span class="hl-identifier">sort</span><span class="hl-brackets">(</span><span class="hl-var">$res</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-var">$res</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Return the union between two numeric arrays</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">_array2_union</span><span class="hl-brackets">(</span><span class="hl-var">$a</span><span class="hl-code">,</span><span class="hl-var">$b</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+ 
+    </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$a</span><span class="hl-code"> == </span><span class="hl-reserved">NULL</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-var">$b</span><span class="hl-code">;
+    </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$b</span><span class="hl-code"> == </span><span class="hl-reserved">NULL</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-var">$a</span><span class="hl-code">;
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> A standard &quot;trick&quot; to calculate the union of two arrays</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-identifier">array_merge</span><span class="hl-brackets">(</span><span class="hl-code">
+            </span><span class="hl-identifier">array_intersect</span><span class="hl-brackets">(</span><span class="hl-var">$a</span><span class="hl-code">,</span><span class="hl-var">$b</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-identifier">array_diff</span><span class="hl-brackets">(</span><span class="hl-var">$a</span><span class="hl-code">, </span><span class="hl-var">$b</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-identifier">array_diff</span><span class="hl-brackets">(</span><span class="hl-var">$b</span><span class="hl-code">, </span><span class="hl-var">$a</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="Constructing smooth line plots with Cubic Splines"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.creating-cubic-splines"></a>Constructing smooth line plots with Cubic Splines</h3></div></div></div>
+                
+                <p>The library support interpolation between data point by the use of cubic
+                    splines. This will make the implicit assumption that the underlying phenomenon
+                    that is plotted can be represented by a 3:rd degree polynomial between the given
+                    data points (also known as a control points).</p>
+                <p>Cubic splines have the property that the constructed line will pass through
+                    all control points given.</p>
+                <p>To construct a spline you both the X and Y coordinates for the known data
+                    points are needed since the library can make no assumption on the step size
+                    between the data points.</p>
+                <p>The cubic spline functionality in the library is encapsulated in the
+                        <code class="code">class Spline</code> which is define the module
+                        "<code class="filename">jpgraph_regstat.inc.php</code>" which must be added to the
+                    included files in the script.</p>
+                <p>The first step is to construct new Spline instance. This class is instantiated
+                    by calling the constructor with the two known data arrays (X and Y) as
+                    follows.</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$spline = new Spline( $xdata , $ydata );</span></pre></td></tr></table></div><p>
+                </p>
+                <p>This call initializes the spline with the data points given. These data points
+                    are also known as Control points for the spline. This helper class doesn't draw
+                    any line itself. Instead it is merely used to get a new (larger) data array
+                    which have all the interpolated values. These new value are then used to make
+                    the actual line plot. This way gives great flexibility in how to use the
+                    interpolated data points.</p>
+                <p>To get the y- and x-axis data to be plotted we call the method
+                        <code class="code">Spline::Get()</code> to get an interpolated array containing a
+                    specified number of points. So for example the line</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">list($sdatax , $sdatay) = $spline-&gt;Get( 50 );</span></pre></td></tr></table></div><p>
+                </p>
+                <p>will construct the two new data arrays '<code class="code">$sdatax</code>' and
+                        '<code class="code">$sdatay</code>' which contains 50 data points. These two arrays are
+                    constructed from the control points we specified when we created the
+                        '<code class="code">$spline</code>' object. These data arrays are then used to make the
+                    actual plot just as for a "standard" plot. In <a class="xref" href="ch15.html#fig.splineex1" title="Figure 15.32. Constructing a smooth spline curve from 8 control points (splineex1.php)">Figure 15.32. Constructing a smooth spline curve from 8 control points <code class="uri"><a class="uri" href="example_src/splineex1.html" target="_top">(<code class="filename">splineex1.php</code>)</a></code> </a> we have used 8 control points to construct a spline.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.splineex1"></a><p class="title"><b>Figure 15.32. Constructing a smooth spline curve from 8 control points <code class="uri"><a class="uri" href="example_src/splineex1.html" target="_top">(<code class="filename">splineex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/splineex1.png" alt="Constructing a smooth spline curve from 8 control points (splineex1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>In order to make the example more interesting we actually used two plots.
+                    First a line plot to get the smooth curve and then a standard scatter plot
+                    (discussed later in this manual) which is used to illustrate where the control
+                    points are situated.</p>
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>The library also support the construction of <span class="italic">Bezier curves</span> which is built on a similar concept of
+                            constructing a smooth line from a number of control points, The biggest
+                            difference between cubic splines and Bezier curves is that while a cubic
+                            spline is always guaranteed to pass through all control point a Bezier
+                            curve will in general not pass through any control points. Instead the
+                            Bezier control point are outside the curve and affects the curvature of
+                            the curve. Bezier type curves are not in general used together with data
+                            visualization but are instead used to create specific curves, usually
+                            for CAD and 3D graphic purposes. In the discussion of Canvas graphs, see
+                                <a class="xref" href="ch17s03.html" title="Canvas graphs">Canvas graphs</a>, we discuss this
+                            further.</p>
+                    </div><p>
+                </p>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt04.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

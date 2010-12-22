@@ -1,0 +1,23 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Static vs dynamic images</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch05.html" title="Chapter 5. Fundamentals of dynamic graph generation"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Static vs dynamic images</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 5. Fundamentals of dynamic graph generation</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Static vs dynamic images"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2494178"></a>Static vs dynamic images</h2></div></div></div>
+            
+            <p>Having understood how we can generate images using a PHP script a new idea might
+                be forming. There is nothing that says that we have to create the same image using
+                the same data every time the graph script is called. We could for example randomly
+                select a pre-stored image in a directory and every time we call (the same) graph
+                script and new image is returned. Hence, with PHP scripts we can create dynamic
+                images that generate different images depending on some yet to be specified
+                parameters even though the script name stays the same. This is a new behaviour
+                compared with our normal images. </p>
+            <p>This could also lead to a new, and very real, problem which has to do with the
+                local caching most browsers do in order to avoid re-fetching already fetched objects
+                such as images. Normally a browser will check the time stamp on the file on the
+                server and compare with the latest fetched version it has stored locally. If the
+                browser sees that the file on the server is older than what it already has it will
+                not re-fetch the file. </p>
+            <p>Since a dynamic image is produced by a script and the script will stay the same
+                even if the produced image is changing (due to new data) the browser might still
+                think that the image has not changed since the script is the same and will not
+                bother re-fetching it again. The exact behavior of the browser cache is usually
+                adjustable by the end user and hence out of control for us who writes the script. A
+                simple way to always force the client to re-fetch the dynamic image is described in <a class="xref" href="ch05s05.html#sec2.forcing-browser-update" title="Forcing the browser to update your graph">Forcing the browser to update your graph</a></p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

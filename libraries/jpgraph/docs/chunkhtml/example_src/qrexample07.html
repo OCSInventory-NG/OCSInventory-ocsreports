@@ -1,0 +1,52 @@
+<div style="font-weight: bold;margin-left:15px;">qrexample07.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Example 7 : QR Barcode with multiple manually specified encodation schemas</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> (</span><span class="hl-inlinedoc">Note:</span><span class="hl-comment"> Normally there would be no need to ever use manually specified encodation)</span><span class="hl-comment"></span><span class="hl-code">
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Include the library</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/QR/qrencoder.inc.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Data to be encoded</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+        </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-identifier">QREncoder</span><span class="hl-code">::</span><span class="hl-identifier">MODE_ALPHANUM</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">01234567</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">,
+        </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-identifier">QREncoder</span><span class="hl-code">::</span><span class="hl-identifier">MODE_NUMERIC</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">89012345</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">
+    </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Create a new instance of the encoder (automatically determined QR version and</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> error correction level)</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">QREncoder</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Use the image backend</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">QRCodeBackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-var">$encoder</span><span class="hl-code">, </span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Set the module size</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetModuleWidth</span><span class="hl-brackets">(</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Store the barcode in the specifed file</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

@@ -1,0 +1,318 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 21. Windrose</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt05.html" title="Part V. Additional graph types available in the professional version"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 21. Windrose</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part V. Additional graph types available in the professional version</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 21. Windrose"><div class="titlepage"><div><div><h2 class="title"><a name="id2586258"></a>Chapter 21. Windrose</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch21.html#id2586284">21.1. Introduction</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch21.html#id2586553">21.1.1. Features</a></span></dt><dt><span class="sect2"><a href="ch21.html#id2586667">21.1.2. Different types of Windrose plots</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch21s02.html">21.2. Creating and formatting basic Windrose graphs</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch21s02.html#id2587433">21.2.1. Specifying the windrose scale</a></span></dt><dt><span class="sect2"><a href="ch21s02.html#id2587804">21.2.2. Specifying direction labels</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch21s03.html">21.3. Formatting the plot</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch21s03.html#id2588150">21.3.1. Positioning the plot</a></span></dt><dt><span class="sect2"><a href="ch21s03.html#id2588191">21.3.2. Specifying the size of the plot</a></span></dt><dt><span class="sect2"><a href="ch21s03.html#id2588242">21.3.3. Specifying the size of the Zero-circle (middle circle)</a></span></dt><dt><span class="sect2"><a href="ch21s03.html#id2588292">21.3.4. Formatting the plot legend</a></span></dt><dt><span class="sect2"><a href="ch21s03.html#id2588295">21.3.5. Adjusting the grid colors</a></span></dt><dt><span class="sect2"><a href="ch21s03.html#id2588776">21.3.6. Adjusting the weight of the grid circles</a></span></dt><dt><span class="sect2"><a href="ch21s03.html#id2588868">21.3.7. Adding a box around the plot</a></span></dt><dt><span class="sect2"><a href="ch21s03.html#id2588901">21.3.8. Adjusting the size of the center zero circle</a></span></dt><dt><span class="sect2"><a href="ch21s03.html#sec.windrose-locale-compass">21.3.9. Localizing the default names for the compass directions</a></span></dt><dt><span class="sect2"><a href="ch21s03.html#id2589068">21.3.10. Adjusting the formatting of the windrose plot legs</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch21s04.html">21.4. Some more advanced formatting</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch21s04.html#id2589161">21.4.1. Turning off Anti-aliasing</a></span></dt><dt><span class="sect2"><a href="ch21s04.html#id2589188">21.4.2. More on formatting scale-labels</a></span></dt><dt><span class="sect2"><a href="ch21s04.html#id2589422">21.4.3. Formatting the legend </a></span></dt><dt><span class="sect2"><a href="ch21s04.html#id2589687">21.4.4. Highlighting specific compass directions</a></span></dt><dt><span class="sect2"><a href="ch21s04.html#id2589778">21.4.5. Including a graph in a PDF</a></span></dt><dt><span class="sect2"><a href="ch21s04.html#id2589844">21.4.6. Adding a background image</a></span></dt><dt><span class="sect2"><a href="ch21s04.html#id2589846">21.4.7. Adjusting the interpretation for ordinal keys in data</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch21s05.html">21.5. Adding icon and text objects to the graph</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch21s05.html#id2590083">21.5.1. Adding a text object</a></span></dt><dt><span class="sect2"><a href="ch21s05.html#id2590085">21.5.2. Adding icons to the graph</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch21s06.html">21.6. Using layout classes to position Windrose plots</a></span></dt><dt><span class="sect1"><a href="ch21s07.html">21.7. Example section</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch21s07.html#id2590489">21.7.1. Example 1</a></span></dt><dt><span class="sect2"><a href="ch21s07.html#id2590558">21.7.2. Example 2</a></span></dt><dt><span class="sect2"><a href="ch21s07.html#id2590662">21.7.3. Example 3</a></span></dt><dt><span class="sect2"><a href="ch21s07.html#id2590781">21.7.4. Example 4</a></span></dt><dt><span class="sect2"><a href="ch21s07.html#id2590808">21.7.5. Example 5</a></span></dt><dt><span class="sect2"><a href="ch21s07.html#id2591019">21.7.6. Example 6</a></span></dt><dt><span class="sect2"><a href="ch21s07.html#id2591106">21.7.7. Example 7</a></span></dt><dt><span class="sect2"><a href="ch21s07.html#id2591253">21.7.8. Example 8</a></span></dt><dt><span class="sect2"><a href="ch21s07.html#id2591304">21.7.9. Example 9</a></span></dt><dt><span class="sect2"><a href="ch21s07.html#sec.windrose-ex10">21.7.10. Example 10</a></span></dt></dl></dd></dl></div>
+    
+    <div class="sect1" title="Introduction"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2586284"></a>Introduction</h2></div></div></div>
+        
+        <div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>This module is only available in the pro-version of the library.</p></div>
+        <p>Windrose plots are usually used to display values which are related to compass
+            directions. For example it could be used to illustrate measured wind strengths over a
+            time period in different directions. <a class="xref" href="ch21.html#fig.windrose-intro" title="Figure 21.1. An basic Windrose plot">Figure 21.1. An basic Windrose plot</a>
+            Illustrates a basic example of a windrose graph with one windrose plot.</p>
+        <div class="figure"><a name="fig.windrose-intro"></a><p class="title"><b>Figure 21.1. An basic Windrose plot</b></p><div class="figure-contents">
+            
+            <div class="mediaobject"><img src="images/windrose_intro.png" alt="An basic Windrose plot"></div>
+        </div></div><br class="figure-break">
+        <p>Windrose plots puts data in a number of ranges (or buckets). The number of data points
+            in a certain bucket is visualized by the length of the particular bucket in that
+            direction. The input data specifies the percentage of the overall data that belongs to
+            one bucket in one specific direction. By default there are eight buckets with ranges
+            shown in <a class="xref" href="ch21.html#table.windrose-default-buckets" title="Table 21.1. Default windrose buckets">Table 21.1. Default windrose buckets</a>. The default ranges that
+            is shown in the legend is standard values used in displaying wind strengths. The values
+            in the legend (for the buckets) is purely informational since the actual display is
+            controlled by the input data that only specifies a bucket number and not any absolute
+            data values. See more on how to specify input data in ??</p>
+        <p>
+            </p><div class="table"><a name="table.windrose-default-buckets"></a><p class="title"><b>Table 21.1. Default windrose buckets</b></p><div class="table-contents">
+                
+                <table summary="Default windrose buckets" border="1"><colgroup><col class="c1"><col class="c2"></colgroup><thead><tr><th>Bucket nr </th><th>Range of values </th></tr></thead><tbody><tr><td align="center">0</td><td>[0,1]</td></tr><tr><td align="center">1</td><td>[1,2]</td></tr><tr><td align="center">2</td><td>[2,3]</td></tr><tr><td align="center">3</td><td>[3,5]</td></tr><tr><td align="center">4</td><td>[5,6]</td></tr><tr><td align="center">5</td><td>[6,10]</td></tr><tr><td align="center">6</td><td>[10,13.5]</td></tr><tr><td align="center">7</td><td>[13.5,99]</td></tr></tbody></table>
+            </div></div><p><br class="table-break">
+        </p>
+        <p>
+            </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                <p>The default fonts for Windrose graphs are TTF fonts. This means that to run
+                    the examples exactly as shown in this chapter TTF fonts must be installed. If
+                    TTF fonts are not available then the font needs to be changed to one of the
+                    built-in fonts. </p>
+            </div><p>
+        </p>
+        <p>Windrose plots also supports full image anti-aliasing to enhance the look and feel of
+            the graph. The image in <a class="xref" href="ch21.html#fig.windrose-intro" title="Figure 21.1. An basic Windrose plot">Figure 21.1. An basic Windrose plot</a> is using
+            anti-alias.</p>
+        <p>
+            </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                <p>To use anti alias TTF fonts must be enabled and used.</p>
+            </div><p>
+        </p>
+        <div class="sect2" title="Features"><div class="titlepage"><div><div><h3 class="title"><a name="id2586553"></a>Features</h3></div></div></div>
+            
+            <p>The Windrose extension module supports all the usual library graph capabilities
+                like frames, shadows, colors, titles, cache. Some of the additional Windrose graphs
+                capabilities are: </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p>Enhanced anti-alias capability for smooth looking graphs</p>
+                    </li><li class="listitem">
+                        <p>Manual or automatic scale</p>
+                    </li><li class="listitem">
+                        <p>Supports customizable compass types which allow you to choose between
+                            16,8 and 4 compass directions to be shown.</p>
+                    </li><li class="listitem">
+                        <p>Supports two types of basic graphs; Free direction graphs and compass
+                            bound graphs.</p>
+                    </li><li class="listitem">
+                        <p>Allows data to be specified with both compass direction and angles (in
+                            degrees)</p>
+                    </li><li class="listitem">
+                        <p>Fully customizable fonts everywhere in the plot</p>
+                    </li><li class="listitem">
+                        <p>Fully automatic adaptive positioning of the labels for the scale to
+                            avoid collision with data. This can also be turned off to allow manual
+                            positioning of the labels.</p>
+                    </li><li class="listitem">
+                        <p>Labels have extensive formatting capabilities and supports background
+                            colors, rounded boxes and arbitrary fonts.</p>
+                    </li><li class="listitem">
+                        <p>Supports multiple Windrose graphs on the same image</p>
+                    </li><li class="listitem">
+                        <p>Fully customizable size and positioning of each individual windrose
+                            graph.</p>
+                    </li><li class="listitem">
+                        <p>Size of windrose plots can be specified both as absolute pixels or as
+                            fraction of the graph size.</p>
+                    </li><li class="listitem">
+                        <p>Both manual and automatic color specifications</p>
+                    </li><li class="listitem">
+                        <p>Both automatic and manual scaling</p>
+                    </li><li class="listitem">
+                        <p>Intelligent positioning of angle labels with possibility for client
+                            specification of alignment type.</p>
+                    </li><li class="listitem">
+                        <p>Windrose graphs may have arbitrary texts blocks added to the
+                            graph</p>
+                    </li></ul></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Different types of Windrose plots"><div class="titlepage"><div><div><h3 class="title"><a name="id2586667"></a>Different types of Windrose plots</h3></div></div></div>
+            
+            <p>There are two basic types of Windrose plots: </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><span class="bold"><strong>Compass type. </strong></span></p>
+                        <p>This type of windrose plot has either 4,8 or 16 compass direction
+                            axis. Directions in input data is limited to one of the compass
+                            directions in the plot. The directions are specified as ordinal number
+                            of the direction axis. </p>
+                        <p>The labels on the axis is by default short forms of the compass
+                            directions, for example, "E", "N", "W", "S". (See ?? for how to alter
+                            the default names of the compass directions). The ordinal number are
+                            counted anti-clockwise from East (3 o'clock).</p>
+                    </li><li class="listitem">
+                        <p><span class="bold"><strong>Free type. </strong></span></p>
+                        <p>This type of windrose plot has no pre-defined direction axis.
+                            Directions in input data can be arbitrary angles (or specified as
+                            compass directions e.g. "NW"). The 0-angle corresponds to the East
+                            direction (3 o'clock)</p>
+                    </li></ul></div><p>
+            </p>
+            <p>To specify the type of plot to create the following method is used</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">WindrosePlot::SetType($aDirection)</code>
+                        </p>
+                        <p><code class="code">$aDirection</code> is one of the following 4 predefined
+                            constants</p>
+                        <p>
+                            </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                    <p><code class="code">WINDROSE_TYPE4</code>, Compass type with the four
+                                        core compass directions</p>
+                                </li><li class="listitem">
+                                    <p><code class="code">WINDROSE_TYPE8</code>, Compass type with eight
+                                        directions</p>
+                                </li><li class="listitem">
+                                    <p><code class="code">WINDROSE_TYPE16</code>, Compass type with sixteen
+                                        directions</p>
+                                </li><li class="listitem">
+                                    <p><code class="code">WINDROSE_TYPEFREE</code>, Free type. Data directions
+                                        can be arbitrary angles and there are no predefined labels
+                                        nor any predefined axis.</p>
+                                </li></ul></div><p>
+                        </p>
+                    </li></ul></div><p>
+            </p>
+            <p>The figures below illustrates the basic principle of the different types of
+                windrose plots</p>
+            <p>
+                <table xmlns="" frame="void" id="id2586849">
+                    <tbody xmlns="">
+                        <tr>
+                            <td align="center">
+                                <div class="figure"><a name="id2586867"></a><p class="title"><b>Figure 21.2. <code class="code">WINDROSE_TYPE4</code></b></p><div class="figure-contents">
+                                    
+                                    <div class="mediaobject"><img src="images/windrose_type4.png" alt="WINDROSE_TYPE4"></div>
+                                </div></div><br class="figure-break">
+                            </td>
+                            <td align="center">
+                                <div class="figure"><a name="id2586898"></a><p class="title"><b>Figure 21.3. <code class="code">WINDROSE_TYPE8</code></b></p><div class="figure-contents">
+                                    
+                                    <div class="mediaobject"><img src="images/windrose_type8.png" alt="WINDROSE_TYPE8"></div>
+                                </div></div><br class="figure-break">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <div class="figure"><a name="id2586927"></a><p class="title"><b>Figure 21.4. <code class="code">WINDROSE_TYPE16</code></b></p><div class="figure-contents">
+                                    
+                                    <div class="mediaobject"><img src="images/windrose_type16.png" alt="WINDROSE_TYPE16"></div>
+                                </div></div><br class="figure-break">
+                            </td>
+                            <td align="center">
+                                <div class="figure"><a name="id2586957"></a><p class="title"><b>Figure 21.5. <code class="code">WINDROSE_TYPEFREE</code></b></p><div class="figure-contents">
+                                    
+                                    <div class="mediaobject"><img src="images/windrose_typefree.png" alt="WINDROSE_TYPEFREE"></div>
+                                </div></div><br class="figure-break">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </p>
+            <p>The following line would specify a Windrose plot with all 16 compass angles </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">WindrosePlot</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetType</span><span class="hl-brackets">(</span><span class="hl-identifier">WINDROSE_TYPE16</span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>If no type is specified the plot type will default to a compass type with
+                        16 directions</p>
+                </div><p>
+            </p>
+            <div class="sect3" title="Specifying input data"><div class="titlepage"><div><div><h4 class="title"><a name="id2587005"></a>Specifying input data</h4></div></div></div>
+                
+                <p>Input data is in the form of a data array. Each entry in the array is itself
+                    an array which gives the data for one direction. The data should be interpreted
+                    as the percentage of the overall data that belongs to a certain direction and
+                    bucket. This also means that the total sum of all data entries (for all
+                    doirections) must be less or equal to 100. It can however be less than 100
+                    (indicating that some data is lost). </p>
+                <p>The first bucket, bucket 0, specifies the 0-value, i.e. what part of the data
+                    in that direction that has no measurement (e.g. it was wind still). Since wind
+                    still has no direction all specified bucket 0 are summarized and displayed in
+                    the inner circle.</p>
+                <p>By default the ranges displayed on the legend are:</p>
+                <p>0-1, 1-2, 2-3, 3-5, 5-6, 6-10, 10-13.5, 13-99</p>
+                <p>This means that the first element specify the percentage of 0-1 reading the
+                    sum of these reading will be placed in the center of the windrose plot. The
+                    second element specifies the percentage of 1-2 readings, the third element the
+                    percentage of 2-3 readings and so on.</p>
+                <p>The direction is specified as the key for that element. The direction can be
+                    specified as either </p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p>A string specifying any of the displayed compass directions, e.g.
+                                "N", "SW".</p>
+                            <p>
+                                </p><pre class="screen">$data = array ( array('E' =&gt; &lt;east_bucket0&gt;,&lt;east_bucket1&gt; ... &lt;east_bucketN&gt; ),
+                array('ESE' =&gt; &lt;eastsoutheast_bucket0&gt;, ... &lt;eastsoutheast_bucketN&gt; ), 
+                ....
+                array('NE' =&gt; &lt;northeast_bucket0&gt;, ... &lt;northeast_bucketN&gt; ), 
+                array('ENE' =&gt; &lt;eastnortheast_bucket0&gt;, ... &lt;eastnortheast_bucketN&gt; ));</pre><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p>An ordinal number (integer) in the range 0-15 for regular plots
+                                which indicates the axis counting anti-clockwise from East. Please
+                                note that only displayed axis count. Ordinal number zero specifies
+                                the east direction</p>
+                            <p>
+                                </p><pre class="screen">$data = array ( array(0 =&gt; &lt;east_bucket0&gt;,&lt;east_bucket1&gt; ... &lt;east_bucketN&gt; ),
+                array(1 =&gt; &lt;eastsoutheast_bucket0&gt;, ... &lt;eastsoutheast_bucketN&gt; ), 
+                ....
+                array(2 =&gt; &lt;northeast_bucket0&gt;, ... &lt;northeast_bucketN&gt; ), 
+                array(3 =&gt; &lt;eastnortheast_bucket0&gt;, ... &lt;eastnortheast_bucketN&gt; ));</pre><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p>A string indicating a number, e.g. '34.5' , please note that if
+                                the angle is a fraction it must specified as a string. The library
+                                will then automatically recognize that as a valid angle and treat it
+                                as expected. (The reason for this is that floating point numbers
+                                can't be used as keys in an associative array.)</p>
+                            <p>
+                                </p><pre class="screen">$data = array ( array('12.5' =&gt; &lt;bucket0&gt;,&lt;bucket1&gt; ... &lt;bucketN&gt; ),
+                array('22.1' =&gt; &lt;bucket0&gt;, ... &lt;bucketN&gt; ), 
+                ....
+                                </pre><p>
+                            </p>
+                        </li></ul></div><p>
+                </p>
+                <p>Within the same data set it is also possible to mix the styles.</p>
+                <p>
+                    </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                        <p>The library makes no data validation apart from checking that the
+                            overall sum of the buckets can not be &gt; 100%. It is up to the client to
+                            make sure that the data specified makes sense.</p>
+                    </div><p>
+                </p>
+                <p>If you specify a direction in the data for a compass directions that is not
+                    displayed when using a regular Windrose plot you will get an error message to
+                    that affect. </p>
+                <p>Below are some examples of how to specify the data which should clarify how
+                    this works</p>
+                <p>
+                    </p><div class="example"><a name="id2587141"></a><p class="title"><b>Example 21.1. Examples of input data for compass (regular) Windrose plots</b></p><div class="example-contents">
+                        
+                        <p><span class="italic">(Assuming we have all 16 axis
+                                displayed)</span></p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array( 'N' =&gt; array(2,5,6) );</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>This data array specifies reading in only one direction, "North", the
+                            number of 0-readings are 2 percent, number of 0-1 readings are 5 percent
+                            and the number of 1-2 readings are 6 percent. </p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array( 1 =&gt; array(2,5,6), 3 =&gt;  array(6,3), 'NW' =&gt; array(3,2,2,2) )</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>This data array specifies readings in three directions. As shown it is
+                            possible to mix both ordinal number for the axis as well as the symbolic
+                            direction name. However, it is probably best to stick with one method at
+                            a time for clarity.</p>
+                    </div></div><p><br class="example-break">
+                </p>
+                <p>
+                    </p><div class="example"><a name="id2587190"></a><p class="title"><b>Example 21.2.  Examples of input data for free Windrose plots</b></p><div class="example-contents">
+                        
+                        <p>What is special with the free type is that angles are no longer
+                            restricted to only the 16 compass directions but arbitrary directions as
+                            well. </p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array( 10 =&gt; array(2,5,6), 24 =&gt;  array(6,3), 137 =&gt; array(3,2,2,2) )</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>This data array specifies readings in three directions, 10 degrees, 24
+                            degrees and 137 degrees. </p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array( '21.6' =&gt; array(2,5,6), 'N' =&gt; array(6,3), 137 =&gt; array(3,2,2,2) )</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>This data array specifies readings in three directions, 21.5 degrees,
+                            'North' (or 90 degrees) and finally 137 degrees. Please note that in
+                            order to specify a fraction for an angle we must specify the direction
+                            as a string value, i.e. '21.6'. This will then be handled automatically
+                            be the library. </p>
+                    </div></div><p><br class="example-break">
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt05.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

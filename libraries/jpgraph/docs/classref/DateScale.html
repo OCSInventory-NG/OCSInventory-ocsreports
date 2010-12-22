@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_DATESCALE"><b>DateScale</b></a> Extends <a style="font-size:14pt;text-decoration:underline;"href="LinearScale.html#_C_LINEARSCALE " style="font-face:arial;font-weight:bold;">LinearScale </a></div>
+<i>(Defined in: jpgraph_date.php : 49)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="DateScale.html" style="font-family:arial;font-weight:bold;color:darkblue;">DateScale</a>&nbsp;</td><td align="center" style="background:lightgray;" >&nbsp;<a href="LinearScale.html" style="font-family:arial;font-weight:bold;color:darkblue;">LinearScale</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="DateScale.html#_DATESCALE_ADJUSTFORDST">AdjustForDST()</a>&nbsp;<br>
+&nbsp;<a href="DateScale.html#_DATESCALE_SETDATEALIGN">SetDateAlign()</a>&nbsp;<br>
+&nbsp;<a href="DateScale.html#_DATESCALE_SETDATEFORMAT">SetDateFormat()</a>&nbsp;<br>
+&nbsp;<a href="DateScale.html#_DATESCALE_SETTIMEALIGN">SetTimeAlign()</a>&nbsp;<br>
+</td><td valign=top>&nbsp;<a href="LinearScale.html#_LINEARSCALE_SETAUTOMAX">SetAutoMax()</a>&nbsp;<br>
+&nbsp;<a href="LinearScale.html#_LINEARSCALE_SETAUTOMIN">SetAutoMin()</a>&nbsp;<br>
+&nbsp;<a href="LinearScale.html#_LINEARSCALE_SETAUTOTICKS">SetAutoTicks()</a>&nbsp;<br>
+&nbsp;<a href="LinearScale.html#_LINEARSCALE_SETGRACE">SetGrace()</a>&nbsp;<br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>Module used to create a date/time X-axis scale <p> &nbsp;
+<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_DATESCALE_ADJUSTFORDST"><span style="color:#555555;">DateScale ::</span><br><b>AdjustForDST</b>($aFlg)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFlg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_DATESCALE_SETDATEALIGN"><span style="color:#555555;">DateScale ::</span><br><b>SetDateAlign</b>($aStartAlign, $aEndAlign)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify start and end date alignment for the scale</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aStartAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Start alignment</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aEndAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">false</span>
+</span>
+</td><td>End alignment</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify start and end date alignment for the scale
+Possible values are
+<ol>
+<li> Alignment on a day basis
+<ul>
+<li> DAYADJ_1, Align on the start of a day
+<li> DAYADJ_7, Align on the start of a week
+<li> DAYADJ_WEEK, Synonym to DAYADJ_7
+</ul>
+
+<li> Alignment on a monthly basis
+<ul>
+<li> MONTHADJ_1, Align on a month start
+<li> MONTHADJ_6, Align on the start of halfyear
+</ul>
+
+<li> Alignment on a yearly basis
+<ul>
+<li> YEARADJ_1, Align on a year
+<li> YEARADJ_2, Align on a bi-yearly basis
+<li> YEARADJ_5, Align on a 5 year basis
+</ul>
+</ol>
+&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="DateScale.html#_DATESCALE_SETTIMEALIGN">DateScale::SetTimeAlign()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">xaxis</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">scale</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetDateAlign</span><span style="color: #007700">(</span><span style="color: #0000BB">DAYADJ_1</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_DATESCALE_SETDATEFORMAT"><span style="color:#555555;">DateScale ::</span><br><b>SetDateFormat</b>($aFormat)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Overrides the automatic determined date format. Must be a valid date() format string</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFormat</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_DATESCALE_SETTIMEALIGN"><span style="color:#555555;">DateScale ::</span><br><b>SetTimeAlign</b>($aStartAlign, $aEndAlign)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify start and end date alignment for the scale</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aStartAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Start time alignment</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aEndAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">false</span>
+</span>
+</td><td>End time alignment</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the start and end alignment with the time granularity. For date granularity see SetDateAlign(). Note that only one of SetDateAlign() and SetTimeAlign() can be used.
+
+For start and end alignment the following values are valid
+
+<ol>
+<li> Alignment on seconds
+<ul>
+<li> MINADJ_1, Align on a single second (This is the lowest resolution)
+<li> MINADJ_5, Align on the nearest 5 seconds
+<li> MINADJ_10, Align on the nearest 10 seconds
+<li> MINADJ_15, Align on the nearest 15 seconds
+<li> MINADJ_30, Align on the nearest 30 seconds
+</ul>
+<li> Alignment on minutes
+<ul>
+<li> MINADJ_1, Align to the nearest minute
+<li> MINADJ_5, Align on the nearest 5 minutes
+<li> MINADJ_10, Align on the nearest 10 minutes
+<li> MINADJ_15, Align on the nearest 15 minutes
+<li> MINADJ_30, Align on the nearest 30 minutes
+</ul>
+<li> Alignment on hours
+<ul>
+<li> HOURADJ_1, Align to the nearest hour
+<li> HOURADJ_2, Align to the nearest two hour
+<li> HOURADJ_3, Align to the nearest three hour
+<li> HOURADJ_4, Align to the nearest four hour
+<li> HOURADJ_6, Align to the nearest six hour
+<li> HOURADJ_12, Align to the nearest tolw hour
+</ul>
+</ol>
+&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="DateScale.html#_DATESCALE_SETDATEALIGN">DateScale::SetDateAlign()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">xaxis</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">scale</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetTimeAlign</span><span style="color: #007700">(</span><span style="color: #0000BB">MINADJ_15</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p> <hr> <p></html>

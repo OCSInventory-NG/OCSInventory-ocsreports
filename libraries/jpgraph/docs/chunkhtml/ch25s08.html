@@ -1,0 +1,265 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Example scripts</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch25.html" title="Chapter 25. PDF417 (2D-Barcode)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Example scripts</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 25. PDF417 (2D-Barcode)</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Example scripts"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2603171"></a>Example scripts</h2></div></div></div>
+        
+        <p>The following section shows some example scripts that can serve as starting points for
+            further development. </p>
+        <div class="sect2" title="Showing human readable text"><div class="titlepage"><div><div><h3 class="title"><a name="id2603211"></a>Showing human readable text</h3></div></div></div>
+            
+            <p>
+                </p><div class="example"><a name="example.pdf417_ex3"></a><p class="title"><b>Example 25.5. Showing human readable text (<code class="filename">pdf417_ex3.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/pdf417/jpgraph_pdf417.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">PDF-417</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup some symbolic names for barcode specification</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-var">$columns</span><span class="hl-code"> = </span><span class="hl-number">8</span><span class="hl-code">;   </span><span class="hl-comment">//</span><span class="hl-comment"> Use 8 data (payload) columns</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$errlevel</span><span class="hl-code"> = </span><span class="hl-number">4</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Use error level 4</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$modwidth</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Setup module width (in pixels)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$height</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code">;    </span><span class="hl-comment">//</span><span class="hl-comment"> Height factor (=2)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$showtext</span><span class="hl-code"> = </span><span class="hl-reserved">false</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Show human readable string</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new encoder and backend to generate PNG images</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">try</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">PDF417Barcode</span><span class="hl-brackets">(</span><span class="hl-var">$columns</span><span class="hl-code">,</span><span class="hl-var">$errlevel</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">PDF417BackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-code">,</span><span class="hl-var">$encoder</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetModuleWidth</span><span class="hl-brackets">(</span><span class="hl-var">$modwidth</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetHeight</span><span class="hl-brackets">(</span><span class="hl-var">$height</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">NoText</span><span class="hl-brackets">(</span><span class="hl-code">!</span><span class="hl-var">$showtext</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-reserved">catch</span><span class="hl-brackets">(</span><span class="hl-identifier">JpGraphException</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">PDF417 Error: </span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetMessage</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.pdf417_ex3"></a><p class="title"><b>Figure 25.12. Showing human readable text <code class="uri"><a class="uri" href="example_src/pdf417_ex3.html" target="_top">(<code class="filename">pdf417_ex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/pdf417_ex3.png" alt="Showing human readable text (pdf417_ex3.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+        </div>
+        <div class="sect2" title="Altering colors"><div class="titlepage"><div><div><h3 class="title"><a name="id2603267"></a>Altering colors</h3></div></div></div>
+            
+            <p>
+                </p><div class="example"><a name="example.pdf417_ex4"></a><p class="title"><b>Example 25.6. Changing colors (<code class="filename">pdf417_ex4.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/pdf417/jpgraph_pdf417.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">PDF-417</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup some symbolic names for barcode specification</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-var">$columns</span><span class="hl-code"> = </span><span class="hl-number">8</span><span class="hl-code">;   </span><span class="hl-comment">//</span><span class="hl-comment"> Use 8 data (payload) columns</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$errlevel</span><span class="hl-code"> = </span><span class="hl-number">4</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Use error level 4</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$modwidth</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Setup module width (in pixels)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$height</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code">;    </span><span class="hl-comment">//</span><span class="hl-comment"> Height factor (=2)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$showtext</span><span class="hl-code"> = </span><span class="hl-reserved">true</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Show human readable string</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-reserved">try</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Create a new encoder and backend to generate PNG images</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">PDF417Barcode</span><span class="hl-brackets">(</span><span class="hl-var">$columns</span><span class="hl-code">,</span><span class="hl-var">$errlevel</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">PDF417BackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-code">,</span><span class="hl-var">$encoder</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetModuleWidth</span><span class="hl-brackets">(</span><span class="hl-var">$modwidth</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetHeight</span><span class="hl-brackets">(</span><span class="hl-var">$height</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">NoText</span><span class="hl-brackets">(</span><span class="hl-code">!</span><span class="hl-var">$showtext</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">black</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">yellow</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-reserved">catch</span><span class="hl-brackets">(</span><span class="hl-identifier">JpGraphException</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">PDF417 Error: </span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetMessage</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.pdf417_ex4"></a><p class="title"><b>Figure 25.13. Changing colors <code class="uri"><a class="uri" href="example_src/pdf417_ex4.html" target="_top">(<code class="filename">pdf417_ex4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/pdf417_ex4.png" alt="Changing colors (pdf417_ex4.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+        </div>
+        <div class="sect2" title="Creating postscript output"><div class="titlepage"><div><div><h3 class="title"><a name="id2603338"></a>Creating postscript output</h3></div></div></div>
+            
+            <p>
+                </p><div class="example"><a name="example.pdf417_ex5"></a><p class="title"><b>Example 25.7.  (<code class="filename">pdf417_ex5.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/pdf417/jpgraph_pdf417.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">PDF-417</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup some symbolic names for barcode specification</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-var">$columns</span><span class="hl-code"> = </span><span class="hl-number">8</span><span class="hl-code">;   </span><span class="hl-comment">//</span><span class="hl-comment"> Use 8 data (payload) columns</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$errlevel</span><span class="hl-code"> = </span><span class="hl-number">4</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Use error level 4</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$modwidth</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-number">.8</span><span class="hl-code">;</span><span class="hl-comment">//</span><span class="hl-comment"> Setup module width (in PS points)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$height</span><span class="hl-code"> = </span><span class="hl-number">3</span><span class="hl-code">;    </span><span class="hl-comment">//</span><span class="hl-comment"> Height factor (=2)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$showtext</span><span class="hl-code"> = </span><span class="hl-reserved">true</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Show human readable string</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-reserved">try</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Create a new encoder and backend to generate PNG images</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">PDF417Barcode</span><span class="hl-brackets">(</span><span class="hl-var">$columns</span><span class="hl-code">,</span><span class="hl-var">$errlevel</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">PDF417BackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-identifier">BACKEND_PS</span><span class="hl-code">,</span><span class="hl-var">$encoder</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetModuleWidth</span><span class="hl-brackets">(</span><span class="hl-var">$modwidth</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetHeight</span><span class="hl-brackets">(</span><span class="hl-var">$height</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">NoText</span><span class="hl-brackets">(</span><span class="hl-code">!</span><span class="hl-var">$showtext</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">black</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">yellow</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$output</span><span class="hl-code"> = </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-identifier">nl2br</span><span class="hl-brackets">(</span><span class="hl-identifier">htmlspecialchars</span><span class="hl-brackets">(</span><span class="hl-var">$output</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-reserved">catch</span><span class="hl-brackets">(</span><span class="hl-identifier">JpGraphException</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">PDF417 Error: </span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetMessage</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break"> 
+            </p>
+        </div>
+        <div class="sect2" title="Manually selecting compaction schema"><div class="titlepage"><div><div><h3 class="title"><a name="id2603350"></a>Manually selecting compaction schema</h3></div></div></div>
+            
+            <p><span class="bold"><strong>Purpose:</strong></span></p>
+            <p>To show how to manually specify the compaction schema to be used for the input
+                data. The example below shows how to manually specify when to use numeric and when
+                to use text mode. </p>
+            <p>
+                </p><div class="example"><a name="example.pdf417_ex6"></a><p class="title"><b>Example 25.8.  (<code class="filename">pdf417_ex6.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/pdf417/jpgraph_pdf417.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$data1</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">12345</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-var">$data2</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">Abcdef</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-var">$data3</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">6789</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Manually specify several encodation schema</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-identifier">USE_NC</span><span class="hl-code">,</span><span class="hl-var">$data1</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-identifier">USE_TC</span><span class="hl-code">,</span><span class="hl-var">$data2</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-identifier">USE_NC</span><span class="hl-code">,</span><span class="hl-var">$data3</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment">$data = &quot;12345Abcdef6789&quot;;</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup some symbolic names for barcode specification</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-var">$columns</span><span class="hl-code"> = </span><span class="hl-number">8</span><span class="hl-code">;   </span><span class="hl-comment">//</span><span class="hl-comment"> Use 8 data (payload) columns</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$modwidth</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Use 2 pixel module width</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$errlevel</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Use error level 2</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$showtext</span><span class="hl-code"> = </span><span class="hl-reserved">true</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> Show human readable string</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-reserved">try</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Create a new encoder and backend to generate PNG images</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">PDF417Barcode</span><span class="hl-brackets">(</span><span class="hl-var">$columns</span><span class="hl-code">,</span><span class="hl-var">$errlevel</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">PDF417BackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-code">,</span><span class="hl-var">$encoder</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetModuleWidth</span><span class="hl-brackets">(</span><span class="hl-var">$modwidth</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">NoText</span><span class="hl-brackets">(</span><span class="hl-code">!</span><span class="hl-var">$showtext</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-reserved">catch</span><span class="hl-brackets">(</span><span class="hl-identifier">JpGraphException</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">PDF417 Error: </span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetMessage</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.pdf417_ex6"></a><p class="title"><b>Figure 25.14.  <code class="uri"><a class="uri" href="example_src/pdf417_ex6.html" target="_top">(<code class="filename">pdf417_ex6.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/pdf417_ex6.png" alt="(pdf417_ex6.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+        </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch25.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

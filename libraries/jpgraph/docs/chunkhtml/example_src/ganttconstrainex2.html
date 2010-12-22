@@ -1,0 +1,74 @@
+<div style="font-weight: bold;margin-left:15px;">ganttconstrainex2.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Gantt example</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_gantt.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> </span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> The data for the graphs</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-identifier">ACTYPE_GROUP</span><span class="hl-code">,    </span><span class="hl-quotes">&quot;</span><span class="hl-string">Phase 1</span><span class="hl-quotes">&quot;</span><span class="hl-code">,        </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-10-26</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-23</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-identifier">ACTYPE_NORMAL</span><span class="hl-code">,   </span><span class="hl-quotes">&quot;</span><span class="hl-string">  Label 2</span><span class="hl-quotes">&quot;</span><span class="hl-code">,      </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-01</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-20</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-identifier">ACTYPE_NORMAL</span><span class="hl-code">,   </span><span class="hl-quotes">&quot;</span><span class="hl-string">  Label 3</span><span class="hl-quotes">&quot;</span><span class="hl-code">,      </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-10-26</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-03</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-identifier">ACTYPE_MILESTONE</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">  Phase 1 Done</span><span class="hl-quotes">&quot;</span><span class="hl-code">, </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-23</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">M2</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> The constrains between the activities</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$constrains</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-identifier">CONSTRAIN_ENDSTART</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-identifier">CONSTRAIN_STARTSTART</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$progress</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-number">.4</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the basic graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GanttGraph</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">Example with grouping and constrains</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-comment">//</span><span class="hl-comment">$graph-&gt;SetFrame(false);</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup scale</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">ShowHeaders</span><span class="hl-brackets">(</span><span class="hl-identifier">GANTT_HYEAR</span><span class="hl-code"> | </span><span class="hl-identifier">GANTT_HMONTH</span><span class="hl-code"> | </span><span class="hl-identifier">GANTT_HDAY</span><span class="hl-code"> | </span><span class="hl-identifier">GANTT_HWEEK</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">week</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetStyle</span><span class="hl-brackets">(</span><span class="hl-identifier">WEEKSTYLE_FIRSTDAYWNBR</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the specified activities</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">CreateSimple</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-code">,</span><span class="hl-var">$constrains</span><span class="hl-code">,</span><span class="hl-var">$progress</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> .. and stroke the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

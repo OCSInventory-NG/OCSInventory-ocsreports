@@ -1,0 +1,146 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Rotating graphs</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch14.html" title="Chapter 14. Common features for all Cartesian (x,y) graph types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Rotating graphs</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 14. Common features for all Cartesian (x,y) graph types</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Rotating graphs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2548593"></a>Rotating graphs</h2></div></div></div>
+            
+            <p>The library supports an arbitrary rotation of a the plot area as well as some
+                special convenience method to rotate the plot area 90 degree which most often is
+                used to draw a horizontal bar graph instead of a (standard) vertical bar
+                graph.</p>
+            <p>
+                </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                    <p>Adding a rotation transformation will make the graph generation slightly
+                        slower since each point of the graph as to go through a transformation step
+                        before being stroked on to the image. The library tries to mitigate this as
+                        much as possible by using a pre-calculated transformation matrix and also
+                        makes further optimizations for the special case of 90 degree
+                        rotations.</p>
+                </div><p>
+            </p>
+            <p>
+                </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                    <p>Any background images (see <a class="xref" href="ch14s15.html" title="Adding images and country flags to the background of the graph">Adding images and country flags to the background of the graph</a>) will not be rotated with the graph. This limitation exists since the
+                        performance and memory usage of doing real image transformation in PHP would
+                        be too poor. Any background images needing rotation must be rotated outside
+                        in some image manipulation program (e.g. Gimp, IrfanView).</p>
+                </div><p>
+            </p>
+            <p>When a plot area is rotated there are two things to be aware of </p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p><span class="italic">individual labels on the axis are not
+                                rotated</span></p>
+                        <p>The design decision behind this is that bit mapped fonts cannot be
+                            arbitrarily rotated and rotating TTF fonts will decrease (in general)
+                            the readability. If angle rotation is needed on the labels it is still
+                            possible to use the method <code class="code">Axis::SetLabelAngle()</code></p>
+                        <p>
+                            </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                                <p>Since the anchor point for labels is by default the optimum
+                                    for graph at 0 degree the anchor point and alignment for the
+                                    labels on the axis should probably be adjusted to get a better
+                                    visual appearance on the rotated graph. This is accomplished by
+                                    the method <code class="code">Axis::SetLabelAlign()</code>
+                                </p>
+                            </div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p><span class="italic">any background image or background gradient is
+                                not rotated</span></p>
+                        <p>The design decision behind this is purely computational Doing a full
+                            image rotation would be excruciating CPU intensive using PHP.</p>
+                    </li></ol></div><p>
+            </p>
+            <div class="sect2" title="Free rotation of the plot area"><div class="titlepage"><div><div><h3 class="title"><a name="id2551329"></a>Free rotation of the plot area</h3></div></div></div>
+                
+                <p>The rotation of the plot area is controlled with the following two methods </p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Image::SetAngle($aAngle)</code></p>
+                            <p>"<code class="code">$Angle</code>" = Angle of rotation specified in degrees. A
+                                positive angle specifies a clockwise rotation.</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Image::SetCenter($aX, $aY)</code></p>
+                            <p>Specifies the center of rotation</p>
+                        </li></ul></div><p>
+                </p>
+                <p>The Image class is the lowest graphic layer in the library and it is access
+                    through the instance variable "<code class="code">$img</code>" of the Graph class. So for
+                    example to rotate a plot are 45 degree the following line has to be added</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;img-&gt;SetAngle(45);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>By default the center of rotation will be the center point of the plot area.
+                    The following examples will clarify this. We will use the (very) basic graph
+                    shown in <a class="xref" href="ch14s12.html#fig.rotex0" title="Figure 14.74. Original unrotated graph (rotex0.php)">Figure 14.74. Original unrotated graph <code class="uri"><a class="uri" href="example_src/rotex0.html" target="_top">(<code class="filename">rotex0.php</code>)</a></code> </a> to demonstrate rotation.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.rotex0"></a><p class="title"><b>Figure 14.74. Original unrotated graph <code class="uri"><a class="uri" href="example_src/rotex0.html" target="_top">(<code class="filename">rotex0.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/rotex0.png" alt="Original unrotated graph (rotex0.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>In <a class="xref" href="ch14s12.html#fig.rotex1" title="Figure 14.75. Rotating the plot area 45 degrees (rotex1.php)">Figure 14.75. Rotating the plot area 45 degrees <code class="uri"><a class="uri" href="example_src/rotex1.html" target="_top">(<code class="filename">rotex1.php</code>)</a></code> </a> and <a class="xref" href="ch14s12.html#fig.rotex2" title="Figure 14.76. Rotating the plot area 90 degrees (rotex2.php)">Figure 14.76. Rotating the plot area 90 degrees <code class="uri"><a class="uri" href="example_src/rotex2.html" target="_top">(<code class="filename">rotex2.php</code>)</a></code> </a> we
+                    have rotated the plot area around (the default) the center of the plot
+                    area</p>
+                <p>
+                    </p><div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.rotex1"></a><p class="title"><b>Figure 14.75. Rotating the plot area 45 degrees <code class="uri"><a class="uri" href="example_src/rotex1.html" target="_top">(<code class="filename">rotex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/rotex1.png" alt="Rotating the plot area 45 degrees (rotex1.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.rotex2"></a><p class="title"><b>Figure 14.76. Rotating the plot area 90 degrees <code class="uri"><a class="uri" href="example_src/rotex2.html" target="_top">(<code class="filename">rotex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/rotex2.png" alt="Rotating the plot area 90 degrees (rotex2.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td></tr></tbody></table>
+                    </div><p>
+                </p>
+                <p>In the above two example the center of the rotation was the center point of
+                    the plot area. If we instead change the center of rotation to be the center of
+                    the entire graph we get the result shown in <a class="xref" href="ch14s12.html#fig.rotex3" title="Figure 14.77. Rotating the plot area 45 degrees (rotex3.php)">Figure 14.77. Rotating the plot area 45 degrees <code class="uri"><a class="uri" href="example_src/rotex3.html" target="_top">(<code class="filename">rotex3.php</code>)</a></code> </a> and
+                        <a class="xref" href="ch14s12.html#fig.rotex4" title="Figure 14.78. Rotating the plot area 90 degrees (rotex4.php)">Figure 14.78. Rotating the plot area 90 degrees <code class="uri"><a class="uri" href="example_src/rotex4.html" target="_top">(<code class="filename">rotex4.php</code>)</a></code> </a> . </p>
+                <p>
+                    </p><div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.rotex3"></a><p class="title"><b>Figure 14.77. Rotating the plot area 45 degrees <code class="uri"><a class="uri" href="example_src/rotex3.html" target="_top">(<code class="filename">rotex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/rotex3.png" alt="Rotating the plot area 45 degrees (rotex3.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.rotex4"></a><p class="title"><b>Figure 14.78. Rotating the plot area 90 degrees <code class="uri"><a class="uri" href="example_src/rotex4.html" target="_top">(<code class="filename">rotex4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/rotex4.png" alt="Rotating the plot area 90 degrees (rotex4.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td></tr></tbody></table>
+                    </div><p>
+                </p>
+                <p>As a final example in <a class="xref" href="ch14s12.html#fig.rotex5" title="Figure 14.79. Rotating the plot area -30 degree around the bottom left corner (rotex5.php)">Figure 14.79. Rotating the plot area -30 degree around the bottom left corner <code class="uri"><a class="uri" href="example_src/rotex5.html" target="_top">(<code class="filename">rotex5.php</code>)</a></code> </a> we show the result of
+                    rotating the plot area -30 degree around the bottom left point in the
+                    graph</p>
+                <p>
+                    </p><div class="figure"><a name="fig.rotex5"></a><p class="title"><b>Figure 14.79. Rotating the plot area -30 degree around the bottom left corner <code class="uri"><a class="uri" href="example_src/rotex5.html" target="_top">(<code class="filename">rotex5.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/rotex5.png" alt="Rotating the plot area -30 degree around the bottom left corner (rotex5.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Rotating the plot area 90 degree"><div class="titlepage"><div><div><h3 class="title"><a name="id2551820"></a>Rotating the plot area 90 degree</h3></div></div></div>
+                
+                <p>As can be seen above in <a class="xref" href="ch14s12.html#fig.rotex2" title="Figure 14.76. Rotating the plot area 90 degrees (rotex2.php)">Figure 14.76. Rotating the plot area 90 degrees <code class="uri"><a class="uri" href="example_src/rotex2.html" target="_top">(<code class="filename">rotex2.php</code>)</a></code> </a> and <a class="xref" href="ch14s12.html#fig.rotex4" title="Figure 14.78. Rotating the plot area 90 degrees (rotex4.php)">Figure 14.78. Rotating the plot area 90 degrees <code class="uri"><a class="uri" href="example_src/rotex4.html" target="_top">(<code class="filename">rotex4.php</code>)</a></code> </a> the rotation does not alter the overall size and
+                    margin of the graph even though we probably should do so in order to better
+                    accommodate the rotated plot areas topography. It is of course perfectly
+                    possible to adjust the size of the graph manually.</p>
+                <p>The slight complication with general rotation is that the margins also
+                    rotates, this means that if the graph is rotated 90 degrees the left margin in
+                    the image was originally the bottom margin. In additional by default the center
+                    of the rotation is the center of the plot area and not the entire image (if all
+                    the margins are symmetrical then they will of course coincide). This means the
+                    center of the rotation will move with the margin (since the specify the exact
+                    location of the plot area)..</p>
+                <p>So for the case of rotating a graph 90 degree the library provides a
+                    convenience method to do both the rotation and specifying the margin at the same
+                    time (to avoid the mental exercise described above) by providing the
+                    method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Set90AndMargin(($aLeft=0,$aRight=0,$aTop=0,$aBottom=0)
+                                </code></p>
+                            <p>Rotates the plot area 90 degrees and sets the graph margin
+                                areas</p>
+                        </li></ul></div><p>
+                </p>
+                <p>This method is probably most commonly used with bar graphs to create
+                    horizontal instead of vertical bars. See the section on bar graphs, ??, for more
+                    example on this.</p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

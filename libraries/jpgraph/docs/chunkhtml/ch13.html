@@ -1,0 +1,50 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 13. Getting hold of the data to be displayed</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt03.html" title="Part III. Common features"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 13. Getting hold of the data to be displayed</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part III. Common features</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 13. Getting hold of the data to be displayed"><div class="titlepage"><div><div><h2 class="title"><a name="id2537773"></a>Chapter 13. Getting hold of the data to be displayed</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch13.html#id2537845">13.1. Static data</a></span></dt><dt><span class="sect1"><a href="ch13s02.html">13.2. Reading data from a file</a></span></dt><dt><span class="sect1"><a href="ch13s03.html">13.3. Sending data to a graph script with URI arguments (GET and POST)</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch13s03.html#id2538350">13.3.1. Using GET arguments</a></span></dt><dt><span class="sect2"><a href="ch13s03.html#id2538499">13.3.2. Using a POST request</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch13s04.html">13.4. Reading data from a database</a></span></dt><dt><span class="sect1"><a href="ch13s05.html">13.5. Reading binary data from a file</a></span></dt><dt><span class="sect1"><a href="ch13s06.html">13.6. Different types of NULL data handling</a></span></dt><dt><span class="sect1"><a href="ch13s07.html">13.7. Troubleshooting input data</a></span></dt></dl></div>
+        
+        <p>The initial obstacle that must be negotiated is to get hold of the data to be
+            displayed since the library itself is completely agnostic to where the data comes from.
+            The library will use data supplied in one or more arrays and it is up to the user of the
+            library to get hold of the data to populate these arrays with proper data. In principle
+            the data can come from one of the following places</p>
+        <p>
+            </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                    <p>Hard-coded data in the script. This is the least flexible and can only
+                        really be recommended for examples and really static data.</p>
+                </li><li class="listitem">
+                    <p>Data stored in plain text files.</p>
+                </li><li class="listitem">
+                    <p>Data stored in binary format in flat files. </p>
+                </li><li class="listitem">
+                    <p>Data stored in a database</p>
+                </li><li class="listitem">
+                    <p>Data sent to the script via URI parameter passing (either GET or POST HTTP
+                        constructs can be used).</p>
+                </li></ol></div><p>
+        </p>
+        <p>In the following sections we will shortly discuss each of these methods.</p>
+        <p>
+            </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                <p>The library assumes that the data available in an array that starts with index
+                    0</p>
+            </div><p>
+        </p>
+        <div class="sect1" title="Static data"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2537845"></a>Static data</h2></div></div></div>
+            
+            <p>This is the simplest way and consists of only specifying the data in one or
+                several usual PHP arrays directly in the graph script. For example to specify data
+                for a Pieplot one could use the following constructions</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array(1,8,5,4,12,18);
+$pieplot = new PiePlot ($data);</span></pre></td></tr></table></div><p>
+            </p>
+            <p>This is the method used for all examples under the "<code class="filename">Example/</code>"
+                directory.</p>
+        </div>
+        
+        
+        
+        
+        
+        
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt03.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

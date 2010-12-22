@@ -118,6 +118,9 @@ ms_snmp_detail:snmp_detail
 ms_update_new_tag:script_new_tag
 ms_server_redistrib:server_redistrib
 ms_stats:stats
+jp_teledeploy_stats:teledeploy_stats
+jp_teledeploy_speed_stats:teledeploy_speed_stats
+jp_activity_stats:activity_stats
 </URL>
 
 <DIRECTORY>
@@ -180,6 +183,9 @@ ms_snmp_detail:ms_snmp
 ms_update_new_tag:ms_scripts
 ms_server_redistrib:ms_teledeploy
 ms_stats:ms_stats
+jp_teledeploy_stats:ms_stats
+jp_activity_stats:ms_stats
+jp_teledeploy_speed_stats:ms_stats
 </DIRECTORY>
 
 

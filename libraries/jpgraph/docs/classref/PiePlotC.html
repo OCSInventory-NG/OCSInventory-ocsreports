@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_PIEPLOTC"><b>PiePlotC</b></a> Extends <a style="font-size:14pt;text-decoration:underline;"href="PiePlot.html#_C_PIEPLOT " style="font-face:arial;font-weight:bold;">PiePlot </a></div>
+<i>(Defined in: jpgraph_pie.php : 1015)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="PiePlotC.html" style="font-family:arial;font-weight:bold;color:darkblue;">PiePlotC</a>&nbsp;</td><td align="center" style="background:lightgray;" >&nbsp;<a href="PiePlot.html" style="font-family:arial;font-weight:bold;color:darkblue;">PiePlot</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="PiePlotC.html#_PIEPLOTC_SETMID">SetMid()</a>&nbsp;<br>
+&nbsp;<a href="PiePlotC.html#_PIEPLOTC_SETMIDCOLOR">SetMidColor()</a>&nbsp;<br>
+&nbsp;<a href="PiePlotC.html#_PIEPLOTC_SETMIDCSIM">SetMidCSIM()</a>&nbsp;<br>
+&nbsp;<a href="PiePlotC.html#_PIEPLOTC_SETMIDSIZE">SetMidSize()</a>&nbsp;<br>
+&nbsp;<a href="PiePlotC.html#_PIEPLOTC_SETMIDTITLE">SetMidTitle()</a>&nbsp;<br>
+&nbsp;<a href="PiePlotC.html#_PIEPLOTC___CONSTRUCT">__construct()</a>&nbsp;<br>
+</td><td valign=top>&nbsp;<a href="PiePlot.html#_PIEPLOT_EXPLODE">Explode()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_EXPLODEALL">ExplodeAll()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_EXPLODESLICE">ExplodeSlice()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETCENTER">SetCenter()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETCOLOR">SetColor()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETCSIMTARGETS">SetCSIMTargets()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETGUIDELINES">SetGuideLines()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETGUIDELINESADJUST">SetGuideLinesAdjust()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETLABELPOS">SetLabelPos()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETLABELS">SetLabels()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETLABELTYPE">SetLabelType()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETLEGENDS">SetLegends()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETSHADOW">SetShadow()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETSIZE">SetSize()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETSLICECOLORS">SetSliceColors()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETSTARTANGLE">SetStartAngle()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETTHEME">SetTheme()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SETVALUETYPE">SetValueType()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT_SHOWBORDER">ShowBorder()</a>&nbsp;<br>
+&nbsp;<a href="PiePlot.html#_PIEPLOT___CONSTRUCT" style="color:darkgrey;">__construct()&nbsp;</a><br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>The PiePlotC is an extesnion of the normal pie plot where there is a filled circle in the center of the pie. This filled circle can have it's own labels and CSIM. <p> &nbsp;
+<div style="font-weight:bold;font-family:arial;font-size:85%;">See also related classes:</div><a href="PiePlot.html">PiePlot</a> <p> &nbsp;<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PIEPLOTC_SETMID"><span style="color:#555555;">PiePlotC ::</span><br><b>SetMid</b>($aTitle, $aColor, $aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify all parameters for the center circle</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aTitle</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Title text for center circle</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'white'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Fill color for center circle</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0.5</span>
+</span>
+</td><td>Size of center. Specified as fraction of radius</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify all parameters for the center circle&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$piec</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetMid</span><span style="color: #007700">(</span><span style="color: #DD0000">'Halteberg'</span><span style="color: #007700">,</span><span style="color: #DD0000">'red:0.6'</span><span style="color: #007700">,</span><span style="color: #0000BB">0.3</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PIEPLOTC_SETMIDCOLOR"><span style="color:#555555;">PiePlotC ::</span><br><b>SetMidColor</b>($aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify fill color for center circle</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Color</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify fill color for center circle. &nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="PiePlotC.html#_PIEPLOTC_SETMID">PiePlotC::SetMid()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$piec</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetMidColor</span><span style="color: #007700">(</span><span style="color: #DD0000">'yellow:0.6'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PIEPLOTC_SETMIDCSIM"><span style="color:#555555;">PiePlotC ::</span><br><b>SetMidCSIM</b>($aTarget, $aAlt, $aWinTarget)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify URL target for filled middle circle</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aTarget</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Target URL string</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aAlt</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">''</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Alt text</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWinTarget</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">''</span><span style="color: #0000BB"></span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify URL target for filled middle circle. Use SetCSIMtargets() to specify the individual targets for the slices in the pie.
+&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="PiePlot.html#_PIEPLOT_SETCSIMTARGETS">PiePlot::SetCSIMTargets()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$pie</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetMidCSIM</span><span style="color: #007700">(</span><span style="color: #DD0000">'depth.php?t=32'</span><span style="color: #007700">,</span><span style="color: #DD0000">'Details'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PIEPLOTC_SETMIDSIZE"><span style="color:#555555;">PiePlotC ::</span><br><b>SetMidSize</b>($aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify size for center circle </i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Size in fraction of the radius</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify size for center circle as fraction of the radius.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$piec</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetMidSize</span><span style="color: #007700">(</span><span style="color: #0000BB">0.5</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PIEPLOTC_SETMIDTITLE"><span style="color:#555555;">PiePlotC ::</span><br><b>SetMidTitle</b>($aTitle)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify title for the center circle.</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aTitle</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Title</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify title for the center circle. The title can also be set in the inital creation of the Pie as well as with the SetMidTitle()&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="PiePlotC.html#_PIEPLOTC_SETMID">PiePlotC::SetMid()</a><li><a href="PiePlotC.html#_PIEPLOTC___CONSTRUCT">PiePlotC::__construct()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$piec</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetMidTitle</span><span style="color: #007700">(</span><span style="color: #DD0000">"Center&nbsp;title\nSecond&nbsp;line&nbsp;title"</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_PIEPLOTC___CONSTRUCT"><span style="color:#555555;">PiePlotC ::</span><br><b>__construct</b>($data, $aCenterTitle)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Create a Pie plot with a filled circle in the middle</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$data</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Data array</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aCenterTitle</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">''</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Title for center circle</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Create a variant of the Pie plot with a filled circle in the middle. The title, color and size of the center circle ca be modified.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="PiePlotC.html#_PIEPLOTC_SETMIDCSIM">PiePlotC::SetMidCSIM()</a><li><a href="PiePlotC.html#_PIEPLOTC_SETMID">PiePlotC::SetMid()</a><li><a href="PiePlotC.html#_PIEPLOTC_SETMIDCOLOR">PiePlotC::SetMidColor()</a><li><a href="PiePlotC.html#_PIEPLOTC_SETMIDSIZE">PiePlotC::SetMidSize()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$piec&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PiePlotC</span><span style="color: #007700">(</span><span style="color: #0000BB">$data</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p> <hr> <p></html>

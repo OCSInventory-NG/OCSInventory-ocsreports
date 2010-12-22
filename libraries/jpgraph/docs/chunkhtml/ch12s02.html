@@ -1,0 +1,60 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Common object for Pie Graphs</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch12.html" title="Chapter 12. Commonalities for all graphs"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Common object for Pie Graphs</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 12. Commonalities for all graphs</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Common object for Pie Graphs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2537606"></a>Common object for Pie Graphs</h2></div></div></div>
+            
+            <p>For pie plots there are no concepts of axis or scales. Instead Pieplots have a
+                size and position within the graph. <a class="xref" href="ch12s02.html#fig.common-pie-objects" title="Figure 12.2. Commonly used objects in Piegraphs ( common-obj-piegraph.php)">Figure 12.2. Commonly used objects in Piegraphs (<code class="uri"><a class="uri" href="example_src/common-obj-piegraph.html" target="_top">
+                            common-obj-piegraph.php</a></code>)</a>
+                shows the common objects for a typical Pie graph</p>
+            <p>
+                </p><div class="figure"><a name="fig.common-pie-objects"></a><p class="title"><b>Figure 12.2. Commonly used objects in Piegraphs (<code class="uri"><a class="uri" href="example_src/common-obj-piegraph.html" target="_top">
+                            common-obj-piegraph.php</a></code>)</b></p><div class="figure-contents">
+                    
+                    <div class="mediaobject"><img src="images/piegraph-obj-overview.png" alt="Commonly used objects in Piegraphs ( common-obj-piegraph.php)"></div>
+                </div></div><p><br class="figure-break">
+            </p>
+            <p>The following should be noted.</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p>Instead of an instance of <code class="code">class Graph</code> and instance of
+                                <code class="code">class PieGraph</code> must be used</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph = new PieGraph($width,$height);</span></pre></td></tr></table></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>The title and subtitle has the same semantics as for cartesian
+                            graphs</p>
+                    </li><li class="listitem">
+                        <p>The pieplot is an instance of the <code class="code">class PiePlot</code> which is
+                            given the data to be used in the pieplot as first and only
+                            argument</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$pieplot = new PiePlot($data);</span></pre></td></tr></table></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>The size of the pieplot radius is given as fractions of the minimum of
+                            the width and height of the graph</p>
+                    </li><li class="listitem">
+                        <p>The position of the center of the pieplot is given as factions (width,
+                            height) of the graph</p>
+                    </li><li class="listitem">
+                        <p>The legend is controlled in the same way as for cartesian graphs by
+                            accessing the instance variable "<code class="code">legend</code>". In the Piegraph
+                            in <a class="xref" href="ch12s02.html#fig.common-pie-objects" title="Figure 12.2. Commonly used objects in Piegraphs ( common-obj-piegraph.php)">Figure 12.2. Commonly used objects in Piegraphs (<code class="uri"><a class="uri" href="example_src/common-obj-piegraph.html" target="_top">
+                            common-obj-piegraph.php</a></code>)</a> we have changed the
+                            layout of the legend by the two lines</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;legend-&gt;SetPos(0.5,0.97,'center','bottom');
+$graph-&gt;legend-&gt;SetColumns(3);</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>These two method calls adjust the position and the internal layout of
+                            the legend. The first line instructs the library to place the legend at
+                            a point (defined in fractions of width and height) (0.5, 0.97) and align
+                            that point with the (center, bottom) anchor point in the graph box. The
+                            second lines specifies the number of columns to use int the
+                            legend.</p>
+                    </li></ul></div><p>
+            </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

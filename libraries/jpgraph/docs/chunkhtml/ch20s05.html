@@ -1,0 +1,146 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Adding icon and text objects to the graph</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch20.html" title="Chapter 20. Odometer"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Adding icon and text objects to the graph</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 20. Odometer</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Adding icon and text objects to the graph"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2586023"></a>Adding icon and text objects to the graph</h2></div></div></div>
+        
+        <p>Odometer plots supports the ordinary way of adding icon and text objects to the graph. </p>
+        <div class="sect2" title="Adding a text object"><div class="titlepage"><div><div><h3 class="title"><a name="id2586038"></a>Adding a text object</h3></div></div></div>
+            
+            <p>Text objects are added by first creating an instance of <code class="code">class Text</code>
+                for each text needed and then adding the text to the graph with the usual call to
+                    <code class="code">MatrixGraph::Add()</code>. </p>
+            <p>A basic text will only require two additional lines of code</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$txt</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Text</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Simple string</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$txt</span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>The following code snippet is slightly more complicated and will create a boxed
+                text in the upper right corner of the graph. </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add a boxed text</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$txt</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Text</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$txt</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$txt</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">Arbitrary text</span><span class="hl-special">\n</span><span class="hl-string">on a</span><span class="hl-special">\n</span><span class="hl-string">Matrix Plot</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$txt</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetParagraphAlign</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">center</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$txt</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetPos</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.95</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-number">.15</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">right</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$txt</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetBox</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">lightyellow</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$txt</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetShadow</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$txt</span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>The snippet above adds a text at coordinates X=20, Y=20 using the default lower
+                left corner as the text anchor point.</p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>To add a newline you must remember to use double-quotes to enclose the
+                        text otherwise the "\n" will only be interpreted literally. </p>
+                </div><p>
+            </p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>Remember that the "text align", as adjusted with <code class="code">SetAlign()</code>,
+                        specifies the anchor point for the text, i.e. what part of the text is
+                        aligned with the specified position. </p>
+                </div><p>
+            </p>
+            <p>To add many text strings it is often useful to specify them in an array and then
+                have a loop creating the text object and add the text array of all the created
+                objects to the graph as the following short snippet shows.</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment">--------------------------------------------------------------</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add texts to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment">--------------------------------------------------------------</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$txts</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> 
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Textstring one ...</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$tx1</span><span class="hl-code">,</span><span class="hl-var">$ty1</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Textstring two ...</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$tx2</span><span class="hl-code">,</span><span class="hl-var">$ty2</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Textstring three ...</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$tx3</span><span class="hl-code">,</span><span class="hl-var">$ty3</span><span class="hl-brackets">)</span><span class="hl-code">,
+ 
+</span><span class="hl-var">$n</span><span class="hl-code">=</span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$txts</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$t</span><span class="hl-code">=</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$n</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-brackets">)</span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$t</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Text</span><span class="hl-brackets">(</span><span class="hl-var">$txts</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-var">$txts</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-var">$txts</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">2</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$t</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$t</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">brown</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$t</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetAlign</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">center</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">top</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$t</span><span class="hl-brackets">)</span><span class="hl-code">;
+?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Adding icons to the graph"><div class="titlepage"><div><div><h3 class="title"><a name="id2586040"></a>Adding icons to the graph</h3></div></div></div>
+            
+            <p>Icons are added as instances of <code class="code">class IconPlot</code> to the graph (as usual
+                with a call to <code class="code">OdometerGraph::Add()</code>). This means that to use icons the
+                library module "<code class="filename">jpgraph_iconplot.php</code>" must first be included. </p>
+            <p>The following example shows how to add a small icon in the lower right corner of
+                the graph. For more information on formatting icons that are added to a graph see
+                    <a class="xref" href="ch14s14.html" title="Adding icons (and small images) to the graph">Adding icons (and small images) to the graph</a></p>
+            <p>
+                </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                    <p>Since Odometer graphs doesn't have a ny concept of linear scale the
+                        position of icons can only be specified as absolute pixels or as fractions
+                        of the width/height.</p>
+                </div><p>
+            </p>
+            <p>
+                </p><div class="figure"><a name="fig.odotutex19"></a><p class="title"><b>Figure 20.21. Adding an icon and text to a Odometer graph <code class="uri"><a class="uri" href="example_src/odotutex19.html" target="_top">(<code class="filename">odotutex19.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/odotutex19.png" alt="Adding an icon and text to a Odometer graph (odotutex19.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>We also recall that it is possible to use country flags as icons by making use of
+                the method</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">IconPlot::SetCountryFlag($aFlag,$aX=0,$aY=0,$aScale=1.0,$aMix=100,$aStdSize=3)</code></p>
+                    </li></ul></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Adding background images"><div class="titlepage"><div><div><h3 class="title"><a name="id2586237"></a>Adding background images</h3></div></div></div>
+            
+            <p>In just the same way as for all other plots it is possible to add a background
+                images, background gradients and a background flag to the graph. Since this has been
+                discussed several time previously in the manual we only show a simple example
+                here.</p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>Since odometer graphs does not have the concept of plot area the
+                        background image positioning alternative <code class="code">BGIMG_FILLPLOT</code> is the
+                        same as <code class="code">BGIMG_FILLFRAME</code> as we have used in this example
+                        below.</p>
+                </div><p>
+            </p>
+        </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch20.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

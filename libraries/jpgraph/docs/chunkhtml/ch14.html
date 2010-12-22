@@ -1,0 +1,436 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 14. Common features for all Cartesian (x,y) graph types</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt03.html" title="Part III. Common features"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 14. Common features for all Cartesian (x,y) graph types</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part III. Common features</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 14. Common features for all Cartesian (x,y) graph types"><div class="titlepage"><div><div><h2 class="title"><a name="id2539385"></a>Chapter 14. Common features for all Cartesian (x,y) graph types</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch14.html#id2539550">14.1. The definition of linear graphs</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14.html#id2540023">14.1.1. Axis and coordinate systems</a></span></dt><dt><span class="sect2"><a href="ch14.html#id2540025">14.1.2. Adjusting the axis look and feel</a></span></dt><dt><span class="sect2"><a href="ch14.html#id2540518">14.1.3. Adding grid lines in the plot</a></span></dt><dt><span class="sect2"><a href="ch14.html#sec2.predef-axis-setup">14.1.4. Predefined scientific axis setups</a></span></dt><dt><span class="sect2"><a href="ch14.html#sec2.possible-axis-position">14.1.5. Other possible ways to position the axis</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s02.html">14.2. Specifying and formatting the overall displayed graph</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s02.html#id2541423">14.2.1. Adjusting size, margins and frame</a></span></dt><dt><span class="sect2"><a href="ch14s02.html#id2541500">14.2.2. Adding drop shadow to the graph</a></span></dt><dt><span class="sect2"><a href="ch14s02.html#sec2.fomratting-graph-titles">14.2.3. Formatting and specifying the titles of the graph</a></span></dt><dt><span class="sect2"><a href="ch14s02.html#id2542819">14.2.4. Specifying the image format to use</a></span></dt><dt><span class="sect2"><a href="ch14s02.html#id2542875">14.2.5. Generic line formatting</a></span></dt><dt><span class="sect2"><a href="ch14s02.html#sec.adding-footer">14.2.6. Adding a footer to the graph</a></span></dt><dt><span class="sect2"><a href="ch14s02.html#id2543252">14.2.7. Adding timing of graphs</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s03.html">14.3. Adjusting the look and feel of the plot area</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s03.html#id2543490">14.3.1. Plot area and margin areas</a></span></dt><dt><span class="sect2"><a href="ch14s03.html#id2543579">14.3.2. Clipping to the plot area</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s04.html">14.4. Adjusting the position and layout of the legend</a></span></dt><dt><span class="sect1"><a href="ch14s05.html">14.5. Other formatting options of the axis</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s05.html#id2544291">14.5.1. Adjusting and positioning titles on the axis</a></span></dt><dt><span class="sect2"><a href="ch14s05.html#id2544503">14.5.2. Adjusting the font and color of the title</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s06.html">14.6. Using multiple y-axis</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s06.html#id2544595">14.6.1. Adding additional y-axis</a></span></dt><dt><span class="sect2"><a href="ch14s06.html#id2544637">14.6.2. Using CSIM together with multiple y-axis</a></span></dt><dt><span class="sect2"><a href="ch14s06.html#sec2.mulyaxis-restriction">14.6.3. Restrictions with multiple y-axis</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s07.html">14.7. Understanding and using different scales on the axis</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s07.html#id2544880">14.7.1. Different scale types</a></span></dt><dt><span class="sect2"><a href="ch14s07.html#id2545212">14.7.2. Manual vs automatic scale handling</a></span></dt><dt><span class="sect2"><a href="ch14s07.html#id2545421">14.7.3. Major and minor ticks</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s08.html">14.8. Adjusting the appearance of the scale labels</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s08.html#id2546048">14.8.1. Adjusting the position</a></span></dt><dt><span class="sect2"><a href="ch14s08.html#id2546113">14.8.2. Adjusting font and color</a></span></dt><dt><span class="sect2"><a href="ch14s08.html#id2546240">14.8.3. Adjusting the background of the labels</a></span></dt><dt><span class="sect2"><a href="ch14s08.html#id2546732">14.8.4. Hiding and rotating labels</a></span></dt><dt><span class="sect2"><a href="ch14s08.html#id2546838">14.8.5. Fine tuning the automatic scales</a></span></dt><dt><span class="sect2"><a href="ch14s08.html#id2547269">14.8.6. Manually altering the appearance of tick marks</a></span></dt><dt><span class="sect2"><a href="ch14s08.html#sec2.manually-spec-labels">14.8.7. Manually specifying scale labels</a></span></dt><dt><span class="sect2"><a href="ch14s08.html#id2547382">14.8.8. Emphasize of parts of the scale</a></span></dt><dt><span class="sect2"><a href="ch14s08.html#id2548494">14.8.9. Adding static lines for specific scale values in the graph</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s09.html">14.9. Using a logarithmic scale</a></span></dt><dt><span class="sect1"><a href="ch14s10.html">14.10. Using a date/time scale</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s10.html#id2549071">14.10.1. Specifying the input data</a></span></dt><dt><span class="sect2"><a href="ch14s10.html#id2549170">14.10.2. Adjusting the start and end date alignment</a></span></dt><dt><span class="sect2"><a href="ch14s10.html#id2549601">14.10.3. Manually adjusting the ticks</a></span></dt><dt><span class="sect2"><a href="ch14s10.html#id2549687">14.10.4. Adjusting the label format</a></span></dt><dt><span class="sect2"><a href="ch14s10.html#id2549799">14.10.5. Adjusting the automatic density of date labels</a></span></dt><dt><span class="sect2"><a href="ch14s10.html#id2549829">14.10.6. Creating a date/time scale with a manual label call-back</a></span></dt><dt><span class="sect2"><a href="ch14s10.html#id2549831">14.10.7. Using the "DateScaleUtils" class to make manual date scale</a></span></dt><dt><span class="sect2"><a href="ch14s10.html#id2550589">14.10.8. When to use manual and when to use automatic date scale?</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s11.html">14.11. Adding shearing image transformation to the graph</a></span></dt><dt><span class="sect1"><a href="ch14s12.html">14.12. Rotating graphs</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s12.html#id2551329">14.12.1. Free rotation of the plot area</a></span></dt><dt><span class="sect2"><a href="ch14s12.html#id2551820">14.12.2. Rotating the plot area 90 degree</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s13.html">14.13. Using anti-aliasing in the graph generation</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s13.html#id2551920">14.13.1. Anti-aliasing for line drawing graphs</a></span></dt><dt><span class="sect2"><a href="ch14s13.html#id2552235">14.13.2. Anti-aliasing in pie graphs</a></span></dt><dt><span class="sect2"><a href="ch14s13.html#id2552417">14.13.3. Anti-aliasing in Windrose plots</a></span></dt><dt><span class="sect2"><a href="ch14s13.html#id2552434">14.13.4. Anti-aliasing for Contour plots</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s14.html">14.14. Adding icons (and small images) to the graph</a></span></dt><dt><span class="sect1"><a href="ch14s15.html">14.15. Adding images and country flags to the background of the graph</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s15.html#id2553256">14.15.1. Using country flags as backgrounds</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s16.html">14.16. Using background gradients</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch14s16.html#id2553714">14.16.1. Generating gradient background off-line</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch14s17.html">14.17. Adding arbitrary texts to the graph</a></span></dt></dl></div>
+        
+        <div class="sect1" title="The definition of linear graphs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2539550"></a>The definition of linear graphs</h2></div></div></div>
+            
+            <p>With cartesian graphs we refer to all plots which have orthogonal x and y axis.
+                The library support the option of multiple y-scales (when applicable) but only on
+                x-axis can be used. </p>
+            <p>The following principle linear graph types are supported as of v2.5 (note that
+                some graph types may have additional subtypes that are not shown in this
+                overview.)</p>
+            <p>
+                </p><div class="figure"><a name="id2539571"></a><p class="title"><b>Figure 14.1. Supported principle linear graph types in the library</b></p><div class="figure-contents">
+                    
+                    <div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_line.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>a) Line plot</p>
+                                        <p>(See <a class="xref" href="ch15.html#sec2.creating-line-graph" title="Creating a line graph">Creating a line graph</a>)</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_area.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>b) Area plot</p>
+                                        <p>(See <a class="xref" href="ch15.html#sec2.creating-area-graph" title="Creating a filled line graphs (a.k.a. area plots)">Creating a filled line graphs (a.k.a. area plots)</a>)</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_bar.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>c) Bar plot</p>
+                                        <p>(See <a class="xref" href="ch15s02.html" title="Bar graphs">Bar graphs</a>)</p>
+                                    </td></tr><tr><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_field.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>a) Field plot</p>
+                                        <p>(See <a class="xref" href="ch15s05.html#sec1.creating-field-graphs" title="Field plots">Field plots</a>)</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_error.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>b) Error plot</p>
+                                        <p>(See <a class="xref" href="ch15s03.html" title="Error plot graphs">Error plot graphs</a>)</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_stock.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>c) Stock plot</p>
+                                        <p>(See <a class="xref" href="ch15s04.html" title="Stock graphs">Stock graphs</a>)</p>
+                                    </td></tr><tr><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_geomap.jpg" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>a) Geo-map plot</p>
+                                        <p>(See <a class="xref" href="ch15s05.html#sec1.creating-geo-maps" title="Creating Geo-maps">Creating Geo-maps</a>)</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_impuls.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>b) Impuls (stem) plot</p>
+                                        <p>(See <a class="xref" href="ch15s05.html" title="Scatter graphs">Scatter graphs</a>)</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_spline.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>c) Spline plot</p>
+                                        <p>(See <a class="xref" href="ch15.html#sec2.creating-cubic-splines" title="Constructing smooth line plots with Cubic Splines">Constructing smooth line plots with Cubic Splines</a>)</p>
+                                    </td></tr><tr><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_balloon.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>a) Balloon plot</p>
+                                        <p>(See <a class="xref" href="ch15s05.html#sec1.creating-balloon-graphs" title="Balloon plots">Balloon plots</a>)</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_scatter.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>b) Scatter plot</p>
+                                        <p>(See <a class="xref" href="ch15s05.html" title="Scatter graphs">Scatter graphs</a>)</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/ploticon_contour.png" alt="Supported principle linear graph types in the library"></span></p>
+                                        <p>c) Contour plot</p>
+                                        <p>(See <a class="xref" href="ch15s06.html" title="Contour graphs">Contour graphs </a>)</p>
+                                    </td></tr></tbody></table>
+                    </div>
+                </div></div><p><br class="figure-break">
+            </p>
+            <p>Each of these graph types have there own section where more details can be found
+                by following the link under the corresponding graph icon.</p>
+            <div class="sect2" title="Axis and coordinate systems"><div class="titlepage"><div><div><h3 class="title"><a name="id2540023"></a>Axis and coordinate systems</h3></div></div></div>
+                
+                <p>The x and y axis each in a graph has an associated scale, labels, titles, grid
+                    lines, colors and position. The axis properties are accessed as objects of the
+                    axis instance variables in the main graph class. The axis can be access vi the
+                    following instance variables.</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Graph::xaxis</code>, The x-axis, (by default on the
+                                bottom)</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Graph::yaxis</code>, The y-axis, (by default on the left
+                                side)</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Graph::y2axis</code>, The second y-axis (by default on the
+                                right side)</p>
+                        </li></ul></div><p>
+                </p>
+                <p>In addition the library also supports the use of multiple y-axis and they are
+                    accessed via an instance array</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Graph::ynaxis[]</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>All axis in turn are instances of <code class="code">class Axis</code> and hence share
+                    common properties. The only two property that can be publicly accessed on the
+                    axis are</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::scale</code>. The scale of the axis. An instance of
+                                either <code class="code">LinearScale</code>, <code class="code">LogScale</code> or
+                                    <code class="code">DateScale</code>. This rarely needs to be accessed
+                                directly.</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::title</code>. The axis title. On the x-axis this is
+                                horizontal by default and on the y-axis the title is vertical by
+                                default</p>
+                        </li></ul></div><p>
+                </p>
+                <p>On the other hand there are a large amount of methods that can be used on the
+                    axis to adjust various properties. Some examples of commonly used methods are
+                    given below. The full description of each method is given in the API
+                    reference.</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p>Adjusting the labels</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">Axis::SetLabelFormatString($aFormStr,$aDateFormat=false)</code>.
+                                            Specifies the labels format string assuming
+                                                <code class="code">printf()</code> format if <code class="code">$aDate</code>
+                                            is false and in <code class="code">date()</code> format if
+                                                <code class="code">$aDate</code> is true.</p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetLabelFormatCallback($aCallbackFunc)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetLabelAlign($aHorAlign, $aVertAlign='top',$aParagraphAlign='left')</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::HideLabels($aHide=true)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetTicklabels($aLabels, $aLabelColors=null)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetLabelMargin($aMargin)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetLabelSide($aSide)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetFont($aFamily,$aStyle=FS_NORMAL,$aSize=10)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetLabelAngle($aAngle)</code>. Species the
+                                            angle of the label. <span class="bold"><strong>Note:</strong></span> It is only possible to use
+                                            arbitrary angles if the font is a true type font. The
+                                            built in bit map fonts only supports 0 and 90 degree
+                                            text strings.</p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p>Adjusting the tick marks</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">Axis::SetTickSide($aSide)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetTickPositions($aMajPos,$aMinPos=NULL,$aLabels=NULL)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::HideTicks($aHide)</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p>Adjusting the actual axis</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">Axis::HideLine($aHide=true)</code>, ONly hide
+                                            the axis but whos the labels</p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::Hide($aHide)</code>, Hide both axis and
+                                            labels</p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetWeight($aWeight)</code>, Set the weight
+                                            in pixels of the axis</p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetPos($aPositionOnOtherScale)</code>
+                                            Specifies the position of the axis on the other scale.
+                                            The position is given the scale of the other axis. There
+                                            are two special values (strings) that can be given and
+                                            those are </p>
+                                        <p>
+                                            </p><div class="itemizedlist"><ul class="itemizedlist" type="square"><li class="listitem">
+                                                  <p><code class="code">'min'</code> - Will position the axis
+                                                  at the minimum value of the other scale</p>
+                                                </li><li class="listitem">
+                                                  <p><code class="code">'max'</code> - Will position the axis
+                                                  at the maximum value of the other scale</p>
+                                                </li></ul></div><p>
+                                        </p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p>Adjusting the title</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">Axis::SetTitle($aTxt)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetTitleMargin($aMargin)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetTitleSide($aSide)</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Axis::SetColor($aColor,$aLabelColor)</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li></ul></div><p>
+                </p>
+                <p>The above methods are valid for all possible axis. So for example the
+                    following line sets the font for the labels on the x-axis </p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;SetFont(FF_ARIAL,FS_NORMAL,12);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>and the follwing code set the font for the y-axis</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;yaxis-&gt;SetFont(FF_ARIAL,FS_NORMAL,12);</span></pre></td></tr></table></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Adjusting the axis look and feel"><div class="titlepage"><div><div><h3 class="title"><a name="id2540025"></a>Adjusting the axis look and feel</h3></div></div></div>
+                
+                <p>The two major ways to adjust the look and feel of the axis are adjustments of
+                    the color and the weight (i.e. width) and this can be done with the appropriate
+                    methods as described above.</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::SetColor($aColor,$aLabelColor)</code>, For example
+                                    <code class="code">$graph-&gt;xaxis-&gt;SetColor('teal')</code>. Please note that
+                                by default the color for the labels will be that of the line if the
+                                label color is not explicitly specified.</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::SetWeight($aWeight)</code>. Specify the weight (in
+                                pixels of the axis)</p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Adding grid lines in the plot"><div class="titlepage"><div><div><h3 class="title"><a name="id2540518"></a>Adding grid lines in the plot</h3></div></div></div>
+                
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>The possibility of a having different styles, colors and weight for
+                            minor and major grid lines was added in 3.0.4 and is not available in
+                            earlier releases.</p>
+                    </div><p>
+                </p>
+                <p>Grid lines will make it easier to see where the data points are in the graph.
+                    The grid lines are access by the properties "<code class="code">xgrid</code>" and
+                        "<code class="code">ygrid</code>"of the Graph class. By default only the y-axis grid are
+                    enabled by default. The following code example enables the major grids for both
+                    the x- and y-axis.</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph_&gt;xgrid-&gt;Show();
+$graph-&gt;ygrid-&gt;Show();</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The grid lines are instances of <code class="code">Class Grid</code>. and supports the
+                    following methods</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Grid::SetColor($aMajColor,$aMinColor=false)</code>. Specify
+                                the color for the major an minor grid lines</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Grid::SetWeight($aMajorWeight,$aMinorWeight=1)</code>.
+                                Specify the weight of the line for the major and minor grid
+                                line</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Grid::Show($aMajGid=true,$aMinGrid=false)</code>. Determine
+                                which grid lines should be shown</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Grid::SetLineStyle($aMajorType,$aMinorType)</code> This
+                                method makes it possible to adjust the line style of the grid lines
+                                (both major and minor separately). The line style is specified as a
+                                string and can have one of the following values</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">"solid"</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">"dotted"</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">"dashed"</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">"longdashed"</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p><code class="code">Grid::SetFill($aFlg=true,$aColor1='lightgray',$aColor2='lightblue')</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>The last method needs an explanation. The fill refers to the possibility to
+                    fill the space between the grid lines with alternating colors as specified in
+                    the method call. <a class="xref" href="ch14.html#fig.filledgridex1" title="Figure 14.2. Using alternating fill colors in the grid (filledgridex1.php)">Figure 14.2. Using alternating fill colors in the grid <code class="uri"><a class="uri" href="example_src/filledgridex1.html" target="_top">(<code class="filename">filledgridex1.php</code>)</a></code> </a> shows an example on how
+                    this can be used to make it easier to read a plot.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.filledgridex1"></a><p class="title"><b>Figure 14.2. Using alternating fill colors in the grid <code class="uri"><a class="uri" href="example_src/filledgridex1.html" target="_top">(<code class="filename">filledgridex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/filledgridex1.png" alt="Using alternating fill colors in the grid (filledgridex1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>In the above example we have also used the possibility of using alpha-blending
+                    (for example on the shadow on the legend box).</p>
+                <p>The example below shows how to use different styles for the major and minor
+                    grid lines</p>
+                <p>
+                    </p><div class="figure"><a name="fig.gridstylesex1"></a><p class="title"><b>Figure 14.3. Using different grid styles for major and minor grids <code class="uri"><a class="uri" href="example_src/gridstylesex1.html" target="_top">(<code class="filename">gridstylesex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/gridstylesex1.png" alt="Using different grid styles for major and minor grids (gridstylesex1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Predefined scientific axis setups"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.predef-axis-setup"></a>Predefined scientific axis setups</h3></div></div></div>
+                
+                <p>In order to make it easier to setup a couple of typical axis configuration
+                    used in science plots there are four predefined configurations as shown in <a class="xref" href="ch14.html#fig.predefined-axis-pos" title="Figure 14.4. Predefined scientific axis positions">Figure 14.4. Predefined scientific axis positions </a>. </p>
+                <p>
+                    </p><div class="figure"><a name="fig.predefined-axis-pos"></a><p class="title"><b>Figure 14.4. Predefined scientific axis positions </b></p><div class="figure-contents">
+                        
+                        <div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup><tbody><tr><td>
+                                            <div class="mediaobject"><img src="images/img_mmaxis3.png" alt="Predefined scientific axis positions"></div>
+                                        </td><td>
+                                            <div class="mediaobject"><img src="images/img_mmaxis4.png" alt="Predefined scientific axis positions"></div>
+                                        </td><td>
+                                            <div class="mediaobject"><img src="images/img_mmaxis9.png" alt="Predefined scientific axis positions"></div>
+                                        </td><td>
+                                            <div class="mediaobject"><img src="images/img_mmaxis10.png" alt="Predefined scientific axis positions"></div>
+                                        </td></tr><tr><td><code class="code">AXSTYLE_BOXOUT</code></td><td><code class="code">AXSTYLE_BOXIN</code></td><td><code class="code">AXSTYLE_YBOXIN</code></td><td><code class="code">AXSTYLE_YBOXOUT</code></td></tr></tbody></table>
+                        </div>
+                    </div></div><p><br class="figure-break">
+                </p>
+                <p>The styles can easily be setup with a call to the method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Graph::SetAxisStyle($aStyle)</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>An example of using this setup of the axis is shown in <a class="xref" href="ch14.html#fig.funcex2" title="Figure 14.5. Example of AXSTYLE_BOXIN axis style (funcex2.php)">Figure 14.5. Example of <code class="code">AXSTYLE_BOXIN</code> axis style <code class="uri"><a class="uri" href="example_src/funcex2.html" target="_top">(<code class="filename">funcex2.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.funcex2"></a><p class="title"><b>Figure 14.5. Example of <code class="code">AXSTYLE_BOXIN</code> axis style <code class="uri"><a class="uri" href="example_src/funcex2.html" target="_top">(<code class="filename">funcex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/funcex2.png" alt="Example of AXSTYLE_BOXIN axis style (funcex2.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Other possible ways to position the axis"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.possible-axis-position"></a>Other possible ways to position the axis</h3></div></div></div>
+                
+                <p>The axis can be manually positioned with a call to</p>
+                <p><code class="code">Axis::SetPos($aPos)</code></p>
+                <p>The argument <code class="code">$aPos</code> is normally the coordinate position on the
+                    "other" axis where the crossing of this and the other axis should be. There are
+                    also two special positions which are given as strings. They are
+                        <code class="code">'min'</code> and <code class="code">'max'</code>. Not surprisingly these special
+                    positions will always refer to the min and max scale value of the other
+                    axis.</p>
+                <p>The position given is the scale position on the "other"axis, i.e. for the
+                    x-axis the position specifies the crossing of the y-axis and vice versa.</p>
+                <p>Since it is possible to manually specify all aspects of the axis the table
+                    below shows some typical common setups and the principle calls needed to achieve
+                    the illustrated affect.</p>
+                <p>
+                    </p><div class="table"><a name="id2541091"></a><p class="title"><b>Table 14.1. Axis configurations</b></p><div class="table-contents">
+                        
+                        <table summary="Axis configurations" border="1"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmaxis1.png"></span></p>
+                                    </td><td valign="top">
+                                        <p>This is the default setup and not extra configurations
+                                            are needed and it is the same as</p>
+                                        <p>
+                                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;SetAxisStyle(AXSTYLE_SIMPLE);</span></pre></td></tr></table></div><p>
+                                        </p>
+                                    </td></tr><tr><td>
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmaxis1top.png"></span></p>
+                                    </td><td valign="top">
+                                        <p>This setup is configured by moving the x-axis to the
+                                            top</p>
+                                        <p>
+                                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;SetPos('max');
+$graph-&gt;xaxis-&gt;SetLabelSide(SIDE_UP);
+$graph-&gt;xaxis-&gt;SetTickSide(SIDE_DOWN);</span></pre></td></tr></table></div><p>
+                                        </p>
+                                    </td></tr><tr><td>
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmaxis5.png"></span></p>
+                                    </td><td valign="top">
+                                        <p>This is the standard style but with an added box
+                                            around the plot area.</p>
+                                        <p>
+                                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;SetAxisStyle(AXSTYLE_SIMPLE);
+$graph-&gt;SetBox();</span></pre></td></tr></table></div><p>
+                                        </p>
+                                    </td></tr><tr><td>
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmaxis1topbox.png"></span></p>
+                                    </td><td valign="top">
+                                        <p>
+                                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;SetPos('max');
+$graph-&gt;xaxis-&gt;SetLabelSide(SIDE_UP);
+$graph-&gt;xaxis-&gt;SetTickSide(SIDE_DOWN);
+$graph-&gt;SetBox();</span></pre></td></tr></table></div><p>
+                                        </p>
+                                    </td></tr><tr><td>
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmaxis2.png"></span></p>
+                                    </td><td valign="top">
+                                        <p>This configuration locks the x- and y-axis at the
+                                            origin</p>
+                                        <p>
+                                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;SetPos(0);
+$graph-&gt;yaxis-&gt;SetPos(0);</span></pre></td></tr></table></div><p>
+                                        </p>
+                                    </td></tr><tr><td>
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmaxis6.png"></span></p>
+                                    </td><td valign="top">
+                                        <p>With an added box around the plot area</p>
+                                        <p>
+                                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;SetPos(0);
+$graph-&gt;yaxis-&gt;SetPos(0);
+$graph-&gt;SetBox();</span></pre></td></tr></table></div><p>
+                                        </p>
+                                    </td></tr></tbody></table>
+                    </div></div><p><br class="table-break">
+                </p>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt03.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

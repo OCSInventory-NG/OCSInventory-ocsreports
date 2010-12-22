@@ -1,0 +1,158 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Case study: Adding a table to a bar graph</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch19.html" title="Chapter 19. Graphical tables"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Case study: Adding a table to a bar graph</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 19. Graphical tables</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Case study: Adding a table to a bar graph"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec.table-case-study"></a>Case study: Adding a table to a bar graph</h2></div></div></div>
+        
+        <p>The goal of this example is to explain in detail how to achieve the graphs shown in
+                <a class="xref" href="ch19s06.html#fig.tablebarex1" title="Figure 19.20. Combining a bar graph and a table (tablebarex1.php)">Figure 19.20. Combining a bar graph and a table <code class="uri"><a class="uri" href="example_src/tablebarex1.html" target="_top">(<code class="filename">tablebarex1.php</code>)</a></code> </a></p>
+        <p>
+            </p><div class="figure"><a name="fig.tablebarex1"></a><p class="title"><b>Figure 19.20. Combining a bar graph and a table <code class="uri"><a class="uri" href="example_src/tablebarex1.html" target="_top">(<code class="filename">tablebarex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/tablebarex1.png" alt="Combining a bar graph and a table (tablebarex1.php)"></span> </div></div><p><br class="figure-break">
+        </p>
+        <p>The graph in <a class="xref" href="ch19s06.html#fig.tablebarex1" title="Figure 19.20. Combining a bar graph and a table (tablebarex1.php)">Figure 19.20. Combining a bar graph and a table <code class="uri"><a class="uri" href="example_src/tablebarex1.html" target="_top">(<code class="filename">tablebarex1.php</code>)</a></code> </a> consists of a standard accumulated
+            bar graph combined with a table just below the X-axis. The way to create such a graph is
+            very basic. First create a standard bar graph with some extra bottom margin (to make
+            room for the table) and then create and position the table below the graph. The only
+            challenge here is to make sure that the width of the table and graph matches to line up
+            each column under each bar. </p>
+        <p>Lets walk through the steps to do this. </p>
+        <p>The data to be plotted in the bar and in the table is created in a table as follows </p>
+        <p>
+            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$datay</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Jan</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">Feb</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">Mar</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">Apr</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">May</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">Jun</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">12</span><span class="hl-code">,</span><span class="hl-number">18</span><span class="hl-code">,</span><span class="hl-number">19</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-code">,</span><span class="hl-number">17</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">25</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">6</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.4</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.1</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-number">.9</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-number">.3</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+        </p>
+        <p>each line in this matrix corresponds to one row in the table and one set of bars that
+            will make up the accumulated bar plot. </p>
+        <p>First let's define some constants that will control the size and position of the graph
+            and table. </p>
+        <p>
+            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$nbrbar</span><span class="hl-code"> = </span><span class="hl-number">6</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> number of bars and hence number of columns in table</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$cellwidth</span><span class="hl-code"> = </span><span class="hl-number">50</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> width of each column in the table</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$tableypos</span><span class="hl-code"> = </span><span class="hl-number">200</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> top left Y-coordinate for table</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$tablexpos</span><span class="hl-code"> = </span><span class="hl-number">60</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> top left X-coordinate for table</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$tablewidth</span><span class="hl-code"> = </span><span class="hl-var">$nbrbar</span><span class="hl-code">*</span><span class="hl-var">$cellwidth</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> overall table width</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$rightmargin</span><span class="hl-code"> = </span><span class="hl-number">30</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> right margin in the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$topmargin</span><span class="hl-code"> = </span><span class="hl-number">30</span><span class="hl-code">  </span><span class="hl-comment">//</span><span class="hl-comment"> top margin of graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+        </p>
+        <p>The next step is to calculate a suitable size for the entire graph, i.e. the entire
+            image. </p>
+        <p>
+            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$height</span><span class="hl-code"> = </span><span class="hl-number">320</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> a suitable height for the image</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$width</span><span class="hl-code"> = </span><span class="hl-var">$tablexpos</span><span class="hl-code">+</span><span class="hl-var">$tablewidth</span><span class="hl-code">+</span><span class="hl-var">$rightmargin</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> the width of the image</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+        </p>
+        <p>Finally its time ot make use of these constants to rceate the basic graph. Note that
+            we calculate the bottom margin to just fit the tables selected Y-coordinate position. </p>
+        <p>
+            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-var">$width</span><span class="hl-code">,</span><span class="hl-var">$height</span><span class="hl-brackets">)</span><span class="hl-code">;    
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">img</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-var">$tablexpos</span><span class="hl-code">,</span><span class="hl-var">$rightmargin</span><span class="hl-code">,</span><span class="hl-var">$topmargin</span><span class="hl-code">,</span><span class="hl-var">$height</span><span class="hl-code">-</span><span class="hl-var">$tableypos</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">textlin</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMarginColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">white</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+        </p>
+        <p>The rest of the code to create the accumulated bar plot is pretty mundane and we just
+            show the code here without further comment. </p>
+        <p>
+            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the bars and the accbar plot</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$bplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay</span><span class="hl-brackets">[</span><span class="hl-number">3</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">orange</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot2</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay</span><span class="hl-brackets">[</span><span class="hl-number">2</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">red</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot3</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot3</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">darkgreen</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$accbplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">AccBarPlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-var">$bplot</span><span class="hl-code">,</span><span class="hl-var">$bplot2</span><span class="hl-code">,</span><span class="hl-var">$bplot3</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$accbplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">value</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Show</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$accbplot</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+        </p>
+        <p>It's now time to setup the table. The position of the table is determined by the
+            previous set constants and the original data as specified above. </p>
+        <p>
+            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GTextTable</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-var">$datay</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetPos</span><span class="hl-brackets">(</span><span class="hl-var">$tablexpos</span><span class="hl-code">,</span><span class="hl-var">$tableypos</span><span class="hl-code">+</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+        </p>
+        <p>The rest of the table formatting is fairly basic and again we just show the necessary
+            script without further comment. </p>
+        <p>
+            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetAlign</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">right</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMinColWidth</span><span class="hl-brackets">(</span><span class="hl-var">$cellwidth</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetNumberFormat</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">%0.1f</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Format table header row</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetRowFillColor</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">teal@0.7</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetRowFont</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">11</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetRowAlign</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">center</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> .. and add it to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$table</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+        </p>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch19.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

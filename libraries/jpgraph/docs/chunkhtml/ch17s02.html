@@ -1,0 +1,109 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Captcha generation</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch17.html" title="Chapter 17. Additional graph types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Captcha generation</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 17. Additional graph types</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Captcha generation"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2577246"></a>Captcha generation</h2></div></div></div>
+        
+        <p>Captcha is an acronym for "<span class="italic">Completely Automated Public Turing
+                test to tell Computers and Humans Apart.</span>" and is often used to prevent
+            automatic sign-ups in various WEB-based applications.</p>
+        <p>The library support generation of a simple captchas based on hand drawn "ugly" letters
+            and digits. They are combined into a word which can be presented as an image.</p>
+        <p>
+            </p><div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3>
+                <p>It should be noted that with ample processing power and modern image analysis
+                    it is probably not hat difficult to actually break these captchas so the usage
+                    of these captchas in mission critical environments is entirely the
+                    responsibility of the user.</p>
+            </div><p>
+        </p>
+        <p>The module in the library that is needed is
+            "<code class="filename">jpgraph_antispam.php</code>" and behaves as a simplified plot module. </p>
+        <p>?? showsn an example on how this can look</p>
+        <p>
+            </p><div class="figure"><a name="fig.antispamex01"></a><p class="title"><b>Figure 17.21. Sample illustration of captcha challenge <code class="uri"><a class="uri" href="example_src/antispamex01.html" target="_top">(<code class="filename">antispamex01.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/antispamex01.png" alt="Sample illustration of captcha challenge (antispamex01.php)"></span> </div></div><p><br class="figure-break">
+        </p>
+        <p>Captcha images have less functionality then the usual graphs generated with the
+            library in order to keep this utility reasonable small. The primary limitation is that
+            there are no additional formatting options for the images and the image generated will
+            always use the JPEG image format. Hence it is not possible to change this to use, for
+            example, PNG format.</p>
+        <div class="sect2" title="Generating Captchas"><div class="titlepage"><div><div><h3 class="title"><a name="id2578426"></a>Generating Captchas</h3></div></div></div>
+            
+            <p>There are two basic alternatives on how to generate the content of the
+                captcha</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>Submit a string that should be used</p>
+                    </li><li class="listitem">
+                        <p>Automatically generate a random string. If this alternative is chosen
+                            then the user of the library should save the created string and compare
+                            it to what the user enters.</p>
+                    </li></ol></div><p>
+            </p>
+            <p>In order to write a script to generate a new challenge there are four steps to be
+                completed.</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>include the library file "<code class="filename">jpgraph_antispam.php</code>".
+                            Note that there is no need to include the
+                                "<code class="filename">jpgraph.php</code>" library since all functionality
+                            is included in this library file.</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">require_once &quot;jpgraph_antispam.php&quot;;</span></pre></td></tr></table></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>a new instance of the class AntiSpam must be created</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$spam = new  AntiSpam();</span></pre></td></tr></table></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>the string to be used in the challenge must be specified. To
+                            automatically generate a suitable string use</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">// The argument determines the length of the generated string
+$chars = $spam-&gt; Rand(5);</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>If instead the string to be used should be specified this string
+                            should be specified in the initial creation of the
+                                <code class="code">AntiSpam()</code> or by calling the <code class="code">Set()</code> method
+                            as in</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$spam-&gt; Set('aui8k');</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>Please note that in order to minimize the risk for confusion the
+                            letters 'O' and the number '0' (zero) is not allowed since they are too
+                            alike and can be mistaken for each other.</p>
+                    </li><li class="listitem">
+                        <p>output the image with a call the method <code class="code">Stroke()</code> on the
+                            created instance of the AntiSpam class.</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">if( $spam-&gt;Stroke () === false  ) {
+    die(&quot;Illegal or no data to plot&quot;);
+}</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>Note that we have put a guard around the output since in the case of
+                            an error this method will result a boolean false value. As with the
+                            other graph types it is possible to write the generated image to a file
+                            by submitting a file name as an argument to Stroke().</p>
+                    </li></ol></div><p>
+            </p>
+            <p>In order to practically use this module the challenge string is most likely passed
+                to the image script via a URL argument, saved to a file and the read back in the
+                HTML page that is providing the captcha challenge.</p>
+            <p>
+                </p><div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3>
+                    <p>It should be pointed out on more time that modern image analysis
+                        technology is fairly good at automatically read these types of images and
+                        translate it back to the letters they represent so this type of captchas
+                        does not provide any guarantee for automatic sign-ups. There are active
+                        academic research on how to apply various types of artificial intelligence
+                        to read many types of captchas. </p>
+                </div><p>
+            </p>
+        </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch17.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

@@ -1,0 +1,82 @@
+<div style="font-weight: bold;margin-left:15px;">canvasex06.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> </span><span class="hl-inlinedoc">$Id: canvasex06.php,v 1.1 2002/08/27 20:08:57 aditus Exp $</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_canvas.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_canvtools.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Define work space</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$xmax</span><span class="hl-code">=</span><span class="hl-number">40</span><span class="hl-code">;
+</span><span class="hl-var">$ymax</span><span class="hl-code">=</span><span class="hl-number">40</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup a basic canvas we can work </span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$g</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">CanvasGraph</span><span class="hl-brackets">(</span><span class="hl-number">400</span><span class="hl-code">,</span><span class="hl-number">200</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">auto</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$g</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">11</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-code">,</span><span class="hl-number">11</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$g</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetShadow</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$g</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMarginColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">teal</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> We need to stroke the plotarea and margin before we add the</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> text since we otherwise would overwrite the text.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$g</span><span class="hl-code">-&gt;</span><span class="hl-identifier">InitFrame</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new scale</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$scale</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">CanvasScale</span><span class="hl-brackets">(</span><span class="hl-var">$g</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-var">$xmax</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-var">$ymax</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> The shape class is wrapper around the Imgae class which translates</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> the coordinates for us</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$shape</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Shape</span><span class="hl-brackets">(</span><span class="hl-var">$g</span><span class="hl-code">,</span><span class="hl-var">$scale</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$shape</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">black</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$shape</span><span class="hl-code">-&gt;</span><span class="hl-identifier">IndentedRectangle</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-identifier">CORNER_TOPLEFT</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">khaki</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$shape</span><span class="hl-code">-&gt;</span><span class="hl-identifier">IndentedRectangle</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-identifier">CORNER_BOTTOMLEFT</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">khaki</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$shape</span><span class="hl-code">-&gt;</span><span class="hl-identifier">IndentedRectangle</span><span class="hl-brackets">(</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-identifier">CORNER_TOPRIGHT</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">khaki</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$shape</span><span class="hl-code">-&gt;</span><span class="hl-identifier">IndentedRectangle</span><span class="hl-brackets">(</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-identifier">CORNER_BOTTOMRIGHT</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">khaki</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Stroke the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$g</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

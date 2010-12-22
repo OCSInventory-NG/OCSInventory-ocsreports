@@ -1,0 +1,69 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Different types of NULL data handling</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch13.html" title="Chapter 13. Getting hold of the data to be displayed"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Different types of NULL data handling</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 13. Getting hold of the data to be displayed</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Different types of NULL data handling"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec1.null-value-handling"></a>Different types of NULL data handling</h2></div></div></div>
+            
+            <p>In some data there might be data points missing. For example if some experimental
+                data is to be graphed there can be data points where the equipment was faulty and
+                not valid values exist. The library offers to way to handle this. </p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>Leave the data point empty and leave a whole in the graph, for example
+                            a break in a line plot. This happens iof the null value is specified as
+                            either one of the following values</p>
+                        <p>
+                            </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                    <p><code class="code">'x'</code> - A single character 'x'</p>
+                                </li><li class="listitem">
+                                    <p><code class="code">''</code> - An empty string</p>
+                                </li><li class="listitem">
+                                    <p><code class="code">NULL</code> - The NULL value</p>
+                                </li></ul></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>Ignore the data point and connect the previous and next data point
+                            with the line in a line graph. This is accomplished by specifying the
+                            null value as</p>
+                        <p>
+                            </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                    <p><code class="code">'-'</code> - A single hyphen character</p>
+                                </li></ul></div><p>
+                        </p>
+                    </li></ol></div><p>
+            </p>
+            <p>In <a class="xref" href="ch13s06.html#ex.different-nulls" title="Example 13.1. Illustration of different types of NULL values in graphs">Example 13.1. Illustration of different types of NULL values in graphs</a> an example with the different types of
+                null values are shown. In these graphs the third data point is set to null with the
+                two different null values.</p>
+            <p>
+                </p><div class="example"><a name="ex.different-nulls"></a><p class="title"><b>Example 13.1. Illustration of different types of NULL values in graphs</b></p><div class="example-contents">
+                    
+                    <div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td>
+                                        <div class="figure"><a name="id2539277"></a><p class="title"><b>Figure 13.4. Original graph with all values</b></p><div class="figure-contents">
+                                            
+                                            <div class="mediaobject"><img src="images/nullvalues1.png" alt="Original graph with all values"></div>
+                                        </div></div><br class="figure-break">
+                                    </td><td>
+                                        <div class="figure"><a name="id2539306"></a><p class="title"><b>Figure 13.5. Value at x=2 as ''</b></p><div class="figure-contents">
+                                            
+                                            <div class="mediaobject"><img src="images/nullvalues2.png" alt="Value at x=2 as ''"></div>
+                                        </div></div><br class="figure-break">
+                                    </td><td>
+                                        <div class="figure"><a name="id2539330"></a><p class="title"><b>Figure 13.6. Value at x=2 as '-'</b></p><div class="figure-contents">
+                                            
+                                            <div class="mediaobject"><img src="images/nullvalues3.png" alt="Value at x=2 as '-'"></div>
+                                        </div></div><br class="figure-break">
+                                    </td></tr></tbody></table>
+                    </div>
+                </div></div><p><br class="example-break">
+            </p>
+            <p>
+                </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                    <p>If all values in a line plot are null values an error will be shown since
+                        this is not considered to be a valid plot.</p>
+                    <p>
+                        </p><div class="figure"><a name="fig.only-null-error"></a><p class="title"><b>Figure 13.7. Error when only null values are specified</b></p><div class="figure-contents">
+                            
+                            <div class="mediaobject"><img src="images/errmsg-only-null.png" alt="Error when only null values are specified"></div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                </div><p>
+            </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch13.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

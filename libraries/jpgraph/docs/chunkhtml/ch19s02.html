@@ -1,0 +1,699 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Constructing tables</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch19.html" title="Chapter 19. Graphical tables"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Constructing tables</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 19. Graphical tables</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Constructing tables"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2579640"></a>Constructing tables</h2></div></div></div>
+        
+        <p>In this section we will introduce the basic concepts of tables and explain the basic
+            formatting possibilities that are available. </p>
+        <div class="sect2" title="Basic tables"><div class="titlepage"><div><div><h3 class="title"><a name="id2579767"></a>Basic tables</h3></div></div></div>
+            
+            <p>A table is created as an instance of the <code class="code">class GTextTable</code> and can be
+                managed in much the same way as for example Icons, Texts or other plot objects. It
+                can be added to the graph (at specified X and Y coordinates) using the standard
+                    <code class="code">Graph::Add()</code> method. </p>
+            <p>The creation of a table starts with including the necessary file
+                    "<code class="filename">jpgraph_table.php</code>" which contains the class definition for
+                the <code class="code">GTextTable</code> class. In order to create a table we also need a graph
+                context to which the table can be added. This can be either one of the ordinary
+                graphs which used an instance of <code class="code">class Graph</code> or to create a stand alone
+                table by using an instance of <code class="code">class CanvasGraph</code></p>
+            <p>Creating a new table is then just matter of creating a new instance of the
+                    <code class="code">class GTextTable</code> and calling the initialization method with the
+                desired size (in rows and columns) of the table. To display the table stand alone we
+                also need to create a canvas graph and then add the table to the graph.</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">&quot;</span><span class="hl-string">jprgraph/jpgraph.php</span><span class="hl-quotes">&quot;</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_canvas.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">&quot;</span><span class="hl-string">jprgaph/jpgraph_table.php</span><span class="hl-quotes">&quot;</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup a basic canvas graph context</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">CanvasGraph</span><span class="hl-brackets">(</span><span class="hl-number">630</span><span class="hl-code">,</span><span class="hl-number">600</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a basic graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$table</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GTextTable</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Init</span><span class="hl-brackets">(</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> Create a 5 rows x 7 columns table</span><span class="hl-comment"></span><span class="hl-code">
+ 
+...
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the table to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$table</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> and send back to the client</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>As can be seen above it is not necessary (but still possible) to specify an
+                explicit physical size for the table. The physical size of the table will be
+                automatically determined depending on the content of the table.</p>
+            <p>The cells in the table are numbered sequentially where (0,0) is the top left and
+                (n-1, m-1) is the bottom right cell in a table with <span class="italic">n</span> rows and <span class="italic">m</span> columns.</p>
+            <p>The next step is to populate the table with some data. The content in one cell is
+                specified with the using one of the following methods</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">GTextTable::Set($aRow, $aCol, $aText)</code></p>
+                        <p>Set the specified text in cell (<code class="code">$aRow</code>,
+                            <code class="code">$aCol</code>)</p>
+                        <p><code class="code">GTextTable::Set($aData)</code></p>
+                        <p>Copy the data in the two dimensional array <code class="code">$aData</code> to the
+                            table</p>
+                    </li><li class="listitem">
+                        <p><code class="code">GTextTable::SetImage($aRow, $aCol, $aText,
+                            $aImage)</code></p>
+                        <p>Set the specified image in cell (<code class="code">$aRow</code>,
+                                <code class="code">$aCol</code>)</p>
+                    </li><li class="listitem">
+                        <p><code class="code">GTextTable::SetCellCountryFlag($aRow,$aCol,$aFlag,$aScale=1.0,$aMix=100,$aStdSize=3)</code></p>
+                        <p>Set the specified country flag in cell (<code class="code">$aRow</code>,
+                                <code class="code">$aCol</code>)</p>
+                    </li></ul></div><p>
+            </p>
+            <p>The <code class="code">Set()</code> method is polymorphic and can be called in two different
+                ways. </p>
+            <p>It can either be used to specify the value of each individual cell by identifying
+                the cell by its row and column index (starting at 0) ways. For example to continue
+                the example above we set the first two cells on the first row to 1 and 2 vi the two
+                calls </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">...
+$table-&gt;Set(0,0,1);
+$table-&gt;Set(0,1,1);
+...</span></pre></td></tr></table></div><p>
+            </p>
+            <p>The second, and probably less tedious way is to setup a 2-dimensional array
+                (matrix) with suitable values and then pass that 2-dimensional array as the first
+                and only argument to the <code class="code">Set()</code> method as the following example
+                shows</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array( array( 12, 7),
+               array( 10, 5));
+$table-&gt;Set($data)</span></pre></td></tr></table></div><p>
+            </p>
+            <p>If the table is specified by a matrix directly it is not necessary to make the
+                initial <code class="code">Init()</code> call since it will be automatically determined by the
+                size of the matrix. </p>
+            <p>The following basic full example creates a 2 rows by 4 columns table with
+                consecutive values. Note here that we make use of <code class="code">CanvasGraph</code> to
+                provide the graph on which to add the table. The result of this script is shown in
+                    <a class="xref" href="ch19s02.html#fig.table_howto1" title="Figure 19.3. The most basic 2x4 table (table_howto1.php)">Figure 19.3. The most basic 2x4 table <code class="uri"><a class="uri" href="example_src/table_howto1.html" target="_top">(<code class="filename">table_howto1.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="example"><a name="example.table_howto1"></a><p class="title"><b>Example 19.1. The most basic 2x4 table (<code class="filename">table_howto1.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_canvas.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_table.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a canvas graph where the table can be added</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">CanvasGraph</span><span class="hl-brackets">(</span><span class="hl-number">70</span><span class="hl-code">,</span><span class="hl-number">50</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the basic table</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">,</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GTextTable</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$table</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the table to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$table</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> ... and send back the table to the client</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.table_howto1"></a><p class="title"><b>Figure 19.3. The most basic 2x4 table <code class="uri"><a class="uri" href="example_src/table_howto1.html" target="_top">(<code class="filename">table_howto1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto1.png" alt="The most basic 2x4 table (table_howto1.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>In the example above we also made use of a minor shortcut. If the data to the
+                table is specified with a 2-dimensional array there is no need to call the
+                    <code class="code">Init()</code> method since the size will be determined by the supplied
+                array. </p>
+            <p>We will not yet begin discussion how to change fonts, colors and grids. Instead we
+                will focus on the structure of the table and introduce the merge operation. </p>
+        </div>
+        <div class="sect2" title="Merging cells"><div class="titlepage"><div><div><h3 class="title"><a name="id2579770"></a>Merging cells</h3></div></div></div>
+            
+            <p>The only way to change the structure (as opposed to the look &amp; feel) of the
+                table is by merging two or more cells. The merge operation is done via one of three
+                method calls: </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">MergeRow()</code></p>
+                        <p>Merge all cells in a specified row</p>
+                    </li><li class="listitem">
+                        <p><code class="code">MergeCol()</code></p>
+                        <p>Merge all cells in a specified column</p>
+                    </li><li class="listitem">
+                        <p><code class="code">MergeCells()</code></p>
+                        <p>Merge a rectangular range of cells</p>
+                    </li></ul></div><p>
+            </p>
+            <p>The first two methods are really just simplifications for the third most generic
+                method. The first two methods merge all the cells in a specified row or column and
+                the third method merges any arbitrary rectangular range of cells specified by the
+                upper left nd lower right corner. </p>
+            <p>In addition, by default, these calls will also center align the text in the merged
+                cells (both horizontally and vertically). This can however be adjusted by giving the
+                wanted alignment as additional argument to the methods or by calling the specific
+                APIs that controls the alignment of the data within each cell. </p>
+            <p>The third (and most generic) method merge a range of cells specified by the top
+                left and bottom right corner. So, for example, the following line will merge the
+                rightmost four cells in the previous example </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;MergeCells(0,2,1,3);</span></pre></td></tr></table></div><p>
+            </p>
+            <p>
+                </p><div class="figure"><a name="fig.table_howto2"></a><p class="title"><b>Figure 19.4. Merging the rightmost 4 cells in the table <code class="uri"><a class="uri" href="example_src/table_howto2.html" target="_top">(<code class="filename">table_howto2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto2.png" alt="Merging the rightmost 4 cells in the table (table_howto2.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>The merged cell can later on be referenced by the top left of the original merged
+                cell range. This means that the merged cell in the above example is referred to as
+                the (0,2) cell. </p>
+            <p>If we instead wanted to merge the top row of the table we could have simplified
+                the call by using one of the alternative merge methods. In this case the<code class="code">
+                    MergeRow()</code> method would be applicable as in </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;MergeRow(0);</span></pre></td></tr></table></div><p>
+            </p>
+            <p>which would then give the table as shown in <a class="xref" href="ch19s02.html#fig.table_howto3" title="Figure 19.5. Merging the top row (table_howto3.php)">Figure 19.5. Merging the top row <code class="uri"><a class="uri" href="example_src/table_howto3.html" target="_top">(<code class="filename">table_howto3.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="figure"><a name="fig.table_howto3"></a><p class="title"><b>Figure 19.5. Merging the top row <code class="uri"><a class="uri" href="example_src/table_howto3.html" target="_top">(<code class="filename">table_howto3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto3.png" alt="Merging the top row (table_howto3.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>In summary, the following three rules apply to merging and/or merged cells </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p>It is an error to try o merge already merged cells. </p>
+                    </li><li class="listitem">
+                        <p>A merged cell is referenced by the top left cell in the merged range.
+                        </p>
+                    </li><li class="listitem">
+                        <p>All formatting that can be applied to a single cell can also be
+                            applied to a merged cell. </p>
+                    </li></ul></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Font adjustment"><div class="titlepage"><div><div><h3 class="title"><a name="id2580253"></a>Font adjustment</h3></div></div></div>
+            
+            <p>The most basic way to change the look and feel of the table is to adjust the font
+                that is used in the different cells in the table. To adjust the font within the
+                table the following methods are available </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">SetFont()</code>, Specify the default font for the entire table
+                            or for a specified range of cells </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetRowFont()</code>, Specify the font for an entire row of cells
+                        </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetColFont()</code>, Specify the font for an entire column of
+                            cells </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetCellFont()</code>, Specify the font for a single cell </p>
+                    </li></ul></div>
+            <p>By default the font in the table is set to <code class="code">FF_FONT1</code>, i.e. the
+                built-in bit mapped font of medium size. The default color of the font is 'black'. </p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>If several font settings are applied to the same cell it will be the last
+                        method call before the table <code class="code">Stroke()</code> method that will take
+                        precedence.</p>
+                </div><p>
+            </p>
+            <p>As a simple example the following script shows how to adjust the font used in the
+                first merged row in the previous example. </p>
+            <p>
+                </p><div class="figure"><a name="fig.table_howto5"></a><p class="title"><b>Figure 19.6. Adjusting the font in the top row <code class="uri"><a class="uri" href="example_src/table_howto5.html" target="_top">(<code class="filename">table_howto5.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto5.png" alt="Adjusting the font in the top row (table_howto5.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>The font in <a class="xref" href="ch19s02.html#fig.table_howto5" title="Figure 19.6. Adjusting the font in the top row (table_howto5.php)">Figure 19.6. Adjusting the font in the top row <code class="uri"><a class="uri" href="example_src/table_howto5.html" target="_top">(<code class="filename">table_howto5.php</code>)</a></code> </a> was adjusted with a call to </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetCellFont(0,0,FF_ARIAL,FS_BOLD,14);</span></pre></td></tr></table></div><p>
+            </p>
+            <p><span class="bold"><strong> Polymorphic <code class="code">SetFont()</code></strong></span></p>
+            <p>Before finishing this section it is worth noting that the <code class="code">SetFont()</code>
+                method is polymorphic and can be called in two different ways. </p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>In the first way it can be called with a single font (triple)
+                            argument. That font specification will then become the default for all
+                            cells in the table, for example </p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetFont(FF_TIMES,FS_NORMAL,12);</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>will set the entire table to use Times TTF font. </p>
+                    </li><li class="listitem">
+                        <p>In the second way the first four arguments specifies a cell range (top
+                            left, bottom right) to apply the font setting to, for example </p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetFont(0,1,1,2,FF_TIMES,FS_NORMAL,12);</span></pre></td></tr></table></div><p>
+                        </p>
+                    </li></ol></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Color adjustment"><div class="titlepage"><div><div><h3 class="title"><a name="id2580295"></a>Color adjustment</h3></div></div></div>
+            
+            <p>In order to adjust the look and feel of the table it is possible to set the
+                following colors of the table: </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p>The color of the text/number in each cell </p>
+                    </li><li class="listitem">
+                        <p>The background color of each cell </p>
+                    </li><li class="listitem">
+                        <p>The color of the grid (inside the table) and border (around the table)
+                        </p>
+                    </li></ul></div><p>
+            </p>
+            <p>The font color for a cell (or range of cells) is specified with one of </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">SetColor()</code>, Set the color for a range of cells or the
+                            entire table </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetRowColor()</code>, Set the color for a specified row of cells
+                        </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetColColor()</code>, Set the color for a specified column of
+                            cells </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetCellColor()</code>, Set the color for a specified cells
+                        </p>
+                    </li></ul></div><p>
+            </p>
+            <p>In a similar way the background color (or the fill color) of a cell can be
+                specified with </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">SetFillColor()</code>, Set the fill color for a range of cells
+                            or the entire table </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetRowFillColor()</code>, Set the fill color for a specified row
+                            of cells </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetColFillColor()</code>, Set the fill color for a specified
+                            column of cells </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetCellFillColor()</code>, Set the fill color for a specified
+                            cells </p>
+                    </li></ul></div><p>
+            </p>
+            <p>The way to adjust the color of the grid and border will be discussed in the
+                section regarding borders and grids below. </p>
+            <p><span class="bold"><strong>Polymorphic <code class="code">SetColor()</code> and
+                        <code class="code">SetFillColor()</code></strong></span></p>
+            <p>In the same manner as <code class="code">SetFont()</code> can act on both all cells and a
+                specified range of cells the two color setting methods work in the same way. Both
+                    <code class="code">SetColor()</code> and <code class="code">SetFillColor()</code> can both be called
+                either with a single argument (in which all cells will be addressed) or by giving a
+                range (top left and bottom right cell) to be acted upon. </p>
+            <p>The following method calls will set the background color of the first three cells
+                in row 2 and 3 and the entire table </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">...
+// First set the default fill color to lightgray
+$table-&gt;SetFillColor('lightgray');
+ 
+// The Set a range to yellow
+$table-&gt;SetFillColor(2,0,3,2,'yellow');
+...</span></pre></td></tr></table></div><p>
+            </p>
+            <p>Finally we give some concluding examples to make the usage of these methods more
+                clear. </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">...
+// Set the default font color for all table cells
+$table-&gt;SetColor('darkgray');
+ 
+// Set the font color for all cells in row one 
+$table-&gt;SetRowColor(1,'darkgray');
+ 
+// Set the font color for the first two cells in the second row 
+// (row with index=1)
+$table-&gt;SetColor(1,0,1,1,'darkgray');
+...</span></pre></td></tr></table></div><p>
+            </p>
+            <div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                <p>If there are multiple color settings for the same cell then the last method
+                    called before the final Stroke() call will be the color that shows. </p>
+                <p>For example the following script sets the color of cell (0,0) to both 'black'
+                    and 'yellow' but since the yellow is the last method to be called this is the
+                    color that will be used for cell (0,0) </p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">...
+$table-&gt;SetRowColor(0,'black');
+$table-&gt;SetColColor(0,'yellow');
+...
+$graph-&gt;Stroke();</span></pre></td></tr></table></div><p>
+                </p>
+            </div>
+            <p>Finally, we illustrate the usage of these method by continuing with the previous
+                example and coloring row 0 as shown in <a class="xref" href="ch19s02.html#fig.table_howto4" title="Figure 19.7. Merging and setting the colors the top row (table_howto4.php)">Figure 19.7. Merging and setting the colors the top row <code class="uri"><a class="uri" href="example_src/table_howto4.html" target="_top">(<code class="filename">table_howto4.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="figure"><a name="fig.table_howto4"></a><p class="title"><b>Figure 19.7. Merging and setting the colors the top row <code class="uri"><a class="uri" href="example_src/table_howto4.html" target="_top">(<code class="filename">table_howto4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto4.png" alt="Merging and setting the colors the top row (table_howto4.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>The coloring in <a class="xref" href="ch19s02.html#fig.table_howto4" title="Figure 19.7. Merging and setting the colors the top row (table_howto4.php)">Figure 19.7. Merging and setting the colors the top row <code class="uri"><a class="uri" href="example_src/table_howto4.html" target="_top">(<code class="filename">table_howto4.php</code>)</a></code> </a> was accomplished by adding
+                the following two lines to the previous script. </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetCellFillColor(0,0,'orange@0.7');
+$table-&gt;SetCellColor(0,0,'darkred');</span></pre></td></tr></table></div><p>
+            </p>
+            <p>The same effect could also have been accomplished by using the row version of the
+                color methods as in </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetRowFillColor(0,'orange@0.7');
+$table-&gt;SetRowColor(0,'darkred');</span></pre></td></tr></table></div><p>
+            </p>
+            <p>Which sets of methods to use in this case is a matter of personal preference since
+                both achieve the same effect. </p>
+        </div>
+        <div class="sect2" title="Adjusting table and cell sizes"><div class="titlepage"><div><div><h3 class="title"><a name="id2580500"></a>Adjusting table and cell sizes</h3></div></div></div>
+            
+            <p>The exact size of the table can only be indirectly controlled by specifying the
+                width of the columns and the height of the rows. The width/height can either be
+                controlled individually on a row by row (or column by column) basis or by giving all
+                rows/columns the same width/height. This is accomplished by the methods </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">SetMinRowHeight()</code>, Sets the minimum height of rows
+                        </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetMinColWidth()</code>, Sets the minimum width of columns
+                        </p>
+                    </li></ul></div><p>
+            </p>
+            <p>As can be noted from the name of the methods the width and height specified is not
+                necessarily the exact size of the row/column. It's just the minimum size. The actual
+                size is depending on the text in the cells. The row height (and column width) will
+                always grow in order to fit the text within the largest cell. </p>
+            <p><span class="bold"><strong>Polymorphic functions</strong></span></p>
+            <p>The number of arguments to the two methods can in fact be either one or two. If
+                only one argument is supplied then it is interpretated as the minimum width/height
+                for all columns/rows in the table. If two arguments are used then the first argument
+                will specify what row/columns the height/width is specified for. </p>
+            <p>Continuing with the table in <a class="xref" href="ch19s02.html#fig.table_howto4" title="Figure 19.7. Merging and setting the colors the top row (table_howto4.php)">Figure 19.7. Merging and setting the colors the top row <code class="uri"><a class="uri" href="example_src/table_howto4.html" target="_top">(<code class="filename">table_howto4.php</code>)</a></code> </a> . If we want
+                to make sure that all the cells in row 1 is at least 35 pixels wide we could add to
+                add the following in the previous script </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">...
+$table-&gt;SetMinColWidth(35);
+...</span></pre></td></tr></table></div><p>
+            </p>
+            <p>Which would then give the table shown in <a class="xref" href="ch19s02.html#fig.table_howto6" title="Figure 19.8. Setting the minimum column width to 35 pixels. (table_howto6.php)">Figure 19.8. Setting the minimum column width to 35 pixels. <code class="uri"><a class="uri" href="example_src/table_howto6.html" target="_top">(<code class="filename">table_howto6.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="figure"><a name="fig.table_howto6"></a><p class="title"><b>Figure 19.8. Setting the minimum column width to 35 pixels. <code class="uri"><a class="uri" href="example_src/table_howto6.html" target="_top">(<code class="filename">table_howto6.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto6.png" alt="Setting the minimum column width to 35 pixels. (table_howto6.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+        </div>
+        <div class="sect2" title="Fine tuning cell alignment and cell padding"><div class="titlepage"><div><div><h3 class="title"><a name="id2580951"></a>Fine tuning cell alignment and cell padding</h3></div></div></div>
+            
+            <p>The final bit of important formatting is the ability to specify the alignment of
+                the data in each of the cells within the table. It is possible to specify both the
+                horizontal and vertical alignment. The alignment can be specified as one of </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p>Horizontal alignment: "left", "right", "center" </p>
+                    </li><li class="listitem">
+                        <p>Vertical alignment: "top", "bottom", "center" </p>
+                    </li></ul></div><p>
+            </p>
+            <p>As usual there are four variants of the alignment methods </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">SetAlign()</code>, Set the align for a range of cells or the
+                            entire table </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetRowAlign()</code>, Set the alignment for an entire row
+                        </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetColAlign()</code>, Set the alignment for an entire column
+                        </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetCellAlign()</code>, Set the alignment for a specific cell
+                        </p>
+                    </li></ul></div><p>
+            </p>
+            <p>Each of the methods accepts two alignment arguments, the horizontal and the
+                vertical alignment. We don't give any examples here since the usage of these methods
+                should be obvious. </p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>It should be mentioned that in addition to using these methods the
+                        alignment can also be set when using the merge methods (as discussed above).
+                        This is purely as a convenience since it is such a common use case to adjust
+                        the alignment when merging cells. </p>
+                </div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Adjusting border and grid lines"><div class="titlepage"><div><div><h3 class="title"><a name="id2581054"></a>Adjusting border and grid lines</h3></div></div></div>
+            
+            <p>The final formatting option available is the shape, size and color of the border
+                and grid lines in the table. As of this writing the library supports the following
+                styles of grid lines. </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">TGRID_SINGLE</code>, a basic solid line of specified width and
+                            color (default) </p>
+                    </li><li class="listitem">
+                        <p><code class="code">TGRID_DOUBLE</code>, two lines of equal width separated by the
+                            same width as the line width. </p>
+                    </li><li class="listitem">
+                        <p><code class="code">TGRID_DOUBLE2</code>, two lines where the left/top line is twice
+                            as thick as the bottom/right line. </p>
+                    </li></ul></div><p>
+            </p>
+            <p>
+                </p><div class="informaltable">
+                    <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                    <div class="figure"><a name="fig.table_howto7.1"></a><p class="title"><b>Figure 19.9. Double lines 1 <code class="uri"><a class="uri" href="example_src/table_howto7.1.html" target="_top">(<code class="filename">table_howto7.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto7.1.png" alt="Double lines 1 (table_howto7.1.php)"></span> </div></div><br class="figure-break">
+                                </td><td>
+                                    <div class="figure"><a name="fig.table_howto7.2"></a><p class="title"><b>Figure 19.10. Double lines 2 <code class="uri"><a class="uri" href="example_src/table_howto7.2.html" target="_top">(<code class="filename">table_howto7.2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto7.2.png" alt="Double lines 2 (table_howto7.2.php)"></span> </div></div><br class="figure-break">
+                                </td></tr></tbody></table>
+                </div><p>
+            </p>
+            <p>The methods available to adjust the grid lines are </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">SetGrid()</code>, Set the grid line style for all grid lines
+                        </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetColGrid()</code>, Set the specified vertical grid line
+                        </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetRowGrid()</code>, Set the specified horizontal grid line
+                        </p>
+                    </li></ul></div><p>
+            </p>
+            <p>The borders in <a class="xref" href="ch19s02.html#fig.table_howto7.1" title="Figure 19.9. Double lines 1 (table_howto7.1.php)">Figure 19.9. Double lines 1 <code class="uri"><a class="uri" href="example_src/table_howto7.1.html" target="_top">(<code class="filename">table_howto7.1.php</code>)</a></code> </a> was modified by adding the
+                following call to the basic table script. </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetRowGrid(2,1,'black',TGRID_DOUBLE);</span></pre></td></tr></table></div><p>
+            </p>
+            <p>and in <a class="xref" href="ch19s02.html#fig.table_howto7.2" title="Figure 19.10. Double lines 2 (table_howto7.2.php)">Figure 19.10. Double lines 2 <code class="uri"><a class="uri" href="example_src/table_howto7.2.html" target="_top">(<code class="filename">table_howto7.2.php</code>)</a></code> </a>
+            </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetRowGrid(2,1,'black',TGRID_DOUBLE2);</span></pre></td></tr></table></div><p>
+            </p>
+            <p>The order of the arguments are 1) Row, 2) Width (weight) and 3) Line style. </p>
+            <p>Finally, in order to adjust the outer border of the table there is one last method
+                available </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">SetBorder()</code>, Set the width and color of the outer border
+                        </p>
+                    </li></ul></div><p>
+            </p>
+            <p>
+                </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>In order to remove a specific grid line or the border the width is
+                        specified as 0 </p>
+                </div><p>
+            </p>
+            <p>As a final example the following script snippet removes many of the grid lines and
+                borders by adding the following lines to the previous basic table script. </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">...
+$table-&gt;SetBorder(0);
+$table-&gt;SetGrid(0);
+$table-&gt;SetRowGrid(2,1,'black',TGRID_DOUBLE2);
+...</span></pre></td></tr></table></div><p>
+            </p>
+            <p>The result of this modification is shown in <a class="xref" href="ch19s02.html#fig.table_howto8" title="Figure 19.11. Removing some grid lines and border. In addition we have right aligned all the cells as is common practice for numeric data. (table_howto8.php)">Figure 19.11. Removing some grid lines and border. In addition we have right aligned all the cells as is common practice for numeric data. <code class="uri"><a class="uri" href="example_src/table_howto8.html" target="_top">(<code class="filename">table_howto8.php</code>)</a></code> </a>
+                below. </p>
+            <p>
+                </p><div class="figure"><a name="fig.table_howto8"></a><p class="title"><b>Figure 19.11. Removing some grid lines and border. In addition we have right aligned all the cells as is common practice for numeric data. <code class="uri"><a class="uri" href="example_src/table_howto8.html" target="_top">(<code class="filename">table_howto8.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto8.png" alt="Removing some grid lines and border. In addition we have right aligned all the cells as is common practice for numeric data. (table_howto8.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+        </div>
+        <div class="sect2" title="Specific number formatting"><div class="titlepage"><div><div><h3 class="title"><a name="id2581394"></a>Specific number formatting</h3></div></div></div>
+            
+            <p>The final method of formatting we will briefly touch upon is the number
+                formatting. By setting a specific number formatting it is possible to have numeric
+                values formatted in a uniform way regardless of the original format. The number
+                format is the same format string that would be used with the <code class="code">printf()</code>
+                family. </p>
+            <p>The available methods for this formatting follows the usual structure </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">SetNumberFormat()</code>, Set the number format for a range or
+                            the whole table </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetRowNumberFormat()</code>, Set the number format for a
+                            specific row </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetColNumberFormat()</code>, Set the number format for a
+                            specific column </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetCellNumberFormat()</code>, Set the number format for a
+                            specific cell </p>
+                    </li></ul></div><p>
+            </p>
+            <p>To illustrate the use of this formatting we start with the table in <a class="xref" href="ch19s02.html#fig.table_howto8" title="Figure 19.11. Removing some grid lines and border. In addition we have right aligned all the cells as is common practice for numeric data. (table_howto8.php)">Figure 19.11. Removing some grid lines and border. In addition we have right aligned all the cells as is common practice for numeric data. <code class="uri"><a class="uri" href="example_src/table_howto8.html" target="_top">(<code class="filename">table_howto8.php</code>)</a></code> </a>. and apply the format string
+                    <code class="code">"%0.1f"</code> which will format the values as floating point values with
+                one decimal. We do this by adding the method following method call</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetNumberFormat('%0.1f');</span></pre></td></tr></table></div><p>
+            </p>
+            <p>
+                </p><div class="figure"><a name="fig.table_howto9"></a><p class="title"><b>Figure 19.12. Applying a number format to the data in the cells <code class="uri"><a class="uri" href="example_src/table_howto9.html" target="_top">(<code class="filename">table_howto9.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_howto9.png" alt="Applying a number format to the data in the cells (table_howto9.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>The number format will only set the number format it will not do any
+                        rounding of the actual values. This is the responsibility of the client.
+                    </p>
+                </div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Using images and country flags in the table"><div class="titlepage"><div><div><h3 class="title"><a name="id2581540"></a>Using images and country flags in the table</h3></div></div></div>
+            
+            <p>In addition to ordinary text it is also possible to have arbitrary images (read
+                from a file) or use one of the built-in country flags available in the library as
+                background images in the table cells. </p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>Remember to include "<code class="filename">jpgraph_iconplot.php</code>" if images
+                        should be included and "<code class="filename">jpgraph_flags.php</code>" if country
+                        flags are included.</p>
+                </div><p>
+            </p>
+            <p>The methods available for this purpose are </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">SetImage()</code>, Set the same image for all cells or a range
+                            of cells </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetCellImage()</code>, Set the image for a specific cell </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetRowImage()</code>, Set the image for a row of cells </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetColImage()</code>, Set the image for a column of cells
+                        </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetCellImageConstrain()</code>, Set the height or width of an
+                            image in a specified cell </p>
+                    </li><li class="listitem">
+                        <p><code class="code">SetCellCountryFlag()</code>, Use a specified country flag as
+                            image in a specified cell </p>
+                    </li></ul></div><p>
+            </p>
+            <p>For example, to add the United Kingdoms flag in cell (2,1) in the table one would
+                have to add the call </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetCellCountryFlag(2,1,'united kingdom');</span></pre></td></tr></table></div><p>
+            </p>
+            <p>as usual with the background images it is possible to scale it and also adjust the
+                mix-in factor by using additional arguments to the above methods. </p>
+            <p>However there is on extra feature available with images and tables. If we wanted
+                to make sure that the flag is of a specific height or width it is possible to
+                specify this and have the library auto-scale the image to fit the specified
+                parameter. </p>
+            <p>For example to restrict the height of the UK flag set in cell (2,1) to 20 pixels
+                the call would be </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$table-&gt;SetCellImageConstrain(2,1,TIMG_HEIGHT,20);</span></pre></td></tr></table></div><p>
+            </p>
+            <p>We conclude this section with a small example on the use of country flags in a
+                table in <a class="xref" href="ch19s02.html#fig.table_flagex1" title="Figure 19.13. Using country flags in the table cells (table_flagex1.php)">Figure 19.13. Using country flags in the table cells <code class="uri"><a class="uri" href="example_src/table_flagex1.html" target="_top">(<code class="filename">table_flagex1.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="figure"><a name="fig.table_flagex1"></a><p class="title"><b>Figure 19.13. Using country flags in the table cells <code class="uri"><a class="uri" href="example_src/table_flagex1.html" target="_top">(<code class="filename">table_flagex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/table_flagex1.png" alt="Using country flags in the table cells (table_flagex1.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+        </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch19.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

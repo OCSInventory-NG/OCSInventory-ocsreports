@@ -308,7 +308,7 @@ function update_default_value($POST){
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
 						'LOCAL_PORT','LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
-						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE');
+						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE','USE_FLASH');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -423,7 +423,8 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
  				  'TAB_CACHE'=>'TAB_CACHE',
  				  'LOG_SCRIPT'=>'LOG_SCRIPT',
  				  'CONF_PROFILS_DIR'=>'CONF_PROFILS_DIR',
- 				  'OLD_CONF_DIR'=>'OLD_CONF_DIR'
+ 				  'OLD_CONF_DIR'=>'OLD_CONF_DIR',
+ 				  'USE_FLASH'=>'USE_FLASH'
 				  );
 	$values=look_config_default_values($champs);
 	if (isset($values['tvalue']['DOWNLOAD_PACK_DIR']))
@@ -474,7 +475,7 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>50,'END'=>"/old_conf"));		
 	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGHT'=>4));	
 	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			
-
+	ligne('USE_FLASH',$l->g(1257),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['USE_FLASH']));
 	
 	
 	

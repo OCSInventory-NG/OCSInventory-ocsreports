@@ -1,0 +1,33 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Rotating text</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch08.html" title="Chapter 8. Text and font handling"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Rotating text</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 8. Text and font handling</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Rotating text"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2498734"></a>Rotating text</h2></div></div></div>
+            
+            <p>Both bit map and TTF fonts supports rotating text to different extent. With bit
+                map fonts it is only possible to use horizontal or vertical text, i.e. 0 or 90
+                degree rotation. TTF fonts supports arbitrary angles. If you are using a bit map
+                font and specifies an angle other than 0 or 90 then an error will be
+                displayed.</p>
+            <p>The most common usage for rotating text is probably to adjust the labels on the
+                x-axis so they are at 45 degrees angle. To rotate the label of an axis the method
+                    <code class="code">Axis::SetLabelAngle()</code> should be used. <a class="xref" href="ch08s04.html#fig.bargradex1" title="Figure 8.3. Example of how to use rotated labels (bargradex1.php)">Figure 8.3. Example of how to use rotated labels <code class="uri"><a class="uri" href="example_src/bargradex1.html" target="_top">(<code class="filename">bargradex1.php</code>)</a></code> </a> shows an example of this (click on the filename
+                to view the actual code).</p>
+            <p>
+                </p><div class="figure"><a name="fig.bargradex1"></a><p class="title"><b>Figure 8.3. Example of how to use rotated labels <code class="uri"><a class="uri" href="example_src/bargradex1.html" target="_top">(<code class="filename">bargradex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/bargradex1.png" alt="Example of how to use rotated labels (bargradex1.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>In addition to axis label it is also possible to
+                rotate almost every other text object with the exception of graph titles which is
+                always horizontal. For text objects (the class <code class="code">Text</code>) that can be added
+                to arbitrary positions on the graph the method <code class="code">Text::SetAngle()</code> can be
+                used to specify the wanted text angle. Another common place where text labels are
+                rotated is when individual data points are marked with labels. This could be done
+                for most plot types and in <a class="xref" href="ch08s04.html#fig.example20.3" title="Figure 8.4. Example of using rotated data point values (example20.3.php)">Figure 8.4. Example of using rotated data point values <code class="uri"><a class="uri" href="example_src/example20.3.html" target="_top">(<code class="filename">example20.3.php</code>)</a></code> </a> we show an example of using this for adding
+                labels to a basic bar plot (click on the filename to view source).</p>
+            <p>
+                </p><div class="figure"><a name="fig.example20.3"></a><p class="title"><b>Figure 8.4. Example of using rotated data point values <code class="uri"><a class="uri" href="example_src/example20.3.html" target="_top">(<code class="filename">example20.3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example20.3.png" alt="Example of using rotated data point values (example20.3.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>
+                </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                    <p>When rotating text paragraph the alignment (within the paragraph) will
+                        always be reset to "left". It is not possible to use "center" or "right"
+                        paragraph alignment in rotated texts.</p>
+                </div><p>
+            </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch08.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

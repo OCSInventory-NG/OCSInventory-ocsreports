@@ -1,0 +1,313 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 23. Filled contour graphs</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt05.html" title="Part V. Additional graph types available in the professional version"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 23. Filled contour graphs</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part V. Additional graph types available in the professional version</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 23. Filled contour graphs"><div class="titlepage"><div><div><h2 class="title"><a name="chapter.filled-contour-graphs"></a>Chapter 23. Filled contour graphs</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch23.html#id2594434">23.1. Filled Contour graphs</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch23.html#id2594607">23.1.1. Creating a filled contour graph</a></span></dt><dt><span class="sect2"><a href="ch23.html#id2594628">23.1.2. Enabling and disabling contour lines</a></span></dt><dt><span class="sect2"><a href="ch23.html#id2594656">23.1.3. Specifying a filled contour</a></span></dt><dt><span class="sect2"><a href="ch23.html#id2594673">23.1.4. Adjusting the labels in the contour</a></span></dt><dt><span class="sect2"><a href="ch23.html#id2595002">23.1.5. Selecting the adaptive method to use</a></span></dt></dl></dd></dl></div>
+    
+    <div class="sect1" title="Filled Contour graphs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2594434"></a>Filled Contour graphs</h2></div></div></div>
+        
+        <p>
+            </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                <p>This section describes additional functionality available in the pro-version
+                    v3.1p and above.</p>
+            </div><p>
+        </p>
+        <p>The use of filled ContourPlots requires the inclusion of the module
+                "<code class="filename">jpgraph_contourf.php</code>". The filled version of contour graphs
+            supports the following additional features compared to the regular contour graphs</p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                    <p>Filled contour plots</p>
+                </li><li class="listitem">
+                    <p>Labelling of isobar lines in the contour plots</p>
+                </li><li class="listitem">
+                    <p>Two user selectable adaptive algorithms to determine the contours, one
+                        rectangular and one triangular based adaptive mesh algorithm.</p>
+                </li></ul></div><p>The enhanced contour plot is contained in the new plot <code class="code">class
+                FilledContourPlot</code>.</p>
+        <p>As a quick introduction the two examples below shows two contour graphs which makes
+            use of these additional features</p>
+        <p>
+            <table xmlns="" frame="void" id="id2594508">
+                <tbody xmlns="">
+                    <tr>
+                        <td>
+                            <div class="figure"><a name="fig.contour2_ex1"></a><p class="title"><b>Figure 23.1. Filled contour with labels <code class="uri"><a class="uri" href="example_src/contour2_ex1.html" target="_top">(<code class="filename">contour2_ex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/contour2_ex1.png" alt="Filled contour with labels (contour2_ex1.php)"></span> </div></div><br class="figure-break">
+                        </td>
+                        <td>
+                            <div class="figure"><a name="fig.contour2_ex2"></a><p class="title"><b>Figure 23.2. Filled contour with no isobar lines <code class="uri"><a class="uri" href="example_src/contour2_ex2.html" target="_top">(<code class="filename">contour2_ex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/contour2_ex2.png" alt="Filled contour with no isobar lines (contour2_ex2.php)"></span> </div></div><br class="figure-break">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
+        <p>All basic formatting, such as specifying colors and number/location of the isobar
+            lines are handled in exactly the same way as described in the previous section for basic
+            contours.</p>
+        <div class="sect2" title="Creating a filled contour graph"><div class="titlepage"><div><div><h3 class="title"><a name="id2594607"></a>Creating a filled contour graph</h3></div></div></div>
+            
+            <p>The filled contour graph follows the exact same principles as for the non filled
+                graph described above. The core difference is that a filled graph is created as an
+                instance of <code class="code">class FilledContourPlot</code>, i.e.</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$filledContour</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">FilledContourPlot</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Enabling and disabling contour lines"><div class="titlepage"><div><div><h3 class="title"><a name="id2594628"></a>Enabling and disabling contour lines</h3></div></div></div>
+            
+            <p>Contour lines are controlled with the method</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">FilledContourPlot::ShowLines($aFlg,$aColorWithFilled='black')</code></p>
+                        <p>The <code class="code">$aFlg</code> is a boolean that determines if contour lines
+                            should be shown or not. by default they are enabled. The second argument
+                                <code class="code">$aColorWithFilled</code> determines what color the contour
+                            lines should have when the contour is filled. If the contour is not
+                            filled then the contour lines will have the color of the isobar.</p>
+                    </li></ul></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Specifying a filled contour"><div class="titlepage"><div><div><h3 class="title"><a name="id2594656"></a>Specifying a filled contour</h3></div></div></div>
+            
+            <p>In order to have the contour filled the method</p>
+            <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                    <p><code class="code">ContourPlot::SetFilled($aFlg)</code> Determines if the contour
+                        should be filled or not.</p>
+                </li></ul></div>
+            <p>should be called.</p>
+            <p>Since there are <span class="italic">n</span> isobar lines and there needs to be <span class="italic">n+1</span> colors to fill the graph there is a choice of what
+                side should the color for isobar line <span class="italic">n</span> fill. The area above or the area below the isobar. In
+                this library we use the convention that the color for isobar line <span class="italic">n</span> is used to fill the area up to the next highest
+                isobar <span class="italic">n+1</span>. </p>
+            <p>If the colors are specified manually it is important that one more color than the
+                number of isobar lines are specified. The convention is such that the color
+                specified in the first position (position = 0 ) in the color array is used to fill
+                the area below the lowest specified isobar.</p>
+            <p>An example will make this clear.</p>
+            <p>The graph below only uses three isobar lines (to keep things simple) which means
+                that we need four colors. To create such a graph we use the lines</p>
+            <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> ... </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$isobar_colors</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">lightgray</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">teal:1.3</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">orange</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">red</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new contour graph with three isobar lines</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$cp</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">ContourPlot</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Specify the colors manually</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$cp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetIsobarColors</span><span class="hl-brackets">(</span><span class="hl-var">$isobar_colors</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>
+            <p>
+                </p><div class="figure"><a name="fig.contour2_ex3"></a><p class="title"><b>Figure 23.3. Manual colors for contour <code class="uri"><a class="uri" href="example_src/contour2_ex3.html" target="_top">(<code class="filename">contour2_ex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/contour2_ex3.png" alt="Manual colors for contour (contour2_ex3.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>as can be seen from the labels in the graph the algorithm has resulted in three
+                isobar lines (as specified) at values <span class="italic">6.2</span>, <span class="italic">10.5</span> and <span class="italic">14.8</span>. The first color "gray" is used to fill the area
+                below the smallest isobar (<span class="italic">6.2</span>).</p>
+            <p>It should be noted that by specifying <code class="code">SetFilled(false)</code> a non filled
+                contour graph can be created. However, the visual appearance compared with the
+                    <code class="code">class ContourPlot</code> will be slightly different. The reason is that
+                the filled contour plot class uses an adaptive algorithm that gives better fidelity
+                than the simpler non adaptive algorithm used in the standard (non-filled) contour
+                plot class. The contour corresponds to creating a contour with the plain contour
+                plot algorithm (class ContourPlot) using an interpolation factor of ~3-4.</p>
+        </div>
+        <div class="sect2" title="Adjusting the labels in the contour"><div class="titlepage"><div><div><h3 class="title"><a name="id2594673"></a>Adjusting the labels in the contour</h3></div></div></div>
+            
+            <p>In order to make it easier to follow the contour labels can be added inside the
+                contour. The labels are placed using a heuristic algorithm that tries to place
+                enough labels to make the plot easy to read but not as many labels as to make it
+                crowded.</p>
+            <p>There are two main characteristic of the labels that can be controlled.</p>
+            <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                    <p>The font and color of the labels which are controlled by the two methods
+                            <code class="code">FilledContourPlot::SetFont()</code> and
+                            <code class="code">FilledContourPlot::SetFontColor()</code></p>
+                </li><li class="listitem">
+                    <p>Whether or not the label should follow the gradient of the isobar line at
+                        the point where the label is displayed or if it should always be drawn
+                        horizontally.</p>
+                </li></ul></div>
+            <p>To enable or disable the display of the labels as well as determining if the label
+                should follow the gradient or not the method</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">FilledContourPlot::ShowLabel($aFlg,$aFollowGradient)</code></p>
+                    </li></ul></div><p>
+            </p>
+            <p>is used. The two examples below show two variants of the same contour where the
+                left graph have labels which follows the gradient and the right graph have labels
+                that are always oriented horizontally.</p>
+            <p>
+                <table xmlns="" frame="void" id="id2594914">
+                    <tbody xmlns="">
+                        <tr>
+                            <td>
+                                <div class="figure"><a name="fig.contour2_ex4"></a><p class="title"><b>Figure 23.4. Labels that follows the gradients <code class="uri"><a class="uri" href="example_src/contour2_ex4.html" target="_top">(<code class="filename">contour2_ex4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/contour2_ex4.png" alt="Labels that follows the gradients (contour2_ex4.php)"></span> </div></div><br class="figure-break">
+                            </td>
+                            <td>
+                                <div class="figure"><a name="fig.contour2_ex5"></a><p class="title"><b>Figure 23.5. Labels that are always horizontal. In this example we have also shown how to change the colors. <code class="uri"><a class="uri" href="example_src/contour2_ex5.html" target="_top">(<code class="filename">contour2_ex5.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/contour2_ex5.png" alt="Labels that are always horizontal. In this example we have also shown how to change the colors. (contour2_ex5.php)"></span> </div></div><br class="figure-break">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </p>
+        </div>
+        <div class="sect2" title="Selecting the adaptive method to use"><div class="titlepage"><div><div><h3 class="title"><a name="id2595002"></a>Selecting the adaptive method to use</h3></div></div></div>
+            
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>This section can be skipped without loss of continuity. The default method
+                        "rectangular" recursive adaptation is good enough for most
+                        circumstances.</p>
+                </div><p>
+            </p>
+            <p>In order to fully understand the effect of selecting which adaptive method to use
+                it is first necessary to understand some background on how contours are created
+                algorithmically. </p>
+            <p>Determining general contours for a function of two independent variables is
+                equivalent to the problem of finding the equivalence class of all coordinate pairs <span class="italic">(x,y)</span> for which for <span class="italic">C=f(x,y)</span> which in general is a non-linear problem. This
+                is an example of a problem that is computational very expensive to mathematically
+                solve correct but quite tractable if we view a sampled version of the function. This
+                means that we in general do not have access to <span class="italic">f(x,y)</span> instead we only know of its values at a number
+                of grid points. This is also the cause of visually different contour plots for the
+                same input data.</p>
+            <p>The difference lay in the core problem that in order to draw a continues contour
+                we need to interpolate the unknown values in between the known sample points. This
+                is therefore a degree of freedom where the actual choice of how we do the
+                interpolation will cause the contour to be visually different depending on our
+                choice.</p>
+            <p>While it would take to far in this manual to describe the full adaptive algorithm
+                in all details we will show the different principles that underlying the two methods
+                hat the user can select between.</p>
+            <p>In order to determine the isobars the given data points are considered to be
+                vertices in a grid where each vertice is connected with an edge. There are two basic
+                ways to connect the points with edges; rectangular and triangular. In the first way
+                four points are connected to form a square and in the second way three point are
+                connected to form a triangle. The so created square or triangles will be referred to
+                as a submesh consisting of four and three sides respectively.</p>
+            <p>To determine the isobars each submesh is recursively divided until each side is
+                small enough to only have one crossing isobar. The exact position of the crossing is
+                determined by linear interpolation between the two corresponding vertices.</p>
+            <p>The figures below shows the sequences for the triangle recursive division. The
+                recursion continues until each edge has exactly one crossing of an isobar.</p>
+            <p>
+                </p><div class="informaltable">
+                    <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td align="center">
+                                    <div class="figure"><a name="id2595141"></a><p class="title"><b>Figure 23.6. Triangulation step 0</b></p><div class="figure-contents">
+                                        
+                                        <div class="mediaobject"><img src="images/tri_step0.png" alt="Triangulation step 0"></div>
+                                    </div></div><br class="figure-break">
+                                </td><td align="center">
+                                    <div class="figure"><a name="id2595170"></a><p class="title"><b>Figure 23.7. Triangulation step 1</b></p><div class="figure-contents">
+                                        
+                                        <div class="mediaobject"><img src="images/tri_step1.png" alt="Triangulation step 1"></div>
+                                    </div></div><br class="figure-break">
+                                </td><td align="center">
+                                    <div class="figure"><a name="id2595196"></a><p class="title"><b>Figure 23.8. Triangulation step 2</b></p><div class="figure-contents">
+                                        
+                                        <div class="mediaobject"><img src="images/tri_step2.png" alt="Triangulation step 2"></div>
+                                    </div></div><br class="figure-break">
+                                </td></tr></tbody></table>
+                </div><p>
+            </p>
+            <p> In the same way the sequence of figures below shows the principle for the
+                quadratic recursive subdivsion of the mesh for first three steps. </p>
+            <p>
+                </p><div class="informaltable">
+                    <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td align="center">
+                                    <div class="figure"><a name="id2595278"></a><p class="title"><b>Figure 23.9. "Rectangularization" step 0</b></p><div class="figure-contents">
+                                        
+                                        <div class="mediaobject"><img src="images/rect_step0.png" alt='"Rectangularization" step 0'></div>
+                                    </div></div><br class="figure-break">
+                                </td><td align="center">
+                                    <div class="figure"><a name="id2595302"></a><p class="title"><b>Figure 23.10. "Rectangularization" step 1</b></p><div class="figure-contents">
+                                        
+                                        <div class="mediaobject"><img src="images/rect_step1.png" alt='"Rectangularization" step 1'></div>
+                                    </div></div><br class="figure-break">
+                                </td><td align="center">
+                                    <div class="figure"><a name="id2595327"></a><p class="title"><b>Figure 23.11. "Rectangularization" step 2</b></p><div class="figure-contents">
+                                        
+                                        <div class="mediaobject"><img src="images/rect_step2.png" alt='"Rectangularization" step 2'></div>
+                                    </div></div><br class="figure-break">
+                                </td></tr></tbody></table>
+                </div><p>
+            </p>
+            <p> Needless to say these two variants give slightly different visual appearance of
+                the resulting contour plot and neither of the two method can be considered "the
+                right method". Triangularization tends to work better (and faster) for high
+                frequency contour plots and gives a more "edgy" result. The quadratic subdivision
+                might require more recursive steps for high frequency contours but in general gives
+                a smoother look of the resulting contour.</p>
+            <p>By default the library uses a rectangular mesh division and that is the method
+                that has been used in all the previous examples. As an illustration the effect of
+                the method have the two figures below shows the same data as we have used in the
+                previous figures to display a contour plot with 7 isobars. The left figures uses a
+                rectangular division (the default) and the right figure uses a triangular
+                division.</p>
+            <p>
+                </p><div class="informaltable">
+                    <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                    <div class="figure"><a name="fig.contour2_ex6"></a><p class="title"><b>Figure 23.12. 7 Isobars, "rect" method <code class="uri"><a class="uri" href="example_src/contour2_ex6.html" target="_top">(<code class="filename">contour2_ex6.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/contour2_ex6.png" alt='7 Isobars, "rect" method (contour2_ex6.php)'></span> </div></div><br class="figure-break">
+                                </td><td>
+                                    <div class="figure"><a name="fig.contour2_ex7"></a><p class="title"><b>Figure 23.13. 7 Isobars, "tri" method <code class="uri"><a class="uri" href="example_src/contour2_ex7.html" target="_top">(<code class="filename">contour2_ex7.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/contour2_ex7.png" alt='7 Isobars, "tri" method (contour2_ex7.php)'></span> </div></div><br class="figure-break">
+                                </td></tr></tbody></table>
+                </div><p>
+            </p>
+            <p>As can be seen in this case the triangular method favour elongated contours from
+                southwest to northeast while the rectangular method favours circular contours. </p>
+            <p>The way to choose what method to use is by the method</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">FilledContourPlot::SetMethod($aMethod)</code>
+                        </p>
+                        <p>The possible options for <code class="code">$aMethod</code> are</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                    <p>"rect" - Rectangualr algortihm (default)</p>
+                                </li><li class="listitem">
+                                    <p>"tri" - Triangular algorithm</p>
+                                </li></ol></div>
+                    </li></ul></div><p>
+            </p>
+            <p>
+                </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>It is possible to show the triangulation used by calling the method
+                            <code class="code">FilledContourPlot::ShowTriangulation($aFlg)</code>. In the two
+                        figures below the triangulation for the "rect" and "tri" method in the
+                        previous examples are shown.</p>
+                    <p>
+                        <table xmlns="" frame="void" id="id2595547">
+                            <tbody xmlns="">
+                                <tr>
+                                    <td>
+                                        <div class="figure"><a name="id2595567"></a><p class="title"><b>Figure 23.14. Rectangular sub-division</b></p><div class="figure-contents">
+                                            
+                                            <div class="mediaobject"><img src="images/contour_rectang.png" alt="Rectangular sub-division"></div>
+                                        </div></div><br class="figure-break">
+                                    </td>
+                                    <td>
+                                        <div class="figure"><a name="id2595593"></a><p class="title"><b>Figure 23.15. Triangular sub-division</b></p><div class="figure-contents">
+                                            
+                                            <div class="mediaobject"><img src="images/contour_triangulation.png" alt="Triangular sub-division"></div>
+                                        </div></div><br class="figure-break">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                </div><p>
+            </p>
+        </div>
+    </div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt05.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

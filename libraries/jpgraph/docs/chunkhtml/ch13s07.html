@@ -1,0 +1,47 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Troubleshooting input data</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch13.html" title="Chapter 13. Getting hold of the data to be displayed"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Troubleshooting input data</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 13. Getting hold of the data to be displayed</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Troubleshooting input data"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2539112"></a>Troubleshooting input data</h2></div></div></div>
+            
+            <p>There are two common mistakes that causes problems with input data.</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>The indexes in the data array has missing keys. The library assumes
+                            that the data array has consecutive values indexed from 0 and upwards.
+                            This means that the following data array specification is <span class="bold"><strong>illegal</strong></span></p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array( 1 =&gt; 23, 2 =&gt; 14, 3 =&gt; 17 ) ;</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>The problem with the array above is that it lacks the 0 key. A similar
+                            problem is to have a missing index, such as</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array( 0 =&gt; 23, 2 =&gt; 14, 3 =&gt; 17 ) ;</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>If <code class="code">E_NOTICE</code> is not enabled in
+                                <code class="filename">php.ini</code> then this mistake will give the
+                            (slightly misleading) error message shown in <a class="xref" href="ch13s06.html#fig.only-null-error" title="Figure 13.7. Error when only null values are specified">Figure 13.7. Error when only null values are specified</a>. If full error checking is
+                            enabled in php.ini then these types of problem will give the standard
+                            PHP error message shown in <a class="xref" href="ch13s07.html#fig.php-htmlerr-missing-key" title="Figure 13.8. PHP (HTML) error when missing data keys">Figure 13.8. PHP (HTML) error when missing data keys</a>. This shows a PHP setup
+                            which has HTML errors enabled. Note the JpGraph textual error string at
+                            the bottom of the second PHP error message box.</p>
+                        <p>
+                            </p><div class="figure"><a name="fig.php-htmlerr-missing-key"></a><p class="title"><b>Figure 13.8. PHP (HTML) error when missing data keys</b></p><div class="figure-contents">
+                                
+                                <div class="mediaobject"><img src="images/php-htmlerr-missing-key.png" alt="PHP (HTML) error when missing data keys"></div>
+                            </div></div><p><br class="figure-break">
+                        </p>
+                    </li><li class="listitem">
+                        <p>Another typical mistake caused by "faulty data" is different
+                            convention for specifying decimal data. PHP and the library assumes that
+                            decimal data used "." (point) to separate the integer from the decimal
+                            part of a number. Some locales uses "," (comma) to do this separation.
+                            This means that the following code will <span class="bold"><strong>not</strong></span> work.</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array( 0 =&gt; '12,0', 1 =&gt; '18,0', 2 =&gt; '15,0' ) ;</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>Again, if <code class="code">E_NOTICE</code> is not enabled in
+                                <code class="filename">php.ini</code> then this mistake will give the
+                            (slightly misleading) error message shown in <a class="xref" href="ch13s06.html#fig.only-null-error" title="Figure 13.7. Error when only null values are specified">Figure 13.7. Error when only null values are specified</a></p>
+                    </li></ol></div><p>
+            </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch13.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

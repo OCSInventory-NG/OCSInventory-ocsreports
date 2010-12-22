@@ -1,0 +1,72 @@
+<div style="font-weight: bold;margin-left:15px;">ccbp_ex1.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot; </span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_line.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_plotmark.inc.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_scatter.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">ccbpgraph.class.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">CCBPGraph</span><span class="hl-brackets">(</span><span class="hl-number">600</span><span class="hl-code">,</span><span class="hl-number">400</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTitle</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Buffer penetration</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">(history added)</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColorMap</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-brackets">)</span><span class="hl-code">; 
+ 
+ </span><span class="hl-comment">//</span><span class="hl-comment"> Two &quot;fake tasks with hostory</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$datax</span><span class="hl-code">=</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">75</span><span class="hl-code">,</span><span class="hl-number">83</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-var">$datay</span><span class="hl-code">=</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">110</span><span class="hl-code">,</span><span class="hl-number">64</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$datax1</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">33</span><span class="hl-code">,</span><span class="hl-number">50</span><span class="hl-code">,</span><span class="hl-number">67</span><span class="hl-code">,</span><span class="hl-number">83</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-var">$datay1</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">86</span><span class="hl-code">,</span><span class="hl-number">76</span><span class="hl-code">,</span><span class="hl-number">80</span><span class="hl-code">,</span><span class="hl-number">64</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$datax2</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">18</span><span class="hl-code">,</span><span class="hl-number">47</span><span class="hl-code">,</span><span class="hl-number">58</span><span class="hl-code">,</span><span class="hl-number">75</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-var">$datay2</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">80</span><span class="hl-code">,</span><span class="hl-number">97</span><span class="hl-code">,</span><span class="hl-number">105</span><span class="hl-code">,</span><span class="hl-number">110</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$sp</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">ScatterPlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay</span><span class="hl-code">,</span><span class="hl-var">$datax</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetType</span><span class="hl-brackets">(</span><span class="hl-identifier">MARK_DIAMOND</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">white</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetSize</span><span class="hl-brackets">(</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$sp_hist</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp_hist</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay1</span><span class="hl-code">,</span><span class="hl-var">$datax1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp_hist</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp_hist</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">white</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$sp_hist</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay2</span><span class="hl-code">,</span><span class="hl-var">$datax2</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp_hist</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp_hist</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">white</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$sp_hist</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$sp</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

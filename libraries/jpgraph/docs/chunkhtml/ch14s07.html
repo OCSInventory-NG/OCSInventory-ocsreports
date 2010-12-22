@@ -1,0 +1,363 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Understanding and using different scales on the axis</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch14.html" title="Chapter 14. Common features for all Cartesian (x,y) graph types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Understanding and using different scales on the axis</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 14. Common features for all Cartesian (x,y) graph types</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Understanding and using different scales on the axis"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2544834"></a>Understanding and using different scales on the axis</h2></div></div></div>
+            
+            <div class="sect2" title="Different scale types"><div class="titlepage"><div><div><h3 class="title"><a name="id2544880"></a>Different scale types</h3></div></div></div>
+                
+                <p>The scale of the graph axis are controlled by either</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Graph::SetScale()</code> which can take on of the following
+                                strings as argument</p>
+                            <p>"intint", "intlin", "intlog", "linint", "linlin", "linlog",
+                                "logint", "loglin", "loglog", "textint", "textlin", "textlog",
+                                "datint","datlin","datlog"</p>
+                            <p>The first half of the string argument specifies the x-axis scale
+                                and the second half of the string specifies the y-axis scale. When
+                                an y2 or multiple y-scales (see ?? </p>
+                        </li></ul></div><p>
+                </p>
+                <div class="sect3" title="Numerical scale types"><div class="titlepage"><div><div><h4 class="title"><a name="id2544899"></a>Numerical scale types</h4></div></div></div>
+                    
+                    <p>The scale for a basic graph is specified with a call to
+                            <code class="code">Graph::SetScale()</code> and supplying the wanted scales for the
+                        x- and y-axis. For numeric data there are three basic scales
+                        available</p>
+                    <p>
+                        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>Integer scale "int"</p>
+                            </li><li class="listitem">
+                                <p>Linear scale (a.k.a decimal labels)</p>
+                            </li><li class="listitem">
+                                <p>Logarithmic scales </p>
+                            </li></ol></div><p>
+                    </p>
+                    <p>The choice of scale will affect how the autoscaling is done and how the
+                        labels will look. Choosing an integer scale will, as the name suggests,
+                        restrict the labels to integer and integer interval between the scale step
+                        (at each tick mark). The linear scale has no such restriction and can be
+                        considered a superset of the integer scale (even though the implementation
+                        is done in rather the opposite way). Labels for linear scale can have
+                        fraction intervals and will shows the decimal values by default in the
+                        labels. Finally the logarithmic scale will create a deca - logarithmic
+                        scale.</p>
+                    <p>The style of the labels can be formatted in two ways</p>
+                    <p>
+                        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>By specifying a format string (in <code class="code">printf()</code>
+                                    format) to be used by calling the method
+                                        <code class="code">Axis::SetLabelFormatString()</code> The format string
+                                    is interpretated according to the second parameter. If that
+                                    parameter is "<code class="code">true</code>" then the format string will be
+                                    assumed to give a date format as expected by the
+                                        <code class="code">date()</code> function. This is an easy way to
+                                    translate timestamp values to proper time/date labels.</p>
+                            </li><li class="listitem">
+                                <p>By specifying a callback function. The callback
+                                    function/method will be called with the label as the only
+                                    argument and must return the label that should be printed
+                                        <code class="code">Axis::SetLabelFormatCallback()</code></p>
+                                <p>For example. An easy way to get 1000' separators for numbers
+                                    is to add the PHP function number_format() as callback to the
+                                    wanted y-axis as in</p>
+                                <p>
+                                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;yaxis-&gt;SetLabelFormatCallback('number_format');</span></pre></td></tr></table></div><p>
+                                </p>
+                                <p>Another example of using a callback function is to "revert"
+                                    the y-axis. By default the y-axis grows from the bottom and up.
+                                    But what if we want the y-axis to grow from top to bottom, i.e.
+                                    the 0-value should be at the top and the largest value at the
+                                    bottom?</p>
+                                <p>The way to accomplish this is to use a negative y-scale which
+                                    the plot is made against (by negating all the data values in the
+                                    data serie). This would then give the appearance that we want
+                                    apart from the act that all labels will have a minus sign in
+                                    front of them. By creating a callback function that just returns
+                                    the absolute value of the label we can adjust that and we get
+                                    the effect that we want. <a class="xref" href="ch14s07.html#fig.inyaxisex2" title="Figure 14.19. Inverted y-scale to show a dive profile (inyaxisex2.php)">Figure 14.19. Inverted y-scale to show a dive profile <code class="uri"><a class="uri" href="example_src/inyaxisex2.html" target="_top">(<code class="filename">inyaxisex2.php</code>)</a></code> </a>
+                                    shows an example of a "dive-curve" where the sea-level is at the
+                                    top of the graph to give better connection to this particular
+                                    use-case.</p>
+                                <p>
+                                    </p><div class="figure"><a name="fig.inyaxisex2"></a><p class="title"><b>Figure 14.19. Inverted y-scale to show a dive profile <code class="uri"><a class="uri" href="example_src/inyaxisex2.html" target="_top">(<code class="filename">inyaxisex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/inyaxisex2.png" alt="Inverted y-scale to show a dive profile (inyaxisex2.php)"></span> </div></div><p><br class="figure-break">
+                                </p>
+                                <p>
+                                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                                        <p>The dive profile in <a class="xref" href="ch14s07.html#fig.inyaxisex2" title="Figure 14.19. Inverted y-scale to show a dive profile (inyaxisex2.php)">Figure 14.19. Inverted y-scale to show a dive profile <code class="uri"><a class="uri" href="example_src/inyaxisex2.html" target="_top">(<code class="filename">inyaxisex2.php</code>)</a></code> </a> is an actual dive of one of the authors dives in the
+                                                <span class="italic">Gulf of
+                                            Bothnia</span></p>
+                                    </div><p>
+                                </p>
+                            </li></ol></div><p>
+                    </p>
+                </div>
+                <div class="sect3" title="Textual scale types"><div class="titlepage"><div><div><h4 class="title"><a name="id2545118"></a>Textual scale types</h4></div></div></div>
+                    
+                    <p>There is only one pure textual scale type</p>
+                    <p>
+                        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>Text scale ("text")</p>
+                            </li></ol></div><p>
+                    </p>
+                    <p>This type of scale is exclusively used for the x-axis.</p>
+                    <p>The primary use of this scale is to label bars in a bar graph. However, as
+                        will be shown this can also be used at other occasions to achieve various
+                        wanted effects. There is no concept of autoscaling for text scales. Instead
+                        the whole purpose of this type of scale is for the user to manually supply
+                        the wanted labels in an array using the method
+                            <code class="code">Axis::SetTickLabels()</code>.</p>
+                    <p>The other key difference for a text scale as compared to the numeric
+                        scales is that the labels are positioned in between the tick marks and not
+                        directly under them. This is the common practice to label bar graphs and
+                        hence this is the way text scale works.</p>
+                </div>
+                <div class="sect3" title="Date scale types"><div class="titlepage"><div><div><h4 class="title"><a name="id2545179"></a>Date scale types</h4></div></div></div>
+                    
+                    <p>This scale type only has one valid scale</p>
+                    <p>
+                        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>Date scale ("dat")</p>
+                            </li></ol></div><p>
+                    </p>
+                    <p>This specific scale type will assume that the data values are timestamps
+                        and will properly format them to give "even" steps (in a time/date
+                        sense).</p>
+                </div>
+            </div>
+            <div class="sect2" title="Manual vs automatic scale handling"><div class="titlepage"><div><div><h3 class="title"><a name="id2545212"></a>Manual vs automatic scale handling</h3></div></div></div>
+                
+                <p>Normally the scale is determined automatically in the library by analyzing the
+                    input data and making sure that a suitable scale is established that fulfill the
+                    following criteria:</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>The full dynamic scope of the data series can be displayed</p>
+                        </li><li class="listitem">
+                            <p>The step size between major tick marks (tick marks that have a
+                                label) is a multiple of either (1, 2, 5, 10 ) * 10 ^n, where the
+                                size of 'n' is determined by the dynamic range of the data.</p>
+                        </li><li class="listitem">
+                            <p>In addition the number of labels is dependent on the size of the
+                                graph. A smaller graph will have fewer labels since there is
+                                "physically" not enough room to show too many labels.</p>
+                        </li></ol></div><p>
+                </p>
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>Internally the auto scaling algorithm has fair amount of intelligence
+                            to try to make the scale in the same way a human would so ti. For
+                            example the origin has a specially strong attraction meaning that the
+                            autoscaling will try hard to make sure 0 is included in the scale as
+                            long as it "makes sense".</p>
+                    </div><p>
+                </p>
+                <p>Usually this works fine in most cases but there are always exception where
+                    exact control over the scale is wanted. For example to be able to compare
+                    several graphs that might otherwise get different scales. There are two ways of
+                    manually adjusting the scales.</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p><span class="bold"><strong>Manual min/max values but with the tick
+                                    marks automatically determined</strong></span></p>
+                            <p>In this case the exact min/max value of the scale is submitted to
+                                the SetScale() method call to set either (or both) of the x- and
+                                y-scale. Since the first two argument after the scale type
+                                determines the y min/max and the fourth and fifth argument specifies
+                                the x min/max this means that in order to specify the x scale the y
+                                scale must have some values. If the y axis should be left alone
+                                (i.e. to be autoscaled) then just put the "dummy" values (0,0) as
+                                placeholder in the method call. The following examples clarifies
+                                this.</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                        <p><code class="code">$graph-&gt;SetScale('intlin',0,0,-10,20);</code></p>
+                                        <p>Y-scale is autoscaled and the x-scale is set to
+                                            [-10,20]</p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">$graph-&gt;SetScale('intlin',0,50);</code></p>
+                                        <p>Automatic x-scale and manual y-scale with range
+                                            [0,50]</p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">$graph-&gt;SetScale('intlin','-10,10,-20,20);</code></p>
+                                        <p>Manual x- and y-scale</p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p><span class="bold"><strong>Semi automatic (or semi
+                                manual)</strong></span></p>
+                            <p>This is a away to lock either the min or max value and let the
+                                auto scaling algorithm determine a suitable corresponding max and
+                                min value. This can be very useful to make sure that for example the
+                                0 value is always includeded even if the minimal value is so high
+                                that the autoscaling algorithm have chosen to start at a larger
+                                value. These two locked down values are set with the two
+                                methods</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                        <p><code class="code">Scale::SetAutoMin()</code></p>
+                                        <p>Example:
+                                                <code class="code">$graph-&gt;yaxis-&gt;scale-&gt;SetAutoMin(0);</code>
+                                            This will lock the y-min to 0</p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">Scale::SetAutoMax()</code></p>
+                                        <p>Example:
+                                                <code class="code">$graph-&gt;xaxis-&gt;scale-&gt;SetAutoMax(1000);</code>
+                                            This will lock the x.max to 0</p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li></ol></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Major and minor ticks"><div class="titlepage"><div><div><h3 class="title"><a name="id2545421"></a>Major and minor ticks</h3></div></div></div>
+                
+                <p>The final step in understanding the scaling is to understand tick marks. There
+                    are two types of tick marks, major and minor. Major tick marks are tick marks
+                    that have a label associated. Up to now we have assumed that the library adjusts
+                    where the tick marks are positioned and the inter spacing between tick marks. </p>
+                <p>The tick object is available as an instance variable of the scale class which
+                    means that you can access and adjust the tick mark properties by
+                    accessing:</p>
+                <p><code class="code">$Graph::Axis::Scale::ticks</code></p>
+                <p>For further fine control of the scale it is possible to manually adjust the
+                    major and minor ticks using one of the three methods</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p><span class="bold"><strong>Adjusting how dense the auto scaling
+                                    algorithm should put the tick marks.</strong></span></p>
+                            <p>Even when using a fully automatic scaling it is possible to adjust
+                                how many tick marks that the algorithm should try to place on the
+                                scale. This is controlled with the method </p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                        <p><code class="code">Graph::SetTickDensity($aYDensity,
+                                                $aXDensity)</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                            <p>The y- and x-scale density can be set to one of the following
+                                (symbolic) values</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                        <p><code class="code">TICKD_DENSE</code>k</p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">TICKD_NORMAL</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">TICKD_SPARSE</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">TICKD_VERYSPARSE</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                            <p>By default the density for all scales are set to
+                                    <code class="code">TICKD_NORMAL</code>
+                            </p>
+                            <p>As a comparison <a class="xref" href="ch14s07.html#fig.manscaleex2" title="Figure 14.21. Fully automatic not so good scaling (manscaleex2.php)">Figure 14.21. Fully automatic not so good scaling <code class="uri"><a class="uri" href="example_src/manscaleex2.html" target="_top">(<code class="filename">manscaleex2.php</code>)</a></code> </a> is the exact
+                                same as <a class="xref" href="ch14s07.html#fig.manscaleex3" title="Figure 14.20. Setting tick density to TICKD_DENSE (manscaleex3.php)">Figure 14.20. Setting tick density to TICKD_DENSE <code class="uri"><a class="uri" href="example_src/manscaleex3.html" target="_top">(<code class="filename">manscaleex3.php</code>)</a></code> </a> with the difference
+                                that in this figure the density for the y-scale has been set to
+                                    <code class="code">TICKD_DENSE</code></p>
+                            <p>
+                                </p><div class="figure"><a name="fig.manscaleex3"></a><p class="title"><b>Figure 14.20. Setting tick density to TICKD_DENSE <code class="uri"><a class="uri" href="example_src/manscaleex3.html" target="_top">(<code class="filename">manscaleex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manscaleex3.png" alt="Setting tick density to TICKD_DENSE (manscaleex3.php)"></span> </div></div><p><br class="figure-break">
+                            </p>
+                        </li><li class="listitem">
+                            <p><span class="bold"><strong>Manually specifying the step size between
+                                    each minor and major tick.</strong></span></p>
+                            <p>This is done using the method</p>
+                            <p><code class="code">LinearTicks::Set($aMajStep,$aMinStep=false)</code></p>
+                            <p>please note that this is a method of the Tick class which is
+                                available as an instance variable in the scale class</p>
+                            <p>Example:
+                                <code class="code">$graph-&gt;xaxis-&gt;scale-&gt;ticks-&gt;Set(20,5);</code></p>
+                            <p>This type of manual positioning of the tick marks might be useful
+                                if the scale has been set to some non-multiples of 1,2,5,10. The
+                                following examples will clarify this. In ?? the left graph is what
+                                we get after manually specifying the y min/max values to (3,35). In
+                                this case the auto scaling algorithm fails to assign "nice" steps to
+                                the y-axis so that the tick marks starts and begins at the min/max
+                                of the scale. If we manually set the tick distance to be (8,2), i.e.
+                                we set the major tick marks 8 units apart and the minor
+                                (non-labeled) tick marks 2 steps apart we get the much nicer result
+                                as shown in the right graph in ??</p>
+                            <p>
+                                </p><div class="informaltable">
+                                    <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                                  <p>
+                                                  </p><div class="figure"><a name="fig.manscaleex2"></a><p class="title"><b>Figure 14.21. Fully automatic not so good scaling <code class="uri"><a class="uri" href="example_src/manscaleex2.html" target="_top">(<code class="filename">manscaleex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manscaleex2.png" alt="Fully automatic not so good scaling (manscaleex2.php)"></span> </div></div><p><br class="figure-break">
+                                                  </p>
+                                                </td><td>
+                                                  <p>
+                                                  </p><div class="figure"><a name="fig.manscaleex1"></a><p class="title"><b>Figure 14.22. Manually specified tick distance which gives a much better appearance <code class="uri"><a class="uri" href="example_src/manscaleex1.html" target="_top">(<code class="filename">manscaleex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manscaleex1.png" alt="Manually specified tick distance which gives a much better appearance (manscaleex1.php)"></span> </div></div><p><br class="figure-break">
+                                                  </p>
+                                                </td></tr></tbody></table>
+                                </div><p>
+                            </p>
+                            <p>
+                                </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                                    <p>The major tick step must be an even multiple of the minor
+                                        tick step. If this is not the case the library will
+                                        automatically adjust the major step size to be the closest
+                                        multiple of the minor step size.</p>
+                                </div><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p><span class="bold"><strong>Specify the exact position for each single
+                                    tick mark</strong></span></p>
+                            <p>This is often used to position only the major tick marks to be
+                                able to have labels at very specific points in the graph. One
+                                example of how to use this was shown in <a class="xref" href="ch08s07.html#fig.manualtickex2" title="Figure 8.8. Specifying manual ticks as fraction of Pi. (manualtickex2.php)">Figure 8.8. Specifying manual ticks as fraction of Pi. <code class="uri"><a class="uri" href="example_src/manualtickex2.html" target="_top">(<code class="filename">manualtickex2.php</code>)</a></code> </a> where the tick marks were
+                                positioned at factions of π. Another typical example is to place a
+                                label at exactly the beginning of a month. Since months have
+                                different lengths there is no other way if 100% precision is wanted.
+                                An example of this is shown in <a class="xref" href="ch14s07.html#fig.manualtickex1" title="Figure 14.23. Manually specifying the tick position for each month (manualtickex1.php)">Figure 14.23. Manually specifying the tick position for each month <code class="uri"><a class="uri" href="example_src/manualtickex1.html" target="_top">(<code class="filename">manualtickex1.php</code>)</a></code> </a>
+                            </p>
+                            <p>
+                                </p><div class="figure"><a name="fig.manualtickex1"></a><p class="title"><b>Figure 14.23. Manually specifying the tick position for each month <code class="uri"><a class="uri" href="example_src/manualtickex1.html" target="_top">(<code class="filename">manualtickex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manualtickex1.png" alt="Manually specifying the tick position for each month (manualtickex1.php)"></span> </div></div><p><br class="figure-break">
+                            </p>
+                            <p>
+                                </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                                    <p>When the tick position is manually set there should also
+                                        be a corresponding array of labels to be put at these
+                                        positions.</p>
+                                </div><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p><span class="bold"><strong>Adjusting the size and on what side the tick
+                                    marks should be drawn</strong></span></p>
+                            <p>The side on the axis which has the tick marks is adjusted with a
+                                call to</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                        <p>Axis::SetTickSide($aTickSide)</p>
+                                        <p>Possible options for the tick side are</p>
+                                        <p>
+                                            </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                                  <p>SIDE_UP</p>
+                                                </li><li class="listitem">
+                                                  <p>SIDE_DOWN</p>
+                                                </li><li class="listitem">
+                                                  <p>SIDE_LEFT</p>
+                                                </li><li class="listitem">
+                                                  <p>SIDE_RIGHT</p>
+                                                </li></ul></div><p>
+                                        </p>
+                                    </li></ul></div><p>
+                            </p>
+                            <p>For example, the following lines added to a script would change
+                                side of the labels and tick marks for the x-axis.</p>
+                            <p>
+                                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLabelPos</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">SIDE_UP</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTickSide</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">SIDE_DOWN</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                            </p>
+                            <p>This technique can for example be used to put the x-axis at the
+                                top of the graph as the following example shows.</p>
+                            <p>
+                                </p><div class="figure"><a name="fig.topxaxisex1"></a><p class="title"><b>Figure 14.24. Adjusting the side which have the tick marks and position the x-axis at the top <code class="uri"><a class="uri" href="example_src/topxaxisex1.html" target="_top">(<code class="filename">topxaxisex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/topxaxisex1.png" alt="Adjusting the side which have the tick marks and position the x-axis at the top (topxaxisex1.php)"></span> </div></div><p><br class="figure-break">
+                            </p>
+                        </li></ol></div><p>
+                </p>
+                <p>In passing we mention that there are additional ways to adjust the look and
+                    feel of the tick marks which is discussed in the next section (<a class="xref" href="ch14s08.html" title="Adjusting the appearance of the scale labels">Adjusting the appearance of the scale labels</a>) in detail.</p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

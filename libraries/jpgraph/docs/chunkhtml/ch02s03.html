@@ -1,0 +1,27 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Basic trouble shooting</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch02.html" title="Chapter 2. The Short Version: Installing the library (for PHP/Apache experts)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Basic trouble shooting</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 2. The Short Version: Installing the library (for PHP/Apache experts)</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Basic trouble shooting"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2475716"></a>Basic trouble shooting</h2></div></div></div>
+            
+            <p>If none of the examples above to work there is a couple of things that needs to be
+                checked. If not any of these quick fixes solves the problem then it is best to read
+                the long version of the installation instructions before continuing the trouble shooting.</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>Verify that the GD library is really working by running
+                                <code class="code">phpinfo()</code> and check that your output includes a GD
+                            section which should show similar information as the image below</p>
+                        <p>
+                            </p><div class="figure"><a name="id2475748"></a><p class="title"><b>Figure 2.1. <code class="code">phpinfo()</code> GD sections</b></p><div class="figure-contents">
+                                
+                                <div class="mediaobject"><img src="images/phpinfo-gd.png" alt="phpinfo() GD sections"></div>
+                            </div></div><p><br class="figure-break">
+                        </p>
+                    </li><li class="listitem">
+                        <p>Make sure you have enabled strict error checking and disabled output
+                            buffering in <code class="filename">php.ini</code>. This might not solve the
+                            problem by itself but it will enable (better) error messages to trouble
+                            shoot the installation.</p>
+                    </li><li class="listitem">
+                        <p>Make sure that you are using a recent version of PHP (e.g. ≥
+                            PHP 5.2.x)</p>
+                    </li><li class="listitem">
+                        <p>Make sure that the path to the TTF directories are correctly specified
+                            in <code class="filename">jpg-cnfig.inc.php</code></p>
+                    </li></ol></div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

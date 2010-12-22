@@ -1,0 +1,113 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Font families and font styles</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch08.html" title="Chapter 8. Text and font handling"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Font families and font styles</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 8. Text and font handling</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Font families and font styles"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2496973"></a>Font families and font styles</h2></div></div></div>
+            
+
+            <div class="sect2" title="Default TrueType Font"><div class="titlepage"><div><div><h3 class="title"><a name="id2496988"></a>Default TrueType Font</h3></div></div></div>
+                
+                <p>Prior to ver. 3.5, bitmap fonts are used by default which can specified from <code class="code">FF_FONT0</code> to <code class="code">FF_FONT2</code>. From version 3.5, default fonts are now set to one of the open-source TrueType DejaVu font (<code class="code">FF_DV_SANSSERIF</code>, DejaVuSans.ttf). This TrueType font is included in JpGraph source code (src/fonts), and there is no need to specify font for this one.</p>
+
+                <p>You can change default font family by changing <code class="code">FF_DEFAULT</code> defined in <code class="filename">jpgraph_ttf.inc.php</code>. You have to prepare your own font file as well in order to use another font.</p>
+
+                <p>If Freetype library is not usable in your PHP configuration, original BITMAP font will be used for compatibility.</p>
+                <p>All graph objects that uses text allows you to specify the font to be used by
+                    calling a <code class="code">SetFont()</code> method and specifying three parameters.</p>
+            </div>
+
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>The font family. This could for example be "Arial", "Times roman" for
+                            TTF fonts or "Bitmap font medium size" when using bit-mapped fonts. The
+                            font family is specified by using a symbolic constant that starts with
+                            the prefix "<code class="code">FF_</code>" (for <span class="bold"><strong>F</strong></span>ont <span class="bold"><strong>F</strong></span>amily). A list of all supported font
+                            families are shown in <a class="xref" href="ch08s02.html#table.font-families" title="Table 8.2. Supported Latin Font family specifiers">Table 8.2. Supported Latin Font family specifiers</a>.</p>
+                    </li><li class="listitem">
+                        <p>The font style. This specifies if the font should be emphasized as
+                            italic, bold, or bold-italic. By default all fonts are rendered with the
+                            "normal" style. The fonts style is specified with a symbolic constant
+                            that starts with the prefix "<code class="code">FS_</code>" (for <span class="bold"><strong>F</strong></span>ont <span class="bold"><strong>S</strong></span>tyle). The supported font styles are:</p>
+                        <p>
+                            </p><div class="table"><a name="id2497107"></a><p class="title"><b>Table 8.1. Supported Font Styles</b></p><div class="table-contents">
+                                
+                                <table summary="Supported Font Styles" border="1"><colgroup><col class="c1"><col class="c2"></colgroup><thead><tr><th>Font style specifier</th><th>Description</th></tr></thead><tbody><tr><td>FS_NORMAL</td><td>Normal font style</td></tr><tr><td>FS_BOLD</td><td>Bold font style</td></tr><tr><td>FS_ITALIC</td><td>Italic font style</td></tr><tr><td>FS_BOLDITALIC</td><td>Bold + Italic style for font families that
+                                                support this</td></tr></tbody></table>
+                            </div></div><p><br class="table-break">
+                        </p>
+                        <p>Please note that not all font families support all available styles.
+                        </p>
+                    </li><li class="listitem">
+                        <p>The font size. This is specified as an integer and depicts the size of
+                            the font given in typographic points (pt). </p>
+                    </li></ol></div><p>
+            </p>
+            <p>
+                </p><div class="table"><a name="table.font-families"></a><p class="title"><b>Table 8.2. Supported Latin Font family specifiers</b></p><div class="table-contents">
+                    
+                    <table summary="Supported Latin Font family specifiers" border="1"><colgroup><col class="c1"><col class="c2"><col class="c3"><col class="newCol4"><col class="newCol5"><col class="newCol6"></colgroup><thead><tr><th>Font family name</th><th>Type</th><th>Comment</th><th>Bold</th><th>Italic</th><th>BI</th></tr></thead><tbody><tr><td>FF_FONT0</td><td>Bitmap</td><td>A very small font</td><td> </td><td> </td><td> </td></tr><tr><td>FF_FONT1</td><td>Bitmap</td><td>A medium sized font</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_FONT2</td><td>Bitmap</td><td>The largest bit mapped font</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_ARIAL</td><td>TTF</td><td>Arial font</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_VERDANA</td><td>TTF</td><td>Verdana font</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_COURIER</td><td>TTF</td><td>Fixed pitched Courier new font</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_BOOK</td><td>TTF</td><td>Bookman</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_COMIC</td><td>TTF</td><td>Comic sans</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td> </td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_TIMES</td><td>TTF</td><td>Times New Roman</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_GEORGIA</td><td>TTF</td><td>Georgia</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_TREBUCHE</td><td>TTF</td><td>Trebuche</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_VERA</td><td>TTF</td><td>Gnome Vera font. All Vera family fonts are available from <code class="uri"><a class="uri" href="http://www.gnome.org/fonts/" target="_top">http://www.gnome.org/fonts/</a></code>
+                                </td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_VERAMONO</td><td>TTF</td><td>Gnome Vera Mono font</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_VERASERIF</td><td>TTF</td><td>Gnome Vera Serif font</td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td> </td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_DV_SANSSERIF</td><td>TTF</td><td>DejaVu Font family. The DejaVu fonts are modifications of the
+                                    Bitstream Vera fonts designed to extend this original for
+                                    greater coverage of Unicode, as well as providing more styles.
+                                    These fonts are available from <code class="uri"><a class="uri" href="http://dejavu-fonts.org/" target="_top">http://dejavu-fonts.org/</a></code>
+                                </td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_DV_SANSSERIFMONO</td><td>TTF</td><td>DejaVu Font family. </td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_DV_SANSSERIFCOND</td><td>TTF</td><td>DejaVu Font family. </td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_DV_SERIF</td><td>TTF</td><td>DejaVu Font family. </td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_DV_SERIFCOND</td><td>TTF</td><td>DejaVu Font family. </td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td><td><span class="inlinemediaobject"><img src="checkmark-plain.gif"></span></td></tr><tr><td>FF_CHINESE, FF_BIG5</td><td>TTF</td><td>
+                                    <p><span class="bold"><strong><span class="italic">Chinese font</span></strong></span>
+                                        (both symbolic names can be used). </p>
+                                    <p>The actual font file name used for the Chinese font is
+                                            "<code class="filename">bkai00mp.ttf</code>". The name of this
+                                        file can be changed in the define
+                                            <code class="code">CHINESE_TTF_FONT</code> available in the library
+                                        file <code class="filename">jpgraph_ttf.inc.php</code>
+                                    </p>
+                                </td><td> </td><td> </td><td> </td></tr><tr><td>FF_SIMSUN</td><td>TTF</td><td>
+                                    <p><span class="bold"><strong><span class="italic">Chinese font.
+                                        </span></strong></span></p>
+                                    <p>The actual font file name is
+                                            "<code class="filename">simsun.ttc</code>"</p>
+                                </td><td> </td><td> </td><td> </td></tr><tr><td>FF_MINCHO</td><td>TTF</td><td>
+                                    <p><span class="bold"><strong><span class="italic">Japanese
+                                        font.</span></strong></span></p>
+                                    <p>The actual font file name is
+                                            "<code class="filename">ipam.ttf</code>"</p>
+                                </td><td> </td><td> </td><td> </td></tr><tr><td>FF_PMINCHO</td><td>TTF</td><td>
+                                    <p><span class="bold"><strong><span class="italic">Japanese
+                                        font.</span></strong></span></p>
+                                    <p>The actual font file name is
+                                            "<code class="filename">ipamp.ttf</code>"</p>
+                                </td><td> </td><td> </td><td> </td></tr><tr><td>FF_GOTHIC</td><td>TTF</td><td>
+                                    <p><span class="bold"><strong><span class="italic">Japanese
+                                        font.</span></strong></span></p>
+                                    <p>The actual font file name is
+                                            "<code class="filename">ipag.ttf</code>"</p>
+                                </td><td> </td><td> </td><td> </td></tr><tr><td>FF_PGOTHIC</td><td>TTF</td><td>
+                                    <p><span class="bold"><strong><span class="italic">Japanese
+                                        font.</span></strong></span></p>
+                                    <p>The actual font file name is
+                                            "<code class="filename">ipagp.ttf</code>"</p>
+                                </td><td> </td><td> </td><td> </td></tr><tr><td>FF_DAVID</td><td>TTF</td><td>
+                                    <p><span class="bold"><strong><span class="italic">Hebrew
+                                        font.</span></strong></span></p>
+                                    <p>The actual font file name is
+                                            "<code class="filename">DAVIDNEW.TTF</code>"</p>
+                                </td><td> </td><td> </td><td> </td></tr><tr><td>FF_MIRIAM</td><td>TTF</td><td>
+                                    <p><span class="bold"><strong><span class="italic">Hebrew
+                                        font.</span></strong></span></p>
+                                    <p>The actual font file name is
+                                            "<code class="filename">MRIAMY.TTF</code>"</p>
+                                </td><td> </td><td> </td><td> </td></tr><tr><td>FF_AHRON</td><td>TTF</td><td>
+                                    <p><span class="bold"><strong><span class="italic">Hebrew
+                                        font.</span></strong></span></p>
+                                    <p>The actual font file name is
+                                            "<code class="filename">ahronbd.ttf</code>"</p>
+                                </td><td> </td><td> </td><td> </td></tr></tbody></table>
+                </div></div><p><br class="table-break">
+            </p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>Depending on what versions of the DejaVu fonts are installed on the system
+                        there are two naming conventions for the font files in common practice. The
+                        library will try both naming convention to see if it can find the font
+                        files.</p>
+                </div><p>
+            </p>
+            <p>In <a class="xref" href="ch08s02.html#fig.listfontsex1" title="Figure 8.1. List of all latin TTF fonts. (listfontsex1.php)">Figure 8.1. List of all latin TTF fonts. <code class="uri"><a class="uri" href="example_src/listfontsex1.html" target="_top">(<code class="filename">listfontsex1.php</code>)</a></code> </a> all latin fonts are shown.</p>
+            <p>
+                </p><div class="figure"><a name="fig.listfontsex1"></a><p class="title"><b>Figure 8.1. List of all latin TTF fonts. <code class="uri"><a class="uri" href="example_src/listfontsex1.html" target="_top">(<code class="filename">listfontsex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/listfontsex1.png" alt="List of all latin TTF fonts. (listfontsex1.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch08.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

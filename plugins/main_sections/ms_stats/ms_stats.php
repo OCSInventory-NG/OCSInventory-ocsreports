@@ -8,9 +8,7 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FusionCharts.php");
-//a file having a list of colors to be applied to each column (using getFCColor() function)
-require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FC_Colors.php");
+require('require/function_stats.php');
 
 $form_name="stats";
 $table_name=$form_name;	
@@ -31,33 +29,43 @@ while( !feof($fd) ) {
          $trait=explode (';',$line);
          if ($trait[3]==$protectedPost['onglet']){
          	$h=explode(' ',$trait[1]);
-         	$time=explode(':',$h[1]);
-         	$find_connexion[$h[0].' '.$time[0].'h']=$find_connexion[$h[0].' '.$time[0].'h']+1;     
-         	if ($find_connexion[$h[0].' '.$time[0].'h']>$max)    
-         		$max=$find_connexion[$h[0].' '.$time[0].'h'];
+         	//$time=explode(':',$h[1]);
+         	$find_connexion[$h[0]]=$find_connexion[$h[0]]+1;     
+         	if ($find_connexion[$h[0]]>$max)    
+         		$max=$find_connexion[$h[0]];
          }
 }
 fclose( $fd );
 if (isset($find_connexion)){
-	$strXML2="<graph  xAxisName='".$l->g(232)."'
-	yAxisName='".$l->g(55)."' numberPrefix='' showValues='0' 
-	numVDivLines='10' showAlternateVGridColor='1' AlternateVGridColor='e1f5ff' 
-	divLineColor='e1f5ff' vdivLineColor='e1f5ff' yAxisMaxValue='".$max."'  yAxisMinValue='0'
-	bgColor='E9E9E9' canvasBorderThickness='0' decimalPrecision='0' rotateNames='1'>
-	<categories>";
-	$setvalue='';
-	foreach ($find_connexion as $name=>$value){
-		$strXML2.="<category name='".$name."' />";
-		$setvalue.="<set value='".$value."' />";
+	if ($_SESSION['OCS']['useflash'] == 1){
+		$strXML2="<graph  xAxisName='".$l->g(232)."'
+		yAxisName='".$l->g(55)."' numberPrefix='' showValues='0' 
+		numVDivLines='10' showAlternateVGridColor='1' AlternateVGridColor='e1f5ff' 
+		divLineColor='e1f5ff' vdivLineColor='e1f5ff' yAxisMaxValue='".$max."'  yAxisMinValue='0'
+		bgColor='E9E9E9' canvasBorderThickness='0' decimalPrecision='0' rotateNames='1'>
+		<categories>";
 	}
-	$strXML2.="</categories>
-	<dataset seriesName='' color='B1D1DC'  areaAlpha='60' showAreaborder='1' areaBorderThickness='1' areaBorderColor='7B9D9D'>";
-	$strXML2.=$setvalue;
-	$strXML2.="</dataset>
-	
-	
-	</graph> ";
-	echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_StackedArea2D.swf", "", $strXML2, "speedStat", 800, 500);
+	$setvalue='';
+	$data_value=array();
+	foreach ($find_connexion as $name=>$value){
+		if ($_SESSION['OCS']['useflash'] == 1){
+			$strXML2.="<category name='".$name."' />";
+			$setvalue.="<set value='".$value."' />";
+		}
+		//array_push($data_value,$value);
+	}
+	if ($_SESSION['OCS']['useflash'] == 1){
+		$strXML2.="</categories>
+		<dataset seriesName='' color='B1D1DC'  areaAlpha='60' showAreaborder='1' areaBorderThickness='1' areaBorderColor='7B9D9D'>";
+		$strXML2.=$setvalue;
+		$strXML2.="</dataset></graph> ";
+		echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_StackedArea2D.swf", "", $strXML2, "speedStat", 800, 500);
+	}else
+	{
+		$_SESSION['OCS']['STAT_CNX']['DATA']=$find_connexion;
+		echo "<img src='index.php?".PAG_INDEX."=".$pages_refs['jp_activity_stats']."&no_header=1' border=0> ";
+ 		
+	}
 }else
 	msg_warning($l->g(766));
 echo "</div>";

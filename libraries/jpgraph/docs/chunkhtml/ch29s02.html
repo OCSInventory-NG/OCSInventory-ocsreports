@@ -1,0 +1,47 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Changing the display settings of line/bar graphs</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch29.html" title="Chapter 29. Attention"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Changing the display settings of line/bar graphs</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 29. Attention</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Changing the display settings of line/bar graphs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2619672"></a>Changing the display settings of line/bar graphs</h2></div></div></div>
+			
+			<p>You should be careful when adding additional lines or bars to graphs and when changing color settings etc.
+			</p>
+			<p>For example, in the previous version of JpGraph, after generating the 'BarPlot' instance and changing some settings, we used the Add() instance applied to $graph.  But when using the theme class, this won't work. Because when Add() is called, all previous settings are ignored and the theme's defaults are used.
+			</p>
+			<p>To avoid this, you should change each setting individually after using Add() when you want to customize.
+The following is sample code showing how to change colors in BarPlot.
+			</p>
+			<p>
+				</p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$data1y</span><span class="hl-code">=</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">47</span><span class="hl-code">,</span><span class="hl-number">80</span><span class="hl-code">,</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">116</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$data1y</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$bplot</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> you can change properties of the plot only after calling Add()</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$bplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillGradient</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">#FFAAAA:0.7</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-quotes">'</span><span class="hl-string">#FFAAAA:1.2</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-identifier">GRAD_VER</span><span class="hl-brackets">)</span><span class="hl-code">;    
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+			</p>
+			<p>If you use the code shown below, the changes made using the SetWeight() and SetFillGradient() method will be overwritten by Add() and won't be applied .
+			</p>
+			<p>
+				</p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">// this is an invalid example
+$bplot-&gt;SetWeight(0);
+$bplot-&gt;SetFillGradient('#FFAAAA:0.7', '#FFAAAA:1.2', GRAD_VER);    
+$graph-&gt;Add($bplot);</span></pre></td></tr></table></div><p>
+			</p>
+			<p>PiePlot settings can be changed in the same way.
+For examples relating to BarPlot, please see 'new_bar1.php' on the gallery page.
+			</p>
+		</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch29.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

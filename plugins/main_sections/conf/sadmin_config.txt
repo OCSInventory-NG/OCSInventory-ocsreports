@@ -97,5 +97,8 @@ ms_snmp
 ms_snmp_detail
 ms_update_new_tag
 ms_server_redistrib
+jp_teledeploy_stats
+jp_teledeploy_speed_stats
+jp_activity_stats
 </PAGE_PROFIL>
 

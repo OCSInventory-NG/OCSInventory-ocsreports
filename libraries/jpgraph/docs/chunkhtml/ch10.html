@@ -1,0 +1,59 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 10. Using CSIM (Client side image maps)</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt02.html" title="Part II. Basic graph creation"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 10. Using CSIM (Client side image maps)</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part II. Basic graph creation</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 10. Using CSIM (Client side image maps)"><div class="titlepage"><div><div><h2 class="title"><a name="chap.using-csim"></a>Chapter 10. Using CSIM (Client side image maps)</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch10.html#id2535547">10.1. The principles</a></span></dt><dt><span class="sect1"><a href="ch10s02.html">10.2. The basic structure of an image map script</a></span></dt><dt><span class="sect1"><a href="ch10s03.html">10.3. Specifying targets for image map plots</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch10s03.html#id2535974">10.3.1. Creating popup-windows as targets for CSIM</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch10s04.html">10.4. Using StrokeCSIM()</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch10s04.html#id2536113">10.4.1. Optional argument to StrokeCSIM()</a></span></dt><dt><span class="sect2"><a href="ch10s04.html#id2536192">10.4.2. How does StrokeCSIM() work?</a></span></dt><dt><span class="sect2"><a href="ch10s04.html#id2536305">10.4.3. Image maps and the cache system</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch10s05.html">10.5. Getting hold of the image map</a></span></dt><dt><span class="sect1"><a href="ch10s06.html">10.6. Mixing several CSIM images in an HTML page with text</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch10s06.html#sec2.adding-csim-in-html">10.6.1. Adding one CSIM graph in a HTML page</a></span></dt><dt><span class="sect2"><a href="ch10s06.html#id2536476">10.6.2. Adding multiple CSIM graphs in a HTML page</a></span></dt></dl></dd></dl></div>
+        
+        <p>Image maps makes it possible to create images with "active" areas that will react for
+            a mouse-click. It is then up to the designer to decide what actions should be taken.
+            Image map is often used to create drill-down charts where it is possible to dynamically
+            zoom into an image. Image maps is part of the HTML standard.</p>
+        <p>There are actually two types of images maps, client and server-side. This refers to
+            where the actual processing of the image click happens. Without doubt the best (and most
+            commonly used) type is the client side. This is also what the library supports. In the
+            remainder of this manual this will be referred to as <span class="bold"><strong>CSIM</strong></span>, <span class="bold"><strong>C</strong></span>lient <span class="bold"><strong>S</strong></span>ide <span class="bold"><strong>I</strong></span>mage <span class="bold"><strong>M</strong></span>aps.</p>
+        <div class="sect1" title="The principles"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2535547"></a>The principles</h2></div></div></div>
+            
+            <p>Image maps works so that each hotspot area in the graph that should be used must
+                have an associated URL. When the user clicks somewhere in that particular hotspot
+                area the browser will open the specified URL. Typical hotspot areas in the graphs
+                are</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>Texts, for example titles</p>
+                    </li><li class="listitem">
+                        <p>Markers in line graphs</p>
+                    </li><li class="listitem">
+                        <p>Slices in pie graphs</p>
+                    </li><li class="listitem">
+                        <p>Legends</p>
+                    </li><li class="listitem">
+                        <p>Bars in barplots</p>
+                    </li><li class="listitem">
+                        <p>etc.</p>
+                    </li></ol></div><p>
+            </p>
+            <p>The way the CSIM HTML standard works is that the HTML page must have a section
+                with coordinates that defines the various hotspots together with the associated URL
+                that should be called. Each section of coordinates are connected to a specific image
+                that is included with a standard <span class="markup">&lt;img&gt;</span> by a common id. This will
+                now add some complexity since the library must return an HTML page for the
+                coordinates and not image data as normal for the library. How this is done is the
+                topic of the next section.</p>
+            <p>A number of examples of CSIM graphs are included in the
+                    <code class="filename">Examples/</code> directory. Some of the available examples are
+                listed in <a class="xref" href="ch10.html#tab.csim-examples-name" title="Table 10.1. CSIM Examples (in Examples/ directory)">Table 10.1. CSIM Examples (in Examples/ directory)</a></p>
+            <p>
+                </p><div class="table"><a name="tab.csim-examples-name"></a><p class="title"><b>Table 10.1. CSIM Examples (in Examples/ directory)</b></p><div class="table-contents">
+                    
+                    <table summary="CSIM Examples (in Examples/ directory)" border="0"><colgroup><col class="c1"><col class="c2"></colgroup><thead><tr><th colspan="2">CSIM Examples (in Examples/ directory)</th></tr></thead><tbody><tr><td><code class="filename">bar_csimex1.php</code></td><td><code class="filename">bar_csimex2.php</code></td></tr><tr><td><code class="filename">bar_csimex3.php</code></td><td><code class="filename">barline_csimex1.php</code></td></tr><tr><td><code class="filename">barlinefreq_csimex1.php</code></td><td><code class="filename">boxstockcsimex1.php</code></td></tr><tr><td><code class="filename">ganttcsimex01.php</code></td><td><code class="filename">ganttcsimex02.php</code></td></tr><tr><td><code class="filename">imgmarkercsimex1.php</code></td><td><code class="filename">pie3d_csimex1.php</code></td></tr><tr><td><code class="filename">piec_csimex1.php</code></td><td><code class="filename">pie_csimex1.php</code></td></tr><tr><td><code class="filename">scatter_csimex1.php</code></td><td><code class="filename">titlecsimex01.php</code></td></tr></tbody></table>
+                </div></div><p><br class="table-break">
+            </p>
+            <p>In order to easily access all of these examples it is possible to call the
+                    <code class="filename">testsuit.php</code> example with an additional argument
+                    "<code class="code">t=2</code>". By following the link
+                "<code class="filename">testsuit.php?t=2</code>" a separate window will open with all the
+                possible CSIM examples.</p>
+        </div>
+        
+        
+        
+        
+        
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt02.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>
