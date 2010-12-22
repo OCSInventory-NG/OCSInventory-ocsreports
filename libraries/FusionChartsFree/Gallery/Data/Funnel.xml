@@ -1,6 +1,0 @@
-<chart isSliced='1' slicingDistance='4' decimalPrecision='0'>
-	<set name='Selected' value='41' color='99CC00' alpha='85'/>
-	<set name='Tested' value='84' color='333333' alpha='85'/>
-	<set name='Interviewed' value='126' color='99CC00'  alpha='85'/>
-	<set name='Candidates Applied' value='180' color='333333' alpha='85'/>
-</chart>

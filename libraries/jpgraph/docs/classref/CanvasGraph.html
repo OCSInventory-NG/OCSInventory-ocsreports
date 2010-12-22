@@ -1,169 +1,0 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
-		<!--
-		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
-		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
-		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
-        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
-        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
-        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
-		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
-        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
-
-		//-->
-		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_CANVASGRAPH"><b>CanvasGraph</b></a> Extends <a style="font-size:14pt;text-decoration:underline;"href="Graph.html#_C_GRAPH " style="font-face:arial;font-weight:bold;">Graph </a></div>
-<i>(Defined in: jpgraph_canvas.php : 20)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="CanvasGraph.html" style="font-family:arial;font-weight:bold;color:darkblue;">CanvasGraph</a>&nbsp;</td><td align="center" style="background:lightgray;" >&nbsp;<a href="Graph.html" style="font-family:arial;font-weight:bold;color:darkblue;">Graph</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="CanvasGraph.html#_CANVASGRAPH_INITFRAME">InitFrame()</a>&nbsp;<br>
-&nbsp;<a href="CanvasGraph.html#_CANVASGRAPH_STROKE">Stroke()</a>&nbsp;<br>
-&nbsp;<a href="CanvasGraph.html#_CANVASGRAPH___CONSTRUCT">__construct()</a>&nbsp;<br>
-</td><td valign=top>&nbsp;<a href="Graph.html#_GRAPH_ADD">Add()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_ADDBAND">AddBand()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_ADDLINE">AddLine()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_ADDTEXT">AddText()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_ADDY">AddY()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_ADDY2">AddY2()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_CHECKCSIMCACHE">CheckCSIMCache()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_GETCSIMIMGHTML">GetCSIMImgHTML()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_GETHTMLIMAGEMAP">GetHTMLImageMap()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SET3DPERSPECTIVE">Set3DPerspective()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SET90ANDMARGIN">Set90AndMargin()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETALPHABLENDING">SetAlphaBlending()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETANGLE">SetAngle()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETAXISLABELBACKGROUND">SetAxisLabelBackground()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETAXISSTYLE">SetAxisStyle()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDCFLAG">SetBackgroundCFlag()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDCOUNTRYFLAG">SetBackgroundCountryFlag()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDGRADIENT">SetBackgroundGradient()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDIMAGE">SetBackgroundImage()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDIMAGEMIX">SetBackgroundImageMix()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDIMAGEPOS">SetBackgroundImagePos()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETBOX">SetBox()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETCLIPPING">SetClipping()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETCOLOR">SetColor()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETCSIMIMGALT">SetCSIMImgAlt()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETFRAME">SetFrame()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETFRAMEBEVEL">SetFrameBevel()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETGRIDDEPTH">SetGridDepth()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETICONDEPTH">SetIconDepth()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETIMGFORMAT">SetImgFormat()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETMARGIN">SetMargin()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETMARGINCOLOR">SetMarginColor()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETSCALE">SetScale()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETSHADOW">SetShadow()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETTEXTSCALEABSCENTEROFF">SetTextScaleAbsCenterOff()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETTICKDENSITY">SetTickDensity()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETTITLEBACKGROUND">SetTitleBackground()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETTITLEBACKGROUNDFILLSTYLE">SetTitleBackgroundFillStyle()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETUSERFONT">SetUserFont()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETUSERFONT1">SetUserFont1()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETUSERFONT2">SetUserFont2()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETUSERFONT3">SetUserFont3()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETY2ORDERBACK">SetY2OrderBack()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETY2SCALE">SetY2Scale()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETYDELTADIST">SetYDeltaDist()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_SETYSCALE">SetYScale()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_STROKE" style="color:darkgrey;">Stroke()&nbsp;</a><br>
-&nbsp;<a href="Graph.html#_GRAPH_STROKECSIM">StrokeCSIM()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_STROKECSIMIMAGE">StrokeCSIMImage()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_STROKEFRAMEBACKGROUND">StrokeFrameBackground()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH_STROKESTORE">StrokeStore()</a>&nbsp;<br>
-&nbsp;<a href="Graph.html#_GRAPH___CONSTRUCT" style="color:darkgrey;">__construct()&nbsp;</a><br>
-</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>If you for some reason just want plain canvas to draw on using the direct drawing method you can create a new canvas with this class. 
-<p>
-The canvas is meant to be manipulated through the Image class which can be found as an instance variable ($graph->img) in the canvas class. 
-<p>
-Please remeber taht using the drawing methods in the Image class assumes screen (pixels) coordinates.
- <p> &nbsp;
-<div style="font-weight:bold;font-family:arial;font-size:85%;">See also related classes:</div><a href="Graph.html">Graph</a> <p> &nbsp;<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_CANVASGRAPH_INITFRAME"><span style="color:#555555;">CanvasGraph ::</span><br><b>InitFrame</b>()</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i>Strokes plot area and margin</i></span><p>
-<br>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Calling this method will fill the margin (with the margin color) and fill the plot area with the plot color. You should call this method before stroking anything else to the canvas as otherwise what you have stroken will be overwritten.&nbsp;<br>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
-<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Setup&nbsp;a&nbsp;basic&nbsp;canvas&nbsp;we&nbsp;can&nbsp;work&nbsp;<br /></span><span style="color: #0000BB">$g&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">CanvasGraph</span><span style="color: #007700">(</span><span style="color: #0000BB">400</span><span style="color: #007700">,</span><span style="color: #0000BB">200</span><span style="color: #007700">,</span><span style="color: #DD0000">'auto'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$g</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetMargin</span><span style="color: #007700">(</span><span style="color: #0000BB">5</span><span style="color: #007700">,</span><span style="color: #0000BB">11</span><span style="color: #007700">,</span><span style="color: #0000BB">6</span><span style="color: #007700">,</span><span style="color: #0000BB">11</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$g</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetShadow</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$g</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetMarginColor</span><span style="color: #007700">(</span><span style="color: #DD0000">"teal"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;We&nbsp;need&nbsp;to&nbsp;stroke&nbsp;the&nbsp;plotarea&nbsp;and&nbsp;margin&nbsp;before&nbsp;we&nbsp;add&nbsp;the<br />//&nbsp;text&nbsp;since&nbsp;we&nbsp;otherwise&nbsp;would&nbsp;overwrite&nbsp;the&nbsp;text.<br /></span><span style="color: #0000BB">$g</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">InitFrame</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;Draw&nbsp;a&nbsp;text&nbsp;box&nbsp;in&nbsp;the&nbsp;middle<br /></span><span style="color: #0000BB">$txt</span><span style="color: #007700">=</span><span style="color: #DD0000">"This\nis\na&nbsp;TEXT!!!"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$t&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Text</span><span style="color: #007700">(</span><span style="color: #0000BB">$txt</span><span style="color: #007700">,</span><span style="color: #0000BB">200</span><span style="color: #007700">,</span><span style="color: #0000BB">10</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$t</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFont</span><span style="color: #007700">(</span><span style="color: #0000BB">FF_ARIAL</span><span style="color: #007700">,</span><span style="color: #0000BB">FS_BOLD</span><span style="color: #007700">,</span><span style="color: #0000BB">40</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Stroke&nbsp;the&nbsp;text<br /></span><span style="color: #0000BB">$t</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Stroke</span><span style="color: #007700">(</span><span style="color: #0000BB">$g</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">img</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Stroke&nbsp;the&nbsp;graph<br /></span><span style="color: #0000BB">$g</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Stroke</span><span style="color: #007700">();<br /></span><span style="color: #0000BB"></span>
-</span>
-</b></div><br>
-<p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_CANVASGRAPH_STROKE"><span style="color:#555555;">CanvasGraph ::</span><br><b>Stroke</b>($aStrokeFileName)</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i>Stroke graph to browser or file</i></span><p>
-
-<table cellspacing=0 style='border:black solid 1pt;' width=100%>
-<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aStrokeFileName</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB"></span><span style="color: #DD0000">""</span><span style="color: #0000BB"></span>
-</span>
-</td><td>Filename to stroke to</td></tr>
-</table>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Stroke a file to browser or file. See Graph::Stroke() for more details.&nbsp;<br>
- &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Graph.html#_GRAPH_STROKE">Graph::Stroke()</a></ul>
-<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
-<span style="color: #0000BB">$canvas</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Stroke</span><span style="color: #007700">();</span><span style="color: #0000BB"></span>
-</span>
-</b></div><br>
-<p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_CANVASGRAPH___CONSTRUCT"><span style="color:#555555;">CanvasGraph ::</span><br><b>__construct</b>($aWidth, $aHeight, $aCachedName, $timeout, $inline)</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i>Construct a new Cnavas graph</i></span><p>
-
-<table cellspacing=0 style='border:black solid 1pt;' width=100%>
-<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aWidth</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">300</span>
-</span>
-</td><td>Width of graph</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aHeight</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">200</span>
-</span>
-</td><td>Height of graph</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aCachedName</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB"></span><span style="color: #DD0000">""</span><span style="color: #0000BB"></span>
-</span>
-</td><td>Cache file name</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$timeout</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">0</span>
-</span>
-</td><td>Cache timeout</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$inline</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">1</span>
-</span>
-</td><td>Inline or not</td></tr>
-</table>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>See Graph::Graph() for description, this method is identical.&nbsp;<br>
- &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Graph.html#_GRAPH___CONSTRUCT">Graph::__construct()</a></ul>
-<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
-<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Create&nbsp;a&nbsp;new&nbsp;canvas&nbsp;and&nbsp;draw&nbsp;a&nbsp;line&nbsp;from&nbsp;top&nbsp;left&nbsp;to<br />//&nbsp;bottom&nbsp;right<br /></span><span style="color: #0000BB">$canvas&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">CanvasGraph</span><span style="color: #007700">(</span><span style="color: #0000BB">300</span><span style="color: #007700">,</span><span style="color: #0000BB">200</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$canvas</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">img</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetColor</span><span style="color: #007700">(</span><span style="color: #0000BB">black</span><span style="color: #007700">*);<br /></span><span style="color: #0000BB">$canvas</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">img</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Line</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #0000BB">300</span><span style="color: #007700">,</span><span style="color: #0000BB">200</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$canvas</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Stroke</span><span style="color: #007700">();</span><span style="color: #0000BB"></span>
-</span>
-</b></div><br>
-<p> <hr> <p></html>

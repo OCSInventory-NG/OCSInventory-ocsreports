@@ -1,95 +1,0 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
-		<!--
-		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
-		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
-		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
-        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
-        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
-        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
-		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
-        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
-
-		//-->
-		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_FUNCGENERATOR"><b>FuncGenerator</b></a></div>
-<i>(Defined in: jpgraph_utils.inc.php : 17)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="FuncGenerator.html" style="font-family:arial;font-weight:bold;color:darkblue;">FuncGenerator</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="FuncGenerator.html#_FUNCGENERATOR_E">E()</a>&nbsp;<br>
-&nbsp;<a href="FuncGenerator.html#_FUNCGENERATOR___CONSTRUCT">__construct()</a>&nbsp;<br>
-</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>A utility class to help with function plots. This class supprots both ordinary one-variable plots with one dependent variable as well as polar plots.
-
-Basically you create an instance of this class with the function you want to plot as a string argument. The function should be created using 'x' as the independent variable. You then invoke its evaluation method 'E()' with the range for the independent variable and possibly a step size. The method then returns an array of X, and Y values that represents the plot.
-
-Please remember that the string should be specified with single quotes since otherwise PHP will try to interpret the variable in the string.
-
-For example, to specify a simple cos() plot you specify:
-
-$f = new FuncGenerator('cos($x)';
- <p> &nbsp;
-<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_FUNCGENERATOR_E"><span style="color:#555555;">FuncGenerator ::</span><br><b>E</b>($aXMin, $aXMax, $aSteps)</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i>Evaluate a X-Y function</i></span><p>
-
-<table cellspacing=0 style='border:black solid 1pt;' width=100%>
-<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aXMin</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Min x-value</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aXMax</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Max x-value</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aSteps</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">50</span>
-</span>
-</td><td>Number of steps</td></tr>
-</table>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Evaluate the previous specified function between the specified values. The return two arrays representing the X and Y coordinates for the function.&nbsp;<br>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
-<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Create&nbsp;a&nbsp;simple&nbsp;linear&nbsp;plot<br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">FuncGenerator</span><span style="color: #007700">(</span><span style="color: #DD0000">'cos($x)&nbsp;*&nbsp;sin($x)'</span><span style="color: #007700">);<br />list(</span><span style="color: #0000BB">$xdata</span><span style="color: #007700">,</span><span style="color: #0000BB">$ydata</span><span style="color: #007700">)&nbsp;=&nbsp;</span><span style="color: #0000BB">$f</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">E</span><span style="color: #007700">(-</span><span style="color: #0000BB">2</span><span style="color: #007700">*</span><span style="color: #0000BB">M_PI</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">*</span><span style="color: #0000BB">M_PI</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$lp1&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">LinePlot</span><span style="color: #007700">(</span><span style="color: #0000BB">$ydata</span><span style="color: #007700">,</span><span style="color: #0000BB">$xdata</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Create&nbsp;a&nbsp;simple&nbsp;polar&nbsp;plot&nbsp;(a&nbsp;circle)<br /></span><span style="color: #0000BB">$p&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">FuncGenerator</span><span style="color: #007700">(</span><span style="color: #DD0000">'cos($i)'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'sin($i)'</span><span style="color: #007700">);<br />list(</span><span style="color: #0000BB">$x2data</span><span style="color: #007700">,</span><span style="color: #0000BB">$y2data</span><span style="color: #007700">)&nbsp;=&nbsp;</span><span style="color: #0000BB">$f</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">E</span><span style="color: #007700">(-</span><span style="color: #0000BB">2</span><span style="color: #007700">*</span><span style="color: #0000BB">M_PI</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">*</span><span style="color: #0000BB">M_PI</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$lp2&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">LinePlot</span><span style="color: #007700">(</span><span style="color: #0000BB">$y2data</span><span style="color: #007700">,</span><span style="color: #0000BB">$x2data</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//...</span><span style="color: #0000BB"></span>
-</span>
-</b></div><br>
-<p>
-<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_FUNCGENERATOR___CONSTRUCT"><span style="color:#555555;">FuncGenerator ::</span><br><b>__construct</b>($aFunc, $aXFunc)</a></div>
-
-<span style='font-family:arial;font-size:95%;'><i>Create a new function generator.</i></span><p>
-
-<table cellspacing=0 style='border:black solid 1pt;' width=100%>
-<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aFunc</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Function</td></tr>
-
-<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB">$aXFunc</span>
-</span>
-
-</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
-<span style="color: #0000BB"></span><span style="color: #DD0000">''</span><span style="color: #0000BB"></span>
-</span>
-</td><td>X-Function</td></tr>
-</table>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Creates a new funciton generator. You can create both a linear plot as well as polar plot.
-
-For linear, one-variable plots, you must use '$x' as the independent variable.
-
-For polar plots you should use the index '$i' for the generating functions.
-&nbsp;<br>
-
-<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
-<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Create&nbsp;a&nbsp;simple&nbsp;linear&nbsp;plot<br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">FuncGenerator</span><span style="color: #007700">(</span><span style="color: #DD0000">'cos($x)&nbsp;*&nbsp;sin($x)'</span><span style="color: #007700">);<br />list(</span><span style="color: #0000BB">$xdata</span><span style="color: #007700">,</span><span style="color: #0000BB">$ydata</span><span style="color: #007700">)&nbsp;=&nbsp;</span><span style="color: #0000BB">$f</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">E</span><span style="color: #007700">(-</span><span style="color: #0000BB">2</span><span style="color: #007700">*</span><span style="color: #0000BB">M_PI</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">*</span><span style="color: #0000BB">M_PI</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$lp1&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">LinePlot</span><span style="color: #007700">(</span><span style="color: #0000BB">$ydata</span><span style="color: #007700">,</span><span style="color: #0000BB">$xdata</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Create&nbsp;a&nbsp;simple&nbsp;polar&nbsp;plot&nbsp;(a&nbsp;circle)<br /></span><span style="color: #0000BB">$p&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">FuncGenerator</span><span style="color: #007700">(</span><span style="color: #DD0000">'cos($i)'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'sin($i)'</span><span style="color: #007700">);<br />list(</span><span style="color: #0000BB">$x2data</span><span style="color: #007700">,</span><span style="color: #0000BB">$y2data</span><span style="color: #007700">)&nbsp;=&nbsp;</span><span style="color: #0000BB">$f</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">E</span><span style="color: #007700">(-</span><span style="color: #0000BB">2</span><span style="color: #007700">*</span><span style="color: #0000BB">M_PI</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">*</span><span style="color: #0000BB">M_PI</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$lp2&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">LinePlot</span><span style="color: #007700">(</span><span style="color: #0000BB">$y2data</span><span style="color: #007700">,</span><span style="color: #0000BB">$x2data</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//...<br /></span><span style="color: #0000BB"></span>
-</span>
-</b></div><br>
-<p> <hr> <p></html>
