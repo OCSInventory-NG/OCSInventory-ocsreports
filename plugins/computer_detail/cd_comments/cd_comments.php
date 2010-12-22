@@ -99,9 +99,9 @@
 		$argDetail=array($protectedPost['MODIF']);
 		$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"],$argDetail);
 		$item=mysql_fetch_array($resultDetails,MYSQL_ASSOC);
-		$tab_name[1]= $l->g(1126) . " : ";
-		$tab_name[2]= $l->g(1127) . " : ";
-		$tab_name[3]= $l->g(1128) . " : ";
+		$tab_name[1]= $l->g(1126) . ": ";
+		$tab_name[2]= $l->g(1127) . ": ";
+		$tab_name[3]= $l->g(1128) . ": ";
 		$tab_typ_champ[1]['DEFAULT_VALUE']=$item['DATE_INSERT'];
 		$tab_typ_champ[2]['DEFAULT_VALUE']=$item['USER_INSERT'];
 		$tab_typ_champ[3]['DEFAULT_VALUE']=$item['COMMENTS'];

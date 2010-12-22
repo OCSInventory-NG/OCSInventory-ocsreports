@@ -82,7 +82,7 @@ if ((isset($protectedPost['ACCOUNTINFO_CHOISE']) and $protectedPost['ACCOUNTINFO
 	}
 
 if ($protectedPost['onglet'] == 1){		
-	echo $l->g(56)." : ".show_modif($accountinfo_choise,'ACCOUNTINFO_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
+	echo $l->g(56).": ".show_modif($accountinfo_choise,'ACCOUNTINFO_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
 	
 	if ($protectedPost['ACCOUNTINFO_CHOISE'] == "SNMP")
 		$account_choise = "SNMP";

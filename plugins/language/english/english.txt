@@ -1,4 +1,4 @@
-2 All computers 
+2 All computers
 9 Search with various criteria
 13 Send
 17 Agent
@@ -26,7 +26,7 @@
 49 Name
 50 Swap
 51 Comments
-53 Description 
+53 Description
 54 Processor(s)
 55 Number
 56 Administrative data
@@ -932,15 +932,15 @@
 1047 INFO
 1048 Add file
 1049 BAD ACTION
-1050 Soft search
+1050 Software search
 1051 Search
 1052 History
 1053 Demande modifiee
 1054 Demande effectuee
-1055 Your email is not valid
+1055 Your e-mail is not valid
 1056 Contact your OCS-NG administrator
 1057 Failed to connect to mailserver
-1058 no email is valid
+1058 no e-mail is valid
 1059 Data available
 1060 New data
 1061 Tab
@@ -1008,8 +1008,8 @@
 1123 IRC
 1124 Forums
 1125 Percentage
-1126 Date of Note
-1127 Autor of note
+1126 Date of note
+1127 Author of note
 1128 Note
 1129 REMOVED PACKAGE
 1130 Language editor

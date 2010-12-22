@@ -84,7 +84,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 		$tab_typ_champ[3]['DEFAULT_VALUE']=$protectedPost['USER'];
 		$tab_typ_champ[3]['INPUT_NAME']="USER";
 		$tab_typ_champ[3]['INPUT_TYPE']=3;
-		$tab_name[3]=$l->g(944)." : ";
+		$tab_name[3]=$l->g(944).": ";
 		
 		$title=$l->g(945);		
 	}else{

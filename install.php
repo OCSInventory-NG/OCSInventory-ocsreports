@@ -309,7 +309,7 @@ if($dbf_handle = @fopen($db_file, "r")) {
 			
 			echo "<br><center><font color=red><b>"  . $l->g(2002) .
 												" " . $li         .
-											  " : " . $l->g(2015) .
+											  ": " . $l->g(2015) .
 											  ":["  . $sql_line   . 
 											  "]"   . $l->g(2009) . 
 											  "</b><br>";
