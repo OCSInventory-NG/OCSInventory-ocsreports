@@ -1,26 +1,118 @@
 Revision history for Ocsinventory::Agent
 
-1.2.x
-       * Solaris: use regex to identify CPU class (Jerome LEBAS)
-       * Solaris/Network: support Zone (Jerome LEBAS)
-       * HP-UX: initial support, tested on RP3440 (François MERMET)
-       * Changed arguments to dpkg-query for compatibility (Scott HANNAHS)
-       * MacOSX: Distinguish clearly between "OS Name" and "System Version" by
-         parsing output carefully for both variables. Clean up language in
-         description. (Scott HANNAHS)
-       * Add an in contrib example of script to identify specific software
-         (Simon CLARA)
-       * Upgrade memconf to V2.13
-       * Use parameters to simplify the way dmidecode is called (Dmitry ILYIN)
+2.0 rc1
+       * Add download_start_handler to check if Net::SSLeay can be load and disable Download.pm if not
+       * Add Net::SNMP optionnal dependency in README file.
+       * Delete Win32 from backend
+       * Various patches for 9.pm and If_Mib.pm to enhance ethernet ports speed display (François Mermet)
+       * New SNMP modules for Juniper, Futjitsu and F5 vendors (François Mermet)
+       * Fix Bug #682689 about missing data for disk when can't run lshal command (Bernhard Denner)
+       * Add a warning message about user privacy in man page for --scan-homedirs option
+       * Various patches for 8072.pm an If_Mib.pm (François Mermet)
+       * Change timeout for Backend modules from 180 to 600 seconds
+       * Change timeout for Backend modules from 180 to 600 seconds
+       * Back on the ipdiscover binary from the old OCS Linux Agent to make network scans lighter than Nmap. Ipdiscover binary is only available under Linux systems
+       * Use LaunchDaemons instead of LaunchAgents in MacOSX package
+       * Fix SSL errors if no URL is given by the server in Snmp.pm
+       * Do SNMP scans and treatments only if asked by the server
+       * Delete some useless logs in debug for SNMP constructors and standard MIBs modules
+       * Change oid_value in snmp_info subroutine in Printer_Mib.pm 
+       * New SNMP 2620.pm module for Checkpoint Software Technologies constructor (François Mermet)
+       * Add new "DEVICEPORT" and "DEVICETYPE" fields in addSnmpnetwork() in Common.pm
+       * 311.pm and 8072.pm use setSnmpComputer() to set the type of SNMP device
+       * Add a new addSnmpInput() subroutine in Common.pm
+       * Fix a bug in addSnmpSwitch subroutine in Common.pm     
+       * Replace SetSnmpSwitch() subroutine by SetSnmpSwitchInfos() in Common.pm
+       * Set right fields for AddSnmpSwitch() subroutine in Common.pm
+       * Fix various bug on snmp_oid_run subroutine for constructors and standard MIB modules 
+       * Fix various mistakes and missing fields in snmp subroutines in Common.pm
+       * Fix a warning due to deprecated syntax in 3ware.pm
+       * Fix a warning due to deprecated syntax in 3ware.pm
+       * Fix a catastrophic performance issue by preventing to run sysctl at every line of demidecode output to get CPU informations on BSD systems
+       * Snmp.pm now download snmp_com.txt file to get informations about SNMP communities for scans using HTTPS
+       * New subroutines called "getHttpFile" and "getHttpsFile" in Network.pm to download files easily using HTTP or HTTPS.
+       * Fix bugs and minor mistakes in Common.pm and If_Mib.pm
+       * Add Lenovo EDID for monitors (Adam Buchbinder)
+       * Disabling Snmp.pm if agent running in local mode
+       * Fix a warning if network interface is down in Ipdiscover.pm
+       * Enhance inventory initialization for a better modularity
+       * Local mode can now use the "inventory_handler" hook
+       * Various patches for SNMP constructors or standard MIB module (François Mermet)
+       * Prevent a bug in using Default.pm (François Mermet)
+       * Add "ACR" and "EPI" EDID ID for monitors (Adam Buchbinder)
+       * Fix Bug #597752 about TYPE and VOLUMN fiels reversal for BSD systems.
+       * Fix Bug #612515 to report network interface that don't have an IP adress (Mick K)
+       * Don't take care of host with no MAC adress in Nmap.pm
+       * Add the SOFTWARE field in addSnmpCard subroutine
+       * Enhance Printer_Mib.pm to add information about printer status and printer error state
+       * Snmp.pm now use Default.pm to launch standard MIB modules by default (François Mermet)
+       * Upgrade several SNMP contructors/standard MIB modules
+       * Add a new SNMP constructor module for Lexmark
+       * Add a new SNMP module for the standard Entity MIB.
+       * Add a new SNMP module to load standard MIB modules by default
+       * Add new subroutines for SNMP XML feeding for informations about switches, network cards, blades, firewalls etc....
+       * Correct a log mistacke in Printer_Mib.pm
+       * New 11.pm module to enable SNMP scans on HP devices
+       * Get the SNMP device MACADDR from PROLOG resp to generate the SNMPDEVICEID in Snmp.pm
+       * Add new subroutines in Common.pm for special SNMP XML feed or SNMP special treatments
+       * New Printer_Mib.pm module to get SNMP printers informations
 
-1.1.3
-       * Remove exec flag on
-         lib/Ocsinventory/Agent/Backend/OS/MacOS/Hostname.pm (Remi COLLET)
-       * spelling in manpage authentification → authentication
-       * MacOSX: Correctly identify the CPU frequency on MacOSX 1.6 French,
-         thanks Grek
+2.0 alpha  Tue, 27 Jul 2010 22:27:27 +0100
+       * Snmp.pm use flushXMLTags() from Common.pm to flush the content of $common->{xmltags}
+       * Modifying the inventory backend to use functions from Common.pm instead of Inventory.pm
+       * New Snmp.pm for SNMP scans integration. It comes with its constructors modules to enhance scans results (a lot of beers to François Mermet to thank himfor his help)
+       * Modifying postinst.pl to include Ocsinventory::Agent::Modules::Snmp
+       * Agent.pm : add $logger object in Ocsinventory::Agent::Common instanciation
+       * Common.pm : adding the can_run(), can_load(), can_read() and runcmdi() generic methods. Adding the use of the $logger object
+       * Common.pm : add a new field 'TYPE' in setSnmpCommons()
+       * Agent.pm now uses the new Networks.pm methods and add the $network object in the $context hash
+       * Networks.pm now gives generic methods to send a XML to OCS server and receive a XML from OCS server
+       * New addInput() method in Common.pm to add mouses and keyboards in inventory
+       * Donwload.pm now use 'get_path' and 'already_in_array' functions from the new Common.pm
+       * Common.pm : Replace the former Common.pm by a new one. Common.pm now give a lot of methods for other agent modules
+       * Agent.pm : instanciate Ocsinventory::Agent::Common object and add a reference to it in $context
+       * Use of the Nmap::Parser perl module to correct the very buggy Nmap implementation for Ipdiscover
+       * Various patches for Solaris support (Lucas MASSE) 
+       * Fix the network speed data oblivion in Inventory.pm. The network speed can now be added in Network.pm of the several OS backends
+       * Put the prolog_reader hook run at the right place to avoid an error if the agent failed to reach the server
+       * Enhance dom0 support for Xen support (Guillaume ROUSSE)
+       * Add bios informations for Xen PV hosts (Guillaume ROUSSE)
+       * Fix Bug #552727 about getting processes taht are running in Solaris (Emengao)
+       * Add the availiability to disable a module using start_handler hook
+       * Debug and code cleaning in Download.pm 
+       * Fix Bug #552097
+       * Add XML::SAX::Expat module include 
+       * Replace {REQUEST} and {ADM} by {xmlroot} in xml handling for a better and better readability
+       * Remove text about Win32 port in the README file
+       * Correct a bug in Hooks.pm to pass inventory or prolog to modules
+       * Add headers for the modules logs
+       * Correct a bug in postinst.pl when removing the old Linux agent
+       * Ocsinventory::Agent::Option:: namespace is now Ocsinventory::Agent::Modules::
+       * Modules now use Perl's object system 
+       * Hooks are now methods and not simple subroutines
+       * Hook.pm is now Hooks.pm
+       * Use of a new context hash in Agent.pm
+       * CompatibilityLayer.pm is now Hook.pm
+       * Calling hooks only in Agent.pm
+       * Update HPUX support (Francois Mermet)
+       * Verify ID value received by server in Download.pm 
+       * Verify the network syntax in Nmap.pm 
+       * Replace an hard coded pattern in Linux/devices.pm
+       * Removing non posix cp option in Download.pm
+       * Upgrade to memconf V2.13
+       * Add an in contrib example of script to identify specific software (Simon CLARA)
+       * An example of script to use tarball to identify installed software
+       * HP-UX: initial support, tested on RP3440
+       * Solaris/Network: support Zone
+       * Solaris: use regex to identify CPU class
        * Improve the README about non-interactive installation
-       * Bump copyright date from 2009 to 2010
+       * MacOSX: Correctly identify the CPU frequency on MacOSX 1.6 French
+
+1.1.2.1    Tue, 12 Oct 2010 19:42:41 +0100
+       * Fix a secutiry bug due to the use of ExtUtils::Installed in Backend.pm.
+         See http://bugs.debian.org/590879 and http://www.debian.org/security/2009/dsa-1828
+         for more informations. 
+         Thanks to Remi Collet for his report.
 
 1.1.2    Sun, 27 Dec 2009 17:24:43 +0100
        * Avoid problem with dmidecode -V output on RHEL3.9 (Remi COLLET)
