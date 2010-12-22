@@ -49,6 +49,7 @@ while ($value = mysql_fetch_object($res)){
 	}
 }
 //for each column we are going to verify that this field exist in accountinfo_config
+if (is_array($list_field)){
 foreach ($list_field as $name){
 	//if this name does'nt exist in accuontinfo_config
 	if (!isset($name_accountinfo[$name]))
@@ -86,6 +87,7 @@ foreach ($list_field as $name){
 			$rename_col_accountinfo[]=$arg;
 	}
 	
+}
 }
 
 if (isset($add_colum_accountinfo) or isset($add_lign_accountinfo_config) or isset($rename_col_accountinfo)){

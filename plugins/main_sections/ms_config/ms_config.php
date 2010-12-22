@@ -45,7 +45,13 @@ if ($protectedPost['Valid'] == $l->g(103)){
 	}else{
 		$msg="";
 		foreach ($etat as $name=>$value){
-			$msg.=$name." ".$l->g(759)." ".$value."<br>";
+			if (!is_array($value))
+				$msg.=$name." ".$l->g(759)." ".$value."<br>";
+			else{
+				if (isset($value['FILE_NOT_EXIST']))
+				$msg.= $name." : ".$l->g(920)." ".$value['FILE_NOT_EXIST']."<br>";
+				
+			}
 		}
 		//print_r($etat);
 	msg_error($msg);
@@ -53,6 +59,9 @@ if ($protectedPost['Valid'] == $l->g(103)){
 	}
 	
 }
+
+//p($protectedPost);
+
 if (isset($MAJ) and $MAJ != '')
 	msg_success($MAJ);
 $form_name='modif_onglet';

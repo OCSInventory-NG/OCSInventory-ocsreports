@@ -22,7 +22,7 @@ $data_on['BAD CONNEXION']=$l->g(1256);
 onglet($data_on,$form_name,"onglet",4);
 echo '<div class="mlt_bordure" >';
 $ms_cfg_file=$_SESSION['OCS']['LOG_DIR']."log.csv";
-$fd = fopen ($ms_cfg_file, "r");
+$fd = @fopen ($ms_cfg_file, "r");
 if (!$fd)
 		return "NO_FILES";
 $max=0;
