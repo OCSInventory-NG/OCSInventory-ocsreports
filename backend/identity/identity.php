@@ -54,6 +54,7 @@ if (!isset($tab_tag) and $restriction != 'NO'){
 	$mesMachines = "a.TAG IN ('".@implode("','",$list_tag)."') ";	
 	$_SESSION['OCS']["mesmachines"] = $mesMachines;
 	$_SESSION['OCS']["mytag"]=$lbl_list_tag;
+	$_SESSION['OCS']['TAGS']=$list_tag;
 }
 
 if (isset($lvluser))

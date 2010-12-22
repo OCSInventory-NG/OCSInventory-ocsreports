@@ -1,0 +1,69 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Barcode symbologies</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch24.html" title="Chapter 24. Linear Barcodes (One Dimensional Barcodes)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Barcode symbologies</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 24. Linear Barcodes (One Dimensional Barcodes)</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Barcode symbologies"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2595878"></a>Barcode symbologies</h2></div></div></div>
+            
+            <div class="sect2" title="Numerical only barcode symbologies"><div class="titlepage"><div><div><h3 class="title"><a name="id2595884"></a>Numerical only barcode symbologies</h3></div></div></div>
+                
+                <p>The following supported symbologies only supports numerical data and in some
+                    cases special characters like "-,+,:,$" . A more detailed description and
+                    example of each barcode is given in <a class="xref" href="ch24s09.html" title="Short description of supported symbologies">Short description of supported symbologies</a></p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p>Codabar. Older code not widely used today apart from some library
+                                system primarily in USA.</p>
+                        </li><li class="listitem">
+                            <p>Code 11. Used primarily for labeling telecommunications
+                                equipment</p>
+                        </li><li class="listitem">
+                            <p>EAN-13 (ISO/IEC 15420). European Article Numbering, 13-digits.
+                                International retail product code</p>
+                            <p>(Also known as UPC-13 in USA)</p>
+                        </li><li class="listitem">
+                            <p>EAN-8. European Article Numbering, 8-digits. Compressed version of
+                                EAN code for use on small products</p>
+                        </li><li class="listitem">
+                            <p>Industrial 2 of 5. Older low density code not commonly used
+                                today</p>
+                        </li><li class="listitem">
+                            <p>Interleaved 2 of 5 (ISO/IEC 16390). Compact numeric code, widely
+                                used in industry, driving licenses, transportation</p>
+                        </li><li class="listitem">
+                            <p>UPC-A. Universal product code seen on almost all retail products
+                                in the USA and Canada</p>
+                        </li><li class="listitem">
+                            <p>UPC-E. Compressed version of UPC-A code for use on small
+                                products</p>
+                        </li><li class="listitem">
+                            <p>Bookland. Used to encode ISBN (International Standard Book Number)
+                                numbers used in book and magazines</p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Alphanumerical barcode symbologies"><div class="titlepage"><div><div><h3 class="title"><a name="id2595984"></a>Alphanumerical barcode symbologies</h3></div></div></div>
+                
+                <p>The following supported symbologies supports alpha numerical data and in some
+                    cases special characters like "-,+,&amp;,#,!". A more detailed description and
+                    example of each barcode is given in <a class="xref" href="ch24s09.html" title="Short description of supported symbologies">Short description of supported symbologies</a></p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p>Code 128 (ISO/IEC 15417). A flexible high capacity code in wide
+                                use. There are variants of Code 128 (e.g EAN-128) that impose a
+                                strict structure of the data.</p>
+                        </li><li class="listitem">
+                            <p>EAN 128 (ISO/IEC 15420). Structured variant of Code 128. This is
+                                not really a barcode symbology in itself but rather a structure for
+                                how to format the input data to Code 128.</p>
+                        </li><li class="listitem">
+                            <p>Code 39 (ISO/IEC 16388). General purpose code. Used
+                                worldwide.</p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Which symbology should be used?"><div class="titlepage"><div><div><h3 class="title"><a name="id2596044"></a>Which symbology should be used?</h3></div></div></div>
+                
+                <p>Usually the application dictates what standard should be followed and there is
+                    no choice other than following the applicable industry standard. </p>
+                <p>However, if the usage is strictly internal it is possible to chose any
+                    symbology. However for generic usage we would recommends using either Code 39 or
+                    Code 128 since they offer great flexibility, supports large character sets and
+                    is fairly efficient in terms of space/datasize ratio.</p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch24.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

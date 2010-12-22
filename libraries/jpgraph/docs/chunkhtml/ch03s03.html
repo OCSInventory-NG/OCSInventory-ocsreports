@@ -1,0 +1,444 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Installing the library</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch03.html" title="Chapter 3. The Long Version: Installing the Library"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Installing the library</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 3. The Long Version: Installing the Library</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Installing the library"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec1.installing-library"></a>Installing the library</h2></div></div></div>
+            
+            <p>When you have verified the necessary preconditions as described in the previous
+                paragraphs it is time to install the library. The "installing" part is nothing more
+                than copying the files in the distribution to a place in the directory structure
+                where you script can find the library files. On a Unix system it is common to
+                install PHP libraries under "<code class="filename">/usr/share/php/</code>". On a windows
+                system there is really no standard path for installing PHP libraries so you have to
+                decide your self. </p>
+            <p>The important thing here is that the path to the library is included in the PHP
+                search path, i.e. it is in one of the paths that PHP searches when it tries to
+                resolve a "<code class="code">require_once</code>" or "<code class="code">include</code>" statements.
+                Furthermore, the included examples and demo applications (included in the pro
+                version) assumes that the library is installed under the directory
+                    "<code class="filename">jpgraph/</code>".</p>
+            <p>As an example the following commands will install a specific version of the
+                library on a Unix server. If we assume that you have downloaded the library to the
+                    "<code class="filename">/tmp/</code>" directory and are already standing in this
+                directory the following commands will setup the library to be used</p>
+            <p>
+                </p><pre class="screen">root:/tmp&gt; tar xzf jpgraph-2.5.tar.gz
+root:/tmp&gt; cp -r jpgraph-2.5 /usr/shar/php/
+root:/tmp&gt; ln -s /usr/shar/php/jpgraph-2.5 /usr/shar/php/jpgraph</pre><p>
+            </p>
+            <p>The last line makes a symbolic link from "jpgraph" to the actual version of the
+                library. This way you can try out different versions of the library without having
+                to make any changes in your scripts. You just point out a different version of the
+                library in the symbolic link.</p>
+            <div class="sect2" title="Configuring JpGraph/PHP on a development server"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.config-dev-server"></a>Configuring JpGraph/PHP on a development server</h3></div></div></div>
+                
+                <div class="sect3" title="Setting up your php.ini file"><div class="titlepage"><div><div><h4 class="title"><a name="sec3.setting-up-php-ini"></a>Setting up your php.ini file</h4></div></div></div>
+                    
+                    <p>
+                        </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                            <p>To find the location of your <code class="filename">php.ini</code> file
+                                create and run a script with the single line <code class="code">&lt;?php
+                                    phpinfo(); ?&gt;</code> . The look at the output for a line saying
+                                "php.ini file used" and you will see which
+                                    <code class="filename">php.ini</code> file is used.</p>
+                        </div><p>
+                    </p>
+                    <p><span class="bold"><strong>Setting the memory limits</strong></span></p>
+                    <p>In many default configuration the allowed memory for PHP is not enough for
+                        complex graph script since they (as many other image manipulation programs)
+                        can require a lot of memory. On a development server there should be at
+                        least 32MB memory allowed for the HTTP/PHP process. To verify this do the
+                        following</p>
+                    <p>
+                        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>Open <code class="filename">php.ini</code> for editing.</p>
+                            </li><li class="listitem">
+                                <p>Locate the line saying</p>
+                                <p><code class="code">memory_limit = xx</code></p>
+                                <p>where "xx" is some number. Now make sure that you have at
+                                    least 32MB allowed by making sure the line reads</p>
+                                <p><code class="code">memory_limit = 32M</code></p>
+                                <p>Note that fore very large images this might not be enough.
+                                    Consider the following example.</p>
+                                <p>Assume you need to create an 1200x1024 image in true color.
+                                    Just the plain image in itself will require 1200x1020x4 bytes,
+                                    which is roughly 4.7MB RAM during internal processing the
+                                    library can need up to three times that amount of memory so this
+                                    means that just for the image the library needs around of ~15MB
+                                    of RAM. If we then take the memory needed to load PHP as well as
+                                    the entire JpGraph library and dynamically execute and parse the
+                                    library it can easily consume another ~15MB RAM. If the image is
+                                    very complex and requires a huge number of objects to be created
+                                    (a typical example is a large Gantt chart) it might be necessary
+                                    to double the allowed memory to 64MB RAM. </p>
+                            </li></ol></div><p>
+                    </p>
+                    <p></p>
+                    <p><span class="bold"><strong>Setting maximum allowed run time</strong></span></p>
+                    <p>By default many installations have very short maximum run time for the PHP
+                        scripts. Common figures are 10s. For normal interactive use involving plain
+                        text processing this is usually adequate. However, producing large and
+                        complex images might take considerable time (as do all images processing).
+                        For this reason the maximum time limit for PHP should be increased to a
+                        minimum of 20s (depending on the complexity of your images as well as any
+                        associated data processing it might be necessary to allow up to
+                        30-40s).</p>
+                    <p>The allowed running time is controlled by the <code class="filename">php.ini</code>
+                        setting</p>
+                    <p><code class="code">max_execution_time = xx</code></p>
+                    <p>where "xx" is some number. Recommended setting is therefore </p>
+                    <p><code class="code">max_execution_time = 30</code></p>
+                    <p></p>
+                    <p><span class="bold"><strong>Disabling output buffer</strong></span></p>
+                    <p>The next part of the <code class="filename">php.ini</code> file that might need
+                        changing is the output buffer. In short this should be disabled and we will
+                        shortly explain why. To check this do the following</p>
+                    <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>Open <code class="filename">php.ini</code> for editing</p>
+                            </li><li class="listitem">
+                                <p>Locate the line saying </p>
+                                <p><code class="code">output_buffering = xx</code></p>
+                                <p>where "xx" is some number. Make sure that this line is
+                                    commented out, i.e. it reads</p>
+                                <p><code class="code">; output_buffering = xx</code></p>
+                            </li></ol></div><p>This reason we want this to be commented out is that during
+                        development we want to be able to see the potential error messages produced
+                        by the library and having the output buffering enabled will actually prevent
+                        this. Fully understanding why this is the case is good first step into the
+                        added complexity of producing images with PHP compared with just outputting
+                        text. Understanding this requires us to understand a few basic principles
+                        about the HTTP protocol. Especially how MIME encodings of data works.</p>
+                    <p>The following explanation is slightly simplified since a full description
+                        of the HTTP protocol would bring us a bit to far in this manual</p>
+                    <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>A client (e.g. browser) requests data from the server by
+                                    issuing a GET (or possible a POST) command to the server. This
+                                    is what happens when you enter a URI i the address bar in the
+                                    browser.</p>
+                            </li><li class="listitem">
+                                <p>The server replies with a data stream (or an error if the
+                                    requested data wasn't available). This data stream is prepended
+                                    with header (MIME header) that tells the client (e.g. the
+                                    browser) how to interpret the data that follows. The most common
+                                    type (and the default type if no header is sent by a faulty
+                                    server) is "text/html" . This tells the client to interpret the
+                                    data as plain text with embedded HTML encoding. </p>
+                                <p>When the data is to be interpreted as an image the header will
+                                    instead be one of the image headers, for example
+                                        <code class="code">"image/png"</code> or <code class="code">"image/jpeg"</code>. When
+                                    the client receives this header it will Interpret all the
+                                    following data as an image encoded in the indicated format. </p>
+                                <p>The important thing to keep in mind here is that each server
+                                    reply can have one and only one MIME type. This is the key to
+                                    further understanding the specific issues with dynamic image
+                                    generation. This explains why if a PHP script running on the
+                                    server sends a header first indicating that the following data
+                                    it sends should be interpreted by the client as an image it
+                                    cannot send both image data and some text.</p>
+                            </li></ol></div><p>We are now in a position to explain how output buffering would
+                        make debugging more difficult.</p>
+                    <p>Normally all output from a PHP script is sequentially, i.e. the header
+                        must first be sent and then the data. If no header is sent or plain text is
+                        sent without a header the client will interpret this as
+                            <code class="code">"text/html"</code>. One purpose with "output_buffer" it to
+                        circumvent this to allow a certain amount of output to be put in a buffer
+                        for a while and later when some processing has determined what header should
+                        be sent the data is prepended with the correct header and the rest of the
+                        data is then sent. </p>
+                    <p>What could now happen is the following (not unlikely scenario): </p>
+                    <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>The scripts starts executing and the image starts to be
+                                    build.</p>
+                            </li><li class="listitem">
+                                <p>Your script has some minor issues which produces some warnings
+                                    from PHP. These warning does not get sent directly back to the
+                                    client (the browser) to allow you to act on these warnings
+                                    instead they will be put into the output buffer. When later the
+                                    scripts starts outputting the proper image header and the image
+                                    data it gets added to the output buffer where your previous
+                                    textual PHP warning already are stored. </p>
+                            </li><li class="listitem">
+                                <p>Your client now receives the header that indicates that the
+                                    following data should be interpreted as an image but since that
+                                    image data is mixed with the textual warning messages it will
+                                    fail to decode the data (since it is not proper image data) and
+                                    will typical just show the image as a square with a red-cross
+                                    (FireFox) or some message along the lines of "<span class="italic">Cannot decode image</span>". This is all
+                                    depending on how a certain client handles a corrupt
+                                    image.</p>
+                            </li></ol></div><p>The above scenario makes it impossible to debug your script
+                        since it will give no clue to what caused or where in your script these
+                        warnings were generated. The way to counteract this scenario is to disable
+                        output buffering. In this way the warning will be sent back to the client as
+                        soon as they are generated by PHP and will allow you to act on them. </p>
+                    <p></p>
+                    <p><span class="bold"><strong>Enabling adequate error checking</strong></span></p>
+                    <p>The final part of the <code class="filename">php.ini</code> file that should be
+                        adjusted (and this is not only for the JpGraph library) is the error level.
+                        To ensure maximum interoperability of the developed scripts they should all
+                        run completely silent no matter what error levels are set on the server.
+                        This means that development of all scripts should always be done with
+                        maximum error checking enabled. The JpGraph library can safely run
+                        completely silent even when all error checking is enabled.</p>
+                    <p>The error checking should therefore be specified as</p>
+                    <p><code class="code">error_reporting = E_ALL | E_STRICT</code></p>
+                    <p>to enable the highest degree of PHP error checking</p>
+                    <p></p>
+                    <p>
+                        </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                            <p>In addition to the above setting it is a good idea to also to
+                                makes sure that the following options are set</p>
+                            <p><code class="code">zend.ze1_compatibility_mode = Off</code></p>
+                            <p>Zend engine 1 compatibility might cause problems with the
+                                library</p>
+                            <p><code class="code">implicit_flush = On</code></p>
+                            <p>This can reduce the performance and shouldn't be used on a
+                                production server but will make all outputs sent back to the client
+                                as soon as possible and will aid in debugging.</p>
+                            <p><code class="code">allow_call_time_pass_reference = Off</code></p>
+                            <p>This is just a general good idea since call time pass references
+                                is deprecated in PHP 5.0 and higher</p>
+                            <p><code class="code">display_errors = On</code></p>
+                            <p>This makes sure all error are displayed</p>
+                            <p><code class="code">display_startup_errors = On</code></p>
+                            <p>This makes sure that any initial errors thrown by PHP will be
+                                reported</p>
+                        </div><p>
+                    </p>
+                    <p><span class="bold"><strong>Setting default timezone</strong></span></p>
+                    <p>Starting with PHP 5.2 a warning will now be generated unless a default
+                        time zone is explicitly specified in <code class="filename">php.ini</code>. To set
+                        this find the line <code class="code">date.timezone</code> in the
+                        <code class="code">[Date]</code>section and set this to valid zone. For example to
+                        specify GMT+1 one could specify</p>
+                    <p><code class="code">date.timezone = Europe/Paris</code></p>
+                    <p>Note: There should be no citation signs around the time zone.</p>
+                    <p>
+                        </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                            <p>In order to use the LED module (See <a class="xref" href="ch17.html#sec.led-graph-type" title="LED bill boards">LED bill boards</a>) the PHP installation must
+                                have multi-byte strings enabled so that the function
+                                    <span class="command"><strong>mb_strlen()</strong></span> is available. This is normally
+                                enabled at compile time for PHP by specifying the options
+                                    <code class="code">--enable-mbstring --enable-mbregex</code> when configuring
+                                the compile options.</p>
+                        </div><p>
+                    </p>
+                    <p>
+                        </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                            <p>In order to use the PDF417 barcode module (See <a class="xref" href="ch25.html" title="Chapter 25. PDF417 (2D-Barcode)">Chapter 25. <i>PDF417 (2D-Barcode)</i></a>) it is necessary for the PHP
+                                installation to support the function <span class="command"><strong>bcmod()</strong></span>.
+                                This is enabled when compiling PHP by making sure that the option
+                                    <code class="code">--enable-bcmath</code> is given when configuring PHP at
+                                compile time.</p>
+                        </div><p>
+                    </p>
+                </div>
+                <div class="sect3" title="Setting up your jpg-config.inc.php"><div class="titlepage"><div><div><h4 class="title"><a name="id2491276"></a>Setting up your jpg-config.inc.php</h4></div></div></div>
+                    
+                    <p>Apart from the standard configuration described in <a class="xref" href="ch03s04.html" title="Installing and configuring Font support">Installing and configuring Font support</a> and <a class="xref" href="ch03s05.html" title="Adapting and customizing the installation">Adapting and customizing the installation</a> there is only one important
+                        configuration that is specific for a development server and that is the
+                        localization setting for error messages. </p>
+                    <p>As of version 3.0.0 there are three localization options</p>
+                    <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>English error messages ("en")</p>
+                            </li><li class="listitem">
+                                <p>German error messages ("de")</p>
+                            </li><li class="listitem">
+                                <p>Production error messages ("prod"). This is not really a
+                                    localization but a different set of error messages which does
+                                    not give detailed error messages but a generic message suitable
+                                    for a production server where the end user is not helped by
+                                    detailed graph script errors. Instead a generic message is shown
+                                    together with an error code that corresponds to the detailed
+                                    error. ("prod")</p>
+                            </li></ol></div><p>In order to specify the error message localization the
+                        following define in <code class="filename">jpg-config.inc.php</code> must be set the </p>
+                    <p><code class="code">define('DEFAULT_ERR_LOCALE','en');</code></p>
+                    <p>The possible options are</p>
+                    <p>
+                        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>"en", English locale</p>
+                            </li><li class="listitem">
+                                <p>"de", German locale</p>
+                            </li><li class="listitem">
+                                <p>"prod", The production version of the error messages.</p>
+                            </li></ol></div><p>
+                    </p>
+                    <p>
+                        </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                            <p>In addition to specifying the locale in the
+                                    <code class="filename">jpg-config.inc.php</code> file it can also be
+                                specified dynamically in each script by calling</p>
+                            <p>
+                                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">JpGraphError::SetErrLocale($aLocale);</span></pre></td></tr></table></div><p>
+                            </p>
+                        </div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="Configuring JpGraph/PHP on a production server"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.config-prod-server"></a>Configuring JpGraph/PHP on a production server</h3></div></div></div>
+                
+                <div class="sect3" title="Setting up your php.ini file"><div class="titlepage"><div><div><h4 class="title"><a name="id2491419"></a>Setting up your php.ini file</h4></div></div></div>
+                    
+                    <p>Apart from what is applicable to a development server as described in <a class="xref" href="ch03s03.html#sec2.config-dev-server" title="Configuring JpGraph/PHP on a development server">Configuring JpGraph/PHP on a development server</a> the following changes should be
+                        considered in a production environment.</p>
+                    <p>
+                        <span class="bold"><strong>Setting the memory limits</strong></span>
+                    </p>
+                    <p>The one thing to keep in mind here is that each active connection will
+                        spawn a unique PHP instance (HTTP process). This means that the memory limit
+                        set per PHP process can cause a very high memory demand on a busy server
+                        with many simultaneous connections. For this reason it is important that
+                        during system test (before going into production) the actual needed memory
+                        limit is determined. </p>
+                    <p>For a busy server it is not uncommon to dimension it so it can handle 100
+                        simultaneous connections. If the limit of r each PHP process is set to 32MB
+                        this means that the server needs at least ~3.2GB memory just to handle the
+                        PHP processes (if they are all using there maximum allowed memory).</p>
+                    <p>
+                        <span class="bold"><strong>Setting maximum allowed run time</strong></span>
+                    </p>
+                    <p>The same principle applies to a the allowed run time. For a production
+                        server with high load and many simultaneous users it might be necessary to
+                        increase the maximum allowed execution time just to be sure no process is
+                        terminated due to it reaching its maximum allowed run time. When that
+                        happens the PHP process will be killed an no output sent back to the client
+                        (e.g. the browser).</p>
+                    <p>
+                        <span class="bold"><strong>Disabling output buffer</strong></span>
+                    </p>
+                    <p>The output buffer should be disabled on the production server as well
+                        since enabling this will slow down the PHP and put a higher demand on the
+                        memory requirements.</p>
+                    <p>
+                        <span class="bold"><strong>Enabling adequate error checking</strong></span>
+                    </p>
+                    <p>On a production server it is not a good idea to display all PHP error
+                        messages to the end user so the display of error messages should be disabled
+                        and the error messages should only be logged to a file.</p>
+                    <div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                        <p> On a production server it is also a good to idea to have the
+                            following settings: </p>
+                        <p>
+                            <code class="code">display_errors = Off</code>
+                        </p>
+                        <p>This makes sure that now PHP errors are displayed</p>
+                        <p>
+                            <code class="code">display_startup_errors = Off</code>
+                        </p>
+                        <p>This makes sure that any initial errors thrown by PHP is not displayed
+                            to the end user</p>
+                        <p><code class="code">log_errors = On</code></p>
+                        <p><code class="code">error_log = &lt;name-of-log-file&gt;</code></p>
+                        <p>This makes sure all server PHP errors are logged to a specified
+                            file</p>
+                    </div>
+                </div>
+                <div class="sect3" title="Setting up your jpg-config.inc.php"><div class="titlepage"><div><div><h4 class="title"><a name="id2491421"></a>Setting up your <code class="filename">jpg-config.inc.php</code></h4></div></div></div>
+                    
+                    <p>On a production server it is best not to show detailed error messages to
+                        an end user. Instead it is better to have a generic error message that
+                        indicates a server problem and give an error code which can be decoded by
+                        looking it up in the table in <a class="xref" href="aph.html" title="Appendix H. Error messages">Appendix H. <i>Error messages</i></a> Using a generic error message is achieved by
+                        setting the following define:</p>
+                    <p><code class="code">define('DEFAULT_ERR_LOCALE','prod');</code></p>
+                </div>
+            </div>
+            <div class="sect2" title="Adjusting PHP include path"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.adjusting-php-include-path"></a>Adjusting PHP include path</h3></div></div></div>
+                
+                <p>As was mentioned before the library should be installed somewhere in the PHP
+                    include path. There are two ways of configuring the include path:</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>setting the include path in <code class="filename">php.ini</code></p>
+                            <p><code class="code">include_path = &lt;file-path&gt;</code></p>
+                        </li><li class="listitem">
+                            <p>adjusting the include path directly in the code by using the PHP
+                                command <code class="code">php_ini_set()</code> at the top of the script</p>
+                        </li></ol></div><p>
+                </p>
+                <p>The library examples assume that the library is available under a directory
+                    called "<code class="filename">jpgraph/</code>" . This will allow the scripts to include
+                    the library files by, for example, writing "<code class="code">include</code>" or
+                        "<code class="code">require_once</code>" statements such as </p>
+                <p><code class="code">require_once( 'jpgraph/jpgraph.php')</code></p>
+            </div>
+            <div class="sect2" title="Using Apache2 alias configuration during development"><div class="titlepage"><div><div><h3 class="title"><a name="id2491659"></a>Using Apache2 alias configuration during development</h3></div></div></div>
+                
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>This section only discusses alias setting using the Apache HTTP server
+                            so this section can be skipped at first time reading the manual without
+                            loss of continuation.</p>
+                    </div><p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>More detailed information on the alias directive is also available in
+                            the official Apache documentation at <code class="uri"><a class="uri" href="http://httpd.apache.org/docs/2.2/mod/mod_alias.html#alias" target="_top">http://httpd.apache.org/docs/2.2/mod/mod_alias.html</a></code></p>
+                    </div><p>
+                </p>
+                <p>When accessing examples and test code through a regular bowser during
+                    development the scripts must be available in document root (or somewhere beneath
+                    that root) the root is traditionally named <code class="code">/htdocs</code>. Having a
+                    development code/repository directly under this root directory is not a good
+                    idea. For example, write access to a document root (even on a development
+                    server) should be restricted, in addition the paths given to a test team should
+                    be the same whatever version is currently under test so storing different
+                    versions with different names under the root is also a poor setup.</p>
+                <p>A much better and easy, approach is to use the powerful concept of alias in
+                    Apache. This is a way of mapping a URL to a specific directory on the server.
+                    For example if <code class="uri"><a class="uri" href="http://www.eclipse.org/projects/project-plan.php?projectid=tools.pdt" target="_top">Eclipse-PDT</a></code>
+                    is used as an IDE to develop PHP it is mandatory to have a workspace setup where
+                    all the working files resides. Assuming that a local developer has his workspace
+                    directly in his home directory, say <code class="filename">~joe/workspace</code>, we
+                    could configure an alias so that the workspace is accessible by the alias
+                        "<code class="filename">http://localhost/ws/</code>" by adding the following
+                    configuration in the Apache setup file(s)</p>
+                <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">Alias /ws /home/joe/worksapce
+&lt;Directory /home/joe/workspace&gt;
+  Order allow,deny
+  Allow from all
+&lt;/Directory&gt;</span></pre></td></tr></table></div>
+                <p>In this particular setup we use very liberal settings, allowing basically
+                    everyone with server access to access the directory. Using this approach makes
+                    it very easy to use the same test setup but allow testing of different
+                    branches/versions of the code.</p>
+                <p>Depending on the system these configurations can reside in different places.
+                    However, a very common structure is to keep all these small configuration files
+                    under <code class="filename">/etc/apache/conf.d/</code> The main Apache configuration
+                    then reads all the files (regardless of there name) that are stored under this
+                    directory. </p>
+                <p>As a final example we show a further slightly more complex example (which
+                    actually shows how most of our developers have there systems setup for PHP5
+                    development). This example adds options to do directory listing and allows the
+                    server to follow symbolic links. More information on available argument for the
+                    directive option is available in the official Apache documentation <code class="uri"><a class="uri" href="http://httpd.apache.org/docs/2.2/mod/core.html#options" target="_top">http://httpd.apache.org/docs/2.2/mod/core.html#options</a></code></p>
+                <p>
+                    </p><div class="example"><a name="id2491770"></a><p class="title"><b>Example 3.5. Alias configuration for a development server running Apache with
+                            Eclipse-PDT</b></p><div class="example-contents">
+                        
+                        <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code"># Configuration for Eclipse workspace
+#
+&lt;IfModule mod_php5.c&gt;
+      Alias /ws/ /home/joe/workspace/
+      &lt;Directory /home/joe/workspace/&gt;
+             Options         +Indexes +Multiviews +FollowSymLinks
+             order allow,deny
+             allow from all
+      &lt;/Directory&gt;
+&lt;/IfModule&gt;</span></pre></td></tr></table></div>
+                    </div></div><p><br class="example-break">
+                </p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

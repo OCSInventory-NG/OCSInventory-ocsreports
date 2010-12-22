@@ -1,0 +1,81 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Other formatting options of the axis</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch14.html" title="Chapter 14. Common features for all Cartesian (x,y) graph types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Other formatting options of the axis</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 14. Common features for all Cartesian (x,y) graph types</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Other formatting options of the axis"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2544267"></a>Other formatting options of the axis</h2></div></div></div>
+            
+            <div class="sect2" title="Adjusting and positioning titles on the axis"><div class="titlepage"><div><div><h3 class="title"><a name="id2544291"></a>Adjusting and positioning titles on the axis</h3></div></div></div>
+                
+                <p>Each title of the graph can have a title of there own. By default the x-axis
+                    has the title on the right and the y-axis have the title in vertical at the top
+                    of the graph. The title of the axis is accessed by the title property of the
+                    axis for the x- and y-axis as in</p>
+                <p><code class="code">Graph::xaxis::title</code></p>
+                <p><code class="code">Graph::yaxis::title</code></p>
+                <p>As a continence the following there methods are provided </p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::SetTitle($aTitle,$aAdjustAlign)</code></p>
+                            <p>This method sets the title text string and the alignnemt of the
+                                title. For the x-axis the alignment is pecified as one of the
+                                folliwng three strings</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">"left"</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">"center"</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">"right"</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                            <p>For an y-axis the alignment is set with one of the following three
+                                strings</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">"bottom"</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">"middle"</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">"top"</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::SetTitleMargin($aMargin)</code></p>
+                            <p>The margin is specifies as the number of pixels distance from the
+                                axis to the title</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::SetTitleSide($aSideOfAxis)</code></p>
+                            <p>The side specifies for a horizontal axis (x-axis) if the title
+                                should be above or below the axis and for a vertical axis (y-axis)
+                                if the title should be on the left or the right of the axis.</p>
+                            <p>Y-axis defines:</p>
+                            <p>
+                                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                        <p><code class="code">SIDE_LEFT</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">SIDE_RIGHT</code></p>
+                                    </li></ol></div><p>
+                            </p>
+                            <p>X-axis defines</p>
+                            <p>
+                                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                        <p><code class="code">SIDE_TOP</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">SIDE_BOTTOM</code></p>
+                                    </li></ol></div><p>
+                            </p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Adjusting the font and color of the title"><div class="titlepage"><div><div><h3 class="title"><a name="id2544503"></a>Adjusting the font and color of the title</h3></div></div></div>
+                
+                <p>Since the title property can be easily accessed all usual Text class property
+                    can be used. This includes the color property. To set the font and color of the
+                    title for the x-axis the following methods are used</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Graph::xaxis::title::SetFont()</code></p>
+                        </li><li class="listitem">
+                            <p><code class="code">Graph::xaxis::title::SetColor()</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>For the y- and y2-axis the fonts and colors are set completely
+                    analogues.</p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

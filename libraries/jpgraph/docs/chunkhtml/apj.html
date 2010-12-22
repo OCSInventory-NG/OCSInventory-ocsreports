@@ -1,0 +1,86 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Appendix J. Setting up PHP5 in parallel with PHP4 in SuSE 10.1</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt09.html" title="Part IX. Appendices"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Appendix J. Setting up PHP5 in parallel with PHP4 in SuSE 10.1</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part IX. Appendices</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="appendix" title="Appendix J. Setting up PHP5 in parallel with PHP4 in SuSE 10.1"><div class="titlepage"><div><div><h2 class="title"><a name="app.setting-up-parallel-servers"></a>Appendix J. Setting up PHP5 in parallel with PHP4 in SuSE 10.1</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="apj.html#id2654187">J.1. Configuration files and directories for Apache2 in SuSE 10.1</a></span></dt><dt><span class="section"><a href="apjs02.html">J.2. Making sure you have the correct Apache2 setup</a></span></dt><dt><span class="section"><a href="apjs03.html">J.3. Approaches to running multiple PHP versions</a></span></dt><dt><span class="section"><a href="apjs04.html">J.4. Outline of the remainder of the chapter</a></span></dt><dt><span class="section"><a href="apjs05.html">J.5. Part I - Installing PHP4</a></span></dt><dd><dl><dt><span class="section"><a href="apjs05.html#id2654605">J.5.1. Step one; Compiling PHP4 as a module for Apache2</a></span></dt><dt><span class="section"><a href="apjs05.html#id2654607">J.5.2. Step two; Enable the PHP4 module in the Apache2 configuration</a></span></dt></dl></dd><dt><span class="section"><a href="apjs06.html">J.6. Part II - Creating a virtual host</a></span></dt><dd><dl><dt><span class="section"><a href="apjs06.html#id2654980">J.6.1. Step 1; Adding an alias IP-address to Your server</a></span></dt><dt><span class="section"><a href="apjs06.html#id2654984">J.6.2. Step 2; Creating different document and cgi roots</a></span></dt><dt><span class="section"><a href="apjs06.html#id2655010">J.6.3. Step 3; Configure Apache with a virtual host</a></span></dt></dl></dd><dt><span class="section"><a href="apjs07.html">J.7. Part III - Installing PHP5</a></span></dt><dt><span class="section"><a href="apjs08.html">J.8. Part IV - Verifying the setup</a></span></dt><dd><dl><dt><span class="section"><a href="apjs08.html#id2655206">J.8.1. Troubleshooting</a></span></dt></dl></dd></dl></div>
+    
+    <p>Even though PHP4 is officially deprecated and is no longer actively maintained a large
+        number of existing installations are stiil (and will be) using PHP4. For this reason it can
+        be important to be able to test scripts running both PHP4 and PHP5. This section shows how
+        to do this on Linux SuSE 10.1 installation. Other Linux dialects can use similar but not
+        identical setups.</p>
+    <p>SuSE 10.1 ships with Apache2 and PHP5 as standard. In order to install PHP4 in parallel
+        some extra work is therefore required. This chapter explains how to setup both PHP4 and PHP5
+        on the same server by configuring Apache2 using virtual hosts. </p>
+    <p>We will show how to maintain a simultaneous installation of both PHP4 and PHP5 at the same
+        time without the need to run a switching script to select which PHP version to activate. In
+        this setup we have opted to configure Apache with two virtual hosts based on IP-address, one
+        host running PHP4 as a SAPI module and the other virtual host running PHP5 as a CGI
+        module.</p>
+    <div class="section" title="Configuration files and directories for Apache2 in SuSE 10.1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2654187"></a>Configuration files and directories for Apache2 in SuSE 10.1</h2></div></div></div>
+        
+        <p>Before we start we give a short overview of where important configuration files and
+            directories for Apache2 are located in SuSE </p>
+        <p>
+            </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                <p>The configuration files setup by SuSE is slightly different from the standard
+                    one-single "/etc/httpd.conf" used by other systems. The way SuSE does it is to
+                    create a hierarchy of setup files under "/etc/apache2/". While this might look
+                    complicated at first sight it has several advantages specially when You consider
+                    that some script have to modify and add configurations to Apache2. Doing
+                    automatic (and safe) edits in a large config file that can also be manually
+                    edited is almost impossible to guarantee. </p>
+            </div><p>
+        </p>
+        <p>
+            </p><div class="variablelist"><dl><dt><span class="term">Dir: /etc/apache2/</span></dt><dd>
+                        <p>General configuration directory for Apache2, this is where the
+                                "<code class="filename">httpd.conf</code>" lives. </p>
+                    </dd><dt><span class="term">Dir: /etc/apache2/conf.d/</span></dt><dd>
+                        <p>Module configuration files for loaded modules, for example php4.conf.
+                            All the configuration files in this directory will be automatically read
+                            by the main <code class="filename">httpd.conf</code> by means of an
+                                "<code class="code">include conf.d/*.conf</code>" command so the exact name
+                            doesn't really matter as long as the file ends in "<code class="code">*.conf</code>".
+                        </p>
+                    </dd><dt><span class="term">Dir: /etc/apache2/vhosts.d/</span></dt><dd>
+                        <p>Virtual host configuration files. All files in this directory will be
+                            automatically read by the main <code class="filename">httpd.conf</code> the exact
+                            name doesn't really matter as long as the file ends in
+                                "<code class="filename">*.conf</code>". Note: When yast2 is used to edit
+                            virtual hosts it will add its "<code class="filename">yast2_*.conf</code>" in
+                            this directory. Unfortunately the virtual host configuration in yast2 in
+                            not without problem (bugs) for IP based virtual hosts so we prefer to
+                            create the configuration files manually. This will be shown later on in
+                            this article. </p>
+                    </dd><dt><span class="term">File: /etc/sysconfig/apache2</span></dt><dd>
+                        <p>This is the main Apache2 configuration file. This file is the one that
+                            is really used to configure apache when it is started. This is also the
+                            file that the "Yast2" HTTPD-module edits. </p>
+                        <p>From our point of view the most important thing is that this is the
+                            place where we tell Apache2 what external modules to load. </p>
+                        <p>In the SuSE configuration this is done by listing all the modules in
+                            the string variable <code class="code">APACHE_MODULES</code>. In the SuSE
+                            configuration there are no static "AddModule" directives in any of the
+                            configuration files for Apache. Instead this is dynamically generated
+                            each time apache is started (for example by /etc/init.d/apache2 start) </p>
+                        <p>The generation of the actual module file names is quite clever in that
+                            the script looks at the core module name in the
+                                <code class="code">APACHE_MODULE</code> variable and automatically determines the
+                            name of the file name of the load modules. This means that for PHP we
+                            only have to give the name "php4" or "php5" as the name of the module. </p>
+                        <p>The script will then discover that the name of the file load module is
+                            in fact "<code class="filename">libphp4.so</code>" or
+                                "<code class="filename">libphp5.so</code>" automatically. The dynamically
+                            created list of load modules will be written to
+                                "<code class="filename">/etc/apache2/sysconfig/loadmodule.conf</code>" just
+                            before the startup script activates apache2 daemon which will then read
+                            the modules from this file which is included from the main
+                                "<code class="filename">httpd.conf</code>" file. </p>
+                    </dd></dl></div><p>
+        </p>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt09.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

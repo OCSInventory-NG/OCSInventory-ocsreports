@@ -1136,8 +1136,9 @@
 1252 Répertoire des fichiers de conf profils
 1253 Répertoire des sauvegardes des fichiers de conf profils
 1254 Répertoire des logs des scripts
-1255 Nombre de Connexion par heure
-1256 Nombre d'erreurs de connexion par heure
+1255 Nombre de Connexion par jour
+1256 Nombre d'erreurs de connexion par jour
+1257 Utilisation du flash dans la GUI
 
 
 

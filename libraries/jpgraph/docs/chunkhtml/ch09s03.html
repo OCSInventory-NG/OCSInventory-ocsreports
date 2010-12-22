@@ -1,0 +1,188 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Using the cache in your script</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch09.html" title="Chapter 9. Using the JpGraph cache system"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Using the cache in your script</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 9. Using the JpGraph cache system</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Using the cache in your script"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2535042"></a>Using the cache in your script</h2></div></div></div>
+            
+            <p>The principle of the library cache is as follows when it is enabled.</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>The first time the graph script is called everything will be as usual,
+                            the script will run and in the end the script sends back the image to
+                            the browser. However if the caching is enabled JpGraph will
+                            automatically have stored a copy of the generated image in the cache
+                            directory.</p>
+                    </li><li class="listitem">
+                        <p>When the graph script is executed the next time it checks to see if an
+                            image corresponding to this graph script has already been generated and
+                            is available in the cache directory.</p>
+                    </li><li class="listitem">
+                        <p>If the image is available in the cache directory the library check to
+                            see how old the image is. If the images is older than a specified limit
+                            than it assumes that the image is out dated and runs the graph script as
+                            usual and makes sure the newly generated image is stored in the cache
+                            directory. Hence replacing the outdated image.</p>
+                    </li><li class="listitem">
+                        <p>If the image in the cache directory was current (i.e. not too old) it
+                            is read and send back to the clients (e.g. Web-browser) without the rest
+                            of the graph script being executed.</p>
+                    </li></ol></div><p>
+            </p>
+            <p>From the above description there are a couple of parameters that should be
+                specified, the name to use when the image is stored and the timeout value when the
+                image is considered too old, i.e. how long was it since the image was
+                generated.</p>
+            <p>The first parameter, the filename, can be either manually specified or the library
+                can create a filename based on the name of the graph script. </p>
+            <p>Both these parameters are specified in the initial <code class="code">Graph()</code> call where
+                a new graph instance is created. A basic example of this is shown in <a class="xref" href="ch09s03.html#example.auto-cache-filename" title="Example 9.1. Using an automatic cache filename and a 60min timeout of the cached images.">Example 9.1. Using an automatic cache filename and a 60min timeout of the cached
+                        images.</a>.</p>
+            <p>
+                </p><div class="example"><a name="example.auto-cache-filename"></a><p class="title"><b>Example 9.1. Using an automatic cache filename and a 60min timeout of the cached
+                        images.</b></p><div class="example-contents">
+                    
+                    <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> ... includes</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-var">$width</span><span class="hl-code">, </span><span class="hl-var">$height</span><span class="hl-code">, </span><span class="hl-quotes">'</span><span class="hl-string">auto</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-number">60</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> ... rest of the graph script</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>
+                </div></div><p><br class="example-break">
+            </p>
+            <p>The code in <a class="xref" href="ch09s03.html#example.auto-cache-filename" title="Example 9.1. Using an automatic cache filename and a 60min timeout of the cached images.">Example 9.1. Using an automatic cache filename and a 60min timeout of the cached
+                        images.</a>. will use an automatic filename for
+                the cached image and a make the image valid for 60 minutes. This means that if the
+                script is called again, within 60minutes, it will return the image just after the
+                initial <code class="code">Graph()</code> call and not execute any more lines of code in the
+                script.</p>
+            <p>For basic usage this is all that is necessary, enable the cache in the settings
+                and supply a filename and a timeout value. The rest of the logic is handled by the
+                library.</p>
+            <p>
+                </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>If you want the timeout value to be "forever" then you can specify a
+                            "<code class="code">0</code>" as the timeout value (or leave the parameter blank). To
+                        regenerate the image you will have to manually remove the image files from
+                        the cache. This removal could for example be handled by a nightly
+                        cron-job.</p>
+                </div><p>
+            </p>
+            <p>There is however one caveat which must be understood when using the above
+                construction. The image/graph store in the cached file will be returned to the
+                browser as a side effect of the initial <code class="code">$graph = new Graph()</code>. This also
+                means that: </p>
+            <p><span class="bold"><strong>No lines after the initial Graph() call will be executed in the
+                    image script in case the image exists in the cache directory.</strong></span></p>
+            <p>This is the expected behaviour since this means that no unnecessary code will be
+                executed in the graph script in case the image has been found in the image
+                cache.</p>
+            <p>However, for the case where some more control of exactly how a cached image is
+                sent back it is necessary to add some complexity by doing things less automatically.
+                This gives greater control but also is slightly more complex and is described in the
+                next section.</p>
+            <div class="sect2" title="Manually controlling the cached image"><div class="titlepage"><div><div><h3 class="title"><a name="id2535216"></a>Manually controlling the cached image</h3></div></div></div>
+                
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>These utility functions were added in <span class="bold"><strong>v3.0.5</strong></span> of the library. It is still possible
+                            to do this in previous versions but then some more code is needed to
+                            duplicate what these methods does. If this feature is wanted then it is
+                            strongly advised to upgrade to this or later version.</p>
+                    </div><p>
+                </p>
+                <p>There are two parts to doing this manually.</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>Check if the cached image exists in the cache and is valid (i.e.
+                                not too old)</p>
+                        </li><li class="listitem">
+                            <p>Stream the cached image file back to the browser in that
+                                case</p>
+                        </li></ol></div><p>
+                </p>
+                <p>If the cached image is not valid then we just need to construct the graph as
+                    usual and it will be stored in the cache automatically.</p>
+                <p>The following code example shows how this is done in principle in a graph
+                    script where we use automatic naming i.e. the cached file name will get a name
+                    based on the script name. This is done with the library utility function
+                        <code class="code">GenImgName()</code> which constructs a suitable image name from the
+                    script name and with a proper image compression format (i.e png, jpg or
+                    gif).</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$width</span><span class="hl-code"> = ...;
+</span><span class="hl-var">$height</span><span class="hl-code"> = ...;
+</span><span class="hl-var">$cachefilename</span><span class="hl-code"> = </span><span class="hl-identifier">GenImgName</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-var">$width</span><span class="hl-code">,</span><span class="hl-var">$height</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Check if the cache file exists and is valid</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$valid</span><span class="hl-code"> = </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">cache</span><span class="hl-code">-&gt;</span><span class="hl-identifier">IsValid</span><span class="hl-brackets">(</span><span class="hl-var">$cachefilename</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$valid</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> The cached file is valid and we can now do any necessary</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> processing and then send it back to the client</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-identifier">doSomeProcessingIfNecessary</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">cache</span><span class="hl-code">-&gt;</span><span class="hl-identifier">StreamImgFile</span><span class="hl-brackets">(</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">img</span><span class="hl-code">,</span><span class="hl-var">$cachefilename</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-brackets">}</span><span class="hl-code"> </span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    
+    </span><span class="hl-comment">//</span><span class="hl-comment"> The cache file is not valid or does not exists so we</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> must construct the graph as normal</span><span class="hl-comment"></span><span class="hl-code">
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Tell the graph that we want to cache this image</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$timeout</span><span class="hl-code"> = ...;
+    </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetupCache</span><span class="hl-brackets">(</span><span class="hl-var">$cachefilename</span><span class="hl-code">,</span><span class="hl-var">$timeout</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> The remainder of a normal graph script</span><span class="hl-comment"></span><span class="hl-code">
+ 
+    ...
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> .. and send back the image as usual (this will also store</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> a copy of the image in the cache directory)</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span></pre></td></tr></table></div><p>
+                </p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch09.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

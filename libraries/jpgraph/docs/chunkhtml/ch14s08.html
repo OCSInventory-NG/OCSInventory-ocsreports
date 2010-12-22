@@ -1,0 +1,550 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Adjusting the appearance of the scale labels</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch14.html" title="Chapter 14. Common features for all Cartesian (x,y) graph types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Adjusting the appearance of the scale labels</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 14. Common features for all Cartesian (x,y) graph types</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Adjusting the appearance of the scale labels"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec1.adv-scale-label-handling"></a>Adjusting the appearance of the scale labels</h2></div></div></div>
+            
+            <p>Since scale labels play such an important part of producing a visually pleasing
+                graph there are a number of ways to fine tune this appearance. In the section below
+                we have tried to logically group the different options to make it easier to get an
+                overview.</p>
+            <p></p>
+            <div class="sect2" title="Adjusting the position"><div class="titlepage"><div><div><h3 class="title"><a name="id2546048"></a>Adjusting the position</h3></div></div></div>
+                
+                <p>The exact position of the labels can be adjusted with the methods</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::SetLabelAlign($aHAlign,$aVAlign='top',$aParagraphAlign='left')</code></p>
+                            <p>With this method the anchor point for the labels can be adjusted.
+                                The labels are positioned straight below (or on the side for
+                                vertical axis) the corresponding tick mark and by adjusting the
+                                anchor point in the label different effect can be achieved. By
+                                default labels on the x-axis there anchor point on the top side in
+                                the center. For y-axis (on the left) the anchor point is middle of
+                                the right edge of the label.</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::SetLabelMargin($aMargin)</code></p>
+                            <p>This method adjusts the distance between the corresponding tick
+                                mark and the label it self.</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::SetLabelSide($aSidePos)</code></p>
+                            <p>This method will adjust on what side the labels will be
+                                positioned. For a horizontal axis it cna be either above or below
+                                the axis and for a vertical axis it can be on the left or right
+                                side. The position is defined by one of the following
+                                self-explaining defines</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">SIDE_LEFT</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">SIDE_RIGHT</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">SIDE_TOP</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">SIDE_BOTTOM</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Adjusting font and color"><div class="titlepage"><div><div><h3 class="title"><a name="id2546113"></a>Adjusting font and color</h3></div></div></div>
+                
+                <p>By default the color of the labels will be the same as for the axis but it is
+                    possible to use a different color for the labels by supplying a second argument
+                    to the <code class="code">SetColor()</code> method for the axis.</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::SetColor($aColor,$aLabelColor=false) </code></p>
+                            <p>There is actually a special twist to the color specification here.
+                                If the color is specified as a single value this color value will be
+                                used for all labels. However, if the color is specified with an
+                                array then those colors will be used for the labels in turn. If
+                                there are more labels then colors specified then the colors will be
+                                used in a wrap around fashion.</p>
+                        </li></ul></div><p>
+                </p>
+                <p>The font family for the labels can be specified with</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::SetFont($aFamily,$aStyle=FS_NORMAL,$aSize=10)</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>By default a bitmap font is used for the labels (since those are the only
+                    fonts guaranteed to be available everywhere)</p>
+                <p>
+                    </p><div class="example"><a name="id2546229"></a><p class="title"><b>Example 14.1. Adjusting the axis font and color</b></p><div class="example-contents">
+                        
+                        <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;SetFont(FF_ARIAL,FS_NORMAL,9);
+$graph-&gt;xaxis-&gt;SetColor('black','blue');</span></pre></td></tr></table></div>
+                    </div></div><p><br class="example-break">
+                </p>
+            </div>
+            <div class="sect2" title="Adjusting the background of the labels"><div class="titlepage"><div><div><h3 class="title"><a name="id2546240"></a>Adjusting the background of the labels</h3></div></div></div>
+                
+                <p>As a kind of a very special formatting it is also possible to set a specific
+                    background for just the labels on the graph. This is most often used when there
+                    is background image that risks of hiding the clarity of the labels. In those
+                    cases it can be suitable to have a some lighter background to make it easier to
+                    read the labels. </p>
+                <p>
+                    </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                        <p>This feature can also come in handy when using the more advanced
+                            feature of combining several graphs to amke the labels stand out.</p>
+                    </div><p>
+                </p>
+                <p>The method that controls this is</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">SetAxisLabelBackground($aType,$aXFColor='lightgray',$aXColor='black',$aYFColor='lightgray',$aYColor='black')</code></p>
+                            <p>Possible values of the type of background are:</p>
+                            <p>
+                                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                        <p><code class="code">LABELBKG_NONE</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">LABELBKG_XAXIS</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">LABELBKG_YAXIS</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">LABELBKG_XAXISFULL</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">LABELBKG_YAXISFULL</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">LABELBKG_XY</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">LABELBKG_XYFULL</code></p>
+                                    </li></ol></div><p>
+                            </p>
+                        </li></ul></div><p>
+                </p>
+                <p>The way these possible background types works is best described by viewing the
+                    example figures below</p>
+                <p>
+                    </p><div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.axislabelbkgex01"></a><p class="title"><b>Figure 14.25. <code class="code">LABELBKG_NONE</code> <code class="uri"><a class="uri" href="example_src/axislabelbkgex01.html" target="_top">(<code class="filename">axislabelbkgex01.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/axislabelbkgex01.png" alt="LABELBKG_NONE (axislabelbkgex01.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.axislabelbkgex02"></a><p class="title"><b>Figure 14.26. LABELBKG_XAXIS <code class="uri"><a class="uri" href="example_src/axislabelbkgex02.html" target="_top">(<code class="filename">axislabelbkgex02.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/axislabelbkgex02.png" alt="LABELBKG_XAXIS (axislabelbkgex02.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.axislabelbkgex03"></a><p class="title"><b>Figure 14.27. LABELBKG_YAXIS <code class="uri"><a class="uri" href="example_src/axislabelbkgex03.html" target="_top">(<code class="filename">axislabelbkgex03.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/axislabelbkgex03.png" alt="LABELBKG_YAXIS (axislabelbkgex03.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td></tr><tr><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.axislabelbkgex04"></a><p class="title"><b>Figure 14.28. LABELBKG_YAXISFULL <code class="uri"><a class="uri" href="example_src/axislabelbkgex04.html" target="_top">(<code class="filename">axislabelbkgex04.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/axislabelbkgex04.png" alt="LABELBKG_YAXISFULL (axislabelbkgex04.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.axislabelbkgex05"></a><p class="title"><b>Figure 14.29. LABELBKG_XAXISFULL <code class="uri"><a class="uri" href="example_src/axislabelbkgex05.html" target="_top">(<code class="filename">axislabelbkgex05.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/axislabelbkgex05.png" alt="LABELBKG_XAXISFULL (axislabelbkgex05.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.axislabelbkgex06"></a><p class="title"><b>Figure 14.30. LABELBKG_XYFULL <code class="uri"><a class="uri" href="example_src/axislabelbkgex06.html" target="_top">(<code class="filename">axislabelbkgex06.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/axislabelbkgex06.png" alt="LABELBKG_XYFULL (axislabelbkgex06.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td></tr><tr><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.axislabelbkgex07"></a><p class="title"><b>Figure 14.31. LABELBKG_XY <code class="uri"><a class="uri" href="example_src/axislabelbkgex07.html" target="_top">(<code class="filename">axislabelbkgex07.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/axislabelbkgex07.png" alt="LABELBKG_XY (axislabelbkgex07.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td><td> </td><td> </td></tr></tbody></table>
+                    </div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Hiding and rotating labels"><div class="titlepage"><div><div><h3 class="title"><a name="id2546732"></a>Hiding and rotating labels</h3></div></div></div>
+                
+                <p>For the x-axis it is common to rotate the label to better fit long text
+                    labels. This is done with a call to</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::SetLabelAngle($aAngle)</code></p>
+                            <p>Remember that in order to set an arbitrary angel on the labels the
+                                font family must be one of the TTF font families. Bitmap fonts only
+                                support horizontal and vertical rotation.</p>
+                        </li></ul></div><p>
+                </p>
+                <p>There are actually five variant for hiding the aaxis</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::HideLabels($aHide=true)</code></p>
+                            <p>This will hide all the labels on the axis</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::HideFirstLastLabels($aHide=true)</code></p>
+                            <p>Will hide the first and last label</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::HideFirstLabels($aHide=true)</code></p>
+                            <p>Will hide the first label</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::HideLastLabels($aHide=true)</code></p>
+                            <p>Will hide the last label</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::HideZeroLabel($aHide=true)</code></p>
+                            <p>This will avoid printing a "0.00" label. This can be useful when
+                                the axis are set to be crossing at the origin. This was for example
+                                used in <a class="xref" href="ch14.html#fig.funcex2" title="Figure 14.5. Example of AXSTYLE_BOXIN axis style (funcex2.php)">Figure 14.5. Example of <code class="code">AXSTYLE_BOXIN</code> axis style <code class="uri"><a class="uri" href="example_src/funcex2.html" target="_top">(<code class="filename">funcex2.php</code>)</a></code> </a></p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Fine tuning the automatic scales"><div class="titlepage"><div><div><h3 class="title"><a name="id2546838"></a>Fine tuning the automatic scales</h3></div></div></div>
+                
+                <p>By default the auto-scaling algorithm tries ot find as tight upper and lower
+                    bands as possible as long as they are even multiple of the chosen major step
+                    size. In some instances some more space is needed. For example to have extra
+                    room at the top of the graph to show data labels. In order to have some extra
+                    space the method </p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">LinearScale::SetGrace($aGraceTop,$aGraceBottom=0)</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>should be used. This method will adjust the autos calling algorithm by adding
+                    the specified extra "grace"at the minimum and maximum value of the scale. The
+                    grace value is specified as an integer [0,100] and specifies a percentage to add
+                    to the min and max value before the auto scaling is made. Depending on the scale
+                    step and overall scale several scale values might give the same resulting scale.
+                    For example</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;yscale-&gt;scale-&gt;SetGrace(20,20);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>will add 20% extra values on the top and bottom values of the data series
+                    before the auto scale is determined. The following four examples shows how this
+                    can be used in practice. In <a class="xref" href="ch14s08.html#fig.grace_ex0" title="Figure 14.32. The original graph (grace_ex0.php)">Figure 14.32. The original graph <code class="uri"><a class="uri" href="example_src/grace_ex0.html" target="_top">(<code class="filename">grace_ex0.php</code>)</a></code> </a> a bar graph
+                    without grace value is created. As can be seen since the scale is very tight the
+                    labels of the individual bars are almost out of the graph plot area. In the
+                    following three plots results of using different values for grace are
+                    shown.</p>
+                <p>
+                    </p><div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.grace_ex0"></a><p class="title"><b>Figure 14.32. The original graph <code class="uri"><a class="uri" href="example_src/grace_ex0.html" target="_top">(<code class="filename">grace_ex0.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/grace_ex0.png" alt="The original graph (grace_ex0.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.grace_ex1"></a><p class="title"><b>Figure 14.33. Using a 10% grace <code class="uri"><a class="uri" href="example_src/grace_ex1.html" target="_top">(<code class="filename">grace_ex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/grace_ex1.png" alt="Using a 10% grace (grace_ex1.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td></tr><tr><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.grace_ex2"></a><p class="title"><b>Figure 14.34. Using a 50% grace <code class="uri"><a class="uri" href="example_src/grace_ex2.html" target="_top">(<code class="filename">grace_ex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/grace_ex2.png" alt="Using a 50% grace (grace_ex2.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td><td>
+                                        <p>
+                                            </p><div class="figure"><a name="fig.grace_ex3"></a><p class="title"><b>Figure 14.35. Using a 100% grace <code class="uri"><a class="uri" href="example_src/grace_ex3.html" target="_top">(<code class="filename">grace_ex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/grace_ex3.png" alt="Using a 100% grace (grace_ex3.php)"></span> </div></div><p><br class="figure-break">
+                                        </p>
+                                    </td></tr></tbody></table>
+                    </div><p>
+                </p>
+                <p>We finish this section by noting that adding a large grace value might
+                    sometimes make it necessary to move one or both of the axis manually. To explain
+                    this we start with the graph in <a class="xref" href="ch14s08.html#fig.example3.2" title="Figure 14.36. The original line graph (example3.2.php)">Figure 14.36. The original line graph <code class="uri"><a class="uri" href="example_src/example3.2.html" target="_top">(<code class="filename">example3.2.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3.2"></a><p class="title"><b>Figure 14.36. The original line graph <code class="uri"><a class="uri" href="example_src/example3.2.html" target="_top">(<code class="filename">example3.2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.2.png" alt="The original line graph (example3.2.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>as can be seen the added plot marks (see ??) are outside the boundary of the
+                    plot area and to solve this problem we add the line</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;yaxis-&gt;scale-&gt;SetGrace( 10 , 10 );</span></pre></td></tr></table></div><p>
+                </p>
+                <p>to the script. This now gives the result shown in <a class="xref" href="ch14s08.html#fig.example3.2.1" title="Figure 14.37. Adding grace values. Note x-axis position at y=0 (example3.2.1.php)">Figure 14.37. Adding grace values. Note x-axis position at y=0 <code class="uri"><a class="uri" href="example_src/example3.2.1.html" target="_top">(<code class="filename">example3.2.1.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3.2.1"></a><p class="title"><b>Figure 14.37. Adding grace values. Note x-axis position at y=0 <code class="uri"><a class="uri" href="example_src/example3.2.1.html" target="_top">(<code class="filename">example3.2.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.2.1.png" alt="Adding grace values. Note x-axis position at y=0 (example3.2.1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>The problem is now apparent. Since the x-axis is placed at y=0 by default the
+                    x-axis is no longer at the bottom of the plot as was probably the intention. To
+                    remedy this situation we have to manually place the x-axis at the minimum
+                    y-scale position. This is done by adding the line</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;SetPos( 'min' );</span></pre></td></tr></table></div><p>
+                </p>
+                <p>to the previous script. Doing this gives us back the wanted position of the
+                    x-axis as shown in <a class="xref" href="ch14s08.html#fig.example3.2.2" title="Figure 14.38. Adjusting the position of the x-axis manually (example3.2.2.php)">Figure 14.38. Adjusting the position of the x-axis manually <code class="uri"><a class="uri" href="example_src/example3.2.2.html" target="_top">(<code class="filename">example3.2.2.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example3.2.2"></a><p class="title"><b>Figure 14.38. Adjusting the position of the x-axis manually <code class="uri"><a class="uri" href="example_src/example3.2.2.html" target="_top">(<code class="filename">example3.2.2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example3.2.2.png" alt="Adjusting the position of the x-axis manually (example3.2.2.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Manually altering the appearance of tick marks"><div class="titlepage"><div><div><h3 class="title"><a name="id2547269"></a>Manually altering the appearance of tick marks</h3></div></div></div>
+                
+                <p>To adjust the appearance of the tick marks the following three methods can be
+                    used</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::SetTickSide($aSide)</code></p>
+                            <p>For x-axis this specifies if the tick should be drawn above or
+                                below the axis and for the y-axis it specifies if the tick marks
+                                should be on the left or on the right of the axis. Possible values
+                                of the side parameter are one of the following defines</p>
+                            <p>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem">
+                                        <p><code class="code">SIDE_LEFT</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">SIDE_RIGHT</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">SIDE_TOP</code></p>
+                                    </li><li class="listitem">
+                                        <p><code class="code">SIDE_BOTTOM</code></p>
+                                    </li></ul></div><p>
+                            </p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::HideTicks($aHideMinor=true,$aHideMajor=true)</code></p>
+                            <p>Calling this method will make it possible to hide either noe of or
+                                both the minor or the major tick marks.</p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::SetTickSize($aMajSize,$aMinSize=3)</code></p>
+                            <p>This specifies the size (in pixels) of the major and minor tick
+                                marks.</p>
+                        </li></ul></div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Manually specifying scale labels"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.manually-spec-labels"></a>Manually specifying scale labels</h3></div></div></div>
+                
+                <p>As was mentioned before it is perfectly possible to manually specify the scale
+                    labels. This is normally done for "text" scales that are most commonly used with
+                    bar graphs. </p>
+                <p>Specifying a text scale for the axis (normally the x-axis) will "reserve" a
+                    position for every data value that must be manually set. In some ways this is
+                    the same as having a linear scale with major and minor step size set to 1. </p>
+                <p>As a very basic example of a text scale with a bar graph <a class="xref" href="ch14s08.html#fig.manual_textscale_ex1" title="Figure 14.40. Manual text scale with month labels (manual_textscale_ex1.php)">Figure 14.40. Manual text scale with month labels <code class="uri"><a class="uri" href="example_src/manual_textscale_ex1.html" target="_top">(<code class="filename">manual_textscale_ex1.php</code>)</a></code> </a> shows some fictive values for each
+                    month of the year. In that example the scale has been set to a text scale and
+                    each value has been specified as an array containing all the names of the
+                    months.</p>
+                <div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>An easy way to get hold of the names of the months is to use the library
+                        global instance <code class="code">$gDateLocale</code> of class <code class="code">DateLocale</code>.
+                        This class has several utility methods. For example the two methods</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">GetShortMonthName($aNbr)</code></p>
+                            </li><li class="listitem">
+                                <p><code class="code">GetLongMonthName($aNbr)</code></p>
+                            </li></ul></div><p>
+                    </p>
+                    <p>will return the proper month names (in either short or short or long
+                        format) in the current locale. For more details see <a class="xref" href="ch14s08.html#fig.manual_textscale_ex1" title="Figure 14.40. Manual text scale with month labels (manual_textscale_ex1.php)">Figure 14.40. Manual text scale with month labels <code class="uri"><a class="uri" href="example_src/manual_textscale_ex1.html" target="_top">(<code class="filename">manual_textscale_ex1.php</code>)</a></code> </a>
+                    </p>
+                </div>
+                <p>
+                    </p><div class="figure"><a name="id2547469"></a><p class="title"><b>Figure 14.39. Manual text scale example </b></p><div class="figure-contents">
+                        
+                        <div class="figure"><a name="fig.manual_textscale_ex1"></a><p class="title"><b>Figure 14.40. Manual text scale with month labels <code class="uri"><a class="uri" href="example_src/manual_textscale_ex1.html" target="_top">(<code class="filename">manual_textscale_ex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manual_textscale_ex1.png" alt="Manual text scale example"></span> </div></div><br class="figure-break">
+                    </div></div><p><br class="figure-break">
+                </p>
+                <p>Since the manual text scale sets a scale label for every single data point
+                    this would give problem for the case where we have a large number of data points
+                    where it is not possible to label every data point. In order to control this the
+                    following two methods are used</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Axis::SetTextTickInterval($aStep,$aStart=0)</code></p>
+                            <p>This method controls the interval between the tick marks for a
+                                text scale. Since by default every tick will have a label it also
+                                specifies how dense the labels will be. The following examples
+                                clarifies how this works</p>
+                            <p>
+                                </p><div class="example"><a name="id2547540"></a><p class="title"><b>Example 14.2. Adjusting manual text tick interval </b></p><div class="example-contents">
+                                    
+                                    <div class="figure"><a name="fig.manual_textscale_ex2"></a><p class="title"><b>Figure 14.41. Setting text tick interval=2 <code class="uri"><a class="uri" href="example_src/manual_textscale_ex2.html" target="_top">(<code class="filename">manual_textscale_ex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manual_textscale_ex2.png" alt="Setting text tick interval=2 (manual_textscale_ex2.php)"></span> </div></div><br class="figure-break">
+                                </div></div><p><br class="example-break">
+                            </p>
+                            <p>In the above example only ever second text tick mark is set and
+                                since the labels are also placed at every tick marks only every
+                                second label are shown. </p>
+                        </li><li class="listitem">
+                            <p><code class="code">Axis::SetTextLabelInterval($aStep)</code></p>
+                            <p>This method complements the previous method. This method
+                                exclusively determines where the labels are place. This makes it
+                                possible to have more tick marks than labels. The previous example
+                                    <a class="xref" href="ch14s08.html#fig.manual_textscale_ex2" title="Figure 14.41. Setting text tick interval=2 (manual_textscale_ex2.php)">Figure 14.41. Setting text tick interval=2 <code class="uri"><a class="uri" href="example_src/manual_textscale_ex2.html" target="_top">(<code class="filename">manual_textscale_ex2.php</code>)</a></code> </a> look a bit
+                                strange since there are no tick-marks between every second bar. A
+                                better solution in this case would be to have tick marks between
+                                each bar but only label every second tick mark. This is exactly what
+                                can be done with this method. It specifies that every n:th tick mark
+                                should have a label.</p>
+                            <p>In <a class="xref" href="ch14s08.html#fig.manual_textscale_ex3" title="Figure 14.42. Labels at every 2:nd tick mark (manual_textscale_ex3.php)">Figure 14.42. Labels at every 2:nd tick mark <code class="uri"><a class="uri" href="example_src/manual_textscale_ex3.html" target="_top">(<code class="filename">manual_textscale_ex3.php</code>)</a></code> </a> we have used
+                                this method instead.</p>
+                            <p>
+                                </p><div class="example"><a name="id2547630"></a><p class="title"><b>Example 14.3. Adjusting the interval for the labels</b></p><div class="example-contents">
+                                    
+                                    <div class="figure"><a name="fig.manual_textscale_ex3"></a><p class="title"><b>Figure 14.42. Labels at every 2:nd tick mark <code class="uri"><a class="uri" href="example_src/manual_textscale_ex3.html" target="_top">(<code class="filename">manual_textscale_ex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manual_textscale_ex3.png" alt="Labels at every 2:nd tick mark (manual_textscale_ex3.php)"></span> </div></div><br class="figure-break">
+                                </div></div><p><br class="example-break">
+                            </p>
+                        </li></ul></div><p>
+                </p>
+                <p>Finally we show an example where there is a need to combine the above two
+                    methods to get a reasonable looking scale. This happens when there are so many
+                    data points that it is not possible to show every tick marks. To show that text
+                    scales can also be used with other plot types than bar we have chosen to show a
+                    line graph where we show data that has 40 data points per month (480 data points
+                    per year). Let us assume that in this application we want to have tick marks at
+                    every 40 points (i.e. a total of 12 tick marks) and have labels only on every
+                    2:th tick label (i.e. a total of 6 labels).</p>
+                <p>
+                    </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                        <p>The label array must have labels for every tick mark even if they are
+                            not shown. </p>
+                    </div><p>
+                </p>
+                <p>
+                    </p><div class="example"><a name="id2547704"></a><p class="title"><b>Example 14.4. Adjusting both text tick mark and label interval</b></p><div class="example-contents">
+                        
+                        <div class="figure"><a name="fig.manual_textscale_ex4"></a><p class="title"><b>Figure 14.43. Tick marks every 40 points and labels every 2:nd tick mark <code class="uri"><a class="uri" href="example_src/manual_textscale_ex4.html" target="_top">(<code class="filename">manual_textscale_ex4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/manual_textscale_ex4.png" alt="Tick marks every 40 points and labels every 2:nd tick mark (manual_textscale_ex4.php)"></span> </div></div><br class="figure-break">
+                    </div></div><p><br class="example-break">
+                </p>
+                <p>In addition to the text scale is it in principle also possible to use a manual
+                    scale with integer scale as shown in <a class="xref" href="ch04s02.html" title="Graphing the number of sun spots during the 19th Century">Graphing the number of sun spots during the 19th Century</a></p>
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>It is also perfectly legal to override the default labels for the Y
+                            (and Y2) axis in the same way as we have shown for the x-axis but this
+                            is probably a less used scenario. </p>
+                    </div><p>
+                </p>
+                <p>
+                    </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                        <p>Please note that the supplied labels will be applied to each major
+                            tick label. If there are insufficient number of supplied labels the
+                            non-existent positions will have the ordinal number of the label.</p>
+                    </div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Emphasize of parts of the scale"><div class="titlepage"><div><div><h3 class="title"><a name="id2547382"></a>Emphasize of parts of the scale</h3></div></div></div>
+                
+                <p>Sometimes it is a good idea to emphasize part of the scale. It can be on
+                    either the x- or the y-axis. The library offers the possibility to add a band
+                    with a separate background color for part of the scale in either x, y (or both)
+                    directions.</p>
+                <p>A plotband is defined as an instance of <code class="code">class PlotBand</code> that is
+                    added to the graph in the same way as normal plots. A plot band can have a
+                    number of different styles to achieve the wanted affect and it can be placed
+                    either on top or behind the plot.</p>
+                <p>An instance is created and added to the graph as shown by the following
+                    example</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">// Add a horizontal band
+$band = new PlotBand(HORIZONTAL,BAND_RDIAG,15,35,'khaki4');
+$band-&gt;ShowFrame(false); // No border around the plot band
+$graph-&gt;Add($band);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The code snippet above adds a horizontal band with a diagonal pattern (from
+                    top left to bottom right). The horizontal band is shown between the y-scale
+                    values [15,35]. </p>
+                <p>The types of plotbands supported by the library is shown in the table
+                    below</p>
+                <p>
+                    </p><div class="example"><a name="ex.types-of-plotbands"></a><p class="title"><b>Example 14.5. Different densities for plot bands</b></p><div class="example-contents">
+                        
+                        <div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.smallstaticbandsex1"></a><p class="title"><b>Figure 14.44. BAND_RDIAG <code class="uri"><a class="uri" href="example_src/smallstaticbandsex1.html" target="_top">(<code class="filename">smallstaticbandsex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/smallstaticbandsex1.png" alt="BAND_RDIAG (smallstaticbandsex1.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.smallstaticbandsex2"></a><p class="title"><b>Figure 14.45. BAND_LDIAG <code class="uri"><a class="uri" href="example_src/smallstaticbandsex2.html" target="_top">(<code class="filename">smallstaticbandsex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/smallstaticbandsex2.png" alt="BAND_LDIAG (smallstaticbandsex2.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.smallstaticbandsex10"></a><p class="title"><b>Figure 14.46. BAND_DIAGCROSS <code class="uri"><a class="uri" href="example_src/smallstaticbandsex10.html" target="_top">(<code class="filename">smallstaticbandsex10.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/smallstaticbandsex10.png" alt="BAND_DIAGCROSS (smallstaticbandsex10.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td></tr><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.smallstaticbandsex7"></a><p class="title"><b>Figure 14.47. BAND_HLINE <code class="uri"><a class="uri" href="example_src/smallstaticbandsex7.html" target="_top">(<code class="filename">smallstaticbandsex7.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/smallstaticbandsex7.png" alt="BAND_HLINE (smallstaticbandsex7.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.smallstaticbandsex6"></a><p class="title"><b>Figure 14.48. BAND_VLINE <code class="uri"><a class="uri" href="example_src/smallstaticbandsex6.html" target="_top">(<code class="filename">smallstaticbandsex6.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/smallstaticbandsex6.png" alt="BAND_VLINE (smallstaticbandsex6.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.smallstaticbandsex5"></a><p class="title"><b>Figure 14.49. BAND_HVCROSS <code class="uri"><a class="uri" href="example_src/smallstaticbandsex5.html" target="_top">(<code class="filename">smallstaticbandsex5.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/smallstaticbandsex5.png" alt="BAND_HVCROSS (smallstaticbandsex5.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td></tr><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.smallstaticbandsex4"></a><p class="title"><b>Figure 14.50. BAND_3DPLANE <code class="uri"><a class="uri" href="example_src/smallstaticbandsex4.html" target="_top">(<code class="filename">smallstaticbandsex4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/smallstaticbandsex4.png" alt="BAND_3DPLANE (smallstaticbandsex4.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.smallstaticbandsex3"></a><p class="title"><b>Figure 14.51. BAND_SOLID <code class="uri"><a class="uri" href="example_src/smallstaticbandsex3.html" target="_top">(<code class="filename">smallstaticbandsex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/smallstaticbandsex3.png" alt="BAND_SOLID (smallstaticbandsex3.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                            </p>
+                                        </td></tr></tbody></table>
+                        </div>
+                    </div></div><p><br class="example-break">
+                </p>
+                <p>For some of these patterns it is also possible to specify an additional
+                    density parameter via the method <code class="code">PlotBand::SetDensity()</code> that
+                    specifies how dense the pattern should be. For example <a class="xref" href="ch14s08.html#ex.plotband-densities" title="Example 14.6. Different densities for various plot bands">Example 14.6. Different densities for various plot bands</a> shows three variants of the 3D plane
+                    with different density parameters.</p>
+                <p>
+                    </p><div class="example"><a name="ex.plotband-densities"></a><p class="title"><b>Example 14.6. Different densities for various plot bands</b></p><div class="example-contents">
+                        
+                        <div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.plotbanddensity_ex0"></a><p class="title"><b>Figure 14.52. SetDensity(10) <code class="uri"><a class="uri" href="example_src/plotbanddensity_ex0.html" target="_top">(<code class="filename">plotbanddensity_ex0.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/plotbanddensity_ex0.png" alt="SetDensity(10) (plotbanddensity_ex0.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.plotbanddensity_ex1"></a><p class="title"><b>Figure 14.53. SetDensity(40) <code class="uri"><a class="uri" href="example_src/plotbanddensity_ex1.html" target="_top">(<code class="filename">plotbanddensity_ex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/plotbanddensity_ex1.png" alt="SetDensity(40) (plotbanddensity_ex1.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="fig.plotbanddensity_ex2"></a><p class="title"><b>Figure 14.54. SetDensity(80) <code class="uri"><a class="uri" href="example_src/plotbanddensity_ex2.html" target="_top">(<code class="filename">plotbanddensity_ex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/plotbanddensity_ex2.png" alt="SetDensity(80) (plotbanddensity_ex2.php)"></span> </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td></tr></tbody></table>
+                        </div>
+                    </div></div><p><br class="example-break">
+                </p>
+                <div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>3D planes actually carry another possible modification. You can specify
+                        the vanish point to change the perspective used. You can't access the method
+                        to change the horizon directly but you can access it through</p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code"> $band -&gt;prect-&gt;SetHorizon( $aHorizon)</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p>assuming that the band is a 3D plane.</p>
+                </div>
+                <p>To finish this section we show one slightly more creative use of background
+                    plot bands in <a class="xref" href="ch14s08.html#fig.staticbandbarex7" title="Figure 14.56. Creative use of plot bands (staticbandbarex7.php)">Figure 14.56. Creative use of plot bands <code class="uri"><a class="uri" href="example_src/staticbandbarex7.html" target="_top">(<code class="filename">staticbandbarex7.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="id2548462"></a><p class="title"><b>Figure 14.55. Creative use of plot bands</b></p><div class="figure-contents">
+                        
+                        <div class="figure"><a name="fig.staticbandbarex7"></a><p class="title"><b>Figure 14.56. Creative use of plot bands <code class="uri"><a class="uri" href="example_src/staticbandbarex7.html" target="_top">(<code class="filename">staticbandbarex7.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/staticbandbarex7.png" alt="Creative use of plot bands"></span> </div></div><br class="figure-break">
+                    </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Adding static lines for specific scale values in the graph"><div class="titlepage"><div><div><h3 class="title"><a name="id2548494"></a>Adding static lines for specific scale values in the graph</h3></div></div></div>
+                
+                <p>In addition to the plot band it is possible to add static lines to emphasize a
+                    specific scale value. A pot line is added to the graph by creating an instance
+                    of the <code class="code">class PlotLine</code> in much the same way as for plot bands. The
+                    following code snippets show how this can be done</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">// Add mark graph with static lines
+$line = new PlotLine(HORIZONTAL,10,&quot;black&quot;,2);
+$graph-&gt;AddLine($line);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The above code snippets adds a black plot line (weight=2) at scale position
+                    y=10.</p>
+                <p>In addition to using this feature to show min/max values (or perhaps critical
+                    limits) another usage can be to show a zero-line as the following example in
+                        <a class="xref" href="ch14s08.html#fig.impulsex4" title="Figure 14.58. Adding a static line at y=0 to simulate an extra 0-axis (impulsex4.php)">Figure 14.58. Adding a static line at y=0 to simulate an extra 0-axis <code class="uri"><a class="uri" href="example_src/impulsex4.html" target="_top">(<code class="filename">impulsex4.php</code>)</a></code> </a> shows.</p>
+                <p>
+                    </p><div class="figure"><a name="id2548541"></a><p class="title"><b>Figure 14.57. Use of a static line to simulate an extra x-axis at y=0</b></p><div class="figure-contents">
+                        
+                        <div class="figure"><a name="fig.impulsex4"></a><p class="title"><b>Figure 14.58. Adding a static line at y=0 to simulate an extra 0-axis <code class="uri"><a class="uri" href="example_src/impulsex4.html" target="_top">(<code class="filename">impulsex4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/impulsex4.png" alt="Use of a static line to simulate an extra x-axis at y=0"></span> </div></div><br class="figure-break">
+                    </div></div><p><br class="figure-break">
+                </p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

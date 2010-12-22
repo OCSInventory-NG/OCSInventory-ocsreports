@@ -1,0 +1,34 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Suggested improvements</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch35.html" title="Chapter 35. Creating Critical chain buffer penetration charts"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Suggested improvements</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 35. Creating Critical chain buffer penetration charts</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Suggested improvements"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2622224"></a>Suggested improvements</h2></div></div></div>
+            
+            <p>As means for further individual exploration the <code class="code">CCBPGraph</code> class could
+                be extended by adding (for example) the following features. (There is always a
+                balance to be had between adding a lot of feature and still keeping the interface
+                simple enough to be manageable)</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>Add customization for the titles of the two axis</p>
+                    </li><li class="listitem">
+                        <p>Make it possible to adjust the margin color</p>
+                    </li><li class="listitem">
+                        <p>Make the number of background color bands user adjustable</p>
+                    </li><li class="listitem">
+                        <p>Add data manipulation so that the input data is specified as a number
+                            of historic values for each task. The latest value should be displayed
+                            as a mark and the last <span class="italic">n</span> values (user
+                            selectable window size) shown as a trailing path behind the mark to see
+                            how it has moved as shown in for example <a class="xref" href="ch35.html#fig.ccbp_ex1" title="Figure 35.4. Complete buffer penetration example with history trace (ccbp_ex1.php)">Figure 35.4. Complete buffer penetration example with history trace <code class="uri"><a class="uri" href="example_src/ccbp_ex1.html" target="_top">(<code class="filename">ccbp_ex1.php</code>)</a></code> </a></p>
+                    </li><li class="listitem">
+                        <p>Make use of the <code class="code">MGraph</code> class to make it possible to
+                            create multiple CCBP charts in the same image. In order to identify
+                            which graph is affected by commands ti would be possible to just add a
+                            new argument giving the index to all the existing methods. However, a
+                            cleaner implementation would probably use the concept of a "current"
+                            graph which receives all the method calls. Implementing it that way
+                            would allow us to keep the existing signatures for all existing methods.
+                            In order to position the graphs it is probably a good idea to make use
+                            of some easy way for the user just to select how many rows should be
+                            used and many charts should be displayed on each row (to avoid the end
+                            user from having to position the graphs pixel by pixel)</p>
+                    </li></ol></div><p>
+            </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch35.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

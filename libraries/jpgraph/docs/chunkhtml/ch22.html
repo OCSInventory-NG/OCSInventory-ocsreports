@@ -1,0 +1,90 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 22. Matrix graphs</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt05.html" title="Part V. Additional graph types available in the professional version"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 22. Matrix graphs</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part V. Additional graph types available in the professional version</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 22. Matrix graphs"><div class="titlepage"><div><div><h2 class="title"><a name="chapter.matrix-graphs"></a>Chapter 22. Matrix graphs</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch22.html#id2591500">22.1. Introduction</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch22.html#id2591636">22.1.1. Features of the matrix plots</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch22s02.html">22.2. Creating and formatting a basic matrix graph</a></span></dt><dt><span class="sect1"><a href="ch22s03.html">22.3. Mesh interpolating of input data</a></span></dt><dt><span class="sect1"><a href="ch22s04.html">22.4. Formatting the matrix plot</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch22s04.html#sec.matrix-color-maps">22.4.1. Color maps</a></span></dt><dt><span class="sect2"><a href="ch22s04.html#id2592595">22.4.2. Changing the module type (rectangle vs. circle)</a></span></dt><dt><span class="sect2"><a href="ch22s04.html#id2592689">22.4.3. Adjusting the alpha blending of the plots</a></span></dt><dt><span class="sect2"><a href="ch22s04.html#id2592859">22.4.4. Specifying the size</a></span></dt><dt><span class="sect2"><a href="ch22s04.html#id2592997">22.4.5. Specifying the position of the plot on the graph</a></span></dt><dt><span class="sect2"><a href="ch22s04.html#id2593044">22.4.6. Adjusting the legend</a></span></dt><dt><span class="sect2"><a href="ch22s04.html#id2593243">22.4.7. Adding row and column legends</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch22s05.html">22.5. Adding icon and text objects to the graph</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch22s05.html#id2593540">22.5.1. Adding a text object</a></span></dt><dt><span class="sect2"><a href="ch22s05.html#id2593642">22.5.2. Adding icons to the graph</a></span></dt><dt><span class="sect2"><a href="ch22s05.html#id2593758">22.5.3. Adding background images</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch22s06.html">22.6. Adding marker lines to the matrix plot</a></span></dt><dt><span class="sect1"><a href="ch22s07.html">22.7. Using layout classes to position matrix plots</a></span></dt><dt><span class="sect1"><a href="ch22s08.html">22.8. Built in color maps</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch22s08.html#id2594164">22.8.1. Standard maps</a></span></dt><dt><span class="sect2"><a href="ch22s08.html#id2594199">22.8.2. Normalized center</a></span></dt><dt><span class="sect2"><a href="ch22s08.html#id2594189">22.8.3. Continues map</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch22s09.html">22.9. Using CSIM with matrix plots</a></span></dt><dt><span class="sect1"><a href="ch22s10.html">22.10. Matrix graph examples</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch22s10.html#id2594387">22.10.1. Example 1</a></span></dt><dt><span class="sect2"><a href="ch22s10.html#id2594395">22.10.2. Example 2</a></span></dt><dt><span class="sect2"><a href="ch22s10.html#id2594404">22.10.3. Example 3</a></span></dt><dt><span class="sect2"><a href="ch22s10.html#id2594415">22.10.4. Example 4</a></span></dt></dl></dd></dl></div>
+    
+    <div class="sect1" title="Introduction"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2591500"></a>Introduction</h2></div></div></div>
+        
+        <div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+            <p>This module is only available in the pro-version of the library.</p>
+        </div>
+        <p>Matrix graphs are used to visualize the content of a rectangular matrix. Each entry in
+            the matrix is mapped to a specific color which are then displayed in a rectangular plot
+            corresponding to the size of the input matrix. The size of each module (corresponding to
+            a matrix entry) is user customizable. There are two types of possible modules; circular
+            and rectangular shape.</p>
+        <p>In order to achieve high quality rendering when circles are used the matrix module
+            makes use of an optional (user settable) super-sampling to achieve an anti-alias effect
+            to take the edge of the filled circles.</p>
+        <p>The color assignment to each value is controlled by the selected color map. The
+            library first establish the min and max value in the matrix and then equates the min
+            value with the "lower" end of the specified color map and the max value with the
+            "higher" end of the color map. All values in between is linearly interpolated to a have
+            a color between the "low" and "high" end in relation to the value (which are guaranteed
+            to be between the min and max value previously established). There are several
+            pre-defined color maps available as well as completely user configurable color maps. </p>
+        <p>The (optional) legend shows the range associated to each color in the corresponding
+            plot.</p>
+        <p>
+            </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                <p>The library supports mesh interpolation. Mesh interpolation which by itself
+                    doesn't produce any new data but can help produce smoother plots by creating
+                    "false" interpolated values in between the original entries in the matrix. This
+                    is similar to the Matlab (tm) command <span class="command"><strong>interp2</strong></span>
+                </p>
+            </div><p>
+        </p>
+        <p>The overall structure and capabilities of matrix graphs follows that of other graphs
+            in the library, e.g. Windrose plots, in that a graph can have multiple plots, title,
+            footers, texts, icons, image backgrounds etc. <a class="xref" href="ch22.html#fig.matrix_introex" title="Figure 22.1. A medium complex example to shows some capabilities of matrix plots (matrix_introex.php)">Figure 22.1. A medium complex example to shows some capabilities of matrix plots <code class="uri"><a class="uri" href="example_src/matrix_introex.html" target="_top">(<code class="filename">matrix_introex.php</code>)</a></code> </a> shows a medium complex example of two matrix
+            plots in a matrix graphs which uses both a background image, icon (the logo in the top
+            left corner), timing of the graph and free positioned text. We have also used a small
+            degree of alpha blending in the plots just to let the background "shine" through a
+            little bit. The two plots shows the same data but uses different color maps.</p>
+        <p>
+            </p><div class="figure"><a name="fig.matrix_introex"></a><p class="title"><b>Figure 22.1. A medium complex example to shows some capabilities of matrix plots <code class="uri"><a class="uri" href="example_src/matrix_introex.html" target="_top">(<code class="filename">matrix_introex.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/matrix_introex.png" alt="A medium complex example to shows some capabilities of matrix plots (matrix_introex.php)"></span> </div></div><p><br class="figure-break">
+        </p>
+        <p>The library offers an extensive range of formatting for the appearance of the plot
+            when it comes to adjusting exactly how the colors are used. There are several built in
+            color maps as well as the possibility to specify manual color maps and adjusting the
+            contrast (scale range) of the plot.</p>
+        <div class="sect2" title="Features of the matrix plots"><div class="titlepage"><div><div><h3 class="title"><a name="id2591636"></a>Features of the matrix plots</h3></div></div></div>
+            
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p>Both manual and automatic scale range setting</p>
+                    </li><li class="listitem">
+                        <p>Customizable legend position and layout</p>
+                    </li><li class="listitem">
+                        <p>Row and column legends (edge labels)</p>
+                    </li><li class="listitem">
+                        <p>Several built in color maps (22)</p>
+                    </li><li class="listitem">
+                        <p>Option for manual specified color maps</p>
+                    </li><li class="listitem">
+                        <p>Adjustable color contrast</p>
+                    </li><li class="listitem">
+                        <p>Layout classes to position multiple plots in the sam graph</p>
+                    </li><li class="listitem">
+                        <p>Both circular and rectangular module type</p>
+                    </li><li class="listitem">
+                        <p>Mesh interpolation of input data</p>
+                    </li><li class="listitem">
+                        <p>Flexible sizing of matrix plots both manual, automatic and a mix of
+                            them</p>
+                    </li><li class="listitem">
+                        <p>Alpha blending support for matrix plot</p>
+                    </li><li class="listitem">
+                        <p>All the usual graph support for background images, text objects and
+                            icons</p>
+                    </li></ul></div><p>
+            </p>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt05.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

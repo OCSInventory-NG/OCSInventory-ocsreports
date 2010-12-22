@@ -1,0 +1,484 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_MGRAPH"><b>MGraph</b></a></div>
+<i>(Defined in: jpgraph_mgraph.php : 16)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="MGraph.html" style="font-family:arial;font-weight:bold;color:darkblue;">MGraph</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="MGraph.html#_MGRAPH_ADD">Add()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH_ADDMIX">AddMix()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH_SETBACKGROUNDIMAGE">SetBackgroundImage()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH_SETBACKGROUNDIMAGEMIX">SetBackgroundImageMix()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH_SETEXPIRED">SetExpired()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH_SETFILLCOLOR">SetFillColor()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH_SETFRAME">SetFrame()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH_SETIMGFORMAT">SetImgFormat()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH_SETMARGIN">SetMargin()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH_STROKE">Stroke()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH__GDIMGHANDLE">_gdImgHandle()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH__STROKEBACKGROUNDIMAGE">_strokeBackgroundImage()</a>&nbsp;<br>
+&nbsp;<a href="MGraph.html#_MGRAPH___CONSTRUCT">__construct()</a>&nbsp;<br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div> <p> &nbsp;
+<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_ADD"><span style="color:#555555;">MGraph ::</span><br><b>Add</b>($aGraph, $x, $y, $fx, $fy, $w, $h)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aGraph</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$x</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$y</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$fx</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$fy</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$w</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$h</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_ADDMIX"><span style="color:#555555;">MGraph ::</span><br><b>AddMix</b>($aGraph, $x, $y, $mix, $fx, $fy, $w, $h)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Just copy the image from left corner, no resizing</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aGraph</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$x</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$y</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$mix</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">100</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$fx</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$fy</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$w</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$h</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_SETBACKGROUNDIMAGE"><span style="color:#555555;">MGraph ::</span><br><b>SetBackgroundImage</b>($aFileName, $aCenter_aX, $aY)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Specify a background image</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFileName</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aCenter_aX</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">NULL</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aY</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">NULL</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_SETBACKGROUNDIMAGEMIX"><span style="color:#555555;">MGraph ::</span><br><b>SetBackgroundImageMix</b>($aMix)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Specify a background image blend</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aMix</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_SETEXPIRED"><span style="color:#555555;">MGraph ::</span><br><b>SetExpired</b>($aFlg)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFlg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_SETFILLCOLOR"><span style="color:#555555;">MGraph ::</span><br><b>SetFillColor</b>($aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Specify background fill color for the combined graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_SETFRAME"><span style="color:#555555;">MGraph ::</span><br><b>SetFrame</b>($aFlg, $aColor, $aWeight)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Add a frame around the combined graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFlg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'black'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWeight</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">1</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_SETIMGFORMAT"><span style="color:#555555;">MGraph ::</span><br><b>SetImgFormat</b>($aFormat, $aQuality)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFormat</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aQuality</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">75</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_SETMARGIN"><span style="color:#555555;">MGraph ::</span><br><b>SetMargin</b>($lm, $rm, $tm, $bm)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>//('Argument to MGraph::Add() is not a valid GD image handle.');</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$lm</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$rm</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$tm</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$bm</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH_STROKE"><span style="color:#555555;">MGraph ::</span><br><b>Stroke</b>($aFileName)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFileName</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">''</span><span style="color: #0000BB"></span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH__GDIMGHANDLE"><span style="color:#555555;">MGraph ::</span><br><b>_gdImgHandle</b>($agdCanvas, $x, $y, $fx, $fy, $w, $h, $mix)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$agdCanvas</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$x</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$y</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$fx</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$fy</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$w</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$h</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$mix</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">100</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH__STROKEBACKGROUNDIMAGE"><span style="color:#555555;">MGraph ::</span><br><b>_strokeBackgroundImage</b>()</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>//('Unknown file extension ($aImgFormat) in MGraph::SetBackgroundImage() for filename: '.$aFileName);</i></span><p>
+<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_MGRAPH___CONSTRUCT"><span style="color:#555555;">MGraph ::</span><br><b>__construct</b>($aWidth, $aHeight, $aCachedName, $aTimeOut, $aInline)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Create a new instane of the combined graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWidth</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">NULL</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aHeight</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">NULL</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aCachedName</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">''</span><span style="color: #0000BB"></span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aTimeOut</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aInline</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p> <hr> <p></html>

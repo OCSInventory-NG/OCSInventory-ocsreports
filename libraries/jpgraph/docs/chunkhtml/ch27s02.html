@@ -1,0 +1,796 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Creating barcodes</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch27.html" title="Chapter 27. QR (2D-Barcode)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Creating barcodes</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 27. QR (2D-Barcode)</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Creating barcodes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2607930"></a>Creating barcodes</h2></div></div></div>
+        
+        <p>In order to use QR codes the module "<code class="filename">QR/qrencoder.inc.php</code>" must
+            first be included.</p>
+        <p>Usage of QR codes follows a similar schema as for the linear, PDF417 and Datamatrix
+            barcodes with the concepts of an encoder and backend. The principle of the overall
+            encodation process is shown in <a class="xref" href="ch26s02.html#fig.datamatrix-encodation-principle" title="Figure 26.4. Datamatrix encodation principle">Figure 26.4. Datamatrix encodation principle</a></p>
+        <div class="figure"><a name="id2616655"></a><p class="title"><b>Figure 27.5. QR Encodation Process</b></p><div class="figure-contents">
+            
+            <div class="mediaobject"><img src="images/qr-encodation-principle.png" alt="QR Encodation Process"></div>
+        </div></div><br class="figure-break">
+        <div class="sect2" title="Getting started"><div class="titlepage"><div><div><h3 class="title"><a name="id2616673"></a>Getting started</h3></div></div></div>
+            
+            <p>In order to use the QR barcodes the library module
+                    "<code class="filename">QR/qrencoder.inc.php</code>" must first be included in the
+                script.</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>Create an instance of the encoder and optionally specify size and
+                            error correction level. The encoder is created as an instance of
+                                <code class="code">class QREncoder</code></p>
+                    </li><li class="listitem">
+                        <p>Create an instance of a suitable backend for the chosen output format
+                            (image or postscript) by calling the
+                                <code class="code">DatamatrixBackenFactory::Create()</code></p>
+                    </li><li class="listitem">
+                        <p>Encode data and send it back to the browser or to a file with a call
+                            to the backend <code class="code">Backend::Stroke()</code> method.</p>
+                    </li></ol></div><p>
+            </p>
+            <p>The following script shows how to create the simplest possible QR code (in PNG
+                format) representing the data string "<code class="code">The first QR code</code>" encoded using
+                all default values. The resulting QR Code is shown in <a class="xref" href="ch27s02.html#fig.qrexample00" title="Figure 27.6. The first very basic QR code (qrexample00.php)">Figure 27.6. The first very basic QR code <code class="uri"><a class="uri" href="example_src/qrexample00.html" target="_top">(<code class="filename">qrexample00.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="example"><a name="example.qrexample00"></a><p class="title"><b>Example 27.1. The first very basic QR code (<code class="filename">qrexample00.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/QR/qrencoder.inc.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Data to be encoded</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">01234567</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new instance of the encoder and let the library</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> decide a suitable QR version and error level</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$e</span><span class="hl-code">=</span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">QREncoder</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Use the image backend (this is also the default)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$b</span><span class="hl-code">=</span><span class="hl-identifier">QRCodeBackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-var">$e</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> .. send the barcode back to the browser for the data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$b</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.qrexample00"></a><p class="title"><b>Figure 27.6. The first very basic QR code <code class="uri"><a class="uri" href="example_src/qrexample00.html" target="_top">(<code class="filename">qrexample00.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/qrexample00.png" alt="The first very basic QR code (qrexample00.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>(As can be seen this follows the same principles as the creation of Datamatrix
+                symbols)</p>
+            <p>The principle is the same for all type of data QR code creations. First an
+                instance of the chosen encoder is instantiated. In this case using all default
+                parameters by creating an instance of <code class="code">class QREncoder</code>. We then create a
+                suitable backend that handles the output of the barcode. By default the output will
+                be an image encoded in the PNG image format.</p>
+            <p>The final step is to send back the generated image to the browser with a call to
+                the method <code class="code">Backend::Stroke()</code> with the data to be encoded as its first
+                argument.</p>
+            <p>The example above does not have any error handling. If there is some error in the
+                process an exception will be thrown in the same way as in other places in the
+                library. The default exception will display a standard library image error box. An
+                example of this is shown in <a class="xref" href="ch27s02.html#fig.qr-errmsg" title="Figure 27.7. QR Error message">Figure 27.7. QR Error message</a></p>
+            <div class="figure"><a name="fig.qr-errmsg"></a><p class="title"><b>Figure 27.7. QR Error message</b></p><div class="figure-contents">
+                
+                <div class="mediaobject"><img src="images/qr_errmsg.png" alt="QR Error message"></div>
+            </div></div><br class="figure-break">
+            <p>If some additional processing is necessary and to just display a text based
+                re-formatted error message we could change the above code to catch this exception as
+                the following example shows.</p>
+            <p>
+                </p><div class="example"><a name="example.qrexample0"></a><p class="title"><b>Example 27.2. Adding basic exception handling (<code class="filename">qrexample0.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/QR/qrencoder.inc.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Data to be encoded</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">01234567</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new instance of the encoder and let the library</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> decide a suitable QR version and error level</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">QREncoder</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Use the image backend (this is also the default)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">QRCodeBackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-var">$encoder</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-reserved">try</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment">     . send the QR Code back to the browser</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code"> </span><span class="hl-reserved">catch</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">Exception</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$errstr</span><span class="hl-code"> = </span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetMessage</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">QR Code error: </span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetMessage</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">.</span><span class="hl-quotes">&quot;</span><span class="hl-special">\n</span><span class="hl-quotes">&quot;</span><span class="hl-code">;
+    </span><span class="hl-reserved">exit</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.qrexample0"></a><p class="title"><b>Figure 27.8. Adding basic exception handling <code class="uri"><a class="uri" href="example_src/qrexample0.html" target="_top">(<code class="filename">qrexample0.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/qrexample0.png" alt="Adding basic exception handling (qrexample0.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>As a final initial example the next script uses the backend method
+                    <code class="code">Backend::SetModuleWidth($aWidth)</code> to increase the size of one
+                module. Since a module in QR code refers to the smallest square used adjusting the
+                module width will also adjust the height of the overall QR code</p>
+            <p>
+                </p><div class="example"><a name="example.qrexample01"></a><p class="title"><b>Example 27.3. Adjusting the module width for the QR code (<code class="filename">qrexample01.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/QR/qrencoder.inc.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Data to be encoded</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">01234567</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new instance of the encoder and let the library</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> decide a suitable QR version and error level</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">QREncoder</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Use the image backend</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">QRCodeBackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-var">$encoder</span><span class="hl-code">, </span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the module size (quite big)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetModuleWidth</span><span class="hl-brackets">(</span><span class="hl-number">5</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> .. send the barcode back to the browser for the data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.qrexample01"></a><p class="title"><b>Figure 27.9. Adjusting the module width for the QR code <code class="uri"><a class="uri" href="example_src/qrexample01.html" target="_top">(<code class="filename">qrexample01.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/qrexample01.png" alt="Adjusting the module width for the QR code (qrexample01.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+        </div>
+        <div class="sect2" title="Error handling"><div class="titlepage"><div><div><h3 class="title"><a name="id2616978"></a>Error handling</h3></div></div></div>
+            
+            <p>As in other parts of the library the QR module throws an exception when an error
+                occurs. As shown in the previous section an error image is the default if no
+                explicit <code class="code">try {} catch {}</code> statement is added to the script.</p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>The fact that an image is shown as the default exception is caused by the
+                        library module "qrexception.inc.php" installing its own default error
+                        handler which will be called when an exception happens. However, this
+                        handler is intelligent enough to know if the exception is caused by the
+                        library or not. If the exception is not caused by the library the exception
+                        is re-thrown and the original error handler restored. This means that
+                        JpGraph will not interfere with previously installed error handlers for
+                        other parts of an application.</p>
+                </div><p>
+            </p>
+            <p>The script below shows how to catch the error, do some possible clean up and then
+                explicitly create and send back the error image.</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+...
+</span><span class="hl-reserved">try</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code"> </span><span class="hl-reserved">catch</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">Exception</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-identifier">doCleanup</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$errobj</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">QRErrObjectImg</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$errobj</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Raise</span><span class="hl-brackets">(</span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">getMessage</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;    
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>another variant of this would be to re-throw the exception after the cleanup has
+                been performed as the following example shows</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+...
+</span><span class="hl-reserved">try</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code"> </span><span class="hl-reserved">catch</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">Exception</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-identifier">doCleanup</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-reserved">throw</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>It is also possible to get hold of the internal error code that corresponds to
+                each error message by calling the PHP standard exception method
+                    <code class="code">Exception::getCode()</code> as the following example shows</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+...
+</span><span class="hl-reserved">try</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code"> </span><span class="hl-reserved">catch</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">Exception</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$errstr</span><span class="hl-code"> = </span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetMessage</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$errcode</span><span class="hl-code"> = </span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetCode</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">&quot;</span><span class="hl-string">QR error (</span><span class="hl-var">$errcode</span><span class="hl-string">). Message: </span><span class="hl-var">$errstr</span><span class="hl-special">\n</span><span class="hl-quotes">&quot;</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p><a class="xref" href="ch27s02.html#table.qr-error-messages" title="Table 27.4. QR Error messages">Table 27.4. QR Error messages</a> lists the public errors that can be
+                thrown by the QR code module (the table deliberately excludes internal error
+                messages)</p>
+            <div class="table"><a name="table.qr-error-messages"></a><p class="title"><b>Table 27.4. QR Error messages</b></p><div class="table-contents">
+                
+                <table summary="QR Error messages" border="1"><colgroup><col class="c1"><col class="c2"></colgroup><thead><tr><th align="center">Error number</th><th align="center">Error string</th></tr></thead><tbody><tr><td class="error-number" align="center">1000</td><td class="error-text">
+                                <p>Tilde processing is not yet supported for QR Barcodes.</p>
+                            </td></tr><tr><td class="error-number" align="center">1001</td><td class="error-text">
+                                <p>Inverting the bit pattern is not supported for QR
+                                    Barcodes.</p>
+                            </td></tr><tr><td class="error-number" align="center">1002</td><td class="error-text">
+                                <p>Cannot read data from file %s</p>
+                            </td></tr><tr><td class="error-number" align="center">1003</td><td class="error-text">
+                                <p>Cannot open file %s</p>
+                            </td></tr><tr><td class="error-number" align="center">1004</td><td class="error-text">
+                                <p>Cannot write QR barcode to file %s</p>
+                            </td></tr><tr><td class="error-number" align="center">1005</td><td class="error-text">
+                                <p>Unsupported image format selected. Check your GD
+                                    installation</p>
+                            </td></tr><tr><td class="error-number" align="center">1006</td><td class="error-text">
+                                <p>Cannot set the selected barcode colors. Check your GD
+                                    installation and spelling of color name</p>
+                            </td></tr><tr><td class="error-number" align="center">1007</td><td class="error-text">
+                                <p>QR Error: HTTP headers have already been sent.</p>
+                                <p>Caused by output from file %s at line %d</p>
+                                <p>Explanation: HTTP headers have already been sent back to the
+                                    browser indicating the data as text before the library got a
+                                    chance to send it's image HTTP header to this browser. This
+                                    makes it impossible for the QR library to send back image data
+                                    to the browser (since that would be interpretated as text by the
+                                    browser and show up as junk text).</p>
+                                <p>Most likely you have some text in your script before the call
+                                    to QRBackend::Stroke(). </p>
+                                <p>If this texts gets sent back to the browser the browser will
+                                    assume that all data is plain text. Look for any text (even
+                                    spaces and newlines) that might have been sent back to the
+                                    browser.</p>
+                                <p>For example it is a common mistake to leave a blank line
+                                    before the opening "&lt;?php"</p>
+                            </td></tr><tr><td class="error-number" align="center">1008</td><td class="error-text">
+                                <p>Could not create the barcode image with image format=%s. Check
+                                    your GD/PHP installation.</p>
+                            </td></tr><tr><td class="error-number" align="center">1009</td><td class="error-text">
+                                <p>Cannot open log file %s for writing.</p>
+                            </td></tr><tr><td class="error-number" align="center">1010</td><td class="error-text">
+                                <p>Cannot write log info to log file %s.</p>
+                            </td></tr><tr><td class="error-number" align="center">1011</td><td class="error-text">
+                                <p>Could not write the QR Code to file. Check the file system
+                                    permissions.</p>
+                            </td></tr><tr><td class="error-number" align="center">1400</td><td class="error-text">
+                                <p>QR Version must be specified as a value in the range [1,40]
+                                    got %d</p>
+                            </td></tr><tr><td class="error-number" align="center">1401</td><td class="error-text">
+                                <p>Input data to barcode can not be empty.</p>
+                            </td></tr><tr><td class="error-number" align="center">1402</td><td class="error-text">
+                                <p>Automatic encodation mode was specified but input data looks
+                                    like specification for manual encodation.</p>
+                            </td></tr><tr><td class="error-number" align="center">1403</td><td class="error-text">
+                                <p>Was expecting an array of arrays as input data for manual
+                                    encoding.</p>
+                            </td></tr><tr><td class="error-number" align="center">1404</td><td class="error-text">
+                                <p>Each input data array element must consist of two entries.
+                                    Element $i has of $nn entries</p>
+                            </td></tr><tr><td class="error-number" align="center">1405</td><td class="error-text">
+                                <p>Each input data array element must consist of two entries with
+                                    first entry being the encodation constant and the second element
+                                    the data string. Element %d is incorrect in this respect.</p>
+                            </td></tr><tr><td class="error-number" align="center">1406</td><td class="error-text">
+                                <p>Was expecting either a string or an array as input data</p>
+                            </td></tr><tr><td class="error-number" align="center">1407</td><td class="error-text">
+                                <p>Manual encodation mode was specified but input data looks like
+                                    specification for automatic encodation.</p>
+                            </td></tr><tr><td class="error-number" align="center">1408</td><td class="error-text">
+                                <p>Input data too large to fit into one QR Symbol</p>
+                            </td></tr><tr><td class="error-number" align="center">1409</td><td class="error-text">
+                                <p>The selected symbol version %d is too small to fit the
+                                    specified data and selected error correction level.</p>
+                            </td></tr><tr><td class="error-number" align="center">1410</td><td class="error-text">
+                                <p>Trying to read past the last available codeword in block
+                                    split.</p>
+                            </td></tr><tr><td class="error-number" align="center">1415</td><td class="error-text">
+                                <p>Manually specified encodation schema MODE_NUMERIC has no data
+                                    that can be encoded using this schema.</p>
+                            </td></tr><tr><td class="error-number" align="center">1416</td><td class="error-text">
+                                <p>Manually specified encodation schema MODE_ALPHANUM has no data
+                                    that can be encoded using this schema.</p>
+                            </td></tr><tr><td class="error-number" align="center">1417</td><td class="error-text">
+                                <p>Manually specified encodation schema MODE_BYTE has no data
+                                    that can be encoded using this schema.</p>
+                            </td></tr><tr><td class="error-number" align="center">1418</td><td class="error-text">
+                                <p>Unsupported encodation schema specified (%d)</p>
+                            </td></tr><tr><td class="error-number" align="center">1419</td><td class="error-text">
+                                <p>Found character in data stream that cannot be encoded with the
+                                    selected manual encodation mode.</p>
+                            </td></tr><tr><td class="error-number" align="center">1420</td><td class="error-text">
+                                <p>Encodation using KANJI mode not yet supported.</p>
+                            </td></tr><tr><td class="error-number" align="center">1422</td><td class="error-text">
+                                <p>Found unknown characters in the data stream that can't be
+                                    encoded with any available encodation mode.</p>
+                            </td></tr><tr><td class="error-number" align="center">1423</td><td class="error-text">
+                                <p>Kanji character set not yet supported.</p>
+                            </td></tr><tr><td class="error-number" align="center">1427</td><td class="error-text">
+                                <p>Expected either DIGIT, ALNUM or BYTE but found ASCII
+                                    code=%d</p>
+                            </td></tr></tbody></table>
+            </div></div><br class="table-break">
+        </div>
+        <div class="sect2" title="Creating an encoder"><div class="titlepage"><div><div><h3 class="title"><a name="id2617132"></a>Creating an encoder</h3></div></div></div>
+            
+            <p>A QR encoder is created as an instance of <code class="code">class QREncoder</code>. The
+                constructor have the following signature</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">QREncoder::__construct($aVersion = -1, $aErrLevel =
+                                QRCapacity::ErrM)</code></p>
+                        <p><code class="code">$aVersion</code>, Specifies the QR version and is specified as
+                            an integer in the range [1,40], see <a class="xref" href="ch27.html#table.qr-symbol-sizes" title="Table 27.2. Maximum data capacity for the different symbol sizes in the QR-code.">Table 27.2. Maximum data capacity for the
+                    different symbol sizes in the QR-code.</a>
+                        </p>
+                        <p><code class="code">$aErrLevel</code>, Specifies the error correction level to be
+                            used, see <a class="xref" href="ch27.html#table.qr-error-correction-levels" title="Table 27.3. QR Error correction levels">Table 27.3. QR Error correction levels</a></p>
+                    </li></ul></div><p>
+            </p>
+            <p>The following examples creates a basic encoder which will automatically select the
+                smallest possible size to fit the data given</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$encoder = new QREncoder();</span></pre></td></tr></table></div><p>
+            </p>
+            <p>The following example will create an instance of an encoder with size 22 and error
+                correction level 'Q'</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$encoder = new QREncoder(22, QRCapacity::ErrQ);</span></pre></td></tr></table></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Encodation of input data options"><div class="titlepage"><div><div><h3 class="title"><a name="id2617978"></a>Encodation of input data options</h3></div></div></div>
+            
+            <p>The absolute simplest way of encoding data is simply to create a simple string
+                representing the data to be encoded and then pass that string as the first argument
+                to the <code class="code">Stroke()</code> method in the backend. The encoder will then analyze
+                the input data and choose the most efficient space saving encoding schema for this
+                data. </p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>Unless there are some really good reasons to use manual encodation it
+                        should be left to the library to determine this in an optimal way!</p>
+                </div><p>
+            </p>
+            <p>The QR standard allows 3 different compaction schema that can be used to minimize
+                the number of codewords used for a particular data string. This also means that a
+                particular data string may have several different valid barcodes that visually looks
+                different. </p>
+            <p>The supported compaction modes in the library are:</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><span class="bold"><strong>Alpha compaction mode</strong></span> Efficient
+                            encoding of digits 0 - 9; upper case letters A -Z and nine other
+                            characters: space, $ % * + - . / : . </p>
+                    </li><li class="listitem">
+                        <p><span class="bold"><strong>Numeric compaction mode.</strong></span> Efficient
+                            encoding of numeric data. For long consecutive strings of digits this
+                            gives a better compaction than the alpha mode.</p>
+                    </li><li class="listitem">
+                        <p><span class="bold"><strong>Byte compaction mode.</strong></span> Used only when
+                            there is a need to encode byte values as is, i.e. values in the range
+                            0-255. Please note that some barcode readers, especially those with a
+                            keyboard wedge, don't send back the proper encoding for ASCII values
+                            lower than 32 or higher than 126. </p>
+                    </li></ul></div><p>
+            </p>
+            <p>When the automatic encoding is chosen this will create an optimum encoding (from a
+                size perspective) of the supplied data. This includes shifting encoding method in
+                the middle of the data one or several time depending on the structure of the data. </p>
+            <p>It is also possible to manually control the exact encodation of the input data.
+                This is done by supplying one or more data tuples where the first entry in the tuple
+                is the compaction schema and the second the data. To encode the data manually the
+                following structure must then be followed:</p>
+            <p>
+                </p><div class="figure"><a name="id2618092"></a><p class="title"><b>Figure 27.10. Structure for manually specify QR encodation schema</b></p><div class="figure-contents">
+                    
+                    <pre class="screen">$data = array( array( &lt;encoding_mode1&gt; , &lt;data1&gt; ),
+               array( &lt;encoding_mode2&gt; , &lt;data2&gt; ),
+                         ...
+               array( &lt;encoding_modeN&gt; , &lt;dataN&gt; ));</pre>
+                </div></div><p><br class="figure-break">
+            </p>
+            <p>The encoding mode is specified as one of three symbolic constants</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">QREncoder::MODE_NUMERIC</code></p>
+                    </li><li class="listitem">
+                        <p><code class="code">QREncoder::MODE_ALPHANUM</code></p>
+                    </li><li class="listitem">
+                        <p><code class="code">QREncoder::MODE_BYTE</code></p>
+                    </li></ul></div><p>
+            </p>
+            <p>and the data is specified as a regular text string. Each section of data must
+                therefore have the compaction mode specified. </p>
+            <p>In order to use a specific encodation schema one has to create an array as input
+                instead of the normal string input. For example, to specify an input where the
+                encodation should be alphanumeric encoding of the digits '0123456789' one would have
+                to create the array </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">QREncoder</span><span class="hl-code">::</span><span class="hl-identifier">MODE_ALPHANUM</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">0123456789</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+...
+</span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>It is also possible to use different encodings for different parts of the data in
+                a similar way as the following example shows</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-identifier">QREncoder</span><span class="hl-code">::</span><span class="hl-identifier">MODE_ALPHANUM</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">0123456789</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">,
+               </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-identifier">QREncoder</span><span class="hl-code">::</span><span class="hl-identifier">MODE_BYTE</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">ABCDEFGH</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code"> 
+             </span><span class="hl-brackets">)</span><span class="hl-code">;
+...
+...
+</span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Reading input data from a file"><div class="titlepage"><div><div><h3 class="title"><a name="id2618170"></a>Reading input data from a file</h3></div></div></div>
+            
+            <p>Normally the method Backend::Stroke($aData) is sued to create a QR code from the
+                datastring given. This string can of course come from a database, user input or from
+                a file. The library provides a utility method </p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">Backend::StrokeFromFile($aFromFile,$aToFile='')</code></p>
+                        <p><code class="code">$aFromFile</code>, The file to read the data from</p>
+                        <p><code class="code">$aToFile</code>, Optional filename to write the generated QR
+                            code to</p>
+                    </li></ul></div><p>
+            </p>
+            <p>which makes it easy to get data directly from a file. Otherwise it behaves exactly
+                the same as the normal <code class="code">Backend::Stroke()</code>.</p>
+        </div>
+        <div class="sect2" title="Creating different backends"><div class="titlepage"><div><div><h3 class="title"><a name="id2618220"></a>Creating different backends</h3></div></div></div>
+            
+            <p>In order to create the actual output one or more backends must be created. The QR
+                Code supports the following backends:</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">BACKEND_IMAGE</code>, Create an image backend. This is the
+                            default backend if no explicit backend is specified.</p>
+                    </li><li class="listitem">
+                        <p><code class="code">BACKEND_PS</code>, Create a postscript backend. The text string
+                            that represents the postscript for the barcode is returned directly from
+                            the <code class="code">Backend::Stroke()</code></p>
+                    </li><li class="listitem">
+                        <p><code class="code">BACKEND_EPS</code>, Create an encapsulated postscript
+                            backend</p>
+                    </li><li class="listitem">
+                        <p><code class="code">BACKEND_ASCII</code>, This is a special backend which will
+                            generate an ASCII rendering of the datamatrix barcode. This is mostly
+                            practical for technical investigations regarding the technical structure
+                            of a Datamatrix barcode.</p>
+                    </li></ul></div><p>
+            </p>
+            <p>The following code snippet shows two ways of creating a barcode image
+                backend.</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">QREncoder</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">QRCodeBackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-var">$encoder</span><span class="hl-brackets">)</span><span class="hl-code">;
+...
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">QREncoder</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">QRCodeBackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-var">$encoder</span><span class="hl-code">,</span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-brackets">)</span><span class="hl-code">;
+...
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>The following code shows a complete script to generate a postscript output</p>
+            <p>
+                </p><div class="example"><a name="example.qrexample11"></a><p class="title"><b>Example 27.4. Generating Postscript output (<code class="filename">qrexample11.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Include the library</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/QR/qrencoder.inc.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Example 11 : Generate postscript output</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-var">$data</span><span class="hl-code">         = </span><span class="hl-quotes">'</span><span class="hl-string">ABCDEFGH01234567</span><span class="hl-quotes">'</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> Data to be encoded</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$version</span><span class="hl-code">      = -</span><span class="hl-number">1</span><span class="hl-code">;  </span><span class="hl-comment">//</span><span class="hl-comment"> -1 = Let the library decide version (same as default)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$corrlevel</span><span class="hl-code">    = </span><span class="hl-identifier">QRCapacity</span><span class="hl-code">::</span><span class="hl-identifier">ErrH</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> Error correction level H (Highest possible)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$modulewidth</span><span class="hl-code">  = </span><span class="hl-number">3</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new instance of the encoder using the specified</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> QR version and error correction</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">QREncoder</span><span class="hl-brackets">(</span><span class="hl-var">$version</span><span class="hl-code">,</span><span class="hl-var">$corrlevel</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Use the image backend</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">QRCodeBackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-var">$encoder</span><span class="hl-code">, </span><span class="hl-identifier">BACKEND_PS</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the module size</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetModuleWidth</span><span class="hl-brackets">(</span><span class="hl-var">$modulewidth</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Store the barcode in the specifed file</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$ps_str</span><span class="hl-code"> = </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;pre&gt;</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$ps_str</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">&lt;/pre&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break"> 
+            </p>
+            <div class="figure"><a name="id2618334"></a><p class="title"><b>Figure 27.11. QR Code - Example Postscript Output</b></p><div class="figure-contents">
+                
+                <div class="mediaobject"><img src="images/qr-postscript.png" alt="QR Code - Example Postscript Output"></div>
+            </div></div><br class="figure-break">
+        </div>
+        <div class="sect2" title="Generic backend methods"><div class="titlepage"><div><div><h3 class="title"><a name="id2618316"></a>Generic backend methods</h3></div></div></div>
+            
+            <p>The following methods are available to adjust the final look and feel of the
+                barcode</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p><code class="code">Backend::SetColor($aOne, $aZero,
+                            $aBackground='white')</code></p>
+                        <p>the color of the 'black' and 'white' modules in the barcode and the
+                            quiet area around the barcode</p>
+                    </li><li class="listitem">
+                        <p><code class="code">Backend::SetQuietZone($aSize)</code></p>
+                        <p>the size of the "quiet zone" in pixels for the image backend and in
+                            points (1 pt = 1/72 inch) for the postscript backend</p>
+                    </li><li class="listitem">
+                        <p><code class="code">Backend::SetModuleWidth($aWidth)</code></p>
+                        <p>the module width specified in pixels for the image backend and in
+                            points (1 pt = 1/72 inch) for the postscript backend</p>
+                    </li><li class="listitem">
+                        <p><code class="code">Backend::Stroke($aData, $aFileName='')</code></p>
+                        <p>create the barcode and send it back the client or store it to a file
+                            if the second parameter is set. For postscript backends the postscript
+                            string is returned directly from the method. (See example above)</p>
+                    </li><li class="listitem">
+                        <p><code class="code">Backend::StrokeFromFile($aFromFileName,$aFileName='')</code></p>
+                        <p>This allows the creation of barcode directly from data in a
+                            file.</p>
+                    </li></ol></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Image backend methods"><div class="titlepage"><div><div><h3 class="title"><a name="id2618431"></a>Image backend methods</h3></div></div></div>
+            
+            <p>For the image backend it is possible to adjust the image encoding format with the
+                following method</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>
+                            <code class="code">Backend::SetImgFormat($aFormat,$aQuality=75)</code>
+                        </p>
+                        <p>Specify image format. Possible values are </p>
+                        <p>
+                            </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                    <p>
+                                        <code class="code">'auto'</code>
+                                    </p>
+                                </li><li class="listitem">
+                                    <p>
+                                        <code class="code">'png'</code>
+                                    </p>
+                                </li><li class="listitem">
+                                    <p>
+                                        <code class="code">'jpeg'</code>
+                                    </p>
+                                </li><li class="listitem">
+                                    <p>
+                                        <code class="code">'gif'</code>
+                                    </p>
+                                </li></ul></div><p>
+                        </p>
+                        <p>For 'jpeg' format the quality parameter is a number in range [1-100]
+                            and specified how much compression / (Data loss) should be used. 100=no
+                            compression. Normal values are in the range [60-95]</p>
+                        <p>The following example sets the image format to 'JPEG' with quality
+                            80.</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$backend-&gt;SetImgFormat('jpeg', 80);</span></pre></td></tr></table></div><p>
+                        </p>
+                    </li></ol></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="Postscript backend methods"><div class="titlepage"><div><div><h3 class="title"><a name="id2618458"></a>Postscript backend methods</h3></div></div></div>
+            
+            <p>For postscript backend it is possible to select whether the postscript should be
+                generated as encapsulated postscript. This is controlled by the method</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">Backend::SetEPS($aFlg=true)</code></p>
+                    </li></ul></div><p>
+            </p>
+        </div>
+        <div class="sect2" title="A template to create barcodes"><div class="titlepage"><div><div><h3 class="title"><a name="id2618569"></a>A template to create barcodes</h3></div></div></div>
+            
+            <p>The following (complete) script can be used as a starting point for creation of
+                more advanced barcode scripts</p>
+            <p>
+                </p><div class="example"><a name="example.qr_template"></a><p class="title"><b>Example 27.5. A QR code template (<code class="filename">qr_template.php</code>) </b></p><div class="example-contents">  <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/QR/qrencoder.inc.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Data to be encoded</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code">         = </span><span class="hl-quotes">'</span><span class="hl-string">ABCDEFGH01234567</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> QR Code specification</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$version</span><span class="hl-code">      = -</span><span class="hl-number">1</span><span class="hl-code">;                  </span><span class="hl-comment">//</span><span class="hl-comment"> -1 = Let the library decide version (same as default)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$corrlevel</span><span class="hl-code">    = </span><span class="hl-identifier">QRCapacity</span><span class="hl-code">::</span><span class="hl-identifier">ErrM</span><span class="hl-code">;   </span><span class="hl-comment">//</span><span class="hl-comment"> Medium erro correction</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$modulewidth</span><span class="hl-code">  = </span><span class="hl-number">2</span><span class="hl-code">;                    </span><span class="hl-comment">//</span><span class="hl-comment"> Module width</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$back</span><span class="hl-code">         = </span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-code">;        </span><span class="hl-comment">//</span><span class="hl-comment"> Default backend</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$quiet</span><span class="hl-code">          = </span><span class="hl-number">4</span><span class="hl-code">;                     </span><span class="hl-comment">//</span><span class="hl-comment"> Same as default value</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create encoder and backend</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$encoder</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">QREncoder</span><span class="hl-brackets">(</span><span class="hl-var">$version</span><span class="hl-code">, </span><span class="hl-var">$corrlevel</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$backend</span><span class="hl-code"> = </span><span class="hl-identifier">QRCodeBackendFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-var">$encoder</span><span class="hl-code">, </span><span class="hl-var">$back</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the module size</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetModuleWidth</span><span class="hl-brackets">(</span><span class="hl-var">$modulewidth</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set Quiet zone (this should rarely need changing from the default)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetQuietZone</span><span class="hl-brackets">(</span><span class="hl-var">$quiet</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$back</span><span class="hl-code"> == </span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+ 
+    </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$str</span><span class="hl-code"> = </span><span class="hl-var">$backend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;pre&gt;</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$str</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">&lt;/pre&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div></div></div><p><br class="example-break">  </p><div class="figure"><a name="fig.qr_template"></a><p class="title"><b>Figure 27.12. A QR code template <code class="uri"><a class="uri" href="example_src/qr_template.html" target="_top">(<code class="filename">qr_template.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/qr_template.png" alt="A QR code template (qr_template.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+        </div>
+        <div class="sect2" title="Sample application"><div class="titlepage"><div><div><h3 class="title"><a name="id2618643"></a>Sample application</h3></div></div></div>
+            
+            <p>As an example the library includes a WEB-based demo barcode creation application.
+                This application can be used to easily create barcode through it's WEB interface. It
+                is available at '<code class="filename">qr/demoapp/index.html</code>'</p>
+            <p>This application is primarily included as a demo on the features available in the
+                library and not as a finalized product.</p>
+            <p><a class="xref" href="ch27s02.html#fig.qr-demo-app" title="Figure 27.13. QR Code WEB-based demo application">Figure 27.13. QR Code WEB-based demo application</a> shows a screen shot of the application
+                interface.</p>
+            <div class="figure"><a name="fig.qr-demo-app"></a><p class="title"><b>Figure 27.13. QR Code WEB-based demo application</b></p><div class="figure-contents">
+                
+                <div class="mediaobject"><img src="images/qr-demoapp.png" alt="QR Code WEB-based demo application"></div>
+            </div></div><br class="figure-break">
+        </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch27.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

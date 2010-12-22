@@ -1,0 +1,106 @@
+<div style="font-weight: bold;margin-left:15px;">dateaxisex1.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_line.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> The callback that converts timestamp to minutes and seconds</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">TimeCallback</span><span class="hl-brackets">(</span><span class="hl-var">$aVal</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-identifier">Date</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">H:i:s</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$aVal</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Fake some suitable random data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$now</span><span class="hl-code"> = </span><span class="hl-identifier">time</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$datax</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-var">$now</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-number">360</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> += </span><span class="hl-number">10</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$datax</span><span class="hl-brackets">[</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$now</span><span class="hl-code"> + </span><span class="hl-var">$i</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-var">$n</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$datax</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$datay</span><span class="hl-code">=</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$n</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$datay</span><span class="hl-brackets">[</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-number">30</span><span class="hl-code">,</span><span class="hl-number">150</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the basic graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-number">324</span><span class="hl-code">,</span><span class="hl-number">250</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">30</span><span class="hl-code">,</span><span class="hl-number">70</span><span class="hl-brackets">)</span><span class="hl-code">;    
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Date: </span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-identifier">date</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Y-m-d</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$now</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetAlphaBlending</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup a manual x-scale (We leave the sentinels for the</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Y-axis at 0 which will then autoscale the Y-axis.)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> We could also use autoscaling for the x-axis but then it</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> probably will start a little bit earlier than the first value</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> to make the first value an even number as it sees the timestamp</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> as an normal integer value.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">intlin</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">200</span><span class="hl-code">,</span><span class="hl-var">$now</span><span class="hl-code">,</span><span class="hl-var">$datax</span><span class="hl-brackets">[</span><span class="hl-var">$n</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the x-axis with a format callback to convert the timestamp</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> to a user readable time</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLabelFormatCallback</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">TimeCallback</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLabelAngle</span><span class="hl-brackets">(</span><span class="hl-number">90</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the line</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$p1</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay</span><span class="hl-code">,</span><span class="hl-var">$datax</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">blue</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the fill color partly transparent</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$p1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">blue@0.4</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add lineplot to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$p1</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Output line</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

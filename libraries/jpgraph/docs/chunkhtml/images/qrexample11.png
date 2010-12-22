@@ -1,0 +1,49 @@
+<pre>%!PS-Adobe-3.0
+%%Title: QR Barcode 2-H, mask=6
+%%Creator: JpGraph Barcode http://jpgraph.net/
+%%CreationDate: Wed 6 Oct 23:36:10 2010
+%%DocumentPaperSizes: A4
+%%EndComments
+%%BeginProlog
+%%EndProlog
+%%Page: 1 1
+
+%Module width: 3 pt
+
+%Data: ABCDEFGH01234567
+%Each line represents one row and the x-position for black modules: [xpos]
+
+3.05 setlinewidth
+[[12][15][18][21][24][27][30][45][51][66][69][72][75][78][81][84]] {{} forall 87 moveto 0 -3.05 rlineto stroke} forall
+[[12][30][45][66][84]] {{} forall 84 moveto 0 -3.05 rlineto stroke} forall
+[[12][18][21][24][30][36][39][42][45][51][66][72][75][78][84]] {{} forall 81 moveto 0 -3.05 rlineto stroke} forall
+[[12][18][21][24][30][36][39][45][48][51][54][66][72][75][78][84]] {{} forall 78 moveto 0 -3.05 rlineto stroke} forall
+[[12][18][21][24][30][45][66][72][75][78][84]] {{} forall 75 moveto 0 -3.05 rlineto stroke} forall
+[[12][30][39][45][48][51][54][60][66][84]] {{} forall 72 moveto 0 -3.05 rlineto stroke} forall
+[[12][15][18][21][24][27][30][36][42][48][54][60][66][69][72][75][78][81][84]] {{} forall 69 moveto 0 -3.05 rlineto stroke} forall
+[[39][42][51][60]] {{} forall 66 moveto 0 -3.05 rlineto stroke} forall
+[[21][24][30][33][39][48][51][54][60][75][78]] {{} forall 63 moveto 0 -3.05 rlineto stroke} forall
+[[15][18][27][39][42][45][48][51][54][57][69][78][81][84]] {{} forall 60 moveto 0 -3.05 rlineto stroke} forall
+[[12][21][27][30][33][36][42][51][54][57][60][66][75][78][84]] {{} forall 57 moveto 0 -3.05 rlineto stroke} forall
+[[18][21][27][39][45][51][57][60][63][66][81][84]] {{} forall 54 moveto 0 -3.05 rlineto stroke} forall
+[[12][15][18][24][27][30][33][39][51][57][63][69][75][84]] {{} forall 51 moveto 0 -3.05 rlineto stroke} forall
+[[12][15][21][48][66][69][81][84]] {{} forall 48 moveto 0 -3.05 rlineto stroke} forall
+[[12][15][18][21][24][30][36][51][54][57][72][78][81]] {{} forall 45 moveto 0 -3.05 rlineto stroke} forall
+[[12][18][24][27][39][45][51][60][75][78][84]] {{} forall 42 moveto 0 -3.05 rlineto stroke} forall
+[[12][24][27][30][33][42][48][57][60][63][66][69][72]] {{} forall 39 moveto 0 -3.05 rlineto stroke} forall
+[[36][42][45][60][72][75][78][84]] {{} forall 36 moveto 0 -3.05 rlineto stroke} forall
+[[12][15][18][21][24][27][30][36][39][48][51][54][57][60][66][72][81][84]] {{} forall 33 moveto 0 -3.05 rlineto stroke} forall
+[[12][30][39][42][45][51][54][57][60][72][84]] {{} forall 30 moveto 0 -3.05 rlineto stroke} forall
+[[12][18][21][24][30][36][42][45][51][54][60][63][66][69][72][75][78]] {{} forall 27 moveto 0 -3.05 rlineto stroke} forall
+[[12][18][21][24][30][36][39][42][54][72][84]] {{} forall 24 moveto 0 -3.05 rlineto stroke} forall
+[[12][18][21][24][30][39][45][51][60][63][66][72][75][81][84]] {{} forall 21 moveto 0 -3.05 rlineto stroke} forall
+[[12][30][39][42][45][48][51][60][63][66][69][78][81]] {{} forall 18 moveto 0 -3.05 rlineto stroke} forall
+[[12][15][18][21][24][27][30][42][48][54][57][60][63][66][69][72][75][78][81][84]] {{} forall 15 moveto 0 -3.05 rlineto stroke} forall
+
+%End of QR Barcode 
+
+showpage 
+
+%%Trailer
+
+</pre>

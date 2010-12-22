@@ -1,0 +1,436 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Contour graphs</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch15.html" title="Chapter 15. Different types of linear (cartesian) graph types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Contour graphs </th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 15. Different types of linear (cartesian) graph types</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Contour graphs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec.contour-graphs"></a>Contour graphs </h2></div></div></div>
+            
+            <p>In order to create Radar graphs the module
+                    "<code class="filename">jpgraph_contour.php</code>" must first be included.</p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p> The Pro-version (&gt;= v3.1) also includes a module
+                            "<code class="filename">jpgraph_contourf.php</code>" which is also supports
+                        filled contour plots as well as labelling in the plots of the isobar lines.
+                        The pro-version also uses a more advanced adaptive-mesh algorithm that give
+                        better resolution without manual interpolation of the original data. Both
+                        triangular and rectangular interpolation meshes are supported. The filled
+                        contour is described in <a class="xref" href="ch23.html" title="Chapter 23. Filled contour graphs">Chapter 23. <i>Filled contour graphs</i></a>
+                    </p>
+                </div><p>
+            </p>
+            <p>Contour plots are used to plot the isobar lines (height curves) of a three
+                dimensional (3D) graph. The contour plot itself is only a two-dimensional plot and
+                looks like an ordinary topographic map. An example of a contour graph is shown in
+                    <a class="xref" href="ch15s06.html#fig.basic_contourex01" title="Figure 15.75. A basic contour graph (basic_contourex01.php)">Figure 15.75. A basic contour graph <code class="uri"><a class="uri" href="example_src/basic_contourex01.html" target="_top">(<code class="filename">basic_contourex01.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="figure"><a name="fig.basic_contourex01"></a><p class="title"><b>Figure 15.75. A basic contour graph <code class="uri"><a class="uri" href="example_src/basic_contourex01.html" target="_top">(<code class="filename">basic_contourex01.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/basic_contourex01.png" alt="A basic contour graph (basic_contourex01.php)"></span> </div></div><p><br class="figure-break">
+            </p>
+            <p>A contour graph is both similar and different from other types x-y graphs.</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p>A contour graph uses the standard x-y <code class="code">class Graph</code> as
+                            basic graph canvas</p>
+                    </li><li class="listitem">
+                        <p>A contour graph has all the standard graph formatting options</p>
+                    </li><li class="listitem">
+                        <p>The legend is automatically generated</p>
+                    </li><li class="listitem">
+                        <p>The input data is a matrix and not an array</p>
+                    </li></ul></div><p>
+            </p>
+            <p>There are primarily four main parameters that can be used to control the apparency
+                of the contour plots</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p><span class="bold"><strong>the number of isobar lines</strong></span>, by
+                            default 10 isobar lines are used</p>
+                    </li><li class="listitem">
+                        <p><span class="bold"><strong>the level of data grid interpolating,</strong></span>
+                            i.e. to give the appearance of smoother isobar lines it is possible to
+                            tell the library to create a number of intermediate points between the
+                            given points in the input data matrix. It is important to note that this
+                            does not create any further real information it only creates smoother
+                            lines under the assumption that it is valid to assume linear
+                            interpolation between the original data points. </p>
+                        <p>The level of interpolation is specified as an integer in the practical
+                            range 1 to 5. A level of 1 corresponds to just keeping the original
+                            data, a level of 2 corresponds to subdividing the original data points
+                            in two, i.e. one extra interpolated points is created in both x- and
+                            y-direction and so on. A level of 3 corresponds to further sub-divding
+                            the level 2 matrix one more time. </p>
+                        <p>Even though it is theoretically possible to use an arbitrary
+                            interpolation factor the library does not allow an interpolation factor
+                            larger than 5. The reason is purely computational since the total number
+                            of data points increases very quickly.</p>
+                        <p>For example if the original grid has size 10x10 (=100 data points)
+                            interpolating this grid with a factor of 5 will generate a new matrix of
+                            size 145x145 (=21025 data points).</p>
+                    </li><li class="listitem">
+                        <p><span class="bold"><strong>flip around the Y-axis</strong></span>. By default
+                            the first row in the input matrix corresponds to y=0, however this also
+                            means that the plotted contour will be flipped compared with the input
+                            matrix since y=0 is at the bottom of the graph. If for visual appearance
+                            reason one wants the input data matrix to have the same orientation as
+                            the resulting graph it is possible to have the library interpret the
+                            last row in the input data matrix as y=0 instead</p>
+                    </li><li class="listitem">
+                        <p><span class="bold"><strong>the color of the isobar lines</strong></span>. By
+                            default they will be assigned from the natural color spectra with pure
+                            dark blue corresponding to the lowest point in the plot and pure red
+                            corresponding to the highest isobar.</p>
+                    </li></ol></div><p>
+            </p>
+            <p>The remaining possibilities to adjust the appearance of the contour plot
+                corresponds to the standard ways of changing the layout of the graph, for example
+                adding titles, adjusting colors and changing the type of axis to be
+                displayed.</p>
+            <p>The scale of the contour plot is by default the natural scale, i.e. the points are
+                assumed to be numbered (0..n) where n is the number of points in the corresponding
+                direction and also corresponds to each entry in the input data matrix.</p>
+            <div class="sect2" title="Input data for contour graphs"><div class="titlepage"><div><div><h3 class="title"><a name="id2562600"></a>Input data for contour graphs</h3></div></div></div>
+                
+                <p>The input data to a contour graph is a matrix. The value at each entry in the
+                    matrix represents the heights at the specified (row,col) in the matrix. In all
+                    of our example we will use the following data matrix</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+            </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.1</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-number">.1</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.9</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.1</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.4</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.8</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.4</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.6</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.1</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.2</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.7</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.8</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.4</span><span class="hl-brackets">)</span><span class="hl-code">,
+            </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-code">,</span><span class="hl-number">6</span><span class="hl-number">.0</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-number">.2</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>By default the entry (0,0), i.e. row=0, col=0 will be positioned at graph
+                    position (0,0), i.e. the lower left corner. Since this will represent an
+                    inverted image compare to the data matrix. In order to have the graph oriented
+                    in the same way as the data matrix, i.e. entry (0,0) positioned in the top left
+                    corner the method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">ContourPlot::SetInvert($aFlg=true)</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>In order to get a smooth contour plot it is necessary to have adequate number
+                    of data points. What consists "adequate" number depends on the overall graph
+                    size. The larger graph the more points are needed. To help crate smooth contour
+                    plot the library offers automatic linear interpolation to specified depth. It is
+                    important to note that this does not increase the accuracy. It merely creates
+                    artificial point to draw smoother curves. This technique is described in detail
+                    in <a class="xref" href="ch15s06.html#sec.grid-interpolating" title="Understanding mesh interpolation">Understanding mesh interpolation</a></p>
+                <div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>If the data for the matrix is available in a file a convinient way to get
+                        hold of the dat in the file is to use the utility <code class="code">class
+                            ReadFileData</code> to get hold of the data using the method<code class="code">
+                            ReadFileData::FromMatrix($aFile,$aSeparator=' ')</code> which read the
+                        matrix from a file. Each row of the matrix must be a separate line and each
+                        cell is separated with the character specified as the second argument. By
+                        default a space is used as separator. All values read back are converted to
+                        floating point numbers (double precision). The following short example shows
+                        how easy this is to use</p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = ReadFileData::FromMatrix('matrixdata.txt');</span></pre></td></tr></table></div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="Creating a contour graph"><div class="titlepage"><div><div><h3 class="title"><a name="sec.creating-contour-graph"></a>Creating a contour graph</h3></div></div></div>
+                
+                <p><a class="xref" href="ch15s06.html#fig.basic_contourex01" title="Figure 15.75. A basic contour graph (basic_contourex01.php)">Figure 15.75. A basic contour graph <code class="uri"><a class="uri" href="example_src/basic_contourex01.html" target="_top">(<code class="filename">basic_contourex01.php</code>)</a></code> </a> shows the most basic contour plot.
+                    This is crated by first instantiating a graph and then creating an instance of
+                        <code class="code">class ContourPlot</code> which is added to the graph. </p>
+                <p>The constructor for <code class="code">class ContourPlot</code> has the following
+                    signature</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">ContourPlot::__construct($aDataMatrix, $aIsobar=10,
+                                    $aFactor=1, $aInvert=false,
+                                $aIsobarColors=array())</code></p>
+                            <p><code class="code">$aDataMatrix</code>, The input data</p>
+                            <p><code class="code">$aIsobar</code>, The number of isobars if the argument is an
+                                integer or an array specifying the exact locations of each isobar if
+                                the argument is an array</p>
+                            <p><code class="code">$aFactor</code>, Grid interpolation factor</p>
+                            <p><code class="code">$aInvert</code>, Invert the data matrix so the matrix entry
+                                (0,0) corresponds to the top left corner</p>
+                            <p><code class="code">$aIsobarColors</code>, Optional specification of isobar
+                                colors </p>
+                        </li></ul></div><p>
+                </p>
+                <p>This means that the common structure to create a basic contour plot will
+                    be</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> ... </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Basic contour graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-var">$width</span><span class="hl-code">,</span><span class="hl-var">$height</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">intint</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Adjust the margins to fit the margin</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">30</span><span class="hl-code">,</span><span class="hl-number">100</span><span class="hl-code">,</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">30</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Basic contour plot</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> A simple contour plot with default arguments (e.g. 10 isobar lines)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$cp</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">ContourPlot</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Display the legend</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$cp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">ShowLegend</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$cp</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>Since the most common format for contour graphs is to show axis on all sides
+                    we should add the line</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;SetAxisStyle(AXSTYLE_BOXOUT);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>to our previous example so we get the effect shown in <a class="xref" href="ch15s06.html#fig.basic_contourex02" title="Figure 15.76. Adding axis on all sides (basic_contourex02.php)">Figure 15.76. Adding axis on all sides <code class="uri"><a class="uri" href="example_src/basic_contourex02.html" target="_top">(<code class="filename">basic_contourex02.php</code>)</a></code> </a>. To show the effect of flipping the
+                    data around the center line we have to add the following line</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$cp-&gt;SetInvert();</span></pre></td></tr></table></div><p>
+                </p>
+                <p>and get the result of adding this line is shown in <a class="xref" href="ch15s06.html#fig.basic_contourex05" title="Figure 15.77. Flipping the data around the center line (basic_contourex05.php)">Figure 15.77. Flipping the data around the center line <code class="uri"><a class="uri" href="example_src/basic_contourex05.html" target="_top">(<code class="filename">basic_contourex05.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                        <div class="figure"><a name="fig.basic_contourex02"></a><p class="title"><b>Figure 15.76. Adding axis on all sides <code class="uri"><a class="uri" href="example_src/basic_contourex02.html" target="_top">(<code class="filename">basic_contourex02.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/basic_contourex02.png" alt="Adding axis on all sides (basic_contourex02.php)"></span> </div></div><br class="figure-break">
+                                    </td><td>
+                                        <div class="figure"><a name="fig.basic_contourex05"></a><p class="title"><b>Figure 15.77. Flipping the data around the center line <code class="uri"><a class="uri" href="example_src/basic_contourex05.html" target="_top">(<code class="filename">basic_contourex05.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/basic_contourex05.png" alt="Flipping the data around the center line (basic_contourex05.php)"></span> </div></div><br class="figure-break">
+                                    </td></tr></tbody></table>
+                    </div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Adjusting the color and number of isobar lines"><div class="titlepage"><div><div><h3 class="title"><a name="id2562850"></a>Adjusting the color and number of isobar lines</h3></div></div></div>
+                
+                <p>As mentioned above the library uses 10 isobar lines by default. The number of
+                    isobar lines can be adjusted by specifying a second integer argument to the
+                    constructor of the contour plot. For example to use only 5 isobar lines the
+                    construction of the contour plot would be changed to</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$contourplot = new ContourPlot($data,5);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The result of changing this in the previous example is shown in <a class="xref" href="ch15s06.html#fig.basic_contourex04" title="Figure 15.78. Using only 5 isobar lines (basic_contourex04.php)">Figure 15.78. Using only 5 isobar lines <code class="uri"><a class="uri" href="example_src/basic_contourex04.html" target="_top">(<code class="filename">basic_contourex04.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.basic_contourex04"></a><p class="title"><b>Figure 15.78. Using only 5 isobar lines <code class="uri"><a class="uri" href="example_src/basic_contourex04.html" target="_top">(<code class="filename">basic_contourex04.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/basic_contourex04.png" alt="Using only 5 isobar lines (basic_contourex04.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>The values for the isobars are determined by finding the lowest and highest
+                    point in the input data matrix and then spreading the isobars evenly between
+                    these extreme points. </p>
+                <p>In some applications however it is necessary to have better control over where
+                    exactly the isobars are placed and for this reason it is possible to tell the
+                    library exactly at what values the isobars should be. </p>
+                <p>This is done by providing an array with the values of the isobars instead of a
+                    single number in the creation of the contour plot as the following example
+                    shows</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$isoBars</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-number">0</span><span class="hl-number">.1</span><span class="hl-code">,  </span><span class="hl-number">0</span><span class="hl-number">.2</span><span class="hl-code">,  </span><span class="hl-number">0</span><span class="hl-number">.3</span><span class="hl-code">,  </span><span class="hl-number">0</span><span class="hl-number">.4</span><span class="hl-code">,  </span><span class="hl-number">0</span><span class="hl-number">.5</span><span class="hl-code">,  </span><span class="hl-number">0</span><span class="hl-number">.6</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-var">$cp</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">ContourPlot</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-code">, </span><span class="hl-var">$isoBars</span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The isobar colors can be adjusted by specifying a color array that specifies
+                    the color for each isobar.</p>
+                <p>However, there is some simpler changes that ca be made to change the colors
+                    without having to go through the "trouble" of såspecifying a color array. </p>
+                <p>There are usually two reasons for changing the default color spectra. </p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>to use more high contrast colors</p>
+                        </li><li class="listitem">
+                            <p>to use only black and white colors</p>
+                        </li></ol></div><p>
+                </p>
+                <p>This can be accomplished with a call to the method </p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">ContourPlot::UseHighContrastColor($aFlg=true,$aBW=false)
+                                </code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>as the following example shows</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$cp = new  ContourPlot( $data );
+$cp-&gt;UseHighContrastColor( true );</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The above example will only use a blue to red color scale and avoid the
+                    "low-contrast" greenish middle color spectrum colors.</p>
+                <p>By also setting the second argument to the high contrast method to true the
+                    colors are restricted to only black and white. This will of course make it
+                    impossible to exactly know the value each isobar represents but could be useful
+                    for gaining some insight in the topography of a graph and would allow better
+                    printing on black and white devices.</p>
+                <p>Specifying manual colors of the isobar can be done in two ways. </p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>By specifying the color array as the fifth argument to the
+                                constructor of ContourPlot as shown in <a class="xref" href="ch15s06.html#sec.creating-contour-graph" title="Creating a contour graph">Creating a contour graph</a></p>
+                        </li><li class="listitem">
+                            <p>By using the method
+                                    <code class="code">ContourPlot::SetIsobarColors($aColors)</code></p>
+                        </li></ol></div><p>
+                </p>
+                <p>
+                    </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                        <p>The number of colors specified must match the number of
+                            isobars.</p>
+                    </div><p>
+                </p>
+            </div>
+            <div class="sect2" title="Understanding mesh interpolation"><div class="titlepage"><div><div><h3 class="title"><a name="sec.grid-interpolating"></a>Understanding mesh interpolation</h3></div></div></div>
+                
+                <p>As mentioned above it is possible to use mesh interpolation to generate
+                    smoother contour graphs. In order to better understand the effect of specifying
+                    different interpolation factors we will show how what effect this have.</p>
+                <p>The data we will be using is given by the following data matrix</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$data = array(
+            array ( 12,7,3,15 ),
+            array ( 18,5,1, 9 ),
+            array ( 13,9,5,12),
+            array (  5,3,8, 9 ),
+            array (  1,8,5, 7 ));</span></pre></td></tr></table></div><p>
+                </p>
+                <p>A basic contour graph using the above data is shown in <a class="xref" href="ch15s06.html#fig.basic_contourex03-1" title="Figure 15.79. Interpolation factor=1 (basic_contourex03-1.php)">Figure 15.79. Interpolation factor=1 <code class="uri"><a class="uri" href="example_src/basic_contourex03-1.html" target="_top">(<code class="filename">basic_contourex03-1.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.basic_contourex03-1"></a><p class="title"><b>Figure 15.79. Interpolation factor=1 <code class="uri"><a class="uri" href="example_src/basic_contourex03-1.html" target="_top">(<code class="filename">basic_contourex03-1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/basic_contourex03-1.png" alt="Interpolation factor=1 (basic_contourex03-1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>In order to specify a grid interpolation factor we need to specify this as the
+                    third argument in the constructor for the contour plot. So in order to specify a
+                    interpolation factor of 2 we would add the line</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$contourplot = new ContourPlot($data,10,3);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>To see the difference between different interpolation factor <a class="xref" href="ch15s06.html#fig.basic_contourex03-2" title="Figure 15.80. Interpolation factor=2 (basic_contourex03-2.php)">Figure 15.80. Interpolation factor=2 <code class="uri"><a class="uri" href="example_src/basic_contourex03-2.html" target="_top">(<code class="filename">basic_contourex03-2.php</code>)</a></code> </a> and <a class="xref" href="ch15s06.html#fig.basic_contourex03-3" title="Figure 15.81. Interpolation factor=3 (basic_contourex03-3.php)">Figure 15.81. Interpolation factor=3 <code class="uri"><a class="uri" href="example_src/basic_contourex03-3.html" target="_top">(<code class="filename">basic_contourex03-3.php</code>)</a></code> </a> shows the effect of using both a
+                    grid interpolation factor of 2 and 3 on the example in <a class="xref" href="ch15s06.html#fig.basic_contourex03-1" title="Figure 15.79. Interpolation factor=1 (basic_contourex03-1.php)">Figure 15.79. Interpolation factor=1 <code class="uri"><a class="uri" href="example_src/basic_contourex03-1.html" target="_top">(<code class="filename">basic_contourex03-1.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                        <div class="figure"><a name="fig.basic_contourex03-2"></a><p class="title"><b>Figure 15.80. Interpolation factor=2 <code class="uri"><a class="uri" href="example_src/basic_contourex03-2.html" target="_top">(<code class="filename">basic_contourex03-2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/basic_contourex03-2.png" alt="Interpolation factor=2 (basic_contourex03-2.php)"></span> </div></div><br class="figure-break">
+                                    </td><td>
+                                        <div class="figure"><a name="fig.basic_contourex03-3"></a><p class="title"><b>Figure 15.81. Interpolation factor=3 <code class="uri"><a class="uri" href="example_src/basic_contourex03-3.html" target="_top">(<code class="filename">basic_contourex03-3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/basic_contourex03-3.png" alt="Interpolation factor=3 (basic_contourex03-3.php)"></span> </div></div><br class="figure-break">
+                                    </td></tr></tbody></table>
+                    </div><p>
+                </p>
+                <p>We can now make two observations based on the above two figures</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>The lines get smoother the higher interpolation factor we
+                                use</p>
+                        </li><li class="listitem">
+                            <p>The automatic scale has changed. This is not surprising since we
+                                have in effect increase the number of data points each time we
+                                increase the interpolation factor. The scale corresponds to the
+                                matrix size (an entry in matrix at position (r,c) corresponds to the
+                                point (x=c,y=r) in the graph.)</p>
+                            <p>Initially we had a data matrix of size 5x4=20 data points, after
+                                doing one interpolation (factor=2) the data matrix will have a size
+                                of 9x7=63 data points and after doing one more interpolation
+                                (factor=3) the data matrix will have a size of 17x13=221 data
+                                points. </p>
+                            <p>If we would have done one more interpolation we would have a data
+                                matrix of size 33x25=825 data points.</p>
+                            <p>The exponential growth of the total number of data point for a
+                                10x10 matrix is shown in <a class="xref" href="ch15s06.html#fig.interpolation-growth" title="Figure 15.82. The exponential growth of the data size due to grid interpolation factor (interpolation-growth.php)">Figure 15.82. The exponential growth of the data size due to grid interpolation factor <code class="uri"><a class="uri" href="example_src/interpolation-growth.html" target="_top">(<code class="filename">interpolation-growth.php</code>)</a></code> </a>. This also makes a good
+                                example of using a logarithmic y-scale. If the graph is a straight
+                                line when plotted against a logarithmic scale this confirms our
+                                suspicion that this is indeed a exponentially growing function.
+                                    <a class="xref" href="ch15s06.html#fig.interpolation-growth-log" title="Figure 15.83. The exponential growth of the data size due to the grid interpolation factor (log scale) (interpolation-growth-log.php)">Figure 15.83. The exponential growth of the data size due to the grid interpolation factor (log scale) <code class="uri"><a class="uri" href="example_src/interpolation-growth-log.html" target="_top">(<code class="filename">interpolation-growth-log.php</code>)</a></code> </a> shows a
+                                variant with a logarithmic y-scale (which confirms our
+                                suspicion.)</p>
+                        </li></ol></div><p>
+                </p>
+                <div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>The helper class to do the actual interpolation can also be used directly
+                        in other context. In order to create a new interpolated data matrix with a
+                        specific interpolation factor the following code snippet can be used.</p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$dataMatrix</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> ... </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$factor</span><span class="hl-code"> = ... ;
+</span><span class="hl-var">$grid_interpolate</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Interpolate</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$dataMatrix</span><span class="hl-code"> = </span><span class="hl-var">$grid_interpolate</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Linear</span><span class="hl-brackets">(</span><span class="hl-var">$dataMatrix</span><span class="hl-code">, </span><span class="hl-var">$factor</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                    </p>
+                </div>
+                <p>
+                    </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                        <p>There is also a utility function
+                                <code class="code">doMeshInterpolate(&amp;$aData,$aFactor)</code> that can be
+                            sued to interpolate a matrix in place. This creates the necessary class,
+                            interpolates its first argument and then fills the argument with the
+                            interpolated data. By using call by reference some data copying is
+                            avoided.</p>
+                    </div><p>
+                </p>
+                <p>
+                    </p><div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                        <div class="figure"><a name="fig.interpolation-growth"></a><p class="title"><b>Figure 15.82. The exponential growth of the data size due to grid interpolation factor <code class="uri"><a class="uri" href="example_src/interpolation-growth.html" target="_top">(<code class="filename">interpolation-growth.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/interpolation-growth.png" alt="The exponential growth of the data size due to grid interpolation factor (interpolation-growth.php)"></span> </div></div><br class="figure-break">
+                                    </td><td>
+                                        <div class="figure"><a name="fig.interpolation-growth-log"></a><p class="title"><b>Figure 15.83. The exponential growth of the data size due to the grid interpolation factor (log scale) <code class="uri"><a class="uri" href="example_src/interpolation-growth-log.html" target="_top">(<code class="filename">interpolation-growth-log.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/interpolation-growth-log.png" alt="The exponential growth of the data size due to the grid interpolation factor (log scale) (interpolation-growth-log.php)"></span> </div></div><br class="figure-break">
+                                    </td></tr></tbody></table>
+                    </div><p>
+                </p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch15.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

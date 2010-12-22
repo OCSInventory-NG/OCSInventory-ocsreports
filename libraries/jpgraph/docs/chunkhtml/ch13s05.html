@@ -1,0 +1,22 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Reading binary data from a file</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch13.html" title="Chapter 13. Getting hold of the data to be displayed"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Reading binary data from a file</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 13. Getting hold of the data to be displayed</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Reading binary data from a file"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2539067"></a>Reading binary data from a file</h2></div></div></div>
+            
+            <p>This can be potentially dangerous since the exact format for the binary data can
+                differ depending on convention and system. The advantage is that it usually gives
+                smaller data files and is usually not as suspect to data corruption since it is not
+                easy to read directly into a text editor and change. In PHP a variable can be stored
+                in a binary format using the <code class="code">serialize()</code> function and read back from a
+                file with <code class="code">unserialize()</code></p>
+            <p>
+                </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>It is also possible to store binary data in a text file as a string. One
+                        way of doing this is to do a base64 encoding of the binary data. This will
+                        guarantee that the encoded data will only be printable characters which can
+                        be stored in a normal string. One thing to remember is that this will
+                        enlarge the data by roughly 30%. Another example on when base64 encoding is
+                        useful is to store binary images in a text file. This is the way for example
+                        all built-in images are stored in the library. The image is the re-created
+                        from the string by first decoding the base64 data and then read in the data
+                        with the GD function <code class="code">imagecreatefromstring()</code> .</p>
+                </div><p>
+            </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch13.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

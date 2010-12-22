@@ -1,0 +1,53 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Generating barcodes on the command line</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch24.html" title="Chapter 24. Linear Barcodes (One Dimensional Barcodes)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Generating barcodes on the command line</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 24. Linear Barcodes (One Dimensional Barcodes)</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Generating barcodes on the command line"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec.command-line-barcode"></a>Generating barcodes on the command line</h2></div></div></div>
+            
+            <p>The library includes a command line utility as an additional example on how to use
+                the library.</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="filename">mkbarcode.php</code></p>
+                    </li></ul></div><p>
+            </p>
+            <p>This utility can be found in the "<code class="filename">barcode/</code>" directory. This
+                utility should be used from the command line as the following example shows</p>
+            <p>
+                </p><pre class="screen">$&gt;php mkbarcode.php -b code39 ABC123 &gt; barcode.png</pre><p>
+            </p>
+            <p>The line above will create a barcode from the data string "abc123" using the Code
+                39 symbology and store the resulting image in the file
+                    "<code class="filename">barcode.png</code>".</p>
+            <p>Using the command utility as above assumes that the client version of PHP is
+                available at the command line. </p>
+            <p>This utility has the following syntax</p>
+            <p>
+                </p><pre class="screen">mkbarcode.php -b &lt;symbology&gt; [-r -h -c -o &lt;output format&gt; -m &lt;width&gt; -s &lt;scale&gt;\\ 
+-y &lt;height&gt; -f &lt;filename&gt; ] datastring
+
+Create the specified barcode
+-b           What symbology to use, one of the following strings (case insensitive)
+             UPCA
+             UPCE
+             EAN128
+             EAN13
+             EAN8
+             CODE11
+             CODE39
+             CODE128
+             CODE25
+             CODEI25
+             CODABAR
+             BOOKLAND
+-c           Add checkdigit for symbologies where this is optional
+-o           Output format. 0=Image, 1=PS, 2=EPS
+-m           Module width
+-s           Scale factor
+-h           Show this help
+-f           Filename to write to
+-r           Rotate barcode 90 degrees
+-y height    Set height in pixels
+-x           Hide the human readable text
+--silent     Silent. Don't give any error mesages
+</pre><p>
+            </p>
+            <p>If no filename is given the image will be sent back to the console which means it
+                should be redirected to a file.</p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch24.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

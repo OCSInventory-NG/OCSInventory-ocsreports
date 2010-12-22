@@ -1,0 +1,31 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Installing PhpExpress</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch11.html" title="Chapter 11. NuSphere PHP accelerator"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Installing PhpExpress</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 11. NuSphere PHP accelerator</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Installing PhpExpress"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2537228"></a>Installing PhpExpress</h2></div></div></div>
+            
+            <p>NuSphere PhpExpress is a regular PHP extension, which makes it easy to install and
+                deploy. You can download PhpExpress freely from </p>
+            <p><code class="uri"><a class="uri" href="http://www.nusphere.com/products/phpexpress.htm" target="_top">http://www.nusphere.com/products/phpexpress.htm</a></code></p>
+            <p>To install <span class="italic">NuSphere PhpExpress</span> do the following: </p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>Open your <code class="filename">php.ini</code> file for editing</p>
+                    </li><li class="listitem">
+                        <p>Add line
+                                <code class="code">zend_extension_ts=c:\full\path\to\phpexpress-php-x.x.dll</code>
+                            if you are deploying on Windows, or
+                                <code class="code">zend_extension=/full/path/to/phpexpress-php-x.x</code>.so if
+                            you are deploying on Unix, Linux or Mac OS operating systems</p>
+                    </li><li class="listitem">
+                        <p>Copy <code class="filename">phpexpress-php-x.x.dll</code> or
+                                <code class="filename">phpexpress-php-x.x</code>.so in the PHP extensions
+                            directory specified in <code class="filename">php.ini</code> file.</p>
+                    </li><li class="listitem">
+                        <p>Stop and Start Apache if you are running PHP as Apache module.</p>
+                    </li><li class="listitem">
+                        <p>[Optional] Execute call to <code class="code">phpinfo()</code> function and make
+                            sure that PhpExpress is properly installed Once PhpExpress is installed
+                            on the server, you can execute PHP Scripts encoded with Nu-Coder as well
+                            as regular, not encoded PHP scripts. In both cases you will gain an
+                            improved performance in the execution of the scripts.</p>
+                    </li></ol></div><p>
+            </p>
+            <p> </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch11.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

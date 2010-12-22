@@ -1,0 +1,871 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_WINDROSEPLOT"><b>WindrosePlot</b></a></div>
+<i>(Defined in: jpgraph_windrose.php : 385)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="WindrosePlot.html" style="font-family:arial;font-weight:bold;color:darkblue;">WindrosePlot</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_FIXUPINDEXES">FixupIndexes()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_GETHEIGHT">getHeight()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_GETWIDTH">getWidth()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_LAYOUTSIZE">LayoutSize()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_NORMANGLE">NormAngle()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETANTIALIAS">SetAntiAlias()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETAUTOSCALEANGLE">SetAutoScaleAngle()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETBOX">SetBox()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETCENTERPOS">SetCenterPos()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETCENTERSIZE">SetCenterSize()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETCOLOR">SetColor()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETCOMPASSLABELS">SetCompassLabels()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETDATAKEYENCODING">SetDataKeyEncoding()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETFONT">SetFont()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETFONTCOLOR">SetFontColor()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETGRIDCOLOR">SetGridColor()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETGRIDWEIGHT">SetGridWeight()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETLABELFORMAT">SetLabelFormat()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETLABELMARGIN">SetLabelMargin()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETLABELPOSITION">SetLabelPosition()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETLABELS">SetLabels()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETPOS">SetPos()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETRADIALCOLORS">SetRadialColors()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETRADIALGRIDSTYLE">SetRadialGridStyle()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETRADIALSTYLES">SetRadialStyles()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETRADIALWEIGHTS">SetRadialWeights()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETRANGECOLORS">SetRangeColors()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETRANGES">SetRanges()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETRANGESTYLE">SetRangeStyle()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETRANGEWEIGHTS">SetRangeWeights()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETSIZE">SetSize()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETTYPE">SetType()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_SETZCIRCLESIZE">SetZCircleSize()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT_STROKE">Stroke()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT__STROKEFREEROSE">_StrokeFreeRose()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT__STROKELEGEND">_StrokeLegend()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT__STROKEREGULARROSE">_StrokeRegularRose()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT__STROKEWINDLEG">_StrokeWindLeg()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT__THICKCIRCLE">_ThickCircle()</a>&nbsp;<br>
+&nbsp;<a href="WindrosePlot.html#_WINDROSEPLOT___CONSTRUCT">__construct()</a>&nbsp;<br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div> <p> &nbsp;
+<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_FIXUPINDEXES"><span style="color:#555555;">WindrosePlot ::</span><br><b>FixupIndexes</b>($aDataArray, $num)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Translate potential string specified compass labels to their// corresponding index.</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aDataArray</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$num</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_GETHEIGHT"><span style="color:#555555;">WindrosePlot ::</span><br><b>getHeight</b>($aImg)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Make sure that the width of the legend fits</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aImg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_GETWIDTH"><span style="color:#555555;">WindrosePlot ::</span><br><b>getWidth</b>($aImg)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// We want the non scaled original radius</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aImg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_LAYOUTSIZE"><span style="color:#555555;">WindrosePlot ::</span><br><b>LayoutSize</b>()</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Dummy method to make window plots have the same signature as the// layout classes since windrose plots are "leaf" classes in the hierarchy</i></span><p>
+<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_NORMANGLE"><span style="color:#555555;">WindrosePlot ::</span><br><b>NormAngle</b>($a)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Some heuristics to have some preferred positions</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$a</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETANTIALIAS"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetAntiAlias</b>($aFlag)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFlag</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETAUTOSCALEANGLE"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetAutoScaleAngle</b>($aIsRegRose)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Draw the text under the legend</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aIsRegRose</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETBOX"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetBox</b>($aColor, $aWeight, $aStyle, $aShow)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'black'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWeight</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">1</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aStyle</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'solid'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aShow</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETCENTERPOS"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetCenterPos</b>($aX, $aY)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Alias for SetPos()</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aX</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aY</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETCENTERSIZE"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetCenterSize</b>($aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETCOLOR"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetColor</b>($aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETCOMPASSLABELS"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetCompassLabels</b>($aLabels)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aLabels</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETDATAKEYENCODING"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetDataKeyEncoding</b>($aEncoding)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aEncoding</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETFONT"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetFont</b>($aFFam, $aFStyle, $aFSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFFam</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFStyle</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">FS_NORMAL</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">10</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETFONTCOLOR"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetFontColor</b>($aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETGRIDCOLOR"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetGridColor</b>($aColor1, $aColor2)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor1</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor2</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETGRIDWEIGHT"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetGridWeight</b>($aGrid1, $aGrid2)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aGrid1</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">1</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aGrid2</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">2</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETLABELFORMAT"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetLabelFormat</b>($aLblFormat)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aLblFormat</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETLABELMARGIN"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetLabelMargin</b>($aMarg)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aMarg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETLABELPOSITION"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetLabelPosition</b>($aPos)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aPos</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETLABELS"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetLabels</b>($aLabels)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aLabels</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETPOS"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetPos</b>($aX, $aY)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aX</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aY</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETRADIALCOLORS"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetRadialColors</b>($aColors)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColors</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETRADIALGRIDSTYLE"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetRadialGridStyle</b>($aStyle)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aStyle</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETRADIALSTYLES"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetRadialStyles</b>($aStyles)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aStyles</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETRADIALWEIGHTS"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetRadialWeights</b>($aWeights)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWeights</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETRANGECOLORS"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetRangeColors</b>($aLegColors)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aLegColors</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETRANGES"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetRanges</b>($aRanges)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aRanges</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETRANGESTYLE"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetRangeStyle</b>($aStyle)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aStyle</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETRANGEWEIGHTS"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetRangeWeights</b>($aWeights)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWeights</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETSIZE"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetSize</b>($aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETTYPE"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetType</b>($aType)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aType</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_SETZCIRCLESIZE"><span style="color:#555555;">WindrosePlot ::</span><br><b>SetZCircleSize</b>($aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Alias for SetCenterSize</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT_STROKE"><span style="color:#555555;">WindrosePlot ::</span><br><b>Stroke</b>($aGraph)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Add an extra margin of 50% the font size//$maxh += round($this->iFontSize*$scaling * 0.5) ;</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aGraph</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT__STROKEFREEROSE"><span style="color:#555555;">WindrosePlot ::</span><br><b>_StrokeFreeRose</b>($dblImg, $value, $scaling, $xc, $yc, $r, $ri)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$dblImg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$value</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$scaling</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$xc</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$yc</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$r</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$ri</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT__STROKELEGEND"><span style="color:#555555;">WindrosePlot ::</span><br><b>_StrokeLegend</b>($aImg, $x, $y, $scaling, $aReturnWidth)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// If less than 1 px long then we assume this has been caused by rounding problems// and should not be stroked</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aImg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$x</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$y</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$scaling</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">1</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aReturnWidth</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">false</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT__STROKEREGULARROSE"><span style="color:#555555;">WindrosePlot ::</span><br><b>_StrokeRegularRose</b>($dblImg, $value, $scaling, $xc, $yc, $r, $ri)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$dblImg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$value</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$scaling</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$xc</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$yc</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$r</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$ri</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT__STROKEWINDLEG"><span style="color:#555555;">WindrosePlot ::</span><br><b>_StrokeWindLeg</b>($aImg, $xc, $yc, $a, $ri, $r, $weight, $color)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aImg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$xc</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$yc</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$a</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$ri</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$r</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$weight</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$color</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT__THICKCIRCLE"><span style="color:#555555;">WindrosePlot ::</span><br><b>_ThickCircle</b>($aImg, $aXC, $aYC, $aRad, $aWeight, $aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aImg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aXC</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aYC</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aRad</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWeight</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">2</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_WINDROSEPLOT___CONSTRUCT"><span style="color:#555555;">WindrosePlot ::</span><br><b>__construct</b>($aData)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>//===================================================// CLASS WindrosePlot//===================================================</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aData</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p> <hr> <p></html>

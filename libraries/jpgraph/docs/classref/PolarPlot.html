@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_POLARPLOT"><b>PolarPlot</b></a></div>
+<i>(Defined in: jpgraph_polar.php : 34)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="PolarPlot.html" style="font-family:arial;font-weight:bold;color:darkblue;">PolarPlot</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="PolarPlot.html#_POLARPLOT_SETCOLOR">SetColor()</a>&nbsp;<br>
+&nbsp;<a href="PolarPlot.html#_POLARPLOT_SETCSIMTARGETS">SetCSIMTargets()</a>&nbsp;<br>
+&nbsp;<a href="PolarPlot.html#_POLARPLOT_SETFILLCOLOR">SetFillColor()</a>&nbsp;<br>
+&nbsp;<a href="PolarPlot.html#_POLARPLOT_SETLEGEND">SetLegend()</a>&nbsp;<br>
+&nbsp;<a href="PolarPlot.html#_POLARPLOT_SETWEIGHT">SetWeight()</a>&nbsp;<br>
+&nbsp;<a href="PolarPlot.html#_POLARPLOT___CONSTRUCT">__construct()</a>&nbsp;<br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>Represents a polar plot. A polar plot is a line plot that may have marks or be filled. 
+
+Public properties are
+
+<ul>
+<li> mark, Instance of class PlotMark. Make sit possible to add Plot marks in the plot.
+</ul> <p> &nbsp;
+<div style="font-weight:bold;font-family:arial;font-size:85%;">See also related classes:</div><a href="PlotMark.html">PlotMark</a> <p> &nbsp;<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_POLARPLOT_SETCOLOR"><span style="color:#555555;">PolarPlot ::</span><br><b>SetColor</b>($aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify line color for polar plot</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Line Color</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify line color for polar plot&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$polarplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetColor</span><span style="color: #007700">(</span><span style="color: #DD0000">'navy'</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_POLARPLOT_SETCSIMTARGETS"><span style="color:#555555;">PolarPlot ::</span><br><b>SetCSIMTargets</b>($aTargets, $aAlts)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify URL targets for markers</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aTargets</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>URL targets</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aAlts</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">null</span>
+</span>
+</td><td>Alt texts</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify URL targets for markers on the polar plot. If you have specified a mark the polar plot you can add URL targets for each mark with this method.
+
+Remember that to create an image map graph you need to construct the graph with the Graph::StrokeCSIM() method instead of the ordinary Graph::Stroke()&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Graph.html#_GRAPH_STROKECSIM">Graph::StrokeCSIM()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Dummy&nbsp;targets<br /></span><span style="color: #0000BB">$t&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'#1'</span><span style="color: #007700">,</span><span style="color: #DD0000">'#2'</span><span style="color: #007700">,</span><span style="color: #DD0000">'#3'</span><span style="color: #007700">,</span><span style="color: #DD0000">'#4'</span><span style="color: #007700">,</span><span style="color: #DD0000">'#5'</span><span style="color: #007700">,</span><span style="color: #DD0000">'#6'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$polarplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetCSIMTargets</span><span style="color: #007700">(</span><span style="color: #0000BB">$t</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_POLARPLOT_SETFILLCOLOR"><span style="color:#555555;">PolarPlot ::</span><br><b>SetFillColor</b>($aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify fill color for plot</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Fill color</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify fill color for plot. If the fill color is specified as '' then no fill will be used.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="PolarPlot.html#_POLARPLOT_SETCOLOR">PolarPlot::SetColor()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$polarplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFillColor</span><span style="color: #007700">(</span><span style="color: #DD0000">'orange'</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_POLARPLOT_SETLEGEND"><span style="color:#555555;">PolarPlot ::</span><br><b>SetLegend</b>($aLegend, $aCSIM, $aCSIMAlt)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify legend text for the plot</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aLegend</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Legend text</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aCSIM</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">""</span><span style="color: #0000BB"></span>
+</span>
+</td><td>URL target for this legend</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aCSIMAlt</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">""</span><span style="color: #0000BB"></span>
+</span>
+</td><td>ALT text for this legend</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify legend text for the plot. When image maps are used you can also specify a URL for this legend.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$polarplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetLegend</span><span style="color: #007700">(</span><span style="color: #DD0000">'Year&nbsp;2002'</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_POLARPLOT_SETWEIGHT"><span style="color:#555555;">PolarPlot ::</span><br><b>SetWeight</b>($aWeight)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Sepcify line weight (in pixels)</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWeight</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Line weight</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Sepcify line weight for plot&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$polarplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetWeight</span><span style="color: #007700">(</span><span style="color: #0000BB">2</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_POLARPLOT___CONSTRUCT"><span style="color:#555555;">PolarPlot ::</span><br><b>__construct</b>($aData)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Constructor. Create a new Polar plot</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aData</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Data array</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>A polar plot is created form an array of (angle,radius) specification for each plot point..&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$pdata&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #0000BB">15</span><span style="color: #007700">,</span><span style="color: #0000BB">35</span><span style="color: #007700">,</span><span style="color: #0000BB">40</span><span style="color: #007700">,</span><span style="color: #0000BB">70</span><span style="color: #007700">,</span><span style="color: #0000BB">70</span><span style="color: #007700">,</span><span style="color: #0000BB">120</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$polarplot&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PolarPlot</span><span style="color: #007700">(</span><span style="color: #0000BB">$pdata</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$polarplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFillColor</span><span style="color: #007700">(</span><span style="color: #DD0000">'lightblue@0.5'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$polargraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Add</span><span style="color: #007700">(</span><span style="color: #0000BB">$polarplot</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$polargraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Stroke</span><span style="color: #007700">();<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p> <hr> <p></html>

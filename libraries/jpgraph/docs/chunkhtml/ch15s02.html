@@ -1,0 +1,604 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Bar graphs</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch15.html" title="Chapter 15. Different types of linear (cartesian) graph types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Bar graphs</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 15. Different types of linear (cartesian) graph types</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Bar graphs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec1.creating-bar-graphs"></a>Bar graphs</h2></div></div></div>
+            
+            <p>The library supports 2D vertical and horizontal bar plots as was shown in the
+                introduction section . To use bar plots the bar plot module
+                    "<code class="filename">jpgraph_bar.php</code>" must be included in the script.</p>
+            <p>There are eight fundamental types of bar graphs supported by the library. Examples
+                of the available types are shown in <a class="xref" href="ch15s02.html#fig.types-of-barplots" title="Figure 15.33. Different types of supported bar graphs">Figure 15.33. Different types of supported bar graphs</a></p>
+            <p>
+                </p><div class="figure"><a name="fig.types-of-barplots"></a><p class="title"><b>Figure 15.33. Different types of supported bar graphs</b></p><div class="figure-contents">
+                    
+                    <div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmbar.png" alt="Different types of supported bar graphs"></span></p>
+                                        <p><span class="bold"><strong>a)</strong></span> Vertical
+                                            bar</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmbar90.png" alt="Different types of supported bar graphs"></span></p>
+                                        <p><span class="bold"><strong>b)</strong></span> Horizontal
+                                            bar</p>
+                                    </td></tr><tr><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmaccbar.png" alt="Different types of supported bar graphs"></span></p>
+                                        <p><span class="bold"><strong>c)</strong></span> Vertical
+                                            accumulated bar</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmaccbar90.png" alt="Different types of supported bar graphs"></span></p>
+                                        <p><span class="bold"><strong>d)</strong></span> Horizontal
+                                            accumulated bar</p>
+                                    </td></tr><tr><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmgroupbar.png" alt="Different types of supported bar graphs"></span></p>
+                                        <p><span class="bold"><strong>e)</strong></span> Vertical group
+                                            bar</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmgroupbar90.png" alt="Different types of supported bar graphs"></span></p>
+                                        <p><span class="bold"><strong>f)</strong></span> Horizontal group
+                                            bar</p>
+                                    </td></tr><tr><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmgroupaccbar.png" alt="Different types of supported bar graphs"></span></p>
+                                        <p><span class="bold"><strong>g)</strong></span> Vertical group
+                                            accumulated bar</p>
+                                    </td><td align="center">
+                                        <p><span class="inlinemediaobject"><img src="images/img_mmgroupaccbar90.png" alt="Different types of supported bar graphs"></span></p>
+                                        <p><span class="bold"><strong>h)</strong></span> Horizontal group
+                                            accumulated bar</p>
+                                    </td></tr></tbody></table>
+                    </div>
+                </div></div><p><br class="figure-break">
+            </p>
+            <p>Using bar plots is straightforward and works in much the same way as line plots as
+                was discussed in the previous sections. </p>
+            <p>An instance of <code class="code">class BarPlot</code> is created with the wanted data and is
+                then either added directly to the graph to create a basic bar plot or is enclosed in
+                with one of the container classes <code class="code">AccBarPlot</code> or
+                    <code class="code">GroupBarPlot</code> which are then added to the graph. </p>
+            <p>There is however one crucial change that is usually made. The x-scale is usually
+                specified as a "<code class="code">text</code>" type scale. The reasons this are primarily
+                two</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>to get the alignment of the labels to be between the tick marks and
+                            not at the tick marks as is normal for line plots</p>
+                    </li><li class="listitem">
+                        <p>to get the bars to be aligned at the center between the tick
+                            marks</p>
+                    </li></ol></div><p>
+            </p>
+            <p>The following two examples shows the difference between using an integer scale in
+                    <a class="xref" href="ch15s02.html#fig.example19.1" title='Figure 15.34. Using "int" scale for the x-axis (example19.1.php)'>Figure 15.34. Using "int" scale for the x-axis <code class="uri"><a class="uri" href="example_src/example19.1.html" target="_top">(<code class="filename">example19.1.php</code>)</a></code> </a> and a text sale in <a class="xref" href="ch15s02.html#fig.example19" title='Figure 15.35. Using "text" scale for the x-axis (example19.php)'>Figure 15.35. Using "text" scale for the x-axis <code class="uri"><a class="uri" href="example_src/example19.html" target="_top">(<code class="filename">example19.php</code>)</a></code> </a></p>
+            <p>
+                </p><div class="informaltable">
+                    <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                    <div class="figure"><a name="fig.example19.1"></a><p class="title"><b>Figure 15.34. Using "int" scale for the x-axis <code class="uri"><a class="uri" href="example_src/example19.1.html" target="_top">(<code class="filename">example19.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example19.1.png" alt='Using "int" scale for the x-axis (example19.1.php)'></span> </div></div><br class="figure-break">
+                                </td><td>
+                                    <div class="figure"><a name="fig.example19"></a><p class="title"><b>Figure 15.35. Using "text" scale for the x-axis <code class="uri"><a class="uri" href="example_src/example19.html" target="_top">(<code class="filename">example19.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example19.png" alt='Using "text" scale for the x-axis (example19.php)'></span> </div></div><br class="figure-break">
+                                </td></tr></tbody></table>
+                </div><p>
+            </p>
+            <p>As can be seen in <a class="xref" href="ch15s02.html#fig.example19.1" title='Figure 15.34. Using "int" scale for the x-axis (example19.1.php)'>Figure 15.34. Using "int" scale for the x-axis <code class="uri"><a class="uri" href="example_src/example19.1.html" target="_top">(<code class="filename">example19.1.php</code>)</a></code> </a> the bars have there left
+                edge aligned with the data value and the tick mark (the tick mark can not be seen
+                since it is aligned exactly with the left edge of the bar). In contrast using a text
+                scale in <a class="xref" href="ch15s02.html#fig.example19" title='Figure 15.35. Using "text" scale for the x-axis (example19.php)'>Figure 15.35. Using "text" scale for the x-axis <code class="uri"><a class="uri" href="example_src/example19.html" target="_top">(<code class="filename">example19.php</code>)</a></code> </a> adjusts the alignment of tick marks and
+                labels in a way that is more commonly used with bar graphs.</p>
+            <p>Some other commonly used method to change the appearance of the bar graphs
+                are</p>
+            <p>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p><code class="code">BarPlot::SetFillColor($aColor)</code></p>
+                        <p>This is used to specify the fill color of the bar. The argument can
+                            also be an array and in that case each color in the array is used for
+                            individual successive bars.</p>
+                    </li><li class="listitem">
+                        <p><code class="code">BarPlot::SetFillGradient($aFromColor,$aToColor=null,$aStyle=null)</code></p>
+                        <p>Specifies a gradient fill style for the bars. See ?? for
+                            details.</p>
+                    </li><li class="listitem">
+                        <p><code class="code">BarPlot::SetPattern($aPattern, $aColor='black')</code></p>
+                        <p>Specifies a pattern to be used to fill the bars. See ?? for
+                            details</p>
+                    </li><li class="listitem">
+                        <p><code class="code">BarPlot::SetWidth($aWidth)</code></p>
+                        <p>Specifies the width of the individual bars. Of this is an integer
+                            value &gt; 1 it is interpretated as the absolute width in pixels. If the
+                            values instead is a real number in the range [0,1] it is interpretated
+                            as the fraction of the width between the tick marks. By default the
+                            width is set to 0.4</p>
+                    </li></ul></div><p>
+            </p>
+            <div class="sect2" title="Accumulated bar plots"><div class="titlepage"><div><div><h3 class="title"><a name="id2558886"></a>Accumulated bar plots</h3></div></div></div>
+                
+                <p>Accumulated bar plots will show several data series stacked on top of each
+                    other in each bar. They are the barplot variant of accumulated area plots as was
+                    discussed previously.</p>
+                <p>An accumulated bar plot is made by aggregating one or more basic bar plots in
+                    the container class <code class="code">AccBarPlot</code> as the following code snippet
+                    shows</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Some data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data1y</span><span class="hl-code"> = ...
+</span><span class="hl-var">$data2y</span><span class="hl-code"> = ...
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create two bar plots</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$b1plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$data1y</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b1plot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">orange</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b2plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$data2y</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b2plot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">blue</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the accumulated bar plot</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$gbplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">AccBarPlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-var">$b1plot</span><span class="hl-code">,</span><span class="hl-var">$b2plot</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the accumulated plot to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$gbplot</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>An example of an accumulated bar plot is shown in <a class="xref" href="ch15s02.html#fig.example23" title="Figure 15.36. An accumulated bar plot (example23.php)">Figure 15.36. An accumulated bar plot <code class="uri"><a class="uri" href="example_src/example23.html" target="_top">(<code class="filename">example23.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example23"></a><p class="title"><b>Figure 15.36. An accumulated bar plot <code class="uri"><a class="uri" href="example_src/example23.html" target="_top">(<code class="filename">example23.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example23.png" alt="An accumulated bar plot (example23.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>There are some subtleties when it comes to the formatting of the frames a
+                    round each bar in an accumulated bar plots that might be useful to know. The
+                    basic ambiguity that exists is that when we stack the bars on top of each other
+                    to create a new accumulated bar each individual bar has properties that was (or
+                    could) be set when each individual barplot was created like the frame around the
+                    plot. </p>
+                <p>For example, take the following basic accumulated bar plot (partial
+                    script)</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the first bar</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$bplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillGradient</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">AntiqueWhite2</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">AntiqueWhite4:0.8</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-identifier">GRAD_VERT</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">darkred</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> And the second bar</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$bplot2</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay2</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillGradient</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">olivedrab1</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">olivedrab4</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-identifier">GRAD_VERT</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">darkgreen</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Join them in an accumulated (stacked) plot</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$accbplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">AccBarPlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-var">$bplot</span><span class="hl-code">,</span><span class="hl-var">$bplot2</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$accbplot</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>As you can see on line 5 and on line 10 we have set the frame color
+                    differently in the two individual plots. However, the accumulated bar plot also
+                    have a frame color property (and a weight as well) so what shall we use? If we
+                    run a full example based on the lines above the result is shown in <a class="xref" href="ch15s02.html#fig.accbarframeex01" title="Figure 15.37. Accumulated bar with individual frame colors (accbarframeex01.php)">Figure 15.37. Accumulated bar with individual frame colors <code class="uri"><a class="uri" href="example_src/accbarframeex01.html" target="_top">(<code class="filename">accbarframeex01.php</code>)</a></code> </a> below.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.accbarframeex01"></a><p class="title"><b>Figure 15.37. Accumulated bar with individual frame colors <code class="uri"><a class="uri" href="example_src/accbarframeex01.html" target="_top">(<code class="filename">accbarframeex01.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/accbarframeex01.png" alt="Accumulated bar with individual frame colors (accbarframeex01.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>As can be seen from the graph the bar around each part has the color on th
+                    frame that was set on the individual bar. There is one exception though. The
+                    line that separates the two bars are shared and will always follow the color of
+                    the top bar.</p>
+                <p>If we instead specify a frame for the accbar by adding the lines</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$accbplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">AccBarPlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-var">$bplot</span><span class="hl-code">,</span><span class="hl-var">$bplot2</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$accbplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">red</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$accbplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$accbplot</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The result would be as is shown in <a class="xref" href="ch15s02.html#fig.accbarframeex02" title="Figure 15.38. Accumulated bar with unit frame color (accbarframeex02.php)">Figure 15.38. Accumulated bar with unit frame color <code class="uri"><a class="uri" href="example_src/accbarframeex02.html" target="_top">(<code class="filename">accbarframeex02.php</code>)</a></code> </a>
+                    and the properties of the accumulated bar takes precedence, again with one
+                    exception. The divider lines inside the bar is still controlled by the
+                    individual plot. By default the line weight on the accumulated bar is 0 which
+                    means that it will not be drawn, that is why we have to set a line weight on
+                    line 4 above.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.accbarframeex02"></a><p class="title"><b>Figure 15.38. Accumulated bar with unit frame color <code class="uri"><a class="uri" href="example_src/accbarframeex02.html" target="_top">(<code class="filename">accbarframeex02.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/accbarframeex02.png" alt="Accumulated bar with unit frame color (accbarframeex02.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>If we instead were to set the individual line weight to zero, i.e.</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-var">$bplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$bplot2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>and keep the overall frame the result would become as shown in <a class="xref" href="ch15s02.html#fig.accbarframeex03" title="Figure 15.39. Setting individual frames to weight=0 (accbarframeex03.php)">Figure 15.39. Setting individual frames to weight=0 <code class="uri"><a class="uri" href="example_src/accbarframeex03.html" target="_top">(<code class="filename">accbarframeex03.php</code>)</a></code> </a> below</p>
+                <p>
+                    </p><div class="figure"><a name="fig.accbarframeex03"></a><p class="title"><b>Figure 15.39. Setting individual frames to weight=0 <code class="uri"><a class="uri" href="example_src/accbarframeex03.html" target="_top">(<code class="filename">accbarframeex03.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/accbarframeex03.png" alt="Setting individual frames to weight=0 (accbarframeex03.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Grouped bar plots"><div class="titlepage"><div><div><h3 class="title"><a name="id2559176"></a>Grouped bar plots</h3></div></div></div>
+                
+                <p>This uses the same principle as accumulated bar plots but instead of stacking
+                    the data series on top of each other they are shown together for the same
+                    x-value.</p>
+                <p>These types of bar graph is used to easy group two or more bars together
+                    around each tick (x-value). The bars will be placed immediately beside each
+                    other and as a group centered on each tick mark (or between if a text scale is
+                    used). A grouped bar is created by aggregating two or more ordinary bar plots
+                    and creating a <code class="code">GroupBarPlot</code>
+                </p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Some data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data1y</span><span class="hl-code"> = ...
+</span><span class="hl-var">$data2y</span><span class="hl-code"> = ...
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the bar plots</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$b1plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">BarPlot</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$data1y</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b1plot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">orange</span><span class="hl-quotes">'</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$b2plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">BarPlot</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$data2y</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b2plot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">blue</span><span class="hl-quotes">'</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the grouped bar plot</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$gbplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">GroupBarPlot</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$b1plot</span><span class="hl-code"> , </span><span class="hl-var">$b2plot</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add it to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$gbplot</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>An example of this is shown in <a class="xref" href="ch15s02.html#fig.example21" title="Figure 15.40. A grouped bar plot (example21.php)">Figure 15.40. A grouped bar plot <code class="uri"><a class="uri" href="example_src/example21.html" target="_top">(<code class="filename">example21.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.example21"></a><p class="title"><b>Figure 15.40. A grouped bar plot <code class="uri"><a class="uri" href="example_src/example21.html" target="_top">(<code class="filename">example21.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example21.png" alt="A grouped bar plot (example21.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>If the <code class="code">SetWidth()</code> method is used on the
+                        <code class="code">GroupBarPlot()</code> it will affect the total width used by all the
+                    added plots. Each individual bar width will be the same for all added bars. The
+                    default width for grouped bar is 70% of the width between the tick marks in the
+                    graph. In <a class="xref" href="ch15s02.html#fig.example22" title="Figure 15.41. Adjusting the width of a group bar plot (example22.php)">Figure 15.41. Adjusting the width of a group bar plot <code class="uri"><a class="uri" href="example_src/example22.html" target="_top">(<code class="filename">example22.php</code>)</a></code> </a> an example where the width is set
+                    to 90% is shown.</p>
+                <p>
+                    </p><div class="figure"><a name="fig.example22"></a><p class="title"><b>Figure 15.41. Adjusting the width of a group bar plot <code class="uri"><a class="uri" href="example_src/example22.html" target="_top">(<code class="filename">example22.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example22.png" alt="Adjusting the width of a group bar plot (example22.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>The number of data points in each data series must be the same. This means
+                    that if there are no available values they should be specified as 0. An example
+                    of this is shown in <a class="xref" href="ch15s02.html#fig.groupbarex1" title="Figure 15.42. All data series in a grouped bar graph must have the same number of data points (groupbarex1.php)">Figure 15.42. All data series in a grouped bar graph must have the same number of data points <code class="uri"><a class="uri" href="example_src/groupbarex1.html" target="_top">(<code class="filename">groupbarex1.php</code>)</a></code> </a></p>
+                <p>
+                    </p><div class="figure"><a name="fig.groupbarex1"></a><p class="title"><b>Figure 15.42. All data series in a grouped bar graph must have the same number of data points <code class="uri"><a class="uri" href="example_src/groupbarex1.html" target="_top">(<code class="filename">groupbarex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/groupbarex1.png" alt="All data series in a grouped bar graph must have the same number of data points (groupbarex1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Grouped accumulated bar graphs"><div class="titlepage"><div><div><h3 class="title"><a name="id2559365"></a>Grouped accumulated bar graphs</h3></div></div></div>
+                
+                <p>It is perfectly possible to combine the previous bar types to have a grouped
+                    accumulated bar plot. This is done in a similar way by aggregating a number of
+                    accumulated plots in a group bar plot. The following code snippte shows how this
+                    can be done</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create all the 4 bar plots</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$b1plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$data1y</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b1plot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">&quot;</span><span class="hl-string">orange</span><span class="hl-quotes">&quot;</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b2plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$data2y</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b2plot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">&quot;</span><span class="hl-string">blue</span><span class="hl-quotes">&quot;</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b3plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$data3y</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b3plot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">&quot;</span><span class="hl-string">green</span><span class="hl-quotes">&quot;</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b4plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$data4y</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$b4plot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">&quot;</span><span class="hl-string">brown</span><span class="hl-quotes">&quot;</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the accumulated bar plots</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$ab1plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">AccBarPlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$b1plot</span><span class="hl-code"> , </span><span class="hl-var">$b2plot</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$ab2plot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">AccBarPlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$b3plot</span><span class="hl-code"> , </span><span class="hl-var">$b4plot</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the grouped bar plot</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$gbplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code">  </span><span class="hl-identifier">GroupBarPlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$ab1plot</span><span class="hl-code"> , </span><span class="hl-var">$ab2plot</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the combination to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$gbplot</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>An example of this is shown in <a class="xref" href="ch15s02.html#fig.example24" title="Figure 15.43. A grouped accumulated bar graph (example24.php)">Figure 15.43. A grouped accumulated bar graph <code class="uri"><a class="uri" href="example_src/example24.html" target="_top">(<code class="filename">example24.php</code>)</a></code> </a>
+                    below</p>
+                <p>
+                    </p><div class="figure"><a name="fig.example24"></a><p class="title"><b>Figure 15.43. A grouped accumulated bar graph <code class="uri"><a class="uri" href="example_src/example24.html" target="_top">(<code class="filename">example24.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/example24.png" alt="A grouped accumulated bar graph (example24.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Horizontal bar graphs"><div class="titlepage"><div><div><h3 class="title"><a name="id2559425"></a>Horizontal bar graphs</h3></div></div></div>
+                
+                <p>If a large number of values to needs to be display in a bar graph it is often
+                    better to rotated the bar graph 90 degree so that the bars are horizontal
+                    instead. There is no special graph type for this so this is achieved by rotating
+                    a standard vertical bar graph 90 degrees, usually with a call to</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Graph::Set90AndMargin()</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>The orientation of the labels of the axis will be automatically adjusted for
+                    bar graphs. A basic example is shown in <a class="xref" href="ch15s02.html#fig.horizbarex1" title="Figure 15.44. A basic horizontal bar graph (horizbarex1.php)">Figure 15.44. A basic horizontal bar graph <code class="uri"><a class="uri" href="example_src/horizbarex1.html" target="_top">(<code class="filename">horizbarex1.php</code>)</a></code> </a>
+                    below</p>
+                <p>
+                    </p><div class="figure"><a name="fig.horizbarex1"></a><p class="title"><b>Figure 15.44. A basic horizontal bar graph <code class="uri"><a class="uri" href="example_src/horizbarex1.html" target="_top">(<code class="filename">horizbarex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/horizbarex1.png" alt="A basic horizontal bar graph (horizbarex1.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+                <p>The example in <a class="xref" href="ch15s02.html#fig.horizbarex4" title="Figure 15.45. Using multiple line labels in a horizontal bar graph (horizbarex4.php)">Figure 15.45. Using multiple line labels in a horizontal bar graph <code class="uri"><a class="uri" href="example_src/horizbarex4.html" target="_top">(<code class="filename">horizbarex4.php</code>)</a></code> </a>shows how to use multiple
+                    lines as labels. </p>
+                <p>
+                    </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                        <p>Note that we have to use quotation marks (") and not hyphens (') in
+                            text string where we want to embed a newline character, i.e. "\n"</p>
+                    </div><p>
+                </p>
+                <p>
+                    </p><div class="figure"><a name="fig.horizbarex4"></a><p class="title"><b>Figure 15.45. Using multiple line labels in a horizontal bar graph <code class="uri"><a class="uri" href="example_src/horizbarex4.html" target="_top">(<code class="filename">horizbarex4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/horizbarex4.png" alt="Using multiple line labels in a horizontal bar graph (horizbarex4.php)"></span> </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Adjusting the appearance of bar graphs"><div class="titlepage"><div><div><h3 class="title"><a name="id2559503"></a>Adjusting the appearance of bar graphs</h3></div></div></div>
+                
+                <p></p>
+                <div class="sect3" title="Adjusting the width and colors"><div class="titlepage"><div><div><h4 class="title"><a name="id2559576"></a>Adjusting the width and colors</h4></div></div></div>
+                    
+                    <p>The width of each individual bar can be specified in either an absolute
+                        pixel size or as a fraction of the width between the major tick marks. The
+                        method used for this is</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">BarPlot::SetWidth($aWidth)</code></p>
+                                <p>If <code class="code">$aWidth</code> is an integer &gt; 1 then it is
+                                    interpretated as an absolute width in pixels. If it is a
+                                    floating point number in the range [0,1] it will be
+                                    interpretated as a fraction of the width between the tick
+                                    marks.</p>
+                            </li></ul></div><p>
+                    </p>
+                    <p></p>
+                </div>
+                <div class="sect3" title="Using gradient fill"><div class="titlepage"><div><div><h4 class="title"><a name="id2559620"></a>Using gradient fill</h4></div></div></div>
+                    
+                    <p>It is possible to use color gradient fill for the individual bars in the
+                        bar graph.</p>
+                    <p>Color gradient fill fills a rectangle with a smooth transition between two
+                        colors. In what direction the transition goes (from left to right, down and
+                        up, from the middle and out etc) is determined by the style of the gradient
+                        fill. The library currently supports 8 different styles. All supported
+                        styles are displayed in <a class="xref" href="ch15s02.html#fig.bar-grad-fills" title="Figure 15.46. Supported gradient fills for bar plots">Figure 15.46. Supported gradient fills for bar plots</a>
+                        below.</p>
+                    <p>
+                        </p><div class="figure"><a name="fig.bar-grad-fills"></a><p class="title"><b>Figure 15.46. Supported gradient fills for bar plots</b></p><div class="figure-contents">
+                            
+                            <div class="informaltable">
+                                <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                                <div class="figure"><a name="fig.bargradsmallex1"></a><p class="title"><b>Figure 15.47. GRAD_MIDVER <code class="uri"><a class="uri" href="example_src/bargradsmallex1.html" target="_top">(<code class="filename">bargradsmallex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/bargradsmallex1.png" alt="Supported gradient fills for bar plots"></span> </div></div><br class="figure-break">
+                                            </td><td>
+                                                <div class="figure"><a name="fig.bargradsmallex2"></a><p class="title"><b>Figure 15.48. GRAD_MIDHOR <code class="uri"><a class="uri" href="example_src/bargradsmallex2.html" target="_top">(<code class="filename">bargradsmallex2.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/bargradsmallex2.png" alt="Supported gradient fills for bar plots"></span> </div></div><br class="figure-break">
+                                            </td></tr><tr><td>
+                                                <div class="figure"><a name="fig.bargradsmallex3"></a><p class="title"><b>Figure 15.49. GRAD_HOR <code class="uri"><a class="uri" href="example_src/bargradsmallex3.html" target="_top">(<code class="filename">bargradsmallex3.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/bargradsmallex3.png" alt="Supported gradient fills for bar plots"></span> </div></div><br class="figure-break">
+                                            </td><td>
+                                                <div class="figure"><a name="fig.bargradsmallex4"></a><p class="title"><b>Figure 15.50. GRAD_VER <code class="uri"><a class="uri" href="example_src/bargradsmallex4.html" target="_top">(<code class="filename">bargradsmallex4.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/bargradsmallex4.png" alt="Supported gradient fills for bar plots"></span> </div></div><br class="figure-break">
+                                            </td></tr><tr><td>
+                                                <div class="figure"><a name="fig.bargradsmallex5"></a><p class="title"><b>Figure 15.51. GRAD_WIDE_MIDVER <code class="uri"><a class="uri" href="example_src/bargradsmallex5.html" target="_top">(<code class="filename">bargradsmallex5.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/bargradsmallex5.png" alt="Supported gradient fills for bar plots"></span> </div></div><br class="figure-break">
+                                            </td><td>
+                                                <div class="figure"><a name="fig.bargradsmallex6"></a><p class="title"><b>Figure 15.52. GRAD_WIDE_MIDHOR <code class="uri"><a class="uri" href="example_src/bargradsmallex6.html" target="_top">(<code class="filename">bargradsmallex6.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/bargradsmallex6.png" alt="Supported gradient fills for bar plots"></span> </div></div><br class="figure-break">
+                                            </td></tr><tr><td>
+                                                <div class="figure"><a name="fig.bargradsmallex7"></a><p class="title"><b>Figure 15.53. GRAD_CENTER <code class="uri"><a class="uri" href="example_src/bargradsmallex7.html" target="_top">(<code class="filename">bargradsmallex7.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/bargradsmallex7.png" alt="Supported gradient fills for bar plots"></span> </div></div><br class="figure-break">
+                                            </td><td>
+                                                <div class="figure"><a name="fig.bargradsmallex8"></a><p class="title"><b>Figure 15.54. GRAD_RAISED_PANEL <code class="uri"><a class="uri" href="example_src/bargradsmallex8.html" target="_top">(<code class="filename">bargradsmallex8.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/bargradsmallex8.png" alt="Supported gradient fills for bar plots"></span> </div></div><br class="figure-break">
+                                            </td></tr></tbody></table>
+                            </div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                    <p>To specify a gradient fill for the bar plots you make use of the method
+                            <code class="code">BarPlot::SetFillGradient()</code> . See the class reference for
+                        details of this function.</p>
+                    <p>
+                        </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                            <p>Gradient filling is computational expensive. Large plots with
+                                gradient fill will take in the order of 6 times longer to fill then
+                                for a normal one-color fill. This might to some extent be helped by
+                                making use of the cache feature of JpGraph so that the graph is only
+                                generated a few times.</p>
+                        </div><p>
+                    </p>
+                    <p> As a final example we show an horizontal bar graph with gradient fill on
+                        both the background and the bars in <a class="xref" href="ch15s02.html#fig.horizbarex6" title="Figure 15.55. Horizontal bar graph with gradient fill (horizbarex6.php)">Figure 15.55. Horizontal bar graph with gradient fill <code class="uri"><a class="uri" href="example_src/horizbarex6.html" target="_top">(<code class="filename">horizbarex6.php</code>)</a></code> </a>
+                    </p>
+                    <p>
+                        </p><div class="figure"><a name="fig.horizbarex6"></a><p class="title"><b>Figure 15.55. Horizontal bar graph with gradient fill <code class="uri"><a class="uri" href="example_src/horizbarex6.html" target="_top">(<code class="filename">horizbarex6.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/horizbarex6.png" alt="Horizontal bar graph with gradient fill (horizbarex6.php)"></span> </div></div><p><br class="figure-break">
+                    </p>
+                </div>
+                <div class="sect3" title="Using pattern fills"><div class="titlepage"><div><div><h4 class="title"><a name="id2560074"></a>Using pattern fills</h4></div></div></div>
+                    
+                    <p>As an alternative to solid and gradient fill the bars can also have a
+                        number of patterns. This is useful for the case where black and white copies
+                        needs to be printed. The library supports the following nine different
+                        patterns as shown in <a class="xref" href="ch15s02.html#fig.barplot-patterns" title="Figure 15.56. Supported pattern fills for bar plots">Figure 15.56. Supported pattern fills for bar plots</a></p>
+                    <p>
+                        </p><div class="figure"><a name="fig.barplot-patterns"></a><p class="title"><b>Figure 15.56. Supported pattern fills for bar plots</b></p><div class="figure-contents">
+                            
+                            <div class="informaltable">
+                                <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td>
+                                                <p><span class="inlinemediaobject"><img src="images/bar_pattern1.png" alt="Supported pattern fills for bar plots"></span></p>
+                                            </td><td>
+                                                <p><span class="inlinemediaobject"><img src="images/bar_pattern2.png" alt="Supported pattern fills for bar plots"></span></p>
+                                            </td><td>
+                                                <p><span class="inlinemediaobject"><img src="images/bar_pattern3.png" alt="Supported pattern fills for bar plots"></span></p>
+                                            </td></tr><tr><td>
+                                                <p><span class="inlinemediaobject"><img src="images/bar_pattern4.png" alt="Supported pattern fills for bar plots"></span></p>
+                                            </td><td>
+                                                <p><span class="inlinemediaobject"><img src="images/bar_pattern5.png" alt="Supported pattern fills for bar plots"></span></p>
+                                            </td><td>
+                                                <p><span class="inlinemediaobject"><img src="images/bar_pattern6.png" alt="Supported pattern fills for bar plots"></span></p>
+                                            </td></tr><tr><td>
+                                                <p><span class="inlinemediaobject"><img src="images/bar_pattern7.png" alt="Supported pattern fills for bar plots"></span></p>
+                                            </td><td>
+                                                <p><span class="inlinemediaobject"><img src="images/bar_pattern8.png" alt="Supported pattern fills for bar plots"></span></p>
+                                            </td><td>
+                                                <p><span class="inlinemediaobject"><img src="images/bar_pattern9.png" alt="Supported pattern fills for bar plots"></span></p>
+                                            </td></tr></tbody></table>
+                            </div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                    <p>To specify a pattern to be used the following method is used</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">BarPlot::SetPattern($aPattern,$aColor='black')</code></p>
+                                <p><code class="code">$aPattern</code> is one of the symbolic names as shown
+                                    in <a class="xref" href="ch15s02.html#fig.barplot-patterns" title="Figure 15.56. Supported pattern fills for bar plots">Figure 15.56. Supported pattern fills for bar plots</a> If
+                                        <code class="code">$aPattern</code> is an array then each specified
+                                    pattern will be used successively for each individual bar. If
+                                    there are more bars then pattern specified then pattern used
+                                    will be wrapped around.</p>
+                            </li></ul></div><p>
+                    </p>
+                </div>
+                <div class="sect3" title="Displaying and formatting the value of the bar"><div class="titlepage"><div><div><h4 class="title"><a name="id2560338"></a>Displaying and formatting the value of the bar</h4></div></div></div>
+                    
+                    <p>In the same way as values could be displayed on line plots they can also
+                        be displayed on bar graphs. The formatting options for bar graphs, apart
+                        from the basic font,color and angle, also allows the specification on where
+                        on the bar the values should be displayed. This can be</p>
+                    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p>at the bottom of the bar, "<code class="code">bottom</code>"</p>
+                            </li><li class="listitem">
+                                <p>at the middle of the bar, "<code class="code">middle</code>"</p>
+                            </li><li class="listitem">
+                                <p>at the maximum value (but still inside the bar).
+                                        "<code class="code">max</code>"</p>
+                            </li><li class="listitem">
+                                <p>at the top of the bar (outside the bar),
+                                    "<code class="code">top</code>"</p>
+                            </li></ul></div><p>The position is adjusted with a call to</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">BarPlot::SetValuePos($aPos)</code></p>
+                            </li></ul></div><p>
+                    </p>
+                    <p>using one of the above strings as value.</p>
+                    <p>The value of the bar is enabled and controlled by accessing the "value"
+                        property of the bar plot. The following line will enable the value (this is
+                        done in exactly the same way as for line plots)</p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$barplot-&gt;value-&gt;Show();</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p>By default the value is displayed at the top of the bar. In the same way
+                        as for line plot it is possible to adjust the formatting of the data labels
+                        by both using a format callback function as well as statically adjusting the
+                        format, for example the angle of the label.</p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">// Callback function
+function separator1000_usd($aVal) {
+    return '$'.number_format($aVal);
+}
+ 
+// Must use TTF fonts if we want text at an arbitrary angle
+$bplot-&gt;value-&gt;SetFont(FF_ARIAL,FS_BOLD);
+$bplot-&gt;value-&gt;SetAngle(45);
+$bplot-&gt;value-&gt;SetFormatCallback('separator1000_usd');
+ 
+// Black color for positive values and darkred for negative values
+$bplot-&gt;value-&gt;SetColor('black','darkred');
+$graph-&gt;Add($bplot);</span></pre></td></tr></table></div><p>
+                    </p>
+                    <p>There is one thing to take notice of here. The color of the label can be
+                        different depending on whether the bar has a positive or a negative
+                        value.</p>
+                    <p>An example of using these formatting options for a bar graph is shown in
+                            <a class="xref" href="ch15s02.html#fig.barscalecallbackex1" title="Figure 15.57. Using a callback to format the labels on a bar (barscalecallbackex1.php)">Figure 15.57. Using a callback to format the labels on a bar <code class="uri"><a class="uri" href="example_src/barscalecallbackex1.html" target="_top">(<code class="filename">barscalecallbackex1.php</code>)</a></code> </a></p>
+                    <p>
+                        </p><div class="figure"><a name="fig.barscalecallbackex1"></a><p class="title"><b>Figure 15.57. Using a callback to format the labels on a bar <code class="uri"><a class="uri" href="example_src/barscalecallbackex1.html" target="_top">(<code class="filename">barscalecallbackex1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/barscalecallbackex1.png" alt="Using a callback to format the labels on a bar (barscalecallbackex1.php)"></span> </div></div><p><br class="figure-break">
+                    </p>
+                </div>
+                <div class="sect3" title="Adding a drop shadow to the bars"><div class="titlepage"><div><div><h4 class="title"><a name="id2560460"></a>Adding a drop shadow to the bars</h4></div></div></div>
+                    
+                    <p>Each bar can also have a drop shadow. This is enabled by calling</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">BarPlot::SetShadow($aColor="black",$aHSize=3,$aVSize=3,$aShow=true)</code></p>
+                                <p><code class="code">$aColor</code>, The color of the drop shadow</p>
+                                <p><code class="code">$aHSize</code>, Horizontal size of the shadow</p>
+                                <p><code class="code">$aVSize</code>, Vertical size of the shadow</p>
+                                <p><code class="code">$aShow</code>, <code class="code">true</code> = enable the
+                                    shadow</p>
+                            </li></ul></div><p>
+                    </p>
+                </div>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch15.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

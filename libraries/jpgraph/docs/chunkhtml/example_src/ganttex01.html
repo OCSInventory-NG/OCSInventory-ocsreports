@@ -1,0 +1,80 @@
+<div style="font-weight: bold;margin-left:15px;">ganttex01.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_gantt.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GanttGraph</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetShadow</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add title and subtitle</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">A main title</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">subtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">(Draft version)</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Show day, week and month scale</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">ShowHeaders</span><span class="hl-brackets">(</span><span class="hl-identifier">GANTT_HDAY</span><span class="hl-code"> | </span><span class="hl-identifier">GANTT_HWEEK</span><span class="hl-code"> | </span><span class="hl-identifier">GANTT_HMONTH</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Instead of week number show the date for the first day in the week</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> on the week scale</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">week</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetStyle</span><span class="hl-brackets">(</span><span class="hl-identifier">WEEKSTYLE_FIRSTDAY</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Make the week scale font smaller than the default</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">week</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_FONT0</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Use the short name of the month together with a 2 digit year</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> on the month scale</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">month</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetStyle</span><span class="hl-brackets">(</span><span class="hl-identifier">MONTHSTYLE_SHORTNAMEYEAR2</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Format the bar for the first activity</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> ($row,$title,$startdate,$enddate)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$activity</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GanttBar</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">Activity 1</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">2001-12-21</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">2002-01-18</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Yellow diagonal line pattern on a red background</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$activity</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetPattern</span><span class="hl-brackets">(</span><span class="hl-identifier">BAND_LDIAG</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">yellow</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$activity</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">red</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Finally add the bar to the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$activity</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> ... and display it</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

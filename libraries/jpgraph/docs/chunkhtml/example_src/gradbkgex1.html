@@ -1,0 +1,128 @@
+<div style="font-weight: bold;margin-left:15px;">gradbkgex1.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_line.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$datay1</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">4</span><span class="hl-code">,</span><span class="hl-number">26</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-code">,</span><span class="hl-number">18</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">22</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$datay2</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">12</span><span class="hl-code">,</span><span class="hl-number">9</span><span class="hl-code">,</span><span class="hl-number">42</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">19</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-number">300</span><span class="hl-code">,</span><span class="hl-number">200</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMarginColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">white</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">textlin</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">50</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">30</span><span class="hl-code">,</span><span class="hl-number">50</span><span class="hl-code">,</span><span class="hl-number">30</span><span class="hl-code">,</span><span class="hl-number">30</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> We must have the frame enabled to get the gradient</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> However, we don't want the frame line so we set it to</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> white color which makes it invisible.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFrame</span><span class="hl-brackets">(</span><span class="hl-reserved">true</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">white</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup a background gradient image</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetBackgroundGradient</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">blue</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">navy:0.5</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-identifier">GRAD_HOR</span><span class="hl-code">,</span><span class="hl-identifier">BGRAD_PLOT</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the tab title</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">tabtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string"> 3rd Division </span><span class="hl-quotes">'</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">tabtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">13</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup x,Y grid</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xgrid</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Show</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xgrid</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">gray@0.5</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTickLabels</span><span class="hl-brackets">(</span><span class="hl-var">$gDateLocale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetShortMonth</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">ygrid</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">gray@0.5</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup color for axis and labels on axis</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">orange</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">black</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">yaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">orange</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">black</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Ticks on the outsid</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTickSide</span><span class="hl-brackets">(</span><span class="hl-identifier">SIDE_DOWN</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">yaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTickSide</span><span class="hl-brackets">(</span><span class="hl-identifier">SIDE_LEFT</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the legend box colors and font</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">white</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">navy</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">navy@0.25</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetShadow</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">darkgray@0.4</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetPos</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.05</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-number">.05</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">right</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">top</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the first line</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$p1</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">red</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLegend</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">2002</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$p1</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the second line</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$p2</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay2</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">lightyellow</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLegend</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">2001</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$p2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$p2</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Output line</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

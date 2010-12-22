@@ -11,7 +11,6 @@
 
 require_once('require/function_admininfo.php');
 $table_name=$form_name;
-	
 //search all admininfo for this computer
 $info_account_id=admininfo_snmp($systemid);
 
@@ -72,7 +71,7 @@ if ($list_tab != ''){
 		if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 				$show_admin_button .= "<img src='image/success.png'></a>";
 			else
-				$show_admin_button =  "<img src='image/modif_tab.png'></a>";
+				$show_admin_button .=  "<img src='image/modif_tab.png'></a>";
 	}
 	else
 	$show_admin_button='';

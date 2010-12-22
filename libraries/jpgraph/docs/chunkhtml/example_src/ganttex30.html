@@ -1,0 +1,174 @@
+<div style="font-weight: bold;margin-left:15px;">ganttex30.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Gantt example 30</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> </span><span class="hl-inlinedoc">$Id: ganttex30.php,v 1.4 2003/05/30 20:12:43 aditus Exp $</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_gantt.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Standard calls to create a new graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GanttGraph</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetShadow</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetBox</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Titles for chart</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">General conversion plan</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">subtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">(Revision: 2001-11-18)</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> For illustration we enable all headers.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">ShowHeaders</span><span class="hl-brackets">(</span><span class="hl-identifier">GANTT_HYEAR</span><span class="hl-code"> | </span><span class="hl-identifier">GANTT_HMONTH</span><span class="hl-code"> | </span><span class="hl-identifier">GANTT_HDAY</span><span class="hl-code"> | </span><span class="hl-identifier">GANTT_HWEEK</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> For the week we choose to show the start date of the week</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> the default is to show week number (according to ISO 8601)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">week</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetStyle</span><span class="hl-brackets">(</span><span class="hl-identifier">WEEKSTYLE_FIRSTDAY</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Change the scale font</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">week</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_FONT0</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">year</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup some data for the gantt bars</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+        </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">Group 1</span><span class="hl-quotes">&quot;</span><span class="hl-code">, </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-10-29</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-27</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-identifier">FF_FONT1</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-brackets">)</span><span class="hl-code">,
+        </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">  Label 2</span><span class="hl-quotes">&quot;</span><span class="hl-code">, </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-8</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-12-14</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">,
+        </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">  Label 3</span><span class="hl-quotes">&quot;</span><span class="hl-code">, </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-01</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-8</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">,
+        </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">4</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">Group 2</span><span class="hl-quotes">&quot;</span><span class="hl-code">, </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-07</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-12-19</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-identifier">FF_FONT1</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-brackets">)</span><span class="hl-code">,
+        </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">  Label 4</span><span class="hl-quotes">&quot;</span><span class="hl-code">, </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-8</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-12-19</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">,
+        </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">6</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">  Label 5</span><span class="hl-quotes">&quot;</span><span class="hl-code">, </span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-01</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-11-8</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">
+        </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code">&lt;</span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+        </span><span class="hl-var">$bar</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GanttBar</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">2</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">3</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">[50%]</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-number">.5</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">&gt;</span><span class="hl-number">4</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">
+                </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">4</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">5</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">6</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> If you like each bar can have a shadow</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> $bar-&gt;SetShadow(true,&quot;darkgray&quot;);</span><span class="hl-comment"></span><span class="hl-code">
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> For illustration lets make each bar be red with yellow diagonal stripes</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetPattern</span><span class="hl-brackets">(</span><span class="hl-identifier">BAND_RDIAG</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">yellow</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">red</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> To indicate progress each bar can have a smaller bar within</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> For illustrative purpose just set the progress to 50% for each bar</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">progress</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.5</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Each bar may also have optional left and right plot marks</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> As illustration lets put a filled circle with a number at the end</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> of each bar</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">rightMark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetType</span><span class="hl-brackets">(</span><span class="hl-identifier">MARK_FILLEDCIRCLE</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">rightMark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">red</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">rightMark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">red</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">rightMark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWidth</span><span class="hl-brackets">(</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Title for the mark</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">rightMark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-quotes">&quot;</span><span class="hl-code">.</span><span class="hl-var">$i</span><span class="hl-code">+</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">rightMark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">white</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">rightMark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">rightMark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Show</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> ... and add the bar to the gantt chart</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$bar</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a milestone mark</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$ms</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">MileStone</span><span class="hl-brackets">(</span><span class="hl-number">7</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">M5</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-12-10</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">10/12</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$ms</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_FONT1</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$ms</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a vertical line to emphasize the milestone</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$vl</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">GanttVLine</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">2001-12-10 13:00</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">Phase 1</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">darkred</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$vl</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetDayOffset</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.5</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> Center the line in the day</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$vl</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Output the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> EOF</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

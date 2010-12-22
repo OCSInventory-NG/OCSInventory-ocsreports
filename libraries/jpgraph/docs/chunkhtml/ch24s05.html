@@ -1,0 +1,101 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Creating barcodes - quick start</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch24.html" title="Chapter 24. Linear Barcodes (One Dimensional Barcodes)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Creating barcodes - quick start</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 24. Linear Barcodes (One Dimensional Barcodes)</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Creating barcodes - quick start"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2596363"></a>Creating barcodes - quick start</h2></div></div></div>
+            
+            <p>The creation of all linear barcode follows the same chema:</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>Create an instance of the encoder for the chosen symbology</p>
+                    </li><li class="listitem">
+                        <p>Create an instance of the backend for the chosen output format (image
+                            or postscript)</p>
+                    </li><li class="listitem">
+                        <p>Encode the data and generate the barcode</p>
+                    </li></ol></div><p>
+            </p>
+            <p>Normally only three lines of code is needed to create a basic barcode.</p>
+            <p>For example, the following code will create a barcode encoded as an image
+                representing the data string "ABC123" using symbology "CODE 39".</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph_barcode.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$symbology</span><span class="hl-code"> = </span><span class="hl-identifier">BarcodeFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">ENCODING_CODE39</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$barcode</span><span class="hl-code"> = </span><span class="hl-identifier">BackendFactory</span><span class="hl-code"> ::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-code">, </span><span class="hl-var">$symbology</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$barcode</span><span class="hl-code"> -&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">ABC123</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>The generated barcode is shown in </p>
+            <p>
+                </p><div class="figure"><a name="id2596483"></a><p class="title"><b>Figure 24.3. Encoding "ABC123" with CODE 39.</b></p><div class="figure-contents">
+                    
+                    <div class="mediaobject"><img src="images/barcode_c39_abc123_ex1.png" alt='Encoding "ABC123" with CODE 39.'></div>
+                </div></div><p><br class="figure-break">
+            </p>
+            <p>As can be seen from the code above the basic interface to the library makes use of
+                two abstract factories which creates the appropriate encoder and output backend.
+                This design makes the addition of new output formats and new symbologies transparent
+                for the end user of the library.</p>
+            <p>If instead we wanted to encode the data string using symbology "CODE 128" instead,
+                it would only be necessary to modify the first line in the above code so instead it
+                would become.</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph_barcode.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$symbology</span><span class="hl-code"> = </span><span class="hl-identifier">BarcodeFactory</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">ENCODING_CODE128</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$barcode</span><span class="hl-code"> = </span><span class="hl-identifier">BackendFactory</span><span class="hl-code"> ::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-identifier">BACKEND_IMAGE</span><span class="hl-code">, </span><span class="hl-var">$symbology</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$barcode</span><span class="hl-code"> -&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">ABC123</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+            <p>the result of this script is shown in <a class="xref" href="ch24s05.html#fig.c128-abc123" title='Figure 24.4. Encoding "ABC123" with CODE 128.'>Figure 24.4. Encoding "ABC123" with CODE 128.</a></p>
+            <p>
+                </p><div class="figure"><a name="fig.c128-abc123"></a><p class="title"><b>Figure 24.4. Encoding "ABC123" with CODE 128.</b></p><div class="figure-contents">
+                    
+                    <div class="mediaobject"><img src="images/barcode_c128_abc123_ex1.png" alt='Encoding "ABC123" with CODE 128.'></div>
+                </div></div><p><br class="figure-break">
+            </p>
+            <p>As can be seen in the examples above both the backend and the symbology is
+                specified by means of a symbolic constant. The following list shows the symbolic
+                constants available to specify the different supported symbologies. </p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>ENCODING_EAN128</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_EAN13</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_EAN8</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_UPCA</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_UPCE</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_CODE39</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_CODE128</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_CODE25</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_CODEI25</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_CODABAR</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_CODE11</p>
+                    </li><li class="listitem">
+                        <p>ENCODING_BOOKLAND</p>
+                    </li></ol></div><p>
+            </p>
+            <p>The usage and typical application of each symbology is discussed in <a class="xref" href="ch24s09.html" title="Short description of supported symbologies">Short description of supported symbologies</a>.</p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch24.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

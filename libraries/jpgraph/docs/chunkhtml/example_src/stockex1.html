@@ -1,0 +1,66 @@
+<div style="font-weight: bold;margin-left:15px;">stockex1.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Example of a stock chart</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_stock.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Data must be in the format : open,close,min,max</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$datay</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+    </span><span class="hl-number">34</span><span class="hl-code">,</span><span class="hl-number">42</span><span class="hl-code">,</span><span class="hl-number">27</span><span class="hl-code">,</span><span class="hl-number">45</span><span class="hl-code">,
+    </span><span class="hl-number">55</span><span class="hl-code">,</span><span class="hl-number">25</span><span class="hl-code">,</span><span class="hl-number">14</span><span class="hl-code">,</span><span class="hl-number">59</span><span class="hl-code">,
+    </span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-code">,</span><span class="hl-number">47</span><span class="hl-code">,
+    </span><span class="hl-number">62</span><span class="hl-code">,</span><span class="hl-number">38</span><span class="hl-code">,</span><span class="hl-number">25</span><span class="hl-code">,</span><span class="hl-number">65</span><span class="hl-code">,
+    </span><span class="hl-number">38</span><span class="hl-code">,</span><span class="hl-number">49</span><span class="hl-code">,</span><span class="hl-number">32</span><span class="hl-code">,</span><span class="hl-number">64</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup a simple graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-number">300</span><span class="hl-code">,</span><span class="hl-number">200</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">textlin</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMarginColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">lightblue</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Stockchart example</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a new stock plot</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$p1</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">StockPlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Width of the bars (in pixels)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$p1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWidth</span><span class="hl-brackets">(</span><span class="hl-number">9</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Uncomment the following line to hide the horizontal end lines</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment">$p1-&gt;HideEndLines();</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the plot to the graph and send it back to the browser</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$p1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

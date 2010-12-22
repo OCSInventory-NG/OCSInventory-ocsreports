@@ -136,6 +136,7 @@ $no_error='NO';
 
 if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYSQL'])){
 	$_SESSION['OCS']['FCharts']="libraries/FusionChartsFree";
+	$_SESSION['OCS']['JpGraph']="libraries/jpgraph";
 	$_SESSION['OCS']['backend']="backend/";
 	$_SESSION['OCS']['plugins_dir']="plugins/";
 	$_SESSION['OCS']['CONF_MYSQL']="dbconfig.inc.php";
@@ -257,15 +258,20 @@ if (!isset($_SESSION['OCS']["ipdiscover"])){
 
 
 
-/********************GESTION CACHE******************/
+/********************GESTION GUI CONF******************/
 if (!isset($_SESSION['OCS']["usecache"]) or !isset($_SESSION['OCS']["tabcache"])){
-	$values=look_config_default_values(array('INVENTORY_CACHE_ENABLED','TAB_CACHE'));
-	$_SESSION['OCS']['usecache']=$values['ivalue']['INVENTORY_CACHE_ENABLED'];
-	$_SESSION['OCS']['tabcache']=$values['ivalue']['TAB_CACHE'];
-	if (!isset($_SESSION['OCS']["usecache"]))
-		$_SESSION['OCS']["usecache"]=1;
-	if (!isset($_SESSION['OCS']["tabcache"]))
-		$_SESSION['OCS']["tabcache"]=0;
+	$conf_gui=array('usecache'=>'INVENTORY_CACHE_ENABLED',
+					'tabcache'=>'TAB_CACHE',
+					'useflash'=>'USE_FLASH');
+	$default_value_conf=array('INVENTORY_CACHE_ENABLED'=>1,'TAB_CACHE'=>0,'USE_FLASH'=>1);
+	$values=look_config_default_values($conf_gui);
+	foreach ($conf_gui as $k=>$v){
+		if (isset($values['ivalue'][$v]))
+			$_SESSION['OCS'][$k]=$values['ivalue'][$v];
+		else
+			$_SESSION['OCS'][$k]=$default_value_conf[$v];
+		
+	}
 }
 
 /********************END GESTION CACHE******************/

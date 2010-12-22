@@ -1,0 +1,576 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Step 0: The full driver script</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch34.html" title="Chapter 34. Showing SPAM statistics"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Step 0: The full driver script</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 34. Showing SPAM statistics</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Step 0: The full driver script"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2620829"></a>Step 0: The full driver script</h2></div></div></div>
+            
+            <p>For completeness we also include the exact main script we use</p>
+            <p>
+                </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">#!/usr/bin/php
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_bar.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_line.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-reserved">DEFINE</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">FTP_SERVER</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">aditus.nu</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">DEFINE</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">FTP_UID</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">aditus</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">DEFINE</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">FTP_PWD</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">Psion3a</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-reserved">DEFINE</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">PROCMAIL_LOGFILE</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">/tmp/procmail-ljp-200907.log</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">DEFINE</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">WINDOWSIZE</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-number">14</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> nbr days window</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">DEFINE</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">IMGFILE</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">/tmp/spamstat.png</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-reserved">DEFINE</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">FTP_DIR</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">www/jpgraph/img/</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Don't use image error handler, use syslog</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-identifier">JpGraphError</span><span class="hl-code">::</span><span class="hl-identifier">SetImageFlag</span><span class="hl-brackets">(</span><span class="hl-reserved">false</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-identifier">JpGraphError</span><span class="hl-code">::</span><span class="hl-identifier">SetLogFile</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">syslog</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">/*</span><span class="hl-comment">*
+* Class ParseProcmailLogFile
+</span><span class="hl-comment">*/</span><span class="hl-code">
+</span><span class="hl-reserved">class</span><span class="hl-code"> </span><span class="hl-identifier">ParseProcmailLogFile</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-reserved">private</span><span class="hl-code"> </span><span class="hl-var">$iFileName</span><span class="hl-code">=</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">;
+    </span><span class="hl-comment">/*</span><span class="hl-comment">*
+    * Constructor for the parse class
+    *
+    *</span><span class="hl-inlinedoc"> @param </span><span class="hl-comment">mixed $aFileName  Log file to read
+    *</span><span class="hl-inlinedoc"> @return </span><span class="hl-comment">ParseProcmailLogFile
+    </span><span class="hl-comment">*/</span><span class="hl-code">
+    </span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">__construct</span><span class="hl-brackets">(</span><span class="hl-var">$aFileName</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+        </span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">iFileName</span><span class="hl-code"> = </span><span class="hl-var">$aFileName</span><span class="hl-code"> ;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+    </span><span class="hl-comment">/*</span><span class="hl-comment">*
+    * Get line without trailing &quot;\n&quot;
+    *
+    *</span><span class="hl-inlinedoc"> @param </span><span class="hl-comment">mixed $fp Filepointer
+    *</span><span class="hl-inlinedoc"> @return </span><span class="hl-comment">string Read line without trailing &quot;\n&quot;
+    </span><span class="hl-comment">*/</span><span class="hl-code">
+    </span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">GetLine</span><span class="hl-brackets">(</span><span class="hl-var">$fp</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+        </span><span class="hl-var">$s</span><span class="hl-code"> = </span><span class="hl-identifier">fgets</span><span class="hl-brackets">(</span><span class="hl-var">$fp</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-identifier">substr</span><span class="hl-brackets">(</span><span class="hl-var">$s</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-identifier">strlen</span><span class="hl-brackets">(</span><span class="hl-var">$s</span><span class="hl-brackets">)</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+    </span><span class="hl-comment">/*</span><span class="hl-comment">*
+    * Get statistics from the parsed log file
+    *
+    *</span><span class="hl-inlinedoc"> @param </span><span class="hl-comment">$aWindow Window size. How many days to include in the returned stats
+    *</span><span class="hl-inlinedoc"> @return </span><span class="hl-comment">array with (date, number of killed spam, number of non killed spams)
+    </span><span class="hl-comment">*/</span><span class="hl-code">
+    </span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">GetStat</span><span class="hl-brackets">(</span><span class="hl-var">$aWindow</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+ 
+        </span><span class="hl-var">$fp</span><span class="hl-code"> = </span><span class="hl-identifier">fopen</span><span class="hl-brackets">(</span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">iFileName</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">r</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$fp</span><span class="hl-code"> === </span><span class="hl-reserved">false</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-identifier">JpGraphError</span><span class="hl-code">::</span><span class="hl-identifier">Raise</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Cannot read log file</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Now loop through the file. We always keep the last 3 lines in</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> the buffer to be able to get the context of a line since the</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> folder is stored on one line and the date of the main on the</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> previous line</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetLine</span><span class="hl-brackets">(</span><span class="hl-var">$fp</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">2</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetLine</span><span class="hl-brackets">(</span><span class="hl-var">$fp</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$idx</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+        </span><span class="hl-var">$idx2</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+        </span><span class="hl-var">$found</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> All /dev/null spam headers</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$found2</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-comment">//</span><span class="hl-comment"> All Spam folder headers</span><span class="hl-comment"></span><span class="hl-code">
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Loop through all lines in the file and store the found emails</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> in the two $found arrays</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-reserved">while</span><span class="hl-brackets">(</span><span class="hl-code"> ! </span><span class="hl-identifier">feof</span><span class="hl-brackets">(</span><span class="hl-var">$fp</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+ 
+            </span><span class="hl-comment">//</span><span class="hl-comment">Shift buffer one step</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">;
+            </span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">2</span><span class="hl-brackets">]</span><span class="hl-code">;
+            </span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">2</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetLine</span><span class="hl-brackets">(</span><span class="hl-var">$fp</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+            </span><span class="hl-comment">//</span><span class="hl-comment"> Find /dev/null entries</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">strpos</span><span class="hl-brackets">(</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">2</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">Folder: /dev/null</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code"> !== </span><span class="hl-reserved">false</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">strpos</span><span class="hl-brackets">(</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">From </span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code"> !== </span><span class="hl-reserved">false</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                    </span><span class="hl-var">$datepos</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code"> ;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+                </span><span class="hl-reserved">elseif</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">strpos</span><span class="hl-brackets">(</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">From </span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code"> !== </span><span class="hl-reserved">false</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                    </span><span class="hl-var">$datepos</span><span class="hl-code"> = </span><span class="hl-number">1</span><span class="hl-code"> ;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+                </span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                    </span><span class="hl-reserved">continue</span><span class="hl-code">;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+                </span><span class="hl-var">$date</span><span class="hl-code"> = </span><span class="hl-identifier">strtotime</span><span class="hl-brackets">(</span><span class="hl-identifier">date</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">D j M Y</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-identifier">strtotime</span><span class="hl-brackets">(</span><span class="hl-identifier">substr</span><span class="hl-brackets">(</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-var">$datepos</span><span class="hl-brackets">]</span><span class="hl-code">,-</span><span class="hl-number">24</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+                </span><span class="hl-var">$found</span><span class="hl-brackets">[</span><span class="hl-var">$idx</span><span class="hl-code">++</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-identifier">str_replace</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string"> Subject: </span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">,</span><span class="hl-var">$date</span><span class="hl-brackets">)</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+            </span><span class="hl-comment">//</span><span class="hl-comment"> Find spam folder entries</span><span class="hl-comment"></span><span class="hl-code">
+            </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">strpos</span><span class="hl-brackets">(</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">2</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">.Spam</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code"> !== </span><span class="hl-reserved">false</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">strpos</span><span class="hl-brackets">(</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">From </span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code"> !== </span><span class="hl-reserved">false</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                    </span><span class="hl-var">$datepos</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code"> ;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+                </span><span class="hl-reserved">elseif</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">strpos</span><span class="hl-brackets">(</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">From </span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code"> !== </span><span class="hl-reserved">false</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                    </span><span class="hl-var">$datepos</span><span class="hl-code"> = </span><span class="hl-number">1</span><span class="hl-code"> ;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+                </span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                    </span><span class="hl-reserved">continue</span><span class="hl-code">;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+                </span><span class="hl-var">$date</span><span class="hl-code"> = </span><span class="hl-identifier">strtotime</span><span class="hl-brackets">(</span><span class="hl-identifier">date</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">D j M Y</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-identifier">strtotime</span><span class="hl-brackets">(</span><span class="hl-identifier">substr</span><span class="hl-brackets">(</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-var">$datepos</span><span class="hl-brackets">]</span><span class="hl-code">,-</span><span class="hl-number">24</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+                </span><span class="hl-var">$found2</span><span class="hl-brackets">[</span><span class="hl-var">$idx2</span><span class="hl-code">++</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-identifier">str_replace</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string"> Subject: </span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$buf</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">,</span><span class="hl-var">$date</span><span class="hl-brackets">)</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        </span><span class="hl-identifier">fclose</span><span class="hl-brackets">(</span><span class="hl-var">$fp</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Find out how many at each day of dev null</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$date</span><span class="hl-code"> = </span><span class="hl-var">$found</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">;
+        </span><span class="hl-var">$daystat</span><span class="hl-brackets">[</span><span class="hl-var">$date</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+ 
+        </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$idx</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$date</span><span class="hl-code"> == </span><span class="hl-var">$found</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                ++</span><span class="hl-var">$daystat</span><span class="hl-brackets">[</span><span class="hl-var">$date</span><span class="hl-brackets">]</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+            </span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-var">$date</span><span class="hl-code"> = </span><span class="hl-var">$found</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">;
+                </span><span class="hl-var">$daystat</span><span class="hl-brackets">[</span><span class="hl-var">$date</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-number">1</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Find out how many at each day of spam</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$daystat2</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$found2</span><span class="hl-brackets">)</span><span class="hl-code"> &gt; </span><span class="hl-number">0</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-var">$date</span><span class="hl-code"> = </span><span class="hl-var">$found2</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">;
+            </span><span class="hl-var">$daystat2</span><span class="hl-brackets">[</span><span class="hl-var">$date</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+ 
+            </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$idx2</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$date</span><span class="hl-code"> == </span><span class="hl-var">$found2</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                    ++</span><span class="hl-var">$daystat2</span><span class="hl-brackets">[</span><span class="hl-var">$date</span><span class="hl-brackets">]</span><span class="hl-code">;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+                </span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                    </span><span class="hl-var">$date</span><span class="hl-code"> = </span><span class="hl-var">$found2</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">;
+                    </span><span class="hl-var">$daystat2</span><span class="hl-brackets">[</span><span class="hl-var">$date</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-number">1</span><span class="hl-code">;
+                </span><span class="hl-brackets">}</span><span class="hl-code">
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Now make sure that both arrays have the same</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-comment">//</span><span class="hl-comment"> number of entries.</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-reserved">foreach</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$daystat</span><span class="hl-code"> </span><span class="hl-reserved">as</span><span class="hl-code"> </span><span class="hl-var">$key</span><span class="hl-code"> =&gt; </span><span class="hl-var">$val</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> !</span><span class="hl-reserved">isset</span><span class="hl-brackets">(</span><span class="hl-var">$daystat2</span><span class="hl-brackets">[</span><span class="hl-var">$key</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-var">$daystat2</span><span class="hl-brackets">[</span><span class="hl-var">$key</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        </span><span class="hl-reserved">foreach</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$daystat2</span><span class="hl-code"> </span><span class="hl-reserved">as</span><span class="hl-code"> </span><span class="hl-var">$key</span><span class="hl-code"> =&gt; </span><span class="hl-var">$val</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> !</span><span class="hl-reserved">isset</span><span class="hl-brackets">(</span><span class="hl-var">$daystat</span><span class="hl-brackets">[</span><span class="hl-var">$key</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+                </span><span class="hl-var">$daystat</span><span class="hl-brackets">[</span><span class="hl-var">$key</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">;
+            </span><span class="hl-brackets">}</span><span class="hl-code">
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Window and return the data</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$n</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-brackets">(</span><span class="hl-var">$daystat</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$start</span><span class="hl-code"> = </span><span class="hl-var">$n</span><span class="hl-code"> &gt; </span><span class="hl-var">$aWindow</span><span class="hl-code"> ? </span><span class="hl-var">$n</span><span class="hl-code"> - </span><span class="hl-var">$aWindow</span><span class="hl-code"> : </span><span class="hl-number">0</span><span class="hl-code">;
+        </span><span class="hl-var">$date_keys</span><span class="hl-code"> = </span><span class="hl-identifier">array_keys</span><span class="hl-brackets">(</span><span class="hl-var">$daystat</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$idx</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$datax</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-var">$datay1</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-var">$datay2</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-var">$start</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$n</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-var">$datax</span><span class="hl-brackets">[</span><span class="hl-var">$idx</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-identifier">date</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">D j M</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$date_keys</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code">;
+            </span><span class="hl-var">$datay1</span><span class="hl-brackets">[</span><span class="hl-var">$idx</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$daystat</span><span class="hl-brackets">[</span><span class="hl-var">$date_keys</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">]</span><span class="hl-code">;
+            </span><span class="hl-var">$datay2</span><span class="hl-brackets">[</span><span class="hl-var">$idx</span><span class="hl-code">++</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$daystat2</span><span class="hl-brackets">[</span><span class="hl-var">$date_keys</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-brackets">]</span><span class="hl-code">;
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-var">$datax</span><span class="hl-code">,</span><span class="hl-var">$datay1</span><span class="hl-code">,</span><span class="hl-var">$datay2</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-comment">/*</span><span class="hl-comment">*
+* Class SpamGraph
+</span><span class="hl-comment">*/</span><span class="hl-code">
+</span><span class="hl-reserved">class</span><span class="hl-code"> </span><span class="hl-identifier">SpamGraph</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-comment">/*</span><span class="hl-comment">*
+    * Create an accumulated bar graph
+    *
+    *</span><span class="hl-inlinedoc"> @param </span><span class="hl-comment">mixed $aFile File to write graph to
+    *</span><span class="hl-inlinedoc"> @param </span><span class="hl-comment">mixed $aXData Date x-labels
+    *</span><span class="hl-inlinedoc"> @param </span><span class="hl-comment">mixed $aYData Spam data 1 (/dev/null)
+    *</span><span class="hl-inlinedoc"> @param </span><span class="hl-comment">mixed $aY2Data Spam data 2 (Spam folder)
+    </span><span class="hl-comment">*/</span><span class="hl-code">
+    </span><span class="hl-reserved">static</span><span class="hl-code"> </span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-var">$aFile</span><span class="hl-code">,</span><span class="hl-var">$aXData</span><span class="hl-code">,</span><span class="hl-var">$aYData</span><span class="hl-code">,</span><span class="hl-var">$aY2Data</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+ 
+        </span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-number">650</span><span class="hl-code">,</span><span class="hl-number">420</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">50</span><span class="hl-code">,</span><span class="hl-number">110</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">textint</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMarginColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">khaki2@0.6</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetPos</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-number">.97</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">center</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">bottom</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLayout</span><span class="hl-brackets">(</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">white</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Identified spams</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">14</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">subtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">(Updated: </span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-identifier">date</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">j M Y, H:i</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string"> T)</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">subtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">5</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">subtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_ITALIC</span><span class="hl-code">,</span><span class="hl-number">11</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetTickLabels</span><span class="hl-brackets">(</span><span class="hl-var">$aXData</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLabelAngle</span><span class="hl-brackets">(</span><span class="hl-number">45</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">yaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">yscale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetGrace</span><span class="hl-brackets">(</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$bar1</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$aYData</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillGradient</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">darkred:1.2</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">darkred:0.7</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-identifier">GRAD_VER</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLegend</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">To &quot;/dev/null&quot;</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$bar2</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">BarPlot</span><span class="hl-brackets">(</span><span class="hl-var">$aY2Data</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillGradient</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">orange</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">orange:0.7</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-identifier">GRAD_VER</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$bar2</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLegend</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">To Spam folder</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-var">$abar</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">AccBarPlot</span><span class="hl-brackets">(</span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-var">$bar1</span><span class="hl-code">,</span><span class="hl-var">$bar2</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$abar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">value</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Show</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$abar</span><span class="hl-code">-&gt;</span><span class="hl-identifier">value</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFormat</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">%d</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$abar</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-var">$aFile</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-identifier">syslog</span><span class="hl-brackets">(</span><span class="hl-identifier">LOG_INFO</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">Created spam image in </span><span class="hl-var">$aFile</span><span class="hl-string">.</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-comment">/*</span><span class="hl-comment">*
+* Class FTP
+</span><span class="hl-comment">*/</span><span class="hl-code">
+</span><span class="hl-reserved">class</span><span class="hl-code"> </span><span class="hl-identifier">FTP</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-reserved">private</span><span class="hl-code"> </span><span class="hl-var">$iserver</span><span class="hl-code">=</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-var">$iuid</span><span class="hl-code">=</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$ipwd</span><span class="hl-code">=</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">;
+    </span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">__construct</span><span class="hl-brackets">(</span><span class="hl-var">$aServer</span><span class="hl-code">,</span><span class="hl-var">$aUID</span><span class="hl-code">,</span><span class="hl-var">$aPWD</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+        </span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">iserver</span><span class="hl-code"> = </span><span class="hl-var">$aServer</span><span class="hl-code">;
+        </span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">iuid</span><span class="hl-code"> = </span><span class="hl-var">$aUID</span><span class="hl-code">;
+        </span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">ipwd</span><span class="hl-code"> = </span><span class="hl-var">$aPWD</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+    </span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">Upload</span><span class="hl-brackets">(</span><span class="hl-var">$aFile</span><span class="hl-code">,</span><span class="hl-var">$aUploadDir</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+        </span><span class="hl-var">$conn_id</span><span class="hl-code"> = @</span><span class="hl-identifier">ftp_connect</span><span class="hl-brackets">(</span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">iserver</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> !</span><span class="hl-var">$conn_id</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-identifier">JpGraphError</span><span class="hl-code">::</span><span class="hl-identifier">Raise</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">FTP connection failed.</span><span class="hl-special">\n</span><span class="hl-string">Attempted to connect to </span><span class="hl-var">{$this-&gt;iserver} for user {$this-&gt;iuid}</span><span class="hl-string">.</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-brackets">}</span><span class="hl-code"> </span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-identifier">syslog</span><span class="hl-brackets">(</span><span class="hl-identifier">LOG_INFO</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">Connected to </span><span class="hl-var">{$this-&gt;iserver}</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+        </span><span class="hl-var">$login_result</span><span class="hl-code"> = </span><span class="hl-identifier">ftp_login</span><span class="hl-brackets">(</span><span class="hl-var">$conn_id</span><span class="hl-code">, </span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">iuid</span><span class="hl-code">, </span><span class="hl-var">$this</span><span class="hl-code">-&gt;</span><span class="hl-identifier">ipwd</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-brackets">(</span><span class="hl-code">!</span><span class="hl-var">$conn_id</span><span class="hl-brackets">)</span><span class="hl-code"> || </span><span class="hl-brackets">(</span><span class="hl-code">!</span><span class="hl-var">$login_result</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-identifier">JpGraphError</span><span class="hl-code">::</span><span class="hl-identifier">Raise</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">FTP login has failed.</span><span class="hl-special">\n</span><span class="hl-string">Attempted to connect to </span><span class="hl-var">{$this-&gt;iserver} for user {$this-&gt;iuid}</span><span class="hl-string">.</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-brackets">}</span><span class="hl-code"> </span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-identifier">syslog</span><span class="hl-brackets">(</span><span class="hl-identifier">LOG_INFO</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">Logged in to </span><span class="hl-var">{$this-&gt;iserver}</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Delete potential old file</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$ftp_file</span><span class="hl-code"> = </span><span class="hl-var">$aUploadDir</span><span class="hl-code">.</span><span class="hl-identifier">basename</span><span class="hl-brackets">(</span><span class="hl-var">$aFile</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-var">$res</span><span class="hl-code"> = @</span><span class="hl-identifier">ftp_delete</span><span class="hl-brackets">(</span><span class="hl-var">$conn_id</span><span class="hl-code">,</span><span class="hl-var">$ftp_file</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-identifier">syslog</span><span class="hl-brackets">(</span><span class="hl-identifier">LOG_INFO</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">Uploading image as </span><span class="hl-var">$aFile</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+        </span><span class="hl-comment">//</span><span class="hl-comment"> Upload new image</span><span class="hl-comment"></span><span class="hl-code">
+        </span><span class="hl-var">$upload</span><span class="hl-code"> = </span><span class="hl-identifier">ftp_put</span><span class="hl-brackets">(</span><span class="hl-var">$conn_id</span><span class="hl-code">, </span><span class="hl-var">$ftp_file</span><span class="hl-code">, </span><span class="hl-var">$aFile</span><span class="hl-code">, </span><span class="hl-identifier">FTP_BINARY</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code">!</span><span class="hl-var">$upload</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-identifier">JpGraphError</span><span class="hl-code">::</span><span class="hl-identifier">Raise</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">FTP upload of image failed.</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-brackets">}</span><span class="hl-code"> </span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+            </span><span class="hl-identifier">syslog</span><span class="hl-brackets">(</span><span class="hl-identifier">LOG_INFO</span><span class="hl-code">,</span><span class="hl-quotes">&quot;</span><span class="hl-string">Succesfully uploaded </span><span class="hl-var">$aFile</span><span class="hl-string"> to </span><span class="hl-var">{$this-&gt;iserver}</span><span class="hl-string">.</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+        </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+        @</span><span class="hl-identifier">ftp_close</span><span class="hl-brackets">(</span><span class="hl-var">$conn_id</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Step 1) Get the statistics</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$parser</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">ParseProcmailLogFile</span><span class="hl-brackets">(</span><span class="hl-identifier">PROCMAIL_LOGFILE</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">list</span><span class="hl-brackets">(</span><span class="hl-var">$xdata</span><span class="hl-code">, </span><span class="hl-var">$ydata</span><span class="hl-code">, </span><span class="hl-var">$y2data</span><span class="hl-brackets">)</span><span class="hl-code"> = </span><span class="hl-var">$parser</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetStat</span><span class="hl-brackets">(</span><span class="hl-identifier">WINDOWSIZE</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Step 2) Create the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-identifier">SpamGraph</span><span class="hl-code">::</span><span class="hl-identifier">Create</span><span class="hl-brackets">(</span><span class="hl-identifier">IMGFILE</span><span class="hl-code">,</span><span class="hl-var">$xdata</span><span class="hl-code">,</span><span class="hl-var">$ydata</span><span class="hl-code">,</span><span class="hl-var">$y2data</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Step 3) Upload the file if defined</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">IMGFILE</span><span class="hl-code"> !== </span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$ftp</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">FTP</span><span class="hl-brackets">(</span><span class="hl-identifier">FTP_SERVER</span><span class="hl-code">,</span><span class="hl-identifier">FTP_UID</span><span class="hl-code">,</span><span class="hl-identifier">FTP_PWD</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$ftp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Upload</span><span class="hl-brackets">(</span><span class="hl-identifier">IMGFILE</span><span class="hl-code">,</span><span class="hl-identifier">FTP_DIR</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+            </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch34.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

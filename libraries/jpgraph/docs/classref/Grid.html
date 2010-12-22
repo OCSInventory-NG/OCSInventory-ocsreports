@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_GRID"><b>Grid</b></a></div>
+<i>(Defined in: jpgraph.php : 3296)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="Grid.html" style="font-family:arial;font-weight:bold;color:darkblue;">Grid</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="Grid.html#_GRID_SETCOLOR">SetColor()</a>&nbsp;<br>
+&nbsp;<a href="Grid.html#_GRID_SETFILL">SetFill()</a>&nbsp;<br>
+&nbsp;<a href="Grid.html#_GRID_SETLINESTYLE">SetLineStyle()</a>&nbsp;<br>
+&nbsp;<a href="Grid.html#_GRID_SETWEIGHT">SetWeight()</a>&nbsp;<br>
+&nbsp;<a href="Grid.html#_GRID_SHOW">Show()</a>&nbsp;<br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>This class is used to hold all properties of the gridline for a specific axis. The grid setting is accessed through the xgrid and ygrid properties of graph.
+
+By default JpGraph has grid lines for Y-lines turned on and gridlines for X-axis turned off.
+
+ <p> &nbsp;
+<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_GRID_SETCOLOR"><span style="color:#555555;">Grid ::</span><br><b>SetColor</b>($aMajColor, $aMinColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Set color of grid lines</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aMajColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Major color</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aMinColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">false</span>
+</span>
+</td><td>Minor color</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Set color of grid lines&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">xgrid</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetColor</span><span style="color: #007700">(</span><span style="color: #DD0000">'lightblue'</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_GRID_SETFILL"><span style="color:#555555;">Grid ::</span><br><b>SetFill</b>($aFlg, $aColor1, $aColor2)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify fill style for grid</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFlg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>Flag, True=enable fill</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor1</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'lightgray'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Fill color 1</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor2</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'lightblue'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Fill color 2</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>The area between the gridline can be filled with two alternating colors. This method specifies this style. See 'filledgridex1.php' for an example of this. By using this feature with alpha-blending you can achieve very nice layouts.
+&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Use&nbsp;50%&nbsp;blending<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ygrid</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFill</span><span style="color: #007700">(</span><span style="color: #0000BB">true</span><span style="color: #007700">,</span><span style="color: #DD0000">'#EFEFEF@0.5'</span><span style="color: #007700">,</span><span style="color: #DD0000">'#BBCCFF@0.5'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ygrid</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Show</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">xgrid</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Show</span><span style="color: #007700">();<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_GRID_SETLINESTYLE"><span style="color:#555555;">Grid ::</span><br><b>SetLineStyle</b>($aType)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify if grid line should be dashed, dotted or solid</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aType</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>String to specify line type</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify if grid should be dashed, dotted or solid. The type is specified with a string which can be either "solid", "dashed" or "dotted".
+&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Image.html#_IMAGE_SETLINESTYLE">Image::SetLineStyle()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ygrid</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetLineStyle</span><span style="color: #007700">(</span><span style="color: #DD0000">'dashed'</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_GRID_SETWEIGHT"><span style="color:#555555;">Grid ::</span><br><b>SetWeight</b>($aWeight)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Set line weight for grid line</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWeight</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Line width in pixels</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Set line weight for grid line&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">xgrid</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetWeight</span><span style="color: #007700">(</span><span style="color: #0000BB">2</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_GRID_SHOW"><span style="color:#555555;">Grid ::</span><br><b>Show</b>($aShowMajor, $aShowMinor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify if both major and minor grid should be displayed</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aShowMajor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>True=Show major grid lines</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aShowMinor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">false</span>
+</span>
+</td><td>True=Show minor grid lines</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify if both major and minor grid should be displayed&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ygrid</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Show</span><span style="color: #007700">();<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p> <hr> <p></html>

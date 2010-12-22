@@ -1,0 +1,165 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Using anti-aliasing in the graph generation</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch14.html" title="Chapter 14. Common features for all Cartesian (x,y) graph types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Using anti-aliasing in the graph generation</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 14. Common features for all Cartesian (x,y) graph types</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Using anti-aliasing in the graph generation"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2551867"></a>Using anti-aliasing in the graph generation</h2></div></div></div>
+            
+            <p>The library have partial support for the use of anti-aliasing when crating graphs.
+                The level of support is different depending on the actual graph type and there are
+                some caveats to be aware of.</p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>One question that is often asked is why does the library not support full
+                        anti-aliasing in every type of graphs? The answer is that since neither GD
+                        graphic library does not support real anti-aliasing this is done in the
+                        library itself most of the time. Doing full image anti-aliasing is very CPU
+                        intensive and can for large graph easily take four times longer than no
+                        anti-aliasing. In addition the way full image anti-aliasing is done is by
+                        creating larger canvas which the graph is drawn on and then do a smoothing
+                        operation, basically scale the image to the correct size puts some
+                        limitation on the details resolution. For example text needs special
+                        handling since the TTF fonts are already anti-aliased and cannot be
+                        re-anti-aliased a second time.</p>
+                </div><p>
+            </p>
+            <div class="sect2" title="Anti-aliasing for line drawing graphs"><div class="titlepage"><div><div><h3 class="title"><a name="id2551920"></a>Anti-aliasing for line drawing graphs</h3></div></div></div>
+                
+                <p>This applies to all graphs that makes use if line drawing. For example line
+                    plots and radar charts. This is the only "true" anti-aliasing done in the
+                    library. </p>
+                <p>This anti aliasing is enabled by calling the method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">Image::SetAntiAliasing($aFlg=true)</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>As a concrete example the following line can be used to enable anti-aliasing
+                    for both line and wind rose plots</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;img-&gt;SetAntiAliasing();</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The algorithm used for line anti-aliasing makes a gradient color transition
+                    between foreground line color and background while plotting a line using a
+                    standard mid-point line algorithm. To achieve best visual result always use a
+                    dark line color on a light colored background.</p>
+                <p>The images below shows the difference between a plain graph on the left and
+                    the same graph drawn with anti-aliasing enabled on the right.</p>
+                <p>
+                    </p><div class="informaltable">
+                        <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                        <div class="figure"><a name="fig.radarex8"></a><p class="title"><b>Figure 14.80. Plain radar plot <code class="uri"><a class="uri" href="example_src/radarex8.html" target="_top">(<code class="filename">radarex8.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/radarex8.png" alt="Plain radar plot (radarex8.php)"></span> </div></div><br class="figure-break">
+                                    </td><td>
+                                        <div class="figure"><a name="fig.radarex8.1"></a><p class="title"><b>Figure 14.81. Anti-aliased radar plot <code class="uri"><a class="uri" href="example_src/radarex8.1.html" target="_top">(<code class="filename">radarex8.1.php</code>)</a></code> </b></p><div class="figure-contents">  <span class="inlinemediaobject"><img src="images/radarex8.1.png" alt="Anti-aliased radar plot (radarex8.1.php)"></span> </div></div><br class="figure-break">
+                                    </td></tr></tbody></table>
+                    </div><p>
+                </p>
+                <p>There are a number of limitations with the current implementation that should
+                    be noted. The reason these limitation exists is that for reasons of CPU load we
+                    have chosen not to implement full anti-aliasing for arbitrary shapes. </p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>Speed! Doing anti-aliased lines in PHP is not cheap. Anti-aliased
+                                line drawing is roughly 6-8 times slower then lines without
+                                anti-aliasing So using anti-aliasing isn't suitable together with
+                                high-load often updated graphs. Remember to use the caching feature
+                                (see <a class="xref" href="ch05s06.html" title="Efficient graph generation using the built-in cache subsystem">Efficient graph generation using the built-in cache subsystem</a>.)</p>
+                        </li><li class="listitem">
+                            <p>Lines will ignore any width and only have a single line-width of
+                                approximately=1. It is not possible to set the line width when
+                                anti-alias is used. (This would require a full implementation of
+                                anti-aliased polygons which is not implemented.) </p>
+                        </li><li class="listitem">
+                            <p>The colors will be a little bit "weaker" since they will now not
+                                consist of one dominant color but rather being made up by at least
+                                two different colors. </p>
+                        </li><li class="listitem">
+                            <p>Anti-aliasing does not work very well together with background
+                                images since it assumes a the same solid color on each side of the
+                                line. Doing a more advanced anti-aliasing algorithm would simple
+                                take to much processing power.</p>
+                        </li><li class="listitem">
+                            <p>Even when anti-aliasing is enabled fast line-drawing will be used
+                                for horizontal, vertical and diagonal lines since these get sampled
+                                at high enough frequency anyway and doesn't benefit from
+                                anti-aliasing. This optimization has a slight visual impact, as can
+                                be seen in <a class="xref" href="ch14s13.html#fig.radarex8.1" title="Figure 14.81. Anti-aliased radar plot (radarex8.1.php)">Figure 14.81. Anti-aliased radar plot <code class="uri"><a class="uri" href="example_src/radarex8.1.html" target="_top">(<code class="filename">radarex8.1.php</code>)</a></code> </a> The vertical line
+                                appear to the human eye to have a slightly different color and looks
+                                a bit thinner. </p>
+                        </li></ol></div><p>
+                </p>
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>The difference between a standard line and one line with anti-aliasing
+                            is shown in large magnification in ??. The approach used in the library
+                            roughly corresponds to an even weighted 3x3 Bartlett-filter. It would be
+                            possible to apply some more advanced filtering techniques to achieve an
+                            even better result but doing high-intensive 2D signal processing on a
+                            HTTP-server is not a brilliant idea. The algorithm used in the library
+                            is a reasonable trade-off between visual appearance and
+                            efficiency.</p>
+                        <p>
+                            </p><div class="figure"><a name="id2552190"></a><p class="title"><b>Figure 14.82. Anti-aliasing up-close. The figure shows the difference
+                                    between a standard line (on-top) and the corresponding
+                                    anti-aliased line (on-the bottom)</b></p><div class="figure-contents">
+                                
+                                <div class="informaltable">
+                                    <table border="0"><colgroup><col class="c1"></colgroup><tbody><tr><td align="center">
+                                                  <p><span class="inlinemediaobject"><img src="images/aalias_line.jpg" alt="Anti-aliasing up-close. The figure shows the difference between a standard line (on-top) and the corresponding anti-aliased line (on-the bottom)"></span></p>
+                                                </td></tr></tbody></table>
+                                </div>
+                            </div></div><p><br class="figure-break">
+                        </p>
+                    </div><p>
+                </p>
+                <p></p>
+            </div>
+            <div class="sect2" title="Anti-aliasing in pie graphs"><div class="titlepage"><div><div><h3 class="title"><a name="id2552235"></a>Anti-aliasing in pie graphs</h3></div></div></div>
+                
+                <p>For Pie plots a full image anti-aliasing algorithm is used. The original image
+                    is scaled to twice it's specified with and then down sampled to the required
+                    size. This will give a low pass filtering effect which takes the edges away from
+                    the image and gives a smooth appearance. However the filtering is quite
+                    processor intensive.</p>
+                <p>Anti-aliasing for pie plots are enabled by calling</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">PieGraph::SetAntiAlising($aFlg=true)</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>as the following code snippet shows</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$piegraph-&gt;SetAntiAliasing();</span></pre></td></tr></table></div><p>
+                </p>
+                <p>There is inherent limitation using this method and that is that edges on the
+                    Pie can not be used. </p>
+                <p>The figure below shows the visual impact the anti-aliasing have on both 2D and
+                    3D Pie plots.</p>
+                <p>
+                    </p><div class="figure"><a name="id2552311"></a><p class="title"><b>Figure 14.83. Affects of using anti-alias for Pie-graphs</b></p><div class="figure-contents">
+                        
+                        <div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                            <p><span class="inlinemediaobject"><img src="images/pie2dnoaa.png" alt="Affects of using anti-alias for Pie-graphs"></span></p>
+                                        </td><td>
+                                            <p><span class="inlinemediaobject"><img src="images/pie2daa.png" alt="Affects of using anti-alias for Pie-graphs"></span></p>
+                                        </td></tr><tr><td>
+                                            <p><span class="inlinemediaobject"><img src="images/pie3dnoaa.png" alt="Affects of using anti-alias for Pie-graphs"></span></p>
+                                        </td><td>
+                                            <p><span class="inlinemediaobject"><img src="images/pie3daa.png" alt="Affects of using anti-alias for Pie-graphs"></span></p>
+                                        </td></tr></tbody></table>
+                        </div>
+                    </div></div><p><br class="figure-break">
+                </p>
+            </div>
+            <div class="sect2" title="Anti-aliasing in Windrose plots"><div class="titlepage"><div><div><h3 class="title"><a name="id2552417"></a>Anti-aliasing in Windrose plots</h3></div></div></div>
+                
+                <p>This uses the same algorithm as the Pie plots with similar restrictions and
+                    limitations.</p>
+            </div>
+            <div class="sect2" title="Anti-aliasing for Contour plots"><div class="titlepage"><div><div><h3 class="title"><a name="id2552434"></a>Anti-aliasing for Contour plots</h3></div></div></div>
+                
+                <p>This uses almost the same algorithm as Pie plots. The additional feature here
+                    is that it is possible to specify the size of the over-sampling. This can be
+                    value between 2-5. However, using an oversampling larger than 3 has very little
+                    additional visual improvement but will significantly increase the processing
+                    time. </p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

@@ -11,11 +11,7 @@
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 
 require('require/function_stats.php');
-	//We've included ../Includes/FusionCharts.php, which contains functions
-//to help us easily embed the charts.
-require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FusionCharts.php");
-//a file having a list of colors to be applied to each column (using getFCColor() function)
-require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FC_Colors.php");
+
 
 if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
 
@@ -52,8 +48,10 @@ $res =mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 $row=mysql_fetch_object($res);
 printEnTete( $l->g(498)." <b>".$row -> name."</b> (".$l->g(296).": ".$protectedGet["stat"]." )");
 
-$strXML  = "<graph caption='".$l->g(498).$row -> name."' subCaption='(".$l->g(296).": ".$protectedGet["stat"]." )' 
+if ($_SESSION['OCS']['useflash'] == 1){
+	$strXML  = "<graph caption='".$l->g(498).$row -> name."' subCaption='(".$l->g(296).": ".$protectedGet["stat"]." )' 
 			showPercentValues='1' pieSliceDepth='25' showNames='1' decimalPrecision='0' >";
+}
 /*$funnelXML="<graph isSliced='1' slicingDistance='4' decimalPrecision='0'>
 	<set name='Selected' value='41' color='99CC00' alpha='85'/>
 	<set name='Tested' value='84' color='333333' alpha='85'/>
@@ -78,24 +76,29 @@ while ($row=mysql_fetch_object($resStats)){
 	else
 		$name_value[$i] = $row->txt;
 	$count_value[$i]=$row->nb;
-	 $strXML .= "<set name='".$name_value[$i]."' value='".$count_value[$i]."' color='".$arr_FCColors[$i]."' />";
+	if ($_SESSION['OCS']['useflash'] == 1)
+	 	$strXML .= "<set name='".$name_value[$i]."' value='".$count_value[$i]."' color='".$arr_FCColors[$i]."' />";
 	 $i++;
 	
 }
 //Create an XML data document in a string variable
-
-$strXML .= "</graph>";
-$data_on[0]='Graph n°1';
-$data_on[1]='Graph n°2';
+if ($_SESSION['OCS']['useflash'] == 1){
+	$strXML .= "</graph>";
+	$data_on[0]='Graph n°1';
+	$data_on[1]='Graph n°2';
 //Create the chart - Column 3D Chart with data from strXML variable using dataXML method
-onglet($data_on,$form_name,"onglet",4);
-echo '<div class="mlt_bordure" >';
-if ($protectedPost['onglet'] == 1){
-echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Column3D.swf", "", $strXML, "myNext", 600, 300);
-}elseif ($protectedPost['onglet'] == 0)
-echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Pie3D.swf", "", $strXML, "myNext", 800, 400);
-
-echo '</div><br>';
+	onglet($data_on,$form_name,"onglet",4);
+	echo '<div class="mlt_bordure" >';
+	if (isset($protectedPost['onglet']) and $protectedPost['onglet'] == 1)
+		echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Column3D.swf", "", $strXML, "myNext", 600, 300);		
+	else
+		echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Pie3D.swf", "", $strXML, "myNext", 800, 400);
+	echo '</div><br>';
+}else{
+	$_SESSION['OCS']['STAT_TELEDEPLOY']['DATA']=$count_value;
+	$_SESSION['OCS']['STAT_TELEDEPLOY']['NAME']=$name_value;
+		echo "<img src='index.php?".PAG_INDEX."=".$pages_refs['jp_teledeploy_stats']."&no_header=1' border=0> ";	
+}
 
 
 if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
@@ -123,10 +126,15 @@ echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50
 $j=0;
 while( $j<$i ) {
 	$nb+=$count_value[$j];
-	echo "<tr><td bgcolor='".$arr_FCColors[$j]."'>&nbsp;</td><td>".$name_value[$j]."</td><td>
+	echo "<tr>";
+	if (isset($arr_FCColors[$j]))
+		echo "<td bgcolor='".$arr_FCColors[$j]."'>";
+	else
+		echo "<td>";
+	echo "&nbsp;</td><td>".$name_value[$j]."</td><td>
 			<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_multi_search']."&prov=stat&id_pack=".$protectedGet["stat"]."&stat=".urlencode($name_value[$j])."'>".$count_value[$j]."</a>";
-	
-	echo "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&head=1&ta=".$name_value[$j]."&stat=".$protectedGet["stat"]."\",\"stats_speed\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=1000,height=900\")><img src='image/stat.png'></a>";		
+	if ($name_value[$j] != $l->g(482))
+	echo "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&head=1&ta=".urlencode($name_value[$j])."&stat=".$protectedGet["stat"]."\",\"stats_speed\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=1000,height=900\")><img src='image/stat.png'></a>";		
 	//echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&ta=".$name_value[$j]."&stat=".$protectedGet["stat"]."'>&nbsp;stat</a>
 	echo "	</td></tr>";
 	$j++;

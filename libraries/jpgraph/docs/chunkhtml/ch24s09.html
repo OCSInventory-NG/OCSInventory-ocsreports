@@ -1,0 +1,572 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Short description of supported symbologies</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch24.html" title="Chapter 24. Linear Barcodes (One Dimensional Barcodes)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Short description of supported symbologies</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 24. Linear Barcodes (One Dimensional Barcodes)</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Short description of supported symbologies"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec.desc-supported-symbologies"></a>Short description of supported symbologies</h2></div></div></div>
+            
+            <p>In the following section we will describe the requirements to encode in each of
+                the supported symbologies. Some symbologies have strict standard for the data to be
+                encoded. Trying to encode illegal (or not supported data) will result in a "Data
+                validation" error as shown in <a class="xref" href="ch24s06.html#fig.barcode-validation-error" title="Figure 24.5. Image error - Failed barcode data validation">Figure 24.5. Image error - Failed barcode data validation</a>.</p>
+            <p>
+                </p><div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3>
+                    <p>Please note that the information given here is in no way a replacement for
+                        the official AIM and ISO standards these encoding are based on. It is
+                        assumed that the reader have access to the official standards describing
+                        each of these encodings before applying a particular symbology.</p>
+                </div><p>
+            </p>
+            <div class="sect2" title="UPC A"><div class="titlepage"><div><div><h3 class="title"><a name="id2597569"></a>UPC A</h3></div></div></div>
+                
+                <p>UPC A = Universal Product Code Version A. </p>
+                <p>UPC A encodes 12 numeric digits. The first digit identifies the number system
+                    used. The next group of 5 digits identifies the manufacturer. This number is
+                    assigned by the Uniform Code Council (<code class="uri"><a class="uri" href="http://www.uc-council.org" target="_top">UCC</a></code>). The next 5 digits
+                    identify the particular product and are assigned by the manufacturer. The final
+                    digit is a check digit.</p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2597589"></a>Usage</h4></div></div></div>
+                    
+                    <p>Used for consumer goods. Is being slowly replaced by EAN13. UPCA is a
+                        special case of EAN 13 where the first digit is always 0. </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2597607"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Eleven digit. First digit is always 0. </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2597617"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Automatic, mandatory. </p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2597628"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"03456781233"</code>
+                    </p>
+                    <p>
+                        </p><div class="figure"><a name="id2597646"></a><p class="title"><b>Figure 24.8. UPC A Example</b></p><div class="figure-contents">
+                            
+                            <div class="mediaobject"><img src="images/barcode_upca_03456781233_ex1.png" alt="UPC A Example"></div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="UPC E"><div class="titlepage"><div><div><h3 class="title"><a name="id2597660"></a>UPC E</h3></div></div></div>
+                
+                <p>UPC E = Universal Product Code Version E. </p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2597682"></a>Usage</h4></div></div></div>
+                    
+                    <p>Same general use as UPC A. Can be considered a subset and a more compact
+                        version of UPC A. Used where UPC A bar codes are to wide. </p>
+                    <p>The 6 resulting digits is take from the UPC A according to the following 4
+                        rules:</p>
+                    <p>
+                        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                <p>If a manufacturer's number ends in 000 or 100 or 200, he has
+                                    available to him 1,000 item numbers between 00000 and 00999. The
+                                    six characters are obtained from the first two characters of the
+                                    manufacturer's number followed by the last three characters of
+                                    the item number, followed by the third character of the
+                                    manufacturer's number.</p>
+                            </li><li class="listitem">
+                                <p>If a manufacturer's number ends in 300, 400, 500, 600, 700,
+                                    800 or 900, he has available to him 100 item numbers between
+                                    00000 and 00099. The six characters are obtained from the first
+                                    three characters of the manufacturer's number followed by the
+                                    last two characters of the item number, followed by "3".</p>
+                            </li><li class="listitem">
+                                <p>If a manufacturer's number ends in 10, 20, 30, 40, 50, 60, 70,
+                                    80 or 90, he has available to him 10 item numbers between 00000
+                                    and 00009. The six characters are obtained from the first four
+                                    characters of the manufacturer's number followed by the last
+                                    character of the item number, followed by "4".</p>
+                            </li><li class="listitem">
+                                <p>If a manufacturer's number does not end in zero, then five
+                                    item numbers between 00005 and 00009 are available. The six
+                                    characters are obtained from all five of the manufacturer's
+                                    identification number followed by the last character of the item
+                                    number.</p>
+                            </li></ol></div><p>
+                    </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2597707"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Eleven digits. First digit is always 0. Data input must follow UPC rule
+                        for construction of UPC E data. </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2597762"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Automatic, mandatory </p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2597772"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"05510000120" </code></p>
+                    <p>As an example of the smaller size of UPC E the same data string is also
+                        encoded with UPC A below.</p>
+                    <p>
+                        </p><div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2597838"></a><p class="title"><b>Figure 24.9. UPC E Encoding of "05510000120"</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_upce_055_ex1.png" alt='UPC E Encoding of "05510000120"'></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2597870"></a><p class="title"><b>Figure 24.10. UPC A Encoding of "05510000120"</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_upca_055_ex1.png" alt='UPC A Encoding of "05510000120"'></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td></tr></tbody></table>
+                        </div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="EAN 8"><div class="titlepage"><div><div><h3 class="title"><a name="id2597818"></a>EAN 8</h3></div></div></div>
+                
+                <p>General purpose short barcodes</p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2597911"></a>Usage</h4></div></div></div>
+                    
+                    <p> A shorter version of EAN13 using only 7 digits + checksum digit. </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2597920"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Seven digits. </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2597930"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Automatic, mandatory </p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2597940"></a>Example</h4></div></div></div>
+                    
+                    <p>Encode string = <code class="code">"3776221"</code>. Note the automatically added check
+                        digit.</p>
+                    <p>
+                        </p><div class="figure"><a name="id2597955"></a><p class="title"><b>Figure 24.11. EAN 8 Example</b></p><div class="figure-contents">
+                            
+                            <div class="mediaobject"><img src="images/barcode_ean8_3776221_ex1.png" alt="EAN 8 Example"></div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="EAN 13"><div class="titlepage"><div><div><h3 class="title"><a name="id2597973"></a>EAN 13</h3></div></div></div>
+                
+                <p>The names comes from that this symbology encodes 13 characters. It is widely
+                    used in the manufacturing industry.</p>
+                <p>The first two or three digits are a country code which identify the country in
+                    which the manufacturer is registered. The country code is followed by 9 or 10
+                    data digits (depending on the length of the country code) and a finally a single
+                    digit checksum. </p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2597997"></a>Usage</h4></div></div></div>
+                    
+                    <p>Generic code for consumer goods. Is replacing UPC-A as worldwide standard.
+                    </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2598008"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Twelve digits. </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2598017"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Automatic, mandatory </p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2598029"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"377622153812"</code>
+                    </p>
+                    <p>
+                        </p><div class="figure"><a name="id2598047"></a><p class="title"><b>Figure 24.12. EAN 13 Example</b></p><div class="figure-contents">
+                            
+                            <div class="mediaobject"><img src="images/barcode_ean13_377622153812_ex1.png" alt="EAN 13 Example"></div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="EAN 128"><div class="titlepage"><div><div><h3 class="title"><a name="id2598038"></a>EAN 128</h3></div></div></div>
+                
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>The GS1 (<code class="uri"><a class="uri" href="www.gs1.com" target="_top">www.gs1.com</a></code>) organization
+                            has renamed several barcode standards built on Code 128 such as EAN-128
+                            to GS1-128. </p>
+                    </div><p>
+                </p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2598085"></a>Usage</h4></div></div></div>
+                    
+                    <p>EAN 128 is a CODE 128 where the data structure is strictly regulated.
+                        Please refer to the official EAN-128 specifications for details. </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2598107"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>An alphanumeric data string following EAN 128 rules. This means for one
+                        thing that the string must start with a FUNC1 character which is encoded
+                        using ASCII 128 in JpGraph Barcode available as constant EA_FUNC1. The
+                        validation routines checks these rules and will fail any data string not
+                        following the EAN 128 rules. </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2598120"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Automatic, mandatory. </p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2598124"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"3125134772" </code></p>
+                    <p>
+                        </p><div class="figure"><a name="id2598148"></a><p class="title"><b>Figure 24.13. EAN 128 Example</b></p><div class="figure-contents">
+                            
+                            <div class="mediaobject"><img src="images/barcode_ean128_3125134772_ex1.png" alt="EAN 128 Example"></div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="Industrial 2 of 5"><div class="titlepage"><div><div><h3 class="title"><a name="id2598150"></a> Industrial 2 of 5</h3></div></div></div>
+                
+                <p>The names comes from that each character is encoded in 5 bars and 2 of those
+                    are 3 modules wide and the rest 1 module wide</p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2598185"></a>Usage</h4></div></div></div>
+                    
+                    <p>Old low density standard. For newer applications it should not be used.
+                        Use interleaved 2 of 5 instead since this is a higher density code. </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2598196"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Digits.</p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2598205"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Optional.</p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2598218"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"13729" </code></p>
+                    <p>
+                        </p><div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2598277"></a><p class="title"><b>Figure 24.14. Industrial 2 of 5, without check
+                                                  digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_c25_13729_ex1.png" alt="Industrial 2 of 5, without check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2598310"></a><p class="title"><b>Figure 24.15. Industrial 2 of 5, with check digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_c25_13729_ex2.png" alt="Industrial 2 of 5, with check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td></tr></tbody></table>
+                        </div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="Interleaved 2 of 5"><div class="titlepage"><div><div><h3 class="title"><a name="id2598244"></a>Interleaved 2 of 5</h3></div></div></div>
+                
+                <p>The name comes from the that each data character is composed of 5 elements,
+                    either 5 bars or 5 spaces. Two elements are 3 modules wide and three elements
+                    have a width of 1 module. Adjacent characters are interleaved, mixing the spaces
+                    from one character with the bars of the other.</p>
+                <p>
+                    </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                        <p>This symbology is sometimes referred to as "Code 25" but since this
+                            could also refer to "Industry 2 of 5" symbology this name is ambiguous
+                            without further discriminating information.</p>
+                    </div><p>
+                </p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2598366"></a>Usage</h4></div></div></div>
+                    
+                    <p>Various. Relative hight density numeric code. Used for example on some
+                        driving licenses. </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2598377"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Even length numeric string when not using checksum. Odd length string when
+                        using checksum. </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2598388"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Optional.</p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2598397"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"137291"</code></p>
+                    <p>Since using a checksum requires an odd number of digits we add a '0' in
+                        the beginning to get a data string with an even number of digits. </p>
+                    <p>
+                        </p><div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2598461"></a><p class="title"><b>Figure 24.16. Industrial 2 of 5, without check
+                                                  digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_i25_137291_ex1.png" alt="Industrial 2 of 5, without check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2598494"></a><p class="title"><b>Figure 24.17. Industrial 2 of 5, with check digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_i25_137291_ex2.png" alt="Industrial 2 of 5, with check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td></tr></tbody></table>
+                        </div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="CODE 11 (USD 8)"><div class="titlepage"><div><div><h3 class="title"><a name="id2598510"></a>CODE 11 (USD 8)</h3></div></div></div>
+                
+                <div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3>
+                    <p><span class="bold"><strong>THIS IS AN EXPERIMENTAL ENCODER </strong></span></p>
+                    <p>Due to the lack of CCD scanners supporting this code in Europe we have not
+                        been able to verify this Code against any scanning equipment. </p>
+                </div>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2598543"></a>Usage</h4></div></div></div>
+                    
+                    <p>Numeric only code. Used primarily on telecommunication equipment. Not
+                        recommended for general usage. Note: This code is not widely supported by
+                        handhold CCD scanners. </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2598555"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Numeric including the dash "-" character. </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2598564"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Optional.</p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2598574"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"0137291"</code></p>
+                    <p>
+                        </p><div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2598630"></a><p class="title"><b>Figure 24.18. Code 11, without check digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_c11_0137291_ex1.png" alt="Code 11, without check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2598664"></a><p class="title"><b>Figure 24.19. Code 11, with check digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_c11_0137291_ex2.png" alt="Code 11, with check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td></tr></tbody></table>
+                        </div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="CODE 39"><div class="titlepage"><div><div><h3 class="title"><a name="id2598581"></a>CODE 39</h3></div></div></div>
+                
+                <p>This is also known as "<span class="italic">Code 3 of 9</span>" or
+                        "<span class="italic">USD 3</span>" . This names comes from that each
+                    character consists of 9 elements. 5 bars and 4 spaces. Three of those elements
+                    are 2 modules wide and the rest one module wide. Code 39 is defined in <span class="italic">American National Standards Institute</span> (ANSI)
+                    standard MH10.8M-1983.</p>
+                <p>The full 128 ASCII character set can be encoded in Code 39. </p>
+                <p>Code 39 is a very widely used barcode and basically every scanner/reader on
+                    the market is able to decode Code 39 barcodes which makes it for a very good
+                    selection as a generic linear barcode.</p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2598729"></a>Usage</h4></div></div></div>
+                    
+                    <p>General alphanumeric data (Capitals only) </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2598738"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Alphanumeric (CAPITALS only) including the special characters "$", "/",
+                        "+", "%" and "*" </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2598749"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Optional.</p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2598759"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"GRAPH12"</code></p>
+                    <p>
+                        </p><div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2598817"></a><p class="title"><b>Figure 24.20. Code 39, without check digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_c39_0137291_ex1.png" alt="Code 39, without check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2598852"></a><p class="title"><b>Figure 24.21. Code 39, with check digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_c39_0137291_ex2.png" alt="Code 39, with check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td></tr></tbody></table>
+                        </div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="CODE 39 Extended"><div class="titlepage"><div><div><h3 class="title"><a name="id2598798"></a>CODE 39 Extended</h3></div></div></div>
+                
+                <p>Code 39 Extended was developed to provide a means of encoding additional
+                    characters that are not normally part of the Code 39 character set (lower case
+                    characters and symbols). </p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2598892"></a>Usage</h4></div></div></div>
+                    
+                    <p>Same as Code 39 with the change that it supports lower case characters
+                        ("a,b,c,d,...") but do not support the special characters "+/%$+*". </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2598867"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Alphanumeric data. </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2598912"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Optional.</p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2598921"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"Code39"</code></p>
+                    <p>
+                        </p><div class="informaltable">
+                            <table border="0"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2598980"></a><p class="title"><b>Figure 24.22. Code 39 Extended, without check
+                                                  digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_c39e_Code39_ex1.png" alt="Code 39 Extended, without check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td><td>
+                                            <p>
+                                                </p><div class="figure"><a name="id2599013"></a><p class="title"><b>Figure 24.23. Code 39 Extended, with check digit</b></p><div class="figure-contents">
+                                                  
+                                                  <div class="mediaobject"><img src="images/barcode_c39e_Code39_ex2.png" alt="Code 39 Extended, with check digit"></div>
+                                                </div></div><p><br class="figure-break">
+                                            </p>
+                                        </td></tr></tbody></table>
+                        </div><p>
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="CODE 128"><div class="titlepage"><div><div><h3 class="title"><a name="id2598941"></a>CODE 128</h3></div></div></div>
+                
+                <p>Named so since it can encode the entire 128 ASCII character set (from ASCII 0
+                    to ASCII 128.)</p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2599052"></a>Usage</h4></div></div></div>
+                    
+                    <p>Generic high density code which supports the full ASCII set. </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2599062"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Alphanumeric characters. </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2599071"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Automatic, mandatory. </p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2599081"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"Code128"</code></p>
+                    <p>
+                        </p><div class="figure"><a name="id2599094"></a><p class="title"><b>Figure 24.24. Code 128</b></p><div class="figure-contents">
+                            
+                            <div class="mediaobject"><img src="images/barcode_c128_Code128_ex1.png" alt="Code 128"></div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="CODABAR"><div class="titlepage"><div><div><h3 class="title"><a name="id2599111"></a>CODABAR</h3></div></div></div>
+                
+                <p>Codabar is primarily used in libraries in the USA. It is also sometimes used
+                    in health care and transportation systems.</p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2599130"></a>Usage</h4></div></div></div>
+                    
+                    <p>Old, numeric + some alpha capability, code. Primarily used in the USA.
+                    </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2599141"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>Numbers 0-9, Special characters "-$:/.+" </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2599150"></a>Checksum</h4></div></div></div>
+                    
+                    <p>None.</p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2599162"></a>Example</h4></div></div></div>
+                    
+                    <p>Encoded string = <code class="code">"12354" </code></p>
+                    <p>
+                        </p><div class="figure"><a name="id2599178"></a><p class="title"><b>Figure 24.25. Codabar</b></p><div class="figure-contents">
+                            
+                            <div class="mediaobject"><img src="images/barcode_codabar_12345_ex1.png" alt="Codabar"></div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                </div>
+            </div>
+            <div class="sect2" title="Bookland (ISBN)"><div class="titlepage"><div><div><h3 class="title"><a name="id2599182"></a>Bookland (ISBN)</h3></div></div></div>
+                
+                <p>This is a specially formatted EAN13 Code. This is primarily used to encode the
+                        <span class="italic">International Standard Book Number</span> (ISBN)
+                    on magazines and books.</p>
+                <div class="sect3" title="Usage"><div class="titlepage"><div><div><h4 class="title"><a name="id2599214"></a>Usage</h4></div></div></div>
+                    
+                    <p>Encodes ISBN codes in books and magazines. </p>
+                </div>
+                <div class="sect3" title="Input data/character set"><div class="titlepage"><div><div><h4 class="title"><a name="id2599230"></a>Input data/character set</h4></div></div></div>
+                    
+                    <p>A valid ISBN number without last digit (check digit) and "-" signs. An
+                        ISBN is a 10-digit number which is made up of</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p>Group identifier (1 digit, typically 0 or 1 for
+                                    English-speaking countries)</p>
+                            </li><li class="listitem">
+                                <p>Publisher identifier</p>
+                            </li><li class="listitem">
+                                <p>Title identifier</p>
+                            </li><li class="listitem">
+                                <p>Check digit</p>
+                            </li></ul></div><p>
+                    </p>
+                </div>
+                <div class="sect3" title="Checksum"><div class="titlepage"><div><div><h4 class="title"><a name="id2599277"></a>Checksum</h4></div></div></div>
+                    
+                    <p>Automatic, mandatory. </p>
+                </div>
+                <div class="sect3" title="Example"><div class="titlepage"><div><div><h4 class="title"><a name="id2599295"></a>Example</h4></div></div></div>
+                    
+                    <p>The input data must be a valid ISBN (<span class="italic"><span class="bold"><strong>I</strong></span>nternational <span class="bold"><strong>S</strong></span>tandard <span class="bold"><strong>B</strong></span>ook <span class="bold"><strong>N</strong></span>umber</span>) </p>
+                    <p>Encoded string = <code class="code">"0-486-63926-6"</code>
+                    </p>
+                    <p>
+                        </p><div class="figure"><a name="id2599349"></a><p class="title"><b>Figure 24.26. Bookland (ISBN)</b></p><div class="figure-contents">
+                            
+                            <div class="mediaobject"><img src="images/barcode_bookland_048663926_ex1.png" alt="Bookland (ISBN)"></div>
+                        </div></div><p><br class="figure-break">
+                    </p>
+                    <p>
+                        </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                            <p>The ISBN check digit "6" is automatically removed and replaced by
+                                the EAN 13 check digit.</p>
+                        </div><p>
+                    </p>
+                    <p>
+                        </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                            <p>A bookland code will always have the digits "978" as the first
+                                three digits (the standard also allows "979" but that is currently
+                                not in use)</p>
+                        </div><p>
+                    </p>
+                    <p>
+                        </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                            <p>ISBN numbers are organized in Europe by:</p>
+                            <p>
+                                </p><pre class="screen">International Standard Book Number Agency, 
+Staatsbibliothek Preussischer Kulturbesitz
+Posdamer Strasse 33
+D-1000 Berlin 30 Germany</pre><p>
+                            </p>
+                        </div><p>
+                    </p>
+                </div>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch24.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

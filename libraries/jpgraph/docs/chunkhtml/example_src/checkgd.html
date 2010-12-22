@@ -1,0 +1,22 @@
+<div style="font-weight: bold;margin-left:15px;">checkgd.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$im</span><span class="hl-code"> = @</span><span class="hl-identifier">imagecreate</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-number">200</span><span class="hl-code">, </span><span class="hl-number">100</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-reserved">or</span><span class="hl-code"> </span><span class="hl-reserved">die</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">&quot;</span><span class="hl-string">cannot create a new gd image.</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$background_color</span><span class="hl-code"> = </span><span class="hl-identifier">imagecolorallocate</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-var">$im</span><span class="hl-code">, </span><span class="hl-number">240</span><span class="hl-code">, </span><span class="hl-number">240</span><span class="hl-code">, </span><span class="hl-number">240</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$border_color</span><span class="hl-code"> = </span><span class="hl-identifier">imagecolorallocate</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-var">$im</span><span class="hl-code">, </span><span class="hl-number">50</span><span class="hl-code">, </span><span class="hl-number">50</span><span class="hl-code">, </span><span class="hl-number">50</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$text_color</span><span class="hl-code"> = </span><span class="hl-identifier">imagecolorallocate</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-var">$im</span><span class="hl-code">, </span><span class="hl-number">233</span><span class="hl-code">, </span><span class="hl-number">14</span><span class="hl-code">, </span><span class="hl-number">91</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-identifier">imagerectangle</span><span class="hl-brackets">(</span><span class="hl-var">$im</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">199</span><span class="hl-code">,</span><span class="hl-number">99</span><span class="hl-code">,</span><span class="hl-var">$border_color</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-identifier">imagestring</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-var">$im</span><span class="hl-code">, </span><span class="hl-number">5</span><span class="hl-code">, </span><span class="hl-number">10</span><span class="hl-code">, </span><span class="hl-number">40</span><span class="hl-code">, </span><span class="hl-quotes">&quot;</span><span class="hl-string">a simple text string</span><span class="hl-quotes">&quot;</span><span class="hl-code">, </span><span class="hl-var">$text_color</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-identifier">header</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">content-type: image/png</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-identifier">imagepng</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-var">$im</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

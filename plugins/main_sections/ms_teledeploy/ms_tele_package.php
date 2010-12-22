@@ -422,7 +422,7 @@ $title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(438).
 $title_user="<tr height='30px' BGCOLOR='#C7D9F5'><td align='center' colspan='10'><b>".$l->g(447)."</b></td></tr>";
 $title_redistrib="<tr height='30px' BGCOLOR='#C7D9F5'><td align='center' colspan='10'><b>".$l->g(628)."</b></td></tr>";
 $list_os['WINDOWS']="WINDOWS";
-$list_os['LINUX']="LINUX";
+$list_os['LINUX']="UNIX/LINUX";
 $list_os['MAC']="MACOS";
 $list_proto['HTTP']="HTTP";
 $i=0;

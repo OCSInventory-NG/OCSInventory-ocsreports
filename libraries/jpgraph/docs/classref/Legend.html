@@ -1,0 +1,546 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_LEGEND"><b>Legend</b></a></div>
+<i>(Defined in: jpgraph_legend.inc.php : 22)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="Legend.html" style="font-family:arial;font-weight:bold;color:darkblue;">Legend</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="Legend.html#_LEGEND_HIDE">Hide()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_POS">Pos()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETABSPOS">SetAbsPos()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETCOLOR">SetColor()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETCOLUMNS">SetColumns()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETFILLCOLOR">SetFillColor()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETFONT">SetFont()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETFRAMEWEIGHT">SetFrameWeight()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETHCOLMARGIN">SetHColMargin()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETLAYOUT">SetLayout()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETLEFTMARGIN">SetLeftMargin()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETLINESPACING">SetLineSpacing()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETLINEWEIGHT">SetLineWeight()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETMARKABSHSIZE">SetMarkAbsHSize()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETMARKABSSIZE">SetMarkAbsSize()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETMARKABSVSIZE">SetMarkAbsVSize()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETPOS">SetPos()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETREVERSE">SetReverse()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETSHADOW">SetShadow()</a>&nbsp;<br>
+&nbsp;<a href="Legend.html#_LEGEND_SETVCOLMARGIN">SetVColMargin()</a>&nbsp;<br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>This class is responsible for drawing a legend at the specified position in the graph. Individual data series are added by calling it's Add() method.
+<p>
+This is all handled by the framework. Legend is instantiated in the graph as instance variable legend. When stroking individual plots this instance variable is used by the individual Legend() methods in the plot classes to add whatever the individual plots need to add.
+ <p> &nbsp;
+<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_HIDE"><span style="color:#555555;">Legend ::</span><br><b>Hide</b>($aHide)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Hide legend box</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aHide</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>True = hide</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Hides the legend.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Hide</span><span style="color: #007700">();</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_POS"><span style="color:#555555;">Legend ::</span><br><b>Pos</b>($aX, $aY, $aHAlign, $aVAlign)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify the position for the legend box</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aX</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>X coordinate</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aY</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Y coordinate</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aHAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'right'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Horizontal alignment</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aVAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'top'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Vertical alignment</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Set the position of the legend box on the Graph. The alignment arguments determine how the position of the legend box should be interpretated, i.e from what position on the Graph should the fraction be counted. ('right' uses the right side and positoins the legend with its left side according to the specified fraction and so on). Possible alignemts are:
+<p>
+Horizontal: 'left','right','center'<br>
+Vertical: 'bottom','top','center'
+<p>
+Please note that the X and Y positions should be give as fractions , i.e Pos(0.1,0.1)
+<p>
+If the alignment is not given the the default is 'right','top'&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Pos</span><span style="color: #007700">(</span><span style="color: #0000BB">0.05</span><span style="color: #007700">,</span><span style="color: #0000BB">0.1</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETABSPOS"><span style="color:#555555;">Legend ::</span><br><b>SetAbsPos</b>($aX, $aY, $aHAlign, $aVAlign)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify X and Y coordinate for the legend box</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aX</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>x Coordinate</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aY</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>y Coordinate</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aHAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'right'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Horizontal anchor point</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aVAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'top'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Vertical Anchor point</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify X and Y coordinate for the legend box&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;10x10&nbsp;pixels&nbsp;from&nbsp;the&nbsp;upper&nbsp;right&nbsp;corner<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetAbsPos</span><span style="color: #007700">(</span><span style="color: #0000BB">10</span><span style="color: #007700">,</span><span style="color: #0000BB">10</span><span style="color: #007700">,</span><span style="color: #DD0000">'right'</span><span style="color: #007700">,</span><span style="color: #DD0000">'top'</span><span style="color: #007700">)</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETCOLOR"><span style="color:#555555;">Legend ::</span><br><b>SetColor</b>($aFontColor, $aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Set color on frame around box</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFontColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Font coor</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'black'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Frame color</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the color for both the frame around the legend box as well as the font color used for the legend texts. Please note that this does not affect the fill color of the legend box.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Legend.html#_LEGEND_SETFILLCOLOR">Legend::SetFillColor()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetColor</span><span style="color: #007700">(</span><span style="color: #DD0000">'blue'</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETCOLUMNS"><span style="color:#555555;">Legend ::</span><br><b>SetColumns</b>($aCols)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify the number of text columns to use</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aCols</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Number of columns</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the number of text columns to use in the legend text box. For graphs which have a large number of plots it might be necessary to specify 2 or more columns to avois that the legend box become to large.
+<p>
+By default i column us used.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetColumns</span><span style="color: #007700">(</span><span style="color: #0000BB">2</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETFILLCOLOR"><span style="color:#555555;">Legend ::</span><br><b>SetFillColor</b>($aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify fill color for legend box</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Fill color</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the background color for the legend box. The properties for the legend is noramlly accessed through the graph instance variable '$legend'&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Legend.html#_LEGEND_SETCOLOR">Legend::SetColor()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFillColor</span><span style="color: #007700">(</span><span style="color: #DD0000">'lightblue'</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETFONT"><span style="color:#555555;">Legend ::</span><br><b>SetFont</b>($aFamily, $aStyle, $aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Set font for texts in legend box.</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFamily</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Font family</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aStyle</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">FS_NORMAL</span>
+</span>
+</td><td>Font style</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">10</span>
+</span>
+</td><td>Font size</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Set font for texts in legend box.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFont</span><span style="color: #007700">(</span><span style="color: #0000BB">FF_FONT2</span><span style="color: #007700">,</span><span style="color: #0000BB">FS_NORMAL</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETFRAMEWEIGHT"><span style="color:#555555;">Legend ::</span><br><b>SetFrameWeight</b>($aWeight)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify the width of the frame around the Legend box</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWeight</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Width in pixels</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the width of the frame around the Legend box&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFrameWeight</span><span style="color: #007700">(</span><span style="color: #0000BB">2</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETHCOLMARGIN"><span style="color:#555555;">Legend ::</span><br><b>SetHColMargin</b>($aXMarg)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify margin between columns in te legend</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aXMarg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify margin between columns in te legend&nbsp;<br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETLAYOUT"><span style="color:#555555;">Legend ::</span><br><b>SetLayout</b>($aDirection)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify vertical or horizontal legend layout</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aDirection</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">LEGEND_VERT</span>
+</span>
+</td><td>Layout for legend box</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>The legend box can either have the legend stacke vertically or horizontally. The default is vertically stacked legends.
+<p>
+Allowed arguments: LEGEND_VERT,LEGEND_HOR
+<p>
+Please note that horizontal layout is only suitable for a few legends since it makes use of quite a lot of horizontal space.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Put&nbsp;a&nbsp;horizontal&nbsp;legend&nbsp;box&nbsp;at&nbsp;the&nbsp;bottom&nbsp;of&nbsp;the&nbsp;graph<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Pos</span><span style="color: #007700">(</span><span style="color: #0000BB">0.5</span><span style="color: #007700">,</span><span style="color: #0000BB">0.0.5</span><span style="color: #007700">,</span><span style="color: #DD0000">'left'</span><span style="color: #007700">,</span><span style="color: #DD0000">'bottom'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetLayout</span><span style="color: #007700">(</span><span style="color: #0000BB">LEGEND_HOR</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETLEFTMARGIN"><span style="color:#555555;">Legend ::</span><br><b>SetLeftMargin</b>($aXMarg)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify marging between the left edge and the first column</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aXMarg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify marging between the left edge and the first column&nbsp;<br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETLINESPACING"><span style="color:#555555;">Legend ::</span><br><b>SetLineSpacing</b>($aSpacing)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Extra vertical spacing (in pixels) between rows</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSpacing</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Extra margin (in pixels)</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Extra vertical spacing (in pixels) between rows&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Add&nbsp;5&nbsp;pixels&nbsp;extra&nbsp;margin&nbsp;between&nbsp;each&nbsp;legend&nbsp;row<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetLineSpacing</span><span style="color: #007700">(</span><span style="color: #0000BB">5</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETLINEWEIGHT"><span style="color:#555555;">Legend ::</span><br><b>SetLineWeight</b>($aWeight)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Set the line width for the indicators.</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWeight</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Line weight in pixels</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the line width for the color boxes that are used as indicators.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetLineWeight</span><span style="color: #007700">(</span><span style="color: #0000BB">2</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETMARKABSHSIZE"><span style="color:#555555;">Legend ::</span><br><b>SetMarkAbsHSize</b>($aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETMARKABSSIZE"><span style="color:#555555;">Legend ::</span><br><b>SetMarkAbsSize</b>($aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify the size of the marker in pixels</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Size in pixels</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the size of the marker in pixels to be used in the legend. This is used for the plot marks, for example squares or circles, when you want to control what the size used in the legend should be.
+<p>
+It is often desirable to use a smaller size for the marks in the legend than in the graph itself.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetMarkAbsSize</span><span style="color: #007700">(</span><span style="color: #0000BB">6</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETMARKABSVSIZE"><span style="color:#555555;">Legend ::</span><br><b>SetMarkAbsVSize</b>($aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETPOS"><span style="color:#555555;">Legend ::</span><br><b>SetPos</b>($aX, $aY, $aHAlign, $aVAlign)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Alias for Pos. Specify Position for Legend</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aX</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>X position</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aY</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Y position</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aHAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'right'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Horizontal anchor point</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aVAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'top'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Vertical anchor point</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>See Legend::Pos()&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Legend.html#_LEGEND_POS">Legend::Pos()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetPos</span><span style="color: #007700">(</span><span style="color: #0000BB">0.05</span><span style="color: #007700">,</span><span style="color: #0000BB">0.5</span><span style="color: #007700">,</span><span style="color: #DD0000">'right'</span><span style="color: #007700">,</span><span style="color: #DD0000">'center'</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETREVERSE"><span style="color:#555555;">Legend ::</span><br><b>SetReverse</b>($f)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Print the legend in reverse order</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$f</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>TRUE=In reverse order</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Print the legend in reverse order&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetReverse</span><span style="color: #007700">();</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETSHADOW"><span style="color:#555555;">Legend ::</span><br><b>SetShadow</b>($aShow, $aWidth)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Add a drop shadow to the legend box</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aShow</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'gray'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>True = show drop shadow</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWidth</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">2</span>
+</span>
+</td><td>Width of drop shadow in pixels</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Add a drop down shadow for the legend box.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Use&nbsp;a&nbsp;shadow&nbsp;width&nbsp;default&nbsp;width<br /></span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">legend</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetShadow</span><span style="color: #007700">();</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LEGEND_SETVCOLMARGIN"><span style="color:#555555;">Legend ::</span><br><b>SetVColMargin</b>($aSpacing)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify the margin between rows in the legend</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSpacing</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the margin between rows in the legend&nbsp;<br>
+<p> <hr> <p></html>

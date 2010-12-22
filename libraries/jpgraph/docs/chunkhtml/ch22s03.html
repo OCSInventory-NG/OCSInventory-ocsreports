@@ -1,0 +1,59 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Mesh interpolating of input data</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch22.html" title="Chapter 22. Matrix graphs"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Mesh interpolating of input data</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 22. Matrix graphs</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Mesh interpolating of input data"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2591960"></a>Mesh interpolating of input data</h2></div></div></div>
+        
+        <p>By using mesh interpolation it is possible to obtain a "smoother" looking matrix plot
+            by creating a "in-between" values in the original matrix by linear interpolation.</p>
+        <p>
+            </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                <p>This is also used in contour plots. See <a class="xref" href="ch15s06.html#sec.grid-interpolating" title="Understanding mesh interpolation">Understanding mesh interpolation</a> for a more thorough discussion on
+                    mesh interpolation and the implication of CPU usage.</p>
+            </div><p>
+        </p>
+        <p>The interpolation factor specifies how many times, recursively, the interpolation
+            should be done. Practical value ranges from 2-6. While it is possible to specify larger
+            values than 6 the time it takes to do the interpolation will grow exponentially in the
+            interpolation factor. It is also important to remember that this interpolation dos not
+            create any "more" information than what is already available in the matrix. In addition
+            it needs to be verified that such a linear interpolation of data is at all valid for the
+            underlying data in the matrix. </p>
+        <p>As an example the following figures show the effect of doing a 1-5 times interpolation
+            of the original data (same as interpolation = 1). With the chosen graph size it is no
+            point of interpolating further since doing 5 times interpolating will force the module
+            to be 1x1 pixel in order to fit within the constraints of the graph. (The original data
+            was 8x11 and interpolating it 5 times creates a 113x161 matrix)</p>
+        <div class="informaltable">
+            <table border="0"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><tbody><tr><td><span class="inlinemediaobject"><img src="images/matrix_mesh1.png"></span></td><td><span class="inlinemediaobject"><img src="images/matrix_mesh2.png"></span></td><td><span class="inlinemediaobject"><img src="images/matrix_mesh3.png"></span></td></tr><tr><td><span class="inlinemediaobject"><img src="images/matrix_mesh4.png"></span></td><td><span class="inlinemediaobject"><img src="images/matrix_mesh5.png"></span></td><td> </td></tr></tbody></table>
+        </div>
+        <p>The different sizes of the plot is due to the fact that each cell in the matrix must
+            have an integer number of pixels. In the graphs above we have used the largest module
+            size while still fitting in the image. Hence the different appearances.</p>
+        <p>There are two ways of doing this interpolation. </p>
+        <p>
+            </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                    <p>When the matrix plot is created by specifying the interpolation factor as
+                        the second argument to the plot constructor, i.e.</p>
+                    <p>
+                        </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$matrixplot = new MatrixPlot($data,4); // 4 times interpolation</span></pre></td></tr></table></div><p>
+                    </p>
+                </li><li class="listitem">
+                    <p>If many plots share the same data it is more efficient to do it once in
+                        the beginning instead of doing the interpolation each time a new matrix plot
+                        object is created. This can be done by using the utility function</p>
+                    <p>
+                        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                                <p><code class="code">doMeshInterpolate(&amp;$aData, $aFactor)</code></p>
+                            </li></ul></div><p>
+                    </p>
+                    <p>As can be seen from the declaration this is a call by reference method
+                        where the data is replaced by the new data that has been interpolated the
+                        specified number of times. This avoids unnecessary data copying for large
+                        matrices.</p>
+                </li></ol></div><p>
+        </p>
+        <p>
+            </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                <p>Those familiar with Matlab (tm) will recognize a similar mesh interpolation in
+                    the <code class="code">interp2()</code> function.</p>
+            </div><p>
+        </p>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch22.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

@@ -1137,8 +1137,10 @@
 1252 Conf profils files directory
 1253 Directory of old conf profils files
 1254 Directory of scripts logs
-1255 Connexion number by hour
-1256 Bad connexion number by hour
+1255 Connexion number by day
+1256 Bad connexion number by day
+1257 Use flash on GUI
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

@@ -1,0 +1,13 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Summary of findings</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="apk.html" title="Appendix K. Why it is not possible to add a SVG backend to JpGraph"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Summary of findings</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Appendix K. Why it is not possible to add a SVG backend to JpGraph</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Summary of findings"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2655321"></a>Summary of findings</h2></div></div></div>
+            
+            <p>To our surprise we have to conclude that with the current SVG standard 1.1 as well
+                as with the upcoming 1.2 (based on SVG-T) it will not be possible to implement a
+                full backend in SVG. </p>
+            <p>The primary hinder is the lack of adequate text manipulation in the current SVG
+                standard. In addition the implementation of the text supporting feature in current
+                SVG viewers range from poor and erroneous to non-existing. </p>
+            <p>The only way to solve this would be to drastically reduce some functionality of
+                the library in regards to text handling and require the user of the library to
+                supply text sizes to be used in many places of the library where that is needed.
+            </p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="apk.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

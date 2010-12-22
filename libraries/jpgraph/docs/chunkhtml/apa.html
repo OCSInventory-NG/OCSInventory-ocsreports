@@ -1,0 +1,117 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Appendix A. How this manual was produced</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt09.html" title="Part IX. Appendices"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Appendix A. How this manual was produced</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part IX. Appendices</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="appendix" title="Appendix A. How this manual was produced"><div class="titlepage"><div><div><h2 class="title"><a name="app.how-was-this-manual-produced"></a>Appendix A. How this manual was produced</h2></div></div></div>
+        
+        <p>Unfortunately we couldn't locate any off-the-shelf system for producing this fairly
+            large manual with some special requirements like automatic inclusion of PHP source that
+            should be highlighted and in addition rendered by running the scripts and automatically
+            include the resulting images in the resulting manual. To solve this we have based our
+            solution around a DocBook5 setup with some custom steps that are described below.</p>
+        <p><span class="bold"><strong>DocBook5</strong></span></p>
+        <p>The source for the manual is written as a number of split <code class="uri"><a class="uri" href="http://www.docbook.org/" target="_top">DocBook5</a></code> XML compliant documents using
+                <code class="uri"><a class="uri" href="http://www.w3.org/TR/xinclude/" target="_top">XInclude</a></code> to bring them
+            together into one master document. </p>
+        <p>The transformation of the XML source files was done by the means of a DocBook XSL
+            stylesheet using the <span class="command"><strong>xsltproc</strong></span> XSL processor. (see <code class="uri"><a class="uri" href="http://xmlsoft.org/XSLT/xsltproc2.html" target="_top">libxslt</a></code>) The DocBook5
+            style sheets can directly produce either single file HTML or chunked (many files) HTML
+            (or XHTML). </p>
+        <p>In addition there is a style sheet to produce FO (Formatted Objects) output which can
+            be further refined to PDF with the help of the <span class="command"><strong>fop</strong></span> processor (see
+                <code class="uri"><a class="uri" href="http://xmlgraphics.apache.org/fop/" target="_top">Apache FOP</a></code>).
+            Unfortunately some formatting instructions in the source are lost in the transformation
+            to PDF output. This means that some aspects of the manual doesn't come out perfect in
+            the PDF output. For this reason the PDF version of the documentation should only be seen
+            as a complementary documentation. The master output format is the chunked HTML.</p>
+        <p>
+            </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                <p>In formatting the chunked output we have prioritized to keep down the number
+                    of files to avoid many pages with only a small amount of text on them. Our view
+                    is that documentation which breaks the pages down to very low levels are
+                    extremely tiresome to read.</p>
+            </div><p>
+        </p>
+        <p><span class="bold"><strong>Phing based build system</strong></span></p>
+        <p>The overall build process is drive by a <span class="command"><strong>Phing</strong></span> XML build script.
+                <span class="command"><strong>Phing</strong></span> (See <code class="uri"><a class="uri" href="http://phing.info/trac/" target="_top">http://phing.info/trac/</a></code> ) is most easily described as a PHP version of the
+            Java build system <span class="command"><strong>Ant</strong></span>. It has several advantages compared with a more
+            traditional <span class="command"><strong>make</strong></span> setup, the build files are all written in clear XML
+            which makes them easy to read and maintain. In addition there are a number of built-in
+            commands that makes deploying and handling of files extremely easy compared with a
+            traditional make system which must rely on external tools to do everything. </p>
+        <p><span class="bold"><strong>Syntax highlighting of example code</strong></span></p>
+        <p>The syntax highlighting and handling of the numerous example images initially posed a
+            small problem since there are no off-the-shelf good support for handling this. As a
+            basic requirement we needed all PHP scripts to be runnable and kept in the normal
+            example directories and then automatically included when the DocBook source was
+            processed. </p>
+        <p>What was needed was some easy way by which we could just mark in the DocBook source
+            (and still maintain valid DocBook XML) that we wanted a particular named example
+            included and either show just the image, just the source or both. In addition we
+            required the source to be syntax highlighted. </p>
+        <p>To handle this we had to write some custom tasks to extend Phing. In principal our
+            build system works as follows.</p>
+        <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                <p>When a new example have been added or an old one removed a special target in
+                    our build file are run which extracts all scripts from the example sections in
+                    the *.XML files. The name of each found example script in the XML source
+                    corresponds to an existing PHP script in the Example directory in the JpGraph
+                    distribution. A batch file is then automatically created which is subsequently
+                    run and all generated images stored on disk.</p>
+            </li><li class="listitem">
+                <p>When the normal DocBook XSL processing is done all the special example markups
+                    in the XML source is replaced with XML tags to include the image and make sure
+                    that the referred script is a proper PHP file name.</p>
+            </li><li class="listitem">
+                <p>After the XSL process has been run all programlisting tags will have a special
+                    token, for example "<code class="code">\#\#example0.php\#\#</code>" this then instructs a
+                    custom <span class="command"><strong>Phing</strong></span> task to replace the name in the double "#" tags
+                    with the corresponding source (in the resulting HTML code). At the same time
+                    this source is included it is also passed through the custom syntax highlight
+                    filter so that it comes out as proper marked up source which is inserted
+                    directly in the resulting HTML file.</p>
+            </li></ol></div>
+        <p>The overall build system is illustrated in <a class="xref" href="apa.html#fig.documentation-build-system" title="Figure A.1. The documentation build process">Figure A.1. The documentation build process</a></p>
+        <div class="figure"><a name="fig.documentation-build-system"></a><p class="title"><b>Figure A.1. The documentation build process</b></p><div class="figure-contents">
+            
+            <div class="mediaobject"><img src="images/documentation_buildprocess.png" alt="The documentation build process"></div>
+        </div></div><br class="figure-break">
+        <p>The way the special markup works is that whenever we want a full example (source and
+            image) we create a &lt;programlisting&gt; tag with the file name and title within (single)
+            "#" characters. For example to include the very first example in this manual we have the
+            following tags in the docbook XML source</p>
+        <p>
+            </p><pre class="screen">&lt;programlisting&gt;#example0|The very first example#&lt;/programlisting&gt;</pre><p>
+        </p>
+        <p>The first part (before the "|") is the file name without extension that we want to
+            include and the second part (after the "|") is the title we want to use. This markup
+            will include both the source as well as the generated graph/image directly in the
+            resulting HTML.</p>
+        <p>When new examples have been added the examples target in our build file is run and
+            that extracts all the example script used in the book (in the above example
+                "<code class="code">example0.php</code>") and creates a batch file which is then run to create
+            all the images used in the examples. </p>
+        <p>The syntax highlighting is handled by a custom written filter extensions to
+                <span class="command"><strong>Phing</strong></span> which internally uses the PEAR package
+                <code class="filename">Pear::Text_Highlight</code>.</p>
+        <p><span class="bold"><strong>Notes:</strong></span></p>
+        <p>
+            </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                    <p>In the current setup a regular expression in the Phing build script is
+                        responsible for replacing the markup in the programlisting with a
+                        &lt;figure&gt; tag and a new &lt;programlisting&gt;. This should be done with a
+                        custom XSL layer instead and we will update this for the next major
+                        revision.</p>
+                </li><li class="listitem">
+                    <p>Since the syntax highlighting makes use of HTML markup code for the colors
+                        the PDF output does not support syntax highlighting</p>
+                </li><li class="listitem">
+                    <p>For the reference manual we still use our old DB based documentation
+                        system which stores all the methods and classes in a DB augmented with
+                        source documentation. (We actually prefer this in front of adding a lot of
+                        end user documentation with PHPDoc comment sin the source which have a
+                        tendency of cluttering up the code as well as making it prone to error since
+                        the source files have to be modified in order to update a simple typo in the
+                        documentations. Our next step is therefor to update that old system to be
+                        able to produce DocBook5 compliant XML for further formatting and
+                        processing.</p>
+                </li></ol></div><p>
+        </p>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt09.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

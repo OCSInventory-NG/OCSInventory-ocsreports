@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_LINEARTICKS"><b>LinearTicks</b></a> Extends <a style="font-size:14pt;text-decoration:underline;"href="Ticks.html#_C_TICKS " style="font-face:arial;font-weight:bold;">Ticks </a></div>
+<i>(Defined in: jpgraph.php : 4032)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="LinearTicks.html" style="font-family:arial;font-weight:bold;color:darkblue;">LinearTicks</a>&nbsp;</td><td align="center" style="background:lightgray;" >&nbsp;<a href="Ticks.html" style="font-family:arial;font-weight:bold;color:darkblue;">Ticks</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="LinearTicks.html#_LINEARTICKS_ADJUSTFORDST">AdjustForDST()</a>&nbsp;<br>
+&nbsp;<a href="LinearTicks.html#_LINEARTICKS_GETMAJOR">GetMajor()</a>&nbsp;<br>
+&nbsp;<a href="LinearTicks.html#_LINEARTICKS_GETMINOR">GetMinor()</a>&nbsp;<br>
+&nbsp;<a href="LinearTicks.html#_LINEARTICKS_SET">Set()</a>&nbsp;<br>
+&nbsp;<a href="LinearTicks.html#_LINEARTICKS_SETMAJTICKPOSITIONS">SetMajTickPositions()</a>&nbsp;<br>
+&nbsp;<a href="LinearTicks.html#_LINEARTICKS_SETTEXTLABELSTART">SetTextLabelStart()</a>&nbsp;<br>
+&nbsp;<a href="LinearTicks.html#_LINEARTICKS_SETTICKPOSITIONS">SetTickPositions()</a>&nbsp;<br>
+</td><td valign=top>&nbsp;<a href="Ticks.html#_TICKS_SETCOLOR">SetColor()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SETFORMATCALLBACK">SetFormatCallback()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SETLABELFORMAT">SetLabelFormat()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SETSIDE">SetSide()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SETSIZE">SetSize()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SETWEIGHT">SetWeight()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SUPRESSFIRST">SupressFirst()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SUPRESSLAST">SupressLast()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SUPRESSMINORTICKMARKS">SupressMinorTickMarks()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SUPRESSTICKMARKS">SupressTickMarks()</a>&nbsp;<br>
+&nbsp;<a href="Ticks.html#_TICKS_SUPRESSZEROLABEL">SupressZeroLabel()</a>&nbsp;<br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>Internal class that handles the drawing and formatting of the tick marks on each axis. This class is accessed through it'sinstance variable in the scale, e.g. 
+<p>
+$graph->xaxis->scale->ticks->Set(20,10);
+<p>
+<b>Note:</b> When you manually specify a scale you must also specify the major/minor tick intervall. <p> &nbsp;
+<div style="font-weight:bold;font-family:arial;font-size:85%;">See also related classes:</div><a href="LinearScale.html">LinearScale</a> and <a href="LogScale.html">LogScale</a> <p> &nbsp;<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LINEARTICKS_ADJUSTFORDST"><span style="color:#555555;">LinearTicks ::</span><br><b>AdjustForDST</b>($aFlg)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// For a normal linear type of scale the major ticks will always be multiples// of the minor ticks. In order to avoid any rounding issues the major ticks are// defined as every "step" minor ticks and not calculated separately</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFlg</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LINEARTICKS_GETMAJOR"><span style="color:#555555;">LinearTicks ::</span><br><b>GetMajor</b>()</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Return major step size in world coordinates</i></span><p>
+<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Return major step size in world coordinates&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$majintervall&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">xaxis</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">scale</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ticks</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Getmajor</span><span style="color: #007700">();</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LINEARTICKS_GETMINOR"><span style="color:#555555;">LinearTicks ::</span><br><b>GetMinor</b>()</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Return minor step size in world coordinates</i></span><p>
+<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Return minor step size in world coordinates.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$majintervall&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">xaxis</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">scale</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ticks</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Getmajor</span><span style="color: #007700">();</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LINEARTICKS_SET"><span style="color:#555555;">LinearTicks ::</span><br><b>Set</b>($aMajStep, $aMinStep)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// Set Minor and Major ticks (in world coordinates)</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aMajStep</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Distance between major tick marks</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aMinStep</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">false</span>
+</span>
+</td><td>Distance between minor tick marks</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Set Minor and Major tick intervall (in world coordinates)&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">yaxis</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">scale</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ticks</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Set</span><span style="color: #007700">(</span><span style="color: #0000BB">40</span><span style="color: #007700">,</span><span style="color: #0000BB">20</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LINEARTICKS_SETMAJTICKPOSITIONS"><span style="color:#555555;">LinearTicks ::</span><br><b>SetMajTickPositions</b>($aMajPos, $aLabels)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>//(" Minor or major step size is 0. Check that you haven't got an accidental SetTextTicks(0) in your code. If this is not the case you might have stumbled upon a bug in JpGraph. Please report this and if possible include the data that caused the problem."</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aMajPos</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aLabels</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">NULL</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LINEARTICKS_SETTEXTLABELSTART"><span style="color:#555555;">LinearTicks ::</span><br><b>SetTextLabelStart</b>($aTextLabelOff)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Which tick label should we start with?</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aTextLabelOff</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>The number thaht the automatic textscale should start with.</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Normally text labels start at 0. However, automtic text labels can be started with an arbitrary number as specified with the argument to this method.
+&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">xaxis</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">scale</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ticks</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetTextLabelStart</span><span style="color: #007700">(</span><span style="color: #0000BB">10</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_LINEARTICKS_SETTICKPOSITIONS"><span style="color:#555555;">LinearTicks ::</span><br><b>SetTickPositions</b>($aMajPos, $aMinPos, $aLabels)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Manually specify tick positions for the axis</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aMajPos</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Array of major positions</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aMinPos</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">NULL</span>
+</span>
+</td><td>Array of minor positions</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aLabels</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">NULL</span>
+</span>
+</td><td>Array of major label strings</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Manually specify major and minor tick positions for the axis together with the optional label strings. If no label array is specified then the numerical values at the positions of the major tick marks will be used as label strings.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">xaxis</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetMajTickPositions</span><span style="color: #007700">(</span><span style="color: #0000BB">$tickPositions</span><span style="color: #007700">,</span><span style="color: #0000BB">$tickLabels</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p> <hr> <p></html>

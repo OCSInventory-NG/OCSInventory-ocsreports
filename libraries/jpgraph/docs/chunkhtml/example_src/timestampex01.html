@@ -1,0 +1,118 @@
+<div style="font-weight: bold;margin-left:15px;">timestampex01.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Example on how to treat and format timestamp as human readable labels</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_line.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Number of &quot;fake&quot; data points</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">DEFINE</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">NDATAPOINTS</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-number">500</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Assume data points are sample every 10th second</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">DEFINE</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">SAMPLERATE</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">; 
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Callback formatting function for the X-scale to convert timestamps</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> to hour and minutes.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">function</span><span class="hl-code"> </span><span class="hl-identifier">TimeCallback</span><span class="hl-brackets">(</span><span class="hl-var">$aVal</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-reserved">return</span><span class="hl-code"> </span><span class="hl-identifier">Date</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">H:i</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-var">$aVal</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Get start time</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$start</span><span class="hl-code"> = </span><span class="hl-identifier">time</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the start time to be on the closest minute just before the &quot;start&quot; timestamp</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$adjstart</span><span class="hl-code"> = </span><span class="hl-identifier">floor</span><span class="hl-brackets">(</span><span class="hl-var">$start</span><span class="hl-code"> / </span><span class="hl-number">60</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a data set in range (20,100) and X-positions</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> We also apply a simple low pass filter on the data to make it less</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> random and a little smoother</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$xdata</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">100</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$xdata</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$adjstart</span><span class="hl-code">;
+</span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">1</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-identifier">NDATAPOINTS</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">100</span><span class="hl-brackets">)</span><span class="hl-code">*</span><span class="hl-number">0</span><span class="hl-number">.2</span><span class="hl-code"> + </span><span class="hl-var">$data</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-code">-</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">*</span><span class="hl-number">0</span><span class="hl-number">.8</span><span class="hl-code">;
+    </span><span class="hl-var">$xdata</span><span class="hl-brackets">[</span><span class="hl-var">$i</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$adjstart</span><span class="hl-code"> + </span><span class="hl-var">$i</span><span class="hl-code"> * </span><span class="hl-identifier">SAMPLERATE</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Assume that the data points represents data that is sampled every 10s</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> when determing the end value on the scale. We also add some extra</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> length to end on an even label tick.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$adjend</span><span class="hl-code"> = </span><span class="hl-var">$adjstart</span><span class="hl-code">  + </span><span class="hl-brackets">(</span><span class="hl-identifier">NDATAPOINTS</span><span class="hl-code">+</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">*</span><span class="hl-number">10</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-number">500</span><span class="hl-code">,</span><span class="hl-number">250</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">40</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">30</span><span class="hl-code">,</span><span class="hl-number">50</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Now specify the X-scale explicit but let the Y-scale be auto-scaled</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">intlin</span><span class="hl-quotes">&quot;</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-var">$adjstart</span><span class="hl-code">,</span><span class="hl-var">$adjend</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">Example on TimeStamp Callback</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the callback and adjust the angle of the labels</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLabelFormatCallback</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">TimeCallback</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetLabelAngle</span><span class="hl-brackets">(</span><span class="hl-number">90</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the labels every 5min (i.e. 300seconds) and minor ticks every minute</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">ticks</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-number">300</span><span class="hl-code">,</span><span class="hl-number">60</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$line</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-code">,</span><span class="hl-var">$xdata</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$line</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">lightblue</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$line</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

@@ -169,7 +169,7 @@ function addLog( $type, $value="",$lbl_sql='') {
 		if ($lbl_sql != ''){
 			$value=$lbl_sql.' => '.$value;
 		}
-		$towite=$_SESSION['OCS']["loggeduser"].";".$date.";".DB_NAME.";".$type.";".$value.";".$_SERVER["HTTP_HOST"].";\n";
+		$towite=$_SESSION['OCS']["loggeduser"].";".$date.";".DB_NAME.";".$type.";".$value.";".$_SERVER['REMOTE_ADDR'].";\n";
 		@fwrite($logHandler,$towite);
 		@fclose($logHandler);
 	}

@@ -1,0 +1,575 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Mixing several CSIM images in an HTML page with text</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch10.html" title="Chapter 10. Using CSIM (Client side image maps)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Mixing several CSIM images in an HTML page with text</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 10. Using CSIM (Client side image maps)</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Mixing several CSIM images in an HTML page with text"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2536399"></a>Mixing several CSIM images in an HTML page with text</h2></div></div></div>
+            
+            <p>As was mentioned above using <code class="code">StrokeCSIM()</code> is very simple but it has
+                the drawback that it returns a single HTML page without any possibilities to add
+                additional text which makes its use fairly limited in real life situation where the
+                graph is part of a complex WEB-page. In this section we will discuss some best
+                practice to do this.</p>
+            <p>In principle there are two ways to do this</p>
+            <p>
+                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                        <p>Store both the image map and the image in files which are later read
+                            back in the HTML page. This has the advantage of being simple but the
+                            drawback that it increases the processing time since writing and reading
+                            from a file takes time.</p>
+                    </li><li class="listitem">
+                        <p>Avoiding the use of temporary file by mimicking the way
+                                <code class="code">StrokeCSIM()</code> works and od the steps
+                                <code class="code">StrokeCSIM()</code> does internally but in the script
+                            directly. In the remainder of this section we will show how this can be
+                            setup. That part will also introduce the method
+                                <code class="code">StrokeCSIMImage()</code> which is key to include CSIM graphs
+                            in HTML pages.</p>
+                    </li></ol></div><p>
+            </p>
+            <div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                <p>Some of the described methods in this section was added in version 2.5 of the
+                    library. In earlier versions more of this has to be done manually.</p>
+            </div>
+            <div class="sect2" title="Adding one CSIM graph in a HTML page"><div class="titlepage"><div><div><h3 class="title"><a name="sec2.adding-csim-in-html"></a>Adding one CSIM graph in a HTML page</h3></div></div></div>
+                
+                <p>The library has been designed to make this as painless as possible but due to
+                    the way CSIM works there are some manual work that cannot be avoided. We will
+                    start slowly and in detail walk through an example where we include one CSIM
+                    graph in an arbitrary HTML page. There are a few things to keep in mind, the
+                    rest will be taken care of automatically by the library</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>In the HTML page the CSIM map must be semi-manually included. (It
+                                doesn't matter where)</p>
+                        </li><li class="listitem">
+                            <p>The <span class="markup">&lt;img&gt; </span>tag for rendering the image must be
+                                semi-manually created</p>
+                        </li><li class="listitem">
+                            <p>The original graph script needs a minor augmentation since it
+                                should no longer end by calling <code class="code">StrokeCSIM()</code></p>
+                        </li><li class="listitem">
+                            <p>Some care needs to be taken to specify what the URL:s to be called
+                                should be</p>
+                        </li></ol></div><p>
+                </p>
+                <p>The library provides suitable functions for step 1 &amp; 2 above so the only
+                    thing that needs to be done in the HTML page is calling these functions at
+                    suitable places. In principle the HTML page should have the structure shown in <a class="xref" href="ch10s06.html#ex.csim-html-ex1" title="Example 10.1. Principles of including CSIM graph in a HTML page">Example 10.1. Principles of including CSIM graph in a HTML page</a></p>
+                <p>
+                    </p><div class="example"><a name="ex.csim-html-ex1"></a><p class="title"><b>Example 10.1. Principles of including CSIM graph in a HTML page</b></p><div class="example-contents">
+                        
+                        <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">&lt;html&gt;
+&lt;body&gt;
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> The name of the graph script file (change as needed!)</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$_graphfilename</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">mycsimgraph.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> This is the filename of this HTML file</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">global</span><span class="hl-code"> </span><span class="hl-var">$_wrapperfilename</span><span class="hl-code">;
+</span><span class="hl-var">$_wrapperfilename</span><span class="hl-code"> = </span><span class="hl-identifier">basename</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-reserved">__FILE__</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a random mapname used to connect the image map with the image</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$_mapname</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">__mapname</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">1000000</span><span class="hl-brackets">)</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">__</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> This is the actual graph script</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-var">$_graphfilename</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Get hold of the image map to include it in the HTML page</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$imgmap</span><span class="hl-code"> = </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetHTMLImageMap</span><span class="hl-brackets">(</span><span class="hl-var">$_mapname</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-var">$imgmap</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+ 
+&lt;p&gt;Some arbitrary HTML text .... &lt;/p&gt;
+ 
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> We now create the &lt;img&gt; tag</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$imgtag</span><span class="hl-code"> = </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetCSIMImgHTML</span><span class="hl-brackets">(</span><span class="hl-var">$_mapname</span><span class="hl-code">,</span><span class="hl-var">$_graphfilename</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-var">$imgtag</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+ 
+&lt;/body&gt;
+&lt;/html&gt;</span></pre></td></tr></table></div>
+                    </div></div><p><br class="example-break">
+                </p>
+                <p>Before we discuss the HTML code in detail lets first show what augmentation is
+                    needed in the graph script.</p>
+                <p>Normally the graph script will end with a call to either
+                        <code class="code">Graph::Stroke()</code> or <code class="code">Graph::StrokeCSIM()</code>. However,
+                    with CSIM style graph the complication is that we need to call the script twice.
+                    Once to get the image map and once (in the final &lt;img&gt; tag) to actually
+                    generate the image. In order to separate these two cases we make use of a URL
+                    argument which will be used as a flag so that we know how to behave in the graph
+                    script. In conjunction with HTML skeleton shown in <a class="xref" href="ch10s06.html#ex.csim-html-ex1" title="Example 10.1. Principles of including CSIM graph in a HTML page">Example 10.1. Principles of including CSIM graph in a HTML page</a> we need to change the graph script so that
+                    it instead uses the method <code class="code">Graph::StrokeCSIMImage()</code> so that the
+                    last line will be changed to</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">...
+$graph-&gt;StrokeCSIMImage();
+?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>This method will only stroke the image when the "secret" flag is passed as a
+                    URL argument (which will be added automatically when the &lt;img&gt; tag is
+                    constructed in the call to <code class="code">GetCSIMImgHTML()</code> . This means that the
+                    first time this function gets called when we do the initial
+                        <code class="code">require_once()</code> in the top of the HTML page this method will do
+                    nothing, which is exactly what we want since we only want to include the graph
+                    script in order to be able to do the call to <code class="code">GetHTMLImageMap()</code>
+                    later down in the script.</p>
+                <p>We are now in position to discuss the HTML script above.</p>
+                <p>
+                    </p><div class="variablelist"><dl><dt><span class="term">Line 1-2</span></dt><dd>
+                                <p>This is the standard HTML opening tags (by choice we keep this
+                                    very simple and sloppy in these example.)</p>
+                            </dd><dt><span class="term">Line 3-20</span></dt><dd>
+                                <p>This is where we include the graph script. In addition we must
+                                    also create a map name that will be used to connect an image map
+                                    with the <span class="markup">&lt;img&gt;</span> tag. We have chosen to create
+                                    a random name since the actual name is not significant. The only
+                                    criteria is that the name must be unique if there are multiple
+                                    maps in the same HTML page.</p>
+                                <p>In addition we also record the name of the actual HTML page in
+                                    the variable "<code class="code">$wrapperfilename</code>". This is so we can
+                                    potentially use it as a target in the image script. We could
+                                    then have targets that redisplays the same page but with
+                                    potential additional or changed URL argument.</p>
+                            </dd><dt><span class="term">Line 21-22</span></dt><dd>
+                                <p>This is just an illustration that it is possible to add
+                                    arbitrary HTML markups and text on the page.</p>
+                            </dd><dt><span class="term">Line 23-27</span></dt><dd>
+                                <p>This is where we generate the needed &lt;img&gt; tag that should
+                                    be included in the page. It is illustrative to view how the
+                                    &lt;img&gt; tag actually looks.</p>
+                                <p>
+                                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">&lt;img src=&quot;mycsimgraph.php?_jpg_csimd=1&quot; ismap=&quot;ismap&quot; 
+usemap=&quot;#__mapname987066__&quot; border=&quot;0&quot; width=&quot;400&quot; height=&quot;250&quot; alt=&quot;&quot; /&gt;</span></pre></td></tr></table></div><p>
+                                </p>
+                                <p>The name of the image is the specified graph name (which was
+                                    given as the second argument). As can bee seen a URL argument
+                                        "<code class="code">flag _jpg_csimd=2</code>" has been added. This is the
+                                    "secret" flag that instructs <code class="code">StrokeCSIMImage()</code> to
+                                    actually send back the image. The second thing to notice is the
+                                    map name. This is the random name we constructed that is used to
+                                    connect to the map we wanted to use with this image.</p>
+                            </dd><dt><span class="term">Line 28-30</span></dt><dd>
+                                <p>The closing HTML tags</p>
+                            </dd></dl></div><p>
+                </p>
+                <p>What remains is to discuss how the actual CSIM targets in the graph script
+                    should be constructed. Again there are some choices to be made on what should
+                    happen when a user clicks on the gaph.</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>Clicking on a graph should open a "popup" window</p>
+                        </li><li class="listitem">
+                            <p>Clicking on a graph should open the same HTML page but with some
+                                additional URL arguments</p>
+                        </li><li class="listitem">
+                            <p>Clicking on a graph should open a fresh page in the browser</p>
+                        </li><li class="listitem">
+                            <p>Clicking on the graph should open in an existing browser
+                                window</p>
+                        </li></ol></div><p>
+                </p>
+                <p>Earlier in this chapter we have shown how to handle case 1 so in the following
+                    we will concentrate on cases 2-4. Before we start we need to discuss the third,
+                    not yet mentioned, argument to the method <code class="code">SetCSIMTargets()</code>. To
+                    remind ourself this method is used on the various objects in a graph that can
+                    act as hotspots. The full signature for this method is</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">SetCSIMTargets($aURLTargets,$aAltTexts,$aWinTargets);</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The first argument specifies the URLs. Depending on the actual object this is
+                    either a string or an array of strings.</p>
+                <p>The second argument specified the HTML "alt" texts. In most browser this is
+                    shown as a popup text if the mouse pointer hovers over a hotspot area.</p>
+                <p>The final argument specifies the URL target window (where the link should
+                    open). Most browser recognizes a few special targets here</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p>"_blank" . This will open the URL in a new browser window</p>
+                        </li><li class="listitem">
+                            <p>"_top". Will break out of a frameset and display the target window
+                                at top </p>
+                        </li><li class="listitem">
+                            <p>"" (empty). Will open the target in the current window</p>
+                        </li><li class="listitem">
+                            <p>"namedWindow". Will open the target in the named window</p>
+                        </li></ul></div>
+                <p>In the discussions below we will assume that the graph is a basic barplot so
+                    the URLs we specify are connected to each individual bar in the plot and are
+                    specified with a call similar to</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$bplot-&gt;SetCSIMTargets($targets,$altnames,$wintargets)</span></pre></td></tr></table></div><p>
+                </p>
+                <p></p>
+                <p><span class="bold"><strong>Case 2: Opening the same page but with some different URL
+                        arguments.</strong></span></p>
+                <p>To do this we make use of the name of the HTML wrapper file we stored in
+                        <code class="code">$_wrapperfilename</code> . We can then construct the targets as shown
+                    in <a class="xref" href="ch10s06.html#ex.csim-targ-same-window" title="Example 10.2. Creating CSIM URL targets to open in same browser window">Example 10.2. Creating CSIM URL targets to open in same browser window</a></p>
+                <p>
+                    </p><div class="example"><a name="ex.csim-targ-same-window"></a><p class="title"><b>Example 10.2. Creating CSIM URL targets to open in same browser window</b></p><div class="example-contents">
+                        
+                        <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+...
+</span><span class="hl-reserved">global</span><span class="hl-code"> </span><span class="hl-var">$_wrapperfilename</span><span class="hl-code">;
+</span><span class="hl-var">$n</span><span class="hl-code"> = .. ; </span><span class="hl-comment">//</span><span class="hl-comment"> Number of bars</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$targ</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">, </span><span class="hl-var">$alt</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-var">$wtarg</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$n</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$urlarg</span><span class="hl-code"> = </span><span class="hl-identifier">urlencode</span><span class="hl-brackets">(</span><span class="hl-code"> ... </span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$targ</span><span class="hl-brackets">[</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$_wrapperfilename</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">?</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$urlarg</span><span class="hl-code">;
+    </span><span class="hl-var">$alt</span><span class="hl-brackets">[</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">val=%d</span><span class="hl-quotes">'</span><span class="hl-code">;
+    </span><span class="hl-var">$wtarg</span><span class="hl-brackets">[</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-var">$bplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetCSIMTargets</span><span class="hl-brackets">(</span><span class="hl-var">$targ</span><span class="hl-code">,</span><span class="hl-var">$alt</span><span class="hl-code">,</span><span class="hl-var">$wtarg</span><span class="hl-brackets">)</span><span class="hl-code">;
+...
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>
+                    </div></div><p><br class="example-break">
+                </p>
+                <p>
+                    </p><div class="caution" title="Caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3>
+                        <p>Remember to not include the "&amp;" or the "=" used when constructing
+                            the URL argument in the call to <code class="code">urlencode()</code>. Otherwise they
+                            will become part of the data and not separators in the URL argument
+                            string.</p>
+                    </div><p>
+                </p>
+                <p><span class="bold"><strong>Case 3: Open a fresh page in the browser</strong></span></p>
+                <p>The following example opens the plain browser script in a fresh window. In
+                    order to get hold of the script name we use the predefined PHP constant
+                        <code class="code">__FILE__</code> . The target can of course be changed to any
+                    URL.</p>
+                <p>
+                    </p><div class="example"><a name="ex.csim-targ-fresh-window"></a><p class="title"><b>Example 10.3. Creating CSIM URL targets to open in a fresh window</b></p><div class="example-contents">
+                        
+                        <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+...
+</span><span class="hl-var">$n</span><span class="hl-code"> = .. ; </span><span class="hl-comment">//</span><span class="hl-comment"> Number of bars</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$targ</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">, </span><span class="hl-var">$alt</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">; </span><span class="hl-var">$wtarg</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$i</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$i</span><span class="hl-code"> &lt; </span><span class="hl-var">$n</span><span class="hl-code">; ++</span><span class="hl-var">$i</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$urlarg</span><span class="hl-code"> = </span><span class="hl-identifier">urlencode</span><span class="hl-brackets">(</span><span class="hl-code"> ... </span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-var">$targ</span><span class="hl-brackets">[</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-reserved">__FILE__</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">?</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$urlarg</span><span class="hl-code">;
+    </span><span class="hl-var">$alt</span><span class="hl-brackets">[</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">val=%d</span><span class="hl-quotes">'</span><span class="hl-code">;
+    </span><span class="hl-var">$wtarg</span><span class="hl-brackets">[</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">_blank</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-var">$bplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetCSIMTargets</span><span class="hl-brackets">(</span><span class="hl-var">$targ</span><span class="hl-code">,</span><span class="hl-var">$alt</span><span class="hl-code">,</span><span class="hl-var">$wtarg</span><span class="hl-brackets">)</span><span class="hl-code">;
+...
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>
+                    </div></div><p><br class="example-break">
+                </p>
+                <p><span class="bold"><strong>Case 4: Open in an existing window/frame</strong></span></p>
+                <p>By modifying the <code class="code">$wtarg[]</code> line in the example above to </p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> 
+</span><span class="hl-var">$wtarg</span><span class="hl-brackets">[</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+                </p>
+                <p>The target will open in the existing window.</p>
+                <p>In the "<code class="filename">Example/</code>" directory you can find the above a
+                    fully working script as "<code class="filename">csim_in_html_ex1.php</code>" (HTML
+                    script) and "<code class="filename">csim_in_html_graph_ex1.php</code>" (Graph
+                    script).</p>
+            </div>
+            <div class="sect2" title="Adding multiple CSIM graphs in a HTML page"><div class="titlepage"><div><div><h3 class="title"><a name="id2536476"></a>Adding multiple CSIM graphs in a HTML page</h3></div></div></div>
+                
+                <p>Having laid the foundation for inclusion of CSIM graphs in <a class="xref" href="ch10s06.html#sec2.adding-csim-in-html" title="Adding one CSIM graph in a HTML page">Adding one CSIM graph in a HTML page</a> it is now a simple exercise to
+                    extend this to include multiple CSIM graphs in the same HTML page. The only
+                    modifications we have to do is to make sure that:</p>
+                <p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                            <p>Each image map has a unique name</p>
+                        </li><li class="listitem">
+                            <p>The graph scripts must create unique instances of the main Graph
+                                class, i.e. they cannot both have an instance called
+                                    "<code class="code">$graph</code>"</p>
+                        </li><li class="listitem">
+                            <p>Include each graph script in turn and get the corresponding HTML
+                                map</p>
+                        </li><li class="listitem">
+                            <p>Get the proper image tag for each graph</p>
+                        </li></ol></div><p>
+                </p>
+                <p>In <a class="xref" href="ch10s06.html#ex.csim-html-two-graphs" title='Example 10.4. Example of HTML page that includes two Graph CSIM scripts ("Examples/csim_in_html_ex2.html")'>Example 10.4. Example of HTML page that includes two Graph CSIM scripts
+                                ("<code class="filename">Examples/csim_in_html_ex2.html</code>")</a> we show a complete HTML script that
+                    includes two graphs, one bar (the same as in the previous example) and one Pie
+                    graph. For illustrative purposes we use class <code class="code">PieGraphC</code> variant
+                    which is a Pie graph with a circular middle. The result of calling this HTML
+                    page is shown in ??</p>
+                <p>
+                    </p><div class="example"><a name="ex.csim-html-two-graphs"></a><p class="title"><b>Example 10.4. Example of HTML page that includes two Graph CSIM scripts
+                                ("<code class="filename">Examples/csim_in_html_ex2.html</code>")</b></p><div class="example-contents">
+                        
+                        <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">&lt;html&gt;
+&lt;body&gt;
+ 
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> The names of the graph scripts</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$_graphfilename1</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">csim_in_html_graph_ex1.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-var">$_graphfilename2</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">csim_in_html_graph_ex2.php</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> This is the filename of this HTML file</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">global</span><span class="hl-code"> </span><span class="hl-var">$_wrapperfilename</span><span class="hl-code">;
+</span><span class="hl-var">$_wrapperfilename</span><span class="hl-code"> = </span><span class="hl-identifier">basename</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-reserved">__FILE__</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create a random mapname used to connect the image map with the image</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$_mapname1</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">__mapname</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">1000000</span><span class="hl-brackets">)</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">__</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-var">$_mapname2</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">__mapname</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">1000000</span><span class="hl-brackets">)</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">__</span><span class="hl-quotes">'</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Get the graph scripts</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-var">$_graphfilename1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-var">$_graphfilename2</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> This line gets the image map and inserts it on the page</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$imgmap1</span><span class="hl-code"> = </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetHTMLImageMap</span><span class="hl-brackets">(</span><span class="hl-var">$_mapname1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$imgmap2</span><span class="hl-code"> = </span><span class="hl-var">$piegraph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetHTMLImageMap</span><span class="hl-brackets">(</span><span class="hl-var">$_mapname2</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-var">$imgmap1</span><span class="hl-code">;
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-var">$imgmap2</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+ 
+&lt;h2&gt;This is an example page with CSIM graphs with arbitrary HTML text&lt;/h2&gt;
+ 
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-reserved">empty</span><span class="hl-brackets">(</span><span class="hl-var">$_GET</span><span class="hl-brackets">[</span><span class="hl-quotes">'</span><span class="hl-string">clickedon</span><span class="hl-quotes">'</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+   </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;b style=&quot;color:darkred;&quot;&gt;Clicked on bar: &amp;lt;none&gt;&lt;/b&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+   </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;b style=&quot;color:darkred;&quot;&gt;Clicked on bar: </span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$_GET</span><span class="hl-brackets">[</span><span class="hl-quotes">'</span><span class="hl-string">clickedon</span><span class="hl-quotes">'</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">&lt;/b&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;p /&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-reserved">empty</span><span class="hl-brackets">(</span><span class="hl-var">$_GET</span><span class="hl-brackets">[</span><span class="hl-quotes">'</span><span class="hl-string">pie_clickedon</span><span class="hl-quotes">'</span><span class="hl-brackets">]</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+   </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;b style=&quot;color:darkred;&quot;&gt;Clicked on pie slice: &amp;lt;none&gt;&lt;/b&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-reserved">else</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+   </span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;b style=&quot;color:darkred;&quot;&gt;Clicked on pie slice: </span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-var">$_GET</span><span class="hl-brackets">[</span><span class="hl-quotes">'</span><span class="hl-string">pie_clickedon</span><span class="hl-quotes">'</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">&lt;/b&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;p /&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+ 
+&lt;p&gt;First we need to get hold of the image maps and include them in the HTML
+  page.&lt;/p&gt;
+&lt;p&gt;For these graphs the maps are:&lt;/p&gt;
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> The we display the image map as well</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;small&gt;&lt;pre&gt;</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-identifier">htmlentities</span><span class="hl-brackets">(</span><span class="hl-var">$imgmap1</span><span class="hl-brackets">)</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">&lt;/pre&gt;&lt;/small&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+&lt;p&gt;
+and
+&lt;/p&gt;
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> The we display the image map as well</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">&lt;small&gt;&lt;pre&gt;</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-identifier">htmlentities</span><span class="hl-brackets">(</span><span class="hl-var">$imgmap2</span><span class="hl-brackets">)</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">&lt;/pre&gt;&lt;/small&gt;</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+ 
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Construct the &lt;img&gt; tags for Figure 1 &amp;amp; 2 and rebuild the URL arguments</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$imgtag1</span><span class="hl-code"> = </span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetCSIMImgHTML</span><span class="hl-brackets">(</span><span class="hl-var">$_mapname1</span><span class="hl-code">,</span><span class="hl-var">$_graphfilename1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$imgtag2</span><span class="hl-code"> = </span><span class="hl-var">$piegraph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetCSIMImgHTML</span><span class="hl-brackets">(</span><span class="hl-var">$_mapname2</span><span class="hl-code">,</span><span class="hl-var">$_graphfilename2</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+&lt;p&gt;The graphs are then displayed as shown in figure 1 &amp;amp; 2. With the following
+  created &amp;lt;img&gt; tags:&lt;/p&gt;
+&lt;small&gt;&lt;pre&gt;
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> 
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-identifier">htmlentities</span><span class="hl-brackets">(</span><span class="hl-var">$imgtag1</span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-identifier">htmlentities</span><span class="hl-brackets">(</span><span class="hl-var">$imgtag2</span><span class="hl-brackets">)</span><span class="hl-code">; 
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+&lt;/pre&gt;&lt;/small&gt;
+ 
+&lt;p&gt;
+Note: For the Pie the center is counted as the first slice.
+&lt;/p&gt;
+ 
+&lt;p&gt;
+&lt;table border=0&gt;
+&lt;tr&gt;&lt;td valign=&quot;bottom&quot;&gt;
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-var">$imgtag1</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+&lt;br&gt;&lt;b&gt;Figure 1. &lt;/b&gt;The included Bar CSIM graph.
+&lt;/p&gt;
+&lt;/td&gt;
+&lt;td valign=&quot;bottom&quot;&gt;
+</span><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-var">$imgtag2</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span><span class="hl-code">
+&lt;br&gt;&lt;b&gt;Figure 2. &lt;/b&gt;The included Pie CSIM graph.
+&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</span></pre></td></tr></table></div>
+                    </div></div><p><br class="example-break">
+                </p>
+                <p>
+                    </p><div class="figure"><a name="id2537145"></a><p class="title"><b>Figure 10.2. Browser window after calling HTML page in <a class="xref" href="ch10s06.html#ex.csim-html-two-graphs" title='Example 10.4. Example of HTML page that includes two Graph CSIM scripts ("Examples/csim_in_html_ex2.html")'>Example 10.4. Example of HTML page that includes two Graph CSIM scripts
+                                ("<code class="filename">Examples/csim_in_html_ex2.html</code>")</a> (Note: The image has been
+                            scaled down to better fit this manual.)</b></p><div class="figure-contents">
+                        
+                        <div class="mediaobject"><img src="images/csim-html-example-page.png" alt="Browser window after calling HTML page in (Note: The image has been scaled down to better fit this manual.)"></div>
+                    </div></div><p><br class="figure-break">
+                </p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch10.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

@@ -1,0 +1,36 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Dynamic images on the command line</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch05.html" title="Chapter 5. Fundamentals of dynamic graph generation"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Dynamic images on the command line</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 5. Fundamentals of dynamic graph generation</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Dynamic images on the command line"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2494302"></a>Dynamic images on the command line</h2></div></div></div>
+            
+            <p>It is also possible to generate images directly using the command line version of
+                PHP. This works the same way as the normal "through the browser" generation with the
+                exception that no HTTP headers will be generated. Only the binary image data.</p>
+            <p>This could be an effective way to make an efficient web-site by having some
+                automatic creation of images at regular interval (perhaps using some kind of
+                    <code class="code">cron</code>-job) that are referenced as usual (with an
+                    <span class="markup">&lt;img&gt;</span> tag) in the scripts. This will avoid having to
+                re-generate the image every time a visitor hits the site.</p>
+            <p>Please make sure that you run the command line version of PHP (cli). Using the CGI
+                SAPI version of PHP will not work since then the HTTP headers will be generated. </p>
+            <p>
+                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                    <p>If the CGI version is used the generation of headers may be suppressed by
+                        adding the '-q' option. </p>
+                </div><p>
+            </p>
+            <p>You can easily check the version installed by the command line</p>
+            <p>
+                </p><pre class="screen">$/&gt; php --version</pre><p>
+            </p>
+            <p>this should give a reply with something like</p>
+            <pre class="screen">PHP 4.3.8 (cli) (built: Aug 29 2004 18:48:13) Copyright (c) 1997-2004 The PHP Group Zend Engine v1.3.0, 
+Copyright (c) 1998-2004 Zend Technologies</pre>
+            <p>The important thing here is the <code class="code">(cli)</code> marker. The JpGraph library
+                check from what SAPI API it is invoked from and adjusts the header generation
+                accordingly. </p>
+            <p>If all the above requirements are met then images can be generated directly on the
+                command line and stored in a suitable file. For example by </p>
+            <p>
+                </p><pre class="screen">$/&gt; php myimage.php &gt; image.png</pre><p>
+            </p>
+            <p>Please note that the file extension on the image file should match the format in
+                which the image is generated.</p>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

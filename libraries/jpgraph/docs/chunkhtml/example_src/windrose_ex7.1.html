@@ -1,0 +1,132 @@
+<div style="font-weight: bold;margin-left:15px;">windrose_ex7.1.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_windrose.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+ 
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Data can be specified using both ordinal index of the axis</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> as well as the direction label.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+    </span><span class="hl-number">2</span><span class="hl-code"> =&gt; </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">15</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-number">5</span><span class="hl-code"> =&gt; </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-number">7</span><span class="hl-code"> =&gt; </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-number">8</span><span class="hl-code"> =&gt; </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> First create a new windrose graph with a title</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">WindroseGraph</span><span class="hl-brackets">(</span><span class="hl-number">590</span><span class="hl-code">,</span><span class="hl-number">580</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Japanese locale</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-comment">#</span><span class="hl-comment">$graph-&gt;title-&gt;SetFont(FF_VERDANA,FS_BOLD,14);</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">navy</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the free windrose plot.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">WindrosePlot</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetType</span><span class="hl-brackets">(</span><span class="hl-identifier">WINDROSE_TYPE8</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add some &quot;arbitrary&quot; text to the center</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetZeroLabel</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">SOx</span><span class="hl-special">\n</span><span class="hl-string">8%%</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Localize the compass direction labels into Japanese</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> </span><span class="hl-inlinedoc">Note:</span><span class="hl-comment"> The labels for data must now also match the exact</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> string for the compass directions.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Ｅ　　　東</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> NＥ　　北東</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Ｎ　　　北</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> NＷ　　北西</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Ｗ　　　西</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> SＷ　　南西</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> Ｓ　　　南</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> SＥ　　南東</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$jp_CompassLbl</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">東</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">北東</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">北</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">北西</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,
+                        </span><span class="hl-quotes">'</span><span class="hl-string">西</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">南西</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">南</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">南東</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetCompassLabels</span><span class="hl-brackets">(</span><span class="hl-var">$jp_CompassLbl</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-comment">#</span><span class="hl-comment">$wp-&gt;SetFont(FF_MINCHO,FS_NORMAL,15);</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Localize the &quot;Calm&quot; text into Swedish and make the circle</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> slightly bigger than default</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$jp_calmtext</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">平穏</span><span class="hl-quotes">'</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetCircleText</span><span class="hl-brackets">(</span><span class="hl-var">$jp_calmtext</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetCircleRadius</span><span class="hl-brackets">(</span><span class="hl-number">20</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-comment">#</span><span class="hl-comment">$wp-&gt;legend-&gt;SetCFont(FF_MINCHO,FS_NORMAL,10);</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">legend</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetMargin</span><span class="hl-brackets">(</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">0</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetPos</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.5</span><span class="hl-code">, </span><span class="hl-number">0</span><span class="hl-number">.5</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Adjust the displayed ranges</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$ranges</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">5</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-code">,</span><span class="hl-number">19</span><span class="hl-code">,</span><span class="hl-number">29</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetRanges</span><span class="hl-brackets">(</span><span class="hl-var">$ranges</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the scale to always have max value of 30</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-number">30</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-comment">#</span><span class="hl-comment">$wp-&gt;scale-&gt;SetFont(FF_VERA,FS_NORMAL,12);</span><span class="hl-comment"></span><span class="hl-code">
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Finally add it to the graph and send back to client</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$wp</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

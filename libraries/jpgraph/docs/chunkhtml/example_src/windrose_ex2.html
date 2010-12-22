@@ -1,0 +1,96 @@
+<div style="font-weight: bold;margin-left:15px;">windrose_ex2.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_windrose.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Data can be specified using both ordinal index of the axis</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> as well as the direction label</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$data</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-code">
+    </span><span class="hl-number">0</span><span class="hl-code"> =&gt; </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-number">.5</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-number">1</span><span class="hl-code"> =&gt; </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">3</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-number">3</span><span class="hl-code"> =&gt; </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-code">,</span><span class="hl-number">4</span><span class="hl-code">,</span><span class="hl-number">3</span><span class="hl-brackets">)</span><span class="hl-code">,
+    </span><span class="hl-number">5</span><span class="hl-code"> =&gt; </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-code">,</span><span class="hl-number">7</span><span class="hl-code">,</span><span class="hl-number">1</span><span class="hl-code">,</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> First create a new windrose graph with a title</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">WindroseGraph</span><span class="hl-brackets">(</span><span class="hl-number">400</span><span class="hl-code">,</span><span class="hl-number">400</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup title</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">Windrose example 2</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_VERDANA</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">navy</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the windrose plot.</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">WindrosePlot</span><span class="hl-brackets">(</span><span class="hl-var">$data</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Make it have 8 compass direction</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetType</span><span class="hl-brackets">(</span><span class="hl-identifier">WINDROSE_TYPE8</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup the weight of the laegs for the different ranges</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$weights</span><span class="hl-code"> = </span><span class="hl-identifier">array_fill</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">8</span><span class="hl-code">,</span><span class="hl-number">10</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetRangeWeights</span><span class="hl-brackets">(</span><span class="hl-var">$weights</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Adjust the font and font color for scale labels</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_TIMES</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">11</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">scale</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFontColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">navy</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the diametr for the plot to 160 pixels</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetSize</span><span class="hl-brackets">(</span><span class="hl-number">200</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Set the size of the innermost center circle to 30% of the plot size</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetZCircleSize</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-number">.2</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Adjust the font and font color for compass directions</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$wp</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFontColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">darkgreen</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add and send back the graph to the client</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$wp</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

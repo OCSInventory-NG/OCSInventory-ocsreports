@@ -1,0 +1,83 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 3. The Long Version: Installing the Library</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt01.html" title="Part I. Installing and verifying the configuring"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 3. The Long Version: Installing the Library</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part I. Installing and verifying the configuring</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 3. The Long Version: Installing the Library"><div class="titlepage"><div><div><h2 class="title"><a name="id2475768"></a>Chapter 3. The Long Version: Installing the Library</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch03.html#id2475830">3.1. Downloading the library</a></span></dt><dt><span class="sect1"><a href="ch03s02.html">3.2. Necessary system requirements for the library</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch03s02.html#sec.verifying-phpgd-inst">3.2.1. Verifying the PHP/GD installation</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id2476056">3.2.2. Enabling GD library in php.ini for PH5</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id2489648">3.2.3. Verifying TTF fonts</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id2490624">3.2.4. Support for different image formats</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch03s03.html">3.3. Installing the library</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch03s03.html#sec2.config-dev-server">3.3.1. Configuring JpGraph/PHP on a development server</a></span></dt><dt><span class="sect2"><a href="ch03s03.html#sec2.config-prod-server">3.3.2. Configuring JpGraph/PHP on a production server</a></span></dt><dt><span class="sect2"><a href="ch03s03.html#sec2.adjusting-php-include-path">3.3.3. Adjusting PHP include path</a></span></dt><dt><span class="sect2"><a href="ch03s03.html#id2491659">3.3.4. Using Apache2 alias configuration during development</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch03s04.html">3.4. Installing and configuring Font support</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch03s04.html#sec1.getting_add_fonts">3.4.1. Configuring TTF fonts</a></span></dt><dt><span class="sect2"><a href="ch03s04.html#sec2.using-non-latin-fonts">3.4.2. Using non-latin based fonts with JpGraph</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch03s05.html">3.5. Adapting and customizing the installation</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch03s05.html#id2492366">3.5.1. Setting up necessary paths</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch03s06.html">3.6. Verifying the library installation</a></span></dt><dt><span class="sect1"><a href="ch03s07.html">3.7. Troubleshooting the installation</a></span></dt></dl></div>
+        
+        <p title="What you will learn in this chapter">
+            <b>What you will learn in this chapter. </b>
+            You will learn in detail how to configure and setup an environment to be able to
+                run the JpGraph library. The chapter will explain all configuration necessary in
+                great details and will also list some more extensive trouble shooting steps if you
+                encounter problems trying to get the library running. The only assumption is that
+                you have a working PHP installation together with your HTTP server.
+        </p>
+        <div class="sect1" title="Downloading the library"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2475830"></a>Downloading the library</h2></div></div></div>
+            
+            <p>
+                </p><div class="variablelist"><dl><dt><span class="term">Downloading the free version</span></dt><dd>
+                            <p>Point the browser to
+                                    <code class="filename">"http://jpgraph.net/download/"</code>
+                                and select the 3.x series if your are running PHP5 and the 1.x
+                                series if you are still running a PHP4 installation. </p>
+                            <p>
+                                </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+                                    <p>The 1.x series of the library is no longer maintained so
+                                        in case you have not yet upgraded top PHP5 you should
+                                        strongly consider this.</p>
+                                </div><p>
+                            </p>
+                        </dd><dt><span class="term">Downloading the pro version</span></dt><dd>
+                            <p>
+                                </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+                                        <p>Locate your license file that was sent to you when you
+                                            purchased the library. You will need both the license
+                                            number as well as the registered license mail as stated
+                                            in the license. Your license information should look
+                                            similar to: </p>
+                                        <p>
+                                            </p><pre class="screen"><code class="computeroutput">----------------------------------------------------------
+: Your license key : JPGP-0920-1234657  
+:  Name on license : A. JpGraph User 
+:           E-mail : jpgraph-user@example.com
+----------------------------------------------------------
+</code></pre><p>
+                                        </p>
+                                    </li><li class="listitem">
+                                        <p>Point the browser to
+                                                <code class="filename">http://jpgraph.net/pro/login.php</code>
+                                            and enter your licence email and key on the
+                                            website.</p>
+                                        <p>
+                                            </p><div class="figure"><a name="id2475939"></a><p class="title"><b>Figure 3.1. Pro-login dialogue on JpGraph Website</b></p><div class="figure-contents">
+                                                
+                                                <div class="mediaobject"><img src="images/pro-login.jpg" alt="Pro-login dialogue on JpGraph Website"></div>
+                                            </div></div><p><br class="figure-break">
+                                        </p>
+                                    </li><li class="listitem">
+                                        <p>Depending on your system you should now download
+                                            either the 1.x or the (preferred) 3.x series. There is a
+                                            choice to either download the library as a "*.zip" file
+                                            or as a compressed "*.tar.gz" file (which is the
+                                            preferred format in a Unix environment). Save the
+                                            downloaded file to a temporary directory of your
+                                            choice.</p>
+                                    </li><li class="listitem">
+                                        <p>[Optional] Verify your downloaded file against the
+                                            given MD5 sum on the website. On a Unix system this can
+                                            be done by running the <span class="command"><strong>md5</strong></span> program
+                                            and give the downloaded library as the argument.</p>
+                                        <p>For example: <code class="prompt">$&gt;</code>
+                                            <span class="command"><strong>md5</strong></span>
+                                            <code class="filename">jprgaph-3.0.0p.tar.gz</code></p>
+                                    </li><li class="listitem">
+                                        <p>Unpack the library to a suitable directory that is in
+                                            your PHP include path as is described in <a class="xref" href="ch03s03.html" title="Installing the library">Installing the library</a></p>
+                                    </li></ol></div><p>
+                            </p>
+                        </dd></dl></div><p>
+            </p>
+        </div>
+        
+        
+        
+        
+        
+        
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt01.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

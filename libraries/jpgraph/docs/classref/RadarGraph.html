@@ -1,0 +1,481 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_RADARGRAPH"><b>RadarGraph</b></a> Extends <a style="font-size:14pt;text-decoration:underline;"href="Graph.html#_C_GRAPH " style="font-face:arial;font-weight:bold;">Graph </a></div>
+<i>(Defined in: jpgraph_radar.php : 554)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="RadarGraph.html" style="font-family:arial;font-weight:bold;color:darkblue;">RadarGraph</a>&nbsp;</td><td align="center" style="background:lightgray;" >&nbsp;<a href="Graph.html" style="font-family:arial;font-weight:bold;color:darkblue;">Graph</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="RadarGraph.html#_RADARGRAPH_ADD">Add()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_HIDETICKMARKS">HideTickMarks()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_SETCENTER">SetCenter()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_SETCOLOR">SetColor()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_SETPLOTSIZE">SetPlotSize()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_SETPOS">SetPos()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_SETSCALE">SetScale()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_SETSIZE">SetSize()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_SETTICKDENSITY">SetTickDensity()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_SETTITLES">SetTitles()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_SHOWMINORTICKMARKS">ShowMinorTickmarks()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_STROKE">Stroke()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_STROKEICONS">StrokeIcons()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH_STROKETEXTS">StrokeTexts()</a>&nbsp;<br>
+&nbsp;<a href="RadarGraph.html#_RADARGRAPH___CONSTRUCT">__construct()</a>&nbsp;<br>
+</td><td valign=top>&nbsp;<a href="Graph.html#_GRAPH_ADD" style="color:darkgrey;">Add()&nbsp;</a><br>
+&nbsp;<a href="Graph.html#_GRAPH_ADDBAND">AddBand()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_ADDLINE">AddLine()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_ADDTEXT">AddText()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_ADDY">AddY()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_ADDY2">AddY2()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_CHECKCSIMCACHE">CheckCSIMCache()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_GETCSIMIMGHTML">GetCSIMImgHTML()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_GETHTMLIMAGEMAP">GetHTMLImageMap()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SET3DPERSPECTIVE">Set3DPerspective()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SET90ANDMARGIN">Set90AndMargin()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETALPHABLENDING">SetAlphaBlending()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETANGLE">SetAngle()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETAXISLABELBACKGROUND">SetAxisLabelBackground()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETAXISSTYLE">SetAxisStyle()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDCFLAG">SetBackgroundCFlag()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDCOUNTRYFLAG">SetBackgroundCountryFlag()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDGRADIENT">SetBackgroundGradient()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDIMAGE">SetBackgroundImage()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDIMAGEMIX">SetBackgroundImageMix()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETBACKGROUNDIMAGEPOS">SetBackgroundImagePos()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETBOX">SetBox()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETCLIPPING">SetClipping()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETCOLOR" style="color:darkgrey;">SetColor()&nbsp;</a><br>
+&nbsp;<a href="Graph.html#_GRAPH_SETCSIMIMGALT">SetCSIMImgAlt()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETFRAME">SetFrame()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETFRAMEBEVEL">SetFrameBevel()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETGRIDDEPTH">SetGridDepth()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETICONDEPTH">SetIconDepth()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETIMGFORMAT">SetImgFormat()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETMARGIN">SetMargin()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETMARGINCOLOR">SetMarginColor()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETSCALE" style="color:darkgrey;">SetScale()&nbsp;</a><br>
+&nbsp;<a href="Graph.html#_GRAPH_SETSHADOW">SetShadow()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETTEXTSCALEABSCENTEROFF">SetTextScaleAbsCenterOff()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETTICKDENSITY" style="color:darkgrey;">SetTickDensity()&nbsp;</a><br>
+&nbsp;<a href="Graph.html#_GRAPH_SETTITLEBACKGROUND">SetTitleBackground()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETTITLEBACKGROUNDFILLSTYLE">SetTitleBackgroundFillStyle()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETUSERFONT">SetUserFont()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETUSERFONT1">SetUserFont1()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETUSERFONT2">SetUserFont2()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETUSERFONT3">SetUserFont3()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETY2ORDERBACK">SetY2OrderBack()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETY2SCALE">SetY2Scale()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETYDELTADIST">SetYDeltaDist()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_SETYSCALE">SetYScale()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_STROKE" style="color:darkgrey;">Stroke()&nbsp;</a><br>
+&nbsp;<a href="Graph.html#_GRAPH_STROKECSIM">StrokeCSIM()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_STROKECSIMIMAGE">StrokeCSIMImage()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_STROKEFRAMEBACKGROUND">StrokeFrameBackground()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH_STROKESTORE">StrokeStore()</a>&nbsp;<br>
+&nbsp;<a href="Graph.html#_GRAPH___CONSTRUCT" style="color:darkgrey;">__construct()&nbsp;</a><br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>Spider graph. This graph type can only be used together with spider plots. <p> &nbsp;
+<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_ADD"><span style="color:#555555;">RadarGraph ::</span><br><b>Add</b>($aPlot)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Add a spider plot to the spider graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aPlot</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Add a spider plot to the spider graph&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$spidergraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Add</span><span style="color: #007700">(</span><span style="color: #0000BB">$spiderplot1</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_HIDETICKMARKS"><span style="color:#555555;">RadarGraph ::</span><br><b>HideTickMarks</b>($aFlag)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Hide tick marks on spider axis</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFlag</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>True=Hide tick marks</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Hide tick marks on spider axis&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$spidergraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">HideTickMarks</span><span style="color: #007700">();<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_SETCENTER"><span style="color:#555555;">RadarGraph ::</span><br><b>SetCenter</b>($px, $py)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify position for center of spider graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$px</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Fraction of width</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$py</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0.5</span>
+</span>
+</td><td>Fraction of height</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the position for the center of the spider graph in fractions of the image width and height.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$spidergraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetCenter</span><span style="color: #007700">(</span><span style="color: #0000BB">0.6</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.5</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_SETCOLOR"><span style="color:#555555;">RadarGraph ::</span><br><b>SetColor</b>($aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Set background color for graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Set background color for graph&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$spidergraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetColor</span><span style="color: #007700">(</span><span style="color: #DD0000">'lightyellow'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_SETPLOTSIZE"><span style="color:#555555;">RadarGraph ::</span><br><b>SetPlotSize</b>($aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify size of spider graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Fraction of image size</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>DEPRECATED<br>
+Use SetSize() instead
+<br>
+Specify the length of the axis of the spider plot as fraction of the min(height,width)&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="RadarGraph.html#_RADARGRAPH_SETCENTER">RadarGraph::SetCenter()</a><li><a href="RadarGraph.html#_RADARGRAPH_SETSIZE">RadarGraph::SetSize()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$radargraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetPlotSize</span><span style="color: #007700">(</span><span style="color: #0000BB">0.7</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_SETPOS"><span style="color:#555555;">RadarGraph ::</span><br><b>SetPos</b>($px, $py)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Alias for Set Center. Specify position of the center of the graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$px</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Fraction of width</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$py</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0.5</span>
+</span>
+</td><td>Fraction of height</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Alias for SetCenter. Specify position for the center of the graph.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="RadarGraph.html#_RADARGRAPH_SETCENTER">RadarGraph::SetCenter()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetPos</span><span style="color: #007700">(</span><span style="color: #0000BB">0.5</span><span style="color: #007700">,</span><span style="color: #0000BB">0.6</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_SETSCALE"><span style="color:#555555;">RadarGraph ::</span><br><b>SetScale</b>($axtype, $ymin, $ymax, $dummy1, $dumy2)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify manual scale for spider graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$axtype</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Axis type</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$ymin</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">1</span>
+</span>
+</td><td>Min Y-value</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$ymax</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">1</span>
+</span>
+</td><td>Max Y-value</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$dummy1</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">null</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$dumy2</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">null</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify axis type and min/max value for the scale.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$spidergraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetScale</span><span style="color: #007700">(</span><span style="color: #DD0000">'lin'</span><span style="color: #007700">,</span><span style="color: #0000BB">0</span><span style="color: #007700">,</span><span style="color: #0000BB">50</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_SETSIZE"><span style="color:#555555;">RadarGraph ::</span><br><b>SetSize</b>($aSize)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify the length of the axis</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Fraction of image size</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>pecify the length of the axis of the spider plot as fraction of the min(height,width)&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$radargraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetPlotSize</span><span style="color: #007700">(</span><span style="color: #0000BB">0.7</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_SETTICKDENSITY"><span style="color:#555555;">RadarGraph ::</span><br><b>SetTickDensity</b>($densy, $dummy1)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify tick density</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$densy</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">TICKD_NORMAL</span>
+</span>
+</td><td>Density</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$dummy1</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">null</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Tick density can be specified as 
+<ul>
+<li>TICKD_DENSE, Tick marks close
+<li>TICKD_NORMAL, Tick marks as normal
+<li>TICKD_SPARSE, Tick marks sparse
+<li>TICKD_VERYSPARSE, TIck marks very sparse
+</ul>
+&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$spidergraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetTickDensity</span><span style="color: #007700">(</span><span style="color: #0000BB">TICKD_VERYSPARSE</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_SETTITLES"><span style="color:#555555;">RadarGraph ::</span><br><b>SetTitles</b>($aTitleArray)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify titles for all the spider axis</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aTitleArray</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Set the title for the axis in the spider graph. If no titles have been specified then they will be numbered from 1 to maximum number of axis.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$spidergraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetTitles</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'Jan'</span><span style="color: #007700">,</span><span style="color: #DD0000">'Feb'</span><span style="color: #007700">,</span><span style="color: #DD0000">'March'</span><span style="color: #007700">,</span><span style="color: #DD0000">'Apr'</span><span style="color: #007700">));</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_SHOWMINORTICKMARKS"><span style="color:#555555;">RadarGraph ::</span><br><b>ShowMinorTickmarks</b>($aFlag)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Show minor tick marks</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFlag</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>True=Show minor tick marks</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>By default the minor tick marks are hidden. This method turns them on.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$spidergraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">ShowMinorTickMArks</span><span style="color: #007700">();<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_STROKE"><span style="color:#555555;">RadarGraph ::</span><br><b>Stroke</b>($aStrokeFileName)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Stroke the Spider graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aStrokeFileName</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">''</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Filename</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Stroke the spider graph and send it back to the browser or write it to a file if a filename have been specified.
+
+This is normally the last method call in your script.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Graph.html#_GRAPH_STROKE">Graph::Stroke()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$spidergraph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">Stroke</span><span style="color: #007700">();<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_STROKEICONS"><span style="color:#555555;">RadarGraph ::</span><br><b>StrokeIcons</b>()</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>//("Minimum data $min (Radar plots should only be used when all data points > 0)");</i></span><p>
+<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH_STROKETEXTS"><span style="color:#555555;">RadarGraph ::</span><br><b>StrokeTexts</b>()</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i></i></span><p>
+<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_RADARGRAPH___CONSTRUCT"><span style="color:#555555;">RadarGraph ::</span><br><b>__construct</b>($width, $height, $cachedName, $timeout, $inline)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Construct a new radar graph</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$width</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">300</span>
+</span>
+</td><td>Imaghe width</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$height</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">200</span>
+</span>
+</td><td>Image Height</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$cachedName</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">""</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Cache file name</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$timeout</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">0</span>
+</span>
+</td><td>Cache timout (in minutes)</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$inline</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">1</span>
+</span>
+</td><td>Inline image</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>See Graph::Graph().
+&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Graph.html#_GRAPH___CONSTRUCT">Graph::__construct()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$radargraph&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">RadarGraph</span><span style="color: #007700">(</span><span style="color: #0000BB">300</span><span style="color: #007700">,</span><span style="color: #0000BB">300</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p> <hr> <p></html>

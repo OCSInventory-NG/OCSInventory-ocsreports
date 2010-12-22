@@ -1,0 +1,93 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Preface and history of the JpGraph library</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="index.html" title="JpGraph Manual"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Preface and history of the JpGraph library</th></tr></table><hr></div><div class="preface" title="Preface and history of the JpGraph library"><div class="titlepage"><div><div><h2 class="title"><a name="id2472017"></a>Preface and history of the JpGraph library</h2></div></div></div>
+    
+    <p>PHP has over the last 10 years developed from a rather small language for the enthusiasts
+      to a major platform for WEB based application development. The reason we call it a platform
+      rather than a script language is the fact that when referring to PHP it is impossible not to
+      include the very large library of included standard modules which makes it more of a platform
+      than a scripting language. As such there are more extensions to PHP both in the form of
+      external libraries as well as core language extension than any single person can have a
+      working knowledge of. This means that development teams have to select carefully where best to
+      invest time and training. So how can the JpGraph extension library motivate its existence?
+      Perhaps a quick personal reflection of how this library came about might give some insights. </p>
+    <p>When I first became aware of PHP at the end of 1998 the PHP 3 version was the new shiny
+      kid on the block after a complete rewrite of the previous PHP2. Initially I proposed to a
+      client I was then working for to use this new script language to build some - what was then -
+      state of the art interfaces to a legacy mainframe system. As part of that some basic graphic
+      capabilities was needed and as part of that work I put together some fairly crude and not very
+      generic small library that would just fit the need to my client. This was not a major part of
+      the development and it didn't make sense at the time to spend a lot of complex design effort
+      into this very small part of the system. After the work for that client was done I felt that I
+      should rewrite the small library I put together so that it would be both a little bit more
+      generic and also a bit more maintainable. (Side note: As part of the contract with the client
+      I was explicitly forbidden to use any object-oriented-technology since my client had been
+      terrible burnt by some previous contractors in this area). Hence the original library was
+      basically a function library and the first thing that was needed was a proper design using a
+      more maintainable OO-design philosophy.</p>
+    <p>This rewrite of the library and the "plugin" architecture/framework it is based on tried
+      to make the best of the very crude object oriented support available in PHP3 at that time. The
+      support available then was almost nothing more then some syntactic sugar. However, the initial
+      design from then is almost unchanged to this day, almost 11 years later. To the best of my
+      knowledge this makes it one (if not the) oldest object oriented library for PHP that is still
+      actively maintained and developed.</p>
+    <p><span class="bold"><strong>Philosophy of the manual</strong></span></p>
+    <p>Writing a good user manual for feature rich library is a bit of a challenge. Learning to
+      efficiently use a library of this size is not a linear undertaking. One start with some
+      basics, jump to a bit that is needed at the moment, (perhaps not fully understanding the
+      details), and then goes back to the beginning again. This makes writing a manual that suits
+      everyone impossible. What we have tried is to mainly follow a "<span class="italic">from-the-basics-to-the-advanced</span>" style as much as possible. </p>
+    <p>At certain times we find ourself in the need of some more advanced concept that have not
+      yet been introduced. In those circumstances we will briefly introduce the concept before
+      making use of it and refer to other parts of the manual that discuss the particular feature in
+      more detail. In this way we hope that the more advanced features will at least register as an
+      area for further exploration even early on in the study of the library and help build up the
+      mental map on what is possible to do in the library. This of course has the result that the
+      same information might be in two or three places, but from a slightly different angle, when it
+      is needed. This manual is deliberately not a long list of API - a detailed description of all
+      API and classes are available in the reference manual.</p>
+    <p>A final note on the examples shown in this manual might be in place. It is custom to keep
+      introductory examples clean of any real error handling in order to keep them short. We do not
+      believe that this is a good idea. Error and exception handling is one of the most crucial part
+      in design and implementation of any system. For this reason we have included, where
+      appropriate, a basic error handling even though it will make some examples slightly
+      larger.</p>
+    <p><span class="bold"><strong>Typographic conventions used in this manual</strong></span></p>
+    <p>
+      </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+          <p>Inline code are set in monotype black fonts. Example:
+            <code class="code">Graph::Stroke()</code></p>
+        </li><li class="listitem">
+          <p>Filenames mentioned in running text and in titles are set in bluish monotype font.
+            Example: <code class="filename">php.ini</code></p>
+        </li><li class="listitem">
+          <p>Code snippets or examples are set as block with gray background separated from the
+            text with line numbering. If the code snippet is PHP code it will also be syntax
+            highlighted.</p>
+          <p>
+            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">echo</span><span class="hl-code"> </span><span class="hl-quotes">&quot;</span><span class="hl-string">Hello world!</span><span class="hl-quotes">&quot;</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div><p>
+          </p>
+          <p>Note that for technical reasons with typesetting this manual even one lines code
+            snippets will have a surrounding of PHP tags i.e. <code class="code">&lt;?php</code> and
+              <code class="code">?&gt;</code></p>
+        </li><li class="listitem">
+          <p>Described inline markup tags, i.e. HTML/XML, are set in a dark red color with light
+            gray background. Example: <span class="markup">&lt;img&gt;</span></p>
+        </li><li class="listitem">
+          <p>All generated graphs will have the name of the graph file in the title which is
+            hyper-linked to a syntax highlighted full version of the actual source that generated
+            the graph. The link is marked with a small icon and an example is shown in <a class="xref" href="pr01.html#fig.link-to-source" title="Figure 1. Link to highlighted graph source">Figure 1. Link to highlighted graph source</a></p>
+          <p>
+            </p><div class="figure"><a name="fig.link-to-source"></a><p class="title"><b>Figure 1. Link to highlighted graph source</b></p><div class="figure-contents">
+              
+              <p><span class="inlinemediaobject"><img src="images/uri-link.png" alt="Link to highlighted graph source"></span></p>
+            </div></div><p><br class="figure-break">
+          </p>
+        </li><li class="listitem">
+          <p>Numbering of sections are only done down to three level depths, e.g. 3.4.2</p>
+        </li></ul></div><p>
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"> </td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

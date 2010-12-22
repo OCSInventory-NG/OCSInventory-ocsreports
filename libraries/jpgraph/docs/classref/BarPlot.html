@@ -1,0 +1,404 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><HTML><HEAD><style type="text/css">
+		<!--
+		A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #000000}
+		A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+        A.no:link        {font-family:inherit; font-size: inhreit;text-decoration: none; color: #000000}
+        A.no:visited     {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+        A.no:hover       {font-family:inherit; font-size: inherit;text-decoration: none; color: #000000}
+		th            {font-family: helvetica, arial; color : black; font-size:90%; background : #b7c8b7; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+        td            {font-family: helvetica, arial; color : black; font-size:90%; background : white; border-right:black solid 1pt; border-bottom:black solid 1pt;}
+
+		//-->
+		</style></HEAD><hr><div style="padding-left:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;background-color:#deaa87;font-family:courier new;font-size:16pt;">Class <a class="no" name="_C_BARPLOT"><b>BarPlot</b></a> Extends <a style="font-size:14pt;text-decoration:underline;"href="Plot.html#_C_PLOT " style="font-face:arial;font-weight:bold;">Plot </a></div>
+<i>(Defined in: jpgraph_bar.php : 30)</i><br>&nbsp;<br><table cellspaceing=0 cellpadding=4 style="border:solid #303030 1px;"><tr><td align="center" style="background:lightgray;" >&nbsp;<a href="BarPlot.html" style="font-family:arial;font-weight:bold;color:darkblue;">BarPlot</a>&nbsp;</td><td align="center" style="background:lightgray;" >&nbsp;<a href="Plot.html" style="font-family:arial;font-weight:bold;color:darkblue;">Plot</a>&nbsp;</td></tr><tr><td valign=top>&nbsp;<a href="BarPlot.html#_BARPLOT_ROTATEPATTERN">RotatePattern()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETABSWIDTH">SetAbsWidth()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETALIGN">SetAlign()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETFILLCOLOR">SetFillColor()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETFILLGRADIENT">SetFillGradient()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETNOFILL">SetNoFill()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETPATTERN">SetPattern()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETSHADOW">SetShadow()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETVALUEPOS">SetValuePos()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETWIDTH">SetWidth()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETYBASE">SetYBase()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT_SETYMIN">SetYMin()</a>&nbsp;<br>
+&nbsp;<a href="BarPlot.html#_BARPLOT___CONSTRUCT">__construct()</a>&nbsp;<br>
+</td><td valign=top>&nbsp;<a href="Plot.html#_PLOT_HIDELEGEND">HideLegend()</a>&nbsp;<br>
+&nbsp;<a href="Plot.html#_PLOT_PRESCALESETUP">PreScaleSetup()</a>&nbsp;<br>
+&nbsp;<a href="Plot.html#_PLOT_SETCENTER">SetCenter()</a>&nbsp;<br>
+&nbsp;<a href="Plot.html#_PLOT_SETCOLOR">SetColor()</a>&nbsp;<br>
+&nbsp;<a href="Plot.html#_PLOT_SETCSIMTARGETS">SetCSIMTargets()</a>&nbsp;<br>
+&nbsp;<a href="Plot.html#_PLOT_SETLEGEND">SetLegend()</a>&nbsp;<br>
+&nbsp;<a href="Plot.html#_PLOT_SETLINEWEIGHT">SetLineWeight()</a>&nbsp;<br>
+</td></tr></table>&nbsp;<p><div style="font-weight:bold;font-family:arial;font-size:100%;">Class usage and Overview</div>Concrete class which implements the standard vertical bar plot functionality.<p>
+To show horizontal plots you can rotate the graph 90 degrees by $graph->Angle(90);
+ <p> &nbsp;
+<div style="font-weight:bold;font-family:arial;font-size:85%;">See also related classes:</div><a href="AccBarPlot.html">AccBarPlot</a> and <a href="GroupBarPlot.html">GroupBarPlot</a> <p> &nbsp;<hr><span style="font-family:arial;font-size:120%;font-weight:bold;">Class Methods</span><hr><p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_ROTATEPATTERN"><span style="color:#555555;">BarPlot ::</span><br><b>RotatePattern</b>($aPat, $aRotate)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>// The method will take the specified pattern anre// return a pattern index that corresponds to the original// patterm being rotated 90 degreees. This is needed when plottin// Horizontal bars</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aPat</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aRotate</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>No description available.<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETABSWIDTH"><span style="color:#555555;">BarPlot ::</span><br><b>SetAbsWidth</b>($aWidth)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify width in absolute pixels.</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWidth</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Width in pixels</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify width in absolute pixels. If specified this overrides any calls to SetWidth()&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="BarPlot.html#_BARPLOT_SETWIDTH">BarPlot::SetWidth()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetAbsWidth</span><span style="color: #007700">(</span><span style="color: #0000BB">20</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETALIGN"><span style="color:#555555;">BarPlot ::</span><br><b>SetAlign</b>($aAlign)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Set the alignment between the major tick marks doe the bars.</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aAlign</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>String to specify alignment</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Bars can be aligned when using a text scale. Valid arguments for align are 'left', 'center' and 'right'.
+<p>
+Default is to center the bars.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$graph</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetScale</span><span style="color: #007700">(</span><span style="color: #DD0000">"textlin"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;...<br /><br /></span><span style="color: #0000BB">$barplot&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">BarPlot</span><span style="color: #007700">(</span><span style="color: #0000BB">$ydata</span><span style="color: #007700">,</span><span style="color: #0000BB">$xdata</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetAlign</span><span style="color: #007700">(</span><span style="color: #DD0000">"center"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;...<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETFILLCOLOR"><span style="color:#555555;">BarPlot ::</span><br><b>SetFillColor</b>($aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify fill color for bars.</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Color specification</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Set fill color for the bars. The color for the frame around the bar is specified with BarPlot::SetColor() method.
+
+By specifying an array as argument you can assign individual colors to each of the bars. If there are more bars than colors the colros will wrap around.
+&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Plot.html#_PLOT_SETCOLOR">Plot::SetColor()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;All&nbsp;bars&nbsp;will&nbsp;have&nbsp;the&nbsp;same&nbsp;color<br /></span><span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFillColor</span><span style="color: #007700">(</span><span style="color: #DD0000">'#E234A9'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;The&nbsp;bars&nbsp;will&nbsp;haev&nbsp;individual&nbsp;colors<br /></span><span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFillColor</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'red'</span><span style="color: #007700">,</span><span style="color: #DD0000">'blue'</span><span style="color: #007700">,</span><span style="color: #DD0000">'green'</span><span style="color: #007700">));<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETFILLGRADIENT"><span style="color:#555555;">BarPlot ::</span><br><b>SetFillGradient</b>($aFromColor, $aToColor, $aStyle)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify a gradient fill for the bars.</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aFromColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aToColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">null</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aStyle</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">null</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Gradient fill provides a smooth transition from the 'start' color to the 'end' color. The type of gradient fill can be
+
+<ul>
+<li>GRAD_VER, Vertical gradient
+<li>GRAD_HOR, Horizontal gradient
+<li>GRAD_MIDHOR, From the center and out, horizontal
+<li>GRAD_MIDVER, From the center and out, vertical
+<li>GRAD_WIDE_MIDVER, From the center and out, vertical. Wide mid section.
+<li>GRAD_WIDE_MIDHOR, From the center and out, horizontal. Wide mid section.
+<li>GRAD_CENTER, From the center and beaming out
+<li>GRAD_LEFT_REFLECTION, Simulates a reflection on the left side
+<li>GRAD_RIGHT_REFLECTION, Simulates a reflection on the right side
+<li>GRAD_RAISED_PANEL, Raised panel with shadow
+</ul>
+
+Since gradient fills make use of many colors and bitmapped images which doesn't use truecolor is limited to 256 colors you might find yourself out of colors if using to many different gadient fills in your graph.
+<p>
+You should also be observant that gradient fills makes use of more CPU time than solid fills.
+&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="Graph.html#_GRAPH_STROKEBACKGROUNDGRAD">Graph::StrokeBackgroundGrad()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetFillgradient</span><span style="color: #007700">(</span><span style="color: #DD0000">'orange'</span><span style="color: #007700">,</span><span style="color: #DD0000">'darkred'</span><span style="color: #007700">,</span><span style="color: #0000BB">GRAD_VER</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETNOFILL"><span style="color:#555555;">BarPlot ::</span><br><b>SetNoFill</b>()</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Dont's paint the interior of the bars with any color.</i></span><p>
+<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Bar plots are filled by default. Calling this method disable the fill of barplots.
+
+This is usefull when you have a background in the image that you want to be shown underneth the bars.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="BarPlot.html#_BARPLOT_SETFILLCOLOR">BarPlot::SetFillColor()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetNoFill</span><span style="color: #007700">();<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETPATTERN"><span style="color:#555555;">BarPlot ::</span><br><b>SetPattern</b>($aPattern, $aColor)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Add one of the line patterns to the bar</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aPattern</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Pattern</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">'black'</span><span style="color: #0000BB"></span>
+</span>
+</td><td>Color of pattern</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Add one of the line patterns as fill effect to the bar.  Available patterns are:
+<ol>
+<li> 'PATTERN_DIAG1'
+<li> 'PATTERN_DIAG2'
+<li> 'PATTERN_DIAG3'
+<li> 'PATTERN_DIAG4'
+<li> 'PATTERN_CROSS1'
+<li> 'PATTERN_CROSS2'
+<li> 'PATTERN_CROSS3'
+<li> 'PATTERN_CROSS4'
+<li> 'PATTERN_STRIPE1'
+<li> 'PATTERN_STRIPE2'
+</ol>
+&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetPattern</span><span style="color: #007700">(</span><span style="color: #DD0000">'PATTERN_CROSS2'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETSHADOW"><span style="color:#555555;">BarPlot ::</span><br><b>SetShadow</b>($aColor, $aHSize, $aVSize, $aShow)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Set a drop shadow for the bar (or rather an "up-right" shadow)</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aColor</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #DD0000">"black"</span><span style="color: #0000BB"></span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aHSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">3</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aVSize</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">3</span>
+</span>
+</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aShow</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">true</span>
+</span>
+</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Set a drop shadow for the bar (or rather an "up-right" shadow)&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetShadow</span><span style="color: #007700">();<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETVALUEPOS"><span style="color:#555555;">BarPlot ::</span><br><b>SetValuePos</b>($aPos)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify position for displayed values on bars</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aPos</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Postision</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify position for the values on the bar. Teh position can either be
+<ul>
+<li> 'top', The default value
+<li> 'center'
+<li> 'bottom'
+</ul>
+&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Put&nbsp;the&nbsp;values&nbsp;in&nbsp;the&nbsp;middle&nbsp;of&nbsp;the&nbsp;bars<br /></span><span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetValuePos</span><span style="color: #007700">(</span><span style="color: #DD0000">'center'</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETWIDTH"><span style="color:#555555;">BarPlot ::</span><br><b>SetWidth</b>($aWidth)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify width as fractions of the major step size</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aWidth</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify width as fractions of the major step size when the scale used is a text scale (which is the normal scale to use for bars). 
+
+If the X-axis scale is a linear scale (i.e. lin, int or date) then the width must be specified in absolute pixels.&nbsp;<br>
+ &nbsp; <div style="font-weight:bold;font-family:arial;font-size:90%;">See also:</div><ul><li><a href="BarPlot.html#_BARPLOT_SETABSWIDTH">BarPlot::SetAbsWidth()</a></ul>
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB"></span><span style="color: #FF8000">//&nbsp;Specify&nbsp;fractions&nbsp;for&nbsp;a&nbsp;text&nbsp;scale<br /></span><span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetWidth</span><span style="color: #007700">(</span><span style="color: #0000BB">0.4</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Specify&nbsp;absolute&nbsp;width&nbsp;25&nbsp;pixels<br /></span><span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetWidth</span><span style="color: #007700">(</span><span style="color: #0000BB">25</span><span style="color: #007700">);</span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETYBASE"><span style="color:#555555;">BarPlot ::</span><br><b>SetYBase</b>($aYStartValue)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Specify the base value for the bars</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aYStartValue</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Strta Y-value for bars.</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Specify the start plot for bars, (minimum Y-value). By default the base uses the value 0 as base.&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$barplot</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SetYBase</span><span style="color: #007700">(</span><span style="color: #0000BB">100</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT_SETYMIN"><span style="color:#555555;">BarPlot ::</span><br><b>SetYMin</b>($aYStartValue)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>DEPRECATED use SetYBase instead</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$aYStartValue</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>Y-Value for base of bars</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>DEPRECATED use SetYBase() instead&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">DEPRECATED&nbsp;</span><span style="color: #007700">use&nbsp;</span><span style="color: #0000BB">SetYBase</span><span style="color: #007700">()&nbsp;</span><span style="color: #0000BB">instead</span>
+</span>
+</b></div><br>
+<p>
+<p> &nbsp; <div style='font-family: helvetica, arial, geneva, sans-serif;margin-bottom:4px;border-left:solid black 1px;border-top:solid black 1px;border-bottom:solid black 2px;border-right:solid black 2px;font-size:120%;background:#dde9af;padding:4px;'><a class="no" name="_BARPLOT___CONSTRUCT"><span style="color:#555555;">BarPlot ::</span><br><b>__construct</b>($datay, $datax)</a></div>
+
+<span style='font-family:arial;font-size:95%;'><i>Create a new bar plot</i></span><p>
+
+<table cellspacing=0 style='border:black solid 1pt;' width=100%>
+<tr><th width=25%>Argument</th><th width=15%>Default</th><th width=60%>Description</th></tr>
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$datay</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'>&nbsp;</td><td>No description available</td></tr>
+
+<tr><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">$datax</span>
+</span>
+
+</td><td style='border-right:black solid 1pt;font-family:courier;font-size:100%;font-weight:bold;'><span style="color: #000000">
+<span style="color: #0000BB">false</span>
+</span>
+</td><td>X-positions</td></tr>
+</table>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;">Description:</div>Create a new bar plot&nbsp;<br>
+
+<div style="font-weight:bold;font-family:arial;font-size:90%;"><p>Example:</div><div style="padding:5px;border:dashed gray 1px;background-color:#f3f3f3;font-family:courier new;font-size:90%;font-weight:bold;"><b><span style="color: #000000">
+<span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">BarPlot</span><span style="color: #007700">(</span><span style="color: #0000BB">$ydata</span><span style="color: #007700">);<br /></span><span style="color: #0000BB"></span>
+</span>
+</b></div><br>
+<p> <hr> <p></html>

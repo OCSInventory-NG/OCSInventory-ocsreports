@@ -1,0 +1,114 @@
+<div style="font-weight: bold;margin-left:15px;">example16.6.php</div><link rel="stylesheet" href="../phphl.css" type="text/css"><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code"> </span><span class="hl-comment">//</span><span class="hl-comment"> content=&quot;text/plain; charset=utf-8&quot;</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_scatter.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_line.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">require_once</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">jpgraph/jpgraph_utils.inc.php</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create some &quot;fake&quot; regression data</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$datay</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$datax</span><span class="hl-code"> = </span><span class="hl-reserved">array</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$a</span><span class="hl-code">= </span><span class="hl-number">3</span><span class="hl-number">.2</span><span class="hl-code">;
+</span><span class="hl-var">$b</span><span class="hl-code">= </span><span class="hl-number">2</span><span class="hl-number">.5</span><span class="hl-code">;
+</span><span class="hl-reserved">for</span><span class="hl-brackets">(</span><span class="hl-var">$x</span><span class="hl-code">=</span><span class="hl-number">0</span><span class="hl-code">; </span><span class="hl-var">$x</span><span class="hl-code"> &lt; </span><span class="hl-number">20</span><span class="hl-code">; ++</span><span class="hl-var">$x</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-var">$datax</span><span class="hl-brackets">[</span><span class="hl-var">$x</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$x</span><span class="hl-code">;
+    </span><span class="hl-var">$datay</span><span class="hl-brackets">[</span><span class="hl-var">$x</span><span class="hl-brackets">]</span><span class="hl-code"> = </span><span class="hl-var">$a</span><span class="hl-code"> + </span><span class="hl-var">$b</span><span class="hl-code">*</span><span class="hl-var">$x</span><span class="hl-code"> + </span><span class="hl-identifier">rand</span><span class="hl-brackets">(</span><span class="hl-code">-</span><span class="hl-number">20</span><span class="hl-code">,</span><span class="hl-number">20</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-var">$lr</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinearRegression</span><span class="hl-brackets">(</span><span class="hl-var">$datax</span><span class="hl-code">, </span><span class="hl-var">$datay</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">list</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$stderr</span><span class="hl-code">, </span><span class="hl-var">$corr</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> = </span><span class="hl-var">$lr</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetStat</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-reserved">list</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-var">$xd</span><span class="hl-code">, </span><span class="hl-var">$yd</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> = </span><span class="hl-var">$lr</span><span class="hl-code">-&gt;</span><span class="hl-identifier">GetY</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-number">19</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the graph</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-number">300</span><span class="hl-code">,</span><span class="hl-number">250</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetScale</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">linlin</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Setup title</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">Linear regression</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">title</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_BOLD</span><span class="hl-code">,</span><span class="hl-number">14</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">subtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Set</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">(stderr=</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-identifier">sprintf</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">%.2f</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$stderr</span><span class="hl-brackets">)</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">, corr=</span><span class="hl-quotes">'</span><span class="hl-code">.</span><span class="hl-identifier">sprintf</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">%.2f</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-var">$corr</span><span class="hl-brackets">)</span><span class="hl-code">.</span><span class="hl-quotes">'</span><span class="hl-string">)</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">subtitle</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFont</span><span class="hl-brackets">(</span><span class="hl-identifier">FF_ARIAL</span><span class="hl-code">,</span><span class="hl-identifier">FS_NORMAL</span><span class="hl-code">,</span><span class="hl-number">12</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> make sure that the X-axis is always at the</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> bottom at the plot and not just at Y=0 which is</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-comment">//</span><span class="hl-comment"> the default position</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">xaxis</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetPos</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">min</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the scatter plot with some nice colors</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$sp1</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">ScatterPlot</span><span class="hl-brackets">(</span><span class="hl-var">$datay</span><span class="hl-code">,</span><span class="hl-var">$datax</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetType</span><span class="hl-brackets">(</span><span class="hl-identifier">MARK_FILLEDCIRCLE</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetFillColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">red</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">&quot;</span><span class="hl-string">blue</span><span class="hl-quotes">&quot;</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">3</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$sp1</span><span class="hl-code">-&gt;</span><span class="hl-identifier">mark</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWidth</span><span class="hl-brackets">(</span><span class="hl-number">4</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Create the regression line</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$lplot</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">LinePlot</span><span class="hl-brackets">(</span><span class="hl-var">$yd</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetWeight</span><span class="hl-brackets">(</span><span class="hl-number">2</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$lplot</span><span class="hl-code">-&gt;</span><span class="hl-identifier">SetColor</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">navy</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> Add the pltos to the line</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$sp1</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Add</span><span class="hl-brackets">(</span><span class="hl-var">$lplot</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-comment">//</span><span class="hl-comment"> ... and stroke</span><span class="hl-comment"></span><span class="hl-code">
+</span><span class="hl-var">$graph</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>

@@ -1,0 +1,148 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Using PHP Exceptions</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="ch06.html" title="Chapter 6. Error handling"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Using PHP Exceptions</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Chapter 6. Error handling</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="sect1" title="Using PHP Exceptions"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2495627"></a>Using PHP Exceptions</h2></div></div></div>
+            
+            <p>Starting with version v2.5 the library now have full support for PHP5 style
+                exceptions. The library provides an exception class named
+                    <code class="code">JpGraphException</code> which is slightly different compared with
+                traditional exception classes in that this class can not only return an text string
+                as error but also an image. This is necessary in order to handle the case where a
+                script has an error and is called from within an <span class="markup">&lt;img&gt;</span> tag. The
+                only data that can then be displayed in a browser is image data and hence it is
+                necessary for the error to be formatted as an image.</p>
+            <p>In addition to providing an exception class the library also installs its own
+                default exception handler to properly display an image. This default exception
+                handler will be automatically called whenever an "uncaught" exception would
+                otherwise be generated. This means that it is strictly not necessary to use
+                    "<code class="code">try {} catch() {}</code>" blocks around the library scripts.</p>
+            <p>When an exception is generated the default exception handler first validates that
+                the exception is a proper descendant of <code class="code">JpGraphException</code> and if so,
+                generates the image by calling the <code class="code">JpgraphException::Stroke()</code> method.
+                If the exception is not a <code class="code">JpGraphException</code> based exception then the
+                handler re-raises the error. This means that in script that you create that is meant
+                to be called from within an <span class="markup">&lt;img&gt;</span> tag all exception should be a
+                derivate of <code class="code">JpGraphException</code> in order to properly generate an error
+                image.</p>
+            <p>A typical example on how to raise an exception in your own code is shown in <a class="xref" href="ch06s03.html#ex.jpgraphexception1" title="Example 6.1. Throwing a JpGraph exception">Example 6.1. Throwing a JpGraph exception</a></p>
+            <p>
+                </p><div class="example"><a name="ex.jpgraphexception1"></a><p class="title"><b>Example 6.1. Throwing a JpGraph exception</b></p><div class="example-contents">
+                    
+                    <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">throw</span><span class="hl-code"> </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">JpGraphException</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string"> ... some error message ...</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>
+                </div></div><p><br class="example-break">
+            </p>
+            <p>In case you need to handle the exception in a "<code class="code">try {} catch() {}</code>"
+                block (perhaps in order to do necessary cleanup) it is important to remember to call
+                the <code class="code">Stroke()</code> method which will create and stream the error message back
+                to the browser. An example of this is shown in <a class="xref" href="ch06s03.html#ex.jpgraphexception2" title="Example 6.2. Catching a JpGraph exception and sending it back as an image to the client">Example 6.2. Catching a JpGraph exception and sending it back as an image to the
+                        client</a></p>
+            <p>
+                </p><div class="example"><a name="ex.jpgraphexception2"></a><p class="title"><b>Example 6.2. Catching a JpGraph exception and sending it back as an image to the
+                        client</b></p><div class="example-contents">
+                    
+                    <div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-inlinetags">&lt;?php</span><span class="hl-code">
+</span><span class="hl-reserved">try</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+ 
+    </span><span class="hl-var">$graph</span><span class="hl-code"> = </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">Graph</span><span class="hl-brackets">(</span><span class="hl-var">$width</span><span class="hl-code">,</span><span class="hl-var">$height</span><span class="hl-brackets">)</span><span class="hl-code">;
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> ... Code to setup the graph</span><span class="hl-comment"></span><span class="hl-code">
+ 
+    </span><span class="hl-reserved">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-comment">/*</span><span class="hl-comment"> some error condition </span><span class="hl-comment">*/</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+        </span><span class="hl-reserved">throw</span><span class="hl-code"> </span><span class="hl-reserved">new</span><span class="hl-code"> </span><span class="hl-identifier">JpGraphException</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string"> ... some error message ...</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-code">;
+    </span><span class="hl-brackets">}</span><span class="hl-code">
+ 
+</span><span class="hl-brackets">}</span><span class="hl-code"> </span><span class="hl-reserved">catch</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">JpGraphException</span><span class="hl-code"> </span><span class="hl-var">$e</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-brackets">{</span><span class="hl-code">
+    </span><span class="hl-comment">//</span><span class="hl-comment"> .. do necessary cleanup</span><span class="hl-comment"></span><span class="hl-code">
+ 
+    </span><span class="hl-comment">//</span><span class="hl-comment"> Send back error message</span><span class="hl-comment"></span><span class="hl-code">
+    </span><span class="hl-var">$e</span><span class="hl-code">-&gt;</span><span class="hl-identifier">Stroke</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">;
+</span><span class="hl-brackets">}</span><span class="hl-code">
+</span><span class="hl-inlinetags">?&gt;</span></pre></td></tr></table></div>
+                </div></div><p><br class="example-break">
+            </p>
+            <p>
+                </p><div class="tip" title="Tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>Another typical augmentation of the exception handling might be to also
+                        log an error to some logging server or plain log file. This should be done
+                        before the call to <code class="code">Stroke()</code> since that call will never
+                        return.</p>
+                </div><p>
+            </p>
+            <p>An example of real life error handling with exception is shown in listing <a class="xref" href="ch04s02.html#sec.preparing-sunspots-data" title="Preparing the data">Preparing the data</a> in the introductory example with Sun
+                spots.</p>
+            <div class="sect2" title="Selecting between text and image based error handling"><div class="titlepage"><div><div><h3 class="title"><a name="id2495896"></a>Selecting between text and image based error handling</h3></div></div></div>
+                
+                <p>By default an exception that occurs in the library will create an error image
+                    as shown in the previous section. However there might be circumstance where a
+                    text based error handling is preferred (usually when graph are created from the
+                    command line). </p>
+                <p>This could be accomplished in two ways. By catching the exception in the
+                    script and handle it accordingly or we could slightly modify the default
+                    behavior of the default exception handler in the library. How this is done will
+                    now be described.</p>
+                <p>In order to enable a text based error handler we just need to disable the
+                    image based error handler. This is done with a call to the method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">JpGraphError::SetImageFlag($aFlag)</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>Since the error handling have global scope this is a static function which can
+                    be called as the following example shows</p>
+                <p>
+                    </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">JpGraphError::SetImageFlag(false); // Enable text based error handling</span></pre></td></tr></table></div><p>
+                </p>
+                <p>Adding the line above to a graph script will cause any error to be printed to
+                        <code class="code">STDERR</code> when the script is called from the command line. This is
+                    a very convenient way to show errors when command line constructions like</p>
+                <p>
+                    </p><pre class="screen">$&gt; php mygraph.php &gt; mygraph.png</pre><p>
+                </p>
+                <p>is used since writing the error to <code class="code">STDOUT</code> will cause the error
+                    message to be sent back to the console since the call above only redirected
+                        <code class="code">STDOUT</code> and not <code class="code">STDERR</code>. </p>
+                <p>When the script is called from PHP embedded in a HTTP server (e.g. Apache)
+                    there is no concept of a <code class="code">STDERR</code> and the error message will just be
+                    sent back as normal text to the browser.</p>
+            </div>
+            <div class="sect2" title="Writing error message to a log file (or system logger)"><div class="titlepage"><div><div><h3 class="title"><a name="id2495901"></a>Writing error message to a log file (or system logger)</h3></div></div></div>
+                
+                <p>In addition to the option of having the error sent back as a string to the
+                    client it can instead be written to a named log file. The log file name is
+                    specified with a call to the (static) method</p>
+                <p>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                            <p><code class="code">JpGraphError::SetLogFile($aFileName)</code></p>
+                        </li></ul></div><p>
+                </p>
+                <p>The file needs to be writable by the PHP process. All error messages are
+                    appended to the end of the file and each error message is prepended by the date
+                    and time (in <code class="uri"><a class="uri" href="http://www.faqs.org/rfcs/rfc2822" target="_top">RFC 2822</a></code> formatted
+                    date).</p>
+                <p>If the filename is given as the string <code class="code">'syslog'</code> then the error
+                    message will be written to the default system logger instead. When a script is
+                    run from, for example, Apache this is normally on Unix
+                        '<code class="filename">/var/log/apache2/error_log</code>'</p>
+            </div>
+        </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>

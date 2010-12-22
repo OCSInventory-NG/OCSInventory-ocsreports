@@ -1,0 +1,105 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 12. Commonalities for all graphs</title><link rel="stylesheet" type="text/css" href="manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.0"><link rel="home" href="index.html" title="JpGraph Manual"><link rel="up" href="pt03.html" title="Part III. Common features"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 12. Commonalities for all graphs</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center">Part III. Common features</th><td width="20%" align="right"> </td></tr></table><hr></div><div class="chapter" title="Chapter 12. Commonalities for all graphs"><div class="titlepage"><div><div><h2 class="title"><a name="id2537365"></a>Chapter 12. Commonalities for all graphs</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch12.html#id2537384">12.1. Common objects for cartesian graphs (x-, y-graphs)</a></span></dt><dt><span class="sect1"><a href="ch12s02.html">12.2. Common object for Pie Graphs</a></span></dt></dl></div>
+        
+        <p>All graph scripts follow, to some extent, the same structure. All scripts must start
+            by creating an instance of the Graph class. The Graph class represent the entire graph
+            and can have one or more plots build up from the data series. Almost all methods that
+            are used to control the appearance of the graph are methods of this class.</p>
+        <p>In order to give a feel for common objects we show examples of two of the most
+            commonly used graph types, cartesian graphs and pie graphs in the following two
+            sections.</p>
+        <div class="sect1" title="Common objects for cartesian graphs (x-, y-graphs)"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2537384"></a>Common objects for cartesian graphs (x-, y-graphs)</h2></div></div></div>
+            
+            <p>In all documentation of the library the convention is that the instance of the
+                Graph class will be stored in a variable named "<code class="code">$graph</code>". Most of the
+                parts that make up a graph are available as instance variables of the Graph class.
+                In order to illustrate some of the commonly used instance variables <a class="xref" href="ch12.html#fig.common-objects" title="Figure 12.1. Commonly used objects in a graph (common-obj-graph.php)">Figure 12.1. Commonly used objects in a graph (<code class="uri"><a class="uri" href="example_src/common-obj-graph.html" target="_top">common-obj-graph.php</a></code>)</a> shows a basic graph with a number of the
+                objects that can be manipulated in the graph scripts.</p>
+            <p>
+                </p><div class="figure"><a name="fig.common-objects"></a><p class="title"><b>Figure 12.1. Commonly used objects in a graph (<code class="uri"><a class="uri" href="example_src/common-obj-graph.html" target="_top">common-obj-graph.php</a></code>)</b></p><div class="figure-contents">
+                    
+                    <div class="mediaobject"><img src="images/graph-obj-overview.png" alt="Commonly used objects in a graph (common-obj-graph.php)"></div>
+                </div></div><p><br class="figure-break">
+            </p>
+            <p>We note a few things in <a class="xref" href="ch12.html#fig.common-objects" title="Figure 12.1. Commonly used objects in a graph (common-obj-graph.php)">Figure 12.1. Commonly used objects in a graph (<code class="uri"><a class="uri" href="example_src/common-obj-graph.html" target="_top">common-obj-graph.php</a></code>)</a>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+                        <p>All graphs will start by including the necessary library files via one
+                            or more "require_once" PHP statements</p>
+                    </li><li class="listitem">
+                        <p>All graph scripts (for 2D linear type graphs) will have the following
+                            two method calls</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph = new Graph($width, $height);
+$graph-&gt;SetScale('...');</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>These two calls create the necessary instance of the core Graph class
+                            that represents the entire graph and specifies what scale should be used
+                            for the y- and x-axis. In <a class="xref" href="ch12.html#fig.common-objects" title="Figure 12.1. Commonly used objects in a graph (common-obj-graph.php)">Figure 12.1. Commonly used objects in a graph (<code class="uri"><a class="uri" href="example_src/common-obj-graph.html" target="_top">common-obj-graph.php</a></code>)</a> we
+                            are also using a second -axis so in this case the script will also
+                            contain a call to</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;SetY2Scale('...');</span></pre></td></tr></table></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>Most graphs will also adjust the left, right, top and bottom margin.
+                            In <a class="xref" href="ch12.html#fig.common-objects" title="Figure 12.1. Commonly used objects in a graph (common-obj-graph.php)">Figure 12.1. Commonly used objects in a graph (<code class="uri"><a class="uri" href="example_src/common-obj-graph.html" target="_top">common-obj-graph.php</a></code>)</a> the margins are shown with
+                            red arrows. The margins are specified with the method</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;SetMargin($left,$right,$top,$bottom);</span></pre></td></tr></table></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>All text objects (e.g. graph and axis titles) are instances of the
+                            common Text class. This means that the text, font, color are specified
+                            in the same way. For example the code to set the title and subtitle in
+                            the graph above is</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;title-&gt;SetFont(FF_ARIAL, FS_BOLD, 14);
+$graph-&gt;title-&gt;Set(&quot;Using JpGraph Library&quot;);
+$graph-&gt;title-&gt;SetMargin(10);
+ 
+$graph-&gt;subtitle-&gt;SetFont(FF_ARIAL, FS_BOLD, 10);
+$graph-&gt;subtitle-&gt;Set('(common objects)');</span></pre></td></tr></table></div><p>
+                        </p>
+                        <p>In a similar way the code to set the titles of the axis are</p>
+                        <p>
+                            </p><div class="hl-main"><table class="hl-table" width="100%"><tr><td class="hl-gutter" align="right" valign="top"><pre>1
+2
+3
+4
+5
+</pre></td><td class="hl-main" valign="top"><pre><span class="hl-code">$graph-&gt;xaxis-&gt;title-&gt;SetFont(FF_ARIAL, FS_BOLD, 10);
+$graph-&gt;xaxis-&gt;title-&gt;Set(&quot;X-title&quot;);
+ 
+$graph-&gt;yaxis-&gt;title-&gt;SetFont(FF_ARIAL, FS_BOLD, 10);
+$graph-&gt;yaxis-&gt;title-&gt;Set(&quot;Y-title&quot;);</span></pre></td></tr></table></div><p>
+                        </p>
+                    </li><li class="listitem">
+                        <p>The graph uses a legend in two rows to name each data series. The
+                            position of the legend is controlled by the script and in <a class="xref" href="ch12.html#fig.common-objects" title="Figure 12.1. Commonly used objects in a graph (common-obj-graph.php)">Figure 12.1. Commonly used objects in a graph (<code class="uri"><a class="uri" href="example_src/common-obj-graph.html" target="_top">common-obj-graph.php</a></code>)</a> we placed it on the right side.
+                            It is also possible to in detail to adjust the layout of the names in
+                            the data series. For example we could change the layout of the legend to
+                            position all the names of the data series in one row as opposed to one
+                            column which is the default. The number of columns and/or rows is user
+                            settable.</p>
+                    </li><li class="listitem">
+                        <p>Finally all graphs will end with a call to <code class="code">Stroke()</code> or
+                            one of its variants (<code class="code">StrokeCSIM()</code>,
+                                <code class="code">StrokeCSIMIMage()</code>). As was described in Part II this
+                            will send back the constructed image to the client, usually a
+                            browser.</p>
+                    </li></ul></div>
+            <p>For other types of graphs (for example Gantt charts) some of the above standards
+                still apply but since they have a very different usage and layout the instance
+                variables will be different.</p>
+        </div>
+        
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"><a accesskey="u" href="pt03.html">Up</a></td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div></body></html>
