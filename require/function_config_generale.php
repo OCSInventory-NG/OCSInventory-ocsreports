@@ -73,7 +73,7 @@
  */ 
  
  function ligne($name,$lbl,$type,$data,$data_hidden='',$readonly=''){
- global $l;
+ global $l,$protectedPost;
 
  	echo "<TR height=65px ><td align='center' class='mvt_tab'>".$name;
 	echo "<br><font size=1 color=green><i>".$lbl."</i></font></td><td align='left' width='150px' class='mvt_bordure'>";
@@ -185,8 +185,9 @@ function verif_champ(){
 					  'LOG_DIR'=>array('FIELD_READ'=>'LOG_DIR_edit','END'=>"/logs/",'FILE'=>"",'TYPE'=>'r'),
 					  'LOG_SCRIPT'=>array('FIELD_READ'=>'LOG_SCRIPT_edit','END'=>"/scripts/",'FILE'=>"",'TYPE'=>'r'),
 					  'OLD_CONF_DIR'=>array('FIELD_READ'=>'OLD_CONF_DIR_edit','END'=>"/old_conf/",'FILE'=>"",'TYPE'=>'r'));
-
+	
 	foreach ($file_exist as $key=>$value){
+		if ($protectedPost[$key] == 'CUSTOM'){
 			//Try to find a file
 			if ($value['FILE'] != ''){
 				if ($protectedPost[$value['FIELD_READ']]!='' and !@fopen($protectedPost[$value['FIELD_READ']].$value['END'].$value['FILE'],$value['TYPE']))
@@ -198,6 +199,7 @@ function verif_champ(){
 				$tab_error[$key]=array('FILE_NOT_EXIST'=>$protectedPost[$value['FIELD_READ']].$value['END']);
 				
 			}		
+		}
 	}
 	
 	$i=0;
@@ -410,8 +412,26 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
  	
  return $check;
 }
+
+function trait_post($name){
+	global $protectedPost,$values;
+	
+	if (isset($values['tvalue'][$name]))
+		$select='CUSTOM';
+	else
+		$select='DEFAULT';
+	
+	if (isset($protectedPost[$name."_edit"]) and $protectedPost[$name."_edit"] != '' and $protectedPost[$name] == 'CUSTOM'){
+		$values['tvalue'][$name]=$protectedPost[$name."_edit"];
+		$select='CUSTOM';	
+	}
+		
+	return $select;
+}
+
+
  function pageGUI($form_name){
- 	global $l,$numeric,$sup1;
+ 	global $l,$numeric,$sup1,$values;
  		//what ligne we need?
  	$champs=array( 'LOCAL_PORT'=>'LOCAL_PORT',
 				  'LOCAL_SERVER'=>'LOCAL_SERVER',
@@ -427,34 +447,12 @@ function auto_duplicate_lvl_poids($value,$entree_sortie){
  				  'USE_FLASH'=>'USE_FLASH'
 				  );
 	$values=look_config_default_values($champs);
-	if (isset($values['tvalue']['DOWNLOAD_PACK_DIR']))
-	$select_pack='CUSTOM';
-	else
-	$select_pack='DEFAULT';
-	if (isset($values['tvalue']['IPDISCOVER_IPD_DIR']))
-	$select_ipd='CUSTOM';
-	else
-	$select_ipd='DEFAULT';
-	if (isset($values['tvalue']['LOG_DIR']))
-	$select_log='CUSTOM';
-	else
-	$select_log='DEFAULT';
-	
-	if (isset($values['tvalue']['LOG_SCRIPT']))
-	$select_scripts='CUSTOM';
-	else
-	$select_scripts='DEFAULT';
-	
-	if (isset($values['tvalue']['CONF_PROFILS_DIR']))
-	$select_profils='CUSTOM';
-	else
-	$select_profils='DEFAULT';
-	
-	if (isset($values['tvalue']['OLD_CONF_DIR']))
-	$select_old_profils='CUSTOM';
-	else
-	$select_old_profils='DEFAULT';
-
+	$select_pack=trait_post('DOWNLOAD_PACK_DIR');
+	$select_ipd=trait_post('IPDISCOVER_IPD_DIR');
+	$select_log=trait_post('LOG_DIR');
+	$select_scripts=trait_post('LOG_SCRIPT');
+	$select_profils=trait_post('CONF_PROFILS_DIR');
+	$select_old_profils=trait_post('OLD_CONF_DIR');
 	
  	debut_tab();
 	ligne('LOCAL_PORT',$l->g(566),'input',array('VALUE'=>$values['ivalue']['LOCAL_PORT'],'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
