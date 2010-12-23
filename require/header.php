@@ -50,15 +50,26 @@ if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 }
 
 /***************************************************** First installation checking *********************************************************/
-
 if( (!$fconf=@fopen("dbconfig.inc.php","r")) 
 		|| (!function_exists('session_start')) 
-		|| (!function_exists('mysql_connect'))) {
+		|| (!function_exists('mysql_connect')) ) {
 	require('install.php');	
 	die();
 }
-else
+else{	
 	fclose($fconf);
+}
+
+if (!defined("SERVER_READ") 
+		|| !defined("DB_NAME") 
+		|| !defined("SERVER_WRITE") 
+		|| !defined("COMPTE_BASE")
+		|| !defined("PSWD_BASE")){
+	$fromdbconfig_out = true;
+	require('install.php');
+	die();	
+}
+
 
 //connect to databases
 dbconnect();
