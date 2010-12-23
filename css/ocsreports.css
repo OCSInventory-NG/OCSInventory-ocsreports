@@ -213,7 +213,7 @@ font-weight: bold;
 position: absolute;
 z-index: 100;
 margin-top: 5px ;
-width: 15em;
+width: 17em;
 background: #D6DCF2;
 border: 1px solid gray;
 -moz-border-radius: 1em;
@@ -226,8 +226,8 @@ padding: 2px;
 #menu li {
 text-align: center;
 font-size: 85%;
-height: 30px;
-line-height: 12px;
+height: 18px;
+line-height: 18px;
 }
 #menu li a, #menu dt a {
 color: #000;
