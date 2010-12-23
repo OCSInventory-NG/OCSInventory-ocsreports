@@ -86,7 +86,7 @@ foreach ($nb_4_hour as $key=>$value){
 
 if (isset($data) and count($data) != 1){
 	if ($_SESSION['OCS']['useflash'] == 1){
-		$strXML2="<graph caption='".$l->g(1250)." (".$protectedGet['stat'].") ".$l->g(81)." : ".$protectedGet['ta']."'  xAxisName='".$l->g(232)."'
+		$strXML2="<graph caption='".$l->g(1250)." (".$protectedGet['stat'].") ".$l->g(81).": ".$protectedGet['ta']."'  xAxisName='".$l->g(232)."'
 		yAxisName='".$l->g(1125)."' numberPrefix='' showValues='0' 
 		numVDivLines='10' showAlternateVGridColor='1' AlternateVGridColor='e1f5ff' 
 		divLineColor='e1f5ff' vdivLineColor='e1f5ff' yAxisMaxValue='100'  yAxisMinValue='0'

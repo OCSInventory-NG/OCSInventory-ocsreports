@@ -49,7 +49,7 @@ if ($protectedPost['Valid'] == $l->g(103)){
 				$msg.=$name." ".$l->g(759)." ".$value."<br>";
 			else{
 				if (isset($value['FILE_NOT_EXIST']))
-				$msg.= $name." : ".$l->g(920)." ".$value['FILE_NOT_EXIST']."<br>";
+				$msg.= $name.": ".$l->g(920)." ".$value['FILE_NOT_EXIST']."<br>";
 				
 			}
 		}

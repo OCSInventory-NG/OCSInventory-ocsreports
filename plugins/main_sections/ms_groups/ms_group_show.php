@@ -142,7 +142,7 @@ if ($conf_Wk['ivalue']['IT_SET_PERIM'] != 1){
 }
 
 if ($mes_wk != ''){
-	msg_info($l->g(1047)." : ".$mes_wk);	
+	msg_info($l->g(1047).": ".$mes_wk);	
 }
 
 

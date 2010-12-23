@@ -1066,4 +1066,5 @@ echo "<input type=hidden name='reset' id='reset' value=''>";
 echo "</td></tr></table>";
 echo "</form>";	
 echo $l->g(358);
+echo "<br>";
 

@@ -168,8 +168,8 @@
 260 La descrizione del file è stata modificata
 261 La descrizione del file è stata eliminata
 262 Inserisci o modifica l'etichetta
-263 Configurazione del file delle etichette
-264 Non esiste nessun file delle etichette
+263 Configurazione dell'etichetta
+264 Non esiste nessuna etichetta
 265 Qualsiasi
 266 Data non valida
 267 gg/mm/aaaa
@@ -1133,6 +1133,13 @@
 1248 Cartelle
 1249 Attivazione della cache per le tabelle (consente di diminuire il carico del database MySQL)
 1250 Velocità Teledeploy
+1251 Statistiche
+1252 Directory dei profili di configurazione
+1253 Directory dei vecchi profili di configurazione
+1254 Directory di log degli script
+1255 Numero di connessioni al giorno
+1256 Numero di connessioni errate al giorno
+1257 Utilizza flash per la GUI
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
