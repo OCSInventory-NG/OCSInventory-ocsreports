@@ -1165,24 +1165,24 @@
 2030 Installation d'OCS-NG Inventory
 2031 version actuellement installée
 2032 est inférieur à cette version
-2033 Installation automatique lancé
-2034 DB de configuration n'est pas terminée. Installation automatique lancé
-2035 ERREUR: Sessions pour PHP n'est pas installé correctement. <br> Essayez d'installer le paquet php-session.
+2033 Installation automatique lancée
+2034 Le fichiers de configuration de BDD n'est pas valide. Installation automatique lancée
+2035 ERREUR: Les sessions pour PHP ne sont pas installées correctement. <br> Essayez d'installer le paquet php-session.
 2036 AVERTISSEMENT: XML pour PHP n'est pas installé correctement, vous ne serez pas en mesure d'utiliser ipdiscover-util.
 2037 ERREUR: MySQL pour PHP n'est pas installé correctement. <br> Essayez d'installer MySQL pour PHP paquet (Debian: php5-mysql)
-2038 AVERTISSEMENT: GD de PHP n'est pas installé correctement. <br> Vous ne serez pas en mesure de voir tout <br> affichage graphique : Essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php5-gd (Linux).
+2038 AVERTISSEMENT: La librairie GD de PHP n'est pas installée correctement. <br> Les graphiques ne seront utilisables qu'en flash  <br> Pour corriger cela, essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php5-gd (Linux).
 2039 AVERTISSEMENT: OpenSSL pour PHP n'est pas installé correctement. <br> Certaines fonctionnalités de déploiement automatique ne sera pas disponible <br> Essayez en décommentant extension = php_openssl.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-openssl (Linux).
-2040 AVERTISSEMENT: Vous ne serez pas en mesure de construire un paquet de déploiement avec une plus grande taille que
+2040 AVERTISSEMENT: Vous ne serez pas en mesure de construire un paquet de déploiement d'une taille plus grande que
 2041 Vous devez modifier <font color="red">post_max_size</font> et <font color="red">upload_max_filesize</font> dans php.ini, pour augmenter cette limite.
-2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur MySQL. Changez-le dès que possible. (Mot de passe root = vide)
+2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur MySQL. Changez-le dès que possible. (Mot de passe root => vide)
 2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de <font color="red">max_allowed_packet</font> de MySQL à au moins 2 Mo sur votre serveur le fichier de configuration.
 2044 Label ajouté
-2045 Label pas encore ajouté (pas les balises seront invités au lancement du client)
+2045 Label pas encore ajouté (Au lancement du client, aucune demande de TAG ne sera faite)
 2046 ERREUR: problème d'authentification MySQL.
 2047 Vous devez ajouter les "old-passwords" dans votre fichier de configuration MySQL (my.ini). Puis redémarrer MySQL, et relancez install.php
 2050 Installation terminée, vous pouvez vous connecter avec le login = admin et pass = admin
 2051 Cliquez ici pour entrer dans l'interface OCS-NG
-2052 ERREUR: impossible d'écrire dans le répertoire (dans dbconfig.inc.php), veuillez définir les droits nécessaires pour installer ocsinventory (vous devez supprimer le mode d'écriture, et relancer l'installation)
+2052 ERREUR: impossible d'écrire dans le répertoire (dans dbconfig.inc.php), veuillez définir les droits nécessaires pour installer ocsinventory (vous devez ajouter les droits d'écriture, et relancer l'installation)
 2053 Patientez, mettre à jour la base de données peut prendre jusqu'à 30 minutes ...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Base de données générée
@@ -1195,15 +1195,15 @@
 2062 ERROR: HEAP conversion failed, install HEAP MySQL engine support on your server<br>or you will experience severe performance issues.
 2063 Moteur de base mis à jour
 2064 table(s) modifiée(s)
-2065 Erreur: Le programme d'installation terminée en erreur, relancez install.php fois que les problèmes sont corrigés
-2066 AVERTISSEMENT: «répertoire des fichiers" manquants, ne peut pas importer
-2067 des qu'il
+2065 ERREUR: Le programme d'installation terminée en erreur, relancez install.php une fois que les problèmes sont corrigés
+2066 AVERTISSEMENT: le répertoire "files" est manquants, il est impossible d'importer
+2067 dès qu'il
 2068 n'a pas été inséré. Vous devez définir la valeur de max_allowed_packet MySQL pour au moins 2 Mo
-2070 disparus, si vous ne remettez pas le fonction de déploiement ne sera pas disponible
-2071 AVERTISSEMENT: Un ou plusieurs fichiers ont été déjà inséré
-2072 de déployer les fichiers inséré avec succès
-2073 Table 'fichiers' tronquée
-2074 Table 'fichiers' était vide
+2070 missing, if you do not reinstall the DEPLOY feature won't be available
+2071 AVERTISSEMENT: Un ou plusieurs fichiers ont été déjà insérés
+2072 les fichiers de déploiement ont été insérés
+2073 Table 'files' tronquée
+2074 Table 'files' était vide
 2076 Pas de fichier subnet.csv à importer
 2077 Insertion des réseaux de subnet.csv
 2078 ERREUR: Impossible d'insérer le réseau
@@ -1211,19 +1211,19 @@
 2080 AVERTISSEMENT: Réseau
 2081 n'a pas été inséré (ip valide ou un masque
 2082 Network netid computing. Please wait...
-2083 ERREUR: Impossible de mettre à jour à netid
+2083 ERREUR: Impossible de mettre à jour netid
 2084 netid réseau a été calculé
 2085 étaient déjà calculés
 2086 ne sont pas calculables
 2087 Netmap netid computing. Please wait...
 2089 a été calculé netid NETMAP
-2090 orphelins de nettoyage ...
-2091 ERREUR: Impossible de nettoyer
-2092 lignes orphelines supprimé
-2093 NETMAP nettoyage ...
-2094 ERREUR: Impossible de nettoyer NETMAP
-2095 lignes NETMAP supprimé
-2096 Please enter the label of the windows client tag input box:
+2090 Effacement des orphelins...
+2091 ERREUR: Impossible d'effacer
+2092 lignes orphelines supprimées
+2093 Suppression de NETMAP...
+2094 ERREUR: Impossible d'effacer NETMAP
+2095 lignes NETMAP supprimées
+2096 Entrer le label pour les clients windows (fenêtre de saisie lors du lancement du client):
 2097 Laissez vide si vous ne voulez pas qu'une popup s'affiche au premier lancement de l'agent
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
 2099 ERROR: ce compte MySQL n'a pas les droits de création de database 

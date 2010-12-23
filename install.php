@@ -8,7 +8,7 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-//Modified on $Date: 2010 $$Author: Erwan Goalou
+//Modified on $Date: 2010 $$Author: Erwan Goalou + Passero
 
 @set_time_limit(0);
 error_reporting(E_ALL & ~E_NOTICE);
@@ -174,7 +174,6 @@ if( ! $instOk ) {
 	</table></form>";
 	die();
 }
-
 
 if($firstAttempt==true && $_POST["pass"] == "") {
 	echo "<br><center><font color=orange><b>" . $l->g(2042) . "</b></font></center>";
@@ -760,6 +759,7 @@ function printEnTeteInstall($ent) {
 	<input type='hidden' name='name' value='<?php echo $_POST["name"];?>'>
 	<input type='hidden' name='pass' value='<?php echo $_POST["pass"];?>'>
 	<input type='hidden' name='host' value='<?php echo $_POST["host"];?>'>
+	<input type='hidden' name='database' value='<?php echo $_POST["database"];?>'>
 	<input type=submit>
 </form></center>
 
