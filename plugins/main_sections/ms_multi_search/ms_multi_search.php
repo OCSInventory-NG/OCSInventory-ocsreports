@@ -845,7 +845,7 @@ $sort_list=array("HARDWARE-IPADDR" =>$l->g(82).": ".$l->g(34),
 			     "DRIVES-VOLUMN"=>$l->g(92).": ".$l->g(964),
 			     "BIOS-BMANUFACTURER"=>$l->g(273).": ".$l->g(284),
 			     "BIOS-BVERSION"=>$l->g(273).": ".$l->g(277),
-				 "BIOS-ASSETTAG"=>$l->g(273).": ASSETTAG",
+				 "BIOS-ASSETTAG"=>$l->g(273).": ".$l->g(216),
 			     "HARDWARE-LASTDATE"=>"OCS: ".$l->g(46),
 				 "HARDWARE-LASTCOME"=>"OCS: ".$l->g(820),
 				 "HARDWARE-WORKGROUP"=>$l->g(82).": ".$l->g(33),
@@ -1056,9 +1056,8 @@ if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] !
 		show_ligne($v,$color,$k,$ajout,$form_name);
 		$c++;
 	}
-	echo "<tr><td colspan=100 align=right><input type=submit taborder=1 name='Valid-search' value=".$l->g(30)." onclick='pag(\"VALID\",\"Valid\",\"".$form_name."\");'></td></tr>";
-
-	echo "<input type=hidden name=Valid id=Valid value=''>";
+	echo "<tr><td colspan=100 align=right><input type='submit' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'></td></tr>";
+	echo "<input type=hidden name='Valid' id='Valid' value=''>";
 }
 	echo "</table>";
 echo "<input type=hidden name=delfield id=delfield value=''>";

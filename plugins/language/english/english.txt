@@ -122,6 +122,7 @@
 213 Key value
 214 Print this page
 215 Show everything
+216 ASSETTAG
 217 Password
 218 Agents versions
 219 uninventoried network interfaces
@@ -1162,6 +1163,11 @@
 2017 using
 2018 was imported
 2019 were already imported
+2020 YOUR INSTALL.PHP EXISTS IN OCSREPORTS DIRECTORY
+2021 YOUR GUI LOGS DIRECTORY IS NOT WRITABLE
+
+
+
 2030 OCS-NG Inventory Installation
 2031 Current installed version
 2032 is lower than this version
