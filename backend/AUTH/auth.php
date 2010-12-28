@@ -74,6 +74,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 		$icon_head='NO';
 		require_once ($_SESSION['OCS']['HEADER_HTML']);
 		if (isset($protectedPost['Valid_modif_x'])){
+			$login_successful = $l->g(180);
 			msg_error($login_successful);
 			flush();
 			//you can't send a new login/passwd before 2 seconds
