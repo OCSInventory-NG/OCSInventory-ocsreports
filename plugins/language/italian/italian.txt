@@ -122,6 +122,7 @@
 213 Valore chiave
 214 Stampa questa pagina
 215 Mostra tutto
+216 ASSETTAG
 217 Password
 218 Versione agente
 219 Interfacce di rete non inventariate
@@ -708,8 +709,8 @@
 821 SERVER CONFIGURATION MODIFICATION
 822 Personalizzato
 823 Predefinito
-824 Attivazione interfaccia di log
-825 Directory dei log
+824 Attivazione di log dell'interfaccia
+825 Directory di log
 826 Indirizzo dove trovare i file del pacchetto Teledeploy da attivare
 827 Indirizzo dove trovare il file INFO del pacchetto da attivare
 828 Cancella i computer il cui inventario è più vecchio di
@@ -802,7 +803,7 @@
 917 Valore di FREQUENCY
 918 Differenza tra LASTDATE e LASTCOME
 919 Sei sicuro di voler cancellare questo messaggio
-920 ERRORE, le richieste non esistono.
+920 ERRORE, il percorso non esiste!
 921 Elimina questa categoria
 922 Per unirli, devi selezionare almeno 2 computer
 923 Non hai nessun computer
@@ -864,7 +865,7 @@
 979 Per ritornare allo stato predefinito, devi cliccare sull'icona <img src='image/cadena_op.png'> che si trova in alto a destra dell'interfaccia
 980 Pacchetti nei computer
 981 Pacchetti nei gruppi di server
-982 NON SONO DISPONIBILI REGOLE VALIDE. NON E' POSSIBLE PROSEGUIRE LA RIDISTRIBUZIONE.
+982 NON SONO DISPONIBILI REGOLE VALIDE. NON E' POSSIBILE PROSEGUIRE LA RIDISTRIBUZIONE.
 983 Devi scegliere quale tipo di modifica effettuare
 984 Modifiche
 985 RIMUOVI I COMPUTER
@@ -894,7 +895,7 @@
 1009 Directory di salvataggio dei server
 1010 NORMALE
 1011 DEBUG
-1012 TRADUZIONE
+1012 LINGUA
 1013 MANUTENZIONE
 1014 Modalità operativa
 1015 Modalità utente
@@ -1130,7 +1131,7 @@
 1245 Gestione client OCS-NG
 1246 Interessa nuovamente
 1247 Architettura
-1248 Cartelle
+1248 Percorso
 1249 Attivazione della cache per le tabelle (consente di diminuire il carico del database MySQL)
 1250 Velocità Teledeploy
 1251 Statistiche
@@ -1161,6 +1162,8 @@
 2017 usando
 2018 importati
 2019 importati in precedenza
+2020 IL FILE INSTALL.PHP E' PRESENTE NELLA DIRECTORY DI OCS-NG
+2021 NON POSSO SCRIVERE NELLA DIRECTORY DEI LOG DELLA GUI
 
 2030 Installazione OCS-NG Inventory
 2031 La versione attualmente installata
@@ -1227,7 +1230,7 @@
 2097 Non inserire nulla se non vuoi far apparire il popup al lancio dell'agente
 2098 ERRORE: l'estensione ZIP per PHP non installata correttamente.<br>Prova ad abilitare la voce extension=php_zip.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto libphp-pclzip (Linux).
 2099 ERRORE: le credenziali MySQL fornite non hanno i diritti necessari per la creazione del database
-2100 Aggiorna le vecchie informazioni degli account
+2100 Aggiorna le informazioni degli account
 2101 Aggiunto dallo script
 2102 ATTENZIONE: se cambi il nome di default del database (ocsweb), non dimenticare di aggiornare il file ocs engine
 

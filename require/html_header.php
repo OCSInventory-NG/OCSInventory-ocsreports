@@ -51,15 +51,14 @@ echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
 	//echo "<table width= 100% align=center border='0'><tr><Td align='center' bgcolor='#f2f2f2' BORDERCOLOR='#f2f2f2' width:80%>";
 	$msg_header='';
-	if( $fconf=@fopen("install.php","r")){
-		$msg_header="WARNING: <br>YOUR INSTALL.PHP EXISTS IN OCSREPORTS DIRECTORY";
+	if($fconf=@fopen("install.php","r")){
+		$msg_header = $l->g(2006) . "<br>" . $l->g(2020) . "<br>";
 	}
-
 	if ($_SESSION['OCS']['LOG_GUI'] == 1){
-		//looking for logs directory is writable
-		$rep_ok=is_writable ($_SESSION['OCS']['LOG_DIR']);
+		//check if the GUI logs directory is writable
+		$rep_ok=is_writable($_SESSION['OCS']['LOG_DIR']);
 		if (!$rep_ok){
-			$msg_header.="<br>YOUR LOGS DIRECTORY IS NOT WRITABLE";
+			$msg_header.=$l->g(2021);
 		}
 	}
 	if ($msg_header != '')
