@@ -1056,9 +1056,9 @@ if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] !
 		show_ligne($v,$color,$k,$ajout,$form_name);
 		$c++;
 	}
-	echo "<tr><td colspan=100 align=right><input type=submit taborder=1 name='Valid-search' value=".$l->g(30)." onclick='pag(\"VALID\",\"Valid\",\"".$form_name."\");'></td></tr>";
+	echo "<tr><td colspan=100 align=right><input type='submit' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'></td></tr>";
 
-	echo "<input type=hidden name=Valid id=Valid value=''>";
+	echo "<input type=hidden name='Valid' id='Valid' value=''>";
 }
 	echo "</table>";
 echo "<input type=hidden name=delfield id=delfield value=''>";
