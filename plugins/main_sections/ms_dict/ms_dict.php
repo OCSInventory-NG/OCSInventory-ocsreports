@@ -257,7 +257,7 @@ if (isset($querydico)){
 }
 echo "</td></tr>";
 $search=show_modif(stripslashes($protectedPost['search']),"search",'0');
-$trans= "<input name='all_item' id='all_item' type='checkbox' ".(isset($protectedPost['all_item'])? " checked ": "").">".$l->g(384);
+$trans= "<input name='all_item' id='all_item' type='checkbox' ".(isset($protectedPost['all_item'])? " checked ": "").">".$l->g(384) . " ";
 //r�cup�ration de toutes les cat�gories
 $sql_list_categories="select distinct(formatted) name from dico_soft where formatted!=extracted";
 $result_list_categories = mysql_query( $sql_list_categories, $_SESSION['OCS']["readServer"]);

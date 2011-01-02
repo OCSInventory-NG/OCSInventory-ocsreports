@@ -191,15 +191,15 @@ if (isset($sql)){
 
 echo "<br><div class='mvt_bordure'>";
 
-echo "<b>".$l->g(735)."</b><BR>";
+echo "<b>".$l->g(735)."</b><br><br>";
 echo $l->g(382).": ".show_modif($protectedPost['NAME_RESTRICT'],'NAME_RESTRICT',0);
 echo "&nbsp;".$l->g(381).": ".show_modif(array('<'=>'<','>'=>'>','='=>'='),'COMPAR',2);
 echo show_modif($protectedPost['NBRE'],'NBRE',0,'',array('MAXLENGTH'=>100,'SIZE'=>10,'JAVASCRIPT'=>$numeric));
 //echo "<input type='input' name='NBRE' value='".$protectedPost['NBRE']."' ".$numeric.">";
-	echo "<br><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'])."'>".$l->g(183)." ".$l->g(765)."</a>";
+echo "<br><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'])."'><br>".$l->g(183)." ".$l->g(765)."<br></a>";
 if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protectedPost['NBRE'] != "")
-echo "<br><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'])."&all_computers=yes'>".$l->g(912)."</a>";		
-	echo "<br><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'>";
+echo "<br><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'])."&all_computers=yes'>".$l->g(912)."</a><br>";
+echo "<br><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'>";
 
 echo '</div>';
 echo '</div>';

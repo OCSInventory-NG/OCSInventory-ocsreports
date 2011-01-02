@@ -24,8 +24,9 @@
 46 Dernier inventaire
 48 Affichage système
 49 Nom
-50 Espace de Swap 
+50 Espace de Swap
 51 Commentaires
+52 Visible
 53 Description
 54 Processeur(s)
 55 Nombre
@@ -1168,7 +1169,7 @@
 2030 Installation d'OCS-NG Inventory
 2031 version actuellement installée
 2032 est inférieur à cette version
-2033 Installation automatique lancée
+2033 Installation automatique lancée.
 2034 Le fichiers de configuration de BDD n'est pas valide. Installation automatique lancée
 2035 ERREUR: Les sessions pour PHP ne sont pas installées correctement. <br> Essayez d'installer le paquet php-session.
 2036 AVERTISSEMENT: XML pour PHP n'est pas installé correctement, vous ne serez pas en mesure d'utiliser ipdiscover-util.

@@ -36,8 +36,8 @@ if (is_array($data)){
 		}
 		$sql.="select '%s' ".$name.",'%s' ".$date_create.",'%s' ".$date_modif.",'%s' ".$size." union ";
 		array_push($arg,$value);
-		array_push($arg,$data['date_create'][$id]);
-		array_push($arg,$data['date_modif'][$id]);
+		array_push($arg,rtrim($data['date_create'][$id],"."));
+		array_push($arg,rtrim($data['date_modif'][$id],"."));
 		array_push($arg,round($data['size'][$id]/1024,3)." ".$l->g(516));
 	}
 	$sql=substr($sql,0,-6);
