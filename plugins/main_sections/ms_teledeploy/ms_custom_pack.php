@@ -132,13 +132,13 @@ if ($list_id){
 								'CERT_FILE'=>'e.CERT_FILE',
 								'CERT_PATH'=>'e.CERT_PATH',
 								//'PACK_LOC'=>'de.PACK_LOC',
-								'PACK_NAME'=>'a.NAME',
-								'PRIORITY'=>'a.PRIORITY',
-								'COMMENT'=>'a.COMMENT',
-								'OS_NAME'=>'a.OSNAME',
-								'SIZE'=>'a.SIZE'				
+								$l->g(1037)=>'a.NAME',
+								$l->g(1039)=>'a.PRIORITY',
+								$l->g(51)=>'a.COMMENT',
+								$l->g(274)=>'a.OSNAME',
+								$l->g(953)." (KB)"=>'a.SIZE'
 								);
-												
+		
 		if (!isset($nb_rule) or $nb_rule>0)	{
 		if ($protectedPost['onglet'] != 'SERV_GROUP'){
 			$list_fields['PACK_LOC']='e.PACK_LOC';	

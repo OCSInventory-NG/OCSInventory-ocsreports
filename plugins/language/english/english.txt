@@ -26,6 +26,7 @@
 49 Name
 50 Swap
 51 Comments
+52 Visible
 53 Description
 54 Processor(s)
 55 Number
@@ -128,7 +129,7 @@
 219 uninventoried network interfaces
 220 deleted
 221 IP gathering computers
-222 Warning ! All selected computers are going to be merged in a single computer ! Are you sure ?
+222 Warning ! All selected computers are going to be merged in a single computer! Are you sure?
 223 Information
 224 Value
 225 Admininfo
@@ -202,7 +203,7 @@
 293 Network devices types
 294 Subnet names
 295 Click to edit
-296 Uid
+296 Id
 297 Can't write in directory
 298 All fields must be filled
 299 Invalid IP adress (must be: x.x.x.x)
@@ -227,7 +228,7 @@
 318 DNS name
 319 Network analyze results
 320 This analyze was already done on
-321 do you want to see cached data ?
+321 do you want to see cached data?
 322 Data from cache
 323 generated on
 324 HOSTS EVALUATED AS
@@ -358,7 +359,7 @@
 465 Package activation
 466 WARNING: Can't find information file at
 467 WARNING: Can't find fragments files at
-468 Are you sure to want to activate this package ?
+468 Are you sure to want to activate this package?
 469 Package activated, it can now be affected
 470 Https url
 471 Fragments url
@@ -415,7 +416,7 @@
 522 Standard computer
 523 Revert back to standard state
 524 NEVER affect again
-525 ARE YOU SURE ?
+525 ARE YOU SURE?
 526 NO COMPUTER AFFECTED
 527 January
 528 February
@@ -783,7 +784,7 @@
 895 TAG Modification
 898 Add an annotation
 899 Writer
-900 Do you really want to delete selection ?
+900 Do you really want to delete selection?
 901 Action on the query result
 902 Action on the result of selection
 903 You must fill the explanation field
@@ -1167,11 +1168,10 @@
 2021 YOUR GUI LOGS DIRECTORY IS NOT WRITABLE
 
 
-
 2030 OCS-NG Inventory Installation
 2031 Current installed version
 2032 is lower than this version
-2033 automatic install launched
+2033 Automatic install launched.
 2034 DB configuration not completed. Automatic install launched
 2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.

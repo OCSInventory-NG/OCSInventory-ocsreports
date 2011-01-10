@@ -66,7 +66,7 @@ if (is_numeric($protectedGet["active"])){
 			fclose( $fragOk );	
 		
 		if (! $fragOk or ! $httpsOk){
-			$error .= "<br>".$l->g(468)."<br>";
+			$error .= "<br>".$l->g(468)."<br><br>";
 			$error .= "<input type='submit' name='YES' value='".$l->g(455)."'>&nbsp&nbsp&nbsp<input type='submit' name='NO' value='".$l->g(454)."'>";
 		}
 		if ($error != '')

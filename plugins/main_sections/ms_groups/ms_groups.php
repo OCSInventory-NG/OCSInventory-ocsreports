@@ -82,9 +82,9 @@ if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 		$list_fields['CHECK']= 'ID';
 	$list_fields['SUP']= 'ID';	
 }
-//changement de nom � l'affichage des champs	
-$tab_options['LBL']['CHECK']="Visible";
-$tab_options['LBL']['GROUP_NAME']="Nom";
+//changement de nom � l'affichage des champs
+$tab_options['LBL']['CHECK']=$l->g(52);
+$tab_options['LBL']['GROUP_NAME']=$l->g(49);
 
 $table_name="LIST_GROUPS";
 $default_fields= array('GROUP_NAME'=>'GROUP_NAME','DESCRIPTION'=>'DESCRIPTION','CREATE'=>'CREATE','NBRE'=>'NBRE','SUP'=>'SUP','CHECK'=>'CHECK');

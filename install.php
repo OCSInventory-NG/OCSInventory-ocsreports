@@ -40,7 +40,7 @@ if( isset($fromAuto) && $fromAuto==true)
    echo "<center><br><font color='green'><b>" . $l->g(2031) . " " .
    											    $valUpd["tvalue"] . 
    											    " " . $l->g(2032) . 
-   											    " (" . GUI_VER . ") " . 
+   											    " (" . GUI_VER . "). " .
    											    $l->g(2033) . "</b></red><br></center>";
 
 if( isset($fromdbconfig_out) && $fromdbconfig_out==true)
@@ -99,13 +99,10 @@ $valBpms = return_bytes( $valTpms );
 $valBumf = return_bytes( $valTumf );
 
 if( $valBumf>$valBpms )
-	$MaxAvail = $valTpms;
+	$MaxAvail = trim($valTpms,"m");
 else
-	$MaxAvail = $valTumf;
-
-echo "<br><center><font color=orange><b>" . $l->g(2040) . 
-									  " " . $MaxAvail . 
-									  "<br>" . $l->g(2041) . "</b></font></center>";
+	$MaxAvail = trim($valTumf,"m");
+echo "<br><center><font color=orange><b>" . $l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041) . "</b></font></center>";
 
 
 if( isset($_POST["name"])) {
@@ -134,7 +131,7 @@ if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
 }
 
 if( ! $instOk ) {
-	echo "<br><b><font color=red size=2>".$l->g(2102)."</font></b>";
+	echo "<br><b><font color=red size=2>".$l->g(2102)."<br></font></b>";
 	echo "<br><form name='fsub' action='install.php' method='POST'><table width='100%'>
 	<tr>
 		<td align='right' width='30%'>
@@ -439,7 +436,7 @@ foreach( $tableEngines as $tbl=>$eng ) {
 }
 
 if( ! $erralter ) {
-	echo "</b></font></center><br><center><font color=green><b>" . $l->g(2063) . " (" . $nbconv . " " . $l->g(2064) . "</b></font></center>";
+	echo "</b></font></center><br><center><font color=green><b>" . $l->g(2063) . " (" . $nbconv . " " . $l->g(2064) . ")" . "</b></font></center>";
 }
 	
 if($nberr) {
