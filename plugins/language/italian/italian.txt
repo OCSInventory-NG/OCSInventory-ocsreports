@@ -321,7 +321,7 @@
 428 Distribuzione
 429 Frequenza
 430 Elaborazione di massa
-431 Attivato
+431 Attivare
 432 Non notificato
 433 Riguarda
 434 Generatore pacchetti
@@ -462,7 +462,7 @@
 569 CPU (MHz)
 570 Aiuto
 571 Convalida tutti
-572 Fatto
+572 Eseguito
 573 Errore
 574 Statistiche
 575 Non interessati non notificati
@@ -710,7 +710,7 @@
 822 Personalizzato
 823 Predefinito
 824 Attivazione di log dell'interfaccia
-825 Directory di log
+825 Directory dei log
 826 Indirizzo dove trovare i file del pacchetto Teledeploy da attivare
 827 Indirizzo dove trovare il file INFO del pacchetto da attivare
 828 Cancella i computer il cui inventario è più vecchio di
@@ -836,7 +836,7 @@
 950 NOME FILE
 951 CREATO IL
 952 MODIFICATO IL
-953 GRANDEZZA
+953 DIMENSIONI
 954 Si è verificata una perdita di sessione
 955 NESSUN SISTEMA TROVATO NEL DATABASE
 956 Tutti gli errori
@@ -1167,8 +1167,8 @@
 
 2030 Installazione OCS-NG Inventory
 2031 La versione attualmente installata
-2032 è precedente rispetto a questa versione
-2033 è stata avviata l'installazione automatica
+2032 è precedente a questa versione
+2033 E' stata avviata l'installazione automatica.
 2034 configurazione del DB incompleta. Lancio l'installazione automatica
 2035 ERRORE: PHP sessions non installate correttamente.<br>Installa il pacchetto php-session.
 2036 ATTENZIONE: l'estensione XML per PHP non installata correttamente, non sarai in grado di utilizzare ipdiscover-util.
@@ -1226,8 +1226,8 @@
 2093 Pulizia NETMAP...
 2094 ERRORE: non posso pulire NETMAP
 2095 linee NETMAP cancellate
-2096 Per favore inserisci il nome dell'etichetta da inserire nella finestra di input dei client:
-2097 Non inserire nulla se non vuoi far apparire il popup al lancio dell'agente
+2096 Per favore inserisci il valore dell'etichetta che verrà mostrata nella finestra di input dei client:
+2097 Non inserire nulla se non vuoi far apparire il popup ad ogni esecuzione dell'agente
 2098 ERRORE: l'estensione ZIP per PHP non installata correttamente.<br>Prova ad abilitare la voce extension=php_zip.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto libphp-pclzip (Linux).
 2099 ERRORE: le credenziali MySQL fornite non hanno i diritti necessari per la creazione del database
 2100 Aggiorna le informazioni degli account
