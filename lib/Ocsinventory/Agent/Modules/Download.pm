@@ -100,6 +100,12 @@ sub download_start_handler {
 
    $logger->debug("Calling download_start_handler");
 
+   #Disabling module if local mode
+   if ($config->{stdout} || $config->{local}) {
+     $self->{disabled} = 1;
+     $logger->debug("Agent is running in local mode...disabling module");
+   }
+
    #If we cannot load prerequisite, we disable the module 
    unless ($common->can_load('Net::SSLeay qw(die_now die_if_ssl_error)')) {
      $self->{disabled} = 1;

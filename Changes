@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent
 
+       * Disabling Download.pm if agent running in local mode
+
 2.0 rc1
        * Add download_start_handler to check if Net::SSLeay can be load and disable Download.pm if not
        * Add Net::SNMP optionnal dependency in README file.
