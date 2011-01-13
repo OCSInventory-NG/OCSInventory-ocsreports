@@ -242,7 +242,6 @@ function del_community($id_community,$ms_cfg_file,$search){
 			//	unset($field_com[$i]);	
 			$i++;		
 		}
-		p($new_ms_cfg_file);
 		$communities=add_community('',$new_ms_cfg_file);
 		$file=fopen($ms_cfg_file,"w+");
 		fwrite($file,$communities);	
