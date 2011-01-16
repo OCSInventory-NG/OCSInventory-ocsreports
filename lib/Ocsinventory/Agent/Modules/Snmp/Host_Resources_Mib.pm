@@ -145,7 +145,7 @@ sub snmp_run {
                   }
                }
                $logger->debug("Speed $SPEED Manufacturer $MANUFACTURER Type $TYPE");
-               $common->addCPU( { 
+               $common->addSnmpCPU( { 
                    SPEED => $SPEED,
 		   TYPE => $TYPE,
                    MANUFACTURER => $MANUFACTURER,

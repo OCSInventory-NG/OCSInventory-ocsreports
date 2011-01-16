@@ -1047,6 +1047,24 @@ sub addSnmpInput {
 }
 
 
+sub addSnmpCPU {
+  my ($self,$args)=@_; 
+  my $xmltags=$self->{xmltags};
+  my $content={};
+  if ( ! defined ($xmltags->{CPUS})) {
+     $xmltags->{CPUS}=[];
+  }
+
+  foreach my $key (qw/MANUFACTURER TYPE SERIAL SPEED/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0]=$args->{$key};
+     }
+  }
+  push @{$xmltags->{CPUS}},$content;
+
+}
+
+
 #Subroutinne to add 0 in 'Sun like' MAC adress if needed
 sub padSnmpMacAddress {
   my ($self,$mac) = @_;
