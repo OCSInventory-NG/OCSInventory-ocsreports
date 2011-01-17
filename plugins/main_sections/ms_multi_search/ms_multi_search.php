@@ -934,7 +934,8 @@ $sort_list_2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
 						 "DOWNLOAD_HISTORY-PKG_ID"=>$l->g(512).": ".$l->g(969),
 						 "STORAGES-TYPE"=>$l->g(63).": ".$l->g(66),
 						 "STORAGES-DESCRIPTION"=>$l->g(63).": ".$l->g(53),
-						 "STORAGES-MODEL"=>$l->g(63).": ".$l->g(65));
+						 "STORAGES-MODEL"=>$l->g(63).": ".$l->g(65),
+			   			 "BIOS-TYPE"=>$l->g(273).": ".$l->g(66));
 
 $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"],//"OCS: ".$l->g(966),
 				 "HARDWARE-USERAGENT-SQL1"=>"select distinct USERAGENT as 'NAME' from hardware where USERAGENT != '' ".(isset($list_id_computer)? " and id in ".$list_id_computer : '')." order by 1",
@@ -974,6 +975,12 @@ $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"]
 				 "STORAGES-MODEL"=>$sort_list_2Select["STORAGES-MODEL"],//$l->g(512).": ".$l->g(969),
 				 "STORAGES-MODEL-SQL1"=>"select distinct MODEL as ID,MODEL as NAME from storages order by 2",
 				 "STORAGES-MODEL-SELECT"=>array('exact'=>$l->g(507)
+				 									,'diff'=>$l->g(508)
+				 									),		
+
+				 "BIOS-TYPE"=>$sort_list_2Select["BIOS-TYPE"],//$l->g(273).": ".$l->g(66),
+				 "BIOS-TYPE-SQL1"=>"select distinct TYPE as ID,TYPE as NAME from bios order by 2",
+				 "BIOS-TYPE-SELECT"=>array('exact'=>$l->g(507)
 				 									,'diff'=>$l->g(508)
 				 									),		
 				 );
