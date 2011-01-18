@@ -25,8 +25,8 @@ sub snmp_run {
    # OID 
    my $snmp_osversion="1.3.6.1.4.1.9.2.1.73.0";
    my $snmp_dot1dBasePortIfIndex="1.3.6.1.2.1.17.1.4.1.2.";
-   my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2";
-   my $snmp_iftype="1.3.6.1.2.1.2.2.1.3.";
+   my $snmp_ifdesc="1.3.6.1.2.1.2.2.1.2.";
+   my $snmp_iftype="1.3.6.1.2.1.2.2.1.3";
    my $snmp_ifspeed="1.3.6.1.2.1.2.2.1.5.";
    my $snmp_physAddr="1.3.6.1.2.1.2.2.1.6.";
    my $snmp_ifadminstatus="1.3.6.1.2.1.2.2.1.7.";
@@ -141,20 +141,17 @@ sub snmp_run {
    }
 
     # We look for interfaces
-    $result_snmp=$session->get_entries(-columns => [$snmp_ifdescr]);
+    $result_snmp=$session->get_entries(-columns => [$snmp_iftype]);
     foreach my $result ( keys  %{$result_snmp} ) {
         # We work on real interface and no vlan
-        if ( $result_snmp->{$result} =~ /Ethernet/ ) {
-	   $SLOT=$result_snmp->{$result};
-           if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.2\.(\S+)/ ) {
+        if ( $result_snmp->{$result} == 6 ) {
+           if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.3\.(\S+)/ ) {
                $ref=$1;
+	       $TYPE="ethernetCsmacd";
 
-               $TYPE=$session->get_request(-varbindlist => [$snmp_iftype.$ref]);
-	       if ( defined( $TYPE->{$snmp_iftype.$ref} ) ) {
-                   $TYPE= $TYPE->{$snmp_iftype.$ref};
-                   if ( $TYPE == 6 ) {
-		      $TYPE="ethernetCsmacd";
-                   }
+               $SLOT=$session->get_request(-varbindlist => [$snmp_ifdesc.$ref]);
+	       if ( defined( $SLOT->{$snmp_ifdesc.$ref} ) ) {
+	           $SLOT=$SLOT->{$snmp_ifdesc.$ref};
                }
 
                $SPEED=$session->get_request(-varbindlist => [$snmp_ifspeed.$ref]);
@@ -185,6 +182,7 @@ sub snmp_run {
 			substr($MACADDR,10,2).":".
 			substr($MACADDR,12,2);
                   } else {
+                     print "$MACADDR \n";
                      $MACADDR="";
                   }
                }
@@ -205,36 +203,45 @@ sub snmp_run {
                }
                $DEVICEADDRESS=$session->get_entries( -columns => [ $snmp_cisco_deviceAddress.$ref ] );
 	       if ( defined( $DEVICEADDRESS ) ) {
+                  my $DEVICEADDRESS_uniq;
                   foreach my $key ( keys %{$DEVICEADDRESS} ) {
-		     $DEVICEADDRESS=$DEVICEADDRESS->{$key} ;
-                     if ( length ( $DEVICEADDRESS ) == 10 ) {
-                        $DEVICEADDRESS=hex(substr($DEVICEADDRESS,2,2)).
-					".".hex(substr($DEVICEADDRESS,4,2)).
-					".".hex(substr($DEVICEADDRESS,6,2)).
-					".".hex(substr($DEVICEADDRESS,8,2));
+                     $DEVICEADDRESS_uniq=$DEVICEADDRESS->{$key} ;
+                     if ( length ( $DEVICEADDRESS_uniq ) == 10 ) {
+                        $DEVICEADDRESS_uniq=hex(substr($DEVICEADDRESS_uniq,2,2)).
+					".".hex(substr($DEVICEADDRESS_uniq,4,2)).
+					".".hex(substr($DEVICEADDRESS_uniq,6,2)).
+					".".hex(substr($DEVICEADDRESS_uniq,8,2));
                      } else {
-		        $DEVICEADDRESS="";
+			$DEVICEADDRESS_uniq=undef;
                      }
                      
                   }
+                  $DEVICEADDRESS=$DEVICEADDRESS_uniq;
                }
                $DEVICENAME=$session->get_entries( -columns => [ $snmp_cisco_deviceId.$ref ] );
 	       if ( defined( $DEVICENAME ) ) {
+                  my $DEVICENAME_uniq;
+                  my $DEVICETYPE_uniq;
+                  my $DEVICEPORT_uniq;
+                  
                   foreach my $key ( keys %{$DEVICENAME} ) {
-		     $DEVICENAME=$DEVICENAME->{$key};
+		     $DEVICENAME_uniq=$DEVICENAME->{$key};
                   }
+                  $DEVICENAME=$DEVICENAME_uniq;
                # If we have the device name, the cdp can be used for the other informations
                   $DEVICETYPE=$session->get_entries( -columns => [ $snmp_cisco_devicePlatform.$ref ] );
 	          if ( defined( $DEVICETYPE ) ) {
                      foreach my $key ( keys %{$DEVICETYPE} ) {
-		        $DEVICETYPE=$DEVICETYPE->{$key};
+		        $DEVICETYPE_uniq=$DEVICETYPE->{$key};
                      }
+                     $DEVICETYPE=$DEVICETYPE_uniq;
                   }
                   $DEVICEPORT=$session->get_entries( -columns => [ $snmp_cisco_devicePort.$ref ] );
 	          if ( defined( $DEVICEPORT ) ) {
                      foreach my $key ( keys %{$DEVICEPORT} ) {
-		        $DEVICEPORT=$DEVICEPORT->{$key};
+		        $DEVICEPORT_uniq=$DEVICEPORT->{$key};
                      }
+                     $DEVICEPORT=$DEVICEPORT_uniq;
                   }
                }
            }
@@ -247,6 +254,7 @@ sub snmp_run {
 		STATUS        => $STATUS,
 		TYPE          => $TYPE,
                 DEVICENAME    => $DEVICENAME,
+                DEVICEADDRESS => $DEVICEADDRESS,
                 DEVICEPORT    => $DEVICEPORT,
                 DEVICETYPE    => $DEVICETYPE,
                 VLAN	      => $VLAN,
