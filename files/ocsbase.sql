@@ -787,7 +787,7 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0RC1-1', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6000', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,

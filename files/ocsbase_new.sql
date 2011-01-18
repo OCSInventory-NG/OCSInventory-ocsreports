@@ -155,7 +155,7 @@ INSERT INTO `config` VALUES ('FREQUENCY',0,'','Specify the frequency (days) of i
 
 INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '2.0RC1-1', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6000', 'Version of the installed GUI and database');
 UNLOCK TABLES;
 
 --
