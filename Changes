@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc2
+		* Fix problem with activation (Bug #704073)
 		* add bios type to multi search
 		* update language files
 		* Fix bug on many browsers on multi search (bug 694939)
