@@ -80,6 +80,7 @@ echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td ali
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'";
 		if((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON') 
 			or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
+				echo"<b>Ver. ".GUI_VER."</b>";
 			echo "<br><a ".$javascript."><img src=image/red.png></a><br>";
 			if ($_SESSION['OCS']['DEBUG']=='ON')
 			echo "<font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>wait...</div>";

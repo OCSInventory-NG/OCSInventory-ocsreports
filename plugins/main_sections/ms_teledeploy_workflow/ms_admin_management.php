@@ -15,7 +15,6 @@
  */
  
 require_once ('require/function_admin_management.php');
-
 if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_telediff_wk';
@@ -72,7 +71,6 @@ if ($protectedPost['onglet'] == 1){
 		$post_delete=$protectedPost['del_check'];
 	if(isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') 
 		$post_delete=$protectedPost['SUP_PROF'];
-		
 	if (isset($post_delete)){
 		if ($table == "downloadwk_tab_values")
 			delete_tab($post_delete);
