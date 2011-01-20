@@ -295,8 +295,8 @@ function tri($sql)
 	echo "</tr></tbody></table></div>";	
 	}
 	else{
-	echo "<center><font size=5 color=red>".$l->g(766). " " . "</font></center>";
-	return FALSE;
+		msg_warning($l->g(766));
+		return FALSE;
 	}
 	echo "</div>";
 }
@@ -798,9 +798,10 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 
 function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list_fields,$default_fields,$id_form='form'){
 	global $protectedPost,$l;
-	//r�cup�ration des colonnes du tableau dans le cookie
-	if (isset($_COOKIE[$tab_name]) and !isset($_SESSION['OCS']['col_tab'][$tab_name])){
+	//search in cookies columns values
+	if (isset($_COOKIE[$tab_name]) and $_COOKIE[$tab_name] != '' and !isset($_SESSION['OCS']['col_tab'][$tab_name])){
 		$col_tab=explode("///", $_COOKIE[$tab_name]);
+
 		foreach ($col_tab as $key=>$value){
 				$_SESSION['OCS']['col_tab'][$tab_name][$key]=$value;
 		}			
@@ -815,11 +816,10 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 		unset($_SESSION['OCS']['col_tab'][$tab_name]);
 		$_SESSION['OCS']['col_tab'][$tab_name]=$default_fields;
 	}
-	if (!isset($_SESSION['OCS']['col_tab'][$tab_name]))
-	$_SESSION['OCS']['col_tab'][$tab_name]=$default_fields;
-	
-	//v�rification de l'existance des champs cant_delete dans la session
-	//print_r($list_col_cant_del);
+	if (!isset($_SESSION['OCS']['col_tab'][$tab_name])){
+		$_SESSION['OCS']['col_tab'][$tab_name]=$default_fields;
+	}
+	//add all fields we must have
 	if (is_array($list_col_cant_del)){
 		if (!is_array($_SESSION['OCS']['col_tab'][$tab_name]))
 			$_SESSION['OCS']['col_tab'][$tab_name]=array();
@@ -1205,7 +1205,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		if (isset($tab_options['LOGS']))
 		addLog($tab_options['LOGS'],$num_rows_result." ".$l->g(90));
 		$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
-
 		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
 
 		tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
@@ -1527,7 +1526,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 		}
 	return array('ENTETE'=>$entete,'DATA'=>$data,'correct_list_fields'=>$correct_list_fields,'correct_list_col_cant_del'=>$correct_list_col_cant_del);
 	}else
-	return "NO_DATA";
+	return false;
 }
 function del_selection($form_name){
 	global $l;

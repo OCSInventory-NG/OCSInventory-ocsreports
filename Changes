@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc2
+		* Fix bug on cookies (columns tab)
 		* Fix bug on teledeploy workflow. You can delete your fields
 		* Fix problem with activation (Bug #704073)
 		* add bios type to multi search
