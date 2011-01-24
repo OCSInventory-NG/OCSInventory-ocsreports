@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Add a new cleanXml() subroutine in Common.pm to clean non printable characters in both standard inventory and SNMP inventory
        * Various patches for Snmp/9.pm module (Cisco)
        * Add a new addSnmpCPU() subroutine in Common.pm
        * Disabling Download.pm if agent running in local mode

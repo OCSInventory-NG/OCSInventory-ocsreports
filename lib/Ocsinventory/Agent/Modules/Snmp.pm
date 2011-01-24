@@ -300,7 +300,10 @@ sub snmp_end_handler {
   #Formatting the XML and sendig it to the server
   my $content = XMLout( $snmp_inventory->{xmlroot},  RootName => 'REQUEST' , XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
 
-  $network->sendXML({message => $content});
+  #Cleaning XML to delete unprintable characters
+  my $clean_content = $common->cleanXml($content);
+
+  $network->sendXML({message => $clean_content});
 
   $logger->debug("End snmp_end_handler :)");
 }
