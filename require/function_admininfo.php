@@ -180,7 +180,7 @@ function find_value_field($name){
  * 
  */
 
-function find_info_accountinfo($id = '',$type=''){
+function find_info_accountinfo($id = '',$type='',$exclu_type=''){
 	$list_field=array('id','type','name','id_tab','comment','show_order','account_type');
 	if ($type != ''){
 		$where=" where account_type='".$type."' ";
@@ -188,6 +188,13 @@ function find_info_accountinfo($id = '',$type=''){
 	}else{
 		$where="";
 		$and="";		
+	}
+	
+	if ($exclu_type != ''){
+		if ($where != ''){
+			$where.=" and type not in (".$exclu_type.") ";
+			$and.=" and type not in (".$exclu_type.")";
+		}
 	}
 	
 	if (is_array($id)){
@@ -399,7 +406,79 @@ function updown($field,$type){
 	}
 }
 
+function show_accountinfo($id='',$type='',$exclu_type =''){
+	global $convert_type,$protectedPost;
 
+	$data=find_info_accountinfo($id,$type,$exclu_type);
+	$i=0;
+	foreach($data as $k=>$v){
+		foreach ($v as $key=>$value){
+			switch ($key){
+				case "id":
+					if ($v['name'] != 'TAG')
+						$name_field[$i]='fields_'.$value;	
+					else{						
+						$name_field[$i]=$v['name'];
+						$value_field[$i]=$protectedPost[$v['name']];
+					}
+					break;
+				case "type":
+					$type_field[$i]=$convert_type[$value];
+					switch ($value){
+						case '6':
+							$comment_behing[$i]=datePick('fields_'.$v['id']);
+							$config[$i]['CONFIG']['JAVASCRIPT']="READONLY ".dateOnClick('fields_'.$v['id']);
+							$config[$i]['CONFIG']['SIZE']=7;
+							break;
+						case '4':
+						case '2':
+						case '7':
+							$value_field[$i]=find_value_field("ACCOUNT_VALUE_".$v['name']);	
+							$comment_behing[$i]='';
+							$config[$i]['CONFIG']['DEFAULT']='YES';
+							break;
+						case '1':
+							$config[$i]['CONFIG']['COLS']=40;
+							$config[$i]['CONFIG']['ROWS']=5;
+							break;
+						
+						default:
+						 	$comment_behing[$i]='';
+							$config[$i]['CONFIG']['SIZE']=20;
+							break;
+					}
+					
+					break;
+				case "comment":
+					$tab_name[$i]=$value;
+					break;
+			}			
+		}
+		if (!isset($value_field[$i]))
+			$value_field[$i]=$protectedPost['fields_'.$v['id']];
+		$i++;
+	}
+	
+	return array('FIELDS'=>array('name_field'=>$name_field,
+								 'tab_name'=>$tab_name,
+								 'type_field'=> $type_field,
+								 'value_field'=>$value_field),
+				'CONFIG'=>$config,
+				'COMMENT_BEHING'=>$comment_behing);
+	
+	
+}
 
+function insertinfo_computer($id,$fields,$values){
+		array_push($fields,'hardware_id');
+		array_push($values,$id);
+		$sql="insert into accountinfo ";
+		$arg_sql=array();
+		$sql=mysql2_prepare($sql,$arg_sql,$fields,$nocot=true);
+		$sql['SQL'].=" values ";
+		$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$values);
+		mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["writeServer"],$sql['ARG']);
+	
+}
 
 ?>
