@@ -651,17 +651,14 @@ $list_id="";
 	 	if ($_SESSION['OCS']['DEBUG'] == 'ON'){
  	 		 $debug .= $l->g(5023) . "<br>" . $result['DEBUG']; 	 		 
 	 	}
-	 	$list_id_diff=$result[0];
-	 	//print_r($tab_options);
-//	 	if (isset($tab_options))
-//	 	$tab_options=array_merge ($result[1],$tab_options);
-//	 	else
-//		$tab_options=$result[1];
+	 	if ($result[0] != '')
+	 		$list_id_diff=$result[0];
+	 	else
+	 		$list_id_diff[]="'NO_DATA'";
 	 }
 	 
 	 if ($debug != '')
 	 	msg_warning($debug);
-	 
 	 
 	 //pour le traitement des champs
 	 if ($list_id_diff != ""){
