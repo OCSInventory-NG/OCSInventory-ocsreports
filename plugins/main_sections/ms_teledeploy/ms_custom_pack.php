@@ -39,7 +39,6 @@ if ($activate){
 				  WHERE ID='".$protectedGet['idchecked']."' AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 			$result   = mysql_query( $queryMachine, $_SESSION['OCS']["readServer"] ) or mysql_error($_SESSION['OCS']["readServer"]);
 			$item     = mysql_fetch_object($result);
-			print_r($conf_Wk);
 			$msg_wk="";
 			//si ce groupe est défini comme un groupe de test
 			if ($item->NAME == $conf_Wk['tvalue']['IT_SET_NAME_TEST']){
@@ -97,8 +96,8 @@ if ($protectedPost['onglet'] == "")
 $protectedPost['onglet'] = 'MACH';
 
 
-$def_onglets['MACH']=$l->g(980); //DYNAMICS GROUPS
-$def_onglets['SERV_GROUP']=$l->g(981); //STATICS GROUPS
+$def_onglets['MACH']=$l->g(980); 
+$def_onglets['SERV_GROUP']=$l->g(981); 
 
 //show tab
 if ($list_id){	
@@ -149,8 +148,8 @@ if ($list_id){
 			$list_fields['SELECT']='e.FILEID';
 		}
 	}		$table_name="LIST_PACK_SEARCH";//INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$val["h.id"]."', 'DOWNLOAD', $packid)
-		$default_fields= array('PACK_NAME'=>'PACK_NAME','PRIORITY'=>'PRIORITY','OS_NAME'=>'OS_NAME','SIZE'=>'SIZE','SELECT'=>'SELECT');
-		$list_col_cant_del=array('PACK_NAME'=>'PACK_NAME','SELECT'=>'SELECT');
+		$default_fields= array($l->g(1037)=>$l->g(1037),$l->g(1039)=>$l->g(1039),$l->g(274)=>$l->g(274),$l->g(953)." (KB)"=>$l->g(953)." (KB)",'SELECT'=>'SELECT');
+		$list_col_cant_del=array($l->g(1037)=>$l->g(1037),'SELECT'=>'SELECT');
 
 		if ($protectedPost['onglet'] != 'SERV_GROUP'){
 			$default_fields['PACK_LOC']='PACK_LOC';
