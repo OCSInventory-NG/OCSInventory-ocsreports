@@ -13,6 +13,30 @@
 
 require_once('require/function_opt_param.php');
 
+$list_fields=array($_SESSION['OCS']['TAG_LBL']['TAG'] => 'a.TAG',
+					   $l->g(949) => 'h.ID',
+					   'DEVICEID' => 'h.DEVICEID',
+					   'NAME' => 'h.NAME',
+					   $l->g(25)  => 'h.OSNAME',
+					   $l->g(275) => 'h.OSVERSION',
+					   $l->g(51)  => 'h.OSCOMMENTS',
+					   $l->g(350) => 'h.PROCESSORT',
+					   $l->g(377) =>'h.PROCESSORS',
+					   $l->g(351) =>'h.PROCESSORN',
+					   $l->g(26) =>'h.MEMORY',					   
+					   $l->g(50) => 'h.SWAP',
+					   $l->g(46) => 'h.LASTDATE',
+					   $l->g(820) => 'h.LASTCOME',
+					   $l->g(353) => 'h.QUALITY',
+					   $l->g(354) => 'h.FIDELITY',
+					   $l->g(53) => 'h.DESCRIPTION',
+					   $l->g(34) =>'h.IPADDR',
+					   'CHECK'=>'h.ID');
+
+$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
+$default_fields= array('NAME'=>'NAME',$_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL']['TAG'],
+							$l->g(46)=>$l->g(46),$l->g(820)=>$l->g(820),$l->g(34)=>$l->g(34));
+
 if (isset($protectedGet['systemid'])) {
 	$systemid = $protectedGet['systemid'];
 	if ($systemid == "")
@@ -295,7 +319,7 @@ function regeneration_sql($valGroup){
 
 function print_computers_real($systemid) {
 
-	global $l;
+	global $l,$list_fields,$list_col_cant_del,$default_fields;
 	
 	//groupe nouvelle version
 	$sql_group="SELECT xmldef FROM groups WHERE hardware_id='%s'";
@@ -333,26 +357,6 @@ function print_computers_real($systemid) {
 	$table_name=$form_name;
 	echo "<font color=red><b>".$l->g(927)."</b></font>";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array($_SESSION['OCS']['TAG_LBL']['TAG'] => 'a.TAG',
-					   'ID MACHINE' => 'h.ID',
-					   'DEVICEID' => 'h.DEVICEID',
-					   'NAME' => 'h.NAME',
-					   'OS'=> 'h.OSNAME',
-					   'VERSION OS' => 'h.OSVERSION',
-					   'COMMENTAIRE OS' => 'h.OSCOMMENTS',
-					   'TYPE PROC' => 'h.PROCESSORT',
-					   'VITESSE PROC'=>'h.PROCESSORS',
-					   'NBRE PROC'=>'h.PROCESSORN',
-					   'RAM'=>'h.MEMORY',					   
-					   'SWAP' => 'h.SWAP',
-					   'DERNIER INV' => 'h.LASTDATE',
-					   'DERNIER CONTACT' => 'h.LASTCOME',
-					   'QUALITY'=> 'h.QUALITY',
-					   'FIDELITY' => 'h.FIDELITY',
-					   'DESCRIPTION' => 'h.DESCRIPTION',
-					   '@ IP'=>'h.IPADDR');
-	$list_col_cant_del=array('NAME'=>'NAME');
-	$default_fields= array('NAME'=>'NAME',$_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL']['TAG'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
 			$queryDetails .= $value.",";		
@@ -369,7 +373,7 @@ function print_computers_real($systemid) {
 
 function print_computers_cached($systemid) {
 
-	global $l,$server_group,$protectedPost;
+	global $l,$server_group,$protectedPost,$list_fields,$list_col_cant_del,$default_fields;
 	//print_r($protectedPost);
 	//traitement des machines du groupe
 	if( isset($protectedPost["actshowgroup"])) {
@@ -403,27 +407,7 @@ function print_computers_cached($systemid) {
 	$form_name="list_computer_groupcache";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array($_SESSION['OCS']['TAG_LBL']['TAG'] => 'a.TAG',
-					   'ID MACHINE' => 'h.ID',
-					   'DEVICEID' => 'h.DEVICEID',
-					   'NAME' => 'h.NAME',
-					   'OS'=> 'h.OSNAME',
-					   'VERSION OS' => 'h.OSVERSION',
-					   'COMMENTAIRE OS' => 'h.OSCOMMENTS',
-					   'TYPE PROC' => 'h.PROCESSORT',
-					   'VITESSE PROC'=>'h.PROCESSORS',
-					   'NBRE PROC'=>'h.PROCESSORN',
-					   'RAM'=>'h.MEMORY',					   
-					   'SWAP' => 'h.SWAP',
-					   'DERNIER INV' => 'h.LASTDATE',
-					   'DERNIER CONTACT' => 'h.LASTCOME',
-					   'QUALITY'=> 'h.QUALITY',
-					   'FIDELITY' => 'h.FIDELITY',
-					   'DESCRIPTION' => 'h.DESCRIPTION',
-					   '@ IP'=>'h.IPADDR',
-					   'CHECK'=>'h.ID');
-	$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields= array('NAME'=>'NAME',$_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL']['TAG'],'DERNIER INV'=>'DERNIER INV','DERNIER CONTACT'=>'DERNIER CONTACT','@ IP'=>'@ IP');
+
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
 			$queryDetails .= $value.",";		
@@ -444,7 +428,7 @@ function print_computers_cached($systemid) {
 						echo "<option value='0'>".$l->g(818)."</option></select>";
 						else
 						echo "<option value='0'>".$l->g(590)."</option><option value='1'>".$l->g(591)."</option><option value='2'>".$l->g(592)."</option></select>";
-						echo "<input type='submit'></center>";
+						echo "<input type='submit' value='".$l->g(13)."'></center>";
 	}
 	echo "</form>";
 }
