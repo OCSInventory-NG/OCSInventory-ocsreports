@@ -14,6 +14,7 @@ die('FORBIDDEN');
 
 unset($_SESSION['OCS']['SQL_DEBUG']);
 @session_start();
+error_reporting(E_ALL & ~E_NOTICE);
 /*************************************************WHAT OS USE************************************/
 $real_dir=explode('/',$_SERVER['SCRIPT_FILENAME']);
 array_pop($real_dir);	
