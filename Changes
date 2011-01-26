@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc2
+		* fix display bug on ms_custom_pack.php
 		* Fix bug on multi search
 		* Use language files on groups details
 		* Fix bug on cookies (columns tab)
