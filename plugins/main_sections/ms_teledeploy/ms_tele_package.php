@@ -144,28 +144,48 @@ if (isset($protectedPost['valid'])){
 					 document.getElementById(\"tailleFrag\").style.backgroundColor = 'RED';
 					 msg='NULL';					
 				}
-
 				if (document.getElementById(\"nbfrags\").value == ''){
 					 document.getElementById(\"nbfrags\").style.backgroundColor = 'RED';
 					 msg='NULL';					
-				}
-		
-				if (document.getElementById(\"tailleFrag_redistrib\").name){
-					if (document.getElementById(\"tailleFrag_redistrib\").value == ''){
-					 document.getElementById(\"tailleFrag_redistrib\").style.backgroundColor = 'RED';
-					 msg='NULL';
-					}
-					if (document.getElementById(\"nbfrags_redistrib\").value == ''){
-					 document.getElementById(\"nbfrags_redistrib\").style.backgroundColor = 'RED';
-					 msg='NULL';
-					}
-				}
-				if (msg != ''){
-				alert ('".$l->g(1001)."');
-				return false;
-				}else
-				return true;			
+				}		
+				msg_trait(msg);
 			}
+			
+			function verif_redistributor(){
+				var msg = '';
+				if (document.getElementById(\"tailleFrag\").value == ''){
+					 document.getElementById(\"tailleFrag\").style.backgroundColor = 'RED';
+					 msg='NULL';					
+				}
+				if (document.getElementById(\"nbfrags\").value == ''){
+					 document.getElementById(\"nbfrags\").style.backgroundColor = 'RED';
+					 msg='NULL';					
+				}		
+				if (document.getElementById(\"tailleFrag_redistrib\").value == ''){
+							 document.getElementById(\"tailleFrag_redistrib\").style.backgroundColor = 'RED';
+							 msg='NULL';
+				}
+				if (document.getElementById(\"nbfrags_redistrib\").value == ''){
+					 	document.getElementById(\"nbfrags_redistrib\").style.backgroundColor = 'RED';
+						 msg='NULL';
+				}
+				
+				msg_trait(msg);
+			
+			}
+			
+			function msg_trait(msg){
+			
+				if (msg != ''){
+					alert ('".$l->g(1001)."');
+					return false;
+				}else{
+						pag(\"END\",\"VALID_END\",\"".$form_name."\");
+						return true;
+					}
+			
+			}
+			
 		</script>";
 		
 		
@@ -182,6 +202,7 @@ if (isset($protectedPost['valid'])){
 	$digName = $protectedPost["digest_algo"]. " / ".$protectedPost["digest_encod"];
 	
 	$title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(435)." "."[".$protectedPost['NAME']."]</b></td></tr>";
+
 	$name_file=$lign_begin.$l->g(446).$td_colspan2.$_FILES["teledeploy_file"]["name"].$lign_end;
 	$ident=$lign_begin.$l->g(460).$td_colspan2.$protectedPost['timestamp'].$lign_end;
 	$view_digest=$lign_begin.$l->g(461)." ".$digName.$td_colspan2.$digest.$lign_end;
@@ -201,6 +222,7 @@ if (isset($protectedPost['valid'])){
 	$nb_frag.=$lign_end;	
 	echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5'>";
 	echo $title_creat.$name_file.$ident.$view_digest.$total_ko.$taille_frag.$nb_frag.$tps;	
+	$java_script="verif2();";
 	if($protectedPost['REDISTRIB_USE'] == 1){
 		$title_creat_redistrib="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(1003)."</b></td></tr>";
 		//cr�ation du champ de taille de fragments
@@ -212,11 +234,13 @@ if (isset($protectedPost['valid'])){
 		$nb_frag_redistrib.= input_pack_taille("nbfrags_redistrib","tailleFrag_redistrib",round($size),'5','1');
 		$nb_frag_redistrib.=$lign_end;		
 		echo $title_creat_redistrib.$taille_frag_redistrib.$nb_frag_redistrib;
-	
+		$java_script="verif_redistributor();";
 	}
+	//$java_script.="";
 	echo "</table>";
-	echo "<br><input type='submit' name='VALID_END' id='VALID_END' OnClick='return verif2();' value='".$l->g(13)."'>";
+	echo "<br><input type='button' name='TEST_END' id='TEST_END' OnClick='".$java_script."' value='".$l->g(13)."'>";
 	echo "<input type='hidden' name='digest' value='".$digest."'>";
+	echo "<input type='hidden' name='VALID_END' id='VALID_END' value=''>";
 	echo "<input type='hidden' name='SIZE' value='".$size."'>";
 	}
 }
@@ -235,30 +259,30 @@ if (!$protectedPost){
 	foreach ($default_value as $key=>$value)
 		$protectedPost[$key]=$value;	
 	//recherche du r�pertoire de cr�ation des paquets
-	$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
-	$res_document_root = mysql_query( $sql_document_root, $_SESSION['OCS']["readServer"] );
-	while( $val_document_root = mysql_fetch_array( $res_document_root ) ) {
-		$document_root = $val_document_root["tvalue"];
+	$val_document_root=look_config_default_values(array('DOWNLOAD_PACK_DIR'));
+	if (isset($val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']))
+		$document_root = $val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']."/download/";
+	else{	
+		//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
+		$document_root = DOCUMENT_ROOT."download/";
 	}
-	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
-	if (!isset($document_root))
-		$document_root = DOCUMENT_ROOT;
-	$rep_exist=file_exists($document_root."/download/"); 
+
+	$rep_exist=file_exists($document_root); 
 	//cr�ation du r�pertoire si n'existe pas
 	if (!$rep_exist){
-		$creat=@mkdir($document_root."/download/");	
+		$creat=@mkdir($document_root);	
 		if (!$creat){
-			msg_error($document_root."/download/"."<br>".$l->g(1004).".<br>".$l->g(1005));
+			msg_error($document_root."<br>".$l->g(1004).".<br>".$l->g(1005));
 			return;
 		}
 	}			
 	//v�rification que l'on ai les droits d'�criture sur ce r�pertoire
-	$rep_ok=is_writable ($document_root."/download/");
+	$rep_ok=is_writable ($document_root);
 	if (!$rep_ok){
-		msg_error($l->g(1007)." ".$document_root."/download/ ".$l->g(1004).".<br>".$l->g(1005));
+		msg_error($l->g(1007)." ".$document_root." ".$l->g(1004).".<br>".$l->g(1005));
 		return;
 	}
-	$protectedPost['document_root']=$document_root."/download/";
+	$protectedPost['document_root']=$document_root;
 }
 //on garde en hidden le r�pertoire ou sont cr��s les paquets de t�l�d�ploiement
 echo "<input type='hidden' name='document_root' value='".$protectedPost['document_root']."'>	  
