@@ -333,9 +333,8 @@ $i=0;
 		
 		echo "<tr><td colspan='10' align='right'>";
 		if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" ) 
-			echo "<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."</a>"." ".$l->g(386);
-		echo " <a href=# OnClick=window.location='$hrefBase&actgrp=1&grp='+document.getElementById(\"groupcombo\").options[document.getElementById(\"groupcombo\").selectedIndex].value>".
-		$l->g(589)."</a>";
+			echo "<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."</a> ";
+		
 	
 		$reqGroups = "SELECT h.name,h.id,h.workgroup 
 					  FROM hardware h,groups g 
@@ -346,6 +345,8 @@ $i=0;
 		$first = true;
 		while( $valGroups = mysql_fetch_array( $resGroups ) ) {
 			if( $first ) {
+				echo $l->g(386)." <a href=# OnClick=window.location='$hrefBase&actgrp=1&grp='+document.getElementById(\"groupcombo\").options[document.getElementById(\"groupcombo\").selectedIndex].value>".
+				$l->g(589)."</a>";
 				echo " <select id='groupcombo'>";
 				$first = false;
 			}
