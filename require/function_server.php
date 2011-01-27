@@ -115,7 +115,7 @@ function replace_var_generic($hardware_id,$url_group_server,$id_group=false)
 //function for add machine in server's group
 function add_mach($id_group,$list_mach)
 {
-	$default_values=look_config_default_values();
+	$default_values=look_config_default_values(array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT'));
 	if (is_array($list_mach)){
 		foreach ($list_mach as $key=>$value){
 			$reqCache = "INSERT IGNORE INTO download_servers(hardware_id, url, add_rep,GROUP_ID) 
