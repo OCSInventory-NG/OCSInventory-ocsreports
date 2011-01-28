@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc2
+		* Fix bug => activate a package on servers groups
 		* Fix bug when creating a package. Nb frag can be egal to 0
 		* fix bug on redistribution servers group
 		* fix bug on computer configuration when no group exist
