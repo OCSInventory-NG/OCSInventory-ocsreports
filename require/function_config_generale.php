@@ -570,7 +570,7 @@ function pagegroups($form_name){
     ligne('AUTO_DUPLICATE_LVL',$l->g(427),'checkbox',array(
         'HOSTNAME'=>'hostname',
         'SERIAL'=>'Serial',
-        'MACADRESSE'=>'macaddress',
+        'MACADDRESS'=>'macaddress',
         'MODEL'=>'model',
         'UUID'=>'uuid',
         'ASSETTAG'=>'AssetTag',
