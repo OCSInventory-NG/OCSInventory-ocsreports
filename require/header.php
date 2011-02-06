@@ -187,20 +187,25 @@ if (!isset($_COOKIE["VERS"]) or $_COOKIE["VERS"] != GUI_VER){
 	cookies_add("VERS", GUI_VER);
 }
 
-
+//del column
 if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
 	unset($_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
 	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
 }
+
+//default values
 if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != ""){
 	cookies_reset($protectedPost['TABLE_NAME']);
 }
+
+//add column
 if (isset($protectedPost['TABLE_NAME']) and 
 	isset($protectedPost['restCol'.$protectedPost['TABLE_NAME']]) 
 	and $protectedPost['restCol'.$protectedPost['TABLE_NAME']] != ''){
 	$_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
-	if (is_array($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]))
+	if (is_array($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
 		cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
+	}
 }
 
 /********************************************************GESTION DE LA LANGUE PAR COOKIES**********************************************/

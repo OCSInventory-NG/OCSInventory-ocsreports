@@ -10,7 +10,7 @@
 //====================================================================================
 
 //fonction qui permet de g�rer les colonnes par cookies
-function cookies_tab()
+/*function cookies_tab()
 {
 	//si la variable de session des tableaux n'existe pas, 
 	//on va chercher le cookies
@@ -22,7 +22,7 @@ function cookies_tab()
 			}
 		}				
 	}
-}
+}*/
 
 
 function cookies_reset($cookies_del){
@@ -36,7 +36,7 @@ function cookies_add($name,$value){
 		cookies_reset($name);		
 		setcookie( $name, $value, time() + 3600 * 24 * 365 ); 	
 }
-
+/*
 function upload_cookies($table_name){
 	unset($_SESSION['OCS']['col_tab'][$table_name]);
 	if (!isset($_SESSION['OCS']['col_tab'][$table_name]) and isset($_COOKIE[$table_name])){
@@ -48,6 +48,6 @@ function upload_cookies($table_name){
 	
 }
 
-
+*/
 
 ?>

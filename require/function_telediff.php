@@ -207,7 +207,7 @@ function champ_select_block($name,$input_name,$input_cache)
  
  function loadInfo( $serv, $tstamp ) {
 	
-	$fname = "https://".$serv."/".$tstamp."/info";
+	$fname = $serv."/".$tstamp."/info";
 	$info =@file_get_contents( $fname );
 	if( ! $info )
 		return false;

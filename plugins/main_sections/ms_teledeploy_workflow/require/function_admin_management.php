@@ -65,9 +65,7 @@ function find_all_field_by_tab($id_tab){
  * 
  */
 function find_all_value_by_field($id_field){
-	
 	$id_field=prepare_id($id_field);
-	
 	if (is_array($id_field)){		
 		$sql= "select id from downloadwk_conf_values where field in ";
 		$sql_all_value=mysql2_prepare($sql,array(),$id_field); 	
@@ -127,15 +125,14 @@ function delete_field($id_field){
 		addLog( 'DEL_WK_TELEDIFF','delete fields on downloadwk_pack => '.$i.' column');
 		
 		$id_values=find_all_value_by_field($id_field);
-		
 		$result=delete_conf($id_values);
-		if ($result){
+		//if ($result){
 			$sql_downloadwk_fields="DELETE FROM downloadwk_fields WHERE ID in ";
 			$downloadwk_fields=mysql2_prepare($sql_downloadwk_fields,array(),$id_field); 	
 			mysql2_query_secure($downloadwk_fields['SQL'],$_SESSION['OCS']["writeServer"],$downloadwk_fields['ARG']);
 			addLog( 'DEL_WK_TELEDIFF','delete field (downloadwk_fields) => '.mysql_affected_rows().' values');
 			return true;
-		}
+		//}
 	}
 	
 	return false;	
