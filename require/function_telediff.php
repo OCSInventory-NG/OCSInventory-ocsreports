@@ -492,4 +492,17 @@ function tps_estimated($val_details)
 	return $tps;
 	
 }
+
+
+function found_info_pack($id){
+	global $l;
+	if (!is_numeric($id))
+		return array('ERROR'=>$l->g(1129));
+	
+	$sql="select NAME,PRIORITY,FRAGMENTS,SIZE,OSNAME,COMMENT from download_available where fileid=%s";
+	$res = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$id);
+	$val = mysql_fetch_array( $res );
+	return $val;
+	
+}
 ?>
