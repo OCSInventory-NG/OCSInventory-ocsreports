@@ -11,22 +11,22 @@
 
 
 require_once('require/function_telediff.php');
-if (is_numeric($protectedGet["active"])){
+$info_id=found_info_pack($protectedGet["active"]);
+if (!isset($info_id['ERROR'])){
 	
 	$form_name="form_active";
 	//ouverture du formulaire
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	
 	if (!isset($protectedPost['FILE_SERV'])){
-		$default_http="http://localhost/download";
-		$default_https="https://localhost/download";
+		$default="localhost/download";
 		$values=look_config_default_values(array('DOWNLOAD_URI_INFO','DOWNLOAD_URI_FRAG'));
 		$protectedPost['FILE_SERV']=$values['tvalue']['DOWNLOAD_URI_FRAG'];
 		$protectedPost['HTTPS_SERV']=$values['tvalue']['DOWNLOAD_URI_INFO'];
 		if ($protectedPost['FILE_SERV'] == "")
-			$protectedPost['FILE_SERV']=$default_http;
+			$protectedPost['FILE_SERV']=$default;
 		if ($protectedPost['HTTPS_SERV'] == "")
-			$protectedPost['HTTPS_SERV']=$default_https;
+			$protectedPost['HTTPS_SERV']=$default;
 	}
 	
 	if ($_SESSION['OCS']["use_redistribution"] == 1){
@@ -40,18 +40,16 @@ if (is_numeric($protectedGet["active"])){
 	if (isset($protectedPost['Valid_modif_x']) and $protectedPost['Valid_modif_x'] != ''){
 		$error ="";
 		
-		if (substr($protectedPost['HTTPS_SERV'],0,5) == "https")
-			$opensslOk = function_exists("openssl_open");
-		else
-			$opensslOk = true;
+		$opensslOk = function_exists("openssl_open");
+
 			
 		if( $opensslOk )
-			$httpsOk = @fopen($protectedPost["HTTPS_SERV"]."/".$protectedGet["active"]."/info", "r");
+			$httpsOk = @fopen("https://".$protectedPost["HTTPS_SERV"]."/".$protectedGet["active"]."/info", "r");
 		else
 			$error = "WARNING: OpenSSL for PHP is not properly installed. Your https server validity was not checked !<br>";
 			
 		if (!$httpsOk)
-			$error .= $l->g(466)." ".$protectedPost["HTTPS_SERV"]."/".$protectedGet["active"]."/<br>";
+			$error .= $l->g(466)." https://".$protectedPost["HTTPS_SERV"]."/".$protectedGet["active"]."/<br>";
 		else
 			fclose( $httpsOk );
 			
@@ -61,7 +59,7 @@ if (is_numeric($protectedGet["active"])){
 			$valFrags = mysql_fetch_array( $resFrags );
 			$fragAvail = ($valFrags["fragments"] > 0) ;
 			if( $fragAvail ){
-				$fragOk = @fopen($protectedPost["FILE_SERV"]."/".$protectedGet["active"]."/".$protectedGet["active"]."-1", "r");
+				$fragOk = @fopen("http://".$protectedPost["FILE_SERV"]."/".$protectedGet["active"]."/".$protectedGet["active"]."-1", "r");
 			}
 			else
 				$fragOk = true;			
@@ -69,7 +67,7 @@ if (is_numeric($protectedGet["active"])){
 			$fragOk = true;
 		
 		if (!$fragOk)
-			$error .= $l->g(467)." ".$protectedPost['FILE_SERV']."/".$protectedGet["active"]."/<br>";
+			$error .= $l->g(467)." http://".$protectedPost['FILE_SERV']."/".$protectedGet["active"]."/<br>";
 		elseif( $fragAvail ) 
 			fclose( $fragOk );	
 		
@@ -124,16 +122,21 @@ if (is_numeric($protectedGet["active"])){
 			$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 			foreach ($tab_typ_champ as $id=>$values){
 						$tab_typ_champ[$id]['CONFIG']['SIZE']=30;
-						if ($tab_typ_champ[$id]['INPUT_TYPE'] == 0)
-						$tab_typ_champ[$id]['COMMENT_BEHING']='/'.$protectedGet["active"];
+						if ($tab_typ_champ[$id]['INPUT_TYPE'] == 0){
+							$tab_typ_champ[$id]['COMMENT_BEHING']='/'.$protectedGet["active"];
+							if ($id == 0)
+								$tab_typ_champ[$id]['COMMENT_BEFORE']='http://';
+							else
+								$tab_typ_champ[$id]['COMMENT_BEFORE']='https://';
+						}
 			}		
-			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$l->g(465).' => '.$protectedGet["active"]);
+			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$l->g(465).' => '.$info_id['NAME']." (".$protectedGet["active"].")");
 		}
 	}
 	//fermeture du formulaire.
 	echo "</form>";
 }else
-	msg_error($l->g(1129));
+	msg_error($info_id['ERROR']);
 
 
 ?>

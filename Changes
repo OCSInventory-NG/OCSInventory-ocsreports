@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc2
+		* fix bug on package activation (force to http and https)
 		* Fix bug => activate a package on servers groups
 		* Fix bug when creating a package. Nb frag can be egal to 0
 		* fix bug on redistribution servers group
