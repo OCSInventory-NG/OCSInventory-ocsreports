@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc2
+		* Fix bug on packet activation.
 		* Add reference field on snmp cards details .
 		* fix bug on package activation (force to http and https)
 		* Fix bug => activate a package on servers groups

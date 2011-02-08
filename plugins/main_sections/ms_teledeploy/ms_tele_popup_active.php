@@ -18,7 +18,7 @@ if (!isset($info_id['ERROR'])){
 	//ouverture du formulaire
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	
-	if (!isset($protectedPost['FILE_SERV'])){
+	if (!isset($protectedPost['FILE_SERV']) or !isset($protectedPost['HTTPS_SERV'])){
 		$default="localhost/download";
 		$values=look_config_default_values(array('DOWNLOAD_URI_INFO','DOWNLOAD_URI_FRAG'));
 		$protectedPost['FILE_SERV']=$values['tvalue']['DOWNLOAD_URI_FRAG'];
@@ -28,7 +28,7 @@ if (!isset($info_id['ERROR'])){
 		if ($protectedPost['HTTPS_SERV'] == "")
 			$protectedPost['HTTPS_SERV']=$default;
 	}
-	
+	//use redistribution servers?
 	if ($_SESSION['OCS']["use_redistribution"] == 1){
 		$reqGroupsServers = "SELECT DISTINCT name,id FROM hardware WHERE deviceid='_DOWNLOADGROUP_'";
 		$resGroupsServers = mysql2_query_secure( $reqGroupsServers, $_SESSION['OCS']["readServer"] );
@@ -79,16 +79,18 @@ if (!isset($info_id['ERROR'])){
 			msg_warning($error);
 					
 	}	
-	if (($error == "" and $protectedPost['Valid_modif_x'] and $protectedPost['choix_activ'] == "MAN") or $protectedPost['YES']){
-		activ_pack($protectedGet["active"],$protectedPost["HTTPS_SERV"],$protectedPost['FILE_SERV']);
-		echo "<script> alert('".$l->g(469)."');window.opener.document.packlist.submit(); self.close();</script>";	
-	}
+	
+	if ($error == "" and isset($protectedPost['Valid_modif_x']) or isset($protectedPost['YES'])){
+		if ($protectedPost['choix_activ'] == "MAN"){
+			activ_pack($protectedGet["active"],$protectedPost["HTTPS_SERV"],$protectedPost['FILE_SERV']);
+		}
 		
-	if ($error == "" and $protectedPost['Valid_modif_x'] and $protectedPost['choix_activ'] == "AUTO"){
-		activ_pack_server($protectedGet["active"],$protectedPost["HTTPS_SERV"],$protectedPost['choix_groupserv']);
+		if ($protectedPost['choix_activ'] == "AUTO"){
+			activ_pack_server($protectedGet["active"],$protectedPost["HTTPS_SERV"],$protectedPost['FILE_SERV_REDISTRIB']);
+		}
 		echo "<script> alert('".$l->g(469)."');window.opener.document.packlist.submit(); self.close();</script>";	
-	}			
-
+		
+	}
 	
 	if ($_SESSION['OCS']["use_redistribution"] == 1){
 		$list_choise['MAN']=$l->g(650);
@@ -112,7 +114,7 @@ if (!isset($info_id['ERROR'])){
 				msg_error($l->g(660));
 			else{
 				$tab_name=array($l->g(651),$l->g(470));
-				$name_field=array("FILE_SERV","HTTPS_SERV");
+				$name_field=array("FILE_SERV_REDISTRIB","HTTPS_SERV");
 				$type_field=array(2,0);
 				$value_field=array($groupListServers,$protectedPost['HTTPS_SERV']);		
 			}

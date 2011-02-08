@@ -33,7 +33,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	$list_fields = array ( $_SESSION['OCS']['TAG_LBL']['TAG']   => "a.tag", 
 						   $l->g(46) => "h.lastdate", 
 						   'NAME'=>'h.name',
-						   $l->g(949) => "ID",
+						   $l->g(949) => "h.ID",
 						   $l->g(24) => "h.userid",
 						   $l->g(25) => "h.osname",
 						   $l->g(568) => "h.memory",
