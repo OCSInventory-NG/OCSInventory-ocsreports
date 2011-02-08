@@ -21,8 +21,12 @@ print_item_header($l->g(93));
 					   'Caption'=>'CAPTION',
 					   $l->g(53)=>'DESCRIPTION',
 					   $l->g(277)=> 'VERSION');
-	//$list_fields['SUP']= 'ID';
-	$list_col_cant_del[$l->g(66)]=$l->g(66);
+					   
+	if($show_all_column)
+		$list_col_cant_del=$list_fields;
+	else
+		$list_col_cant_del[$l->g(66)]=$l->g(66);
+		
 	$default_fields= array($l->g(64)=>$l->g(64),$l->g(49)=>$l->g(49),$l->g(66)=>$l->g(66));
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){

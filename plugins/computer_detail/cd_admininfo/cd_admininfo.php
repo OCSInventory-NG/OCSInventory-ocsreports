@@ -64,9 +64,18 @@ if ($list_tab != ''){
 	unset($list_tab['FIRST']);
 	
 	echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
-	onglet($list_tab,$form_name,"onglet",6);
+	if (!$show_all_column){
+		onglet($list_tab,$form_name,"onglet",6);
+		$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
+						order by SHOW_ORDER ASC";
+		$arg_admin_info=array($protectedPost['onglet']);
+	}else{
+		$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER from accountinfo_config where account_type='%s'
+						order by SHOW_ORDER ASC";
+		$arg_admin_info=array('COMPUTERS');		
+	}
 	echo '<div class="mlt_bordure" >';
-	if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES'){
+	if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES' and !$show_all_column){
 		$show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
 		if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 			$show_admin_button .= "<img src=image/success.png></a>";
@@ -74,10 +83,8 @@ if ($list_tab != ''){
 			$show_admin_button .= "<img src=image/modif_tab.png></a>";
 	
 	}else
-	$show_admin_button='';
-	$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
-						order by SHOW_ORDER ASC";
-	$arg_admin_info=array($protectedPost['onglet']);
+		$show_admin_button='';
+		
 	$res_admin_info=mysql2_query_secure($sql_admin_info,$_SESSION['OCS']["readServer"],$arg_admin_info);
 	$num_row=mysql_num_rows($res_admin_info);
 	$name_field=array();
@@ -179,8 +186,12 @@ if ($list_tab != ''){
 		if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
 			$tab_hidden=array('ADMIN'=>'','UP'=>'','DOWN'=>'');
 		//echo "<input type='hidden' name='ADMIN' id='ADMIN' value=''>";
-		
-		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM',$show_admin_button);
+		if ($show_all_column)
+			$showbutton=false;
+		else
+			$showbutton=true;
+			
+		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton,$form_name='NO_FORM',$show_admin_button);
 	
 	echo "</div>"; 
 	echo "</form>";

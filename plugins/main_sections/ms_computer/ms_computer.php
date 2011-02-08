@@ -146,26 +146,30 @@ while ($list_plugins[$i]){
  	$i++;	
 }
 echo "</tr></table><br><br>";
-/*if ($protectedGet['tout'] == 1){
+if ($protectedGet['all'] == 1){
+	$protectedPost["pcparpage"]=1000000;
+	$protectedPost['SHOW'] = 'NEVER_SHOW';
+	$show_all_column=true;
+	$tab_options['SAVE_CACHE']=true;
 	$list_plugins_4_all=0;
 	while (isset($show_all[$list_plugins_4_all])){
 		include ($Directory."/".$show_all[$list_plugins_4_all]."/".$show_all[$list_plugins_4_all].".php");	
 		$list_plugins_4_all++;
 	}
 	
-}else{*/
+}else{
 	if (file_exists($Directory."/".$protectedGet['option']."/".$protectedGet['option'].".php"))
 		include ($Directory."/".$protectedGet['option']."/".$protectedGet['option'].".php");
-//}
+}
 
 //echo "<br><table align='center'> <tr><td width =50%>";
 //echo "<a style=\"text-decoration:underline\" onClick=print()><img src='image/print.png' title='".$l->g(214)."'></a></td>";
 
 
-//if(!isset($protectedGet["tout"]))
-/*		echo"<td width=50%>
-			<a style=\"text-decoration:underline\" href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode(stripslashes($systemid))."&tout=1\'>
-			<img width='60px' src='image/aff_all.png' title='".$l->g(215)."'></a></td>";*/
+if(!isset($protectedGet["all"]))
+		echo"<td width=50%>
+			<a style=\"text-decoration:underline\" href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode(stripslashes($systemid))."&all=1\'>
+			<img width='60px' src='image/aff_all.png' title='".$l->g(215)."'></a></td>";
 		
 //echo "</tr></table>";
 

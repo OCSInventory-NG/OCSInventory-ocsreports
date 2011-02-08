@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc2
+		* Add "show all computer detail"
 		* Add "show all" option in all table 
 		* Fix bug on packet activation.
 		* Add reference field on snmp cards details .

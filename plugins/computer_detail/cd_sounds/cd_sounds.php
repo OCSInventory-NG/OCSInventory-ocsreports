@@ -18,7 +18,11 @@
 	$list_fields=array($l->g(49) => 'NAME',
 					   $l->g(64) => 'MANUFACTURER',
 					   $l->g(53) => 'DESCRIPTION');
-	$list_col_cant_del=array($l->g(49)=>$l->g(49));
+	if($show_all_column)
+		$list_col_cant_del=$list_fields;
+	else
+		$list_col_cant_del=array($l->g(49)=>$l->g(49));
+		
 	$default_fields= $list_fields;
 //	$tab_options['FILTRE']=array('NAME'=>$l->g(49),'MANUFACTURER'=>$l->g(64),'TYPE'=>$l->g(66));
 	$queryDetails  = "SELECT * FROM sounds WHERE (hardware_id=$systemid)";

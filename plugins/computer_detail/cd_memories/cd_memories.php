@@ -22,7 +22,13 @@
 					   $l->g(66) => 'TYPE',
 					   $l->g(268) => 'SPEED',
 					   $l->g(94) => 'NUMSLOTS');
-	$list_col_cant_del=array($l->g(80)=>$l->g(80),$l->g(83)=>$l->g(83));
+					   
+					   
+	if($show_all_column)
+		$list_col_cant_del=$list_fields;
+	else
+		$list_col_cant_del=array($l->g(80)=>$l->g(80),$l->g(83)=>$l->g(83));
+		
 	$default_fields= $list_fields;
 	$queryDetails  = "SELECT * FROM memories WHERE (hardware_id=$systemid)";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);

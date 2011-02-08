@@ -19,7 +19,11 @@
 					   $l->g(276) => 'CHIPSET',
 					   $l->g(26)." (MB)" => 'MEMORY',
 					   $l->g(62) => 'RESOLUTION');
-	$list_col_cant_del=array($l->g(49)=>$l->g(49));
+	if($show_all_column)
+		$list_col_cant_del=$list_fields;
+	else
+		$list_col_cant_del=array($l->g(49)=>$l->g(49));
+		
 	$default_fields= $list_fields;
 	//$tab_options['FILTRE']=array('NAME'=>$l->g(212),'REGVALUE'=>$l->g(213));;
 	$queryDetails  = "SELECT * FROM videos WHERE (hardware_id = $systemid)";
