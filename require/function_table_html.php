@@ -666,7 +666,7 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 	echo "><tr><td align=center>";
 	echo "<table cellspacing='5' width='".$taille_cadre."%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='".$bgcolor."' BORDERCOLOR='".$bordercolor."'><tr><td align=center>";
 
-	    $machNmb = array(5=>5,10=>10,15=>15,20=>20,50=>50,100=>100,200=>200);
+	    $machNmb = array(5=>5,10=>10,15=>15,20=>20,50=>50,100=>100,200=>200,1000000=>$l->g(215));
       $pcParPageHtml= $l->g(340).": ".show_modif($machNmb,'pcparpage',2,$form_name,array('DEFAULT'=>'NO'));
 	$pcParPageHtml .=  "</td></tr></table>
 	</td></tr><tr><td align=center>";
@@ -925,7 +925,14 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	else
 		$queryDetails.= " order by ".$protectedPost['tri2']." ".$protectedPost['sens'];
 	
-	$limit_result_cache=200;
+		
+	if (isset($protectedPost["pcparpage"]) and $protectedPost["pcparpage"]<= 200){
+		$limit_result_cache=200;
+		$force_no_cache=false;
+	}elseif (isset($protectedPost["pcparpage"])){
+		$limit_result_cache=$protectedPost["pcparpage"];
+		$force_no_cache=true;
+	}
 	//$tab_options['CACHE']='RESET';
 	//suppression de la limite de cache
 	//si on est sur la m�me page mais pas sur le m�me onglet
@@ -1188,7 +1195,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		//on vide le cache des autres tableaux
 		//pour optimiser la place dispo sur le serveur
 		unset($_SESSION['OCS']['DATA_CACHE']);
-		$_SESSION['OCS']['DATA_CACHE'][$table_name]=$sql_data_cache;
+		if (!$force_no_cache)
+			$_SESSION['OCS']['DATA_CACHE'][$table_name]=$sql_data_cache;
 		
 		//print_r($sql_data);
 		$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails);
