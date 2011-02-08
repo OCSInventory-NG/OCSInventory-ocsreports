@@ -82,17 +82,21 @@
 	$list_fields=array($l->g(1126) => 'DATE_INSERT',
 					   $l->g(899) => 'USER_INSERT',
 					   $l->g(51) => 'COMMENTS',
-					   $l->g(443)=>'ACTION',
-					   'MODIF'=>'ID',
-					   'SUP'=>'ID',
-					   'CHECK'=>'ID');
-
+					   $l->g(443)=>'ACTION');
+					   
+	if (!$show_all_column){
+		$list_fields['MODIF']='ID';
+		$list_fields['SUP']='ID';
+		$list_fields['CHECK']='ID';		
+	}
 	$list_col_cant_del=$list_fields;
 	$default_fields= $list_fields;
 
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
-	echo "<br><input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='" . $l->g(898) . "'>";
-	del_selection($form_name);
+	if (!$show_all_column){
+		echo "<br><input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='" . $l->g(898) . "'>";
+		del_selection($form_name);
+	}
 	
 	if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 		$queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE id=%s";

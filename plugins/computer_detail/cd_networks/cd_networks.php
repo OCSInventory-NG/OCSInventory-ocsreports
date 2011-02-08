@@ -57,7 +57,12 @@
 			}
 		}
 	} 
-	$list_col_cant_del[$l->g(34)]=$l->g(34);
+	
+	if($show_all_column)
+		$list_col_cant_del=$list_fields;
+	else
+		$list_col_cant_del[$l->g(34)]=$l->g(34);
+		
 	$default_fields= $list_fields;
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){

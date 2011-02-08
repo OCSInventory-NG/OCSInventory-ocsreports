@@ -645,29 +645,35 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 	global $protectedPost,$l;
 
 	if ($protectedPost['old_pcparpage'] != $protectedPost['pcparpage'])
-	$protectedPost['page']=0;
+		$protectedPost['page']=0;
+		
 	if (!(isset($protectedPost["pcparpage"])) or $protectedPost["pcparpage"] == "")
-	 $protectedPost["pcparpage"]=20;
+		$protectedPost["pcparpage"]=20;
+		
 	echo "<table align=center width='80%' border='0' bgcolor=#f2f2f2>";
 	//gestion d"une phrase d'alerte quand on utilise le filtre
 	if (isset($protectedPost['FILTRE_VALUE']) and $protectedPost['FILTRE_VALUE'] != '' and $protectedPost['RAZ_FILTRE'] != 'RAZ')
 		msg_warning($l->g(884));
 	echo "<tr><td align=right>";
+	
 	if (!isset($protectedPost['SHOW']))
-	$protectedPost['SHOW'] = "SHOW";
+		$protectedPost['SHOW'] = "SHOW";
 	if ($protectedPost['SHOW'] == 'SHOW')
-	echo "<a href=# OnClick='pag(\"NOSHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/no_show.png></a>";
-	else
-	echo "<a href=# OnClick='pag(\"SHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/show.png></a>";
+		echo "<a href=# OnClick='pag(\"NOSHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/no_show.png></a>";
+	elseif ($protectedPost['SHOW'] != 'NEVER_SHOW')
+		echo "<a href=# OnClick='pag(\"SHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/show.png></a>";
+		
 	echo "</td></tr></table>";
 	echo "<table align=center width='80%' border='0' bgcolor=#f2f2f2";
-	if($protectedPost['SHOW'] == 'NOSHOW')
-	echo " style='display:none;'";
+	
+	if($protectedPost['SHOW'] == 'NOSHOW' or $protectedPost['SHOW'] == 'NEVER_SHOW')
+		echo " style='display:none;'";
+		
 	echo "><tr><td align=center>";
 	echo "<table cellspacing='5' width='".$taille_cadre."%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='".$bgcolor."' BORDERCOLOR='".$bordercolor."'><tr><td align=center>";
 
-	    $machNmb = array(5=>5,10=>10,15=>15,20=>20,50=>50,100=>100,200=>200,1000000=>$l->g(215));
-      $pcParPageHtml= $l->g(340).": ".show_modif($machNmb,'pcparpage',2,$form_name,array('DEFAULT'=>'NO'));
+	$machNmb = array(5=>5,10=>10,15=>15,20=>20,50=>50,100=>100,200=>200,1000000=>$l->g(215));
+    $pcParPageHtml= $l->g(340).": ".show_modif($machNmb,'pcparpage',2,$form_name,array('DEFAULT'=>'NO'));
 	$pcParPageHtml .=  "</td></tr></table>
 	</td></tr><tr><td align=center>";
 	echo $pcParPageHtml;
@@ -977,7 +983,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	 			$var_limit++;
 	 		}
 			$num_rows_result=$_SESSION['OCS']['NUM_ROW'][$table_name];
-			$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails);
+			$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name);
 			$data=$result_data['DATA'];
 			
 			$entete=$result_data['ENTETE'];
@@ -1039,7 +1045,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	//	print_r($list_id_tri_fixe);
 		//on vide les valeurs pr�c�dentes
 		//pour optimiser la place sur le serveur
-		unset($_SESSION['OCS']['csv'],$_SESSION['OCS']['list_fields']);		
+		if(!isset($tab_options['SAVE_CACHE']))
+			unset($_SESSION['OCS']['csv'],$_SESSION['OCS']['list_fields']);		
+			
 		$_SESSION['OCS']['csv']['SQL'][$table_name]=$queryDetails;
 		if (isset($tab_options['ARG_SQL']))
 		$_SESSION['OCS']['csv']['ARG'][$table_name]=$tab_options['ARG_SQL'];
@@ -1198,8 +1206,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		if (!$force_no_cache)
 			$_SESSION['OCS']['DATA_CACHE'][$table_name]=$sql_data_cache;
 		
-		//print_r($sql_data);
-		$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails);
+		$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name);
 		$data=$result_data['DATA'];
 		$entete=$result_data['ENTETE'];
 		$correct_list_col_cant_del=$result_data['correct_list_col_cant_del'];
@@ -1211,8 +1218,10 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 			$num_rows_result=1;
 		$title=$num_rows_result." ".$l->g(90);
 		if (isset($tab_options['LOGS']))
-		addLog($tab_options['LOGS'],$num_rows_result." ".$l->g(90));
-		$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
+			addLog($tab_options['LOGS'],$num_rows_result." ".$l->g(90));
+		
+		if (!isset($tab_options['no_download_result']))
+			$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
 		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
 
 		tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
@@ -1239,9 +1248,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 
 
 //fonction qui permet de g�rer les donn�es � afficher dans le tableau
-function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails){
+function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name){
 	global $l,$protectedPost,$pages_refs;
-	$_SESSION['OCS']['list_fields']=$list_fields;
+	$_SESSION['OCS']['list_fields'][$table_name]=$list_fields;
 	//requete de condition d'affichage
 	//attention: la requete doit etre du style:
 	//select champ1 AS FIRST from table where...
@@ -1482,7 +1491,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						else
 						$constr="<font color=red>".$l->g(885)."</font>";
 						$data[$i][$num_col]=$value_of_field." (<small>".$constr."</small>)";						
-					}elseif ($key == "PERCENT_BAR"){
+					}elseif (substr($key,0,11) == "PERCENT_BAR"){
 						require_once("function_graphic.php");
 						$data[$i][$num_col]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
 						//$lien = 'KO';						
