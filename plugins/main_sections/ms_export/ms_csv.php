@@ -26,7 +26,8 @@ if (isset($protectedGet['log'])){
 		$filename=$protectedGet['log'];
 	}
 }//gestion par valeur en cache (LIMITE A 200)
-elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
+elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]) 
+	and isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']])){
 	$filename="cache.csv";
 	//print_r($_SESSION['OCS']['col_tab'][$protectedGet['tablename']]);
 	//gestion des entetes
