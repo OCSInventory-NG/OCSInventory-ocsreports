@@ -23,6 +23,7 @@ print_item_header($l->g(1219));
 	$list_fields=array($l->g(64)=>'MANUFACTURER', 
 					   $l->g(66) => 'TYPE',
 					   $l->g(36)=>'SERIALNUMBER',
+					   $l->g(1235)=>'REFERENCE',
 					   $l->g(53)=>'DESCRIPTION',
 					   $l->g(277)=>'REVISION',     
 					   $l->g(1229)=>'FIRMWARE',     
