@@ -230,4 +230,108 @@ function fusionne($afus) {
 	$lesDel .= " => ".$afus[$maxInd]["deviceid"];
 	AddLog("FUSION", $lesDel);
 }
+
+function form_add_computer(){
+	global $l;
+	$name_field=array("NAME","OSNAME");
+		$name_field[]="LASTNAME";
+		$name_field[]="EMAIL";
+		$name_field[]="COMMENTS";
+		//$name_field[]="USER_GROUP";
+	
+		
+		$tab_name[]=$l->g(49).": ";
+		$tab_name[]=$l->g(996).": ";
+		$tab_name[]="Email: ";
+		$tab_name[]=$l->g(51).": ";
+		//$tab_name[]="Groupe de l'utilisateur: ";
+		
+		
+		$type_field[]= 0; 
+		$type_field[]= 0; 
+		$type_field[]= 0; 
+		$type_field[]= 0; 
+		//$type_field[]= 2; 
+		
+		
+		if ($id_user != '' or $_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'NO'){
+			$tab_hidden['MODIF']=$id_user;
+			$sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
+			$arg=$id_user;
+			$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+			$row=mysql_fetch_object($res);
+			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
+				$protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
+				$protectedPost['USER_GROUP']=$row->USER_GROUP;
+				$value_field=array($row->ID,$list_profil,$list_groups);
+			}
+			$value_field[]=$row->FIRSTNAME;
+			$value_field[]=$row->LASTNAME;
+			$value_field[]=$row->EMAIL;
+			$value_field[]=$row->COMMENTS;
+		}else{
+			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
+				$value_field=array($protectedPost['ID'],$list_profil,$list_groups);
+			}
+			$value_field[]=$protectedPost['FIRSTNAME'];
+			$value_field[]=$protectedPost['LASTNAME'];
+			$value_field[]=$protectedPost['EMAIL'];
+			$value_field[]=$protectedPost['COMMENTS'];				
+		}
+		if ($_SESSION['OCS']['cnx_origine'] == "LOCAL"){
+			$name_field[]="PASSWORD";
+			$type_field[]=0;
+			$tab_name[]=$l->g(217).":";
+			$value_field[]=$protectedPost['PASSWORD'];
+		}
+		$tab_typ_champ=show_field($name_field,$type_field,$value_field);
+		foreach ($tab_typ_champ as $id=>$values){
+			$tab_typ_champ[$id]['CONFIG']['SIZE']=40;
+		}
+		if ($_SESSION['OCS']['CONFIGURATION']['MANAGE_USER_GROUP'] == 'YES'){
+			$tab_typ_champ[2]["CONFIG"]['DEFAULT']="YES";
+		//	$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+			$tab_typ_champ[2]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+		}
+		
+		if (isset($tab_typ_champ)){
+			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);
+		}	
+	
+	
+}
+
+function insert_manual_computer($values,$nb=1,$generic=false){
+	global $i;
+		if ($nb == 1)
+			$name=$values['COMPUTER_NAME_GENERIC'];
+		else
+			$name=$values['COMPUTER_NAME_GENERIC'].$i;
+		
+		if ($generic){
+			if ($values['COMPUTER_NAME_GENERIC'] == "")
+				$values['COMPUTER_NAME_GENERIC']='MANUEL_ENTRY';
+			if ($values['SERIAL_GENERIC'] == "")
+				$values['SERIAL_GENERIC']='MANUEL_ENTRY';
+			if ($values['ADDR_MAC_GENERIC'] == "")
+				$values['ADDR_MAC_GENERIC']='MANUEL_ENTRY';			
+		}
+		$sql="insert into hardware (deviceid,name) values ('%s','%s')";
+		$arg=array('MANUEL',$name);
+		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
+		$id_computer=mysql_insert_id();
+		
+		$sql="insert into bios (hardware_id,ssn) values ('%s','%s')";
+		$arg=array($id_computer,$values['SERIAL_GENERIC']);
+		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
+	
+		$sql="insert into networks (hardware_id,macaddr) values ('%s','%s')";
+		$arg=array($id_computer,$values['ADDR_MAC_GENERIC']);
+		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
+		
+		return $id_computer;
+	
+}
+
+
 ?>

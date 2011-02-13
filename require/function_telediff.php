@@ -377,8 +377,12 @@ function create_pack($sql_details,$info_details){
 			if (!file_exists( $sql_details['document_root'].$sql_details['timestamp']))			
 				mkdir( $sql_details['document_root'].$sql_details['timestamp']);
 		}
+		//if $info_details['DIGEST'] is null =>  no file to deploy, only execute commande in info file
+		// so nb_frag=0
+		if (!isset($info_details['DIGEST']) or $info_details['DIGEST'] == "")
+			$sql_details['nbfrags']=0;
 		
-		//creation info
+		//create info
 		$info = "<DOWNLOAD ID=\"".$sql_details['timestamp']."\" ".
 		"PRI=\"".$info_details['PRI']."\" ".
 		"ACT=\"".$info_details['ACT']."\" ".

@@ -12,6 +12,7 @@
 
 require_once('require/function_telediff.php');
 if (is_numeric($protectedGet["active"])){
+	
 	$form_name="form_active";
 	//ouverture du formulaire
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
@@ -27,6 +28,7 @@ if (is_numeric($protectedGet["active"])){
 		if ($protectedPost['HTTPS_SERV'] == "")
 			$protectedPost['HTTPS_SERV']=$default_https;
 	}
+	
 	if ($_SESSION['OCS']["use_redistribution"] == 1){
 		$reqGroupsServers = "SELECT DISTINCT name,id FROM hardware WHERE deviceid='_DOWNLOADGROUP_'";
 		$resGroupsServers = mysql2_query_secure( $reqGroupsServers, $_SESSION['OCS']["readServer"] );
@@ -53,7 +55,7 @@ if (is_numeric($protectedGet["active"])){
 		else
 			fclose( $httpsOk );
 			
-		if ($protectedPost['choix_activ']= "MAN"){
+		if ($protectedPost['choix_activ'] == "MAN"){
 			$reqFrags = "SELECT fragments FROM download_available WHERE fileid='".$protectedGet["active"]."'";
 			$resFrags = mysql_query( $reqFrags, $_SESSION['OCS']["readServer"] );	
 			$valFrags = mysql_fetch_array( $resFrags );
@@ -88,8 +90,7 @@ if (is_numeric($protectedGet["active"])){
 		activ_pack_server($protectedGet["active"],$protectedPost["HTTPS_SERV"],$protectedPost['choix_groupserv']);
 		echo "<script> alert('".$l->g(469)."');window.opener.document.packlist.submit(); self.close();</script>";	
 	}			
-	
-	
+
 	
 	if ($_SESSION['OCS']["use_redistribution"] == 1){
 		$list_choise['MAN']=$l->g(650);
@@ -97,6 +98,7 @@ if (is_numeric($protectedGet["active"])){
 		$choix_activ=$l->g(514).' : '.show_modif($list_choise,'choix_activ',2,$form_name)."<br>";
 		echo $choix_activ;
 	}else{
+
 		$protectedPost['choix_activ']= "MAN";
 				
 	}
