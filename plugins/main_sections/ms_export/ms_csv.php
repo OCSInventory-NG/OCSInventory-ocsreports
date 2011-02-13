@@ -26,18 +26,17 @@ if (isset($protectedGet['log'])){
 		$filename=$protectedGet['log'];
 	}
 }//gestion par valeur en cache (LIMITE A 200)
-elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
+elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]) 
+	and isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']])){
 	$filename="cache.csv";
-	//print_r($_SESSION['OCS']['col_tab'][$protectedGet['tablename']]);
 	//gestion des entetes
 	if (is_array($_SESSION['OCS']['col_tab'][$protectedGet['tablename']]))
 	foreach ($_SESSION['OCS']['col_tab'][$protectedGet['tablename']] as $name){
 		if ($name != 'SUP' and $name != 'CHECK' and $name != 'NAME' and $name != $l->g(23)){
-		//	echo "<br>".$_SESSION['OCS']['list_fields'][$name]." => ".$_SESSION['OCS']['list_fields'][$name]{1};
-			if ($_SESSION['OCS']['list_fields'][$name]{1} == ".")
-			$lbl=substr(strrchr($_SESSION['OCS']['list_fields'][$name], "."), 1);
+			if ($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name]{1} == ".")
+			$lbl=substr(strrchr($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name], "."), 1);
 			else
-			$lbl=$_SESSION['OCS']['list_fields'][$name];
+			$lbl=$_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name];
 			$col[$lbl]=$name;
 			$toBeWritten .=$name.";";
 		}elseif($name == 'NAME' or $name == $l->g(23)){
@@ -63,10 +62,10 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 	//gestion des entetes
 	foreach ($_SESSION['OCS']['col_tab'][$protectedGet['tablename']] as $name){
 		if ($name != 'SUP' and $name != 'CHECK' and $name != 'NAME'){
-			if ($_SESSION['OCS']['list_fields'][$name]{1} == ".")
-			$lbl=substr(strrchr($_SESSION['OCS']['list_fields'][$name], "."), 1);
+			if ($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name]{1} == ".")
+			$lbl=substr(strrchr($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name], "."), 1);
 			else
-			$lbl=$_SESSION['OCS']['list_fields'][$name];
+			$lbl=$_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name];
 			$col[$lbl]=$name;
 			$toBeWritten .=$name.";";
 		}elseif($name == 'NAME' or $name == $l->g(23)){
@@ -74,7 +73,6 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 			$toBeWritten .="machine".$separator;
 		}		
 	}
-	
 	//gestion des donnees fixes
 	if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']])){
 		$i=0;
@@ -94,7 +92,6 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 		}
 		
 	}
-	//print_r($data_fixe);
 	//gestion de la requete de r�sultat
 	if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])
 		$arg=$_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
@@ -107,27 +104,16 @@ elseif (!$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]){
 			if ($lbl == "name_of_machine" and !isset($cont[$field])){
 				$field='name';
 			}
-//			print_r($cont);
-//			echo $cont[$field];
 			if (isset($cont[$field])){
 			$data[$i][$lbl]=$cont[$field];			
 			}elseif (isset($data_fixe[$cont['ID']][$field]))
 			$data[$i][$lbl]=$data_fixe[$cont['ID']][$field];	
-//			elseif (isset($_SESSION['OCS']['list_fields'][$field]))
-//			$data[$i][$lbl]=$cont[$field];	
+
 		}
 		$i++;
 	}
-//	
-//	$_SESSION['OCS']['list_fields']
-//	if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']])){
-//		
-//		
-//	}
 	$i=0;
 	while ($data[$i]){
-		//print_r($data[$i]);
-		//echo "<br>";
 		$toBeWritten .="\r\n";
 		foreach ($data[$i] as $field_name=>$donnee){
 		$toBeWritten .=$donnee.$separator;		
@@ -151,8 +137,13 @@ if ($toBeWritten != ""){
 	header("Content-Disposition: attachment; filename=\"".$filename."\"");
 	header("Content-Transfer-Encoding: binary");
 	header("Content-Length: ".strlen($toBeWritten));
-	echo $toBeWritten;
+	echo $toBeWritten,
 	die();
-}else
+}else{
+	$ban_head='no';
+	require_once ($_SESSION['OCS']['HEADER_HTML']);
 	msg_error($l->g(920));
+	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	die();
+}
 ?>

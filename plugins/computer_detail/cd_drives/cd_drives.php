@@ -22,7 +22,12 @@
 					   $l->g(88)." (MB)"=>'FREE',
 					   $l->g(87)." (MB)"=> 'TOTAL',
 					   "PERCENT_BAR" => 'CAPACITY');
-	$list_col_cant_del=array('PERCENT_BAR'=>'PERCENT_BAR',$l->g(85)=>$l->g(85));
+					   
+	if($show_all_column)
+		$list_col_cant_del=$list_fields;
+	else
+		$list_col_cant_del=array('PERCENT_BAR'=>'PERCENT_BAR',$l->g(85)=>$l->g(85));
+		
 	$default_fields= $list_fields;
 	$tab_options['LBL']['PERCENT_BAR']=$l->g(83);
 	$queryDetails  = "SELECT *, round(100-(FREE*100/TOTAL)) AS CAPACITY FROM drives WHERE (hardware_id=$systemid)";

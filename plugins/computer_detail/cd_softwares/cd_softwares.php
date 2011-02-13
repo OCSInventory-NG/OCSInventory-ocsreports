@@ -17,7 +17,11 @@
 					   $l->g(49) => 'NAME',
 					   $l->g(277) => 'VERSION',
 					   $l->g(51)=>'COMMENTS');
-	$list_col_cant_del=array($l->g(49)=>$l->g(49));
+	if($show_all_column)
+		$list_col_cant_del=$list_fields;
+	else
+		$list_col_cant_del=array($l->g(49)=>$l->g(49));
+		
 	$default_fields= $list_fields;
 	$list_fields[$l->g(1248)]='FOLDER';
 	$list_fields[$l->g(446)]='FILENAME';	
