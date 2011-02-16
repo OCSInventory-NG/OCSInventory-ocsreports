@@ -91,10 +91,8 @@ ms_tele_pack:tele_pack
 ms_rules_redistrib:rules_redistrib
 ms_custom_param:opt_param
 ms_opt_ipdiscover:opt_ipdiscover
-ms_admin_attrib:admin_attrib
 ms_group_show:group_show
 ms_show_detail:show_detail
-ms_diagnos_krb:diagnos_krb
 ms_custom_info:ipdiscover_info
 ms_debug:debug
 ms_computer:computer
