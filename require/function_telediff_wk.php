@@ -843,8 +843,10 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 				$type_field= array(2);
 				$value_field=array($infos_status['STAT']);
 				if (isset($protectedPost['STATUS']) and $protectedPost['STATUS'] != 0){
-				/*	$status['0']= "NON";
-					$status[$val_status['id']]=$val_status['lbl'];*/
+					//delete old post if you change status
+					if (isset($protectedPost['OLD_STATUS']) and $protectedPost['OLD_STATUS'] != $protectedPost['STATUS'])
+						unset($protectedPost['actif'],$protectedPost['lbl'],$protectedPost['name']);
+
 					$yes_no=array($l->g(454),$l->g(455));
 					if (!isset($protectedPost['actif']))
 						$protectedPost['actif']=$infos_status['ACTIF'][$protectedPost['STATUS']];
@@ -853,10 +855,10 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 					if (!isset($protectedPost['name']))
 						$protectedPost['name']=$infos_status['NIV'][$protectedPost['STATUS']];
 					$protectedPost['id']=$protectedPost['STATUS'];
-					array_push($name_field,'actif','id','lbl','name');
-					array_push($tab_name,$l->g(1102) . ':',$l->g(1103) . ':',$l->g(1063) . ':',$l->g(1064) . ':');
-					array_push($type_field,2,3,0,3);
-					array_push($value_field,$yes_no,$protectedPost['id'],$protectedPost['lbl'],$protectedPost['name']);
+					array_push($name_field,'actif','id','lbl','name','OLD_STATUS');
+					array_push($tab_name,$l->g(1102) . ':',$l->g(1103) . ':',$l->g(1063) . ':',$l->g(1064) . ':','');
+					array_push($type_field,2,3,0,3,7);
+					array_push($value_field,$yes_no,$protectedPost['id'],$protectedPost['lbl'],$protectedPost['name'],$protectedPost['STATUS']);
 					$showbutton=true;
 					}else
 					$showbutton=false;
