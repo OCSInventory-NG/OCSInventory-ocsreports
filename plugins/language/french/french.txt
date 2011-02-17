@@ -1141,6 +1141,7 @@
 1255 Nombre de Connexion par jour
 1256 Nombre d'erreurs de connexion par jour
 1257 Utilisation du flash dans la GUI
+1258 Entrée Manuelle
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1162,8 +1163,9 @@
 2017 à l'aide
 2018 a été importé
 2019 étaient déjà importés
-2020 YOUR INSTALL.PHP EXISTS IN OCSREPORTS DIRECTORY
-2021 YOUR GUI LOGS DIRECTORY IS NOT WRITABLE
+2020 Le fichier install.php est présent dans votre répertoire d'interface.<br> Par mesure de sécurité, supprimez le.
+2021 Le répertoire de LOGS n'est pas ouvert en écriture
+2022 Vous ne pouvez envoyer un fichier d'une taille supérieur à
 
 
 2030 Installation d'OCS-NG Inventory

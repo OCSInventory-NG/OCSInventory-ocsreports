@@ -1142,7 +1142,7 @@
 1255 Connexion number by day
 1256 Bad connexion number by day
 1257 Use flash on GUI
-
+1258 Manual Entry
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
@@ -1166,7 +1166,7 @@
 2019 were already imported
 2020 YOUR INSTALL.PHP EXISTS IN OCSREPORTS DIRECTORY
 2021 YOUR GUI LOGS DIRECTORY IS NOT WRITABLE
-
+2022 You can send a file larger than
 
 2030 OCS-NG Inventory Installation
 2031 Current installed version
