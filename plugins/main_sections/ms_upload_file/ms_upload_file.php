@@ -15,24 +15,31 @@ function return_bytes($val) {
         // Le modifieur 'G' est disponible depuis PHP 5.1.0
         case 'g':
             $val *= 1024;
-        case 'm':
-            $val *= 1024;
+            break;
+       /* case 'm':
+            $val *= 1024;*/
         case 'k':
             $val *= 1024;
-    }
-
+            break;
+        default : $val= substr($val,0,-1);
+        }
     return $val;
 }
 echo "<script language='javascript'>  
     
     function getext(filename){
     	 var parts = filename.split('.');
-   		return(parts[(parts.length-1)]);    
+   		return(parts.pop());    
     }
     
     function namefile(filename){
-     	var parts = filename.split('.');
-    	return(parts[0]);    
+    	var	parts	=	new Array();
+   		var	parts2	=	new Array();
+     	
+   		parts = filename.split('.');
+     	parts2= parts[0].split('\\\');
+     	var part2return=parts2.pop();
+    	return(part2return);    
     }    
 
     function verif_file_format(champ){
@@ -115,8 +122,12 @@ if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
 	$css="mvt_bordure";
 	$form_name1="SEND_FILE";
 	$umf = "upload_max_filesize";
-	$valTumf = ini_get( $umf ) * 1024;
-	msg_info($l->g(2022).' '.$valTumf.$l->g(1240));
+	$valTumf = ini_get( $umf );
+	//echo $valTumf;
+	$valBumf = return_bytes( $valTumf );
+
+
+	msg_info($l->g(2022).' '.$valBumf.$l->g(1240));
 	//echo "post_max_size=".$valTpms.$l->g(1240).'//upload_max_filesize='.$valTumf.$l->g(1240);
 	echo "<form name='".$form_name1."' id='".$form_name1."' method='POST' action='' enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\">";
 	echo '<div class="'.$css.'" >';
