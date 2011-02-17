@@ -149,6 +149,7 @@
  	}elseif($type=='select'){
  		echo "<select name='".$name."'";
 		if (isset($data['RELOAD'])) echo " onChange='document.".$data['RELOAD'].".submit();'";
+		echo ">";
 		foreach ($data['SELECT_VALUE'] as $key=>$value){
 			echo "<option value='".$key."'";
 			if ($data['VALUE'] == $key )
@@ -261,8 +262,10 @@ function option_conf_activate($value){
 		else
 				$sql="insert into config (%s, NAME) value ('%s','%s')";
 			//	$lbl_log=$l->g(821)
-		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,$l->g(821));
- 	}
+			if(!DEMO) {
+				mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,$l->g(821));
+ 			}
+	}
 
  }
 
