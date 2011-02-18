@@ -81,7 +81,7 @@ if (isset($_FILES['file_upload']['name'])){
 	fclose($fd);		
 	$binary = $contents;
 	$sql="DELETE FROM deploy where name='%s'";
-	$arg=$_FILES['userfile']['name'];
+	$arg=$fname;
 	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 	$sql="INSERT INTO deploy values ('%s','%s')";
 	$arg=array($fname,$binary);
