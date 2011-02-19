@@ -229,8 +229,18 @@ if(!$ch = @fopen("dbconfig.inc.php","w")) {
 	die();
 }
 
-$keepuser=false;
 
+	//if you install ocs for the first time with root account
+	//we create ocs/ocs
+	if(!@mysql_connect($_POST['host'],$_POST["name"],$_POST['pass']) 
+		or ($_POST["name"] == 'root' and !mysql_query("USE ".$_POST['database']))) {
+				$pass_connect='ocs';
+				$name_connect='ocs';
+	}else{
+		$name_connect=$_POST["name"];
+		$pass_connect=$_POST['pass'];		
+	}
+	
 
 $error="";
 $res = mysql_query("show databases like '" . $_POST['database'] . "'");
@@ -239,8 +249,8 @@ if (!$val){
 	$db_file = "files/ocsbase_new.sql";
 	if (!mysql_query("CREATE DATABASE ".$_POST['database']." CHARACTER SET utf8 COLLATE utf8_bin;") 
 		or !mysql_query("USE ".$_POST['database'])
-		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs IDENTIFIED BY 'ocs'")
-		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
+		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ".$name_connect." IDENTIFIED BY '".$pass_connect."'")
+		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ".$name_connect."@localhost IDENTIFIED BY '".$pass_connect."'"))
 		$error=mysql_errno();
 }else{
 	$sql="SELECT DEFAULT_CHARACTER_SET_NAME FROM INFORMATION_SCHEMA.SCHEMATA where SCHEMA_NAME like '" . $_POST['database'] . "';";
@@ -250,6 +260,7 @@ if (!$val){
 		$db_file = "files/ocsbase_new.sql";
 	else
 		$db_file = "files/ocsbase.sql";	
+		
 }
 	
 if ($error != ""){
@@ -278,13 +289,8 @@ if($dbf_handle = @fopen($db_file, "r")) {
 
 	foreach ( $execute_sql as $sql_line) {
 		$li++;
-		//echo $sql_line."<br>";
+	//	echo $sql_line."<br>";
 		if(!mysql_query($sql_line)) {
-			if (mysql_errno()==1044) {
-				// Provided user not MySQL Administror
-				$keepuser=true;
-				continue;
-			}
 			if(  mysql_errno()==1062 || mysql_errno()==1061 || mysql_errno()==1065 || mysql_errno()==1060 || mysql_errno()==1054 || mysql_errno()==1091 || mysql_errno()==1061) 
 				continue;		
 
@@ -343,7 +349,7 @@ else {
 	die();
 }
 //$keepuser=1;
-if ($keepuser) {
+
 	// Provided user not MySQL Administror
 	// Keep the account used for migration
 	//echo "toto";
@@ -351,17 +357,18 @@ if ($keepuser) {
 	fwrite($ch,"define(\"DB_NAME\", \"" .$_POST['database']. "\");\n");
 	fwrite($ch,"define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
 	fwrite($ch,"define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");				
-	fwrite($ch,"define(\"COMPTE_BASE\",\"" . $_POST["name"] . "\");\n");					
-	fwrite($ch,"define(\"PSWD_BASE\",\"" . $_POST["pass"] . "\");\n");					
+	fwrite($ch,"define(\"COMPTE_BASE\",\"" . $name_connect . "\");\n");					
+	fwrite($ch,"define(\"PSWD_BASE\",\"" . $pass_connect . "\");\n");					
 	fwrite($ch,"?>");
 	fclose($ch);
 	echo "<br><center><font color=green><b>" . $l->g(2056) . " (" .
 											   $l->g(2017) . " " . 
-											   $_POST["name"] . 
+											   $name_connect .  " " . 
 											   $l->g(2007) .
 					 " )</b></font></center>";
 
-} else {
+
+/* else {
 	// Use account created during installation
 	fwrite($ch,"<?php\n");
 	fwrite($ch,"define(\"DB_NAME\", \"" .$_POST['database']. "\");\n");
@@ -372,7 +379,7 @@ if ($keepuser) {
 	fwrite($ch,"?>");
 	fclose($ch);
 	echo "<br><center><font color=green><b>" . $l->g(2056) . " " . $l->g(2004) . "</b></font></center>";
-}
+}*/
 
 if($dejaLance>0)	
 	echo "<br><center><font color=green><b>" . $l->g(2057) . "</b></font></center>";

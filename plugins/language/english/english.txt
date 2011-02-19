@@ -1166,7 +1166,7 @@
 2019 were already imported
 2020 YOUR INSTALL.PHP EXISTS IN OCSREPORTS DIRECTORY
 2021 YOUR GUI LOGS DIRECTORY IS NOT WRITABLE
-
+2022 You can't send a file larger than
 
 2030 OCS-NG Inventory Installation
 2031 Current installed version

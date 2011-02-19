@@ -8,17 +8,38 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
+function return_bytes($val) {
+    $val = trim($val);
+    $last = strtolower($val{strlen($val)-1});
+    switch($last) {
+        // Le modifieur 'G' est disponible depuis PHP 5.1.0
+        case 'g':
+            $val *= 1024;
+            break;
+       /* case 'm':
+            $val *= 1024;*/
+        case 'k':
+            $val *= 1024;
+            break;
+        default : $val= substr($val,0,-1);
+        }
+    return $val;
+}
 echo "<script language='javascript'>  
     
     function getext(filename){
     	 var parts = filename.split('.');
-   		return(parts[(parts.length-1)]);    
+   		return(parts.pop());    
     }
     
     function namefile(filename){
-     	var parts = filename.split('.');
-    	return(parts[0]);    
+    	var	parts	=	new Array();
+   		var	parts2	=	new Array();
+     	
+   		parts = filename.split('.');
+     	parts2= parts[0].split('\\\');
+     	var part2return=parts2.pop();
+    	return(part2return);    
     }    
 
     function verif_file_format(champ){
@@ -44,8 +65,14 @@ echo "<script language='javascript'>
           
 </script>";
 $form_name="upload_client";
+/*if( $valBumf>$valBpms )
+	$MaxAvail = trim($valTpms,"m");
+else
+	$MaxAvail = trim($valTumf,"m");
+echo "<br><center><font color=orange><b>" . $l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041) . "</b></font></center>";
+*/
 $table_name=$form_name;
-if (isset($protectedPost['GO']) and $protectedPost['GO']!= ''){
+if (isset($_FILES['file_upload']['name'])){
 	$fname=$_FILES['file_upload']['name'];
 	$platform="windows";	
 	$filename = $_FILES['file_upload']['tmp_name'];
@@ -54,7 +81,7 @@ if (isset($protectedPost['GO']) and $protectedPost['GO']!= ''){
 	fclose($fd);		
 	$binary = $contents;
 	$sql="DELETE FROM deploy where name='%s'";
-	$arg=$_FILES['userfile']['name'];
+	$arg=$fname;
 	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 	$sql="INSERT INTO deploy values ('%s','%s')";
 	$arg=array($fname,$binary);
@@ -68,8 +95,8 @@ if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 	$arg=$protectedPost['SUP_PROF'];
 	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 }
-
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+if (!isset($protectedPost['ADD_FILE'])){
+	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	$list_fields=array($l->g(283)=>'function',
 					   $l->g(49) => 'name',
 					   'SUP'=>'name'
@@ -89,19 +116,28 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	//echo show_modif($name,'ADD_FILE',8,"",$configinput=array('DDE'=>100));
 	echo "<input type=submit name=ADD_FILE value='".$l->g(1048)."'>";
 		echo "</form>";
-
+}
 
 if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
 	$css="mvt_bordure";
 	$form_name1="SEND_FILE";
-	
+	$umf = "upload_max_filesize";
+	$valTumf = ini_get( $umf );
+	//echo $valTumf;
+	$valBumf = return_bytes( $valTumf );
+
+
+	msg_info($l->g(2022).' '.$valBumf.$l->g(1240));
+	//echo "post_max_size=".$valTpms.$l->g(1240).'//upload_max_filesize='.$valTumf.$l->g(1240);
 	echo "<form name='".$form_name1."' id='".$form_name1."' method='POST' action='' enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\">";
 	echo '<div class="'.$css.'" >';
 	echo $l->g(1048).": <input id='file_upload' name='file_upload' type='file' accept=''>";
-	echo "<br><br><input name='GO' id='GO' type='submit' value='".$l->g(13)."'>&nbsp;&nbsp;<input type='button' name='RESET' id='RESET' value='".$l->g(113)."' onclick='submit(".$form_name.")'>";
+	echo "<br><br><input name='GO' id='GO' type='submit' value='".$l->g(13)."'>&nbsp;&nbsp;";
+	//echo "<input type='button' name='RESET' id='RESET' value='".$l->g(113)."' onclick='submit(".$form_name.")'>";
+	echo "</div>";
 	echo "</form>";
 	echo "<br>";
-	echo "</div>";
+
 }
 
 
