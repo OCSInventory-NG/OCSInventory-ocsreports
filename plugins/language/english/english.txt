@@ -1144,6 +1144,7 @@
 1257 Use flash on GUI
 1258 Manual Entry
 
+
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
 2002 ERROR: line
@@ -1164,8 +1165,8 @@
 2017 using
 2018 was imported
 2019 were already imported
-2020 YOUR INSTALL.PHP EXISTS IN OCSREPORTS DIRECTORY
-2021 YOUR GUI LOGS DIRECTORY IS NOT WRITABLE
+2020 Your install.php exists in your installation directory.<br>For security reasons, please delete it.
+2021 Your LOG directory is not writable
 2022 You can't send a file larger than
 
 2030 OCS-NG Inventory Installation
@@ -1236,6 +1237,7 @@
 2100 Update old account infos
 2101 Add by script
 2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
+
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
