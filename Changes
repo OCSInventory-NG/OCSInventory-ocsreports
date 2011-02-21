@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+       * Patch from Bernhard Denner to enhance dhcp-leases files detection on Linux systems
+
+2.0 rc2
        * Add a new cleanXml() subroutine in Common.pm to clean non printable characters in both standard inventory and SNMP inventory
        * Various patches for Snmp/9.pm module (Cisco)
        * Add a new addSnmpCPU() subroutine in Common.pm

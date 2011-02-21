@@ -21,7 +21,10 @@ sub _ipdhcp {
   foreach (
     "/var/lib/dhcp3/dhclient.%s.leases",
     "/var/lib/dhcp3/dhclient.%s.leases",
-    "/var/lib/dhcp/dhclient.leases", ) {
+    "/var/lib/dhcp/dhclient.%s.leases",
+    "/var/lib/dhcp/dhclient.leases",
+    "/var/lib/dhcp/dhclient-%s.leases",
+    "/var/lib/dhclient/dhclient-%s.leases", ) {
 
     $leasepath = sprintf($_,$if);
     last if (-e $leasepath);
