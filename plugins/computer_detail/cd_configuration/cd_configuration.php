@@ -44,7 +44,7 @@ if ($protectedPost['Valid_modif_x']){
 			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		}
 	}else
-	echo "<script>alert(\"".$l->g(903)."\")</script>";	
+		 msg_error($l->g(903));
 }
 
 if ($protectedPost['Reset_modif_x'])

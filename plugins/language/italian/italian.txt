@@ -1062,7 +1062,7 @@
 1176 Permessi sulle Blacklist
 1177 Permessi di gestione
 1178 Questo campo
-1179 è una variabile. Non può contenere spazi
+1179 è una variabile. Non può contenere caratteri speciali
 1180 non può essere vuoto
 1181 Funzionalità server di ridistribuzione
 1182 Non puoi gestire le regole di ridistribuzione, questa funzionalità è disabilitata

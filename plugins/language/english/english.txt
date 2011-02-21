@@ -1063,7 +1063,7 @@
 1176 Rights to Blacklist
 1177 Rights to Manage
 1178 This field
-1179 is a variable. It can not contain spaces
+1179 is a variable. It can not contain special characters
 1180 can't be empty
 1181 Redistribution server functionality
 1182 You can't manage redistribution rules, this functionality is disable

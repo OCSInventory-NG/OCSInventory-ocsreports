@@ -90,6 +90,11 @@ if($login_successful == "OK" and isset($login_successful)) {
 		foreach ($tab_typ_champ as $id=>$values){
 			$tab_typ_champ[$id]['CONFIG']['SIZE']=20;
 		}
+			
+		if (DEMO) { 
+			echo "<br>login : demo<br>password : demo"; 
+		}
+		
 		if (isset($tab_typ_champ)){
 			$css='mlt_bordure';
 			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);

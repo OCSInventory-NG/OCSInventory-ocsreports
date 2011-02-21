@@ -1298,9 +1298,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				$value_of_field = "&nbsp";
 				else //sinon, on affiche la valeur
 				{
-					if (get_magic_quotes_gpc()==true){
-					$value_of_field=stripslashes($donnees[$no_alias_value]);
-					}else
 					$value_of_field=$donnees[$no_alias_value];
 				}
 				

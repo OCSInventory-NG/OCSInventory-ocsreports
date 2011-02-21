@@ -135,6 +135,8 @@ if (isset($delGroups)){
 }
 if ($protectedPost['onglet'] != $l->g(810)){
 	$optionList['ADD']=$l->g(975);		
+}else
+	$optionList['ADD']=$l->g(589);		
 	//if groups exist => add option for go out of the group
 	if (isset($groupDelList))
 		$optionList['DEL']=$l->g(818);	
@@ -142,7 +144,7 @@ if ($protectedPost['onglet'] != $l->g(810)){
 		if ($protectedPost['NEW_RAZ'] == "DEL")
 		unset($protectedPost['NEW_RAZ']);		
 	}	
-}
+//}
 
 //if group list exist
 if (isset($all_groups) and $_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){

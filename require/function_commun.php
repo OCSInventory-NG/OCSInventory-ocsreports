@@ -50,18 +50,12 @@ function look_config_default_values($field_name,$like='',$default_values=''){
 function mysql2_query_secure($sql,$link,$arg='',$log=false){
 	global $l,$lbl_log;
 	if (is_array($arg)){
-		foreach ($arg as $key=>$value){
-			if (!get_magic_quotes_gpc()) {			
+		foreach ($arg as $key=>$value){			
 				$arg_array_escape_string[]=mysql_real_escape_string($value);
-			}else
-				$arg_array_escape_string[]=$value;
 		}
 		$arg_escape_string=$arg_array_escape_string;
-	}elseif ($arg != ''){
-		if (!get_magic_quotes_gpc()) {	
+	}elseif ($arg != ''){	
 			$arg_escape_string=mysql_real_escape_string($arg);
-		}else
-			$arg_escape_string=$arg;
 	}
 
 	if (isset($arg_escape_string)){
