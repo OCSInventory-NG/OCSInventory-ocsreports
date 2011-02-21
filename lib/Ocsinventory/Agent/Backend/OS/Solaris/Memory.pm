@@ -34,7 +34,7 @@ sub run {
 
    $OSLevel=`uname -r`;	  
   
-  if ( $OSLevel =~ /5.8/ ){
+  if ( $OSLevel =~ /5.8/ || !can_run("zoneadm") ){
 	$zone = "global";
   }else{
 	  foreach (`zoneadm list -p`){
@@ -84,7 +84,11 @@ sub run {
   if ($model  =~ /SUNW,Netra-T/){ $sun_class = 2; }
   if ($model  =~ /SUNW,Sun-Fire-\d/){ $sun_class = 1; }
   if ($model  =~ /SUNW,Sun-Fire-V/){ $sun_class = 2; }  
+  if ($model  =~ /SUNW,Sun-Fire-V490/) { $sun_class = 1; }
   if ($model  =~ /SUNW,Sun-Fire-T\d/) { $sun_class = 3; }
+  if ($model  =~ /SUNW,SPARCstation/) { $sun_class = 3; }
+  if ($model  =~ /SUNW,Ultra-/) { $sun_class = 3; }
+  if ($model  =~ /SUNW,Sun-Blade-100/) { $sun_class = 8; }
   if ($model  =~ /SUNW,T\d/) { $sun_class = 3; }
   if ($model  =~ /Solaris Containers/){ $sun_class = 7; } 
  
@@ -242,11 +246,11 @@ sub run {
           })
         }
       }
-      if(/^socket\s+(\S+) has a (\d+)MB\s+\(\S+\)\s+(\S+)/)
+      if(/^socket\s+(\S+) has a (\d+)MB\s+(\(\S+\)\s+)?(\S+)/)
       {
 	$caption = $1;
-        $description = $3;
-        $type = $3;
+        $description = $4;
+        $type = $4;
         $numslots = 0;
         $capacity = $2;
         # debug
@@ -453,6 +457,70 @@ sub run {
 	}
   }	
   
+
+  if($sun_class == 8) {
+    # example output of a Sun Blade 100 Workstation
+
+    #Sun Microsystems, Inc. Sun Blade 100 (UltraSPARC-IIe 502MHz)
+    #Memory Segment Table:
+    #-----------------------------------------------------------------------
+    #Base Address       Size       Interleave Factor  Contains
+    #-----------------------------------------------------------------------
+    #0x0                256MB             1           chassis/system-board/DIMM0
+    #empty sockets: DIMM1 DIMM2 DIMM3
+    #total memory = 256MB
+
+    #Sun Microsystems, Inc. Sun Blade 100 (UltraSPARC-IIe 502MHz)
+    #Memory Segment Table:
+    #-----------------------------------------------------------------------
+    #Base Address       Size       Interleave Factor  Contains
+    #-----------------------------------------------------------------------
+    #0x0                256MB             1           Label DIMM0
+    #0x20000000         256MB             1           Label DIMM1
+    #empty sockets: DIMM2 DIMM3
+    #total memory = 512MB
+
+    foreach(`memconf 2>&1`) {
+      if (/^empty sockets:\s*(.+)/) {
+        foreach $caption (split(/ /, $1)) {
+          if ($caption eq "None") {
+            $empty_slots = 0;
+            last;
+          }
+          $empty_slots++;
+ #         print "empty slot\n";
+          $common->addMemory({
+            CAPACITY => "empty",
+            DESCRIPTION => '',
+            CAPTION => $caption,
+            SPEED => '',
+            TYPE => '',
+            NUMSLOTS => $numslots
+          })
+        }
+       }
+      if (/^0x(\d+)\s+(\d+)MB\s+(\S+)\s+(.+)/) {
+        $caption = "$4";
+        $description = "";
+        $numslots = 0;
+        $capacity = $2;
+        $type = "";
+        # debug
+#        print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
+        $module_count++;
+        $common->addMemory({
+          CAPACITY => $capacity,
+          DESCRIPTION => $description,
+          CAPTION => $caption,
+          SPEED => $speed,
+          TYPE => $type,
+          NUMSLOTS => $numslots
+        })
+      }
+    }
+  }
+
+
 }
 #run();
 1;

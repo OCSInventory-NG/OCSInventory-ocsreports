@@ -35,7 +35,7 @@ sub run {
   $OSLevel=`uname -r`;
 	  
   
-  if ( $OSLevel =~ /5.8/ ){
+  if ( $OSLevel =~ /5.8/ || !can_run("zoneadm")){
 	$zone = "global";
   }else{
 	  foreach (`zoneadm list -p`){
@@ -90,6 +90,9 @@ sub run {
   if ($model  =~ /SUNW,Sun-Fire-V/){ $sun_class_cpu = 2; }  
   if ($model  =~ /SUNW,Sun-Fire-T\d/) { $sun_class_cpu = 3; }  
   if ($model  =~ /Solaris Containers/){ $sun_class_cpu = 6; } 
+  if ($model  =~ /SUNW,SPARCstation/) { $sun_class_cpu = 7; }
+  if ($model  =~ /SUNW,Sun-Blade-100/) { $sun_class_cpu = 7; }
+  if ($model  =~ /SUNW,Ultra/) { $sun_class_cpu = 7; }
 
 
 
@@ -253,20 +256,37 @@ sub run {
 		}
 	}	
   }
+
+  if($sun_class_cpu == 7) {
+    foreach(`memconf 2<&1`) {
+      #Sun Microsystems, Inc. Sun Blade 100 (UltraSPARC-IIe 502MHz)
+      #Sun Microsystems, Inc. Sun Ultra 5/10 UPA/PCI (UltraSPARC-IIi 333MHz)
+      #Sun Microsystems, Inc. Sun Ultra 1 SBus (UltraSPARC 143MHz)
+      #Sun Microsystems, Inc. SPARCstation 20 (1 X 390Z50) (SuperSPARC 50MHz)
+      #Sun Microsystems, Inc. SPARCstation 5 (TurboSPARC-II 170MHz)
+      if (/^Sun Microsystems, Inc\..+\((\S+)\s+(\d+)MHz\)/) {
+        $cpu_slot = 1;
+        $cpu_type = $1;
+        $cpu_speed = $2;
+        $cpu_core = 1;
+        $cpu_thread = 0;
+      }
+    }
+  }
     
   # for debug only
-  print "cpu_slot: " . $cpu_slot . "\n";
-  print "cpu_type: " . $cpu_type . "\n";
-  print "cpu_speed: " . $cpu_speed . "\n";
-  print "cpu_core: " . $cpu_core . "\n";
-  print "cpu_thread: " . $cpu_thread . "\n";
+  #print "cpu_slot: " . $cpu_slot . "\n";
+  #print "cpu_type: " . $cpu_type . "\n";
+  #print "cpu_speed: " . $cpu_speed . "\n";
+  #print "cpu_core: " . $cpu_core . "\n";
+  #print "cpu_thread: " . $cpu_thread . "\n";
   
   $current->{MANUFACTURER} = "SPARC" ;
   $current->{SPEED} = $cpu_speed if $cpu_speed;
   $current->{TYPE} = $cpu_type if $cpu_type;
-	$current->{NUMBER} = $cpu_slot if $cpu_slot;
-	$current->{CORE} = $cpu_core if $cpu_core;
-	$current->{THREAD} = $cpu_thread if $cpu_thread;
+  $current->{NUMBER} = $cpu_slot if $cpu_slot;
+  $current->{CORE} = $cpu_core if $cpu_core;
+  $current->{THREAD} = $cpu_thread if $cpu_thread;
   $common->addCPU($current);
   
   

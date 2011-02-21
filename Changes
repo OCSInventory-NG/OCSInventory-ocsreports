@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Patches from Bernhard Denner to enhance CPU and memry detection on old SUN solaris workstations
        * Patch from Bernhard Denner to enhance dhcp-leases files detection on Linux systems
 
 2.0 rc2
