@@ -1143,6 +1143,8 @@
 1256 Bad connexion number by day
 1257 Use flash on GUI
 1258 Manual Entry
+1259 For one week
+1260 For one months
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
