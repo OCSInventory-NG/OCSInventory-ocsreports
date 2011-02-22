@@ -14,7 +14,8 @@ $form_name="insert_computers";
 $data_on['FILE']=$l->g(288);
 $data_on['MANUEL']=$l->g(1258);
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-onglet($data_on,$form_name,"onglet",4);
+$protectedPost['onglet']='FILE';
+//onglet($data_on,$form_name,"onglet",4);
 echo "<div class='mlt_bordure' >";
 
 if ($protectedPost['onglet'] == 'FILE'){
