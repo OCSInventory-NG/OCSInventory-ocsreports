@@ -155,7 +155,7 @@ INSERT INTO `config` VALUES ('FREQUENCY',0,'','Specify the frequency (days) of i
 
 INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6000', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6001', 'Version of the installed GUI and database');
 UNLOCK TABLES;
 
 --
@@ -1397,4 +1397,6 @@ MODEMS VARCHAR(255) DEFAULT NULL,
 LOCALPRINTERS VARCHAR(255) DEFAULT NULL,
 PRIMARY KEY (SNMP_ID) ) DEFAULT CHARSET=UTF8;
 
+ALTER TABLE groups CHANGE REVALIDATE_FROM REVALIDATE_FROM INT(11) DEFAULT 0;
+UPDATE groups SET REVALIDATE_FROM = 0 WHERE REVALIDATE_FROM is null;
 
