@@ -146,6 +146,8 @@ function dbconnect() {
 	}
 	//if (mb_detect_encoding($value, "UTF-8") == "UTF-8" )
 		mysql_query("SET NAMES 'utf8'");
+		//sql_mode => not strict
+		mysql_query("SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 	$_SESSION['OCS']["writeServer"] = $link2;	
 	$_SESSION['OCS']["readServer"] = $link;
 	return $link2;
@@ -200,6 +202,7 @@ function dateToMysql($date_cible) {
 	$annee = $dateAr[2];
 	return sprintf("%04d-%02d-%02d", $annee, $mois, $jour);	
 }
+
 
 function reloadform_closeme($form='',$close=false){
 	echo "<script>";
