@@ -1,5 +1,16 @@
 Revision history for ocsreports 
 
+2.0 rc3
+		* add demo mode
+		* update wk of teledeploy (more user friendly)
+		* force sql mode not strict
+		* change REVALIDATE_FROM INT(11) DEFAULT 0 (bug for revalidate groups)
+		* add xml header in info files
+		* add filter on stats
+
+
+
+
 2.0 rc2
 		* Add "show all computer detail"
 		* Add "show all" option in all table 
