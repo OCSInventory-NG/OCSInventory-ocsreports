@@ -12,8 +12,6 @@
 $form_name='info_ipdiscover';
 //$ban_head='no';
 //$no_error='YES';
-//require_once("header.php");
-
 //recherche de la personne connect�e
 if (isset($_SESSION['OCS']['TRUE_USER']))
 $user=$_SESSION['OCS']['TRUE_USER'];
@@ -162,16 +160,43 @@ else{ //affichage des p�riph�riques
 
 		}
 		printEnTete($title);
-		echo "<br><br>";		
+		echo "<br><br>";	
+		
 		$tab_options['LBL']['MAC']=$l->g(95);		
 		$tab_options['FILTRE']['ip']=$l->g(66);
 		$list_col_cant_del=array($l->g(66)=>$l->g(66),'SUP'=>'SUP','MODIF'=>'MODIF');
 		$table_name="IPDISCOVER_".$protectedGet['prov'];
 		$form_name=$table_name;
-		echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
+		echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";		
 		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
+	/*		$fipdisc = "ipdiscover-util.pl" ;
+		$values=look_config_default_values(array('IPDISCOVER_IPD_DIR'));
+		$IPD_DIR=$values['tvalue']['IPDISCOVER_IPD_DIR']."/ipd";
+		if( $scriptPresent = @stat($fipdisc) ) {
+			$filePresent = true;
+			if( ! is_executable($fipdisc) ) {
+				$msg_info=$fipdisc." ".$l->g(341);
+			}
+			else if( ! is_writable($IPD_DIR) ) {
+				$msg_info=$l->g(342)." ".$fipdisc." (".$IPD_DIR.")";
+			}	
+			
+			if (!isset($msg_info)){
+				
+				echo "<br><input type='submit' name='analyse' value='".$l->g(317)."'>";
+				
+			}else
+				msg_info($msg_info);
+			
+		}*/
 		echo "</form>";
 	}
 }
+
+/*if (isset($protectedPost['analyse'])){
+	
+	echo "toto";
+	
+}*/
 //require_once($_SESSION['OCS']['FOOTER_HTML']);
 ?>

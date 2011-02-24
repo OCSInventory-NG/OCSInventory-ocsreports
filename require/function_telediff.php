@@ -383,7 +383,8 @@ function create_pack($sql_details,$info_details){
 			$sql_details['nbfrags']=0;
 		
 		//create info
-		$info = "<DOWNLOAD ID=\"".$sql_details['timestamp']."\" ".
+		$info = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"; 
+		$info .= "<DOWNLOAD ID=\"".$sql_details['timestamp']."\" ".
 		"PRI=\"".$info_details['PRI']."\" ".
 		"ACT=\"".$info_details['ACT']."\" ".
 		"DIGEST=\"".$info_details['DIGEST']."\" ".		

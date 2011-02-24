@@ -13,11 +13,6 @@
 require_once('require/function_telediff.php');
 require_once('require/function_telediff_wk.php');
 foreach ($_POST as $key=>$value){
-	if (get_magic_quotes_gpc()==true and stristr($value, '\\') == true){
-		while (stristr($value, '\\'))
-			$value=stripslashes($value);
-		$value= replace_entity_xml($value);
-	}
 	$temp_post[$key]=$value;
 }
 $protectedPost=$temp_post;
@@ -130,8 +125,8 @@ if (isset($protectedPost['valid'])){
 	$error=$l->g(551);
 		
 	if ($error){
-		echo "<script language='javascript'>alert('".$error."');</script>";
-		unset($protectedPost['valid']);
+		 msg_error($error);
+		 unset($protectedPost['valid']);
 	}
 	else{	
 		

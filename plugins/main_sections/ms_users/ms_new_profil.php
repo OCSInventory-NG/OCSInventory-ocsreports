@@ -74,7 +74,7 @@ if ($protectedPost['onglet'] == 1){
 		$tab_name=array($l->g(1149).": ",$l->g(1151).": ",$l->g(1150).": ");
 		if (isset($protectedPost['Valid_modif_x'])){
 			$msg="";
-			if (stripos($protectedPost['new_profil'], ' ')){
+			if(preg_match('/[^0-9A-Za-z]/',$protectedPost['new_profil'])){
 				$msg .= $l->g(1178).' : <i>' . $tab_name[0] . "</i> " . $l->g(1179) . " <br>";				
 			}
 			if (array_key_exists( $protectedPost['new_profil'] , $array_profil )){				

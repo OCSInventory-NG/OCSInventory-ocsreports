@@ -50,9 +50,13 @@ echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
  	
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
 	//echo "<table width= 100% align=center border='0'><tr><Td align='center' bgcolor='#f2f2f2' BORDERCOLOR='#f2f2f2' width:80%>";
-	$msg_header='';
+	if (DEMO) {
+		$msg_header="YOU ARE WATCHING THE DEMO VERSION OF THE RELEASE ".GUI_VER_SHOW."<br>";
+	} else {
+		$msg_header='';
+	}
 	if($fconf=@fopen("install.php","r")){
-		$msg_header = $l->g(2006) . "<br>" . $l->g(2020) . "<br>";
+		$msg_header .= $l->g(2006) . "<br>" . $l->g(2020) . "<br>";
 	}
 	if ($_SESSION['OCS']['LOG_GUI'] == 1){
 		//check if the GUI logs directory is writable
@@ -61,6 +65,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 			$msg_header.=$l->g(2021);
 		}
 	}
+	
 	if ($msg_header != '')
 	msg_warning($msg_header);
 	

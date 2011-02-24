@@ -50,18 +50,12 @@ function look_config_default_values($field_name,$like='',$default_values=''){
 function mysql2_query_secure($sql,$link,$arg='',$log=false){
 	global $l,$lbl_log;
 	if (is_array($arg)){
-		foreach ($arg as $key=>$value){
-			if (!get_magic_quotes_gpc()) {			
+		foreach ($arg as $key=>$value){			
 				$arg_array_escape_string[]=mysql_real_escape_string($value);
-			}else
-				$arg_array_escape_string[]=$value;
 		}
 		$arg_escape_string=$arg_array_escape_string;
-	}elseif ($arg != ''){
-		if (!get_magic_quotes_gpc()) {	
+	}elseif ($arg != ''){	
 			$arg_escape_string=mysql_real_escape_string($arg);
-		}else
-			$arg_escape_string=$arg;
 	}
 
 	if (isset($arg_escape_string)){
@@ -152,6 +146,8 @@ function dbconnect() {
 	}
 	//if (mb_detect_encoding($value, "UTF-8") == "UTF-8" )
 		mysql_query("SET NAMES 'utf8'");
+		//sql_mode => not strict
+		mysql_query("SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 	$_SESSION['OCS']["writeServer"] = $link2;	
 	$_SESSION['OCS']["readServer"] = $link;
 	return $link2;
@@ -206,6 +202,7 @@ function dateToMysql($date_cible) {
 	$annee = $dateAr[2];
 	return sprintf("%04d-%02d-%02d", $annee, $mois, $jour);	
 }
+
 
 function reloadform_closeme($form='',$close=false){
 	echo "<script>";

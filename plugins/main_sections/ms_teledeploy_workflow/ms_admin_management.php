@@ -32,8 +32,7 @@ echo '<div class="mlt_bordure" >';
 
 if ($protectedGet['admin'] == "tab"){
 	$table="downloadwk_tab_values";
-//	$array_fields=array('FIELD'=>'FIELD','Valeur'=>'VALUE','Libellé'=>'LBL');	
-	$array_fields=array('FIELD'=>'FIELD',$l->g(224)=>'VALUE','Libellé'=>'LBL');	
+	$array_fields=array('FIELD'=>'FIELD',$l->g(224)=>'VALUE',$l->g(80)=>'LBL');	
 	$array_values=array($protectedGet["value"],$protectedPost["newfield"],$protectedPost["newlbl"]);
 	$field_search="field";	
 }elseif ($protectedGet['admin'] == "fields"){
@@ -57,13 +56,11 @@ if ($protectedGet['admin'] == "tab"){
 	$field_search="tab";
 }else{
 	$table="downloadwk_conf_values";
-//	$array_fields=array('FIELD'=>'FIELD','Valeur'=>'VALUE');
 	$array_fields=array('FIELD'=>'FIELD',$l->g(224)=>'VALUE');
 	$array_values=array($protectedGet["value"],$protectedPost["newfield"]);
 	$field_search="field";		
 }
 $fields=implode(',',$array_fields);
-$values=implode("','",$array_values);
 
 if ($protectedPost['onglet'] == 1){
 	$tab_options['CACHE']='RESET';
@@ -102,6 +99,7 @@ if ($protectedPost['onglet'] == 1){
 		$tab_options['REPLACE_VALUE'][$l->g(1064)]=$yes_no;
 		$tab_options['REPLACE_VALUE'][$l->g(1065)]=$yes_no;
 		$tab_options['REPLACE_VALUE'][$l->g(1066)]=$status;
+		$tab_options['LBL_POPUP']['SUP']='VALUE';
 		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
 		//traitement par lot
 		del_selection($form_name);
@@ -111,11 +109,10 @@ if ($protectedPost['onglet'] == 1){
 	
 }elseif ($protectedPost['onglet'] == 2){
 	if( $protectedPost['Valid_modif_x'] != "" ) {
-		//Is this name already exist? 
-		if ($table=="downloadwk_fields"){
 			if (trim($protectedPost['newfield']) != ''){
-				$sql_verif="SELECT count(*) c FROM ".$table." WHERE FIELD = '".$protectedPost['newfield']."'";
-				$res_verif = mysql_query( $sql_verif, $_SESSION['OCS']["readServer"] );
+				$sql_verif="SELECT count(*) c FROM ".$table." WHERE FIELD = '%s'";
+				$arg_verif=$protectedPost['newfield'];
+				$res_verif = mysql2_query_secure( $sql_verif, $_SESSION['OCS']["readServer"],$arg_verif);
 				$val_verif = mysql_fetch_array( $res_verif );
 				//this name is already exist
 				if ($val_verif['c'] > 0)
@@ -123,28 +120,41 @@ if ($protectedPost['onglet'] == 1){
 			}else
 				//name can't be null
 				$ERROR=$l->g(1068);		
-		}
+				//can not contain special characters
+			if(preg_match('/[^0-9A-Za-z]/',$protectedPost['newfield']) and isset($protectedGet['admin']))
+				$ERROR .= $l->g(1178).' : <i>' . $l->g(1070) . "</i> " . $l->g(1179) . " <br>";
 		
-		if (!isset($ERROR)){		
-			mysql_query( "INSERT INTO ".$table." (".$fields.") VALUES('".$values."')", $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["writeServer"]);
+		if (!isset($ERROR)){	
+			$sql_insert="insert into ".$table." (".$fields.") VALUES ";
+			$arg_sql=array();
+			$insert=mysql2_prepare($sql_insert,$arg_sql,$array_values);
+			mysql2_query_secure($insert['SQL'], $_SESSION['OCS']["writeServer"],$insert['ARG']);
+		//	mysql_query( "INSERT INTO ".$table." (".$fields.") VALUES('".$values."')", $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["writeServer"]);
 			//If we add a field, you must add a new colonm in downloadwk_pack table
 			if ($table=="downloadwk_fields"){ 
-				if ($protectedPost["newtype"] == 1)
-					$type="LONGTEXT";
-				elseif ($protectedPost["newtype"] == 8)
-					$type="BLOB";
+				$id=mysql_insert_id();
+				if (is_numeric($id)){
+					if ($protectedPost["newtype"] == 1)
+						$type="LONGTEXT";
+					elseif ($protectedPost["newtype"] == 8)
+						$type="BLOB";
+					else
+						$type="VARCHAR(255)";
+					$sql_add_column="ALTER TABLE downloadwk_pack ADD COLUMN fields_".mysql_insert_id()." ".$type." default NULL";
+					mysql2_query_secure( $sql_add_column, $_SESSION['OCS']["writeServer"] );	
+				}
 				else
-					$type="VARCHAR(255)";
-				$sql_add_column="ALTER TABLE downloadwk_pack ADD COLUMN fields_".mysql_insert_id()." ".$type." default NULL";
-				mysql_query( $sql_add_column, $_SESSION['OCS']["writeServer"]  ) or mysql_error($_SESSION['OCS']["writeServer"]);		
+					msg_error("mysql_insert_id() problem");
 			}
 			msg_success($l->g(1069));
+			reloadform_closeme($protectedGet['form']);
+			if( $protectedPost['Valid_modif_x'] != "" ) 
+				unset($protectedPost['newfield'],$protectedPost['newlbl']);
 		}else
 			msg_error($ERROR);
 	}
 	
-	if( $protectedPost['Valid_modif_x'] != "" ) 
-		unset($protectedPost['newfield'],$protectedPost['newlbl']);
+	
 	//NAME FIELD
 	$name_field=array("newfield");
 	$tab_name= array($l->g(1070).": ");

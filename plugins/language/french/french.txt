@@ -1062,7 +1062,7 @@
 1176 Droits Blacklist
 1177 Droits configuration
 1178 Ce champ 
-1179 est une variable. Il ne peut contenir d'espace.
+1179 est une variable. Il ne peut contenir de caractères spéciaux.
 1180 ne peut pas être vide
 1181 Fonctionnalité Serveur de redistribution
 1182 Vous ne pouvez pas administrer les règles de redistribution, la fonctionnalité est désactivée
@@ -1072,11 +1072,11 @@
 1186 Vos données ont été mises à jour
 1187 En cours de configuration
 1188 Ce groupe est déclaré comme un périmètre de TEST
-1189 Ce groupe est déclaré comme un périmètre RESTRAINT
+1189 Ce groupe est déclaré comme un périmètre RESTREINT
 1190 Vous ne pouvez affecter des paquets que de niveau supérieur à
 1191 Rappel: la configuration du workflow de télédéploiement est actuellement sur
 1192 Groupe pouvant recevoir des paquets de TEST
-1193 Groupe pouvant recevoir des paquets de périmètre RESTRAINT
+1193 Groupe pouvant recevoir des paquets de périmètre RESTREINT
 1194 Seuls les paquets de niveau supérieur à 
 1195 peuvent être affectés
 1196 Profil
@@ -1142,6 +1142,8 @@
 1256 Nombre d'erreurs de connexion par jour
 1257 Utilisation du flash dans la GUI
 1258 Entrée Manuelle
+1259 Sur une semaine
+1260 Sur un mois
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

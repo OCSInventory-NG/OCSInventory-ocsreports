@@ -1063,7 +1063,7 @@
 1176 Rights to Blacklist
 1177 Rights to Manage
 1178 This field
-1179 is a variable. It can not contain spaces
+1179 is a variable. It can not contain special characters
 1180 can't be empty
 1181 Redistribution server functionality
 1182 You can't manage redistribution rules, this functionality is disable
@@ -1143,6 +1143,8 @@
 1256 Bad connexion number by day
 1257 Use flash on GUI
 1258 Manual Entry
+1259 For one week
+1260 For one months
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

@@ -24,17 +24,33 @@ $fd = @fopen ($ms_cfg_file, "r");
 if (!$fd)
 		return "NO_FILES";
 $max=0;
+$array_profil[7]=$l->g(1259);
+$array_profil[30]=$l->g(1260);
+$array_profil['ALL']=$l->g(215);
+if (!isset($protectedPost['REST']))
+	$protectedPost['REST']=7;
+echo $l->g(1251). ": " .show_modif($array_profil,"REST",2,$form_name);
+
+if (isset($protectedPost['REST']) and $protectedPost['REST'] != 'ALL')
+$lastWeek = time() - ($protectedPost['REST'] * 24 * 60 * 60);
+//msg_error(time()."=>".$lastWeek);
+//echo date('d/m/Y', $lastWeek) ;    
 while( !feof($fd) ) {
          $line = trim( fgets( $fd, 256 ) );
          $trait=explode (';',$line);
          if ($trait[3]==$protectedPost['onglet']){
          	$h=explode(' ',$trait[1]);
-         	//$time=explode(':',$h[1]);
-         	$find_connexion[$h[0]]=$find_connexion[$h[0]]+1;     
-         	if ($find_connexion[$h[0]]>$max)    
-         		$max=$find_connexion[$h[0]];
+         	$time=explode('/',$h[0]);
+       //  	p($time);
+         	//echo mktime(0, 0, 0, $time[1], $time[0], $time[2])." => ".$lastWeek."<br>" ; 
+         	if (mktime(0, 0, 0, $time[1], $time[0], $time[2])>= $lastWeek){
+	         	$find_connexion[$h[0]]=$find_connexion[$h[0]]+1;     
+	         	if ($find_connexion[$h[0]]>$max)    
+	         		$max=$find_connexion[$h[0]];
+        	}
          }
 }
+
 fclose( $fd );
 if (isset($find_connexion)){
 	if ($_SESSION['OCS']['useflash'] == 1){

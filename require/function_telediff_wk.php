@@ -171,7 +171,7 @@ function dde_form($form_name){
 		}
 		
 		//show all tab
-		onglet($cat_value,$form_name,"cat",7);
+		onglet($cat_value,$form_name,"cat",5);
 		
 		//search all fields of the form
 		$sql_fields="select TAB,FIELD,TYPE,LBL,MUST_COMPLETED,ID,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS from downloadwk_fields";
@@ -398,7 +398,6 @@ function dde_form($form_name){
 			//print_r($type_field_temp);
 			if (isset($msg_empty)){
 				msg_error($l->g(684) . ":<br>" . $msg_empty);
-			//	echo "<script>alert('" . $l->g(684) . ":\\n" . $msg_empty . "');</script>";
 				unset($protectedPost['SUBMIT_FORM']);
 			}else{
 				
@@ -522,7 +521,7 @@ function dde_form($form_name){
 					$tab=$protectedPost['cat'];
 					unset($protectedPost);
 					$protectedPost['cat']=$tab;
-					echo "<script>alert('".$msg_popup."');</script>";
+					msg_success($msg_popup);
 					
 					//TODO: envoi de mail au group admin + soit à l'utilisateur soit à son groupe (voir la conf du profil)
 					$mail_active=option_conf_activate('IT_SET_MAIL');
@@ -551,7 +550,7 @@ function dde_form($form_name){
 						$result_mail = mysql2_query_secure($sql_mail, $_SESSION['OCS']["readServer"],$arg);
 						$item_mail = mysql_fetch_object($result_mail);
 						if (!VerifyMailadd($item_mail->email))
-								echo "<script>alert('" . $l->g(1055)." ".$l->g(1056) . "');</script>";
+								msg_error($l->g(1055)." ".$l->g(1056));
 						if ($_SESSION['OCS']['TELEDIFF_WK'] == 'LOGIN'){							
 							if (VerifyMailadd($item_mail->email))
 							$mail_list[]=$item_mail->email;
@@ -569,14 +568,14 @@ function dde_form($form_name){
 						if (isset($mail_list[0])){
 							send_mail($mail_list,$subjet,$body);								
 						}else
-						 echo "<script>alert('" . $l->g(1058) . "');</script>";						
+						 msg_error($l->g(1058));						
 						
 						
 					}
 				
 					unset($_SESSION['OCS']['DATA_CACHE'],$_SESSION['OCS']['NUM_ROW']);
 				}else{
-					echo "<script>alert('" . $l->g(1093) . ".\\n " . $l->g(1094) . ".');</script>";
+					 msg_error( $l->g(1093) . ".<br> " . $l->g(1094) );
 					unset($protectedPost['SUBMIT_FORM']);
 				}
 				
@@ -617,7 +616,7 @@ function dde_form($form_name){
 			if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 				if (isset($add_values_admin[$protectedPost['cat']])){
 					foreach($add_values_admin[$protectedPost['cat']] as $key=>$value)
-						$tab_typ_champ[$value]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&value=".$value."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+						$tab_typ_champ[$value]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&value=".$value."&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 				}				
 			}	
 		}else 
@@ -741,10 +740,10 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 					array_push($value_field,$List_fields);
 				}
 				$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-				$tab_typ_champ[0]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=tab&value=TAB\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+				$tab_typ_champ[0]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=tab&value=TAB&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 				$tab_typ_champ[0]['RELOAD']=$form_name;
 				$tab_typ_champ[1]['RELOAD']=$form_name;
-				$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=fields&value=".$protectedPost['TAB']."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=700,height=650\")><img src=image/plus.png></a>";
+				$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=fields&value=".$protectedPost['TAB']."&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=700,height=650\")><img src=image/plus.png></a>";
 				
 				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=false,$form_name='NO_FORM');
 				if (isset($protectedPost['FIELDS']) and $protectedPost['FIELDS'] != 0){
