@@ -1483,10 +1483,13 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}elseif ($key == "NAME" and !isset($tab_options['NO_NAME']['NAME'])){
 							$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$donnees['ID']."'  target='_blank'>".$value_of_field."</a>";
 					}elseif ($key == "MAC"){
-						if (isset($_SESSION['OCS']["mac"][substr($value_of_field,0,8)]))
-						$constr=$_SESSION['OCS']["mac"][substr($value_of_field,0,8)];
+						//echo substr($value_of_field,0,8);
+						//echo $_SESSION['OCS']["mac"][substr($value_of_field,0,8)];
+						if (isset($_SESSION['OCS']["mac"][strtoupper(substr($value_of_field,0,8))]))
+						$constr=$_SESSION['OCS']["mac"][strtoupper(substr($value_of_field,0,8))];
 						else
 						$constr="<font color=red>".$l->g(885)."</font>";
+						//echo "=>".$constr."<br>";
 						$data[$i][$num_col]=$value_of_field." (<small>".$constr."</small>)";						
 					}elseif (substr($key,0,11) == "PERCENT_BAR"){
 						require_once("function_graphic.php");
