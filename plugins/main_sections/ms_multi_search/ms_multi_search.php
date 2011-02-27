@@ -334,6 +334,10 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 						//la gestion de diff est particuli�re
 						//et n�cessite plus de code (voir plus loin dans le code)
 						break;
+					case "diff_exact":
+						$field_compar[$i]=" = ";
+						$field_compar_origine[$i]="diff";
+						break;
 				
 					case "list":
 						$field_compar[$i]= " IN ";
@@ -952,7 +956,7 @@ $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"]
 				 "GROUPS_CACHE-GROUP_ID"=>$sort_list_2Select["GROUPS_CACHE-GROUP_ID"],//$l->g(583).": ".$l->g(49),
 				 "GROUPS_CACHE-GROUP_ID-SQL1"=>"select ID,NAME from hardware where deviceid = '_SYSTEMGROUP_' order by 2",
 				 "GROUPS_CACHE-GROUP_ID-SELECT"=>array('exact'=>$l->g(967)
-				 										,'diff'=>$l->g(968)
+				 										,'diff_exact'=>$l->g(968)
 				 										),
 				 "DOWNLOAD_HISTORY-PKG_ID"=>$sort_list_2Select["DOWNLOAD_HISTORY-PKG_ID"],//$l->g(512).": ".$l->g(969),
 				 "DOWNLOAD_HISTORY-PKG_ID-SQL1"=>"select FILEID as ID,NAME from download_available order by 2",

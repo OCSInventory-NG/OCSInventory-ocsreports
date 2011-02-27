@@ -63,7 +63,6 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	
 	//cas d'une modification de la donn�e d�j� saisie
 	if ($protectedGet['prov'] == "ident" and !isset($protectedPost['COMMENT'])){
-		//$id=mysql_escape_string($protectedPost['MODIF']);
 		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='".$protectedPost['MODIF']."'";
 		$res = mysql_query($sql, $_SESSION['OCS']["readServer"] );
 		$val = mysql_fetch_array( $res );
@@ -110,9 +109,6 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	$tab_typ_champ[2]['INPUT_NAME']="TYPE";
 	$tab_typ_champ[2]['INPUT_TYPE']=2;
 	$tab_name[2]=$l->g(66).": ";
-	
-	
-	//printEnTete("Ajout d'un nouveau p�riph�rique");
 
 	$tab_hidden['mac']=$protectedPost['MODIF'];	
 	if (isset($ERROR))
@@ -123,7 +119,6 @@ else{ //affichage des p�riph�riques
 	if (!(isset($protectedPost["pcparpage"])))
 		 $protectedPost["pcparpage"]=5;
 	if (isset($protectedGet['value'])){
-		//$netid=mysql_escape_string($protectedGet['value']);
 		if ($protectedGet['prov'] == "no_inv"){
 			$title=$l->g(947);
 			$sql="SELECT ip, mac, mask, date, name FROM netmap n 
@@ -169,7 +164,7 @@ else{ //affichage des p�riph�riques
 		$form_name=$table_name;
 		echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";		
 		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
-	/*		$fipdisc = "ipdiscover-util.pl" ;
+			$fipdisc = "ipdiscover-util.pl" ;
 		$values=look_config_default_values(array('IPDISCOVER_IPD_DIR'));
 		$IPD_DIR=$values['tvalue']['IPDISCOVER_IPD_DIR']."/ipd";
 		if( $scriptPresent = @stat($fipdisc) ) {
@@ -182,21 +177,13 @@ else{ //affichage des p�riph�riques
 			}	
 			
 			if (!isset($msg_info)){
-				
-				echo "<br><input type='submit' name='analyse' value='".$l->g(317)."'>";
+				echo "<br><input type='button' onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_ipdiscover_analyse']."&head=1&rzo=".$protectedGet['value']."\",\"analyse\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\") name='analyse' value='".$l->g(317)."'>";
 				
 			}else
 				msg_info($msg_info);
 			
-		}*/
+		}
 		echo "</form>";
 	}
 }
-
-/*if (isset($protectedPost['analyse'])){
-	
-	echo "toto";
-	
-}*/
-//require_once($_SESSION['OCS']['FOOTER_HTML']);
 ?>

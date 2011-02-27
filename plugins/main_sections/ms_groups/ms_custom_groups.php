@@ -14,6 +14,7 @@ require_once('require/function_groups.php');
 $form_name="groups_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 $list_id=multi_lot($form_name,$l->g(601));
+
 /*********************************************TRAITEMENT DES DONNEES*****************************************/
 if (isset($protectedPost['VALID_GROUP'])){		
 	//gestion groupe de serveurs
