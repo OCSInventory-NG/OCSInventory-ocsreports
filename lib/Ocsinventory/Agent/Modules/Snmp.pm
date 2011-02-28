@@ -78,13 +78,14 @@ sub snmp_start_handler {
    #Disabling module if local mode
    if ($config->{stdout} || $config->{local}) {
      $self->{disabled} = 1;
-     $logger->debug("Agent is running in local mode...disabling module");
+     $logger->info("Agent is running in local mode...disabling module");
    }
 
    #If we cannot load prerequisite, we disable the module 
    unless ($common->can_load('Net::SNMP')) { 
      $self->{disabled} = 1;
-     $logger->debug("Humm my prerequisites are not OK...disabling module :( :( ");
+     $logger->error("Net::SNMP perl module is missing !!");
+     $logger->error("Humm my prerequisites are not OK...disabling module :( :(");
    }
 }
 

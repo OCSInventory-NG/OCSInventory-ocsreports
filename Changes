@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Enhance logging in Snmp.pm and Download.pm when disabling this modules (local mode or prerequisites not OK)
        * Patches from Bernhard Denner to enhance CPU and memry detection on old SUN solaris workstations
        * Patch from Bernhard Denner to enhance dhcp-leases files detection on Linux systems
 
