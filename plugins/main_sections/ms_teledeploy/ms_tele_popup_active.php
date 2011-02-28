@@ -100,6 +100,7 @@ if (!isset($info_id['ERROR'])){
 	}else{
 
 		$protectedPost['choix_activ']= "MAN";
+		echo "<input type='hidden' name='choix_activ' value='MAN'>";
 				
 	}
 	echo "<br>";
