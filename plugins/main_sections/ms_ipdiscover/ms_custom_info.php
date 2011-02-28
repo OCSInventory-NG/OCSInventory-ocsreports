@@ -20,11 +20,11 @@ $user=$_SESSION['OCS']['loggeduser'];
 
 //suppression d'une adresse mac
 if(isset($protectedPost['SUP_PROF'])){
-	//$del=mysql_escape_string($protectedPost['SUP_PROF']);
-	mysql_query("DELETE FROM netmap WHERE mac='".$protectedPost['SUP_PROF']."'", $_SESSION['OCS']["writeServer"] ) or die(mysql_error());
-	mysql_query("DELETE FROM network_devices WHERE macaddr='".$protectedPost['SUP_PROF']."'", $_SESSION['OCS']["writeServer"] ) or die(mysql_error());
-	unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_'.$protectedGet['prov']]);
-	
+	$sql="DELETE FROM netmap WHERE mac='%s'";
+	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$protectedPost['SUP_PROF']);
+	$sql="DELETE FROM network_devices WHERE macaddr='%s'";
+	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$protectedPost['SUP_PROF']);
+	unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_'.$protectedGet['prov']]);	
 }
 //identification d'une adresse mac
 if (isset($protectedPost['Valid_modif_x'])){
@@ -39,18 +39,17 @@ if (isset($protectedPost['Valid_modif_x'])){
 		//$post=xml_escape_string($protectedPost);
 		if ($protectedPost['USER_ENTER'] != ''){
 			$sql="update network_devices 
-					set DESCRIPTION = '".$protectedPost['COMMENT']."',
-					TYPE = '".$protectedPost['TYPE']."',
-					MACADDR = '".$protectedPost['mac']."',
-					USER = '".$user."' where ID='".$protectedPost['MODIF_ID']."'";			
+					set DESCRIPTION = '%s',
+					TYPE = '%s',
+					MACADDR = '%s',
+					USER = '%s' where MACADDR='%s'";		
+			$arg=array($protectedPost['COMMENT'],$protectedPost['TYPE'],$protectedPost['mac'],$user,$protectedPost['MODIF_ID']);
 		}else{		
 			$sql="insert into network_devices (DESCRIPTION,TYPE,MACADDR,USER)
-			  VALUES('".$protectedPost['COMMENT']."',
-			  '".$protectedPost['TYPE']."',
-			  '".$protectedPost['mac']."',
-			  '".$user."')";
+			  VALUES('%s','%s','%s','%s')";
+			$arg=array($protectedPost['COMMENT'],$protectedPost['TYPE'],$protectedPost['mac'],$user);
 		}
-		mysql_query( $sql , $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+		mysql2_query_secure( $sql , $_SESSION['OCS']["writeServer"],$arg);
 		//suppression du cache pour prendre en compte la modif
 		unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_'.$protectedGet['prov']]);
 	}else{		
@@ -63,8 +62,9 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	
 	//cas d'une modification de la donn�e d�j� saisie
 	if ($protectedGet['prov'] == "ident" and !isset($protectedPost['COMMENT'])){
-		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='".$protectedPost['MODIF']."'";
-		$res = mysql_query($sql, $_SESSION['OCS']["readServer"] );
+		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='%s'";
+		$arg=$protectedPost['MODIF'];
+		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg );
 		$val = mysql_fetch_array( $res );
 		$protectedPost['COMMENT']=$val['DESCRIPTION'];
 		$protectedPost['MODIF']=$val['MACADDR'];
@@ -101,7 +101,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	$tab_name[1]=$l->g(53).": ";
 	
 	$sql="select distinct NAME from devicetype ";
-	$res=mysql_query($sql, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 	while ($row=mysql_fetch_object($res)){
 		$list_type[$row->NAME]=$row->NAME;
 	}
@@ -123,9 +123,10 @@ else{ //affichage des p�riph�riques
 			$title=$l->g(947);
 			$sql="SELECT ip, mac, mask, date, name FROM netmap n 
 				LEFT JOIN networks ns ON ns.macaddr=n.mac
-				WHERE n.netid='".$protectedGet['value']."' 
+				WHERE n.netid='%s' 
 				AND (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
 				AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
+			$tab_options['ARG_SQL']=$protectedGet['value'];
 			$list_fields= array($l->g(34) => 'ip','MAC'=>'mac',
 								$l->g(208)=>'mask',
 								$l->g(232)=>'date',
@@ -139,7 +140,8 @@ else{ //affichage des p�riph�riques
 			$title=$l->g(948);
 			$sql="select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
 				 from network_devices n LEFT JOIN netmap a ON a.mac=n.macaddr
-				 where netid='".$protectedGet['value']."'";
+				 where netid='%s'";
+			$tab_options['ARG_SQL']=$protectedGet['value'];
 				 $list_fields= array($l->g(66) => 'TYPE',$l->g(53)=>'DESCRIPTION',
 								$l->g(34)=>'IP',
 								'MAC'=>'MAC',
@@ -177,7 +179,7 @@ else{ //affichage des p�riph�riques
 			}	
 			
 			if (!isset($msg_info)){
-				echo "<br><input type='button' onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_ipdiscover_analyse']."&head=1&rzo=".$protectedGet['value']."\",\"analyse\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\") name='analyse' value='".$l->g(317)."'>";
+				echo "<br><input type='button' onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_ipdiscover_analyse']."&head=1&rzo=".$protectedGet['value']."\",\"analyse\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=650\") name='analyse' value='".$l->g(317)."'>";
 				
 			}else
 				msg_info($msg_info);
