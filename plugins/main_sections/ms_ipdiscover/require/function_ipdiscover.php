@@ -261,4 +261,10 @@ function find_community_info($id,$ms_cfg_file,$search){
 	
 }
 
+function runCommand($command="",$fname) {
+	global $l;
+	$command = "perl ipdiscover-util.pl $command -xml -h=".SERVER_READ." -u=".COMPTE_BASE." -p=".PSWD_BASE." -d=".DB_NAME." -path=".$fname;
+ 	exec($command);	
+}
+
 ?>

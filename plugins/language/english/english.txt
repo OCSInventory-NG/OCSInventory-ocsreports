@@ -1145,6 +1145,7 @@
 1258 Manual Entry
 1259 For one week
 1260 For one months
+1261 Clear cache
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

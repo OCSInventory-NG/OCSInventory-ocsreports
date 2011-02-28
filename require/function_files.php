@@ -145,17 +145,20 @@ function parse_xml_file($file,$tag,$separe){
 		$i=0;
     // read line
     while ( $ln = fgets($fp, 1024)) {     
-    	//echo  htmlentities ($ln)."=>";
-    	$ln=preg_replace('(\r\n|\n|\r|\t)','',$ln);
-		foreach ($tag as $poub=>$key){	
+    
+    	$ln=preg_replace('(\r\n|\n|\r|\t| )','',$ln);
+    	//	echo  htmlentities ($ln)."=>".strlen($ln);
+		foreach ($tag as $poub=>$key){
+		//	echo 	htmlentities (substr($ln,0,strlen($key)+2))." //".$key."<br>";
 			if (substr($ln,0,strlen($key)+2) == '<'.$key.'>'){
 				$search=array("<".$key.">","</".$key.">");
 				$replace=array('','');
 				$tab_data[$i][$key]=str_replace($search,$replace,$ln);				
 			}						
 		}
-		
-		if (substr($ln,0,strlen($key)+2) == "</".$separe.">"){
+		//msg_info($key);
+		//echo  htmlentities (substr($ln,0,strlen($key)+2))."=>".$separe."<br>";
+		if ($ln == "</".$separe.">"){
 				$i++;				
 		}
 
@@ -194,6 +197,5 @@ function post_ocs_file_to_server($datastream, $url, $port) {
 	fclose($socket);
 	return $result;
 }
-
 
 ?>
