@@ -1240,7 +1240,7 @@
 2099 ERROR: this MySQL login doesn't have the rights to create the database
 2100 Update old account infos
 2101 Add by script
-2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
+2102 WARNING: If you change default database name (ocsweb), don't forget to update your ocs engine files
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
