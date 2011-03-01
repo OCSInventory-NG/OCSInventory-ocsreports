@@ -83,7 +83,7 @@ function add_subnet($add_ip,$sub_name,$id_name,$add_sub){
 			return $l->g(932);	
 		if (trim($sub_name) == '')
 			return $l->g(933);	
-		if (trim($id_name) == '')
+		if (trim($id_name) == '' or $id_name == '0')
 			return $l->g(934);
 		if (trim($add_sub) == '')
 			return $l->g(935);

@@ -1430,7 +1430,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 
 				
 				if (isset($tab_options['JAVA']['CHECK'])){
-						$javascript="OnClick='confirme(\"".str_replace("'", "", $donnees[$tab_options['JAVA']['CHECK']['NAME']])."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".$tab_options['JAVA']['CHECK']['QUESTION']." \")'";
+						$javascript="OnClick='confirme(\"".htmlspecialchars($donnees[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
 				}else
 						$javascript="";
 				
@@ -1466,20 +1466,20 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 								$lbl_msg=$tab_options['LBL_POPUP'][$key];
 						}else
 							$lbl_msg=$l->g(640)." ".$value_of_field;
-						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SUP_PROF\",\"".$lbl_msg."\");'><img src=image/supp.png></a>";
+						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/supp.png></a>";
 						$lien = 'KO';		
 					}elseif ($key == "MODIF"){
 						if (!isset($tab_options['MODIF']['IMG']))
 						$image="image/modif_tab.png";
 						else
 						$image=$tab_options['MODIF']['IMG'];
-						$data[$i][$num_col]="<a href=# OnClick='pag(\"".$value_of_field."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
+						$data[$i][$num_col]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
 						$lien = 'KO';
 					}elseif ($key == "SELECT"){
-						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SELECT\",\"".$tab_options['QUESTION']['SELECT']."\");'><img src=image/prec16.png></a>";
+						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
 						$lien = 'KO';
 					}elseif ($key == "OTHER"){
-						$data[$i][$num_col]="<a href=# OnClick='pag(\"".$value_of_field."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
+						$data[$i][$num_col]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
 						$lien = 'KO';
 					}elseif ($key == "ZIP"){
 						$data[$i][$num_col]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\",\"compress\",\"\")><img src=image/archives.png></a>";
@@ -1514,9 +1514,9 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}
 					else{						
 						if ($tab_options['OTHER'][$key][$value_of_field]){
-							$end="<a href=# OnClick='pag(\"".$value_of_field."\",\"OTHER\",\"".$form_name."\");'><img src=".$tab_options['OTHER']['IMG']."></a>";
+							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=".$tab_options['OTHER']['IMG']."></a>";
 						}elseif ($tab_options['OTHER_BIS'][$key][$value_of_field]){
-							$end="<a href=# OnClick='pag(\"".$value_of_field."\",\"OTHER_BIS\",\"".$form_name."\");'><img src=".$tab_options['OTHER_BIS']['IMG']."></a>";
+							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_BIS\",\"".$form_name."\");'><img src=".$tab_options['OTHER_BIS']['IMG']."></a>";
 						}else{
 							$end="";
 						}

@@ -54,6 +54,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 				if (isset($protectedGet['value']) and $protectedGet['value'] != '')
 					reloadform_closeme("ipdiscover",true);
 			}	
+			$tab_options['CACHE']='RESET';
 		}	
 		
 		if (isset($protectedPost['Reset_modif_x'])){
@@ -164,7 +165,8 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 							$l->g(49)=>'NAME',
 							'MODIF'=>'ID',
 							'SUP'=>'ID');
-		//$list_fields['SUP']='ID';	
+		$tab_options['LBL_POPUP']['SUP']='NAME';
+		$tab_options['LBL']['SUP']=$l->g(122);
 		$default_fields=$list_fields;
 		$list_col_cant_del=$list_fields;
 		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
