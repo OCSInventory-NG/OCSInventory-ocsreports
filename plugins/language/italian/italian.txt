@@ -1142,6 +1142,9 @@
 1256 Numero di connessioni errate al giorno
 1257 Utilizza flash per la GUI
 1258 Immissione manuale
+1259 Per una settimana
+1260 Per un mese
+1261 Pulisci la cache
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
