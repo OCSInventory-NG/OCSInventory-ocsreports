@@ -81,6 +81,8 @@ if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	if ($protectedPost['onglet'] == "STAT")
 		$list_fields['CHECK']= 'ID';
 	$list_fields['SUP']= 'ID';	
+	$tab_options['LBL_POPUP']['SUP']='NAME';
+	$tab_options['LBL']['SUP']=$l->g(122);
 }
 //changement de nom � l'affichage des champs
 $tab_options['LBL']['CHECK']=$l->g(52);

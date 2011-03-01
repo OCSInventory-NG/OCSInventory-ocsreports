@@ -67,11 +67,13 @@ function replace_group($id_group,$list_id,$req,$group_type){
 	}else
 	$static=0;		
 	//delete cache
-	$sql_delcache="DELETE FROM groups_cache WHERE group_id='".$id_group."'";
-	mysql_query( $sql_delcache, $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );
+	$sql_delcache="DELETE FROM groups_cache WHERE group_id='%s'";
+	$arg_delcache=$id_group;
+	mysql2_query_secure( $sql_delcache, $_SESSION['OCS']["writeServer"],$arg_delcache);
 	//update group
-	$sql_updGroup="UPDATE groups set request='', xmldef='".generate_xml($req)."' where hardware_id=".$id_group;
-	mysql_query( $sql_updGroup, $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );
+	$sql_updGroup="UPDATE groups set request='', xmldef='%s' where hardware_id=%s";
+	$arg_updGroup=array(generate_xml($req),$id_group);
+	mysql2_query_secure( $sql_updGroup, $_SESSION['OCS']["writeServer"],$arg_updGroup);
 	$nb_computer=add_computers_cache($list_id,$id_group,$static);
 	return $nb_computer;	
 	
@@ -92,21 +94,24 @@ function creat_group ($name,$descr,$list_id,$req,$group_type)
 	}else
 	$static=0;	
 	//does $name group already exists
-	$reqGetId = "SELECT id FROM hardware WHERE name='".$name."' and deviceid = '_SYSTEMGROUP_'";
-	$resGetId = mysql_query( $reqGetId, $_SESSION['OCS']["readServer"]);
+	$reqGetId = "SELECT id FROM hardware WHERE name='%s' and deviceid = '_SYSTEMGROUP_'";
+	$argGetId=$name;
+	$resGetId = mysql2_query_secure( $reqGetId, $_SESSION['OCS']["readServer"],$argGetId);
 	if( $valGetId = mysql_fetch_array( $resGetId ) )
 		return array('RESULT'=>'ERROR', 'LBL'=> $l->g(621));
 	
 	//insert new group
-	$sql_insert="INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '_SYSTEMGROUP_' , '".$name."', '".$descr."', NOW())";	
-	mysql_query( $sql_insert, $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]));	
+	$sql_insert="INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '_SYSTEMGROUP_' , '%s', '%s', NOW())";	
+	$arg_insert=array($name,$descr);
+	mysql2_query_secure( $sql_insert, $_SESSION['OCS']["writeServer"],$arg_insert);	
 	//Getting hardware id
 	$insertId = mysql_insert_id( $_SESSION['OCS']["writeServer"] );
 	$xml=generate_xml($req);
 		
 	//Creating group
-	$sql_group="INSERT INTO groups(hardware_id, xmldef, create_time) VALUES ( ".$insertId.", '".$xml."', UNIX_TIMESTAMP() )";
-	mysql_query( $sql_group, $_SESSION['OCS']["writeServer"] ) or die( mysql_error($_SESSION['OCS']["writeServer"]) );
+	$sql_group="INSERT INTO groups(hardware_id, xmldef, create_time) VALUES ( %s, '%s', UNIX_TIMESTAMP() )";
+	$arg_group=array($insertId,$xml);
+	mysql2_query_secure( $sql_group, $_SESSION['OCS']["writeServer"],$arg_group);
 		addLog("CREATE GROUPE",$name);
 	//Generating cache
 	if ($list_id != '')	{	

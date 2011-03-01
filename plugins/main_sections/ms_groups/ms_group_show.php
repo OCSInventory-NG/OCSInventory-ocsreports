@@ -352,6 +352,10 @@ function print_computers_real($systemid) {
 			}	
 			$i++;
 		}
+		if ($tab_id == array()){
+			msg_warning($l->g(766));
+			return false;
+		}
 	}
 	$form_name="calcul_computer_groupcache";
 	$table_name=$form_name;
