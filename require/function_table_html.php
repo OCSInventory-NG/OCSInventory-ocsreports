@@ -593,18 +593,34 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 		
 		}else
 		$temp_query[0].= " where ";
-	if ($arg == '')
-		$query=$temp_query[0].$protectedPost['FILTRE']." like '%".$protectedPost['FILTRE_VALUE']."%' ";
-	else{
-		$query=$temp_query[0].$protectedPost['FILTRE']." like '%s' ";
-		array_push($arg,'%' . $protectedPost['FILTRE_VALUE'] . '%');
-		if (is_array($arg_count))	
-			array_push($arg_count,'%' . $protectedPost['FILTRE_VALUE'] . '%');
+
+	if (substr($protectedPost['FILTRE'],0,2) == 'a.'){
+		require_once('require/function_admininfo.php');
+		$id_tag=explode('_',substr($protectedPost['FILTRE'],2));
+		if (!isset($id_tag[1]))
+			$tag=1;
 		else
-			$arg_count[]='%' . $protectedPost['FILTRE_VALUE'] . '%';
+			$tag=$id_tag[1];
+		$list_tag_id= find_value_in_field($tag,$protectedPost['FILTRE_VALUE']);
 	}
+	
+	if ($list_tag_id){
+		$query_end= " in (".implode(',',$list_tag_id).")";		
+	}else{	
+		if ($arg == '')
+			$query_end = " like '%".$protectedPost['FILTRE_VALUE']."%' ";
+		else{
+			$query_end = " like '%s' ";
+			array_push($arg,'%' . $protectedPost['FILTRE_VALUE'] . '%');
+			if (is_array($arg_count))	
+				array_push($arg_count,'%' . $protectedPost['FILTRE_VALUE'] . '%');
+			else
+				$arg_count[] = '%' . $protectedPost['FILTRE_VALUE'] . '%';
+		}
+	}
+	$query= $temp_query[0].$protectedPost['FILTRE'].$query_end;
 	if (isset($temp_query[1]))
-	$query.="GROUP BY ".$temp_query[1];
+		$query.="GROUP BY ".$temp_query[1];
 	}
 	$view=show_modif($tab_field,'FILTRE',2);
 	$view.=show_modif($protectedPost['FILTRE_VALUE'],'FILTRE_VALUE',0);
