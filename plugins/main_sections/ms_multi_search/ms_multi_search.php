@@ -721,13 +721,8 @@ if ($list_id != "")	{
 	
 	//BEGIN SHOW ACCOUNTINFO
 	require_once('require/function_admininfo.php');
-	$info_tag=find_info_accountinfo();
-	foreach ($info_tag as $key=>$value){
-		$info_value_tag= accountinfo_tab($value['id']);		
-		if (is_array($info_value_tag)){
-			$tab_options['REPLACE_VALUE']["Accinf: ".$value['comment']]=$info_value_tag;
-		}		
-	}
+	$option_comment['comment_be'] = $l->g(1210)." ";
+	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
 	//END SHOW ACCOUNTINFO
 	$queryDetails = 'SELECT ';
 	//changement de nom lors de la requete
@@ -792,12 +787,12 @@ if ($list_id != "")	{
 	$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
 	//activation des LOGS	
 	$tab_options['LOGS']='SEARCH_RESULT';
-//print_r($tab_options);
 	tab_req($table_tabname,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,'95',$tab_options);
 	add_trait_select($list_fonct,$list_id,$form_name,$list_pag);
 	echo "<input type='hidden' value='".$protectedPost['Valid-search']."' name='Valid-search'>";
+	
 }elseif($protectedPost['Valid-search'] != '')
-$no_result="NO RESULT";
+	$no_result="NO RESULT";
 
 if ($no_result == "NO RESULT" and !isset($ERROR)){
 	//choix des fonctionnalit�es pour les utilisateurs 

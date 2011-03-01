@@ -402,4 +402,42 @@ function updown($field,$type){
 
 
 
+function replace_tag_value($type='',$option=array()){
+	$info_tag=find_info_accountinfo('',$type);
+	if (is_array($info_tag)){
+		foreach ($info_tag as $key=>$value){
+			$info_value_tag= accountinfo_tab($value['id']);		
+			if (is_array($info_value_tag)){
+				$comment = '';
+				if (isset($option['comment_be']))
+					$comment .= $option['comment_be'];
+				$comment .= $value['comment'];
+				if (isset($option['comment_aft']))
+					$comment .= $option['comment_aft'];
+				$tab_options[$comment] = $info_value_tag;
+			}			
+		}
+	}
+	return $tab_options;
+}
+
+function find_value_in_field($tag,$value_2_find,$type='COMPUTERS'){
+	$p=find_info_accountinfo($tag,$type);
+	$values=look_config_default_values('ACCOUNT_VALUE_'.$p[$tag]['name']."_%",true);
+	if (is_array($values['tvalue'])){
+		foreach ($values['tvalue'] as $key=>$value){
+			if (stristr($value, $value_2_find)){
+				$decoup=explode('_',$key);
+				$fr = array_pop($decoup);
+				$list_tag_id[]=$fr;				
+			}			
+		}		
+		return $list_tag_id;
+	}else
+		return false;
+	
+}
+
+
+
 ?>
