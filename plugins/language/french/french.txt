@@ -1145,6 +1145,7 @@
 1259 Sur une semaine
 1260 Sur un mois
 1261 Vider le cache
+1262 Aucun module activé pour votre profil
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

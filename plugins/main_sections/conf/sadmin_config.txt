@@ -99,5 +99,7 @@ jp_teledeploy_stats
 jp_teledeploy_speed_stats
 jp_activity_stats
 ms_ipdiscover_analyse
+ms_stats_connexion
+ms_stats_badconnexion
 </PAGE_PROFIL>
 
