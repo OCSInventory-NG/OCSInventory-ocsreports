@@ -459,7 +459,6 @@
 563 Fabricante
 564 Frecuencia de auto-ejecución del agente
 565 Servidor usado para inventarios locales
-566 Puerto usado para inventarios locales
 567 Latencia de ipdiscover
 568 RAM(MB)
 569 CPU(MHz)

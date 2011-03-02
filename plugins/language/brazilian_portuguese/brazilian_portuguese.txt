@@ -530,8 +530,6 @@
 562 Redes com uid:
 563 Fabricante
 564 Freqüência da auto-execução do agente
-565 Servidor usado para coletas locais
-566 Porta usada para coletas locais
 567 Latência da descoberta de IPs
 568 RAM(MB)
 569 CPU(MHz)

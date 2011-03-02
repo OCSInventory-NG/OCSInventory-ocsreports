@@ -459,7 +459,6 @@
 563 Proizvajalec
 564 Agent za avto-sproĹžitev pogostosti
 565 StreĹžnik uporabljen za lokalni popise
-566 Vrata uporabljena za lokalni popis
 567 IPraziskovalec  latenca
 568 RAM(MB)
 569 CPU(MHz)

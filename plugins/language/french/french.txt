@@ -456,8 +456,7 @@
 562 Afficher les réseaux ayant l'uid:
 563 Constructeur
 564 Fréquence de lancement de l'agent par le service
-565 Serveur utilisé pour les imports locaux
-566 Port utilisé pour les imports locaux
+565 Adresse utilisée pour les imports locaux
 567 Latence de l'ipdiscover
 568 RAM(MB)
 569 CPU(MHz)
