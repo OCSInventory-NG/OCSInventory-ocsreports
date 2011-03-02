@@ -455,8 +455,7 @@
 562 Rete con uid:
 563 Produttore
 564 Frequenza di lancio automatico dell'agente
-565 Server usato per gli inventari locali
-566 Porta usata per gli inventari locali
+565 Indirizzo usato per gli inventari locali
 567 Latenza IpDiscover
 568 RAM (MB)
 569 CPU (MHz)

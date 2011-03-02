@@ -776,8 +776,6 @@ INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LENGTH', 10, '', 'Number of cycles i
 INSERT INTO config VALUES ('DOWNLOAD_FRAG_LATENCY', 10, '', 'Time between two downloads (seconds)');
 INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LATENCY', 1, '', 'Time between two periods (seconds)');
 INSERT INTO config VALUES ('DOWNLOAD_TIMEOUT', 30, '', 'Validity of a package (in days)');
-INSERT INTO config VALUES ('LOCAL_SERVER', 0, 'localhost', 'Server address used for local import');
-INSERT INTO config VALUES ('LOCAL_PORT', 80, '', 'Server port used for local import');
 INSERT INTO config VALUES ('DOWNLOAD_PACK_DIR','','/var/lib/ocsinventory-reports','Directory for download files');
 INSERT INTO config VALUES ('IPDISCOVER_IPD_DIR','','/var/lib/ocsinventory-reports','Directory for Ipdiscover files');
 
@@ -787,7 +785,7 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6001', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6002', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1339,4 +1337,7 @@ PRIMARY KEY (SNMP_ID) ) DEFAULT CHARSET=UTF8;
 INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
 ALTER TABLE groups CHANGE REVALIDATE_FROM REVALIDATE_FROM INT(11) default 0;
 UPDATE groups set REVALIDATE_FROM = 0 where REVALIDATE_FROM is null;
+
+DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
+
 

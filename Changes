@@ -1,6 +1,12 @@
 Revision history for ocsreports 
 
 2.0 rc3
+		* change LOCAL_SERVER and LOCAL_PORT to LOCAL_URI_SERVER.
+		* add plugin functionality on stats page
+		* fix bug on group show
+ 		* use mysql2_query_secure function in function_groups.php
+		* Fix Bug #727267 (admin ipdiscover)
+		* Fix Bug #726516 (accountinfo problems)
 		* fix bug on ipdiscover => update name
 		* fix bug on activation.
 		* add ipdiscover analyse if you have ipdiscover-util.pl.
