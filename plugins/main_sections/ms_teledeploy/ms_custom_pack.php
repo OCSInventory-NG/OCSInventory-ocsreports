@@ -85,8 +85,11 @@ if ($protectedPost['SELECT'] != ''){
 	if ($protectedPost['onglet'] == 'SERV_GROUP')
 	$nb_affect=active_serv($list_id,$protectedPost['SELECT'],$protectedPost['rule_choise']);
 	msg_success($nb_affect." ".$l->g(604));
-	if (isset($form_to_reload))
-	echo "<script language='javascript'> window.opener.document.".$form_to_reload.".submit();</script>";
+	if (isset($form_to_reload)){
+		//add this $var => not delete this package on computer detail
+		$_SESSION['OCS']["justAdded"]=true;
+		echo "<script language='javascript'> window.opener.document.".$form_to_reload.".submit();</script>";
+	}
 }
 if ($protectedPost['sens'] == "")
 	$protectedPost['sens']='DESC';

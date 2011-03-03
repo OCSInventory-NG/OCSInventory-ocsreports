@@ -10,7 +10,7 @@
 //====================================================================================
 
 $data_limit=find_limit_values();
-
+require_once('require/function_ipdiscover.php');
 if ($_SESSION['OCS']["mytag"]){	
 	$sql_tag=mysql2_prepare('select id from hardware h, accountinfo a where a.hardware_id=h.id and a.tag in ',array(),$_SESSION['OCS']["mytag"]);
 	$result=mysql2_query_secure($sql_tag['SQL'],$_SESSION['OCS']["readServer"],$sql_tag['ARG']);
@@ -252,12 +252,8 @@ $sql_field=array("OCS_REPORT_WORKGROUP"=>array('ARG'=>array('count(distinct work
 			 	 "OCS_REPORT_NB_HARD_DISK_B"=>array('SQL'=>"select %s from %s where type='%s' and free<%s and free>=%s",
 			 	 									'ARG'=>array('count(distinct(hardware_id)) c',$table["OCS_REPORT_NB_HARD_DISK_B"],"Hard Drive",$data_limit['GUI_REPORT_DD_MAX'],$data_limit['GUI_REPORT_DD_MINI'])),
 
-				 "OCS_REPORT_NB_IPDISCOVER"=>array('SQL'=>"select count(DISTINCT mac) c from netmap n
-															left join network_devices n_d on n_d.macaddr=n.mac
-															left join networks nk on nk.macaddr=n.mac
-															where n_d.id is null
-															and nk.macaddr is null",
-										 'ARG'=>''),
+				 "OCS_REPORT_NB_IPDISCOVER"=>array('SQL'=>"select %s c from netmap ",
+										 'ARG'=>count_noinv_network_devices()),
 
 			 	 "OCS_REPORT_NB_LAST_INV"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LAST_INV"],"where floor((unix_timestamp(lastcome) - unix_timestamp(lastdate) )/86400) >= ".$data_limit['GUI_REPORT_LAST_DIFF'])),
 

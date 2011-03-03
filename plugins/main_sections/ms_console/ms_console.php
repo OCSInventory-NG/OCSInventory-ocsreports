@@ -33,6 +33,7 @@ if (isset($protectedPost['UPDATE_VALUE']) and $protectedPost['UPDATE_VALUE'] != 
 
 require_once('require/function_console.php');
 
+
 $data_on=define_tab();
 $data_tab=show_active_tab($data_on);
 
