@@ -42,7 +42,7 @@ echo "<br>";
  		
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != '0'){
 	 	
-	 	$array_rsx=array_keys($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
+	 	$array_rsx=find_all_subnet($dpt[$protectedPost['DPT_CHOISE']]);
 	 	
 	 	$tab_options['VALUE']['LBL_RSX']=$_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]];
 		$arg_sql=array();
@@ -141,19 +141,10 @@ echo "<br>";
 	
 	$tab_options['NO_LIEN_CHAMP']['IDENTIFIE']=array(0);
 	$tab_options['NO_TRI']['LBL_RSX']='LBL_RSX';
-	$arg_count=array();
-		$sql_count="SELECT COUNT(DISTINCT mac) as total
-					FROM netmap n 
-					LEFT OUTER JOIN networks ns ON ns.macaddr = mac 
-					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and ( ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
-						and netid in ";
-	$detail_query=mysql2_prepare($sql_count,$arg_count,$array_rsx);
-	$res_count = mysql2_query_secure($detail_query['SQL'], $_SESSION['OCS']["readServer"],$detail_query['ARG']);
-	$val_count = mysql_fetch_array( $res_count );
+	$val_count=count_noinv_network_devices($dpt[$protectedPost['DPT_CHOISE']]);
 
 	$strEnTete = $_SESSION['OCS']["ipdiscover_id"]." ".$dpt[$protectedPost['DPT_CHOISE']]." <br>";
-		$strEnTete .= "<br>(<font color='red'>".$val_count["total"]."</font> ".$l->g(219).")";
+		$strEnTete .= "<br>(<font color='red'>".$val_count."</font> ".$l->g(219).")";
 		echo "<br><br>";	
 		printEnTete($strEnTete);
 		echo "<br><br>";
