@@ -823,9 +823,8 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	//search in cookies columns values
 	if (isset($_COOKIE[$tab_name]) and $_COOKIE[$tab_name] != '' and !isset($_SESSION['OCS']['col_tab'][$tab_name])){
 		$col_tab=explode("///", $_COOKIE[$tab_name]);
-
 		foreach ($col_tab as $key=>$value){
-				$_SESSION['OCS']['col_tab'][$tab_name][$key]=$value;
+				$_SESSION['OCS']['col_tab'][$tab_name][$value]=$value;
 		}			
 	}
 	if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != ""){
