@@ -334,7 +334,7 @@ function update_default_value($POST){
 		elseif($value_exist["tvalue"] != null)
 		$optexist[$value_exist["NAME"] ] = $value_exist["tvalue"];
 		elseif ($value_exist["tvalue"] == null and $value_exist["ivalue"] == null)
-		$optexist[$value_exist["NAME"] ] = '';
+		$optexist[$value_exist["NAME"] ] = 'null';
 	}
 	//pour obliger à prendre en compte
 	//le AUTO_DUPLICATE_LVL quand il est vide
@@ -346,6 +346,9 @@ function update_default_value($POST){
 	
 	//parcourt des post
 	foreach ($POST as $key=>$value){
+		if (!isset($optexist[$key]))
+			$optexist[$key]='';
+			
 		$name_field_modif='';
 		$value_field_modif='';
 		//gestion du AUTO_DUPLICATE_LVL cas particulier

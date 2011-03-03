@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc3
+		* fix bug http://forums.ocsinventory-ng.org/viewtopic.php?pid=34495#p34495
 		* fix bug on export csv
 		* fix bug on ipdiscover (shows all the subnets even if no machine is elected)
 		* fix Bug #726532 (Duplicate manager report duplicate devices)
