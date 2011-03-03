@@ -26,7 +26,7 @@ if (isset($protectedGet['log'])){
 		$filename=$protectedGet['log'];
 	}
 }//gestion par valeur en cache (LIMITE A 200)
-elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]) 
+/*elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]) 
 	and isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']])){
 	$filename="cache.csv";
 	//gestion des entetes
@@ -48,7 +48,7 @@ elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199])
 	while ($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i]){
 		$toBeWritten .="\r\n";
 		foreach ($col as $lbl => $name){
-			if ($lbl == "name_of_machine" and !isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][0])){
+			if ($lbl == "name_of_machine"){
 				$lbl='name';
 			}
 			if ($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl])
@@ -57,7 +57,8 @@ elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199])
 		}
 		$i++;
 	}
-}elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
+}*/
+elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 	$toBeWritten="";
 	//gestion des entetes
 	foreach ($_SESSION['OCS']['col_tab'][$protectedGet['tablename']] as $name){
@@ -73,7 +74,7 @@ elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199])
 			$toBeWritten .="machine".$separator;
 		}		
 	}
-	//gestion des donnees fixes
+	//data fixe
 	if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']])){
 		$i=0;
 		
@@ -92,7 +93,7 @@ elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199])
 		}
 		
 	}
-	//gestion de la requete de r�sultat
+
 	if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])
 		$arg=$_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
 	else
@@ -105,18 +106,19 @@ elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199])
 				$field='name';
 			}
 			if (isset($cont[$field])){
-			$data[$i][$lbl]=$cont[$field];			
+				$data[$i][$lbl]=$cont[$field];			
 			}elseif (isset($data_fixe[$cont['ID']][$field]))
-			$data[$i][$lbl]=$data_fixe[$cont['ID']][$field];	
+				$data[$i][$lbl]=$data_fixe[$cont['ID']][$field];
 
 		}
 		$i++;
 	}
 	$i=0;
+	//p($data);
 	while ($data[$i]){
 		$toBeWritten .="\r\n";
 		foreach ($data[$i] as $field_name=>$donnee){
-		$toBeWritten .=$donnee.$separator;		
+			$toBeWritten .=$donnee.$separator;		
 		}
 		$i++;
 	}
