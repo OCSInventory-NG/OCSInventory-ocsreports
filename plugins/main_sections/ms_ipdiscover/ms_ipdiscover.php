@@ -19,13 +19,12 @@ echo "<br>";
 
  $form_name='ipdiscover';
  echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
- 	//suppression d'un sous-reseau
+ 	//delete a subnet
  	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
- 	//	$del=mysql_real_escape_string($protectedPost['SUP_PROF']);
  		$sql_del="delete from subnet where netid='%s'";
  		$arg_del=$protectedPost['SUP_PROF'];
  		mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"],$arg_del);
-		//suppression du cache pour prendre en compte la modif
+		//delete cache
 		unset($_SESSION['OCS']["ipdiscover"]);
 		require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
  		$tab_options['CACHE']='RESET';
@@ -40,12 +39,11 @@ echo "<br>";
 		echo $l->g(562)." ".show_modif($list_index,'DPT_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
  	}else
  		msg_info(strtoupper($l->g(1134)));
-
-	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != ''){
+ 		
+	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != '0'){
 	 	
 	 	$array_rsx=array_keys($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
 	 	
-	 	//print_r($_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]]);
 	 	$tab_options['VALUE']['LBL_RSX']=$_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['DPT_CHOISE']]];
 		$arg_sql=array();
 	 	$sql=" select * from (select inv.RSX as ID,
@@ -60,7 +58,7 @@ echo "<br>";
 	 	$arg=mysql2_prepare($sql,$arg_sql,$array_rsx);
 	 	$arg['SQL'] .= " GROUP BY tvalue) 
 				ipdiscover right join
-				   (SELECT count(distinct(id)) as c,'INVENTORIE' as TYPE,ipsubnet as RSX
+				   (SELECT count(distinct(hardware_id)) as c,'INVENTORIE' as TYPE,ipsubnet as RSX
 					FROM networks 
 					WHERE ipsubnet in  ";
 	 	$arg=mysql2_prepare($arg['SQL'],$arg['ARG'],$array_rsx);
@@ -81,14 +79,13 @@ echo "<br>";
 						and n.netid in  ";
 	 	$arg=mysql2_prepare($arg['SQL'],$arg['ARG'],$array_rsx);
 	 	$arg['SQL'] .= " GROUP BY netid) 
-				non_ident on non_ident.RSX=ipdiscover.RSX 
+				non_ident on non_ident.RSX=inv.RSX 
 				) toto";
 	$tab_options['ARG_SQL']=$arg['ARG'];
 		$list_fields= array('LBL_RSX' => 'LBL_RSX',
 							'RSX'=>'ID',
 							'INVENTORIE'=>'INVENTORIE',
 							'NON_INVENTORIE'=>'NON_INVENTORIE',
-						//	'SNMP'=>'SNMP',
 							'IPDISCOVER'=>'IPDISCOVER',
 							'IDENTIFIE'=>'IDENTIFIE');
 	if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
@@ -116,17 +113,10 @@ echo "<br>";
 	$tab_options['LIEN_TYPE']['IDENTIFIE']='POPUP';
 	$tab_options['POPUP_SIZE']['IDENTIFIE']="width=900,height=600";
 	
-	/*$tab_options['LIEN_LBL']['SNMP']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&prov=snmp&value=';
-	$tab_options['LIEN_CHAMP']['SNMP']='ID';
-	$tab_options['LIEN_TYPE']['IDENTIFIE']='POPUP';
-	$tab_options['POPUP_SIZE']['IDENTIFIE']="width=900,height=600";
-	$tab_options['NO_LIEN_CHAMP']['SNMP']=array(0);*/
-	
 	$tab_options['REPLACE_WITH_CONDITION']['INVENTORIE']['&nbsp']='0';
 	$tab_options['REPLACE_WITH_CONDITION']['IPDISCOVER']['&nbsp']='0';
 	$tab_options['REPLACE_WITH_CONDITION']['NON_INVENTORIE']['&nbsp']='0';
 	$tab_options['REPLACE_WITH_CONDITION']['IDENTIFIE']['&nbsp']='0';
-	//$tab_options['REPLACE_WITH_CONDITION']['SNMP']['&nbsp']='0';
 	
 	$tab_options['REPLACE_WITH_CONDITION']['PERCENT_BAR']['&nbsp']=array('IDENTIFIE'=>'0','NON_INVENTORIE'=>'100');
 	
@@ -140,7 +130,7 @@ echo "<br>";
 	$tab_options['LBL']['IDENTIFIE']=$l->g(366);
 	$tab_options['LBL']['PERCENT_BAR']=$l->g(1125);
 
-	//mise a jour possible des r�seaux si on travaille sur le r�f�rentiel local
+	//you can modify your subnet if ipdiscover is local define
 	if ( $_SESSION['OCS']["ipdiscover_methode"] == "OCS" and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
 		$tab_options['LIEN_LBL']['LBL_RSX']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_admin_ipdiscover'].'&head=1&value=';
 		$tab_options['LIEN_CHAMP']['LBL_RSX']='ID';
