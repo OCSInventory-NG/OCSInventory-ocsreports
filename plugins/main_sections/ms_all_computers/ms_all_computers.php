@@ -31,7 +31,6 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	$table_name="list_show_all";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	$list_fields = array ( $_SESSION['OCS']['TAG_LBL']['TAG']   => "a.tag", 
-						   'Bureau'=> "a.fields_9",
 						   $l->g(46) => "h.lastdate", 
 						   'NAME'=>'h.name',
 						   $l->g(949) => "h.ID",
