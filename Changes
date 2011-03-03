@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc3
+		* fix Bug #726532 (Duplicate manager report duplicate devices)
 		* change LOCAL_SERVER and LOCAL_PORT to LOCAL_URI_SERVER.
 		* add plugin functionality on stats page
 		* fix bug on group show
