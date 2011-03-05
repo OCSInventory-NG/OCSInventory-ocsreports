@@ -69,7 +69,10 @@ if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
 $sql_doublon['ssn'].=" group by SSN having count(SSN)>1";
 
 /************************  macaddress double ***************************************/
-$sql_doublon['macaddress']="select MACADDR val from networks,hardware h where h.id=networks.hardware_id and  MACADDR not in (select macaddress from blacklist_macaddresses) ";
+$sql_doublon['macaddress']="select h.id, MACADDR val 
+							from (select hardware_id,MACADDR from networks group by hardware_id,MACADDR) networks,hardware h 
+							where h.id=networks.hardware_id 
+									and  MACADDR not in (select macaddress from blacklist_macaddresses)";
 $arg_doublon['macaddress']=array();
 if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
 	$sql=mysql2_prepare($sql_doublon['macaddress'].' and hardware_id in ',$arg_doublon['macaddress'],$tab_id_mes_machines);

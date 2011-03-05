@@ -292,7 +292,7 @@ function update_default_value($POST){
 	$i=0;
 	//tableau des champs ou il faut juste mettre � jour le tvalue
 	$array_simple_tvalue=array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT',
-							   'OCS_FILES_FORMAT','OCS_FILES_PATH','LOCAL_SERVER',
+							   'OCS_FILES_FORMAT','OCS_FILES_PATH',
 							   'CONEX_LDAP_SERVEUR','CONEX_LDAP_PORT','CONEX_DN_BASE_LDAP',
 							   'CONEX_LOGIN_FIELD','CONEX_LDAP_PROTOCOL_VERSION','CONEX_ROOT_DN',
 							   'CONEX_ROOT_PW','CONEX_LDAP_CHECK_FIELD1_NAME', 'CONEX_LDAP_CHECK_FIELD1_VALUE',
@@ -311,7 +311,7 @@ function update_default_value($POST){
 						'IPDISCOVER_NO_POSTPONE','IPDISCOVER_USE_GROUPS','ENABLE_GROUPS','GROUPS_CACHE_OFFSET','GROUPS_CACHE_REVALIDATE',
 						'REGISTRY','GENERATE_OCS_FILES','OCS_FILES_OVERWRITE','PROLOG_FILTER_ON','INVENTORY_FILTER_ENABLED',
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
-						'LOCAL_PORT','LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
+						'LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
 						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE','USE_FLASH');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
@@ -320,7 +320,7 @@ function update_default_value($POST){
 								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG_edit',
 								   'DOWNLOAD_URI_INFO'=>'DOWNLOAD_URI_INFO_edit','SNMP_DIR'=>'SNMP_DIR_edit',
 								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','CONF_PROFILS_DIR'=>'CONF_PROFILS_DIR_edit',
- 				  				   'OLD_CONF_DIR'=>'OLD_CONF_DIR_edit');
+ 				  				   'OLD_CONF_DIR'=>'OLD_CONF_DIR_edit','LOCAL_URI_SERVER'=>'LOCAL_URI_SERVER_edit');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour tvalue		
 	$array_interprete_ivalue=array('FREQUENCY'=>'FREQUENCY_edit','IPDISCOVER'=>'IPDISCOVER_edit','INVENTORY_VALIDITY'=>'INVENTORY_VALIDITY_edit');
 	
@@ -334,7 +334,7 @@ function update_default_value($POST){
 		elseif($value_exist["tvalue"] != null)
 		$optexist[$value_exist["NAME"] ] = $value_exist["tvalue"];
 		elseif ($value_exist["tvalue"] == null and $value_exist["ivalue"] == null)
-		$optexist[$value_exist["NAME"] ] = '';
+		$optexist[$value_exist["NAME"] ] = 'null';
 	}
 	//pour obliger à prendre en compte
 	//le AUTO_DUPLICATE_LVL quand il est vide
@@ -346,6 +346,9 @@ function update_default_value($POST){
 	
 	//parcourt des post
 	foreach ($POST as $key=>$value){
+		if (!isset($optexist[$key]))
+			$optexist[$key]='';
+			
 		$name_field_modif='';
 		$value_field_modif='';
 		//gestion du AUTO_DUPLICATE_LVL cas particulier
@@ -436,8 +439,7 @@ function trait_post($name){
  function pageGUI($form_name){
  	global $l,$numeric,$sup1,$values;
  		//what ligne we need?
- 	$champs=array( 'LOCAL_PORT'=>'LOCAL_PORT',
-				  'LOCAL_SERVER'=>'LOCAL_SERVER',
+ 	$champs=array('LOCAL_URI_SERVER'=>'LOCAL_URI_SERVER',
 				  'DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR',
 				  'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR',
 				  'LOG_GUI'=>'LOG_GUI',
@@ -450,6 +452,7 @@ function trait_post($name){
  				  'USE_FLASH'=>'USE_FLASH'
 				  );
 	$values=look_config_default_values($champs);
+	$select_local_uri=trait_post('LOCAL_URI_SERVER');
 	$select_pack=trait_post('DOWNLOAD_PACK_DIR');
 	$select_ipd=trait_post('IPDISCOVER_IPD_DIR');
 	$select_log=trait_post('LOG_DIR');
@@ -458,8 +461,8 @@ function trait_post($name){
 	$select_old_profils=trait_post('OLD_CONF_DIR');
 	
  	debut_tab();
-	ligne('LOCAL_PORT',$l->g(566),'input',array('VALUE'=>$values['ivalue']['LOCAL_PORT'],'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
-	ligne('LOCAL_SERVER',$l->g(565),'input',array('BEGIN'=>'HTTP://','VALUE'=>$values['tvalue']['LOCAL_SERVER'],'SIZE'=>50,'MAXLENGHT'=>254));
+ 	ligne('LOCAL_URI_SERVER',$l->g(565),'radio',array('DEFAULT'=>$l->g(823)."(http://localhost:80/ocsinventory)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_local_uri),
+		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOCAL_URI_SERVER'],'SIZE'=>50 ));
 	ligne('DOWNLOAD_PACK_DIR',$l->g(775),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_pack),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_PACK_DIR'],'SIZE'=>50,'END'=>"/download" ));
 	ligne('IPDISCOVER_IPD_DIR',$l->g(776),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."ipd)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_ipd),

@@ -456,8 +456,7 @@
 562 Show networks having uid:
 563 Manufacturer
 564 Agent auto-launching frequency
-565 Server used for local inventories
-566 Port used for local inventories
+565 Address used for local inventories
 567 Ipdiscover latency
 568 RAM (MB)
 569 CPU (MHz)
@@ -1146,6 +1145,9 @@
 1259 For one week
 1260 For one months
 1261 Clear cache
+1262 No plugin enabled for your profil
+1263 SECURITY ALERT!
+1264 Next
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1169,8 +1171,14 @@
 2018 was imported
 2019 were already imported
 2020 Your install.php exists in your installation directory.<br>For security reasons, please delete it.
-2021 Your LOG directory is not writable
+2021 Your logs directory is not writable
 2022 You can't send a file larger than
+2023 Delete it
+2024 The default sql login/password is activate on your database:
+2025 Change your password for ocs login in MySQL
+2026 The default login/password is activate on OCS GUI
+2027 Change admin password on OCS GUI
+
 
 
 2030 OCS-NG Inventory Installation

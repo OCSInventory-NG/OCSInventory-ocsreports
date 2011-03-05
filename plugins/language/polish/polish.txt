@@ -463,8 +463,7 @@
 562 Sieci o uid:
 563 Producent
 564 Agent  auto-uruchomienie częstotliwości
-565 serwera używane w lokalnych zapasów
-566 Port używany do lokalnych zapasów
+565 Adress używane w lokalnych zapasów
 567 latency Ipdiscover
 568 MB pamięci RAM (MB)
 569 CPU (MHz)

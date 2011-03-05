@@ -49,25 +49,64 @@ echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
  	<Td align='left'><a href='index.php?first'><img src='image/logo OCS-ng-48.png'></a></Td></tr></table></td><td width= 100%>";
  	
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
-	//echo "<table width= 100% align=center border='0'><tr><Td align='center' bgcolor='#f2f2f2' BORDERCOLOR='#f2f2f2' width:80%>";
-	if (DEMO) {
-		$msg_header="YOU ARE WATCHING THE DEMO VERSION OF THE RELEASE ".GUI_VER_SHOW."<br>";
-	} else {
-		$msg_header='';
-	}
+/**************************************************   ALERT MESSAGES ********************************************************/
+	$msg_header_error=array();
+	$msg_header_error_sol=array();
+	//install.php already exist ?
 	if($fconf=@fopen("install.php","r")){
-		$msg_header .= $l->g(2006) . "<br>" . $l->g(2020) . "<br>";
+		$msg_header_error[]= $l->g(2020);
+		$msg_header_error_sol[] = $l->g(2023);
 	}
+	//defaut user already exist on databases?
+	$link_read=@mysql_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);
+	$link_write=@mysql_connect(SERVER_WRITE,DFT_DB_CMPT,DFT_DB_PSWD);
+	if (@mysql_select_db(DB_NAME,$link_read) or @mysql_select_db(DB_NAME,$link_write)){
+		$msg_header_error[]= $l->g(2024).' '.DB_NAME;	
+		$msg_header_error_sol[] = $l->g(2025);	
+	}
+	
+	//admin user already exist on data base with defaut password?
+	$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
+	$arg_reqOp=array(DFT_GUI_CMPT,md5(DFT_GUI_PSWD));	
+	$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
+	$rowOp=mysql_fetch_object($resOp);
+	if (isset($rowOp->id)){
+		$msg_header_error[]= $l->g(2026);
+		$msg_header_error_sol[] = $l->g(2027);
+	}
+/***************************************************** WARNING MESSAGES *****************************************************/
+	$msg_header_warning=array();
+	//Demo mode activate?
+	if (DEMO) {
+		$msg_header_warning[]= "YOU ARE WATCHING THE DEMO VERSION OF THE RELEASE ".GUI_VER_SHOW."<br>";
+	} 
+	
+	
 	if ($_SESSION['OCS']['LOG_GUI'] == 1){
 		//check if the GUI logs directory is writable
 		$rep_ok=is_writable($_SESSION['OCS']['LOG_DIR']);
 		if (!$rep_ok){
-			$msg_header.=$l->g(2021);
+			$msg_header_warning[]=$l->g(2021);
 		}
 	}
 	
-	if ($msg_header != '')
-	msg_warning($msg_header);
+	//Error are detected
+	if ($msg_header_error != array()){
+			js_tooltip();
+			$msg_tooltip='';
+			foreach ($msg_header_error as $poub=>$values){
+				if (isset($msg_header_error_sol[$poub])){
+					$tooltip=tooltip($msg_header_error_sol[$poub]);
+					$msg_tooltip .= "<div ".$tooltip.">".$values."</div>";
+				}
+			}
+			
+		msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
+		
+	}
+	//warning are detected
+	if ($msg_header_warning != array())
+		msg_warning(implode('<br>',$msg_header_warning));
 	
 }
 
@@ -85,7 +124,7 @@ echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td ali
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'";
 		if((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON') 
 			or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
-				echo"<b>Ver. ".GUI_VER."</b>";
+				echo"<b>Ver. ".GUI_VER."/".DB_NAME."</b>";
 			echo "<br><a ".$javascript."><img src=image/red.png></a><br>";
 			if ($_SESSION['OCS']['DEBUG']=='ON')
 			echo "<font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>wait...</div>";
@@ -136,6 +175,7 @@ if ($icon_head!='NO'){
 require_once($_SESSION['OCS']['plugins_dir']."main_sections/section_html.php");
 echo "<form action='' name='ACTION_CLIC' id='ACTION_CLIC' method='POST'>";
 	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
+	echo "<input type='hidden' name='SHOW_ERROR_MSG' id='SHOW_ERROR_MSG' value=''>";
 	echo "</form>";
 }
 

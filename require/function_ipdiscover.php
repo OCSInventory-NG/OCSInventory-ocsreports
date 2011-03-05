@@ -83,7 +83,7 @@ function add_subnet($add_ip,$sub_name,$id_name,$add_sub){
 			return $l->g(932);	
 		if (trim($sub_name) == '')
 			return $l->g(933);	
-		if (trim($id_name) == '')
+		if (trim($id_name) == '' or $id_name == '0')
 			return $l->g(934);
 		if (trim($add_sub) == '')
 			return $l->g(935);
@@ -265,6 +265,37 @@ function runCommand($command="",$fname) {
 	global $l;
 	$command = "perl ipdiscover-util.pl $command -xml -h=".SERVER_READ." -u=".COMPTE_BASE." -p=".PSWD_BASE." -d=".DB_NAME." -path=".$fname;
  	exec($command);	
+}
+
+
+function find_all_subnet($dpt_choise=''){
+	if ($dpt_choise != '')
+		return array_keys($_SESSION['OCS']["ipdiscover"][$dpt_choise]);
+	else{
+		if (isset($_SESSION['OCS']["ipdiscover"])){
+			foreach ($_SESSION['OCS']["ipdiscover"] as $key=>$subnet){
+				foreach ($subnet as $sub=>$poub)
+					$array_sub[]=$sub;
+			}
+			return $array_sub;		
+		}else
+			return false;
+	}	
+}
+
+function count_noinv_network_devices($dpt_choise=''){
+	$array_sub=find_all_subnet($dpt_choise);
+	$arg_count=array();
+	$sql_count="SELECT COUNT(DISTINCT mac) as c
+					FROM netmap n 
+					LEFT OUTER JOIN networks ns ON ns.macaddr = mac 
+					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
+						and ( ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
+						and netid in ";
+	$detail_query=mysql2_prepare($sql_count,$arg_count,$array_sub);
+	$res_count = mysql2_query_secure($detail_query['SQL'], $_SESSION['OCS']["readServer"],$detail_query['ARG']);
+	$val_count = mysql_fetch_array( $res_count );
+	return $val_count['c'];
 }
 
 ?>

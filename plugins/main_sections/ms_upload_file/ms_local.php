@@ -50,12 +50,14 @@ if ($protectedPost['onglet'] == 'FILE'){
 	//   
 	$css="mvt_bordure";
 	$form_name1="SEND_FILE";
-	$data_config=look_config_default_values(array('LOCAL_SERVER','LOCAL_PORT'),'',array('TVALUE'=>array('LOCAL_SERVER'=>'localhost'),
-																						'IVALUE'=>array('LOCAL_PORT'=>'80')));
-	$port = $data_config['ivalue']['LOCAL_PORT'];
-	$server = $data_config['tvalue']['LOCAL_SERVER'];
-	
-	
+	$data_config=look_config_default_values(array('LOCAL_URI_SERVER'),'',
+											array('TVALUE'=>array('LOCAL_URI_SERVER'=>'http://localhost:80/ocsinventory')));
+											
+	$server = $data_config['tvalue']['LOCAL_URI_SERVER'];
+	$array_port=explode(':',$server);
+	$port_trait=array_pop($array_port);
+	$array_port=explode('/',$port_trait);
+	$port=$array_port[0];
 	if(is_uploaded_file($_FILES['file_upload']['tmp_name'])) {
 		
 			$fd = fopen($_FILES['file_upload']['tmp_name'], "r");
@@ -63,7 +65,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 				$contents = fread($fd, filesize ($_FILES['file_upload']['tmp_name']));
 				fclose($fd);
 		
-				$result = post_ocs_file_to_server($contents, "http://".$server."/ocsinventory", $port);
+				$result = post_ocs_file_to_server($contents, $server, $port);
 				
 				if (isset($result["errno"])) {
 					$errno = $result["errno"];
@@ -79,7 +81,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 			}else
 				msg_error($l->g(1244));
 	}
-	printEntete("<i>".$l->g(560).": http://".$server.":".$port);
+	printEntete("<i>".$l->g(560).": ".$server);
 	echo "</form>";
 	echo "<br>";
 	echo "<form name='".$form_name1."' id='".$form_name1."' method='POST' action='' enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\">";

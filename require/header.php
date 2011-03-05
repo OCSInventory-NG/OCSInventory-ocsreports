@@ -190,7 +190,7 @@ if (!isset($_COOKIE["VERS"]) or $_COOKIE["VERS"] != GUI_VER){
 
 //del column
 if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
-	unset($_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
+	unset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']][$protectedPost['SUP_COL']]);
 	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
 }
 

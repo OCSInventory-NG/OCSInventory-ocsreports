@@ -456,8 +456,7 @@
 562 Afficher les réseaux ayant l'uid:
 563 Constructeur
 564 Fréquence de lancement de l'agent par le service
-565 Serveur utilisé pour les imports locaux
-566 Port utilisé pour les imports locaux
+565 Adresse utilisée pour les imports locaux
 567 Latence de l'ipdiscover
 568 RAM(MB)
 569 CPU(MHz)
@@ -1145,6 +1144,9 @@
 1259 Sur une semaine
 1260 Sur un mois
 1261 Vider le cache
+1262 Aucun module activé pour votre profil
+1263 ALERTE SECURITE!
+1264 Suite
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1166,10 +1168,14 @@
 2017 à l'aide
 2018 a été importé
 2019 étaient déjà importés
-2020 Le fichier install.php est présent dans votre répertoire d'interface.<br> Par mesure de sécurité, supprimez le.
+2020 Le fichier install.php est présent dans votre répertoire d'interface.
 2021 Le répertoire de LOGS n'est pas ouvert en écriture
 2022 Vous ne pouvez envoyer un fichier d'une taille supérieur à
-
+2023 Supprimez le.
+2024 Le compte/mot de passe par défaut est actif sur votre base de donnée:
+2025 Changer le mot de passe du compte ocs dans MySQL
+2026 Le compte/mot de passe par défaut de l'interface WEB est actif
+2027 Changer le mot de passe du compte admin dans l'interface web
 
 2030 Installation d'OCS-NG Inventory
 2031 version actuellement installée
