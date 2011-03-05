@@ -1173,9 +1173,10 @@
 2022 Vous ne pouvez envoyer un fichier d'une taille supérieur à
 2023 Supprimez le.
 2024 Le compte/mot de passe par défaut est actif sur votre base de donnée:
-2025 Changer le mot de passe du compte ocs dans MySQL
+2025 Changer le mot de passe du compte 'ocs' dans MySQL
 2026 Le compte/mot de passe par défaut de l'interface WEB est actif
-2027 Changer le mot de passe du compte admin dans l'interface web
+2027 Changer le mot de passe du compte 'admin' dans l'interface web
+
 
 2030 Installation d'OCS-NG Inventory
 2031 version actuellement installée
