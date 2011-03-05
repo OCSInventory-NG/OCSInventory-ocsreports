@@ -70,8 +70,7 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 	}
 	
 	if ($_SESSION['OCS']['DEBUG'] == 'ON'){
-		$_SESSION['OCS']['SQL_DEBUG'][]=html_entity_decode($query,ENT_QUOTES);
-		//echo "<br><small><small>".$l->g(5001)."<br>".html_entity_decode($query,ENT_QUOTES)."</small></small><br>";			
+		$_SESSION['OCS']['SQL_DEBUG'][]=html_entity_decode($query,ENT_QUOTES);			
 	}
 	$result=mysql_query( $query, $link ) or mysql_error($link);
 	return $result;
