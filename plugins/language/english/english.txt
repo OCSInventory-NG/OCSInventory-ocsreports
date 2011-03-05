@@ -1146,6 +1146,8 @@
 1260 For one months
 1261 Clear cache
 1262 No plugin enabled for your profil
+1263 SECURITY ALERT!
+1264 Next
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
@@ -1167,9 +1169,15 @@
 2017 using
 2018 was imported
 2019 were already imported
-2020 YOUR INSTALL.PHP EXISTS IN OCSREPORTS DIRECTORY
-2021 YOUR GUI LOGS DIRECTORY IS NOT WRITABLE
+2020 The install.php exists in ocsreports directory
+2021 Your GUI logs directory is not writable
 2022 You can't send a file larger than
+2023 Delete it
+2024 The default sql login/password is activate on your database:
+2025 Change your password for ocs login in MySQL
+2026 The default login/password is activate on OCS GUI
+2027 Change admin password on OCS GUI
+
 
 2030 OCS-NG Inventory Installation
 2031 Current installed version
