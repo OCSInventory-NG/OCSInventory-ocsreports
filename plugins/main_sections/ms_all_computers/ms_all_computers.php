@@ -95,4 +95,31 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
 	echo "</form>";
 
+
+
+/*
+	$form_name="show_all";
+	$table_name="list_show_all";
+	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	$list_fields=array('HARDWARE','BIOS','ACCOUNTINFO');
+	$result=lbl_column($list_fields);
+	$list_fields=$result['FIELDS'];
+	$default_fields=$result['DEFAULT_FIELDS'];
+	$tab_options['FILTRE']=array_flip($list_fields);
+	asort($tab_options['FILTRE']); 
+	$list_fields['SUP']='h.ID';	
+	$list_col_cant_del=array('SUP'=>'SUP');
+	$sql=prepare_sql_tab($list_fields,array('SUP'));
+	$tab_options['ARG_SQL']=$sql['ARG'];
+	$queryDetails  = $sql['SQL']." from hardware h 
+					LEFT JOIN accountinfo a ON a.hardware_id=h.id 
+					LEFT JOIN bios b ON b.hardware_id=h.id where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
+	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
+		$queryDetails  .= "AND ".$_SESSION['OCS']["mesmachines"];
+
+	$tab_options['LBL_POPUP']['SUP']='h.NAME';
+	$tab_options['LBL']['SUP']=$l->g(122);
+	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
+	echo "</form>";
+*/
 ?>

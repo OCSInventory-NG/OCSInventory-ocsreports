@@ -296,6 +296,7 @@ function count_noinv_network_devices($dpt_choise=''){
 	$res_count = mysql2_query_secure($detail_query['SQL'], $_SESSION['OCS']["readServer"],$detail_query['ARG']);
 	$val_count = mysql_fetch_array( $res_count );
 	return $val_count['c'];
+	
 }
 
 ?>

@@ -881,6 +881,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	}
 	
 	if (is_array ($list_rest)){
+		//$list_rest=lbl_column($list_rest);
 		$select_restCol= $l->g(349).": ".show_modif($list_rest,'restCol'.$tab_name,2,$form_name);
 		$select_restCol .=  "<a href=# OnClick='pag(\"".$tab_name."\",\"RAZ\",\"".$id_form."\");'><img src=image/supp.png></a></td></tr></table>"; //</td></tr><tr><td align=center>
 		echo $select_restCol;
@@ -892,6 +893,40 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	return( $data_with_filter);
 	
 	
+}
+
+function lbl_column($list_fields){
+	//p($list_rest);
+	require_once('maps.php');
+	$return_fields=array();
+	$return_default=array();
+	foreach($list_fields as $poub=>$table){
+		if (isset($lbl_column[$table])){
+			foreach($lbl_column[$table] as $field=>$lbl){
+				//echo $field;
+				if (isset($alias_table[$table])){
+					$return_fields[$lbl]=$alias_table[$table].'.'.$field;
+					if (isset($default_column[$table])){
+						foreach($default_column[$table] as $poub2=>$default_field)
+							$return_default[$lbl_column[$table][$default_field]]=$lbl_column[$table][$default_field];
+					}else{
+						msg_error($table.' DEFAULT VALUES NOT DEFINE IN MAPS.PHP');
+						return false;						
+					}
+				}else{
+					msg_error($table.' ALIAS NOT DEFINE IN MAPS.PHP');
+					return false;
+				}
+					
+			}			
+			
+		}else{
+			msg_error($table.' NOT DEFINE IN MAPS.PHP');
+			return false;
+		}
+	}
+	ksort($return_fields);
+	return array('FIELDS'=>$return_fields,'DEFAULT_FIELDS'=>$return_default);
 }
 
 function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,$width='100',$tab_options='')
@@ -1297,20 +1332,16 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				if ($list_col_cant_del[$key])
 				$correct_list_col_cant_del[$num_col]=$num_col;
 				
-
-				if (substr($value,0,2) == "h." 
-						or substr($value,0,2) == "a." 
-						or substr($value,0,2) == "e."
-						or substr($value,0,2) == "n." 
-						or substr($value,0,2) == "b."){
-				$no_alias_value=substr(strstr($value, '.'), 1);
+				$alias=explode('.',$value);
+				if (isset($alias[1])){
+					$no_alias_value=$alias[1];
 				}else
-				 $no_alias_value=$value;
+				 	$no_alias_value=$value;
 
 				
 				//si aucune valeur, on affiche un espace
 				if ($donnees[$no_alias_value] == "")
-				$value_of_field = "&nbsp";
+					$value_of_field = "&nbsp";
 				else //sinon, on affiche la valeur
 				{
 					$value_of_field=$donnees[$no_alias_value];

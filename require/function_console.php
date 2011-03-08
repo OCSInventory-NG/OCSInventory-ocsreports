@@ -253,7 +253,7 @@ $sql_field=array("OCS_REPORT_WORKGROUP"=>array('ARG'=>array('count(distinct work
 			 	 									'ARG'=>array('count(distinct(hardware_id)) c',$table["OCS_REPORT_NB_HARD_DISK_B"],"Hard Drive",$data_limit['GUI_REPORT_DD_MAX'],$data_limit['GUI_REPORT_DD_MINI'])),
 
 				 "OCS_REPORT_NB_IPDISCOVER"=>array('SQL'=>"select %s c from netmap ",
-										 'ARG'=>count_noinv_network_devices()),
+										 'ARG'=>array(count_noinv_network_devices())),
 
 			 	 "OCS_REPORT_NB_LAST_INV"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LAST_INV"],"where floor((unix_timestamp(lastcome) - unix_timestamp(lastdate) )/86400) >= ".$data_limit['GUI_REPORT_LAST_DIFF'])),
 
@@ -352,6 +352,7 @@ function show_console_field($fields,$form_name){
 			
 			if ($myids){
 				if (!in_array($key,$no_restrict)){
+
 					if ((isset($arg_result[2]) and $arg_result[2] != '') 
 						or $table[$key] == 'hardware'
 						or (isset($sql_field[$key]['SQL']) and $sql_field[$key]['SQL']!= ''))
@@ -359,26 +360,31 @@ function show_console_field($fields,$form_name){
 					else
 						$sql_result.=" where "; 
 					
-					if ($table[$key] != 'hardware' and $table[$key] != 'snmp'){
+					if ($table[$key] != 'hardware' 
+							and $table[$key] != 'snmp' 
+								and $table[$key] !='nk'){
 						$sql_result.=$table[$key].".hardware_id in ".$myids['SQL'];
 					}elseif ($table[$key] == 'hardware'){
 						$sql_result.=" id in ".$myids['SQL'];
 					}elseif ($table[$key] == 'snmp'){
+
 						
-						
+					}elseif($table[$key] == 'nk'){
+						$sql_result=substr($sql_result,0,-4);
 					}
 					
-					if (is_array($sql_field[$key]['ARG']))
-						$arg_result=array_merge($arg_result,$myids['ARG']);		
-					else
+					if (is_array($sql_field[$key]['ARG'])){
+						$arg_result=array_merge($arg_result,$myids['ARG']);	
+						
+					}else{
 						$arg_result=$myids['ARG'];
+					}
 				}			
 			}
-			/*echo "<hr><br>";
-			echo $sql_result;
-			p($arg_result);
-			echo "<hr><br>";*/
-			$res=mysql2_query_secure($sql_result,$_SESSION['OCS']["readServer"],$arg_result);
+	
+				//echo $sql_result.p($arg_result);
+				$res=mysql2_query_secure($sql_result,$_SESSION['OCS']["readServer"],$arg_result);
+
 	
 			if ($res){
 				$count = mysql_fetch_object($res);
