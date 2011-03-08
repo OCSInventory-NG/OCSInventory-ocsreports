@@ -391,6 +391,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 			$champs.= "<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";
 			if ($protectedPost[$input_name."_".$key] == 'on' )
 			$champs.= " checked ";
+			if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
 			$champs.= " >" . $value . " <br>";
 		}
 		return $champs;
