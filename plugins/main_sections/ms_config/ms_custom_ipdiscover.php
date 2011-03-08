@@ -55,9 +55,8 @@ if (isset($protectedGet['idchecked']) and is_numeric($protectedGet['idchecked'])
 		$lesRez[$val["ipsubnet"]] = $val["ipsubnet"];
 	}
 }
-//	if( $mode==3 || $mode==2) 
-	
-ligne('IPDISCOVER',$l->g(518),'select',array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>$lesRez,'VALUE'=>$select_value));
+
+ligne('IPDISCOVER',$l->g(518),'select',array('SELECT_VALUE'=>$lesRez,'VALUE'=>$select_value));
 
 if(!isset($optvalue['SNMP_SWITCH']))
 $optvalueselected='SERVER DEFAULT';

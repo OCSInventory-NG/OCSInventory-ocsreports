@@ -189,7 +189,8 @@ echo "</form>";
 //show messages
 if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 	$info_msg=look_config_default_values('GUI_REPORT_MSG%','LIKE');
-	$list_id_groups=implode(',',$info_msg['ivalue']);
+	if (is_array($info_msg['ivalue']))
+		$list_id_groups=implode(',',$info_msg['ivalue']);
 	
 	if ($list_id_groups != ""){
 		$sql_my_msg="select distinct g_c.group_id groups 
