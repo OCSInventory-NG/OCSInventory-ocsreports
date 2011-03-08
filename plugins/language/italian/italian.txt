@@ -1144,6 +1144,10 @@
 1259 Per una settimana
 1260 Per un mese
 1261 Pulisci la cache
+1262 Nessun plugin abilitato per il tuo profilo
+1263 AVVISO DI SICUREZZA!
+1264 Prossimo
+
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1169,6 +1173,12 @@
 2020 Il file install.php è ancora presente nella directory di OCS-NG.<br>Per motivi di sicurezza, eliminalo.
 2021 Non posso scrivere nella directory dei log
 2022 Non puoi inviare un file di dimensioni superiori a
+2023 Cancellalo
+2024 Sono attive le credenziali SQL di default per l'accesso al database:
+2025 Cambia la password dell'account 'ocs' in MySQL
+2026 Sono attive le credenziali di default per l'accesso alla GUI di OCS-NG
+2027 Cambia la password dell'account 'admin' per l'accesso alla GUI di OCS-NG
+
 
 
 2030 Installazione OCS-NG Inventory

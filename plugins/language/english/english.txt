@@ -1135,8 +1135,8 @@
 1249 Activation of cache tables (allows less solicit the MySQL database)
 1250 Teledeploy speed
 1251 Statistics
-1252 Conf profils files directory
-1253 Directory of old conf profils files
+1252 Configuration profiles files directory
+1253 Directory of old conf profiles files
 1254 Directory of scripts logs
 1255 Connexion number by day
 1256 Bad connexion number by day
@@ -1145,7 +1145,7 @@
 1259 For one week
 1260 For one months
 1261 Clear cache
-1262 No plugin enabled for your profil
+1262 No plugin enabled for your profile
 1263 SECURITY ALERT!
 1264 Next
 
@@ -1174,10 +1174,10 @@
 2021 Your GUI logs directory is not writable
 2022 You can't send a file larger than
 2023 Delete it
-2024 The default sql login/password is activate on your database:
-2025 Change your password for ocs login in MySQL
-2026 The default login/password is activate on OCS GUI
-2027 Change admin password on OCS GUI
+2024 The default SQL login/password is activate on your database:
+2025 Change your login password for 'ocs' user in MySQL
+2026 The default login/password is activate on OCS-NG GUI
+2027 Change your 'admin' password on OCS-NG GUI
 
 
 
@@ -1249,7 +1249,6 @@
 2100 Update old account infos
 2101 Add by script
 2102 WARNING: If you change default database name (ocsweb), don't forget to update your ocs engine files
-
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
