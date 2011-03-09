@@ -19,7 +19,7 @@ require_once('require/function_files.php');
 $item=info($protectedGet,$protectedPost['systemid']);
 if (!is_object($item)){
 	msg_error($item);
-	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	require_once(FOOTER_HTML);
 	die();
 }
 //you can't view groups'detail by this way
@@ -69,7 +69,7 @@ foreach ($lbl_affich as $key=>$lbl){
 $bandeau=bandeau($data,$lbl_affich);
 
 //get plugins when exist
-$Directory=$_SESSION['OCS']['plugins_dir']."computer_detail/";
+$Directory=PLUGINS_DIR."computer_detail/";
 $ms_cfg_file= $Directory."cd_config.txt";
 
 if (file_exists($ms_cfg_file)) {

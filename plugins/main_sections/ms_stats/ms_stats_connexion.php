@@ -59,7 +59,7 @@ if (isset($find_connexion)){
 		<dataset seriesName='' color='B1D1DC'  areaAlpha='60' showAreaborder='1' areaBorderThickness='1' areaBorderColor='7B9D9D'>";
 		$strXML2.=$setvalue;
 		$strXML2.="</dataset></graph> ";
-		$stats.= renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_StackedArea2D.swf", "", $strXML2, "speedStat", 800, 500);
+		$stats.= renderChartHTML(FCHARTS."/Charts/FCF_StackedArea2D.swf", "", $strXML2, "speedStat", 800, 500);
 	}else
 	{
 		$_SESSION['OCS']['STAT_CNX']['DATA']=$find_connexion;

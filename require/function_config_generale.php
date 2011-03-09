@@ -473,9 +473,9 @@ function trait_post($name){
 
 	ligne('LOG_SCRIPT',$l->g(1254),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."scripts)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_scripts),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_SCRIPT'],'SIZE'=>50,'END'=>"/scripts"));	
-	ligne('CONF_PROFILS_DIR',$l->g(1252),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.$_SESSION['OCS']['main_sections_dir']."conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_profils),
+	ligne('CONF_PROFILS_DIR',$l->g(1252),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.MAIN_SECTIONS_DIR."conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_profils),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['CONF_PROFILS_DIR'],'SIZE'=>50,'END'=>"/conf"));	
-	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.$_SESSION['OCS']['main_sections_dir']."conf/old_conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
+	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.MAIN_SECTIONS_DIR."conf/old_conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>50,'END'=>"/old_conf"));		
 	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGHT'=>4));	
 	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			

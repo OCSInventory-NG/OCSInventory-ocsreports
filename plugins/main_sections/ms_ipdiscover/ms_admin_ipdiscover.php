@@ -50,7 +50,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 					msg_success($l->g(1141));
 				//erase ipdiscover cache
 				unset($_SESSION['OCS']['DATA_CACHE'][$table_name],$_SESSION['OCS']["ipdiscover"],$protectedPost['ADD_SUB'],$protectedPost['MODIF']);
-				require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
+				require_once(BACKEND.'ipdiscover/ipdiscover.php');
 				if (isset($protectedGet['value']) and $protectedGet['value'] != '')
 					reloadform_closeme("ipdiscover",true);
 			}	

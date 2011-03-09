@@ -19,7 +19,7 @@
  * add your page on /require and modify $list_methode
  * 
  */
- require_once($_SESSION['OCS']['backend'].'require/connexion.php');
+ require_once(BACKEND.'require/connexion.php');
  //If you want a html form for the connexion
  //put $affich_method='HTML'
  $affich_method='HTML';
@@ -40,8 +40,7 @@
  //					   local.php => Local connexion on ocs base
  //					   always_ok.php => connexion always ok
  $list_methode=array(0=>"local.php");
- //$list_methode=array(0=>"always_ok.php");
- if ($affich_method == 'HTML' and isset($protectedPost['Valid_modif_x']) and trim($protectedPost['LOGIN']) != ""){
+ if ($affich_method == 'HTML' and isset($protectedPost['Valid_CNX']) and trim($protectedPost['LOGIN']) != ""){
  	$login=$protectedPost['LOGIN'];
  	$mdp=$protectedPost['PASSWD']; 
  }elseif ($affich_method == 'CAS'){
@@ -50,7 +49,6 @@
  	$login=$_SERVER['PHP_AUTH_USER'];
  	$mdp=$_SERVER['PHP_AUTH_PW'];  	
  }
-
 
 if (isset($login) && isset($mdp)){
 	$i=0;
@@ -61,7 +59,6 @@ if (isset($login) && isset($mdp)){
 		$i++;
 	}
 }
-
 // login ok?
 if($login_successful == "OK" and isset($login_successful)) {
 	$_SESSION['OCS']["loggeduser"]=$login;
@@ -72,7 +69,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 	//show HTML form
 	if ($affich_method == 'HTML'){
 		$icon_head='NO';
-		require_once ($_SESSION['OCS']['HEADER_HTML']);
+		require_once (HEADER_HTML);
 		if (isset($protectedPost['Valid_modif_x'])){
 			$login_successful = $l->g(180);
 			msg_error($login_successful);
@@ -97,7 +94,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 		
 		if (isset($tab_typ_champ)){
 			$css='mlt_bordure';
-			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);
+			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="CNX",$showbutton='BUTTON',$form_name);
 		//	echo "</div>";
 		}	
 		/*echo "<br><center><table><tr><td align=center>";
@@ -106,7 +103,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 		echo "<tr><td colspan=2 align=center><br><input type=submit name='VALID' id='VALID'></td></tr>";
 		echo "</table></center>";
 		echo "</form>";*/
-		require_once($_SESSION['OCS']['FOOTER_HTML']);
+		require_once(FOOTER_HTML);
 		die();
 	}else{
    		header('WWW-Authenticate: Basic realm="OcsinventoryNG"');

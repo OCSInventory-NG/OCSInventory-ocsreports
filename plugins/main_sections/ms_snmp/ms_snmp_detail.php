@@ -18,7 +18,7 @@ $form_name='SNMP_DETAILS';
 $item=info_snmp($protectedGet['id']);
 if (!is_array($item['data'])){
 	msg_error($item);
-	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	require_once(FOOTER_HTML);
 	die();
 }
 
@@ -42,7 +42,7 @@ echo $second_tab;
 
 
 //get plugins when exist
-$Directory=$_SESSION['OCS']['plugins_dir']."snmp_detail/";
+$Directory=PLUGINS_DIR."snmp_detail/";
 $ms_cfg_file= $Directory."snmp_config.txt";
 
 if (file_exists($ms_cfg_file)) {

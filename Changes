@@ -1,6 +1,9 @@
 Revision history for ocsreports 
 
 2.0 rc3
+		* change look and feel on install.php
+		* Add constants in var.php
+		* fix Bug #725466 
 		* fix bug http://forums.ocsinventory-ng.org/viewtopic.php?pid=34495#p34495
 		* fix bug on export csv
 		* fix bug on ipdiscover (shows all the subnets even if no machine is elected)

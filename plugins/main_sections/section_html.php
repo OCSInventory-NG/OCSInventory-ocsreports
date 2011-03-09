@@ -77,7 +77,7 @@ function show_icon($index,$lbl_index){
 
         //si on clic sur l'icone, on charge le formulaire
         //pour obliger le cache des tableaux a se vider
-        echo "<td onmouseover=\"javascript:show_menu('nomenu','".$_SESSION['OCS']['all_menus']."');\"><a onclick='clic(\"".$llink."\");' href='".$llink."'><img title=\"".$lbl."\" src='".$_SESSION['OCS']['main_sections_dir']."/img/$img.png'></a></td>";
+        echo "<td onmouseover=\"javascript:show_menu('nomenu','".$_SESSION['OCS']['all_menus']."');\"><a onclick='clic(\"".$llink."\");' href='".$llink."'><img title=\"".$lbl."\" src='".MAIN_SECTIONS_DIR."/img/$img.png'></a></td>";
 	}
 	
 //}
@@ -93,7 +93,7 @@ function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
         <dl id=\"menu\">
                 <dt onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\">
                 <a href='javascript:void(0);'>
-        <img src='".$_SESSION['OCS']['main_sections_dir']."/img/$nam_img";
+        <img src='".MAIN_SECTIONS_DIR."/img/$nam_img";
        
 	if( in_array($pag_name[$protectedGet[PAG_INDEX]],$packAct))  {
 		echo "_a"; 

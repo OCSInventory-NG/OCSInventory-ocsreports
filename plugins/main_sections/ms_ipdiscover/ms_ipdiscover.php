@@ -26,7 +26,7 @@ echo "<br>";
  		mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"],$arg_del);
 		//delete cache
 		unset($_SESSION['OCS']["ipdiscover"]);
-		require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
+		require_once(BACKEND.'ipdiscover/ipdiscover.php');
  		$tab_options['CACHE']='RESET';
  	}
  	if (isset($_SESSION['OCS']["ipdiscover"])){

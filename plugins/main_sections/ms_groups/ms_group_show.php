@@ -249,7 +249,7 @@ if ($server_group){
 		}
 	echo "</table><br>";
 	}
-	require($_SESSION['OCS']['main_sections_dir']."/".$_SESSION['OCS']['DIRECTORY']['ms_server_redistrib']."/ms_server_redistrib.php");
+	require(MAIN_SECTIONS_DIR."/".$_SESSION['OCS']['DIRECTORY']['ms_server_redistrib']."/ms_server_redistrib.php");
 }else{
 	
 	
@@ -591,7 +591,7 @@ function img($i,$a,$avail,$opt) {
 	if( $avail ) {
 		$href = "<a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
 		$fhref = "</a>";
-		$img = "<img title=\"".htmlspecialchars($a)."\" src='".$_SESSION['OCS']['main_sections_dir']."/img/{$i}{$suff}.png' />";
+		$img = "<img title=\"".htmlspecialchars($a)."\" src='".MAIN_SECTIONS_DIR."/img/{$i}{$suff}.png' />";
 	}
 	else {
 		$href = "";
