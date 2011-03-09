@@ -23,7 +23,7 @@ $debut = getmicrotime();
 require ('require/header.php');
 addLog('PAGE',$protectedGet[PAG_INDEX]);
 if( !isset($protectedGet["popup"] ))
-	require ($_SESSION['OCS']['FOOTER_HTML']);
+	require (FOOTER_HTML);
 	
 
 

@@ -6,7 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 require_once('require/function_files.php');
-$Directory=$_SESSION['OCS']['plugins_dir'].'language/';
+$Directory=PLUGINS_DIR.'language/';
 $ms_cfg_file= $Directory."/lang_config.txt";	
 	//show only true sections
 if (file_exists($ms_cfg_file)) {

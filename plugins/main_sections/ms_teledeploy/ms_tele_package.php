@@ -415,7 +415,7 @@ if ($activate){
 		echo "<br><b>" . $l->g(1183) . ":</b>".show_modif($list_dde_creat,'LIST_DDE_CREAT',2,$form_name);
 		if (!$protectedPost['LIST_DDE_CREAT'] or $protectedPost['LIST_DDE_CREAT'] == ""){
 			echo "</form>";
-			require_once($_SESSION['OCS']['FOOTER_HTML']);
+			require_once(FOOTER_HTML);
 			die();
 		}else{
 			$protectedPost['NAME']=$info_dde_statut_creat[$protectedPost['LIST_DDE_CREAT']]->$id_name;
@@ -426,7 +426,7 @@ if ($activate){
 		}
 	}else{
 		echo "</form>";
-		require_once($_SESSION['OCS']['FOOTER_HTML']);
+		require_once(FOOTER_HTML);
 		die();
 	}
 	

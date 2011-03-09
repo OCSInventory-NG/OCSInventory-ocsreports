@@ -37,6 +37,7 @@ function printEnTete($ent) {
 function incPicker() {
 
 	global $l;
+
 	echo "<script language=\"javascript\">
 	var MonthName=[";
 	
@@ -495,7 +496,8 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 	}else
 		echo $tab_name;
  	echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
- 	if ($showbutton){
+ 	if ($showbutton and $showbutton !== 'BUTTON'){
+ 		
 		echo "<tr><td><input title='" . $l->g(625) 
 					. "'  type='image'  src='image/success.png' name='Valid_" 
 					. $name_button 
@@ -503,6 +505,12 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 		echo "<input title='" . $l->g(626) 
 				. "'  type='image'  src='image/error.png' name='Reset_"
 				. $name_button . "'></td></tr>";
+ 	}elseif($showbutton === 'BUTTON'){
+ 		echo "<tr><td colspan=100 align='center'><input title='" . $l->g(625) 
+					. "'  type='submit'  name='Valid_" 
+					. $name_button 
+					."'>";
+ 		
  	}
 	echo "</table>";
         echo "</div>";    

@@ -36,7 +36,7 @@ if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES'){
 	$mycomputers=computer_list_by_tag();
 	if ($mycomputers == "ERROR"){
 		msg_error($l->g(893));
-		require_once($_SESSION['OCS']['FOOTER_HTML']);
+		require_once(FOOTER_HTML);
 		die();
 	}
 }

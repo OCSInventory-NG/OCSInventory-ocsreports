@@ -107,7 +107,7 @@ if (isset($data) and count($data) != 1){
 	}
 	if ($_SESSION['OCS']['useflash'] == 1){
 		$strXML2.="</dataset></graph> ";
-		echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_StackedArea2D.swf", "", $strXML2, "speedStat", 800, 500);
+		echo renderChartHTML(FCHARTS."/Charts/FCF_StackedArea2D.swf", "", $strXML2, "speedStat", 800, 500);
 	}else{
 		
 		$_SESSION['OCS']['STAT_SPEED_TELEDEPLOY']['DATA']=$data;

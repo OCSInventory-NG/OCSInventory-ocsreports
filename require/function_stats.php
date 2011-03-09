@@ -9,15 +9,15 @@
  * 
  */
 if ($_SESSION['OCS']['useflash'] == 1){
-	require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FusionCharts.php");
-	require_once($_SESSION['OCS']['FCharts']."/Code/PHP/Includes/FC_Colors.php");
+	require_once(FCHARTS."/Code/PHP/Includes/FusionCharts.php");
+	require_once(FCHARTS."/Code/PHP/Includes/FC_Colors.php");
 }else{
 	
-	require_once ($_SESSION['OCS']['JpGraph']."/src/jpgraph.php");
-	require_once ($_SESSION['OCS']['JpGraph']."/src/jpgraph_pie.php");
-	require_once ($_SESSION['OCS']['JpGraph']."/src/jpgraph_pie3d.php");
-	require_once ($_SESSION['OCS']['JpGraph']."/src/jpgraph_line.php");
-	require_once ($_SESSION['OCS']['JpGraph']."/src/jpgraph_date.php");
+	require_once (JPGRAPH."/src/jpgraph.php");
+	require_once (JPGRAPH."/src/jpgraph_pie.php");
+	require_once (JPGRAPH."/src/jpgraph_pie3d.php");
+	require_once (JPGRAPH."/src/jpgraph_line.php");
+	require_once (JPGRAPH."/src/jpgraph_date.php");
 }
  //fonction camenbert
 # - Date de cr�ation : 18/09/2005

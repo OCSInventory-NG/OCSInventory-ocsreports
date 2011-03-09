@@ -9,19 +9,12 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2010 $$Author: Erwan Goalou + Passero
-
 @set_time_limit(0);
 error_reporting(E_ALL & ~E_NOTICE);
-echo "
-<html>
-<head>
-<TITLE>OCS Inventory Installation</TITLE>
-<link rel='shortcut icon' href='favicon.ico' />
-<LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
-<META HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=utf-8>
-</head><body>";
-//require_once('var.php');
 require_once('require/fichierConf.class.php');
+require_once('require/function_commun.php');
+require_once('var.php');
+html_header(true);
 if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
     if (isset($_COOKIE['LANG']))
         $_SESSION['OCS']['LANGUAGE']=$_COOKIE['LANG'];
@@ -36,54 +29,39 @@ $l = $_SESSION['OCS']["LANGUAGE_FILE"];
 printEnTeteInstall($l->g(2030));
 echo "<br>";
 
-if( isset($fromAuto) && $fromAuto==true)
-   echo "<center><br><font color='green'><b>" . $l->g(2031) . " " .
-   											    $valUpd["tvalue"] . 
-   											    " " . $l->g(2032) . 
-   											    " (" . GUI_VER . "). " .
-   											    $l->g(2033) . "</b></red><br></center>";
-
-if( isset($fromdbconfig_out) && $fromdbconfig_out==true)
-   echo "<center><br><font color='green'><b>" . $l->g(2034) . "</b></red><br></center>";
-
-/*
-if(!isset($_POST["name"])) {
-	if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
-		fclose($hnd);
-		require("dbconfig.inc.php");
-		$_POST["name"] = $_SESSION['OCS']["COMPTE_BASE"];
-		$_POST["pass"] = $_SESSION['OCS']["PSWD_BASE"];
-		$_POST["host"] = $_SESSION['OCS']["SERVEUR_SQL"];
-	}
-	else {
-		$_POST["name"] = "root";
-		$_POST["pass"] = "";
-		$_POST["host"] = "localhost";
-	}
-	$firstAttempt=true;
-}*/ 
-
-if(!function_exists('session_start')) {	
-	echo "<br><center><font color=red><b>" . $l->g(2035) . "</b></font></center>";
-	die();
+if( isset($fromAuto) && $fromAuto==true){
+	msg_info($l->g(2031)." ".$valUpd["tvalue"]." ".$l->g(2032)." (" . GUI_VER . "). ".$l->g(2033));	
 }
 
-if(!function_exists('xml_parser_create')) {	
-	echo "<br><center><font color=orange><b>" . $l->g(2036) . "</b></font></center>";
+if( isset($fromdbconfig_out) && $fromdbconfig_out==true)
+   msg_info($l->g(2034));
+
+
+if(!function_exists('session_start')) {	
+	msg_error($l->g(2035));
+	die();
 }
 
 if(!function_exists('mysql_connect')) {	
-	echo "<br><center><font color=red><b>" . $l->g(2037) . "</b></font></center>";
+	msg_error($l->g(2037));
 	die();
 }
 
+$warning_lbl='';
+if(!function_exists('xml_parser_create')) {	
+	$warning_lbl.=$l->g(2036)."<br><br>";
+}
+
 if(!function_exists('imagefontwidth')) {	
-	echo "<br><center><font color=orange><b>" . $l->g(2038) . "</b></font></center>";
+	$warning_lbl.=$l->g(2038)."<br><br>";
 }
 
 if(!function_exists('openssl_open')) {	
-	echo "<br><center><font color=orange><b>" . $l->g(2039) . "</b></font></center>";
+	$warning_lbl.=$l->g(2039)."<br><br>";
 }
+
+if ($warning_lbl != '')
+	msg_warning($warning_lbl);
 
 @mkdir($_SERVER["DOCUMENT_ROOT"]."/download");
 @mkdir($_SERVER["DOCUMENT_ROOT"]."/logs");
@@ -99,27 +77,24 @@ $valBpms = return_bytes( $valTpms );
 $valBumf = return_bytes( $valTumf );
 
 if( $valBumf>$valBpms )
-	$MaxAvail = trim($valTpms,"m");
+	$MaxAvail = trim(strtoupper($valTpms),"M");
 else
-	$MaxAvail = trim($valTumf,"m");
-echo "<br><center><font color=orange><b>" . $l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041) . "</b></font></center>";
+	$MaxAvail = trim(strtoupper($valTumf),"M");
+
 
 
 if( isset($_POST["name"])) {
-		if( (!$link=@mysql_connect($_POST["host"],$_POST["name"],$_POST["pass"]))) {
-		$firstAttempt=false;
-		echo "<br><center><font color=red><b>" . $l->g(2001) . 
-											" " . $l->g(249) . 
-											" (" . $l->g(2010) . 
-											"=" . $_POST["host"] . 
-											" " . $l->g(2011) . 
-											"=" .$_POST["name"] . 
-											" " . $l->g(2014) . 
-											"=" . $_POST["pass"] . ")<br>
-							Mysql error: ".mysql_error()."</b></font></center>";
-	}
-	else
-		$instOk = true;
+		$link=dbconnect($_POST["host"],$_POST["name"],$_POST["pass"],$_POST["database"]);
+		if(!is_resource($link) and $link != 'NO_DATABASE'){
+			$firstAttempt=false;
+			msg_error($l->g(2001)." ".$l->g(249).
+							" (".$l->g(2010)."=".$_POST["host"].
+							" ".$l->g(2011)."=".$_POST["name"].
+							" ".$l->g(2014)."=".$_POST["pass"].
+							")<br>".$link);
+		}
+		else
+			$instOk = true;
 }
 if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
 		fclose($hnd);
@@ -131,67 +106,43 @@ if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
 }
 
 if( ! $instOk ) {
-	echo "<br><b><font color=red size=2>".$l->g(2102)."<br></font></b>";
-	echo "<br><form name='fsub' action='install.php' method='POST'><table width='100%'>
-	<tr>
-		<td align='right' width='30%'>
-			<font face='Verdana' size='-1'>" . $l->g(247) . ":&nbsp;&nbsp;&nbsp;</font>
-		</td>
-		<td width='50%' align='left'><input size=40 name='name' value='$valNme'>
-		</td>
-	</tr>
-	<tr>
-		<td align='right' width='30%'>
-			<font face='Verdana' size='-1'>" . $l->g(248) . ":&nbsp;&nbsp;&nbsp;</font>
-		</td>
-		<td width='50%' align='left'><input size=40 type='password' name='pass' value='$valPass'>
-		</td>
-	</tr>
-	<tr>
-		<td align='right' width='30%'>
-			<font face='Verdana' size='-1'>" . $l->g(1233) . ":&nbsp;&nbsp;&nbsp;</font>
-		</td>
-		<td width='50%' align='left'><input size=40 name='database' value='".(isset($valdatabase) && $valdatabase!= 'DB_NAME'? $valdatabase: "ocsweb")."'>
-		</td>
-	</tr>
-	<tr>
-		<td align='right' width='30%'>
-			<font face='Verdana' size='-1'>" . $l->g(250) . ":&nbsp;&nbsp;&nbsp;</font>
-		</td>
-		<td width='50%' align='left'><input size=40 name='host' value='$valServ'>
-		</td>
-	</tr>
-	<tr><td>&nbsp;</td></tr>
-		<tr>
-		<td colspan='2' align='center'>
-			<input class='bouton' name='enre' type='submit' value=" . $l->g(13) . ">
-		</td>
-	</tr>
-	
-	</table></form>";
+	require_once('require/function_table_html.php');
+	msg_info($l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041)."<br><br><font color=red>".$l->g(2102)."</font>");
+	$form_name='fsub';
+	//echo "<br><form name='".$form_name."' id='".$form_name."' method='POST' action='install.php'>";
+	$name_field=array("name","pass","database","host");
+	$tab_name= array($l->g(247).": ",$l->g(248).": ",$l->g(1233).":",$l->g(250).":");
+	$type_field= array(0,4,0,0);
+	$value_field=array($valNme,$valPass,(isset($valdatabase) && $valdatabase!= 'DB_NAME'? $valdatabase: "ocsweb"),$valServ);
+
+	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
+	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="INSTALL",$showbutton='BUTTON',$form_name);
 	die();
 }
-
-if($firstAttempt==true && $_POST["pass"] == "") {
-	echo "<br><center><font color=orange><b>" . $l->g(2042) . "</b></font></center>";
+$msg_warning="";
+if($firstAttempt==true && $_POST["pass"] == "") {	
+	$msg_warning.= $l->g(2042)."<br><br>";
 }
 
 if(!mysql_query("set global max_allowed_packet=2097152;")) {
-	echo "<br><center><font color=orange><b>" . $l->g(2043) . "</font></center>";
+	$msg_warning.= $l->g(2043);
 }
+if ($msg_warning!="")
+	msg_warning($msg_warning);
 
 mysql_select_db($_POST['database']); 
 
 if(isset($_POST["label"])) {
-	
 	if($_POST["label"]!="") {
 		@mysql_query( "DELETE FROM deploy WHERE NAME='label'");
-		$query = "INSERT INTO deploy VALUES('label','" . $_POST["label"] . "');";
-		mysql_query($query) or die(mysql_error());
-		echo "<br><center><font color=green><b>" . $l->g(2044) . "</b></font></center>";
+		$query = "INSERT INTO deploy VALUES('label','%s');";
+		$arg=$_POST["label"];
+		mysql2_query_secure($query,$link,$arg);
+		//mysql_query($query) or die(mysql_error());
+		msg_info($l->g(2044));
 	}
 	else {
-		echo "<br><center><font color=green><b>" . $l->g(2045) . "</b></font></center>";
+		msg_info($l->g(2045));
 	}
 }
 
@@ -218,7 +169,7 @@ if($_POST["fin"]=="fin") {
 		unlink("dbconfig.inc.php");
 	}
 	else {
-		echo "<br><center><font color=green><b>" . $l->g(2050) . "</b><br><br><b><a href='index.php'>" . $l->g(2051) . "</a></b></font></center>";
+		msg_success("<b>" . $l->g(2050) . "</b><br><br><b><a href='index.php'>" . $l->g(2051) . "</a></b>");
 	}	
 	die();
 }
@@ -262,13 +213,20 @@ if (!$val){
 		$db_file = "files/ocsbase.sql";	
 		
 }
+
+
+if ($error != "")
+	$error= $l->g(2099)."<br><br>";
 	
+$dbf_handle = @fopen($db_file, "r");
+
+if (!$dbf_handle)
+	$error.= $l->g(2001) . " " . $db_file . " " . $l->g(2013);
+
 if ($error != ""){
-	echo "<font color=red>".$l->g(2099)."</font>";
+	msg_error($error);
 	die();
-}
-//$db_file = "files/ocsbase_new.sql";
-if($dbf_handle = @fopen($db_file, "r")) {
+}else{
 	echo "<br><center><font color=black><b>" . $l->g(2053);
 	flush();
 	$sql_query = fread($dbf_handle, filesize($db_file));
@@ -340,13 +298,9 @@ if($dbf_handle = @fopen($db_file, "r")) {
 				mysql_query($sql);
 			}
 		}
-		echo "<br><center><font color=green><b>" . $l->g(2055) . "</b></font></center>";
+		msg_success($l->g(2055));
 		
 	}
-}
-else {
-	echo "<br><center><font color=red><b>" . $l->g(2001) . " " . $db_file . " " . $l->g(2013) . "</b></font></center>";
-	die();
 }
 //$keepuser=1;
 
