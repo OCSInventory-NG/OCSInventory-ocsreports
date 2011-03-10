@@ -14,23 +14,25 @@ require_once('require/function_search.php');
 require_once('require/function_telediff_wk.php');
 //TELEDIFF_WK
 $activate=option_conf_activate('TELEDIFF_WK');
+//use teledeploy workflow?
 if ($activate){
+	//yes
 	echo "<font color = green><b>" . $l->g(1105) . "
-			<br>" . $l->g(1108) . "</b></font>";
-	//recherche du niveau d'affectation du paquet
+			<br>" . $l->g(1110) . "</b></font>";
+	//find all config of workflow
 	$conf_Wk=look_config_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
 									   'IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
 									   'IT_SET_NIV_TEST','IT_SET_NIV_REST'));
-	//savoir comment sont définis les périmètres
+	//can affect on groups or tag?
 	if ($conf_Wk['ivalue']['IT_SET_PERIM'] == 1){
 		$perim='TAG';
 		msg_warning($l->g(1190) . " " .$conf_Wk['tvalue']['IT_SET_NIV_REST']);
 		msg_info($l->g(1191) . " " .$perim);
 	}else{
 		$perim='GROUPS';
-		//si on vient de la page des groupes	
+		//origine => group	
 		if ($protectedGet['origine'] == "group"){
-			//recherche des infos du groupe
+			//search info of this group
 			$queryMachine   = "SELECT REQUEST,
 						  CREATE_TIME,
 						  NAME,
@@ -40,29 +42,24 @@ if ($activate){
 			$result   = mysql_query( $queryMachine, $_SESSION['OCS']["readServer"] ) or mysql_error($_SESSION['OCS']["readServer"]);
 			$item     = mysql_fetch_object($result);
 			$msg_wk="";
-			//si ce groupe est défini comme un groupe de test
+			//This group is define as TEST zone
 			if ($item->NAME == $conf_Wk['tvalue']['IT_SET_NAME_TEST']){
 				$restrict=$conf_Wk['tvalue']['IT_SET_NIV_TEST'];
 				$msg_wk="<br>".$l->g(1192);
 			}		
-			//si ce groupe est défini comme un groupe de périmètre restraint	
+			//This group is define as RESTRICT zone
 			if ($item->NAME == $conf_Wk['tvalue']['IT_SET_NAME_LIMIT']){
 				if (!isset($restrict))
 				$restrict=$conf_Wk['tvalue']['IT_SET_NIV_REST'];
 				$msg_wk="<br>".$l->g(1193);
 			}
-			//si le groupe n'est pas pris en compte dans le 
-			//système de workflow de télédiff
-			if (!isset($restrict)){
-				
+			//This group is not define for the teledeploy
+			if (!isset($restrict)){				
 				$msg_wk=$l->g(1194) . " " . $conf_Wk['tvalue']['IT_SET_NIV_REST'] . " " . $l->g(1195);
-				
-				
 			}
 			
-		}
+		}		
 
-		
 	}
 	
 		

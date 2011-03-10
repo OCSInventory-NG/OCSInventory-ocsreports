@@ -70,7 +70,8 @@ function form_add_subnet($title='',$default_value,$form){
 
 function verif_base_methode($base){
 		global $l;
-	if ($_SESSION['OCS']['ipdiscover_methode'] != $base){
+	if (isset($_SESSION['OCS']['ipdiscover_methode']) 
+			and  $_SESSION['OCS']['ipdiscover_methode'] != $base){
 		return $l->g(929)."<br>".$l->g(930);
 	}else
 		return false;	
