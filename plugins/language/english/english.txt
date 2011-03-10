@@ -1148,6 +1148,7 @@
 1262 No plugin enabled for your profile
 1263 SECURITY ALERT!
 1264 Next
+1265 Enable cache tables
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

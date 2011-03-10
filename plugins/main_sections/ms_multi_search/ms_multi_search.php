@@ -896,8 +896,13 @@ $optSelectField = array_merge($optSelectField_account,$optSelectField);
 //� l'affichage on se retrouve avec le lbl du champ et un select
 $sort_list_Select=array("HARDWARE-OSNAME"=>$l->g(729).": ".$l->g(25),
 						"VIDEOS-RESOLUTION"=>$l->g(62));
+if ($_SESSION['OCS']['usecache'] == '1')
+	$table_hardware='hardware_osname_cache';
+else
+	$table_hardware='hardware';
+	
 $optSelect=array("HARDWARE-OSNAME"=>$sort_list_Select["HARDWARE-OSNAME"],//$l->g(729).": ".$l->g(25),
-				 "HARDWARE-OSNAME-SQL1"=>"select 'ALL_LINUX' as ID, '".$l->g(1202)."' as NAME union select 'ALL_WIN', '".$l->g(1203)."' union select OSNAME,OSNAME from hardware_osname_cache where osname != '' ",
+				 "HARDWARE-OSNAME-SQL1"=>"select 'ALL_LINUX' as ID, '".$l->g(1202)."' as NAME union select 'ALL_WIN', '".$l->g(1203)."' union select OSNAME,OSNAME from ".$table_hardware." where osname != '' ",
 				 "VIDEOS-RESOLUTION"=>$sort_list_Select["VIDEOS-RESOLUTION"],//$l->g(965).": ".$l->g(62),
 				 "VIDEOS-RESOLUTION-SQL1"=>"select DISTINCT RESOLUTION as 'ID', RESOLUTION as 'NAME' from videos ".(isset($list_id_computer)? " where hardware_id in ".$list_id_computer : '')." order by 1");
 //composotion du tableau
