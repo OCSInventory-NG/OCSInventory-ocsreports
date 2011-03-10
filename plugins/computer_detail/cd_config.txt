@@ -21,6 +21,7 @@
 19:cd_printers
 20:cd_modems
 21:cd_mobile
+22:cd_vm
 </ORDER>
 
 <LBL>
@@ -46,6 +47,7 @@ cd_softwares:g(20)
 cd_sounds:g(96)
 cd_storages:g(63)
 cd_videos:g(61)
+cd_vm:g(1266)
 </LBL>
 
 <ISAVAIL>
@@ -68,6 +70,7 @@ cd_softwares:softwares
 cd_sounds:sounds
 cd_storages:storages
 cd_videos:videos
+cd_vm:virtualmachines
 </ISAVAIL>
 
 <URL>
@@ -90,5 +93,6 @@ cd_monitors:17
 cd_inputs:18
 cd_printers:19
 cd_mobile:21
+cd_vm:22
 </URL>
 
