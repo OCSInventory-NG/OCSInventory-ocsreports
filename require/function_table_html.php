@@ -966,7 +966,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	
 	//show select nb page
 	$limit=nb_page($form_name,100,"","");
-	
 	//you want to filter your result
 	if (isset($tab_options['FILTRE'])){
 		$Details=filtre($tab_options['FILTRE'],$form_name,$queryDetails,$tab_options['ARG_SQL'],$tab_options['ARG_SQL_COUNT']);
@@ -1035,7 +1034,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	if (isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]]) and isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 			msg_info($l->g(5005));
-
 	 		$var_limit=$limit["BEGIN"];
 	 		while ($var_limit<=$limit["END"]){
 	 			$sql_data[$var_limit]=$_SESSION['OCS']['DATA_CACHE'][$table_name][$var_limit];
@@ -1148,6 +1146,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 						$resultcount = mysql2_query_secure($queryDetails, $link);
 					
 				}
+
 				$num_rows_result = mysql_num_rows($resultcount);
 				//echo "<b>".$num_rows_result."</b>";
 				if ($num_rows_result==1){
@@ -1273,7 +1272,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	}
 
 	if ($num_rows_result > 0){
-		if (count($data) == 1)
+		if (count($data) == 1 and (!isset($protectedPost['page']) or $protectedPost['page'] == 0))
 			$num_rows_result=1;
 		$title=$num_rows_result." ".$l->g(90);
 		if (isset($tab_options['LOGS']))
@@ -1456,7 +1455,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$affich="KO";
 				
 					if (!isset($tab_options['LIEN_TYPE'][$key]))
-					$data[$i][$num_col]="<a href='".$tab_options['LIEN_LBL'][$key].$donnees[$tab_options['LIEN_CHAMP'][$key]]."' target='_blank'>".$value_of_field."</a>";
+						$data[$i][$num_col]="<a href='".$tab_options['LIEN_LBL'][$key].$donnees[$tab_options['LIEN_CHAMP'][$key]]."' target='_blank'>".$value_of_field."</a>";
 					else{
 						if (!isset($tab_options['POPUP_SIZE'][$key]))
 						$size="width=550,height=350";

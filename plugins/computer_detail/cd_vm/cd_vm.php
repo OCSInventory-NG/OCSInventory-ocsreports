@@ -15,18 +15,23 @@
 	$form_name="affich_vm";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";	
-	$list_fields=array($l->g(49) => 'NAME',
-					   $l->g(1046) => 'STATUS',
-					   $l->g(25) => 'SUBSYSTEM',
-					   $l->g(66) =>'VMTYPE',
-					   'UUID'=>'UUID',
-					   $l->g(54) =>'VCPU',
-					   $l->g(26) =>'MEMORY'
+	$list_fields=array($l->g(49).' VM' => 'vm.NAME',
+					   $l->g(1046).' VM' => 'vm.STATUS',
+					   $l->g(25).' VM' => 'vm.SUBSYSTEM',
+					   $l->g(66).' VM'  =>'vm.VMTYPE',
+					   'UUID'=>'vm.UUID',
+					   $l->g(54).' VM' =>'vm.VCPU',
+					   $l->g(26).' VM' =>'vm.MEMORY',
+					   'NAME'=>'h.name',
+					   $l->g(25) => "h.osname",
 					   );
 	$list_col_cant_del=$list_fields;		
 	$default_fields= $list_fields;
-	$queryDetails  = "SELECT * FROM virtualmachines WHERE (hardware_id=$systemid)";
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
+	$sql=prepare_sql_tab($list_fields);
+	$sql['SQL']  .= ",h.ID FROM virtualmachines vm left join hardware h on h.uuid=vm.uuid  WHERE (hardware_id=%s)";
+	array_push($sql['ARG'],$systemid);
+	$tab_options['ARG_SQL']=$sql['ARG'];
+	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);
 	echo "</form>";
 
 
