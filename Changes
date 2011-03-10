@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
 2.0 rc3
+		* add vm on computers views
 		* change look and feel on install.php
 		* Add constants in var.php
 		* fix Bug #725466 
