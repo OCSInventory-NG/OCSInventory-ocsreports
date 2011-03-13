@@ -107,9 +107,12 @@ sub getXMLResp {
   my $logger = $self->{logger};
   my $compress = $self->{compress};
 
+  #If no answer from OCS server
+  return unless $res;
+
   #Reading the XML response from OCS server
   my $content = $compress->uncompress($res->content);
-
+ 
   if (!$content) {
     $logger->error ("Deflating problem");
     return;
