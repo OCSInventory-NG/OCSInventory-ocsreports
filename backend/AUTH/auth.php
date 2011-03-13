@@ -70,7 +70,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 	if ($affich_method == 'HTML'){
 		$icon_head='NO';
 		require_once (HEADER_HTML);
-		if (isset($protectedPost['Valid_modif_x'])){
+		if (isset($protectedPost['Valid_CNX'])){
 			$login_successful = $l->g(180);
 			msg_error($login_successful);
 			flush();
