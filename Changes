@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix a bug with the use of pacman tool on ArchLinux. We now launch the real packages manager instead of the famous game ;) ;)
        * Avoid perl errors when no answer from OCS server
        * Enhance logging in Snmp.pm and Download.pm when disabling this modules (local mode or prerequisites not OK)
        * Patches from Bernhard Denner to enhance CPU and memry detection on old SUN solaris workstations
