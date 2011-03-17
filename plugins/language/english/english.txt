@@ -1150,6 +1150,9 @@
 1264 Next
 1265 Enable cache tables
 1266 Virtual Machines
+1267 Type of Virtual Machines
+1268 Uuid
+1269 Machine hosted by
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
