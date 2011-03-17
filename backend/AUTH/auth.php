@@ -89,7 +89,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 		}
 			
 		if (DEMO) { 
-			msg_info("login : demo<br>password : demo");
+			msg_info($l->g(24).": ".DEMO_LOGIN."<br>".$l->g(217).": ".DEMO_PASSWD);
 		}
 		
 		if (isset($tab_typ_champ)){

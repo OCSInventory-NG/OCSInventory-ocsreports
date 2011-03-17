@@ -261,10 +261,7 @@ function option_conf_activate($value){
 				$sql="update config set %s = '%s' where NAME ='%s'";
 		else
 				$sql="insert into config (%s, NAME) value ('%s','%s')";
-			//	$lbl_log=$l->g(821)
-			if(!DEMO) {
 				mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,$l->g(821));
- 			}
 	}
 
  }
