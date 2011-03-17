@@ -345,14 +345,20 @@ function update_default_value($POST){
 		$optexist['AUTO_DUPLICATE_LVL']='0';
 	}
 	
-	//parcourt des post
+	//check all post
 	foreach ($POST as $key=>$value){
 		if (!isset($optexist[$key]))
 			$optexist[$key]='';
 			
+		if ($key == "INVENTORY_CACHE_ENABLED" 
+				and $value == '1' 
+				and $optexist['INVENTORY_CACHE_ENABLED'] != $value){
+			$sql="update engine_persistent set ivalue=1 where name='INVENTORY_CACHE_CLEAN_DATE'";
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,$l->g(821));
+		}
 		$name_field_modif='';
 		$value_field_modif='';
-		//gestion du AUTO_DUPLICATE_LVL cas particulier
+		//check AUTO_DUPLICATE_LVL. Particular field
 		if(strstr($key, 'AUTO_DUPLICATE_LVL_')){
 				$AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_1']=$POST['AUTO_DUPLICATE_LVL_1'];
 				$AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_2']=$POST['AUTO_DUPLICATE_LVL_2'];
@@ -364,10 +370,10 @@ function update_default_value($POST){
 				$key='AUTO_DUPLICATE_LVL';
 		}					
 		if (in_array($key,$array_simple_tvalue)){
-			//mise a jour des valeurs simple tvalue
+			//update tvalue simple
 			insert_update($key,$value,$optexist[$key],'tvalue');			
 		}elseif(in_array($key,$array_simple_ivalue)){
-			//mise a jour des valeurs simple ivalue
+			//update ivalue simple
 			insert_update($key,$value,$optexist[$key],'ivalue');		
 		}elseif(isset($array_interprete_tvalue[$key])){
 			$name_field_modif="tvalue";
