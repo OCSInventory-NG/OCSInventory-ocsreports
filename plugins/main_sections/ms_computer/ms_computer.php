@@ -35,12 +35,13 @@ $lbl_affich=array('NAME'=>$l->g(49),'WORKGROUP'=>$l->g(33),'USERDOMAIN'=>$l->g(5
 					'OSCOMMENTS'=>$l->g(286),'WINCOMPANY'=>$l->g(51),'WINOWNER'=>$l->g(348),
 					'WINPRODID'=>$l->g(111),'WINPRODKEY'=>$l->g(553),'USERAGENT'=>$l->g(357),
 					'MEMORY'=>$l->g(26),'LASTDATE'=>$l->g(46),'LASTCOME'=>$l->g(820),'DESCRIPTION'=>$l->g(53),
-					'NAME_RZ'=>$l->g(304)
+					'NAME_RZ'=>$l->g(304),'VMTYPE'=>$l->g(1267),'UUID'=>$l->g(1268)
 					);					
 foreach ($lbl_affich as $key=>$lbl){
 	if ($key == "MEMORY"){
-				$sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=$systemid";
-		$resMem = mysql_query($sqlMem, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=%s";
+		$argMem=$systemid;
+		$resMem = mysql2_query_secure($sqlMem,$_SESSION['OCS']["readServer"],$argMem);		
 		$valMem = mysql_fetch_array( $resMem );
 		if( $valMem["capa"] > 0 )
 			$memory = $valMem["capa"];
@@ -61,8 +62,16 @@ foreach ($lbl_affich as $key=>$lbl){
 				$data[$key].=$index." => ".$value."<br>";			
 			}	
 		}	
-	}
-	elseif ($item->$key != '')
+	}elseif($key == "VMTYPE" and $item->UUID != ''){
+		$sqlVM = "select vm.hardware_id,vm.vmtype, h.name from virtualmachines vm left join hardware h on vm.hardware_id=h.id where vm.uuid='%s'";
+		$argVM = $item->UUID;
+		$resVM = mysql2_query_secure($sqlVM,$_SESSION['OCS']["readServer"],$argVM);		
+		$valVM = mysql_fetch_array( $resVM );
+		$data[$key]=$valVM['vmtype'];
+		$link_vm="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valVM['hardware_id']."'  target='_blank'><font color=red>".$valVM['name']."</font></a>";
+		if ($data[$key] != '')
+			msg_info($l->g(1266)."<br>".$l->g(1269).': '.$link_vm);
+	}elseif ($item->$key != '')
 		$data[$key]=$item->$key;
 }
 
