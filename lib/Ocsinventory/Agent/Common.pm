@@ -1111,6 +1111,24 @@ sub cleanXml {
   return $clean_content;
 }
 
+#Subroutine to convert versions to numbers (with icutting or right padding if needed)
+# We create it because Perl 5.8 does not include version comparison modules or functions
+sub convertVersion {
+  my ($self,$version,$length) = @_;
+
+  $version =~ s/\.//g;  #We convert to number
+  my $ver_length = length ($version);
+
+  if ($ver_length > $length) {  # We cut the number
+    $version = substr $version, 0, $length;
+  } elsif ($ver_length < $length) { #We add 0 to the right
+   $version = substr($version . (0 x $length), 0, $length);
+
+  }
+  return $version;
+}
+
+
 ### Generic shared subroutines #####
 
 sub can_run {
