@@ -15,7 +15,9 @@ define("GUI_VER_SHOW","2.0RC3");        								// Version of the GUI
 define("MAC_FILE", "files/oui.txt");									// File containing MAC database
 define("DEFAULT_LANGUAGE","french");    								// Default language
 define("PAG_INDEX","function");         								// define name in url (like multi=32)
-define("DEMO",false);			        								// Define if we use demo version or not (for OCS TEAM, other=> DO NOT USE IT)
+define("DEMO",true);			        								// Define if we use demo version or not (for OCS TEAM, other=> DO NOT USE IT)
+define("DEMO_LOGIN",'demo');											// Define demo login for connexion
+define("DEMO_PASSWD",'demo');											// Define demo password for connexion
 define("DFT_DB_CMPT",'ocs');  											// Define default login to connect to database
 define("DFT_DB_PSWD",'ocs');											// Define default password to connect to database
 define("DFT_GUI_CMPT",'admin');											// Define default login to connect to GUI

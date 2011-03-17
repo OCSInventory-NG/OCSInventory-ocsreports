@@ -72,6 +72,20 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 	if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 		$_SESSION['OCS']['SQL_DEBUG'][]=html_entity_decode($query,ENT_QUOTES);			
 	}
+	
+	
+	if(DEMO){
+		 $udpate= stristr($query,'UPDATE');
+		 $insert= stristr($query,'INSERT');
+		 $delete= stristr($query,'DELETE');
+		 if ($udpate !== false or $insert !== false or $delete !== false){
+			if(DEMO_MSG != 'show'){
+		 		msg_info($l->g(2103));
+		 		define('DEMO_MSG','show');
+			}
+			return false;		
+		 }
+	}
 	$result=mysql_query( $query, $link ) or mysql_error($link);
 	return $result;
 }

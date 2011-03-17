@@ -57,7 +57,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 	$msg_header_warning=array();
 	//Demo mode activate?
 	if (DEMO) {
-		$msg_header_warning[]= "YOU ARE WATCHING THE DEMO VERSION OF THE RELEASE ".GUI_VER_SHOW."<br>";
+		$msg_header_warning[]= $l->g(2104)." ".GUI_VER_SHOW."<br>";
 	} 
 	
 	
