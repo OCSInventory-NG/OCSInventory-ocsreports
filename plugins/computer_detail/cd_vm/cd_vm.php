@@ -31,6 +31,7 @@
 	$sql['SQL']  .= ",h.ID FROM virtualmachines vm left join hardware h on h.uuid=vm.uuid  WHERE (hardware_id=%s)";
 	array_push($sql['ARG'],$systemid);
 	$tab_options['ARG_SQL']=$sql['ARG'];
+	$tab_options['ARG_SQL_COUNT']=$systemid;
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);
 	echo "</form>";
 
