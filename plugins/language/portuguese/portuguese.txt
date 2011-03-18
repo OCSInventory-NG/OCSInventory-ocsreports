@@ -1100,6 +1100,140 @@
 1133 New word
 1134 No ipdiscover data
 1135 computer(s) are already exist on server group
+1136 SNMP
+1137 Enable/Disable the snmp service
+1138 Show all my subnet
+1139 Administer
+1140 Administer subnet
+1141 Subnet added
+1142 Enter a new subnet for blacklist
+1143 Subnet mask
+1144 Invalid MAC address. (must be: XX.XX.XX.XX.XX.XX)
+1145 the value must be between
+1146 Administer profiles
+1147 You can't update it.
+1148 <b>WARNING:</b>No automatic backup of configuration files will be possible
+1149 Name of new profile
+1150 Reference profile
+1151 Text profile
+1152 WARNING: delete basic profiles may cause instability in OCS-NG
+1153 Profile name
+1154 On computers
+1155 On teledeploy's workflow
+1156 Manage teledeploy's workflow
+1157 On the fields of teledeploy's workflow
+1158 On the packets activation
+1159 On MAC addresses
+1160 On serial numbers
+1161 On the ipdiscover's subnet
+1162 Manage teledeploy
+1163 Update Configuration
+1164 Manage groups
+1165 Manage console
+1166 See warning messages of the GUI
+1167 Manage accounts info
+1168 may change accounts info computers
+1169 may change their membership group
+1170 Manage profiles
+1171 Manage profiles group
+1172 Manage ipdiscover
+1173 Profile information
+1174 User Pages
+1175 Restrictions
+1176 Rights to Blacklist
+1177 Rights to Manage
+1178 This field
+1179 is a variable. It can not contain special characters
+1180 can't be empty
+1181 Redistribution server functionality
+1182 You can't manage redistribution rules, this functionality is disable
+1183 List of packages to create
+1184 Key added
+1185 Key updated
+1186 Your data are updated
+1187 Configuration is pending
+1188 This group is declared as a TEST perimeter
+1189 This group is declared as a RESTRAINT perimeter
+1190 You can't assign packages higher level
+1191 Information: the configuration of workflow is currently on
+1192 Group may receive TEST packets
+1193 Group may receive RESTRAINT packets
+1194 Only packets at a higher level
+1195 may be affected
+1196 Profile
+1197 SNMP functionality
+1198 Networks scans
+1199 Version of SNMP communities
+1200 Value is updated
+1201 Display
+1202 Linux (ALL)
+1203 Windows (ALL)
+1204 IpDiscover
+1205 Manage SNMP communities
+1206 Directory of SNMP communities file
+1207 Add community
+1208 Community added
+1209 Community updated
+1210 Account info:
+1211 URL where SNMP community file is
+1212 Community deleted
+1213 Separator of export file
+1214 Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)
+1215 Blade server
+1216 Firewall
+1217 Load balancer
+1218 Switch(es)
+1219 Cards
+1220 Cartridges
+1221 Drives
+1222 Fans
+1223 Power supplies
+1224 Trays
+1225 Maximum capacity
+1226 Color
+1227 Contact
+1228 Device SNMP
+1229 Firmware
+1230 Volumn Name
+1231 The file format must be ZIP
+1232 The file format must be TAR.GZ
+1233 Name of Database
+1234 Description can't be empty
+1235 Reference
+1236 Soft version
+1237 Firmware version
+1238 Installation date
+1239 MHz
+1240 MB
+1241 Number of SNMP devices 
+1242 m/d/y
+1243 Only ocsagent.exe and ocspackage.exe files can be post
+1244 This file can't be empty
+1245 Manage your OCS-NG clients
+1246 Affect again
+1247 Architecture
+1248 Folder
+1249 Activation of cache tables (allows less solicit the MySQL database)
+1250 Teledeploy speed
+1251 Statistics
+1252 Conf profils files directory
+1253 Directory of old conf profils files
+1254 Directory of scripts logs
+1255 Connexion number by day
+1256 Bad connexion number by day
+1257 Use flash on GUI
+1258 Manual Entry
+1259 For one week
+1260 For one months
+1261 Clear cache
+1262 No plugin enabled for your profil
+1263 SECURITY ALERT!
+1264 Next
+1265 Enable cache tables
+1266 Virtual Machines
+1267 Type of Virtual Machines
+1268 Uuid
+1269 Machine hosted by
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
@@ -1121,43 +1255,53 @@
 2017 using
 2018 was imported
 2019 were already imported
-2030 OCS Inventory Installation
+2020 The install.php exists in ocsreports directory
+2021 Your GUI logs directory is not writable
+2022 You can't send a file larger than
+2023 Delete it
+2024 The default sql login/password is activate on your database:
+2025 Change your password for ocs login in MySQL
+2026 The default login/password is activate on OCS GUI
+2027 Change admin password on OCS GUI
+
+
+2030 OCS-NG Inventory Installation
 2031 Current installed version
 2032 is lower than this version
-2033 automatic install launched
+2033 Automatic install launched.
 2034 DB configuration not completed. Automatic install launched
 2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
-2037 ERROR: MySql for PHP is not properly installed.<br>Try installing mysql for php package (Debian: php5-mysql)
+2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php5-mysql)
 2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
-2042 WARNING: your the default root password is set on your mysql server. Change it asap. (using root password=blank)
-2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> mysql value to at least 2MB in your server config file.
+2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
+2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
-2046 ERROR: MySql authentication problem.
-2047 You must add the 'old-passwords' in your mysql configuration file (my.ini). Then restart mysql, and relaunch install.php
+2046 ERROR: MySQL authentication problem.
+2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
 2050 Installation finished you can log in index.php with login=admin and password=admin
 2051 Click here to enter OCS-NG GUI
 2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
 2053 Please wait, database update may take up to 30 minutes...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Database successfully generated
-2056 MySql config file successfully written
+2056 MySQL config file successfully written
 2057 Existing database updated
 2058 Database engine checking...
 2059 ERROR: Alter query failed
 2060 ERROR: Show table status query failed
-2061 ERROR: InnoDB conversion failed, install InnoDB  mysql engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your mysql config file.)<br>Reinstall when corrected.
-2062 ERROR: HEAP conversion failed, install HEAP mysql engine support on your server<br>or you will experience severe performance issues.
+2061 ERROR: InnoDB conversion failed, install InnoDB MySQL engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your MySQL config file.)<br>Reinstall when corrected.
+2062 ERROR: HEAP conversion failed, install HEAP MySQL engine support on your server<br>or you will experience severe performance issues.
 2063 Database engine successfully updated
 2064 table(s) altered
 2065 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2066 WARNING: 'files' directory missing, can't import
 2067 from it
-2068 was not inserted. You need to set the max_allowed_packet mysql value to at least 2MB
+2068 was not inserted. You need to set the max_allowed_packet MySQL value to at least 2MB
 2070 missing, if you do not reinstall the DEPLOY feature won't be available
 2071 WARNING: One or more files were already inserted
 2072 Deploy files successfully inserted
@@ -1184,8 +1328,13 @@
 2095 netmap lines deleted
 2096 Please enter the label of the windows client tag input box:
 2097 Leave empty if you don't want a popup to be shown on each agent launch
-2098 ERROR: Zip for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
-
+2098 ERROR: ZIP for PHP is not properly installed.<br>Try to uncomment extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try to install the libphp-pclzip package (Linux).
+2099 ERROR: this MySQL login doesn't have the rights to create the database
+2100 Update old account infos
+2101 Add by script
+2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
+2103 DEMO mode: you can't update data
+2104 YOU ARE WATCHING THE DEMO VERSION OF 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
