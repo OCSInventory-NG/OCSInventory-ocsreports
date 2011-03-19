@@ -60,13 +60,9 @@ function javascript_pack(){
 }
 function looking4config(){
 	if (!isset($_SESSION['OCS']['CONFIG_DOWNLOAD'])){
-		$sql_config="select name,ivalue from config where name in ('DOWNLOAD_CYCLE_LATENCY',
-						    'DOWNLOAD_PERIOD_LENGTH',
-						    'DOWNLOAD_FRAG_LATENCY',
-		    				'DOWNLOAD_PERIOD_LATENCY')";
-		$res_config = mysql_query( $sql_config, $_SESSION['OCS']["readServer"] );
-		while ($val_config = mysql_fetch_array( $res_config ))
-		$_SESSION['OCS']['CONFIG_DOWNLOAD'][$val_config['name']]=$val_config['ivalue'];	
+		$values=look_config_default_values(array('DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_PERIOD_LENGTH',
+							'DOWNLOAD_FRAG_LATENCY','DOWNLOAD_PERIOD_LATENCY'));
+		$_SESSION['OCS']['CONFIG_DOWNLOAD']=$values['ivalue'];
 	}
 }
 	
@@ -128,9 +124,11 @@ function champ_select_block($name,$input_name,$input_cache)
  	global $l;
  	desactive_mach($list_id,$packid);
  	$id_pack=found_id_pack($packid);
- 	$sql_active="insert into devices (HARDWARE_ID, NAME, IVALUE) select ID,'DOWNLOAD','".$packid."' from hardware where id in (".$list_id.")";
- 	$res_active = mysql_query($sql_active, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
-	addLog($l->g(512), $l->g(601)." ".$id_pack." => ".$list_id );
+ 	$sql_active="insert into devices (HARDWARE_ID, NAME, IVALUE) select ID,'DOWNLOAD','%s' from hardware where id in ";
+	$arg_active=array($packid);
+	$lbl_log=$l->g(601)." ".$id_pack." => ".$list_id;
+	$sql=mysql2_prepare($sql_active,$arg_active,$list_id);
+	$res_active=mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["writeServer"],$sql['ARG'],$l->g(512));
 	return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) );
 
  }
@@ -138,14 +136,18 @@ function champ_select_block($name,$input_name,$input_cache)
  function desactive_mach($list_id,$packid){
  	global $l;
 	$id_pack=found_id_pack($packid);
-	$sql_desactive="delete from devices where hardware_id in (".$list_id.") and name='DOWNLOAD' and IVALUE=".$packid;
-	$res_active = mysql_query($sql_desactive, $_SESSION['OCS']["writeServer"]) or die(mysql_error()); 	
-	addLog($l->g(512), $l->g(886)." ".$id_pack." => ".$list_id );
+	$sql_desactive="delete from devices where name='DOWNLOAD' and IVALUE=%s and hardware_id in ";
+	$arg_desactive=array($packid);
+	$lbl_log= $l->g(886)." ".$id_pack." => ".$list_id;	
+	$sql=mysql2_prepare($sql_desactive,$arg_desactive,$list_id);
+	$res_desactive=mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["writeServer"],$sql['ARG'],$l->g(512));
+	return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) );
  }
  
  function found_id_pack($packid){
- 	$sql_id_pack="select ID from download_enable where fileid=".$packid." and ( group_id = '' or group_id is null)";
- 	$result = mysql_query( $sql_id_pack, $_SESSION['OCS']["readServer"] );
+ 	$sql_id_pack="select ID from download_enable where fileid=%s and ( group_id = '' or group_id is null)";
+ 	$arg_id_pack=$packid;
+ 	$result = mysql2_query_secure($sql_id_pack,$_SESSION['OCS']["readServer"],$arg_id_pack);
 	$id_pack = mysql_fetch_array( $result );
 	return $id_pack['ID']; 	
  }
@@ -153,21 +155,18 @@ function champ_select_block($name,$input_name,$input_cache)
  function active_serv($list_id,$packid,$id_rule){
  	global $l;
  	require_once('function_server.php');
- 	//recuperation des conditions de la r�gle
-	$sql="select PRIORITY,CFIELD,OP,COMPTO,SERV_VALUE from download_affect_rules where rule=".$id_rule." order by PRIORITY";
-	//echo $sql;
-	$res_rules = mysql_query( $sql, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));
+ 	//get all condition of this rule
+	$sql="select PRIORITY,CFIELD,OP,COMPTO,SERV_VALUE from download_affect_rules where rule=%s order by PRIORITY";
+	$arg=$id_rule;
+	$res_rules = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
 	while( $val_rules = mysql_fetch_array($res_rules)) {
-	$cfield[$val_rules['PRIORITY']]=$val_rules['CFIELD'];
-	$op[$val_rules['PRIORITY']]=$val_rules['OP'];
-	$compto[$val_rules['PRIORITY']]=$val_rules['COMPTO'];
-	//$serv_value[$val_rules['PRIORITY']]=$val_rules['SERV_VALUE'];
+		$cfield[$val_rules['PRIORITY']]=$val_rules['CFIELD'];
+		$op[$val_rules['PRIORITY']]=$val_rules['OP'];
+		$compto[$val_rules['PRIORITY']]=$val_rules['COMPTO'];
 	}
-//	$i=1;
 	$nb_insert=0;
 	foreach ($cfield as $key=>$value)
 	{
-		//$i++;
 		$rule_detail=array('cfield'=>$cfield[$key],'op'=>$op[$key],'compto'=>$compto[$key]);
 		$result=insert_with_rules($list_id,$rule_detail,$packid);
 		$nb_insert+=$result['nb_insert'];
@@ -184,24 +183,17 @@ function champ_select_block($name,$input_name,$input_cache)
 			unset($list_id);
 			$list_id=$result['not_match'];
 		}
-//		echo "<br>";
-//		print_r($list_id);
 	}
-//	print_r($result);
 
 	if (isset($result['not_match']))
 	{
 		tab_list_error($result['not_match'],$result['nb_not_match']." ".$l->g(658)." ".$l->g(887)."<br>");
-		//$error='YES';
 	}
 	
 	if (isset($exist))
 	{
 			tab_list_error($exist,$nb_exist." ".$l->g(659)." ".$l->g(482));
-			//$error='YES';
 	}
-//	if (!isset($error))
-//	echo "<script> alert('".$l->g(558)."');</script>";
  	return $nb_insert;
  }
  
@@ -225,8 +217,9 @@ function champ_select_block($name,$input_name,$input_cache)
 function activ_pack($fileid,$https_server,$file_serv){
 	global $l;
 //checking if corresponding available exists
-		$reqVerif = "SELECT * FROM download_available WHERE fileid=".$fileid;
-		if( ! mysql_num_rows( mysql_query( $reqVerif, $_SESSION['OCS']["readServer"]) )) {
+		$reqVerif = "SELECT * FROM download_available WHERE fileid=%s";
+		$argVerif = $fileid;
+		if( ! mysql_num_rows( mysql2_query_secure( $reqVerif, $_SESSION['OCS']["readServer"],$argVerif) )) {
 			
 			$infoTab = loadInfo( $https_server, $file_serv );
 			if ($infoTab == ''){
@@ -234,88 +227,88 @@ function activ_pack($fileid,$https_server,$file_serv){
 				
 			}
 			$req1 = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, OSNAME ) VALUES
-			( '".$fileid."', 'Manual_".$fileid."',".$infoTab["PRI"].",".$infoTab["FRAGS"].", 'N/A' )";
-			mysql_query( $req1, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+			( '%s', 'Manual_%s',%s,%s, 'N/A' )";
+			$arg1=array($fileid,$fileid,$infoTab["PRI"],$infoTab["FRAGS"]);
+			mysql2_query_secure( $req1, $_SESSION['OCS']["writeServer"],$arg1);
 		}
 		
 		$req = "INSERT INTO download_enable(FILEID, INFO_LOC, PACK_LOC, CERT_FILE, CERT_PATH ) VALUES
-		( '".$fileid."', '".$https_server."', '".$file_serv."', 'INSTALL_PATH/cacert.pem','INSTALL_PATH')";
-	
-		mysql_query( $req, $_SESSION['OCS']["writeServer"]);
-		addLog($l->g(512), $l->g(514)." ".$fileid );
+		( '%s', '%s', '%s', 'INSTALL_PATH/cacert.pem','INSTALL_PATH')";
+		$arg=array($fileid,$https_server,$file_serv);
+		$lbl_log= $l->g(514)." ".$fileid;	
+		mysql2_query_secure( $req, $_SESSION['OCS']["writeServer"],$arg,$l->g(512));
 		
 } 
  
 function activ_pack_server($fileid,$https_server,$id_server_group){
 	global $protectedPost;
-		//recherche de la liste des machines qui ont d�j� ce paquet
-		$sqlDoub="select SERVER_ID,INFO_LOC from download_enable where FILEID= ".$fileid;
-		$resDoub = mysql_query( $sqlDoub, $_SESSION['OCS']["readServer"] );	
+		//search all computers have this package
+		$sqlDoub="select SERVER_ID,INFO_LOC from download_enable where FILEID= %s";
+		$argDoub = $fileid;
+		$resDoub = mysql2_query_secure( $sqlDoub, $_SESSION['OCS']["readServer"], $argDoub );	
 		
-		//creation de la liste pour les exclure de la requete d'insertion
+		//exclu them
 		while ($valDoub = mysql_fetch_array( $resDoub )){
 			if ($valDoub['SERVER_ID'] != "")
 			$listDoub[]=$valDoub['SERVER_ID'];
 	
 			//Update https server location if different from mysql database
 			if ($valDoub['INFO_LOC'] != $https_server) {
-				$sql_update_https= "UPDATE download_enable SET download_enable.INFO_LOC='".$https_server."' WHERE SERVER_ID=".$valDoub['SERVER_ID'];
-				mysql_query( $sql_update_https, $_SESSION['OCS']["readServer"] );
+				$sql_update_https= "UPDATE download_enable SET download_enable.INFO_LOC='%s' WHERE SERVER_ID=%s";
+				$arg_update_https=array($https_server,$valDoub['SERVER_ID']);
+				mysql2_query_secure( $sql_update_https, $_SESSION['OCS']["readServer"], $arg_update_https );
 			}
 
 		}
-		//si la liste est non null on cr�e la partie de la requete manquante
+		//If this list is not null, we create the end of sql request
 		if (isset($listDoub)){
-		$listDoub = " AND HARDWARE_ID not in (".implode(',',$listDoub).")";
+			$listDoub = " AND HARDWARE_ID not in (".implode(',',$listDoub).")";
 		}
 		//on insert l'activation du paquet pour les serveurs du groupe
 		$sql="insert into download_enable (FILEID,INFO_LOC,PACK_LOC,CERT_PATH,CERT_FILE,SERVER_ID,GROUP_ID)
-				select ".$fileid.",
-				 '".$https_server."',
-				 url,
-				 'INSTALL_PATH',
-				 'INSTALL_PATH/cacert.pem',
-				 HARDWARE_ID,
-				 GROUP_ID
-			 from download_servers
-			 where GROUP_ID=".$id_server_group.$listDoub;
-		mysql_query( $sql, $_SESSION['OCS']["writeServer"]) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+				select %s,'%s',url,'INSTALL_PATH','INSTALL_PATH/cacert.pem',
+				 HARDWARE_ID, GROUP_ID from download_servers where GROUP_ID=%s".$listDoub;
+		$arg=array($fileid,$https_server,$id_server_group);
 		
-		$query="UPDATE download_available set COMMENT = '".$protectedPost['id_server_add']."' WHERE FILEID = ".$fileid;
-		mysql_query( $query, $_SESSION['OCS']["writeServer"] ) 
-					or die(mysql_error($_SESSION['OCS']["writeServer"]));	
+		mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg);
+		
+		$query="UPDATE download_available set COMMENT = '%s' WHERE FILEID = %s";
+		$arg_query=array($protectedPost['id_server_add'],$fileid);
+		mysql2_query_secure( $query, $_SESSION['OCS']["writeServer"], $arg_query );
 }
 
 function del_pack($fileid){
 	global $l;
-	//recherche de toutes les activations de ce paquet
-	$reqEnable = "SELECT id FROM download_enable WHERE FILEID='".$fileid."'";
-	$resEnable = @mysql_query($reqEnable, $_SESSION['OCS']["readServer"]) or die(mysql_error());
+	//find all activate package
+	$reqEnable = "SELECT id FROM download_enable WHERE FILEID='%s'";
+	$argEnable = $fileid;
+	$resEnable = mysql2_query_secure($reqEnable, $_SESSION['OCS']["readServer"],$argEnable);
 	while($valEnable = mysql_fetch_array( $resEnable ) ) {
 		$list_id[]=$valEnable["id"];
 	}
-	//suppression dans DEVICES des machines qui ont ce paquet affect�
+	//delete packet in DEVICES table
 	if ($list_id != ""){
-		$reqDelDevices = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue in (".implode(',',$list_id).")";
-		@mysql_query($reqDelDevices, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
+		$reqDelDevices = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue in ";
+		$sql=mysql2_prepare($reqDelDevices,'',$list_id);
+		mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"],$sql['ARG']);
 	}
-	//suppression des activations de ce paquet
-	$reqDelEnable = "DELETE FROM download_enable WHERE FILEID='".$fileid."'";
-	@mysql_query($reqDelEnable, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
+	//delete activation of this pack
+	$reqDelEnable = "DELETE FROM download_enable WHERE FILEID='%s'";
+	$argDelEnable = $fileid;
+	mysql2_query_secure($reqDelEnable, $_SESSION['OCS']["writeServer"],$argDelEnable);
 
-	//suppression des d�tails de ce paquet
-	$reqDelAvailable = "DELETE FROM download_available WHERE FILEID='".$fileid."'";
-	@mysql_query($reqDelAvailable, $_SESSION['OCS']["writeServer"]) or die(mysql_error());
-	//recherche du r�pertoire de cr�ation des paquets
-	$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
-	$res_document_root = mysql_query( $sql_document_root, $_SESSION['OCS']["readServer"] );
-	$val_document_root = mysql_fetch_array( $res_document_root );
-	$document_root = $val_document_root["tvalue"];
+	//delete info of this pack
+	$reqDelAvailable = "DELETE FROM download_available WHERE FILEID='%s'";
+	$argDelAvailable = $fileid;	
+	mysql2_query_secure($reqDelAvailable, $_SESSION['OCS']["writeServer"],$argDelAvailable);
+	//what is the directory of this package?
+	$info=look_config_default_values('DOWNLOAD_PACK_DIR');
+	$document_root=$info['tvalue']['DOWNLOAD_PACK_DIR'];
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root))
 	$document_root = $_SERVER["DOCUMENT_ROOT"];
 	if (@opendir($document_root."/download/".$fileid)){
-		//suppression de tous les fichiers correspondant au paquet
+		//delete all files from this package
 		if( ! @recursive_remove_directory( $document_root."/download/".$fileid ))  {
 			msg_error($l->g(472)." ".$document_root."/download/".$fileid);
 		}
@@ -351,9 +344,9 @@ function recursive_remove_directory($directory, $empty=FALSE) {
 
 function create_pack($sql_details,$info_details){
 	global $l;
-	//r�cup�ration du fichier temporaire
+	//get temp file
 	$fname = $sql_details['document_root'].$sql_details['timestamp']."/tmp";
-	//fragmentation du paquet
+	//cut this package
 	if( $size = @filesize( $fname )) {
 			$handle = fopen ( $fname, "rb");			
 			$read = 0;
@@ -412,20 +405,21 @@ function create_pack($sql_details,$info_details){
 		fwrite( $handinfo, utf8_decode($info));
 		fclose( $handinfo );
 		
-		//suppression du paquet qui aurait le m�me id
-		mysql_query( "DELETE FROM download_available WHERE FILEID='".$sql_details['timestamp']."'", $_SESSION['OCS']["writeServer"]);
-		//insertion du nouveau paquet
+		//delete all package with the same id
+		mysql2_query_secure( "DELETE FROM download_available WHERE FILEID='%s'", $_SESSION['OCS']["writeServer"],$sql_details['timestamp']);
+		//insert new package
 		$req = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT,ID_WK) VALUES
-		( '".$sql_details['timestamp']."', '".$sql_details['name']."','".$info_details['PRI']."', '".$sql_details['nbfrags']."',
-		'".$sql_details['size']."', '".$sql_details['os']."', '".$sql_details['description']."','".$sql_details['id_wk']."' )";
-		mysql_query( $req, $_SESSION['OCS']["writeServer"] ) or die(mysql_error($_SESSION['OCS']["writeServer"]));
+		( '%s', '%s','%s', '%s','%s', '%s', '%s','%s' )";
+		$arg = array($sql_details['timestamp'],$sql_details['name'],$info_details['PRI'],$sql_details['nbfrags'],
+					 $sql_details['size'],$sql_details['os'],$sql_details['description'],$sql_details['id_wk']);
+		mysql2_query_secure( $req, $_SESSION['OCS']["writeServer"], $arg);
 		addLog($l->g(512), $l->g(617)." ".$sql_details['timestamp'] );
-		//message d'info
+		//info message
 		msg_success($l->g(437)." ".$sql_details['document_root'].$sql_details['timestamp']);
 }
 
 function crypt_file($dir_FILES,$digest_algo,$digest_encod){
-	//encryptage du fichier
+	//crypt this file
 	if( $digest_algo == "SHA1" )
 		$digest = sha1_file($dir_FILES,true);
 	else
