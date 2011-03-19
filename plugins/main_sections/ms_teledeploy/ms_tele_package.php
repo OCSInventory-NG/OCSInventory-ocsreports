@@ -16,7 +16,6 @@ foreach ($_POST as $key=>$value){
 	$temp_post[$key]=$value;
 }
 $protectedPost=$temp_post;
-//print_r($protectedPost);
 if( isset( $protectedPost["VALID_END"] ) ) {
 	$sql_details=array('document_root'=>$protectedPost['document_root'],
 					   'timestamp'=>$protectedPost['timestamp'],
@@ -48,7 +47,7 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 	if ($protectedPost['REDISTRIB_USE'] == 1){
 		$timestamp_redistrib= time();
 		$server_dir=$protectedPost['download_rep_creat'];
-		//cr�ation du fichier zip pour les serveurs de redistribution
+		//create zip file for redistribution servers
 		require_once("libraries/zip.lib.php");
 		$zipfile = new zipfile();
 		$rep = $protectedPost['document_root'].$sql_details['timestamp']."/";
@@ -65,12 +64,11 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 		fwrite( $handinfo, $zipfile -> file() );
 		fclose( $handinfo );
 	
-		//encryptage du fichier
+		//crypt the file
 		$digest=crypt_file($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip",$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
-		//renommage du fichier en tmp pour utiliser la fonction de cr�ation de paquet
+		//change name of this file to "tmp" for use function of create a package
 		rename($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip", $server_dir.$timestamp_redistrib."/tmp");
-		//cr�ation du fichier temporaire
-		//creat_temp_file($server_dir.$sql_details['timestamp'],$server_dir.$sql_details['timestamp']."/".$sql_details['timestamp']."_redistrib.zip");
+		//create temp file
 		$fSize = filesize( $server_dir.$timestamp_redistrib."/tmp");
 		$sql_details=array('document_root'=>$server_dir,
 					   'timestamp'=>$timestamp_redistrib,
@@ -87,7 +85,7 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'PROTO'=>$protectedPost['PROTOCOLE'],
 						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
 						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>$protectedPost['download_server_docroot'],//aller chercher en base le r�pertoire de stockage des fichiers
+						'PATH'=>$protectedPost['download_server_docroot'],
 						'NAME'=>'',
 						'COMMAND'=>'',
 						'NOTIFY_USER'=>'0',
@@ -106,21 +104,22 @@ $lign_begin="<tr height='30px' bgcolor='white'><td>";
 $td_colspan2=":</td><td colspan='2'>";
 $lign_end="</td></tr>";
 $form_name="create_pack";
-//ouverture du formulaire
+
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action='' enctype='multipart/form-data'>";
 
 
 if (isset($protectedPost['valid'])){
 	looking4config();
-	//v�rification de l'existance du fichier
+	//is this file exist?
 	$fSize = @filesize( $_FILES["teledeploy_file"]["tmp_name"]);
 	if( $fSize <= 0 and $protectedPost['ACTION'] != 'EXECUTE') 
 		$error=$l->g(436)." ".$_FILES["teledeploy_file"]["tmp_name"];
 
 	
-	//v�rification de doublon du nom
-	$verifN = "SELECT fileid FROM download_available WHERE name='".$protectedPost["NAME"]."'";
-	$resN = mysql_query( $verifN, $_SESSION['OCS']["readServer"] ) or die(mysql_error());
+	//the package name is exist in database?
+	$verifN = "SELECT fileid FROM download_available WHERE name='%s'";
+	$argverifN=$protectedPost["NAME"];
+	$resN = mysql2_query_secure( $verifN, $_SESSION['OCS']["readServer"], $argverifN);
 	if( mysql_num_rows( $resN ) != 0 )
 	$error=$l->g(551);
 		
@@ -130,7 +129,7 @@ if (isset($protectedPost['valid'])){
 	}
 	else{	
 		
-		//javascript pour v�rifier que des chaps ne sont pas vides
+		//some fields are empty?
 		echo "<script language='javascript'>
 			function verif2()
 			 {
@@ -185,13 +184,12 @@ if (isset($protectedPost['valid'])){
 		
 		
 		
-	//r�cup�ration du fichier et traitement
+	//get the file
 	if (!($_FILES["teledeploy_file"]["size"]== 0 and $protectedPost['ACTION'] == 'EXECUTE')){
-	//if ($protectedPost['ACTION'] != 'EXECUTE'){
 		$size = $_FILES["teledeploy_file"]["size"];
-		//encryptage du fichier
+		//crypt the file
 		$digest=crypt_file($_FILES["teledeploy_file"]["tmp_name"],$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
-		//cr�ation du fichier temporaire
+		//create temp file
 		creat_temp_file($protectedPost['document_root'].$protectedPost['timestamp'],$_FILES["teledeploy_file"]["tmp_name"]);
 	}
 	$digName = $protectedPost["digest_algo"]. " / ".$protectedPost["digest_encod"];
@@ -203,7 +201,7 @@ if (isset($protectedPost['valid'])){
 	$view_digest=$lign_begin.$l->g(461)." ".$digName.$td_colspan2.$digest.$lign_end;
 	$total_ko=$lign_begin.$l->g(462).$td_colspan2.round($size/1024)." ".$l->g(516).$lign_end;
 	
-	//cr�ation du champ de taille de fragments
+	//create the field of the frag's size
 	$taille_frag=$lign_begin.$l->g(463).$td_colspan2;
 	$taille_frag.= input_pack_taille("tailleFrag","nbfrags",round($size),'8',round($size/1024));
 	$taille_frag.=$l->g(516).$lign_end;	
@@ -211,7 +209,7 @@ if (isset($protectedPost['valid'])){
 	$tps.= time_deploy();
 	$tps.=$lign_end;
 		
-	//cr�ation du champ de nombre de fragments
+	//create the field of the frag number
 	$nb_frag=$lign_begin.$l->g(464).$td_colspan2;
 	$nb_frag.= input_pack_taille("nbfrags","tailleFrag",round($size),'5','1');
 	$nb_frag.=$lign_end;	
@@ -220,18 +218,15 @@ if (isset($protectedPost['valid'])){
 	$java_script="verif2();";
 	if($protectedPost['REDISTRIB_USE'] == 1){
 		$title_creat_redistrib="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(1003)."</b></td></tr>";
-		//cr�ation du champ de taille de fragments
 		$taille_frag_redistrib=$lign_begin.$l->g(463).$td_colspan2;
 		$taille_frag_redistrib.= input_pack_taille("tailleFrag_redistrib","nbfrags_redistrib",round($size),'8',round($size/1024));
 		$taille_frag_redistrib.=$l->g(516).$lign_end;	
-		//cr�ation du champ de nombre de fragments
 		$nb_frag_redistrib=$lign_begin.$l->g(464).$td_colspan2;
 		$nb_frag_redistrib.= input_pack_taille("nbfrags_redistrib","tailleFrag_redistrib",round($size),'5','1');
 		$nb_frag_redistrib.=$lign_end;		
 		echo $title_creat_redistrib.$taille_frag_redistrib.$nb_frag_redistrib;
 		$java_script="verif_redistributor();";
 	}
-	//$java_script.="";
 	echo "</table>";
 	echo "<br><input type='button' name='TEST_END' id='TEST_END' OnClick='".$java_script."' value='".$l->g(13)."'>";
 	echo "<input type='hidden' name='digest' value='".$digest."'>";
@@ -240,20 +235,19 @@ if (isset($protectedPost['valid'])){
 	}
 }
 
-//valeurs par d�fault;
+//check default values
 $default_value=array('OS'=>'WINDOWS',
 					 'PROTOCOLE'=>'HTTP',
 					 'PRIORITY'=>'5',
 					 'ACTION'=>'STORE',
 					 'REDISTRIB_PRIORITY'=>'5');
-//gestion des valeurs par d�faut					 
+					 
 if (!$protectedPost){
-	//r�cup�ration du timestamp
+	//get timestamp
 	$protectedPost['timestamp'] = time();
 
 	foreach ($default_value as $key=>$value)
 		$protectedPost[$key]=$value;	
-	//recherche du r�pertoire de cr�ation des paquets
 	$val_document_root=look_config_default_values(array('DOWNLOAD_PACK_DIR'));
 	if (isset($val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']))
 		$document_root = $val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']."/download/";
@@ -263,7 +257,7 @@ if (!$protectedPost){
 	}
 
 	$rep_exist=file_exists($document_root); 
-	//cr�ation du r�pertoire si n'existe pas
+	//create directory if it's not exist
 	if (!$rep_exist){
 		$creat=@mkdir($document_root);	
 		if (!$creat){
@@ -271,7 +265,7 @@ if (!$protectedPost){
 			return;
 		}
 	}			
-	//v�rification que l'on ai les droits d'�criture sur ce r�pertoire
+	//apache user can be write in this directory?
 	$rep_ok=is_writable ($document_root);
 	if (!$rep_ok){
 		msg_error($l->g(1007)." ".$document_root." ".$l->g(1004).".<br>".$l->g(1005));
@@ -279,11 +273,11 @@ if (!$protectedPost){
 	}
 	$protectedPost['document_root']=$document_root;
 }
-//on garde en hidden le r�pertoire ou sont cr��s les paquets de t�l�d�ploiement
+
 echo "<input type='hidden' name='document_root' value='".$protectedPost['document_root']."'>	  
 	 <input type='hidden' id='timestamp' name='timestamp' value='".$protectedPost['timestamp']."'>";
 
-//javascript pour v�rifier que des champs ne sont pas vides
+
 echo "<script language='javascript'>
 		function verif()
 		 {
@@ -392,17 +386,14 @@ $activate=option_conf_activate('TELEDIFF_WK');
 //We show only the package we can create
 if ($activate){
 	msg_info($l->g(1105)."<br>".$l->g(1106)."<br>".$l->g(1107));
-/*	echo "<font color = green><b>" . $l->g(1105) . "
-			<br> " . $l->g(1106) . "
-			<br> " . $l->g(1107) . "</b></font>";*/
-	//recherche des demandes de télédéploiement en statut de création de paquet
+	
+	//get all request with the status "Create a Package"
 	$conf_creat_Wk=look_config_default_values(array('IT_SET_NIV_CREAT'));
-	//print_r($conf_creat_Wk);
 	$info_dde_statut_creat=info_dde(find_dde_by_status($conf_creat_Wk['tvalue']['IT_SET_NIV_CREAT']));
 	if ($info_dde_statut_creat != ''){
 		$array_id_fields=find_id_field(array('NAME_TELEDEPLOY','PRIORITY','NOTIF_USER','REPORT_USER','INFO_PACK'));
 	
-		//contruction des champs de recherche
+		//build the seach
 		$id_name="fields_".$array_id_fields['NAME_TELEDEPLOY']->id;
 		$id_description="fields_".$array_id_fields['INFO_PACK']->id;
 		$id_priority="fields_".$array_id_fields['PRIORITY']->id;
@@ -411,7 +402,6 @@ if ($activate){
 		foreach ($info_dde_statut_creat as $id=>$tab_value){
 			$list_dde_creat[$tab_value->ID]=$tab_value->$id_name;
 		}
-	//	print_r($info_dde_statut_creat);
 		echo "<br><b>" . $l->g(1183) . ":</b>".show_modif($list_dde_creat,'LIST_DDE_CREAT',2,$form_name);
 		if (!$protectedPost['LIST_DDE_CREAT'] or $protectedPost['LIST_DDE_CREAT'] == ""){
 			echo "</form>";
@@ -481,14 +471,12 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 
 	$sql="select NAME,TVALUE from config where NAME ='DOWNLOAD_REP_CREAT'
 		  union select NAME,TVALUE from config where NAME ='DOWNLOAD_SERVER_DOCROOT'";
-	$resdefaultvalues = mysql_query( $sql, $_SESSION['OCS']["readServer"]);
+	$resdefaultvalues = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"]);
 	while($item = mysql_fetch_object($resdefaultvalues))
 			$default[$item ->NAME]=$item ->TVALUE;
 	if (!$default['DOWNLOAD_REP_CREAT'])
 	$default['DOWNLOAD_REP_CREAT'] = $_SERVER["DOCUMENT_ROOT"]."/download/server/";
 
-//	if (!$default['DOWNLOAD_PRIORITY'])
-//	$default['DOWNLOAD_PRIORITY'] = "5";
 	if (!$protectedPost['REDISTRIB_REP'])
 	$protectedPost['REDISTRIB_REP']=$default['DOWNLOAD_REP_CREAT'];
 	if (!$protectedPost['REDISTRIB_PRIORITY'])

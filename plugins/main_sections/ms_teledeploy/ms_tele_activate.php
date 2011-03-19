@@ -55,22 +55,22 @@ echo "<BR>".show_modif(array('download'=>$l->g(990),'server'=>$l->g(991)),'SHOW_
 if (!$cant_active){	
 	//where packets are created?
 	if ($protectedPost['SHOW_SELECT'] == 'download'){
-			$sql_document_root="select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
+			$config_document_root="DOWNLOAD_PACK_DIR";
 	}else
-			$sql_document_root="select tvalue from config where NAME='DOWNLOAD_REP_CREAT'";
-	$res_document_root = mysql2_query_secure( $sql_document_root, $_SESSION['OCS']["readServer"] );
-	$val_document_root = mysql_fetch_array( $res_document_root );
-	$document_root = $val_document_root["tvalue"];
+			$config_document_root="DOWNLOAD_REP_CREAT";
+	$info_document_root=look_config_default_values($config_document_root);
+	$document_root = $info_document_root["tvalue"][$config_document_root];
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root)){
-			$document_root = DOCUMENT_ROOT."download/";
+			$document_root = DOCUMENT_ROOT."download";
 			if ($protectedPost['SHOW_SELECT'] == "server")
 				$document_root .="server/";
 			
-	}
+	}else{
 	//can we have the zip?	
-	$rep = $document_root."/download";
-	$dir = @opendir($rep);
+		$document_root .= "/download";
+	}
+	$dir = @opendir($document_root);
 	if ($dir){		
 		while($f = readdir($dir)){
 			if (is_numeric ($f))
