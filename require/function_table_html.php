@@ -476,9 +476,10 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 	if (!isset($css))
 		$css="mvt_bordure";
 
-	if ($form_name != 'NO_FORM')
-	echo "<form name='" . $form_name . "' id='" 
-		. $form_name . "' action='' method='POST'>";
+	if ($form_name != 'NO_FORM'){
+		echo "<form name='" . $form_name . "' id='" 
+			. $form_name . "' action='' method='POST'>";
+	}
 	echo '<div class="'.$css.'" >';
 	if ($showbutton_action != '')
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'>" . $showbutton_action . "</td></tr></table>";
@@ -506,14 +507,15 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 				. "'  type='image'  src='image/error.png' name='Reset_"
 				. $name_button . "'></td></tr>";
  	}elseif($showbutton === 'BUTTON'){
- 		echo "<tr><td colspan=100 align='center'><input title='" . $l->g(625) 
+ 		echo "<tr><td colspan=2 align='center'><input title='" . $l->g(625) 
 					. "'  type='submit'  name='Valid_" 
 					. $name_button 
-					."'>";
+					."' value='".$l->g(13)."'></td></tr>";
  		
  	}
+
 	echo "</table>";
-        echo "</div>";    
+    echo "</div>";    
     if ($tab_hidden != ""){
     		
 		foreach ($tab_hidden as $key=>$value)
