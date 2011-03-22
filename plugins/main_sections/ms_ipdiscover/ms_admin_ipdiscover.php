@@ -15,6 +15,11 @@ $form_name='admin_ipdiscover';
 $table_name='admin_ipdiscover';
 echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
 if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
+	if (!in_array($protectedGet['value'],$_SESSION['OCS']["subnet_ipdiscover"])){
+		msg_error($l->g(837));
+		require_once(FOOTER_HTML);
+		die();	
+	}
 	$protectedPost['onglet'] = 'ADMIN_RSX';
 	$protectedPost['MODIF']=$protectedGet['value'];
 }else{
@@ -75,10 +80,14 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 				$title=$l->g(931);
 				
 				$result=find_info_subnet($protectedPost['MODIF']);
-				$protectedPost['RSX_NAME']=$result->NAME;
-				$protectedPost['ID_NAME']=$result->ID;
-				$protectedPost['ADD_IP']=$result->NETID;
-				$protectedPost['ADD_SX_RSX']=$result->MASK;
+				if (!isset($protectedPost['RSX_NAME']))
+					$protectedPost['RSX_NAME']=$result->NAME;
+				if (!isset($protectedPost['ID_NAME']))
+					$protectedPost['ID_NAME']=$result->ID;
+				if (!isset($protectedPost['ADD_IP']))
+					$protectedPost['ADD_IP']=$result->NETID;
+				if (!isset($protectedPost['ADD_SX_RSX']))
+					$protectedPost['ADD_SX_RSX']=$result->MASK;
 				
 				if (isset($protectedGet['value']) and $protectedGet['value'] != '')
 					$protectedPost['ADD_IP']=$protectedGet['value'];					

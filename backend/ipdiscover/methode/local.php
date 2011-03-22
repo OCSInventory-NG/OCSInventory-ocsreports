@@ -35,6 +35,7 @@ else
 $res=mysql2_query_secure($req, $link_ocs) or die(mysql_error($link_ocs));
 while ($row=mysql_fetch_object($res)){
 	unset($id);
+	$list_subnet[]=$row -> ipsubnet;
 /*	foreach ($subnet_to_balcklist as $key=>$value){
 		if ($key == $row -> ipsubnet)
 			$id='--'.$l->g(703).'--';
