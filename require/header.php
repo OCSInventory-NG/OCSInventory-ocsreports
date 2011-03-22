@@ -334,13 +334,15 @@ $name=array_flip($_SESSION['OCS']['URL']);
 
 if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
 	require_once (HEADER_HTML);
-	//echo "toto";
 }
 
 //VERIF ACCESS TO THIS PAGE
 if (isset($protectedGet[PAG_INDEX]) 
 	and !isset($_SESSION['OCS']['PAGE_PROFIL'][$name[$protectedGet[PAG_INDEX]]])
-	and !isset($_SESSION['OCS']['TRUE_PAGES'][$name[$protectedGet[PAG_INDEX]]])){
+	and !isset($_SESSION['OCS']['TRUE_PAGES'][$name[$protectedGet[PAG_INDEX]]])
+	//force access to profils witch have CONFIGURATION TELEDIFF  == 'YES' for ms_admin_ipdiscover page
+	and !($_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == 'YES' 
+			and $name[$protectedGet[PAG_INDEX]] == 'ms_admin_ipdiscover')){
 		msg_error("ACCESS DENIED");
 		require_once(FOOTER_HTML);
 		die();	
