@@ -53,7 +53,7 @@ function search_on_loginnt($login) {
     $f2_name=$_SESSION['OCS']['config']['LDAP_CHECK_FIELD2_NAME'];
 
     // default attributes for query 
-    $attributs = array("dn", "cn", "givenname", "sn", "mail"); 
+    $attributs = array("dn", "cn", "givenname", "sn", "mail", "title"); 
 
     // search for the custom user level attributes if they're defined
     if ($f1_name != '')
@@ -79,6 +79,7 @@ function search_on_loginnt($login) {
     $_SESSION['OCS']['details']['sn']=$info[0]['sn'][0];
     $_SESSION['OCS']['details']['cn']=$info[0]['cn'][0];
     $_SESSION['OCS']['details']['mail']=$info[0]['mail'][0];
+    $_SESSION['OCS']['details']['title']=$info[0]['title'][0];
 
     // if the extra attributes are there, save them as well
     if ($info[0][$f1_name][0] != '') 

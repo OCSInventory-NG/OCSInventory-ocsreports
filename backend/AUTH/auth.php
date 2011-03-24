@@ -40,6 +40,8 @@
  //					   local.php => Local connexion on ocs base
  //					   always_ok.php => connexion always ok
  $list_methode=array(0=>"local.php");
+// $list_methode=array(0=>"ldap.php");
+
  if ($affich_method == 'HTML' and isset($protectedPost['Valid_CNX']) and trim($protectedPost['LOGIN']) != ""){
  	$login=$protectedPost['LOGIN'];
  	$mdp=$protectedPost['PASSWD']; 
@@ -78,7 +80,6 @@ if($login_successful == "OK" and isset($login_successful)) {
 			sleep(2);
 		}
 		echo "<br>";
-		//echo "<form name='IDENT' id='IDENT' action='' method='post'>";
 		$name_field=array("LOGIN","PASSWD");
 			$tab_name=array($l->g(24).": ",$l->g(217).":");
 			$type_field= array(0,4);	
@@ -95,14 +96,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 		if (isset($tab_typ_champ)){
 			$css='mlt_bordure';
 			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="CNX",$showbutton='BUTTON',$form_name);
-		//	echo "</div>";
 		}	
-		/*echo "<br><center><table><tr><td align=center>";
-		echo "<b>".$l->g(24).":</b></td><td><input type='text' name='LOGIN' id ='LOGIN' value='".(isset($protectedPost['LOGIN']) ? $protectedPost['LOGIN']: '')."'></td></tr><tr><td align=center>";
-		echo "<b>".$l->g(217).":</b></td><td><input type='password' name='PASSWD' id ='PASSWD' value='".(isset($protectedPost['PASSWD']) ? $protectedPost['PASSWD']: '')."'></td></tr>";
-		echo "<tr><td colspan=2 align=center><br><input type=submit name='VALID' id='VALID'></td></tr>";
-		echo "</table></center>";
-		echo "</form>";*/
 		require_once(FOOTER_HTML);
 		die();
 	}else{

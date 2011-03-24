@@ -49,7 +49,7 @@ $arg=array("%CONEX%");
 $res=mysql2_query_secure($sql, $link_ocs,$arg);
 while($item = mysql_fetch_object($res)){
     $config[$item->NAME]=$item->TVALUE;
-    define ($item->NAME,$item->TVALUE);
+  //  define ($item->NAME,$item->TVALUE);
 }
 
 // checks if the user already exists 
@@ -61,7 +61,6 @@ $resOp=mysql2_query_secure($reqOp, $link_ocs,$argOp);
 // default: normal user
 $defaultRole='admin'; 
 $defaultLevel='2';
-
 // Checks if the custom fields are valid
 $f1_name=$config['LDAP_CHECK_FIELD1_NAME'];
 $f2_name=$config['LDAP_CHECK_FIELD2_NAME'];
