@@ -11,6 +11,7 @@
 
  require_once(BACKEND.'require/connexion.php');
 $list_methode=array(0=>"local.php");
+//$list_methode=array(0=>"ldap.php");
 if (!isset($_SESSION['OCS']["lvluser"])){
 	$i=0;
 	//methode pour le calcul des droits
