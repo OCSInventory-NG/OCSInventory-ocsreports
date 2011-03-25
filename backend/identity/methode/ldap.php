@@ -110,8 +110,8 @@ if (!mysql_fetch_object($resOp)) {
             VALUES ('%s','%s', '%s', '%s','%s', '%s', '%s', '%s')";
 
     $arg_insert=array($_SESSION['OCS']["loggeduser"],
-   					$_SESSION['OCS']['details']['sn'],
-   					$_SESSION['OCS']["loggeduser"],
+   					$_SESSION['OCS']['details']['givenname'], 
+                    $_SESSION['OCS']['details']['sn'], 
    					"",
    					"LDAP",
    					$defaultRole,
@@ -124,26 +124,14 @@ else
 {
 
     // else update it
-    $reqInsert="UPDATE ocsweb.operators SET 
-        FIRSTNAME='%s',
-        LASTNAME='%s',
-        PASSWD='%s',
-        COMMENTS='%s',
-        NEW_ACCESSLVL='%s',
-        EMAIL='%s',
-        USER_GROUP='%s'
-            WHERE ID='%s'";
+    $reqInsert="UPDATE operators SET 
+        			NEW_ACCESSLVL='%s',
+        			EMAIL='%s'
+            	WHERE ID='%s'";
     
-    $arg_insert=array($_SESSION['OCS']['details']['sn'],
-   					$_SESSION['OCS']["loggeduser"],
-   					$_SESSION['OCS']["loggeduser"],
-   					"",
-   					"LDAP",
-   					$defaultRole,
-   					$_SESSION['OCS']['details']['mail'],
-   					"NULL",
-   					$_SESSION['OCS']["loggeduser"]
-   					 );
+    $arg_insert=array($defaultRole,
+   					  $_SESSION['OCS']['details']['mail'],
+   					  $_SESSION['OCS']["loggeduser"]);
 }
 connexion_local_write();
 // select the main database
@@ -168,8 +156,8 @@ if (isset($rowOp -> accesslvl)){
     $search=array('RESTRICTION'=>'MULTI');
     $res=read_configuration($ms_cfg_file,$search);
     $restriction=$res['RESTRICTION']['GUI'];
-    //Si l'utilisateur a des droits limit�s
-    //on va rechercher les tags sur lesquels il a des droits
+    //if this user has RESTRICTION
+    //search all tag for this user
     if ($restriction == 'YES'){
         $sql="select tag from tags where login='%s'";
         $arg=array($_SESSION['OCS']["loggeduser"]);
