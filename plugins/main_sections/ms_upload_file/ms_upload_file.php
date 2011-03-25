@@ -52,7 +52,7 @@ echo "<script language='javascript'>
 			if ( fileExt == ExtList[i] ) 
 			{
 				filenamenoext=namefile(filename);
-				if (filenamenoext != 'ocsagent' && filenamenoext != 'ocspackage' && ExtList[i] == 'exe'){
+				if (filenamenoext != 'ocsagent' && filenamenoext != 'ocs-ng-windows-agent-setup' && filenamenoext != 'ocspackage' && ExtList[i] == 'exe'){
 					alert('".mysql_real_escape_string($l->g(1243))."');
 					return (false);
 				}

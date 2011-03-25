@@ -1223,7 +1223,7 @@
 1240 MB
 1241 Number of SNMP devices 
 1242 m/d/y
-1243 Only ocsagent.exe and ocspackage.exe files can be post
+1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Manage your OCS-NG clients
 1246 Affect again

@@ -110,6 +110,9 @@ function ldap_test_pw($dn, $pw) {
 
 function ldap_connection (){
 	$ds = ldap_connect(LDAP_SERVEUR,LDAP_PORT); 
+	// Set the LDAP version
+	// add by acop http://forums.ocsinventory-ng.org/viewtopic.php?pid=35261
+    @ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION);
 	if (ROOT_DN != ''){
         $b = @ldap_bind($ds, ROOT_DN, ROOT_PW);         
     }else //Anonymous bind

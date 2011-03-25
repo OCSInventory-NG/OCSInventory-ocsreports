@@ -14,7 +14,7 @@ $array_profil[30]=$l->g(1260);
 $array_profil['ALL']=$l->g(215);
 if (!isset($protectedPost['REST']))
 	$protectedPost['REST']=7;
-$stats.= $l->g(1251). ": " .show_modif($array_profil,"REST",2,$form_name);
+$stats.= $l->g(1251). ": " .show_modif($array_profil,"REST",2,$form_name)."<br>";
 
 if (isset($protectedPost['REST']) and $protectedPost['REST'] != 'ALL')
 $lastWeek = time() - ($protectedPost['REST'] * 24 * 60 * 60);
