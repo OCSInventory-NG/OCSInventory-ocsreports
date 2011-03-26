@@ -1147,6 +1147,11 @@
 1262 Nessun plugin abilitato per il tuo profilo
 1263 AVVISO DI SICUREZZA!
 1264 Prossimo
+1265 Abilita tabelle cache
+1266 Virtual Machine
+1267 Tipo Virtual Machine
+1268 Uuid
+1269 Virtual Machine ospitata su
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1247,6 +1252,8 @@
 2100 Aggiorna le informazioni degli account
 2101 Aggiunto dallo script
 2102 ATTENZIONE: se cambi il nome di default del database (ocsweb), non dimenticare di aggiornare il file ocs engine
+2103 Modalità dimostrativa: non puoi aggiornare i dati
+2104 STAI UTILIZZANDO LA VERSIONE DIMOSTRATIVA DI
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
