@@ -10,18 +10,20 @@
 //====================================================================================
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 $tab_dont_see=array(527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545);
+
 class language
 {		
 	var  	$tableauMots;    // tableau contenant tous les mots du fichier 	
-	var 	$plug_language;		
+	var 	$plug_language;	
+	
 	function language($language,$plugin='') // constructeur
 	{
 		if ($plugin != ''){
 			require_once('require/function_files.php');
-			$rep_list=ScanDirectory($_SESSION['OCS']['main_sections_dir'],'.');
+			$rep_list=ScanDirectory(MAIN_SECTIONS_DIR,'.');
 			foreach ($rep_list as $key){
-				if (file_exists ($_SESSION['OCS']['main_sections_dir'].$key.'/language/'.$language.".txt"))	{
-					$file=fopen($_SESSION['OCS']['main_sections_dir'].$key.'/language/'.$language.".txt","r");
+				if (file_exists (MAIN_SECTIONS_DIR.$key.'/language/'.$language.".txt"))	{
+					$file=fopen(MAIN_SECTIONS_DIR.$key.'/language/'.$language.".txt","r");
 					while (!feof($file)) {
 							$val = fgets($file, 1024);
 							$tok1   =  rtrim(strtok($val," "));
@@ -29,7 +31,7 @@ class language
 							$this->plug_language[$tok1] = $tok2;
 						}
 					fclose($file);		
-						echo $_SESSION['OCS']['main_sections_dir'].$key.'/language/'.$language.".txt<br>";
+						echo MAIN_SECTIONS_DIR.$key.'/language/'.$language.".txt<br>";
 				}
 					/*if ($file) {	
 						while (!feof($file)) {
@@ -45,9 +47,8 @@ class language
 			//p($rep_list);
 		}
 
-		if (!isset($_SESSION['OCS']['plugins_dir']) or $_SESSION['OCS']['plugins_dir'] == "")
-		$_SESSION['OCS']['plugins_dir']="plugins/";
-		$language_file=$_SESSION['OCS']['plugins_dir']."language/".$language."/".$language.".txt";
+
+		$language_file=PLUGINS_DIR."language/".$language."/".$language.".txt";
 		if (file_exists ( $language_file) ){		
 			$file=fopen($language_file,"r");		
 			if ($file) {	

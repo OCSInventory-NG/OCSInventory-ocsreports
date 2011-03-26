@@ -10,8 +10,8 @@
 //====================================================================================
 
 
-require_once($_SESSION['OCS']['backend'].'require/lib/phpcas/CAS.php');
-require_once($_SESSION['OCS']['backend'].'require/cas.config.php');
+require_once(BACKEND.'require/lib/phpcas/CAS.php');
+require_once(BACKEND.'require/cas.config.php');
 $cas=new phpCas();
 $cas->client(CAS_VERSION_2_0,$cas_host,$cas_port,$cas_uri);
 $cas->forceAuthentication();

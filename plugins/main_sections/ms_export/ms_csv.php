@@ -143,9 +143,9 @@ if ($toBeWritten != ""){
 	die();
 }else{
 	$ban_head='no';
-	require_once ($_SESSION['OCS']['HEADER_HTML']);
+	require_once (HEADER_HTML);
 	msg_error($l->g(920));
-	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	require_once(FOOTER_HTML);
 	die();
 }
 ?>

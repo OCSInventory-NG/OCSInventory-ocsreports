@@ -57,9 +57,9 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 	}elseif ($arg != ''){	
 			$arg_escape_string=mysql_real_escape_string($arg);
 	}
-
 	if (isset($arg_escape_string)){
 		if (is_array($arg_escape_string)){
+			
 				$sql = vsprintf($sql,$arg_escape_string);
 		}else
 			$sql = sprintf($sql,$arg_escape_string);
@@ -71,6 +71,20 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 	
 	if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 		$_SESSION['OCS']['SQL_DEBUG'][]=html_entity_decode($query,ENT_QUOTES);			
+	}
+	
+	
+	if(DEMO){
+		 $udpate= stristr($query,'UPDATE');
+		 $insert= stristr($query,'INSERT');
+		 $delete= stristr($query,'DELETE');
+		 if ($udpate !== false or $insert !== false or $delete !== false){
+			if(DEMO_MSG != 'show'){
+		 		msg_info($l->g(2103));
+		 		define('DEMO_MSG','show');
+			}
+			return false;		
+		 }
 	}
 	$result=mysql_query( $query, $link ) or mysql_error($link);
 	return $result;
@@ -118,38 +132,22 @@ function prepare_sql_tab($list_fields,$explu=array()){
  	
  }
  
-function dbconnect() {
-	//global SERVER_READ,COMPTE_BASE,PSWD_BASE,SERVER_WRITE;
-	$db = DB_NAME;
-	//echo $db;
-	//echo $_SESSION['OCS']["SERVER_READ"];
-	$link=@mysql_connect(SERVER_READ,COMPTE_BASE,PSWD_BASE);
-	if(!$link) {
-		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error()."</b></font></center>";
-		die();
+function dbconnect($server,$compte_base,$pswd_base,$db = DB_NAME) {
+	
+	//$link is ok?
+	$link=@mysql_connect($server,$compte_base,$pswd_base);
+	if(!is_resource($link)) {
+		return  "ERROR: MySql connection problem<br>".mysql_error();
 	}
+	//database is ok?
 	if( ! mysql_select_db($db,$link)) {
-		require('install.php');
-		die();
+		return "NO_DATABASE";
 	}
-		
-	$link2=@mysql_connect(SERVER_WRITE,COMPTE_BASE,PSWD_BASE);
-	if(!$link2) {
-		echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error($link2)."</b></font></center>";
-		die();
-	}
-
-	if( ! @mysql_select_db($db,$link2)) {
-		require('install.php');
-		die();
-	}
-	//if (mb_detect_encoding($value, "UTF-8") == "UTF-8" )
-		mysql_query("SET NAMES 'utf8'");
-		//sql_mode => not strict
-		mysql_query("SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
-	$_SESSION['OCS']["writeServer"] = $link2;	
-	$_SESSION['OCS']["readServer"] = $link;
-	return $link2;
+	//force UTF-8
+	mysql_query("SET NAMES 'utf8'");
+	//sql_mode => not strict
+	mysql_query("SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+	return $link;
 }
 
 
@@ -304,6 +302,31 @@ function data_encode_utf8($data){
 		return utf8_encode($data);	
 	}else
 		return $data;*/
+}
+
+function html_header($no_java=false){
+	header("Pragma: no-cache");
+	header("Expires: -1");
+	header("Cache-control: must-revalidate, post-check=0, pre-check=0");
+	header("Cache-control: private", false);
+	header("Content-type: text/html; charset=utf-8");
+	echo "<html>
+			<head>
+				<TITLE>OCS Inventory</TITLE>
+				<LINK REL='shortcut icon' HREF='favicon.ico' />
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>";
+	if (!$no_java){
+		incPicker(); 
+		echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
+		if (isset($_SESSION['OCS']['JAVASCRIPT'])){
+			foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file => $rep){
+				echo "<script language='javascript' type='text/javascript' src='".MAIN_SECTIONS_DIR.$rep.$file."'></script>";
+			}
+		}
+	}
+	echo "</head>"; 
+	echo "<body bottommargin='0' leftmargin='0' topmargin='0' rightmargin='0' marginheight='0' marginwidth='0'>";
+	
 }
 
 ?>

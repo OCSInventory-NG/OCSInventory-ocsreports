@@ -1125,7 +1125,7 @@
 1240 MB
 1241 Nombre de périphériques SNMP remontés
 1242 d/m/y
-1243 Seuls les fichiers ocsagent.exe et ocspackage.exe peuvent être envoyés
+1243 Seuls les fichiers ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe et ocspackage.exe peuvent être envoyés
 1244 Le fichier ne peut pas être vide
 1245 Administrer les clients OCS-NG
 1246 Affecter à nouveau
@@ -1147,6 +1147,11 @@
 1262 Aucun module activé pour votre profil
 1263 ALERTE SECURITE!
 1264 Suite
+1265 Activation des tables de cache
+1266 Machines Virtuelles
+1267 Type de Machine Virtuelle
+1268 Uuid
+1269 Machine hébergée par
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1246,7 +1251,8 @@
 2100 Update anciens accountinfos
 2101 Ajouté par script
 2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur
-
+2103 Mode DEMO: vous ne pouvez mettre à jour les données
+2104 VOUS ETES SUR LA VERSION DE DEMO LA
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

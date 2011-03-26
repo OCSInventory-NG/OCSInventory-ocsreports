@@ -261,10 +261,7 @@ function option_conf_activate($value){
 				$sql="update config set %s = '%s' where NAME ='%s'";
 		else
 				$sql="insert into config (%s, NAME) value ('%s','%s')";
-			//	$lbl_log=$l->g(821)
-			if(!DEMO) {
 				mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,$l->g(821));
- 			}
 	}
 
  }
@@ -313,7 +310,8 @@ function update_default_value($POST){
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
 						'LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
-						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE','USE_FLASH');
+						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE',
+						'USE_FLASH','INVENTORY_CACHE_ENABLED');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -344,14 +342,20 @@ function update_default_value($POST){
 		$optexist['AUTO_DUPLICATE_LVL']='0';
 	}
 	
-	//parcourt des post
+	//check all post
 	foreach ($POST as $key=>$value){
 		if (!isset($optexist[$key]))
 			$optexist[$key]='';
 			
+		if ($key == "INVENTORY_CACHE_ENABLED" 
+				and $value == '1' 
+				and $optexist['INVENTORY_CACHE_ENABLED'] != $value){
+			$sql="update engine_persistent set ivalue=1 where name='INVENTORY_CACHE_CLEAN_DATE'";
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,$l->g(821));
+		}
 		$name_field_modif='';
 		$value_field_modif='';
-		//gestion du AUTO_DUPLICATE_LVL cas particulier
+		//check AUTO_DUPLICATE_LVL. Particular field
 		if(strstr($key, 'AUTO_DUPLICATE_LVL_')){
 				$AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_1']=$POST['AUTO_DUPLICATE_LVL_1'];
 				$AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_2']=$POST['AUTO_DUPLICATE_LVL_2'];
@@ -363,10 +367,10 @@ function update_default_value($POST){
 				$key='AUTO_DUPLICATE_LVL';
 		}					
 		if (in_array($key,$array_simple_tvalue)){
-			//mise a jour des valeurs simple tvalue
+			//update tvalue simple
 			insert_update($key,$value,$optexist[$key],'tvalue');			
 		}elseif(in_array($key,$array_simple_ivalue)){
-			//mise a jour des valeurs simple ivalue
+			//update ivalue simple
 			insert_update($key,$value,$optexist[$key],'ivalue');		
 		}elseif(isset($array_interprete_tvalue[$key])){
 			$name_field_modif="tvalue";
@@ -473,9 +477,9 @@ function trait_post($name){
 
 	ligne('LOG_SCRIPT',$l->g(1254),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_ROOT."scripts)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_scripts),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_SCRIPT'],'SIZE'=>50,'END'=>"/scripts"));	
-	ligne('CONF_PROFILS_DIR',$l->g(1252),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.$_SESSION['OCS']['main_sections_dir']."conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_profils),
+	ligne('CONF_PROFILS_DIR',$l->g(1252),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.MAIN_SECTIONS_DIR."conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_profils),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['CONF_PROFILS_DIR'],'SIZE'=>50,'END'=>"/conf"));	
-	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.$_SESSION['OCS']['main_sections_dir']."conf/old_conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
+	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)."(".DOCUMENT_REAL_ROOT.MAIN_SECTIONS_DIR."conf/old_conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>50,'END'=>"/old_conf"));		
 	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGHT'=>4));	
 	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			
@@ -599,7 +603,8 @@ function pagegroups($form_name){
 				  'INVENTORY_WRITE_DIFF'=>'INVENTORY_WRITE_DIFF',
 				  'INVENTORY_SESSION_ONLY'=>'INVENTORY_SESSION_ONLY',
 				  'INVENTORY_CACHE_REVALIDATE'=>'INVENTORY_CACHE_REVALIDATE',
-				  'INVENTORY_VALIDITY'=>'INVENTORY_VALIDITY');
+				  'INVENTORY_VALIDITY'=>'INVENTORY_VALIDITY',
+ 				  'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED');
 	$values=look_config_default_values($champs);
 	if (isset($champs['INVENTORY_VALIDITY'])){
  		$validity=$values['ivalue']['INVENTORY_VALIDITY'];
@@ -623,7 +628,7 @@ function pagegroups($form_name){
 		ligne('INVENTORY_WRITE_DIFF',$l->g(743),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_WRITE_DIFF']));
 		ligne('INVENTORY_SESSION_ONLY',$l->g(744),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_SESSION_ONLY']));
 	 	ligne('INVENTORY_CACHE_REVALIDATE',$l->g(745),'input',array('END'=>$l->g(496).$sup1,'VALUE'=>$values['ivalue']['INVENTORY_CACHE_REVALIDATE'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
-
+		ligne('INVENTORY_CACHE_ENABLED',$l->g(1265),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_CACHE_ENABLED']));
 	 	ligne('INVENTORY_VALIDITY',$l->g(828),'radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_VALIDITY']),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$validity,'END'=>$l->g(496),'JAVASCRIPT'=>$numeric,'SIZE'=>3),"readonly");
 	fin_tab($form_name);
  	

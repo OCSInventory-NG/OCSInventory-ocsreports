@@ -9,7 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
- require_once($_SESSION['OCS']['backend'].'require/connexion.php');
+ require_once(BACKEND.'require/connexion.php');
  
 $list_methode=array(0=>"local.php");
 
@@ -46,6 +46,7 @@ if (isset($tab_ip)){
 		$_SESSION['OCS']["ipdiscover"]=$list_ip;	
 		$_SESSION['OCS']["ipdiscover_methode"]=$base;	
 		$_SESSION['OCS']["ipdiscover_id"]=$id_subnet;
+		$_SESSION['OCS']["subnet_ipdiscover"]=$list_subnet;
 	}
 }
 if (isset($tab_info) and !isset($_SESSION['OCS']["ipdiscover"])){

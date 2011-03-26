@@ -543,7 +543,7 @@
 654 Enter a new MAC address for blacklist
 655 Insertion made
 656 This datum already exists in the list 
-657 Fields in red are in error!!! (Empty fields or size < 2) 
+657 Fields in red are in error!!! (Empty fields or size < 2)
 658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
 659 Machines already have this teledeploy package. This package's status for these machines is now 
 660 GROUP OF REDISTRIBUTION NOT EXIST
@@ -551,11 +551,11 @@
 662 Rules of affectation
 663 INTERNES PROBLEM
 664 Action made
-665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED 
+665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED
 666 Group of redistribution made
 667 FOR THE PACKAGE
 668 to Affect with which rule?
-669 ATTENTION: there are doubloons of priority < br > A single rule will be retained!
+669 ATTENTION: there are doubloons of priority <br> A single rule will be retained!
 670 A rule already carries this name
 671 The name of this rule can't be empty!
 672 This rule does not exist!!!
@@ -701,7 +701,7 @@
 813 hard disk number with remaining size >
 814 hard disk number with remaining size <
 815 hard disk number with remaining size between
-816 hard disk maximum remaining size 
+816 hard disk maximum remaining size
 817 hard disk minimum remaining size
 818 Get out of group
 819 computer(s) added to group
@@ -1126,7 +1126,7 @@
 1240 MB
 1241 Number of SNMP devices 
 1242 m/d/y
-1243 Only ocsagent.exe and ocspackage.exe files can be post
+1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Manage your OCS-NG clients
 1246 Affect again
@@ -1148,6 +1148,11 @@
 1262 No plugin enabled for your profile
 1263 SECURITY ALERT!
 1264 Next
+1265 Enable cache tables
+1266 Virtual Machines
+1267 Type of Virtual Machines
+1268 Uuid
+1269 Machine hosted by
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1248,6 +1253,8 @@
 2100 Update old account infos
 2101 Add by script
 2102 WARNING: If you change default database name (ocsweb), don't forget to update your ocs engine files
+2103 DEMO mode: you can't update data
+2104 YOU ARE WATCHING THE DEMO VERSION OF
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]

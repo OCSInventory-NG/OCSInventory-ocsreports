@@ -37,6 +37,7 @@ function printEnTete($ent) {
 function incPicker() {
 
 	global $l;
+
 	echo "<script language=\"javascript\">
 	var MonthName=[";
 	
@@ -391,6 +392,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 			$champs.= "<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";
 			if ($protectedPost[$input_name."_".$key] == 'on' )
 			$champs.= " checked ";
+			if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
 			$champs.= " >" . $value . " <br>";
 		}
 		return $champs;
@@ -474,9 +476,10 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 	if (!isset($css))
 		$css="mvt_bordure";
 
-	if ($form_name != 'NO_FORM')
-	echo "<form name='" . $form_name . "' id='" 
-		. $form_name . "' action='' method='POST'>";
+	if ($form_name != 'NO_FORM'){
+		echo "<form name='" . $form_name . "' id='" 
+			. $form_name . "' action='' method='POST'>";
+	}
 	echo '<div class="'.$css.'" >';
 	if ($showbutton_action != '')
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'>" . $showbutton_action . "</td></tr></table>";
@@ -494,7 +497,8 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 	}else
 		echo $tab_name;
  	echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
- 	if ($showbutton){
+ 	if ($showbutton and $showbutton !== 'BUTTON'){
+ 		
 		echo "<tr><td><input title='" . $l->g(625) 
 					. "'  type='image'  src='image/success.png' name='Valid_" 
 					. $name_button 
@@ -502,9 +506,16 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 		echo "<input title='" . $l->g(626) 
 				. "'  type='image'  src='image/error.png' name='Reset_"
 				. $name_button . "'></td></tr>";
+ 	}elseif($showbutton === 'BUTTON'){
+ 		echo "<tr><td colspan=2 align='center'><input title='" . $l->g(625) 
+					. "'  type='submit'  name='Valid_" 
+					. $name_button 
+					."' value='".$l->g(13)."'></td></tr>";
+ 		
  	}
+
 	echo "</table>";
-        echo "</div>";    
+    echo "</div>";    
     if ($tab_hidden != ""){
     		
 		foreach ($tab_hidden as $key=>$value)
@@ -881,6 +892,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	}
 	
 	if (is_array ($list_rest)){
+		//$list_rest=lbl_column($list_rest);
 		$select_restCol= $l->g(349).": ".show_modif($list_rest,'restCol'.$tab_name,2,$form_name);
 		$select_restCol .=  "<a href=# OnClick='pag(\"".$tab_name."\",\"RAZ\",\"".$id_form."\");'><img src=image/supp.png></a></td></tr></table>"; //</td></tr><tr><td align=center>
 		echo $select_restCol;
@@ -892,6 +904,40 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	return( $data_with_filter);
 	
 	
+}
+
+function lbl_column($list_fields){
+	//p($list_rest);
+	require_once('maps.php');
+	$return_fields=array();
+	$return_default=array();
+	foreach($list_fields as $poub=>$table){
+		if (isset($lbl_column[$table])){
+			foreach($lbl_column[$table] as $field=>$lbl){
+				//echo $field;
+				if (isset($alias_table[$table])){
+					$return_fields[$lbl]=$alias_table[$table].'.'.$field;
+					if (isset($default_column[$table])){
+						foreach($default_column[$table] as $poub2=>$default_field)
+							$return_default[$lbl_column[$table][$default_field]]=$lbl_column[$table][$default_field];
+					}else{
+						msg_error($table.' DEFAULT VALUES NOT DEFINE IN MAPS.PHP');
+						return false;						
+					}
+				}else{
+					msg_error($table.' ALIAS NOT DEFINE IN MAPS.PHP');
+					return false;
+				}
+					
+			}			
+			
+		}else{
+			msg_error($table.' NOT DEFINE IN MAPS.PHP');
+			return false;
+		}
+	}
+	ksort($return_fields);
+	return array('FIELDS'=>$return_fields,'DEFAULT_FIELDS'=>$return_default);
 }
 
 function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,$width='100',$tab_options='')
@@ -922,7 +968,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	
 	//show select nb page
 	$limit=nb_page($form_name,100,"","");
-	
 	//you want to filter your result
 	if (isset($tab_options['FILTRE'])){
 		$Details=filtre($tab_options['FILTRE'],$form_name,$queryDetails,$tab_options['ARG_SQL'],$tab_options['ARG_SQL_COUNT']);
@@ -991,7 +1036,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	if (isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]]) and isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 			msg_info($l->g(5005));
-
 	 		$var_limit=$limit["BEGIN"];
 	 		while ($var_limit<=$limit["END"]){
 	 			$sql_data[$var_limit]=$_SESSION['OCS']['DATA_CACHE'][$table_name][$var_limit];
@@ -1104,6 +1148,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 						$resultcount = mysql2_query_secure($queryDetails, $link);
 					
 				}
+
 				$num_rows_result = mysql_num_rows($resultcount);
 				//echo "<b>".$num_rows_result."</b>";
 				if ($num_rows_result==1){
@@ -1229,7 +1274,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	}
 
 	if ($num_rows_result > 0){
-		if (count($data) == 1)
+		if (count($data) == 1 and (!isset($protectedPost['page']) or $protectedPost['page'] == 0))
 			$num_rows_result=1;
 		$title=$num_rows_result." ".$l->g(90);
 		if (isset($tab_options['LOGS']))
@@ -1297,20 +1342,16 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				if ($list_col_cant_del[$key])
 				$correct_list_col_cant_del[$num_col]=$num_col;
 				
-
-				if (substr($value,0,2) == "h." 
-						or substr($value,0,2) == "a." 
-						or substr($value,0,2) == "e."
-						or substr($value,0,2) == "n." 
-						or substr($value,0,2) == "b."){
-				$no_alias_value=substr(strstr($value, '.'), 1);
+				$alias=explode('.',$value);
+				if (isset($alias[1])){
+					$no_alias_value=$alias[1];
 				}else
-				 $no_alias_value=$value;
+				 	$no_alias_value=$value;
 
 				
 				//si aucune valeur, on affiche un espace
 				if ($donnees[$no_alias_value] == "")
-				$value_of_field = "&nbsp";
+					$value_of_field = "&nbsp";
 				else //sinon, on affiche la valeur
 				{
 					$value_of_field=$donnees[$no_alias_value];
@@ -1416,7 +1457,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$affich="KO";
 				
 					if (!isset($tab_options['LIEN_TYPE'][$key]))
-					$data[$i][$num_col]="<a href='".$tab_options['LIEN_LBL'][$key].$donnees[$tab_options['LIEN_CHAMP'][$key]]."' target='_blank'>".$value_of_field."</a>";
+						$data[$i][$num_col]="<a href='".$tab_options['LIEN_LBL'][$key].$donnees[$tab_options['LIEN_CHAMP'][$key]]."' target='_blank'>".$value_of_field."</a>";
 					else{
 						if (!isset($tab_options['POPUP_SIZE'][$key]))
 						$size="width=550,height=350";

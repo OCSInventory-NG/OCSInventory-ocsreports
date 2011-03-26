@@ -19,7 +19,7 @@
  * add your page on /require and modify $list_methode
  * 
  */
- require_once($_SESSION['OCS']['backend'].'require/connexion.php');
+ require_once(BACKEND.'require/connexion.php');
  //If you want a html form for the connexion
  //put $affich_method='HTML'
  $affich_method='HTML';
@@ -40,8 +40,9 @@
  //					   local.php => Local connexion on ocs base
  //					   always_ok.php => connexion always ok
  $list_methode=array(0=>"local.php");
- //$list_methode=array(0=>"always_ok.php");
- if ($affich_method == 'HTML' and isset($protectedPost['Valid_modif_x']) and trim($protectedPost['LOGIN']) != ""){
+// $list_methode=array(0=>"ldap.php");
+
+ if ($affich_method == 'HTML' and isset($protectedPost['Valid_CNX']) and trim($protectedPost['LOGIN']) != ""){
  	$login=$protectedPost['LOGIN'];
  	$mdp=$protectedPost['PASSWD']; 
  }elseif ($affich_method == 'CAS'){
@@ -50,7 +51,6 @@
  	$login=$_SERVER['PHP_AUTH_USER'];
  	$mdp=$_SERVER['PHP_AUTH_PW'];  	
  }
-
 
 if (isset($login) && isset($mdp)){
 	$i=0;
@@ -61,7 +61,6 @@ if (isset($login) && isset($mdp)){
 		$i++;
 	}
 }
-
 // login ok?
 if($login_successful == "OK" and isset($login_successful)) {
 	$_SESSION['OCS']["loggeduser"]=$login;
@@ -72,8 +71,8 @@ if($login_successful == "OK" and isset($login_successful)) {
 	//show HTML form
 	if ($affich_method == 'HTML'){
 		$icon_head='NO';
-		require_once ($_SESSION['OCS']['HEADER_HTML']);
-		if (isset($protectedPost['Valid_modif_x'])){
+		require_once (HEADER_HTML);
+		if (isset($protectedPost['Valid_CNX'])){
 			$login_successful = $l->g(180);
 			msg_error($login_successful);
 			flush();
@@ -81,7 +80,6 @@ if($login_successful == "OK" and isset($login_successful)) {
 			sleep(2);
 		}
 		echo "<br>";
-		//echo "<form name='IDENT' id='IDENT' action='' method='post'>";
 		$name_field=array("LOGIN","PASSWD");
 			$tab_name=array($l->g(24).": ",$l->g(217).":");
 			$type_field= array(0,4);	
@@ -92,21 +90,14 @@ if($login_successful == "OK" and isset($login_successful)) {
 		}
 			
 		if (DEMO) { 
-			msg_info("login : demo<br>password : demo");
+			msg_info($l->g(24).": ".DEMO_LOGIN."<br>".$l->g(217).": ".DEMO_PASSWD);
 		}
 		
 		if (isset($tab_typ_champ)){
 			$css='mlt_bordure';
-			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);
-		//	echo "</div>";
+			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="CNX",$showbutton='BUTTON',$form_name);
 		}	
-		/*echo "<br><center><table><tr><td align=center>";
-		echo "<b>".$l->g(24).":</b></td><td><input type='text' name='LOGIN' id ='LOGIN' value='".(isset($protectedPost['LOGIN']) ? $protectedPost['LOGIN']: '')."'></td></tr><tr><td align=center>";
-		echo "<b>".$l->g(217).":</b></td><td><input type='password' name='PASSWD' id ='PASSWD' value='".(isset($protectedPost['PASSWD']) ? $protectedPost['PASSWD']: '')."'></td></tr>";
-		echo "<tr><td colspan=2 align=center><br><input type=submit name='VALID' id='VALID'></td></tr>";
-		echo "</table></center>";
-		echo "</form>";*/
-		require_once($_SESSION['OCS']['FOOTER_HTML']);
+		require_once(FOOTER_HTML);
 		die();
 	}else{
    		header('WWW-Authenticate: Basic realm="OcsinventoryNG"');

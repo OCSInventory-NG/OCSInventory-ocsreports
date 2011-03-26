@@ -12,28 +12,7 @@
 if (isset($protectedGet['head']) and $protectedGet['head'] == 1)
 $ban_head='no';
 /*******************************************************AFFICHAGE HTML DU HEADER*******************************************/
-
-header("Pragma: no-cache");
-header("Expires: -1");
-header("Cache-control: must-revalidate, post-check=0, pre-check=0");
-header("Cache-control: private", false);
-header("Content-type: text/html; charset=utf-8");
-?>
-<html>
-<head>
-<TITLE>OCS Inventory</TITLE>
-
-<link rel="shortcut icon" href="favicon.ico" />
-<LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
-<?php incPicker(); 
-echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
-if (isset($_SESSION['OCS']['JAVASCRIPT'])){
-	foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file => $rep){
-		echo "<script language='javascript' type='text/javascript' src='".$_SESSION['OCS']['main_sections_dir'].$rep.$file."'></script>";
-	}
-}
-echo "</head>"; 
-echo "<body bottommargin='0' leftmargin='0' topmargin='0' rightmargin='0' marginheight='0' marginwidth='0'>";
+html_header();
 //on affiche l'entete de la page
 if( !isset($protectedGet["popup"] )) {
 	//si unlock de l'interface
@@ -78,7 +57,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 	$msg_header_warning=array();
 	//Demo mode activate?
 	if (DEMO) {
-		$msg_header_warning[]= "YOU ARE WATCHING THE DEMO VERSION OF THE RELEASE ".GUI_VER_SHOW."<br>";
+		$msg_header_warning[]= $l->g(2104)." ".GUI_VER_SHOW."<br>";
 	} 
 	
 	
@@ -144,7 +123,7 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 			echo "</a>";
 		}
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=650\")'";
-		echo "<a ".$javascript."><img src=".$_SESSION['OCS']['plugins_dir']."/main_sections/img/ms_pass.png></a>";
+		echo "<a ".$javascript."><img src=".PLUGINS_DIR."/main_sections/img/ms_pass.png></a>";
 		echo "<form name='log_out' id='log_out' action='' method='post'>";
 		echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
 		echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
@@ -164,7 +143,7 @@ echo "<div class='fond'>";
 if ($_SESSION['OCS']["mesmachines"] == "NOTAG" 
 	and !(isset($_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and $protectedGet[PAG_INDEX] == $pages_refs['ms_debug']) ){
 		msg_error($l->g(893));
-	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	require_once(FOOTER_HTML);
 	die();
 
 }
@@ -172,7 +151,7 @@ if ($_SESSION['OCS']["mesmachines"] == "NOTAG"
 
 //if you don't want to see the icons
 if ($icon_head!='NO'){
-require_once($_SESSION['OCS']['plugins_dir']."main_sections/section_html.php");
+require_once(PLUGINS_DIR."main_sections/section_html.php");
 echo "<form action='' name='ACTION_CLIC' id='ACTION_CLIC' method='POST'>";
 	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 	echo "<input type='hidden' name='SHOW_ERROR_MSG' id='SHOW_ERROR_MSG' value=''>";

@@ -60,7 +60,8 @@ function form_add_subnet($title='',$default_value,$form){
 		}
 
 			$tab_typ_champ[1]["CONFIG"]['DEFAULT']="NO";
-			$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ID_IPDISCOVER&form=".$form."\",\"admin_id_ipdiscover\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+			if (isset($_SESSION['OCS']['PAGE_PROFIL']['ms_adminvalues']))
+				$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ID_IPDISCOVER&form=".$form."\",\"admin_id_ipdiscover\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 
 		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");
 	
@@ -70,7 +71,8 @@ function form_add_subnet($title='',$default_value,$form){
 
 function verif_base_methode($base){
 		global $l;
-	if ($_SESSION['OCS']['ipdiscover_methode'] != $base){
+	if (isset($_SESSION['OCS']['ipdiscover_methode']) 
+			and  $_SESSION['OCS']['ipdiscover_methode'] != $base){
 		return $l->g(929)."<br>".$l->g(930);
 	}else
 		return false;	
@@ -296,6 +298,7 @@ function count_noinv_network_devices($dpt_choise=''){
 	$res_count = mysql2_query_secure($detail_query['SQL'], $_SESSION['OCS']["readServer"],$detail_query['ARG']);
 	$val_count = mysql_fetch_array( $res_count );
 	return $val_count['c'];
+	
 }
 
 ?>

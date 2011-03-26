@@ -123,7 +123,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 							$check_trait[$temp_field[0].'_'.$temp_field[1]].=$temp_field[2]."&&&";
 						}else{
 							$fields[]=$key;
-							$values[]=$value;
+							$values_fields[]=$value;
 						}
 					}			
 				}	
@@ -132,7 +132,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 			if ($check_trait != array()){				
 				foreach ($check_trait as $key=>$value){
 					$fields[]=$key;
-					$values[]=$value;					
+					$values_fields[]=$value;					
 				}							
 			}
 			/*if ($protectedPost['NB_COMPUTERS'] === 1)
@@ -141,11 +141,11 @@ if ($protectedPost['onglet'] == 'FILE'){
 			while ($i < $protectedPost['NB_COMPUTERS']){
 				$id_computer=insert_manual_computer($protectedPost,$protectedPost['NB_COMPUTERS']);
 				if (is_array($fields))
-			 		insertinfo_computer($id_computer,$fields,$values);
+			 		insertinfo_computer($id_computer,$fields,$values_fields);
 				
 				$i++;			
 			}
-			
+			msg_success($l->g(881));
 		}else
 			msg_error($l->g(684)."<br>".$error);
 	}

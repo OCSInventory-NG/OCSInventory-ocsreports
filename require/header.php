@@ -31,13 +31,14 @@ if(substr($_SERVER['DOCUMENT_ROOT'],-1) != '/'){
 if ($_SESSION['OCS']['LOG_GUI'] == 1){	
 		define("LOG_FILE",$_SESSION['OCS']['LOG_DIR']."log.csv");
 	}
-	
+
+require_once('var.php');
+require_once('require/fichierConf.class.php');
 require_once('require/function_commun.php');
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
-require_once('require/fichierConf.class.php');
 include('dbconfig.inc.php');
-require_once('var.php');
+
 
 
 
@@ -73,7 +74,28 @@ if (!defined("SERVER_READ")
 
 
 //connect to databases
-dbconnect();
+$link_write=dbconnect(SERVER_WRITE,COMPTE_BASE,PSWD_BASE);
+$link_read=dbconnect(SERVER_READ,COMPTE_BASE,PSWD_BASE);
+
+if (is_resource($link_write) and is_resource($link_read)) {
+	$_SESSION['OCS']["writeServer"] = $link_write;	
+	$_SESSION['OCS']["readServer"] = $link_read;
+}else{
+	if ($link_write == "NO_DATABASE" or $link_read == "NO_DATABASE"){
+		require('install.php');
+		die();
+	}
+	$msg='';
+	if (!is_resource($link_write))
+		$msg.=$link_write."<br>";
+	if (!is_resource($link_read))
+		$msg.=$link_read;
+	html_header(true);
+	msg_error($msg);
+	require_once(FOOTER_HTML);
+	die();
+}
+
 /***********************************************************LOGS ADMIN*************************************************************************/
 if (!isset($_SESSION['OCS']['LOG_GUI'])){
 	$values=look_config_default_values(array('LOG_GUI','LOG_DIR','LOG_SCRIPT'));
@@ -144,18 +166,6 @@ if (!defined("SERVER_READ")){
 //For the fuser, $no_error  = 'YES'
 if (!isset($no_error))
 $no_error='NO';
-/**************************************mise en place des r�pertoires de plugins et d'auhentification************************************/
-
-if (!isset($_SESSION['OCS']['plugins_dir']) or !isset($_SESSION['OCS']['CONF_MYSQL'])){
-	$_SESSION['OCS']['FCharts']="libraries/FusionChartsFree";
-	$_SESSION['OCS']['JpGraph']="libraries/jpgraph";
-	$_SESSION['OCS']['backend']="backend/";
-	$_SESSION['OCS']['plugins_dir']="plugins/";
-	$_SESSION['OCS']['CONF_MYSQL']="dbconfig.inc.php";
-	$_SESSION['OCS']['HEADER_HTML']="require/html_header.php";
-	$_SESSION['OCS']['FOOTER_HTML']="require/footer.php";
-	$_SESSION['OCS']['main_sections_dir']=$_SESSION['OCS']['plugins_dir']."main_sections/";
-}
 
 /*****************************************************GESTION DU NOM DES PAGES****************************************/
 //Config for all user
@@ -256,17 +266,17 @@ $l = $_SESSION['OCS']["LANGUAGE_FILE"];
 
 /*********************************************************gestion de l'authentification****************************************************/
 if (!isset($_SESSION['OCS']["loggeduser"]))
-require_once('backend/AUTH/auth.php');
+require_once(BACKEND.'AUTH/auth.php');
 
 /**********************************************************gestion des droits sur les TAG****************************************************/
 if (!isset($_SESSION['OCS']["lvluser"]))
-require_once('backend/identity/identity.php');
+require_once(BACKEND.'identity/identity.php');
 
 
 
 /**********************************************************gestion des droits sur l'ipdiscover****************************************************/
 if (!isset($_SESSION['OCS']["ipdiscover"])){
-	require_once($_SESSION['OCS']['backend'].'/ipdiscover/ipdiscover.php');
+	require_once(BACKEND.'ipdiscover/ipdiscover.php');
 }
 
 
@@ -317,22 +327,24 @@ if (!isset($_SESSION['OCS']['TAG_LBL'])){
 }
 /*******************************************GESTION OF PLUGINS (MAIN SECTIONS)****************************/
 if (!isset($_SESSION['OCS']['all_menus'])){	
-	require_once($_SESSION['OCS']['main_sections_dir']."sections.php");
+	require_once(MAIN_SECTIONS_DIR."sections.php");
 }
 
 $name=array_flip($_SESSION['OCS']['URL']);
 
 if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
-	require_once ($_SESSION['OCS']['HEADER_HTML']);
-	//echo "toto";
+	require_once (HEADER_HTML);
 }
 
 //VERIF ACCESS TO THIS PAGE
 if (isset($protectedGet[PAG_INDEX]) 
 	and !isset($_SESSION['OCS']['PAGE_PROFIL'][$name[$protectedGet[PAG_INDEX]]])
-	and !isset($_SESSION['OCS']['TRUE_PAGES'][$name[$protectedGet[PAG_INDEX]]])){
+	and !isset($_SESSION['OCS']['TRUE_PAGES'][$name[$protectedGet[PAG_INDEX]]])
+	//force access to profils witch have CONFIGURATION TELEDIFF  == 'YES' for ms_admin_ipdiscover page
+	and !($_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == 'YES' 
+			and $name[$protectedGet[PAG_INDEX]] == 'ms_admin_ipdiscover')){
 		msg_error("ACCESS DENIED");
-		require_once($_SESSION['OCS']['FOOTER_HTML']);
+		require_once(FOOTER_HTML);
 		die();	
 }
 
@@ -344,18 +356,18 @@ if((!isset($_SESSION['OCS']["loggeduser"])
 	 and $no_error != 'YES')
 {		
 	msg_error($LIST_ERROR);
-	require_once($_SESSION['OCS']['FOOTER_HTML']);
+	require_once(FOOTER_HTML);
 	die();
 }
 
 if (isset($name[$protectedGet[PAG_INDEX]])){	
 	if (isset($_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]]))
 	$rep=$_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]];
-	require ($_SESSION['OCS']['main_sections_dir'].$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
+	require (MAIN_SECTIONS_DIR.$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
 }
 else{
  	if ($_SESSION['OCS']['PAGE_PROFIL']['ms_console'])	
-	require ($_SESSION['OCS']['main_sections_dir']."ms_console/ms_console.php");	
+	require (MAIN_SECTIONS_DIR."ms_console/ms_console.php");	
 	else{
 		echo  "<img src='image/fond.png'>";
 		

@@ -2,7 +2,7 @@
 function connexion_local_read()
 {	
 	global $link_ocs,$db_ocs;
-	require_once($_SESSION['OCS']['CONF_MYSQL']);
+	require_once(CONF_MYSQL);
  	//require_once($_SESSION['OCS']['NAME_MYSQL']);
 	//connection OCS
 	$db_ocs = DB_NAME;
@@ -19,7 +19,7 @@ function connexion_local_read()
 function connexion_local_write()
 {	
 	global $link_ocs,$db_ocs;
-	require_once($_SESSION['OCS']['CONF_MYSQL']);
+	require_once(CONF_MYSQL);
  	//require_once($_SESSION['OCS']['NAME_MYSQL']);
 	//connection OCS
 	$db_ocs = DB_NAME;

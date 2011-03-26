@@ -90,9 +90,9 @@ if ($_SESSION['OCS']['useflash'] == 1){
 	onglet($data_on,$form_name,"onglet",4);
 	echo '<div class="mlt_bordure" >';
 	if (isset($protectedPost['onglet']) and $protectedPost['onglet'] == 1)
-		echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Column3D.swf", "", $strXML, "myNext", 600, 300);		
+		echo renderChartHTML(FCHARTS."/Charts/FCF_Column3D.swf", "", $strXML, "myNext", 600, 300);		
 	else
-		echo renderChartHTML($_SESSION['OCS']['FCharts']."/Charts/FCF_Pie3D.swf", "", $strXML, "myNext", 800, 400);
+		echo renderChartHTML(FCHARTS."/Charts/FCF_Pie3D.swf", "", $strXML, "myNext", 800, 400);
 	echo '</div><br>';
 }else{
 	$_SESSION['OCS']['STAT_TELEDEPLOY']['DATA']=$count_value;
