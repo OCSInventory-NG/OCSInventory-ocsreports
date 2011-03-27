@@ -319,7 +319,7 @@ if ($error != ""){
 											   $l->g(2017) . " " . 
 											   $name_connect .  " " . 
 											   $l->g(2007) .
-					 " )</b></font></center>";
+					 ")</b></font></center>";
 
 
 /* else {
