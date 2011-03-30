@@ -74,6 +74,7 @@ applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinv
 	}elseif(!isset($id)){
 		$no_name='---'.$l->g(885).'---';
 		$list_ip[$no_name][$row->ipsubnet]=$no_name;
+		$list_ip['---'.$l->g(1138).'---'][$row->ipsubnet]=$no_name;
 	}else{
 		$list_ip[$id][$row->ipsubnet]=$id;
 	}
