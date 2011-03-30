@@ -95,16 +95,16 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 			//on cherche a savoir si on est sur la table hardware
  			//dans ce cas, la concat des id doit se faire avec le champ ID
  			if (substr_count($id[$i],"from hardware")){
- 			$name_field_id=" ID ";
- 			$fin_sql=" and deviceid<>'_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_' ";
+ 				$name_field_id=" ID ";
+ 				$fin_sql=" and deviceid<>'_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_' ";
  			}
  			else{
- 			$name_field_id=" HARDWARE_ID ";
- 			$fin_sql="";
- 			if ($no_cumul == "")
- 			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=$id[$i];
- 			else
- 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=str_replace("like", "not like", $id[$i]);
+	 			$name_field_id=" HARDWARE_ID ";
+	 			$fin_sql="";
+	 			if ($no_cumul == "")
+	 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=$id[$i];
+	 			else
+	 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][]=str_replace("like", "not like", $id[$i]);
  			}
 			//si une liste d'id de machine existe,
 			//on va concat la requ�te avec les ID des machines

@@ -309,6 +309,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
  	//qui est contruit au fur et a mesure
 	$sql_search=array();
  	while ($table[$i]){
+ 		
  		//initialisation de la variable des requ�tes temporaires
  		$sql_temp="";
  		if ($field_compar[$i] == "" and substr($field_value[$i],0,4) != "ALL_")
@@ -502,7 +503,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 				
 			
 		}
-		
+
 		//gestion du champ compl�mentaire en fonction de la table
 		//si le champs compl�mentaire existe
 		if (isset($field_value_complement[$i]) and $field_value_complement[$i] != ""){
@@ -530,6 +531,8 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 						$ERROR= $l->g(5015).$table[$i];
 			}
 		}
+		
+		
 		if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 			msg_success($l->g(5016).$table[$i]."<br>".$l->g(5017).$field[$i]."<br>".$l->g(5018).$field_compar[$i]."<br>".$l->g(5019).$field_value[$i]."<br>".$l->g(5020).$field_value_complement[$i]."<br>".$l->g(5021).$field_and_or[$i]);
 		}
@@ -552,6 +555,10 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 		}else
 		$k="";
 		
+		if ($field_and_or[$i] == "AND")
+			$no_fusion=true;
+		
+		
 		//gestion du champ AND OR dans les requetes
 		if ($field_and_or[$i] == "" and $operation == "DIFF")
 			$field_and_or[$i]="OR";
@@ -559,14 +566,14 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 			$field_and_or[$i]="AND";
 					
 		if ($field_and_or[$i] == "AND")		
-		$field_and_or[$i]=" ) AND ( ";
+			$field_and_or[$i]=" ) AND ( ";
 		else
-		$field_and_or[$i]=" OR ";
-		
-		
+			$field_and_or[$i]=" OR ";
+
 		//gestion de la non fusion des requ�tes pour les tables d�finies
 		//si on n'est pas dans le cas de "AND/OR" (deux fois le m�me champ)
-		if (in_array ($table[$i], $tab_no_fusion) and ($field_and_or[$i] == "" or !isset($sql_seach[$operation][$table[$i]]))){
+		if (in_array ($table[$i], $tab_no_fusion) and ($field_and_or[$i] == "" or $no_fusion or !isset($sql_seach[$operation][$table[$i]]))){
+			unset($no_fusion);
 			$traitement=generate_sql($table[$i]);
 			$sql_seach[$operation][$table[$i]][$i]=$traitement['sql_temp']." ( ".$field[$i].$field_compar[$i].$field_value[$i].$field_value_complement[$i];
 			//si une requ�te interm�diaire a �t� jou�e
@@ -673,16 +680,19 @@ $list_id="";
 		 	$sql.=" AND ID IN (".$list_id_restraint.")";
 		 }
 		 $result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-		// echo $sql;
 		while($item = mysql_fetch_object($result))
 		$list_id[]=$item->ID;
 	 }else
 	 $list_id=$list_id_norm;
 	 $_SESSION['OCS']['ID_REQ']=$list_id;
-	// print_r($list_tables_request);
 	 $_SESSION['OCS']['list_tables_request'][$table_tabname]=$list_tables_request;
 	 //passage en SESSION des requ�tes pour les groupes dynamiques
 	 sql_group_cache($cache_sql);
+	 //
+	/* if (isset($where))
+	     $_SESSION['OCS']['WHERE_REQ']=$where;
+	 else
+	 	 unset($_SESSION['OCS']['WHERE_REQ']);*/
  }
  
  //Utilisation du cache pour �viter de rejouer la recherche
@@ -692,7 +702,6 @@ if (($protectedPost['Valid-search'] and $protectedPost['Valid'] == '')){
 	$list_id=$_SESSION['OCS']['ID_REQ'];
 	//r�cup�ration des tables touch�es par les requetes
 	$list_tables_request=$_SESSION['OCS']['list_tables_request'][$table_tabname];
-	
 }
 
 
@@ -730,8 +739,6 @@ if ($list_id != "")	{
 	$query_add_table="";
 	foreach ($list_tables_request as $table_name_4_field){
 			if ($lbl_fields_calcul[$table_name_4_field]){
-	//			if ($table_name_4_field == "REGISTRY")
-	//			$tab_options['AS']['NAME']="name_of_registry";
 				$list_fields=array_merge ($list_fields,$lbl_fields_calcul[$table_name_4_field]);
 				$query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";
 			}
@@ -746,8 +753,8 @@ if ($list_id != "")	{
 	$queryDetails .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
 	$queryDetails .= $query_add_table;
 	$queryDetails .= " where ";
-	$queryDetails .= "  h.deviceid <>'_SYSTEMGROUP_' AND h.deviceid <> '_DOWNLOADGROUP_' and  ";
-	$queryDetails .= " h.id in (".implode(', ',$list_id).") group by h.ID ";
+	$queryDetails .= "  h.deviceid <>'_SYSTEMGROUP_' AND h.deviceid <> '_DOWNLOADGROUP_' ";
+	$queryDetails .= " and h.id in (".implode(', ',$list_id).") group by h.ID ";
 
 	
 	ksort($list_fields);
