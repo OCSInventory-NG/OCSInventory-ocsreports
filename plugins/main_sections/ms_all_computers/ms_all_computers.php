@@ -30,8 +30,16 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	$form_name="show_all";
 	$table_name="list_show_all";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields = array ( $_SESSION['OCS']['TAG_LBL']['TAG']   => "a.tag", 
-						   $l->g(46) => "h.lastdate", 
+	//BEGIN SHOW ACCOUNTINFO
+	require_once('require/function_admininfo.php');
+	$accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
+	if (array($accountinfo_value['TAB_OPTIONS']))
+		$tab_options=$accountinfo_value['TAB_OPTIONS'];
+	if (array($accountinfo_value['DEFAULT_VALUE']))
+		$default_fields=$accountinfo_value['DEFAULT_VALUE'];
+	$list_fields=$accountinfo_value['LIST_FIELDS'];
+	//END SHOW ACCOUNTINFO
+	$list_fields2 = array ( $l->g(46) => "h.lastdate", 
 						   'NAME'=>'h.name',
 						   $l->g(949) => "h.ID",
 						   $l->g(24) => "h.userid",
@@ -58,30 +66,19 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 						   $l->g(209) => "e.bversion",
 						   $l->g(34) => "h.ipaddr",
 						   $l->g(557) => "h.userdomain");
+						   
+	$list_fields=array_merge ($list_fields,$list_fields2);
+	//asort($list_fields); 
 	$tab_options['FILTRE']=array_flip($list_fields);
 	$tab_options['FILTRE']['h.name']=$l->g(23);
 	asort($tab_options['FILTRE']); 
-	
-	//BEGIN SHOW ACCOUNTINFO
-	require_once('require/function_admininfo.php');
-	$info_tag=find_info_accountinfo('','COMPUTERS');
-	if (is_array($info_tag)){
-		foreach ($info_tag as $key=>$value){
-			$info_value_tag= accountinfo_tab($value['id']);		
-			if (is_array($info_value_tag)){
-				$tab_options['REPLACE_VALUE'][$value['comment']]=$info_value_tag;
-			}		
-			if ($value['name'] != 'TAG' and $info_value_tag)
-			$list_fields[$value['comment']]='a.fields_'.$value['id'];		
-		}
-	}
-	//END SHOW ACCOUNTINFO
 	$list_fields['SUP']='ID';
 	
 	$list_col_cant_del=array('SUP'=>'SUP');
-	$default_fields= array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
+	$default_fields2= array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
 							$l->g(24)=>$l->g(24),$l->g(25)=>$l->g(25),$l->g(568)=>$l->g(568),
 							$l->g(569)=>$l->g(569));
+	$default_fields=array_merge($default_fields,$default_fields2);
 	$sql=prepare_sql_tab($list_fields,array('SUP'));
 	$tab_options['ARG_SQL']=$sql['ARG'];
 	$queryDetails  = $sql['SQL']." from hardware h 
@@ -92,6 +89,7 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	//$queryDetails  .=" limit 200";
 	$tab_options['LBL_POPUP']['SUP']='name';
 	$tab_options['LBL']['SUP']=$l->g(122);
+
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
 	echo "</form>";
 

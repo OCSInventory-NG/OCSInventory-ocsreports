@@ -92,7 +92,7 @@ if (isset($_FILES['file_upload']['name'])){
 		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 		$sql="INSERT INTO deploy values ('%s','%s')";
 		$arg=array($fname,$binary);
-		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg,'requete foireuse');	
+		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 		msg_success($l->g(137)." ".$_FILES['file_upload']['name']." ".$l->g(234));
 		$tab_options['CACHE']='RESET';
 	}else{

@@ -416,6 +416,9 @@ function create_pack($sql_details,$info_details){
 		addLog($l->g(512), $l->g(617)." ".$sql_details['timestamp'] );
 		//info message
 		msg_success($l->g(437)." ".$sql_details['document_root'].$sql_details['timestamp']);
+		//delete cache for activation
+		unset($_SESSION['OCS']['DATA_CACHE']['LIST_PACK']);
+		unset($_SESSION['OCS']['NUM_ROW']['LIST_PACK']);	
 }
 
 function crypt_file($dir_FILES,$digest_algo,$digest_encod){

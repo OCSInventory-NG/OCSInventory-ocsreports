@@ -18,7 +18,7 @@ $SERIALnb_value_by_field=100;
 $SERIALsize=30;
 $SERIALfield_name='ADD_SERIAL_';
 $SERIALseparat="";
-$SERIALtable="blacklist_serial";
+$SERIALtable="blacklist_serials";
 $SERIALfield="SERIAL";
 
 
@@ -53,7 +53,7 @@ function add_serial_add($serial_value){
 	global $l,$SERIALnb_field,$SERIALnb_value_by_field,$SERIALfield_name,$SERIALseparat,$SERIALtable,$SERIALfield,$SERIALnb_field;
 	
 	$field_value=generate_value($serial_value,$SERIALfield_name,$SERIALseparat,$SERIALnb_field);
-	if (!$field_value)
+	if (!isset($field_value))
 		$field_value = '';
 	
 	insert_blacklist_table($SERIALtable,$SERIALfield,$field_value);
