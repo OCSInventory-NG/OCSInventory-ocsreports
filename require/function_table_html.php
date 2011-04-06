@@ -869,7 +869,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 			if (in_array($k,$_SESSION['OCS']['col_tab'][$tab_name])){
 				$data_with_filter['entete'][$k]=$v;	
 				if (!isset($list_col_cant_del[$k]))
-				$data_with_filter['entete'][$k].="<a href=# onclick='return pag(\"".$k."\",\"SUP_COL\",\"".$id_form."\");'><img src=image/supp.png></a>";
+				 $data_with_filter['entete'][$k].="<a href=# onclick='return pag(\"".xml_encode($k)."\",\"SUP_COL\",\"".$id_form."\");'><img src=image/supp.png></a>";
 			}	
 			else
 			$list_rest[$k]=$v;
@@ -1558,10 +1558,10 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
 						//$lien = 'KO';						
 					}
-					else{						
-						if ($tab_options['OTHER'][$key][$value_of_field]){
+					else{		
+						if (isset($tab_options['OTHER'][$key][$value_of_field])){
 							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=".$tab_options['OTHER']['IMG']."></a>";
-						}elseif ($tab_options['OTHER_BIS'][$key][$value_of_field]){
+						}elseif (isset($tab_options['OTHER_BIS'][$key][$value_of_field])){
 							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_BIS\",\"".$form_name."\");'><img src=".$tab_options['OTHER_BIS']['IMG']."></a>";
 						}else{
 							$end="";

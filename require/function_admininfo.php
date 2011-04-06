@@ -517,6 +517,25 @@ function find_value_in_field($tag,$value_2_find,$type='COMPUTERS'){
 	
 }
 
-
+function interprete_accountinfo($list_fields,$tab_options){
+	global $l;
+	$info_tag=find_info_accountinfo('','COMPUTERS');
+	if (is_array($info_tag)){
+		foreach ($info_tag as $key=>$value){
+			$value['comment']=$l->g(1210)." ".$value['comment'];
+			$info_value_tag= accountinfo_tab($value['id']);		
+			if (is_array($info_value_tag)){
+				$tab_options['REPLACE_VALUE'][$value['comment']]=$info_value_tag;
+			}		
+			if ($value['name'] != 'TAG' and $info_value_tag)
+				$list_fields[$value['comment']]='a.fields_'.$value['id'];	
+			elseif ($value['name'] == 'TAG'){
+				$list_fields[$value['comment']]='a.TAG';		
+				$default_value[$value['comment']]=$value['comment'];
+			}
+		}
+	}
+	return array('TAB_OPTIONS'=>$tab_options,'LIST_FIELDS'=>$list_fields,'DEFAULT_VALUE'=>$default_value);
+}
 
 ?>
