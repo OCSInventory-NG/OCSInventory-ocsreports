@@ -1060,7 +1060,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					$arg=array();
 				else
 					$arg=$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key];
-					
 				if ($table_name == "TAB_MULTICRITERE"){
 					$sql.=" and hardware_id in (".implode(',',$_SESSION['OCS']['ID_REQ']).") group by hardware_id ";
 					//ajout du group by pour r�gler le probl�me des r�sultats multiples sur une requete
@@ -1097,6 +1096,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					}
 				}
 			}
+			
 			if (isset($tab_options['REPLACE_VALUE_ALL_TIME']))
 				$_SESSION['OCS']['REPLACE_VALUE_ALL_TIME']=$tab_options['REPLACE_VALUE_ALL_TIME'];
 		}
@@ -1221,9 +1221,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 								else
 								$sql_data[$index][$value]=$tab_options['VALUE'][$key][$champs_index];
 							}
-							//echo $sql_data[$index][$value]."<br>";
+							
 						}
-					//	print_r($sql_data);
+				
 					}			
 					//ajout des valeurs statiques
 						foreach ($list_fields as $key=>$value){
@@ -1372,8 +1372,12 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$lien='KO';	
 				else
 					$lien='OK';
+
 				if (isset($tab_options['REPLACE_VALUE_ALL_TIME'][$key])){
-					$value_of_field=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$donnees['ID']];					
+					if (isset($tab_options['FIELD_REPLACE_VALUE_ALL_TIME']))
+						$value_of_field=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$donnees[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
+					else
+						$value_of_field=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$donnees['ID']];					
 				}
 				
 				
