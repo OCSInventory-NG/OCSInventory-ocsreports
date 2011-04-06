@@ -37,7 +37,6 @@ require_once('require/fichierConf.class.php');
 require_once('require/function_commun.php');
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
-include('dbconfig.inc.php');
 
 
 
@@ -59,6 +58,7 @@ if( (!$fconf=@fopen("dbconfig.inc.php","r"))
 	die();
 }
 else{	
+	require_once('dbconfig.inc.php');
 	fclose($fconf);
 }
 
