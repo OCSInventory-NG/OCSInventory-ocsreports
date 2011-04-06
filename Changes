@@ -1,12 +1,13 @@
 Revision history for ocsreports 
 
 2.0
-		* update italian file //tx to Passero
+		* fix bug on search with calendar http://forums.ocsinventory-ng.org/viewtopic.php?id=7980
 		* fix bug Bug #744241 (add accountinfo on duplicates screen)
 		* fix bug on wk of telediff => you can affect a package only if IT_SET_NIV_% are ok
 		* fix bug on computer details => if serial number == 0 you can blacklist it.
 		* fix bug on blacklist serial => you can add new serial to blacklist
 		* add accountinfo on groups show
+		* update italian file //tx to Passero
 
 2.0 rc3
 		* active cache mode on GUI
