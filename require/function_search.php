@@ -240,6 +240,7 @@ function jockers_trait($field_value){
 
 //fonction pour traiter les recherches sur les dates
 function compair_with_date($field,$field_value){
+	global $l;
 		//modification d'un champ texte en date dans certains cas
  		if ($field == "LASTDATE" or $field == "LASTCOME" or $field == "REGVALUE"){
  			$tab_date = explode('/', $field_value);
@@ -247,7 +248,11 @@ function compair_with_date($field,$field_value){
  			if (@checkdate ($tab_date[1],$tab_date[0],$tab_date[2])){
  				$field= " unix_timestamp(".$field.") ";
 				$tab_date = explode('/', $field_value);
-				$field_value= mktime (0,0,0,$tab_date[1],$tab_date[0],$tab_date[2]);
+				$ref_date = explode('/', $l->g(1242));
+				$day=array_search('d',$ref_date);
+				$months=array_search('m',$ref_date);
+				$year=array_search('y',$ref_date);
+				$field_value= mktime (0,0,0,$tab_date[$months],$tab_date[$day],$tab_date[$year]);
  			}
  		}
  		return array('field'=>$field,'field_value'=>$field_value);
@@ -327,7 +332,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	if( array_key_exists($value,$optSelectField)){		
 		echo "<td>".$select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' class='down' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;";
 		if ($optSelectField[$value."-LBL"] == "calendar")
-		echo calendars("InputValue-".$nameField,"DDMMYYYY");
+		echo calendars("InputValue-".$nameField,$l->g(1270));
 		echo "</td></tr>";
 		//echo $value."-LBL".$id_field;
 		
@@ -369,7 +374,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		echo "<td>".$select2;
 		if (array_key_exists($value,$opt2SelectField)){
 			if ($opt2SelectField[$value."-LBL"] == "calendar")
-			$opt2SelectField[$value."-LBL"]= calendars("InputValue-".$nameField,"DDMMYYYY");
+			$opt2SelectField[$value."-LBL"]= calendars("InputValue-".$nameField,$l->g(1270));
 			echo $select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;".$opt2SelectField[$value."-LBL"];
 		}
 		echo "</td></tr>";
