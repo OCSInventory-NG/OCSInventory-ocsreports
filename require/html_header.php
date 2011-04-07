@@ -114,9 +114,13 @@ echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td ali
 }
 
 if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
+	if (!isset($_SERVER['PHP_AUTH_USER'])){
 		echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>";
 		echo "<img src='image/deconnexion.png' title='".$l->g(251)."' alt='".$l->g(251)."'>";
 		echo "</a>";
+	}else{
+		echo "<br>";
+	}
 		if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
 			echo "<a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'>";
 			echo "<img src='image/cadena_op.png' title='".$l->g(891)."' alt='".$l->g(891)."' >";
