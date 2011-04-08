@@ -176,13 +176,13 @@ sub run {
         $config->{config}{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
         $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
         $accountconfig->set('DEVICEID',$config->{config}{deviceid});
-        $accountconfig->write();
     }
 
     my $accountinfo = new Ocsinventory::Agent::AccountInfo({
             logger => $logger,
             # TODOparams => $params,
             config => $config->{config},
+            common => $common,
         });
 
 	# --lazy
@@ -194,18 +194,6 @@ sub run {
             exit 0;
         }
     }
-
-
-    if ($config->{config}{tag}) {
-        if ($accountinfo->get("TAG")) {
-            $logger->debug("A TAG seems to already exist in the server for this ".
-                "machine. The -t paramter may be ignored by the server unless it ".
-                "has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
-        }
-        $accountinfo->set("TAG",$config->{config}{tag});
-    }
-
-
 
     if ($config->{config}{daemon}) {
 
@@ -231,11 +219,7 @@ sub run {
 ################# Now we can create a context hash #########################################################
 
     my $context = {
-      #logpath => $config->{logdir}."modexec.log",
-      #serveruri => $ocsAgentServerUri,
       installpath => $config->{config}->{vardir},
-      #debuglvl => $::debug,
-      #exepath => $Bin,
       servername => $config->{config}->{server},
       authuser => $config->{config}->{user},
       authpwd => $config->{config}->{password},
@@ -247,7 +231,6 @@ sub run {
       accountinfo => $accountinfo,
       logger => $logger,
       common => $common,
-      #backend => $backend,
       #OCS_AGENT_CMDL => "TOTO", # TODO cmd line parameter changed with the unified agent
     };
 
@@ -306,8 +289,6 @@ sub run {
             } elsif ($config->{config}{local}) {
                 $inventory->writeXML();
             }
-
-
         } 
         else { 
 
@@ -329,9 +310,7 @@ sub run {
 
             if (!$config->{config}{force}) {
                 my $prolog = new Ocsinventory::Agent::XML::Prolog({
-                       accountinfo => $accountinfo,
-                       logger => $logger,
-                       config => $config->{config},
+                       context => $context,
                 });
 
                 #Using prolog_writer hook
@@ -399,9 +378,7 @@ sub run {
                  #Sending Inventory
                  $httpresp = $network->sendXML({message => $inventoryXML}); 
                  if (my $invresp = $network->getXMLResp($httpresp,'Inventory')) {
-                     #if ($response->isAccountUpdated()) {
                      $inventory->saveLastState();
-                     #}
                  } else {
                      exit (1) unless $config->{config}{daemon};
                  }

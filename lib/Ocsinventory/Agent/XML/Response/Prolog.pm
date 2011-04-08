@@ -20,7 +20,7 @@ sub new {
 sub isInventoryAsked {
     my $self = shift;
 
-    my $parsedContent = $self->getParsedContent();
+    my $parsedContent = $self->getParsedContent(['OPTION','PARAM']);
     if ($parsedContent && exists ($parsedContent->{RESPONSE}) && $parsedContent->{RESPONSE} =~ /^SEND$/) {
 	return 1;
     }
@@ -31,7 +31,7 @@ sub isInventoryAsked {
 sub getOptionsInfoByName {
     my ($self, $name) = @_;
 
-    my $parsedContent = $self->getParsedContent();
+    my $parsedContent = $self->getParsedContent(['OPTION','PARAM']);
 
     my $ret = [];
     return unless ($parsedContent && $parsedContent->{OPTION});
@@ -46,7 +46,7 @@ sub getOptionsInfoByName {
 
 sub updatePrologFreq {
     my $self = shift;
-    my $parsedContent = $self->getParsedContent();
+    my $parsedContent = $self->getParsedContent(['OPTION','PARAM']);
      my $logger = $self->{logger};
     if ($parsedContent && exists ($parsedContent->{PROLOG_FREQ})) {
         if( $parsedContent->{PROLOG_FREQ} ne $self->{accountconfig}->get("PROLOG_FREQ")){
@@ -71,7 +71,7 @@ sub saveNextTime {
 	return;
     }
 
-    my $parsedContent = $self->getParsedContent();
+    my $parsedContent = $self->getParsedContent(['OPTION','PARAM']);
 
     if (!open NEXT_TIME, ">".$self->{config}->{next_timefile}) {
         $logger->error ("Cannot create the next_timefile `".$self->{config}->{next_timefile}."': $!");

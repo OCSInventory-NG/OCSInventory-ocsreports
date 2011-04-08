@@ -10,30 +10,11 @@ sub new {
     my $this = $class->SUPER::new(@params);
     bless ($this, $class);
 
-    my $parsedContent = $this->getParsedContent();
+    my $parsedContent = $this->getParsedContent(['ACCOUNTINFO']);
     if ($parsedContent && exists ($parsedContent->{RESPONSE}) && $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
-      $this->updateAccountInfo();
+      $this->{accountinfo}->writeAccountInfoFile($parsedContent->{ACCOUNTINFO});
     }
     return $this;
 }
 
-sub isAccountUpdated {
-    my $self = shift;
-
-    my $parsedContent = $self->getParsedContent();
-    if ($parsedContent && exists ($parsedContent->{RESPONSE}) && $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
-	return 1;
-    }
-
-    0
-
-}
-
-sub updateAccountInfo {
-    my $self = shift;
-
-    my $parsedContent = $self->getParsedContent();
-
-    $self->{accountinfo}->reSetAll($parsedContent->{ACCOUNTINFO});
-}
 1;

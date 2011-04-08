@@ -11,6 +11,7 @@ sub new {
 
     $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};
+    $self->{common} = $params->{common};
 
     my $logger = $self->{logger} = $params->{logger};
 
@@ -20,17 +21,15 @@ sub new {
         $logger->debug ('Accountinfo file: '. $self->{config}->{accountinfofile});
         if (! -f $self->{config}->{accountinfofile}) {
             $logger->info ("Accountinfo file doesn't exist. I create an empty one.");
-            $self->write();
+            $self->writeAccountInfoFile();
         } else {
 
             my $xmladm;
 
             eval {
-                $xmladm = XML::Simple::XMLin(
-                    $self->{config}->{accountinfofile},
-                    ForceArray => [ 'ACCOUNTINFO' ]
-                );
+                $xmladm = $self->{common}->readXml($self->{config}->{accountinfofile}, [ 'ACCOUNTINFO' ]);
             };
+
 
             if ($xmladm && exists($xmladm->{ACCOUNTINFO})) {
                 # Store the XML content in a local HASH
@@ -42,95 +41,79 @@ sub new {
                 }
             }
         }
-    } else { $logger->debug("No accountinfo file defined") }
-
-    $self;
-}
-
-sub get {
-    my ($self, $keyname) = @_;
-
-    return $self->{accountinfo}{$keyname} if $keyname;
-}
-
-sub getAll {
-    my ($self, $name) = @_;
-
-    return $self->{accountinfo};
-}
-
-sub set {
-    my ($self, $name, $value) = @_;
-
-    return unless defined ($name) && defined ($value);
-    return unless $name && $value;
-
-    $self->{accountinfo}->{$name} = $value;
-    $self->write();
-}
-
-sub reSetAll {
-    my ($self, $ref) = @_;
-
-    my $logger = $self->{logger};
-
-    undef $self->{accountinfo};
-
-    if (ref ($ref) =~ /^ARRAY$/) {
-        foreach (@$ref) {
-            $self->set($_->{KEYNAME}, $_->{KEYVALUE});
-        }
-    } elsif (ref ($ref) =~ /^HASH$/) {
-        $self->set($ref->{'KEYNAME'}, $ref->{'KEYVALUE'});
-    } else {
-        $logger->debug ("reSetAll, invalid parameter");
+    } else { 
+      $logger->debug("No accountinfo file defined");
     }
+
+    if ($self->{config}->{tag}) {
+        if ($self->{accountinfo}->{TAG}) {
+            $logger->debug("A TAG seems to already exist in the ocsinv.adm file. ".
+                "The -t paramter will be ignored. Don't forget that the TAG value ".
+                "will ignored by the server unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
+        } else {
+          $self->{accountinfo}->{TAG} = $self->{config}->{tag};
+        }
+    }
+  $self; #Because we have already blessed the object 
 }
 
 # Add accountinfo stuff to an inventory
 sub setAccountInfo {
     my $self = shift;
-    my $inventary = shift;
+    my $inventory = shift;
 
-    my $ai = $self->getAll();
+    #my $ai = $self->getAll();
     $self->{xmlroot}{'CONTENT'}{ACCOUNTINFO} = [];
 
+    my $ai = $self->{accountinfo};
     return unless $ai;
 
     foreach (keys %$ai) {
-        push @{$inventary->{xmlroot}{'CONTENT'}{ACCOUNTINFO}}, {
+
+    push @{$inventory->{xmlroot}{'CONTENT'}{ACCOUNTINFO}}, {
             KEYNAME => [$_],
             KEYVALUE => [$ai->{$_}],
         };
     }
 }
 
-
-sub write {
-    my ($self, $args) = @_;
+sub writeAccountInfoFile {
+    my ($self, $ref) = @_;
 
     my $logger = $self->{logger};
 
-    my $tmp;
-    $tmp->{ACCOUNTINFO} = [];
+    my $content;
+    $content->{ACCOUNTINFO} = [];
 
+    #We clear accountinfo to store the new one 
+    undef $self->{accountinfo};
+
+    #We get values sent by server
+    if (ref ($ref) =~ /^ARRAY$/) {
+        foreach (@$ref) {
+            $self->{accountinfo}->{$_->{KEYNAME}} = $_->{KEYVALUE} if defined ($_->{KEYNAME}) && defined ($_->{KEYVALUE});
+        }
+    } elsif (ref ($ref) =~ /^HASH$/) {
+        $self->{accountinfo}->{$ref->{KEYNAME}} = $ref->{KEYVALUE} if defined ($ref->{KEYNAME}) && defined ($ref->{KEYVALUE});
+    } else {
+        $logger->debug ("Invalid parameter while writing accountinfo file");
+    }
+
+    #We feed our XML for accountinfo file
     foreach (keys %{$self->{accountinfo}}) {
-        push @{$tmp->{ACCOUNTINFO}}, {KEYNAME => [$_], KEYVALUE =>
+        push @{$content->{ACCOUNTINFO}}, {KEYNAME => [$_], KEYVALUE =>
             [$self->{accountinfo}{$_}]}; 
     }
 
-    my $xml=XML::Simple::XMLout( $tmp, RootName => 'ADM' );
+    my $xml=XML::Simple::XMLout($content, RootName => 'ADM', XMLDecl=> '<?xml version="1.0" encoding="UTF-8"?>');
 
+    #We write accountinfo file
     my $fault;
     if (!open ADM, ">".$self->{config}->{accountinfofile}) {
-
         $fault = 1;
-
     } else {
-
         print ADM $xml;
         $fault = 1 unless close ADM;
-
     }
 
     if (!$fault) {

@@ -3,9 +3,9 @@ package Ocsinventory::Agent::XML::Response;
 use strict;
 use warnings;
 
+use XML::Simple;
 use Data::Dumper;
 
-use XML::Simple;
 sub new {
     my (undef, $params) = @_;
 
@@ -15,6 +15,7 @@ sub new {
     $self->{accountinfo} = $params->{accountinfo};
     $self->{content}  = $params->{content};
     $self->{config} = $params->{config};
+    $self->{common} = $params->{common};
     my $logger = $self->{logger}  = $params->{logger};
     $self->{origmsg}  = $params->{origmsg};
 
@@ -31,15 +32,13 @@ sub getRawXML {
     my $self = shift;
 
     return $self->{content};
-
 }
 
 sub getParsedContent {
-    my $self = shift;
+    my ($self,$forcearray) = @_;
 
     if(!$self->{parsedcontent}) {
-	$self->{parsedcontent} = XML::Simple::XMLin( $self->{content}, ForceArray => ['OPTION','PARAM'] );
-	# print Dumper($self->{parsedcontent});
+	$self->{parsedcontent} = $self->{common}->readXml($self->{content},$forcearray);
     }
 
     return $self->{parsedcontent};

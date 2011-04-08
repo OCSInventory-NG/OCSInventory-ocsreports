@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+       * Complety clean the disastrous treatments of accountinfos while receiving it from server,storing it in file and adding it in inventory
+       * Fix UTF8 problems due to XML::Simple::XMLIn()
+
 2.0 rc3
        * Fix Bug #720635 about lspci usage on old Linux distributions
        * Fix Bug #720626 about Gentoo packages with hyphen in their names

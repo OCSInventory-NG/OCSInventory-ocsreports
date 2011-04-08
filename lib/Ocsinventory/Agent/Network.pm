@@ -9,7 +9,6 @@ use Socket;
 
 use Ocsinventory::Compress;
 
-
 sub new {
   my (undef, $params) = @_;
 
@@ -70,6 +69,8 @@ sub sendXML {
   my $compress = $self->{compress};
   my $message = $args->{message};
 
+  my $common = $self->{common};
+
   my $req = HTTP::Request->new(POST => $self->{URI});
 
   $req->header('Pragma' => 'no-cache', 'Content-type',
@@ -112,7 +113,7 @@ sub getXMLResp {
 
   #Reading the XML response from OCS server
   my $content = $compress->uncompress($res->content);
- 
+
   if (!$content) {
     $logger->error ("Deflating problem");
     return;
@@ -130,7 +131,8 @@ sub getXMLResp {
      content => $content,
      logger => $logger,
      #origmsg => $message,
-     config => $self->{config}
+     config => $self->{config},
+     common => $self->{common},
 
   });
 

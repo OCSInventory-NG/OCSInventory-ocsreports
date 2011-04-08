@@ -1085,6 +1085,8 @@ sub padSnmpMacAddress {
 sub cleanXml {
   my ($self,$content) = @_;
 
+  my $logger = $self->{logger};
+
   my $clean_content;
 
   # To avoid strange breakage I remove the unprintable characters in the XML
@@ -1110,6 +1112,44 @@ sub cleanXml {
 
   return $clean_content;
 }
+
+#Subroutine to read XML structure (returned by XML::Simple::XMLin) and encode content in utf8.
+sub readXml {
+  my ($self, $xml, $forcearray) = @_;
+
+  my $logger = $self->{logger};
+  my $content = XML::Simple::XMLin($xml, ForceArray => [@{$forcearray}]);
+
+  foreach my $key (keys %$content) {
+    if (grep(/^$key$/, @{$forcearray})) {  #Forced array in XML parsing
+      $self->parseXmlArray($content->{$key},$forcearray);
+    }
+    else {  #Not a forced array in XML parsing
+       if (ref ($content->{$key}) =~ /^HASH$/ && !keys %{$content->{$key}}) {  # If empty hash from XMLin()
+         $content->{$key} = '';
+       } else { utf8::encode($content->{$key}) }; 
+    }
+  }
+  return $content;
+}
+
+#Subroutine to parse array in XML structure (returned by XML::Simple::XMLin) and encode it in utf8
+sub parseXmlArray {
+  my ($self,$array,$forcearray) = @_;
+
+  foreach my $hash (@{$array}) {
+    foreach my $key (keys %$hash) {
+      if ( grep (/^$key$/,@$forcearray)) {  #Forced array in XML parsing
+        $self->parseXmlArray($hash->{$key},$forcearray);    
+      } else {  #Not a forced array in XML parsing
+          if (ref ($hash->{$key}) =~ /^HASH$/ && !keys %{$hash->{$key}}) {  # If empty hash from XMLin()
+            $hash->{$key} = ''; 
+          } else { utf8::encode($hash->{$key}) };
+      }
+    }
+  }
+}
+
 
 #Subroutine to convert versions to numbers (with icutting or right padding if needed)
 # We create it because Perl 5.8 does not include version comparison modules or functions
