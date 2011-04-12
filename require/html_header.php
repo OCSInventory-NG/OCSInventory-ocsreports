@@ -25,7 +25,7 @@ if( !isset($protectedGet["popup"] )) {
 echo "<table  border='0' class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
 echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
- 	<Td align='left'><a href='index.php?first'><img src='image/logo OCS-ng-48.png'></a></Td></tr></table></td><td width= 100%>";
+ 	<Td align='left'><a href='index.php?first'><img src='image/logo OCS-ng-48.png' width=96></a></Td></tr></table></td><td width= 100%>";
  	
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
 /**************************************************   ALERT MESSAGES ********************************************************/

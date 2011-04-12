@@ -137,7 +137,7 @@ if (isset($add_colum_accountinfo) or isset($add_lign_accountinfo_config) or isse
 		}
 		echo "</div>";
 }else
-echo "<font size=4 color=blue>YOUR BASE IS A DAY.<br>NO ACTION TAKEN</font>";
+echo "<font size=4 color=blue>YOUR DATABASE IS OK.<br>NO ACTION TAKEN</font>";
 /*ALTER TABLE accountinfo CHANGE fields_86 lettre_commande  varchar(255);
 ALTER TABLE accountinfo CHANGE fields_87 date_commande  varchar(10);
 ALTER TABLE accountinfo CHANGE fields_88 fichier_commande  blob;
