@@ -1,6 +1,7 @@
 Revision history for ocsreports 
 
-2.0
+2.0 rc4
+		* fix bug on groups message (console)
 		* fix problem with tags value (if you customised your identification)
 		* if SSO connexion, don't show deconnect button
 		* fix bug on search with calendar http://forums.ocsinventory-ng.org/viewtopic.php?id=7980

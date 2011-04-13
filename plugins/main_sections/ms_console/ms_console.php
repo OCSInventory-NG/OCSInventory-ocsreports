@@ -97,18 +97,19 @@ if ($data_tab['DATA'] != array()){
 					}
 		
 			$table_name=$protectedPost['onglet'];
-			$list_fields=array('NAME'=>'h.NAME', 
+			$list_fields=array('GROUP_NAME'=>'h.NAME', 
 							   $l->g(915) => 'tvalue',
 							   'SUP'=>'CNAME');
 
 			$sql=prepare_sql_tab($list_fields,array('SUP'));
 			$list_col_cant_del=$list_fields;
 			$default_fields= $list_fields;
-			$sql['SQL']  = $sql['SQL'].",c.name as CNAME FROM %s WHERE (c.name like '%s')";
+			$sql['SQL']  = $sql['SQL'].",c.name as CNAME,ID FROM %s WHERE (c.name like '%s')";
 			$sql['ARG'][]='config c left join hardware h on c.ivalue=h.id';
 			$sql['ARG'][]='GUI_REPORT_MSG%';
 			$tab_options['ARG_SQL']=$sql['ARG'];
 			$tab_options['LBL_POPUP']['SUP']=$l->g(919);
+			$tab_options['LBL']['GROUP_NAME']=$l->g(49);
 			tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);		
 			echo "<input type='submit' name='NEW' id='NEW' value='".$l->g(617)."' align=center>";
 			if ($protectedPost["NEW"]){
