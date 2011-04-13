@@ -12,9 +12,17 @@
 
 
 require_once('require/function_opt_param.php');
+//BEGIN SHOW ACCOUNTINFO
+require_once('require/function_admininfo.php');
+$accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
+if (array($accountinfo_value['TAB_OPTIONS']))
+	$tab_options=$accountinfo_value['TAB_OPTIONS'];
+if (array($accountinfo_value['DEFAULT_VALUE']))
+	$default_fields=$accountinfo_value['DEFAULT_VALUE'];
+$list_fields=$accountinfo_value['LIST_FIELDS'];
+//END SHOW ACCOUNTINFO
 
-$list_fields=array($_SESSION['OCS']['TAG_LBL']['TAG'] => 'a.TAG',
-					   $l->g(949) => 'h.ID',
+$list_fields2=array(  $l->g(949) => 'h.ID',
 					   'DEVICEID' => 'h.DEVICEID',
 					   'NAME' => 'h.NAME',
 					   $l->g(25)  => 'h.OSNAME',
@@ -32,10 +40,10 @@ $list_fields=array($_SESSION['OCS']['TAG_LBL']['TAG'] => 'a.TAG',
 					   $l->g(53) => 'h.DESCRIPTION',
 					   $l->g(34) =>'h.IPADDR',
 					   'CHECK'=>'h.ID');
-
+$list_fields=array_merge ($list_fields,$list_fields2);
 $list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
-$default_fields= array('NAME'=>'NAME',$_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL']['TAG'],
-							$l->g(46)=>$l->g(46),$l->g(820)=>$l->g(820),$l->g(34)=>$l->g(34));
+$default_fields2= array('NAME'=>'NAME',$l->g(46)=>$l->g(46),$l->g(820)=>$l->g(820),$l->g(34)=>$l->g(34));
+$default_fields=array_merge ($default_fields,$default_fields2);
 
 if (isset($protectedGet['systemid'])) {
 	$systemid = $protectedGet['systemid'];
@@ -151,24 +159,27 @@ else{ //only show the botton for modify
 echo "<form name='CHANGE' action='' method='POST'>";
 echo "<br><br><table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
 
-//pour l'utilisation du workflow de télédiff
+//TELEDIFF_WK
+//use teledeploy workflow?
 require_once('require/function_telediff_wk.php');
-$conf_Wk=look_config_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
-									   'IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
-									   'IT_SET_NIV_TEST','IT_SET_NIV_REST'));
-//configuration sur le groupe
-if ($conf_Wk['ivalue']['IT_SET_PERIM'] != 1){
-	$mes_wk="";
-	if ($conf_Wk['tvalue']['IT_SET_NAME_TEST']==$name)
-	$mes_wk=$l->g(1188);
-	if ($conf_Wk['tvalue']['IT_SET_NAME_LIMIT']==$name)
-	$mes_wk.="<br>".$l->g(1189);
+$activate=option_conf_activate('TELEDIFF_WK');
+if ($activate){
+	$conf_Wk=look_config_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
+										   'IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
+										   'IT_SET_NIV_TEST','IT_SET_NIV_REST'));
+	//configuration sur le groupe
+	if ($conf_Wk['ivalue']['IT_SET_PERIM'] != 1){
+		$mes_wk="";
+		if ($conf_Wk['tvalue']['IT_SET_NAME_TEST']==$name)
+		$mes_wk=$l->g(1188);
+		if ($conf_Wk['tvalue']['IT_SET_NAME_LIMIT']==$name)
+		$mes_wk.="<br>".$l->g(1189);
+	}
+	
+	if ($mes_wk != ''){
+		msg_info($l->g(1047).": ".$mes_wk);	
+	}
 }
-
-if ($mes_wk != ''){
-	msg_info($l->g(1047).": ".$mes_wk);	
-}
-
 
 
 echo "<tr>".$tdhd.$l->g(577).$tdhf.$tdhdpb.$name.$tdhfpb;
@@ -319,7 +330,7 @@ function regeneration_sql($valGroup){
 
 function print_computers_real($systemid) {
 
-	global $l,$list_fields,$list_col_cant_del,$default_fields;
+	global $l,$list_fields,$list_col_cant_del,$default_fields,$tab_options;
 	
 	//groupe nouvelle version
 	$sql_group="SELECT xmldef FROM groups WHERE hardware_id='%s'";
@@ -377,7 +388,7 @@ function print_computers_real($systemid) {
 
 function print_computers_cached($systemid) {
 
-	global $l,$server_group,$protectedPost,$list_fields,$list_col_cant_del,$default_fields;
+	global $l,$server_group,$protectedPost,$list_fields,$list_col_cant_del,$default_fields,$tab_options;
 	//print_r($protectedPost);
 	//traitement des machines du groupe
 	if( isset($protectedPost["actshowgroup"])) {
@@ -421,6 +432,7 @@ function print_computers_cached($systemid) {
 						where group_id='".$systemid."' and h.id=e.HARDWARE_ID ";
 	if(isset($mesmachines) and $mesmachines != '')
 	$queryDetails  .= $mesmachines;
+	
 	$tab_options['FILTRE']=array('h.NAME'=>'Nom');
 	$statut=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
 	if ($statut){

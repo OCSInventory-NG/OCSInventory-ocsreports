@@ -221,6 +221,7 @@ foreach($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key=>$value){
 	
 $tab_options['FILTRE']=array('FILEID'=>'Timestamp','NAME'=>$l->g(49));
 $tab_options['TYPE']['ZIP']=$protectedPost['SHOW_SELECT'];
+$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']='FILEID';
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack['SQL'],$form_name,95,$tab_options); 
 //only for profils who can activate packet
 if (!$cant_active){		

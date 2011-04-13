@@ -64,6 +64,12 @@ echo "<script language='javascript'>
      }
           
 </script>";
+
+$umf = "upload_max_filesize";
+$valTumf = ini_get( $umf );
+//echo $valTumf;
+$valBumf = return_bytes( $valTumf );
+
 $form_name="upload_client";
 /*if( $valBumf>$valBpms )
 	$MaxAvail = trim($valTpms,"m");
@@ -73,21 +79,25 @@ echo "<br><center><font color=orange><b>" . $l->g(2040) . " " . $MaxAvail . $l->
 */
 $table_name=$form_name;
 if (isset($_FILES['file_upload']['name'])){
-	$fname=$_FILES['file_upload']['name'];
-	$platform="windows";	
-	$filename = $_FILES['file_upload']['tmp_name'];
-	$fd = fopen($filename, "r");
-	$contents = fread($fd, filesize ($filename));
-	fclose($fd);		
-	$binary = $contents;
-	$sql="DELETE FROM deploy where name='%s'";
-	$arg=$fname;
-	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
-	$sql="INSERT INTO deploy values ('%s','%s')";
-	$arg=array($fname,$binary);
-	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
-	msg_success($l->g(137)." ".$_FILES['file_upload']['name']." ".$l->g(234));
-	$tab_options['CACHE']='RESET';
+	if ($_FILES['file_upload']['size'] != 0){
+		$fname=$_FILES['file_upload']['name'];
+		$platform="windows";	
+		$filename = $_FILES['file_upload']['tmp_name'];
+		$fd = fopen($filename, "r");
+		$contents = fread($fd, filesize ($filename));
+		fclose($fd);		
+		$binary = $contents;
+		$sql="DELETE FROM deploy where name='%s'";
+		$arg=$fname;
+		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+		$sql="INSERT INTO deploy values ('%s','%s')";
+		$arg=array($fname,$binary);
+		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+		msg_success($l->g(137)." ".$_FILES['file_upload']['name']." ".$l->g(234));
+		$tab_options['CACHE']='RESET';
+	}else{
+		msg_error($l->g(920));
+	}
 }
 
 if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
@@ -121,10 +131,6 @@ if (!isset($protectedPost['ADD_FILE'])){
 if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
 	$css="mvt_bordure";
 	$form_name1="SEND_FILE";
-	$umf = "upload_max_filesize";
-	$valTumf = ini_get( $umf );
-	//echo $valTumf;
-	$valBumf = return_bytes( $valTumf );
 
 
 	msg_info($l->g(2022).' '.$valBumf.$l->g(1240));

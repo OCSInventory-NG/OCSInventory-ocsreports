@@ -1152,6 +1152,7 @@
 1267 Tipo Virtual Machine
 1268 Uuid
 1269 Virtual Machine ospitata su
+1270 DDMMYYYY
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1174,7 +1175,7 @@
 2017 usando
 2018 importati
 2019 importati in precedenza
-2020 Il file install.php è ancora presente nella directory di OCS-NG.<br>Per motivi di sicurezza, eliminalo.
+2020 Il file install.php è ancora presente nella directory di OCS-NG.
 2021 Non posso scrivere nella directory dei log
 2022 Non puoi inviare un file di dimensioni superiori a
 2023 Cancellalo

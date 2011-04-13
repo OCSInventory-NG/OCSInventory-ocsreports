@@ -869,7 +869,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 			if (in_array($k,$_SESSION['OCS']['col_tab'][$tab_name])){
 				$data_with_filter['entete'][$k]=$v;	
 				if (!isset($list_col_cant_del[$k]))
-				$data_with_filter['entete'][$k].="<a href=# onclick='return pag(\"".$k."\",\"SUP_COL\",\"".$id_form."\");'><img src=image/supp.png></a>";
+				 $data_with_filter['entete'][$k].="<a href=# onclick='return pag(\"".xml_encode($k)."\",\"SUP_COL\",\"".$id_form."\");'><img src=image/supp.png></a>";
 			}	
 			else
 			$list_rest[$k]=$v;
@@ -1034,14 +1034,16 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		
 		
 	if (isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]]) and isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
-		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			msg_info($l->g(5005));
+			if ($_SESSION['OCS']['DEBUG'] == 'ON')
+				msg_info($l->g(5005));
 	 		$var_limit=$limit["BEGIN"];
 	 		while ($var_limit<=$limit["END"]){
 	 			$sql_data[$var_limit]=$_SESSION['OCS']['DATA_CACHE'][$table_name][$var_limit];
 	 			$var_limit++;
 	 		}
 			$num_rows_result=$_SESSION['OCS']['NUM_ROW'][$table_name];
+			if (isset($_SESSION['OCS']['REPLACE_VALUE_ALL_TIME']))
+				$tab_options['REPLACE_VALUE_ALL_TIME']=$_SESSION['OCS']['REPLACE_VALUE_ALL_TIME'];
 			$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name);
 			$data=$result_data['DATA'];
 			
@@ -1051,7 +1053,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$i=1;		
 	}else
 	{
-
 		//search static values
 		if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name])){
 			foreach ($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name] as $key=>$sql){
@@ -1059,24 +1060,21 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					$arg=array();
 				else
 					$arg=$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key];
-					
 				if ($table_name == "TAB_MULTICRITERE"){
-					$sql.=" and hardware_id in ";
-					$sql=mysql2_prepare($sql,$arg,$_SESSION['OCS']['ID_REQ']);
+					$sql.=" and hardware_id in (".implode(',',$_SESSION['OCS']['ID_REQ']).") group by hardware_id ";
 					//ajout du group by pour r�gler le probl�me des r�sultats multiples sur une requete
 					//on affiche juste le premier crit�re qui match
-					$sql=$sql['SQL'] . " group by hardware_id ";
+					$result = mysql_query($sql, $_SESSION['OCS']["readServer"]);
+				}else{			
+					
+					//add sort on column if need it
+					if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe'])){
+						$sql.=" order by '%s' %s";
+						array_push($protectedPost['tri_fixe'],$arg);
+						array_push($protectedPost['sens'],$arg);
+					}
+					$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 				}
-				
-			
-				
-				//add sort on column if need it
-				if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe'])){
-					$sql.=" order by '%s' %s";
-					array_push($protectedPost['tri_fixe'],$arg);
-					array_push($protectedPost['sens'],$arg);
-				}
-				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 				
 			while($item = mysql_fetch_object($result)){
 				
@@ -1093,13 +1091,15 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 						
 							if ($field != "HARDWARE_ID" and $field != "FILEID" and $field != "ID"){
 					//			echo "<br>champs => ".$field."   valeur => ".$value;
-							$tab_options['VALUE'][$field][$champs_index]=$value;
+								$tab_options['REPLACE_VALUE_ALL_TIME'][$field][$champs_index]=$value;
 							}
 					}
 				}
 			}
+			
+			if (isset($tab_options['REPLACE_VALUE_ALL_TIME']))
+				$_SESSION['OCS']['REPLACE_VALUE_ALL_TIME']=$tab_options['REPLACE_VALUE_ALL_TIME'];
 		}
-		
 //	print_r($tab_options['VALUE']);
 	//	print_r($list_id_tri_fixe);
 		//on vide les valeurs pr�c�dentes
@@ -1221,9 +1221,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 								else
 								$sql_data[$index][$value]=$tab_options['VALUE'][$key][$champs_index];
 							}
-							//echo $sql_data[$index][$value]."<br>";
+							
 						}
-					//	print_r($sql_data);
+				
 					}			
 					//ajout des valeurs statiques
 						foreach ($list_fields as $key=>$value){
@@ -1310,6 +1310,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 //fonction qui permet de g�rer les donn�es � afficher dans le tableau
 function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name){
 	global $l,$protectedPost,$pages_refs;
+	
+	//p($tab_options['REPLACE_VALUE_ALL_TIME']);
 	$_SESSION['OCS']['list_fields'][$table_name]=$list_fields;
 	//requete de condition d'affichage
 	//attention: la requete doit etre du style:
@@ -1323,8 +1325,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 			}		
 		}
 	}
-	
-	
 	
 	if (isset($sql_data)){
 		foreach ($sql_data as $i=>$donnees){
@@ -1369,9 +1369,19 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				$affich='OK';
 				//on n'affiche pas de lien sur les colonnes non pr�sentes dans la requete
 				if (isset($tab_options['NO_TRI'][$key]))					
-				$lien='KO';	
+					$lien='KO';	
 				else
-				$lien='OK';
+					$lien='OK';
+
+				if (isset($tab_options['REPLACE_VALUE_ALL_TIME'][$key])){
+					if (isset($tab_options['FIELD_REPLACE_VALUE_ALL_TIME']))
+						$value_of_field=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$donnees[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
+					else
+						$value_of_field=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$donnees['ID']];					
+				}
+				
+				
+				
 				if (isset($tab_options['REPLACE_VALUE'][$key])){
 					//if multi value, $temp_val[1] isset
 					$temp_val=explode('&&&',$value_of_field);
@@ -1552,10 +1562,10 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
 						//$lien = 'KO';						
 					}
-					else{						
-						if ($tab_options['OTHER'][$key][$value_of_field]){
+					else{		
+						if (isset($tab_options['OTHER'][$key][$value_of_field])){
 							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=".$tab_options['OTHER']['IMG']."></a>";
-						}elseif ($tab_options['OTHER_BIS'][$key][$value_of_field]){
+						}elseif (isset($tab_options['OTHER_BIS'][$key][$value_of_field])){
 							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_BIS\",\"".$form_name."\");'><img src=".$tab_options['OTHER_BIS']['IMG']."></a>";
 						}else{
 							$end="";

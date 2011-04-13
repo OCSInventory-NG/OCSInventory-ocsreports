@@ -33,7 +33,7 @@ if ($protectedPost['FUSION']){
 	
 }
 
-//gestion des restrictions par profils
+//restriction for profils?
 if ($_SESSION['OCS']['mesmachines']){
 	$tab_id_mes_machines=computer_list_by_tag('','ARRAY');
 	if ($tab_id_mes_machines=="ERROR"){
@@ -91,14 +91,14 @@ foreach($sql_doublon as $name=>$sql_value){
 
 
 
-//recherche des id des machines en doublons s�rial number
+//search id of computers => serial number
 	$sql_id_doublon['ssn']=" select distinct hardware_id id,SSN info1 from bios,hardware h where h.id=bios.hardware_id and SSN in ";
 	$arg_id_doublon['ssn']=array();
 	$sql=mysql2_prepare($sql_id_doublon['ssn'],$arg_id_doublon['ssn'],$doublon['ssn']);
 	$arg_id_doublon['ssn']=$sql['ARG'];
 	$sql_id_doublon['ssn']=$sql['SQL'];
 
-//recherche des id des machines en doublons macaddresses
+////search id of computers => macaddresses
 
 $sql_id_doublon['macaddress']=" select distinct hardware_id id,MACADDR info1 
 								from networks,hardware h 
@@ -108,15 +108,15 @@ $sql=mysql2_prepare($sql_id_doublon['macaddress'],$arg_id_doublon['macaddress'],
 $arg_id_doublon['macaddress']=$sql['ARG'];
 $sql_id_doublon['macaddress']=$sql['SQL'];	
 
-//recherche des id des machines en doublons hostname
+//search id of computers => hostname
 
 $sql_id_doublon['hostname']=" select id, NAME info1 from hardware h,accountinfo a where a.hardware_id=h.id and NAME in ";
 $arg_id_doublon['hostname']=array();
 $sql=mysql2_prepare($sql_id_doublon['hostname'],$arg_id_doublon['hostname'],$doublon['hostname']);
 $arg_id_doublon['hostname']=$sql['ARG'];
 $sql_id_doublon['hostname']=$sql['SQL'];	
-	
-//doublon hostname + serial number
+
+//search id of computers => hostname + serial number
 $sql_id_doublon['hostname_serial']="SELECT DISTINCT h.id,h.name info1,b.ssn info2
 						FROM hardware h 
 						LEFT JOIN bios b ON b.hardware_id = h.id 
@@ -131,7 +131,7 @@ if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
 	$arg_id_doublon['hostname_serial']=$sql['ARG'];
 }
 
-//doublon hostname + mac address
+//search id of computers => hostname + mac address
 $sql_id_doublon['hostname_macaddress']="SELECT DISTINCT h.id,h.name info1,n.macaddr info2
 						FROM hardware h 
 						LEFT JOIN networks n ON n.hardware_id = h.id 
@@ -168,8 +168,8 @@ foreach($sql_id_doublon as $name=>$sql_value){
 	$res = mysql2_query_secure($sql_value, $_SESSION['OCS']["readServer"],$arg_id_doublon[$name]);
 	$count_id[$name] = 0;
 	while( $val = mysql_fetch_object( $res ) ) {
-		//on ne compte que les machines appartenant au profil connect�
-		//si on est admin, on compte toutes les machines
+		//if restriction => count only computers of profil
+		//else, all computers
 			if (is_array($tab_id_mes_machines) and in_array ($val->id,$tab_id_mes_machines)){
 				$list_id[$name][$val->id]=$val->id;
 				$count_id[$name]++;
@@ -208,15 +208,22 @@ foreach ($count_id as $lbl=>$count_value){
 echo "</table><br>";
 echo "<input type=hidden name=detail id=detail value='".$protectedPost['detail']."'>";
 
-//affichage des d�tails
+//show details
 if ($protectedPost['detail'] != ''){
-	//liste des champs du tableau des doublons
-	$list_fields= array($_SESSION['OCS']['TAG_LBL']['TAG']=>'a.TAG',
-						$l->g(95)=>'n.macaddr',
+	//BEGIN SHOW ACCOUNTINFO
+	require_once('require/function_admininfo.php');
+	$accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
+	if (array($accountinfo_value['TAB_OPTIONS']))
+		$tab_options=$accountinfo_value['TAB_OPTIONS'];
+	if (array($accountinfo_value['DEFAULT_VALUE']))
+		$default_fields=$accountinfo_value['DEFAULT_VALUE'];
+	$list_fields=$accountinfo_value['LIST_FIELDS'];
+	//END SHOW ACCOUNTINFO
+	$list_fields2= array($l->g(95)=>'n.macaddr',
 						$l->g(36)=>'b.ssn',
 						$l->g(23).": id"=>'h.ID',
 						$l->g(23).": ".$l->g(46)=>'h.LASTDATE',
-						$l->g(35)=>'h.NAME',
+						'NAME'=>'h.NAME',
 						$l->g(82).": ".$l->g(33)=>'h.WORKGROUP',
 						$l->g(23).": ".$l->g(25)=>'h.OSNAME',
 						$l->g(23).": ".$l->g(24)=>'h.USERID',
@@ -232,13 +239,13 @@ if ($protectedPost['detail'] != ''){
 						$l->g(23).": ".$l->g(50)=>'h.SWAP',
 						$l->g(23).": ".$l->g(111)=>'h.WINPRODKEY',
 						$l->g(23).": ".$l->g(553)=>'h.WINPRODID');
-	$list_fields['CHECK']='h.ID';
-	
-	$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK');
-	$default_fields=$list_fields;
-
-	//on modifie le type de champs en num�ric de certain champs
-	//pour que le tri se fasse correctement
+	$list_fields=array_merge ($list_fields,$list_fields2);
+	$list_fields['CHECK']='h.ID';	
+	$list_col_cant_del=array('NAME'=>'NAME','CHECK'=>'CHECK',$l->g(35));
+	$default_fields2=array($l->g(95)=>$l->g(95),$l->g(36)=>$l->g(36),
+						   $l->g(23).": ".$l->g(46)=>$l->g(23).": ".$l->g(46),
+						   $l->g(23).": ".$l->g(34)=>$l->g(23).": ".$l->g(34));
+	$default_fields=array_merge ($default_fields,$default_fields2);
 	$sql=prepare_sql_tab($list_fields,array('SUP','CHECK'));
 	$sql['SQL'] .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
 	$sql['SQL'] .= ",bios b, ";

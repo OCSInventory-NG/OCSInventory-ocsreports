@@ -25,7 +25,7 @@ if( !isset($protectedGet["popup"] )) {
 echo "<table  border='0' class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
 echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
- 	<Td align='left'><a href='index.php?first'><img src='image/logo OCS-ng-48.png'></a></Td></tr></table></td><td width= 100%>";
+ 	<Td align='left'><a href='index.php?first'><img src='image/logo OCS-ng-48.png' width=96></a></Td></tr></table></td><td width= 100%>";
  	
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
 /**************************************************   ALERT MESSAGES ********************************************************/
@@ -114,9 +114,13 @@ echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td ali
 }
 
 if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
+	if (!isset($_SERVER['PHP_AUTH_USER'])){
 		echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>";
 		echo "<img src='image/deconnexion.png' title='".$l->g(251)."' alt='".$l->g(251)."'>";
 		echo "</a>";
+	}else{
+		echo "<br>";
+	}
 		if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
 			echo "<a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'>";
 			echo "<img src='image/cadena_op.png' title='".$l->g(891)."' alt='".$l->g(891)."' >";

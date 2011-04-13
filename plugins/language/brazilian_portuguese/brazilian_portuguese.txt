@@ -1100,6 +1100,140 @@
 1134 No ipdiscover data
 1135 computer(s) are already exist on server group
 1136 SNMP
+1137 Enable/Disable the snmp service
+1138 Show all my subnet
+1139 Administer
+1140 Administer subnet
+1141 Subnet added
+1142 Enter a new subnet for blacklist
+1143 Subnet mask
+1144 Invalid MAC address. (must be: XX.XX.XX.XX.XX.XX)
+1145 the value must be between
+1146 Administer profiles
+1147 You can't update it.
+1148 <b>WARNING:</b>No automatic backup of configuration files will be possible
+1149 Name of new profile
+1150 Reference profile
+1151 Text profile
+1152 WARNING: delete basic profiles may cause instability in OCS-NG
+1153 Profile name
+1154 On computers
+1155 On teledeploy's workflow
+1156 Manage teledeploy's workflow
+1157 On the fields of teledeploy's workflow
+1158 On the packets activation
+1159 On MAC addresses
+1160 On serial numbers
+1161 On the ipdiscover's subnet
+1162 Manage teledeploy
+1163 Update Configuration
+1164 Manage groups
+1165 Manage console
+1166 See warning messages of the GUI
+1167 Manage accounts info
+1168 may change accounts info computers
+1169 may change their membership group
+1170 Manage profiles
+1171 Manage profiles group
+1172 Manage ipdiscover
+1173 Profile information
+1174 User Pages
+1175 Restrictions
+1176 Rights to Blacklist
+1177 Rights to Manage
+1178 This field
+1179 is a variable. It can not contain special characters
+1180 can't be empty
+1181 Redistribution server functionality
+1182 You can't manage redistribution rules, this functionality is disable
+1183 List of packages to create
+1184 Key added
+1185 Key updated
+1186 Your data are updated
+1187 Configuration is pending
+1188 This group is declared as a TEST perimeter
+1189 This group is declared as a RESTRAINT perimeter
+1190 You can't assign packages higher level
+1191 Information: the configuration of workflow is currently on
+1192 Group may receive TEST packets
+1193 Group may receive RESTRAINT packets
+1194 Only packets at a higher level
+1195 may be affected
+1196 Profile
+1197 SNMP functionality
+1198 Networks scans
+1199 Version of SNMP communities
+1200 Value is updated
+1201 Display
+1202 Linux (ALL)
+1203 Windows (ALL)
+1204 IpDiscover
+1205 Manage SNMP communities
+1206 Directory of SNMP communities file
+1207 Add community
+1208 Community added
+1209 Community updated
+1210 Account info:
+1211 URL where SNMP community file is
+1212 Community deleted
+1213 Separator of export file
+1214 Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)
+1215 Blade server
+1216 Firewall
+1217 Load balancer
+1218 Switch(es)
+1219 Cards
+1220 Cartridges
+1221 Drives
+1222 Fans
+1223 Power supplies
+1224 Trays
+1225 Maximum capacity
+1226 Color
+1227 Contact
+1228 Device SNMP
+1229 Firmware
+1230 Volumn Name
+1231 The file format must be ZIP
+1232 The file format must be TAR.GZ
+1233 Name of Database
+1234 Description can't be empty
+1235 Reference
+1236 Soft version
+1237 Firmware version
+1238 Installation date
+1239 MHz
+1240 MB
+1241 Number of SNMP devices 
+1242 m/d/y
+1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
+1244 This file can't be empty
+1245 Manage your OCS-NG clients
+1246 Affect again
+1247 Architecture
+1248 Folder
+1249 Activation of cache tables (allows less solicit the MySQL database)
+1250 Teledeploy speed
+1251 Statistics
+1252 Configuration profiles files directory
+1253 Directory of old conf profiles files
+1254 Directory of scripts logs
+1255 Connexion number by day
+1256 Bad connexion number by day
+1257 Use flash on GUI
+1258 Manual Entry
+1259 For one week
+1260 For one months
+1261 Clear cache
+1262 No plugin enabled for your profile
+1263 SECURITY ALERT!
+1264 Next
+1265 Enable cache tables
+1266 Virtual Machines
+1267 Type of Virtual Machines
+1268 Uuid
+1269 Machine hosted by
+1270 DDMMYYYY
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

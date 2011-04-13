@@ -1153,7 +1153,7 @@
 1267 Type of Virtual Machines
 1268 Uuid
 1269 Machine hosted by
-
+1270 MMDDYYYY
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
@@ -1175,7 +1175,7 @@
 2017 using
 2018 was imported
 2019 were already imported
-2020 Your install.php exists in your installation directory.<br>For security reasons, please delete it.
+2020 Your install.php exists in your installation directory.
 2021 Your logs directory is not writable
 2022 You can't send a file larger than
 2023 Delete it
