@@ -155,7 +155,7 @@ INSERT INTO `config` VALUES ('FREQUENCY',0,'','Specify the frequency (days) of i
 
 INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6002', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6003', 'Version of the installed GUI and database');
 UNLOCK TABLES;
 -- BEGIN 2.0RC3 --
 DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
@@ -1402,4 +1402,5 @@ PRIMARY KEY (SNMP_ID) ) DEFAULT CHARSET=UTF8;
 
 ALTER TABLE groups CHANGE REVALIDATE_FROM REVALIDATE_FROM INT(11) DEFAULT 0;
 UPDATE groups SET REVALIDATE_FROM = 0 WHERE REVALIDATE_FROM is null;
+INSERT INTO config VALUES ('SESSION_VALIDITY_TIME',600,'','Validity of a session (prolog=>postinventory)');
 
