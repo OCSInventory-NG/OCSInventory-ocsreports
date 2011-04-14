@@ -785,7 +785,7 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6002', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6003', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1340,4 +1340,5 @@ UPDATE groups set REVALIDATE_FROM = 0 where REVALIDATE_FROM is null;
 
 DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
 
+INSERT INTO config VALUES ('SESSION_VALIDITY_TIME',600,'','Validity of a session (prolog=>postinventory)');
 
