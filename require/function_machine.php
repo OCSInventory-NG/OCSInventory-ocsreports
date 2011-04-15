@@ -17,19 +17,34 @@
 //fonction de traitement de l'ID envoy�
 function info($GET,$post_systemid){
 	global $l,$protectedPost;
-	//traitement de l'envoi de l'id par post
+	//send post
 	if ($post_systemid != '')
 		$systemid = $protectedPost['systemid'];
-	//ajout de la possibilit� de voir une machine par son deviceid
+	//you can see computer's detail by deviceid
 	if (isset($GET['deviceid']) and !isset($systemid)){
-		$querydeviceid = "SELECT ID FROM hardware WHERE deviceid='".strtoupper ($GET['deviceid'])."'";
-		$resultdeviceid = mysql_query($querydeviceid, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+		$querydeviceid = "SELECT ID FROM hardware WHERE deviceid='%s'";
+		$argdevicedid=strtoupper ($GET['deviceid']);
+		$resultdeviceid = mysql2_query_secure($querydeviceid, $_SESSION['OCS']["readServer"],$argdevicedid);
 		$item = mysql_fetch_object($resultdeviceid);	
 		$GET['systemid']=$item -> ID;
 		//echo $GET['systemid'];
 		if ($GET['systemid'] == "")
 			return "Please Supply A Device ID";
 	}
+	
+	//you can see computer's detail by md5(deviceid)
+	if (isset($GET['crypt'])){
+		$querydeviceid = "SELECT ID FROM hardware WHERE md5(deviceid)='%s'";
+		$argdevicedid=($GET['crypt']);
+		$resultdeviceid = mysql2_query_secure($querydeviceid, $_SESSION['OCS']["readServer"],$argdevicedid);
+		$item = mysql_fetch_object($resultdeviceid);	
+		$GET['systemid']=$item -> ID;
+		//echo $GET['systemid'];
+		if ($GET['systemid'] == "")
+			return "Please Supply A Device ID";
+	}
+	
+	
 	//si le systemid de la machine existe
 	if (isset($GET['systemid']) and !isset($systemid))
 	$systemid = $GET['systemid'];
@@ -40,7 +55,10 @@ function info($GET,$post_systemid){
 		//recherche des infos de la machine
 		$querydeviceid = "SELECT * FROM hardware h left join accountinfo a on a.hardware_id=h.id
 						 WHERE h.id=".$systemid." ";
-		if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES" and isset($_SESSION['OCS']['mesmachines']) and $_SESSION['OCS']['mesmachines'] != '')			 
+		if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES" 
+			and isset($_SESSION['OCS']['mesmachines']) 
+			and $_SESSION['OCS']['mesmachines'] != ''
+			and !isset($GET['crypt']))			 
 				$querydeviceid .= " and (".$_SESSION['OCS']['mesmachines']." or a.tag is null or a.tag='')";
 		$resultdeviceid = mysql_query($querydeviceid, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 		$item = mysql_fetch_object($resultdeviceid);

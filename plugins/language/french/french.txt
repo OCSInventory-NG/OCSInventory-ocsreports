@@ -1153,6 +1153,7 @@
 1268 Uuid
 1269 Machine hébergée par
 1270 DDMMYYYY
+1271 Liste des machines du sous-réseau
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

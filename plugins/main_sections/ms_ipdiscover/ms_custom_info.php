@@ -155,6 +155,39 @@ else{ //affichage des p�riph�riques
 				$default_fields= array($l->g(34)=>$l->g(34),$l->g(66)=>$l->g(66),$l->g(53)=>$l->g(53),
 									'MAC'=>'MAC',$l->g(232)=>$l->g(232),$l->g(369)=>$l->g(369),'SUP'=>'SUP','MODIF'=>'MODIF');
 
+		}elseif($protectedGet['prov'] == "inv"){
+			$title=$l->g(1271);
+			//BEGIN SHOW ACCOUNTINFO
+			require_once('require/function_admininfo.php');
+			$accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
+			if (array($accountinfo_value['TAB_OPTIONS']))
+				$tab_options=$accountinfo_value['TAB_OPTIONS'];
+			if (array($accountinfo_value['DEFAULT_VALUE']))
+				$default_fields=$accountinfo_value['DEFAULT_VALUE'];				
+			$list_fields=$accountinfo_value['LIST_FIELDS'];
+			//END SHOW ACCOUNTINFO
+			$list_fields2 = array ( $l->g(46) => "h.lastdate", 
+						   'NAME'=>'h.name',
+						   'MD5_DEVICEID' => "md5(deviceid) as MD5_DEVICEID",
+						   $l->g(24) => "h.userid",
+						   $l->g(25) => "h.osname",
+						   $l->g(33) => "h.workgroup",
+						   $l->g(275) => "h.osversion",
+						   $l->g(34) => "h.ipaddr",
+						   $l->g(557) => "h.userdomain");
+						   
+			$list_fields=array_merge ($list_fields,$list_fields2);
+			$sql=prepare_sql_tab($list_fields);
+			$tab_options['ARG_SQL']=$sql['ARG'];
+			$sql=$sql['SQL']." from accountinfo a,hardware h LEFT JOIN networks n ON n.hardware_id=h.id
+				 where ipsubnet='%s' and status='Up' and a.hardware_id=h.id ";
+			array_push($tab_options['ARG_SQL'],$protectedGet['value']);
+			$default_fields['NAME']='NAME';
+			$default_fields[$l->g(34)]=$l->g(34);
+			$default_fields[$l->g(24)]=$l->g(24);
+			$default_fields[$l->g(25)]=$l->g(25);
+			$default_fields[$l->g(275)]=$l->g(275);
+			$tab_options['ARG_SQL_COUNT']=$protectedGet['value'];
 		}
 		printEnTete($title);
 		echo "<br><br>";	
