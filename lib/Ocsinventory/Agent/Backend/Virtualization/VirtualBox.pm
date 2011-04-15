@@ -33,9 +33,18 @@ sub run {
             $name = $1;
             $in = 1; 
         } elsif ($in == 1 ) {
-            if ($line =~ m/^\s*$/) {                        # finish
+            if ($line =~ m/^UUID:\s+(.*)/) {
+                $uuid = $1;
+            } elsif ($line =~ m/^Memory size:\s+(.*)/ ) {
+                $mem = $1;
+            } elsif ($line =~ m/^State:\s+(.*)\(.*/) {
+                $status = ( $1 =~ m/off/ ? "off" : $1 );
+            }
+            elsif ($line =~ m/^\s*$/) {                        # finish
                 $in = 0 ;
-                
+
+                next if $uuid =~ /^N\\A$/ ;   #If no UUID found, it is not a virtualmachine
+
                 $common->addVirtualMachine ({
                     NAME      => $name,
                     VCPU      => 1,
@@ -45,16 +54,10 @@ sub run {
                     SUBSYSTEM => "Sun xVM VirtualBox",
                     VMTYPE    => "VirtualBox",
                 });
-                
-                $name = $status = $mem = $uuid = "N\A";     # useless but need it for security (new version, ...)
-                
-            } elsif ($line =~ m/^UUID:\s+(.*)/) {
-                $uuid = $1;
-            } elsif ($line =~ m/^Memory size:\s+(.*)/ ) {
-                $mem = $1;
-            } elsif ($line =~ m/^State:\s+(.*)\(.*/) {
-                $status = ( $1 =~ m/off/ ? "off" : $1 );
+
+                $name = $status = $mem = $uuid = 'N\A';     # useless but need it for security (new version, ...)
             }
+
         }
     }
     
@@ -119,7 +122,7 @@ sub run {
         # ... and read it
         if ($data->{Machine}->{uuid}) {
           my $uuid = $data->{Machine}->{uuid};
-          $uuid =~ s/^{?(.{36})}?$/\1/;
+          $uuid =~ s/^{?(.{36})}?$/$1/;
           my $status = "off";
           foreach my $vmRun (@vmRunnings) {
             if ($uuid eq $vmRun) {
@@ -156,7 +159,7 @@ sub run {
             
             if ( $data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
               my $uuid = $data->{Machine}->{uuid};
-              $uuid =~ s/^{?(.{36})}?$/\1/;
+              $uuid =~ s/^{?(.{36})}?$/$1/;
               my $status = "off";
               foreach my $vmRun (@vmRunnings) {
                 if ($uuid eq $vmRun) {

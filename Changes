@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent
 
+       * Only inventory vitualmachines which have an UUID in VirtualBox.pm to prevent inventoring USB devices or shared folders as virtualmachines
+      
 2.0 rc4
        * Complety clean the disastrous treatments of accountinfos while receiving it from server,storing it in file and adding it in inventory
        * Fix UTF8 problems due to XML::Simple::XMLIn()
