@@ -1547,7 +1547,12 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
 						$lien = 'KO';		
 					}elseif ($key == "NAME" and !isset($tab_options['NO_NAME']['NAME'])){
-							$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$donnees['ID']."'  target='_blank'>".$value_of_field."</a>";
+							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
+							if ($donnees['ID'])
+								$link_computer.="&systemid=".$donnees['ID'];
+							if ($donnees['MD5_DEVICEID'])
+								$link_computer.= "&crypt=".$donnees['MD5_DEVICEID'];
+							$data[$i][$num_col]="<a href='".$link_computer."'  target='_blank'>".$value_of_field."</a>";
 					}elseif ($key == "MAC"){
 						//echo substr($value_of_field,0,8);
 						//echo $_SESSION['OCS']["mac"][substr($value_of_field,0,8)];

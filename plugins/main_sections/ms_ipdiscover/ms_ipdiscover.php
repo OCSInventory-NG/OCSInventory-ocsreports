@@ -94,8 +94,10 @@ echo "<br>";
 	$table_name="IPDISCOVER";
 	$default_fields= $list_fields;
 	$list_col_cant_del=array('RSX'=>'RSX','SUP'=>'SUP');
-	$tab_options['LIEN_LBL']['INVENTORIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=ipdiscover&value=';
+	$tab_options['LIEN_LBL']['INVENTORIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&head=1&prov=inv&value=';
 	$tab_options['LIEN_CHAMP']['INVENTORIE']='ID';
+	$tab_options['LIEN_TYPE']['INVENTORIE']='POPUP';
+	$tab_options['POPUP_SIZE']['INVENTORIE']="width=900,height=600";
 	$tab_options['NO_LIEN_CHAMP']['INVENTORIE']=array(0);
 	
 	$tab_options['LIEN_LBL']['IPDISCOVER']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=ipdiscover1&value=';
