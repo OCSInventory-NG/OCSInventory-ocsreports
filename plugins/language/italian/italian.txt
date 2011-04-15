@@ -1251,11 +1251,12 @@
 2097 Non inserire nulla se non vuoi far apparire il popup ad ogni esecuzione dell'agente
 2098 ERRORE: l'estensione ZIP per PHP non installata correttamente.<br>Prova ad abilitare la voce extension=php_zip.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto libphp-pclzip (Linux).
 2099 ERRORE: le credenziali MySQL fornite non hanno i diritti necessari per la creazione del database
-2100 Aggiorna le informazioni degli account
+2100 Aggiorna informazioni account
 2101 Aggiunto dallo script
 2102 ATTENZIONE: se cambi il nome di default del database (ocsweb), non dimenticare di aggiornare il file ocs engine
 2103 Modalità dimostrativa: non puoi aggiornare i dati
 2104 STAI UTILIZZANDO LA VERSIONE DIMOSTRATIVA DI
+2105 Il database è aggiornato.<br>Nessuna modifica apportata.
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
