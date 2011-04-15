@@ -10,8 +10,8 @@
 //====================================================================================
 
 @session_start();
-define("GUI_VER", "6002");												// Version of the database
-define("GUI_VER_SHOW","2.0RC3");        								// Version of the GUI
+define("GUI_VER", "6003");												// Version of the database
+define("GUI_VER_SHOW","2.0RC4");        								// Version of the GUI
 define("MAC_FILE", "files/oui.txt");									// File containing MAC database
 define("DEFAULT_LANGUAGE","french");    								// Default language
 define("PAG_INDEX","function");         								// define name in url (like multi=32)
