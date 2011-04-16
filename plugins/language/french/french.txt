@@ -1255,6 +1255,8 @@
 2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur
 2103 Mode DEMO: vous ne pouvez mettre à jour les données
 2104 VOUS ETES SUR LA VERSION DE DEMO LA
+2105 Votre base de données est à jour.<br>Aucune action a effectuer.
+
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

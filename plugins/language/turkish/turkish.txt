@@ -1255,7 +1255,9 @@
 2101 Add by script
 2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
 2103 DEMO mode: you can't update data
-2104 YOU ARE WATCHING THE DEMO VERSION OF 
+2104 YOU ARE WATCHING THE DEMO VERSION OF
+2105 Your database is OK.<br>No action taken.
+
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
