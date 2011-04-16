@@ -94,6 +94,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 		
 	}
 
+
 	if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])
 		$arg=$_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
 	else
@@ -107,14 +108,16 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 			}
 			if (isset($cont[$field])){
 				$data[$i][$lbl]=$cont[$field];			
-			}elseif (isset($data_fixe[$cont['ID']][$field]))
+			}elseif (isset($data_fixe[$cont['ID']][$field])){
 				$data[$i][$lbl]=$data_fixe[$cont['ID']][$field];
+			}else{
+				$data[$i][$lbl]="";
+			}
 
 		}
 		$i++;
 	}
 	$i=0;
-	//p($data);
 	while ($data[$i]){
 		$toBeWritten .="\r\n";
 		foreach ($data[$i] as $field_name=>$donnee){
