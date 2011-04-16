@@ -86,7 +86,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 	echo "<br>";
 	echo "<form name='".$form_name1."' id='".$form_name1."' method='POST' action='' enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\">";
 	echo "<div class='".$css."' >";
-	echo $l->g(1048).":<input id='file_upload' name='file_upload' type='file' accept=''>";
+	echo $l->g(1048).": <input id='file_upload' name='file_upload' type='file' accept=''>";
 	echo "<br><br><input name='GO' id='GO' type='submit' value='".$l->g(13)."'>";
 	echo "</form>";
 	echo "<br>";
