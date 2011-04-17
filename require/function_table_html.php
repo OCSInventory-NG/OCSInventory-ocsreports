@@ -14,7 +14,10 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'
 		  onclick='convertToUpper(this)'";
- $majuscule="onKeyPress=\"return scanTouche(event,/[0-9 a-z A-Z]/)\" onkeydown='convertToUpper(this)'
+$majuscule="onKeyPress=\"return scanTouche(event,/[0-9 a-z A-Z]/)\" onkeydown='convertToUpper(this)'
+		  onkeyup='convertToUpper(this)' 
+		  onblur='convertToUpper(this)'";
+$sql_field="onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z]/)\" onkeydown='convertToUpper(this)'
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
 

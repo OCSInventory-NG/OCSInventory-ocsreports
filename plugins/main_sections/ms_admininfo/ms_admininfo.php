@@ -140,7 +140,7 @@ if ($protectedPost['onglet'] == 1){
 	
 }elseif ($protectedPost['onglet'] == 2){		
 	//NAME FIELD
-	
+	$config['JAVASCRIPT'][1]=$sql_field;
 	$name_field=array("accountinfo","newfield");
 	$tab_name= array($l->g(56).": ",$l->g(1070).": ");
 	if (isset($protectedPost['MODIF_OLD']) or $protectedPost['MODIF']!=''){
@@ -173,7 +173,7 @@ if ($protectedPost['onglet'] == 1){
 	array_push($value_field,$array_tab_account);
 
 
-	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
+	$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 	$tab_typ_champ[1]['CONFIG']['SIZE']=30;
 	$tab_typ_champ[2]['CONFIG']['SIZE']=30;
 	$tab_typ_champ[4]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=".$account_field."\",\"".$account_field."\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
