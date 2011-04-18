@@ -361,7 +361,7 @@ function dde_exist($name,$id='',$type){
 function admininfo_computer($id = ""){
 	global $l;
 	if (!is_numeric($id) and $id != "")
-		return $l->g(400);		
+		return $l->g(623);		
 	$arg_account_data=array();	
 	$sql_account_data="SELECT * FROM accountinfo ";
 	if (is_numeric($id)){
@@ -372,13 +372,16 @@ function admininfo_computer($id = ""){
 	
 	$res_account_data=mysql2_query_secure($sql_account_data,$_SESSION['OCS']["readServer"],$arg_account_data);
 	$val_account_data = mysql_fetch_array( $res_account_data );
-	return $val_account_data;	
+	if (is_array($val_account_data))
+		return $val_account_data;	
+	else
+		return $l->g(1093);		
 }
 
 function updateinfo_computer($id,$values,$list=''){
 	global $l;
 	if (!is_numeric($id) and $list == '')
-		return $l->g(400);		
+		return $l->g(623);		
 	$arg_account_data=array();	
 	$sql_account_data="UPDATE accountinfo SET ";
 	foreach ($values as $field=>$val){
