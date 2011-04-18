@@ -1,5 +1,7 @@
 Revision history for ocsreports 
 2.0 
+		* add option to profil => authorize or not the removal of computers
+		* check if accountinfo field exist when you see computer details
 		* fix this pb: http://forums.ocsinventory-ng.org/viewtopic.php?pid=36161  field name => uppercase and no space
 		* You can access to computer admin info if you admin his subnet
 		* fix Bug #761523 (export data)

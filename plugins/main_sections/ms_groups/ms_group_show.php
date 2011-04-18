@@ -49,7 +49,7 @@ if (isset($protectedGet['systemid'])) {
 	$systemid = $protectedGet['systemid'];
 	if ($systemid == "")
 	{
-		echo "Please Supply A System ID";
+		return $l->g(837);
 		die();
 	}
 }

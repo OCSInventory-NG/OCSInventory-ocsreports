@@ -29,7 +29,7 @@ function info($GET,$post_systemid){
 		$GET['systemid']=$item -> ID;
 		//echo $GET['systemid'];
 		if ($GET['systemid'] == "")
-			return "Please Supply A Device ID";
+			return $l->g(837);
 	}
 	
 	//you can see computer's detail by md5(deviceid)
@@ -41,7 +41,7 @@ function info($GET,$post_systemid){
 		$GET['systemid']=$item -> ID;
 		//echo $GET['systemid'];
 		if ($GET['systemid'] == "")
-			return "Please Supply A Device ID";
+			return $l->g(837);
 	}
 	
 	
@@ -51,7 +51,7 @@ function info($GET,$post_systemid){
 	//probl�me sur l'id
 	//echo $systemid;
 	if ($systemid == "" or !is_numeric($systemid))
-		return "Please Supply A System ID";
+		return $l->g(837);
 		//recherche des infos de la machine
 		$querydeviceid = "SELECT * FROM hardware h left join accountinfo a on a.hardware_id=h.id
 						 WHERE h.id=".$systemid." ";

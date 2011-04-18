@@ -758,7 +758,10 @@ if ($list_id != "")	{
 
 	
 	ksort($list_fields);
-	$list_fields['SUP']='h.ID';
+	
+	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES")
+		$list_fields['SUP']='h.ID';
+		
 	$list_fields['CHECK']='h.ID';
 	$list_col_cant_del=array('SUP'=>'SUP','NAME'=>'NAME','CHECK'=>'CHECK');
 	$default_fields=array($delfault_tag=>$delfault_tag,
@@ -777,7 +780,10 @@ if ($list_id != "")	{
 
 	//choix des fonctionnalit�es pour les utilisateurs 
 	$list_fonct["image/groups_search.png"]=$l->g(583);
-	$list_fonct["image/sup_search.png"]=$l->g(122);
+	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+		$list_fonct["image/sup_search.png"]=$l->g(122);
+		$list_pag["image/sup_search.png"]=$pages_refs["ms_custom_sup"];
+	}
 	$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
 	$list_fonct["image/mass_affect.png"]=$l->g(430);		
 	if ($_SESSION['OCS']['CONFIGURATION']['CONFIG'] == "YES"){
@@ -789,7 +795,7 @@ if ($list_id != "")	{
 		$list_pag["image/tele_search.png"]=$pages_refs["ms_custom_pack"];
 	}
 	$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
-	$list_pag["image/sup_search.png"]=$pages_refs["ms_custom_sup"];
+	
 	$list_pag["image/cadena_ferme.png"]=$pages_refs["ms_custom_lock"];
 	$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
 	//activation des LOGS	
