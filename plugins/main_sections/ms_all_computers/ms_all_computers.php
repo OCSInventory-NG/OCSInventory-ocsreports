@@ -72,9 +72,10 @@ if (!isset($protectedPost['tri2']) or $protectedPost['tri2'] == ""){
 	$tab_options['FILTRE']=array_flip($list_fields);
 	$tab_options['FILTRE']['h.name']=$l->g(23);
 	asort($tab_options['FILTRE']); 
-	$list_fields['SUP']='ID';
+	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES")
+		$list_fields['SUP']='ID';
 	
-	$list_col_cant_del=array('SUP'=>'SUP');
+	$list_col_cant_del=array('SUP'=>'SUP','NAME'=>'NAME');
 	$default_fields2= array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
 							$l->g(24)=>$l->g(24),$l->g(25)=>$l->g(25),$l->g(568)=>$l->g(568),
 							$l->g(569)=>$l->g(569));

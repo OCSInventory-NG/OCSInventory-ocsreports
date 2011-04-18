@@ -85,6 +85,10 @@ function computer_list_by_tag($tag="",$format='LIST'){
 function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 ) {
 	global $l;
+	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "NO"){
+		msg_error($l->g(1273));
+		return false;
+	}
 	//If lock is not user OR it is used and available
 	if( ! $checkLock || lock($id) ) {	
 		$sql="SELECT deviceid,name,IPADDR,OSNAME FROM hardware WHERE id='%s'";
