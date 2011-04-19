@@ -17,7 +17,6 @@ foreach ($_POST as $key=>$value){
 }
 $protectedPost=$temp_post;
 if( isset( $protectedPost["VALID_END"] ) ) {
-	p($protectedPost);
 	$sql_details=array('document_root'=>$protectedPost['document_root'],
 					   'timestamp'=>$protectedPost['timestamp'],
 					   'nbfrags'=>$protectedPost["nbfrags"],
