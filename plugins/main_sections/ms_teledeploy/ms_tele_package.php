@@ -17,6 +17,7 @@ foreach ($_POST as $key=>$value){
 }
 $protectedPost=$temp_post;
 if( isset( $protectedPost["VALID_END"] ) ) {
+	p($protectedPost);
 	$sql_details=array('document_root'=>$protectedPost['document_root'],
 					   'timestamp'=>$protectedPost['timestamp'],
 					   'nbfrags'=>$protectedPost["nbfrags"],
@@ -32,9 +33,9 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'PROTO'=>$protectedPost['PROTOCOLE'],
 						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
 						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>$protectedPost['ACTION_INPUT'],
-						'NAME'=>$protectedPost['ACTION_INPUT'],
-						'COMMAND'=>$protectedPost['ACTION_INPUT'],
+						'PATH'=>addslashes($protectedPost['ACTION_INPUT']),
+						'NAME'=>addslashes($protectedPost['ACTION_INPUT']),
+						'COMMAND'=>addslashes($protectedPost['ACTION_INPUT']),
 						'NOTIFY_USER'=>$protectedPost['NOTIFY_USER'],
 						'NOTIFY_TEXT'=>$protectedPost['NOTIFY_TEXT'],
 						'NOTIFY_COUNTDOWN'=>$protectedPost['NOTIFY_COUNTDOWN'],
