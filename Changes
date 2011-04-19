@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0 
+		* force SQL format for new accountinfo and new field in wk of teledeploy
 		* add option to profil => authorize or not the removal of computers
 		* check if accountinfo field exist when you see computer details
 		* fix this pb: http://forums.ocsinventory-ng.org/viewtopic.php?pid=36161  field name => uppercase and no space
