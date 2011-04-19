@@ -12,33 +12,37 @@
 	$form_name="repart_tag";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	if (!isset($protectedPost['TAG_CHOISE']) or $protectedPost['TAG_CHOISE'] == '')
+		$protectedPost['TAG_CHOISE'] = 'a.TAG';
+	//BEGIN SHOW ACCOUNTINFO
 	require_once('require/function_admininfo.php');
-	$info_tag=witch_field_more('COMPUTERS');
-	/*echo $l->g(340)." ".show_modif($info_tag['LIST_FIELDS'],'TAG_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
-	echo $protectedPost['TAG_CHOISE'];
-	if (isset($protectedPost['TAG_CHOISE']) and $protectedPost['TAG_CHOISE'] != 1){
-		$tag='a.fields_'.$protectedPost['TAG_CHOISE'];		
-	}else{*/
-		$tag='a.tag';
-		$protectedPost['TAG_CHOISE'] = 1;
-//	}
-	$list_fields = array ( $info_tag['LIST_FIELDS'][$protectedPost['TAG_CHOISE']]   => "ID", 
-						   'Nbr_mach'=>'c');
-	$tab_options['FILTRE'][$tag]=$info_tag['LIST_FIELDS'][$protectedPost['TAG_CHOISE']];
-//	$tab_options['NO_TRI']['LBL_UNIT']='LBL_UNIT';
-//	$tab_options['LBL']['LBL_UNIT']="libell� unit�";
+	$accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
+	$list_fields=$accountinfo_value['LIST_FIELDS'];
+	$list_fields_flip=array_flip($list_fields);
+	//END SHOW ACCOUNTINFO
+	echo $l->g(340)." ".show_modif($list_fields_flip,'TAG_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
+	if (isset($protectedPost['TAG_CHOISE'])){
+		$tag=$protectedPost['TAG_CHOISE'];		
+	}
+
+	if (array($accountinfo_value['TAB_OPTIONS'])){
+		$tab_options['REPLACE_VALUE']['ID']=$accountinfo_value['TAB_OPTIONS']['REPLACE_VALUE'][$list_fields_flip[$tag]];
+	}
+	unset($list_fields);
+	$list_fields['ID']='ID';
+	$tab_options['LBL']['ID']=$list_fields_flip[$tag];
+	$list_fields['Nbr_mach']='c';
 	$tab_options['LIEN_LBL']['Nbr_mach']="index.php?".PAG_INDEX."=".$pages_refs['ms_all_computers']."&filtre=".$tag."&value=";
 	$tab_options['LIEN_CHAMP']['Nbr_mach']="ID";
 	$tab_options['LBL']['Nbr_mach']=$l->g(1120);
-	$list_col_cant_del=array($info_tag['LIST_FIELDS'][$protectedPost['TAG_CHOISE']]=>$info_tag['LIST_FIELDS'][$protectedPost['TAG_CHOISE']]);
+	$list_col_cant_del=$list_fields;
 	$default_fields= $list_fields;
-	$queryDetails  = "SELECT count(hardware_id) c, ".$tag." as ID from accountinfo a ";
-	
+	$queryDetails  = "SELECT count(hardware_id) c, %s as ID from accountinfo a where %s !='' ";
+	$tab_options['ARG_SQL']=array($tag,$tag);
 	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
-		$queryDetails  .= "WHERE ".$_SESSION['OCS']["mesmachines"];
-	$queryDetails  .= "group by ".$tag;
-	//require_once('require/function_admininfo.php');
-	$tab_options['REPLACE_VALUE']=replace_tag_value('COMPUTERS');
+		$queryDetails  .= " AND ".$_SESSION['OCS']["mesmachines"];
+	$tab_options['ARG_SQL'][]=$tag;	
+	$queryDetails  .= "group by ID";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
 	echo "</form>";
 
