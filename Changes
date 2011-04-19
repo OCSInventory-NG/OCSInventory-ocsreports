@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0 
+		* add choise on repart tags page
 		* add slashes on command to info file (teledeploy)
 		* force SQL format for new accountinfo and new field in wk of teledeploy
 		* add option to profil => authorize or not the removal of computers
