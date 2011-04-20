@@ -1257,6 +1257,8 @@
 1274 Profil updated
 1275 Profils can't be deleted.
 1276 Profil created
+1277 Default profil (blank for none)
+1278 You are not allowed to connect
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
