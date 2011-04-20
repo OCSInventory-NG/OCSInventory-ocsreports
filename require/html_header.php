@@ -24,8 +24,10 @@ if( !isset($protectedGet["popup"] )) {
 
 echo "<table  border='0' class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
-echo "><tr><td width= 10%><table width= 50% align=center border='0'><tr>
- 	<Td align='left'><a href='index.php?first'><img src='image/logo OCS-ng-48.png' width=96></a></Td></tr></table></td><td width= 100%>";
+echo "><tr><td width= 10% align=center><table width= 100% align=center border='0'><tr>
+ 	<td align='left'><a href='index.php?first'>";
+echo "<img src='image/logo OCS-ng-96.png'></a>";
+echo "</td></tr></table></td><td width= 100%>";
  	
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
 /**************************************************   ALERT MESSAGES ********************************************************/
@@ -80,7 +82,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 				}
 			}
 			
-		msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
+	//	msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
 		
 	}
 	//warning are detected
@@ -146,7 +148,11 @@ echo "<div class='fond'>";
 
 if ($_SESSION['OCS']["mesmachines"] == "NOTAG" 
 	and !(isset($_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and $protectedGet[PAG_INDEX] == $pages_refs['ms_debug']) ){
-		msg_error($l->g(893));
+	if (isset($LIST_ERROR))
+		$msg_error=$LIST_ERROR;
+	else
+		$msg_error=$l->g(893);
+	msg_error($msg_error);
 	require_once(FOOTER_HTML);
 	die();
 

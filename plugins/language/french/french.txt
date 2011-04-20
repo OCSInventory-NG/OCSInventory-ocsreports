@@ -1159,6 +1159,8 @@
 1274 Profil mis à jour
 1275 Les profils ne peuvent être supprimés.
 1276 Profil créé
+1277 Profil par défaut (vide pour aucun)
+1278 Vous n'êtes pas autorisé à vous connecter
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

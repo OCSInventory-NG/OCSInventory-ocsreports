@@ -40,9 +40,7 @@ if (!isset($tab_tag) and $restriction != 'NO'){
 			addLog('ERROR_IDENTITY',$error);	
 	}	
 	$_SESSION['OCS']["mesmachines"] = "NOTAG";
-	//$_SESSION['OCS']["mytag"]='NOTAG';
 }elseif(isset($tab_tag)){
-	//print_r($tab_tag);
 	foreach ($list_methode as $prio=>$script){
 		if (isset($tab_tag[$script])){
 			foreach ($tab_tag[$script] as $tag=>$lbl){
