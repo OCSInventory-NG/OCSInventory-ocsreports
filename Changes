@@ -1,5 +1,7 @@
 Revision history for ocsreports 
 2.0 
+		* add messages when you add a profil and verify if you can create/delete a profil
+		* fix double in the list of computers 
 		* add choise on repart tags page
 		* add slashes on command to info file (teledeploy)
 		* force SQL format for new accountinfo and new field in wk of teledeploy
