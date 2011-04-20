@@ -1156,6 +1156,10 @@
 1271 Liste des machines du sous-réseau
 1272 Supprimer ses machines
 1273 Vous n'avez pas le droit de supprimer une machine
+1274 Profil mis à jour
+1275 Les profils ne peuvent être supprimés.
+1276 Profil créé
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

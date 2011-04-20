@@ -1351,11 +1351,11 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				}else
 				 	$no_alias_value=$value;
 
-				
+				//echo $no_alias_value;
 				//si aucune valeur, on affiche un espace
-				if ($donnees[$no_alias_value] == "")
+				if ($donnees[$no_alias_value] == ""){
 					$value_of_field = "&nbsp";
-				else //sinon, on affiche la valeur
+				}else //sinon, on affiche la valeur
 				{
 					$value_of_field=$donnees[$no_alias_value];
 				}
@@ -1384,16 +1384,17 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				}
 				
 				
-				
+	
 				if (isset($tab_options['REPLACE_VALUE'][$key])){
 					//if multi value, $temp_val[1] isset
 					$temp_val=explode('&&&',$value_of_field);
 					$multi_value=0;
-					$temp_value_of_field="";					
+					$temp_value_of_field="";	
 					while (isset($temp_val[$multi_value])){
 						$temp_value_of_field.=$tab_options['REPLACE_VALUE'][$key][$temp_val[$multi_value]]."<br>";	
 						$multi_value++;
 					}
+					$temp_value_of_field=substr($temp_value_of_field,0,-4);
 					$value_of_field=$temp_value_of_field;	
 				}
 				if (isset($tab_options['REPLACE_WITH_CONDITION'][$key][$value_of_field])){
@@ -1511,7 +1512,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$lien = 'KO';
 					}elseif ($key == "GROUP_NAME"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
-					}elseif ($key == "SUP"){
+					}elseif ($key == "SUP" and $value_of_field!= '&nbsp;'){
 						if (isset($tab_options['LBL_POPUP'][$key])){
 							if (isset($donnees[$tab_options['LBL_POPUP'][$key]]))
 								$lbl_msg=$l->g(640)." ".$donnees[$tab_options['LBL_POPUP'][$key]];
@@ -1546,7 +1547,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}elseif ($key == "SHOWACTIVE"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";
 					}
-					elseif ($key == "CHECK"){
+					elseif ($key == "CHECK" and $value_of_field!= '&nbsp;'){
 						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
 						$lien = 'KO';		
 					}elseif ($key == "NAME" and !isset($tab_options['NO_NAME']['NAME'])){

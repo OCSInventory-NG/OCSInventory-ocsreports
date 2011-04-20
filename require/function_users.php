@@ -250,7 +250,8 @@ function admin_profil($form){
 		}
 		if (!isset($new_value['PAGE_PROFIL']))
 			$new_value['PAGE_PROFIL']=$forprofil['PAGE_PROFIL'];
-		update_config_file($protectedPost['PROFILS'],$new_value);		
+		update_config_file($protectedPost['PROFILS'],$new_value);	
+		msg_success($l->g(1274));	
 	}
 	
 	$array_profil=search_profil();
