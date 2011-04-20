@@ -97,7 +97,7 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	$queryDetails  = substr($queryDetails,0,-1);
 	
 	$queryDetails.= " FROM hardware h ,softwares a
-				   WHERE a.HARDWARE_ID =h.ID and a.NAME='".$logiciel."'";
+				   WHERE a.HARDWARE_ID =h.ID and a.NAME='".$logiciel."' group by name";
 	
 	$tab_options['LBL']['NAME']=$l->g(478);
 	$tab_options['LBL']['ip']=$l->g(176);
