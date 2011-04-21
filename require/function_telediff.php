@@ -344,6 +344,7 @@ function recursive_remove_directory($directory, $empty=FALSE) {
 
 function create_pack($sql_details,$info_details){
 	global $l;
+	$info_details=xml_escape_string($info_details);
 	//get temp file
 	$fname = $sql_details['document_root'].$sql_details['timestamp']."/tmp";
 	//cut this package

@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0 
+		* encode info file with xml encode
 		* add messages when you add a profil and verify if you can create/delete a profil
 		* fix double in the list of computers 
 		* add choise on repart tags page
