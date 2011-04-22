@@ -77,6 +77,7 @@ if ($protectedPost['onglet'] == 1){
 	$list_fields['SUP']='IVALUE';
 	$list_fields['MODIF']='IVALUE';
 	$list_fields['CHECK']='IVALUE'; 
+	$tab_options['LBL_POPUP']['SUP']='TVALUE';
 	$list_col_cant_del=$list_fields;
 	$default_fields=$list_col_cant_del; 
 	$are_result=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
