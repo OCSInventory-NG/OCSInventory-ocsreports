@@ -1154,7 +1154,13 @@
 1269 Virtual Machine ospitata su
 1270 DDMMYYYY
 1271 Computer della sottorete
-
+1272 Elimina il suo computer
+1273 Non avete il diritto di rimuovere una macchina
+1274 Profilo stato aggiornato
+1275 Non può essere eliminato i profili.
+1276 Profilo creato
+1277 Default profil (in bianco per nessuno)
+1278 Non hai i permessi per connetterti
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:

@@ -220,7 +220,7 @@ function admin_profil($form){
 					  'MANAGE_PROFIL'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1170),'VALUE'=>$yes_no)),
 					  'MANAGE_USER_GROUP'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1171),'VALUE'=>$yes_no)),
 					  'MANAGE_SMTP_COMMUNITIES'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1205),'VALUE'=>$yes_no)),
-						);	
+					  'DELETE_COMPUTERS'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1272),'VALUE'=>$yes_no)),	);	
 						
 	$lbl_cat=array('INFO'=>$l->g(1173),
 					   'PAGE_PROFIL'=>$l->g(1174),
@@ -250,7 +250,8 @@ function admin_profil($form){
 		}
 		if (!isset($new_value['PAGE_PROFIL']))
 			$new_value['PAGE_PROFIL']=$forprofil['PAGE_PROFIL'];
-		update_config_file($protectedPost['PROFILS'],$new_value);		
+		update_config_file($protectedPost['PROFILS'],$new_value);	
+		msg_success($l->g(1274));	
 	}
 	
 	$array_profil=search_profil();

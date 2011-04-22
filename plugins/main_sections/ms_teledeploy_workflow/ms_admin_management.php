@@ -160,6 +160,7 @@ if ($protectedPost['onglet'] == 1){
 	$tab_name= array($l->g(1070).": ");
 	$type_field= array(0);
 	$value_field=array($protectedPost['newfield']);
+		$config['JAVASCRIPT'][0]=$sql_field;
 	if (isset($protectedGet['admin'])){
 		array_push($name_field,"newlbl");
 		array_push($tab_name,$l->g(80)." :");
@@ -192,7 +193,7 @@ if ($protectedPost['onglet'] == 1){
 		}
 	}
 
-	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
+	$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 	$tab_typ_champ[0]['CONFIG']['SIZE']=20;
 	$tab_typ_champ[1]['CONFIG']['SIZE']=20;
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');

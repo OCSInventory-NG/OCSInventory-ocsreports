@@ -1154,6 +1154,14 @@
 1269 Machine hébergée par
 1270 DDMMYYYY
 1271 Liste des machines du sous-réseau
+1272 Supprimer ses machines
+1273 Vous n'avez pas le droit de supprimer une machine
+1274 Profil mis à jour
+1275 Les profils ne peuvent être supprimés.
+1276 Profil créé
+1277 Profil par défaut (vide pour aucun)
+1278 Vous n'êtes pas autorisé à vous connecter
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1255,7 +1263,7 @@
 2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur
 2103 Mode DEMO: vous ne pouvez mettre à jour les données
 2104 VOUS ETES SUR LA VERSION DE DEMO LA
-2105 Your database is OK.<br>No action taken.
+2105 Votre base de données est à jour.<br>Aucune action a effectuer.
 
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]

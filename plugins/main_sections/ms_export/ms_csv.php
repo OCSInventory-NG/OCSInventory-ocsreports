@@ -94,27 +94,38 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 		
 	}
 
+
 	if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])
 		$arg=$_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
 	else
 		$arg='';	
 	$result=mysql2_query_secure($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']], $link,$arg);
 	$i=0;
+	require_once('require/function_admininfo.php');
+	$inter=interprete_accountinfo($col,array());
 	while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
 		foreach ($col as $field => $lbl){
 			if ($lbl == "name_of_machine" and !isset($cont[$field])){
 				$field='name';
 			}
 			if (isset($cont[$field])){
-				$data[$i][$lbl]=$cont[$field];			
-			}elseif (isset($data_fixe[$cont['ID']][$field]))
+				if ($field == 'TAG' or substr($field,0,7) == 'fields_'){
+					if (isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])){
+						$data[$i][$lbl]=$inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl][$cont[$field]];
+					}else				
+						$data[$i][$lbl]=$cont[$field];		
+				}else
+					$data[$i][$lbl]=$cont[$field];			
+			}elseif (isset($data_fixe[$cont['ID']][$field])){
 				$data[$i][$lbl]=$data_fixe[$cont['ID']][$field];
+			}else{
+				$data[$i][$lbl]="";
+			}
 
 		}
 		$i++;
 	}
 	$i=0;
-	//p($data);
 	while ($data[$i]){
 		$toBeWritten .="\r\n";
 		foreach ($data[$i] as $field_name=>$donnee){
