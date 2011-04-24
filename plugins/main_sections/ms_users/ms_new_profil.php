@@ -98,27 +98,30 @@ if ($protectedPost['onglet'] == 1){
 		if (isset($protectedPost['Valid_modif_x'])){
 			$msg="";
 			if(preg_match('/[^0-9A-Za-z]/',$protectedPost['new_profil'])){
-				$msg .= $l->g(1178).' : <i>' . $tab_name[0] . "</i> " . $l->g(1179) . " <br>";				
+//				$msg .= $l->g(1178).': <i>' . $tab_name[0] . "</i> " . $l->g(1179) . " <br>";
+				$msg .= $l->g(1178).': <i>' . substr($tab_name[0],0,-2) . "</i> " . $l->g(1179) . " <br>";
 			}
-			if (array_key_exists( $protectedPost['new_profil'] , $array_profil )){				
-				$msg .= $l->g(1178).' : <i>' . $tab_name[0] . "</i> " . $l->g(363) . " <br>";		
+			if (array_key_exists( $protectedPost['new_profil'] , $array_profil )){
+//				$msg .= $l->g(1178).': <i>' . $tab_name[0] . "</i> " . $l->g(363) . " <br>";
+				$msg .= $l->g(1178).': <i>' . substr($tab_name[0],0,-2) . "</i> " . $l->g(363) . " <br>";
 			}
 			$i=0;
 			while ($name_field[$i]){
 				if (trim($protectedPost[$name_field[$i]]) == ''){
-					$msg .= $l->g(1178).' : <i>' . $tab_name[$i] . "</i> " . $l->g(1180) . " <br>";				
+//					$msg .= $l->g(1178).': <i>' . $tab_name[$i] . "</i> " . $l->g(1180) . " <br>";
+					$msg .= $l->g(1178).': <i>' . substr($tab_name[$i],0,-2) . "</i> " . $l->g(1180) . " <br>";
 				}
 				$i++;
 			}
 			if ($msg != '')
 				 msg_error($msg);
 			else{
-				msg_success($l->g(1276));	
+				msg_success($l->g(1276));
 				create_profil($protectedPost['new_profil'],$protectedPost['lbl_profil'],$protectedPost['ref_profil']);
 				if ($protectedGet['form'])
 					reloadform_closeme($protectedGet['form'],true);
 				else
-					msg_success($l->g(1274));	
+					msg_success($l->g(1274));
 			}
 		}
 		

@@ -26,19 +26,20 @@
 49 Nome
 50 File di swap (MB)
 51 Commenti
+52 Visibile
 53 Descrizione
 54 Processore (CPU)
 55 Numero
 56 Dati amministrativi
 61 Scheda video
 62 Risoluzione
-63 UNITA' DI MEMORIZZAZIONE
+63 Unità di memorizzazione
 64 Produttore
 65 Modello
 66 Tipo
 67 Capacità disco
 69 Produttore
-70 Etichetta di volume
+70 Denominazione
 79 Stampanti
 80 Nome
 81 Stato
@@ -114,7 +115,7 @@
 205 Abilitato
 206 salvato per
 207 Gateway
-208 netmask
+208 Netmask
 209 Versione BIOS
 210 Data BIOS
 211 Registro
@@ -251,8 +252,8 @@
 342 Devi assegnare i diritti di scrittura sulla root directory per usarlo
 344 Errore
 345 L'ANALISI E' ANCORA IN ESECUZIONE, RIPROVA TRA POCO
-346 PRIMA
-347 DOPO
+346 prima del
+347 dopo il
 348 Utente Windows
 349 Aggiungi colonna
 350 Tipo CPU
@@ -1010,7 +1011,7 @@
 1125 Percentuale
 1126 Data della nota
 1127 Autore della nota
-1128 Nota
+1128 Note
 1129 PACCHETTO RIMOSSO
 1130 Editor della lingua
 1131 Parola
@@ -1060,7 +1061,7 @@
 1175 Restrizioni
 1176 Permessi sulle Blacklist
 1177 Permessi di gestione
-1178 Questo campo
+1178 Il campo
 1179 è una variabile. Non può contenere caratteri speciali
 1180 non può essere vuoto
 1181 Funzionalità server di ridistribuzione

@@ -26,7 +26,7 @@
 
 <LBL>
 cd_admininfo:g(56)
-cd_comments:Notes
+cd_comments:g(1128)
 cd_bios:g(273)
 cd_configuration:g(500)
 cd_controllers:g(93)

@@ -20,7 +20,7 @@
 					   $l->g(66) => 'TYPE',
 					   $l->g(67)." (MB)" => 'DISKSIZE',
 					   $l->g(36) => 'SERIALNUMBER',
-					   'FIRMWARE'=> 'FIRMWARE');
+					   $l->g(1229)=> 'FIRMWARE');
 	if($show_all_column)
 		$list_col_cant_del=$list_fields;
 	else					   
