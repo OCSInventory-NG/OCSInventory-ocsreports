@@ -814,7 +814,7 @@ sub setSnmpCommons {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
   
-  foreach my $key (qw/IPADDR TYPE MACADDR SNMPDEVICEID NAME DESCRIPTION CONTACT LOCATION UPTIME DOMAIN TYPE / ) {
+  foreach my $key (qw/IPADDR MACADDR SNMPDEVICEID NAME DESCRIPTION CONTACT LOCATION UPTIME DOMAIN TYPE / ) {
      if (exists $args->{$key}) {
         $xmltags->{COMMON}[0]{$key}[0]=$args->{$key};
      }
@@ -848,7 +848,7 @@ sub setSnmpFirewalls {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
 
-  foreach my $key (qw/SERIALNUMBER/ ) {
+  foreach my $key (qw/SERIALNUMBER SYSTEM/ ) {
      if (exists $args->{$key}) {
         $xmltags->{FIREWALLS}[0]{$key}[0]=$args->{$key};
      }
@@ -860,7 +860,7 @@ sub setSnmpLoadBalancer {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
 
-  foreach my $key (qw/SERIALNUMBER/ ) {
+  foreach my $key (qw/SERIALNUMBER SYSTEM/ ) {
      if (exists $args->{$key}) {
         $xmltags->{LOADBALANCERS}[0]{$key}[0]=$args->{$key};
      }
@@ -871,7 +871,7 @@ sub setSnmpBlade {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
 
-  foreach my $key (qw/SERIALNUMBER/ ) {
+  foreach my $key (qw/SERIALNUMBER SYSTEM/ ) {
      if (exists $args->{$key}) {
         $xmltags->{BLADES}[0]{$key}[0]=$args->{$key};
      }
@@ -895,7 +895,7 @@ sub addSnmpPrinterCartridge {
   my $content={};
 
   if ( ! defined ($xmltags->{CARDS})) {
-     $xmltags->{CARDS}=[];
+     $xmltags->{CARTRIDGES}=[];
   }
 
   foreach my $key (qw/DESCRIPTION TYPE LEVEL MAXCAPACITY COLOR/) {
@@ -913,7 +913,7 @@ sub addSnmpPrinterTray {
   my $content={};
 
   if ( ! defined ($xmltags->{CARDS})) {
-     $xmltags->{CARDS}=[];
+     $xmltags->{TRAYS}=[];
   }
 
   foreach my $key (qw/NAME DESCRIPTION LEVEL MAXCAPACITY/) {
@@ -1004,7 +1004,7 @@ sub addSnmpSwitch {
      $xmltags->{SWITCHS}=[];
   }
 
-  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOTVERSION FIRMVERSION SERIALNUMBER REVISION DESCRIPTION/) {
+  foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOFTVERSION FIRMVERSION SERIALNUMBER REVISION DESCRIPTION/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
@@ -1055,7 +1055,7 @@ sub addSnmpCPU {
      $xmltags->{CPUS}=[];
   }
 
-  foreach my $key (qw/MANUFACTURER TYPE SERIAL SPEED/) {
+  foreach my $key (qw/MANUFACTURER TYPE SPEED/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
