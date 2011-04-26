@@ -115,7 +115,7 @@
 205 Actif
 206 récupérées pour
 207 Passerelle
-208 masque
+208 Masque
 209 Version BIOS
 210 Date BIOS
 211 Registre

@@ -16,12 +16,12 @@ print_item_header($l->g(93));
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	$list_fields=array($l->g(64) => 'MANUFACTURER',
-					   $l->g(49) => 'NAME',
-					   $l->g(66) => 'TYPE',
-					   'Caption'=>'CAPTION',
-					   $l->g(53)=>'DESCRIPTION',
-					   $l->g(277)=> 'VERSION');
-					   
+			   $l->g(49) => 'NAME',
+			   $l->g(66) => 'TYPE',
+			   $l->g(80) => 'CAPTION',
+			   $l->g(53) => 'DESCRIPTION',
+			   $l->g(277)=> 'VERSION');
+
 	if($show_all_column)
 		$list_col_cant_del=$list_fields;
 	else

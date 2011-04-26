@@ -26,19 +26,20 @@
 49 Nome
 50 File di swap (MB)
 51 Commenti
+52 Visibile
 53 Descrizione
 54 Processore (CPU)
 55 Numero
 56 Dati amministrativi
 61 Scheda video
 62 Risoluzione
-63 UNITA' DI MEMORIZZAZIONE
+63 Unità di memorizzazione
 64 Produttore
 65 Modello
 66 Tipo
 67 Capacità disco
 69 Produttore
-70 Etichetta di volume
+70 Denominazione
 79 Stampanti
 80 Nome
 81 Stato
@@ -114,7 +115,7 @@
 205 Abilitato
 206 salvato per
 207 Gateway
-208 netmask
+208 Netmask
 209 Versione BIOS
 210 Data BIOS
 211 Registro
@@ -251,8 +252,8 @@
 342 Devi assegnare i diritti di scrittura sulla root directory per usarlo
 344 Errore
 345 L'ANALISI E' ANCORA IN ESECUZIONE, RIPROVA TRA POCO
-346 PRIMA
-347 DOPO
+346 prima del
+347 dopo il
 348 Utente Windows
 349 Aggiungi colonna
 350 Tipo CPU
@@ -338,7 +339,7 @@
 445 Percorso
 446 Nome file
 447 Notifica utente
-448 Avviso utente
+448 Avviso all'utente
 449 Testo
 450 Conto alla rovescia
 451 L'utente può annullare
@@ -624,7 +625,7 @@
 736 Abilita la funzionalità dei gruppi di computer
 737 Numero casuale calcolato nel range definito. Progettato per evitare di calcolare tutti i gruppi allo stesso tempo
 738 Specificare la validità di un gruppo (default: calcolato una volta al giorno - vedi offset)
-740 Validità di un blocco del computer
+740 Durata di un blocco del computer
 741 Configura il motore per aggiornare l'inventario secondo il valore del CHECKSUM dell'agente (diminuisce il carico del DB backend) 
 742 Istruire il motore perchè consideri un inventario come una transazione (meno accessi concorrenziali, miglior utilizzo del disco)
 743 Configurare il motore per fare aggiornamenti differenziali delle sezioni dell'inventario (righe). Carico inferiore del DB backend, carico superiore per il frontend)
@@ -669,7 +670,7 @@
 782 Macchine con pacchetti in errore
 783 Tipi di sistemi operativi
 784 Versioni di agenti
-785 Tipo di CPU
+785 Tipi di CPU
 786 Risoluzioni video utilizzate
 787 Macchine con CPU >=
 788 Macchine con CPU <=
@@ -1010,7 +1011,7 @@
 1125 Percentuale
 1126 Data della nota
 1127 Autore della nota
-1128 Nota
+1128 Note
 1129 PACCHETTO RIMOSSO
 1130 Editor della lingua
 1131 Parola
@@ -1060,7 +1061,7 @@
 1175 Restrizioni
 1176 Permessi sulle Blacklist
 1177 Permessi di gestione
-1178 Questo campo
+1178 Il campo
 1179 è una variabile. Non può contenere caratteri speciali
 1180 non può essere vuoto
 1181 Funzionalità server di ridistribuzione
@@ -1155,11 +1156,11 @@
 1270 DDMMYYYY
 1271 Computer della sottorete
 1272 Elimina il suo computer
-1273 Non avete il diritto di rimuovere una macchina
-1274 Profilo stato aggiornato
-1275 Non può essere eliminato i profili.
+1273 Non hai i privilegi per rimuovere una macchina
+1274 Profilo aggiornato
+1275 Il profilo non può essere eliminato.
 1276 Profilo creato
-1277 Default profil (in bianco per nessuno)
+1277 Profilo predefinito (vuoto per nessuno)
 1278 Non hai i permessi per connetterti
 1279 On the support
 1280 Private key
@@ -1168,6 +1169,7 @@
 1283 Support activation
 1284 Support keys
 1285 Show support keys
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:

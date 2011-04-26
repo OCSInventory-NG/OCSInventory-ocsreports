@@ -46,7 +46,7 @@ function form_add_subnet($title='',$default_value,$form){
 		else
 			$lbl_id= $l->g(305).":";
 			
-		$tab_name=array($l->g(304).": ",$lbl_id,$l->g(34).": ",$l->g(208).": ");
+		$tab_name=array($l->g(304).": ",$lbl_id . ":",$l->g(34).": ",$l->g(208).": ");
 		if ($title == $l->g(931))
 			$type_field=array(0,2,3,0);
 		else
