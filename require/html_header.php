@@ -24,10 +24,12 @@ if( !isset($protectedGet["popup"] )) {
 
 echo "<table  border='0' class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
-echo "><tr><td width= 10% align=center><table width= 100% align=center border='0'><tr>
- 	<td align='left'><a href='index.php?first'>";
-echo "<img src='image/logo OCS-ng-96.png'></a>";
-echo "</td></tr></table></td><td width= 100%>";
+echo "><tr><td align=left><a href='index.php?first'>";
+if (!isset($_SESSION['OCS']['SUPPORT']) or $_SESSION['OCS']['SUPPORT'] == 1 or !isset($_SESSION['OCS']["loggeduser"])){
+	echo "<img src='image/logo OCS-ng-96.png'></a>";
+}else
+	echo "<img src='image/logo OCS-ng-96_registry.png'></a>";
+echo "</td><td width= 70%>";
  	
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
 /**************************************************   ALERT MESSAGES ********************************************************/
@@ -82,7 +84,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 				}
 			}
 			
-	//	msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
+//		msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
 		
 	}
 	//warning are detected
@@ -98,14 +100,14 @@ if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
 			msg_info($l->g(890));
 }
 
-echo "</td><td width= 10%><table width= 100% align=center border='0'><tr><Td align='center'>
-	<b>Ver. " . GUI_VER_SHOW . " &nbsp&nbsp&nbsp;</b>";
+echo "</td><td width= 10% align=center>
+	Ver. <b>" . GUI_VER_SHOW . "</b>";
 	//pass in debug mode if plugin debug exist
 	if (isset($pages_refs['ms_debug'])){
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'";
 		if((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON') 
 			or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
-				echo"<b>Ver. ".GUI_VER."/".DB_NAME."</b>";
+				echo"<br>Ver. <br><b>".GUI_VER."/".DB_NAME."</b>";
 			echo "<br><a ".$javascript."><img src=image/red.png></a><br>";
 			if ($_SESSION['OCS']['DEBUG']=='ON')
 			echo "<font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>wait...</div>";
@@ -120,8 +122,6 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 		echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>";
 		echo "<img src='image/deconnexion.png' title='".$l->g(251)."' alt='".$l->g(251)."'>";
 		echo "</a>";
-	}else{
-		echo "<br>";
 	}
 		if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
 			echo "<a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'>";
@@ -136,11 +136,20 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 		echo "</form>";			
 }
 
-echo "</Td></tr></table></td></tr>";
+echo "</td></tr>";
 if (!isset($_SESSION['OCS']["loggeduser"])){
 	echo "<tr><td colspan=20 align=right>";
  require_once('plugins/language/language.php');
  	echo "</td></tr>";
+}
+if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO' and $_SESSION['OCS']['SUPPORT'] == 1){
+	echo "<tr><td colspan=3 align=left>";
+	$support=support();
+	if ($support)
+		echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_help']."&TAB=4' ><img src='image/supported.png'></a>";
+	else
+		echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_help']."&TAB=5' ><img src='image/not_supported.png'></a>";
+	echo "</td></tr>";
 }
 echo "</table>";		
 //echo "<form name='reload_fuser' id='reload_fuser' action='' method='post'></form>";
@@ -162,10 +171,7 @@ if ($_SESSION['OCS']["mesmachines"] == "NOTAG"
 //if you don't want to see the icons
 if ($icon_head!='NO'){
 require_once(PLUGINS_DIR."main_sections/section_html.php");
-echo "<form action='' name='ACTION_CLIC' id='ACTION_CLIC' method='POST'>";
-	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
-	echo "<input type='hidden' name='SHOW_ERROR_MSG' id='SHOW_ERROR_MSG' value=''>";
-	echo "</form>";
+
 }
 
 

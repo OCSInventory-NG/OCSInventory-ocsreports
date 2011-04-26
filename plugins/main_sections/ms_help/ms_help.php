@@ -9,38 +9,31 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+if (isset($protectedGet['TAB']) and $protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
+$protectedPost['onglet']=$protectedGet['TAB'];
 
 $form_name="help";
-if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
-//$protectedPost['onglet']='ABOUT';
-$protectedPost['onglet']=1;
 
+if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
+$protectedPost['onglet']=1;
+$html_support='www.ocsinventory-ng.com';
+$port_support=80;
+$http='http://';
+$sock = @fsockopen($html_support, $port_support,$errno, $errstr, 1);
+if($sock)
+		fclose($sock);
 //d�finition des onglets
 //$data_on['ABOUT']='A propos';
 $data_on[1]=$l->g(1122);
 $data_on[2]=$l->g(1123);
 $data_on[3]=$l->g(1124);
+if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO' and $_SESSION['OCS']['SUPPORT'] == 1){
+	$data_on[4]="Support console";
+	$data_on[5]="Support information";
+}
 echo "<form action='' name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($data_on,$form_name,"onglet",7);
 echo '<div class="mlt_bordure" >';
-if ($protectedPost['onglet'] == 'ABOUT'){
-	$msg = "GNU General Public License, version 2.0 <br>";
-	$msg .= "<img src='image/logo OCS-ng-48_not_registry.png'><br>";
-	$msg .= "<b><font color=RED>AUCUN SUPPORT DECLARE</font></b> - <b><font color=RED>SUPPORT NON ENREGISTREE </font></b><br> ";
-	//$msg .= "<a href=#>Prendre un contrat de support</a><br>";
-	$msg .= "<input type=button name='choise_support' value='Choisir un support'><br>";
-	$msg .= "<input type=button name='IMPORT' value='Enregistrer un support'>";
-	msg_info($msg);
-	
-	$msg = "GNU General Public License, version 2.0 <br>";
-	$msg .= "<img src='image/logo OCS-ng-48_registry.png'><br>";
-	$msg .= "<b><font color=GREEN>SUPPORT DECLARE</font></b> - Validité du support: <b><font color=GREEN>21/04/2012</font></b><br> ";
-	$msg .= "N° d'identification support: <b><big>12DVCT43ZS-GNEAO24I-MAQW23</big></b><br>";
-	//$msg .= "<a href='#'>Ouvrir un incident</a><br>";
-	$msg .= "<input type=button name='IMPORT' value='Contacter votre support'><br>";
-	$msg .= "<input type=button name='IMPORT' onclic value='Enregistrer un support'>";
-	msg_info($msg);
-}
 if ($protectedPost['onglet'] == 2){
 	echo "<iframe width=\"647\" height=\"400\" src=\"http://webchat.freenode.net/?channels=ocsinventory-ng&uio=d4\">
 		</iframe>";
@@ -50,6 +43,27 @@ if ($protectedPost['onglet'] == 2){
 }elseif($protectedPost['onglet'] == 3){
 		echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://forums.ocsinventory-ng.org\">
 	</iframe>";
+	
+}
+elseif($protectedPost['onglet'] == 4){
+		echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://rone-laptop/dev/workspace/mantis/ \">
+	</iframe>";
+	
+}elseif($protectedPost['onglet'] == 5){
+	if (isset($_SESSION['OCS']['SUPPORT_KEY'])){
+		$msg = "GNU General Public License, version 2.0 <br>";
+		$msg .= "<img src='image/logo OCS-ng-96.png'><br>";
+		$msg .= "<b><font color=GREEN>SUPPORT DECLARE</font></b> - Validité du support: <b><font color=GREEN>".$_SESSION['OCS']['SUPPORT_VALIDITYDATE']."</font></b><br> ";
+		$msg .= "N° d'identification support: <b><big>".$_SESSION['OCS']['SUPPORT_KEY']."</big></b><br>";
+		$msg .= "Email de contact: <b><big>".$_SESSION['OCS']['SUPPORT_EMAIL']."</big></b><br>";
+		$msg .= "Certificat émis par: <b><big>".$_SESSION['OCS']['SUPPORT_DELIV']."</big></b><br>";
+		msg_info($msg);
+	}else{	
+		$msg = "GNU General Public License, version 2.0 <br>";
+		$msg .= "<img src='image/logo OCS-ng-96.png'><br>";
+		$msg .= "<b><font color=RED>AUCUN SUPPORT DECLARE</font></b> - <b><font color=RED>SUPPORT NON ENREGISTREE </font></b><br> ";
+		msg_info($msg);
+	}
 	
 }
 echo "</div>";

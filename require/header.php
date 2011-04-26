@@ -96,6 +96,7 @@ if (is_resource($link_write) and is_resource($link_read)) {
 	die();
 }
 
+
 /***********************************************************LOGS ADMIN*************************************************************************/
 if (!isset($_SESSION['OCS']['LOG_GUI'])){
 	$values=look_config_default_values(array('LOG_GUI','LOG_DIR','LOG_SCRIPT'));
@@ -247,7 +248,7 @@ if (isset($protectedPost['Valid_EDITION_x'])){
 unset($_SESSION['OCS']['EDIT_LANGUAGE']);
 
 
-if (isset($protectedPost['LANG'])){
+if (isset($protectedPost['LANG']) and $protectedPost['LANG']!= ''){
 	unset($_SESSION['OCS']['LANGUAGE']);
 	cookies_add('LANG',$protectedPost['LANG']);	
 	$_SESSION['OCS']['LANGUAGE']=$protectedPost['LANG'];
@@ -289,8 +290,9 @@ if (!isset($_SESSION['OCS']["ipdiscover"])){
 if (!isset($_SESSION['OCS']["usecache"]) or !isset($_SESSION['OCS']["tabcache"])){
 	$conf_gui=array('usecache'=>'INVENTORY_CACHE_ENABLED',
 					'tabcache'=>'TAB_CACHE',
-					'useflash'=>'USE_FLASH');
-	$default_value_conf=array('INVENTORY_CACHE_ENABLED'=>1,'TAB_CACHE'=>0,'USE_FLASH'=>1);
+					'useflash'=>'USE_FLASH',
+					'SUPPORT'=>'SUPPORT');
+	$default_value_conf=array('INVENTORY_CACHE_ENABLED'=>1,'TAB_CACHE'=>0,'USE_FLASH'=>1,'SUPPORT'=>1);
 	$values=look_config_default_values($conf_gui);
 	foreach ($conf_gui as $k=>$v){
 		if (isset($values['ivalue'][$v]))

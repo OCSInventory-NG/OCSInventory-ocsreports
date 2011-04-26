@@ -166,6 +166,8 @@
  		//array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>array('OCS'=>'OCS','XML'=>'XML'))
  	}elseif($type=='long_text'){
  		echo "<textarea name='".$name."' id='".$name."' cols='".$data['COLS']."' rows='".$data['ROWS']."'  class='down' \ ".$data['JAVASCRIPT'].">".$data['VALUE']."</textarea>".$data['END'];		
+ 	}else{
+ 		echo $data['LINKS'];
  	}
  	echo "</td></tr>";
  	
@@ -316,7 +318,7 @@ function update_default_value($POST){
 						'LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
 						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE',
-						'USE_FLASH','INVENTORY_CACHE_ENABLED');
+						'USE_FLASH','INVENTORY_CACHE_ENABLED','SUPPORT');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -885,5 +887,18 @@ function pagegroups($form_name){
  	fin_tab($form_name);
  }
  
+ function pagessupport($form_name){
+ 	global $l,$numeric,$sup1,$pages_refs;
+ 	$champs=array('SUPPORT'=>'SUPPORT'); 	
+ 	$values=look_config_default_values($champs);
+ 	debut_tab(); 
+ 	$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_add_key']."&head=1&tab=temp_files&n=file\",\"active\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=450\")'";
+ 	
+ 	ligne('SUPPORT',$l->g(1283),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['SUPPORT']));
+	ligne('SUPPORT_KEYS',$l->g(1284),9,array('LINKS'=>"<input type='button' name='KEYS' id='KEYS' value='".$l->g(1284)."' ".$javascript.">"));
+	
+	fin_tab($form_name);
+ 	
+ }
  
 ?>

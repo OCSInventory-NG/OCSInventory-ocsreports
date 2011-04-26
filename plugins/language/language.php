@@ -17,15 +17,15 @@ if (file_exists($ms_cfg_file)) {
 }
 
 $i=0;
-$show_lang= "<form id='language' name='language' action='' method='post'>";
+//$show_lang= "<form id='language' name='language' action='' method='post'>";
 while (isset($list_plugins[$i])){
 	if (file_exists($Directory.$list_plugins[$i]."/".$list_plugins[$i].".png"))
-	$show_lang.= "<img src='plugins/language/".$list_plugins[$i]."/".$list_plugins[$i].".png' width=\"20\" height=\"15\" OnClick='pag(\"".$list_plugins[$i]."\",\"LANG\",\"language\");'>&nbsp;";
+	$show_lang.= "<img src='plugins/language/".$list_plugins[$i]."/".$list_plugins[$i].".png' width=\"20\" height=\"15\" OnClick='pag(\"".$list_plugins[$i]."\",\"LANG\",\"ACTION_CLIC\");'>&nbsp;";
 	else
-	$show_lang.= "<a href=# OnClick='pag(\"".$list_plugins[$i]."\",\"LANG\",\"language\");'>".$list_lbl[$list_plugins[$i]]."</a>&nbsp;";
+	$show_lang.= "<a href=# OnClick='pag(\"".$list_plugins[$i]."\",\"LANG\",\"ACTION_CLIC\");'>".$list_lbl[$list_plugins[$i]]."</a>&nbsp;";
 	$i++;	
 }
-$show_lang.= "<input type='hidden' id='LANG' name='LANG' value=''>";
-$show_lang.= "</form>";
+
+//$show_lang.= "</form>";
 echo $show_lang;
 ?>

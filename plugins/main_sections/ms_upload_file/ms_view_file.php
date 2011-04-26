@@ -34,6 +34,11 @@ if ($protectedGet['prov'] == "agent"){
 	$arg=array('content',$protectedGet["value"]);	
 }
 
+if ($protectedGet['prov'] == "ssl"){
+	$sql= "select FILE,FILE_NAME from ssl_store where id = '%s'";
+	$arg=array($protectedGet["value"]);	
+}
+
 if (isset($sql) and $sql!=''){
 	$res_document_root = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
 	$val_document_root = mysql_fetch_array( $res_document_root );

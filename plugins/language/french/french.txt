@@ -1161,6 +1161,13 @@
 1276 Profil créé
 1277 Profil par défaut (vide pour aucun)
 1278 Vous n'êtes pas autorisé à vous connecter
+1279 Sur le support
+1280 Clé privée
+1281 AC
+1282 Vous ne pouvez avoir qu'un seul
+1283 Activation du support
+1284 Clés de support
+1285 Voir les clés de support
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
