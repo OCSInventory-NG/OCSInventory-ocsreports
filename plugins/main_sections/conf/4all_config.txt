@@ -121,6 +121,7 @@ jp_teledeploy_speed_stats:teledeploy_speed_stats
 jp_activity_stats:activity_stats
 ms_ipdiscover_analyse:ipdiscover_analyse
 ms_stats_connexion:stats_connexion
+ms_add_key:add_key
 </URL>
 
 <DIRECTORY>
@@ -188,6 +189,7 @@ jp_activity_stats:ms_stats
 jp_teledeploy_speed_stats:ms_stats
 ms_ipdiscover_analyse:ms_ipdiscover
 ms_stats_connexion:ms_stats
+ms_add_key:ms_config
 </DIRECTORY>
 
 
