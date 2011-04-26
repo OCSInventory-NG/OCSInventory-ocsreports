@@ -115,7 +115,7 @@
 205 Enabled
 206 saved for
 207 Gateway
-208 mask
+208 Netmask
 209 BIOS Version
 210 BIOS Date
 211 Registry
@@ -1011,7 +1011,7 @@
 1125 Percentage
 1126 Date of note
 1127 Author of note
-1128 Note
+1128 Notes
 1129 REMOVED PACKAGE
 1130 Language editor
 1131 Word
@@ -1157,10 +1157,10 @@
 1271 Computers of the subnet
 1272 Delete his computers
 1273 You do not have the right to remove a machine
-1274 Profil updated
-1275 Profils can't be deleted.
-1276 Profil created
-1277 Default profil (blank for none)
+1274 Profile updated
+1275 Profiles can't be deleted.
+1276 Profile created
+1277 Default profile (blank for none)
 1278 You are not allowed to connect
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

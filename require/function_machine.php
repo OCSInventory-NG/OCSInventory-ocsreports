@@ -104,7 +104,7 @@ function bandeau($data,$lbl){
 				echo "</tr><tr>";
 				$i=0;			
 			}
-			echo "<td >&nbsp;<b>".$lbl[$name]." :</b></td><td >".$value."</td>";
+			echo "<td >&nbsp;<b>".$lbl[$name].": </b></td><td >".$value."</td>";
 			$i++;
 		}
 	}
