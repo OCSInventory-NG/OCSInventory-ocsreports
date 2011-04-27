@@ -54,9 +54,9 @@ function post(form_name){
 	document.getElementById(form_name).submit();
 }
 	
-function tri(did,did2,form_name){
-		document.getElementById('tri2').value=did;
-		document.getElementById('sens').value=did2;
+function tri(did,hidden_name,did2,hidden_name2,form_name){
+		document.getElementById(hidden_name).value=did;
+		document.getElementById(hidden_name2).value=did2;
 		post(form_name);
 }
 function confirme(aff,did,form_name,hidden_name,lbl){

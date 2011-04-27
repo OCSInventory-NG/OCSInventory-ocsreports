@@ -175,8 +175,8 @@ $tab_options['FIELD']['STAT']='FILEID';
 $tab_options['REQUEST']['SHOWACTIVE']='select distinct fileid AS FIRST from download_enable';
 $tab_options['FIELD']['SHOWACTIVE']='FILEID';
 //on force le tri desc pour l'ordre des paquets
-if (!$protectedPost['sens'])
-	$protectedPost['sens']='DESC';
+if (!$protectedPost['sens_'.$table_name])
+	$protectedPost['sens_'.$table_name]='DESC';
 	
 $sql_data_fixe="select concat('<font color=%s>',count(*),'</font>') as %s,de.FILEID
 			from devices d,download_enable de 

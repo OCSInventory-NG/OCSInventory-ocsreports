@@ -13,6 +13,7 @@ require_once('require/function_telediff.php');
 require_once('require/function_search.php');
 require_once('require/function_telediff_wk.php');
 $form_name="pack_affect";
+$table_name="LIST_PACK_SEARCH";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 $list_id=multi_lot($form_name,$l->g(601));
 //TELEDIFF_WK
@@ -162,8 +163,8 @@ if ($protectedPost['SELECT'] != ''){
 		echo "<script language='javascript'> window.opener.document.".$form_to_reload.".submit();</script>";
 	}
 }
-if ($protectedPost['sens'] == "")
-	$protectedPost['sens']='DESC';
+if ($protectedPost['sens_'.$table_name] == "")
+	$protectedPost['sens_'.$table_name]='DESC';
 
 
 if ($protectedPost['onglet'] == "")
@@ -222,7 +223,7 @@ if ($list_id){
 			$list_fields['ACTIVE_ID']='e.FILEID';
 			$list_fields['SELECT']='e.FILEID';
 		}
-	}		$table_name="LIST_PACK_SEARCH";//INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('".$val["h.id"]."', 'DOWNLOAD', $packid)
+	}		
 		$default_fields= array($l->g(1037)=>$l->g(1037),$l->g(1039)=>$l->g(1039),$l->g(274)=>$l->g(274),$l->g(953)." (KB)"=>$l->g(953)." (KB)",'SELECT'=>'SELECT');
 		$list_col_cant_del=array($l->g(1037)=>$l->g(1037),'SELECT'=>'SELECT');
 
