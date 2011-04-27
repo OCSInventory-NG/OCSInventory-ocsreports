@@ -1,4 +1,79 @@
 Revision history for ocsreports 
+2.0 
+		* fix bug #767032
+		* fix bug #771669 if you have multiple table on a page, you can sort each column of each table
+		* reload page when you add a new tab (accountinfo)
+		* encode info file with xml encode
+		* add messages when you add a profil and verify if you can create/delete a profil
+		* fix double in the list of computers 
+		* add choise on repart tags page
+		* add slashes on command to info file (teledeploy)
+		* force SQL format for new accountinfo and new field in wk of teledeploy
+		* add option to profil => authorize or not the removal of computers
+		* check if accountinfo field exist when you see computer details
+		* fix this pb: http://forums.ocsinventory-ng.org/viewtopic.php?pid=36161  field name => uppercase and no space
+		* You can access to computer admin info if you admin his subnet
+		* fix Bug #761523 (export data)
+
+2.0 rc4
+		* fix bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/666124
+		* fix bug on groups message (console)
+		* fix problem with tags value (if you customised your identification)
+		* if SSO connexion, don't show deconnect button
+		* fix bug on search with calendar http://forums.ocsinventory-ng.org/viewtopic.php?id=7980
+		* fix bug Bug #744241 (add accountinfo on duplicates screen)
+		* fix bug on wk of telediff => you can affect a package only if IT_SET_NIV_% are ok
+		* fix bug on computer details => if serial number == 0 you can blacklist it.
+		* fix bug on blacklist serial => you can add new serial to blacklist
+		* add accountinfo on groups show
+		* update italian file //tx to Passero
+
+2.0 rc3
+		* active cache mode on GUI
+		* add vm on computers views
+		* change look and feel on install.php
+		* Add constants in var.php
+		* fix Bug #725466 
+		* fix bug http://forums.ocsinventory-ng.org/viewtopic.php?pid=34495#p34495
+		* fix bug on export csv
+		* fix bug on ipdiscover (shows all the subnets even if no machine is elected)
+		* fix Bug #726532 (Duplicate manager report duplicate devices)
+		* change LOCAL_SERVER and LOCAL_PORT to LOCAL_URI_SERVER.
+		* add plugin functionality on stats page
+		* fix bug on group show
+ 		* use mysql2_query_secure function in function_groups.php
+		* Fix Bug #727267 (admin ipdiscover)
+		* Fix Bug #726516 (accountinfo problems)
+		* fix bug on ipdiscover => update name
+		* fix bug on activation.
+		* add ipdiscover analyse if you have ipdiscover-util.pl.
+		* update oui.txt
+		* add demo mode
+		* update wk of teledeploy (more user friendly)
+		* force sql mode not strict
+		* change REVALIDATE_FROM INT(11) DEFAULT 0 (bug for revalidate groups)
+		* add xml header in info files
+		* add filter on stats
+
+2.0 rc2
+		* Add "show all computer detail"
+		* Add "show all" option in all table 
+		* Fix bug on packet activation.
+		* Add reference field on snmp cards details .
+		* fix bug on package activation (force to http and https)
+		* Fix bug => activate a package on servers groups
+		* Fix bug when creating a package. Nb frag can be egal to 0
+		* fix bug on redistribution servers group
+		* fix bug on computer configuration when no group exist
+		* fix display bug on ms_custom_pack.php
+		* Fix bug on multi search
+		* Use language files on groups details
+		* Fix bug on cookies (columns tab)
+		* Fix bug on teledeploy workflow. You can delete your fields
+		* Fix problem with activation (Bug #704073)
+		* add bios type to multi search
+		* update language files
+		* Fix bug on many browsers on multi search (bug 694939)
 
 
 2.0 rc1

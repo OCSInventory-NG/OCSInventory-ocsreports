@@ -221,15 +221,15 @@ $sql_field=array("OCS_REPORT_WORKGROUP"=>array('ARG'=>array('count(distinct work
 
 			 	 "OCS_REPORT_NB_LIMIT_FREQ_H"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_FREQ_H"],"where processors >= ".$data_limit['GUI_REPORT_PROC_MAX'])),
 
-				 "OCS_REPORT_NB_LIMIT_FREQ_M"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_FREQ_M"],"where processors < ".$data_limit['GUI_REPORT_PROC_MINI'])),
+				 "OCS_REPORT_NB_LIMIT_FREQ_M"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_FREQ_M"],"where processors <= ".$data_limit['GUI_REPORT_PROC_MINI'])),
 
-			 	 "OCS_REPORT_NB_LIMIT_FREQ_B"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_FREQ_B"],"where processors < ".$data_limit['GUI_REPORT_PROC_MAX']." and processors >= ".$data_limit['GUI_REPORT_PROC_MINI'])),
+			 	 "OCS_REPORT_NB_LIMIT_FREQ_B"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_FREQ_B"],"where processors <= ".$data_limit['GUI_REPORT_PROC_MAX']." and processors >= ".$data_limit['GUI_REPORT_PROC_MINI'])),
 
 			 	 "OCS_REPORT_NB_LIMIT_MEM_H"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_MEM_H"],"where memory >= ".$data_limit['GUI_REPORT_RAM_MAX'])),
 
-			 	 "OCS_REPORT_NB_LIMIT_MEM_M"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_MEM_M"],"where memory < ".$data_limit['GUI_REPORT_RAM_MINI'])),
+			 	 "OCS_REPORT_NB_LIMIT_MEM_M"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_MEM_M"],"where memory <= ".$data_limit['GUI_REPORT_RAM_MINI'])),
 
-			 	 "OCS_REPORT_NB_LIMIT_MEM_B"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_MEM_B"],"where memory < ".$data_limit['GUI_REPORT_RAM_MAX']." and memory >= ".$data_limit['GUI_REPORT_RAM_MINI'])),
+			 	 "OCS_REPORT_NB_LIMIT_MEM_B"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LIMIT_MEM_B"],"where memory <= ".$data_limit['GUI_REPORT_RAM_MAX']." and memory >= ".$data_limit['GUI_REPORT_RAM_MINI'])),
 
 				 "OCS_REPORT_NB_ALL_COMPUTOR"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_ALL_COMPUTOR"],'')),
 
