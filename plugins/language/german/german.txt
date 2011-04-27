@@ -1237,6 +1237,13 @@
 1276 Profil created
 1277 Default profil (blank for none)
 1278 You are not allowed to connect
+1279 On the support
+1280 Private key
+1281 AC
+1282 You can only have one
+1283 Support activation
+1284 Support keys
+1285 Show support keys
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

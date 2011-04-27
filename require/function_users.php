@@ -205,6 +205,7 @@ function admin_profil($form){
 					  					   'CONFIGURATION'=>array('LBL'=>$l->g(1156) . ": ",'VALUE'=>$yes_no)),
 					  'TELEDIFF_WK_FIELDS'=>array('RESTRICTION'=>array('LBL'=>$l->g(1157) . ": ",'VALUE'=>$yes_no)),
 					  'TELEDIFF_ACTIVATE'=>array('RESTRICTION'=>array('LBL'=>$l->g(1158) . ": ",'VALUE'=>$yes_no)),
+					  'SUPPORT'=>array('RESTRICTION'=>array('LBL'=>$l->g(1279),'VALUE'=>$yes_no)),
 					  'MACADD'=>array('ADMIN_BLACKLIST'=>array('LBL'=>$l->g(1159) . ": ",'VALUE'=>$yes_no)),
 					  'SERIAL'=>array('ADMIN_BLACKLIST'=>array('LBL'=>$l->g(1160) . ": ",'VALUE'=>$yes_no)),
 					  'IPDISCOVER'=>array('ADMIN_BLACKLIST'=>array('LBL'=>$l->g(1161) . ": ",'VALUE'=>$yes_no),

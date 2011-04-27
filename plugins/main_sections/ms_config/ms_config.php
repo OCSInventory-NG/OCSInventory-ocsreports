@@ -33,6 +33,9 @@ $def_onglets[$l->g(760)]=$l->g(760); //Webservice
 $def_onglets[$l->g(84)]=$l->g(84); //GUI
 $def_onglets[$l->g(1108)]=$l->g(1108); //connexion
 $def_onglets[$l->g(1136)]=$l->g(1136); //SNMP
+if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO'){
+	$def_onglets['SUPPORT']='Support';
+}
 
 
 
@@ -125,6 +128,11 @@ if ($protectedPost['onglet'] == $l->g(760)){
 if ($protectedPost['onglet'] == $l->g(1136)){
 	
 	pagesnmp($form_name);
+}
+
+if ($protectedPost['onglet'] == 'SUPPORT' and isset($def_onglets['SUPPORT'])){
+	
+	pagessupport($form_name);
 }
 
 echo "</div></form>";

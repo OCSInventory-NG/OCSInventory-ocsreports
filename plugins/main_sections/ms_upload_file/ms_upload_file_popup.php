@@ -10,11 +10,9 @@
 //====================================================================================
 
 $form_name="upload_file";
-$sql_end="";
 //verification if this field exist in the table and type like 'blob'
 if (isset($protectedGet["tab"]) and $protectedGet["tab"]!=''){
 	$table=$protectedGet["tab"];
-	$sql_end=" and (type='longblob' or type='blob') ";	
 }else{
 	$table='downloadwk_pack';
 }
