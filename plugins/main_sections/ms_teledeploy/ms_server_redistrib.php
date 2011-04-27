@@ -92,7 +92,7 @@ if (isset($systemid))
 		$sens="ASC";
 	while($colname = mysql_fetch_field($result)){
 		$col=$colname->name;
-		$deb="<a OnClick='tri(\"".$col."\",\"".$sens."\",\"".$form_name."\")' >";
+		$deb="<a OnClick='tri(\"".$col."\",\"tri2\",\"".$sens."\",\"sens\",\"".$form_name."\")' >";
 		$fin="</a>";
 		$entete[$i++]=$deb.$col.$fin;			
 	}

@@ -981,18 +981,18 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 			$tab_options['ARG_SQL_COUNT']=$Details['ARG_COUNT'];
 	}
 	//by default, sort by column 1
-	if ($protectedPost['tri2'] == "" or (!in_array ($protectedPost['tri2'], $list_fields) and !in_array ($protectedPost['tri2'], $tab_options['AS'])))
-	$protectedPost['tri2']=1;
+	if ($protectedPost['tri_'.$table_name] == "" or (!in_array ($protectedPost['tri_'.$table_name], $list_fields) and !in_array ($protectedPost['tri_'.$table_name], $tab_options['AS'])))
+	$protectedPost['tri_'.$table_name]=1;
 
 	//by default, sort ASC
-	if ($protectedPost['sens'] == "")
-	$protectedPost['sens']='ASC';
+	if ($protectedPost['sens_'.$table_name] == "")
+	$protectedPost['sens_'.$table_name]='ASC';
 	
 	//if data is signed
-	if ($tab_options['TRI']['SIGNED'][$protectedPost['tri2']])
-		$queryDetails.= " order by cast(".$protectedPost['tri2']." as signed) ".$protectedPost['sens'];
+	if ($tab_options['TRI']['SIGNED'][$protectedPost['tri_'.$table_name]])
+		$queryDetails.= " order by cast(".$protectedPost['tri_'.$table_name]." as signed) ".$protectedPost['sens_'.$table_name];
 	else
-		$queryDetails.= " order by ".$protectedPost['tri2']." ".$protectedPost['sens'];
+		$queryDetails.= " order by ".$protectedPost['tri_'.$table_name]." ".$protectedPost['sens_'.$table_name];
 	
 		
 	if (isset($protectedPost["pcparpage"]) and $protectedPost["pcparpage"]<= 200){
@@ -1074,7 +1074,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe'])){
 						$sql.=" order by '%s' %s";
 						array_push($protectedPost['tri_fixe'],$arg);
-						array_push($protectedPost['sens'],$arg);
+						array_push($protectedPost['sens_'.$table_name],$arg);
 					}
 					$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 				}
@@ -1289,9 +1289,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 
 		tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
 		show_page($num_rows_result,$form_name);
-		echo "<input type='hidden' id='tri2' name='tri2' value='".$protectedPost['tri2']."'>";
+		echo "<input type='hidden' id='tri_".$table_name."' name='tri_".$table_name."' value='".$protectedPost['tri_'.$table_name]."'>";
 		echo "<input type='hidden' id='tri_fixe' name='tri_fixe' value='".$protectedPost['tri_fixe']."'>";
-		echo "<input type='hidden' id='sens' name='sens' value='".$protectedPost['sens']."'>";
+		echo "<input type='hidden' id='sens_".$table_name."' name='sens_".$table_name."' value='".$protectedPost['sens_'.$table_name]."'>";
 		echo "<input type='hidden' id='SUP_PROF' name='SUP_PROF' value=''>";
 		echo "<input type='hidden' id='MODIF' name='MODIF' value=''>";
 		echo "<input type='hidden' id='SELECT' name='SELECT' value=''>";
@@ -1364,7 +1364,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				$value_of_field=data_encode_utf8($value_of_field);
 				
 				$col[$i]=$key;
-				if ($protectedPost['sens'] == "ASC")
+				if ($protectedPost['sens_'.$table_name] == "ASC")
 					$sens="DESC";
 				else
 					$sens="ASC";
@@ -1587,11 +1587,11 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				}
 	
 				if ($lien == 'OK'){
-					$deb="<a onclick='return tri(\"".$value."\",\"".$sens."\",\"".$form_name."\");' >";
+					$deb="<a onclick='return tri(\"".$value."\",\"tri_".$table_name."\",\"".$sens."\",\"sens_".$table_name."\",\"".$form_name."\");' >";
 					$fin="</a>";
 					$entete[$num_col]=$deb.$entete[$num_col].$fin;
-					if ($protectedPost['tri2'] == $value){
-						if ($protectedPost['sens'] == 'ASC')
+					if ($protectedPost['tri_'.$table_name] == $value){
+						if ($protectedPost['sens_'.$table_name] == 'ASC')
 							$img="<img src='image/down.png'>";
 						else
 							$img="<img src='image/up.png'>";
