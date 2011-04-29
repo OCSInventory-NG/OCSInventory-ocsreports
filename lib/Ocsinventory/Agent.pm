@@ -103,6 +103,12 @@ sub run {
         $config->{config}{nosoftware} = 1
     }
 
+   # desactivate local mode even if it is set in config file or command line 
+   if (defined($config->{config}{nolocal})) {
+       undef $config->{config}{'local'};
+   }
+
+
 	# TODO put that in Ocsinventory::Agent::Config
     if (!$config->{config}{'stdout'} && !$config->{config}{'local'} && $config->{config}{server} !~ /^http(|s):\/\//) {
         $logger->debug("the --server passed doesn't have a protocol, assume http as default");

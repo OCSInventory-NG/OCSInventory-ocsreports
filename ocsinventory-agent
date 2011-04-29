@@ -215,6 +215,10 @@ Else if duration is a numerical value, it will be used directly.
 Do not inventory the software installed on the machine. B<--nosoft> also
 works but is deperecated.
 
+=item B<--nolocal>
+
+Desactivate local mode even if it is set in config file or command line
+
 =back
 
 =head1 CONFIG FILE

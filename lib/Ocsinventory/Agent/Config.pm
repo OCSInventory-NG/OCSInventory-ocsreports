@@ -134,6 +134,7 @@ sub loadUserParams {
 #  "x|xml"          =>   \$self->{config}{xml},
 		"delaytime"       =>   \$self->{config}{delaytime},
 		"scan-homedirs"   =>   \$self->{config}{scanhomedirs},
+		"nolocal"        =>   \$self->{config}{nolocal},
 	);
 
 	$self->help() if (!GetOptions(%options) || $self->{config}{help});
