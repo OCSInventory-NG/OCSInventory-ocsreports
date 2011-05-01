@@ -24,7 +24,6 @@ while ($value = mysql_fetch_object($res)){
 		$list_field[$value->Field]=$value->Field;
 		$type_field[$value->Field]=$value->Type;
 }
-
 $fields_table=array('ID','NAME_ACCOUNTINFO','TYPE,NAME','ID_TAB','COMMENT','SHOW_ORDER','ACCOUNT_TYPE');
 $sql=prepare_sql_tab($fields_table);
 $sql['SQL'] .="from accountinfo_config where ACCOUNT_TYPE='COMPUTERS'";
@@ -59,9 +58,10 @@ foreach ($list_field as $name){
 		$fields_table=array('TYPE','NAME','ID_TAB','COMMENT','SHOW_ORDER','ACCOUNT_TYPE');
 		$max_order++;
 		
-		if ($type_field[$name] == "varchar(10)")
+		if ($type_field[$name] == "varchar(10)" or $type_field[$name] == "date"){
 			$type=6;
-		elseif ($type_field[$name] == "blob")
+			$type_field[$name] = "varchar(10)";
+		}elseif ($type_field[$name] == "blob")
 			$type=5;
 		elseif ($type_field[$name] == "varchar(255)")
 			$type=0;

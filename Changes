@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0 
+		* fix bug on update old accountinfo (date format => varchar(10))
 		* fix bug #767032
 		* fix bug #771669 if you have multiple table on a page, you can sort each column of each table
 		* reload page when you add a new tab (accountinfo)
