@@ -785,7 +785,7 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6003', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6004', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1341,4 +1341,15 @@ UPDATE groups set REVALIDATE_FROM = 0 where REVALIDATE_FROM is null;
 DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
 
 INSERT INTO config VALUES ('SESSION_VALIDITY_TIME',600,'','Validity of a session (prolog=>postinventory)');
+
+CREATE TABLE ssl_store (
+ID INTEGER NOT NULL AUTO_INCREMENT,
+FILE LONGBLOB DEFAULT NULL,
+AUTHOR VARCHAR(255) DEFAULT NULL,
+FILE_NAME VARCHAR(255) DEFAULT NULL,
+FILE_TYPE VARCHAR(20) DEFAULT NULL,
+DESCRIPTION VARCHAR(255) DEFAULT NULL,
+PRIMARY KEY (ID) ) DEFAULT CHARSET=UTF8;
+
+INSERT INTO config VALUES ('DOWNLOAD_REDISTRIB',1,'','Use redistribution servers');
 
