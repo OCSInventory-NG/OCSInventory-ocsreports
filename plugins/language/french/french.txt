@@ -1162,12 +1162,22 @@
 1277 Profil par défaut (vide pour aucun)
 1278 Vous n'êtes pas autorisé à vous connecter
 1279 Sur le support
-1280 Clé privée
-1281 AC
-1282 Vous ne pouvez avoir qu'un seul
+1280 Il existe déjà un certificat. L'ajout d'un nouveau supprimera l'ancien.
+1281 Support console
+1282 Le certificat ou le mot de passe n'est pas correct
 1283 Activation du support
 1284 Clés de support
 1285 Voir les clés de support
+1286 GNU General Public License, version 2.0
+1287 SUPPORT DECLARE
+1288 Validité du support
+1289 N° d'identification support
+1290 Email de contact
+1291 Certificat émis par
+1292 AUCUN SUPPORT DECLARE
+1294 Information support
+1295 Avoir plus d'informations
+
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

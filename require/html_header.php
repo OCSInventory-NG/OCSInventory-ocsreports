@@ -143,6 +143,7 @@ if (!isset($_SESSION['OCS']["loggeduser"])){
  	echo "</td></tr>";
 }
 if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO' and $_SESSION['OCS']['SUPPORT'] == 1){
+	require_once('require/function_ssl.php');
 	echo "<tr><td colspan=3 align=left>";
 	$support=support();
 	if ($support)

@@ -28,8 +28,8 @@ $data_on[1]=$l->g(1122);
 $data_on[2]=$l->g(1123);
 $data_on[3]=$l->g(1124);
 if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO' and $_SESSION['OCS']['SUPPORT'] == 1){
-	$data_on[4]="Support console";
-	$data_on[5]="Support information";
+	$data_on[4]=$l->g(1281);
+	$data_on[5]=$l->g(1294);
 }
 echo "<form action='' name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($data_on,$form_name,"onglet",7);
@@ -51,19 +51,20 @@ elseif($protectedPost['onglet'] == 4){
 	
 }elseif($protectedPost['onglet'] == 5){
 	if (isset($_SESSION['OCS']['SUPPORT_KEY'])){
-		$msg = "GNU General Public License, version 2.0 <br>";
+		$msg = $l->g(1286)."<br>";
 		$msg .= "<img src='image/logo OCS-ng-96.png'><br>";
-		$msg .= "<b><font color=GREEN>SUPPORT DECLARE</font></b> - Validité du support: <b><font color=GREEN>".$_SESSION['OCS']['SUPPORT_VALIDITYDATE']."</font></b><br> ";
-		$msg .= "N° d'identification support: <b><big>".$_SESSION['OCS']['SUPPORT_KEY']."</big></b><br>";
-		$msg .= "Email de contact: <b><big>".$_SESSION['OCS']['SUPPORT_EMAIL']."</big></b><br>";
-		$msg .= "Certificat émis par: <b><big>".$_SESSION['OCS']['SUPPORT_DELIV']."</big></b><br>";
+		$msg .= "<b><font color=GREEN>".$l->g(1287)."</font></b> - ".$l->g(1288).": <b><font color=GREEN>".$_SESSION['OCS']['SUPPORT_VALIDITYDATE']."</font></b><br> ";
+		$msg .= $l->g(1289).": <b><big>".$_SESSION['OCS']['SUPPORT_KEY']."</big></b><br>";
+		$msg .= $l->g(1290).": <b><big>".$_SESSION['OCS']['SUPPORT_EMAIL']."</big></b><br>";
+		$msg .= $l->g(1291).": <b><big>".$_SESSION['OCS']['SUPPORT_DELIV']."</big></b><br>";
 		msg_info($msg);
 	}else{	
-		$msg = "GNU General Public License, version 2.0 <br>";
+		$msg = $l->g(1286)." <br>";
 		$msg .= "<img src='image/logo OCS-ng-96.png'><br>";
-		$msg .= "<b><font color=RED>AUCUN SUPPORT DECLARE</font></b> - <b><font color=RED>SUPPORT NON ENREGISTREE </font></b><br> ";
+		$msg .= "<b><font color=RED>".$l->g(1292)."</font></b><br> ";
 		msg_info($msg);
 	}
+	echo "<a href='http://".$html_support."' target='_blank'>".$l->g(1295)."</a>";
 	
 }
 echo "</div>";
