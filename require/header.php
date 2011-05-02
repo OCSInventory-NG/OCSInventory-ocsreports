@@ -198,7 +198,14 @@ if (!isset($_COOKIE["VERS"]) or $_COOKIE["VERS"] != GUI_VER){
 	}
 	cookies_add("VERS", GUI_VER);
 }
-
+//nb result by page
+if (isset($protectedPost["pcparpage"]) and isset($protectedPost["old_pcparpage"])
+		and $protectedPost["pcparpage"] != $protectedPost["old_pcparpage"]){
+	$_SESSION['OCS']['nb_tab'][$protectedPost['TABLE_NAME']]=$protectedPost["pcparpage"];
+	cookies_add($protectedPost['TABLE_NAME'].'_nbpage',$protectedPost["pcparpage"]);
+}elseif($_COOKIE[$protectedPost['TABLE_NAME'].'_nbpage'])
+	$_SESSION['OCS']['nb_tab'][$protectedPost['TABLE_NAME']]=$_COOKIE[$protectedPost['TABLE_NAME'].'_nbpage'];
+	
 //del column
 if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
 	unset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']][$protectedPost['SUP_COL']]);
