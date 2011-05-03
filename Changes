@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0 
+		* launch config.txt for computers details and snmp details only one time by session
 		* the number of pages is saved in session/cookies
 		* fix bug on update old accountinfo (date format => varchar(10))
 		* fix bug #767032
