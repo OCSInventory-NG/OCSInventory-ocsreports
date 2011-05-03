@@ -671,8 +671,15 @@ function tab_list_error($data,$title)
 	
 }
 
-function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='#9894B5'){
+function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='#9894B5',$table_name=''){
 	global $protectedPost,$l;
+
+	//catch nb result by page
+	if (isset($_SESSION['OCS']['nb_tab'][$table_name]))
+		$protectedPost["pcparpage"]=$_SESSION['OCS']['nb_tab'][$table_name];
+	elseif(isset($_COOKIE[$table_name.'_nbpage']))
+		$protectedPost["pcparpage"]=$_COOKIE[$table_name.'_nbpage'];	
+	
 
 	if ($protectedPost['old_pcparpage'] != $protectedPost['pcparpage'])
 		$protectedPost['page']=0;
@@ -970,7 +977,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	$link=$_SESSION['OCS']["readServer"];	
 	
 	//show select nb page
-	$limit=nb_page($form_name,100,"","");
+	$limit=nb_page($form_name,100,"","",$table_name);
 	//you want to filter your result
 	if (isset($tab_options['FILTRE'])){
 		$Details=filtre($tab_options['FILTRE'],$form_name,$queryDetails,$tab_options['ARG_SQL'],$tab_options['ARG_SQL_COUNT']);

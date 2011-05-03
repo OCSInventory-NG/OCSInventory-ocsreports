@@ -215,9 +215,8 @@ function read_profil_file($name,$writable=''){
 	//Select config file depending on user profile
 	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR'].$name."_config.txt";
 	$search=array('INFO'=>'MULTI','PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'MULTI','ADMIN_BLACKLIST'=>'MULTI','CONFIGURATION'=>'MULTI');
-	if (!is_writable($_SESSION['OCS']['OLD_CONF_DIR']) and $writable!='') {
-		msg_error($l->g(297)." ".$_SESSION['OCS']['OLD_CONF_DIR']."old_config_files/
-    				<br>".$l->g(1148));
+	if (is_writable($_SESSION['OCS']['OLD_CONF_DIR']) and $writable!='') {
+		msg_error($l->g(297)." ".$_SESSION['OCS']['OLD_CONF_DIR']."<br>".$l->g(1148));
 	}
 	return read_files($search,$ms_cfg_file,$writable);
 }
@@ -329,48 +328,5 @@ function html_header($no_java=false){
 	
 }
 
-function support(){
-	global $l;
-	if (isset($_SESSION['OCS']['SUPPORT_KEY']))
-		return $_SESSION['OCS']['SUPPORT_KEY'];
-		
-	$certs=array();
-	$sql="select FILE,description from ssl_store ";
-		$result=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"]);
-		
-	while($cert = mysql_fetch_array( $result ))
-		$certificats[$cert['description']]=$cert['FILE'];
-	if (!isset($certificats['MYKEY']) or !isset($certificats['AC'])){
-		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			msg_error('NO CERTIFICAT');
-		return false;
-	}
-	
-	openssl_pkcs12_read ( $certificats['MYKEY'] , $certs , 'test' );
-	
-	if (!openssl_x509_check_private_key ( $certs['cert'] , $certs['pkey'] )){
-		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			msg_error('PKEY NOT SIGNED CERT');
-		return false;
-	}
-	$open_data=openssl_x509_read($certs['cert']);
-	$viewCert = openssl_x509_parse($open_data); 
-	//p($viewCert);
-	if ($viewCert['validTo_time_t']> time()){
-		$_SESSION['OCS']['SUPPORT_KEY']=$viewCert['serialNumber']."-".$viewCert['hash']."-".$viewCert['validFrom_time_t'];
-		$_SESSION['OCS']['SUPPORT_VALIDITYDATE']=date($l->g(1242), $viewCert['validTo_time_t']);
-		$email=explode(':',$viewCert['extensions']['subjectAltName']);
-		$_SESSION['OCS']['SUPPORT_EMAIL']=$email[1];
-		$deliv=explode('/DC=',$viewCert['name']);
-		$_SESSION['OCS']['SUPPORT_DELIV']=$deliv[2].".".$deliv[1];
-		return $_SESSION['OCS']['SUPPORT_KEY'];
-	
-	}else{
-		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			msg_error('CERT OUT OF DATE');
-		return false;
-	}	
-	
-}
 
 ?>

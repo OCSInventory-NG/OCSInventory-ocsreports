@@ -44,14 +44,20 @@ echo $second_tab;
 //get plugins when exist
 $Directory=PLUGINS_DIR."snmp_detail/";
 $ms_cfg_file= $Directory."snmp_config.txt";
-
-if (file_exists($ms_cfg_file)) {
-	$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI','ISAVAIL'=>'MULTI');
-	$plugins_data=read_configuration($ms_cfg_file,$search);
-	$list_plugins=$plugins_data['ORDER'];
-	$list_lbl=$plugins_data['LBL'];
-	$list_avail=$plugins_data['ISAVAIL'];
+if (!isset($_SESSION['OCS']['DETAIL_SNMP'])){
+	if (file_exists($ms_cfg_file)) {
+		$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI','ISAVAIL'=>'MULTI');
+		$plugins_data=read_configuration($ms_cfg_file,$search);
+		$_SESSION['OCS']['DETAIL_SNMP']['LIST_PLUGINS']=$plugins_data['ORDER'];
+		$_SESSION['OCS']['DETAIL_SNMP']['LIST_LBL']=$plugins_data['LBL'];
+		$_SESSION['OCS']['DETAIL_SNMP']['LIST_AVAIL']=$plugins_data['ISAVAIL'];
+	}
 }
+
+$list_plugins=$_SESSION['OCS']['DETAIL_SNMP']['LIST_PLUGINS'];
+$list_lbl=$_SESSION['OCS']['DETAIL_SNMP']['LIST_LBL'];
+$list_avail=$_SESSION['OCS']['DETAIL_SNMP']['LIST_AVAIL'];
+
 
 foreach ($list_avail as $key=>$value){
 	$sql="select count(*) c from %s where SNMP_ID=%s";
