@@ -215,9 +215,8 @@ function read_profil_file($name,$writable=''){
 	//Select config file depending on user profile
 	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR'].$name."_config.txt";
 	$search=array('INFO'=>'MULTI','PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'MULTI','ADMIN_BLACKLIST'=>'MULTI','CONFIGURATION'=>'MULTI');
-	if (!is_writable($_SESSION['OCS']['OLD_CONF_DIR']) and $writable!='') {
-		msg_error($l->g(297)." ".$_SESSION['OCS']['OLD_CONF_DIR']."old_config_files/
-    				<br>".$l->g(1148));
+	if (is_writable($_SESSION['OCS']['OLD_CONF_DIR']) and $writable!='') {
+		msg_error($l->g(297)." ".$_SESSION['OCS']['OLD_CONF_DIR']."<br>".$l->g(1148));
 	}
 	return read_files($search,$ms_cfg_file,$writable);
 }
