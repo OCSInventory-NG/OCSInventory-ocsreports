@@ -76,18 +76,22 @@ foreach ($lbl_affich as $key=>$lbl){
 }
 
 $bandeau=bandeau($data,$lbl_affich);
-
-//get plugins when exist
 $Directory=PLUGINS_DIR."computer_detail/";
 $ms_cfg_file= $Directory."cd_config.txt";
-
-if (file_exists($ms_cfg_file)) {
-	$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI','ISAVAIL'=>'MULTI');
-	$plugins_data=read_configuration($ms_cfg_file,$search);
-	$list_plugins=$plugins_data['ORDER'];
-	$list_lbl=$plugins_data['LBL'];
-	$list_avail=$plugins_data['ISAVAIL'];
+if (!isset($_SESSION['OCS']['DETAIL_COMPUTER'])){
+	//get plugins when exist	
+	if (file_exists($ms_cfg_file)) {
+		$search=array('ORDER'=>'MULTI2','LBL'=>'MULTI','ISAVAIL'=>'MULTI');
+		$plugins_data=read_configuration($ms_cfg_file,$search);
+		$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_PLUGINS']=$plugins_data['ORDER'];
+		$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_LBL']=$plugins_data['LBL'];
+		$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_AVAIL']=$plugins_data['ISAVAIL'];
+	}
 }
+$list_plugins=$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_PLUGINS'];
+$list_lbl=$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_LBL'];
+$list_avail=$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_AVAIL'];
+
 //par d�faut, on affiche les donn�es admininfo
 if (!isset($protectedGet['option'])){
 	$protectedGet['option']="cd_admininfo";
