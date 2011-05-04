@@ -1166,7 +1166,7 @@
 1281 Support console
 1282 Le certificat ou le mot de passe n'est pas correct
 1283 Activation du support
-1284 Clés de support
+1284 Certificat de support
 1285 Voir les clés de support
 1286 GNU General Public License, version 2.0
 1287 SUPPORT DECLARE
