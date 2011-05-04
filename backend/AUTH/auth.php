@@ -42,6 +42,7 @@
  $list_methode=array(0=>"local.php");
 // $list_methode=array(0=>"ldap.php");
 
+ 
  if ($affich_method == 'HTML' and isset($protectedPost['Valid_CNX']) and trim($protectedPost['LOGIN']) != ""){
  	$login=$protectedPost['LOGIN'];
  	$mdp=$protectedPost['PASSWD']; 
@@ -50,6 +51,9 @@
  }elseif ($affich_method != 'HTML' and isset($_SERVER['PHP_AUTH_USER'])){
  	$login=$_SERVER['PHP_AUTH_USER'];
  	$mdp=$_SERVER['PHP_AUTH_PW'];  	
+ }elseif($affich_method == 'SSO' and isset($_SERVER['HTTP_AUTH_USER'])){
+ 	$login=$_SERVER['HTTP_AUTH_USER'];
+ 	$mdp='NO_PASSWD';  	
  }
 
 if (isset($login) && isset($mdp)){
