@@ -8,6 +8,7 @@ package Ocsinventory::Agent::Modules::Snmp::9;
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 sub snmp_run {
    my ($session , $snmp )= @_;
@@ -38,6 +39,11 @@ sub snmp_run {
    my $snmp_cisco_devicePlatform="1.3.6.1.4.1.9.9.23.1.2.1.1.8.";
    my $snmp_vtp_vlan_state="1.3.6.1.4.1.9.9.46.1.3.1.1.2";
    my $snmp_dot1dTpFdbPort="1.3.6.1.2.1.17.4.3.1.2";
+ 
+   my $snmp_cisco_ImageTable="1.3.6.1.4.1.9.9.25.1.1.1.2.4";
+   my $snmp_cisco_ImageVersion="1.3.6.1.4.1.9.9.25.1.1.1.2.5";
+   my $snmp_cisco_cpmProcessName="1.3.6.1.4.1.9.9.109.1.2.1.1.2";
+   my $snmp_cisco_cpmProcessCPU="1.3.6.1.4.1.9.9.109.1.2.1.1.6.";
 
 
    my $oid;
@@ -69,6 +75,7 @@ sub snmp_run {
    my $DEVICEPORT=undef;
    my $DEVICETYPE=undef;
    my $VLAN=undef;
+   my $CPU=undef;
 
     $common->setSnmpCommons( {TYPE => "Network"} );
 
@@ -103,39 +110,41 @@ sub snmp_run {
                 #-privpassword  => $comm->{privpasswd},
                 #-privprotocol  => $comm->{privproto},
           );
-          my $result_snmp_mac=$sub_session->get_entries(-columns => [$snmp_dot1dTpFdbPort ]);
-          if ( defined ($result_snmp_mac ) ) {
-             # We scan all lines 
-             for my $ligne_snmp_mac ( keys %{$result_snmp_mac} ) {
-                 # We first take in the OID the 6 last numbers indicate in decimal the mac address
-                 if ( $ligne_snmp_mac =~ /17\.4\.3\.1\.2\.(\S+)\.(\S+)\.(\S+)\.(\S+)\.(\S+)\.(\S+)$/ ) {
-                    my $distant_mac=sprintf("%.2x:%.2x:%.2x:%.2x:%.2x:%.2x",$1,$2,$3,$4,$5,$6);
-                    my $data_values={};
-                    my $index_bridge=$result_snmp_mac->{$ligne_snmp_mac};
-
-                    # We have no table for this reference
-                    if ( ! defined ( $index_mac->{$index_bridge}) ) {
-                        # init of the table
-                        $index_mac->{$index_bridge}=[];
-                        # we take the value gived by the OID
-                        my $snmp_intero=$snmp_dot1dBasePortIfIndex.$index_bridge;
-                        # We take the index reference for the ifdesc
-                        # So when we scan this ifdesc, we can add the vlans and mac 
-                        my $ref_snmp_line=$sub_session->get_request(-varbindlist => [ $snmp_intero ]);
-                        # We transmit the ointer value to the ref_mac so we can have a double acces for the data
-                        # If we have no information: the mac is not associated with a port
-                        # It's the switch mac adress
-                        if ( defined ( $ref_snmp_line->{$snmp_intero}) ) {
-                           $ref_mac->{$ref_snmp_line->{$snmp_intero}}=$index_mac->{$index_bridge};
-                        }
+          if ( defined ( $sub_session ) ) {
+             my $result_snmp_mac=$sub_session->get_entries(-columns => [$snmp_dot1dTpFdbPort ]);
+             if ( defined ($result_snmp_mac ) ) {
+                # We scan all lines 
+                for my $ligne_snmp_mac ( keys %{$result_snmp_mac} ) {
+                    # We first take in the OID the 6 last numbers indicate in decimal the mac address
+                    if ( $ligne_snmp_mac =~ /17\.4\.3\.1\.2\.(\S+)\.(\S+)\.(\S+)\.(\S+)\.(\S+)\.(\S+)$/ ) {
+                       my $distant_mac=sprintf("%.2x:%.2x:%.2x:%.2x:%.2x:%.2x",$1,$2,$3,$4,$5,$6);
+                       my $data_values={};
+                       my $index_bridge=$result_snmp_mac->{$ligne_snmp_mac};
+   
+                       # We have no table for this reference
+                       if ( ! defined ( $index_mac->{$index_bridge}) ) {
+                           # init of the table
+                           $index_mac->{$index_bridge}=[];
+                           # we take the value gived by the OID
+                           my $snmp_intero=$snmp_dot1dBasePortIfIndex.$index_bridge;
+                           # We take the index reference for the ifdesc
+                           # So when we scan this ifdesc, we can add the vlans and mac 
+                           my $ref_snmp_line=$sub_session->get_request(-varbindlist => [ $snmp_intero ]);
+                           # We transmit the ointer value to the ref_mac so we can have a double acces for the data
+                           # If we have no information: the mac is not associated with a port
+                           # It's the switch mac adress
+                           if ( defined ( $ref_snmp_line->{$snmp_intero}) ) {
+                              $ref_mac->{$ref_snmp_line->{$snmp_intero}}=$index_mac->{$index_bridge};
+                           }
+                       }
+                       $data_values->{MACADRESS}[0]=$distant_mac;
+                       $data_values->{VLANID}[0]=$ref_vlan;
+                       push(@{$index_mac->{$result_snmp_mac->{$ligne_snmp_mac}}},$data_values);
                     }
-                    $data_values->{MACADRESS}[0]=$distant_mac;
-                    $data_values->{VLANID}[0]=$ref_vlan;
-                    push(@{$index_mac->{$result_snmp_mac->{$ligne_snmp_mac}}},$data_values);
-                 }
+                }
              }
+             $sub_session->close;
           }
-          $sub_session->close;
        }
        
    }
@@ -182,7 +191,6 @@ sub snmp_run {
 			substr($MACADDR,10,2).":".
 			substr($MACADDR,12,2);
                   } else {
-                     print "$MACADDR \n";
                      $MACADDR="";
                   }
                }
@@ -275,6 +283,26 @@ sub snmp_run {
     }
     # We have finished for interfaces
 
+
+    # We look for Softwares on the switch
+    # We look for feature
+    # All feature are separated by a pipe
+    $result_snmp=$session->get_request ( -varbindlist => [ $snmp_cisco_ImageTable ]) ;
+    if ( defined ( $result_snmp ) ) {
+        $result_snmp=$result_snmp->{$snmp_cisco_ImageTable};
+        my @tab_feature=split(/\$/,$result_snmp);
+        @tab_feature=split(/\|/,$tab_feature[1]);
+        foreach $result_sub ( @tab_feature ) {
+          $common->addSoftware( { NAME => $result_sub , COMMENTS => "Feature" } );
+        }
+    }
+    # We look for IOS version
+    $result_snmp=$session->get_request ( -varbindlist => [ $snmp_cisco_ImageVersion ]) ;
+    if ( defined ( $result_snmp ) ) {
+        $result_snmp=$result_snmp->{$snmp_cisco_ImageVersion};
+        my @tab_feature=split(/\$/,$result_snmp);
+        $common->addSoftware( { NAME => $tab_feature[1] , COMMENTS => "IOS" } );
+    }
 } 
 
 1;

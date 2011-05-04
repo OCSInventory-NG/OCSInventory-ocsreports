@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Various patches for Snmp/9.pm module (Cisco)
        * Add --nolocal option to desactivate local mode even if it is set in config file or command line
        * Fix Bug #767290 about /etc/sysconfig/ocsinventory-agent server settings ignore (only for Redhat like distributions)
        * Only inventory vitualmachines which have an UUID in VirtualBox.pm to prevent inventoring USB devices or shared folders as virtualmachines
