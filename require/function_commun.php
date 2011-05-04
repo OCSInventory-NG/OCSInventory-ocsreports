@@ -260,7 +260,8 @@ function replace_language($info){
 
 function msg($txt,$css,$log=0){
 	echo "<center><div class='" . $css . "'>" . $txt . "</div></center>";	
-	addLog('MSG_'.$css, $txt);
+	if ($css == 'error')
+		addLog('MSG_'.$css, $txt);
 }
 function msg_info($txt){
 	msg($txt,'info');
