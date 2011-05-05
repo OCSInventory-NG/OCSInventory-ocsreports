@@ -4,7 +4,7 @@ function support(){
 	//not search certificat if it's exist in session
 	if (isset($_SESSION['OCS']['SUPPORT_KEY']))
 		return $_SESSION['OCS']['SUPPORT_KEY'];
-		
+	update_ssl_database();
 	$certs=array();
 	
 	//find all support certificats 
@@ -31,15 +31,26 @@ function support(){
 	//read certificat
 	$open_data=openssl_x509_read($certificats['cert']);
 	$viewCert = openssl_x509_parse($open_data); 
-
 	//Put on SESSION all information we need
 	if ($viewCert['validTo_time_t']> time()){
-		$_SESSION['OCS']['SUPPORT_KEY']=$viewCert['serialNumber']."-".$viewCert['hash']."-".$viewCert['validFrom_time_t'];
 		$_SESSION['OCS']['SUPPORT_VALIDITYDATE']=date($l->g(1242), $viewCert['validTo_time_t']);
 		$email=explode(':',$viewCert['extensions']['subjectAltName']);
 		$_SESSION['OCS']['SUPPORT_EMAIL']=$email[1];
-		$deliv=explode('/DC=',$viewCert['name']);
-		$_SESSION['OCS']['SUPPORT_DELIV']=$deliv[2].".".$deliv[1];
+		$deliv=explode('/',$viewCert['name']);
+		foreach($deliv as $poub=>$datas){
+			$tab[]=explode('=',$datas);			 
+		}
+		
+		foreach($tab as $poub=>$datas){
+			if ($datas[0] == 'DC'){
+				$cert_emis[]=$datas[1];
+			}
+				
+			if ($datas[0] == 'UID')
+				$_SESSION['OCS']['SUPPORT_KEY']=$datas[1];
+		}
+		$_SESSION['OCS']['SUPPORT_DELIV']=$cert_emis[1].'.'.$cert_emis[0];
+		update_ssl_database($_SESSION['OCS']['SUPPORT_KEY'],$viewCert['validTo_time_t']);
 		return $_SESSION['OCS']['SUPPORT_KEY'];
 	
 	}else{ //certificat out of date
@@ -64,5 +75,15 @@ function parse_cert($file,$pass){
 	return $certs;
 }
 
-
+function update_ssl_database($uuid='',$timestamp=''){
+	$id_support='SUPPORT_UID';
+	$valid_date='SUPPORT_TIMESTAMP';
+	$sql_delete="delete from config where name='%s' or name='%s'";
+	mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"],array($id_support,$valid_date));
+	if ($uuid != '' and $timestamp != ''){
+		$sql_insert="insert into config (name,%s) values ('%s','%s')";
+		mysql2_query_secure($sql_insert, $_SESSION['OCS']["writeServer"],array('tvalue',$id_support,$uuid));
+		mysql2_query_secure($sql_insert, $_SESSION['OCS']["writeServer"],array('ivalue',$valid_date,$timestamp));
+	}
+}
 ?>

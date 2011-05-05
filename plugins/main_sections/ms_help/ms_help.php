@@ -54,7 +54,7 @@ elseif($protectedPost['onglet'] == 4){
 		$msg = $l->g(1286)."<br>";
 		$msg .= "<img src='image/logo OCS-ng-96.png'><br>";
 		$msg .= "<b><font color=GREEN>".$l->g(1287)."</font></b> - ".$l->g(1288).": <b><font color=GREEN>".$_SESSION['OCS']['SUPPORT_VALIDITYDATE']."</font></b><br> ";
-		$msg .= $l->g(1289).": <b><big>".$_SESSION['OCS']['SUPPORT_KEY']."</big></b><br>";
+		$msg .= $l->g(1289).": <br><b><big>".$_SESSION['OCS']['SUPPORT_KEY']."</big></b><br>";
 		$msg .= $l->g(1290).": <b><big>".$_SESSION['OCS']['SUPPORT_EMAIL']."</big></b><br>";
 		$msg .= $l->g(1291).": <b><big>".$_SESSION['OCS']['SUPPORT_DELIV']."</big></b><br>";
 		msg_info($msg);
