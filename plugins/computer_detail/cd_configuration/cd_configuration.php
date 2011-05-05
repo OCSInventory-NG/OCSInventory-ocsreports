@@ -298,7 +298,6 @@ $i=0;
 			echo $td3.$l->g(81).": ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482));
 			echo ($valDeploy["comments"]!=""?" (".$valDeploy["comments"].")":"");
 			echo "</td>";
-			
 			if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" )	{
 				echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 				urlencode($systemid)."&option=cd_configuration'>".$l->g(122)."</a></td>";

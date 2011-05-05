@@ -1,5 +1,7 @@
 Revision history for ocsreports 
 2.0 
+		* add cache for console page
+		* active stat on ms_tele_activate.php
 		* change msg_* logs => log only msg_error
 		* fix bug on xampp installation on windows http://forums.ocsinventory-ng.org/viewtopic.php?id=8228
 		* fix bug on SSO authentification

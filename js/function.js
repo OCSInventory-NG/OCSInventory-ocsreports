@@ -95,8 +95,8 @@ function show_menu(id,all_menus) {
 	}
 }
 		
-function clic(id) {
+function clic(id,val) {
 	document.getElementById('ACTION_CLIC').action = id;
-	document.getElementById('RESET').value=1;
+	document.getElementById('RESET').value=val;
 	document.forms['ACTION_CLIC'].submit();
 }

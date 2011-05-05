@@ -381,14 +381,16 @@ function show_console_field($fields,$form_name){
 					}
 				}			
 			}
-	
-				//echo $sql_result.p($arg_result);
+			if (!isset($_SESSION['OCS']['COUNT_CONSOLE'][$key])){
 				$res=mysql2_query_secure($sql_result,$_SESSION['OCS']["readServer"],$arg_result);
-
-	
-			if ($res){
-				$count = mysql_fetch_object($res);
-				if (is_array($link[$key]) and $count->c != 0){
+				if ($res){
+					$count = mysql_fetch_object($res);
+					$_SESSION['OCS']['COUNT_CONSOLE'][$key]=$count->c;
+				}
+			}
+			if (isset($_SESSION['OCS']['COUNT_CONSOLE'][$key]) and is_numeric($_SESSION['OCS']['COUNT_CONSOLE'][$key])){
+				$id_count=$_SESSION['OCS']['COUNT_CONSOLE'][$key];
+				if (is_array($link[$key]) and $id_count != 0){
 					if (isset($link[$key]['PAGE'])){
 						$link_me_begin="<a href='index.php?".PAG_INDEX."=".$pages_refs[$link[$key]['PAGE']];
 						if (isset($multi_search[$key]['FIELD'])){
@@ -406,7 +408,7 @@ function show_console_field($fields,$form_name){
 					$link_me_end="";
 				}
 				
-				echo $value."</font></td><td>&nbsp;</td><td align=center><font size=2><B>".$link_me_begin.$count->c.$link_me_end."</B></font></td>".$icon."</tr><tr><td align =center><font size=2>";		
+				echo $value."</font></td><td>&nbsp;</td><td align=center><font size=2><B>".$link_me_begin.$id_count.$link_me_end."</B></font></td>".$icon."</tr><tr><td align =center><font size=2>";		
 			}elseif ($_SESSION['OCS']['DEBUG'] == 'ON')
 				echo "<font color=red><b>ERROR=>".$value."</b></font></font></td><td>&nbsp;</td><td align=center></font></td>".$icon."</tr><tr><td align =center><font size=2>";		
 		}
