@@ -1031,7 +1031,7 @@
 1145 the value must be between
 1146 Administer profiles
 1147 You can't update it.
-1148 <b>WARNING:</b>No automatic backup of configuration files will be possible
+1148 <b>WARNING:</b> No automatic backup of configuration files will be possible
 1149 Name of new profile
 1150 Reference profile
 1151 Text profile
