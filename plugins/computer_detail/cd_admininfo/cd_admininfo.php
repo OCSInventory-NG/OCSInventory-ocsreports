@@ -190,7 +190,7 @@ else{
 				if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
 					$tab_hidden=array('ADMIN'=>'','UP'=>'','DOWN'=>'');
 				//echo "<input type='hidden' name='ADMIN' id='ADMIN' value=''>";
-				if ($show_all_column)
+				if ($show_all_column or $admin_accountinfo)
 					$showbutton=false;
 				else
 					$showbutton=true;

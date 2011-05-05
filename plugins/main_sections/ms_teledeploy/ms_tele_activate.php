@@ -13,7 +13,9 @@ require_once('require/function_telediff.php');
 require_once('require/function_computers.php');
 
 $form_name='packlist';
-//ouverture du formulaire	
+//show or not stats on the table
+$show_stats=true;
+	
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 PrintEnTete($l->g(465));
 
@@ -116,11 +118,18 @@ $list_fields= array($l->g(475)=>'FILEID',
 							$l->g(464)=>'FRAGMENTS',
 							$l->g(462)." KB"=>'round(SIZE/1024,2)',
 							$l->g(25)=>'OSNAME',
-							$l->g(53)=>'COMMENT',
-							'NO_NOTIF'=>'NO_NOTIF',
-							'NOTI'=>'NOTI',
-							'SUCC'=>'SUCC',
-							'ERR_'=>'ERR_');
+							$l->g(53)=>'COMMENT');
+if ($show_stats){
+	$list_fields['NO_NOTIF']='NO_NOTIF';
+	$list_fields['NOTI']='NOTI';
+	$list_fields['SUCC']='SUCC';
+	$list_fields['ERR_']='ERR_';
+	//can't sort on this cols
+	$tab_options['NO_TRI']['NOTI']=1;
+	$tab_options['NO_TRI']['NO_NOTIF']=1;
+	$tab_options['NO_TRI']['SUCC']=1;
+	$tab_options['NO_TRI']['ERR_']=1;	
+}
 //only for profils who can activate packet
 if (!$cant_active){					
 	$list_fields['ZIP']='FILEID';			
@@ -137,14 +146,15 @@ $default_fields= array('Timestamp'=>'Timestamp',
 					   'SHOWACTIVE'=>'SHOWACTIVE',
 					   'CHECK'=>'CHECK','NOTI'=>'NOTI','SUCC'=>'SUCC',
 					   'ERR_'=>'ERR_','SUP'=>'SUP','ACTIVE'=>'ACTIVE','STAT'=>'STAT','ZIP'=>'ZIP');
+/*if ($show_stats){
+	$default_fields['NOTI']='NOTI';
+	$default_fields['SUCC']='SUCC';
+	$default_fields['ERR_']='ERR_';
+}*/
 $list_col_cant_del=array('SHOWACTIVE'=>'SHOWACTIVE','SUP'=>'SUP','ACTIVE'=>'ACTIVE','STAT'=>'STAT','ZIP'=>'ZIP','CHECK'=>'CHECK');
 $querypack=prepare_sql_tab($list_fields,array('SELECT','ZIP','STAT','ACTIVE','SUP','CHECK','NO_NOTIF','NOTI','SUCC','ERR_'));
 
-//pas de tri possible sur les colonnes de calcul
-$tab_options['NO_TRI']['NOTI']=1;
-$tab_options['NO_TRI']['NO_NOTIF']=1;
-$tab_options['NO_TRI']['SUCC']=1;
-$tab_options['NO_TRI']['ERR_']=1;
+
 
 $querypack['SQL'] .= " from download_available ";
 if ($protectedPost['SHOW_SELECT'] == 'download')
@@ -177,44 +187,43 @@ $tab_options['FIELD']['SHOWACTIVE']='FILEID';
 //on force le tri desc pour l'ordre des paquets
 if (!$protectedPost['sens_'.$table_name])
 	$protectedPost['sens_'.$table_name]='DESC';
+
+if ($show_stats){
+	$sql_data_fixe="select concat('<font color=%s>',count(*),'</font>') as %s,de.FILEID
+				from devices d,download_enable de 
+				where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
+				and d.tvalue %s '%s' ";
+	$sql_data_fixe_bis="select concat('<font color=%s>',count(*),'</font>') as %s,de.FILEID
+				from devices d,download_enable de 
+				where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
+				and d.tvalue %s  ";
 	
-$sql_data_fixe="select concat('<font color=%s>',count(*),'</font>') as %s,de.FILEID
-			from devices d,download_enable de 
-			where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
-			and d.tvalue %s '%s' ";
-$sql_data_fixe_bis="select concat('<font color=%s>',count(*),'</font>') as %s,de.FILEID
-			from devices d,download_enable de 
-			where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
-			and d.tvalue %s  ";
-
-$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_']=array('RED','ERR_','LIKE','ERR_%');
-$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC']=array('GREEN','SUCC','LIKE','SUCCESS%');
-$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI']=array('GREY','NOTI','LIKE','NOTI%');
-$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF']=array('BLACK','NO_NOTIF','IS NULL');
-
-
-
-
-if ($restrict_computers){
-	$sql_data_fixe.=" and d.hardware_id in ";
-	$sql_data_fixe_bis.=" and d.hardware_id in ";
-	$temp=mysql2_prepare($sql_data_fixe,array(),$restrict_computers);
-	$temp_bis=mysql2_prepare($sql_data_fixe_bis,array(),$restrict_computers);
-}
-foreach($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key=>$value){
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_']=array('RED','ERR_','LIKE','ERR_%');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC']=array('GREEN','SUCC','LIKE','SUCCESS%');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI']=array('GREY','NOTI','LIKE','NOTI%');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF']=array('BLACK','NO_NOTIF','IS NULL');
+	
 	if ($restrict_computers){
-		if ($key != 'NO_NOTIF'){
-			$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
-			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL']." group by FILEID";	
+		$sql_data_fixe.=" and d.hardware_id in ";
+		$sql_data_fixe_bis.=" and d.hardware_id in ";
+		$temp=mysql2_prepare($sql_data_fixe,array(),$restrict_computers);
+		$temp_bis=mysql2_prepare($sql_data_fixe_bis,array(),$restrict_computers);
+	}
+	foreach($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key=>$value){
+		if ($restrict_computers){
+			if ($key != 'NO_NOTIF'){
+				$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
+				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL']." group by FILEID";	
+			}else{
+				$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
+				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL']." group by FILEID";				
+			}
 		}else{
-			$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
-			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL']." group by FILEID";				
+			if ($key != 'NO_NOTIF')
+				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe." group by FILEID";	
+			else
+				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe_bis." group by FILEID";	
 		}
-	}else{
-		if ($key != 'NO_NOTIF')
-			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe." group by FILEID";	
-		else
-			$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe_bis." group by FILEID";	
 	}
 }
 			

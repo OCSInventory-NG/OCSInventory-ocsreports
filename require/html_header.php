@@ -24,7 +24,7 @@ if( !isset($protectedGet["popup"] )) {
 
 echo "<table  border='0' class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
-echo "><tr><td align=left><a href='index.php?first'>";
+echo "><tr><td align=left><a onclick='clic(\"index.php?first\",\"FIRST\");'>";
 if (!isset($_SESSION['OCS']['SUPPORT']) or $_SESSION['OCS']['SUPPORT'] == 1 or !isset($_SESSION['OCS']["loggeduser"])){
 	echo "<img src='image/logo OCS-ng-96.png'></a>";
 }else
