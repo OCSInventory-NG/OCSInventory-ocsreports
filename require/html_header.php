@@ -118,7 +118,7 @@ echo "</td><td width= 10% align=center>
 }
 
 if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
-	if (!isset($_SERVER['PHP_AUTH_USER'])){
+	if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
 		echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>";
 		echo "<img src='image/deconnexion.png' title='".$l->g(251)."' alt='".$l->g(251)."'>";
 		echo "</a>";
