@@ -135,17 +135,16 @@ if ($_SESSION['OCS']["usecache"] == 1){
 }
 if ($list_soft != ""){
 	$and_where="";
-	$sql['SQL']="select  name , count(name) nb from softwares ";
-
+	$sql_re['SQL']="select  name , count(name) nb from softwares ";
 	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != ''){
-		$sql['SQL'].=",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=softwares.HARDWARE_ID";
+		$sql_re['SQL'].=",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=softwares.HARDWARE_ID";
 		$and_where=" and ";
 	}else
 	$and_where=" where ";	
 	//$_SESSION['OCS']["forcedRequest"]=$sql['SQL'].$and_where." name in (".$forcedRequest.")";
-	$sql['SQL'].=$and_where." name in ";
-	$sql['ARG']=array();
-	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_soft);
+	$sql_re['SQL'].=$and_where." name in ";
+	$sql_re['ARG']=array();
+	$sql=mysql2_prepare($sql_re['SQL'],$sql_re['ARG'],$list_soft);
 	//$sql['ARG']=('".implode("','",$list_soft)."')";
 	//$sql.=$fin_sql;
 }else{
