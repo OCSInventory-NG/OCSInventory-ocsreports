@@ -11,7 +11,9 @@
 
 require_once('require/function_config_generale.php');
 $form_name = "console";
-
+if ($protectedPost['RESET'] == 'FIRST'){
+	unset($_SESSION['OCS']['COUNT_CONSOLE']);
+}
 if ($protectedPost['ADMIN'] == 'ADMIN' and !isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
 	$_SESSION['OCS']['ADMIN_CONSOLE']='ADMIN';	
 }elseif ($protectedPost['ADMIN'] == 'ADMIN' and isset($_SESSION['OCS']['ADMIN_CONSOLE'])){

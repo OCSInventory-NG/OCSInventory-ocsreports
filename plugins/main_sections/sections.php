@@ -11,7 +11,6 @@
 
 //Select config file depending on user profile
 $profil_data=read_profil_file($_SESSION['OCS']["lvluser"]);
-
 if (is_array($profil_data)) {
 	foreach ($profil_data as $key=>$value){
 		$_SESSION['OCS'][$key]=$value;
@@ -26,5 +25,18 @@ if (is_array($config_file)) {
 	}
 }
 //Splitting name_menu array for use with the "show_menu" javascript function
+
+if (isset($_SESSION['OCS']['MENU'])){
+	foreach($_SESSION['OCS']['MENU'] as $key=>$value){
+		if(isset($_SESSION['OCS']['PAGE_PROFIL'][$key]))
+		$show_menu[$value]++;
+	}
+	foreach($show_menu as $key=>$value){
+		if ($value == 1)
+			unset($_SESSION['OCS']['MENU_NAME'][$key]);
+		
+	}
+}
+
 $_SESSION['OCS']['all_menus']=implode("|", $_SESSION['OCS']['MENU_NAME']);
 ?>

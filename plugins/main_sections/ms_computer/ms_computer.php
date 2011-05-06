@@ -122,7 +122,7 @@ while ($list_plugins[$i]){
 		//liste de toutes les infos de la machine
 		$show_all[]=$list_plugins[$i];
 		$llink="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i];
-		$href = "<a onclick='clic(\"".$llink."\");' href='".$llink."'>";
+		$href = "<a onclick='clic(\"".$llink."\",1);'>";
 		$fhref = "</a>";
 	}else{
 		$href = "";

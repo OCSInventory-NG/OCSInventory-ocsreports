@@ -24,7 +24,7 @@ if( !isset($protectedGet["popup"] )) {
 
 echo "<table  border='0' class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
-echo "><tr><td align=left><a href='index.php?first'>";
+echo "><tr><td align=left><a onclick='clic(\"index.php?first\",\"FIRST\");'>";
 if (!isset($_SESSION['OCS']['SUPPORT']) or $_SESSION['OCS']['SUPPORT'] == 1 or !isset($_SESSION['OCS']["loggeduser"])){
 	echo "<img src='image/logo OCS-ng-96.png'></a>";
 }else
@@ -118,7 +118,7 @@ echo "</td><td width= 10% align=center>
 }
 
 if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
-	if (!isset($_SERVER['PHP_AUTH_USER'])){
+	if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
 		echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>";
 		echo "<img src='image/deconnexion.png' title='".$l->g(251)."' alt='".$l->g(251)."'>";
 		echo "</a>";

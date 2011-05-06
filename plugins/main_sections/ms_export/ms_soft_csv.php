@@ -68,23 +68,24 @@ if ($_SESSION['OCS']["usecache"] == 1){
 
 if (isset($protectedGet['all_computers'])){
 	$fields= array("a.tag"=>$_SESSION['OCS']['TAG_LBL']['TAG'],
-			   "s.name"=>$l->g(20),
+			   "s.sname"=>$l->g(20),
 			   "h.name"=>$l->g(23),
 			   "h.userid"=>$l->g(24),
 			   "h.description"=>$l->g(53),
 			   "h.lastdate"=>$l->g(728));
-	$result_search_soft = mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
+	/*$result_search_soft = mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
 	while($item_search_soft = mysql_fetch_object($result_search_soft)){
 		$soft[]=$item_search_soft->name;
-	}
+	}*/
 
 	$sql=prepare_sql_tab(array_keys($fields));
-	$sql['SQL'].= " from accountinfo a, softwares s,hardware h 
+	$sql['SQL'].= " from accountinfo a, (select hardware_id, name as sname from softwares) s,hardware h 
 					where a.hardware_id=h.id and s.hardware_id=h.id ";
 	if (isset($_SESSION['OCS']['TAGS'])){
 			$sql['SQL'].= " and a.tag in ";
 			$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$_SESSION['OCS']['TAGS']);
 	}
+	$sql['SQL'].=" order by h.name";
 	//echo $sql['SQL'];
 }else{
 	$fields=array('nb'=>$l->g(55),'name'=>$l->g(20));
