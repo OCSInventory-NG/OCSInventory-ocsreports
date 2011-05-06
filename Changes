@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
       
+       * Patch from Yoann Le Bihan for Solaris zones support
        * Fix Bug #586321 about wrong version comparison in Vmsystem.pm
        * Bug #772436 about download end message report in Download.pm
        * Display support log received from PROLOG

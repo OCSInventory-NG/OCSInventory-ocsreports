@@ -29,21 +29,80 @@ sub run {
   my $status;
   my $type;
   my $zone;
+
+  my @zoneadmcmd;
+  my @zacsplitted;
    
-  foreach (`zoneadm list -p`){
-    $zone=$1 if /^0:(\S+):$/;
-  } 
+  # get the first field of the first line of "zoneadm list -p"
+  @zoneadmcmd = `zoneadm list -p`;
+  @zacsplitted = split(/:/, $zoneadmcmd[0]);
+  $zone = $zacsplitted[0];
     
   foreach (`netstat -rn`){
     $ipgateway=$1 if /^default\s+(\S+)/i;
   }
   #print "Nom :".$zone."*************************\n";
-  if ($zone){  
+
+### STEP 1: get aliases and zones' interfaces
+
+	foreach (`ifconfig -a`){
+		# resets if new interface
+		$ipaddress = $description = $macaddr = $status = $type = undef if /^(\S+):/;
+
+		# interface name and other data
+		$description = $1.":".$2 if /^(\S+):(\S+):/;
+		$ipaddress = $1 if /inet\s+(\S+)/i;
+		$ipmask = $1 if /\S*netmask\s+(\S+)/i;  
+
+		if (/ether\s+(\S+)/i) {
+	# See
+	# https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
+		  $macaddr = sprintf "%02x:%02x:%02x:%02x:%02x:%02x" ,
+		  map hex, split /\:/, $1;
+		}
+		$status = 1 if /<UP,/;      
+
+		# debug info
+		#print "INFO1 : ".$description."_". $ipaddress."_".$ipmask."_".$macaddr."\n";
+
+		if(($description &&  $ipaddress) ){   
+	#HEX TO DEC TO BIN TO IP   	
+		  $ipmask = hex($ipmask);
+		  $ipmask = sprintf("%d", $ipmask);
+		  $ipmask = unpack("B*", pack("N", $ipmask));
+		  $ipmask = ip_bintoip($ipmask,4);     
+	#print $ipmask."\n";
+
+		  my $binip = &ip_iptobin ($ipaddress ,4);
+		  my $binmask = &ip_iptobin ($ipmask ,4);
+		  my $binsubnet = $binip & $binmask;
+		  $ipsubnet = ip_bintoip($binsubnet,4);     
+
+		  $common->addNetwork({
+		  DESCRIPTION => $description,
+		  IPADDRESS => $ipaddress,	  
+		  IPGATEWAY => $ipgateway,
+		  IPMASK => $ipmask,
+		  IPSUBNET => $ipsubnet,
+		  MACADDR => $macaddr,
+		  STATUS => $status?"Up":"Down",
+		  TYPE => $type,
+		  });
+		}
+	  }	
+
+### STEP 2: get physical interfaces when not a zone
+
+  if (!$zone){  
 		  foreach (`ifconfig -a`){			
-			$description = $1 if /^(\S+):/; # Interface name     
+			# resets if new interface
+			$ipaddress = $description = $macaddr = $status = $type = undef if /^(\S+):/;
+
+			# interface name and other data
+			$description = $1 if /^(\S+): /;
 			$ipaddress = $1 if /inet\s+(\S+)/i;
 			$ipmask = $1 if /\S*netmask\s+(\S+)/i;  
-			#Debug 	
+
 			if (/ether\s+(\S+)/i) {
 		# See
 		# https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
@@ -51,8 +110,11 @@ sub run {
 			  map hex, split /\:/, $1;
 			}
 			$status = 1 if /<UP,/;      
-			#print "INFO : ".$description."_". $ipaddress."_".$ipmask."_".$macaddr."\n";			  
-			if(($description && $macaddr)){  zo 
+
+			# debug info
+			#print "INFO2 : ".$description."_". $ipaddress."_".$ipmask."_".$macaddr."\n";			  
+
+			if(($description && $macaddr)){
 		#HEX TO DEC TO BIN TO IP   	
 			  $ipmask = hex($ipmask);
 			  $ipmask = sprintf("%d", $ipmask);
@@ -75,54 +137,10 @@ sub run {
 			  STATUS => $status?"Up":"Down",
 			  TYPE => $type,
 			  });
-
-			  $ipaddress = $description = $macaddr = $status =  $type = undef;
 			}
 		  }
-	}else {
-		foreach (`ifconfig -a`){
-			$description = $1.":".$2 if /^(\S+):(\S+):/; # Interface name zone    
-			$ipaddress = $1 if /inet\s+(\S+)/i;
-			$ipmask = $1 if /\S*netmask\s+(\S+)/i;  
-			#Debug 	
-			if (/ether\s+(\S+)/i) {
-		# See
-		# https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
-			  $macaddr = sprintf "%02x:%02x:%02x:%02x:%02x:%02x" ,
-			  map hex, split /\:/, $1;
-			}
-			$status = 1 if /<UP,/;      
-			#print "INFO : ".$description."_". $ipaddress."_".$ipmask."_".$macaddr."\n";
-			if(($description &&  $ipaddress) ){   
-			#if(($description && $macaddr)){  zo 
-		#HEX TO DEC TO BIN TO IP   	
-			  $ipmask = hex($ipmask);
-			  $ipmask = sprintf("%d", $ipmask);
-			  $ipmask = unpack("B*", pack("N", $ipmask));
-			  $ipmask = ip_bintoip($ipmask,4);     
-		#print $ipmask."\n";
-
-			  my $binip = &ip_iptobin ($ipaddress ,4);
-			  my $binmask = &ip_iptobin ($ipmask ,4);
-			  my $binsubnet = $binip & $binmask;
-			  $ipsubnet = ip_bintoip($binsubnet,4);     
-
-			  $common->addNetwork({
-			  DESCRIPTION => $description,
-			  IPADDRESS => $ipaddress,	  
-			  IPGATEWAY => $ipgateway,
-			  IPMASK => $ipmask,
-			  IPSUBNET => $ipsubnet,
-			  MACADDR => $macaddr,
-			  STATUS => $status?"Up":"Down",
-			  TYPE => $type,
-			  });
-
-			  $ipaddress = $description = $macaddr = $status =  $type = undef;
-			}
-		  }	
-	
 	}
+
 }
 
 1;
