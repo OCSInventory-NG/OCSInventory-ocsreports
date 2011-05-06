@@ -335,6 +335,7 @@ if (!isset($_SESSION['OCS']['TAG_LBL'])){
 	}
 }
 /*******************************************GESTION OF PLUGINS (MAIN SECTIONS)****************************/
+
 if (!isset($_SESSION['OCS']['all_menus'])){	
 	require_once(MAIN_SECTIONS_DIR."sections.php");
 }
