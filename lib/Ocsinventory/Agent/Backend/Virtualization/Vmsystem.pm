@@ -49,8 +49,14 @@ sub check {
   if ( can_run("zoneadm")){ # Is a solaris zone system capable ?
       return 1; 
   }
-  if ( can_run ("dmidecode") ) { # 2.6 and under haven't -t parameter   
-    if ( `dmidecode -V 2>/dev/null` >= 2.7 ) {
+  if ( can_run ("dmidecode") ) {
+    # 2.6 and under haven't -t parameter   
+    my $dmidecode_ver `dmidecode -V 2>/dev/null` 
+    my @SplitVersion = split(/\./, $dmidecode_ver);
+
+    if (@SplitVersion[0] > 2) {
+      return 1;
+    } elsif (@SplitVersion[0] == 2 && @SplitVersion[1] >= 7) {
       return 1;
     }
   } 
