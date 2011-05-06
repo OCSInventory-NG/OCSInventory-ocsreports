@@ -112,7 +112,7 @@ function getcopy_config_file($ms_cfg_file,$record='YES',$sauv=FALSE){
 		$newfile=$_SESSION['OCS']['CONF_PROFILS_DIR'].$sauv.'_config.txt';
 		
 	$ms_cfg_file=$_SESSION['OCS']['CONF_PROFILS_DIR'].$ms_cfg_file."_config.txt";
-	copy($ms_cfg_file, $newfile);
+	@copy($ms_cfg_file, $newfile);
 	return TRUE;
 }
 
