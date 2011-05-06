@@ -593,7 +593,7 @@ sub period{
 				# If done file found, clean package
 				if(-e "$_/done"){
 					$logger->debug("done file found!!");
-					done($_,$logger,$context,$messages,$settings);
+					done($_,$logger,$context,$messages,$settings,$packages);
 					next;
 					}
 				download($_,$logger,$context,$messages,$settings,$packages);
@@ -611,7 +611,7 @@ sub period{
 			# If done file found, clean package
 			if(-e "$_/done"){
 				$logger->debug("done file found!!");
-				done($_,$logger,$context,$messages,$settings);
+				done($_,$logger,$context,$messages,$settings,$packages);
 				next;
 			}
 			next if $i % $packages->{$_}->{'PRI'} != 0;
@@ -781,7 +781,7 @@ sub execute{
 			return 1;
 		}else{
 			chdir("../..") or die("Cannot go back to download directory: $!");
-			done($id, (defined($exit_code)?$exit_code:'_NONE_'),$logger,$context,$messages,$settings,$packages);
+			done($id,$logger,$context,$messages,$settings,$packages,(defined($exit_code)?$exit_code:'_NONE_'));
 			return 0;
 		}
 	}	
@@ -954,7 +954,7 @@ sub begin{
 }
 
 sub done{	
-	my ($id,$suffix,$logger,$context,$messages,$settings,$packages) = @_;
+	my ($id,$logger,$context,$messages,$settings,$packages,$suffix) = @_;
 
    my $common = $context->{common};
 
