@@ -13,6 +13,7 @@ sub new {
     bless ($this, $class);
     $this->updatePrologFreq();
     $this->saveNextTime();
+    $this->displaySupportLog();
 
     return $this;
 }
@@ -93,6 +94,19 @@ sub saveNextTime {
     
     if ($self->{config}->{cron}) {
         $logger->info ("Next inventory after ".localtime($time));
+    }
+}
+
+sub displaySupportLog {
+    my $self = shift;
+    my $logger = $self->{logger};
+
+    my $parsedContent = $self->getParsedContent(['OPTION','PARAM']);
+
+    if ($parsedContent->{SUPPORT_LOG}) {
+      $logger->info("$parsedContent->{SUPPORT_LOG}")
+    } else {
+      $logger->info("No support detected. Registration key: N/A");
     }
 }
 
