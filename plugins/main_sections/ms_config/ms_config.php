@@ -34,7 +34,7 @@ $def_onglets[$l->g(84)]=$l->g(84); //GUI
 $def_onglets[$l->g(1108)]=$l->g(1108); //connexion
 $def_onglets[$l->g(1136)]=$l->g(1136); //SNMP
 if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO'){
-	$def_onglets['SUPPORT']='Support';
+	$def_onglets['SUPPORT']=$l->g(1296);
 }
 
 
