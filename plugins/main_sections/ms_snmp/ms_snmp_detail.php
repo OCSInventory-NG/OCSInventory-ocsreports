@@ -25,9 +25,10 @@ if (!is_array($item['data'])){
 $systemid=$item['data']['snmp']->ID;
 // SNMP SUMMARY
 $lbl_affich=array('NAME'=>$l->g(49),'UPTIME'=>$l->g(352),'MACADDR'=>$l->g(95),'IPADDR'=>$l->g(34),
-					'CONTACT'=>'CONTACT','LOCATION'=>$l->g(295),'DOMAIN'=>$l->g(33),'TYPE'=>$l->g(66),
-					'SNMPDEVICEID'=>'SNMPDEVICEID','SERIALNUMBER'=>$l->g(36),'COUNTER'=>$l->g(55)
-					);		
+					'CONTACT'=>$l->g(1227),'LOCATION'=>$l->g(295),'DOMAIN'=>$l->g(33),'TYPE'=>$l->g(66),
+					'SNMPDEVICEID'=>$l->g(1297),'SERIALNUMBER'=>$l->g(36),'COUNTER'=>$l->g(55),
+					'DESCRIPTION'=>$l->g(53),'LASTDATE'=>$l->g(46)
+					);
 $info['snmp']=$item['data']['snmp'];
 					
 $first_tab=bandeau($info,$lbl_affich);

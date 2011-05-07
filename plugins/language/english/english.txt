@@ -2,6 +2,7 @@
 9 Search with various criteria
 13 Send
 17 Agent
+18 Revision
 19 Software version
 20 Software
 23 Computer
@@ -202,7 +203,7 @@
 292 Add / delete a network device
 293 Network devices types
 294 Subnet names
-295 Click to edit
+295 Localization
 296 Id
 297 Can't write in directory
 298 All fields must be filled
@@ -1179,6 +1180,7 @@
 1294 Support information
 1295 More information
 1296 Support
+1297 SNMP device identification
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

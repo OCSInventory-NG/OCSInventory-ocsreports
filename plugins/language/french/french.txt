@@ -2,6 +2,7 @@
 9 Recherche multicritères
 13 Envoyer
 17 Client
+18 Revision
 19 Version du logiciel
 20 Logiciel
 23 Machine
@@ -1178,7 +1179,7 @@
 1294 Information support
 1295 Avoir plus d'informations
 1296 support
-
+1297 SNMP device identification
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
