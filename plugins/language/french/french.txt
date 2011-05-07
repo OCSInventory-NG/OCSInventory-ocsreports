@@ -1168,7 +1168,7 @@
 1282 Le certificat ou le mot de passe n'est pas correct
 1283 Activation du support
 1284 Certificat de support
-1285 Voir les clés de support
+1285 Certificat ajouté
 1286 GNU General Public License, version 2.0
 1287 SUPPORT DECLARE
 1288 Validité du support
@@ -1178,7 +1178,7 @@
 1292 AUCUN SUPPORT DECLARE
 1294 Information support
 1295 Avoir plus d'informations
-1296 support
+1296 Support
 1297 SNMP device identification
 
 

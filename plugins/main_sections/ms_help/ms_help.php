@@ -38,7 +38,7 @@ if ($protectedPost['onglet'] == 2){
 	echo "<iframe width=\"647\" height=\"400\" src=\"http://webchat.freenode.net/?channels=ocsinventory-ng&uio=d4\">
 		</iframe>";
 }elseif($protectedPost['onglet'] == 1){
-	echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://wiki.ocsinventory-ng.org/\">
+	echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://wiki.ocsinventory-ng.org\">
 	</iframe>";
 }elseif($protectedPost['onglet'] == 3){
 		echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://forums.ocsinventory-ng.org\">
@@ -46,7 +46,7 @@ if ($protectedPost['onglet'] == 2){
 	
 }
 elseif($protectedPost['onglet'] == 4){
-		echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://rone-laptop/dev/workspace/mantis/ \">
+		echo "<iframe  width=\"100%\" height=\"100%\" src=\"https://support.ocsinventory-ng.com\">
 	</iframe>";
 	
 }elseif($protectedPost['onglet'] == 5){

@@ -31,6 +31,7 @@ function support(){
 	//read certificat
 	$open_data=openssl_x509_read($certificats['cert']);
 	$viewCert = openssl_x509_parse($open_data); 
+	//p($viewCert);
 	//Put on SESSION all information we need
 	if ($viewCert['validTo_time_t']> time()){
 		$_SESSION['OCS']['SUPPORT_VALIDITYDATE']=date($l->g(1242), $viewCert['validTo_time_t']);

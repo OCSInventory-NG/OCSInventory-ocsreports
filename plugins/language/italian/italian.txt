@@ -1169,7 +1169,7 @@
 1282 Certificato non valido o password errata
 1283 Attivazione supporto
 1284 Chiave del certificato
-1285 Mostra la licenza del supporto
+1285 Certificato aggiunto
 1286 GNU General Public License, version 2.0
 1287 SUPPORTO DISPONIBILE
 1288 Validità del supoprto
