@@ -9,8 +9,8 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 		
-//$type_cert=array('MYKEY'=>$l->g(1280),'AC'=>$l->g(1281));
-	$data_on['view']=$l->g(1059);
+
+$data_on['view']=$l->g(1059);
 $data_on['add']=$l->g(1060);
 $form_name="tab";
 $table_name='support_certificat';
@@ -31,6 +31,8 @@ if ($protectedPost['onglet'] == 'view'){
 		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 		$tab_options['CACHE']='RESET';
 		msg_success($l->g(171));
+		unset($_SESSION['OCS']['SUPPORT_KEY']);
+		reloadform_closeme('modif_onglet');
 	}
 	$form_name="view_cert";
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
@@ -85,7 +87,9 @@ if ($protectedPost['GO']
 				}
 				
 			}
-			msg_success($l->g(1184));
+			unset($_SESSION['OCS']['SUPPORT_KEY']);
+			 reloadform_closeme('modif_onglet');
+			msg_success($l->g(1285));
 					
 		}		
 	}
