@@ -209,12 +209,12 @@ sub download_prolog_reader{      #Read prolog response
 		
 	# We are now in download child
 	# Connect to server
-	$ua = LWP::UserAgent->new();
-	$ua->agent('OCS_NG_Unified_Unix_Agent_v'.$context->{version});
-	$ua->credentials( $context->{'OCS_AGENT_SERVER_NAME'}, 
-		$context->{authrealm}, 
-		$context->{authuser} => $context->{authpwd} 
-	);
+   if ($context->{network}) {
+     $ua = $context->{network}->{ua};
+   } else {
+     $logger->info("Cannot find network settings to make this module works properly...disabling module");
+     $self->{disabled} = 1;
+   }
 	
 	# Check history file
 	unless(open HISTORY, "$opt_dir/history") {

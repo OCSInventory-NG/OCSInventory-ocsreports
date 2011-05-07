@@ -51,7 +51,7 @@ sub check {
   }
   if ( can_run ("dmidecode") ) {
     # 2.6 and under haven't -t parameter   
-    my $dmidecode_ver `dmidecode -V 2>/dev/null` 
+    my $dmidecode_ver = `dmidecode -V 2>/dev/null`; 
     my @SplitVersion = split(/\./, $dmidecode_ver);
 
     if (@SplitVersion[0] > 2) {
