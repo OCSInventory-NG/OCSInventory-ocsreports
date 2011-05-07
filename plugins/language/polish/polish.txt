@@ -1182,7 +1182,7 @@
 1282 Bad certificate or bad password
 1283 Support activation
 1284 Certificate file
-1285 Show support keys
+1285 Certificate added
 1286 GNU General Public License, version 2.0
 1287 SUPPORT AVAILABLE
 1288 Support validity
