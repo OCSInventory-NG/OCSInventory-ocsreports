@@ -118,7 +118,7 @@ $lbl_column['MEMORIES'] = array('HARDWARE_ID' => $l->g(949),
 						     'TYPE' => $l->g(66),
 						     'SPEED' => $l->g(268),
 						     'NUMSLOTS' => $l->g(94),
-						     'SERIALNUMBER' => 'SERIALNUMBER');
+						     'SERIALNUMBER' => $l->g(36));
 
 $lbl_column['MODEMS'] = array('HARDWARE_ID' => $l->g(949),
 						   'NAME' => $l->g(49),
@@ -168,7 +168,7 @@ $lbl_column['SLOTS'] = array('HARDWARE_ID' => $l->g(949),
 						  'DESCRIPTION' => $l->g(53),
 						  'DESIGNATION' => $l->g(70),
 						  'PURPOSE' => 'PURPOSE',
-						  'STATUS' => 'STATUS',
+						  'STATUS' => $l->g(81),
 						  'PSHARE' => 'PSHARE');
 
 $lbl_column['SOUNDS'] = array('HARDWARE_ID' => $l->g(949),
@@ -195,7 +195,7 @@ $lbl_column['VIDEOS'] = array('HARDWARE_ID' => $l->g(949),
 
 $lbl_column['VIRTUALMACHINES'] = array('HARDWARE_ID' => $l->g(949),
 								    'NAME' => $l->g(49),
-								    'STATUS' => 'STATUS',
+								    'STATUS' => $l->g(81),
 								    'SUBSYSTEM' => 'SUBSYSTEM',
 								    'VMTYPE' => 'VMTYPE',
 								    'UUID' => 'UUID',

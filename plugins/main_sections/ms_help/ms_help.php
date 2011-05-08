@@ -8,9 +8,21 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
+$data_on[1]=$l->g(1122);
+$data_on[2]=$l->g(1123);
+$data_on[3]=$l->g(1124);
+if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO' and $_SESSION['OCS']['SUPPORT'] == 1){
+	$data_on[4]=$l->g(1281);
+	$data_on[5]=$l->g(1294);
+}
 
-if (isset($protectedGet['TAB']) and $protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
+
+if (isset($protectedGet['TAB']) and isset($data_on[$protectedGet['TAB']]) and !isset($protectedPost['onglet']))
 $protectedPost['onglet']=$protectedGet['TAB'];
+
+
+if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
+$protectedPost['onglet']=1;
 
 $form_name="help";
 
@@ -24,13 +36,7 @@ if($sock)
 		fclose($sock);
 //d�finition des onglets
 //$data_on['ABOUT']='A propos';
-$data_on[1]=$l->g(1122);
-$data_on[2]=$l->g(1123);
-$data_on[3]=$l->g(1124);
-if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO' and $_SESSION['OCS']['SUPPORT'] == 1){
-	$data_on[4]=$l->g(1281);
-	$data_on[5]=$l->g(1294);
-}
+
 echo "<form action='' name='".$form_name."' id='".$form_name."' method='POST'>";
 onglet($data_on,$form_name,"onglet",7);
 echo '<div class="mlt_bordure" >';

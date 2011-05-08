@@ -23,8 +23,8 @@ print_item_header($l->g(1221));
 					   $l->g(66) => 'TYPE',
 					   $l->g(86)=>'FILESYSTEM',
 					   $l->g(87)=>'TOTAL',
-					   $l->g(45)=>'FREE',     
-					   'Numfiles'=>'NUMFILES',     
+					   $l->g(45)=>'FREE',
+					   $l->g(137)=>'NUMFILES',
                        $l->g(1230)=>'VOLUMN');
 	//$list_fields['SUP']= 'ID';
 	$sql=prepare_sql_tab($list_fields);

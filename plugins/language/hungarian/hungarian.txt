@@ -16,7 +16,7 @@
 15 Azonosďż˝tďż˝k
 16 Adminisztrďż˝torok
 17 ďż˝gynďż˝k
-18 Felvďż˝tel dďż˝tuma
+18 Revision
 19 Szoftver verziďż˝
 20 Szoftver
 21 Elso dďż˝tum
@@ -1116,7 +1116,7 @@
 1133 New word
 1134 No ipdiscover data
 1135 computer(s) are already exist on redistribution group
-1136 SNMP
+1136 Snmp
 1137 Enable/Disable the snmp service
 1138 Show all my subnet
 1139 Administer

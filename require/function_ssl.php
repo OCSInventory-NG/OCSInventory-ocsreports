@@ -2,8 +2,8 @@
 function support(){
 	global $l;
 	//not search certificat if it's exist in session
-/*	if (isset($_SESSION['OCS']['SUPPORT_KEY']))
-		return $_SESSION['OCS']['SUPPORT_KEY'];*/
+	if (isset($_SESSION['OCS']['SUPPORT_KEY']))
+		return $_SESSION['OCS']['SUPPORT_KEY'];
 	update_ssl_database();
 	$certs=array();
 	//find all support certificats 

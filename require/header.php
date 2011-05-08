@@ -37,10 +37,22 @@ require_once('require/fichierConf.class.php');
 require_once('require/function_commun.php');
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
+require_once('require/function_ssl.php');
 
+if (isset($_SESSION['OCS']['CONF_RESET'])){
+	unset($_SESSION['OCS']['LOG_GUI']);
+	unset($_SESSION['OCS']['CONF_DIRECTORY']);
+	unset($_SESSION['OCS']['URL']);
+	unset($_SESSION['OCS']['SUPPORT']);
+	unset($_SESSION['OCS']["usecache"]);
+	unset($_SESSION['OCS']["use_redistribution"]);
+	unset($_SESSION['OCS']['CONF_RESET']);
+}
 
-
-
+//If you have to reload conf
+if ($_POST['RELOAD_CONF'] == 'RELOAD'){
+	$_SESSION['OCS']['CONF_RESET']=true;
+}
 
 
 
@@ -117,7 +129,7 @@ if (!isset($_SESSION['OCS']['LOG_GUI'])){
 /****************END LOGS***************/
 
 /***********************************************************CONF DIRECTORY*************************************************************************/
-if (!isset($_SESSION['OCS']['CONF_DIRECTORY'])){
+if (!isset($_SESSION['OCS']['CONF_PROFILS_DIR'])){
 	$values=look_config_default_values(array('CONF_PROFILS_DIR','OLD_CONF_DIR'));
 	$_SESSION['OCS']['OLD_CONF_DIR']=$values['tvalue']['OLD_CONF_DIR'];
 	$_SESSION['OCS']['CONF_PROFILS_DIR']=$values['tvalue']['CONF_PROFILS_DIR'];
@@ -178,6 +190,7 @@ if (!isset($_SESSION['OCS']['URL'])){
 		$search=array('URL'=>'MULTI');
 		$profil_data=read_configuration($ms_cfg_file,$search);
 		$pages_refs=$profil_data['URL'];
+		$_SESSION['OCS']['URL']=$pages_refs;
 	}else{
 		die("ERROR: CAN'T READ CONFIG FILE ".$_SESSION['OCS']['CONF_PROFILS_DIR']."4all_config.txt");
 	}

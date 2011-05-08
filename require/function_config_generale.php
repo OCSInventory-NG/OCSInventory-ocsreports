@@ -231,9 +231,9 @@ function verif_champ(){
 function fin_tab($form_name,$disable=''){
 	global $l;
 	if ($disable != '')
-	$gris="disabled=disabled";
-	else
-	$gris="";
+		$gris="disabled=disabled";
+	else 
+		$gris="OnClick='garde_valeur(\"RELOAD\",\"RELOAD_CONF\");'";
 	echo "<tr><td align=center colspan=100><input type='submit' name='Valid' value='".$l->g(103)."' align=center $gris></td></tr>";
 	echo "</table>";
 	

@@ -2,6 +2,7 @@
 9 Recherche multicritères
 13 Envoyer
 17 Client
+18 Revision
 19 Version du logiciel
 20 Logiciel
 23 Machine
@@ -1018,7 +1019,7 @@
 1133 Nouveau libellé
 1134 Pas de donnée Ipdiscover
 1135 machine(s) sont déjà présentes dans le groupe de redistribution
-1136 SNMP
+1136 Snmp
 1137 Activer/désactiver le snmp
 1138 Afficher tous mes réseaux
 1139 Administrer
@@ -1178,7 +1179,7 @@
 1294 Information support
 1295 Avoir plus d'informations
 1296 Support
-
+1297 Numéro d'identification
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

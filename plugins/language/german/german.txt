@@ -15,7 +15,7 @@
 15 Tags
 16 Admins
 17 Agent
-18 Datum hinzufuegen
+18 Revision
 19 Software version
 20 Software
 21 erstes Datum 
@@ -1094,7 +1094,7 @@
 1133 New word
 1134 No ipdiscover data
 1135 computer(s) are already exist on redistribution group
-1136 SNMP
+1136 Snmp
 1137 Enable/Disable the snmp service
 1138 Show all my subnet
 1139 Administer
