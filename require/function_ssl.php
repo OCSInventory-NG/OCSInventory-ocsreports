@@ -2,17 +2,16 @@
 function support(){
 	global $l;
 	//not search certificat if it's exist in session
-	if (isset($_SESSION['OCS']['SUPPORT_KEY']))
-		return $_SESSION['OCS']['SUPPORT_KEY'];
+/*	if (isset($_SESSION['OCS']['SUPPORT_KEY']))
+		return $_SESSION['OCS']['SUPPORT_KEY'];*/
 	update_ssl_database();
 	$certs=array();
-	
 	//find all support certificats 
 	$sql="select FILE,description from ssl_store where file_type='CERT_SUPPORT'";
 	$result=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"]);		
 	while($cert = mysql_fetch_array( $result ))
 		$certificats[$cert['description']]=$cert['FILE'];
-		
+	//	p($certificats);
 	//certificats is ok?
 	if(	!isset($certificats['cert']) 
 		  or !isset($certificats['pkey'])
@@ -28,10 +27,21 @@ function support(){
 			msg_error('PKEY NOT SIGNED CERT');
 		return false;
 	}
+	/*if (openssl_sign($certificats['cert'], $signature, $certificats['pkey'])){
+		if (!openssl_verify($certificats['extracerts-0'], $signature, $certificats['extracerts-1'])){
+			//if ($_SESSION['OCS']['DEBUG'] == 'ON')
+			msg_error('PKEY NOT SIGNED CERT');
+			return false;
+			
+		}
+	}*/
+		
+	
+	
 	//read certificat
 	$open_data=openssl_x509_read($certificats['cert']);
 	$viewCert = openssl_x509_parse($open_data); 
-	//p($viewCert);
+	//p($certificats);
 	//Put on SESSION all information we need
 	if ($viewCert['validTo_time_t']> time()){
 		$_SESSION['OCS']['SUPPORT_VALIDITYDATE']=date($l->g(1242), $viewCert['validTo_time_t']);
