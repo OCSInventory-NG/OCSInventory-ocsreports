@@ -5,6 +5,7 @@
 12 Valor de la etiqueta
 13 Aceptar
 17 Agente
+18 Revision
 19 Versión del software
 20 Software
 23 Computador
@@ -1024,7 +1025,7 @@
 1133 New word
 1134 No ipdiscover data
 1135 computer(s) are already exist on redistribution group
-1136 SNMP
+1136 Snmp
 1137 Enable/Disable the snmp service
 1138 Show all my subnet
 1139 Administer

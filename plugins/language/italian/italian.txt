@@ -2,6 +2,7 @@
 9 Ricerca con criteri multipli
 13 Invia
 17 Agente
+18 Revisione
 19 Versione software
 20 Software
 23 Computer
@@ -202,7 +203,7 @@
 292 Aggiungi / rimuovi unità di rete
 293 Tipi unità di rete
 294 Nomi sottoreti
-295 Fai click per modificare
+295 Ubicazione
 296 Id
 297 Non è possibile scrivere nella directory
 298 Tutti i campi devono essere riempiti
@@ -1019,7 +1020,7 @@
 1133 Nuova parola
 1134 Nessun dato ipdiscover
 1135 computer già presenti nel gruppo di ridistribuzione
-1136 SNMP
+1136 Snmp
 1137 Abilita/Disabilita il servizio SNMP
 1138 Mostra tutte le mie sottoreti
 1139 Amministra
@@ -1164,21 +1165,22 @@
 1278 Non hai i permessi per connetterti
 1279 On the support
 1280 E' già presente un certificato. L'aggiunta di uno nuovo cancellerà il vecchio
-1281 Console support
+1281 Console del supporto
 1282 Certificato non valido o password errata
-1283 Support activation
+1283 Attivazione supporto
 1284 Chiave del certificato
 1285 Certificato aggiunto
 1286 GNU General Public License, version 2.0
-1287 SUPPORT AVAILABLE
-1288 Support validity
-1289 Support identification number
-1290 Contact email
+1287 SUPPORTO DISPONIBILE
+1288 Validità del supoprto
+1289 Numero identificativo del supporto
+1290 E-mail del referente
 1291 Certificato rilasciato da
-1292 NO SUPPORT AVAILABLE
-1294 Support information
+1292 SUPPORTO NON DISPONIBILE
+1294 Information del supporto
 1295 Informazioni aggiuntive
-1296 Support
+1296 Supporto
+1297 Identificativo periferica SNMP
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:

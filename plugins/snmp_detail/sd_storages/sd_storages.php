@@ -15,7 +15,7 @@ print_item_header('sd_storages');
 	$form_name="sd_storages";
 	$table_name=$form_name;
 	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	$list_fields=array('SNMP_ID' => 'SNMP_ID',    
+	$list_fields=array('SNMP_ID' => 'SNMP_ID',
 					'MANUFACTURER'=> 'MANUFACTURER',
 					'NAME'        =>  'NAME'   ,
 					'MODEL'        => 'MODEL'   ,
@@ -23,7 +23,7 @@ print_item_header('sd_storages');
 					'TYPE'         => 'TYPE'  ,
 					'DISKSIZE'     => 'DISKSIZE' ,
 					'SERIALNUMBER' => 'SERIALNUMBER',
-					'FIRMWARE'     => 'FIRMWARE'	
+					'FIRMWARE'     => 'FIRMWARE'
 					   );
 	//$list_fields['SUP']= 'ID';
 	$list_col_cant_del=$list_fields;

@@ -37,7 +37,7 @@ DESCRIPTION
 					   $l->g(1236)=>'SOFTVERSION',
 					   $l->g(1237)=>'FIRMVERSION',
 					   $l->g(36)=>'SERIALNUMBER',
-					   'REVISION'=>'REVISION',
+					   $l->g(18)=>'REVISION',
 					   $l->g(53)=>'DESCRIPTION'
 					   );
 	//$list_fields['SUP']= 'ID';

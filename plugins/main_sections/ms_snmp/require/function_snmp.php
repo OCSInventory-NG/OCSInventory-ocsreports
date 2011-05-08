@@ -103,12 +103,12 @@ function bandeau($data,$lbl_affich,$title='',$class='mlt_bordure'){
 						$show_table .= "</tr><tr>";
 						$i=0;			
 					}
-					$show_table.= "<td >&nbsp;<b>";
+					$show_table.= "<td>&nbsp;<b>";
 					if (isset($lbl_affich[$field]))
 						$show_table.= $lbl_affich[$field];
 					else
 						$show_table.= $field;
-					$show_table.= " :</b></td><td >".$field_value."</td>";
+					$show_table.= ": </b></td><td>".$field_value."</td>";
 					$i++;
 				}
 			}

@@ -16,7 +16,7 @@
 15 Etiquetas
 16 Administração
 17 Agente
-18 Adicionando data
+18 Revision
 19 Versão do software
 20 Software
 21 Primeira data
@@ -1099,7 +1099,7 @@
 1133 New word
 1134 No ipdiscover data
 1135 computer(s) are already exist on server group
-1136 SNMP
+1136 Snmp
 1137 Enable/Disable the snmp service
 1138 Show all my subnet
 1139 Administer
