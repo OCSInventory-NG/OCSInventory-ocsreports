@@ -164,7 +164,11 @@ function traitement_cache($sql_temp,$field_modif,$field_value,$field_value_compl
 		else{
 			$value_complement_temp=explode('(',$field_value_complement);
 			$value_complement_temp2=explode(')',$value_complement_temp[1]);
-			$field_value_complement=$value_complement_temp[0]." IN (".$sql_temp.") ".$value_complement_temp2[1];
+			if (substr(trim($value_complement_temp[0]),-2) != 'IN')
+				$in='IN';
+			else
+				$in='';
+			$field_value_complement=$value_complement_temp[0]." ".$in." (".$sql_temp.") ".$value_complement_temp2[1];
 			//p($value_complement_temp);
 			//$field_value_complement= " IN (".$sql_temp.") ";
 			
