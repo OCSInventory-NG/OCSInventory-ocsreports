@@ -134,5 +134,5 @@ if ($protectedPost['onglet'] == 'SUPPORT' and isset($def_onglets['SUPPORT'])){
 	
 	pagessupport($form_name);
 }
-
+echo "<input type='hidden' id='RELOAD_CONF' name='RELOAD_CONF' value=''>";
 echo "</div></form>";

@@ -25,6 +25,7 @@ if( !isset($protectedGet["popup"] )) {
 echo "<table  border='0' class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
 echo "><tr><td align=left><a onclick='clic(\"index.php?first\",\"FIRST\");'>";
+
 if (!isset($_SESSION['OCS']['SUPPORT']) or $_SESSION['OCS']['SUPPORT'] == 1 or !isset($_SESSION['OCS']["loggeduser"])){
 	echo "<img src='image/logo OCS-ng-96.png'></a>";
 }else
@@ -143,7 +144,6 @@ if (!isset($_SESSION['OCS']["loggeduser"])){
  	echo "</td></tr>";
 }
 if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO' and $_SESSION['OCS']['SUPPORT'] == 1){
-	require_once('require/function_ssl.php');
 	echo "<tr><td colspan=3 align=left>";
 	$support=support();
 	if ($support)

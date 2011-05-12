@@ -1020,7 +1020,7 @@
 1133 Nuova parola
 1134 Nessun dato ipdiscover
 1135 computer già presenti nel gruppo di ridistribuzione
-1136 SNMP
+1136 Snmp
 1137 Abilita/Disabilita il servizio SNMP
 1138 Mostra tutte le mie sottoreti
 1139 Amministra
