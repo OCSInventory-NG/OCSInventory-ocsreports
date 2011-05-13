@@ -27,7 +27,7 @@ sub run {
     my $the_year=$year+1900;
 
     my $os;
-    $os=`uname -s`;
+    chomp($os=`uname -s`);
 
     if ($os eq "SunOS") {
     	   open(PS, "ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm|");

@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent
-      
+     
+       * Fix Bug #781732 about a missing chomp() in Processes.pm
+ 
 2.0
        * Fix Bug #778692 about using authentication when sending messages in Download.pm
        * Patch from Yoann Le Bihan for Solaris zones support
