@@ -25,7 +25,8 @@ $weight_table=array("HARDWARE"=>1,
 					"REGISTRY"=>5,
 					"DOWNLOAD_HISTORY"=>6,
 					"DEVICES"=>3,
-					"VIDEOS"=>2);
+					"VIDEOS"=>2,
+					"PRINTERS"=>4);
 asort($weight_table); 
 
 //utilisation des tables de cache pour:
@@ -37,12 +38,17 @@ if ($_SESSION['OCS']["usecache"] == true){
 }
 //liste des tables qui ne doivent pas faire des fusions de requ�te
 //cas pour les tables multivalu�e
-$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY");
+$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS");
 
 
 
 
-//d�finition des libell�s des champs
+//define caption of fields
+$lbl_fields_calcul['PRINTERS']=array($l->g(79).": ".$l->g(49)=>'printers.name',
+								   $l->g(79).": ".$l->g(278)=>'printers.driver',
+								   $l->g(79).": ".$l->g(279)=>'printers.port',
+								   $l->g(79).": ".$l->g(53)=>'printers.description');
+
 $lbl_fields_calcul['DRIVES']=array($l->g(838)=>'drives.LETTER',
 								   $l->g(839)=>'drives.TYPE',
 								   $l->g(840)=>'drives.FILESYSTEM',
