@@ -32,7 +32,7 @@ if ($protectedPost['Valid_modif_x']){
 		}elseif($protectedPost["ACTION"] == "reset"){
 			$sql=" delete from devices 
 			where name='%s' and tvalue like '%s' and IVALUE='%s' and hardware_id=%s"; 
-			$arg=array("DOWNLOAD","ERR_%",$protectedGet['affect_again'],$systemid);
+			$arg=array("DOWNLOAD","ERR_%",$protectedGet['affect_reset'],$systemid);
 		}
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		
