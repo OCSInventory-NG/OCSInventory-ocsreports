@@ -1,4 +1,10 @@
 Revision history for ocsreports 
+2.0.1
+		* 
+		* activate security messages
+		* fix bug 781220 (sql request on groups)
+
+
 2.0 
 		* if you change configuration => reload all values for your session
 		* activate support
