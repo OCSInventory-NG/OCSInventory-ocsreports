@@ -17,7 +17,7 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 $majuscule="onKeyPress=\"return scanTouche(event,/[0-9 a-z A-Z]/)\" onkeydown='convertToUpper(this)'
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
-$sql_field="onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z]/)\" onkeydown='convertToUpper(this)'
+$sql_field="onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)'
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
 
@@ -1152,13 +1152,14 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 				//En dernier recourt, si le count n'est pas bon,
 				//on joue la requete initiale
 				if (!$resultcount){
-					if (isset($tab_options['ARG_SQL']))
+					if (isset($tab_options['ARG_SQL'])){
 						$resultcount = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
-					else
+
+					}else
 						$resultcount = mysql2_query_secure($queryDetails, $link);
 					
 				}
-
+				if ($resultcount)
 				$num_rows_result = mysql_num_rows($resultcount);
 				//echo "<b>".$num_rows_result."</b>";
 				if ($num_rows_result==1){
