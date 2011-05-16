@@ -860,7 +860,11 @@ $sort_list=array("HARDWARE-IPADDR" =>$l->g(82).": ".$l->g(34),
 				 "HARDWARE-WORKGROUP"=>$l->g(82).": ".$l->g(33),
 				 "STORAGES-NAME"=>$l->g(63).": ".$l->g(49),
 				 "STORAGES-SERIALNUMBER"=>$l->g(63).": ".$l->g(36),
-				 "STORAGES-DISKSIZE"=>$l->g(63).": ".$l->g(67));
+				 "STORAGES-DISKSIZE"=>$l->g(63).": ".$l->g(67),
+				 "PRINTERS-NAME"=>$l->g(79).": ".$l->g(49),
+				 "PRINTERS-DRIVER"=>$l->g(79).": ".$l->g(278),
+				 "PRINTERS-PORT"=>$l->g(79).": ".$l->g(279),
+				 "PRINTERS-DESCRIPTION"=>$l->g(79).": ".$l->g(53));
 		
 		
 $optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
@@ -889,6 +893,10 @@ $optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
 			   "BIOS-BMANUFACTURER"=>$sort_list["BIOS-BMANUFACTURER"],//$l->g(273).": ".$l->g(284),
 			   "BIOS-BVERSION"=>$sort_list["BIOS-BVERSION"],//$l->g(273).": ".$l->g(277),
 			   "BIOS-ASSETTAG"=>$sort_list["BIOS-ASSETTAG"],//$l->g(273).": ".$l->g(277),
+			   "PRINTERS-NAME"=>$sort_list["PRINTERS-NAME"],
+			   "PRINTERS-DRIVER"=>$sort_list["PRINTERS-DRIVER"],
+			   "PRINTERS-PORT"=>$sort_list["PRINTERS-PORT"],
+			   "PRINTERS-DESCRIPTION"=>$sort_list['PRINTERS-DESCRIPTION'],
 			   "HARDWARE-LASTDATE"=>$sort_list["HARDWARE-LASTDATE"],//"OCS: ".$l->g(46),
 			   "HARDWARE-LASTDATE-LBL"=>"calendar",
 			   "HARDWARE-LASTDATE-SELECT"=>array("small"=>$l->g(346),"tall"=>$l->g(347)),
