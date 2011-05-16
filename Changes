@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* add '-' and '_' to sql fields
 		* add serial number of memories
 		* fix bug on delete package when status="ERR_"
 		* activate security messages
