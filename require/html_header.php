@@ -85,7 +85,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 				}
 			}
 			
-//		msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
+		msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
 		
 	}
 	//warning are detected
