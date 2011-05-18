@@ -83,7 +83,7 @@ function add_accountinfo($newfield,$newtype,$newlbl,$tab,$type='COMPUTERS'){
 		mysql2_query_secure($sql_insert_config,$_SESSION['OCS']["writeServer"],$arg_insert_config);					
 		
 		$sql_add_column="ALTER TABLE ".$table." ADD COLUMN fields_%s %s default NULL";
-		$arg_add_column=array(mysql_insert_id(),$sql_type_accountinfo[$newtype]);
+		$arg_add_column=array(mysql_insert_id($_SESSION['OCS']["writeServer"]),$sql_type_accountinfo[$newtype]);
 		mysql2_query_secure($sql_add_column,$_SESSION['OCS']["writeServer"],$arg_add_column);			
 		unset($newfield,$newlbl,$_SESSION['OCS']['TAG_LBL']);
 		//msg_success($l->g(1069));
