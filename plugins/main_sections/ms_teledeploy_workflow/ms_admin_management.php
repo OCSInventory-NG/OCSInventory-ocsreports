@@ -132,7 +132,7 @@ if ($protectedPost['onglet'] == 1){
 		//	mysql_query( "INSERT INTO ".$table." (".$fields.") VALUES('".$values."')", $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["writeServer"]);
 			//If we add a field, you must add a new colonm in downloadwk_pack table
 			if ($table=="downloadwk_fields"){ 
-				$id=mysql_insert_id();
+				$id=mysql_insert_id($_SESSION['OCS']["writeServer"]);
 				if (is_numeric($id)){
 					if ($protectedPost["newtype"] == 1)
 						$type="LONGTEXT";
@@ -140,7 +140,7 @@ if ($protectedPost['onglet'] == 1){
 						$type="BLOB";
 					else
 						$type="VARCHAR(255)";
-					$sql_add_column="ALTER TABLE downloadwk_pack ADD COLUMN fields_".mysql_insert_id()." ".$type." default NULL";
+					$sql_add_column="ALTER TABLE downloadwk_pack ADD COLUMN fields_".$id." ".$type." default NULL";
 					mysql2_query_secure( $sql_add_column, $_SESSION['OCS']["writeServer"] );	
 				}
 				else
