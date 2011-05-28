@@ -248,20 +248,20 @@ function jockers_trait($field_value){
 	
 }
 
-//fonction pour traiter les recherches sur les dates
+//function for search on date
 function compair_with_date($field,$field_value){
 	global $l;
 		//modification d'un champ texte en date dans certains cas
  		if ($field == "LASTDATE" or $field == "LASTCOME" or $field == "REGVALUE"){
  			$tab_date = explode('/', $field_value);
+ 			$ref_date = explode('/', $l->g(1242));
+			$day=array_search('d',$ref_date);
+			$months=array_search('m',$ref_date);
+			$year=array_search('y',$ref_date);
  			//on applique le traitement que si la date est valide
- 			if (@checkdate ($tab_date[1],$tab_date[0],$tab_date[2])){
+ 			if (@checkdate ($tab_date[$months],$tab_date[$day],$tab_date[$year])){
  				$field= " unix_timestamp(".$field.") ";
 				$tab_date = explode('/', $field_value);
-				$ref_date = explode('/', $l->g(1242));
-				$day=array_search('d',$ref_date);
-				$months=array_search('m',$ref_date);
-				$year=array_search('y',$ref_date);
 				$field_value= mktime (0,0,0,$tab_date[$months],$tab_date[$day],$tab_date[$year]);
  			}
  		}
