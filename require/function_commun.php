@@ -73,12 +73,9 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 		$_SESSION['OCS']['SQL_DEBUG'][]=html_entity_decode($query,ENT_QUOTES);			
 	}
 	
-	
 	if(DEMO){
-		 $udpate= stristr($query,'UPDATE');
-		 $insert= stristr($query,'INSERT');
-		 $delete= stristr($query,'DELETE');
-		 if ($udpate !== false or $insert !== false or $delete !== false){
+		$rest = strtoupper(substr($query, 0, 6));
+		if ($rest == 'UPDATE' or $rest == 'INSERT' or $rest == 'DELETE'){
 			if(DEMO_MSG != 'show'){
 		 		msg_info($l->g(2103));
 		 		define('DEMO_MSG','show');
