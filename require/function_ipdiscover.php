@@ -295,9 +295,13 @@ function count_noinv_network_devices($dpt_choise=''){
 						and ( ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
 						and netid in ";
 	$detail_query=mysql2_prepare($sql_count,$arg_count,$array_sub);
-	$res_count = mysql2_query_secure($detail_query['SQL'], $_SESSION['OCS']["readServer"],$detail_query['ARG']);
-	$val_count = mysql_fetch_array( $res_count );
-	return $val_count['c'];
+	if (!isset($_SESSION['OCS']['COUNT_CONSOLE']['OCS_REPORT_NB_IPDISCOVER'])
+		and $dpt_choise == ''){
+		$res_count = mysql2_query_secure($detail_query['SQL'], $_SESSION['OCS']["readServer"],$detail_query['ARG']);
+		$val_count = mysql_fetch_array( $res_count );
+		return $val_count['c'];
+	}else
+		return $_SESSION['OCS']['COUNT_CONSOLE']['OCS_REPORT_NB_IPDISCOVER'];
 	
 }
 
