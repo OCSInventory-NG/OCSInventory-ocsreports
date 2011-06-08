@@ -617,7 +617,6 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 			$tag=$id_tag[1];
 		$list_tag_id= find_value_in_field($tag,$protectedPost['FILTRE_VALUE']);
 	}
-	
 	if ($list_tag_id){
 		$query_end= " in (".implode(',',$list_tag_id).")";		
 	}else{	
@@ -1519,7 +1518,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="&nbsp";
 						$lien = 'KO';
 					}elseif ($key == "GROUP_NAME"){
-						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
+						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
 					}elseif ($key == "SUP" and $value_of_field!= '&nbsp;'){
 						if (isset($tab_options['LBL_POPUP'][$key])){
 							if (isset($donnees[$tab_options['LBL_POPUP'][$key]]))
