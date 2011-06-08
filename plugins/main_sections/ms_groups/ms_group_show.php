@@ -326,10 +326,43 @@ function regeneration_sql($valGroup){
 	
 }
 
+function form_action_group($systemid){
+	global $l;
+	$reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=%s";
+	$resGrpStat = mysql2_query_secure($reqGrpStat, $_SESSION['OCS']["readServer"],$systemid);
+	$valGrpStat = mysql_fetch_array($resGrpStat);
+	echo "<center>".$l->g(585).": <select name='actshowgroup' id='actshowgroup'>";
+					if (($valGrpStat['REQUEST'] == "" or $valGrpStat['REQUEST'] == null) and ($valGrpStat['XMLDEF'] == "" or $valGrpStat['XMLDEF'] == null))
+					echo "<option value='0'>".$l->g(818)."</option></select>";
+					else
+					echo "<option value='0'>".$l->g(590)."</option><option value='1'>".$l->g(591)."</option><option value='2'>".$l->g(592)."</option></select>";
+					echo "<input type='submit' value='".$l->g(13)."' name='modify' id='modify'></center>";
+}
+
+function update_computer_group($hardware_id,$group_id,$static){
+	$resDelete = "DELETE FROM groups_cache WHERE hardware_id=%s AND group_id=%s";
+		$arg=array($hardware_id,$group_id);
+		//echo $resDelete;
+		mysql2_query_secure( $resDelete, $_SESSION['OCS']["writeServer"],$arg );
+		if( $static != 0 ) {
+			$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (%s, %s, %s)";
+			$arg=array($hardware_id,$group_id,$static);
+			$resInsert = mysql2_query_secure( $reqInsert, $_SESSION['OCS']["writeServer"],$arg );
+		}
+	
+}
 
 function print_computers_real($systemid) {
 
-	global $l,$list_fields,$list_col_cant_del,$default_fields,$tab_options;
+	global $l,$list_fields,$list_col_cant_del,$default_fields,$tab_options,$protectedPost;
+	if( isset($protectedPost["actshowgroup"]) and $protectedPost["modify"] != "") {
+		foreach( $protectedPost as $key=>$val ) {//check65422
+			if( substr($key,0,5) == "check") {				
+				update_computer_group(substr($key,5),$systemid,$protectedPost["actshowgroup"]);				
+			}
+		}	
+		$tab_options['CACHE']='RESET';
+	}
 	//group 2.0 version
 	$sql_group="SELECT xmldef FROM groups WHERE hardware_id='%s'";
 	$arg=$systemid;
@@ -386,7 +419,7 @@ function print_computers_real($systemid) {
 	$queryDetails  .= $mesmachines;
 	$tab_options['FILTRE']=array('h.NAME'=>'Nom');
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,90,$tab_options);
-	//echo "<br><input type=submit name=GENERATE value='APPLIQUER EN CACHE'>"; 
+	form_action_group($systemid);
 	echo "</form>";
 }
 
@@ -395,19 +428,10 @@ function print_computers_cached($systemid) {
 	global $l,$server_group,$protectedPost,$list_fields,$list_col_cant_del,$default_fields,$tab_options;
 	//print_r($protectedPost);
 	//traitement des machines du groupe
-	if( isset($protectedPost["actshowgroup"])) {
+	if( isset($protectedPost["actshowgroup"]) and $protectedPost["modify"] != "") {
 		foreach( $protectedPost as $key=>$val ) {//check65422
-			if( substr($key,0,5) == "check") {
-				//echo substr($key,5);
-				$resDelete = "DELETE FROM groups_cache WHERE hardware_id=%s AND group_id=%s";
-				$arg=array(substr($key,5),$systemid);
-				//echo $resDelete;
-				mysql2_query_secure( $resDelete, $_SESSION['OCS']["writeServer"],$arg );
-				if( $protectedPost["actshowgroup"] != 0 ) {
-					$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (%s, %s, %s)";
-					$arg=array(substr($key,5),$systemid,$protectedPost["actshowgroup"]);
-					$resInsert = mysql2_query_secure( $reqInsert, $_SESSION['OCS']["writeServer"] );
-				}
+			if( substr($key,0,5) == "check") {				
+				update_computer_group(substr($key,5),$systemid,$protectedPost["actshowgroup"]);				
 			}
 		}	
 		$tab_options['CACHE']='RESET';
@@ -440,15 +464,7 @@ function print_computers_cached($systemid) {
 	$tab_options['FILTRE']=array('h.NAME'=>'Nom');
 	$statut=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
 	if ($statut){
-		$reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=".$systemid;
-		$resGrpStat = @mysql_query($reqGrpStat, $_SESSION['OCS']["readServer"]);
-		$valGrpStat = @mysql_fetch_array($resGrpStat);
-		echo "<center>".$l->g(585).": <select name='actshowgroup' id='actshowgroup'>";
-						if (($valGrpStat['REQUEST'] == "" or $valGrpStat['REQUEST'] == null) and ($valGrpStat['XMLDEF'] == "" or $valGrpStat['XMLDEF'] == null))
-						echo "<option value='0'>".$l->g(818)."</option></select>";
-						else
-						echo "<option value='0'>".$l->g(590)."</option><option value='1'>".$l->g(591)."</option><option value='2'>".$l->g(592)."</option></select>";
-						echo "<input type='submit' value='".$l->g(13)."'></center>";
+		form_action_group($systemid);
 	}
 	echo "</form>";
 }
