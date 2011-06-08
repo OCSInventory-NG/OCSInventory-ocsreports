@@ -126,13 +126,15 @@ else{ //affichage des p�riph�riques
 				WHERE n.netid='%s' 
 				AND (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
 				AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
-			$tab_options['ARG_SQL']=$protectedGet['value'];
+			$tab_options['ARG_SQL']=array($protectedGet['value']);
 			$list_fields= array($l->g(34) => 'ip','MAC'=>'mac',
 								$l->g(208)=>'mask',
 								$l->g(232)=>'date',
-								$l->g(318)=>'name',
-								'SUP'=>'mac',
-								'MODIF'=>'mac');
+								$l->g(318)=>'name');
+			$tab_options['FILTRE']=array_flip($list_fields);
+			$tab_options['ARG_SQL_COUNT']=array($protectedGet['value']);
+			$list_fields['SUP']='mac';
+			$list_fields['MODIF']='mac';
 			$tab_options['MODIF']['IMG']="image/prec16.png";
 			$tab_options['LBL']['MODIF']=$l->g(114);
 			$default_fields= $list_fields;
@@ -141,7 +143,7 @@ else{ //affichage des p�riph�riques
 			$sql="select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
 				 from network_devices n LEFT JOIN netmap a ON a.mac=n.macaddr
 				 where netid='%s'";
-			$tab_options['ARG_SQL']=$protectedGet['value'];
+			$tab_options['ARG_SQL']=array($protectedGet['value']);
 				 $list_fields= array($l->g(66) => 'TYPE',$l->g(53)=>'DESCRIPTION',
 								$l->g(34)=>'IP',
 								'MAC'=>'MAC',
@@ -149,9 +151,11 @@ else{ //affichage des p�riph�riques
 								$l->g(316)=>'NETID',
 								$l->g(318)=>'NAME',
 								$l->g(232)=>'date',
-								$l->g(369)=>'USER',
-								'SUP'=>'MAC',
-								'MODIF'=>'ID');
+								$l->g(369)=>'USER');
+				$tab_options['FILTRE']=array_flip($list_fields);
+				$tab_options['ARG_SQL_COUNT']=array($protectedGet['value']);
+				$list_fields['SUP']='MAC';
+				$list_fields['MODIF']='ID';
 				$default_fields= array($l->g(34)=>$l->g(34),$l->g(66)=>$l->g(66),$l->g(53)=>$l->g(53),
 									'MAC'=>'MAC',$l->g(232)=>$l->g(232),$l->g(369)=>$l->g(369),'SUP'=>'SUP','MODIF'=>'MODIF');
 
@@ -165,6 +169,7 @@ else{ //affichage des p�riph�riques
 			if (array($accountinfo_value['DEFAULT_VALUE']))
 				$default_fields=$accountinfo_value['DEFAULT_VALUE'];				
 			$list_fields=$accountinfo_value['LIST_FIELDS'];
+			$tab_options['FILTRE']=array_flip($list_fields);
 			//END SHOW ACCOUNTINFO
 			$list_fields2 = array ( $l->g(46) => "h.lastdate", 
 						   'NAME'=>'h.name',
@@ -175,7 +180,7 @@ else{ //affichage des p�riph�riques
 						   $l->g(275) => "h.osversion",
 						   $l->g(34) => "h.ipaddr",
 						   $l->g(557) => "h.userdomain");
-						   
+					 
 			$list_fields=array_merge ($list_fields,$list_fields2);
 			$sql=prepare_sql_tab($list_fields);
 			$tab_options['ARG_SQL']=$sql['ARG'];
@@ -187,13 +192,17 @@ else{ //affichage des p�riph�riques
 			$default_fields[$l->g(24)]=$l->g(24);
 			$default_fields[$l->g(25)]=$l->g(25);
 			$default_fields[$l->g(275)]=$l->g(275);
-			$tab_options['ARG_SQL_COUNT']=$protectedGet['value'];
+			$tab_options['ARG_SQL_COUNT']=array($protectedGet['value']);
+			$tab_options['FILTRE']['h.name']=$l->g(49);
+			$tab_options['FILTRE']['h.userid']=$l->g(24);
+			$tab_options['FILTRE']['h.osname']=$l->g(25);
+			$tab_options['FILTRE']['h.ipaddr']=$l->g(34);
 		}
 		printEnTete($title);
 		echo "<br><br>";	
 		
 		$tab_options['LBL']['MAC']=$l->g(95);		
-		$tab_options['FILTRE']['ip']=$l->g(66);
+		
 		$list_col_cant_del=array($l->g(66)=>$l->g(66),'SUP'=>'SUP','MODIF'=>'MODIF');
 		$table_name="IPDISCOVER_".$protectedGet['prov'];
 		$form_name=$table_name;
