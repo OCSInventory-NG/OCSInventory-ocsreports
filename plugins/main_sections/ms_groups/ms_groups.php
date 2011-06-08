@@ -171,7 +171,6 @@ if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['CONFIGURATIO
 	$tab_hidden['add_static_group']='add_static_group';
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
 }
-			
 echo '</div>';
 //fermeture du formulaire
 echo "</form>";

@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* fix bugs on details groups checklist. (static exclu/inclu)
 		* you can create a dynamic group without computer
 		* fix bug on old groups
 		* fix bug on ipdiscover detail filter
