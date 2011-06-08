@@ -10,7 +10,6 @@
 //====================================================================================
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 
-
 require_once('require/function_opt_param.php');
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
@@ -331,22 +330,26 @@ function regeneration_sql($valGroup){
 function print_computers_real($systemid) {
 
 	global $l,$list_fields,$list_col_cant_del,$default_fields,$tab_options;
-	
-	//groupe nouvelle version
+	//group 2.0 version
 	$sql_group="SELECT xmldef FROM groups WHERE hardware_id='%s'";
 	$arg=$systemid;
 	$resGroup = mysql2_query_secure( $sql_group, $_SESSION['OCS']["readServer"],$arg);
-	$valGroup = mysql_fetch_array($resGroup);//groupe d'ancienne version
+	$valGroup = mysql_fetch_array($resGroup);//group old version
 	if( ! $valGroup["xmldef"] ){
 		$sql_group="SELECT request FROM groups WHERE hardware_id='%s'";
 		$arg=$systemid;
 		$resGroup = mysql2_query_secure( $sql_group, $_SESSION['OCS']["readServer"] ,$arg);
 		$valGroup = mysql_fetch_array($resGroup);
 		$request=$valGroup["request"];
+		$tab_id= array();
+		$result_value = mysql_query($request, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$fied_id_name= mysql_field_name($result_value, 0);
+		while($value=mysql_fetch_array($result_value)) {
+				$tab_id[] = $value[$fied_id_name];	
+		}	
 	}else{
 		$tab_list_sql=regeneration_sql($valGroup["xmldef"]);
 		$i=1;
-		//print_r($tab_list_sql);
 		$tab_id= array();
 		while ($tab_list_sql[$i]){
 			if ($tab_id != array()){
@@ -356,17 +359,18 @@ function print_computers_real($systemid) {
 				$tab_list_sql[$i] .= " and hardware_id in (".implode(",",$tab_id).")";
 				unset($tab_id);
 			}
-//		echo $tab_list_sql[$i];
 			$result_value = mysql_query(xml_decode($tab_list_sql[$i]), $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			while($value=mysql_fetch_array($result_value)) {
 				$tab_id[] = $value["HARDWARE_ID"];
 			}	
 			$i++;
 		}
-		if ($tab_id == array()){
+		
+	}
+	
+	if ($tab_id == array()){
 			msg_warning($l->g(766));
 			return false;
-		}
 	}
 	$form_name="calcul_computer_groupcache";
 	$table_name=$form_name;
@@ -566,7 +570,7 @@ function print_perso($systemid) {
 			echo "(<small>".$valDeploy["fileid"]."</small>)";	
 			echo "</td>".$td3.$l->g(499).": ".$valDeploy["pack_loc"]."</td>";//$l->g(81)."cac: ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482))."</td>";
 			if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" )	
-				echo "$td3 <a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&suppack=".$valDeploy["ivalue"]."&systemid=".
+				echo "$td3 <a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 				urlencode($systemid)."&option=".urlencode($l->g(500))."'>".$l->g(122)."</a></td>";
 			show_stat($valDeploy["fileid"]);
 			echo "</tr>";
@@ -601,7 +605,7 @@ function img($i,$a,$avail,$opt) {
 	}
 	
 	if( $avail ) {
-		$href = "<a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
+		$href = "<a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&head=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
 		$fhref = "</a>";
 		$img = "<img title=\"".htmlspecialchars($a)."\" src='".MAIN_SECTIONS_DIR."/img/{$i}{$suff}.png' />";
 	}
