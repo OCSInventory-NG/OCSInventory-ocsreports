@@ -108,7 +108,7 @@ $table_field=array("OCS_REPORT_WORKGROUP"=>array($l->g(33)=>"workgroup"),
 			  "OCS_REPORT_NB_HARD_DISK_M"=>"drives",
 			  "OCS_REPORT_NB_HARD_DISK_B"=>"drives"
 			  ,"OCS_REPORT_NB_IPDISCOVER"=>"networks"
-			  ,"OCS_REPORT_NB_LAST_INV"=>"hardware"
+			  ,"OCS_REPORT_NB_LAST_INV"=>array("NAME"=>"NAME","ID"=>"ID",$l->g(25)=>"osname",$l->g(218)=>"useragent"),
 					);
 					
 
@@ -255,7 +255,7 @@ $sql_field=array("OCS_REPORT_WORKGROUP"=>array('ARG'=>array('count(distinct work
 				 "OCS_REPORT_NB_IPDISCOVER"=>array('SQL'=>"select %s c from netmap ",
 										 'ARG'=>array(count_noinv_network_devices())),
 
-			 	 "OCS_REPORT_NB_LAST_INV"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LAST_INV"],"where floor((unix_timestamp(lastcome) - unix_timestamp(lastdate) )/86400) >= ".$data_limit['GUI_REPORT_LAST_DIFF'])),
+			 	 "OCS_REPORT_NB_LAST_INV"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LAST_INV"]," where floor((unix_timestamp(lastcome) - unix_timestamp(lastdate) )/86400) >= ".$data_limit['GUI_REPORT_LAST_DIFF']." ")),
 
 				  "OCS_REPORT_NB_SNMP"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_SNMP"],''))
 			  );

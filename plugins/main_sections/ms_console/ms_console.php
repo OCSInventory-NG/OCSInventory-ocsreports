@@ -55,7 +55,6 @@ if ($data_tab['DATA'] != array()){
 		else
 			echo "<img src='image/modif_tab.png'>";
 		echo "</a></td></tr></table>";
-		//echo $_SESSION['OCS']['ADMIN_CONSOLE'];
 	}
 	if ($data_on['DATA'][$protectedPost['onglet']]){
 		$fields=list_field($protectedPost['onglet']);
@@ -165,7 +164,6 @@ if ((isset($protectedPost["SHOW_ME"]) and $protectedPost["SHOW_ME"] != "")){
 	
 	if (!isset($sql_field[$protectedPost["SHOW_ME"]]['SQL']))
 		$sql_field[$protectedPost["SHOW_ME"]]['SQL']="select %s from %s %s";
-	//$list_fields=$table_field[$protectedPost["SHOW_ME"]];
 	
 	$list_fields=$table_field[$protectedPost["SHOW_ME"]];
 	$list_fields[$l->g(1120)]='c';
@@ -174,9 +172,24 @@ if ((isset($protectedPost["SHOW_ME"]) and $protectedPost["SHOW_ME"] != "")){
 	}
 	
 	$sql_field[$protectedPost["SHOW_ME"]]['ARG'][0]="count(*) c,".implode(',',$recup_list_add_field);
-	$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2].="where ".implode(',',$recup_list_add_field)." is not null group by ".implode(',',$recup_list_add_field);
-	$tab_options['SQL_COUNT']="select %s from %s ";
-	$tab_options['ARG_SQL_COUNT']=array("count(distinct ".implode(',',$recup_list_add_field).") count_nb_ligne",$sql_field[$protectedPost["SHOW_ME"]]['ARG'][1]);
+	if (!preg_match("/where/i", $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2]))
+		$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2].=" where ";
+	else
+		$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2].=" and ";
+		
+	//restriction on computer id
+	if (isset($myids)){
+		if (strtoupper($sql_field[$protectedPost["SHOW_ME"]]['ARG'][1]) == "HARDWARE")
+			$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2].="id ";
+		else
+			$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2].="hardware_id";
+		$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2].=" in (".implode(',',$myids['ARG']).") and ";
+	}
+	$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2].= $recup_list_add_field[0]." is not null group by ".implode(',',$recup_list_add_field);
+	
+	$tab_options['SQL_COUNT']="select %s from %s %s";
+	$tab_options['ARG_SQL_COUNT']=array("count(distinct ".implode(',',$recup_list_add_field).") count_nb_ligne",
+										$sql_field[$protectedPost["SHOW_ME"]]['ARG'][1],$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2]);
 	$list_col_cant_del=$list_fields;
 	$default_fields= $list_fields;
 	$tab_options['ARG_SQL']=$sql_field[$protectedPost["SHOW_ME"]]['ARG'];
@@ -203,7 +216,6 @@ if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 		if (isset($_SESSION['OCS']['mesmachines']) and $_SESSION['OCS']['mesmachines'] != "")
 			$sql_my_msg.= " and ".$_SESSION['OCS']['mesmachines'];
 		$result_my_msg = mysql_query( $sql_my_msg, $_SESSION['OCS']["readServer"]);
-		//echo "<table align=center><tr><td align=center>";
 		while($item_my_msg = mysql_fetch_object($result_my_msg)){
 			foreach ($info_msg['ivalue'] as $key=>$value){
 				if ($value == $item_my_msg ->groups){
