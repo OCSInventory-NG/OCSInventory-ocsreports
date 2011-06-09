@@ -102,18 +102,18 @@ if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
 }
 
 echo "</td><td width= 10% align=center>
-	Ver. <b>" . GUI_VER_SHOW . "</b>";
+	Ver. <b>" . GUI_VER_SHOW . "</b><br>";
 	//pass in debug mode if plugin debug exist
 	if (isset($pages_refs['ms_debug'])){
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'";
 		if((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON') 
 			or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
-				echo"<br>Ver. <br><b>".GUI_VER."/".DB_NAME."</b>";
-			echo "<br><a ".$javascript."><img src=image/red.png></a><br>";
+				echo"<b>".GUI_VER."/".DB_NAME."</b><br>";
+			echo "<a ".$javascript."><img src=image/red.png></a><br>";
 			if ($_SESSION['OCS']['DEBUG']=='ON')
 			echo "<font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>wait...</div>";
 		}elseif ((($_SESSION['OCS']['PAGE_PROFIL']['ms_debug']) or $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and !isset($_SESSION['OCS']['DEBUG'])){
-			echo "<br><a ".$javascript."><img src=image/green.png></a><br>";
+			echo "<a ".$javascript."><img src=image/green.png></a><br>";
 		}
 	}
 }
