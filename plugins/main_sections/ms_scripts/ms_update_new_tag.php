@@ -78,7 +78,7 @@ foreach ($list_field as $name){
 		else
 			$add_lign_accountinfo_config[]=$sql['ARG'];
 		$sql_alter="ALTER TABLE accountinfo CHANGE %s  %s %s";
-		$arg=array($name,"fields_".mysql_insert_id(),$type_field[$name]);
+		$arg=array($name,"fields_".mysql_insert_id($_SESSION['OCS']["writeServer"]),$type_field[$name]);
 		
 		if (isset($protectedPost['EXE']) and $protectedPost['EXE']!= ''){
 			mysql2_query_secure($sql_alter,$_SESSION['OCS']["writeServer"],$arg);			

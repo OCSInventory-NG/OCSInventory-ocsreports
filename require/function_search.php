@@ -25,7 +25,8 @@ $weight_table=array("HARDWARE"=>1,
 					"REGISTRY"=>5,
 					"DOWNLOAD_HISTORY"=>6,
 					"DEVICES"=>3,
-					"VIDEOS"=>2);
+					"VIDEOS"=>2,
+					"PRINTERS"=>4);
 asort($weight_table); 
 
 //utilisation des tables de cache pour:
@@ -37,12 +38,17 @@ if ($_SESSION['OCS']["usecache"] == true){
 }
 //liste des tables qui ne doivent pas faire des fusions de requ�te
 //cas pour les tables multivalu�e
-$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY");
+$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS");
 
 
 
 
-//d�finition des libell�s des champs
+//define caption of fields
+$lbl_fields_calcul['PRINTERS']=array($l->g(79).": ".$l->g(49)=>'printers.name',
+								   $l->g(79).": ".$l->g(278)=>'printers.driver',
+								   $l->g(79).": ".$l->g(279)=>'printers.port',
+								   $l->g(79).": ".$l->g(53)=>'printers.description');
+
 $lbl_fields_calcul['DRIVES']=array($l->g(838)=>'drives.LETTER',
 								   $l->g(839)=>'drives.TYPE',
 								   $l->g(840)=>'drives.FILESYSTEM',
@@ -242,20 +248,20 @@ function jockers_trait($field_value){
 	
 }
 
-//fonction pour traiter les recherches sur les dates
+//function for search on date
 function compair_with_date($field,$field_value){
 	global $l;
 		//modification d'un champ texte en date dans certains cas
  		if ($field == "LASTDATE" or $field == "LASTCOME" or $field == "REGVALUE"){
  			$tab_date = explode('/', $field_value);
+ 			$ref_date = explode('/', $l->g(1242));
+			$day=array_search('d',$ref_date);
+			$months=array_search('m',$ref_date);
+			$year=array_search('y',$ref_date);
  			//on applique le traitement que si la date est valide
- 			if (@checkdate ($tab_date[1],$tab_date[0],$tab_date[2])){
+ 			if (@checkdate ($tab_date[$months],$tab_date[$day],$tab_date[$year])){
  				$field= " unix_timestamp(".$field.") ";
 				$tab_date = explode('/', $field_value);
-				$ref_date = explode('/', $l->g(1242));
-				$day=array_search('d',$ref_date);
-				$months=array_search('m',$ref_date);
-				$year=array_search('y',$ref_date);
 				$field_value= mktime (0,0,0,$tab_date[$months],$tab_date[$day],$tab_date[$year]);
  			}
  		}

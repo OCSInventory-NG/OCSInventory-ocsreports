@@ -21,7 +21,8 @@
 					   $l->g(283) => 'PURPOSE',
 					   $l->g(66) => 'TYPE',
 					   $l->g(268) => 'SPEED',
-					   $l->g(94) => 'NUMSLOTS');
+					   $l->g(94) => 'NUMSLOTS',
+					   $l->g(36)=>'SERIALNUMBER');
 					   
 					   
 	if($show_all_column)

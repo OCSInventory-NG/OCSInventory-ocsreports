@@ -10,7 +10,6 @@
 //====================================================================================
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 
-
 require_once('require/function_opt_param.php');
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
@@ -327,26 +326,63 @@ function regeneration_sql($valGroup){
 	
 }
 
+function form_action_group($systemid){
+	global $l;
+	$reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=%s";
+	$resGrpStat = mysql2_query_secure($reqGrpStat, $_SESSION['OCS']["readServer"],$systemid);
+	$valGrpStat = mysql_fetch_array($resGrpStat);
+	echo "<center>".$l->g(585).": <select name='actshowgroup' id='actshowgroup'>";
+					if (($valGrpStat['REQUEST'] == "" or $valGrpStat['REQUEST'] == null) and ($valGrpStat['XMLDEF'] == "" or $valGrpStat['XMLDEF'] == null))
+					echo "<option value='0'>".$l->g(818)."</option></select>";
+					else
+					echo "<option value='0'>".$l->g(590)."</option><option value='1'>".$l->g(591)."</option><option value='2'>".$l->g(592)."</option></select>";
+					echo "<input type='submit' value='".$l->g(13)."' name='modify' id='modify'></center>";
+}
+
+function update_computer_group($hardware_id,$group_id,$static){
+	$resDelete = "DELETE FROM groups_cache WHERE hardware_id=%s AND group_id=%s";
+		$arg=array($hardware_id,$group_id);
+		//echo $resDelete;
+		mysql2_query_secure( $resDelete, $_SESSION['OCS']["writeServer"],$arg );
+		if( $static != 0 ) {
+			$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (%s, %s, %s)";
+			$arg=array($hardware_id,$group_id,$static);
+			$resInsert = mysql2_query_secure( $reqInsert, $_SESSION['OCS']["writeServer"],$arg );
+		}
+	
+}
 
 function print_computers_real($systemid) {
 
-	global $l,$list_fields,$list_col_cant_del,$default_fields,$tab_options;
-	
-	//groupe nouvelle version
+	global $l,$list_fields,$list_col_cant_del,$default_fields,$tab_options,$protectedPost;
+	if( isset($protectedPost["actshowgroup"]) and $protectedPost["modify"] != "") {
+		foreach( $protectedPost as $key=>$val ) {//check65422
+			if( substr($key,0,5) == "check") {				
+				update_computer_group(substr($key,5),$systemid,$protectedPost["actshowgroup"]);				
+			}
+		}	
+		$tab_options['CACHE']='RESET';
+	}
+	//group 2.0 version
 	$sql_group="SELECT xmldef FROM groups WHERE hardware_id='%s'";
 	$arg=$systemid;
 	$resGroup = mysql2_query_secure( $sql_group, $_SESSION['OCS']["readServer"],$arg);
-	$valGroup = mysql_fetch_array($resGroup);//groupe d'ancienne version
+	$valGroup = mysql_fetch_array($resGroup);//group old version
 	if( ! $valGroup["xmldef"] ){
 		$sql_group="SELECT request FROM groups WHERE hardware_id='%s'";
 		$arg=$systemid;
 		$resGroup = mysql2_query_secure( $sql_group, $_SESSION['OCS']["readServer"] ,$arg);
 		$valGroup = mysql_fetch_array($resGroup);
 		$request=$valGroup["request"];
+		$tab_id= array();
+		$result_value = mysql_query($request, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+		$fied_id_name= mysql_field_name($result_value, 0);
+		while($value=mysql_fetch_array($result_value)) {
+				$tab_id[] = $value[$fied_id_name];	
+		}	
 	}else{
 		$tab_list_sql=regeneration_sql($valGroup["xmldef"]);
 		$i=1;
-		//print_r($tab_list_sql);
 		$tab_id= array();
 		while ($tab_list_sql[$i]){
 			if ($tab_id != array()){
@@ -356,17 +392,18 @@ function print_computers_real($systemid) {
 				$tab_list_sql[$i] .= " and hardware_id in (".implode(",",$tab_id).")";
 				unset($tab_id);
 			}
-//		echo $tab_list_sql[$i];
 			$result_value = mysql_query(xml_decode($tab_list_sql[$i]), $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 			while($value=mysql_fetch_array($result_value)) {
 				$tab_id[] = $value["HARDWARE_ID"];
 			}	
 			$i++;
 		}
-		if ($tab_id == array()){
+		
+	}
+	
+	if ($tab_id == array()){
 			msg_warning($l->g(766));
 			return false;
-		}
 	}
 	$form_name="calcul_computer_groupcache";
 	$table_name=$form_name;
@@ -382,7 +419,7 @@ function print_computers_real($systemid) {
 	$queryDetails  .= $mesmachines;
 	$tab_options['FILTRE']=array('h.NAME'=>'Nom');
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,90,$tab_options);
-	//echo "<br><input type=submit name=GENERATE value='APPLIQUER EN CACHE'>"; 
+	form_action_group($systemid);
 	echo "</form>";
 }
 
@@ -391,19 +428,10 @@ function print_computers_cached($systemid) {
 	global $l,$server_group,$protectedPost,$list_fields,$list_col_cant_del,$default_fields,$tab_options;
 	//print_r($protectedPost);
 	//traitement des machines du groupe
-	if( isset($protectedPost["actshowgroup"])) {
+	if( isset($protectedPost["actshowgroup"]) and $protectedPost["modify"] != "") {
 		foreach( $protectedPost as $key=>$val ) {//check65422
-			if( substr($key,0,5) == "check") {
-				//echo substr($key,5);
-				$resDelete = "DELETE FROM groups_cache WHERE hardware_id=%s AND group_id=%s";
-				$arg=array(substr($key,5),$systemid);
-				//echo $resDelete;
-				mysql2_query_secure( $resDelete, $_SESSION['OCS']["writeServer"],$arg );
-				if( $protectedPost["actshowgroup"] != 0 ) {
-					$reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (%s, %s, %s)";
-					$arg=array(substr($key,5),$systemid,$protectedPost["actshowgroup"]);
-					$resInsert = mysql2_query_secure( $reqInsert, $_SESSION['OCS']["writeServer"] );
-				}
+			if( substr($key,0,5) == "check") {				
+				update_computer_group(substr($key,5),$systemid,$protectedPost["actshowgroup"]);				
 			}
 		}	
 		$tab_options['CACHE']='RESET';
@@ -436,15 +464,7 @@ function print_computers_cached($systemid) {
 	$tab_options['FILTRE']=array('h.NAME'=>'Nom');
 	$statut=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
 	if ($statut){
-		$reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=".$systemid;
-		$resGrpStat = @mysql_query($reqGrpStat, $_SESSION['OCS']["readServer"]);
-		$valGrpStat = @mysql_fetch_array($resGrpStat);
-		echo "<center>".$l->g(585).": <select name='actshowgroup' id='actshowgroup'>";
-						if (($valGrpStat['REQUEST'] == "" or $valGrpStat['REQUEST'] == null) and ($valGrpStat['XMLDEF'] == "" or $valGrpStat['XMLDEF'] == null))
-						echo "<option value='0'>".$l->g(818)."</option></select>";
-						else
-						echo "<option value='0'>".$l->g(590)."</option><option value='1'>".$l->g(591)."</option><option value='2'>".$l->g(592)."</option></select>";
-						echo "<input type='submit' value='".$l->g(13)."'></center>";
+		form_action_group($systemid);
 	}
 	echo "</form>";
 }
@@ -566,7 +586,7 @@ function print_perso($systemid) {
 			echo "(<small>".$valDeploy["fileid"]."</small>)";	
 			echo "</td>".$td3.$l->g(499).": ".$valDeploy["pack_loc"]."</td>";//$l->g(81)."cac: ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482))."</td>";
 			if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" )	
-				echo "$td3 <a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&suppack=".$valDeploy["ivalue"]."&systemid=".
+				echo "$td3 <a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 				urlencode($systemid)."&option=".urlencode($l->g(500))."'>".$l->g(122)."</a></td>";
 			show_stat($valDeploy["fileid"]);
 			echo "</tr>";
@@ -601,7 +621,7 @@ function img($i,$a,$avail,$opt) {
 	}
 	
 	if( $avail ) {
-		$href = "<a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&popup=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
+		$href = "<a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&head=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
 		$fhref = "</a>";
 		$img = "<img title=\"".htmlspecialchars($a)."\" src='".MAIN_SECTIONS_DIR."/img/{$i}{$suff}.png' />";
 	}

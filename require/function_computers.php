@@ -323,7 +323,7 @@ function insert_manual_computer($values,$nb=1,$generic=false){
 		$sql="insert into hardware (deviceid,name) values ('%s','%s')";
 		$arg=array('MANUEL',$name);
 		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
-		$id_computer=mysql_insert_id();
+		$id_computer=mysql_insert_id($_SESSION['OCS']["writeServer"]);
 		
 		$sql="insert into bios (hardware_id,ssn) values ('%s','%s')";
 		$arg=array($id_computer,$values['SERIAL_GENERIC']);

@@ -47,8 +47,8 @@ $multi_search=array("OCS_REPORT_NB_NOTIFIED"=>array("FIELD"=>'',"COMP"=>'',"VALU
 					"OCS_REPORT_NB_LIMIT_MEM_H"=>array("FIELD"=>'HARDWARE-MEMORY',"COMP"=>'tall',"VALUE"=>$data_limit['GUI_REPORT_RAM_MAX']),
 					"OCS_REPORT_NB_LIMIT_MEM_M"=>array("FIELD"=>'HARDWARE-MEMORY',"COMP"=>'small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI']),
 					"OCS_REPORT_NB_LIMIT_MEM_B"=>array("FIELD"=>'HARDWARE-MEMORY,HARDWARE-MEMORY',"COMP"=>'tall,small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI'].','.$data_limit['GUI_REPORT_RAM_MAX']),					
-					"OCS_REPORT_NB_NOTIFIED"=>array("FIELD"=>'DEVICES-DOWNLOAD',"COMP"=>'exact',"VALUE"=>'NULL','VALUE2'=>$l->g(482)),
-					"OCS_REPORT_NB_ERR"=>array("FIELD"=>'DEVICES-DOWNLOAD',"COMP"=>'exact',"VALUE"=>'NULL','VALUE2'=>"ERR_"),
+					"OCS_REPORT_NB_NOTIFIED"=>array("FIELD"=>'DEVICES-DOWNLOAD',"COMP"=>'exact',"VALUE"=>'NULL','VALUE2'=>$l->g(482),'TYPE_FIELD'=>"SelFieldValue"),
+					"OCS_REPORT_NB_ERR"=>array("FIELD"=>'DEVICES-DOWNLOAD',"COMP"=>'exact',"VALUE"=>'NULL','VALUE2'=>"ERR_",'TYPE_FIELD'=>"SelFieldValue"),
 			/*		"OCS_REPORT_NB_HARD_DISK_H"=>array("FIELD"=>'HARDWARE-MEMORY',"COMP"=>'tall',"VALUE"=>$data_limit['GUI_REPORT_RAM_MAX']),
 					"OCS_REPORT_NB_HARD_DISK_M"=>array("FIELD"=>'HARDWARE-MEMORY',"COMP"=>'small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI']),
 					"OCS_REPORT_NB_HARD_DISK_B"=>array("FIELD"=>'HARDWARE-MEMORY,HARDWARE-MEMORY',"COMP"=>'tall,small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI'].','.$data_limit['GUI_REPORT_RAM_MAX']),					
@@ -108,7 +108,7 @@ $table_field=array("OCS_REPORT_WORKGROUP"=>array($l->g(33)=>"workgroup"),
 			  "OCS_REPORT_NB_HARD_DISK_M"=>"drives",
 			  "OCS_REPORT_NB_HARD_DISK_B"=>"drives"
 			  ,"OCS_REPORT_NB_IPDISCOVER"=>"networks"
-			  ,"OCS_REPORT_NB_LAST_INV"=>"hardware"
+			  ,"OCS_REPORT_NB_LAST_INV"=>array("NAME"=>"NAME","ID"=>"ID",$l->g(25)=>"osname",$l->g(218)=>"useragent"),
 					);
 					
 
@@ -255,7 +255,7 @@ $sql_field=array("OCS_REPORT_WORKGROUP"=>array('ARG'=>array('count(distinct work
 				 "OCS_REPORT_NB_IPDISCOVER"=>array('SQL'=>"select %s c from netmap ",
 										 'ARG'=>array(count_noinv_network_devices())),
 
-			 	 "OCS_REPORT_NB_LAST_INV"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LAST_INV"],"where floor((unix_timestamp(lastcome) - unix_timestamp(lastdate) )/86400) >= ".$data_limit['GUI_REPORT_LAST_DIFF'])),
+			 	 "OCS_REPORT_NB_LAST_INV"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_LAST_INV"]," where floor((unix_timestamp(lastcome) - unix_timestamp(lastdate) )/86400) >= ".$data_limit['GUI_REPORT_LAST_DIFF']." ")),
 
 				  "OCS_REPORT_NB_SNMP"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_SNMP"],''))
 			  );
@@ -395,7 +395,7 @@ function show_console_field($fields,$form_name){
 						$link_me_begin="<a href='index.php?".PAG_INDEX."=".$pages_refs[$link[$key]['PAGE']];
 						if (isset($multi_search[$key]['FIELD'])){
 							//'ARG'=>'&fields=HARDWARE-LASTCOME&comp=tall&values='.date($l->g(1242))
-							$link_me_begin.="&fields=".$multi_search[$key]['FIELD']."&comp=".$multi_search[$key]['COMP']."&values=".$multi_search[$key]['VALUE']."&values2=".$multi_search[$key]['VALUE2'];
+							$link_me_begin.="&fields=".$multi_search[$key]['FIELD']."&comp=".$multi_search[$key]['COMP']."&values=".$multi_search[$key]['VALUE']."&values2=".$multi_search[$key]['VALUE2']."&type_field=".$multi_search[$key]['TYPE_FIELD'];
 						}
 						$link_me_begin.="' target='_blank'>";
 						$link_me_end="</a>";

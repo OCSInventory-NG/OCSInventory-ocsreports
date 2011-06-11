@@ -17,7 +17,7 @@ $chiffres="onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToU
 $majuscule="onKeyPress=\"return scanTouche(event,/[0-9 a-z A-Z]/)\" onkeydown='convertToUpper(this)'
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
-$sql_field="onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z]/)\" onkeydown='convertToUpper(this)'
+$sql_field="onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)'
 		  onkeyup='convertToUpper(this)' 
 		  onblur='convertToUpper(this)'";
 
@@ -296,13 +296,13 @@ function tri($sql)
 			//$i++;
 	
 	}
-	echo "</tr></tbody></table></div>";	
+	echo "</tr></tbody></table></div></div>";	
 	}
 	else{
 		msg_warning($l->g(766));
 		return FALSE;
 	}
-	echo "</div>";
+	return TRUE;
 }
 
 
@@ -617,7 +617,6 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 			$tag=$id_tag[1];
 		$list_tag_id= find_value_in_field($tag,$protectedPost['FILTRE_VALUE']);
 	}
-	
 	if ($list_tag_id){
 		$query_end= " in (".implode(',',$list_tag_id).")";		
 	}else{	
@@ -1152,13 +1151,14 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 				//En dernier recourt, si le count n'est pas bon,
 				//on joue la requete initiale
 				if (!$resultcount){
-					if (isset($tab_options['ARG_SQL']))
+					if (isset($tab_options['ARG_SQL'])){
 						$resultcount = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
-					else
+
+					}else
 						$resultcount = mysql2_query_secure($queryDetails, $link);
 					
 				}
-
+				if ($resultcount)
 				$num_rows_result = mysql_num_rows($resultcount);
 				//echo "<b>".$num_rows_result."</b>";
 				if ($num_rows_result==1){
@@ -1282,7 +1282,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$correct_list_col_cant_del=$result_data['correct_list_col_cant_del'];
 		$correct_list_fields=$result_data['correct_list_fields'];
 	}
-
 	if ($num_rows_result > 0){
 		if (count($data) == 1 and (!isset($protectedPost['page']) or $protectedPost['page'] == 0))
 			$num_rows_result=1;
@@ -1294,19 +1293,22 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 			$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
 		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
 
-		tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
-		show_page($num_rows_result,$form_name);
-		echo "<input type='hidden' id='tri_".$table_name."' name='tri_".$table_name."' value='".$protectedPost['tri_'.$table_name]."'>";
-		echo "<input type='hidden' id='tri_fixe' name='tri_fixe' value='".$protectedPost['tri_fixe']."'>";
-		echo "<input type='hidden' id='sens_".$table_name."' name='sens_".$table_name."' value='".$protectedPost['sens_'.$table_name]."'>";
-		echo "<input type='hidden' id='SUP_PROF' name='SUP_PROF' value=''>";
-		echo "<input type='hidden' id='MODIF' name='MODIF' value=''>";
-		echo "<input type='hidden' id='SELECT' name='SELECT' value=''>";
-		echo "<input type='hidden' id='OTHER' name='OTHER' value=''>";
-		echo "<input type='hidden' id='ACTIVE' name='ACTIVE' value=''>";
-		echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
-		echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
-		return TRUE;
+		$no_result=tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
+		if ($no_result){
+			show_page($num_rows_result,$form_name);
+			echo "<input type='hidden' id='tri_".$table_name."' name='tri_".$table_name."' value='".$protectedPost['tri_'.$table_name]."'>";
+			echo "<input type='hidden' id='tri_fixe' name='tri_fixe' value='".$protectedPost['tri_fixe']."'>";
+			echo "<input type='hidden' id='sens_".$table_name."' name='sens_".$table_name."' value='".$protectedPost['sens_'.$table_name]."'>";
+			echo "<input type='hidden' id='SUP_PROF' name='SUP_PROF' value=''>";
+			echo "<input type='hidden' id='MODIF' name='MODIF' value=''>";
+			echo "<input type='hidden' id='SELECT' name='SELECT' value=''>";
+			echo "<input type='hidden' id='OTHER' name='OTHER' value=''>";
+			echo "<input type='hidden' id='ACTIVE' name='ACTIVE' value=''>";
+			echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
+			echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
+			return TRUE;
+		}else
+			return FALSE;
 	}else{
 		echo "</td></tr></table>";
 		msg_warning($l->g(766));
@@ -1518,7 +1520,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="&nbsp";
 						$lien = 'KO';
 					}elseif ($key == "GROUP_NAME"){
-						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&popup=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
+						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
 					}elseif ($key == "SUP" and $value_of_field!= '&nbsp;'){
 						if (isset($tab_options['LBL_POPUP'][$key])){
 							if (isset($donnees[$tab_options['LBL_POPUP'][$key]]))

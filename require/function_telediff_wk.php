@@ -505,8 +505,8 @@ function dde_form($form_name){
 					mysql2_query_secure($sql_wk_dde, $_SESSION['OCS']["writeServer"],$arg_wk_dde);	
 					//mise à jour des blobs insérés		
 					if (isset($list_id_files_to_update)){
-						if (mysql_insert_id())
-						$id_dde=mysql_insert_id();
+						if (mysql_insert_id($_SESSION['OCS']["writeServer"]))
+						$id_dde=mysql_insert_id($_SESSION['OCS']["writeServer"]);
 						elseif (isset($protectedPost['OLD_MODIF']))
 						$id_dde=$protectedPost['OLD_MODIF'];
 										

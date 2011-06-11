@@ -38,17 +38,24 @@ if (isset($protectedGet['fields']) and (!isset($protectedPost['GET']) or $protec
 	$sel_comp=explode(',',$protectedGet['comp']);
 	$fields_values=explode(',',$protectedGet['values']);
 	$fields_values2=explode(',',$protectedGet['values2']);
+	$type_field=explode(',',$protectedGet['type_field']);
 	if (is_array($tab_session)){
 		unset($_SESSION['OCS']['multiSearch']);
 		foreach ($tab_session as $key=>$value){
 			$_SESSION['OCS']['multiSearch'][]=$value;
 			$_SESSION['OCS']['SelComp-'.$value."-".$key]=$sel_comp[$key];
-			$_SESSION['OCS']['InputValue-'.$value."-".$key]=$fields_values[$key];
-			$_SESSION['OCS']['SelFieldValue-'.$value."-".$key]=$fields_values[$key];
+			if ($type_field[$key] == 'InputValue' or $type_field[$key] == ''){
+				$_SESSION['OCS']['InputValue-'.$value."-".$key]=$fields_values[$key];
+				$protectedPost['InputValue-'.$value."-".$key]=$fields_values[$key];
+			}
+			if ($type_field[$key] == 'SelFieldValue' or $type_field[$key] == ''){
+				$_SESSION['OCS']['SelFieldValue-'.$value."-".$key]=$fields_values[$key];
+				$protectedPost['SelFieldValue-'.$value."-".$key]=$fields_values[$key];
+			}
 			$_SESSION['OCS']['SelFieldValue2-'.$value."-".$key]=$fields_values2[$key];
 			$protectedPost['SelComp-'.$value."-".$key]=$sel_comp[$key];
-			$protectedPost['InputValue-'.$value."-".$key]=$fields_values[$key];
-			$protectedPost['SelFieldValue-'.$value."-".$key]=$fields_values[$key];
+			
+			
 			$protectedPost['SelFieldValue2-'.$value."-".$key]=$fields_values2[$key];
 		}
 		$protectedPost['Valid-search']=$l->g(30);
@@ -193,7 +200,7 @@ if ($protectedPost['reset'] != ""){
 if ($protectedPost['delfield'] != ""){
 unset ($_SESSION['OCS']['multiSearch'][$protectedPost['delfield']]);
 }
- 
+  //	
  //une recherche est demand�e sur des crit�res
  //pas d'utilisation de cache
  //bouton de validation actionn�
@@ -210,7 +217,6 @@ unset ($_SESSION['OCS']['multiSearch'][$protectedPost['delfield']]);
  		if ($key != 'Valid-search' and $key != 'multiSearch'){
  			//en fonction du nom de la variable, on arrive a savoir quel est la recherche demand�e
  			$valeur=explode("-", $key); 
- 		
  			if ($valeur[0] == "InputValue" 
  					  or $valeur[0] == "SelFieldValue")
  				{
@@ -229,11 +235,13 @@ unset ($_SESSION['OCS']['multiSearch'][$protectedPost['delfield']]);
  					unset($field[$i]);
  					unset($field_compar[$i]);
  					unset($fieldNumber[$i]);
- 				}else{ //sinon, on la prend en compte	
-		 				//en fonction de la valeur en position 0, on sait quelle genre de recherche on doit effecuter
+ 				}else{ 
+ 					//sinon, on la prend en compte	
+		 				//en fonction de la valeur en position 0, on sait quel genre de recherche on doit effecuter
 	 				//si on a un SelComp, on r�cup�re la valeur saisie
 		 			if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue"){ 				
  						$field_value[$i]=$value;
+						
  						//on v�rifie que le premier champ d'une recherche multicrit�re
  						//ou l'on a plusieur fois le m�me champ n'est pas vide
  						//ex:  3 * le champ IP ADD mais avec le premier champ vide.
@@ -324,10 +332,10 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 						$field_compar[$i]=" like ";
 						break;
 					case "small":
-						$field_compar[$i]=" < ";
+						$field_compar[$i]=" <= ";
 						break;
 					case "tall":
-						$field_compar[$i]=" > ";
+						$field_compar[$i]=" >= ";
 						break;
 					case "diff":
 						$field_compar[$i]=" like ";
@@ -860,7 +868,11 @@ $sort_list=array("HARDWARE-IPADDR" =>$l->g(82).": ".$l->g(34),
 				 "HARDWARE-WORKGROUP"=>$l->g(82).": ".$l->g(33),
 				 "STORAGES-NAME"=>$l->g(63).": ".$l->g(49),
 				 "STORAGES-SERIALNUMBER"=>$l->g(63).": ".$l->g(36),
-				 "STORAGES-DISKSIZE"=>$l->g(63).": ".$l->g(67));
+				 "STORAGES-DISKSIZE"=>$l->g(63).": ".$l->g(67),
+				 "PRINTERS-NAME"=>$l->g(79).": ".$l->g(49),
+				 "PRINTERS-DRIVER"=>$l->g(79).": ".$l->g(278),
+				 "PRINTERS-PORT"=>$l->g(79).": ".$l->g(279),
+				 "PRINTERS-DESCRIPTION"=>$l->g(79).": ".$l->g(53));
 		
 		
 $optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
@@ -889,6 +901,10 @@ $optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
 			   "BIOS-BMANUFACTURER"=>$sort_list["BIOS-BMANUFACTURER"],//$l->g(273).": ".$l->g(284),
 			   "BIOS-BVERSION"=>$sort_list["BIOS-BVERSION"],//$l->g(273).": ".$l->g(277),
 			   "BIOS-ASSETTAG"=>$sort_list["BIOS-ASSETTAG"],//$l->g(273).": ".$l->g(277),
+			   "PRINTERS-NAME"=>$sort_list["PRINTERS-NAME"],
+			   "PRINTERS-DRIVER"=>$sort_list["PRINTERS-DRIVER"],
+			   "PRINTERS-PORT"=>$sort_list["PRINTERS-PORT"],
+			   "PRINTERS-DESCRIPTION"=>$sort_list['PRINTERS-DESCRIPTION'],
 			   "HARDWARE-LASTDATE"=>$sort_list["HARDWARE-LASTDATE"],//"OCS: ".$l->g(46),
 			   "HARDWARE-LASTDATE-LBL"=>"calendar",
 			   "HARDWARE-LASTDATE-SELECT"=>array("small"=>$l->g(346),"tall"=>$l->g(347)),
