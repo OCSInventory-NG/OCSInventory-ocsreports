@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
-     
+
+       * Various patches for CPU, Bios and Drives detection for HPUX systems     
        * Fix Bug #781732 about a missing chomp() in Processes.pm
  
 2.0

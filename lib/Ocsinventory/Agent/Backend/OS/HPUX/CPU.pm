@@ -71,7 +71,7 @@ sub run {
             $processors=$1;
          }
          # Added for HPUX 11.31
-         if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ )
+         if ( /Intel\(R\) Itanium 2 9[01]00 series processor \((\d+\.\d+)/ )
          {
             $processors=$1*1000;
          }

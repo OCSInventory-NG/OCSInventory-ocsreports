@@ -14,6 +14,11 @@ sub run {
    
 
    for ( `fstyp -l | grep -v nfs` ) {
+
+      if ( /^\s*$/ ) {         #Blank line 
+        next;
+      }  
+
       $type=$_;
       for ( `bdf -t $type `) {
         if ( /Filesystem/ ) { ;  } ;
