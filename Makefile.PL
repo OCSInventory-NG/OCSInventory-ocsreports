@@ -25,7 +25,7 @@ if (-d '.bzr') {
     $version .= "~bzr".$bzrRev;
 }
 
-name 'Ocsinventory-Agent';
+name 'Ocsinventory-Unix-Agent';
 include 'Module::AutoInstall';
 abstract 'Ocs-Inventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
