@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* update german language file. Tx to dilldappe
 		* fix bug on console. Add restriction for limited ocs user
 		* fix bug on css/ocsreports.css (http://forums.ocsinventory-ng.org/viewtopic.php?pid=38872#p38872)
 		* fix bugs on details groups checklist. (static exclu/inclu)
