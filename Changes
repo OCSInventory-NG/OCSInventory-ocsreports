@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* fix bug on "user can't update accoutinfo" option. see http://forums.ocsinventory-ng.org/viewtopic.php?pid=39592#p39592
 		* update german language file. Tx to dilldappe
 		* fix bug on console. Add restriction for limited ocs user
 		* fix bug on css/ocsreports.css (http://forums.ocsinventory-ng.org/viewtopic.php?pid=38872#p38872)

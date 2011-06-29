@@ -11,7 +11,9 @@
 
 require_once('require/function_search.php');
 require_once('require/function_admininfo.php');
-
+$values=look_config_default_values(array('QRCODE'));
+if(isset($values['ivalue']['QRCODE']) and $values['ivalue']['QRCODE'] == 1)
+	$qrcode=true;
 $form_name="lock_affect";
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''><div align=center>";
 $list_id=multi_lot($form_name,$l->g(601));
@@ -71,11 +73,18 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 	mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["writeServer"],$tab_result['ARG']);	
 	msg_success(mysql_affected_rows()." ".$l->g(1026));	
 }
-		$def_onglets['TAG']=$l->g(1022); 
-		$def_onglets['SUP_PACK']=$l->g(1021); 
-		//$def_onglets['SERV']=strtoupper($l->g(651));
+		if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES")
+			$def_onglets['TAG']=$l->g(1022); 
+		else
+			$protectedPost['onglet']='SUP_PACK';
+		
+		$def_onglets['SUP_PACK']=$l->g(1021);
+		 
+		if (isset($qrcode))
+			$def_onglets['QRCODE']=$l->g(1298);
+		
 		if ($protectedPost['onglet'] == "")
-		$protectedPost['onglet']="TAG";	
+			$protectedPost['onglet']="TAG";	
 		//show onglet
 		onglet($def_onglets,$form_name,"onglet",7);
 	

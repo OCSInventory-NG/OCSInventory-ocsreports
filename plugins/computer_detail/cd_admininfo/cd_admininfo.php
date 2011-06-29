@@ -131,28 +131,46 @@ else{
 							array_push($config['COMMENT_BEHING'],'');
 						array_push($config['SELECT_DEFAULT'],'YES');
 						$field_select_values=find_value_field("ACCOUNT_VALUE_".$val_admin_info['NAME']);
-						array_push($value_field,$field_select_values);
+						
 						//cas of checkbox
 						if ($val_admin_info['TYPE'] == 4){
-						$temp_val=explode('&&&',$info_account_id[$name_accountinfo]);
-						$i=0;
-						while (isset($temp_val[$i])){
-							$protectedPost[$name_accountinfo . '_' . $temp_val[$i]]='on';
-							$i++;			
+					
+							$temp_val=explode('&&&',$info_account_id[$name_accountinfo]);
+							$i=0;
+							$tp_readonly="";
+							while (isset($temp_val[$i]) and $temp_val[$i] != ''){
+								if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES"){			
+									$protectedPost[$name_accountinfo . '_' . $temp_val[$i]]='on';
+								}else{
+									$tp_readonly .= $field_select_values[$temp_val[$i]].";";
+								}
+								$i++;			
+							}
+							
+							if($tp_readonly != ''){
+								array_push($value_field,substr($tp_readonly,0,-1));
+							}else{
+								array_push($value_field,$field_select_values);
+							}
+						}else{
+							$protectedPost[$name_accountinfo]=$info_account_id[$name_accountinfo];
+							if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES")
+								array_push($value_field,$field_select_values);
+							else
+								array_push($value_field,$field_select_values[$protectedPost[$name_accountinfo]]);
 						}
-						
-						}else
-						$protectedPost[$name_accountinfo]=$info_account_id[$name_accountinfo];		
-			
+							
 					}elseif ($val_admin_info['TYPE'] == 6){	
 						array_push($value_field,$info_account_id[$name_accountinfo]);
-						if ($admin_accountinfo)
-							array_push($config['COMMENT_BEHING'],$up_png . datePick($name_accountinfo));
-						else
-							array_push($config['COMMENT_BEHING'],datePick($name_accountinfo));
-						array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick($name_accountinfo));
-						array_push($config['SELECT_DEFAULT'],'');
-						array_push($config['SIZE'],'8');	
+						if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES"){
+							if ($admin_accountinfo)
+								array_push($config['COMMENT_BEHING'],$up_png . datePick($name_accountinfo));
+							else
+								array_push($config['COMMENT_BEHING'],datePick($name_accountinfo));
+							array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick($name_accountinfo));
+							array_push($config['SELECT_DEFAULT'],'');
+							array_push($config['SIZE'],'8');	
+						}
 					}elseif ($val_admin_info['TYPE'] == 5){
 						array_push($value_field,"accountinfo");
 						if ($admin_accountinfo)
@@ -177,7 +195,7 @@ else{
 					
 					array_push($name_field,$name_accountinfo);
 					array_push($tab_name,$val_admin_info['COMMENT']);
-					if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'])
+					if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES")
 						array_push($type_field,$convert_type[$val_admin_info['TYPE']]);
 					else
 						array_push($type_field,3);
@@ -194,6 +212,9 @@ else{
 					$showbutton=false;
 				else
 					$showbutton=true;
+				
+				if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] != "YES")
+					$showbutton=false;
 					
 				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton,$form_name='NO_FORM',$show_admin_button);
 			
