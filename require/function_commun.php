@@ -116,9 +116,11 @@ function mysql2_prepare($sql,$arg_sql,$arg_tab='',$nocot=false){
 	return array('SQL'=>$sql,'ARG'=>$arg_sql); 	
 }
 
-function prepare_sql_tab($list_fields,$explu=array()){
- 	$begin_arg=array();
- 	$begin_sql="SELECT ";
+function prepare_sql_tab($list_fields,$explu=array(),$distinct=false){
+ 	$begin_arg = array();
+ 	$begin_sql = "SELECT ";
+ 	if ($distinct)
+ 		$begin_sql .= " distinct ";
  	foreach ($list_fields as $key=>$value){
  		if (!in_array($key,$explu)){
 			$begin_sql .= '%s, ';

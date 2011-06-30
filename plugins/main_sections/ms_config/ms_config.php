@@ -20,25 +20,23 @@
 require_once('require/function_config_generale.php');
 
 
-$def_onglets[$l->g(728)]=$l->g(728); //Inventory
-$def_onglets[$l->g(499)]=$l->g(499); //Server
-$def_onglets[$l->g(312)]=$l->g(312); //IP Discover
-$def_onglets[$l->g(512)]=$l->g(512); //Teledeploy
-$def_onglets[$l->g(628)]=$l->g(628); //redistribution servers
-$def_onglets[$l->g(583)]=$l->g(583); //Groups
-$def_onglets[$l->g(211)]=$l->g(211); //Registry
-$def_onglets[$l->g(734)]=$l->g(734); //Inventory file
-$def_onglets[$l->g(735)]=$l->g(735); //Filter
-$def_onglets[$l->g(760)]=$l->g(760); //Webservice
-$def_onglets[$l->g(84)]=$l->g(84); //GUI
-$def_onglets[$l->g(1108)]=$l->g(1108); //connexion
-$def_onglets[$l->g(1136)]=$l->g(1136); //SNMP
+$def_onglets['INVENTORY']=$l->g(728); //Inventory
+$def_onglets['SERVER']=$l->g(499); //Server
+$def_onglets['IPDISCOVER']=$l->g(312); //IP Discover
+$def_onglets['TELEDEPLOY']=$l->g(512); //Teledeploy
+$def_onglets['REDISTRIB']=$l->g(628); //redistribution servers
+$def_onglets['GROUPS']=$l->g(583); //Groups
+$def_onglets['REGISTRY']=$l->g(211); //Registry
+$def_onglets['INV_FILE']=$l->g(734); //Inventory file
+$def_onglets['FILTER']=$l->g(735); //Filter
+$def_onglets['WEBSERVICES']=$l->g(760); //Webservice
+$def_onglets['GUI']=$l->g(84); //GUI
+$def_onglets['CNX']=$l->g(1108); //connexion
+$def_onglets['SNMP']=$l->g(1136); //SNMP
+
 if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO'){
 	$def_onglets['SUPPORT']=$l->g(1296);
 }
-
-
-
 
 if ($protectedPost['Valid'] == $l->g(103)){
 	$etat=verif_champ();
@@ -56,14 +54,10 @@ if ($protectedPost['Valid'] == $l->g(103)){
 				
 			}
 		}
-		//print_r($etat);
-	msg_error($msg);
-		
+		msg_error($msg);		
 	}
 	
 }
-
-//p($protectedPost);
 
 if (isset($MAJ) and $MAJ != '')
 	msg_success($MAJ);
@@ -72,67 +66,52 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 
 onglet($def_onglets,$form_name,'onglet',7);
 echo '<div class="mlt_bordure" >';
-if ($protectedPost['onglet'] == $l->g(1108) ){
-	
-	pageConnexion($form_name);
-	
+switch ($protectedPost['onglet']){
+	case 'CNX':
+		pageConnexion($form_name);
+		break;
+	case 'GUI':
+		pageGUI($form_name);
+		break;
+	case 'INVENTORY':
+		pageinventory($form_name);
+		break;
+	case 'SERVER':
+		pageserveur($form_name);
+		break;
+	case 'IPDISCOVER':
+		pageipdiscover($form_name);
+		break;
+	case 'TELEDEPLOY':	
+		pageteledeploy($form_name);
+		break;
+	case 'REDISTRIB':
+		pageredistrib($form_name);
+		break;
+	case 'GROUPS':
+		pagegroups($form_name);
+		break;
+	case 'REGISTRY':
+		pageregistry($form_name);
+		break;
+	case 'INV_FILE':
+		pagefilesInventory($form_name);
+		break;
+	case 'FILTER':
+		pagefilter($form_name);
+		break;
+	case 'WEBSERVICES':
+		pagewebservice($form_name);
+		break;
+	case 'SNMP':
+		pagesnmp($form_name);
+		break;
+	case 'SUPPORT' and isset($def_onglets['SUPPORT']):
+		pagessupport($form_name);
+		break;
+	default:
+		pageinventory($form_name);	
 }
 
-if ($protectedPost['onglet'] == $l->g(84) ){
-	
-	pageGUI($form_name);
-	
-}
-if ($protectedPost['onglet'] == $l->g(728) or $protectedPost['onglet'] == ""){
-	
-	pageinventory($form_name);
-	
-}
-if ($protectedPost['onglet'] == $l->g(499) ){
-	
- 	pageserveur($form_name);
-	
-}
-if ($protectedPost['onglet'] == $l->g(312)){	
-	
-	pageipdiscover($form_name);
-}
-if ($protectedPost['onglet'] == $l->g(512)){
-	
-	pageteledeploy($form_name);
-}
-if ($protectedPost['onglet'] == $l->g(628)){
-	
-	pageredistrib($form_name);
-}
-if ($protectedPost['onglet'] == $l->g(583)){
-	
-	pagegroups($form_name);
-}
-if ($protectedPost['onglet'] == $l->g(211)){
-	
-	pageregistry($form_name);
-}
-if ($protectedPost['onglet'] == $l->g(734)){
-	
-	pagefilesInventory($form_name);
-}
-if ($protectedPost['onglet'] == $l->g(735)){
-	
-	pagefilter($form_name);
-}
-if ($protectedPost['onglet'] == $l->g(760)){
-	
-	pagewebservice($form_name);
-}
-if ($protectedPost['onglet'] == $l->g(1136)){
-	
-	pagesnmp($form_name);
-}
-
-if ($protectedPost['onglet'] == 'SUPPORT' and isset($def_onglets['SUPPORT'])){
-	
-	pagessupport($form_name);
-}
 echo "<input type='hidden' id='RELOAD_CONF' name='RELOAD_CONF' value=''>";
 echo "</div></form>";

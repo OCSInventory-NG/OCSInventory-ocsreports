@@ -17,12 +17,19 @@ foreach ($_POST as $key=>$value){
 }
 $protectedPost=$temp_post;
 if( isset( $protectedPost["VALID_END"] ) ) {
+	//configure description of this package
+	$description_details=$protectedPost['DESCRIPTION'];
+	if (isset($protectedPost['TYPE_PACK']) and $protectedPost['TYPE_PACK'] != '')
+		$description_details .= "  [Type=".$protectedPost['TYPE_PACK']."]";
+	if (isset($protectedPost['VISIBLE']) and $protectedPost['VISIBLE'] != '')
+		$description_details .= "  [VISIBLE=".$protectedPost['VISIBLE']."]";
+		
 	$sql_details=array('document_root'=>$protectedPost['document_root'],
 					   'timestamp'=>$protectedPost['timestamp'],
 					   'nbfrags'=>$protectedPost["nbfrags"],
 					   'name'=>$protectedPost['NAME'],
 					   'os'=>$protectedPost['OS'],
-					   'description'=>$protectedPost['DESCRIPTION'].'  [Type='.$protectedPost['TYPE_PACK']."]".'  [VISIBLE='.$protectedPost['VISIBLE']."]",
+					   'description'=>$description_details,
 					   'size'=>$protectedPost['SIZE'],
 					   'id_wk'=>$protectedPost['LIST_DDE_CREAT']);
 					   
@@ -449,6 +456,9 @@ $sous_tab_beg="<table BGCOLOR='#C7D9F5' BORDER='3'><tr><td>";
 $sous_tab_end="</td></tr></table>";
 $nom= $lign_begin.$l->g(49).$td_colspan2.show_modif($protectedPost['NAME'],'NAME',$NAME_TYPE,'',$config_input).$lign_end;
 $descr=$lign_begin.$l->g(53).$td_colspan2.show_modif($protectedPost['DESCRIPTION'],'DESCRIPTION',$DESCRIPTION_TYPE).$lign_end;
+if (!isset($protectedPost['VISIBLE']))
+$protectedPost['VISIBLE']=1;
+$visible=$lign_begin.$l->g(52).$td_colspan2.show_modif($yes_no,'VISIBLE',2,"",$configinput['DEFAULT'] = "NO").$lign_end;
 $os=$lign_begin.$l->g(25).$td_colspan2.champ_select_block($list_os,'OS',array('OS'=>'WINDOWS')).$lign_end;
 $proto=$lign_begin.$l->g(439).$td_colspan2.show_modif($list_proto,'PROTOCOLE',2,'').$lign_end;
 $prio=$lign_begin.$l->g(440).$td_colspan2.show_modif($list_prio,'PRIORITY',2,'').$lign_end;
@@ -464,7 +474,11 @@ $redistrib="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(1008).":</
 
 echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5' >";
 
-echo $title_creat.$nom.$descr.$os.$proto.$prio.$file.$action;
+echo $title_creat.$nom.$descr;
+if (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
+	and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "NO" )
+echo $visible;
+echo $os.$proto.$prio.$file.$action;
 //redistrib
 if ($_SESSION['OCS']["use_redistribution"] == 1){
 	echo $title_redistrib.$redistrib;

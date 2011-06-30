@@ -158,12 +158,20 @@ $querypack=prepare_sql_tab($list_fields,array('SELECT','ZIP','STAT','ACTIVE','SU
 
 $querypack['SQL'] .= " from download_available ";
 if ($protectedPost['SHOW_SELECT'] == 'download')
-	$querypack['SQL'] .= " where comment not like '%s' or comment is null or comment = ''";
+	$querypack['SQL'] .= " where (comment not like '%s' or comment is null or comment = '')";
 else
 	$querypack['SQL'] .= " where comment like '%s'";
-array_push($querypack['ARG'],"[PACK REDISTRIBUTION%");		
+array_push($querypack['ARG'],"[PACK REDISTRIBUTION%");
+$arg_count=array("[PACK REDISTRIBUTION%");
+if (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
+		and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES" ){
+		$querypack['SQL'] .= " and comment not like '%s'";
+	array_push($querypack['ARG'],"%[VISIBLE=0]%");	
+	array_push($arg_count,"%[VISIBLE=0]%");	
+}
+	
 $tab_options['ARG_SQL']=$querypack['ARG'];
-$tab_options['ARG_SQL_COUNT']=array("[PACK REDISTRIBUTION%");
+$tab_options['ARG_SQL_COUNT']=$arg_count;
 //echo $querypack;
 $tab_options['LBL']=array('ZIP'=>"Archives",
 							  'STAT'=>$l->g(574),

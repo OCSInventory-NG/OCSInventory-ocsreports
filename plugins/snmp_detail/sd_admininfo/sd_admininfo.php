@@ -166,7 +166,7 @@ if ($list_tab != ''){
 			
 			array_push($name_field,$name_accountinfo);
 			array_push($tab_name,$val_admin_info['COMMENT']);
-			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'])
+			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES")
 				array_push($type_field,$convert_type[$val_admin_info['TYPE']]);
 			else
 				array_push($type_field,3);

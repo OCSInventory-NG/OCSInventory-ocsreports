@@ -232,30 +232,31 @@ if ($list_id){
 			$list_col_cant_del['PACK_LOC']='PACK_LOC';
 		}
 
-		$querypack = 'SELECT  ';
+		//$querypack = 'SELECT  ';
 		if ($protectedPost['onglet'] == 'SERV_GROUP')
-			$querypack .= ' distinct ';
-		foreach ($list_fields as $key=>$value){
-			if($key != 'SELECT')
-			$querypack .= $value.',';		
-		} 
-		$querypack=substr($querypack,0,-1);
-		$querypack .= " from download_available a, download_enable e ";
-		if ($protectedPost['onglet'] == 'MACH')
-		$querypack .= "where a.FILEID=e.FILEID and e.SERVER_ID is null ";
+			$distinct=true;
 		else
-		$querypack .= ", hardware h where a.FILEID=e.FILEID and h.id=e.group_id and  e.SERVER_ID is not null ";
+			$distinct=false;
+			
+		$sql=prepare_sql_tab($list_fields,array('SELECT'),$distinct);
+		
+		$sql['SQL'] .= " from download_available a, download_enable e ";
+		if ($protectedPost['onglet'] == 'MACH')
+			$sql['SQL'] .= "where a.FILEID=e.FILEID and e.SERVER_ID is null ";
+		else
+			$sql['SQL'] .= ", hardware h where a.FILEID=e.FILEID and h.id=e.group_id and  e.SERVER_ID is not null ";
 		
 		if (isset($fileid_show) and $fileid_show != array()){
-			$sql=mysql2_prepare($querypack. " and a.FILEID IN ",'',$fileid_show,true);
-			$tab_options['ARG_SQL']=$sql['ARG'];
-			$querypack=$sql['SQL'];
+			$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$fileid_show,true);
 		}
-		
+		if (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES"){
+			$sql['SQL'].=" and a.comment not like '%s'";
+			array_push($sql['ARG'],'%[VISIBLE=0]%');
+		}
 		$tab_options['QUESTION']['SELECT']=$l->g(699);
 		$tab_options['FILTRE']=array('e.FILEID'=>'Timestamp','a.NAME'=>$l->g(49));
-		
-		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack,$form_name,100,$tab_options); 
+		$tab_options['ARG_SQL']=$sql['ARG'];
+		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,100,$tab_options); 
 	}
 	echo "</td></tr></table></div>";
 }

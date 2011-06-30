@@ -1547,7 +1547,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}elseif ($key == "ZIP"){
 						$data[$i][$num_col]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\",\"compress\",\"\")><img src=image/archives.png></a>";
 						$lien = 'KO';
-					}elseif ($key == "STAT"){
+					}
+					elseif ($key == "STAT"){
 						$data[$i][$num_col]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\",\"stats\",\"\")><img src='image/stat.png'></a>";
 						$lien = 'KO';
 					}elseif ($key == "ACTIVE"){

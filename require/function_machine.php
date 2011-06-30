@@ -93,10 +93,11 @@ function print_item_header($text)
 }
 
 function bandeau($data,$lbl){
+	global $protectedGet,$pages_refs;
 	$data=data_encode_utf8($data);
 	$nb_col=2;
-	echo "<table ALIGN = 'Center' class='mlt_bordure' ><tr><td align =center>";
-	echo "		<table align=center border='0' width='95%'  ><tr>";
+	echo "<table ALIGN = 'Center' class='mlt_bordure' border=0 width:100%><tr><td align =center>";
+	echo "		<table align=center border='0' width='100%'  ><tr>";
 	$i=0;
 	foreach ($data as $name=>$value){
 		if (trim($value) != ''){
@@ -104,10 +105,76 @@ function bandeau($data,$lbl){
 				echo "</tr><tr>";
 				$i=0;			
 			}
-			echo "<td >&nbsp;<b>".$lbl[$name].": </b></td><td >".$value."</td>";
+			echo "<td>&nbsp;<b>".$lbl[$name].": </b></td><td >".$value."</td>";
 			$i++;
 		}
 	}
-	echo "</tr></table></td></tr></table>";	
+
+	echo "</tr></table></td>";
+	echo "</tr></table>";	
+}
+
+function show_packages($systemid){
+	global $l,$pages_refs,$ii,$td3,$td2,$td4;
+	$query="SELECT a.name, d.tvalue,d.ivalue,d.comments,e.fileid, e.pack_loc,h.name as name_server,h.id,a.comment
+			FROM devices d left join download_enable e on e.id=d.ivalue
+						LEFT JOIN download_available a ON e.fileid=a.fileid
+						LEFT JOIN hardware h on h.id=e.server_id
+			WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != ''   AND d.hardware_id=%s
+			union
+			SELECT '%s', d.tvalue,d.ivalue,d.comments,e.fileid, '%s',h.name,h.id,a.comment 
+			FROM devices d left join download_enable e on e.id=d.ivalue
+						LEFT JOIN download_available a ON e.fileid=a.fileid
+						LEFT JOIN hardware h on h.id=e.server_id
+			WHERE d.name='DOWNLOAD' and a.name is null and pack_loc is null  AND d.hardware_id=%s";
+	$arg_query=array($systemid,$l->g(1129),$l->g(1129),$systemid);
+	$resDeploy = mysql2_query_secure($query, $_SESSION['OCS']["readServer"],$arg_query); 
+	if( mysql_num_rows( $resDeploy )>0 ) {
+			
+		while( $valDeploy = mysql_fetch_array( $resDeploy ) ) {
+			$ii++; $td3 = $ii%2==0?$td2:$td4;
+			if ((strpos($valDeploy["comment"], "[VISIBLE=1]") 
+				or strpos($valDeploy["comment"], "[VISIBLE=]")
+				or !strpos($valDeploy["comment"], "[VISIBLE"))
+				or (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
+				and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "NO"
+				and preg_match("[VISIBLE=0]", $valDeploy["comment"]))){
+					//echo $valDeploy["comment"];
+					//	echo $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'];			
+					echo "<tr>";
+					echo "<td bgcolor='white' align='center' valign='center'><img width='15px' src='image/red.png'></td>";
+					echo $td3.$l->g(498)." <b>".$valDeploy["name"]."</b>";
+					if (isset($valDeploy["fileid"]))
+					echo "(<small>".$valDeploy["fileid"]."</small>)";
+					
+					if ($valDeploy["name_server"]!="")
+						echo " (".$l->g(499)." redistrib: <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valDeploy["id"]."' target='_blank'><b>".$valDeploy["name_server"]."</b></a>";
+					else
+					echo " (".$l->g(499).": ".$valDeploy["pack_loc"]." ";
+					echo ")</td>";			
+					echo $td3.$l->g(81).": ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482));
+					echo ($valDeploy["comments"]!=""?" (".$valDeploy["comments"].")":"");
+					echo "</td>";
+					if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" )	{
+						echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
+						urlencode($systemid)."&option=cd_configuration'>".$l->g(122)."</a></td>";
+					}elseif (strstr($valDeploy["tvalue"], 'ERR_')){
+						echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&affect_reset=".$valDeploy["ivalue"]."&systemid=".
+							urlencode($systemid)."&option=cd_configuration'>".$l->g(113)."</a>";
+						if ($valDeploy["name"] != "PAQUET SUPPRIME")
+						echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&affect_again=".$valDeploy["ivalue"]."&systemid=".
+							urlencode($systemid)."&option=cd_configuration'>".$l->g(1246)."</a></td>";				
+					}elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')){	
+							if (isset($valDeploy["comments"]) and strtotime ($valDeploy["comments"])<strtotime ("-12 week")){
+								echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&reset_notified=".$valDeploy["ivalue"]."&systemid=".
+								urlencode($systemid)."&option=cd_configuration'><img src=image/supp.png></a>";
+							}
+					
+					}
+					echo "</tr>";
+				}
+		}
+	}
+	
 }
 ?>
