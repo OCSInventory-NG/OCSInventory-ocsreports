@@ -389,11 +389,13 @@ if (isset($name[$protectedGet[PAG_INDEX]])){
 	require (MAIN_SECTIONS_DIR.$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
 }
 else{
- 	if ($_SESSION['OCS']['PAGE_PROFIL']['ms_console'])	
-	require (MAIN_SECTIONS_DIR."ms_console/ms_console.php");	
+	$default_first_page=MAIN_SECTIONS_DIR."ms_console/ms_console.php";
+	if (isset($protectedGet['first'])){
+		require (MAIN_SECTIONS_DIR."ms_console/ms_console.php");
+	}elseif($_SESSION['OCS']['PAGE_PROFIL']['ms_console'])	
+		require ($default_first_page);	
 	else{
 		echo  "<img src='image/fond.png'>";
-		
 	}
 		
 }

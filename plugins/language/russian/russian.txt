@@ -1187,6 +1187,11 @@
 1294 Support information
 1295 More information
 1296 Support
+1297 SNMP device identification
+1298 QRCode administration
+1299 QRCode
+1300 Check QRCode
+1301 on invisible packages
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

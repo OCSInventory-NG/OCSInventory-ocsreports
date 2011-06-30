@@ -573,26 +573,9 @@ function print_perso($systemid) {
 	echo "</tr>";
 	
 	//TELEDEPLOY
-	$resDeploy = @mysql_query("SELECT a.name, d.tvalue,d.ivalue, e.pack_loc,e.fileid  FROM devices d, download_enable e LEFT JOIN download_available a 
-	ON e.fileid=a.fileid WHERE d.name='DOWNLOAD' AND e.id=d.ivalue AND d.hardware_id=$systemid"); 
-	if( mysql_num_rows( $resDeploy )>0 ) {
-			
-		while( $valDeploy = mysql_fetch_array( $resDeploy ) ) {
-			$ii++; $td3 = $ii%2==0?$td2:$td4;
-			echo "<tr>";
-			echo "<td bgcolor='white' align='center' valign='center'><img width='15px' src='image/red.png'></td>";
-			echo $td3.$l->g(498)." <b>".$valDeploy["name"]."</b>";
-			if (isset($valDeploy["fileid"]))
-			echo "(<small>".$valDeploy["fileid"]."</small>)";	
-			echo "</td>".$td3.$l->g(499).": ".$valDeploy["pack_loc"]."</td>";//$l->g(81)."cac: ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482))."</td>";
-			if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" )	
-				echo "$td3 <a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
-				urlencode($systemid)."&option=".urlencode($l->g(500))."'>".$l->g(122)."</a></td>";
-			show_stat($valDeploy["fileid"]);
-			echo "</tr>";
-			//print_r($valDeploy);
-		}
-	}
+	require_once('require/function_machine.php');
+	show_packages($systemid);
+	
 	if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" ){
 	echo "<tr>
 		<td colspan='10' align='right'>
@@ -604,14 +587,6 @@ function print_perso($systemid) {
 	echo "</form>";
 }
 
-function print_item_header($text)
-{
-	echo "<br><br><table align=\"center\"  width='100%'  cellpadding='4'>";
-	echo "<tr>";
-	echo "<td align='center' width='100%'><b><font color='blue'>".strtoupper($text)."</font></b></td>";
-	echo "</tr>";
-	echo "</table><br>";	
-}
 
 function img($i,$a,$avail,$opt) {
 	global $systemid,$protectedGet;

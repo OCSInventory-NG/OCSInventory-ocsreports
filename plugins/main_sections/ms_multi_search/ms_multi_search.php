@@ -967,6 +967,11 @@ $sort_list_2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
 						 "STORAGES-MODEL"=>$l->g(63).": ".$l->g(65),
 			   			 "BIOS-TYPE"=>$l->g(273).": ".$l->g(66));
 
+$sql_history_download = "select FILEID as ID,NAME from download_available d_a";
+IF (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
+		and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES" )
+$sql_history_download .= " where d_a.comment not like '%[VISIBLE=0]%'";	
+$sql_history_download .= " order by 2";
 $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"],//"OCS: ".$l->g(966),
 				 "HARDWARE-USERAGENT-SQL1"=>"select distinct USERAGENT as 'NAME' from hardware where USERAGENT != '' ".(isset($list_id_computer)? " and id in ".$list_id_computer : '')." order by 1",
 				 "HARDWARE-USERAGENT-SELECT"=>array('exact'=>$l->g(410)
@@ -988,7 +993,7 @@ $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"]
 				 										,'diff_exact'=>$l->g(968)
 				 										),
 				 "DOWNLOAD_HISTORY-PKG_ID"=>$sort_list_2Select["DOWNLOAD_HISTORY-PKG_ID"],//$l->g(512).": ".$l->g(969),
-				 "DOWNLOAD_HISTORY-PKG_ID-SQL1"=>"select FILEID as ID,NAME from download_available order by 2",
+				 "DOWNLOAD_HISTORY-PKG_ID-SQL1"=>$sql_history_download,
 				 "DOWNLOAD_HISTORY-PKG_ID-SELECT"=>array('exact'=>$l->g(507)
 				 									,'diff'=>$l->g(508)
 				 									),
@@ -1047,8 +1052,14 @@ $optSelect2Field=array("HARDWARE-MEMORY"=>$sort_list_Select2Field["HARDWARE-MEMO
 
 //� l'affichage on se retrouve avec  le lbl du champ et 3 select
 $sort_list_3Select=array("DEVICES-DOWNLOAD"=>$l->g(512).": ".$l->g(970));
+$sql_download="select 'NULL' as 'ID', '***".$l->g(509)."***' as NAME
+				union select FILEID as ID,NAME from download_available d_a ";
+IF (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
+		and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES" )
+$sql_download .= " where d_a.comment not like '%[VISIBLE=0]%'";	
+$sql_download .= " order by 2";
 $opt3Select=array("DEVICES-DOWNLOAD"=>$sort_list_3Select["DEVICES-DOWNLOAD"],//$l->g(512).": ".$l->g(970),
-				 "DEVICES-DOWNLOAD-SQL1"=>"select 'NULL' as 'ID', '***".$l->g(509)."***' as NAME "./*union select 'ALL' as ID,'***TOUS LES PAQUETS***' as NAME */"union select FILEID as ID,NAME from download_available order by 2",
+				 "DEVICES-DOWNLOAD-SQL1"=>$sql_download,
 				 "DEVICES-DOWNLOAD-SQL2"=>"select '***".$l->g(509)."***' as 'NAME' union select '***".$l->g(548)."***' union select '***".$l->g(956)."***' union select '***".$l->g(957)."***' union select '".$l->g(482)."' union select distinct TVALUE from devices where name='DOWNLOAD' and tvalue!='' order by 1",
 				 "DEVICES-DOWNLOAD-SELECT"=>array('exact'=>$l->g(507),'diff'=>$l->g(508))
 				 );

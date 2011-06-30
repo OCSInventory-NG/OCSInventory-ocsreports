@@ -205,7 +205,9 @@ function admin_profil($form){
 					  					   'CONFIGURATION'=>array('LBL'=>$l->g(1156) . ": ",'VALUE'=>$yes_no)),
 					  'TELEDIFF_WK_FIELDS'=>array('RESTRICTION'=>array('LBL'=>$l->g(1157) . ": ",'VALUE'=>$yes_no)),
 					  'TELEDIFF_ACTIVATE'=>array('RESTRICTION'=>array('LBL'=>$l->g(1158) . ": ",'VALUE'=>$yes_no)),
+					  'TELEDIFF_VISIBLE'=>array('RESTRICTION'=>array('LBL'=>$l->g(1301) . ": ",'VALUE'=>$yes_no)),
 					  'SUPPORT'=>array('RESTRICTION'=>array('LBL'=>$l->g(1279),'VALUE'=>$yes_no)),
+						
 					  'MACADD'=>array('ADMIN_BLACKLIST'=>array('LBL'=>$l->g(1159) . ": ",'VALUE'=>$yes_no)),
 					  'SERIAL'=>array('ADMIN_BLACKLIST'=>array('LBL'=>$l->g(1160) . ": ",'VALUE'=>$yes_no)),
 					  'IPDISCOVER'=>array('ADMIN_BLACKLIST'=>array('LBL'=>$l->g(1161) . ": ",'VALUE'=>$yes_no),
@@ -221,8 +223,8 @@ function admin_profil($form){
 					  'MANAGE_PROFIL'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1170) . ": ",'VALUE'=>$yes_no)),
 					  'MANAGE_USER_GROUP'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1171) . ": ",'VALUE'=>$yes_no)),
 					  'MANAGE_SMTP_COMMUNITIES'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1205) . ": ",'VALUE'=>$yes_no)),
-					  'DELETE_COMPUTERS'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1272) . ": ",'VALUE'=>$yes_no)),	);
-			
+					  'DELETE_COMPUTERS'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1272) . ": ",'VALUE'=>$yes_no)));
+		
 	$lbl_cat=array('INFO'=>$l->g(1173),
 					   'PAGE_PROFIL'=>$l->g(1174),
 					   'RESTRICTION'=>$l->g(1175),
@@ -234,21 +236,19 @@ function admin_profil($form){
 		//read all profil value
 		$forall=read_config_file();
 		//build new tab with new values
-		foreach ($forprofil as $cat=>$fields){
-			if ($cat != "PAGE_PROFIL"){			
-				foreach ($fields as $name=>$value){
-					if (isset($protectedPost[$name]) and $protectedPost['cat'] == $cat)
-						$new_value[$cat][$name]=$protectedPost[$name];
-					else
-						$new_value[$cat][$name]=$value;				
-				}		
-			}else{
-				foreach ($forall['URL'] as $name=>$value){
-					if (isset($protectedPost[$name]) and $protectedPost['cat'] == $cat)
-						$new_value[$cat][$name]='';	
-				}				
-			}
+		foreach($info_field as $if_name=>$if_value){
+			foreach ($if_value as $if_cat=>$if_val){
+				if(isset($protectedPost[$if_name]) and $protectedPost['cat'] == $if_cat){
+					$new_value[$if_cat][$if_name]=$protectedPost[$if_name];						
+				}else
+					$new_value[$if_cat][$if_name]=$forprofil[$if_cat][$if_name];						
+			}			
 		}
+		foreach ($forall['URL'] as $name=>$value){
+			if (isset($protectedPost[$name]) and $protectedPost['cat'] == "PAGE_PROFIL")
+					$new_value["PAGE_PROFIL"][$name]='';	
+		}				
+		
 		if (!isset($new_value['PAGE_PROFIL']))
 			$new_value['PAGE_PROFIL']=$forprofil['PAGE_PROFIL'];
 		update_config_file($protectedPost['PROFILS'],$new_value);	
@@ -266,8 +266,6 @@ function admin_profil($form){
 			foreach ($forprofil as $key=>$value){
 				if (isset($lbl_cat[$key]))
 					$data_on[$key]=$lbl_cat[$key];
-			/*	else
-					$data_on[$key]=$key;*/
 			}		
 			onglet($data_on,$form,"cat",10);
 			if (isset($forprofil[$protectedPost['cat']]) and $protectedPost['cat'] != 'PAGE_PROFIL'){
@@ -275,24 +273,24 @@ function admin_profil($form){
 				$type_field=array();
 				$tab_name=array();
 				$value_field=array();
-				
-				foreach ($forprofil[$protectedPost['cat']] as $key=>$value){
-					array_push($name_field,$key);
-					if (isset($info_field[$key][$protectedPost['cat']])){
-						array_push($tab_name,$info_field[$key][$protectedPost['cat']]['LBL']);			
-					}else
-						array_push($tab_name,$key);			
-					if (is_array($info_field[$key][$protectedPost['cat']]['VALUE'])){	
-						array_push($type_field,2);
-						array_push($value_field,$info_field[$key][$protectedPost['cat']]['VALUE']);
-					}else{
-						array_push($type_field,0);
-						array_push($value_field,replace_language($forprofil[$protectedPost['cat']][$key]));
-						//p($forprofil);			
-						//echo $key.'=> value ='.$value;			
-					}
-					$protectedPost[$key]=$value;
-					
+				foreach($info_field as $if_name=>$if_value){
+						foreach ($if_value as $if_cat=>$if_val){
+							if ($protectedPost['cat'] == $if_cat){
+								if(isset($forprofil[$if_cat][$if_name]))
+									$protectedPost[$if_name]=$forprofil[$if_cat][$if_name];	
+								array_push($name_field,$if_name);
+								array_push($tab_name,$if_val['LBL']);
+								if(is_array($if_val['VALUE'])){
+									array_push($type_field,2);
+									if (!isset($protectedPost[$if_name]))
+										array_push($if_val['VALUE'],'');
+									array_push($value_field,$if_val['VALUE']);
+								}else{
+									array_push($type_field,0);
+									array_push($value_field,replace_language($forprofil[$if_cat][$if_name]));
+								}
+							}						
+						}				
 				}
 				$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif_profil");	

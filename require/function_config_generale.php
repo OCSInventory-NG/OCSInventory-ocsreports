@@ -306,7 +306,8 @@ function update_default_value($POST){
                                'CONEX_LDAP_CHECK_FIELD2_NAME', 'CONEX_LDAP_CHECK_FIELD2_VALUE',
 							   'CONEX_LDAP_CHECK_FIELD2_ROLE',
                                'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
-                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','SNMP_URI','EXPORT_SEP');
+                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','SNMP_URI','EXPORT_SEP',
+							   'QRCODE_TITLE');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -460,7 +461,8 @@ function trait_post($name){
  				  'LOG_SCRIPT'=>'LOG_SCRIPT',
  				  'CONF_PROFILS_DIR'=>'CONF_PROFILS_DIR',
  				  'OLD_CONF_DIR'=>'OLD_CONF_DIR',
- 				  'USE_FLASH'=>'USE_FLASH'
+ 				  'USE_FLASH'=>'USE_FLASH',
+ 				  'QRCODE_TITLE'=>'QRCODE_TITLE'
 				  );
 	$values=look_config_default_values($champs);
 	$select_local_uri=trait_post('LOCAL_URI_SERVER');
@@ -491,6 +493,14 @@ function trait_post($name){
 	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGHT'=>4));	
 	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			
 	ligne('USE_FLASH',$l->g(1257),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['USE_FLASH']));
+	
+	$list_qrcode_fields=array('hardware.name'=>'Nom de la machine',
+ 							  'hardware.user'=>'Utilisateur',
+							  'hardware.ipaddr'=>'Adresse IP',
+							  'networks.macaddr'=>'Adresse MAC',
+							  'bios.ssn'=>'Numéro de série',
+							 );
+	ligne('QRCODE_TITLE','Libellé du QRCode','select',array('VALUE'=>$values['tvalue']['QRCODE_TITLE'],'SELECT_VALUE'=>$list_qrcode_fields));
 	
 	
 	
@@ -898,7 +908,6 @@ function pagegroups($form_name){
 	ligne('SUPPORT_KEYS',$l->g(1284),9,array('LINKS'=>"<input type='button' name='KEYS' id='KEYS' value='".$l->g(1284)."' ".$javascript.">"));
 	
 	fin_tab($form_name);
- 	
  }
- 
+
 ?>
