@@ -266,67 +266,7 @@ $i=0;
 	}
 	echo "<tr><td colspan=100></td></tr>";
 	//TELEDEPLOY
-	$query="SELECT a.name, d.tvalue,d.ivalue,d.comments,e.fileid, e.pack_loc,h.name as name_server,h.id
-			FROM devices d left join download_enable e on e.id=d.ivalue
-						LEFT JOIN download_available a ON e.fileid=a.fileid
-						LEFT JOIN hardware h on h.id=e.server_id
-			WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != ''   AND d.hardware_id=%s
-			union
-			SELECT '" . $l->g(1129) . "', d.tvalue,d.ivalue,d.comments,e.fileid, '" . $l->g(1129) . "',h.name,h.id 
-			FROM devices d left join download_enable e on e.id=d.ivalue
-						LEFT JOIN download_available a ON e.fileid=a.fileid
-						LEFT JOIN hardware h on h.id=e.server_id
-			WHERE d.name='DOWNLOAD' and a.name is null and pack_loc is null  AND d.hardware_id=%s";
-	$arg_query=array($systemid,$systemid);
-	$resDeploy = mysql2_query_secure($query, $_SESSION['OCS']["readServer"],$arg_query); 
-	if( mysql_num_rows( $resDeploy )>0 ) {
-			
-		while( $valDeploy = mysql_fetch_array( $resDeploy ) ) {
-			$ii++; $td3 = $ii%2==0?$td2:$td4;
-			echo "<tr>";
-			echo "<td bgcolor='white' align='center' valign='center'><img width='15px' src='image/red.png'></td>";
-			echo $td3.$l->g(498)." <b>".$valDeploy["name"]."</b>";
-			if (isset($valDeploy["fileid"]))
-			echo "(<small>".$valDeploy["fileid"]."</small>)";
-			
-			if ($valDeploy["name_server"]!="")
-				echo " (".$l->g(499)." redistrib: <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valDeploy["id"]."' target='_blank'><b>".$valDeploy["name_server"]."</b></a>";
-			else
-			echo " (".$l->g(499).": ".$valDeploy["pack_loc"]." ";
-			//echo ($valDeploy["name_server"]!=""?"<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valDeploy["id"]."' target='_blank'><b>".$valDeploy["name_server"]."</b></a>":"");
-			echo ")</td>";			
-			echo $td3.$l->g(81).": ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482));
-			echo ($valDeploy["comments"]!=""?" (".$valDeploy["comments"].")":"");
-			echo "</td>";
-			if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" )	{
-				echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
-				urlencode($systemid)."&option=cd_configuration'>".$l->g(122)."</a></td>";
-			}elseif (strstr($valDeploy["tvalue"], 'ERR_')){
-				echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&affect_reset=".$valDeploy["ivalue"]."&systemid=".
-					urlencode($systemid)."&option=cd_configuration'>".$l->g(113)."</a>";
-				if ($valDeploy["name"] != "PAQUET SUPPRIME")
-				echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&affect_again=".$valDeploy["ivalue"]."&systemid=".
-					urlencode($systemid)."&option=cd_configuration'>".$l->g(1246)."</a></td>";				
-			}elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')){	
-					if (isset($valDeploy["comments"]) and strtotime ($valDeploy["comments"])<strtotime ("-12 week")){
-						$possible_desafect='YES';
-					//	echo $td3."<a href=# OnClick='confirme(\"\",\"".$value_of_field."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)." ".$value_of_field."\");'><img src=image/supp.png></a>";
-						echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&reset_notified=".$valDeploy["ivalue"]."&systemid=".
-						urlencode($systemid)."&option=cd_configuration'><img src=image/supp.png></a>";
-	//					$actuel_mount=date("M");
-	//					$actuel_year=date("Y");
-	//					echo "$td3 <a href='machine.php?suppack=".$valDeploy["ivalue"]."&systemid=".
-	//				urlencode($systemid)."&option=cd_configuration'>".$year."   ".$mount."</a></td>";
-					}
-			
-				
-//			if (strstr($valDeploy["tvalue"], 'ERR_')){
-//				echo "$td3<a href='machine.php?affect_again=".$valDeploy["ivalue"]."&systemid=".
-//					urlencode($systemid)."&option=cd_configuration'>R�-".$l->g(433)."</a></td>";				
-			}
-			echo "</tr>";
-		}
-	}
+	show_packages($systemid);
 
 		$hrefBase = "index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode($systemid)."&option=cd_configuration";
 		

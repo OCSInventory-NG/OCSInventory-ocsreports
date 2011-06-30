@@ -504,4 +504,5 @@ function found_info_pack($id){
 	return $val;
 	
 }
+
 ?>

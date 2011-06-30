@@ -35,8 +35,11 @@ $lbl_affich=array('NAME'=>$l->g(49),'WORKGROUP'=>$l->g(33),'USERDOMAIN'=>$l->g(5
 					'OSCOMMENTS'=>$l->g(286),'WINCOMPANY'=>$l->g(51),'WINOWNER'=>$l->g(348),
 					'WINPRODID'=>$l->g(111),'WINPRODKEY'=>$l->g(553),'USERAGENT'=>$l->g(357),
 					'MEMORY'=>$l->g(26),'LASTDATE'=>$l->g(46),'LASTCOME'=>$l->g(820),'DESCRIPTION'=>$l->g(53),
-					'NAME_RZ'=>$l->g(304),'VMTYPE'=>$l->g(1267),'UUID'=>$l->g(1268)
-					);					
+					'NAME_RZ'=>$l->g(304),'VMTYPE'=>$l->g(1267),'UUID'=>$l->g(1268));			
+$values=look_config_default_values(array('QRCODE'));
+if(isset($values['ivalue']['QRCODE']) and $values['ivalue']['QRCODE'] == 1)
+	$lbl_affich['QRCODE']=$l->g(1299);
+	
 foreach ($lbl_affich as $key=>$lbl){
 	if ($key == "MEMORY"){
 		$sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=%s";
@@ -51,7 +54,9 @@ foreach ($lbl_affich as $key=>$lbl){
 	}elseif ($key == "LASTDATE" or $key == "LASTCOME"){
 		$data[$key]=dateTimeFromMysql($item->$key);
 	}
-	elseif ($key == "NAME_RZ"){
+	elseif($key == 'QRCODE'){
+		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")>".$l->g(1300)."</a>";			
+	}elseif ($key == "NAME_RZ"){
 		$data[$key]="";
 		$data_RZ=subnet_name($systemid);
 		$nb_val=count($data_RZ);
@@ -74,7 +79,6 @@ foreach ($lbl_affich as $key=>$lbl){
 	}elseif ($item->$key != '')
 		$data[$key]=$item->$key;
 }
-
 $bandeau=bandeau($data,$lbl_affich);
 $Directory=PLUGINS_DIR."computer_detail/";
 $ms_cfg_file= $Directory."cd_config.txt";
@@ -111,6 +115,7 @@ while ($list_plugins[$i]){
 		$resavail = mysql_query( $sql_avail, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$valavail = mysql_fetch_array($resavail);
 	}
+	
 	if ($j == $nb_col[$index_tab]){
 		echo "</tr></table><table width='90%' border=0 align='center'><tr align=center>";
 		$index_tab++;
