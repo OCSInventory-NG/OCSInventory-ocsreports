@@ -319,7 +319,7 @@ function update_default_value($POST){
 						'LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
 						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE',
-						'USE_FLASH','INVENTORY_CACHE_ENABLED','SUPPORT');
+						'USE_FLASH','INVENTORY_CACHE_ENABLED','SUPPORT','USE_NEW_SOFT_TABLES');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -462,7 +462,6 @@ function trait_post($name){
  				  'CONF_PROFILS_DIR'=>'CONF_PROFILS_DIR',
  				  'OLD_CONF_DIR'=>'OLD_CONF_DIR',
  				  'USE_FLASH'=>'USE_FLASH',
- 				  'QRCODE_TITLE'=>'QRCODE_TITLE'
 				  );
 	$values=look_config_default_values($champs);
 	$select_local_uri=trait_post('LOCAL_URI_SERVER');
@@ -494,17 +493,7 @@ function trait_post($name){
 	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			
 	ligne('USE_FLASH',$l->g(1257),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['USE_FLASH']));
 	
-	$list_qrcode_fields=array('hardware.name'=>'Nom de la machine',
- 							  'hardware.user'=>'Utilisateur',
-							  'hardware.ipaddr'=>'Adresse IP',
-							  'networks.macaddr'=>'Adresse MAC',
-							  'bios.ssn'=>'Numéro de série',
-							 );
-	ligne('QRCODE_TITLE','Libellé du QRCode','select',array('VALUE'=>$values['tvalue']['QRCODE_TITLE'],'SELECT_VALUE'=>$list_qrcode_fields));
-	
-	
-	
-	
+
 	fin_tab($form_name);
  	
  }
@@ -910,4 +899,23 @@ function pagegroups($form_name){
 	fin_tab($form_name);
  }
 
+ function pagesdev($form_name){
+ 	global $l,$numeric,$sup1,$pages_refs;
+ 	$champs=array('QRCODE_TITLE'=>'QRCODE_TITLE',
+ 				  'USE_NEW_SOFT_TABLES'=>'USE_NEW_SOFT_TABLES'); 	
+ 	$values=look_config_default_values($champs);
+ 	debut_tab(); 
+	$list_qrcode_fields=array('hardware.name'=>'Nom de la machine',
+ 							  'hardware.user'=>'Utilisateur',
+							  'hardware.ipaddr'=>'Adresse IP',
+							  'networks.macaddr'=>'Adresse MAC',
+							  'bios.ssn'=>'Numéro de série',
+							 );
+ 	ligne('QRCODE_TITLE','Libellé du QRCode','select',array('VALUE'=>$values['tvalue']['QRCODE_TITLE'],'SELECT_VALUE'=>$list_qrcode_fields));
+	ligne('USE_NEW_SOFT_TABLES','Utilisation tables de soft OCS v2.1','radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['USE_NEW_SOFT_TABLES']));
+	
+	
+	fin_tab($form_name);
+ }
+ 
 ?>

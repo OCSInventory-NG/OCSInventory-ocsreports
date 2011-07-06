@@ -28,7 +28,6 @@ $table_tabname="TAB_MULTICRITERE";
 
 if (isset($protectedGet['fields']) and (!isset($protectedPost['GET']) or $protectedPost['GET'] == '')){
 		unset($protectedPost);
-
 	foreach ($_SESSION['OCS'] as $key=>$value){
 		$valeur=explode("-", $key); 
 		if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue" or $valeur[0] == "SelFieldValue3"	or $valeur[0] == "SelAndOr" or $valeur[0] == "SelComp" )
@@ -78,6 +77,15 @@ if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protecte
 		$tab_stat=array('SelComp-DEVICES-DOWNLOAD-0'=>"exact",'SelFieldValue-DEVICES-DOWNLOAD-0'=>$protectedGet['id_pack'],'SelFieldValue2-DEVICES-DOWNLOAD-0'=>$protectedGet['stat']);//unset($_SESSION['OCS']);
 	}
 	if ($protectedGet['prov'] == "allsoft"){
+		
+		if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
+		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
+			$sql="select name from softwares_name_cache where id=%s";
+			$arg=$protectedGet['value'];
+			$result = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg);	
+			$item = mysql_fetch_object($result);
+			$protectedGet['value']=$item->name;
+		}
 		$tab_session[]="SOFTWARES-NAME";	
 		$tab_stat=array('SelComp-SOFTWARES-NAME-0'=>"exact",'InputValue-SOFTWARES-NAME-0'=>$protectedGet['value']);//unset($_SESSION['OCS']);
 	}
@@ -477,20 +485,54 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
  				}
  			} 			
 		}
-		//utilisation du cache
-		if (isset($table_cache)){
-			//si on est sur une table de cache
+		
+		if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
+							and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1
+							and $table[$i] == "SOFTWARES" 
+							and ($field[$i] == 'NAME' or $field[$i] == "VERSION")){
+				if ($field[$i] == 'NAME'){
+					$table_explode="type_softwares_name";			
+				}else{
+					$table_explode="type_softwares_version";					
+				}
+				$sql_temp="select name, id from %s where name %s '%s'";
+				//A REVOIR POUR ENLEVER LES ' DEVANT LE CHAMP DE RECHERCHE
+				$arg_temp=array($table_explode,$field_compar[$i],str_replace("'","",$field_value[$i]));
+				$result_temp = mysql2_query_secure( $sql_temp, $_SESSION['OCS']["readServer"], $arg_temp);
+				while( $val_temp = mysql_fetch_array($result_temp) ) {
+					$list[]=$val_temp['id'];						
+					if ($limit_result_cache<count($list)){
+						$ERROR=$l->g(959);
+						break;
+					}		
+				}	
+				if (!isset($list)){
+					$ERROR=$l->g(960);
+				}else{
+					$field_compar[$i]=" IN ";
+					$field_value[$i]=" (".implode(",",$list).")";
+					$field_modif="field_value";
+					$sql_temp=generate_secure_sql($sql_temp,$arg_temp);
+					unset($list);
+				}		
+		}elseif(isset($table_cache)){
+		//si on est sur une table de cache
 			if ($table_cache[$table[$i]]){
 				//on remet � zero le tableau de logiciels
 				unset($list);
 				//champ sur lequel s'effectue la recherche
 				$field_temp=$field_cache[$table_cache[$table[$i]]];
 				if ($field_temp == $field[$i]){
-					$sql_temp="select ".$field_temp." as name from ".strtolower($table_cache[$table[$i]])." where ".$field_temp.$field_compar[$i].$field_value[$i];
+					$sql_temp="select ".$field_temp." as name, id from ".strtolower($table_cache[$table[$i]])." where ".$field_temp.$field_compar[$i].$field_value[$i];
 					$result_temp = mysql_query( $sql_temp, $_SESSION['OCS']["readServer"] );
 					$count_result=0;
 					while( $val_temp = mysql_fetch_array($result_temp) ) {
-						$list[]=addslashes($val_temp['name']); 
+						if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
+							and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
+							$list[]=$val_temp['id'];
+						}else
+							$list[]=addslashes($val_temp['name']); 
+							
 						if ($limit_result_cache>$count_result)
 						$count_result++;			
 						else{
@@ -508,9 +550,10 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 					}
 				}
 			}
-				
+			
 			
 		}
+
 
 		//gestion du champ compl�mentaire en fonction de la table
 		//si le champs compl�mentaire existe
@@ -692,7 +735,8 @@ $list_id="";
 		$list_id[]=$item->ID;
 	 }else
 	 $list_id=$list_id_norm;
-	 $_SESSION['OCS']['ID_REQ']=$list_id;
+	 
+	 $_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
 	 $_SESSION['OCS']['list_tables_request'][$table_tabname]=$list_tables_request;
 	 //passage en SESSION des requ�tes pour les groupes dynamiques
 	 sql_group_cache($cache_sql);
@@ -740,6 +784,11 @@ if ($list_id != "")	{
 	require_once('require/function_admininfo.php');
 	$option_comment['comment_be'] = $l->g(1210)." ";
 	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
+	
+	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
+		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1)
+		$tab_options['REPLACE_VALUE'][$l->g(847)]= found_soft_cache();
+	
 	//END SHOW ACCOUNTINFO
 	$queryDetails = 'SELECT ';
 	//changement de nom lors de la requete
@@ -748,7 +797,13 @@ if ($list_id != "")	{
 	foreach ($list_tables_request as $table_name_4_field){
 			if ($lbl_fields_calcul[$table_name_4_field]){
 				$list_fields=array_merge ($list_fields,$lbl_fields_calcul[$table_name_4_field]);
-				$query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";
+/*				if ($table_name_4_field == "SOFTWARES" and isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
+							and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
+								
+					$query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";			
+								
+				}else*/
+					$query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";
 			}
 		}
 	foreach ($list_fields as $key=>$value){
@@ -843,6 +898,7 @@ $sort_list=array("HARDWARE-IPADDR" =>$l->g(82).": ".$l->g(34),
 			  	 "SOFTWARES-VERSION"=>$l->g(20).": ".$l->g(277),
 				 "SOFTWARES-BITSWIDTH"=>$l->g(20).": ".$l->g(1247),
 				 "SOFTWARES-PUBLISHER"=>$l->g(20).": ".$l->g(69),
+				 "SOFTWARES-COMMENTS"=>$l->g(20).": ".$l->g(51),
 			  	 "HARDWARE-DESCRIPTION"=>$l->g(25).": ".$l->g(53),
 				 "HARDWARE-USERDOMAIN"=>$l->g(82).": ".$l->g(557),
 			   	 "BIOS-BVERSION"=>$l->g(273).": ".$l->g(209),
@@ -881,6 +937,7 @@ $optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
 			   "SOFTWARES-VERSION"=>$sort_list["SOFTWARES-VERSION"],//$l->g(20).": ".$l->g(277),
 			   "SOFTWARES-BITSWIDTH"=> $sort_list["SOFTWARES-BITSWIDTH"],
 			   "SOFTWARES-PUBLISHER"=> $sort_list["SOFTWARES-PUBLISHER"],
+			   "SOFTWARES-COMMENTS"=>$sort_list["SOFTWARES-COMMENTS"],
 			   "HARDWARE-DESCRIPTION"=>$sort_list["HARDWARE-DESCRIPTION"],//$l->g(25).": ".$l->g(53),
 			   "HARDWARE-USERDOMAIN"=>$sort_list["HARDWARE-USERDOMAIN"],//$l->g(82).": ".$l->g(557),
 			   "BIOS-BVERSION"=>$sort_list["BIOS-BVERSION"],//$l->g(273).": ".$l->g(209),
