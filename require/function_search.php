@@ -36,6 +36,7 @@ if ($_SESSION['OCS']["usecache"] == true){
 	//liste des champs correspondants ou la recherche doit se faire
 	$field_cache=array('SOFTWARES_NAME_CACHE'=>'NAME');
 }
+
 //liste des tables qui ne doivent pas faire des fusions de requ�te
 //cas pour les tables multivalu�e
 $tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS");
@@ -454,7 +455,7 @@ function calendars($NameInputField,$DateFormat)
 function add_trait_select($img,$list_id,$form_name,$list_pag)
 {
 	global 	$l;
-	$_SESSION['OCS']['ID_REQ']=$list_id;
+	$_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
 	echo "<script language=javascript>
 		function garde_check(image,id)
 		 {
@@ -505,6 +506,8 @@ function multi_lot($form_name,$lbl_choise){
 		//gestion tableau
 		if (is_array($list_id))
 			$list_id=implode(",", $list_id);
+		
+		
 	}else
 		$list_id=$protectedGet['idchecked'];
 
@@ -513,6 +516,37 @@ function multi_lot($form_name,$lbl_choise){
 	else{
 		return false;
 	}
+}
+
+
+function found_soft_cache($id ="",$name=""){
+	$sql="select id, name from softwares_name_cache";
+	$arg="";
+	if($id != ""){
+		$sql.= " where id=%s";
+		array_push($id,$arg);
+	}elseif($name != ""){
+		$sql.= " where name='%s'";
+		array_push($name,$arg);		
+	}
+	$result=mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg);
+	while($item = mysql_fetch_object($result)){
+		$res[$item->id]=$item->name;		
+	}
+	return $res;
+}
+
+function id_without_idgroups($list_id){
+	$sql="select id from hardware where deviceid <> '_SYSTEMGROUP_' 
+										AND deviceid <> '_DOWNLOADGROUP_' 
+										AND id in ";
+	$arg=array();
+	$sql=mysql2_prepare($sql,$arg,$list_id);
+	$result=mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
+	while($item = mysql_fetch_object($result)){
+		$res[$item->id]=$item->id;		
+	}
+	return $res;	
 }
 
 ?>

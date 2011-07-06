@@ -10,6 +10,19 @@
 //====================================================================================
 
 require_once('require/function_computers.php');
+if ($protectedPost['DEL_ALL'] != ''){
+	foreach ($protectedPost as $key=>$value){
+		$checkbox=explode('check',$key);
+		if(isset($checkbox[1])){
+			deleteDid($checkbox[1]);			
+		}
+	}
+}
+if ($protectedPost['SUP_PROF'] != '' and is_numeric($protectedPost['SUP_PROF'])){
+	deleteDid($protectedPost['SUP_PROF']);	
+}
+
+
 if ($protectedPost['FUSION']){
 	foreach ($protectedPost as $name=>$value){
 		if (substr($name,0,5) == "check"){
@@ -28,9 +41,7 @@ if ($protectedPost['FUSION']){
 		}	
 		if (isset($afus))
 		fusionne($afus);		
-	}
-			
-	
+	}	
 }
 
 //restriction for profils?
@@ -246,6 +257,10 @@ if ($protectedPost['detail'] != ''){
 						   $l->g(23).": ".$l->g(46)=>$l->g(23).": ".$l->g(46),
 						   $l->g(23).": ".$l->g(34)=>$l->g(23).": ".$l->g(34));
 	$default_fields=array_merge ($default_fields,$default_fields2);
+	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+		$list_fields['SUP']='h.ID';
+		$list_col_cant_del['SUP']='SUP';
+	}
 	$sql=prepare_sql_tab($list_fields,array('SUP','CHECK'));
 	$sql['SQL'] .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
 	$sql['SQL'] .= ",bios b, ";
@@ -256,8 +271,14 @@ if ($protectedPost['detail'] != ''){
  	$sql['SQL'] .= " group by h.id ";
 	$tab_options['ARG_SQL']=$sql['ARG'];
 	$tab_options['FILTRE']=array('NAME'=>$l->g(35),'b.ssn'=>$l->g(36),'n.macaddr'=>$l->g(95));
-
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,'95',$tab_options);
+	$tab_options['LBL_POPUP']['SUP']='NAME';
+	$tab_options['LBL']['SUP']=$l->g(122);
+	
+	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,'95',$tab_options);
+	if ($result_exist != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
+		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
+	}
 	echo "<br><input type='submit' value='".$l->g(177)."' name='FUSION'>";
 	echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
 }

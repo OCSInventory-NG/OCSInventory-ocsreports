@@ -311,8 +311,9 @@ if (!isset($_SESSION['OCS']["usecache"]) or !isset($_SESSION['OCS']["tabcache"])
 	$conf_gui=array('usecache'=>'INVENTORY_CACHE_ENABLED',
 					'tabcache'=>'TAB_CACHE',
 					'useflash'=>'USE_FLASH',
-					'SUPPORT'=>'SUPPORT');
-	$default_value_conf=array('INVENTORY_CACHE_ENABLED'=>1,'TAB_CACHE'=>0,'USE_FLASH'=>1,'SUPPORT'=>1);
+					'SUPPORT'=>'SUPPORT',
+					'USE_NEW_SOFT_TABLES'=>'USE_NEW_SOFT_TABLES');
+	$default_value_conf=array('INVENTORY_CACHE_ENABLED'=>1,'TAB_CACHE'=>0,'USE_FLASH'=>1,'SUPPORT'=>1,'USE_NEW_SOFT_TABLES' =>0);
 	$values=look_config_default_values($conf_gui);
 	foreach ($conf_gui as $k=>$v){
 		if (isset($values['ivalue'][$v]))
