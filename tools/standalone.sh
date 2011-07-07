@@ -37,7 +37,7 @@ our @list = qw/ $BACKENDMODULE /;
 1;
 EOF
 
-MODULES="`cat MANIFEST | perl -pe 's/.*// unless (!/^inc/ && /pm$/); s/lib\/(.*)\.pm/ -M $1/; s/\//::/g; chomp'` -M XML::SAX::PurePerl -M XML::SAX::Expat -M PerlIO -M Getopt::Long -M Digest::MD5 -M Net::IP -M Ocsinventory::Agent::Backend::ModuleToLoad"
+MODULES="`cat MANIFEST | perl -pe 's/.*// unless (!/^inc/ && /pm$/ && !/^contrib/); s/lib\/(.*)\.pm/ -M $1/; s/\//::/g; chomp'` -M XML::SAX::PurePerl -M XML::SAX::Expat -M PerlIO -M Getopt::Long -M Digest::MD5 -M Net::IP -M Ocsinventory::Agent::Backend::ModuleToLoad"
 
 for i in `echo $MODULES| perl -nle 's/\-M//g;print'`; do  perl -I "lib" -M$i -e "1" || MISSING="$MISSING $i" ;done
 

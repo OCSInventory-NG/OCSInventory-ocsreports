@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Bug #798428 about standalone agent building
        * Change variable names to lowercase in Snmp/3375.pm
        * Fix a closedir omission in Solaris/Packages.pm
        * Modify releases tarball name when building it using make dist command
