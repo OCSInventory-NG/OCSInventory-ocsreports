@@ -34,30 +34,29 @@ sub snmp_run()
   my $snmp_sysProductBuild="1.3.6.1.4.1.3375.2.1.4.3.0";
   my $snmp_sysProductDate="1.3.6.1.4.1.3375.2.1.4.5.0";
   
-  my $NAME=$session->get_request ( -varbindlist => [ $snmp_sysProductName ] );
-  if ( defined ( $NAME ) ) {
-     $NAME=$NAME->{$snmp_sysProductName};
+  my $name=$session->get_request ( -varbindlist => [ $snmp_sysProductName ] );
+  if ( defined ( $name ) ) {
+     $name=$name->{$snmp_sysProductName};
+  }
+  my $version=$session->get_request ( -varbindlist => [ $snmp_sysProductVersion] );
+  if ( defined ( $version ) ) {
+     $version=$version->{$snmp_sysProductVersion};
   }
 
-  my $VERSION=$session->get_request ( -varbindlist => [ $snmp_sysProductVersion] );
-  if ( defined ( $VERSION ) ) {
-     $VERSION=$VERSION->{$snmp_sysProductVersion};
+  my $comment=$session->get_request ( -varbindlist => [ $snmp_sysProductBuild] );
+  if ( defined ( $comment ) ) {
+     $comment=$comment->{$snmp_sysProductBuild};
   }
 
-  my $COMMENT=$session->get_request ( -varbindlist => [ $snmp_sysProductBuild] );
-  if ( defined ( $COMMENT ) ) {
-     $COMMENT=$COMMENT->{$snmp_sysProductBuild};
+  my $date=$session->get_request ( -varbindlist => [ $snmp_sysProductDate ] );
+  if ( defined ( $date ) ) {
+     $date=$date->{$snmp_sysProductDate};
   }
 
-  my $DATE=$session->get_request ( -varbindlist => [ $snmp_sysProductDate ] );
-  if ( defined ( $DATE ) ) {
-     $DATE=$DATE->{$snmp_sysProductDate};
-  }
-
-  $common->addSoftware( { NAME => $NAME ,
-		 VERSION => $VERSION ,
-		 INSTALLDATE => $DATE ,
-	         COMMENT => $COMMENT,
+  $common->addSoftware( { NAME => $name ,
+		 VERSION => $version ,
+		 INSTALLDATE => $date ,
+	         COMMENT => $comment,
                });
 
 }
