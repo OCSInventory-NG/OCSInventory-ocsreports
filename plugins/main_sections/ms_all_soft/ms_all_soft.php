@@ -31,11 +31,11 @@ $sql_fin['ARG']=array();
 $sql_list_alpha['ARG']=array();
 if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
-	$info_name_soft=array("table"=>"type_softwares_name","field"=>"name");
+	$info_name_soft=array("table"=>"type_softwares_name","field"=>"name","field_name_soft"=>'name_id');
 }elseif($_SESSION['OCS']["usecache"] == 1){
-	$info_name_soft=array("table"=>"softwares_name_cache","field"=>"name");	
+	$info_name_soft=array("table"=>"softwares_name_cache","field"=>"name","field_name_soft"=>'name');	
 }else{
-	$info_name_soft=array("table"=>"softwares","field"=>"name");
+	$info_name_soft=array("table"=>"softwares","field"=>"name","field_name_soft"=>'name');
 }
 
 $field_name_soft=$info_name_soft['table'].".".$info_name_soft['field'];
@@ -57,8 +57,15 @@ $and_where="";
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){		
 		$sql_list_alpha['SQL'] .=" left join type_softwares_name type_soft_name on type_soft_name.id=s.name ";	
 	}*/
+	
 	if ($_SESSION['OCS']["mesmachines"] != ""){
-		$sql_list_alpha['SQL'] .=",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=s.HARDWARE_ID ";
+		if ($info_name_soft['table'] != 'softwares'){
+			$join=" left join softwares on softwares.".$info_name_soft['field_name_soft']."=".$field_name_soft." ";
+		}else{
+			$join="";
+		}
+		// left join softwares s on s.".$info_name_soft['field_name_soft']."=".$field_name_soft."
+		$sql_list_alpha['SQL'] .=$join.",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=softwares.HARDWARE_ID ";
 		$and_where=" and ";
 	}else
 	$and_where=" where ";
@@ -161,26 +168,36 @@ if ($list_soft != ""){
 	$and_where="";
 	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){		
-		$sql_re['SQL']="select  ".$info_name_soft['table'].".name , count(s.name) nb, s.name id from softwares s left join ".$info_name_soft['table']." on ".$info_name_soft['table'].".id=s.name ";	
-	}else
-		$sql_re['SQL']="select  s.name , count(s.name) nb, s.name id from softwares s ";
+		$sql_re['SQL']="select  ".$info_name_soft['table'].".name , 
+							count(s.".$info_name_soft['field_name_soft'].") nb, 
+							s.".$info_name_soft['field_name_soft']." id 
+						from softwares s 
+							left join ".$info_name_soft['table']." 
+							on ".$info_name_soft['table'].".id=s.".$info_name_soft['field_name_soft']." ";	
+	}else{
+		$sql_re['SQL']="select  s.".$info_name_soft['field_name_soft']." , 
+						count(s.".$info_name_soft['field_name_soft'].") nb, 
+						s.".$info_name_soft['field_name_soft']." id from softwares s ";
+	}
+	
 	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != ''){
 		$sql_re['SQL'].=",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=s.HARDWARE_ID";
 		$and_where=" and ";
 	}else
 	$and_where=" where ";	
 	//$_SESSION['OCS']["forcedRequest"]=$sql['SQL'].$and_where." name in (".$forcedRequest.")";
-	$sql_re['SQL'].=$and_where." s.name in ";
+	$sql_re['SQL'].=$and_where." s.".$info_name_soft['field_name_soft']." in ";
 	$sql_re['ARG']=array();
 	$sql=mysql2_prepare($sql_re['SQL'],$sql_re['ARG'],$list_soft);
 	//$sql['ARG']=('".implode("','",$list_soft)."')";
 	//$sql.=$fin_sql;
 }else{
 	$and_where="";
-	$sql['SQL']="select  ".$field_name_soft.", count(s.name) nb, s.name id from softwares ";
+	$sql['SQL']="select  ".$field_name_soft.", count(s.".$info_name_soft['field_name_soft'].") nb,
+					 s.".$info_name_soft['field_name_soft']." id from softwares ";
 	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){		
-		$sql['SQL'] .=" left join ".$info_name_soft['table']." on ".$info_name_soft['table'].".id=softwares.name ";	
+		$sql['SQL'] .=" left join ".$info_name_soft['table']." on ".$info_name_soft['table'].".id=softwares.".$info_name_soft['field_name_soft']." ";	
 	}
 	$sql['ARG']=array();
 	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != ''){
