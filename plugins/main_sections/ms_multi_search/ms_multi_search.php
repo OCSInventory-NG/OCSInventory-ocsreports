@@ -509,6 +509,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 				if (!isset($list)){
 					$ERROR=$l->g(960);
 				}else{
+					$field[$i]=$field[$i]."_ID";
 					$field_compar[$i]=" IN ";
 					$field_value[$i]=" (".implode(",",$list).")";
 					$field_modif="field_value";
@@ -786,8 +787,10 @@ if ($list_id != "")	{
 	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
 	
 	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
-		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1)
-		$tab_options['REPLACE_VALUE'][$l->g(847)]= found_soft_cache();
+		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
+		$tab_options['REPLACE_VALUE'][$l->g(847)]= found_soft_type("type_softwares_name");
+		$tab_options['REPLACE_VALUE'][$l->g(848)]= found_soft_type("type_softwares_version");
+		}
 	
 	//END SHOW ACCOUNTINFO
 	$queryDetails = 'SELECT ';

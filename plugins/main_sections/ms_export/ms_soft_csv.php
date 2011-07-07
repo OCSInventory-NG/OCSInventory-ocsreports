@@ -21,10 +21,10 @@ else
 	
 if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
-	$info_name_soft=array("table"=>"type_softwares_name","field"=>"name","search"=>"id");
+	$info_name_soft=array("table"=>"type_softwares_name","field"=>"name","search"=>"id","field_name_soft"=>'name_id');
 	$alias_name_soft="cachename";
 }else{
-	$info_name_soft=array("table"=>"softwares","field"=>"name","search"=>"name");
+	$info_name_soft=array("table"=>"softwares","field"=>"name","search"=>"name","field_name_soft"=>'name');
 	$alias_name_soft="sname";	
 }
 $field_name_soft=$info_name_soft['table'].".".$info_name_soft['field'];
@@ -43,9 +43,9 @@ if ($info_name_soft['table'] != 'softwares' or $_SESSION['OCS']["usecache"] == 1
 	$sql['SQL']="select count(*) nb, ".$field_name_soft." from softwares ";
 	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){		
-		$sql['SQL'] .=" left join ".$info_name_soft['table']." on ".$info_name_soft['table'].".".$info_name_soft['search']."=softwares.name ";	
+		$sql['SQL'] .=" left join ".$info_name_soft['table']." on ".$info_name_soft['table'].".".$info_name_soft['search']."=softwares.".$info_name_soft["field_name_soft"]." ";	
 	}
-	$sql['SQL'] .=" ,accountinfo a where a.hardware_id=softwares.hardware_id and softwares.name in ";
+	$sql['SQL'] .=" ,accountinfo a where a.hardware_id=softwares.hardware_id and softwares.".$info_name_soft["field_name_soft"]." in ";
 	$sql['ARG']=array();
 	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_soft);
 
@@ -83,12 +83,13 @@ if (isset($protectedGet['all_computers'])
 	and isset($protectedGet['nb']) and is_numeric($protectedGet['nb'])and $protectedGet['nb']<16
 	and isset($protectedGet['comp']) and $protectedGet['comp'] == "<"){
 		
-	$sql_liste_soft="select count(name) nb,name from softwares group by name having nb<%s";
+	$sql_liste_soft="select count(".$info_name_soft["field_name_soft"].") nb,".$info_name_soft["field_name_soft"]." 
+						from softwares group by ".$info_name_soft["field_name_soft"]." having nb<%s";
 	$arg_liste_soft=$protectedGet['nb'];
 	$result_liste_soft = mysql2_query_secure( $sql_liste_soft, $_SESSION['OCS']["readServer"],$arg_liste_soft);	
 	$list_soft="";
 	while($item_liste_soft = mysql_fetch_object($result_liste_soft)){
-			$list_soft[]=$item_liste_soft->name;
+			$list_soft[]=$item_liste_soft->$info_name_soft["field_name_soft"];
 	}
 	$fields= array("a.tag"=>$_SESSION['OCS']['TAG_LBL']['TAG'],
 			   $alias_name_soft=>$l->g(20),
@@ -102,7 +103,7 @@ if (isset($protectedGet['all_computers'])
 	}*/
 
 	$sql=prepare_sql_tab(array_keys($fields));
-	$sql['SQL'].= " from accountinfo a, (select hardware_id, name as sname from softwares where name in ";
+	$sql['SQL'].= " from accountinfo a, (select hardware_id, ".$info_name_soft["field_name_soft"]." as sname from softwares where ".$info_name_soft["field_name_soft"]." in ";
 	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_soft);
 	$sql['SQL'].= ") s";
 	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 

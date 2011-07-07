@@ -112,7 +112,8 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 				"inputs","memories","modems","monitors","networks","ports","printers","registry",
 				"slots","softwares","sounds","storages","videos","devices","download_history",
 				"download_servers","groups_cache","itmgmt_comments","javainfo","virtualmachines");	
-			}
+			
+}
 			elseif($did == "_SYSTEMGROUP_"){//Deleting a group
 				$tables=Array("devices");
 				//del messages on this group
