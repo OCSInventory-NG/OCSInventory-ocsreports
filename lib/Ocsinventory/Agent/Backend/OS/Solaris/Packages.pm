@@ -69,6 +69,7 @@ sub run {
 		
 	  }
   }
+  closedir(DIR);
 }
 
 1;
