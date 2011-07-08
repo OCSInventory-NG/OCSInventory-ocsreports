@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Now getting MANUFACTURER and SERIALNUMBER in Snmp/3375.pm
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
