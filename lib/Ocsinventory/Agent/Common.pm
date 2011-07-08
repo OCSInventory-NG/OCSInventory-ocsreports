@@ -860,7 +860,7 @@ sub setSnmpLoadBalancer {
   my ($self,$args)=@_; 
   my $xmltags=$self->{xmltags};
 
-  foreach my $key (qw/SERIALNUMBER SYSTEM/ ) {
+  foreach my $key (qw/SERIALNUMBER SYSTEM MANUFACTURER TYPE/ ) {
      if (exists $args->{$key}) {
         $xmltags->{LOADBALANCERS}[0]{$key}[0]=$args->{$key};
      }
