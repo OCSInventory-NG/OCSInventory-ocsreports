@@ -793,36 +793,61 @@ if ($list_id != "")	{
 		}
 	
 	//END SHOW ACCOUNTINFO
-	$queryDetails = 'SELECT ';
+	$queryDetails = 'SELECT h.id ';
+	$querycount = 'SELECT count(h.id) ';
 	//changement de nom lors de la requete
 	$tab_options['AS']['h.NAME']="name_of_machine";
 	$query_add_table="";
 	foreach ($list_tables_request as $table_name_4_field){
-			if ($lbl_fields_calcul[$table_name_4_field]){
-				$list_fields=array_merge ($list_fields,$lbl_fields_calcul[$table_name_4_field]);
-/*				if ($table_name_4_field == "SOFTWARES" and isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
-							and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
-								
-					$query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";			
-								
-				}else*/
-					$query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";
-			}
+				if ($lbl_fields_calcul[$table_name_4_field]){
+					$list_fields=array_merge ($list_fields,$lbl_fields_calcul[$table_name_4_field]);
+	/*				if ($table_name_4_field == "SOFTWARES" and isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
+								and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
+									
+						$query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";			
+									
+					}else*/
+						$query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";
+				}
 		}
+//	$queryDetails=substr($queryDetails,0,-2);
+	$queryDetails .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
+	$queryDetails .= $query_add_table;
+	$queryDetails .= " where ";
+	$queryDetails .= "  h.deviceid <>'_SYSTEMGROUP_' AND h.deviceid <> '_DOWNLOADGROUP_' ";
+	$queryDetails .= " and h.id in (".implode(', ',$list_id).")  group by h.ID ";
+	//if (isset($protectedPost['tri_TAB_MULTICRITERE']) and $protectedPost['tri_TAB_MULTICRITERE'] != '')
+	// $queryDetails .= " order by ".$protectedPost['tri_'.$table_tabname]." ".$protectedPost['sens_'.$table_tabname];
+	// $limit=nb_page();
+	//$queryDetails .= " limit ".$protectedPost['page']*$protectedPost['pcparpage'].", 5";
+	//echo "page=>".$protectedPost['page']."pcparpage=>".$protectedPost['pcparpage'];
+	//echo $queryDetails;
+	$querycount .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
+	$querycount .= $query_add_table;
+	$querycount .= " where ";
+	$querycount .= "  h.deviceid <>'_SYSTEMGROUP_' AND h.deviceid <> '_DOWNLOADGROUP_' ";
+	$querycount .= " and h.id in (".implode(', ',$list_id).") group by h.ID ";
+	
+	/*$resultlistid = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
+	while($item = mysql_fetch_object($resultlistid)){
+		$list_id_test[]=$item->id;
+	}*/
+	
+	$queryDetails="SELECT ";
 	foreach ($list_fields as $key=>$value){
 				$queryDetails .= $value;
 				if ($tab_options['AS'][$value])
 					$queryDetails .=" as ".$tab_options['AS'][$value];	
 				$queryDetails .=", ";	
-	} 
+	}
 	$queryDetails=substr($queryDetails,0,-2);
 	$queryDetails .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
 	$queryDetails .= $query_add_table;
-	$queryDetails .= " where ";
-	$queryDetails .= "  h.deviceid <>'_SYSTEMGROUP_' AND h.deviceid <> '_DOWNLOADGROUP_' ";
-	$queryDetails .= " and h.id in (".implode(', ',$list_id).") group by h.ID ";
-
-	
+	$queryDetails .= " where h.id in ";
+	$queryDetails=mysql2_prepare($queryDetails,array(),$list_id,true);
+	$queryDetails['SQL'].= " group by h.ID ";
+	$tab_options['ARG_SQL']=$queryDetails['ARG'];
+	$tab_options['SQL_COUNT']=$querycount;
 	ksort($list_fields);
 	
 	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES")
@@ -866,7 +891,7 @@ if ($list_id != "")	{
 	$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
 	//activation des LOGS	
 	$tab_options['LOGS']='SEARCH_RESULT';
-	tab_req($table_tabname,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,'95',$tab_options);
+	tab_req($table_tabname,$list_fields,$default_fields,$list_col_cant_del,$queryDetails['SQL'],$form_name,'95',$tab_options);
 	add_trait_select($list_fonct,$list_id,$form_name,$list_pag);
 	echo "<input type='hidden' value='".$protectedPost['Valid-search']."' name='Valid-search'>";
 	
@@ -895,7 +920,7 @@ if ($_SESSION['OCS']["mesmachines"] != '')
 // option: TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (affichage du select)
 // si option absente le select affiche array('exact'=> 'EXACTEMENT','ressemble'=>'RESSEMBLE','diff'=>'DIFFERENT')
 //a l'affichage on se retrouve avec le lbl du champ,un select et un champ de saisi
-$sort_list=array("HARDWARE-IPADDR" =>$l->g(82).": ".$l->g(34),
+$sort_list=array("NETWORKS-IPADDRESS" =>$l->g(82).": ".$l->g(34),
 				 "NETWORKS-MACADDR"=>$l->g(82).": ".$l->g(95),
 				 "SOFTWARES-NAME"=>$l->g(20).": ".$l->g(49),
 			  	 "SOFTWARES-VERSION"=>$l->g(20).": ".$l->g(277),
@@ -934,7 +959,7 @@ $sort_list=array("HARDWARE-IPADDR" =>$l->g(82).": ".$l->g(34),
 				 "PRINTERS-DESCRIPTION"=>$l->g(79).": ".$l->g(53));
 		
 		
-$optSelectField=array( "HARDWARE-IPADDR"=>$sort_list["HARDWARE-IPADDR"],
+$optSelectField=array( "NETWORKS-IPADDRESS"=>$sort_list["NETWORKS-IPADDRESS"],
 			   "NETWORKS-MACADDR"=>$sort_list["NETWORKS-MACADDR"],//$l->g(82).": ".$l->g(95),
 			   "SOFTWARES-NAME"=>$sort_list["SOFTWARES-NAME"],//$l->g(20).": ".$l->g(49),
 			   "SOFTWARES-VERSION"=>$sort_list["SOFTWARES-VERSION"],//$l->g(20).": ".$l->g(277),

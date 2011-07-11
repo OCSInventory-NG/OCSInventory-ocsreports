@@ -22,8 +22,8 @@
 									 s.COMMENTS,s.FOLDER,s.FILENAME,s.FILESIZE,s.GUID,
 									 s.LANGUAGE,s.INSTALLDATE,s.BITSWIDTH
 							   FROM softwares s
-								left join type_softwares_name s_name on s_name.id= s.name
-								left join type_softwares_version s_version on s_version.id=s.version
+								left join type_softwares_name s_name on s_name.id= s.name_id
+								left join type_softwares_version s_version on s_version.id=s.version_id
 								WHERE (hardware_id=$systemid)";		
 			$list_fields[$l->g(49)] = 's_name.NAME';
 	}else{

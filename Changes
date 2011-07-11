@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* fix bug on ipaddress search
 		* force not strict mysql mode and utf8 format on backend connexion
 		* can delete computers on ms_doubles.php page
 		* use type tables (softwares, field => NAME, VERSION). Enhance request time	
