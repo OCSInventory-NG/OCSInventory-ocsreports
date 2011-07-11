@@ -670,7 +670,7 @@ function tab_list_error($data,$title)
 	
 }
 
-function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='#9894B5',$table_name=''){
+function nb_page($form_name = '',$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='#9894B5',$table_name=''){
 	global $protectedPost,$l;
 
 	//catch nb result by page
@@ -685,34 +685,33 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 		
 	if (!(isset($protectedPost["pcparpage"])) or $protectedPost["pcparpage"] == "")
 		$protectedPost["pcparpage"]=20;
-		
-	echo "<table align=center width='80%' border='0' bgcolor=#f2f2f2>";
+	$html_show = "<table align=center width='80%' border='0' bgcolor=#f2f2f2>";
 	//gestion d"une phrase d'alerte quand on utilise le filtre
 	if (isset($protectedPost['FILTRE_VALUE']) and $protectedPost['FILTRE_VALUE'] != '' and $protectedPost['RAZ_FILTRE'] != 'RAZ')
-		msg_warning($l->g(884));
-	echo "<tr><td align=right>";
+		$html_show .= msg_warning($l->g(884));
+	$html_show .= "<tr><td align=right>";
 	
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = "SHOW";
 	if ($protectedPost['SHOW'] == 'SHOW')
-		echo "<a href=# OnClick='pag(\"NOSHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/no_show.png></a>";
+		$html_show .= "<a href=# OnClick='pag(\"NOSHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/no_show.png></a>";
 	elseif ($protectedPost['SHOW'] != 'NEVER_SHOW')
-		echo "<a href=# OnClick='pag(\"SHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/show.png></a>";
+		$html_show .= "<a href=# OnClick='pag(\"SHOW\",\"SHOW\",\"".$form_name."\");'><img src=image/show.png></a>";
 		
-	echo "</td></tr></table>";
-	echo "<table align=center width='80%' border='0' bgcolor=#f2f2f2";
+	$html_show .= "</td></tr></table>";
+	$html_show .= "<table align=center width='80%' border='0' bgcolor=#f2f2f2";
 	
 	if($protectedPost['SHOW'] == 'NOSHOW' or $protectedPost['SHOW'] == 'NEVER_SHOW')
-		echo " style='display:none;'";
+		$html_show .= " style='display:none;'";
 		
-	echo "><tr><td align=center>";
-	echo "<table cellspacing='5' width='".$taille_cadre."%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='".$bgcolor."' BORDERCOLOR='".$bordercolor."'><tr><td align=center>";
+	$html_show .= "><tr><td align=center>";
+	$html_show .= "<table cellspacing='5' width='".$taille_cadre."%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='".$bgcolor."' BORDERCOLOR='".$bordercolor."'><tr><td align=center>";
 
 	$machNmb = array(5=>5,10=>10,15=>15,20=>20,50=>50,100=>100,200=>200,1000000=>$l->g(215));
     $pcParPageHtml= $l->g(340).": ".show_modif($machNmb,'pcparpage',2,$form_name,array('DEFAULT'=>'NO'));
 	$pcParPageHtml .=  "</td></tr></table>
 	</td></tr><tr><td align=center>";
-	echo $pcParPageHtml;
+	$html_show .= $pcParPageHtml;
 
 
 	if (isset($protectedPost["pcparpage"])){
@@ -720,8 +719,10 @@ function nb_page($form_name,$taille_cadre='80',$bgcolor='#C7D9F5',$bordercolor='
 		$fin_limit=$deb_limit+$protectedPost["pcparpage"]-1;		
 	}
 
-	echo "<input type='hidden' id='SHOW' name='SHOW' value='".$protectedPost['SHOW']."'>";
-
+	$html_show .= "<input type='hidden' id='SHOW' name='SHOW' value='".$protectedPost['SHOW']."'>";
+	if ($form_name != '')
+	echo $html_show;
+	
 	return (array("BEGIN"=>$deb_limit,"END"=>$fin_limit));
 }
 
@@ -1198,9 +1199,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		}
 		//echo $queryDetails;
 		while($item = mysql_fetch_object($resultDetails)){
-			//echo "<br>INDEX=".$index;
 			if ($i>=$index){
-				//print_r($item);
 				unset($champs_index);
 				if ($item->ID != "")
 				$champs_index=$item->ID;
@@ -1275,9 +1274,9 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		unset($_SESSION['OCS']['DATA_CACHE']);
 		if (!$force_no_cache)
 			$_SESSION['OCS']['DATA_CACHE'][$table_name]=$sql_data_cache;
-		
 		$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name);
 		$data=$result_data['DATA'];
+		
 		$entete=$result_data['ENTETE'];
 		$correct_list_col_cant_del=$result_data['correct_list_col_cant_del'];
 		$correct_list_fields=$result_data['correct_list_fields'];
@@ -1292,7 +1291,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		if (!isset($tab_options['no_download_result']))
 			$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
 		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
-
 		$no_result=tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
 		if ($no_result){
 			show_page($num_rows_result,$form_name);
