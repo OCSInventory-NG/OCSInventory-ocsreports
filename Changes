@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/788624 (search on the value checkbox)
 		* fix bug https://bugs.launchpad.net/bugs/807432 (ipdiscover)
 		* add new fields on snmp_loadbalancers table
 		* fix bug on ipaddress search
