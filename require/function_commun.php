@@ -284,6 +284,7 @@ function msg_warning($txt){
 }
 function msg_error($txt){
 	msg($txt,'error');
+	return true;
 }
 
 
