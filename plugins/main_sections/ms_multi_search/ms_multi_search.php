@@ -152,7 +152,12 @@ foreach ($field_of_accountinfo['LIST_FIELDS'] as $id=>$lbl){
 		}elseif (in_array($field_of_accountinfo['LIST_TYPE'][$id],array(2,4,7))){
 			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo] = $l->g(1210) . " " . $lbl;
 			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo . "-SQL1"] = "select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_" . $field_of_accountinfo['LIST_NAME'][$id] . "%' order by 2";
-			$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo . "-SELECT"] = array('exact'=>$l->g(507),'diff'=>$l->g(508));
+			if ($field_of_accountinfo['LIST_TYPE'][$id] == 4){
+				$accountinfo_checkbox[]=$name_field_accountinfo;
+				$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo . "-SELECT"] = array('like'=>$l->g(507),'diff'=>$l->g(508));
+			}else{
+				$opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo . "-SELECT"] = array('exact'=>$l->g(507),'diff'=>$l->g(508));
+			}
 		}
 //		$list_fields_account_info['Accinf: '.$lbl]="a." . $name_field_accountinfo;
 		$Accinfo = $l->g(1210) . " " . $lbl;
@@ -179,7 +184,8 @@ if ($protectedPost['Valid-search'] and $protectedPost['Valid'] != ''){
 	foreach ($protectedPost as $key=>$value){
 		$valeur=explode("-", $key); 
 		if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue" or $valeur[0] == "SelFieldValue3"	or $valeur[0] == "SelAndOr" or $valeur[0] == "SelComp")
-		{	$_SESSION['OCS'][$key]=$value;
+		{	
+			$_SESSION['OCS'][$key]=$value;
 		}
 	}
 }else{
@@ -247,7 +253,11 @@ unset ($_SESSION['OCS']['multiSearch'][$protectedPost['delfield']]);
  					//sinon, on la prend en compte	
 		 				//en fonction de la valeur en position 0, on sait quel genre de recherche on doit effecuter
 	 				//si on a un SelComp, on r�cup�re la valeur saisie
-		 			if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue"){ 				
+		 			if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue"){ 	
+		 				//case of checkbox
+		 				if (in_array($field[$i],$accountinfo_checkbox)){
+		 					$value = $value."&&&";
+		 				}
  						$field_value[$i]=$value;
 						
  						//on v�rifie que le premier champ d'une recherche multicrit�re
@@ -268,9 +278,9 @@ unset ($_SESSION['OCS']['multiSearch'][$protectedPost['delfield']]);
  							}		 							
  						} 						
  						if (isset($protectedPost[$valeur[0]."2-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]]))
- 						$field_value_complement[$i]=$protectedPost[$valeur[0]."2-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
+ 							$field_value_complement[$i]=$protectedPost[$valeur[0]."2-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
  						elseif (isset($protectedPost["SelFieldValue3-".$valeur[1]."-".$field[$i]."-".$fieldNumber[$i]])){
- 						$field_value_complement[$i]=$protectedPost["SelFieldValue3-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
+ 							$field_value_complement[$i]=$protectedPost["SelFieldValue3-".$table[$i]."-".$field[$i]."-".$fieldNumber[$i]];
  						}
  		 			}		
  		 			$i++; 				
