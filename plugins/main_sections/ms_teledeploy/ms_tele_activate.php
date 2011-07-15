@@ -124,11 +124,13 @@ if ($show_stats){
 	$list_fields['NOTI']='NOTI';
 	$list_fields['SUCC']='SUCC';
 	$list_fields['ERR_']='ERR_';
+	$list_fields['EXIT_CODE']='EXIT_CODE';
 	//can't sort on this cols
 	$tab_options['NO_TRI']['NOTI']=1;
 	$tab_options['NO_TRI']['NO_NOTIF']=1;
 	$tab_options['NO_TRI']['SUCC']=1;
 	$tab_options['NO_TRI']['ERR_']=1;	
+	$tab_options['NO_TRI']['EXIT_CODE']=1;	
 }
 //only for profils who can activate packet
 if (!$cant_active){					
@@ -152,7 +154,7 @@ $default_fields= array('Timestamp'=>'Timestamp',
 	$default_fields['ERR_']='ERR_';
 }*/
 $list_col_cant_del=array('SHOWACTIVE'=>'SHOWACTIVE','SUP'=>'SUP','ACTIVE'=>'ACTIVE','STAT'=>'STAT','ZIP'=>'ZIP','CHECK'=>'CHECK');
-$querypack=prepare_sql_tab($list_fields,array('SELECT','ZIP','STAT','ACTIVE','SUP','CHECK','NO_NOTIF','NOTI','SUCC','ERR_'));
+$querypack=prepare_sql_tab($list_fields,array('SELECT','ZIP','STAT','ACTIVE','SUP','CHECK','NO_NOTIF','NOTI','SUCC','ERR_','EXIT_CODE'));
 
 
 
@@ -210,6 +212,7 @@ if ($show_stats){
 	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC']=array('GREEN','SUCC','LIKE','SUCCESS%');
 	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI']=array('GREY','NOTI','LIKE','NOTI%');
 	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF']=array('BLACK','NO_NOTIF','IS NULL');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['EXIT_CODE']=array('BLUE','EXIT_CODE','LIKE','EXIT_CODE%');
 	
 	if ($restrict_computers){
 		$sql_data_fixe.=" and d.hardware_id in ";
