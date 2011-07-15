@@ -103,30 +103,33 @@ foreach($sql_doublon as $name=>$sql_value){
 
 
 //search id of computers => serial number
+if (isset($doublon['ssn'])){
 	$sql_id_doublon['ssn']=" select distinct hardware_id id,SSN info1 from bios,hardware h where h.id=bios.hardware_id and SSN in ";
 	$arg_id_doublon['ssn']=array();
 	$sql=mysql2_prepare($sql_id_doublon['ssn'],$arg_id_doublon['ssn'],$doublon['ssn']);
 	$arg_id_doublon['ssn']=$sql['ARG'];
 	$sql_id_doublon['ssn']=$sql['SQL'];
-
+}else
+	$count_id['ssn']=0;
 ////search id of computers => macaddresses
-
-$sql_id_doublon['macaddress']=" select distinct hardware_id id,MACADDR info1 
-								from networks,hardware h 
-								where h.id=networks.hardware_id and MACADDR in ";
-$arg_id_doublon['macaddress']=array();
-$sql=mysql2_prepare($sql_id_doublon['macaddress'],$arg_id_doublon['macaddress'],$doublon['macaddress']);
-$arg_id_doublon['macaddress']=$sql['ARG'];
-$sql_id_doublon['macaddress']=$sql['SQL'];	
-
+if(isset($doublon['macaddress'])){
+	$sql_id_doublon['macaddress']=" select distinct hardware_id id,MACADDR info1 
+									from networks,hardware h 
+									where h.id=networks.hardware_id and MACADDR in ";
+	$arg_id_doublon['macaddress']=array();
+	$sql=mysql2_prepare($sql_id_doublon['macaddress'],$arg_id_doublon['macaddress'],$doublon['macaddress']);
+	$arg_id_doublon['macaddress']=$sql['ARG'];
+	$sql_id_doublon['macaddress']=$sql['SQL'];	
+}else
+	$count_id['macaddress']=0;
 //search id of computers => hostname
-
-$sql_id_doublon['hostname']=" select id, NAME info1 from hardware h,accountinfo a where a.hardware_id=h.id and NAME in ";
-$arg_id_doublon['hostname']=array();
-$sql=mysql2_prepare($sql_id_doublon['hostname'],$arg_id_doublon['hostname'],$doublon['hostname']);
-$arg_id_doublon['hostname']=$sql['ARG'];
-$sql_id_doublon['hostname']=$sql['SQL'];	
-
+if(isset($doublon['hostname'])){
+	$sql_id_doublon['hostname']=" select id, NAME info1 from hardware h,accountinfo a where a.hardware_id=h.id and NAME in ";
+	$arg_id_doublon['hostname']=array();
+	$sql=mysql2_prepare($sql_id_doublon['hostname'],$arg_id_doublon['hostname'],$doublon['hostname']);
+	$arg_id_doublon['hostname']=$sql['ARG'];
+	$sql_id_doublon['hostname']=$sql['SQL'];	
+}
 //search id of computers => hostname + serial number
 $sql_id_doublon['hostname_serial']="SELECT DISTINCT h.id,h.name info1,b.ssn info2
 						FROM hardware h 
