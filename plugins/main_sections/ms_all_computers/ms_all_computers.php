@@ -10,6 +10,9 @@
 //====================================================================================
 
 require_once('require/function_computers.php');
+//show mac address on the tab
+$show_mac_addr=false;
+
 $form_name="show_all";
 $table_name="list_show_all";
 
@@ -18,7 +21,18 @@ if (isset($protectedGet['filtre'])){
 	$protectedPost['FILTRE_VALUE']=$protectedGet['value'];	
 }
 
-//cas d'une suppression de machine
+//del the selection
+if ($protectedPost['DEL_ALL'] != ''){
+	foreach ($protectedPost as $key=>$value){
+		$checkbox=explode('check',$key);
+		if(isset($checkbox[1])){
+			deleteDid($checkbox[1]);			
+		}
+	}
+	$tab_options['CACHE']='RESET';
+}
+
+//delete one computer
 if ($protectedPost['SUP_PROF'] != ''){	
 	deleteDid($protectedPost['SUP_PROF']);
 	$tab_options['CACHE']='RESET';
@@ -66,30 +80,46 @@ $list_fields2 = array ( $l->g(46) => "h.lastdate",
 					   $l->g(209) => "e.bversion",
 					   $l->g(34) => "h.ipaddr",
 					   $l->g(557) => "h.userdomain");
+if ($show_mac_addr)
+	$list_fields2[$l->g(95)]="n.macaddr";
 					   
 $list_fields=array_merge ($list_fields,$list_fields2);
 //asort($list_fields); 
 $tab_options['FILTRE']=array_flip($list_fields);
 $tab_options['FILTRE']['h.name']=$l->g(23);
 asort($tab_options['FILTRE']); 
-if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES")
-	$list_fields['SUP']='ID';
+if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+	$list_fields['CHECK']='h.ID';
+		$list_fields['SUP']='h.ID';
+}
 	
-$list_col_cant_del=array('SUP'=>'SUP','NAME'=>'NAME');
+$list_col_cant_del=array('SUP'=>'SUP','NAME'=>'NAME','CHECK'=>'CHECK');
 $default_fields2= array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
 						$l->g(24)=>$l->g(24),$l->g(25)=>$l->g(25),$l->g(568)=>$l->g(568),
 						$l->g(569)=>$l->g(569));
 $default_fields=array_merge($default_fields,$default_fields2);
-$sql=prepare_sql_tab($list_fields,array('SUP'));
+$sql=prepare_sql_tab($list_fields,array('SUP','CHECK'));
 $tab_options['ARG_SQL']=$sql['ARG'];
 $queryDetails  = $sql['SQL']." from hardware h 
-				LEFT JOIN accountinfo a ON a.hardware_id=h.id 
-				LEFT JOIN bios e ON e.hardware_id=h.id where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
+				LEFT JOIN accountinfo a ON a.hardware_id=h.id  ";
+if ($show_mac_addr)
+	$queryDetails  .= "	LEFT JOIN networks n ON n.hardware_id=h.id ";
+	
+$queryDetails  .= "LEFT JOIN bios e ON e.hardware_id=h.id 
+				where deviceid<>'_SYSTEMGROUP_' 
+						AND deviceid<>'_DOWNLOADGROUP_' ";
+if ($show_mac_addr)
+	$queryDetails  .= " AND n.status='Up'
+						AND n.type='Ethernet' ";
 if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
 	$queryDetails  .= "AND ".$_SESSION['OCS']["mesmachines"];
-//$queryDetails  .=" limit 200";
+$queryDetails  .=" group by h.name";
 $tab_options['LBL_POPUP']['SUP']='name';
 $tab_options['LBL']['SUP']=$l->g(122);
-tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
+$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
+if ($result_exist != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
+		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
+	}
 echo "</form>";
 ?>
