@@ -1,5 +1,7 @@
 Revision history for ocsreports 
 2.0.1
+		* add possibility to show mac address on "all computers".
+		* Add checkbox to delete few computers.
 		* https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/806040
 		* https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/810990
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/810001 (add EXIT_CODE on stats)
