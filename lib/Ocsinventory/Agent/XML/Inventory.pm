@@ -261,8 +261,7 @@ sub saveLastState {
     print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
     close LAST_STATE or warn;
   } else {
-    $logger->debug ("Cannot save the checksum values in ".$self->{config}->{last_statefile}."
-	(will be synchronized by GLPI!!): $!");
+    $logger->debug ("Cannot save the checksum values in ".$self->{config}->{last_statefile}.":$!");
   }
 }
 
