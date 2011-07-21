@@ -179,6 +179,7 @@ if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
 	$arg_id_doublon['macaddress_serial']=$sql['ARG'];
 }
 foreach($sql_id_doublon as $name=>$sql_value){
+	$sql_value.=" group by id";
 	$res = mysql2_query_secure($sql_value, $_SESSION['OCS']["readServer"],$arg_id_doublon[$name]);
 	$count_id[$name] = 0;
 	while( $val = mysql_fetch_object( $res ) ) {
@@ -190,9 +191,8 @@ foreach($sql_id_doublon as $name=>$sql_value){
 			}elseif ($tab_id_mes_machines == ""){
 				$list_id[$name][$val->id]=$val->id;
 				$count_id[$name]++;
-			}
-
-		
+			}		
+			$list_info[$name]=$val->info1;
 	}
 }
 $form_name='doublon';
@@ -271,12 +271,17 @@ if ($protectedPost['detail'] != ''){
 	$sql['SQL'] .= " networks n where  h.id=n.hardware_id ";
 	$sql['SQL'] .= " and h.id=b.hardware_id and  h.id in ";
 	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_id[$protectedPost['detail']]);
+	if (($protectedPost['detail'] == "macaddress" or $protectedPost['detail'] == "macaddress_serial")
+			 and count($list_info)>0){
+		$sql['SQL'] .= " and n.macaddr in ";
+		$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_info[$protectedPost['detail']]);
+		
+	}
  	$sql['SQL'] .= " group by h.id ";
 	$tab_options['ARG_SQL']=$sql['ARG'];
 	$tab_options['FILTRE']=array('NAME'=>$l->g(35),'b.ssn'=>$l->g(36),'n.macaddr'=>$l->g(95));
 	$tab_options['LBL_POPUP']['SUP']='NAME';
 	$tab_options['LBL']['SUP']=$l->g(122);
-	
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,'95',$tab_options);
 	if ($result_exist != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
