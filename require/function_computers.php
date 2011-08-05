@@ -108,12 +108,8 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 			}
 			//deleting a regular computer
 			if( $did != "_SYSTEMGROUP_" and $did != '_DOWNLOADGROUP_') {
-				$tables=Array("accesslog","accountinfo","bios","controllers","drives",
-				"inputs","memories","modems","monitors","networks","ports","printers","registry",
-				"slots","softwares","sounds","storages","videos","devices","download_history",
-				"download_servers","groups_cache","itmgmt_comments","javainfo","virtualmachines");	
-			
-}
+					$tables=$_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'];										
+			}
 			elseif($did == "_SYSTEMGROUP_"){//Deleting a group
 				$tables=Array("devices");
 				//del messages on this group

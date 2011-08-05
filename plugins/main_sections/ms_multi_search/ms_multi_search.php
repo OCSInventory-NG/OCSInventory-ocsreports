@@ -255,8 +255,10 @@ unset ($_SESSION['OCS']['multiSearch'][$protectedPost['delfield']]);
 	 				//si on a un SelComp, on r�cup�re la valeur saisie
 		 			if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue"){ 	
 		 				//case of checkbox
-		 				if (in_array($field[$i],$accountinfo_checkbox)){
-		 					$value = $value."&&&";
+		 				if (isset($accountinfo_checkbox)){
+			 				if (in_array($field[$i],$accountinfo_checkbox)){
+			 					$value = $value."&&&";
+			 				}
 		 				}
  						$field_value[$i]=$value;
 						

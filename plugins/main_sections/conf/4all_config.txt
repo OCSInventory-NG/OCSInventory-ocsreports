@@ -18,6 +18,7 @@ ms_ipdiscover
 ms_doubles
 ms_users
 ms_local
+ms_plugins
 ms_help
 </ORDER_SECOND_TABLE>
 
@@ -49,6 +50,7 @@ ms_admin_ipdiscover:g(1139)
 ms_snmp:g(1136)
 ms_update_new_tag:g(2100)
 ms_stats:g(1251)
+ms_plugins:g(6000)
 </LBL>
 
 <URL>
@@ -122,6 +124,7 @@ jp_activity_stats:activity_stats
 ms_ipdiscover_analyse:ipdiscover_analyse
 ms_stats_connexion:stats_connexion
 ms_add_key:add_key
+ms_plugins:plugins
 </URL>
 
 <DIRECTORY>
@@ -190,6 +193,7 @@ jp_teledeploy_speed_stats:ms_stats
 ms_ipdiscover_analyse:ms_ipdiscover
 ms_stats_connexion:ms_stats
 ms_add_key:ms_config
+ms_plugins:ms_plugins
 </DIRECTORY>
 
 

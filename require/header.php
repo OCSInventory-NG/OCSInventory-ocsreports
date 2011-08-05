@@ -180,6 +180,35 @@ if (!defined("SERVER_READ")){
 if (!isset($no_error))
 $no_error='NO';
 
+/****************************************************SQL TABLE & FIELDS***********************************************/
+
+if (!isset($_SESSION['OCS']['SQL_TABLE'])){
+	$sql="show tables from %s";
+	$arg=DB_NAME;
+	$res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
+	while($item = mysql_fetch_row($res)){
+		$sql="SHOW COLUMNS FROM %s";
+		$arg=$item[0];
+		$res_column=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
+		while ($item_column = mysql_fetch_row($res_column)){
+			
+			if ($item_column[0] == "HARDWARE_ID" 
+				and !isset($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]]))
+				$_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]]=$item[0];
+				
+			$_SESSION['OCS']['SQL_TABLE'][$item[0]][$item_column[0]]=$item_column[1];
+		}
+	}
+}
+
+/*foreach ($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'] as $table_name=>$poub){
+	$sql="select count(*) from hardware h right join %s a on a.hardware_id=h.ID WHERE h.id is null ";
+	$arg=$table_name;
+	$res_column=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
+	$item_column = mysql_fetch_row($res_column);
+	if ($item_column[0]>0)
+		echo $table_name."<br>";
+}*/
 /*****************************************************GESTION DU NOM DES PAGES****************************************/
 //Config for all user
 if (!isset($_SESSION['OCS']['URL'])){
