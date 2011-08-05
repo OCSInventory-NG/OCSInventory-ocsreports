@@ -31,4 +31,5 @@ define('HEADER_HTML',"require/html_header.php");						// Define html_header file
 define('FOOTER_HTML',"require/footer.php");								// Define footer file		
 define('MAIN_SECTIONS_DIR',PLUGINS_DIR."main_sections/");				//
 define('DEV_OPTION',false);												// Define DEV Options DO NOT USE
+
 ?>
