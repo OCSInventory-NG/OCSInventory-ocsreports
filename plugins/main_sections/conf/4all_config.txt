@@ -125,6 +125,7 @@ ms_ipdiscover_analyse:ipdiscover_analyse
 ms_stats_connexion:stats_connexion
 ms_add_key:add_key
 ms_plugins:plugins
+ms_export_ocs:export_ocs
 </URL>
 
 <DIRECTORY>
@@ -194,6 +195,7 @@ ms_ipdiscover_analyse:ms_ipdiscover
 ms_stats_connexion:ms_stats
 ms_add_key:ms_config
 ms_plugins:ms_plugins
+ms_export_ocs:ms_export
 </DIRECTORY>
 
 

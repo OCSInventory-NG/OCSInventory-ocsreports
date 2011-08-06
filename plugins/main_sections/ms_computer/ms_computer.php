@@ -36,10 +36,11 @@ $lbl_affich=array('NAME'=>$l->g(49),'WORKGROUP'=>$l->g(33),'USERDOMAIN'=>$l->g(5
 					'WINPRODID'=>$l->g(111),'WINPRODKEY'=>$l->g(553),'USERAGENT'=>$l->g(357),
 					'MEMORY'=>$l->g(26),'LASTDATE'=>$l->g(46),'LASTCOME'=>$l->g(820),'DESCRIPTION'=>$l->g(53),
 					'NAME_RZ'=>$l->g(304),'VMTYPE'=>$l->g(1267),'UUID'=>$l->g(1268));			
-$values=look_config_default_values(array('QRCODE'));
+$values=look_config_default_values(array('QRCODE','EXPORT_OCS'));
 if(isset($values['ivalue']['QRCODE']) and $values['ivalue']['QRCODE'] == 1)
 	$lbl_affich['QRCODE']=$l->g(1299);
-	
+if(!isset($_SESSION['OCS']['RESTRICTION']['EXPORT_XML']) or $_SESSION['OCS']['RESTRICTION']['EXPORT_XML'] == "NO")	
+	$lbl_affich['EXPORT_OCS']=$l->g(1303);
 foreach ($lbl_affich as $key=>$lbl){
 	if ($key == "MEMORY"){
 		$sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=%s";
@@ -76,6 +77,8 @@ foreach ($lbl_affich as $key=>$lbl){
 		$link_vm="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valVM['hardware_id']."'  target='_blank'><font color=red>".$valVM['name']."</font></a>";
 		if ($data[$key] != '')
 			msg_info($l->g(1266)."<br>".$l->g(1269).': '.$link_vm);
+	}elseif($key == "EXPORT_OCS"){
+		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_export_ocs']."&no_header=1&systemid=".$protectedGet['systemid']."\")>".$l->g(1304)."</a>";			
 	}elseif ($item->$key != '')
 		$data[$key]=$item->$key;
 }

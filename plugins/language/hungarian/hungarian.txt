@@ -1281,6 +1281,8 @@
 1300 Check QRCode
 1301 on invisible packages
 1302 development
+1304 XML
+1305 On the generation of an XML inventory
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

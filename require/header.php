@@ -196,7 +196,8 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])){
 				and !isset($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]]))
 				$_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]]=$item[0];
 				
-			$_SESSION['OCS']['SQL_TABLE'][$item[0]][$item_column[0]]=$item_column[1];
+			$_SESSION['OCS']['SQL_TABLE'][$item[0]][$item_column[0]]=$item_column[0];
+			
 		}
 	}
 }
