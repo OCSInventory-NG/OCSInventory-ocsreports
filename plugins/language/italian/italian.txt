@@ -1180,15 +1180,15 @@
 1294 Information del supporto
 1295 Informazioni aggiuntive
 1296 Supporto
-1297 Identificativo periferica SNMP
-1297 SNMP device identification
-1298 QRCode administration
+1297 Identificativo periferica
+1298 Amministrazione QRCode
 1299 QRCode
-1300 Check QRCode
-1301 on invisible packages
-1302 development
+1300 Verifica QRCode
+1301 Su pacchetti invisibili
+1302 Sviluppo
+1303 Esporta
 1304 XML
-1305 On the generation of an XML inventory
+1305 Nella generazione di un inventario XML
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
@@ -1318,4 +1318,4 @@
 5022 [DEBUG]NORMAL CONDITION REQUEST[DEBUG]
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
-6000 Plugins
+6000 Plugin
