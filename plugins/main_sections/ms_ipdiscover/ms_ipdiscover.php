@@ -62,7 +62,7 @@ echo "<br>";
 					FROM networks 
 					WHERE ipsubnet in  ";
 	 	$arg=mysql2_prepare($arg['SQL'],$arg['ARG'],$array_rsx);
-	 	$arg['SQL'] .= " GROUP BY ipsubnet) 
+	 	$arg['SQL'] .= " and status='Up' GROUP BY ipsubnet) 
 				inv on ipdiscover.RSX=inv.RSX left join
 					(SELECT COUNT(DISTINCT mac) as c,'IDENTIFIE' as TYPE,netid as RSX
 					FROM netmap 

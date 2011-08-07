@@ -135,6 +135,8 @@ function show_packages($systemid){
 			$ii++; $td3 = $ii%2==0?$td2:$td4;
 			if ((strpos($valDeploy["comment"], "[VISIBLE=1]") 
 				or strpos($valDeploy["comment"], "[VISIBLE=]")
+				or (!isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'])
+					and strpos($valDeploy["comment"], "[VISIBLE=0]"))
 				or !strpos($valDeploy["comment"], "[VISIBLE"))
 				or (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
 				and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "NO"

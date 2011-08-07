@@ -1184,6 +1184,10 @@
 1299 QRCode
 1300 Vérifier QRCode
 1301 Sur les paquets invisibles
+1302 Développement
+1303 Exporter
+1304 XML
+1305 Sur la génération XML d'un inventaire
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1313,3 +1317,5 @@
 5021 [DEBUG]AND_OR =>[DEBUG]
 5022 [DEBUG]REQUETE CONDITION NORMALE[DEBUG]
 5023 [DEBUG]REQUETE CONDITION DIFF[DEBUG]
+
+6000 Plugins

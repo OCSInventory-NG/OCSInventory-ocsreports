@@ -36,7 +36,7 @@ $multi_search=array("OCS_REPORT_NB_NOTIFIED"=>array("FIELD"=>'',"COMP"=>'',"VALU
 			 	    "OCS_REPORT_NB_HARD_DISK_H"=>array("FIELD"=>'',"COMP"=>'',"VALUE"=>''),
 					"OCS_REPORT_OSNAME"=>array("FIELD"=>'HARDWARE-OSNAME',"COMP"=>'',"VALUE"=>''),
 					"OCS_REPORT_USERAGENT"=>array("FIELD"=>'HARDWARE-USERAGENT',"COMP"=>'exact',"VALUE"=>''),
-					"OCS_REPORT_PROCESSORT"=>array("FIELD"=>'HARDWARE-USERAGENT',"COMP"=>'exact',"VALUE"=>''),
+					"OCS_REPORT_PROCESSORT"=>array("FIELD"=>'HARDWARE-PROCESSORT',"COMP"=>'exact',"VALUE"=>''),
 					"OCS_REPORT_RESOLUTION"=>array("FIELD"=>'VIDEOS-RESOLUTION',"COMP"=>'',"VALUE"=>''),
 					"OCS_REPORT_WORKGROUP"=>array("FIELD"=>'HARDWARE-WORKGROUP',"COMP"=>'exact',"VALUE"=>''),
 					"OCS_REPORT_TAG"=>array("FIELD"=>'ACCOUNTINFO-TAG',"COMP"=>'exact',"VALUE"=>''),

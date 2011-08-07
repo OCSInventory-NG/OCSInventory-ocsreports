@@ -10,8 +10,8 @@
 //====================================================================================
 
 @session_start();
-define("GUI_VER", "6004");												// Version of the database
-define("GUI_VER_SHOW","2.0");        									// Version of the GUI
+define("GUI_VER", "6005");												// Version of the database
+define("GUI_VER_SHOW","2.0.1");        									// Version of the GUI
 define("MAC_FILE", "files/oui.txt");									// File containing MAC database
 define("DEFAULT_LANGUAGE","french");    								// Default language
 define("PAG_INDEX","function");         								// define name in url (like multi=32)
@@ -30,5 +30,6 @@ define('CONF_MYSQL',"dbconfig.inc.php");								// Define dbconf file
 define('HEADER_HTML',"require/html_header.php");						// Define html_header file				
 define('FOOTER_HTML',"require/footer.php");								// Define footer file		
 define('MAIN_SECTIONS_DIR',PLUGINS_DIR."main_sections/");				//
+define('DEV_OPTION',false);												// Define DEV Options DO NOT USE
 
 ?>

@@ -47,8 +47,7 @@ function look_config_default_values($field_name,$like='',$default_values=''){
 }
 /******************************************************SQL FUNCTION****************************************************/
 
-function mysql2_query_secure($sql,$link,$arg='',$log=false){
-	global $l,$lbl_log;
+function generate_secure_sql($sql,$arg=''){
 	if (is_array($arg)){
 		foreach ($arg as $key=>$value){			
 				$arg_array_escape_string[]=mysql_real_escape_string($value);
@@ -64,7 +63,14 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 		}else
 			$sql = sprintf($sql,$arg_escape_string);
 	}
-	$query = $sql;
+	return $sql;
+	
+}
+
+
+function mysql2_query_secure($sql,$link,$arg='',$log=false){
+	global $l,$lbl_log;
+	$query = generate_secure_sql($sql,$arg);
 	if ($log){
 		addLog( $log, $query,$lbl_log);
 	}
@@ -72,6 +78,8 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 	if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 		$_SESSION['OCS']['SQL_DEBUG'][]=html_entity_decode($query,ENT_QUOTES);			
 	}
+	
+
 	
 	if(DEMO){
 		$rest = strtoupper(substr($query, 0, 6));
@@ -83,9 +91,12 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 			return false;		
 		 }
 	}
-	$result=mysql_query( $query, $link ) or mysql_error($link);
+	$result=mysql_query( $query, $link );
+	if ($_SESSION['OCS']['DEBUG'] == 'ON' and !$result)
+		msg_error(mysql_error($link));
 	return $result;
 }
+
 
 /*
  * use this function before mysql2_query_secure
@@ -273,6 +284,7 @@ function msg_warning($txt){
 }
 function msg_error($txt){
 	msg($txt,'error');
+	return true;
 }
 
 

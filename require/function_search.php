@@ -36,6 +36,7 @@ if ($_SESSION['OCS']["usecache"] == true){
 	//liste des champs correspondants ou la recherche doit se faire
 	$field_cache=array('SOFTWARES_NAME_CACHE'=>'NAME');
 }
+
 //liste des tables qui ne doivent pas faire des fusions de requ�te
 //cas pour les tables multivalu�e
 $tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS");
@@ -57,11 +58,25 @@ $lbl_fields_calcul['DRIVES']=array($l->g(838)=>'drives.LETTER',
 								   $l->g(843)=>'drives.VOLUMN');
 $lbl_fields_calcul['GROUPS_CACHE']=array( $l->g(844) => 'groups_cache.GROUP_ID',
 										  $l->g(845) => 'groups_cache.STATIC');
-$lbl_fields_calcul['SOFTWARES']=array( $l->g(846) => 'softwares.PUBLISHER',
-									   $l->g(847) => 'softwares.NAME',
-									   $l->g(848) => 'softwares.VERSION',
-									   $l->g(849) => 'softwares.FOLDER',
-									   $l->g(850) => 'softwares.COMMENTS');
+
+if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
+							and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
+								
+	$lbl_fields_calcul['SOFTWARES']=array( $l->g(846) => 'softwares.PUBLISHER',
+									   	   $l->g(847) => 'softwares.NAME_ID',
+									       $l->g(848) => 'softwares.VERSION_ID',
+									       $l->g(849) => 'softwares.FOLDER',
+									       $l->g(850) => 'softwares.COMMENTS');
+}else{
+	$lbl_fields_calcul['SOFTWARES']=array( $l->g(846) => 'softwares.PUBLISHER',
+									   	   $l->g(847) => 'softwares.NAME',
+									   	   $l->g(848) => 'softwares.VERSION',
+									       $l->g(849) => 'softwares.FOLDER',
+									       $l->g(850) => 'softwares.COMMENTS');
+	
+}
+							
+
 $lbl_fields_calcul['BIOS']=array($l->g(851)=>'bios.SMANUFACTURER',
 								 $l->g(852)=>'bios.SMODEL',
 								 $l->g(853)=>'bios.SSN',
@@ -124,7 +139,7 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 	 		}
 	 		$id[$i].=$fin_sql;
 	 		$result = mysql_query($id[$i], $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-			while($item = mysql_fetch_object($result)){
+	 		while($item = mysql_fetch_object($result)){
 				$list_id[$item->HARDWARE_ID]=$item->HARDWARE_ID;
 				foreach ($item as $field=>$value){
 					if ($field != "HARDWARE_ID" and $field != "ID")
@@ -454,7 +469,7 @@ function calendars($NameInputField,$DateFormat)
 function add_trait_select($img,$list_id,$form_name,$list_pag)
 {
 	global 	$l;
-	$_SESSION['OCS']['ID_REQ']=$list_id;
+	$_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
 	echo "<script language=javascript>
 		function garde_check(image,id)
 		 {
@@ -505,6 +520,8 @@ function multi_lot($form_name,$lbl_choise){
 		//gestion tableau
 		if (is_array($list_id))
 			$list_id=implode(",", $list_id);
+		
+		
 	}else
 		$list_id=$protectedGet['idchecked'];
 
@@ -513,6 +530,38 @@ function multi_lot($form_name,$lbl_choise){
 	else{
 		return false;
 	}
+}
+
+
+function found_soft_type($type,$id ="",$name=""){
+	$sql="select id, name from %s ";
+	$arg=array($type);
+	if($id != ""){
+		$sql.= " where id=%s";
+		array_push($id,$arg);
+	}elseif($name != ""){
+		$sql.= " where name='%s'";
+		array_push($name,$arg);		
+	}
+	$result=mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg);
+	while($item = mysql_fetch_object($result)){
+		$res[$item->id]=$item->name;		
+	}
+	return $res;
+}
+
+
+function id_without_idgroups($list_id){
+	$sql="select id from hardware where deviceid <> '_SYSTEMGROUP_' 
+										AND deviceid <> '_DOWNLOADGROUP_' 
+										AND id in ";
+	$arg=array();
+	$sql=mysql2_prepare($sql,$arg,$list_id);
+	$result=mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
+	while($item = mysql_fetch_object($result)){
+		$res[$item->id]=$item->id;		
+	}
+	return $res;	
 }
 
 ?>

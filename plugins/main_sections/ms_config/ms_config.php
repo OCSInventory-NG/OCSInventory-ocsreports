@@ -37,6 +37,8 @@ $def_onglets['SNMP']=$l->g(1136); //SNMP
 if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO'){
 	$def_onglets['SUPPORT']=$l->g(1296);
 }
+if (DEV_OPTION)
+	$def_onglets['DEV']=$l->g(1302);
 
 if ($protectedPost['Valid'] == $l->g(103)){
 	$etat=verif_champ();
@@ -106,8 +108,11 @@ switch ($protectedPost['onglet']){
 	case 'SNMP':
 		pagesnmp($form_name);
 		break;
-	case 'SUPPORT' and isset($def_onglets['SUPPORT']):
+	case 'SUPPORT':
 		pagessupport($form_name);
+		break;
+	case 'DEV':
+		pagesdev($form_name);
 		break;
 	default:
 		pageinventory($form_name);	
