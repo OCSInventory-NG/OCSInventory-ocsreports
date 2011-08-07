@@ -59,7 +59,7 @@ echo "<br>";
 	 	$arg['SQL'] .= " GROUP BY tvalue) 
 				ipdiscover right join
 				   (SELECT count(distinct(hardware_id)) as c,'INVENTORIE' as TYPE,ipsubnet as RSX
-					FROM networks 
+					FROM networks left join subnet on networks.ipsubnet=subnet.netid
 					WHERE ipsubnet in  ";
 	 	$arg=mysql2_prepare($arg['SQL'],$arg['ARG'],$array_rsx);
 	 	$arg['SQL'] .= " and status='Up' GROUP BY ipsubnet) 
