@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* FIX: unable to search LDAP from root of tree http://forums.ocsinventory-ng.org/viewtopic.php?pid=38310#p38310
 		* add export XML inventory
 		* add plugins options
 		* change delete computers function (no orphans on plugins tables)
