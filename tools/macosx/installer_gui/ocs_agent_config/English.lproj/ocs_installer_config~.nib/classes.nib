@@ -1,0 +1,32 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = InstallerPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                contentView = NSView; 
+                firstKeyView = NSView; 
+                initialKeyView = NSView; 
+                lastKeyView = NSView; 
+                nextPane = InstallerPane; 
+                parentSection = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = InstallerSection; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {firstPane = InstallerPane; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {writeConfigFile = id; }; 
+            CLASS = "ocs_installer_configPane"; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {server = NSTextField; tag = NSTextField; }; 
+            SUPERCLASS = InstallerPane; 
+        }
+    ); 
+    IBVersion = 1; 
+}

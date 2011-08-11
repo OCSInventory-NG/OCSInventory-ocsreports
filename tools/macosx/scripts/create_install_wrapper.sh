@@ -41,7 +41,6 @@ function usage {
 SERVER="ocsinventory"
 TAG="DEFAULT"
 LOGFILE="/var/log/ocsng.log"
-DELAY="120"
 TMPDIR="/tmp"
 
 while getopts ":s:t:hl:d:T:" Option
@@ -49,7 +48,6 @@ do
 	case \$Option in
 		s) SERVER=\$OPTARG;;
 		t) TAG=\$OPTARG;;
-		d) DELAY=\$OPTARG;;
 		l) LOGFILE=\$OPTARG;;
 		T) TMPDIR=\$OPTARG;;
 		h) usage; exit;
@@ -65,7 +63,6 @@ base=\`basename \$0\`;
 
 (cd \$TMPDIR; uudecode -p \$dir/\$base|tar xzfv -)
 cd \$TMPDIR/$DEPLOYMENT_DIR;
-echo "delaytime=\$DELAY" > ocsinventory-agent.cfg
 echo "logfile=\$LOGFILE" >> ocsinventory-agent.cfg
 echo "server=\$SERVER" >> ocsinventory-agent.cfg
 echo "tag=\$TAG" >> ocsinventory-agent.cfg

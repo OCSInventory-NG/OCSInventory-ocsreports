@@ -1,13 +1,21 @@
---- ../unified_unix_agent/ocsinventory-agent	2008-06-04 06:58:09.000000000 -0400
-+++ ocsinventory-agent	2008-06-08 13:42:33.000000000 -0400
-@@ -5,6 +5,11 @@
- # forcer un upload si changement en local
- # ajouter /etc/ocsinventory-agent.conf
+--- ../unified_unix_agent/ocsinventory-agent 	2011-05-08 19:23:10.000000000 +0200
++++ ocsinventory-agent	2011-07-29 00:15:15.000000000 +0200
+@@ -18,6 +18,18 @@
+ #USA.
+ #
  
 +BEGIN {
-+    unshift(@INC,'/Applications/OCSNG.app/Contents/Resources/lib/');
++    use File::Basename;
++    use Cwd qw(abs_path);
++
++    my $scriptname = basename(__FILE__);
++    my $path = abs_path($0);
++    $path =~ s/$scriptname//g;
++
++    unshift(@INC,$path."/lib/");
 +}
 +
 +
  use strict;
  use warnings;
+ 

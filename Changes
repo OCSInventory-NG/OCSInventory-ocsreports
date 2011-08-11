@@ -4,6 +4,7 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * New 2.0 MacOSX integration
        * Bug #798428 about standalone agent building
        * Change variable names to lowercase in Snmp/3375.pm
        * Fix a closedir omission in Solaris/Packages.pm

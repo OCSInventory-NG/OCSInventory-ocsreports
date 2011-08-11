@@ -7,14 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0625C76F13CAC89000D6EB7C /* ocs_logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0625C76E13CAC89000D6EB7C /* ocs_logo.icns */; };
+		06C39B371394ADB20047198A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C39B361394ADB20047198A /* CoreData.framework */; };
+		06C39B381394ADB20047198A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C39B361394ADB20047198A /* CoreData.framework */; };
+		06C39B3A1394ADDF0047198A /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C39B391394ADDF0047198A /* AppKit.framework */; };
+		06C39B3B1394ADDF0047198A /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C39B391394ADDF0047198A /* AppKit.framework */; };
+		06C39BCE1394B5600047198A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C39BCD1394B5600047198A /* Security.framework */; };
+		06C39BCF1394B5600047198A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C39BCD1394B5600047198A /* Security.framework */; };
+		06D657B4134FDBFF00981FE3 /* ocscontact.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D657B3134FDBFF00981FE3 /* ocscontact.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		EE255FEE0DEE07CB00970E83 /* main.pl in Resources */ = {isa = PBXBuildFile; fileRef = EE255F940DEE01BC00970E83 /* main.pl */; };
 		EE2C4E5B0DF1CA5800171780 /* GetPID.c in Sources */ = {isa = PBXBuildFile; fileRef = EE2C4E590DF1CA5800171780 /* GetPID.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0625C76E13CAC89000D6EB7C /* ocs_logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ocs_logo.icns; path = icons/ocs_logo.icns; sourceTree = "<group>"; };
+		06C39B361394ADB20047198A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		06C39B391394ADDF0047198A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		06C39BCD1394B5600047198A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		06D65785134FD5B800981FE3 /* ocscontact-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ocscontact-Info.plist"; sourceTree = "<group>"; };
+		06D657A7134FD97A00981FE3 /* ocscontact */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ocscontact; sourceTree = BUILT_PRODUCTS_DIR; };
+		06D657B2134FDBFF00981FE3 /* ocscontact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocscontact.h; sourceTree = "<group>"; };
+		06D657B3134FDBFF00981FE3 /* ocscontact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ocscontact.m; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -22,17 +37,29 @@
 		32CA4F630368D1EE00C91783 /* OCSNG_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCSNG_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* OCSNG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCSNG.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE255F940DEE01BC00970E83 /* main.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = main.pl; sourceTree = "<group>"; };
 		EE2C4E590DF1CA5800171780 /* GetPID.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GetPID.c; sourceTree = "<group>"; };
 		EE2C4E5A0DF1CA5800171780 /* GetPID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetPID.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		06D657A5134FD97A00981FE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06C39B371394ADB20047198A /* CoreData.framework in Frameworks */,
+				06C39B3A1394ADDF0047198A /* AppKit.framework in Frameworks */,
+				06C39BCE1394B5600047198A /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072E0486CEB800E47090 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				06C39B381394ADB20047198A /* CoreData.framework in Frameworks */,
+				06C39B3B1394ADDF0047198A /* AppKit.framework in Frameworks */,
+				06C39BCF1394B5600047198A /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +69,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -57,6 +85,9 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				06C39BCD1394B5600047198A /* Security.framework */,
+				06C39B391394ADDF0047198A /* AppKit.framework */,
+				06C39B361394ADB20047198A /* CoreData.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
@@ -66,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* OCSNG.app */,
+				06D657A7134FD97A00981FE3 /* ocscontact */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,6 +110,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				06D65785134FD5B800981FE3 /* ocscontact-Info.plist */,
 			);
 			name = OCSNG;
 			sourceTree = "<group>";
@@ -85,11 +118,11 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				EE255F940DEE01BC00970E83 /* main.pl */,
+				06D657B2134FDBFF00981FE3 /* ocscontact.h */,
+				06D657B3134FDBFF00981FE3 /* ocscontact.m */,
 				EE2C4E590DF1CA5800171780 /* GetPID.c */,
 				EE2C4E5A0DF1CA5800171780 /* GetPID.h */,
 				32CA4F630368D1EE00C91783 /* OCSNG_Prefix.pch */,
-				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -97,6 +130,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0625C76E13CAC89000D6EB7C /* ocs_logo.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -115,6 +149,22 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		06D657A6134FD97A00981FE3 /* ocscontact */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06D657A9134FD99800981FE3 /* Build configuration list for PBXNativeTarget "ocscontact" */;
+			buildPhases = (
+				06D657A4134FD97A00981FE3 /* Sources */,
+				06D657A5134FD97A00981FE3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ocscontact;
+			productName = ocscontact;
+			productReference = 06D657A7134FD97A00981FE3 /* ocscontact */;
+			productType = "com.apple.product-type.tool";
+		};
 		8D1107260486CEB800E47090 /* OCSNG */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "OCSNG" */;
@@ -140,12 +190,20 @@
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "OCSNG" */;
 			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* OCSNG */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* OCSNG */,
+				06D657A6134FD97A00981FE3 /* ocscontact */,
 			);
 		};
 /* End PBXProject section */
@@ -156,13 +214,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				EE255FEE0DEE07CB00970E83 /* main.pl in Resources */,
+				0625C76F13CAC89000D6EB7C /* ocs_logo.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		06D657A4134FD97A00981FE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06D657B4134FDBFF00981FE3 /* ocscontact.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -186,6 +252,63 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		06D657AA134FD99800981FE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OBJROOT = build;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ocscontact;
+				SYMROOT = build;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		06D657AB134FD99800981FE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /Applications;
+				OBJROOT = build;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ocscontact;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SYMROOT = build;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -200,7 +323,9 @@
 				GCC_PREFIX_HEADER = OCSNG_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				OBJROOT = build;
 				PRODUCT_NAME = OCSNG;
+				SYMROOT = build;
 				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64 ppc";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -210,12 +335,20 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OCSNG_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				OBJROOT = build;
 				PRODUCT_NAME = OCSNG;
+				SDKROOT = macosx;
+				SYMROOT = build;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -230,6 +363,7 @@
 				INSTALL_MODE_FLAG = "a-rwx,u+rwx,g+rwx";
 				INSTALL_OWNER = $GROUP;
 				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64 ppc";
 			};
 			name = Debug;
@@ -243,22 +377,34 @@
 				);
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				INSTALL_GROUP = _ocsng;
 				INSTALL_MODE_FLAG = "a-w,ug+rx,o-rwx";
 				INSTALL_OWNER = _ocsng;
 				INSTALL_PATH = /Applications;
 				LD_MAP_FILE_PATH = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		06D657A9134FD99800981FE3 /* Build configuration list for PBXNativeTarget "ocscontact" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06D657AA134FD99800981FE3 /* Debug */,
+				06D657AB134FD99800981FE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "OCSNG" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

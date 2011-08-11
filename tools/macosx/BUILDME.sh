@@ -5,8 +5,12 @@ PATCHES_PATH="patches"
 TOOLS_PATH="tools/macosx"
 FINAL_PKG_NAME="unified_unix_agent-macosx"
 
+if [ "$1" == "-release" ]; then
+	RELEASE=1 
+fi
+
 if [ ! -x ../../inc ]; then
-	echo "You're probably building from CVS, you're missing the "inc" directory in ../../"
+	echo "You're probably building from BZR, you're missing the "inc" directory in ../../"
 	exit 1;
 fi
 
@@ -32,7 +36,8 @@ fi
 
 echo "Building OS X App"
 cd ocsng_app-xcode/
-xcodebuild
+xcodebuild -alltargets
+cp ./build/UninstalledProducts/ocscontact ./build/UninstalledProducts/OCSNG.app/Contents/Resources 
 cp -R ./build/UninstalledProducts/OCSNG.app ../
 xcodebuild clean
 cd ../
@@ -41,22 +46,15 @@ mkdir $OCSNG_PATH/Contents/Resources/lib
 echo "Creating default config"
 cp ../../etc/ocsinventory-agent/modules.conf ./modules.conf
 
-echo "server=http://inventory/ocsinventory" > ./ocsinventory-agent.cfg
+echo "server=http://ocsinventory-ng/ocsinventory" > ./ocsinventory-agent.cfg
 echo "tag=DEFAULT" >> ./ocsinventory-agent.cfg
 echo "logfile=/var/log/ocsng.log" >> ./ocsinventory-agent.cfg
-echo "delaytime=30" >> ./ocsinventory-agent.cfg
 
 echo 'Touching cacert.pem'
 echo "Make sure you replace me with your real cacert.pem" > cacert.pem
 
-echo 'creating package-root for building .pkg under'
-mkdir -p ./package-root/Applications
-
 echo "Buidling unified source"
-cp ./$PATCHES_PATH/Download-Darwin.pm.patch ../../
 cd ../../
-echo "Patching Download.pm for darwin use"
-patch -N ./lib/Ocsinventory/Agent/Option/Download.pm ./Download-Darwin.pm.patch
 
 echo 'removing non-MacOS/Generic backend modules'
 cd ./lib/Ocsinventory/Agent/Backend/OS/
@@ -70,7 +68,7 @@ cp -R blib/lib ./$TOOLS_PATH/$OCSNG_PATH/Contents/Resources
 cp ocsinventory-agent ./$TOOLS_PATH/
 make clean
 
-echo 'patching main perl script for OS X'
+echo 'patching main perl script for OSX'
 cd ./$TOOLS_PATH/
 patch -N ./ocsinventory-agent ./$PATCHES_PATH/ocsinventory-agent-darwin.patch
 cp ocsinventory-agent $OCSNG_PATH/Contents/Resources/
@@ -78,22 +76,48 @@ cp ocsinventory-agent $OCSNG_PATH/Contents/Resources/
 echo 'copying down darwin-dep libs'
 cp -R darwin-perl-lib/ $OCSNG_PATH/Contents/Resources/lib/
 
-echo 'copying .app to package-root'
-sudo cp -R $OCSNG_PATH ./package-root/Applications/
+echo 'copying uninstall script'
+cp scripts/uninstaller.sh $OCSNG_PATH/Contents/Resources/
 
-echo 'setting default permissions on ./package-root/Applications'
-sudo chown root:admin ./package-root/Applications
-sudo chmod 775 ./package-root/Applications
+#Only for custom agent
+if [ ! "$RELEASE" == 1 ]; then
+	echo 'creating package-root for building .pkg under'
+	mkdir -p ./package-root/Applications
+	
+	echo 'copying .app to package-root'
+	sudo cp -R $OCSNG_PATH ./package-root/Applications/
 
-# package maker might spit out some permissions errors if the app or it's folders are on your system already, this is usually OK, read them to make sure
-echo "building package"
-sudo rm -R -f ./OCSNG.pkg
-sudo /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -proj OCSNG.pmproj -p ./OCSNG.pkg
+	echo 'setting default permissions on ./package-root/Applications'
+	sudo chown root:admin ./package-root/Applications
+	sudo chmod 775 ./package-root/Applications
 
-FILES="ocsinventory-agent patches/tele_package.php-MacOSX.patch patches/multicritere.php-MacOSX.patch README INSTALL launchfiles OCSNG.pkg scripts ocsinventory-agent.cfg modules.conf cacert.pem"
+	# package maker might spit out some permissions errors if the app or it's folders are on your system already, this is usually OK, read them to make sure
+	echo "building package"
+	sudo rm -R -f ./OCSNG.pkg
+	sudo /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -proj OCSNG.pmproj -p ./OCSNG.pkg
 
-mkdir $FINAL_PKG_NAME
-cp -R $FILES $FINAL_PKG_NAME/
-zip -r $FINAL_PKG_NAME $FINAL_PKG_NAME/ -x \*CVS\* -x \*svn\*
-rm -R -f $FINAL_PKG_NAME
+	FILES="ocsinventory-agent README INSTALL launchfiles OCSNG.pkg scripts ocsinventory-agent.cfg modules.conf cacert.pem"
+
+	mkdir $FINAL_PKG_NAME
+	cp -R $FILES $FINAL_PKG_NAME/
+	zip -r $FINAL_PKG_NAME $FINAL_PKG_NAME/ -x \*CVS\* -x \*svn\*
+	rm -R -f $FINAL_PKG_NAME
+
+else
+	cd ./installer_gui/ocs_agent_config/
+	xcodebuild -alltargets
+	cp -R ./build/UninstalledProducts/ocs_agent_config.bundle ../iceberg/plugins/
+	xcodebuild clean
+	cd ./installer_gui/ocs_agent_daemon_options/
+	xcodebuild -alltargets
+	cp -R ./build/UninstalledProducts/ocs_agent_daemon_optionsg.bundle ../iceberg/plugins/
+	xcodebuild clean
+	cd ../../
+	cp ./scripts/installer.sh installer_gui/iceberg/scripts/
+	
+	sudo mv $OCSNG_PATH ./installer_gui/iceberg/
+
+	echo 'Now you can build final gui installer using iceberg'
+fi 
+
 echo "done"

@@ -1,0 +1,257 @@
+// !$*UTF8*$!
+{
+	0688BD6913EF53BA00094AA2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B44C200806739AE500D31AA1 /* ocs_agent_configPane.h */;
+		name = "ocs_agent_configPane.h: 20";
+		rLen = 0;
+		rLoc = 507;
+		rType = 0;
+		vrLen = 658;
+		vrLoc = 66;
+	};
+	0688BD6A13EF53BA00094AA2 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D5B49B7048680CD000E48DA /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/ocs/work/ocs/dev/ocs_agent_config/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	0688BD7213EF542700094AA2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B44C200906739AE500D31AA1 /* ocs_agent_configPane.m */;
+		name = "ocs_agent_configPane.m: 157";
+		rLen = 0;
+		rLoc = 4760;
+		rType = 0;
+		vrLen = 775;
+		vrLoc = 4047;
+	};
+	06992DAA12ED12D000448686 /* ocs_agent_configPane.m:137 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = B44C200906739AE500D31AA1 /* ocs_agent_configPane.m */;
+		functionName = "-getConfig:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 137;
+		location = ocs_agent_config;
+		modificationTime = 332886961.303945;
+		originalNumberOfMultipleMatches = 1;
+		state = 0;
+	};
+	069C9F9C13F2FE6200406C37 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B44C200906739AE500D31AA1 /* ocs_agent_configPane.m */;
+		name = "ocs_agent_configPane.m: 157";
+		rLen = 0;
+		rLoc = 4760;
+		rType = 0;
+		vrLen = 775;
+		vrLoc = 4047;
+	};
+	06CD1B9212DD81CD0064FB6B /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+		scmType = "";
+	};
+	06CD1B9312DD81CD0064FB6B /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	089C1669FE841209C02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Release;
+		activeTarget = 8D5B49AC048680CD000E48DA /* OCS Agent configuration */;
+		breakpoints = (
+			06992DAA12ED12D000448686 /* ocs_agent_configPane.m:137 */,
+		);
+		codeSenseManager = 06CD1B9312DD81CD0064FB6B /* Code sense */;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXBookmarksDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXBookmarksDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					200,
+					713.58349609375,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXBookmarksDataSource_LocationID,
+					PBXBookmarksDataSource_NameID,
+					PBXBookmarksDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXErrorsWarningsDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXErrorsWarningsDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					300,
+					45.2085,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXErrorsWarningsDataSource_TypeID,
+					PBXErrorsWarningsDataSource_MessageID,
+					PBXErrorsWarningsDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					22,
+					300,
+					791.58349609375,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXExecutablesDataSource_ActiveFlagID,
+					PBXExecutablesDataSource_NameID,
+					PBXExecutablesDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					904,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFindDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					120,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFindDataSource_MessageID,
+					PBXFindDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					864,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 334691892;
+			PBXWorkspaceStateSaveDate = 334691892;
+		};
+		perUserProjectItems = {
+			0688BD6913EF53BA00094AA2 /* PBXTextBookmark */ = 0688BD6913EF53BA00094AA2 /* PBXTextBookmark */;
+			0688BD6A13EF53BA00094AA2 /* PlistBookmark */ = 0688BD6A13EF53BA00094AA2 /* PlistBookmark */;
+			0688BD7213EF542700094AA2 /* PBXTextBookmark */ = 0688BD7213EF542700094AA2 /* PBXTextBookmark */;
+			069C9F9C13F2FE6200406C37 /* PBXTextBookmark */ = 069C9F9C13F2FE6200406C37 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 06CD1B9212DD81CD0064FB6B /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	089C167EFE841241C02AAC07 /* English */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {955, 627}}";
+			sepNavSelRange = "{144, 0}";
+			sepNavVisRect = "{{0, 0}, {955, 627}}";
+			sepNavWindowFrame = "{{193, -2}, {994, 756}}";
+		};
+	};
+	32DBCF630370AF2F00C91783 /* ocs_agent_config_Prefix.pch */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {955, 627}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {955, 627}}";
+			sepNavWindowFrame = "{{13, 117}, {994, 756}}";
+		};
+	};
+	8D5B49AC048680CD000E48DA /* OCS Agent configuration */ = {
+		activeExec = 0;
+	};
+	8D5B49B7048680CD000E48DA /* Info.plist */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {955, 627}}";
+			sepNavSelRange = "{498, 0}";
+			sepNavVisRect = "{{0, 0}, {955, 627}}";
+			sepNavWindowFrame = "{{446, 90}, {994, 756}}";
+		};
+	};
+	B44C200806739AE500D31AA1 /* ocs_agent_configPane.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1082, 507}}";
+			sepNavSelRange = "{507, 0}";
+			sepNavVisRange = "{66, 658}";
+			sepNavVisRect = "{{0, 0}, {711, 429}}";
+			sepNavWindowFrame = "{{459, 200}, {750, 558}}";
+		};
+	};
+	B44C200906739AE500D31AA1 /* ocs_agent_configPane.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1082, 3250}}";
+			sepNavSelRange = "{4760, 0}";
+			sepNavVisRange = "{4047, 775}";
+			sepNavVisRect = "{{0, 806}, {910, 675}}";
+			sepNavWindowFrame = "{{309, 90}, {949, 788}}";
+		};
+	};
+	B47CF354067B4E030066DBF6 /* English */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {955, 627}}";
+			sepNavSelRange = "{74, 0}";
+			sepNavVisRect = "{{0, 0}, {955, 627}}";
+			sepNavWindowFrame = "{{15, 117}, {994, 756}}";
+		};
+	};
+	B4A6B2A60673D523003CD9B2 /* InstallerSections.plist */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {955, 627}}";
+			sepNavSelRange = "{309, 0}";
+			sepNavVisRect = "{{0, 0}, {955, 627}}";
+			sepNavWindowFrame = "{{61, 75}, {994, 756}}";
+		};
+	};
+}

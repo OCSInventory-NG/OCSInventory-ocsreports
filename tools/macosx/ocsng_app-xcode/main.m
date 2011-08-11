@@ -1,52 +1,128 @@
 //
-//  main.m
-//  OCSNG
+// OCSINVENTORY-NG
 //
-//  Created by Wes Young - claimid.com/saxjazman9 on 5/28/08.
-//  CopyLeft Barely3am.com 2008. All rights reserved.
+// Copyleft Wes Young (claimid.com/saxjazman9 - Barely3am.com) 2008
+// 
 //
-//  This code is opensource and may be copied and modified as long as the source
-//  code is always made freely available.
-//  Please refer to the General Public Licence http://www.gnu.org/
+// This code is open source and may be copied and modified as long as the source
+// code is always made freely available.
+// Please refer to the General Public Licence http://www.gnu.org/
 //
+//
+
 
 #import <Cocoa/Cocoa.h>
+#include <Security/Authorization.h>
+#include <Security/AuthorizationTags.h>
 
 int main(int argc, char *argv[]) {
-	// Too be on the safe side, I chose the array length to be 10.
-	const int kPIDArrayLength = 10;
-	pid_t myArray[kPIDArrayLength];
-	unsigned int numberMatches;
-
-	// simple way of geting our PID, see if we're already running....
-	int error = GetAllPIDsForProcessName("OCSNG",myArray,kPIDArrayLength,&numberMatches,NULL);
-	if (error == 0) { // Success
-		if (numberMatches > 1) {
-			// There's already a copy of this app running
-			return -1;
-		}
-	}
-	// we're good, continue on
-	// create autorelease pool since we're not using NSApplication, which would do it for us
 	NSAutoreleasePool *autoreleasepool = [[NSAutoreleasePool alloc] init];
 	
-	// set the default status and the create the task ref
-	int status = -1;
+	[NSApplication sharedApplication];
 	
-   	NSTask *task = [[NSTask alloc] init];
+	int launchOcsAgent = 1;
 	
-	// set the path of main.pl and create the arguments (our path)
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"main"ofType:@"pl"];
-	NSArray *args = [NSArray arrayWithObjects:[NSString stringWithString:path],nil ]; // make sure you end with ,nil for 10.3.9-10.4.x compatibility
-	[task setArguments: args];
+	//Getting current user
+	NSString *user = NSUserName() ;
+
+
+	if (![user isEqualToString:@"root"]) {     //If not launched by Launchd
+		//show icon on Dock
+		if (![[NSUserDefaults  standardUserDefaults] boolForKey:@"hideDockIcon"]) {
+			ProcessSerialNumber psn = { 0, kCurrentProcess };
+			TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+		} 
+	    		
+		NSAlert *askOcsAgentLaunch = [[NSAlert alloc] init];
 	
-	// set the launch path of the task
-	[task setLaunchPath:[NSString stringWithString:path]];
-	[task launch];
-	[task waitUntilExit];
-	status = [task terminationStatus];
+		[askOcsAgentLaunch setMessageText:@"Do you want to launch OCS Inventory NG agent ?"];
+		[askOcsAgentLaunch setInformativeText:@"This will take contact with OCS Inventory NG server"];
+		[askOcsAgentLaunch addButtonWithTitle:@"Yes"];
+		[askOcsAgentLaunch addButtonWithTitle:@"No"];
+		[askOcsAgentLaunch setAlertStyle:NSInformationalAlertStyle];
+
+		
+		if ([askOcsAgentLaunch runModal] != NSAlertFirstButtonReturn) {
+			// No button was clicked, we don't launch OCS agent
+			launchOcsAgent = 0;
+		}
+		
+		[askOcsAgentLaunch release];
+	}	
+								 
+	if (launchOcsAgent == 1 ) {						    
 	
-	// relase the pool of ... 
+		// Too be on the safe side, I chose the array length to be 10.
+		const int kPIDArrayLength = 10;
+		pid_t myArray[kPIDArrayLength];
+		unsigned int numberMatches;
+
+		// simple way of geting our PID, see if we're already running....
+		int error = GetAllPIDsForProcessName("OCSNG",myArray,kPIDArrayLength,&numberMatches,NULL);
+		if (error == 0) { // Success
+			if (numberMatches > 1) {
+				// There's already a copy of this app running
+				return -1;
+			}
+		}
+
+		//We launch contact to server using Authorization Services (with asking password)
+		OSStatus myStatus;
+		AuthorizationFlags myFlags = kAuthorizationFlagDefaults;
+		AuthorizationRef myAuthorizationRef;
+ 
+ 
+		myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment,myFlags, &myAuthorizationRef);
+	
+		if (myStatus != errAuthorizationSuccess)
+			return myStatus;
+ 
+		do
+		{
+			{
+				AuthorizationItem myItems = {kAuthorizationRightExecute, 0, NULL, 0};
+				AuthorizationRights myRights = {1, &myItems};
+ 
+				myFlags = kAuthorizationFlagDefaults |
+						kAuthorizationFlagInteractionAllowed |
+						kAuthorizationFlagPreAuthorize |
+						kAuthorizationFlagExtendRights;
+				myStatus = AuthorizationCopyRights (myAuthorizationRef,&myRights, NULL, myFlags, NULL );
+			}
+ 
+			if (myStatus != errAuthorizationSuccess) break;
+			{
+				//We use an helper tool instead of running OCS agent directly
+				NSString *ocscontactPath = [[NSBundle mainBundle] pathForResource:@"ocscontact"ofType:nil];
+			
+				char *myArguments[] = { "", NULL };
+				FILE *myCommunicationsPipe = NULL;
+				char myReadBuffer[128];
+			
+				myFlags = kAuthorizationFlagDefaults;
+				myStatus = AuthorizationExecuteWithPrivileges
+						(myAuthorizationRef, [ocscontactPath UTF8String], kAuthorizationFlagDefaults, myArguments,
+						 &myCommunicationsPipe);
+		
+			
+				if (myStatus == errAuthorizationSuccess)
+					for(;;)
+					{
+						int bytesRead = read (fileno (myCommunicationsPipe),myReadBuffer, sizeof (myReadBuffer));
+					
+						if (bytesRead < 1) break;
+						write (fileno (stdout), myReadBuffer, bytesRead);
+					}
+			}
+		} while (0);
+ 
+		AuthorizationFree (myAuthorizationRef, kAuthorizationFlagDefaults);
+		
+	
+		return myStatus;		
+	}
+	
 	[autoreleasepool release];
-	return status;
+    return NSApplicationMain(argc,  (const char **) argv);
+	
 }

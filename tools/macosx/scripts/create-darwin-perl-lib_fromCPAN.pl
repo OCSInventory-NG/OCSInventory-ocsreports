@@ -30,9 +30,9 @@
 
 #
 # This is just a basic script that checks to make sure that all
-# the modules needed by OCSNG before you can compile it.
+# the modules needed by OCS MacOSX agent before you can compile it.
 #
-
+# You have to install LWP in your system to use this script
 #
 # WARNING: Before executing this script please modify your ~/.cpan/CPAN/MyConfig.pm file as follows:
 # $> perl -MCPAN -e shell
@@ -54,7 +54,6 @@
 # cpan> o conf commit
 # cpan> quit
 #
-# A simple: vi ~/.cpan/CPAN/MyConfig.pm should show that the changes were successful
 
 #
 # THIS IS A BETA SCRIPT! USE AT YOUR OWN RISK
@@ -64,6 +63,13 @@ use strict;
 use warnings;
 use Getopt::Long;
 use CPAN;
+use LWP::Simple qw/getstore/;
+
+my $libwww_tarball = "G/GA/GAAS/libwww-perl-5.837.tar.gz";
+my $macsysprofile_tarball = "D/DM/DMUEY/Mac-SysProfile-0.03.tar.gz";
+my $cryptssleay_tarball = "N/NA/NANIS/Crypt-SSLeay-0.58.tar.gz";
+my $netssleay_tarball = "F/FL/FLORA/Net-SSLeay-1.36.tar.gz";
+
 
 my %args;
 my %deps;
@@ -89,32 +95,18 @@ $args{$_} = $default{$_} foreach grep !exists $args{$_}, keys %default;
 # Place any core modules (+ verisons) that are required in the form: MOD::MOD 0.01
 #
 
-$deps{'CORE'} = [ text_to_hash( << '.') ];
-File::Temp
-LWP
-XML::Simple
-URI
-File::Listing
-G/GA/GAAS/libwww-perl-5.813.tar.gz
-Mac::SysProfile
-Net::IP
-Proc::Daemon
-Proc::PID::File
+$deps{'CORE'} = [ text_to_hash( << ".") ];
+$libwww_tarball
 XML::SAX
 XML::Parser
+XML::Simple
+URI
 XML::NamespaceSupport
-Proc::PID::File
+File::Listing
+Net::IP
 Compress::Zlib
 Compress::Raw::Zlib
 IO::Zlib
-IO-Compress-Zlib-2.011
-.
-
-# for ssl, include the Crypt::SSLeay library's
-# NOTE: YOU NEED OPENSSL pre-compiled on the system for this to work... You've been warned.
-$deps{'SSL'} = [ text_to_hash( << '.') ];
-Crypt::SSLeay
-Net::SSLeay
 .
 
 # push all the dep's into a @missing array
@@ -125,12 +117,21 @@ while (@deps) {
 	my $version = shift @deps;
 	push @missing, $module, $version;
 }
-	
+
 # assuming we've passed the --install, proceed with the compiling and install to our 
 if ( $args{'install'} ) {
 	while( @missing ) {
 		resolve_dep(shift @missing, shift @missing);
 	}
+	#Workaround to install Mac::Sysprofile see https://rt.cpan.org/Ticket/Display.html?id=52983 for more informations
+	&install_tarball("http://search.cpan.org/CPAN/authors/id",$macsysprofile_tarball); 
+}
+
+# for ssl, include the Crypt::SSLeay library's
+# NOTE: YOU NEED OPENSSL pre-compiled on the system for this to work... You've been warned.
+if ( $args{'ssl'} ) {
+	&install_tarball("http://search.cpan.org/CPAN/authors/id",$cryptssleay_tarball); 
+	&install_tarball("http://search.cpan.org/CPAN/authors/id",$netssleay_tarball); 
 }
 
 # convert the dep text list to a hash
@@ -153,14 +154,18 @@ sub resolve_dep {
     my $version = shift;
 	
 	local @INC = @INC;
+        my $user = `whoami`; chomp $user;
+	unshift @INC, "/Users/$user/Library/Application Support/.cpan";
 	if ( $ENV{'HOME'} ) {
-		unshift @INC, "$ENV{'HOME'}/.cpan";
+                unshift @INC, "$ENV{'HOME'}/.cpan";
 	}
 
+	#unshift @INC, "/Users/$user/~darwin-perl-lib";
+
     print "\nInstall module $module\n";
-	my $cfg = (eval { require CPAN::MyConfig });
-	unless($cfg){ die('CPAN Not configured properly'); }
-	CPAN::Shell->force('install',$module);
+    my $cfg = (eval { require CPAN::MyConfig });
+    unless($cfg){ die('CPAN Not configured properly'); }
+    CPAN::Shell->force('install',$module);
 }
 
 # the help....
@@ -177,6 +182,32 @@ The following switches will tell the tool to check for specific dependencies
 
 	--ssl		Incorporate SSL for package deployment (requires OPENSSL lib's to be installed)
 .
+}
+sub install_tarball {
+
+    my $cpan_url = shift;
+    my $tarball_url = shift;
+
+    my $tarball = $tarball_url; $tarball =~ s/(.*)\/(.*)\/(.*)\///;
+    my $mod_dir = $tarball ; $mod_dir =~ s/\.tar\.gz//;
+
+    print "Getting $cpan_url/$tarball_url file\n";
+    my $resp = getstore("$cpan_url/$tarball_url", $tarball);
+
+    die "Couldn't get $cpan_url/$tarball_url -> HTTP response: $resp." unless $resp == 200;
+
+    print "Extracting $tarball file\n";
+    open(EXCLUDE,">exclude_hiddens"); print EXCLUDE ".*"; close EXCLUDE;
+    system("tar -xvzf $tarball -X exclude_hiddens");  #We exclude hiddens files from extract (mainly for Mac::Sysprofile)
+    unlink "exclude_hiddens";
+
+    print "Installing $mod_dir module\n";
+    chdir($mod_dir); 
+    system("env ARCHFLAGS='-arch i386 -arch ppc -arch x86_64' perl Makefile.PL LIB='~/darwin-perl-lib' PREFIX='--perl-only'");    #Multi architectures support
+    system("make && make install");
+    chdir('..'); 
+    system("rm -Rf $mod_dir");
+
 }
 
 1;
