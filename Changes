@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/825333 (can see group's detail from computer's detail)
 		* Fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/825332
 		* fix default language to english (https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/824434)
 		* fix bug on add/delete computors in a group for restricted profil.

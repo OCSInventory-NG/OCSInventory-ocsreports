@@ -241,7 +241,7 @@ $i=0;
 			echo "<td bgcolor='white' align='center' valign='center'>&nbsp;</td>";
 			echo $td3.$l->g(607)." ";		
 			if( $_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES" || $valGroups["workgroup"]=="GROUP_4_ALL")
-				echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['group_show']."&popup=1&systemid=".$valGroups["group_id"]."' target='_blank'>".$valGroups["name"]."</td>";
+				echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$valGroups["group_id"]."' target='_blank'>".$valGroups["name"]."</td>";
 			else
 				echo "<b>".$valGroups["name"]."</b></td>";			
 				
@@ -280,6 +280,7 @@ $i=0;
 					  WHERE  g.hardware_id=h.id  and h.deviceid='_SYSTEMGROUP_'";
 		if( !($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES") )
 			$reqGroups .= " and workgroup = 'GROUP_4_ALL'";
+		$reqGroups .= " order by h.name";
 		$resGroups =mysql2_query_secure( $reqGroups, $_SESSION['OCS']["readServer"] );
 		$first = true;
 		while( $valGroups = mysql_fetch_array( $resGroups ) ) {
