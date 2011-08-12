@@ -100,7 +100,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	$def_onglets[strtoupper($l->g(651))]=strtoupper($l->g(651)); //GROUPES DE SERVEURS
 	//definition of option NEW every time
 	$optionList['NEW']=$l->g(586);
-
+}
 
 
 //if no select => first onget selected
@@ -197,7 +197,6 @@ $select=show_modif($optionList,'NEW_RAZ',2,$form_name);
 		}
 	}
 	echo "</td></tr></table>";
-}
 echo "</form>";
 
 ?>
