@@ -440,10 +440,13 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 					$tvalue = " AND TVALUE = '".$original_field_value_complement."'";
 				//echo $field_value_complement[$i];
 				//recherche des id activ�s de ce paquet
-				$sql_temp="select id from download_enable";
+				$sql_temp = "select id from download_enable d_e left join download_available d_a on d_a.fileid=d_e.fileid where 1=1 ";
+				IF (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
+					and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES" )
+					$sql_temp .= " and d_a.comment not like '%[VISIBLE=0]%'";	
 				if ($field_value_complement[$i] != "'NULL'" and 
 						$field_value_complement[$i] != "NULL")
-				 $sql_temp.=" where fileid=".$field_value_complement[$i];
+				 $sql_temp.=" and fileid=".$field_value_complement[$i];
 				$result_temp = mysql2_query_secure( $sql_temp, $_SESSION['OCS']["readServer"] );
 				while( $val_temp = mysql_fetch_array($result_temp) ) {
 						$list[]=addslashes($val_temp['id']); 						
@@ -968,7 +971,8 @@ $sort_list=array("NETWORKS-IPADDRESS" =>$l->g(82).": ".$l->g(34),
 				 "PRINTERS-NAME"=>$l->g(79).": ".$l->g(49),
 				 "PRINTERS-DRIVER"=>$l->g(79).": ".$l->g(278),
 				 "PRINTERS-PORT"=>$l->g(79).": ".$l->g(279),
-				 "PRINTERS-DESCRIPTION"=>$l->g(79).": ".$l->g(53));
+				 "PRINTERS-DESCRIPTION"=>$l->g(79).": ".$l->g(53),
+				 );
 		
 		
 $optSelectField=array( "NETWORKS-IPADDRESS"=>$sort_list["NETWORKS-IPADDRESS"],
@@ -1013,7 +1017,8 @@ $optSelectField=array( "NETWORKS-IPADDRESS"=>$sort_list["NETWORKS-IPADDRESS"],
 			   "STORAGES-SERIALNUMBER"=>$sort_list["STORAGES-SERIALNUMBER"],
 			   "STORAGES-DISKSIZE" =>$sort_list["STORAGES-DISKSIZE"],
 			   "STORAGES-DISKSIZE-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
-			   "STORAGES-DISKSIZE-LBL"=>"MB",);//$l->g(82).": ".$l->g(33));
+			   "STORAGES-DISKSIZE-LBL"=>"MB"
+			   );
 
 	//ajout des champs de accountinfo
 $optSelectField = array_merge($optSelectField_account,$optSelectField);
@@ -1062,7 +1067,8 @@ $sort_list_2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
 						 "STORAGES-TYPE"=>$l->g(63).": ".$l->g(66),
 						 "STORAGES-DESCRIPTION"=>$l->g(63).": ".$l->g(53),
 						 "STORAGES-MODEL"=>$l->g(63).": ".$l->g(65),
-			   			 "BIOS-TYPE"=>$l->g(273).": ".$l->g(66));
+			   			 "BIOS-TYPE"=>$l->g(273).": ".$l->g(66)
+						);
 
 $sql_history_download = "select FILEID as ID,NAME from download_available d_a";
 IF (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
@@ -1114,7 +1120,7 @@ $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"]
 				 "BIOS-TYPE-SQL1"=>"select distinct TYPE as ID,TYPE as NAME from bios order by 2",
 				 "BIOS-TYPE-SELECT"=>array('exact'=>$l->g(507)
 				 									,'diff'=>$l->g(508)
-				 									),		
+				 									)
 				 );
 		//ajout des champs de accountinfo
 $opt2Select = array_merge($opt2Select_account,$opt2Select);			 
