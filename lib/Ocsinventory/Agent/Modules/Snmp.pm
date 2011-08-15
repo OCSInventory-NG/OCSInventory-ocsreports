@@ -163,6 +163,10 @@ sub snmp_end_handler {
    
    my $ip=$self->{netdevices};
    my $communities=$self->{communities};
+   if ( ! defined ($communities ) ) {
+      $logger->debug("We have no Community from server, we use default public community");
+      $communities=[{VERSION=>"2",NAME=>"public"}];
+   }
 
    my ($name,$comm,$error,$system_oid);
 
@@ -195,23 +199,33 @@ sub snmp_end_handler {
       # Search for the good snmp community in the table community
       LIST_SNMP: foreach $comm ( @$communities ) {
 
-         # The snmp v3 will be implemented after
-	 ($session, $error) = Net::SNMP->session(
+          # Test if we use SNMP v3
+          if ( $comm->{VERSION} eq "3"  ) {
+	    ($session, $error) = Net::SNMP->session(
+                -retries     => 1 ,
+                -timeout     => 3,
+                -version     => 'snmpv'.$comm->{VERSION},
+                -hostname    => $device->{IPADDR},
+		# -community   => $comm->{NAME},
+                -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
+	        -username      => $comm->{USER},
+                -authpassword  => $comm->{AUTHPASSWD},
+                -authprotocol  => $comm->{AUTHPROTO},
+                -privpassword  => $comm->{PRIVPASSWD},
+                -privprotocol  => $comm->{PRIVPROTO},
+             );
+          } else {
+            # We have an older version v2c ou v1
+	    ($session, $error) = Net::SNMP->session(
                 -retries     => 1 ,
                 -timeout     => 3,
                 -version     => 'snmpv'.$comm->{VERSION},
                 -hostname    => $device->{IPADDR},
 		          -community   => $comm->{NAME},
                 -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
-		#-username      => $comm->{username}, # V3 test after
-		#-authkey       => $comm->{authkey},
-                #-authpassword  => $comm->{authpasswd},
-                #-authprotocol  => $comm->{authproto},
-                #-privkey       => $comm->{privkey},
-                #-privpassword  => $comm->{privpasswd},
-                #-privprotocol  => $comm->{privproto},
-          );
-           unless (defined($session)) {
+             );
+          };
+          unless (defined($session)) {
              $logger->error("Snmp ERROR: $error");
           } else {
 	          $self->{snmp_session}=$session;
@@ -226,7 +240,7 @@ sub snmp_end_handler {
           }
       }
 		
-      if ( defined $name ) { 
+      if ( defined $self->{snmp_session} ) { 
         # We have found the good Community, we can scan this equipment
         my ($constr_oid,$full_oid,$device_name,$description,$location,$contact,$uptime,$domain,$macaddr);
 
