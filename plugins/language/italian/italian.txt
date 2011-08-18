@@ -1219,6 +1219,7 @@
 2026 Sono attive le credenziali di default per l'accesso alla GUI di OCS-NG
 2027 Cambia la password dell'account 'admin' per l'accesso alla GUI di OCS-NG
 
+
 2030 Installazione OCS-NG Inventory
 2031 La versione attualmente installata
 2032 è precedente a questa versione
