@@ -28,6 +28,7 @@
 	if (array($accountinfo_value['TAB_OPTIONS'])){
 		$tab_options['REPLACE_VALUE']['ID']=$accountinfo_value['TAB_OPTIONS']['REPLACE_VALUE'][$list_fields_flip[$tag]];
 	}
+
 	unset($list_fields);
 	$list_fields['ID']='ID';
 	$tab_options['LBL']['ID']=$list_fields_flip[$tag];

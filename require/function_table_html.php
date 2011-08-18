@@ -1624,6 +1624,19 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 			}
 			array_unshift ($data, $value_temp);
 		}
+	//	echo $protectedPost['tri_'.$table_name];
+	//	echo "<br><hr>";
+		//p($tab_options['REPLACE_VALUE']);
+		if(isset($tab_options['REPLACE_VALUE'][$protectedPost['tri_'.$table_name]])){
+			//p($data);
+//echo "<br><hr><br>";
+			if ($protectedPost['sens_repart_tag'] == 'ASC')
+				asort($data);
+			else
+				arsort($data);
+			//	p($data);
+		}
+		
 	return array('ENTETE'=>$entete,'DATA'=>$data,'correct_list_fields'=>$correct_list_fields,'correct_list_col_cant_del'=>$correct_list_col_cant_del);
 	}else
 	return false;
