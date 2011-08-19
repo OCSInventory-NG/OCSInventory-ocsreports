@@ -1,5 +1,7 @@
 Revision history for ocsreports 
 2.0.1
+		* fix bug: use separator for column name on export file
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/807412
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/814050
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/825333 (can see group's detail from computer's detail)
 		* Fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/825332
