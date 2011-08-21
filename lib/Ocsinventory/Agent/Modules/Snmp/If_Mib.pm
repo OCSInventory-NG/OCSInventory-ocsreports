@@ -24,21 +24,71 @@ sub snmp_run {
    my $snmp_ifspeed="1.3.6.1.2.1.2.2.1.5.";
    my $snmp_physAddr="1.3.6.1.2.1.2.2.1.6.";
    my $snmp_ifadminstatus="1.3.6.1.2.1.2.2.1.7.";
+   my $snmp_ipAdEntIfIndex="1.3.6.1.2.1.4.20.1.2";
+   my $snmp_ipAdEntNetMask="1.3.6.1.2.1.4.20.1.3.";
+   my $snmp_ipRouteIfIndex="1.3.6.1.2.1.4.21.1.2.";
+   my $snmp_ipRouteNextHop="1.3.6.1.2.1.4.21.1.7.";
+   my $snmp_ipRouteType="1.3.6.1.2.1.4.21.1.8";
 
    my $SPEED=undef; 
    my $MACADDR=undef;
    my $SLOT=undef; 
    my $STATUS=undef; 
    my $TYPE=undef;
+   my $IPADDR=undef;
+   my $IPMASK=undef;
+   my $IPGATEWAY=undef;
+   my $IPSUBNET=undef;
 
    my $ref;
    my $result_snmp;
+   my $address_index=undef;
+   my $netmask_index=undef;
+   my $network_index=undef;
+   my $gateway_index=undef;
+
+   # the informations on ip address and gateway are not indexed on the 
+   # interfaces so we must get it before and integrate the informations
+   # after for each interface
+
+   # We take all the snmp_ifadminstatus in a table if this information exist
+   $result_snmp=$session->get_entries(-columns => [$snmp_ipAdEntIfIndex]);
+   foreach my $result ( keys %{$result_snmp} ) {
+      if ( $result =~ /1\.3\.6\.1\.2\.1\.4\.20\.1\.2\.(\S+)/ ) {
+         my $address=$1;
+         $address_index->{$result_snmp->{$result}}=$address;
+         # We have the address so we can lokk for the netmask associated
+         my $netmask=$session->get_request(-varbindlist => [$snmp_ipAdEntNetMask.$address]);
+         if ( defined($netmask->{$snmp_ipAdEntNetMask.$address} ) ) {
+	    $netmask_index->{$result_snmp->{$result}}=$netmask->{$snmp_ipAdEntNetMask.$address};
+         }
+      }
+   }
+   # now we can do the same thing for the gateway
+   # It is an other index and only indirect information (routing)
+   # are required actually
+   $result_snmp=$session->get_entries(-columns => [$snmp_ipRouteType]);
+   foreach my $result ( keys %{$result_snmp} ) {
+      if ( $result =~ /1\.3\.6\.1\.2\.1\.4\.21\.1\.8\.(\S+)/ ) {
+         if ( $result_snmp->{$result} == 4  ) {
+            my $net_address=$1;
+            # We get the index associating the interface with the gateway and subnet
+            my $ind=$session->get_request(-varbindlist => [$snmp_ipRouteIfIndex.$net_address] );
+	    $ind=$ind->{$snmp_ipRouteIfIndex.$net_address};
+            # We ave already the network so we can add the information with the index
+            $network_index->{$ind}=$net_address;
+            # We get the gateway
+            my $gateway=$session->get_request(-varbindlist => [$snmp_ipRouteNextHop.$net_address] );
+            $gateway_index->{$ind}=$gateway->{$snmp_ipRouteNextHop.$net_address};
+         }
+      }
+   }
 
    # We look for interfaces
    $result_snmp=$session->get_entries(-columns => [$snmp_ifdescr]);
    foreach my $result ( keys  %{$result_snmp} ) {
       # We work on real interface and no vlan
-      if ( $result_snmp->{$result} =~ /[eE]th|FC/ ) {
+      if ( $result_snmp->{$result} =~ /[eE]th|FC|[bB]ond/ ) {
          if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.2\.(\S+)/ ) {
             $ref=$1;
             $SLOT=$result_snmp->{$result};
@@ -84,18 +134,36 @@ sub snmp_run {
                $STATUS="Down";
             }
 
+           # If we have the adress ip and netmask we can put it
+           if ( defined ( $address_index ) ) {
+              $IPADDR=$address_index->{$ref};
+              $IPMASK=$netmask_index->{$ref};
+           }
+           if ( defined ( $network_index ) ) {
+	      $IPGATEWAY=$gateway_index->{$ref};
+	      $IPSUBNET=$network_index->{$ref};
+           }
+
            $common->addSnmpNetwork( {
-                TYPE => $TYPE,
-                SLOT => $SLOT,
-                SPEED => $SPEED,
-                MACADDR => $MACADDR,
-                STATUS => $STATUS,
+                TYPE      => $TYPE,
+                SLOT      => $SLOT,
+                SPEED     => $SPEED,
+                MACADDR   => $MACADDR,
+                STATUS    => $STATUS,
+                IPADDR    => $IPADDR,
+		IPMASK    => $IPMASK,
+		IPGATEWAY => $IPGATEWAY,
+                IPSUBNET  => $IPSUBNET,
                 });
            $MACADDR=undef;
            $SLOT=undef;
            $STATUS=undef;
            $TYPE=undef;
            $SPEED=undef;
+   	   $IPADDR=undef;
+   	   $IPMASK=undef;
+   	   $IPGATEWAY=undef;
+           $IPSUBNET=undef;
         }
       }
    } # End foreach result

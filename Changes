@@ -4,6 +4,7 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * New SNMP data using If_Mib.pm: IP address, netmask, gateway and routing informations
        * Use the "public" SNMP community if no community defined in OCS server configuration
        * Various bug fixes in Snmp.pm
        * New 2.0 MacOSX integration
