@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* add error message when max_allowed_packet (mysql configuration) is smaller than the file sent 
 		* fix bug: use separator for column name on export file
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/807412
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/814050
