@@ -105,7 +105,7 @@ if (!isset($protectedGet['option'])){
 }
 $i=0;
 echo "<br><br><table width='90%' border=0 align='center'><tr align=center>";
-$nb_col=array(10,13,13);
+$nb_col=array(13,13,13);
 $j=0;
 $index_tab=0;
 //intitialisation du tableau de plugins
@@ -114,7 +114,11 @@ while ($list_plugins[$i]){
 	unset($valavail);
 	//v�rification de l'existance des donn�es
 	if (isset($list_avail[$list_plugins[$i]])){
-		$sql_avail="select count(*) from ".$list_avail[$list_plugins[$i]]." where hardware_id=".$systemid;
+		if (stripos($list_avail[$list_plugins[$i]], 'select') !== false)
+			$sql_avail=$list_avail[$list_plugins[$i]];
+		else
+			$sql_avail="select count(*) from ".$list_avail[$list_plugins[$i]] . " where 1=1 ";
+		$sql_avail .= " and hardware_id=".$systemid;
 		$resavail = mysql_query( $sql_avail, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$valavail = mysql_fetch_array($resavail);
 	}
