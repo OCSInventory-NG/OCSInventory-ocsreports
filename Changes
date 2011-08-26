@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* add a query condition to display icon (computer's details)
 		* delete verdana font
 		* add error message when max_allowed_packet (mysql configuration) is smaller than the file sent 
 		* fix bug: use separator for column name on export file
