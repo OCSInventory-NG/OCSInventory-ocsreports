@@ -68,7 +68,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 			else
 			$lbl=$_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name];
 			$col[$lbl]=$name;
-			$toBeWritten .=$name.";";
+			$toBeWritten .=$name.$separator;
 		}elseif($name == 'NAME' or $name == $l->g(23)){
 			$col['name_of_machine']="name_of_machine";
 			$toBeWritten .="machine".$separator;

@@ -67,7 +67,6 @@ echo "<script language='javascript'>
 
 $umf = "upload_max_filesize";
 $valTumf = ini_get( $umf );
-//echo $valTumf;
 $valBumf = return_bytes( $valTumf );
 
 $form_name="upload_client";
@@ -92,9 +91,13 @@ if (isset($_FILES['file_upload']['name'])){
 		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 		$sql="INSERT INTO deploy values ('%s','%s')";
 		$arg=array($fname,$binary);
-		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
-		msg_success($l->g(137)." ".$_FILES['file_upload']['name']." ".$l->g(234));
-		$tab_options['CACHE']='RESET';
+		$result=mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+		if (!$result)
+			msg_error($l->g(2003).mysql_errno($_SESSION['OCS']["writeServer"])."<br>".mysql_error($_SESSION['OCS']["writeServer"]));
+		else{
+			msg_success($l->g(137)." ".$_FILES['file_upload']['name']." ".$l->g(234));
+			$tab_options['CACHE']='RESET';
+		}
 	}else{
 		msg_error($l->g(920));
 	}
