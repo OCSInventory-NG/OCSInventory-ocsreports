@@ -33,7 +33,11 @@ $arg=$protectedGet['stat'];
 $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);	
 $item = mysql_fetch_object($result);
 $total_mach=$item->c;
-
+if ($total_mach<=0){
+	msg_error($l->g(837));
+	require_once(FOOTER_HTML);
+	die();
+}
 $sql="select d.hardware_id as id,d.comments as date_valid 
 					from devices d,download_enable d_e,download_available d_a
 			where d.name='DOWNLOAD' 
@@ -77,44 +81,93 @@ while($item = mysql_fetch_object($result)){
 }
 
 ksort($nb_4_hour);
+$i=0;
 foreach ($nb_4_hour as $key=>$value){
 	$ancienne+=$value;
-	$legende[]=date ( "d/m/Y H:00" ,$key);
-	$data[]=(($ancienne*100) / $total_mach);
-	
+	$data[$i]=round((($ancienne*100) / $total_mach),2);
+	$legende[$i]=date ( "d/m/Y H:00" ,$key)."<br>".$data[$i]."%";
+	$i++;
 }
-
 if (isset($data) and count($data) != 1){
-	if ($_SESSION['OCS']['useflash'] == 1){
-		$strXML2="<graph caption='".$l->g(1250)." (".$protectedGet['stat'].") ".$l->g(81).": ".$protectedGet['ta']."'  xAxisName='".$l->g(232)."'
-		yAxisName='".$l->g(1125)."' numberPrefix='' showValues='0' 
-		numVDivLines='10' showAlternateVGridColor='1' AlternateVGridColor='e1f5ff' 
-		divLineColor='e1f5ff' vdivLineColor='e1f5ff' yAxisMaxValue='100'  yAxisMinValue='0'
-		bgColor='E9E9E9' canvasBorderThickness='0' decimalPrecision='0' rotateNames='1'>
-		<categories>";
-	}
-	foreach ($legende as $value){
-		if ($_SESSION['OCS']['useflash'] == 1)
-			$strXML2.="<category name='".$value."' />";	
-	}
-	if ($_SESSION['OCS']['useflash'] == 1){
-		$strXML2.="</categories>
-				<dataset seriesName='' color='B1D1DC'  areaAlpha='60' showAreaborder='1' areaBorderThickness='1' areaBorderColor='7B9D9D'>";
-	}
-	foreach ($data as $value){
-		if ($_SESSION['OCS']['useflash'] == 1)
-			$strXML2.="<set value='".$value."' />";	
-	}
-	if ($_SESSION['OCS']['useflash'] == 1){
-		$strXML2.="</dataset></graph> ";
-		echo renderChartHTML(FCHARTS."/Charts/FCF_StackedArea2D.swf", "", $strXML2, "speedStat", 800, 500);
-	}else{
+	echo '<br><div  class="mlt_bordure" >';
+	echo '<CENTER><div id="chart" style="width: 700px; height: 500px"></div></CENTER>';
+	echo '<script type="text/javascript">
+$(function() {
+  $("#chart").chart({
+  template: "line_speed_stat",
+  tooltips: {
+    serie1: ["'.implode('","',$legende).'"],
+  },
+  values: {
+    serie1: ['.implode(',',$data).'],
+  },
+  defaultSeries: {
+    fill: true,
+    stacked: false,
+    highlight: {
+      scale: 2
+    },
+    startAnimation: {
+      active: true,
+      type: "grow",
+      easing: "bounce"
+    }
+  }
+});
+
+});
+
+$.elycharts.templates[\'line_speed_stat\'] = {
+  type: "line",
+  margins: [10, 10, 20, 50],
+  defaultSeries: {
+    plotProps: {
+      "stroke-width": 4
+    },
+    dot: true,
+    dotProps: {
+      stroke: "white",
+      "stroke-width": 2
+    }
+  },
+  series: {
+    serie1: {
+      color: "blue"
+    },
+  },
+  defaultAxis: {
+    labels: true
+  },
+  features: {
+    grid: {
+      draw: [true, false],
+      props: {
+        "stroke-dasharray": "-"
+      }
+    },
+    legend: {
+      horizontal: false,
+      width: 80,
+      height: 50,
+      x: 220,
+      y: 250,
+      dotType: "circle",
+      dotProps: {
+        stroke: "white",
+        "stroke-width": 2
+      },
+      borderProps: {
+        opacity: 0.3,
+        fill: "#c0c0c0",
+        "stroke-width": 0
+      }
+    }
+  }
+};		</script>';	
+echo "</div><br>";
+	
 		
-		$_SESSION['OCS']['STAT_SPEED_TELEDEPLOY']['DATA']=$data;
-		$_SESSION['OCS']['STAT_SPEED_TELEDEPLOY']['NAME']=$legende;
-		echo "<img src='index.php?".PAG_INDEX."=".$pages_refs['jp_teledeploy_speed_stats']."&no_header=1' border=0> ";	
-		
-	}
+
 }else
 	msg_warning($l->g(989));
 	

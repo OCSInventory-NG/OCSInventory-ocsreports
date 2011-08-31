@@ -1,5 +1,7 @@
 Revision history for ocsreports 
 2.0.1
+		* show macaddress info and fix bug on link.
+		* delete jpgraph and fusionCharts librairies. Now we use elycharts librairie (http://elycharts.com) 
 		* fix http://forums.ocsinventory-ng.org/viewtopic.php?pid=41775#p41775 and use language files 
 		* add a query condition to display icon (computer's details)
 		* delete verdana font

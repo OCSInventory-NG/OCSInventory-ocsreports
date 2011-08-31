@@ -37,35 +37,81 @@ while( !feof($fd) ) {
 
 fclose( $fd );
 if (isset($find_connexion)){
-	if ($_SESSION['OCS']['useflash'] == 1){
-		$strXML2="<graph  xAxisName='".$l->g(232)."'
-		yAxisName='".$l->g(55)."' numberPrefix='' showValues='0' 
-		numVDivLines='10' showAlternateVGridColor='1' AlternateVGridColor='e1f5ff' 
-		divLineColor='e1f5ff' vdivLineColor='e1f5ff' yAxisMaxValue='".$max."'  yAxisMinValue='0'
-		bgColor='E9E9E9' canvasBorderThickness='0' decimalPrecision='0' rotateNames='1'>
-		<categories>";
-	}
-	$setvalue='';
-	$data_value=array();
-	foreach ($find_connexion as $name=>$value){
-		if ($_SESSION['OCS']['useflash'] == 1){
-			$strXML2.="<category name='".$name."' />";
-			$setvalue.="<set value='".$value."' />";
-		}
-		//array_push($data_value,$value);
-	}
-	if ($_SESSION['OCS']['useflash'] == 1){
-		$strXML2.="</categories>
-		<dataset seriesName='' color='B1D1DC'  areaAlpha='60' showAreaborder='1' areaBorderThickness='1' areaBorderColor='7B9D9D'>";
-		$strXML2.=$setvalue;
-		$strXML2.="</dataset></graph> ";
-		$stats.= renderChartHTML(FCHARTS."/Charts/FCF_StackedArea2D.swf", "", $strXML2, "speedStat", 800, 500);
-	}else
-	{
-		$_SESSION['OCS']['STAT_CNX']['DATA']=$find_connexion;
-		$stats.= "<img src='index.php?".PAG_INDEX."=".$pages_refs['jp_activity_stats']."&no_header=1' border=0> ";
- 		
-	}
+	$stats.= '<CENTER><div id="chart" style="width: 700px; height: 500px"></div></CENTER>';
+	$stats.= '<script type="text/javascript">
+$(function() {
+  $("#chart").chart({
+  template: "line_speed_stat",
+  tooltips: {
+    serie1: ["'.implode('","',array_keys($find_connexion)).'"],
+  },
+  values: {
+    serie1: ['.implode(',',$find_connexion).'],
+  },
+  defaultSeries: {
+    fill: true,
+    stacked: false,
+    highlight: {
+      scale: 2
+    },
+    startAnimation: {
+      active: true,
+      type: "grow",
+      easing: "bounce"
+    }
+  }
+});
+
+});
+
+$.elycharts.templates[\'line_speed_stat\'] = {
+  type: "line",
+  margins: [10, 10, 20, 50],
+  defaultSeries: {
+    plotProps: {
+      "stroke-width": 4
+    },
+    dot: true,
+    dotProps: {
+      stroke: "white",
+      "stroke-width": 2
+    }
+  },
+  series: {
+    serie1: {
+      color: "blue"
+    },
+  },
+  defaultAxis: {
+    labels: true
+  },
+  features: {
+    grid: {
+      draw: [true, false],
+      props: {
+        "stroke-dasharray": "-"
+      }
+    },
+    legend: {
+      horizontal: false,
+      width: 80,
+      height: 50,
+      x: 220,
+      y: 250,
+      dotType: "circle",
+      dotProps: {
+        stroke: "white",
+        "stroke-width": 2
+      },
+      borderProps: {
+        opacity: 0.3,
+        fill: "#c0c0c0",
+        "stroke-width": 0
+      }
+    }
+  }
+};		</script>';	
+	
 }else
 	msg_warning($l->g(766));
 ?>

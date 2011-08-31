@@ -11,12 +11,12 @@
 
 require_once('require/function_computers.php');
 //show mac address on the tab
-$show_mac_addr=false;
+$show_mac_addr=true;
 
 $form_name="show_all";
 $table_name="list_show_all";
 
-if (isset($protectedGet['filtre'])){
+if (isset($protectedGet['filtre']) and !isset($protectedPost['FILTRE'])){
 	$protectedPost['FILTRE']=$protectedGet['filtre'];
 	$protectedPost['FILTRE_VALUE']=$protectedGet['value'];	
 }
@@ -80,8 +80,12 @@ $list_fields2 = array ( $l->g(46) => "h.lastdate",
 					   $l->g(209) => "e.bversion",
 					   $l->g(34) => "h.ipaddr",
 					   $l->g(557) => "h.userdomain");
-if ($show_mac_addr)
+if ($show_mac_addr){
 	$list_fields2[$l->g(95)]="n.macaddr";
+	$list_fields2[$l->g(208)]="n.ipmask";
+	$list_fields2[$l->g(207)]="n.ipgateway";
+	$list_fields2[$l->g(331)]="n.ipsubnet";
+}
 					   
 $list_fields=array_merge ($list_fields,$list_fields2);
 //asort($list_fields); 
@@ -109,8 +113,7 @@ $queryDetails  .= "LEFT JOIN bios e ON e.hardware_id=h.id
 				where deviceid<>'_SYSTEMGROUP_' 
 						AND deviceid<>'_DOWNLOADGROUP_' ";
 if ($show_mac_addr)
-	$queryDetails  .= " AND n.status='Up'
-						AND n.type='Ethernet' ";
+	$queryDetails  .= " AND h.IPADDR=n.IPADDRESS ";
 if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
 	$queryDetails  .= "AND ".$_SESSION['OCS']["mesmachines"];
 $queryDetails  .=" group by h.name";
