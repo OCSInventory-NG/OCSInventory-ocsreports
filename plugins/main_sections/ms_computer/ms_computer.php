@@ -105,7 +105,7 @@ if (!isset($protectedGet['option'])){
 }
 $i=0;
 echo "<br><br><table width='90%' border=0 align='center'><tr align=center>";
-$nb_col=array(13,13,13);
+$nb_col=array(10,20,13);
 $j=0;
 $index_tab=0;
 //intitialisation du tableau de plugins

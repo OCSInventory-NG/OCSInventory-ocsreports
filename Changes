@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* fix logout of CAS connexion (http://forums.ocsinventory-ng.org/viewtopic.php?pid=41923#p41923)
 		* fix bug on package search
 		* show macaddress info and fix bug on link.
 		* delete jpgraph and fusionCharts librairies. Now we use elycharts librairie (http://elycharts.com) 
