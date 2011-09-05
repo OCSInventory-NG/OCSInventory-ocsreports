@@ -446,7 +446,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 					$sql_temp .= " and d_a.comment not like '%[VISIBLE=0]%'";	
 				if ($field_value_complement[$i] != "'NULL'" and 
 						$field_value_complement[$i] != "NULL")
-				 $sql_temp.=" and fileid=".$field_value_complement[$i];
+				 $sql_temp.=" and d_e.fileid=".$field_value_complement[$i];
 				$result_temp = mysql2_query_secure( $sql_temp, $_SESSION['OCS']["readServer"] );
 				while( $val_temp = mysql_fetch_array($result_temp) ) {
 						$list[]=addslashes($val_temp['id']); 						

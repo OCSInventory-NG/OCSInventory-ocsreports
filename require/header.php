@@ -58,6 +58,15 @@ if ($_POST['RELOAD_CONF'] == 'RELOAD'){
 
 /*****************************************************LOGOUT*********************************************/
 if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
+	//Contrib of FranciX (http://forums.ocsinventory-ng.org/viewtopic.php?pid=41923#p41923)
+	if($_SESSION['OCS']['cnx_origine'] == "CAS"){
+		require_once(BACKEND.'require/lib/phpcas/CAS.php');
+		require_once(BACKEND.'require/cas.config.php');
+		$cas=new phpCas();
+		$cas->client(CAS_VERSION_2_0,$cas_host,$cas_port,$cas_uri);
+		$cas->logout();		
+	}
+	//end contrib
 	unset($_SESSION['OCS']);
 	unset($_GET);
 }
@@ -340,10 +349,9 @@ if (!isset($_SESSION['OCS']["ipdiscover"])){
 if (!isset($_SESSION['OCS']["usecache"]) or !isset($_SESSION['OCS']["tabcache"])){
 	$conf_gui=array('usecache'=>'INVENTORY_CACHE_ENABLED',
 					'tabcache'=>'TAB_CACHE',
-					'useflash'=>'USE_FLASH',
 					'SUPPORT'=>'SUPPORT',
 					'USE_NEW_SOFT_TABLES'=>'USE_NEW_SOFT_TABLES');
-	$default_value_conf=array('INVENTORY_CACHE_ENABLED'=>1,'TAB_CACHE'=>0,'USE_FLASH'=>1,'SUPPORT'=>1,'USE_NEW_SOFT_TABLES' =>0);
+	$default_value_conf=array('INVENTORY_CACHE_ENABLED'=>1,'TAB_CACHE'=>0,'SUPPORT'=>1,'USE_NEW_SOFT_TABLES' =>0);
 	$values=look_config_default_values($conf_gui);
 	foreach ($conf_gui as $k=>$v){
 		if (isset($values['ivalue'][$v]))

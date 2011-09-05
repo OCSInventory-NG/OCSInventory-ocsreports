@@ -48,17 +48,23 @@ $res =mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 $row=mysql_fetch_object($res);
 printEnTete( $l->g(498)." <b>".$row -> name."</b> (".$l->g(296).": ".$protectedGet["stat"]." )");
 
-if ($_SESSION['OCS']['useflash'] == 1){
-	$strXML  = "<graph caption='".$l->g(498).$row -> name."' subCaption='(".$l->g(296).": ".$protectedGet["stat"]." )' 
-			showPercentValues='1' pieSliceDepth='25' showNames='1' decimalPrecision='0' >";
-}
-/*$funnelXML="<graph isSliced='1' slicingDistance='4' decimalPrecision='0'>
-	<set name='Selected' value='41' color='99CC00' alpha='85'/>
-	<set name='Tested' value='84' color='333333' alpha='85'/>
-	<set name='Interviewed' value='126' color='99CC00'  alpha='85'/>
-	<set name='Candidates Applied' value='180' color='333333' alpha='85'/>
-</chart>";*/
 
+//count max values for stats
+$sql_count="SELECT COUNT(id) as nb 
+			FROM devices d, download_enable e 
+			WHERE e.fileid='%s'
+ 				AND e.id=d.ivalue 
+				AND name='DOWNLOAD' 
+				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
+$arg=$protectedGet["stat"];
+$rescount =mysql2_query_secure($sql_count, $_SESSION['OCS']["readServer"],$arg);	
+$row=mysql_fetch_object($rescount);
+$total=$row->nb;
+if ($total<=0){
+	msg_error($l->g(837));
+	require_once(FOOTER_HTML);
+	die();
+}
 $sqlStats="SELECT COUNT(id) as nb, tvalue as txt 
 			FROM devices d, download_enable e 
 			WHERE e.fileid='%s'
@@ -67,7 +73,7 @@ $sqlStats="SELECT COUNT(id) as nb, tvalue as txt
 				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 
 $sqlStats.= " GROUP BY tvalue";
-$arg=$protectedGet["stat"];
+
 $resStats =mysql2_query_secure($sqlStats." ORDER BY nb DESC", $_SESSION['OCS']["readServer"],$arg);		
 $i=0;
 while ($row=mysql_fetch_object($resStats)){
@@ -75,31 +81,75 @@ while ($row=mysql_fetch_object($resStats)){
 		$name_value[$i] = $l->g(482);
 	else
 		$name_value[$i] = $row->txt;
+	$pourc=round(($row->nb*100)/$total,2);
+	$legend[$i]=$name_value[$i]." (".$pourc."%)";
+	$link[$i]=$name_value[$i];
+	$name_value[$i].="<br>(".$pourc."%)";
 	$count_value[$i]=$row->nb;
-	if ($_SESSION['OCS']['useflash'] == 1)
-	 	$strXML .= "<set name='".$name_value[$i]."' value='".$count_value[$i]."' color='".$arr_FCColors[$i]."' />";
-	 $i++;
-	
-}
-//Create an XML data document in a string variable
-if ($_SESSION['OCS']['useflash'] == 1){
-	$strXML .= "</graph>";
-	$data_on[0]='Graph n°1';
-	$data_on[1]='Graph n°2';
-//Create the chart - Column 3D Chart with data from strXML variable using dataXML method
-	onglet($data_on,$form_name,"onglet",4);
-	echo '<div class="mlt_bordure" >';
-	if (isset($protectedPost['onglet']) and $protectedPost['onglet'] == 1)
-		echo renderChartHTML(FCHARTS."/Charts/FCF_Column3D.swf", "", $strXML, "myNext", 600, 300);		
+	if (isset($arr_FCColors[$i]))
+		$color[$i]=$arr_FCColors[$i];
 	else
-		echo renderChartHTML(FCHARTS."/Charts/FCF_Pie3D.swf", "", $strXML, "myNext", 800, 400);
-	echo '</div><br>';
-}else{
-	$_SESSION['OCS']['STAT_TELEDEPLOY']['DATA']=$count_value;
-	$_SESSION['OCS']['STAT_TELEDEPLOY']['NAME']=$name_value;
-		echo "<img src='index.php?".PAG_INDEX."=".$pages_refs['jp_teledeploy_stats']."&no_header=1' border=0> ";	
+		$color[$i]=$arr_FCColors[$i-10];	
+	$color[$i]="plotProps: {fill: \"".$color[$i]."\"}";
+	$i++;	
 }
-
+	echo '<br><div  class="mlt_bordure" >';
+	echo '<CENTER><div id="chart" style="width: 900px; height: 500px"></div></CENTER>';
+		echo '<script type="text/javascript">
+		$(function() {
+		  $("#chart").chart({
+			  template: "pie_stat_teledeploy",
+			  values: {
+			    serie1: ['.implode(',',$count_value).']
+			  },
+			  labels: ["'.implode('","',$name_value).'"],
+			  legend: ["'.implode('","',$legend).'"],
+			  tooltips: {
+			    serie1: ["'.implode('","',$name_value).'"]
+			  },
+			  defaultSeries: {
+			    values: [{'.implode("}, {",$color).'
+			    }]
+			  }
+			});		
+		});
+		
+		$.elycharts.templates[\'pie_stat_teledeploy\'] = {
+		  type: "pie",
+		  defaultSeries: {
+		    plotProps: {
+		      stroke: "white",
+		      "stroke-width": 2,
+		      opacity: 0.8
+		    },
+		    highlight: {
+		      move: 20
+		    },
+		    tooltip: { 
+		     width: 200, height: 25,    
+		     frameProps: {opacity: 0.5},
+		     contentStyle : { "font-family": "Arial", "font-size": "9px", "line-height": "8px", color: "black" } 
+		    },
+		    startAnimation: {
+		      active: true,
+		      type: "grow"
+		    }
+		  },
+		  features: {
+		    legend: {
+		      horizontal: false,
+		      width: 240,
+		      height: 115,
+		      x: 650,
+		      y: 380,
+		      borderProps: {
+		        "fill-opacity": 0.3
+		      }
+		    }
+		  }
+		};
+		</script>';	
+echo "</div><br>";
 
 if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
 	echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
@@ -109,18 +159,6 @@ if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
 	echo "</tr></table><br><br>";
 	echo "<input type='hidden' id='ACTION' name='ACTION' value=''>";
 }
-/*if ($protectedGet['group']){
-echo "<form name='refresh' method=POST><div align=center>".$l->g(941)." <select name=selOpt OnChange='refresh.submit();'>
-			<option value='ALL'";
-if ($protectedPost['selOpt'] == "ALL")
-echo " selected ";
-echo ">".$l->g(940)."</option>
-			<option value='GROUP'";
-if ($protectedPost['selOpt'] == "GROUP")
-echo " selected ";
-echo ">".$l->g(939)."</option></select>
-	</div></form>";
-}*/
 echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'>
 <tr BGCOLOR='#C7D9F5'><td width='30px'>&nbsp;</td><td align='center'><b>".$l->g(81)."</b></td><td align='center'><b>".$l->g(55)."</b></td></tr>";
 $j=0;
@@ -131,97 +169,15 @@ while( $j<$i ) {
 		echo "<td bgcolor='".$arr_FCColors[$j]."'>";
 	else
 		echo "<td>";
-	echo "&nbsp;</td><td>".$name_value[$j]."</td><td>
-			<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_multi_search']."&prov=stat&id_pack=".$protectedGet["stat"]."&stat=".urlencode($name_value[$j])."'>".$count_value[$j]."</a>";
-	if ($name_value[$j] != $l->g(482))
-	echo "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&head=1&ta=".urlencode($name_value[$j])."&stat=".$protectedGet["stat"]."\",\"stats_speed\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=1000,height=900\")><img src='image/stat.png'></a>";		
-	//echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&ta=".$name_value[$j]."&stat=".$protectedGet["stat"]."'>&nbsp;stat</a>
+	echo "&nbsp;</td><td>".$link[$j]."</td><td>
+			<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_multi_search']."&prov=stat&id_pack=".$protectedGet["stat"]."&stat=".urlencode($link[$j])."'>".$count_value[$j]."</a>";
+	if (substr_count($link[$j], 'SUC'))
+		echo "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&head=1&ta=".urlencode($link[$j])."&stat=".$protectedGet["stat"]."\",\"stats_speed\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=1000,height=900\")>&nbsp<img src='image/stat.png'></a>";		
 	echo "	</td></tr>";
 	$j++;
 }
 echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>".$l->g(87)."</b></td><td><b>".$nb."</b></td></tr>";
 echo "</table><br><br>";
-      
-  /* echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-$list_fields=array($l->g(81) => 'txt',
-					$l->g(55) => 'nb',
-				   );
-$list_col_cant_del=$list_fields;
-$default_fields= $list_fields;
-$tab_options['ARG_SQL']=$arg;
-//$queryDetails  = "SELECT * FROM modems WHERE (hardware_id=$systemid)";
-tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sqlStats,$form_name,80,$tab_options);*/
-
-/*
-
-
-if ($protectedPost['selOpt'] == "GROUP" or $protectedGet['option']=="GROUP"){
-$sql_group="select hardware_id from groups_cache where group_id=".$protectedGet['group'];
-$res_group = mysql_query($sql_group, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-$machines_group="(";
-	while ($item_group = mysql_fetch_object($res_group)){
-		$machines_group.= $item_group->hardware_id.",";	
-	}
-	$machines_group=" IN ".substr($machines_group,0,-1).")";		
-}
-if ($_SESSION['OCS']["mesmachines"] != ""){
-	$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
-	$res_mesMachines = mysql_query($sql_mesMachines, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-	$mesmachines="(";
-	while ($item_mesMachines = mysql_fetch_object($res_mesMachines)){
-		$mesmachines.= $item_mesMachines->hardware_id.",";	
-	}
-	$mesmachines=" IN ".substr($mesmachines,0,-1).")";	
-	
-}
-$sqlStats="SELECT COUNT(id) as 'nb', tvalue as 'txt' 
-			FROM devices d, download_enable e 
-			WHERE e.fileid='".$protectedGet["stat"]."'
- 				AND e.id=d.ivalue 
-				AND name='DOWNLOAD' 
-				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
-if (isset($machines_group))
-	$sqlStats.= " AND hardware_id".$machines_group;
-if (isset($mesmachines))				
-	$sqlStats.= " AND hardware_id".$mesmachines;	
-$sqlStats.= " GROUP BY tvalue ORDER BY nb DESC";
-$resStats = mysql_query($sqlStats, $_SESSION['OCS']["readServer"]);
- 	$tot = 0;
-	$quartiers = array();
-	$coul = array( 0x0091C3, 0xFFCB03  ,0x33CCCC, 0xFF9900,  0x969696,  0x339966, 0xFF99CC, 0x99CC00);
-	$coulHtml = array( "0091C3", "FFCB03"  ,"33CCCC", "FF9900",  "969696",  "339966", "FF99CC", "99CC00");
-	$i = 0;
-	while( $valStats = mysql_fetch_array( $resStats ) ) {
-		$tot += $valStats["nb"];
-		if( $valStats["txt"] =="" )
-			$valStats["txt"] = $l->g(482);
-		$quartiers[] = array( $valStats["nb"], $coul[ $i ], $valStats["txt"]." (".$valStats["nb"].")" );
-		$legende[] = array( "color"=>$coulHtml[ $i ], "name"=>$valStats["txt"], "count"=>$valStats["nb"] );
-		$i++;
-		if( $i > sizeof( $coul ) )
-			$i=0;
-	}
-
-	$sort = array();
-	$index = 0;
-	for( $count=0; $count < (sizeof( $quartiers )); $count++ ) {
-		if( $count%2==0) {
-			$sort[ $count ] = $quartiers[ $index ];
-			//echo "sort[ $count ] = quartiers[ $index ];<br>";
-			$index++;
-		}
-		else {
-			$sort[ $count ] = $quartiers[ sizeof( $quartiers ) - $index ];			
-		}		
-	}
-
-if( @mysql_num_rows( $resStats ) == 0 ) {
-	echo "<center>".$l->g(526)."</center>";
-	die();	
-}
-
-
-*/
  echo "</form>";
   
 ?>

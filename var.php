@@ -22,8 +22,6 @@ define("DFT_DB_CMPT",'ocs');  											// Define default login to connect to d
 define("DFT_DB_PSWD",'ocs');											// Define default password to connect to database
 define("DFT_GUI_CMPT",'admin');											// Define default login to connect to GUI
 define("DFT_GUI_PSWD",'admin');											// Define default password to connect to GUI
-define('FCHARTS',"libraries/FusionChartsFree");							// Define librairies for FusionCharts
-define('JPGRAPH',"libraries/jpgraph");									// Define librairies for jpgraph
 define('BACKEND',"backend/");										    // Define backend Directory
 define('PLUGINS_DIR',"plugins/");										// Define plugins Directory
 define('CONF_MYSQL',"dbconfig.inc.php");								// Define dbconf file		

@@ -329,6 +329,10 @@ function html_header($no_java=false){
 	if (!$no_java){
 		incPicker(); 
 		echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
+		//js for graph
+		echo "<script src='js/graph/jquery-1.6.2.js' type='text/javascript'></script>";
+  		echo "<script src='js/graph/raphael.js' type='text/javascript'></script>";
+  		echo "<script src='js/graph/elycharts.js' type='text/javascript'></script>";
 		if (isset($_SESSION['OCS']['JAVASCRIPT'])){
 			foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file => $rep){
 				echo "<script language='javascript' type='text/javascript' src='".MAIN_SECTIONS_DIR.$rep.$file."'></script>";
