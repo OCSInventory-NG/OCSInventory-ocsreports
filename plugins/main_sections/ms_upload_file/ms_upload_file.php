@@ -134,9 +134,14 @@ if (!isset($protectedPost['ADD_FILE'])){
 if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
 	$css="mvt_bordure";
 	$form_name1="SEND_FILE";
+	//search max_allowed_packet value on mysql conf
+	$sql="SHOW VARIABLES LIKE 'max_allowed_packet'";
+	$result=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"]);
+	$value=mysql_fetch_array($result);
+	//pass oct to Mo
+	$upload_max_filesize=$value['Value']/1048576;
 
-
-	msg_info($l->g(2022).' '.$valBumf.$l->g(1240));
+	msg_info($l->g(2022).' '.$valBumf.$l->g(1240)."<br>".$l->g(2106)." ".$upload_max_filesize.$l->g(1240));
 	//echo "post_max_size=".$valTpms.$l->g(1240).'//upload_max_filesize='.$valTumf.$l->g(1240);
 	echo "<form name='".$form_name1."' id='".$form_name1."' method='POST' action='' enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\">";
 	echo '<div class="'.$css.'" >';
