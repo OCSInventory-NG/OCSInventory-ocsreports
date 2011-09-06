@@ -374,10 +374,9 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		if ($name != ''){
 			//print_r($protectedPost);
 			foreach ($name as $key=>$value){
-			//	echo $protectedPost[$input_name]." == ".$key."<br>";
 				$champs.= "<option value=\"".$key."\"";
 				if ($protectedPost[$input_name] == $key )
-				$champs.= " selected";
+					$champs.= " selected";
 				$champs.= ($countHl%2==1?" class='hi'":" class='down'")." \>".$value."</option>";
 				$countHl++;
 			}
@@ -683,8 +682,10 @@ function nb_page($form_name = '',$taille_cadre='80',$bgcolor='#C7D9F5',$borderco
 	if ($protectedPost['old_pcparpage'] != $protectedPost['pcparpage'])
 		$protectedPost['page']=0;
 		
-	if (!(isset($protectedPost["pcparpage"])) or $protectedPost["pcparpage"] == "")
-		$protectedPost["pcparpage"]=20;
+	if (!(isset($protectedPost["pcparpage"])) or $protectedPost["pcparpage"] == ""){
+		$protectedPost["pcparpage"]=PC4PAGE;
+		
+	}
 	$html_show = "<table align=center width='80%' border='0' bgcolor=#f2f2f2>";
 	//gestion d"une phrase d'alerte quand on utilise le filtre
 	if (isset($protectedPost['FILTRE_VALUE']) and $protectedPost['FILTRE_VALUE'] != '' and $protectedPost['RAZ_FILTRE'] != 'RAZ')
@@ -706,7 +707,6 @@ function nb_page($form_name = '',$taille_cadre='80',$bgcolor='#C7D9F5',$borderco
 		
 	$html_show .= "><tr><td align=center>";
 	$html_show .= "<table cellspacing='5' width='".$taille_cadre."%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='".$bgcolor."' BORDERCOLOR='".$bordercolor."'><tr><td align=center>";
-
 	$machNmb = array(5=>5,10=>10,15=>15,20=>20,50=>50,100=>100,200=>200,1000000=>$l->g(215));
     $pcParPageHtml= $l->g(340).": ".show_modif($machNmb,'pcparpage',2,$form_name,array('DEFAULT'=>'NO'));
 	$pcParPageHtml .=  "</td></tr></table>
