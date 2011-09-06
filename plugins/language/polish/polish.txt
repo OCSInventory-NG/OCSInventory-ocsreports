@@ -1304,6 +1304,7 @@
 2103 DEMO mode: you can't update data
 2104 YOU ARE WATCHING THE DEMO VERSION OF
 2105 Your database is OK.<br>No action taken.
+2106 in MySQL configuration, the variable 'max_allowed_packet' allows only file size <
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]

@@ -1364,6 +1364,7 @@
 2103 DEMO-Modus: Sie können keine Daten aktualisieren.
 2104 DIES IST DER DEMO-MODUS VON:
 2105 Ihre Datenbank ist OK.<br>Keine Änderungen vorgenommen.
+2106 in MySQL configuration, the variable 'max_allowed_packet' allows only file size <
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
