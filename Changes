@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.1
+		* configure the defaut number result by page
 		* add message for max_allowed_packet MySQL conf
 		* fix logout of CAS connexion (http://forums.ocsinventory-ng.org/viewtopic.php?pid=41923#p41923)
 		* fix bug on package search
