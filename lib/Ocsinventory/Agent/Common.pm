@@ -564,7 +564,7 @@ sub addCPU {
 
     MANUFACTURER => [$manufacturer],
     TYPE => [$type],
-    SERIAL => [$serial],
+    SERIALNUMBER => [$serial],
     SPEED => [$speed],
 
   };
