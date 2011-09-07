@@ -181,6 +181,7 @@ if ((!isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
 
 
 if ($list_soft != ""){
+
 	$and_where="";
 	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){		
@@ -207,7 +208,7 @@ if ($list_soft != ""){
 	$sql=mysql2_prepare($sql_re['SQL'],$sql_re['ARG'],$list_soft);
 	//$sql['ARG']=('".implode("','",$list_soft)."')";
 	//$sql.=$fin_sql;
-}else{
+}elseif(!isset($list_soft)){
 	$and_where="";
 	$sql['SQL']="select  ".$info_name_soft['table'].".".$info_name_soft['field'].", count(s.".$info_name_soft['field_name_soft'].") nb,
 					 s.".$info_name_soft['field_name_soft']." id from softwares s";
