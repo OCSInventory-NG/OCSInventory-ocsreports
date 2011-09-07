@@ -183,25 +183,6 @@ function xml_decode( $txt ) {
 }
 
 
-//ascending and descending sort
-function tri($sql)
-{
-	global $protectedGet;
-	
-	if ($protectedGet['sens']){
-	$sens=$protectedGet['sens'];
-	$col=$protectedGet['col'];
-	}
-	else{
-	$sens="ASC";
-	$col=1;
-	}	
-	
-	$sql= $sql." order by ".$col." ".$sens;
-	return $sql;
-	
-}
-
 //fonction qui permet d'afficher un tableau de donn�es
 /*
  * $entete_colonne = array ; => ex: $i=0;
@@ -995,8 +976,11 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	if ($protectedPost['sens_'.$table_name] == "")
 	$protectedPost['sens_'.$table_name]='ASC';
 	
-	//if data is signed
-	if ($tab_options['TRI']['SIGNED'][$protectedPost['tri_'.$table_name]])
+	//if data is signed and data = ip
+	$tab_iplike=array('H.IPADDR','IPADDRESS','IP','IPADDR');
+	if (in_array(strtoupper($protectedPost['tri_'.$table_name]),$tab_iplike)){
+		$queryDetails.= " order by INET_ATON(".$protectedPost['tri_'.$table_name].") ".$protectedPost['sens_'.$table_name];		
+	}elseif ($tab_options['TRI']['SIGNED'][$protectedPost['tri_'.$table_name]])
 		$queryDetails.= " order by cast(".$protectedPost['tri_'.$table_name]." as signed) ".$protectedPost['sens_'.$table_name];
 	else
 		$queryDetails.= " order by ".$protectedPost['tri_'.$table_name]." ".$protectedPost['sens_'.$table_name];
