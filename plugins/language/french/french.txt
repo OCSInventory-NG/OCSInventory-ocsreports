@@ -1287,7 +1287,7 @@
 2099 ERROR: ce compte MySQL n'a pas les droits de création de database 
 2100 Update anciens accountinfos
 2101 Ajouté par script
-2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur
+2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur (file z-ocsinventory-server.conf)
 2103 Mode DEMO: vous ne pouvez mettre à jour les données
 2104 VOUS ETES SUR LA VERSION DE DEMO LA
 2105 Votre base de données est à jour.<br>Aucune action a effectuer.
