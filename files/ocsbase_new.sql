@@ -155,7 +155,7 @@ INSERT INTO `config` VALUES ('FREQUENCY',0,'','Specify the frequency (days) of i
 
 INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6005', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6006', 'Version of the installed GUI and database');
 UNLOCK TABLES;
 -- BEGIN 2.0RC3 --
 DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
@@ -1416,4 +1416,16 @@ PRIMARY KEY (ID) ) DEFAULT CHARSET=UTF8;
 INSERT INTO config VALUES ('DOWNLOAD_REDISTRIB',1,'','Use redistribution servers');
 ALTER TABLE snmp_loadbalancers ADD COLUMN MANUFACTURER varchar(255) DEFAULT NULL;
 ALTER TABLE snmp_loadbalancers ADD COLUMN TYPE varchar(255) DEFAULT NULL;
+ALTER TABLE hardware ADD COLUMN ARCH varchar(10) DEFAULT NULL;
+
+CREATE TABLE cpus (
+ ID INTEGER NOT NULL auto_increment,
+ HARDWARE_ID INTEGER NOT NULL,
+ MANUFACTURER VARCHAR(255) default NULL,
+ TYPE VARCHAR(255) default NULL,
+ SERIALNUMBER VARCHAR(255) default NULL,
+ SPEED VARCHAR(255) default NULL,
+ PRIMARY KEY  (ID, HARDWARE_ID)
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
+
 
