@@ -793,7 +793,8 @@ if ($list_id != "")	{
 						$l->g(652).": ".$l->g(350)=>'h.PROCESSORT',
 						$l->g(652).": ".$l->g(50)=>'h.SWAP',
 						$l->g(652).": ".$l->g(111)=>'h.WINPRODKEY',
-						$l->g(652).": ".$l->g(553)=>'h.WINPRODID');
+						$l->g(652).": ".$l->g(553)=>'h.WINPRODID',
+						$l->g(652).": ".$l->g(1247)=>'h.ARCH',);
 	$list_fields=array_merge ($list_fields_account_info,$list_fields);
 	
 	//BEGIN SHOW ACCOUNTINFO
@@ -972,6 +973,7 @@ $sort_list=array("NETWORKS-IPADDRESS" =>$l->g(82).": ".$l->g(34),
 				 "PRINTERS-DRIVER"=>$l->g(79).": ".$l->g(278),
 				 "PRINTERS-PORT"=>$l->g(79).": ".$l->g(279),
 				 "PRINTERS-DESCRIPTION"=>$l->g(79).": ".$l->g(53),
+				 "HARDWARE-ARCH"=>$l->g(25).": ".$l->g(1247),
 				 );
 		
 		
@@ -1017,7 +1019,8 @@ $optSelectField=array( "NETWORKS-IPADDRESS"=>$sort_list["NETWORKS-IPADDRESS"],
 			   "STORAGES-SERIALNUMBER"=>$sort_list["STORAGES-SERIALNUMBER"],
 			   "STORAGES-DISKSIZE" =>$sort_list["STORAGES-DISKSIZE"],
 			   "STORAGES-DISKSIZE-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
-			   "STORAGES-DISKSIZE-LBL"=>"MB"
+			   "STORAGES-DISKSIZE-LBL"=>"MB",
+			   "HARDWARE-ARCH"=>$sort_list["HARDWARE-ARCH"]
 			   );
 
 	//ajout des champs de accountinfo

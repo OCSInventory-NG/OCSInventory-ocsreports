@@ -785,7 +785,7 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6005', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6006', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1354,4 +1354,15 @@ PRIMARY KEY (ID) ) DEFAULT CHARSET=UTF8;
 INSERT INTO config VALUES ('DOWNLOAD_REDISTRIB',1,'','Use redistribution servers');
 ALTER TABLE snmp_loadbalancers ADD COLUMN MANUFACTURER varchar(255) DEFAULT NULL;
 ALTER TABLE snmp_loadbalancers ADD COLUMN TYPE varchar(255) DEFAULT NULL;
+ALTER TABLE hardware ADD COLUMN ARCH varchar(10) DEFAULT NULL;
+
+CREATE TABLE cpus (
+ ID INTEGER NOT NULL auto_increment,
+ HARDWARE_ID INTEGER NOT NULL,
+ MANUFACTURER VARCHAR(255) default NULL,
+ TYPE VARCHAR(255) default NULL,
+ SERIALNUMBER VARCHAR(255) default NULL,
+ SPEED VARCHAR(255) default NULL,
+ PRIMARY KEY  (ID, HARDWARE_ID)
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
