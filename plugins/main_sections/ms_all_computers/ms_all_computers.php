@@ -107,17 +107,17 @@ $sql=prepare_sql_tab($list_fields,array('SUP','CHECK'));
 $tab_options['ARG_SQL']=$sql['ARG'];
 $queryDetails  = $sql['SQL']." from hardware h 
 				LEFT JOIN accountinfo a ON a.hardware_id=h.id  ";
-if ($show_mac_addr)
+if ($show_mac_addr){
 	$queryDetails  .= "	LEFT JOIN networks n ON n.hardware_id=h.id ";
-	
+	$queryDetails  .= " AND h.IPADDR=n.IPADDRESS ";
+}
 $queryDetails  .= "LEFT JOIN bios e ON e.hardware_id=h.id 
 				where deviceid<>'_SYSTEMGROUP_' 
 						AND deviceid<>'_DOWNLOADGROUP_' ";
-if ($show_mac_addr)
-	$queryDetails  .= " AND h.IPADDR=n.IPADDRESS ";
+	
 if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
 	$queryDetails  .= "AND ".$_SESSION['OCS']["mesmachines"];
-$queryDetails  .=" group by h.name";
+$queryDetails  .=" group by h.id";
 $tab_options['LBL_POPUP']['SUP']='name';
 $tab_options['LBL']['SUP']=$l->g(122);
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
