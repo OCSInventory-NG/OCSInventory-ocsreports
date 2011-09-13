@@ -1,4 +1,7 @@
 Revision history for ocsreports 
+2.0.2
+		* fix bug on softwares detail on computer
+		* sort categories on dictionary
 2.0.1
 		* fix bug on order by ip addresses (http://forums.ocsinventory-ng.org/viewtopic.php?pid=42066)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/842809
