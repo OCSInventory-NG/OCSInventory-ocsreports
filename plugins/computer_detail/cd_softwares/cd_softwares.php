@@ -8,7 +8,7 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
+	unset($list_fields);
 	print_item_header($l->g(20));
 	$form_name="affich_soft";
 	$table_name=$form_name;

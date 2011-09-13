@@ -279,7 +279,9 @@ echo "</td></tr>";
 $search=show_modif(stripslashes($protectedPost['search']),"search",'0');
 $trans= "<input name='all_item' id='all_item' type='checkbox' ".(isset($protectedPost['all_item'])? " checked ": "").">".$l->g(384) . " ";
 //r�cup�ration de toutes les cat�gories
-$sql_list_categories="select distinct(formatted) name from dico_soft where formatted!=extracted";
+$list_categories['IGNORED']="IGNORED";
+$list_categories['UNCHANGED']="UNCHANGED";
+$sql_list_categories="select distinct(formatted) name from dico_soft where formatted!=extracted order by formatted";
 $result_list_categories = mysql_query( $sql_list_categories, $_SESSION['OCS']["readServer"]);
 while($item_list_categories = mysql_fetch_object($result_list_categories)){
 	$list_categories[$item_list_categories ->name]=$item_list_categories ->name;	
@@ -287,8 +289,6 @@ while($item_list_categories = mysql_fetch_object($result_list_categories)){
 //d�finition de toutes les options possible
 $choix_affect['NEW_CAT']=$l->g(385);
 $choix_affect['EXIST_CAT']=$l->g(387);
-$list_categories['IGNORED']="IGNORED";
-$list_categories['UNCHANGED']="UNCHANGED";
 $trans.=show_modif($choix_affect,"AFFECT_TYPE",'2',$form_name);
 if ($protectedPost['AFFECT_TYPE'] == 'EXIST_CAT'){
 	$trans.=show_modif($list_categories,"EXIST_CAT",'2');	
