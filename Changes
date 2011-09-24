@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.2
+		* update polish language file. tx to Piotr Adamcio
 		* fix bug on softwares detail on computer
 		* sort categories on dictionary
 2.0.1
