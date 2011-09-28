@@ -39,13 +39,13 @@
 	
 	//Checking if temp directory exists
 	if ([filemgr fileExistsAtPath:tmpPath]) {
-		[filemgr removeItemAtPath:tmpCfgFilePath error:nil];
-		[filemgr removeItemAtPath:tmpModulesFilePath error:nil];
-		[filemgr removeItemAtPath:tmpServerdirFilePath error:nil];
-		[filemgr removeItemAtPath:tmpCacertFilePath error:nil];
+		[filemgr removeFileAtPath:tmpCfgFilePath handler:nil];
+		[filemgr removeFileAtPath:tmpModulesFilePath handler:nil];
+		[filemgr removeFileAtPath:tmpServerdirFilePath handler:nil];
+		[filemgr removeFileAtPath:tmpCacertFilePath handler:nil];
 		
 	} else {
-		[filemgr createDirectoryAtPath:tmpPath withIntermediateDirectories:YES attributes:nil error:nil];
+		[filemgr createDirectoryAtPath:tmpPath attributes:nil];
 		
 	}	
 	
@@ -123,8 +123,7 @@
     NSMutableString *ocsAgentCfgContent;
 	NSMutableString *modulesCfgContent;
 	NSString *serverDir;
-	NSString *cacertCopyPath;
-	NSString *protocolName;
+	NSMutableString *protocolName;
 	NSAlert *srvConfigWrn;
 	NSAlert *caCertWrn;
 	NSString *protocol = [protocolist titleOfSelectedItem];
@@ -200,7 +199,12 @@
 			
 			//We have to copy cacert.pem if is asked by user
 			if ( [[cacertfile stringValue] length] > 0) {
-				protocolName = [protocol stringByReplacingOccurrencesOfString:@"/" withString:@""];
+				
+				protocolName = [protocol mutableCopy];
+				[protocolName replaceOccurrencesOfString:@"/" withString:@""
+							  options:NSCaseInsensitiveSearch 
+							  range:NSMakeRange(0, [protocolName length])];
+
 				
 				serverDir = [NSString stringWithFormat:@"/var/lib/ocsinventory-agent/%@__%@_ocsinventory", protocolName, [server objectValue]];
 				[serverDir writeToFile:tmpServerdirFilePath atomically: YES encoding:NSUTF8StringEncoding error:NULL];

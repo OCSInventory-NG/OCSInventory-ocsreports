@@ -255,6 +255,10 @@
 		06D657AA134FD99800981FE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -263,6 +267,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_VERSION = 4.0;
 				INSTALL_PATH = "$(HOME)/bin";
 				OBJROOT = build;
 				OTHER_LDFLAGS = (
@@ -292,6 +297,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_VERSION = 4.0;
 				INSTALL_PATH = /Applications;
 				OBJROOT = build;
 				OTHER_LDFLAGS = (
@@ -302,7 +308,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ocscontact;
-				SDKROOT = macosx;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				SKIP_INSTALL = YES;
 				SYMROOT = build;
 				ZERO_LINK = NO;
@@ -312,8 +318,11 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ADDITIONAL_SDKS = "/Developer/SDKs/MacOSX10.3.9.sdk /Developer/SDKs/MacOSX10.4u.sdk";
-				ARCHS = "$(NATIVE_ARCH)";
+				ADDITIONAL_SDKS = "";
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -321,6 +330,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OCSNG_Prefix.pch;
+				GCC_VERSION = 4.0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OBJROOT = build;
@@ -328,7 +338,7 @@
 				SYMROOT = build;
 				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64 ppc";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
+				ZERO_LINK = "";
 			};
 			name = Debug;
 		};
@@ -344,12 +354,14 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OCSNG_Prefix.pch;
+				GCC_VERSION = 4.0;
 				INFOPLIST_FILE = Info.plist;
 				OBJROOT = build;
 				PRODUCT_NAME = OCSNG;
-				SDKROOT = macosx;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				SYMROOT = build;
 				WRAPPER_EXTENSION = app;
+				ZERO_LINK = "";
 			};
 			name = Release;
 		};

@@ -223,7 +223,6 @@
 				ARCHS = (
 					i386,
 					ppc,
-					x86_64,
 				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -232,10 +231,13 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ocs_agent_daemon_options_Prefix.pch;
+				GCC_VERSION = 4.0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = ocs_agent_daemon_options;
+				SDKROOT = macosx10.4;
 				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = YES;
 			};
@@ -253,10 +255,12 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ocs_agent_daemon_options_Prefix.pch;
+				GCC_VERSION = 4.0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = ocs_agent_daemon_options;
+				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;

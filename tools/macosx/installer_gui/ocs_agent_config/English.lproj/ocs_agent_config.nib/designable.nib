@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K540</string>
+		<string key="IBDocument.SystemVersion">10K549</string>
 		<string key="IBDocument.InterfaceBuilderVersion">851</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
@@ -44,7 +44,7 @@
 					<object class="NSButton" id="319674394">
 						<reference key="NSNextResponder" ref="443671666"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{263, 118}, {201, 61}}</string>
+						<string key="NSFrame">{{263, 135}, {201, 26}}</string>
 						<reference key="NSSuperview" ref="443671666"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="680210794">
@@ -353,7 +353,7 @@
 					<object class="NSButton" id="863583811">
 						<reference key="NSNextResponder" ref="443671666"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{263, 166}, {103, 18}}</string>
+						<string key="NSFrame">{{263, 163}, {103, 18}}</string>
 						<reference key="NSSuperview" ref="443671666"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="475782821">
@@ -871,7 +871,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABDoAAAw1MAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwzYAAA</bytes>
 					</object>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -881,7 +881,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABDoAAAw04AAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwyIAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
@@ -909,6 +909,7 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
 					<string key="className">FirstResponder</string>
+					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>

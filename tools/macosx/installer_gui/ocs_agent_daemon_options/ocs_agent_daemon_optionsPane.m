@@ -30,11 +30,11 @@
 	
 	//Checking if temp directory exists
 	if ([filemgr fileExistsAtPath:tmpPath]) {
-		[filemgr removeItemAtPath:tmpLaunchdFilePath error:nil];
-		[filemgr removeItemAtPath:tmpNowFilePath error:nil];
+		[filemgr removeFileAtPath:tmpLaunchdFilePath handler:nil];
+		[filemgr removeFileAtPath:tmpNowFilePath handler:nil];
 		
 	} else {
-		[filemgr createDirectoryAtPath:tmpPath withIntermediateDirectories:YES attributes:nil error:nil];
+		[filemgr createDirectoryAtPath:tmpPath attributes:nil];
 
 	}
 	

@@ -278,9 +278,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>11</integer>
-									<integer>5</integer>
-									<integer>0</integer>
+									<integer>16</integer>
+									<integer>15</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -319,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Info.plist</string>
+								<string>ocs_agent_daemon_options_Prefix.pch</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -327,11 +326,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Info.plist</string>
+										<string>ocs_agent_daemon_options_Prefix.pch</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>069C9FB613F2FE8800406C37</string>
+										<string>06079FE71433A90B0002EDD2</string>
 										<key>history</key>
 										<array>
 											<string>0688BCF513EF4B1500094AA2</string>
@@ -339,8 +338,10 @@
 											<string>0688BD4A13EF51B800094AA2</string>
 											<string>0688BD4B13EF51B800094AA2</string>
 											<string>0688BD4C13EF51B800094AA2</string>
-											<string>0688BD7313EF55C600094AA2</string>
-											<string>069C9FAA13F2FE7800406C37</string>
+											<string>069E8EFD1402FAF700897797</string>
+											<string>069E8F681402FDF600897797</string>
+											<string>069E8F691402FDF600897797</string>
+											<string>06079FC11433A8900002EDD2</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -352,14 +353,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1013, 442}}</string>
+								<string>{{0, 0}, {1013, 394}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 145 1440 733 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>442pt</string>
+							<string>394pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -372,14 +373,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 447}, {1013, 245}}</string>
+								<string>{{0, 399}, {1013, 293}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 145 1440 733 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>245pt</string>
+							<string>293pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -398,9 +399,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>069C9FB713F2FE8800406C37</string>
+				<string>06079FE81433A90B0002EDD2</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>069C9FB813F2FE8800406C37</string>
+				<string>06079FE91433A90B0002EDD2</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -539,8 +540,7 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>06E815A213EB2FA3008B68AB</string>
-		<string>0688BD7713EF55C600094AA2</string>
-		<string>/Users/ocs/work/ocs/commit/installer_gui/ocs_agent_daemon_options/ocs_agent_daemon_options.xcodeproj</string>
+		<string>/Users/ocs/work/ocs/dev/debug_tiger_sdk_10.6_64bits/installer_gui/ocs_agent_daemon_options/ocs_agent_daemon_options.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>0 145 1440 733 0 0 1440 878 </string>
@@ -620,7 +620,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>06E815A213EB2FA3008B68AB</string>
-				<string>069C9FB913F2FE8800406C37</string>
+				<string>06079FEA1433A90B0002EDD2</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
