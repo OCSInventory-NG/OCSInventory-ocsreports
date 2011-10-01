@@ -5,6 +5,7 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * Fix bug while sending ERR_DOWNLOAD_INFO message in Donwload.pm
        * Fix Bug #856161 about installer problems on MacOSX Tiger
 
 2.0.1

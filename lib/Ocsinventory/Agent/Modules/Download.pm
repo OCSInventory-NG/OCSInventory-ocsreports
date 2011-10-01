@@ -342,7 +342,7 @@ sub download_prolog_reader{      #Read prolog response
 				close FH;
 			};
 			if($@){
-				download_message({ $fileid }, $self->{messages}->{err_download_info},$logger,$context);
+				download_message($fileid, $self->{messages}->{err_download_info},$logger,$context);
 				$logger->error("Error: SSL hanshake has failed");
 				next;	
 			}
