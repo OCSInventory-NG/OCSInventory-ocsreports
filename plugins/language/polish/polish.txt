@@ -1,24 +1,24 @@
 2 Wszystkie komputery
 3 Komputery z oprogramowaniem...
 5 Unity codes under my responsibility
-9 Szukaj w/g kryteriów
+9 Szukaj w/g określonych kryteriów
 12 Wartość Tag-u
 13 Wyślij
 17 Agent
-18 Revision
+18 Korekta
 19 Wersja oprogramowania
 20 Oprogramowanie
 23 Komputer
 24 Użytkownik
 25 System Operacyjny
 26 Pamięć
-27 Szybkość Pamięci (MHz)
+27 Częstotliwość Pamięci (MHz)
 28 Numery maszyn
 30 Szukaj
 31 Wybierz parametr
 32 Wybierz
 33 Domena
-34 Adres IP
+34 Adress IP
 35 Nazwa Komputera
 36 Numer Seryjny
 41 Reset
@@ -26,11 +26,11 @@
 43 Główne menu
 45 Wolne miejsce
 46 Ostatnia inventaryzacja
-48 Detale komputera
+48 Informacje o komputerze
 49 Nazwa
-50 Swap
+50 Plik wymiany
 51 Komentarz
-53 Opis 
+53 Opis
 54 Procesor(y)
 55 Numer
 56 Dane Administracyjne
@@ -41,8 +41,8 @@
 65 Model
 66 Typ
 67 Rozmiar dysku
-69 Edytor
-70 Designation
+69 Producent
+70 Przeznaczenie
 79 Drukarka(i)
 80 Nazwa
 81 Status
@@ -67,7 +67,7 @@
 107 Konfiguracja
 108 Zapytania rejestru
 111 Licencja windows
-113 Anuluj
+113 Cancel
 114 Rejestruj
 115 Aktualizuj
 116 Dodaj
@@ -83,28 +83,28 @@
 140 Super administratorzy
 141 Administratorzy
 142 Lokalni administratorzy
-143 teledeploy requesters
+143 Wdrożeniowcy
 162 Usuń zaznaczone
 168 Ten format pliku jest nieodpowiedni (to musi być zip, pl albo unixowa binarka)
 170 Taki sam plik już istnieje !
 171 Plik usunięty
-172 An error is appeared, the file
+172 Pojawił się błąd, plik
 173 nie zostanie dodany do bazy
 174 Bezpieczeństwo
 175 Duplikaty
 176 Ips
 177 Połącz nadmiarowe komputery
-178 Tag / Number of PC repartition
+178 Tag / Ilość rozdzielonych PC
 180 Użytkownik nie zarejestrowany
-182 Komputery posiadające podany tag
+182 Komputery posiadające TAG
 183 Pobierz
-184 This file does not contain "use constant version"
+184 Plik nie zawiera "użyj stałej wersji"
 185 Wersja musi być wieksza od 1
 186 Ten plik nie zawiera pliku ver
-187 Ten plik nie jest prawidłowym plikiem zip
+187 Ten plik nie jest prawIdźowym plikiem zip
 188 Powrót
 189 Musisz zaznaczyć co najmniej 2 komputery
-190 Accountinfo:
+190 Informacje o koncie:
 191 usunięty
 192 Suma różnic
 193 Nazwa + Numer seryjny
@@ -114,13 +114,13 @@
 197 Tylko Numer
 198 Tylko Adres MAC
 199 Duplikaty
-200 Corresponding relay decremented
+200 Odpowiadający parametr zmniejszony
 201 MNIEJSZY
 202 WIĘKSZY
 203 POMIĘDZY
 204 POZA
 205 Wyłączony
-206 saved for
+206 zapisany dla
 207 Brama
 208 Maska
 209 Wersja BIOS
@@ -130,17 +130,17 @@
 213 Wartość klucza
 214 Drukuj tę stronę
 215 Pokaż wszystko
-216 ASSETTAG
+216 Błąd hasła
 217 Hasło
 218 Wersje agentów
 219 niezinwentaryzowane interfejsy sieciowe
 220 usunięte
-221 IP gathering computers
+221 komputery posiadające IP
 222 Uwaga ! Wszystkie zaznaczone komputery zostaną połączone w pojedynczy komputer ! Jesteś pewny ?
 223 Informacje
 224 Wartość
 225 Admininfo
-226 usunięto from accountinfo table
+226 usunięto z tabeli accountinfo
 227 Jesteś pewny, że chcesz usunąć tą kolumnę ?
 228 Wprowadź nową informację administracyjną
 229 Tekst (255)
@@ -148,37 +148,37 @@
 231 Liczba naturalna
 232 Data
 233 Bierzące dane
-234 został dodany
+234 został pomyślnie dodany
 235 Użytkownicy
-236 Zmień hasło
-237 Nowe hasło
+236 Zmień Hasło
+237 Nowe Hasło
 238 Potwierdzenie
 239 Musisz wypełnić wszystkie pola
 240 Podane hasła różnią się
-241 Twoje hasło zostało zmienione
+241 Twoje Hasło zostało zmienione
 242 Administrator
 243 Użytkownik
-244 Dodaj nowego użytkownika
-245 został usunięty
-246 Jesteś pewien, że chcesz usunąć tego użytkownika?
+244 Dodaj nowego Użytkownika
+245 został pomyślnie usunięty
+246 Jesteś pewien, że chcesz usunąć tego Użytkownika?
 247 Login MySQL
 248 Hasło MySQL
-249 Nie można połączyć z MySql. Proszę podać prawidłowy(e) login/hasło.
+249 Nie można połączyć się z MySql. Proszę podać prawidłowy(e) login/hasło.
 250 Nazwa hosta MySQL
 251 Wyloguj
-252 Nazwa (wybierz)
+252 Nazwa (wybierz)        	
 253 Klucz rejestru
-254 Ścieżka klucza (np: SOFTWARE Mozilla)
+254 Ścieżka klucza (np: SOFTWAREMozilla)  	
 255 Nazwa klucza do odczytania (* dla wszystkich)
 256 Wybierz
 257 Klucz rejestru
 258 Wartość klucza rejestru
 259 Błąd, dane nie mogły zostać dodane (znaki specjalne nie są dozwolone)
-260 Etykieta pliku zmieniona
-261 Etykieta pliku usunięta
-262 Wpisz w etykiecie
-263 Konfiguracja etykiety pliku
-264 Brak etykiety pliku
+260 Plik etykiet zmodyfikowano poprawnie
+261 Plik etykiet usunięto
+262 Wpisz etykietę
+263 Konfiguracja pliku etykiet
+264 Brak pliku etykiet
 265 Cokolwiek
 266 Nieprawidłowa data
 267 dd/mm/rrrr
@@ -204,22 +204,22 @@
 287 Import lokalny
 288 Import lokalny
 289 Informacje o sieci
-290 Odpytywanie IP
+290 IP querying
 291 Tryb eksperta
 292 Dodaj / Usuń urządzenie sieciowe
 293 Typy urządzeń sieciowych
 294 Nazwy Podsieci
 295 Lokalizacje
-296 Uid
+296 UId
 297 Nie można zapisywać w katalogu
 298 Wszystkie pola muszą być wypełnione
 299 Nieprawidłowy adres IP (musi być: x.x.x.x)
-300 Nieprawidłowa maska: musi być: x.x.x.x lub xx (xx<32)
+300 Nieprawidłowa maska: musi być: x.x.x.x 
 301 Sieć dodana
 302 Sieć usunięta
-303 Dodaj Podsieć
+303 Dodaj podsieć
 304 Nazwa sieci
-305 Uid
+305 UId
 306 Lista podsieci
 307 Dodaj typ
 308 Nazwa typu
@@ -230,22 +230,22 @@
 313 Bramy
 314 IpDiscover bramy
 315 Nie zinwentaryzowane komputery
-316 Podsieć
+316 Podsiec
 317 ANALIZUJ
 318 Nazwa DNS
 319 Rezultaty analizy sieci
 320 Ta analiza została już wykonana
 321 chcesz zobaczyć zebrane dane?
-322 Dane z cache
+322 Dane z cache'u
 323 wygenerowano
-324 HOSTS EVALUATED AS
+324 HOSTS ZAKWALIFIKOWANE JAKO
 325 puste
 326 nie wpisano maski
 327 Szczegóły komputera
-328 Discovered
+328 Wykryte
 329 Zinwentaryzowane
 330 Nazwa NetBIOS
-331 Numer sieci
+331 IP sieci
 332 Proszę czekać...
 333 Dodaj nowe urządzenie NetBIOS
 334 Lista urządzeń sieciowych
@@ -253,10 +253,10 @@
 336 Opis urządzenia
 337 PROGRAM NIC NIE WYSŁAŁ
 338 Tryb limitowany
-339 Potrzebujesz ipdiscover-util.pl (tylko Linux) dla trybu experta
+339 Potrzebujesz ipdiscover-util.pl (Linux only) dla trybu experta
 340 Pokaż
-341 nie można uruchomić, musisz ustawić prawa wykonywania 
-342 Misisz ustawić prawa zapisu dla głównego katalogu
+341 nie można uruchomić, musisz ustawić prawa wykonywania
+342 Misisz ustawić prawa zapisu dla głwnego katalogu
 344 Błąd
 345 AKTUALNIE URUCHOMIONY JEST PROCES ANALIZY, PROSZĘ SPRÓBOWAĆ PONOWNIE ZA KILKA MINUT
 346 PRZED
@@ -271,7 +271,7 @@
 355 Firma
 356 Właściciel
 357 Agent
-358 Wyrażenia regularne: ? (jeden znak), * (wiele znaków)
+358 Maska: ? (jeden znak), * (wiele znaków)
 359 Numer seryjny monitora
 360 Wyprodukowano (miesiac/rok)
 362 Sieć
@@ -281,15 +281,15 @@
 366 Zidentyfikowany
 367 Urządzenie sieciowe
 368 sieci
-369 Wstawiony przez
+369 Wysłane przez
 370 Rozmieszczenie
 371 Wszystkie komponenty
 372 Wybierz komponenty
 373 Zalogowany użytkownik
-374 Registered society
+374 Zarejestrowany ogół
 375 Wersja agenta OCS NG
 376 Komputer zablokowany. Proszę spróbować za kilka minut
-377 Szybkość procesora (MHz)
+377 Częstotliwość procesora (MHz)
 380 Słownik
 381 Numer
 382 Nazwa oprogramowania
@@ -300,7 +300,7 @@
 387 do istniejącej kategorii
 388 Kategoria
 389 Nic
-390 Kategorie Słownikowe
+390 Kategorie słownikowe
 391 Nazwa kategorii
 392 Usuń
 393 Szukaj
@@ -311,43 +311,43 @@
 398 Lista kategorii
 410 DOKŁADNIE
 411 Pole może zawierać tylko liczby!
-412 Registry key gathering functionality
+412 Funkcjonalność pobierania danych z kluczy rejstru Windows
 413 funkcje automatycznej aktualizacji
 414 Automatyczna funkcja rozmieszczenia
-415 Usunięcie funkcji logowania (potrzebne dla GLPI).
-416 Włącza rejestrowanie
+415 Usunięcie funkcji logowania (potrzebne GLPI).
+416 Funkcjonalność logowania zdarzeń
 417 funkcje automatycznej dystrybucji oprogramowania.
 418 Zróżnicowanie funkcji zapasów.
 419 Maksymalna liczba dni przed ipdiscover komputer otrzymuje.
-420 Automatyczna dystrybucja oprogramowania: zobacz w dokumentacji.
-421 Automatyczna dystrybucja oprogramowania: zobacz w dokumentacji.
-422 Automatyczna dystrybucja oprogramowania: zobacz w dokumentacji.
-423 Automatyczna dystrybucja oprogramowania: zobacz w dokumentacji. (Paczki z większym lub równym priorytetem nie mogą być więcej pobierane).
+420 Automatyczna dystrybucja oprogramowania: w dokumentacji.
+421 Automatyczna dystrybucja oprogramowania: w dokumentacji.
+422 Automatyczna dystrybucja oprogramowania: w dokumentacji.
+423 Automatyczna dystrybucja oprogramowania: w dokumentacji. (Opakowania z wyższym lub równe pierwszeństwo nie będzie już pobrany).
 424 Ważność pakietu od dnia jej rozpatrzenia przez agenta.
-425 Max number of computers per gateway retrieving IP on the network
+425 Maksymalna liczba komputerów na bramę pobieranie IP w sieci.
 426 Ważność zapasów. (Zawsze: spis każdego logowania. NIGDY: nie inwentaryzacji)
 427 określa, że kryteria muszą być równa dla dwóch komputerów, które mają być automatycznie łączone.
-428 Instaluj zdalnie
+428 Wdrożenia
 429 Częstotliwość
-430 Masowe przetwarzanie
+430 przetwarzania masowego
 431 Uaktywnij
 432 nienotyfikowana
-433 Affect
-434 Kreator paczek
-435 Tworzenie nowej paczki
+433 Dotyczy
+434 Tworzenie pakietów
+435 Pakiet Nowy budynek
 436 Nie można otworzyć pliku
-437 Twoja paczka została prawidłowo utworzona w katalogu
-438 Tworzenie nowej paczki
+437 Pakiet został utworzony w katalogu
+438 Budowanie nowego pakietu
 439 Protokół
 440 Priorytet
-441 Digest alghoritm
-442 Digest encoding
+441 Algorytm Digest
+442 Kodowanie Digest
 443 Działanie
-444 Komenda
+444 Polecenie
 445 Ścieżka
 446 Nazwa pliku
-447 Powiadamianie użytkownika
-448 Ostrzeż użytkownika
+447 Informowanie użytkownika
+448 Poinformuj użytkownika
 449 Tekst
 450 Odliczanie
 451 Użytkownik może przerwać
@@ -356,52 +356,52 @@
 454 NIE
 455 TAK
 456 Wykonaj
-457 Zachowaj
+457 Magazyn
 458 Uruchom
 459 Odliczanie musi być liczbą
-460 Uniklany identyfikator
-461 Skrót
-462 Całkowity rozmiar
-463 Rozmiar fragmentu (1 KB min)
-464 Numer fragmentu
-465 Aktywacja pakietu
+460 Niepowtarzalny identyfikator
+461 Digest
+462 Rozmiar
+463 Rozmiar fragmentu (min 1kB)
+464 Ilość fragmentów
+465 Pakiet aktywacyjny
 466 UWAGA: Nie można odnaleźć pliku informacji
 467 UWAGA: Nie można odnaleźć fragmenty plików
-468 Czy na pewno chcesz uaktywnić ten pakiet?
-469 aktywacji pakietu, może teraz mieć wpływ
+468 Czy na pewno chcesz chcesz uaktywnić ten pakiet?
+469 Pakiet uaktywniony, może zostać wdrożony
 470 Https url
-471 Fragmenty url
+471 Url fragmentów
 472 BŁĄD: Nie można usunąć katalogu
-473 Sygnatura czasowa musi być liczbą
-474 Sygnatura czasowa musi zawierać 10 cyfr
-475 Sygnatura czasowa
-476 Lub aktywuj paczkę ręcznie
+473 Timestamp musi być liczbą
+474 Timestamp musi mieć 10 cyfr
+475 Timestamp
+476 lub aktywować pakiet ręcznie
 477 dotyczą pakietu
-478 Komputer(y)
-479 Nie wybrano komputera
+478 Komputery (ów)
+479 żaden komputer nie został zaznaczony
 480 fragmenty
-481 Aktywowanego pakietu
-482 OCZEKUJE NA POWIADOMIENIE
-483 Walidacja POMYŚLNA
-484 Ręczna częstotliwość
-485 Zawsze inwentaryzowane
+481 aktywowane pakiety
+482 CZEKA ZAWIADOMIENIE
+483 Potwierdzone SUKCESY
+484 Własna częstotliwość
+485 Zawsze zinwentaryzowane
 486 Nigdy nie zinwentaryzowane
-487 Ustawienia ręczne
-488 Domyślnie
-489 IpDiscover behaviour
-490 NIGDY IpDiscover
-491 ZAWSZE IpDiscover sieci
-492 WYLOSOWANE IpDiscover sieci
-493 Domyślnie (może być wybrany)
-494 Określa częstotliwość inwentaryzacji (w dniach)
-495 Inwentaryzowany co
-496 dzień(dni)
-497 Domyślnie używaparametru "CZĘSTOTLIWOŚĆ".
+487 Własne
+488 domyślne
+489 zachowanie IpDiscover
+490 Nie używaj IpDiscover
+491 Zawsze używaj IpDiscover sieci
+492 Wybrane IpDiscover sieci
+493 domyślna (może być wybrany)
+494 Własna częstotliwość inwentaryzacji
+495 Inwentaryzuj co
+496 dni/dzień
+497 Domyślnie używaj parametru "częstotliwość".
 498 Pakiet
 499 Serwer
 500 Personalizacja
-501 dodać pakiet
-502 Wybrany
+501 Dodaj pakiet
+502 Wybrani
 503 Wybrany siłą
 504 nie została wybrana
 505 Wybieralny
@@ -409,35 +409,35 @@
 507 Posiada
 508 Nie posiada
 509 Dowolny
-510 Brak pakietu
+510 nr pakietu
 511 sekund
-512 Zdalna instalacja
-513 Twórz paczkę
-514 Uaktywnij paczkę
+512 Wgrywanie
+513 Zbuduj
+514 Uaktywnij
 515 Uaktywniony
 516 KB
 517 Opcja ta może mieć wpływ tylko na jednym komputerze naraz.
 518 Wymuś IpDiscover
-519 Computer already elected for network
-520 Computer already FORCED ipdiscover for network
-521 Computer already FORCED unelectable
-522 Standardowy komputer
-523 Wróc do stanu standardowego
+519 Komputer już wybrany do sieci
+520 Komputer już zmuszony do ipdiscover sieci
+521 Komputer już zmuszony jako niewybieralny
+522 Komputer standardowy
+523 powrót do standardowych
 524 NIGDY nie wpływa ponownie
-525 JESTEŚ PEWNY?
-526 NO COMPUTER AFFECTED
-527 Styczeń
-528 Luty
-529 Marzec
-530 Kwiecień
-531 Maj
-532 Czerwiec
-533 Lipiec
-534 Sierpień
-535 Wrzesień
-536 Październik
-537 Listopad
-538 Grudzień
+525 JESTEŚĆ PEWNY?
+526 Nie zastosowano do żadnego komputera
+527 Styczniu
+528 Lutym
+529 Marcu
+530 Kwietniu
+531 Maju
+532 Czerwcu
+533 Lipcu
+534 Sierpniu
+535 Wrześniu
+536 Październiku
+537 Listopadzie
+538 Grudniu
 539 Niedziela
 540 Poniedziałek
 541 Wtorek
@@ -446,38 +446,38 @@
 544 Piątek
 545 Sobota
 546 w stanie
-547 wszystko
-548 Wszystkie ale SUKCES
-549 Plik (dystrybuowany na komputery klientów)
-550 File (not mandatory, may be used by "execute" commmand)
-551 to nazwa pakietu już istnieje
-552 <i> należy dokonać przeszukania komputera, a następnie kliknąć przycisk "wdrażania" wpływać na te aktywacji pakietu <br> Można również wpływ pakietu na jednym komputerze przy użyciu "dostosowywania" karcie szczegółów komputera </ i> .
-553 Klucz Windows
-554 Monitor: numer seryjny
+547 wszystkich
+548 Wszystkie z wyjątkiem SUCCESS
+549 plik (rozsyłany do komputerów klienckich)
+550 plik (nieobowiązkowy, może być wykorzystany przez polecenie "wykonaj")
+551 ta nazwa pakietu już istnieje
+552 <i> Należy wyszukać komputery, a następnie kliknąć przycisk "wdrażania" aby wysłać pakiet <br> Można również wysłać pakiet na jednym komputerze przy użyciu "wdrażania" na karcie szczegółów komputera </ i> .
+553 Klucz windows
+554 Monitor: seryjny
 555 Monitor: producent
 556 Monitor: caption
 557 Domena użytkownika
 558 pakietów, których dotyczy problem
-559 Ten plik nie jest. OCS
+559 Plik nie jest typu .ocs
 560 do serwera
-561 Nieznany (usunięty pakiet)
+561 Nieznany (skreślony pakiet)
 562 Sieci o uid:
 563 Producent
-564 Agent  auto-uruchomienie częstotliwości
-565 Server used for local inventories
-567 latency Ipdiscover
-568 RAM (MB)
+564 Częstotliwość auto-uruchamiania agenta
+565 Adres użyty do lokalnej inwentaryzacji
+567 częstotliwość Ipdiscover
+568 MB pamięci RAM (MB)
 569 CPU (MHz)
 570 Pomoc
 571 Zatwierdź
 572 Sukces
 573 Błąd
 574 Statystyki
-575 Unaffect not notified
-576 Customized ipdiscover
+575 Unaffect nie głoszone
+576 Własne ipdiscover
 577 Nazwa grupy
-580 Wszystkie komputery (replay)
-581 Wszystkie komputery (cached)
+580 komputerów (replay)
+581 komputerów (kopia)
 582 i
 583 Grupy
 584 Na życzenie
@@ -485,45 +485,45 @@
 586 Nowa grupa
 587 Nowa statyczna grupa
 588 Zastępuje grupę
-589 statycznie dodać do grupy
-590 stanu Reset
+589 statycznie dodaj do grupy
+590 Reset stanu
 591 Dołącz statycznie
 592 Wyklucz statycznie
 593 Data utworzenia
-594 Cache generated on
-595 STATIC GROUP
-596 DYNAMICZNIE UWZGLĘDNIONY
-597 STATYCZNIE WYŁĄCZONE
+594 cache wygenerowany na
+595 GRUPA STATYCZNA
+596 DODANE DYNAMICZNIE
+597 WYKLUCZONE STATYCZNIE
 598 Dołącz
 599 Wyczyść
 600 Wyklucz
-601 Masowe powiązanie
+601 Przetwarzanie masowe
 602 Musisz wysłać plik
-603 Nie znaleziono komputera, proszę sprawdź plik
-604 computer(s) successfully affected(s)
-605 computer(s) failed
-606 Computers file
+603 Nie znaleziono komputera, sprawdź plik
+604 komputer(ów) z poprawym wdrożeniem (s)
+605 komputer(ów) zakończonych niepowodzeniem
+606 Komputery plik
 607 Grupa
-608 utworzono
-609 nadpisany
-610 STATICALLY INCLUDED
-611 NO CACHE
-612 STATIC
-613 DYNAMIC
+608 utworzonych
+609 nadpisane
+610 DODANE STATYCZNIE
+611 Brako Cache
+612 STATYCZNY
+613 DYNAMICZNY
 614 WYŁĄCZONE
 615 Zapytanie
-616 Perimeter of user
+616 Zakres użytkownika
 617 Nowy
-618 Perimeter
+618 Zakres
 619 użytkownik lokalny
-620 nr komputerze w obwodzie.
-621 grupa nie została utworzona. Jego nazwa jest już w użyciu
+620 Brak komputerów w twoim zakresie.
+621 Grupa nie została utworzona. Jej nazwa jest już w użyciu.
 622 Cached
-623 informacji, którą próbujesz obejrzeć, nie istnieje
+623 Informacja, którą próbujesz obejrzeć, nie istnieje.
 624 Czy na pewno chcesz usunąć grupy
-625 Włącz zmiany
-626 Wyłączenie tej zmiany
-627 Co najmniej jedno z pól jest pusta ... Nie wykonane Update.
+625 Włącz te zmiany
+626 Wyłącz te zmiany
+627 Co najmniej jedno z pól jest puste ... Nie wykonano Update.
 628 Serwery dystrybucyjne
 629 Nowa grupa serwerów redystrybucji
 630 Grupa istniejących serwerów
@@ -533,172 +533,172 @@
 634 Wybrane działania
 635 Nowa nazwa
 637 Wymień
-638 Nazwa grupy nie może być puste
-639 tej grupy SERVER NIE ISTNIEJE
+638 Nazwa grupy nie może być pusta
+639 Redystrybucja tej grupy nie istnieje
 640 Czy na pewno chcesz usunąć
 641 Zarządzanie serwerami redystrybucji
 642 grupy
 643 Wszystkie maszyny
 644 tej maszyny
-645 SZCZEGÓŁY GRUPY
+645 Szczegóły grupy
 646 URL
-647 NUMER PORTU
+647 numer portu
 648 REPERTUAR STORE
-649 AUTOMATYCZNA AKTYWACJA
-650 RĘCZNA AKTYWACJA
+649 automatyczna aktywacja
+650 URUCHAMIANIE RĘCZNE
 651 Serwery
-652 Maszyna(y)
+652 Maszyna (y)
 653 Czarna lista adresów MAC
 654 Wprowadź nowy adres MAC do czarnej listy
-655 Tryb wprowadzania
-656 This datum already exists in the list 
-657 Fields in red are in error!!! (Empty fields or size < 2) 
-658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
-659 Machines already have this teledeploy package. This package's statut for these machines is now 
-660 GROUP OF SERVEUR NOT EXIST
-661 PACKAGES FOR SERVER OF REDISTRIBUTION
-662 Rules of affectation
-663 INTERNES PROBLEM
-664 Action made
-665 NO SELECTED MACHINE. GROUP OF SERVER NOT CREATED 
-666 Group of server made
-667 FOR THE PACKAGE
-668 to Affect with which rule?
-669 ATTENTION: there are doubloons of priority < br > A single rule will be retained!
-670 A rule already carries this name
-671 The name of this rule can't be empty!
-672 This rule does not exist!!!
-673 Administration of the rules of affectation
-674 NAME OF THE RULE
-675 PRIORITY
-676 MACHINE VALUE
+655 Wstawienie wykonane
+656 Ten wpis jest już na liście
+657 Pola na czerwono zawierają błędy! (Puste pola lub rozmiar <2)
+658 Maszyny nie mają serwerów redystrybucji. <br> Konieczne jest rozsyłanie każdego pakietu indywidualnie.
+659 Maszyny posiadają już zlecenie rozesłania pakietu. Ten pakiet ma teraz status
+660 GRUPA REDYSTRYBUCJI NIE ISTNIEJE
+661 paczek dla serwerów redystrybucji
+662 Reguły aktywacji
+663 Problem wewnętrzny
+664 Działanie wykonane
+665 Nie wybrano żadnej maszyny.Nie utworzono grupa redystrybucji
+666 Grupa redystrybucji utworzona
+667 Dla pakietu
+668 Dystrybucja z którą zasadą?
+669 UWAGA: istnieją powielone pierwszeństwa <br> Pojedyncze zasady zostaną zachowane!
+670 Zasada, już posiada tę nazwę
+671 imię tej zasady nie może być pusta!
+672 Zasada ta nie istnieje!
+673 Administracja zasadami wdrażania
+674 NAZWA ZASADY
+675 PRIORYTET
+676 WARTOŚĆ MASZYNY
 677 OPERATOR
-678 SERVER WARTOŚĆ
+678 WARTOŚĆ SERWERA
 679 NAZWA
 680 DOMENA
 681 UŻYTKOWNIK
-682 to Add a supplementary condition
-683 Validate the rule
-684 The following fields must be seized
-685 Dodaj regułę
-686 The condition
-687 You cannot delete it.
-688 Packages are affected on this goupe!
-689 Packages are affected on this server!
-690 Nie możesz skasować wszystkich maszyn.
-691 Generic Values: $IP$ and $NAME$
-692 Modyfikujesz WSZYSTKIE wartości serwerów
-693 Modyfikujesz wartości następującego serwera:
-694 to find the default values, validate the vacuous fields
-695 Modyfikujesz grupę serwera
-696 to Show packages activated to affect on
+682 dodać dodatkowy warunek
+683 Sprawdź zasady
+684 Następujące pola muszą być wypełnione
+685 Dodaj zasadę
+686 Warunek
+687 Nie można go usunąć.
+688 Pakiety są już wdrożone do tej grupy!
+689 Pakiety są już wdrożone do tego serwera!
+690 Nie można usunąć wszystkich maszyn.
+691 Generic wartości: $ IP $ i $ name $
+692 modyfikować wszystkie wartości serwerów
+693 Modyfikujesz wartości następujących serwerów:
+694 W celu znalezienia wartości domyślnych, zrób walidację pól
+695 Modyfikujesz grupy redystrybucji
+696 aby pokazać pakiety aktywowane na
 697 maszyna
-698 grupa serwera
-699 Are you sure to want to affect this package in these machines?
-700 Wybór czarnej listy
+698 grupa redystrybucji
+699 Czy na pewno chcesz wdrożyć ten pakiet na tych maszynach?
+700 Czarna lista wyborów
 701 Czarna lista numerów seryjnych
-702 Enter a new serial number to blacklister
+702 Wprowadź nowy numer seryjny na czarną listę
 703 Czarna lista
-704 Czy na pewno chcesz chcesz blacklister
-705 Czy na pewno chcesz chcesz unblacklister
-706 Unblacklister
+704 Czy na pewno chcesz chcesz dodać do czarnej listy
+705 Czy na pewno chcesz chcesz usunąć z czarnej listy
+706 Usunąć z czarnej listy
 707 ten numer seryjny
 708 ten mac adres
-709 Ręczne ustawienia  PROLOG_FREQ
-710 Dostosowane do pobrania
-711 Biorąc pod uwagę zmiany
-712 Plik języka
-713 Czy na pewno chcesz zastąpić ten plik języka
-714 Language Reference plik
-715 Wybierz język plik do modyfikacji
+709 Własny PROLOG_FREQ
+710 Własny download
+711 Dodane do modyfikacji kont
+712 Plik językowy
+713 Czy na pewno chcesz zastąpić ten plik językowy
+714 Referencyjny plik językowy
+715 Wybierz plik językowy do modyfikacji
 716 Aktualizacja plików językowych
-717 niestandardowy
+717 własny
 718 Ignoruj
 719 (na sekundę)
-720 Czas oczekiwania w sekundach pomiędzy cyklami pobierania
-721 Czas oczekiwania w sekundach pomiędzy pobieraniem każdego z fragmentów
-722 Czas oczekiwania w sekundach pomiędzy każdym z okresów pobierania 
-723 najwyższy priorytet z pobranych pakietów <br> (paczki priorytetowe superior są ignorowane)
-724 Częstotliwość kontaktu agenta z serwerem wyrażona w godzinach
+720 Czas oczekiwania pomiędzy 2 cyklami rozsyłania
+721 Czas oczekiwania pomiędzy pobraniem 2 fragmentów
+722 Czas oczekiwania pomiędzy 2 okresami rozsyłania
+723 Maksymalny priorytet pbieranych pakietów <br> (paczki priorytetowe są ignorowane)
+724 Czas pomiędzy 2 kontaktami pomiędzy agentem a serwerem
 725 (w godzinach)
-726 URI of the servers of redistribution ($IP and NAME$ are the generic values)
+726 URI serwerów redystrybucji ($ IP i nazwę $ są ogólne wartości)
 727 Katalog przeznaczenia pakietu.
-728 Magazyn
-729 komputery
-730 godziny
-731 Feature of appointed on the base to every section of inventory.
-732 milisekunda(y)
+728 Inwentaryzacja
+729 komputerów
+730 godzin
+731 Reportaż z wyznaczonymi na podstawie do wszystkich sekcji zapasów.
+732 milisekundy
 733 Nieaktywne
 734 Pliki inwentaryzacji
 735 Filtry
-736 Włączanie funkcji grupowania komputerów
-737 Random number computed in the defined range. Designed to avoid computing many groups in the same process
-738 Specify the validity of computer's groups (default: compute it once a day - see offset)
-739 Futur security improvements
-740 Validity of a computer's lock
-741 Configure engine to update inventory regarding to CHECKSUM agent value (lower DB backend load)
-742 Make engine consider an inventory as a transaction (lower concurency, better disk usage)
-743 Configure engine to make a differential update of inventory sections (row level). Lower DB backend load, higher frontend load
-744 Accept an inventory only if required by server ( Refuse "forced" inventory)
-745 Specify when the engine will clean the inventory cache structures
-746 Specify the minimal difference to replace an ipdiscover agent
-747 Disable the time before a first election (not recommended)
-748 Enable groups for ipdiscover (for example, you might want to prevent some groups to be ipdiscover agents)
-749 Use with ocsinventory-injector, enable the multi entities feature
-750 Generate either compressed file or clear XML text
-751 Specify if you want to keep trace of all inventory between to synchronisation with the higher level server
-752 Path to ocs files directory (must be writeable)
-753 Enable prolog filter stack
-754 Enable core filter system to modify some things "on the fly"
-755 Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period
-756 Period definition for INVENTORY_FILTER_FLOOD_IP
-757 Enable inventory filter stack
-758 Specify if you want to track packages affected to a group on computer's level
-759 759 Wartość musi być większa lub równa
+736 Włączanie funkcjonalności grup komputerów
+737 Liczba losowa z określonego zakresu. Zaprojektowane, aby uniknąć przetwarzania wielu grup jednocześnie
+738 Sprawdź poprawność grup komputerów (domyślnie: raz dziennie - patrz offset)
+739 poprawy bezpieczeństwa Futur
+740 Poprawność blokady komputerów
+741 Skonfiguruj Engine do aktualizacji Inwentaryzacji używając sumy kontrolnej agenta (mniejsze obciążenie zaplecza)
+742	Niech Engine traktuje inwentaryzację jako transakcję (niższa wartość, lepsze użycie dysku)
+743 Niech Engine wykonuje aktualizację różnicową (rząd wielkości ). (Mniejsze obciążenie zaplecza większe obciążenie klienta.)
+744 Zaakceptuj Inwentaryzację tylko wówczas, gdy jest wymagana przez serwer (odmawia "wymuszonej" inwentaryzacji)
+745 Określ, kiedy Engine ma wyczyścić cache inwentaryzacji
+746 Określić minimalną różnicę aby zastąpić agenta ipdiscover
+747 Wyłącz czas oczekiwania przed pierwszym wyborami (nie zalecane)
+748 Włącz ipdiscover dla grup (na przykład, może nie chcesz, aby pewne grupy, wykonywały ipdiscover agentów)
+749 Używaj z ocsinventory-local, funkcjonalność dla wielu jednostek
+750 Generowanie albo skompresowanego pliku lub zwykłego tekstu XML
+751 Określ, czy chcesz zachować ślad wszystkich inwentaryzacji do synchronizacji z serwerem wyższego poziomu
+752 Ścieżka do katalogu plików OCS (musi być zapisywalny)
+753 Włącz filtr prologu stosu
+754 Włącz system filtrów <br /> aby zmienić niektóre rzeczy "w locie"
+755 Włącz filtr powodzi inwentaryzacji. Dedykowany adres IP ma możliwość wysyłania nowego komputera tylko raz w tym okresie
+756 Definicja odstępów INVENTORY_FILTER_FLOOD_IP
+757 Włącz filtr stosu
+758 Określ, czy chcesz śledzić pakiety dla grup na poziomie komputera
+759 Musi być większe lub równe
 760 Webservice
-761 włączanie / wyłączanie usług SOAP
-762 strony rozmiar Wynik (być świadome zagadnień spektakle)
+761 Włącz/Wyłącz usług SOAP
+762 Rozmiar obszaru wyników (należy uważać na spadek wydajności)
 763 Dołącz plik własnych modułów
 764 Opcje poniżej nie są ustawiane przez GUI. <br> (Patrz ocsinventory-server.conf)
 765 Całe oprogramowanie
-766 BRAK WYNIKÓW
-767 BĄDŹ OSTROŻNY: WYNIK Z FILTREM
-768 Number of recording
-769 Tranfer Made
-770 UPDATE OF 
+766 Brak wyników
+767 uważaj: WYNIK FILTROWANY
+768 Liczba rejestracji
+769 Transfer zakończony
+770 AKTUALIZACJA
 771 Ta kategoria już istnieje
-772 Nazwa kategorii nie może być pusta
-773 Musisz wybrać nazwę kategorii
-774 You try to make a transfer of the category towards the same category
-775 Directory of creation of packages
-776 Directory of stake in cache of the analyses of ipdiscover
-777 Validity of a session
-778 Liczba różnych GRUP_ROBOCZYCH
-779 Inny TAG
-780 Liczba różnych podsieci(IPSUBNET)
-781 Liczba maszyn, w których trwa dystrybucja oprogramowania
-782 Maszyny z błędem w pakiecie
+772 Nazwa kategorii nie może być null
+773 Należy wybrać nazwę kategorii
+774 Próbujesz dokonać transferu kategorii do tej samej kategorii
+775 Katalog przechowywania pakietów
+776 Katalog cache ipdiscover
+777 Ważność sesji
+778 Liczba różnych "GRUP ROBOCZYCH"
+779 Różne TAGi
+780 Różne IPSUBNET
+781 Maszyny posiadające zadania wdrożenia
+782 Maszyny posiadające zadania wdrożenia zakończone błędem
 783 Liczba różnych systemów operacyjnych
-784 Wersje agentów
-785 Rodzaje procesorów
-786 Różne rozdzielczośi ekranu monitora
-787 Maszyny z procesorem >=
-788 Maszyny z procesorem =<
+784 Różne wersje agenta
+785 Różnych procesorów
+786 Różnych rozdzielczości
+787 Maszyny z procesorem> =
+788 Maszyny z procesorem = <
 789 Maszyny z procesorem między
-790 Maszyny z pamięcią RAM >=
-791 Maszyny z pamięcią RAM =<
+790 Maszyny z pamięcią RAM> =
+791 Maszyny z pamięcią RAM = <
 792 Maszyny z pamięcią RAM między
 793 Maszyn w bazie
-794 Widoczne maszyny
-795 Urządzenia, które dzisiaj łączyły się z serwerem
-796 Liczba maszyn dzisiaj inwentaryzowanych
-797 Urządzenia nie widziane od
-798 DZIAŁAJĄCE OBECNIE
-799 SPRZĘT
-800 WIĘCEJ
-801 Nie pokazuj tego pola
-802 Pokaż pole
-803 Licznik w dniach od kiedy maszyny nie łączyły się z serwerem
+794 Widzianych maszyn
+795 Liczba kontaktujących się dziś maszyn
+796 Liczba zinwnetaryzowanych dziś maszyn
+797 Maszyny nie widziane od
+798 DZIAŁALNOŚĆ
+799 HARDWARE
+800 Inne
+801 Nie pokazuj tej dziedzinie
+802 Pokaż ten nych
+803 liczy się w ciągu dnia, ponieważ maszyny nie kontaktować się z serwerem
 804 Minimalna prędkość procesora
 805 Maksymalna prędkość procesora
 806 Minimalna ilość pamięci RAM
@@ -707,213 +707,213 @@
 809 Statyczne grupy
 810 Dynamiczne grupy
 811 Czy na pewno chcesz chcesz zmodyfikować widoczności grupy
-812 0 oprogramowania jest obecny w pamięci podręcznej, ale nie bardziej utrwalonym na maszynach. <br> Nie mogą być one umieszczone w kategorii stron
-813 Rozmiar wolnej przestrzeni dysku >
-814 Rozmiar wolnej przestrzeni dysku <
-815 Rozmiar wolnej przestrzeni pomiędzy
-816 Maksymalny rozmiar wolnej przestrzeni dysku
-817 Minimalny rozmiar  wolnej przestrzeni dysku
-818 Wynoś się z grupy
-819 komputer (y) dodany do grupy
+812 Oprogramowanie w 0 jest w pamięci podręcznej, ale nie jest przetrzymywane na maszynach. <br> Nie mogże być one umieszczone słowniku
+813 Liczba dysków twardych o rozmiarze powyżej
+814 Liczba dysków twardych o rozmiarze poniżej
+815 Liczba dysków twardych o rozmiarze między
+816 Największa ilość wolnego miejsca na twardym dysku
+817 Najmniejsza ilość wolnego miejsca na twardym dysku
+818 Wyrzuć z grupy
+819 Komputer (y) dodany do grupy
 820 Ostatni kontakt
 821 ZMIANA KONFIGURACJI SERWERA
 822 Dostosuj
-823 domyślnie
-824 Interfejs aktywacji dzienniki
-825 Skorowidz Logi
-826 Adres tofind teledeploy pakietów fragmenty, aby uaktywnić
-827 Adres do znalezienia teledeploy pakietów INFO plików, aby uaktywnić
-828 Usuwanie komputerów z inwentaryzacją starszą niż
-829 redystrybucja tworzenia pakietów w katalogu
-830 adres serwera LDAP
+823 Domyślnie
+824 Aktywacja logów dla interfejsu
+825 Dziennik Logów
+826 Adres do znalezienia fragmentów paczek
+827 Adres do znalezienia plików INFO paczek
+828 Usuń komputery z inwentaryzacji starsze niż
+829 Katalog tworzenia paczek redystrybucji
+830 Adres serwera LDAP
 831 Port serwera LDAP
 832 Nazwa bazy LDAP + DC
-833 Nazwa pola w celu określenia logowanie
-834 LDAP_OPT_PROTOCOL_VERSION Version
+833 Nazwa pola do definicji loginu
+834 LDAP_OPT_PROTOCOL_VERSION
 835 Dodaj RSX
-836 Zarządzanie RODZAJE
-837 Nie masz dostępu do tej teleadresowe
+836 Zarządzanie Typami
+837 Nie masz dostępu do tych danych
 838 Dysk: litera dysku
 839 Dysk: Typ
 840 Dysk: Format
 841 Dysk: Pojemność
-842 Dysk: Free Space
-843 Dysk: Imię i nazwisko Tom
+842 Dysk: Wolne miejsce
+843 Dysk: Nazwa Wolumenu
 844 Grupa: Id
 845 Grupa: Static?
 846 Oprogramowanie: Firma
 847 Oprogramowanie: Nazwa
-848 Oprogramowanie: Wersja
+848 Oprogramowanie: Version
 849 Oprogramowanie: Instalacja w katalogu
 850 Oprogramowanie: Komentarze
-851 BIOS: producenta komputera
+851 BIOS: Producent komputera
 852 BIOS: Model
-853 BIOS: Numer seryjny,
+853 BIOS: Numer seryjny
 854 BIOS: Typ komputera
 855 BIOS: Producent
-856 BIOS: Wersja
+856 BIOS: Version
 857 BIOS: Data
 858 Monitor: Producent
-859 Monitor: Imię i nazwisko
+859 Monitor: Nazwa
 860 Monitor: Opis
 861 Monitor: Typ
 862 Monitor: Numer seryjny
 863 Sieć: Opis
 864 Sieć: Typ
-865 Sieć: MibType
-866 Sieć: Przepustowość
+865 Sieć: Typ MIB
+866 Sieć: Prędkość
 867 Imię i nazwisko: Adres MAC
 868 Sieć: Status
-869 Sieć: Adres IP
-870 Sieć: IP Maska
+869 Imię i nazwisko: Adres IP
+870 Sieć: Maska IP
 871 Sieć: Podsieć IP
 872 Sieć: Bramka IP
 873 Sieć: DHCP IP
 874 klucz rejestru: Nazwa
-875 klucz rejestru: Stosunek jakości
-876 Simple unaffect REDYSTRYBUCJA GROUP
-877 Niektórych komputerów nie dodano do grupy, ponieważ:
-878 Przypomnienie: komputer może być członkiem tylko jednego serwera grupy
-879 GRUPE otrzymują
+875 klucz rejestru: Wartość
+876 Niepowodzenie REDYSTRYBUCJA GROUP
+877 Niektóre komputery nie dodano do grupy, ponieważ:
+878 Przypomnienie: komputer może być członkiem tylko jednej grupy
+879 Grupa podmieniona
 880 Grupa została utworzona
 881 Komputery dodane
-882 Komputery usunięty z grupy
-883 Ogranicz
-884 UWAGA: z wizualizacją FILTER
+882 Komputery usunięte z grupy
+883 Ogranicz widok
+884 UWAGA: wizualizacja z FILTREM
 885 nieznany
-886 Simple desaffection
-887 Możliwe, że ten pakiet nie ma wpływu na serwery redystrybucji
+886 Wycofanie z dystrybucji
+887 Możliwe, że ten pakiet nie jest wdrożony na serwerach redystrybucji
 888 Usuwanie
 889 podłączony jako
 890 Interfejs jest aktualnie zablokowany na wyszukiwanie według różnych kryteriów
-891 Usuwanie interfejsu LOCK
+891 Usuń blokadę interfejsu
 892 połączyć z innym kontem
-893 No Tag AFFECTEID do swojego profilu
-894 NIE  ZDEFINIOWANY POZIOM UPRAWNIEŃ DLA TWOJEGO PROFILU
-895 TAG Modyfikacja
+893 Nie zdefiniowano TAGu do twojego profilu
+894 Nie zdefiniowano uprawnień do twojego profilu
+895 Modyfikacja TAGu
 896 Adnotacje
 897 Uwaga daty
-898 Uwaga autora
-899 Writer
-900 Czy na pewno chcesz usunąć wybór?
-901 Action sur le résultat de la requête (Wynik działania zapytania(?))
-902 Action sur le résultat de la sélection (Wynik działania wyboru(?)))
-903 należy wypełnić pola wyjaśnienia
-904 Pakiet przeznaczenie
-905 Wyjaśnienie wykonywanych działań <br>na komputerzerze to be able to <br>affect package
+898 Dodaj adnotacje
+899 Autor
+900 Czy na pewno chcesz usunąć zaznaczenie?
+901 Wynik działania zapytania
+902 Wynik działania zaznaczenia
+903 należy wypełnić pole objaśnienia
+904 Pakiet relokacji
+905 Wyjaśnienie na temat wykonanego zadania<br>na komputerze aby mieć<br>wpływ na pakiet
 906 Pakiet teledeploy usunięcia
-907 Objaśnienie o usunięcie pakietu <br> na tym komputerze
-908 informacje Mobile Terminal
-909 NIE WYKONANO ZMIAN: BŁĘÐNY NOWY PROFIL
-910 Validate
-911 Przełącz profil
-912 Eksportuj listę komputerów, które mają to oprogramowanie
+907 Wyjaśnienie na temat usuwanego pakietu<br>na tym komputerze
+908 informacje o przenośnych Terminalach
+909 MODYFIKACJA NIE POWIODŁA SIĘ: NIEPRAWIDŁOWY NOWY PROFIL
+910 Validacja
+911 Wyloguj się
+912 Eksportuj listę komputerów dla tego oprogramowania
 913 Liczba niezinwentaryzowanych interfejsów sieciowych
-914 Liczba agentów,które nie wysłały inwentaryzacji od conajmniej
-915 Wiadomości
+914 Liczba agentów które nie przesyłają inwentaryzacji od co najmniej
+915 wiadomości
 916 wartość musi być wyższa niż
 917 Wartość częstotliwości
 918 różnica między LASTDATE i LASTCOME
-919 Czy na pewno chcesz usunąć tę wiadomość
-920 BŁĄD, wniosek nie istnieje.
-921 Usuń tą kategorię
-922 Do połączenia, należy wybrać co najmniej 2 komputery
-923 Nie masz komputer w wizytówki
-924 EXTRACTION REQUEST NOT CONVENTIONAL!
-925 FUSER functionality
-926 Fuser login:
-927 CACHE S NOT REGENERATED BY THIS ACTION
+919 Czy na pewno chcesz chcesz usunąć tę wiadomość
+920 Błąd, żądany plik nie istnieje.
+921 Usunąć tą kategorię
+922 Aby scalić, należy wybrać co najmniej 2 komputery
+923 Nie masz komputerów do zliczenia
+924 WYDOBYCIE wniosek nie OPRAWY!
+925 funkcjonalności
+926 login
+927 CACHE nie zostanie odświeżona przez to działanie
 928 Wizualizacja logów
-929 podsieci managementn nie jest wykonywana lokalnie.
-930 Nie można dodawać / modyfikować / usunąć podsieci
-931 Modyfikowanie podsieci
+929 zarządzanie podsiecią nie jest wykonywane lokalnie.
+930 nie można dodawać/modyfikować/usuwać podsieci
+931 Modyfikacja podsieci
 932 pole adresu IP nie może być puste
-933 polu Nazwa sieci nie może być puste
-934 netword polu Identyfikator nie może być puste
-935 polu adresu maski sieci, nie może być puste
-936 dziedzinie typu nie może być puste
-937 tego typu już istnieje
-938 Nowy typ
-939 użytkowników komputerów grupy
-940 Wszystkie komputery o tym pakiecie
-941 WYŚWIETLANIE STATYSTYK NA
-942 Musisz wprowadzić komentarz dla urządzeń peryferyjnych
-943 Musisz wybrać typ urządzenia peryferyjnego
+933 pole Nazwa Sieci nie może być puste
+934 pole ID Sieci nie może być puste
+935 pole Adresu Maski Sieci nie może być puste
+936 pole Typ nie może być puste
+937 pole Typ już istnieje
+938 Nowe pole Typ
+939 członkiwie grupy Computers
+940 Wszystkie komputery posiadaja tą paczkę
+941 Wyświetlanie statystyk Włączone
+942 Musisz wprowadzić objaśnienia dla urządzeń
+943 Musisz wybrać typ urządzenia
 944 Dane wprowadzone przez
-945 Modyfikacja urządzeń peryferyjnych
-946 Dodawanie nowego urządzenia peryferynego
-947 Lista nie zidentyfikowanych urządzeń peryferyjnych
-948 Lista zidentyfikowanych urządzeń peryferyjnych
+945 zmiana urządzenia
+946 dodawanie nowych urządzeń
+947 Nie określono listy urządzeń
+948 Określono listę urządzeń
 949 Id Komputera
 950 NAZWA PLIKU
-951 Plik utworzony w
-952 Plik zmodyfikowany w
-953 Rozmiar
-954 A SESSION loss happened
-955 Żaden system nie znaleziono w bazie
+951 PLIK UTWORZONY W
+952 PLIK ZMODYFIKOWANY W
+953 WIELKOŚĆ
+954 PRZERWANIE SESJI
+955 NIE znaleziono Systemu w bazie
 956 Wszystkie błędy
-957 Wszystkie SUKCESU
-958 TELEDEPLOY VALUE PROBLEM
-959 TO MUCH SOFTWARES PULLED UP. BE MORE SPECIFIC WITH THE SEARCH
-960 NO SOFTWARE CORRESPONDING TO THE SEARCH
+957 Wszystkie SUKCESY
+958 TELEDEPLOY PROBLEM WARTOŚCI
+959 Zbyt duża liczba wyników. Uszczegółowij zapytanie
+960 Nie znaleziono szukanego słowa
 961 WYKAZ
-962 (one , between every)
-963 RÓŻNE LISTY
+962 (jeden, pomiędzy każdym)
+963 ROŻNE WYKAZY
 964 Nazwy partycji
 965 Wyświetlacz
 966 Agent
 967 NALEŻĄ DO
 968 NIE NALEŻĄ DO
-969 Historyczne pakiety
-970 pakietów
-971 PRZENIESIENIE GRUPY KOMPUTERÓW
+969 Stare pakiety
+970 Pakiety
+971 grupy Komputery PRZEPROWADZKI
 972 Komputery zostały usunięte z grupy oraz
-973 DODAWANIE KOMPUTERÓW DO GRUPY
-974 computers inserted into cache
+973 COMPUTERS dodatkiem do grupy
+974 komputerów włożeniu pamięci podręcznej
 975 Dodaj do grupy
-976 REZULTAT ZABLOKOWANIA INTERFEJSU NA RZYCZENIE
-977 ZABLOKUJ
-978 Zamierzasz zablokować wszystkie interfejsy wdług wyników wyszuukiwania
-979 Aby wrócić do standardowych ustawień , będziesz musiał klinąć na ikonę <img src='image/cadena_op.png'>, która jest w prawym górnym rogu interfejsu
+976 INTERFACE ZAMEK NA ŻYCZENIE WYNIK
+977 LOCK
+978 Będziesz zablokować wszystkie interfejsu wyszukiwania criterias wyniki
+979 PTO wrócić do standardowych, będziesz musiał cli na e ikonę <img src='image/cadena_op.png'>, która jest w prawym górnym interfaceace
 980 pakietów na komputerach
 981 pakietów na serwerach grup
-982 NO AFFECTATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
-983 You have to choose on which type modifications has to perform
+982 NO sztuczność RULE IS AVAILABLE. NO REDYSTRYBUCJA MOŻLIWE.
+983 Musisz wybrać, w którym zmiany typu musi wykonać
 984 Zmiany
-985 PRZENIESIENIE KOMPUTERÓW
-986 pRZENIESIENIE KOMPUTERÓW DO
+985 COMPUTERS PRZEPROWADZKI
+986 USUŃ komputerów dla
 987 Ten klucz rejestru już istnieje
-988 MUSISZ WYPEŁNIĆ WSZYSTKIE POLA
-989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
-990 Pakiety utworzone ręcznie
-991 Pakiety utworzone automatycznie
-992 Szacowany czas Teledeploy
-993 Czerwone pola zawierają błędy
+988 MUSISZ wypełnienie wszystkich pól
+989 Daty nie istnieje. PAŃSTWA godzin nie można znaleźć w bazie danych dla tego pakietu
+990 Ręczne tworzenie pakietów
+991 Automatyczne tworzenie pakietów
+992 raz Teledeploy oszacowanie
+993 dziedzinach Czerwone błąd
 994 PDA / SmartPhone
 995 ID użytkownika
-996 NAZWISKO
+996 Nazwisko
 997 Wpisz identyfikator użytkownika
 998 wybierz prawidłowy profil
 999 Ten identyfikator użytkownika już istnieje
 1000 Notyfikowane
-1001 Czerwone pola zawierają błędy!
+1001 Czerwone pola zawierają błędy
 1002 Szacunkowy czas wdrożenia
 1003 Redystrybucja parametrów pakietów serwera
 1004 Nie jest możliwe stworzenie tworzenia pakietów w katalogu
 1005 Utworzenie pakietu niemożliwe
 1006 nie ma prawa wrinting
 1007 Katalog
-1008 Use on this redistribution package
+1008 Użyj tego pakietu do redystrybucji
 1009 Katalog serwery danych
 1010 NORMALNA
 1011 DEBUG
 1012 JĘZYK
 1013 KONSERWACJA
-1014 Przełącz na
+1014 Switch to
 1015 Tryb użytkownika
 1016 Logowania użytkownika root
 1017 Hasło roota
-1018 (Nie zapisuj nic, jeśli chcesz użyć anonimowego połączenia)
+1018 (Nie pisać nic, jeśli chcesz użyć anonimowego conexión)
 1019 Wynik blokady
 1020 Nazwa informacji tag
 1021 admin Teledeploy
@@ -921,10 +921,10 @@
 1023 Opakowania wpływa z statut
 1024 zostaną usunięte
 1025 Unaffect
-1026 Packages deleted on computers
-1027 Kategorie
+1026 Opakowania skreślony computers
+1027 Kategoria
 1028 Nowe
-1029 Ignorowane
+1029 Ignorowany
 1030 Bez zmian
 1031 Zestaw IT Management
 1032 Aktywuj zestaw zarządzania IT dla Teledeploy
@@ -932,51 +932,51 @@
 1034 General Information Package
 1035 Technical Information Package
 1036 Validation information
-1037 Nazwa pakietu
-1038 Requester
+1037 Nazwa paczki
+1038 Pytający
 1039 Priorytet
-1040 User notified
-1041 User can defer
-1042 triggers a reboot
+1040 Użytkownik powiadomiony
+1041 Użytkownik może odraczać
+1042 trigger-y zrestartowane
 1043 Stock control to validate the installation
-1044 By list
-1045 By visual
+1044 Jako lista
+1045 Wizualnie
 1046 Statut
-1047 INFO
+1047 Info
 1048 Dodaj plik
-1049 BAD ACTION
+1049 ZŁA CZYNNOŚĆ
 1050 Szukaj oprogramowania
 1051 Szukaj
 1052 Historia
 1053 Demande modifiee
 1054 Demande effectuee
-1055 Twój adres e-mail jest nieprawidłowy
+1055 Twój e-mail jest nie prawidłowy
 1056 Skontaktuj się z administratorem OCS-NG
-1057 Błąd połączenia z serwerem mail
-1058 brak prawidłowego adresu e-mail
+1057 Błąd z połączeniem do serwera pocztowego
+1058 żaden e-mail nie jest poprawny
 1059 Dostępne dane
 1060 Nowe dane
 1061 Etykieta
 1062 Pole
-1063 Sformułowanie
-1064 Mandatory
-1065 Ograniczenie pola
+1063 Formułowanie 
+1064 Obowiązkowy
+1065 Field restraint
 1066 Linked to a status
-1067 Nazwa pola jest w użyciu
-1068 Nazwa pola nie może być pusta
-1069 Dodano wartość
+1067 Nazwa jest już używana
+1068 Nazwa pola nie możę być pusta
+1069 Dodawanie wartości skończone
 1070 Nowe pole
 1071 Typ pola
-1072 Pending resquests
-1073 Make a request
-1074 Funkcja 'Workflow' jest nieaktywna.
-1075 Aktywuj funkcjonalność by jej użyć
-1076 BŁĄD: SEARCH STATUS IS NOT DEFINE
-1077 Status for creating package
-1078 Test status
+1072 Nierozstrzygnietę zapytanie
+1073 Wykonaj zapytanie
+1074 Funkcja 'Workflow' nie jest aktywna.
+1075 Najpierw uaktywnij tą funkcjonalność.
+1076 ERROR: SEARCH STATUS IS NOT DEFINE
+1077 Stan tworzenia paczki
+1078 Stan testu
 1079 restraint perimeter status
 1080 global perimeter status
-1081 Information by mail
+1081 Informacja na email
 1082 Workflow admin group
 1083 Perimeter identification
 1084 Group name for test
@@ -984,130 +984,130 @@
 1086 TAG value for test
 1087 Value of the test tag
 1088 TAG value for restraint perimeter 
-1089 Nie ma żadnego aktywnego statusu.Rozpocznij by aktywować jeden
+1089 Starus nie aktywny, aktywuje jeden
 1090 has modify request n°
-1091 Nowe żądanie zostało wysłane
-1092 wyśli nowe żądanie
+1091 Nowa zapytanie została wystawiona
+1092 zadaj nowe zapytanie
 1093 Baza danych jest niekompletna
-1094 Please replay the complete installation of the database
+1094 Proszę powtórz kompletną instalację bazy danych
 1095 Status Admin
-1096 Lista pól
+1096 Pole lista
 1097 Tabs list
 1098 Nazwa pola
-1099 Wartość domyślna
-1100 Lista statusów
-1101 Pole nie może być zaktualizowane
-1102 Aktywuj status
+1099 Standardowe wartości
+1100 Status list
+1101 To pole nie może zostać uaktualnione
+1102 Active status
 1103 Status ID
 1104 Poziom
-1105 Workflow functionality is enabled
-1106 It is possible to create a package only if a request exist before
+1105 Funkcjonalność Workflow jest włączona
+1106 To jest możliwe, by utworzyć paczkę tylko, jeżeli prośba istnieje przed
 1107 And the status is correct
-1108 Konfiguracja LDAP
-1109 Filtruj
-1110 The assignment of a package depends on the status of the request
-1111 Name of the first attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1112 Value of the first  attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1113 If the first attribute is found and the value matches, set this user role automatically
-1114 Name of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1108 LDAP configuracja
+1109 Filtr
+1110 Przypisanie paczki zależy od pozycji prośby
+1111 Nazwa pierwszej cechy, która będzie użyta do oceniania poziomu bezpieczeństwa użytkownika LDAP (czystego dla żadnego)
+1112 Wartość pierwszej  cechy, która będzie użyta do oceniania poziomu bezpieczeństwa użytkownika LDAP (czystego dla żadnego)
+1113 Jeżeli pierwsza cecha jest znaleziona i pasuje wartości, ustawić tę rolę użytkownika automatycznie
+1114 Nazwa drugiej cechy, która będzie użyta do oceniania poziomu bezpieczeństwa użytkownika LDAP (czystego dla żadnego)
 1115 Value of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1116 If the second attribute is found and the value matches, set this user role automatically
+1116 Jeżeli druga cecha jest znaleziona i pasują wartości, ustawić tę rolę użytkownika automatycznie
 1117 E-mail
-1118 Edit
+1118 Edytuj
 1119 Wybierz
-1120 Ilość
-1121 Update done
+1120 Quantity
+1121 Aktualizacja skończona
 1122 Wiki
 1123 IRC
 1124 Forums
-1125 Procent
-1126 Date of note
-1127 Author of note
-1128 Notatki
-1129 USUNIĘTO PACZKĘ
-1130 Edytor języka
-1131 Word
-1132 ID word
-1133 New word
+1125 Procentowo
+1126 Data notatki
+1127 Autor notatki
+1128 Notatka
+1129 Skasowana paczka
+1130 Edytor języków
+1131 Słowo
+1132 ID słowa
+1133 Nowe słowo
 1134 No ipdiscover data
-1135 computer(s) are already exist on redistribution group
+1135 Komputer(y) istnieje już w grupie redystrybucyjnych
 1136 Snmp
-1137 Włącz/Wyłącz usługe snmp
+1137 Włącz/Wyłącz usługę snmp
 1138 Pokaż wszystkie moje podsieci
-1139 Administruj
-1140 Administruj podsiecią
-1141 Podsieć dodana
-1142 Wprowadź nową podsieć do czarnej listy
+1139 Administer
+1140 Administer subnet
+1141 Subnet added
+1142 Wprowadź nową podsieć dla blacklist
 1143 Maska podsieci
-1144 Nieprawidłowy adres MAC. (musi być: XX.XX.XX.XX.XX.XX)
-1145 wartość musi być między
-1146 Administer profiles
+1144 Nieprawidłowy MAC addres. (musi być: XX.XX.XX.XX.XX.XX)
+1145 wartość musi być pomiędzy
+1146 Zarządzaj profilami
 1147 Nie możesz tego zaktualizować.
-1148 <b>OSTRZEŻENIE:</b>No automatic backup of configuration files will be possible
+1148 <b>WARNING:</b>No automatic backup of configuration files will be possible
 1149 Nazwa nowego profilu
-1150 Reference profile
+1150 Preferencje profilu
 1151 Text profile
-1152 OSTRZEŻENIE: delete basic profiles may cause instability in OCS-NG
+1152 WARNING: usuń podstawowe prfile bo mogą powodować niestabilność w OCS-NG
 1153 Nazwa profilu
-1154 On computers
-1155 On teledeploy's workflow
-1156 Manage teledeploy's workflow
+1154 na komputerze
+1155 na teledeploy's workflow
+1156 Zarządzaj wdrożeniami workflow
 1157 On the fields of teledeploy's workflow
-1158 On the packets activation
-1159 On MAC addresses
-1160 On serial numbers
-1161 On the ipdiscover's subnet
-1162 Manage teledeploy
-1163 Aktualizuj konfigurację
-1164 Zarządzaj grupami
-1165 Konsola zarządzania
-1166 See OSTRZEŻENIE messages of the GUI
+1158 na pakiecie aktywacyjnym
+1159 na MAC adresie
+1160 na numerze seryjnym
+1161 na podsieci ipdiscover's
+1162 Zarządzaj wdrożeniem
+1163 Uaktualniona konfiguracja
+1164 Zarządzaj grupą
+1165 Manage console
+1166 Zobacz ostrzeżenia w GUI
 1167 Manage accounts info
 1168 may change accounts info computers
 1169 may change their membership group
 1170 Manage profiles
 1171 Manage profiles group
 1172 Manage ipdiscover
-1173 Informacje o profilu
-1174 User Pages
+1173 Profile information
+1174 strona użytkownika
 1175 Ograniczenia
-1176 Uprawnienia do czarnej listy
-1177 Uprawnienia do zarządzania
+1176 Prawa do Blacklist
+1177 Prawa do zarządzania
 1178 To pole
-1179 is a variable. Nie może zawierać znaków specjalnych
-1180 niemoże być puste
+1179 is a variable. It can not contain special characters
+1180 nie może być puste
 1181 Redistribution server functionality
-1182 Nie możesz zarządzać regułami redystrybucji. Ta funkcjonalność jest wyłączona.
+1182 You can't manage redistribution rules, this functionality is disable
 1183 List of packages to create
 1184 Klucz dodany
-1185 Zaktualizowano klucz
-1186 Twoje dane zostały zaktualizowane
+1185 Klucz uaktualniony
+1186 Your data are updated
 1187 Configuration is pending
 1188 This group is declared as a TEST perimeter
 1189 This group is declared as a RESTRAINT perimeter
 1190 You can't assign packages higher level
-1191 Informacja: the configuration of workflow is currently on
+1191 Information: the configuration of workflow is currently on
 1192 Group may receive TEST packets
 1193 Group may receive RESTRAINT packets
 1194 Only packets at a higher level
 1195 may be affected
 1196 Profile
 1197 SNMP functionality
-1198 Skanowanie sieci
+1198 Networks scans
 1199 Version of SNMP communities
 1200 Value is updated
 1201 Display
-1202 Linux (wszystkie)
-1203 Windows (wszystkie)
+1202 Linux (ALL)
+1203 Windows (ALL)
 1204 IpDiscover
-1205 Zarządzanie społecznościami SNMP
+1205 Manage SNMP communities
 1206 Directory of SNMP communities file
-1207 Dodaj społeczność
-1208 Społeczność dodana
-1209 Zaktualizowano społeczność
-1210 Informacje o koncie:
+1207 Add community
+1208 Community added
+1209 Community updated
+1210 Account info:
 1211 URL where SNMP community file is
-1212 Skasowano społeczność
+1212 Community deleted
 1213 Separator of export file
 1214 Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)
 1215 Blade server
@@ -1115,192 +1115,191 @@
 1217 Load balancer
 1218 Switch(es)
 1219 Cards
-1220 Kartridże
+1220 Cartridges
 1221 Drives
-1222 Fans
+1222 Wentylatory
 1223 Power supplies
 1224 Trays
-1225 Maximum capacity
+1225 Maksymalna pojemność
 1226 Kolor
 1227 Kontact
-1228 Urządzenia SNMP
+1228 Urządzenie SNMP
 1229 Firmware
 1230 Volumn Name
-1231 Format pliku musi być typem ZIP (*.zip)
-1232 Format pliku musi być typem TAR.GZ (*.tar.gz)
+1231 Format pliku musi być ZIP
+1232 Format pliku musi być TAR.GZ
 1233 Nazwa bazy danych
 1234 Opis nie może być pusty
 1235 Reference
-1236 Soft version
-1237 Wersja Firmware
+1236 Softu wersja
+1237 Firmware wersja
 1238 Data instalacji
 1239 MHz
 1240 MB
 1241 Liczba urządzeń SNMP
 1242 m/d/y
-1243 Wysłać można tylko pliki: ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe i ocspackage.exe
+1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 Ten plik nie może być pusty
-1245 Manage your OCS-NG clients
+1245 Zarządzaj klientami OCS-NG
 1246 Affect again
-1247 Architektura
-1248 Folder
+1247 Architecture
+1248 Katalog
 1249 Activation of cache tables (allows less solicit the MySQL database)
 1250 Teledeploy speed
 1251 Statystyki
 1252 Conf profils files directory
 1253 Directory of old conf profils files
 1254 Directory of scripts logs
-1255 Liczba połączeń na dzień
-1256 Liczba błędnych połączeń na dzień
-1257 Użyj flasha w GUI
-1258 Ręczny wpis
-1259 For one week
-1260 For one months
-1261 Wyczyść cache
+1255 Liczba połączeń w ciągu dnia
+1256 Liczba złych połączeńw ciągu dnia
+1257 Use flash on GUI
+1258 Manual Entry
+1259 Przez jeden tydzień
+1260 Przez jeden miesiąc
+1261 Clear cache
 1262 No plugin enabled for your profil
-1263 ALERT ZABEZPIECZEŃ!
+1263 ALERT Zabezpieczeń!
 1264 Następny
 1265 Enable cache tables
-1266 Wirtualne maszyny
-1267 Typ wirtulanych maszyn
+1266 Virtualne Maszyny
+1267 Typ Virtualych Maszyn
 1268 Uuid
 1269 Machine hosted by
 1270 DDMMYYYY
-1271 Komputery w podsieci
-1272 Usuń jego komputer
-1273 Nie masz uprawnień do usunięcia maszyny
-1274 Zaktualizowano profil
-1275 Niemożna usunąć profili.
-1276 Utworzono profil
-1277 Domyślny profil (blank for none)
-1278 You are not allowed to connect
+1271 Computery w podsieci
+1272 Usuń ten komputer
+1273 Nie masz uprawnień do usunięcia tego komputera
+1274 Profil zaktualizował się
+1275 Profil nie może być usunięty
+1276 Profil utworzony
+1277 Default profil (blank for none)
+1278 Nie moasz pozwolenia do połączenia
 1279 On the support
-1280 Certyfikat istnieje. Dodanie nowego certyfikatu usunie istniejący.
-1281 Konsola wsparcia technicznego
-1282 Zły certyfikat lub błędne hasło
-1283 Aktywowanie wsparcia technicznego
+1280 Certyfikat istniej. Dodanie nowego spowoduje usunięcie aktualnego.
+1281 Console support
+1282 Zły certyfikat lub złe hasło
+1283 Aktywacja wsparcia
 1284 Plik certyfikatu
-1285 Certyfikat dodany
+1285 Certyfikat dodano
 1286 GNU General Public License, version 2.0
-1287 DOSTĘPNE WSPARCIE TECHNICZNE
+1287 Wsparcie dostępne
 1288 Support validity
 1289 Support identification number
-1290 Kontact email
-1291 Certificate issued by
-1292 BEZ WSPARCIA TECHNICZNEGO
+1290 Contact email
+1291 Certyfikat wydany przez
+1292 Wsparcie nie dostępne
 1294 Support information
 1295 Więcej informacji
-1296 Wspracie techniczne
-1297 SNMP device identification
+1296 Wsparcie
+1297 SNMP identyfikacja urządzenia
 1298 QRCode administration
 1299 QRCode
-1300 Check QRCode
-1301 on invisible packages
+1300 Sprawdź QRCode
+1301 na niewidocznych paczkach
 1302 development
 1304 XML
 1305 On the generation of an XML inventory
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
-2001 BŁĄD:
-2002 BŁĄD: line
-2003 Błąd MySQL:
+2001 ERROR:
+2002 ERROR: line
+2003 MySQL error:
 2004 (using new ocs account)
 2005 Podsieć
-2006 OSTRZEŻENIE:
+2006 WARNING:
 2007 konto
-2008 błąd
+2008 error
 2009 failed
 2010 host
 2011 login
-2012 not inserted
-2013 needed
-2014 hasło
-2015 query
+2012 nie włożony
+2013 wymagany
+2014 Hasło
+2015 Pytanie
 2016 successful
-2017 using
-2018 zaimportowano
-2019 were already imported
-2020 Plik install.php istnieje w katalogu ocsinventory
+2017 używając
+2018 był importowany
+2019 już były importowane
+2020 install.php istnieje w katalogu ocsreports
 2021 Your GUI logs directory is not writable
-2022 Nie można wysłać pliku większego niż
+2022 Nie możesz wysłać większego pliku niż
 2023 Usuń to
-2024 The default sql login/password is activate on your database:
-2025 Change your password for ocs login in MySQL
-2026 Domyślny login lub hasło jes aktywne w OCS GUI
-2027 Zmień hasło uzytkownika admin w OCS GUI
+2024 Domyślny sql login/hasło jest aktywne w twojej bazie:
+2025 Zmień swoje hasło dla OCS do logowania w MySQL
+2026 Domyślny login/hasło jest aktywne w OCS GUI
+2027 Zmień hasło administratora w OCS GUI
 
-
-2030 Instalacja OCS-NG Inventory
-2031 Aktualnie zainstalowana wersja
-2032 jest niższa niż obecna wersja
+2030 OCS-NG Inventory Installation
+2031 Current installed version
+2032 is lower than this version
 2033 Automatic install launched.
 2034 DB configuration not completed. Automatic install launched
-2035 BŁĄD: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
-2036 OSTRZEŻENIE: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
-2037 BŁĄD: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php5-mysql)
-2038 OSTRZEŻENIE: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
-2039 OSTRZEŻENIE: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
-2040 OSTRZEŻENIE: You will not be able to build any deployment package with size greater than
+2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
+2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
+2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php5-mysql)
+2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
+2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
+2040 WARNING: You will not be able to build any deployment package with size greater than
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
-2042 OSTRZEŻENIE: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
-2043 OSTRZEŻENIE: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
-2044 Nazwa dodana
+2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
+2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
+2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
-2046 BŁĄD: MySQL authentication problem.
+2046 ERROR: MySQL authentication problem.
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
-2050 Instalacja zakończona można się zalogować w index.php jako login=admin, hasło=admin
-2051 Kliknij tutaj by wejść do OCS-NG GUI
-2052 BŁĄD: nie mam uprawnień do zapisu w katalogu (plik  dbconfig.inc.php), proszę ustaw wymagane uprawnienia by zainstalować ocsinventory (powinieneś usunąć uprawnienie do zapisu po poprawnej instalacji)
+2050 Installation finished you can log in index.php with login=admin and password=admin
+2051 Click here to enter OCS-NG GUI
+2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
 2053 Please wait, database update may take up to 30 minutes...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Database successfully generated
 2056 MySQL config file successfully written
-2057 Istniejąca baza danych została zaktualizowana
+2057 Existing database updated
 2058 Database engine checking...
-2059 BŁĄD: Alter query failed
-2060 BŁĄD: Show table status query failed
-2061 BŁĄD: InnoDB conversion failed, install InnoDB MySQL engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your MySQL config file.)<br>Reinstall when corrected.
-2062 BŁĄD: HEAP conversion failed, install HEAP MySQL engine support on your server<br>or you will experience severe performance issues.
+2059 ERROR: Alter query failed
+2060 ERROR: Show table status query failed
+2061 ERROR: InnoDB conversion failed, install InnoDB MySQL engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your MySQL config file.)<br>Reinstall when corrected.
+2062 ERROR: HEAP conversion failed, install HEAP MySQL engine support on your server<br>or you will experience severe performance issues.
 2063 Database engine successfully updated
 2064 table(s) altered
-2065 BŁĄD: The installer ended unsuccessfully, rerun install.php once problems are corrected
-2066 OSTRZEŻENIE: 'files' directory missing, can't import
+2065 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
+2066 WARNING: 'files' directory missing, can't import
 2067 from it
 2068 was not inserted. You need to set the max_allowed_packet MySQL value to at least 2MB
 2070 missing, if you do not reinstall the DEPLOY feature won't be available
-2071 OSTRZEŻENIE: One or more files were already inserted
+2071 WARNING: One or more files were already inserted
 2072 Deploy files successfully inserted
 2073 Table 'files' truncated
 2074 Table 'files' was empty
 2076 No subnet.csv file to import
 2077 Inserting subnet.csv networks
-2078 BŁĄD: Could not insert network
+2078 ERROR: Could not insert network
 2079 in the subnet table, error
-2080 OSTRZEŻENIE: Sieć
-2081 was not inserted (Nieprawidłowe ip lub maska
+2080 WARNING: Network
+2081 was not inserted (invalid ip or mask
 2082 Network netid computing. Please wait...
-2083 BŁĄD: Could not update netid to
+2083 ERROR: Could not update netid to
 2084 Network netid was computed
 2085 were already computed
 2086 were not computable
 2087 Netmap netid computing. Please wait...
 2089 Netmap netid was computed
 2090 Cleaning orphans...
-2091 BŁĄD: Could not clean
+2091 ERROR: Could not clean
 2092 orphan lines deleted
 2093 Cleaning netmap...
-2094 BŁĄD: Could not clean netmap
+2094 ERROR: Could not clean netmap
 2095 netmap lines deleted
 2096 Please enter the label of the windows client tag input box:
 2097 Leave empty if you don't want a popup to be shown on each agent launch
-2098 BŁĄD: ZIP for PHP is not properly installed.<br>Try to uncomment extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try to install the libphp-pclzip package (Linux).
-2099 BŁĄD: this MySQL login doesn't have the rights to create the database
+2098 ERROR: ZIP for PHP is not properly installed.<br>Try to uncomment extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try to install the libphp-pclzip package (Linux).
+2099 ERROR: this MySQL login doesn't have the rights to create the database
 2100 Update old account infos
 2101 Add by script
-2102 OSTRZEŻENIE: Jeśli zmienisz nazwę domyślnej bazy danch (ocsweb), nie zapomnij zaktualizować plików konfiguracyjnych OCS 
-2103 Tryb DEMO: nie możesz aktualizować danych
+2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
+2103 DEMO mode: you can't update data
 2104 YOU ARE WATCHING THE DEMO VERSION OF
-2105 Twoja baza danych jest poprawna.<br>Nie podjeto żadnej akcji
+2105 Your database is OK.<br>No action taken.
 2106 in MySQL configuration, the variable 'max_allowed_packet' allows only file size <
 
 
