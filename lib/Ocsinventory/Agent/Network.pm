@@ -151,6 +151,7 @@ sub getHttpsFile {
   my ($self, $uri, $filetoget, $filepath ,$certfile, $installpath) = @_ ;
 
   my $logger = $self->{logger};
+  my $config = $self->{config};
   my ($ctx, $ssl, $got);
 
   if ($self->{common}->can_load('Net::SSLeay')) {
@@ -175,12 +176,15 @@ sub getHttpsFile {
 
       #Create ctx object
       $ctx = Net::SSLeay::CTX_new() or die_now("Failed to create SSL_CTX $!");
-      Net::SSLeay::CTX_load_verify_locations( $ctx, "$installpath/$certfile", $installpath )
-      or die_now("CTX load verify loc: $!");
 
-      # Tell to SSLeay where to find AC file (or dir)
-      Net::SSLeay::CTX_set_verify($ctx, &Net::SSLeay::VERIFY_PEER,0);
-      Net::SSLeay::die_if_ssl_error('callback: ctx set verify');
+      if ($config->{ssl}) {
+        Net::SSLeay::CTX_load_verify_locations( $ctx, "$installpath/$certfile", $installpath )
+          or die_now("CTX load verify loc: $!");
+
+        # Tell to SSLeay where to find AC file (or dir)
+        Net::SSLeay::CTX_set_verify($ctx, &Net::SSLeay::VERIFY_PEER,0);
+        Net::SSLeay::die_if_ssl_error('callback: ctx set verify');
+      }
 
       my($server_name,$server_port,$server_dir);
 

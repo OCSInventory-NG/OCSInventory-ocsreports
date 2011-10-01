@@ -34,6 +34,7 @@ my $default = {
   'delaytime' =>  '3600', # max delay time (seconds)
   'backendCollectTimeout'   => '600',   # timeOut of process : see Backend.pm
   'scanhomedirs' => 0,
+  'ssl' => 1,
 
   # Other values that can't be changed with the
   # CLI parameters

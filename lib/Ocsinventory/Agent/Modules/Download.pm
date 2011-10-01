@@ -30,7 +30,7 @@ eval{ require Digest::SHA1 };
 
 #Global vars
 my $ua;
-my $config;
+my $download_config;
 my @prior_pkgs;
 
 
@@ -121,6 +121,7 @@ sub download_prolog_reader{      #Read prolog response
 	
 	my $context = $self->{context};
 	my $logger = $self->{logger};
+	my $config = $self->{context}->{config};
 	my $common = $self->{common};
 	my $settings = $self->{settings};
 	my $messages = $self->{messages};
@@ -164,7 +165,7 @@ sub download_prolog_reader{      #Read prolog response
 						$logger->debug("Writing config file.");
 						print CONFIG XMLout($_, RootName => 'CONF');
 						close(CONFIG);
-						$config = $_;
+						$download_config = $_;
 					}else{
 						$logger->error("Cannot lock config file !!");
 						close(CONFIG);
@@ -285,11 +286,14 @@ sub download_prolog_reader{      #Read prolog response
 				
 				#Create ctx object
 				$ctx = Net::SSLeay::CTX_new() or die_now("Failed to create SSL_CTX $!");
-				Net::SSLeay::CTX_load_verify_locations( $ctx, $packages->{$_}->{CERT_FILE},  $packages->{$_}->{CERT_PATH} )
-				  or die_now("CTX load verify loc: $!");
-				# Tell to SSLeay where to find AC file (or dir)
-				Net::SSLeay::CTX_set_verify($ctx, &Net::SSLeay::VERIFY_PEER, \&ssl_verify_callback);
-				die_if_ssl_error('callback: ctx set verify');
+				
+				if ($config->{ssl}) {
+					Net::SSLeay::CTX_load_verify_locations( $ctx, $packages->{$_}->{CERT_FILE},  $packages->{$_}->{CERT_PATH} )
+					  or die_now("CTX load verify loc: $!");
+					# Tell to SSLeay where to find AC file (or dir)
+					Net::SSLeay::CTX_set_verify($ctx, &Net::SSLeay::VERIFY_PEER, \&ssl_verify_callback);
+					die_if_ssl_error('callback: ctx set verify');
+				}
 				
 				my($server_name,$server_port,$server_dir);
 				
@@ -455,10 +459,10 @@ sub download_end_handler{    	# Get global structure
 		# Reading configuration
 		open FH, "$dir/config" or die("Cannot read config file: $!");
 		if(flock(FH, LOCK_SH)){
-			$config = XMLin("$dir/config");
+			$download_config = XMLin("$dir/config");
 			close(FH);
 			# If Frag latency is null, download is off
-			if($config->{'ON'} eq '0'){
+			if($download_config->{'ON'} eq '0'){
 				$logger->info("Option turned off. Exiting.");
 				finish($logger, $context);
 			}
@@ -501,7 +505,7 @@ sub download_end_handler{    	# Get global structure
 				if(open SINCE, "$entry/since"){
 					my $since = <SINCE>;
 					if($since=~/\d+/){
-						if( (($time-$since)/86400) > $config->{TIMEOUT}){
+						if( (($time-$since)/86400) > $download_config->{TIMEOUT}){
 							$logger->error("Timeout Reached for $entry.");
 							clean($entry, $logger, $context,$messages,$packages );
 							&download_message($entry, $messages->{err_timeout},$logger,$context);
@@ -583,9 +587,9 @@ sub period{
 
 
 	$logger->debug("New period. Nb of cycles: ".
-	(defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:$period_lenght_default));
+	(defined($download_config->{'PERIOD_LENGTH'})?$download_config->{'PERIOD_LENGTH'}:$period_lenght_default));
 
-	for($i=1;$i<=( defined($config->{'PERIOD_LENGTH'})?$config->{'PERIOD_LENGTH'}:$period_lenght_default);$i++){
+	for($i=1;$i<=( defined($download_config->{'PERIOD_LENGTH'})?$download_config->{'PERIOD_LENGTH'}:$period_lenght_default);$i++){
 		# Highest priority
 		if(@prior_pkgs){
 			$logger->debug("Managing ".scalar(@prior_pkgs)." package(s) with absolute priority.");
@@ -598,9 +602,9 @@ sub period{
 					}
 				download($_,$logger,$context,$messages,$settings,$packages);
 					$logger->debug("Now pausing for a fragment latency => ".(
-					defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default)
+					defined($download_config->{'FRAG_LATENCY'})?$download_config->{'FRAG_LATENCY'}:$frag_latency_default)
 					." seconds");
-				sleep( defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default );
+				sleep( defined($download_config->{'FRAG_LATENCY'})?$download_config->{'FRAG_LATENCY'}:$frag_latency_default );
 			}
 			next;
 		}
@@ -618,19 +622,19 @@ sub period{
 			download($_,$logger,$context,$messages,$settings,$packages);
 			
 			$logger->debug("Now pausing for a fragment latency => ".
-			(defined( $config->{'FRAG_LATENCY'} )?$config->{'FRAG_LATENCY'}:$frag_latency_default)
+			(defined( $download_config->{'FRAG_LATENCY'} )?$download_config->{'FRAG_LATENCY'}:$frag_latency_default)
 			." seconds");
 			
-			sleep(defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default);
+			sleep(defined($download_config->{'FRAG_LATENCY'})?$download_config->{'FRAG_LATENCY'}:$frag_latency_default);
 		}
 		
 		$logger->debug("Now pausing for a cycle latency => ".(
-		defined($config->{'CYCLE_LATENCY'})?$config->{'CYCLE_LATENCY'}:$cycle_latency_default)
+		defined($download_config->{'CYCLE_LATENCY'})?$download_config->{'CYCLE_LATENCY'}:$cycle_latency_default)
 		." seconds");
 		
-		sleep(defined($config->{'CYCLE_LATENCY'})?$config->{'CYCLE_LATENCY'}:$cycle_latency_default);
+		sleep(defined($download_config->{'CYCLE_LATENCY'})?$download_config->{'CYCLE_LATENCY'}:$cycle_latency_default);
 	}
-	sleep($config->{'PERIOD_LATENCY'}?$config->{'PERIOD_LATENCY'}:$period_latency_default);
+	sleep($download_config->{'PERIOD_LATENCY'}?$download_config->{'PERIOD_LATENCY'}:$period_latency_default);
 }
 
 # Download a fragment of the specified package
@@ -989,7 +993,7 @@ sub done{
 		clean($id,$logger,$context,$messages,$packages);
 
 	}else{
-		sleep( defined($config->{'FRAG_LATENCY'})?$config->{'FRAG_LATENCY'}:$frag_latency_default );
+		sleep( defined($download_config->{'FRAG_LATENCY'})?$download_config->{'FRAG_LATENCY'}:$frag_latency_default );
 	}
 	return 0;
 }

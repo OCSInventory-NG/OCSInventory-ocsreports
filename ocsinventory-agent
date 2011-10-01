@@ -191,6 +191,11 @@ Print the inventory on stdout.
 Authorized OCS to scan home directories to increase the Virtual Machine inventory.
 WARNING: beware with user privacy by using this option because it may encounter private data scans (even if it's not designed for !).
 
+=item B<--ssl>=I<0|1>
+
+Check SSL communications using a certificate.
+Set to 0 if you want to disable certificate check or 1 to enable. Default is set to 1. 
+
 =item B<--tag>=I<TAG>
 
 Mark the machine with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
