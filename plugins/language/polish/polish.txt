@@ -101,7 +101,7 @@
 184 Plik nie zawiera "użyj stałej wersji"
 185 Wersja musi być wieksza od 1
 186 Ten plik nie zawiera pliku ver
-187 Ten plik nie jest prawIdźowym plikiem zip
+187 Ten plik nie jest prawidłowym plikiem zip
 188 Powrót
 189 Musisz zaznaczyć co najmniej 2 komputery
 190 Informacje o koncie:
@@ -150,15 +150,15 @@
 233 Bierzące dane
 234 został pomyślnie dodany
 235 Użytkownicy
-236 Zmień Hasło
-237 Nowe Hasło
+236 Zmień hasło
+237 Nowe hasło
 238 Potwierdzenie
 239 Musisz wypełnić wszystkie pola
 240 Podane hasła różnią się
-241 Twoje Hasło zostało zmienione
+241 Twoje hasło zostało zmienione
 242 Administrator
 243 Użytkownik
-244 Dodaj nowego Użytkownika
+244 Dodaj nowego użytkownika
 245 został pomyślnie usunięty
 246 Jesteś pewien, że chcesz usunąć tego Użytkownika?
 247 Login MySQL
@@ -174,11 +174,11 @@
 257 Klucz rejestru
 258 Wartość klucza rejestru
 259 Błąd, dane nie mogły zostać dodane (znaki specjalne nie są dozwolone)
-260 Plik etykiet zmodyfikowano poprawnie
-261 Plik etykiet usunięto
+260 Etykieta pliku zmieniona
+261 Etykieta pliku usunięta
 262 Wpisz etykietę
-263 Konfiguracja pliku etykiet
-264 Brak pliku etykiet
+263 Konfiguracja etykiety pliku
+264 Brak etykiety pliku
 265 Cokolwiek
 266 Nieprawidłowa data
 267 dd/mm/rrrr
@@ -204,7 +204,7 @@
 287 Import lokalny
 288 Import lokalny
 289 Informacje o sieci
-290 IP querying
+290 Odpytywanie IP
 291 Tryb eksperta
 292 Dodaj / Usuń urządzenie sieciowe
 293 Typy urządzeń sieciowych
@@ -230,7 +230,7 @@
 313 Bramy
 314 IpDiscover bramy
 315 Nie zinwentaryzowane komputery
-316 Podsiec
+316 Podsieć
 317 ANALIZUJ
 318 Nazwa DNS
 319 Rezultaty analizy sieci
@@ -238,7 +238,7 @@
 321 chcesz zobaczyć zebrane dane?
 322 Dane z cache'u
 323 wygenerowano
-324 HOSTS ZAKWALIFIKOWANE JAKO
+324 HOSTY ZAKWALIFIKOWANE JAKO
 325 puste
 326 nie wpisano maski
 327 Szczegóły komputera
@@ -329,7 +329,7 @@
 427 określa, że kryteria muszą być równa dla dwóch komputerów, które mają być automatycznie łączone.
 428 Wdrożenia
 429 Częstotliwość
-430 przetwarzania masowego
+430 Masowe przetwarzanie
 431 Uaktywnij
 432 nienotyfikowana
 433 Dotyczy
@@ -337,7 +337,7 @@
 435 Pakiet Nowy budynek
 436 Nie można otworzyć pliku
 437 Pakiet został utworzony w katalogu
-438 Budowanie nowego pakietu
+438 Tworzenie nowej paczki
 439 Protokół
 440 Priorytet
 441 Algorytm Digest
@@ -372,9 +372,9 @@
 470 Https url
 471 Url fragmentów
 472 BŁĄD: Nie można usunąć katalogu
-473 Timestamp musi być liczbą
-474 Timestamp musi mieć 10 cyfr
-475 Timestamp
+473 Sygnatura czasowa musi być liczbą
+474 Sygnatura czasowa musi mieć 10 cyfr
+475 Sygnatura czasowa
 476 lub aktywować pakiet ręcznie
 477 dotyczą pakietu
 478 Komputery (ów)
@@ -412,7 +412,7 @@
 510 nr pakietu
 511 sekund
 512 Wgrywanie
-513 Zbuduj
+513 Twórz paczkę
 514 Uaktywnij
 515 Uaktywniony
 516 KB
@@ -426,18 +426,18 @@
 524 NIGDY nie wpływa ponownie
 525 JESTEŚĆ PEWNY?
 526 Nie zastosowano do żadnego komputera
-527 Styczniu
-528 Lutym
-529 Marcu
-530 Kwietniu
-531 Maju
-532 Czerwcu
-533 Lipcu
-534 Sierpniu
-535 Wrześniu
-536 Październiku
-537 Listopadzie
-538 Grudniu
+527 Styczeń
+528 Luty
+529 Marzec
+530 Kwiecień
+531 Maj
+532 Czerwiec
+533 Lipiec
+534 Sierpień
+535 Wrzesień
+536 Październik
+537 Listopad
+538 Grudzień
 539 Niedziela
 540 Poniedziałek
 541 Wtorek
@@ -850,10 +850,10 @@
 952 PLIK ZMODYFIKOWANY W
 953 WIELKOŚĆ
 954 PRZERWANIE SESJI
-955 NIE znaleziono Systemu w bazie
+955 Nie znaleziono Systemu w bazie
 956 Wszystkie błędy
 957 Wszystkie SUKCESY
-958 TELEDEPLOY PROBLEM WARTOŚCI
+958 PROBLEM WARTOŚCI WDROŻENIA
 959 Zbyt duża liczba wyników. Uszczegółowij zapytanie
 960 Nie znaleziono szukanego słowa
 961 WYKAZ
@@ -864,31 +864,31 @@
 966 Agent
 967 NALEŻĄ DO
 968 NIE NALEŻĄ DO
-969 Stare pakiety
+969 Historyczne pakiety
 970 Pakiety
-971 grupy Komputery PRZEPROWADZKI
+971 PRZENIESIENIE GRUPY KOMPUTERÓW
 972 Komputery zostały usunięte z grupy oraz
-973 COMPUTERS dodatkiem do grupy
-974 komputerów włożeniu pamięci podręcznej
+973 DODAWANIE KOMPUTERÓW DO GRUPY
+974 komputerów w pamięci podręcznej
 975 Dodaj do grupy
-976 INTERFACE ZAMEK NA ŻYCZENIE WYNIK
+976 REZULTAT ZABLOKOWANIA INTERFEJSU NA ŻYCZENIE
 977 LOCK
-978 Będziesz zablokować wszystkie interfejsu wyszukiwania criterias wyniki
-979 PTO wrócić do standardowych, będziesz musiał cli na e ikonę <img src='image/cadena_op.png'>, która jest w prawym górnym interfaceace
+978 Zamierzasz zablokować wszystkie interfejsy według wyników wyszuukiwania
+979 Aby wrócić do standardowych ustawień , będziesz musiał klinąć na ikonę <img src='image/cadena_op.png'>, która jest w prawym górnym rogu interfejsu
 980 pakietów na komputerach
 981 pakietów na serwerach grup
-982 NO sztuczność RULE IS AVAILABLE. NO REDYSTRYBUCJA MOŻLIWE.
-983 Musisz wybrać, w którym zmiany typu musi wykonać
+982 Nie istnieje żadna regułą wdrażania. Redystrybucja nie możlwa.
+983 Musisz wybrać, jakiego rodzaju zmiany wykonać
 984 Zmiany
-985 COMPUTERS PRZEPROWADZKI
-986 USUŃ komputerów dla
+985 PRZENIESIENIE KOMPUTERÓW
+986 PRZENIESIENIE KOMPUTERÓW DO
 987 Ten klucz rejestru już istnieje
 988 MUSISZ wypełnienie wszystkich pól
 989 Daty nie istnieje. PAŃSTWA godzin nie można znaleźć w bazie danych dla tego pakietu
 990 Ręczne tworzenie pakietów
 991 Automatyczne tworzenie pakietów
-992 raz Teledeploy oszacowanie
-993 dziedzinach Czerwone błąd
+992 Szacowany czas wdrożenia
+993 Czerwone pola zawierają błędy
 994 PDA / SmartPhone
 995 ID użytkownika
 996 Nazwisko
@@ -913,7 +913,7 @@
 1015 Tryb użytkownika
 1016 Logowania użytkownika root
 1017 Hasło roota
-1018 (Nie pisać nic, jeśli chcesz użyć anonimowego conexión)
+1018 (Nie zapisuj nic, jeśli chcesz użyć anonimowego połączenia)
 1019 Wynik blokady
 1020 Nazwa informacji tag
 1021 admin Teledeploy
@@ -922,9 +922,9 @@
 1024 zostaną usunięte
 1025 Unaffect
 1026 Opakowania skreślony computers
-1027 Kategoria
+1027 Kategorie
 1028 Nowe
-1029 Ignorowany
+1029 Ignorowane
 1030 Bez zmian
 1031 Zestaw IT Management
 1032 Aktywuj zestaw zarządzania IT dla Teledeploy
@@ -953,21 +953,21 @@
 1055 Twój e-mail jest nie prawidłowy
 1056 Skontaktuj się z administratorem OCS-NG
 1057 Błąd z połączeniem do serwera pocztowego
-1058 żaden e-mail nie jest poprawny
+1058 brak prawidłowego adresu e-mail
 1059 Dostępne dane
 1060 Nowe dane
 1061 Etykieta
 1062 Pole
 1063 Formułowanie 
 1064 Obowiązkowy
-1065 Field restraint
+1065 Ograniczenie pola
 1066 Linked to a status
 1067 Nazwa jest już używana
 1068 Nazwa pola nie możę być pusta
-1069 Dodawanie wartości skończone
+1069 Dodano wartość
 1070 Nowe pole
 1071 Typ pola
-1072 Nierozstrzygnietę zapytanie
+1072 Zapytanie w trakcie wykonania
 1073 Wykonaj zapytanie
 1074 Funkcja 'Workflow' nie jest aktywna.
 1075 Najpierw uaktywnij tą funkcjonalność.
@@ -984,24 +984,24 @@
 1086 TAG value for test
 1087 Value of the test tag
 1088 TAG value for restraint perimeter 
-1089 Starus nie aktywny, aktywuje jeden
+1089 Nie ma żadnego aktywnego statusu.Rozpocznij by aktywować jeden
 1090 has modify request n°
-1091 Nowa zapytanie została wystawiona
-1092 zadaj nowe zapytanie
+1091 Nowe żądanie zostało wysłane
+1092 wyśli nowe żądanie
 1093 Baza danych jest niekompletna
 1094 Proszę powtórz kompletną instalację bazy danych
 1095 Status Admin
-1096 Pole lista
+1096 Lista pól
 1097 Tabs list
 1098 Nazwa pola
-1099 Standardowe wartości
-1100 Status list
+1099 Wartość domyślna
+1100 Lista statusów
 1101 To pole nie może zostać uaktualnione
-1102 Active status
+1102 Aktywuj status
 1103 Status ID
 1104 Poziom
 1105 Funkcjonalność Workflow jest włączona
-1106 To jest możliwe, by utworzyć paczkę tylko, jeżeli prośba istnieje przed
+1106 Utworzenie paczki jest możliwe tylko jeżeli wcześniej wysłano zapytanie
 1107 And the status is correct
 1108 LDAP configuracja
 1109 Filtr
@@ -1060,7 +1060,7 @@
 1162 Zarządzaj wdrożeniem
 1163 Uaktualniona konfiguracja
 1164 Zarządzaj grupą
-1165 Manage console
+1165 Konsola zarządzania
 1166 Zobacz ostrzeżenia w GUI
 1167 Manage accounts info
 1168 may change accounts info computers
@@ -1072,7 +1072,7 @@
 1174 strona użytkownika
 1175 Ograniczenia
 1176 Prawa do Blacklist
-1177 Prawa do zarządzania
+1177 Uprawnienia do zarządzania
 1178 To pole
 1179 is a variable. It can not contain special characters
 1180 nie może być puste
@@ -1093,21 +1093,21 @@
 1195 may be affected
 1196 Profile
 1197 SNMP functionality
-1198 Networks scans
+1198 Skanowanie sieci
 1199 Version of SNMP communities
 1200 Value is updated
 1201 Display
 1202 Linux (ALL)
 1203 Windows (ALL)
 1204 IpDiscover
-1205 Manage SNMP communities
+1205 Zarządzanie społecznościami SNMP
 1206 Directory of SNMP communities file
-1207 Add community
-1208 Community added
-1209 Community updated
-1210 Account info:
+1207 Dodaj społeczność
+1208 Społeczność dodana
+1209 Zaktualizowano społeczność
+1210 Informacje o koncie:
 1211 URL where SNMP community file is
-1212 Community deleted
+1212 Skasowano społeczność
 1213 Separator of export file
 1214 Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)
 1215 Blade server
@@ -1131,18 +1131,18 @@
 1233 Nazwa bazy danych
 1234 Opis nie może być pusty
 1235 Reference
-1236 Softu wersja
+1236 wersja oprogramowania
 1237 Firmware wersja
 1238 Data instalacji
 1239 MHz
 1240 MB
 1241 Liczba urządzeń SNMP
 1242 m/d/y
-1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
+1243 Wysłać można tylko pliki: ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe i ocspackage.exe
 1244 Ten plik nie może być pusty
 1245 Zarządzaj klientami OCS-NG
 1246 Affect again
-1247 Architecture
+1247 Architektura
 1248 Katalog
 1249 Activation of cache tables (allows less solicit the MySQL database)
 1250 Teledeploy speed
@@ -1296,10 +1296,10 @@
 2099 ERROR: this MySQL login doesn't have the rights to create the database
 2100 Update old account infos
 2101 Add by script
-2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
-2103 DEMO mode: you can't update data
+2102 OSTRZEŻENIE: Jeśli zmienisz nazwę domyślnej bazy danch (ocsweb), nie zapomnij zaktualizować plików konfiguracyjnych OCS 
+2103 Tryb DEMO: nie możesz aktualizować danych
 2104 YOU ARE WATCHING THE DEMO VERSION OF
-2105 Your database is OK.<br>No action taken.
+2105 Twoja baza danych jest poprawna.<br>Nie podjeto żadnej akcji
 2106 in MySQL configuration, the variable 'max_allowed_packet' allows only file size <
 
 
