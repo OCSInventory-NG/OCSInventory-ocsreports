@@ -1243,7 +1243,7 @@
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
 2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
 2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
-2044 Label added
+2044 Dodano etykietę
 2045 Label NOT added (not tag will be asked on client launch)
 2046 ERROR: MySQL authentication problem.
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
