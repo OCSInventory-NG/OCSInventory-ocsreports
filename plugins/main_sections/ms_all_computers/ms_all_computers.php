@@ -10,6 +10,7 @@
 //====================================================================================
 
 require_once('require/function_computers.php');
+require_once('require/function_admininfo.php');
 //show mac address on the tab
 $show_mac_addr=true;
 
@@ -17,8 +18,14 @@ $form_name="show_all";
 $table_name="list_show_all";
 
 if (isset($protectedGet['filtre']) and !isset($protectedPost['FILTRE'])){
+	if (substr($protectedGet['filtre'], 0, 9) == "a.fields_"){
+		$values_accountinfo=accountinfo_tab(substr($protectedGet['filtre'], 9));
+		if(is_array($values_accountinfo))
+			$protectedPost['FILTRE_VALUE']=$values_accountinfo[$protectedGet['value']];			
+	}	
 	$protectedPost['FILTRE']=$protectedGet['filtre'];
-	$protectedPost['FILTRE_VALUE']=$protectedGet['value'];	
+	if(!isset($protectedPost['FILTRE_VALUE']))
+		$protectedPost['FILTRE_VALUE']=$protectedGet['value'];	
 }
 
 //del the selection
@@ -45,7 +52,7 @@ if (!isset($protectedPost['tri_'.$table_name]) or $protectedPost['tri_'.$table_n
 
 echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 //BEGIN SHOW ACCOUNTINFO
-require_once('require/function_admininfo.php');
+
 $accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
 if (array($accountinfo_value['TAB_OPTIONS']))
 	$tab_options=$accountinfo_value['TAB_OPTIONS'];

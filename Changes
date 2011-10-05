@@ -1,5 +1,6 @@
 Revision history for ocsreports 
 2.0.2
+		* fix bug on accountinfo filter (http://forums.ocsinventory-ng.org/viewtopic.php?pid=43061#p43061)
 		* update polish language file. tx to Piotr Adamcio
 		* fix bug on softwares detail on computer
 		* sort categories on dictionary
