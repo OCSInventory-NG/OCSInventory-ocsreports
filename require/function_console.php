@@ -241,7 +241,7 @@ $sql_field=array("OCS_REPORT_WORKGROUP"=>array('ARG'=>array('count(distinct work
 			 	 "OCS_REPORT_NB_INV"=>array('SQL'=>"select %s from %s where lastdate > date_format(sysdate(),'%s')",
 			 	 							'ARG'=>array('count(id) c',$table["OCS_REPORT_NB_INV"],"%Y-%m-%d 00:00:00")),
 
-			 	 "OCS_REPORT_NB_4_MOMENT"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_4_MOMENT"],"where unix_timestamp(lastdate) < unix_timestamp(sysdate())-(".$data_limit['GUI_REPORT_AGIN_MACH']."*86400)")),
+			 	 "OCS_REPORT_NB_4_MOMENT"=>array('ARG'=>array('count(id) c',$table["OCS_REPORT_NB_4_MOMENT"],"where unix_timestamp(lastcome) < unix_timestamp(sysdate())-(".$data_limit['GUI_REPORT_AGIN_MACH']."*86400)")),
 
 			 	 "OCS_REPORT_NB_HARD_DISK_H"=>array('SQL'=>"select %s from %s where type='%s' and free>%s",
 			 	 									'ARG'=>array('count(distinct(hardware_id)) c',$table["OCS_REPORT_NB_HARD_DISK_H"],"Hard Drive",$data_limit['GUI_REPORT_DD_MAX'])),
