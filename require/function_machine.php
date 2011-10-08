@@ -92,7 +92,7 @@ function print_item_header($text)
 	echo "</table><br>";	
 }
 
-function bandeau($data,$lbl){
+function bandeau($data,$lbl,$link=array()){
 	global $protectedGet,$pages_refs;
 	$data=data_encode_utf8($data);
 	$nb_col=2;
@@ -104,6 +104,9 @@ function bandeau($data,$lbl){
 			if ($i == $nb_col){
 				echo "</tr><tr>";
 				$i=0;			
+			}
+			if (!array_key_exists($name,$link)){
+				$value=htmlentities($value);
 			}
 			echo "<td>&nbsp;<b>".$lbl[$name].": </b></td><td >".$value."</td>";
 			$i++;

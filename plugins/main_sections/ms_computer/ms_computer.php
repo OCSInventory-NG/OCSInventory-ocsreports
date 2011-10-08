@@ -57,6 +57,7 @@ foreach ($lbl_affich as $key=>$lbl){
 	}
 	elseif($key == 'QRCODE'){
 		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")>".$l->g(1300)."</a>";			
+		$link[$key]=true;
 	}elseif ($key == "NAME_RZ"){
 		$data[$key]="";
 		$data_RZ=subnet_name($systemid);
@@ -75,14 +76,16 @@ foreach ($lbl_affich as $key=>$lbl){
 		$valVM = mysql_fetch_array( $resVM );
 		$data[$key]=$valVM['vmtype'];
 		$link_vm="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valVM['hardware_id']."'  target='_blank'><font color=red>".$valVM['name']."</font></a>";
+		$link[$key]=true;
 		if ($data[$key] != '')
 			msg_info($l->g(1266)."<br>".$l->g(1269).': '.$link_vm);
 	}elseif($key == "EXPORT_OCS"){
 		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_export_ocs']."&no_header=1&systemid=".$protectedGet['systemid']."\")>".$l->g(1304)."</a>";			
+		$link[$key]=true;
 	}elseif ($item->$key != '')
 		$data[$key]=$item->$key;
 }
-$bandeau=bandeau($data,$lbl_affich);
+$bandeau=bandeau($data,$lbl_affich,$link);
 $Directory=PLUGINS_DIR."computer_detail/";
 $ms_cfg_file= $Directory."cd_config.txt";
 if (!isset($_SESSION['OCS']['DETAIL_COMPUTER'])){
