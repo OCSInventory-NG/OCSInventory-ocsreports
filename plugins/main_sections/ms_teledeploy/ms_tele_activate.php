@@ -199,20 +199,20 @@ if (!$protectedPost['sens_'.$table_name])
 	$protectedPost['sens_'.$table_name]='DESC';
 
 if ($show_stats){
-	$sql_data_fixe="select concat('<font color=%s>',count(*),'</font>') as %s,de.FILEID
+	$sql_data_fixe="select count(*) as %s,de.FILEID
 				from devices d,download_enable de 
 				where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
 				and d.tvalue %s '%s' ";
-	$sql_data_fixe_bis="select concat('<font color=%s>',count(*),'</font>') as %s,de.FILEID
+	$sql_data_fixe_bis="select count(*) as %s,de.FILEID
 				from devices d,download_enable de 
 				where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
 				and d.tvalue %s  ";
 	
-	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_']=array('RED','ERR_','LIKE','ERR_%');
-	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC']=array('GREEN','SUCC','LIKE','SUCCESS%');
-	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI']=array('GREY','NOTI','LIKE','NOTI%');
-	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF']=array('BLACK','NO_NOTIF','IS NULL');
-	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['EXIT_CODE']=array('BLUE','EXIT_CODE','LIKE','EXIT_CODE%');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_']=array('ERR_','LIKE','ERR_%');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC']=array('SUCC','LIKE','SUCCESS%');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI']=array('NOTI','LIKE','NOTI%');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF']=array('NO_NOTIF','IS NULL');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['EXIT_CODE']=array('EXIT_CODE','LIKE','EXIT_CODE%');
 	
 	if ($restrict_computers){
 		$sql_data_fixe.=" and d.hardware_id in ";
@@ -238,7 +238,11 @@ if ($show_stats){
 	}
 }
 			
-	
+$tab_options['COLOR']['ERR_']='RED';	
+$tab_options['COLOR']['SUCC']='GREEN';	
+$tab_options['COLOR']['NOTI']='GREY';	
+$tab_options['COLOR']['NO_NOTIF']='BLACK';	
+$tab_options['COLOR']['EXIT_CODE']='BLUE';
 $tab_options['FILTRE']=array('FILEID'=>'Timestamp','NAME'=>$l->g(49));
 $tab_options['TYPE']['ZIP']=$protectedPost['SHOW_SELECT'];
 $tab_options['FIELD_REPLACE_VALUE_ALL_TIME']='FILEID';

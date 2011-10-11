@@ -1324,6 +1324,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 		foreach ($sql_data as $i=>$donnees){
 
 			foreach($list_fields as $key=>$value){
+				$htmlentities=true;
 				$truelabel=$key;
 			//	p($tab_options);
 				//gestion des as de colonne
@@ -1346,6 +1347,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				//si aucune valeur, on affiche un espace
 				if ($donnees[$no_alias_value] == ""){
 					$value_of_field = "&nbsp";
+					$htmlentities=false;
 				}else //sinon, on affiche la valeur
 				{
 					$value_of_field=$donnees[$no_alias_value];
@@ -1571,7 +1573,9 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						}else{
 							$end="";
 						}
-						
+						if ($htmlentities)
+							$value_of_field=htmlentities($value_of_field);
+							
 						$data[$i][$num_col]=$value_of_field.$end;
 						
 					}

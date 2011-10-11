@@ -1,6 +1,6 @@
 Revision history for ocsreports 
 2.0.2
-		* fix for security alert tx to Nicolas DEROUET
+		* fix for security alert tx to Nicolas DEROUET (CVE-2011-4024)
 		* fix bug on "Machines not see since more of x day(s)" see http://forums.ocsinventory-ng.org/viewtopic.php?pid=43148#p43148
 		* fix bug on accountinfo filter (http://forums.ocsinventory-ng.org/viewtopic.php?pid=43061#p43061)
 		* update polish language file. tx to Piotr Adamcio
