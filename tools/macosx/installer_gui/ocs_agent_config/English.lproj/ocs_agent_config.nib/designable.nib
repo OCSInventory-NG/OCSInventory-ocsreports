@@ -353,7 +353,7 @@
 					<object class="NSButton" id="863583811">
 						<reference key="NSNextResponder" ref="443671666"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{263, 163}, {103, 18}}</string>
+						<string key="NSFrame">{{263, 175}, {103, 18}}</string>
 						<reference key="NSSuperview" ref="443671666"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="475782821">
@@ -533,8 +533,8 @@
 							<reference ref="666469763"/>
 							<reference ref="593675993"/>
 							<reference ref="592223138"/>
-							<reference ref="863583811"/>
 							<reference ref="319674394"/>
+							<reference ref="863583811"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>
@@ -871,7 +871,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwzYAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABDk4AAw2wAAA</bytes>
 					</object>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
