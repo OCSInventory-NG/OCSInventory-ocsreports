@@ -559,7 +559,7 @@ class CASClient
             unset($_GET['ticket']);
           } else if ( !empty($ticket) ) {
             //ill-formed ticket, halt
-            $cas->error('ill-formed ticket found in the URL (ticket=`'.htmlentities($ticket).'\')');
+            $cas->error('ill-formed ticket found in the URL (ticket=`'.htmlentities($ticket,ENT_COMPAT,'UTF-8').'\')');
           } 
           break;
         }

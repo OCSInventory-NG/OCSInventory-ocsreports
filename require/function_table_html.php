@@ -1588,7 +1588,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 							$end="";
 						}
 						if ($htmlentities)
-							$value_of_field=htmlentities($value_of_field);
+							$value_of_field=htmlentities($value_of_field,ENT_COMPAT,'UTF-8');
 							
 						$data[$i][$num_col]=$value_of_field.$end;
 						

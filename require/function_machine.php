@@ -106,7 +106,7 @@ function bandeau($data,$lbl,$link=array()){
 				$i=0;			
 			}
 			if (!array_key_exists($name,$link)){
-				$value=htmlentities($value);
+				$value=htmlentities($value,ENT_COMPAT,'UTF-8');
 			}
 			echo "<td>&nbsp;<b>".$lbl[$name].": </b></td><td >".$value."</td>";
 			$i++;
