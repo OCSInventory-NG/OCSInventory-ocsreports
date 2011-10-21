@@ -67,9 +67,10 @@
 			// No button was clicked, we don't display config pane
 			[self gotoNextPane];
 		}
+
+		[cfgFileExistsWrn release];
 	}
 	
-	[cfgFileExistsWrn release];
 	
 	// fill defaults values
 	[server setStringValue:@"ocsinventory-ng"];
