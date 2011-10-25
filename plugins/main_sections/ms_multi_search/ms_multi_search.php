@@ -889,6 +889,7 @@ if ($list_id != "")	{
 	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
 		$list_fonct["image/sup_search.png"]=$l->g(122);
 		$list_pag["image/sup_search.png"]=$pages_refs["ms_custom_sup"];
+			$tab_options['LBL_POPUP']['SUP']='name_of_machine';
 	}
 	$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
 	$list_fonct["image/mass_affect.png"]=$l->g(430);		
