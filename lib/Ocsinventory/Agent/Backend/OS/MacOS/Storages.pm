@@ -55,8 +55,14 @@ sub run {
       }
 
       my $size = $drive->{'Capacity'};
-      $size =~ s/ GB//;
-      $size *= 1024;
+      if ($size =~ /GB/) {
+        $size =~ s/ GB//;
+        $size *= 1024;
+      }
+      if ($size =~ /TB/) {
+        $size =~ s/ TB//;
+        $size *= 1048576;
+      }
 
       my $manufacturer = getManufacturer($y);
 

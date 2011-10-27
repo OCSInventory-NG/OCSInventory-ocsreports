@@ -1,12 +1,12 @@
 Revision history for Ocsinventory::Agent
 
-       * Fix bug on "Debug Mode" checkbox in MacoSX installer
        * Add new --ssl configuration option to enable or disable certificate check during SSL communications
        * Change 'SERIAL' field name and add checksum for inventory XML CPUS section 
        * Now getting MANUFACTURER and SERIALNUMBER in Snmp/3375.pm
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * Fix Bug #874269 about wrong conversion if hard drive >= TB in MacOS/Storages.pm
        * Fix Bug #879487 about a misplaced object release in ocs_agent_configPane.m
     
 2.0.2
