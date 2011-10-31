@@ -96,9 +96,9 @@ if( isset($_POST["name"])) {
 		else
 			$instOk = true;
 }
-if( $hnd = @fopen("dbconfig.inc.php", "r") ) {
+if( $hnd = @fopen(CONF_MYSQL, "r") ) {
 		fclose($hnd);
-		require("dbconfig.inc.php");
+		require(CONF_MYSQL);
 		if (defined('COMPTE_BASE')) {			// Upgrade from 2.0.x
            $valNme = COMPTE_BASE;
         } else if (isset($_SESSION["COMPTE_BASE"])) { 	// Upgrade from 1.3.x
@@ -191,7 +191,7 @@ if($_POST["fin"]=="fin") {
 											. "</b><br></font></center>";
 		
 		echo "<br><center><font color=red><b>" . $l->g(2065) . "</b></font></center>";
-		unlink("dbconfig.inc.php");
+		unlink(CONF_MYSQL);
 	}
 	else {
 		msg_success("<b>" . $l->g(2050) . "</b><br><br><b><a href='index.php'>" . $l->g(2051) . "</a></b>");
@@ -200,7 +200,7 @@ if($_POST["fin"]=="fin") {
 }
 
 
-if(!$ch = @fopen("dbconfig.inc.php","w")) {
+if(!$ch = @fopen(CONF_MYSQL,"w")) {
 	echo "<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
 	die();
 }
@@ -427,7 +427,7 @@ if( ! $erralter ) {
 	
 if($nberr) {
 	echo "<br><center><font color=red><b>" . $l->g(2065) . "</b></font></center>";
-	unlink("dbconfig.inc.php");
+	unlink(CONF_MYSQL);
 	die();
 }
 $nberr=0;
@@ -472,7 +472,7 @@ foreach($filenames as $fil) {
 												   " " . $l->g(2068) . 
 												   "</b></font></center>";
 				echo "<br><center><font color=red><b>" . $l->g(2065) . "</b></font></center>";
-				unlink("dbconfig.inc.php");
+				unlink(CONF_MYSQL);
 				die();
 			} 
 			echo "<br><center><font color=red><b>" . $l->g(2001) . 
@@ -508,7 +508,7 @@ else
 
 if($nberr) {
 	echo "<br><center><font color=red><b>" . $l->g(2065) . "</b></font></center>";
-	unlink("dbconfig.inc.php");
+	unlink(CONF_MYSQL);
 	die();
 }
 

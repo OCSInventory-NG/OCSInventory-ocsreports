@@ -72,14 +72,14 @@ if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 }
 
 /***************************************************** First installation checking *********************************************************/
-if( (!$fconf=@fopen("dbconfig.inc.php","r")) 
+if( (!$fconf=@fopen(CONF_MYSQL,"r")) 
 		|| (!function_exists('session_start')) 
 		|| (!function_exists('mysql_connect')) ) {
 	require('install.php');	
 	die();
 }
 else{	
-	require_once('dbconfig.inc.php');
+	require_once(CONF_MYSQL);
 	fclose($fconf);
 }
 
