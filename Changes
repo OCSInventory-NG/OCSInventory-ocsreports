@@ -1,5 +1,6 @@
 Revision history for ocsreports
 2.0.3
+		* use CONF_MYSQL 
 		* patch from remi to upgrade 1.3.* to 2.* (to save old values  dbconfig.inc.php)
  		* fix: add computer's name on delete popup
 		* security fix (CVE-2011-4024) - more flexible (UTF8 correction)
