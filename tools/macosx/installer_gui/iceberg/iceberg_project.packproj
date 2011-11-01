@@ -505,7 +505,7 @@
 						<key>IFPkgDescriptionTitle</key>
 						<string>Ocsinventory Agent MacOSX</string>
 						<key>IFPkgDescriptionVersion</key>
-						<string>2.0beta1</string>
+						<string>2.0beta2</string>
 					</dict>
 				</dict>
 				<key>Display Information</key>
@@ -521,7 +521,7 @@
 					<key>CFBundleName</key>
 					<string>Ocsinventory Agent MacOSX</string>
 					<key>CFBundleShortVersionString</key>
-					<string>2.0beta1</string>
+					<string>2.0beta2</string>
 				</dict>
 				<key>Options</key>
 				<dict>
