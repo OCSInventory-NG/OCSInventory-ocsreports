@@ -161,7 +161,7 @@ function form_add_community($title='',$default_value,$form){
 		$type_field=array(0,2);
 		$value_field=array($default_value['NAME'],$default_value['VERSION']);
 		
-		if ($protectedPost['VERSION'] == '3a'){
+		if ($protectedPost['VERSION'] == '3'){
 			array_push($name_field,"USERNAME","AUTHKEY","AUTHPASSWD");
 			array_push($tab_name,"USERNAME : ","AUTHKEY : ","AUTHPASSWD :");
 			array_push($type_field,0,0);
@@ -184,83 +184,50 @@ function form_add_community($title='',$default_value,$form){
 }
 
 
-function add_community($snmp_value,$new_ms_cfg_file=''){
-	//$new_ms_cfg_file_end = "\n";
-	$snmp_file_begin = "<CONTENT>\n";
-	$snmp_file_end = "</CONTENT>\n";
-	$snmp_file='';
-//	p($new_ms_cfg_file);
-	if 	(is_array($new_ms_cfg_file)){
-		$i=0;
-		
-		while ($new_ms_cfg_file[$i]){
-			$snmp_file.="\t<COMMUNITY>\n";
-			foreach ($new_ms_cfg_file[$i] as $key=>$value){
-				$snmp_file .= "\t\t<".$key.">";
-				if ($value != "")
-				$snmp_file .= $value;
-				$snmp_file .= "</".$key.">\n";
-			}		
-			$snmp_file .="\t</COMMUNITY>\n";				
-			$i++;	
-		}
-		
+function add_community($ID,$NAME,$VERSION,$USERNAME,$AUTHKEY,$AUTHPASSWD){
+	global $l;
+	
+	if ($VERSION == -1)
+		$VERSION = '2c';
+	//this name of community still exist?
+	$sql="select name from snmp_communities where name='%s'";
+	$arg=array($NAME);
+	
+	if (isset($ID) and is_numeric($ID)){
+		$sql.=" and id != %s";
+		array_push($arg,$ID);		
 	}
-	if (is_array($snmp_value)){
-		$snmp_file .="\t<COMMUNITY>\n";
-		foreach ($snmp_value as $key=>$value){
-			$snmp_file .= "\t\t<".$key.">";
-			if ($value != "")
-			$snmp_file .= $value;
-			$snmp_file .= "</".$key.">\n";
-		}		
-		$snmp_file .="\t</COMMUNITY>\n";
-	}
-	$new_ms_cfg_file =$snmp_file_begin.$snmp_file.$snmp_file_end;
-	return $new_ms_cfg_file;
+	$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+	$row=mysql_fetch_object($res);	
+	//Exist
+	if (isset($row->name))
+		return array('ERROR'=>$NAME." ".$l->g(363));
+	
+	if (isset($ID) and is_numeric($ID)){
+		del_community($ID);
+		$SUCCESS=$l->g(1209);	
+	}else
+		$SUCCESS=$l->g(1208);	
+	
+	$sql="insert into snmp_communities (ID,VERSION,NAME,USERNAME,AUTHKEY,AUTHPASSWD) VALUES ('%s','%s','%s','%s','%s','%s')";
+	$arg=array($ID,$VERSION,$NAME,$USERNAME,$AUTHKEY,$AUTHPASSWD);
+	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);		
+	return array('SUCCESS'=>$SUCCESS);
 }
 
-
-function format_value_community($value){
-	$snmp_value['ID']=(isset($value['ID']) ? $value['ID'] : '0');
-	if ($value['VERSION'] != '2c')
-		$snmp_value['VERSION']=$value['VERSION']{0};
-	else
-		$snmp_value['VERSION']=$value['VERSION'];
-		
-	$snmp_value['NAME']=(isset($value['NAME']) ? $value['NAME'] : '');
-	$snmp_value['USERNAME']=(isset($value['USERNAME']) ? $value['USERNAME'] : '');
-	$snmp_value['AUTHKEY']=(isset($value['AUTHKEY']) ? $value['AUTHKEY'] : '');
-	$snmp_value['AUTHPASSWD']=(isset($value['AUTHPASSWD']) ? $value['AUTHPASSWD'] : '');	
-	return $snmp_value;
-}
-
-function del_community($id_community,$ms_cfg_file,$search){
-		$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");
-		$i=0;
-		while ($field_com[$i]){
-			if (!in_array($field_com[$i]['ID'],$id_community))	
-				$new_ms_cfg_file[]=$field_com[$i];
-			//	unset($field_com[$i]);	
-			$i++;		
-		}
-		$communities=add_community('',$new_ms_cfg_file);
-		$file=fopen($ms_cfg_file,"w+");
-		fwrite($file,$communities);	
-		fclose( $file );
+function del_community($id_community){
+		$sql="delete from snmp_communities where id='%s'";
+		$arg=$id_community;
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);	
 }
  
 
-function find_community_info($id,$ms_cfg_file,$search){
-		$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");
-		$i=0;
-		while ($field_com[$i]){
-			if ($field_com[$i]['ID'] == $id)
-				return $field_com[$i];
-			$i++;		
-		}
-		return false;
-	
+function find_community_info($id){
+		$sql="select * from snmp_communities where id=%s";
+		$arg=$id;
+		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+		$row=mysql_fetch_object($res);	
+		return $row;	
 }
 
 function runCommand($command="",$fname) {

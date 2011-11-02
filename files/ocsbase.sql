@@ -785,7 +785,7 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6005', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6007', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1354,4 +1354,17 @@ PRIMARY KEY (ID) ) DEFAULT CHARSET=UTF8;
 INSERT INTO config VALUES ('DOWNLOAD_REDISTRIB',1,'','Use redistribution servers');
 ALTER TABLE snmp_loadbalancers ADD COLUMN MANUFACTURER varchar(255) DEFAULT NULL;
 ALTER TABLE snmp_loadbalancers ADD COLUMN TYPE varchar(255) DEFAULT NULL;
+
+
+CREATE TABLE snmp_communities (
+ ID INTEGER NOT NULL auto_increment,
+ VERSION VARCHAR(5) default NULL,
+ NAME VARCHAR(255) default NULL,
+ USERNAME VARCHAR(255) default NULL,
+ AUTHKEY VARCHAR(255) default NULL,
+ AUTHPASSWD VARCHAR(255) default NULL,
+ PRIMARY KEY (ID)
+) ENGINE=INNODB ;
+
+DELETE FROM config WHERE name='SNMP_URI' or name='SNMP_DIR';
 

@@ -1287,7 +1287,7 @@
 2099 ERRORE: le credenziali MySQL fornite non hanno i diritti necessari per la creazione del database
 2100 Aggiorna informazioni account
 2101 Aggiunto dallo script
-2102 ATTENZIONE: se cambi il nome di default del database (ocsweb), non dimenticare di aggiornare il file ocs engine
+2102 ATTENZIONE: se cambi il nome di default del database (ocsweb), non dimenticare di aggiornare la configurazione del server (file z-ocsinventory-server.conf)
 2103 Modalità dimostrativa: non puoi aggiornare i dati
 2104 STAI UTILIZZANDO LA VERSIONE DIMOSTRATIVA DI
 2105 Il database è aggiornato.<br>Nessuna modifica apportata.

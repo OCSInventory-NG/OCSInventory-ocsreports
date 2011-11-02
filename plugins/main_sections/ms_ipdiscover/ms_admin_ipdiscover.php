@@ -184,113 +184,53 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 	}
 }elseif($protectedPost['onglet'] == 'ADMIN_SMTP' 
 		and $_SESSION['OCS']['CONFIGURATION']['MANAGE_SMTP_COMMUNITIES'] == 'YES'){
-	$file='snmp_com.txt';
-	$error="";
-	$field_com="";
-	$search=array('ID','NAME','VERSION',     
-				  'USERNAME','AUTHKEY','AUTHPASSWD');
-	$snmp_dir=look_config_default_values('SNMP_DIR');
-	if (isset($snmp_dir['tvalue']['SNMP_DIR']) and $snmp_dir['tvalue']['SNMP_DIR'] != '')
-		$ms_cfg_file=$snmp_dir['tvalue']['SNMP_DIR'];
-	else
-		$ms_cfg_file= DOCUMENT_ROOT.'snmp/';
 
-	if (!file_exists($ms_cfg_file))
-		$error=$l->g(920) . " (".$ms_cfg_file.") <br>";	
-	if (!is_writable($ms_cfg_file))
-		$error=$ms_cfg_file." ".$l->g(1006).". ".$l->g(1147);
-	
-	$ms_cfg_file.="/".$file;
-		
-	if (!is_writable($ms_cfg_file) and file_exists($ms_cfg_file))
-		$error.=$ms_cfg_file." ".$l->g(1006)."<br>";	
-	
-	if ($error != ''){
-		msg_error($error);		
-	}else{	
-		//load xml file	
-		if (file_exists($ms_cfg_file)){
-			$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");
-			$i=0;
-			$id_value=0;
-			while($field_com[$i]){
-				if ($field_com[$i]['ID'] > $id_value)
-					$id_value=$field_com[$i]['ID'];
-				$i++;				
-			}
-		}
-		if ($protectedPost['Valid_modif_x']){
-			$new_ms_cfg_file='';
-			if (($protectedPost['VERSION'] != '3a' and trim($protectedPost['NAME']) != '') or
-				($protectedPost['VERSION'] == '3a' and trim($protectedPost['NAME']) != '' and 
-					 trim($protectedPost['USERNAME']) != '' and
-					 trim($protectedPost['AUTHKEY']) != '' and
-					 trim($protectedPost['AUTHPASSWD']) != '')){
-				$snmp_value=format_value_community($protectedPost);
+		if (isset($protectedPost['Valid_modif_x'])){
+			$msg_result=add_community($protectedPost['MODIF'],$protectedPost['NAME'],$protectedPost['VERSION'],
+						  $protectedPost['USERNAME'],$protectedPost['AUTHKEY'],
+						  $protectedPost['AUTHPASSWD']);	
+			if (isset($msg_result['SUCCESS'])){
+				unset($protectedPost['MODIF'],$protectedPost['ADD_COMM']);	
+				$msg_ok=$msg_result['SUCCESS'];
+				$tab_options['CACHE']='RESET';
 			}else{
-				$error=$l->g(988);				
+				$msg_error=$msg_result['ERROR'];				
 			}
-			if (is_array($snmp_value)){
-				$msg_ok=$l->g(1208);
-				if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
-					del_community(array($protectedPost['MODIF']),$ms_cfg_file,$search);
-					$snmp_value['ID']=$protectedPost['MODIF'];
-					$msg_ok=$l->g(1209);
-				}elseif (file_exists($ms_cfg_file)){
-					//NO double
-					//$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");	
-					$i=0;
-					while ($field_com[$i]){
-						if ($field_com[$i]['ID'] == $snmp_value['ID']){
-							unset($msg_ok);	
-							break;
-						}
-						$i++;
-					}
-				}
-				if (isset($msg_ok)){	
-					$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");
-					$new_ms_cfg_file=add_community($snmp_value,$field_com);
-					$file=fopen($ms_cfg_file,"w+");
-					fwrite($file,$new_ms_cfg_file);	
-					fclose( $file );
-					$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");					
-				}
-				unset($protectedPost['MODIF'],$protectedPost['ADD_COMM']);					
-			}else
-				msg_error($error);
-		
+
 		}
-		
+			
 		if (isset($protectedPost['Reset_modif_x'])){
 			unset($protectedPost['MODIF'],$protectedPost['ADD_COMM']);			
 		}
 		
 		if (isset($protectedPost['SUP_PROF']) and is_numeric($protectedPost['SUP_PROF'])){
-			del_community(array($protectedPost['SUP_PROF']),$ms_cfg_file,$search);	
+			del_community($protectedPost['SUP_PROF']);	
 			$msg_ok=$l->g(1212);
+			
 		}
 	
-		if (!file_exists($ms_cfg_file) or $protectedPost['ADD_COMM'] == $l->g(116) or is_numeric($protectedPost['MODIF'])){
-			if (isset($id_value)){
-				$protectedPost['ID']=$id_value+1;
-			}else
-				$protectedPost['ID']=0;
+		if(isset($msg_ok))
+			msg_success($msg_ok);
+		
+		if (isset($msg_error))
+			msg_error($msg_error);
+			
+		if ($protectedPost['ADD_COMM'] == $l->g(116) or is_numeric($protectedPost['MODIF'])){
 				
-			$list_version=array('2c'=>'2c','1a'=>'1','2a'=>'2'/*,'3a'=>'3'*/);
+			$list_version=array('-1'=>'2c','1'=>'1','2'=>'2',/*'3'=>'3'*/);
 			$title=$l->g(1207);
 			if (isset($protectedPost['MODIF']) and is_numeric($protectedPost['MODIF']) and !isset($protectedPost['NAME'])){
-				$info_com=find_community_info($protectedPost['MODIF'],$ms_cfg_file,$search);
+				$info_com=find_community_info($protectedPost['MODIF']);
 				$default_values=array('ID'=>$protectedPost['MODIF'],
-									  'NAME'=>$info_com['NAME'],
+									  'NAME'=>$info_com->NAME,
 									  'VERSION' =>$list_version,
-									  'USERNAME'  =>$info_com['USERNAME'],
-									  'AUTHKEY'=>$info_com['AUTHKEY'],
-									  'AUTHPASSWD'=>$info_com['AUTHPASSWD']);
-				if ($info_com['VERSION'] != '2c')
-					$protectedPost['VERSION']=$info_com['VERSION'].'a';
+									  'USERNAME'  =>$info_com->USERNAME,
+									  'AUTHKEY'=>$info_com->AUTHKEY,
+									  'AUTHPASSWD'=>$info_com->AUTHPASSWD);
+				if ($info_com->VERSION == "2c")
+					$protectedPost['VERSION']=-1;
 				else
-					$protectedPost['VERSION']=$info_com['VERSION'];
+					$protectedPost['VERSION']=$info_com->VERSION;
 				
 			}else{
 				$default_values=array('ID'=>$protectedPost['ID'],
@@ -302,38 +242,24 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			}
 			form_add_community($title,$default_values,$form_name);			
 			
-		}elseif(file_exists($ms_cfg_file)){		
-			//p($field_com);
-			//$field_com=read_configuration($ms_cfg_file,$search,'ID');
-			if (is_array($field_com)){
-				if (isset($msg_ok)){
-					msg_success($msg_ok);
-					$field_com=parse_xml_file($ms_cfg_file,$search,"COMMUNITY");
-				}
-			if (is_array($field_com) and $field_com != array()){
-				$sql="select ";
-				$i=0;
-				while ($field_com[$i]){
-					foreach ($field_com[$i] as $key=>$value){
-						$sql.= "'".$value. "' as ".$key.",";		
-						$list_fields[$key]=$key;			
-					}
-					$sql=substr($sql,0,-1)." union select ";
-					$i++; 
-				}
-				$sql=substr($sql,0,-13);
-				$list_fields['MODIF']='ID';
-				$list_fields['SUP']='ID';
-				$default_fields=array('NAME'=>'NAME','MODIF'=>'MODIF','SUP'=>'SUP');
-				$list_col_cant_del=$default_fields;
-				$tab_options['LBL_POPUP']['SUP']='NAME';
-				$tab_options['NO_NAME']['NAME']=1;
-				$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 		
+		}else{		
+			$sql="select * from snmp_communities";
+			$list_fields= array('VERSION' => 'VERSION',
+							$l->g(49)=>'NAME',
+							'USERNAME'=>'USERNAME',
+							'AUTHKEY'=>'AUTHKEY',
+							'AUTHPASSWD'=>'AUTHPASSWD',
+							'MODIF'=>'ID',
+							'SUP'=>'ID');
+			//$list_fields['SUP']='ID';	
+			$default_fields=$list_fields;
+			$list_col_cant_del=$list_fields;
+			$tab_options['LBL_POPUP']['SUP']='NAME';
+			$tab_options['LBL']['SUP']=$l->g(122);
+			$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 				
-			}
 			
 			echo "<input type = submit value='".$l->g(116)."' name='ADD_COMM'>";	
-			}else
 				$protectedPost['ADD_COMM'] = $l->g(116);
 				
 		}
@@ -341,7 +267,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		
 		
 		
-	}	
+
 } 
  
 echo '</div>';
