@@ -87,7 +87,8 @@ $list_fields2 = array ( $l->g(46) => "h.lastdate",
 					   $l->g(209) => "e.bversion",
 					   $l->g(34) => "h.ipaddr",
 					   $l->g(557) => "h.userdomain",
-					   $l->g(1247)=> "h.ARCH");
+					   $l->g(1247)=> "h.ARCH",
+					   $l->g(210) => "e.bdate");
 if ($show_mac_addr){
 	$list_fields2[$l->g(95)]="n.macaddr";
 	$list_fields2[$l->g(208)]="n.ipmask";
@@ -127,6 +128,7 @@ if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] !
 $queryDetails  .=" group by h.id";
 $tab_options['LBL_POPUP']['SUP']='name';
 $tab_options['LBL']['SUP']=$l->g(122);
+$tab_options['TRI']['DATE']['e.bdate']="%m/%d/%Y";
 $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
 if ($result_exist != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";

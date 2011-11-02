@@ -68,7 +68,7 @@ function add_accountinfo($newfield,$newtype,$newlbl,$tab,$type='COMPUTERS'){
 		return array('ERROR'=>$type);
 	}
 	//can not contain special characters
-	if(preg_match('/[^0-9A-Za-z]/',$sql_type_accountinfo[$newfield]))
+	if(preg_match('/[^0-9A-Za-z]/',$newfield))
 			return array('ERROR'=> $l->g(1178).' : <i>' . $l->g(1070) . "</i> " . $l->g(1179) . " <br>");
 		
 	$ERROR=dde_exist($newfield,'',$type);

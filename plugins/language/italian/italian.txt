@@ -1293,6 +1293,7 @@
 2105 Il database è aggiornato.<br>Nessuna modifica apportata.
 2106 la configurazione di MySQL, variabile 'max_allowed_packet', permette file grandi fino a <
 
+
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]

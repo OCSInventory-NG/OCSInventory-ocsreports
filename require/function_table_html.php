@@ -982,7 +982,16 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$queryDetails.= " order by INET_ATON(".$protectedPost['tri_'.$table_name].") ".$protectedPost['sens_'.$table_name];		
 	}elseif ($tab_options['TRI']['SIGNED'][$protectedPost['tri_'.$table_name]])
 		$queryDetails.= " order by cast(".$protectedPost['tri_'.$table_name]." as signed) ".$protectedPost['sens_'.$table_name];
-	else
+	elseif($tab_options['TRI']['DATE'][$protectedPost['tri_'.$table_name]]){	
+		if(isset($tab_options['ARG_SQL'])){
+			$queryDetails.=" order by STR_TO_DATE(%s,'%s') %s";
+			$tab_options['ARG_SQL'][]=$protectedPost['tri_'.$table_name];
+			$tab_options['ARG_SQL'][]=$tab_options['TRI']['DATE'][$protectedPost['tri_'.$table_name]];
+			$tab_options['ARG_SQL'][]=$protectedPost['sens_'.$table_name];
+		}else
+			$queryDetails.= " order by STR_TO_DATE(".$protectedPost['tri_'.$table_name].",'".$tab_options['TRI']['DATE'][$protectedPost['tri_'.$table_name]]."') ".$protectedPost['sens_'.$table_name];	
+		
+	}else
 		$queryDetails.= " order by ".$protectedPost['tri_'.$table_name]." ".$protectedPost['sens_'.$table_name];
 	
 		
@@ -1324,6 +1333,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 		foreach ($sql_data as $i=>$donnees){
 
 			foreach($list_fields as $key=>$value){
+				$htmlentities=true;
 				$truelabel=$key;
 			//	p($tab_options);
 				//gestion des as de colonne
@@ -1346,6 +1356,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				//si aucune valeur, on affiche un espace
 				if ($donnees[$no_alias_value] == ""){
 					$value_of_field = "&nbsp";
+					$htmlentities=false;
 				}else //sinon, on affiche la valeur
 				{
 					$value_of_field=$donnees[$no_alias_value];
@@ -1483,6 +1494,11 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				if (is_array($tab_options) and !$tab_options['SHOW_ONLY'][$key][$value_of_field] and $tab_options['SHOW_ONLY'][$key]){
 					$key = "NULL";
 				}		
+				
+				if (isset($tab_options['COLOR'][$key])){
+					$value_of_field="<font color=".$tab_options['COLOR'][$key].">".$value_of_field."</font>";
+					$htmlentities=false;
+				}
 				if ($affich == 'OK'){
 					$lbl_column=array("SUP"=>$l->g(122),
 									  "MODIF"=>$l->g(115),
@@ -1571,7 +1587,10 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						}else{
 							$end="";
 						}
-						
+						if ($htmlentities)
+							//$value_of_field=htmlentities($value_of_field,ENT_COMPAT,'UTF-8');
+							$value_of_field=strip_tags($value_of_field,"<p><b><i><font><br>");
+							
 						$data[$i][$num_col]=$value_of_field.$end;
 						
 					}

@@ -155,7 +155,7 @@ INSERT INTO `config` VALUES ('FREQUENCY',0,'','Specify the frequency (days) of i
 
 INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6006', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '6007', 'Version of the installed GUI and database');
 UNLOCK TABLES;
 -- BEGIN 2.0RC3 --
 DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
@@ -1428,4 +1428,14 @@ CREATE TABLE cpus (
  PRIMARY KEY  (ID, HARDWARE_ID)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
+CREATE TABLE snmp_communities (
+ ID INTEGER NOT NULL auto_increment,
+ VERSION VARCHAR(5) default NULL,
+ NAME VARCHAR(255) default NULL,
+ USERNAME VARCHAR(255) default NULL,
+ AUTHKEY VARCHAR(255) default NULL,
+ AUTHPASSWD VARCHAR(255) default NULL,
+ PRIMARY KEY (ID)
+) ENGINE=INNODB ;
 
+DELETE FROM config WHERE name='SNMP_URI' or name='SNMP_DIR';
