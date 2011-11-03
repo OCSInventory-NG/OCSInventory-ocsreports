@@ -371,6 +371,14 @@ print MODULE "1;\n";
 close MODULE;
 
 
+#Prevent security risks by removing existing snmp_com.txt file which is no longer used
+my $snmp_com_file = $vardir."/snmp/snmp_com.txt";
+if ( -f $snmp_com_file ) {
+    print "$snmp_com_file seems to exists...removing it to prevent security risks !\n";
+    unlink $snmp_com_file;
+}
+
+
 if (ask_yn("Do you want to send an inventory of this machine?", 'y')) {
     system("$binpath --force");
     if (($? >> 8)==0) {

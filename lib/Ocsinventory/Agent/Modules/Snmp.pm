@@ -107,35 +107,22 @@ sub snmp_prolog_reader {
          for ( @{ $option->{PARAM} } ) {
 
             if($_->{'TYPE'} eq 'DEVICE'){
-                #Adding the IP in the devices array
-                push @{$self->{netdevices}},{
+              #Adding the IP in the devices array
+              push @{$self->{netdevices}},{
                 IPADDR => $_->{IPADDR},
                 MACADDR => $_->{MACADDR},
-                };
+              };
             }
 
             if($_->{'TYPE'} eq 'COMMUNITY'){
-                #Get the uri to download file for SNMP communities
-                my $snmpcom_loc = $_->{SNMPCOM_LOC}; 
-                my $snmp_dir = "$self->{context}->{installpath}/snmp";
-
-                mkdir($snmp_dir) unless -d $snmp_dir;
-
-                #Download snmp_com.txt file using https
-                if ($network->getHttpsFile($snmpcom_loc,"snmp_com.txt","$snmp_dir/snmp_com.txt","cacert.pem",$self->{context}->{installpath})) {
-                  if ( -f "$snmp_dir/snmp_com.txt") {
-                    my $snmp_com = XML::Simple::XMLin("$snmp_dir/snmp_com.txt", ForceArray => ['COMMUNITY']);
-
-                    for (@{$snmp_com->{COMMUNITY}}){
-                      push @{$self->{communities}},{
-                         VERSION=>$_->{VERSION},
-                         NAME=>$_->{NAME}
-                      };
-                    }
-                  }
-                } else {
-                  $logger->debug("Cannot download file for SNMP communities informations :( :(");
-                }
+              #Adding the community in the communities array
+              push @{$self->{communities}},{
+                VERSION=>$_->{VERSION},
+                NAME=>$_->{NAME},
+                USERNAME=>$_->{USERNAME},
+                AUTHKEY=>$_->{AUTHKEY},
+                AUTHPASSWD=>$_->{AUTHPASSWD},
+              };
             }
          }
       }
