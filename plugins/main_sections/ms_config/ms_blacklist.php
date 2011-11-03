@@ -127,15 +127,10 @@ if (isset($list_fields)){
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		$tab_options['CACHE']='RESET';
 	}
-
-	$queryDetails = 'SELECT ';
-	foreach ($list_fields as $key=>$value){
-		if($key != 'SUP' and $key != 'MODIF' and $key != 'CHECK')
-		$queryDetails .= $key.',';		
-	} 
-	$queryDetails=substr($queryDetails,0,-1);
-	$queryDetails .= " FROM ".$table_name;
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
+	$sql=prepare_sql_tab($list_fields,array('SUP','CHECK','MODIF'));
+	$sql['SQL'].= " from ".$table_name;
+	$tab_options['ARG_SQL']=$sql['ARG'];
+	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,100,$tab_options);
 	del_selection($form_name);
 }	
 echo "</div>";
