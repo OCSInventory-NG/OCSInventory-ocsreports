@@ -76,7 +76,10 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 	echo "<div align=center>VAR SESSION</div>";
 	foreach ($_SESSION['OCS'] as $key=>$value){
 		
-		if ($key != "fichLang" and $key != "LANGUAGE_FILE" and $key != "mac"){
+		if ($key != "fichLang" 
+			and $key != "LANGUAGE_FILE" 
+			and $key != "mac" and $key != "writeServer"
+			and $key != "readServer"){
 			$tab_session[$key]=$value;
 		}
 		

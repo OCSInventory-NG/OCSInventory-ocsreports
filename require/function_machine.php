@@ -107,7 +107,7 @@ function bandeau($data,$lbl,$link=array()){
 			}
 			if (!array_key_exists($name,$link)){
 				//$value=htmlentities($value,ENT_COMPAT,'UTF-8');
-				$value=strip_tags($value,"<p><b><br><font><i>");
+				$value=strip_tags_array($value);
 			}
 			echo "<td>&nbsp;<b>".$lbl[$name].": </b></td><td >".$value."</td>";
 			$i++;

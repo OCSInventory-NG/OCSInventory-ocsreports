@@ -177,11 +177,9 @@ if (!defined("SERVER_READ")){
 }
 
 //SECURITY
+$protectedPost=strip_tags_array($_POST);
+$protectedGet=strip_tags_array($_GET);
 
-	$protectedPost=$_POST;
-	$protectedGet=$_GET;
-	
-//print_r($GLOBALS);
 @set_time_limit(0);
 
 //Don't take care of error identify 

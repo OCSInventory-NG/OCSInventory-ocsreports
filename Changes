@@ -1,5 +1,6 @@
 Revision history for ocsreports
 2.0.3
+		* security fix: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/884340 (XSS)
 		* security fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/884273
 		* security fix for snmp https://bugs.launchpad.net/ocsinventory-server/+bug/881406
 		* use CONF_MYSQL 
