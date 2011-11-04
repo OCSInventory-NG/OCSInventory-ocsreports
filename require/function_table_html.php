@@ -1589,7 +1589,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						}
 						if ($htmlentities)
 							//$value_of_field=htmlentities($value_of_field,ENT_COMPAT,'UTF-8');
-							$value_of_field=strip_tags($value_of_field,"<p><b><i><font><br>");
+							$value_of_field=strip_tags_array($value_of_field);
 							
 						$data[$i][$num_col]=$value_of_field.$end;
 						
