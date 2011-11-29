@@ -1287,7 +1287,7 @@
 2099 ERROR: this MySQL login doesn't have the rights to create the database
 2100 Update old account infos
 2101 Add by script
-2102 WARNING: If you change default database name (ocsweb), don't forget to update your ocs engine files (file z-ocsinventory-server.conf)
+2102 WARNING: If you change default database name (ocsweb) or user (ocs), don't forget to update the file 'z-ocsinventory-server.conf' in your Apache configuration directory
 2103 DEMO mode: you can't update data
 2104 YOU ARE WATCHING THE DEMO VERSION OF
 2105 Your database is OK.<br>No action taken.
