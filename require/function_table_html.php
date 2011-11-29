@@ -163,7 +163,7 @@ function escape_string($array){
 function xml_escape_string($array){
 	foreach ($array as $key=>$value){
 		$trait_array[$key]=xml_encode($value);
-		//$trait_array[$key]=mysql_escape_string($value);
+		//$trait_array[$key]=mysql_real_escape_string($value);
 	}
 	return ($trait_array);
 }
@@ -801,8 +801,8 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 	 		 $current=1;
 			}
 	  	}else{
-	  		//echo "<script>alert('".mysql_escape_string(stripslashes($protectedPost[$post_name]))." => ".$key."')</script>";
-			if (mysql_escape_string(stripslashes($protectedPost[$post_name])) === mysql_escape_string(stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
+	  		//echo "<script>alert('".mysql_real_escape_string(stripslashes($protectedPost[$post_name]))." => ".$key."')</script>";
+			if (mysql_real_escape_string(stripslashes($protectedPost[$post_name])) === mysql_real_escape_string(stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
 				 echo "id='current'";  
 	 			 $current=1;
 			}

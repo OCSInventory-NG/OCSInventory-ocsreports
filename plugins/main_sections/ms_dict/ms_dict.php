@@ -37,8 +37,8 @@ if ($protectedPost['RESET']=="RESET")
 unset($protectedPost['search']);
 //filtre
 if ($protectedPost['search']){
-	$search_cache=" and cache.name like '%".mysql_escape_string($protectedPost['search'])."%' ";
-	$search_count=" and extracted like '%".mysql_escape_string($protectedPost['search'])."%' ";
+	$search_cache=" and cache.name like '%".mysql_real_escape_string($protectedPost['search'])."%' ";
+	$search_count=" and extracted like '%".mysql_real_escape_string($protectedPost['search'])."%' ";
 }
 else{
 	$search="";
@@ -123,7 +123,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 		} 
 		$querydico=substr($querydico,0,-1);
 		$querydico .= " from dico_soft left join ".$table." cache on dico_soft.extracted=cache.name
-				 where formatted='".mysql_escape_string($list_cat[$protectedPost['onglet_soft']])."' ".$search_count." group by EXTRACTED";
+				 where formatted='".mysql_real_escape_string($list_cat[$protectedPost['onglet_soft']])."' ".$search_count." group by EXTRACTED";
 }
 /*******************************************************CAS OF NEW*******************************************************/
 if ($protectedPost['onglet'] == 'NEW'){
