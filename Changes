@@ -1,4 +1,7 @@
 Revision history for ocsreports
+2.0.4 
+		* utf8 patch : http://forums.ocsinventory-ng.org/viewtopic.php?pid=43927#p43927
+
 2.0.3
 		* security fix: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/884340 (XSS)
 		* security fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/884273
