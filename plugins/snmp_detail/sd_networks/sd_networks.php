@@ -34,7 +34,8 @@ print_item_header($l->g(82));
 					   $l->g(316)=>'IPSUBNET',
 					   $l->g(281)=>'IPDHCP',
 					   $l->g(278)=>'DRIVER',
-					   'VIRTUALDEV'=>'VIRTUALDEV'
+					   'VIRTUALDEV'=>'VIRTUALDEV',
+					   'DEVICEPORT'=>'DEVICEPORT',
 					   );
 	//$list_fields['SUP']= 'ID';
 	$sql=prepare_sql_tab($list_fields);
