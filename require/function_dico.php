@@ -46,7 +46,7 @@ function trans($onglet,$list_soft,$affect_type,$new_cat,$exist_cat){
 	$table="softwares";
 	//verif is this cat exist
 	if ($new_cat != ''){
-		$sql_verif="select extracted from dico_soft where formatted ='".mysql_escape_string($new_cat)."'";
+		$sql_verif="select extracted from dico_soft where formatted ='".mysql_real_escape_string($new_cat)."'";
 		$result_search_soft = mysql_query( $sql_verif, $_SESSION['OCS']["readServer"]);
 	 	$item_search_soft = mysql_fetch_object($result_search_soft);
 	 	if (isset($item_search_soft->extracted) or $new_cat == "IGNORED" or $new_cat == "UNCHANGED"){
@@ -71,10 +71,10 @@ function trans($onglet,$list_soft,$affect_type,$new_cat,$exist_cat){
 				}elseif($exist_cat == "UNCHANGED"){
 					$sql="insert dico_soft (extracted,formatted) select distinct NAME,NAME from ".$table." where ID in (".implode(",",$list_soft).")";			
 				}else
-					$sql="insert dico_soft (extracted,formatted) select distinct NAME,'".mysql_escape_string($exist_cat)."' from ".$table." where ID in (".implode(",",$list_soft).")";
+					$sql="insert dico_soft (extracted,formatted) select distinct NAME,'".mysql_real_escape_string($exist_cat)."' from ".$table." where ID in (".implode(",",$list_soft).")";
 		}else{
 		 	if (!isset($already_exist)){
-		 		$sql="insert dico_soft (extracted,formatted) select distinct NAME,'".mysql_escape_string($new_cat)."' from ".$table." where ID in (".implode(",",$list_soft).")";
+		 		$sql="insert dico_soft (extracted,formatted) select distinct NAME,'".mysql_real_escape_string($new_cat)."' from ".$table." where ID in (".implode(",",$list_soft).")";
 		 	}else
 		 		echo "<script>alert('".$l->g(771)."')</script>";			
 		}
