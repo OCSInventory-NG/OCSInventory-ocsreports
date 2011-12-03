@@ -575,7 +575,7 @@ function print_perso($systemid) {
 	
 	//TELEDEPLOY
 	require_once('require/function_machine.php');
-	show_packages($systemid);
+	show_packages($systemid,"ms_group_show");
 	
 	if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" ){
 	echo "<tr>

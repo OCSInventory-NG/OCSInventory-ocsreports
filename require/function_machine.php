@@ -118,7 +118,7 @@ function bandeau($data,$lbl,$link=array()){
 	echo "</tr></table>";	
 }
 
-function show_packages($systemid){
+function show_packages($systemid,$page="ms_computer"){
 	global $l,$pages_refs,$ii,$td3,$td2,$td4;
 	$query="SELECT a.name, d.tvalue,d.ivalue,d.comments,e.fileid, e.pack_loc,h.name as name_server,h.id,a.comment
 			FROM devices d left join download_enable e on e.id=d.ivalue
@@ -154,7 +154,7 @@ function show_packages($systemid){
 					echo "(<small>".$valDeploy["fileid"]."</small>)";
 					
 					if ($valDeploy["name_server"]!="")
-						echo " (".$l->g(499)." redistrib: <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valDeploy["id"]."' target='_blank'><b>".$valDeploy["name_server"]."</b></a>";
+						echo " (".$l->g(499)." redistrib: <a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&systemid=".$valDeploy["id"]."' target='_blank'><b>".$valDeploy["name_server"]."</b></a>";
 					else
 					echo " (".$l->g(499).": ".$valDeploy["pack_loc"]." ";
 					echo ")</td>";			
@@ -162,17 +162,17 @@ function show_packages($systemid){
 					echo ($valDeploy["comments"]!=""?" (".$valDeploy["comments"].")":"");
 					echo "</td>";
 					if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" )	{
-						echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
+						echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 						urlencode($systemid)."&option=cd_configuration'>".$l->g(122)."</a></td>";
 					}elseif (strstr($valDeploy["tvalue"], 'ERR_')){
-						echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&affect_reset=".$valDeploy["ivalue"]."&systemid=".
+						echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&affect_reset=".$valDeploy["ivalue"]."&systemid=".
 							urlencode($systemid)."&option=cd_configuration'>".$l->g(113)."</a>";
 						if ($valDeploy["name"] != "PAQUET SUPPRIME")
-						echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&affect_again=".$valDeploy["ivalue"]."&systemid=".
+						echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&affect_again=".$valDeploy["ivalue"]."&systemid=".
 							urlencode($systemid)."&option=cd_configuration'>".$l->g(1246)."</a></td>";				
 					}elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')){	
 							if (isset($valDeploy["comments"]) and strtotime ($valDeploy["comments"])<strtotime ("-12 week")){
-								echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&reset_notified=".$valDeploy["ivalue"]."&systemid=".
+								echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&reset_notified=".$valDeploy["ivalue"]."&systemid=".
 								urlencode($systemid)."&option=cd_configuration'><img src=image/supp.png></a>";
 							}
 					

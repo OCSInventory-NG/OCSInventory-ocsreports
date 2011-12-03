@@ -1,5 +1,7 @@
 Revision history for ocsreports
 2.0.4 
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/878166
+		* sort all select list
 		* utf8 patch : http://forums.ocsinventory-ng.org/viewtopic.php?pid=43927#p43927
 
 2.0.3
