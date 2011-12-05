@@ -190,8 +190,8 @@ function add_community($ID,$NAME,$VERSION,$USERNAME,$AUTHKEY,$AUTHPASSWD){
 	if ($VERSION == -1)
 		$VERSION = '2c';
 	//this name of community still exist?
-	$sql="select name from snmp_communities where name='%s'";
-	$arg=array($NAME);
+	$sql="select name from snmp_communities where name='%s' and version='%s' ";
+	$arg=array($NAME,$VERSION);
 	
 	if (isset($ID) and is_numeric($ID)){
 		$sql.=" and id != %s";
