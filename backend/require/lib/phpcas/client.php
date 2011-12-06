@@ -549,7 +549,7 @@ class CASClient
             unset($_GET['ticket']);
           } else if ( !empty($ticket) ) {
             //ill-formed ticket, halt
-            $cas->error('ill-formed ticket found in the URL (ticket=`'.htmlentities($ticket).'\')');
+            $cas->error('ill-formed ticket found in the URL (ticket=`'.htmlentities($ticket,ENT_COMPAT | ENT_HTML401,"UTF-8").'\')');
           }
           break;
         case CAS_VERSION_2_0: // check for a Service or Proxy Ticket
@@ -559,7 +559,7 @@ class CASClient
             unset($_GET['ticket']);
           } else if ( !empty($ticket) ) {
             //ill-formed ticket, halt
-            $cas->error('ill-formed ticket found in the URL (ticket=`'.htmlentities($ticket,ENT_COMPAT,'UTF-8').'\')');
+            $cas->error('ill-formed ticket found in the URL (ticket=`'.htmlentities($ticket,ENT_COMPAT | ENT_HTML401,"UTF-8").'\')');
           } 
           break;
         }
