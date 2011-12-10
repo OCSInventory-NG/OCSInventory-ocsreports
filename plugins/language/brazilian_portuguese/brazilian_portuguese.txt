@@ -1286,6 +1286,17 @@
 2017 using
 2018 was imported
 2019 were already imported
+2020 Your install.php exists in your installation directory.
+2021 Your logs directory is not writable
+2022 You can't send a file larger than
+2023 Delete it
+2024 The default SQL login/password is activate on your database:
+2025 Change your login password for 'ocs' user in MySQL
+2026 The default login/password is activate on OCS-NG GUI
+2027 Change your 'admin' password on OCS-NG GUI
+2028 Authentication key
+
+
 2030 OCS Inventory Installation
 2031 Current installed version
 2032 is lower than this version

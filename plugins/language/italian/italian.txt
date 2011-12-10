@@ -1218,6 +1218,7 @@
 2025 Cambia la password dell'account 'ocs' in MySQL
 2026 Sono attive le credenziali di default per l'accesso alla GUI di OCS-NG
 2027 Cambia la password dell'account 'admin' per l'accesso alla GUI di OCS-NG
+2028 Chiave di autenticazione
 
 
 2030 Installazione OCS-NG Inventory
@@ -1287,12 +1288,11 @@
 2099 ERRORE: le credenziali MySQL fornite non hanno i diritti necessari per la creazione del database
 2100 Aggiorna informazioni account
 2101 Aggiunto dallo script
-2102 ATTENZIONE: se cambi i valori di default, del database (ocsweb) od dell'utente (ocs), non dimenticare di aggiornare il file 'z-ocsinventory-server.conf' nella directory di configurazione di Apache
+2102 ATTENZIONE: se cambi i valori di default, del database (ocsweb) o dell'utente (ocs), non dimenticare di aggiornare il file 'z-ocsinventory-server.conf' nella directory di configurazione di Apache
 2103 Modalità dimostrativa: non puoi aggiornare i dati
 2104 STAI UTILIZZANDO LA VERSIONE DIMOSTRATIVA DI
 2105 Il database è aggiornato.<br>Nessuna modifica apportata.
 2106 la configurazione di MySQL, variabile 'max_allowed_packet', permette file grandi fino a <
-
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
