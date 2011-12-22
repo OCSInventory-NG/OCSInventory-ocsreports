@@ -1292,6 +1292,8 @@
 2025 Ändern Sie das OCS-Datenbankpasswort in MySQL
 2026 Sicherheitsproblem: Sie verwenden das Standard-Admin-Passwort für die OCS-GUI!
 2027 Ändern Sie das Admin-Kennwort in der OCS-GUI! 
+2028 Authentication key
+
 
 2030 OCS-NG Inventory Installation
 2031 Derzeit installierte Version

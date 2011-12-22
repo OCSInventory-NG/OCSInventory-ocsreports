@@ -1228,6 +1228,8 @@
 2025 Zmień swoje hasło dla OCS do logowania w MySQL
 2026 Domyślny login/hasło jest aktywne w OCS GUI
 2027 Zmień hasło administratora w OCS GUI
+2028 Authentication key
+
 
 2030 OCS-NG Inventory Installation
 2031 Current installed version

@@ -539,7 +539,11 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 				//champ sur lequel s'effectue la recherche
 				$field_temp=$field_cache[$table_cache[$table[$i]]];
 				if ($field_temp == $field[$i]){
-					$sql_temp="select ".$field_temp." as name, id from ".strtolower($table_cache[$table[$i]])." where ".$field_temp.$field_compar[$i].$field_value[$i];
+					$sql_temp="select ".$field_temp." as name ";
+					if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
+							and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1)
+					$sql_temp.= ",id ";
+					$sql_temp.= " from ".strtolower($table_cache[$table[$i]])." where ".$field_temp.$field_compar[$i].$field_value[$i];
 					$result_temp = mysql_query( $sql_temp, $_SESSION['OCS']["readServer"] );
 					$count_result=0;
 					while( $val_temp = mysql_fetch_array($result_temp) ) {
