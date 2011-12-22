@@ -124,13 +124,11 @@ if ($show_stats){
 	$list_fields['NOTI']='NOTI';
 	$list_fields['SUCC']='SUCC';
 	$list_fields['ERR_']='ERR_';
-	$list_fields['EXIT_CODE']='EXIT_CODE';
 	//can't sort on this cols
 	$tab_options['NO_TRI']['NOTI']=1;
 	$tab_options['NO_TRI']['NO_NOTIF']=1;
 	$tab_options['NO_TRI']['SUCC']=1;
 	$tab_options['NO_TRI']['ERR_']=1;	
-	$tab_options['NO_TRI']['EXIT_CODE']=1;	
 }
 //only for profils who can activate packet
 if (!$cant_active){					
@@ -154,7 +152,7 @@ $default_fields= array('Timestamp'=>'Timestamp',
 	$default_fields['ERR_']='ERR_';
 }*/
 $list_col_cant_del=array('SHOWACTIVE'=>'SHOWACTIVE','SUP'=>'SUP','ACTIVE'=>'ACTIVE','STAT'=>'STAT','ZIP'=>'ZIP','CHECK'=>'CHECK');
-$querypack=prepare_sql_tab($list_fields,array('SELECT','ZIP','STAT','ACTIVE','SUP','CHECK','NO_NOTIF','NOTI','SUCC','ERR_','EXIT_CODE'));
+$querypack=prepare_sql_tab($list_fields,array('SELECT','ZIP','STAT','ACTIVE','SUP','CHECK','NO_NOTIF','NOTI','SUCC','ERR_'));
 
 
 
@@ -207,33 +205,43 @@ if ($show_stats){
 				from devices d,download_enable de 
 				where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
 				and d.tvalue %s  ";
+	$sql_data_fixe_ter="select count(*) as %s,de.FILEID
+				from devices d,download_enable de 
+				where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
+				and (d.tvalue %s '%s' or d.tvalue %s '%s') ";
 	
-	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_']=array('ERR_','LIKE','ERR_%');
+	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_']=array('ERR_','LIKE','ERR_%','LIKE','EXIT_CODE%');
 	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC']=array('SUCC','LIKE','SUCCESS%');
 	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI']=array('NOTI','LIKE','NOTI%');
 	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF']=array('NO_NOTIF','IS NULL');
-	$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['EXIT_CODE']=array('EXIT_CODE','LIKE','EXIT_CODE%');
 	
 	if ($restrict_computers){
 		$sql_data_fixe.=" and d.hardware_id in ";
 		$sql_data_fixe_bis.=" and d.hardware_id in ";
+		$sql_data_fixe_ter.=" and d.hardware_id in ";
 		$temp=mysql2_prepare($sql_data_fixe,array(),$restrict_computers);
 		$temp_bis=mysql2_prepare($sql_data_fixe_bis,array(),$restrict_computers);
+		$temp_ter=mysql2_prepare($sql_data_fixe_ter,array(),$restrict_computers);
 	}
 	foreach($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key=>$value){
 		if ($restrict_computers){
-			if ($key != 'NO_NOTIF'){
+			if ($key != 'NO_NOTIF' and $key != 'ERR_'){
 				$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL']." group by FILEID";	
-			}else{
+			}elseif ($key == 'NO_NOTIF'){
 				$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL']." group by FILEID";				
+			}elseif($key == 'ERR_'){
+				$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_ter['ARG']);
+				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_ter['SQL']." group by FILEID";				
 			}
 		}else{
-			if ($key != 'NO_NOTIF')
+			if ($key != 'NO_NOTIF' and $key != 'ERR_')
 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe." group by FILEID";	
-			else
+			elseif ($key == 'NO_NOTIF')
 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe_bis." group by FILEID";	
+			elseif($key == 'ERR_')
+				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe_ter." group by FILEID";	
 		}
 	}
 }
@@ -242,7 +250,6 @@ $tab_options['COLOR']['ERR_']='RED';
 $tab_options['COLOR']['SUCC']='GREEN';	
 $tab_options['COLOR']['NOTI']='GREY';	
 $tab_options['COLOR']['NO_NOTIF']='BLACK';	
-$tab_options['COLOR']['EXIT_CODE']='BLUE';
 $tab_options['FILTRE']=array('FILEID'=>'Timestamp','NAME'=>$l->g(49));
 $tab_options['TYPE']['ZIP']=$protectedPost['SHOW_SELECT'];
 $tab_options['FIELD_REPLACE_VALUE_ALL_TIME']='FILEID';

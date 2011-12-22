@@ -244,13 +244,13 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			
 		}else{		
 			$sql="select * from snmp_communities";
-			$list_fields= array('VERSION' => 'VERSION',
-							$l->g(49)=>'NAME',
-							'USERNAME'=>'USERNAME',
-							'AUTHKEY'=>'AUTHKEY',
-							'AUTHPASSWD'=>'AUTHPASSWD',
-							'MODIF'=>'ID',
-							'SUP'=>'ID');
+			$list_fields= array($l->g(277)=> 'VERSION',
+						$l->g(49)=>'NAME',
+						$l->g(24)=>'USERNAME',
+						$l->g(2028)=>'AUTHKEY',
+						$l->g(217)=>'AUTHPASSWD',
+						'MODIF'=>'ID',
+						'SUP'=>'ID');
 			//$list_fields['SUP']='ID';	
 			$default_fields=$list_fields;
 			$list_col_cant_del=$list_fields;

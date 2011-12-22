@@ -1222,6 +1222,7 @@
 2025 Change your password for ocs login in MySQL
 2026 The default login/password is activate on OCS GUI
 2027 Change admin password on OCS GUI
+2028 Authentication key
 
 
 2030 OCS-NG Inventory Installation
