@@ -146,7 +146,7 @@ function loadMac() {
 		while (!feof($file)) {				 
 			$line  = fgets($file, 4096);
 			if( preg_match("/^((?:[a-fA-F0-9]{2}-){2}[a-fA-F0-9]{2})\s+\(.+\)\s+(.+)\s*$/", $line, $result ) ) {
-				$_SESSION['OCS']["mac"][strtoupper(str_replace("-",":",$result[1]))] = $result[2];
+				$_SESSION['OCS']["mac"][mb_strtoupper(str_replace("-",":",$result[1]))] = $result[2];
 			}				
 		}
 		fclose($file);			

@@ -179,7 +179,7 @@ if ((isset($protectedPost["SHOW_ME"]) and $protectedPost["SHOW_ME"] != "")){
 		
 	//restriction on computer id
 	if (isset($myids)){
-		if (strtoupper($sql_field[$protectedPost["SHOW_ME"]]['ARG'][1]) == "HARDWARE")
+		if (mb_strtoupper($sql_field[$protectedPost["SHOW_ME"]]['ARG'][1]) == "HARDWARE")
 			$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2].="id ";
 		else
 			$sql_field[$protectedPost["SHOW_ME"]]['ARG'][2].="hardware_id";

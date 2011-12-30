@@ -26,7 +26,7 @@ foreach ($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'] as $tablename){
 		
 		$res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
 		while ($item = mysql_fetch_object($res)){
-			$xml.= "\t\t<".strtoupper($tablename).">\n";
+			$xml.= "\t\t<".mb_strtoupper($tablename).">\n";
 			foreach($_SESSION['OCS']['SQL_TABLE'][$tablename] as $field_name=>$field_type){
 				if ($field_name != 'HARDWARE_ID'){
 					if(replace_entity_xml($item->$field_name) != ''){
@@ -39,7 +39,7 @@ foreach ($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'] as $tablename){
 					}
 				}
 			}
-			$xml.= "\t\t</".strtoupper($tablename).">\n";
+			$xml.= "\t\t</".mb_strtoupper($tablename).">\n";
 		}
 	}
 	

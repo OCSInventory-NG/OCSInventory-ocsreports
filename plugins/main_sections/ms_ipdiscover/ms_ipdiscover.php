@@ -38,7 +38,7 @@ echo "<br>";
 		asort($list_index);
 		echo $l->g(562)." ".show_modif($list_index,'DPT_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
  	}else
- 		msg_info(strtoupper($l->g(1134)));
+ 		msg_info(mb_strtoupper($l->g(1134)));
  		
 	 if (isset($protectedPost['DPT_CHOISE']) and $protectedPost['DPT_CHOISE'] != '0'){
 	 	
