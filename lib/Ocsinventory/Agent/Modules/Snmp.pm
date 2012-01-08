@@ -17,6 +17,8 @@ use warnings;
 use XML::Simple;
 use Digest::MD5;
 
+# New lib for scanning
+
 sub new {
    my $name="snmp";   #Set the name of your module here
 
@@ -45,6 +47,8 @@ sub new {
 
    $self->{number_scan}=0;
    $self->{snmp_oid_run}=$name."_oid_run";
+   $self->{snmp_oid_xml}=$name."_oid_xml";
+   $self->{snmp_ip_scan}=$name."_ip_scan";
    $self->{func_oid}={};
    $self->{snmp_dir}=[];
 
@@ -102,31 +106,31 @@ sub snmp_prolog_reader {
    $prolog	= XML::Simple::XMLin( $prolog, ForceArray => ['OPTION', 'PARAM']);
 
    for $option (@{$prolog->{OPTION}}){
-      if( $option->{NAME} =~/snmp/i){
-         $self->{doscans} = 1 ;
-         for ( @{ $option->{PARAM} } ) {
+     if( $option->{NAME} =~/snmp/i){
+       $self->{doscans} = 1 ;
+       for ( @{ $option->{PARAM} } ) {
 
-            if($_->{'TYPE'} eq 'DEVICE'){
-              #Adding the IP in the devices array
-              push @{$self->{netdevices}},{
-                IPADDR => $_->{IPADDR},
-                MACADDR => $_->{MACADDR},
-              };
-            }
+          if($_->{'TYPE'} eq 'DEVICE'){
+            #Adding the IP in the devices array
+            push @{$self->{netdevices}},{
+              IPADDR => $_->{IPADDR},
+              MACADDR => $_->{MACADDR},
+            };
+          }
 
-            if($_->{'TYPE'} eq 'COMMUNITY'){
-              #Adding the community in the communities array
-              push @{$self->{communities}},{
-                VERSION=>$_->{VERSION},
-                NAME=>$_->{NAME},
-                USERNAME=>$_->{USERNAME},
-                AUTHKEY=>$_->{AUTHKEY},
-                AUTHPASSWD=>$_->{AUTHPASSWD},
-              };
-            }
-         }
-      }
-   }
+          if($_->{'TYPE'} eq 'COMMUNITY'){
+            #Adding the community in the communities array
+            push @{$self->{communities}},{
+              VERSION=>$_->{VERSION},
+              NAME=>$_->{NAME},
+              USERNAME=>$_->{USERNAME},
+              AUTHKEY=>$_->{AUTHKEY},
+              AUTHPASSWD=>$_->{AUTHPASSWD},
+            };
+          }
+       }
+    }
+  }
 }
 
 
@@ -135,6 +139,7 @@ sub snmp_end_handler {
    my $logger = $self->{logger};
    my $common = $self->{context}->{common};
    my $network = $self->{context}->{network};
+
 
    $logger->debug("Calling snmp_end_handler");
 
@@ -169,13 +174,26 @@ sub snmp_end_handler {
    my $snmp_sysobjectid="1.3.6.1.2.1.1.2.0";
    # syscontact.0
    my $snmp_syscontact="1.3.6.1.2.1.1.4.0";
+   # ifPhysAddress.1
+   my $snmp_macaddr="1.3.6.1.2.1.2.2.1.6.";
+   my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2.";
+   my $snmp_iftype="1.3.6.1.2.1.2.2.1.3.";
 
-
+   my $full_oid=undef;
 
    # Initalising the XML properties 
    my $snmp_inventory = $self->{inventory};
    $snmp_inventory->{xmlroot}->{QUERY} = ['SNMP'];
    $snmp_inventory->{xmlroot}->{DEVICEID} = [$self->{context}->{config}->{deviceid}];
+
+   # Scanning network
+   $logger->debug("Snmp: Scanning network");
+   my $nets_to_scan=["10.44.65.0/24"];
+
+   foreach my $net_to_scan ( @$nets_to_scan ){
+      $self->{snmp_ip_scan}($self,$net_to_scan);
+   }
+   $logger->debug("Snmp: Ending Scanning network");
 
    # Begin scanning ip tables 
    foreach my $device ( @$ip ) {
@@ -193,7 +211,7 @@ sub snmp_end_handler {
                 -timeout     => 3,
                 -version     => 'snmpv'.$comm->{VERSION},
                 -hostname    => $device->{IPADDR},
-		# -community   => $comm->{NAME},
+		-community   => $comm->{NAME},
                 -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
 	        -username      => $comm->{USER},
                 -authpassword  => $comm->{AUTHPASSWD},
@@ -201,6 +219,14 @@ sub snmp_end_handler {
                 -privpassword  => $comm->{PRIVPASSWD},
                 -privprotocol  => $comm->{PRIVPROTO},
              );
+
+	     #For a use in constructor module (Cisco)
+	     $self->{username}=$comm->{USER};
+	     $self->{authpassword}=$comm->{AUTHPASSWD};
+	     $self->{authprotocol}=$comm->{AUTHPROTO};
+	     $self->{privpassword}=$comm->{PRIVPASSWD};
+	     $self->{privprotocol}= $comm->{PRIVPROTO};
+
           } else {
             # We have an older version v2c ou v1
 	    ($session, $error) = Net::SNMP->session(
@@ -217,19 +243,23 @@ sub snmp_end_handler {
           } else {
 	          $self->{snmp_session}=$session;
 
-   	     $self->{snmp_community}=$comm->{NAME}; #For a use in constructor module (Cisco)
+	     #For a use in constructor module (Cisco)
+   	     $self->{snmp_community}=$comm->{NAME}; 
              $self->{snmp_version}=$comm->{VERSION};
+             
 
-             $name=$session->get_request( -varbindlist => [$snmp_sysname] );
-             last LIST_SNMP if ( defined $name);
+             $full_oid=$session->get_request( -varbindlist => [$snmp_sysobjectid] );
+             last LIST_SNMP if ( defined $full_oid);
              $session->close;
 	          $self->{snmp_session}=undef;
           }
       }
 		
-      if ( defined $self->{snmp_session} ) { 
+      if ( defined $full_oid ) { 
+        $full_oid=$full_oid->{$snmp_sysobjectid};
+
         # We have found the good Community, we can scan this equipment
-        my ($constr_oid,$full_oid,$device_name,$description,$location,$contact,$uptime,$domain,$macaddr);
+        my ($constr_oid,$device_name,$description,$location,$contact,$uptime,$domain,$macaddr);
 
         # We indicate that we scan a new equipment
         $self->{number_scan}++;
@@ -238,7 +268,11 @@ sub snmp_end_handler {
 
 
         $result=$session->get_request( -varbindlist => [$snmp_sysname]);
-        $device_name=$result->{$snmp_sysname}; 
+        if ( defined ( $result->{$snmp_sysname} ) && length($result->{$snmp_sysname}) > 0 ) {
+           $device_name=$result->{$snmp_sysname}; 
+        } else {
+	   $device_name="Not Defined";
+        }
 
         $result=$session->get_request(-varbindlist => [$snmp_sysobjectid]);
         $full_oid=$result->{$snmp_sysobjectid}; 
@@ -255,43 +289,86 @@ sub snmp_end_handler {
         $result=$session->get_request(-varbindlist => [$snmp_syscontact]);
         $contact=$result->{$snmp_syscontact};
 
-        if ( $full_oid  =~ /1\.3\.6\.1\.4\.1\.(\d+)/ ) {
-            $system_oid=$1;
+        ####################
+        # finding MACADDRESS for checksum
+        ####################
+        my $index=$snmp_iftype;
+        $result=$session->get_next_request(-varbindlist => [$index]);
+           
+        $macaddr=undef;
+        my $ref_iftype=3;
+        # We scan the kinod of connexion, if it is a ethernet, we can use this mac address
+        # If we have a ref_iftype > 3 then we have no eth (type 6)
+        while ( ! defined($macaddr) && defined( $result) && $ref_iftype == 3  ) {
+	   foreach $index ( keys %{$result} ) {
+              if ( $index =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.(\S+)\.(\S+)/ ) {
+	         $ref_iftype=$1;
+	         my $ref_mac=$2;
+	         if ( $result->{$index} == 6   ) {
+	            my $res_mac=$session->get_request(-varbindlist => [$snmp_macaddr.$ref_mac]);
+		    if ( defined ($res_mac ) && defined ($res_mac->{$snmp_macaddr.$ref_mac}) && $res_mac->{$snmp_macaddr.$ref_mac} ne '' ) {
+		        $macaddr=" ".$res_mac->{$snmp_macaddr.$ref_mac};
+		    } else {
+		       $result=$session->get_next_request(-varbindlist => [$index]);
+		    }
+                 } else {
+	            $result=$session->get_next_request(-varbindlist => [$index]);
+	         }
+	      } else {
+		 $result=undef;
+	      }
+	   }
+	}
+
+        if ( defined($macaddr) && $macaddr =~ /^ 0x(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})$/ ) {
+           $macaddr="$1:$2:$3:$4:$5:$6";
+        } elsif ( ! defined($macaddr) || $macaddr eq "endOfMibView" ) {
+	   if (defined ( $device->{MACADDR} ) ) {
+	      $macaddr = $device->{MACADDR};
+           } else {
+              $macaddr=$device_name;
+              #$macaddr=$device->{IPADDR}."_".$device_name;
+           }
         }
 
-        # We run the special treatments for the OID vendor 
-        if ( $self->{snmp_oid_run}($self,$system_oid) == 1 ) {
-           # We have no vendor oid for this equipment
-           # we use default.pm
-           $self->{snmp_oid_run}($self,"Default");
-        }
+	if ( defined ($macaddr) ) {
+           if ( $full_oid  =~ /1\.3\.6\.1\.4\.1\.(\d+)/ ) {
+               $system_oid=$1;
+           }
 
-        $session->close;
-	$self->{snmp_session}=undef;
+           #Create SnmpDeviceID
+           my $md5 = Digest::MD5->new;
+           $md5->add($macaddr, $system_oid);
+           my $snmpdeviceid = $md5->hexdigest;
 
-        $macaddr = $device->{MACADDR};
+           #Adding standard informations
+           $common->setSnmpCommons({ 
+             IPADDR => $device->{IPADDR},
+             MACADDR => $macaddr,
+             SNMPDEVICEID => $snmpdeviceid,
+             NAME => $device_name,
+             DESCRIPTION => $description,
+             CONTACT => $contact,
+             LOCATION => $location,
+             UPTIME => $uptime,
+             WORKGROUP => $domain,
+           });
 
-        #Create SnmpDeviceID
-        my $md5 = Digest::MD5->new;
-        $md5->add($macaddr, $system_oid);
-        my $snmpdeviceid = $md5->hexdigest;
+           # We run the special treatments for the OID vendor 
+           if ( $self->{snmp_oid_run}($self,$system_oid) == 1 ) {
+              # We have no vendor oid for this equipment (run or xml)
+              # we use default.pm
+                 $self->{snmp_oid_run}($self,"Default");
+           }
 
-        #Adding standard informations
-        $common->setSnmpCommons({ 
-          IPADDR => $device->{IPADDR},
-          MACADDR => $macaddr,
-          SNMPDEVICEID => $snmpdeviceid,
-          NAME => $device_name,
-          DESCRIPTION => $description,
-          CONTACT => $contact,
-          LOCATION => $location,
-          UPTIME => $uptime,
-          WORKGROUP => $domain,
-        });
 
-        #Add all the informations in the xml for this device
-        push @{$snmp_inventory->{xmlroot}->{CONTENT}->{DEVICE}},$devicedata;
+           #Add all the informations in the xml for this device
+           push @{$snmp_inventory->{xmlroot}->{CONTENT}->{DEVICE}},$devicedata;
+         }
       }
+      # We have finished with this equipment
+      $session->close;
+      $self->{snmp_session}=undef;
 
       #We clear the xml data for this device 
       $common->flushXMLTags(); 
@@ -311,6 +388,67 @@ sub snmp_end_handler {
 }
 
 
+#########################################################
+#							#
+# function for scanning range of ip and determining if	#
+# there is an equipment for snmp scan			#
+# Parameters:						#
+#	(self)						#
+#	net_to_scan indicate the subnet to scan         #
+#							#
+#########################################################
+###
+sub snmp_ip_scan {
+   my ($self,$net_to_scan)=@_;
+   my $logger=$self->{logger};
+   my $common=$self->{common};
+   my $ip=$self->{netdevices};
+
+   if ($common->can_load('Net::Netmask') ) {
+      my $block=Net::Netmask->new($net_to_scan);
+      my $size=$block->size()-2;
+      my $index=1;
+      $logger->debug("trying Scan with nmap");
+      if (  $common->can_run('nmap') && $common->can_load('Nmap::Parser')  ) {
+         $logger->debug("Scan with nmap");
+         my $nmaparser = Nmap::Parser->new;
+
+         $nmaparser->parsescan("nmap","-sP","-PR",$net_to_scan);
+         for my $host ($nmaparser->all_hosts("up")) {
+            my $res=$host->addr;
+	    $logger->debug("Find $res");
+	    push( @{$ip},{IPADDR=>$res});
+         }
+      } elsif ($common->can_load('Net::Ping'))  {
+         $logger->debug("Scanning with ping");
+         my $ping=Net::Ping->new("icmp",1);
+
+         while ($index <= $size) {
+            my $res=$block->nth($index);
+            if ( $ping->ping($res) ) {
+	      $logger->debug("Find $res");
+	      push( @{$ip},{IPADDR=>$res});
+            }
+            $index++;
+         }
+         $ping->close();
+      } else {
+	$logger->debug("No scanning possible");
+      }
+   } else {
+      $logger->debug("Net::Netmask not present: no scan possible");
+   }
+}
+
+
+#########################################################
+#							#
+# function for executing sub perl with the oid		#
+# Parameters: 						#
+#         (self)					#
+#         system oid for execute the .pm associated	#
+#							#
+#########################################################
 sub snmp_oid_run {
     my ($self,$system_oid)=@_;
 
@@ -324,7 +462,7 @@ sub snmp_oid_run {
       # We init the default value
       $self->{func_oid}{$system_oid}={};
       $self->{func_oid}{$system_oid}{active}=0;
-      $self->{func_oid}{$system_oid}{oid_value}="1.3.6.1.2.1.1.5.0";
+      $self->{func_oid}{$system_oid}{oid_value}="1.3.6.1.2.1.1.2.0";
       $self->{func_oid}{$system_oid}{oid_name}="Undefined";
 
 
@@ -349,9 +487,8 @@ sub snmp_oid_run {
                       $self->{func_oid}{$system_oid}{oid_name}=$return_info->{oid_name};
                    }
                 }
-
                 $self->{func_oid}{$system_oid}{active}=1;
-            	 $self->{func_oid}{$system_oid}{last_exec}=0;
+            	$self->{func_oid}{$system_oid}{last_exec}=0;
              }
           }
       }
@@ -363,19 +500,303 @@ sub snmp_oid_run {
       my $oid_scan=$self->{func_oid}{$system_oid}{oid_value};
       my $result=$session->get_request(-varbindlist => [ $oid_scan ] );
 
+      # We indicate that this equipment is the last scanned
       $self->{func_oid}{$system_oid}{last_exec}=$self->{number_scan};
-      if ( length ($result->{$oid_scan}) != 0 ) {
+      if ( defined($result->{$oid_scan} ) && length ($result->{$oid_scan}) != 0 ) {
          # This OID exist, we can execute it
-         #$logger->debug("Launching $system_oid\n");
+         $logger->debug("Launching $system_oid\n");
          &{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
+      } else {
+	return 1;
       }
-   # We indicate that this equipment is the last scanned
-   } else {
-      return 1;
    }
+   snmp_oid_xml($self,$system_oid);
    return 0;
 
 }
 
+#########################################################
+#                                                       #
+# function for executing sub xml with the oid           #
+# Parameters:                                           #
+#         (self)                                        #
+#         system oid for execute the .xml associated    #
+#                                                       #
+# $xml_oid->{system_oid} Ref the oid in the xml         #
+#                       {active} 0 Ko 1 OK              #
+#			{xml_data} info get in xml file #
+#                       {last_exec} num for verify that #
+# this equipment is already scaned with this xml or no  #
+#########################################################
+sub snmp_oid_xml {
+    my ($self,$system_oid)=@_;
 
+    my $logger=$self->{logger};
+    my $spec_module_snmp=$self->{spec_module_snmp};
+
+   if ( ! defined ( $self->{xml_oid}{$system_oid} )) {
+
+      # We init the default value
+      $self->{xml_oid}{$system_oid}={};
+      $self->{xml_oid}{$system_oid}{active}=0;
+
+      # Can we find it in the snmp directory
+      foreach my $dir ( @{$self->{snmp_dir}} ) {
+          if ( -r $dir.$system_oid.".xml" ) {
+             # We find the xml
+             my $module_found=$spec_module_snmp.$system_oid;
+             eval "use $module_found";
+             if ( $self->{xml_oid}{$system_oid}{xml_data}=XML::Simple::XMLin($dir.$system_oid.".xml",ForceArray => 1 ) ) {
+                # We have load the xml 
+                $self->{xml_oid}{$system_oid}{active}=1;
+                $self->{xml_oid}{$system_oid}{last_exec}=0;
+		if ( defined( $self->{xml_oid}{$system_oid}{PARAMETERS}[0]{NAME}[0] ) ) {
+		   $self->{xml_oid}{$system_oid}{oid_name}=$self->{xml_oid}{$system_oid}{PARAMETERS}[0]{NAME}[0];
+                }
+             } else {
+                $logger->debug ("Failed to load xml $module_found: $@");
+		return 1;
+             }
+          }
+      }
+   }
+   # now we have an information for the xml associated with this oid
+   # It can be active or no 
+   
+   if ( $self->{xml_oid}{$system_oid}{active} == 1 && $self->{xml_oid}{$system_oid}{last_exec} < $self->{number_scan} ) {
+      $logger->debug ("Begin xml on $system_oid");
+      $self->{xml_oid}{$system_oid}{last_exec}=$self->{number_scan};
+      
+      # We have done other scan so we can now execute own scan
+      # We have actualy only v1, we can have after other parallel version 
+      if ( xml_scan_v1($self,$system_oid,$self->{xml_oid}{$system_oid}{xml_data}) == 1 ) {
+	$self->{xml_oid}{$system_oid}{active}=0;
+	return 1;
+      }
+      return 0;
+   } 
+   return 1;
+}
+
+#########################################################
+#                                                       #
+# function for executing xml scan v1                    #
+# Parameters:                                           #
+#         (self)                                        #
+#         system oid                                    #
+#         xml in input                                  #
+#                                                       #
+#########################################################
+sub xml_scan_v1 {
+   my ($self,$system_oid,$xml)=@_;
+   my $xmltags=$self->{context}->{common}->{xmltags};
+   my $logger=$self->{logger};
+   
+   return 1 if ( xml_parameters_v1($self,$system_oid,$xml) == 1 ) ;
+
+   if ( ! defined ($xmltags) ) {
+      $xmltags={};
+   }
+   $logger->debug("Begin scanning v1 on $system_oid");
+
+   my $filters=[];
+   if ( defined ($xml->{LOOPS}) ) {
+      return 1 if ( xml_loops_v1($self,$xml->{LOOPS},$xmltags,$filters) == 1 );
+   }
+   if ( defined ($xml->{DATA}) ) {
+      return 1 if ( xml_data_v1($self,$xml->{DATA}[0],$xmltags,$filters,0) == 1 );
+   }
+   return 0;
+}
+
+#########################################################
+#                                                       #
+# function for parameters of xml v1                     #
+# Parameters:                                           #
+#         (self)                                        #
+#         system oid                                    #
+#         xml in input                                  #
+#                                                       #
+#########################################################
+sub xml_parameters_v1 {
+   my ($self,$system_oid,$xml)=@_;
+   my $logger=$self->{logger};
+
+   return 1 if ( ! defined($xml->{PARAMETERS}) ) ;
+   return 0 if ( ! defined($xml->{PARAMETERS}[0]{EXECUTE}) ) ;
+
+
+   # We first look if there is other scan to do
+   $logger->debug("Begin looking other scan");
+   foreach my $type_exec ( "RUN","XML" ) {
+      if ( defined( $xml->{PARAMETERS}[0]{EXECUTE}[0]{$type_exec}) ) {
+         my $liste_exec=$xml->{PARAMETERS}[0]{EXECUTE}[0]{$type_exec};
+         my $lower_type_exec=lc($type_exec);
+         foreach my $exec_perl ( @{$liste_exec} ) {
+            my $a_exec="snmp_oid_".$lower_type_exec;
+            $self->{$a_exec}($self,$exec_perl);
+         }
+      }
+   }
+   return 0;
+}
+#########################################################
+#                                                       #
+# function for reading for a loops                      #
+# Parameters:                                           #
+#         (self)                                        #
+#         xml_loops (contain VALUE/INDEX/FILTER         #
+#                  and a sub DATA                       #
+#         result_table: pointer on where we             #
+#                       put result information          #
+#                                                       #
+#  Return: 1 Pb                                         #
+#          0 OK                                         #
+#########################################################
+sub xml_loops_v1 {
+   my ($self,$xml_loops,$result_table,$filters)=@_;
+   my $session=$self->{snmp_session};
+   my $logger=$self->{logger};
+
+   $logger->debug ("Begin xml loops");
+
+ALL_LOOPS:   foreach my $uniq_loops ( @{$xml_loops} ) {
+      return 1 if ( ! defined ($uniq_loops->{VALUE}) || ! defined($uniq_loops->{INDEX})|| ! defined($uniq_loops->{NAME_INDEX}) );
+
+      # We now replace already existant filters
+      my $data_value=$uniq_loops->{VALUE}[0];
+      my $index_value=$uniq_loops->{INDEX}[0];
+      foreach my $filter ( @{$filters} ) {
+         $data_value=~s/$filter->{NAME}/$filter->{VALUE}/g;
+         $index_value=~s/$filter->{NAME}/$filter->{VALUE}/g;
+      }
+
+      my $index_equipement=$session->get_entries(-columns => [ $data_value ] );
+
+      # If we have no data for this index it s not a problem in the xml
+      next ALL_LOOPS if ( ! defined ( $index_equipement ) ) ;
+
+      # We first verify if there is a filter on this value
+      # in this case, we must filter the topic if this filter is not OK
+      my $nbr_data=0;
+      foreach my $uniq_index_equipement ( keys %{$index_equipement} ) {
+         if ( defined ($uniq_loops->{FILTER}) && ! $index_equipement->{$uniq_index_equipement} =~ /$uniq_loops->{FILTER}[0]/  ) {
+            delete $index_equipement->{$uniq_index_equipement};
+
+         # The Filter is OK, we can looks sub tables for this INDEX
+         } elsif ( $uniq_index_equipement =~ /$index_value/ ) {
+            # we use the index on the value for finding what are the INDEX values
+            push(@{$filters},{VALUE=>$1,NAME=>$uniq_loops->{NAME_INDEX}[0]});
+            return 1 if ( xml_data_v1($self,$uniq_loops->{DATA}[0],$result_table,$filters,$nbr_data++) == 1);
+            # After use this filter, we must take it out
+            # so it can be used for other loops
+            pop(@{$filters});
+
+         }
+      }
+   }
+
+   return 0;
+}
+#########################################################
+#                                                       #
+# function for reading for a table                      #
+# Parameters:                                           #
+#         (self)                                        #
+#         xml_line (containt FIXE/VALUE/FILTER          #
+#                  or a sub DATA                        #
+#         value_IDX for subtitution in the information  #
+#         result_table: pointer on the table where we   #
+#                       put result information          #
+#                                                       #
+#  Return: 1 Pb                                         #
+#          0 OK                                         #
+#########################################################
+sub xml_data_v1 {
+   my ($self,$xml_table,$result_table,$filters,$pos_table)=@_;
+
+   foreach my $table ( keys %{$xml_table} )  {
+      if ( $table eq "DATA" ) {
+         foreach my $subtable ( @{$xml_table->{DATA}} ) {
+	    if ( !defined $result_table->{$subtable}[0] ) {
+	       $result_table->{$subtable}[0]={};
+            }
+            return 1 if ( xml_data_v1($self,$xml_table->{$subtable},$filters,$result_table->[0]{$subtable}[0],0) == 1);
+         }
+      } elsif ( $table eq "LOOPS" ) {
+         return 1 if ( xml_loops_v1($self,$xml_table->{LOOPS},$xml_table,$filters) == 1 );
+      } else {
+         # we look for all lines in this table
+         foreach my $line ( keys %{$xml_table->{$table}[0]} ) {
+            if ( $line eq "LOOPS" ) {
+	       if ( ! defined ($result_table->{$table}[$pos_table]) ) {
+	          $result_table->{$table}[$pos_table]={};
+               }
+	       return 1 if ( xml_loops_v1($self,$xml_table->{$table}[0]{LOOPS},$result_table->{$table}[$pos_table],$filters) == 1 );
+            } else {
+               my $result=xml_line_v1($self,$xml_table->{$table}[0]{$line}[0],$filters);
+               if ( defined ($result) ) {
+                  $result_table->{$table}[$pos_table]{$line}[0]=$result;
+               }
+            }
+         }
+      }
+   }
+   return 0;
+}
+
+#########################################################
+#                                                       #
+# function for reading for a uniq line in a table       #
+# Parameters:                                           #
+#         (self)                                        #
+#         xml_line (containt FIXE/VALUE/FILTER          #
+#         value_IDX for subtitution in the information  #
+#                                                       #
+#  Return: undef if no line correct                     #
+#          the string for this line in others cases     #
+#########################################################
+
+sub xml_line_v1 {
+   my ($self,$xml_line,$filters)=@_;
+   my $session=$self->{snmp_session};
+
+   return undef if ( ! defined ($xml_line) ) ;
+   # We have a FIXE or a VALUE and an optional FILTER
+   if ( defined ( $xml_line->{FIXE} ) ) {
+      return($xml_line->{FIXE}[0]);
+   }
+
+   return undef if ( ! defined ( $xml_line->{VALUE} ) ) ;
+
+   my $data_value=$xml_line->{VALUE}[0];
+
+   # If we have a loop, we must substitute the VLAUE
+   foreach my $filter ( @{$filters} ) {
+      $data_value=~s/$filter->{NAME}/$filter->{VALUE}/g;
+   }
+   # We look for information in the equipment with the snmp interogation
+   my $info_equipment=$session->get_request(-varbindlist => [$data_value]);
+   # We verify that information has been returned for this value
+   return undef if ( ! defined ($info_equipment) ) ;
+
+   $info_equipment=$info_equipment->{$data_value};
+
+   # Verify that we have data
+   return undef if ( ! defined ($info_equipment) || $info_equipment eq "" );
+
+   # If there is a fliter, we verifiy that this line pass the filter
+   return undef if ( defined ($xml_line->{FILTER}) && ! ($info_equipment =~ /$xml_line->{FILTER}[0]/ )) ;
+
+   # Remplacement
+   return  $info_equipment if ( ! defined ($xml_line->{REPLACE}) );
+
+   foreach my $replace ( @{$xml_line->{REPLACE}} ) {
+      return undef if ( ! defined( $replace->{STRING}) || ! defined ($replace->{BY}) );
+      $info_equipment=~s/$replace->{STRING}[0]/$replace->{BY}[0]/g;
+   }
+
+
+   return $info_equipment;
+}
 1;

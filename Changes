@@ -1,5 +1,9 @@
 Revision history for Ocsinventory::Agent
 
+       * Customize SNMP scans using a special XML format received from server 
+       * Getting network devices MAC address during SNMP scans
+       * Availibity to scan any networks SNMP devices using nmap or ping scans
+       * SNMP v3 available for SNMP scans
        * Add new --ssl configuration option to enable or disable certificate check during SSL communications
        * Change 'SERIAL' field name and add checksum for inventory XML CPUS section 
        * Now getting MANUFACTURER and SERIALNUMBER in Snmp/3375.pm
