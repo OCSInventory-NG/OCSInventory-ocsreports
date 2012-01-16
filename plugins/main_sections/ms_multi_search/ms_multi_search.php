@@ -430,7 +430,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 					$tvalue=" AND TVALUE not like 'SUC%' ";
 				//gestion de Toutes les erreurs
 				elseif ($original_field_value_complement == "***".$l->g(956)."***")
-					$tvalue=" AND TVALUE like 'ERR%' ";
+					$tvalue=" AND (TVALUE like 'ERR%' or TVALUE like 'EXIT_CODE%')";
 				//gestion de TOUS LES SUCCESS
 				elseif ($original_field_value_complement == "***".$l->g(957)."***")
 					$tvalue=" AND TVALUE like 'SUC%' ";
