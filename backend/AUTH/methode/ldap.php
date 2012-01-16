@@ -25,12 +25,12 @@
 
 connexion_local_read();
 $sql="select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
-$arg=array('%CONEX%');	
+$arg=array('%CONEX%');    
 $res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
 
 while($item = mysql_fetch_object($res)){
-	$config[$item->NAME]=$item->TVALUE;
-	define ($item->NAME,$item->TVALUE);
+    $config[$item->NAME]=$item->TVALUE;
+    define ($item->NAME,$item->TVALUE);
 }
 
 // copies the config values to the session area
@@ -82,16 +82,41 @@ function search_on_loginnt($login) {
     $_SESSION['OCS']['details']['title']=$info[0]['title'][0];
 
     // if the extra attributes are there, save them as well
+    /*ORIGINAL CODE BEGINS
     if ($info[0][$f1_name][0] != '') 
     {
-        $_SESSION['OCS']['details'][$f1_name]=$info[0][$f1_name][0];
+    $_SESSION['OCS']['details'][$f1_name]=$info[0][$f1_name][0];
     }
 
     if ($info[0][$f2_name][0] != '') 
     {
         $_SESSION['OCS']['details'][$f2_name]=$info[0][$f2_name][0];
-    }    
+    }
+    ORIGINAL CODE ENDS*/
+    //NEW CODE
+    if ($info[0][$f1_name][0] != '')
+    {
+    //attribute name 'memberof' is for group searching
+    //FIXME: casing? -> 'memberOf'
+    if ($f1_name == "memberof")
+    {    //this is to store the entire array instead of just the first string
+        //may be redundant and could be simplified, but it works.
+        $_SESSION['OCS']['details'][$f1_name]=$info[0][$f1_name];
+    } else {
+        $_SESSION['OCS']['details'][$f1_name]=$info[0][$f1_name][0];
+    }
+    }
 
+    if ($info[0][$f2_name][0] != '')
+    {
+    if ($f2_name == "memberof")
+    {
+        $_SESSION['OCS']['details'][$f2_name]=$info[0][$f2_name];
+    } else {
+        $_SESSION['OCS']['details'][$f2_name]=$info[0][$f2_name][0];
+    }
+    }
+    //END NEW CODE
     return $info; 
 } 
  
@@ -109,12 +134,12 @@ function ldap_test_pw($dn, $pw) {
 } 
 
 function ldap_connection (){
-	$ds = ldap_connect(LDAP_SERVEUR,LDAP_PORT); 
-	// Set the LDAP version
-	// add by acop http://forums.ocsinventory-ng.org/viewtopic.php?pid=35261
+    $ds = ldap_connect(LDAP_SERVEUR,LDAP_PORT); 
+    // Set the LDAP version
+    // add by acop http://forums.ocsinventory-ng.org/viewtopic.php?pid=35261
     @ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION);
     @ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
-	if (ROOT_DN != ''){
+    if (ROOT_DN != ''){
         $b = @ldap_bind($ds, ROOT_DN, ROOT_PW);         
     }else //Anonymous bind
         $b = @ldap_bind($ds);

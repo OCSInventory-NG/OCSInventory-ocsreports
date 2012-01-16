@@ -65,16 +65,45 @@ $f1_name=$config['LDAP_CHECK_FIELD1_NAME'];
 $f2_name=$config['LDAP_CHECK_FIELD2_NAME'];
 $f1_value=$_SESSION['OCS']['details'][$f1_name];
 $f2_value=$_SESSION['OCS']['details'][$f2_name];
-if ($f1_value != '') 
+if ($f1_value != '')
 {
+    //NEW CODE BELOW
+    //FIXME: casing? -> 'memberOf'
+    if ($f1_name == "memberof")
+    {
+    //the idea here is to iterate through the groups array looking for a match
+    //if we find it, unset the array and store only the match, else leave as it is
+    foreach($f1_value as $group){
+        if ($group == $config['LDAP_CHECK_FIELD1_VALUE'])
+        {
+        $f1_value=array();
+        $f1_value=$group;
+        }
+    }
+    }
+    //the if below is now redundant since we already know that we have a match
+    //the coding can be improved, but the logic works.
+    //END NEW CODE
     if ($f1_value == $config['LDAP_CHECK_FIELD1_VALUE'])
     {
         $defaultRole=$config['LDAP_CHECK_FIELD1_ROLE'];
     }
 }
 
-if ($f2_value != '') 
+if ($f2_value != '')
 {
+    //NEW CODE BELOW
+    if ($f2_name == "memberof")
+    {
+        foreach($f2_value as $group){
+            if ($group == $config['LDAP_CHECK_FIELD2_VALUE'])
+            {
+                $f2_value=array();
+                $f2_value=$group;
+            }
+        }
+    }
+    //END NEW CODE
     if ($f2_value == $config['LDAP_CHECK_FIELD2_VALUE'])
     {
         $defaultRole=$config['LDAP_CHECK_FIELD2_ROLE'];
@@ -90,83 +119,83 @@ if ($f2_value != '')
 */
 //if defaultRole is define
 if (isset($defaultRole) and $defaultRole != ''){
-	// if it doesn't exist, create the user record
-	if (!mysql_fetch_object($resOp)) {
-	
-	
-	    $reqInsert="INSERT INTO operators (
-	    	ID,
-	        FIRSTNAME,
-	        LASTNAME,
-	        PASSWD,
-	        COMMENTS,
-	        NEW_ACCESSLVL,
-	        EMAIL,
-	        USER_GROUP
-	            )
-	            VALUES ('%s','%s', '%s', '%s','%s', '%s', '%s', '%s')";
-	
-	    $arg_insert=array($_SESSION['OCS']["loggeduser"],
-	   					$_SESSION['OCS']['details']['givenname'], 
-	                    $_SESSION['OCS']['details']['sn'], 
-	   					"",
-	   					"LDAP",
-	   					$defaultRole,
-	   					$_SESSION['OCS']['details']['mail'],
-	   					"NULL"
-	   					 );
-	    
-	}
-	else
-	{
-	
-	    // else update it
-	    $reqInsert="UPDATE operators SET 
-	        			NEW_ACCESSLVL='%s',
-	        			EMAIL='%s'
-	            	WHERE ID='%s'";
-	    
-	    $arg_insert=array($defaultRole,
-	   					  $_SESSION['OCS']['details']['mail'],
-	   					  $_SESSION['OCS']["loggeduser"]);
-	}
-	connexion_local_write();
-	// select the main database
-	mysql_select_db($db_ocs,$link_ocs);
-	// Execute the query to insert/update the user record
-	mysql2_query_secure($reqInsert,$link_ocs,$arg_insert);
-	
-	
-	
-	// repeat the query and define the needed OCS variables
-	// note: original OCS code below
-	connexion_local_read();
-	
-	// select the main database
-	mysql_select_db($db_ocs,$link_ocs);
-	$resOp=mysql2_query_secure($reqOp, $link_ocs,$argOp);
-	$rowOp=mysql_fetch_object($resOp);
-	if (isset($rowOp -> accesslvl)){
-	    $lvluser=$rowOp -> accesslvl;
-	    $ms_cfg_file=$_SESSION['OCS']['CONF_PROFILS_DIR'].$lvluser."_config.txt";
-	    $search=array('RESTRICTION'=>'MULTI');
-	    $res=read_configuration($ms_cfg_file,$search);
-	    $restriction=$res['RESTRICTION']['GUI'];
-	    //if this user has RESTRICTION
-	    //search all tag for this user
-	    if ($restriction == 'YES'){
-	        $sql="select tag from tags where login='%s'";
-	        $arg=array($_SESSION['OCS']["loggeduser"]);
-	        $res=mysql2_query_secure($sql, $link_ocs,$arg);
-	        while ($row=mysql_fetch_object($res)){    
-	            $list_tag[$row->tag]=$row->tag;
-	        }
-	        if (!isset($list_tag))
-	            $ERROR=$l->g(893);
-	    }elseif (($restriction != 'NO')) 
-	    $ERROR=$restriction;
-	}else
-	$ERROR=$l->g(894);
+    // if it doesn't exist, create the user record
+    if (!mysql_fetch_object($resOp)) {
+    
+    
+        $reqInsert="INSERT INTO operators (
+            ID,
+            FIRSTNAME,
+            LASTNAME,
+            PASSWD,
+            COMMENTS,
+            NEW_ACCESSLVL,
+            EMAIL,
+            USER_GROUP
+                )
+                VALUES ('%s','%s', '%s', '%s','%s', '%s', '%s', '%s')";
+    
+        $arg_insert=array($_SESSION['OCS']["loggeduser"],
+                           $_SESSION['OCS']['details']['givenname'], 
+                        $_SESSION['OCS']['details']['sn'], 
+                           "",
+                           "LDAP",
+                           $defaultRole,
+                           $_SESSION['OCS']['details']['mail'],
+                           "NULL"
+                            );
+        
+    }
+    else
+    {
+    
+        // else update it
+        $reqInsert="UPDATE operators SET 
+                        NEW_ACCESSLVL='%s',
+                        EMAIL='%s'
+                    WHERE ID='%s'";
+        
+        $arg_insert=array($defaultRole,
+                             $_SESSION['OCS']['details']['mail'],
+                             $_SESSION['OCS']["loggeduser"]);
+    }
+    connexion_local_write();
+    // select the main database
+    mysql_select_db($db_ocs,$link_ocs);
+    // Execute the query to insert/update the user record
+    mysql2_query_secure($reqInsert,$link_ocs,$arg_insert);
+    
+    
+    
+    // repeat the query and define the needed OCS variables
+    // note: original OCS code below
+    connexion_local_read();
+    
+    // select the main database
+    mysql_select_db($db_ocs,$link_ocs);
+    $resOp=mysql2_query_secure($reqOp, $link_ocs,$argOp);
+    $rowOp=mysql_fetch_object($resOp);
+    if (isset($rowOp -> accesslvl)){
+        $lvluser=$rowOp -> accesslvl;
+        $ms_cfg_file=$_SESSION['OCS']['CONF_PROFILS_DIR'].$lvluser."_config.txt";
+        $search=array('RESTRICTION'=>'MULTI');
+        $res=read_configuration($ms_cfg_file,$search);
+        $restriction=$res['RESTRICTION']['GUI'];
+        //if this user has RESTRICTION
+        //search all tag for this user
+        if ($restriction == 'YES'){
+            $sql="select tag from tags where login='%s'";
+            $arg=array($_SESSION['OCS']["loggeduser"]);
+            $res=mysql2_query_secure($sql, $link_ocs,$arg);
+            while ($row=mysql_fetch_object($res)){    
+                $list_tag[$row->tag]=$row->tag;
+            }
+            if (!isset($list_tag))
+                $ERROR=$l->g(893);
+        }elseif (($restriction != 'NO')) 
+        $ERROR=$restriction;
+    }else
+    $ERROR=$l->g(894);
 }else
 $ERROR=$l->g(1278);
 
