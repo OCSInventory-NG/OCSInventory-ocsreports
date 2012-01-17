@@ -17,21 +17,21 @@ sub run {
     my $params = shift;
     my $common = $params->{common};
 
-    my $prof = Mac::SysProfile->new();
-    my $apps = $prof->gettype('SPApplicationsDataType'); # might need to check version of darwin
+    my $profile = Mac::SysProfile->new();
+    my $data = $profile->gettype('SPApplicationsDataType'); # might need to check version of darwin
 
-    return unless($apps && ref($apps) eq 'HASH');
+    return unless($data && ref($data) eq 'ARRAY');
 
     # for each app, normalize the information, then add it to the inventory stack
-    foreach my $app (keys %$apps){
-        my $a = $apps->{$app};
-        my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
+    foreach my $app (@$data){
+        #my $a = $apps->{$app};
+        my $kind = $app->{'runtime_environment'} ? $app->{'runtime_environment'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
         $common->addSoftware({
-            'NAME'      => $app,
-            'VERSION'   => $a->{'Version'} || 'unknown',
+            'NAME'      => $app->{'_name'},
+            'VERSION'   => $app->{'version'} || 'unknown',
             'COMMENTS'  => $comments,
-            'PUBLISHER' => $a->{'Get Info String'} || 'unknown',
+            'PUBLISHER' => $app->{'info'} || 'unknown',
         });
     }
 }

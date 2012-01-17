@@ -1168,6 +1168,31 @@ sub convertVersion {
   return $version;
 }
 
+#We create this subroutine because MacOSX system_profiler XML output does not give all
+##the neeeded data (for videos and sounds for example)
+sub get_sysprofile_devices_names {
+  my ($self,$type) = @_;
+
+  return(undef) unless -r '/usr/sbin/system_profiler';
+
+  my $output=`system_profiler $type`;
+  my $name;
+  my $names=[];
+
+  #Code inspired from Mac::Sysprofile 0.03 from Daniel Muey
+  for(split /\n/, $output) {
+    next if m/^\s*$/ || m/^\w/;
+    if(m/^\s{4}\w/) {
+      $name = $_;
+      $name =~ s/^\s+//;
+      $name =~ s/:.*$//;
+      push(@$names,$name);
+    }
+  } 
+
+  return $names;
+}
+
 
 ### Generic shared subroutines #####
 

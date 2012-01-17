@@ -1,7 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::Video;
 use strict;
 
-use constant DATATYPE => 'SPDisplaysDataType'; # careful this could change when looking at lower versions of OSX
 
 sub check {
     # make sure the user has access, cause that's the command that's gonna be run
@@ -15,34 +14,41 @@ sub run {
     my $common = $params->{common};
 
     # run the profiler to get our datatype
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype(DATATYPE());
+    my $profile = Mac::SysProfile->new();
+    my $data = $profile->gettype('SPDisplaysDataType');
 
     # unless we get a valid return, bail out
-    return(undef) unless(ref($h) eq 'HASH');
+    return(undef) unless(ref($data) eq 'ARRAY');
+
+    # we get video card because system_profiler XML output does not provide a human readable value
+    my $video_names = $common->get_sysprofile_devices_names('SPDisplaysDataType');
+    return(undef) unless(ref($video_names) eq 'ARRAY');
+
+    my $count = 0;
 
     # add the video information
-    foreach my $x (keys %$h){
-        my $memory = $h->{$x}->{'VRAM (Total)'};
+    foreach my $video (@$data){
+        my $memory = $video->{'spdisplays_vram'};
         $memory =~ s/ MB$//;
+
         $common->addVideo({
-                'NAME'        => $x,
-                'CHIPSET'     => $h->{$x}->{'Chipset Model'},
+                'NAME'        => $$video_names[$count],
+                'CHIPSET'     => $video->{'sppci_model'},
                 'MEMORY'    => $memory,
+                'RESOLUTION'    => $video->{'spdisplays_ndrvs'}[0]->{'spdisplays_resolution'},
         });
 
-        # this doesn't work yet, need to fix the Mac::SysProfile module to not be such a hack (parser only goes down one level)
-        # when we do fix it, it will attach the displays that sysprofiler shows in a tree form
-        # apple "xml" blows. Hard.
-        foreach my $display (keys %{$h->{$x}}){
-            my $ref = $h->{$x}->{$display};
-            next unless(ref($ref) eq 'HASH');
+  
+        foreach my $display (@{$video->{'spdisplays_ndrvs'}}){
+            next unless(ref($display) eq 'HASH');
+            next if($display->{'_name'} eq 'spdisplays_display_connector');
 
             $common->addMonitor({
-                'CAPTION'       => $ref->{'Resolution'},
-                'DESCRIPTION'   => $display,
+                'CAPTION'   => $display->{'_name'},
             })
         }
+
+        $count++;
     }
 
 }

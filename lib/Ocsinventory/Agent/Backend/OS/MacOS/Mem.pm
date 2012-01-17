@@ -14,20 +14,20 @@ sub run {
     my $PhysicalMemory;
 
     # create the profile object and return undef unless we get something back
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype('SPMemoryDataType');
-    return(undef) unless(ref($h) eq 'HASH');
+    my $profile = Mac::SysProfile->new();
+    my $data = $profile->gettype('SPMemoryDataType');
+    return(undef) unless(ref($data) eq 'ARRAY');
 
     # Workaround for MacOSX 10.5.7
-    if ($h->{'Memory Slots'}) {
-      $h = $h->{'Memory Slots'};
-    }
+    #if ($h->{'Memory Slots'}) {
+    #  $h = $h->{'Memory Slots'};
+    #}
 
 
-    foreach my $x (keys %$h){
-        next unless $x =~ /^BANK|SODIMM|DIMM/;
+    foreach my $memory (@$data){
+        next unless $memory->{'_name'} =~ /^BANK|SODIMM|DIMM/;
         # tare out the slot number
-        my $slot = $x;
+        my $slot = $memory->{'_name'};
 	# memory in 10.5
         if($slot =~ /^BANK (\d)\/DIMM\d/){
             $slot = $1;
@@ -41,7 +41,7 @@ sub run {
 		$slot = $1;
 	}
 
-        my $size = $h->{$x}->{'Size'};
+        my $size = $memory->{'dimm_size'};
 
         # if system_profiler lables the size in gigs, we need to trim it down to megs so it's displayed properly
         if($size =~ /GB$/){
@@ -50,12 +50,12 @@ sub run {
         }
         $common->addMemory({
             'CAPACITY'      => $size,
-            'SPEED'         => $h->{$x}->{'Speed'},
-            'TYPE'          => $h->{$x}->{'Type'},
-            'SERIALNUMBER'  => $h->{$x}->{'Serial Number'},
-            'DESCRIPTION'   => $h->{$x}->{'Part Number'} || $x,
+            'SPEED'         => $memory->{'dimm_speed'},
+            'TYPE'          => $memory->{'dimm_type'},
+            'SERIALNUMBER'  => $memory->{'dimm_serial_number'},
+            'DESCRIPTION'   => $memory->{'dimm_part_number'},
             'NUMSLOTS'      => $slot,
-            'CAPTION'       => 'Status: '.$h->{$x}->{'Status'},
+            'CAPTION'       => 'Status: '.$memory->{'dimm_status'},
         });
     }
 }

@@ -1,11 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::Sound;
 use strict;
 
-use constant DATATYPE   => 'SPAudioDataType'; # may need to fix to work with older versions of osx
 
 sub check {
     return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
-    return(undef) unless can_load("Mac::SysProfile"); # check perms
     return 1;
 }
 
@@ -14,16 +12,16 @@ sub run {
     my $common = $params->{common};
 
     # create profiler obj, bail if datatype fails
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype(DATATYPE());
-    return(undef) unless(ref($h) eq 'HASH');
+    my $data = $common->get_sysprofile_devices_names('SPAudioDataType');
+
+    return(undef) unless(ref($data) eq 'ARRAY');
 
     # add sound cards
-    foreach my $x (keys %$h){
+    foreach my $sound (@$data){
         $common->addSound({
-            'NAME'          => $x,
-            'MANUFACTURER'  => $x,
-            'DESCRIPTION'   => $x,
+            'NAME'          => $sound,
+            'MANUFACTURER'  => $sound,
+            'DESCRIPTION'   => $sound,
         });
     }
 }

@@ -12,12 +12,14 @@ sub run {
 
   my $hostname;
 
-  my $prof = Mac::SysProfile->new();
-  my $nfo = $prof->gettype('SPSoftwareDataType');
+  my $profile = Mac::SysProfile->new();
+  my $data = $profile->gettype('SPSoftwareDataType');
   
-  return undef unless(ref($nfo) eq 'HASH');
-  
-  $hostname = $nfo->{'System Software Overview'}->{'Computer Name'};
+  return undef unless(ref($data) eq 'ARRAY');
+
+  my $h = $data->[0];  
+
+  $hostname = $h->{'local_host_name'};
   
   $common->setHardware ({NAME => $hostname}) if $hostname;
 }

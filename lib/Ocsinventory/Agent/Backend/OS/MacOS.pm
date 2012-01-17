@@ -2,6 +2,11 @@ package Ocsinventory::Agent::Backend::OS::MacOS;
 
 use strict;
 
+require Exporter;
+our @ISA = qw /Exporter/;
+our @EXPORT = qw /get_sysprofile_devices_names/;
+
+
 sub check {
 	my $r;
 	# we check far darwin because that's the _real_ underlying OS
@@ -20,12 +25,12 @@ sub run {
 		# if we can load the system profiler, gather the information from that
 		if(can_load("Mac::SysProfile")){
 			my $profile = Mac::SysProfile->new();
-			my $h = $profile->gettype('SPSoftwareDataType');
-			return(undef) unless(ref($h) eq 'HASH');
+			my $data = $profile->gettype('SPSoftwareDataType');
+			return(undef) unless(ref($data) eq 'ARRAY');
 			
-			$h = $h->{'System Software Overview'};
+			my $h = $data->[0];
 			
-			my $SystemVersion = $h->{'System Version'};
+			my $SystemVersion = $h->{'os_version'};
 			if ($SystemVersion =~ /^(.*?)\s+(\d+.*)/) {
 			    $OSName=$1;
 			    $OSVersion=$2;
@@ -50,6 +55,5 @@ sub run {
                 OSVERSION	=> $OSVersion,
         });
 }
-
 
 1;

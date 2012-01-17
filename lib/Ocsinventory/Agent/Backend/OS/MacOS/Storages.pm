@@ -6,7 +6,7 @@ sub check {return can_load('Mac::SysProfile');}
 
 sub getManufacturer {
   my $model = shift;
-  if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend|matshita|pioneer)/i) {
+  if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend|matshita|pioneer|hitachi)/i) {
     return ucfirst(lc($1));
   }
   elsif ($model =~ /^HP/) {
@@ -31,30 +31,25 @@ sub run {
 
   my $devices = {};
 
-  my $prof = Mac::SysProfile->new();
+  my $profile = Mac::SysProfile->new();
 
   # Get SATA Drives
-  my $sata = $prof->gettype('SPSerialATADataType');
+  my $sata = $profile->gettype('SPSerialATADataType');
 
-  return undef unless( ref($sata) eq 'HASH' );
+  if ( ref($sata) eq 'ARRAY') {
   
-  use Data::Dumper;
-
-  foreach my $x ( keys %$sata ) {
-    my $controller = $sata->{$x};
-    foreach my $y ( keys %$controller ) {
-      next unless( ref($sata->{$x}->{$y}) eq 'HASH' );
-      my $drive = $sata->{$x}->{$y};
+    foreach my $storage ( @$sata ) {
+      next unless ( ref($storage) eq 'HASH' );
 
       my $description;
-      if ( $y =~ /DVD/i || $y =~ /CD/i ) {
+      if ( $storage->{'_name'} =~ /DVD/i || $storage->{'_name'} =~ /CD/i ) {
         $description = 'CD-ROM Drive';
       }
       else {
         $description = 'Disk drive';
       }
 
-      my $size = $drive->{'Capacity'};
+      my $size = $storage->{'size'};
       if ($size =~ /GB/) {
         $size =~ s/ GB//;
         $size *= 1024;
@@ -64,64 +59,60 @@ sub run {
         $size *= 1048576;
       }
 
-      my $manufacturer = getManufacturer($y);
+      my $manufacturer = getManufacturer($storage->{'_name'});
 
-      my $model = $drive->{'Model'};
+      my $model = $storage->{'device_model'};
       $model =~ s/\s*$manufacturer\s*//i;
 
-      $devices->{$y} = {
-        NAME => $y,
-        SERIAL => $drive->{'Serial Number'},
+      $devices->{$storage->{'_name'}} = {
+        NAME => $storage->{'name'},
+        SERIAL => $storage->{'device_serial'},
         DISKSIZE => $size,
-        FIRMWARE => $drive->{'Revision'},
+        FIRMWARE => $storage->{'device_revision'},
         MANUFACTURER => $manufacturer,
         DESCRIPTION => $description,
         MODEL => $model
       };
     }
-  }
-  
+  } 
+
   # Get PATA Drives
-  my $pata = $prof->gettype('SPParallelATADataType');
+  my $pata = $profile->gettype('SPParallelATADataType');
   
-  foreach my $x ( keys %$pata ) {
-    my $controller = $pata->{$x};
-    foreach my $y ( keys %$controller ) {
-      next unless ( ref($pata->{$x}->{$y}) eq 'HASH' );
-      my $drive = $pata->{$x}->{$y};
+  if ( ref($sata) eq 'ARRAY') {
+    foreach my $storage ( @$pata ) {
+      next unless ( ref($storage) eq 'HASH' );
       
       my $description;
-      if ( $y =~ /DVD/i || $y =~ /CD/i ) {
-        $description = 'CD-ROM Drive';
+      if ( $storage->{'_name'} =~ /DVD/i || $storage->{'_name'} =~ /CD/i ) {
+       $description = 'CD-ROM Drive';
       }
       else {
         $description = 'Disk drive';
       }
       
-      my $manufacturer = getManufacturer($y);
+      my $manufacturer = getManufacturer($storage->{'_name'});
       
-      my $model = $drive->{'Model'};
+      my $model = $storage->{'device_model'};
       
       my $size;
       
-      $devices->{$y} = {
-        NAME => $y,
-        SERIAL => $drive->{'Serial Number'},
+      $devices->{$storage->{'_name'}} = {
+        NAME => $storage->{'_name'},
+        SERIAL => $storage->{'device_serial'},
         DISKSIZE => $size,
-        FIRMWARE => $drive->{'Revision'},
+        FIRMWARE => $storage->{'device_revision'},
         MANUFACTURER => $manufacturer,
         DESCRIPTION => $description,
         MODEL => $model
       };
+    
     }
   }
 
   foreach my $device ( keys %$devices ) {
     $common->addStorages($devices->{$device});
   }
-  
-#  warn Dumper($devices);
-
 }
 
 1;

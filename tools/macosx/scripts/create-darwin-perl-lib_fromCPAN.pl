@@ -66,7 +66,7 @@ use CPAN;
 use LWP::Simple qw/getstore/;
 
 my $libwww_tarball = "G/GA/GAAS/libwww-perl-5.837.tar.gz";
-my $macsysprofile_tarball = "D/DM/DMUEY/Mac-SysProfile-0.03.tar.gz";
+my $xmlentities_tarball = "S/SI/SIXTEASE/XML-Entities-1.0000.tar.gz";
 my $cryptssleay_tarball = "N/NA/NANIS/Crypt-SSLeay-0.58.tar.gz";
 my $netssleay_tarball = "F/FL/FLORA/Net-SSLeay-1.36.tar.gz";
 
@@ -107,6 +107,7 @@ Net::IP
 Compress::Zlib
 Compress::Raw::Zlib
 IO::Zlib
+Mac::SysProfile
 .
 
 # push all the dep's into a @missing array
@@ -123,8 +124,8 @@ if ( $args{'install'} ) {
 	while( @missing ) {
 		resolve_dep(shift @missing, shift @missing);
 	}
-	#Workaround to install Mac::Sysprofile see https://rt.cpan.org/Ticket/Display.html?id=52983 for more informations
-	&install_tarball("http://search.cpan.org/CPAN/authors/id",$macsysprofile_tarball); 
+	#We install XML::Etities manually because of writing rights in /usr/local/bin directory
+	&install_tarball("http://search.cpan.org/CPAN/authors/id",$xmlentities_tarball,"XML-Entities"); 
 }
 
 # for ssl, include the Crypt::SSLeay library's
@@ -187,9 +188,17 @@ sub install_tarball {
 
     my $cpan_url = shift;
     my $tarball_url = shift;
+    my $directory = shift;
+
+    my $mod_dir;
 
     my $tarball = $tarball_url; $tarball =~ s/(.*)\/(.*)\/(.*)\///;
-    my $mod_dir = $tarball ; $mod_dir =~ s/\.tar\.gz//;
+
+    if ($directory) {
+        $mod_dir = $directory;
+    } else {
+        $mod_dir = $tarball ; $mod_dir =~ s/\.tar\.gz//;
+    }
 
     print "Getting $cpan_url/$tarball_url file\n";
     my $resp = getstore("$cpan_url/$tarball_url", $tarball);
@@ -198,7 +207,7 @@ sub install_tarball {
 
     print "Extracting $tarball file\n";
     open(EXCLUDE,">exclude_hiddens"); print EXCLUDE ".*"; close EXCLUDE;
-    system("tar -xvzf $tarball -X exclude_hiddens");  #We exclude hiddens files from extract (mainly for Mac::Sysprofile)
+    system("tar -xvzf $tarball -X exclude_hiddens");  #We exclude hiddens files from extract (mainly for older Mac::Sysprofile package)
     unlink "exclude_hiddens";
 
     print "Installing $mod_dir module\n";

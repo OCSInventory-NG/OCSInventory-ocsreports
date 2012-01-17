@@ -12,16 +12,16 @@ sub run {
     my $common = $params->{common};
 
     # create sysprofile obj. Return undef unless we get a return value
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype('SPHardwareDataType');
-    return(undef) unless(ref($h) eq 'HASH');
+    my $profile = Mac::SysProfile->new();
+    my $data = $profile->gettype('SPHardwareDataType');
+    return(undef) unless(ref($data) eq 'ARRAY');
 
-    $h = $h->{'Hardware Overview'};
+    my $h = $data->[0];
 
     ######### CPU
-    my $processort  = $h->{'Processor Name'} | $h->{'CPU Type'}; # 10.5 || 10.4
-    my $processorn  = $h->{'Number Of Processors'} || $h->{'Number Of CPUs'};
-    my $processors  = $h->{'Processor Speed'} || $h->{'CPU Speed'};
+    my $processort  = $h->{'processor_name'} | $h->{'cpu_type'}; # 10.5 || 10.4
+    my $processorn  = $h->{'number_processors'} || $h->{'number_cpus'};
+    my $processors  = $h->{'current_processor_speed'} || $h->{'cpu_speed'};
 
     # lamp spits out an sql error if there is something other than an int (MHZ) here....
     if($processors =~ /GHz$/){
@@ -36,7 +36,7 @@ sub run {
     }
 
     ### mem convert it to meg's if it comes back in gig's
-    my $mem = $h->{'Memory'};
+    my $mem = $h->{'physical_memory'};
     if($mem =~ /GB$/){
         $mem =~ s/\sGB$//;
         $mem = ($mem * 1024);
