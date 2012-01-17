@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#Use this script to build OCS Inventory NG MacOSX agent
+#Run 'sh BUILDME.sh -release' to build official released agent
+
+
 OCSNG_PATH="OCSNG.app"
 PATCHES_PATH="patches"
 TOOLS_PATH="tools/macosx"
@@ -104,17 +108,22 @@ if [ ! "$RELEASE" == 1 ]; then
 	rm -R -f $FINAL_PKG_NAME
 
 else
+	if [ ! -d ./installer_gui/iceberg/plugins ]; then
+		mkdir ./installer_gui/iceberg/plugins/
+	fi
+
 	cd ./installer_gui/ocs_agent_config/
 	xcodebuild -alltargets
-	cp -R ./build/UninstalledProducts/ocs_agent_config.bundle ../iceberg/plugins/
+	cp -R ./build/Release/ocs_agent_config.bundle ../iceberg/plugins/
 	xcodebuild clean
-	cd ./installer_gui/ocs_agent_daemon_options/
+	cd ../ocs_agent_daemon_options/
 	xcodebuild -alltargets
-	cp -R ./build/UninstalledProducts/ocs_agent_daemon_optionsg.bundle ../iceberg/plugins/
+	cp -R ./build/Release/ocs_agent_daemon_options.bundle ../iceberg/plugins/
 	xcodebuild clean
 	cd ../../
 	cp ./scripts/installer.sh installer_gui/iceberg/scripts/
-	
+
+	echo "moving $OCSNG_PATH...enter your password if needed"	
 	sudo mv $OCSNG_PATH ./installer_gui/iceberg/
 
 	echo 'Now you can build final gui installer using iceberg'
