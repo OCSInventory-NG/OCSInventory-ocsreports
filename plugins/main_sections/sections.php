@@ -31,13 +31,6 @@ if (isset($_SESSION['OCS']['MENU'])){
 		if(isset($_SESSION['OCS']['PAGE_PROFIL'][$key]))
 		$show_menu[$value]++;
 	}
-	if(isset($show_menu)){
-		foreach($show_menu as $key=>$value){
-			if ($value == 1)
-				unset($_SESSION['OCS']['MENU_NAME'][$key]);
-			
-		}
-	}
 }
 
 $_SESSION['OCS']['all_menus']=implode("|", $_SESSION['OCS']['MENU_NAME']);

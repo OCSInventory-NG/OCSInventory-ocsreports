@@ -579,7 +579,7 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 		if ($temp_query[0] == $query)
 		$temp_query=explode("group by",$query);
 		
-		if (substr_count(strtoupper ($temp_query[0]), "WHERE")>0){
+		if (substr_count(mb_strtoupper ($temp_query[0]), "WHERE")>0){
 			$t_query=explode("WHERE",$temp_query[0]);
 			if ($t_query[0] == $temp_query[0])
 			$t_query=explode("where",$temp_query[0]);
@@ -978,7 +978,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	
 	//if data is signed and data = ip
 	$tab_iplike=array('H.IPADDR','IPADDRESS','IP','IPADDR');
-	if (in_array(strtoupper($protectedPost['tri_'.$table_name]),$tab_iplike)){
+	if (in_array(mb_strtoupper($protectedPost['tri_'.$table_name]),$tab_iplike)){
 		$queryDetails.= " order by INET_ATON(".$protectedPost['tri_'.$table_name].") ".$protectedPost['sens_'.$table_name];		
 	}elseif ($tab_options['TRI']['SIGNED'][$protectedPost['tri_'.$table_name]])
 		$queryDetails.= " order by cast(".$protectedPost['tri_'.$table_name]." as signed) ".$protectedPost['sens_'.$table_name];
@@ -1568,8 +1568,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}elseif ($key == "MAC"){
 						//echo substr($value_of_field,0,8);
 						//echo $_SESSION['OCS']["mac"][substr($value_of_field,0,8)];
-						if (isset($_SESSION['OCS']["mac"][strtoupper(substr($value_of_field,0,8))]))
-						$constr=$_SESSION['OCS']["mac"][strtoupper(substr($value_of_field,0,8))];
+						if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
+						$constr=$_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))];
 						else
 						$constr="<font color=red>".$l->g(885)."</font>";
 						//echo "=>".$constr."<br>";

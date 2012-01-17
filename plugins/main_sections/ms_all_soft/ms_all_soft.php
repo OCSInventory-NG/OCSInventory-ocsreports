@@ -94,10 +94,10 @@ if($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPo
 	$result_list_alpha = mysql2_query_secure( $sql_list_alpha['SQL'], $_SESSION['OCS']["readServer"],$sql_list_alpha['ARG']);
  	while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
  		
- 		if (strtoupper($item_list_alpha -> alpha) == '"')
+ 		if (mb_strtoupper($item_list_alpha -> alpha) == '"')
 					$car="'";
 				else
-					$car=strtoupper($item_list_alpha -> alpha);
+					$car=mb_strtoupper($item_list_alpha -> alpha);
 					
  		if ($car != ""){
 				if (!isset($protectedPost['onglet']))

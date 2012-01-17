@@ -65,26 +65,47 @@ if ($total<=0){
 	require_once(FOOTER_HTML);
 	die();
 }
-$sqlStats="SELECT COUNT(id) as nb, tvalue as txt 
-			FROM devices d, download_enable e 
-			WHERE e.fileid='%s'
- 				AND e.id=d.ivalue 
-				AND name='DOWNLOAD' 
-				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
+	$sqlStats="SELECT COUNT(id) as nb, tvalue as txt 
+				FROM devices d, download_enable e 
+				WHERE e.fileid='%s'
+	 				AND e.id=d.ivalue 
+					AND name='DOWNLOAD' 
+					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
+					and tvalue not like '%s'
+					and tvalue not like '%s'
+					and tvalue is not null 
+					group by tvalue
+			union
+				SELECT COUNT(id) as nb, '%s' 
+				FROM devices d, download_enable e 
+				WHERE e.fileid='%s'
+	 				AND e.id=d.ivalue 
+					AND name='DOWNLOAD' 
+					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
+					and (tvalue like '%s'
+					or tvalue  like '%s')
+			union
+				SELECT COUNT(id) as nb, '%s' 
+				FROM devices d, download_enable e 
+				WHERE e.fileid='%s'
+	 				AND e.id=d.ivalue 
+					AND name='DOWNLOAD' 
+					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
+					and tvalue is null";			
 
-$sqlStats.= " GROUP BY tvalue";
-
+$arg=array($arg,'EXIT_CODE%','ERR%',$l->g(573),$arg,'EXIT_CODE%','ERR%',$l->g(482),$arg);
 $resStats =mysql2_query_secure($sqlStats." ORDER BY nb DESC", $_SESSION['OCS']["readServer"],$arg);		
 $i=0;
 while ($row=mysql_fetch_object($resStats)){
-	if( $row->txt =="" )
-		$name_value[$i] = $l->g(482);
-	else
-		$name_value[$i] = $row->txt;
+	$txt_status=strtoupper ($row->txt);
+	$name_value[$i] = $txt_status;
 	$pourc=round(($row->nb*100)/$total,2);
 	$legend[$i]=$name_value[$i]." (".$pourc."%)";
-	$link[$i]=$name_value[$i];
-	$name_value[$i].="<br>(".$pourc."%)";
+	if ($name_value[$i] == strtoupper($l->g(573)))
+		$link[$i]="***".$l->g(956)."***";
+	else
+		$link[$i]=$name_value[$i];
+	$lbl[$i]=$name_value[$i]."<br>(".$pourc."%)";
 	$count_value[$i]=$row->nb;
 	if (isset($arr_FCColors[$i]))
 		$color[$i]=$arr_FCColors[$i];
@@ -105,7 +126,7 @@ while ($row=mysql_fetch_object($resStats)){
 			  labels: ["'.implode('","',$name_value).'"],
 			  legend: ["'.implode('","',$legend).'"],
 			  tooltips: {
-			    serie1: ["'.implode('","',$name_value).'"]
+			    serie1: ["'.implode('","',$lbl).'"]
 			  },
 			  defaultSeries: {
 			    values: [{'.implode("}, {",$color).'
@@ -169,7 +190,7 @@ while( $j<$i ) {
 		echo "<td bgcolor='".$arr_FCColors[$j]."'>";
 	else
 		echo "<td>";
-	echo "&nbsp;</td><td>".$link[$j]."</td><td>
+	echo "&nbsp;</td><td>".$name_value[$j]."</td><td>
 			<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_multi_search']."&prov=stat&id_pack=".$protectedGet["stat"]."&stat=".urlencode($link[$j])."'>".$count_value[$j]."</a>";
 	if (substr_count($link[$j], 'SUC'))
 		echo "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_speed_stat']."&head=1&ta=".urlencode($link[$j])."&stat=".$protectedGet["stat"]."\",\"stats_speed\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=1000,height=900\")>&nbsp<img src='image/stat.png'></a>";		
