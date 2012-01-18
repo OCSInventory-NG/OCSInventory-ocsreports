@@ -1,5 +1,6 @@
 Revision history for ocsreports
 2.0.4 
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/918085
 		* fix bug on menu by profil
 		* on deployment statistics, merge EXIT_CODE_% with ERROR.
 		* add LDAP group merbership lookups.(http://forums.ocsinventory-ng.org/viewtopic.php?pid=45215)

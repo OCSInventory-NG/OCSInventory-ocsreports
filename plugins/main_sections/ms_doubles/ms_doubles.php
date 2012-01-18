@@ -192,7 +192,7 @@ foreach($sql_id_doublon as $name=>$sql_value){
 				$list_id[$name][$val->id]=$val->id;
 				$count_id[$name]++;
 			}		
-			$list_info[$name]=$val->info1;
+			$list_info[$name][]=$val->info1;
 	}
 }
 $form_name='doublon';
