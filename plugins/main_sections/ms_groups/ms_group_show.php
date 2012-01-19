@@ -23,7 +23,7 @@ $list_fields=$accountinfo_value['LIST_FIELDS'];
 
 $list_fields2=array(  $l->g(949) => 'h.ID',
 					   'DEVICEID' => 'h.DEVICEID',
-					   'NAME' => 'h.NAME',
+					   'NAME' => 'h.name',
 					   $l->g(25)  => 'h.OSNAME',
 					   $l->g(275) => 'h.OSVERSION',
 					   $l->g(51)  => 'h.OSCOMMENTS',

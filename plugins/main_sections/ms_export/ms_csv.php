@@ -71,7 +71,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 			$toBeWritten .=$name.$separator;
 		}elseif($name == 'NAME' or $name == $l->g(23)){
 			$col['name_of_machine']="name_of_machine";
-			$toBeWritten .="machine".$separator;
+			$toBeWritten .=$l->g(23).$separator;
 		}		
 	}
 	//data fixe
