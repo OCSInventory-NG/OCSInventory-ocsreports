@@ -16,6 +16,7 @@ sub run {
     return(undef) unless(ref($data) eq 'ARRAY');
 
     foreach my $printer (@$data){
+        next if($printer->{'_name'} =~ /^The\sprinters\slist\sis\sempty\.(.*)$/);
         $common->addPrinter({
                 NAME    => $printer->{'_name'},
                 DRIVER  => $printer->{'ppd'},

@@ -15,6 +15,7 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * Fix Bug #901570 about wrong printer name if no printer found in MacOS/Printers.pm
        * Solving CPU and memories inventory detection under MacOSX Snow Leopard and MacOSX Lion
        * Modifying MacOSX backend files to use the new Mac::Sysprole Perl module version
        * Fix Bug #887534 about invalid CREATEDATE in lib/Ocsinventory/Agent/Backend/OS/Linux/Drives.pm
