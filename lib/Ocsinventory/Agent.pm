@@ -114,6 +114,7 @@ sub run {
     $config->{config}{server} = "http://".$config->{config}{server}.'/ocsinventory';
   }
 
+
 ######################## Objects initilisation ###############################################################
 
 # The agent can contact different servers. Each server accountconfig is
@@ -155,6 +156,11 @@ sub run {
     $config->{config}{accountinfofile} = $config->{config}{vardir}."/ocsinv.adm";
     $config->{config}{last_statefile} = $config->{config}{vardir}."/last_state";
     $config->{config}{next_timefile} = $config->{config}{vardir}."/next_timefile";
+  }
+
+  #Setting SSL CA file path if not set in configuration
+  unless ($config->{config}{ca}) {
+    $config->{config}{ca} = $config->{config}{vardir}."/cacert.pem";
   }
 
 ################################################################################################################

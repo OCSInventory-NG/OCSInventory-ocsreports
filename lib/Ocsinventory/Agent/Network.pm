@@ -37,7 +37,6 @@ sub new {
       $uaserver = $self->{config}->{server};
   }
 
-
   $self->{compress} = new Ocsinventory::Compress ({logger => $logger});
   # Connect to server
   $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
@@ -57,6 +56,23 @@ sub new {
     $self->{config}->{user},
     $self->{config}->{password}
   );
+
+  #Setting SSL configuration depending on LWP version
+  $self->{ua}->_agent =~ /^libwww-perl\/(.*)$/;
+  my $lwp_version= $1;
+  $lwp_version=$self->{common}->convertVersion($lwp_version,3);  
+
+  if ( $lwp_version > 583) {
+    $self->{ua}->ssl_opts(
+      verify_hostname => $self->{config}->{ssl},
+      SSL_ca_file => $self->{config}->{ca}
+    ); 
+  } elsif ($self->{config}->{ssl} eq 1) {
+    #SSL verification is disabled by default in LWP prior to version 6
+    #we activate it using Crypt::SSLeay environment variables
+    $ENV{HTTPS_CA_FILE} = $self->{config}->{ca};
+  }
+
 
   bless $self;
 }
@@ -130,128 +146,29 @@ sub getXMLResp {
      accountinfo => $self->{accountinfo},
      content => $content,
      logger => $logger,
-     #origmsg => $message,
      config => $self->{config},
      common => $self->{common},
-
   });
 
   return $response;
 }
 
 
-sub getHttpFile {
-  my ($self,$uri,$filetoget,$filepath) = @_;
-  my $url = "http://$uri/$filetoget";
+sub getFile {
+  my ($self,$proto,$uri,$filetoget,$filepath) = @_;
+  my $logger= $self->{logger};
 
-  $self->{ua}->mirror($url,$filepath);
-}
+  chomp($proto,$uri,$filetoget,$filepath);
+ 
+  my $url = "$proto://$uri/$filetoget";
+  my $response = $self->{ua}->mirror($url,$filepath);
 
-sub getHttpsFile {
-  my ($self, $uri, $filetoget, $filepath ,$certfile, $installpath) = @_ ;
-
-  my $logger = $self->{logger};
-  my $config = $self->{config};
-  my ($ctx, $ssl, $got);
-
-  if ($self->{common}->can_load('Net::SSLeay')) {
-
-    eval {
-      $| = 1;
-      $logger->debug('Initialize ssl layer...');
-
-      # Initialize openssl
-      if ( -e '/dev/urandom') {
-        $Net::SSLeay::random_device = '/dev/urandom';
-        $Net::SSLeay::how_random = 512;
-      } else {
-        srand (time ^ $$ ^ unpack "%L*", `ps wwaxl | gzip`);
-        $ENV{RND_SEED} = rand 4294967296;
-      }
-
-      Net::SSLeay::randomize();
-      Net::SSLeay::load_error_strings();
-      Net::SSLeay::ERR_load_crypto_strings();
-      Net::SSLeay::SSLeay_add_ssl_algorithms();
-
-      #Create ctx object
-      $ctx = Net::SSLeay::CTX_new() or die_now("Failed to create SSL_CTX $!");
-
-      if ($config->{ssl}) {
-        Net::SSLeay::CTX_load_verify_locations( $ctx, "$installpath/$certfile", $installpath )
-          or die_now("CTX load verify loc: $!");
-
-        # Tell to SSLeay where to find AC file (or dir)
-        Net::SSLeay::CTX_set_verify($ctx, &Net::SSLeay::VERIFY_PEER,0);
-        Net::SSLeay::die_if_ssl_error('callback: ctx set verify');
-      }
-
-      my($server_name,$server_port,$server_dir);
-
-      if($uri =~ /^([^:]+):(\d{1,5})(.*)$/){
-        $server_name = $1;
-        $server_port = $2;
-        $server_dir = $3;
-      } elsif ($uri =~ /^([^\/]+)(.*)$/) {
-        $server_name = $1;
-        $server_dir = $2;
-        $server_port = '443';
-      }
-
-      $server_dir .= '/' unless $server_dir=~/\/$/;
-
-      $server_name = gethostbyname ($server_name) or die;
-      my $dest_serv_params  = pack ('S n a4 x8', &AF_INET, $server_port, $server_name );
-
-      # Connect to server
-      $logger->debug("Connect to server: $uri...");
-      socket  (SOCKET, &AF_INET, &SOCK_STREAM, 0) or die "socket: $!";
-      connect (SOCKET, $dest_serv_params) or die "connect: $!";
-
-      # Flush socket
-      select  (SOCKET); $| = 1; select (STDOUT);
-      $ssl = Net::SSLeay::new($ctx) or die_now("Failed to create SSL $!");
-      Net::SSLeay::set_fd($ssl, fileno(SOCKET));
-
-      # SSL handshake
-      $logger->debug('Starting SSL connection...');
-      Net::SSLeay::connect($ssl);
-      Net::SSLeay::die_if_ssl_error('callback: ssl connect!');
-
-      # Get file
-      my $http_request = "GET /$server_dir/$filetoget HTTP/1.0\n\n";
-      Net::SSLeay::ssl_write_all($ssl, $http_request);
-      shutdown SOCKET, 1;
-
-      $got = Net::SSLeay::ssl_read_all($ssl);
-      $got = (split("\r\n\r\n", $got))[1] or die;
-
-      #Create file on disk
-      open FILE, ">$filepath" or die("Cannot open info file: $!");
-      print FILE $got;
-      close FILE;
-    };
-
-    if($@){
-      $logger->error("Error: SSL hanshake has failed");
-      Net::SSLeay::free ($ssl) if $ssl;
-      Net::SSLeay::CTX_free ($ctx);
-      close SOCKET;
-      return 0; 
-    }
-    else {
-      $logger->debug("Success. :-)");
-      Net::SSLeay::free ($ssl);
-      Net::SSLeay::CTX_free ($ctx);
-      close SOCKET;
-    }
-
-  } else {  	#Exit if can't load Net::SSLeay 
-    return 0;
+  if($response->is_success){
+    $logger->debug("Success downloading $filetoget file...");
+  } else {
+    $logger->error("Failed downloading $filetoget: ".$response->status_line." !!!");
+    return 1;
   }
-
-  1;
 }
-
 
 1;

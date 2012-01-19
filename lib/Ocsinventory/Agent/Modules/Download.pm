@@ -107,11 +107,29 @@ sub download_start_handler {
    }
 
    #If we cannot load prerequisite, we disable the module 
-   unless ($common->can_load('Net::SSLeay qw(die_now die_if_ssl_error)')) {
-     $self->{disabled} = 1;
-     $logger->error("Net::SSLeay perl module is missing !!");
-     $logger->error("Humm my prerequisites are not OK...disabling module :( :(");
-   }
+     if ($common->can_load('LWP')) {
+
+       my $lwp_version = $LWP::VERSION;
+       $lwp_version=$self->{common}->convertVersion($lwp_version,3);
+   
+       if ( $lwp_version > 583) {  #Newer LWP version
+         unless ($common->can_load('LWP::Protocol::https')) {
+           $self->{disabled} = 1;
+           $logger->error("LWP::Protocol::https perl module is missing !!");
+           $logger->error("Humm my prerequisites are not OK...disabling module :( :(");
+         }
+       } else {
+         unless ($common->can_load('Crypt::SSLeay')) {
+           $self->{disabled} = 1;
+           $logger->error("Crypt::SSLeay perl module is missing !!");
+           $logger->error("Humm my prerequisites are not OK...disabling module :( :(");
+         }
+       }
+     } else {
+       $self->{disabled} = 1;
+       $logger->error("LWP perl module is missing !!");
+       $logger->error("Humm my prerequisites are not OK...disabling module :( :(");
+     }
 }
 
 
@@ -122,10 +140,12 @@ sub download_prolog_reader{      #Read prolog response
 	my $context = $self->{context};
 	my $logger = $self->{logger};
 	my $config = $self->{context}->{config};
+        my $network = $self->{context}->{network};
 	my $common = $self->{common};
 	my $settings = $self->{settings};
 	my $messages = $self->{messages};
 	my $packages = $self->{packages};
+
 
 	$logger->debug("Calling download_prolog_reader");
 	
@@ -256,107 +276,12 @@ sub download_prolog_reader{      #Read prolog response
 			$packages->{$_}->{CERT_PATH} =~ s/INSTALL_PATH/$context->{installpath}/;
 			$packages->{$_}->{CERT_FILE} =~ s/INSTALL_PATH/$context->{installpath}/;
 		
-            if (!-f $packages->{$_}->{CERT_FILE}) {
-		$logger->debug("installpath=$context->{installpath}");
-                $logger->error("No certificat found in ".$packages->{$_}->{CERT_FILE});
-            }
-
 			# Getting info file
-			$logger->debug("Retrieving info file for $fileid");
-			
-			my ($ctx, $ssl, $ra);
-			eval {
-				$| = 1;
-				$logger->debug('Initialize ssl layer...');
-				
-				# Initialize openssl
-				if ( -e '/dev/urandom') {
-					$Net::SSLeay::random_device = '/dev/urandom';
-					$Net::SSLeay::how_random = 512;
-				}
-				else {
-					srand (time ^ $$ ^ unpack "%L*", `ps wwaxl | gzip`);
-					$ENV{RND_SEED} = rand 4294967296;
-				}
-				
-				Net::SSLeay::randomize();
-				Net::SSLeay::load_error_strings();
-				Net::SSLeay::ERR_load_crypto_strings();
-				Net::SSLeay::SSLeay_add_ssl_algorithms();
-				
-				#Create ctx object
-				$ctx = Net::SSLeay::CTX_new() or die_now("Failed to create SSL_CTX $!");
-				
-				if ($config->{ssl}) {
-					Net::SSLeay::CTX_load_verify_locations( $ctx, $packages->{$_}->{CERT_FILE},  $packages->{$_}->{CERT_PATH} )
-					  or die_now("CTX load verify loc: $!");
-					# Tell to SSLeay where to find AC file (or dir)
-					Net::SSLeay::CTX_set_verify($ctx, &Net::SSLeay::VERIFY_PEER, \&ssl_verify_callback);
-					die_if_ssl_error('callback: ctx set verify');
-				}
-				
-				my($server_name,$server_port,$server_dir);
-				
-				if($packages->{$_}->{INFO_LOC}=~ /^([^:]+):(\d{1,5})(.*)$/){
-					$server_name = $1;
-					$server_port = $2;
-					$server_dir = $3;
-				}elsif($packages->{$_}->{INFO_LOC}=~ /^([^\/]+)(.*)$/){
-					$server_name = $1;
-					$server_dir = $2;	
-					$server_port = $settings->{https_port};
-				}
-				$server_dir .= '/' unless $server_dir=~/\/$/;
-				
-				$server_name = gethostbyname ($server_name) or die;
-				my $dest_serv_params  = pack ('S n a4 x8', &AF_INET, $server_port, $server_name );
-				
-				# Connect to server
-				$logger->debug("Connect to server: $packages->{$_}->{INFO_LOC}...");
-				socket  (S, &AF_INET, &SOCK_STREAM, 0) or die "socket: $!";
-				connect (S, $dest_serv_params) or die "connect: $!";
-				
-				# Flush socket
-				select  (S); $| = 1; select (STDOUT);
-				$ssl = Net::SSLeay::new($ctx) or die_now("Failed to create SSL $!");
-				Net::SSLeay::set_fd($ssl, fileno(S));
-				
-				# SSL handshake
-				$logger->debug('Starting SSL connection...');
-				Net::SSLeay::connect($ssl);
-				die_if_ssl_error('callback: ssl connect!');
-				
-				# Get info file
-				my $http_request = "GET /$server_dir".$fileid."/info HTTP/1.0\n\n";
-				Net::SSLeay::ssl_write_all($ssl, $http_request);
-				shutdown S, 1;
-				
-				$ra = Net::SSLeay::ssl_read_all($ssl);
-				$ra = (split("\r\n\r\n", $ra))[1] or die;
-				$logger->debug("Info file: $ra");
-				
-				my $xml = XML::Simple::XMLin( $ra ) or die;
-				
-				$xml->{PACK_LOC} = $packages->{$_}->{PACK_LOC};
-				
-				$ra = XML::Simple::XMLout( $xml ) or die;
-				
-				open FH, ">$dir/info" or die("Cannot open info file: $!");
-				print FH $ra;
-				close FH;
-			};
-			if($@){
-				download_message($fileid, $self->{messages}->{err_download_info},$logger,$context);
-				$logger->error("Error: SSL hanshake has failed");
-				next;	
+			if($network->getFile("https","$location/$fileid","info","$dir/info")){
+			        download_message($fileid, $self->{messages}->{err_download_info},$logger,$context);
+			        $logger->error("Error download info file !!! Wrong URL or SSL certificate ?");
+			        next;	
 			}
-			else {
-				$logger->debug("Success. :-)");
-			}
-			Net::SSLeay::free ($ssl);
-			Net::SSLeay::CTX_free ($ctx);
-			close S;
-			sleep(1);
 		}
 	}
 	unless(unlink("$opt_dir/suspend")){
@@ -644,7 +569,7 @@ sub download {
 	my $error;
 	my $proto = $packages->{$id}->{'PROTO'};
 	my $location = $packages->{$id}->{'PACK_LOC'};
-	my $URI = "$proto://$location/$id/";
+        my $network = $context->{network};
  
 	# If we find a temp file, we know that the update of the task file has failed for any reason. So we retrieve it from this file
 	if(-e "$id/task.temp") {
@@ -668,21 +593,16 @@ sub download {
 	}
 	
 	my $fragment = shift(@task);
-	my $request = HTTP::Request->new(GET => $URI.$fragment);
 	
 	$logger->debug("Downloading $fragment...");
 	
 	# Using proxy if possible
-	$ua->env_proxy;
-	my $res = $ua->request($request);
+	my $res = $network->getFile(lc($proto),"$location/$id",$fragment,"$id/$fragment");
 	
 	# Checking if connected
-	if($res->is_success) {
-		$logger->debug("Success :-)");
+	unless($res) {
+		#Success
 		$error = 0;
-		open FRAGMENT, ">$id/$fragment" or return 1;
-		print FRAGMENT $res->content;
-		close(FRAGMENT);
 		
 		# Updating task file
 		rename(">$id/task", ">$id/task.temp");
@@ -693,9 +613,6 @@ sub download {
 		
 	}
 	else {
-		#download_message($id, ERR_DOWNLOAD_PACK);
-		close(TASK);
-		$logger->error("Error :-( ".$res->code);
 		$error++;
 		if($error > $settings->{maw_error_count}){
 			$logger->error("Error : Max errors count reached");

@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+eval 'exec /usr/bin/perl  -S $0 ${1+"$@"}'
+    if 0; # not running under some shell
+
 #Copyright (C) 2006-2011 OCS Inventory Developers
 #
 #This program is free software; you can redistribute it and/or
@@ -194,7 +197,12 @@ WARNING: beware with user privacy by using this option because it may encounter 
 =item B<--ssl>=I<0|1>
 
 Check SSL communications using a certificate.
-Set to 0 if you want to disable certificate check or 1 to enable. Default is set to 1. 
+Set to 0 if you want to disable certificate check or 1 to enable (needs CA certificate path in this case) . Default is set to 1. 
+
+=item B<--ca>=I<FILE>
+
+Path to CA certificate chain file in PEM format, for server SSL certificate validation.
+Set to <your server configuration directory>/cacert.pem by default. 
 
 =item B<--tag>=I<TAG>
 
