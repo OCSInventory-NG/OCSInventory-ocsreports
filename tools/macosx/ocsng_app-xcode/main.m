@@ -41,9 +41,11 @@ int main(int argc, char *argv[]) {
 		[askOcsAgentLaunch addButtonWithTitle:@"No"];
 		[askOcsAgentLaunch setAlertStyle:NSInformationalAlertStyle];
 
+		//Our application become the topmost window
+		[NSApp activateIgnoringOtherApps:YES];
 		
 		if ([askOcsAgentLaunch runModal] != NSAlertFirstButtonReturn) {
-			// No button was clicked, we don't launch OCS agent
+			// Button 'No' was clicked, we don't launch OCS agent
 			launchOcsAgent = 0;
 		}
 		
