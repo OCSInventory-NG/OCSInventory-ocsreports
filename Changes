@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+       * postinst.pl can now be launched in non-interactive mode using new "--nowizard" launch option
+       * Adding all the configuration options as launching arguments in postinst.pl
+       * Adding new interactive questions about "debug", "logfile", "ssl" and "ca" configuration options in postinst.pl
        * Download.pm uses LWP useragent initiated by Network.pm for SSL checks 
        * Download.pm uses LWP useragent initiated by Network.pm for info and frags files downloads
        * Network.pm can use LWP version 6 SSL useragent options
