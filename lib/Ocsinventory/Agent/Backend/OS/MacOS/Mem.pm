@@ -41,6 +41,11 @@ sub run {
 		$slot = $1;
 	}
 
+	# 10.7
+	if ($slot =~ /^DIMM (\d)/) {
+		$slot = $1;
+	}
+
         my $size = $memory->{'dimm_size'};
 
         # if system_profiler lables the size in gigs, we need to trim it down to megs so it's displayed properly
