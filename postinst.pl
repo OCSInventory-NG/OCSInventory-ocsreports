@@ -68,7 +68,7 @@ for $option (@ARGV){
 Usage :
 \t--nowizard                    launch this script without interaction
 \t--server=url                  set OCS Inventory NG server address (e.g: http://ocsinventory-ng/ocsinventory) 
-\t--basevardir=path             set OCS Inventory NG Unix Unified agent variables diriectory (e.g: /var/lib/ocsinventory-agent)	
+\t--basevardir=path             set OCS Inventory NG Unix Unified agent variables directory (e.g: /var/lib/ocsinventory-agent)	
 \t--configdir=path              set OCS Inventory NG Unix Unified configuration directory (e.g: /etc/ocsinventory-agent)	
 \t--user=username               set username for OCS Inventory server Apache authentication (if needed)
 \t--password=password           set password for OCS Inventory NG server Apache authentication (if needed)

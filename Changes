@@ -17,7 +17,7 @@ Revision history for Ocsinventory::Agent
        * Now getting MANUFACTURER and SERIALNUMBER in Snmp/3375.pm
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
-2.0.x
+2.0.4
        * Improve memory slots detection under MacOSX 10.7 in MacOS/Mem.pm
        * Force OCSNG.app to become the topmost window in tools/macosx/ocsng_app-xcode/main.m
        * Fix Bug #901570 about wrong printer name if no printer found in MacOS/Printers.pm
