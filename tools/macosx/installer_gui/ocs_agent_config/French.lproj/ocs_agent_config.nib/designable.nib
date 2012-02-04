@@ -343,7 +343,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="614777784">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272629760</int>
-							<string key="NSContents">Fichier certificqt (nécessaire pour le télé-déploiement) :</string>
+							<string key="NSContents">Fichier certificat (nécessaire pour le télé-déploiement) :</string>
 							<reference key="NSSupport" ref="691464604"/>
 							<reference key="NSControlView" ref="298534422"/>
 							<reference key="NSBackgroundColor" ref="352228262"/>
