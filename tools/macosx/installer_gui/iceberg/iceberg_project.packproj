@@ -23,6 +23,32 @@
 				</dict>
 				<key>License</key>
 				<dict>
+					<key>English</key>
+					<dict>
+						<key>Keywords</key>
+						<dict/>
+						<key>Mode</key>
+						<integer>1</integer>
+						<key>Path</key>
+						<string>license/gpl-2.0.txt</string>
+						<key>Path Type</key>
+						<integer>2</integer>
+						<key>Template</key>
+						<string>APSL License</string>
+					</dict>
+					<key>French</key>
+					<dict>
+						<key>Keywords</key>
+						<dict/>
+						<key>Mode</key>
+						<integer>1</integer>
+						<key>Path</key>
+						<string>license/gpl-2.0.txt</string>
+						<key>Path Type</key>
+						<integer>2</integer>
+						<key>Template</key>
+						<string>CeCILL 2 License</string>
+					</dict>
 					<key>International</key>
 					<dict>
 						<key>Mode</key>

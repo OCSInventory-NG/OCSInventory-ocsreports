@@ -10,6 +10,7 @@
 //
 //
 
+
 #import "ocs_agent_daemon_optionsPane.h"
 
 
@@ -87,7 +88,6 @@
 		
 			int hours = [convert intValue];
 			int seconds =  hours * 3600;
-			NSLog(@"Valeur de periocity:%i",seconds);
 		
 			[launchdCfgFile  appendString:@"\t<key>StartInterval</key>\n"
 										  @"\t<integer>"
@@ -100,9 +100,9 @@
 			//We display a warn message and we go back to pane
 			periodicityValueWrn = [[NSAlert alloc] init];
 		
-			[periodicityValueWrn addButtonWithTitle:@"OK"];
-			[periodicityValueWrn setMessageText:@"Invalid periodicity value"];
-			[periodicityValueWrn setInformativeText:@"Please enter a valid number value"];
+			[periodicityValueWrn addButtonWithTitle:NSLocalizedString(@"OK", @"OK")];
+			[periodicityValueWrn setMessageText:NSLocalizedStringFromTableInBundle(@"Periodicity_warn",nil,[NSBundle bundleForClass:[self class]], @"Peridocity warn")];
+			[periodicityValueWrn setInformativeText:NSLocalizedStringFromTableInBundle(@"Periodicity_warn_comment",nil,[NSBundle bundleForClass:[self class]], @"Periodicity warn comment")];
 			[periodicityValueWrn setAlertStyle:NSInformationalAlertStyle]; 
 			[periodicityValueWrn runModal];
 			[periodicityValueWrn release];

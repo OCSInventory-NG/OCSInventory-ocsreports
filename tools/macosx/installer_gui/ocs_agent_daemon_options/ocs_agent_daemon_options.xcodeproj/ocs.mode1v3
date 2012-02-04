@@ -272,14 +272,18 @@
 								<string>089C167CFE841241C02AAC07</string>
 								<string>EE3F05FA0DD294BA00EA504A</string>
 								<string>B47CF353067B4E030066DBF6</string>
-								<string>1C37FBAC04509CD000000102</string>
+								<string>089C167DFE841241C02AAC07</string>
+								<string>089C1671FE841209C02AAC07</string>
+								<string>1058C7AEFEA557BF11CA2CBB</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>16</integer>
-									<integer>15</integer>
+									<integer>8</integer>
+									<integer>6</integer>
+									<integer>5</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -318,7 +322,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>ocs_agent_daemon_options_Prefix.pch</string>
+								<string>Localizable.strings</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,22 +330,26 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>ocs_agent_daemon_options_Prefix.pch</string>
+										<string>Localizable.strings</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>06079FE71433A90B0002EDD2</string>
+										<string>0680346514DCAAC500E14075</string>
 										<key>history</key>
 										<array>
 											<string>0688BCF513EF4B1500094AA2</string>
 											<string>0688BD3513EF4F7D00094AA2</string>
 											<string>0688BD4A13EF51B800094AA2</string>
-											<string>0688BD4B13EF51B800094AA2</string>
-											<string>0688BD4C13EF51B800094AA2</string>
 											<string>069E8EFD1402FAF700897797</string>
 											<string>069E8F681402FDF600897797</string>
-											<string>069E8F691402FDF600897797</string>
-											<string>06079FC11433A8900002EDD2</string>
+											<string>06EBE14414D9F99D00B916EB</string>
+											<string>06EBE19414D9FDE200B916EB</string>
+											<string>0673FF0E14DB457D008A3FF8</string>
+											<string>0632F51E14DB4EF10064D8E2</string>
+											<string>0632F51F14DB4EF10064D8E2</string>
+											<string>0632F5CA14DB51740064D8E2</string>
+											<string>0680346414DCAAC500E14075</string>
+											<string>0606C19514DCA723008033F9</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -353,14 +361,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1013, 394}}</string>
+								<string>{{0, 0}, {1013, 267}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 145 1440 733 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>394pt</string>
+							<string>267pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -373,14 +381,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 399}, {1013, 293}}</string>
+								<string>{{0, 272}, {1013, 420}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 145 1440 733 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>293pt</string>
+							<string>420pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -399,9 +407,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>06079FE81433A90B0002EDD2</string>
+				<string>0680346614DCAAC500E14075</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>06079FE91433A90B0002EDD2</string>
+				<string>0680346714DCAAC500E14075</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -540,7 +548,7 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>06E815A213EB2FA3008B68AB</string>
-		<string>/Users/ocs/work/ocs/dev/debug_tiger_sdk_10.6_64bits/installer_gui/ocs_agent_daemon_options/ocs_agent_daemon_options.xcodeproj</string>
+		<string>/Users/ocs/work/ocs/dev/beta5/ocs_agent_daemon_options/ocs_agent_daemon_options.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>0 145 1440 733 0 0 1440 878 </string>
@@ -620,7 +628,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>06E815A213EB2FA3008B68AB</string>
-				<string>06079FEA1433A90B0002EDD2</string>
+				<string>0680346814DCAAC500E14075</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>

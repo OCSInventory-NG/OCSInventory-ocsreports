@@ -35,10 +35,10 @@ int main(int argc, char *argv[]) {
 	    		
 		NSAlert *askOcsAgentLaunch = [[NSAlert alloc] init];
 	
-		[askOcsAgentLaunch setMessageText:@"Do you want to launch OCS Inventory NG agent ?"];
-		[askOcsAgentLaunch setInformativeText:@"This will take contact with OCS Inventory NG server"];
-		[askOcsAgentLaunch addButtonWithTitle:@"Yes"];
-		[askOcsAgentLaunch addButtonWithTitle:@"No"];
+		[askOcsAgentLaunch setMessageText:NSLocalizedString(@"Ask_agent_run", @"First Window question")];
+		[askOcsAgentLaunch setInformativeText:NSLocalizedString(@"Ask_agent_run_comment", @"First window comment")];
+		[askOcsAgentLaunch addButtonWithTitle:NSLocalizedString(@"Yes", @"Yes Button")];
+		[askOcsAgentLaunch addButtonWithTitle:NSLocalizedString(@"No", @"No Button")];
 		[askOcsAgentLaunch setAlertStyle:NSInformationalAlertStyle];
 
 		//Our application become the topmost window

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0649FBA314D9F106001EC640 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0649FBA214D9F106001EC640 /* InfoPlist.strings */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		B40F7FFC06739E1B0053A16B /* InstallerPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40F7FFB06739E1B0053A16B /* InstallerPlugins.framework */; };
@@ -16,7 +17,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0632F49314DB45F00064D8E2 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0638EF1412E6DA96006FF673 /* ocs_agent_config.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ocs_agent_config.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		0649FB6414D9E877001EC640 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/ocs_agent_config.nib; sourceTree = "<group>"; };
+		0649FBA014D9F0FD001EC640 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0649FBA414D9F110001EC640 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0649FBA514D9F123001EC640 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -73,6 +79,7 @@
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				B40F802706739F480053A16B /* ocs_agent_config.nib */,
+				0649FBA214D9F106001EC640 /* InfoPlist.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -173,6 +180,7 @@
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				B40F802906739F480053A16B /* ocs_agent_config.nib in Resources */,
 				B47CF355067B4E030066DBF6 /* Localizable.strings in Resources */,
+				0649FBA314D9F106001EC640 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,10 +198,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		0649FBA214D9F106001EC640 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0649FBA014D9F0FD001EC640 /* English */,
+				0649FBA414D9F110001EC640 /* French */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				089C167EFE841241C02AAC07 /* English */,
+				0649FBA514D9F123001EC640 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -202,6 +220,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B40F802806739F480053A16B /* English */,
+				0649FB6414D9E877001EC640 /* French */,
 			);
 			name = ocs_agent_config.nib;
 			sourceTree = "<group>";
@@ -210,6 +229,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B47CF354067B4E030066DBF6 /* English */,
+				0632F49314DB45F00064D8E2 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -265,11 +285,15 @@
 		B44174EB08BA33C40065BEDE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
-				SDKROOT = macosx;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				VALID_ARCHS = "i386 ppc x86_64";
 			};
 			name = Debug;
@@ -277,6 +301,11 @@
 		B44174EC08BA33C40065BEDE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;

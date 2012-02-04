@@ -16,6 +16,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		069BF79014D9FEF900CDCB91 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		06EBE15314D9F9C600B916EB /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		06EBE18014D9FBC200B916EB /* French */ = {isa = PBXFileReference; explicitFileType = file.xib; name = French; path = French.lproj/ocs_agent_daemon_options.xib; sourceTree = "<group>"; };
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -194,6 +197,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C167EFE841241C02AAC07 /* English */,
+				06EBE15314D9F9C600B916EB /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -202,6 +206,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B47CF354067B4E030066DBF6 /* English */,
+				069BF79014D9FEF900CDCB91 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -210,6 +215,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE3F05FB0DD294BA00EA504A /* English */,
+				06EBE18014D9FBC200B916EB /* French */,
 			);
 			name = ocs_agent_daemon_options.xib;
 			sourceTree = "<group>";
@@ -268,20 +274,27 @@
 		B44174EB08BA33C40065BEDE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.4;
 			};
 			name = Debug;
 		};
 		B44174EC08BA33C40065BEDE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

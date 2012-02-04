@@ -17,6 +17,10 @@ Revision history for Ocsinventory::Agent
        * Now getting MANUFACTURER and SERIALNUMBER in Snmp/3375.pm
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
+2.0.x
+       * Improve OCS MacOSX agent internationalization support
+       * Back to previous pane after wrong OCS server address warning in MacOSX installer
+       
 2.0.4
        * Improve memory slots detection under MacOSX 10.7 in MacOS/Mem.pm
        * Force OCSNG.app to become the topmost window in tools/macosx/ocsng_app-xcode/main.m

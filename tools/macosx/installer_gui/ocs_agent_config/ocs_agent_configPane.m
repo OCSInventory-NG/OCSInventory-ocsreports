@@ -54,12 +54,10 @@
 		//We display a warning dialog
 		cfgFileExistsWrn = [[NSAlert alloc] init];
 		
-		[cfgFileExistsWrn setMessageText:@"OCS agent configuration file seems to already exists."
-										@"Do you want to launch OCS Inventory NG agent configuration?"];
-		
-		[cfgFileExistsWrn setInformativeText:@"The previous /etc/ocsinventory-agent/ocsinventory-agent.cfg file will be erased"];
-		[cfgFileExistsWrn addButtonWithTitle:@"Yes"];
-		[cfgFileExistsWrn addButtonWithTitle:@"No"];
+		[cfgFileExistsWrn setMessageText:NSLocalizedStringFromTableInBundle(@"Already_conf_warn",nil,[NSBundle bundleForClass:[self class]], @"Warning about already existing cofiguration file")];
+		[cfgFileExistsWrn setInformativeText:NSLocalizedStringFromTableInBundle(@"Already_conf_warn_comment",nil,[NSBundle bundleForClass:[self class]], @"Warning about already existing cofiguration file comment")];
+		[cfgFileExistsWrn addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Yes",nil,[NSBundle bundleForClass:[self class]], @"Yes button")];
+		[cfgFileExistsWrn addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"No",nil,[NSBundle bundleForClass:[self class]], @"No button")];
 		[cfgFileExistsWrn setAlertStyle:NSInformationalAlertStyle];
 		
 		
@@ -218,8 +216,8 @@
 				caCertWrn = [[NSAlert alloc] init];
 				
 				[caCertWrn addButtonWithTitle:@"OK"];
-				[caCertWrn setMessageText:@"You have enabled Download feature but you don't specify a certificate file"];
-				[caCertWrn setInformativeText:@"If you don't specifiy a certificate file, Download feature won't work"];
+				[caCertWrn setMessageText:NSLocalizedStringFromTableInBundle(@"Missing_cert_warn",nil,[NSBundle bundleForClass:[self class]], @"Warning about missing certificate file")];
+				[caCertWrn setInformativeText:NSLocalizedStringFromTableInBundle(@"Missing_cert_warn_comment",nil,[NSBundle bundleForClass:[self class]], @"Warning about missing certificate file comment")];
 				[caCertWrn setAlertStyle:NSInformationalAlertStyle]; 
 				[caCertWrn runModal];  // display the warning dialog
 				[caCertWrn release];	  // dispose the warning dialog	
@@ -232,11 +230,13 @@
 			srvConfigWrn = [[NSAlert alloc] init];
 			
 			[srvConfigWrn addButtonWithTitle:@"OK"];
-			[srvConfigWrn setMessageText:@"Invalid OCS server address"];
-			[srvConfigWrn setInformativeText:@"Please check and re-enter your OCS server address"];
+			[srvConfigWrn setMessageText:NSLocalizedStringFromTableInBundle(@"Invalid_srv_addr",nil,[NSBundle bundleForClass:[self class]], @"Warning about invalid server address")];
+			[srvConfigWrn setInformativeText:NSLocalizedStringFromTableInBundle(@"Invalid_srv_addr_comment",nil,[NSBundle bundleForClass:[self class]], @"Warning about invalid server address comment")];
 			[srvConfigWrn setAlertStyle:NSInformationalAlertStyle]; 
 			[srvConfigWrn runModal];
-			[srvConfigWrn release];		
+			[srvConfigWrn release];
+			
+			[self gotoPreviousPane];
 
 		}
 	}
