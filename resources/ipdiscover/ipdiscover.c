@@ -116,7 +116,7 @@ void validate_iface( struct sockaddr_in *ipaddr, struct sockaddr_in *netmask, pa
 	char *error_str;
 	
 	if( ntohl(netmask->sin_addr.s_addr) < 0xFFFF0000){
-		sprintf(error_str, "Invalid netmask -> too large (%s). Stop\n", inet_ntoa(netmask->sin_addr));
+		snprintf(error_str, 100, "Invalid netmask -> too large (%s). Stop\n", inet_ntoa(netmask->sin_addr));
 		perror( error_str );
 		exit(1);
 	}

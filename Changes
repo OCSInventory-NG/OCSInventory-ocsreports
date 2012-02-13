@@ -18,6 +18,7 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * Fix segfault and buffer overflow bugs in ipdiscover.c
        * Improve OCS MacOSX agent internationalization support
        * Back to previous pane after wrong OCS server address warning in MacOSX installer
        
