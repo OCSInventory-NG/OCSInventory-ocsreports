@@ -113,7 +113,7 @@ void create_socket(int *sd, struct sockaddr_ll *sll, int index){
 }
 
 void validate_iface( struct sockaddr_in *ipaddr, struct sockaddr_in *netmask, packet *ppacket ){
-	char *error_str;
+	char error_str[100];
 	
 	if( ntohl(netmask->sin_addr.s_addr) < 0xFFFF0000){
 		snprintf(error_str, 100, "Invalid netmask -> too large (%s). Stop\n", inet_ntoa(netmask->sin_addr));
