@@ -9,7 +9,7 @@ no strict 'refs';
 use warnings;
 
 sub snmp_info {
-   return ( { oid_value => "1.3.6.1.4.1.3224.1.1.1.0",
+   return ( { oid_value => "1.3.6.1.4.1.3224.5.1.0",
             oid_name => "Juniper Mib" } );
 }
 
@@ -23,6 +23,12 @@ sub snmp_run()
   $logger->debug("Running Juniper (3224) MIB module");
   $common->setSnmpCommons( {TYPE => "Firewall"} );
   
+  my $list_mib=["If_Mib"];
+
+  foreach my $mib ( @{$list_mib} ) {
+     $snmp->snmp_oid_run($mib);
+  }
+
 }
 
 1;

@@ -5,6 +5,7 @@ package Ocsinventory::Agent::Modules::Snmp::If_Mib;
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 sub snmp_info {
    return ( { oid_value => "1.3.6.1.2.1.2.1.0",
@@ -88,7 +89,7 @@ sub snmp_run {
    $result_snmp=$session->get_entries(-columns => [$snmp_ifdescr]);
    foreach my $result ( keys  %{$result_snmp} ) {
       # We work on real interface and no vlan
-      if ( $result_snmp->{$result} =~ /[eE]th|FC|[bB]ond/ ) {
+      if ( $result_snmp->{$result} =~ /[eE]th|[bB]ond/ ) {
          if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.2\.(\S+)/ ) {
             $ref=$1;
             $SLOT=$result_snmp->{$result};
@@ -122,9 +123,10 @@ sub snmp_run {
             $MACADDR=$session->get_request(-varbindlist => [$snmp_physAddr.$ref]);
             if ( defined( $MACADDR->{$snmp_physAddr.$ref}) ) {
                # For MACADDR, we need a translation beetween Hexa and string
-               $MACADDR=$MACADDR->{$snmp_physAddr.$ref};
-               #$MACADDR= sprintf "%02x:%02x:%02x:%02x:%02x:%02x" ,
-               #         map hex, split /\:/, $MACADDR->{$snmp_physAddr.$ref};
+               $MACADDR=" ".$MACADDR->{$snmp_physAddr.$ref};
+               if ( $MACADDR =~ /^ 0x(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})$/ ) {
+                  $MACADDR="$1:$2:$3:$4:$5:$6";
+               }
             }
 
             $STATUS=$session->get_request(-varbindlist => [ $snmp_ifadminstatus.$ref ]);

@@ -34,10 +34,9 @@ sub snmp_run() {
         $snmp_oids=$result;
         if ( defined ( $results_oids->{$result} ) ) {
            if ( $results_oids->{$result} =~ /endOfMibView/ ) {
-              print "fin\n";
               $snmp_oids=undef;
            } 
-           elsif ( $result =~ /^1\.3\.6\.1\.4\.1\.8072\.1\.2\.1\.1\.4\S+1\.3\.6\.1\.4\.1\.(\d+)\./ )
+           elsif ( $result =~ /^1\.3\.6\.1\.4\.1\.8072\.1\.2\.1\.1\.4\S+\.1\.3\.6\.1\.4\.1\.(\d+)\./ )
            {
               my $find_oid=$1;
               if ( ! defined $list_oid_done->{$find_oid} )

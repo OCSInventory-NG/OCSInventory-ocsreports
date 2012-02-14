@@ -50,7 +50,9 @@ sub snmp_run {
          $DATE=$session->get_request ( -varbindlist => [ $soft."5.".$ref ]);
          if ( defined ( $DATE ) ) {
             $DATE=$DATE->{$soft."5.".$ref};
-            $DATE=sprintf("%d/%d/%d",hex(substr($DATE,2,4)),hex(substr($DATE,6,2)),hex(substr($DATE,8,2)));
+	    if ( defined ($DATE ) ) {
+               $DATE=sprintf("%d/%d/%d",hex(substr($DATE,2,4)),hex(substr($DATE,6,2)),hex(substr($DATE,8,2)));
+            }
          }
          $common->addSoftware( { 
 			NAME=>$result_table->{ $result } ,

@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * New Snmp/231.pm module for Fujistu devices
        * postinst.pl can now be launched in non-interactive mode using new "--nowizard" launch option
        * Adding all the configuration options as launching arguments in postinst.pl
        * Adding new interactive questions about "debug", "logfile", "ssl" and "ca" configuration options in postinst.pl
@@ -18,6 +19,7 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * Fix bug about illegal hexadecimal digit in Snmp/Host_Resources_Mib.pm
        * Fix segfault and buffer overflow bugs in ipdiscover.c
        * Improve OCS MacOSX agent internationalization support
        * Back to previous pane after wrong OCS server address warning in MacOSX installer

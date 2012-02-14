@@ -20,13 +20,12 @@ sub snmp_run()
   my $common = $snmp->{common};
   my $logger=$snmp->{logger};
 
-  $logger->debug("Execution mib F5 mib");
-  $common->setSnmpCommons( {TYPE => "Load Balancer"} );
+  $logger->debug("Running F5 (3375) MIB module");
+  $common->setSnmpCommons( {TYPE => "Load Balanceur"} );
 
   my $list_mib=["If_Mib"];
 
   foreach my $mib ( @{$list_mib} ) {
-     $logger->debug("Sub mib $mib");
      $snmp->snmp_oid_run($mib);
   }
 
@@ -38,46 +37,44 @@ sub snmp_run()
   my $snmp_sysGeneralChassisSerialNum="1.3.6.1.4.1.3375.2.1.3.3.3.0";
 
   
-  my $name=$session->get_request ( -varbindlist => [ $snmp_sysProductName ] );
-  if ( defined ( $name ) ) {
-     $name=$name->{$snmp_sysProductName};
+  my $NAME=$session->get_request ( -varbindlist => [ $snmp_sysProductName ] );
+  if ( defined ( $NAME ) ) {
+     $NAME=$NAME->{$snmp_sysProductName};
   }
 
-  my $version=$session->get_request ( -varbindlist => [ $snmp_sysProductVersion] );
-  if ( defined ( $version ) ) {
-     $version=$version->{$snmp_sysProductVersion};
+  my $VERSION=$session->get_request ( -varbindlist => [ $snmp_sysProductVersion] );
+  if ( defined ( $VERSION ) ) {
+     $VERSION=$VERSION->{$snmp_sysProductVersion};
   }
 
-  my $comment=$session->get_request ( -varbindlist => [ $snmp_sysProductBuild] );
-  if ( defined ( $comment ) ) {
-     $comment=$comment->{$snmp_sysProductBuild};
+  my $COMMENT=$session->get_request ( -varbindlist => [ $snmp_sysProductBuild] );
+  if ( defined ( $COMMENT ) ) {
+     $COMMENT=$COMMENT->{$snmp_sysProductBuild};
   }
 
-  my $date=$session->get_request ( -varbindlist => [ $snmp_sysProductDate ] );
-  if ( defined ( $date ) ) {
-     $date=$date->{$snmp_sysProductDate};
+  my $DATE=$session->get_request ( -varbindlist => [ $snmp_sysProductDate ] );
+  if ( defined ( $DATE ) ) {
+     $DATE=$DATE->{$snmp_sysProductDate};
   }
 
-  $common->addSoftware( {
-    NAME => $name ,
-    VERSION => $version ,
-    INSTALLDATE => $date ,
-    COMMENT => $comment,
-  });
+  $common->addSoftware( { NAME => $NAME ,
+		 VERSION => $VERSION ,
+		 INSTALLDATE => $DATE ,
+	         COMMENT => $COMMENT,
+               });
 
-  my $type=$session->get_request ( -varbindlist => [ $snmp_sysGeneralHwNumber ] ) ;
-  if ( defined ( $type ) ) {
-     $type=$type->{$snmp_sysGeneralHwNumber};
+  my $TYPE=$session->get_request ( -varbindlist => [ $snmp_sysGeneralHwNumber ] ) ;
+  if ( defined ( $TYPE ) ) {
+     $TYPE=$TYPE->{$snmp_sysGeneralHwNumber};
   }
-  my $serialnumber=$session->get_request ( -varbindlist => [ $snmp_sysGeneralChassisSerialNum ] ) ;
-  if ( defined ( $serialnumber ) ) {
-     $serialnumber=$serialnumber->{$snmp_sysGeneralChassisSerialNum};
+  my $SERIALNUMBER=$session->get_request ( -varbindlist => [ $snmp_sysGeneralChassisSerialNum ] ) ;
+  if ( defined ( $SERIALNUMBER ) ) {
+     $SERIALNUMBER=$SERIALNUMBER->{$snmp_sysGeneralChassisSerialNum};
   }
-  $common->setSnmpLoadBalancer({
-    SERIALNUMBER => $serialnumber ,
-    TYPE => $type ,
-    MANUFACTURER => "F5" ,
-  });
+  $common->setSnmpLoadBalancer({ SERIALNUMBER => $SERIALNUMBER ,
+                                TYPE => $TYPE ,
+                                MANUFACTURER => "F5" ,
+                      });
 
 }
 
