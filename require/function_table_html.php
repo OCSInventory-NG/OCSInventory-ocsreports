@@ -345,7 +345,6 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	}elseif ($input_type ==0)
 	return "<input type='text' name='".$input_name."' id='".$input_name."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$name."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
 	elseif($input_type ==2){
-		natcasesort($name);
 		$champs="<select name='".$input_name."' id='".$input_name."' ".$configinput['JAVASCRIPT'];
 		if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
 		$champs.=" class='down' \>";
@@ -353,7 +352,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$champs.= "<option value='' class='hi' \></option>";
 		$countHl=0;		
 		if ($name != ''){
-			//print_r($protectedPost);
+			natcasesort($name);
 			foreach ($name as $key=>$value){
 				$champs.= "<option value=\"".$key."\"";
 				if ($protectedPost[$input_name] == $key )
