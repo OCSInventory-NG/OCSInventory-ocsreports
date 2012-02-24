@@ -1,6 +1,7 @@
 Revision history for ocsreports
 2.0.5
 		* fix warning on natcasesort function. tx to Remi for this patch
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/940370 (redistribution group)
 
 2.0.4 
 		* fix a part of this bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/907755 (show computers name on csv export)
