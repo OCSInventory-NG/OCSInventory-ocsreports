@@ -10,7 +10,7 @@
 //====================================================================================
 
 
-require_once(BACKEND.'require/lib/phpcas/CAS.php');
+require_once(PHPCAS);
 require_once(BACKEND.'require/cas.config.php');
 $cas=new phpCas();
 $cas->client(CAS_VERSION_2_0,$cas_host,$cas_port,$cas_uri);

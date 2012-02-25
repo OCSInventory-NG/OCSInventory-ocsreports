@@ -60,7 +60,7 @@ if ($_POST['RELOAD_CONF'] == 'RELOAD'){
 if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 	//Contrib of FranciX (http://forums.ocsinventory-ng.org/viewtopic.php?pid=41923#p41923)
 	if($_SESSION['OCS']['cnx_origine'] == "CAS"){
-		require_once(BACKEND.'require/lib/phpcas/CAS.php');
+		require_once(PHPCAS);
 		require_once(BACKEND.'require/cas.config.php');
 		$cas=new phpCas();
 		$cas->client(CAS_VERSION_2_0,$cas_host,$cas_port,$cas_uri);
