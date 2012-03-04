@@ -264,12 +264,12 @@ $sql_field=array("OCS_REPORT_WORKGROUP"=>array('ARG'=>array('count(distinct work
 function define_tab($data_on=array()){
 	global $l;
 	$data_on['ACTIVITY']=$l->g(798);
-	$data_on['SOFT']=strtoupper($l->g(20));
+	$data_on['SOFT']=mb_strtoupper($l->g(20));
 	$data_on['HARD']=$l->g(799);
 	$data_on['ELSE']=$l->g(800);
 	if( $_SESSION['OCS']['CONFIGURATION']['CONSOLE']=="YES") {
-		//$data_on['ADMIN']['CONFIG']=strtoupper($l->g(107));
-		$data_on['ADMIN']['MSG']=strtoupper($l->g(915));
+		//$data_on['ADMIN']['CONFIG']=mb_strtoupper($l->g(107));
+		$data_on['ADMIN']['MSG']=mb_strtoupper($l->g(915));
 	
 		if (!isset($default))
 			$default = 'MSG';

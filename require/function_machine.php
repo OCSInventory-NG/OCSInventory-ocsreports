@@ -23,7 +23,7 @@ function info($GET,$post_systemid){
 	//you can see computer's detail by deviceid
 	if (isset($GET['deviceid']) and !isset($systemid)){
 		$querydeviceid = "SELECT ID FROM hardware WHERE deviceid='%s'";
-		$argdevicedid=strtoupper ($GET['deviceid']);
+		$argdevicedid=mb_strtoupper ($GET['deviceid']);
 		$resultdeviceid = mysql2_query_secure($querydeviceid, $_SESSION['OCS']["readServer"],$argdevicedid);
 		$item = mysql_fetch_object($resultdeviceid);	
 		$GET['systemid']=$item -> ID;
@@ -87,13 +87,17 @@ function print_item_header($text)
 {
 	echo "<br><br><table align=\"center\"  width='100%'  cellpadding='4'>";
 	echo "<tr>";
-	echo "<td align='center' width='100%'><b><font color='blue'>".strtoupper($text)."</font></b></td>";
+	echo "<td align='center' width='100%'><b><font color='blue'>".mb_strtoupper($text)."</font></b></td>";
 	echo "</tr>";
 	echo "</table><br>";	
 }
 
 function bandeau($data,$lbl,$link=array()){
 	global $protectedGet,$pages_refs;
+	
+	if (!is_array($link))
+		$link=array();
+		
 	$data=data_encode_utf8($data);
 	$nb_col=2;
 	echo "<table ALIGN = 'Center' class='mlt_bordure' border=0 width:100%><tr><td align =center>";

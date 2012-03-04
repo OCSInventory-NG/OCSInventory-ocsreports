@@ -82,7 +82,7 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 
 	
 	if(DEMO){
-		$rest = strtoupper(substr($query, 0, 6));
+		$rest = mb_strtoupper(substr($query, 0, 6));
 		if ($rest == 'UPDATE' or $rest == 'INSERT' or $rest == 'DELETE'){
 			if(DEMO_MSG != 'show'){
 		 		msg_info($l->g(2103));

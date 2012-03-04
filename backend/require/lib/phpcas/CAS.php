@@ -390,7 +390,7 @@ class phpCAS
       }
 
       if ( empty($PHPCAS_DEBUG['unique_id']) ) {
-	$PHPCAS_DEBUG['unique_id'] = substr(strtoupper(md5(uniqid(''))),0,4);
+	$PHPCAS_DEBUG['unique_id'] = substr(mb_strtoupper(md5(uniqid(''))),0,4);
       }
 
       $PHPCAS_DEBUG['filename'] = $filename;

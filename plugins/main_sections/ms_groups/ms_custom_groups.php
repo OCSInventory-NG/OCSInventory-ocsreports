@@ -18,7 +18,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 /*********************************************TRAITEMENT DES DONNEES*****************************************/
 if (isset($protectedPost['VALID_GROUP'])){		
 	//gestion groupe de serveurs
-	if ($protectedPost['onglet'] == strtoupper($l->g(651))){
+	if ($protectedPost['onglet'] == mb_strtoupper($l->g(651))){
 		require_once('require/function_server.php');
 		//ajout de machines
 		if ($protectedPost['NEW_RAZ'] == "ADD")
@@ -97,7 +97,7 @@ $def_onglets[$l->g(809)]=$l->g(809); //GROUPES STATIQUES
 }
 if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	$def_onglets[$l->g(810)]=$l->g(810); //GROUPES DYNAMIQUES
-	$def_onglets[strtoupper($l->g(651))]=strtoupper($l->g(651)); //GROUPES DE SERVEURS
+	$def_onglets[mb_strtoupper($l->g(651))]=mb_strtoupper($l->g(651)); //GROUPES DE SERVEURS
 	//definition of option NEW every time
 	$optionList['NEW']=$l->g(586);
 }
@@ -124,7 +124,7 @@ if ($protectedPost['onglet'] == $l->g(809)){
 	if (!($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"))	
 		$delGroups.= " and workgroup = 'GROUP_4_ALL'";	
 }
-if ($protectedPost['onglet'] == strtoupper($l->g(651)) and $list_id!= ''){
+if ($protectedPost['onglet'] == mb_strtoupper($l->g(651)) and $list_id!= ''){
 	$all_groups=all_groups('SERVER');	
 	$delGroups="select distinct group_id as id, name 
 				from download_servers,hardware 

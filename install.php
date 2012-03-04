@@ -77,9 +77,9 @@ $valBpms = return_bytes( $valTpms );
 $valBumf = return_bytes( $valTumf );
 
 if( $valBumf>$valBpms )
-	$MaxAvail = trim(strtoupper($valTpms),"M");
+	$MaxAvail = trim(mb_strtoupper($valTpms),"M");
 else
-	$MaxAvail = trim(strtoupper($valTumf),"M");
+	$MaxAvail = trim(mb_strtoupper($valTumf),"M");
 
 
 

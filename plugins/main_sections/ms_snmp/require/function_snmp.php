@@ -79,7 +79,7 @@ function print_item_header($text)
 {
 	echo "<br><br><table align=\"center\"  width='100%'  cellpadding='4'>";
 	echo "<tr>";
-	echo "<td align='center' width='100%'><b><font color='blue'>".strtoupper($text)."</font></b></td>";
+	echo "<td align='center' width='100%'><b><font color='blue'>".mb_strtoupper($text)."</font></b></td>";
 	echo "</tr>";
 	echo "</table><br>";	
 }
