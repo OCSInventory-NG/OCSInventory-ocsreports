@@ -131,7 +131,7 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 		}
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=650\")'";
 		echo "<a ".$javascript."><img src=".PLUGINS_DIR."/main_sections/img/ms_pass.png></a>";
-		echo "<form name='log_out' id='log_out' action='' method='post'>";
+		echo "<form name='log_out' id='log_out' action='index.php' method='post'>";
 		echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
 		echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
 		echo "</form>";			
