@@ -1,5 +1,6 @@
 Revision history for ocsreports
 2.0.5
+		* fix bug on package's group - Tx to FactorFx.
 		* fix cas library - use system library
 		* fix warning on natcasesort function. tx to Remi for this patch
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/940370 (redistribution group)
