@@ -185,7 +185,7 @@ function show_packages($systemid,$page="ms_computer"){
 						}else{
 								
 								if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" )	
-									echo "$td3 <a href='index.php?".PAG_INDEX."=".$protectedGet[$page]."&popup=1&suppack=".$valDeploy["ivalue"]."&systemid=".
+									echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&popup=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 									urlencode($systemid)."&option=".urlencode($l->g(500))."'>".$l->g(122)."</a></td>";
 								show_stat($valDeploy["fileid"]);
 								echo "</tr>";
