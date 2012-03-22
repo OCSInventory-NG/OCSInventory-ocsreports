@@ -212,8 +212,11 @@
 				<string>action</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>clean</string>
+				<string>buildOrClean</string>
 				<string>build-and-go</string>
 				<string>go</string>
+				<string>servicesModuledebug</string>
+				<string>servicesModulebuild</string>
 				<string>debugger-enable-breakpoints</string>
 				<string>com.apple.ide.PBXToolbarStopButton</string>
 				<string>get-info</string>
@@ -275,13 +278,14 @@
 								<string>089C167DFE841241C02AAC07</string>
 								<string>089C1671FE841209C02AAC07</string>
 								<string>1058C7AEFEA557BF11CA2CBB</string>
+								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>8</integer>
-									<integer>6</integer>
+									<integer>10</integer>
+									<integer>9</integer>
 									<integer>5</integer>
 									<integer>0</integer>
 								</array>
@@ -334,7 +338,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>0680346514DCAAC500E14075</string>
+										<string>06128B6F151BD54D004BCDF5</string>
 										<key>history</key>
 										<array>
 											<string>0688BCF513EF4B1500094AA2</string>
@@ -343,13 +347,12 @@
 											<string>069E8EFD1402FAF700897797</string>
 											<string>069E8F681402FDF600897797</string>
 											<string>06EBE14414D9F99D00B916EB</string>
-											<string>06EBE19414D9FDE200B916EB</string>
 											<string>0673FF0E14DB457D008A3FF8</string>
 											<string>0632F51E14DB4EF10064D8E2</string>
-											<string>0632F51F14DB4EF10064D8E2</string>
 											<string>0632F5CA14DB51740064D8E2</string>
 											<string>0680346414DCAAC500E14075</string>
-											<string>0606C19514DCA723008033F9</string>
+											<string>06128B6E151BD54D004BCDF5</string>
+											<string>0632F51F14DB4EF10064D8E2</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -361,14 +364,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1013, 267}}</string>
+								<string>{{0, 0}, {1013, 199}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 145 1440 733 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>267pt</string>
+							<string>199pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -381,14 +384,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 272}, {1013, 420}}</string>
+								<string>{{0, 204}, {1013, 488}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 145 1440 733 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>420pt</string>
+							<string>488pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -407,9 +410,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>0680346614DCAAC500E14075</string>
+				<string>06128B70151BD54D004BCDF5</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>0680346714DCAAC500E14075</string>
+				<string>06128B71151BD54D004BCDF5</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -547,8 +550,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>06128B73151BD54D004BCDF5</string>
+		<string>06128B74151BD54D004BCDF5</string>
+		<string>06128B75151BD54D004BCDF5</string>
 		<string>06E815A213EB2FA3008B68AB</string>
-		<string>/Users/ocs/work/ocs/dev/beta5/ocs_agent_daemon_options/ocs_agent_daemon_options.xcodeproj</string>
+		<string>/Users/ocs/work/ocs/dev/beta5/temp/tools/macosx/installer_gui/ocs_agent_daemon_options/ocs_agent_daemon_options.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>0 145 1440 733 0 0 1440 878 </string>
@@ -628,7 +634,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>06E815A213EB2FA3008B68AB</string>
-				<string>0680346814DCAAC500E14075</string>
+				<string>06128B72151BD54D004BCDF5</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>

@@ -1,9 +1,12 @@
 //
-//  ocscontact.h
-//  OCSNG
+// OCSINVENTORY-NG 
+// Copyleft Guillaume PROTET 2011
+// Web : http://www.ocsinventory-ng.org
 //
-//  Created by ocs on 08/04/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+// This code is open source and may be copied and modified as long as the source
+// code is always made freely available.
+// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
+//
 //
 
 #import <Cocoa/Cocoa.h>

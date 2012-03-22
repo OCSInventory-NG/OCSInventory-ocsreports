@@ -210,8 +210,11 @@
 				<string>action</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>clean</string>
+				<string>buildOrClean</string>
 				<string>build-and-go</string>
 				<string>go</string>
+				<string>servicesModuledebug</string>
+				<string>servicesModulebuild</string>
 				<string>debugger-enable-breakpoints</string>
 				<string>com.apple.ide.PBXToolbarStopButton</string>
 				<string>get-info</string>
@@ -283,10 +286,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>14</integer>
-									<integer>12</integer>
-									<integer>6</integer>
-									<integer>0</integer>
+									<integer>23</integer>
+									<integer>22</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -337,19 +338,18 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>0606C1A914DCA789008033F9</string>
+										<string>06D66236151BD16E009F482C</string>
 										<key>history</key>
 										<array>
 											<string>069E8F421402FC9D00897797</string>
 											<string>069E8FAF1402FF0400897797</string>
-											<string>0649FBB914D9F1CD001EC640</string>
 											<string>06EBE12C14D9F59800B916EB</string>
 											<string>0673FEEB14DB417F008A3FF8</string>
 											<string>0632F4CF14DB4C470064D8E2</string>
 											<string>0606C15E14DCA3BF008033F9</string>
 											<string>0606C16914DCA4D3008033F9</string>
 											<string>0606C1A814DCA789008033F9</string>
-											<string>0632F4CE14DB4C470064D8E2</string>
+											<string>0606C1A914DCA789008033F9</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -407,9 +407,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>0606C1AA14DCA789008033F9</string>
+				<string>06D66237151BD16E009F482C</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>0606C1AB14DCA789008033F9</string>
+				<string>06D66238151BD16E009F482C</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -545,9 +545,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>0606C1AD14DCA789008033F9</string>
 		<string>060D9AEF13D8CE5900152410</string>
-		<string>/Users/ocs/work/ocs/dev/beta5/ocs_agent_config/ocs_agent_config.xcodeproj</string>
+		<string>/Users/ocs/work/ocs/dev/beta5/temp/tools/macosx/installer_gui/ocs_agent_config/ocs_agent_config.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>0 145 1440 733 0 0 1440 878 </string>
@@ -627,7 +626,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>060D9AEF13D8CE5900152410</string>
-				<string>0606C1AC14DCA789008033F9</string>
+				<string>06D66239151BD16E009F482C</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>

@@ -19,6 +19,7 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * Fix Bug #953968 about MacOSX OCSNG.app crash under MacOSX 10.4 64 bits
        * Fix bug about illegal hexadecimal digit in Snmp/Host_Resources_Mib.pm
        * Fix segfault and buffer overflow bugs in ipdiscover.c
        * Improve OCS MacOSX agent internationalization support
