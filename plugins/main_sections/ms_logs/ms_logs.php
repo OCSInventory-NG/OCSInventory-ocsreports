@@ -53,7 +53,7 @@ if (is_array($data)){
 	//	$sql= "select '%s' as function,%s from deploy";
 		$tab_options['ARG_SQL']=$arg;
 		$tab_options['LBL']['name']=$l->g(950);
-		$tab_options['LIEN_LBL']['name']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_csv'].'&no_header=1&rep='.htmlspecialchars($Directory, ENT_QUOTES).'&log=';
+		$tab_options['LIEN_LBL']['name']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_csv'].'&no_header=1&log=';
 		$tab_options['LIEN_CHAMP']['name']='name';
 		$tab_options['LIEN_TYPE']['name']='POPUP';
 		$tab_options['POPUP_SIZE']['name']="width=900,height=600";

@@ -16,16 +16,19 @@ else
 	$separator=';';
 $link=$_SESSION['OCS']["readServer"];	
 $toBeWritten = "";
+//log directory
 if (isset($protectedGet['log'])){
-	
-	if (file_exists($protectedGet['rep'].$protectedGet['log'])){
-		$tab = file($protectedGet['rep'].$protectedGet['log']);
+	$Directory=$_SESSION['OCS']['LOG_DIR']."/";
+}
+
+if (isset($Directory) and file_exists($Directory.$protectedGet['log'])){
+		$tab = file($Directory.$protectedGet['log']);
 		while(list($cle,$val) = each($tab)) {
  		  $toBeWritten  .= $val."\r\n";
 		}
 		$filename=$protectedGet['log'];
-	}
-}//gestion par valeur en cache (LIMITE A 200)
+}
+//gestion par valeur en cache (LIMITE A 200)
 /*elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]) 
 	and isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']])){
 	$filename="cache.csv";
