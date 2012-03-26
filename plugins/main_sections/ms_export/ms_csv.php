@@ -17,7 +17,7 @@ else
 $link=$_SESSION['OCS']["readServer"];	
 $toBeWritten = "";
 //log directory
-if (isset($protectedGet['log'])){
+if (isset($protectedGet['log']) and !preg_match("/([^A-Za-z0-9.])/",$protectedGet['log'])){
 	$Directory=$_SESSION['OCS']['LOG_DIR']."/";
 }
 
