@@ -89,7 +89,7 @@
  		}
  		//si le champ hidden est celui qui doit �tre affich� en entr�e, il faut afficher le champ
  		//echo "<br>hidden ==".$data_hidden['HIDDEN']."      value ==".$data['VALUE'];
- 		if ($data_hidden['HIDDEN']==$data['VALUE'])
+ 		if (isset($data_hidden['HIDDEN']) && $data_hidden['HIDDEN']==$data['VALUE'])
  		$display="block";
  		else
  		$display="none";

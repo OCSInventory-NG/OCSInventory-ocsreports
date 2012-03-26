@@ -1,5 +1,6 @@
 Revision history for ocsreports
 2.0.5
+		* fix Warning on function_config_generale.php for PHP 5.4. 
 		* fix security bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/963229
 		* fix security bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/963017
 		* fix bug on package's group - Tx to FactorFx.
