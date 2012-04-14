@@ -18,6 +18,10 @@ Revision history for Ocsinventory::Agent
        * Now getting MANUFACTURER and SERIALNUMBER in Snmp/3375.pm
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
+2.0.x
+       
+       * Improve MacOSX postinstall script to able to deploy MacOSX agent using NetInstall      
+
 2.0.5
        * Fix Bug #953968 about MacOSX OCSNG.app crash under MacOSX 10.4 64 bits
        * Fix bug about illegal hexadecimal digit in Snmp/Host_Resources_Mib.pm

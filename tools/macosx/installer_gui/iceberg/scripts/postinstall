@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#Setting temp directory
+if [ $3 ]  #If run from NetInstall
+then
+	TMP_DIR=$3/tmp/ocs_installer
+else
+	TMP_DIR=/tmp/ocs_installer
+fi
+
+INSTALL_PATH="/Applications/OCSNG.app"
+
+#We set rights to install directory 
+chown -R root:wheel $INSTALL_PATH
+chmod -R 755 $INSTALL_PATH
+
+#We set rights to ocscontact binary
+chown root:wheel $INSTALL_PATH/Contents/Resources/ocscontact
+chmod 700 $INSTALL_PATH/Contents/Resources/ocscontact
+
+#We set rights to uninstall script in install path 
+chmod 700 $INSTALL_PATH/Contents/Resources/uninstaller.sh
+
+#We set etc configuration path
+ETCPATH="/etc/ocsinventory-agent"
+mkdir $ETCPATH/
+cp $TMP_DIR/ocsinventory-agent.cfg $ETCPATH/
+cp $TMP_DIR/modules.conf $ETCPATH/
+
+#We set var directory
+VARPATH="/var/lib/ocsinventory-agent"
+mkdir -p $VARPATH
+chown -R root:wheel $VARPATH
+
+if [ -e $TMP_DIR/serverdir ] && [ -e $TMP_DIR/cacert.pem ]; then
+	SERVERDIR=`cat $TMP_DIR/serverdir` 
+	mkdir $SERVERDIR
+	cp $TMP_DIR/cacert.pem $SERVERDIR/
+fi
+
+#We set LaunchDaemons plist files
+LAUNCHDPATH="/Library/LaunchDaemons/"
+cp $TMP_DIR/org.ocsng.agent.plist $LAUNCHDPATH
+chown root:wheel $LAUNCHDPATH/org.ocsng.agent.plist
+chmod 644 $LAUNCHDPATH/org.ocsng.agent.plist
+
+if [ -f $TMP_DIR/now ]; then
+	echo 'Loading Service'
+	launchctl load $LAUNCHDPATH/org.ocsng.agent.plist
+
+	echo 'Starting Service'
+	launchctl start org.ocsng.agent
+fi
+
+#We remove temporary directory
+#rm -Rf $TMP_DIR
+
+exit 0 
