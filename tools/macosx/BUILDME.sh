@@ -1,13 +1,13 @@
 #!/bin/bash
 
 #Use this script to build OCS Inventory NG MacOSX agent
-#Run 'sh BUILDME.sh -release' to build official released agent
+#Run 'sh BUILDME.sh' to build official released agent
 
+#TODO: remove darwin-perl-lib directory at the end of the script
 
 OCSNG_PATH="OCSNG.app"
 PATCHES_PATH="patches"
 TOOLS_PATH="tools/macosx"
-FINAL_PKG_NAME="unified_unix_agent-macosx"
 
 if [ ! -x ../../inc ]; then
 	echo "You're probably building from BZR, you're missing the "inc" directory in ../../"
@@ -43,16 +43,6 @@ xcodebuild clean
 cd ../
 mkdir $OCSNG_PATH/Contents/Resources/lib
 
-echo "Creating default config"
-cp ../../etc/ocsinventory-agent/modules.conf ./modules.conf
-
-echo "server=http://ocsinventory-ng/ocsinventory" > ./ocsinventory-agent.cfg
-echo "tag=DEFAULT" >> ./ocsinventory-agent.cfg
-echo "logfile=/var/log/ocsng.log" >> ./ocsinventory-agent.cfg
-
-echo 'Touching cacert.pem'
-echo "Make sure you replace me with your real cacert.pem" > cacert.pem
-
 echo "Buidling unified source"
 cd ../../
 
@@ -72,6 +62,7 @@ echo 'patching main perl script for OSX'
 cd ./$TOOLS_PATH/
 patch -N ./ocsinventory-agent ./$PATCHES_PATH/ocsinventory-agent-darwin.patch
 cp ocsinventory-agent $OCSNG_PATH/Contents/Resources/
+rm ocsinventory-agent
 
 echo 'copying down darwin-dep libs'
 cp -R darwin-perl-lib/ $OCSNG_PATH/Contents/Resources/lib/

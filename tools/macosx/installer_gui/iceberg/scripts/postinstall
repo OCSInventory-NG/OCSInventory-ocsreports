@@ -53,6 +53,6 @@ if [ -f $TMP_DIR/now ]; then
 fi
 
 #We remove temporary directory
-#rm -Rf $TMP_DIR
+rm -Rf $TMP_DIR
 
 exit 0 
