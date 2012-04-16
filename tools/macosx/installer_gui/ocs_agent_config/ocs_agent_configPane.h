@@ -19,6 +19,7 @@
 	IBOutlet NSTextField *logfile;
 	IBOutlet NSTextField *cacertfile;
 	IBOutlet NSButton *debugmode;
+	IBOutlet NSButton *lazymode;
 	IBOutlet NSButton *download;
 	IBOutlet NSPopUpButton *protocolist;
 

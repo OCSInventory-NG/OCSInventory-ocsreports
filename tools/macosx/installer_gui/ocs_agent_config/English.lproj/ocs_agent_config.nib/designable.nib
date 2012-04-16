@@ -41,31 +41,53 @@
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSButton" id="319674394">
+					<object class="NSButton" id="331240386">
 						<reference key="NSNextResponder" ref="443671666"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{263, 135}, {201, 26}}</string>
+						<string key="NSFrame">{{263, 118}, {89, 18}}</string>
 						<reference key="NSSuperview" ref="443671666"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="680210794">
+						<object class="NSButtonCell" key="NSCell" id="190551319">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Download feature</string>
+							<string key="NSContents">Lazy Mode</string>
 							<object class="NSFont" key="NSSupport" id="691464604">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
 								<int key="NSfFlags">1044</int>
 							</object>
-							<reference key="NSControlView" ref="319674394"/>
+							<reference key="NSControlView" ref="331240386"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">2</int>
-							<object class="NSCustomResource" key="NSNormalImage" id="722386050">
+							<object class="NSCustomResource" key="NSNormalImage" id="482449793">
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">NSSwitch</string>
 							</object>
 							<object class="NSButtonImageSource" key="NSAlternateImage" id="344584947">
 								<string key="NSImageName">NSSwitch</string>
 							</object>
+							<string key="NSAlternateContents"/>
+							<string key="NSKeyEquivalent"/>
+							<int key="NSPeriodicDelay">200</int>
+							<int key="NSPeriodicInterval">25</int>
+						</object>
+					</object>
+					<object class="NSButton" id="319674394">
+						<reference key="NSNextResponder" ref="443671666"/>
+						<int key="NSvFlags">268</int>
+						<string key="NSFrame">{{263, 153}, {201, 26}}</string>
+						<reference key="NSSuperview" ref="443671666"/>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSButtonCell" key="NSCell" id="680210794">
+							<int key="NSCellFlags">67239424</int>
+							<int key="NSCellFlags2">0</int>
+							<string key="NSContents">Download feature</string>
+							<reference key="NSSupport" ref="691464604"/>
+							<reference key="NSControlView" ref="319674394"/>
+							<int key="NSButtonFlags">1211912703</int>
+							<int key="NSButtonFlags2">2</int>
+							<reference key="NSNormalImage" ref="482449793"/>
+							<reference key="NSAlternateImage" ref="344584947"/>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
 							<int key="NSPeriodicDelay">200</int>
@@ -353,7 +375,7 @@
 					<object class="NSButton" id="863583811">
 						<reference key="NSNextResponder" ref="443671666"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{263, 175}, {103, 18}}</string>
+						<string key="NSFrame">{{263, 195}, {103, 18}}</string>
 						<reference key="NSSuperview" ref="443671666"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="475782821">
@@ -364,7 +386,7 @@
 							<reference key="NSControlView" ref="863583811"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="722386050"/>
+							<reference key="NSNormalImage" ref="482449793"/>
 							<reference key="NSAlternateImage" ref="344584947"/>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
@@ -486,6 +508,14 @@
 					</object>
 					<int key="connectionID">99</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lazymode</string>
+						<reference key="source" ref="439491322"/>
+						<reference key="destination" ref="331240386"/>
+					</object>
+					<int key="connectionID">102</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -533,8 +563,9 @@
 							<reference ref="666469763"/>
 							<reference ref="593675993"/>
 							<reference ref="592223138"/>
-							<reference ref="319674394"/>
 							<reference ref="863583811"/>
+							<reference ref="331240386"/>
+							<reference ref="319674394"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>
@@ -771,6 +802,20 @@
 						<reference key="object" ref="680210794"/>
 						<reference key="parent" ref="319674394"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100</int>
+						<reference key="object" ref="331240386"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="190551319"/>
+						</object>
+						<reference key="parent" ref="443671666"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">101</int>
+						<reference key="object" ref="190551319"/>
+						<reference key="parent" ref="331240386"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -779,6 +824,9 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>10.IBPluginDependency</string>
 					<string>10.ImportedFromIB2</string>
+					<string>100.IBPluginDependency</string>
+					<string>100.IBViewBoundsToFrameTransform</string>
+					<string>101.IBPluginDependency</string>
 					<string>13.IBPluginDependency</string>
 					<string>13.ImportedFromIB2</string>
 					<string>14.IBPluginDependency</string>
@@ -829,6 +877,11 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAww4AAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
@@ -871,17 +924,17 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABDk4AAw2wAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwz8AAA</bytes>
 					</object>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{329, 485}, {450, 360}}</string>
+					<string>{{18, 491}, {450, 360}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwyIAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwywAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
@@ -902,7 +955,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">99</int>
+			<int key="maxID">102</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -999,6 +1052,7 @@
 							<string>cacertfile</string>
 							<string>debugmode</string>
 							<string>download</string>
+							<string>lazymode</string>
 							<string>logfile</string>
 							<string>protocolist</string>
 							<string>server</string>
@@ -1007,6 +1061,7 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSTextField</string>
+							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
@@ -1022,6 +1077,7 @@
 							<string>cacertfile</string>
 							<string>debugmode</string>
 							<string>download</string>
+							<string>lazymode</string>
 							<string>logfile</string>
 							<string>protocolist</string>
 							<string>server</string>
@@ -1039,6 +1095,10 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">download</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lazymode</string>
 								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">

@@ -74,6 +74,7 @@
 	[server setStringValue:@"ocsinventory-ng"];
 	[logfile setStringValue:@"/var/log/ocsng.log"];
 	[debugmode setState:1];
+	[lazymode setState:0];
 	[download setState:1];
 	
 	//Defaults for protocol droping list
@@ -155,10 +156,19 @@
 			}
 
 			//if debugmode checked
-			if ( [debugmode state] == 1) {
-			    [ocsAgentCfgContent appendString:@"debug=1\n"];
+			if ([debugmode state] == 1) {
+				[ocsAgentCfgContent appendString:@"debug=1\n"];
+			} else {
+				[ocsAgentCfgContent appendString:@"debug=0\n"];
 			}
-	
+			
+			//if lazymode checked
+			if ([lazymode state] == 1) {
+				[ocsAgentCfgContent appendString:@"lazy=1\n"];
+			} else {
+				[ocsAgentCfgContent appendString:@"lazy=0\n"];
+			}
+			
 			//Writing to ocsinventory agent configuration file
 			[ocsAgentCfgContent writeToFile:tmpCfgFilePath atomically: YES encoding:NSUTF8StringEncoding error:NULL];
 	

@@ -19,7 +19,8 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
-       
+       * Set debug and lazy options to 0, in generated ocsinventory-agent.cfg file by macOSX graphic installer, if check boxes are not selected
+       * Add a new configuration option to set lazy mode in MacOSX graphic installer 
        * Improve MacOSX postinstall script to able to deploy MacOSX agent using NetInstall      
 
 2.0.5
