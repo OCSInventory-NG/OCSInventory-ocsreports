@@ -46,6 +46,7 @@ sub addController {
   my $pciid = $args->{PCIID};
   my $pcislot = $args->{PCISLOT};
   my $type = $args->{TYPE};
+  my $description = $args->{DESCRIPTION};
 
   push @{$xmltags->{CONTROLLERS}},
   {
@@ -55,6 +56,7 @@ sub addController {
     PCIID => [$pciid?$pciid:''],
     PCISLOT => [$pcislot?$pcislot:''],
     TYPE => [$type],
+    DESCRIPTION => [$description],
   };
 }
 
