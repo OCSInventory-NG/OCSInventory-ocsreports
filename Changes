@@ -19,6 +19,8 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * Add new MacOS/Controller.pm module to get controllers inventory under MacOSX
+       * Add new MacOS/Slots.pm module to get slots inventory under MacOSX
        * Add missing DESCRIPTION field in addController() in Common.pm
        * Set debug and lazy options to 0, in generated ocsinventory-agent.cfg file by macOSX graphic installer, if check boxes are not selected
        * Add a new configuration option to set lazy mode in MacOSX graphic installer 
