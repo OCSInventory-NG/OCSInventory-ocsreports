@@ -797,7 +797,8 @@ if ($list_id != "")	{
 						$l->g(652).": ".$l->g(350)=>'h.PROCESSORT',
 						$l->g(652).": ".$l->g(50)=>'h.SWAP',
 						$l->g(652).": ".$l->g(111)=>'h.WINPRODKEY',
-						$l->g(652).": ".$l->g(553)=>'h.WINPRODID');
+						$l->g(652).": ".$l->g(553)=>'h.WINPRODID',
+						$l->g(652).": ".$l->g(286) => "h.OSCOMMENTS");
 	$list_fields=array_merge ($list_fields_account_info,$list_fields);
 	
 	//BEGIN SHOW ACCOUNTINFO

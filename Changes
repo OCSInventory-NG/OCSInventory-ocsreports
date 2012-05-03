@@ -1,4 +1,8 @@
 Revision history for ocsreports
+2.0.6
+		* fix bug on export data on all_soft
+		* add oscomment field on tab
+
 2.0.5
 		* Add logs directory on sql files
 		* fix Warning on function_config_generale.php for PHP 5.4. 

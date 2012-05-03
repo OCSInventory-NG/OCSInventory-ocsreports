@@ -30,24 +30,27 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
 $field_name_soft=$info_name_soft['table'].".".$info_name_soft['field'];
 
 if ($info_name_soft['table'] != 'softwares' or $_SESSION['OCS']["usecache"] == 1){
-	$sql['SQL']="select name,id from ".$info_name_soft['table']." ";
+	$sql_list_soft['ARG']=array();
+	$sql_list_soft['SQL']="select ".$info_name_soft['search']." from ".$info_name_soft['table']." ";
 	if (isset($protectedGet['soft']) and $protectedGet['soft'] != ''){
-		$sql['SQL'].= " where name like '%s'";
-		$sql['ARG']=array('%'.$protectedGet['soft'].'%');		
+		$sql_list_soft['SQL'].= " where name like '%s'";
+		$sql_list_soft['ARG']=array('%'.$protectedGet['soft'].'%');		
 	}
-	$result_search_soft = mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
+	/*$result_search_soft = mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
 	$list_soft="";
 	while($item_search_soft = mysql_fetch_object($result_search_soft)){
 			$list_soft[]=$item_search_soft->$info_name_soft['search'];	
-	}
+	}*/
 	$sql['SQL']="select count(*) nb, ".$field_name_soft." from softwares ";
 	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){		
 		$sql['SQL'] .=" left join ".$info_name_soft['table']." on ".$info_name_soft['table'].".".$info_name_soft['search']."=softwares.".$info_name_soft["field_name_soft"]." ";	
 	}
-	$sql['SQL'] .=" ,accountinfo a where a.hardware_id=softwares.hardware_id and softwares.".$info_name_soft["field_name_soft"]." in ";
-	$sql['ARG']=array();
-	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_soft);
+	$sql['SQL'] .=" ,accountinfo a where a.hardware_id=softwares.hardware_id and softwares.".$info_name_soft["field_name_soft"]." in (";
+	$sql['SQL'] .= $sql_list_soft['SQL']." )";
+	$sql['ARG'] = $sql_list_soft['ARG'];
+	/*$sql['ARG']=array();
+	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_soft);*/
 
 	if ($_SESSION['OCS']['TAGS'] != ""){
 		$sql['SQL'].= " and a.tag in ";
@@ -124,7 +127,7 @@ if (isset($protectedGet['all_computers'])
 }
 //echo generate_secure_sql($sql['SQL'],$sql['ARG']);
 //die();
-$toBeWritten=implode(';',$fields)."\r\n";
+$toBeWritten=implode($separator,$fields)."\r\n";
 if( ini_get("zlib.output-compression"))
 	ini_set("zlib.output-compression","Off");
 header("Pragma: public");
