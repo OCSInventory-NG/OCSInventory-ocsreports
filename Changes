@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-       * Add OS/Linux/LVM.pm module for Logical Volume Manager support Thanks to francois laupetre @ teckwire.net
+       * Add OS/Linux/LVM.pm module for Logical Volume Manager support 
        * New Snmp/231.pm module for Fujistu devices
        * postinst.pl can now be launched in non-interactive mode using new "--nowizard" launch option
        * Adding all the configuration options as launching arguments in postinst.pl
