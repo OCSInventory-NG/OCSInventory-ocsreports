@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix bug #873377 for Gentoo
        * Add OS/Linux/LVM.pm module for Logical Volume Manager support 
        * New Snmp/231.pm module for Fujistu devices
        * postinst.pl can now be launched in non-interactive mode using new "--nowizard" launch option
