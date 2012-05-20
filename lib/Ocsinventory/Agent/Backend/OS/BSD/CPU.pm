@@ -4,10 +4,6 @@ use strict;
 sub check {
   return unless -r "/dev/mem";
 
-  `which dmidecode 2>&1`;
-  return if ($? >> 8)!=0;
-  `dmidecode 2>&1`;
-  return if ($? >> 8)!=0;
   1;
 }
 
@@ -21,25 +17,28 @@ sub run {
   
   my $family;
   my $manufacturer;
+  my $serial;
 
-# XXX Parsing dmidecode output using "type 4" section
-# for nproc type and speed
-# because no /proc on *BSD
-
-#TODO: enhance this part to get speed everytime and support for multi CPUs
-  my $flag=0;
-  my $status=0; ### XXX 0 if Unpopulated
-  for(`dmidecode`){
-    $status = 1 if $flag && /^\s*status\s*:.*enabled/i;
-    $processors = $1 if $flag && /^\s*current speed\s*:\s*(\d+).+/i;
-  }
-  
   $processorn = `sysctl -n hw.ncpu`;
   $processort = `sysctl -n hw.model`;
+  $processors = `sysctl -n hw.cpuspeed`;
+  $family = `sysctl -n hw.machine`;
+  $serial = `sysctl -n hw.serialno`;
+
+  if ( chomp($processort) =~ /Intel/i ) {
+	$manufacturer = "Intel";
+  } 
+  if ( chomp($processort) =~ /Advanced Micro|AMD/ ) {
+	$manufacturer = "AMD";
+  }
 
   $common->addCPU({
-      TYPE => $processort,
-      SPEED => $processors
+      FAMILY => $family if $family,
+      MANUFACTURER => $manufacturer if $manufacturer,
+      NUMBER => $processorn if $processorn,
+      TYPE => $processort if $processort,
+      SPEED => $processors if $processors,
+      SERIAL => $serial if $serial
     });
 
 }

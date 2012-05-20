@@ -13,7 +13,7 @@ sub run {
     my @cpu;
     my $current;
 
-    my $arch = 'unknow';
+    my $arch = 'unknown';
     $arch = 'x86' if $Config{'archname'} =~ /^i\d86/;
     $arch = 'x86_64' if $Config{'archname'} =~ /^x86_64/;
 
@@ -25,7 +25,7 @@ sub run {
             }
 
             $current = {
-                MANUFACTURER => 'unknow'
+                MANUFACTURER => 'unknown'
             };
 
         }
