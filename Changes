@@ -1,5 +1,6 @@
 Revision history for ocsreports
 2.0.6
+		* add link on dico ignore
 		* fix bug on menu (http://forums.ocsinventory-ng.org/viewtopic.php?pid=49125)
 		* fix bug on export data on all_soft
 		* add oscomment field on tab
