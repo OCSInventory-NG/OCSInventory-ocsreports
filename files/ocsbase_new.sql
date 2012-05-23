@@ -155,7 +155,7 @@ INSERT INTO `config` VALUES ('FREQUENCY',0,'','Specify the frequency (days) of i
 
 INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '6007', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '7000', 'Version of the installed GUI and database');
 UNLOCK TABLES;
 -- BEGIN 2.0RC3 --
 DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
@@ -1439,3 +1439,6 @@ CREATE TABLE snmp_communities (
 ) ENGINE=INNODB ;
 
 DELETE FROM config WHERE name='SNMP_URI' or name='SNMP_DIR';
+ALTER TABLE accountinfo_config ADD COLUMN DEFAULT_VALUE varchar(255) DEFAULT NULL;
+INSERT INTO config VALUES ('LOG_DIR',0,'/var/lib/ocsinventory-reports','Directory for logs files');
+INSERT INTO config VALUES ('LOG_SCRIPT',0,'/var/lib/ocsinventory-reports','Directory for logs scripts files');

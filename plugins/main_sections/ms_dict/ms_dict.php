@@ -271,6 +271,8 @@ if ($protectedPost['onglet'] == 'UNCHANGED'){
 }
 if (isset($querydico)){
 	$_SESSION['OCS']['query_dico']=$querydico;
+	$tab_options['LIEN_LBL']['QTE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=allsoft&value=';
+	$tab_options['LIEN_CHAMP']['QTE']='NAME';
 	$tab_options['LBL']['SOFT_NAME']=$l->g(382);
 	$tab_options['LBL']['QTE']=$l->g(55);
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querydico,$form_name,80,$tab_options); 

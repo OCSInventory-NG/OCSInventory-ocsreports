@@ -36,6 +36,7 @@ if (isset($protectedPost['MODIF'])
 	 $protectedPost['newtype']=$accountinfo_detail[$protectedPost['MODIF']]['type'];
 	 $protectedPost['account_tab']=$accountinfo_detail[$protectedPost['MODIF']]['id_tab'];
 	 $protectedPost['accountinfo']=$accountinfo_detail[$protectedPost['MODIF']]['account_type'];
+	 $protectedPost['default_value']=$accountinfo_detail[$protectedPost['MODIF']]['default_value'];
 	 $hidden=$protectedPost['MODIF'];
 }
 
@@ -47,7 +48,8 @@ if (isset($protectedPost['MODIF_OLD'])
 								array('TYPE'=>$protectedPost['newtype'],
 									  'NAME'=>$protectedPost['newfield'],
 									  'COMMENT'=>$protectedPost['newlbl'],
-								 	  'ID_TAB'=>$protectedPost['account_tab']),$protectedPost['accountinfo']);
+								 	  'ID_TAB'=>$protectedPost['account_tab'],
+									  'DEFAULT_VALUE'=>$protectedPost['default_value']),$protectedPost['accountinfo']);
 		$hidden=$protectedPost['MODIF_OLD'];		
 	}elseif( $protectedPost['Valid_modif_x'] != "" ) {
 	//ADD NEW VALUE	
@@ -55,7 +57,8 @@ if (isset($protectedPost['MODIF_OLD'])
 						$protectedPost['newtype'],
 						$protectedPost['newlbl'],
 						$protectedPost['account_tab'],
-						$protectedPost['accountinfo']);	
+						$protectedPost['accountinfo'],
+						$protectedPost['default_value']);	
 	}
 	
 if (isset($msg['ERROR']))
@@ -144,8 +147,9 @@ if ($protectedPost['onglet'] == 1){
 	$name_field=array("accountinfo","newfield");
 	$tab_name= array($l->g(56).": ",$l->g(1070).": ");
 	if (isset($protectedPost['MODIF_OLD']) or $protectedPost['MODIF']!=''){
+		$hidden=($protectedPost['MODIF'] != '' ? $protectedPost['MODIF']:$protectedPost['MODIF_OLD']);
 		$type_field= array(3,3);
-		$value_field=array($accountinfo_choise[$protectedPost['accountinfo']],$protectedPost['newfield']);
+		$value_field=array($protectedPost['accountinfo'],$protectedPost['newfield']);
 	}
 	else{
 		$type_field= array(2,0);		
@@ -166,18 +170,27 @@ if ($protectedPost['onglet'] == 1){
 	array_push($tab_name,$l->g(1071).":");
 	array_push($type_field,2);
 	array_push($value_field,$type_accountinfo);	
-		
+	
+
 	array_push($name_field,"account_tab");
 	array_push($tab_name,$l->g(1061).":");
 	array_push($type_field,2);
 	array_push($value_field,$array_tab_account);
 
+	if ($protectedPost['newtype']==8){ //for QRCODE type
+		array_push($name_field,"default_value");
+		array_push($tab_name,$l->g(1099).":");
+		array_push($type_field,2);
+		array_push($value_field,$array_qr_values);
+		
+	}
 
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 	$tab_typ_champ[1]['CONFIG']['SIZE']=30;
 	$tab_typ_champ[2]['CONFIG']['SIZE']=30;
 	$tab_typ_champ[4]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=".$account_field."&form=".$form_name."\",\"".$account_field."\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 	$tab_typ_champ[0]['RELOAD']=$form_name;
+	$tab_typ_champ[3]['RELOAD']=$form_name;
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
 }
 echo "</div>"; 

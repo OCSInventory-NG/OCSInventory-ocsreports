@@ -89,7 +89,7 @@
  		}
  		//si le champ hidden est celui qui doit �tre affich� en entr�e, il faut afficher le champ
  		//echo "<br>hidden ==".$data_hidden['HIDDEN']."      value ==".$data['VALUE'];
- 		if ($data_hidden['HIDDEN']==$data['VALUE'])
+ 		if (isset($data_hidden['HIDDEN']) && $data_hidden['HIDDEN']==$data['VALUE'])
  		$display="block";
  		else
  		$display="none";
@@ -318,7 +318,8 @@ function update_default_value($POST){
 						'INVENTORY_FILTER_FLOOD_IP','INVENTORY_FILTER_FLOOD_IP_CACHE_TIME','INVENTORY_FILTER_ON',
 						'LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
-						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE','INVENTORY_CACHE_ENABLED','SUPPORT','USE_NEW_SOFT_TABLES');
+						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE',
+						'INVENTORY_CACHE_ENABLED','SUPPORT','USE_NEW_SOFT_TABLES','QRCODE');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -895,8 +896,7 @@ function pagegroups($form_name){
 
  function pagesdev($form_name){
  	global $l,$numeric,$sup1,$pages_refs;
- 	$champs=array('QRCODE_TITLE'=>'QRCODE_TITLE',
- 				  'USE_NEW_SOFT_TABLES'=>'USE_NEW_SOFT_TABLES'); 	
+ 	$champs=array('USE_NEW_SOFT_TABLES'=>'USE_NEW_SOFT_TABLES'); 	
  	$values=look_config_default_values($champs);
  	debut_tab(); 
 	$list_qrcode_fields=array('hardware.name'=>'Nom de la machine',
@@ -905,7 +905,8 @@ function pagegroups($form_name){
 							  'networks.macaddr'=>'Adresse MAC',
 							  'bios.ssn'=>'Numéro de série',
 							 );
- 	ligne('QRCODE_TITLE','Libellé du QRCode','select',array('VALUE'=>$values['tvalue']['QRCODE_TITLE'],'SELECT_VALUE'=>$list_qrcode_fields));
+	//ligne('QRCODE','Activer les QRCode','radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['QRCODE']));
+ //	ligne('QRCODE_TITLE','Libellé du QRCode','select',array('VALUE'=>$values['tvalue']['QRCODE_TITLE'],'SELECT_VALUE'=>$list_qrcode_fields));
 	ligne('USE_NEW_SOFT_TABLES','Utilisation tables de soft OCS v2.1','radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['USE_NEW_SOFT_TABLES']));
 	
 	

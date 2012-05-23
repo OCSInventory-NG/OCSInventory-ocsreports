@@ -345,7 +345,6 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	}elseif ($input_type ==0)
 	return "<input type='text' name='".$input_name."' id='".$input_name."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$name."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
 	elseif($input_type ==2){
-		natcasesort($name);
 		$champs="<select name='".$input_name."' id='".$input_name."' ".$configinput['JAVASCRIPT'];
 		if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
 		$champs.=" class='down' \>";
@@ -353,7 +352,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$champs.= "<option value='' class='hi' \></option>";
 		$countHl=0;		
 		if ($name != ''){
-			//print_r($protectedPost);
+			natcasesort($name);
 			foreach ($name as $key=>$value){
 				$champs.= "<option value=\"".$key."\"";
 				if ($protectedPost[$input_name] == $key )
@@ -449,6 +448,18 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 			$champs.= " >" . $value . " <br>";
 		}
 		return $champs;		
+	}elseif($input_type == 12){ //IMG type
+		$champs="<img src='".$configinput['DEFAULT']."' ";
+		if ($configinput['SIZE'] != '20')
+			$champs.=$configinput['SIZE']." ";
+	
+		if ($configinput['JAVASCRIPT'] != '')
+			$champs.=$configinput['JAVASCRIPT']." ";
+		$champs.=">";
+		return $champs;
+		//"<img src='index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."' width=60 height=60 onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")>";
+		
+		
 	}
 }
 
@@ -1412,7 +1423,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						
 					}
 				}
-				
+
 				if (isset($tab_options['REPLACE_WITH_LIMIT']['UP'][$key])){
 					if ($value_of_field > $tab_options['REPLACE_WITH_LIMIT']['UP'][$key])
 						$value_of_field= $tab_options['REPLACE_WITH_LIMIT']['UPVALUE'][$key];
@@ -1472,9 +1483,9 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					and (!isset($tab_options['NO_LIEN_CHAMP'][$key]) or !in_array($value_of_field,$tab_options['NO_LIEN_CHAMP'][$key]))){
 					$affich="KO";
 				
-					if (!isset($tab_options['LIEN_TYPE'][$key]))
+					if (!isset($tab_options['LIEN_TYPE'][$key])){
 						$data[$i][$num_col]="<a href='".$tab_options['LIEN_LBL'][$key].$donnees[$tab_options['LIEN_CHAMP'][$key]]."' target='_blank'>".$value_of_field."</a>";
-					else{
+					}else{
 						if (!isset($tab_options['POPUP_SIZE'][$key]))
 						$size="width=550,height=350";
 						else
@@ -1500,6 +1511,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$htmlentities=false;
 				}
 				if ($affich == 'OK'){
+					
 					$lbl_column=array("SUP"=>$l->g(122),
 									  "MODIF"=>$l->g(115),
 									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>");
@@ -1639,7 +1651,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				arsort($data);
 			//	p($data);
 		}
-		
 	return array('ENTETE'=>$entete,'DATA'=>$data,'correct_list_fields'=>$correct_list_fields,'correct_list_col_cant_del'=>$correct_list_col_cant_del);
 	}else
 	return false;

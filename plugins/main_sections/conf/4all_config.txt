@@ -8,17 +8,17 @@ ms_multi_search
 
 <ORDER_SECOND_TABLE>
 ms_teledeploy
-ms_dict
 ms_config
+ms_ipdiscover
 ms_regconfig
+ms_admininfo
+ms_doubles
+ms_dict
+ms_plugins
 ms_logs
 ms_stats
-ms_admininfo
-ms_ipdiscover
-ms_doubles
 ms_users
 ms_local
-ms_plugins
 ms_help
 </ORDER_SECOND_TABLE>
 
@@ -50,7 +50,6 @@ ms_admin_ipdiscover:g(1139)
 ms_snmp:g(1136)
 ms_update_new_tag:g(2100)
 ms_stats:g(1251)
-ms_plugins:g(6000)
 </LBL>
 
 <URL>
@@ -124,8 +123,8 @@ jp_activity_stats:activity_stats
 ms_ipdiscover_analyse:ipdiscover_analyse
 ms_stats_connexion:stats_connexion
 ms_add_key:add_key
-ms_plugins:plugins
 ms_export_ocs:export_ocs
+ms_qrcode:qrcode
 </URL>
 
 <DIRECTORY>
@@ -194,8 +193,8 @@ jp_teledeploy_speed_stats:ms_stats
 ms_ipdiscover_analyse:ms_ipdiscover
 ms_stats_connexion:ms_stats
 ms_add_key:ms_config
-ms_plugins:ms_plugins
 ms_export_ocs:ms_export
+ms_qrcode:ms_computer
 </DIRECTORY>
 
 
@@ -221,6 +220,7 @@ ms_teledeploy:teledeploy_smenu
 ms_config:config_smenu
 ms_multi_search:search_smenu
 ms_ipdiscover:ipdiscover_smenu
+ms_plugins:plugins_smenu
 </MENU_NAME>
 
 <MENU_TITLE>
@@ -228,6 +228,7 @@ ms_teledeploy:g(512)
 ms_config:g(107)
 ms_multi_search:g(1051)
 ms_ipdiscover:g(82)
+ms_plugins:g(6000)
 </MENU_TITLE>
 
 <JAVASCRIPT>

@@ -105,7 +105,7 @@ jp_activity_stats
 ms_ipdiscover_analyse
 ms_stats_connexion
 ms_add_key
-ms_plugins
 ms_export_ocs
+ms_qrcode
 </PAGE_PROFIL>
 

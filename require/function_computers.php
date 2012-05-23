@@ -110,7 +110,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 			if( $did != "_SYSTEMGROUP_" and $did != '_DOWNLOADGROUP_') {
 					$tables=$_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'];										
 			}
-			elseif($did == "_SYSTEMGROUP_"){//Deleting a group
+			elseif($did == "_SYSTEMGROUP_" or $did == '_DOWNLOADGROUP_'){//Deleting a group
 				$tables=Array("devices");
 				//del messages on this group
 				$sql_group_msg="DELETE FROM config WHERE name like '%s' and ivalue='%s'";
@@ -120,15 +120,21 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 				$sql_group_cache="DELETE FROM groups_cache WHERE group_id='%s'";
 				$resDelete = mysql2_query_secure($sql_group_cache, $_SESSION['OCS']["writeServer"],$idHard);
 				$affectedComputers = mysql_affected_rows( $_SESSION['OCS']["writeServer"] );
+				 //Deleting redistribution group
+				$sql_group_cache="DELETE FROM download_servers WHERE group_id='%s'";
+				$resDelete = mysql2_query_secure($sql_group_cache, $_SESSION['OCS']["writeServer"],$idHard);
+				$affectedComputers = mysql_affected_rows( $_SESSION['OCS']["writeServer"] );				
 			}
 			
 			if( !$silent )
 				msg_success($valId["name"]." ".$l->g(220));
 			
-			foreach ($tables as $table) {
-				$sql="DELETE FROM %s WHERE hardware_id='%s'";
-				$arg=array($table,$idHard);
-				mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);		
+			if (isset($tables) and is_array($tables)){
+				foreach ($tables as $table) {
+					$sql="DELETE FROM %s WHERE hardware_id='%s'";
+					$arg=array($table,$idHard);
+					mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);		
+				}
 			}
 			$sql="delete from download_enable where SERVER_ID='%s'";
 			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$idHard);

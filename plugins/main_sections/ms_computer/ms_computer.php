@@ -36,9 +36,9 @@ $lbl_affich=array('NAME'=>$l->g(49),'WORKGROUP'=>$l->g(33),'USERDOMAIN'=>$l->g(5
 					'WINPRODID'=>$l->g(111),'WINPRODKEY'=>$l->g(553),'USERAGENT'=>$l->g(357),
 					'MEMORY'=>$l->g(26),'LASTDATE'=>$l->g(46),'LASTCOME'=>$l->g(820),'DESCRIPTION'=>$l->g(53),
 					'NAME_RZ'=>$l->g(304),'VMTYPE'=>$l->g(1267),'UUID'=>$l->g(1268),'ARCH'=>$l->g(1247));			
-$values=look_config_default_values(array('QRCODE','EXPORT_OCS'));
-if(isset($values['ivalue']['QRCODE']) and $values['ivalue']['QRCODE'] == 1)
-	$lbl_affich['QRCODE']=$l->g(1299);
+$values=look_config_default_values(array('EXPORT_OCS'));
+/*if(isset($values['ivalue']['QRCODE']) and $values['ivalue']['QRCODE'] == 1)
+	$lbl_affich['QRCODE']=$l->g(1299);*/
 if(!isset($_SESSION['OCS']['RESTRICTION']['EXPORT_XML']) or $_SESSION['OCS']['RESTRICTION']['EXPORT_XML'] == "NO")	
 	$lbl_affich['EXPORT_OCS']=$l->g(1303);
 foreach ($lbl_affich as $key=>$lbl){
@@ -54,10 +54,13 @@ foreach ($lbl_affich as $key=>$lbl){
 		$data[$key]=$memory;
 	}elseif ($key == "LASTDATE" or $key == "LASTCOME"){
 		$data[$key]=dateTimeFromMysql($item->$key);
-	}
+/*	}
 	elseif($key == 'QRCODE'){
-		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")>".$l->g(1300)."</a>";			
-		$link[$key]=true;
+		
+		$data[$key] = "<map name='testmap'> <area shape='rect' coords='10,9,58,27' href='#top'> <area shape='circle' coords='104,18,14' href='#map'> </map> usemap='#testmap'>";			
+		
+		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")><img src='index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."' width=60 height=60></a>";			
+		$link[$key]=true;*/
 	}elseif ($key == "NAME_RZ"){
 		$data[$key]="";
 		$data_RZ=subnet_name($systemid);

@@ -117,11 +117,24 @@ echo "<form name='".$form_name."' id='".$form_name."' method='POST' action='' en
 
 if (isset($protectedPost['valid'])){
 	looking4config();
-	//is this file exist?
-	$fSize = @filesize( $_FILES["teledeploy_file"]["tmp_name"]);
-	if( $fSize <= 0 and $protectedPost['ACTION'] != 'EXECUTE') 
-		$error=$l->g(436)." ".$_FILES["teledeploy_file"]["tmp_name"];
 
+	$fSize = @filesize( $_FILES["teledeploy_file"]["tmp_name"]);
+	//file not exist
+	if( $fSize <= 0 ){
+		if ($protectedPost['ACTION'] != 'EXECUTE') 
+			$error=$l->g(436)." ".$_FILES["teledeploy_file"]["tmp_name"];
+	}//file exist
+	else{
+		//is it a zip file or TAR.GZ file?
+		$name_file_extention=explode('.',$_FILES["teledeploy_file"]["name"]);
+		$extention=array_pop($name_file_extention);
+		if (strtoupper($extention) != "ZIP" and strtoupper($extention) != "GZ"){
+			$error=$l->g(1231);
+			//ok
+		}elseif(strtoupper($extention) == "GZ" and strtoupper(array_pop($name_file_extention)) != "TAR"){
+			$error=$l->g(1232);
+		}		
+	}
 	
 	//the package name is exist in database?
 	$verifN = "SELECT fileid FROM download_available WHERE name='%s'";
@@ -129,7 +142,9 @@ if (isset($protectedPost['valid'])){
 	$resN = mysql2_query_secure( $verifN, $_SESSION['OCS']["readServer"], $argverifN);
 	if( mysql_num_rows( $resN ) != 0 )
 	$error=$l->g(551);
-		
+	
+	
+	
 	if ($error){
 		 msg_error($error);
 		 unset($protectedPost['valid']);
