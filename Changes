@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Plugin Processes moved as module
        * Fix bug #911491 for BSD
        * Fix bug #873377 for Gentoo
        * Add OS/Linux/LVM.pm module for Logical Volume Manager support 
