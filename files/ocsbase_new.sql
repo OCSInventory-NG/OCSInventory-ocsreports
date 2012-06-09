@@ -48,7 +48,7 @@ CREATE TABLE `accountinfo_config` (
 --
 
 LOCK TABLES `accountinfo_config` WRITE;
-INSERT INTO `accountinfo_config` VALUES (1,'TAG',0,'TAG',1,'TAG',1,'COMPUTERS'),(2,'TAG',0,'TAG',1,'TAG',1,'SNMP');
+INSERT INTO `accountinfo_config` (`ID`,`NAME_ACCOUNTINFO`,`TYPE`,`NAME`,`ID_TAB`,`COMMENT`,`SHOW_ORDER`,`ACCOUNT_TYPE`) VALUES (1,'TAG',0,'TAG',1,'TAG',1,'COMPUTERS'),(2,'TAG',0,'TAG',1,'TAG',1,'SNMP');
 UNLOCK TABLES;
 
 --
