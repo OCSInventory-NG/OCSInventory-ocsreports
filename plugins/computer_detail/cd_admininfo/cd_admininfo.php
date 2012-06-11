@@ -70,11 +70,11 @@ else{
 			echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
 			if (!$show_all_column){
 				onglet($list_tab,$form_name,"onglet",6);
-				$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
+				$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER,DEFAULT_VALUE from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
 								order by SHOW_ORDER ASC";
 				$arg_admin_info=array($protectedPost['onglet']);
 			}else{
-				$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER from accountinfo_config where account_type='%s'
+				$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER,DEFAULT_VALUE from accountinfo_config where account_type='%s'
 								order by SHOW_ORDER ASC";
 				$arg_admin_info=array('COMPUTERS');		
 			}
@@ -114,7 +114,7 @@ else{
 					$name_accountinfo='fields_' . $val_admin_info['ID'];
 				
 				$up_png="";
-					
+
 				if ($nb_row!=1)
 					$up_png.=updown($val_admin_info['ID'],'UP');
 					
@@ -122,7 +122,7 @@ else{
 					$up_png.=updown($val_admin_info['ID'],'DOWN');	
 				if ($val_admin_info['TYPE'] == 2 
 						or $val_admin_info['TYPE'] == 4
-						or $val_admin_info['TYPE'] == 7){
+						or $val_admin_info['TYPE'] == 7 ){
 						array_push($config['JAVASCRIPT'],'');
 						array_push($config['SIZE'],'');
 						if ($admin_accountinfo)
@@ -180,6 +180,18 @@ else{
 						array_push($config['SELECT_DEFAULT'],'');
 						array_push($config['JAVASCRIPT'],'');
 						array_push($config['SIZE'],'');
+					}elseif ($val_admin_info['TYPE'] == 8){ //QRCODE
+						
+						array_push($value_field,$info_account_id[$name_accountinfo]);
+						if ($admin_accountinfo){
+							
+							array_push($config['COMMENT_BEHING'],$up_png);
+						}else
+							array_push($config['COMMENT_BEHING'],"");
+						
+						array_push($config['SELECT_DEFAULT'],"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&default_value=".$val_admin_info['DEFAULT_VALUE']."&systemid=".$protectedGet['systemid']);
+						array_push($config['JAVASCRIPT'],"onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&default_value=".$val_admin_info['DEFAULT_VALUE']."&systemid=".$protectedGet['systemid']."\")");
+						array_push($config['SIZE'],'width=80 height=80');
 						
 						
 					}else{

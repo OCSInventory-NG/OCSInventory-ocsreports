@@ -16,16 +16,19 @@ else
 	$separator=';';
 $link=$_SESSION['OCS']["readServer"];	
 $toBeWritten = "";
-if (isset($protectedGet['log'])){
-	
-	if (file_exists($protectedGet['rep'].$protectedGet['log'])){
-		$tab = file($protectedGet['rep'].$protectedGet['log']);
+//log directory
+if (isset($protectedGet['log']) and !preg_match("/([^A-Za-z0-9.])/",$protectedGet['log'])){
+	$Directory=$_SESSION['OCS']['LOG_DIR']."/";
+}
+
+if (isset($Directory) and file_exists($Directory.$protectedGet['log'])){
+		$tab = file($Directory.$protectedGet['log']);
 		while(list($cle,$val) = each($tab)) {
  		  $toBeWritten  .= $val."\r\n";
 		}
 		$filename=$protectedGet['log'];
-	}
-}//gestion par valeur en cache (LIMITE A 200)
+}
+//gestion par valeur en cache (LIMITE A 200)
 /*elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]) 
 	and isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']])){
 	$filename="cache.csv";
@@ -71,7 +74,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 			$toBeWritten .=$name.$separator;
 		}elseif($name == 'NAME' or $name == $l->g(23)){
 			$col['name_of_machine']="name_of_machine";
-			$toBeWritten .="machine".$separator;
+			$toBeWritten .=$l->g(23).$separator;
 		}		
 	}
 	//data fixe
@@ -81,7 +84,6 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 		while($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]){
 			$result=mysql_query($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i], $link) or die(mysql_error($link));
 			while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
-				//print_r($cont);
 				foreach ($col as $field => $lbl){
 					if (array_key_exists($lbl,$cont)){
 					
@@ -104,10 +106,12 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 	require_once('require/function_admininfo.php');
 	$inter=interprete_accountinfo($col,array());
 	while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
+						//p($cont);
 		foreach ($col as $field => $lbl){
 			if ($lbl == "name_of_machine" and !isset($cont[$field])){
 				$field='name';
 			}
+			//echo $field."<br>";
 			if (isset($cont[$field])){
 				if ($field == 'TAG' or substr($field,0,7) == 'fields_'){
 					if (isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])){
@@ -125,6 +129,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 		}
 		$i++;
 	}
+	//p($data);
 	$i=0;
 	while ($data[$i]){
 		$toBeWritten .="\r\n";

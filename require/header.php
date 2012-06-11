@@ -25,8 +25,10 @@ if(substr($_SERVER['DOCUMENT_ROOT'],-1) != '/'){
 }else{
 	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']);
 }
-//echo DOCUMENT_ROOT."<br>".DOCUMENT_REAL_ROOT;
-//print_r($_SERVER);
+/********************************************FIND SERVER URL****************************************/
+$addr_server=explode('/',$_SERVER['HTTP_REFERER']);
+array_pop($addr_server);
+define("OCSREPORT_URL",implode('/',$addr_server));
 
 if ($_SESSION['OCS']['LOG_GUI'] == 1){	
 		define("LOG_FILE",$_SESSION['OCS']['LOG_DIR']."log.csv");
@@ -60,7 +62,7 @@ if ($_POST['RELOAD_CONF'] == 'RELOAD'){
 if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 	//Contrib of FranciX (http://forums.ocsinventory-ng.org/viewtopic.php?pid=41923#p41923)
 	if($_SESSION['OCS']['cnx_origine'] == "CAS"){
-		require_once(BACKEND.'require/lib/phpcas/CAS.php');
+		require_once(PHPCAS);
 		require_once(BACKEND.'require/cas.config.php');
 		$cas=new phpCas();
 		$cas->client(CAS_VERSION_2_0,$cas_host,$cas_port,$cas_uri);
@@ -197,6 +199,7 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])){
 		$sql="SHOW COLUMNS FROM %s";
 		$arg=$item[0];
 		$res_column=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
+	//	echo "<i>".generate_secure_sql($sql,$arg)."</i><br>";
 		while ($item_column = mysql_fetch_row($res_column)){
 			
 			if ($item_column[0] == "HARDWARE_ID" 

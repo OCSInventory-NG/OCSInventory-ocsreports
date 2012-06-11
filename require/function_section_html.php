@@ -39,11 +39,12 @@ function show_icon($index,$lbl_index){
 function menu_list($name_menu,$packAct,$nam_img,$title,$data_list,$lbl_index)
 {
         global $protectedGet;
+         $pag_name=array_flip($_SESSION['OCS']['URL']);
         if (count($data_list)<=1){
         	$info=each($data_list);
-        	show_icon_simple('ms_'.$info[0],$info[1],$nam_img);
+        	show_icon_simple($_SESSION['OCS']['PAGE_PROFIL'][$pag_name[$info[0]]],$info[1],$nam_img);
         }else{
-	        $pag_name=array_flip($_SESSION['OCS']['URL']);
+	       
 	        echo "<td onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\">
 	        <dl id=\"menu\">
 	                <dt onmouseover=\"javascript:show_menu('".$name_menu."','".$_SESSION['OCS']['all_menus']."');\">

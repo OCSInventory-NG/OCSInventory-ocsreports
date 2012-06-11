@@ -1,5 +1,22 @@
 /* OCSReports Style Sheet */
+table.qr
+{
+	border-collapse: collapse;
+	border: solid 1px black;
+	table-layout: fixed;
+}
 
+table.qr td
+{
+	width: 5px;
+	height: 5px;
+	font-size: 2px;
+}
+
+table.qr td.on
+{
+	background: #000000;
+}
 .conteneur {
 /*background-color: #C7D9F5;*/
 position: absolute;

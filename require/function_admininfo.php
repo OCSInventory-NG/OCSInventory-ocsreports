@@ -12,13 +12,22 @@
 //type of choice
 $type_accountinfo=array('TEXT','TEXTAREA','SELECT',
 					mb_strtoupper($l->g(802)),'CHECKBOX',
-					'BLOB (FILE)','DATE','RADIOBUTTON');
+					'BLOB (FILE)','DATE','RADIOBUTTON','QRCODE');
 $sql_type_accountinfo=array('VARCHAR(255)','LONGTEXT','VARCHAR(255)',
-							'VARCHAR(255)','VARCHAR(255)','BLOB','VARCHAR(10)','VARCHAR(255)');
+							'VARCHAR(255)','VARCHAR(255)','BLOB','VARCHAR(10)',
+							'VARCHAR(255)','VARCHAR(255)');
 
 
-$convert_type=array('0','1','2','3','5','8','0','11');
+$convert_type=array('0','1','2','3','5','8','0','11','12');
 
+$array_qr_values=array('URL'=>$l->g(646),
+					   'NAME'=>$l->g(35),
+					   'UID'=>$l->g(1268),
+					   'IPADDR'=>$l->g(34));
+$array_qr_action=array('URL'=>array('TYPE'=>'url','VALUE'=>OCSREPORT_URL."&head=1&systemid=".$_GET['systemid']),
+					   'NAME'=>array('TYPE'=>'bdd','VALUE'=>"hardware.name"),
+					   'UID'=>array('TYPE'=>'bdd','VALUE'=>"hardware.uuid"),
+					   'IPADDR'=>array('TYPE'=>'bdd','VALUE'=>"hardware.ipaddr"));
 
 function accountinfo_tab($id){
 	global $type_accountinfo;
@@ -57,7 +66,7 @@ function max_order($table,$field){
  * 
  */
 					
-function add_accountinfo($newfield,$newtype,$newlbl,$tab,$type='COMPUTERS'){	
+function add_accountinfo($newfield,$newtype,$newlbl,$tab,$type='COMPUTERS',$default_value){	
 	global $l,$sql_type_accountinfo;
 	if ($type == 'COMPUTERS')
 		$table="accountinfo";
@@ -75,11 +84,11 @@ function add_accountinfo($newfield,$newtype,$newlbl,$tab,$type='COMPUTERS'){
 	$id_order=max_order('accountinfo_config','SHOW_ORDER');	
 		
 	if ($ERROR == ''){				
-		$sql_insert_config="INSERT INTO accountinfo_config (TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER,ACCOUNT_TYPE) values(%s,'%s',%s,'%s',%s,'%s')";
+		$sql_insert_config="INSERT INTO accountinfo_config (TYPE,NAME,ID_TAB,COMMENT,SHOW_ORDER,ACCOUNT_TYPE,DEFAULT_VALUE) values(%s,'%s',%s,'%s',%s,'%s','%s')";
 		$arg_insert_config=array($newtype,
 								 $newfield,
 								 $tab,
-								 $newlbl,$id_order,$type);
+								 $newlbl,$id_order,$type,$default_value);
 		mysql2_query_secure($sql_insert_config,$_SESSION['OCS']["writeServer"],$arg_insert_config);					
 		
 		$sql_add_column="ALTER TABLE ".$table." ADD COLUMN fields_%s %s default NULL";
@@ -184,7 +193,7 @@ function find_value_field($name){
  */
 
 function find_info_accountinfo($id = '',$type='',$exclu_type=''){
-	$list_field=array('id','type','name','id_tab','comment','show_order','account_type');
+	$list_field=array('id','type','name','id_tab','comment','show_order','account_type','default_value');
 	if ($type != ''){
 		$where=" where account_type='".$type."' ";
 		$and=" and account_type='".$type."' ";
@@ -242,6 +251,7 @@ function witch_field_more($account_type = ''){
 
 function update_accountinfo_config($id,$array_new_values){
 	//Update
+		global $sql_type_accountinfo;
 		$sql_update_config="UPDATE accountinfo_config SET ";
 		$arg_update_config=array();
 		foreach ($array_new_values as $field=>$value){
@@ -270,6 +280,7 @@ function update_accountinfo_config($id,$array_new_values){
 		
 		mysql2_query_secure($sql_update_config,$_SESSION['OCS']["writeServer"],$arg_update_config);
 		unset($_SESSION['OCS']['TAG_LBL']);
+		return $new_type_field;
 	
 }
 
@@ -314,7 +325,7 @@ function update_accountinfo($id,$array_new_values,$type){
 	$error=dde_exist($array_new_values['NAME'],$id,$type);
 	if ($error == ''){
 		//Update
-		update_accountinfo_config($id,$array_new_values);
+		$new_type_field=update_accountinfo_config($id,$array_new_values);
 		//update column type in accountinfo table
 		$sql_update_column="ALTER TABLE accountinfo change fields_%s fields_%s %s";
 		$arg_update_column=array($id,$id,$new_type_field);
