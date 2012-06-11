@@ -98,7 +98,7 @@
 187 This file is not a valid zip file
 188 Back
 189 You must select at least 2 computers 
-190 Accountinfo:
+190 Account info:
 191 deleted
 192 Duplicates summary
 193 Hostname + Serial number
@@ -124,7 +124,7 @@
 213 Key value
 214 Print this page
 215 Show everything
-216 ASSETTAG
+216 ASSET TAG
 217 Password
 218 Agent versions
 219 uninventoried network interfaces
@@ -207,7 +207,7 @@
 296 Id
 297 Can't write in directory
 298 All fields must be filled
-299 Invalid IP adress (must be: x.x.x.x)
+299 Invalid IP address (must be: x.x.x.x)
 300 Invalid mask: must be: x.x.x.x 
 301 Network inserted
 302 Network deleted
@@ -442,7 +442,7 @@
 547 all
 548 All but SUCCESS
 549 File (deployed on client computers)
-550 File (not mandatory, may be used by "execute" commmand)
+550 File (not mandatory, may be used by "execute" command)
 551 This package name already exists
 552 <i>You must make a computer search, and then click 'deploy' to affect these activated packages<br>You may also affect a package to a single computer by using the 'customization' tab of any computer details</i>.
 553 Windows key
@@ -550,7 +550,7 @@
 660 GROUP OF REDISTRIBUTION NOT EXIST
 661 PACKAGES FOR REDISTRIBUTION
 662 Rules of affectation
-663 INTERNES PROBLEM
+663 INTERNET PROBLEM
 664 Action made
 665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED
 666 Group of redistribution made
@@ -575,7 +575,7 @@
 685 Add a rule
 686 The condition
 687 You cannot delete it.
-688 Packages are affected on this goupe!
+688 Packages are affected on this group!
 689 Packages are affected on this server!
 690 You cannot delete all the machines.
 691 Generic Values: $IP$ and $NAME$
@@ -589,11 +589,11 @@
 699 Are you sure to want to affect this package in these machines?
 700 Blacklist choices
 701 Blacklist of serial number
-702 Enter a new serial number to blacklister
+702 Enter a new serial number to blacklist
 703 Blacklist
-704 Are you sure to want to blacklister 
-705 Are you sure to want to unblacklister
-706 Unblacklister
+704 Are you sure to want to blacklist 
+705 Are you sure to want to unblacklist
+706 Unblacklist
 707 this serial number
 708 this MAC address
 709 Customized PROLOG_FREQ 
@@ -619,7 +619,7 @@
 729 computers
 730 hours
 731 Feature of appointed on the base to every section of inventory.
-732 milisecond(s)
+732 millisecond(s)
 733 Inactive
 734 Inventory files
 735 Filters
@@ -628,7 +628,7 @@
 738 Specify the validity of computer's groups (default: compute it once a day - see offset)
 740 Validity of a computer's lock
 741 Configure engine to update inventory using the CHECKSUM agent value (lower DB backend load)
-742 Make engine consider an inventory as a transaction (lower concurency, better disk usage)
+742 Make engine consider an inventory as a transaction (lower concurrency, better disk usage)
 743 Configure engine to make a differential update of inventory sections (row level). (Lower DB backend load, higher frontend load)
 744 Accept an inventory only if required by server (refuse "forced" inventory)
 745 Specify when the engine will clean the inventory cache structures
@@ -637,11 +637,11 @@
 748 Enable groups for ipdiscover (for example, you might want to prevent some groups to be ipdiscover agents)
 749 Use with ocsinventory-local, enable the multi entities feature
 750 Generate either compressed file or clear XML text
-751 Specify if you want to keep trace of all inventory between to synchronisation with the higher level server
+751 Specify if you want to keep trace of all inventory between to synchronization with the higher level server
 752 Path to ocs files directory (must be writable)
 753 Enable prolog filter stack
 754 Enable core filter system to modify some things "on the fly"
-755 Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period
+755 Enable inventory flooding filter. A dedicated IP address is allowed to send a new computer only once in this period
 756 Period definition for INVENTORY_FILTER_FLOOD_IP
 757 Enable inventory filter stack
 758 Specify if you want to track packages affected to a group on computer's level
@@ -655,14 +655,14 @@
 766 NO RESULT
 767 BE CAREFUL: RESULT WITH FILTER
 768 Number of recording
-769 Tranfer Made
+769 Transfer Made
 770 UPDATE OF 
 771 This category already exists
 772 The category's name can't be null
 773 You must select category's name
 774 You try to make a transfer of the category towards the same category
 775 Directory of creation of packages
-776 Directory of stake in cache of the analyses of ipdiscover
+776 Directory of stake in cache of the analysis of ipdiscover
 777 Validity of a session
 778 Number of different WORKGROUPs
 779 Different TAGs
@@ -688,7 +688,7 @@
 799 HARDWARE
 800 OTHER
 801 Don't show this field
-802 Show this fied
+802 Show this field
 803 Counts in the daytime since the machine don't contact server
 804 Minimum speed processor
 805 Maximum speed processor
@@ -716,20 +716,20 @@
 827 Address to find teledeploy packages INFO files to activate
 828 Remove computers with inventory older than
 829 Redistribution packages creation directory
-830 Ldap server address
-831 Ldap server port
-832 Ldap base name + dc
+830 LDAP server address
+831 LDAP server port
+832 LDAP base name + DC
 833 Field name to define login
 834 Version LDAP_OPT_PROTOCOL_VERSION
 835 Add RSX
 836 Manage TYPES
-837 You don't have access to this datas
+837 You don't have access to this data
 838 Disk: Drive letter 
 839 Disk: Type
 840 Disk: Format
 841 Disk: Capacity
 842 Disk: Free Space
-843 Disk: Volumn Name
+843 Disk: Volume Name
 844 Group: Id
 845 Group: Static?
 846 Software: Company
@@ -737,13 +737,13 @@
 848 Software: Version
 849 Software: Install directory
 850 Software: Comments
-851 Bios: Computer manufacturer
-852 Bios: Model
-853 Bios: Serial number
-854 Bios: Computer type
-855 Bios: Manufacturer
-856 Bios: Version
-857 Bios: Date
+851 BIOS: Computer manufacturer
+852 BIOS: Model
+853 BIOS: Serial number
+854 BIOS: Computer type
+855 BIOS: Manufacturer
+856 BIOS: Version
+857 BIOS: Date
 858 Monitor: Manufacturer
 859 Monitor: Name
 860 Monitor: Description
@@ -751,7 +751,7 @@
 862 Monitor: Serial number
 863 Network: Description
 864 Network: Type
-865 Network: MibType
+865 Network: MIB Type
 866 Network: Speed
 867 Network: MAC Address
 868 Network: Status
@@ -765,21 +765,21 @@
 876 Simple unaffect REDISTRIBUTION GROUP
 877 SOME COMPUTERS HAVEN'T BEEN ADDED TO GROUP BECAUSE:
 878 Reminder: a computer can be a member of one redistribution group only
-879 GROUPE REPLACED
+879 GROUP REPLACED
 880 GROUP CREATED
 881 Computers added
 882 Computers deleted from group
 883 Restrict view
 884 WARNING: Results Filtered
 885 unknown
-886 Simple desaffection
+886 Simple disaffection
 887 It's possible that this package is not affected to redistribution servers 
 888 Removal
 889 Connected as
-890 Interface is actually locked on a search with various criterias
+890 Interface is actually locked on a search with various criteria
 891 Remove interface LOCK
 892 connect with another account
-893 NO TAG AFFECTEID TO YOUR PROFILE
+893 NO TAG AFFECTED TO YOUR PROFILE
 894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
 895 TAG Modification
 898 Add an annotation
@@ -789,11 +789,11 @@
 902 Action on the result of selection
 903 You must fill the explanation field
 904 Package reassignment
-905 Explanation about perfomed actions<br>on computer to be able to <br>affect package
+905 Explanation about performed actions<br>on computer to be able to <br>affect package
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal informations
-909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE 
+909 MODIFICATION NOT PERFORMED: WRONG NEW PROFILE 
 910 Validate
 911 Switch profile of 
 912 Export list of computers that have this softwares
@@ -813,7 +813,7 @@
 926 Fuser login:
 927 CACHE S NOT REGENERATED BY THIS ACTION
 928 Logs visualization
-929 subnetworks managementn is not performed locally.
+929 subnetworks management is not performed locally.
 930 You cannot add/modify/remove subnetworks
 931 Modify a subnetwork
 932 The IP address field cannot be blank
@@ -862,7 +862,7 @@
 975 Add to group
 976 INTERFACE LOCK ON REQUEST RESULT
 977 Lock
-978 You are going to lock all the interface on the search with criterias results
+978 You are going to lock all the interface on the search with criteria results
 979 To come back to a standard state, you will have to click on the icon e <img src='image/cadena_op.png' > which is at the right top of the interface
 980 Packages on computers
 981 Packages on servers groups
@@ -873,7 +873,7 @@
 986 REMOVE COMPUTERS FOR
 987 This registry key already exists
 988 YOU MUST FILL ALL THE FIELDS
-989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
+989 THE DATA DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
 990 Packages created manually
 991 Packages created automatically
 992 Teledeploy time estimate
@@ -889,8 +889,8 @@
 1002 Estimated time for deploy
 1003 Redistribution servers packages parameters
 1004 It's not possible to create the packages creation directory
-1005 The package creationis not possible so
-1006 don't have wrinting rights
+1005 The package creation is not possible so
+1006 don't have writing rights
 1007 The directory
 1008 Use on this redistribution package
 1009 Servers storage directory
@@ -930,18 +930,18 @@
 1043 Stock control to validate the installation
 1044 By list
 1045 By visual
-1046 Statut
+1046 Status
 1047 INFO
 1048 Add file
 1049 BAD ACTION
 1050 Software search
 1051 Search
 1052 History
-1053 Demande modifiee
-1054 Demande effectuee
+1053 Request Modified
+1054 Request Applied
 1055 Your e-mail is not valid
 1056 Contact your OCS-NG administrator
-1057 Failed to connect to mailserver
+1057 Failed to connect to mail server
 1058 no e-mail is valid
 1059 Data available
 1060 New data
@@ -956,10 +956,10 @@
 1069 Adding value done
 1070 New Field
 1071 Field Type
-1072 Pending resquests
+1072 Pending requests
 1073 Make a request
 1074 'Workflow' function is not activate.
-1075 Activate this functionnality to use it
+1075 Activate this functionality to use it
 1076 ERROR: SEARCH STATUS IS NOT DEFINED
 1077 Status for creating package
 1078 Test status
@@ -1021,7 +1021,7 @@
 1134 No ipdiscover data
 1135 computer(s) already exist in redistribution group
 1136 Snmp
-1137 Enable/Disable the snmp service
+1137 Enable/Disable the SNMP service
 1138 Show all subnets
 1139 Administer
 1140 Administer subnet
@@ -1114,7 +1114,7 @@
 1227 Contact
 1228 Device SNMP
 1229 Firmware
-1230 Volumn Name
+1230 Column Name
 1231 The file format must be ZIP
 1232 The file format must be TAR.GZ
 1233 Name of Database
@@ -1169,7 +1169,7 @@
 1282 Bad certificate or bad password
 1283 Support activation
 1284 Certificate file
-1285 Certificat added
+1285 Certificate added
 1286 GNU General Public License, version 2.0
 1287 SUPPORT AVAILABLE
 1288 Support validity
@@ -1232,8 +1232,8 @@
 2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
-2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
-2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
+2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to increase this limit.
+2042 WARNING: your the default root password is set on your MySQL server. Change it ASAP. (using root password=blank)
 2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
@@ -1241,7 +1241,7 @@
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
 2050 Installation finished you can log in index.php with login=admin and password=admin
 2051 Click here to enter OCS-NG GUI
-2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
+2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successful)
 2053 Please wait, database update may take up to 30 minutes...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Database successfully generated
@@ -1268,7 +1268,7 @@
 2078 ERROR: Could not insert network
 2079 in the subnet table, error
 2080 WARNING: Network
-2081 was not inserted (invalid ip or mask
+2081 was not inserted (invalid IP or mask
 2082 Network netid computing. Please wait...
 2083 ERROR: Could not update netid to
 2084 Network netid was computed
@@ -1283,10 +1283,10 @@
 2094 ERROR: Could not clean netmap
 2095 netmap lines deleted
 2096 Please enter the label of the windows client tag input box:
-2097 Leave empty if you don't want a popup to be shown on each agent launch
+2097 Leave empty if you don't want a pop-up to be shown on each agent launch
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try to uncomment extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try to install the libphp-pclzip package (Linux).
 2099 ERROR: this MySQL login doesn't have the rights to create the database
-2100 Update old account infos
+2100 Update old account info
 2101 Add by script
 2102 WARNING: If you change default database name (ocsweb), don't forget to update your ocs engine files (file z-ocsinventory-server.conf)
 2103 DEMO mode: you can't update data
@@ -1298,13 +1298,13 @@
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
-5003 [DEBUG]Rache regeneration[DEBUG]
+5003 [DEBUG]Cache regeneration[DEBUG]
 5004 [DEBUG]forcing cache limit old value[DEBUG]
 5005 [DEBUG]Cache total use[DEBUG]
 5006 [DEBUG]array count request[DEBUG]
 5007 [DEBUG]Cache use for lines number[DEBUG]
 5008 [DEBUG]array request[DEBUG]
-5009 [DEBUG]RAW DATAS[DEBUG]
+5009 [DEBUG]RAW DATA[DEBUG]
 5010 [DEBUG]table field=[DEBUG]
 5011 [DEBUG]Comparison field=[DEBUG]
 5012 [DEBUG]value to search=[DEBUG]
