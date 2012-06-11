@@ -311,7 +311,7 @@
 416 Logging functionality
 417 Automatic software distribution functionality
 418 Differentiate inventories functionality
-419 Maximum number of day before an ipdiscover computer is replaced
+419 Maximum number of days before an ipdiscover computer is replaced
 420 Automatic software distribution: see documentation.
 421 Automatic software distribution: see documentation.
 422 Automatic software distribution: see documentation.
