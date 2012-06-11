@@ -124,7 +124,7 @@
 213 Valore chiave
 214 Stampa questa pagina
 215 Mostra tutto
-216 ASSETTAG
+216 ASSET TAG
 217 Password
 218 Versione agente
 219 Interfacce di rete non inventariate
@@ -442,7 +442,7 @@
 547 tutti
 548 tutti i RIUSCITI
 549 File (distribuito sui computer client)
-550 File (non vincolante, può essere usato dal comando "esegui")
+550 File (non obbligatorio, può essere usato dal comando "esegui")
 551 Il nome del pacchetto esiste già
 552 <i>Devi eseguire una ricerca computer, quindi cliccare 'distribuire' perchè venga distribuito il pacchetto.<br>Puoi anche distribuire un pacchetto su un singolo computer usando la linguetta 'personalizzazione'</i>.
 553 Windows S/N
@@ -550,7 +550,7 @@
 660 IL GRUPPO DI RIDISTRIBUZIONE NON ESISTE
 661 PACCHETTI PER LA RIDISTRIBUZIONE
 662 Regole di comportamento
-663 PROBLEMA INTERNO
+663 PROBLEMA INTERNET
 664 Azione effettuata
 665 NESSUNA MACCHINA SELEZIONATA. GRUPPO DI RIDISTRIBUZIONE NON CREATO
 666 Gruppo di ridistribuzione creato
@@ -637,11 +637,11 @@
 748 Abilita gruppi per IpDiscover (es: potresti non volere che alcuni gruppi siano agenti IpDiscover)
 749 Utilizzo con ocsinventory-injector, attiva la funzione multi entità
 750 Genera file compresso o testo XML in chiaro
-751 Specifica se si desidera mantenere traccia degli inventari con la sincronizzazione al server di livello superiore
+751 Specifica se si desidera mantenere traccia di tutti gli inventari con la sincronizzazione al server di livello superiore
 752 Percorso della directory dei file OCS-NG (deve essere scrivibile)
 753 Attiva filtro prolog stack
 754 Attiva il sistema di filtri interno per modificare alcune cose "al volo"
-755 Attiva filtro inventory flooding. Un ipaddress dedicato è abilitato a trasmettere un nuovo computer solo una volta in questo periodo
+755 Attiva filtro inventory flooding. Un indirizzo IP dedicato è abilitato a trasmettere un nuovo computer solo una volta in questo periodo
 756 Definizione del periodo per INVENTORY_FILTER_FLOOD_IP
 757 Attiva il filtro stack inventario
 758 Specificare se si desidera tenere traccia dei pacchetti destinati ad un gruppo a livello computer
@@ -718,18 +718,18 @@
 829 Directory di creazione dei pacchetti per la distribuzione
 830 Indirizzo del server LDAP
 831 Porta del server (Predefinita=389)
-832 Valore BaseDN + dc
+832 Valore BaseDN + DC
 833 Nome del campo login
 834 Versione del protocollo
 835 Aggiungi sottorete
 836 Gestione dei tipi
 837 Non hai accesso a questi dati
-838 Dischi: Lettera del drive
-839 Dischi: Tipo
-840 Dischi: Formato
-841 Dischi: Capacità
-842 Dischi: Spazio libero
-843 Dischi: Nome del volume
+838 Disco: Lettera del drive
+839 Disco: Tipo
+840 Disco: Formato
+841 Disco: Capacità
+842 Disco: Spazio libero
+843 Disco: Nome del volume
 844 Gruppo: Id
 845 Gruppo: Statico
 846 Software: Produttore
@@ -737,13 +737,13 @@
 848 Software: Versione
 849 Software: Directory di installazione
 850 Software: Commenti
-851 Bios: Costruttore computer
-852 Bios: Modello
-853 Bios: Numero di serie
-854 Bios: Tipo computer
-855 Bios: Produttore
-856 Bios: Versione
-857 Bios: Data
+851 BIOS: Costruttore computer
+852 BIOS: Modello
+853 BIOS: Numero di serie
+854 BIOS: Tipo computer
+855 BIOS: Produttore
+856 BIOS: Versione
+857 BIOS: Data
 858 Monitor: Produttore
 859 Monitor: Nome
 860 Monitor: Descrizione
@@ -751,7 +751,7 @@
 862 Monitor: Numero di serie
 863 Network: Descrizione
 864 Network: Tipo
-865 Network: Mib
+865 Network: Tipo MIB
 866 Network: Velocità
 867 Network: MAC
 868 Network: Stato
@@ -772,7 +772,7 @@
 883 Vista limitata
 884 ATTENZIONE: VISTA FILTRATA
 885 sconosciuto
-886 Simple desaffection
+886 Semplice disaffezione
 887 E' possibile che questo pacchetto non sia interessato dalla distribuzione dei server
 888 Rimosso
 889 Connesso come
@@ -1114,7 +1114,7 @@
 1227 Contatto
 1228 Periferica SNMP
 1229 Firmware
-1230 Nome volume
+1230 Nome colonna
 1231 Il formato del file deve essere ZIP
 1232 Il formato del file deve essere TAR.GZ
 1233 Nome del database
@@ -1283,10 +1283,10 @@
 2094 ERRORE: non posso pulire NETMAP
 2095 linee NETMAP cancellate
 2096 Per favore inserisci il valore dell'etichetta che verrà mostrata nella finestra di input dei client:
-2097 Non inserire nulla se non vuoi far apparire il popup ad ogni esecuzione dell'agente
+2097 Non inserire nulla se non vuoi far apparire il pop-up ad ogni esecuzione dell'agente
 2098 ERRORE: l'estensione ZIP per PHP non installata correttamente.<br>Prova ad abilitare la voce extension=php_zip.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto libphp-pclzip (Linux).
 2099 ERRORE: le credenziali MySQL fornite non hanno i diritti necessari per la creazione del database
-2100 Aggiorna informazioni account
+2100 Aggiorna le vecchie informazioni account
 2101 Aggiunto dallo script
 2102 ATTENZIONE: se cambi i valori di default, del database (ocsweb) o dell'utente (ocs), non dimenticare di aggiornare il file 'z-ocsinventory-server.conf' nella directory di configurazione di Apache
 2103 Modalità dimostrativa: non puoi aggiornare i dati
@@ -1297,13 +1297,13 @@
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
-5003 [DEBUG]Rache regeneration[DEBUG]
+5003 [DEBUG]Cache regeneration[DEBUG]
 5004 [DEBUG]forcing cache limit old value[DEBUG]
 5005 [DEBUG]Cache total use[DEBUG]
 5006 [DEBUG]array count request[DEBUG]
 5007 [DEBUG]Cache use for lines number[DEBUG]
 5008 [DEBUG]array request[DEBUG]
-5009 [DEBUG]RAW DATAS[DEBUG]  
+5009 [DEBUG]RAW DATA[DEBUG]  
 5010 [DEBUG]table field=[DEBUG]
 5011 [DEBUG]Comparison field=[DEBUG]
 5012 [DEBUG]value to search=[DEBUG]
