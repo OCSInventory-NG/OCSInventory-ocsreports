@@ -234,7 +234,7 @@
 323 generated on
 324 HOSTS EVALUATED AS
 325 empty
-326 no mask typed
+326 no mask entered
 327 Computer details
 328 Discovered
 329 Inventoried
@@ -265,7 +265,7 @@
 355 Company
 356 Owner
 357 User agent
-358 Jokers: ? (one character), * (several characters)
+358 Wildcards: ? (one character), * (several characters)
 359 Monitor serial
 360 Manufactured on (week/year)
 362 The network
@@ -361,7 +361,7 @@
 466 WARNING: Can't find information file at
 467 WARNING: Can't find fragments files at
 468 Are you sure to want to activate this package?
-469 Package activated, it can now be affected
+469 Package activated, it can now be applied.
 470 Https url
 471 Fragments url
 472 ERROR: Can't delete directory
@@ -409,7 +409,7 @@
 514 Activate
 515 Activated
 516 KB
-517 This option can only be affected to one computer at a time.
+517 This option can only be applied to one computer at a time.
 518 Force IpDiscover
 519 Computer already elected for network
 520 Computer already FORCED ipdiscover for network
@@ -418,7 +418,7 @@
 523 Revert back to standard state
 524 NEVER affect again
 525 ARE YOU SURE?
-526 NO COMPUTER AFFECTED
+526 NO COMPUTER MODIFIED
 527 January
 528 February
 529 March
@@ -444,7 +444,7 @@
 549 File (deployed on client computers)
 550 File (not mandatory, may be used by "execute" command)
 551 This package name already exists
-552 <i>You must make a computer search, and then click 'deploy' to affect these activated packages<br>You may also affect a package to a single computer by using the 'customization' tab of any computer details</i>.
+552 <i>You must make a computer search, and then click 'deploy' to apply these activated packages<br>You may also apply a package to a single computer by using the 'customization' tab of any computer details</i>.
 553 Windows key
 554 Monitor: serial
 555 Monitor: manufacturer
@@ -489,10 +489,10 @@
 597 STATICALLY EXCLUDED
 598 Include
 600 Exclude
-601 Mass affectation
+601 Mass application
 602 You need to send a file
 603 No computer found, please check your file
-604 computer(s) successfully affected(s)
+604 computer(s) successfully modified
 605 computer(s) failed
 606 Computers file
 607 Group
@@ -545,11 +545,11 @@
 655 Insertion made
 656 This datum already exists in the list 
 657 Fields in red are in error!!! (Empty fields or size < 2)
-658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
+658 machine don't have redistribution servers. <br>It is thus necessary to apply this package individually.
 659 Machines already have this teledeploy package. This package's status for these machines is now 
 660 GROUP OF REDISTRIBUTION NOT EXIST
 661 PACKAGES FOR REDISTRIBUTION
-662 Rules of affectation
+662 Rules of application
 663 INTERNET PROBLEM
 664 Action made
 665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED
@@ -560,7 +560,7 @@
 670 A rule already carries this name
 671 The name of this rule can't be empty!
 672 This rule does not exist!!!
-673 Administration of the rules of affectation
+673 Administration of the rules of application
 674 NAME OF THE RULE
 675 PRIORITY
 676 MACHINE VALUE
@@ -575,18 +575,18 @@
 685 Add a rule
 686 The condition
 687 You cannot delete it.
-688 Packages are affected on this group!
-689 Packages are affected on this server!
+688 Packages are applied to this group!
+689 Packages are applied to this server!
 690 You cannot delete all the machines.
 691 Generic Values: $IP$ and $NAME$
 692 You modify ALL the values of the servers
 693 You modify the values of the following server:
 694 to find the default values, validate the vacuous fields
 695 You modify the group of redistribution
-696 to Show packages activated to affect on
+696 to Show packages activated to apply on
 697 a machine
 698 a group of redistribution
-699 Are you sure to want to affect this package in these machines?
+699 Are you sure to want to apply this package to these machines?
 700 Blacklist choices
 701 Blacklist of serial number
 702 Enter a new serial number to blacklist
@@ -644,7 +644,7 @@
 755 Enable inventory flooding filter. A dedicated IP address is allowed to send a new computer only once in this period
 756 Period definition for INVENTORY_FILTER_FLOOD_IP
 757 Enable inventory filter stack
-758 Specify if you want to track packages affected to a group on computer's level
+758 Specify if you want to track packages applied to a group on computer's level
 759 Must be greater than or equal to
 760 Webservice
 761 Enable/Disable the soap service
@@ -773,7 +773,7 @@
 884 WARNING: Results Filtered
 885 unknown
 886 Simple disaffection
-887 It's possible that this package is not affected to redistribution servers 
+887 It's possible that this package is not applied to redistribution servers 
 888 Removal
 889 Connected as
 890 Interface is actually locked on a search with various criteria
@@ -789,7 +789,7 @@
 902 Action on the result of selection
 903 You must fill the explanation field
 904 Package reassignment
-905 Explanation about performed actions<br>on computer to be able to <br>affect package
+905 Explanation about performed actions<br>on computer to be able to <br>apply package
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal informations
@@ -907,7 +907,7 @@
 1020 Name of the tag information
 1021 Teledeploy admin
 1022 TAG admin
-1023 Packages affect with status
+1023 Packages applied with status
 1024 will be deleted
 1025 Unaffect
 1026 Packages deleted on computers
@@ -1079,7 +1079,7 @@
 1192 Group may receive TEST packets
 1193 Group may receive RESTRAINT packets
 1194 Only packets at a higher level
-1195 may be affected
+1195 may be applied
 1196 Profile
 1197 SNMP functionality
 1198 Networks scans
