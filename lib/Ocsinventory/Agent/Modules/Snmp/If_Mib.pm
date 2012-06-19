@@ -86,13 +86,13 @@ sub snmp_run {
    }
 
    # We look for interfaces
-   $result_snmp=$session->get_entries(-columns => [$snmp_ifdescr]);
+   $result_snmp=$session->get_entries(-columns => [$snmp_iftype]);
    foreach my $result ( keys  %{$result_snmp} ) {
       # We work on real interface and no vlan
-      if ( $result_snmp->{$result} =~ /[eE]th|[bB]ond/ ) {
-         if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.2\.(\S+)/ ) {
+      if ( $result_snmp->{$result} == 6 ) {
+         if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.3\.(\S+)/ ) {
             $ref=$1;
-            $SLOT=$result_snmp->{$result};
+            $TYPE=$result_snmp->{$result};
 
             $TYPE=$session->get_request(-varbindlist => [$snmp_iftype.$ref]);
             if ( defined( $TYPE->{$snmp_iftype.$ref} ) ) {
@@ -103,6 +103,9 @@ sub snmp_run {
                   $TYPE="fibreChannel";
                }
             }
+
+            $SLOT=$session->get_request(-varbindlist => [$snmp_ifdescr.$ref]);
+            $SLOT=$result_snmp->{$result};
 
             $SPEED=$session->get_request(-varbindlist => [$snmp_ifspeed.$ref]);
             if ( defined( $SPEED->{$snmp_ifspeed.$ref}) ) {
@@ -140,6 +143,13 @@ sub snmp_run {
            if ( defined ( $address_index ) ) {
               $IPADDR=$address_index->{$ref};
               $IPMASK=$netmask_index->{$ref};
+              #if ( defined ($IPADDR ) ) {
+                 #my $local_info=$session->hostname();
+                 #print "$IPADDR et $local_info";
+                 #if ( $IPADDR eq $session->hostname() ) {
+	             #$common->setSnmpCommons({MACADDR => $MACADDR });
+                 #}
+              #}
            }
            if ( defined ( $network_index ) ) {
 	      $IPGATEWAY=$gateway_index->{$ref};
