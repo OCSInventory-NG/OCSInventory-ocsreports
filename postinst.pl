@@ -197,7 +197,7 @@ unless ($nowizard) {
   $remove_old_linux = ask_yn ("Should I remove the old linux_agent", 'n') unless $remove_old_linux;
 
   #Enable debug option ?
-  $config->{debug} = ask_yn("Do you want to use activate debug configuration option ?", 'y') unless $config->{debug};
+  $config->{debug} = ask_yn("Do you want to activate debug configuration option ?", 'y') unless $config->{debug};
 
   #Enable log file ?
   unless ($config->{logfile}) {
@@ -208,7 +208,7 @@ unless ($nowizard) {
 
   #Disable SSL option ?
   unless ($nossl) {
-     $nossl = ask_yn("Do you want disable SSL CA verification configuration option (not recommended) ?", 'y');
+     $nossl = ask_yn("Do you want disable SSL CA verification configuration option (not recommended) ?", 'n');
   }
 
   #Set CA certificate path ?
