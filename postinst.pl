@@ -214,7 +214,7 @@ unless ($nowizard) {
   #Set CA certificate path ?
   unless ($config->{ca}) {
     if (ask_yn("Do you want to set CA certificate chain file path ?", 'y')){ 
-      $config->{logfile} = promptUser('Specify CA certificate chain file path', $config->{ca}, '^\/\w+', 'The location must begin with /');
+      $config->{ca} = promptUser('Specify CA certificate chain file path', $config->{ca}, '^\/\w+', 'The location must begin with /');
     }
   }
 
