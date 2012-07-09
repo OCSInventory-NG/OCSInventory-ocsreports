@@ -157,13 +157,12 @@ sub run {
       $description = $driver = $ipaddress = $ipmask = $ipgateway = $macaddr = $pcislot = $status =  $type = $virtualdev = undef;
 
     } else { # In a section
-
-      $description = $1 if $line =~ /^(\S+)/; # Interface name
-      $ipaddress = $1 if $line =~ /inet addr:(\S+)/i;
-      $ipmask = $1 if $line =~ /\S*mask:(\S+)/i;
-      $macaddr = $1 if $line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
-      $status = 1 if $line =~ /^\s+UP\s/;
-      $type = $1 if $line =~ /link encap:(\S+)/i;
+        $description = $1 if ($line =~ /^(\S+):/ || $line =~ /^(\S+)/); # Interface name
+        $ipaddress = $1 if ($line =~ /inet addr:(\S+)/i || $line =~ /^\s*inet\s+(\S+)/);
+        $ipmask = $1 if ($line =~ /\S*mask:(\S+)/i || $line =~ /\S*netmask\s+(\S+)/);
+        $macaddr = $1 if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i || $line =~ /\s*ether\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i);
+        $status = 1 if ($line =~ /^\s+UP\s/ || $line =~ /^\S*UP,/);
+        $type = $1 if $line =~ /link encap:(\S+)/i;
     }
 
 

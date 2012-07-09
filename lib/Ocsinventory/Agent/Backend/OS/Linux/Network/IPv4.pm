@@ -11,7 +11,7 @@ sub run {
   my $common = $params->{common};
   my @ip;
   foreach (`ifconfig`){
-    if(/^\s*inet add?r\s*:\s*(\S+)/){
+    if(/^\s*inet add?r\s*:\s*(\S+)/ || /^\s*inet\s+(\S+)/){
       ($1=~/127.+/)?next:push @ip, $1
     };
   }
