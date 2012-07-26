@@ -13,9 +13,10 @@ sub run {
 # New format for listing softwares with equery command (equery 0.3.0.5)
 # Older version don't run with these options
 
-  my $equery_vers = `equery --version | awk '{print $2}'`;
+  my $equery_vers = `equery --version ` =~ /.*\((.*)\).*/;
+  $equery_vers = $1;
 
-  if ($equery_vers =~ /0.3/) {
+  if ($equery_vers =~ /^0.3/) {
   	foreach (`equery list --format='\$cp \$fullversion' '*'`){
     		if (/^(.*) (.*)/) {
       			$common->addSoftware({
