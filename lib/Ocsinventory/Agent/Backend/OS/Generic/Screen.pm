@@ -29,14 +29,15 @@ sub check {
 
 sub getEdid {
   my $raw_edid;
+  my $port = $_[0];
 
 # Mandriva
-  $raw_edid = `monitor-get-edid-using-vbe 2>/dev/null`;
+  $raw_edid = `monitor-get-edid-using-vbe --port $port 2>/dev/null`;
 
   # Since monitor-edid 1.15, it's possible to retrieve EDID information
   # through DVI link but we need to use monitor-get-edid
   if (!$raw_edid) {
-      $raw_edid = `monitor-get-edid 2>/dev/null`;
+      $raw_edid = `monitor-get-edid --vbe-port $port 2>/dev/null`;
   }
 
   if (!$raw_edid) {
@@ -503,15 +504,18 @@ sub _getManifacturerFromCode {
     "AST" => "AST Research",
     "CPL" => "Compal Electronics, Inc. / ALFA",
     "CPQ" => "COMPAQ Computer Corp.",
+    "CPT" => "Chunghwa Picture Tubes, Ltd.",
     "CTX" => "CTX - Chuntex Electronic Co.",
     "DEC" => "Digital Equipment Corporation",
     "DEL" => "Dell Computer Corp.",
     "DPC" => "Delta Electronics, Inc.",
     "DWE" => "Daewoo Telecom Ltd",
     "ECS" => "ELITEGROUP Computer Systems",
+    "ENC" => "EIZO",
     "EIZ" => "EIZO",
     "EPI" => "Envision Peripherals, Inc.",
     "FCM" => "Funai Electric Company of Taiwan",
+    "FUJ" => "Fujitsu",
     "FUS" => "Fujitsu Siemens",
     "GSM" => "LG Electronics Inc. (GoldStar Technology, Inc.)",
     "GWY" => "Gateway 2000",
@@ -534,10 +538,12 @@ sub _getManifacturerFromCode {
     "MAX" => "Maxdata Computer GmbH",
     "MEI" => "Panasonic Comm. & Systems Co.",
     "MEL" => "Mitsubishi Electronics",
-    "MIR" => "miro Computer Products AG",
+    "MIR" => "Miro Computer Products AG",
     "MTC" => "MITAC",
+    "MS_" => "Panasonic",
     "NAN" => "NANAO",
     "NEC" => "NEC Technologies, Inc.",
+    "NVD" => "Fujitsu",
     "NOK" => "Nokia",
     "OQI" => "OPTIQUEST",
     "PBN" => "Packard Bell",
@@ -554,6 +560,7 @@ sub _getManifacturerFromCode {
     "STN" => "Samtron",
     "STP" => "Sceptre",
     "TAT" => "Tatung Co. of America, Inc.",
+    "TOS" => "Toshiba",
     "TRL" => "Royal Information Company",
     "TSB" => "Toshiba, Inc.",
     "UNM" => "Unisys Corporation",
@@ -588,10 +595,11 @@ sub run {
   my $base64;
   my $uuencode;
   
-  my $raw_edid = getEdid();
+  my %found;
 
-  return unless $raw_edid;
-
+  for my $port(0..20){
+   my $raw_edid = getEdid($port);
+  if ($raw_edid){
   length($raw_edid) == 128 || length($raw_edid) == 256 or
   $logger->debug("incorrect lenght: bad edid");
 
@@ -604,6 +612,9 @@ sub run {
   my $description = $edid->{week}."/".$edid->{year};
   my $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
   my $serial = $edid->{serial_number2}[0];
+
+  if(!exists $found{$serial}) {
+    $found{$serial} = $port;
 
   eval "use MIME::Base64;";
   $base64 = encode_base64($raw_edid) if !$@;
@@ -623,6 +634,9 @@ sub run {
       UUENCODE => $uuencode,
 
     });
+   }
+ }
+}
 }
 1;
 
