@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * New module for inventoring Oracle databases
        * Multiples monitors patch added
        * Fix bug #1023670
        * New version of Gentoo.pm 
