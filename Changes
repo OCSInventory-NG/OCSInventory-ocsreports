@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
-
+       * Fix bug #571655
+       * Retrieve family, serial number, number of processors, clockrate 
        * New module for inventoring Oracle databases
        * Multiples monitors patch added
        * Fix bug #1023670

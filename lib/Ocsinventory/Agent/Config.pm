@@ -16,6 +16,7 @@ my $default = {
   'local'     =>  '',
   #'logger'    =>  'Syslog,File,Stderr',
   'logger'    =>  'Stderr',
+  'logfacility' => 'LOG_USER',
   'logfile'   =>  '',
   'password'  =>  '',
   'proxy'     =>  '',

@@ -7,10 +7,8 @@ sub new {
 
   my $self = {};
 
-  setlogsock('unix');
-  openlog("ocs-agent", 'cons,pid', $ENV{'USER'});
+  openlog("ocs-agent",'cons.pid', $params->{config}->{logfacility});
   syslog('debug', 'syslog backend enabled');
-  closelog();
 
   bless $self;
 }
@@ -24,10 +22,12 @@ sub addMsg {
 
   return if $message =~ /^$/;
 
-  openlog("ocs-agent", 'cons,pid', $ENV{'USER'});
   syslog('info', $message);
-  closelog();
 
+}
+
+sub destroy {
+  closelog();
 }
 
 1;
