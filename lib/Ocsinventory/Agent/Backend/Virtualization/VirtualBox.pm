@@ -85,7 +85,7 @@ sub run {
                 $name = $uuid = "N/A";
                 
                 foreach my $option ( @process ) {
-                    print $option."\n";
+                    #print $option."\n";
                     if ($option =~ m/^comment (.*)/) {
                         $name = $1;
                     } elsif ($option =~ m/^startvm (\S+)/) {
