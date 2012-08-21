@@ -1,4 +1,5 @@
 Revision history for Ocsinventory::Agent
+       * Fix bug #882574
        * Fix bug #984699
        * Fix bug #971983
        * Fix bug #571655
