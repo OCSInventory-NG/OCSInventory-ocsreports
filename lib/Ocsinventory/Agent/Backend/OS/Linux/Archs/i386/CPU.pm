@@ -30,6 +30,17 @@ sub run {
 
         }
 
+        if (/^cpu\s*:/) {
+            if ($current) {
+                $common->addCPU($current);
+            }
+
+            $current = {
+                CPUCORES => '0'
+            };
+
+        }
+
 #            $current->{SERIAL} = $1 TODO with dmidecode;
         if (/^vendor_id\s*:\s*(Authentic|Genuine|)(.+)/i) {
             $current->{MANUFACTURER} = $2;
@@ -39,6 +50,7 @@ sub run {
         }
         $current->{SPEED} = $1 if /^cpu\sMHz\s*:\s*(\d+)(|\.\d+)$/i;
         $current->{TYPE} = $1 if /^model\sname\s*:\s*(.+)/i;
+	$current->{CPUCORES} = $1 if /^cpu\score\s*:\s*(\d+)/i;
 
     }
 
