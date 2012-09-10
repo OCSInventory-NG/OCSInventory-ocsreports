@@ -7,7 +7,7 @@ sub run {
 
 # Parsing dmidecode output
 # Using "type 0" section
-  my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
+  my( $Status, $SocketDesignation, $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
     $BiosVersion, $BiosDate, $AssetTag, $MotherboardManufacturer, $MotherboardModel, $MotherboardSerial );
 
   #System DMI
@@ -51,11 +51,17 @@ sub run {
 
 # Some bioses don't provide a serial number so I check for CPU ID (e.g: server from dedibox.fr)
   my @cpu;
-  if (!$SystemSerial ||$SystemSerial =~ /^0+$/) {
+  if (!$SystemSerial || $SystemSerial =~ /^0+$/) {
     @cpu = `dmidecode -t processor`;
     for (@cpu){
       if (/ID:\s*(.*)/i){
         $SystemSerial = $1;
+      }
+      if (/Socket Designation:\s*(.*)/i){
+	$SocketDesignation = $1;
+      }
+      if (/Status:\s*(.*)/i){
+	$Status = $1;
       }
     }
   }
@@ -72,6 +78,8 @@ sub run {
       MMANUFACTURER => $MotherboardManufacturer,
       MMODEL => $MotherboardModel,
       MSN => $MotherboardSerial,
+      CPUSOCKET => $SocketDesignation,
+      CPUSTATUS => $Status,
     });
 }
 

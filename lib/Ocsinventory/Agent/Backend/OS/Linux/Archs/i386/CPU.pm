@@ -36,7 +36,7 @@ sub run {
             }
 
             $current = {
-                CPUCORES => '0'
+                CORES => '0'
             };
 
         }
@@ -50,7 +50,8 @@ sub run {
         }
         $current->{SPEED} = $1 if /^cpu\sMHz\s*:\s*(\d+)(|\.\d+)$/i;
         $current->{TYPE} = $1 if /^model\sname\s*:\s*(.+)/i;
-	$current->{CPUCORES} = $1 if /^cpu\score\s*:\s*(\d+)/i;
+	$current->{CORES} = $1 if /^cpu\score\s*:\s*(\d+)/i;
+	$current->{L2CACHESIZE} = $1 if /^cache\ssize\s*:\s*(\d+)/i;
 
     }
 
