@@ -1,4 +1,5 @@
 Revision history for Ocsinventory::Agent
+       * Add detect CPU architecture
        * AIX memory module change
        * Add many informations about CPU(l2cachesize, status, socket designation, cores number)
        * Fix bug #1045356

@@ -563,6 +563,8 @@ sub addCPU {
   my $cpucores = $args->{CORES};
   my $cpustatus = $args->{CPUSTATUS};
   my $cpucachesize = $args->{L2CACHESIZE};
+  my $cpusocket = $args->{CPUSOCKET};
+  my $cpuarch = $args->{CPUARCH};
 
   push @{$xmltags->{CPUS}},
   {
@@ -575,6 +577,7 @@ sub addCPU {
     CPUCORES => [$cpucores],
     CPUSTATUS => [$cpustatus],
     CPUSOCKET => [$cpusocket],
+    CPUARCH => [$cpuarch],
   };
 
   # For the compatibility with HARDWARE/PROCESSOR*

@@ -52,6 +52,12 @@ sub run {
         $current->{TYPE} = $1 if /^model\sname\s*:\s*(.+)/i;
 	$current->{CORES} = $1 if /^cpu\score\s*:\s*(\d+)/i;
 	$current->{L2CACHESIZE} = $1 if /^cache\ssize\s*:\s*(\d+)/i;
+	if (/^flags\s*:\s*(\w+)=lm\s$/i) {
+		$current->{CPUARCH}=32;
+	}
+	else { 
+		$current->{CPUARCH}=64;
+	}
 
     }
 
