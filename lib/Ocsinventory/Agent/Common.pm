@@ -51,12 +51,12 @@ sub addController {
   push @{$xmltags->{CONTROLLERS}},
   {
     DRIVER => [$driver?$driver:''],
-    NAME => [$name],
-    MANUFACTURER => [$manufacturer],
+    NAME => [$name?$name:''],
+    MANUFACTURER => [$manufacturer?$manufacturer:''],
     PCIID => [$pciid?$pciid:''],
     PCISLOT => [$pcislot?$pcislot:''],
-    TYPE => [$type],
-    DESCRIPTION => [$description],
+    TYPE => [$type?$type:''],
+    DESCRIPTION => [$description?$description:''],
   };
 }
 
@@ -75,8 +75,8 @@ sub addModem {
   push @{$xmltags->{MODEMS}},
   {
 
-    DESCRIPTION => [$description],
-    NAME => [$name],
+    DESCRIPTION => [$description?$description:''],
+    NAME => [$name?$name:''],
 
   };
 }
@@ -323,7 +323,7 @@ sub addSoftware {
     INSTALLDATE => [$installdate?$installdate:''],
     NAME => [$name?$name:''],
     PUBLISHER => [$publisher?$publisher:''],
-    VERSION => [$version],
+    VERSION => [$version?$version:''],
 
   };
 }
@@ -569,15 +569,15 @@ sub addCPU {
   push @{$xmltags->{CPUS}},
   {
 
-    MANUFACTURER => [$manufacturer],
-    TYPE => [$type],
-    SERIALNUMBER => [$serial],
-    SPEED => [$speed],
-    L2CACHESIZE => [$cpucachesize],
-    CPUCORES => [$cpucores],
-    CPUSTATUS => [$cpustatus],
-    CPUSOCKET => [$cpusocket],
-    CPUARCH => [$cpuarch],
+    MANUFACTURER => [$manufacturer?$manufacturer:''],
+    TYPE => [$type?$type:''],
+    SERIALNUMBER => [$serial?$serial:''],
+    SPEED => [$speed?$speed:''],
+    L2CACHESIZE => [$cpucachesize?$cpucachesize:''],
+    CPUCORES => [$cpucores?$cpucores:''],
+    CPUSTATUS => [$cpustatus?$cpustatus:''],
+    CPUSOCKET => [$cpusocket?$cpusocket:''],
+    CPUARCH => [$cpuarch?$cpuarch:''],
   };
 
   # For the compatibility with HARDWARE/PROCESSOR*
