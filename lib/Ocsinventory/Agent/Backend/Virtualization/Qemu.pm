@@ -10,7 +10,7 @@ sub run {
     my $common = $params->{common};
 
     foreach ( `ps -ef` ) {
-        if (m/^.*((qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|cdrom).*)$/) {
+        if (m/^.*((qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|drive|cdrom).*)$/) {
             # match only if an qemu instance
             
             my $name = "N/A";
@@ -18,7 +18,7 @@ sub run {
             my $uuid;
             my $vmtype = $2;
                         
-            my @process = split (/\-/, $1);     #separate options
+            my @process = split (/ \-/, $1);     #separate options
             
             foreach my $option ( @process ) {
                 if ($name eq "N/A" and $option =~ m/^([fh]d[a-d]|cdrom) (\S+)/) {
