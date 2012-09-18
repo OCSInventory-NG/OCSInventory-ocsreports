@@ -48,7 +48,6 @@ sub new {
    $self->{number_scan}=0;
    $self->{snmp_oid_run}=$name."_oid_run";
    $self->{snmp_oid_xml}=$name."_oid_xml";
-   $self->{snmp_ip_scan}=$name."_ip_scan";
    $self->{func_oid}={};
    $self->{snmp_dir}=[];
 
@@ -128,7 +127,10 @@ sub snmp_prolog_reader {
               AUTHPASSWD=>$_->{AUTHPASSWD},
             };
           }
-       }
+          if($_->{'TYPE'} eq 'NETWORK'){
+            push @{$self->{nets_to_scan}},$_->{SUBNET};
+          }
+      }
     }
   }
 }
@@ -188,10 +190,9 @@ sub snmp_end_handler {
 
    # Scanning network
    $logger->debug("Snmp: Scanning network");
-   my $nets_to_scan=["10.44.65.0/24"];
 
-   foreach my $net_to_scan ( @$nets_to_scan ){
-      $self->{snmp_ip_scan}($self,$net_to_scan);
+   foreach my $net_to_scan ( @{$self->{nets_to_scan}} ){
+      $self->snmp_ip_scan($net_to_scan);
    }
    $logger->debug("Snmp: Ending Scanning network");
 
@@ -234,24 +235,23 @@ sub snmp_end_handler {
                 -timeout     => 3,
                 -version     => 'snmpv'.$comm->{VERSION},
                 -hostname    => $device->{IPADDR},
-		          -community   => $comm->{NAME},
+                -community   => $comm->{NAME},
                 -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
              );
           };
           unless (defined($session)) {
              $logger->error("Snmp ERROR: $error");
           } else {
-	          $self->{snmp_session}=$session;
+             $self->{snmp_session}=$session;
 
 	     #For a use in constructor module (Cisco)
-   	     $self->{snmp_community}=$comm->{NAME}; 
+             $self->{snmp_community}=$comm->{NAME}; 
              $self->{snmp_version}=$comm->{VERSION};
-             
 
              $full_oid=$session->get_request( -varbindlist => [$snmp_sysobjectid] );
              last LIST_SNMP if ( defined $full_oid);
              $session->close;
-	          $self->{snmp_session}=undef;
+             $self->{snmp_session}=undef;
           }
       }
 		
@@ -399,41 +399,40 @@ sub snmp_end_handler {
 #########################################################
 ###
 sub snmp_ip_scan {
-   my ($self,$net_to_scan)=@_;
+   my ($self,$net_to_scan) = @_;
    my $logger=$self->{logger};
    my $common=$self->{common};
-   my $ip=$self->{netdevices};
 
    if ($common->can_load('Net::Netmask') ) {
       my $block=Net::Netmask->new($net_to_scan);
       my $size=$block->size()-2;
       my $index=1;
-      $logger->debug("trying Scan with nmap");
-      if (  $common->can_run('nmap') && $common->can_load('Nmap::Parser')  ) {
-         $logger->debug("Scan with nmap");
+
+      if ( $common->can_run('nmap') && $common->can_load('Nmap::Parser')  ) {
+         $logger->debug("Scannig $net_to_scan with nmap");
          my $nmaparser = Nmap::Parser->new;
 
          $nmaparser->parsescan("nmap","-sP","-PR",$net_to_scan);
          for my $host ($nmaparser->all_hosts("up")) {
             my $res=$host->addr;
-	    $logger->debug("Find $res");
-	    push( @{$ip},{IPADDR=>$res});
+	    $logger->debug("Found $res");
+	    push( @{$self->{netdevices}},{ IPADDR=>$res }) unless $self->search_netdevice($res);
          }
       } elsif ($common->can_load('Net::Ping'))  {
-         $logger->debug("Scanning with ping");
+         $logger->debug("Scanning $net_to_scan with ping");
          my $ping=Net::Ping->new("icmp",1);
 
          while ($index <= $size) {
             my $res=$block->nth($index);
-            if ( $ping->ping($res) ) {
-	      $logger->debug("Find $res");
-	      push( @{$ip},{IPADDR=>$res});
+            if ($ping->ping($res)) {
+	      $logger->debug("Found $res");
+	      push( @{$self->{netdevices}},{ IPADDR=>$res }) unless $self->search_netdevice($res);
             }
             $index++;
          }
          $ping->close();
       } else {
-	$logger->debug("No scanning possible");
+	$logger->debug("No scan possible");
       }
    } else {
       $logger->debug("Net::Netmask not present: no scan possible");
@@ -799,4 +798,26 @@ sub xml_line_v1 {
 
    return $info_equipment;
 }
+
+#########################################################
+#							#
+# function to search an IP adress in netdevices array	#
+# Parameters: 						#
+#         (self)					#
+#         IP address to search				#
+#							#
+# Return: 1 if IP address was found			#
+#          nothing in other case			#
+#########################################################
+
+sub search_netdevice {
+   my ($self,$ip)= @_ ;
+
+   for (@{$self->{netdevices}}) {
+      if ($ip =~ /$_->{IPADDR}/) {
+        return 1;
+      }
+   }
+}
+
 1;

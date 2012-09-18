@@ -1,4 +1,6 @@
 Revision history for Ocsinventory::Agent
+
+       * New availability to scan custom network with SNMP using a network address received from server 
        * Fix bug #1049626
        * Fix bug #1040197
        * Add detect CPU architecture
