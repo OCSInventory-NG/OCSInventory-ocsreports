@@ -11,6 +11,7 @@ sub run {
   my $params = shift;
   my $common = $params->{common};
 
+  my $os;
 
   my $processort;
   my $processorn;
@@ -20,7 +21,7 @@ sub run {
   my $manufacturer;
   my $serial;
   
-  my $os = chomp(`uname -s`);
+  chomp($os = `uname -s`);
   if ($os eq "FreeBSD") {
 	$processors = `sysctl -n hw.clockrate`;
   }
