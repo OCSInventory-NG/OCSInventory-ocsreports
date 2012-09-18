@@ -24,6 +24,29 @@ sub run {
     }
   } 
 
+  # Retrieve VLAN information on AIX
+  # Only tested on AIX 6.1
+  my $pifname;
+  foreach (`lsdev`) {
+    if (/^ent(\d+).*VLAN$/) {
+      $ifname = "en".$1;
+      $pifname = "ent".$1;
+      $info{$ifname}{type} = "VLAN";
+      $info{$ifname}{status} = "Down";
+      foreach (`entstat -d $ifname`) {
+        if (/Hardware Address:\s+(.+)$/) {
+          $info{$ifname}{macaddr}="$1";
+          last;
+        }
+      }
+      foreach (`lsattr -El $pifname`) {
+        if (/^vlan_tag_id\s+(\d+)/) {
+          $info{$ifname}{type}.="$1";
+        }
+      }
+    }
+  }
+
   # uncomment if you prefere verbose information about the link
   # e.g: 0xe8120000:0xe80c0000:741:3:512:1024:8192:Auto_Negotiation:2048:no:0x000000000000:10000:10:1000:yes:yes:no:no:yes:2048
 
