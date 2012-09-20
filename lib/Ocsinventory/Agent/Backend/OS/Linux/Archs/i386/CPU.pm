@@ -51,10 +51,7 @@ sub run {
 	$current->{L2CACHESIZE} = $1 if /^cache\ssize\s*:\s*(\d+)/i;
 	if (/^flags\s*:\s*(.*)/i) {
                 my @liste1=split(/ /,$1);
-                foreach my $a (@liste1) {
-                        $cpuarch=$a if ($a =~/^lm$/);
-                }
-		if ($cpuarch == "lm") {
+		if (grep /^lm$/,@liste1)) {
                       $current->{CPUARCH}=64;
                 } else {
                       $current->{CPUARCH}=32;
