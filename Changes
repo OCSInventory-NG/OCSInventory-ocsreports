@@ -1,26 +1,23 @@
 Revision history for Ocsinventory::Agent
 
        * New availability to scan custom network with SNMP using a network address received from server 
-       * Fix bug #1049626
-       * Fix bug #1040197
+       * Fix bug #1049626 about Qemu virtualization not detected on proxmox
+       * Fix bug #1040197 about VLAN interface AIX support 
        * Add detect CPU architecture
        * AIX memory module change
        * Add many informations about CPU(l2cachesize, status, socket designation, cores number)
-       * Fix bug #1045356
-       * Fix bug #807419
-       * Fix bug #882574
-       * Fix bug #984699
-       * Fix bug #971983
-       * Fix bug #571655
+       * Fix bug #882574 about parsing of dmidecode fails on SMBIOS warning
+       * Fix bug #984699 about the Output of 'ps' in VirtualBox module is displayed in stdout
+       * Fix bug #571655 about the Wrong Sys:Syslog usage
        * Retrieve family, serial number, number of processors, clockrate for BSDsystems
        * New module for inventoring Oracle databases
        * Multiples monitors patch added
-       * Fix bug #1023670
+       * Fix bug #1023670 about memconf not working with HP-UX 11.31
        * New version of Gentoo.pm 
        * New Backend/Virtualization/Parallels.pm module for Parallels virtual machines inventory
        * Plugin Processes moved as module
-       * Fix bug #911491 for BSD
-       * Fix bug #873377 for Gentoo
+       * Fix bug #911491 about Freebsd CPU info not reporting properly
+       * Fix bug #873377 about Installed packages on Gentoo
        * Add OS/Linux/LVM.pm module for Logical Volume Manager support 
        * New Snmp/231.pm module for Fujistu devices
        * postinst.pl can now be launched in non-interactive mode using new "--nowizard" launch option
