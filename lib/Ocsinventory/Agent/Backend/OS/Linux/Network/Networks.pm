@@ -158,10 +158,10 @@ sub run {
 
     } else { # In a section
         $description = $1 if ($line =~ /^(\S+):/ || $line =~ /^(\S+)/); # Interface name
-        $ipaddress = $1 if ($line =~ /inet addr:(\S+)/i || $line =~ /^\s*inet\s+(\S+)/);
-        $ipmask = $1 if ($line =~ /\S*mask:(\S+)/i || $line =~ /\S*netmask\s+(\S+)/);
-        $macaddr = $1 if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i || $line =~ /\s*ether\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i);
-        $status = $1 if ($line =~ /^\s+UP\s/ || $line =~ /flags=.*(,|<)UP(,|>)/);
+        $ipaddress = $1 if ($line =~ /inet addr:(\S+)/i || $line =~ /inet (\S+)\s+netmask/i);
+        $ipmask = $1 if ($line =~ /\S*mask:(\S+)/i || $line =~ /\S*netmask (\S+)\s/i);
+        $macaddr = $1 if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i || $line =~ /ether\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i);
+        $status = 1 if ($line =~ /^\s+UP\s/ || $line =~ /flags=.*(,|<)UP(,|>)/);
         $type = $1 if ($line =~ /link encap:(\S+)/i || $line =~ /^\s+(loop|ether).*\((\S+)\)/i);
     }
 
