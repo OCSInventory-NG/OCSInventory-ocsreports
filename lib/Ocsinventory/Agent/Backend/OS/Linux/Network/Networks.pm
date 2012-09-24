@@ -162,7 +162,8 @@ sub run {
         $ipmask = $1 if ($line =~ /\S*mask:(\S+)/i || $line =~ /\S*netmask (\S+)\s/i);
         $macaddr = $1 if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i || $line =~ /ether\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i);
         $status = 1 if ($line =~ /^\s+UP\s/ || $line =~ /flags=.*(,|<)UP(,|>)/);
-        $type = $1 if ($line =~ /link encap:(\S+)/i || $line =~ /^\s+(loop|ether).*\((\S+)\)/i);
+        $type = $1 if ($line =~ /link encap:(\S+)/i);
+	$type = $2 if ($line =~ /^\s+(loop|ether).*\((\S+)\)/i);
     }
 
 

@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix bug #1045356 ifconfig parsing issue (Fedora>=17)
        * New availability to scan custom network with SNMP using a network address received from server 
        * Fix bug #1049626 about Qemu virtualization not detected on proxmox
        * Fix bug #1040197 about VLAN interface AIX support 
