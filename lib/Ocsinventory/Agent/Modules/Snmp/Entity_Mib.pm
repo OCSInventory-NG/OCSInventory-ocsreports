@@ -88,7 +88,7 @@ sub info_element()
    my $snmp_software="1.3.6.1.2.1.47.1.1.1.1.10.";
    my $snmp_serial="1.3.6.1.2.1.47.1.1.1.1.11.";
    my $snmp_entPhysicalMfgName="1.3.6.1.2.1.47.1.1.1.1.12.";
-   #my $snmp_entPhysicalModelName="1.3.6.1.2.1.47.1.1.1.1.13.";
+   my $snmp_entPhysicalModelName="1.3.6.1.2.1.47.1.1.1.1.13.";
 
    my $result;
    # We have a good element
@@ -120,9 +120,9 @@ sub info_element()
    if ( defined( $result ) ) {
       $info->{MANUFACTURER} = $result->{$snmp_entPhysicalMfgName.$ref};
    }
-   #$result=$session->get_request(-varbindlist => [$snmp_entPhysicalModelName.$ref]);
-   #if ( defined( $result ) ) {
-      #$info->{TYPE} = $result->{$snmp_entPhysicalModelName.$ref};
-   #}
+   $result=$session->get_request(-varbindlist => [$snmp_entPhysicalModelName.$ref]);
+   if ( defined( $result ) ) {
+      $info->{TYPE} = $result->{$snmp_entPhysicalModelName.$ref};
+   }
 }
 1;

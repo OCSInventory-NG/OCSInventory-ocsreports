@@ -191,7 +191,9 @@ sub snmp_end_handler {
    # Scanning network
    $logger->debug("Snmp: Scanning network");
 
-   foreach my $net_to_scan ( @{$self->{nets_to_scan}} ){
+
+   my $nets_to_scan=$self->{nets_to_scan};
+   foreach my $net_to_scan ( @$nets_to_scan ){
       $self->snmp_ip_scan($net_to_scan);
    }
    $logger->debug("Snmp: Ending Scanning network");
@@ -702,7 +704,7 @@ ALL_LOOPS:   foreach my $uniq_loops ( @{$xml_loops} ) {
 # function for reading for a table                      #
 # Parameters:                                           #
 #         (self)                                        #
-#         xml_line (containt FIXE/VALUE/FILTER          #
+#         xml_line (containt SET/VALUE/FILTER          #
 #                  or a sub DATA                        #
 #         value_IDX for subtitution in the information  #
 #         result_table: pointer on the table where we   #
@@ -749,7 +751,7 @@ sub xml_data_v1 {
 # function for reading for a uniq line in a table       #
 # Parameters:                                           #
 #         (self)                                        #
-#         xml_line (containt FIXE/VALUE/FILTER          #
+#         xml_line (containt SET/VALUE/FILTER          #
 #         value_IDX for subtitution in the information  #
 #                                                       #
 #  Return: undef if no line correct                     #
@@ -761,9 +763,9 @@ sub xml_line_v1 {
    my $session=$self->{snmp_session};
 
    return undef if ( ! defined ($xml_line) ) ;
-   # We have a FIXE or a VALUE and an optional FILTER
-   if ( defined ( $xml_line->{FIXE} ) ) {
-      return($xml_line->{FIXE}[0]);
+   # We have a SET or a VALUE and an optional FILTER
+   if ( defined ( $xml_line->{SET} ) ) {
+      return($xml_line->{SET}[0]);
    }
 
    return undef if ( ! defined ( $xml_line->{VALUE} ) ) ;

@@ -20,8 +20,8 @@ sub snmp_run {
    $logger->debug("Running If MIB module");   
 
    # OID a recuperer
-   my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2";
-   my $snmp_iftype="1.3.6.1.2.1.2.2.1.3.";
+   my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2.";
+   my $snmp_iftype="1.3.6.1.2.1.2.2.1.3";
    my $snmp_ifspeed="1.3.6.1.2.1.2.2.1.5.";
    my $snmp_physAddr="1.3.6.1.2.1.2.2.1.6.";
    my $snmp_ifadminstatus="1.3.6.1.2.1.2.2.1.7.";
@@ -89,23 +89,22 @@ sub snmp_run {
    $result_snmp=$session->get_entries(-columns => [$snmp_iftype]);
    foreach my $result ( keys  %{$result_snmp} ) {
       # We work on real interface and no vlan
-      if ( $result_snmp->{$result} == 6 ) {
+      $TYPE=$result_snmp->{$result};
+      if ( $TYPE == 6 || $TYPE == 94) {
          if ( $result =~ /1\.3\.6\.1\.2\.1\.2\.2\.1\.3\.(\S+)/ ) {
             $ref=$1;
-            $TYPE=$result_snmp->{$result};
 
-            $TYPE=$session->get_request(-varbindlist => [$snmp_iftype.$ref]);
-            if ( defined( $TYPE->{$snmp_iftype.$ref} ) ) {
-               $TYPE= $TYPE->{$snmp_iftype.$ref};
-               if ( $TYPE == 6 ) {
-                  $TYPE="ethernetCsmacd";
-               } elsif ( $TYPE ==  56 ) {
-                  $TYPE="fibreChannel";
-               }
+            if ( $TYPE == 6 ) {
+               $TYPE="ethernetCsmacd";
+            } elsif ( $TYPE ==  94 ) {
+               $TYPE="Adsl";
             }
 
-            $SLOT=$session->get_request(-varbindlist => [$snmp_ifdescr.$ref]);
-            $SLOT=$result_snmp->{$result};
+            my $intero=$snmp_ifdescr.$ref;
+            #$SLOT=$session->get_request(-varbindlist => [$snmp_ifdescr.$ref]);
+            $SLOT=$session->get_request(-varbindlist => [$intero]);
+            $SLOT=" $SLOT->{$snmp_ifdescr.$ref}";
+	    #print "Pour $intero Le slot $SLOT\n";
 
             $SPEED=$session->get_request(-varbindlist => [$snmp_ifspeed.$ref]);
             if ( defined( $SPEED->{$snmp_ifspeed.$ref}) ) {
@@ -155,7 +154,6 @@ sub snmp_run {
 	      $IPGATEWAY=$gateway_index->{$ref};
 	      $IPSUBNET=$network_index->{$ref};
            }
-
            $common->addSnmpNetwork( {
                 TYPE      => $TYPE,
                 SLOT      => $SLOT,
@@ -170,7 +168,6 @@ sub snmp_run {
            $MACADDR=undef;
            $SLOT=undef;
            $STATUS=undef;
-           $TYPE=undef;
            $SPEED=undef;
    	   $IPADDR=undef;
    	   $IPMASK=undef;
@@ -182,3 +179,4 @@ sub snmp_run {
 }
 
 1;
+
