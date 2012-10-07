@@ -42,12 +42,12 @@ sub run {
   }
 
   $common->addCPU({
-      FAMILY => $family if $family,
-      MANUFACTURER => $manufacturer if $manufacturer,
-      NUMBER => $processorn if $processorn,
-      TYPE => $processort if $processort,
-      SPEED => $processors if $processors,
-      SERIAL => $serial if $serial
+      FAMILY => $family,
+      MANUFACTURER => $manufacturer,
+      NUMBER => $processorn,
+      TYPE => $processort,
+      SPEED => $processors,
+      SERIAL => $serial
     });
 
 }

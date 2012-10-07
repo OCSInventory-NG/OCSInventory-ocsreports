@@ -43,7 +43,7 @@ sub new {
   if ($self->{config}->{proxy}) {
     $self->{ua}->proxy(['http', 'https'], $self->{config}->{proxy});
   }  else {
-    $self->{ua}->env_proxy || $ENV{HTTPS_PROXY};
+    $self->{ua}->env_proxy;
   }
   my $version = 'OCS-NG_unified_unix_agent_v';
   $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
