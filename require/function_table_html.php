@@ -162,7 +162,7 @@ function escape_string($array){
 
 function xml_escape_string($array){
 	foreach ($array as $key=>$value){
-		$trait_array[$key]=xml_encode($value);
+		$trait_array[$key]=utf8_encode($value);
 		//$trait_array[$key]=mysql_real_escape_string($value);
 	}
 	return ($trait_array);
@@ -171,14 +171,15 @@ function xml_escape_string($array){
 function xml_encode( $txt ) {
 		$cherche = array("&","<",">","\"","'","é","è","ô","Î","î","à","ç","ê","â");
 		$replace = array( "&amp;","&lt;","&gt;", "&quot;", "&apos;","&eacute;","&egrave;","&ocirc;","&Icirc;","&icirc;","&agrave;","&ccedil;","&ecirc;","&acirc;");
-		return str_replace($cherche, $replace, $txt);		
+		return str_replace($cherche, $replace, $txt);	
+
 	
 }
 
 function xml_decode( $txt ) {
 		$cherche = array( "&acirc;","&ecirc;","&ccedil;","&agrave;","&lt;","&gt;", "&quot;", "&apos;","&eacute;","&egrave;","&ocirc;","&Icirc;","&icirc;","&amp;");
 		$replace = array( "â","ê","ç","à","<",">","\"","'","é","è","ô","Î","î", "&" );
-		return str_replace($cherche, $replace, $txt);		
+		return str_replace($cherche, $replace, $txt);	
 	
 }
 
