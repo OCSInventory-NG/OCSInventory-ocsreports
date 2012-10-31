@@ -340,8 +340,9 @@ function html_header($no_java=false){
 		}
 	}
 	echo "</head>"; 
+
 	echo "<body bottommargin='0' leftmargin='0' topmargin='0' rightmargin='0' marginheight='0' marginwidth='0'>";
-	
+
 }
 function strip_tags_array($value='')
 {
@@ -349,6 +350,17 @@ function strip_tags_array($value='')
 	return $value;
 }
 
+function open_form($form_name,$action='',$more=''){
+	$form="<form name='".$form_name."' id='".$form_name."' method='POST' action='".$action."' ".$more." >";
+	$csrf_value = sha1(microtime());
+	$_SESSION['OCS']['CSRF'][$_SESSION['OCS']['CSRFNUMBER']] = $csrf_value;
+	$form.="<input type='hidden' name='CSRF_".$_SESSION['OCS']['CSRFNUMBER']."' id='CSRF_".$_SESSION['OCS']['CSRFNUMBER']."' value='".$csrf_value."'>";
+	$_SESSION['OCS']['CSRFNUMBER']++;
+	return $form;
+}
 
+function close_form(){
+	return "</form>";	
+}
 
 ?>

@@ -43,7 +43,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 	//form name
 	$form_name = "rules";
 	//show all rules
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+		echo open_form($form_name);
 				$list_fields= array('ID_RULE'=>'RULE',
 									'RULE_NAME'=>'RULE_NAME',
 									'SUP'=>'RULE',
@@ -111,7 +111,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 	}else{	
 	echo "<input type='submit'  value='".$l->g(685)."' name='NEW_RULE'>";	
 	}
-	echo "</form>";
+	echo close_form();
 }else{
 	msg_info($l->g(1182));
 }

@@ -12,7 +12,7 @@
 	print_item_header($l->g(20));
 	$form_name="affich_soft";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$list_fields[$l->g(69)] = 'PUBLISHER';
 	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){		
@@ -51,5 +51,5 @@
 	$tab_options['FILTRE']=array_flip($list_fields);//array('NAME'=>$l->g(49),'VERSION'=>$l->g(277),'PUBLISHER'=>$l->g(69));
 	
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
-	echo "</form>";
+	echo close_form();
 ?>

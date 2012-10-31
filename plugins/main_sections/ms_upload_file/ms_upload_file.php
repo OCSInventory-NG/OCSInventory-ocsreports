@@ -109,7 +109,7 @@ if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 }
 if (!isset($protectedPost['ADD_FILE'])){
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$list_fields=array($l->g(283)=>'function',
 					   $l->g(49) => 'name',
 					   'SUP'=>'name'
@@ -128,7 +128,7 @@ if (!isset($protectedPost['ADD_FILE'])){
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options);
 	//echo show_modif($name,'ADD_FILE',8,"",$configinput=array('DDE'=>100));
 	echo "<input type=submit name=ADD_FILE value='".$l->g(1048)."'>";
-		echo "</form>";
+	echo close_form();
 }
 
 if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
@@ -143,13 +143,13 @@ if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
 
 	msg_info($l->g(2022).' '.$valBumf.$l->g(1240)."<br>".$l->g(2106)." ".$upload_max_filesize.$l->g(1240));
 	//echo "post_max_size=".$valTpms.$l->g(1240).'//upload_max_filesize='.$valTumf.$l->g(1240);
-	echo "<form name='".$form_name1."' id='".$form_name1."' method='POST' action='' enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\">";
+	echo open_form($form_name1,'',"enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"");
 	echo '<div class="'.$css.'" >';
 	echo $l->g(1048).": <input id='file_upload' name='file_upload' type='file' accept=''>";
 	echo "<br><br><input name='GO' id='GO' type='submit' value='".$l->g(13)."'>&nbsp;&nbsp;";
 	//echo "<input type='button' name='RESET' id='RESET' value='".$l->g(113)."' onclick='submit(".$form_name.")'>";
 	echo "</div>";
-	echo "</form>";
+	echo close_form();
 	echo "<br>";
 
 }

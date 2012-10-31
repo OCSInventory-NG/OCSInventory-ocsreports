@@ -460,8 +460,7 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 		$css="mvt_bordure";
 
 	if ($form_name != 'NO_FORM'){
-		echo "<form name='" . $form_name . "' id='" 
-			. $form_name . "' action='' method='POST'>";
+		echo open_form($form_name);
 	}
 	echo '<div class="'.$css.'" >';
 	if ($showbutton_action != '')
@@ -509,7 +508,7 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 		}
     }
     if ($form_name != 'NO_FORM')
-	echo "</form>";
+	echo close_form();
 }
 
 function show_field($name_field,$type_field,$value_field,$config=array()){
@@ -776,7 +775,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 										$def_onglets[$l->g(628)]=$l->g(628); //Serveur de redistribution 
 		
 	behing this function put this lign:
-	echo "<form name='modif_onglet' id='modif_onglet' method='POST' action='index.php?multi=4'>";
+	echo open_form($form_name);
 	
 	At the end of your page, close this form
 	$post_name is the name of var will be post

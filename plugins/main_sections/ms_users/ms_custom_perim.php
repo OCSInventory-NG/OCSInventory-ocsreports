@@ -75,7 +75,8 @@ if(isset($protectedPost['SUP_PROF'])) {
 	$arg=array($protectedPost['SUP_PROF'],$protectedGet["id"]);
 	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 }
-echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
+echo "<br>";
+echo open_form($form_name);
 
 if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
@@ -107,6 +108,6 @@ $select_choise=show_modif($info_value_tag,'newtag',$type);
 echo $l->g(617)." ".$_SESSION['OCS']['TAG_LBL']['TAG'].": ".$select_choise;
 echo "<input type='submit' name='ADD_TAG' value='" . $l->g(13) . "'><br>";
 echo show_modif(array($l->g(358)),'use_generic',5,$form_name);
-echo "</form>";
+echo close_form();
 ?>
 

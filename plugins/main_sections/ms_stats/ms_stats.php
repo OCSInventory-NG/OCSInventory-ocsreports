@@ -13,7 +13,7 @@ require('require/function_stats.php');
 $form_name="stats";
 $table_name=$form_name;	
 printEnTete($l->g(1251));
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 $plugin=false;
 $stats='';
 foreach ($_SESSION['OCS']['URL'] as $name=>$lbl){
@@ -31,6 +31,6 @@ if ($plugin){
 	echo "</div>";
 }else
 	msg_warning($l->g(1262));
-echo "</form>";
+echo close_form();
 
 ?>

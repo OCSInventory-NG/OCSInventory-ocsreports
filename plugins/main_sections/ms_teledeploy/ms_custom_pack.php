@@ -14,7 +14,7 @@ require_once('require/function_search.php');
 require_once('require/function_telediff_wk.php');
 $form_name="pack_affect";
 $table_name="LIST_PACK_SEARCH";
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 $list_id=multi_lot($form_name,$l->g(601));
 //TELEDIFF_WK
 $activate=option_conf_activate('TELEDIFF_WK');
@@ -260,6 +260,5 @@ if ($list_id){
 	}
 	echo "</td></tr></table></div>";
 }
-
-echo "</form>";
+echo close_form();
 ?>

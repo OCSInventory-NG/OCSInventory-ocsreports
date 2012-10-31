@@ -14,7 +14,7 @@ require_once('require/function_config_generale.php');
 require_once('require/function_search.php');
 
 $form_name="param_affect";
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 $list_id=multi_lot($form_name,$l->g(601));
 	//print_r($list_id);
 	/*if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
@@ -122,5 +122,5 @@ $list_id=multi_lot($form_name,$l->g(601));
 		echo "</div>";
 	}
 	
- echo "</form>";
+echo close_form();
 ?>

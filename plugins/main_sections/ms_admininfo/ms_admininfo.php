@@ -65,7 +65,7 @@ if (isset($msg['SUCCESS'])){
 	$protectedPost['onglet'] = 1;	
 }	
 
-echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
+echo open_form($form_name);
 onglet($data_on,$form_name,"onglet",2);
 echo '<div class="mlt_bordure" >';
 
@@ -181,6 +181,6 @@ if ($protectedPost['onglet'] == 1){
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
 }
 echo "</div>"; 
-echo "</form>";
+echo close_form();
 ?>
 

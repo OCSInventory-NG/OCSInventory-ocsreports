@@ -122,7 +122,7 @@ if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protecte
 //initialisation du tableau
 //$list_fields_calcul=array();
 //ouverture du formulaire
-echo "<form name='".$form_name."' id='".$form_name."' method='post'>";
+echo open_form($form_name);
 if (isset($protectedPost['GET'])){
 	echo "<input type=hidden name='GET' value='".$protectedPost['GET']."'>";
 }
@@ -1220,7 +1220,7 @@ if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] !
 echo "<input type=hidden name=delfield id=delfield value=''>";
 echo "<input type=hidden name='reset' id='reset' value=''>";
 echo "</td></tr></table>";
-echo "</form>";	
+echo close_form();
 echo $l->g(358);
 echo "<br>";
 

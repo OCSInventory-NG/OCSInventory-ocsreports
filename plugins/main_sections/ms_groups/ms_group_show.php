@@ -155,7 +155,7 @@ else{ //only show the botton for modify
 	$button_reset="";
 }
 //form for modify values of group's
-echo "<form name='CHANGE' action='' method='POST'>";
+echo open_form('CHANGE');
 echo "<br><br><table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
 
 //TELEDIFF_WK
@@ -209,7 +209,7 @@ echo "</tr><tr>".$tdhd.$l->g(53).$tdhf.$tdhdpb.$description.$tdhfpb;
 if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")
 echo "<tr><td align='left' colspan=4>".$button_valid."&nbsp&nbsp".$button_reset."&nbsp&nbsp".$img_modif."</td></tr>";
 echo "$tdhfpb</table>";
-echo "</form>";
+echo close_form();
 $td1	  = "<td height=20px id='color' align='center'><FONT FACE='tahoma' SIZE=2 color=blue><b>";
 	$td2      = "<td height=20px bgcolor='white' align='center'>";
 	$td3      = $td2;
@@ -408,7 +408,7 @@ function print_computers_real($systemid) {
 	$form_name="calcul_computer_groupcache";
 	$table_name=$form_name;
 	echo "<font color=red><b>".$l->g(927)."</b></font>";
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
 			$queryDetails .= $value.",";		
@@ -421,7 +421,7 @@ function print_computers_real($systemid) {
 	$tab_options['FILTRE']=array('h.NAME'=>'Nom');
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,90,$tab_options);
 	form_action_group($systemid);
-	echo "</form>";
+	echo close_form();
 }
 
 function print_computers_cached($systemid) {
@@ -450,7 +450,7 @@ function print_computers_cached($systemid) {
 
 	$form_name="list_computer_groupcache";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 
 	$queryDetails  = "SELECT ";
 	foreach ($list_fields as $lbl=>$value){
@@ -467,7 +467,7 @@ function print_computers_cached($systemid) {
 	if ($statut){
 		form_action_group($systemid);
 	}
-	echo "</form>";
+	echo close_form();
 }
 
 function print_perso($systemid) {
@@ -476,7 +476,7 @@ function print_perso($systemid) {
 	$queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
 	$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
 		$form_name='config_group';
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";				
+	echo open_form($form_name);				
 		echo "<table BORDER='0' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
 	//echo "<tr><td>&nbsp;&nbsp;</td> $td1 "."Libell�"." </td> $td1 "."Valeur"." </td><td>&nbsp;</td></tr>";		
@@ -500,12 +500,6 @@ function print_perso($systemid) {
 	if( $_SESSION['OCS']['CONFIGURATION']['CONFIG'] == "YES"){
 		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
 		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
-//	echo "<form name='modif_param' id='modif_param' method='POST' action='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."'>";
-//	echo "<td align=center rowspan=8><a OnClick='recharge(\"$systemid\",\"group\")'><img src='image/modif_a.png' title='".$l->g(285)."'></a></td>";
-//	echo "</tr>";
-//	echo "<input type='hidden' id='systemid' name='systemid' value=''>";
-//	echo "<input type='hidden' id='origine' name='origine' value=''>"; 
-//	echo "</form>";
 	}
 	
 	$ii++; $td3 = $ii%2==0?$td2:$td4;
@@ -585,7 +579,7 @@ function print_perso($systemid) {
 		</td></tr>";
 	}
 	echo "</table><br>";
-	echo "</form>";
+	echo close_form();
 }
 
 

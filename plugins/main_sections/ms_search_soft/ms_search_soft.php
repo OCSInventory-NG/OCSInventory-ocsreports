@@ -8,9 +8,7 @@
 
 require_once('require/fonction.inc.php');
 $form_name="search_soft";
-//$l_p=new language($_SESSION['OCS']['LANGUAGE'],'plugin');
-//echo $l_p->g_plug(1);
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 //html
 /*echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n";
 echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='fr'>"."\n";
@@ -27,41 +25,14 @@ echo "\n".'<script type="text/javascript">
 	window.onload = function(){initAutoComplete(document.getElementById(\''.$form_name.'\'), document.getElementById(\'champ-texte\'), document.getElementById(\'bouton-submit\'),\''.$xml_file.'\')}
 	</script>';
 
-//echo "\n".'<body>';
-//echo "\n".'<div id="en-tete"><p><img src="intranet.gif" alt="intranet" id="intranet" /></p></div>';
+
 echo "\n".'<i>'.$l->g(20).": ";
-//echo "\n".'</i><select name="logiciel_select" >'."\n";
 
-// voir fontion.php
 remplirListe("logiciel_select");
-//echo "\n".'</select>'."\n";
-/*echo "\n".'</select><input id="show" type="submit" name="submit" value="Afficher" />';
-echo "\n".'</form>';*/
 
-// formulaire , bouton et code php pour l autocompletion
-//echo "\n".'<form  method="post" name="form-test" id="form-test" >';
-//echo "\n".'<input type="hidden" name="ms_options" id="ms_options" value="index.php?function=search_soft_option&no_header=1">';
 echo "\n".'<br><br><input type="text" name="logiciel_text" value="'.$protectedPost['logiciel_text'].'" id="champ-texte"  size="15"/>';
 echo "\n".'<br><input type="submit" id="bouton-submit" value="'.$l->g(13).'" name="bouton-submit">';
-//echo "\n".'</form>';
 
-
-/*if(!isset($protectedPost['logiciel']) || is_null($protectedPost['logiciel']) || (empty($protectedPost['logiciel'])))
-	{
-	//echo "\n".'<input type="hidden" name="export" id="export" value="export" ></form>';
-	}
-else
-	{
-//	echo "\n".'<form  method ="post" name="export" id="export" action="export.php">';
-//	echo "\n".'<input type="hidden" name="logiciel" id="export" value="'.$_POST['logiciel'].'">';
-//	echo "\n".'<input type="submit" name="export" id="export" value="Export" ></form>';
-	}
-
-echo "\n";'</p>';*/
-
-
-
-// balise pour <div id="fr"> sert pour la fonction d'impression
 echo "\n".'<div id="fr">';
 
 // voir fonction.php
@@ -76,7 +47,6 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	$logiciel=$protectedPost['logiciel_text'];
 	
 	$table_name=$form_name;
-	//echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
 	$list_fields=array('NAME' => 'h.NAME',
 					   'ip' => 'h.IPADDR',
 					   'domaine' => 'h.WORKGROUP',
@@ -113,7 +83,5 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 
 echo "\n".'</div>';
 
-//echo "\n".'</div>';
-echo "</form>";
-//mysql_close();
+echo close_form();
 ?>	

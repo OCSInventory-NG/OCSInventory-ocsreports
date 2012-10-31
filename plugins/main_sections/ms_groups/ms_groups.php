@@ -53,7 +53,7 @@ if ($protectedPost['SUP_PROF'] != ""){
 }
 
 $form_name='groups';
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 //view all groups
 if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
 	$def_onglets['DYNA']=$l->g(810); //Dynamic group
@@ -173,5 +173,5 @@ if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['CONFIGURATIO
 }
 echo '</div>';
 //fermeture du formulaire
-echo "</form>";
+echo close_form();
 ?>

@@ -39,7 +39,7 @@ if (isset($protectedPost['enre'])){
 	}else
 		unset($_SESSION['OCS']['DATA_CACHE'],$_SESSION['OCS']['NUM_ROW']);
 }
-echo "<form action='' name='".$form_name."' id='".$form_name."' method='POST'>";
+echo open_form($form_name);
 onglet($data_on,$form_name,"onglet",10);
 echo '<div class="mlt_bordure" >';
 
@@ -134,5 +134,5 @@ if (isset($list_fields)){
 	del_selection($form_name);
 }	
 echo "</div>";
-echo "</form>";
+echo close_form();
 ?>

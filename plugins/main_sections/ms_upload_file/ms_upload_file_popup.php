@@ -72,10 +72,10 @@ if (isset($field) and $field != ''){
 	}
 	
 	//ouverture du formulaire
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action='' enctype='multipart/form-data'>";
+	echo open_form($form_name,'',"enctype='multipart/form-data'");
 	echo $l->g(1048).": <input id='file_upload' name='file_upload' type='file' accept=''>";
 	echo "<br><br><input name='GO' id='GO' type='submit' value='".$l->g(13)."' OnClick='return verif();window.close();'>&nbsp;&nbsp;<input type=button value='".$l->g(113)."' Onclick='window.close();'>";
-	echo "</form>";
+	echo close_form();
 	echo "<br>";
 	
 	
@@ -85,7 +85,7 @@ if (isset($field) and $field != ''){
 			$protectedPost['SHOW'] = 'NOSHOW';
 		$form_name2="affich_files";
 		$table_name=$form_name2;
-		echo "<form name='".$form_name2."' id='".$form_name2."' method='POST' action=''>";
+		echo open_form($form_name2);
 		$list_fields=array('id'=>'id','Fichier'=>'file_name','Type'=>'file_type','Poids'=>'file_size','SUP'=>'id');
 		$list_col_cant_del=array('Fichier'=>'Fichier','SUP'=>'SUP');
 		$default_fields= $list_fields;
@@ -105,7 +105,7 @@ if (isset($field) and $field != ''){
 		
 		
 		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name2,80,$tab_options);
-		echo "</form>";
+		echo close_form();
 }else
 	msg_error($l->g(1049));
 

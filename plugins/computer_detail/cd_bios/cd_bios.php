@@ -25,7 +25,7 @@
 
 	$form_name="affich_bios";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$list_fields=array($l->g(36) => 'SSN',
 					   $l->g(64) => 'SMANUFACTURER',
 					   $l->g(65) => 'SMODEL',
@@ -63,6 +63,6 @@
 	}
 	$queryDetails  = substr($queryDetails,0,-1)." FROM bios WHERE (hardware_id=$systemid)";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
-	echo "</form>";
+	echo close_form();
 
 ?>

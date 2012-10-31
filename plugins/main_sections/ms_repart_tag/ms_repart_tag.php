@@ -11,7 +11,7 @@
 
 	$form_name="repart_tag";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	if (!isset($protectedPost['TAG_CHOISE']) or $protectedPost['TAG_CHOISE'] == '')
 		$protectedPost['TAG_CHOISE'] = 'a.TAG';
 	//BEGIN SHOW ACCOUNTINFO
@@ -45,6 +45,6 @@
 	$tab_options['ARG_SQL'][]=$tag;	
 	$queryDetails  .= "group by ID";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
-	echo "</form>";
+	echo close_form();
 
 ?>

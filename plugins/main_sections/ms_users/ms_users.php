@@ -25,7 +25,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['MANAGE_PROFIL'] == 'YES')
 	$data_on[5]=$l->g(1146);
 
 $form_name = "admins";
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 onglet($data_on,$form_name,"onglet",4);
 $table_name="TAB_ACCESSLVL".$protectedPost['onglet'];	
 if ($protectedPost['onglet'] != $protectedPost['old_onglet']){
@@ -111,5 +111,5 @@ else{
 	del_selection($form_name);
 }
 echo '</div>';
-echo "</form>";
+echo close_form();
 ?>

@@ -19,7 +19,7 @@ $data=ScanDirectory($Directory,"csv");
 
 if (is_array($data)){
 	$form_name = "logs";
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$sql="";
 	$arg=array();
 	foreach($data['name'] as $id=>$value){
@@ -60,7 +60,7 @@ if (is_array($data)){
 		printEntete($l->g(928));
 		echo "<br>";
 		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options);
-	echo "</form>";
+	echo close_form();
 
 }else
 	msg_warning($l->g(766));

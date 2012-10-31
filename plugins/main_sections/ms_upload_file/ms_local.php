@@ -13,7 +13,7 @@ require_once('require/function_files.php');
 $form_name="insert_computers";
 $data_on['FILE']=$l->g(288);
 $data_on['MANUEL']=$l->g(1258);
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 $protectedPost['onglet']='FILE';
 //onglet($data_on,$form_name,"onglet",4);
 echo "<div class='mlt_bordure' >";
@@ -82,13 +82,13 @@ if ($protectedPost['onglet'] == 'FILE'){
 				msg_error($l->g(1244));
 	}
 	printEntete("<i>".$l->g(560).": ".$server);
-	echo "</form>";
+	echo close_form();
 	echo "<br>";
-	echo "<form name='".$form_name1."' id='".$form_name1."' method='POST' action='' enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\">";
+	echo open_form($form_name1,'',"enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"");
 	echo "<div class='".$css."' >";
 	echo $l->g(1048).": <input id='file_upload' name='file_upload' type='file' accept=''>";
 	echo "<br><br><input name='GO' id='GO' type='submit' value='".$l->g(13)."'>";
-	echo "</form>";
+	echo close_form();
 	echo "<br>";
 	echo "</div>";
 }else{
@@ -193,7 +193,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 			tab_modif_values($info_form['FIELDS']['tab_name'],$tab_typ_champ,$tab_hidden);
 	}	
 	echo "</div>";
-	echo "</form>";
+	echo close_form();
 }
 
 ?>

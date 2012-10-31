@@ -131,10 +131,10 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 		}
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=650\")'";
 		echo "<a ".$javascript."><img src=".PLUGINS_DIR."/main_sections/img/ms_pass.png></a>";
-		echo "<form name='log_out' id='log_out' action='index.php' method='post'>";
+		echo open_form('log_out','index.php');
 		echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
 		echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
-		echo "</form>";			
+		echo close_form();	
 }
 
 echo "</td></tr>";
@@ -153,7 +153,6 @@ if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO' and $_SESSION['OCS']['SUPPO
 	echo "</td></tr>";
 }
 echo "</table>";		
-//echo "<form name='reload_fuser' id='reload_fuser' action='' method='post'></form>";
 echo "<div class='fond'>";
 
 if ($_SESSION['OCS']["mesmachines"] == "NOTAG" 

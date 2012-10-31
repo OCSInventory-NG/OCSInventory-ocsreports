@@ -37,7 +37,7 @@ if($sock)
 //d�finition des onglets
 //$data_on['ABOUT']='A propos';
 
-echo "<form action='' name='".$form_name."' id='".$form_name."' method='POST'>";
+echo open_form($form_name);
 onglet($data_on,$form_name,"onglet",7);
 echo '<div class="mlt_bordure" >';
 if ($protectedPost['onglet'] == 2){
@@ -74,7 +74,7 @@ elseif($protectedPost['onglet'] == 4){
 	
 }
 echo "</div>";
-echo "</form>";
+echo close_form();
 
 ?>
 

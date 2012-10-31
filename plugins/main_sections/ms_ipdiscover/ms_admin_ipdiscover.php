@@ -13,7 +13,7 @@ require_once('require/function_ipdiscover.php');
 require_once('require/function_files.php');
 $form_name='admin_ipdiscover';
 $table_name='admin_ipdiscover';
-echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
+echo open_form($form_name);
 if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	if (!in_array($protectedGet['value'],$_SESSION['OCS']["subnet_ipdiscover"])){
 		msg_error($l->g(837));
@@ -271,6 +271,6 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 } 
  
 echo '</div>';
-echo "</form>";
+echo close_form();
 
 ?>

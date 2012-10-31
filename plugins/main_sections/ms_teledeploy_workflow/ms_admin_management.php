@@ -26,7 +26,8 @@ $multi_choice=array('TEXT','TEXTAREA','SELECT',
 					$l->g(802),'PASSWORD','CHECKBOX',
 					'LIST','HIDDEN','BLOB (FILE)','LIST LINK','TAB');
 
-echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
+echo "<br>";
+echo open_form($form_name);
 onglet($data_on,$form_name,"onglet",2);
 echo '<div class="mlt_bordure" >';
 
@@ -201,7 +202,7 @@ if ($protectedPost['onglet'] == 1){
 
 
 echo "</div>"; 
-echo "</form>";
+echo close_form();
 
 ?>
 
