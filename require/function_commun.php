@@ -351,6 +351,8 @@ function strip_tags_array($value='')
 }
 
 function open_form($form_name,$action='',$more=''){
+	if (!isset($_SESSION['OCS']['CSRFNUMBER']) or !is_numeric($_SESSION['OCS']['CSRFNUMBER']) or $_SESSION['OCS']['CSRFNUMBER'] >= 100)
+		$_SESSION['OCS']['CSRFNUMBER'] = 0;
 	$form="<form name='".$form_name."' id='".$form_name."' method='POST' action='".$action."' ".$more." >";
 	$csrf_value = sha1(microtime());
 	$_SESSION['OCS']['CSRF'][$_SESSION['OCS']['CSRFNUMBER']] = $csrf_value;
