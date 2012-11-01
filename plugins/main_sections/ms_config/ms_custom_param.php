@@ -38,10 +38,9 @@ $list_id=multi_lot($form_name,$l->g(601));
 		}
 //print_r($tab_hadware_id);
 		if (isset($list_hardware_id) or isset($tab_hadware_id)){
-
 			 foreach ($protectedPost as $key => $value){
 			 	if ($key != "systemid" and $key != "origine"){
-				 	if ($value == "SERVER DEFAULT" or $value == "des")
+				 	if ($value == "SERVER DEFAULT" or $value == "des" or trim($value) == "")
 				 		erase($key);
 				 	elseif ($value == "CUSTOM"){
 				 		insert($key,$protectedPost[$key.'_edit']);	 	
@@ -57,7 +56,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 				 	} 
 				 	elseif ($value == "OFF"){
 				 		insert($key,0);	 
-				 	}elseif ($key == "IPDISCOVER" and $value != "des" and $value != "OFF"){
+				 	}elseif (($key == "IPDISCOVER" and $value != "des" and $value != "OFF") or ($key == "SNMP_NETWORK") ){
 				 		insert($key,2,$value);	
 				 	}
 				 	
