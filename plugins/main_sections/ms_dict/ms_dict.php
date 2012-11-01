@@ -23,7 +23,7 @@ else
 //form name
 $form_name='admin_param';
 //form open
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 //definition of onglet
 $def_onglets['CAT']=$l->g(1027); //Categories
 $def_onglets['NEW']=$l->g(1028); //nouveau logiciels
@@ -312,5 +312,5 @@ echo '</div>';
 echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 echo "<input type='hidden' name='TRANS' id='TRANS' value=''>";
 echo "<input type='hidden' name='SUP_CAT' id='SUP_CAT' value=''>";
-echo "</form>";
+echo close_form();
 ?>

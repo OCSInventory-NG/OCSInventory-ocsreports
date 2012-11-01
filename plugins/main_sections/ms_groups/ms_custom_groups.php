@@ -12,7 +12,7 @@
 require_once('require/function_search.php');
 require_once('require/function_groups.php');
 $form_name="groups_affect";
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 $list_id=multi_lot($form_name,$l->g(601));
 
 /*********************************************TRAITEMENT DES DONNEES*****************************************/
@@ -197,6 +197,6 @@ $select=show_modif($optionList,'NEW_RAZ',2,$form_name);
 		}
 	}
 	echo "</td></tr></table>";
-echo "</form>";
+echo close_form();
 
 ?>

@@ -129,7 +129,8 @@ $i=0;
 	$argDetail=$systemid;
 	$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"],$argDetail);
 	$form_name='config_mach';
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	
+	echo open_form($form_name);
 	echo "<table BORDER='1' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
 	
@@ -299,5 +300,5 @@ $i=0;
 		echo "</td></tr>";		
 	//}
 	echo "</table><br>";
-	echo "</form>";
+	echo close_form();
 ?>

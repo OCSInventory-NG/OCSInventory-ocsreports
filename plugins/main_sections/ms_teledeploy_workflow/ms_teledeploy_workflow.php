@@ -36,7 +36,7 @@ if ($activate){
 	
 	
 	$form_name = "admins";
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	if (isset($data_on)){
 		onglet($data_on,$form_name,"onglet",4);
 		$table_name=$form_name;	
@@ -52,7 +52,7 @@ if ($activate){
 		echo '</div>';	
 	}else
 		msg_info($l->g(1187));
-	echo "</form>";
+	echo close_form();
 }else
 	msg_info($l->g(1075));
 

@@ -64,7 +64,7 @@ if ($protectedPost['Valid'] == $l->g(103)){
 if (isset($MAJ) and $MAJ != '')
 	msg_success($MAJ);
 $form_name='modif_onglet';
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 
 onglet($def_onglets,$form_name,'onglet',7);
 echo '<div class="mlt_bordure" >';
@@ -119,4 +119,5 @@ switch ($protectedPost['onglet']){
 }
 
 echo "<input type='hidden' id='RELOAD_CONF' name='RELOAD_CONF' value=''>";
-echo "</div></form>";
+echo "</div>";
+echo close_form();

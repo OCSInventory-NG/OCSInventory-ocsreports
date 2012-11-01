@@ -1188,7 +1188,9 @@
 1303 Exporter
 1304 XML
 1305 Sur la génération XML d'un inventaire
-
+1306 Gérer les plugins
+1307 Plugins actifs
+1308 Ajouter plugins
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

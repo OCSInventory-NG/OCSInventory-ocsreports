@@ -15,7 +15,7 @@ require_once('require/function_ipdiscover.php');
 
 $form_name='ipdiscover_analyse';
 $table_name=$form_name;
-echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
+echo open_form($form_name);
 $pas = $protectedGet['rzo'];
 //$rez = $nomRez;
 $values=look_config_default_values(array('IPDISCOVER_IPD_DIR'));
@@ -57,6 +57,6 @@ if (isset($protectedPost['reset']) and $protectedPost['reset'] != ''){
 	echo "<br><input type='submit' name='reset' value='".$l->g(1261)."'>";
 }
 		
-echo "</form>";
+echo close_form();
 
 ?>

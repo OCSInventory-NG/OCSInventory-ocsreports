@@ -15,7 +15,8 @@ $values=look_config_default_values(array('QRCODE'));
 if(isset($values['ivalue']['QRCODE']) and $values['ivalue']['QRCODE'] == 1)
 	$qrcode=true;
 $form_name="lock_affect";
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''><div align=center>";
+echo open_form($form_name);
+echo "<div align=center>";
 $list_id=multi_lot($form_name,$l->g(601));
 
 
@@ -169,5 +170,5 @@ if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedP
 		}
 	}
 	
-echo "</form>";
+echo close_form();	
 ?>

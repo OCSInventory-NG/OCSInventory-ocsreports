@@ -15,8 +15,7 @@ require_once('require/function_computers.php');
 $form_name='packlist';
 //show or not stats on the table
 $show_stats=true;
-	
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 PrintEnTete($l->g(465));
 
 if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_ACTIVATE'] == 'NO')
@@ -264,7 +263,7 @@ if (!$cant_active){
 		echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
 	}
 }
-echo "</form>";
+echo close_form();
 
 
 

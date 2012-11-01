@@ -107,5 +107,7 @@ ms_stats_connexion
 ms_add_key
 ms_export_ocs
 ms_qrcode
+ms_plugins_injector
+ms_plugins
 </PAGE_PROFIL>
 

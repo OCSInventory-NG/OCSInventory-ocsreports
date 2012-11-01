@@ -14,7 +14,7 @@
 		$protectedPost['SHOW'] = 'NOSHOW';
 	$form_name="affich_vm";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";	
+	echo open_form($form_name);	
 	$list_fields=array($l->g(49).' VM' => 'vm.NAME',
 					   $l->g(1046).' VM' => 'vm.STATUS',
 					   $l->g(25).' VM' => 'vm.SUBSYSTEM',
@@ -33,7 +33,7 @@
 	$tab_options['ARG_SQL']=$sql['ARG'];
 	$tab_options['ARG_SQL_COUNT']=$systemid;
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);
-	echo "</form>";
+	echo close_form();
 
 
 ?>

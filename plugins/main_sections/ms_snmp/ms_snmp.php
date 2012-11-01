@@ -23,8 +23,7 @@ if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 	$tab_options['CACHE']='RESET';
 }
 
-
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 $list_fields=array('TAG'=>'TAG',
 				   'NAME_SNMP'=>'NAME',
 				   $l->g(352)=>'UPTIME',
@@ -58,6 +57,6 @@ $tab_options['LBL']['NAME_SNMP']=$l->g(49);
 tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
 $img['image/sup_search.png']=$l->g(162);
 del_selection($form_name);
-echo "</form>";
+echo close_form();
 
 ?>

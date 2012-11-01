@@ -18,7 +18,8 @@ $array_profil=search_profil();
 if (!is_writable($_SESSION['OCS']['CONF_PROFILS_DIR']))
 	$no_delete=true;
 	
-echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
+echo "<br>";
+echo open_form($form_name);
 msg_warning($l->g(1152));
 onglet($data_on,$form_name,"onglet",2);
 echo '<div class="mlt_bordure" >';
@@ -135,7 +136,8 @@ if ($protectedPost['onglet'] == 1){
 	}
 	
 
-echo '</div></form>';
+echo "</div>";
+echo close_form();
 
 
 

@@ -16,7 +16,7 @@ if (!isset($info_id['ERROR'])){
 	
 	$form_name="form_active";
 	//ouverture du formulaire
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	
 	if (!isset($protectedPost['FILE_SERV']) or !isset($protectedPost['HTTPS_SERV'])){
 		$default="localhost/download";
@@ -137,7 +137,7 @@ if (!isset($info_id['ERROR'])){
 		}
 	}
 	//fermeture du formulaire.
-	echo "</form>";
+	echo close_form();
 }else
 	msg_error($info_id['ERROR']);
 

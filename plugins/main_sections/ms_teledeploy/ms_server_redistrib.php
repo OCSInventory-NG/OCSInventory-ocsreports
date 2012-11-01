@@ -70,7 +70,7 @@ if (isset($systemid))
 	if (!(isset($_POST["page"])) and isset($_GET['page']))
 	$_POST["page"]=$_GET['page'];
 	$form_name='nb_4_pag';
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$limit=nb_page($form_name);
 	$sql="select download_servers.HARDWARE_ID ID,
 			  hardware.NAME,
@@ -123,7 +123,7 @@ if (isset($systemid))
 	echo "<input type='hidden' id='tri2' name='tri2' value='".$_POST['tri2']."'>";
 	echo "<input type='hidden' id='sens' name='sens' value='".$_POST['sens']."'>";
 	echo "</table>";
-	echo "</form>";
+	echo close_form();
 	//detail of group's machin
 	if ($_POST['modif']!=""  and !isset($_POST['Valid_modif_x']) and !isset($_POST['Reset_modif_x']))
 	{

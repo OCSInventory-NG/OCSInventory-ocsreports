@@ -14,10 +14,10 @@ $data_on['view']=$l->g(1059);
 $data_on['add']=$l->g(1060);
 $form_name="tab";
 $table_name='support_certificat';
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 onglet($data_on,$form_name,"onglet",2);
 echo '<div class="mlt_bordure" >';
-echo "</form>";
+echo close_form();
 
 if ($protectedPost['onglet'] == 'view'){
 	if(isset($protectedPost['SUP_PROF']) and is_numeric($protectedPost['SUP_PROF'])){
@@ -35,7 +35,7 @@ if ($protectedPost['onglet'] == 'view'){
 		reloadform_closeme('modif_onglet');
 	}
 	$form_name="view_cert";
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$list_fields=array($l->g(49)=>'FILE_NAME',
 					   $l->g(369)=>'AUTHOR','SUP'=>'ID');	
 	$list_col_cant_del=array($l->g(49)=>$l->g(49),'SUP'=>'SUP');
@@ -46,7 +46,7 @@ if ($protectedPost['onglet'] == 'view'){
 	$tab_options['ARG_SQL']=$sql['ARG'];
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);
 	//echo "<input type=hidden name='onglet' id='onglet' value='".$protectedPost['onglet']."'>";
-	echo "</form>";
+	echo close_form();
 	
 }elseif ($protectedPost['onglet'] == 'add'){
 if ($protectedPost['GO'] 
@@ -99,14 +99,14 @@ if ($protectedPost['GO']
 	if (isset($file['file_name'])){
 		msg_warning($l->g(1280));	
 	}
-		echo "<form name='upload_cert' id='upload_cert' method='POST' action='' enctype='multipart/form-data'>";
+		echo open_form($form_name,'',"enctype='multipart/form-data'");
 		echo $l->g(1048).": <input id='file_upload' name='file_upload' type='file' accept=''>";
 		echo "<br><br>".$l->g(217).": ".show_modif('','PASSWORD',4)."<br>";
 			
 		echo "<br><input name='GO' id='GO' type='submit' value='".$l->g(13)."'>&nbsp;&nbsp;<input type=button value='".$l->g(113)."' Onclick='window.close();'>";
 		echo "<input type=hidden name='onglet' id='onglet' value='".$protectedPost['onglet']."'>";
 	
-		echo "</form>";
+		echo close_form();
 }
 
 		echo "</div>";

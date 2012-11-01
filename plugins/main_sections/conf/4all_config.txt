@@ -50,6 +50,7 @@ ms_admin_ipdiscover:g(1139)
 ms_snmp:g(1136)
 ms_update_new_tag:g(2100)
 ms_stats:g(1251)
+ms_plugins:g(1306)
 </LBL>
 
 <URL>
@@ -125,6 +126,7 @@ ms_stats_connexion:stats_connexion
 ms_add_key:add_key
 ms_export_ocs:export_ocs
 ms_qrcode:qrcode
+ms_plugins:plugins
 </URL>
 
 <DIRECTORY>
@@ -195,6 +197,7 @@ ms_stats_connexion:ms_stats
 ms_add_key:ms_config
 ms_export_ocs:ms_export
 ms_qrcode:ms_computer
+ms_plugins:ms_plugins
 </DIRECTORY>
 
 
@@ -213,6 +216,7 @@ ms_search_soft:ms_multi_search
 ms_ipdiscover:ms_ipdiscover
 ms_snmp:ms_ipdiscover
 ms_admin_ipdiscover:ms_ipdiscover
+ms_plugins:ms_plugins
 </MENU>
 
 <MENU_NAME>

@@ -34,7 +34,8 @@ $resL=mysql2_query_secure($reqL,$_SESSION['OCS']["readServer"],$arg);
 $val = mysql_fetch_object($resL);
 printEntete($l->g(263));
 $form_name='admin_info';
-echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
+echo "<br>";
+echo open_form($form_name);
 
 $name_field=array("lbl");
 $tab_name= array($l->g(262).": ");
@@ -45,5 +46,5 @@ $tab_typ_champ=show_field($name_field,$type_field,$value_field);
 //$tab_typ_champ[0]['CONFIG']['SIZE']=100;
 tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
 
-echo "</form>";
+echo close_form();
 	?>

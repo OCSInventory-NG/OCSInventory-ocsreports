@@ -25,6 +25,7 @@ define("DFT_GUI_PSWD",'admin');											// Define default password to connect 
 define('BACKEND',"backend/");										    // Define backend Directory
 define('PHPCAS',BACKEND.'require/lib/phpcas/CAS.php');					// Path to CAS (change to use system provided library)
 define('PLUGINS_DIR',"plugins/");										// Define plugins Directory
+define('PLUGINS_GUI_DIR','/tmp/');
 define('CONF_MYSQL',"dbconfig.inc.php");								// Define dbconf file		
 define('HEADER_HTML',"require/html_header.php");						// Define html_header file				
 define('FOOTER_HTML',"require/footer.php");								// Define footer file		

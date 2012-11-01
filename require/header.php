@@ -423,7 +423,28 @@ if((!isset($_SESSION['OCS']["loggeduser"])
 	die();
 }
 
-if (isset($name[$protectedGet[PAG_INDEX]])){	
+if (isset($name[$protectedGet[PAG_INDEX]])){
+
+	//CSRF security
+	if($_SERVER['REQUEST_METHOD'] == 'POST')
+	{
+		$csrf=true;
+		if (isset($_SESSION['OCS']['CSRF'])){
+			foreach ($_SESSION['OCS']['CSRF'] as $k=>$v){
+				if ($v == $protectedPost['CSRF_'.$k])
+					$csrf=false;				
+			}			
+		}
+	    //Here we parse the form
+	    if($csrf){
+	       msg_error("<big>CSRF ATTACK!!!</big>");
+	       require_once(FOOTER_HTML);
+	       die();
+	    }
+	 
+	    //Do the rest of the processing here
+	}	
+	
 	if (isset($_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]]))
 	$rep=$_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]];
 	require (MAIN_SECTIONS_DIR.$rep."/".$name[$protectedGet[PAG_INDEX]].".php");

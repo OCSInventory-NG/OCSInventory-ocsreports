@@ -72,7 +72,7 @@
 129 LIKE
 130 DIFFERENT
 134 Add a new file in the database
-135 Be careful, you're about to delete this file definitively !
+135 Be careful, you're about to delete this file permanently !
 137 File
 140 Super administrators
 141 Administrators
@@ -86,7 +86,7 @@
 173 don't be added to the base
 174 Security
 175 Duplicates
-176 Ips
+176 IP
 177 Merge redundant computers
 178 Tag / Number of PC repartition
 180 User not registered
@@ -100,14 +100,14 @@
 189 You must select at least 2 computers 
 190 Accountinfo:
 191 deleted
-192 Redundancy summary
+192 Duplicates summary
 193 Hostname + Serial number
 194 Hostname + MAC address
 195 MAC address + Serial number
 196 Hostname only
 197 Serial only
 198 MAC address only
-199 Redundancy
+199 Duplicates
 200 Corresponding relay decremented
 201 SMALLER
 202 BIGGER
@@ -126,7 +126,7 @@
 215 Show everything
 216 ASSETTAG
 217 Password
-218 Agents versions
+218 Agent versions
 219 uninventoried network interfaces
 220 deleted
 221 IP gathering computers
@@ -162,7 +162,7 @@
 251 Logout
 252 Name (you choose)
 253 Registry hive
-254 Path of the key (Ex: SOFTWAREMozilla)
+254 Path of the key (Ex: SOFTWARE\Mozilla)
 255 Name of the key that will be read (* for all)
 256 Choose 
 257 Registry key
@@ -664,13 +664,13 @@
 775 Directory of creation of packages
 776 Directory of stake in cache of the analyses of ipdiscover
 777 Validity of a session
-778 Number of different WORKGROUP
-779 Different TAG
-780 Different IPSUBNET
-781 Machines having a software deployement pending
-782 Machines having a package in error
-783 Number of different OS
-784 Different agent
+778 Number of different WORKGROUPs
+779 Different TAGs
+780 Different IPSUBNETs
+781 Machines having a software deployment pending
+782 Machines having a package error
+783 OS Versions
+784 Agent Versions
 785 Different processors
 786 Different resolutions
 787 Machines with a processor >=
@@ -679,14 +679,14 @@
 790 Machines with RAM >=
 791 Machines with RAM =<
 792 Machines with RAM between
-793 Machines in base
-794 Seen machines
-795 Machines contact server today
-796 Number of inventory machine today
-797 Machines not see since more of
+793 Machines in DB
+794 Machines Inventoried
+795 Machines contacted today
+796 Machines Inventoried today
+797 Machines not seen in more than
 798 ACTIVITY
 799 HARDWARE
-800 ELSE
+800 OTHER
 801 Don't show this field
 802 Show this fied
 803 Counts in the daytime since the machine don't contact server
@@ -695,8 +695,8 @@
 806 Minimum RAM amount
 807 Maximum RAM amount
 808 Repartition
-809 STATICS GROUPS
-810 DYNAMICS GROUPS
+809 STATIC GROUPS
+810 DYNAMIC GROUPS
 811 Are you sure to want to modify the visibility of the group
 812 The software in 0 is present in CACHE but are not any more settled on machines.<br>They cannot be put in a category of dictionary
 813 hard disk number with remaining size >
@@ -704,7 +704,7 @@
 815 hard disk number with remaining size between
 816 hard disk maximum remaining size
 817 hard disk minimum remaining size
-818 Get out of group
+818 Remove from group
 819 computer(s) added to group
 820 Last contact
 821 SERVER CONFIGURATION MODIFICATION
@@ -732,11 +732,11 @@
 843 Disk: Volumn Name
 844 Group: Id
 845 Group: Static?
-846 Softwares: company
-847 Softwares: Name
-848 Softwares: Version
-849 Softwares: Install directory
-850 Softwares: Comments
+846 Software: Company
+847 Software: Name
+848 Software: Version
+849 Software: Install directory
+850 Software: Comments
 851 Bios: Computer manufacturer
 852 Bios: Model
 853 Bios: Serial number
@@ -770,7 +770,7 @@
 881 Computers added
 882 Computers deleted from group
 883 Restrict view
-884 WARNING: WITH FILTER visualisation
+884 WARNING: Results Filtered
 885 unknown
 886 Simple desaffection
 887 It's possible that this package is not affected to redistribution servers 
@@ -959,8 +959,8 @@
 1072 Pending resquests
 1073 Make a request
 1074 'Workflow' function is not activate.
-1075 Active the functionnality for use it
-1076 ERROR: SEARCH STATUS IS NOT DEFINE
+1075 Activate this functionnality to use it
+1076 ERROR: SEARCH STATUS IS NOT DEFINED
 1077 Status for creating package
 1078 Test status
 1079 restraint perimeter status
@@ -1004,7 +1004,7 @@
 1117 E-mail
 1118 Edit
 1119 Select
-1120 Quantity
+1120 Count
 1121 Update done
 1122 Wiki
 1123 IRC
@@ -1019,10 +1019,10 @@
 1132 ID word
 1133 New word
 1134 No ipdiscover data
-1135 computer(s) are already exist on redistribution group
+1135 computer(s) already exist in redistribution group
 1136 Snmp
 1137 Enable/Disable the snmp service
-1138 Show all my subnet
+1138 Show all subnets
 1139 Administer
 1140 Administer subnet
 1141 Subnet added
@@ -1070,7 +1070,7 @@
 1183 List of packages to create
 1184 Key added
 1185 Key updated
-1186 Your data are updated
+1186 Your data is updated
 1187 Configuration is pending
 1188 This group is declared as a TEST perimeter
 1189 This group is declared as a RESTRAINT perimeter
@@ -1139,8 +1139,8 @@
 1252 Configuration profiles files directory
 1253 Directory of old conf profiles files
 1254 Directory of scripts logs
-1255 Connexion number by day
-1256 Bad connexion number by day
+1255 Connection number by day
+1256 Bad connection number by day
 1257 Use flash on GUI
 1258 Manual Entry
 1259 For one week
@@ -1189,6 +1189,9 @@
 1303 Export
 1304 XML
 1305 On the generation of an XML inventory
+1306 Manage plugins
+1307 Active Plugins
+1308 Add plugins
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

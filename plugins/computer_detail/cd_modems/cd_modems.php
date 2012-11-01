@@ -14,7 +14,7 @@
 	$protectedPost['SHOW'] = 'NOSHOW';
 	$form_name="affich_modems";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$list_fields=array($l->g(49) => 'NAME',
 					   $l->g(65) => 'MODEL',
 					   $l->g(53) => 'DESCRIPTION',
@@ -27,7 +27,7 @@
 	$default_fields= $list_fields;
 	$queryDetails  = "SELECT * FROM modems WHERE (hardware_id=$systemid)";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
-	echo "</form>";
+	echo close_form();
 
 
 

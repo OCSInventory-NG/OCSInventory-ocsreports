@@ -1,7 +1,55 @@
-Revision history for ocsreports 
+Revision history for ocsreports
 2.1
 		* Add QRcode on accountinfo
 		* Add architecture field
+		* fix bug on softwares detail on computer
+		* sort categories on dictionary
+2.0.6
+		* fix security vulnerability => Cross site request forgery
+		* fix utf8 problem
+		* add link on dico ignore
+		* fix bug on menu (http://forums.ocsinventory-ng.org/viewtopic.php?pid=49125)
+		* fix bug on export data on all_soft
+		* add oscomment field on tab
+
+2.0.5
+		* Add logs directory on sql files
+		* fix Warning on function_config_generale.php for PHP 5.4. 
+		* fix security bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/963229
+		* fix security bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/963017
+		* fix bug on package's group - Tx to FactorFx.
+		* fix cas library - use system library
+		* fix warning on natcasesort function. tx to Remi for this patch
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/940370 (redistribution group)
+
+2.0.4 
+		* fix a part of this bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/907755 (show computers name on csv export)
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/918085
+		* fix bug on menu by profil
+		* on deployment statistics, merge EXIT_CODE_% with ERROR.
+		* add LDAP group merbership lookups.(http://forums.ocsinventory-ng.org/viewtopic.php?pid=45215)
+		* fix http://forums.ocsinventory-ng.org/viewtopic.php?pid=45331#p45331
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/893463
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/902510
+		* You can add snmp communities with the same name with different version
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/878166
+		* sort all select list
+		* utf8 patch : http://forums.ocsinventory-ng.org/viewtopic.php?pid=43927#p43927
+
+2.0.3
+		* security fix: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/884340 (XSS)
+		* security fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/884273
+		* security fix for snmp https://bugs.launchpad.net/ocsinventory-server/+bug/881406
+		* use CONF_MYSQL 
+		* patch from remi to upgrade 1.3.* to 2.* (to save old values  dbconfig.inc.php)
+ 		* fix: add computer's name on delete popup
+		* security fix (CVE-2011-4024) - more flexible (UTF8 correction)
+2.0.2
+		* add bios date on all computers and sort on date
+		* fix for security alert tx to Nicolas DEROUET (CVE-2011-4024)
+		* fix bug on "Machines not see since more of x day(s)" see http://forums.ocsinventory-ng.org/viewtopic.php?pid=43148#p43148
+		* fix bug on accountinfo filter (http://forums.ocsinventory-ng.org/viewtopic.php?pid=43061#p43061)
+		* update polish language file. tx to Piotr Adamcio
 		* fix bug on softwares detail on computer
 		* sort categories on dictionary
 2.0.1

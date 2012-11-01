@@ -197,7 +197,7 @@ foreach($sql_id_doublon as $name=>$sql_value){
 }
 $form_name='doublon';
 $table_name='DOUBLON';
-echo "<form name='".$form_name."' id='".$form_name."' method='post'>";
+echo open_form($form_name);
 echo "<br><table BORDER='0' WIDTH = '25%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 foreach ($count_id as $lbl=>$count_value){
 	echo "<tr><td align='center'>";
@@ -290,10 +290,7 @@ if ($protectedPost['detail'] != ''){
 	echo "<br><input type='submit' value='".$l->g(177)."' name='FUSION'>";
 	echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
 }
-
-
-
-echo "</form>";	
+echo close_form();
 
 
 ?>
