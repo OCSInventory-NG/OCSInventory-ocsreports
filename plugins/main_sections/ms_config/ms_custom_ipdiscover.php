@@ -75,7 +75,7 @@ if (!isset($protectedGet['origine'])){
 //p($optvalueTvalue);
 ligne("SNMP_SWITCH",$l->g(1197),'radio',$champ_value);
 //ligne("DOWNLOAD_TIMEOUT",$l->g(424),'radio',$champ_value,array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$optvalue['DOWNLOAD_TIMEOUT'],'END'=>$l->g(496),'JAVASCRIPT'=>$numeric));
-ligne('SNMP_NETWORK',$l->g(1198),'input',array('VALUE'=>$optvalueTvalue['SNMP_NETWORK'],'SIZE'=>20,'MAXLENGHT'=>30));
+ligne('SNMP_NETWORK',$l->g(1198),'long_text',array('VALUE'=>$optvalueTvalue['SNMP_NETWORK'],'COLS'=>40,'ROWS'=>1));
 //ligne("SNMP_NETWORK",$l->g(1197),'input',$champ_value);
 unset($champ_value);
 
