@@ -752,9 +752,12 @@ sub build_package{
 	}
 	
 	if( system( $common->get_path("tar")." -xvzf $tmp/build.tar.gz -C $tmp") ){
-		$logger->error("Cannot extract $id.");
-		download_message($id,$messages->{err_build},$logger,$context);
-		return 1;
+		$logger->error("Cannot extract $id with tar, trying with unzip.");
+ 		if( system( $common->get_path("unzip")." $tmp/build.tar.gz -d $tmp") ){
+ 			$logger->error("Cannot extract $id with unzip.");
+ 			download_message($id,$messages->{err_build},$logger,$context);
+ 			return 1;
+ 		}
 	}
 	$logger->debug("Building of $id... Success.");
 	unlink("$tmp/build.tar.gz") or die ("Cannot remove build file: $!\n");

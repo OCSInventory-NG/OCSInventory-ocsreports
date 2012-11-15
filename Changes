@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix bug #1070788 unified agent can't extract zip packages
        * Fix bug #1045356 ifconfig parsing issue (Fedora>=17)
        * New availability to scan custom network with SNMP using a network address received from server 
        * Fix bug #1049626 about Qemu virtualization not detected on proxmox
@@ -17,6 +18,7 @@ Revision history for Ocsinventory::Agent
        * New version of Gentoo.pm 
        * New Backend/Virtualization/Parallels.pm module for Parallels virtual machines inventory
        * Plugin Processes moved as module
+       * Fix bug #911492 about Freebsd Storage drives not being reported
        * Fix bug #911491 about Freebsd CPU info not reporting properly
        * Fix bug #873377 about Installed packages on Gentoo
        * Add OS/Linux/LVM.pm module for Logical Volume Manager support 
