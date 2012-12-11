@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix bug #1087270 Unified Agent 2.0.5: zombie processes when running in daemon mode
+       * Fix bug #1086078 Use of initialized value
        * Fix bug #1070788 unified agent can't extract zip packages
        * Fix bug #1045356 ifconfig parsing issue (Fedora>=17)
        * New availability to scan custom network with SNMP using a network address received from server 

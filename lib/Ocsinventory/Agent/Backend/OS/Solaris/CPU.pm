@@ -93,6 +93,7 @@ sub run {
   if ($model  =~ /SUNW,SPARCstation/) { $sun_class_cpu = 7; }
   if ($model  =~ /SUNW,Sun-Blade-100/) { $sun_class_cpu = 7; }
   if ($model  =~ /SUNW,Ultra/) { $sun_class_cpu = 7; }
+  if ($model =~ /FJSV,GPUZC-M/) { $sun_class_cpu = 8; }
 
 
 
@@ -122,8 +123,8 @@ sub run {
         $cpu_slot = $1;
         $cpu_type = $2;
         $cpu_speed = $3;
-		$cpu_core=$1;
-		$cpu_thread="0";
+	$cpu_core=$1;
+	$cpu_thread="0";
       }
 	    
       elsif (/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\S+)\s+(\d+)/)
@@ -131,8 +132,8 @@ sub run {
           $cpu_slot="1";
           $cpu_type=$1;
           $cpu_speed=$2;
-		  $cpu_core="1";
-		$cpu_thread="0";
+	  $cpu_core="1";
+	  $cpu_thread="0";
       }
 	  
     }
@@ -149,11 +150,11 @@ sub run {
         $cpu_slot = $1;
         $cpu_type = $3 . " (" . $2 . ")";
         $cpu_speed = $4;
-		$cpu_core=$1;
-		$cpu_thread=$2;
+	$cpu_core=$1;
+	$cpu_thread=$2;
       }
-	  elsif (/^Sun Microsystems, Inc. Sun Fire\s+V\S+\s+\((\d+)\s+X\s+(\S+)\s+(\d+)(\S+)/)
-	  {
+      elsif (/^Sun Microsystems, Inc. Sun Fire\s+V\S+\s+\((\d+)\s+X\s+(\S+)\s+(\d+)(\S+)/)
+	{
         $cpu_slot = $1;
         $cpu_type = $2 . " (" . $1 . ")";
         $cpu_speed = $3;
@@ -198,14 +199,14 @@ sub run {
     {
 	
       #Sun Microsystems, Inc. SPARC Enterprise T5120 (8-core 8-thread UltraSPARC-T2 1165MHz)
-	  #Sun Microsystems, Inc. SPARC Enterprise T5120 (4-core 8-thread UltraSPARC-T2 1165MHz)
-	  if(/^Sun Microsystems, Inc\..+\((\d+)*(\S+)\s+(\d+)*(\S+)\s+(\S+)\s+(\d+)MHz\)/)
+      #Sun Microsystems, Inc. SPARC Enterprise T5120 (4-core 8-thread UltraSPARC-T2 1165MHz)
+      if(/^Sun Microsystems, Inc\..+\((\d+)*(\S+)\s+(\d+)*(\S+)\s+(\S+)\s+(\d+)MHz\)/)
       {
         $cpu_slot = $1;
         $cpu_type = $1 . " (" . $3 . "" . $4 . ")";
         $cpu_speed = $6;
-		$cpu_core=$1;
-		$cpu_thread=$3;
+	$cpu_core=$1;
+	$cpu_thread=$3;
 		
       }
     }
@@ -223,10 +224,10 @@ sub run {
         $cpu_slot = $1;
         $cpu_type = $3 . " (" . $1 . " " . $2 . ")";
         $cpu_speed = $5;
-		$cpu_core=$1." ".$2;
-		$cpu_thread=$3;
+	$cpu_core=$1." ".$2;
+	$cpu_thread=$3;
       }
-	  if(/^Fujitsu SPARC Enterprise.*\((\d+)\s+X\s+(\S+)\s+(\S+)\s+(\S+)\s+(\d+)/)
+      if(/^Fujitsu SPARC Enterprise.*\((\d+)\s+X\s+(\S+)\s+(\S+)\s+(\S+)\s+(\d+)/)
       {
         $cpu_slot = $1;
         $cpu_type = $3 . " (" . $1 . " " . $2 . ")";
@@ -258,7 +259,7 @@ sub run {
   }
 
   if($sun_class_cpu == 7) {
-    foreach(`memconf 2<&1`) {
+    foreach(`memconf 2>&1`) {
       #Sun Microsystems, Inc. Sun Blade 100 (UltraSPARC-IIe 502MHz)
       #Sun Microsystems, Inc. Sun Ultra 5/10 UPA/PCI (UltraSPARC-IIi 333MHz)
       #Sun Microsystems, Inc. Sun Ultra 1 SBus (UltraSPARC 143MHz)
@@ -270,6 +271,20 @@ sub run {
         $cpu_speed = $2;
         $cpu_core = 1;
         $cpu_thread = 0;
+      }
+    }
+  }
+
+  if ($sun_class_cpu == 8) {
+	foreach (`memconf 2>&1`){
+	#Fujitsu PRIMEPOWER450 4x SPARC64 V clone (4 X SPARC64-V 1978MHz)
+	#Fujitsu PRIMEPOWER250 2x SPARC64 V clone (2 X SPARC64-V 1649MHz)
+	if (/^FJSV,GPUZC-M.+\((\d+)\s+X\s+(\S+)\s+(\d+)MHz\)/) {
+           $cpu_slot = $1;
+           $cpu_type = $2;
+           $cpu_speed = $3;
+           $cpu_core = $1;
+           $cpu_thread = "0";
       }
     }
   }

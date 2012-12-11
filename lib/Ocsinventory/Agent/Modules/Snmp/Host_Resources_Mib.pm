@@ -51,8 +51,10 @@ sub snmp_run {
          if ( defined ( $DATE ) ) {
             $DATE=$DATE->{$soft."5.".$ref};
 	    if ( defined ($DATE ) ) {
-               $DATE=sprintf("%d/%d/%d",hex(substr($DATE,2,4)),hex(substr($DATE,6,2)),hex(substr($DATE,8,2)));
-            }
+	       if (length($DATE)>0) {
+                  $DATE=sprintf("%d/%d/%d",hex(substr($DATE,2,4)),hex(substr($DATE,6,2)),hex(substr($DATE,8,2)));
+               }
+	    }
          }
          $common->addSoftware( { 
 			NAME=>$result_table->{ $result } ,
