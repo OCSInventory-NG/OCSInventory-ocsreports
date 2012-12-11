@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix bug #1086086 Ues of initialized value in Snmp.pm, line 367
        * Fix bug #1087270 Unified Agent 2.0.5: zombie processes when running in daemon mode
        * Fix bug #1086078 Use of initialized value
        * Fix bug #1070788 unified agent can't extract zip packages

@@ -503,12 +503,15 @@ sub snmp_oid_run {
 
       # We indicate that this equipment is the last scanned
       $self->{func_oid}{$system_oid}{last_exec}=$self->{number_scan};
-      if ( defined($result->{$oid_scan} ) && length ($result->{$oid_scan}) != 0 ) {
-         # This OID exist, we can execute it
-         $logger->debug("Launching $system_oid\n");
-         &{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
-      } else {
-	return 1;
+
+      if (defined ($result)){
+      	if (length ($result->{$oid_scan}) != 0 ) {
+         	# This OID exist, we can execute it
+         	# $logger->debug("Launching $system_oid\n");
+         	&{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
+      	} else {
+		return 1;
+      	}
       }
    }
    snmp_oid_xml($self,$system_oid);
