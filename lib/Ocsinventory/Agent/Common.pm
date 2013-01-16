@@ -26,7 +26,7 @@ sub new {
   $self->{logger} = $params->{logger};
   $self->{config} = $params->{config};
 
-  $self->{xmltags}={};
+  $self->{xmltags} = {};
 
   bless $self;
 }
@@ -38,26 +38,17 @@ Add a controller in the inventory.
 =cut
 sub addController {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $driver = $args->{DRIVER};
-  my $name = $args->{NAME};
-  my $manufacturer = $args->{MANUFACTURER};
-  my $pciid = $args->{PCIID};
-  my $pcislot = $args->{PCISLOT};
-  my $type = $args->{TYPE};
-  my $description = $args->{DESCRIPTION};
+  my $content = {};
 
-  push @{$xmltags->{CONTROLLERS}},
-  {
-    DRIVER => [$driver?$driver:''],
-    NAME => [$name?$name:''],
-    MANUFACTURER => [$manufacturer?$manufacturer:''],
-    PCIID => [$pciid?$pciid:''],
-    PCISLOT => [$pcislot?$pcislot:''],
-    TYPE => [$type?$type:''],
-    DESCRIPTION => [$description?$description:''],
-  };
+  foreach my $key (qw/DESCRIPTION DRIVER NAME MANUFACTURER PCIID PCISLOT TYPE/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
+  push @{$xmltags->{CONTROLLERS}},$content;
+
 }
 
 =item addModem()
@@ -67,18 +58,18 @@ Add a modem in the inventory.
 =cut
 sub addModem {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $description = $args->{DESCRIPTION};
-  my $name = $args->{NAME};
+  my $content = {};
 
-  push @{$xmltags->{MODEMS}},
-  {
+  foreach my $key (qw/DESCRIPTION NAME/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-    DESCRIPTION => [$description?$description:''],
-    NAME => [$name?$name:''],
+  push @{$xmltags->{MODEMS}}, $content;
 
-  };
 }
 
 # For compatibiliy
@@ -97,29 +88,20 @@ Add a partition in the inventory.
 =cut
 sub addDrive {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $createdate = $args->{CREATEDATE};
-  my $free = $args->{FREE};
-  my $filesystem = $args->{FILESYSTEM};
-  my $label = $args->{LABEL};
-  my $serial = $args->{SERIAL};
-  my $total = $args->{TOTAL};
-  my $type = $args->{TYPE};
-  my $volumn = $args->{VOLUMN};
+  my $content = {};
 
-  push @{$xmltags->{DRIVES}},
-  {
-    CREATEDATE => [$createdate?$createdate:''],
-    FREE => [$free?$free:''],
-    FILESYSTEM => [$filesystem?$filesystem:''],
-    LABEL => [$label?$label:''],
-    SERIAL => [$serial?$serial:''],
-    TOTAL => [$total?$total:''],
-    TYPE => [$type?$type:''],
-    VOLUMN => [$volumn?$volumn:'']
-  };
+  foreach my $key (qw/CREATEDATE FREE FILESYSTEM LABEL SERIAL TOTAL TYPE VOLUMN/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
+
+  push @{$xmltags->{DRIVES}}, $content;
+
 }
+
 # For compatibiliy
 sub addDrives {
    my $self = shift;
@@ -136,41 +118,17 @@ Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
 =cut
 sub addStorages {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $description = $args->{DESCRIPTION};
-  my $disksize = $args->{DISKSIZE};
-  my $manufacturer = $args->{MANUFACTURER};
-  my $model = $args->{MODEL};
-  my $name = $args->{NAME};
-  my $type = $args->{TYPE};
-  my $serial = $args->{SERIAL};
-  my $serialnumber = $args->{SERIALNUMBER};
-  my $firmware = $args->{FIRMWARE};
-  my $scsi_coid = $args->{SCSI_COID};
-  my $scsi_chid = $args->{SCSI_CHID};
-  my $scsi_unid = $args->{SCSI_UNID};
-  my $scsi_lun = $args->{SCSI_LUN};
+  my $content = {};
 
-  $serialnumber = $serialnumber?$serialnumber:$serial;
+  foreach my $key (qw/DESCRIPTION DISKSIZE FIRMWARE MANUFACTURER MODEL NAME SERIALNUMBER SCSI_CHID SCSI_COID SCSI_LUN SCSI_UNID TYPE/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-  push @{$xmltags->{STORAGES}},
-  {
-
-    DESCRIPTION => [$description?$description:''],
-    DISKSIZE => [$disksize?$disksize:''],
-    MANUFACTURER => [$manufacturer?$manufacturer:''],
-    MODEL => [$model?$model:''],
-    NAME => [$name?$name:''],
-    TYPE => [$type?$type:''],
-    SERIALNUMBER => [$serialnumber?$serialnumber:''],
-    FIRMWARE => [$firmware?$firmware:''],
-    SCSI_COID => [$scsi_coid?$scsi_coid:''],
-    SCSI_CHID => [$scsi_chid?$scsi_chid:''],
-    SCSI_UNID => [$scsi_unid?$scsi_unid:''],
-    SCSI_LUN => [$scsi_lun?$scsi_lun:''],
-
-  };
+  push @{$xmltags->{STORAGES}}, $content;
 }
 
 # For compatibiliy
@@ -190,29 +148,17 @@ Add a memory module in the inventory.
 =cut
 sub addMemory {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $capacity = $args->{CAPACITY};
-  my $speed =  $args->{SPEED};
-  my $type = $args->{TYPE};
-  my $description = $args->{DESCRIPTION};
-  my $caption = $args->{CAPTION};
-  my $numslots = $args->{NUMSLOTS};
+  my $content = {};
 
-  my $serialnumber = $args->{SERIALNUMBER};
+  foreach my $key (qw/CAPACITY CAPTION DESCRIPTION NUMSLOTS SERIALNUMBER SPEED TYPE/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-  push @{$xmltags->{MEMORIES}},
-  {
-
-    CAPACITY => [$capacity?$capacity:''],
-    DESCRIPTION => [$description?$description:''],
-    CAPTION => [$caption?$caption:''],
-    SPEED => [$speed?$speed:''],
-    TYPE => [$type?$type:''],
-    NUMSLOTS => [$numslots?$numslots:0],
-    SERIALNUMBER => [$serialnumber?$serialnumber:'']
-
-  };
+  push @{$xmltags->{MEMORIES}}, $content;
 }
 
 # For compatibiliy
@@ -231,23 +177,17 @@ Add a port module in the inventory.
 =cut
 sub addPorts{
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $caption = $args->{CAPTION};
-  my $description = $args->{DESCRIPTION};
-  my $name = $args->{NAME};
-  my $type = $args->{TYPE};
+  my $content = {};
 
+  foreach my $key (qw/CAPTION DESCRIPTION NAME TYPE/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-  push @{$xmltags->{PORTS}},
-  {
-
-    CAPTION => [$caption?$caption:''],
-    DESCRIPTION => [$description?$description:''],
-    NAME => [$name?$name:''],
-    TYPE => [$type?$type:''],
-
-  };
+  push @{$xmltags->{PORTS}}, $content;
 }
 
 # For compatibiliy
@@ -266,23 +206,17 @@ Add a slot in the inventory.
 =cut
 sub addSlot {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $description = $args->{DESCRIPTION};
-  my $designation = $args->{DESIGNATION};
-  my $name = $args->{NAME};
-  my $status = $args->{STATUS};
+  my $content = {};
 
+  foreach my $key (qw/DESCRIPTION DESIGNATION NAME STATUS/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-  push @{$xmltags->{SLOTS}},
-  {
-
-    DESCRIPTION => [$description?$description:''],
-    DESIGNATION => [$designation?$designation:''],
-    NAME => [$name?$name:''],
-    STATUS => [$status?$status:''],
-
-  };
+  push @{$xmltags->{SLOTS}}, $content;
 }
 
 # For compatibiliy
@@ -301,31 +235,17 @@ Register a software in the inventory.
 =cut
 sub addSoftware {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $comments = $args->{COMMENTS};
-  my $filesize = $args->{FILESIZE};
-  my $folder = $args->{FOLDER};
-  my $from = $args->{FROM};
-  my $installdate = $args->{INSTALLDATE};
-  my $name = $args->{NAME};
-  my $publisher = $args->{PUBLISHER};
-  my $version = $args->{VERSION};
+  my $content = {};
 
+  foreach my $key (qw/COMMENTS FILESIZE FOLDER FROM INSTALLDATE NAME PUBLISHER VERSION/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-  push @{$xmltags->{SOFTWARES}},
-  {
-
-    COMMENTS => [$comments?$comments:''],
-    FILESIZE => [$filesize?$filesize:''],
-    FOLDER => [$folder?$folder:''],
-    FROM => [$from?$from:''],
-    INSTALLDATE => [$installdate?$installdate:''],
-    NAME => [$name?$name:''],
-    PUBLISHER => [$publisher?$publisher:''],
-    VERSION => [$version?$version:''],
-
-  };
+  push @{$xmltags->{SOFTWARES}}, $content;
 }
 
 # For compatibiliy
@@ -344,27 +264,17 @@ Add a monitor (screen) in the inventory.
 =cut
 sub addMonitor {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $base64 = $args->{BASE64};
-  my $caption = $args->{CAPTION};
-  my $description = $args->{DESCRIPTION};
-  my $manufacturer = $args->{MANUFACTURER};
-  my $serial = $args->{SERIAL};
-  my $uuencode = $args->{UUENCODE};
+  my $content = {};
 
+  foreach my $key (qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL UUENCODE/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-  push @{$xmltags->{MONITORS}},
-  {
-
-    BASE64 => [$base64?$base64:''],
-    CAPTION => [$caption?$caption:''],
-    DESCRIPTION => [$description?$description:''],
-    MANUFACTURER => [$manufacturer?$manufacturer:''],
-    SERIAL => [$serial?$serial:''],
-    UUENCODE => [$uuencode?$uuencode:''],
-
-  };
+  push @{$xmltags->{MONITORS}}, $content;
 }
 
 # For compatibiliy
@@ -383,22 +293,17 @@ Add a video card in the inventory.
 =cut
 sub addVideo {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $chipset = $args->{CHIPSET};
-  my $memory = $args->{MEMORY};
-  my $name = $args->{NAME};
-  my $resolution = $args->{RESOLUTION};
+  my $content = {};
 
-  push @{$xmltags->{VIDEOS}},
-  {
+  foreach my $key (qw/CHIPSET MEMORY NAME RESOLUTION/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-    CHIPSET => [$chipset?$chipset:''],
-    MEMORY => [$memory?$memory:''],
-    NAME => [$name?$name:''],
-    RESOLUTION => [$resolution?$resolution:''],
-
-  };
+  push @{$xmltags->{VIDEOS}}, $content;
 }
 
 # For compatibiliy
@@ -417,20 +322,17 @@ Add a sound card in the inventory.
 =cut
 sub addSound {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $description = $args->{DESCRIPTION};
-  my $manufacturer = $args->{MANUFACTURER};
-  my $name = $args->{NAME};
+  my $content = {};
 
-  push @{$xmltags->{SOUNDS}},
-  {
+  foreach my $key (qw/DESCRIPTION MANUFACTURER NAME/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-    DESCRIPTION => [$description?$description:''],
-    MANUFACTURER => [$manufacturer?$manufacturer:''],
-    NAME => [$name?$name:''],
-
-  };
+  push @{$xmltags->{SOUNDS}}, $content;
 }
 
 # For compatibiliy
@@ -450,42 +352,19 @@ Register a network in the inventory.
 sub addNetwork {
   # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $description = $args->{DESCRIPTION};
-  my $driver = $args->{DRIVER};
-  my $ipaddress = $args->{IPADDRESS};
-  my $ipdhcp = $args->{IPDHCP};
-  my $ipgateway = $args->{IPGATEWAY};
-  my $ipmask = $args->{IPMASK};
-  my $ipsubnet = $args->{IPSUBNET};
-  my $macaddr = $args->{MACADDR};
-  my $pcislot = $args->{PCISLOT};
-  my $status = $args->{STATUS};
-  my $type = $args->{TYPE};
-  my $virtualdev = $args->{VIRTUALDEV};
+  my $content = {};
 
+  foreach my $key (qw/DESCRIPTION DRIVER IPADDRESS IPDHCP IPGATEWAY IPMASK IPSUBNET MACADDR PCISLOT STATUS TYPE VIRTUALDEV/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-#  return unless $ipaddress;
-
-  push @{$xmltags->{NETWORKS}},
-  {
-
-    DESCRIPTION => [$description?$description:''],
-    DRIVER => [$driver?$driver:''],
-    IPADDRESS => [$ipaddress?$ipaddress:''],
-    IPDHCP => [$ipdhcp?$ipdhcp:''],
-    IPGATEWAY => [$ipgateway?$ipgateway:''],
-    IPMASK => [$ipmask?$ipmask:''],
-    IPSUBNET => [$ipsubnet?$ipsubnet:''],
-    MACADDR => [$macaddr?$macaddr:''],
-    PCISLOT => [$pcislot?$pcislot:''],
-    STATUS => [$status?$status:''],
-    TYPE => [$type?$type:''],
-    VIRTUALDEV => [$virtualdev?$virtualdev:''],
-
-  };
+  push @{$xmltags->{NETWORKS}}, $content;
 }
+
 # For compatibiliy
 sub addNetworks {
    my $self = shift;
@@ -506,7 +385,7 @@ deprecated, please, use addUser() and addCPU() instead.
 =cut
 sub setHardware {
   my ($self, $args, $nonDeprecated) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
   my $logger = $self->{logger};
 
@@ -536,7 +415,7 @@ Set BIOS informations.
 =cut
 sub setBios {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
   foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG/) {
 
@@ -553,32 +432,17 @@ Add a CPU in the inventory.
 =cut
 sub addCPU {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  # The CPU FLAG
-  my $manufacturer = $args->{MANUFACTURER};
-  my $type = $args->{TYPE};
-  my $serial = $args->{SERIAL};
-  my $speed = $args->{SPEED};
-  my $cpucores = $args->{CORES};
-  my $cpustatus = $args->{CPUSTATUS};
-  my $cpucachesize = $args->{L2CACHESIZE};
-  my $cpusocket = $args->{CPUSOCKET};
-  my $cpuarch = $args->{CPUARCH};
+  my $content = {};
 
-  push @{$xmltags->{CPUS}},
-  {
+  foreach my $key (qw/CPUARCH CPUCORES CPUSTATUS CPUSOCKET L2CACHESIZE MANUFACTURER SERIALNUMBER SPEED TYPE/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-    MANUFACTURER => [$manufacturer?$manufacturer:''],
-    TYPE => [$type?$type:''],
-    SERIALNUMBER => [$serial?$serial:''],
-    SPEED => [$speed?$speed:''],
-    L2CACHESIZE => [$cpucachesize?$cpucachesize:''],
-    CPUCORES => [$cpucores?$cpucores:''],
-    CPUSTATUS => [$cpustatus?$cpustatus:''],
-    CPUSOCKET => [$cpusocket?$cpusocket:''],
-    CPUARCH => [$cpuarch?$cpuarch:''],
-  };
+  push @{$xmltags->{CPUS}}, $content;
 
   # For the compatibility with HARDWARE/PROCESSOR*
   my $processorn = int @{$xmltags->{CPUS}};
@@ -600,12 +464,9 @@ Add an user in the list of logged user.
 =cut
 sub addUser {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-#  my $name  = $args->{NAME};
-#  my $gid   = $args->{GID};
   my $login = $args->{LOGIN};
-#  my $uid   = $args->{UID};
 
   return unless $login;
 
@@ -616,14 +477,8 @@ sub addUser {
 
   push @{$xmltags->{USERS}},
   {
-
-#      NAME => [$name],
-#      UID => [$uid],
-#      GID => [$gid],
       LOGIN => [$login]
-
   };
-
   my $userString = $xmltags->{HARDWARE}->{USERID}[0] || "";
 
   $userString .= '/' if $userString;
@@ -642,22 +497,18 @@ Add a printer in the inventory.
 =cut
 sub addPrinter {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $description = $args->{DESCRIPTION};
-  my $driver = $args->{DRIVER};
-  my $name = $args->{NAME};
-  my $port = $args->{PORT};
+  my $content = {};
 
-  push @{$xmltags->{PRINTERS}},
-  {
+  foreach my $key (qw/DESCRIPTION DRIVER NAME PORT/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-    DESCRIPTION => [$description?$description:''],
-    DRIVER => [$driver?$driver:''],
-    NAME => [$name?$name:''],
-    PORT => [$port?$port:''],
+  push @{$xmltags->{PRINTERS}}, $content;
 
-  };
 }
 
 # For compatibiliy
@@ -676,31 +527,17 @@ Add a Virtual Machine in the inventory.
 =cut
 sub addVirtualMachine {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  # The CPU FLAG
-  my $memory = $args->{MEMORY};
-  my $name = $args->{NAME};
-  my $uuid = $args->{UUID};
-  my $status = $args->{STATUS};
-  my $subsystem = $args->{SUBSYSTEM};
-  my $vmtype = $args->{VMTYPE};
-  my $vcpu = $args->{VCPU};
-  my $vmid = $args->{VMID};
+  my $content = {};
 
-  push @{$xmltags->{VIRTUALMACHINES}},
-  {
+  foreach my $key (qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU VMID/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-      MEMORY =>  [$memory],
-      NAME => [$name],
-      UUID => [$uuid],
-      STATUS => [$status],
-      SUBSYSTEM => [$subsystem],
-      VMTYPE => [$vmtype],
-      VCPU => [$vcpu],
-      VMID => [$vmid],
-
-  };
+  push @{$xmltags->{VIRTUALMACHINES}}, $content;
 
 }
 
@@ -711,28 +548,17 @@ Record a running process in the inventory.
 =cut
 sub addProcess {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
-  my $user = $args->{USER};
-  my $pid = $args->{PID};
-  my $cpu = $args->{CPUUSAGE};
-  my $mem = $args->{MEM};
-  my $vsz = $args->{VIRTUALMEMORY};
-  my $tty = $args->{TTY};
-  my $started = $args->{STARTED};
-  my $cmd = $args->{CMD};
+  my $content = {};
 
-  push @{$xmltags->{PROCESSES}},
-  {
-    USER => [$user?$user:''],
-    PID => [$pid?$pid:''],
-    CPUUSAGE => [$cpu?$cpu:''],
-    MEM => [$mem?$mem:''],
-    VIRTUALMEMORY => [$vsz?$vsz:0],
-    TTY => [$tty?$tty:''],
-    STARTED => [$started?$started:''],
-    CMD => [$cmd?$cmd:''],
-  };
+  foreach my $key (qw/CMD CPUUSAGE MEM PID STARTED TTY USER VIRTUALMEMORY/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
+
+  push @{$xmltags->{VIRTUALMACHINES}}, $content;
 }
 
 
@@ -746,7 +572,7 @@ This function adds a network interface in the inventory.
 =cut
 sub addIpDiscoverEntry {
   my ($self, $args) = @_; 
-  my $xmltags=$self->{xmltags};
+  my $xmltags = $self->{xmltags};
 
   my $ipaddress = $args->{IPADDRESS};
   my $macaddr = $args->{MACADDR};
@@ -822,96 +648,92 @@ sub getSnmpTable {
 
 
 sub setSnmpCommons {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
   
   foreach my $key (qw/IPADDR MACADDR SNMPDEVICEID NAME DESCRIPTION CONTACT LOCATION UPTIME DOMAIN TYPE / ) {
      if (exists $args->{$key}) {
-        $xmltags->{COMMON}[0]{$key}[0]=$args->{$key};
+        $xmltags->{COMMON}[0]{$key}[0] = $args->{$key};
      }
   }
 }
 
 sub setSnmpPrinter {
-  my ($self,$args)=@_;
-  my $xmltags=$self->{xmltags};
+  my ($self,$args) = @_;
+  my $xmltags = $self->{xmltags};
 
   foreach my $key (qw/NAME SERIALNUMBER COUNTER STATUS ERRORSTATE/ ) {
      if (exists $args->{$key}) {
-        $xmltags->{PRINTERS}[0]{$key}[0]=$args->{$key};
+        $xmltags->{PRINTERS}[0]{$key}[0] = $args->{$key};
      }
   }
 }
 
 
 sub setSnmpSwitchInfos {
-  my ($self,$args)=@_;
-  my $xmltags=$self->{xmltags};
+  my ($self,$args) = @_;
+  my $xmltags = $self->{xmltags};
 
-  foreach my $key (qw/TYPE/ ) {
+  foreach my $key (qw/TYPE/) {
      if (exists $args->{$key}) {
-        $xmltags->{SWITCHINFOS}[0]{$key}[0]=$args->{$key};
+        $xmltags->{SWITCHINFOS}[0]{$key}[0] = $args->{$key};
      }
   }
 }
 
 sub setSnmpFirewalls {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
 
-  foreach my $key (qw/SERIALNUMBER SYSTEM/ ) {
+  foreach my $key (qw/SERIALNUMBER SYSTEM/) {
      if (exists $args->{$key}) {
-        $xmltags->{FIREWALLS}[0]{$key}[0]=$args->{$key};
+        $xmltags->{FIREWALLS}[0]{$key}[0] = $args->{$key};
      }
   }
 }
 
 
 sub setSnmpLoadBalancer {
-  my ($self,$args)=@_; 
+  my ($self,$args) = @_; 
   my $xmltags=$self->{xmltags};
 
   foreach my $key (qw/SERIALNUMBER SYSTEM MANUFACTURER TYPE/ ) {
      if (exists $args->{$key}) {
-        $xmltags->{LOADBALANCERS}[0]{$key}[0]=$args->{$key};
+        $xmltags->{LOADBALANCERS}[0]{$key}[0] = $args->{$key};
      }
   }
 }
 
 sub setSnmpBlade {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
 
-  foreach my $key (qw/SERIALNUMBER SYSTEM/ ) {
+  foreach my $key (qw/SERIALNUMBER SYSTEM/) {
      if (exists $args->{$key}) {
-        $xmltags->{BLADES}[0]{$key}[0]=$args->{$key};
+        $xmltags->{BLADES}[0]{$key}[0] = $args->{$key};
      }
   }
 }
 
 sub setSnmpComputer {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
 
-  foreach my $key (qw/SYSTEM/ ) {
+  foreach my $key (qw/SYSTEM/) {
      if (exists $args->{$key}) {
-        $xmltags->{COMPUTERS}[0]{$key}[0]=$args->{$key};
+        $xmltags->{COMPUTERS}[0]{$key}[0] = $args->{$key};
      }
   }
 }
 
 sub addSnmpPrinterCartridge {
-  my ($self,$args)=@_;
-  my $xmltags=$self->{xmltags};
-  my $content={};
-
-  if ( ! defined ($xmltags->{CARDS})) {
-     $xmltags->{CARTRIDGES}=[];
-  }
+  my ($self,$args) = @_;
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/DESCRIPTION TYPE LEVEL MAXCAPACITY COLOR/) {
      if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
+        $content->{$key}[0] = $args->{$key};
      }
   }
   push @{$xmltags->{CARTRIDGES}},$content;
@@ -919,158 +741,133 @@ sub addSnmpPrinterCartridge {
 }
 
 sub addSnmpPrinterTray {
-  my ($self,$args)=@_;
-  my $xmltags=$self->{xmltags};
-  my $content={};
-
-  if ( ! defined ($xmltags->{CARDS})) {
-     $xmltags->{TRAYS}=[];
-  }
+  my ($self,$args) = @_;
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/NAME DESCRIPTION LEVEL MAXCAPACITY/) {
      if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
+        $content->{$key}[0] = $args->{$key};
      }
   }
+
   push @{$xmltags->{TRAYS}},$content;
 
 }
 
 sub addSnmpNetwork {
-  my ($self,$args)=@_;
-  my $xmltags=$self->{xmltags};
-  my $content={};
-  if ( ! defined ($xmltags->{NETWORKS})) {
-     $xmltags->{NETWORKS}=[];
-  }
+  my ($self,$args) = @_;
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/DESCRIPTION MACADDR DEVICEMACADDR SLOT STATUS SPEED TYPE DEVICEADDRESS DEVICENAME DEVICEPORT DEVICETYPE TYPEMIB IPADDR IPMASK IPGATEWAY IPSUBNET IPDHCP DRIVER VIRTUALDEV/) {
      if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
+        $content->{$key}[0] = $args->{$key};
      }
   }
-  #if ( exists $args->{VLAN}) {
-  #	$content->{VLAN}=$args->{VLAN};
-  #}
+
   push @{$xmltags->{NETWORKS}},$content;
 }
 
 sub addSnmpCard {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
-  my $content={};
-
-  if ( ! defined ($xmltags->{CARDS})) {
-     $xmltags->{CARDS}=[];
-  }
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/DESCRIPTION REFERENCE FIRMWARE SOFTWARE REVISION SERIALNUMBER MANUFACTURER TYPE/) {
      if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
+        $content->{$key}[0] = $args->{$key};
      }
   }
+
   push @{$xmltags->{CARDS}},$content;
 
 }
 
 sub addSnmpFan {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
-  my $content={};
-
-  if ( ! defined ($xmltags->{FANS})) {
-     $xmltags->{FANS}=[];
-  }
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/DESCRIPTION REFERENCE REVISION SERIALNUMBER MANUFACTURER TYPE/) {
      if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
+        $content->{$key}[0] = $args->{$key};
      }
   }
+
   push @{$xmltags->{FANS}},$content;
 }
 
 sub addSnmpPowerSupply {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
-  my $content={};
-
-  if ( ! defined ($xmltags->{POWERSUPPLIES})) {
-     $xmltags->{POWERSUPPLIES}=[];
-  }
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/MANUFACTURER REFERENCE TYPE SERIALNUMBER DESCRIPTION REVISION/ ) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
   }
+
   push @{$xmltags->{POWERSUPPLIES}},$content;
 }
 
 sub addSnmpSwitch {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
-  my $content={};
-  if ( ! defined ($xmltags->{SWITCHS})) {
-     $xmltags->{SWITCHS}=[];
-  }
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/MANUFACTURER REFERENCE TYPE SOFTVERSION FIRMVERSION SERIALNUMBER REVISION DESCRIPTION/) {
      if (exists $args->{$key}) {
         $content->{$key}[0]=$args->{$key};
      }
   }
+
   push @{$xmltags->{SWITCHS}},$content;
 }
 
 sub addSnmpLocalPrinter {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
-  my $content={};
-  if ( ! defined ($xmltags->{LOCALPRINTERS})) {
-     $xmltags->{LOCALPRINTERS}=[];
-  }
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/NAME/) {
      if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
+        $content->{$key}[0] = $args->{$key};
      }
   }
+
   push @{$xmltags->{LOCALPRINTERS}},$content;
 
 }
 
 sub addSnmpInput {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
-  my $content={};
-  if ( ! defined ($xmltags->{INPUTS})) {
-     $xmltags->{INPUTS}=[];
-  }
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/DESCRIPTION TYPE/) {
      if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
+        $content->{$key}[0] = $args->{$key};
      }
   }
+
   push @{$xmltags->{INPUTS}},$content;
 
 }
 
 
 sub addSnmpCPU {
-  my ($self,$args)=@_; 
-  my $xmltags=$self->{xmltags};
-  my $content={};
-  if ( ! defined ($xmltags->{CPUS})) {
-     $xmltags->{CPUS}=[];
-  }
+  my ($self,$args) = @_; 
+  my $xmltags = $self->{xmltags};
+  my $content = {};
 
   foreach my $key (qw/MANUFACTURER TYPE SPEED/) {
      if (exists $args->{$key}) {
-        $content->{$key}[0]=$args->{$key};
+        $content->{$key}[0] = $args->{$key};
      }
   }
+
   push @{$xmltags->{CPUS}},$content;
 
 }
