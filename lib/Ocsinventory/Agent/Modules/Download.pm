@@ -75,14 +75,14 @@ sub new {
 		# Errors
 		code_succes				 	=> 'SUCCESS',
 		err_bad_id				 	=> 'ERR_BAD_ID',
-		err_download_info		 	=> 'ERR_DOWNLOAD_INFO',
-		err_bad_digest			 	=> 'ERR_BAD_DIGEST',
-		err_download_pack		 	=> 'ERR_DOWNLOAD_PACK',
+		err_download_info		 		=> 'ERR_DOWNLOAD_INFO',
+		err_bad_digest			 		=> 'ERR_BAD_DIGEST',
+		err_download_pack		 		=> 'ERR_DOWNLOAD_PACK',
 		err_build			 		=> 'ERR_BUILD',
 		err_execute				 	=> 'ERR_EXECUTE',
 		err_clean			 		=> 'ERR_CLEAN',
 		err_timeout					=> 'ERR_TIMEOUT',
-		err_already_setup			=> 'ERR_ALREADY_SETUP',
+		err_already_setup				=> 'ERR_ALREADY_SETUP',
    };
    
    #Special hash for packages
@@ -221,7 +221,8 @@ sub download_prolog_reader{      #Read prolog response
 						'INFO_LOC' => $_->{'INFO_LOC'},
 						#'ID' => $_->{'ID'},
 						'CERT_PATH' => $_->{'CERT_PATH'},
-						'CERT_FILE' => $_->{'CERT_FILE'}
+						'CERT_FILE' => $_->{'CERT_FILE'},
+						'FORCE' => $_->{'FORCE'}
 					};
 				}
 			}
@@ -255,10 +256,12 @@ sub download_prolog_reader{      #Read prolog response
 		my $infofile = 'info';
 		my $location = $packages->{$_}->{'INFO_LOC'};
 
-		if($common->already_in_array($fileid, @done)){
-			$logger->info("Will not download $fileid. (already in history file)");
-			&download_message($fileid, $messages->{err_already_setup},$logger,$context);
-			next;
+		unless ($packages->{$_}->{'FORCE'} == 1) {
+			if($common->already_in_array($fileid, @done)){
+				$logger->info("Will not download $fileid. (already in history file)");
+				&download_message($fileid, $messages->{err_already_setup},$logger,$context);
+				next;
+			}
 		}
 		
 		# Looking for packages status
@@ -880,7 +883,7 @@ sub begin{
 sub done{	
 	my ($id,$logger,$context,$messages,$settings,$packages,$suffix) = @_;
 
-   my $common = $context->{common};
+	my $common = $context->{common};
 
 	my $frag_latency_default = $settings->{frag_latency_default};
 
@@ -888,12 +891,18 @@ sub done{
 	# Trace installed package
 	open DONE, ">$id/done";
 	close(DONE);
+
+        # Read history file
+	open HISTORY,"$context->{installpath}/download/history" or warn("Cannot open history file: $!");
+	chomp(my @historyIds = <HISTORY>);
+	close(HISTORY);
+
 	# Put it in history file
-	open HISTORY, ">>history" or warn("Cannot open history file: $!");
+	open HISTORY,">>$context->{installpath}/download/history" or warn("Cannot open history file: $!");
 	flock(HISTORY, LOCK_EX);
-	my @historyIds = <HISTORY>;
+
 	if( $common->already_in_array($id, @historyIds) ){
-		$logger->debug("Warning: id $id has been found in the history file!!");
+		$logger->debug("Warning: ID $id has been found in the history file (package was already deployed)");
 	}
 	else {
 		$logger->debug("Writing $id reference in history file");

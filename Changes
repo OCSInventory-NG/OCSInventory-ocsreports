@@ -1,11 +1,12 @@
 Revision history for Ocsinventory::Agent
 
+       * Add availibility to reforce a package deployment
        * Code rewrite in Common.pm to prevent sending empty XML tags to OCS server
-       * Fix Bug #1086086 Ues of initialized value in Snmp.pm, line 367
-       * Fix Bug #1087270 Unified Agent 2.0.5: zombie processes when running in daemon mode
-       * Fix Bug #1086078 Use of initialized value
-       * Fix Bug #1070788 unified agent can't extract zip packages
-       * Fix Bug #1045356 ifconfig parsing issue (Fedorai >=17)
+       * Fix Bug #1086086 about uses of initialized value in Snmp.pm
+       * Fix Bug #1087270 about zombie processes when running in daemon mode
+       * Fix Bug #1086078 about use of initialized value
+       * Fix Bug #1070788 about zip packages support
+       * Fix Bug #1045356 about ifconfig parsing issue (Fedora >=17)
        * New availability to scan custom network with SNMP using a network address received from server 
        * Fix Bug #1049626 about Qemu virtualization not detected on proxmox
        * Fix Bug #1040197 about VLAN interface AIX support 
