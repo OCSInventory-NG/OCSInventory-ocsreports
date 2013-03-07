@@ -12,7 +12,7 @@
 require_once('require/function_telediff.php');
 require_once('require/function_search.php');
 require_once('require/function_telediff_wk.php');
-p($protectedPost);
+//p($protectedPost);
 $form_name="pack_affect";
 $table_name="LIST_PACK_SEARCH";
 echo open_form($form_name);
@@ -242,7 +242,7 @@ if ($list_id){
 								'INFO_LOC'=>'e.INFO_LOC',
 								'CERT_FILE'=>'e.CERT_FILE',
 								'CERT_PATH'=>'e.CERT_PATH',
-								//'PACK_LOC'=>'de.PACK_LOC',
+							//	'PACK_LOC'=>'de.PACK_LOC',
 								$l->g(1037)=>'a.NAME',
 								$l->g(1039)=>'a.PRIORITY',
 								$l->g(51)=>'a.COMMENT',

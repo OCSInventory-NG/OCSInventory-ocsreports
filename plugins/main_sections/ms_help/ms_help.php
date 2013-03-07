@@ -11,7 +11,7 @@
 $data_on[1]=$l->g(1122);
 $data_on[2]=$l->g(1123);
 $data_on[3]=$l->g(1124);
-
+$data_on[4]=$l->g(1296);
 
 if (isset($protectedGet['TAB']) and isset($data_on[$protectedGet['TAB']]) and !isset($protectedPost['onglet']))
 $protectedPost['onglet']=$protectedGet['TAB'];
@@ -39,7 +39,9 @@ if ($protectedPost['onglet'] == 2){
 }elseif($protectedPost['onglet'] == 3){
 		echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://forums.ocsinventory-ng.org\">
 	</iframe>";
-	
+}elseif($protectedPost['onglet'] == 4){
+		echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://http://ocsinventory-ng.factorfx.com\">
+	</iframe>";
 }
 echo "</div>";
 echo close_form();

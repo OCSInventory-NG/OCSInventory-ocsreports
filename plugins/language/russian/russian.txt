@@ -1174,6 +1174,7 @@
 1280 Wake On Lan
 1281 On Wake On Lan
 1282 Wake On Lan order send
+1296 Trade offer
 1297 SNMP device identification
 1298 QRCode administration
 1299 QRCode
