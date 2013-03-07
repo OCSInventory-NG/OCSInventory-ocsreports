@@ -1163,23 +1163,10 @@
 1276 Profilo creato
 1277 Profilo predefinito (vuoto per nessuno)
 1278 Non hai i permessi per connetterti
-1279 On the support
-1280 E' già presente un certificato. L'aggiunta di uno nuovo cancellerà il vecchio
-1281 Console del supporto
-1282 Certificato non valido o password errata
-1283 Attivazione supporto
-1284 Chiave del certificato
-1285 Certificato aggiunto
-1286 GNU General Public License, version 2.0
-1287 SUPPORTO DISPONIBILE
-1288 Validità del supoprto
-1289 Numero identificativo del supporto
-1290 E-mail del referente
-1291 Certificato rilasciato da
-1292 SUPPORTO NON DISPONIBILE
-1294 Information del supporto
-1295 Informazioni aggiuntive
-1296 Supporto
+1279 WOL
+1280 Wake On Lan
+1281 On Wake On Lan
+1282 Wake On Lan order send
 1297 Identificativo periferica
 1298 Amministrazione QRCode
 1299 QRCode

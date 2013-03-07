@@ -1162,23 +1162,10 @@
 1276 Profil créé
 1277 Profil par défaut (vide pour aucun)
 1278 Vous n'êtes pas autorisé à vous connecter
-1279 Sur le support
-1280 Il existe déjà un certificat. L'ajout d'un nouveau supprimera l'ancien.
-1281 Support console
-1282 Le certificat ou le mot de passe n'est pas correct
-1283 Activation du support
-1284 Certificat de support
-1285 Certificat ajouté
-1286 GNU General Public License, version 2.0
-1287 SUPPORT DECLARE
-1288 Validité du support
-1289 N° d'identification support
-1290 Email de contact
-1291 Certificat émis par
-1292 AUCUN SUPPORT DECLARE
-1294 Information support
-1295 Avoir plus d'informations
-1296 Support
+1279 WOL
+1280 Wake On Lan
+1281 Sur le Wake On Lan
+1282 Ordre de Wake On Lan envoyé
 1297 Numéro d'identification
 1298 Gestion des QRCode
 1299 QRCode
@@ -1191,6 +1178,7 @@
 1306 Gérer les plugins
 1307 Plugins actifs
 1308 Ajouter plugins
+1309 Options de télédéploiement
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

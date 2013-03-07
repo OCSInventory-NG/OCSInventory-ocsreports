@@ -12,6 +12,7 @@
 require_once('require/function_telediff.php');
 require_once('require/function_search.php');
 require_once('require/function_telediff_wk.php');
+p($protectedPost);
 $form_name="pack_affect";
 $table_name="LIST_PACK_SEARCH";
 echo open_form($form_name);
@@ -144,7 +145,42 @@ if ($activate){
 		msg_info($msg_wk);
 	
 }
-
+if ($protectedPost['MODIF'] != ''){
+			$tab_hidden['SELECT']=$protectedPost['MODIF'];
+			$tab_hidden['onglet']=$protectedPost['onglet'];
+			$tab_hidden['rule_choise']=$protectedPost['rule_choise'];
+			$hour=array(''=>'',
+						'00:00'=>'00:00',
+						'02:00'=>'02:00',
+						'04:00'=>'04:00',
+						'06:00'=>'06:00',
+						'08:00'=>'08:00',
+						'10:00'=>'10:00',
+						'12:00'=>'12:00',
+						'14:00'=>'14:00',
+						'16:00'=>'16:00',
+						'18:00'=>'18:00',
+						'20:00'=>'20:00',
+						'22:00'=>'22:00');
+			$config['COMMENT_BEHING'][0]='';
+			$config['SELECT_DEFAULT'][0]='';
+			$config['JAVASCRIPT'][0]='';
+			$config['SIZE'][0]='';
+			$tab_name=array("Forcer le télédéploiement","Installation Date","Installation Heure");
+			$name_field=array("TELE_FORCE","INSTALL_DATE","INSTALL_HEURE");
+			$type_field=array(5,0,2);
+			$value_field=array(array(''),$protectedPost['INSTALL_DATE'],$hour);
+			array_push($config['COMMENT_BEHING'],datePick("INSTALL_DATE"));
+			array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick("INSTALL_DATE"));
+			array_push($config['SELECT_DEFAULT'],'');
+			array_push($config['SIZE'],'8');
+			$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
+			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$l->g(1309));
+	
+	
+	
+	
+}
 
 if ($protectedPost['SELECT'] != ''){
 	if ($protectedGet['origine'] == "group"){
@@ -218,14 +254,14 @@ if ($list_id){
 		if ($protectedPost['onglet'] != 'SERV_GROUP'){
 			$list_fields['PACK_LOC']='e.PACK_LOC';	
 			$list_fields['ACTIVE_ID']='e.ID';
-			$list_fields['SELECT']='e.ID';
+			$list_fields['MODIF']='e.ID';
 		}else{
 			$list_fields['ACTIVE_ID']='e.FILEID';
-			$list_fields['SELECT']='e.FILEID';
+			$list_fields['MODIF']='e.FILEID';
 		}
 	}		
 		$default_fields= array($l->g(1037)=>$l->g(1037),$l->g(1039)=>$l->g(1039),$l->g(274)=>$l->g(274),$l->g(953)." (KB)"=>$l->g(953)." (KB)",'SELECT'=>'SELECT');
-		$list_col_cant_del=array($l->g(1037)=>$l->g(1037),'SELECT'=>'SELECT');
+		$list_col_cant_del=array($l->g(1037)=>$l->g(1037),'MODIF'=>'MODIF');
 
 		if ($protectedPost['onglet'] != 'SERV_GROUP'){
 			$default_fields['PACK_LOC']='PACK_LOC';
@@ -256,6 +292,7 @@ if ($list_id){
 		$tab_options['QUESTION']['SELECT']=$l->g(699);
 		$tab_options['FILTRE']=array('e.FILEID'=>'Timestamp','a.NAME'=>$l->g(49));
 		$tab_options['ARG_SQL']=$sql['ARG'];
+		$tab_options['MODIF']['IMG']="image/prec16.png";
 		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,100,$tab_options); 
 	}
 	echo "</td></tr></table></div>";

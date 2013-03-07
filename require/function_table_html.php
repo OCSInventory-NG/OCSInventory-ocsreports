@@ -72,7 +72,7 @@ function dateOnClick($input, $checkOnClick=false) {
 
 function datePick($input, $checkOnClick=false) {
 	global $l;
-	$dateForm = $l->g(269) == "%m/%d/%Y" ? "MMDDYYYY" : "DDMMYYYY" ;
+	$dateForm = $l->g(269) == "%m/%d/%Y" ? "MMDDYYYY" : "YYYYMMDD" ;
 	if( $checkOnClick ) $cOn = ",'$checkOnClick'";
 	$ret = "<a href=\"javascript:NewCal('$input','$dateForm',false,24{$cOn});\">";
 	$ret .= "<img src=\"image/cal.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"Pick a date\"></a>";
@@ -1309,6 +1309,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 			echo "<input type='hidden' id='ACTIVE' name='ACTIVE' value=''>";
 			echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
 			echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
+			echo "<input type='hidden' id='OTHER_TER' name='OTHER_TER' value=''>";
 			return TRUE;
 		}else
 			return FALSE;
@@ -1597,6 +1598,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=".$tab_options['OTHER']['IMG']."></a>";
 						}elseif (isset($tab_options['OTHER_BIS'][$key][$value_of_field])){
 							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_BIS\",\"".$form_name."\");'><img src=".$tab_options['OTHER_BIS']['IMG']."></a>";
+						}elseif (isset($tab_options['OTHER_TER'][$key][$value_of_field])){
+							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_TER\",\"".$form_name."\");'><img src=".$tab_options['OTHER_TER']['IMG']."></a>";
 						}else{
 							$end="";
 						}

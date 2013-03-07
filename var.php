@@ -31,5 +31,6 @@ define('HEADER_HTML',"require/html_header.php");						// Define html_header file
 define('FOOTER_HTML',"require/footer.php");								// Define footer file		
 define('MAIN_SECTIONS_DIR',PLUGINS_DIR."main_sections/");				//
 define('DEV_OPTION',true);												// Define DEV Options DO NOT USE
-define('PC4PAGE',20);												// Define result by page MUST in (5,10,15,20,50,100,200,1000000);
+define('WOL_PORT',9);													// Define Wake On Lan port
+define('PC4PAGE',20);													// Define result by page MUST in (5,10,15,20,50,100,200,1000000);
 ?>

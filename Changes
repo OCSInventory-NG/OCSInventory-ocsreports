@@ -1,5 +1,7 @@
 Revision history for ocsreports
 2.1
+		* add wake on lan 
+		* Remove Support 
 		* add SNMP field to scan multi networks
 		* Add QRcode on accountinfo
 		* Add architecture field

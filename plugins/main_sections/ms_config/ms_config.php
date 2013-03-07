@@ -34,9 +34,6 @@ $def_onglets['GUI']=$l->g(84); //GUI
 $def_onglets['CNX']=$l->g(1108); //connexion
 $def_onglets['SNMP']=$l->g(1136); //SNMP
 
-if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO'){
-	$def_onglets['SUPPORT']=$l->g(1296);
-}
 if (DEV_OPTION)
 	$def_onglets['DEV']=$l->g(1302);
 
@@ -66,7 +63,7 @@ if (isset($MAJ) and $MAJ != '')
 $form_name='modif_onglet';
 echo open_form($form_name);
 
-onglet($def_onglets,$form_name,'onglet',7);
+onglet($def_onglets,$form_name,'onglet',8);
 echo '<div class="mlt_bordure" >';
 switch ($protectedPost['onglet']){
 	case 'CNX':
@@ -107,9 +104,6 @@ switch ($protectedPost['onglet']){
 		break;
 	case 'SNMP':
 		pagesnmp($form_name);
-		break;
-	case 'SUPPORT':
-		pagessupport($form_name);
 		break;
 	case 'DEV':
 		pagesdev($form_name);

@@ -215,7 +215,6 @@ else{
 					
 				$nb_row++;
 			}	
-			
 				$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 				if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
 					$tab_hidden=array('ADMIN'=>'','UP'=>'','DOWN'=>'');
@@ -227,7 +226,6 @@ else{
 				
 				if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] != "YES")
 					$showbutton=false;
-					
 				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton,$form_name='NO_FORM',$show_admin_button);
 			
 			echo "</div>"; 
