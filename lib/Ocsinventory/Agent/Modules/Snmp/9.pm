@@ -95,21 +95,35 @@ sub snmp_run {
            my $ref_vlan=$1;
            # Now we can scan this vlan for mac adress
            # We must first open a new session with the index associated with the vlan
-           my $sub_session= Net::SNMP->session(
-                -retries     => 1 ,
-                -timeout     => 3,
-                -version     => $session->version,
-                -hostname    => $session->hostname,
-                -community   => $snmp->{snmp_community}."@".$ref_vlan,
-                -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
-                #-username      => $comm->{username}, # V3 test after
-                #-authkey       => $comm->{authkey},
-                #-authpassword  => $comm->{authpasswd},
-                #-authprotocol  => $comm->{authproto},
-                #-privkey       => $comm->{privkey},
-                #-privpassword  => $comm->{privpasswd},
-                #-privprotocol  => $comm->{privproto},
-          );
+			if ( $session->version eq 3 ) {
+				my $sub_session= Net::SNMP->session(
+					-retries     => 1 ,
+					-timeout     => 3,
+					-version     => $session->version,
+					-hostname    => $session->hostname,
+					-community   => $snmp->{snmp_community}."@".$ref_vlan,
+					-translate   => [-nosuchinstance => 0, -nosuchobject => 0],
+					-username      => $comm->{username},
+					-authkey       => $comm->{authkey},
+					-authpassword  => $comm->{authpasswd},
+					-authprotocol  => $comm->{authproto},
+					-privkey       => $comm->{privkey},
+					-privpassword  => $comm->{privpasswd},
+					-privprotocol  => $comm->{privproto},
+				);
+			} else {
+				my $sub_session= Net::SNMP->session(
+					-retries     => 1 ,
+					-timeout     => 3,
+					-version     => $session->version,
+					-hostname    => $session->hostname,
+					-community   => $snmp->{snmp_community}."@".$ref_vlan,
+					-translate   => [-nosuchinstance => 0, -nosuchobject => 0],
+				);
+			}
+
+
+
           if ( defined ( $sub_session ) ) {
              my $result_snmp_mac=$sub_session->get_entries(-columns => [$snmp_dot1dTpFdbPort ]);
              if ( defined ($result_snmp_mac ) ) {
