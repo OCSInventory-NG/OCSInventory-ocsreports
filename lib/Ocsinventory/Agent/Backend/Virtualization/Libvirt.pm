@@ -12,7 +12,7 @@ sub run {
 
 
     foreach (`virsh list --all`) {
-        if (/^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/) {
+        if (/^\s*(\d+|\-)\s+(\S+)\s+(\S.+)/) {
             my $name = $2;
             my $status = $3;
 

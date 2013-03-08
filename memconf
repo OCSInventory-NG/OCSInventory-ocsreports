@@ -6,7 +6,7 @@
 #
 # @(#) memconf - Identify sizes of memory modules installed on a
 # @(#)           Solaris, Linux, FreeBSD or HP-UX workstation or server.
-# @(#) Micron Technology, Inc. - Tom Schmidt 20-Jun-2012 V3.00
+# @(#) Micron Technology, Inc. - Tom Schmidt 02-Oct-2012 V3.02
 #
 # Maintained by Tom Schmidt (tschmidt@micron.com)
 #
@@ -82,7 +82,7 @@
 #   - sun4v Sun SPARC Enterprise T2000, T1000 Server
 #   - sun4v Sun SPARC Enterprise T5120, T5140, T5220, T5240 Server, Netra T5220
 #   - sun4v Sun SPARC Enterprise T5440 Server, Netra T5440
-#   - sun4v Oracle SPARC T3-1, T3-2, T4-1, T4-2, T4-4
+#   - sun4v Oracle SPARC T3-1, T3-1B, T3-2, T4-1, T4-2, T4-4
 #   - sun4m Tatung COMPstation 5, 10, 20AL, 20S and 20SL clones
 #   - sun4m transtec SPARCstation 20I clone
 #   - sun4m Rave Axil-255 SPARCstation 5 clone
@@ -111,7 +111,7 @@
 # - sun4u Sun Netra ct400, ct410, ct810
 # - sun4u Sun SPARCengine CP2040, CP2060, CP2080, CP2160
 # - sun4v Sun Netra CP3260
-# - sun4v Oracle SPARC T3-1B, T3-1BA, T3-4, T4-1B, T4-2B
+# - sun4v Oracle SPARC T3-1BA, T3-4, T4-1B, T4-2B
 # - sun4v Oracle Netra SPARC T3 systems
 # - May not work properly on Sun clones
 #
@@ -131,8 +131,8 @@
 $^W=1;	# Enables -w warning switch, put here for SunOS4 compatibility.
 $starttime=(times)[0];
 
-$version="V3.00";
-$version_date="20-Jun-2012";
+$version="V3.02";
+$version_date="02-Oct-2012";
 $URL="http://www.4schmidts.com/unix.html";
 
 $newpath="/usr/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
@@ -208,6 +208,9 @@ $have_smbios_data=0;
 $smbios_memory=0;
 $kstat_cmd="";
 $have_kstat_data=0;
+@kstat_brand=();
+@kstat_MHz=();
+$kstat_cpubanner="";
 @kstat_core_id=("");
 @kstat_core=("");
 @kstat_ncore_per_chip=("");
@@ -225,6 +228,7 @@ $decodedimms_checked="";
 $have_decodedimms_data=0;
 @reorder_decodedimms=();
 $maxmembusspeed="";
+$foundspeed=0;
 $mixedspeeds=0;
 $have_x86_devname=0;
 if (-d '/usr/platform') {
@@ -654,12 +658,12 @@ if (! $filename) {
 	# Special case for regression testing Linux files
 	$os="Linux" if ($filename =~ /Linux/);
 	# Special case for regression testing HP-UX files
-	if ($filename =~ /\bcstm[\.+]/) {
-		&hpux_check;
-		&hpux_cstm;
-	} elsif ($filename =~ /\bcprop[\.+]/) {
+	if ($filename =~ /\bcprop[\.+]/) {
 		&hpux_check;
 		&hpux_cprop;
+	} elsif ($filename =~ /\b(cstm|machinfo)[\.+]/) {
+		&hpux_check;
+		&hpux_cstm;
 	}
 }
 $kernbit="";
@@ -894,7 +898,6 @@ sub show_helpers {
 	}
 	if ($os eq "HP-UX") {
 		print "$s/usr/contrib/bin/machinfo\n" if (-x '/usr/contrib/bin/machinfo');
-		print "$s/opt/propplus/bin/cprop -summary -c Memory\n" if (-x '/opt/propplus/bin/cprop');
 	}
 }
 
@@ -937,11 +940,28 @@ sub check_hyperthread {
 	}
 }
 
+sub show_hyperthreadcapable {
+	if ($hyperthreadcapable && ! $hyperthread) {
+		print "NOTICE: CPU";
+		if ($npcpu > 1) {
+			print "s are";
+		} else {
+			print " is";
+		}
+		print " capable of Hyper-Threading, but it is not enabled in the BIOS.\n";
+	}
+}
+
 sub cpubanner {
 	# Hard-code some CPU models for hyper-threading on regression tests.
 	# Hyper-Thread detection in Solaris x86 is done earlier by check_kstat
 	# This hard-code method assumes Hyper-Threading is enabled if the
 	# core count matches. This is not used when kstat data is available.
+	if ($kstat_cpubanner && $modelmore !~ /MHz\)/) {
+		&pdebug("in cpubanner, using kstat_cpubanner for cpubanner");
+		$cpubanner=$kstat_cpubanner;
+		return;
+	}
 	if ($filename && $os eq "SunOS" && $isX86 && ! $hyperthread && ! $kstat_checked) {
 		&check_hyperthread;
 	} elsif ($filename && &is_xen_hv) {
@@ -998,7 +1018,7 @@ sub show_header {
 	}
 	if ($banner) {
 		# See if banner includes CPU information
-		if ($banner !~ /\(.*SPARC/ && $banner !~ /MHz/) {
+		if ($banner !~ /\(.*SPARC/ && $banner !~ /MHz/ && ! $kstat_cpubanner) {
 			@cputypecnt=keys(%cpucnt);
 			$x=0;
 			while (($cf,$cnt)=each(%cpucnt)) {
@@ -1120,7 +1140,14 @@ sub show_header {
 			print ", SunOS 5.X\n";
 		}
 		$ncpu=1 if ($ncpu == 0);	# It has at least 1 CPU
-		if ($cpuarr == -1 && ! &is_xen_vm) {
+		if ($kstat_cpubanner) {
+			$tmp=$kstat_cpubanner;
+			$tmp=~s/(\d) X /$1 /g;
+			print "1 " if ($tmp eq $kstat_cpubanner);
+			print "$tmp cpu";
+			print "s" if ($tmp ne $kstat_cpubanner);
+			print (($sysfreq) ? ", " : "\n");
+		} elsif ($cpuarr == -1 && ! &is_xen_vm) {
 			@cputypecnt=keys(%cpucnt);
 			$x=0;
 			while (($cf,$cnt)=each(%cpucnt)) {
@@ -1720,7 +1747,7 @@ sub check_for_prtdiag {
 sub add_to_sockets_used {
 	$_=shift;
 	# strip leading slash for matching
-	$_ =~ s/^\///;
+	$_=~s/^\///;
 	$sockets_used .= "," if ($sockets_used && /\s/);
 	$sockets_used .= " $_" if ($sockets_used !~ /$_/);
 }
@@ -2443,7 +2470,11 @@ sub check_prtpicl {
 				}
 				$flag_mem_mod=0;	# End of memory module section
 				&add_to_sockets_used($socket);
-				$picl_mem_pn{"$socket"}="$mem_mfg $mem_model";
+				if (defined($mem_model)) {
+					$picl_mem_pn{"$socket"}="$mem_mfg $mem_model";
+				} else {
+					$picl_mem_pn{"$socket"}="$mem_mfg";
+				}
 				if ($max_picl_dimm_per_bank) {
 					$picl_mem_dimm{"$socket"}=$picl_bank_size / $max_picl_dimm_per_bank;
 					push(@simmsizesfound, "$picl_mem_dimm{\"$socket\"}");
@@ -2739,6 +2770,7 @@ sub cleanup_cputype {
 	s/ CPU//;
 	s/ [Pp]rocessor//;
 	s/ +MHz/MHz/;
+	s/ (\d[\d\.]*GHz) \d*MHz/ $1/;
 	s/\s+/ /g;
 	s/^\s+//;
 	s/\s+$//;
@@ -2755,7 +2787,7 @@ sub multicore_cpu_cnt {
 	if ($cputype =~ /UltraSPARC-T1$/) {
 		$cputype="UltraSPARC-T1";
 		# Count 4-Thread (4, 6, or 8 Core) Niagara CPUs as 1 CPU
-		if ($npcpu && ! $have_ldm_data) {
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
 			$ncpu=$npcpu;
 		} else {
 			# Each CPU has 8 Cores max (32 threads)
@@ -2770,7 +2802,7 @@ sub multicore_cpu_cnt {
 	} elsif ($cputype =~ /UltraSPARC-T2\+/) {
 		$cputype="UltraSPARC-T2+";
 		# Count 8-Thread (4, 6, or 8 Core) Victoria Falls CPUs as 1 CPU
-		if ($npcpu && ! $have_ldm_data) {
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
 			$ncpu=$npcpu;
 		} else {
 			# Assume there are no single-cpu systems with the US-T2+
@@ -2797,7 +2829,7 @@ sub multicore_cpu_cnt {
 	} elsif ($cputype =~ /UltraSPARC-T2$/) {
 		$cputype="UltraSPARC-T2";
 		# Count 8-Thread (4 or 8 Core) Niagara-II CPUs as 1 CPU
-		if ($npcpu && ! $have_ldm_data) {
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
 			$ncpu=$npcpu;
 		} else {
 			# Each CPU has 8 Cores max (64 threads)
@@ -2812,7 +2844,7 @@ sub multicore_cpu_cnt {
 	} elsif ($cputype =~ /SPARC-T3$/) {
 		$cputype="SPARC-T3";
 		# Count 8-Thread (8 or 16 Core) Rainbow Falls CPUs as 1 CPU
-		if ($npcpu && ! $have_ldm_data) {
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
 			$ncpu=$npcpu;
 		} else {
 			# Each CPU has 16 Cores max (128 threads)
@@ -2827,7 +2859,7 @@ sub multicore_cpu_cnt {
 	} elsif ($cputype =~ /SPARC-T4$/) {
 		$cputype="SPARC-T4";
 		# Count 8-Thread 8-Core SPARC-T4 CPUs as 1 CPU
-		if ($npcpu && ! $have_ldm_data) {
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
 			$ncpu=$npcpu;
 		} else {
 			# Each CPU has 8 Cores max (64 threads)
@@ -2842,7 +2874,7 @@ sub multicore_cpu_cnt {
 	} elsif ($cputype =~ /SPARC-T5$/) {
 		$cputype="SPARC-T5";
 		# Count 8-Thread 16-Core SPARC-T5 CPUs as 1 CPU
-		if ($npcpu && ! $have_ldm_data) {
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
 			$ncpu=$npcpu;
 		} else {
 			# Each CPU has 16 Cores max (128 threads)
@@ -3198,6 +3230,8 @@ sub check_for_LDOM {
 				$ldm_memory += $sz;
 			}
 		}
+		# Was ldm data found?
+		$have_ldm_data=0 if (! $ldmthreadcnt && ! $ldm_memory);
 		if ($ldmthreadcnt) {
 			# VCPUs found in ldm output
 			delete $cpucnt{"$cputype $cpufreq"};
@@ -3391,7 +3425,7 @@ sub check_smbios {
 			$smb_mdf="Fast-Page " if ($line =~ /SMB_MDF_FASTPG/);
 			$smb_mdf="Synchronous " if ($line =~ /SMB_MDF_SYNC/);
 			$smb_mdf="EDO " if ($line =~ /SMB_MDF_EDO/);
-			if ($line =~ /Speed: *\d+ *MHz/) {
+			if ($line =~ /^ *Speed: *\d+ *MHz/) {
 				$maxmembusspeed=$line;
 				$maxmembusspeed=~s/^ *Speed: *(\d+) *MHz/${1}MHz/g;
 			}
@@ -3462,6 +3496,14 @@ sub check_kstat {
 		if (/\scpu_info\s+instance:\s+/) {
 			($instance)=(/.*\s(\d+)\s*$/);
 		}
+		if (/^\s*brand\s/) {
+			($val)=(/^\sbrand\s*(\S.*)\s*$/);
+			push(@kstat_brand, "$val") if ($val);
+		}
+		if (/\sclock_MHz\s/) {
+			($val)=(/.*\s(\d+)\s*$/);
+			push(@kstat_MHz, "$val") if ($val);
+		}
 		# count # of threads per unique core_id for each chip
 		if (/\score_id\s/) {
 			($val)=(/.*\s(\d+)\s*$/);
@@ -3501,6 +3543,45 @@ sub check_kstat {
 				}
 			}
 		}
+	} elsif (@kstat_brand && @kstat_MHz) {
+		@kstat_brandMHz=();
+		@kstat_brand_arr=();
+		@kstat_MHz_arr=();
+		$i=0;
+		foreach $brand (@kstat_brand) {
+			$kstat_brandMHz{$brand,$kstat_MHz[$i]}++;
+			push(@kstat_brand_arr, "$brand") if (! grep($_ eq $brand, @kstat_brand_arr));
+			push(@kstat_MHz_arr, "$kstat_MHz[$i]") if (! grep($_ eq $kstat_MHz[$i], @kstat_MHz_arr));
+			$i++;
+		}
+		@kstat_cpubanners=();
+		# return unless have mix of CPUs or is VM
+		return if ($#kstat_brand_arr == 0 && $#kstat_MHz_arr == 0 && ! &is_virtualmachine);
+		foreach $brand (@kstat_brand_arr) {
+			foreach $MHz (@kstat_MHz_arr) {
+				if ($kstat_brandMHz{$brand,$MHz}) {
+					$cputype=$brand;
+					if ($isX86) {
+						$cputype=&multicore_cputype($cputype,$corecnt);
+					} else {
+						&multicore_cpu_cnt;
+					}
+					$tmp="";
+					$cnt=$kstat_brandMHz{$brand,$MHz} / $corecnt;
+					$cpucntfrom="kstat";
+					$tmp .= "$cnt X " if ($cnt > 1);
+					push(@kstat_cpubanners, "$tmp$cputype ${MHz}MHz");
+				}
+			}
+		}
+		$i=0;
+		foreach (@kstat_cpubanners) {
+			$kstat_cpubanner .= ", " if ($i > 0);
+			$kstat_cpubanner .= $_;
+			$i++;
+		}
+		$kstat_cpubanner=&cleanup_cputype($kstat_cpubanner);
+		&pdebug("in check_kstat, kstat_cpubanner=$kstat_cpubanner");
 	}
 }
 
@@ -3514,8 +3595,8 @@ sub print_empty_memory {
 	return if (&is_virtualmachine || $empty_memory_printed);
 	$s=shift;
 	print "empty $s: ";
-	$sockets_empty =~ s/^\s*//;
-	$sockets_empty =~ s/^,\s*//;
+	$sockets_empty=~s/^\s*//;
+	$sockets_empty=~s/^,\s*//;
 	print (($sockets_empty) ? "$sockets_empty\n" : "None\n");
 	$empty_memory_printed=1;
 }
@@ -3972,7 +4053,7 @@ foreach $line (@config) {
 		}
 		$freq=0;
 		$cpufreq=$sysfreq if ($sysfreq >= $cpufreq);
-		&pdebug("Checking cputype=$cputype, ncpu=$ncpu");
+		&pdebug("Checking cputype=$cputype, ncpu=$ncpu, threadcnt=$threadcnt");
 		if (! $cputype) {
 			$cputype=$machine;
 			$cputype="SPARC" if ($cputype =~ /^sun4/ || $model =~ /Sun 4\//);
@@ -6210,7 +6291,7 @@ if ($ultra eq "T3-1" || $ultra eq "T3-1B") {
 	$familypn="SE3" if ($ultra eq "T3-1");
 	$familypn="T31B" if ($ultra eq "T3-1B");
 	$familypn="NST3" if ($ultra eq "T3-1" && $banner =~ /Netra/i);
-	$untested=0 if ($ultra eq "T3-1");
+	$untested=0 if ($ultra eq "T3-1" || $ultra eq "T3-1B");
 	$untested=1 if ($banner =~ /Netra/i);
 	@socketstr=("MB/CMP0/BOB0/CH1/D0","MB/CMP0/BOB1/CH1/D0","MB/CMP0/BOB2/CH1/D0","MB/CMP0/BOB3/CH1/D0","MB/CMP0/BOB0/CH0/D0","MB/CMP0/BOB1/CH0/D0","MB/CMP0/BOB2/CH0/D0","MB/CMP0/BOB3/CH0/D0","MB/CMP0/BOB0/CH1/D1","MB/CMP0/BOB1/CH1/D1","MB/CMP0/BOB2/CH1/D1","MB/CMP0/BOB3/CH1/D1","MB/CMP0/BOB0/CH0/D1","MB/CMP0/BOB1/CH0/D1","MB/CMP0/BOB2/CH0/D1","MB/CMP0/BOB3/CH0/D1");
 	&check_for_LDOM;
@@ -6774,7 +6855,7 @@ if ($have_ipmitool_data) {
 # Check to see if this system has cpu information in kstat output to recognize
 # Hyper-Threaded Intel CPUs
 #
-&check_kstat if ($have_kstat_data && isX86);
+&check_kstat if ($have_kstat_data);
 
 #
 # Check to see if this system has module information in smbios output
@@ -7592,12 +7673,13 @@ sub hpux_machinfo {
 		}
 		if ($flag_cpu == 1) {
 			# Parse CPU count, type and frequency for cpubanner
-			if ($line =~ /^\s*\d+\s+.*[Pp]rocessor.* \(\d.*Hz,/) {
+			if ($line =~ /^\s*\d*\s+.*[Pp]rocessor.* \(\d.*Hz,/) {
 				$ncpu=$line;
 				$ncpu=~s/^\s*(\d+)\s+.*/$1/;
+				$ncpu=1 if ($ncpu eq $line);
 				$cpucntfrom="machinfo 'CPU info'";
 				$cputype=$line;
-				$cputype=~s/^\s*\d+\s+(.*)$/$1/;
+				$cputype=~s/^\s*\d*\s+(.*)$/$1/;
 				$cputype=~s/ processors.*$//;
 				$cputype=~s/^(.*)\s+\(\d.*Hz.*/$1/;
 				$cputype=~s/\s+/ /g;
@@ -7611,7 +7693,7 @@ sub hpux_machinfo {
 				}
 				&pdebug(" cputype=$cputype, cfreq=$cfreq");
 				next;
-			} elsif ($line =~ /logical processors .* per socket/) {
+			} elsif ($line =~ /logical processors \(\d+ per socket/) {
 				# Report multicore processors
 				$tmp=$line;
 				$tmp=~/(\d+) logical processors \((\d+) per socket/;
@@ -7622,6 +7704,12 @@ sub hpux_machinfo {
 				$ncpu=$linearr[1];
 				$ncpu=~s/^ *//;
 				$cpucntfrom="machinfo 'Number of CPUs'";
+				next;
+			} elsif ($line =~ /^\s*\d+ sockets\s*$/) {
+				$tmp=$line;
+				$tmp=~/(\d+) sockets/;
+				$ncpu=$1;
+				$cpucntfrom="machinfo 'sockets'";
 				next;
 			} elsif ($line =~ /processor model: /) {
 				@linearr=split(':', $line);
@@ -7639,6 +7727,13 @@ sub hpux_machinfo {
 					$cfreq *= 1000;
 				} else {
 					$cfreq=~s/ MHz//;
+				}
+				next;
+			} elsif ($line =~ /LCPU attribute is /) {
+				$hyperthreadcapable=1;
+				if ($line =~ /enabled/i) {
+					$hyperthread=1;
+					$cputype=~s/ Intel/ Hyper-Threaded Intel/ if ($cputype !~ /Hyper.Thread/i);
 				}
 				next;
 			}
@@ -7719,7 +7814,7 @@ sub hpux_cprop {
 	while(<FILE>) {
 		next if (/^[\s\*\-]+$/);
 		next if (/(<OUT OF SPEC>| Unknown|: Other|: \.\.|: Not Specified|:\s*$)/);
-		($permission_error)=(/(.*)/) if (/Permission denied|does not have privileges/i);
+		($permission_error)=(/(.*)/) if (/Permission denied|does not have privileges|is not authorized to run/i);
 		if (/not supported on HPVM guest/i) {
 			$is_hpvm=1;
 			last;
@@ -7897,7 +7992,7 @@ sub hpux_finish {
 				$tmp=`/opt/hpvm/bin/hpvminfo 2>&1`;
 				if ($tmp =~ /HPVM guest/i) {
 					$is_hpvm=1;
-				} elsif ($tmp =~ /Permission denied|does not have privileges/i) {
+				} elsif ($tmp =~ /Permission denied|does not have privileges|is not authorized to run/i) {
 					print "ERROR: $tmp";
 					print "    This user does not have permission to run '/opt/hpvm/bin/hpvminfo'.\n";
 					print "    Run memconf as a privileged user like root on the HPVM host.\n";
@@ -7913,6 +8008,11 @@ sub hpux_finish {
 		}
 		$exitstatus=1;
 	}
+	#
+	# Post notice if X86 machine is Hyper-Thread capable, but not enabled
+	#
+	&show_hyperthreadcapable;
+
 	if ($permission_error) {
 		print "ERROR: $permission_error\n";
 		print "    This user does not have permission to run $config_command.\n";
@@ -8400,6 +8500,27 @@ sub linux_distro {
 	$release=~s/^, //;
 }
 
+sub check_mixedspeeds {
+	$_=shift;
+	return if ($_ !~ /(\dMHz|\dns)/);
+	s/^.* (\d*)MHz.*$/$1/;
+	s/^(\d*)MHz.*$/$1/;
+	s/^.* (\d*)ns.*$/$1/;
+	s/^(\d*)ns.*$/$1/;
+	return if (! $_);
+	&pdebug("in check_mixedspeeds, value=$_");
+	# round some memory speeds
+	$_=266 if ($_ >= 265 && $_ <= 285);	# DDR-266 PC-2100
+	$_=667 if ($_ >= 665 && $_ <= 668);	# DDR2-667 PC2-5300
+	$_=1066 if ($_ >= 1065 && $_ <= 1068);	# DDR2-1066 PC2-8500, DDR3-1066 PC3-8500
+	$_=1866 if ($_ >= 1865 && $_ <= 1868);	# DDR3-1866 PC3-14900
+	if ($foundspeed) {
+		$mixedspeeds=1 if ($foundspeed ne $_);
+	} else {
+		$foundspeed=$_;
+	}
+}
+
 sub roundup_memory {
 	$newval=shift;
 	# Round up memory (may have 128MB or more reserved)
@@ -8518,7 +8639,6 @@ sub check_decodedimms {
 		$simmsize=0;
 		$memtype="";
 		$dimmspeed="";
-		$foundspeed=0;
 		$cnt=0;
 		foreach $line (@decodedimms) {
 			$line=&dos2unix($line);
@@ -8540,11 +8660,7 @@ sub check_decodedimms {
 				if ($line =~ /^Maximum module speed/i) {
 					$dimmspeed=$line;
 					$dimmspeed=~s/^Maximum module speed\s+\D+\s+(.*\S)\s*$/ $1/;
-					if ($foundspeed) {
-						$mixedspeeds=1 if ($foundspeed ne $dimmspeed);
-					} else {
-						$foundspeed=$dimmspeed;
-					}
+					&check_mixedspeeds($dimmspeed);
 					&pdebug("in check_decodedimms, cnt=$cnt, dimmspeed=$dimmspeed");
 				}
 				$simmsize=$sizearr[$cnt] if (defined($sizearr[$cnt]) && ! $simmsize);
@@ -8576,12 +8692,29 @@ sub check_decodedimms {
 				}
 				if (defined($socketlabelarr[$tmp])) {
 					$socket=$socketlabelarr[$tmp];
-					$tmp="$socket: ${simmsize}MB$dimmspeed$memtype";
-					$tmp .= ",$mem_mfg$pn" if ($mem_mfg || $pn);
-					# Replace socket data from dmidecode
-					# with socket data from decode-dimms.pl
-					$buffer=~s/\b$socket:.*\n/$tmp\n/;
-					$memfrom="decode-dimms.pl" if ($memfrom !~ /decode-dimms.pl/);
+					$offset=-1;
+					$incr=0;
+					foreach (@boards_mem) {
+						if (/\b$socket\b/) {
+							if ($MemPartNum[$incr-1]) {
+								# make sure pn matches
+								$offset=$incr if (" $MemPartNum[$incr-1]" eq "$pn");
+							} else {
+								$offset=$incr;
+							}
+						}
+						$incr++;
+					}
+					if ($offset >= 0) {
+						$tmp="$socket: ${simmsize}MB$dimmspeed$memtype";
+						$tmp .= ",$mem_mfg$pn" if ($mem_mfg || $pn);
+						@tmp=("$tmp\n");
+						# Replace socket data from dmidecode
+						# with socket data from decode-dimms.pl
+						&pdebug("in check_decodedimms, replace socket data for $socket");
+						splice(@boards_mem, $offset, 1, @tmp);
+						$memfrom="decode-dimms.pl" if ($memfrom !~ /decode-dimms.pl/);
+					}
 				} else {
 					$memfrom="dmidecode and decode-dimms.pl";
 				}
@@ -8902,14 +9035,6 @@ sub check_dmidecode {
 	#
 	&show_header;
 
-	if ($permission_error) {
-		print "ERROR: $permission_error\n";
-		print "    This user does not have permission to run $config_command.\n";
-		print "    Try running memconf as a privileged user like root.\n" if ($uid ne "0");
-		&pdebug("exit 1");
-		exit 1;
-	}
-
 	# CPU information
 	if ($verbose) {
 		print "WARNING: CPU Information Unknown\n" if ($cpuarr < 0 && $cpucntfrom ne "cpuinfo");
@@ -8950,8 +9075,20 @@ sub check_dmidecode {
 			print "\n";
 		}
 	}
+	if ($ncpu > 1 && $foundGenuineIntel && $cpucntfrom eq "cpuinfo" && $permission_error) {
+		print "WARNING: Cannot detect if Hyper-Threading is enabled, ";
+		print "CPU count may be half of\n    what is shown if ";
+		print "Hyper-Threading is enabled.\n";
+	}
 
 	# Memory information
+	if ($permission_error) {
+		print "ERROR: $permission_error\n";
+		print "    This user does not have permission to run $config_command.\n";
+		print "    Try running memconf as a privileged user like root.\n" if ($uid ne "0");
+		&pdebug("exit 1");
+		exit 1;
+	}
 	$max=0;
 	if ($MAXMEM) {
 		if ($MAXMEM =~ /\d+ MB/) {
@@ -9017,11 +9154,13 @@ sub check_dmidecode {
 				if ($Speed6[$cnt]) {
 					$Speed6[$cnt]=~s/ +MHz/MHz/;
 					$Speed6[$cnt]=~s/ +ns/ns/;
-					$maxmembusspeed = $Speed6[$cnt];
+					$buf .= " $Speed6[$cnt]";
+					&check_mixedspeeds($Speed6[$cnt]);
 				} elsif ($Speed17[$cnt]) {
 					$Speed17[$cnt]=~s/ +MHz/MHz/;
 					$Speed17[$cnt]=~s/ +ns/ns/;
-					$maxmembusspeed = $Speed17[$cnt];
+					$buf .= " $Speed17[$cnt]";
+					&check_mixedspeeds($Speed17[$cnt]);
 				}
 				if ($TypeDetail[$cnt]) {
 					$buf .= " $TypeDetail[$cnt]" if ($TypeDetail[$cnt] !~ /None/i);
@@ -9081,11 +9220,13 @@ sub check_dmidecode {
 				if ($Speed17[$cnt]) {
 					$Speed17[$cnt]=~s/ +MHz/MHz/;
 					$Speed17[$cnt]=~s/ +ns/ns/;
-					$maxmembusspeed = $Speed17[$cnt];
+					$buf .= " $Speed17[$cnt]";
+					&check_mixedspeeds($Speed17[$cnt]);
 				} elsif ($Speed6[$cnt]) {
 					$Speed6[$cnt]=~s/ +MHz/MHz/;
 					$Speed6[$cnt]=~s/ +ns/ns/;
-					$maxmembusspeed = $Speed6[$cnt];
+					$buf .= " $Speed6[$cnt]";
+					&check_mixedspeeds($Speed6[$cnt]);
 				}
 				if ($TypeDetail[$cnt]) {
 					$buf .= " $TypeDetail[$cnt]" if ($TypeDetail[$cnt] !~ /None/i);
@@ -9112,7 +9253,7 @@ sub check_dmidecode {
 			}
 			$totmem=$DMI17totmem;
 		}
-		$buffer .= "$buf\n" if ($buf);
+		push(@boards_mem, "$buf\n") if ($buf);
 	}
 
 	# Check memory SPD data from EEPROM if available, it can be more
@@ -9135,7 +9276,7 @@ sub check_dmidecode {
 			&show_memory($max);
 		}
 		print "Maximum Memory Bus Speed: $maxmembusspeed\n" if ($maxmembusspeed);
-		print $buffer if ($buffer);
+		print @boards_mem if (@boards_mem);
 	}
 
 	#
@@ -9168,6 +9309,7 @@ sub check_dmidecode {
 			$exitstatus=1;
 		}
 	}
+	print "WARNING: Mixed speeds of memory modules found.\n" if ($mixedspeeds);
 	print "ERROR: $dmidecode_error\n" if ($dmidecode_error);
 	if ($freephys > $totmem && $totmem > 0 && ! &is_virtualmachine) {
 		print "ERROR: Total physical memory (${freephys}MB) is ";
@@ -9182,7 +9324,6 @@ sub check_dmidecode {
 		print "used due to only having a\n         single CPU ";
 		print "installed in this dual-CPU capable system.\n";
 	}
-	print "WARNING: Mixed speeds of memory modules found\n" if ($mixedspeeds);
 	if ($os =~ /Linux|FreeBSD/ && &roundup_memory($freephys) < $totmem && $totmem > 4096) {
 		$tmp=0;
 		@tmp=("");
@@ -9292,7 +9433,7 @@ sub show_total_memory {
 	#
 	print "total memory = ";
 	&show_memory($totmem);
-	print "$permission_error\n" if ($permission_error);
+	print "$permission_error\n" if ($permission_error && ! $HPUX);
 	if ($prtconf_warn) {
 		print "WARNING: $prtconf_warn\n";
 		print "         This may be corrected by installing ";
@@ -9460,10 +9601,14 @@ sub check_cpuinfo {
 				}
 			}
 		}
-		if ($ncpu == 0 && $cpuinfo_cpucnt > 0 && $cpuinfo_cpucores > 0) {
+		if ($ncpu == 0 && $cpuinfo_cpucnt > 0) {
 			# dmidecode did not have CPU info, but cpuinfo did
 			$cpucntfrom="cpuinfo";
-			$ncpu=$cpuinfo_cpucnt / $cpuinfo_cpucores;
+			if ($cpuinfo_cpucores > 0) {
+				$ncpu=$cpuinfo_cpucnt / $cpuinfo_cpucores;
+			} else {
+				$ncpu=$cpuinfo_cpucnt;
+			}
 		}
 		&pdebug("cpuinfo_cputype=$cpuinfo_cputype, ncpu=$ncpu, cpuinfo_cpucnt=$cpuinfo_cpucnt, cpuinfo_coreidcnt=$cpuinfo_coreidcnt, cpuinfo_cpucores=$cpuinfo_cpucores, cpuinfo_physicalidcnt=$cpuinfo_physicalidcnt, cpuinfo_siblings=$cpuinfo_siblings, foundGenuineIntel=$foundGenuineIntel");
 	}
@@ -9583,7 +9728,7 @@ sub finish {
 			if ($socket ne "?") {
 				# strip leading slash for matching
 				$tmp=$socket;
-				$tmp =~ s/^\///;
+				$tmp=~s/^\///;
 				if ($sockets_used !~ /$tmp/ &&
 				    $sockets_empty !~ /$tmp/) {
 					&add_to_sockets_empty($socket);
@@ -9619,7 +9764,7 @@ sub finish {
 				if ($cnt == 2 && $socket ne "-" && $socket ne "?") {
 					# strip leading slash for matching
 					$tmp=$socket;
-					$tmp =~ s/^\///;
+					$tmp=~s/^\///;
 					if ($dup_sockets !~ /$tmp/) {
 						$dup_sockets .= " $socket";
 						print "ERROR: Duplicate socket $socket found\n";
@@ -9671,15 +9816,7 @@ sub finish {
 	#
 	# Post notice if X86 machine is Hyper-Thread capable, but not enabled
 	#
-	if ($hyperthreadcapable && ! $hyperthread) {
-		print "NOTICE: CPU";
-		if ($npcpu > 1) {
-			print "s are";
-		} else {
-			print " is";
-		}
-		print " capable of Hyper-Threading, but it is not enabled in the BIOS.\n";
-	}
+	&show_hyperthreadcapable;
 
 	#
 	# Check for illegal memory stuffings
@@ -10073,10 +10210,10 @@ sub finish {
 		$untested=1;
 		$untested_type="CPU" if (! $untested_type);
 	}
-	# Dual-Core, Triple-Core, Quad-Core, Six-Core, Eight-Core and
-	# Twelve-Core x86 CPUs have been tested, so flag other multicore x86
-	# CPUs as untested
-	if ($isX86 && !($corecnt == 1 || $corecnt == 2 || $corecnt == 3 || $corecnt == 4 || $corecnt == 6 || $corecnt == 8 || $corecnt == 12)) {
+	# Dual-Core, Triple-Core, Quad-Core, Six-Core, Eight-Core, Twelve-Core
+	# and Sixteen-Core x86 CPUs have been tested, so flag other multicore
+	# x86 CPUs as untested
+	if ($isX86 && !($corecnt == 1 || $corecnt == 2 || $corecnt == 3 || $corecnt == 4 || $corecnt == 6 || $corecnt == 8 || $corecnt == 12 || $corecnt == 16)) {
 		$untested=1;
 		$untested_type="CPU" if (! $untested_type);
 	}
@@ -10113,9 +10250,9 @@ sub b64encodefile {
 	# Some uuencodes use " " and some use "`", so we handle both.
 	# We also need to protect backslashes and other special characters.
 	$tr_uuencode=" " . $uuencode_alphabet;
-	$tr_uuencode =~ s/(\W)/\\$1/g;
+	$tr_uuencode=~s/(\W)/\\$1/g;
 	$tr_base64="A" . $base64_alphabet;
-	$tr_base64 =~ s/(\W)/\\$1/g;
+	$tr_base64=~s/(\W)/\\$1/g;
 	$base64_pad='=';
 	if (open(INFILE, "<$file")) {
 		# break into chunks of 45 input chars, use perl's builtin

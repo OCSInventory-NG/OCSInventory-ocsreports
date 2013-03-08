@@ -13,6 +13,7 @@ sub run {
     my @cpu;
     my $current;
     my $cpuarch;
+    my %cpusocket;
 
     open CPUINFO, "</proc/cpuinfo" or warn;
     foreach(<CPUINFO>) {
@@ -51,13 +52,16 @@ sub run {
 	$current->{L2CACHESIZE} = $1 if /^cache\ssize\s*:\s*(\d+)/i;
 	if (/^flags\s*:\s*(.*)/i) {
                 my @liste1=split(/ /,$1);
-		if (grep /^lm$/,@liste1)) {
+		if (grep /^lm$/,@liste1) {
                       $current->{CPUARCH}=64;
                 } else {
                       $current->{CPUARCH}=32;
                	}
         }
-
+	if (/^physical\sid\s*:\s*(\d+)/i) {
+		$cpusocket{$1} = $1;
+		$current->{CPUSOCKETS} = scalar keys %cpusocket;
+	}
     }
 
     # The last one

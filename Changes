@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix Bug ##1117110 Missing number of CPU socket
        * Add availibility to reforce a package deployment
        * Code rewrite in Common.pm to prevent sending empty XML tags to OCS server
        * Fix Bug #1086086 about uses of initialized value in Snmp.pm
@@ -50,8 +51,8 @@ Revision history for Ocsinventory::Agent
        * Add new MacOS/Controller.pm module to get controllers inventory under MacOSX
        * Add new MacOS/Slots.pm module to get slots inventory under MacOSX
        * Add missing DESCRIPTION field in addController() in Common.pm
-       * Set debug and lazy options to 0, in generated ocsinventory-agent.cfg file by macOSX graphic installer, if check boxes are not selected
-       * Add a new configuration option to set lazy mode in MacOSX graphic installer 
+       * Set debug and lazy options to 0, in generated ocsinventory-agent.cfg file by macOSX graphic installer, if check boxes are not selected
+       * Add a new configuration option to set lazy mode in MacOSX graphic installer 
        * Improve MacOSX postinstall script to able to deploy MacOSX agent using NetInstall      
 
 2.0.5
@@ -125,11 +126,11 @@ Revision history for Ocsinventory::Agent
        * Add download_start_handler to check if Net::SSLeay can be load and disable Download.pm if not
        * Add Net::SNMP optionnal dependency in README file.
        * Delete Win32 from backend
-       * Various patches for 9.pm and If_Mib.pm to enhance ethernet ports speed display (François Mermet)
-       * New SNMP modules for Juniper, Futjitsu and F5 vendors (François Mermet)
+       * Various patches for 9.pm and If_Mib.pm to enhance ethernet ports speed display (Françs Mermet)
+       * New SNMP modules for Juniper, Futjitsu and F5 vendors (Françs Mermet)
        * Fix Bug #682689 about missing data for disk when can't run lshal command (Bernhard Denner)
        * Add a warning message about user privacy in man page for --scan-homedirs option
-       * Various patches for 8072.pm an If_Mib.pm (François Mermet)
+       * Various patches for 8072.pm an If_Mib.pm (Françs Mermet)
        * Change timeout for Backend modules from 180 to 600 seconds
        * Change timeout for Backend modules from 180 to 600 seconds
        * Back on the ipdiscover binary from the old OCS Linux Agent to make network scans lighter than Nmap. Ipdiscover binary is only available under Linux systems
@@ -138,7 +139,7 @@ Revision history for Ocsinventory::Agent
        * Do SNMP scans and treatments only if asked by the server
        * Delete some useless logs in debug for SNMP constructors and standard MIBs modules
        * Change oid_value in snmp_info subroutine in Printer_Mib.pm 
-       * New SNMP 2620.pm module for Checkpoint Software Technologies constructor (François Mermet)
+       * New SNMP 2620.pm module for Checkpoint Software Technologies constructor (Françs Mermet)
        * Add new "DEVICEPORT" and "DEVICETYPE" fields in addSnmpnetwork() in Common.pm
        * 311.pm and 8072.pm use setSnmpComputer() to set the type of SNMP device
        * Add a new addSnmpInput() subroutine in Common.pm
@@ -158,15 +159,15 @@ Revision history for Ocsinventory::Agent
        * Fix a warning if network interface is down in Ipdiscover.pm
        * Enhance inventory initialization for a better modularity
        * Local mode can now use the "inventory_handler" hook
-       * Various patches for SNMP constructors or standard MIB module (François Mermet)
-       * Prevent a bug in using Default.pm (François Mermet)
+       * Various patches for SNMP constructors or standard MIB module (Françs Mermet)
+       * Prevent a bug in using Default.pm (Françs Mermet)
        * Add "ACR" and "EPI" EDID ID for monitors (Adam Buchbinder)
        * Fix Bug #597752 about TYPE and VOLUMN fiels reversal for BSD systems.
        * Fix Bug #612515 to report network interface that don't have an IP adress (Mick K)
        * Don't take care of host with no MAC adress in Nmap.pm
        * Add the SOFTWARE field in addSnmpCard subroutine
        * Enhance Printer_Mib.pm to add information about printer status and printer error state
-       * Snmp.pm now use Default.pm to launch standard MIB modules by default (François Mermet)
+       * Snmp.pm now use Default.pm to launch standard MIB modules by default (Françs Mermet)
        * Upgrade several SNMP contructors/standard MIB modules
        * Add a new SNMP constructor module for Lexmark
        * Add a new SNMP module for the standard Entity MIB.
@@ -181,7 +182,7 @@ Revision history for Ocsinventory::Agent
 2.0 alpha  Tue, 27 Jul 2010 22:27:27 +0100
        * Snmp.pm use flushXMLTags() from Common.pm to flush the content of $common->{xmltags}
        * Modifying the inventory backend to use functions from Common.pm instead of Inventory.pm
-       * New Snmp.pm for SNMP scans integration. It comes with its constructors modules to enhance scans results (a lot of beers to François Mermet to thank himfor his help)
+       * New Snmp.pm for SNMP scans integration. It comes with its constructors modules to enhance scans results (a lot of beers to Françs Mermet to thank himfor his help)
        * Modifying postinst.pl to include Ocsinventory::Agent::Modules::Snmp
        * Agent.pm : add $logger object in Ocsinventory::Agent::Common instanciation
        * Common.pm : adding the can_run(), can_load(), can_read() and runcmdi() generic methods. Adding the use of the $logger object
@@ -250,13 +251,13 @@ Revision history for Ocsinventory::Agent
        * Get serial number from ext4 partition if ext4dev driver is used
        * LP: #494908 Agent fails to retrieve info file when a package is
          activated only with the server name (Pascal DANEK)
-       * LP: #495398 Fix RedHat version detection (Stéphane URBANOVSKI)
+       * LP: #495398 Fix RedHat version detection (Stéane URBANOVSKI)
        * LP: #490774 Fix PowerPC CPU detection on Linux, thanks darkpep for
          the bug report
 
 1.1     Fri, 06 Nov 2009 16:07:08 +0100
        * addMemorie() renamed to addMemories(), this had been broken during
-         the addMemories() → addMemory() transition
+         the addMemories() . addMemory() transition
        * Debug mode: msg "check function failed" changed to "ignored" since
          the fails may be wanted by the check() function
        * CompatibilityLayer: $self->{params} changed to $self->{config},
@@ -378,10 +379,10 @@ Revision history for Ocsinventory::Agent
        * Don't use hdparm prior 9.2.2 anymore to avoid crap in kernel log, see
          http://forums.ocsinventory-ng.org/viewtopic.php?pid=20768
        * Correctly detect ipmitool
-       * Solaris: i86pc Memory support (Jean-François BOUCHER)
+       * Solaris: i86pc Memory support (Jean-Françs BOUCHER)
        * Solaris Zone support (Maurizio BERTABONI)
        * Always send tag, even if server already has one
-       * Add the byHand software collect method (Sébastien DAGNICOURT)
+       * Add the byHand software collect method (Séstien DAGNICOURT)
        * add logging to can_read(), can_load() and can_run()
        * use addUser() instead of setHardware() 
        * Add the runcmd() in the Backend modules
