@@ -31,19 +31,7 @@
 			$tab_options['CACHE']='RESET';
 		}
 	}
-	if ($protectedPost['OTHER_TER'] != ''){
-		require_once('require/function_wol.php');
-		$wol = new Wol();
-		$sql="select MACADDR from networks WHERE (hardware_id=%s and IPADDRESS='%s')";
-		$arg=array($systemid,$protectedPost['OTHER_TER']);
-		$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		$item = mysql_fetch_object($resultDetails);	
-		if (isset($item->MACADDR)){
-			$wol->wake($item->MACADDR,$protectedPost['OTHER_TER']);
-			msg_info($l->g(1282));
-		}
-		
-	}
+
 	
 	$form_name="affich_networks";
 	$table_name=$form_name;
@@ -78,21 +66,6 @@
 			}
 		}
 	} 
-	if (!isset($_SESSION['OCS']['RESTRICTION']['WOL']) or $_SESSION['OCS']['RESTRICTION']['WOL']=="NO"){
-		//$list_fields['OTHER_GREEN']='MACADDR';
-		//$list_col_cant_del['OTHER_GREEN']='OTHER_GREEN';
-		//	$tab_options['LBL']['OTHER_GREEN']=$l->g(703);
-		$sql="select IPADDRESS from networks WHERE (hardware_id=%s)";
-		$arg=$systemid;
-		$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		while($item = mysql_fetch_object($resultDetails)){
-			
-				$tab_options['OTHER_TER'][$l->g(34)][$item->IPADDRESS]=$item->IPADDRESS;
-				$tab_options['OTHER_TER']['IMG']='image/wol.png';
-
-		}
-	
-	}
 	
 	if($show_all_column)
 		$list_col_cant_del=$list_fields;

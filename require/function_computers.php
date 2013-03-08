@@ -340,6 +340,22 @@ function insert_manual_computer($values,$nb=1,$generic=false){
 		return $id_computer;
 	
 }
-
-
+/*
+ * function to verify if user can access
+ * on computer
+ */
+function is_mine_computer($id){
+	if (isset($_SESSION['OCS']['TAGS']) and is_array($_SESSION['OCS']['TAGS'])){
+		$sql="select hardware_id from accountinfo where hardware_id = %s and tag in ";
+		$arg=array($id);
+		$sql=mysql2_prepare($sql,$arg,$_SESSION['OCS']['TAGS']);
+		$result = mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
+		$item = mysql_fetch_object($result);
+		if (isset($item->hardware_id))
+			return true;
+		else
+			return false;		
+	}
+	return true;	
+}
 ?>

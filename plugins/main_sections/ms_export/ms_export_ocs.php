@@ -8,7 +8,15 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
+require_once('require/function_computers.php');
+$seeit=is_mine_computer($protectedGet['systemid']);
+if (!$seeit){
+	$ban_head='no';
+	require_once (HEADER_HTML);
+	msg_error($l->g(837));
+	require_once(FOOTER_HTML);
+	die();
+}
 $sql="select * from hardware where id=%s";
 $arg=$protectedGet['systemid'];
 $res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);

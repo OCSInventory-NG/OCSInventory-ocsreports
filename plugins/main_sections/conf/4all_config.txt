@@ -198,6 +198,7 @@ ms_add_key:ms_config
 ms_export_ocs:ms_export
 ms_qrcode:ms_computer
 ms_plugins:ms_plugins
+ms_wol:ms_config
 </DIRECTORY>
 
 

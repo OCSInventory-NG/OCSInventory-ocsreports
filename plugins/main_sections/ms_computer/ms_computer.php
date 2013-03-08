@@ -76,10 +76,33 @@ foreach ($lbl_affich as $key=>$lbl){
 	}elseif($key == "EXPORT_OCS"){
 		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_export_ocs']."&no_header=1&systemid=".$protectedGet['systemid']."\")>".$l->g(1304)."</a>";			
 		$link[$key]=true;
+	}elseif($key == "IPADDR" 
+			and (!isset($_SESSION['OCS']['RESTRICTION']['WOL']) or $_SESSION['OCS']['RESTRICTION']['WOL']=="NO")
+			and isset($pages_refs['ms_wol'])){
+		$data[$key] = $item->$key." <a href=# OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"".$l->g(1283)."\");'><i>WOL</i></a>";
+		$link[$key]=true;
 	}elseif ($item->$key != '')
 		$data[$key]=$item->$key;
 }
+echo open_form("bandeau");
+//Wake On Lan function
+if (isset($protectedPost["WOL"]) and $protectedPost["WOL"] == 'WOL'
+	and (!isset($_SESSION['OCS']['RESTRICTION']['WOL']) or $_SESSION['OCS']['RESTRICTION']['WOL']=="NO")){
+		require_once('require/function_wol.php');
+		$wol = new Wol();
+		$sql="select MACADDR,IPADDRESS from networks WHERE (hardware_id=%s) and status='Up'";
+		$arg=array($systemid);
+		$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+		$msg="";
+		while ($item = mysql_fetch_object($resultDetails)){
+			$wol->wake($item->MACADDR,$item->IPADDRESS);
+			$msg.="<br>".$item->MACADDR."/".$item->IPADDRESS;
+		}	
+		msg_info($l->g(1282)." : ".$msg);		
+}
 $bandeau=bandeau($data,$lbl_affich,$link);
+echo "<input type='hidden' id='WOL' name='WOL' value=''>";
+	echo close_form();
 $Directory=PLUGINS_DIR."computer_detail/";
 $ms_cfg_file= $Directory."cd_config.txt";
 if (!isset($_SESSION['OCS']['DETAIL_COMPUTER'])){
