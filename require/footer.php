@@ -101,10 +101,11 @@ if( function_exists("getmicrotime") ) {
 }
 
 echo"</td></tr></table>";
-echo "<form action='' name='ACTION_CLIC' id='ACTION_CLIC' method='POST'>";
+echo open_form('ACTION_CLIC');
 	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 	echo "<input type='hidden' id='LANG' name='LANG' value=''>";
-	echo "</form>";
+echo close_form();
+
 ?>
 </body>
 </html>

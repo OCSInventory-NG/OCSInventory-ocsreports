@@ -17,7 +17,7 @@ if (file_exists($ms_cfg_file)) {
 }
 
 $i=0;
-//$show_lang= "<form id='language' name='language' action='' method='post'>";
+
 while (isset($list_plugins[$i])){
 	if (file_exists($Directory.$list_plugins[$i]."/".$list_plugins[$i].".png"))
 	$show_lang.= "<img src='plugins/language/".$list_plugins[$i]."/".$list_plugins[$i].".png' width=\"20\" height=\"15\" OnClick='pag(\"".$list_plugins[$i]."\",\"LANG\",\"ACTION_CLIC\");'>&nbsp;";
@@ -26,6 +26,5 @@ while (isset($list_plugins[$i])){
 	$i++;	
 }
 
-//$show_lang.= "</form>";
 echo $show_lang;
 ?>

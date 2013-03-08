@@ -14,7 +14,7 @@
 		$protectedPost['SHOW'] = 'NOSHOW';
 	$form_name="affich_processors";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$list_fields=array($l->g(66) => 'PROCESSORT',
 					   $l->g(377) => 'PROCESSORS',
 					   $l->g(55) => 'PROCESSORN');
@@ -23,5 +23,5 @@
 //	$tab_options['FILTRE']=array('NAME'=>$l->g(49),'MANUFACTURER'=>$l->g(64),'TYPE'=>$l->g(66));
 	$queryDetails  = "SELECT * FROM hardware WHERE (id=$systemid)";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
-	echo "</form>";
+	echo close_form();
 ?>

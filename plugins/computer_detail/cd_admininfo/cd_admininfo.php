@@ -67,7 +67,7 @@ else{
 				 $protectedPost['onglet'] = $list_tab['FIRST'];
 			unset($list_tab['FIRST']);
 			
-			echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
+			echo "<br>".open_form($form_name);
 			if (!$show_all_column){
 				onglet($list_tab,$form_name,"onglet",6);
 				$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER,DEFAULT_VALUE from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
@@ -215,7 +215,6 @@ else{
 					
 				$nb_row++;
 			}	
-			
 				$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 				if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
 					$tab_hidden=array('ADMIN'=>'','UP'=>'','DOWN'=>'');
@@ -227,11 +226,10 @@ else{
 				
 				if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] != "YES")
 					$showbutton=false;
-					
 				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton,$form_name='NO_FORM',$show_admin_button);
 			
 			echo "</div>"; 
-			echo "</form>";
+			echo close_form();
 		}
 }
 ?>

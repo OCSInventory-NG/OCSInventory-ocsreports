@@ -16,8 +16,7 @@
 	print_item_header($l->g(1128));
 	$form_name="affich_notes";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	
+	echo open_form($form_name);
 	//delete a list of notes
 	if ($protectedPost['del_check'] != ''){
 		$arg_sql=array();
@@ -119,5 +118,5 @@
 	    tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment);
 	
 	}
-	echo "</form>";
+	echo close_form();
 ?>

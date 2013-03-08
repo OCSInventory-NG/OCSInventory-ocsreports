@@ -38,9 +38,7 @@ require_once('require/function_console.php');
 
 $data_on=define_tab();
 $data_tab=show_active_tab($data_on);
-
-
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 if (isset($protectedPost["onglet"]) and !isset($data_tab['DATA'][$protectedPost["onglet"]]))
 	$protectedPost["onglet"]=$data_tab['DEFAULT'];
 	
@@ -201,7 +199,7 @@ if ((isset($protectedPost["SHOW_ME"]) and $protectedPost["SHOW_ME"] != "")){
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql_field[$protectedPost["SHOW_ME"]]['SQL'],$form_name,50,$tab_options);
 	
 }
-echo "</form>";
+echo close_form();
 //show messages
 if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 	$info_msg=look_config_default_values('GUI_REPORT_MSG%','LIKE');

@@ -40,7 +40,7 @@ if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
 
 $form_name="show_stats";
 $table_name=$form_name;	
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 
 $sql="SELECT name FROM download_available WHERE fileid='%s'";
 $arg=$protectedGet["stat"];
@@ -199,6 +199,6 @@ while( $j<$i ) {
 }
 echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>".$l->g(87)."</b></td><td><b>".$nb."</b></td></tr>";
 echo "</table><br><br>";
- echo "</form>";
+echo close_form();
   
 ?>

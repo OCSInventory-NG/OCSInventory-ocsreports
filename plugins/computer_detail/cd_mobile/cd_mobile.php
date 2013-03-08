@@ -15,7 +15,7 @@
 		$protectedPost['SHOW'] = 'NOSHOW';
 	$form_name="affich_mobile";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$list_fields=array('JAVANAME' => 'JAVANAME',
 					   'JAVAPATHLEVEL' => 'JAVAPATHLEVEL',
 					   'JAVACOUNTRY' => 'JAVACOUNTRY',
@@ -38,6 +38,6 @@
 
 	$queryDetails  = "SELECT * FROM journallog WHERE (hardware_id=$systemid)";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
-	echo "</form>";
+	echo close_form();
 
 ?>

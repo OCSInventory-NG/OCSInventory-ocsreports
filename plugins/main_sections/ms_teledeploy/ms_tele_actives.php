@@ -48,7 +48,7 @@ PrintEnTete( $l->g(481).$tps);
 echo "<br>";
 $form_name="tele_actives";
 //ouverture du formulaire	
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 $list_fields= array($l->g(460)=>'e.ID',
 							'Timestamp'=>'e.FILEID',
 							$l->g(470)=>'e.INFO_LOC',
@@ -76,6 +76,6 @@ $result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_de
 if ($result_exist != "" and !$cant_active)
 echo "<a href=# OnClick='confirme(\"\",\"".$protectedGet['timestamp']."\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
-echo "</form>";
+echo close_form();
 echo "<center>".$l->g(552)."</center>";
 ?>

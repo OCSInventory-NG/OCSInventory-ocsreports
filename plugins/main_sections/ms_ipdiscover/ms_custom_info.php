@@ -206,7 +206,7 @@ else{ //affichage des p�riph�riques
 		$list_col_cant_del=array($l->g(66)=>$l->g(66),'SUP'=>'SUP','MODIF'=>'MODIF');
 		$table_name="IPDISCOVER_".$protectedGet['prov'];
 		$form_name=$table_name;
-		echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";		
+		echo open_form($form_name);		
 		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 			$fipdisc = "ipdiscover-util.pl" ;
 		$values=look_config_default_values(array('IPDISCOVER_IPD_DIR'));
@@ -227,7 +227,7 @@ else{ //affichage des p�riph�riques
 				msg_info($msg_info);
 			
 		}
-		echo "</form>";
+		echo close_form();
 	}
 }
 ?>

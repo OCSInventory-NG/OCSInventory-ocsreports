@@ -12,21 +12,30 @@
 	print_item_header($l->g(82));
 		if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
+	//p($protectedPost);
 	if ($protectedPost['OTHER_BIS'] != ''){
-		$sql="INSERT INTO blacklist_macaddresses (macaddress) value ('%s')";
-		$arg=$protectedPost['OTHER_BIS'];
-		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);		
-		$tab_options['CACHE']='RESET';
+		//verify @mac
+		if ( preg_match( '/([0-9A-F]{2}:){5}[0-9A-F]{2}$/i', $protectedPost['OTHER_BIS']) ){
+			$sql="INSERT INTO blacklist_macaddresses (macaddress) value ('%s')";
+			$arg=$protectedPost['OTHER_BIS'];
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);		
+			$tab_options['CACHE']='RESET';
+		}
 	}
 	if ($protectedPost['OTHER'] != ''){
-		$sql="DELETE FROM blacklist_macaddresses WHERE macaddress='%s'";
-		$arg=$protectedPost['OTHER'];
-		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
-		$tab_options['CACHE']='RESET';
+		//verify @mac
+		if ( preg_match( '/([0-9A-F]{2}:){5}[0-9A-F]{2}$/i', $protectedPost['OTHER']) ){
+			$sql="DELETE FROM blacklist_macaddresses WHERE macaddress='%s'";
+			$arg=$protectedPost['OTHER'];
+			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
+			$tab_options['CACHE']='RESET';
+		}
 	}
+
+	
 	$form_name="affich_networks";
 	$table_name=$form_name;
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+	echo open_form($form_name);
 	$list_fields=array($l->g(53) => 'DESCRIPTION',
 					   $l->g(66) => 'TYPE',
 					   $l->g(268) => 'SPEED',
@@ -70,5 +79,5 @@
 	}
 	$queryDetails  = substr($queryDetails,0,-1)." FROM networks WHERE (hardware_id=$systemid)";
 	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
-	echo "</form>";
+	echo close_form();
 ?>

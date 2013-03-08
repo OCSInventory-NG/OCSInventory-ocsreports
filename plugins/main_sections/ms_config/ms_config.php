@@ -34,9 +34,6 @@ $def_onglets['GUI']=$l->g(84); //GUI
 $def_onglets['CNX']=$l->g(1108); //connexion
 $def_onglets['SNMP']=$l->g(1136); //SNMP
 
-if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO'){
-	$def_onglets['SUPPORT']=$l->g(1296);
-}
 if (DEV_OPTION)
 	$def_onglets['DEV']=$l->g(1302);
 
@@ -64,9 +61,9 @@ if ($protectedPost['Valid'] == $l->g(103)){
 if (isset($MAJ) and $MAJ != '')
 	msg_success($MAJ);
 $form_name='modif_onglet';
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 
-onglet($def_onglets,$form_name,'onglet',7);
+onglet($def_onglets,$form_name,'onglet',8);
 echo '<div class="mlt_bordure" >';
 switch ($protectedPost['onglet']){
 	case 'CNX':
@@ -108,9 +105,6 @@ switch ($protectedPost['onglet']){
 	case 'SNMP':
 		pagesnmp($form_name);
 		break;
-	case 'SUPPORT':
-		pagessupport($form_name);
-		break;
 	case 'DEV':
 		pagesdev($form_name);
 		break;
@@ -119,4 +113,5 @@ switch ($protectedPost['onglet']){
 }
 
 echo "<input type='hidden' id='RELOAD_CONF' name='RELOAD_CONF' value=''>";
-echo "</div></form>";
+echo "</div>";
+echo close_form();

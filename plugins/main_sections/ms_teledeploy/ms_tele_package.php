@@ -111,8 +111,7 @@ $lign_begin="<tr height='30px' bgcolor='white'><td>";
 $td_colspan2=":</td><td colspan='2'>";
 $lign_end="</td></tr>";
 $form_name="create_pack";
-
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action='' enctype='multipart/form-data'>";
+echo open_form($form_name,'',"enctype='multipart/form-data'");
 
 
 if (isset($protectedPost['valid'])){
@@ -426,7 +425,7 @@ if ($activate){
 		}
 		echo "<br><b>" . $l->g(1183) . ":</b>".show_modif($list_dde_creat,'LIST_DDE_CREAT',2,$form_name);
 		if (!$protectedPost['LIST_DDE_CREAT'] or $protectedPost['LIST_DDE_CREAT'] == ""){
-			echo "</form>";
+			echo close_form();
 			require_once(FOOTER_HTML);
 			die();
 		}else{
@@ -437,7 +436,7 @@ if ($activate){
 			
 		}
 	}else{
-		echo "</form>";
+		echo close_form();
 		require_once(FOOTER_HTML);
 		die();
 	}
@@ -554,8 +553,8 @@ echo "<input type='hidden' id='digest_algo' name='digest_algo' value='MD5'>
 	  <input type='hidden' id='digest_encod' name='digest_encod' value='Hexa'>
 	  <input type='hidden' id='download_rep_creat' name='download_rep_creat' value='".$default['DOWNLOAD_REP_CREAT']."'>
 	  <input type='hidden' id='download_server_docroot' name='download_server_docroot' value='".$default['DOWNLOAD_SERVER_DOCROOT']."'>";
-	  
-echo "</form></div>";
+echo close_form();	  
+echo "</div>";
 
 ?>
 

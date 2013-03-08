@@ -139,7 +139,7 @@ function ldap_connection (){
     // add by acop http://forums.ocsinventory-ng.org/viewtopic.php?pid=35261
     @ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION);
     @ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
-    if (ROOT_DN != ''){
+    if (ROOT_DN != '' && defined('ROOT_DN')){
         $b = @ldap_bind($ds, ROOT_DN, ROOT_PW);         
     }else //Anonymous bind
         $b = @ldap_bind($ds);

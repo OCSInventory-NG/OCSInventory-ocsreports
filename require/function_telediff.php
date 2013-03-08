@@ -119,6 +119,19 @@ function champ_select_block($name,$input_name,$input_cache)
  }
  
  
+ function active_option($name,$list_id,$packid,$tvalue,$comment=''){
+ 	$sql_desactive="delete from devices where name='%s' and ivalue=%s and hardware_id in ";
+ 	$arg_desactive=array($name,$packid);
+ 	$sql=mysql2_prepare($sql_desactive,$arg_desactive,$list_id);
+ 	$res_desactive=mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["writeServer"],$sql['ARG']);
+ 	$sql_active="insert into devices (HARDWARE_ID, NAME, IVALUE,TVALUE) select ID,'%s','%s','%s' from hardware where id in ";
+	$arg_active=array($name,$packid,$tvalue);
+	//$lbl_log=$l->g(601)." ".$id_pack." => ".$list_id;
+	$sql=mysql2_prepare($sql_active,$arg_active,$list_id);
+	$res_active=mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["writeServer"],$sql['ARG']);
+ }
+ 
+ 
  
  function active_mach($list_id,$packid){
  	global $l;

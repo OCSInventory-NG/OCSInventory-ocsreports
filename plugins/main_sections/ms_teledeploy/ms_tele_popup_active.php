@@ -16,9 +16,9 @@ if (!isset($info_id['ERROR'])){
 	
 	$form_name="form_active";
 	//ouverture du formulaire
-	echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-	
-	if (!isset($protectedPost['FILE_SERV']) or !isset($protectedPost['HTTPS_SERV'])){
+	echo open_form($form_name);
+	if ((!isset($protectedPost['FILE_SERV']) and $protectedPost['choix_activ'] == 'MAN') 
+		or (!isset($protectedPost['FILE_SERV_REDISTRIB']) and $protectedPost['choix_activ'] == 'AUTO') or !isset($protectedPost['HTTPS_SERV'])){
 		$default="localhost/download";
 		$values=look_config_default_values(array('DOWNLOAD_URI_INFO','DOWNLOAD_URI_FRAG'));
 		$protectedPost['FILE_SERV']=$values['tvalue']['DOWNLOAD_URI_FRAG'];
@@ -137,7 +137,7 @@ if (!isset($info_id['ERROR'])){
 		}
 	}
 	//fermeture du formulaire.
-	echo "</form>";
+	echo close_form();
 }else
 	msg_error($info_id['ERROR']);
 

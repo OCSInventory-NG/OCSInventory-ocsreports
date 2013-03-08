@@ -1174,23 +1174,15 @@
 1276 Profil utworzony
 1277 Default profil (blank for none)
 1278 Nie moasz pozwolenia do połączenia
-1279 On the support
-1280 Certyfikat istniej. Dodanie nowego spowoduje usunięcie aktualnego.
-1281 Console support
-1282 Zły certyfikat lub złe hasło
-1283 Aktywacja wsparcia
-1284 Plik certyfikatu
-1285 Certyfikat dodano
-1286 GNU General Public License, version 2.0
-1287 Wsparcie dostępne
-1288 Support validity
-1289 Support identification number
-1290 Contact email
-1291 Certyfikat wydany przez
-1292 Wsparcie nie dostępne
-1294 Support information
-1295 Więcej informacji
-1296 Wsparcie
+1279 WOL
+1280 Wake On Lan
+1281 On Wake On Lan
+1282 Wake On Lan order send
+1292 Use the advanced options of teledeploy
+1293 Teledeploy force
+1294 Installation time
+1295 Installation date
+1296 Trade offer
 1297 SNMP identyfikacja urządzenia
 1298 QRCode administration
 1299 QRCode

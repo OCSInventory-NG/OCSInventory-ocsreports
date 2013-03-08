@@ -25,11 +25,7 @@ if( !isset($protectedGet["popup"] )) {
 echo "<table  border='0' class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
 echo "><tr><td align=left><a onclick='clic(\"index.php?first\",\"FIRST\");'>";
-
-if (!isset($_SESSION['OCS']['SUPPORT']) or $_SESSION['OCS']['SUPPORT'] == 1 or !isset($_SESSION['OCS']["loggeduser"])){
-	echo "<img src='image/logo OCS-ng-96.png'></a>";
-}else
-	echo "<img src='image/logo OCS-ng-96_registry.png'></a>";
+echo "<img src='image/logo OCS-ng-96.png' width=40%></a>";
 echo "</td><td width= 70%>";
  	
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
@@ -131,10 +127,10 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 		}
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=650\")'";
 		echo "<a ".$javascript."><img src=".PLUGINS_DIR."/main_sections/img/ms_pass.png></a>";
-		echo "<form name='log_out' id='log_out' action='index.php' method='post'>";
+		echo open_form('log_out','index.php');
 		echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
 		echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
-		echo "</form>";			
+		echo close_form();	
 }
 
 echo "</td></tr>";
@@ -143,17 +139,7 @@ if (!isset($_SESSION['OCS']["loggeduser"])){
  require_once('plugins/language/language.php');
  	echo "</td></tr>";
 }
-if ($_SESSION['OCS']['RESTRICTION']['SUPPORT']=='NO' and $_SESSION['OCS']['SUPPORT'] == 1){
-	echo "<tr><td colspan=3 align=left>";
-	$support=support();
-	if ($support)
-		echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_help']."&TAB=4' ><img src='image/supported.png'></a>";
-	else
-		echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_help']."&TAB=5' ><img src='image/not_supported.png'></a>";
-	echo "</td></tr>";
-}
 echo "</table>";		
-//echo "<form name='reload_fuser' id='reload_fuser' action='' method='post'></form>";
 echo "<div class='fond'>";
 
 if ($_SESSION['OCS']["mesmachines"] == "NOTAG" 

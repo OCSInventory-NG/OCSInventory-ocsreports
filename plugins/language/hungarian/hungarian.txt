@@ -1258,23 +1258,16 @@
 1275 Profils can't be deleted.
 1276 Profil created
 1277 Default profil (blank for none)
-1279 On the support
-1280 A certificate still exists. Adding a new one will delete the old one.
-1281 Console support
-1282 Bad certificate or bad password
-1283 Support activation
-1284 Certificate file
-1285 Certificat added
-1286 GNU General Public License, version 2.0
-1287 SUPPORT AVAILABLE
-1288 Support validity
-1289 Support identification number
-1290 Contact email
-1291 Certificate issued by
-1292 NO SUPPORT AVAILABLE
-1294 Support information
-1295 More information
-1296 Support
+1278 You are not allowed to connect
+1279 WOL
+1280 Wake On Lan
+1281 On Wake On Lan
+1282 Wake On Lan order send
+1292 Use the advanced options of teledeploy
+1293 Teledeploy force
+1294 Installation time
+1295 Installation date
+1296 Trade offer
 1297 SNMP device identification
 1298 QRCode administration
 1299 QRCode

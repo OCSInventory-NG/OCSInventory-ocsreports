@@ -33,7 +33,9 @@
  *    Note: the default user levels in OCS currently are "admin", "ladmin" and "sadmin". The above is just an example.
  * 
  */
-
+if ($_SESSION['OCS']['cnx_origine'] != "LDAP")
+	return false;
+	
 require_once ('require/function_files.php');
 // page name
 $name="ldap.php";

@@ -117,7 +117,7 @@ if($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPo
 }
 $form_name = "all_soft";
 $table_name="all_soft";
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 
 onglet($_SESSION['OCS']['ONGLET_SOFT'],$form_name,"onglet",20);
 echo '<div class="mlt_bordure" >';
@@ -267,5 +267,5 @@ echo "<br><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input 
 
 echo '</div>';
 echo '</div>';
-echo "</form>";
+echo close_form();
 ?>

@@ -37,8 +37,6 @@ $lbl_affich=array('NAME'=>$l->g(49),'WORKGROUP'=>$l->g(33),'USERDOMAIN'=>$l->g(5
 					'MEMORY'=>$l->g(26),'LASTDATE'=>$l->g(46),'LASTCOME'=>$l->g(820),'DESCRIPTION'=>$l->g(53),
 					'NAME_RZ'=>$l->g(304),'VMTYPE'=>$l->g(1267),'UUID'=>$l->g(1268),'ARCH'=>$l->g(1247));			
 $values=look_config_default_values(array('EXPORT_OCS'));
-/*if(isset($values['ivalue']['QRCODE']) and $values['ivalue']['QRCODE'] == 1)
-	$lbl_affich['QRCODE']=$l->g(1299);*/
 if(!isset($_SESSION['OCS']['RESTRICTION']['EXPORT_XML']) or $_SESSION['OCS']['RESTRICTION']['EXPORT_XML'] == "NO")	
 	$lbl_affich['EXPORT_OCS']=$l->g(1303);
 foreach ($lbl_affich as $key=>$lbl){
@@ -54,13 +52,6 @@ foreach ($lbl_affich as $key=>$lbl){
 		$data[$key]=$memory;
 	}elseif ($key == "LASTDATE" or $key == "LASTCOME"){
 		$data[$key]=dateTimeFromMysql($item->$key);
-/*	}
-	elseif($key == 'QRCODE'){
-		
-		$data[$key] = "<map name='testmap'> <area shape='rect' coords='10,9,58,27' href='#top'> <area shape='circle' coords='104,18,14' href='#map'> </map> usemap='#testmap'>";			
-		
-		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")><img src='index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."' width=60 height=60></a>";			
-		$link[$key]=true;*/
 	}elseif ($key == "NAME_RZ"){
 		$data[$key]="";
 		$data_RZ=subnet_name($systemid);
@@ -85,10 +76,33 @@ foreach ($lbl_affich as $key=>$lbl){
 	}elseif($key == "EXPORT_OCS"){
 		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_export_ocs']."&no_header=1&systemid=".$protectedGet['systemid']."\")>".$l->g(1304)."</a>";			
 		$link[$key]=true;
+	}elseif($key == "IPADDR" 
+			and (!isset($_SESSION['OCS']['RESTRICTION']['WOL']) or $_SESSION['OCS']['RESTRICTION']['WOL']=="NO")
+			and isset($pages_refs['ms_wol'])){
+		$data[$key] = $item->$key." <a href=# OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"".$l->g(1283)."\");'><i>WOL</i></a>";
+		$link[$key]=true;
 	}elseif ($item->$key != '')
 		$data[$key]=$item->$key;
 }
+echo open_form("bandeau");
+//Wake On Lan function
+if (isset($protectedPost["WOL"]) and $protectedPost["WOL"] == 'WOL'
+	and (!isset($_SESSION['OCS']['RESTRICTION']['WOL']) or $_SESSION['OCS']['RESTRICTION']['WOL']=="NO")){
+		require_once('require/function_wol.php');
+		$wol = new Wol();
+		$sql="select MACADDR,IPADDRESS from networks WHERE (hardware_id=%s) and status='Up'";
+		$arg=array($systemid);
+		$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+		$msg="";
+		while ($item = mysql_fetch_object($resultDetails)){
+			$wol->wake($item->MACADDR,$item->IPADDRESS);
+			$msg.="<br>".$item->MACADDR."/".$item->IPADDRESS;
+		}	
+		msg_info($l->g(1282)." : ".$msg);		
+}
 $bandeau=bandeau($data,$lbl_affich,$link);
+echo "<input type='hidden' id='WOL' name='WOL' value=''>";
+	echo close_form();
 $Directory=PLUGINS_DIR."computer_detail/";
 $ms_cfg_file= $Directory."cd_config.txt";
 if (!isset($_SESSION['OCS']['DETAIL_COMPUTER'])){

@@ -8,8 +8,8 @@ TELEDIFF_WK:NO
 TELEDIFF_WK_FIELDS:NO
 TELEDIFF_ACTIVATE:NO
 TELEDIFF_VISIBLE:YES
-SUPPORT:NO
 EXPORT_XML:NO
+WOL:NO
 </RESTRICTION>
 
 <CONFIGURATION>
@@ -107,5 +107,6 @@ ms_stats_connexion
 ms_add_key
 ms_export_ocs
 ms_qrcode
+ms_plugins
 </PAGE_PROFIL>
 

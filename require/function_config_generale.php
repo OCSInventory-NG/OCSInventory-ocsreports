@@ -306,8 +306,7 @@ function update_default_value($POST){
                                'CONEX_LDAP_CHECK_FIELD2_NAME', 'CONEX_LDAP_CHECK_FIELD2_VALUE',
 							   'CONEX_LDAP_CHECK_FIELD2_ROLE',
                                'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
-                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','EXPORT_SEP',
-							   'QRCODE_TITLE');
+                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','EXPORT_SEP');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -319,7 +318,7 @@ function update_default_value($POST){
 						'LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL','TELEDIFF_WK',
 						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE',
-						'INVENTORY_CACHE_ENABLED','SUPPORT','USE_NEW_SOFT_TABLES','QRCODE');
+						'INVENTORY_CACHE_ENABLED','USE_NEW_SOFT_TABLES');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -881,32 +880,13 @@ function pagegroups($form_name){
  	fin_tab($form_name);
  }
  
- function pagessupport($form_name){
- 	global $l,$numeric,$sup1,$pages_refs;
- 	$champs=array('SUPPORT'=>'SUPPORT'); 	
- 	$values=look_config_default_values($champs);
- 	debut_tab(); 
- 	$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_add_key']."&head=1&tab=temp_files&n=file\",\"active\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=450\")'";
- 	
- 	ligne('SUPPORT',$l->g(1283),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['SUPPORT']));
-	ligne('SUPPORT_KEYS',$l->g(1284),9,array('LINKS'=>"<input type='button' name='KEYS' id='KEYS' value='".$l->g(1284)."' ".$javascript.">"));
-	
-	fin_tab($form_name);
- }
-
+ 
+ 
  function pagesdev($form_name){
  	global $l,$numeric,$sup1,$pages_refs;
  	$champs=array('USE_NEW_SOFT_TABLES'=>'USE_NEW_SOFT_TABLES'); 	
  	$values=look_config_default_values($champs);
  	debut_tab(); 
-	$list_qrcode_fields=array('hardware.name'=>'Nom de la machine',
- 							  'hardware.user'=>'Utilisateur',
-							  'hardware.ipaddr'=>'Adresse IP',
-							  'networks.macaddr'=>'Adresse MAC',
-							  'bios.ssn'=>'Numéro de série',
-							 );
-	//ligne('QRCODE','Activer les QRCode','radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['QRCODE']));
- //	ligne('QRCODE_TITLE','Libellé du QRCode','select',array('VALUE'=>$values['tvalue']['QRCODE_TITLE'],'SELECT_VALUE'=>$list_qrcode_fields));
 	ligne('USE_NEW_SOFT_TABLES','Utilisation tables de soft OCS v2.1','radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['USE_NEW_SOFT_TABLES']));
 	
 	

@@ -81,7 +81,8 @@ foreach ($list_lbl as $key=>$value){
 /*if (!isset($protectedGet['option'])){
 	$protectedGet['option']="cd_admininfo";
 }*/
-echo "<br><form name='".$form_name."' id='".$form_name."' method='POST'>";
+echo "<br>";
+echo open_form($form_name);
 onglet($list_lbl,$form_name,"onglet_sd",10);
 $msq_tab_error='<small>N/A</small>';
 echo '<div class="mlt_bordure" >';
@@ -90,7 +91,7 @@ if (isset($list_lbl[$protectedPost['onglet_sd']])){
 		include ($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php");
 }
 echo "</div>";
-echo "</form>";
+echo close_form();
 /*$i=0;
 echo "<br><br><table width='90%' border=0 align='center'><tr align=center>";
 $nb_col=array(10,13,13);

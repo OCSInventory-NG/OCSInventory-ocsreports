@@ -162,24 +162,23 @@ function escape_string($array){
 
 function xml_escape_string($array){
 	foreach ($array as $key=>$value){
-		$trait_array[$key]=xml_encode($value);
+		$trait_array[$key]=utf8_encode($value);
 		//$trait_array[$key]=mysql_real_escape_string($value);
 	}
 	return ($trait_array);
 }
 
 function xml_encode( $txt ) {
-		$cherche = array("&","<",">","\"","'","é","è","ô","Î","î","à","ç","ê","â");
-		$replace = array( "&amp;","&lt;","&gt;", "&quot;", "&apos;","&eacute;","&egrave;","&ocirc;","&Icirc;","&icirc;","&agrave;","&ccedil;","&ecirc;","&acirc;");
-		return str_replace($cherche, $replace, $txt);		
-	
+	$cherche = array("&","<",">","\"","'","é","è","ô","Î","î","à","ç","ê","â");
+	$replace = array( "&amp;","&lt;","&gt;", "&quot;", "&apos;","&eacute;","&egrave;","&ocirc;","&Icirc;","&icirc;","&agrave;","&ccedil;","&ecirc;","&acirc;");
+	return str_replace($cherche, $replace, $txt);		
+
 }
 
 function xml_decode( $txt ) {
-		$cherche = array( "&acirc;","&ecirc;","&ccedil;","&agrave;","&lt;","&gt;", "&quot;", "&apos;","&eacute;","&egrave;","&ocirc;","&Icirc;","&icirc;","&amp;");
-		$replace = array( "â","ê","ç","à","<",">","\"","'","é","è","ô","Î","î", "&" );
-		return str_replace($cherche, $replace, $txt);		
-	
+	$cherche = array( "&acirc;","&ecirc;","&ccedil;","&agrave;","&lt;","&gt;", "&quot;", "&apos;","&eacute;","&egrave;","&ocirc;","&Icirc;","&icirc;","&amp;");
+	$replace = array( "â","ê","ç","à","<",">","\"","'","é","è","ô","Î","î", "&" );
+	return str_replace($cherche, $replace, $txt);		
 }
 
 
@@ -459,7 +458,10 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		return $champs;
 		//"<img src='index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."' width=60 height=60 onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")>";
 		
+	}elseif($input_type == 13){
 		
+		return "<input id='".$input_name."' name='".$input_name."' type='file' accept='archive/zip'>";
+	
 	}
 }
 
@@ -471,8 +473,7 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 		$css="mvt_bordure";
 
 	if ($form_name != 'NO_FORM'){
-		echo "<form name='" . $form_name . "' id='" 
-			. $form_name . "' action='' method='POST'>";
+		echo open_form($form_name);
 	}
 	echo '<div class="'.$css.'" >';
 	if ($showbutton_action != '')
@@ -520,7 +521,7 @@ function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$commen
 		}
     }
     if ($form_name != 'NO_FORM')
-	echo "</form>";
+	echo close_form();
 }
 
 function show_field($name_field,$type_field,$value_field,$config=array()){
@@ -787,7 +788,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 										$def_onglets[$l->g(628)]=$l->g(628); //Serveur de redistribution 
 		
 	behing this function put this lign:
-	echo "<form name='modif_onglet' id='modif_onglet' method='POST' action='index.php?multi=4'>";
+	echo open_form($form_name);
 	
 	At the end of your page, close this form
 	$post_name is the name of var will be post
@@ -1308,6 +1309,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 			echo "<input type='hidden' id='ACTIVE' name='ACTIVE' value=''>";
 			echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
 			echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
+			echo "<input type='hidden' id='OTHER_TER' name='OTHER_TER' value=''>";
 			return TRUE;
 		}else
 			return FALSE;
@@ -1596,6 +1598,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=".$tab_options['OTHER']['IMG']."></a>";
 						}elseif (isset($tab_options['OTHER_BIS'][$key][$value_of_field])){
 							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_BIS\",\"".$form_name."\");'><img src=".$tab_options['OTHER_BIS']['IMG']."></a>";
+						}elseif (isset($tab_options['OTHER_TER'][$key][$value_of_field])){
+							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_TER\",\"".$form_name."\");'><img src=".$tab_options['OTHER_TER']['IMG']."></a>";
 						}else{
 							$end="";
 						}
@@ -1651,6 +1655,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				arsort($data);
 			//	p($data);
 		}
+		
 	return array('ENTETE'=>$entete,'DATA'=>$data,'correct_list_fields'=>$correct_list_fields,'correct_list_col_cant_del'=>$correct_list_col_cant_del);
 	}else
 	return false;

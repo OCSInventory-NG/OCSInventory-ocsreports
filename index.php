@@ -17,14 +17,13 @@ if (get_magic_quotes_gpc()) {
     array_walk_recursive($gpc, 'magicQuotes_awStripslashes');
 }
 require_once ('require/function_index.php');
-
 $sleep=1;
 $debut = getmicrotime();
 require ('require/header.php');
 addLog('PAGE',$protectedGet[PAG_INDEX]);
 if( !isset($protectedGet["popup"] ))
 	require (FOOTER_HTML);
-	
+
 
 
 ?>

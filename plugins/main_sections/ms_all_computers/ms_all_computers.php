@@ -49,8 +49,7 @@ if (!isset($protectedPost['tri_'.$table_name]) or $protectedPost['tri_'.$table_n
 	$protectedPost['tri_'.$table_name]="h.lastdate";
 	$protectedPost['sens_'.$table_name]="DESC";
 }
-
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
+echo open_form($form_name);
 //BEGIN SHOW ACCOUNTINFO
 
 $accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
@@ -134,5 +133,5 @@ if ($result_exist != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}
-echo "</form>";
+echo close_form();
 ?>

@@ -82,16 +82,16 @@ function affectPackage( $computer, $packageId ) {
 	addLog("TELEDEPLOIEMENT", "Affectation masse fichier ".$packageId." sur ".$computer );
 	return true;				
 }
-
-?>
-<br><br>
-<form id='mass' name='mass' method='post' enctype='multipart/form-data'>
-<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5'>
+echo "<br>";
+$form_name='mass';
+echo open_form($form_name,'',"enctype='multipart/form-data'");
+echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5'>
 	<tr height='30px' bgcolor='white'>
-		<td><span id='filetext'><?php echo $l->g(606); ?>:</td>
+		<td><span id='filetext'>".$l->g(606).":</td>
 		<td colspan='2'><input id='fichier' name='fichier' type='file' accept='archive/zip'></td>
 	</tr>
 	<tr height='20px'><td colspan='2' align='right'><input type='submit' name='sub'></td></tr>
 </table>
-<input type='hidden' name='id' value='<?php echo $protectedPost["id"]?$protectedPost["id"]:$protectedGet["id"]; ?>'>
-</form>
+<input type='hidden' name='id' value='".$protectedPost["id"]?$protectedPost["id"]:$protectedGet["id"]."'>";
+echo close_form();
+?>

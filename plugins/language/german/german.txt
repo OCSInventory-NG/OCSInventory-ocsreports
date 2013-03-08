@@ -1237,23 +1237,15 @@
 1276 Profil erstellt.
 1277 Standard-Profil (leer lassen für keins)
 1278 Sie dürfen sich nicht verbinden.
-1279 On the support
-1280 Es existiert schon ein Zertifikat. Wenn Sie ein Neues hinzufügen wird das Alte gelöscht!
-1281 Console support
-1282 Ungültiges Zertifikat oder Passwort.
-1283 Support aktivieren
-1284 Zertifikat-Datei
-1285 Zertifikat hinzugefügt.
-1286 GNU General Public License, Version 2.0
-1287 SUPPORT VERFÜGBAR
-1288 Support-Gültigkeitsdauer
-1289 Support-ID
-1290 Kontakt-E-Mail
-1291 Zertifikat ausgestellt von
-1292 KEIN SUPPORT VERFÜGBAR
-1294 Support-Infos
-1295 Mehr Informationen
-1296 Support
+1279 WOL
+1280 Wake On Lan
+1281 On Wake On Lan
+1282 Wake On Lan order send
+1292 Use the advanced options of teledeploy
+1293 Teledeploy force
+1294 Installation time
+1295 Installation date
+1296 Trade offer
 1297 SNMP device identification
 1298 QRCode administration
 1299 QRCode

@@ -18,7 +18,7 @@ printEntete($l->g(312));
 echo "<br>";	
 
  $form_name='ipdiscover';
- echo "<form name='".$form_name."' id='".$form_name."' action='' method='post'>";
+echo open_form($form_name);
  	//delete a subnet
  	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
  		$sql_del="delete from subnet where netid='%s'";
@@ -153,9 +153,5 @@ echo "<br>";
 	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$arg['SQL'] ,$form_name,80,$tab_options); 
 
 }
-
-
-	
-
-echo "</form>";
+echo close_form();
 ?>
