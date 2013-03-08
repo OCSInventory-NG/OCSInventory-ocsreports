@@ -1167,6 +1167,10 @@
 1281 Sur le Wake On Lan
 1282 Ordre de Wake On Lan envoyé
 1283 Exécuter un Wake On Lan sur cette machine
+1292 Utiliser les options avancées de téléploiement
+1293 Forcer le télédéploiement
+1294 Heure d'installation
+1295 Date d'installation
 1296 Offres commerciales
 1297 Numéro d'identification
 1298 Gestion des QRCode

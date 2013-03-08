@@ -150,8 +150,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 			$tab_hidden['SELECT']=$protectedPost['MODIF'];
 			$tab_hidden['onglet']=$protectedPost['onglet'];
 			$tab_hidden['rule_choise']=$protectedPost['rule_choise'];
-			$hour=array(''=>'',
-						'00:00'=>'00:00',
+			$hour=array('00:00'=>'00:00',
 						'02:00'=>'02:00',
 						'04:00'=>'04:00',
 						'06:00'=>'06:00',
@@ -163,18 +162,20 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 						'18:00'=>'18:00',
 						'20:00'=>'20:00',
 						'22:00'=>'22:00');
-			$config['COMMENT_BEHING'][0]='';
+			$config['COMMENT_BEHING'][0]=datePick("INSTALL_DATE");
+			$config['JAVASCRIPT'][0]="READONLY ".dateOnClick("INSTALL_DATE");
 			$config['SELECT_DEFAULT'][0]='';
-			$config['JAVASCRIPT'][0]='';
-			$config['SIZE'][0]='';
-			$tab_name=array("Forcer le télédéploiement","Installation Date","Installation Heure");
-			$name_field=array("TELE_FORCE","INSTALL_DATE","INSTALL_HEURE");
-			$type_field=array(5,0,2);
-			$value_field=array(array(''),$protectedPost['INSTALL_DATE'],$hour);
-			array_push($config['COMMENT_BEHING'],datePick("INSTALL_DATE"));
-			array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick("INSTALL_DATE"));
-			array_push($config['SELECT_DEFAULT'],'');
-			array_push($config['SIZE'],'8');
+			$config['SIZE'][0]='8';
+			$tab_name=array($l->g(1295),$l->g(1294));
+			$name_field=array("INSTALL_DATE","INSTALL_HEURE");
+			$type_field=array(0,2);
+			$value_field=array($protectedPost['INSTALL_DATE'],$hour);
+			if ($protectedGet['origine'] != 'group'){
+				array_push($tab_name,$l->g(1293));
+				array_push($name_field,"TELE_FORCE");
+				array_push($type_field,5);
+				array_push($value_field,array(''));
+			}
 			$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$l->g(1309));
 	
@@ -186,8 +187,14 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 	if ($protectedPost['SELECT'] != '' and isset($protectedPost['Valid_modif_x'])){
 		if (isset($protectedPost['TELE_FORCE_0']))
 			active_option('DOWNLOAD_FORCE',$list_id,$protectedPost['SELECT'],'1');
-		if (isset($protectedPost['INSTALL_DATE']) and $protectedPost['INSTALL_DATE'] != '')
-			active_option('DOWNLOAD_SCHEDULE',$list_id,$protectedPost['SELECT'],$protectedPost['INSTALL_DATE']." ".$protectedPost['INSTALL_HEURE']);
+		if (isset($protectedPost['INSTALL_DATE']) and $protectedPost['INSTALL_DATE'] != ''){
+			$date=explode('/',$protectedPost['INSTALL_DATE']);
+			if ($l->g(269) == "%m/%d/%Y") 
+				$install_date=$date[2]."/".$date[0]."/".$date[1]." ".$protectedPost['INSTALL_HEURE'];
+			else
+				$install_date=$date[2]."/".$date[1]."/".$date[0]." ".$protectedPost['INSTALL_HEURE'];
+			active_option('DOWNLOAD_SCHEDULE',$list_id,$protectedPost['SELECT'],$install_date);
+		}
 		
 		
 		if ($protectedGet['origine'] == "group"){
@@ -221,7 +228,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 	if ($list_id){	
 		onglet($def_onglets,$form_name,'onglet',7);
 			echo '<div class="mlt_bordure" >';
-			echo "Utiliser les options avancées de téléploiement".show_modif(array('CHECK'=>''),'DWL_OPT',5);
+			echo $l->g(1292).show_modif(array('CHECK'=>''),'DWL_OPT',5);
 			
 		echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";
 		if ($protectedPost['onglet'] == 'SERV_GROUP'){

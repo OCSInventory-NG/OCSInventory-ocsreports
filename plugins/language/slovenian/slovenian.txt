@@ -1172,6 +1172,10 @@
 1280 Wake On Lan
 1281 On Wake On Lan
 1282 Wake On Lan order send
+1292 Use the advanced options of teledeploy
+1293 Teledeploy force
+1294 Installation time
+1295 Installation date
 1296 Trade offer
 1297 SNMP device identification
 1298 QRCode administration

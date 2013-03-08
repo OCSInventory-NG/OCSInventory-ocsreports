@@ -72,7 +72,7 @@ function dateOnClick($input, $checkOnClick=false) {
 
 function datePick($input, $checkOnClick=false) {
 	global $l;
-	$dateForm = $l->g(269) == "%m/%d/%Y" ? "MMDDYYYY" : "YYYYMMDD" ;
+	$dateForm = $l->g(269) == "%m/%d/%Y" ? "MMDDYYYY" : "DDMMYYYY" ;
 	if( $checkOnClick ) $cOn = ",'$checkOnClick'";
 	$ret = "<a href=\"javascript:NewCal('$input','$dateForm',false,24{$cOn});\">";
 	$ret .= "<img src=\"image/cal.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"Pick a date\"></a>";
