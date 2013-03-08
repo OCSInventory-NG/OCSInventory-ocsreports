@@ -631,7 +631,6 @@
 668 welche Regel anwenden?
 669 ACHTUNG: es gibt Dubletten bei der Priorität <br> es wird nur eine Regel angewendet!
 670 Es gibt schon eine Regel mit diesem Namen!
-671 Der Name der Regel daarf nicht leer sein!
 672 Diese Regel existiert nicht.
 673 Verwaltung der Verteilungs-Regeln.
 674 NAME DER REGEL

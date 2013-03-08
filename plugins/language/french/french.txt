@@ -1288,7 +1288,7 @@
 2103 Mode DEMO: vous ne pouvez mettre à jour les données
 2104 VOUS ETES SUR LA VERSION DE DEMO LA
 2105 Votre base de données est à jour.<br>Aucune action a effectuer.
-2106 La configuration max_allowed_packet de MySQL n'autorise que des fichiers de 
+2106 La configuration max_allowed_packet de MySQL n'autorise que des fichiers de <
 
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]

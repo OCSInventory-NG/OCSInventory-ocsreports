@@ -566,7 +566,6 @@
 668 Dystrybucja z którą zasadą?
 669 UWAGA: istnieją powielone pierwszeństwa <br> Pojedyncze zasady zostaną zachowane!
 670 Zasada, już posiada tę nazwę
-671 imię tej zasady nie może być pusta!
 672 Zasada ta nie istnieje!
 673 Administracja zasadami wdrażania
 674 NAZWA ZASADY
