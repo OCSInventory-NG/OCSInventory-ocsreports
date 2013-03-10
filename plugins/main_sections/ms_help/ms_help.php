@@ -40,7 +40,7 @@ if ($protectedPost['onglet'] == 2){
 		echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://forums.ocsinventory-ng.org\">
 	</iframe>";
 }elseif($protectedPost['onglet'] == 4){
-		echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://http://ocsinventory-ng.factorfx.com\">
+		echo "<iframe  width=\"100%\" height=\"100%\" src=\"http://ocsinventory-ng.factorfx.com\">
 	</iframe>";
 }
 echo "</div>";
