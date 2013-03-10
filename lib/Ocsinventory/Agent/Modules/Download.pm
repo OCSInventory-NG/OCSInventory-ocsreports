@@ -73,7 +73,8 @@ sub new {
 
    $self->{messages} = {
 		# Errors
-		code_succes				 	=> 'SUCCESS',
+		code_success				 	=> 'SUCCESS',
+		success_already_setup				=> 'SUCCESS_ALREADY_SETUP',
 		err_bad_id				 	=> 'ERR_BAD_ID',
 		err_download_info		 		=> 'ERR_DOWNLOAD_INFO',
 		err_bad_digest			 		=> 'ERR_BAD_DIGEST',
@@ -82,7 +83,6 @@ sub new {
 		err_execute				 	=> 'ERR_EXECUTE',
 		err_clean			 		=> 'ERR_CLEAN',
 		err_timeout					=> 'ERR_TIMEOUT',
-		err_already_setup				=> 'ERR_ALREADY_SETUP',
    };
    
    #Special hash for packages
@@ -259,7 +259,7 @@ sub download_prolog_reader{      #Read prolog response
 		unless ($packages->{$_}->{'FORCE'} == 1) {
 			if($common->already_in_array($fileid, @done)){
 				$logger->info("Will not download $fileid. (already in history file)");
-				&download_message($fileid, $messages->{err_already_setup},$logger,$context);
+				&download_message($fileid, $messages->{success_already_setup},$logger,$context);
 				next;
 			}
 		}
@@ -913,10 +913,10 @@ sub done{
 	# Notify success to ocs server
 	my $code;
 	if($suffix ne '_NONE_'){
-		$code = $messages->{code_succes}."_$suffix";
+		$code = $messages->{code_success}."_$suffix";
 	}
 	else{
-		$code = $messages->{code_succes};
+		$code = $messages->{code_success};
 	}
 	unless(download_message($id, $code,$logger,$context)){
 		clean($id,$logger,$context,$messages,$packages);

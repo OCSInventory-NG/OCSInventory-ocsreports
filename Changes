@@ -47,6 +47,7 @@ Revision history for Ocsinventory::Agent
        * Add new fields in setSnmpLoadBalancer() method in Common.pm
 
 2.0.x
+       * Fix Bug #1085020 about ERR_ALREADY_IN_HISTORY message that should be success
        * Fix bug with SNMP cartridges and trays in Common.pm
        * Add new MacOS/Controller.pm module to get controllers inventory under MacOSX
        * Add new MacOS/Slots.pm module to get slots inventory under MacOSX
