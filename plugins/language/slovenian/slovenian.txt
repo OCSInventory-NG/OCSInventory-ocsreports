@@ -561,7 +561,6 @@
 668 to Affect with which rule?
 669 ATTENTION: there are doubloons of priority < br > A single rule will be retained!
 670 A rule already carries this name
-671 The name of this rule can't be empty!
 672 This rule does not exist!!!
 673 Administration of the rules of affectation
 674 NAME OF THE RULE

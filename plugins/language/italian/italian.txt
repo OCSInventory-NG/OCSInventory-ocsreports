@@ -107,7 +107,7 @@
 196 Solo nome computer
 197 Solo numero di serie
 198 Solo indirizzo MAC
-199 Duplicazioni
+199 Duplicati
 200 Diminuzione interruttore corrispondente
 201 MINORE DI
 202 MAGGIORE DI
@@ -558,7 +558,6 @@
 668 quale regola applicare?
 669 ATTENZIONE: ci sono duplicati di priorità <br> Una singola regola verrà mantenuta!
 670 Una regola ha già questo nome
-671 Il nome di questa regola non può essere vuoto!
 672 Questa regola non esiste!
 673 Amministrazione delle regole di comportamento
 674 NOME DELLA REGOLA
@@ -916,7 +915,7 @@
 1029 Ignorato
 1030 Invariato
 1031 Applicazioni
-1032 Attiva workflow per il Teledeploy
+1032 Attiva workflow per Teledeploy
 1033 Informazioni del richiedente
 1034 Informazioni generali del pacchetto
 1035 Informazioni tecniche del pacchetto
@@ -1020,7 +1019,7 @@
 1133 Nuova parola
 1134 Nessun dato ipdiscover
 1135 computer già presenti nel gruppo di ridistribuzione
-1136 Snmp
+1136 SNMP
 1137 Abilita/Disabilita il servizio SNMP
 1138 Mostra tutte le mie sottoreti
 1139 Amministra
@@ -1165,13 +1164,14 @@
 1278 Non hai i permessi per connetterti
 1279 WOL
 1280 Wake On Lan
-1281 On Wake On Lan
-1282 Wake On Lan order send
-1292 Use the advanced options of teledeploy
-1293 Teledeploy force
-1294 Installation time
-1295 Installation date
-1296 Trade offer
+1281 Su Wake On Lan
+1282 Pacchetto Wake On Lan inviato
+1283 Esegui Wake On Lan su questo computer
+1292 Gestione opzioni avanzate Teledeploy
+1293 Forza Teledeploy
+1294 Ora dell'installazione
+1295 Data dell'installazione
+1296 Offerta commerciale
 1297 Identificativo periferica
 1298 Amministrazione QRCode
 1299 QRCode
@@ -1181,6 +1181,11 @@
 1303 Esporta
 1304 XML
 1305 Nella generazione di un inventario XML
+1306 Gestione plugin
+1307 Attiva plugin
+1308 Aggiungi plugin
+1309 Opzioni Teledeploy
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
@@ -1285,6 +1290,7 @@
 2104 STAI UTILIZZANDO LA VERSIONE DIMOSTRATIVA DI
 2105 Il database è aggiornato.<br>Nessuna modifica apportata.
 2106 la configurazione di MySQL, variabile 'max_allowed_packet', permette file grandi fino a <
+
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

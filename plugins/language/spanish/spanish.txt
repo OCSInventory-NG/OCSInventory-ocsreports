@@ -561,7 +561,6 @@
 668 ¿afectar con cual regla?
 669 ATENCIÓN: hay duplicados de prioridad < br > Solo se mantendrá una regla!
 670 Una regla ya tiene este nombre
-671 ¡El nombre de esta regla no puede estar en blanco!
 672 ¡¡¡Esta regla no existe!!!
 673 La administración de las reglas de afectación
 674 NOMBRE DE LA REGLA

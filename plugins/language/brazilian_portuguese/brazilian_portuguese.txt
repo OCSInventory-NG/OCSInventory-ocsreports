@@ -632,7 +632,6 @@
 668 afetar com que regra?
 669 ATENÇÃO: existem dobrões de prioridade <br> A única regra será mantida!
 670 A regra já contém este nome
-671 O nome desta regra não pode ser nulo!
 672 Esta regra não existe!
 673 Administração das regras de afectação
 674 NOME DA REGRA
