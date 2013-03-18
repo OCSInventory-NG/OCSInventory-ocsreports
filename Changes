@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Add new screen codes for edid
        * Fix Bug ##1117110 Missing number of CPU socket
        * Add availibility to reforce a package deployment
        * Code rewrite in Common.pm to prevent sending empty XML tags to OCS server
