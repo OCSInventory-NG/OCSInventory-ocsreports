@@ -60,7 +60,7 @@ sub run {
         }
 	if (/^physical\sid\s*:\s*(\d+)/i) {
 		$cpusocket{$1} = $1;
-		$current->{CPUSOCKETS} = scalar keys %cpusocket;
+		$current->{SOCKET} = scalar keys %cpusocket;
 	}
     }
 

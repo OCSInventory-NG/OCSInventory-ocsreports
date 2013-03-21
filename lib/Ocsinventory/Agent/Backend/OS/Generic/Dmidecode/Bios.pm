@@ -7,7 +7,7 @@ sub run {
 
 # Parsing dmidecode output
 # Using "type 0" section
-  my( $Status, $SocketDesignation, $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
+  my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
     $BiosVersion, $BiosDate, $AssetTag, $MotherboardManufacturer, $MotherboardModel, $MotherboardSerial );
 
   #System DMI
@@ -57,12 +57,6 @@ sub run {
       if (/ID:\s*(.*)/i){
         $SystemSerial = $1;
       }
-      if (/Socket Designation:\s*(.*)/i){
-	$SocketDesignation = $1;
-      }
-      if (/Status:\s*(.*)/i){
-	$Status = $1;
-      }
     }
   }
 
@@ -78,8 +72,6 @@ sub run {
       MMANUFACTURER => $MotherboardManufacturer,
       MMODEL => $MotherboardModel,
       MSN => $MotherboardSerial,
-      CPUSOCKET => $SocketDesignation,
-      CPUSTATUS => $Status,
     });
 }
 

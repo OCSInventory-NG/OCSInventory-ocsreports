@@ -436,7 +436,7 @@ sub addCPU {
 
   my $content = {};
 
-  foreach my $key (qw/CPUARCH CPUCORES CPUSTATUS CPUSOCKET L2CACHESIZE MANUFACTURER SERIALNUMBER SPEED TYPE/) {
+  foreach my $key (qw/CPUARCH CORES SOCKET L2CACHESIZE MANUFACTURER SERIALNUMBER SPEED TYPE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }
