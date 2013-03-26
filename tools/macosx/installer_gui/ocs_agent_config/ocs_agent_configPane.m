@@ -76,6 +76,7 @@
 	[debugmode setState:1];
 	[lazymode setState:0];
 	[download setState:1];
+	[ssl setState:1];
 	
 	//Defaults for protocol droping list
 	[protocolist removeAllItems];
@@ -169,6 +170,13 @@
 				[ocsAgentCfgContent appendString:@"lazy=0\n"];
 			}
 			
+			//if ssl checked
+			if ([ssl state] == 1) {
+				[ocsAgentCfgContent appendString:@"ssl=1\n"];
+			} else {
+				[ocsAgentCfgContent appendString:@"ssl=0\n"];
+			}
+			
 			//Writing to ocsinventory agent configuration file
 			[ocsAgentCfgContent writeToFile:tmpCfgFilePath atomically: YES encoding:NSUTF8StringEncoding error:NULL];
 	
@@ -221,7 +229,7 @@
 				[filemgr copyPath:[cacertfile objectValue] toPath:tmpCacertFilePath handler:nil];
 			}
 			
-			if ( [download state] == 1 && [[cacertfile stringValue] length] == 0 ) {
+			if ( [download state] == 1 && [ssl state] == 1 && [[cacertfile stringValue] length] == 0 ) {
 				//We display a warning dialog
 				caCertWrn = [[NSAlert alloc] init];
 				

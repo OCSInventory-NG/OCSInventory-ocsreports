@@ -41,25 +41,25 @@
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSButton" id="868571400">
+					<object class="NSButton" id="448322841">
 						<reference key="NSNextResponder" ref="443671666"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{263, 118}, {103, 18}}</string>
+						<string key="NSFrame">{{263, 118}, {173, 18}}</string>
 						<reference key="NSSuperview" ref="443671666"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="321474985">
+						<object class="NSButtonCell" key="NSCell" id="627259023">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Mode Lazy</string>
+							<string key="NSContents">Vérification SSL</string>
 							<object class="NSFont" key="NSSupport" id="691464604">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
 								<int key="NSfFlags">1044</int>
 							</object>
-							<reference key="NSControlView" ref="868571400"/>
+							<reference key="NSControlView" ref="448322841"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">2</int>
-							<object class="NSCustomResource" key="NSNormalImage" id="635588271">
+							<object class="NSCustomResource" key="NSNormalImage" id="994984315">
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">NSSwitch</string>
 							</object>
@@ -72,10 +72,32 @@
 							<int key="NSPeriodicInterval">25</int>
 						</object>
 					</object>
+					<object class="NSButton" id="868571400">
+						<reference key="NSNextResponder" ref="443671666"/>
+						<int key="NSvFlags">268</int>
+						<string key="NSFrame">{{263, 143}, {103, 18}}</string>
+						<reference key="NSSuperview" ref="443671666"/>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSButtonCell" key="NSCell" id="321474985">
+							<int key="NSCellFlags">67239424</int>
+							<int key="NSCellFlags2">0</int>
+							<string key="NSContents">Mode Lazy</string>
+							<reference key="NSSupport" ref="691464604"/>
+							<reference key="NSControlView" ref="868571400"/>
+							<int key="NSButtonFlags">1211912703</int>
+							<int key="NSButtonFlags2">2</int>
+							<reference key="NSNormalImage" ref="994984315"/>
+							<reference key="NSAlternateImage" ref="344584947"/>
+							<string key="NSAlternateContents"/>
+							<string key="NSKeyEquivalent"/>
+							<int key="NSPeriodicDelay">200</int>
+							<int key="NSPeriodicInterval">25</int>
+						</object>
+					</object>
 					<object class="NSButton" id="319674394">
 						<reference key="NSNextResponder" ref="443671666"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{263, 151}, {146, 30}}</string>
+						<string key="NSFrame">{{263, 163}, {146, 30}}</string>
 						<reference key="NSSuperview" ref="443671666"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="680210794">
@@ -86,7 +108,7 @@
 							<reference key="NSControlView" ref="319674394"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="635588271"/>
+							<reference key="NSNormalImage" ref="994984315"/>
 							<reference key="NSAlternateImage" ref="344584947"/>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
@@ -386,7 +408,7 @@
 							<reference key="NSControlView" ref="863583811"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="635588271"/>
+							<reference key="NSNormalImage" ref="994984315"/>
 							<reference key="NSAlternateImage" ref="344584947"/>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
@@ -516,6 +538,14 @@
 					</object>
 					<int key="connectionID">104</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ssl</string>
+						<reference key="source" ref="439491322"/>
+						<reference key="destination" ref="448322841"/>
+					</object>
+					<int key="connectionID">107</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -564,8 +594,9 @@
 							<reference ref="537693570"/>
 							<reference ref="404573241"/>
 							<reference ref="863583811"/>
-							<reference ref="868571400"/>
 							<reference ref="319674394"/>
+							<reference ref="868571400"/>
+							<reference ref="448322841"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>
@@ -816,6 +847,20 @@
 						<reference key="object" ref="321474985"/>
 						<reference key="parent" ref="868571400"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">105</int>
+						<reference key="object" ref="448322841"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="627259023"/>
+						</object>
+						<reference key="parent" ref="443671666"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">106</int>
+						<reference key="object" ref="627259023"/>
+						<reference key="parent" ref="448322841"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -825,7 +870,11 @@
 					<string>10.IBPluginDependency</string>
 					<string>10.ImportedFromIB2</string>
 					<string>100.IBPluginDependency</string>
+					<string>100.IBViewBoundsToFrameTransform</string>
 					<string>101.IBPluginDependency</string>
+					<string>105.IBPluginDependency</string>
+					<string>105.IBViewBoundsToFrameTransform</string>
+					<string>106.IBPluginDependency</string>
 					<string>13.IBPluginDependency</string>
 					<string>13.IBViewBoundsToFrameTransform</string>
 					<string>13.ImportedFromIB2</string>
@@ -878,6 +927,14 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwx8AAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwwkAAA</bytes>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
@@ -938,7 +995,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwzEAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAwzMAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
@@ -959,7 +1016,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">104</int>
+			<int key="maxID">107</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1060,6 +1117,7 @@
 							<string>logfile</string>
 							<string>protocolist</string>
 							<string>server</string>
+							<string>ssl</string>
 							<string>tag</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -1071,6 +1129,7 @@
 							<string>NSTextField</string>
 							<string>NSPopUpButton</string>
 							<string>NSTextField</string>
+							<string>NSButton</string>
 							<string>NSTextField</string>
 						</object>
 					</object>
@@ -1085,6 +1144,7 @@
 							<string>logfile</string>
 							<string>protocolist</string>
 							<string>server</string>
+							<string>ssl</string>
 							<string>tag</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -1116,6 +1176,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">server</string>
 								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">ssl</string>
+								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tag</string>

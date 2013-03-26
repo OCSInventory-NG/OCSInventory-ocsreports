@@ -21,6 +21,7 @@
 	IBOutlet NSButton *debugmode;
 	IBOutlet NSButton *lazymode;
 	IBOutlet NSButton *download;
+	IBOutlet NSButton *ssl;
 	IBOutlet NSPopUpButton *protocolist;
 
 	NSFileManager *filemgr;
