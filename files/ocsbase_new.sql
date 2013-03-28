@@ -1443,3 +1443,33 @@ ALTER TABLE accountinfo_config ADD COLUMN DEFAULT_VALUE varchar(255) DEFAULT NUL
 INSERT INTO config VALUES ('LOG_DIR',0,'/var/lib/ocsinventory-reports','Directory for logs files');
 INSERT INTO config VALUES ('LOG_SCRIPT',0,'/var/lib/ocsinventory-reports','Directory for logs scripts files');
 ALTER TABLE temp_files change file file longblob;
+
+CREATE TABLE `cpus` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `MANUFACTURER` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `SERIALNUMBER` varchar(255) DEFAULT NULL,
+  `SPEED` varchar(255) DEFAULT NULL,
+  `CORES` int(11) DEFAULT NULL,
+  `L2CACHESIZE` varchar(255) DEFAULT NULL,
+  `CPUARCH` varchar(255) DEFAULT NULL,
+  `DATA_WIDTH` int(11) DEFAULT NULL,
+  `CURRENT_ADDRESS_WIDTH` int(11) DEFAULT NULL,
+  `LOGICAL_CPUS` int(11) DEFAULT NULL,
+  `VOLTAGE` varchar(255) DEFAULT NULL,
+  `CURRENT_SPEED` varchar(255) DEFAULT NULL,
+  `SOCKET` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`,`HARDWARE_ID`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE `sim` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `OPERATOR` varchar(255) DEFAULT NULL,
+  `OPNAME` varchar(255) DEFAULT NULL,
+  `COUNTRY` varchar(255) DEFAULT NULL,
+  `SERIALNUMBER` varchar(255) DEFAULT NULL,
+   PRIMARY KEY (`ID`,`HARDWARE_ID`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
