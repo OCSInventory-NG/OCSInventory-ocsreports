@@ -4,6 +4,7 @@ use strict;
 
 sub check {
     # make sure the user has access, cause that's the command that's gonna be run
+    return(undef) unless -r '/usr/sbin/ioreg';
     return(undef) unless -r '/usr/sbin/system_profiler';
     return(undef) unless can_load("Mac::SysProfile");
     return 1;
@@ -26,6 +27,14 @@ sub run {
 
     my $count = 0;
 
+   #Getting monitor serial number
+   #TODO: get serial for multiples monitors
+   my $ioreg = `ioreg -lw0 | grep "EDID" | sed "/[^<]*</s///" | xxd -p -r | strings -7`;
+   $ioreg =~ /(.*)\n(.*)/;
+
+   my $ioreg_serial = $1; chomp $ioreg_serial; 
+   my $ioreg_name = $2; chomp $ioreg_name;
+
     # add the video information
     foreach my $video (@$data){
         my $memory = $video->{'spdisplays_vram'};
@@ -34,17 +43,21 @@ sub run {
         $common->addVideo({
                 'NAME'        => $$video_names[$count],
                 'CHIPSET'     => $video->{'sppci_model'},
-                'MEMORY'    => $memory,
-                'RESOLUTION'    => $video->{'spdisplays_ndrvs'}[0]->{'spdisplays_resolution'},
+                'MEMORY'      => $memory,
+                'RESOLUTION'  => $video->{'spdisplays_ndrvs'}[0]->{'spdisplays_resolution'},
         });
 
-  
+
         foreach my $display (@{$video->{'spdisplays_ndrvs'}}){
+            my $serial;
             next unless(ref($display) eq 'HASH');
             next if($display->{'_name'} eq 'spdisplays_display_connector');
+            
+            $serial = $ioreg_serial if ($ioreg_name eq $display->{'_name'});
 
             $common->addMonitor({
                 'CAPTION'   => $display->{'_name'},
+                'SERIAL'    => $serial,
             })
         }
 

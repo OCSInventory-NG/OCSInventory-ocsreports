@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Getting monitor serial number in MacOS/Video.pm
        * Add a new configuration option for SSL certificate check in MacOSX agent installer
        * Add new screen codes for edid
        * Fix Bug ##1117110 Missing number of CPU socket
