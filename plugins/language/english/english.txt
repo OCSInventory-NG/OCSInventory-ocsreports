@@ -1185,6 +1185,8 @@
 1307 Active Plugins
 1308 Add plugins
 1309 Teledeploy options 
+1310 Shutdown
+1311 Reboot
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

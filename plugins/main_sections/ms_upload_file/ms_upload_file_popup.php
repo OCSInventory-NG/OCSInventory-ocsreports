@@ -96,7 +96,7 @@ if (isset($field) and $field != ''){
 			}
 		}
 		$queryDetails=substr($queryDetails,0,-1);
-		$queryDetails .= " FROM temp_files where fields_name = '".$field."' and author='".$_SESSION['OCS']['loggeduser']."' 
+		$queryDetails .= " FROM temp_files where fields_name = '".$field."' 
 							and (id_dde is null or id_dde='".$protectedGet["dde"]."')";
 		$tab_options['LIEN_LBL']['Fichier']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_view_file'].'&prov=dde_wk&no_header=1&value=';
 		$tab_options['LIEN_CHAMP']['Fichier']='id';

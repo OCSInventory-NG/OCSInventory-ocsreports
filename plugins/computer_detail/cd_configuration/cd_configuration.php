@@ -9,15 +9,10 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+require('require/function_telediff.php');
 //you can delete all packets if status=NOTIFIED and date>3 mounths
 if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_notified'])){
-	$sql=" delete from devices 
-			where name='%s' 
-				and tvalue = '%s' 
-				and IVALUE='%s' 
-				and hardware_id=%s"; 
-	$arg=array("DOWNLOAD","NOTIFIED",$protectedGet['reset_notified'],$systemid);
-	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);	
+		desactive_packet($systemid,$protectedGet['reset_notified']);
 }
 
 
@@ -26,13 +21,11 @@ if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_n
 if ($protectedPost['Valid_modif_x']){
 	if (trim($protectedPost['MOTIF'])){
 		if ($protectedPost["ACTION"] == "again"){
-			$sql=" update devices set TVALUE=%s
-					where name='%s' and tvalue like '%s' and IVALUE='%s' and hardware_id=%s"; 
-			$arg=array("null","DOWNLOAD","ERR_%",$protectedGet['affect_again'],$systemid);
+			//delete all info of specific teledeploy
+			desactive_download_option($systemid,$protectedGet['affect_again']);
+			active_option('DOWNLOAD',$systemid,$protectedGet['affect_again']);
 		}elseif($protectedPost["ACTION"] == "reset"){
-			$sql=" delete from devices 
-			where name='%s' and tvalue like '%s' and IVALUE='%s' and hardware_id=%s"; 
-			$arg=array("DOWNLOAD","ERR_%",$protectedGet['affect_reset'],$systemid);
+			desactive_packet($systemid,$protectedGet['affect_reset']);
 		}
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		
@@ -84,10 +77,7 @@ if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
 if( isset( $protectedGet["suppack"] ) &  $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" ) {
 	
 	if( $_SESSION['OCS']["justAdded"] == false ){
-		
-		$sql="DELETE FROM devices WHERE ivalue=%s AND hardware_id='%s' AND name='%s'";
-		$arg=array($protectedGet["suppack"],$systemid,"DOWNLOAD");
-		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
+		desactive_packet($systemid,$protectedGet["suppack"]);
 		
 	}else $_SESSION['OCS']["justAdded"] = false;
 	addLog($l->g(512), $l->g(886)." ".$protectedGet["suppack"]." => ".$systemid );
