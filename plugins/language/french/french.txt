@@ -1187,8 +1187,8 @@
 1309 Options de télédéploiement
 1310 Arrêt
 1311 Redémarrage
-1312 Taille de transfert du bus
-1313 Taille de l'adressage des données
+1312 Taille transfert du bus
+1313 Taille adressage des données
 1314 Nombre de coeurs logiques
 1315 Fréquence de fonctionnement
 1316 Type de socket

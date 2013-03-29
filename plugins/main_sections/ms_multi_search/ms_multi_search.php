@@ -960,7 +960,7 @@ $sort_list=array("NETWORKS-IPADDRESS" =>$l->g(82).": ".$l->g(34),
 			     "BIOS-SSN"=>$l->g(273).": ".$l->g(36),
 			     "BIOS-SMODEL"=>$l->g(273).": ".$l->g(65),
 			     "HARDWARE-NAME"=>$l->g(729).": ".$l->g(49),
-			     "HARDWARE-PROCESSORT"=>$l->g(54).": ".$l->g(66),
+			     "HARDWARE-PROCESSORT"=>$l->g(54)." (old): ".$l->g(66),
 			     "BIOS-SMANUFACTURER"=>$l->g(729).": ".$l->g(64),
 			     "MONITORS-SERIAL"=>$l->g(554),
 			     "MONITORS-DESCRIPTION"=>$l->g(556),
@@ -980,6 +980,16 @@ $sort_list=array("NETWORKS-IPADDRESS" =>$l->g(82).": ".$l->g(34),
 				 "PRINTERS-PORT"=>$l->g(79).": ".$l->g(279),
 				 "PRINTERS-DESCRIPTION"=>$l->g(79).": ".$l->g(53),
 				 "HARDWARE-ARCH"=>$l->g(25).": ".$l->g(1247),
+				 "CPUS-MANUFACTURER"=>$l->g(54).": ".$l->g(64),
+				 "CPUS-TYPE"=>$l->g(54).": ".$l->g(66),
+				 "CPUS-SERIALNUMBER"=>$l->g(54).": ".$l->g(36),
+				 "CPUS-SPEED"=>$l->g(54).": ".$l->g(429),
+				 "CPUS-CORES"=>$l->g(54).": ".$l->g(1317),
+				 "CPUS-L2CACHESIZE"=>$l->g(54).": ".$l->g(1318),
+				 "CPUS-LOGICAL_CPUS"=>$l->g(54).": ".$l->g(1314),
+				 "CPUS-VOLTAGE"=>$l->g(54).": ".$l->g(1319),
+				 "CPUS-CURRENT_SPEED"=>$l->g(54).": ".$l->g(1315),
+				 "CPUS-SOCKET"=>$l->g(54).": ".$l->g(1316)
 				 );
 		
 		
@@ -1026,7 +1036,25 @@ $optSelectField=array( "NETWORKS-IPADDRESS"=>$sort_list["NETWORKS-IPADDRESS"],
 			   "STORAGES-DISKSIZE" =>$sort_list["STORAGES-DISKSIZE"],
 			   "STORAGES-DISKSIZE-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
 			   "STORAGES-DISKSIZE-LBL"=>"MB",
-			   "HARDWARE-ARCH"=>$sort_list["HARDWARE-ARCH"]
+			   "HARDWARE-ARCH"=>$sort_list["HARDWARE-ARCH"],
+			   "CPUS-MANUFACTURER"=>$sort_list["CPUS-MANUFACTURER"],
+			   "CPUS-SERIALNUMBER"=>$sort_list["CPUS-SERIALNUMBER"],
+			   "CPUS-SOCKET"=>$sort_list["CPUS-SOCKET"],
+			   "CPUS-TYPE"=>$sort_list["CPUS-TYPE"],
+			   "CPUS-SPEED"=>$sort_list["CPUS-SPEED"],
+			   "CPUS-SPEED-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
+			   "CPUS-SPEED-LBL"=>"MHz",
+			   "CPUS-CORES"=>$sort_list["CPUS-CORES"],
+			   "CPUS-CORES-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
+			   "CPUS-L2CACHESIZE"=>$sort_list["CPUS-L2CACHESIZE"],
+			   "CPUS-L2CACHESIZE-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
+			   "CPUS-LOGICAL_CPUS"=>$sort_list["CPUS-LOGICAL_CPUS"],
+			   "CPUS-LOGICAL_CPUS-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
+			   "CPUS-CURRENT_SPEED"=>$sort_list["CPUS-CURRENT_SPEED"],
+			   "CPUS-CURRENT_SPEED-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
+			   "CPUS-CURRENT_SPEED-LBL"=>"MHz",
+			   "CPUS-VOLTAGE"=>$sort_list["CPUS-VOLTAGE"],
+			   "CPUS-VOLTAGE-SELECT"=>array("exact"=>$l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)),
 			   );
 
 	//ajout des champs de accountinfo
@@ -1076,11 +1104,14 @@ $sort_list_2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
 						 "STORAGES-TYPE"=>$l->g(63).": ".$l->g(66),
 						 "STORAGES-DESCRIPTION"=>$l->g(63).": ".$l->g(53),
 						 "STORAGES-MODEL"=>$l->g(63).": ".$l->g(65),
-			   			 "BIOS-TYPE"=>$l->g(273).": ".$l->g(66)
+			   			 "BIOS-TYPE"=>$l->g(273).": ".$l->g(66),
+			   			 "CPUS-CPUARCH"=>$l->g(54).": ".$l->g(1247),
+			   			 "CPUS-DATA_WIDTH"=>$l->g(54).": ".$l->g(1312),
+			   			 "CPUS-CURRENT_ADDRESS_WIDTH"=>$l->g(54).": ".$l->g(1313),
 						);
 
 $sql_history_download = "select FILEID as ID,NAME from download_available d_a";
-IF (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
+if (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
 		and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES" )
 $sql_history_download .= " where d_a.comment not like '%[VISIBLE=0]%'";	
 $sql_history_download .= " order by 2";
@@ -1129,7 +1160,22 @@ $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"]
 				 "BIOS-TYPE-SQL1"=>"select distinct TYPE as ID,TYPE as NAME from bios order by 2",
 				 "BIOS-TYPE-SELECT"=>array('exact'=>$l->g(507)
 				 									,'diff'=>$l->g(508)
-				 									)
+				 									),
+				 "CPUS-CPUARCH"=>$sort_list_2Select["CPUS-CPUARCH"],//$l->g(107).": ".$l->g(312),
+				 "CPUS-CPUARCH-SQL1"=>array("32"=>"32bits","64"=>"64bits","128"=>"128bits"),
+				 "CPUS-CPUARCH-SELECT"=>array('exact'=>$l->g(410)
+				 									,'diff'=>$l->g(130)
+				 									),
+				 "CPUS-DATA_WIDTH"=>$sort_list_2Select["CPUS-DATA_WIDTH"],//$l->g(107).": ".$l->g(312),
+				 "CPUS-DATA_WIDTH-SQL1"=>array("32"=>"32bits","64"=>"64bits","128"=>"128bits"),
+				 "CPUS-DATA_WIDTH-SELECT"=>array('exact'=>$l->g(410)
+				 									,'diff'=>$l->g(130)
+				 									),
+				 "CPUS-CURRENT_ADDRESS_WIDTH"=>$sort_list_2Select["CPUS-CURRENT_ADDRESS_WIDTH"],//$l->g(107).": ".$l->g(312),
+				 "CPUS-CURRENT_ADDRESS_WIDTH-SQL1"=>array("32"=>"32bits","64"=>"64bits"),
+				 "CPUS-CURRENT_ADDRESS_WIDTH-SELECT"=>array('exact'=>$l->g(410)
+				 									,'diff'=>$l->g(130)
+				 									),
 				 );
 		//ajout des champs de accountinfo
 $opt2Select = array_merge($opt2Select_account,$opt2Select);			 
@@ -1149,7 +1195,7 @@ $lbl_default= array('exact'=> $l->g(410),'ressemble'=>$l->g(129)
 											  'between'=>"onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"inline\";'"));
 
 $sort_list_Select2Field=array("HARDWARE-MEMORY"=>$l->g(25).": ".$l->g(26),
-						 "HARDWARE-PROCESSORS"=>$l->g(54).": ".$l->g(377));
+						 "HARDWARE-PROCESSORS"=>$l->g(54)." (old): ".$l->g(377));
 
 $optSelect2Field=array("HARDWARE-MEMORY"=>$sort_list_Select2Field["HARDWARE-MEMORY"],//$l->g(25).": ".$l->g(26),
 					   "HARDWARE-MEMORY-LBL"=>"MB",
