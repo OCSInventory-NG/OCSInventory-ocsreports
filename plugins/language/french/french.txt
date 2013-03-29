@@ -1187,6 +1187,14 @@
 1309 Options de télédéploiement
 1310 Arrêt
 1311 Redémarrage
+1312 Taille de transfert du bus
+1313 Taille de l'adressage des données
+1314 Nombre de coeurs logiques
+1315 Fréquence de fonctionnement
+1316 Type de socket
+1317 Nombre de coeurs
+1318 Cache L2
+1319 Tension
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

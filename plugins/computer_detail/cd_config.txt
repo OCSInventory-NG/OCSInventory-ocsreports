@@ -9,18 +9,18 @@
 7:cd_controllers
 8:cd_slots
 9:cd_ports
-10:cd_admininfo
-11:cd_comments
-12:cd_configuration
-13:cd_bios
-14:cd_softwares
-15:cd_packets
-16:cd_registry
-17:cd_monitors
-18:cd_inputs
-19:cd_printers
-20:cd_modems
-21:cd_mobile
+10:cd_pda
+11:cd_admininfo
+12:cd_comments
+13:cd_configuration
+14:cd_bios
+15:cd_softwares
+16:cd_packets
+17:cd_registry
+18:cd_monitors
+19:cd_inputs
+20:cd_printers
+21:cd_modems
 22:cd_vm
 </ORDER>
 
@@ -33,7 +33,7 @@ cd_controllers:g(93)
 cd_drives:g(92)
 cd_inputs:g(91)
 cd_memories:g(26)
-cd_mobile:g(994)
+cd_pda:g(994)
 cd_modems:g(270)
 cd_monitors:g(97)
 cd_networks:g(82)
@@ -57,7 +57,7 @@ cd_controllers:controllers
 cd_drives:drives
 cd_inputs:inputs
 cd_memories:memories
-cd_mobile:javainfo
+cd_pda:sim
 cd_modems:modems
 cd_monitors:monitors
 cd_networks:networks
@@ -92,7 +92,7 @@ cd_registry:16
 cd_monitors:17
 cd_inputs:18
 cd_printers:19
-cd_mobile:21
+cd_pda:21
 cd_vm:22
 </URL>
 
