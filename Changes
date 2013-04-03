@@ -1,5 +1,6 @@
 Revision history for ocsreports
-2.1
+2.1RC1
+		* active SNMP V3
 		* change info on processor on coputer details
 		* add pda info on computer details
 		* fix bug on accountinfo (with uploadfile>64ko)
