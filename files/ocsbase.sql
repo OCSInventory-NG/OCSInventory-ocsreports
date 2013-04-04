@@ -785,7 +785,7 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '7000', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '7001', 'Version of the installed GUI and database');
 
 CREATE TABLE download_servers (
   HARDWARE_ID int(11) NOT NULL,
@@ -1356,15 +1356,6 @@ ALTER TABLE snmp_loadbalancers ADD COLUMN MANUFACTURER varchar(255) DEFAULT NULL
 ALTER TABLE snmp_loadbalancers ADD COLUMN TYPE varchar(255) DEFAULT NULL;
 ALTER TABLE hardware ADD COLUMN ARCH varchar(10) DEFAULT NULL;
 
-CREATE TABLE cpus (
- ID INTEGER NOT NULL auto_increment,
- HARDWARE_ID INTEGER NOT NULL,
- MANUFACTURER VARCHAR(255) default NULL,
- TYPE VARCHAR(255) default NULL,
- SERIALNUMBER VARCHAR(255) default NULL,
- SPEED VARCHAR(255) default NULL,
- PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE snmp_communities (
  ID INTEGER NOT NULL auto_increment,
@@ -1380,4 +1371,34 @@ DELETE FROM config WHERE name='SNMP_URI' or name='SNMP_DIR';
 ALTER TABLE accountinfo_config ADD COLUMN DEFAULT_VALUE varchar(255) DEFAULT NULL;
 INSERT INTO config VALUES ('LOG_DIR',0,'/var/lib/ocsinventory-reports','Directory for logs files');
 INSERT INTO config VALUES ('LOG_SCRIPT',0,'/var/lib/ocsinventory-reports','Directory for logs scripts files');
+ALTER TABLE temp_files change file file longblob;
+CREATE TABLE cpus (
+  ID int(11) NOT NULL AUTO_INCREMENT,
+  HARDWARE_ID int(11) NOT NULL,
+  MANUFACTURER varchar(255) DEFAULT NULL,
+  TYPE varchar(255) DEFAULT NULL,
+  SERIALNUMBER varchar(255) DEFAULT NULL,
+  SPEED varchar(255) DEFAULT NULL,
+  CORES int(11) DEFAULT NULL,
+  L2CACHESIZE varchar(255) DEFAULT NULL,
+  CPUARCH varchar(255) DEFAULT NULL,
+  DATA_WIDTH int(11) DEFAULT NULL,
+  CURRENT_ADDRESS_WIDTH int(11) DEFAULT NULL,
+  LOGICAL_CPUS int(11) DEFAULT NULL,
+  VOLTAGE varchar(255) DEFAULT NULL,
+  CURRENT_SPEED varchar(255) DEFAULT NULL,
+  SOCKET varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`,`HARDWARE_ID`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE sim (
+  ID int(11) NOT NULL AUTO_INCREMENT,
+  HARDWARE_ID int(11) NOT NULL,
+  OPERATOR varchar(255) DEFAULT NULL,
+  OPNAME varchar(255) DEFAULT NULL,
+  COUNTRY varchar(255) DEFAULT NULL,
+  SERIALNUMBER varchar(255) DEFAULT NULL,
+   PRIMARY KEY (`ID`,`HARDWARE_ID`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
 

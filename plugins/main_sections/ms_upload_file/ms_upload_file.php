@@ -8,6 +8,7 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
+
 function return_bytes($val) {
     $val = trim($val);
     $last = strtolower($val{strlen($val)-1});

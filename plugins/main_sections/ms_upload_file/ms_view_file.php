@@ -25,8 +25,8 @@
 if ($protectedGet['prov'] == "dde_wk"){
 	$sql = "select FILE,FILE_NAME,FILE_TYPE,FILE_SIZE
 			 FROM temp_files 
-			 where id = '%s' and author='%s'";
-	$arg=array($protectedGet["value"],$_SESSION['OCS']['loggeduser']);
+			 where id = '%s'";
+	$arg=array($protectedGet["value"]);
 }
 
 if ($protectedGet['prov'] == "agent"){

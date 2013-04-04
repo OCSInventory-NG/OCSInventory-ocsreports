@@ -26,7 +26,8 @@ $weight_table=array("HARDWARE"=>1,
 					"DOWNLOAD_HISTORY"=>6,
 					"DEVICES"=>3,
 					"VIDEOS"=>2,
-					"PRINTERS"=>4);
+					"PRINTERS"=>4,
+					"CPUS"=>1);
 asort($weight_table); 
 
 //utilisation des tables de cache pour:
@@ -39,7 +40,7 @@ if ($_SESSION['OCS']["usecache"] == true){
 
 //liste des tables qui ne doivent pas faire des fusions de requ�te
 //cas pour les tables multivalu�e
-$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS");
+$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS","CPUS");
 
 
 
@@ -102,6 +103,19 @@ $lbl_fields_calcul['NETWORKS']=array($l->g(863) => 'networks.DESCRIPTION',
 									 $l->g(873) => 'networks.IPDHCP');
 $lbl_fields_calcul['REGISTRY']=array($l->g(874) => 'registry.NAME',
 									 $l->g(875) => 'registry.REGVALUE');
+$lbl_fields_calcul['CPUS']=array($l->g(64) => 'cpus.MANUFACTURER',
+						   $l->g(66) => 'cpus.TYPE',
+						   $l->g(36) => 'cpus.SERIALNUMBER',
+						   $l->g(429) => 'cpus.SPEED',
+						   $l->g(1317) => 'cpus.CORES',
+						   $l->g(1318) => 'cpus.L2CACHESIZE',
+						   $l->g(1247) => 'cpus.CPUARCH',
+						   $l->g(1312) => 'cpus.DATA_WIDTH',
+						   $l->g(1313) => 'cpus.CURRENT_ADDRESS_WIDTH',
+						   $l->g(1314) => 'cpus.LOGICAL_CPUS',
+						   $l->g(1319) => 'cpus.VOLTAGE',
+						   $l->g(1315) => 'cpus.CURRENT_SPEED',
+						   $l->g(1316) => 'cpus.SOCKET');
 
 //fonction qui ex�cute les requetes de la recherche 
 //et qui retourne les ID des machines qui match.
@@ -139,13 +153,15 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 	 		}
 	 		$id[$i].=$fin_sql;
 	 		$result = mysql_query($id[$i], $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-	 		while($item = mysql_fetch_object($result)){
-				$list_id[$item->HARDWARE_ID]=$item->HARDWARE_ID;
-				foreach ($item as $field=>$value){
-					if ($field != "HARDWARE_ID" and $field != "ID")
-					$tab_options['VALUE'][$field][$item->HARDWARE_ID]=$value;
+	 		if ($result){
+		 		while($item = mysql_fetch_object($result)){
+					$list_id[$item->HARDWARE_ID]=$item->HARDWARE_ID;
+					foreach ($item as $field=>$value){
+						if ($field != "HARDWARE_ID" and $field != "ID")
+						$tab_options['VALUE'][$field][$item->HARDWARE_ID]=$value;
+					}
 				}
-			}
+	 		}
 	 		if ($_SESSION['OCS']['DEBUG'] == 'ON')
 	 			$debug .= "<hr><br>".$l->g(5001)."<br>".$id[$i]."<br>".$l->g(5002).$weight;
 	 		//si aucun id trouv� => end

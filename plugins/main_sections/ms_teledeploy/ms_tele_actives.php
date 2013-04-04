@@ -25,18 +25,15 @@ if (!$cant_active){
 				$listIDdel[]=$val_listIDdel['ID'];
 		}	
 		if ($listIDdel != ''){
-			$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue in ";
-			$sql=mysql2_prepare($reqSupp,'',$listIDdel);
-			mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG']);	
+			foreach ($listIDdel as $k=>$v){
+				desactive_packet('',$v);
+			}
 		}
 		mysql2_query_secure("DELETE FROM download_enable WHERE FILEID=%s", $_SESSION['OCS']["writeServer"],$protectedPost['DEL_ALL']);		
 		echo "<script>window.opener.document.packlist.submit(); self.close();</script>";	
 	}
 	if ($protectedPost['SUP_PROF'] != ''){
-		$reqSupp = "DELETE FROM devices WHERE name='DOWNLOAD' AND ivalue = %s";
-		
-		mysql2_query_secure($reqSupp, $_SESSION['OCS']["writeServer"],$protectedPost['SUP_PROF']);	
-			
+		desactive_packet('',$protectedPost['SUP_PROF']);			
 		mysql2_query_secure("DELETE FROM download_enable WHERE ID=%s", $_SESSION['OCS']["writeServer"],$protectedPost['SUP_PROF']);		
 	}
 }

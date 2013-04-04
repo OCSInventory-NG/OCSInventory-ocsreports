@@ -217,7 +217,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			
 		if ($protectedPost['ADD_COMM'] == $l->g(116) or is_numeric($protectedPost['MODIF'])){
 				
-			$list_version=array('-1'=>'2c','1'=>'1','2'=>'2',/*'3'=>'3'*/);
+			$list_version=array('-1'=>'2c','1'=>'1','2'=>'2','3'=>'3');
 			$title=$l->g(1207);
 			if (isset($protectedPost['MODIF']) and is_numeric($protectedPost['MODIF']) and !isset($protectedPost['NAME'])){
 				$info_com=find_community_info($protectedPost['MODIF']);

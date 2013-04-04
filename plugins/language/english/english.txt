@@ -1185,6 +1185,16 @@
 1307 Active Plugins
 1308 Add plugins
 1309 Teledeploy options 
+1310 Shutdown
+1311 Reboot
+1312 Data width
+1313 Current address width
+1314 Logical CPUS
+1315 Current speed
+1316 Socket type
+1317 Cores number
+1318 L2 cache size
+1319 Voltage
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

@@ -75,9 +75,8 @@ if (isset($protectedGet['state']))
 
 if( isset( $protectedGet["suppack"] ) ) {
 	if( $_SESSION['OCS']["justAdded"] == false ){
-		$sql="DELETE FROM devices WHERE ivalue='%s' AND hardware_id='%s' AND name='DOWNLOAD'";
-		$arg=array($protectedGet["suppack"],$systemid);
-		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
+		require_once('require/function_telediff.php');
+		desactive_packet($systemid,$protectedGet["suppack"]);
 	}
 	else $_SESSION['OCS']["justAdded"] = false;
 }

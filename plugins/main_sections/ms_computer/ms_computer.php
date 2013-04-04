@@ -77,8 +77,7 @@ foreach ($lbl_affich as $key=>$lbl){
 		$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_export_ocs']."&no_header=1&systemid=".$protectedGet['systemid']."\")>".$l->g(1304)."</a>";			
 		$link[$key]=true;
 	}elseif($key == "IPADDR" 
-			and (!isset($_SESSION['OCS']['RESTRICTION']['WOL']) or $_SESSION['OCS']['RESTRICTION']['WOL']=="NO")
-			and isset($pages_refs['ms_wol'])){
+			and (!isset($_SESSION['OCS']['RESTRICTION']['WOL']) or $_SESSION['OCS']['RESTRICTION']['WOL']=="NO")){
 		$data[$key] = $item->$key." <a href=# OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"".$l->g(1283)."\");'><i>WOL</i></a>";
 		$link[$key]=true;
 	}elseif ($item->$key != '')

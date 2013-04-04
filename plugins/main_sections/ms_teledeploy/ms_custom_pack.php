@@ -146,30 +146,49 @@ if ($activate){
 	
 }
 //activation options
-if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
+if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $protectedPost['DWL_OPT'] == "YES"){
+	
 			$tab_hidden['SELECT']=$protectedPost['MODIF'];
 			$tab_hidden['onglet']=$protectedPost['onglet'];
 			$tab_hidden['rule_choise']=$protectedPost['rule_choise'];
-			$hour=array('00:00'=>'00:00',
-						'02:00'=>'02:00',
-						'04:00'=>'04:00',
-						'06:00'=>'06:00',
-						'08:00'=>'08:00',
-						'10:00'=>'10:00',
-						'12:00'=>'12:00',
-						'14:00'=>'14:00',
-						'16:00'=>'16:00',
-						'18:00'=>'18:00',
-						'20:00'=>'20:00',
-						'22:00'=>'22:00');
+			$action=array('REBOOT'=>$l->g(1311),'SHUTDOWN'=>$l->g(1310));
+			$min=array('00'=> '00','15'=>'15','30'=> '30','45'=>'45');			
+			$hour=array('00'=>'00',
+						'01'=>'01',
+						'02'=>'02',
+						'03'=>'03',
+						'04'=>'04',
+						'05'=>'05',
+						'06'=>'06',
+						'07'=>'07',
+						'08'=>'08',
+						'09'=>'09',
+						'10'=>'10',
+						'11'=>'11',
+						'12'=>'12');
+			$i=0;
+			while ($i<=1){
+				if ($i == 0)
+					$am_pm='';
+				else
+					$am_pm='pm';
+				foreach ($hour as $k=>$v){
+					foreach ($min as $km){
+						if ($am_pm=='' or ($am_pm == 'pm' and $k != '00' and $k != '12') )
+						$hour_min[$k.":".$km.$am_pm]=$am_pm." ".$k.":".$km;
+					}
+				}
+			$i++;
+			}
+				//	p($hour_min);
 			$config['COMMENT_BEHING'][0]=datePick("INSTALL_DATE");
 			$config['JAVASCRIPT'][0]="READONLY ".dateOnClick("INSTALL_DATE");
 			$config['SELECT_DEFAULT'][0]='';
 			$config['SIZE'][0]='8';
-			$tab_name=array($l->g(1295),$l->g(1294));
-			$name_field=array("INSTALL_DATE","INSTALL_HEURE");
-			$type_field=array(0,2);
-			$value_field=array($protectedPost['INSTALL_DATE'],$hour);
+			$tab_name=array($l->g(1295),$l->g(1294),$l->g(443));
+			$name_field=array("INSTALL_DATE","INSTALL_HEURE","DOWNLOAD_POSTCMD");
+			$type_field=array(0,2,2);
+			$value_field=array($protectedPost['INSTALL_DATE'],$hour_min,$action);
 			if ($protectedGet['origine'] != 'group'){
 				array_push($tab_name,$l->g(1293));
 				array_push($name_field,"TELE_FORCE");
@@ -177,6 +196,9 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 				array_push($value_field,array(''));
 			}
 			$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
+		//	p($tab_typ_champ);
+			$tab_typ_champ[2]['CONFIG']['DEFAULT']='YES';
+			//$configinput['DEFAULT'] == "YES"
 			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$l->g(1309));
 	
 }else{
@@ -196,6 +218,9 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 			active_option('DOWNLOAD_SCHEDULE',$list_id,$protectedPost['SELECT'],$install_date);
 		}
 		
+		if (isset($protectedPost['DOWNLOAD_POSTCMD']) and $protectedPost['DOWNLOAD_POSTCMD'] != ''){
+			active_option('DOWNLOAD_POSTCMD',$list_id,$protectedPost['SELECT'],$protectedPost['DOWNLOAD_POSTCMD']);			
+		}
 		
 		if ($protectedGet['origine'] == "group"){
 			$form_to_reload='config_group';
@@ -203,9 +228,9 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 			$form_to_reload='config_mach';
 		}
 		if ($protectedPost['onglet'] == 'MACH')
-		$nb_affect=active_mach($list_id,$protectedPost['SELECT']);
+			$nb_affect=active_option('DOWNLOAD',$list_id,$protectedPost['SELECT']);
 		if ($protectedPost['onglet'] == 'SERV_GROUP')
-		$nb_affect=active_serv($list_id,$protectedPost['SELECT'],$protectedPost['rule_choise']);
+			$nb_affect=active_serv($list_id,$protectedPost['SELECT'],$protectedPost['rule_choise']);
 		msg_success($nb_affect." ".$l->g(604));
 		if (isset($form_to_reload)){
 			//add this $var => not delete this package on computer detail
@@ -228,7 +253,6 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 	if ($list_id){	
 		onglet($def_onglets,$form_name,'onglet',7);
 			echo '<div class="mlt_bordure" >';
-			echo $l->g(1292).show_modif(array('CHECK'=>''),'DWL_OPT',5);
 			
 		echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";
 		if ($protectedPost['onglet'] == 'SERV_GROUP'){
@@ -251,7 +275,12 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 			}
 		}
 		
-		if(($protectedPost['onglet'] == 'MACH') 
+		if ($protectedPost['onglet'] == 'MACH'){
+			echo $l->g(1292).show_modif(array('NO'=>$l->g(454),'YES'=>$l->g(455)),'DWL_OPT',2,$form_name);
+		
+		}
+		
+		if(($protectedPost['onglet'] == 'MACH' and $protectedPost['DWL_OPT'] != '') 
 			or ($protectedPost['onglet'] == 'SERV_GROUP' and $protectedPost['rule_choise'] != '')){
 				//recherche de toutes les r�gles pour les serveurs de redistribution
 			$list_fields= array('FILE_ID'=>'e.FILEID',
@@ -309,6 +338,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT_CHECK'])){
 			$tab_options['FILTRE']=array('e.FILEID'=>'Timestamp','a.NAME'=>$l->g(49));
 			$tab_options['ARG_SQL']=$sql['ARG'];
 			$tab_options['MODIF']['IMG']="image/prec16.png";
+		
 			$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,100,$tab_options); 
 		}
 		echo "</td></tr></table></div>";

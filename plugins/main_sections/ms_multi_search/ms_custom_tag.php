@@ -12,6 +12,7 @@
 require_once('require/function_search.php');
 require_once('require/function_admininfo.php');
 $form_name="lock_affect";
+
 echo open_form($form_name);
 echo "<div align=center>";
 $list_id=multi_lot($form_name,$l->g(601));
@@ -55,21 +56,10 @@ if (isset($list_id) and $list_id != ''){
 				where fileid='%s'";
 		$arg=$protectedPost['pack_list'];
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		while($item = mysql_fetch_object($result)){	
-			$list_download_id[]=$item->ID;
-		}
-	
-		$sql="delete from devices 
-				where IVALUE in ";	
-		$arg=array();
-		$tab_result=mysql2_prepare($sql,$arg,$list_download_id);
-		$sql=$tab_result['SQL'];
-		$arg=$tab_result['ARG'];
-		$sql .= "and NAME='DOWNLOAD' 
-				 and hardware_id in ";
-		$tab_result=mysql2_prepare($sql,$arg,$list_id);
-		mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["writeServer"],$tab_result['ARG']);	
-		msg_success(mysql_affected_rows()." ".$l->g(1026));	
+		$item = mysql_fetch_object($result);
+		require_once('require/function_telediff.php');
+		$nb_line_affected=desactive_packet($list_id,$item->ID);
+		msg_success($nb_line_affected." ".$l->g(1026));	
 	}
 	//CAS OF WOL
 	if(isset($protectedPost['WOL']) and $protectedPost['WOL'] != ''){

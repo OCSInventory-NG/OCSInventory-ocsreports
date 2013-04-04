@@ -70,7 +70,6 @@ ms_tele_package
 ms_tele_activate
 ms_tele_popup_active
 ms_tele_actives
-ms_tele_massaffect
 ms_tele_pack
 ms_rules_redistrib
 ms_custom_param

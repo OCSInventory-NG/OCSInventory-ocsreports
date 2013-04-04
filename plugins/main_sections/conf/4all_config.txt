@@ -88,7 +88,6 @@ ms_tele_package:tele_package
 ms_tele_activate:tele_activate
 ms_tele_popup_active:tele_popup_active
 ms_tele_actives:tele_actives
-ms_tele_massaffect:tele_massaffect
 ms_tele_pack:tele_pack
 ms_rules_redistrib:rules_redistrib
 ms_custom_param:opt_param
@@ -172,7 +171,6 @@ ms_tele_popup_active:ms_teledeploy
 ms_tele_stats:ms_teledeploy
 ms_tele_compress:ms_teledeploy
 ms_speed_stat:ms_teledeploy
-ms_tele_massaffect:ms_teledeploy
 ms_upload_file:ms_upload_file
 ms_upload_file_popup:ms_upload_file
 ms_users:ms_users
