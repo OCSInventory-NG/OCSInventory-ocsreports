@@ -306,7 +306,7 @@ function update_default_value($POST){
                                'CONEX_LDAP_CHECK_FIELD2_NAME', 'CONEX_LDAP_CHECK_FIELD2_VALUE',
 							   'CONEX_LDAP_CHECK_FIELD2_ROLE',
                                'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
-                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','EXPORT_SEP');
+                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','EXPORT_SEP','WOL_PORT');
 	//tableau des champs ou il faut juste mettre � jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -325,7 +325,7 @@ function update_default_value($POST){
 								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG_edit',
 								   'DOWNLOAD_URI_INFO'=>'DOWNLOAD_URI_INFO_edit',
 								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','CONF_PROFILS_DIR'=>'CONF_PROFILS_DIR_edit',
- 				  				   'OLD_CONF_DIR'=>'OLD_CONF_DIR_edit','LOCAL_URI_SERVER'=>'LOCAL_URI_SERVER_edit');
+ 				  				   'OLD_CONF_DIR'=>'OLD_CONF_DIR_edit','LOCAL_URI_SERVER'=>'LOCAL_URI_SERVER_edit','WOL_BIOS_PASSWD'=>'WOL_BIOS_PASSWD_edit');
 	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour tvalue		
 	$array_interprete_ivalue=array('FREQUENCY'=>'FREQUENCY_edit','IPDISCOVER'=>'IPDISCOVER_edit','INVENTORY_VALIDITY'=>'INVENTORY_VALIDITY_edit');
 	
@@ -358,6 +358,7 @@ function update_default_value($POST){
 				and $value == '1' 
 				and $optexist['INVENTORY_CACHE_ENABLED'] != $value){
 			$sql="update engine_persistent set ivalue=1 where name='INVENTORY_CACHE_CLEAN_DATE'";
+			$arg='';
 			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,$l->g(821));
 		}
 		$name_field_modif='';
@@ -880,7 +881,30 @@ function pagegroups($form_name){
  	fin_tab($form_name);
  }
  
- 
+ function pageswol($form_name){
+ 	global $l;
+ 	$numeric_semicolon="onKeyPress='return scanTouche(event,/[0-9 ,]/)' 
+		  onkeydown='convertToUpper(this)'
+		  onkeyup='convertToUpper(this)' 
+		  onblur='convertToUpper(this)'
+		  onclick='convertToUpper(this)'";
+ 	$champs=array('WOL_PORT'=>'WOL_PORT','WOL_BIOS_PASSWD'=>'WOL_BIOS_PASSWD'); 	
+ 	$values=look_config_default_values($champs);
+ 	
+ 	if (isset($values['tvalue']['WOL_BIOS_PASSWD']) 
+ 			and $values['tvalue']['WOL_BIOS_PASSWD'] != '' 
+ 				and $values['tvalue']['WOL_BIOS_PASSWD'] != '0')
+ 		$wol_passwd='ON';
+ 	else
+ 		$wol_passwd='OFF';
+ 	
+ 	debut_tab(); 
+ 	
+	ligne('WOL_PORT',$l->g(272)." (".$l->g(1320).")",'input',array('VALUE'=>$values['tvalue']['WOL_PORT'],'SIZE'=>50,'MAXLENGHT'=>50,'JAVASCRIPT'=>$numeric_semicolon));
+	ligne('WOL_BIOS_PASSWD','Bios password','radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$wol_passwd),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$values['tvalue']['WOL_BIOS_PASSWD'],'SIZE'=>40,'MAXLENGHT'=>254),"readonly");
+	
+	fin_tab($form_name);
+ }
  
  function pagesdev($form_name){
  	global $l,$numeric,$sup1,$pages_refs;

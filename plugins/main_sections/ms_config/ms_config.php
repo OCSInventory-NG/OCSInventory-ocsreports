@@ -33,6 +33,7 @@ $def_onglets['WEBSERVICES']=$l->g(760); //Webservice
 $def_onglets['GUI']=$l->g(84); //GUI
 $def_onglets['CNX']=$l->g(1108); //connexion
 $def_onglets['SNMP']=$l->g(1136); //SNMP
+$def_onglets['WOL']=$l->g(1279); //WOL
 
 if (DEV_OPTION)
 	$def_onglets['DEV']=$l->g(1302);
@@ -108,6 +109,9 @@ switch ($protectedPost['onglet']){
 	case 'DEV':
 		pagesdev($form_name);
 		break;
+	case 'WOL':
+		pageswol($form_name);
+	break;
 	default:
 		pageinventory($form_name);	
 }

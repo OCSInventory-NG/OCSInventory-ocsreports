@@ -12,21 +12,34 @@
 
 /*
  * functions to use wake on line
- *  WOL_PORT is define on var.php
  */
 class Wol{
   private $nic;
+  public $wol_send;
   public function wake($mac,$ip){
-    $this->nic = fsockopen("udp://".$ip,WOL_PORT);
-    if( !$this->nic ){
-      fclose($this->nic);
-      return false;
-    }
-    else{
-      fwrite($this->nic, $this->pacquet($mac));
-      fclose($this->nic);
-      return true;
-    }
+  	global $l;
+  	//looking for values of wol config
+  	$wol_info=look_config_default_values('WOL_PORT');
+  	if (!isset($wol_info['name']['WOL_PORT']))
+  		$this->wol_send=$l->g(1321);
+  	else
+  		$wol_port=explode(',', $wol_info['tvalue']['WOL_PORT']);
+  	foreach ($wol_port as $k=>$v){
+  		if (is_numeric($v)){
+  		    $this->nic = @fsockopen("udp://".$ip,$v);
+		    if( !$this->nic ){
+		    	@fclose($this->nic);
+		    	$this->wol_send=$l->g(1322);
+		    }
+		    else{
+		    	fwrite($this->nic, $this->pacquet($mac));
+		     	fclose($this->nic);
+		    	$this->wol_send=$l->g(1282);
+		    }
+  		}
+  	}
+  //	$this->wol_send='toto';
+  	//return $wol_send;
   }
   private function pacquet($Mac){
     $packet = "";
@@ -38,6 +51,11 @@ class Wol{
         $packet .= chr(0xFF);
     for ($j = 0; $j < 16; $j++)
         $packet .= $macAddr;
+    
+    //use bios password?
+    $wol_info=look_config_default_values('WOL_BIOS_PASSWD');
+    if (isset($wol_info['name']['WOL_BIOS_PASSWD']))
+    	$packet .=$wol_info['tvalue']['WOL_BIOS_PASSWD'];
     return $packet;
   }
 }

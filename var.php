@@ -10,7 +10,7 @@
 //====================================================================================
 
 @session_start();
-define("GUI_VER", "7001");												// Version of the database
+define("GUI_VER", "7002");												// Version of the database
 define("GUI_VER_SHOW","2.1RC1");        								// Version of the GUI
 define("MAC_FILE", "files/oui.txt");									// File containing MAC database
 define("DEFAULT_LANGUAGE","english");    								// Default language
@@ -31,6 +31,5 @@ define('HEADER_HTML',"require/html_header.php");						// Define html_header file
 define('FOOTER_HTML',"require/footer.php");								// Define footer file		
 define('MAIN_SECTIONS_DIR',PLUGINS_DIR."main_sections/");				//
 define('DEV_OPTION',true);												// Define DEV Options DO NOT USE
-define('WOL_PORT',9);													// Define Wake On Lan port
 define('PC4PAGE',20);													// Define result by page MUST in (5,10,15,20,50,100,200,1000000);
 ?>

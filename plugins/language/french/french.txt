@@ -1195,6 +1195,9 @@
 1317 Nombre de coeurs
 1318 Cache L2
 1319 Tension
+1320 Utiliser , pour séparer les informations
+1321 Aucun port WOL défini
+1322 Impossible d'ouvrir la socket pour le WOL
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

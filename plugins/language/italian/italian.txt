@@ -1185,6 +1185,16 @@
 1307 Attiva plugin
 1308 Aggiungi plugin
 1309 Opzioni Teledeploy
+1310 Spegnimento
+1311 Riavvio
+1312 Ampiezza bus di trasferimento
+1313 Capacità di indirizzamento dei dati
+1314 Numero CPU logiche
+1315 Frequenza di funzionamento
+1316 Tipo di Socket
+1317 Numero di Core
+1318 Cache L2
+1319 Voltaggio
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1238,7 +1248,7 @@
 2047 Devi specificare la vecchia passaword nel tuo file di configurazione di MySQL (my.ini), riavviare MySQL e rilanciare install.php
 2050 Installazione terminata. Puoi effettuare il login alla pagina index.php utilizzando "admin" sia come utente che come password
 2051 Fai click qui per accedere alla GUI di OCS-NG
-2052 ERRORE: non posso scrivere nella directory (dove risiede dbconfig.inc.php), per favore assegna i diritti necessari all'installazione di ocsinventory (potrai rimuovere i diritti di scrittura una volta terminata l'installazione)
+2052 ERRORE: non posso scrivere nella directory (dove risiede dbconfig.inc.php), per favore assegna i diritti necessari all'installazione di ocsinventory<br>(potrai rimuovere i diritti di scrittura una volta terminata l'installazione)
 2053 Attendere prego, l'aggiornamento del database potrebbe richiedere fino a 30 minuti...
 2054 fallita, KEY troppo lunga<br>Devi eseguire nuovamente questa query in futuro altrimenti potresti riscontrare problemi di prestazioni.
 2055 Database generato correttamente
