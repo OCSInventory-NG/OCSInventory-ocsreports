@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.1</string>
+	<string>2.1rc1</string>
 	<key>InstallerSectionTitle</key>
 	<string>Configuration</string>
 	<key>NSMainNibFile</key>
