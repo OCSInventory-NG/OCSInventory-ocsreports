@@ -1,0 +1,182 @@
+<T_1588>
+<PARAMETERS>
+        <PARSER>1</PARSER>
+	<VERSION>1</VERSION>
+        <NAME>Brocade</NAME>
+        <EXECUTE>
+                <RUN>Host_Resources_Mib</RUN>
+                <RUN>If_Mib</RUN>
+                <RUN>Entity_Mib</RUN>
+        </EXECUTE>
+</PARAMETERS>
+<DATA> 
+      <COMMON>
+	 <TYPE>
+	   <SET>San</SET>
+	 </TYPE>
+      </COMMON>
+      <SWITCH_SAN>
+         <SERIALNUMBER>
+            <VALUE>1.3.6.1.4.1.1588.2.1.1.1.1.10.0</VALUE>
+         </SERIALNUMBER>
+         <MANUFACTURER>
+            <SET>Brocade</SET>
+         </MANUFACTURER>
+         <SOFTVERSION>
+            <VALUE>1.3.6.1.4.1.1588.2.1.1.1.1.6.0</VALUE>
+         </SOFTVERSION>
+	 <DOMAIN_ID>
+            <VALUE>1.3.6.1.4.1.1588.2.1.1.1.2.1.0</VALUE>
+	 </DOMAIN_ID>
+	 <PRINCIPAL_ID>
+            <VALUE>1.3.6.1.4.1.1588.2.1.1.1.2.2.0</VALUE>
+	 </PRINCIPAL_ID>
+      </SWITCH_SAN>
+</DATA>
+<LOOPS>
+   <VALUE>1.3.6.1.4.1.1588.2.1.1.1.6.2.1.1</VALUE>
+   <INDEX>1.3.6.1.4.1.1588.2.1.1.1.6.2.1.1.(\S+)</INDEX>
+   <NAME_INDEX>IDX</NAME_INDEX>
+   <DATA>
+      <NETWORKS>
+         <SLOT>
+            <VALUE>1.3.6.1.4.1.1588.2.1.1.1.6.2.1.37.IDX</VALUE>
+         </SLOT>
+         <PHYSICAL>
+	    <VALUE>1.3.6.1.4.1.1588.2.1.1.1.6.2.1.3.IDX</VALUE>
+	    <REPLACE>
+		<STRING>1</STRING>
+		<BY>No Card</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>2</STRING>
+		<BY>No Gbic</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>3</STRING>
+		<BY>Laser Fault</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>4</STRING>
+		<BY>No Light</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>5</STRING>
+		<BY>No Sync</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>6</STRING>
+		<BY>In Sync</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>7</STRING>
+		<BY>Port Fault</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>8</STRING>
+		<BY>Diagnostics Fault</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>9</STRING>
+		<BY>Lock Reference Signal</BY>
+	    </REPLACE>
+         </PHYSICAL>
+	 <OP_STATUS>
+            <VALUE>1.3.6.1.4.1.1588.2.1.1.1.6.2.1.4.IDX</VALUE>
+	    <REPLACE>
+		<STRING>0</STRING>
+		<BY>Unknown</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>1</STRING>
+		<BY>Online</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>2</STRING>
+		<BY>Offline</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>3</STRING>
+		<BY>testing</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>4</STRING>
+		<BY>Faulty</BY>
+	    </REPLACE>
+	 </OP_STATUS>
+	 <STATUS>
+            <VALUE>1.3.6.1.4.1.1588.2.1.1.1.6.2.1.5.IDX</VALUE>
+	    <REPLACE>
+		<STRING>1</STRING>
+		<BY>Online</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>2</STRING>
+		<BY>Offline</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>3</STRING>
+		<BY>Testing</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>4</STRING>
+		<BY>Faulty</BY>
+	    </REPLACE>
+	 </STATUS>
+         <TYPE>
+	    <VALUE>1.3.6.1.4.1.1588.2.1.1.1.6.2.1.7.IDX</VALUE>
+	    <REPLACE>
+		<STRING>1</STRING>
+		<BY>unknown</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>2</STRING>
+		<BY>long wave laser (lw)</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>3</STRING>
+		<BY>short wave laser (sw)</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>4</STRING>
+		<BY>long wave LED (ld)</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>5</STRING>
+		<BY>copper (CU)</BY>
+	    </REPLACE>
+         </TYPE>
+	 <SPEED>
+            <VALUE>1.3.6.1.4.1.1588.2.1.1.1.6.2.1.35.IDX</VALUE>
+	    <REPLACE>
+		<STRING>1</STRING>
+		<BY>1 GB</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>2</STRING>
+		<BY>2 GB</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>3</STRING>
+		<BY>auto</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>4</STRING>
+		<BY>4 GB</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>5</STRING>
+		<BY>8 GB</BY>
+	    </REPLACE>
+	    <REPLACE>
+		<STRING>6</STRING>
+		<BY>10 GB</BY>
+	    </REPLACE>
+	 </SPEED>
+         <MACADDR>
+            <VALUE>1.3.6.1.4.1.1588.2.1.1.1.6.2.1.34.IDX</VALUE>
+         </MACADDR>
+      </NETWORKS>
+   </DATA>
+</LOOPS>
+</T_1588>
