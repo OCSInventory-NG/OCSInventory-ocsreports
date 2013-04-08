@@ -95,9 +95,12 @@ if (isset($protectedPost["WOL"]) and $protectedPost["WOL"] == 'WOL'
 		$msg="";
 		while ($item = mysql_fetch_object($resultDetails)){
 			$wol->wake($item->MACADDR,$item->IPADDRESS);
-			$msg.="<br>".$item->MACADDR."/".$item->IPADDRESS;
+			if ($wol->wol_send == $l->g(1282))
+				msg_info($wol->wol_send."=>".$item->MACADDR."/".$item->IPADDRESS);		
+			else
+				msg_error($wol->wol_send."=>".$item->MACADDR."/".$item->IPADDRESS);
 		}	
-		msg_info($l->g(1282)." : ".$msg);		
+		
 }
 $bandeau=bandeau($data,$lbl_affich,$link);
 echo "<input type='hidden' id='WOL' name='WOL' value=''>";

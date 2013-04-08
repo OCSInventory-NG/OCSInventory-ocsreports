@@ -1195,7 +1195,9 @@
 1317 Numero di Core
 1318 Cache L2
 1319 Voltaggio
-
+1320 Usa , per separare le informazioni
+1321 Nessuna porta WOL definita
+1322 Impossibile aprire il socket per WOL
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:

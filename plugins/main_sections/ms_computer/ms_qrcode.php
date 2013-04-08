@@ -12,7 +12,7 @@ require_once('libraries/qrcode/qrcode.class.php');
 require_once('require/function_admininfo.php');
 if (is_numeric($protectedGet['systemid']) and array_key_exists($protectedGet['default_value'],$array_qr_action)){
 	if ($array_qr_action[$protectedGet['default_value']]['TYPE'] == 'url')
-		$msg = $array_qr_action[$protectedGet['default_value']]['VALUE'].$protectedGet['systemid'];
+		$msg = $array_qr_action[$protectedGet['default_value']]['VALUE'];
 	else{
 		$fields_info=explode('.',$array_qr_action[$protectedGet['default_value']]['VALUE']);
 		if ($fields_info[0] == 'hardware')

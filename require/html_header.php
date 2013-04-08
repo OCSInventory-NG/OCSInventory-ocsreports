@@ -22,11 +22,11 @@ if( !isset($protectedGet["popup"] )) {
 	}
 
 
-echo "<table  border='0' class='headfoot' ";
+echo "<table class='headfoot' ";
 if ($ban_head=='no') echo "style='display:none;'";
-echo "><tr><td align=left><a onclick='clic(\"index.php?first\",\"FIRST\");'>";
+echo "><tr><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='clic(\"index.php?first\",\"FIRST\");'>";
 echo "<img src='image/logo OCS-ng-96.png'></a>";
-echo "</td><td width= 70%>";
+echo "</td><td>";
  	
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
 /**************************************************   ALERT MESSAGES ********************************************************/
@@ -97,7 +97,7 @@ if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
 			msg_info($l->g(890));
 }
 
-echo "</td><td width= 10% align=center>
+echo "</td><td align=right><table><tr><td align=center>
 	Ver. <b>" . GUI_VER_SHOW . "</b><br>";
 	//pass in debug mode if plugin debug exist
 	if (isset($pages_refs['ms_debug'])){
@@ -133,7 +133,7 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 		echo close_form();	
 }
 
-echo "</td></tr>";
+echo "</td></tr></table></td></tr>";
 if (!isset($_SESSION['OCS']["loggeduser"])){
 	echo "<tr><td colspan=20 align=right>";
  require_once('plugins/language/language.php');

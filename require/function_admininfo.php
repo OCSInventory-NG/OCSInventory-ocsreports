@@ -24,7 +24,7 @@ $array_qr_values=array('URL'=>$l->g(646),
 					   'NAME'=>$l->g(35),
 					   'UID'=>$l->g(1268),
 					   'IPADDR'=>$l->g(34));
-$array_qr_action=array('URL'=>array('TYPE'=>'url','VALUE'=>OCSREPORT_URL."&head=1&systemid=".$_GET['systemid']),
+$array_qr_action=array('URL'=>array('TYPE'=>'url','VALUE'=>OCSREPORT_URL."/index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$_GET['systemid']),
 					   'NAME'=>array('TYPE'=>'bdd','VALUE'=>"hardware.name"),
 					   'UID'=>array('TYPE'=>'bdd','VALUE'=>"hardware.uuid"),
 					   'IPADDR'=>array('TYPE'=>'bdd','VALUE'=>"hardware.ipaddr"));

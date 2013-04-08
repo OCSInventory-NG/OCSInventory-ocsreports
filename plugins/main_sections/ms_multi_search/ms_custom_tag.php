@@ -72,9 +72,9 @@ if (isset($list_id) and $list_id != ''){
 		$msg="";
 		while($item = mysql_fetch_object($resultDetails)){
 			$wol->wake($item->MACADDR,$item->IPADDRESS);
-			$msg.= "<br>".$item->MACADDR."/".$item->IPADDRESS;			
+			$msg.= "<br>".$wol->wol_send."=>".$item->MACADDR."/".$item->IPADDRESS;			
 		}
-		msg_success($l->g(1282).$msg);
+		msg_info($msg);
 		
 		
 	}

@@ -1195,6 +1195,9 @@
 1317 Cores number
 1318 L2 cache size
 1319 Voltage
+1320 Use , between data
+1321 No port defined for WOL
+1322 Unable to open socket for WOL
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
