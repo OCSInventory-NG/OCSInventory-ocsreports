@@ -556,7 +556,7 @@ sub _getManifacturerFromCode {
     "OQI" => "OPTIQUEST",
     "PBN" => "Packard Bell",
     "PCK" => "Daewoo",
-    "PDC" => "Polaroid"
+    "PDC" => "Polaroid",
     "PGS" => "Princeton Graphic Systems",
     "PHL" => "Philips Consumer Electronics Co.",
     "PRT" => "Princeton",
