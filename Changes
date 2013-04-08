@@ -1,6 +1,9 @@
 Revision history for Ocsinventory::Agent
 
-       * Add custom SNMP MIBs XML copy fgrom sources in postinst.pl
+2.1rc1
+       * Fix Bug #1095989 about a bad regex in Libvirt.pm
+       * Fix Bug #1032393 about softwares bot inventoried vi dpkg-query
+       * Add custom SNMP MIBs XML copy from sources in postinst.pl
        * Getting monitor serial number in MacOS/Video.pm
        * Add a new configuration option for SSL certificate check in MacOSX agent installer
        * Add new screen codes for edid
@@ -108,11 +111,11 @@ Revision history for Ocsinventory::Agent
        * Fix Bug #767290 about /etc/sysconfig/ocsinventory-agent server settings ignore (only for Redhat like distributions)
        * Only inventory vitualmachines which have an UUID in VirtualBox.pm to prevent inventoring USB devices or shared folders as virtualmachines
       
-2.0 rc4
+2.0rc4
        * Complety clean the disastrous treatments of accountinfos while receiving it from server,storing it in file and adding it in inventory
        * Fix UTF8 problems due to XML::Simple::XMLIn()
 
-2.0 rc3
+2.0rc3
        * Fix Bug #720635 about lspci usage on old Linux distributions
        * Fix Bug #720626 about Gentoo packages with hyphen in their names
        * Fix a bug with the use of pacman tool on ArchLinux. We now launch the real packages manager instead of the famous game ;) ;)
@@ -121,13 +124,13 @@ Revision history for Ocsinventory::Agent
        * Patches from Bernhard Denner to enhance CPU and memry detection on old SUN solaris workstations
        * Patch from Bernhard Denner to enhance dhcp-leases files detection on Linux systems
 
-2.0 rc2
+2.0rc2
        * Add a new cleanXml() subroutine in Common.pm to clean non printable characters in both standard inventory and SNMP inventory
        * Various patches for Snmp/9.pm module (Cisco)
        * Add a new addSnmpCPU() subroutine in Common.pm
        * Disabling Download.pm if agent running in local mode
 
-2.0 rc1
+2.0rc1
        * Add download_start_handler to check if Net::SSLeay can be load and disable Download.pm if not
        * Add Net::SNMP optionnal dependency in README file.
        * Delete Win32 from backend
