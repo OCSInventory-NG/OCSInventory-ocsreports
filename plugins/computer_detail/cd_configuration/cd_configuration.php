@@ -62,8 +62,8 @@ if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
           where de.id='%s' and de.FILEID=da.FILEID
 			and d.IVALUE=de.ID
 			AND d.hardware_id='%s' AND d.name='%s'
-			and tvalue like '%s'";
-	$arg=array($id_pack_affect,$protectedGet['systemid'],"DOWNLOAD","ERR_%");		
+			and (tvalue like '%s' or tvalue like '%s') ";
+	$arg=array($id_pack_affect,$protectedGet['systemid'],"DOWNLOAD","ERR_%","EXIT_CODE%");		
 	$res = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
 		$val = mysql_fetch_array( $res ); 
 	if (isset($val['name'])){		

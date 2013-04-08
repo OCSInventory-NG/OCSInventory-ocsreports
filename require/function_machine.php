@@ -169,10 +169,10 @@ function show_packages($systemid,$page="ms_computer"){
 						if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" )	{
 							echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 							urlencode($systemid)."&option=cd_configuration'>".$l->g(122)."</a></td>";
-						}elseif (strstr($valDeploy["tvalue"], 'ERR_')){
+						}elseif (strstr($valDeploy["tvalue"], 'ERR_') or strstr($valDeploy["tvalue"], 'EXIT_CODE')){
 							echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&affect_reset=".$valDeploy["ivalue"]."&systemid=".
 								urlencode($systemid)."&option=cd_configuration'>".$l->g(113)."</a>";
-							if ($valDeploy["name"] != "PAQUET SUPPRIME")
+							if ($valDeploy["name"] != $l->g(1129))
 							echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&affect_again=".$valDeploy["ivalue"]."&systemid=".
 								urlencode($systemid)."&option=cd_configuration'>".$l->g(1246)."</a></td>";				
 						}elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')){	
