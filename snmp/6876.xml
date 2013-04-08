@@ -1,0 +1,106 @@
+<T_6876>
+<PARAMETERS>
+        <PARSER>1</PARSER>
+	<VERSION>1</VERSION>
+	<NAME>Vmware</NAME>
+        <EXECUTE>
+                <RUN>Host_Resources_Mib</RUN>
+                <RUN>If_Mib</RUN>
+        </EXECUTE>
+</PARAMETERS>
+<DATA> 
+      <COMMON>
+         <DESCRIPTION>
+            <VALUE>1.3.6.1.4.1.6876.1.1.0</VALUE>
+         </DESCRIPTION>
+	 <TYPE>
+	    <SET>Virtual Server</SET>
+	 </TYPE>
+      </COMMON>
+      <VIRTUAL>
+	 <TYPE>
+            <VALUE>1.3.6.1.4.1.6876.1.1.0</VALUE>
+	 </TYPE>
+	 <MANUFACTURER>
+	    <SET>VmWare</SET>
+	 </MANUFACTURER>
+	 <SOFTVERSION>
+            <VALUE>1.3.6.1.4.1.6876.1.2.0</VALUE>
+	 </SOFTVERSION>
+	 <REVISION>
+            <VALUE>1.3.6.1.4.1.6876.1.4.0</VALUE>
+	 </REVISION>
+      </VIRTUAL>
+</DATA>
+<LOOPS>
+   <VALUE>1.3.6.1.4.1.6876.2.1.1.2</VALUE>
+   <INDEX>1.3.6.1.4.1.6876.2.1.1.2.(\S+)</INDEX>
+   <NAME_INDEX>VM</NAME_INDEX>
+   <DATA>
+      <VIRTUALMACHINES>
+         <NAME>
+            <VALUE>1.3.6.1.4.1.6876.2.1.1.2.VM</VALUE>
+         </NAME>
+         <CONFIG_FILE>
+            <VALUE>1.3.6.1.4.1.6876.2.1.1.3.VM</VALUE>
+         </CONFIG_FILE>
+         <OS>
+            <VALUE>1.3.6.1.4.1.6876.2.1.1.4.VM</VALUE>
+         </OS>
+         <MEMORY>
+            <VALUE>1.3.6.1.4.1.6876.2.1.1.5.VM</VALUE>
+         </MEMORY>
+         <POWER>
+            <VALUE>1.3.6.1.4.1.6876.2.1.1.6.VM</VALUE>
+         </POWER>
+         <CPU>
+            <VALUE>1.3.6.1.4.1.6876.2.1.1.9.VM</VALUE>
+         </CPU>
+         <VMID>
+            <VALUE>1.3.6.1.4.1.6876.2.1.1.10.VM</VALUE>
+         </VMID>
+         <LOOPS>
+           <VALUE>1.3.6.1.4.1.6876.2.3.1.3.VM</VALUE>
+           <INDEX>1.3.6.1.4.1.6876.2.3.1.3.VM.(\S+)</INDEX>
+           <NAME_INDEX>DISK</NAME_INDEX>
+           <DATA>
+                <DISK>
+                   <NAME>
+		   <VALUE>1.3.6.1.4.1.6876.2.3.1.3.VM.DISK</VALUE>
+                   </NAME>
+	        </DISK>
+           </DATA>
+         </LOOPS>
+         <LOOPS>
+           <VALUE>1.3.6.1.4.1.6876.2.4.1.3.VM</VALUE>
+           <INDEX>1.3.6.1.4.1.6876.2.4.1.3.VM.(\S+)</INDEX>
+           <NAME_INDEX>NET</NAME_INDEX>
+           <DATA>
+                <NETWORKS>
+                   <DRIVER>
+		      <VALUE>1.3.6.1.4.1.6876.2.4.1.3.VM.NET</VALUE>
+                   </DRIVER>
+                   <DESCRIPTION>
+		      <VALUE>1.3.6.1.4.1.6876.2.4.1.4.VM.NET</VALUE>
+                   </DESCRIPTION>
+                   <MACADDRESS>
+		      <VALUE>1.3.6.1.4.1.6876.2.4.1.7.VM.NET</VALUE>
+                   </MACADDRESS>
+                   <STATUS>
+		      <VALUE>1.3.6.1.4.1.6876.2.4.1.6.VM.NET</VALUE>
+                      <REPLACE>
+                         <STRING>true</STRING>
+                         <BY>Up</BY>
+                       </REPLACE>
+                      <REPLACE>
+                         <STRING>false</STRING>
+                         <BY>Down</BY>
+                       </REPLACE>
+                   </STATUS>
+	        </NETWORKS>
+           </DATA>
+         </LOOPS>
+      </VIRTUALMACHINES>
+   </DATA>
+</LOOPS>
+</T_6876>
