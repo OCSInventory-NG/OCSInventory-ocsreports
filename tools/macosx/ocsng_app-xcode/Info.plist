@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>OCNG</string>
 	<key>CFBundleVersion</key>
-	<string>2.0_beta4</string>
+	<string>2.1rc1</string>
 	<key>LSUIElement</key>
 	<true/>
 </dict>
