@@ -25,15 +25,12 @@ sub new {
    my (undef,$context) = @_;
    my $self = {};
 
-
    #Create a special logger for the module
    $self->{logger} = new Ocsinventory::Logger ({
             config => $context->{config}
    });
    $self->{logger}->{header}="[$name]";
-
    $self->{common} = $context->{common};
-
    $self->{context}=$context;
 
    $self->{structure}= {
@@ -50,6 +47,7 @@ sub new {
    $self->{snmp_oid_xml}=$name."_oid_xml";
    $self->{func_oid}={};
    $self->{snmp_dir}=[];
+$self->{snmp_vardir} = ["$self->{context}->{installpath}/snmp/mibs/local/","$self->{context}->{installpath}/snmp/mibs/remote/"];
 
    my $spec_dir_snmp="Ocsinventory/Agent/Modules/Snmp/";
    $self->{spec_dir_snmp}=$spec_dir_snmp;
@@ -68,7 +66,6 @@ sub new {
 
    bless $self;
 }
-
 
 sub snmp_start_handler { 	
    my $self = shift;
@@ -92,11 +89,11 @@ sub snmp_start_handler {
    }
 }
 
-
 sub snmp_prolog_reader {
    my ($self, $prolog) = @_;
    my $logger = $self->{logger};
    my $network = $self->{context}->{network};
+   my $snmp_vardir = $self->{snmp_vardir};
 
    my $option;
 
@@ -130,18 +127,23 @@ sub snmp_prolog_reader {
           if($_->{'TYPE'} eq 'NETWORK'){
             push @{$self->{nets_to_scan}},$_->{SUBNET};
           }
+          
+          # Creating the directory for xml if they don't yet exist
+          mkdir($self->{context}->{installpath}."/snmp") unless -d $self->{context}->{installpath}."/snmp";
+          mkdir($self->{context}->{installpath}."/snmp/mibs") unless -d $self->{context}->{installpath}."/snmp/mibs";
+          foreach my $dir ( @{$snmp_vardir}) {
+             mkdir($dir) unless -d $dir;
+          }
       }
     }
   }
 }
-
 
 sub snmp_end_handler {
    my $self = shift;
    my $logger = $self->{logger};
    my $common = $self->{context}->{common};
    my $network = $self->{context}->{network};
-
 
    $logger->debug("Calling snmp_end_handler");
 
@@ -153,13 +155,12 @@ sub snmp_end_handler {
 
    #We get the config
    my $config = $self->{context}->{config};
-   
-   
+ 
    my $ip=$self->{netdevices};
    my $communities=$self->{communities};
    if ( ! defined ($communities ) ) {
       $logger->debug("We have no Community from server, we use default public community");
-      $communities=[{VERSION=>"2",NAME=>"public"}];
+      $communities=[{VERSION=>"2c",NAME=>"public"}];
    }
 
    my ($name,$comm,$error,$system_oid);
@@ -191,7 +192,6 @@ sub snmp_end_handler {
    # Scanning network
    $logger->debug("Snmp: Scanning network");
 
-
    my $nets_to_scan=$self->{nets_to_scan};
    foreach my $net_to_scan ( @$nets_to_scan ){
       $self->snmp_ip_scan($net_to_scan);
@@ -210,13 +210,13 @@ sub snmp_end_handler {
           # Test if we use SNMP v3
           if ( $comm->{VERSION} eq "3"  ) {
 	    ($session, $error) = Net::SNMP->session(
-                -retries     => 1 ,
+                -retries     => 2 ,
                 -timeout     => 3,
                 -version     => 'snmpv'.$comm->{VERSION},
                 -hostname    => $device->{IPADDR},
-		-community   => $comm->{NAME},
+                -community   => $comm->{NAME},
                 -translate   => [-nosuchinstance => 0, -nosuchobject => 0],
-	        -username      => $comm->{USER},
+                -username      => $comm->{USER},
                 -authpassword  => $comm->{AUTHPASSWD},
                 -authprotocol  => $comm->{AUTHPROTO},
                 -privpassword  => $comm->{PRIVPASSWD},
@@ -260,6 +260,7 @@ sub snmp_end_handler {
       if ( defined $full_oid ) { 
         $full_oid=$full_oid->{$snmp_sysobjectid};
 
+		$session->max_msg_size(8192);
         # We have found the good Community, we can scan this equipment
         my ($constr_oid,$device_name,$description,$location,$contact,$uptime,$domain,$macaddr);
 
@@ -267,7 +268,6 @@ sub snmp_end_handler {
         $self->{number_scan}++;
 
         my $result;
-
 
         $result=$session->get_request( -varbindlist => [$snmp_sysname]);
         if ( defined ( $result->{$snmp_sysname} ) && length($result->{$snmp_sysname}) > 0 ) {
@@ -385,7 +385,6 @@ sub snmp_end_handler {
   my $clean_content = $common->cleanXml($content);
 
   $network->sendXML({message => $clean_content});
-
   $logger->debug("End snmp_end_handler :)");
 }
 
@@ -440,7 +439,6 @@ sub snmp_ip_scan {
       $logger->debug("Net::Netmask not present: no scan possible");
    }
 }
-
 
 #########################################################
 #							#
@@ -504,14 +502,12 @@ sub snmp_oid_run {
       # We indicate that this equipment is the last scanned
       $self->{func_oid}{$system_oid}{last_exec}=$self->{number_scan};
 
-      if (defined ($result)){
-      	if (length ($result->{$oid_scan}) != 0 ) {
+      if (defined ($result) && length ($result->{$oid_scan}) != 0 ){
          	# This OID exist, we can execute it
-         	# $logger->debug("Launching $system_oid\n");
+         	$logger->debug("Launching $system_oid\n");
          	&{$self->{func_oid}{$system_oid}{snmp_run}}($session,$self);
-      	} else {
-		return 1;
-      	}
+      } else {
+		   return 1;
       }
    }
    snmp_oid_xml($self,$system_oid);
@@ -537,33 +533,41 @@ sub snmp_oid_xml {
 
     my $logger=$self->{logger};
     my $spec_module_snmp=$self->{spec_module_snmp};
+    my $snmp_vardir = $self->{snmp_vardir};
 
    if ( ! defined ( $self->{xml_oid}{$system_oid} )) {
-
       # We init the default value
       $self->{xml_oid}{$system_oid}={};
       $self->{xml_oid}{$system_oid}{active}=0;
 
       # Can we find it in the snmp directory
       foreach my $dir ( @{$self->{snmp_dir}} ) {
+
+         # Can we find it in the snmp var directory
+         if (  $self->{xml_oid}{$system_oid}{active} == 0  ) {
           if ( -r $dir.$system_oid.".xml" ) {
              # We find the xml
-             my $module_found=$spec_module_snmp.$system_oid;
-             eval "use $module_found";
+             #my $module_found=$spec_module_snmp.$system_oid;
+             #eval "use $module_found";
              if ( $self->{xml_oid}{$system_oid}{xml_data}=XML::Simple::XMLin($dir.$system_oid.".xml",ForceArray => 1 ) ) {
                 # We have load the xml 
+		$logger->debug("Load module xml $system_oid");
                 $self->{xml_oid}{$system_oid}{active}=1;
                 $self->{xml_oid}{$system_oid}{last_exec}=0;
 		if ( defined( $self->{xml_oid}{$system_oid}{PARAMETERS}[0]{NAME}[0] ) ) {
 		   $self->{xml_oid}{$system_oid}{oid_name}=$self->{xml_oid}{$system_oid}{PARAMETERS}[0]{NAME}[0];
                 }
              } else {
-                $logger->debug ("Failed to load xml $module_found: $@");
-		return 1;
+                $logger->debug ("Failed to load xml $system_oid: $@");
+                $self->{xml_oid}{$system_oid}{active} = 0;
              }
+          } else {
+	        $logger->debug("No xml found for $dir$system_oid.xml ");
           }
+        }
       }
    }
+
    # now we have an information for the xml associated with this oid
    # It can be active or no 
    
@@ -574,8 +578,8 @@ sub snmp_oid_xml {
       # We have done other scan so we can now execute own scan
       # We have actualy only v1, we can have after other parallel version 
       if ( xml_scan_v1($self,$system_oid,$self->{xml_oid}{$system_oid}{xml_data}) == 1 ) {
-	$self->{xml_oid}{$system_oid}{active}=0;
-	return 1;
+	    $self->{xml_oid}{$system_oid}{active}=0;
+	    return 1;
       }
       return 0;
    } 
@@ -626,9 +630,9 @@ sub xml_parameters_v1 {
    my ($self,$system_oid,$xml)=@_;
    my $logger=$self->{logger};
 
+   $logger->debug("Validating xml parameters");
    return 1 if ( ! defined($xml->{PARAMETERS}) ) ;
    return 0 if ( ! defined($xml->{PARAMETERS}[0]{EXECUTE}) ) ;
-
 
    # We first look if there is other scan to do
    $logger->debug("Begin looking other scan");
@@ -665,8 +669,10 @@ sub xml_loops_v1 {
    $logger->debug ("Begin xml loops");
 
 ALL_LOOPS:   foreach my $uniq_loops ( @{$xml_loops} ) {
-      return 1 if ( ! defined ($uniq_loops->{VALUE}) || ! defined($uniq_loops->{INDEX})|| ! defined($uniq_loops->{NAME_INDEX}) );
-
+      if ( ! defined ($uniq_loops->{VALUE}) || ! defined($uniq_loops->{INDEX})|| ! defined($uniq_loops->{NAME_INDEX}) ) {
+         $logger->debug("Error in xml File: VALUE, INDEX or NAME_INDEX not defined");
+         return 1 ;
+      }
       # We now replace already existant filters
       my $data_value=$uniq_loops->{VALUE}[0];
       my $index_value=$uniq_loops->{INDEX}[0];
@@ -674,7 +680,6 @@ ALL_LOOPS:   foreach my $uniq_loops ( @{$xml_loops} ) {
          $data_value=~s/$filter->{NAME}/$filter->{VALUE}/g;
          $index_value=~s/$filter->{NAME}/$filter->{VALUE}/g;
       }
-
       my $index_equipement=$session->get_entries(-columns => [ $data_value ] );
 
       # If we have no data for this index it s not a problem in the xml
@@ -695,11 +700,10 @@ ALL_LOOPS:   foreach my $uniq_loops ( @{$xml_loops} ) {
             # After use this filter, we must take it out
             # so it can be used for other loops
             pop(@{$filters});
-
          }
+
       }
    }
-
    return 0;
 }
 #########################################################
@@ -718,7 +722,9 @@ ALL_LOOPS:   foreach my $uniq_loops ( @{$xml_loops} ) {
 #########################################################
 sub xml_data_v1 {
    my ($self,$xml_table,$result_table,$filters,$pos_table)=@_;
+   my $logger=$self->{logger};
 
+   $logger->debug("Begin xml data");
    foreach my $table ( keys %{$xml_table} )  {
       if ( $table eq "DATA" ) {
          foreach my $subtable ( @{$xml_table->{DATA}} ) {
@@ -770,7 +776,6 @@ sub xml_line_v1 {
    if ( defined ( $xml_line->{SET} ) ) {
       return($xml_line->{SET}[0]);
    }
-
    return undef if ( ! defined ( $xml_line->{VALUE} ) ) ;
 
    my $data_value=$xml_line->{VALUE}[0];
@@ -799,8 +804,6 @@ sub xml_line_v1 {
       return undef if ( ! defined( $replace->{STRING}) || ! defined ($replace->{BY}) );
       $info_equipment=~s/$replace->{STRING}[0]/$replace->{BY}[0]/g;
    }
-
-
    return $info_equipment;
 }
 

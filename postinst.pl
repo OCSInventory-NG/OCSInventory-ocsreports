@@ -4,6 +4,7 @@ use strict;
 
 use lib 'lib';
 
+use Cwd;
 use Ocsinventory::Agent::Config;
 
 
@@ -409,6 +410,20 @@ if (@cacert) { # we need to migrate the certificate
     print "Certificate copied in ".$vardir."/cacert.pem\n";
 }
 
+#We copy custom XML for SNMP MIBs from sources
+my $workdir = getcwd();
+my $source_snmpdir = "$workdir/snmp";
+my $snmpdir = "$vardir/snmp";
+
+if ( -d $source_snmpdir && -d $vardir) {
+  unless (-d $snmpdir) {
+    print STDERR "Creating $snmpdir directory...\n";
+    recMkdir($snmpdir) or die "Can't create $snmpdir!";
+  }
+  print STDERR "Copying SNMP MIBs XML files...\n";
+  system("cp $source_snmpdir/* $snmpdir");
+}
+
 
 print STDERR "Activating modules if needed...\n";
 
@@ -430,7 +445,7 @@ close MODULE;
 
 
 #Prevent security risks by removing existing snmp_com.txt file which is no longer used
-my $snmp_com_file = $vardir."/snmp/snmp_com.txt";
+my $snmp_com_file = "$snmpdir/snmp_com.txt";
 if ( -f $snmp_com_file ) {
     print STDERR "$snmp_com_file seems to exists...removing it to prevent security risks !\n";
     unlink $snmp_com_file;

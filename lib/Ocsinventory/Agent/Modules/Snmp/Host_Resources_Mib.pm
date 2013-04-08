@@ -25,6 +25,7 @@ sub snmp_run {
    my $snmp_storageDescr="1.3.6.1.2.1.25.2.3.1.3.";
    my $snmp_storageSize="1.3.6.1.2.1.25.2.3.1.5.";
    my $snmp_storageUsed="1.3.6.1.2.1.25.2.3.1.6.";
+   my $snmp_storageAllocationUnits="1.3.6.1.2.1.25.2.3.1.4.";
 
    my $snmp_hrDeviceType="1.3.6.1.2.1.25.3.2.1.2";
    my $snmp_cpu="1.3.6.1.2.1.25.3.2.1.3.";
@@ -84,13 +85,28 @@ sub snmp_run {
             my $TOTAL="";
             my $TYPE="HardDisk";
             my $VOLUMN="";
+            my $AllocUnits=$session->get_request(-varbindlist => [ $snmp_storageAllocationUnits.$ref ]);
+            if ( defined ( $AllocUnits ) ) {
+		$AllocUnits=$AllocUnits->{$snmp_storageAllocationUnits.$ref};
+                # Allocation Units are in Bytes, but we want KB
+                if ( $AllocUnits )  {
+                   $AllocUnits/=1024;
+                }
+            }else{
+                $AllocUnits=1;
+            }
             $TOTAL=$session->get_request(-varbindlist => [ $snmp_storageSize.$ref ]);
             if ( defined ( $TOTAL ) ) {
 		$TOTAL=$TOTAL->{$snmp_storageSize.$ref};
+            	$TOTAL*=$AllocUnits;
+            }else{
+            	$TOTAL=0;
             }
 	    $FREE=$session->get_request(-varbindlist => [ $snmp_storageUsed.$ref ]);
              if ( defined ( $FREE ) ) {
-		$FREE=$TOTAL - $FREE->{$snmp_storageUsed.$ref};
+		$FREE=$TOTAL - $FREE->{$snmp_storageUsed.$ref}* $AllocUnits;
+             }else{
+                $FREE=0;
              }
             $FILESYSTEM=$session->get_request(-varbindlist => [ $snmp_storageDescr.$ref ]);
             if ( defined ( $FILESYSTEM) ) {
