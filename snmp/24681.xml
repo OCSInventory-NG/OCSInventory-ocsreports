@@ -1,0 +1,50 @@
+<T_24681>
+<PARAMETERS>
+        <PARSER>1</PARSER>
+	<VERSION>1</VERSION>
+        <NAME>Nas</NAME>
+</PARAMETERS>
+<DATA> 
+      <COMMON>
+	 <TYPE>
+	   <SET>San</SET>
+	 </TYPE>
+	 <UPTIME>
+	   <VALUE>1.3.6.1.4.1.24681.1.4</VALUE>
+	 </UPTIME>
+      </COMMON>
+      <MEMORIES>
+	 <CAPACITY>
+	    <VALUE>1.3.6.1.4.1.24681.1.2</VALUE>
+	 </CAPACITY>
+      </MEMORIES>
+</DATA>
+<LOOPS>
+   <VALUE>1.3.6.1.4.1.24681.1.9.1.2</VALUE>
+   <INDEX>1.3.6.1.4.1.24681.1.9.1.(\S+)</INDEX>
+   <NAME_INDEX>IDX</NAME_INDEX>
+   <DATA>
+      <NETWORKS>
+	 <DESCRIPTION>
+	     <VALUE>1.3.6.1.4.1.24681.1.9.1.2.IDX</VALUE>
+	 </DESCRIPTION>
+      </NETWORKS>
+   </DATA>
+</LOOPS>
+<LOOPS>
+   <VALUE>1.3.6.1.4.1.24681.1.11.1.2</VALUE>
+   <INDEX>1.3.6.1.4.1.24681.1.11.1.(\S+)</INDEX>
+   <NAME_INDEX>IDX</NAME_INDEX>
+   <DATA>
+       <TYPE>
+           <VALUE>1.3.6.1.4.1.24681.1.11.5.IDX</VALUE>
+       </TYPE>
+       <TOTAL>
+           <VALUE>1.3.6.1.4.1.24681.1.11.6.IDX</VALUE>
+       </TOTAL>
+       <LABEL>
+	   <VALUE>1.3.6.1.4.1.24681.1.11.2.IDX</VALUE>
+       </LABEL>
+   </DATA>
+</LOOPS>
+</T_24681>

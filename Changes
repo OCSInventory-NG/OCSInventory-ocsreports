@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Add custom SNMP MIBs XML copy fgrom sources in postinst.pl
        * Getting monitor serial number in MacOS/Video.pm
        * Add a new configuration option for SSL certificate check in MacOSX agent installer
        * Add new screen codes for edid
