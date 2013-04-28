@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix Bug #1169675 about error message about SSL_verify_mode of SSL_VERIFY_NONE under Fedora 18
+
 2.1rc1
        * Fix Bug #1095989 about a bad regex in Libvirt.pm
        * Fix Bug #1032393 about softwares bot inventoried vi dpkg-query

@@ -67,6 +67,13 @@ sub new {
       verify_hostname => $self->{config}->{ssl},
       SSL_ca_file => $self->{config}->{ca}
     ); 
+
+  if ($self->{config}->{ssl} == 0 ) {
+     $self->{ua}->ssl_opts(
+       SSL_verify_mode => 'SSL_VERIFY_NONE'
+     );
+  }
+
   } elsif ($self->{config}->{ssl} eq 1) {
     #SSL verification is disabled by default in LWP prior to version 6
     #we activate it using Crypt::SSLeay environment variables
