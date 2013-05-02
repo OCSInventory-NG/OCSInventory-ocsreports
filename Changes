@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+	   * Add retrieve video memory size
        * Fix Bug #1169675 about error message about SSL_verify_mode of SSL_VERIFY_NONE under Fedora 18
 
 2.1rc1
