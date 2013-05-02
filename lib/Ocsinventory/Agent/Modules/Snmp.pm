@@ -541,7 +541,7 @@ sub snmp_oid_xml {
       $self->{xml_oid}{$system_oid}{active}=0;
 
       # Can we find it in the snmp directory
-      foreach my $dir ( @{$self->{snmp_dir}} ) {
+      foreach my $dir ( @{$self->{snmp_vardir}} ) {
 
          # Can we find it in the snmp var directory
          if (  $self->{xml_oid}{$system_oid}{active} == 0  ) {

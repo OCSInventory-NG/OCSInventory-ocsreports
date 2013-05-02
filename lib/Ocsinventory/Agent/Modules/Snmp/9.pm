@@ -103,13 +103,11 @@ sub snmp_run {
 					-hostname    => $session->hostname,
 					-community   => $snmp->{snmp_community}."@".$ref_vlan,
 					-translate   => [-nosuchinstance => 0, -nosuchobject => 0],
-					-username      => $comm->{username},
-					-authkey       => $comm->{authkey},
-					-authpassword  => $comm->{authpasswd},
-					-authprotocol  => $comm->{authproto},
-					-privkey       => $comm->{privkey},
-					-privpassword  => $comm->{privpasswd},
-					-privprotocol  => $comm->{privproto},
+					-username      => $comm->{USER},
+					-authpassword  => $comm->{AUTHPASSWD},
+					-authprotocol  => $comm->{AUTHPROTO},
+					-privpassword  => $comm->{PRIVPASSWD},
+					-privprotocol  => $comm->{PRIVPROTO},
 				);
 			} else {
 				my $sub_session= Net::SNMP->session(
