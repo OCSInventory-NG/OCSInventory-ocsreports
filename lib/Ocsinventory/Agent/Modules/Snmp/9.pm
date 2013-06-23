@@ -1,7 +1,7 @@
 ###
 # SNMP: OID: 9 SYSTEM: Cisco
 ###
-# Version 0.9
+# Version 1.1
 ###
 
 package Ocsinventory::Agent::Modules::Snmp::9;
@@ -93,24 +93,25 @@ sub snmp_run {
     foreach my $resultmac ( keys  %{$result_snmp} ) {
        if ( $resultmac =~ /1\.3\.6\.1\.4\.1\.9\.9\.46\.1\.3\.1\.1\.2\.1\.(\S+)/ ) {
            my $ref_vlan=$1;
+           my $sub_session;
            # Now we can scan this vlan for mac adress
            # We must first open a new session with the index associated with the vlan
 			if ( $session->version eq 3 ) {
-				my $sub_session= Net::SNMP->session(
+				 $sub_session= Net::SNMP->session(
 					-retries     => 1 ,
 					-timeout     => 3,
 					-version     => $session->version,
 					-hostname    => $session->hostname,
 					-community   => $snmp->{snmp_community}."@".$ref_vlan,
 					-translate   => [-nosuchinstance => 0, -nosuchobject => 0],
-					-username      => $comm->{USER},
-					-authpassword  => $comm->{AUTHPASSWD},
-					-authprotocol  => $comm->{AUTHPROTO},
-					-privpassword  => $comm->{PRIVPASSWD},
-					-privprotocol  => $comm->{PRIVPROTO},
+					-username      => $snmp->{USER},
+					-authpassword  => $snmp->{AUTHPASSWD},
+					-authprotocol  => $snmp->{AUTHPROTO},
+					-privpassword  => $snmp->{PRIVPASSWD},
+					-privprotocol  => $snmp->{PRIVPROTO},
 				);
 			} else {
-				my $sub_session= Net::SNMP->session(
+				$sub_session= Net::SNMP->session(
 					-retries     => 1 ,
 					-timeout     => 3,
 					-version     => $session->version,

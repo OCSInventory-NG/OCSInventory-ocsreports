@@ -156,7 +156,6 @@ sub snmp_end_handler {
    #We get the config
    my $config = $self->{context}->{config};
  
-   my $ip=$self->{netdevices};
    my $communities=$self->{communities};
    if ( ! defined ($communities ) ) {
       $logger->debug("We have no Community from server, we use default public community");
@@ -199,6 +198,8 @@ sub snmp_end_handler {
    $logger->debug("Snmp: Ending Scanning network");
 
    # Begin scanning ip tables 
+   my $ip=$self->{netdevices};
+
    foreach my $device ( @$ip ) {
       my $session;
       my $devicedata = $common->{xmltags};     #To fill the xml informations for this device
