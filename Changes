@@ -1,7 +1,8 @@
 Revision history for Ocsinventory::Agent
 
-	   * Add retrieve usb connected devices
-	   * Fix Bug #1198088 wrong data for processors under 2.1 RC1
+       * Fix bugs with usb in Lsusb.pm and Common.pm
+       * Add retrieve usb connected devices
+       * Fix Bug #1198088 wrong data for processors under 2.1 RC1
        * Fix bug with SNMP v3 in 9.pm
        * Fix bug with custom network scanning in Snmp.pm
        * Add retrieve video memory size

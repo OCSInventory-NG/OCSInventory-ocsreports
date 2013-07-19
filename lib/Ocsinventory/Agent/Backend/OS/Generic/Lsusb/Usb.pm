@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Archs::Lsusb::Usb
+package Ocsinventory::Agent::Backend::OS::Generic::Lsusb::Usb;
 
 use strict;
 use Config;
@@ -41,10 +41,12 @@ sub run {
     	}
 		# Add information to $current
 		$common->addUsb({
-			'VENDOR'	=>	$vendor,
-			'PRODUCT'	=>	$product,
-			'PROTOCOL'	=>	$protocol,
-			'SERIAL'	=>	$serial,
+			'MANUFACTURER'	=>	$vendor,
+			'CAPTION'	=>	$product,
+			'DESCRIPTION'	=>	$protocol,
+			'TYPE'		=> $type,
+			'POINTTYPE'	=>	$pointtype,
+		    'INTERFACE'	=>	$interface,
 		});
 	}
 }

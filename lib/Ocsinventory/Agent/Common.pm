@@ -62,12 +62,12 @@ sub addUsb {
 
   my $content = {};
 
-  foreach my $key (qw/PRODUCT PROTOCOL SERIAL VENDOR/) {
+  foreach my $key (qw/CAPTION DESCRIPTION INTERFACE MANUFACTURER POINTTYPE TYPE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }
   }
-  push @{$xmltags->{USB}},$content;
+  push @{$xmltags->{INPUTS}},$content;
 
 }
 =item addModem()
