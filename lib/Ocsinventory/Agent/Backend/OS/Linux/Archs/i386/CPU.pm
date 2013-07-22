@@ -27,23 +27,22 @@ sub check { can_read("/proc/cpuinfo") }
         }
 
         $siblings = $1 if /^siblings\s*:\s*(\d+)/i;
-        #$coreid = $1 if /^core\sid\s*:\s*(\d+)/i;
-
-
-        #$current->{CORES}=$coreid+1;
+		$current->{CURRENT_SPEED} = $1 if /^cpu\sMHz\s*:\s*(\d+)/i;
         $current->{TYPE} = $1 if /^model\sname\s*:\s*(.+)/i;
 	    $current->{L2CACHESIZE} = $1 if /^cache\ssize\s*:\s*(\d+)/i;
 	    if (/^flags\s*:\s*(.*)/i) {
                 my @liste1=split(/ /,$1);
 		        if (grep /^lm$/,@liste1) {
-                      $current->{CPUARCH}=64;
+                      $current->{CPUARCH}="x86_64";
+					  $current->{DATA_WIDTH}=64;
                 } else {
-                      $current->{CPUARCH}=32;
+                      $current->{CPUARCH}="x86";
+					  $current->{DATA_WIDTH}=32;
                	}
         }
 
     }
-    $current->{SOCKET}=scalar keys %cpusocket;
+    $current->{NBSOCKET}=scalar keys %cpusocket;
 
    # /proc/cpuinfo provides real time speed processor.
    # Get optimal speed with dmidecode command
@@ -60,6 +59,12 @@ sub check { can_read("/proc/cpuinfo") }
         if (/Voltage:\s*(.*)V/i){
             $current->{VOLTAGE} = $1;
         }
+		if (/Status:\s*(.*),\s(.*)/i){
+            $current->{CPUSTATUS} = $2;
+        }
+        if (/Upgrade:\s*(.*)/i){
+            $current->{SOCKET} = $1;
+        }
     }
 
     # Is(Are) CPU(s) hyperthreaded?
@@ -72,7 +77,7 @@ sub check { can_read("/proc/cpuinfo") }
     }
 
     # The last one
-    $cpusocket{$current->{SOCKET}}=$current;
+    $cpusocket{$current->{NBSOCKET}}=$current;
     #print Dumper($current);
 
     # Add the values to XML

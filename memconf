@@ -6,7 +6,7 @@
 #
 # @(#) memconf - Identify sizes of memory modules installed on a
 # @(#)           Solaris, Linux, FreeBSD or HP-UX workstation or server.
-# @(#) Micron Technology, Inc. - Tom Schmidt 02-Oct-2012 V3.02
+# @(#) Micron Technology, Inc. - Tom Schmidt 19-Jul-2013 V3.03
 #
 # Maintained by Tom Schmidt (tschmidt@micron.com)
 #
@@ -131,11 +131,11 @@
 $^W=1;	# Enables -w warning switch, put here for SunOS4 compatibility.
 $starttime=(times)[0];
 
-$version="V3.02";
-$version_date="02-Oct-2012";
+$version="V3.03";
+$version_date="19-Jul-2013";
 $URL="http://www.4schmidts.com/unix.html";
 
-$newpath="/usr/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
+$newpath="/usr/sbin:/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
 $ENV{PATH}=(defined($ENV{PATH})) ? "$newpath:$ENV{PATH}" : $newpath;
 # Force C locale so that output is in English
 $ENV{LC_ALL}="C";
@@ -184,6 +184,7 @@ $prtdiag_cmd="";
 $prtdiag_exec="";
 $have_prtdiag_data=0;
 $prtdiag_checked=0;
+$prtdiag_memory=0;
 $prtfru_cmd="";
 $have_prtfru_data=0;
 $have_prtfru_details=0;
@@ -231,6 +232,7 @@ $maxmembusspeed="";
 $foundspeed=0;
 $mixedspeeds=0;
 $have_x86_devname=0;
+$manufacturer="";
 if (-d '/usr/platform') {
 	$platform=&mychomp(`$uname -i`);
 	if (-x "/usr/platform/$platform/sbin/prtdiag") {
@@ -449,6 +451,7 @@ foreach $name (@ARGV) {
 		print MAILFILE "Output from 'memconf -d' on $hostname\n";
 		print MAILFILE "----------------------------------------------------\n";
 		close(MAILFILE);
+		*STDERR = *STDOUT;	# Redirect stderr to stdout
 		open(STDOUT, "| tee -a /tmp/memconf.output") || die "can't open /tmp/memconf.output: $!";
 		print "Gathering memconf data to E-mail to maintainer. This may take a few minutes.\nPlease wait...\n";
 	} elsif (-f "$name/sysconfig/prtconf-vp.out") {
@@ -1150,6 +1153,7 @@ sub show_header {
 		} elsif ($cpuarr == -1 && ! &is_xen_vm) {
 			@cputypecnt=keys(%cpucnt);
 			$x=0;
+			$ctype="";
 			while (($cf,$cnt)=each(%cpucnt)) {
 				if ($cpucntflag == 0 && $npcpu == 0 && $cpucntfrom ne "prtdiag") {
 					for $tmp (2,3,4,6,8,12) {
@@ -1171,15 +1175,18 @@ sub show_header {
 				&checkX86;
 				$ctype=&multicore_cputype($ctype,$corecnt) if ($isX86);
 				&multicore_cpu_cnt("");
-				print "$cnt $ctype";
-				if ($cfreq) {
-					print " ${cfreq}MHz" if ($cfreq > 0 && $ctype !~ /Hz$/);
+				$ctype="" if ($ctype =~ /^\S*-Core $/);
+				if ($ctype) {
+					print "$cnt $ctype";
+					if ($cfreq) {
+						print " ${cfreq}MHz" if ($cfreq > 0 && $ctype !~ /Hz$/);
+					}
+					print " cpu";
+					print "s" if ($cnt > 1);
+					print ", " if ($x < scalar(@cputypecnt));
 				}
-				print " cpu";
-				print "s" if ($cnt > 1);
-				print ", " if ($x < scalar(@cputypecnt));
 			}
-			print (($sysfreq) ? ", " : "\n") if ($x > 0);
+			print (($sysfreq) ? ", " : "\n") if ($x > 0 && $ctype);
 		}
 		print "system freq: ${sysfreq}MHz\n" if ($sysfreq);
 	} else {
@@ -1343,6 +1350,19 @@ sub show_memory_label {
 	return "$mem" if ($mem =~ /[MG]B/);
 	return $mem / 1024 . "GB" if ($mem >= 1024);
 	return "${mem}MB";
+}
+
+sub show_errors {
+	if ($failing_memory) {
+		print "ERROR: Some of the installed memory has failed.\n";
+		print "       You should consider replacing the failed memory.\n";
+		$exitstatus=1;
+	}
+	if ($unknown_JEDEC_ID) {
+		print "ERROR: An unknown memory manufacturer was detected by memconf.\n";
+		&show_request;
+		$exitstatus=1;
+	}
 }
 
 sub check_model {
@@ -1938,6 +1958,12 @@ sub check_prtdiag {
 						$simmsize *= 512;
 						push(@simmsizesfound, "$simmsize");
 					}
+					if ($linearr[2] eq "MB") {
+						$prtdiag_memory += $linearr[1];
+					} elsif ($linearr[2] eq "GB") {
+						$prtdiag_memory += $linearr[1] * 1024;
+					}
+				$installed_memory=$prtdiag_memory if ($prtdiag_memory);
 				}
 				$sockets_used .= " $linearr[$#linearr]";
 			}
@@ -3068,35 +3094,43 @@ sub get_mfg {
 	return "Inmos" if (/(^08|Inmos)/i);
 	return "Intersil" if (/(^0B|Intersil)/i);
 	return "Mostek" if (/(^0D|Mostek)/i);
-	return "Freescale (Motorola)" if (/(^0E|Freescale|Motorola)/i);
+	return "Freescale (Motorola)" if (/(^0E|Motorola)/i);
+	return "Freescale" if (/Freescale/i);
 	return "NEC" if (/^10/);
-	return "Conexant (Rockwell)" if (/(^13|Conexant|Rockwell)/i);
+	return "Conexant (Rockwell)" if (/(^13|Rockwell)/i);
+	return "Conexant" if (/Conexant/i);
 	return "NXP (Philips Semi, Signetics)" if (/(^15|Philips Semi|Signetics)/i);
 	return "Synertek" if (/(^16|Synertek)/i);
 	return "Xicor" if (/(^19|Xicor)/i);
 	return "Zilog" if (/(^1A|Zilog)/i);
 	return "Mitsubishi" if (/(^1C|Mitsubishi)/i);
+	# Inotera is a Joint Venture between Micron and Nanya
+	return "Inotera Memories" if (/Inotera/i);
 	return "Micron CMS" if (/(^7F45|Micron CMS)/i);
 	return "Micron Technology" if (/(^2C|Micron\b)/i);
 	return "ProMOS/Mosel Vitelic" if (/(^40|ProMOS|Mosel Vitelic)/i);
-	return "Qimonda" if (/(^51|Qimonda)/i);
+	return "Qimonda" if (/(^51|^8551|Qimonda)/i);
 	return "Wintec Industries" if (/(^61|Wintec\b)/i);
 	return "Goldenram" if (/(^6A|Goldenram)/i);
 	return "Fairchild" if (/(^83|Fairchild)/i);
 	return "Crucial Technology" if (/(^859B|^9B|^7F7F7F7F7F9B|Crucial\b)/i);
 	return "GTE" if (/(^85|GTE)/i);
 	# Micron acquired Numonyx in February 2010
-	return "Numonyx (Intel)" if (/(^89|Numonyx|Intel)/i);
-	return "DATARAM" if (/^91/);
+	return "Numonyx (Intel)" if (/(^89|Intel)/i);
+	return "Numonyx" if (/Numonyx/i);
+	return "DATARAM" if (/^91|^7F91/);
 	return "Smart Modular" if (/^94|^0194|Smart Modular/i);
 	return "Toshiba" if (/(^98|Toshiba)/i);
 	return "Corsair" if (/(^9E|Corsair)/i);
 	return "IBM" if (/^A4/i);
-	return "Hynix Semiconductor (Hyundai Electronics)" if (/(^AD|Hynix|Hyundai)/i);
-	return "Infineon (Siemens)" if (/(^C1|^7F7F7F7F7F51|Infineon|Siemens)/i);
+	return "Hynix Semiconductor (Hyundai Electronics)" if (/(^AD|Hyundai)/i);
+	return "Hynix Semiconductor" if (/(HYN|Hynix)/i);
+	return "Infineon (Siemens)" if (/(^C1|^7F7F7F7F7F51|Siemens)/i);
+	return "Infineon" if (/Infineon/i);
 	return "Samsung" if (/(^CE|Samsung)/i);
 	return "Winbond Electronics" if (/(^DE|Winbond)/i);
-	return "LG Semiconductor (Goldstar)" if (/(^E0|LG Semi|Goldstar)/i);
+	return "LG Semiconductor (Goldstar)" if (/(^E0|Goldstar)/i);
+	return "LG Semiconductor" if (/LG Semi/i);
 	return "Kingston" if (/(^7F98|^0198|Kingston)/i);
 	return "SpecTek Incorporated" if (/(^7F7FB5|SpecTek)/i);
 	return "Nanya Technology" if (/(^7F7F7F0B|^830B|Nanya)/i);
@@ -3333,7 +3367,7 @@ sub check_smbios {
 	foreach $line (@smbios) {
 		$line=&dos2unix($line);
 		$line=&mychomp($line);
-		next if ($line =~ /( *Unknown|: Other|: \.\.|: Not Specified)/);
+		next if ($line =~ /( *Unknown|: Other|: \.\.|: Not Specified)/i);
 		if ($model eq "i86pc" || $model eq "i86xpv" || $model eq "i86xen") {
 			if ($line =~ /^ *Manufacturer:/ && $line !~ /(To Be Filled|System Manufacturer)/i && $manufacturer eq "") {
 				$manufacturer=$line;
@@ -3602,6 +3636,7 @@ sub print_empty_memory {
 }
 
 sub print_bios_error {
+	return if (&is_virtualmachine);
 	print "    An upgraded BIOS from your manufacturer ";
 	if (&check_dmidecode_ver != 0) {
 		print "or a newer version of dmidecode\n    from ";
@@ -7813,7 +7848,7 @@ sub hpux_cprop {
 	open(FILE, $cprop_out);
 	while(<FILE>) {
 		next if (/^[\s\*\-]+$/);
-		next if (/(<OUT OF SPEC>| Unknown|: Other|: \.\.|: Not Specified|:\s*$)/);
+		next if (/(<OUT OF SPEC>| Unknown|: Other|: \.\.|: Not Specified|:\s*$)/i);
 		($permission_error)=(/(.*)/) if (/Permission denied|does not have privileges|is not authorized to run/i);
 		if (/not supported on HPVM guest/i) {
 			$is_hpvm=1;
@@ -7884,11 +7919,11 @@ sub hpux_cprop {
 
 sub hpux_cstm {
 	&pdebug("in hpux_cstm");
-	$config_cmd="echo 'selclass qualifier memory;info;wait;infolog'|/usr/sbin/cstm";
+	$config_cmd="echo 'selclass qualifier memory;info;wait;infolog'|/usr/sbin/cstm 2>&1";
 	if (! $filename && $verbose == 3) {
 		# Include CPU information when E-mailing maintainer since this
 		# data is used by memconf for regression testing.
-		$config_cmd="echo 'selclass qualifier cpu;info;wait;selclass qualifier memory;info;wait;infolog'|/usr/sbin/cstm";
+		$config_cmd="echo 'selclass qualifier cpu;info;wait;selclass qualifier memory;info;wait;infolog'|/usr/sbin/cstm 2>&1";
 	}
 	$config_command="cstm";
 	# Use HP-UX Support Tool Manager software to attempt to report memory
@@ -7899,6 +7934,11 @@ sub hpux_cstm {
 	foreach $line (@config) {
 		$line=&dos2unix($line);
 		next if ($line eq "\n" || $line =~ /^ +$/ || $line =~ /^ +=+$/);
+		if ($line =~ /Internal Application error/i) {
+			$cstm_error=$line;
+			$cstm_error=~s/^ *//;
+			next;
+		}
 		if ($line =~ /=\-\+\-=/) {
 			$flag_mem=0;	# End of section
 			next;
@@ -8002,6 +8042,7 @@ sub hpux_finish {
 		if ($is_hpvm) {
 			print "NOTICE: Details shown are for the configuration of this HPVM guest, not the\n        physical CPUs and memory of the HPVM host it is running on.\n";
 		} elsif ($config_command eq "cstm") {
+			print "ERROR: /usr/sbin/cstm $cstm_error" if (defined($cstm_error));
 			print "ERROR: /usr/sbin/cstm did not report the memory installed in this HP-UX system.\n";
 			print "       Cannot display detailed memory configuration. A newer version of\n";
 			print "       Diagnostic and Support Tools for HP-UX may fix this issue. Aborting.\n";
@@ -8028,16 +8069,7 @@ sub hpux_finish {
 		$untested_type="CPU" if (! $untested_type);
 	}
 	&show_untested if ($untested);
-	if ($failing_memory) {
-		print "ERROR: Some of the installed memory has failed.\n";
-		print "       You should consider replacing the failed memory.\n";
-		$exitstatus=1;
-	}
-	if ($unknown_JEDEC_ID) {
-		print "ERROR: An unknown memory manufacturer was detected by memconf.\n";
-		&show_request;
-		$exitstatus=1;
-	}
+	&show_errors;
 	&mailmaintainer if ($verbose == 3);
 	&pdebug("exit $exitstatus");
 	exit $exitstatus;
@@ -8221,7 +8253,7 @@ sub x86_devname {
 	if ($m =~ /Sun .*X4450\b/i) {
 		$devname="Tucani";
 		$familypn="B15";
-		$untested=0 if ($os eq "SunOS");
+		$untested=0;
 	}
 	if ($m =~ /Netra .*X4450\b/i) {
 		$devname="Argo";
@@ -8258,6 +8290,10 @@ sub x86_devname {
 	if ($m =~ /Sun .*X4800 M2\b/i) {
 		# X4800 has 8 CPU sockets
 		$familypn="X4800M2";
+	} elsif ($m =~ /Sun .*X4800\b/i) {
+		# X4800 has 8 CPU sockets
+		$familypn="X4800";
+		$untested=0 if ($os eq "SunOS");
 	}
 	if ($m =~ /Sun .*X4950\b/i) {
 		$devname="Streamstar StreamSwitch 2";
@@ -8634,6 +8670,7 @@ sub check_decodedimms {
 #       with lmsensors to get more detailed memory information.
 	if ($have_decodedimms_data) {
 		$flag_mem=0;
+		$flag_unknown=0;
 		$mem_mfg="";
 		$pn="";
 		$simmsize=0;
@@ -8656,6 +8693,10 @@ sub check_decodedimms {
 					$memtype=$line;
 					$memtype=~s/^Fundamental Memory type\s+(.*\S)\s*$/ $1/;
 					&pdebug("in check_decodedimms, cnt=$cnt, memtype=$memtype");
+					$flag_unknown=($memtype =~ /^ *Unknown/i) ? 1 : 0;
+					if ($flag_unknown) {
+						&pdebug("in check_decodedimms, cnt=$cnt, Unknown memtype detected - failing DIMM");
+					}
 				}
 				if ($line =~ /^Maximum module speed/i) {
 					$dimmspeed=$line;
@@ -8706,12 +8747,19 @@ sub check_decodedimms {
 						$incr++;
 					}
 					if ($offset >= 0) {
-						$tmp="$socket: ${simmsize}MB$dimmspeed$memtype";
-						$tmp .= ",$mem_mfg$pn" if ($mem_mfg || $pn);
+						($old)=grep(/$socket/,@boards_mem);
+						chop($old);
+						if ($flag_unknown) {
+							$tmp="$old - FAILING";
+							$failing_memory=1;
+						} else {
+							$tmp="$socket: ${simmsize}MB$dimmspeed$memtype";
+							$tmp .= ",$mem_mfg$pn" if ($mem_mfg || $pn);
+						}
 						@tmp=("$tmp\n");
 						# Replace socket data from dmidecode
 						# with socket data from decode-dimms.pl
-						&pdebug("in check_decodedimms, replace socket data for $socket");
+						&pdebug("in check_decodedimms, replace socket data '$old' with '$tmp'");
 						splice(@boards_mem, $offset, 1, @tmp);
 						$memfrom="decode-dimms.pl" if ($memfrom !~ /decode-dimms.pl/);
 					}
@@ -8759,7 +8807,7 @@ sub check_dmidecode {
 	&check_for_decodedimms;
 	open(FILE, $DmiFile);
 	while(<FILE>) {
-		next if (/(<OUT OF SPEC>| Unknown|: Other|: \.\.|: Not Specified|:\s*$)/);
+		next if (/(<OUT OF SPEC>| Unknown|: Other|: \.\.|: Not Specified|:\s*$)/i);
 		# for regression tests
 		$have_decodedimms_data=1 if (/^Guessing DIMM is in/i);
 		($dmidecode_ver)=(/.* dmidecode (.*)/i) if (/ dmidecode /i);
@@ -8787,6 +8835,8 @@ sub check_dmidecode {
 			} else {
 				($manufacturer)=(/: +(.*\S) *$/) if (/^\s*(Manufacturer|Vendor): /i);
 			}
+			# use DMItype2 manufacturer if Oracle (for VirtualBox)
+			($manufacturer)=(/: +(.*\S) *$/) if (/^\s*(Manufacturer|Vendor): *Oracle */i);
 			if ($model) {
 				if ($model =~ /To Be Filled|System .*Name|XXXX/i) {
 					($model)=(/: +(.*\S) *$/) if (/^\s*Product( Name|): /i);
@@ -8880,6 +8930,7 @@ sub check_dmidecode {
 			($DataWidth[$memarr])=(/: +(\d*) */) if (/^\s*Data Width: /i);
 			if (/^\s*Locator: /i) {
 				($Locator17[$memarr])=(/: +(.*\S) *$/);
+				$Locator17[$memarr]=~s/  */ /g;
 				# Add CPU to X4170/X4270/X4275/X6270/X6275
 				if ($model =~ /Sun .*X(4[12]7[05]|627[05])\b/i && $Locator17[$memarr] !~ /CPU/) {
 					$cpu_number=$CPUSocketDesignation[$cpu_membank];
@@ -8893,7 +8944,7 @@ sub check_dmidecode {
 			($Size17[$memarr])=(/: +(.*\S) *$/) if (/^\s*Size: /i);
 
 			($Speed17[$memarr])=(/: +(.*\S) *$/) if (/^\s*Speed: /i);
-			($MemManufacturer[$memarr])=&get_mfg(/: +(.*\S) *$/) if (/^\s*Manufacturer: /i);
+			($MemManufacturer[$memarr])=&get_mfg(/: +(.*\S) *$/) if (/^\s*Manufacturer: /i && $Size17[$memarr] =~ /( MB|GB)/);
 			if (/^\s*Part Number: /i && ! /PartNum/i ) {
 				($MemPartNum[$memarr])=(/: +(.*\S) *$/);
 				$MemPartNum[$memarr]=&hex2ascii($MemPartNum[$memarr]);
@@ -8908,7 +8959,12 @@ sub check_dmidecode {
 				# reported as KB)
 				if ($Size17[$memarr] !~ /Not Installed/i && $Size17[$memarr] !~ /No Module Installed/i && $Size17[$memarr] !~ / *KB/i) {
 					$simmsize=$Size17[$memarr];
-					$simmsize=~s/ *MB.*//ig;
+					if ($simmsize =~ / *GB.*/i) {
+						$simmsize=~s/ *GB.*//ig;
+						$simmsize *= 1024;
+					} else {
+						$simmsize=~s/ *MB.*//ig;
+					}
 					$DMI17totmem += $simmsize if ($simmsize);
 				}
 			}
@@ -9019,6 +9075,7 @@ sub check_dmidecode {
 			}
 			$cpucntflag=1;
 		}
+		$ctype="" if ($ctype =~ /^\S*-Core $/);
 		if ($ctype) {
 			$ctype=&multicore_cputype($ctype,$corecnt) if (&is_xen_hv);
 			$cpubanner .= "$cnt X " if ($cnt > 1);
@@ -9045,7 +9102,7 @@ sub check_dmidecode {
 		$range=1 if ($familypn eq "A71");
 		for ($cnt=0; $cnt <= $range; $cnt++) {
 			# Only display allocated CPUs on Virtual Machines
-			next if (&is_virtualmachine && $CPUStatus[$cnt] =~ /(Unpopulated|Disabled By BIOS)/i);
+			next if ($CPUStatus[$cnt] && &is_virtualmachine && $CPUStatus[$cnt] =~ /(Unpopulated|Disabled By BIOS)/i);
 			if ($CPUSocketDesignation[$cnt]) {
 				print "$CPUSocketDesignation[$cnt]: ";
 			} else {
@@ -9075,7 +9132,7 @@ sub check_dmidecode {
 			print "\n";
 		}
 	}
-	if ($ncpu > 1 && $foundGenuineIntel && $cpucntfrom eq "cpuinfo" && $permission_error) {
+	if ($ncpu > 1 && $foundGenuineIntel && $cpucntfrom eq "cpuinfo" && ! $permission_error && ! &is_xen_vm) {
 		print "WARNING: Cannot detect if Hyper-Threading is enabled, ";
 		print "CPU count may be half of\n    what is shown if ";
 		print "Hyper-Threading is enabled.\n";
@@ -9211,7 +9268,12 @@ sub check_dmidecode {
 			} else {
 				$buf="$socketlabelarr[$cnt]";
 				$simmsize=$Size17[$cnt];
-				$simmsize=~s/ *MB.*//ig;
+				if ($simmsize =~ / *GB.*/i) {
+					$simmsize=~s/ *GB.*//ig;
+					$simmsize *= 1024;
+				} else {
+					$simmsize=~s/ *MB.*//ig;
+				}
 				$sizearr[$cnt]=$simmsize;
 				$Size17[$cnt]=~s/MByte/ MB/ig;
 				$Size17[$cnt]=~s/ +MB/MB/g;
@@ -9245,6 +9307,8 @@ sub check_dmidecode {
 				if ($MemManufacturer[$cnt]) {
 					$buf .= ", $MemManufacturer[$cnt]" if ($MemManufacturer[$cnt] !~ /None/i);
 					if ($MemPartNum[$cnt]) {
+						# Don't repeat MFG if it is in Partnumber
+						$MemPartNum[$cnt]=~s/$MemManufacturer[$cnt] //;
 						$buf .= " $MemPartNum[$cnt]" if ($MemPartNum[$cnt] !~ /None/i);
 					}
 				} elsif ($MemPartNum[$cnt]) {
@@ -9415,11 +9479,7 @@ sub check_dmidecode {
 	}
 	&check_virtualmachine;
 	&show_untested if ($untested);
-	if ($unknown_JEDEC_ID) {
-		print "ERROR: An unknown memory manufacturer was detected by memconf.\n";
-		&show_request;
-		$exitstatus=1;
-	}
+	&show_errors;
 	&mailmaintainer if ($verbose == 3);
 	&pdebug("exit $exitstatus");
 	exit $exitstatus;
@@ -9459,7 +9519,25 @@ sub show_control_LDOM_message {
 }
 
 sub is_virtualmachine {
-	return(1) if ($model =~ /VMware|Virtual Platform|Virtual Machine/i || $diagbanner =~ /Virtual Machine/i);
+	if ($uid ne "0") {
+		# In case non-root user is running memconf
+		$tmp=($os =~ /Linux|FreeBSD/ && ! $filename) ? `lspci 2>/dev/null | egrep -i '(VMware|VirtualBox|VirtualPC)'` : "";
+		# Include special case for regression testing VM files
+		if ((! $filename && $tmp =~ /VMware/i) || $filename =~ /VMware/i) {
+			$manufacturer="VMware, Inc." if (! $manufacturer);
+			$model="VMware Virtual Platform" if (! $model);
+			return(1);
+		} elsif ((! $filename && $tmp =~ /VirtualBox|VBox/i) || $filename =~ /VirtualBox/i) {
+			$manufacturer="Oracle Corporation" if (! $manufacturer);
+			$model="VirtualBox" if (! $model);
+			return(1);
+		} elsif ((! $filename && $tmp =~ /VirtualPC/i) || $filename =~ /VirtualPC/i) {
+			$manufacturer="Microsoft Corporation" if (! $manufacturer);
+			$model="Virtual Machine" if (! $model);
+			return(1);
+		}
+	}
+	return(1) if ($manufacturer =~ /VMware/ || $model =~ /VMware|Virtual Platform|Virtual Machine|VirtualBox|VBox/ || $diagbanner =~ /Virtual Machine/);
 	return(1) if (&is_xen_vm);
 	return(0);
 }
@@ -10165,11 +10243,7 @@ sub finish {
 		print "NOTICE: Spare memory (${spare_memory}MB) was detected.\n";
 		print "        You can configure the spare memory using the 'cfgadm' command.\n";
 	}
-	if ($failing_memory) {
-		print "ERROR: Some of the installed memory has failed.\n";
-		print "       You should consider replacing the failed memory.\n";
-		$exitstatus=1;
-	}
+	&show_errors;
 	if ($failed_fru) {
 		print "ERROR: $failed_fru";
 		print "       You should consider replacing the failed FRUs.\n";
@@ -10368,4 +10442,5 @@ sub mailmaintainer {
 		unlink "/tmp/$tmp";
 	}
 }
+
 
