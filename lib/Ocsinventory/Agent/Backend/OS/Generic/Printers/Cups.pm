@@ -21,37 +21,26 @@ sub run {
     my $driver;
 
     foreach (@destinations) {
-	$printer = $_->getName() unless $printer;
-	$description = $_->getDescription() unless $description;
-	$port = $_->getUri() unless $port;
-	$driver = $_->getOptionValue("printer-make-and-model") unless $driver;
+		$printer = $_->getName() unless $printer;
+		$description = $_->getDescription() unless $description;
+		$port = $_->getUri() unless $port;
+		$driver = $_->getOptionValue("printer-make-and-model") unless $driver;
 	
-    # Just grab the default printer, if I use getDestinations, CUPS
-    # returns all the printer of the local subnet (is it can)
-    # TODO There is room for improvement here
+    	# Just grab the default printer, if I use getDestinations, CUPS
+    	# returns all the printer of the local subnet (is it can)
+    	# TODO There is room for improvement here
 
-    	&addPrinter($common->{xmltags},{
+    	$common->addPrinter({
             NAME    => $printer,
             DESCRIPTION => $description,
-	    PORT => $port, 
+	    	PORT => $port, 
             DRIVER => $driver
         });
+	undef $printer;
+	undef $description;
+	undef $port;
+	undef $driver;
     }
 }
 
-sub addPrinter{
-    my ($xmltags,$args) = @_;
-    my $cupsprinter = $args->{NAME};
-    my $cupsdescription = $args->{DESCRIPTION};
-    my $cupsdriver = $args->{DRIVER};
-    my $cupsport = $args->{PORT};
-
-    push @{$xmltags->{PRINTERS}},
-    {
-	NAME => [$cupsprinter],
-        DESCRIPTION => [$cupsdescription],
-        PORT => [$cupsport],
-        DRIVER => [$cupsdriver],
-    };
-}
 1;

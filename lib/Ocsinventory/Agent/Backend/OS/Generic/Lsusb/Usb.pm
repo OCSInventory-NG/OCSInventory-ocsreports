@@ -48,6 +48,7 @@ sub run {
 			'POINTTYPE'	=>	$pointtype,
 		    'INTERFACE'	=>	$interface,
 		});
+		undef $protocol;
 	}
 }
 

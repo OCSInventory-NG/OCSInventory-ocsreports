@@ -8,13 +8,14 @@ sub run {
 # Parsing dmidecode output
 # Using "type 0" section
   my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-    $BiosVersion, $BiosDate, $AssetTag, $MotherboardManufacturer, $MotherboardModel, $MotherboardSerial );
+    $BiosVersion, $BiosDate, $AssetTag, $MotherboardManufacturer, $MotherboardModel, $MotherboardSerial, $Type );
 
   #System DMI
   $SystemManufacturer = `dmidecode -s system-manufacturer`;
   $SystemModel = `dmidecode -s system-product-name`;
   $SystemSerial = `dmidecode -s system-serial-number`;
   $AssetTag = `dmidecode -s chassis-asset-tag`;
+  $Type = `dmidecode -s chassis-type`;
   
   chomp($SystemModel);
   $SystemModel =~ s/^#+\s+$//g;
@@ -24,6 +25,8 @@ sub run {
   $SystemSerial =~ s/^#+\s+$//g;
   chomp($AssetTag);
   $AssetTag =~ s/^#\s+$//g;
+  chomp($Type);
+  $Type =~ s/^#\s+$//g;
   
   #Motherboard DMI
   $MotherboardManufacturer = `dmidecode -s baseboard-manufacturer`;
@@ -72,6 +75,7 @@ sub run {
       MMANUFACTURER => $MotherboardManufacturer,
       MMODEL => $MotherboardModel,
       MSN => $MotherboardSerial,
+	  TYPE => $Type,
     });
 }
 

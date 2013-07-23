@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent
 
+       * Add new value to BIOS.pm
+       * Fix bug CUPS.pm and Usb.pm
        * Retrieve new values for CPU
        * Update memconf command to latest version
        * Fix bugs with usb in Lsusb.pm and Common.pm

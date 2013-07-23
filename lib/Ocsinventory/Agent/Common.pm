@@ -436,7 +436,7 @@ sub setBios {
   my ($self, $args) = @_; 
   my $xmltags = $self->{xmltags};
 
-  foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG/) {
+  foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG TYPE/) {
 
     if (exists $args->{$key}) {
       $xmltags->{'BIOS'}{$key}[0] = $args->{$key};
