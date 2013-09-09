@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * New module to retrieve Sun devices using SNMP
        * Add new value to BIOS.pm
        * Fix bug CUPS.pm and Usb.pm
        * Retrieve new values for CPU
