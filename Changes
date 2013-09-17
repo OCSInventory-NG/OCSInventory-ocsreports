@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent
 
+
+       * New module to retrieve NetApp devices using SNMP
        * New module to retrieve Sun devices using SNMP
        * Add new value to BIOS.pm
        * Fix bug CUPS.pm and Usb.pm
