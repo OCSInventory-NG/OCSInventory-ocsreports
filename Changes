@@ -1,6 +1,8 @@
 Revision history for Ocsinventory::Agent
 
-
+       * Add a new log message when unable to scan a SNMP devices in Snmp.pm
+       * Fix problem fix IP address tests in Snmp.pm
+       * Remove "-pP" option passed to nmap in Snmp.pm
        * New module to retrieve NetApp devices using SNMP
        * New module to retrieve Sun devices using SNMP
        * Add new value to BIOS.pm
