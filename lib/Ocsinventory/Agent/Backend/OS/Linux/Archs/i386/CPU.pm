@@ -6,7 +6,12 @@ use Config;
 
 sub check { can_read("/proc/cpuinfo") }
 
- 	my @cpu;
+sub run {
+
+    my $params = shift;
+    my $common = $params->{common};
+
+    my @cpu;
     my $current;
     my $cpuarch;
     my %cpusocket;
