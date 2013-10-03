@@ -375,7 +375,7 @@ sub addNetwork {
 
   my $content = {};
 
-  foreach my $key (qw/DESCRIPTION DRIVER IPADDRESS IPDHCP IPGATEWAY IPMASK IPSUBNET MACADDR PCISLOT STATUS TYPE VIRTUALDEV/) {
+  foreach my $key (qw/DESCRIPTION DRIVER DUPLEX IPADDRESS IPDHCP IPGATEWAY IPMASK IPSUBNET MACADDR PCISLOT SPEED STATUS TYPE VIRTUALDEV/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }

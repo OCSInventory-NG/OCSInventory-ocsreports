@@ -635,7 +635,7 @@ sub run {
       chomp($base64 = `echo $raw_edid|uuencode -m -`);
     }
   }
-  $common->addMonitors ({
+  $common->addMonitor ({
 
       BASE64 => $base64,
       CAPTION => $caption,

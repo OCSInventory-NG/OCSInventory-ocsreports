@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub check {
-  return unless can_run("ifconfig") && can_run("route") && can_load("Net::IP qw(:PROC)");
+  return unless can_run("ifconfig") && can_run("route") && can_load("Net::IP qw(:PROC)") && can_load("Linux::Ethtool::Settings qw(:all)");
 
   1;
 }
@@ -71,6 +71,10 @@ sub run {
   my $status;
   my $type;
   my $virtualdev;
+  my $settings;
+  my $speed;
+  my $current_speed;
+  my $duplex;
 
   my %gateway;
   foreach (`route -n`) {
@@ -147,17 +151,29 @@ sub run {
           STATUS => $status?"Up":"Down",
           TYPE => $type,
           VIRTUALDEV => $virtualdev,
-
+          SPEED => $speed,
+          DUPLEX => $duplex,
         });
 
     }
 
     if ($line =~ /^$/) { # End of section
 
-      $description = $driver = $ipaddress = $ipmask = $ipgateway = $macaddr = $pcislot = $status =  $type = $virtualdev = undef;
+      $description = $driver = $ipaddress = $ipmask = $ipgateway = $macaddr = $pcislot = $status =  $type = $virtualdev = $speed = undef;
 
     } else { # In a section
         $description = $1 if ($line =~ /^(\S+):/ || $line =~ /^(\S+)/); # Interface name
+
+        $settings = Linux::Ethtool::Settings->new($description);
+	    if ( defined $settings ) {
+       		$current_speed = $settings->speed();
+            if ($current_speed > 100 ){
+                $speed = $current_speed." Gbps";
+            } else {
+                $speed = $current_speed." Mbps";
+            }
+            $duplex = $settings->duplex()?"Full":"Half";
+	    }
         $ipaddress = $1 if ($line =~ /inet addr:(\S+)/i || $line =~ /inet (\S+)\s+netmask/i);
         $ipmask = $1 if ($line =~ /\S*mask:(\S+)/i || $line =~ /\S*netmask (\S+)\s/i);
         $macaddr = $1 if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i || $line =~ /ether\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i);

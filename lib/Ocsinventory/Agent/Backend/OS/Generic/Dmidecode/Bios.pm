@@ -75,7 +75,7 @@ sub run {
       MMANUFACTURER => $MotherboardManufacturer,
       MMODEL => $MotherboardModel,
       MSN => $MotherboardSerial,
-	  TYPE => $Type,
+      TYPE => $Type,
     });
 }
 
