@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix Bug #1237682 about RPM.pm INSTALLDATE format not always accepted by MySQL
        * Retrieve the speed of network card
        * Add a new log message when unable to scan a SNMP devices in Snmp.pm
        * Fix problem fix IP address tests in Snmp.pm
