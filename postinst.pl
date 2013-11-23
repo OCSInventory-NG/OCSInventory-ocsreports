@@ -421,7 +421,7 @@ if ( -d $source_snmpdir && -d $vardir) {
     recMkdir($snmpdir) or die "Can't create $snmpdir!";
   }
   print STDERR "Copying SNMP MIBs XML files...\n";
-  system("cp $source_snmpdir/* $snmpdir");
+  system("cp -r $source_snmpdir/* $snmpdir");
 }
 
 
