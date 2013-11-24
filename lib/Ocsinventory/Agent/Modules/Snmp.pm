@@ -179,7 +179,7 @@ sub snmp_end_handler {
     # ifPhysAddress.1
     my $snmp_macaddr="1.3.6.1.2.1.2.2.1.6.";
     my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2.";
-    my $snmp_iftype="1.3.6.1.2.1.2.2.1.3.";
+    my $snmp_iftype="1.3.6.1.2.1.2.2.1.3";
 
     my $full_oid=undef;
 
@@ -671,8 +671,6 @@ sub xml_loops_v1 {
     my $session=$self->{snmp_session};
     my $logger=$self->{logger};
 
-    $logger->debug ("Begin xml loops");
-
 ALL_LOOPS:   foreach my $uniq_loops ( @{$xml_loops} ) {
     if ( ! defined ($uniq_loops->{VALUE}) || ! defined($uniq_loops->{INDEX})|| ! defined($uniq_loops->{NAME_INDEX}) ) {
 	$logger->debug("Error in xml File: VALUE, INDEX or NAME_INDEX not defined");
@@ -729,7 +727,6 @@ sub xml_data_v1 {
     my ($self,$xml_table,$result_table,$filters,$pos_table)=@_;
     my $logger=$self->{logger};
 
-    $logger->debug("Begin xml data");
     foreach my $table ( keys %{$xml_table} )  {
 	if ( $table eq "DATA" ) {
 	    foreach my $subtable ( @{$xml_table->{DATA}} ) {
