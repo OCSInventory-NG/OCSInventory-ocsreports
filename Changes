@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix a bug in Common.pm about processes data marked as virtualmachines data
        * Fix Bug #1216935 about Mac user agent not generating UUID
        * Fix Bug #1237682 about RPM.pm INSTALLDATE format not always accepted by MySQL
        * Retrieve the speed of network card

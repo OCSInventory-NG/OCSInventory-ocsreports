@@ -577,7 +577,7 @@ sub addProcess {
      }
   }
 
-  push @{$xmltags->{VIRTUALMACHINES}}, $content;
+  push @{$xmltags->{PROCESSES}}, $content;
 }
 
 
