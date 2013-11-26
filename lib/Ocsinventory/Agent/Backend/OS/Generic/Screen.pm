@@ -560,6 +560,7 @@ sub _getManifacturerFromCode {
     "PGS" => "Princeton Graphic Systems",
     "PHL" => "Philips Consumer Electronics Co.",
     "PRT" => "Princeton",
+	"PTS" => "ProView/EMC/PTS YakumoTFT17SL",
     "REL" => "Relisys",
     "SAM" => "Samsung",
     "SMI" => "Smile",

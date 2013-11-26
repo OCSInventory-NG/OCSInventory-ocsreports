@@ -35,11 +35,12 @@ requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
 requires 'LWP' => undef;
 requires 'File::Temp' => undef;
-requires 'Linux::Ethtool::Settings'=>undef;
 recommends 'Net::IP' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
 recommends 'Proc::PID::File' => undef;
+recommends 'Linux::Ethtool::Settings'=>undef;
+recommends 'Nvidia::ml'=>undef;
 
 install_script  'ocsinventory-agent';
 
@@ -47,7 +48,7 @@ install_script  'ocsinventory-agent';
 # We want a release bundled with the needed dependency to be able to
 # prepare a standalone binary with PAR::Packer 
 if ($ENV{OCS_BUNDLE_RELEASE}) {
-  foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple Linux::Ethtool::Settings/) {
+  foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
     bundle $module;
     requires $module;
   }
@@ -101,6 +102,13 @@ if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
     "want to use the daemon monde.\n";
 }
 
+if (!can_use('Linux::Ethtool::Settings')){
+	print "Linux::Ethtool::Settings is recommended if you want to retrieve speed and duplex information for network cards.\n";
+}
+
+if (!can_use('Nvidia::ml')){
+	print "Nvidia::ml is recommended if you want to retrieve memory, speed, bios information for Nvidia cards.\n";
+}
 
 my $archname;
 eval { # config_re is not available on Perl 5.6

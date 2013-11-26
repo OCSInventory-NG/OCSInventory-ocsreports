@@ -49,22 +49,44 @@ sub new {
     
   }
 
-  #Create objects for modules 
-  foreach my $mod (keys %Ocsinventory::Agent::Modules::) {
-	   $mod =~ s/\:\://;
-      my $package ="Ocsinventory::Agent::Modules::".$mod; 
-      
-	my $module = new $package($context) ;
-      my $name= $module->{structure}->{name};
+  	#Create objects for modules 
+	foreach my $package (searchModules(\%Ocsivnentory::Agent::Modules::)){
+		my $module = new $package($context);
+		my $name = $module->{structure}->{name};
      
-      #Store the reference in a key to access modules easily  
-      $self->{modules}->{$name}=$module;
+      	#Store the reference in a key to access modules easily  
+      	$self->{modules}->{$name}=$module;
 
-  }
+  	}
 
-  bless $self;
+  	bless $self;
 }
 
+# This function recursively searches for modules in a given namespace
+# Param: a hash reference to the namespace
+# Returns: an array with modules fully qualified names
+sub searchModules {
+	my $symbols_href = shift;
+	my @modules_list = ();
+
+	my %symbols_h = %{$symbols_href};
+	my @symbols_a = sort(keys(%symbols_h));
+
+	foreach(@symbols_a){
+		if ($_ eq 'new'){
+			# Found a "new" method -> this is a usable module
+			my $module_fqn = $symbols_h{$_};
+			# Keep the module fqn, without '*' at start
+			$module_fqn =~ s/\*?(.+)::new$/$1/;
+			push(@modules_list, $module_fqn);
+		}
+		elsif (substr($_, -2) eq '::') {
+			# If we meet a package, continue walking
+			push(@modules_list, searchModules($symbols_h{$_}));
+	    }
+	}
+	return @modules_list;
+}
 
 
 sub run {

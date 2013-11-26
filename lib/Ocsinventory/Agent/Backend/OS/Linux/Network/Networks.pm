@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub check {
-  return unless can_run("ifconfig") && can_run("route") && can_load("Net::IP qw(:PROC)") && can_load("Linux::Ethtool::Settings qw(:all)");
+  return unless can_run("ifconfig") && can_run("route") && can_load("Net::IP qw(:PROC)");
 
   1;
 }
@@ -164,16 +164,18 @@ sub run {
     } else { # In a section
         $description = $1 if ($line =~ /^(\S+):/ || $line =~ /^(\S+)/); # Interface name
 
-        $settings = Linux::Ethtool::Settings->new($description);
-	    if ( defined $settings ) {
-       		$current_speed = $settings->speed();
-            if ($current_speed > 100 ){
-                $speed = $current_speed." Gbps";
-            } else {
-                $speed = $current_speed." Mbps";
-            }
-            $duplex = $settings->duplex()?"Full":"Half";
-	    }
+		if (can_load("Linux::Ethtool::Settings qw(:all)")){
+        	$settings = Linux::Ethtool::Settings->new($description);
+	    	if ( defined $settings ) {
+       			$current_speed = $settings->speed();
+            	if ($current_speed > 100 ){
+                	$speed = $current_speed." Gbps";
+            	} else {
+                	$speed = $current_speed." Mbps";
+            	}
+            	$duplex = $settings->duplex()?"Full":"Half";
+	    	}
+		}
         $ipaddress = $1 if ($line =~ /inet addr:(\S+)/i || $line =~ /inet (\S+)\s+netmask/i);
         $ipmask = $1 if ($line =~ /\S*mask:(\S+)/i || $line =~ /\S*netmask (\S+)\s/i);
         $macaddr = $1 if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i || $line =~ /ether\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i);

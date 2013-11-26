@@ -316,7 +316,7 @@ sub addVideo {
 
   my $content = {};
 
-  foreach my $key (qw/CHIPSET MEMORY NAME RESOLUTION/) {
+  foreach my $key (qw/CHIPSET DRVVERSION MEMORY NAME RESOLUTION SPEED UUID VBIOS/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }
@@ -550,7 +550,7 @@ sub addVirtualMachine {
 
   my $content = {};
 
-  foreach my $key (qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU VMID/) {
+  foreach my $key (qw/CORES MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU VMID/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }

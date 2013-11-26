@@ -47,3 +47,4 @@ Alexandre Bossot: oracle module
 Javier Barroso: VLAN interface on AIX
 Yves GUIMARD: download.pm patch for zip files
 Marco Tizzoni: Host_Resources_Mib.pm and Agent.pm patches
+Matthias Vedrines: patch + various modules
