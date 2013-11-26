@@ -68,10 +68,10 @@ function search_on_loginnt($login) {
 
     $ds = ldap_connection (); 
     $filtre = "(".LOGIN_FIELD."={$login})"; 
-    $sr = @ldap_search($ds,DN_BASE_LDAP,$filtre,$attributs); 
-    $lce = @ldap_count_entries($ds,$sr); 
-    $info = @ldap_get_entries($ds,$sr); 
-    @ldap_close($ds); 
+    $sr = ldap_search($ds,DN_BASE_LDAP,$filtre,$attributs); 
+    $lce = ldap_count_entries($ds,$sr); 
+    $info = ldap_get_entries($ds,$sr); 
+    ldap_close($ds); 
     $info["nbResultats"] = $lce;
 
     // save user fields in session
@@ -126,9 +126,9 @@ function ldap_test_pw($dn, $pw) {
     if (!$ds) { // avec ldap 2.x.x, ldap_connect est tjrs ok. La connection n'est ouverte qu'au bind 
         $r = false; 
     } else { 
-        @ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION); 
-        $r = @ldap_bind($ds, $dn, $pw); 
-        @ldap_close($ds); 
+        ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION); 
+        $r = ldap_bind($ds, $dn, $pw); 
+        ldap_close($ds); 
         return $r; 
     } 
 } 
@@ -137,12 +137,12 @@ function ldap_connection (){
     $ds = ldap_connect(LDAP_SERVEUR,LDAP_PORT); 
     // Set the LDAP version
     // add by acop http://forums.ocsinventory-ng.org/viewtopic.php?pid=35261
-    @ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION);
-    @ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+    ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION);
+    ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
     if (ROOT_DN != '' && defined('ROOT_DN')){
-        $b = @ldap_bind($ds, ROOT_DN, ROOT_PW);         
+        $b = ldap_bind($ds, ROOT_DN, ROOT_PW);         
     }else //Anonymous bind
-        $b = @ldap_bind($ds);
+        $b = ldap_bind($ds);
     if (!$b)
         return false;
     else
