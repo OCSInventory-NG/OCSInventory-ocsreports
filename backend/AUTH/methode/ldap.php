@@ -123,8 +123,8 @@ function search_on_loginnt($login) {
  
 function ldap_test_pw($dn, $pw) { 
     $ds = ldap_connection (); 
-    if (!$ds) { // avec ldap 2.x.x, ldap_connect est tjrs ok. La connection n'est ouverte qu'au bind 
-        $r = false; 
+    if (!$ds or !pw) { // avec ldap 2.x.x, ldap_connect est tjrs ok. La connection n'est ouverte qu'au bind 
+        return false; 
     } else { 
         @ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION); 
         $r = @ldap_bind($ds, $dn, $pw); 
