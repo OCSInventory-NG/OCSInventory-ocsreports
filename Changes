@@ -1,4 +1,13 @@
 Revision history for ocsreports
+2.1
+		* fix LDAP bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/915301
+		* fix bug on WOL
+		* delete @ for ldap errors
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1019060. Delete registry cache where delete a key
+
+
+
+
 2.1RC1
 		* active SNMP V3
 		* change info on processor on coputer details
