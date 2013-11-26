@@ -4,6 +4,7 @@ Revision history for ocsreports
 		* fix bug on WOL
 		* delete @ for ldap errors
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1019060. Delete registry cache where delete a key
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1023436 (cosmetic)
 
 
 

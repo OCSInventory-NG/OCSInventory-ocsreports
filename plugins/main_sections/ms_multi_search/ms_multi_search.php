@@ -1245,7 +1245,7 @@ asort($optArray_trait);
  
 $protectedPost['multiSearch']=$l->g(32);
 $aff_field_search= $l->g(31).": ".show_modif($optArray_trait,'multiSearch',2,$form_name,array('DEFAULT'=>'NO'));
-$aff_field_search.="<img src='image/delete_all.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."'>";
+$aff_field_search.="<img src='image/delete_all.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."' style='margin-left:20px'>";
 echo "<table border=1 class='mlt_bordure'  WIDTH = '75%' ALIGN = 'Center' CELLPADDING='5'>";
 echo "<tr><td colspan=100 align=center bgcolor='#FFFFFF'>".$aff_field_search."</td></tr>";
 
