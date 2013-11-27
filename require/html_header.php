@@ -17,7 +17,10 @@ html_header();
 if( !isset($protectedGet["popup"] )) {
 	//si unlock de l'interface
 	if (isset($protectedPost['LOCK']) and $protectedPost['LOCK'] == 'RESET'){
-		 $_SESSION['OCS']["mesmachines"]=$_SESSION['OCS']["TRUE_mesmachines"];
+		if (isset($_SESSION['OCS']["TRUE_mesmachines"]) and $_SESSION['OCS']["TRUE_mesmachines"] != array())
+		 	$_SESSION['OCS']["mesmachines"]=$_SESSION['OCS']["TRUE_mesmachines"];
+		else
+			unset($_SESSION['OCS']["mesmachines"]);
 		unset($_SESSION['OCS']["TRUE_mesmachines"]);
 	}
 
@@ -115,16 +118,19 @@ echo "</td><td align=right><table><tr><td align=center>
 }
 
 if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
-	if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
-		echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>";
-		echo "<img src='image/deconnexion.png' title='".$l->g(251)."' alt='".$l->g(251)."'>";
-		echo "</a>";
-	}
+	
+		if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
+			echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>";
+			echo "<img src='image/deconnexion.png' title='".$l->g(251)."' alt='".$l->g(251)."'>";
+			echo "</a>";
+		}
+		
 		if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
 			echo "<a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'>";
 			echo "<img src='image/cadena_op.png' title='".$l->g(891)."' alt='".$l->g(891)."' >";
 			echo "</a>";
 		}
+		
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=650\")'";
 		echo "<a ".$javascript."><img src=".PLUGINS_DIR."/main_sections/img/ms_pass.png></a>";
 		echo open_form('log_out','index.php');
