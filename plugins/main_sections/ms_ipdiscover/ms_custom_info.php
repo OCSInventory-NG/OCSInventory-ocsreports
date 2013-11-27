@@ -159,8 +159,8 @@ else{ //affichage des p�riph�riques
 				$default_fields= array($l->g(34)=>$l->g(34),$l->g(66)=>$l->g(66),$l->g(53)=>$l->g(53),
 									'MAC'=>'MAC',$l->g(232)=>$l->g(232),$l->g(369)=>$l->g(369),'SUP'=>'SUP','MODIF'=>'MODIF');
 
-		}elseif($protectedGet['prov'] == "inv"){
-			$title=$l->g(1271);
+		}elseif($protectedGet['prov'] == "inv" or $protectedGet['prov'] == "ipdiscover"){
+			
 			//BEGIN SHOW ACCOUNTINFO
 			require_once('require/function_admininfo.php');
 			$accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
@@ -184,8 +184,16 @@ else{ //affichage des p�riph�riques
 			$list_fields=array_merge ($list_fields,$list_fields2);
 			$sql=prepare_sql_tab($list_fields);
 			$tab_options['ARG_SQL']=$sql['ARG'];
-			$sql=$sql['SQL']." from accountinfo a,hardware h LEFT JOIN networks n ON n.hardware_id=h.id
-				 where ipsubnet='%s' and status='Up' and a.hardware_id=h.id ";
+			if($protectedGet['prov'] == "inv"){
+				$title=$l->g(1271);
+				$sql=$sql['SQL']." from accountinfo a,hardware h LEFT JOIN networks n ON n.hardware_id=h.id";
+				$sql.=" where ipsubnet='%s' and status='Up' and a.hardware_id=h.id ";
+			}else{
+				$title=$l->g(492);
+				$sql=$sql['SQL']." from accountinfo a,hardware h left join devices d on d.hardware_id=h.id";
+				$sql.=" where a.hardware_id=h.id and (d.ivalue=1 or d.ivalue=2) and d.name='IPDISCOVER' and d.tvalue='%s'";
+			}
+				
 			array_push($tab_options['ARG_SQL'],$protectedGet['value']);
 			$default_fields['NAME']='NAME';
 			$default_fields[$l->g(34)]=$l->g(34);

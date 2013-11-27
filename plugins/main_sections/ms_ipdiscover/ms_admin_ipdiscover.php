@@ -102,7 +102,9 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 				}
 			}else
 				$list_subnet=array();
-			array_unshift($list_subnet,"");	
+			
+			$list_subnet = array(0 => "") + $list_subnet;
+			
 			$default_values=array('RSX_NAME'=>$protectedPost['RSX_NAME'],
 								  'ID_NAME' =>$list_subnet,
 								  'ADD_IP'  =>$protectedPost['ADD_IP'],
