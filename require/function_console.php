@@ -48,7 +48,7 @@ $multi_search=array("OCS_REPORT_NB_NOTIFIED"=>array("FIELD"=>'',"COMP"=>'',"VALU
 					"OCS_REPORT_NB_LIMIT_MEM_M"=>array("FIELD"=>'HARDWARE-MEMORY',"COMP"=>'small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI']),
 					"OCS_REPORT_NB_LIMIT_MEM_B"=>array("FIELD"=>'HARDWARE-MEMORY,HARDWARE-MEMORY',"COMP"=>'tall,small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI'].','.$data_limit['GUI_REPORT_RAM_MAX']),					
 					"OCS_REPORT_NB_NOTIFIED"=>array("FIELD"=>'DEVICES-DOWNLOAD',"COMP"=>'exact',"VALUE"=>'NULL','VALUE2'=>$l->g(482),'TYPE_FIELD'=>"SelFieldValue"),
-					"OCS_REPORT_NB_ERR"=>array("FIELD"=>'DEVICES-DOWNLOAD',"COMP"=>'exact',"VALUE"=>'NULL','VALUE2'=>"ERR_",'TYPE_FIELD'=>"SelFieldValue"),
+					"OCS_REPORT_NB_ERR"=>array("FIELD"=>'DEVICES-DOWNLOAD',"COMP"=>'exact',"VALUE"=>'NULL','VALUE2'=>"***".$l->g(956)."***",'TYPE_FIELD'=>"SelFieldValue"),
 			/*		"OCS_REPORT_NB_HARD_DISK_H"=>array("FIELD"=>'HARDWARE-MEMORY',"COMP"=>'tall',"VALUE"=>$data_limit['GUI_REPORT_RAM_MAX']),
 					"OCS_REPORT_NB_HARD_DISK_M"=>array("FIELD"=>'HARDWARE-MEMORY',"COMP"=>'small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI']),
 					"OCS_REPORT_NB_HARD_DISK_B"=>array("FIELD"=>'HARDWARE-MEMORY,HARDWARE-MEMORY',"COMP"=>'tall,small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI'].','.$data_limit['GUI_REPORT_RAM_MAX']),					

@@ -58,12 +58,12 @@ function search_on_loginnt($login) {
     // search for the custom user level attributes if they're defined
     if ($f1_name != '')
     {
-        array_push($attributs, $f1_name);
+        array_push($attributs, strtolower($f1_name));
     }
 
     if ($f2_name != '')
     {
-        array_push($attributs, $f2_name);
+        array_push($attributs, strtolower($f2_name));
     }
 
     $ds = ldap_connection (); 
@@ -82,18 +82,6 @@ function search_on_loginnt($login) {
     $_SESSION['OCS']['details']['title']=$info[0]['title'][0];
 
     // if the extra attributes are there, save them as well
-    /*ORIGINAL CODE BEGINS
-    if ($info[0][$f1_name][0] != '') 
-    {
-    $_SESSION['OCS']['details'][$f1_name]=$info[0][$f1_name][0];
-    }
-
-    if ($info[0][$f2_name][0] != '') 
-    {
-        $_SESSION['OCS']['details'][$f2_name]=$info[0][$f2_name][0];
-    }
-    ORIGINAL CODE ENDS*/
-    //NEW CODE
     if ($info[0][$f1_name][0] != '')
     {
     //attribute name 'memberof' is for group searching
@@ -101,22 +89,21 @@ function search_on_loginnt($login) {
     if ($f1_name == "memberof")
     {    //this is to store the entire array instead of just the first string
         //may be redundant and could be simplified, but it works.
-        $_SESSION['OCS']['details'][$f1_name]=$info[0][$f1_name];
+        $_SESSION['OCS']['details'][$f1_name]=$info[0][strtolower($f1_name)];
     } else {
-        $_SESSION['OCS']['details'][$f1_name]=$info[0][$f1_name][0];
+        $_SESSION['OCS']['details'][$f1_name]=$info[0][strtolower($f1_name)][0];
     }
     }
 
-    if ($info[0][$f2_name][0] != '')
+    if ($info[0][strtolower($f2_name)][0] != '')
     {
     if ($f2_name == "memberof")
     {
-        $_SESSION['OCS']['details'][$f2_name]=$info[0][$f2_name];
+        $_SESSION['OCS']['details'][$f2_name]=$info[0][strtolower($f2_name)];
     } else {
-        $_SESSION['OCS']['details'][$f2_name]=$info[0][$f2_name][0];
+        $_SESSION['OCS']['details'][$f2_name]=$info[0][strtolower($f2_name)][0];
     }
     }
-    //END NEW CODE
     return $info; 
 } 
  

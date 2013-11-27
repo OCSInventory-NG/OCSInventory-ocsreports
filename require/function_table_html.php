@@ -344,10 +344,10 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	}elseif ($input_type ==0)
 	return "<input type='text' name='".$input_name."' id='".$input_name."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$name."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
 	elseif($input_type ==2){
-		$champs="<select name='".$input_name."' id='".$input_name."' ".$configinput['JAVASCRIPT'];
+		$champs="<select name='".$input_name."' id='".$input_name."' ".(isset($configinput['JAVASCRIPT'])?$configinput['JAVASCRIPT']:'');
 		if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
 		$champs.=" class='down' \>";
-		if ($configinput['DEFAULT'] == "YES")
+		if (isset($configinput['DEFAULT']) and $configinput['DEFAULT'] == "YES")
 		$champs.= "<option value='' class='hi' \></option>";
 		$countHl=0;		
 		if ($name != ''){
