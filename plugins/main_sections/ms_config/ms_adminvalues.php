@@ -67,7 +67,7 @@ if ($protectedPost['onglet'] == 1){
 		delete($protectedGet['tag']."_".$protectedPost['SUP_PROF']);
 	}	
 	
-	$queryDetails ="select IVALUE,TVALUE from config where name like '".$protectedGet['tag']."_%'";
+	$queryDetails ="select IVALUE,TVALUE from config where name like '".$protectedGet['tag']."\_%'";
 
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';

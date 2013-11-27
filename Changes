@@ -12,6 +12,7 @@ Revision history for ocsreports
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/772680 (ocsbase.sql admin/ladmin)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/806850 (ipdiscover id)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/807406 (ipdiscover sort percentage)
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/931373 (administrative data search)
 
 
 
