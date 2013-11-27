@@ -193,7 +193,8 @@ function verif_champ(){
 					  'IPDISCOVER_IPD_DIR'=>array('FIELD_READ'=>'IPDISCOVER_IPD_DIR_edit','END'=>"/ipd/",'FILE'=>"",'TYPE'=>'r'),
 					  'LOG_DIR'=>array('FIELD_READ'=>'LOG_DIR_edit','END'=>"/logs/",'FILE'=>"",'TYPE'=>'r'),
 					  'LOG_SCRIPT'=>array('FIELD_READ'=>'LOG_SCRIPT_edit','END'=>"/scripts/",'FILE'=>"",'TYPE'=>'r'),
-					  'OLD_CONF_DIR'=>array('FIELD_READ'=>'OLD_CONF_DIR_edit','END'=>"/old_conf/",'FILE'=>"",'TYPE'=>'r'));
+					  'OLD_CONF_DIR'=>array('FIELD_READ'=>'OLD_CONF_DIR_edit','END'=>"/old_conf/",'FILE'=>"",'TYPE'=>'r'),
+					  'DOWNLOAD_REP_CREAT'=>array('FIELD_READ'=>'DOWNLOAD_REP_CREAT_edit','END'=>"",'FILE'=>"",'TYPE'=>'r'));
 	
 	foreach ($file_exist as $key=>$value){
 		if ($protectedPost[$key] == 'CUSTOM'){
