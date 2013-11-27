@@ -799,6 +799,7 @@ if ($list_id != "")	{
 						$l->g(652).": ".$l->g(111)=>'h.WINPRODKEY',
 						$l->g(652).": ".$l->g(553)=>'h.WINPRODID',
 						$l->g(652).": ".$l->g(286) => "h.OSCOMMENTS",
+						$l->g(25).": ".$l->g(277) => "h.OSVERSION",
 						$l->g(652).": ".$l->g(1247)=>'h.ARCH',);
 	$list_fields=array_merge ($list_fields_account_info,$list_fields);
 	
@@ -954,6 +955,7 @@ $sort_list=array("NETWORKS-IPADDRESS" =>$l->g(82).": ".$l->g(34),
 			   	 "BIOS-BVERSION"=>$l->g(273).": ".$l->g(209),
 			     "HARDWARE-USERID"=>$l->g(243).": ".$l->g(49),
 			     "HARDWARE-OSCOMMENTS"=>$l->g(25).": ".$l->g(51),
+				 "HARDWARE-OSVERSION"=>$l->g(25).": ".$l->g(277),
 			     "NETWORKS-IPGATEWAY"=>$l->g(82).": ".$l->g(207),
 			     "NETWORKS-IPSUBNET"=>$l->g(82).": ".$l->g(331),
 			     "NETWORKS-IPDHCP"=>$l->g(82).": ".$l->g(281),
@@ -1005,6 +1007,7 @@ $optSelectField=array( "NETWORKS-IPADDRESS"=>$sort_list["NETWORKS-IPADDRESS"],
 			   "BIOS-BVERSION"=>$sort_list["BIOS-BVERSION"],//$l->g(273).": ".$l->g(209),
 			   "HARDWARE-USERID"=>$sort_list["HARDWARE-USERID"],//$l->g(243).": ".$l->g(49),
 			   "HARDWARE-OSCOMMENTS"=>$sort_list["HARDWARE-OSCOMMENTS"],//$l->g(25).": ".$l->g(51),
+			   "HARDWARE-OSVERSION"=>$sort_list["HARDWARE-OSVERSION"],
 			   "NETWORKS-IPGATEWAY"=>$sort_list["NETWORKS-IPGATEWAY"],//$l->g(82).": ".$l->g(207),
 			   "NETWORKS-IPSUBNET"=>$sort_list["NETWORKS-IPSUBNET"],//$l->g(82).": ".$l->g(331),
 			   "NETWORKS-IPDHCP"=>$sort_list["NETWORKS-IPDHCP"],//$l->g(82).": ".$l->g(281),
