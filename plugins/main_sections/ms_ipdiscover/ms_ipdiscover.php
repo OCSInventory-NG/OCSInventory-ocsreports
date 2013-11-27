@@ -100,8 +100,10 @@ echo open_form($form_name);
 	$tab_options['POPUP_SIZE']['INVENTORIE']="width=900,height=600";
 	$tab_options['NO_LIEN_CHAMP']['INVENTORIE']=array(0);
 	
-	$tab_options['LIEN_LBL']['IPDISCOVER']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=ipdiscover1&value=';
+	$tab_options['LIEN_LBL']['IPDISCOVER']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&head=1&prov=ipdiscover&value=';
 	$tab_options['LIEN_CHAMP']['IPDISCOVER']='ID';
+	$tab_options['LIEN_TYPE']['IPDISCOVER']='POPUP';
+	$tab_options['POPUP_SIZE']['IPDISCOVER']="width=900,height=600";
 	$tab_options['NO_LIEN_CHAMP']['IPDISCOVER']=array(0);
 	
 	$tab_options['LIEN_LBL']['NON_INVENTORIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&prov=no_inv&head=1&value=';
