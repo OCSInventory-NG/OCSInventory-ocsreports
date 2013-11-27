@@ -51,7 +51,7 @@ echo open_form($form_name);
 					  non_ident.c as 'NON_INVENTORIE',
 					  ipdiscover.c as 'IPDISCOVER',
 					  ident.c as 'IDENTIFIE',
-					  round(100-(non_ident.c*100/(ident.c+non_ident.c)),1) as 'pourcentage'
+					  CASE WHEN ident.c IS NULL and ipdiscover.c IS NULL THEN 100 WHEN ident.c IS NULL THEN 0 ELSE round(100-(non_ident.c*100/(ident.c+non_ident.c)),1) END as 'pourcentage'
 			  from (SELECT COUNT(DISTINCT hardware_id) as c,'IPDISCOVER' as TYPE,tvalue as RSX
 					FROM devices 
 					WHERE name='IPDISCOVER' and tvalue in  ";

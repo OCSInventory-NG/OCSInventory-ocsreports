@@ -11,6 +11,7 @@ Revision history for ocsreports
 		* add osversion column for multisearch => https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/905544
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/772680 (ocsbase.sql admin/ladmin)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/806850 (ipdiscover id)
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/807406 (ipdiscover sort percentage)
 
 
 
