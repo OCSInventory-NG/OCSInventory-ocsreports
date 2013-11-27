@@ -13,7 +13,7 @@ sub run {
     my $logger = $params->{logger};
 
 	my $cpu;
-	my $core;
+	my $cores;
     my $uuid;
     my $mem;
     my $status;
