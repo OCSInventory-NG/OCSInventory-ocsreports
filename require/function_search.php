@@ -40,7 +40,7 @@ if ($_SESSION['OCS']["usecache"] == true){
 
 //liste des tables qui ne doivent pas faire des fusions de requ�te
 //cas pour les tables multivalu�e
-$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS","CPUS");
+$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS","CPUS","GROUPS_CACHE");
 
 
 
