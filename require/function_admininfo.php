@@ -405,9 +405,9 @@ function updateinfo_computer($id,$values,$list=''){
 	}
 	$sql_account_data = substr($sql_account_data,0,-2);
 	if (is_numeric($id) and $list == '')
-	$sql_account_data.=" WHERE hardware_id=%s";
+		$sql_account_data.=" WHERE hardware_id=%s";
 	if ($list != '')
-	$sql_account_data.=" WHERE hardware_id in (%s)";
+		$sql_account_data.=" WHERE hardware_id in (%s)";
 	
 	array_push($arg_account_data,$id);	
 	mysql2_query_secure($sql_account_data,$_SESSION['OCS']["readServer"],$arg_account_data);
