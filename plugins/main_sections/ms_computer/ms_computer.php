@@ -64,7 +64,7 @@ foreach ($lbl_affich as $key=>$lbl){
 			}	
 		}	
 	}elseif($key == "VMTYPE" and $item->UUID != ''){
-		$sqlVM = "select vm.hardware_id,vm.vmtype, h.name from virtualmachines vm left join hardware h on vm.hardware_id=h.id where vm.uuid='%s'";
+		$sqlVM = "select vm.hardware_id,vm.vmtype, h.name from virtualmachines vm left join hardware h on vm.hardware_id=h.id where vm.uuid='%s' order by h.name DESC";
 		$argVM = $item->UUID;
 		$resVM = mysql2_query_secure($sqlVM,$_SESSION['OCS']["readServer"],$argVM);		
 		$valVM = mysql_fetch_array( $resVM );
