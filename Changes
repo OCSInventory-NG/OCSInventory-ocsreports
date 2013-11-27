@@ -16,6 +16,7 @@ Revision history for ocsreports
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1240166 (bug on groups search)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1091580 (accountinfo checkboxes)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1152596 (vm relation to host)
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/924756 (uppercase letters in console)
 
 
 
