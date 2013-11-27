@@ -19,6 +19,7 @@ Revision history for ocsreports
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/924756 (uppercase letters in console)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1168382 (ugly computer details when more then 3 ip addresses)
 		* verify if directory of redistribution server exist
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1011531 (delete redistribution packages on disk)
 
 
 2.1RC1

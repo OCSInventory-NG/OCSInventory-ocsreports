@@ -316,20 +316,39 @@ function del_pack($fileid){
 
 	//delete info of this pack
 	$reqDelAvailable = "DELETE FROM download_available WHERE FILEID='%s'";
-	$argDelAvailable = $fileid;	
+	$argDelAvailable = $fileid;
+	
 	mysql2_query_secure($reqDelAvailable, $_SESSION['OCS']["writeServer"],$argDelAvailable);
 	//what is the directory of this package?
 	$info=look_config_default_values('DOWNLOAD_PACK_DIR');
 	$document_root=$info['tvalue']['DOWNLOAD_PACK_DIR'];
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root))
-	$document_root = $_SERVER["DOCUMENT_ROOT"];
+		$document_root = $_SERVER["DOCUMENT_ROOT"];
+	
 	if (@opendir($document_root."/download/".$fileid)){
 		//delete all files from this package
 		if( ! @recursive_remove_directory( $document_root."/download/".$fileid ))  {
 			msg_error($l->g(472)." ".$document_root."/download/".$fileid);
 		}
 	}
+	
+	// delete redistribution package
+	$dl_rep_redist = look_config_default_values('DOWNLOAD_REP_CREAT');
+	$document_root = $dl_rep_redist['tvalue']['DOWNLOAD_REP_CREAT'];
+	
+	if (!$document_root) {
+		$document_root = $_SERVER["DOCUMENT_ROOT"].'/download/server';
+	}
+	$redist_package = realpath($document_root."/".$fileid);
+	
+	if ($redist_package and @opendir($redist_package)) {
+		//delete all files from this package
+		if(!@recursive_remove_directory($redist_package))  {
+			msg_error($l->g(472)." ".$redist_package);
+		}
+	}
+	
 	addLog($l->g(512), $l->g(888)." ".$fileid );
 }
 
