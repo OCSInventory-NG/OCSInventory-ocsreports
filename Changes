@@ -6,6 +6,8 @@ Revision history for ocsreports
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1019060. Delete registry cache where delete a key
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1023436 (cosmetic)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/612966 (lock/unlock GUI)
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/806035 (ipdiscover)
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1250428 (ldap case sensitive)
 
 
 
