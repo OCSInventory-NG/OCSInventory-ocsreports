@@ -20,6 +20,7 @@ Revision history for ocsreports
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1168382 (ugly computer details when more then 3 ip addresses)
 		* verify if directory of redistribution server exist
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1011531 (delete redistribution packages on disk)
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1051850 (no computer name in csv export of duplicates)
 
 
 2.1RC1
