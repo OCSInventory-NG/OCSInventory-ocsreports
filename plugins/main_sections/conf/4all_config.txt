@@ -126,6 +126,7 @@ ms_add_key:add_key
 ms_export_ocs:export_ocs
 ms_qrcode:qrcode
 ms_plugins:plugins
+ms_stats_top:stats_top
 </URL>
 
 <DIRECTORY>
@@ -197,6 +198,7 @@ ms_export_ocs:ms_export
 ms_qrcode:ms_computer
 ms_plugins:ms_plugins
 ms_wol:ms_config
+ms_stats_top:ms_stats
 </DIRECTORY>
 
 
