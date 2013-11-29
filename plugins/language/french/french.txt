@@ -1330,3 +1330,7 @@
 5023 [DEBUG]REQUETE CONDITION DIFF[DEBUG]
 
 6000 Plugins
+6001 Licences Offices
+6002 Répartition Offices
+6003 Nombre par licence
+6004 Nombre Total disponible

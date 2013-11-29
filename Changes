@@ -21,7 +21,7 @@ Revision history for ocsreports
 		* verify if directory of redistribution server exist
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1011531 (delete redistribution packages on disk)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1051850 (no computer name in csv export of duplicates)
-
+		* Add an exemple for plugin (how to developp one)
 
 2.1RC1
 		* active SNMP V3
