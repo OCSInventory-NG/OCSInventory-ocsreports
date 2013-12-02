@@ -56,19 +56,19 @@
          <CPU>
             <VALUE>1.3.6.1.4.1.6876.2.1.1.9.VM</VALUE>
          </CPU>
-         <VMID>
+         <UUID>
             <VALUE>1.3.6.1.4.1.6876.2.1.1.10.VM</VALUE>
-         </VMID>
+         </UUID>
          <LOOPS>
            <VALUE>1.3.6.1.4.1.6876.2.3.1.3.VM</VALUE>
            <INDEX>1.3.6.1.4.1.6876.2.3.1.3.VM.(\S+)</INDEX>
            <NAME_INDEX>DISK</NAME_INDEX>
            <DATA>
-                <DISK>
+                <DISKS>
                    <NAME>
 		   <VALUE>1.3.6.1.4.1.6876.2.3.1.3.VM.DISK</VALUE>
                    </NAME>
-	        </DISK>
+	        </DISKS>
            </DATA>
          </LOOPS>
          <LOOPS>
@@ -83,7 +83,7 @@
                    <DESCRIPTION>
 		      <VALUE>1.3.6.1.4.1.6876.2.4.1.4.VM.NET</VALUE>
                    </DESCRIPTION>
-                   <MACADDRESS>
+                   <MACADDR>
 		      <VALUE>1.3.6.1.4.1.6876.2.4.1.7.VM.NET</VALUE>
                    </MACADDRESS>
                    <STATUS>
