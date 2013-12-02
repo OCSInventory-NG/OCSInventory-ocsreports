@@ -95,21 +95,25 @@ sub run {
     if ($line =~ /^$/ && $description && $macaddr) {
       # end of interface section
       # I write the entry
-      my $binip = ip_iptobin ($ipaddress ,4);
-      my $binmask = ip_iptobin ($ipmask ,4);
-      my $binsubnet = $binip & $binmask;
-      $ipsubnet = ip_bintoip($binsubnet,4);
+      my $binip;
+      my $binmask;
+      my $binsubnet;
+
+      $binip = ip_iptobin ($ipaddress ,4) if $ipaddress;
+      $binmask = ip_iptobin ($ipmask ,4) if $ipmask;
+      $binsubnet = $binip & $binmask if ($binip && $binmask);
+      $ipsubnet = ip_bintoip($binsubnet,4) if $binsubnet;
 
       my @wifistatus = `iwconfig $description 2>>/dev/null`;
       if ( @wifistatus > 2 ) {
         $type = "Wifi";
       }
 
-      $ipgateway = $gateway{$ipsubnet};
+      $ipgateway = $gateway{$ipsubnet} if $ipsubnet;
 
       # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
       if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
-        $ipgateway = $gateway{'0.0.0.0'}
+        $ipgateway = $gateway{'0.0.0.0'};
       }
 
       if (open UEVENT, "</sys/class/net/$description/device/uevent") {
@@ -159,7 +163,7 @@ sub run {
 
     if ($line =~ /^$/) { # End of section
 
-      $description = $driver = $ipaddress = $ipmask = $ipgateway = $macaddr = $pcislot = $status =  $type = $virtualdev = $speed = undef;
+      $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $macaddr = $pcislot = $status =  $type = $virtualdev = $speed = $duplex = undef;
 
     } else { # In a section
         $description = $1 if ($line =~ /^(\S+):/ || $line =~ /^(\S+)/); # Interface name

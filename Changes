@@ -1,10 +1,11 @@
 Revision history for Ocsinventory::Agent
 
-	   * Add new screen code for edid (PTS)
-	   * Add new module to retrieve Nvidia cards
-	   * Add new file to detect CentOS distro
-	   * Add new module to retrieve virtual machines on vmware workstation
-	   * Return corrected values for storage under Fedora 19
+       * Fix Bug #1247190 about default gateway as gateway for all interfaces under Linux
+       * Add new screen code for edid (PTS)
+       * Add new module to retrieve Nvidia cards
+       * Add new file to detect CentOS distro
+       * Add new module to retrieve virtual machines on vmware workstation
+       * Return corrected values for storage under Fedora 19
        * Fix Bug #1206514 Enhance modules loading to allow directories
        * Fix a bug in Common.pm about processes data marked as virtualmachines data
        * Fix Bug #1216935 about Mac user agent not generating UUID
