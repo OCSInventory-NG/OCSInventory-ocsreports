@@ -38,7 +38,7 @@ package Ocsinventory::Agent::Modules::Databases::Oracle;
 use strict;
 use warnings;
 
-use Oracle::Instances;
+use Ocsinventory::Oracle::Instances;
 
 sub new {
     my $name = "oracleinstances";   # Set the name of your module here

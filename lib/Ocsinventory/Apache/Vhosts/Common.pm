@@ -4,7 +4,7 @@
 # Author: Linkbynet <SA-DEVSYS@linkbynet.com>
 ###############################################################################
 
-package Apache::Vhosts::Common;
+package Ocsinventory::Apache::Vhosts::Common;
 
 =head1 NAME
 

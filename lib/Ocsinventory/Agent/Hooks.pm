@@ -50,7 +50,7 @@ sub new {
   }
 
   	#Create objects for modules 
-	foreach my $package (searchModules(\%Ocsivnentory::Agent::Modules::)){
+	foreach my $package (searchModules(\%Ocsinventory::Agent::Modules::)){
 		my $module = new $package($context);
 		my $name = $module->{structure}->{name};
      

@@ -45,7 +45,7 @@ package Ocsinventory::Agent::Modules::Apache::VhostsEL;
 use strict;
 use warnings;
 
-use Apache::Vhosts::Common;
+use Ocsinventory::Apache::Vhosts::Common;
 
 sub new {
     my $name = "apachevhosts_el";   # Set the name of your module here

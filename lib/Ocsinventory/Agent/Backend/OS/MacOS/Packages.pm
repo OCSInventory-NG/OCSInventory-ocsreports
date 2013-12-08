@@ -28,10 +28,11 @@ sub run {
         my $kind = $app->{'runtime_environment'} ? $app->{'runtime_environment'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
         $common->addSoftware({
-            'NAME'      => $app->{'_name'},
-            'VERSION'   => $app->{'version'} || 'unknown',
-            'COMMENTS'  => $comments,
-            'PUBLISHER' => $app->{'info'} || 'unknown',
+            'NAME'        => $app->{'_name'},
+            'VERSION'     => $app->{'version'} || 'unknown',
+            'COMMENTS'    => $comments,
+            'PUBLISHER'   => $app->{'info'} || 'unknown',
+			'INSTALLDATE' => $app->{'lastModified'},
         });
     }
 }

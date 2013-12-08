@@ -1,5 +1,13 @@
 Revision history for Ocsinventory::Agent
 
+       * Add blueprint Add installation date in the report of the installed software
+       * Add blueprint Display UUID value in the hardware Table
+       * Fix Bug #1247190 about default gateway as gateway for all interfaces under Linux
+       * Add new screen code for edid (PTS)
+       * Add new module to retrieve Nvidia cards
+       * Add new file to detect CentOS distro
+       * Add new module to retrieve virtual machines on vmware workstation
+       * Return corrected values for storage under Fedora 19
        * Fix Bug #1247190 about default gateway as gateway for all interfaces under Linux
        * Add new screen code for edid (PTS)
        * Add new module to retrieve Nvidia cards

@@ -4,7 +4,7 @@
 # Author: Linkbynet <SA-DEVSYS@linkbynet.com>
 ################################################################################
 
-package Oracle::Instances;
+package Ocsinventory::Oracle::Instances;
 
 =head1 NAME
 
