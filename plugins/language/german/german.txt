@@ -1390,3 +1390,4 @@
 6002 Distribution of Offices Licences
 6003 Number of licence
 6004 Total available
+6005 Power on/off

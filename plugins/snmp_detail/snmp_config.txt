@@ -18,6 +18,7 @@ sd_ports
 sd_softwares
 sd_sounds
 sd_videos
+sd_virtualmachines
 </ORDER>
 
 <LBL>
@@ -40,6 +41,7 @@ sd_ports:g(272)
 sd_softwares:g(20)
 sd_sounds:g(96)
 sd_videos:g(61)
+sd_virtualmachines:g(1266)
 </LBL>
 
 <ISAVAIL>
@@ -62,4 +64,5 @@ sd_ports:snmp_ports
 sd_softwares:snmp_softwares
 sd_sounds:snmp_sounds
 sd_videos:snmp_videos
+sd_virtualmachines:snmp_virtualmachines
 </ISAVAIL>

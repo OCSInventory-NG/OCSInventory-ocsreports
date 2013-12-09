@@ -1334,3 +1334,4 @@
 6002 Répartition Offices
 6003 Nombre par licence
 6004 Nombre Total disponible
+6005 Eteinte/allumée
