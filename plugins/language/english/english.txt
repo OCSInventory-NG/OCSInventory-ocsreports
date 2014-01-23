@@ -1198,6 +1198,14 @@
 1320 Use , between data
 1321 No port defined for WOL
 1322 Unable to open socket for WOL
+1323 Server printer sharing
+1324 Sharing printer on server
+1325 screen horizontal / vertical
+1326 Shared
+1327 Local / Networks
+
+
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
