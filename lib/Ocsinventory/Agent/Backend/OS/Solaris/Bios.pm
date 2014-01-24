@@ -65,8 +65,7 @@ sub run {
   my $params = shift;
   my $common = $params->{common};
   my $zone;
-  my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-    $BiosVersion, $BiosDate, $aarch);
+  my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer, $MotherBoardSerial, $MotherBoardModel, $MotherBoardManufacturer, $BiosManufacturer, $BiosVersion, $BiosDate, $aarch);
   
   my $OSLevel=`uname -r`;	  
   
@@ -97,6 +96,11 @@ sub run {
 			  if(/^\s*Vendor:\s*(.+)$/){$BiosManufacturer = $1};
 			  if(/^\s*Version String:\s*(.+)$/){$BiosVersion = $1};
 			  if(/^\s*Release Date:\s*(.+)$/){$BiosDate = $1};
+			}
+			foreach(`/usr/sbin/smbios -t SMB_TYPE_BASEBOARD`) {
+			  if(/^\s*Product\s*(.+)$/){$MotherBoardModel = $1};
+			  if(/^\s*Serial Number:\s*(.+)$/){$MotherBoardSerial = $1};
+			  if(/^\s*Manufacturer:\s*(.+)$/){$MotherBoardManufacturer = $1};
 			}
 		  } elsif( $aarch eq "sparc" ) {
 			#
@@ -150,7 +154,10 @@ sub run {
       BDATE => $BiosDate,
       SMANUFACTURER => $SystemManufacturer,
       SMODEL => $SystemModel,
-      SSN => $SystemSerial     
+      SSN => $SystemSerial,
+	  MMANUFACTURER => $MotherBoardManufacturer,
+	  MSN => $MotherBoardSerial,
+      MMODEL => $MotherBoardModel     
     });
 }
 

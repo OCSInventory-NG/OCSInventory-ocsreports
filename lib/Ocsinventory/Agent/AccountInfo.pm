@@ -48,8 +48,8 @@ sub new {
     if ($self->{config}->{tag}) {
         if ($self->{accountinfo}->{TAG}) {
             $logger->debug("A TAG seems to already exist in the ocsinv.adm file. ".
-                "The -t paramter will be ignored. Don't forget that the TAG value ".
-                "will ignored by the server unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
+                "The -t parameter will be ignored. Don't forget that the TAG value ".
+                "will be ignored by the server unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
         } else {
           $self->{accountinfo}->{TAG} = $self->{config}->{tag};
         }

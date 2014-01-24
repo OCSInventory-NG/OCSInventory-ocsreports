@@ -16,7 +16,7 @@ sub run {
             my $name = $2;
             my $status = $3;
 
-            my $status =~ s/^shut off/off/;
+            $status =~ s/^shut off/off/;
             my $xml = `virsh dumpxml $name`;
             my $data = XMLin($xml);
 

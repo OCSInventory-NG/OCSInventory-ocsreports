@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix #bug 1272425 The status of libvirt virtual machines is not reported
        * Add blueprint Add installation date in the report of the installed software
        * Add blueprint Display UUID value in the hardware Table
        * Fix Bug #1247190 about default gateway as gateway for all interfaces under Linux
