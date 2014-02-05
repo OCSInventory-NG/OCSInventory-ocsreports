@@ -347,7 +347,7 @@
 						<object class="NSButtonCell" key="NSCell" id="592301006">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Browse</string>
+							<string key="NSContents">Parcourir</string>
 							<reference key="NSSupport" ref="691464604"/>
 							<reference key="NSControlView" ref="208277697"/>
 							<int key="NSButtonFlags">-2038284033</int>
