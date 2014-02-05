@@ -1,12 +1,12 @@
 Revision history for Ocsinventory::Agent
 
-       * Fix #bug 1272425 The status of libvirt virtual machines is not reported
-       * Add blueprint Add installation date in the report of the installed software
-       * Add blueprint Display UUID value in the hardware Table
+2.1
+       * Fix #bug 1272425 about status of libvirt virtual machines not reported
+       * Fix blueprint about installation date in the report of the installed software
+       * Fix blueprint about UUID value in the hardware Table
        * Fix Bug #1247190 about default gateway as gateway for all interfaces under Linux
        * Add new screen code for edid (PTS)
        * Add new module to retrieve Nvidia cards
-       * Add new file to detect CentOS distro
        * Add new module to retrieve virtual machines on vmware workstation
        * Return corrected values for storage under Fedora 19
        * Fix Bug #1247190 about default gateway as gateway for all interfaces under Linux
@@ -15,26 +15,26 @@ Revision history for Ocsinventory::Agent
        * Add new file to detect CentOS distro
        * Add new module to retrieve virtual machines on vmware workstation
        * Return corrected values for storage under Fedora 19
-       * Fix Bug #1206514 Enhance modules loading to allow directories
+       * Fix Bug #1206514 about enhancing modules loading to allow directories
        * Fix a bug in Common.pm about processes data marked as virtualmachines data
        * Fix Bug #1216935 about Mac user agent not generating UUID
        * Fix Bug #1237682 about RPM.pm INSTALLDATE format not always accepted by MySQL
        * Retrieve the speed of network card
        * Add a new log message when unable to scan a SNMP devices in Snmp.pm
-       * Fix problem fix IP address tests in Snmp.pm
+       * Fix problem about IP address tests in Snmp.pm
        * Remove "-pP" option passed to nmap in Snmp.pm
        * New module to retrieve NetApp devices using SNMP
        * New module to retrieve Sun devices using SNMP
        * Add new value to BIOS.pm
-       * Fix bug CUPS.pm and Usb.pm
+       * Fix bugs in CUPS.pm and Usb.pm files
        * Retrieve new values for CPU
        * Update memconf command to latest version
-       * Fix bugs with usb in Lsusb.pm and Common.pm
-       * Add retrieve usb connected devices
-       * Fix Bug #1198088 wrong data for processors under 2.1 RC1
-       * Fix bug with SNMP v3 in 9.pm
-       * Fix bug with custom network scanning in Snmp.pm
-       * Add retrieve video memory size
+       * Fix bugs about usb in Lsusb.pm and Common.pm
+       * Add retrieve of usb connected devices
+       * Fix Bug #1198088 about wrong data for processors under 2.1 RC1
+       * Fix bug about SNMP v3 in 9.pm
+       * Fix bug about custom network scanning in Snmp.pm
+       * Add retrieve of video memory size
        * Fix Bug #1169675 about error message about SSL_verify_mode of SSL_VERIFY_NONE under Fedora 18
 
 2.1rc1
@@ -44,7 +44,7 @@ Revision history for Ocsinventory::Agent
        * Getting monitor serial number in MacOS/Video.pm
        * Add a new configuration option for SSL certificate check in MacOSX agent installer
        * Add new screen codes for edid
-       * Fix Bug ##1117110 Missing number of CPU socket
+       * Fix Bug ##1117110 about missing number of CPU socket
        * Add availibility to reforce a package deployment
        * Code rewrite in Common.pm to prevent sending empty XML tags to OCS server
        * Fix Bug #1086086 about uses of initialized value in Snmp.pm
