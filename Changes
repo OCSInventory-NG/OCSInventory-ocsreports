@@ -1,5 +1,9 @@
 Revision history for ocsreports
 2.1
+		* add DEVICEID field on sim tables
+		* add virtual machines info on snmp details
+		* add news fields for printers
+		* active alert messages on GUI for sadmin profil
 		* fix LDAP bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/915301
 		* fix bug on WOL
 		* delete @ for ldap errors
