@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix debug trace in CPU.pm
        * Fix a translation mistake in MacOSX agent French installer
 
 2.1

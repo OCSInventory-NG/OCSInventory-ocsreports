@@ -1,7 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Archs::i386::CPU;
 
 use strict;
-use Data::Dumper;
 
 use Config;
 
@@ -86,7 +85,6 @@ sub run {
 
     # The last one
     $cpusocket{$current->{NBSOCKET}}=$current;
-    #print Dumper($current);
 
     # Add the values to XML
     $common->addCPU($current);
