@@ -4,7 +4,7 @@ use strict;
 
 use Config;
 
-sub check { can_read("/proc/cpuinfo"); can_run("/bin/arch"); }
+sub check { can_read("/proc/cpuinfo"); can_run("arch"); }
 
 sub run {
 
