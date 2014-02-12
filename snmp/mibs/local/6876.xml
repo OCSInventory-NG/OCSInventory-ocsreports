@@ -85,7 +85,7 @@
                    </DESCRIPTION>
                    <MACADDR>
 		      <VALUE>1.3.6.1.4.1.6876.2.4.1.7.VM.NET</VALUE>
-                   </MACADDRESS>
+                   </MACADDR>
                    <STATUS>
 		      <VALUE>1.3.6.1.4.1.6876.2.4.1.6.VM.NET</VALUE>
                       <REPLACE>

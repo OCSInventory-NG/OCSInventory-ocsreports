@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Fix a mistake in </MACADDR> tag in 6876.xml
        * Move lib/Ocsinventory/Oracle and lib/Ocsinventory/Apache directories in lib/Ocsinventory/agent/Modules directory
        * Fix a mistake in Hooks.pm which makes Download.pm and Snmp.pm not loaded by agent
        * Fix problem path of arch command 
