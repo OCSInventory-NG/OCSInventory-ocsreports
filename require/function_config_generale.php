@@ -63,7 +63,7 @@
  * 								   'VALUE'=> value of the field
  * 								   'END'=> text after the field
  * 								   'SIZE'=> field size
- * 								   'MAXLENGHT'=> field MAXLENGHT
+ * 								   'MAXLENGTH'=> field MAXLENGTH
  * 								   'JAVASCRIPT'=> if you want a javascript on the field
  * 								   'CHECK' => only for checkbox for ckeck the good boxes
  * $data_hidden = data of hidden ex: 'HIDDEN'=> name of field when you clic on, a hidden field appear
@@ -119,13 +119,13 @@
 	 			echo "checked";
 	 			echo ">".$value; 
 	 			if ($data_hidden != '' and  $data_hidden['HIDDEN'] == $key){
-	 				if (isset($data_hidden['MAXLENGHT']))
-	 					$maxlenght = $data_hidden['MAXLENGHT'];
+	 				if (isset($data_hidden['MAXLENGTH']))
+	 					$maxlength = $data_hidden['MAXLENGTH'];
 	 				elseif(isset($data_hidden['SIZE']))
-	 					$maxlenght = $data_hidden['SIZE'];
+	 					$maxlength = $data_hidden['SIZE'];
 	 				else
-	 					$maxlenght = "2";
-	 				echo "<div id='".$name."_div' style='display:".$display."'>".$data_hidden['BEGIN']."<input type='text' size='".($data_hidden['SIZE']?$data_hidden['SIZE']:"3")."' maxlength='".$maxlenght."' id='".$name."_edit' name='".$name."_edit' value='".$data_hidden['HIDDEN_VALUE']."' ".$data_hidden['JAVASCRIPT'].">".$data_hidden['END']."</div>"; 	
+	 					$maxlength = "2";
+	 				echo "<div id='".$name."_div' style='display:".$display."'>".$data_hidden['BEGIN']."<input type='text' size='".($data_hidden['SIZE']?$data_hidden['SIZE']:"3")."' maxlength='".$maxlength."' id='".$name."_edit' name='".$name."_edit' value='".$data_hidden['HIDDEN_VALUE']."' ".$data_hidden['JAVASCRIPT'].">".$data_hidden['END']."</div>"; 	
 	 			}
 	 			echo "<br>";
 	 			if (isset($data['JAVASCRIPT']))
@@ -138,7 +138,7 @@
  	}elseif($type=='input'){
  		if ($readonly != '')
  		$ajout_readonly=" disabled=\"disabled\" style='color:black; background-color:#e1e1e2;'";
- 		echo $data['BEGIN']."<input ".$ajout_readonly."  type='text' name='".$name."' id='".$name."' value='".$data['VALUE']."' size=".$data['SIZE']." maxlength=".$data['MAXLENGHT']." ".$data['JAVASCRIPT'].">".$data['END']; 		
+ 		echo $data['BEGIN']."<input ".$ajout_readonly."  type='text' name='".$name."' id='".$name."' value='".$data['VALUE']."' size=".$data['SIZE']." maxlength=".$data['MAXLENGTH']." ".$data['JAVASCRIPT'].">".$data['END']; 		
  	}elseif($type=='text'){
  		echo $data[0];
  	}elseif ($type == 'list'){
@@ -474,22 +474,22 @@ function trait_post($name){
 	
  	debut_tab();
  	ligne('LOCAL_URI_SERVER',$l->g(565),'radio',array('DEFAULT'=>$l->g(823)." (http://localhost:80/ocsinventory)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_local_uri),
-		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOCAL_URI_SERVER'],'SIZE'=>50,'MAXLENGHT'=>254 ));
+		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOCAL_URI_SERVER'],'SIZE'=>50,'MAXLENGTH'=>254 ));
 	ligne('DOWNLOAD_PACK_DIR',$l->g(775),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_ROOT."download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_pack),
-		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_PACK_DIR'],'SIZE'=>50,'MAXLENGHT'=>254,'END'=>"/download" ));
+		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_PACK_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/download" ));
 	ligne('IPDISCOVER_IPD_DIR',$l->g(776),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_ROOT."ipd)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_ipd),
-		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['IPDISCOVER_IPD_DIR'],'SIZE'=>50,'MAXLENGHT'=>254,'END'=>"/ipd"));
+		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['IPDISCOVER_IPD_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/ipd"));
 	ligne('LOG_GUI',$l->g(824),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOG_GUI'])); 	
 	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_ROOT."logs)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>50,'MAXLENGHT'=>254,'END'=>"/logs"));	
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/logs"));	
 
 	ligne('LOG_SCRIPT',$l->g(1254),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_ROOT."scripts)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_scripts),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_SCRIPT'],'SIZE'=>50,'MAXLENGHT'=>254,'END'=>"/scripts"));	
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_SCRIPT'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/scripts"));	
 	ligne('CONF_PROFILS_DIR',$l->g(1252),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_REAL_ROOT.MAIN_SECTIONS_DIR."conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_profils),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['CONF_PROFILS_DIR'],'SIZE'=>50,'MAXLENGHT'=>254,'END'=>"/conf"));	
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['CONF_PROFILS_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/conf"));	
 	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_REAL_ROOT.MAIN_SECTIONS_DIR."conf/old_conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>50,'MAXLENGHT'=>254,'END'=>"/old_conf"));		
-	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGHT'=>4));	
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/old_conf"));		
+	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGTH'=>4));	
 	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			
 	
 
@@ -528,17 +528,17 @@ function trait_post($name){
  	debut_tab();
 	//create diff lign for general config	
  		ligne('DOWNLOAD',$l->g(417),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['DOWNLOAD'])); 	
- 		ligne('DOWNLOAD_CYCLE_LATENCY',$l->g(720),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_CYCLE_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
-  		ligne('DOWNLOAD_FRAG_LATENCY',$l->g(721),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_FRAG_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
+ 		ligne('DOWNLOAD_CYCLE_LATENCY',$l->g(720),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_CYCLE_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric));
+  		ligne('DOWNLOAD_FRAG_LATENCY',$l->g(721),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_FRAG_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric));
  		ligne('DOWNLOAD_GROUPS_TRACE_EVENTS',$l->g(758),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['DOWNLOAD_GROUPS_TRACE_EVENTS'])); 	
-  		ligne('DOWNLOAD_PERIOD_LATENCY',$l->g(722),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_PERIOD_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
- 		ligne('DOWNLOAD_TIMEOUT',$l->g(424),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_TIMEOUT'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
-  		ligne('DOWNLOAD_PERIOD_LENGTH',$l->g(723),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_PERIOD_LENGTH'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
+  		ligne('DOWNLOAD_PERIOD_LATENCY',$l->g(722),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_PERIOD_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric));
+ 		ligne('DOWNLOAD_TIMEOUT',$l->g(424),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_TIMEOUT'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
+  		ligne('DOWNLOAD_PERIOD_LENGTH',$l->g(723),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_PERIOD_LENGTH'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
 		ligne('DEPLOY',$l->g(414),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['DEPLOY']));
  		ligne('DOWNLOAD_URI_FRAG',$l->g(826),'radio',array('DEFAULT'=>$l->g(823)." (HTTP://localhost/download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_frag),
-		array('BEGIN'=>"http://",'HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_FRAG'],'SIZE'=>70,'MAXLENGHT'=>254));
+		array('BEGIN'=>"http://",'HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_FRAG'],'SIZE'=>70,'MAXLENGTH'=>254));
  		ligne('DOWNLOAD_URI_INFO',$l->g(827),'radio',array('DEFAULT'=>$l->g(823)." (HTTPS://localhost/download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_info),
-		array('BEGIN'=>"https://",'HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_INFO'],'SIZE'=>70,'MAXLENGHT'=>254));
+		array('BEGIN'=>"https://",'HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_URI_INFO'],'SIZE'=>70,'MAXLENGTH'=>254));
 		ligne('TELEDIFF_WK',$l->g(1032),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TELEDIFF_WK'])); 	
 	fin_tab($form_name);
  }
@@ -556,8 +556,8 @@ function pagegroups($form_name){
 	//create diff lign for general config	
  	//create diff lign for general config	
  		ligne('ENABLE_GROUPS',$l->g(736),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['ENABLE_GROUPS'])); 	
- 		ligne('GROUPS_CACHE_OFFSET',$l->g(737),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['GROUPS_CACHE_OFFSET'],'SIZE'=>5,'MAXLENGHT'=>6,'JAVASCRIPT'=>$numeric)); 	
- 		ligne('GROUPS_CACHE_REVALIDATE',$l->g(738),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['GROUPS_CACHE_REVALIDATE'],'SIZE'=>5,'MAXLENGHT'=>6,'JAVASCRIPT'=>$numeric)); 	
+ 		ligne('GROUPS_CACHE_OFFSET',$l->g(737),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['GROUPS_CACHE_OFFSET'],'SIZE'=>5,'MAXLENGTH'=>6,'JAVASCRIPT'=>$numeric)); 	
+ 		ligne('GROUPS_CACHE_REVALIDATE',$l->g(738),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['GROUPS_CACHE_REVALIDATE'],'SIZE'=>5,'MAXLENGTH'=>6,'JAVASCRIPT'=>$numeric)); 	
  
 	fin_tab($form_name);
  	
@@ -581,7 +581,7 @@ function pagegroups($form_name){
  	$check=auto_duplicate_lvl_poids($values['ivalue']['AUTO_DUPLICATE_LVL'],1);
   	debut_tab();
 	ligne('LOGLEVEL',$l->g(416),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOGLEVEL']));
-	ligne('PROLOG_FREQ',$l->g(564),'input',array('END'=>$l->g(730).$sup1,'VALUE'=>$values['ivalue']['PROLOG_FREQ'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));	
+	ligne('PROLOG_FREQ',$l->g(564),'input',array('END'=>$l->g(730).$sup1,'VALUE'=>$values['ivalue']['PROLOG_FREQ'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));	
     ligne('AUTO_DUPLICATE_LVL',$l->g(427),'checkbox',array(
         'HOSTNAME'=>'hostname',
         'SERIAL'=>'Serial',
@@ -591,10 +591,10 @@ function pagegroups($form_name){
         'ASSETTAG'=>'AssetTag',
         'CHECK'=>$check,
     ));
-	ligne('SECURITY_LEVEL',$l->g(739),'input',array('VALUE'=>$values['ivalue']['SECURITY_LEVEL'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");	
-	ligne('LOCK_REUSE_TIME',$l->g(740),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['LOCK_REUSE_TIME'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));	
+	ligne('SECURITY_LEVEL',$l->g(739),'input',array('VALUE'=>$values['ivalue']['SECURITY_LEVEL'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");	
+	ligne('LOCK_REUSE_TIME',$l->g(740),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['LOCK_REUSE_TIME'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));	
 	ligne('TRACE_DELETED',$l->g(415),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TRACE_DELETED']));
-	ligne('SESSION_VALIDITY_TIME',$l->g(777),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['SESSION_VALIDITY_TIME'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));	
+	ligne('SESSION_VALIDITY_TIME',$l->g(777),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['SESSION_VALIDITY_TIME'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));	
 	 	
 	fin_tab($form_name);
  	
@@ -632,7 +632,7 @@ function pagegroups($form_name){
 		ligne('INVENTORY_TRANSACTION',$l->g(742),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_TRANSACTION']));
 		ligne('INVENTORY_WRITE_DIFF',$l->g(743),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_WRITE_DIFF']));
 		ligne('INVENTORY_SESSION_ONLY',$l->g(744),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_SESSION_ONLY']));
-	 	ligne('INVENTORY_CACHE_REVALIDATE',$l->g(745),'input',array('END'=>$l->g(496).$sup1,'VALUE'=>$values['ivalue']['INVENTORY_CACHE_REVALIDATE'],'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
+	 	ligne('INVENTORY_CACHE_REVALIDATE',$l->g(745),'input',array('END'=>$l->g(496).$sup1,'VALUE'=>$values['ivalue']['INVENTORY_CACHE_REVALIDATE'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
 		ligne('INVENTORY_CACHE_ENABLED',$l->g(1265),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_CACHE_ENABLED']));
 	 	ligne('INVENTORY_VALIDITY',$l->g(828),'radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_VALIDITY']),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$validity,'END'=>$l->g(496),'JAVASCRIPT'=>$numeric,'SIZE'=>3),"readonly");
 	fin_tab($form_name);
@@ -669,9 +669,9 @@ function pagegroups($form_name){
  	}
  	debut_tab();
  	ligne('IPDISCOVER',$l->g(425),'radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$values['ivalue']['IPDISCOVER']),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$ipdiscover,'END'=>$l->g(729),'JAVASCRIPT'=>$numeric));
-	ligne('IPDISCOVER_BETTER_THRESHOLD',$l->g(746),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
-	ligne('IPDISCOVER_LATENCY',$l->g(567),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_LATENCY'],'END'=>$l->g(732).$sup10,'SIZE'=>2,'MAXLENGHT'=>4,'JAVASCRIPT'=>$numeric));
-	ligne('IPDISCOVER_MAX_ALIVE',$l->g(419),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_MAX_ALIVE'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
+	ligne('IPDISCOVER_BETTER_THRESHOLD',$l->g(746),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
+	ligne('IPDISCOVER_LATENCY',$l->g(567),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_LATENCY'],'END'=>$l->g(732).$sup10,'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric));
+	ligne('IPDISCOVER_MAX_ALIVE',$l->g(419),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_MAX_ALIVE'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
 	ligne('IPDISCOVER_NO_POSTPONE',$l->g(747),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['IPDISCOVER_NO_POSTPONE']));
 	ligne('IPDISCOVER_USE_GROUPS',$l->g(748),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['IPDISCOVER_USE_GROUPS']));
 	
@@ -704,10 +704,10 @@ function pagegroups($form_name){
 	
  	debut_tab(); 
  	ligne('DOWNLOAD_REDISTRIB',$l->g(1181),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$radio_redistrib));
- 	ligne('DOWNLOAD_SERVER_URI',$l->g(726),'input',array('BEGIN'=>'HTTP://','VALUE'=>$values['tvalue']['DOWNLOAD_SERVER_URI'],'SIZE'=>70,'MAXLENGHT'=>254));
- 	ligne('DOWNLOAD_SERVER_DOCROOT',$l->g(727),'input',array('VALUE'=>$values['tvalue']['DOWNLOAD_SERVER_DOCROOT'],'SIZE'=>70,'MAXLENGHT'=>254));
+ 	ligne('DOWNLOAD_SERVER_URI',$l->g(726),'input',array('BEGIN'=>'HTTP://','VALUE'=>$values['tvalue']['DOWNLOAD_SERVER_URI'],'SIZE'=>70,'MAXLENGTH'=>254));
+ 	ligne('DOWNLOAD_SERVER_DOCROOT',$l->g(727),'input',array('VALUE'=>$values['tvalue']['DOWNLOAD_SERVER_DOCROOT'],'SIZE'=>70,'MAXLENGTH'=>254));
 	ligne('DOWNLOAD_REP_CREAT',$l->g(829),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_ROOT."download/server)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_rep_creat),
-		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_REP_CREAT'],'SIZE'=>70,'MAXLENGHT'=>254));
+		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_REP_CREAT'],'SIZE'=>70,'MAXLENGTH'=>254));
 	fin_tab($form_name);
  }
  
@@ -723,7 +723,7 @@ function pagegroups($form_name){
  	ligne('GENERATE_OCS_FILES',$l->g(749),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['GENERATE_OCS_FILES']));
 	ligne('OCS_FILES_FORMAT',$l->g(750),'select',array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>array('OCS'=>'OCS','XML'=>'XML')));
  	ligne('OCS_FILES_OVERWRITE',$l->g(751),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['OCS_FILES_OVERWRITE']));
-	ligne('OCS_FILES_PATH',$l->g(752),'input',array('VALUE'=>$values['tvalue']['OCS_FILES_PATH'],'SIZE'=>50,'MAXLENGHT'=>254));
+	ligne('OCS_FILES_PATH',$l->g(752),'input',array('VALUE'=>$values['tvalue']['OCS_FILES_PATH'],'SIZE'=>50,'MAXLENGTH'=>254));
 	fin_tab($form_name);
  }
  
@@ -740,7 +740,7 @@ function pagegroups($form_name){
 	ligne('PROLOG_FILTER_ON',$l->g(753),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['PROLOG_FILTER_ON']));
 	ligne('INVENTORY_FILTER_ENABLED',$l->g(754),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_FILTER_ENABLED']));
 	ligne('INVENTORY_FILTER_FLOOD_IP',$l->g(755),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_FILTER_FLOOD_IP']));
-	ligne('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',$l->g(756),'input',array('VALUE'=>$values['ivalue']['INVENTORY_FILTER_FLOOD_IP_CACHE_TIME'],'END'=>$l->g(511).$sup1,'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric));
+	ligne('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',$l->g(756),'input',array('VALUE'=>$values['ivalue']['INVENTORY_FILTER_FLOOD_IP_CACHE_TIME'],'END'=>$l->g(511).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
 	ligne('INVENTORY_FILTER_ON',$l->g(757),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_FILTER_ON']));
  	fin_tab($form_name);
  }
@@ -755,8 +755,8 @@ function pagegroups($form_name){
  	debut_tab(); 
 					echo "<tr><td align=center colspan=100><font size=4 color=red><b>".$l->g(764)."</b></font></td></tr>";
 	ligne('WEB_SERVICE_ENABLED',$l->g(761),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['WEB_SERVICE_ENABLED']),'',"readonly");
-	ligne('WEB_SERVICE_RESULTS_LIMIT',$l->g(762),'input',array('VALUE'=>$values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'],'END'=>$l->g(511).$sup1,'SIZE'=>1,'MAXLENGHT'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");
-	ligne('WEB_SERVICE_PRIV_MODS_CONF',$l->g(763),'input',array('VALUE'=>$values['tvalue']['WEB_SERVICE_PRIV_MODS_CONF'],'SIZE'=>50,'MAXLENGHT'=>254),'',"readonly");
+	ligne('WEB_SERVICE_RESULTS_LIMIT',$l->g(762),'input',array('VALUE'=>$values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'],'END'=>$l->g(511).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");
+	ligne('WEB_SERVICE_PRIV_MODS_CONF',$l->g(763),'input',array('VALUE'=>$values['tvalue']['WEB_SERVICE_PRIV_MODS_CONF'],'SIZE'=>50,'MAXLENGTH'=>254),'',"readonly");
  	fin_tab($form_name,"disabled");
  }
  
@@ -786,18 +786,18 @@ function pagegroups($form_name){
 	$default_role['']='';
 	$default_role=array_merge($default_role,$role1);
  	debut_tab();
-	ligne('CONEX_LDAP_SERVEUR',$l->g(830),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_SERVEUR'],'SIZE'=>50,'MAXLENGHT'=>200));
-	ligne('CONEX_ROOT_DN',$l->g(1016).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_DN'],'SIZE'=>50,'MAXLENGHT'=>200));
-	ligne('CONEX_ROOT_PW',$l->g(1017).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_PW'],'SIZE'=>50,'MAXLENGHT'=>200));
-	ligne('CONEX_LDAP_PORT',$l->g(831),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PORT'],'SIZE'=>20,'MAXLENGHT'=>20));
-	ligne('CONEX_DN_BASE_LDAP',$l->g(832),'input',array('VALUE'=>$values['tvalue']['CONEX_DN_BASE_LDAP'],'SIZE'=>70,'MAXLENGHT'=>200));
-	ligne('CONEX_LOGIN_FIELD',$l->g(833),'input',array('VALUE'=>$values['tvalue']['CONEX_LOGIN_FIELD'],'SIZE'=>50,'MAXLENGHT'=>200));
-	ligne('CONEX_LDAP_PROTOCOL_VERSION',$l->g(834),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'],'SIZE'=>3,'MAXLENGHT'=>5));
-    ligne('CONEX_LDAP_CHECK_FIELD1_NAME',$l->g(1111),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_NAME'],'SIZE'=>50,'MAXLENGHT'=>200));
-    ligne('CONEX_LDAP_CHECK_FIELD1_VALUE',$l->g(1112),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_VALUE'],'SIZE'=>50,'MAXLENGHT'=>200));
+	ligne('CONEX_LDAP_SERVEUR',$l->g(830),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_SERVEUR'],'SIZE'=>50,'MAXLENGTH'=>200));
+	ligne('CONEX_ROOT_DN',$l->g(1016).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_DN'],'SIZE'=>50,'MAXLENGTH'=>200));
+	ligne('CONEX_ROOT_PW',$l->g(1017).'<br>'.$l->g(1018),'input',array('VALUE'=>$values['tvalue']['CONEX_ROOT_PW'],'SIZE'=>50,'MAXLENGTH'=>200));
+	ligne('CONEX_LDAP_PORT',$l->g(831),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PORT'],'SIZE'=>20,'MAXLENGTH'=>20));
+	ligne('CONEX_DN_BASE_LDAP',$l->g(832),'input',array('VALUE'=>$values['tvalue']['CONEX_DN_BASE_LDAP'],'SIZE'=>70,'MAXLENGTH'=>200));
+	ligne('CONEX_LOGIN_FIELD',$l->g(833),'input',array('VALUE'=>$values['tvalue']['CONEX_LOGIN_FIELD'],'SIZE'=>50,'MAXLENGTH'=>200));
+	ligne('CONEX_LDAP_PROTOCOL_VERSION',$l->g(834),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'],'SIZE'=>3,'MAXLENGTH'=>5));
+    ligne('CONEX_LDAP_CHECK_FIELD1_NAME',$l->g(1111),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_NAME'],'SIZE'=>50,'MAXLENGTH'=>200));
+    ligne('CONEX_LDAP_CHECK_FIELD1_VALUE',$l->g(1112),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_VALUE'],'SIZE'=>50,'MAXLENGTH'=>200));
     ligne('CONEX_LDAP_CHECK_FIELD1_ROLE',$l->g(1113),'select',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD1_ROLE'],'SELECT_VALUE'=>$role1));
-    ligne('CONEX_LDAP_CHECK_FIELD2_NAME',$l->g(1114),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_NAME'],'SIZE'=>50,'MAXLENGHT'=>200));
-    ligne('CONEX_LDAP_CHECK_FIELD2_VALUE',$l->g(1115),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_VALUE'],'SIZE'=>50,'MAXLENGHT'=>200));
+    ligne('CONEX_LDAP_CHECK_FIELD2_NAME',$l->g(1114),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_NAME'],'SIZE'=>50,'MAXLENGTH'=>200));
+    ligne('CONEX_LDAP_CHECK_FIELD2_VALUE',$l->g(1115),'input',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_VALUE'],'SIZE'=>50,'MAXLENGTH'=>200));
     ligne('CONEX_LDAP_CHECK_FIELD2_ROLE',$l->g(1116),'select',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_FIELD2_ROLE'],'SELECT_VALUE'=>$role1));
 	ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE',$l->g(1277),'select',array('VALUE'=>$values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'],'SELECT_VALUE'=>$default_role));
     
@@ -851,8 +851,8 @@ function pagegroups($form_name){
 		$info_account=witch_field_more('COMPUTERS');
 		$list_tag=$info_account['LIST_FIELDS'];
 		ligne('IT_SET_TAG_NAME',$l->g(1086),'select',array('VALUE'=>$values['tvalue']['IT_SET_TAG_NAME'],'SELECT_VALUE'=>$list_tag));		
-		ligne('IT_SET_NAME_TEST',$l->g(1087),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SIZE'=>50,'MAXLENGHT'=>50));
-		ligne('IT_SET_NAME_LIMIT',$l->g(1088),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SIZE'=>50,'MAXLENGHT'=>50));
+		ligne('IT_SET_NAME_TEST',$l->g(1087),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SIZE'=>50,'MAXLENGTH'=>50));
+		ligne('IT_SET_NAME_LIMIT',$l->g(1088),'input',array('VALUE'=>$values['tvalue']['IT_SET_NAME_LIMIT'],'SIZE'=>50,'MAXLENGTH'=>50));
 	}
 	
 	
@@ -901,8 +901,8 @@ function pagegroups($form_name){
  	
  	debut_tab(); 
  	
-	ligne('WOL_PORT',$l->g(272)." (".$l->g(1320).")",'input',array('VALUE'=>$values['tvalue']['WOL_PORT'],'SIZE'=>50,'MAXLENGHT'=>50,'JAVASCRIPT'=>$numeric_semicolon));
-	ligne('WOL_BIOS_PASSWD','Bios password','radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$wol_passwd),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$values['tvalue']['WOL_BIOS_PASSWD'],'SIZE'=>40,'MAXLENGHT'=>254),"readonly");
+	ligne('WOL_PORT',$l->g(272)." (".$l->g(1320).")",'input',array('VALUE'=>$values['tvalue']['WOL_PORT'],'SIZE'=>50,'MAXLENGTH'=>50,'JAVASCRIPT'=>$numeric_semicolon));
+	ligne('WOL_BIOS_PASSWD','Bios password','radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$wol_passwd),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$values['tvalue']['WOL_BIOS_PASSWD'],'SIZE'=>40,'MAXLENGTH'=>254),"readonly");
 	
 	fin_tab($form_name);
  }
