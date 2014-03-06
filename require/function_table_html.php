@@ -163,7 +163,7 @@ function escape_string($array){
 function xml_escape_string($array){
 	foreach ($array as $key=>$value){
 		$trait_array[$key]=utf8_encode($value);
-		//$trait_array[$key]=mysql_real_escape_string($value);
+		$trait_array[$key]=htmlspecialchars($value,ENT_QUOTES);
 	}
 	return ($trait_array);
 }
