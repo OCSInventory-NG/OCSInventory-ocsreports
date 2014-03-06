@@ -1,6 +1,8 @@
 Revision history for ocsreports
 2.1.1
-		* https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1086324
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1086324
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1260764
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1266229
 
 
 2.1
