@@ -1198,6 +1198,12 @@
 1320 Usa , per separare le informazioni
 1321 Nessuna porta WOL definita
 1322 Impossibile aprire il socket per WOL
+1323 Server printer sharing
+1324 Sharing printer on server
+1325 screen horizontal / vertical
+1326 Shared
+1327 Local / Networks
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
@@ -1330,3 +1336,8 @@
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
 6000 Plugin
+6001 Offices Licences
+6002 Distribution of Offices Licences
+6003 Number of licence
+6004 Total available
+6005 Power on/off

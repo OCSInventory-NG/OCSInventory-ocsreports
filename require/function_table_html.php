@@ -163,7 +163,7 @@ function escape_string($array){
 function xml_escape_string($array){
 	foreach ($array as $key=>$value){
 		$trait_array[$key]=utf8_encode($value);
-		//$trait_array[$key]=mysql_real_escape_string($value);
+		$trait_array[$key]=htmlspecialchars($value,ENT_QUOTES);
 	}
 	return ($trait_array);
 }
@@ -339,16 +339,16 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	}
 		if ($input_type == 1){
 			
-		return "<textarea name='".$input_name."' id='".$input_name."' cols='".$configinput['COLS']."' rows='".$configinput['ROWS']."'  class='down' \>".$name."</textarea>";
+		return "<textarea name='".$input_name."' id='".$input_name."' cols='".$configinput['COLS']."' rows='".$configinput['ROWS']."'  class='down' >".$name."</textarea>";
 	
 	}elseif ($input_type ==0)
 	return "<input type='text' name='".$input_name."' id='".$input_name."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$name."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
 	elseif($input_type ==2){
-		$champs="<select name='".$input_name."' id='".$input_name."' ".$configinput['JAVASCRIPT'];
+		$champs="<select name='".$input_name."' id='".$input_name."' ".(isset($configinput['JAVASCRIPT'])?$configinput['JAVASCRIPT']:'');
 		if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
-		$champs.=" class='down' \>";
-		if ($configinput['DEFAULT'] == "YES")
-		$champs.= "<option value='' class='hi' \></option>";
+		$champs.=" class='down' >";
+		if (isset($configinput['DEFAULT']) and $configinput['DEFAULT'] == "YES")
+		$champs.= "<option value='' class='hi' ></option>";
 		$countHl=0;		
 		if ($name != ''){
 			natcasesort($name);
@@ -356,7 +356,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 				$champs.= "<option value=\"".$key."\"";
 				if ($protectedPost[$input_name] == $key )
 					$champs.= " selected";
-				$champs.= ($countHl%2==1?" class='hi'":" class='down'")." \>".$value."</option>";
+				$champs.= ($countHl%2==1?" class='hi'":" class='down'")." >".$value."</option>";
 				$countHl++;
 			}
 		}
@@ -367,7 +367,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	//	echo $name."<br>";
 		return $name.$hid;
 	}elseif ($input_type == 4)
-	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' \>";
+	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' />";
 	elseif ($input_type == 5 and isset($name) and is_array($name)){	
 		foreach ($name as $key=>$value){
 			$champs.= "<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";

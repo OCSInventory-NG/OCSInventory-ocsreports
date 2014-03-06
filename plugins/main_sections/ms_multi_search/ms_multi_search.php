@@ -799,6 +799,7 @@ if ($list_id != "")	{
 						$l->g(652).": ".$l->g(111)=>'h.WINPRODKEY',
 						$l->g(652).": ".$l->g(553)=>'h.WINPRODID',
 						$l->g(652).": ".$l->g(286) => "h.OSCOMMENTS",
+						$l->g(25).": ".$l->g(277) => "h.OSVERSION",
 						$l->g(652).": ".$l->g(1247)=>'h.ARCH',);
 	$list_fields=array_merge ($list_fields_account_info,$list_fields);
 	
@@ -954,6 +955,7 @@ $sort_list=array("NETWORKS-IPADDRESS" =>$l->g(82).": ".$l->g(34),
 			   	 "BIOS-BVERSION"=>$l->g(273).": ".$l->g(209),
 			     "HARDWARE-USERID"=>$l->g(243).": ".$l->g(49),
 			     "HARDWARE-OSCOMMENTS"=>$l->g(25).": ".$l->g(51),
+				 "HARDWARE-OSVERSION"=>$l->g(25).": ".$l->g(277),
 			     "NETWORKS-IPGATEWAY"=>$l->g(82).": ".$l->g(207),
 			     "NETWORKS-IPSUBNET"=>$l->g(82).": ".$l->g(331),
 			     "NETWORKS-IPDHCP"=>$l->g(82).": ".$l->g(281),
@@ -979,6 +981,10 @@ $sort_list=array("NETWORKS-IPADDRESS" =>$l->g(82).": ".$l->g(34),
 				 "PRINTERS-DRIVER"=>$l->g(79).": ".$l->g(278),
 				 "PRINTERS-PORT"=>$l->g(79).": ".$l->g(279),
 				 "PRINTERS-DESCRIPTION"=>$l->g(79).": ".$l->g(53),
+		         "PRINTERS-SERVERNAME"=>$l->g(79).": ".$l->g(1323),
+				 "PRINTERS-SHARENAME"=>$l->g(79).": ".$l->g(1324),
+				 "PRINTERS-RESOLUTION"=>$l->g(79).": ".$l->g(1325),
+				 "PRINTERS-COMMENT"=>$l->g(79).": ".$l->g(51),
 				 "HARDWARE-ARCH"=>$l->g(25).": ".$l->g(1247),
 				 "CPUS-MANUFACTURER"=>$l->g(54).": ".$l->g(64),
 				 "CPUS-TYPE"=>$l->g(54).": ".$l->g(66),
@@ -1005,6 +1011,7 @@ $optSelectField=array( "NETWORKS-IPADDRESS"=>$sort_list["NETWORKS-IPADDRESS"],
 			   "BIOS-BVERSION"=>$sort_list["BIOS-BVERSION"],//$l->g(273).": ".$l->g(209),
 			   "HARDWARE-USERID"=>$sort_list["HARDWARE-USERID"],//$l->g(243).": ".$l->g(49),
 			   "HARDWARE-OSCOMMENTS"=>$sort_list["HARDWARE-OSCOMMENTS"],//$l->g(25).": ".$l->g(51),
+			   "HARDWARE-OSVERSION"=>$sort_list["HARDWARE-OSVERSION"],
 			   "NETWORKS-IPGATEWAY"=>$sort_list["NETWORKS-IPGATEWAY"],//$l->g(82).": ".$l->g(207),
 			   "NETWORKS-IPSUBNET"=>$sort_list["NETWORKS-IPSUBNET"],//$l->g(82).": ".$l->g(331),
 			   "NETWORKS-IPDHCP"=>$sort_list["NETWORKS-IPDHCP"],//$l->g(82).": ".$l->g(281),
@@ -1024,6 +1031,11 @@ $optSelectField=array( "NETWORKS-IPADDRESS"=>$sort_list["NETWORKS-IPADDRESS"],
 			   "PRINTERS-DRIVER"=>$sort_list["PRINTERS-DRIVER"],
 			   "PRINTERS-PORT"=>$sort_list["PRINTERS-PORT"],
 			   "PRINTERS-DESCRIPTION"=>$sort_list['PRINTERS-DESCRIPTION'],
+			   "PRINTERS-SERVERNAME"=>$sort_list["PRINTERS-SERVERNAME"],
+			   "PRINTERS-SHARENAME"=>$sort_list["PRINTERS-SHARENAME"],
+			   "PRINTERS-RESOLUTION"=>$sort_list["PRINTERS-RESOLUTION"],
+		       "PRINTERS-COMMENT"=>$sort_list["PRINTERS-COMMENT"],
+			   "HARDWARE-ARCH"=>$l->g(25).": ".$l->g(1247),
 			   "HARDWARE-LASTDATE"=>$sort_list["HARDWARE-LASTDATE"],//"OCS: ".$l->g(46),
 			   "HARDWARE-LASTDATE-LBL"=>"calendar",
 			   "HARDWARE-LASTDATE-SELECT"=>array("small"=>$l->g(346),"tall"=>$l->g(347)),
@@ -1245,7 +1257,7 @@ asort($optArray_trait);
  
 $protectedPost['multiSearch']=$l->g(32);
 $aff_field_search= $l->g(31).": ".show_modif($optArray_trait,'multiSearch',2,$form_name,array('DEFAULT'=>'NO'));
-$aff_field_search.="<img src='image/delete_all.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."'>";
+$aff_field_search.="<img src='image/delete_all.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."' style='margin-left:20px'>";
 echo "<table border=1 class='mlt_bordure'  WIDTH = '75%' ALIGN = 'Center' CELLPADDING='5'>";
 echo "<tr><td colspan=100 align=center bgcolor='#FFFFFF'>".$aff_field_search."</td></tr>";
 

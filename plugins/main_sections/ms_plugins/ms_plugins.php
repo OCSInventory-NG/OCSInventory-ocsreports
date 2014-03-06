@@ -17,7 +17,8 @@ echo open_form($form_name);
 $plugin=false;
 $showit=false;
 foreach ($_SESSION['OCS']['URL'] as $name=>$lbl){
-	if (substr($name,0,11) == 'ms_plugins_' and $_SESSION['OCS']['DIRECTORY'][$name] == 'ms_plugins'){
+	if (substr($name,0,11) == 'ms_plugins_' and $_SESSION['OCS']['DIRECTORY'][$name] == 'ms_plugins'
+				and in_array($name,$_SESSION['OCS']['PAGE_PROFIL'])){
 		$plugin=true;
 		$list_plugin[]=$name.".php";
 		require_once($name.".php");
@@ -25,7 +26,6 @@ foreach ($_SESSION['OCS']['URL'] as $name=>$lbl){
 }
 
 if ($plugin){
-	//Create the chart - Column 3D Chart with data from strXML variable using dataXML method
 	onglet($data_on,$form_name,"onglet",4);
 	echo '<div class="mlt_bordure" >';
 	$showit=true;	

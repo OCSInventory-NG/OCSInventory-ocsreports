@@ -173,7 +173,7 @@ function find_all_account_tab($tab_value,$onlyactiv='',$first=''){
 
 function find_value_field($name){
 	$array_tab_account=array();
-	 $data= look_config_default_values($name.'%',true);
+	 $data= look_config_default_values($name.'\_%',true);
 	 if (isset($data['name'])){
 		 foreach ($data['name'] as $field=>$value)	{
 			$array_tab_account[$data['ivalue'][$field]]=$data['tvalue'][$field];	 	
@@ -405,9 +405,9 @@ function updateinfo_computer($id,$values,$list=''){
 	}
 	$sql_account_data = substr($sql_account_data,0,-2);
 	if (is_numeric($id) and $list == '')
-	$sql_account_data.=" WHERE hardware_id=%s";
+		$sql_account_data.=" WHERE hardware_id=%s";
 	if ($list != '')
-	$sql_account_data.=" WHERE hardware_id in (%s)";
+		$sql_account_data.=" WHERE hardware_id in (%s)";
 	
 	array_push($arg_account_data,$id);	
 	mysql2_query_secure($sql_account_data,$_SESSION['OCS']["readServer"],$arg_account_data);

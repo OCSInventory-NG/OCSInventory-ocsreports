@@ -1198,6 +1198,12 @@
 1320 Utiliser , pour séparer les informations
 1321 Aucun port WOL défini
 1322 Impossible d'ouvrir la socket pour le WOL
+1323 Serveur de partage imprimante
+1324 Partage imprimante sur serveur
+1325 Résolution format horizontal/vertical
+1326 Partagée
+1327 Local/Réseaux
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1330,3 +1336,8 @@
 5023 [DEBUG]REQUETE CONDITION DIFF[DEBUG]
 
 6000 Plugins
+6001 Licences Offices
+6002 Répartition Offices
+6003 Nombre par licence
+6004 Nombre Total disponible
+6005 Eteinte/allumée

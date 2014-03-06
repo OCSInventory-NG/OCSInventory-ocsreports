@@ -107,5 +107,6 @@ ms_add_key
 ms_export_ocs
 ms_qrcode
 ms_plugins
+ms_stats_top
 </PAGE_PROFIL>
 

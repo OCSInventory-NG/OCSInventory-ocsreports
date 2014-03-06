@@ -129,7 +129,8 @@ if(isset($doublon['hostname'])){
 	$sql=mysql2_prepare($sql_id_doublon['hostname'],$arg_id_doublon['hostname'],$doublon['hostname']);
 	$arg_id_doublon['hostname']=$sql['ARG'];
 	$sql_id_doublon['hostname']=$sql['SQL'];	
-}
+}else
+	$count_id['hostname']=0;
 //search id of computers => hostname + serial number
 $sql_id_doublon['hostname_serial']="SELECT DISTINCT h.id,h.name info1,b.ssn info2
 						FROM hardware h 

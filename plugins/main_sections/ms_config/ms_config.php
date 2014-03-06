@@ -49,8 +49,13 @@ if ($protectedPost['Valid'] == $l->g(103)){
 			if (!is_array($value))
 				$msg.=$name." ".$l->g(759)." ".$value."<br>";
 			else{
-				if (isset($value['FILE_NOT_EXIST']))
-				$msg.= $name.": ".$l->g(920)." ".$value['FILE_NOT_EXIST']."<br>";
+				if (isset($value['FILE_NOT_EXIST'])){
+					if ($name == 'DOWNLOAD_REP_CREAT'){
+						$msg.= $name.": ".$l->g(1004)." (".$value['FILE_NOT_EXIST'].")<br>";
+					}else{
+						$msg.= $name.": ".$l->g(920)." ".$value['FILE_NOT_EXIST']."<br>";
+					}
+				}
 				
 			}
 		}

@@ -316,25 +316,25 @@ function insert_manual_computer($values,$nb=1,$generic=false){
 		else
 			$name=$values['COMPUTER_NAME_GENERIC'].$i;
 		
-		if ($generic){
+		/*if ($generic){
 			if ($values['COMPUTER_NAME_GENERIC'] == "")
 				$values['COMPUTER_NAME_GENERIC']='MANUEL_ENTRY';
 			if ($values['SERIAL_GENERIC'] == "")
 				$values['SERIAL_GENERIC']='MANUEL_ENTRY';
 			if ($values['ADDR_MAC_GENERIC'] == "")
 				$values['ADDR_MAC_GENERIC']='MANUEL_ENTRY';			
-		}
+		}*/
 		$sql="insert into hardware (deviceid,name) values ('%s','%s')";
-		$arg=array('MANUEL',$name);
+		$arg=array('MANUEL',$name.'_M');
 		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 		$id_computer=mysql_insert_id($_SESSION['OCS']["writeServer"]);
 		
 		$sql="insert into bios (hardware_id,ssn) values ('%s','%s')";
-		$arg=array($id_computer,$values['SERIAL_GENERIC']);
+		$arg=array($id_computer,$values['SERIAL_GENERIC'].'_M');
 		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 	
 		$sql="insert into networks (hardware_id,macaddr) values ('%s','%s')";
-		$arg=array($id_computer,$values['ADDR_MAC_GENERIC']);
+		$arg=array($id_computer,$values['ADDR_MAC_GENERIC'].'_M');
 		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 		
 		return $id_computer;
@@ -357,5 +357,24 @@ function is_mine_computer($id){
 			return false;		
 	}
 	return true;	
+}
+
+function RandomMAC()
+{
+	$word = "A,B,C,D,E,F,0,1,2,3,4,5,6,7,8,9";
+	$mac='';
+	$array=explode(",",$word);
+	while ($j<8){
+		$i=0;
+		while ($i<2){
+			shuffle($array);
+			$mac.=$array[0];
+			$i++;
+		}
+		$mac.=":";
+		$j++;
+	}
+	
+	return substr($mac, 0, -1); 
 }
 ?>

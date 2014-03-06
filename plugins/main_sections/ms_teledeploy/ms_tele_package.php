@@ -526,7 +526,7 @@ echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLP
 	echo $title_user.$notify_user;
 
 		$notify_txt=$lign_begin.$l->g(449).$td_colspan2.show_modif($_POST['NOTIFY_TEXT'],'NOTIFY_TEXT',1).$lign_end;
-		$notify_count_down=$lign_begin.$l->g(450).$td_colspan2.show_modif($protectedPost['NOTIFY_COUNTDOWN'],'NOTIFY_COUNTDOWN',0,'',array('MAXLENGTH'=>4,'SIZE'=>4)).$l->g(511).$lign_end;
+		$notify_count_down=$lign_begin.$l->g(450).$td_colspan2.show_modif($protectedPost['NOTIFY_COUNTDOWN'],'NOTIFY_COUNTDOWN',0,'',array('MAXLENGTH'=>4,'SIZE'=>4,'JAVASCRIPT'=>$chiffres)).$l->g(511).$lign_end;
 		$notify_can_abord=$lign_begin.$l->g(451).$td_colspan2.show_modif($yes_no,'NOTIFY_CAN_ABORT',2).$lign_end;
 		$notify_can_delay=$lign_begin.$l->g(452).$td_colspan2.show_modif($yes_no,'NOTIFY_CAN_DELAY',2).$lign_end;
 		echo "<tr><td colspan='3' align=center><div id='NOTIFY_USER_div' style='display:".($protectedPost["NOTIFY_USER"] == 1 ? " block" : "none")."'>";

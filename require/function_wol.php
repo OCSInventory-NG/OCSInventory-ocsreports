@@ -12,6 +12,7 @@
 
 /*
  * functions to use wake on line
+ * tx to Fash (http://forums.ocsinventory-ng.org/viewtopic.php?id=13008)
  */
 class Wol{
   private $nic;
@@ -26,14 +27,15 @@ class Wol{
   		$wol_port=explode(',', $wol_info['tvalue']['WOL_PORT']);
   	foreach ($wol_port as $k=>$v){
   		if (is_numeric($v)){
-  		    $this->nic = @fsockopen("udp://".$ip,$v);
-		    if( !$this->nic ){
-		    	@fclose($this->nic);
+  		    $s = socket_create( AF_INET, SOCK_DGRAM, SOL_UDP );
+		     if( !$s ){ 
+		    	 @socket_close($s);
 		    	$this->wol_send=$l->g(1322);
 		    }
 		    else{
-		    	fwrite($this->nic, $this->pacquet($mac));
-		     	fclose($this->nic);
+		    	$s_opt = socket_set_option($s,SOL_SOCKET,SO_BROADCAST,true);
+		    	socket_sendto($s,$this->pacquet($mac),strlen($this->pacquet($mac)),0,"255.255.255.255",$v);
+		     	socket_close($s);
 		    	$this->wol_send=$l->g(1282);
 		    }
   		}

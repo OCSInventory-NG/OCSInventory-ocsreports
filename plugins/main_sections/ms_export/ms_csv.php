@@ -111,19 +111,39 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 			if ($lbl == "name_of_machine" and !isset($cont[$field])){
 				$field='name';
 			}
-			//echo $field."<br>";
-			if (isset($cont[$field])){
-				if ($field == 'TAG' or substr($field,0,7) == 'fields_'){
-					if (isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])){
-						$data[$i][$lbl]=$inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl][$cont[$field]];
-					}else				
-						$data[$i][$lbl]=$cont[$field];		
-				}else
-					$data[$i][$lbl]=$cont[$field];			
-			}elseif (isset($data_fixe[$cont['ID']][$field])){
-				$data[$i][$lbl]=$data_fixe[$cont['ID']][$field];
-			}else{
-				$data[$i][$lbl]="";
+			
+			$found = false;
+			// find value case-insensitive
+			foreach ($cont as $key => $val) {
+				if (strtolower($key) == strtolower($field)) {
+					if (($field == 'TAG' or substr($field,0,7) == 'fields_')
+							and isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])) {
+						// administrative data
+						$data[$i][$lbl]=$inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl][$val];
+					} else {
+						// normal data
+						$data[$i][$lbl]=$val;
+					}
+					
+					$found = true;
+					break;
+				}
+			}
+			
+			if (!$found) {
+				// find values case-insensitive
+				foreach ($data_fixe[$cont['ID']] as $key => $val) {
+					if (strtolower($key) == strtolower($field) && isset($data_fixe[$cont['ID']][$key])) {
+						$data[$i][$lbl]=$data_fixe[$cont['ID']][$key];
+						
+						$found = true;
+						break;
+					}
+				}
+				
+				if (!$found) {
+					$data[$i][$lbl]="";
+				}
 			}
 
 		}

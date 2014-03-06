@@ -40,7 +40,7 @@ if ($_SESSION['OCS']["usecache"] == true){
 
 //liste des tables qui ne doivent pas faire des fusions de requ�te
 //cas pour les tables multivalu�e
-$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS","CPUS");
+$tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY","PRINTERS","CPUS","GROUPS_CACHE");
 
 
 
@@ -49,7 +49,13 @@ $tab_no_fusion=array("DEVICES","REGISTRY","DRIVES","SOFTWARES","DOWNLOAD_HISTORY
 $lbl_fields_calcul['PRINTERS']=array($l->g(79).": ".$l->g(49)=>'printers.name',
 								   $l->g(79).": ".$l->g(278)=>'printers.driver',
 								   $l->g(79).": ".$l->g(279)=>'printers.port',
-								   $l->g(79).": ".$l->g(53)=>'printers.description');
+								   $l->g(79).": ".$l->g(53)=>'printers.description',
+								   $l->g(79).": ".$l->g(1323) =>'printers.servername',
+								   $l->g(79).": ".$l->g(1324) =>'printers.sharename',
+								   $l->g(79).": ".$l->g(1325) =>'printers.resolution',
+								   $l->g(79).": ".$l->g(51) =>'printers.comment',
+								   $l->g(79).": ".$l->g(1326) =>'printers.shared',
+								   $l->g(79).": ".$l->g(1327) =>'printers.network');
 
 $lbl_fields_calcul['DRIVES']=array($l->g(838)=>'drives.LETTER',
 								   $l->g(839)=>'drives.TYPE',

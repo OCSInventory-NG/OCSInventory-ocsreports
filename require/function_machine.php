@@ -113,6 +113,11 @@ function bandeau($data,$lbl,$link=array()){
 				//$value=htmlentities($value,ENT_COMPAT,'UTF-8');
 				$value=strip_tags_array($value);
 			}
+
+			if ($name == "IPADDR") {
+				$value = preg_replace('/([x0-9])\//', '$1 / ',$value);
+			}
+			
 			echo "<td>&nbsp;<b>".$lbl[$name].": </b></td><td >".$value."</td>";
 			$i++;
 		}

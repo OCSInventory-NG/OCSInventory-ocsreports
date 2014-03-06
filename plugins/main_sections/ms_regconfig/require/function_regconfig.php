@@ -66,12 +66,23 @@ function add_update_key($form_values,$update=false){
 			return TRUE;
 		}		
 }
-
+/*
+ * function to delete a registry key
+ * $id=> id of registry key
+ */
 function delkey($id){
-	$arg_sql=array();
-	$sql_reg="delete from regconfig where id in ";
-	$sql=mysql2_prepare($sql_reg,$arg_sql,$id);
-	return mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["writeServer"],$sql['ARG']);
+	//find the registry key
+	$sql="select name from regconfig where id =%s";
+	$arg=$id;
+	$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+	$row=mysql_fetch_object($res);
+	$name=$row->name;
+	//delete key
+	$sql_reg="delete from regconfig where id =%s ";
+	mysql2_query_secure($sql_reg,$_SESSION['OCS']["writeServer"],$arg);
+	//delete cache
+	$sql_reg="delete from registry_name_cache where name ='%s' ";
+	mysql2_query_secure($sql_reg,$_SESSION['OCS']["writeServer"],$name);
 }
 
 
