@@ -14,7 +14,7 @@ if( !isset($protectedGet["popup"] )) {
 	echo "<table width='95%' border=0 align=center";
 	echo "><tr><td>";
 	// Show the menu
-	show_menu($_SESSION['OCS']['ORDER']);
+	if ($ban_head != 'no') show_menu($_SESSION['OCS']['ORDER']);
 	echo "</td></tr></table>";
 }
 
