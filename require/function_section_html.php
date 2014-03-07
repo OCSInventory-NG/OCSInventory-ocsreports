@@ -1,5 +1,55 @@
 <?php
 
+function show_menu($config) {
+	if (!is_array($config)) {
+		return false;
+	}
+
+	//var_dump(array($config, $_SESSION['OCS']['MENU'], $_SESSION['OCS']['MENU_NAME'], $_SESSION['OCS']['MENU_TITLE'], $_SESSION['OCS']['PAGE_PROFIL']));
+	
+	// Build menu
+	$menu = new Menu();
+	foreach ($config as $config_elem) {
+		$url = "?".PAG_INDEX."=".$_SESSION['OCS']['URL'][$config_elem];
+		
+		if (isset($_SESSION['OCS']['MENU_NAME'][$config_elem])) {
+			$lbl_index = $_SESSION['OCS']['MENU_TITLE'][$config_elem];
+			
+			if (is_null($lbl_index)) {
+				$lbl = $config_elem;
+			} else {
+				$lbl = find_lbl($lbl_index);
+			}
+			
+			$menu->addElem($config_elem, new MenuElem($lbl, $url));
+			
+			// Element has children
+			foreach ($_SESSION['OCS']['MENU'] as $page_name => $menu_name) {
+				if (isset($_SESSION['OCS']['PAGE_PROFIL'][$page_name]) and $menu_name == $config_elem) {
+					$url = "?".PAG_INDEX."=".$_SESSION['OCS']['URL'][$page_name];
+					$lbl = find_lbl($_SESSION['OCS']['LBL'][$page_name]);
+
+					$menu->getElem($config_elem)->addElem($page_name, new MenuElem($lbl, $url));
+				}
+			}
+		} else {
+			// No children
+			$lbl_index = $_SESSION['OCS']['LBL'][$config_elem];
+			
+			if (is_null($lbl_index)) {
+				$lbl = $config_elem;
+			} else {
+				$lbl = find_lbl($lbl_index);
+			}
+			
+			$menu->addElem($config_elem, new MenuElem($lbl, $url));
+		}
+	}
+	
+	$renderer = new BootstrapMenuRenderer();
+	//$renderer->setParentElemClickable(true);
+	echo $renderer->render($menu);
+}
 
 //function to show an icons group
 function show_icon_block($order){	

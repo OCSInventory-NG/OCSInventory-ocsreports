@@ -235,8 +235,7 @@ function read_profil_file($name,$writable=''){
 function read_config_file($writable=''){
 	//Select config file depending on user profile
 	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR']."4all_config.txt";
-	$search=array('ORDER_FIRST_TABLE'=>'MULTI2',
-				  'ORDER_SECOND_TABLE'=>'MULTI2',
+	$search=array('ORDER'=>'MULTI2',
 				  'LBL'=>'MULTI',
 				  'MENU'=>'MULTI',
 				  'MENU_TITLE'=>'MULTI',
@@ -326,12 +325,19 @@ function html_header($no_java=false){
 			<head>
 				<TITLE>OCS Inventory</TITLE>
 				<LINK REL='shortcut icon' HREF='favicon.ico' />
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap.min.css'>
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-theme.min.css'>
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-custom.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>";
 	if (!$no_java){
 		incPicker(); 
 		echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
 		//js for graph
-		echo "<script src='js/graph/jquery-1.6.2.js' type='text/javascript'></script>";
+		echo "<script src='js/jquery-1.11.0.js' type='text/javascript'></script>";
+		
+		echo "<script src='js/bootstrap.min.js' type='text/javascript'></script>";
+		echo "<script src='js/bootstrap-custom.js' type='text/javascript'></script>";
+		
   		echo "<script src='js/graph/raphael.js' type='text/javascript'></script>";
   		echo "<script src='js/graph/elycharts.js' type='text/javascript'></script>";
 		if (isset($_SESSION['OCS']['JAVASCRIPT'])){
