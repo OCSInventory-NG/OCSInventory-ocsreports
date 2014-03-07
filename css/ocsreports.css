@@ -80,9 +80,10 @@ option.hi {
 	background-color:#FFFFFF;
 }
 
-.dropdown {
+/** CONFLICTS WITH BOOTSTRAP - TODO ISOLATE **/
+/*.dropdown {
 	border: thin solid;
-}
+}*/
 
 .Items {
 	border-width: 2px;
