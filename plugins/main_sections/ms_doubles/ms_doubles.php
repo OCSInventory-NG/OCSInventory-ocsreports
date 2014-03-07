@@ -35,8 +35,8 @@ if ($protectedPost['FUSION']){
 		$afus=array();
 		$i=0;
 		while (isset($list_id_fusion[$i])){
-			$res = mysql_query("SELECT deviceid,id,lastcome FROM hardware WHERE id=".$list_id_fusion[$i], $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));		
-			$afus[] = mysql_fetch_array($res,MYSQL_ASSOC);	
+			$res = mysqli_query($_SESSION['OCS']["readServer"],"SELECT deviceid,id,lastcome FROM hardware WHERE id=".$list_id_fusion[$i]) or die(mysqli_error($_SESSION['OCS']["readServer"]));		
+			$afus[] = mysqli_fetch_array($res,MYSQL_ASSOC);	
 			$i++;
 		}	
 		if (isset($afus))
@@ -95,7 +95,7 @@ if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
 $sql_doublon['macaddress'].=" group by MACADDR having count(MACADDR)>1";
 foreach($sql_doublon as $name=>$sql_value){
 	$res = mysql2_query_secure($sql_value, $_SESSION['OCS']["readServer"],$arg_doublon[$name]);
-	while( $val = mysql_fetch_object( $res ) ){		
+	while( $val = mysqli_fetch_object( $res ) ){		
 		$doublon[$name][] = $val->val;
 	}
 }
@@ -183,7 +183,7 @@ foreach($sql_id_doublon as $name=>$sql_value){
 	$sql_value.=" group by id";
 	$res = mysql2_query_secure($sql_value, $_SESSION['OCS']["readServer"],$arg_id_doublon[$name]);
 	$count_id[$name] = 0;
-	while( $val = mysql_fetch_object( $res ) ) {
+	while( $val = mysqli_fetch_object( $res ) ) {
 		//if restriction => count only computers of profil
 		//else, all computers
 			if (is_array($tab_id_mes_machines) and in_array ($val->id,$tab_id_mes_machines)){

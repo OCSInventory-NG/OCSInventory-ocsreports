@@ -92,7 +92,7 @@ p($sql_list_alpha['ARG']);*/
 //execute the query only if necessary 
 if($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPost['onglet'])){
 	$result_list_alpha = mysql2_query_secure( $sql_list_alpha['SQL'], $_SESSION['OCS']["readServer"],$sql_list_alpha['ARG']);
- 	while($item_list_alpha = mysql_fetch_object($result_list_alpha)){
+ 	while($item_list_alpha = mysqli_fetch_object($result_list_alpha)){
  		
  		if (mb_strtoupper($item_list_alpha -> alpha) == '"')
 					$car="'";
@@ -150,7 +150,7 @@ if ($_SESSION['OCS']["usecache"] == 1 and !(isset($_SESSION['OCS']['USE_NEW_SOFT
 
 	$result_search_soft = mysql2_query_secure( $search_soft['SQL'], $_SESSION['OCS']["readServer"],$search_soft['ARG']);
 	$list_soft="";
-	while($item_search_soft = mysql_fetch_object($result_search_soft)){
+	while($item_search_soft = mysqli_fetch_object($result_search_soft)){
 		if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){		
 			$list_soft[]=$item_search_soft->id;

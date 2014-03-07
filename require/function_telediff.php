@@ -128,7 +128,7 @@ function champ_select_block($name,$input_name,$input_cache)
  		$res_desactive=mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["writeServer"],$sql['ARG'],$l->g(512));
  	}else
  		$res_desactive=mysql2_query_secure($sql_desactive,$_SESSION['OCS']["writeServer"],$arg_desactive,$l->g(512));
- 	return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) );
+ 	return( mysqli_affected_rows ( $_SESSION['OCS']["writeServer"] ) );
  }
  
  function active_option($name,$list_id,$packid,$tvalue=''){
@@ -145,7 +145,7 @@ function champ_select_block($name,$input_name,$input_cache)
 	//$lbl_log=$l->g(601)." ".$id_pack." => ".$list_id;
 	$sql=mysql2_prepare($sql_active,$arg_active,$list_id);
 	$res_active=mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["writeServer"],$sql['ARG'],$l->g(512));
-	return( mysql_affected_rows ( $_SESSION['OCS']["writeServer"] ) );
+	return( mysqli_affected_rows ( $_SESSION['OCS']["writeServer"] ) );
  }
  
  function desactive_download_option($list_id,$packid){
@@ -165,7 +165,7 @@ function champ_select_block($name,$input_name,$input_cache)
  	$sql_id_pack="select ID from download_enable where fileid=%s and ( group_id = '' or group_id is null)";
  	$arg_id_pack=$packid;
  	$result = mysql2_query_secure($sql_id_pack,$_SESSION['OCS']["readServer"],$arg_id_pack);
-	$id_pack = mysql_fetch_array( $result );
+	$id_pack = mysqli_fetch_array( $result );
 	return $id_pack['ID']; 	
  }
  
@@ -176,7 +176,7 @@ function champ_select_block($name,$input_name,$input_cache)
 	$sql="select PRIORITY,CFIELD,OP,COMPTO,SERV_VALUE from download_affect_rules where rule=%s order by PRIORITY";
 	$arg=$id_rule;
 	$res_rules = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
-	while( $val_rules = mysql_fetch_array($res_rules)) {
+	while( $val_rules = mysqli_fetch_array($res_rules)) {
 		$cfield[$val_rules['PRIORITY']]=$val_rules['CFIELD'];
 		$op[$val_rules['PRIORITY']]=$val_rules['OP'];
 		$compto[$val_rules['PRIORITY']]=$val_rules['COMPTO'];
@@ -236,7 +236,7 @@ function activ_pack($fileid,$https_server,$file_serv){
 //checking if corresponding available exists
 		$reqVerif = "SELECT * FROM download_available WHERE fileid=%s";
 		$argVerif = $fileid;
-		if( ! mysql_num_rows( mysql2_query_secure( $reqVerif, $_SESSION['OCS']["readServer"],$argVerif) )) {
+		if( ! mysqli_num_rows( mysql2_query_secure( $reqVerif, $_SESSION['OCS']["readServer"],$argVerif) )) {
 			
 			$infoTab = loadInfo( $https_server, $file_serv );
 			if ($infoTab == ''){
@@ -265,7 +265,7 @@ function activ_pack_server($fileid,$https_server,$id_server_group){
 		$resDoub = mysql2_query_secure( $sqlDoub, $_SESSION['OCS']["readServer"], $argDoub );	
 		
 		//exclu them
-		while ($valDoub = mysql_fetch_array( $resDoub )){
+		while ($valDoub = mysqli_fetch_array( $resDoub )){
 			if ($valDoub['SERVER_ID'] != "")
 			$listDoub[]=$valDoub['SERVER_ID'];
 	
@@ -300,7 +300,7 @@ function del_pack($fileid){
 	$reqEnable = "SELECT id FROM download_enable WHERE FILEID='%s'";
 	$argEnable = $fileid;
 	$resEnable = mysql2_query_secure($reqEnable, $_SESSION['OCS']["readServer"],$argEnable);
-	while($valEnable = mysql_fetch_array( $resEnable ) ) {
+	while($valEnable = mysqli_fetch_array( $resEnable ) ) {
 		$list_id[]=$valEnable["id"];
 	}
 	//delete packet in DEVICES table
@@ -485,13 +485,6 @@ function tps_estimated($val_details)
 	if ($val_details == "")
 	return;
 	/*********************************DETAIL SUR LE TEMPS APPROXIMATIF DE TELEDEPLOIEMENT*****************************************/
-//	$sql_config="select name,ivalue from config where name in ('DOWNLOAD_CYCLE_LATENCY',
-//					    'DOWNLOAD_PERIOD_LENGTH',
-//					    'DOWNLOAD_FRAG_LATENCY',
-//	    				'DOWNLOAD_PERIOD_LATENCY')";
-//	$res_config = mysql_query( $sql_config, $_SESSION['OCS']["readServer"] );
-//	while ($val_config = mysql_fetch_array( $res_config ))
-//	$config[$val_config['name']]=$val_config['ivalue'];
 	looking4config();
 	if ($val_details['priority'] == 0)
 	$val_details['priority']=1;
@@ -536,7 +529,7 @@ function found_info_pack($id){
 	
 	$sql="select NAME,PRIORITY,FRAGMENTS,SIZE,OSNAME,COMMENT from download_available where fileid=%s";
 	$res = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$id);
-	$val = mysql_fetch_array( $res );
+	$val = mysqli_fetch_array( $res );
 	return $val;
 	
 }

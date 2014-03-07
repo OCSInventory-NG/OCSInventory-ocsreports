@@ -30,13 +30,13 @@ if ($activate){
 	//find id field of status
 	$sql_status="select ID from downloadwk_fields where FIELD='STATUS'";
 	$res_status = mysql2_query_secure( $sql_status, $_SESSION['OCS']["readServer"] );
-	$val_status = mysql_fetch_array($res_status);
+	$val_status = mysqli_fetch_array($res_status);
 	
 	//find distinct id of status to affect a package
 	$sql_id_stat="select NAME,ID from downloadwk_statut_request where NAME= '%s' or NAME='%s' or NAME = '%s'";
 	$arg_id_stat=array($conf_Wk['tvalue']['IT_SET_NIV_TEST'],$conf_Wk['tvalue']['IT_SET_NIV_REST'],$conf_Wk['tvalue']['IT_SET_NIV_TOTAL']);
 	$res_id_stat = mysql2_query_secure( $sql_id_stat, $_SESSION['OCS']["readServer"],$arg_id_stat );
-	while( $val_id_stat = mysql_fetch_array($res_id_stat)) {
+	while( $val_id_stat = mysqli_fetch_array($res_id_stat)) {
 		$id_stat[$val_id_stat['NAME']]=$val_id_stat['ID'];
 	}
 	
@@ -46,19 +46,19 @@ if ($activate){
 										left join downloadwk_statut_request dwk_stat on dwk_stat.id=dwk_p.fields_".$val_status['ID']."
 										where d_a.id_wk = 0 or dwk_stat.name = '%s'";
 	$res_affect_pack = mysql2_query_secure( $sql_affect_pack, $_SESSION['OCS']["readServer"],$conf_Wk['tvalue']['IT_SET_NIV_TEST'] );
-	while( $val_affect_pack = mysql_fetch_array($res_affect_pack)) {
+	while( $val_affect_pack = mysqli_fetch_array($res_affect_pack)) {
 		$fileid_test[$val_affect_pack["fileid"]]=$val_affect_pack["fileid"];
 	}
 	
 	//find all package can be affected REST status
 	$res_affect_pack = mysql2_query_secure( $sql_affect_pack, $_SESSION['OCS']["readServer"],$conf_Wk['tvalue']['IT_SET_NIV_REST'] );
-	while( $val_affect_pack = mysql_fetch_array($res_affect_pack)) {
+	while( $val_affect_pack = mysqli_fetch_array($res_affect_pack)) {
 		$fileid_rest[$val_affect_pack["fileid"]]=$val_affect_pack["fileid"];
 	}
 	
 	//find all package can be affected TOTAL status
 	$res_affect_pack = mysql2_query_secure( $sql_affect_pack, $_SESSION['OCS']["readServer"],$conf_Wk['tvalue']['IT_SET_NIV_TOTAL'] );
-	while( $val_affect_pack = mysql_fetch_array($res_affect_pack)) {
+	while( $val_affect_pack = mysqli_fetch_array($res_affect_pack)) {
 		$fileid_total[$val_affect_pack["fileid"]]=$val_affect_pack["fileid"];
 	}
 	$fileid_show=array();
@@ -81,7 +81,7 @@ if ($activate){
 			$sql="select %s,hardware_id from accountinfo where hardware_id in (%s)";
 			$arg=array($field_acc,$list_id);
 			$res = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
-			while($val = mysql_fetch_array($res)){
+			while($val = mysqli_fetch_array($res)){
 				$fileid_show=array_merge($fileid_total,$fileid_show);
 				if ($val[$field_acc] == $conf_Wk['tvalue']['IT_SET_NAME_TEST'])
 					$fileid_show=array_merge($fileid_test,$fileid_show);
@@ -113,7 +113,7 @@ if ($activate){
 				  WHERE ID='%s' AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 			$argMachine=$protectedGet['idchecked'];
 			$result   = mysql2_query_secure($queryMachine, $_SESSION['OCS']["readServer"],$argMachine);
-			$item     = mysql_fetch_object($result);
+			$item     = mysqli_fetch_object($result);
 
 				
 			$arg_affect_pack=array();
@@ -257,9 +257,9 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 		echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";
 		if ($protectedPost['onglet'] == 'SERV_GROUP'){
 			$sql_rules="select distinct rule,rule_name from download_affect_rules order by 1";
-				$res_rules = mysql_query( $sql_rules, $_SESSION['OCS']["readServer"] ) or die(mysql_error($_SESSION['OCS']["readServer"]));
+				$res_rules = mysqli_query($_SESSION['OCS']["readServer"] ,$sql_rules) or die(mysqli_error($_SESSION['OCS']["readServer"]));
 				$nb_rule=0;
-				while( $val_rules = mysql_fetch_array($res_rules)) {
+				while( $val_rules = mysqli_fetch_array($res_rules)) {
 					$first=$val_rules['rule'];
 					$list_rules[$val_rules['rule']]=$val_rules['rule_name'];
 					$nb_rule++;

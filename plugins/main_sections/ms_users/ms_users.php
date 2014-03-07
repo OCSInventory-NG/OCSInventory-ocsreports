@@ -97,8 +97,8 @@ else{
 		$tab_options['LIEN_TYPE']['ID']='POPUP';
 		$tab_options['POPUP_SIZE']['ID']="width=550,height=650";
 	$sql_user_groups="select IVALUE,TVALUE from config where name like 'USER_GROUP_%' ";
-	$res_user_groups = mysql_query( $sql_user_groups, $_SESSION['OCS']["readServer"] );
-	while ($val_user_groups = mysql_fetch_array( $res_user_groups ))
+	$res_user_groups = mysqli_query($_SESSION['OCS']["readServer"], $sql_user_groups );
+	while ($val_user_groups = mysqli_fetch_array( $res_user_groups ))
 	$user_groups[$val_user_groups['IVALUE']]=$val_user_groups['TVALUE'];
 
 	$tab_options['REPLACE_VALUE'][$l->g(607)]=$user_groups;

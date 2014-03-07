@@ -73,7 +73,7 @@ if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 /***************************************************** First installation checking *********************************************************/
 if( (!$fconf=@fopen(CONF_MYSQL,"r")) 
 		|| (!function_exists('session_start')) 
-		|| (!function_exists('mysql_connect')) ) {
+		|| (!function_exists('mysqli_connect')) ) {
 	require('install.php');	
 	die();
 }
@@ -96,8 +96,8 @@ if (!defined("SERVER_READ")
 //connect to databases
 $link_write=dbconnect(SERVER_WRITE,COMPTE_BASE,PSWD_BASE);
 $link_read=dbconnect(SERVER_READ,COMPTE_BASE,PSWD_BASE);
-
-if (is_resource($link_write) and is_resource($link_read)) {
+//p($link_write);
+if (is_object($link_write) and is_object($link_read)) {
 	$_SESSION['OCS']["writeServer"] = $link_write;	
 	$_SESSION['OCS']["readServer"] = $link_read;
 }else{
@@ -106,16 +106,15 @@ if (is_resource($link_write) and is_resource($link_read)) {
 		die();
 	}
 	$msg='';
-	if (!is_resource($link_write))
+	if (!is_object($link_write))
 		$msg.=$link_write."<br>";
-	if (!is_resource($link_read))
+	if (!is_object($link_read))
 		$msg.=$link_read;
 	html_header(true);
 	msg_error($msg);
 	require_once(FOOTER_HTML);
 	die();
 }
-
 
 /***********************************************************LOGS ADMIN*************************************************************************/
 if (!isset($_SESSION['OCS']['LOG_GUI'])){
@@ -192,12 +191,12 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])){
 	$sql="show tables from %s";
 	$arg=DB_NAME;
 	$res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
-	while($item = mysql_fetch_row($res)){
+	while($item = mysqli_fetch_row($res)){
 		$sql="SHOW COLUMNS FROM %s";
 		$arg=$item[0];
 		$res_column=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
 	//	echo "<i>".generate_secure_sql($sql,$arg)."</i><br>";
-		while ($item_column = mysql_fetch_row($res_column)){
+		while ($item_column = mysqli_fetch_row($res_column)){
 			
 			if ($item_column[0] == "HARDWARE_ID" 
 				and !isset($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]]))
@@ -209,14 +208,6 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])){
 	}
 }
 
-/*foreach ($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'] as $table_name=>$poub){
-	$sql="select count(*) from hardware h right join %s a on a.hardware_id=h.ID WHERE h.id is null ";
-	$arg=$table_name;
-	$res_column=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
-	$item_column = mysql_fetch_row($res_column);
-	if ($item_column[0]>0)
-		echo $table_name."<br>";
-}*/
 /*****************************************************GESTION DU NOM DES PAGES****************************************/
 //Config for all user
 if (!isset($_SESSION['OCS']['URL'])){

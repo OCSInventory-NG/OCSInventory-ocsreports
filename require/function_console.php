@@ -14,7 +14,7 @@ require_once('require/function_ipdiscover.php');
 if ($_SESSION['OCS']["TAGS"]){	
 	$sql_tag=mysql2_prepare('select id from hardware h, accountinfo a where a.hardware_id=h.id and a.tag in ',array(),$_SESSION['OCS']["TAGS"]);
 	$result=mysql2_query_secure($sql_tag['SQL'],$_SESSION['OCS']["readServer"],$sql_tag['ARG']);
-	while ($val = mysql_fetch_object($result)){
+	while ($val = mysqli_fetch_object($result)){
 		$my_id[]=$val->id;	
 	}
 	$myids=mysql2_prepare('',array(),$my_id);
@@ -384,7 +384,7 @@ function show_console_field($fields,$form_name){
 			if (!isset($_SESSION['OCS']['COUNT_CONSOLE'][$key])){
 				$res=mysql2_query_secure($sql_result,$_SESSION['OCS']["readServer"],$arg_result);
 				if ($res){
-					$count = mysql_fetch_object($res);
+					$count = mysqli_fetch_object($res);
 					$_SESSION['OCS']['COUNT_CONSOLE'][$key]=$count->c;
 				}
 			}

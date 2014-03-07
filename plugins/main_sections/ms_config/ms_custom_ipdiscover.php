@@ -47,11 +47,11 @@ if (isset($protectedGet['idchecked']) and is_numeric($protectedGet['idchecked'])
 	$sql="SELECT ipaddress FROM networks WHERE hardware_id=%s";
 	$arg=$protectedGet['idchecked'];
 	$resInt = mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg );
-	while( $valInt = mysql_fetch_array( $resInt )){
+	while( $valInt = mysqli_fetch_array( $resInt )){
 		$sql="SELECT ipsubnet FROM networks WHERE ipaddress='%s' AND hardware_id=%s";
 		$arg=array($valInt["ipaddress"],$protectedGet["idchecked"]);
 		$res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg );
-		while( $val = mysql_fetch_array( $res ))
+		while( $val = mysqli_fetch_array( $res ))
 		$lesRez[$val["ipsubnet"]] = $val["ipsubnet"];
 	}
 }

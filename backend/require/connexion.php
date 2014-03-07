@@ -7,15 +7,16 @@ function connexion_local_read()
 	//connection OCS
 	$db_ocs = DB_NAME;
 	//lien sur le serveur OCS
-	$link_ocs=mysql_connect(SERVER_READ,COMPTE_BASE,PSWD_BASE);
+	$link_ocs=mysqli_connect(SERVER_READ,COMPTE_BASE,PSWD_BASE);
 
-	if(!$link_ocs) {
-			echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error()."</b></font></center>";
+	if(mysqli_connect_errno()) {
+			echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysqli_error()."</b></font></center>";
 			die();
 		}
-	mysql_query("SET NAMES 'utf8'");
-	//sql_mode => not strict
-	mysql_query("SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+		mysqli_query($link_ocs,"SET NAMES 'utf8'");
+		//sql_mode => not strict
+		mysqli_query($link_ocs,"SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+
 	//fin connection OCS	
 }
 
@@ -27,15 +28,15 @@ function connexion_local_write()
 	//connection OCS
 	$db_ocs = DB_NAME;
 	//lien sur le serveur OCS
-	$link_ocs=mysql_connect(SERVER_WRITE,COMPTE_BASE,PSWD_BASE);
+	$link_ocs=mysqli_connect(SERVER_WRITE,COMPTE_BASE,PSWD_BASE);
 
-	if(!$link_ocs) {
-			echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysql_error()."</b></font></center>";
+	if(mysqli_connect_errno()) {
+			echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>".mysqli_error()."</b></font></center>";
 			die();
 		}
-	mysql_query("SET NAMES 'utf8'");
+	mysqli_query($link_ocs,"SET NAMES 'utf8'");
 	//sql_mode => not strict
-	mysql_query("SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+	mysqli_query($link_ocs,"SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 	//fin connection OCS	
 }
 

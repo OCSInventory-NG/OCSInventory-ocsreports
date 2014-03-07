@@ -68,7 +68,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 		$arg=$protectedPost['MODIF'];
 		$res = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg);
 		$i=1;
-		while ($val = mysql_fetch_array( $res )){
+		while ($val = mysqli_fetch_array( $res )){
 			$protectedPost['PRIORITE_'.$i]=$val['priority'];
 			$protectedPost['CFIELD_'.$i]=$val['cfield'];
 			$protectedPost['OP_'.$i]=$val['op'];

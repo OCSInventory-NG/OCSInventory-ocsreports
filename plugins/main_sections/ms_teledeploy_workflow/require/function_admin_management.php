@@ -47,7 +47,7 @@ function find_all_field_by_tab($id_tab){
 		$sql_all_field=mysql2_prepare($sql['SQL'],$sql['ARG'],$id_tab); 		
 		$result=mysql2_query_secure($sql_all_field['SQL'],$_SESSION['OCS']["readServer"],$sql_all_field['ARG']);
 		
-		while ($val = mysql_fetch_array( $result )){
+		while ($val = mysqli_fetch_array( $result )){
 			$array[$val['id']]=$val['id'];
 		}
 		return $array;		
@@ -70,7 +70,7 @@ function find_all_value_by_field($id_field){
 		$sql= "select id from downloadwk_conf_values where field in ";
 		$sql_all_value=mysql2_prepare($sql,array(),$id_field); 	
 		$result=mysql2_query_secure($sql_all_value['SQL'],$_SESSION['OCS']["readServer"],$sql_all_value['ARG']);			
-		while ($val = mysql_fetch_array( $result )){
+		while ($val = mysqli_fetch_array( $result )){
 			$array[$val['id']]=$val['id'];
 		}
 		return $array;		
@@ -97,7 +97,7 @@ function delete_conf($id_conf){
 		$sql_downloadwk_conf_values="DELETE FROM downloadwk_conf_values WHERE id in ";
 		$downloadwk_conf_values=mysql2_prepare($sql_downloadwk_conf_values,array(),$id_conf); 	
 		mysql2_query_secure($downloadwk_conf_values['SQL'],$_SESSION['OCS']["writeServer"],$downloadwk_conf_values['ARG']);
-		addLog( 'DEL_WK_TELEDIFF','delete values of field (downloadwk_conf_values) => '.mysql_affected_rows().' values');	
+		addLog( 'DEL_WK_TELEDIFF','delete values of field (downloadwk_conf_values) => '.mysqli_affected_rows().' values');	
 		return true;
 	}
 	
@@ -130,7 +130,7 @@ function delete_field($id_field){
 			$sql_downloadwk_fields="DELETE FROM downloadwk_fields WHERE ID in ";
 			$downloadwk_fields=mysql2_prepare($sql_downloadwk_fields,array(),$id_field); 	
 			mysql2_query_secure($downloadwk_fields['SQL'],$_SESSION['OCS']["writeServer"],$downloadwk_fields['ARG']);
-			addLog( 'DEL_WK_TELEDIFF','delete field (downloadwk_fields) => '.mysql_affected_rows().' values');
+			addLog( 'DEL_WK_TELEDIFF','delete field (downloadwk_fields) => '.mysqli_affected_rows().' values');
 			return true;
 		//}
 	}
@@ -159,7 +159,7 @@ function delete_tab($id_tab){
 			$sql_downloadwk_tab_values="DELETE FROM downloadwk_tab_values WHERE ID in ";
 			$downloadwk_tab_values=mysql2_prepare($sql_downloadwk_tab_values,array(),$id_tab); 	
 			mysql2_query_secure($downloadwk_tab_values['SQL'],$_SESSION['OCS']["writeServer"],$downloadwk_tab_values['ARG']);
-			addLog( 'DEL_WK_TELEDIFF','delete TAB (downloadwk_tab_values) => '.mysql_affected_rows().' values');
+			addLog( 'DEL_WK_TELEDIFF','delete TAB (downloadwk_tab_values) => '.mysqli_affected_rows().' values');
 		}		
 		
 	}

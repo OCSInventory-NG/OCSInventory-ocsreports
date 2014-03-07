@@ -82,8 +82,8 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 		$i=0;
 		
 		while($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]){
-			$result=mysql_query($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i], $link) or die(mysql_error($link));
-			while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
+			$result=mysqli_query($link,$_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]) or die(mysqli_error($link));
+			while( $cont = mysqli_fetch_array($result,MYSQL_ASSOC) ) {
 				foreach ($col as $field => $lbl){
 					if (array_key_exists($lbl,$cont)){
 					
@@ -105,7 +105,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 	$i=0;
 	require_once('require/function_admininfo.php');
 	$inter=interprete_accountinfo($col,array());
-	while( $cont = mysql_fetch_array($result,MYSQL_ASSOC) ) {
+	while( $cont = mysqli_fetch_array($result,MYSQL_ASSOC) ) {
 						//p($cont);
 		foreach ($col as $field => $lbl){
 			if ($lbl == "name_of_machine" and !isset($cont[$field])){

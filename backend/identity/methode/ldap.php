@@ -42,14 +42,14 @@ $name="ldap.php";
 connexion_local_read();
 
 // select the main database
-mysql_select_db($db_ocs,$link_ocs);
+mysqli_select_db($link_ocs,$db_ocs);
 
 
 // retrieve LDAP-related config values into an array
 $sql="select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
 $arg=array("%CONEX%");
 $res=mysql2_query_secure($sql, $link_ocs,$arg);
-while($item = mysql_fetch_object($res)){
+while($item = mysqli_fetch_object($res)){
     $config[$item->NAME]=$item->TVALUE;
   //  define ($item->NAME,$item->TVALUE);
 }
@@ -122,7 +122,7 @@ if ($f2_value != '')
 //if defaultRole is define
 if (isset($defaultRole) and $defaultRole != ''){
     // if it doesn't exist, create the user record
-    if (!mysql_fetch_object($resOp)) {
+    if (!mysqli_fetch_object($resOp)) {
     
     
         $reqInsert="INSERT INTO operators (
@@ -163,7 +163,7 @@ if (isset($defaultRole) and $defaultRole != ''){
     }
     connexion_local_write();
     // select the main database
-    mysql_select_db($db_ocs,$link_ocs);
+    mysqli_select_db($link_ocs,$db_ocs);
     // Execute the query to insert/update the user record
     mysql2_query_secure($reqInsert,$link_ocs,$arg_insert);
     
@@ -174,9 +174,9 @@ if (isset($defaultRole) and $defaultRole != ''){
     connexion_local_read();
     
     // select the main database
-    mysql_select_db($db_ocs,$link_ocs);
+    mysqli_select_db($link_ocs,$db_ocs);
     $resOp=mysql2_query_secure($reqOp, $link_ocs,$argOp);
-    $rowOp=mysql_fetch_object($resOp);
+    $rowOp=mysqli_fetch_object($resOp);
     if (isset($rowOp -> accesslvl)){
         $lvluser=$rowOp -> accesslvl;
         $ms_cfg_file=$_SESSION['OCS']['CONF_PROFILS_DIR'].$lvluser."_config.txt";
@@ -189,7 +189,7 @@ if (isset($defaultRole) and $defaultRole != ''){
             $sql="select tag from tags where login='%s'";
             $arg=array($_SESSION['OCS']["loggeduser"]);
             $res=mysql2_query_secure($sql, $link_ocs,$arg);
-            while ($row=mysql_fetch_object($res)){    
+            while ($row=mysqli_fetch_object($res)){    
                 $list_tag[$row->tag]=$row->tag;
             }
             if (!isset($list_tag))

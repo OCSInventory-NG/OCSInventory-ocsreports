@@ -109,8 +109,8 @@ if ($protectedPost['onglet'] == 1){
 					//echo $sql_verif;
 					$arg_verif=array($protectedPost['newfield'],$protectedGet['tag']."_%");
 					$res_verif = mysql2_query_secure( $sql_verif, $_SESSION['OCS']["readServer"],$arg_verif);
-					//echo $val_verif = mysql_fetch_array( $res_verif );
-					$val_verif = mysql_fetch_array( $res_verif );
+					//echo $val_verif = mysqli_fetch_array( $res_verif );
+					$val_verif = mysqli_fetch_array( $res_verif );
 					if ($val_verif['c'] > 0)
 					$ERROR=$l->g(656);
 				}else
@@ -121,7 +121,7 @@ if ($protectedPost['onglet'] == 1){
 				$sql_new_value="SELECT max(ivalue) max FROM config WHERE  NAME like '%s'";
 				$arg_new_value=array($protectedGet['tag']."_%");
 				$res_new_value = mysql2_query_secure( $sql_new_value, $_SESSION['OCS']["readServer"],$arg_new_value);
-				$val_new_value = mysql_fetch_array( $res_new_value );	
+				$val_new_value = mysqli_fetch_array( $res_new_value );	
 				if ($val_new_value['max'] == "")
 				$val_new_value['max']=0;
 				$val_new_value['max']++;

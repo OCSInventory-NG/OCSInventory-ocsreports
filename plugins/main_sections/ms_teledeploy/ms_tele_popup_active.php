@@ -32,7 +32,7 @@ if (!isset($info_id['ERROR'])){
 	if ($_SESSION['OCS']["use_redistribution"] == 1){
 		$reqGroupsServers = "SELECT DISTINCT name,id FROM hardware WHERE deviceid='_DOWNLOADGROUP_'";
 		$resGroupsServers = mysql2_query_secure( $reqGroupsServers, $_SESSION['OCS']["readServer"] );
-		while( $valGroupsServers = mysql_fetch_array( $resGroupsServers ) ) {
+		while( $valGroupsServers = mysqli_fetch_array( $resGroupsServers ) ) {
 				$groupListServers[$valGroupsServers["id"]]=$valGroupsServers["name"];
 		}	
 	}
@@ -55,8 +55,8 @@ if (!isset($info_id['ERROR'])){
 			
 		if ($protectedPost['choix_activ'] == "MAN"){
 			$reqFrags = "SELECT fragments FROM download_available WHERE fileid='".$protectedGet["active"]."'";
-			$resFrags = mysql_query( $reqFrags, $_SESSION['OCS']["readServer"] );	
-			$valFrags = mysql_fetch_array( $resFrags );
+			$resFrags = mysqli_query($_SESSION['OCS']["readServer"], $reqFrags);	
+			$valFrags = mysqli_fetch_array( $resFrags );
 			$fragAvail = ($valFrags["fragments"] > 0) ;
 			if( $fragAvail ){
 				$fragOk = @fopen("http://".$protectedPost["FILE_SERV"]."/".$protectedGet["active"]."/".$protectedGet["active"]."-1", "r");

@@ -84,7 +84,7 @@ if ($protectedPost['onglet'] == 'TOP'){
 
 	$res =mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 	$i=0;
-	while ($row=mysql_fetch_object($res)){
+	while ($row=mysqli_fetch_object($res)){
 		$count_value[$i]=$row->c;
 		$name_value[$i]=addslashes($row->name)."<br> (".$l->g(381).":".$row->c.")";
 		$legend[$i]=addslashes($row->name);

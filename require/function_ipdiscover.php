@@ -14,7 +14,7 @@ function find_info_subnet($netid){
 	$sql="select NETID,NAME,ID,MASK from subnet where netid='%s'";
 	$arg=$netid;
 	$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-	$row=mysql_fetch_object($res);
+	$row=mysqli_fetch_object($res);
 	return $row;
 	
 }
@@ -32,7 +32,7 @@ function find_info_type($name='',$id='',$update=''){
 		$arg[]=$update;
 	}
 	$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-	$row=mysql_fetch_object($res);	
+	$row=mysqli_fetch_object($res);	
 	return $row;
 }
 
@@ -198,7 +198,7 @@ function add_community($ID,$NAME,$VERSION,$USERNAME,$AUTHKEY,$AUTHPASSWD){
 		array_push($arg,$ID);		
 	}
 	$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-	$row=mysql_fetch_object($res);	
+	$row=mysqli_fetch_object($res);	
 	//Exist
 	if (isset($row->name))
 		return array('ERROR'=>$NAME." ".$l->g(363));
@@ -226,7 +226,7 @@ function find_community_info($id){
 		$sql="select * from snmp_communities where id=%s";
 		$arg=$id;
 		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		$row=mysql_fetch_object($res);	
+		$row=mysqli_fetch_object($res);	
 		return $row;	
 }
 
@@ -265,7 +265,7 @@ function count_noinv_network_devices($dpt_choise=''){
 	if (!isset($_SESSION['OCS']['COUNT_CONSOLE']['OCS_REPORT_NB_IPDISCOVER'])
 		and $dpt_choise == ''){
 		$res_count = mysql2_query_secure($detail_query['SQL'], $_SESSION['OCS']["readServer"],$detail_query['ARG']);
-		$val_count = mysql_fetch_array( $res_count );
+		$val_count = mysqli_fetch_array( $res_count );
 		return $val_count['c'];
 	}else
 		return $_SESSION['OCS']['COUNT_CONSOLE']['OCS_REPORT_NB_IPDISCOVER'];

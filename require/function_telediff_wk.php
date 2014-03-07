@@ -37,7 +37,7 @@ function list_status($allactif=1){
 		//echo $sql_id_STATUS;
 		$resultSERV = mysql2_query_secure($sql_service, $_SESSION['OCS']["readServer"]);
 		$List_stat[]='';
-		while($item = mysql_fetch_object($resultSERV)){
+		while($item = mysqli_fetch_object($resultSERV)){
 			$id[]=$item->id;
 			$List_stat[$item->id]=$item->name.'('.$item->lbl.')';
 			$List_stat_bis[$item->id]=$item->lbl;
@@ -71,8 +71,8 @@ function find_dde_by_status($status){
 		$status=array_search($status, $status_array['NIV']); 
 		$id_status=find_id_field();
 		$sql="select id from downloadwk_pack where fields_".$id_status['STATUS']->id."='".$status."'";
-		$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-		while ($item_values = mysql_fetch_object($result))
+		$result = mysqli_query($_SESSION['OCS']["readServer"],$sql) or mysqli_error($_SESSION['OCS']["readServer"]);
+		while ($item_values = mysqli_fetch_object($result))
 			$list_id_dde[]=$item_values->id;
 			//echo $sql;
 		return $list_id_dde;
@@ -87,8 +87,8 @@ function info_dde($id_dde){
 		$list_dde=implode("','",$id_dde);
 		$sql="select * FROM downloadwk_pack where id in ('".$list_dde."')";
 	//	echo $sql;
-		$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-		while ($item_values = mysql_fetch_object($result)){
+		$result = mysqli_query($_SESSION['OCS']["readServer"],$sql) or mysqli_error($_SESSION['OCS']["readServer"]);
+		while ($item_values = mysqli_fetch_object($result)){
 		//	print_r($item_values);
 			$tab_info_dde[$item_values->ID]=$item_values;
 		}
@@ -97,8 +97,8 @@ function info_dde($id_dde){
 	}	
 	if (is_numeric($id_dde)){
 		$sql="select * FROM downloadwk_pack where id='".$id_dde."'";
-		$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-		$item_values = mysql_fetch_object($result);
+		$result = mysqli_query($_SESSION['OCS']["readServer"],$sql) or mysqli_error($_SESSION['OCS']["readServer"]);
+		$item_values = mysqli_fetch_object($result);
 		return $item_values;	
 	}else
 		return false;
@@ -106,8 +106,8 @@ function info_dde($id_dde){
 
 function find_id_field($name_field=array('STATUS'),$list_fields='id'){
 		$sql_id_="select ".$list_fields.",FIELD from downloadwk_fields where FIELD in ('".implode("','",$name_field)."')";
-		$result_id_ = mysql_query($sql_id_, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-		while ($item_id_ = mysql_fetch_object($result_id_))
+		$result_id_ = mysqli_query($_SESSION['OCS']["readServer"],$sql_id_) or mysqli_error($_SESSION['OCS']["readServer"]);
+		while ($item_id_ = mysqli_fetch_object($result_id_))
 		$return[$item_id_->FIELD]=$item_id_;
 		return $return;
 }
@@ -161,8 +161,8 @@ function dde_form($form_name){
 		}
 		//search all tab of this form 
 		$sql_TAB="select VALUE,LBL,ID,DEFAULT_FIELD from downloadwk_tab_values where FIELD = 'TAB'";
-		$result_TAB = mysql_query($sql_TAB, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-		while($item = mysql_fetch_object($result_TAB)){
+		$result_TAB = mysqli_query($_SESSION['OCS']["readServer"],$sql_TAB) or mysqli_error($_SESSION['OCS']["readServer"]);
+		while($item = mysqli_fetch_object($result_TAB)){
 			if (!isset($protectedPost['cat']) or $protectedPost['cat'] == ''){
 				$protectedPost['cat']=$item->ID;
 			}
@@ -175,8 +175,8 @@ function dde_form($form_name){
 		
 		//search all fields of the form
 		$sql_fields="select TAB,FIELD,TYPE,LBL,MUST_COMPLETED,ID,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS from downloadwk_fields";
-		$result_fields = mysql_query($sql_fields, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-		while($item = mysql_fetch_object($result_fields)){
+		$result_fields = mysqli_query($_SESSION['OCS']["readServer"],$sql_fields) or mysqli_error($_SESSION['OCS']["readServer"]);
+		while($item = mysqli_fetch_object($result_fields)){
 			unset($value);
 			if (($item->RESTRICTED == 1 and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK_FIELDS'] == 'YES')
 				 or (isset($protectedPost['OLD_MODIF']) 
@@ -192,8 +192,8 @@ function dde_form($form_name){
 					if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK_FIELDS'] == 'YES'){
 						$val_field=$item->VALUE;
 						$sql_service="select id, lbl as value from downloadwk_statut_request where id='".$val_field."'";
-						$resultSERV = mysql_query($sql_service, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-						$item_conf_values = mysql_fetch_object($resultSERV);	
+						$resultSERV = mysqli_query($_SESSION['OCS']["readServer"],$sql_service) or mysqli_error($_SESSION['OCS']["readServer"]);
+						$item_conf_values = mysqli_fetch_object($resultSERV);	
 						$value=$item_conf_values->value;
 					}else
 					$grise=$item->TYPE;
@@ -217,7 +217,7 @@ function dde_form($form_name){
 							$arg_service=array(implode(',',$list_id));
 							$resultSERV = mysql2_query_secure($sql_service, $_SESSION['OCS']["readServer"],$arg_service);
 							$value="";
-							while ($item_conf_values = mysql_fetch_object($resultSERV)){
+							while ($item_conf_values = mysqli_fetch_object($resultSERV)){
 								$value.=$item_conf_values->value.' ';
 							}
 						}
@@ -229,14 +229,6 @@ function dde_form($form_name){
 						$value=$value_list[$item->ID];	
 					}
 					
-					
-					/*$val_field=$item->ID;
-					$sql_service="select field, value from downloadwk_conf_values where field='".$val_field."'";
-					echo $sql_service."<br>";
-					$resultSERV = mysql_query($sql_service, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-					$item_conf_values = mysql_fetch_object($resultSERV);
-					if (isset($item_conf_values))	
-					$value=$item_conf_values->value;*/
 				}
 			}//cas ou on ne peut pas ajouter des fichiers à une demande
 			elseif(isset($protectedPost['OLD_MODIF']) and $item->TYPE == 8 
@@ -297,8 +289,8 @@ function dde_form($form_name){
 						$sql_service="select field,value,id,default_field FROM downloadwk_conf_values where field=".$item->ID;
 					}
 					//echo $item->FIELD."<br>";
-					$resultSERV = mysql_query($sql_service, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-					while($item_conf_values = mysql_fetch_object($resultSERV)){					
+					$resultSERV = mysqli_query($_SESSION['OCS']["readServer"],$sql_service) or mysqli_error($_SESSION['OCS']["readServer"]);
+					while($item_conf_values = mysqli_fetch_object($resultSERV)){					
 							if (!isset($List[$item_conf_values->field]) and $grise == 2){
 								$value_field[$item->TAB][$item->ID]['']='';
 								
@@ -318,8 +310,8 @@ function dde_form($form_name){
 					}*/
 				elseif ($grise == 9){
 					$sql_files="select id,file_name from temp_files where fields_name='fields_".$item->ID."' and id_dde='".$protectedPost['OLD_MODIF']."'";
-					$result_files= mysql_query($sql_files, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-					while($item_files = mysql_fetch_object($result_files)){			
+					$result_files= mysqli_query($_SESSION['OCS']["readServer"],$sql_files) or mysqli_error($_SESSION['OCS']["readServer"]);
+					while($item_files = mysqli_fetch_object($result_files)){			
 					$value_field[$item->TAB][$item->ID][$item_files->id]=$item_files->file_name;
 					}
 				}
@@ -348,9 +340,9 @@ function dde_form($form_name){
 									$sql="select id from temp_files where fields_name = 'fields_".$id."' 
 											and AUTHOR='".$_SESSION['OCS']['loggeduser']."'
 											and (ID_DDE is null or ID_DDE='".$protectedPost['OLD_MODIF']."')";
-									$result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+									$result = mysqli_query($_SESSION['OCS']["readServer"],$sql) or mysqli_error($_SESSION['OCS']["readServer"]);
 									unset($id_files_value);
-									while ($item_values = mysql_fetch_object($result)){
+									while ($item_values = mysqli_fetch_object($result)){
 											$id_files_value[]=$item_values->id;
 											$list_id_files_to_update[]=$item_values->id;
 									}		
@@ -445,7 +437,7 @@ function dde_form($form_name){
 						$sql_old_param="select * from downloadwk_pack where id = '%s'";
 						$arg=array($protectedPost['OLD_MODIF']);
 						$result_old_param = mysql2_query_secure($sql_old_param, $_SESSION['OCS']["readServer"],$arg);
-						$item_old_param = mysql_fetch_object($result_old_param);
+						$item_old_param = mysqli_fetch_object($result_old_param);
 						
 						$sql_wk_dde="UPDATE downloadwk_pack set ";
 						$i=0;
@@ -458,7 +450,7 @@ function dde_form($form_name){
 								$sql_fields_modif="select lbl from downloadwk_fields where id = '%s'";
 								$arg_lbl=array($id_field[1]);
 								$result_fields_modif = mysql2_query_secure($sql_fields_modif, $_SESSION['OCS']["readServer"],$arg_lbl);
-								$item_fields_modif = mysql_fetch_object($result_fields_modif);
+								$item_fields_modif = mysqli_fetch_object($result_fields_modif);
 								if (is_numeric($item_fields_modif->lbl))
 									$modif_field=$l->g($item_fields_modif->lbl);
 								else
@@ -505,8 +497,8 @@ function dde_form($form_name){
 					mysql2_query_secure($sql_wk_dde, $_SESSION['OCS']["writeServer"],$arg_wk_dde);	
 					//mise à jour des blobs insérés		
 					if (isset($list_id_files_to_update)){
-						if (mysql_insert_id($_SESSION['OCS']["writeServer"]))
-						$id_dde=mysql_insert_id($_SESSION['OCS']["writeServer"]);
+						if (mysqli_insert_id($_SESSION['OCS']["writeServer"]))
+						$id_dde=mysqli_insert_id($_SESSION['OCS']["writeServer"]);
 						elseif (isset($protectedPost['OLD_MODIF']))
 						$id_dde=$protectedPost['OLD_MODIF'];
 										
@@ -535,7 +527,7 @@ function dde_form($form_name){
 							$arg=array($group_admin_mail['ivalue']['IT_SET_MAIL_ADMIN']);
 							$result_mail = mysql2_query_secure($sql_mail, $_SESSION['OCS']["readServer"],$arg);
 							$mail_list=array();
-							while($item_mail = mysql_fetch_object($result_mail)){
+							while($item_mail = mysqli_fetch_object($result_mail)){
 								if (VerifyMailadd($item_mail->email)){
 									$mail_list[]=$item_mail->email;
 								}
@@ -548,7 +540,7 @@ function dde_form($form_name){
 								   where ID='%s'";
 						$arg=array($_SESSION['OCS']['loggeduser']);
 						$result_mail = mysql2_query_secure($sql_mail, $_SESSION['OCS']["readServer"],$arg);
-						$item_mail = mysql_fetch_object($result_mail);
+						$item_mail = mysqli_fetch_object($result_mail);
 						if (!VerifyMailadd($item_mail->email))
 								msg_error($l->g(1055)." ".$l->g(1056));
 						if ($_SESSION['OCS']['TELEDIFF_WK'] == 'LOGIN'){							
@@ -559,7 +551,7 @@ function dde_form($form_name){
 											 where USER_GROUP='%s'";
 							$arg=array($item_mail->user_group);
 							$result_mail_group = mysql2_query_secure($sql_mail_group, $_SESSION['OCS']["readServer"],$arg);
-							while ($item_mail_group = mysql_fetch_object($result_mail_group)){
+							while ($item_mail_group = mysqli_fetch_object($result_mail_group)){
 								if (VerifyMailadd($item_mail_group->email))
 									$mail_list[]=$item_mail_group->email;
 							}
@@ -713,7 +705,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 							  FROM downloadwk_tab_values";
 				$resultSERV = mysql2_query_secure($sql_service, $_SESSION['OCS']["readServer"]);
 				$List_tab[]='';
-				while($item = mysql_fetch_object($resultSERV)){
+				while($item = mysqli_fetch_object($resultSERV)){
 					$lbl=define_lbl($item->lbl,$item->default_field);
 					$List_tab[$item->id]=$lbl;
 				}
@@ -729,7 +721,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 					$arg=array($protectedPost['TAB']);
 					$resultSERV = mysql2_query_secure($sql_service, $_SESSION['OCS']["readServer"],$arg);
 					$List_fields[]='';
-					while($item = mysql_fetch_object($resultSERV)){
+					while($item = mysqli_fetch_object($resultSERV)){
 						$lbl=define_lbl($item->lbl,$item->default_field);
 						$List_fields[$item->id]=$lbl;
 						$default_field[$item->id]=$item->default_field;
@@ -751,7 +743,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 					$sql_status="SELECT id,lbl FROM downloadwk_statut_request";
 					$res_status = mysql2_query_secure( $sql_status, $_SESSION['OCS']["readServer"] );
 					$status['0']= $l->g(454);
-					while ($val_status = mysql_fetch_array( $res_status ))
+					while ($val_status = mysqli_fetch_array( $res_status ))
 					$status[$val_status['id']]=$val_status['lbl'];
 					//print_r($status);
 					$list_type=array('TEXT','TEXTAREA','SELECT',
@@ -765,10 +757,10 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 									  where id='%s' and tab='%s' ";	
 					$arg=array($protectedPost['FIELDS'],$protectedPost['TAB']);		
 					$result_detailField = mysql2_query_secure($sql_detailField, $_SESSION['OCS']["readServer"],$arg);
-					$item_detailField = mysql_fetch_object($result_detailField);
+					$item_detailField = mysqli_fetch_object($result_detailField);
 					
 					//if there is no result or more than 1, don't show update table
-					$num_row=mysql_numrows($result_detailField);
+					$num_row=mysqli_numrows($result_detailField);
 					if ($num_row == 1){
 						$protectedPost['type']=$item_detailField->type;
 						$protectedPost['must_completed']=$item_detailField->must_completed;
@@ -895,11 +887,10 @@ function dde_show($form_name){
 		//recherche des champs qui ont été créés
 		$sql_fields="select lbl,id,type,field from downloadwk_fields ";
 		$resultfields=mysql2_query_secure($sql_fields,$_SESSION['OCS']["readServer"]);
-		//$resultfields = mysql_query($sql_fields, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
 		$id_field1=0;
 		$id_field2=0;
 		$default_fields=array();
-		while($item = mysql_fetch_object($resultfields)){
+		while($item = mysqli_fetch_object($resultfields)){
 			$name_field[$item->id]=$item->field;
 			$field='fields_'.$item->id;
 			if ($item->field == "STATUS")
@@ -924,7 +915,7 @@ function dde_show($form_name){
 		//recherche des valeurs des différents statuts
 		$sql_statut="select id,lbl from downloadwk_statut_request";
 		$resultfields = mysql2_query_secure($sql_statut,$_SESSION['OCS']["readServer"]);
-		while($item = mysql_fetch_object($resultfields)){
+		while($item = mysqli_fetch_object($resultfields)){
 			$statut[$item->id]=$item->lbl;		
 		}
 		$tab_options['REPLACE_VALUE'][$id_status]=$statut;

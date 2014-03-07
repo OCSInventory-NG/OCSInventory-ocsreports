@@ -83,7 +83,7 @@ if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protecte
 			$sql="select name from softwares_name_cache where id=%s";
 			$arg=$protectedGet['value'];
 			$result = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg);	
-			$item = mysql_fetch_object($result);
+			$item = mysqli_fetch_object($result);
 			$protectedGet['value']=$item->name;
 		}
 		$tab_session[]="SOFTWARES-NAME";	
@@ -394,8 +394,8 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 	 		}
 	 		elseif($field_value[$i] == "ALL_WIN")
 	 		$sql_temp="select distinct osname from hardware where osname like '%win%'";
-	 		$result_temp = mysql_query( $sql_temp, $_SESSION['OCS']["readServer"] );
-			while( $val_temp = mysql_fetch_array($result_temp) ) {
+	 		$result_temp = mysqli_query($_SESSION['OCS']["readServer"], $sql_temp);
+			while( $val_temp = mysqli_fetch_array($result_temp) ) {
 				$list[]=addslashes($val_temp['osname']); 						
 			}
 			if (!isset($list)){
@@ -448,7 +448,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 						$field_value_complement[$i] != "NULL")
 				 $sql_temp.=" and d_e.fileid=".$field_value_complement[$i];
 				$result_temp = mysql2_query_secure( $sql_temp, $_SESSION['OCS']["readServer"] );
-				while( $val_temp = mysql_fetch_array($result_temp) ) {
+				while( $val_temp = mysqli_fetch_array($result_temp) ) {
 						$list[]=addslashes($val_temp['id']); 						
 					}
 					//echo $sql_temp;
@@ -480,9 +480,9 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 		 			$sql_frequency="select hardware_id from devices where name=".$field_value[$i];
 		 			if( isset($type_default[1]) and $type_default[1] != "'")
 					$sql_frequency.=" and IVALUE = ".$type_default[1]{0};
-		 			$result_frequency = mysql_query( $sql_frequency, $_SESSION['OCS']["readServer"] );
+		 			$result_frequency = mysqli_query($_SESSION['OCS']["readServer"], $sql_frequency );
 		 			$list_frequency="";
-					while( $val_frequency = mysql_fetch_array($result_frequency) ) {
+					while( $val_frequency = mysqli_fetch_array($result_frequency) ) {
 						$list_frequency .=  $val_frequency['hardware_id'].',';
 					}
 					if ($list_frequency == "")
@@ -514,7 +514,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 				//A REVOIR POUR ENLEVER LES ' DEVANT LE CHAMP DE RECHERCHE
 				$arg_temp=array($table_explode,$field_compar[$i],str_replace("'","",$field_value[$i]));
 				$result_temp = mysql2_query_secure( $sql_temp, $_SESSION['OCS']["readServer"], $arg_temp);
-				while( $val_temp = mysql_fetch_array($result_temp) ) {
+				while( $val_temp = mysqli_fetch_array($result_temp) ) {
 					$list[]=$val_temp['id'];						
 					if ($limit_result_cache<count($list)){
 						$ERROR=$l->g(959);
@@ -544,9 +544,9 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 							and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1)
 					$sql_temp.= ",id ";
 					$sql_temp.= " from ".strtolower($table_cache[$table[$i]])." where ".$field_temp.$field_compar[$i].$field_value[$i];
-					$result_temp = mysql_query( $sql_temp, $_SESSION['OCS']["readServer"] );
+					$result_temp = mysqli_query($_SESSION['OCS']["readServer"], $sql_temp);
 					$count_result=0;
-					while( $val_temp = mysql_fetch_array($result_temp) ) {
+					while( $val_temp = mysqli_fetch_array($result_temp) ) {
 						if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
 							and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
 							$list[]=$val_temp['id'];
@@ -750,8 +750,8 @@ $list_id="";
 		 }elseif ($list_id_restraint != ""){
 		 	$sql.=" AND ID IN (".$list_id_restraint.")";
 		 }
-		 $result = mysql_query($sql, $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
-		while($item = mysql_fetch_object($result))
+		 $result = mysqli_query($_SESSION['OCS']["readServer"],$sql) or mysqli_error($_SESSION['OCS']["readServer"]);
+		while($item = mysqli_fetch_object($result))
 		$list_id[]=$item->ID;
 	 }else
 	 $list_id=$list_id_norm;
@@ -851,7 +851,7 @@ if ($list_id != "")	{
 	$querycount .= " and h.id in (".implode(', ',$list_id).") group by h.ID ";
 	
 	/*$resultlistid = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
-	while($item = mysql_fetch_object($resultlistid)){
+	while($item = mysqli_fetch_object($resultlistid)){
 		$list_id_test[]=$item->id;
 	}*/
 	

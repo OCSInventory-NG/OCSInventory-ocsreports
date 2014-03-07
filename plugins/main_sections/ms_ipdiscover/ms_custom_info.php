@@ -65,7 +65,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='%s'";
 		$arg=$protectedPost['MODIF'];
 		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg );
-		$val = mysql_fetch_array( $res );
+		$val = mysqli_fetch_array( $res );
 		$protectedPost['COMMENT']=$val['DESCRIPTION'];
 		$protectedPost['MODIF']=$val['MACADDR'];
 		$protectedPost['TYPE']=$val['TYPE'];
@@ -102,7 +102,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	
 	$sql="select distinct NAME from devicetype ";
 	$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-	while ($row=mysql_fetch_object($res)){
+	while ($row=mysqli_fetch_object($res)){
 		$list_type[$row->NAME]=$row->NAME;
 	}
 	$tab_typ_champ[2]['DEFAULT_VALUE']=$list_type;

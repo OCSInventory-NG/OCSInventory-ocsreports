@@ -90,7 +90,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 		$sql_value_idhardware="select NAME,IVALUE,TVALUE from devices where name != 'DOWNLOAD' and hardware_id=%s";
 		$arg_value_idhardware=$protectedGet['idchecked'];
 		$result_value = mysql2_query_secure($sql_value_idhardware, $_SESSION['OCS']["readServer"],$arg_value_idhardware);
-		while($value=mysql_fetch_array($result_value)) {
+		while($value=mysqli_fetch_array($result_value)) {
 			$optvalue[$value["NAME"] ] = $value["IVALUE"];
 			$optvalueTvalue[$value["NAME"]]=$value["TVALUE"];
 		}

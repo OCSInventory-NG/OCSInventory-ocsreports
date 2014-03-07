@@ -54,7 +54,7 @@ function find_device_line($status,$packid){
 				"AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')";
 		
 		$res =mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);		
-		while ($row=mysql_fetch_object($res)){
+		while ($row=mysqli_fetch_object($res)){
 			$result['HARDWARE_ID'][]=$row->hardware_id;
 			$result['IVALUE'][]=$row->ivalue;
 		}

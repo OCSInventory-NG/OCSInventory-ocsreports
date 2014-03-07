@@ -123,7 +123,7 @@ if ($protectedPost['onglet'] == "SERV"){
 }
 $querygroup.=" group by h.ID";
 $result = mysql2_query_secure($sql_nb_mach, $_SESSION['OCS']["readServer"]) ;
-while($item = mysql_fetch_object($result)){
+while($item = mysqli_fetch_object($result)){
 	//on force les valeurs du champ "nombre" � l'affichage
 	$tab_options['VALUE']['NBRE'][$item -> group_id]=$item -> nb;
 }
@@ -137,7 +137,7 @@ $tab_options['VALUE']['NBRE'][]=0;
 if ($protectedPost['onglet'] == "STAT"){
 	$sql="select id from hardware where workgroup='GROUP_4_ALL'";
 	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-	while($item = mysql_fetch_object($result)){
+	while($item = mysqli_fetch_object($result)){
 		$protectedPost['check'.$item ->id]="check";
 	}
 }

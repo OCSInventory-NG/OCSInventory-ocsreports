@@ -29,7 +29,7 @@ if ($protectedPost['Valid_modif_x']){
 		}
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		
-		if (mysql_affected_rows() != 0){
+		if (mysqli_affected_rows() != 0){
 			$sql="INSERT INTO itmgmt_comments (hardware_id,comments,user_insert,date_insert,action) 
 					values ('%s','%s','%s',%s,'%s => %s')"; 
 			$arg=array($systemid,$protectedPost['MOTIF'],$_SESSION['OCS']["loggeduser"],
@@ -65,7 +65,7 @@ if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
 			and (tvalue like '%s' or tvalue like '%s') ";
 	$arg=array($id_pack_affect,$protectedGet['systemid'],"DOWNLOAD","ERR_%","EXIT_CODE%");		
 	$res = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
-		$val = mysql_fetch_array( $res ); 
+		$val = mysqli_fetch_array( $res ); 
 	if (isset($val['name'])){		
 		$tab_typ_champ[0]['INPUT_NAME']="MOTIF";
 		$tab_typ_champ[0]['INPUT_TYPE']=1;
@@ -94,7 +94,7 @@ if( isset( $protectedGet["actgrp"] )) {
 		if (!($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"))
 			$reqGroups .= " and h.workgroup = 'GROUP_4_ALL'";
 		$resGroups = mysql2_query_secure( $reqGroups, $_SESSION['OCS']["readServer"] );
-		$valGroups = mysql_fetch_array( $resGroups ); 
+		$valGroups = mysqli_fetch_array( $resGroups ); 
 		if (isset($valGroups['id'])){
 			$reqDelete = "DELETE FROM groups_cache WHERE hardware_id=%s AND group_id=%s";
 			
@@ -124,7 +124,7 @@ $i=0;
 	echo "<table BORDER='1' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
 	
-	while($item=mysql_fetch_array($resultDetails,MYSQL_ASSOC)) {
+	while($item=mysqli_fetch_array($resultDetails,MYSQL_ASSOC)) {
 		$optPerso[ $item["NAME"] ][ "IVALUE" ] = $item["IVALUE"];
 		$optPerso[ $item["NAME"] ][ "TVALUE" ] = $item["TVALUE"];
 	}	
@@ -225,8 +225,8 @@ $i=0;
 	$arg_groups=$systemid;
 	$resGroups = mysql2_query_secure($sql_groups, $_SESSION['OCS']["readServer"],$arg_groups); 
 	echo "<tr><td colspan=100></td></tr>";
-	if( mysql_num_rows( $resGroups )>0 ) {
-		while( $valGroups = mysql_fetch_array( $resGroups ) ) {
+	if( mysqli_num_rows( $resGroups )>0 ) {
+		while( $valGroups = mysqli_fetch_array( $resGroups ) ) {
 			$ii++; $td3 = $ii%2==0?$td2:$td4;
 			echo "<tr>";
 			echo "<td bgcolor='white' align='center' valign='center'>&nbsp;</td>";
@@ -274,7 +274,7 @@ $i=0;
 		$reqGroups .= " order by h.name";
 		$resGroups =mysql2_query_secure( $reqGroups, $_SESSION['OCS']["readServer"] );
 		$first = true;
-		while( $valGroups = mysql_fetch_array( $resGroups ) ) {
+		while( $valGroups = mysqli_fetch_array( $resGroups ) ) {
 			if( $first ) {
 				echo $l->g(386)." <a href=# OnClick=window.location='$hrefBase&actgrp=1&grp='+document.getElementById(\"groupcombo\").options[document.getElementById(\"groupcombo\").selectedIndex].value>".
 				$l->g(589)."</a>";

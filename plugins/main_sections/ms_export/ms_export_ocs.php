@@ -20,7 +20,7 @@ if (!$seeit){
 $sql="select * from hardware where id=%s";
 $arg=$protectedGet['systemid'];
 $res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
-$item_hardware = mysql_fetch_object($res);
+$item_hardware = mysqli_fetch_object($res);
 $xml= "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 $table_not_use=array('accountinfo','groups_cache','download_history','devices');
 $xml.= "<REQUEST>\n";
@@ -33,7 +33,7 @@ foreach ($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'] as $tablename){
 		$arg=array($tablename,$protectedGet['systemid']);
 		
 		$res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
-		while ($item = mysql_fetch_object($res)){
+		while ($item = mysqli_fetch_object($res)){
 			$xml.= "\t\t<".mb_strtoupper($tablename).">\n";
 			foreach($_SESSION['OCS']['SQL_TABLE'][$tablename] as $field_name=>$field_type){
 				if ($field_name != 'HARDWARE_ID'){
@@ -70,7 +70,7 @@ $xml.= "\t\t</HARDWARE>\n";
 $sql="select * from accountinfo where hardware_id=%s";
 $arg=$protectedGet['systemid'];
 $res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
-$item_accountinfo = mysql_fetch_object($res);
+$item_accountinfo = mysqli_fetch_object($res);
 
 foreach($_SESSION['OCS']['SQL_TABLE']['accountinfo'] as $field_name=>$field_type){
 		if ($field_name != 'HARDWARE_ID'){

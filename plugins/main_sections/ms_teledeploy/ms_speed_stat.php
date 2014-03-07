@@ -31,7 +31,7 @@ $sql="select count(*) c from devices d,
 							and d_e.fileid='%s'";
 $arg=$protectedGet['stat'];
 $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);	
-$item = mysql_fetch_object($result);
+$item = mysqli_fetch_object($result);
 $total_mach=$item->c;
 if ($total_mach<=0){
 	msg_error($l->g(837));
@@ -50,7 +50,7 @@ $arg=array(urldecode($protectedGet['ta']),$protectedGet['stat']);
 $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 $nb_4_hour=array();
 //$total_mach=0;
-while($item = mysql_fetch_object($result)){
+while($item = mysqli_fetch_object($result)){
 	//echo $item->date_valid."<br>";
 	unset($data_temp,$day,$year,$hour_temp,$hour);
 	$data_temp=explode(' ',$item->date_valid);

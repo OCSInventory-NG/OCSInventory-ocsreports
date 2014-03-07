@@ -42,7 +42,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 					return (true);
 				}
 			}
-			alert('".mysql_real_escape_string($l->g(559))."');
+			alert('".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(559))."');
 			return (false);
 	     }
 	          

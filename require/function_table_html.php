@@ -153,7 +153,7 @@ function printEnTete_tab($ent) {
 function escape_string($array){
 	if (is_array($array)){
 		foreach ($array as $key=>$value){
-			$trait_array[$key]=mysql_real_escape_string($value);
+			$trait_array[$key]=mysqli_real_escape_string($_SESSION['OCS']["readServer"],$value);
 		}
 		return ($trait_array);
 	}else
@@ -185,10 +185,10 @@ function xml_decode( $txt ) {
 //fonction qui permet d'afficher un tableau de donn�es
 /*
  * $entete_colonne = array ; => ex: $i=0;
-									while($colname = mysql_fetch_field($result))
+									while($colname = mysqli_fetch_field($result))
 										$entete2[$i++]=$colname->name;
  * $data= array; => ex: $i=0;
-						while($item = mysql_fetch_object($result)){
+						while($item = mysqli_fetch_object($result)){
 							$data2[$i]['ID']=$item ->ID;
 							$data2[$i]['PRIORITY']=$up.$item ->PRIORITY.$down;
 							$data2[$i]['TITLE']=$item ->TITLE;
@@ -423,11 +423,11 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"]);
 		if (isset($result) and $result != ''){
 			$i=0;
-			while($colname = mysql_fetch_field($result))
+			while($colname = mysqli_fetch_field($result))
 			$entete2[$i++]=$colname->name;
 			
 			$i=0;		
-			while ($item = mysql_fetch_object($result)){
+			while ($item = mysqli_fetch_object($result)){
 				$j=0;
 				while ($entete2[$j]){
 					$data2[$i][$entete2[$j]]=$item ->$entete2[$j];
@@ -813,8 +813,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 	 		 $current=1;
 			}
 	  	}else{
-	  		//echo "<script>alert('".mysql_real_escape_string(stripslashes($protectedPost[$post_name]))." => ".$key."')</script>";
-			if (mysql_real_escape_string(stripslashes($protectedPost[$post_name])) === mysql_real_escape_string(stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
+			if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
 				 echo "id='current'";  
 	 			 $current=1;
 			}
@@ -1079,7 +1078,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					$sql.=" and hardware_id in (".implode(',',$_SESSION['OCS']['ID_REQ']).") group by hardware_id ";
 					//ajout du group by pour r�gler le probl�me des r�sultats multiples sur une requete
 					//on affiche juste le premier crit�re qui match
-					$result = mysql_query($sql, $_SESSION['OCS']["readServer"]);
+					$result = mysqli_query($_SESSION['OCS']["readServer"],$sql);
 				}else{			
 					
 					//add sort on column if need it
@@ -1091,7 +1090,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 				}
 				
-			while($item = mysql_fetch_object($result)){
+			while($item = mysqli_fetch_object($result)){
 				
 					if ($item->HARDWARE_ID != "")
 					$champs_index=$item->HARDWARE_ID;
@@ -1165,10 +1164,10 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 					
 				}
 				if ($resultcount)
-				$num_rows_result = mysql_num_rows($resultcount);
+				$num_rows_result = mysqli_num_rows($resultcount);
 				//echo "<b>".$num_rows_result."</b>";
 				if ($num_rows_result==1){
-					$count=mysql_fetch_object($resultcount);
+					$count=mysqli_fetch_object($resultcount);
 				//	echo $queryDetails;
 					if ($count->count_nb_ligne > 0)
 					$num_rows_result = $count->count_nb_ligne;
@@ -1203,7 +1202,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 			$value_data_end=$num_rows_result-1;
 		}
 		//echo $queryDetails;
-		while($item = mysql_fetch_object($resultDetails)){
+		while($item = mysqli_fetch_object($resultDetails)){
 			if ($i>=$index){
 				unset($champs_index);
 				if ($item->ID != "")
@@ -1336,7 +1335,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 		foreach ($tab_options['REQUEST'] as $field_name => $value){
 			$tab_condition[$field_name]=array();
 			$resultDetails = mysql2_query_secure($value, $_SESSION['OCS']["readServer"],$tab_options['ARG'][$field_name]);
-			while($item = mysql_fetch_object($resultDetails)){
+			while($item = mysqli_fetch_object($resultDetails)){
 				$tab_condition[$field_name][$item -> FIRST]=$item -> FIRST;
 			}		
 		}
@@ -1464,7 +1463,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						else
 							$arg="";
 						$result_lien = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-						if ($item = mysql_fetch_object($result_lien)){
+						if ($item = mysqli_fetch_object($result_lien)){
 						  $data[$i][$num_col]="<a href='".$tab_options['LIEN_LBL'][$key][$id].$donnees[$tab_options['LIEN_CHAMP'][$key][$id]]."' target='_blank'>".$value_of_field."</a>";				
 						 // $exit=true;
 						 break;

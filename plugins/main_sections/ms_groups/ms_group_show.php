@@ -60,7 +60,7 @@ if(!($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")){
 	$sql_verif="select workgroup from hardware where workgroup='GROUP_4_ALL' and ID='%s'";
 	$arg=$systemid;
 	$res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"],$arg);
-	$item_verif = mysql_fetch_object($res_verif);
+	$item_verif = mysqli_fetch_object($res_verif);
 	if ($item_verif == "")
 	die("FORBIDDEN");
 }
@@ -108,7 +108,7 @@ $queryMachine   = "SELECT REQUEST,
 				  WHERE ID=%s AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 $arg=$systemid;
 $result   = mysql2_query_secure( $queryMachine, $_SESSION['OCS']["readServer"] ,$arg);
-$item     = mysql_fetch_object($result);
+$item     = mysqli_fetch_object($result);
 
 if( ! $item ) {
 	echo "<script language='javascript'>wait(0);</script>";
@@ -223,7 +223,7 @@ if ($server_group){
 	$arg=$systemid;
 	$res_affect_pack = mysql2_query_secure($sql_affect_pack, $_SESSION['OCS']["readServer"],$arg);
 	$i=0;
-	while( $val_affect_pack = mysql_fetch_array($res_affect_pack)) {
+	while( $val_affect_pack = mysqli_fetch_array($res_affect_pack)) {
 		$PACK_LIST[$i]['NAME'] = $val_affect_pack['NAME'];
 		$PACK_LIST[$i]['PRIORITY'] = $val_affect_pack['PRIORITY'];
 		$PACK_LIST[$i]['FRAGMENTS'] = $val_affect_pack['FRAGMENTS'];
@@ -329,7 +329,7 @@ function form_action_group($systemid){
 	global $l;
 	$reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=%s";
 	$resGrpStat = mysql2_query_secure($reqGrpStat, $_SESSION['OCS']["readServer"],$systemid);
-	$valGrpStat = mysql_fetch_array($resGrpStat);
+	$valGrpStat = mysqli_fetch_array($resGrpStat);
 	echo "<center>".$l->g(585).": <select name='actshowgroup' id='actshowgroup'>";
 					if (($valGrpStat['REQUEST'] == "" or $valGrpStat['REQUEST'] == null) and ($valGrpStat['XMLDEF'] == "" or $valGrpStat['XMLDEF'] == null))
 					echo "<option value='0'>".$l->g(818)."</option></select>";
@@ -366,17 +366,17 @@ function print_computers_real($systemid) {
 	$sql_group="SELECT xmldef FROM groups WHERE hardware_id='%s'";
 	$arg=$systemid;
 	$resGroup = mysql2_query_secure( $sql_group, $_SESSION['OCS']["readServer"],$arg);
-	$valGroup = mysql_fetch_array($resGroup);//group old version
+	$valGroup = mysqli_fetch_array($resGroup);//group old version
 	if( ! $valGroup["xmldef"] ){
 		$sql_group="SELECT request FROM groups WHERE hardware_id='%s'";
 		$arg=$systemid;
 		$resGroup = mysql2_query_secure( $sql_group, $_SESSION['OCS']["readServer"] ,$arg);
-		$valGroup = mysql_fetch_array($resGroup);
+		$valGroup = mysqli_fetch_array($resGroup);
 		$request=$valGroup["request"];
 		$tab_id= array();
-		$result_value = mysql_query($request, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-		$fied_id_name= mysql_field_name($result_value, 0);
-		while($value=mysql_fetch_array($result_value)) {
+		$result_value = mysqli_query($_SESSION['OCS']["readServer"],$request) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+		$fied_id_name= mysqli_field_name($result_value, 0);
+		while($value=mysqli_fetch_array($result_value)) {
 				$tab_id[] = $value[$fied_id_name];	
 		}	
 	}else{
@@ -391,8 +391,8 @@ function print_computers_real($systemid) {
 				$tab_list_sql[$i] .= " and hardware_id in (".implode(",",$tab_id).")";
 				unset($tab_id);
 			}
-			$result_value = mysql_query(xml_decode($tab_list_sql[$i]), $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-			while($value=mysql_fetch_array($result_value)) {
+			$result_value = mysqli_query($_SESSION['OCS']["readServer"],xml_decode($tab_list_sql[$i])) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+			while($value=mysqli_fetch_array($result_value)) {
 				$tab_id[] = $value["HARDWARE_ID"];
 			}	
 			$i++;
@@ -440,7 +440,7 @@ function print_computers_cached($systemid) {
 		$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
 		$res_mesMachines = mysql2_query_secure($sql_mesMachines, $_SESSION['OCS']["readServer"]);
 		$mesmachines="(";
-		while ($item_mesMachines = mysql_fetch_object($res_mesMachines)){
+		while ($item_mesMachines = mysqli_fetch_object($res_mesMachines)){
 			$mesmachines.= $item_mesMachines->hardware_id.",";	
 		}
 		$mesmachines="and e.hardware_id IN ".substr($mesmachines,0,-1).")";
@@ -473,13 +473,13 @@ function print_perso($systemid) {
 	global $l, $td1, $td2, $td3, $td4,$pages_refs,$protectedGet;
 	$i=0;
 	$queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
-	$resultDetails = mysql_query($queryDetails, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
+	$resultDetails = mysqli_query($_SESSION['OCS']["readServer"],$queryDetails) or die(mysqli_error($_SESSION['OCS']["readServer"]));
 		$form_name='config_group';
 	echo open_form($form_name);				
 		echo "<table BORDER='0' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
 	//echo "<tr><td>&nbsp;&nbsp;</td> $td1 "."Libell�"." </td> $td1 "."Valeur"." </td><td>&nbsp;</td></tr>";		
-	while($item=mysql_fetch_array($resultDetails,MYSQL_ASSOC)) {
+	while($item=mysqli_fetch_array($resultDetails,MYSQL_ASSOC)) {
 		$optPerso[ $item["NAME"] ][ "IVALUE" ] = $item["IVALUE"];
 		$optPerso[ $item["NAME"] ][ "TVALUE" ] = $item["TVALUE"];
 	}	

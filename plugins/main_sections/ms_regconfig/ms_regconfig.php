@@ -23,7 +23,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 		$arg=$protectedPost['MODIF'];
 		//$sql="select NAME,ID,MASK from subnet where netid='".$netid."'";
 		$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		$row=mysql_fetch_object($res);
+		$row=mysqli_fetch_object($res);
 		$protectedPost['NAME']=$row->NAME;
 		$protectedPost['REGTREE']=$row->REGTREE;
 		$protectedPost['REGKEY']=$row->REGKEY;

@@ -47,7 +47,7 @@ function verify_name($RULE_NAME,$condition=''){
 	$sql_exist.= $condition;
 	$arg=trim($RULE_NAME);
 	$result_rule_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"],$arg);
-	$rule_exist = mysql_fetch_object($result_rule_exist);
+	$rule_exist = mysqli_fetch_object($result_rule_exist);
 	if ($rule_exist->id)
 	return 'NAME_EXIST';
 	else
@@ -58,7 +58,7 @@ function verify_rule($rule_or_condition,$ID){
 	$sql="select id from download_affect_rules where %s='%s'";
 	$arg=array($rule_or_condition,$ID);
 	$result_id = mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
-	$id_exist = mysql_fetch_object($result_id);
+	$id_exist = mysqli_fetch_object($result_id);
 	if ($id_exist->id)
 	return 'RULE_EXIST';
 	else
@@ -108,12 +108,12 @@ function add_rule($RULE_NAME,$RULE_VALUES,$ID_RULE=''){
 		$sql="select id from download_affect_rules where id='%s'";
 		$arg=$ID_RULE;		
 		$result_id = mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
-		$id_exist = mysql_fetch_object($result_id);
+		$id_exist = mysqli_fetch_object($result_id);
 		//generate id
 		if (!is_numeric($ID_RULE) or $ID_RULE == '' or isset($id_exist->id)){	
 			$sql_new_id="select max(RULE) as ID_RULE from download_affect_rules";
 			$result_new_id = mysql2_query_secure($sql_new_id, $_SESSION['OCS']["readServer"]);
-			$new_id = mysql_fetch_object($result_new_id);
+			$new_id = mysqli_fetch_object($result_new_id);
 			$ID_RULE=$new_id -> ID_RULE;
 			$ID_RULE++;
 		}

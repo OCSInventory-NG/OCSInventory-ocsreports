@@ -56,7 +56,7 @@ if (isset($list_id) and $list_id != ''){
 				where fileid='%s'";
 		$arg=$protectedPost['pack_list'];
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		$item = mysql_fetch_object($result);
+		$item = mysqli_fetch_object($result);
 		require_once('require/function_telediff.php');
 		$nb_line_affected=desactive_packet($list_id,$item->ID);
 		msg_success($nb_line_affected." ".$l->g(1026));	
@@ -70,7 +70,7 @@ if (isset($list_id) and $list_id != ''){
 		$tab_result=mysql2_prepare($sql,$arg,$list_id);
 		$resultDetails = mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["writeServer"],$tab_result['ARG']);
 		$msg="";
-		while($item = mysql_fetch_object($resultDetails)){
+		while($item = mysqli_fetch_object($resultDetails)){
 			$wol->wake($item->MACADDR,$item->IPADDRESS);
 			$msg.= "<br>".$wol->wol_send."=>".$item->MACADDR."/".$item->IPADDRESS;			
 		}
@@ -115,7 +115,7 @@ if (isset($list_id) and $list_id != ''){
 							$sql="select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_%s' order by 2";
 							$arg= $field_of_accountinfo['LIST_NAME'][$id]."%";
 							$result=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
-							while ($val = mysql_fetch_array( $result )){
+							while ($val = mysqli_fetch_array( $result )){
 								$tab_typ_champ[$i]['DEFAULT_VALUE'][$val['ID']]=$val['NAME'];
 								
 							}
@@ -145,7 +145,7 @@ if (isset($list_id) and $list_id != ''){
 									from download_available d_a, download_enable d_e 
 									where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
 				$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
-				while($val = mysql_fetch_array($resultDetails)){
+				while($val = mysqli_fetch_array($resultDetails)){
 					$List[$val["fileid"]]=$val["name"];		
 				}
 				$select=show_modif($List,'pack_list',2,$form_name);
@@ -158,7 +158,7 @@ if (isset($list_id) and $list_id != ''){
 					$tab_result=mysql2_prepare($sql,$arg,$list_id);
 					$sql= $tab_result['SQL'] . " group by tvalue";
 					$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$tab_result['ARG'] );
-					while ($item = mysql_fetch_object($result)){
+					while ($item = mysqli_fetch_object($result)){
 						if ($item->tvalue == "")
 							$value=$l->g(482);
 						else

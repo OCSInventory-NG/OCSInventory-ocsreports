@@ -334,7 +334,7 @@ function update_default_value($POST){
 	//recherche des valeurs par d�faut
 	$sql_exist=" select NAME,ivalue,tvalue from config ";
 	$result_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"]);
-	while($value_exist=mysql_fetch_array($result_exist)) {
+	while($value_exist=mysqli_fetch_array($result_exist)) {
 		if ($value_exist["ivalue"] != null)
 		$optexist[$value_exist["NAME"] ] = $value_exist["ivalue"];
 		elseif($value_exist["tvalue"] != null)
@@ -828,7 +828,7 @@ function pagegroups($form_name){
 		$sql_list_group_user="select IVALUE,TVALUE from config where name like '%s'";
 		$arg_list_group_user='USER_GROUP_%';
 		$result_list_group_user = mysql2_query_secure($sql_list_group_user, $_SESSION['OCS']["readServer"],$arg_list_group_user);
-		while($value=mysql_fetch_array($result_list_group_user)){
+		while($value=mysqli_fetch_array($result_list_group_user)){
 			$list_group_user[$value['IVALUE']]=$value['TVALUE'];	
 		}
 		ligne('IT_SET_MAIL_ADMIN',$l->g(1082),'select',array('VALUE'=>$values['ivalue']['IT_SET_MAIL_ADMIN'],'SELECT_VALUE'=>$list_group_user));		
@@ -840,7 +840,7 @@ function pagegroups($form_name){
 		$sql_list_group="select name from hardware where deviceid='%s'";
 		$arg_list_group='_SYSTEMGROUP_';
 		$result_list_group = mysql2_query_secure($sql_list_group, $_SESSION['OCS']["readServer"],$arg_list_group);
-		while($value=mysql_fetch_array($result_list_group)){
+		while($value=mysqli_fetch_array($result_list_group)){
 			$list_group[$value['name']]=$value['name'];	
 		}
 		ligne('IT_SET_NAME_TEST',$l->g(1084),'select',array('VALUE'=>$values['tvalue']['IT_SET_NAME_TEST'],'SELECT_VALUE'=>$list_group));

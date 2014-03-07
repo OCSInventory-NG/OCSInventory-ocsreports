@@ -19,7 +19,7 @@
 //show all columns in accountinfo table
 $sql="show columns from accountinfo";
 $res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"]);
-while ($value = mysql_fetch_object($res)){
+while ($value = mysqli_fetch_object($res)){
 	if ($value->Field != 'HARDWARE_ID' and $value->Field != 'TAG')
 		$list_field[$value->Field]=$value->Field;
 		$type_field[$value->Field]=$value->Type;
@@ -28,7 +28,7 @@ $fields_table=array('ID','NAME_ACCOUNTINFO','TYPE,NAME','ID_TAB','COMMENT','SHOW
 $sql=prepare_sql_tab($fields_table);
 $sql['SQL'] .="from accountinfo_config where ACCOUNT_TYPE='COMPUTERS'";
 $res=mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["readServer"],$sql['ARG']);
-while ($value = mysql_fetch_object($res)){
+while ($value = mysqli_fetch_object($res)){
 	if (!isset($max_order) or $value->SHOW_ORDER > $max_order)
 		$max_order=$value->SHOW_ORDER;
 	if ($value->NAME_ACCOUNTINFO != 'TAG'){
@@ -78,7 +78,7 @@ foreach ($list_field as $name){
 		else
 			$add_lign_accountinfo_config[]=$sql['ARG'];
 		$sql_alter="ALTER TABLE accountinfo CHANGE %s  %s %s";
-		$arg=array($name,"fields_".mysql_insert_id($_SESSION['OCS']["writeServer"]),$type_field[$name]);
+		$arg=array($name,"fields_".mysqli_insert_id($_SESSION['OCS']["writeServer"]),$type_field[$name]);
 		
 		if (isset($protectedPost['EXE']) and $protectedPost['EXE']!= ''){
 			mysql2_query_secure($sql_alter,$_SESSION['OCS']["writeServer"],$arg);			

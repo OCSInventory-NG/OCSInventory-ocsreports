@@ -56,7 +56,7 @@ function add_user($data_user,$list_profil=''){
 		$sql="select id from operators where id= '%s'";
 		$arg=$data_user['ID'];
 		$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		$row=mysql_fetch_object($res);
+		$row=mysqli_fetch_object($res);
 		if (isset($row->id)){
 			if ($data_user['MODIF'] != $row->id){
 				return $l->g(999);
@@ -154,7 +154,7 @@ function admin_user($id_user=''){
 			$sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
 			$arg=$id_user;
 			$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-			$row=mysql_fetch_object($res);
+			$row=mysqli_fetch_object($res);
 			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
 				$protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
 				$protectedPost['USER_GROUP']=$row->USER_GROUP;

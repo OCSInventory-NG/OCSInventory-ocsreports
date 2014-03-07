@@ -41,7 +41,7 @@ if ($protectedGet['admin'] == "tab"){
 	$sql_status="SELECT id,lbl FROM downloadwk_statut_request";
 	$res_status = mysql2_query_secure( $sql_status, $_SESSION['OCS']["readServer"] );
 	$status['0']= $l->g(454);
-	while ($val_status = mysql_fetch_array( $res_status ))
+	while ($val_status = mysqli_fetch_array( $res_status ))
 	$status[$val_status['id']]=$val_status['lbl'];
 	
 	$array_fields=array($l->g(1061)=>'TAB',
@@ -82,7 +82,7 @@ if ($protectedPost['onglet'] == 1){
 					and (default_field is null or default_field=0) ";
 	$argDetail=$protectedGet['value'];
 	$resTypes = mysql2_query_secure( $queryDetails, $_SESSION['OCS']["readServer"],$argDetail);
-	$valTypes = mysql_fetch_array( $resTypes );
+	$valTypes = mysqli_fetch_array( $resTypes );
 	if (is_array($valTypes)){
 		$tab_options['ARG_SQL']=$protectedGet['value'];
 		if (!isset($protectedPost['SHOW']))
@@ -114,7 +114,7 @@ if ($protectedPost['onglet'] == 1){
 				$sql_verif="SELECT count(*) c FROM ".$table." WHERE FIELD = '%s'";
 				$arg_verif=$protectedPost['newfield'];
 				$res_verif = mysql2_query_secure( $sql_verif, $_SESSION['OCS']["readServer"],$arg_verif);
-				$val_verif = mysql_fetch_array( $res_verif );
+				$val_verif = mysqli_fetch_array( $res_verif );
 				//this name is already exist
 				if ($val_verif['c'] > 0)
 					$ERROR=$l->g(1067);				
@@ -130,10 +130,9 @@ if ($protectedPost['onglet'] == 1){
 			$arg_sql=array();
 			$insert=mysql2_prepare($sql_insert,$arg_sql,$array_values);
 			mysql2_query_secure($insert['SQL'], $_SESSION['OCS']["writeServer"],$insert['ARG']);
-		//	mysql_query( "INSERT INTO ".$table." (".$fields.") VALUES('".$values."')", $_SESSION['OCS']["writeServer"]) or mysql_error($_SESSION['OCS']["writeServer"]);
 			//If we add a field, you must add a new colonm in downloadwk_pack table
 			if ($table=="downloadwk_fields"){ 
-				$id=mysql_insert_id($_SESSION['OCS']["writeServer"]);
+				$id=mysqli_insert_id($_SESSION['OCS']["writeServer"]);
 				if (is_numeric($id)){
 					if ($protectedPost["newtype"] == 1)
 						$type="LONGTEXT";
@@ -145,7 +144,7 @@ if ($protectedPost['onglet'] == 1){
 					mysql2_query_secure( $sql_add_column, $_SESSION['OCS']["writeServer"] );	
 				}
 				else
-					msg_error("mysql_insert_id() problem");
+					msg_error("mysqli_insert_id() problem");
 			}
 			msg_success($l->g(1069));
 			reloadform_closeme($protectedGet['form']);

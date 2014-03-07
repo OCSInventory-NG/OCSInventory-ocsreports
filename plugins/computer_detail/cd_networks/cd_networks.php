@@ -53,11 +53,11 @@
 		$sql="select MACADDR from networks WHERE (hardware_id=%s)";
 		$arg=$systemid;
 		$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		while($item = mysql_fetch_object($resultDetails)){
+		while($item = mysqli_fetch_object($resultDetails)){
 			$sql="select ID from blacklist_macaddresses where macaddress='%s'";	
 			$arg=$item->MACADDR;
 			$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-			if (mysql_num_rows($result) == 1){
+			if (mysqli_num_rows($result) == 1){
 				$tab_options['OTHER'][$l->g(95)][$item->MACADDR]=$item->MACADDR;
 				$tab_options['OTHER']['IMG']='image/red.png';
 			}else{

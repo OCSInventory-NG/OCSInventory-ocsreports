@@ -14,11 +14,11 @@
 
 $base="OCS";
 connexion_local_read();
-mysql_select_db($db_ocs,$link_ocs);
+mysqli_select_db($link_ocs,$db_ocs);
 
 $sql_black="select SUBNET,MASK from blacklist_subnet";
 $res_black=mysql2_query_secure($sql_black, $link_ocs);
-while ($row=mysql_fetch_object($res_black)){
+while ($row=mysqli_fetch_object($res_black)){
 	$subnet_to_balcklist[$row->SUBNET]=$row->MASK;
 	
 }		
@@ -32,8 +32,8 @@ if (isset($_SESSION['OCS']["mesmachines"])
 		$req.="	and ".$_SESSION['OCS']["mesmachines"]." order by ipsubnet";
 else
 		$req.=" union select netid,name,id from subnet";
-$res=mysql2_query_secure($req, $link_ocs) or die(mysql_error($link_ocs));
-while ($row=mysql_fetch_object($res)){
+$res=mysql2_query_secure($req, $link_ocs) or die(mysqli_error($link_ocs));
+while ($row=mysqli_fetch_object($res)){
 	unset($id);
 	$list_subnet[]=$row -> ipsubnet;
 /*	foreach ($subnet_to_balcklist as $key=>$value){

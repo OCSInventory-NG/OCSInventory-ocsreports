@@ -158,9 +158,9 @@ function execute_sql_returnID($list_id,$execute_sql,$no_cumul='',$table_name){
 	 			unset($list_id);
 	 		}
 	 		$id[$i].=$fin_sql;
-	 		$result = mysql_query($id[$i], $_SESSION['OCS']["readServer"]) or mysql_error($_SESSION['OCS']["readServer"]);
+	 		$result = mysqli_query($_SESSION['OCS']["readServer"],$id[$i]) or mysqli_error($_SESSION['OCS']["readServer"]);
 	 		if ($result){
-		 		while($item = mysql_fetch_object($result)){
+		 		while($item = mysqli_fetch_object($result)){
 					$list_id[$item->HARDWARE_ID]=$item->HARDWARE_ID;
 					foreach ($item as $field=>$value){
 						if ($field != "HARDWARE_ID" and $field != "ID")
@@ -403,8 +403,8 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 				$select2 .= "<option value='".$k."' ".($protectedPost[$name_select."-".$nameField] == $k ? " selected":"").">".$v."</option>";
 			}
 		}else{
-			$result = mysql_query( $data[$value.'-SQL1'], $_SESSION['OCS']["readServer"] );
-			while( $val = mysql_fetch_array( $result ) ) {
+			$result = mysqli_query($_SESSION['OCS']["readServer"], $data[$value.'-SQL1']);
+			while( $val = mysqli_fetch_array( $result ) ) {
 				$val=data_encode_utf8($val);
 				foreach ($val as $name_of_field=>$value_of_request){
 					if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
@@ -434,8 +434,8 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 				$selectValue .= "<option value='".$k."' ".($protectedPost['SelFieldValue-'.$nameField] == $k ? " selected":"").">".$v."</option>";
 			}
 		}else{
-			$result = mysql_query( $opt2Select[$value.'-SQL1'], $_SESSION['OCS']["readServer"] );
-			while( $val = mysql_fetch_array( $result ) ) {
+			$result = mysqli_query($_SESSION['OCS']["readServer"] ,$opt2Select[$value.'-SQL1']);
+			while( $val = mysqli_fetch_array( $result ) ) {
 				if (!isset($val['ID']))
 				$val['ID']=$val['NAME'];
 					$selectValue .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
@@ -459,8 +459,8 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	
 	if( array_key_exists($value,$opt3Select)){
 		$selectValue1="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."'>";
-		$result = mysql_query( $opt3Select[$value.'-SQL1'], $_SESSION['OCS']["readServer"] );
-		while( $val = mysql_fetch_array( $result ) ) {
+		$result = mysqli_query($_SESSION['OCS']["readServer"] ,$opt3Select[$value.'-SQL1']);
+		while( $val = mysqli_fetch_array( $result ) ) {
 			if (!isset($val['ID']))
 			$val['ID']=$val['NAME'];
 				$selectValue1 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
@@ -468,8 +468,8 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		$selectValue1 .= "</select>";
 		
 		$selectValue2="<select name='SelFieldValue2-".$nameField."' id='SelFieldValue2-".$nameField."'>";
-		$result = mysql_query( $opt3Select[$value.'-SQL2'], $_SESSION['OCS']["readServer"] );
-		while( $val = mysql_fetch_array( $result ) ) {
+		$result = mysqli_query( $_SESSION['OCS']["readServer"],$opt3Select[$value.'-SQL2'] );
+		while( $val = mysqli_fetch_array( $result ) ) {
 			if (!isset($val['ID']))
 			$val['ID']=$val['NAME'];
 				$selectValue2 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue2-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
@@ -566,7 +566,7 @@ function found_soft_type($type,$id ="",$name=""){
 		array_push($name,$arg);		
 	}
 	$result=mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg);
-	while($item = mysql_fetch_object($result)){
+	while($item = mysqli_fetch_object($result)){
 		$res[$item->id]=$item->name;		
 	}
 	return $res;
@@ -580,7 +580,7 @@ function id_without_idgroups($list_id){
 	$arg=array();
 	$sql=mysql2_prepare($sql,$arg,$list_id);
 	$result=mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
-	while($item = mysql_fetch_object($result)){
+	while($item = mysqli_fetch_object($result)){
 		$res[$item->id]=$item->id;		
 	}
 	return $res;	

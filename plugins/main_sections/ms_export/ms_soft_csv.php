@@ -38,7 +38,7 @@ if ($info_name_soft['table'] != 'softwares' or $_SESSION['OCS']["usecache"] == 1
 	}
 	/*$result_search_soft = mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
 	$list_soft="";
-	while($item_search_soft = mysql_fetch_object($result_search_soft)){
+	while($item_search_soft = mysqli_fetch_object($result_search_soft)){
 			$list_soft[]=$item_search_soft->$info_name_soft['search'];	
 	}*/
 	$sql['SQL']="select count(*) nb, ".$field_name_soft." from softwares ";
@@ -91,7 +91,7 @@ if (isset($protectedGet['all_computers'])
 	$arg_liste_soft=$protectedGet['nb'];
 	$result_liste_soft = mysql2_query_secure( $sql_liste_soft, $_SESSION['OCS']["readServer"],$arg_liste_soft);	
 	$list_soft="";
-	while($item_liste_soft = mysql_fetch_object($result_liste_soft)){
+	while($item_liste_soft = mysqli_fetch_object($result_liste_soft)){
 			$list_soft[]=$item_liste_soft->$info_name_soft["field_name_soft"];
 	}
 	$fields= array("a.tag"=>$_SESSION['OCS']['TAG_LBL']['TAG'],
@@ -101,7 +101,7 @@ if (isset($protectedGet['all_computers'])
 			   "h.description"=>$l->g(53),
 			   "h.lastdate"=>$l->g(728));
 	/*$result_search_soft = mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
-	while($item_search_soft = mysql_fetch_object($result_search_soft)){
+	while($item_search_soft = mysqli_fetch_object($result_search_soft)){
 		$soft[]=$item_search_soft->name;
 	}*/
 
@@ -139,7 +139,7 @@ header("Content-Disposition: attachment; filename=\"export.csv\"");
 header("Content-Transfer-Encoding: binary");
 $result_search_soft = mysql2_query_secure( $sql['SQL'], $_SESSION['OCS']["readServer"],$sql['ARG']);
 
-while($item_search_soft = mysql_fetch_object($result_search_soft)){
+while($item_search_soft = mysqli_fetch_object($result_search_soft)){
 	foreach ($fields as $key=>$values){
 		$trait=explode('.',$key);
 		if (isset($trait[1]))

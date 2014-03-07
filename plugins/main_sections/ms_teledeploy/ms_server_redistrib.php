@@ -15,8 +15,8 @@ if($_POST["supp"]){
 		$verif[0]['MSG_ERROR']=$l->g(689)." ".$l->g(687);
 		$ok=verification($verif);
 		if (isset($ok)){
-            mysql_query("delete from download_enable where SERVER_ID=".$_POST["supp"], $_SESSION['OCS']["writeServer"]);
-			mysql_query("delete from download_servers where hardware_id=".$_POST["supp"], $_SESSION['OCS']["writeServer"]);
+            mysqli_query($_SESSION['OCS']["writeServer"],"delete from download_enable where SERVER_ID=".$_POST["supp"]);
+			mysqli_query($_SESSION['OCS']["writeServer"], "delete from download_servers where hardware_id=".$_POST["supp"]);
 		}
 	}
 	elseif ($_POST["supp"] == "ALL"){
@@ -27,9 +27,9 @@ if($_POST["supp"]){
 		$verif[0]['MSG_ERROR']=$l->g(688)." ".$l->g(690);
 		$ok=verification($verif);
 		if (isset($ok)){
-			mysql_query("delete from download_enable where GROUP_ID=".$systemid, $_SESSION['OCS']["writeServer"]) ;
+			mysqli_query($_SESSION['OCS']["writeServer"],"delete from download_enable where GROUP_ID=".$systemid) ;
 			$sql="delete from download_servers where GROUP_ID = ".$systemid;
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]);
+			mysqli_query($_SESSION['OCS']["writeServer"],$sql);
 		}
 	}
 }
@@ -46,17 +46,17 @@ if (isset($_POST['Valid_modif_x']) and isset($_POST['modif']) and $_POST['modif'
 	{
 		
 			$sql= "update download_servers set URL='".$_POST['URL']."' ,ADD_REP='".$_POST['REP_STORE']."' where hardware_id=".$_POST['modif'];
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]);
+			mysqli_query($_SESSION['OCS']["writeServer"],$sql);
 			$sql= "update download_enable set pack_loc='".$_POST['URL']."' where SERVER_ID=".$_POST['modif'];
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]);
+			mysqli_query($_SESSION['OCS']["writeServer"],$sql);
 	
 	}else
 	{
 	
 			$sql="update download_servers set URL='".$_POST['URL']."' ,ADD_REP='".$_POST['REP_STORE']."' where GROUP_ID=".$systemid;
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]);
+			mysqli_query($_SESSION['OCS']["writeServer"],$sql);
 			$sql= "update download_enable set pack_loc='".$_POST['URL']."' where GROUP_ID=".$systemid;
-			mysql_query($sql, $_SESSION['OCS']["writeServer"]);
+			mysqli_query($_SESSION['OCS']["writeServer"],$sql);
 	
 	}
 }
@@ -81,16 +81,16 @@ if (isset($systemid))
 		from hardware right join download_servers on hardware.id=download_servers.hardware_id
 		where download_servers.GROUP_ID=".$systemid." order by ".$_POST['tri2']." ".$_POST['sens'];
 	$reqCount="select count(*) nb from (".$sql.") toto";
-	$resCount = mysql_query($reqCount, $_SESSION['OCS']["readServer"]);
-	$valCount = mysql_fetch_array($resCount);
+	$resCount = mysqli_query($_SESSION['OCS']["readServer"],$reqCount);
+	$valCount = mysqli_fetch_array($resCount);
 	$sql.=" limit ".$limit["BEGIN"].",".$limit["END"];
-		$result = mysql_query($sql, $_SESSION['OCS']["readServer"]);
+		$result = mysqli_query($_SESSION['OCS']["readServer"],$sql);
 		$i=0;
 	if ($_POST['sens'] == "ASC")
 		$sens="DESC";
 	else
 		$sens="ASC";
-	while($colname = mysql_fetch_field($result)){
+	while($colname = mysqli_fetch_field($result)){
 		$col=$colname->name;
 		$deb="<a OnClick='tri(\"".$col."\",\"tri2\",\"".$sens."\",\"sens\",\"".$form_name."\")' >";
 		$fin="</a>";
@@ -101,7 +101,7 @@ if (isset($systemid))
 
 	$i=0;
 	//" du groupe ".$data[$_GET['viewmach']]['ID'].
-	while($item = mysql_fetch_object($result)){
+	while($item = mysqli_fetch_object($result)){
 			$data2[$i]['ID']=$item ->ID;
 			$data2[$i]['NAME']=$item ->NAME;
 			$data2[$i]['IP_ADDR']=$item ->IPADDR;

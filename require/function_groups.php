@@ -37,7 +37,7 @@ function all_groups($group_type){
 		}		
 	}	
 	$resGetId = mysql2_query_secure( $reqGetId, $_SESSION['OCS']["readServer"]);
-	while( $valGetId = mysql_fetch_array( $resGetId ) ){
+	while( $valGetId = mysqli_fetch_array( $resGetId ) ){
 		$list_group[$valGetId['id']]=$valGetId['name'];
 	}
 	return $list_group;
@@ -53,7 +53,7 @@ function remove_of_group($id_group,$list_id){
 	$delcache=mysql2_prepare($sql_delcache,$arg_delcache,$list_id);
 	
 	mysql2_query_secure( $delcache['SQL'], $_SESSION['OCS']["writeServer"], $delcache['ARG']);
-	$cached = mysql_affected_rows($_SESSION['OCS']["writeServer"]);	
+	$cached = mysqli_affected_rows($_SESSION['OCS']["writeServer"]);	
 	return $cached;
 }
 
@@ -97,7 +97,7 @@ function creat_group ($name,$descr,$list_id,$req,$group_type)
 	$reqGetId = "SELECT id FROM hardware WHERE name='%s' and deviceid = '_SYSTEMGROUP_'";
 	$argGetId=$name;
 	$resGetId = mysql2_query_secure( $reqGetId, $_SESSION['OCS']["readServer"],$argGetId);
-	if( $valGetId = mysql_fetch_array( $resGetId ) )
+	if( $valGetId = mysqli_fetch_array( $resGetId ) )
 		return array('RESULT'=>'ERROR', 'LBL'=> $l->g(621));
 	
 	//insert new group
@@ -105,7 +105,7 @@ function creat_group ($name,$descr,$list_id,$req,$group_type)
 	$arg_insert=array($name,$descr);
 	mysql2_query_secure( $sql_insert, $_SESSION['OCS']["writeServer"],$arg_insert);	
 	//Getting hardware id
-	$insertId = mysql_insert_id( $_SESSION['OCS']["writeServer"] );
+	$insertId = mysqli_insert_id( $_SESSION['OCS']["writeServer"] );
 	$xml=generate_xml($req);
 		
 	//Creating group
@@ -135,7 +135,7 @@ function add_computers_cache($list_id,$groupid,$static){
 		$argCache=array($groupid,$static);
 		$cache=mysql2_prepare($reqCache,$argCache,$list_id);	
 		mysql2_query_secure( $cache['SQL'], $_SESSION['OCS']["writeServer"], $cache['ARG']);
-		$cached = mysql_affected_rows($_SESSION['OCS']["writeServer"]);	
+		$cached = mysqli_affected_rows($_SESSION['OCS']["writeServer"]);	
 		unlock($groupid);
 		return $cached;
 	}	
@@ -178,7 +178,7 @@ function delete_group($id_supp){
 	$sql_verif_group="select id from hardware where id=%s and DEVICEID='_SYSTEMGROUP_' or DEVICEID='_DOWNLOADGROUP_'";
 	$arg_verif_group=$id_supp;
 	$res_verif_group = mysql2_query_secure( $sql_verif_group, $_SESSION['OCS']["readServer"],$arg_verif_group);
-	if( $val_verif_group = mysql_fetch_array( $res_verif_group ) ){	
+	if( $val_verif_group = mysqli_fetch_array( $res_verif_group ) ){	
 		 deleteDid($arg_verif_group);
 		addLog("DELETE GROUPE",$id_supp);
 		return array('RESULT'=>'OK', 'LBL'=> '');
@@ -197,7 +197,7 @@ function group_4_all($id_group){
 	$sql_verif="select WORKGROUP from hardware where id=%s";
 	$arg_verif=$id_group;
 	$res = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"],$arg_verif);
-	$item = mysql_fetch_object($res);
+	$item = mysqli_fetch_object($res);
 	if ($item->WORKGROUP != "GROUP_4_ALL"){	
 		$sql_update="update hardware set workgroup= 'GROUP_4_ALL' where id=%s";
 		$return_result['LBL']="Groupe visible pour tous";

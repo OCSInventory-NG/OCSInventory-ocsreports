@@ -37,12 +37,12 @@
 	$sql="select SSN from bios WHERE (hardware_id=%s)";
 	$arg=array($systemid);
 	$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-	$item = mysql_fetch_object($resultDetails);	
+	$item = mysqli_fetch_object($resultDetails);	
 	$sql="select ID from blacklist_serials where SERIAL='%s'";		
 	$arg=array($item->SSN);
 	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 	if ($_SESSION['OCS']['ADMIN_BLACKLIST']['SERIAL']=='YES'){
-		if ( mysql_num_rows($result) == 1 ){	
+		if ( mysqli_num_rows($result) == 1 ){	
 			$tab_options['OTHER'][$l->g(36)][$item->SSN]=$item->SSN;
 			$tab_options['OTHER']['IMG']='image/red.png';	   
 		}else{

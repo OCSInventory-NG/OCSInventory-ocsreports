@@ -39,7 +39,7 @@ else{
 				
 				$res_admin_info = mysql2_query_secure($sql_admin_info, $_SESSION['OCS']["readServer"], $arg_admin_info);
 				
-				while ( $val_admin_info = mysql_fetch_array($res_admin_info) ) {
+				while ( $val_admin_info = mysqli_fetch_array($res_admin_info) ) {
 					if ($val_admin_info['NAME_ACCOUNTINFO']) {
 						$data_fields_account[$val_admin_info['NAME_ACCOUNTINFO']] = "";
 					} else {
@@ -107,7 +107,7 @@ else{
 				$show_admin_button='';
 				
 			$res_admin_info=mysql2_query_secure($sql_admin_info,$_SESSION['OCS']["readServer"],$arg_admin_info);
-			$num_row=mysql_num_rows($res_admin_info);
+			$num_row=mysqli_num_rows($res_admin_info);
 			$name_field=array();
 			$tab_name=array();
 			$type_field=array();
@@ -119,7 +119,7 @@ else{
 			$config['DDE']=array();
 			
 			$nb_row=1;
-			while ($val_admin_info = mysql_fetch_array( $res_admin_info )){	
+			while ($val_admin_info = mysqli_fetch_array( $res_admin_info )){	
 				array_push($config['DDE'],$systemid);	
 				//if name_accountinfo is not null 
 				//column name in accountinfo table is name_accountinfo 

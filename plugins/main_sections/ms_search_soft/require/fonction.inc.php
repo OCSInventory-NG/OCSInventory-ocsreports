@@ -16,11 +16,11 @@ $sql="SELECT DISTINCT softwares.NAME FROM softwares_name_cache softwares  WHERE 
 //requete SQL sans filtre
 //$sql= "SELECT DISTINCT softwares.NAME FROM softwares ORDER BY softwares.NAME";
 
-$query=mysql_query($sql,$_SESSION['OCS']["readServer"]) or die ("erreur".mysql_error());
+$query=mysqli_query($_SESSION['OCS']["readServer"],$sql) or die ("erreur".mysqli_error());
 //echo '<option value=""></option>'; 
 
 //remplit la liste deroulante
-while($row=mysql_fetch_array($query))
+while($row=mysqli_fetch_array($query))
 	{
 	$name[$row['NAME']]=$row['NAME']; 
 	}
@@ -33,11 +33,11 @@ function creerTableau($var)  //$var est le $_post de mon script.php
 	//connecOCS();
 	echo "<br /><b><i>Vous avez choisi :<br />".$var."</i></b>";	
 	$sql_version= "SELECT hardware.NAME AS 'hnom',hardware.IPADDR AS 'ip',hardware.WORKGROUP AS 'domaine', softwares.NAME AS 'snom', softwares.VERSION AS 'sversion',softwares.FOLDER as 'sfold' FROM hardware INNER JOIN softwares ON softwares.HARDWARE_ID =hardware.ID WHERE softwares.NAME='$var' ORDER BY softwares.VERSION";
-	$query_version=mysql_query($sql_version,$_SESSION['OCS']["readServer"]);
+	$query_version=mysqli_query($_SESSION['OCS']["readServer"],$sql_version);
 	//echo "<style type='text/css'> table, th, tr, td, th {border:1px solid black;}td {padding-left: 3mm;padding-right: 3mm;} th {color:brown;}</style>";  //car pb de css avec l impression
 	$html_data .="<table>\n";
 	$html_data .="<tr><th>Nom du PC   </th><th>Nom du logiciel   </th><th>Version du logiciel </th><th>Repertoire</th><th>Adresse IP</th><th>Domaine</th></tr> ";
-	while($row=mysql_fetch_array($query_version,MYSQL_ASSOC))
+	while($row=mysqli_fetch_array($query_version,MYSQL_ASSOC))
 		{
 		if($row['sfold']=="")
 		{$row['sfold']="&nbsp";}
@@ -57,9 +57,9 @@ function csv($var)
 {
 //connecOCS();
 $sql_version= "SELECT hardware.NAME AS 'hnom',softwares.NAME AS 'snom',softwares.VERSION AS 'sversion', softwares.FOLDER as 'sfold', hardware.IPADDR AS 'ip',hardware.WORKGROUP AS 'domaine' FROM hardware INNER JOIN softwares ON softwares.HARDWARE_ID =hardware.ID WHERE softwares.NAME='$var' ORDER BY softwares.VERSION";
-$query_version=mysql_query($sql_version,$_SESSION['OCS']["readServer"]);
+$query_version=mysqli_query($_SESSION['OCS']["readServer"],$sql_version);
 print "nom du PC;"."Nom du logiciel;"."Version du logiciel;"."Repertoire;"."Adresse IP;"."Domaine;"."\n\n\n";
-while($row = mysql_fetch_row($query_version))
+while($row = mysqli_fetch_row($query_version))
 	{
         print '"' . stripslashes(implode('";"',$row)) . "\"\n";
 	}

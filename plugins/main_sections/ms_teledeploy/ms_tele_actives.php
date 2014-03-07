@@ -21,7 +21,7 @@ if (!$cant_active){
 		$sql_listIDdel="select distinct ID from download_enable where FILEID=%s";
 		$arg_listIDdel=$protectedPost['DEL_ALL'];
 		$res_listIDdel = mysql2_query_secure( $sql_listIDdel, $_SESSION['OCS']["readServer"], $arg_listIDdel);
-		while( $val_listIDdel = mysql_fetch_array( $res_listIDdel ) ) {
+		while( $val_listIDdel = mysqli_fetch_array( $res_listIDdel ) ) {
 				$listIDdel[]=$val_listIDdel['ID'];
 		}	
 		if ($listIDdel != ''){
@@ -39,7 +39,7 @@ if (!$cant_active){
 }
 $sql_details="select distinct priority,fragments,size from download_available where fileid=%s";
 $res_details = mysql2_query_secure( $sql_details, $_SESSION['OCS']["readServer"],$protectedGet['timestamp'] );
-$val_details = mysql_fetch_array( $res_details ) ;
+$val_details = mysqli_fetch_array( $res_details ) ;
 $tps="<br>".$l->g(992)." : <b><font color=red>".tps_estimated($val_details)."</font></b>";
 PrintEnTete( $l->g(481).$tps);	
 echo "<br>";

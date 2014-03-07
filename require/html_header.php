@@ -41,9 +41,9 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 		$msg_header_error_sol[] = $l->g(2023);
 	}
 	//defaut user already exist on databases?
-	$link_read=@mysql_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);
-	$link_write=@mysql_connect(SERVER_WRITE,DFT_DB_CMPT,DFT_DB_PSWD);
-	if (@mysql_select_db(DB_NAME,$link_read) or @mysql_select_db(DB_NAME,$link_write)){
+	$link_read=@mysqli_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);
+	$link_write=@mysqli_connect(SERVER_WRITE,DFT_DB_CMPT,DFT_DB_PSWD);
+	if (@mysqli_select_db($link_read,DB_NAME) or @mysqli_select_db($link_write,DB_NAME)){
 		$msg_header_error[]= $l->g(2024).' '.DB_NAME;	
 		$msg_header_error_sol[] = $l->g(2025);	
 	}
@@ -52,7 +52,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['
 	$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
 	$arg_reqOp=array(DFT_GUI_CMPT,md5(DFT_GUI_PSWD));	
 	$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
-	$rowOp=mysql_fetch_object($resOp);
+	$rowOp=mysqli_fetch_object($resOp);
 	if (isset($rowOp->id)){
 		$msg_header_error[]= $l->g(2026);
 		$msg_header_error_sol[] = $l->g(2027);

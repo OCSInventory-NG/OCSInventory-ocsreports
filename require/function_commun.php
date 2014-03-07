@@ -22,7 +22,7 @@ function look_config_default_values($field_name,$like='',$default_values=''){
 		$arg['ARG']=$field_name;		
 	}
 	$resdefaultvalues=mysql2_query_secure($arg['SQL'],$_SESSION['OCS']["readServer"],$arg['ARG']);		
-	while($item = mysql_fetch_object($resdefaultvalues)){
+	while($item = mysqli_fetch_object($resdefaultvalues)){
 			$result['name'][$item ->NAME]=$item ->NAME;
 			$result['ivalue'][$item ->NAME]=$item ->IVALUE;
 			$result['tvalue'][$item ->NAME]=$item ->TVALUE;
@@ -50,11 +50,11 @@ function look_config_default_values($field_name,$like='',$default_values=''){
 function generate_secure_sql($sql,$arg=''){
 	if (is_array($arg)){
 		foreach ($arg as $key=>$value){			
-				$arg_array_escape_string[]=mysql_real_escape_string($value);
+				$arg_array_escape_string[]=mysqli_real_escape_string($_SESSION['OCS']["readServer"],$value);
 		}
 		$arg_escape_string=$arg_array_escape_string;
 	}elseif ($arg != ''){	
-			$arg_escape_string=mysql_real_escape_string($arg);
+			$arg_escape_string=mysqli_real_escape_string($_SESSION['OCS']["readServer"],$arg);
 	}
 	if (isset($arg_escape_string)){
 		if (is_array($arg_escape_string)){
@@ -91,9 +91,9 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 			return false;		
 		 }
 	}
-	$result=mysql_query( $query, $link );
+	$result=mysqli_query( $link,$query );
 	if ($_SESSION['OCS']['DEBUG'] == 'ON' and !$result)
-		msg_error(mysql_error($link));
+		msg_error(mysqli_error($link));
 	return $result;
 }
 
@@ -145,18 +145,19 @@ function prepare_sql_tab($list_fields,$explu=array(),$distinct=false){
 function dbconnect($server,$compte_base,$pswd_base,$db = DB_NAME) {
 	
 	//$link is ok?
-	$link=@mysql_connect($server,$compte_base,$pswd_base);
-	if(!is_resource($link)) {
-		return  "ERROR: MySql connection problem<br>".mysql_error();
+	$link=@mysqli_connect($server,$compte_base,$pswd_base);
+	
+	if(mysqli_connect_errno()) {
+		return  "ERROR: MySql connection problem<br>".mysqli_error();
 	}
 	//database is ok?
-	if( ! mysql_select_db($db,$link)) {
+	if( ! mysqli_select_db($link,$db)) {
 		return "NO_DATABASE";
 	}
 	//force UTF-8
-	mysql_query("SET NAMES 'utf8'");
+	mysqli_query($link,"SET NAMES 'utf8'");
 	//sql_mode => not strict
-	mysql_query("SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+	mysqli_query($link,"SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 	return $link;
 }
 

@@ -42,7 +42,7 @@ if(!function_exists('session_start')) {
 	die();
 }
 
-if(!function_exists('mysql_connect')) {	
+if(!function_exists('mysqli_connect')) {	
 	msg_error($l->g(2037));
 	die();
 }
@@ -85,7 +85,7 @@ else
 
 if( isset($_POST["name"])) {
 		$link=dbconnect($_POST["host"],$_POST["name"],$_POST["pass"],$_POST["database"]);
-		if(!is_resource($link) and $link != 'NO_DATABASE'){
+		if(mysqli_connect_errno()) {
 			$firstAttempt=false;
 			msg_error($l->g(2001)." ".$l->g(249).
 							" (".$l->g(2010)."=".$_POST["host"].
@@ -149,21 +149,20 @@ if($firstAttempt==true && $_POST["pass"] == "") {
 	$msg_warning.= $l->g(2042)."<br><br>";
 }
 
-if(!mysql_query("set global max_allowed_packet=2097152;")) {
+if(!mysqli_query($link,"set global max_allowed_packet=2097152;")) {
 	$msg_warning.= $l->g(2043);
 }
 if ($msg_warning!="")
 	msg_warning($msg_warning);
 
-mysql_select_db($_POST['database']); 
+mysqli_select_db($link,$_POST['database']); 
 
 if(isset($_POST["label"])) {
 	if($_POST["label"]!="") {
-		@mysql_query( "DELETE FROM deploy WHERE NAME='label'");
+		@mysqli_query($link,"DELETE FROM deploy WHERE NAME='label'");
 		$query = "INSERT INTO deploy VALUES('label','%s');";
 		$arg=$_POST["label"];
 		mysql2_query_secure($query,$link,$arg);
-		//mysql_query($query) or die(mysql_error());
 		msg_info($l->g(2044));
 	}
 	else {
@@ -173,8 +172,8 @@ if(isset($_POST["label"])) {
 
 if($_POST["fin"]=="fin") {
 	// Configuration done, so try with account from config file
-	if(!@mysql_connect($valServ,$valNme,$valPass)) {
-		if(mysql_errno()==0) {
+	if(!@mysqli_connect($valServ,$valNme,$valPass)) {
+		if(mysqli_errno()==0) {
 			echo "<br><center><font color=red><b>" . $l->g(2043) . 
 												" " . $l->g(2044) . 
 												"</b><br></font></center>";
@@ -208,8 +207,8 @@ if(!$ch = @fopen(CONF_MYSQL,"w")) {
 
 	//if you install ocs for the first time with root account
 	//we create ocs/ocs
-	if(!@mysql_connect($_POST['host'],$_POST["name"],$_POST['pass']) 
-		or ($_POST["name"] == 'root' and !mysql_query("USE ".$_POST['database']))) {
+	if(!@mysqli_connect($_POST['host'],$_POST["name"],$_POST['pass']) 
+		or ($_POST["name"] == 'root' and !mysqli_query($link,"USE ".$_POST['database']))) {
 				$pass_connect='ocs';
 				$name_connect='ocs';
 	}else{
@@ -219,19 +218,19 @@ if(!$ch = @fopen(CONF_MYSQL,"w")) {
 	
 
 $error="";
-$res = mysql_query("show databases like '" . $_POST['database'] . "'");
-$val = mysql_fetch_array( $res );
+$res = mysqli_query($link,"show databases like '" . $_POST['database'] . "'");
+$val = mysqli_fetch_array( $res );
 if (!$val){
 	$db_file = "files/ocsbase_new.sql";
-	if (!mysql_query("CREATE DATABASE ".$_POST['database']." CHARACTER SET utf8 COLLATE utf8_bin;") 
-		or !mysql_query("USE ".$_POST['database'])
-		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ".$name_connect." IDENTIFIED BY '".$pass_connect."'")
-		or !mysql_query("GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ".$name_connect."@localhost IDENTIFIED BY '".$pass_connect."'"))
-		$error=mysql_errno();
+	if (!mysqli_query($link,"CREATE DATABASE ".$_POST['database']." CHARACTER SET utf8 COLLATE utf8_bin;") 
+		or !mysqli_query($link,"USE ".$_POST['database'])
+		or !mysqli_query($link,"GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ".$name_connect." IDENTIFIED BY '".$pass_connect."'")
+		or !mysqli_query($link,"GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ".$name_connect."@localhost IDENTIFIED BY '".$pass_connect."'"))
+		$error=mysqli_errno();
 }else{
 	$sql="SELECT DEFAULT_CHARACTER_SET_NAME FROM INFORMATION_SCHEMA.SCHEMATA where SCHEMA_NAME like '" . $_POST['database'] . "';";
-	$res = mysql_query($sql);
-	$val = mysql_fetch_array( $res );
+	$res = mysqli_query($link,$sql);
+	$val = mysqli_fetch_array( $res );
 	if ($val['DEFAULT_CHARACTER_SET_NAME'] == 'utf8')
 		$db_file = "files/ocsbase_new.sql";
 	else
@@ -273,11 +272,11 @@ if ($error != ""){
 	foreach ( $execute_sql as $sql_line) {
 		$li++;
 	//	echo $sql_line."<br>";
-		if(!mysql_query($sql_line)) {
-			if(  mysql_errno()==1062 || mysql_errno()==1061 || mysql_errno()==1065 || mysql_errno()==1060 || mysql_errno()==1054 || mysql_errno()==1091 || mysql_errno()==1061) 
+		if(!mysqli_query($link,$sql_line)) {
+			if(  mysqli_errno()==1062 || mysqli_errno()==1061 || mysqli_errno()==1065 || mysqli_errno()==1060 || mysqli_errno()==1054 || mysqli_errno()==1091 || mysqli_errno()==1061) 
 				continue;		
 
-			if(  mysql_errno()==1071 ) {
+			if(  mysqli_errno()==1071 ) {
 				echo "<br><center><font color=red><b>" . $l->g(2002) . 
 												   " " . $li         .
 												   ": ". $l->g(2015) . 
@@ -287,7 +286,7 @@ if ($error != ""){
 				continue;
 			}
 			
-			if(mysql_errno()==1007 || mysql_errno()==1050) {
+			if(mysqli_errno()==1007 || mysqli_errno()==1050) {
 				$dejaLance = 1;
 				continue;
 			}
@@ -298,7 +297,7 @@ if ($error != ""){
 											  ":["  . $sql_line   . 
 											  "]"   . $l->g(2009) . 
 											  "</b><br>";
-			echo "<b>" . $l->g(2003) . " " . mysql_error() . " (err:" . mysql_errno() . ")</b></font></center>";
+			echo "<b>" . $l->g(2003) . " " . mysqli_error() . " (err:" . mysqli_errno() . ")</b></font></center>";
 			$nberr++;
 		}
 		echo ".";
@@ -308,8 +307,8 @@ if ($error != ""){
 	if(!$nberr&&!$dejaLance){
 		//update new lvlaccess
 		$sql_up_accesslvl="select id,accesslvl,new_accesslvl from operators where new_accesslvl is null or new_accesslvl =''";
-		$result = mysql_query($sql_up_accesslvl) or die(mysql_error());
-		while($value=mysql_fetch_array($result)){
+		$result = mysqli_query($sql_up_accesslvl) or die(mysqli_error());
+		while($value=mysqli_fetch_array($result)){
 			unset($new_lvl);
 			if ($value['accesslvl'] == 1)
 				$new_lvl='sadmin';
@@ -320,7 +319,7 @@ if ($error != ""){
 			
 			if (isset($new_lvl)){
 				$sql="UPDATE operators SET new_accesslvl='" . $new_lvl . "' where ID='" . $value['id'] . "'";
-				mysql_query($sql);
+				mysqli_query($link,$sql);
 			}
 		}
 		msg_success($l->g(2055));
@@ -374,8 +373,8 @@ $tableEngines = array("hardware"=>"InnoDB","accesslog"=>"InnoDB","bios"=>"InnoDB
 $nbconv = 0;
 $erralter = false;
 foreach( $tableEngines as $tbl=>$eng ) {
-	if( $res = mysql_query("show table status like '$tbl'") ) {
-		$val = mysql_fetch_array( $res );
+	if( $res = mysqli_query("show table status like '$tbl'") ) {
+		$val = mysqli_fetch_array( $res );
 		if( $val["Engine"] == $eng ) {
 			echo ".";
 			flush();
@@ -384,17 +383,17 @@ foreach( $tableEngines as $tbl=>$eng ) {
 			$nbconv++;
 			echo ".";
 			flush();
-			if( ! $resAlter = mysql_query("ALTER TABLE $tbl engine='$eng'") ) {
+			if( ! $resAlter = mysqli_query($link,"ALTER TABLE $tbl engine='$eng'") ) {
 				$nberr++;
 				$erralter = true;
 				echo "</b></font></center><br><center><font color=red><b>" . $l->g(2059) . "</b><br>";
-				echo "<b>mysql error: " . mysql_error() . " (err:" . mysql_errno() . ")</b></font></center>";
+				echo "<b>mysql error: " . mysqli_error() . " (err:" . mysqli_errno() . ")</b></font></center>";
 			}
 		}
 	}
 	else {
 		echo "</b></font></center><br><center><font color=red><b>" . $l->g(2060) . "</b><br>";
-		echo "<b>mysql error: " . mysql_error() . " (err:" . mysql_errno() . ")</b></font></center>";
+		echo "<b>mysql error: " . mysqli_error() . " (err:" . mysqli_errno() . ")</b></font></center>";
 		$nberr++;
 		$erralter = true;
 	}
@@ -402,8 +401,8 @@ foreach( $tableEngines as $tbl=>$eng ) {
 $oneInnoFailed = false;
 $oneHeapFailed = false;
 foreach( $tableEngines as $tbl=>$eng ) {
-	if( $res = mysql_query("show table status like '$tbl'") ) {
-		$val = mysql_fetch_array( $res );
+	if( $res = mysqli_query("show table status like '$tbl'") ) {
+		$val = mysqli_fetch_array( $res );
 		if( (strcasecmp($val["Engine"],$eng) != 0) && (strcasecmp($eng,"InnoDB") == 0) && $oneInnoFailed == false ) {
 			echo "<br><br><center><font color=red><b>" . $l->g(2061) . "</b></font><br>";
 			$oneInnoFailed = true;
@@ -415,7 +414,7 @@ foreach( $tableEngines as $tbl=>$eng ) {
 	}
 	else {
 		echo "</b></font></center><br><center><font color=red><b>" . $l->g(2060) . "</b><br>";
-		echo "<b>mysql error: " . mysql_error() . " (err:" . mysql_errno() . ")</b></font></center>";
+		echo "<b>mysql error: " . mysqli_error() . " (err:" . mysqli_errno() . ")</b></font></center>";
 		$nberr++;
 		$erralter = true;
 	}
@@ -436,8 +435,8 @@ $filenames = Array("ocsagent.exe");
 $dejaLance=0;
 $filMin = "";
 
-mysql_query("DELETE FROM deploy");
-mysql_select_db($_POST['database']); 
+mysqli_query($link,"DELETE FROM deploy");
+mysqli_select_db($link,$_POST['database']); 
 foreach($filenames as $fil) {
 	$filMin = $fil;
 	if ( $ledir = @opendir("files")) {
@@ -461,12 +460,12 @@ foreach($filenames as $fil) {
 		$binary = addslashes($contents);	
 		$query = "INSERT INTO deploy VALUES('$filMin','$binary');";
 		
-		if(!mysql_query($query)) {			
-			if(mysql_errno()==1007 || mysql_errno()==1050 || mysql_errno()==1062) {
+		if(!mysqli_query($link,$query)) {			
+			if(mysqli_errno()==1007 || mysqli_errno()==1050 || mysqli_errno()==1062) {
 					$dejaLance++;
 					continue;
 			}
-			if(mysql_errno()==2006) {
+			if(mysqli_errno()==2006) {
 				echo "<br><center><font color=red><b>" . $l->g(2001) . 
 												   " " . $fil        .
 												   " " . $l->g(2068) . 
@@ -479,7 +478,7 @@ foreach($filenames as $fil) {
 											   " " . $fil        .
 											   " " . $l->g(2012) .
 											   "</b><br>";
-			echo "<b>" . $l->g(2003) . " " . mysql_error() . "</b></font></center>";		
+			echo "<b>" . $l->g(2003) . " " . mysqli_error() . "</b></font></center>";		
 			$nberr++;
 		}
 	}
@@ -499,8 +498,8 @@ if($dejaLance>0)
 if(!$nberr&&!$dejaLance&&!$errNorm)
 	echo "<br><center><font color=green><b>" . $l->g(2072) . "</b></font></center>";
 
-mysql_query("DELETE FROM files");
-$nbDeleted = mysql_affected_rows();
+mysqli_query($link,"DELETE FROM files");
+$nbDeleted = mysqli_affected_rows();
 if( $nbDeleted > 0)
 	echo "<br><center><font color=green><b>" . $l->g(2073) . "</b></font></center>";
 else
@@ -532,20 +531,20 @@ else {
 
 		if( preg_match(":$exp:",$data[2],$res) ) {
 			
-			if( @mysql_query("INSERT INTO subnet(netid, name, id, mask) 
+			if( @mysqli_query($link,"INSERT INTO subnet(netid, name, id, mask) 
 			VALUES ('" . $res[1] . "','" . $data[0] . "','" . $data[1] . "','" . $res[4] . "')") ) {
 				$resSub++;
 				//echo "<br><center><font color=green><b>
 				//Network => name: ".$data[0]." ip: ".$res[1]." mask: ".$res[4]." id: ".$data[1]." successfully inserted</b></font></center>";
 			}
 			else {
-				if( mysql_errno() != 1062) {
+				if( mysqli_errno() != 1062) {
 					$errSub++;
 					echo "<br><center><font color=red><b>" . $l->g(2078)   . 
 													   " " . $data[0]      .
 													   " " . $l->g(2079)   .
-													   " " . mysql_errno() .
-													  ": " .mysql_error()  .
+													   " " . mysqli_errno() .
+													  ": " .mysqli_error()  .
 									 "</b></font></center>";
 				}
 				else
@@ -580,28 +579,28 @@ echo "<br><center><font color=green><b>" . $l->g(2082) . "</b></font></center>";
 flush();
 
 $reqDej = "SELECT COUNT(id) as nbid FROM networks WHERE ipsubnet IS NOT NULL";
-$resDej = mysql_query($reqDej) or die(mysql_error());
-$valDej = mysql_fetch_array($resDej);
+$resDej = mysqli_query($link,$reqDej) or die(mysqli_error());
+$valDej = mysqli_fetch_array($resDej);
 $errNet = 0;
 $sucNet = 0;
 $dejNet = $valDej["nbid"];
 
 $reqNet = "SELECT hardware_id, id, ipaddress, ipmask FROM networks WHERE ipsubnet='' OR ipsubnet IS NULL";
-$resNet = mysql_query($reqNet) or die(mysql_error());
-while ($valNet = mysql_fetch_array($resNet) ) {
+$resNet = mysqli_query($reqNet) or die(mysqli_error());
+while ($valNet = mysqli_fetch_array($resNet) ) {
 	$netid = getNetFromIpMask( $valNet["ipaddress"], $valNet["ipmask"] );
 	if( !$netid || $valNet["ipaddress"]=="" || $valNet["ipmask"]=="" ) {
 		$errNet++;
 	}
 	else {
-		mysql_query("UPDATE networks SET ipsubnet='$netid' WHERE hardware_id='".$valNet["hardware_id"]."' AND id='".$valNet["id"]."'");
-		if( mysql_errno() != "") {
+		mysqli_query($link,"UPDATE networks SET ipsubnet='$netid' WHERE hardware_id='".$valNet["hardware_id"]."' AND id='".$valNet["id"]."'");
+		if( mysqli_errno() != "") {
 			$errNet++;
 			echo "<br><center><font color=red><b>" . $l->g(2083)   .
 											   " " . $netid        .
 											  " ," . $l->g(2008)   . 
-											  " "  . mysql_errno() .
-											  ": " . mysql_error() . 
+											  " "  . mysqli_errno() .
+											  ": " . mysqli_error() . 
 											  "</b></font></center>";
 		}
 		else {
@@ -624,28 +623,28 @@ echo "<br><center><font color=green><b>" . $l->g(2087) . "</b></font></center>";
 flush();
 
 $reqDej = "SELECT COUNT(mac) as nbid FROM netmap WHERE netid IS NOT NULL";
-$resDej = mysql_query($reqDej) or die(mysql_error());
-$valDej = mysql_fetch_array($resDej);
+$resDej = mysqli_query($link,$reqDej) or die(mysqli_error());
+$valDej = mysqli_fetch_array($resDej);
 $errNet = 0;
 $sucNet = 0;
 $dejNet = $valDej["nbid"];
 
 $reqNet = "SELECT mac, ip, mask FROM netmap WHERE netid='' OR netid IS NULL";
-$resNet = mysql_query($reqNet) or die(mysql_error());
-while ($valNet = mysql_fetch_array($resNet) ) {
+$resNet = mysqli_query($link,$reqNet) or die(mysqli_error());
+while ($valNet = mysqli_fetch_array($resNet) ) {
 	$netid = getNetFromIpMask( $valNet["ip"], $valNet["mask"] );
 	if( !$netid || $valNet["ip"]=="" || $valNet["mask"]=="" ) {
 		$errNet++;
 	}
 	else {
-		mysql_query("UPDATE netmap SET netid= '$netid' WHERE mac='" . $valNet["mac"] . "' AND ip='" . $valNet["ip"] . "'");
-		if( mysql_errno() != "") {
+		mysqli_query($link,"UPDATE netmap SET netid= '$netid' WHERE mac='" . $valNet["mac"] . "' AND ip='" . $valNet["ip"] . "'");
+		if( mysqli_errno() != "") {
 			$errNet++;
 			echo "<br><center><font color=red><b>" . $l->g(2083) . 
 											   " " . $netid      .
 											  " ," . $l->g(2008) .
-											   " " . mysql_errno() . 
-											  ": " . mysql_error() . 
+											   " " . mysqli_errno() . 
+											  ": " . mysqli_error() . 
 											  "</b></font></center>";
 		}
 		else {
@@ -676,17 +675,17 @@ $cleanedNbr = 0;
 foreach( $tables as $laTable) {
 		
 	$reqSupp = "DELETE FROM $laTable WHERE hardware_id NOT IN (SELECT DISTINCT(id) FROM hardware)";
-	$resSupp = @mysql_query( $reqSupp );
-	if( mysql_errno() != "") {			
+	$resSupp = @mysqli_query( $reqSupp );
+	if( mysqli_errno() != "") {			
 		echo "</b></font></center><br><center><font color=red><b>" . $l->g(2091)   . 
 															   " " . $laTable      .
 															  ", " . $l->g(2008)   . 
-															   " " . mysql_errno() . 
-															  ": " . mysql_error() .
+															   " " . mysqli_errno() . 
+															  ": " . mysqli_error() .
 															  "</b></font></center>";
 	}
 	else {
-		if( $cleaned = mysql_affected_rows() )
+		if( $cleaned = mysqli_affected_rows() )
 			$cleanedNbr += $cleaned;			
 	}
 	echo ".";
@@ -701,32 +700,22 @@ flush();
 $cleanedNbr = 0;
 		
 $reqSupp = "DELETE FROM netmap WHERE netid NOT IN(SELECT DISTINCT(ipsubnet) FROM networks)";
-$resSupp = @mysql_query( $reqSupp );
-if( mysql_errno() != "") {			
+$resSupp = @mysqli_query( $link,$reqSupp );
+if( mysqli_errno() != "") {			
 	echo "</b></font></center><br><center><font color=red><b>" . $l->g(2094)   .
 														  ", " . $l->g(2008)   . 
-														   " " . mysql_errno() .
-	                                                      ": " . mysql_error() . "</b></font></center>";
+														   " " . mysqli_errno() .
+	                                                      ": " . mysqli_error() . "</b></font></center>";
 }
 else {
-	if( $cleaned = mysql_affected_rows() )
+	if( $cleaned = mysqli_affected_rows() )
 		$cleanedNbr += $cleaned;			
 }
 
 echo "</b></font></center><br><center><font color=green><b>" . $cleanedNbr . 
 														 " " . $l->g(2095) . "</b></font></center>";
 flush();
-/*
-echo "<br><center><font color=green><b>Building software cache. Please wait...</b></font></center>";
-flush();
-mysql_query("TRUNCATE TABLE softwares_name_cache") or die(mysql_error());
-mysql_query("INSERT INTO softwares_name_cache(name) SELECT DISTINCT name FROM softwares") or die(mysql_error());
 
-echo "<br><center><font color=green><b>Building registry cache. Please wait...</b></font></center>";
-flush();
-mysql_query("TRUNCATE TABLE registry_regvalue_cache") or die(mysql_error());
-mysql_query("INSERT INTO registry_regvalue_cache(regvalue) SELECT DISTINCT regvalue FROM registry") or die(mysql_error());
-*/
 function printEnTeteInstall($ent) {
 	echo "<br><table border=1 class= \"Fenetre\" WIDTH = '62%' ALIGN = 'Center' CELLPADDING='5'>
 	<th height=40px class=\"Fenetre\" colspan=2><b>" . $ent . "</b></th></table>";

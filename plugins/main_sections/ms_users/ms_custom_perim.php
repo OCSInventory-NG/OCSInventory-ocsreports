@@ -39,7 +39,7 @@ if( $protectedPost['newtag'] != "" ) {
 			$arg=str_replace(array("*","?"), array("%","_"), $protectedPost["newtag"]); 
 			$sql="select distinct TAG from accountinfo where TAG like '%s'";
 			$res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
-			while ($val_account_data = mysql_fetch_array( $res ))
+			while ($val_account_data = mysqli_fetch_array( $res ))
 				$array_result[]=$val_account_data['TAG'];
 		}
 		

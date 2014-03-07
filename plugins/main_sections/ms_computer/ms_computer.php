@@ -44,7 +44,7 @@ foreach ($lbl_affich as $key=>$lbl){
 		$sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=%s";
 		$argMem=$systemid;
 		$resMem = mysql2_query_secure($sqlMem,$_SESSION['OCS']["readServer"],$argMem);		
-		$valMem = mysql_fetch_array( $resMem );
+		$valMem = mysqli_fetch_array( $resMem );
 		if( $valMem["capa"] > 0 )
 			$memory = $valMem["capa"];
 		else
@@ -67,7 +67,7 @@ foreach ($lbl_affich as $key=>$lbl){
 		$sqlVM = "select vm.hardware_id,vm.vmtype, h.name from virtualmachines vm left join hardware h on vm.hardware_id=h.id where vm.uuid='%s' order by h.name DESC";
 		$argVM = $item->UUID;
 		$resVM = mysql2_query_secure($sqlVM,$_SESSION['OCS']["readServer"],$argVM);		
-		$valVM = mysql_fetch_array( $resVM );
+		$valVM = mysqli_fetch_array( $resVM );
 		$data[$key]=$valVM['vmtype'];
 		$link_vm="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valVM['hardware_id']."'  target='_blank'><font color=red>".$valVM['name']."</font></a>";
 		$link[$key]=true;
@@ -93,7 +93,7 @@ if (isset($protectedPost["WOL"]) and $protectedPost["WOL"] == 'WOL'
 		$arg=array($systemid);
 		$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 		$msg="";
-		while ($item = mysql_fetch_object($resultDetails)){
+		while ($item = mysqli_fetch_object($resultDetails)){
 			$wol->wake($item->MACADDR,$item->IPADDRESS);
 			if ($wol->wol_send == $l->g(1282))
 				msg_info($wol->wol_send."=>".$item->MACADDR."/".$item->IPADDRESS);		
@@ -141,8 +141,8 @@ while ($list_plugins[$i]){
 		else
 			$sql_avail="select count(*) from ".$list_avail[$list_plugins[$i]] . " where 1=1 ";
 		$sql_avail .= " and hardware_id=".$systemid;
-		$resavail = mysql_query( $sql_avail, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-		$valavail = mysql_fetch_array($resavail);
+		$resavail = mysqli_query( $_SESSION['OCS']["readServer"],$sql_avail) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+		$valavail = mysqli_fetch_array($resavail);
 	}
 	
 	if ($j == $nb_col[$index_tab]){

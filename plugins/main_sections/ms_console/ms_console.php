@@ -61,7 +61,7 @@ if ($data_tab['DATA'] != array()){
 		$array_group="";
 		$sql_group="select id,name from hardware where deviceid='_SYSTEMGROUP_'";
 		$res=mysql2_query_secure($sql_group,$_SESSION['OCS']["readServer"]);
-		while ($value = mysql_fetch_object($res)){
+		while ($value = mysqli_fetch_object($res)){
 			$array_group[$value->id]=$value->name;			
 		}
 		if (is_array($array_group)){
@@ -74,7 +74,7 @@ if ($data_tab['DATA'] != array()){
 				$sql_msg="select name from config where name like '%s'";
 				$arg="GUI_REPORT_MSG%";
 				$result_msg = mysql2_query_secure($sql_msg,$_SESSION['OCS']["readServer"],$arg);
-				while($item_msg = mysql_fetch_object($result_msg)){
+				while($item_msg = mysqli_fetch_object($result_msg)){
 					$list_name_msg[]=substr($item_msg ->name,14);		
 				}
 				if (isset($list_name_msg)){
@@ -213,8 +213,8 @@ if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 						and	g_c.GROUP_ID in (".$list_id_groups.")";
 		if (isset($_SESSION['OCS']['mesmachines']) and $_SESSION['OCS']['mesmachines'] != "")
 			$sql_my_msg.= " and ".$_SESSION['OCS']['mesmachines'];
-		$result_my_msg = mysql_query( $sql_my_msg, $_SESSION['OCS']["readServer"]);
-		while($item_my_msg = mysql_fetch_object($result_my_msg)){
+		$result_my_msg = mysqli_query( $_SESSION['OCS']["readServer"],$sql_my_msg);
+		while($item_my_msg = mysqli_fetch_object($result_my_msg)){
 			foreach ($info_msg['ivalue'] as $key=>$value){
 				if ($value == $item_my_msg ->groups){
 					$msg_group[$key]=$info_msg['tvalue'][$key];

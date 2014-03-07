@@ -13,8 +13,8 @@ echo utf8_encode("<?xml version='1.0' encoding='UTF-8' ?><options>");
 
 //connecOCS();
 $sql ="SELECT DISTINCT softwares.NAME FROM softwares_name_cache softwares WHERE softwares.NAME NOT LIKE '%Correctif%' AND softwares.NAME NOT LIKE '%Mise a jour%' ORDER BY softwares.NAME";
-$query= mysql_query($sql,$_SESSION['OCS']["readServer"]);
-while($row=mysql_fetch_array($query,MYSQL_ASSOC))  // or die ('erreur dans le fetch_array' .mysql_error()))
+$query= mysqli_query($_SESSION['OCS']["readServer"],$sql);
+while($row=mysqli_fetch_array($query,MYSQL_ASSOC))  // or die ('erreur dans le fetch_array' .mysql_error()))
 	{
 	$liste[]=$row;
 	}

@@ -22,7 +22,7 @@ $sql_show="show fields from %s
 		or field='fields_%s')";
 $var_show=array($table,$protectedGet["n"],$protectedGet["n"]);
 $result = mysql2_query_secure($sql_show,$_SESSION['OCS']["readServer"],$var_show);	
-$item = mysql_fetch_object($result);
+$item = mysqli_fetch_object($result);
 
 $field=$item->Field;
 if (isset($field) and $field != ''){
@@ -38,7 +38,7 @@ if (isset($field) and $field != ''){
 				
 	
 				if (msg != ''){
-				alert ('".mysql_real_escape_string($l->g(920))."');
+				alert ('".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(920))."');
 				return false;
 				}else
 				return true;			
@@ -59,7 +59,6 @@ if (isset($field) and $field != ''){
 						$_FILES['file_upload']['size'],
 						$protectedGet["dde"]);
 		mysql2_query_secure($sql_insert,$_SESSION['OCS']["writeServer"],$var_insert);	
-	//	mysql_query($sql_insert, $_SESSION['OCS']["writeServer"],$_FILES['file_upload']['name'],$_FILES['file_upload']['type'],$_FILES['file_upload']['size']);
 		$tab_options['CACHE']='RESET';
 		
 	}

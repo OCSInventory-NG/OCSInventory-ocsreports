@@ -64,7 +64,7 @@ foreach ($list_avail as $key=>$value){
 	$sql="select count(*) c from %s where SNMP_ID=%s";
 	$arg=array($value,$systemid);
 	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-	$valavail = mysql_fetch_array($result);
+	$valavail = mysqli_fetch_array($result);
 	if ($valavail['c'] == 0)
 		unset($list_lbl[$key]);	
 }
@@ -104,8 +104,8 @@ while ($list_plugins[$i]){
 	//v�rification de l'existance des donn�es
 	if (isset($list_avail[$list_plugins[$i]])){
 		$sql_avail="select count(*) from ".$list_avail[$list_plugins[$i]]." where SNMP_ID=".$systemid;
-		$resavail = mysql_query( $sql_avail, $_SESSION['OCS']["readServer"]) or die(mysql_error($_SESSION['OCS']["readServer"]));
-		$valavail = mysql_fetch_array($resavail);
+		$resavail = mysqli_query( $sql_avail, $_SESSION['OCS']["readServer"]) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+		$valavail = mysqli_fetch_array($resavail);
 	}
 	if ($j == $nb_col[$index_tab]){
 		echo "</tr></table><table width='90%' border=0 align='center'><tr align=center>";

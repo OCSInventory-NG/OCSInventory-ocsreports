@@ -54,13 +54,13 @@ echo "<script language='javascript'>
 			{
 				filenamenoext=namefile(filename);
 				if (filenamenoext != 'ocsagent' && filenamenoext != 'ocs-ng-windows-agent-setup' && filenamenoext != 'ocspackage' && ExtList[i] == 'exe'){
-					alert('".mysql_real_escape_string($l->g(1243))."');
+					alert('".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(1243))."');
 					return (false);
 				}
 				return (true);
 			}
 		}
-		alert('".mysql_real_escape_string($l->g(168))."');
+		alert('".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(168))."');
 		return (false);
      }
           
@@ -94,7 +94,7 @@ if (isset($_FILES['file_upload']['name'])){
 		$arg=array($fname,$binary);
 		$result=mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 		if (!$result)
-			msg_error($l->g(2003).mysql_errno($_SESSION['OCS']["writeServer"])."<br>".mysql_error($_SESSION['OCS']["writeServer"]));
+			msg_error($l->g(2003).mysqli_errno($_SESSION['OCS']["writeServer"])."<br>".mysqli_error($_SESSION['OCS']["writeServer"]));
 		else{
 			msg_success($l->g(137)." ".$_FILES['file_upload']['name']." ".$l->g(234));
 			$tab_options['CACHE']='RESET';
@@ -138,7 +138,7 @@ if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
 	//search max_allowed_packet value on mysql conf
 	$sql="SHOW VARIABLES LIKE 'max_allowed_packet'";
 	$result=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"]);
-	$value=mysql_fetch_array($result);
+	$value=mysqli_fetch_array($result);
 	//pass oct to Mo
 	$upload_max_filesize=$value['Value']/1048576;
 
