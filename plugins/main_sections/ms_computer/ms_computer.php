@@ -125,74 +125,24 @@ $list_avail=$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_AVAIL'];
 if (!isset($protectedGet['option'])){
 	$protectedGet['option']="cd_admininfo";
 }
-$i=0;
-echo "<br><br><table width='90%' border=0 align='center'><tr align=center>";
-$nb_col=array(10,30,40,50);
-$j=0;
-$index_tab=0;
-//intitialisation du tableau de plugins
-$show_all=array();
-while ($list_plugins[$i]){
-	unset($valavail);
-	//v�rification de l'existance des donn�es
-	if (isset($list_avail[$list_plugins[$i]])){
-		if (stripos($list_avail[$list_plugins[$i]], 'select') !== false)
-			$sql_avail=$list_avail[$list_plugins[$i]];
-		else
-			$sql_avail="select count(*) from ".$list_avail[$list_plugins[$i]] . " where 1=1 ";
-		$sql_avail .= " and hardware_id=".$systemid;
-		$resavail = mysqli_query( $_SESSION['OCS']["readServer"],$sql_avail) or die(mysqli_error($_SESSION['OCS']["readServer"]));
-		$valavail = mysqli_fetch_array($resavail);
+
+// Display the menu for computer detail
+$menu = new Menu();
+foreach ($list_plugins as $i => $plugin_name) {
+	$url = "?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i];
+	
+	if (substr($list_lbl[$plugin_name],0,2) == 'g(') {
+		$lbl = $l->g(substr(substr($list_lbl[$plugin_name],2),0,-1));
+	} else {
+		$lbl = $list_lbl[$plugin_name];
 	}
 	
-	if ($j == $nb_col[$index_tab]){
-		if ($index_tab%2 == 0) $tab_width="72%"; else $tab_width="80%";
-		echo "</tr></table>\n<table width='$tab_width' border=0 align='center'><tr align=center>";
-		$index_tab++;
-	}
-	//echo substr(substr($list_lbl[$list_plugins[$i]],2),0,-1);
-	echo "<td align=center>";
-	if (!isset($valavail[0]) or $valavail[0] != 0){
-		//liste de toutes les infos de la machine
-		$show_all[]=$list_plugins[$i];
-		$llink="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i];
-		$href = "<a onclick='clic(\"".$llink."\",1);'>";
-		$fhref = "</a>";
-	}else{
-		$href = "";
-		$fhref = "";
-	}
-	echo $href."<img title=\"";
-	if (substr($list_lbl[$list_plugins[$i]],0,2) == 'g(')
-	echo $l->g(substr(substr($list_lbl[$list_plugins[$i]],2),0,-1));
-	else
-	echo $list_lbl[$i];
-	echo "\" src='plugins/computer_detail/img/";
-	$list_plugins[$i];
-	if (isset($valavail[0]) and $valavail[0] == 0){
-		if (file_exists($Directory."/img/".$list_plugins[$i]."_d.png"))
-			echo $list_plugins[$i]."_d.png";
-		else
-			echo "cd_default_d.png";
-	}
-	elseif ($protectedGet['option'] == $list_plugins[$i]){
-		if (file_exists($Directory."/img/".$list_plugins[$i]."_a.png"))
-			echo $list_plugins[$i]."_a.png";
-		else
-			echo "cd_default_a.png";		
-	}
-	else{
-		if (file_exists($Directory."/img/".$list_plugins[$i].".png"))
-			echo $list_plugins[$i].".png";
-		else
-			echo "cd_default.png";
-		
-	}
-	echo "'/>".$fhref."</td>";
-	$j++;
- 	$i++;	
+	$menu->addElem($plugin_name, new MenuElem($lbl, $url));
 }
-echo "</tr></table><br><br>";
+
+$menu_renderer = new BootstrapMenuRenderer();
+echo $menu_renderer->render($menu);
+
 if ($protectedGet['all'] == 1){
 	$protectedPost["pcparpage"]=1000000;
 	$protectedPost['SHOW'] = 'NEVER_SHOW';
