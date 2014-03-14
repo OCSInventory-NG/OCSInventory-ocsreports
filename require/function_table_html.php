@@ -214,7 +214,9 @@ function xml_decode( $txt ) {
 	if(isset($data))
 	{
 	?>
-	<script language='javascript'>		
+	<script>		
+	
+	 
 	function changerCouleur(obj, state) {
 			if (state == true) {
 				bcolor = obj.style.backgroundColor;
@@ -229,33 +231,43 @@ function xml_decode( $txt ) {
 			}
 			return false;
 		}
+
+	$(document).ready(function() {
+		var table = $('#data').dataTable({});
+		
+		 $('#data').on('click', 'tr > td > :checkbox', function(){
+			 if ($(this).prop('checked')){
+				$(this).parent().parent().addClass("selected");
+			}
+			 else {
+				$(this).parent().parent().removeClass("selected");
+			}
+		 }
+		);
+			
+	});
 	</script>
 	<?php
 	if ($titre != "")
 	printEnTete_tab($titre);
-	echo "<br><div class='tableContainer' id='data' style=\"width:".$width."%;\"><table cellspacing='0' class='ta'><tr>";
+	echo "<br><div class='tableContainer'><table id='data' class='display'><thead><tr>";
 		//titre du tableau
 	$i=1;
 	foreach($entete_colonne as $k=>$v)
 	{
 		if (in_array($v,$lien))
-			echo "<th class='ta' >".$v."</th>";
+			echo "<th>".$v."</th>";
 		else
-			echo "<th class='ta'><font size=1 align=center>".$v."</font></th>";	
+			echo "<th><font >".$v."</font></th>";	
 		$i++;		
 	}
-	echo "
-    </tr>
-    <tbody class='ta'>";
-	
-//	$i=0;
+	echo "</tr>
+    </thead>
+    <tbody>";
 	$j=0;
-	//lignes du tableau
-//	while (isset($data[$i]))
-	//{
 	foreach ($data as $k2=>$v2){
 			($j % 2 == 0 ? $color = "#f2f2f2" : $color = "#ffffff");
-			echo "<tr class='ta' bgcolor='".$color."'  onMouseOver='changerCouleur(this, true);' onMouseOut='changerCouleur(this, false);'>";
+			echo "<tr>";
 			foreach ($v2 as $k=>$v)
 			{
 				if (isset($option['B'][$i])){
@@ -268,11 +280,11 @@ function xml_decode( $txt ) {
 				
 				
 				if ($v == "") $v="&nbsp";
-				echo "<td class='ta' >".$begin.$v.$end."</td>";
+				echo "<td class = ".$k.">".$begin.$v.$end."</td>";
 				
 			}
 			$j++;
-			echo "</tr><tr>";
+			echo "</tr>";
 			//$i++;
 	
 	}
@@ -284,6 +296,8 @@ function xml_decode( $txt ) {
 	}
 	return TRUE;
 }
+
+
 
 
 

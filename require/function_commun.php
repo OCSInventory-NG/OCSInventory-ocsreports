@@ -340,6 +340,14 @@ function html_header($no_java=false){
 		
   		echo "<script src='js/graph/raphael.js' type='text/javascript'></script>";
   		echo "<script src='js/graph/elycharts.js' type='text/javascript'></script>";
+  		
+  		
+  		//js and css for Datatables 
+  		echo "<script type='text/javascript' src='libraries/datatable/media/js/jquery.dataTables.js'></script>";
+  		echo "<link rel='stylesheet' type='text/css' href='libraries/datatable/media/css/jquery.dataTables.css'>";
+  		
+  			
+  		
 		if (isset($_SESSION['OCS']['JAVASCRIPT'])){
 			foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file => $rep){
 				echo "<script language='javascript' type='text/javascript' src='".MAIN_SECTIONS_DIR.$rep.$file."'></script>";
