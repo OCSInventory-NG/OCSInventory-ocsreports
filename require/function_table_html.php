@@ -201,6 +201,7 @@ function xml_decode( $txt ) {
  */
  function tab_entete_fixe($entete_colonne,$data,$titre,$width,$height,$lien=array(),$option=array())
 {
+	
 	echo "<div align=center>";
 	global $protectedGet,$l;
 	if ($protectedGet['sens'] == "ASC"){
@@ -235,15 +236,25 @@ function xml_decode( $txt ) {
 	$(document).ready(function() {
 		var table = $('#data').dataTable({});
 		
+		 $('#data').on('click', 'thead > tr :checkbox', function(){
+				if($(this).attr('id') =="ALL" ){
+					if ($(this).prop('checked')){
+					$('#data .CHECK').parent().addClass("selected");
+					}
+					else{
+						$('#data .CHECK').parent().removeClass("selected");
+					}
+			    }
+			});
+		 
 		 $('#data').on('click', 'tr > td > :checkbox', function(){
-			 if ($(this).prop('checked')){
+			if ($(this).prop('checked')){
 				$(this).parent().parent().addClass("selected");
 			}
 			 else {
 				$(this).parent().parent().removeClass("selected");
 			}
-		 }
-		);
+		 });
 			
 	});
 	</script>
