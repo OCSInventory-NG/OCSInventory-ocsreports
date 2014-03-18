@@ -201,7 +201,6 @@ function xml_decode( $txt ) {
  */
  function tab_entete_fixe($entete_colonne,$data,$titre,$width,$height,$lien=array(),$option=array())
 {
-	
 	echo "<div align=center>";
 	global $protectedGet,$l;
 	if ($protectedGet['sens'] == "ASC"){
@@ -216,8 +215,9 @@ function xml_decode( $txt ) {
 	{
 	?>
 	<script>		
+	var table_name = "table#<?php echo $option['table_name']; ?>";
+	var form_name = "form#<?php echo $option['form_name']; ?>";
 	
-	 
 	function changerCouleur(obj, state) {
 			if (state == true) {
 				bcolor = obj.style.backgroundColor;
@@ -234,34 +234,68 @@ function xml_decode( $txt ) {
 		}
 
 	$(document).ready(function() {
-		var table = $('#data').dataTable({});
+		var table = $(table_name).dataTable({});
 		
-		 $('#data').on('click', 'thead > tr :checkbox', function(){
+			 $(table_name).on('click', 'thead > tr :checkbox', function(){
 				if($(this).attr('id') =="ALL" ){
 					if ($(this).prop('checked')){
-					$('#data .CHECK').parent().addClass("selected");
+					$(table_name+' .CHECK').parent().addClass("selected");
 					}
 					else{
-						$('#data .CHECK').parent().removeClass("selected");
+						$(table_name+' .CHECK').parent().removeClass("selected");
 					}
 			    }
 			});
-		 
-		 $('#data').on('click', 'tr > td > :checkbox', function(){
-			if ($(this).prop('checked')){
-				$(this).parent().parent().addClass("selected");
-			}
-			 else {
-				$(this).parent().parent().removeClass("selected");
-			}
-		 });
+
+				
+				$('#ajax').on('click','',function(){
+					$(form_name).empty();
+								destroy= $(table_name).DataTable();
+							destroy.destroy();
+					 $(form_name).load(window.location.search+" "+form_name+">*","",function(){
+					table = $(table_name).dataTable({});
+						 });
+					 });
+					
+					 
+					 $(table_name).on('click', 'tr > td > :checkbox', function(){
+						if ($(this).prop('checked')){
+							$(this).parent().parent().addClass("selected");
+						}
+						 else {
+							$(this).parent().parent().removeClass("selected");
+						}
+					 });
 			
 	});
+
+	$( document ).ajaxComplete(function() {
+		$('#ajax').on('click','',function(){
+			$(form_name).empty();
+						destroy= $(table_name).DataTable();
+					destroy.destroy();
+			 $(form_name).load(window.location.search+" "+form_name+">*","",function(){
+			table = $(table_name).dataTable({});
+				 });
+			 });
+			
+			 
+			 $(table_name).on('click', 'tr > td > :checkbox', function(){
+				if ($(this).prop('checked')){
+					$(this).parent().parent().addClass("selected");
+				}
+				 else {
+					$(this).parent().parent().removeClass("selected");
+				}
+			 });
+	});
 	</script>
+	<input type="button" id="ajax">
 	<?php
 	if ($titre != "")
 	printEnTete_tab($titre);
-	echo "<br><div class='tableContainer'><table id='data' class='display'><thead><tr>";
+	echo"<div id='test'></div>";
+	echo "<br><div class='tableContainer'><table id='".$option['table_name']."' class='display'><thead><tr>";
 		//titre du tableau
 	$i=1;
 	foreach($entete_colonne as $k=>$v)
@@ -1320,6 +1354,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		if (!isset($tab_options['no_download_result']))
 			$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
 		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
+		$tab_options['table_name']=$table_name;
+		$tab_options['form_name']=$form_name;
 		$no_result=tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
 		if ($no_result){
 			show_page($num_rows_result,$form_name);
