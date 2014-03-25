@@ -22,7 +22,7 @@ NETWORK = 1 si impirmante sur le réseau, 0 si imprimante connectée localement
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
 	print_item_header($l->g(79));
-	$form_name="affich_ports";
+	$form_name="affich_printers";
 	$table_name=$form_name;
 	echo open_form($form_name);
 	$list_fields=array($l->g(49) => 'NAME',

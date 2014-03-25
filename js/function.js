@@ -100,3 +100,23 @@ function clic(id,val) {
 	document.getElementById('RESET').value=val;
 	document.forms['ACTION_CLIC'].submit();
 }
+
+function ajaxtable(table_name,form_name){
+	var table_id = "table#"+table_name;
+	var table = $(table_id).DataTable();
+	var info_page = table.page.info();
+	var length = table.page.len();
+	var data = $( form_name ).serializeArray();
+	data.push({'name':table_name+'_page','value':info_page.page});
+	$('#'+table_name+'_processing').css( "visibility","inline" );
+	$(form_name).load(window.location.search+" "+form_name+">*",data,function(){
+		page = info_page.page * length;
+		table = $(table_id).dataTable({
+			"processing": true,
+			'pageLength' : length,
+			 "displayStart": page,
+		});
+	console.log(table_id+"a ete rechargee en ajax");
+		
+	});
+}				

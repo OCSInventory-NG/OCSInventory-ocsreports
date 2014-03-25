@@ -142,7 +142,7 @@ foreach ($list_plugins as $i => $plugin_name) {
 
 $menu_renderer = new BootstrapMenuRenderer();
 echo $menu_renderer->render($menu);
-
+$show_all = $list_plugins;
 if ($protectedGet['all'] == 1){
 	$protectedPost["pcparpage"]=1000000;
 	$protectedPost['SHOW'] = 'NEVER_SHOW';

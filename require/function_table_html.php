@@ -210,13 +210,11 @@ function xml_decode( $txt ) {
 	{
 	$sens="ASC";
 	}
-
 	if(isset($data))
 	{
 	?>
 	<script>		
-	var table_name = "table#<?php echo $option['table_name']; ?>";
-	var form_name = "form#<?php echo $option['form_name']; ?>";
+
 	
 	function changerCouleur(obj, state) {
 			if (state == true) {
@@ -232,11 +230,15 @@ function xml_decode( $txt ) {
 			}
 			return false;
 		}
-
+var index=0;
 	$(document).ready(function() {
-		var table = $(table_name).dataTable({});
-		
-			 $(table_name).on('click', 'thead > tr :checkbox', function(){
+		index++;
+		var table_name = "<?php echo $option['table_name']; ?>";
+		var table_id ="table#<?php echo $option['table_name']; ?>";
+		var form_name = "form#<?php echo $option['form_name']; ?>";
+		var table = $(table_id).dataTable({});
+		console.log(index + table_id);
+			 $(table_id).on('click', 'thead > tr :checkbox', function(){
 				if($(this).attr('id') =="ALL" ){
 					if ($(this).prop('checked')){
 					$(table_name+' .CHECK').parent().addClass("selected");
@@ -246,51 +248,34 @@ function xml_decode( $txt ) {
 					}
 			    }
 			});
+			 $('body').on('click', table_id+' tr > td > :checkbox', function(){
+					if ($(this).prop('checked')){
+						$(this).parent().parent().addClass("selected");
+					}
+					 else {
+						$(this).parent().parent().removeClass("selected");
+					}
+			 });	
+				$('body').on('page.dt',table_id,function(){
+					 ajaxtable(table_name,form_name);
+					  var info = $(this).DataTable().page.info();
+					    console.log( 'Showing page: '+info.page+' of '+info.pages );
+							});
 
-				
-				$('#ajax').on('click','',function(){
-					$(form_name).empty();
-								destroy= $(table_name).DataTable();
-							destroy.destroy();
-					 $(form_name).load(window.location.search+" "+form_name+">*","",function(){
-					table = $(table_name).dataTable({});
-						 });
-					 });
-					
-					 
-					 $(table_name).on('click', 'tr > td > :checkbox', function(){
-						if ($(this).prop('checked')){
-							$(this).parent().parent().addClass("selected");
-						}
-						 else {
-							$(this).parent().parent().removeClass("selected");
-						}
-					 });
+				$('body').on( 'length.dt', table_id,function ( e, settings, len ) {
+					 ajaxtable(table_name,form_name);
+				    console.log( 'New page length: '+len );
+				} );
+				 $('body').on( 'order.dt',table_id ,function () {
+					    // This will show: "Ordering on column 1 (asc)", for example
+					   
+					    var order = $(this).DataTable().order();
+					    console.log(order[0][0]);
+					    console.log($(this).DataTable().column(order[0][0]).header());
+					} );
 			
-	});
-
-	$( document ).ajaxComplete(function() {
-		$('#ajax').on('click','',function(){
-			$(form_name).empty();
-						destroy= $(table_name).DataTable();
-					destroy.destroy();
-			 $(form_name).load(window.location.search+" "+form_name+">*","",function(){
-			table = $(table_name).dataTable({});
-				 });
-			 });
-			
-			 
-			 $(table_name).on('click', 'tr > td > :checkbox', function(){
-				if ($(this).prop('checked')){
-					$(this).parent().parent().addClass("selected");
-				}
-				 else {
-					$(this).parent().parent().removeClass("selected");
-				}
-			 });
 	});
 	</script>
-	<input type="button" id="ajax">
 	<?php
 	if ($titre != "")
 	printEnTete_tab($titre);
@@ -300,6 +285,7 @@ function xml_decode( $txt ) {
 	$i=1;
 	foreach($entete_colonne as $k=>$v)
 	{
+		
 		if (in_array($v,$lien))
 			echo "<th>".$v."</th>";
 		else
@@ -476,6 +462,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 				$i++;	
 			}
 		}
+		
 		if (isset($arg_sql))
 		$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"],$arg);
 		else
@@ -1003,6 +990,7 @@ function lbl_column($list_fields){
 
 function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,$width='100',$tab_options='')
 {
+
 	global $protectedPost,$l,$pages_refs;
 	if (!$tab_options['AS'])
 	$tab_options['AS']=array();
@@ -1041,6 +1029,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	//by default, sort by column 1
 	if ($protectedPost['tri_'.$table_name] == "" or (!in_array ($protectedPost['tri_'.$table_name], $list_fields) and !in_array ($protectedPost['tri_'.$table_name], $tab_options['AS'])))
 	$protectedPost['tri_'.$table_name]=1;
+	
 
 	//by default, sort ASC
 	if ($protectedPost['sens_'.$table_name] == "")
@@ -1359,6 +1348,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$no_result=tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
 		if ($no_result){
 			show_page($num_rows_result,$form_name);
+			
 			echo "<input type='hidden' id='tri_".$table_name."' name='tri_".$table_name."' value='".$protectedPost['tri_'.$table_name]."'>";
 			echo "<input type='hidden' id='tri_fixe' name='tri_fixe' value='".$protectedPost['tri_fixe']."'>";
 			echo "<input type='hidden' id='sens_".$table_name."' name='sens_".$table_name."' value='".$protectedPost['sens_'.$table_name]."'>";
@@ -1374,7 +1364,8 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		}else
 			return FALSE;
 	}else{
-		echo "</td></tr></table>";
+		echo "</td></tr>
+			</table>";
 		msg_warning($l->g(766));
 		return FALSE;
 	}
@@ -1401,10 +1392,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 			}		
 		}
 	}
-	
 	if (isset($sql_data)){
 		foreach ($sql_data as $i=>$donnees){
-
 			foreach($list_fields as $key=>$value){
 				$htmlentities=true;
 				$truelabel=$key;
@@ -1535,7 +1524,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}
 				}
 				
-				
 				//si un lien doit �tre mis sur le champ
 				//l'option $tab_options['NO_LIEN_CHAMP'] emp�che de mettre un lien sur certaines
 				//valeurs du champs
@@ -1587,7 +1575,6 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						else
 							$entete[$num_col]=$truelabel;
 					}
-
 					if ($key == "NULL" or isset($key2)){
 						$data[$i][$num_col]="&nbsp";
 						$lien = 'KO';
@@ -1614,7 +1601,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
 						$lien = 'KO';
 					}elseif ($key == "OTHER"){
-						$data[$i][$num_col]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
+						$data[$i][$num_col]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
 						$lien = 'KO';
 					}elseif ($key == "ZIP"){
 						$data[$i][$num_col]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\",\"compress\",\"\")><img src=image/archives.png></a>";
@@ -1715,8 +1702,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				arsort($data);
 			//	p($data);
 		}
-		
-	return array('ENTETE'=>$entete,'DATA'=>$data,'correct_list_fields'=>$correct_list_fields,'correct_list_col_cant_del'=>$correct_list_col_cant_del);
+	 return array('ENTETE'=>$entete,'DATA'=>$data,'correct_list_fields'=>$correct_list_fields,'correct_list_col_cant_del'=>$correct_list_col_cant_del);
 	}else
 	return false;
 }

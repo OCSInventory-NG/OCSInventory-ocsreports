@@ -13,10 +13,12 @@ require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
 //show mac address on the tab
 $show_mac_addr=true;
-
 $form_name="show_all";
 $table_name="list_show_all";
-
+$page = $protectedPost['list_show_all_page'];
+$length = $protectedPost['list_show_all_length'];
+$start = $protectedPost['list_show_all_page']*$protectedPost['list_show_all_length'];
+$tab_options['LIMIT']=array("START"=>$start,"LENGTH"=>$length);
 if (isset($protectedGet['filtre']) and !isset($protectedPost['FILTRE'])){
 	if (substr($protectedGet['filtre'], 0, 9) == "a.fields_"){
 		$values_accountinfo=accountinfo_tab(substr($protectedGet['filtre'], 9));
@@ -133,7 +135,6 @@ if ($result_exist != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}
-	
 if (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 		echo "Ajax";
 }

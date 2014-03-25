@@ -78,8 +78,6 @@ else{
 						update_accountinfo_config($new_order['NEW'],array('SHOW_ORDER'=>$new_order['OLD_VALUE']));
 					}
 				}
-			
-			//print_r($info_account_id);
 			if (!isset($protectedPost['onglet']) or $protectedPost['onglet'] =='' or !is_numeric($protectedPost['onglet']))
 				 $protectedPost['onglet'] = $list_tab['FIRST'];
 			unset($list_tab['FIRST']);

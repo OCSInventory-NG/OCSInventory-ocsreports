@@ -4,9 +4,6 @@ function show_menu($config) {
 	if (!is_array($config)) {
 		return false;
 	}
-
-	//var_dump(array($config, $_SESSION['OCS']['MENU'], $_SESSION['OCS']['MENU_NAME'], $_SESSION['OCS']['MENU_TITLE'], $_SESSION['OCS']['PAGE_PROFIL']));
-	
 	// Build menu
 	$menu = new Menu();
 	foreach ($config as $config_elem) {
