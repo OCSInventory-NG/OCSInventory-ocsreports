@@ -246,14 +246,21 @@ function xml_decode( $txt ) {
             	 "type": "POST",
             	 "data": function ( d ) {
             	        d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER'];?> = $(csrfid).val();
+            	        var visible =[];
             	        $.each(d.columns,function(index,value){
-            	        this['visible'] = $(table_id).DataTable().column("."+this['data']).visible();
+            	        if($(table_id).DataTable().column("."+this['data']).visible()){
+								visible.push(index);
+            	        	}
             	        });
+            	        d.visible = visible;
             	    },
             	},
         		"columns": [
     	        		<?php foreach($columns as $column){
+    	        			if (($column == "a.fields_6")or($column == "h.ID" ))
     	        			echo  "{ 'data' : '".substr($column,2)."' , 'class':'".substr($column,2)."', 'name':'".$column."', 'defaultContent': ''}, ";
+    	        			else
+    	        			echo  "{ 'data' : '".substr($column,2)."' , 'class':'".substr($column,2)."', 'name':'".$column."', 'defaultContent': '' , 'visible':false}, ";
     	        			 }
     	        		?>
     	        ],
