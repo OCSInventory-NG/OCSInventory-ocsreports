@@ -246,11 +246,14 @@ function xml_decode( $txt ) {
             	 "type": "POST",
             	 "data": function ( d ) {
             	        d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER'];?> = $(csrfid).val();
+            	        $.each(d.columns,function(index,value){
+            	        this['visible'] = $(table_id).DataTable().column("."+this['data']).visible();
+            	        });
             	    },
             	},
         		"columns": [
     	        		<?php foreach($columns as $column){
-    	        			echo  "{ 'data' : '".substr($column,2)."' , 'class':'".substr($column,2)."', 'defaultContent': '', }, ";
+    	        			echo  "{ 'data' : '".substr($column,2)."' , 'class':'".substr($column,2)."', 'name':'".$column."', 'defaultContent': ''}, ";
     	        			 }
     	        		?>
     	        ],
@@ -699,8 +702,8 @@ function show_field($name_field,$type_field,$value_field,$config=array()){
 
 function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 	global $protectedPost,$l;
-	if ($protectedPost['RAZ_FILTRE'] == "RAZ")
-	unset($protectedPost['FILTRE_VALUE'],$protectedPost['FILTRE']);
+// 	if ($protectedPost['RAZ_FILTRE'] == "RAZ")
+// 	unset($protectedPost['FILTRE_VALUE'],$protectedPost['FILTRE']);
 	if ($protectedPost['FILTRE_VALUE'] and $protectedPost['FILTRE']){
 		$temp_query=explode("GROUP BY",$query);
 		if ($temp_query[0] == $query)
@@ -1069,15 +1072,33 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	global $protectedPost,$l,$pages_refs;
 	$link=$_SESSION['OCS']["readServer"];
 	
+	//print_r($tab_options);
+	
+	
+	
+	
+	
+	
+	//FILTRAGE RESULTAT RECHERCHE 
+	
+	
+	//print_r(explode("where", $queryDetails));
+	
+	
+	
+	
+	
+	
+	
 	//filter the results
-/*	if (isset($tab_options['FILTRE'])){
-		$Details=filtre($tab_options['FILTRE'],$form_name,$queryDetails,$tab_options['ARG_SQL'],$tab_options['ARG_SQL_COUNT']);
-		$queryDetails=$Details['SQL'];
-		if (is_array($Details['ARG']))
-			$tab_options['ARG_SQL']=$Details['ARG'];
-		if (is_array($Details['ARG_COUNT']))
-			$tab_options['ARG_SQL_COUNT']=$Details['ARG_COUNT'];
-	}*/
+// 	if (isset($tab_options['FILTRE'])){
+// 		$Details=filtre($tab_options['FILTRE'],$form_name,$queryDetails,$tab_options['ARG_SQL'],$tab_options['ARG_SQL_COUNT']);
+// 		$queryDetails=$Details['SQL'];
+// 		if (is_array($Details['ARG']))
+// 			$tab_options['ARG_SQL']=$Details['ARG'];
+// 		if (is_array($Details['ARG_COUNT']))
+// 			$tab_options['ARG_SQL_COUNT']=$Details['ARG_COUNT'];
+// 	}
 	
 	//by default, sort by column 1
 	if ($protectedPost[$table_name.'_sort'] == "" or (!in_array ($protectedPost[$table_name.'_sort'], $list_fields) and !in_array ($protectedPost[$table_name.'_sort'], $tab_options['AS'])))
@@ -1192,24 +1213,10 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		);
 		$resTotalLength = mysqli_fetch_row($resTotalLength);
 		$recordsTotal = intval($resTotalLength[0]);
-		
+		//echo $queryDetails;
 			$res =  array("draw"=> $tab_options['DRAW'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows);
-			//echo json_encode($res);
+		echo json_encode($res);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //fonction qui permet de g�rer les donn�es � afficher dans le tableau
