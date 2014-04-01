@@ -112,11 +112,16 @@ function ajaxtable(table_name,form_name){
 	$(form_name).load(window.location.search+" "+form_name+">*",data,function(){
 		page = info_page.page * length;
 		table = $(table_id).dataTable({
+	        "scrollY":   "200px",
 			"processing": true,
 			'pageLength' : length,
 			 "displayStart": page,
+		        ajax: {
+		            url: 'index.php?function=visu_computers&no_header=true&no_footer=true',
+		            
+		        }
 		});
 	console.log(table_id+"a ete rechargee en ajax");
-		
+	
 	});
 }				

@@ -10,7 +10,6 @@
 //====================================================================================
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 @session_start();
-
 require('require/function_opt_param.php');
 require('require/function_graphic.php');
 require_once('require/function_machine.php');

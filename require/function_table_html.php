@@ -199,10 +199,12 @@ function xml_decode( $txt ) {
  * $lien = array ; => liste des colonnes qui ont le tri
  * 
  */
- function tab_entete_fixe($entete_colonne,$data,$titre,$width,$height,$lien=array(),$option=array())
+ function ajaxtab_entete_fixe($columns,$option=array())
 {
-	echo "<div align=center>";
 	global $protectedGet,$l;
+	$columns = array_unique($columns);
+	//var_dump($option);
+	echo "<div align=center>";
 	if ($protectedGet['sens'] == "ASC"){
 	$sens="DESC";
 	}
@@ -210,8 +212,7 @@ function xml_decode( $txt ) {
 	{
 	$sens="ASC";
 	}
-	if(isset($data))
-	{
+	
 	?>
 	<script>		
 
@@ -230,75 +231,108 @@ function xml_decode( $txt ) {
 			}
 			return false;
 		}
-var index=0;
+	
 	$(document).ready(function() {
-		index++;
 		var table_name = "<?php echo $option['table_name']; ?>";
 		var table_id ="table#<?php echo $option['table_name']; ?>";
 		var form_name = "form#<?php echo $option['form_name']; ?>";
-		var table = $(table_id).dataTable({});
-		console.log(index + table_id);
-			 $(table_id).on('click', 'thead > tr :checkbox', function(){
-				if($(this).attr('id') =="ALL" ){
-					if ($(this).prop('checked')){
-					$(table_name+' .CHECK').parent().addClass("selected");
-					}
-					else{
-						$(table_name+' .CHECK').parent().removeClass("selected");
-					}
-			    }
-			});
-			 $('body').on('click', table_id+' tr > td > :checkbox', function(){
-					if ($(this).prop('checked')){
-						$(this).parent().parent().addClass("selected");
-					}
-					 else {
-						$(this).parent().parent().removeClass("selected");
-					}
-			 });	
-				$('body').on('page.dt',table_id,function(){
-					 ajaxtable(table_name,form_name);
-					  var info = $(this).DataTable().page.info();
-					    console.log( 'Showing page: '+info.page+' of '+info.pages );
-							});
-
-				$('body').on( 'length.dt', table_id,function ( e, settings, len ) {
-					 ajaxtable(table_name,form_name);
-				    console.log( 'New page length: '+len );
-				} );
-				 $('body').on( 'order.dt',table_id ,function () {
-					    // This will show: "Ordering on column 1 (asc)", for example
-					   
-					    var order = $(this).DataTable().order();
-					    console.log(order[0][0]);
-					    console.log($(this).DataTable().column(order[0][0]).header());
-					} );
-			
+		var csrfid = "input#CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?>";
+		var table = $(table_id).dataTable({
+			"scrollX": true,
+	        "processing": true,
+	        "serverSide": true,
+        	"ajax": {
+            	 'url':'index.php?function=visu_computers&no_header=true&no_footer=true',
+            	 "type": "POST",
+            	 "data": function ( d ) {
+            	        d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER'];?> = $(csrfid).val();
+            	    },
+            	},
+        		"columns": [
+    	        		<?php foreach($columns as $column){
+    	        			echo  "{ 'data' : '".substr($column,2)."' , 'class':'".substr($column,2)."', 'defaultContent': '', }, ";
+    	        			 }
+    	        		?>
+    	        ],
+       		});
 	});
 	</script>
 	<?php
 	if ($titre != "")
-	printEnTete_tab($titre);
+		printEnTete_tab($titre);
 	echo"<div id='test'></div>";
 	echo "<br><div class='tableContainer'><table id='".$option['table_name']."' class='display'><thead><tr>";
+		//titre du tableau
+	foreach($columns as $k=>$v)
+	{		
+			echo "<th><font >".$k."</font></th>";		
+	}
+	echo "</tr>
+    </thead>
+    </table></div></div>";	
+	return TRUE;
+}
+
+
+
+
+function tab_entete_fixe($entete_colonne,$data,$titre,$width,$height,$lien=array(),$option=array())
+{
+	echo "<div align=center>";
+	global $protectedGet,$l;
+	if ($protectedGet['sens'] == "ASC"){
+		$sens="DESC";
+	}
+	else
+	{
+		$sens="ASC";
+	}
+
+	if(isset($data))
+	{
+		?>
+	<script >		
+	function changerCouleur(obj, state) {
+			if (state == true) {
+				bcolor = obj.style.backgroundColor;
+				fcolor = obj.style.color;
+				obj.style.backgroundColor = '#FFDAB9';
+				obj.style.color = 'red';
+				return true;
+			} else {
+				obj.style.backgroundColor = bcolor;
+				obj.style.color = fcolor;
+				return true;
+			}
+			return false;
+		}
+	</script>
+	<?php
+	if ($titre != "")
+	printEnTete_tab($titre);
+	echo "<br><div class='tableContainer' id='data' style=\"width:".$width."%;\"><table cellspacing='0' class='ta'><tr>";
 		//titre du tableau
 	$i=1;
 	foreach($entete_colonne as $k=>$v)
 	{
-		
 		if (in_array($v,$lien))
-			echo "<th>".$v."</th>";
+			echo "<th class='ta' >".$v."</th>";
 		else
-			echo "<th><font >".$v."</font></th>";	
+			echo "<th class='ta'><font size=1 align=center>".$v."</font></th>";	
 		$i++;		
 	}
-	echo "</tr>
-    </thead>
-    <tbody>";
+	echo "
+    </tr>
+    <tbody class='ta'>";
+	
+//	$i=0;
 	$j=0;
+	//lignes du tableau
+//	while (isset($data[$i]))
+	//{
 	foreach ($data as $k2=>$v2){
 			($j % 2 == 0 ? $color = "#f2f2f2" : $color = "#ffffff");
-			echo "<tr>";
+			echo "<tr class='ta' bgcolor='".$color."'  onMouseOver='changerCouleur(this, true);' onMouseOut='changerCouleur(this, false);'>";
 			foreach ($v2 as $k=>$v)
 			{
 				if (isset($option['B'][$i])){
@@ -311,11 +345,11 @@ var index=0;
 				
 				
 				if ($v == "") $v="&nbsp";
-				echo "<td class = ".$k.">".$begin.$v.$end."</td>";
+				echo "<td class='ta' >".$begin.$v.$end."</td>";
 				
 			}
 			$j++;
-			echo "</tr>";
+			echo "</tr><tr>";
 			//$i++;
 	
 	}
@@ -327,6 +361,44 @@ var index=0;
 	}
 	return TRUE;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -447,7 +519,6 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 			}
 		}
 		return $aff;
-		
 	}elseif ($input_type == 10){
 		//le format de de $name doit etre sous la forme d'une requete sql avec éventuellement
 		//des arguments. Dans ce cas, les arguments sont séparés de la requête par $$$$
@@ -461,8 +532,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 				$arg[$i]=$protectedPost[$arg_sql[$i]];
 				$i++;	
 			}
-		}
-		
+		}		
 		if (isset($arg_sql))
 		$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"],$arg);
 		else
@@ -482,8 +552,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 				$i++;
 			}
 		}
-	 		return tab_entete_fixe($entete2,$data2,"",60,300);		
-		
+		return tab_entete_fixe($entete2,$data2,"",60,300);		
 	}elseif($input_type == 11 and isset($name) and is_array($name)){	
 		foreach ($name as $key=>$value){
 			$champs.= "<input type='radio' name='".$input_name."' id='".$input_name."' value='" . $key . "'";
@@ -645,7 +714,6 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 		
 		}else
 		$temp_query[0].= " where ";
-
 	if (substr($protectedPost['FILTRE'],0,2) == 'a.'){
 		require_once('require/function_admininfo.php');
 		$id_tag=explode('_',substr($protectedPost['FILTRE'],2));
@@ -675,6 +743,7 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 	}
 	$view=show_modif($tab_field,'FILTRE',2);
 	$view.=show_modif($protectedPost['FILTRE_VALUE'],'FILTRE_VALUE',0);
+	
 	echo $l->g(883).": ".$view."<input type='submit' value='".$l->g(1109)."' name='SUB_FILTRE'><a href=# onclick='return pag(\"RAZ\",\"RAZ_FILTRE\",\"".$form_name."\");'><img src=image/supp.png></a></td></tr><tr><td align=center>";
 	echo "<input type=hidden name='RAZ_FILTRE' id='RAZ_FILTRE' value=''>";
 	return array('SQL'=>$query,'ARG'=>$arg,'ARG_COUNT'=>$arg_count);
@@ -988,388 +1057,157 @@ function lbl_column($list_fields){
 	return array('FIELDS'=>$return_fields,'DEFAULT_FIELDS'=>$return_default);
 }
 
+
+
+
+
+
+
 function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,$width='100',$tab_options='')
 {
-
+	//print_r($GLOBALS);
 	global $protectedPost,$l,$pages_refs;
-	if (!$tab_options['AS'])
-	$tab_options['AS']=array();
+	$link=$_SESSION['OCS']["readServer"];
 	
-	if ($_SESSION['OCS']["tabcache"] == 0)
-		$tab_options['CACHE']='RESET';
-	
-	echo "<script language='javascript'>
-		function checkall()
-		 {
-			for(i=0; i<document.".$form_name.".elements.length; i++)
-			{
-				if(document.".$form_name.".elements[i].name.substring(0,5) == 'check'){
-			        if (document.".$form_name.".elements[i].checked)
-						document.".$form_name.".elements[i].checked = false;
-					else
-						document.".$form_name.".elements[i].checked = true;
-				}
-			}
-		}
-	</script>";
-
-	$link=$_SESSION['OCS']["readServer"];	
-	
-	//show select nb page
-	$limit=nb_page($form_name,100,"","",$table_name);
-	//you want to filter your result
-	if (isset($tab_options['FILTRE'])){
+	//filter the results
+/*	if (isset($tab_options['FILTRE'])){
 		$Details=filtre($tab_options['FILTRE'],$form_name,$queryDetails,$tab_options['ARG_SQL'],$tab_options['ARG_SQL_COUNT']);
 		$queryDetails=$Details['SQL'];
 		if (is_array($Details['ARG']))
 			$tab_options['ARG_SQL']=$Details['ARG'];
 		if (is_array($Details['ARG_COUNT']))
 			$tab_options['ARG_SQL_COUNT']=$Details['ARG_COUNT'];
-	}
+	}*/
+	
 	//by default, sort by column 1
-	if ($protectedPost['tri_'.$table_name] == "" or (!in_array ($protectedPost['tri_'.$table_name], $list_fields) and !in_array ($protectedPost['tri_'.$table_name], $tab_options['AS'])))
-	$protectedPost['tri_'.$table_name]=1;
+	if ($protectedPost[$table_name.'_sort'] == "" or (!in_array ($protectedPost[$table_name.'_sort'], $list_fields) and !in_array ($protectedPost[$table_name.'_sort'], $tab_options['AS'])))
+		$protectedPost[$table_name.'_sort']=1;
 	
 
 	//by default, sort ASC
-	if ($protectedPost['sens_'.$table_name] == "")
-	$protectedPost['sens_'.$table_name]='ASC';
+	if ($protectedPost[$table_name.'_sens'] == "")
+		$protectedPost[$table_name.'_sens']='ASC';
 	
-	//if data is signed and data = ip
 	$tab_iplike=array('H.IPADDR','IPADDRESS','IP','IPADDR');
 	if (in_array(mb_strtoupper($protectedPost['tri_'.$table_name]),$tab_iplike)){
-		$queryDetails.= " order by INET_ATON(".$protectedPost['tri_'.$table_name].") ".$protectedPost['sens_'.$table_name];		
+		$queryDetails.= " order by INET_ATON(".$protectedPost['tri_'.$table_name].") ".$protectedPost['sens_'.$table_name];
 	}elseif ($tab_options['TRI']['SIGNED'][$protectedPost['tri_'.$table_name]])
-		$queryDetails.= " order by cast(".$protectedPost['tri_'.$table_name]." as signed) ".$protectedPost['sens_'.$table_name];
-	elseif($tab_options['TRI']['DATE'][$protectedPost['tri_'.$table_name]]){	
+	$queryDetails.= " order by cast(".$protectedPost['tri_'.$table_name]." as signed) ".$protectedPost['sens_'.$table_name];
+	elseif($tab_options['TRI']['DATE'][$protectedPost['tri_'.$table_name]]){
 		if(isset($tab_options['ARG_SQL'])){
 			$queryDetails.=" order by STR_TO_DATE(%s,'%s') %s";
 			$tab_options['ARG_SQL'][]=$protectedPost['tri_'.$table_name];
 			$tab_options['ARG_SQL'][]=$tab_options['TRI']['DATE'][$protectedPost['tri_'.$table_name]];
 			$tab_options['ARG_SQL'][]=$protectedPost['sens_'.$table_name];
 		}else
-			$queryDetails.= " order by STR_TO_DATE(".$protectedPost['tri_'.$table_name].",'".$tab_options['TRI']['DATE'][$protectedPost['tri_'.$table_name]]."') ".$protectedPost['sens_'.$table_name];	
-		
+			$queryDetails.= " order by STR_TO_DATE(".$protectedPost['tri_'.$table_name].",'".$tab_options['TRI']['DATE'][$protectedPost['tri_'.$table_name]]."') ".$protectedPost['sens_'.$table_name];
+	
 	}else
 		$queryDetails.= " order by ".$protectedPost['tri_'.$table_name]." ".$protectedPost['sens_'.$table_name];
 	
-		
-	if (isset($protectedPost["pcparpage"]) and $protectedPost["pcparpage"]<= 200){
-		$limit_result_cache=200;
-		$force_no_cache=false;
-	}elseif (isset($protectedPost["pcparpage"])){
-		$limit_result_cache=$protectedPost["pcparpage"];
-		$force_no_cache=true;
-	}
-	//$tab_options['CACHE']='RESET';
-	//suppression de la limite de cache
-	//si on est sur la m�me page mais pas sur le m�me onglet
-	if ($_SESSION['OCS']['csv']['SQL'][$table_name] != $queryDetails or (isset($tab_options['ARG_SQL']) and $tab_options['ARG_SQL'] != $_SESSION['OCS']['csv']['ARG'][$table_name])){
-		unset($protectedPost['page']);
-		$tab_options['CACHE']='RESET';
-	}
-
-	
-	//Delete cache 
-	if ($tab_options['CACHE']=='RESET'
-		 or (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '')
-		 or (isset($protectedPost['RESET']) and $protectedPost['RESET'] != '') ){
-		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			msg_info($l->g(5003));
-		unset($_SESSION['OCS']['DATA_CACHE'][$table_name]);
-		unset($_SESSION['OCS']['NUM_ROW'][$table_name]);	
-	}
-
-	if (isset($_SESSION['OCS']['NUM_ROW'][$table_name])
-			and $_SESSION['OCS']['NUM_ROW'][$table_name]>$limit["BEGIN"] 
-			and $_SESSION['OCS']['NUM_ROW'][$table_name]<=$limit["END"]
-			and !isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]])){
-				
-		if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			msg_info($l->g(5004)." ".$limit["END"]." => ".($_SESSION['OCS']['NUM_ROW'][$table_name]-1));
-	
-		$limit["END"]=$_SESSION['OCS']['NUM_ROW'][$table_name]-1;
-
-	}
-		
-		
-		
-		
-	if (isset($_SESSION['OCS']['DATA_CACHE'][$table_name][$limit["END"]]) and isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
-			if ($_SESSION['OCS']['DEBUG'] == 'ON')
-				msg_info($l->g(5005));
-	 		$var_limit=$limit["BEGIN"];
-	 		while ($var_limit<=$limit["END"]){
-	 			$sql_data[$var_limit]=$_SESSION['OCS']['DATA_CACHE'][$table_name][$var_limit];
-	 			$var_limit++;
-	 		}
-			$num_rows_result=$_SESSION['OCS']['NUM_ROW'][$table_name];
-			if (isset($_SESSION['OCS']['REPLACE_VALUE_ALL_TIME']))
-				$tab_options['REPLACE_VALUE_ALL_TIME']=$_SESSION['OCS']['REPLACE_VALUE_ALL_TIME'];
-			$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name);
-			$data=$result_data['DATA'];
-			
-			$entete=$result_data['ENTETE'];
-			$correct_list_col_cant_del=$result_data['correct_list_col_cant_del'];
-			$correct_list_fields=$result_data['correct_list_fields'];
-		$i=1;		
-	}else
-	{
-		//search static values
-		if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name])){
-			foreach ($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name] as $key=>$sql){
-				if (!isset($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key]))
-					$arg=array();
-				else
-					$arg=$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key];
-				if ($table_name == "TAB_MULTICRITERE"){
-					$sql.=" and hardware_id in (".implode(',',$_SESSION['OCS']['ID_REQ']).") group by hardware_id ";
-					//ajout du group by pour r�gler le probl�me des r�sultats multiples sur une requete
-					//on affiche juste le premier crit�re qui match
-					$result = mysqli_query($_SESSION['OCS']["readServer"],$sql);
-				}else{			
-					
-					//add sort on column if need it
-					if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe'])){
-						$sql.=" order by '%s' %s";
-						array_push($protectedPost['tri_fixe'],$arg);
-						array_push($protectedPost['sens_'.$table_name],$arg);
-					}
-					$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-				}
-				
-			while($item = mysqli_fetch_object($result)){
-				
-					if ($item->HARDWARE_ID != "")
-					$champs_index=$item->HARDWARE_ID;
-					elseif($item->FILEID != "")
-					$champs_index=$item->FILEID;
-		//echo $champs_index."<br>";
-					if (isset($tablename_fixe_value)){
-						if (strstr($sql,$tablename_fixe_value[0]))
-							$list_id_tri_fixe[]=$champs_index;
-					}
-					foreach ($item as $field=>$value){
-						
-							if ($field != "HARDWARE_ID" and $field != "FILEID" and $field != "ID"){
-					//			echo "<br>champs => ".$field."   valeur => ".$value;
-								$tab_options['REPLACE_VALUE_ALL_TIME'][$field][$champs_index]=$value;
-							}
-					}
-				}
-			}
-			
-			if (isset($tab_options['REPLACE_VALUE_ALL_TIME']))
-				$_SESSION['OCS']['REPLACE_VALUE_ALL_TIME']=$tab_options['REPLACE_VALUE_ALL_TIME'];
+	if (isset($tab_options['LIMIT']['START'])){
+		$limit = " limit ".$tab_options['LIMIT']['START']." , ";
+	}else{
+	$limit = " limit 0 , ";
 		}
-//	print_r($tab_options['VALUE']);
-	//	print_r($list_id_tri_fixe);
-		//on vide les valeurs pr�c�dentes
-		//pour optimiser la place sur le serveur
-		if(!isset($tab_options['SAVE_CACHE']))
-			unset($_SESSION['OCS']['csv'],$_SESSION['OCS']['list_fields']);		
-			
-		$_SESSION['OCS']['csv']['SQL'][$table_name]=$queryDetails;
-		if (isset($tab_options['ARG_SQL']))
-		$_SESSION['OCS']['csv']['ARG'][$table_name]=$tab_options['ARG_SQL'];
-		
-		//requete de count
-		unset($_SESSION['OCS']['NUM_ROW']);
-		if (!isset($_SESSION['OCS']['NUM_ROW'][$table_name])){
-			unset($_SESSION['OCS']['NUM_ROW']);
-			
-			if (!isset($tab_options['SQL_COUNT'])){
-				$querycount_begin="select count(*) count_nb_ligne ";
-				if (stristr($queryDetails,"group by") and substr_count($queryDetails,"group by") == 1){
-					$querycount_end=",".substr(	$queryDetails,6);	
-				}else
-					$querycount_end=stristr($queryDetails, 'from ');	
-			
-				$querycount=$querycount_begin.$querycount_end;
-			}else
-				$querycount=$tab_options['SQL_COUNT'];
-		
-				if (isset($tab_options['ARG_SQL_COUNT'])){
-						$resultcount = mysql2_query_secure($querycount, $link,$tab_options['ARG_SQL_COUNT']);
-				}
-				elseif (isset($tab_options['ARG_SQL']))
-					$resultcount = mysql2_query_secure($querycount, $link,$tab_options['ARG_SQL']);
-				else
-					$resultcount = mysql2_query_secure($querycount, $link);
-
-				//if this query is only for show data (like :
-				//select '%s' as NOM,'%s' as LIBELLE)
-				if (!stristr($queryDetails,"from"))
-					unset($resultcount)	;
-				//En dernier recourt, si le count n'est pas bon,
-				//on joue la requete initiale
-				if (!$resultcount){
-					if (isset($tab_options['ARG_SQL'])){
-						$resultcount = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
-
-					}else
-						$resultcount = mysql2_query_secure($queryDetails, $link);
-					
-				}
-				if ($resultcount)
-				$num_rows_result = mysqli_num_rows($resultcount);
-				//echo "<b>".$num_rows_result."</b>";
-				if ($num_rows_result==1){
-					$count=mysqli_fetch_object($resultcount);
-				//	echo $queryDetails;
-					if ($count->count_nb_ligne > 0)
-					$num_rows_result = $count->count_nb_ligne;
-				}
-				$_SESSION['OCS']['NUM_ROW'][$table_name]=$num_rows_result;
+	if (isset($tab_options['LIMIT']['LENGTH'])){
+		$limit .= $tab_options['LIMIT']['LENGTH']." ";
 		}else{
-			$num_rows_result=$_SESSION['OCS']['NUM_ROW'][$table_name];
-			if ($_SESSION['OCS']['DEBUG'] == 'ON')
-			msg_info($l->g(5007));
+			$limit .= "10 ";
 		}
-				//echo $querycount;
-		//FIN REQUETE COUNT
-		if (isset($limit)){
-			if ($limit["END"]<$limit_result_cache)
-			$queryDetails.=" limit ".$limit_result_cache;
-			else{
-			$queryDetails.=" limit ".floor($limit["END"]/$limit_result_cache)*$limit_result_cache.",".$limit_result_cache;
+	$queryDetails .= $limit;
+	/* 	
+		var_dump($_SESSION);
+	//search static values
+	if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name])){
+		foreach ($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name] as $key=>$sql){
+			if (!isset($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key]))
+				$arg=array();
+			else
+				$arg=$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key];
+			if ($table_name == "TAB_MULTICRITERE"){
+				$sql.=" and hardware_id in (".implode(',',$_SESSION['OCS']['ID_REQ']).") group by hardware_id ";
+				//ajout du group by pour r�gler le probl�me des r�sultats multiples sur une requete
+				//on affiche juste le premier crit�re qui match
+				$result = mysqli_query($_SESSION['OCS']["readServer"],$sql);
+			}else{
+				//add sort on column if need it
+				if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe'])){
+					$sql.=" order by '%s' %s";
+					array_push($protectedPost['tri_fixe'],$arg);
+					array_push($protectedPost['sens_'.$table_name],$arg);
+				}
+				
+				$sql.= $limit;
+				var_dump($sql);
+				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+			}
+			while($item = mysqli_fetch_object($result)){
+				if ($item->HARDWARE_ID != "")
+					$champs_index=$item->HARDWARE_ID;
+				elseif($item->FILEID != "")
+				$champs_index=$item->FILEID;
+				//echo $champs_index."<br>";
+				if (isset($tablename_fixe_value)){
+					if (strstr($sql,$tablename_fixe_value[0]))
+						$list_id_tri_fixe[]=$champs_index;
+				}
+				foreach ($item as $field=>$value){
+					if ($field != "HARDWARE_ID" and $field != "FILEID" and $field != "ID"){
+						//			echo "<br>champs => ".$field."   valeur => ".$value;
+						$tab_options['REPLACE_VALUE_ALL_TIME'][$field][$champs_index]=$value;
+					}
+				}
 			}
 		}
+	} */
+
+		$queryDetails=substr_replace(ltrim($queryDetails),"SELECT SQL_CALC_FOUND_ROWS ", 0 , 6);
+		//echo($queryDetails);
+	
+	
 		if (isset($tab_options['ARG_SQL']))
 			$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
 		else
 			$resultDetails = mysql2_query_secure($queryDetails, $link);
-		flush();
 
-		$i=floor($limit["END"]/$limit_result_cache)*$limit_result_cache;
-		$index=$limit["BEGIN"];
-		$value_data_begin=$limit["BEGIN"];
-		$value_data_end=$limit["END"]+1;
-		//echo $num_rows_result;
-		if ($index>$num_rows_result){
-			$value_data_end=$num_rows_result-1;
-		}
-		//echo $queryDetails;
-		while($item = mysqli_fetch_object($resultDetails)){
-			if ($i>=$index){
-				unset($champs_index);
-				if ($item->ID != "")
-				$champs_index=$item->ID;
-				elseif($item->FILEID != "")
-				$champs_index=$item->FILEID;
-	
-				if (isset($list_id_tri_fixe)){
-					$index=$champs_index;	
-				}
-				
-				if ($index>$num_rows_result){
-					break;
-				}
-				
-						//on arr�te le traitement si on est au dessus du nombre de ligne
-				
-				
-				
-				foreach($item as $key => $value){
-					$sql_data_cache[$index][$key]=$value;					
-					if ($index<$value_data_end and $index>=$value_data_begin){
-						flush();
-						$sql_data[$index][$key]=$value;							
-						foreach ($list_fields as $key=>$value){
-							if ($tab_options['VALUE'][$key]){
-								if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
-								$sql_data[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
-								else
-								$sql_data[$index][$value]=$tab_options['VALUE'][$key][$champs_index];
-							}
-							
-						}
-				
-					}			
-					//ajout des valeurs statiques
-						foreach ($list_fields as $key=>$value){
-							if ($tab_options['VALUE'][$key]){
-								if ($tab_options['VALUE'][$key][$champs_index] == "" and isset($tab_options['VALUE_DEFAULT'][$key]))
-								$sql_data_cache[$index][$value]=$tab_options['VALUE_DEFAULT'][$key];
-								else
-								$sql_data_cache[$index][$value]=$tab_options['VALUE'][$key][$champs_index];
-							}
-						
-						}
-				}		
-				$index++;
-			}
-			$i++;
-		}
-//		if ($i == 1){
-//			$num_rows_result=1;
-//			$_SESSION['OCS']['NUM_ROW'][$table_name]=1;
-//		}
-		flush();
-			//traitement du tri des r�sultats sur une valeur fixe
-		if (isset($list_id_tri_fixe)){
-				$i=0;
-			//parcourt des id tri�s
-			while ($list_id_tri_fixe[$i]){
-				if ($limit["BEGIN"] <= $i and $i <$limit["BEGIN"]+$limit_result_cache)
-				$sql_data_tri_fixe[$i]=$sql_data[$list_id_tri_fixe[$i]];
-				
-				$i++;	
-			}
-			unset($sql_data);
-			$sql_data=$sql_data_tri_fixe;
 			
-		}
-	//	print_r($sql_data_cache);
-		//on vide le cache des autres tableaux
-		//pour optimiser la place dispo sur le serveur
-		unset($_SESSION['OCS']['DATA_CACHE']);
-		if (!$force_no_cache)
-			$_SESSION['OCS']['DATA_CACHE'][$table_name]=$sql_data_cache;
-		$result_data=gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name);
-		$data=$result_data['DATA'];
+			while($row = mysqli_fetch_assoc($resultDetails))
+			{
+				$rows[] = $row;
+			}			
+		// Data set length after filtering
+		$resFilterLength = mysql2_query_secure("SELECT FOUND_ROWS()",$link);
+		$recordsFiltered = mysqli_fetch_row($resFilterLength);
+		$recordsFiltered=intval($recordsFiltered[0]);
 		
-		$entete=$result_data['ENTETE'];
-		$correct_list_col_cant_del=$result_data['correct_list_col_cant_del'];
-		$correct_list_fields=$result_data['correct_list_fields'];
-	}
-	if ($num_rows_result > 0){
-		if (count($data) == 1 and (!isset($protectedPost['page']) or $protectedPost['page'] == 0))
-			$num_rows_result=1;
-		$title=$num_rows_result." ".$l->g(90);
-		if (isset($tab_options['LOGS']))
-			addLog($tab_options['LOGS'],$num_rows_result." ".$l->g(90));
 		
-		if (!isset($tab_options['no_download_result']))
-			$title.= "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$table_name."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
-		$result_with_col=gestion_col($entete,$data,$correct_list_col_cant_del,$form_name,$table_name,$list_fields,$correct_list_fields,$form_name);
-		$tab_options['table_name']=$table_name;
-		$tab_options['form_name']=$form_name;
-		$no_result=tab_entete_fixe($result_with_col['entete'],$result_with_col['data'],$title,$width,"",array(),$tab_options);
-		if ($no_result){
-			show_page($num_rows_result,$form_name);
-			
-			echo "<input type='hidden' id='tri_".$table_name."' name='tri_".$table_name."' value='".$protectedPost['tri_'.$table_name]."'>";
-			echo "<input type='hidden' id='tri_fixe' name='tri_fixe' value='".$protectedPost['tri_fixe']."'>";
-			echo "<input type='hidden' id='sens_".$table_name."' name='sens_".$table_name."' value='".$protectedPost['sens_'.$table_name]."'>";
-			echo "<input type='hidden' id='SUP_PROF' name='SUP_PROF' value=''>";
-			echo "<input type='hidden' id='MODIF' name='MODIF' value=''>";
-			echo "<input type='hidden' id='SELECT' name='SELECT' value=''>";
-			echo "<input type='hidden' id='OTHER' name='OTHER' value=''>";
-			echo "<input type='hidden' id='ACTIVE' name='ACTIVE' value=''>";
-			echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
-			echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
-			echo "<input type='hidden' id='OTHER_TER' name='OTHER_TER' value=''>";
-			return TRUE;
-		}else
-			return FALSE;
-	}else{
-		echo "</td></tr>
-			</table>";
-		msg_warning($l->g(766));
-		return FALSE;
-	}
+		
+		$primaryKey="ID";
+		$table="hardware";
+		// Total data set length
+		$resTotalLength = mysql2_query_secure( 
+			"SELECT COUNT(`$primaryKey`)
+			 FROM   `$table`",$link
+		);
+		$resTotalLength = mysqli_fetch_row($resTotalLength);
+		$recordsTotal = intval($resTotalLength[0]);
+		
+			$res =  array("draw"=> $tab_options['DRAW'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows);
+			//echo json_encode($res);
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -9,16 +9,32 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+
+
+
+
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+		//print_r($GLOBALS);
+		//echo $protectedPost['length'];
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+
+}
 require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
 //show mac address on the tab
+
 $show_mac_addr=true;
-$form_name="show_all";
-$table_name="list_show_all";
-$page = $protectedPost['list_show_all_page'];
-$length = $protectedPost['list_show_all_length'];
-$start = $protectedPost['list_show_all_page']*$protectedPost['list_show_all_length'];
+$tab_options['form_name']="show_all";
+$tab_options['table_name']="list_show_all";
+$length = $protectedPost['length'];
+$start = $protectedPost['start'];
+$draw = $protectedPost['draw'];
 $tab_options['LIMIT']=array("START"=>$start,"LENGTH"=>$length);
+$tab_options['DRAW']=$draw;
 if (isset($protectedGet['filtre']) and !isset($protectedPost['FILTRE'])){
 	if (substr($protectedGet['filtre'], 0, 9) == "a.fields_"){
 		$values_accountinfo=accountinfo_tab(substr($protectedGet['filtre'], 9));
@@ -53,7 +69,6 @@ if (!isset($protectedPost['tri_'.$table_name]) or $protectedPost['tri_'.$table_n
 }
 echo open_form($form_name);
 //BEGIN SHOW ACCOUNTINFO
-
 $accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
 if (array($accountinfo_value['TAB_OPTIONS']))
 	$tab_options=$accountinfo_value['TAB_OPTIONS'];
@@ -106,7 +121,6 @@ if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
 	$list_fields['CHECK']='h.ID';
 		$list_fields['SUP']='h.ID';
 }
-	
 $list_col_cant_del=array('SUP'=>'SUP','NAME'=>'NAME','CHECK'=>'CHECK');
 $default_fields2= array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL'],$l->g(46)=>$l->g(46),'NAME'=>'NAME',$l->g(23)=>$l->g(23),
 						$l->g(24)=>$l->g(24),$l->g(25)=>$l->g(25),$l->g(568)=>$l->g(568),
@@ -130,17 +144,16 @@ $queryDetails  .=" group by h.id";
 $tab_options['LBL_POPUP']['SUP']='name';
 $tab_options['LBL']['SUP']=$l->g(122);
 $tab_options['TRI']['DATE']['e.bdate']="%m/%d/%Y";
-$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
-if ($result_exist != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+
+$entete = ajaxtab_entete_fixe($list_fields,$tab_options);
+//$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
+if ($entete != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}
-if (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-		echo "Ajax";
-}
-else{
-	echo "no ajax"	;
-
-}
 echo close_form();
+if ($ajax){
+	ob_end_clean();
+	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
+}
 ?>

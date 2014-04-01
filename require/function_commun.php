@@ -359,6 +359,7 @@ function html_header($no_java=false){
 	echo "<body bottommargin='0' leftmargin='0' topmargin='0' rightmargin='0' marginheight='0' marginwidth='0'>";
 
 }
+
 function strip_tags_array($value='')
 {
 	$value = is_array($value) ? array_map('strip_tags_array', $value) : strip_tags($value,"<p><b><i><font><br><center>");
