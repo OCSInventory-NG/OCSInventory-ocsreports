@@ -28,13 +28,14 @@ require_once('require/function_admininfo.php');
 //show mac address on the tab
 
 $show_mac_addr=true;
+
+//$length = $protectedPost['length'];
+//$start = $protectedPost['start'];
+//$draw = $protectedPost['draw'];
+$tab_options=$protectedPost;
 $tab_options['form_name']="show_all";
 $tab_options['table_name']="list_show_all";
-$length = $protectedPost['length'];
-$start = $protectedPost['start'];
-$draw = $protectedPost['draw'];
-$tab_options['LIMIT']=array("START"=>$start,"LENGTH"=>$length);
-$tab_options['DRAW']=$draw;
+//$tab_options['DRAW']=$draw;
 if (isset($protectedGet['filtre']) and !isset($protectedPost['FILTRE'])){
 	if (substr($protectedGet['filtre'], 0, 9) == "a.fields_"){
 		$values_accountinfo=accountinfo_tab(substr($protectedGet['filtre'], 9));

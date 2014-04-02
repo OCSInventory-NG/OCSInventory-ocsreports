@@ -280,7 +280,10 @@ function xml_decode( $txt ) {
 	echo "</tr>
     </thead>
     </table></div></div>";	
-	return TRUE;
+	
+	
+
+	
 }
 
 
@@ -1069,49 +1072,44 @@ function lbl_column($list_fields){
 
 
 
+function ajaxfiltre($queryDetails,$tab_options){
+	if ($tab_options["search"]['value']!=""){
+		$search = $tab_options["search"]['value'];
+		$filter= preg_split("/where/i", $queryDetails);
+		foreach ($filter as  $key => $row){
+			if ($key > 0){
+				$queryDetails .= " WHERE ";
+				foreach($tab_options['visible'] as $index=>$column){
+					if ($index == 0){
+						$filter =  "( ".$tab_options['columns'][$column]['name']." LIKE '%%".$search."%%' ) ";
+					}
+					else{
+						$filter .= " OR  ( ".$tab_options['columns'][$column]['name']." LIKE '%%".$search."%%' ) ";
+					}
+				}
+				$queryDetails .= $filter." AND ".$row;
+			}
+			else {
+				$queryDetails = $row;
+			}
+		}
+	}
+	return $queryDetails;
+}
 
 
 
 
 function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,$width='100',$tab_options='')
 {
-	//print_r($GLOBALS);
+	//print_r($tab_options);
 	global $protectedPost,$l,$pages_refs;
 	$link=$_SESSION['OCS']["readServer"];
-	
-	//print_r($tab_options);
-	
-	
-	
-	
-	
-	
 	//FILTRAGE RESULTAT RECHERCHE 
-	
-	
-	//print_r(explode("where", $queryDetails));
-	
-	
-	
-	
-	
-	
-	
-	//filter the results
-// 	if (isset($tab_options['FILTRE'])){
-// 		$Details=filtre($tab_options['FILTRE'],$form_name,$queryDetails,$tab_options['ARG_SQL'],$tab_options['ARG_SQL_COUNT']);
-// 		$queryDetails=$Details['SQL'];
-// 		if (is_array($Details['ARG']))
-// 			$tab_options['ARG_SQL']=$Details['ARG'];
-// 		if (is_array($Details['ARG_COUNT']))
-// 			$tab_options['ARG_SQL_COUNT']=$Details['ARG_COUNT'];
-// 	}
-	
+	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
 	//by default, sort by column 1
 	if ($protectedPost[$table_name.'_sort'] == "" or (!in_array ($protectedPost[$table_name.'_sort'], $list_fields) and !in_array ($protectedPost[$table_name.'_sort'], $tab_options['AS'])))
 		$protectedPost[$table_name.'_sort']=1;
-	
-
 	//by default, sort ASC
 	if ($protectedPost[$table_name.'_sens'] == "")
 		$protectedPost[$table_name.'_sens']='ASC';
@@ -1133,13 +1131,13 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 	}else
 		$queryDetails.= " order by ".$protectedPost['tri_'.$table_name]." ".$protectedPost['sens_'.$table_name];
 	
-	if (isset($tab_options['LIMIT']['START'])){
-		$limit = " limit ".$tab_options['LIMIT']['START']." , ";
+	if (isset($tab_options['start'])){
+		$limit = " limit ".$tab_options['start']." , ";
 	}else{
 	$limit = " limit 0 , ";
 		}
-	if (isset($tab_options['LIMIT']['LENGTH'])){
-		$limit .= $tab_options['LIMIT']['LENGTH']." ";
+	if (isset($tab_options['length'])){
+		$limit .= $tab_options['length']." ";
 		}else{
 			$limit .= "10 ";
 		}
@@ -1193,17 +1191,21 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		$queryDetails=substr_replace(ltrim($queryDetails),"SELECT SQL_CALC_FOUND_ROWS ", 0 , 6);
 		//echo($queryDetails);
 	
-	
+	//echo $queryDetails;
 		if (isset($tab_options['ARG_SQL']))
 			$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
 		else
 			$resultDetails = mysql2_query_secure($queryDetails, $link);
 
-			
+		if($resultDetails){
 			while($row = mysqli_fetch_assoc($resultDetails))
 			{
 				$rows[] = $row;
 			}			
+		}
+		else{
+			$rows = false;
+		}
 		// Data set length after filtering
 		$resFilterLength = mysql2_query_secure("SELECT FOUND_ROWS()",$link);
 		$recordsFiltered = mysqli_fetch_row($resFilterLength);
@@ -1220,10 +1222,33 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		);
 		$resTotalLength = mysqli_fetch_row($resTotalLength);
 		$recordsTotal = intval($resTotalLength[0]);
-		//echo $queryDetails;
-			$res =  array("draw"=> $tab_options['DRAW'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows);
-		echo json_encode($res);
+	//	echo $queryDetails;
+		if ($rows){
+			$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows);
+		}
+		else{
+			$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>0);
+		}
+			echo json_encode($res);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //fonction qui permet de g�rer les donn�es � afficher dans le tableau
