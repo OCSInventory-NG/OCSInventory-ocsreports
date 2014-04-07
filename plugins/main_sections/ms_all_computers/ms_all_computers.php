@@ -14,19 +14,15 @@
 
 
 if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
-		//print_r($GLOBALS);
-		//echo $protectedPost['length'];
 	ob_start();
 	$ajax = true;
 }
 else{
 	$ajax=false;
-
 }
 require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
 //show mac address on the tab
-
 $show_mac_addr=true;
 
 //$length = $protectedPost['length'];
@@ -90,7 +86,7 @@ $list_fields2 = array ( $l->g(46) => "h.lastdate",
 					   $l->g(350) => "h.processort",
 					   $l->g(351) => "h.processorn",
 					   $l->g(50) => "h.swap",
-					   $l->g(352) => "lastcome",
+					   $l->g(352) => "h.lastcome",
 					   $l->g(353) => "h.quality",
 					   $l->g(354) => "h.fidelity",
 					   $l->g(53) => "h.description",
@@ -119,7 +115,7 @@ $tab_options['FILTRE']=array_flip($list_fields);
 $tab_options['FILTRE']['h.name']=$l->g(23);
 asort($tab_options['FILTRE']); 
 if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
-	$list_fields['CHECK']='h.ID';
+		$list_fields['CHECK']='h.ID';
 		$list_fields['SUP']='h.ID';
 }
 $list_col_cant_del=array('SUP'=>'SUP','NAME'=>'NAME','CHECK'=>'CHECK');
@@ -147,14 +143,14 @@ $tab_options['LBL']['SUP']=$l->g(122);
 $tab_options['TRI']['DATE']['e.bdate']="%m/%d/%Y";
 
 $entete = ajaxtab_entete_fixe($list_fields,$tab_options);
-//$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
-if ($entete != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+
+if ($entete and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}
 echo close_form();
 if ($ajax){
 	ob_end_clean();
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
+	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
 }
 ?>

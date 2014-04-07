@@ -78,6 +78,11 @@ table.dataTable td.center,
 table.dataTable td.dataTables_empty {
   text-align: center;
 }
+
+table.dataTable td.dataTables_empty {
+	background-color:black;
+}
+
 table.dataTable th.right,
 table.dataTable td.right {
   text-align: right;
