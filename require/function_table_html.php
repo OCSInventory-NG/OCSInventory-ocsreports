@@ -199,18 +199,33 @@ function xml_decode( $txt ) {
  * $lien = array ; => liste des colonnes qui ont le tri
  * 
  */
- function ajaxtab_entete_fixe($columns,$option=array())
+ function ajaxtab_entete_fixe($columns,$default_fields,$option=array(),$list_col_cant_del)
 {
-	global $protectedGet,$l;
+	global $protectedGet,$l,$pages_refs;
+	if(!empty($_COOKIE['list_show_all_col'])){
+		$visible_col = unserialize($_COOKIE['list_show_all_col']);
+	}
+ 	$input = $columns;
+	foreach($list_col_cant_del as $col_cant_del){
+		unset($input[$col_cant_del]);
+	}
+	$list_col_can_del = $input;
 	$columns_unique = array_unique($columns);
-	echo "<div align=center>";
-	if ($protectedGet['sens'] == "ASC"){
-	$sens="DESC";
+	?>
+	<select id="select_col">
+	<?php 
+	foreach($list_col_can_del as $key => $col){
+		$name = explode('.',$col);
+		$value = end($name);
+		echo "<option value='$value'>$key</option>";
 	}
-	else
-	{
-	$sens="ASC";
-	}
+	?>
+	</select>	
+	<button type="button" id="disp">Show/Hide</button>
+	<div align=center>
+	<?php
+	if (!isset($option['no_download_result']))
+		echo $l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
 	?>
 	<script>	
 	function changerCouleur(obj, state) {
@@ -249,21 +264,49 @@ function xml_decode( $txt ) {
             	        	}
             	        });
             	        d.visible = visible;
-            	    },
+                	    },
+
             	},
         		"columns": [
-    	        		<?php foreach($columns as $key=>$column){
+    	        		<?php 
+    	        		$index = 0;
+    	        		foreach($columns as $key=>$column){
+    	        			if (!empty($visible_col)){
+    	        				if ((in_array($index,$visible_col))) {
+    	        					$visible = 'true';
+    	        				}
+    	        				else{
+    	        					$visible = 'false';
+    	        				}
+    	        				$index ++;
+    	        			}
+    	        			else{
+    	        				if((in_array($key,$default_fields))||(in_array($key,$list_col_cant_del))){
+    	        					$visible = 'true';
+    	        				}
+    	        				else{
+    	        					$visible = 'false';	 
+    	        				}		
+    	        			}
     	        			if (!array_key_exists($key, $columns_unique)){
-    	        				echo  "{ 'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  false  ,'searchable': false}, " ;
+    	        				echo  "{ 'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  false  ,'searchable': false, 'visible' : ".$visible."}, " ;
     	        			}	
     	        			else{		
-    	        					$name = explode('.',$column);
-    	        					echo  "{ 'data' : '".end($name)."' , 'class':'".end($name)."', 'name':'".$column."', 'defaultContent': ''}, " ;
-    	        				}
+    	        				$name = explode('.',$column);
+    	        				echo  "{ 'data' : '".end($name)."' , 'class':'".end($name)."', 'name':'".$column."', 'defaultContent': '', 'visible' : ".$visible."}, " ;
+    	        			}
    	        			}
     	        		?>
     	        ],
+    	       
+    	        
        		});
+
+			$("body").on("click","#disp",function(){
+					var col = "."+$("#select_col").val();
+					$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
+					$(table_id).DataTable().ajax.reload();
+				});
 	});
 	
 	</script>
@@ -1260,8 +1303,9 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 }
 
 
-function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
+function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
+	setcookie($tab_options['table_name']."_col",serialize($tab_options['visible']),time()+31536000);
 	global $protectedPost,$l,$pages_refs;
 	$form_name=$tab_options['form_name'];
 	$link=$_SESSION['OCS']["readServer"];
@@ -1316,7 +1360,6 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 			}
 		}
 	} */
-
 		$queryDetails=substr_replace(ltrim($queryDetails),"SELECT SQL_CALC_FOUND_ROWS ", 0 , 6);
 		if (isset($tab_options['ARG_SQL']))
 			$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
@@ -1342,7 +1385,7 @@ function tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$qu
 		);
 		$resTotalLength = mysqli_fetch_row($resTotalLength);
 		$recordsTotal = intval($resTotalLength[0]);
-			$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows);
+			$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows );
 			echo json_encode($res);
 }
 

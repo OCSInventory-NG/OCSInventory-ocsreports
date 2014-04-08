@@ -16,7 +16,7 @@ function array_merge_values($arr,$arr2){
 }
 
 
-
+print_r($_SESSION['OCS']);
 if ($protectedPost['RESET']){ 
 	unset($protectedPost['NAME_RESTRICT']);
 	unset($protectedPost['NBRE']);

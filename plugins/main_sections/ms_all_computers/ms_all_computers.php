@@ -9,12 +9,14 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-
-
-
+// if ($protectedPost['visible'])
+// $_SESSION['OCS']['list_show_all']['columns']['visible']=$protectedPost['visible'];
+//var_dump($_SESSION['visible']);
 
 if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	//session_id($_COOKIE['PHPSESSID']);
 	ob_start();
+	
 	$ajax = true;
 }
 else{
@@ -141,9 +143,7 @@ $queryDetails  .=" group by h.id";
 $tab_options['LBL_POPUP']['SUP']='name';
 $tab_options['LBL']['SUP']=$l->g(122);
 $tab_options['TRI']['DATE']['e.bdate']="%m/%d/%Y";
-
-$entete = ajaxtab_entete_fixe($list_fields,$tab_options);
-
+$entete = ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 if ($entete and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
@@ -151,6 +151,6 @@ if ($entete and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
 echo close_form();
 if ($ajax){
 	ob_end_clean();
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
 }
 ?>

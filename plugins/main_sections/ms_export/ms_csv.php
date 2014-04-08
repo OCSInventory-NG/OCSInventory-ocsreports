@@ -161,7 +161,6 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 
 	$filename="export.csv";
 }
-	
 if ($toBeWritten != ""){
 	// iexplorer problem
 	if( ini_get("zlib.output-compression"))
