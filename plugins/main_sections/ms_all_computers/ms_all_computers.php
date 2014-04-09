@@ -9,12 +9,8 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-// if ($protectedPost['visible'])
-// $_SESSION['OCS']['list_show_all']['columns']['visible']=$protectedPost['visible'];
-//var_dump($_SESSION['visible']);
 
 if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
-	//session_id($_COOKIE['PHPSESSID']);
 	ob_start();
 	
 	$ajax = true;
@@ -24,12 +20,9 @@ else{
 }
 require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
+
 //show mac address on the tab
 $show_mac_addr=true;
-
-//$length = $protectedPost['length'];
-//$start = $protectedPost['start'];
-//$draw = $protectedPost['draw'];
 $tab_options=$protectedPost;
 $tab_options['form_name']="show_all";
 $tab_options['table_name']="list_show_all";

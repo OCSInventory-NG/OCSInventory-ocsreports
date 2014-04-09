@@ -21,6 +21,8 @@ table.dataTable {
 table.dataTable thead th,
 table.dataTable tfoot th {
   font-weight: bold;
+  
+  font-size: 0.8em;
   text-align:center;
 }
 table.dataTable thead th,

@@ -345,7 +345,6 @@ function html_header($no_java=false){
   		//js and css for Datatables 
   		echo "<script type='text/javascript' src='libraries/datatable/media/js/jquery.dataTables.js'></script>";
   		echo "<link rel='stylesheet' type='text/css' href='libraries/datatable/media/css/jquery.dataTables.css'>";
-  		
   			
   		
 		if (isset($_SESSION['OCS']['JAVASCRIPT'])){

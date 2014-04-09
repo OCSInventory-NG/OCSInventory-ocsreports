@@ -96,12 +96,18 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 		
 	}
 
-
+	
 	if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])
 		$arg=$_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
 	else
 		$arg='';	
-	$result=mysql2_query_secure($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']], $link,$arg);
+	
+	if(isset($protectedGet['nolimit'])){
+		$result=mysql2_query_secure($_SESSION['OCS']['csv']['SQLNOLIMIT'][$protectedGet['tablename']], $link,$arg);
+	}
+	else{
+		$result=mysql2_query_secure($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']], $link,$arg);
+	}
 	$i=0;
 	require_once('require/function_admininfo.php');
 	$inter=interprete_accountinfo($col,array());
@@ -132,6 +138,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 			
 			if (!$found) {
 				// find values case-insensitive
+				
 				foreach ($data_fixe[$cont['ID']] as $key => $val) {
 					if (strtolower($key) == strtolower($field) && isset($data_fixe[$cont['ID']][$key])) {
 						$data[$i][$lbl]=$data_fixe[$cont['ID']][$key];

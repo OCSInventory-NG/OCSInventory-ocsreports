@@ -201,9 +201,10 @@ function xml_decode( $txt ) {
  */
  function ajaxtab_entete_fixe($columns,$default_fields,$option=array(),$list_col_cant_del)
 {
+	
 	global $protectedGet,$l,$pages_refs;
-	if(!empty($_COOKIE['list_show_all_col'])){
-		$visible_col = unserialize($_COOKIE['list_show_all_col']);
+	if(!empty($_COOKIE[$option['table_name']."_col"])){
+		$visible_col = unserialize($_COOKIE[$option['table_name']."_col"]);
 	}
  	$input = $columns;
 	foreach($list_col_cant_del as $col_cant_del){
@@ -224,8 +225,10 @@ function xml_decode( $txt ) {
 	<button type="button" id="disp">Show/Hide</button>
 	<div align=center>
 	<?php
-	if (!isset($option['no_download_result']))
-		echo $l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
+	if (!isset($option['no_download_result'])){
+		echo "<label id='infopage_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a><br>";
+		echo "<label id='infototal_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&nolimit=true&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
+	}
 	?>
 	<script>	
 	function changerCouleur(obj, state) {
@@ -307,6 +310,19 @@ function xml_decode( $txt ) {
 					$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
 					$(table_id).DataTable().ajax.reload();
 				});
+			<?php
+					if (!isset($option['no_download_result'])){
+						?>
+			$(table_id).on( 'draw.dt', function () {
+				var start = $(table_id).DataTable().page.info().start +1 ;
+				var end = $(table_id).DataTable().page.info().end;
+				var total = $(table_id).DataTable().page.info().recordsDisplay;
+				$('#infopage_'+table_name).text(start+"-"+end);
+				$('#infototal_'+table_name).text(total);
+			} );
+			<?php 
+			}
+			?>
 	});
 	
 	</script>
@@ -1202,7 +1218,8 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 	
 	global $protectedPost,$l,$pages_refs;
 	
-	
+	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
+	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
 	if(!(is_null($resultDetails))){
 	while($row = mysqli_fetch_assoc($resultDetails))
 	{
@@ -1291,6 +1308,9 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 						require_once("function_graphic.php");
 						$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
 					}
+					if (!empty($tab_options['REPLACE_VALUE'][$key])){
+						$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
+					}
 			}
 		}
 		$rows[] = $row;
@@ -1311,8 +1331,9 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	$link=$_SESSION['OCS']["readServer"];
 	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
 	$queryDetails .= ajaxsort($tab_options);	
+	$_SESSION['OCS']['csv']['SQLNOLIMIT'][$tab_options['table_name']]=$queryDetails;
 	$queryDetails .= ajaxlimit($tab_options);
-	
+	$_SESSION['OCS']['csv']['SQL'][$tab_options['table_name']]=$queryDetails;
 	
 	
 	/* 	
@@ -1360,6 +1381,11 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			}
 		}
 	} */
+	
+
+	if (isset($tab_options['ARG_SQL']))
+		$_SESSION['OCS']['csv']['ARG'][$tab_options['table_name']]=$tab_options['ARG_SQL'];
+	
 		$queryDetails=substr_replace(ltrim($queryDetails),"SELECT SQL_CALC_FOUND_ROWS ", 0 , 6);
 		if (isset($tab_options['ARG_SQL']))
 			$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
@@ -1388,13 +1414,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows );
 			echo json_encode($res);
 }
-
-
-
-
-
-
-
 
 
 
