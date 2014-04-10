@@ -8,6 +8,16 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
+
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	ob_start();
+	$tab_options=$protectedPost;
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
 function array_merge_values($arr,$arr2){
 	foreach ($arr2 as $key=>$values){
 		array_push($arr,$values);		
@@ -15,8 +25,6 @@ function array_merge_values($arr,$arr2){
 	return $arr;
 }
 
-
-print_r($_SESSION['OCS']);
 if ($protectedPost['RESET']){ 
 	unset($protectedPost['NAME_RESTRICT']);
 	unset($protectedPost['NBRE']);
@@ -250,7 +258,9 @@ if (isset($sql)){
 	$tab_options['LBL']['name']=$l->g(847);
 	$tab_options['LBL']['nbre']=$l->g(1120);
 	$tab_options['ARG_SQL']=$sql['ARG'];
-	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options); 
+	$tab_options['form_name']=$form_name;
+	$tab_options['table_name']=$table_name;
+	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 }
 
 echo "<br><div class='mvt_bordure'>";
@@ -268,4 +278,11 @@ echo "<br><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input 
 echo '</div>';
 echo '</div>';
 echo close_form();
+
+
+
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+}
 ?>

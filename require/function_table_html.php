@@ -201,8 +201,22 @@ function xml_decode( $txt ) {
  */
  function ajaxtab_entete_fixe($columns,$default_fields,$option=array(),$list_col_cant_del)
 {
-	
-	global $protectedGet,$l,$pages_refs;
+	global $protectedGet,$protectedPost,$l,$pages_refs;
+	$lbl_column=array("SUP"=>$l->g(122),
+									  "MODIF"=>$l->g(115),
+									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>");
+	$columns_special = array("CHECK",
+							"SUP",
+							"GROUP_NAME",
+							"NULL",
+							"MODIF",
+							"SELECT",
+							"ZIP",
+							"OTHER",
+							"STAT",
+							"ACTIVE",
+							"SHOWACTIVE",
+							"MAC");
 	if(!empty($_COOKIE[$option['table_name']."_col"])){
 		$visible_col = unserialize($_COOKIE[$option['table_name']."_col"]);
 	}
@@ -212,7 +226,11 @@ function xml_decode( $txt ) {
 	}
 	$list_col_can_del = $input;
 	$columns_unique = array_unique($columns);
+	
+	$address = isset($_SERVER['QUERY_STRING'])? "?".$_SERVER['QUERY_STRING']: "";
+	
 	?>
+	<div>
 	<select id="select_col">
 	<?php 
 	foreach($list_col_can_del as $key => $col){
@@ -223,6 +241,7 @@ function xml_decode( $txt ) {
 	?>
 	</select>	
 	<button type="button" id="disp">Show/Hide</button>
+	</div>
 	<div align=center>
 	<?php
 	if (!isset($option['no_download_result'])){
@@ -255,7 +274,7 @@ function xml_decode( $txt ) {
 	        "processing": true,
 	        "serverSide": true,
         	"ajax": {
-            	 'url':'index.php?function=visu_computers&no_header=true&no_footer=true',
+            	 'url':'<?php echo $address; ?>&no_header=true&no_footer=true',
             	 "type": "POST",
             	 "data": function ( d ) {
             	        d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER'];?> = $(csrfid).val();
@@ -266,6 +285,8 @@ function xml_decode( $txt ) {
 								visible.push(index);
             	        	}
             	        });
+            	        	d.onglet = $('#onglet').val();
+            	        	d.ACCOUNTINFO_CHOISE = $('#ACCOUNTINFO_CHOISE').val();
             	        d.visible = visible;
                 	    },
 
@@ -291,7 +312,7 @@ function xml_decode( $txt ) {
     	        					$visible = 'false';	 
     	        				}		
     	        			}
-    	        			if (!array_key_exists($key, $columns_unique)){
+    	        			if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)){
     	        				echo  "{ 'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  false  ,'searchable': false, 'visible' : ".$visible."}, " ;
     	        			}	
     	        			else{		
@@ -311,15 +332,15 @@ function xml_decode( $txt ) {
 					$(table_id).DataTable().ajax.reload();
 				});
 			<?php
-					if (!isset($option['no_download_result'])){
-						?>
-			$(table_id).on( 'draw.dt', function () {
-				var start = $(table_id).DataTable().page.info().start +1 ;
-				var end = $(table_id).DataTable().page.info().end;
-				var total = $(table_id).DataTable().page.info().recordsDisplay;
-				$('#infopage_'+table_name).text(start+"-"+end);
-				$('#infototal_'+table_name).text(total);
-			} );
+			if (!isset($option['no_download_result'])){
+			?>
+				$(table_id).on( 'draw.dt', function () {
+					var start = $(table_id).DataTable().page.info().start +1 ;
+					var end = $(table_id).DataTable().page.info().end;
+					var total = $(table_id).DataTable().page.info().recordsDisplay;
+					$('#infopage_'+table_name).text(start+"-"+end);
+					$('#infototal_'+table_name).text(total);
+				});
 			<?php 
 			}
 			?>
@@ -329,12 +350,16 @@ function xml_decode( $txt ) {
 	<?php
 	if ($titre != "")
 		printEnTete_tab($titre);
-	echo"<div id='test'></div>";
 	echo "<br><div class='tableContainer'><table id='".$option['table_name']."' class='display'><thead><tr>";
 		//titre du tableau
 	foreach($columns as $k=>$v)
 	{		
-			echo "<th><font >".$k."</font></th>";		
+		if(array_key_exists($k,$lbl_column)){
+			echo "<th><font >".$lbl_column[$k]."</font></th>";
+		}
+		else{
+			echo "<th><font >".$k."</font></th>";	
+		}	
 	}
 	echo "</tr>
     </thead>
@@ -1173,7 +1198,8 @@ function ajaxfiltre($queryDetails,$tab_options){
 function ajaxsort(&$tab_options){
 	$tri = $tab_options['columns'][$tab_options['order']['0']['column']]['name'];
 	$sens = $tab_options['order']['0']['dir'];
-	
+	$sort ="";
+	if (!empty($tri) && !empty($sens)){
 	$tab_iplike=array('H.IPADDR','IPADDRESS','IP','IPADDR');
 	if (in_array(mb_strtoupper($tri),$tab_iplike)){
 		$sort= " order by INET_ATON(".$tri.") ".$sens;
@@ -1194,7 +1220,7 @@ function ajaxsort(&$tab_options){
 		$sort= " order by ".$tri." ".$sens;
 	}
 	
-	
+	}
 	return $sort;
 	
 }
@@ -1217,7 +1243,6 @@ function ajaxlimit($tab_options){
 function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options){
 	
 	global $protectedPost,$l,$pages_refs;
-	
 	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
 	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
 	if(!(is_null($resultDetails))){
@@ -1246,12 +1271,10 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 								$lbl_msg=$tab_options['LBL_POPUP'][$key];
 						}else
 							$lbl_msg=$l->g(640)." ".$value_of_field;
-	
 						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/supp.png></a>";
 					}
 					break;
 				case "NAME":
-						
 					if ( !isset($tab_options['NO_NAME']['NAME'])){
 						$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
 						if ($row['ID'])
@@ -1264,49 +1287,49 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 					break;
 						
 				case "GROUP_NAME":
-					$row[$column]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
+					$row[$key]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
 					break;
 						
 				case "NULL":
-					$row[$column]="&nbsp";
+					$row[$key]="&nbsp";
 					break;
 				case "MODIF":
 					if (!isset($tab_options['MODIF']['IMG']))
 						$image="image/modif_tab.png";
 					else
 						$image=$tab_options['MODIF']['IMG'];
-					$row[$column]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
+					$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
 					break;
 				case "SELECT":
-					$row[$column]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
+					$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
 					$lien = 'KO';
 					break;
 				case "OTHER":
-					$row[$column]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
+					$row[$key]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
 					break;
 				case "ZIP":
-					$row[$column]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\",\"compress\",\"\")><img src=image/archives.png></a>";
+					$row[$key]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\",\"compress\",\"\")><img src=image/archives.png></a>";
 					break;
 				case "STAT":
-					$row[$column]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\",\"stats\",\"\")><img src='image/stat.png'></a>";
+					$row[$key]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\",\"stats\",\"\")><img src='image/stat.png'></a>";
 					break;
 				case "ACTIVE":
-					$row[$column]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\")'><img src='image/activer.png' ></a>";
+					$row[$key]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\")'><img src='image/activer.png' ></a>";
 					break;
 				case "SHOWACTIVE":
-					$row[$column]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$row['FILEID']."' target=_blank>".$value_of_field."</a>";
+					$row[$key]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$row['FILEID']."' target=_blank>".$value_of_field."</a>";
 					break;
 				case "MAC":
 					if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
 						$constr=$_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))];
 					else
 						$constr="<font color=red>".$l->g(885)."</font>";
-					$row[$column]=$value_of_field." (<small>".$constr."</small>)";
+					$row[$key]=$value_of_field." (<small>".$constr."</small>)";
 					break;
 				default :
 					if (substr($key,0,11) == "PERCENT_BAR"){
 						require_once("function_graphic.php");
-						$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
+						$row[$key]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
 					}
 					if (!empty($tab_options['REPLACE_VALUE'][$key])){
 						$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
@@ -1325,6 +1348,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
+	
 	setcookie($tab_options['table_name']."_col",serialize($tab_options['visible']),time()+31536000);
 	global $protectedPost,$l,$pages_refs;
 	$form_name=$tab_options['form_name'];
@@ -1391,6 +1415,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
 		else
 			$resultDetails = mysql2_query_secure($queryDetails, $link);
+		
 		$rows = ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options);
 
 		

@@ -9,6 +9,19 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+$tab_options=$protectedPost;
+$tab_options['form_name']="affich_bios";
+$tab_options['table_name']="affich_bios";
+
+
 	print_item_header($l->g(273));
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
@@ -22,9 +35,6 @@
 		$arg=array($protectedPost['OTHER']);
 		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 	}
-
-	$form_name="affich_bios";
-	$table_name=$form_name;
 	echo open_form($form_name);
 	$list_fields=array($l->g(36) => 'SSN',
 					   $l->g(64) => 'SMANUFACTURER',
@@ -62,7 +72,11 @@
 			$queryDetails .= $value.",";		
 	}
 	$queryDetails  = substr($queryDetails,0,-1)." FROM bios WHERE (hardware_id=$systemid)";
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
+	if ($ajax){
+		ob_end_clean();
+		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
+	}
 	echo close_form();
 
 ?>
