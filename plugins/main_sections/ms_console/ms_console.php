@@ -9,6 +9,15 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
+
 require_once('require/function_config_generale.php');
 $form_name = "console";
 if ($protectedPost['RESET'] == 'FIRST'){
@@ -85,6 +94,8 @@ if ($data_tab['DATA'] != array()){
 					}
 				}else
 				$i=1;
+				$tab_options=$protectedPost;
+				$tab_options['form_name']=$form_name;
 				if (trim($protectedPost['GROUP']) != "" and is_numeric($protectedPost['GROUP']) and trim($protectedPost['MESSAGE'])!=""){
 					$sql="insert into config (NAME,IVALUE,TVALUE) values ('%s',%s,'%s')";
 					$arg=array("GUI_REPORT_MSG".$i,$protectedPost['GROUP'],$protectedPost['MESSAGE']);
@@ -96,6 +107,7 @@ if ($data_tab['DATA'] != array()){
 					}
 		
 			$table_name=$protectedPost['onglet'];
+			$tab_options['table_name']=$table_name;			
 			$list_fields=array('GROUP_NAME'=>'h.NAME', 
 							   $l->g(915) => 'tvalue',
 							   'SUP'=>'CNAME');
@@ -109,7 +121,7 @@ if ($data_tab['DATA'] != array()){
 			$tab_options['ARG_SQL']=$sql['ARG'];
 			$tab_options['LBL_POPUP']['SUP']=$l->g(919);
 			$tab_options['LBL']['GROUP_NAME']=$l->g(49);
-			tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);		
+			ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);	
 			echo "<input type='submit' name='NEW' id='NEW' value='".$l->g(617)."' align=center>";
 			if ($protectedPost["NEW"]){
 					$name_field=array("GROUP","MESSAGE");
@@ -159,7 +171,9 @@ if ((isset($protectedPost["SHOW_ME"]) and $protectedPost["SHOW_ME"] != "")){
 	$array_fields=array_values($table_field[$protectedPost["SHOW_ME"]]);
 	echo "<input type=hidden name='SHOW_ME_SAUV' value='".$protectedPost["SHOW_ME"]."' id='SHOW_ME_SAUV'>";
 	$table_name=$protectedPost["SHOW_ME"];
-	
+	$tab_options=$protectedPost;
+	$tab_options['form_name']=$form_name;
+	$tab_options['table_name']=$table_name;	
 	if (!isset($sql_field[$protectedPost["SHOW_ME"]]['SQL']))
 		$sql_field[$protectedPost["SHOW_ME"]]['SQL']="select %s from %s %s";
 	
@@ -196,8 +210,7 @@ if ((isset($protectedPost["SHOW_ME"]) and $protectedPost["SHOW_ME"] != "")){
 		$tab_options['LIEN_LBL'][$l->g(1120)].=$multi_search[$protectedPost["SHOW_ME"]]['FIELD']."&comp=".$multi_search[$protectedPost["SHOW_ME"]]['COMP']."&values=";
 		$tab_options['LIEN_CHAMP'][$l->g(1120)]=$array_fields[0];		
 	}
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql_field[$protectedPost["SHOW_ME"]]['SQL'],$form_name,50,$tab_options);
-	
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 }
 echo close_form();
 //show messages
@@ -226,6 +239,19 @@ if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
 			msg_warning(implode('<br>',$msg_group));
 		}
 	}
+}
+
+
+if ($ajax){
+	ob_end_clean();
+	
+	if (isset($sql_field[$protectedPost["SHOW_ME"]]['SQL'])){
+		tab_req($list_fields,$default_fields,$list_col_cant_del,$sql_field[$protectedPost["SHOW_ME"]]['SQL'],$tab_options);
+	}
+	else{
+		tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+	}
+	
 }
 ?>
 

@@ -9,6 +9,15 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
+
 /*
  * New version of dico page 
  * 
@@ -121,6 +130,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 			if($key != 'SUP' and $key != 'CHECK')
 			$querydico .= $value.',';		
 		} 
+		error_log($list_cat[$protectedPost['onglet_soft']]);
 		$querydico=substr($querydico,0,-1);
 		$querydico .= " from dico_soft left join ".$table." cache on dico_soft.extracted=cache.name
 				 where formatted='".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$list_cat[$protectedPost['onglet_soft']])."' ".$search_count." group by EXTRACTED";
@@ -271,11 +281,14 @@ if ($protectedPost['onglet'] == 'UNCHANGED'){
 }
 if (isset($querydico)){
 	$_SESSION['OCS']['query_dico']=$querydico;
+	$tab_options=$protectedPost;
+	$tab_options['form_name']=$form_name;
+	$tab_options['table_name']=$table_name;
 	$tab_options['LIEN_LBL']['QTE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_multi_search'].'&prov=allsoft&value=';
 	$tab_options['LIEN_CHAMP']['QTE']='NAME';
 	$tab_options['LBL']['SOFT_NAME']=$l->g(382);
 	$tab_options['LBL']['QTE']=$l->g(55);
-	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querydico,$form_name,80,$tab_options); 
+	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 }
 echo "</td></tr>";
 $search=show_modif(stripslashes($protectedPost['search']),"search",'0');
@@ -313,4 +326,12 @@ echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 echo "<input type='hidden' name='TRANS' id='TRANS' value=''>";
 echo "<input type='hidden' name='SUP_CAT' id='SUP_CAT' value=''>";
 echo close_form();
+
+
+
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$querydico,$tab_options);
+}
+
 ?>

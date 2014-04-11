@@ -249,12 +249,14 @@ function xml_decode( $txt ) {
 	}
 	?>
 	<div align=center>
+	<div id="csv_download" style="display: none">
 	<?php
 	if (!isset($option['no_download_result'])){
-		echo "<label id='infopage_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a><br>";
-		echo "<label id='infototal_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&nolimit=true&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a>";
+		echo "<div id='csv_page'><label id='infopage_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a></div>";
+		echo "<div id='csv_total'><label id='infototal_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&nolimit=true&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a></div>";
 	}
 	?>
+	</div>
 	<script>	
 	function changerCouleur(obj, state) {
 			if (state == true) {
@@ -291,7 +293,10 @@ function xml_decode( $txt ) {
 								visible.push(index);
             	        	}
             	        });
+            	        	d.onglet_soft = $('#onglet_soft').val();
+            	        	d.old_onglet_soft = $('#old_onglet_soft').val();
             	        	d.onglet = $('#onglet').val();
+            	        	d.old_onglet = $('#old_onglet').val();
             	        	d.ACCOUNTINFO_CHOISE = $('#ACCOUNTINFO_CHOISE').val();
             	        d.visible = visible;
                 	    },
@@ -345,8 +350,23 @@ function xml_decode( $txt ) {
 					var start = $(table_id).DataTable().page.info().start +1 ;
 					var end = $(table_id).DataTable().page.info().end;
 					var total = $(table_id).DataTable().page.info().recordsDisplay;
-					$('#infopage_'+table_name).text(start+"-"+end);
-					$('#infototal_'+table_name).text(total);
+					if (total == 0){
+						$('#csv_download').hide();
+					}
+					else{
+						if (end != total || start != 1){
+							$('#csv_page').show();
+							$('#infopage_'+table_name).text(start+"-"+end);
+						}
+						else{
+							$('#csv_page').hide();
+						}
+											
+						$('#infototal_'+table_name).text(total);
+						$('#csv_download').show();
+						
+						
+					}
 				});
 			<?php 
 			}
@@ -1355,7 +1375,6 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
-	
 	setcookie($tab_options['table_name']."_col",serialize($tab_options['visible']),time()+31536000);
 	global $protectedPost,$l,$pages_refs;
 	$form_name=$tab_options['form_name'];
