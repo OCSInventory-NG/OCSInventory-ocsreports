@@ -202,6 +202,7 @@ function xml_decode( $txt ) {
  function ajaxtab_entete_fixe($columns,$default_fields,$option=array(),$list_col_cant_del)
 {
 	global $protectedGet,$protectedPost,$l,$pages_refs;
+	
 	$lbl_column=array("SUP"=>$l->g(122),
 									  "MODIF"=>$l->g(115),
 									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>");
@@ -217,18 +218,20 @@ function xml_decode( $txt ) {
 							"ACTIVE",
 							"SHOWACTIVE",
 							"MAC");
+	
 	if(!empty($_COOKIE[$option['table_name']."_col"])){
 		$visible_col = unserialize($_COOKIE[$option['table_name']."_col"]);
 	}
  	$input = $columns;
-	foreach($list_col_cant_del as $col_cant_del){
+	foreach($list_col_cant_del as $key=>$col_cant_del){
 		unset($input[$col_cant_del]);
+		unset($input[$key]);
 	}
 	$list_col_can_del = $input;
 	$columns_unique = array_unique($columns);
-	
 	$address = isset($_SERVER['QUERY_STRING'])? "?".$_SERVER['QUERY_STRING']: "";
 	
+	if (!empty($list_col_can_del)){
 	?>
 	<div>
 	<select id="select_col">
@@ -242,6 +245,9 @@ function xml_decode( $txt ) {
 	</select>	
 	<button type="button" id="disp">Show/Hide</button>
 	</div>
+	<?php 
+	}
+	?>
 	<div align=center>
 	<?php
 	if (!isset($option['no_download_result'])){
@@ -305,13 +311,14 @@ function xml_decode( $txt ) {
     	        				$index ++;
     	        			}
     	        			else{
-    	        				if((in_array($key,$default_fields))||(in_array($key,$list_col_cant_del))){
+    	        				if((in_array($key,$default_fields))||(in_array($key,$list_col_cant_del))|| in_array($key, $columns_special)||array_key_exists($key,$default_fields)){
     	        					$visible = 'true';
     	        				}
     	        				else{
     	        					$visible = 'false';	 
     	        				}		
     	        			}
+    	   					
     	        			if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)){
     	        				echo  "{ 'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  false  ,'searchable': false, 'visible' : ".$visible."}, " ;
     	        			}	
@@ -348,6 +355,7 @@ function xml_decode( $txt ) {
 	
 	</script>
 	<?php
+	
 	if ($titre != "")
 		printEnTete_tab($titre);
 	echo "<br><div class='tableContainer'><table id='".$option['table_name']."' class='display'><thead><tr>";
@@ -364,7 +372,6 @@ function xml_decode( $txt ) {
 	echo "</tr>
     </thead>
     </table></div></div>";
-		
 	echo "<input type='hidden' id='tri_".$table_name."' name='tri_".$table_name."' value='".$protectedPost['tri_'.$table_name]."'>";
 	echo "<input type='hidden' id='tri_fixe' name='tri_fixe' value='".$protectedPost['tri_fixe']."'>";
 	echo "<input type='hidden' id='sens_".$table_name."' name='sens_".$table_name."' value='".$protectedPost['sens_'.$table_name]."'>";
