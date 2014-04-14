@@ -8,7 +8,6 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-
 echo "<LINK REL='StyleSheet' TYPE='text/css' HREF='css/graphic.css'>\n";
 
 function percent_bar($status)

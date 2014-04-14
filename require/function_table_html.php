@@ -200,12 +200,15 @@ function xml_decode( $txt ) {
  * 
  */
  function ajaxtab_entete_fixe($columns,$default_fields,$option=array(),$list_col_cant_del)
-{
+ {
 	global $protectedGet,$protectedPost,$l,$pages_refs;
-	
 	$lbl_column=array("SUP"=>$l->g(122),
 									  "MODIF"=>$l->g(115),
 									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>");
+	if(!empty($option['LBL'])){
+		$lbl_column= array_merge($lbl_column,$option['LBL']);
+	}
+	
 	$columns_special = array("CHECK",
 							"SUP",
 							"GROUP_NAME",
@@ -217,7 +220,8 @@ function xml_decode( $txt ) {
 							"STAT",
 							"ACTIVE",
 							"SHOWACTIVE",
-							"MAC");
+							"MAC",
+							"MD5_DEVICEID");
 	
 	if(!empty($_COOKIE[$option['table_name']."_col"])){
 		$visible_col = unserialize($_COOKIE[$option['table_name']."_col"]);
@@ -239,7 +243,12 @@ function xml_decode( $txt ) {
 	foreach($list_col_can_del as $key => $col){
 		$name = explode('.',$col);
 		$value = end($name);
-		echo "<option value='$value'>$key</option>";
+		if(array_key_exists($key,$lbl_column)){
+			echo "<option value='$value'>$lbl_column[$key]</option>";
+		}
+		else{
+			echo "<option value='$value'>$key</option>";
+		}
 	}
 	?>
 	</select>	
@@ -297,7 +306,11 @@ function xml_decode( $txt ) {
             	        	d.old_onglet_soft = $('#old_onglet_soft').val();
             	        	d.onglet = $('#onglet').val();
             	        	d.old_onglet = $('#old_onglet').val();
+            	        	d.detail = $('#detail').val();
+            	        	d.old_detail = $('#old_detail').val();
+            	        	d.systemid = $('#systemid').val();
             	        	d.ACCOUNTINFO_CHOISE = $('#ACCOUNTINFO_CHOISE').val();
+            	        	d.DPT_CHOISE = $('#DPT_CHOISE').val();
             	        d.visible = visible;
                 	    },
 
@@ -323,13 +336,19 @@ function xml_decode( $txt ) {
     	        					$visible = 'false';	 
     	        				}		
     	        			}
-    	   					
+    	        			if (in_array($key,$columns_special)||!empty($option['NO_TRI'][$key])){
+    	        				$orderable = 'false';
+    	        			}
+    	        			else{
+    	        				$orderable = 'true';
+    	        			}
     	        			if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)){
-    	        				echo  "{ 'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  false  ,'searchable': false, 'visible' : ".$visible."}, " ;
+    	        				echo  "{ 'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  ".$orderable.",'searchable': false, 'visible' : ".$visible."}, \n" ;
     	        			}	
     	        			else{		
     	        				$name = explode('.',$column);
-    	        				echo  "{ 'data' : '".end($name)."' , 'class':'".end($name)."', 'name':'".$column."', 'defaultContent': '', 'visible' : ".$visible."}, " ;
+    	        				$name = explode(' as ',end($name));
+    	        				echo  "{ 'data' : '".end($name)."' , 'class':'".end($name)."', 'name':'".$column."', 'defaultContent': '', 'orderable':  ".$orderable.", 'visible' : ".$visible."},\n " ;
     	        			}
    	        			}
     	        		?>
@@ -1223,8 +1242,20 @@ function ajaxfiltre($queryDetails,$tab_options){
 }
 
 function ajaxsort(&$tab_options){
-	$tri = $tab_options['columns'][$tab_options['order']['0']['column']]['name'];
-	$sens = $tab_options['order']['0']['dir'];
+	if ($tab_options['columns'][$tab_options['order']['0']['column']]['orderable'] == "true"){
+		$tri = $tab_options['columns'][$tab_options['order']['0']['column']]['name'];
+		$sens = $tab_options['order']['0']['dir'];
+		
+	}
+	else{
+		foreach($tab_options['columns'] as $column){
+			if ($column['orderable']=="true"){
+				$tri = $column['name'];
+				$sens = "asc";
+				break;
+			}
+		}
+	}
 	$sort ="";
 	if (!empty($tri) && !empty($sens)){
 	$tab_iplike=array('H.IPADDR','IPADDRESS','IP','IPADDR');
@@ -1268,11 +1299,11 @@ function ajaxlimit($tab_options){
 }
 
 function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options){
-	
+	//print_r($list_fields);
 	global $protectedPost,$l,$pages_refs;
 	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
 	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
-	if(!(is_null($resultDetails))){
+	if($resultDetails){
 	while($row = mysqli_fetch_assoc($resultDetails))
 	{
 		foreach($list_fields as $key=>$column){
@@ -1355,18 +1386,24 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 					break;
 				default :
 					if (substr($key,0,11) == "PERCENT_BAR"){
-						require_once("function_graphic.php");
-						$row[$key]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
+						//require_once("function_graphic.php");
+						//echo percent_bar($value_of_field);
+						$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
 					}
 					if (!empty($tab_options['REPLACE_VALUE'][$key])){
 						$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
+					}
+					if(!empty($tab_options['VALUE'][$key])){
+						$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
+					}
+					if (!empty($tab_options['LIEN_LBL'][$key])){
+						$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
 					}
 			}
 		}
 		$rows[] = $row;
 	}
-	}
-	if(is_null($rows)){
+	}else{
 		$rows = 0;
 	}
 	return $rows;
@@ -1375,6 +1412,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
+	
 	setcookie($tab_options['table_name']."_col",serialize($tab_options['visible']),time()+31536000);
 	global $protectedPost,$l,$pages_refs;
 	$form_name=$tab_options['form_name'];
@@ -1384,8 +1422,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	$_SESSION['OCS']['csv']['SQLNOLIMIT'][$tab_options['table_name']]=$queryDetails;
 	$queryDetails .= ajaxlimit($tab_options);
 	$_SESSION['OCS']['csv']['SQL'][$tab_options['table_name']]=$queryDetails;
-	
-	
 	/* 	
 		var_dump($_SESSION);
 	//search static values

@@ -9,6 +9,15 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+
+
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
 /*
  * Page des groupes
  * 
@@ -29,8 +38,8 @@ if($protectedPost['Valid_modif_x']){
 }
 //reset add static group
 if ($protectedPost['Reset_modif_x'] or ($protectedPost['onglet'] != $protectedPost['old_onglet'])) 
- unset($protectedPost['add_static_group']);
- 
+ unset($protectedPost['add_static_group']); 
+$tab_options=$protectedPost;
 //view only your computers
 if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES'){
 	$mycomputers=computer_list_by_tag();
@@ -53,6 +62,7 @@ if ($protectedPost['SUP_PROF'] != ""){
 }
 
 $form_name='groups';
+$tab_options['form_name']=$form_name;
 echo open_form($form_name);
 //view all groups
 if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
@@ -89,6 +99,7 @@ $tab_options['LBL']['CHECK']=$l->g(52);
 $tab_options['LBL']['GROUP_NAME']=$l->g(49);
 
 $table_name="LIST_GROUPS";
+$tab_options['table_name']=$table_name;
 $default_fields= array('GROUP_NAME'=>'GROUP_NAME','DESCRIPTION'=>'DESCRIPTION','CREATE'=>'CREATE','NBRE'=>'NBRE','SUP'=>'SUP','CHECK'=>'CHECK');
 $list_col_cant_del=array('GROUP_NAME'=>'GROUP_NAME','SUP'=>'SUP','CHECK'=>'CHECK');
 $query=prepare_sql_tab($list_fields,array('SUP','CHECK','NBRE'));
@@ -102,8 +113,8 @@ if ($protectedPost['onglet'] == "SERV"){
 	$sql_nb_mach="SELECT count(*) nb, group_id
 					from download_servers group by group_id";
 }else{ //requete pour les groupes 'normaux'
-	$querygroup .= " from hardware h,groups g";
-	$querygroup .="	where g.hardware_id=h.id and h.deviceid = '_SYSTEMGROUP_' ";
+	$querygroup .= " from hardware h,groups g ";
+	$querygroup .="where g.hardware_id=h.id and h.deviceid = '_SYSTEMGROUP_' ";
 	if ($protectedPost['onglet'] == "DYNA")
 		$querygroup.=" and ((g.request is not null and trim(g.request) != '') 
 							or (g.xmldef is not null and trim(g.xmldef) != ''))";
@@ -146,7 +157,7 @@ $tab_options['JAVA']['CHECK']['NAME']="NAME";
 $tab_options['JAVA']['CHECK']['QUESTION']=$l->g(811);
 $tab_options['FILTRE']=array('NAME'=>$l->g(679),'DESCRIPTION'=>$l->g(53));
 //affichage du tableau
-$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querygroup,$form_name,100,$tab_options); 
+$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 
 //if your profil is an admin groups, you can create one
 if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
@@ -174,4 +185,11 @@ if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['CONFIGURATIO
 echo '</div>';
 //fermeture du formulaire
 echo close_form();
+
+
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$querygroup,$tab_options);
+}
+
 ?>

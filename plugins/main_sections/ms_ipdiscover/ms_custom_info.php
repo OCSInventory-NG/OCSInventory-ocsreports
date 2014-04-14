@@ -9,7 +9,16 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
 $form_name='info_ipdiscover';
+$tab_options=$protectedPost;
+
 //$ban_head='no';
 //$no_error='YES';
 //recherche de la personne connect�e
@@ -180,7 +189,7 @@ else{ //affichage des p�riph�riques
 						   $l->g(275) => "h.osversion",
 						   $l->g(34) => "h.ipaddr",
 						   $l->g(557) => "h.userdomain");
-					 
+			$tab_options['TRI']['MD5']['MD5_DEVICEID']="deviceid";
 			$list_fields=array_merge ($list_fields,$list_fields2);
 			$sql=prepare_sql_tab($list_fields);
 			$tab_options['ARG_SQL']=$sql['ARG'];
@@ -213,9 +222,11 @@ else{ //affichage des p�riph�riques
 		
 		$list_col_cant_del=array($l->g(66)=>$l->g(66),'SUP'=>'SUP','MODIF'=>'MODIF');
 		$table_name="IPDISCOVER_".$protectedGet['prov'];
+		$tab_options['table_name']=$table_name;
 		$form_name=$table_name;
+		$tab_options['form_name']=$form_name;
 		echo open_form($form_name);		
-		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
+		$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 			$fipdisc = "ipdiscover-util.pl" ;
 		$values=look_config_default_values(array('IPDISCOVER_IPD_DIR'));
 		$IPD_DIR=$values['tvalue']['IPDISCOVER_IPD_DIR']."/ipd";
@@ -227,7 +238,6 @@ else{ //affichage des p�riph�riques
 			else if( ! is_writable($IPD_DIR) ) {
 				$msg_info=$l->g(342)." ".$fipdisc." (".$IPD_DIR.")";
 			}	
-			
 			if (!isset($msg_info)){
 				echo "<br><input type='button' onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_ipdiscover_analyse']."&head=1&rzo=".$protectedGet['value']."\",\"analyse\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=650\") name='analyse' value='".$l->g(317)."'>";
 				
@@ -237,5 +247,9 @@ else{ //affichage des p�riph�riques
 		}
 		echo close_form();
 	}
+}
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql,$tab_options);
 }
 ?>

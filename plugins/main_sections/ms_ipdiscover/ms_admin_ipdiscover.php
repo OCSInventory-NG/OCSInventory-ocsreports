@@ -9,10 +9,27 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
+
+
+
+
+
 require_once('require/function_ipdiscover.php');
 require_once('require/function_files.php');
 $form_name='admin_ipdiscover';
-$table_name='admin_ipdiscover';
+$table_name='admin_ipdiscover_'.$protectedPost['onglet'];
+$tab_options=$protectedPost;
+$tab_options['form_name']=$form_name;
+$tab_options['table_name']=$table_name;
 echo open_form($form_name);
 if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	if (!in_array($protectedGet['value'],$_SESSION['OCS']["subnet_ipdiscover"])){
@@ -121,7 +138,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			//$list_fields['SUP']='ID';	
 			$default_fields=$list_fields;
 			$list_col_cant_del=$list_fields;
-			$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
+			$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 			
 			echo "<input type = submit value='".$l->g(116)."' name='ADD_SUB'>";				
 		}
@@ -180,7 +197,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		$tab_options['LBL']['SUP']=$l->g(122);
 		$default_fields=$list_fields;
 		$list_col_cant_del=$list_fields;
-		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
+		$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 		
 		echo "<input type = submit value='".$l->g(116)."' name='ADD_TYPE'>";	
 	}
@@ -258,7 +275,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			$list_col_cant_del=$list_fields;
 			$tab_options['LBL_POPUP']['SUP']='NAME';
 			$tab_options['LBL']['SUP']=$l->g(122);
-			$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
+			$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 				
 			
 			echo "<input type = submit value='".$l->g(116)."' name='ADD_COMM'>";	
@@ -274,5 +291,11 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
  
 echo '</div>';
 echo close_form();
+
+
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql,$tab_options);
+}
 
 ?>

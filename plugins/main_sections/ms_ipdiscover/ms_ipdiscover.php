@@ -8,9 +8,18 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
+
 
 require_once('require/function_ipdiscover.php');
-
+require_once("require/function_graphic.php");
 if (!isset($_SESSION['OCS']["mac"]))
 	loadMac();
 	
@@ -18,6 +27,8 @@ printEntete($l->g(312));
 echo "<br>";	
 
  $form_name='ipdiscover';
+ $tab_options=$protectedPost;
+ $tab_options['form_name']=$form_name;
 echo open_form($form_name);
  	//delete a subnet
  	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
@@ -92,6 +103,7 @@ echo open_form($form_name);
 	$list_fields['SUP']='ID';	
 	$list_fields['PERCENT_BAR']='pourcentage';
 	$table_name="IPDISCOVER";
+	$tab_options['table_name']=$table_name;
 	$default_fields= $list_fields;
 	$list_col_cant_del=array('RSX'=>'RSX','SUP'=>'SUP');
 	$tab_options['LIEN_LBL']['INVENTORIE']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_info'].'&head=1&prov=inv&value=';
@@ -150,8 +162,15 @@ echo open_form($form_name);
 		echo "<br><br>";	
 		printEnTete($strEnTete);
 		echo "<br><br>";
-	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$arg['SQL'] ,$form_name,80,$tab_options); 
-
-}
+	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
+	}
 echo close_form();
+
+
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$arg['SQL'],$tab_options);
+}
+
+
 ?>

@@ -8,7 +8,16 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
 
+
+echo "test";
 require_once('require/function_computers.php');
 if ($protectedPost['DEL_ALL'] != ''){
 	foreach ($protectedPost as $key=>$value){
@@ -198,6 +207,9 @@ foreach($sql_id_doublon as $name=>$sql_value){
 }
 $form_name='doublon';
 $table_name='DOUBLON';
+$tab_options=$protectedPost;
+$tab_options['form_name']=$form_name;
+$tab_options['table_name']=$table_name;
 echo open_form($form_name);
 echo "<br><table BORDER='0' WIDTH = '25%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 foreach ($count_id as $lbl=>$count_value){
@@ -283,7 +295,7 @@ if ($protectedPost['detail'] != ''){
 	$tab_options['FILTRE']=array('NAME'=>$l->g(35),'b.ssn'=>$l->g(36),'n.macaddr'=>$l->g(95));
 	$tab_options['LBL_POPUP']['SUP']='NAME';
 	$tab_options['LBL']['SUP']=$l->g(122);
-	$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,'95',$tab_options);
+	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	if ($result_exist != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
@@ -293,5 +305,8 @@ if ($protectedPost['detail'] != ''){
 }
 echo close_form();
 
-
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+}
 ?>
