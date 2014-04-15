@@ -8,7 +8,17 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
 
+$tab_options=$protectedPost;
 /*
  * Rules for redistribution servers
  */
@@ -56,7 +66,10 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 				
 				$sql['SQL'] .= " from download_affect_rules ";
 				$tab_options['ARG_SQL']=$sql['ARG'];
-				$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options); 
+				
+				$tab_options['form_name']=$form_name;
+				$tab_options['table_name']=$table_name;
+				$result_exist= ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 				echo "<br>";
 		
 	//Modif a rule => get this values 
@@ -114,5 +127,10 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 	echo close_form();
 }else{
 	msg_info($l->g(1182));
+}
+
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
 }
 ?>

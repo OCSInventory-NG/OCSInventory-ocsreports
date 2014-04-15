@@ -9,6 +9,17 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2010 $$Author: Erwan Goalou
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
+
 require_once('require/function_telediff.php');
 require_once('require/function_computers.php');
 
@@ -31,6 +42,9 @@ if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES'){
 		die();
 	}
 }
+$tab_options=$protectedPost;
+
+
 //only for profils who can activate packet
 if (!$cant_active){	
 	if($protectedPost["SUP_PROF"] != "") {
@@ -48,8 +62,9 @@ if (!$cant_active){
 
 if (!$protectedPost['SHOW_SELECT']){
 $protectedPost['SHOW_SELECT']='download';
-
+$tab_options['SHOW_SELECT']='download';
 }
+
 echo "<BR>".show_modif(array('download'=>$l->g(990),'server'=>$l->g(991)),'SHOW_SELECT',2,$form_name)."<BR><BR>";
 
 //only for profils who can activate packet
@@ -118,6 +133,7 @@ $list_fields= array($l->g(475)=>'FILEID',
 							$l->g(462)." KB"=>'round(SIZE/1024,2)',
 							$l->g(25)=>'OSNAME',
 							$l->g(53)=>'COMMENT');
+print_r($list_fields);
 if ($show_stats){
 	$list_fields['NO_NOTIF']='NO_NOTIF';
 	$list_fields['NOTI']='NOTI';
@@ -243,8 +259,7 @@ if ($show_stats){
 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe_ter." group by FILEID";	
 		}
 	}
-}
-			
+}			
 $tab_options['COLOR']['ERR_']='RED';	
 $tab_options['COLOR']['SUCC']='GREEN';	
 $tab_options['COLOR']['NOTI']='GREY';	
@@ -252,7 +267,9 @@ $tab_options['COLOR']['NO_NOTIF']='BLACK';
 $tab_options['FILTRE']=array('FILEID'=>'Timestamp','NAME'=>$l->g(49));
 $tab_options['TYPE']['ZIP']=$protectedPost['SHOW_SELECT'];
 $tab_options['FIELD_REPLACE_VALUE_ALL_TIME']='FILEID';
-$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack['SQL'],$form_name,95,$tab_options); 
+$tab_options['form_name']=$form_name;
+$tab_options['table_name']=$table_name;
+$result_exist= ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 //only for profils who can activate packet
 if (!$cant_active){		
 	del_selection($form_name);
@@ -266,6 +283,9 @@ if (!$cant_active){
 echo close_form();
 
 
-
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$querypack['SQL'],$tab_options);
+}
 
 ?>

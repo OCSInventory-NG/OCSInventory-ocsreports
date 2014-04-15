@@ -13,9 +13,21 @@
  * Add tags for users
  * 
  */
- 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+} 
 
 $form_name='taguser';
+
+$tab_options=$protectedPost;
+$tab_options['form_name']=$form_name;
+
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
 $info_tag=find_info_accountinfo('1','COMPUTERS');
@@ -93,7 +105,8 @@ array_push($sql['ARG'],$protectedGet['id']);
 $tab_options['ARG_SQL']=$sql['ARG'];
 $tab_options['ARG_SQL_COUNT']=$protectedGet['id'];
 $tab_options['FILTRE']=array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL']['TAG']);
-tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,100,$tab_options);
+$tab_options['table_name']=$table_name;
+ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 //traitement par lot
 del_selection($form_name);
 	
@@ -109,5 +122,9 @@ echo $l->g(617)." ".$_SESSION['OCS']['TAG_LBL']['TAG'].": ".$select_choise;
 echo "<input type='submit' name='ADD_TAG' value='" . $l->g(13) . "'><br>";
 echo show_modif(array($l->g(358)),'use_generic',5,$form_name);
 echo close_form();
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+}
 ?>
 

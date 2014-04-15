@@ -13,11 +13,23 @@
  * Add groups for users
  * 
  */
- 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
 if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_users_groups';
 $table_name=$form_name;
+$tab_options=$protectedPost;
+$tab_options['form_name']=$form_name;
+$tab_options['table_name']=$table_name;
 $data_on[1]=$l->g(1059);
 $data_on[2]=$l->g(1060);
 echo "<br>";
@@ -49,7 +61,7 @@ if ($protectedPost['onglet'] == 1){
 	$list_col_cant_del=$list_fields;
 	$default_fields=$list_col_cant_del; 
 
-	$are_result=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,100,$tab_options);
+	$are_result=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	//traitement par lot
 	if ($are_result){
 		del_selection($form_name);
@@ -100,5 +112,9 @@ if ($protectedPost['onglet'] == 1){
 echo "</div>"; 
 echo close_form();
 
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
+}
 ?>
 

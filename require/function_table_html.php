@@ -219,13 +219,16 @@ function xml_decode( $txt ) {
 							"OTHER",
 							"STAT",
 							"ACTIVE",
-							"SHOWACTIVE",
 							"MAC",
-							"MD5_DEVICEID");
+							"MD5_DEVICEID",
+			$l->g(593),
+			$l->g(462)." KB"
+							);
 	
 	if(!empty($_COOKIE[$option['table_name']."_col"])){
 		$visible_col = unserialize($_COOKIE[$option['table_name']."_col"]);
 	}
+	
  	$input = $columns;
 	foreach($list_col_cant_del as $key=>$col_cant_del){
 		unset($input[$col_cant_del]);
@@ -242,6 +245,7 @@ function xml_decode( $txt ) {
 	<?php 
 	foreach($list_col_can_del as $key => $col){
 		$name = explode('.',$col);
+		$name = explode(' as ',end($name));
 		$value = end($name);
 		if(array_key_exists($key,$lbl_column)){
 			echo "<option value='$value'>$lbl_column[$key]</option>";
@@ -337,7 +341,7 @@ function xml_decode( $txt ) {
     	        				$orderable = 'true';
     	        			}
     	        			if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)){
-    	        				echo  "{ 'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  ".$orderable.",'searchable': false, 'visible' : ".$visible."}, \n" ;
+    	        				echo  "{'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  ".$orderable.",'searchable': false, 'visible' : ".$visible."}, \n" ;
     	        			}	
     	        			else{		
     	        				$name = explode('.',$column);
@@ -405,9 +409,6 @@ function xml_decode( $txt ) {
 	echo "</tr>
     </thead>
     </table></div></div>";
-	echo "<input type='hidden' id='tri_".$table_name."' name='tri_".$table_name."' value='".$protectedPost['tri_'.$table_name]."'>";
-	echo "<input type='hidden' id='tri_fixe' name='tri_fixe' value='".$protectedPost['tri_fixe']."'>";
-	echo "<input type='hidden' id='sens_".$table_name."' name='sens_".$table_name."' value='".$protectedPost['sens_'.$table_name]."'>";
 	echo "<input type='hidden' id='SUP_PROF' name='SUP_PROF' value=''>";
 	echo "<input type='hidden' id='MODIF' name='MODIF' value=''>";
 	echo "<input type='hidden' id='SELECT' name='SELECT' value=''>";
