@@ -302,16 +302,10 @@ function xml_decode( $txt ) {
 								visible.push(index);
             	        	}
             	        });
-            	        	d.onglet_soft = $('#onglet_soft').val();
-            	        	d.old_onglet_soft = $('#old_onglet_soft').val();
-            	        	d.onglet = $('#onglet').val();
-            	        	d.old_onglet = $('#old_onglet').val();
-            	        	d.detail = $('#detail').val();
-            	        	d.old_detail = $('#old_detail').val();
-            	        	d.systemid = $('#systemid').val();
-            	        	d.ACCOUNTINFO_CHOISE = $('#ACCOUNTINFO_CHOISE').val();
-            	        	d.DPT_CHOISE = $('#DPT_CHOISE').val();
+							var ocs=[];
+        	        	ocs.push($(form_name).serialize());
             	        d.visible = visible;
+            	        d.ocs = ocs;
                 	    },
 
             	},
@@ -1412,7 +1406,6 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
-	
 	setcookie($tab_options['table_name']."_col",serialize($tab_options['visible']),time()+31536000);
 	global $protectedPost,$l,$pages_refs;
 	$form_name=$tab_options['form_name'];
@@ -1422,6 +1415,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	$_SESSION['OCS']['csv']['SQLNOLIMIT'][$tab_options['table_name']]=$queryDetails;
 	$queryDetails .= ajaxlimit($tab_options);
 	$_SESSION['OCS']['csv']['SQL'][$tab_options['table_name']]=$queryDetails;
+	
 	/* 	
 		var_dump($_SESSION);
 	//search static values
@@ -1480,8 +1474,9 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		
 		$rows = ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options);
 
-		
-					
+		if (is_null($rows)){
+			$rows=0;
+		}
 		// Data set length after filtering
 		$resFilterLength = mysql2_query_secure("SELECT FOUND_ROWS()",$link);
 		$recordsFiltered = mysqli_fetch_row($resFilterLength);

@@ -8,11 +8,24 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){  
+		parse_str($protectedPost['ocs']['0'], $params);	
+		$protectedPost+=$params; 
+		
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
+
 
  require_once('require/function_table_html.php');
  require_once('require/function_files.php');
 //$data_on['GUI_LOGS']="Logs de l'interface";
 $protectedPost['onglet'] == "";
+$tab_options=$protectedPost;
 
 $Directory=$_SESSION['OCS']['LOG_DIR']."/";
 $data=ScanDirectory($Directory,"csv");
@@ -59,10 +72,17 @@ if (is_array($data)){
 		$tab_options['POPUP_SIZE']['name']="width=900,height=600";
 		printEntete($l->g(928));
 		echo "<br>";
-		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options);
+		$table_name = $form_name;
+		$tab_options['form_name']=$form_name;
+		$tab_options['table_name']=$table_name;
+		ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	echo close_form();
 
 }else
 	msg_warning($l->g(766));
 
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql,$tab_options);
+}
 ?>

@@ -9,6 +9,16 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
 //limite du nombre de r�sultat
 //sur les tables de cache
 //ex: software_name_cache, osname_cache...
@@ -64,6 +74,10 @@ if (isset($protectedGet['fields']) and (!isset($protectedPost['GET']) or $protec
 	}
 }
 
+
+$tab_options=$protectedPost;
+
+
 //need to delete this part... 
 if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protectedPost['GET'] == '')){
 	unset($protectedPost);
@@ -118,6 +132,8 @@ if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protecte
 	$protectedPost['GET']=$protectedGet['prov'];
 }
 //end need to delete this part...
+$tab_options=$protectedPost;
+
 
 //initialisation du tableau
 //$list_fields_calcul=array();
@@ -914,7 +930,9 @@ if ($list_id != "")	{
 	$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
 	//activation des LOGS	
 	$tab_options['LOGS']='SEARCH_RESULT';
-	tab_req($table_tabname,$list_fields,$default_fields,$list_col_cant_del,$queryDetails['SQL'],$form_name,'95',$tab_options);
+	$tab_options['form_name']=$form_name;
+	$tab_options['table_name']=$table_tabname;
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	add_trait_select($list_fonct,$list_id,$form_name,$list_pag);
 	echo "<input type='hidden' value='".$protectedPost['Valid-search']."' name='Valid-search'>";
 	
@@ -1285,3 +1303,12 @@ echo close_form();
 echo $l->g(358);
 echo "<br>";
 
+
+
+
+
+
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails['SQL'],$tab_options);
+}

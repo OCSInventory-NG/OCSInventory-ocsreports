@@ -9,6 +9,20 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$showit=true;
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
+$tab_options=$protectedPost;
+
+
 //first include: get tab name
 if (!$showit){
 	$data_on['LICENCES']=$l->g(6001);
@@ -60,7 +74,9 @@ if (!$showit){
 						";
 		if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
 			$queryDetails  .= "WHERE ".$_SESSION['OCS']["mesmachines"];
-		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,95,$tab_options);
+		$tab_options['form_name']=$form_name;
+		$tab_options['table_name']=$table_name;
+		$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	}
 	elseif($protectedPost["onglet"] == 'REPART_LICENCES'){
  
@@ -71,7 +87,7 @@ if (!$showit){
 		$default_fields= $list_fields;
 		$tab_options['LBL']['PERCENT_BAR']=$l->g(1125);
 		$queryDetails  = "select count(id) NB,officeversion,round(count(id)*100/(select count(id) from officepack)) POURC from officepack group by officeversion";
-		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);	
+		ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	}
 	elseif($protectedPost["onglet"] == 'NB_BY_LICENCES'){
  
@@ -134,9 +150,13 @@ if (!$showit){
 									  round(count(id)*100/ivalue) POURC 
 							from officepack left join config on tvalue=officekey
 							group by officekey";
-			tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
+			ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 		}		
 	}
+}
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
 }
 
 ?>
