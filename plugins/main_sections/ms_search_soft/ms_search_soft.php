@@ -5,9 +5,24 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
  
+ if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+ 	parse_str($protectedPost['ocs']['0'], $params);
+ 	$protectedPost+=$params;
+ 	ob_start();
+ 	$ajax = true;
+ }
+ else{
+ 	$ajax=false;
+ }
+ 
+ 
+ 
+ 
 
 require_once('require/fonction.inc.php');
 $form_name="search_soft";
+$tab_options=$protectedPost;
+$tab_options['form_name']=$form_name;
 echo open_form($form_name);
 //html
 /*echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n";
@@ -38,15 +53,15 @@ echo "\n".'<div id="fr">';
 // voir fonction.php
 if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_select'] != '')
 	 or (isset($protectedPost['logiciel_text']) and $protectedPost['logiciel_text'] != ''))                                   //logiciel du select name='logiciel'
-	{
-			echo "\n".'<input type="button" id="bouton-print" value="'.$l->g(214).'" onclick="imprime_zone(\'tableau\',\'fr\');">';
-		
+	{		
 	if (isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_select'] != '')
 	$logiciel=$protectedPost['logiciel_select'];
 	else
 	$logiciel=$protectedPost['logiciel_text'];
 	
 	$table_name=$form_name;
+	
+	$tab_options['table_name']=$table_name;
 	$list_fields=array('NAME' => 'h.NAME',
 					   'ip' => 'h.IPADDR',
 					   'domaine' => 'h.WORKGROUP',
@@ -76,7 +91,7 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	$tab_options['LBL']['sversion']=$l->g(848);
 	$tab_options['LBL']['sfold']=$l->g(849);
 	
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 
 	//creerTableau($logiciel);
 	}
@@ -84,4 +99,10 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 echo "\n".'</div>';
 
 echo close_form();
+
+
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
+}
 ?>	

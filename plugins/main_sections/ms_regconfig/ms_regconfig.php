@@ -8,7 +8,17 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	
+	
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
 require_once('require/function_regconfig.php');
 $tab_hidden=array();
 $tab['VIEW']=$l->g(1059);
@@ -30,11 +40,16 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 		$protectedPost['REGVALUE']=$row->REGVALUE;
 		$tab_hidden['id']=$row->ID;	
 }
-
+$tab_options=$protectedPost;
 onglet($tab,$form_name,"tab",4);
 echo '<div class="mlt_bordure" >';
+if ($ajax){
+	if (isset($protectedPost['REGKEY'])){
+		$protectedPost['tab']="VIEW";
+	}
+}
 if ($protectedPost['tab'] == 'VIEW'){
-
+	
 	// delete register key
 	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') {
 		// delete one row
@@ -73,10 +88,11 @@ if ($protectedPost['tab'] == 'VIEW'){
 	$tab_options['FILTRE']['REGVALUE']='REGVALUE';
 	$tab_options['REPLACE_VALUE']['REGTREE']=$list_registry_key;
 	$tab_options['LBL_POPUP']['SUP']='name';
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,95,$tab_options);		
+	$tab_options['form_name']=$form_name;
+	$tab_options['table_name']=$table_name;
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);		
 	$img['image/sup_search.png']=$l->g(162);
-	del_selection($form_name);
-	
+	del_selection($form_name);	
 }elseif ($protectedPost['tab'] == 'ADD'){
 
 	if (isset($protectedPost['Valid_modif_x'])){
@@ -121,5 +137,15 @@ if ($protectedPost['tab'] == 'VIEW'){
 }
 echo "</div>";
 echo close_form();
+
+
+if ($ajax){
+	ob_end_clean();
+	if(is_array($sql)){
+		tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+	}else{
+		tab_req($list_fields,$default_fields,$list_col_cant_del,$sql,$tab_options);
+	}
+}
 
 ?>

@@ -76,6 +76,8 @@ if ($protectedPost['onglet'] == 1){
 	$tab_options['LBL']['MACADDRESS']=$l->g(95);
 }elseif($protectedPost['onglet'] == 2){
 	$table_name="blacklist_serials";
+	$tab_options['form_name']=$form_name;
+	$tab_options['table_name']=$table_name;
 	$list_fields= array('ID'=>'ID',
 						'SERIAL'=>'SERIAL',
 						'SUP'=>'ID',
@@ -88,6 +90,8 @@ if ($protectedPost['onglet'] == 1){
 	$tab_options['LBL']['SERIAL']=$l->g(36);
 }elseif($protectedPost['onglet'] == 3){
 	$table_name="blacklist_subnet";
+	$tab_options['form_name']=$form_name;
+	$tab_options['table_name']=$table_name;
 	$list_fields= array('ID'=>'ID',
 						'SUBNET'=>'SUBNET',
 						'MASK'=>'MASK',

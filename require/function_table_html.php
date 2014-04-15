@@ -1406,6 +1406,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
+	//print_r($list_fields);
 	setcookie($tab_options['table_name']."_col",serialize($tab_options['visible']),time()+31536000);
 	global $protectedPost,$l,$pages_refs;
 	$form_name=$tab_options['form_name'];
