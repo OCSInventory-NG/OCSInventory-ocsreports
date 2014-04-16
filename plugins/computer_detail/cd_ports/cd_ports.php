@@ -9,12 +9,24 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+	if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+		parse_str($protectedPost['ocs']['0'], $params);
+		$protectedPost+=$params;
+		ob_start();
+		$ajax = true;
+	}
+	else{
+		$ajax=false;
+	}
 
 	print_item_header($l->g(272));
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
 	$form_name="affich_ports";
 	$table_name=$form_name;
+	$tab_options=$protectedPost;
+	$tab_options['form_name']=$form_name;
+	$tab_options['table_name']=$table_name;
 	echo open_form($form_name);
 	$list_fields=array($l->g(66) => 'TYPE',
 					   $l->g(49) => 'NAME',
@@ -24,6 +36,11 @@
 	$default_fields= $list_fields;
 //	$tab_options['FILTRE']=array('NAME'=>$l->g(49),'MANUFACTURER'=>$l->g(64),'TYPE'=>$l->g(66));
 	$queryDetails  = "SELECT * FROM ports WHERE (hardware_id=$systemid)";
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	echo close_form();
+	if ($ajax){
+		ob_end_clean();
+		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
+		ob_start();
+	}
 ?>

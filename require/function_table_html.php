@@ -1407,9 +1407,45 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
-	//print_r($list_fields);
-	setcookie($tab_options['table_name']."_col",serialize($tab_options['visible']),time()+31536000);
 	global $protectedPost,$l,$pages_refs;
+	//print_r($list_fields);
+	$columns_special = array("CHECK",
+			"SUP",
+			"GROUP_NAME",
+			"NULL",
+			"MODIF",
+			"SELECT",
+			"ZIP",
+			"OTHER",
+			"STAT",
+			"ACTIVE",
+			"MAC",
+			"MD5_DEVICEID",
+			$l->g(593),
+			$l->g(462)." KB"
+	);
+	$visible = 0;
+	foreach($list_fields as $key=>$column){
+		if((in_array($key,$default_fields))||(in_array($key,$list_col_cant_del))|| in_array($key, $columns_special)||array_key_exists($key,$default_fields)){
+			$visible++;
+		}
+	}
+	$data = serialize($tab_options['visible']);
+	if (count($tab_options['visible'])!=$visible){
+		setcookie($tab_options['table_name']."_col",$data,time()+31536000);
+	}
+	else{
+		if (isset($_COOKIE[$tab_options['table_name']."_col"])){
+			if($data !=  $_COOKIE[$tab_options['table_name']."_col"]){
+				setcookie($tab_options['table_name']."_col",$data,time()+31536000);
+			}
+			else{
+				setcookie($tab_options['table_name']."_col", FALSE, time() - 3600 );
+			}
+		}
+	}
+	
+	
 	$form_name=$tab_options['form_name'];
 	$link=$_SESSION['OCS']["readServer"];
 	$queryDetails = ajaxfiltre($queryDetails,$tab_options);

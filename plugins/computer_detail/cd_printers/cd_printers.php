@@ -19,12 +19,24 @@ NETWORK = 1 si impirmante sur le réseau, 0 si imprimante connectée localement
 1325 Résolution format horizontal/vertical
 */
 
+	if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+		parse_str($protectedPost['ocs']['0'], $params);
+		$protectedPost+=$params;
+		ob_start();
+		$ajax = true;
+	}
+	else{
+		$ajax=false;
+	}
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
 	print_item_header($l->g(79));
 	$form_name="affich_printers";
 	$table_name=$form_name;
 	echo open_form($form_name);
+	$tab_options=$protectedPost;
+	$tab_options['form_name']=$form_name;
+	$tab_options['table_name']=$table_name;
 	$list_fields=array($l->g(49) => 'NAME',
 					   $l->g(278) => 'DRIVER',
 					   $l->g(279) => 'PORT',
@@ -39,6 +51,11 @@ NETWORK = 1 si impirmante sur le réseau, 0 si imprimante connectée localement
 	$default_fields= $list_fields;
 	$tab_options['FILTRE'] = array_flip($list_fields);
 	$queryDetails  = "SELECT * FROM printers WHERE (hardware_id=$systemid)";
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name,80,$tab_options);
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	echo close_form();
+	if ($ajax){
+		ob_end_clean();
+		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
+		ob_start();
+	}
 ?>

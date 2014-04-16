@@ -10,11 +10,21 @@
 //====================================================================================
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 @session_start();
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
 require('require/function_opt_param.php');
 require('require/function_graphic.php');
 require_once('require/function_machine.php');
 require_once('require/function_files.php');
 //recherche des infos de la machine
+
 $item=info($protectedGet,$protectedPost['systemid']);
 if (!is_object($item)){
 	msg_error($item);
@@ -101,6 +111,7 @@ if (isset($protectedPost["WOL"]) and $protectedPost["WOL"] == 'WOL'
 		}	
 		
 }
+
 $bandeau=bandeau($data,$lbl_affich,$link);
 echo "<input type='hidden' id='WOL' name='WOL' value=''>";
 	echo close_form();
@@ -119,7 +130,6 @@ if (!isset($_SESSION['OCS']['DETAIL_COMPUTER'])){
 $list_plugins=$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_PLUGINS'];
 $list_lbl=$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_LBL'];
 $list_avail=$_SESSION['OCS']['DETAIL_COMPUTER']['LIST_AVAIL'];
-
 //par d�faut, on affiche les donn�es admininfo
 if (!isset($protectedGet['option'])){
 	$protectedGet['option']="cd_admininfo";
@@ -141,6 +151,10 @@ foreach ($list_plugins as $i => $plugin_name) {
 
 $menu_renderer = new BootstrapMenuRenderer();
 echo $menu_renderer->render($menu);
+if($ajax){
+	ob_end_clean();
+}
+
 $show_all = $list_plugins;
 if ($protectedGet['all'] == 1){
 	$protectedPost["pcparpage"]=1000000;
@@ -168,6 +182,9 @@ if(!isset($protectedGet["all"]))
 			<img width='60px' src='image/aff_all.png' title='".$l->g(215)."'></a></td>";
 		
 //echo "</tr></table>";
+if($ajax){
+	ob_end_clean();
+}
 
 
 ?>

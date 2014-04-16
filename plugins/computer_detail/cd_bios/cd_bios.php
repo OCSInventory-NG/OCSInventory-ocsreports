@@ -76,10 +76,11 @@ $tab_options['table_name']="affich_bios";
 	}
 	$queryDetails  = substr($queryDetails,0,-1)." FROM bios WHERE (hardware_id=$systemid)";
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
+	
+	echo close_form();
 	if ($ajax){
 		ob_end_clean();
 		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
+		ob_start();
 	}
-	echo close_form();
-
 ?>
