@@ -157,12 +157,12 @@ if($ajax){
 
 $show_all = $list_plugins;
 if ($protectedGet['all'] == 1){
-	$protectedPost["pcparpage"]=1000000;
 	$protectedPost['SHOW'] = 'NEVER_SHOW';
 	$show_all_column=true;
 	$tab_options['SAVE_CACHE']=true;
 	$list_plugins_4_all=0;
 	while (isset($show_all[$list_plugins_4_all])){
+		$protectedPost['computersectionrequest']=$show_all[$list_plugins_4_all];
 		include ($Directory."/".$show_all[$list_plugins_4_all]."/".$show_all[$list_plugins_4_all].".php");	
 		$list_plugins_4_all++;
 	}

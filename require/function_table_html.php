@@ -236,8 +236,16 @@ function xml_decode( $txt ) {
 	}
 	$list_col_can_del = $input;
 	$columns_unique = array_unique($columns);
-	$address = isset($_SERVER['QUERY_STRING'])? "?".$_SERVER['QUERY_STRING']: "";
-	
+	if (isset($_SERVER['QUERY_STRING'])){ 
+		if(isset($option['computersectionrequest'])){
+			parse_str($_SERVER['QUERY_STRING'],$addressoption);
+			unset($addressoption['all']);
+			$addressoption['option']=$option['computersectionrequest'];
+			$address = "?".http_build_query($addressoption);
+		}else{
+			$address = isset($_SERVER['QUERY_STRING'])? "?".$_SERVER['QUERY_STRING']: "";
+		}
+	}
 	if (!empty($list_col_can_del)){
 	?>
 	<div>
