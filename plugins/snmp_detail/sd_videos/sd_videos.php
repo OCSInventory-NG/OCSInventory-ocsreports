@@ -8,15 +8,23 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
-/*
- * 
- * Show sd_videos data
- * 
- * 
- */
-
-print_item_header($l->g(61));
+	/*
+	 * 
+	 * Show sd_videos data
+	 * 
+	 * 
+	 */
+	if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+		ob_end_clean();
+		parse_str($protectedPost['ocs']['0'], $params);
+		$protectedPost+=$params;
+		ob_start();
+		$ajax = true;
+	}
+	else{
+		$ajax=false;
+	}
+	print_item_header($l->g(61));
 	if (!isset($protectedPost['SHOW']))
 		$protectedPost['SHOW'] = 'NOSHOW';
 	$table_name="sd_videos";
@@ -30,7 +38,10 @@ print_item_header($l->g(61));
 	$sql['ARG'][]='snmp_videos';
 	$sql['ARG'][]=$systemid;
 	$tab_options['ARG_SQL']=$sql['ARG'];
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,80,$tab_options);
-
-
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
+	if ($ajax){
+		ob_end_clean();
+		tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+		ob_start();	
+	}
 ?>

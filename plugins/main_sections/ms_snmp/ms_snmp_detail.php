@@ -9,6 +9,19 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
+
+
+
 require('require/function_opt_param.php');
 require('require/function_graphic.php');
 require_once('require/function_files.php');
@@ -87,11 +100,20 @@ onglet($list_lbl,$form_name,"onglet_sd",10);
 $msq_tab_error='<small>N/A</small>';
 echo '<div class="mlt_bordure" >';
 if (isset($list_lbl[$protectedPost['onglet_sd']])){
-	if (file_exists($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php"))
+	
+	if (file_exists($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php")){
+	//	$protectedPost['computersectionrequest']=$protectedPost['onglet_sd'];
 		include ($Directory."/".$protectedPost['onglet_sd']."/".$protectedPost['onglet_sd'].".php");
+	}
 }
 echo "</div>";
 echo close_form();
+
+
+
+if ($ajax){
+	ob_end_clean();
+}
 /*$i=0;
 echo "<br><br><table width='90%' border=0 align='center'><tr align=center>";
 $nb_col=array(10,13,13);

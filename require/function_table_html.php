@@ -1219,27 +1219,62 @@ function lbl_column($list_fields){
 function ajaxfiltre($queryDetails,$tab_options){
 	if ($tab_options["search"]['value']!=""){
 		$search = $tab_options["search"]['value'];
-		$filter= preg_split("/where/i", $queryDetails);
-		foreach ($filter as  $key => $row){
-			if ($key > 0){
-				$queryDetails .= " WHERE ";
-				foreach($tab_options['visible'] as $index=>$column){
-					$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
-					if ($searchable){
-						if ($index == 0){
-							$filter =  "( ".$tab_options['columns'][$column]['name']." LIKE '%%".$search."%%' ) ";
+		$sqlword['WHERE']= preg_split("/where/i", $queryDetails);
+		$sqlword['GROUPBY']= preg_split("/group by/i", $queryDetails);
+		$sqlword['HAVING']= preg_split("/having/i", $queryDetails);
+		$sqlword['ORDERBY']= preg_split("/order by/i", $queryDetails);
+		foreach ($sqlword as $word=>$filter){
+			if (!empty($filter['1'])){
+				foreach ($filter as  $key => $row){
+					if ($key > 0){
+						$queryDetails .= " WHERE ";
+						foreach($tab_options['visible'] as $index=>$column){
+							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
+							if ($searchable){
+								$name = $tab_options['columns'][$column]['name'];
+								if (!empty($tab_options["replace_query_arg"][$name])){
+									$name= $tab_options["replace_query_arg"][$name];
+								}
+								if ($index == 0){
+									$filtertxt =  "( ".$name." LIKE '%%".$search."%%' ) ";
+								}
+								else{
+									$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+								}
+							}
+						}
+						if ($word == "WHERE"){
+							$queryDetails .= $filtertxt." AND ".$row;
 						}
 						else{
-							$filter .= " OR  ( ".$tab_options['columns'][$column]['name']." LIKE '%%".$search."%%' ) ";
+							$queryDetails .= $filtertxt."  ".$row;
 						}
+						return $queryDetails;
+					}
+					else {
+						$queryDetails = $row;
 					}
 				}
-				$queryDetails .= $filter." AND ".$row;
-			}
-			else {
-				$queryDetails = $row;
 			}
 		}
+		//REQUET SELECT FROM
+		$queryDetails .= " WHERE ";
+		foreach($tab_options['visible'] as $index=>$column){
+			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
+			if ($searchable){
+				$name = $tab_options['columns'][$column]['name'];
+				if (!empty($tab_options["replace_query_arg"][$name])){
+					$name= $tab_options["replace_query_arg"][$name];
+				}
+				if ($index == 0){
+					$filter =  "( ".$name." LIKE '%%".$search."%%' ) ";
+				}
+				else{
+					$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+				}
+			}
+		}
+		$queryDetails .= $filter;
 	}
 	return $queryDetails;
 }
@@ -1248,7 +1283,6 @@ function ajaxsort(&$tab_options){
 	if ($tab_options['columns'][$tab_options['order']['0']['column']]['orderable'] == "true"){
 		$tri = $tab_options['columns'][$tab_options['order']['0']['column']]['name'];
 		$sens = $tab_options['order']['0']['dir'];
-		
 	}
 	else{
 		foreach($tab_options['columns'] as $column){
@@ -1528,7 +1562,9 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		$recordsFiltered = mysqli_fetch_row($resFilterLength);
 		$recordsFiltered=intval($recordsFiltered[0]);
 		
-		
+		if($rows === 0){
+			$recordsFiltered = 0;
+		}
 		
 		$primaryKey="ID";
 		$table="hardware";
