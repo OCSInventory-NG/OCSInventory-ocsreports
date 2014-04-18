@@ -192,6 +192,7 @@ echo close_form();
 
 if ($ajax){
 	ob_end_clean();
+//print_r($tab_options);
 	tab_req($list_fields,$default_fields,$list_col_cant_del,$querygroup,$tab_options);
 }
 

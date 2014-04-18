@@ -185,20 +185,21 @@ else{ //affichage des p�riph�riques
 			//END SHOW ACCOUNTINFO
 			$list_fields2 = array ( $l->g(46) => "h.lastdate", 
 						   'NAME'=>'h.name',
-						   'MD5_DEVICEID' => "md5(deviceid) as MD5_DEVICEID",
 						   $l->g(24) => "h.userid",
 						   $l->g(25) => "h.osname",
 						   $l->g(33) => "h.workgroup",
 						   $l->g(275) => "h.osversion",
 						   $l->g(34) => "h.ipaddr",
 						   $l->g(557) => "h.userdomain");
-			$tab_options['TRI']['MD5']['MD5_DEVICEID']="deviceid";
+			
+			$tab_options["replace_query_arg"]['MD5_DEVICEID']=" md5(deviceid) ";
 			$list_fields=array_merge ($list_fields,$list_fields2);
 			$sql=prepare_sql_tab($list_fields);
+			$list_fields=array_merge($list_fields,array('MD5_DEVICEID' => "MD5_DEVICEID"));
 			$tab_options['ARG_SQL']=$sql['ARG'];
 			if($protectedGet['prov'] == "inv"){
 				$title=$l->g(1271);
-				$sql=$sql['SQL']." from accountinfo a,hardware h LEFT JOIN networks n ON n.hardware_id=h.id";
+				$sql=$sql['SQL'].",md5(deviceid) as MD5_DEVICEID from accountinfo a,hardware h LEFT JOIN networks n ON n.hardware_id=h.id";
 				$sql.=" where ipsubnet='%s' and status='Up' and a.hardware_id=h.id ";
 			}else{
 				$title=$l->g(492);

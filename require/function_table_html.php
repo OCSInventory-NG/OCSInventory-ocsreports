@@ -208,10 +208,10 @@ function xml_decode( $txt ) {
 	if(!empty($option['LBL'])){
 		$lbl_column= array_merge($lbl_column,$option['LBL']);
 	}
-	
 	$columns_special = array("CHECK",
 							"SUP",
-							"GROUP_NAME",
+							"NBRE",
+							//"GROUP_NAME",
 							"NULL",
 							"MODIF",
 							"SELECT",
@@ -220,7 +220,6 @@ function xml_decode( $txt ) {
 							"STAT",
 							"ACTIVE",
 							"MAC",
-							"MD5_DEVICEID",
 			$l->g(593),
 			$l->g(462)." KB"
 							);
@@ -1151,7 +1150,6 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 			
 		}
 	}
-	
 	if (is_array($data)){
 		if (!is_array($_SESSION['OCS']['col_tab'][$tab_name]))
 		$_SESSION['OCS']['col_tab'][$tab_name]=array();
@@ -1164,7 +1162,6 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	
 		}
 	}
-	
 	if (is_array ($list_rest)){
 		//$list_rest=lbl_column($list_rest);
 		$select_restCol= $l->g(349).": ".show_modif($list_rest,'restCol'.$tab_name,2,$form_name);
@@ -1228,6 +1225,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 				foreach ($filter as  $key => $row){
 					if ($key > 0){
 						$queryDetails .= " WHERE ";
+						$rang =0;
 						foreach($tab_options['visible'] as $index=>$column){
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 							if ($searchable){
@@ -1235,19 +1233,20 @@ function ajaxfiltre($queryDetails,$tab_options){
 								if (!empty($tab_options["replace_query_arg"][$name])){
 									$name= $tab_options["replace_query_arg"][$name];
 								}
-								if ($index == 0){
-									$filtertxt =  "( ".$name." LIKE '%%".$search."%%' ) ";
+								if ($rang == 0){
+									$filtertxt =  "(( ".$name." LIKE '%%".$search."%%' ) ";
 								}
 								else{
 									$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
 								}
+								$rang++;
 							}
 						}
 						if ($word == "WHERE"){
-							$queryDetails .= $filtertxt." AND ".$row;
+							$queryDetails .= $filtertxt.") AND ".$row;
 						}
 						else{
-							$queryDetails .= $filtertxt."  ".$row;
+							$queryDetails .= $filtertxt.")  ".$row;
 						}
 						return $queryDetails;
 					}
@@ -1267,21 +1266,27 @@ function ajaxfiltre($queryDetails,$tab_options){
 					$name= $tab_options["replace_query_arg"][$name];
 				}
 				if ($index == 0){
-					$filter =  "( ".$name." LIKE '%%".$search."%%' ) ";
+					$filter =  "(( ".$name." LIKE '%%".$search."%%' ) ";
 				}
 				else{
 					$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
 				}
+				
 			}
 		}
-		$queryDetails .= $filter;
+		$queryDetails .= $filter.") ";
 	}
 	return $queryDetails;
 }
 
 function ajaxsort(&$tab_options){
 	if ($tab_options['columns'][$tab_options['order']['0']['column']]['orderable'] == "true"){
-		$tri = $tab_options['columns'][$tab_options['order']['0']['column']]['name'];
+		$name = $tab_options['columns'][$tab_options['order']['0']['column']]['name'];
+		
+		if (!empty($tab_options["replace_query_arg"][$name])){
+			$name= $tab_options["replace_query_arg"][$name];
+		}
+		$tri = $name;
 		$sens = $tab_options['order']['0']['dir'];
 	}
 	else{
@@ -1431,7 +1436,11 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 						$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
 					}
 					if(!empty($tab_options['VALUE'][$key])){
-						$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
+						if(!empty($tab_options['LIEN_CHAMP'][$key])){
+							$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
+						}else{
+							$row[$column] = $tab_options['VALUE'][$key][$row['ID']];
+						}
 					}
 					if (!empty($tab_options['LIEN_LBL'][$key])){
 						$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
@@ -1541,8 +1550,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			}
 		}
 	} */
-	
-
 	if (isset($tab_options['ARG_SQL']))
 		$_SESSION['OCS']['csv']['ARG'][$tab_options['table_name']]=$tab_options['ARG_SQL'];
 	
@@ -1561,22 +1568,19 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		$resFilterLength = mysql2_query_secure("SELECT FOUND_ROWS()",$link);
 		$recordsFiltered = mysqli_fetch_row($resFilterLength);
 		$recordsFiltered=intval($recordsFiltered[0]);
-		
 		if($rows === 0){
 			$recordsFiltered = 0;
 		}
-		
-		$primaryKey="ID";
-		$table="hardware";
-		// Total data set length
-		$resTotalLength = mysql2_query_secure( 
-			"SELECT COUNT(`$primaryKey`)
-			 FROM   `$table`",$link
-		);
-		$resTotalLength = mysqli_fetch_row($resTotalLength);
-		$recordsTotal = intval($resTotalLength[0]);
-			$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows );
-			echo json_encode($res);
+		if (isset($_SESSION[$tab_options['table_name']]['nb_resultat'])){
+			$recordsTotal = $_SESSION[$tab_options['table_name']]['nb_resultat'];
+		}else{
+			$recordsTotal=$recordsFiltered;
+			if($tab_options["search"]['value']!=""){
+				$_SESSION[$tab_options['table_name']]['nb_resultat']=$recordsFiltered;
+			}
+		}
+		$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows );
+		echo json_encode($res);
 }
 
 

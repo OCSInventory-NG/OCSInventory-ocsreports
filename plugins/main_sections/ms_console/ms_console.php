@@ -12,7 +12,7 @@
 if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){  
 		parse_str($protectedPost['ocs']['0'], $params);	
 		$protectedPost+=$params; 
-		
+		print_r($protectedPost);
 	ob_start();
 	$ajax = true;
 }

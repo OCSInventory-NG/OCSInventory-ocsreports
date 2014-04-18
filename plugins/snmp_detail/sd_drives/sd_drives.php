@@ -40,6 +40,7 @@
 	//$list_fields['SUP']= 'ID';
 	$sql=prepare_sql_tab($list_fields);
 	$list_fields["PERCENT_BAR"] = 'CAPACITY';
+	$tab_options["replace_query_arg"]['CAPACITY']=" round(100-(FREE*100/TOTAL)) ";
 	$list_col_cant_del=$list_fields;
 	$default_fields= $list_fields;
 	$sql['SQL']  = $sql['SQL']." , round(100-(FREE*100/TOTAL)) AS CAPACITY FROM %s WHERE (snmp_id=%s)";
