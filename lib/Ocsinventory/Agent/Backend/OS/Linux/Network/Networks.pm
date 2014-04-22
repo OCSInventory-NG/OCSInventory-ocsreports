@@ -180,7 +180,7 @@ sub run {
             	$duplex = $settings->duplex()?"Full":"Half";
 	    	}
 		}
-        $ipaddress = $1 if ($line =~ /inet addr:(\S+)/i || $line =~ /inet (\S+)\s+netmask/i);
+        $ipaddress = $1 if ($line =~ /inet add?r:(\S+)/i || $line =~ /^\s*inet\s+(\S+)/ || $line =~ /inet (\S+)\s+netmask/i);
         $ipmask = $1 if ($line =~ /\S*mask:(\S+)/i || $line =~ /\S*netmask (\S+)\s/i);
         $macaddr = $1 if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i || $line =~ /ether\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i);
         $status = 1 if ($line =~ /^\s+UP\s/ || $line =~ /flags=.*(,|<)UP(,|>)/);
