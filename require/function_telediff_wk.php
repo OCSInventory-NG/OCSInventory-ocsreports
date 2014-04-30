@@ -760,7 +760,7 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 					$item_detailField = mysqli_fetch_object($result_detailField);
 					
 					//if there is no result or more than 1, don't show update table
-					$num_row=mysqli_numrows($result_detailField);
+					$num_row=mysqli_num_rows($result_detailField);
 					if ($num_row == 1){
 						$protectedPost['type']=$item_detailField->type;
 						$protectedPost['must_completed']=$item_detailField->must_completed;

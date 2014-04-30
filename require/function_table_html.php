@@ -1231,7 +1231,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 		foreach ($sqlword as $word=>$filter){
 			if (!empty($filter['1'])){
 				foreach ($filter as  $key => $row){
-					if ($key > 0){
+					if ($key == 1){
 						$queryDetails .= " WHERE ";
 						$rang =0;
 						foreach($tab_options['visible'] as $index=>$column){
@@ -1259,12 +1259,17 @@ function ajaxfiltre($queryDetails,$tab_options){
 						else{
 							$queryDetails .= $filtertxt.")  ".$row;
 						}
-						return $queryDetails;
 					}
 					else {
-						$queryDetails = $row;
+						if($key>1){
+						 $queryDetails.=" ".$word." ".$row;
+						}else{
+							$queryDetails = $row;
+						}
+						
 					}
 				}
+				return $queryDetails;
 			}
 		}
 		//REQUET SELECT FROM
