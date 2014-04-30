@@ -1236,6 +1236,9 @@ function ajaxfiltre($queryDetails,$tab_options){
 						$rang =0;
 						foreach($tab_options['visible'] as $index=>$column){
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
+							if (!empty($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])){
+								$searchable = false;
+							}
 							if ($searchable){
 								$name = $tab_options['columns'][$column]['name'];
 								if (!empty($tab_options["replace_query_arg"][$name])){
@@ -1481,8 +1484,8 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
+	
 	global $protectedPost,$l,$pages_refs;
-	//print_r($list_fields);
 	$columns_special = array("CHECK",
 			"SUP",
 			"GROUP_NAME",
@@ -1518,13 +1521,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 	
 	
-	$form_name=$tab_options['form_name'];
-	$link=$_SESSION['OCS']["readServer"];
-	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
-	$queryDetails .= ajaxsort($tab_options);	
-	$_SESSION['OCS']['csv']['SQLNOLIMIT'][$tab_options['table_name']]=$queryDetails;
-	$queryDetails .= ajaxlimit($tab_options);
-	$_SESSION['OCS']['csv']['SQL'][$tab_options['table_name']]=$queryDetails;
+
 	
 	$table_name = $tab_options['table_name'];
 	//search static values
@@ -1562,6 +1559,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				}
 				foreach ($item as $field=>$value){
 					if ($field != "HARDWARE_ID" and $field != "FILEID" and $field != "ID"){
+						$tab_options['NO_SEARCH'][$field]=$field;
 						//			echo "<br>champs => ".$field."   valeur => ".$value;
 						$tab_options['REPLACE_VALUE_ALL_TIME'][$field][$champs_index]=$value;
 					}
@@ -1569,7 +1567,16 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			}
 		}
 	} 
-	//print_r($tab_options['REPLACE_VALUE_ALL_TIME']);
+	
+	$form_name=$tab_options['form_name'];
+	$link=$_SESSION['OCS']["readServer"];
+	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
+	$queryDetails .= ajaxsort($tab_options);
+	$_SESSION['OCS']['csv']['SQLNOLIMIT'][$tab_options['table_name']]=$queryDetails;
+	$queryDetails .= ajaxlimit($tab_options);
+	$_SESSION['OCS']['csv']['SQL'][$tab_options['table_name']]=$queryDetails;
+	
+	
 	if (isset($tab_options['ARG_SQL']))
 		$_SESSION['OCS']['csv']['ARG'][$tab_options['table_name']]=$tab_options['ARG_SQL'];
 	
