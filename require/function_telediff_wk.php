@@ -865,7 +865,11 @@ if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
 
 function dde_show($form_name){
 		global $l,$protectedPost,$protectedGet,$pages_refs;
-		
+		$tab_options=$protectedPost;
+		$ajax = $tab_options['ajax_req'];
+		if ($ajax){
+			ob_start();
+		}
 		//suppression d'une demande
 		if(isset($protectedPost['SUP_PROF']) and is_numeric($protectedPost['SUP_PROF'])) {
 				//on récupère l'id du champ status
@@ -960,8 +964,14 @@ function dde_show($form_name){
 			$sql.=" and LOGIN_USER='".$_SESSION['OCS']['loggeduser']."' ";
 		elseif ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK'] == 'USER_GROUP')
 			$sql.=" and GROUP_USER='".$_SESSION['OCS']['user_group']."' ";
-		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,100,$tab_options);
-
+		
+		$tab_options['form_name']=$form_name;
+		$tab_options['table_name']=$table_name;
+		ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
+		if ($ajax){
+			ob_end_clean();
+			tab_req($list_fields,$default_fields,$list_col_cant_del,$sql,$tab_options);
+		}
 }
 
 
