@@ -1371,6 +1371,15 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 				$javascript="OnClick='confirme(\"".htmlspecialchars($row[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
 			}else
 				$javascript="";
+			if (isset($tab_options['AS'])){
+				foreach($tab_options['AS'] as $k=>$v){
+					$n = explode('.',$k);
+					$n = end($n);
+					$row[$n]= $row[$v];
+				}
+			}
+			
+			
 			switch($key){
 				case "CHECK":
 					if ($value_of_field!= '&nbsp;'){
