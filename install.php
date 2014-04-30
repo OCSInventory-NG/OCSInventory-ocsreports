@@ -499,7 +499,7 @@ if(!$nberr&&!$dejaLance&&!$errNorm)
 	echo "<br><center><font color=green><b>" . $l->g(2072) . "</b></font></center>";
 
 mysqli_query($link,"DELETE FROM files");
-$nbDeleted = mysqli_affected_rows();
+$nbDeleted = mysqli_affected_rows($link);
 if( $nbDeleted > 0)
 	echo "<br><center><font color=green><b>" . $l->g(2073) . "</b></font></center>";
 else
@@ -675,7 +675,7 @@ $cleanedNbr = 0;
 foreach( $tables as $laTable) {
 		
 	$reqSupp = "DELETE FROM $laTable WHERE hardware_id NOT IN (SELECT DISTINCT(id) FROM hardware)";
-	$resSupp = @mysqli_query( $reqSupp );
+	$resSupp = @mysqli_query($link, $reqSupp );
 	if( mysqli_errno() != "") {			
 		echo "</b></font></center><br><center><font color=red><b>" . $l->g(2091)   . 
 															   " " . $laTable      .
@@ -685,7 +685,7 @@ foreach( $tables as $laTable) {
 															  "</b></font></center>";
 	}
 	else {
-		if( $cleaned = mysqli_affected_rows() )
+		if( $cleaned = mysqli_affected_rows($link) )
 			$cleanedNbr += $cleaned;			
 	}
 	echo ".";
@@ -708,7 +708,7 @@ if( mysqli_errno() != "") {
 	                                                      ": " . mysqli_error() . "</b></font></center>";
 }
 else {
-	if( $cleaned = mysqli_affected_rows() )
+	if( $cleaned = mysqli_affected_rows($link) )
 		$cleanedNbr += $cleaned;			
 }
 
