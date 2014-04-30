@@ -1484,7 +1484,6 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
-	
 	global $protectedPost,$l,$pages_refs;
 	$columns_special = array("CHECK",
 			"SUP",
@@ -1522,6 +1521,15 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	
 	
 
+	if (isset($tab_options['REQUEST'])){
+		foreach ($tab_options['REQUEST'] as $field_name => $value){
+			$resultDetails = mysql2_query_secure($value, $_SESSION['OCS']["readServer"],$tab_options['ARG'][$field_name]);
+			while($item = mysqli_fetch_object($resultDetails)){
+				$tab_options['SHOW_ONLY'][$field_name][$item -> FIRST]=$item -> FIRST;
+			}
+		}
+	}
+	
 	
 	$table_name = $tab_options['table_name'];
 	//search static values
