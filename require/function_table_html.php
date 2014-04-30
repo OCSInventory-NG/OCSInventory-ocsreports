@@ -220,8 +220,6 @@ function xml_decode( $txt ) {
 							"STAT",
 							"ACTIVE",
 							"MAC",
-			$l->g(593),
-			$l->g(462)." KB"
 							);
 	
 	if(!empty($_COOKIE[$option['table_name']."_col"])){
@@ -254,6 +252,9 @@ function xml_decode( $txt ) {
 		$name = explode('.',$col);
 		$name = explode(' as ',end($name));
 		$value = end($name);
+		if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
+			$value = $option['REPLACE_COLUMN_KEY'][$key];
+		}
 		if(array_key_exists($key,$lbl_column)){
 			echo "<option value='$value'>$lbl_column[$key]</option>";
 		}
@@ -348,12 +349,19 @@ function xml_decode( $txt ) {
     	        				$orderable = 'true';
     	        			}
     	        			if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)){
+								if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
+									$key = $option['REPLACE_COLUMN_KEY'][$key];
+								}
     	        				echo  "{'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  ".$orderable.",'searchable': false, 'visible' : ".$visible."}, \n" ;
     	        			}	
     	        			else{		
     	        				$name = explode('.',$column);
     	        				$name = explode(' as ',end($name));
-    	        				echo  "{ 'data' : '".end($name)."' , 'class':'".end($name)."', 'name':'".$column."', 'defaultContent': '', 'orderable':  ".$orderable.", 'visible' : ".$visible."},\n " ;
+    	        				$name = end($name);
+    	        				if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
+										$name = $option['REPLACE_COLUMN_KEY'][$key];
+								}
+    	        				echo  "{ 'data' : '".$name."' , 'class':'".$name."', 'name':'".$column."', 'defaultContent': '', 'orderable':  ".$orderable.", 'visible' : ".$visible."},\n " ;
     	        			}
    	        			}
     	        		?>
@@ -1341,7 +1349,6 @@ function ajaxlimit($tab_options){
 }
 
 function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options){
-	//print_r($list_fields);
 	global $protectedPost,$l,$pages_refs;
 	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
 	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
@@ -1442,9 +1449,25 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 							$row[$column] = $tab_options['VALUE'][$key][$row['ID']];
 						}
 					}
+					if(!empty($tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]])){
+						$row[$column]=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
+					}
 					if (!empty($tab_options['LIEN_LBL'][$key])){
 						$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
 					}
+					if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])){
+						$row[$tab_options['REPLACE_COLUMN_KEY'][$key]]=$row[$column];
+						unset($row[$column]);
+					}
+					
+				}
+			if(!empty($tab_options['COLOR'][$key])){
+				$row[$column]= "<font color='".$tab_options['COLOR'][$key]."'>".$row[$column]."</font>";
+			}
+			if(!empty($tab_options['SHOW_ONLY'][$key])){
+				if(empty($tab_options['SHOW_ONLY'][$key][$value_of_field])){
+					$row[$key]="";
+				}
 			}
 		}
 		$rows[] = $row;
@@ -1472,8 +1495,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"ACTIVE",
 			"MAC",
 			"MD5_DEVICEID",
-			$l->g(593),
-			$l->g(462)." KB"
 	);
 	$visible = 0;
 	foreach($list_fields as $key=>$column){
@@ -1505,8 +1526,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	$queryDetails .= ajaxlimit($tab_options);
 	$_SESSION['OCS']['csv']['SQL'][$tab_options['table_name']]=$queryDetails;
 	
-	/* 	
-		var_dump($_SESSION);
+	$table_name = $tab_options['table_name'];
 	//search static values
 	if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name])){
 		foreach ($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name] as $key=>$sql){
@@ -1528,7 +1548,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				}
 				
 				$sql.= $limit;
-				var_dump($sql);
 				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 			}
 			while($item = mysqli_fetch_object($result)){
@@ -1549,7 +1568,8 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				}
 			}
 		}
-	} */
+	} 
+	//print_r($tab_options['REPLACE_VALUE_ALL_TIME']);
 	if (isset($tab_options['ARG_SQL']))
 		$_SESSION['OCS']['csv']['ARG'][$tab_options['table_name']]=$tab_options['ARG_SQL'];
 	
