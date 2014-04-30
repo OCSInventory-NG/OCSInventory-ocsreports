@@ -293,6 +293,19 @@ function xml_decode( $txt ) {
 			}
 			return false;
 	}
+	function checkall()
+	 {
+		for(i=0; i<document.<?php echo $option['form_name']; ?>.elements.length; i++)
+		{
+			if(document.<?php echo $option['form_name']; ?>.elements[i].name.substring(0,5) == 'check'){
+		        if (document.<?php echo $option['form_name']; ?>.elements[i].checked)
+					document.<?php echo $option['form_name']; ?>.elements[i].checked = false;
+				else
+					document.<?php echo $option['form_name']; ?>.elements[i].checked = true;
+			}
+		}
+	}
+
 	$(document).ready(function() {
 		var table_name = "<?php echo $option['table_name']; ?>";
 		var table_id ="table#<?php echo $option['table_name']; ?>";
@@ -1363,6 +1376,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 	if($resultDetails){
 	while($row = mysqli_fetch_assoc($resultDetails))
 	{
+		$row_temp = $row;
 		foreach($list_fields as $key=>$column){
 			$name = explode('.',$column);
 			$column = end($name);
@@ -1390,7 +1404,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 					if ( $value_of_field!= '&nbsp;'){
 						if (isset($tab_options['LBL_POPUP'][$key])){
 							if (isset($row[$tab_options['LBL_POPUP'][$key]]))
-								$lbl_msg=$l->g(640)." ".$row[$tab_options['LBL_POPUP'][$key]];
+								$lbl_msg=$l->g(640)." ".$row_temp[$tab_options['LBL_POPUP'][$key]];
 							else
 								$lbl_msg=$tab_options['LBL_POPUP'][$key];
 						}else
