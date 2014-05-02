@@ -1,7 +1,10 @@
 Revision history for ocsreports
-2.1.1
+2.2
+		* Update the format for menu config to XML
 		* Add new menu for computer sections
 		* Add new menu for main sections
+
+2.1.1
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1283089
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1277904
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1086324

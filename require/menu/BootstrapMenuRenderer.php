@@ -55,7 +55,7 @@ class BootstrapMenuRenderer extends BaseMenuRenderer
     {
         $caret = '';
         $attr_li = $attr_a = array();
-        $href = $menu_elem->getUrl();
+        $href = "?".PAG_INDEX."=".$_SESSION['OCS']['URL'][$menu_elem->getUrl()];
         
         if ($menu_elem->hasChildren()) {
             if ($level > 0) {
@@ -82,8 +82,13 @@ class BootstrapMenuRenderer extends BaseMenuRenderer
         $attr_string_li = $this->attrToString($attr_li);
         $attr_string_a = $this->attrToString($attr_a);
         
+        $label = $menu_elem->getLabel();
+        if (preg_match('/^g\(\d+\)$/', $label)) {
+        	$label = find_lbl($label);
+        }
+        
         $html = "<li $attr_string_li>";
-        $html .= "<a href='$href' $attr_string_a>".$menu_elem->getLabel()." $caret</a>";
+        $html .= "<a href='$href' $attr_string_a>".$label." $caret</a>";
 
         if ($menu_elem->hasChildren()) {
         	$html .= '<ul class="dropdown-menu">';

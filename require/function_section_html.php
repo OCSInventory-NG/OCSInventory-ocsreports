@@ -1,50 +1,23 @@
 <?php
 
-function show_menu($config) {
-	if (!is_array($config)) {
-		return false;
-	}
-	// Build menu
-	$menu = new Menu();
-	foreach ($config as $config_elem) {
-		$url = "?".PAG_INDEX."=".$_SESSION['OCS']['URL'][$config_elem];
-		
-		if (isset($_SESSION['OCS']['MENU_NAME'][$config_elem])) {
-			$lbl_index = $_SESSION['OCS']['MENU_TITLE'][$config_elem];
-			
-			if (is_null($lbl_index)) {
-				$lbl = $config_elem;
-			} else {
-				$lbl = find_lbl($lbl_index);
-			}
-			
-			$menu->addElem($config_elem, new MenuElem($lbl, $url));
-			
-			// Element has children
-			foreach ($_SESSION['OCS']['MENU'] as $page_name => $menu_name) {
-				if (isset($_SESSION['OCS']['PAGE_PROFIL'][$page_name]) and $menu_name == $config_elem) {
-					$url = "?".PAG_INDEX."=".$_SESSION['OCS']['URL'][$page_name];
-					$lbl = find_lbl($_SESSION['OCS']['LBL'][$page_name]);
-
-					$menu->getElem($config_elem)->addElem($page_name, new MenuElem($lbl, $url));
-				}
-			}
-		} else {
-			// No children
-			$lbl_index = $_SESSION['OCS']['LBL'][$config_elem];
-			
-			if (is_null($lbl_index)) {
-				$lbl = $config_elem;
-			} else {
-				$lbl = find_lbl($lbl_index);
-			}
-			
-			$menu->addElem($config_elem, new MenuElem($lbl, $url));
+function show_menu() {
+	global $l;
+	
+	if (!file_exists('config/main_menu.xml')) {
+		try {
+			migrate_menus_2_2();
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			msg_error($l->g(2029));
+			exit;
 		}
 	}
 	
+	// Build menu
+	$xml_serializer = new XMLMenuSerializer();
+	$menu = $xml_serializer->unserialize(file_get_contents('config/main_menu.xml'));
+	
 	$renderer = new BootstrapMenuRenderer();
-	//$renderer->setParentElemClickable(true);
 	echo $renderer->render($menu);
 }
 
