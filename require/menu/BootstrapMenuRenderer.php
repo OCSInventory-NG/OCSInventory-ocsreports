@@ -91,10 +91,7 @@ class BootstrapMenuRenderer extends BaseMenuRenderer
         $attr_string_li = $this->attrToString($attr_li);
         $attr_string_a = $this->attrToString($attr_a);
         
-        $label = $menu_elem->getLabel();
-        if (preg_match('/^g\(\d+\)$/', $label)) {
-        	$label = find_lbl($label);
-        }
+        $label = find_lbl($menu_elem->getLabel());
         
         $html = "<li $attr_string_li>";
         $html .= "<a href='$href' $attr_string_a>".$label." $caret</a>";
