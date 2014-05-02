@@ -149,7 +149,7 @@ foreach ($list_plugins as $i => $plugin_name) {
 	$menu->addElem($plugin_name, new MenuElem($lbl, $url));
 }
 
-$menu_renderer = new BootstrapMenuRenderer();
+$menu_renderer = new BootstrapMenuRenderer(null, $_SESSION['OCS']['url_service']);
 echo $menu_renderer->render($menu);
 if($ajax){
 	ob_end_clean();

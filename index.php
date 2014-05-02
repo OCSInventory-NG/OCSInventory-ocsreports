@@ -10,6 +10,11 @@
 //====================================================================================
 
 require("require/fichierConf.class.php");
+
+// Before session_start to allow objects to be unserialized from session
+require_once('require/menu/include.php');
+require_once('require/config/include.php');
+
 @session_start();
 if (get_magic_quotes_gpc()) {
     function magicQuotes_awStripslashes(&$value, $key) {$value = stripslashes($value);}

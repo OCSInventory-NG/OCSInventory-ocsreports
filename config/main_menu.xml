@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+  <menu-elem id="ms_all_computers">
+    <label>g(2)</label>
+    <url>ms_all_computers</url>
+  </menu-elem>
+  <menu-elem id="ms_groups">
+    <label>g(583)</label>
+    <url>ms_groups</url>
+  </menu-elem>
+  <menu-elem id="ms_repart_tag">
+    <label>g(178)</label>
+    <url>ms_repart_tag</url>
+  </menu-elem>
+  <menu-elem id="ms_all_soft">
+    <label>g(765)</label>
+    <url>ms_all_soft</url>
+  </menu-elem>
+  <menu-elem id="ms_multi_search">
+    <label>g(1051)</label>
+    <url>ms_multi_search</url>
+    <submenu>
+      <menu-elem id="ms_multi_search">
+        <label>g(9)</label>
+        <url>ms_multi_search</url>
+      </menu-elem>
+      <menu-elem id="ms_search_soft">
+        <label>g(1050)</label>
+        <url>ms_search_soft</url>
+      </menu-elem>
+    </submenu>
+  </menu-elem>
+  <menu-elem id="ms_teledeploy">
+    <label>g(512)</label>
+    <url>ms_teledeploy</url>
+    <submenu>
+      <menu-elem id="ms_tele_package">
+        <label>g(513)</label>
+        <url>ms_tele_package</url>
+      </menu-elem>
+      <menu-elem id="ms_tele_activate">
+        <label>g(514)</label>
+        <url>ms_tele_activate</url>
+      </menu-elem>
+      <menu-elem id="ms_rules_redistrib">
+        <label>g(662)</label>
+        <url>ms_rules_redistrib</url>
+      </menu-elem>
+      <menu-elem id="ms_teledeploy_workflow">
+        <label>g(1031)</label>
+        <url>ms_teledeploy_workflow</url>
+      </menu-elem>
+    </submenu>
+  </menu-elem>
+  <menu-elem id="ms_config">
+    <label>g(107)</label>
+    <url>ms_config</url>
+    <submenu>
+      <menu-elem id="ms_config">
+        <label>g(107)</label>
+        <url>ms_config</url>
+      </menu-elem>
+      <menu-elem id="ms_blacklist">
+        <label>g(703)</label>
+        <url>ms_blacklist</url>
+      </menu-elem>
+      <menu-elem id="ms_label">
+        <label>g(263)</label>
+        <url>ms_label</url>
+      </menu-elem>
+      <menu-elem id="ms_upload_file">
+        <label>g(17)</label>
+        <url>ms_upload_file</url>
+      </menu-elem>
+      <menu-elem id="ms_update_new_tag">
+        <label>g(2100)</label>
+        <url>ms_update_new_tag</url>
+      </menu-elem>
+    </submenu>
+  </menu-elem>
+  <menu-elem id="ms_ipdiscover">
+    <label>g(82)</label>
+    <url>ms_ipdiscover</url>
+    <submenu>
+      <menu-elem id="ms_ipdiscover">
+        <label>g(1204)</label>
+        <url>ms_ipdiscover</url>
+      </menu-elem>
+      <menu-elem id="ms_snmp">
+        <label>g(1136)</label>
+        <url>ms_snmp</url>
+      </menu-elem>
+      <menu-elem id="ms_admin_ipdiscover">
+        <label>g(1139)</label>
+        <url>ms_admin_ipdiscover</url>
+      </menu-elem>
+    </submenu>
+  </menu-elem>
+  <menu-elem id="ms_regconfig">
+    <label>g(211)</label>
+    <url>ms_regconfig</url>
+  </menu-elem>
+  <menu-elem id="ms_admininfo">
+    <label>g(56)</label>
+    <url>ms_admininfo</url>
+  </menu-elem>
+  <menu-elem id="ms_doubles">
+    <label>g(175)</label>
+    <url>ms_doubles</url>
+  </menu-elem>
+  <menu-elem id="ms_dict">
+    <label>g(380)</label>
+    <url>ms_dict</url>
+  </menu-elem>
+  <menu-elem id="ms_plugins">
+    <label>g(6000)</label>
+    <url>ms_plugins</url>
+    <submenu>
+      <menu-elem id="ms_plugins">
+        <label>g(1306)</label>
+        <url>ms_plugins</url>
+      </menu-elem>
+    </submenu>
+  </menu-elem>
+  <menu-elem id="ms_logs">
+    <label>g(928)</label>
+    <url>ms_logs</url>
+  </menu-elem>
+  <menu-elem id="ms_stats">
+    <label>g(1251)</label>
+    <url>ms_stats</url>
+  </menu-elem>
+  <menu-elem id="ms_users">
+    <label>g(243)</label>
+    <url>ms_users</url>
+  </menu-elem>
+  <menu-elem id="ms_local">
+    <label>g(287)</label>
+    <url>ms_local</url>
+  </menu-elem>
+  <menu-elem id="ms_help">
+    <label>g(570)</label>
+    <url>ms_help</url>
+  </menu-elem>
+</menu>

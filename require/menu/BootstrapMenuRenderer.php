@@ -27,11 +27,13 @@
 
 class BootstrapMenuRenderer extends BaseMenuRenderer
 {
+	private $profile;
 	private $urls;
 	
-	public function __construct($urls) {
+	public function __construct($profile, $urls) {
 		parent::__construct();
 		
+		$this->profile = $profile;
 		$this->urls = $urls;
 	}
 
@@ -62,9 +64,19 @@ class BootstrapMenuRenderer extends BaseMenuRenderer
      */
     public function renderElem(MenuElem $menu_elem, $level = 0)
     {
+    	// Hide menu if the profile doesn't have the rights and the menu doesn't have children 
+    	if ($this->profile and !$menu_elem->hasChildren() and !$this->profile->hasPage($menu_elem->getUrl())) {
+    		return '';
+    	}
+    	
         $caret = '';
         $attr_li = $attr_a = array();
-        $href = "?".PAG_INDEX."=".$this->urls->getUrl($menu_elem->getUrl());
+        
+        if ($url = $this->urls->getUrl($menu_elem->getUrl())) {
+	        $href = "?".PAG_INDEX."=".$url;
+        } else {
+        	$href = $menu_elem->getUrl();
+        }
         
         if ($menu_elem->hasChildren()) {
             if ($level > 0) {
@@ -91,23 +103,39 @@ class BootstrapMenuRenderer extends BaseMenuRenderer
         $attr_string_li = $this->attrToString($attr_li);
         $attr_string_a = $this->attrToString($attr_a);
         
-        $label = find_lbl($menu_elem->getLabel());
+        $label = $this->translateLabel($menu_elem->getLabel());
         
         $html = "<li $attr_string_li>";
         $html .= "<a href='$href' $attr_string_a>".$label." $caret</a>";
-
+        
         if ($menu_elem->hasChildren()) {
         	$html .= '<ul class="dropdown-menu">';
         	
+        	$children_html = '';
         	foreach ($menu_elem->getChildren() as $child_elem) {
-        		$html .= $this->renderElem($child_elem, $level + 1);
+        		$children_html .= $this->renderElem($child_elem, $level + 1);
         	}
 
+        	// Hide menu if the profile doesn't have the rights for any of its children
+        	if ($this->profile and empty($children_html)) {
+        		return '';
+        	}
+
+        	$html .= $children_html;
         	$html .= '</ul>';
         }
         
         $html .= '</li>';
    
         return $html;
+    }
+    
+    private function translateLabel($label) {
+		global $l;
+		
+		if (substr($label,0,2) == 'g(')
+			$label= ucfirst($l->g(substr(substr($label,2),0,-1)));
+		
+		return strip_tags_array($label);
     }
 }

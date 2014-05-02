@@ -13,6 +13,11 @@ if (!isset($debut))
 die('FORBIDDEN');
 
 unset($_SESSION['OCS']['SQL_DEBUG']);
+
+// Before session_start to allow objects to be unserialized from session
+require_once('require/menu/include.php');
+require_once('require/config/include.php');
+
 @session_start();
 error_reporting(E_ALL & ~E_NOTICE);
 /*************************************************WHAT OS USE************************************/
@@ -39,8 +44,6 @@ require_once('require/fichierConf.class.php');
 require_once('require/function_commun.php');
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
-require_once('require/menu/include.php');
-require_once('require/config/include.php');
 
 if (isset($_SESSION['OCS']['CONF_RESET'])){
 	unset($_SESSION['OCS']['LOG_GUI']);
@@ -212,20 +215,26 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])){
 
 /*****************************************************GESTION DU NOM DES PAGES****************************************/
 //Config for all user
-if (!isset($_SESSION['OCS']['URL'])){
-	require_once('require/function_files.php');
-	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR']."4all_config.txt";	
-	//show only true sections
-	if (file_exists($ms_cfg_file)) {
-		$search=array('URL'=>'MULTI');
-		$profil_data=read_configuration($ms_cfg_file,$search);
-		$pages_refs=$profil_data['URL'];
-		$_SESSION['OCS']['URL']=$pages_refs;
-	}else{
-		die("ERROR: CAN'T READ CONFIG FILE ".$_SESSION['OCS']['CONF_PROFILS_DIR']."4all_config.txt");
+if (!isset($_SESSION['OCS']['url_service'])){
+	if (!file_exists('config/urls.xml')) {
+		migrate_config_2_2();
 	}
-}else
-$pages_refs=$_SESSION['OCS']['URL'];
+
+	$url_serializer = new XMLUrlsSerializer();
+	$urls = $url_serializer->unserialize(file_get_contents('config/urls.xml'));
+	$_SESSION['OCS']['url_service'] = $urls;
+
+	// Backwards compatibility
+	$pages_refs = array();
+	foreach ($urls->getUrls() as $key => $url) {
+		$pages_refs[$key] = $url['value'];
+	}
+	
+	$_SESSION['OCS']['URL'] = $pages_refs;
+} else {
+	$urls = $_SESSION['OCS']['url_service'];
+	$pages_refs = $_SESSION['OCS']['URL'];
+}
 
 
 /**********************************************************GESTION DES COLONNES DES TABLEAUX PAR COOKIES***********************************/
@@ -376,25 +385,30 @@ if (!isset($_SESSION['OCS']['TAG_LBL'])){
 		$_SESSION['OCS']['TAG_ID'][$key]=$value;
 	}
 }
+
 /*******************************************GESTION OF PLUGINS (MAIN SECTIONS)****************************/
 
-if (!isset($_SESSION['OCS']['all_menus'])){	
-	require_once(MAIN_SECTIONS_DIR."sections.php");
+if (!isset($_SESSION['OCS']['profile'])) {
+	$profile_config = 'config/profiles/'.$_SESSION['OCS']["lvluser"].'.xml';
+	$profile_serializer = new XMLProfileSerializer();
+	$profile = $profile_serializer->unserialize($_SESSION['OCS']["lvluser"], file_get_contents($profile_config));
+	$_SESSION['OCS']['profile'] = $profile;
+} else {
+	$profile = $_SESSION['OCS']['profile'];
 }
-
-$name=array_flip($_SESSION['OCS']['URL']);
 
 if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
 	require_once (HEADER_HTML);
 }
 
+$url_name = $urls->getUrlName($protectedGet[PAG_INDEX]);
+
 //VERIF ACCESS TO THIS PAGE
-if (isset($protectedGet[PAG_INDEX]) 
-	and !isset($_SESSION['OCS']['PAGE_PROFIL'][$name[$protectedGet[PAG_INDEX]]])
-	and !isset($_SESSION['OCS']['TRUE_PAGES'][$name[$protectedGet[PAG_INDEX]]])
+if (isset($protectedGet[PAG_INDEX])
+	and !$profile->hasPage($url_name)
+	and !isset($_SESSION['OCS']['TRUE_PAGES'][$url_name])
 	//force access to profils witch have CONFIGURATION TELEDIFF  == 'YES' for ms_admin_ipdiscover page
-	and !($_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == 'YES' 
-			and $name[$protectedGet[PAG_INDEX]] == 'ms_admin_ipdiscover')){
+	and !($profile->getConfigValue('TELEDIFF') == 'YES' and $url_name == 'ms_admin_ipdiscover')){
 		msg_error("ACCESS DENIED");
 		require_once(FOOTER_HTML);
 		die();	
@@ -412,7 +426,7 @@ if((!isset($_SESSION['OCS']["loggeduser"])
 	die();
 }
 
-if (isset($name[$protectedGet[PAG_INDEX]])){
+if ($url_name) {
 
 	//CSRF security
 	if($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -434,17 +448,18 @@ if (isset($name[$protectedGet[PAG_INDEX]])){
 	    //Do the rest of the processing here
 	}	
 	
-	if (isset($_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]]))
-	$rep=$_SESSION['OCS']['DIRECTORY'][$name[$protectedGet[PAG_INDEX]]];
-	require (MAIN_SECTIONS_DIR.$rep."/".$name[$protectedGet[PAG_INDEX]].".php");
-}
-else{
-	$default_first_page=MAIN_SECTIONS_DIR."ms_console/ms_console.php";
-	if (isset($protectedGet['first'])){
+	if ($urls->getDirectory($url_name)) {
+		$rep = $urls->getDirectory($url_name);
+	}
+	require (MAIN_SECTIONS_DIR.$rep."/".$url_name.".php");
+	
+} else {
+	$default_first_page = MAIN_SECTIONS_DIR."ms_console/ms_console.php";
+	if (isset($protectedGet['first'])) {
 		require (MAIN_SECTIONS_DIR."ms_console/ms_console.php");
-	}elseif($_SESSION['OCS']['PAGE_PROFIL']['ms_console'])	
+	} else if ($profile->hasPage('ms_console'))	{
 		require ($default_first_page);	
-	else{
+	} else {
 		echo  "<img src='image/fond.png'>";
 	}
 		

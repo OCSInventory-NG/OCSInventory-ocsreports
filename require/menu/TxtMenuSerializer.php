@@ -35,7 +35,7 @@ class TxtMenuSerializer {
 					
 				// Element has children
 				foreach ($config['MENU'] as $page_name => $menu_name) {
-					if (/*isset($config['PAGE_PROFIL'][$page_name]) and */$menu_name == $config_elem) {
+					if ($menu_name == $config_elem) {
 						$url = $page_name;
 						$lbl = $config['LBL'][$page_name];
 		
