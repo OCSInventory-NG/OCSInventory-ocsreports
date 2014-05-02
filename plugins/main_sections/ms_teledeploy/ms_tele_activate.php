@@ -133,7 +133,8 @@ $list_fields= array($l->g(475)=>'FILEID',
 							$l->g(462)." KB"=>'round(SIZE/1024,2)',
 							$l->g(25)=>'OSNAME',
 							$l->g(53)=>'COMMENT');
-print_r($list_fields);
+$tab_options['REPLACE_COLUMN_KEY'][$l->g(593)]='CREADATE'; 
+$tab_options['REPLACE_COLUMN_KEY'][$l->g(462)." KB"]='WEIGHT';
 if ($show_stats){
 	$list_fields['NO_NOTIF']='NO_NOTIF';
 	$list_fields['NOTI']='NOTI';
@@ -259,7 +260,8 @@ if ($show_stats){
 				$_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe_ter." group by FILEID";	
 		}
 	}
-}			
+}	
+		
 $tab_options['COLOR']['ERR_']='RED';	
 $tab_options['COLOR']['SUCC']='GREEN';	
 $tab_options['COLOR']['NOTI']='GREY';	

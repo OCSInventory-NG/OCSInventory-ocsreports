@@ -42,6 +42,7 @@ else{
 		
 	$default_fields= $list_fields;
 	$tab_options['LBL']['PERCENT_BAR']=$l->g(83);
+	$tab_options["replace_query_arg"]['CAPACITY']=" round(100-(FREE*100/TOTAL)) ";
 	$queryDetails  = "SELECT *, round(100-(FREE*100/TOTAL)) AS CAPACITY FROM drives WHERE (hardware_id=$systemid)";
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	echo close_form();

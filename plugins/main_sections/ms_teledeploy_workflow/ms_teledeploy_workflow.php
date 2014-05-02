@@ -13,7 +13,15 @@
  * workflow for Teledeploy 
  * 
  */
-
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
 require_once('require/function_telediff_wk.php');
 //TELEDIFF_WK
 $activate=option_conf_activate('TELEDIFF_WK');
@@ -47,7 +55,15 @@ if ($activate){
 		}elseif ($protectedPost['onglet'] == 4){
 			dde_conf($form_name);
 		}elseif ($protectedPost['onglet'] == 1){
+			if ($ajax){
+				ob_end_clean();
+				$protectedPost['ajax_req']=true;
+			}
 			dde_show($form_name);
+			if($ajax){
+				ob_start();
+			}
+			
 		}
 		echo '</div>';	
 	}else
@@ -56,5 +72,7 @@ if ($activate){
 }else
 	msg_info($l->g(1075));
 
-
+if ($ajax){
+	ob_end_clean();
+}
 ?>

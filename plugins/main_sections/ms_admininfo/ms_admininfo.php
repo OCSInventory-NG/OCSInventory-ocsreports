@@ -17,15 +17,14 @@
 if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){  
 		parse_str($protectedPost['ocs']['0'], $params);	
 		$protectedPost+=$params; 
-		
-	ob_start();
+		ob_start();
 
 	$ajax = true;
 }
 else{
 	$ajax=false;
 }
-$tab_options=$protectedPost;
+
 
 require_once('require/function_admininfo.php');
 		
@@ -35,6 +34,7 @@ if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_info';
 $table_name=$form_name;
+$tab_options=$protectedPost;
 
 $tab_options['form_name']=$form_name;
 $tab_options['table_name']=$table_name;

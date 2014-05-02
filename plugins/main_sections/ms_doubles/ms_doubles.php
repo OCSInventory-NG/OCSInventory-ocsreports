@@ -18,9 +18,6 @@ if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER[
 else{
 	$ajax=false;
 }
-
-
-echo "test";
 require_once('require/function_computers.php');
 if ($protectedPost['DEL_ALL'] != ''){
 	foreach ($protectedPost as $key=>$value){

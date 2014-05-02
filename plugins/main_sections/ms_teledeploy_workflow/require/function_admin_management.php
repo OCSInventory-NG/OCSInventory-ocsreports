@@ -97,7 +97,7 @@ function delete_conf($id_conf){
 		$sql_downloadwk_conf_values="DELETE FROM downloadwk_conf_values WHERE id in ";
 		$downloadwk_conf_values=mysql2_prepare($sql_downloadwk_conf_values,array(),$id_conf); 	
 		mysql2_query_secure($downloadwk_conf_values['SQL'],$_SESSION['OCS']["writeServer"],$downloadwk_conf_values['ARG']);
-		addLog( 'DEL_WK_TELEDIFF','delete values of field (downloadwk_conf_values) => '.mysqli_affected_rows().' values');	
+		addLog( 'DEL_WK_TELEDIFF','delete values of field (downloadwk_conf_values) => '.mysqli_affected_rows($_SESSION['OCS']["writeServer"]).' values');	
 		return true;
 	}
 	
@@ -130,7 +130,7 @@ function delete_field($id_field){
 			$sql_downloadwk_fields="DELETE FROM downloadwk_fields WHERE ID in ";
 			$downloadwk_fields=mysql2_prepare($sql_downloadwk_fields,array(),$id_field); 	
 			mysql2_query_secure($downloadwk_fields['SQL'],$_SESSION['OCS']["writeServer"],$downloadwk_fields['ARG']);
-			addLog( 'DEL_WK_TELEDIFF','delete field (downloadwk_fields) => '.mysqli_affected_rows().' values');
+			addLog( 'DEL_WK_TELEDIFF','delete field (downloadwk_fields) => '.mysqli_affected_rows($_SESSION['OCS']["writeServer"]).' values');
 			return true;
 		//}
 	}
@@ -159,7 +159,7 @@ function delete_tab($id_tab){
 			$sql_downloadwk_tab_values="DELETE FROM downloadwk_tab_values WHERE ID in ";
 			$downloadwk_tab_values=mysql2_prepare($sql_downloadwk_tab_values,array(),$id_tab); 	
 			mysql2_query_secure($downloadwk_tab_values['SQL'],$_SESSION['OCS']["writeServer"],$downloadwk_tab_values['ARG']);
-			addLog( 'DEL_WK_TELEDIFF','delete TAB (downloadwk_tab_values) => '.mysqli_affected_rows().' values');
+			addLog( 'DEL_WK_TELEDIFF','delete TAB (downloadwk_tab_values) => '.mysqli_affected_rows($_SESSION['OCS']["writeServer"]).' values');
 		}		
 		
 	}

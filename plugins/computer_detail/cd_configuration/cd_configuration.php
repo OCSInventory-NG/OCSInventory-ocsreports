@@ -29,7 +29,7 @@ if ($protectedPost['Valid_modif_x']){
 		}
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 		
-		if (mysqli_affected_rows() != 0){
+		if (mysqli_affected_rows($_SESSION['OCS']["writeServer"]) != 0){
 			$sql="INSERT INTO itmgmt_comments (hardware_id,comments,user_insert,date_insert,action) 
 					values ('%s','%s','%s',%s,'%s => %s')"; 
 			$arg=array($systemid,$protectedPost['MOTIF'],$_SESSION['OCS']["loggeduser"],
