@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Serialize / unserialize the menu from the old txt config files
+ * unserialize the menu from the old txt config files
  *
  * @author   Arthur Jaouen <arthur@factorfx.com>
  * @license  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License, version 2

@@ -5,7 +5,7 @@ function show_menu() {
 	
 	if (!file_exists('config/main_menu.xml')) {
 		try {
-			migrate_menus_2_2();
+			migrate_config_2_2();
 		} catch (Exception $e) {
 			echo $e->getMessage();
 			msg_error($l->g(2029));
