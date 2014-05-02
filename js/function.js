@@ -81,19 +81,6 @@ function verif_field(field_name_verif,field_submit,form_name) {
 		pag(field_submit,field_submit,form_name);
 	}
 }
-
-function show_menu(id,all_menus) {
-	var menus_array=all_menus.split('|');
-
-	for (var i=0;i<menus_array.length;i++) { 		//Hidding all menus by default
-		if (document.getElementById(menus_array[i]) != null)
-		document.getElementById(menus_array[i]).style.display='none'; 
-	}
- 
-	if (id != "nomenu") { 
-		document.getElementById(id).style.display='block'; 
-	}
-}
 		
 function clic(id,val) {
 	document.getElementById('ACTION_CLIC').action = id;
