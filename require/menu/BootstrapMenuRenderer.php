@@ -27,6 +27,15 @@
 
 class BootstrapMenuRenderer extends BaseMenuRenderer
 {
+	private $urls;
+	
+	public function __construct($urls) {
+		parent::__construct();
+		
+		$this->urls = $urls;
+	}
+
+	
     /**
      * @see MenuRendererInterface::render()
      */
@@ -55,7 +64,7 @@ class BootstrapMenuRenderer extends BaseMenuRenderer
     {
         $caret = '';
         $attr_li = $attr_a = array();
-        $href = "?".PAG_INDEX."=".$_SESSION['OCS']['URL'][$menu_elem->getUrl()];
+        $href = "?".PAG_INDEX."=".$this->urls->getUrl($menu_elem->getUrl());
         
         if ($menu_elem->hasChildren()) {
             if ($level > 0) {

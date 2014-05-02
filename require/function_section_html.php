@@ -14,10 +14,13 @@ function show_menu() {
 	}
 	
 	// Build menu
-	$xml_serializer = new XMLMenuSerializer();
-	$menu = $xml_serializer->unserialize(file_get_contents('config/main_menu.xml'));
+	$menu_serializer = new XMLMenuSerializer();
+	$menu = $menu_serializer->unserialize(file_get_contents('config/main_menu.xml'));
+
+	$urls_serializer = new XMLUrlsSerializer();
+	$urls = $urls_serializer->unserialize(file_get_contents('config/urls.xml'));
 	
-	$renderer = new BootstrapMenuRenderer();
+	$renderer = new BootstrapMenuRenderer($urls);
 	echo $renderer->render($menu);
 }
 
