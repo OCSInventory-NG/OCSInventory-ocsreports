@@ -397,7 +397,7 @@ function show_console_field($fields,$form_name){
 							//'ARG'=>'&fields=HARDWARE-LASTCOME&comp=tall&values='.date($l->g(1242))
 							$link_me_begin.="&fields=".$multi_search[$key]['FIELD']."&comp=".$multi_search[$key]['COMP']."&values=".$multi_search[$key]['VALUE']."&values2=".$multi_search[$key]['VALUE2']."&type_field=".$multi_search[$key]['TYPE_FIELD'];
 						}
-						$link_me_begin.="' target='_blank'>";
+						$link_me_begin.="'>";
 						$link_me_end="</a>";
 					}elseif (isset($link[$key]['RELOAD'])){
 						$link_me_begin="<a href=# OnClick='pag(\"".$link[$key]['RELOAD']."\",\"SHOW_ME\",\"".$form_name."\");'>";
