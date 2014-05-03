@@ -1203,6 +1203,7 @@
 1325 screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
+1328 Manage
 
 
 

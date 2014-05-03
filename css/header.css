@@ -1,0 +1,41 @@
+.header-logo {
+	float: left;
+	padding: 5px 20px;
+}
+
+.main-menu-container {
+	margin-left: 137px;
+}
+
+.main-menu-container .navbar-nav {
+	float: none;
+	text-align: left;
+}
+
+.main-menu-container .navbar-nav > li {
+	float: none;
+	display: inline-block;
+}
+
+.main-menu-container .navbar-nav > li > a {
+	padding-top: 14px;
+	padding-bottom: 14px;
+}
+
+.user-header {
+	background: black;
+	color: white;
+	min-height: 15px;
+}
+
+.user-header .version,
+.user-header .links {
+	float: right;
+	margin: 0 10px
+}
+
+.user-header .links > * {
+	margin: 0 10px;
+	color: white;
+	float: right;
+}

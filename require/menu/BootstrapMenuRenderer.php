@@ -43,13 +43,13 @@ class BootstrapMenuRenderer extends BaseMenuRenderer
      */
     public function render(Menu $menu)
     {
-        $html = '<div class="navbar navbar-default"><ul class="nav navbar-nav">';
+        $html = '<ul class="nav navbar-nav">';
         
         foreach ($menu->getChildren() as $menu_elem) {
             $html .= $this->renderElem($menu_elem);
         }
         
-        $html .= '</ul></div>';
+        $html .= '</ul>';
         
         return $html;
     }

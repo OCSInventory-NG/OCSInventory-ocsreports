@@ -13,6 +13,31 @@ if (isset($protectedGet['head']) and $protectedGet['head'] == 1)
 $ban_head='no';
 /*******************************************************AFFICHAGE HTML DU HEADER*******************************************/
 html_header();
+
+echo '<div class="headfoot navbar navbar-default">';
+echo '<div class="user-header">';
+
+if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
+	echo '<span class="links">';
+	
+	if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
+		echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>".$l->g(251)."</a>";
+	}
+
+	if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
+		echo "<a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'>".$l->g(891)."</a>";
+	}
+	
+	$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=650\")'";
+	echo "<a ".$javascript.">Options</a>";// TODO translate
+	echo open_form('log_out','index.php');
+	echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
+	echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
+	echo close_form();
+	
+	echo '</span>';
+}
+
 //on affiche l'entete de la page
 if( !isset($protectedGet["popup"] )) {
 	//si unlock de l'interface
@@ -24,120 +49,110 @@ if( !isset($protectedGet["popup"] )) {
 		unset($_SESSION['OCS']["TRUE_mesmachines"]);
 	}
 
-
-echo "<table class='headfoot' ";
-if ($ban_head=='no') echo "style='display:none;'";
-echo "><tr><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='clic(\"index.php?first\",\"FIRST\");'>";
-echo "<img src='image/logo OCS-ng-96.png'></a>";
-echo "</td><td>";
- 	
-if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
-/**************************************************   ALERT MESSAGES ********************************************************/
-	$msg_header_error=array();
-	$msg_header_error_sol=array();
-	//install.php already exist ?
-	if($fconf=@fopen("install.php","r")){
-		$msg_header_error[]= $l->g(2020);
-		$msg_header_error_sol[] = $l->g(2023);
-	}
-	//defaut user already exist on databases?
-	$link_read=@mysqli_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);
-	$link_write=@mysqli_connect(SERVER_WRITE,DFT_DB_CMPT,DFT_DB_PSWD);
-	if (@mysqli_select_db($link_read,DB_NAME) or @mysqli_select_db($link_write,DB_NAME)){
-		$msg_header_error[]= $l->g(2024).' '.DB_NAME;	
-		$msg_header_error_sol[] = $l->g(2025);	
-	}
-	
-	//admin user already exist on data base with defaut password?
-	$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
-	$arg_reqOp=array(DFT_GUI_CMPT,md5(DFT_GUI_PSWD));	
-	$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
-	$rowOp=mysqli_fetch_object($resOp);
-	if (isset($rowOp->id)){
-		$msg_header_error[]= $l->g(2026);
-		$msg_header_error_sol[] = $l->g(2027);
-	}
-/***************************************************** WARNING MESSAGES *****************************************************/
-	$msg_header_warning=array();
-	//Demo mode activate?
-	if (DEMO) {
-		$msg_header_warning[]= $l->g(2104)." ".GUI_VER_SHOW."<br>";
-	} 
-	
-	
-	if ($_SESSION['OCS']['LOG_GUI'] == 1){
-		//check if the GUI logs directory is writable
-		$rep_ok=is_writable($_SESSION['OCS']['LOG_DIR']);
-		if (!$rep_ok){
-			$msg_header_warning[]=$l->g(2021);
+	if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
+	/**************************************************   ALERT MESSAGES ********************************************************/
+		$msg_header_error=array();
+		$msg_header_error_sol=array();
+		//install.php already exist ?
+		if($fconf=@fopen("install.php","r")){
+			$msg_header_error[]= $l->g(2020);
+			$msg_header_error_sol[] = $l->g(2023);
 		}
-	}
-	
-	//Error are detected
-	if ($msg_header_error != array()){
-			js_tooltip();
-			$msg_tooltip='';
-			foreach ($msg_header_error as $poub=>$values){
-				if (isset($msg_header_error_sol[$poub])){
-					$tooltip=tooltip($msg_header_error_sol[$poub]);
-					$msg_tooltip .= "<div ".$tooltip.">".$values."</div>";
-				}
+		//defaut user already exist on databases?
+		$link_read=@mysqli_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);
+		$link_write=@mysqli_connect(SERVER_WRITE,DFT_DB_CMPT,DFT_DB_PSWD);
+		if (@mysqli_select_db($link_read,DB_NAME) or @mysqli_select_db($link_write,DB_NAME)){
+			$msg_header_error[]= $l->g(2024).' '.DB_NAME;	
+			$msg_header_error_sol[] = $l->g(2025);	
+		}
+		
+		//admin user already exist on data base with defaut password?
+		$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
+		$arg_reqOp=array(DFT_GUI_CMPT,md5(DFT_GUI_PSWD));	
+		$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
+		$rowOp=mysqli_fetch_object($resOp);
+		if (isset($rowOp->id)){
+			$msg_header_error[]= $l->g(2026);
+			$msg_header_error_sol[] = $l->g(2027);
+		}
+	/***************************************************** WARNING MESSAGES *****************************************************/
+		$msg_header_warning=array();
+		//Demo mode activate?
+		if (DEMO) {
+			$msg_header_warning[]= $l->g(2104)." ".GUI_VER_SHOW."<br>";
+		} 
+		
+		
+		if ($_SESSION['OCS']['LOG_GUI'] == 1){
+			//check if the GUI logs directory is writable
+			$rep_ok=is_writable($_SESSION['OCS']['LOG_DIR']);
+			if (!$rep_ok){
+				$msg_header_warning[]=$l->g(2021);
 			}
+		}
+		
+		//Error are detected
+		if ($msg_header_error != array()){
+				js_tooltip();
+				$msg_tooltip='';
+				foreach ($msg_header_error as $poub=>$values){
+					if (isset($msg_header_error_sol[$poub])){
+						$tooltip=tooltip($msg_header_error_sol[$poub]);
+						$msg_tooltip .= "<div ".$tooltip.">".$values."</div>";
+					}
+				}
+				
+			msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
 			
-		msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
+		}
+		//warning are detected
+		if ($msg_header_warning != array())
+			msg_warning(implode('<br>',$msg_header_warning));
 		
 	}
-	//warning are detected
-	if ($msg_header_warning != array())
-		msg_warning(implode('<br>',$msg_header_warning));
 	
-}
-
-if( isset($_SESSION['OCS']['TRUE_USER']))
+	if (isset($_SESSION['OCS']['TRUE_USER'])) {
 		msg_info($_SESSION['OCS']['TRUE_USER']." ".$l->g(889)." ".$_SESSION['OCS']["loggeduser"]);
-
-if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
-			msg_info($l->g(890));
-}
-
-echo "</td><td align=right><table><tr><td align=center>
-	Ver. <b>" . GUI_VER_SHOW . "</b><br>";
+	}
+	
+	if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
+		msg_info($l->g(890));
+	}
+	
+	echo '<span class="version">V <b>' . GUI_VER_SHOW . '</b></span>';
 	//pass in debug mode if plugin debug exist
 	if (isset($pages_refs['ms_debug'])){
 		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'";
-		if((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON') 
-			or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
-				echo"<b>".GUI_VER."/".DB_NAME."</b><br>";
+		
+		if ((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON') 
+				or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
+			echo"<b>".GUI_VER."/".DB_NAME."</b><br>";
 			echo "<a ".$javascript."><img src=image/red.png></a><br>";
-			if ($_SESSION['OCS']['DEBUG']=='ON')
-			echo "<font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>wait...</div>";
-		}elseif ((($_SESSION['OCS']['PAGE_PROFIL']['ms_debug']) or $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and !isset($_SESSION['OCS']['DEBUG'])){
+			
+			if ($_SESSION['OCS']['DEBUG']=='ON') {
+				echo "<font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>wait...</div>";
+			}
+		} else if ((($_SESSION['OCS']['PAGE_PROFIL']['ms_debug']) or $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and !isset($_SESSION['OCS']['DEBUG'])){
 			echo "<a ".$javascript."><img src=image/green.png></a><br>";
 		}
 	}
 }
-
-if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 	
-		if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
-			echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>";
-			echo "<img src='image/deconnexion.png' title='".$l->g(251)."' alt='".$l->g(251)."'>";
-			echo "</a>";
-		}
-		
-		if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
-			echo "<a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'>";
-			echo "<img src='image/cadena_op.png' title='".$l->g(891)."' alt='".$l->g(891)."' >";
-			echo "</a>";
-		}
-		
-		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=650\")'";
-		echo "<a ".$javascript."><img src=".PLUGINS_DIR."/main_sections/img/ms_pass.png></a>";
-		echo open_form('log_out','index.php');
-		echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
-		echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
-		echo close_form();	
+echo '</div>';
+
+echo '<div class="header-logo">';
+echo '<a onclick="clic(\'index.php?first\',\'FIRST\');"><img src="image/logo OCS-ng-96.png"></a>';
+echo '</div>';
+
+if ($_SESSION['OCS']['profile']) {
+	echo '<div class="main-menu-container">';
+	if (!isset($protectedGet["popup"])) {
+		show_menu();
+	}
+	echo '</div>';
 }
+
+echo '</div>';
 
 echo "</td></tr></table></td></tr>";
 if (!isset($_SESSION['OCS']["loggeduser"])){
@@ -159,13 +174,5 @@ if ($_SESSION['OCS']["mesmachines"] == "NOTAG"
 	die();
 
 }
-
-
-//if you don't want to see the icons
-if ($icon_head!='NO'){
-require_once(PLUGINS_DIR."main_sections/section_html.php");
-
-}
-
 
 ?>
