@@ -179,10 +179,13 @@ if (isset($defaultRole) and $defaultRole != ''){
     $rowOp=mysqli_fetch_object($resOp);
     if (isset($rowOp -> accesslvl)){
         $lvluser=$rowOp -> accesslvl;
-        $ms_cfg_file=$_SESSION['OCS']['CONF_PROFILS_DIR'].$lvluser."_config.txt";
-        $search=array('RESTRICTION'=>'MULTI');
-        $res=read_configuration($ms_cfg_file,$search);
-        $restriction=$res['RESTRICTION']['GUI'];
+
+        $profile_config = 'config/profiles/'.$lvluser.'.xml';
+        $profile_serializer = new XMLProfileSerializer();
+        $profile = $profile_serializer->unserialize($lvluser, file_get_contents($profile_config));
+        
+        $restriction = $profile->getRestriction('GUI');
+        
         //if this user has RESTRICTION
         //search all tag for this user
         if ($restriction == 'YES'){

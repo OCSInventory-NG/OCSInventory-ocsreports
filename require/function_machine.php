@@ -55,7 +55,7 @@ function info($GET,$post_systemid){
 		//recherche des infos de la machine
 		$querydeviceid = "SELECT * FROM hardware h left join accountinfo a on a.hardware_id=h.id
 						 WHERE h.id=".$systemid." ";
-		if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES" 
+		if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES" 
 			and isset($_SESSION['OCS']['mesmachines']) 
 			and $_SESSION['OCS']['mesmachines'] != ''
 			and !isset($GET['crypt']))			 
@@ -148,14 +148,13 @@ function show_packages($systemid,$page="ms_computer"){
 			$ii++; $td3 = $ii%2==0?$td2:$td4;
 			if ((strpos($valDeploy["comment"], "[VISIBLE=1]") 
 				or strpos($valDeploy["comment"], "[VISIBLE=]")
-				or (!isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'])
+				or (!$_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE')
 					and strpos($valDeploy["comment"], "[VISIBLE=0]"))
 				or !strpos($valDeploy["comment"], "[VISIBLE"))
-				or (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
-				and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "NO"
+				or ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'NO') == "NO"
 				and preg_match("[VISIBLE=0]", $valDeploy["comment"]))){
 					//echo $valDeploy["comment"];
-					//	echo $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'];			
+					//	echo $_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE');			
 					echo "<tr>";
 					echo "<td bgcolor='white' align='center' valign='center'><img width='15px' src='image/red.png'></td>";
 					echo $td3.$l->g(498)." <b>".$valDeploy["name"]."</b>";

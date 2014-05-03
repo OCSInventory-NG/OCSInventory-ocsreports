@@ -46,7 +46,7 @@
 						FROM download_history h LEFT JOIN download_available a ON h.pkg_id=a.fileid 
 						where hardware_id=%s and name is not null";
 	$arg=array($systemid);
-	if (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES"){
+	if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES"){
 			$queryDetails  .= " and a.comment not like '%s'";
 			array_push($arg,'%[VISIBLE=0]%');
 	}

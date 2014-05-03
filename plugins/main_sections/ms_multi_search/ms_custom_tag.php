@@ -86,7 +86,7 @@ if (isset($list_id) and $list_id != ''){
 		$protectedPost['onglet']='SUP_PACK';
 	$def_onglets['SUP_PACK']=$l->g(1021);
 	
-	if (!isset($_SESSION['OCS']['RESTRICTION']['WOL']) or $_SESSION['OCS']['RESTRICTION']['WOL']=="NO")
+	if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO')=="NO")
 		$def_onglets['WOL']=$l->g(1280);
 	
 	if ($protectedPost['onglet'] == "")

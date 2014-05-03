@@ -11,7 +11,7 @@
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 require_once('require/function_telediff.php');
 
-if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_ACTIVATE'] == 'NO')
+if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO')
 	$cant_active=false;
 else
 	$cant_active=true;

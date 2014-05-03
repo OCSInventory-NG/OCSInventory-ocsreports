@@ -29,12 +29,12 @@ $show_stats=true;
 echo open_form($form_name);
 PrintEnTete($l->g(465));
 
-if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_ACTIVATE'] == 'NO')
+if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO')
 	$cant_active=false;
 else
 	$cant_active=true;
 
-if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES'){
+if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES'){
 	$restrict_computers=computer_list_by_tag('','ARRAY');
 	if ($restrict_computers == "ERROR"){
 		msg_error($l->g(893));
@@ -179,8 +179,7 @@ else
 	$querypack['SQL'] .= " where comment like '%s'";
 array_push($querypack['ARG'],"[PACK REDISTRIBUTION%");
 $arg_count=array("[PACK REDISTRIBUTION%");
-if (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
-		and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES" ){
+if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES" ){
 		$querypack['SQL'] .= " and comment not like '%s'";
 	array_push($querypack['ARG'],"%[VISIBLE=0]%");	
 	array_push($arg_count,"%[VISIBLE=0]%");	

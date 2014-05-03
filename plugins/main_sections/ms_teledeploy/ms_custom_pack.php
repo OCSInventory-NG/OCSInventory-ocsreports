@@ -330,7 +330,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			if (isset($fileid_show) and $fileid_show != array()){
 				$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$fileid_show,true);
 			}
-			if (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES"){
+			if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES"){
 				$sql['SQL'].=" and a.comment not like '%s'";
 				array_push($sql['ARG'],'%[VISIBLE=0]%');
 			}

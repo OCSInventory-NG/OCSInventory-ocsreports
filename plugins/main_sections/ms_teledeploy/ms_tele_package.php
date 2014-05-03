@@ -493,8 +493,7 @@ $redistrib="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(1008).":</
 echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5' >";
 
 echo $title_creat.$nom.$descr;
-if (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
-	and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "NO" )
+if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'NO') == "NO" )
 echo $visible;
 echo $os.$proto.$prio.$file.$action;
 //redistrib

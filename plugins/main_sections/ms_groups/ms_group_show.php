@@ -436,7 +436,7 @@ function print_computers_cached($systemid) {
 		}	
 		$tab_options['CACHE']='RESET';
 	}
-	if ($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES"){
+	if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES"){
 		$sql_mesMachines="select hardware_id from accountinfo a where ".$_SESSION['OCS']["mesmachines"];
 		$res_mesMachines = mysql2_query_secure($sql_mesMachines, $_SESSION['OCS']["readServer"]);
 		$mesmachines="(";

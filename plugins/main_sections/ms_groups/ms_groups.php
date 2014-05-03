@@ -44,7 +44,7 @@ if ($protectedPost['Reset_modif_x'] or ($protectedPost['onglet'] != $protectedPo
  unset($protectedPost['add_static_group']); 
 $tab_options=$protectedPost;
 //view only your computers
-if ($_SESSION['OCS']['RESTRICTION']['GUI'] == 'YES'){
+if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES'){
 	$mycomputers=computer_list_by_tag();
 	if ($mycomputers == "ERROR"){
 		msg_error($l->g(893));
@@ -130,7 +130,7 @@ if ($protectedPost['onglet'] == "SERV"){
 	//calcul du nombre de machines par groupe
 	$sql_nb_mach="SELECT count(*) nb, group_id
 					from groups_cache gc,hardware h where h.id=gc.hardware_id ";
-	if($_SESSION['OCS']['RESTRICTION']['GUI'] == "YES")
+	if($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES")
 			$sql_nb_mach.=" and gc.hardware_id in ".$mycomputers;		
 	$sql_nb_mach .=" group by group_id";
 

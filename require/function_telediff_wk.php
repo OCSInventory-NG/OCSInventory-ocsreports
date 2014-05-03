@@ -178,7 +178,7 @@ function dde_form($form_name){
 		$result_fields = mysqli_query($_SESSION['OCS']["readServer"],$sql_fields) or mysqli_error($_SESSION['OCS']["readServer"]);
 		while($item = mysqli_fetch_object($result_fields)){
 			unset($value);
-			if (($item->RESTRICTED == 1 and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK_FIELDS'] == 'YES')
+			if (($item->RESTRICTED == 1 and $_SESSION['OCS']['profile']->getRestriction('TELEDIFF_WK_FIELDS') == 'YES')
 				 or (isset($protectedPost['OLD_MODIF']) 
 				 		and $item->TYPE != 8 and $item->TYPE != 10 
 				 		and $protectedPost['LOGIN_USER'] != $_SESSION['OCS']['loggeduser']
@@ -189,7 +189,7 @@ function dde_form($form_name){
 				//cas of status
 				if ($item->FIELD == "STATUS"){
 					//It's the only field witch admin can modify when request is create by someone else
-					if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK_FIELDS'] == 'YES'){
+					if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_WK_FIELDS') == 'YES'){
 						$val_field=$item->VALUE;
 						$sql_service="select id, lbl as value from downloadwk_statut_request where id='".$val_field."'";
 						$resultSERV = mysqli_query($_SESSION['OCS']["readServer"],$sql_service) or mysqli_error($_SESSION['OCS']["readServer"]);
@@ -960,9 +960,9 @@ function dde_show($form_name){
 			$i++;
 		}
 		$sql.=" WHERE ".$id_status."!= (Select id from downloadwk_statut_request where name='NIV0')";
-		if ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK'] == 'LOGIN')
+		if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_WK') == 'LOGIN')
 			$sql.=" and LOGIN_USER='".$_SESSION['OCS']['loggeduser']."' ";
-		elseif ($_SESSION['OCS']['RESTRICTION']['TELEDIFF_WK'] == 'USER_GROUP')
+		elseif ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_WK') == 'USER_GROUP')
 			$sql.=" and GROUP_USER='".$_SESSION['OCS']['user_group']."' ";
 		
 		$tab_options['form_name']=$form_name;

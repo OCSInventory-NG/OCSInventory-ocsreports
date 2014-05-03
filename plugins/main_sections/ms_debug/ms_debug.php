@@ -68,7 +68,7 @@ if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 		if (!isset($_SESSION['OCS']['TRUE_USER'])){
 			$true_user=$_SESSION['OCS']['loggeduser'];
 			$list_page_profil=$_SESSION['OCS']['PAGE_PROFIL'];
-			$restriction=$_SESSION['OCS']['RESTRICTION']['GUI'];
+			$restriction=$_SESSION['OCS']['profile']->getRestriction('GUI');
 			$loggeduser=$protectedPost["FUSER"];
 			unset($_SESSION['OCS']);	
 			$_SESSION['OCS']['TRUE_USER']=$true_user;
@@ -80,7 +80,7 @@ if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 			$restriction=$_SESSION['OCS']['TRUE_RESTRICTION'];
 			unset($_SESSION['OCS']);		
 			$_SESSION['OCS']['loggeduser']=$loggeduser;
-			$_SESSION['OCS']['RESTRICTION']['GUI']=$restriction;
+			$_SESSION['OCS']['profile']->setRestriction('GUI', $restriction);
 		}
 	}elseif ($protectedPost["MODE"] == 6){
 		 if (isset($_SESSION['OCS']["usecache"]) 

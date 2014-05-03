@@ -457,8 +457,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 				//echo $field_value_complement[$i];
 				//recherche des id activ�s de ce paquet
 				$sql_temp = "select id from download_enable d_e left join download_available d_a on d_a.fileid=d_e.fileid where 1=1 ";
-				IF (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
-					and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES" )
+				IF ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES" )
 					$sql_temp .= " and d_a.comment not like '%[VISIBLE=0]%'";	
 				if ($field_value_complement[$i] != "'NULL'" and 
 						$field_value_complement[$i] != "NULL")
@@ -1141,8 +1140,7 @@ $sort_list_2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
 						);
 
 $sql_history_download = "select FILEID as ID,NAME from download_available d_a";
-if (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
-		and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES" )
+if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES" )
 $sql_history_download .= " where d_a.comment not like '%[VISIBLE=0]%'";	
 $sql_history_download .= " order by 2";
 $opt2Select=array("HARDWARE-USERAGENT"=>$sort_list_2Select["HARDWARE-USERAGENT"],//"OCS: ".$l->g(966),
@@ -1242,8 +1240,7 @@ $optSelect2Field=array("HARDWARE-MEMORY"=>$sort_list_Select2Field["HARDWARE-MEMO
 $sort_list_3Select=array("DEVICES-DOWNLOAD"=>$l->g(512).": ".$l->g(970));
 $sql_download="select 'NULL' as 'ID', '***".$l->g(509)."***' as NAME
 				union select FILEID as ID,NAME from download_available d_a ";
-IF (isset($_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE']) 
-		and $_SESSION['OCS']['RESTRICTION']['TELEDIFF_VISIBLE'] == "YES" )
+IF ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES" )
 $sql_download .= " where d_a.comment not like '%[VISIBLE=0]%'";	
 $sql_download .= " order by 2";
 $opt3Select=array("DEVICES-DOWNLOAD"=>$sort_list_3Select["DEVICES-DOWNLOAD"],//$l->g(512).": ".$l->g(970),
