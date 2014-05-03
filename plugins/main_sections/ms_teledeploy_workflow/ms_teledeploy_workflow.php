@@ -39,7 +39,7 @@ if ($activate){
 		$data_on[2]=$l->g(1073);
 	}
 	
-	if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES')
+	if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES')
 	$data_on[4]=$l->g(107);
 	
 	

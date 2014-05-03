@@ -273,7 +273,7 @@ if ($protectedPost['detail'] != ''){
 						   $l->g(23).": ".$l->g(46)=>$l->g(23).": ".$l->g(46),
 						   $l->g(23).": ".$l->g(34)=>$l->g(23).": ".$l->g(34));
 	$default_fields=array_merge ($default_fields,$default_fields2);
-	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
 		$list_fields['SUP']='h.ID';
 		$list_col_cant_del['SUP']='SUP';
 	}
@@ -296,7 +296,7 @@ if ($protectedPost['detail'] != ''){
 	$tab_options['LBL_POPUP']['SUP']='NAME';
 	$tab_options['LBL']['SUP']=$l->g(122);
 	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
-	if ($result_exist != "" and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+	if ($result_exist != "" and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}

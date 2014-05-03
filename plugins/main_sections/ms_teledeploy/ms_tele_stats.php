@@ -12,7 +12,7 @@
 
 require('require/function_stats.php');
 
-if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" 
+if($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" 
 	and isset($protectedPost["ACTION"]) and $protectedPost["ACTION"] != ''){
 
 	if( $protectedPost["ACTION"] == "VAL_SUCC") {	
@@ -168,7 +168,7 @@ while ($row=mysqli_fetch_object($resStats)){
 		</script>';	
 echo "</div><br>";
 
-if($_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES"){
+if($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES"){
 	echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
 	echo "<td width='33%' align='center'><a OnClick='pag(\"VAL_SUCC\",\"ACTION\",\"".$form_name."\");'><b>".$l->g(483)."</b></a></td>";	
 	echo "<td width='33%' align='center'><a OnClick='pag(\"DEL_ALL\",\"ACTION\",\"".$form_name."\");'><b>".$l->g(571)."</b></a></td>";	

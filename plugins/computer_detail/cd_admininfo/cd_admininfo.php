@@ -24,7 +24,7 @@ else{
 		elseif (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 			unset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']);
 		
-		if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+		if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 			$admin_accountinfo=true;
 			
 		$list_tab=find_all_account_tab('TAB_ACCOUNTAG','COMPUTERS',1);	
@@ -94,7 +94,7 @@ else{
 				$arg_admin_info=array('COMPUTERS');		
 			}
 			echo '<div class="mlt_bordure" >';
-			if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES' and !$show_all_column){
+			if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' and !$show_all_column){
 				$show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
 				if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 					$show_admin_button .= "<img src=image/success.png></a>";
@@ -154,7 +154,7 @@ else{
 							$i=0;
 							$tp_readonly="";
 							while (isset($temp_val[$i]) and $temp_val[$i] != ''){
-								if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES"){			
+								if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES"){			
 									$protectedPost[$name_accountinfo . '_' . $temp_val[$i]]='on';
 								}else{
 									$tp_readonly .= $field_select_values[$temp_val[$i]].";";
@@ -169,7 +169,7 @@ else{
 							}
 						}else{
 							$protectedPost[$name_accountinfo]=$info_account_id[$name_accountinfo];
-							if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES")
+							if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES")
 								array_push($value_field,$field_select_values);
 							else
 								array_push($value_field,$field_select_values[$protectedPost[$name_accountinfo]]);
@@ -177,7 +177,7 @@ else{
 							
 					}elseif ($val_admin_info['TYPE'] == 6){	
 						array_push($value_field,$info_account_id[$name_accountinfo]);
-						if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES"){
+						if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES"){
 							if ($admin_accountinfo)
 								array_push($config['COMMENT_BEHING'],$up_png . datePick($name_accountinfo));
 							else
@@ -222,7 +222,7 @@ else{
 					
 					array_push($name_field,$name_accountinfo);
 					array_push($tab_name,$val_admin_info['COMMENT']);
-					if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES")
+					if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES")
 						array_push($type_field,$convert_type[$val_admin_info['TYPE']]);
 					else
 						array_push($type_field,3);
@@ -231,7 +231,7 @@ else{
 				$nb_row++;
 			}	
 				$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
-				if ($_SESSION['OCS']['CONFIGURATION']['ACCOUNTINFO'] == 'YES')
+				if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES')
 					$tab_hidden=array('ADMIN'=>'','UP'=>'','DOWN'=>'');
 				//echo "<input type='hidden' name='ADMIN' id='ADMIN' value=''>";
 				if ($show_all_column or $admin_accountinfo)
@@ -239,7 +239,7 @@ else{
 				else
 					$showbutton=true;
 				
-				if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] != "YES")
+				if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') != "YES")
 					$showbutton=false;
 				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton,$form_name='NO_FORM',$show_admin_button);
 			

@@ -605,7 +605,7 @@ function dde_form($form_name){
 			}
 			ksort($tab_name[$protectedPost['cat']]);
 			//print_r($add_values[$protectedPost['cat']]);
-			if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
+			if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES'){
 				if (isset($add_values_admin[$protectedPost['cat']])){
 					foreach($add_values_admin[$protectedPost['cat']] as $key=>$value)
 						$tab_typ_champ[$value]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&value=".$value."&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
@@ -636,7 +636,7 @@ function dde_form($form_name){
 
 function dde_conf($form_name){
 	global $l,$protectedPost,$protectedGet,$pages_refs,$infos_status;
-if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF_WK'] == 'YES'){
+if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES'){
 			
 			//sous onglets 
 			if ($infos_status['NIV_BIS'] != ''){

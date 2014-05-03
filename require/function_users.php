@@ -114,7 +114,7 @@ function admin_user($id_user=''){
 		$update=3;
 	else
 		$update=0;
-		if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
+		if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
 			//search all profil type
 			$list_profil=search_profil();
 			$list_groups_result=look_config_default_values("USER_GROUP_%",'LIKE');
@@ -149,13 +149,13 @@ function admin_user($id_user=''){
 		//$type_field[]= 2; 
 		
 		
-		if ($id_user != '' or $_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'NO'){
+		if ($id_user != '' or $_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'NO'){
 			$tab_hidden['MODIF']=$id_user;
 			$sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
 			$arg=$id_user;
 			$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 			$row=mysqli_fetch_object($res);
-			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
+			if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
 				$protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
 				$protectedPost['USER_GROUP']=$row->USER_GROUP;
 				$value_field=array($row->ID,$list_profil,$list_groups);
@@ -165,7 +165,7 @@ function admin_user($id_user=''){
 			$value_field[]=$row->EMAIL;
 			$value_field[]=$row->COMMENTS;
 		}else{
-			if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_USER_GROUP'] == 'YES'){
+			if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
 				$value_field=array($protectedPost['ID'],$list_profil,$list_groups);
 			}
 			$value_field[]=$protectedPost['FIRSTNAME'];
@@ -183,7 +183,7 @@ function admin_user($id_user=''){
 		foreach ($tab_typ_champ as $id=>$values){
 			$tab_typ_champ[$id]['CONFIG']['SIZE']=40;
 		}
-		if ($_SESSION['OCS']['CONFIGURATION']['MANAGE_USER_GROUP'] == 'YES'){
+		if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_USER_GROUP') == 'YES'){
 			$tab_typ_champ[2]["CONFIG"]['DEFAULT']="YES";
 		//	$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 			$tab_typ_champ[2]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";

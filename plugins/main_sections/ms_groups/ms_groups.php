@@ -68,7 +68,7 @@ $form_name='groups';
 $tab_options['form_name']=$form_name;
 echo open_form($form_name);
 //view all groups
-if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
+if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	$def_onglets['DYNA']=$l->g(810); //Dynamic group
 	$def_onglets['STAT']=$l->g(809); //Static group centraux
 	if ($_SESSION['OCS']["use_redistribution"] == 1)
@@ -90,7 +90,7 @@ $list_fields= array('GROUP_NAME'=>'h.NAME',
 						'CREATE'=>'h.LASTDATE',
 						'NBRE'=>'NBRE');
 //only for admins
-if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
+if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	if ($protectedPost['onglet'] == "STAT")
 		$list_fields['CHECK']= 'ID';
 	$list_fields['SUP']= 'ID';	
@@ -124,7 +124,7 @@ if ($protectedPost['onglet'] == "SERV"){
 	elseif ($protectedPost['onglet'] == "STAT")
 		$querygroup.=" and (g.request is null or trim(g.request) = '')
 					    and (g.xmldef  is null or trim(g.xmldef) = '') ";
-	if($_SESSION['OCS']['CONFIGURATION']['GROUPS']!="YES")
+	if($_SESSION['OCS']['profile']->getConfigValue('GROUPS')!="YES")
 		$querygroup.=" and h.workgroup='GROUP_4_ALL' ";
 
 	//calcul du nombre de machines par groupe
@@ -163,14 +163,14 @@ $tab_options['FILTRE']=array('NAME'=>$l->g(679),'DESCRIPTION'=>$l->g(53));
 $result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 
 //if your profil is an admin groups, you can create one
-if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
+if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	echo "</td></tr></table>";	
 	if ($protectedPost['onglet'] == "STAT")
 		echo "<BR><input type='submit' name='add_static_group' value='".$l->g(587)."'>";
 }
 
 //if user want add a new group
-if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"){
+if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	//NAME FIELD
 	$name_field[]="NAME";
 	$tab_name[]=$l->g(577);

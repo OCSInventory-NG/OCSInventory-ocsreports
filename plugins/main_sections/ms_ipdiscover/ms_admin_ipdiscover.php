@@ -46,7 +46,7 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	$data_on['ADMIN_RSX']=$l->g(1140);
 	$data_on['ADMIN_TYPE']=$l->g(836);
 	
-	if ($_SESSION['OCS']['CONFIGURATION']['MANAGE_SMTP_COMMUNITIES'] == 'YES')
+	if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES')
 		$data_on['ADMIN_SMTP']=$l->g(1205);
 	
 	if ($protectedPost['onglet'] != $protectedPost['old_onglet'])
@@ -205,7 +205,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		echo "<input type = submit value='".$l->g(116)."' name='ADD_TYPE'>";	
 	}
 }elseif($protectedPost['onglet'] == 'ADMIN_SMTP' 
-		and $_SESSION['OCS']['CONFIGURATION']['MANAGE_SMTP_COMMUNITIES'] == 'YES'){
+		and $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES'){
 
 		if (isset($protectedPost['Valid_modif_x'])){
 			$msg_result=add_community($protectedPost['MODIF'],$protectedPost['NAME'],$protectedPost['VERSION'],

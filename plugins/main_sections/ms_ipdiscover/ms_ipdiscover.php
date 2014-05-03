@@ -34,7 +34,7 @@ echo "<br>";
  $tab_options['form_name']=$form_name;
 echo open_form($form_name);
  	//delete a subnet
- 	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
+ 	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES"){
  		$sql_del="delete from subnet where netid='%s'";
  		$arg_del=$protectedPost['SUP_PROF'];
  		mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"],$arg_del);
@@ -102,7 +102,7 @@ echo open_form($form_name);
 							'NON_INVENTORIE'=>'NON_INVENTORIE',
 							'IPDISCOVER'=>'IPDISCOVER',
 							'IDENTIFIE'=>'IDENTIFIE');
-	if ($_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES")
+	if ($_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES")
 	$list_fields['SUP']='ID';	
 	$list_fields['PERCENT_BAR']='pourcentage';
 	$table_name="IPDISCOVER";
@@ -148,7 +148,7 @@ echo open_form($form_name);
 	$tab_options['LBL']['PERCENT_BAR']=$l->g(1125);
 
 	//you can modify your subnet if ipdiscover is local define
-	if ( $_SESSION['OCS']["ipdiscover_methode"] == "OCS" and $_SESSION['OCS']['CONFIGURATION']['IPDISCOVER'] == "YES"){
+	if ( $_SESSION['OCS']["ipdiscover_methode"] == "OCS" and $_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES"){
 		$tab_options['LIEN_LBL']['LBL_RSX']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_admin_ipdiscover'].'&head=1&value=';
 		$tab_options['LIEN_CHAMP']['LBL_RSX']='ID';
 		$tab_options['LIEN_TYPE']['LBL_RSX']='POPUP';

@@ -49,7 +49,7 @@ if( !isset($protectedGet["popup"] )) {
 		unset($_SESSION['OCS']["TRUE_mesmachines"]);
 	}
 
-	if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['CONFIGURATION']['ALERTE_MSG']=='YES'){
+	if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getConfigValue('ALERTE_MSG')=='YES'){
 	/**************************************************   ALERT MESSAGES ********************************************************/
 		$msg_header_error=array();
 		$msg_header_error_sol=array();

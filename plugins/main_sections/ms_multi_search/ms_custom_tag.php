@@ -80,7 +80,7 @@ if (isset($list_id) and $list_id != ''){
 	}
 	
 	//tab definition
-	if ($_SESSION['OCS']['CONFIGURATION']['CHANGE_ACCOUNTINFO'] == "YES")
+	if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES")
 		$def_onglets['TAG']=$l->g(1022); 
 	else
 		$protectedPost['onglet']='SUP_PACK';

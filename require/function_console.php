@@ -267,7 +267,7 @@ function define_tab($data_on=array()){
 	$data_on['SOFT']=mb_strtoupper($l->g(20), 'UTF-8');
 	$data_on['HARD']=mb_strtoupper($l->g(799), 'UTF-8');
 	$data_on['ELSE']=mb_strtoupper($l->g(800), 'UTF-8');
-	if( $_SESSION['OCS']['CONFIGURATION']['CONSOLE']=="YES") {
+	if( $_SESSION['OCS']['profile']->getConfigValue('CONSOLE')=="YES") {
 		//$data_on['ADMIN']['CONFIG']=mb_strtoupper($l->g(107));
 		$data_on['ADMIN']['MSG']=mb_strtoupper($l->g(915), 'UTF-8');
 	

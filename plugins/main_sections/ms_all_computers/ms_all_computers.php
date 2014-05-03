@@ -110,7 +110,7 @@ $list_fields=array_merge ($list_fields,$list_fields2);
 $tab_options['FILTRE']=array_flip($list_fields);
 $tab_options['FILTRE']['h.name']=$l->g(23);
 asort($tab_options['FILTRE']); 
-if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
 		$list_fields['CHECK']='h.ID';
 		$list_fields['SUP']='h.ID';
 }
@@ -138,7 +138,7 @@ $tab_options['LBL_POPUP']['SUP']='name';
 $tab_options['LBL']['SUP']=$l->g(122);
 $tab_options['TRI']['DATE']['e.bdate']="%m/%d/%Y";
 $entete = ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
-if ($entete and $_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+if ($entete and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}

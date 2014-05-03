@@ -171,7 +171,7 @@ function show_packages($systemid,$page="ms_computer"){
 						echo $td3.$l->g(81).": ".($valDeploy["tvalue"]!=""?$valDeploy["tvalue"]:$l->g(482));
 						echo ($valDeploy["comments"]!=""?" (".$valDeploy["comments"].")":"");
 						echo "</td>";
-						if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" )	{
+						if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" )	{
 							echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 							urlencode($systemid)."&option=cd_configuration'>".$l->g(122)."</a></td>";
 						}elseif (strstr($valDeploy["tvalue"], 'ERR_') or strstr($valDeploy["tvalue"], 'EXIT_CODE')){
@@ -189,7 +189,7 @@ function show_packages($systemid,$page="ms_computer"){
 						}
 						}else{
 								
-								if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" )	
+								if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES" )	
 									echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&popup=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 									urlencode($systemid)."&option=".urlencode($l->g(500))."'>".$l->g(122)."</a></td>";
 								show_stat($valDeploy["fileid"]);

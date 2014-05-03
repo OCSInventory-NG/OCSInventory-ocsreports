@@ -74,7 +74,7 @@ if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
 
 	}
 }
-if( isset( $protectedGet["suppack"] ) &  $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" ) {
+if( isset( $protectedGet["suppack"] ) &  $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ) {
 	
 	if( $_SESSION['OCS']["justAdded"] == false ){
 		desactive_packet($systemid,$protectedGet["suppack"]);
@@ -91,7 +91,7 @@ if( isset( $protectedGet["actgrp"] )) {
 					  FROM hardware h 
 					  WHERE h.deviceid='_SYSTEMGROUP_' ";
 		//If you hav'nt permission => see only visible groups
-		if (!($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES"))
+		if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"))
 			$reqGroups .= " and h.workgroup = 'GROUP_4_ALL'";
 		$resGroups = mysql2_query_secure( $reqGroups, $_SESSION['OCS']["readServer"] );
 		$valGroups = mysqli_fetch_array( $resGroups ); 
@@ -148,7 +148,7 @@ $i=0;
 		echo $td3.$l->g(493)."</td>";
 	}
 	//Can you modify configuration of this computer?
-	if( $_SESSION['OCS']['CONFIGURATION']['CONFIG']=="YES" ){
+	if( $_SESSION['OCS']['profile']->getConfigValue('CONFIG')=="YES" ){
 		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=machine\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
 		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
 	}
@@ -231,7 +231,7 @@ $i=0;
 			echo "<tr>";
 			echo "<td bgcolor='white' align='center' valign='center'>&nbsp;</td>";
 			echo $td3.$l->g(607)." ";		
-			if( $_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES" || $valGroups["workgroup"]=="GROUP_4_ALL")
+			if( $_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES" || $valGroups["workgroup"]=="GROUP_4_ALL")
 				echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$valGroups["group_id"]."' target='_blank'>".$valGroups["name"]."</td>";
 			else
 				echo "<b>".$valGroups["name"]."</b></td>";			
@@ -243,7 +243,7 @@ $i=0;
 				case 2: echo "<font color='red'>".$l->g(597)."</font></td>"; break;
 			}
 			
-			if( $_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES" || $valGroups["workgroup"]=="GROUP_4_ALL") {
+			if( $_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES" || $valGroups["workgroup"]=="GROUP_4_ALL") {
 				$hrefBase = "index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode($systemid)."&option=cd_configuration&grp=".$valGroups["group_id"];
 				switch( $valGroups["static"] ) {
 					case 0: echo $td3."<a href='$hrefBase&actgrp=1'>".$l->g(598)."</a>&nbsp; &nbsp; &nbsp;<a href='$hrefBase&actgrp=2'>".$l->g(600)."</a></td>"; break;
@@ -262,14 +262,14 @@ $i=0;
 		$hrefBase = "index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode($systemid)."&option=cd_configuration";
 		
 		echo "<tr><td colspan='10' align='right'>";
-		if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF']=="YES" ) 
+		if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ) 
 			echo "<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."</a> ";
 		
 	
 		$reqGroups = "SELECT h.name,h.id,h.workgroup 
 					  FROM hardware h,groups g 
 					  WHERE  g.hardware_id=h.id  and h.deviceid='_SYSTEMGROUP_'";
-		if( !($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES") )
+		if( !($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES") )
 			$reqGroups .= " and workgroup = 'GROUP_4_ALL'";
 		$reqGroups .= " order by h.name";
 		$resGroups =mysql2_query_secure( $reqGroups, $_SESSION['OCS']["readServer"] );

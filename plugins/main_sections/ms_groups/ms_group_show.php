@@ -56,7 +56,7 @@ elseif (isset($protectedPost['systemid'])) {
 	$systemid = $protectedPost['systemid'];
 }
 
-if(!($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")){
+if(!($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES")){
 	$sql_verif="select workgroup from hardware where workgroup='GROUP_4_ALL' and ID='%s'";
 	$arg=$systemid;
 	$res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"],$arg);
@@ -205,7 +205,7 @@ if( ! $pureStat  ){
 echo "</tr><tr>".$tdhd.$l->g(53).$tdhf.$tdhdpb.$description.$tdhfpb;
 
 
-if ($_SESSION['OCS']['CONFIGURATION']['GROUPS']=="YES")
+if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES")
 echo "<tr><td align='left' colspan=4>".$button_valid."&nbsp&nbsp".$button_reset."&nbsp&nbsp".$img_modif."</td></tr>";
 echo "$tdhfpb</table>";
 echo close_form();
@@ -496,7 +496,7 @@ function print_perso($systemid) {
 	else {
 		echo $td3.$l->g(493)."</td>";
 	}
-	if( $_SESSION['OCS']['CONFIGURATION']['CONFIG'] == "YES"){
+	if( $_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES"){
 		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
 		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
 	}
@@ -570,7 +570,7 @@ function print_perso($systemid) {
 	require_once('require/function_machine.php');
 	show_packages($systemid,"ms_group_show");
 	
-	if( $_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES" ){
+	if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES" ){
 	echo "<tr>
 		<td colspan='10' align='right'>
 		<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."

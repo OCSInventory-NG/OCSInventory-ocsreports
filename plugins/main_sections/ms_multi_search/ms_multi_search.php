@@ -888,7 +888,7 @@ if ($list_id != "")	{
 	$tab_options['SQL_COUNT']=$querycount;
 	ksort($list_fields);
 	
-	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES")
+	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES")
 		$list_fields['SUP']='h.ID';
 		
 	$list_fields['CHECK']='h.ID';
@@ -909,18 +909,18 @@ if ($list_id != "")	{
 
 	//choix des fonctionnalit�es pour les utilisateurs 
 	$list_fonct["image/groups_search.png"]=$l->g(583);
-	if ($_SESSION['OCS']['CONFIGURATION']['DELETE_COMPUTERS'] == "YES"){
+	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
 		$list_fonct["image/sup_search.png"]=$l->g(122);
 		$list_pag["image/sup_search.png"]=$pages_refs["ms_custom_sup"];
 			$tab_options['LBL_POPUP']['SUP']='name_of_machine';
 	}
 	$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
 	$list_fonct["image/mass_affect.png"]=$l->g(430);		
-	if ($_SESSION['OCS']['CONFIGURATION']['CONFIG'] == "YES"){
+	if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES"){
 		$list_fonct["image/config_search.png"]=$l->g(107);
 		$list_pag["image/config_search.png"]=$pages_refs['ms_custom_param'];
 	}
-	if ($_SESSION['OCS']['CONFIGURATION']['TELEDIFF'] == "YES"){
+	if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES"){
 		$list_fonct["image/tele_search.png"]=$l->g(428);
 		$list_pag["image/tele_search.png"]=$pages_refs["ms_custom_pack"];
 	}

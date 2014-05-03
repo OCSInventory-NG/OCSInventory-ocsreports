@@ -33,7 +33,7 @@ $list_profil=search_profil();
 $data_on=$list_profil;
 $data_on[4]=$l->g(244);
 
-if ($_SESSION['OCS']['CONFIGURATION']['MANAGE_PROFIL'] == 'YES')
+if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_PROFIL') == 'YES')
 	$data_on[5]=$l->g(1146);
 
 $form_name = "admins";
@@ -80,7 +80,7 @@ if ($protectedPost['onglet'] == 4
 	or (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != '')){	
 	admin_user($protectedPost['MODIF']);
 
-}elseif ($protectedPost['onglet'] == 5 and $_SESSION['OCS']['CONFIGURATION']['MANAGE_PROFIL'] == 'YES'){
+}elseif ($protectedPost['onglet'] == 5 and $_SESSION['OCS']['profile']->getConfigValue('MANAGE_PROFIL') == 'YES'){
 	admin_profil($form_name);
 }
 else{

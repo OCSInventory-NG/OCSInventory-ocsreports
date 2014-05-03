@@ -58,7 +58,7 @@ if ($data_tab['DATA'] != array()){
 	onglet($data_tab['DATA'],$form_name,"onglet",8);
 	echo '<div class="mlt_bordure" >';
 	
-	if ($_SESSION['OCS']['CONFIGURATION']['CONSOLE'] == 'YES'){
+	if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES'){
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
 		if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) and $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
 			echo "<img src='image/success.png'>";
