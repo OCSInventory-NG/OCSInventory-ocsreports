@@ -48,76 +48,6 @@ if( !isset($protectedGet["popup"] )) {
 			unset($_SESSION['OCS']["mesmachines"]);
 		unset($_SESSION['OCS']["TRUE_mesmachines"]);
 	}
-
-	if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getConfigValue('ALERTE_MSG')=='YES'){
-	/**************************************************   ALERT MESSAGES ********************************************************/
-		$msg_header_error=array();
-		$msg_header_error_sol=array();
-		//install.php already exist ?
-		if($fconf=@fopen("install.php","r")){
-			$msg_header_error[]= $l->g(2020);
-			$msg_header_error_sol[] = $l->g(2023);
-		}
-		//defaut user already exist on databases?
-		$link_read=@mysqli_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);
-		$link_write=@mysqli_connect(SERVER_WRITE,DFT_DB_CMPT,DFT_DB_PSWD);
-		if (@mysqli_select_db($link_read,DB_NAME) or @mysqli_select_db($link_write,DB_NAME)){
-			$msg_header_error[]= $l->g(2024).' '.DB_NAME;	
-			$msg_header_error_sol[] = $l->g(2025);	
-		}
-		
-		//admin user already exist on data base with defaut password?
-		$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
-		$arg_reqOp=array(DFT_GUI_CMPT,md5(DFT_GUI_PSWD));	
-		$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
-		$rowOp=mysqli_fetch_object($resOp);
-		if (isset($rowOp->id)){
-			$msg_header_error[]= $l->g(2026);
-			$msg_header_error_sol[] = $l->g(2027);
-		}
-	/***************************************************** WARNING MESSAGES *****************************************************/
-		$msg_header_warning=array();
-		//Demo mode activate?
-		if (DEMO) {
-			$msg_header_warning[]= $l->g(2104)." ".GUI_VER_SHOW."<br>";
-		} 
-		
-		
-		if ($_SESSION['OCS']['LOG_GUI'] == 1){
-			//check if the GUI logs directory is writable
-			$rep_ok=is_writable($_SESSION['OCS']['LOG_DIR']);
-			if (!$rep_ok){
-				$msg_header_warning[]=$l->g(2021);
-			}
-		}
-		
-		//Error are detected
-		if ($msg_header_error != array()){
-				js_tooltip();
-				$msg_tooltip='';
-				foreach ($msg_header_error as $poub=>$values){
-					if (isset($msg_header_error_sol[$poub])){
-						$tooltip=tooltip($msg_header_error_sol[$poub]);
-						$msg_tooltip .= "<div ".$tooltip.">".$values."</div>";
-					}
-				}
-				
-			msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
-			
-		}
-		//warning are detected
-		if ($msg_header_warning != array())
-			msg_warning(implode('<br>',$msg_header_warning));
-		
-	}
-	
-	if (isset($_SESSION['OCS']['TRUE_USER'])) {
-		msg_info($_SESSION['OCS']['TRUE_USER']." ".$l->g(889)." ".$_SESSION['OCS']["loggeduser"]);
-	}
-	
-	if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
-		msg_info($l->g(890));
-	}
 	
 	echo '<span class="version">V <b>' . GUI_VER_SHOW . '</b></span>';
 	//pass in debug mode if plugin debug exist
@@ -153,6 +83,77 @@ if ($_SESSION['OCS']['profile']) {
 }
 
 echo '</div>';
+
+
+if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getConfigValue('ALERTE_MSG')=='YES'){
+/**************************************************   ALERT MESSAGES ********************************************************/
+	$msg_header_error=array();
+	$msg_header_error_sol=array();
+	//install.php already exist ?
+	if($fconf=@fopen("install.php","r")){
+		$msg_header_error[]= $l->g(2020);
+		$msg_header_error_sol[] = $l->g(2023);
+	}
+	//defaut user already exist on databases?
+	$link_read=@mysqli_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);
+	$link_write=@mysqli_connect(SERVER_WRITE,DFT_DB_CMPT,DFT_DB_PSWD);
+	if (@mysqli_select_db($link_read,DB_NAME) or @mysqli_select_db($link_write,DB_NAME)){
+		$msg_header_error[]= $l->g(2024).' '.DB_NAME;	
+		$msg_header_error_sol[] = $l->g(2025);	
+	}
+	
+	//admin user already exist on data base with defaut password?
+	$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
+	$arg_reqOp=array(DFT_GUI_CMPT,md5(DFT_GUI_PSWD));	
+	$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
+	$rowOp=mysqli_fetch_object($resOp);
+	if (isset($rowOp->id)){
+		$msg_header_error[]= $l->g(2026);
+		$msg_header_error_sol[] = $l->g(2027);
+	}
+/***************************************************** WARNING MESSAGES *****************************************************/
+	$msg_header_warning=array();
+	//Demo mode activate?
+	if (DEMO) {
+		$msg_header_warning[]= $l->g(2104)." ".GUI_VER_SHOW."<br>";
+	} 
+	
+	
+	if ($_SESSION['OCS']['LOG_GUI'] == 1){
+		//check if the GUI logs directory is writable
+		$rep_ok=is_writable($_SESSION['OCS']['LOG_DIR']);
+		if (!$rep_ok){
+			$msg_header_warning[]=$l->g(2021);
+		}
+	}
+	
+	//Error are detected
+	if ($msg_header_error != array()){
+			js_tooltip();
+			$msg_tooltip='';
+			foreach ($msg_header_error as $poub=>$values){
+				if (isset($msg_header_error_sol[$poub])){
+					$tooltip=tooltip($msg_header_error_sol[$poub]);
+					$msg_tooltip .= "<div ".$tooltip.">".$values."</div>";
+				}
+			}
+			
+		msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
+		
+	}
+	//warning are detected
+	if ($msg_header_warning != array())
+		msg_warning(implode('<br>',$msg_header_warning));
+	
+}
+
+if (isset($_SESSION['OCS']['TRUE_USER'])) {
+	msg_info($_SESSION['OCS']['TRUE_USER']." ".$l->g(889)." ".$_SESSION['OCS']["loggeduser"]);
+}
+
+if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
+	msg_info($l->g(890));
+}
 
 echo "</td></tr></table></td></tr>";
 if (!isset($_SESSION['OCS']["loggeduser"])){
