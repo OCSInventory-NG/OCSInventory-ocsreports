@@ -317,14 +317,30 @@ if ($server_group){
 		default : print_perso($systemid);
 							break;
 		endswitch;		
-}			
-echo "<script language='javascript'>wait(0);</script>";
-if(!$ajax){
+}	
+if(!$ajax){		
+    echo "<script language='javascript'>wait(0);</script>";
 	flush();	
 	echo "<br></body>";
 	echo "</html>";
 }
 ob_end_flush();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function regeneration_sql($valGroup){
@@ -439,7 +455,7 @@ function print_computers_real($systemid) {
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	form_action_group($systemid);
 	echo close_form();
-	if ($ajax){
+	if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
 		ob_end_clean();
 		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
 		ob_start();
@@ -492,7 +508,7 @@ function print_computers_cached($systemid) {
 		form_action_group($systemid);
 	}
 	echo close_form();
-	if ($ajax){
+	if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
 		ob_end_clean();
 		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
 		ob_start();
