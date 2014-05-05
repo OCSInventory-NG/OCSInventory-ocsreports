@@ -258,7 +258,7 @@ if ($server_group){
 		}
 	echo "</table><br>";
 	}
-	require(MAIN_SECTIONS_DIR."/".$_SESSION['OCS']['DIRECTORY']['ms_server_redistrib']."/ms_server_redistrib.php");
+	require(MAIN_SECTIONS_DIR."/".$_SESSION['OCS']['url_service']->getDirectory('ms_server_redistrib')."/ms_server_redistrib.php");
 }else{
 	
 	

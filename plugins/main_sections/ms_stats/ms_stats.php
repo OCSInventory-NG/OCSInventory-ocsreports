@@ -17,8 +17,8 @@ echo open_form($form_name);
 $plugin=false;
 $stats='';
 
-foreach ($_SESSION['OCS']['URL'] as $name=>$lbl){
-	if (substr($name,0,9) == 'ms_stats_' and $_SESSION['OCS']['DIRECTORY'][$name] == 'ms_stats'){
+foreach ($_SESSION['OCS']['url_service']->getUrls() as $name=>$url){
+	if (substr($name,0,9) == 'ms_stats_' and $url['directory'] == 'ms_stats'){
 		$plugin=true;
 		require_once($name.".php");
 	}	

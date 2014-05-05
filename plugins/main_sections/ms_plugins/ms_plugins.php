@@ -28,8 +28,8 @@ $showit=false;
 if ($ajax){
 	ob_end_clean();
 }
-foreach ($_SESSION['OCS']['URL'] as $name=>$lbl){
-	if (substr($name,0,11) == 'ms_plugins_' and $_SESSION['OCS']['DIRECTORY'][$name] == 'ms_plugins'){
+foreach ($_SESSION['OCS']['url_service']->getUrls() as $name=>$url){
+	if (substr($name,0,11) == 'ms_plugins_' and $url['directory'] == 'ms_plugins'){
 		$plugin=true;
 		$list_plugin[]=$name.".php";
 		require_once($name.".php");

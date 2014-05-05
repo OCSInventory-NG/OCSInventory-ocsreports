@@ -17,9 +17,16 @@ class TxtMenuSerializer {
 		if (!is_array($config)) {
 			return false;
 		}
+		
+		if (isset($config['ORDER'])) {
+			$order = $config['ORDER'];
+		} else {
+			$order = array_merge($config['ORDER_FIRST_TABLE'], $config['ORDER_SECOND_TABLE']);
+		}
+		
 		// Build menu
 		$menu = new Menu();
-		foreach ($config['ORDER'] as $config_elem) {
+		foreach ($order as $config_elem) {
 			$url = $config_elem;
 		
 			if (isset($config['MENU_NAME'][$config_elem])) {

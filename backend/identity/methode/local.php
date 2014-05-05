@@ -35,6 +35,11 @@ if (isset($rowOp->accesslvl)) {
 	$lvluser = $rowOp->accesslvl;
 
 	$profile_config = 'config/profiles/'.$lvluser.'.xml';
+	
+	if (!file_exists($profile_config)) {
+		migrate_config_2_2();
+	}
+	
 	$profile_serializer = new XMLProfileSerializer();
 	$profile = $profile_serializer->unserialize($lvluser, file_get_contents($profile_config));
 	

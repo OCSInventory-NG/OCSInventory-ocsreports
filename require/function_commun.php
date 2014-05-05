@@ -235,7 +235,9 @@ function read_profil_file($name,$writable=''){
 function read_config_file($writable=''){
 	//Select config file depending on user profile
 	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR']."4all_config.txt";
-	$search=array('ORDER'=>'MULTI2',
+	$search=array('ORDER_FIRST_TABLE'=>'MULTI2',
+				  'ORDER_SECOND_TABLE'=>'MULTI2',
+				  'ORDER'=>'MULTI2',
 				  'LBL'=>'MULTI',
 				  'MENU'=>'MULTI',
 				  'MENU_TITLE'=>'MULTI',
