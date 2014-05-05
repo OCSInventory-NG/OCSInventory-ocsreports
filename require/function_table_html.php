@@ -295,15 +295,11 @@ function xml_decode( $txt ) {
 	}
 	function checkall()
 	 {
-		for(i=0; i<document.<?php echo $option['form_name']; ?>.elements.length; i++)
-		{
-			if(document.<?php echo $option['form_name']; ?>.elements[i].name.substring(0,5) == 'check'){
-		        if (document.<?php echo $option['form_name']; ?>.elements[i].checked)
-					document.<?php echo $option['form_name']; ?>.elements[i].checked = false;
-				else
-					document.<?php echo $option['form_name']; ?>.elements[i].checked = true;
-			}
-		}
+		var table_id ="table#<?php echo $option['table_name']; ?>";
+		$(table_id+" tbody tr td input:checkbox").each(function(){
+				value = !$(this).attr('checked');
+				$(this).attr('checked', value);
+		 });
 	}
 
 	$(document).ready(function() {
