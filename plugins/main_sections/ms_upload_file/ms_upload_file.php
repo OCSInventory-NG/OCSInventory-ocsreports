@@ -8,7 +8,15 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
 function return_bytes($val) {
     $val = trim($val);
     $last = strtolower($val{strlen($val)-1});
@@ -78,6 +86,10 @@ else
 echo "<br><center><font color=orange><b>" . $l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041) . "</b></font></center>";
 */
 $table_name=$form_name;
+
+$tab_options=$protectedPost;
+$tab_options['form_name']=$form_name;
+$tab_options['table_name']=$table_name;
 if (isset($_FILES['file_upload']['name'])){
 	if ($_FILES['file_upload']['size'] != 0){
 		$fname=$_FILES['file_upload']['name'];
@@ -126,7 +138,7 @@ if (!isset($protectedPost['ADD_FILE'])){
 	$tab_options['POPUP_SIZE'][$l->g(49)]="width=900,height=600";
 	printEntete($l->g(1245));
 	echo "<br>";
-	tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options);
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	//echo show_modif($name,'ADD_FILE',8,"",$configinput=array('DDE'=>100));
 	echo "<input type=submit name=ADD_FILE value='".$l->g(1048)."'>";
 	echo close_form();
@@ -155,5 +167,8 @@ if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
 
 }
 
-
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql,$tab_options);
+}
 ?>
