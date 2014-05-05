@@ -12,6 +12,8 @@ require_once 'TxtProfileSerializer.php';
 require_once 'XMLProfileSerializer.php';
 
 function migrate_config_2_2() {
+	global $l;
+	
 	if (!is_writable('config')) {
 		msg_error($l->g(2029));
 		exit;
@@ -51,8 +53,7 @@ function migrate_js_2_2($config) {
 
 function migrate_profiles_2_2() {
 	if (!is_writable('config/profiles')) {
-		msg_error($l->g(2029));
-		exit;
+		mkdir('config/profiles');
 	}
 	
 	$txt_serializer = new TxtProfileSerializer();

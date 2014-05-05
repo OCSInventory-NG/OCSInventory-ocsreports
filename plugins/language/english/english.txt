@@ -1237,7 +1237,7 @@
 2026 The default login/password is activate on OCS-NG GUI
 2027 Change your 'admin' password on OCS-NG GUI
 2028 Authentication key
-2029 The config or config/profiles directories are not writable
+2029 The config directory is not writable
 
 
 2030 OCS-NG Inventory Installation
