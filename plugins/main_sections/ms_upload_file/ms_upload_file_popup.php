@@ -9,6 +9,16 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
 $form_name="upload_file";
 //verification if this field exist in the table and type like 'blob'
 if (isset($protectedGet["tab"]) and $protectedGet["tab"]!=''){
@@ -16,6 +26,9 @@ if (isset($protectedGet["tab"]) and $protectedGet["tab"]!=''){
 }else{
 	$table='downloadwk_pack';
 }
+$tab_options=$protectedPost;
+$tab_options['form_name']=$form_name;
+$tab_options['table_name']=$table;
 
 $sql_show="show fields from %s
 	where (field='%s' 
@@ -103,9 +116,13 @@ if (isset($field) and $field != ''){
 		$tab_options['POPUP_SIZE']['Fichier']="width=900,height=600";
 		
 		
-		tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$queryDetails,$form_name2,80,$tab_options);
+		ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 		echo close_form();
 }else
 	msg_error($l->g(1049));
 
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
+}
 ?>
