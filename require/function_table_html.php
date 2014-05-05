@@ -1425,7 +1425,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 					break;
 						
 				case "GROUP_NAME":
-					$row[$key]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
+					$row['NAME']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
 					break;
 						
 				case "NULL":
@@ -1512,6 +1512,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
+	//print_r($tab_options);
 	global $protectedPost,$l,$pages_refs;
 	$columns_special = array("CHECK",
 			"SUP",

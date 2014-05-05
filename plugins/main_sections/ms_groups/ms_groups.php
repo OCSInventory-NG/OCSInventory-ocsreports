@@ -140,6 +140,7 @@ $result = mysql2_query_secure($sql_nb_mach, $_SESSION['OCS']["readServer"]) ;
 while($item = mysqli_fetch_object($result)){
 	//on force les valeurs du champ "nombre" � l'affichage
 	$tab_options['VALUE']['NBRE'][$item -> group_id]=$item -> nb;
+	$_SESSION['OCS']['VALUE_FIXED'][$tab_options['table_name']]['NBRE'][$item -> group_id]=$item -> nb;
 }
 	
 //Modif ajout�e pour la prise en compte 

@@ -96,7 +96,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 		
 	}
 
-	
+	//var_dump($data_fixe);
 	if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])
 		$arg=$_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
 	else
@@ -120,6 +120,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 			
 			$found = false;
 			// find value case-insensitive
+	
 			foreach ($cont as $key => $val) {
 				if (strtolower($key) == strtolower($field)) {
 					if (($field == 'TAG' or substr($field,0,7) == 'fields_')
@@ -134,8 +135,13 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 					$found = true;
 					break;
 				}
+				elseif(isset($_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$lbl][$cont['ID']]) && isset($cont['ID'])){
+					$data[$i][$lbl] = $_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$lbl][$cont['ID']];
+						$found = true;
+						break;
+				}
+				
 			}
-			
 			if (!$found) {
 				// find values case-insensitive
 				
