@@ -9,6 +9,19 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2010 $$Author: Erwan Goalou
+
+
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+$tab_options=$protectedPost;
+
 require_once('require/function_telediff.php');
 
 if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO')
@@ -69,10 +82,16 @@ foreach ($list_fields as $key=>$value){
 $querypack=substr($querypack,0,-1);
 $querypack .= " from download_enable e RIGHT JOIN download_available a ON a.fileid = e.fileid
 				where e.FILEID=".$protectedGet['timestamp'];
-$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$querypack,$form_name,95,$tab_options); 
+$tab_options['form_name']=$form_name;
+$tab_options['table_name']=$table_name;
+$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 if ($result_exist != "" and !$cant_active)
 echo "<a href=# OnClick='confirme(\"\",\"".$protectedGet['timestamp']."\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
 echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 echo close_form();
 echo "<center>".$l->g(552)."</center>";
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$querypack,$tab_options);
+}
 ?>

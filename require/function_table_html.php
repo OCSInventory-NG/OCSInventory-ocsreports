@@ -246,7 +246,7 @@ function xml_decode( $txt ) {
 	if (!empty($list_col_can_del)){
 	?>
 	<div>
-	<select id="select_col">
+	<select id="select_col<?php echo $option['table_name']; ?>">
 	<?php 
 	foreach($list_col_can_del as $key => $col){
 		$name = explode('.',$col);
@@ -264,7 +264,7 @@ function xml_decode( $txt ) {
 	}
 	?>
 	</select>	
-	<button type="button" id="disp">Show/Hide</button>
+	<button type="button" id="disp<?php echo $option['table_name']; ?>">Show/Hide</button>
 	</div>
 	<?php 
 	}
@@ -383,8 +383,8 @@ function xml_decode( $txt ) {
     	        
        		});
 
-			$("body").on("click","#disp",function(){
-					var col = "."+$("#select_col").val();
+			$("body").on("click","#disp"+table_name,function(){
+					var col = "."+$("#select_col"+table_name).val();
 					$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
 					$(table_id).DataTable().ajax.reload();
 				});
