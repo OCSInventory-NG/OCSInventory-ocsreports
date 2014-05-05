@@ -28,12 +28,10 @@ function show_menu() {
 
 	// Build menu
 	$profile = $_SESSION['OCS']['profile'];
+	$urls = $_SESSION['OCS']['url_service'];
 
 	$menu_serializer = new XMLMenuSerializer();
 	$menu = $menu_serializer->unserialize(file_get_contents('config/main_menu.xml'));
-
-	$urls_serializer = new XMLUrlsSerializer();
-	$urls = $urls_serializer->unserialize(file_get_contents('config/urls.xml'));
 
 	$renderer = new BootstrapMenuRenderer($profile, $urls);
 	echo $renderer->render($menu);

@@ -237,6 +237,13 @@ if (!isset($_SESSION['OCS']['url_service'])){
 }
 
 
+/*****************************************************GESTION DES FICHIERS JS****************************************/
+if (!isset($_SESSION['OCS']['JAVASCRIPT'])) {
+	$js_serializer = new XMLJsSerializer();
+	$_SESSION['OCS']['JAVASCRIPT'] = $js_serializer->unserialize(file_get_contents('config/js.xml'));
+}
+
+
 /**********************************************************GESTION DES COLONNES DES TABLEAUX PAR COOKIES***********************************/
 require_once('require/function_cookies.php');
 

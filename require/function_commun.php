@@ -351,8 +351,8 @@ function html_header($no_java=false){
   			
   		
 		if (isset($_SESSION['OCS']['JAVASCRIPT'])){
-			foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file => $rep){
-				echo "<script language='javascript' type='text/javascript' src='".MAIN_SECTIONS_DIR.$rep.$file."'></script>";
+			foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file){
+				echo "<script language='javascript' type='text/javascript' src='".MAIN_SECTIONS_DIR.$file."'></script>";
 			}
 		}
 	}
