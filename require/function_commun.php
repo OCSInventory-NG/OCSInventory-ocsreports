@@ -337,6 +337,7 @@ function html_header($no_java=false){
 		echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
 		//js for graph
 		echo "<script src='js/jquery-1.11.0.js' type='text/javascript'></script>";
+		echo "<script src='js/jquery-migrate-1.2.1.min.js' type='text/javascript'></script>";
 		
 		echo "<script src='js/bootstrap.min.js' type='text/javascript'></script>";
 		echo "<script src='js/bootstrap-custom.js' type='text/javascript'></script>";
