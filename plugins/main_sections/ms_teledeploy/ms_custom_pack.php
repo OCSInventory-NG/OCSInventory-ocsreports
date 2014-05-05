@@ -9,12 +9,25 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
+if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost+=$params;
+	ob_start();
+	$ajax = true;
+}
+else{
+	$ajax=false;
+}
+
 require_once('require/function_telediff.php');
 require_once('require/function_search.php');
 require_once('require/function_telediff_wk.php');
 //p($protectedPost);
 $form_name="pack_affect";
 $table_name="LIST_PACK_SEARCH";
+$tab_options=$protectedPost;
+$tab_options['form_name']=$form_name;
+$tab_options['table_name']=$table_name;
 echo open_form($form_name);
 $list_id=multi_lot($form_name,$l->g(601));
 //TELEDIFF_WK
@@ -339,10 +352,15 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			$tab_options['ARG_SQL']=$sql['ARG'];
 			$tab_options['MODIF']['IMG']="image/prec16.png";
 		
-			$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$form_name,100,$tab_options); 
+			$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 		}
 		echo "</td></tr></table></div>";
 	}
 }
 echo close_form();
+
+if ($ajax){
+	ob_end_clean();
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+}
 ?>

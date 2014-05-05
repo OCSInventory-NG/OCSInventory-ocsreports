@@ -1236,7 +1236,8 @@ function lbl_column($list_fields){
 
 function ajaxfiltre($queryDetails,$tab_options){
 	if ($tab_options["search"]['value']!=""){
-		$search = $tab_options["search"]['value'];
+		$search = mysqli_real_escape_string($_SESSION['OCS']["readServer"],$tab_options["search"]['value']);
+		$search = str_replace('%','%%',$search);
 		$sqlword['WHERE']= preg_split("/where/i", $queryDetails);
 		$sqlword['GROUPBY']= preg_split("/group by/i", $queryDetails);
 		$sqlword['HAVING']= preg_split("/having/i", $queryDetails);
