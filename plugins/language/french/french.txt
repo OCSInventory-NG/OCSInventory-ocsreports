@@ -1203,6 +1203,13 @@
 1325 Résolution format horizontal/vertical
 1326 Partagée
 1327 Local/Réseaux
+1328 Gestion
+1329 Administration
+1330 Matériel
+1331 Périphériques
+1332 Divers
+1333 Configuration
+
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1234,6 +1241,7 @@
 2026 Le compte/mot de passe par défaut de l'interface WEB est actif
 2027 Changer le mot de passe du compte 'admin' dans l'interface web
 2028 Authentication key
+2029 Le répertoire config n'est pas disponible en écriture
 
 
 2030 Installation d'OCS-NG Inventory
