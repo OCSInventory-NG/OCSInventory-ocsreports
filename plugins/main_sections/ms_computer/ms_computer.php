@@ -49,7 +49,10 @@ show_computer_menu($item->ID);
 echo '</div>';
 
 echo '<div class="computer-content">';
-show_computer_summary($item);
+
+if (isset($protectedGet['cat']) and $protectedGet['cat'] == 'admin') {
+	show_computer_summary($item);
+}
 
 //Wake On Lan function
 if (isset($protectedPost["WOL"]) and $protectedPost["WOL"] == 'WOL' and $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO')=="NO"){
