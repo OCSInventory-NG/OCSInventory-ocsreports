@@ -1209,7 +1209,24 @@
 1331 Devices
 1332 Miscellaneous
 1333 Configuration
-
+1334 No data available in table
+1335 Showing _START_ to _END_ of _TOTAL_ entries
+1336 Showing 0 to 0 of 0 entrie
+1337 (filtered from _MAX_ total entries)
+1338 Show _MENU_ entries
+1339 Loading...
+1340 Processing...
+1341 Search:
+1342 No matching records found
+1343 First
+1344 Last
+1345 Next
+1346 Previous
+1347 activate to sort column ascending
+1348 activate to sort column descending
+1349 Show / Hide
+1350 ,
+1351 .
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

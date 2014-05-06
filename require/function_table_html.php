@@ -264,7 +264,7 @@ function xml_decode( $txt ) {
 	}
 	?>
 	</select>	
-	<button type="button" id="disp<?php echo $option['table_name']; ?>">Show/Hide</button>
+	<button type="button" id="disp<?php echo $option['table_name']; ?>"> <?php echo $l->g(1349); ?></button>
 	</div>
 	<?php 
 	}
@@ -385,6 +385,30 @@ function xml_decode( $txt ) {
    	        			}
     	        		?>
     	        ],
+    	        "language": {
+    	        		"sEmptyTable":     "<?php echo $l->g(1334); ?>",
+    	        		"sInfo":           "<?php echo $l->g(1335); ?>",
+    	        		"sInfoEmpty":      "<?php echo $l->g(1336); ?>",
+    	        		"sInfoFiltered":   "<?php echo $l->g(1337); ?>",
+    	        		"sInfoPostFix":    "",
+    	        		"sInfoThousands":  "<?php echo $l->g(1350); ?>",
+    	        		"decimal": 		   "<?php echo $l->g(1351); ?>",
+    	        		"sLengthMenu":     "<?php echo $l->g(1338); ?>",
+    	        		"sLoadingRecords": "<?php echo $l->g(1339); ?>",
+    	        		"sProcessing":     "<?php echo $l->g(1340); ?>",
+    	        		"sSearch":         "<?php echo $l->g(1341); ?>",
+    	        		"sZeroRecords":    "<?php echo $l->g(1342); ?>",
+    	        		"oPaginate": {
+    	        			"sFirst":      "<?php echo $l->g(1343); ?>",
+    	        			"sLast":       "<?php echo $l->g(1344); ?>",
+    	        			"sNext":       "<?php echo $l->g(1345); ?>",
+    	        			"sPrevious":   "<?php echo $l->g(1346); ?>",
+    	        		},
+    	        		"oAria": {
+    	        			"sSortAscending":  ": <?php echo $l->g(1347); ?>",
+    	        			"sSortDescending": ": <?php echo $l->g(1348); ?>",
+    	        		}
+				 },
     	       
     	        
        		});
@@ -426,7 +450,6 @@ function xml_decode( $txt ) {
 	
 	</script>
 	<?php
-	
 	if ($titre != "")
 		printEnTete_tab($titre);
 	echo "<br><div class='tableContainer'><table id='".$option['table_name']."' class='display'><thead><tr>";

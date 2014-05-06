@@ -1209,7 +1209,24 @@
 1331 Périphériques
 1332 Divers
 1333 Configuration
-
+1334 Aucune donnée dans le tableau
+1335 Affichage de _START_ à _END_ de _TOTAL_ résultats
+1336 Affichage de 0 à 0 de 0 résultat
+1337 (Filtré depuis _MAX_ résultats)
+1338 Afficher _MENU_ résultats
+1339 Chargement en cours...
+1340 Traitement en cours...
+1341 Rechercher:
+1342 Aucun résultat à afficher
+1343 Premier
+1344 Dernier
+1345 Suivant
+1346 Précédent 
+1347 activer pour trier la colonne par ordre croissant
+1348 activer pour trier la colonne par ordre décroissant
+1349 Afficher / Cacher
+1350 .
+1351 ,
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
