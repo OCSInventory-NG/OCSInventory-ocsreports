@@ -87,7 +87,7 @@ if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('softwa
 	foreach ($plugins as $plugin) {
 		if ($plugin->getCategory() == $protectedGet['cat']) {
 			$plugin_file = PLUGINS_DIR."computer_detail/".$plugin->getId()."/".$plugin->getId().".php";
-			
+			$protectedPost['computersectionrequest'] = $plugin->getId();
 			if (file_exists($plugin_file)) {
 				require $plugin_file;
 			}

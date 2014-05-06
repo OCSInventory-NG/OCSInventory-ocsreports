@@ -237,6 +237,7 @@ function xml_decode( $txt ) {
 		if(isset($option['computersectionrequest'])){
 			parse_str($_SERVER['QUERY_STRING'],$addressoption);
 			unset($addressoption['all']);
+			unset($addressoption['cat']);
 			$addressoption['option']=$option['computersectionrequest'];
 			$address = "?".http_build_query($addressoption);
 		}else{
@@ -270,11 +271,11 @@ function xml_decode( $txt ) {
 	}
 	?>
 	<div align=center>
-	<div id="csv_download" style="display: none">
+	<div id="<?php echo $option['table_name']; ?>_csv_download" style="display: none">
 	<?php
 	if (!isset($option['no_download_result'])){
-		echo "<div id='csv_page'><label id='infopage_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a></div>";
-		echo "<div id='csv_total'><label id='infototal_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&nolimit=true&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a></div>";
+		echo "<div id='".$option['table_name']."_csv_page'><label id='infopage_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a></div>";
+		echo "<div id='".$option['table_name']."_csv_total'><label id='infototal_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&nolimit=true&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a></div>";
 	}
 	?>
 	</div>
@@ -426,19 +427,19 @@ function xml_decode( $txt ) {
 					var end = $(table_id).DataTable().page.info().end;
 					var total = $(table_id).DataTable().page.info().recordsDisplay;
 					if (total == 0){
-						$('#csv_download').hide();
+						$('#'+table_name+'_csv_download').hide();
 					}
 					else{
 						if (end != total || start != 1){
-							$('#csv_page').show();
+							$('#'+table_name+'_csv_page').show();
 							$('#infopage_'+table_name).text(start+"-"+end);
 						}
 						else{
-							$('#csv_page').hide();
+							$('#'+table_name+'_csv_page').hide();
 						}
 											
 						$('#infototal_'+table_name).text(total);
-						$('#csv_download').show();
+						$('#'+table_name+'_csv_download').show();
 						
 						
 					}
@@ -517,7 +518,7 @@ function tab_entete_fixe($entete_colonne,$data,$titre,$width,$height,$lien=array
 	<?php
 	if ($titre != "")
 	printEnTete_tab($titre);
-	echo "<br><div class='tableContainer' id='data' style=\"width:".$width."%;\"><table cellspacing='0' class='ta'><tr>";
+	echo "<div class='tableContainer' id='data' style=\"width:".$width."%;\"><table cellspacing='0' class='ta'><tr>";
 		//titre du tableau
 	$i=1;
 	foreach($entete_colonne as $k=>$v)
