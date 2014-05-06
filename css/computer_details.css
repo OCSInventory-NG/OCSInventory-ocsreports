@@ -1,0 +1,68 @@
+.right-caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    float: right;
+    margin: 6px 0;
+    vertical-align: middle;
+    border-bottom: 4px solid transparent;
+    border-top: 4px solid transparent;
+    border-left: 4px solid;
+}
+
+/*** MENU ***/
+
+.computer-menu {
+	padding-left: 20px;
+	float: left;
+	text-align: left;
+	width: 172px;
+}
+
+.computer-menu .nav > li > a {
+	width: 150px;
+	padding: 10px 15px;
+}
+
+.computer-menu li > ul {
+	top: 0;
+	left: 150px;
+}
+
+/*** CONTENT ***/
+
+.computer-content {
+	margin-left: 190px;
+	margin-right: 20px;
+}
+
+/*** SUMMARY ***/
+
+.summary {
+	width: 100%;
+	text-align: left;
+}
+
+.summary-row:first-child {
+	border-top: 1px solid #e7e7e7;
+}
+
+.summary-cell {
+	width: 50%;
+	padding: 5px 10px 10px 20px;
+	border: 1px solid #e7e7e7;
+	vertical-align: top;
+}
+
+.summary-header {
+	display: inline-block;
+	font-weight: bold;
+	width: 30%;
+	padding: 3px 0;
+}
+
+.summary-value {
+	display: inline-block;
+	width: 70%;
+	padding: 3px 0;
+}

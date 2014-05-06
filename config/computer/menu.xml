@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+  <menu-elem id="accountinfo">
+    <label>g(56)</label>
+    <url>cat=admin</url>
+  </menu-elem>
+  <menu-elem id="hardware">
+    <label>g(1330)</label>
+    <url>cat=hardware</url>
+  </menu-elem>
+  <menu-elem id="software">
+    <label>g(20)</label>
+    <url>cat=software</url>
+  </menu-elem>
+  <menu-elem id="devices">
+    <label>g(1331)</label>
+    <url>cat=devices</url>
+  </menu-elem>
+  <menu-elem id="config">
+    <label>g(1333)</label>
+    <url>cat=config</url>
+  </menu-elem>
+  <menu-elem id="other">
+    <label>g(1332)</label>
+    <url>cat=other</url>
+  </menu-elem>
+</menu>

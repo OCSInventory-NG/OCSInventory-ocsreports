@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugins>
+  <!-- HARDWARE -->
+  <plugin id="cd_processors">
+  	<label>g(54)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  </plugin>
+  <plugin id="cd_memories">
+  	<label>g(26)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>memories</available>
+  </plugin>
+  <plugin id="cd_storages">
+  	<label>g(63)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>storages</available>
+  </plugin>
+  <plugin id="cd_drives">
+  	<label>g(92)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>drives</available>
+  </plugin>
+  <plugin id="cd_videos">
+  	<label>g(61)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>videos</available>
+  </plugin>
+  <plugin id="cd_sounds">
+  	<label>g(96)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>sounds</available>
+  </plugin>
+  <plugin id="cd_networks">
+  	<label>g(82)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>networks</available>
+  </plugin>
+  <plugin id="cd_controllers">
+  	<label>g(93)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>controllers</available>
+  </plugin>
+  <plugin id="cd_slots">
+  	<label>g(271)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>slots</available>
+  </plugin>
+  <plugin id="cd_ports">
+  	<label>g(272)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>ports</available>
+  </plugin>
+  <plugin id="cd_bios">
+  	<label>g(273)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>bios</available>
+  </plugin>
+  
+  <!-- SOFTWARE -->
+  <plugin id="cd_softwares">
+  	<label>g(20)</label>
+  	<system>1</system>
+  	<category>software</category>
+  	<available>softwares</available>
+  </plugin>
+  
+  <!-- DEVICES -->
+  <plugin id="cd_pda">
+  	<label>g(994)</label>
+  	<system>1</system>
+  	<category>devices</category>
+  	<available>sim</available>
+  </plugin>
+  <plugin id="cd_monitors">
+  	<label>g(97)</label>
+  	<system>1</system>
+  	<category>devices</category>
+  	<available>monitors</available>
+  </plugin>
+  <plugin id="cd_inputs">
+  	<label>g(91)</label>
+  	<system>1</system>
+  	<category>devices</category>
+  	<available>inputs</available>
+  </plugin>
+  <plugin id="cd_printers">
+  	<label>g(79)</label>
+  	<system>1</system>
+  	<category>devices</category>
+  	<available>printers</available>
+  </plugin>
+  <plugin id="cd_modems">
+  	<label>g(270)</label>
+  	<system>1</system>
+  	<category>devices</category>
+  	<available>modems</available>
+  </plugin>
+  
+  <!-- ADMIN -->
+  <plugin id="cd_admininfo">
+  	<label>g(56)</label>
+  	<system>1</system>
+  	<category>admin</category>
+  	<available>accountinfo</available>
+  </plugin>
+  <plugin id="cd_comments">
+  	<label>g(1128)</label>
+  	<system>1</system>
+  	<category>admin</category>
+  </plugin>
+  <plugin id="cd_registry">
+  	<label>g(211)</label>
+  	<system>1</system>
+  	<category>admin</category>
+  	<available>registry</available>
+  </plugin>
+  
+  <!-- CONFIG -->
+  <plugin id="cd_configuration">
+  	<label>g(500)</label>
+  	<system>1</system>
+  	<category>config</category>
+  </plugin>
+  <plugin id="cd_packets">
+  	<label>g(512)</label>
+  	<system>1</system>
+  	<category>config</category>
+  	<available>download_history</available>
+  </plugin>
+  
+  <!-- OTHER -->
+  <plugin id="cd_vm">
+  	<label>g(1266)</label>
+  	<system>1</system>
+  	<category>other</category>
+  	<available>virtualmachines</available>
+  </plugin>
+</plugins>

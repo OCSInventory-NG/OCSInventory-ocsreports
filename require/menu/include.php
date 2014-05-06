@@ -2,9 +2,11 @@
 
 require_once 'Menu.php';
 require_once 'MenuElem.php';
-require_once 'MenuRendererInterface.php';
-require_once 'BaseMenuRenderer.php';
-require_once 'BootstrapMenuRenderer.php';
+
+require_once 'MenuRenderer.php';
+require_once 'MainMenuRenderer.php';
+require_once 'ComputerMenuRenderer.php';
+
 require_once 'XMLMenuSerializer.php';
 require_once 'TxtMenuSerializer.php';
 
@@ -20,8 +22,6 @@ function migrate_menus_2_2($config) {
 }
 
 function show_menu() {
-	global $l;
-
 	if (!file_exists('config/main_menu.xml')) {
 		migrate_config_2_2();
 	}
@@ -33,7 +33,7 @@ function show_menu() {
 	$menu_serializer = new XMLMenuSerializer();
 	$menu = $menu_serializer->unserialize(file_get_contents('config/main_menu.xml'));
 
-	$renderer = new BootstrapMenuRenderer($profile, $urls);
+	$renderer = new MainMenuRenderer($profile, $urls);
 	echo $renderer->render($menu);
 }
 

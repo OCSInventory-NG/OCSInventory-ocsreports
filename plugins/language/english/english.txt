@@ -1204,7 +1204,11 @@
 1326 Shared
 1327 Local / Networks
 1328 Manage
-
+1329 Administration
+1330 Hardware
+1331 Devices
+1332 Miscellaneous
+1333 Configuration
 
 
 
