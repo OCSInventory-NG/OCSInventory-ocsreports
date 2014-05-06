@@ -326,7 +326,14 @@ function xml_decode( $txt ) {
 								visible.push(index);
             	        	}
             	        });
-							var ocs=[];
+						var ocs=[];
+						<?php 
+						foreach ($protectedPost as $key => $value){
+							if(!is_array($value)){
+								echo "d.".$key." = '".$value."'; \n";
+							}
+						}
+						?>
         	        	ocs.push($(form_name).serialize());
             	        d.visible = visible;
             	        d.ocs = ocs;
@@ -1382,7 +1389,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 			$column = end($name);
 			$value_of_field = $row[$column];
 			if (isset($tab_options['JAVA']['CHECK'])){
-				$javascript="OnClick='confirme(\"".htmlspecialchars($row[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
+				$javascript="OnClick='confirme(\"".htmlspecialchars($row_temp[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
 			}else
 				$javascript="";
 			if (isset($tab_options['AS'])){
@@ -1397,6 +1404,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 			switch($key){
 				case "CHECK":
 					if ($value_of_field!= '&nbsp;'){
+						//print_r($tab_options);
 						$row[$key] = "<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($tab_options['check'.$value_of_field])? " checked ": "").">";
 					}
 					break;
