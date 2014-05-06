@@ -26,6 +26,7 @@ require_once('require/function_admininfo.php');
 $show_mac_addr=true;
 $tab_options=$protectedPost;
 $tab_options['form_name']="show_all";
+$form_name = $tab_options['form_name'];
 $tab_options['table_name']="list_show_all";
 //$tab_options['DRAW']=$draw;
 if (isset($protectedGet['filtre']) and !isset($protectedPost['FILTRE'])){

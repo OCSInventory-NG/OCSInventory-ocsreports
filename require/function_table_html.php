@@ -204,7 +204,7 @@ function xml_decode( $txt ) {
 	global $protectedGet,$protectedPost,$l,$pages_refs;
 	$lbl_column=array("SUP"=>$l->g(122),
 									  "MODIF"=>$l->g(115),
-									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>");
+									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='checkboxALL' Onclick='checkall();'>");
 	if(!empty($option['LBL'])){
 		$lbl_column= array_merge($lbl_column,$option['LBL']);
 	}
@@ -298,7 +298,7 @@ function xml_decode( $txt ) {
 		var table_id ="table#<?php echo $option['table_name']; ?>";
 		$(table_id+" tbody tr td input:checkbox").each(function(){
 				value = !$(this).attr('checked');
-				$(this).attr('checked', value);
+				document.getElementById($(this).attr('id')).checked = value ;
 		 });
 	}
 
@@ -317,6 +317,9 @@ function xml_decode( $txt ) {
             	 "data": function ( d ) {
             	        d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER'];?> = $(csrfid).val();
             	        var visible =[];
+            	        if (document.getElementById('checkboxALL')){
+            	        	document.getElementById('checkboxALL').checked = false;
+            	        }
             	        $.each(d.columns,function(index,value){
                 	        var col = "."+this['data'];
             	       	 if($(table_id).DataTable().column(col).visible()){
