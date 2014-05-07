@@ -309,13 +309,17 @@ function xml_decode( $txt ) {
 		var form_name = "form#<?php echo $option['form_name']; ?>";
 		var csrfid = "input#CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?>";
 		var table = $(table_id).dataTable({
-			"scrollX": true,
 	        "processing": true,
 	        "serverSide": true,
         	"ajax": {
             	 'url':'<?php echo $address; ?>&no_header=true&no_footer=true',
             	 "type": "POST",
             	 "data": function ( d ) {
+            		 if ($(table_id).width() < $(this).width()){
+     					$(table_id).width('100%');
+     					$(".dataTables_scrollHeadInner").width('100%');
+     					$(".dataTables_scrollHeadInner>table").width('100%');
+     				}
             	        d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER'];?> = $(csrfid).val();
             	        var visible =[];
             	        if (document.getElementById('checkboxALL')){
@@ -410,10 +414,9 @@ function xml_decode( $txt ) {
     	        			"sSortDescending": ": <?php echo $l->g(1348); ?>",
     	        		}
 				 },
-    	       
-    	        
+				"scrollX": "110%",
+				"scrollXInner": "100%",
        		});
-
 			$("body").on("click","#disp"+table_name,function(){
 					var col = "."+$("#select_col"+table_name).val();
 					$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
