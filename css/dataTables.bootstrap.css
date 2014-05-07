@@ -1,3 +1,12 @@
+.tableContainer .row{
+	margin : 0;	
+}
+
+table.dataTable a {
+color: rgb(116, 116, 116)!important;
+font-weight: bold;
+}
+
 div.dataTables_length label {
 	font-weight: normal;
 	float: left;
@@ -41,7 +50,6 @@ table.dataTable th {
 
 
 table.dataTable {
-	clear: both;
 	margin-top: 6px !important;
 	margin-bottom: 6px !important;
 	max-width: none !important;
