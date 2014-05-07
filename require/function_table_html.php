@@ -372,7 +372,7 @@ function xml_decode( $txt ) {
 								if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
 									$key = $option['REPLACE_COLUMN_KEY'][$key];
 								}
-    	        				echo  "{'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': '', 'orderable':  ".$orderable.",'searchable': false, 'visible' : ".$visible."}, \n" ;
+    	        				echo  "{'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': ' ', 'orderable':  ".$orderable.",'searchable': false, 'visible' : ".$visible."}, \n" ;
     	        			}	
     	        			else{		
     	        				$name = explode('.',$column);
@@ -381,7 +381,7 @@ function xml_decode( $txt ) {
     	        				if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
 										$name = $option['REPLACE_COLUMN_KEY'][$key];
 								}
-    	        				echo  "{ 'data' : '".$name."' , 'class':'".$name."', 'name':'".$column."', 'defaultContent': '', 'orderable':  ".$orderable.", 'visible' : ".$visible."},\n " ;
+    	        				echo  "{ 'data' : '".$name."' , 'class':'".$name."', 'name':'".$column."', 'defaultContent': ' ', 'orderable':  ".$orderable.", 'visible' : ".$visible."},\n " ;
     	        			}
    	        			}
     	        		?>
@@ -418,6 +418,7 @@ function xml_decode( $txt ) {
 					var col = "."+$("#select_col"+table_name).val();
 					$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
 					$(table_id).DataTable().ajax.reload();
+					
 				});
 			<?php
 			if (!isset($option['no_download_result'])){
@@ -1667,13 +1668,14 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		if($rows === 0){
 			$recordsFiltered = 0;
 		}
-		if (isset($_SESSION[$tab_options['table_name']]['nb_resultat'])){
-			$recordsTotal = $_SESSION[$tab_options['table_name']]['nb_resultat'];
+		if($tab_options["search"]['value']==""){
+			$_SESSION['OCS'][$tab_options['table_name']]['nb_resultat']=$recordsFiltered;
+		}
+		if (isset($_SESSION['OCS'][$tab_options['table_name']]['nb_resultat'])){
+			$recordsTotal = $_SESSION['OCS'][$tab_options['table_name']]['nb_resultat'];
+		
 		}else{
 			$recordsTotal=$recordsFiltered;
-			if($tab_options["search"]['value']!=""){
-				$_SESSION[$tab_options['table_name']]['nb_resultat']=$recordsFiltered;
-			}
 		}
 		$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows );
 		echo json_encode($res);
