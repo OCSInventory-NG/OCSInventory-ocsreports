@@ -332,7 +332,9 @@ function html_header($no_java=false){
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-custom.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/header.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/computer_details.css'>";
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/computer_details.css'>
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/dataTables.bootstrap.css'>
+				";
 	if (!$no_java){
 		incPicker(); 
 		echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
@@ -349,7 +351,7 @@ function html_header($no_java=false){
   		
   		//js and css for Datatables 
   		echo "<script type='text/javascript' src='libraries/datatable/media/js/jquery.dataTables.js'></script>";
-  		echo "<link rel='stylesheet' type='text/css' href='libraries/datatable/media/css/jquery.dataTables.css'>";
+  		echo "<script src='js/dataTables.bootstrap.js' type='text/javascript'></script>";
   			
   		
 		if (isset($_SESSION['OCS']['JAVASCRIPT'])){

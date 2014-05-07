@@ -414,8 +414,7 @@ function xml_decode( $txt ) {
     	        			"sSortDescending": ": <?php echo $l->g(1348); ?>",
     	        		}
 				 },
-				"scrollX": "110%",
-				"scrollXInner": "100%",
+				
        		});
 			$("body").on("click","#disp"+table_name,function(){
 					var col = "."+$("#select_col"+table_name).val();
@@ -457,7 +456,7 @@ function xml_decode( $txt ) {
 	<?php
 	if ($titre != "")
 		printEnTete_tab($titre);
-	echo "<br><div class='tableContainer'><table id='".$option['table_name']."' class='display'><thead><tr>";
+	echo "<br><table id='".$option['table_name']."' class='table table-striped table-bordered table-condensed table-hover'><thead><tr>";
 		//titre du tableau
 	foreach($columns as $k=>$v)
 	{		
@@ -470,7 +469,20 @@ function xml_decode( $txt ) {
 	}
 	echo "</tr>
     </thead>
-    </table></div></div>";
+		<tfoot>";
+	foreach($columns as $k=>$v)
+	{
+		if(array_key_exists($k,$lbl_column)){
+			echo "<th><font >".$lbl_column[$k]."</font></th>";
+		}
+		else{
+			echo "<th><font >".$k."</font></th>";
+		}
+	}
+	echo "</tr>
+	</tfoot>";
+			
+    echo "</table></div>";
 	echo "<input type='hidden' id='SUP_PROF' name='SUP_PROF' value=''>";
 	echo "<input type='hidden' id='MODIF' name='MODIF' value=''>";
 	echo "<input type='hidden' id='SELECT' name='SELECT' value=''>";
