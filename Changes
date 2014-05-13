@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Update memconf command to last revision
        * Add new file to detect Oracle distro
        * Fix CPU.pm which couldn't retrieve multi socket processors
        * Fix regression (bug #1045356)

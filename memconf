@@ -6,12 +6,12 @@
 #
 # @(#) memconf - Identify sizes of memory modules installed on a
 # @(#)           Solaris, Linux, FreeBSD or HP-UX workstation or server.
-# @(#) Micron Technology, Inc. - Tom Schmidt 19-Jul-2013 V3.03
+# @(#) Micron Technology, Inc. - Tom Schmidt 24-Feb-2014 V3.04
 #
 # Maintained by Tom Schmidt (tschmidt@micron.com)
 #
-#   Check my website at http://www.4schmidts.com/unix.html to get the latest
-#   version of memconf.
+#   Check http://sourceforge.net/projects/memconf/ or my website at
+#   http://www.4schmidts.com/unix.html to get the latest version of memconf.
 #
 #   If memconf does not recognize a system, then please run 'memconf -D' to
 #   have it automatically E-mail me the information I need to enhanced to
@@ -22,16 +22,13 @@
 #                  -v            verbose mode
 #                  -D            E-mail results to memconf maintainer
 #                  -h            print help
-#                  explorer_dir  Sun Explorer output directory
+#                  explorer_dir  Sun/Oracle Explorer output directory
 #
 # memconf reports the size of each SIMM/DIMM memory module installed in a
 # system. It also reports the system type and any empty memory sockets.
 # In verbose mode, it also reports the following information if available:
 #  - banner name, model and CPU/system frequencies
 #  - address range and bank numbers for each module
-#
-# memconf is Y2K compliant. There are no date calls in the program. Your
-# Operating System or Perl version may not be Y2K compliant.
 #
 # memconf is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
@@ -82,7 +79,8 @@
 #   - sun4v Sun SPARC Enterprise T2000, T1000 Server
 #   - sun4v Sun SPARC Enterprise T5120, T5140, T5220, T5240 Server, Netra T5220
 #   - sun4v Sun SPARC Enterprise T5440 Server, Netra T5440
-#   - sun4v Oracle SPARC T3-1, T3-1B, T3-2, T4-1, T4-2, T4-4
+#   - sun4v Oracle SPARC T3-1, T3-1B, T3-2, T4-1, T4-2, T4-4, T5-2
+#   - sun4v Fujitsu SPARC M10-4
 #   - sun4m Tatung COMPstation 5, 10, 20AL, 20S and 20SL clones
 #   - sun4m transtec SPARCstation 20I clone
 #   - sun4m Rave Axil-255 SPARCstation 5 clone
@@ -111,8 +109,10 @@
 # - sun4u Sun Netra ct400, ct410, ct810
 # - sun4u Sun SPARCengine CP2040, CP2060, CP2080, CP2160
 # - sun4v Sun Netra CP3260
-# - sun4v Oracle SPARC T3-1BA, T3-4, T4-1B, T4-2B
+# - sun4v Oracle SPARC T3-1BA, T3-4, T4-1B, T4-2B, T5-4, T5-8, T5-1B
+# - sun4v Oracle SPARC M5-32, M6-32
 # - sun4v Oracle Netra SPARC T3 systems
+# - sun4v Fujitsu SPARC M10-1, M10-4S
 # - May not work properly on Sun clones
 #
 # Won't work on:
@@ -131,9 +131,9 @@
 $^W=1;	# Enables -w warning switch, put here for SunOS4 compatibility.
 $starttime=(times)[0];
 
-$version="V3.03";
-$version_date="19-Jul-2013";
-$URL="http://www.4schmidts.com/unix.html";
+$version="V3.04";
+$version_date="24-Feb-2014";
+$URL="http://sourceforge.net/projects/memconf/";
 
 $newpath="/usr/sbin:/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
 $ENV{PATH}=(defined($ENV{PATH})) ? "$newpath:$ENV{PATH}" : $newpath;
@@ -195,6 +195,8 @@ $psrinfo_cmd="";
 $have_psrinfo_data=0;
 $use_psrinfo_data=1;
 $psrinfo_checked=0;
+$virtinfo_cmd="";
+$have_virtinfo_data=0;
 $cfgadm_cmd="";
 $have_cfgadm_data=0;
 $ipmitool_cmd="";
@@ -260,6 +262,7 @@ $installed_memory=0;
 $failed_memory=0;
 $spare_memory=0;
 $failing_memory=0;
+$memory_error_logged=0;
 $failed_fru="";
 $ultra=0;
 $simmbanks=0;
@@ -444,6 +447,9 @@ foreach $name (@ARGV) {
 	} elsif ($name eq "-debug") {
 		# most verbose debug mode
 		$debug=1;
+	} elsif ($name eq "-debugtime") {
+		# most verbose debug mode with timestamps
+		$debug=2;
 	} elsif ($name eq "-D") {
 		# E-mail information of system to maintainer
 		$verbose=3;
@@ -455,9 +461,9 @@ foreach $name (@ARGV) {
 		open(STDOUT, "| tee -a /tmp/memconf.output") || die "can't open /tmp/memconf.output: $!";
 		print "Gathering memconf data to E-mail to maintainer. This may take a few minutes.\nPlease wait...\n";
 	} elsif (-f "$name/sysconfig/prtconf-vp.out") {
-		# Sun Explorer output
+		# Sun/Oracle Explorer output
 		$SUNWexplo=1;
-		# Special case for regression testing Sun Explorer data
+		# Special case for regression testing Sun/Oracle Explorer data
 		$os="SunOS";
 		open(FILE, "<$name/sysconfig/prtconf-vp.out");
 		@config=<FILE>;
@@ -491,8 +497,9 @@ foreach $name (@ARGV) {
 			$psrinfo_cmd='/usr/sbin/psrinfo';
 			close(FILE);
 		}
-		# Sun Explorer does not include "psrinfo -p" or
+		# Sun/Oracle Explorer does not include "psrinfo -p" or
 		# "psrinfo -p -v" data yet.
+		# Is virtinfo output available in Oracle Explorer?
 		if (-f "$name/sysconfig/cfgadm-alv.out") {
 			open(FILE, "<$name/sysconfig/cfgadm-alv.out");
 			@cfgadm=<FILE>;
@@ -538,6 +545,8 @@ foreach $name (@ARGV) {
 		$have_prtpicl_data=1;
 		@psrinfo=@config;
 		$have_psrinfo_data=1;
+		@virtinfo=@config;
+		$have_virtinfo_data=1;
 		@cfgadm=@config;
 		$have_cfgadm_data=1;
 		@ipmitool=@config;
@@ -832,6 +841,7 @@ sub find_helpers {
 		$prtfru_cmd='/usr/sbin/prtfru' if (-x '/usr/sbin/prtfru');
 		$prtpicl_cmd='/usr/sbin/prtpicl' if (-x '/usr/sbin/prtpicl');
 		$psrinfo_cmd='/usr/sbin/psrinfo' if (-x '/usr/sbin/psrinfo');
+		$virtinfo_cmd='/usr/sbin/virtinfo' if (-x '/usr/sbin/virtinfo');
 		$cfgadm_cmd='/usr/sbin/cfgadm' if (-x '/usr/sbin/cfgadm');
 		$smbios_cmd='/usr/sbin/smbios' if (-x '/usr/sbin/smbios');
 		$kstat_cmd='/usr/bin/kstat -m cpu_info' if (-x '/usr/bin/kstat');
@@ -885,6 +895,7 @@ sub show_helpers {
 				print "$s$psrinfo_cmd -p -v\n";
 			}
 		}
+		print "$s$virtinfo_cmd -pa\n" if ($virtinfo_cmd);
 		print "$s$cfgadm_cmd -al\n" if ($cfgadm_cmd);
 		print "$s$smbios_cmd\n" if ($smbios_cmd);
 		print "$s$kstat_cmd\n" if ($kstat_cmd);
@@ -911,7 +922,7 @@ sub show_help {
 	print "                 -v            verbose mode\n";
 	print "                 -D            E-mail results to memconf maintainer\n";
 	print "                 -h            print help\n";
-	print "                 explorer_dir  Sun Explorer output directory\n";
+	print "                 explorer_dir  Sun/Oracle Explorer output directory\n";
 	print "\nThis is memconf, $version $version_date\n\nCheck my website ";
 	print "at $URL to get the latest\nversion of memconf.\n\n";
 	&show_supported if ($os !~ /SunOS|HP-UX|Linux|FreeBSD/);
@@ -965,6 +976,7 @@ sub cpubanner {
 		$cpubanner=$kstat_cpubanner;
 		return;
 	}
+	&checkX86;
 	if ($filename && $os eq "SunOS" && $isX86 && ! $hyperthread && ! $kstat_checked) {
 		&check_hyperthread;
 	} elsif ($filename && &is_xen_hv) {
@@ -1006,7 +1018,7 @@ sub show_header {
 	@simmsizesfound=sort numerically keys %saw;
 	print "hostname: $hostname\n" if ($hostname);
 	if ($filename) {
-		print (($SUNWexplo) ? "Sun Explorer directory" : "filename");
+		print (($SUNWexplo) ? "Sun/Oracle Explorer directory" : "filename");
 		print ": $filename\n";
 	}
 	if ($manufacturer) {
@@ -1211,11 +1223,8 @@ sub show_header {
 	}
 	# debug output
 	if ($verbose > 1) {
-		if ($banner) {
-			print "banner = $banner\n";
-		} else {
-			print "diagbanner = $diagbanner\n" if ($diagbanner);
-		}
+		print "banner = $banner\n" if ($banner);
+		print "diagbanner = $diagbanner\n" if ($diagbanner);
 		print "cpubanner = $cpubanner\n" if ($cpubanner);
 		print "bannermore = $bannermore\n" if ($bannermore);
 		print "model = $model\n" if ($model);
@@ -1330,7 +1339,7 @@ sub show_supported {
 		print (($machine =~ /sparc/) ? "sparc-utils" : "kernel-utils or pmtools");
 		print "\n       package if available for this $machine system.\n";
 	}
-	print "       memconf may be able to process Sun Explorer data on this machine.\n";
+	print "       memconf may be able to process Sun/Oracle Explorer data on this machine.\n";
 	print "       Check my website at $URL\n";
 	print "       for a newer version of memconf that may recognize this system better.\n";
 	&pdebug("exit 1");
@@ -1340,7 +1349,11 @@ sub show_supported {
 sub show_memory {
 	$mem=shift;
 	print "${mem}MB";
-	print " (", $mem / 1024, "GB)" if ($mem > 1023);
+	if ($mem >= $meg) {
+		print " (", $mem / $meg, "TB)";
+	} elsif ($mem >= 1024) {
+		print " (", $mem / 1024, "GB)";
+	}
 	print "\n";
 }
 
@@ -1366,7 +1379,9 @@ sub show_errors {
 }
 
 sub check_model {
-	&pdebug("in check_model, model=$model");
+	&pdebug("in check_model, model=$model, platform=$platform, banner=$banner, diagbanner=$diagbanner");
+	$modelbanner=$banner;
+	$modelbanner=$diagbanner if ($banner eq "" && $diagbanner ne "");
 	&find_helpers;
 	# Workaround for broken "uname -i" on Oracle SPARC T3 systems
 	$platform=$model if ($platform eq "sun4v");
@@ -1474,31 +1489,43 @@ sub check_model {
 		$ultra="T2000";
 		$modelmore="(Sun Fire T2000)";
 	}
-	$ultra="T2000" if ($model =~ /Sun-Fire-T2000\b|SPARC-Enterprise-T2000\b|Netra-T2000\b/ || $banner =~ /SPARC Enterprise T2000\b|Netra T2000\b/);
-	$ultra="T1000" if ($model =~ /Sun-Fire-T1000\b|SPARC-Enterprise-T1000\b/ || $banner =~ /SPARC Enterprise T1000/);
-	$ultra="T6300" if ($model =~ /Sun-Blade-T6300\b/ || $banner =~ /\bT6300\b/);
+	$ultra="T2000" if ($model =~ /Sun-Fire-T2000\b|SPARC-Enterprise-T2000\b|Netra-T2000\b/ || $modelbanner =~ /SPARC Enterprise T2000\b|Netra T2000\b/);
+	$ultra="T1000" if ($model =~ /Sun-Fire-T1000\b|SPARC-Enterprise-T1000\b/ || $modelbanner =~ /SPARC Enterprise T1000/);
+	$ultra="T6300" if ($model =~ /Sun-Blade-T6300\b/ || $modelbanner =~ /\bT6300\b/);
 	# UltraSPARC-T2 (Niagara-II) systems
-	$ultra="T5120" if ($model =~ /SPARC-Enterprise-T5120\b/ || $banner =~ /\bT5120\b/);
-	$ultra="T5220" if ($model =~ /(SPARC-Enterprise|Netra)-T5220\b/ || $banner =~ /\bT5220\b/);
-	$ultra="T6320" if ($model =~ /Sun-Blade-T6320\b/ || $banner =~ /\bT6320\b/);
-	$ultra="CP3260" if ($model =~ /Netra-CP3260\b/ || $banner =~ /\bNetra CP3260\b/);
+	$ultra="T5120" if ($model =~ /SPARC-Enterprise-T5120\b/ || $modelbanner =~ /\bT5120\b/);
+	$ultra="T5220" if ($model =~ /(SPARC-Enterprise|Netra)-T5220\b/ || $modelbanner =~ /\bT5220\b/);
+	$ultra="T6320" if ($model =~ /Sun-Blade-T6320\b/ || $modelbanner =~ /\bT6320\b/);
+	$ultra="CP3260" if ($model =~ /Netra-CP3260\b/ || $modelbanner =~ /\bNetra CP3260\b/);
 	# UltraSPARC-T2+ (Victoria Falls) systems
-	$ultra="T5140" if ($model =~ /\bT5140\b/ || $banner =~ /\bT5140\b/);
-	$ultra="T5240" if ($model =~ /\bT5240\b|-USBRDT-5240\b/ || $banner =~ /\bT5240\b/);
-	$ultra="T5440" if ($model =~ /\bT5440\b|-USBRDT-5440\b/ || $banner =~ /\bT5440\b/);
-	$ultra="T6340" if ($model =~ /Sun-Blade-T6340\b/ || $banner =~ /\bT6340\b/);
+	$ultra="T5140" if ($model =~ /\bT5140\b/ || $modelbanner =~ /\bT5140\b/);
+	$ultra="T5240" if ($model =~ /\bT5240\b|-USBRDT-5240\b/ || $modelbanner =~ /\bT5240\b/);
+	$ultra="T5440" if ($model =~ /\bT5440\b|-USBRDT-5440\b/ || $modelbanner =~ /\bT5440\b/);
+	$ultra="T6340" if ($model =~ /Sun-Blade-T6340\b/ || $modelbanner =~ /\bT6340\b/);
 	# SPARC-T3 (Rainbow Falls) systems
-	$ultra="T3-1" if ($model =~ /SPARC-T3-1\b/ || $banner =~ /SPARC T3-1\b/);
-	$ultra="T3-1B" if ($model =~ /SPARC-T3-1B\b/ || $banner =~ /SPARC T3-1B\b/);
-	$ultra="T3-1BA" if ($model =~ /SPARC-T3-1BA\b/ || $banner =~ /SPARC T3-1BA\b/);
-	$ultra="T3-2" if ($model =~ /SPARC-T3-2\b/ || $banner =~ /SPARC T3-2\b/);
-	$ultra="T3-4" if ($model =~ /SPARC-T3-4\b/ || $banner =~ /SPARC T3-4\b/);
+	$ultra="T3-1" if ($model =~ /SPARC-T3-1\b/ || $modelbanner =~ /SPARC T3-1\b/);
+	$ultra="T3-1B" if ($model =~ /SPARC-T3-1B\b/ || $modelbanner =~ /SPARC T3-1B\b/);
+	$ultra="T3-1BA" if ($model =~ /SPARC-T3-1BA\b/ || $modelbanner =~ /SPARC T3-1BA\b/);
+	$ultra="T3-2" if ($model =~ /SPARC-T3-2\b/ || $modelbanner =~ /SPARC T3-2\b/);
+	$ultra="T3-4" if ($model =~ /SPARC-T3-4\b/ || $modelbanner =~ /SPARC T3-4\b/);
 	# SPARC-T4 systems
-	$ultra="T4-1" if ($model =~ /SPARC-T4-1\b/ || $banner =~ /SPARC T4-1\b/);
-	$ultra="T4-1B" if ($model =~ /SPARC-T4-1B\b/ || $banner =~ /SPARC T4-1B\b/);
-	$ultra="T4-2" if ($model =~ /SPARC-T4-2\b/ || $banner =~ /SPARC T4-2\b/);
-	$ultra="T4-2B" if ($model =~ /SPARC-T4-2B\b/ || $banner =~ /SPARC T4-2B\b/);
-	$ultra="T4-4" if ($model =~ /SPARC-T4-4\b/ || $banner =~ /SPARC T4-4\b/);
+	$ultra="T4-1" if ($model =~ /SPARC-T4-1\b/ || $modelbanner =~ /SPARC T4-1\b/);
+	$ultra="T4-1B" if ($model =~ /SPARC-T4-1B\b/ || $modelbanner =~ /SPARC T4-1B\b/);
+	$ultra="T4-2" if ($model =~ /SPARC-T4-2\b/ || $modelbanner =~ /SPARC T4-2\b/);
+	$ultra="T4-2B" if ($model =~ /SPARC-T4-2B\b/ || $modelbanner =~ /SPARC T4-2B\b/);
+	$ultra="T4-4" if ($model =~ /SPARC-T4-4\b/ || $modelbanner =~ /SPARC T4-4\b/);
+	# SPARC-T5 systems
+	$ultra="T5-2" if ($model =~ /SPARC-T5-2\b/ || $modelbanner =~ /SPARC T5-2\b/);
+	$ultra="T5-4" if ($model =~ /SPARC-T5-4\b/ || $modelbanner =~ /SPARC T5-4\b/);
+	$ultra="T5-8" if ($model =~ /SPARC-T5-8\b/ || $modelbanner =~ /SPARC T5-8\b/);
+	$ultra="T5-1B" if ($model =~ /SPARC-T5-1B\b/ || $modelbanner =~ /SPARC T5-1B\b/);
+	# SPARC M5 and M6 systems
+	$ultra="M5-32" if ($model =~ /SPARC-M5-32\b/ || $modelbanner =~ /SPARC M5-32\b/);
+	$ultra="M6-32" if ($model =~ /SPARC-M6-32\b/ || $modelbanner =~ /SPARC M6-32\b/);
+	# Fujitsu SPARC M10 systems
+	$ultra="M10-1" if ($model =~ /SPARC-M10-1\b/ || $modelbanner =~ /SPARC M10-1\b/);
+	$ultra="M10-4" if ($model =~ /SPARC-M10-4\b/ || $modelbanner =~ /SPARC M10-4\b/);
+	$ultra="M10-4S" if ($model =~ /SPARC-M10-4S\b/ || $modelbanner =~ /SPARC M10-4S\b/);
 
 	# Older SPARCstations
 	$modelmore="SPARCstation SLC" if ($model eq "Sun 4/20");
@@ -1662,7 +1689,7 @@ sub check_for_prtdiag {
 		$line=&dos2unix($line);
 		# Some Solaris prtdiag outputs have malformed header, so
 		# handle them also.
-		if ($line =~ /^System Configuration: +|.BIOS Configuration: |Sun Microsystems .*Fire *X|Sun Microsystems *X|Sun Microsystems .*Blade *X|Sun Microsystems .*Memory size: /i || ($line =~ /Sun Microsystems .*Ultra / && $machine eq "i86pc")) {
+		if ($line =~ /^System Configuration: +|.BIOS Configuration: |Sun Microsystems .*Fire *X|Sun Microsystems *X|Sun Microsystems .*Blade *X|Sun Microsystems .*Memory size: |^Oracle Corporation/i || ($line =~ /Sun Microsystems .*Ultra / && $machine eq "i86pc")) {
 			$line=&mychomp($line);
 			$tmp=$line;
 			$line=~s/System Configuration: +//g;
@@ -1752,6 +1779,10 @@ sub check_for_prtdiag {
 		if ($prtpicl_cmd && ! $have_prtpicl_data) {
 			@prtpicl=&run("$prtpicl_cmd -v");
 			$have_prtpicl_data=1;
+		}
+		if ($virtinfo_cmd && ! $have_virtinfo_data) {
+			@virtinfo=&run("$virtinfo_cmd -pa");
+			$have_virtinfo_data=1;
 		}
 		if ($cfgadm_cmd && ! $have_cfgadm_data) {
 			@cfgadm=&run("$cfgadm_cmd -al");
@@ -1985,6 +2016,26 @@ sub check_prtdiag {
 			}
 			if ($linearr[$#linearr] =~ /PM[01]\/CMP[01]\/BOB[0-3]\/CH[01]\/D[01]/) {
 				# SPARC T3-4, T4-4
+				$sockets_used .= " $linearr[$#linearr]";
+			}
+			if ($linearr[$#linearr] =~ /SYS\/MB\/CM[01]\/CMP\/MR[0-3]\/BOB[01]\/CH[01]\/D[01]/) {
+				# SPARC T5-2
+				$sockets_used .= " $linearr[$#linearr]";
+			}
+			if ($linearr[$#linearr] =~ /SYS\/PM[0-3]\/CM[01]\/CMP\/BOB[0-7]\/CH[01]\/D[01]/) {
+				# SPARC T5-4, T5-8
+				$sockets_used .= " $linearr[$#linearr]";
+			}
+			if ($linearr[$#linearr] =~ /SYS\/MB\/CM0\/CMP\/BOB[0-7]\/CH[01]\/D[01]/) {
+				# SPARC T5-1B
+				$sockets_used .= " $linearr[$#linearr]";
+			}
+			if ($linearr[$#linearr] =~ /SYS\/CMU\d+\/CMP\d+\/D\d+/) {
+				# SPARC M5-32, M6-32
+				$sockets_used .= " $linearr[$#linearr]";
+			}
+			if ($linearr[$#linearr] =~ /BB\d+\/CMU[LU]\/CMP[01]\/MEM[01][0-7][AB]/) {
+				# Fujitsu SPARC M10-1, M10-4, M10-4S
 				$sockets_used .= " $linearr[$#linearr]";
 			}
 		}
@@ -2328,7 +2379,7 @@ sub check_prtdiag {
 		}
 		push(@new_boards_mem, "$newline\n") if ($newline);
 	}
-	if ($machine eq "sun4v" && $cputype !~ /UltraSPARC-T1$/ && $sockets_used) {
+	if ($machine eq "sun4v" && $cputype !~ /UltraSPARC-T1$/) {
 		if ($prtpicl_cmd && ! $have_prtpicl_data) {
 			# Warn that prtpicl may take a while to run
 			&please_wait;
@@ -2458,6 +2509,7 @@ sub check_prtpicl {
 	$flag_mem_bank=0;
 	$flag_mem_chan=0;
 	$flag_mem_mod=0;
+	$flag_physical_platform=0;
 	$processorbrd="";
 	$cpumembrd="";
 	$mem_riser="";
@@ -2472,6 +2524,11 @@ sub check_prtpicl {
 			# SPARC T3-4, T4-4
 			$processorbrd=$line;
 			$processorbrd=~s/^.*:Label\s+(.*)$/$1/;
+		}
+		if ($line =~ /^\s+:Label\s+CM[0-3]/) {
+			# SPARC T5-2, T5-4, T5-8, T5-1B
+			$cpumembrd=$line;
+			$cpumembrd=~s/^.*:Label\s+(.*)$/$1/;
 		}
 		if ($line =~ /^\s+:Label\s+(CPU[0-3]|MEM[0-3])/) {
 			$cpumembrd=$line;
@@ -2491,6 +2548,9 @@ sub check_prtpicl {
 				if ($processorbrd) {
 					# SPARC T3-4, T4-4
 					$socket="/SYS/$processorbrd/$cpumembrd$cmp/$mem_branch/$mem_channel/$mem_dimm";
+				} elsif ($ultra =~ /T5-(2|4|8|1B)/) {
+					# SPARC T5-2, T5-4, T5-8, T5-1B
+					$socket="/SYS/MB/$cpumembrd/CMP/$mem_branch/$mem_channel/$mem_dimm";
 				} else {
 					$socket="MB/$cpumembrd$cmp/$mem_branch/$mem_channel/$mem_dimm";
 				}
@@ -2605,6 +2665,17 @@ sub check_prtpicl {
 			if ($line =~ /\s+:MfgName\s/) {
 				$mem_mfg=$line;
 				$mem_mfg=~s/^.*:MfgName\s+(.*)$/$1/;
+			}
+		}
+		if ($line =~ /\s+:name\s+physical-platform/) {
+			$flag_physical_platform=1;
+		} elsif ($line =~ /\s+:name\s+SYS/) {
+			$flag_physical_platform=0;
+		}
+		if ($flag_physical_platform) {
+			if ($line =~ /\s+:MfgName\s/) {
+				$manufacturer=$line;
+				$manufacturer=~s/^.*:MfgName\s+(.*)$/$1/;
 			}
 		}
 	}
@@ -2912,6 +2983,36 @@ sub multicore_cpu_cnt {
 		}
 		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
 		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+	} elsif ($cputype =~ /SPARC.M5$/) {
+		$cputype="SPARC-M5";
+		# Count 8-Thread 6-Core SPARC-M5 CPUs as 1 CPU
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
+			$ncpu=$npcpu;
+		} else {
+			# Each CPU has 6 Cores max (48 threads)
+			$ncpu=int(($threadcnt - 1) / 48) + 1;
+		}
+		if (defined($arg)) {
+			$cnt=$ncpu;
+			return;
+		}
+		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+	} elsif ($cputype =~ /SPARC.M6$/) {
+		$cputype="SPARC-M6";
+		# Count 8-Thread 12-Core SPARC-M6 CPUs as 1 CPU
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
+			$ncpu=$npcpu;
+		} else {
+			# Each CPU has 12 Cores max (96 threads)
+			$ncpu=int(($threadcnt - 1) / 96) + 1;
+		}
+		if (defined($arg)) {
+			$cnt=$ncpu;
+			return;
+		}
+		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+		$cpucnt{"$cputype $cpufreq"}=$ncpu;
 	} elsif ($cputype =~ /SPARC64-VI$/) {
 		# Count Dual-Core Dual-Thread Olympus-C SPARC64-VI CPUs as 1 CPU
 		$ncpu=$threadcnt / 4;
@@ -2953,6 +3054,15 @@ sub multicore_cpu_cnt {
 		# Count 8-Core Dual-Thread Venus SPARC64-VIII CPUs as 1 CPU
 		$ncpu=$threadcnt / 16;
 		$cputype="8-Core Dual-Thread SPARC64-VIII";
+		if (defined($arg)) {
+			$cnt=$ncpu;
+			return;
+		}
+		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+	} elsif ($cputype =~ /SPARC64-X$/) {
+		# Count 16-Core Dual-Thread SPARC64-X CPUs as 1 CPU
+		$ncpu=$threadcnt / 32;
+		$cputype="16-Core Dual-Thread SPARC64-X";
 		if (defined($arg)) {
 			$cnt=$ncpu;
 			return;
@@ -3061,7 +3171,7 @@ sub check_psrinfo_pv {
 		$corecnt=$nvcpu;
 		$corecnt=~s/ \d+$//;
 		$nvcpu=~s/^\d+ //;
-		if ($nvcpu == 2 * $corecnt) {
+		if ($nvcpu == 2 * $corecnt && $isX86) {
 			$hyperthread=1;
 			&pdebug("hyperthread=1: from psrinfo -p -v");
 		}
@@ -3089,6 +3199,7 @@ sub get_mfg {
 	s/^(00|80)// if (! /^007F/);
 	# Based on JEDEC JEP106AB
 	return "Fujitsu" if (/(^04|Fujitsu)/i);
+	# Micron acquired Elpida in August 2013
 	return "Elpida" if (/(^0500|^FE|^7F7FFE|^02FE|Elpida)/i);
 	return "Hitachi" if (/(^07|Hitachi)/i);
 	return "Inmos" if (/(^08|Inmos)/i);
@@ -3244,13 +3355,13 @@ sub check_ipmitool {
 sub check_for_LDOM {
 	&pdebug("in check_for_LDOM");
 	$kernbit=64 if (! $kernbit && $machine eq "sun4v");
-	# Handle control domain on UltraSPARC-T1 and later systems
+	# Handle control LDOM on UltraSPARC-T1 and later systems
 	if ($ldm_cmd && ! $have_ldm_data) {
 		@ldm=&run("$ldm_cmd list-devices -a -p");
 		$have_ldm_data=1;
 	}
+	$ldmthreadcnt=0;
 	if ($have_ldm_data) {
-		$ldmthreadcnt=0;
 		foreach $line (@ldm) {
 			$line=&dos2unix($line);
 			$line=&mychomp($line);
@@ -3277,9 +3388,23 @@ sub check_for_LDOM {
 		$installed_memory=$ldm_memory / $meg if ($ldm_memory);
 	}
 	# Handle guest domains on UltraSPARC-T1 and later systems
+	if ($virtinfo_cmd && ! $have_virtinfo_data) {
+		@virtinfo=&run("$virtinfo_cmd -pa");
+		$have_virtinfo_data=1;
+	}
 	if ($cfgadm_cmd && ! $have_cfgadm_data) {
 		@cfgadm=&run("$cfgadm_cmd -al");
 		$have_cfgadm_data=1;
+	}
+	if ($have_virtinfo_data) {
+		foreach $line (@virtinfo) {
+			$line=&dos2unix($line);
+			if ($line =~ /Domain role: LDoms guest|DOMAINROLE\|impl=LDoms\|control=false/i) {
+				&found_guest_LDOM;
+				&pdebug("exit 1");
+				exit 1;
+			}
+		}
 	}
 	if ($have_cfgadm_data) {
 		foreach $line (@cfgadm) {
@@ -3304,7 +3429,7 @@ sub check_LDOM {
 			&found_guest_LDOM("");
 			print "ERROR: ldm: $line\n";
 			print "    This user does not have permission to run '/opt/SUNWldm/bin/ldm'.\n";
-			print "    Run memconf as a privileged user like root on the control domain.\n";
+			print "    Run memconf as a privileged user like root on the control LDOM.\n";
 			&pdebug("exit 1");
 			exit 1;
 		}
@@ -3342,8 +3467,20 @@ sub found_guest_LDOM {
 	&show_header;
 	$arg=shift;
 	return if (defined($arg));
+	$domaincontrol="";
+	if ($have_virtinfo_data) {
+		foreach $line (@virtinfo) {
+			$line=&dos2unix($line);
+			if ($line =~ /DOMAINCONTROL\|name=/i) {
+				$domaincontrol=&mychomp($line);
+				$domaincontrol=~s/^.*name=//;
+			}
+		}
+	}
 	print "ERROR: Guest Logical Domain (LDOM) detected.\n";
-	print "    Run memconf on the control domain. It will not work on guest domains.\n";
+	print "    Run memconf on the control LDOM";
+	print " host \"$domaincontrol\"" if ($domaincontrol ne "");
+	print ".\n    It cannot show system memory details on guest LDOMs.\n";
 }
 
 sub found_nonglobal_zone {
@@ -3754,7 +3891,11 @@ sub hex2ascii {
 }
 
 sub pdebug {
-	printf "DEBUG time %.2f: @_\n", ((times)[0] - $starttime) if ($debug);
+	if ($debug == 1) {
+		printf "DEBUG: @_\n";
+	} elsif ($debug == 2) {
+		printf "DEBUG time %.2f: @_\n", ((times)[0] - $starttime);
+	}
 }
 
 sub run {
@@ -4175,6 +4316,11 @@ foreach $line (@config) {
 			# Guess on the Venus SPARC64-VIII name ???
 			# Count 8-Core Dual-Thread as 1 CPU
 			$machine="sun4u";
+			$threadcnt++;
+			# Number of cores & CPUs counted outside this loop below
+		} elsif ($cputype =~ /SPARC64-X$/ && $devtype eq "cpu") {
+			# Count 16-Core Dual-Thread as 1 CPU
+			$machine="sun4v";
 			$threadcnt++;
 			# Number of cores & CPUs counted outside this loop below
 		}
@@ -6460,6 +6606,191 @@ if ($ultra eq "T4-4") {
 	@socketstr=("/SYS/PM0/CMP0/BOB0/CH0/D0","/SYS/PM0/CMP0/BOB0/CH1/D0","/SYS/PM0/CMP0/BOB1/CH0/D0","/SYS/PM0/CMP0/BOB1/CH1/D0","/SYS/PM0/CMP0/BOB2/CH0/D0","/SYS/PM0/CMP0/BOB2/CH1/D0","/SYS/PM0/CMP0/BOB3/CH0/D0","/SYS/PM0/CMP0/BOB3/CH1/D0","/SYS/PM0/CMP1/BOB0/CH0/D0","/SYS/PM0/CMP1/BOB0/CH1/D0","/SYS/PM0/CMP1/BOB1/CH0/D0","/SYS/PM0/CMP1/BOB1/CH1/D0","/SYS/PM0/CMP1/BOB2/CH0/D0","/SYS/PM0/CMP1/BOB2/CH1/D0","/SYS/PM0/CMP1/BOB3/CH0/D0","/SYS/PM0/CMP1/BOB3/CH1/D0","/SYS/PM1/CMP0/BOB0/CH0/D0","/SYS/PM1/CMP0/BOB0/CH1/D0","/SYS/PM1/CMP0/BOB1/CH0/D0","/SYS/PM1/CMP0/BOB1/CH1/D0","/SYS/PM1/CMP0/BOB2/CH0/D0","/SYS/PM1/CMP0/BOB2/CH1/D0","/SYS/PM1/CMP0/BOB3/CH0/D0","/SYS/PM1/CMP0/BOB3/CH1/D0","/SYS/PM1/CMP1/BOB0/CH0/D0","/SYS/PM1/CMP1/BOB0/CH1/D0","/SYS/PM1/CMP1/BOB1/CH0/D0","/SYS/PM1/CMP1/BOB1/CH1/D0","/SYS/PM1/CMP1/BOB2/CH0/D0","/SYS/PM1/CMP1/BOB2/CH1/D0","/SYS/PM1/CMP1/BOB3/CH0/D0","/SYS/PM1/CMP1/BOB3/CH1/D0");
 	&check_for_LDOM;
 }
+if ($ultra eq "T5-2") {
+	# SPARC T5-2 has 2 SPARC-T5 multicore processor with
+	#  8-Threads, 16-Core, 3.6GHz
+	# 32 DIMM slots for up to 1TB memory (32 x 32GB), 256GB min (32 x 8GB)
+	# supports 8GB, 16GB & 32GB DDR3 DIMMs
+	# Each slot on a memory riser must be filled with a DIMM
+	# All memory risers must contain the same type of DIMM
+	$memtype="DDR3 DIMM";
+	$showrange=0;
+	@simmsizes=(8192,16384,32768);
+	$untested=0;
+	# /SYS/MB/CM0/CMP/MR0/BOB0/CH0/D0 - /SYS/MB/CM1/CMP/MR3/BOB1/CH1/D0
+	for $s_cm (0,1) {
+		for $s_mr (0..3) {
+			for $s_bob (0,1) {
+				for $s_ch (0,1) {
+					push(@socketstr, "/SYS/MB/CM$s_cm/CMP/MR$s_mr/BOB$s_bob/CH$s_ch/D0");
+				}
+			}
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "T5-4") {
+	# SPARC T5-4 has 4 SPARC-T5 multicore processor with
+	#  8-Threads, 16-Core, 3.6GHz
+	# 64 DIMM slots for 2TB memory (64 x 32GB) or 1TB min (64 x 16GB)
+	# supports 16GB & 32GB DDR3 DIMMs
+	# All DIMMs installed in the server must have identical capacities
+	# All DIMMs installed in each processor module must be identical
+	$memtype="DDR3 DIMM";
+	$showrange=0;
+	@simmsizes=(16384,32768);
+	$untested=1;
+	# /SYS/PM0/CM0/CMP/BOB0/CH0/D0 - /SYS/PM1/CM1/CMP/BOB7/CH1/D0
+	for $s_pm (0,1) {
+		for $s_cm (0,1) {
+			for $s_bob (0..7) {
+				for $s_ch (0,1) {
+					push(@socketstr, "/SYS/PM$s_pm/CM$s_cm/CMP/BOB$s_bob/CH$s_ch/D0");
+				}
+			}
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "T5-8") {
+	# SPARC T5-8 has 8 SPARC-T5 multicore processor with
+	#  8-Threads, 16-Core, 3.6GHz
+	# 128 DIMM slots for 4TB memory (128 x 32GB) or 2TB min (128 x 16GB)
+	# supports 16GB & 32GB DDR3 DIMMs
+	# All DIMMs installed in the server must have identical capacities
+	# All DIMMs installed in each processor module must be identical
+	$memtype="DDR3 DIMM";
+	$showrange=0;
+	@simmsizes=(16384,32768);
+	$untested=1;
+	# /SYS/PM0/CM0/CMP/BOB0/CH0/D0 - /SYS/PM3/CM1/CMP/BOB7/CH1/D0
+	for $s_pm (0..3) {
+		for $s_cm (0,1) {
+			for $s_bob (0..7) {
+				for $s_ch (0,1) {
+					push(@socketstr, "/SYS/PM$s_pm/CM$s_cm/CMP/BOB$s_bob/CH$s_ch/D0");
+				}
+			}
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "T5-1B") {
+	# SPARC T5-1B has 1 SPARC-T5 multicore processor with
+	#  8-Threads, 16-Core, 3.6GHz
+	# 16 DIMM slots for up to 512GB memory (16 x 32GB), 128GB min (16 x 8GB)
+	# supports 8GB, 16GB & 32GB DDR3 DIMMs
+	# Install quantities of 16 DIMMs
+	# Ensure that all DIMMs are the same capacity and rank classification
+	$memtype="DDR3 DIMM";
+	$showrange=0;
+	@simmsizes=(8192,16384,32768);
+	$untested=1;
+	# /SYS/MB/CM0/CMP/BOB0/CH0/D0 - /SYS/MB/CM0/CMP/BOB7/CH1/D0
+	for $s_bob (0..7) {
+		for $s_ch (0,1) {
+			push(@socketstr, "/SYS/MB/CM0/CMP/BOB$s_bob/CH$s_ch/D0");
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "M5-32" || $ultra eq "M6-32") {
+	# SPARC M5-32 has 8 to 32 SPARC M5 processor at 3.6GHz, each with:
+	#  6 cores, 48 threads
+	#  32 DIMM slots for up to 1TB memory (32 x 32GB)
+	#  supports 16GB & 32GB 1066MHz DDR3 DIMMs
+	# SPARC M6-32 has 8 to 32 SPARC M5 processor at 3.6GHz, each with:
+	#  12 cores, 96 threads
+	#  32 DIMM slots for up to 1TB memory (32 x 32GB)
+	#  supports 16GB & 32GB 1066MHz DDR3 DIMMs
+	# Each CMU (CPU Memory Unit) includes 2 CMPs and 64 DIMM slots
+	# Each CMU can be Quarter, Half, or Fully-Populated
+	#  Quarter-Populated: CMP[01]/D0000-D1101 (16 DIMMs)
+	#  Half-Populated: CMP[01]/D0000-D1103 (32 DIMMs)
+	#  Fully-Populated: CMP[01]/D0000-D1113 (64 DIMMs)
+	$memtype="DDR3 DIMM";
+	$showrange=0;
+	@simmsizes=(16384,32768);
+	$untested=1;
+	# /SYS/CMU0/CMP0/D0000 - /SYS/CMU15/CMP1/D1113
+	$s_cmu=int(($npcpu/2)-1);
+	for (0..$s_cmu) {
+		for $s_cmp (0,1) {
+			for $s_d1 (0,1) {
+				for $s_d2 (0,1) {
+					for $s_d3 (0,1) {
+						for $s_d4 (0..3) {
+							push(@socketstr, "/SYS/CMU$s_cmu/CMP$s_cmp/D$s_d1$s_d2$s_d3$s_d4");
+						}
+					}
+				}
+			}
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "M10-1") {
+	# Fujitsu SPARC M10-1 has 1 SPARC64-X processor at 2.8GHz
+	#  16 cores, 32 threads
+	# 16 DIMM slots for up to 512GB memory (16 x 32GB), 128GB min (16 x 8GB)
+	# supports 8GB, 16GB & 32GB R-DIMM or 64GB LR-DIMM
+	# Mount memory in units of four or eight modules
+	# Within a unit of four or eight modules, all the DIMMs must be of the
+	#  same capacity and rank
+	$memtype="DIMM";
+	$showrange=0;
+	@simmsizes=(8192,16384,32768);
+	$untested=1;
+	# /BB0/CMUL/CMP0/MEM0[0-7]A - /BB0/CMUL/CMP1/MEM1[0-7]A
+	for $s_cmp (0,1) {
+		for $s_memN (0..7) {
+			push(@socketstr, "/BB0/CMP$s_cmp/MEM${s_cmp$s_memN}A");
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "M10-4" || $ultra eq "M10-4S") {
+	# Fujitsu SPARC M10-4 has up to 4 SPARC64-X processor at 2.8GHz
+	#  16 cores, 32 threads each
+	# 32 DIMM slots per memory unit for up to 2TB memory (32 x 64GB), 64GB min (8 x 8GB)
+	# supports 8GB, 16GB & 32GB R-DIMM or 64GB LR-DIMM
+	# Mount memory in units of eight modules
+	# Within a unit of eight modules, all the DIMMs must be of the same
+	#  capacity and rank
+	# First mount memory group A, then mount memory group B
+	# M10-4S is a modular system that combines up to 16 M10-4 servers for
+	#  up to 64 processors and up to 32TB memory
+	$memtype="DIMM";
+	$showrange=0;
+	@simmsizes=(8192,16384,32768);
+	$untested=0;
+	$untested=1 if ($ultra eq "M10-4S");
+	if ($npcpu > 4) {	# M10-4S
+		$ultra="M10-4S";
+		$untested=1;
+	}
+	# M10-4: /BB0/CMUL/CMP0/MEM0[0-7]A - /BB0/CMUU/CMP1/MEM1[0-7]B
+	# M10-4S: /BB00/CMUL/CMP0/MEM0[0-7]A - /BB15/CMUU/CMP1/MEM1[0-7]B # Guess
+	$bb=int(($npcpu/4)-1);	# BB: Building Block
+	for (0..$bb) {
+		$bb="0$bb" if ($ultra eq "M10-4S" && $bb < 10);	# Guess
+		if (($npcpu/2) % 2) {
+			push(@cmus, "/BB$bb/CMUL");
+		} else {
+			push(@cmus, "/BB$bb/CMUU");
+		}
+		for $s_cmu (@cmus) {
+			for $s_cmp (0,1) {
+				for $s_memAB ("A","B") {
+					for $s_memN (0..7) {
+						push(@socketstr, "$s_cmu/CMP$s_cmp/MEM$s_cmp$s_memN$s_memAB");
+					}
+				}
+			}
+		}
+	}
+	&check_for_LDOM;
+}
 if ($model eq "SPARC-Enterprise" || $ultra =~ /SPARC Enterprise M[34589]000 Server/) {
 	# CPUs:  Dual-Core Dual-Thread SPARC64-VI or
 	#        Quad-Core Dual-Thread SPARC64-VII, VII+, VII++
@@ -7931,6 +8262,7 @@ sub hpux_cstm {
 		&show_header;
 		@config=&run("$config_cmd");
 	}
+	$flag_memerr=0;
 	foreach $line (@config) {
 		$line=&dos2unix($line);
 		next if ($line eq "\n" || $line =~ /^ +$/ || $line =~ /^ +=+$/);
@@ -7963,7 +8295,19 @@ sub hpux_cstm {
 				$flag_mem=0;	# End of memory section
 				next;
 			}
-			push(@boards_mem, "$line");
+			if ($line =~ /^Memory Error Log Summary/) {
+				$flag_memerr=1;	# Start of memory error log
+			}
+			if ($line =~ / errors logged | memory error log |Last error /) {
+				$flag_memerr=0;	# End of memory error log
+			}
+			if ($flag_memerr == 0 || $verbose) {
+				push(@boards_mem, "$line");
+			} elsif ($verbose == 0 && $line =~ /^Memory Error Log Summary| errors logged | memory error log |Last error /) {
+				# Only display the memory errors if verbose
+				push(@boards_mem, "$line");
+			}
+			$memory_error_logged=1 if ($line =~ / errors logged | Last error detected/);
 			$boardfound_mem=1;
 			$memfrom="cstm";
 		}
@@ -8070,6 +8414,10 @@ sub hpux_finish {
 	}
 	&show_untested if ($untested);
 	&show_errors;
+	if ($memory_error_logged && $verbose == 0) {
+		print "WARNING: Memory errors have been logged.\n";
+		print "       Run 'memconf -v' to display the memory error log.\n";
+	}
 	&mailmaintainer if ($verbose == 3);
 	&pdebug("exit $exitstatus");
 	exit $exitstatus;
@@ -8560,7 +8908,7 @@ sub check_mixedspeeds {
 sub roundup_memory {
 	$newval=shift;
 	# Round up memory (may have 128MB or more reserved)
-	# Works for up to 2097152MB (2TB)
+	# Works for up to 16777216GB (16TB)
 	for ($val=16; $val <= 64; $val += 16) {
 		$newval=$val if ($newval >= $val-8 && $newval < $val);
 	}
@@ -8573,8 +8921,11 @@ sub roundup_memory {
 	for ($val=4096; $val <= 14336; $val += 1024) {
 		$newval=$val if ($newval >= $val-512 && $newval < $val);
 	}
-	for ($val=14336; $val <= 2097152; $val += 2048) {
+	for ($val=14336; $val <= 262144; $val += 2048) {
 		$newval=$val if ($newval >= $val-1024 && $newval < $val);
+	}
+	for ($val=262144; $val <= 16777216; $val += 4096) {
+		$newval=$val if ($newval >= $val-2048 && $newval < $val);
 	}
 	return($newval);
 }
@@ -9505,12 +9856,12 @@ sub show_control_LDOM_message {
 	return if ($controlLDOMshown);
 	$controlLDOMshown=1;
 	#
-	# Post notice if on control domain
+	# Post notice if on control LDOM
 	#
 	print "NOTICE: Control Logical Domain (LDOM) detected.  ";
 	if ($picl_foundmemory) {
 		print "The cpus and memory modules\n";
-		print "    reported are for the system, not necessarily the control domain.\n";
+		print "    reported are for the system, not necessarily the control LDOM.\n";
 	} else {
 		print "The SUNWldm software package\n";
 		print "    may need updated for prtpicl to be able to report the installed cpus and\n";
@@ -9882,7 +10233,7 @@ sub finish {
 	&show_total_memory;
 
 	#
-	# Post notice if on control domain
+	# Post notice if on control LDOM
 	#
 	&show_control_LDOM_message if ($ldm_memory);
 
@@ -10274,13 +10625,18 @@ sub finish {
 		$untested=1;
 		$untested_type="CPU" if (! $untested_type);
 	}
-	# SPARC-T4+, SPARC-T5 or newer
-	if ($cputype =~ /SPARC-T([5-9]|[4-9]\+)/) {
+	# SPARC-T4+, SPARC-T6 or newer
+	if ($cputype =~ /SPARC-T([4-9]\+|[6-9])/) {
 		$untested=1;
 		$untested_type="CPU" if (! $untested_type);
 	}
-	# SPARC64-VII++ or newer
-	if ($cputype =~ /SPARC64-(VII\+\+|VIII|IX|X)/) {
+	# SPARC-M5, SPARC-M6 or other SPARC-M*
+	if ($cputype =~ /SPARC.M\d\+/) {
+		$untested=1;
+		$untested_type="CPU" if (! $untested_type);
+	}
+	# SPARC64-VII++ or newer other than SPARC64-X
+	if ($cputype =~ /SPARC64-(VII\+\+|VIII|IX|X)/ && $cputype !~ /SPARC64-X\b/) {
 		$untested=1;
 		$untested_type="CPU" if (! $untested_type);
 	}
@@ -10308,7 +10664,7 @@ sub createfile {
 		$tmp++;
 	}
 	close(OUTFILE);
-	print STDERR time . " created $tmp lines in $s\n" if ($debug);
+	print STDERR time . " created $tmp lines in $s\n" if ($debug >= 1);
 }
 
 sub b64encodefile {
@@ -10383,7 +10739,7 @@ sub mailmaintainer {
 	$outfile="memconf_$newhostname";
 	print ("            /tmp/${outfile}.tar\n");
 	if ($filename) {
-		$mail_subj=($SUNWexplo) ? "Sun Explorer directory $filename" : "filename $filename";
+		$mail_subj=($SUNWexplo) ? "Sun/Oracle Explorer directory $filename" : "filename $filename";
 	} else {
 		$mail_subj="$hostname";
 	}
@@ -10398,6 +10754,7 @@ sub mailmaintainer {
 		&createfile("${outfile}_prtfru.txt",@prtfru) if ($prtfru_cmd);
 		&createfile("${outfile}_prtpicl.txt",@prtpicl) if ($prtpicl_cmd);
 		&createfile("${outfile}_psrinfo.txt",@psrinfo) if ($psrinfo_cmd);
+		&createfile("${outfile}_virtinfo.txt",@virtinfo) if ($virtinfo_cmd);
 		&createfile("${outfile}_cfgadm.txt",@cfgadm) if ($cfgadm_cmd);
 		&createfile("${outfile}_smbios.txt",@smbios) if ($smbios_cmd);
 		&createfile("${outfile}_kstat.txt",@kstat) if ($kstat_cmd);
@@ -10442,5 +10799,4 @@ sub mailmaintainer {
 		unlink "/tmp/$tmp";
 	}
 }
-
 
