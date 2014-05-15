@@ -18,12 +18,15 @@ sub run {
     my $cpusocket;
     my $siblings;
     my $cpucores;
+    my $cpuspeed;
     my $coreid;
 
+	$cpucores=0;
     open CPUINFO, "</proc/cpuinfo" or warn;
     foreach(<CPUINFO>) {
 
         if (/^vendor_id\s*:\s*(Authentic|Genuine|)(.+)/i) {
+			$cpucores++;
             $current->{MANUFACTURER} = $2;
             $current->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
             $current->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
@@ -43,32 +46,35 @@ sub run {
   	# Get also cpu cores with dmidecode command
   	# Get also voltage information with dmidecode command
    	@cpu = `dmidecode -t processor`;
+	$cpuspeed=0;
    	for (@cpu){
 		if (/Processor\sInformation/i){
 			$cpusocket++;
-			$common->addCPU($current) if ($current->{SPEED});
+			if ($cpuspeed != 0){
+				if ($cpusocket > $cpucores) {
+					last;
+				}
+			}
+			$common->addCPU($current);
+			$current->{CORES} = 'Unknown';
+			$cpuspeed=0;
 		}	
     	if (/Current\sSpeed:\s*(.*) (|MHz|GHz)/i){
-            $current->{SPEED} = $1;
-		}
-		else {
-            $current->{SPEED} = $1;
+			$cpuspeed = $1;
+            $current->{SPEED} = $cpuspeed;
 		}
         if (/Core\sCount:\s*(\d+)/i){
             $current->{CORES} = $1;
         }
-		else {
-			$current->{CORES} = 'Unknown';
-		}
         if (/Voltage:\s*(.*)V/i){
             $current->{VOLTAGE} = $1;
         }
+		if (/Status:\s*(.*)/i){
+			$current->{CPUSTATUS} = $1;
+		}
 		if (/Status:\s*(.*),\s(.*)/i){
             $current->{CPUSTATUS} = $2;
         }
-		else {
-			$current->{CPUSTATUS} = $1;
-		}
         if (/Upgrade:\s*(.*)/i){
             $current->{SOCKET} = $1;
         }
