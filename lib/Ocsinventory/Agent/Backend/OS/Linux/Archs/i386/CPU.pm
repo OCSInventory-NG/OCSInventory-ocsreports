@@ -22,6 +22,7 @@ sub run {
     my $coreid;
 
 	$cpucores=0;
+	$siblings=0;
     open CPUINFO, "</proc/cpuinfo" or warn;
     foreach(<CPUINFO>) {
 
@@ -47,15 +48,18 @@ sub run {
   	# Get also voltage information with dmidecode command
    	@cpu = `dmidecode -t processor`;
 	$cpuspeed=0;
+	$cpusocket=0;
    	for (@cpu){
 		if (/Processor\sInformation/i){
+			if ($cpusocket > 0) {
+				$common->addCPU($current);
+			}
 			$cpusocket++;
 			if ($cpuspeed != 0){
 				if ($cpusocket > $cpucores) {
 					last;
 				}
 			}
-			$common->addCPU($current);
 			$current->{CORES} = 'Unknown';
 			$cpuspeed=0;
 		}	
@@ -65,6 +69,14 @@ sub run {
 		}
         if (/Core\sCount:\s*(\d+)/i){
             $current->{CORES} = $1;
+    		# Is(Are) CPU(s) hyperthreaded?
+    		if ($siblings = $current->{CORES}) {
+        		# Hyperthreading is off
+        		$current->{HPT}=0;
+    		} else {
+        		# Hyperthreading is on
+        		$current->{HPT}=1;
+    		}
         }
         if (/Voltage:\s*(.*)V/i){
             $current->{VOLTAGE} = $1;
@@ -78,14 +90,6 @@ sub run {
         if (/Upgrade:\s*(.*)/i){
             $current->{SOCKET} = $1;
         }
-    	# Is(Are) CPU(s) hyperthreaded?
-    	if ($siblings = $current->{CORES}) {
-        	# Hyperthreading is off
-        	$current->{HPT}=0;
-    	} else {
-        	# Hyperthreading is on
-        	$current->{HPT}=1;
-    	}
 
     	$current->{CPUARCH}=$cpuarch;
 
@@ -95,9 +99,6 @@ sub run {
 			$current->{DATA_WIDTH}=32;
     	}
     }
-
-    # Add the values to XML
-    $common->addCPU($current);
 }
 
 1
