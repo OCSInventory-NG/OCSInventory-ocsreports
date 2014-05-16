@@ -179,7 +179,7 @@ if ($protectedPost['SUP_PROF'] != ''){
 	//pour rejouer la requete et ne pas utiliser le cache
 	$protectedPost['Valid']="SUP";
 }
-print_r($protectedPost);
+
 //for save field and value
 if ($protectedPost['Valid-search'] and $protectedPost['Valid'] != ''){
 	foreach ($protectedPost as $key=>$value){
