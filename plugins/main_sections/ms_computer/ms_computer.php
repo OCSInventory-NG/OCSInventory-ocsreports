@@ -126,8 +126,8 @@ if (!isset($protectedGet['option'])){
 	$protectedGet['option']="cd_admininfo";
 }
 $i=0;
-echo "<br><br><table width='90%' border=0 align='center'><tr align=center>";
-$nb_col=array(10,20,30,40,50);
+echo "<br><br><table width='80%' border=0 align='center'><tr align=center>";
+$nb_col=array(11,23,34,45,56);
 $j=0;
 $index_tab=0;
 //intitialisation du tableau de plugins
@@ -146,7 +146,7 @@ while ($list_plugins[$i]){
 	}
 	
 	if ($j == $nb_col[$index_tab]){
-		if ($index_tab%2 == 0) $tab_width="72%"; else $tab_width="80%";
+		if ($index_tab%2 == 0) $tab_width="90%"; else $tab_width="80%";
 		echo "</tr></table>\n<table width='$tab_width' border=0 align='center'><tr align=center>";
 		$index_tab++;
 	}
