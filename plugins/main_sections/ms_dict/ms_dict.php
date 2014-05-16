@@ -65,11 +65,11 @@ if($protectedPost['TRANS'] == "TRANS"){
 		}
 	}
 	if ($list_check != '')	
-	trans($protectedPost['onglet'],$list_check,$protectedPost['AFFECT_TYPE'],$protectedPost['NEW_CAT'],$protectedPost['EXIST_CAT']);	
+	trans_by_checksum($protectedPost['onglet'],$list_check,$protectedPost['AFFECT_TYPE'],$protectedPost['NEW_CAT'],$protectedPost['EXIST_CAT']);	
 }
 //delete a soft in list => return in 'NEW' liste
 if ($protectedPost['SUP_PROF'] != ""){
-	del_soft($protectedPost['onglet'],array($protectedPost['SUP_PROF']));
+	del_soft_by_checksum($protectedPost['onglet'], $protectedPost['SUP_PROF']);
 }
 /************************************END ACTION**************************************/
 
@@ -211,9 +211,10 @@ if ($protectedPost['onglet'] == 'NEW'){
  	$list_soft="''";
 
 	$list_fields= array('SOFT_NAME'=>'NAME',
+						'SOFT_NAME_CHECKSUM'=>'MD5(NAME) AS SOFT_NAME_CHECKSUM',
 						'ID'=>'ID',
 	 					 'QTE'=> 'QTE',
-    					 'CHECK'=>'ID');
+    					 'CHECK'=>'SOFT_NAME_CHECKSUM');
 	$table_name="CAT_NEW";
 	$default_fields= array('SOFT_NAME'=>'SOFT_NAME','QTE'=>'QTE','CHECK'=>'CHECK');
 	$list_col_cant_del=array('SOFT_NAME'=>'SOFT_NAME','CHECK'=>'CHECK');
@@ -232,13 +233,14 @@ if ($protectedPost['onglet'] == 'NEW'){
 /*******************************************************CAS OF IGNORED*******************************************************/
 if ($protectedPost['onglet'] == 'IGNORED'){
 	$list_fields= array('SOFT_NAME'=>'EXTRACTED',
+						'SOFT_NAME_CHECKSUM'=>'MD5(EXTRACTED) AS SOFT_NAME_CHECKSUM',
 						'ID'=>'ID',
-						'SUP'=>'ID',
-						'CHECK'=>'ID'
+						'SUP'=>'SOFT_NAME_CHECKSUM',
+						'CHECK'=>'SOFT_NAME_CHECKSUM'
 								);
 	$table_name="CAT_IGNORED";
 	$default_fields= array('SOFT_NAME'=>'SOFT_NAME','SUP'=>'SUP','CHECK'=>'CHECK');
-	$list_col_cant_del=array('SOFT_NAME'=>'SOFT_NAME','CHECK'=>'CHECK');
+	$list_col_cant_del=array('SOFT_NAME'=>'SOFT_NAME','SUP'=>'SUP','CHECK'=>'CHECK');
 	$querydico = 'SELECT ';
 	foreach ($list_fields as $key=>$value){
 		if($key != 'SUP' and $key != 'CHECK')
@@ -253,13 +255,14 @@ if ($protectedPost['onglet'] == 'IGNORED'){
 /*******************************************************CAS OF UNCHANGED*******************************************************/
 if ($protectedPost['onglet'] == 'UNCHANGED'){
 	$list_fields= array('SOFT_NAME'=>'EXTRACTED',
+						'SOFT_NAME_CHECKSUM'=>'MD5(EXTRACTED) AS SOFT_NAME_CHECKSUM',
 						'ID'=>'ID',
-						'SUP'=>'ID',
-						'CHECK'=>'ID'
+						'SUP'=>'SOFT_NAME_CHECKSUM',
+						'CHECK'=>'SOFT_NAME_CHECKSUM'
 								);
 	$table_name="CAT_UNCHANGE";
 	$default_fields= array('SOFT_NAME'=>'SOFT_NAME','SUP'=>'SUP','CHECK'=>'CHECK');
-	$list_col_cant_del=array('SOFT_NAME'=>'SOFT_NAME','CHECK'=>'CHECK');
+	$list_col_cant_del=array('SOFT_NAME'=>'SOFT_NAME','SUP'=>'SUP','CHECK'=>'CHECK');
 	$querydico = 'SELECT ';
 	foreach ($list_fields as $key=>$value){
 		if($key != 'SUP' and $key != 'CHECK')
