@@ -1,5 +1,7 @@
 Revision history for ocsreports
 2.1.1
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1163918
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1266229
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1318823
 		* update redistribution servers. You can create package for windows and linux redistribution server.
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1283089
