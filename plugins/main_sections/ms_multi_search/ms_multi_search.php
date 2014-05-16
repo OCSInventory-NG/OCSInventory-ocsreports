@@ -179,6 +179,7 @@ if ($protectedPost['SUP_PROF'] != ''){
 	//pour rejouer la requete et ne pas utiliser le cache
 	$protectedPost['Valid']="SUP";
 }
+print_r($protectedPost);
 //for save field and value
 if ($protectedPost['Valid-search'] and $protectedPost['Valid'] != ''){
 	foreach ($protectedPost as $key=>$value){
@@ -191,7 +192,8 @@ if ($protectedPost['Valid-search'] and $protectedPost['Valid'] != ''){
 }else{
 	foreach ($_SESSION['OCS'] as $key=>$value){
 		$valeur=explode("-", $key); 
-		if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue" or $valeur[0] == "SelFieldValue3"	or $valeur[0] == "SelAndOr" or $valeur[0] == "SelComp" )
+		// SelAndOr doesn't trigger form submit, so it wasn't saved in session
+		if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue" or $valeur[0] == "SelFieldValue3"	/*or $valeur[0] == "SelAndOr"*/ or $valeur[0] == "SelComp" )
 			$protectedPost[$key]=$value;
 	}
 	
