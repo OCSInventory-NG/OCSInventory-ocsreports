@@ -60,7 +60,6 @@ sub run {
 					last;
 				}
 			}
-			$current->{CORES} = 'Unknown';
 			$cpuspeed=0;
 		}	
     	if (/Current\sSpeed:\s*(.*) (|MHz|GHz)/i){
@@ -69,15 +68,17 @@ sub run {
 		}
         if (/Core\sCount:\s*(\d+)/i){
             $current->{CORES} = $1;
-    		# Is(Are) CPU(s) hyperthreaded?
-    		if ($siblings = $current->{CORES}) {
-        		# Hyperthreading is off
-        		$current->{HPT}=0;
-    		} else {
-        		# Hyperthreading is on
-        		$current->{HPT}=1;
-    		}
-        }
+        } else {
+			$current->{CORES} = $cpucores;
+		}
+    	# Is(Are) CPU(s) hyperthreaded?
+    	if ($siblings == $current->{CORES}) {
+       		# Hyperthreading is off
+       		$current->{HPT}='on';
+    	} else {
+       		# Hyperthreading is on
+       		$current->{HPT}='off';
+    	}
         if (/Voltage:\s*(.*)V/i){
             $current->{VOLTAGE} = $1;
         }
@@ -92,13 +93,16 @@ sub run {
         }
 
     	$current->{CPUARCH}=$cpuarch;
-
 		if ($cpuarch eq "x86_64"){
 			$current->{DATA_WIDTH}=64;
     	} else {
 			$current->{DATA_WIDTH}=32;
     	}
+		
+		$current->{NBSOCKET} = $cpusocket;
     }
+	$common->addCPU($current);
+
 }
 
 1

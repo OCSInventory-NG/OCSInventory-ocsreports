@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+       * Add number of socket in Linux/Archs/i386/CPU.pm
        * Add hyperthreading support in Linux/Archs/i386/CPU.pm
        * Fix bug #1312830
        * Update memconf command to last revision
