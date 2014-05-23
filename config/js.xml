@@ -2,4 +2,5 @@
 <javascripts>
   <file>ms_search_soft/js/autocomplete-3-2.js</file>
   <file>ms_search_soft/js/print.js</file>
+  <file>ms_teledeploy/js/package-form.js</file>
 </javascripts>

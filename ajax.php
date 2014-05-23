@@ -1,7 +1,7 @@
-<?php 
+<?php
 //====================================================================================
 // OCS INVENTORY REPORTS
-// Copyleft Erwan GOALOU 2010
+// Copyleft Arthur Jaouen 2014 (arthur(at)factorfx(dot)com)
 // Web: http://www.ocsinventory-ng.org
 //
 // This code is open source and may be copied and modified as long as the source
@@ -26,15 +26,10 @@ require_once ('require/function_index.php');
 $sleep=1;
 $debut = getmicrotime();
 
-define('AJAX', false);
+define('AJAX', true);
 
 require ('require/header.php');
 
-addLog('PAGE',$protectedGet[PAG_INDEX]);
-
-if( !isset($protectedGet["popup"] )&& !isset($protectedGet["no_footer"] ))
-	require (FOOTER_HTML);
-
-
+addLog('PAGE', $protectedGet[PAG_INDEX]);
 
 ?>

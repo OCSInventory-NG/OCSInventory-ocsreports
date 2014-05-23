@@ -1,0 +1,108 @@
+/*** LAYOUTS ***/
+
+.form-frame {
+	background: #f8f8f8;
+	border: 1px solid #e7e7e7;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.form-frame:last-child {
+	margin-bottom: 0;
+}
+
+.form-column {
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 20px;
+}
+
+.form-column:last-child {
+	margin-right: 0;
+}
+
+h4 label {
+	font-weight: normal;
+	margin-left: 10px;
+}
+
+/*** FIELD ***/
+
+.field {
+	margin: auto;
+	margin-bottom: 5px;
+	padding: 5px 20px;
+	width: 480px;
+	text-align: left;
+}
+
+.field.field-has-errors {
+	color: #D8000C;
+	background: #FFBABA;
+	padding: 4px 19px;
+	border: 1px solid;
+}
+
+.field > * {
+	vertical-align: top;
+}
+
+.field label {
+	width: 150px;
+	text-align: right;
+	margin-right: 10px;
+	margin-top: 3px;
+}
+
+/*** INPUTS ***/
+
+.field select,
+.field textarea,
+.field .radio-container,
+.field input[type=text],
+.field input[type=file] {
+	display: inline-block;
+	width: 280px;
+}
+
+.field textarea {
+	height: 72px;
+}
+
+.field .radio-container {
+	text-align: left;
+}
+
+.field .radio-container > * {
+	vertical-align: top;
+}
+
+.field .radio-container label {
+	width: auto;
+	text-align: left;
+	margin: 3px 0 0 10px;
+	font-weight: normal;
+}
+
+/*** ERRORS ***/
+
+.field-error-list {
+	margin: 5px;
+	margin-left: 160px;
+	text-align: left;
+	font-weight: bold;
+}
+
+/*** BUTTONS ***/
+
+.form-buttons {
+	margin: 20px;
+}
+
+.form-frame + .form-buttons {
+	margin-top: 0;
+}
+
+.form-buttons input {
+	margin: 0 10px;
+}

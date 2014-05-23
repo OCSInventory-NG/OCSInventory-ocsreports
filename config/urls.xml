@@ -124,6 +124,10 @@
     <value>tele_package</value>
     <directory>ms_teledeploy</directory>
   </url>
+  <url key="ms_tele_package_new">
+    <value>tele_package_new</value>
+    <directory>ms_teledeploy</directory>
+  </url>
   <url key="ms_tele_activate">
     <value>tele_activate</value>
     <directory>ms_teledeploy</directory>
