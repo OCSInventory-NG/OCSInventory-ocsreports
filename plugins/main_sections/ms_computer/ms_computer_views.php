@@ -11,10 +11,23 @@ function show_computer_menu($computer_id) {
 	echo '</div>';
 }
 
+function show_computer_title($computer) {
+	global $l;
+	
+	$urls = $_SESSION['OCS']['url_service'];
+	
+	echo '<h3>';
+	echo $computer->NAME;
+	if ($_SESSION['OCS']['profile']->getRestriction('EXPORT_XML', 'NO') == "NO") {
+		echo ' <small><a href="index.php?'.PAG_INDEX.'='.$urls->getUrl('ms_export_ocs').'&no_header=1&systemid='.$computer->ID.'" target="_blank">'.$l->g(1304).'</a></small>';
+	}
+	echo '</h3>';
+}
+
 function show_computer_summary($computer) {
 	global $l;
 	
-	echo '<h3>'.$computer->NAME.'</h3>';
+	$urls = $_SESSION['OCS']['url_service'];
 	
 	$labels = array(
 		'SYSTEM' => array(
@@ -48,13 +61,11 @@ function show_computer_summary($computer) {
 		),
 	);
 	
-	// TODO category labels
+	// TODO category translations
 	
-	$values = look_config_default_values(array('EXPORT_OCS'));
-	
-	/*if($_SESSION['OCS']['profile']->getRestriction('EXPORT_XML', 'NO') == "NO") {
-		$labels['EXPORT_OCS']=$l->g(1303);
-	}*/
+	$cat_labels = array(
+		
+	);
 	
 	foreach ($labels as $cat_key => $cat) {
 		foreach ($cat as $key => $lbl) {
@@ -90,15 +101,12 @@ function show_computer_summary($computer) {
 				$resVM = mysql2_query_secure($sqlVM,$_SESSION['OCS']["readServer"],$argVM);
 				$valVM = mysqli_fetch_array( $resVM );
 				$data[$key]=$valVM['vmtype'];
-				$link_vm="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$valVM['hardware_id']."'  target='_blank'><font color=red>".$valVM['name']."</font></a>";
+				$link_vm="<a href='index.php?".PAG_INDEX."=".$urls->getUrl('ms_computer')."&head=1&systemid=".$valVM['hardware_id']."'  target='_blank'><font color=red>".$valVM['name']."</font></a>";
 				$link[$key]=true;
 				
 				if ($data[$key] != '') {
 					msg_info($l->g(1266)."<br>".$l->g(1269).': '.$link_vm);
 				}
-			} elseif ($key == "EXPORT_OCS") {
-				$data[$key] = "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_export_ocs']."&no_header=1&systemid=".$protectedGet['systemid']."\")>".$l->g(1304)."</a>";
-				$link[$key] = true;
 			} elseif ($key == "IPADDR" and $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO')=="NO") {
 				$data[$key] = $computer->$key." <a href=# OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"".$l->g(1283)."\");'><i>WOL</i></a>";
 				$link[$key] = true;

@@ -330,17 +330,21 @@ function html_header($no_java=false){
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap.min.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-theme.min.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-custom.css'>
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/dataTables.bootstrap.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/header.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/computer_details.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/dataTables.bootstrap.css'>
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/forms.css'>
 				";
 	if (!$no_java){
 		incPicker(); 
-		echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
+		
 		//js for graph
 		echo "<script src='js/jquery-1.11.0.js' type='text/javascript'></script>";
 		echo "<script src='js/jquery-migrate-1.2.1.min.js' type='text/javascript'></script>";
+		echo "<script src='js/jquery.ui.widget.js'></script>";
+		echo "<script src='js/jquery.iframe-transport.js'></script>";
+		echo "<script src='js/jquery.fileupload.js'></script>";
 		
 		echo "<script src='js/bootstrap.min.js' type='text/javascript'></script>";
 		echo "<script src='js/bootstrap-custom.js' type='text/javascript'></script>";
@@ -348,10 +352,11 @@ function html_header($no_java=false){
   		echo "<script src='js/graph/raphael.js' type='text/javascript'></script>";
   		echo "<script src='js/graph/elycharts.js' type='text/javascript'></script>";
   		
-  		
-  		//js and css for Datatables 
-  		echo "<script type='text/javascript' src='libraries/datatable/media/js/jquery.dataTables.js'></script>";
+  		//js for Datatables 
+  		echo "<script src='libraries/datatable/media/js/jquery.dataTables.js' type='text/javascript'></script>";
   		echo "<script src='js/dataTables.bootstrap.js' type='text/javascript'></script>";
+
+  		echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
   			
   		
 		if (isset($_SESSION['OCS']['JAVASCRIPT'])){

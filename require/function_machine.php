@@ -83,13 +83,8 @@ function subnet_name($systemid){
 	return 	$returnVal;
 }
 
-function print_item_header($text)
-{
-	echo "<br><br><table align=\"center\"  width='100%'  cellpadding='4'>";
-	echo "<tr>";
-	echo "<td align='center' width='100%'><b><font color='blue'>".mb_strtoupper($text, "UTF-8")."</font></b></td>";
-	echo "</tr>";
-	echo "</table><br>";	
+function print_item_header($text) {
+	echo '<h4 class="item-header">'.mb_strtoupper($text, "UTF-8").'</h4>';
 }
 
 function bandeau($data,$lbl,$link=array()){

@@ -112,3 +112,15 @@ function ajaxtable(table_name,form_name){
 	
 	});
 }				
+
+$.extend($.fn.dataTableExt.oStdClasses, {
+	"sFilterInput": "",
+	"sLengthSelect": ""
+});
+
+$.extend(true, $.fn.dataTable.defaults, {
+	"sDom":
+		"<'row'<'dataTables_length_container'l><'dataTables_filter_container'f>r>"+
+		"t"+
+		"<'row'<'col-xs-6'i><'col-xs-6'p>>",
+});

@@ -66,3 +66,12 @@
 	width: 70%;
 	padding: 3px 0;
 }
+
+/*** PLUGINS ***/
+
+.plugin-frame {
+	background: #f8f8f8;
+	border: 1px solid #e7e7e7;
+	padding: 10px;
+	margin-bottom: 20px;
+}

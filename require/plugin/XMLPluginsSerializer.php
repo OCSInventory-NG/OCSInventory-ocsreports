@@ -59,7 +59,7 @@ class XMLPluginsSerializer {
 	public function unserialize($xml) {
 		$plugins_xml = simplexml_load_string($xml);
 		
-		$plugins = [];
+		$plugins = array();
 		foreach ($plugins_xml->plugin as $plugin_xml) {
 			$id = (string) $plugin_xml['id'];
 			$label = (string) $plugin_xml->label;

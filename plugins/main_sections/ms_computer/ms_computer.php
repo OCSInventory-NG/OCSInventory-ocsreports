@@ -50,6 +50,8 @@ echo '</div>';
 
 echo '<div class="computer-content">';
 
+show_computer_title($item);
+
 if (isset($protectedGet['cat']) and $protectedGet['cat'] == 'admin') {
 	show_computer_summary($item);
 }
@@ -89,7 +91,9 @@ if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('softwa
 			$plugin_file = PLUGINS_DIR."computer_detail/".$plugin->getId()."/".$plugin->getId().".php";
 			$protectedPost['computersectionrequest'] = $plugin->getId();
 			if (file_exists($plugin_file)) {
+				echo '<div class="plugin-frame plugin-name-'.$plugin->getId().'">';
 				require $plugin_file;
+				echo '</div>';
 			}
 		}
 	}
@@ -99,7 +103,9 @@ if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('softwa
 	$plugin_file = PLUGINS_DIR."computer_detail/".$plugin->getId()."/".$plugin->getId().".php";
 	
 	if (file_exists($plugin_file)) {
+		if (!$ajax) echo '<div class="plugin-frame plugin-name-'.$plugin->getId().'">';
 		require $plugin_file;
+		if (!$ajax) echo '</div>';
 	}
 } else {
 	// Else error
