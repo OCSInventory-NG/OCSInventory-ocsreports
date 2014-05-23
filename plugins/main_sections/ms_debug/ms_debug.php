@@ -67,10 +67,10 @@ if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
 	}elseif ($protectedPost["MODE"] == 5){
 		if (!isset($_SESSION['OCS']['TRUE_USER'])){
 			$true_user=$_SESSION['OCS']['loggeduser'];
-			$list_page_profil=$_SESSION['OCS']['PAGE_PROFIL'];
+			$list_page_profil=$_SESSION['OCS']['profile']->getPages();
 			$restriction=$_SESSION['OCS']['profile']->getRestriction('GUI');
 			$loggeduser=$protectedPost["FUSER"];
-			unset($_SESSION['OCS']);	
+			unset($_SESSION['OCS']);
 			$_SESSION['OCS']['TRUE_USER']=$true_user;
 			$_SESSION['OCS']['TRUE_PAGES']=$list_page_profil;
 			$_SESSION['OCS']['TRUE_RESTRICTION']=$restriction;

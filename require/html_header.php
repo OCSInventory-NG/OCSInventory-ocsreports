@@ -28,8 +28,7 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 		echo "<a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'>".$l->g(891)."</a>";
 	}
 	
-	$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=650,height=650\")'";
-	echo "<a ".$javascript.">Options</a>";// TODO translate
+	echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1'>Options</a>";// TODO translate
 	echo open_form('log_out','index.php');
 	echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
 	echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
@@ -52,18 +51,16 @@ if( !isset($protectedGet["popup"] )) {
 	echo '<span class="version">V <b>' . GUI_VER_SHOW . '</b></span>';
 	//pass in debug mode if plugin debug exist
 	if (isset($pages_refs['ms_debug'])){
-		$javascript="OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1\",\"debug\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'";
-		
 		if ((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON') 
 				or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
-			echo"<b>".GUI_VER."/".DB_NAME."</b><br>";
-			echo "<a ".$javascript."><img src=image/red.png></a><br>";
+			echo"<b>".GUI_VER."/".DB_NAME."</b>";
+			echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><img src=image/red.png></a>";
 			
 			if ($_SESSION['OCS']['DEBUG']=='ON') {
-				echo "<font color='black'><b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font><div id='tps'>wait...</div>";
+				echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'>ON":"red'>OFF")."</font></b><span id='tps'>wait...</span>";
 			}
-		} else if ((($_SESSION['OCS']['PAGE_PROFIL']['ms_debug']) or $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and !isset($_SESSION['OCS']['DEBUG'])){
-			echo "<a ".$javascript."><img src=image/green.png></a><br>";
+		} else if ((($_SESSION['OCS']['profile']->hasPage('ms_debug')) or array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES'])) and !isset($_SESSION['OCS']['DEBUG'])){
+			echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><img src=image/green.png></a><br>";
 		}
 	}
 }
@@ -71,7 +68,7 @@ if( !isset($protectedGet["popup"] )) {
 echo '</div>';
 
 echo '<div class="header-logo">';
-echo '<a onclick="clic(\'index.php?first\',\'FIRST\');"><img src="image/logo OCS-ng-96.png"></a>';
+echo '<a href="index.php?first"><img src="image/logo OCS-ng-96.png"></a>';
 echo '</div>';
 
 if ($_SESSION['OCS']['profile']) {
@@ -165,7 +162,7 @@ echo "</table>";
 echo "<div class='fond'>";
 
 if ($_SESSION['OCS']["mesmachines"] == "NOTAG" 
-	and !(isset($_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and $protectedGet[PAG_INDEX] == $pages_refs['ms_debug']) ){
+	and !(array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and $protectedGet[PAG_INDEX] == $pages_refs['ms_debug']) ){
 	if (isset($LIST_ERROR))
 		$msg_error=$LIST_ERROR;
 	else

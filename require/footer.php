@@ -94,7 +94,7 @@ if( function_exists("getmicrotime") ) {
 	$fin = getmicrotime();
 	if($_SESSION['OCS']["DEBUG"]=="ON") {
 		echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>".round($fin-$debut, 3) ." secondes</b></font>&nbsp;&nbsp;&nbsp;";
-		echo "<script language='javascript'>document.getElementById(\"tps\").innerHTML=\"<font color='black'><b>".round($fin-$debut, 3)." secondes</b></font>\"</script>";
+		echo "<script language='javascript'>document.getElementById(\"tps\").innerHTML=\"<b>".round($fin-$debut, 3)." secondes</b>\"</script>";
 	}
 	if (isset($span_wait))
 	echo "<script language='javascript'>wait(0);</script>";

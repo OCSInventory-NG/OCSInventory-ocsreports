@@ -44,6 +44,7 @@ require_once('require/fichierConf.class.php');
 require_once('require/function_commun.php');
 require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
+require_once('require/views/forms.php');
 require_once('require/plugin/include.php');
 
 if (isset($_SESSION['OCS']['CONF_RESET'])){
@@ -405,7 +406,7 @@ if (!isset($_SESSION['OCS']['profile'])) {
 	$profile = $_SESSION['OCS']['profile'];
 }
 
-if ((!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
+if (!AJAX and (!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
 	require_once (HEADER_HTML);
 }
 
@@ -414,7 +415,7 @@ $url_name = $urls->getUrlName($protectedGet[PAG_INDEX]);
 //VERIF ACCESS TO THIS PAGE
 if (isset($protectedGet[PAG_INDEX])
 	and !$profile->hasPage($url_name)
-	and !isset($_SESSION['OCS']['TRUE_PAGES'][$url_name])
+	and !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES'])
 	//force access to profils witch have CONFIGURATION TELEDIFF  == 'YES' for ms_admin_ipdiscover page
 	and !($profile->getConfigValue('TELEDIFF') == 'YES' and $url_name == 'ms_admin_ipdiscover')){
 		msg_error("ACCESS DENIED");
