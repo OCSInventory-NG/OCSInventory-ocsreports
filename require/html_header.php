@@ -17,7 +17,7 @@ html_header();
 echo '<div class="headfoot navbar navbar-default">';
 echo '<div class="user-header">';
 
-if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
+if (isset($_SESSION['OCS']["loggeduser"]) && !isset($protectedGet["popup"])) {
 	echo '<span class="links">';
 	
 	if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
@@ -38,7 +38,7 @@ if(isset($_SESSION['OCS']["loggeduser"])&&!isset($protectedGet["popup"] )) {
 }
 
 //on affiche l'entete de la page
-if( !isset($protectedGet["popup"] )) {
+if (!isset($protectedGet["popup"])) {
 	//si unlock de l'interface
 	if (isset($protectedPost['LOCK']) and $protectedPost['LOCK'] == 'RESET'){
 		if (isset($_SESSION['OCS']["TRUE_mesmachines"]) and $_SESSION['OCS']["TRUE_mesmachines"] != array())
@@ -59,7 +59,7 @@ if( !isset($protectedGet["popup"] )) {
 			if ($_SESSION['OCS']['DEBUG']=='ON') {
 				echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'>ON":"red'>OFF")."</font></b><span id='tps'>wait...</span>";
 			}
-		} else if ((($_SESSION['OCS']['profile']->hasPage('ms_debug')) or array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES'])) and !isset($_SESSION['OCS']['DEBUG'])){
+		} else if ((($_SESSION['OCS']['profile'] and $_SESSION['OCS']['profile']->hasPage('ms_debug')) or array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES'])) and !isset($_SESSION['OCS']['DEBUG'])){
 			echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><img src=image/green.png></a><br>";
 		}
 	}

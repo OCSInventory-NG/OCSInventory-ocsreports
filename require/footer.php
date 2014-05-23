@@ -64,48 +64,50 @@ if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 	tab_modif_values($tab_name,$tab_typ_champ,'',$l->g(1130),$comment="","EDITION",$show_buttons,$form_language);*/
 }
 
-if ($_SESSION['OCS']['DEBUG'] == 'ON'){
-	if (isset($_SESSION['OCS']['SQL_DEBUG'])){
-		msg_info("<b>".$l->g(5001)."</b><br><br>".implode('<br><hr>',$_SESSION['OCS']['SQL_DEBUG']));
-	}
-	echo "<hr/>";
-	echo "<div align=center>VAR POST</div>";
-	if (isset($protectedPost))
-	print_r_V2($protectedPost);
-	echo "<hr/>";
-	echo "<div align=center>VAR SESSION</div>";
-	foreach ($_SESSION['OCS'] as $key=>$value){
-		
-		if ($key != "fichLang" 
-			and $key != "LANGUAGE_FILE" 
-			and $key != "mac" and $key != "writeServer"
-			and $key != "readServer"){
-			$tab_session[$key]=$value;
+if (!AJAX) {
+	if ($_SESSION['OCS']['DEBUG'] == 'ON'){
+		if (isset($_SESSION['OCS']['SQL_DEBUG'])){
+			msg_info("<b>".$l->g(5001)."</b><br><br>".implode('<br><hr>',$_SESSION['OCS']['SQL_DEBUG']));
 		}
-		
+		echo "<hr/>";
+		echo "<div align=center>VAR POST</div>";
+		if (isset($protectedPost))
+		print_r_V2($protectedPost);
+		echo "<hr/>";
+		echo "<div align=center>VAR SESSION</div>";
+		foreach ($_SESSION['OCS'] as $key=>$value){
+			
+			if ($key != "fichLang" 
+				and $key != "LANGUAGE_FILE" 
+				and $key != "mac" and $key != "writeServer"
+				and $key != "readServer"){
+				$tab_session[$key]=$value;
+			}
+			
+		}
+		if (isset($tab_session))
+		print_r_V2($tab_session);	
 	}
-	if (isset($tab_session))
-	print_r_V2($tab_session);	
-}
-
-echo"<br></div><table class='headfoot'>";
-echo"<tr height=25px><td align='center'>&nbsp;";
-if( function_exists("getmicrotime") ) {
-	$fin = getmicrotime();
-	if($_SESSION['OCS']["DEBUG"]=="ON") {
-		echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>".round($fin-$debut, 3) ." secondes</b></font>&nbsp;&nbsp;&nbsp;";
-		echo "<script language='javascript'>document.getElementById(\"tps\").innerHTML=\"<b>".round($fin-$debut, 3)." secondes</b>\"</script>";
+	
+	echo"<br></div><table class='headfoot'>";
+	echo"<tr height=25px><td align='center'>&nbsp;";
+	if( function_exists("getmicrotime") ) {
+		$fin = getmicrotime();
+		if($_SESSION['OCS']["DEBUG"]=="ON") {
+			echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>".round($fin-$debut, 3) ." secondes</b></font>&nbsp;&nbsp;&nbsp;";
+			echo "<script language='javascript'>document.getElementById(\"tps\").innerHTML=\"<b>".round($fin-$debut, 3)." secondes</b>\"</script>";
+		}
+		if (isset($span_wait))
+		echo "<script language='javascript'>wait(0);</script>";
 	}
-	if (isset($span_wait))
-	echo "<script language='javascript'>wait(0);</script>";
-}
-
-echo"</td></tr></table>";
-echo open_form('ACTION_CLIC');
+	
+	echo"</td></tr></table>";
+	echo open_form('ACTION_CLIC');
 	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 	echo "<input type='hidden' id='LANG' name='LANG' value=''>";
-echo close_form();
+	echo close_form();
+	
+	echo '</body></form>';
+}
 
 ?>
-</body>
-</html>
