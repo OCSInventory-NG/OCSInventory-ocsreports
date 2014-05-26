@@ -332,13 +332,12 @@ if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FI
 	$_SESSION['OCS']["LANGUAGE_FILE"]=new language($_SESSION['OCS']['LANGUAGE']);
 }
 $l = $_SESSION['OCS']["LANGUAGE_FILE"];
-
 /*********************************************************gestion de l'authentification****************************************************/
 if (!isset($_SESSION['OCS']["loggeduser"])){
 	if (!AJAX && !((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))){
 		require_once(BACKEND.'AUTH/auth.php');
 	}else{
-		header("HTTP/1.1 401 User Logged Out");
+		header($_SERVER["SERVER_PROTOCOL"]." 401 ". utf8_decode($l->g(1359)));
 		die;
 	}
 }

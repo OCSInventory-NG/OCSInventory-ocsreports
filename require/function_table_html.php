@@ -316,15 +316,16 @@ function xml_decode( $txt ) {
             	 "type": "POST",
         		 "error": function (xhr, error, thrown) {
             		 var statusErrorMap = {
-         	                '400' : "Server understood the request but request content was invalid",
-         	                '401' : "Unauthorised access",
-         	                '403' : "Forbidden resouce can't be accessed",
-         	                '404' : "Page not found",
-         	                '500' : "Internal Server Error",
-         	                '503' : "Service Unavailable"
+         	                '400' : "<?php echo $l->g(1352); ?>",
+         	                '401' : "<?php echo $l->g(1353); ?>",
+         	                '403' : "<?php echo $l->g(1354); ?>",
+         	                '404' : "<?php echo $l->g(1355); ?>",
+         	                '414' : "<?php echo $l->g(1356); ?>",
+         	                '500' : "<?php echo $l->g(1357); ?>",
+         	                '503' : "<?php echo $l->g(1358); ?>"
          	         };
             		 if(statusErrorMap[xhr.status]!=undefined){
-            			 alert(xhr.statusText+" ( "+statusErrorMap[xhr.status]+":"+xhr.status+" ) ");
+            			 alert(xhr.statusText+" ( "+statusErrorMap[xhr.status]+" : "+xhr.status+" ) ");
             			 if(xhr.status == 401){
                 			 window.location.reload();
 						 }        	 

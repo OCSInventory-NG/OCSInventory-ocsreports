@@ -1227,6 +1227,14 @@
 1349 Afficher / Cacher
 1350 .
 1351 ,
+1352 Contenu de la requête invalide
+1353 Accès non autorisé 
+1354 Les droits ne sont pas suffisants pour accéder à la ressource demandée
+1355 Page non-trouvée 
+1356 L'URL demandé est trop long, essayez de supprimer les cookies d'OCS ( vous serez déconnecté ) 
+1357 Erreur interne du serveur
+1358 Le service n'est pas disponible
+1359 Utilisateur déconnecté
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

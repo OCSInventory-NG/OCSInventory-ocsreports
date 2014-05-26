@@ -1227,6 +1227,14 @@
 1349 Show / Hide
 1350 ,
 1351 .
+1352 Server understood the request but request content was invalid
+1353 Unauthorised access
+1354 Forbidden ressource can't be accessed
+1355 Page not found
+1356 Request-URI Too Long, try to clean Cookies 
+1357 Internal Server Error
+1358 Service Unavailable
+1359 User Logged Out
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
