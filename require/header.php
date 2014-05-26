@@ -334,8 +334,14 @@ if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FI
 $l = $_SESSION['OCS']["LANGUAGE_FILE"];
 
 /*********************************************************gestion de l'authentification****************************************************/
-if (!isset($_SESSION['OCS']["loggeduser"]))
-require_once(BACKEND.'AUTH/auth.php');
+if (!isset($_SESSION['OCS']["loggeduser"])){
+	if (!AJAX && !((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))){
+		require_once(BACKEND.'AUTH/auth.php');
+	}else{
+		header("HTTP/1.1 401 User Logged Out");
+		die;
+	}
+}
 
 /**********************************************************gestion des droits sur les TAG****************************************************/
 if (!isset($_SESSION['OCS']["lvluser"]))

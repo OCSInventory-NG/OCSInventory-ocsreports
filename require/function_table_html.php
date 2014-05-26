@@ -312,8 +312,23 @@ function xml_decode( $txt ) {
 	        "processing": true,
 	        "serverSide": true,
         	"ajax": {
-            	 'url':'<?php echo $address; ?>&no_header=true&no_footer=true',
+            	 'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
             	 "type": "POST",
+        		 "error": function (xhr, error, thrown) {
+            		 var statusErrorMap = {
+         	                '400' : "Server understood the request but request content was invalid",
+         	                '401' : "Unauthorised access",
+         	                '403' : "Forbidden resouce can't be accessed",
+         	                '404' : "Page not found",
+         	                '500' : "Internal Server Error",
+         	                '503' : "Service Unavailable"
+         	         };
+            		 if(statusErrorMap[xhr.status]!=undefined){
+            			 alert(xhr.statusText+" ( "+statusErrorMap[xhr.status]+":"+xhr.status+" ) ");
+            			 if(xhr.status == 401){
+                			 window.location.reload();
+						 }        	 
+          	    	}},
             	 "data": function ( d ) {
             		 if ($(table_id).width() < $(this).width()){
      					$(table_id).width('100%');
@@ -416,13 +431,11 @@ function xml_decode( $txt ) {
 				 },
 				 "scrollX": "100%",
 				 "scrollCollapse":true,
-				
        		});
 			$("body").on("click","#disp"+table_name,function(){
 					var col = "."+$("#select_col"+table_name).val();
 					$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
 					$(table_id).DataTable().ajax.reload();
-					
 				});
 			<?php
 			if (!isset($option['no_download_result'])){
@@ -445,8 +458,6 @@ function xml_decode( $txt ) {
 											
 						$('#infototal_'+table_name).text(total);
 						$('#'+table_name+'_csv_download').show();
-						
-						
 					}
 				});
 			<?php 

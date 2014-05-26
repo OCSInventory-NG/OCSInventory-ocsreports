@@ -107,7 +107,7 @@ if (!AJAX) {
 	echo "<input type='hidden' id='LANG' name='LANG' value=''>";
 	echo close_form();
 	
-	echo '</body></form>';
+	echo '</body></html>';
 }
 
 ?>

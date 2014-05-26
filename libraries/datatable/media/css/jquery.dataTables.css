@@ -1,7 +1,3 @@
-table.dataTable a{
-	color : rgba(0, 0, 255, 0.65);
-	
-}
 /*
  * Table styles
  */
@@ -21,17 +17,11 @@ table.dataTable {
 table.dataTable thead th,
 table.dataTable tfoot th {
   font-weight: bold;
-  
-  font-size: 0.8em;
-  text-align:center;
 }
 table.dataTable thead th,
 table.dataTable thead td {
   padding: 10px 18px;
-  border-bottom: 1px solid #0000FF;
-  border-top: 1px solid #0000FF;
-   background-color : #9DD0FF;
-  color : rgba(0, 0, 255, 0.65);
+  border-bottom: 1px solid #111111;
 }
 table.dataTable thead th:active,
 table.dataTable thead td:active {
@@ -49,24 +39,22 @@ table.dataTable thead .sorting {
   *cursor: hand;
 }
 table.dataTable thead .sorting {
-  background: #9DD0FF url("../images/sort_both.png") no-repeat center right;
+  background: url("../images/sort_both.png") no-repeat center right;
 }
 table.dataTable thead .sorting_asc {
-  background: #9DD0FF url("../images/sort_asc.png") no-repeat center right;
+  background: url("../images/sort_asc.png") no-repeat center right;
 }
 table.dataTable thead .sorting_desc {
-  background: #9DD0FF url("../images/sort_desc.png") no-repeat center right;
+  background: url("../images/sort_desc.png") no-repeat center right;
 }
 table.dataTable thead .sorting_asc_disabled {
-  background: #9DD0FF url("../images/sort_asc_disabled.png") no-repeat center right;
+  background: url("../images/sort_asc_disabled.png") no-repeat center right;
 }
 table.dataTable thead .sorting_desc_disabled {
-  background: #9DD0FF url("../images/sort_desc_disabled.png") no-repeat center right;
+  background: url("../images/sort_desc_disabled.png") no-repeat center right;
 }
 table.dataTable tbody tr {
-	text-align : center;
-  background-color: rgb(197, 218, 255);
-  color:#707070;
+  background-color: white;
 }
 table.dataTable tbody tr.selected {
   background-color: #b0bed9;
@@ -80,11 +68,6 @@ table.dataTable td.center,
 table.dataTable td.dataTables_empty {
   text-align: center;
 }
-
-table.dataTable td.dataTables_empty {
-	background-color:black;
-}
-
 table.dataTable th.right,
 table.dataTable td.right {
   text-align: right;
@@ -120,17 +103,13 @@ table.dataTable.hover tbody tr.odd:hover,
 table.dataTable.hover tbody tr.even:hover, table.dataTable.display tbody tr:hover,
 table.dataTable.display tbody tr.odd:hover,
 table.dataTable.display tbody tr.even:hover {
-	 cursor: pointer;
-  *cursor: hand;
-  background-color: rgba(0, 245, 255, 0.25);
+  background-color: whitesmoke;
 }
 table.dataTable.hover tbody tr:hover.selected,
 table.dataTable.hover tbody tr.odd:hover.selected,
 table.dataTable.hover tbody tr.even:hover.selected, table.dataTable.display tbody tr:hover.selected,
 table.dataTable.display tbody tr.odd:hover.selected,
 table.dataTable.display tbody tr.even:hover.selected {
-	 cursor: pointer;
-  *cursor: hand;
   background-color: #a9b7d1;
 }
 table.dataTable.order-column tbody tr > .sorting_1,
@@ -149,7 +128,6 @@ table.dataTable.display tbody tr.selected > .sorting_3 {
 }
 table.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
   background-color: #f1f1f1;
-  background-color:rgba(0, 20, 255, 0.28);
 }
 table.dataTable.display tbody tr.odd > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd > .sorting_2 {
   background-color: #f3f3f3;
@@ -167,8 +145,7 @@ table.dataTable.display tbody tr.odd.selected > .sorting_3, table.dataTable.orde
   background-color: #a9b6d0;
 }
 table.dataTable.display tbody tr.even > .sorting_1, table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {
-    background-color: rgb(197, 218, 255);
-    background-color:rgba(0, 71, 255, 0.17);
+  background-color: #f9f9f9;
 }
 table.dataTable.display tbody tr.even > .sorting_2, table.dataTable.order-column.stripe tbody tr.even > .sorting_2 {
   background-color: #fbfbfb;
@@ -190,7 +167,7 @@ table.dataTable.display tbody tr.odd:hover > .sorting_1,
 table.dataTable.display tbody tr.even:hover > .sorting_1, table.dataTable.order-column.hover tbody tr:hover > .sorting_1,
 table.dataTable.order-column.hover tbody tr.odd:hover > .sorting_1,
 table.dataTable.order-column.hover tbody tr.even:hover > .sorting_1 {
-  background-color: rgba(0, 245, 255, 0.25);
+  background-color: #eaeaea;
 }
 table.dataTable.display tbody tr:hover > .sorting_2,
 table.dataTable.display tbody tr.odd:hover > .sorting_2,
@@ -228,7 +205,7 @@ table.dataTable.order-column.hover tbody tr.even:hover.selected > .sorting_3 {
   background-color: #a4b2cb;
 }
 table.dataTable.no-footer {
-  border-bottom: 1px solid #0000FF;
+  border-bottom: 1px solid #111111;
 }
 
 table.dataTable,
@@ -398,4 +375,25 @@ table.dataTable td {
   content: "";
   clear: both;
   height: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .dataTables_wrapper .dataTables_info,
+  .dataTables_wrapper .dataTables_paginate {
+    float: none;
+    text-align: center;
+  }
+  .dataTables_wrapper .dataTables_paginate {
+    margin-top: 0.5em;
+  }
+}
+@media screen and (max-width: 640px) {
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter {
+    float: none;
+    text-align: center;
+  }
+  .dataTables_wrapper .dataTables_filter {
+    margin-top: 0.5em;
+  }
 }
