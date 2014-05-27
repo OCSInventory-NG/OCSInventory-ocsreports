@@ -54,7 +54,7 @@ if (isset($protectedPost['reset']) and $protectedPost['reset'] != ''){
 	if ($ret != array()){
 		$sql="select ";
 		$i=0;
-		var_dump($ret);
+		//var_dump($ret);
 		while ($ret[$i]){
 				foreach ($ret[$i] as $key=>$value){
 						$sql.= "'".$value. "' as ".$key.",";	

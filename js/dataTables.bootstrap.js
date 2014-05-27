@@ -248,4 +248,3 @@ if ( $.fn.DataTable.TableTools ) {
 		}
 	} );
 }
-

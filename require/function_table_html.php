@@ -302,7 +302,6 @@ function xml_decode( $txt ) {
 				document.getElementById($(this).attr('id')).checked = value ;
 		 });
 	}
-
 	$(document).ready(function() {
 		var table_name = "<?php echo $option['table_name']; ?>";
 		var table_id ="table#<?php echo $option['table_name']; ?>";
@@ -430,8 +429,7 @@ function xml_decode( $txt ) {
     	        			"sSortDescending": ": <?php echo $l->g(1348); ?>",
     	        		}
 				 },
-				 "scrollX": "100%",
-				 "scrollCollapse":true,
+				 "scrollX":'auto',
        		});
 			$("body").on("click","#disp"+table_name,function(){
 					var col = "."+$("#select_col"+table_name).val();

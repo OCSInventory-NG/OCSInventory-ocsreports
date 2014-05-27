@@ -1,12 +1,3 @@
-.tableContainer .row{
-	margin : 0;	
-}
-
-table.dataTable a {
-color: rgb(116, 116, 116)!important;
-font-weight: bold;
-}
-
 div.dataTables_length label {
 	font-weight: normal;
 	float: left;
@@ -40,7 +31,6 @@ div.dataTables_paginate ul.pagination {
 	white-space: nowrap;
 }
 
-table.dataTable,
 table.dataTable td,
 table.dataTable th {
 	-webkit-box-sizing: content-box;
@@ -50,6 +40,7 @@ table.dataTable th {
 
 
 table.dataTable {
+	clear: both;
 	margin-top: 6px !important;
 	margin-bottom: 6px !important;
 	max-width: none !important;
@@ -63,12 +54,12 @@ table.dataTable thead .sorting_desc_disabled {
 	cursor: pointer;
 }
 
-table.dataTable thead .sorting { background: url('../image/sort_both.png') no-repeat center right; }
-table.dataTable thead .sorting_asc { background: url('../image/sort_asc.png') no-repeat center right; }
-table.dataTable thead .sorting_desc { background: url('../image/sort_desc.png') no-repeat center right; }
+table.dataTable thead .sorting { background: url('../images/sort_both.png') no-repeat center right; }
+table.dataTable thead .sorting_asc { background: url('../images/sort_asc.png') no-repeat center right; }
+table.dataTable thead .sorting_desc { background: url('../images/sort_desc.png') no-repeat center right; }
 
-table.dataTable thead .sorting_asc_disabled { background: url('../image/sort_asc_disabled.png') no-repeat center right; }
-table.dataTable thead .sorting_desc_disabled { background: url('../image/sort_desc_disabled.png') no-repeat center right; }
+table.dataTable thead .sorting_asc_disabled { background: url('../images/sort_asc_disabled.png') no-repeat center right; }
+table.dataTable thead .sorting_desc_disabled { background: url('../images/sort_desc_disabled.png') no-repeat center right; }
 
 table.dataTable thead > tr > th {
 	padding-left: 18px;
@@ -108,8 +99,30 @@ div.dataTables_scrollFoot table {
 	border-top: none;
 }
 
-
-
+/* Frustratingly the border-collapse:collapse used by Bootstrap makes the column
+   width calculations when using scrolling impossible to align columns. We have
+   to use separate
+ */
+table.table-bordered.dataTable {
+	border-collapse: separate !important;
+}
+table.table-bordered thead th,
+table.table-bordered thead td {
+	border-left-width: 0;
+	border-top-width: 0;
+}
+table.table-bordered tbody th,
+table.table-bordered tbody td {
+	border-left-width: 0;
+	border-bottom-width: 0;
+}
+table.table-bordered th:last-child,
+table.table-bordered td:last-child {
+	border-right-width: 0;
+}
+div.dataTables_scrollHead table.table-bordered {
+	border-bottom-width: 0;
+}
 
 /*
  * TableTools styles
@@ -220,7 +233,7 @@ div.DTFC_LeftHeadWrapper table thead tr:last-child td:first-child {
 div.DTFC_RightBodyWrapper table,
 div.DTFC_LeftBodyWrapper table {
     border-top: none;
-    margin-bottom: 0 !important;
+    margin: 0 !important;
 }
  
 div.DTFC_RightBodyWrapper tbody tr:first-child th,
@@ -234,3 +247,12 @@ div.DTFC_RightFootWrapper table,
 div.DTFC_LeftFootWrapper table {
     border-top: none;
 }
+
+
+/*
+ * FixedHeader styles
+ */
+div.FixedHeader_Cloned table {
+	margin: 0 !important
+}
+

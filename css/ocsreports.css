@@ -17,6 +17,7 @@ table.qr td.on
 {
 	background: #000000;
 }
+
 .conteneur {
 /*background-color: #C7D9F5;*/
 position: absolute;
@@ -248,21 +249,15 @@ display: block;
 #menu li a:hover {
 text-decoration: underline;
 }
-div.tableContainer {
-	overflow-x: auto;
-	overflow-y:hidden;
-	margin: 0 auto;
-	text-align: center;
-	}
 
 table.ta {
 	width: 99%;		/*100% of container produces horiz. scroll in Mozilla*/
 	/*border: 1px slategray;*/
 
-border-bottom: solid 1px #9894B5;
+	border-bottom: solid 1px #9894B5;
 	border-top: solid 1px #9894B5;
 	border-left: solid 1px #9894B5;
-border-right:solid 1px #9894B5;
+	border-right:solid 1px #9894B5;
 
 	}
 	
@@ -300,8 +295,7 @@ td.ta	{
 	font-family: Arial,sans-serif;
 	border-bottom: solid 1px #9894B5;
 	border-left: solid 1px #9894B5;
-	
-	}
+}
 
 td.ta:last-child {border-right: solid 1px #9894B5;} /*prevent Mozilla scrollbar from hiding cell content*/
 th.ta:last-child {border-right: solid 1px #9894B5;}
@@ -408,3 +402,40 @@ table.dataTable.table-striped thead tr th {
 .table-striped > tbody > tr:hover > td {
 	background-color: #f0f0f0;
 }
+
+table.dataTable a {
+	color: rgb(116, 116, 116)!important;
+	font-weight: bold;
+}
+
+.tableContainer .row{
+	margin : 0;	
+}
+	
+table.dataTable{
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+div.tableContainer {
+	width:100%;
+	overflow-y: none;
+	margin: 0 auto;
+	text-align: center;
+}
+table.dataTable thead .sorting {
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_both.png') no-repeat center right !important; 
+}
+table.dataTable thead .sorting_asc { 
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_asc.png') no-repeat center right !important; 
+}
+table.dataTable thead .sorting_desc { 
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_desc.png') no-repeat center right !important; 
+}
+table.dataTable thead .sorting_asc_disabled { 
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_asc_disabled.png') no-repeat center right !important; 
+}
+table.dataTable thead .sorting_desc_disabled { 
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_desc_disabled.png') no-repeat center right !important; 
+}
+
