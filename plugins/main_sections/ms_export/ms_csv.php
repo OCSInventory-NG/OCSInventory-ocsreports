@@ -112,7 +112,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 	require_once('require/function_admininfo.php');
 	$inter=interprete_accountinfo($col,array());
 	while( $cont = mysqli_fetch_array($result,MYSQL_ASSOC) ) {
-						//p($cont);
+		unset($cont['MODIF']);
 		foreach ($col as $field => $lbl){
 			if ($lbl == "name_of_machine" and !isset($cont[$field])){
 				$field='name';
