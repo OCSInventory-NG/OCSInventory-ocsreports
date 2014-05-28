@@ -53,9 +53,10 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES'){
 	}
 }
 //View for all profils?
-if (isset($protectedPost['CONFIRM_CHECK']) and  $protectedPost['CONFIRM_CHECK'] != "")
-	$result=group_4_all($protectedPost['CONFIRM_CHECK']);
-
+if(!$ajax){
+	if (isset($protectedPost['CONFIRM_CHECK']) and  $protectedPost['CONFIRM_CHECK'] != "")
+		$result=group_4_all($protectedPost['CONFIRM_CHECK']);
+}
 //if delete group
 if ($protectedPost['SUP_PROF'] != ""){
 	$result=delete_group($protectedPost['SUP_PROF']);	
@@ -193,7 +194,6 @@ echo close_form();
 
 if ($ajax){
 	ob_end_clean();
-//print_r($tab_options);
 	tab_req($list_fields,$default_fields,$list_col_cant_del,$querygroup,$tab_options);
 }
 
