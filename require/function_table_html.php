@@ -358,7 +358,6 @@ function xml_decode( $txt ) {
             	        d.visible = visible;
             	        d.ocs = ocs;
                 	    },
-
             	},
         		"columns": [
     	        		<?php 
@@ -1417,7 +1416,6 @@ function ajaxlimit($tab_options){
 }
 
 function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options){
-// 	/echo json_encode($tab_options);die;
 	global $protectedPost,$l,$pages_refs;
 	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
 	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
@@ -1552,6 +1550,10 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 					$row[$key]="";
 				}
 			}
+			if(isset($tab_options['NO_SHOW'][$key])){
+				if (reset($tab_options['NO_SHOW'][$key]) == $row[$tab_options['EXIST'][$key]])
+				$row[$key]="";
+			}
 		}
 		$rows[] = $row;
 	}
@@ -1606,7 +1608,8 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		foreach ($tab_options['REQUEST'] as $field_name => $value){
 			$resultDetails = mysql2_query_secure($value, $_SESSION['OCS']["readServer"],$tab_options['ARG'][$field_name]);
 			while($item = mysqli_fetch_object($resultDetails)){
-				$tab_options['SHOW_ONLY'][$field_name][$item -> FIRST]=$item -> FIRST;
+				if ($item -> FIRST != "")
+				$tab_options['NO_SHOW'][$field_name][$item -> FIRST]=$item -> FIRST;
 			}
 		}
 	}
@@ -1632,7 +1635,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 					array_push($protectedPost['tri_fixe'],$arg);
 					array_push($protectedPost['sens_'.$table_name],$arg);
 				}
-				
 				$sql.= $limit;
 				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 			}
