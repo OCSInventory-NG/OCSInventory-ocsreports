@@ -141,6 +141,14 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 						break;
 				}
 				
+			
+				
+			}
+			if(isset($_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key])){
+				$data[$i][$key]=$_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key][$data[$i][$key]];
+			}
+			if(isset($_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$key])){
+				$data[$i][$key] = $_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$data[$i][$_SESSION['OCS']['csv']['FIELD_REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']]]];
 			}
 			if (!$found) {
 				// find values case-insensitive
