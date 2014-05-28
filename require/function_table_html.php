@@ -1465,8 +1465,6 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 							$link_computer.="&systemid=".$row['ID'];
 						if ($row['MD5_DEVICEID'])
 							$link_computer.= "&crypt=".$row['MD5_DEVICEID'];
-						if($row['FILEID'])
-							$link_computer.= "&timestamp=".$row['FILEID'];
 						$row[$column]="<a href='".$link_computer."'>".$value_of_field."</a>";
 					}
 						
@@ -1502,7 +1500,7 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 				case "ACTIVE":
 					$row[$key]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\")'><img src='image/activer.png' ></a>";
 					break;
-				case "SHOWACTIVE":
+				case "SHOWACTIVE":					
 					if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
 						$row[$column]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$row['FILEID']."' >".$value_of_field."</a>";
 					}
@@ -1546,13 +1544,10 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 				$row[$column]= "<font color='".$tab_options['COLOR'][$key]."'>".$row[$column]."</font>";
 			}
 			if(!empty($tab_options['SHOW_ONLY'][$key])){
-				if(empty($tab_options['SHOW_ONLY'][$key][$value_of_field])){
+				if(empty($tab_options['SHOW_ONLY'][$key][$value_of_field])&& empty($tab_options['EXIST'][$key])
+								||(reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])){
 					$row[$key]="";
 				}
-			}
-			if(isset($tab_options['NO_SHOW'][$key])){
-				if (reset($tab_options['NO_SHOW'][$key]) == $row[$tab_options['EXIST'][$key]])
-				$row[$key]="";
 			}
 		}
 		$rows[] = $row;
@@ -1601,20 +1596,15 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			}
 		}
 	}
-	
-	
-
 	if (isset($tab_options['REQUEST'])){
 		foreach ($tab_options['REQUEST'] as $field_name => $value){
 			$resultDetails = mysql2_query_secure($value, $_SESSION['OCS']["readServer"],$tab_options['ARG'][$field_name]);
 			while($item = mysqli_fetch_object($resultDetails)){
 				if ($item -> FIRST != "")
-				$tab_options['NO_SHOW'][$field_name][$item -> FIRST]=$item -> FIRST;
+				$tab_options['SHOW_ONLY'][$field_name][$item -> FIRST]=$item -> FIRST;
 			}
 		}
 	}
-	
-	
 	$table_name = $tab_options['table_name'];
 	//search static values
 	if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$table_name])){
