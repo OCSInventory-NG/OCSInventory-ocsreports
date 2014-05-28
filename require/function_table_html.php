@@ -1417,6 +1417,7 @@ function ajaxlimit($tab_options){
 }
 
 function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options){
+// 	/echo json_encode($tab_options);die;
 	global $protectedPost,$l,$pages_refs;
 	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
 	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
@@ -1444,7 +1445,6 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 			switch($key){
 				case "CHECK":
 					if ($value_of_field!= '&nbsp;'){
-						//print_r($tab_options);
 						$row[$key] = "<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($tab_options['check'.$value_of_field])? " checked ": "").">";
 					}
 					break;
@@ -1467,6 +1467,8 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 							$link_computer.="&systemid=".$row['ID'];
 						if ($row['MD5_DEVICEID'])
 							$link_computer.= "&crypt=".$row['MD5_DEVICEID'];
+						if($row['FILEID'])
+							$link_computer.= "&timestamp=".$row['FILEID'];
 						$row[$column]="<a href='".$link_computer."'>".$value_of_field."</a>";
 					}
 						
@@ -1503,7 +1505,9 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 					$row[$key]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\")'><img src='image/activer.png' ></a>";
 					break;
 				case "SHOWACTIVE":
-					$row[$key]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$row['FILEID']."' target=_blank>".$value_of_field."</a>";
+					if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
+						$row[$column]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$row['FILEID']."' >".$value_of_field."</a>";
+					}
 					break;
 				case "MAC":
 					if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
