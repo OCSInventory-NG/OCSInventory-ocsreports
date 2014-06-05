@@ -76,9 +76,6 @@ if (isset($protectedGet['fields']) and (!isset($protectedPost['GET']) or $protec
 }
 
 
-$tab_options=$protectedPost;
-
-
 //need to delete this part... 
 if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protectedPost['GET'] == '')){
 	unset($protectedPost);
@@ -133,7 +130,6 @@ if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protecte
 	$protectedPost['GET']=$protectedGet['prov'];
 }
 //end need to delete this part...
-$tab_options=$protectedPost;
 
 
 //initialisation du tableau
@@ -740,7 +736,7 @@ $list_id="";
 		 $list_id_norm=$result[0];
 		  if ($list_id_norm == "")
 		  $no_result="YES";
-		 $tab_options[]=$result[1];
+		 $tab_options=$result[1];
 	 }
 	 if (isset($execute_sql['DIFF']) and $no_result != "YES"){
  	 
@@ -818,7 +814,7 @@ if ($list_id != "")	{
 						$l->g(25).": ".$l->g(277) => "h.OSVERSION",
 						$l->g(652).": ".$l->g(1247)=>'h.ARCH',);
 	$list_fields=array_merge ($list_fields_account_info,$list_fields);
-	
+	$tab_options = array_merge($tab_options,$protectedPost);
 	//BEGIN SHOW ACCOUNTINFO
 	require_once('require/function_admininfo.php');
 	$option_comment['comment_be'] = $l->g(1210)." ";
