@@ -12,6 +12,7 @@
 if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
 	parse_str($protectedPost['ocs']['0'], $params);
 	$protectedPost+=$params;
+
 	ob_start();
 	$ajax = true;
 }
@@ -739,7 +740,7 @@ $list_id="";
 		 $list_id_norm=$result[0];
 		  if ($list_id_norm == "")
 		  $no_result="YES";
-		 $tab_options=$result[1];
+		 $tab_options[]=$result[1];
 	 }
 	 if (isset($execute_sql['DIFF']) and $no_result != "YES"){
  	 

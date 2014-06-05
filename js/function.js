@@ -88,31 +88,6 @@ function clic(id,val) {
 	document.forms['ACTION_CLIC'].submit();
 }
 
-function ajaxtable(table_name,form_name){
-	var table_id = "table#"+table_name;
-	var table = $(table_id).DataTable();
-	var info_page = table.page.info();
-	var length = table.page.len();
-	var data = $( form_name ).serializeArray();
-	data.push({'name':table_name+'_page','value':info_page.page});
-	$('#'+table_name+'_processing').css( "visibility","inline" );
-	$(form_name).load(window.location.search+" "+form_name+">*",data,function(){
-		page = info_page.page * length;
-		table = $(table_id).dataTable({
-	        "scrollY":   "200px",
-			"processing": true,
-			'pageLength' : length,
-			 "displayStart": page,
-		        ajax: {
-		            url: 'index.php?function=visu_computers&no_header=true&no_footer=true',
-		            
-		        }
-		});
-	console.log(table_id+"a ete rechargee en ajax");
-	
-	});
-}				
-
 $.extend($.fn.dataTableExt.oStdClasses, {
 	"sFilterInput": "",
 	"sLengthSelect": ""
@@ -124,3 +99,19 @@ $.extend(true, $.fn.dataTable.defaults, {
 		"t"+
 		"<'row'<'col-xs-6'i><'col-xs-6'p>>",
 });
+
+
+function changerCouleur(obj, state) {
+	if (state == true) {
+		bcolor = obj.style.backgroundColor;
+		fcolor = obj.style.color;
+		obj.style.backgroundColor = '#FFDAB9';
+		obj.style.color = 'red';
+		return true;
+	} else {
+		obj.style.backgroundColor = bcolor;
+		obj.style.color = fcolor;
+		return true;
+	}
+	return false;
+}

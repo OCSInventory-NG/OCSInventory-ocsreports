@@ -182,36 +182,48 @@ function xml_decode( $txt ) {
 }
 
 
-//fonction qui permet d'afficher un tableau de donn�es
+//fonction qui permet d'afficher un tableau dynamique de donn�es
 /*
- * $entete_colonne = array ; => ex: $i=0;
-									while($colname = mysqli_fetch_field($result))
-										$entete2[$i++]=$colname->name;
- * $data= array; => ex: $i=0;
-						while($item = mysqli_fetch_object($result)){
-							$data2[$i]['ID']=$item ->ID;
-							$data2[$i]['PRIORITY']=$up.$item ->PRIORITY.$down;
-							$data2[$i]['TITLE']=$item ->TITLE;
-							}
- * $titre= varchar => ex: "Administration des messages"
- * $width= taille tableau => ex: "60"
- * $height= taille tableau => ex: "300"
- * $lien = array ; => liste des colonnes qui ont le tri
- * 
+ * Columns : Each available column of the table
+ * $columns = array {  
+ * 						'NAME'=>'h.name', ...
+ * 						'Column name' => Database value,
+ * 						 }
+ * Default_fields : Default columns displayed
+ * $default_fields= array{
+ * 						'NAME'=>'NAME', ...
+ * 						'Column name' => 'Column name',
+ * 						}
+ * Option : All the options for the specific table
+ * $option= array{
+ * 						'form_name'=> "show_all",....
+ * 						'Option' => value,
+ * 	
+ * 						}
+ * List_col_cant_del : All the columns that will always be displayed
+ * $list_col_cant_del= array {  
+ * 						'NAME'=>'NAME', ...
+ * 						'Column name' => 'Column name',
+ * 						}
  */
  function ajaxtab_entete_fixe($columns,$default_fields,$option=array(),$list_col_cant_del)
  {
 	global $protectedGet,$protectedPost,$l,$pages_refs;
+	
+	//Translated name of the column  
 	$lbl_column=array("SUP"=>$l->g(122),
-									  "MODIF"=>$l->g(115),
-									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='checkboxALL' Onclick='checkall();'>");
+					  "MODIF"=>$l->g(115),
+					  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='checkboxALL' Onclick='checkall();'>");
+	
+	
 	if(!empty($option['LBL'])){
 		$lbl_column= array_merge($lbl_column,$option['LBL']);
 	}
+	
+	
 	$columns_special = array("CHECK",
 							"SUP",
 							"NBRE",
-							//"GROUP_NAME",
 							"NULL",
 							"MODIF",
 							"SELECT",
@@ -221,18 +233,21 @@ function xml_decode( $txt ) {
 							"ACTIVE",
 							"MAC",
 							);
-	
+	//If the column selected are different from the default columns 
 	if(!empty($_COOKIE[$option['table_name']."_col"])){
 		$visible_col = unserialize($_COOKIE[$option['table_name']."_col"]);
 	}
-	
  	$input = $columns;
+ 	
+ 	//Don't allow to hide columns that should not be hidden
 	foreach($list_col_cant_del as $key=>$col_cant_del){
 		unset($input[$col_cant_del]);
 		unset($input[$key]);
 	}
 	$list_col_can_del = $input;
 	$columns_unique = array_unique($columns);
+	
+	//Set the ajax requested address  
 	if (isset($_SERVER['QUERY_STRING'])){ 
 		if(isset($option['computersectionrequest'])){
 			parse_str($_SERVER['QUERY_STRING'],$addressoption);
@@ -244,9 +259,11 @@ function xml_decode( $txt ) {
 			$address = isset($_SERVER['QUERY_STRING'])? "?".$_SERVER['QUERY_STRING']: "";
 		}
 	}
+	
+	//Display the Column selector
 	if (!empty($list_col_can_del)){
 	?>
-	<div>
+<div>
 	<select id="select_col<?php echo $option['table_name']; ?>">
 	<?php 
 	foreach($list_col_can_del as $key => $col){
@@ -264,15 +281,18 @@ function xml_decode( $txt ) {
 		}
 	}
 	?>
-	</select>	
+	</select>
 	<button type="button" id="disp<?php echo $option['table_name']; ?>"> <?php echo $l->g(1349); ?></button>
-	</div>
-	<?php 
+</div>
+<?php 
 	}
 	?>
-	<div align=center>
-	<div id="<?php echo $option['table_name']; ?>_csv_download" style="display: none">
+
+<div align=center>
+	<div id="<?php echo $option['table_name']; ?>_csv_download"
+		style="display: none">
 	<?php
+	//Display of the result count 
 	if (!isset($option['no_download_result'])){
 		echo "<div id='".$option['table_name']."_csv_page'><label id='infopage_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a></div>";
 		echo "<div id='".$option['table_name']."_csv_total'><label id='infototal_".$option['table_name']."'></label> ".$l->g(90)."<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_csv']."&no_header=1&tablename=".$option['table_name']."&nolimit=true&base=".$tab_options['BASE']."'><small> (".$l->g(183).")</small></a></div>";
@@ -280,39 +300,33 @@ function xml_decode( $txt ) {
 	?>
 	</div>
 	<script>	
-	function changerCouleur(obj, state) {
-			if (state == true) {
-				bcolor = obj.style.backgroundColor;
-				fcolor = obj.style.color;
-				obj.style.backgroundColor = '#FFDAB9';
-				obj.style.color = 'red';
-				return true;
-			} else {
-				obj.style.backgroundColor = bcolor;
-				obj.style.color = fcolor;
-				return true;
-			}
-			return false;
-	}
+	//Check all the checkbox
 	function checkall()
-	 {
-		var table_id ="table#<?php echo $option['table_name']; ?>";
-		$(table_id+" tbody tr td input:checkbox").each(function(){
-				value = !$(this).attr('checked');
-				document.getElementById($(this).attr('id')).checked = value ;
-		 });
+	{
+	var table_id ="table#<?php echo $option['table_name']; ?>";
+	$(table_id+" tbody tr td input:checkbox").each(function(){
+			value = !$(this).attr('checked');
+			document.getElementById($(this).attr('id')).checked = value ;
+	 });
 	}
+	
 	$(document).ready(function() {
 		var table_name = "<?php echo $option['table_name']; ?>";
 		var table_id ="table#<?php echo $option['table_name']; ?>";
 		var form_name = "form#<?php echo $option['form_name']; ?>";
 		var csrfid = "input#CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?>";
+		/* 
+		Table Skeleton Creation. 
+		A Full documentation about DataTable constructor can be found at 
+		https://datatables.net/manual/index
+		*/
 		var table = $(table_id).dataTable({
 	        "processing": true,
 	        "serverSide": true,
         	"ajax": {
             	 'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
             	 "type": "POST",
+            	 //Error handling
         		 "error": function (xhr, error, thrown) {
             		 var statusErrorMap = {
          	                '400' : "<?php echo $l->g(1352); ?>",
@@ -323,18 +337,20 @@ function xml_decode( $txt ) {
          	                '500' : "<?php echo $l->g(1357); ?>",
          	                '503' : "<?php echo $l->g(1358); ?>"
          	         };
+        			 alert(xhr.statusText+" ( "+statusErrorMap[xhr.status]+" : "+xhr.status+" ) ");
             		 if(statusErrorMap[xhr.status]!=undefined){
-            			 alert(xhr.statusText+" ( "+statusErrorMap[xhr.status]+" : "+xhr.status+" ) ");
             			 if(xhr.status == 401){
                 			 window.location.reload();
 						 }        	 
           	    	}},
+          	    //Set the $_POST request to the ajax file. d contains all datatables needed info
             	 "data": function ( d ) {
-            		 if ($(table_id).width() < $(this).width()){
-     					$(table_id).width('100%');
-     					$(".dataTables_scrollHeadInner").width('100%');
-     					$(".dataTables_scrollHeadInner>table").width('100%');
-     				}
+            		 	if ($(table_id).width() < $(this).width()){
+     						$(table_id).width('100%');
+     						$(".dataTables_scrollHeadInner").width('100%');
+     						$(".dataTables_scrollHeadInner>table").width('100%');
+     					}
+     					//Add CSRF
             	        d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER'];?> = $(csrfid).val();
             	        var visible =[];
             	        if (document.getElementById('checkboxALL')){
@@ -342,15 +358,16 @@ function xml_decode( $txt ) {
             	        }
             	        $.each(d.columns,function(index,value){
                 	        var col = "."+this['data'];
-            	       	 if($(table_id).DataTable().column(col).visible()){
+            	       		if($(table_id).DataTable().column(col).visible()){
 								visible.push(index);
             	        	}
-            	        });
+            	 		});
 						var ocs=[];
+						//Add the actual $_POST to the $_POST of the ajax request 
 						<?php 
 						foreach ($protectedPost as $key => $value){
 							if(!is_array($value)){
-								echo "d.".$key." = '".$value."'; \n";
+								echo "d['".$key."'] = '".$value."'; \n";
 							}
 						}
 						?>
@@ -359,108 +376,125 @@ function xml_decode( $txt ) {
             	        d.ocs = ocs;
                 	    },
             	},
-        		"columns": [
-    	        		<?php 
-    	        		$index = 0;
-    	        		foreach($columns as $key=>$column){
-    	        			if (!empty($visible_col)){
-    	        				if ((in_array($index,$visible_col))) {
-    	        					$visible = 'true';
-    	        				}
-    	        				else{
-    	        					$visible = 'false';
-    	        				}
-    	        				$index ++;
+
+           	//Column definition 
+        	"columns": [
+    	        	<?php 
+    	        	$index = 0;
+    	        	//Visibility handling 
+    	        	foreach($columns as $key=>$column){
+    	        		if (!empty($visible_col)){
+    	        			if ((in_array($index,$visible_col))) {
+    	        				$visible = 'true';
     	        			}
     	        			else{
-    	        				if((in_array($key,$default_fields))||(in_array($key,$list_col_cant_del))|| in_array($key, $columns_special)||array_key_exists($key,$default_fields)){
-    	        					$visible = 'true';
-    	        				}
-    	        				else{
-    	        					$visible = 'false';	 
-    	        				}		
+    	        				$visible = 'false';
     	        			}
-    	        			if (in_array($key,$columns_special)||!empty($option['NO_TRI'][$key])){
-    	        				$orderable = 'false';
-    	        			}
-    	        			else{
-    	        				$orderable = 'true';
-    	        			}
-    	        			if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)){
-								if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
-									$key = $option['REPLACE_COLUMN_KEY'][$key];
-								}
-    	        				echo  "{'data' : '".$key."' , 'class':'".$key."', 'name':'".$key."', 'defaultContent': ' ', 'orderable':  ".$orderable.",'searchable': false, 'visible' : ".$visible."}, \n" ;
-    	        			}	
-    	        			else{		
-    	        				$name = explode('.',$column);
-    	        				$name = explode(' as ',end($name));
-    	        				$name = end($name);
-    	        				if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
-										$name = $option['REPLACE_COLUMN_KEY'][$key];
-								}
-    	        				echo  "{ 'data' : '".$name."' , 'class':'".$name."', 'name':'".$column."', 'defaultContent': ' ', 'orderable':  ".$orderable.", 'visible' : ".$visible."},\n " ;
-    	        			}
-   	        			}
-    	        		?>
-    	        ],
-    	        "language": {
-    	        		"sEmptyTable":     "<?php echo $l->g(1334); ?>",
-    	        		"sInfo":           "<?php echo $l->g(1335); ?>",
-    	        		"sInfoEmpty":      "<?php echo $l->g(1336); ?>",
-    	        		"sInfoFiltered":   "<?php echo $l->g(1337); ?>",
-    	        		"sInfoPostFix":    "",
-    	        		"sInfoThousands":  "<?php echo $l->g(1350); ?>",
-    	        		"decimal": 		   "<?php echo $l->g(1351); ?>",
-    	        		"sLengthMenu":     "<?php echo $l->g(1338); ?>",
-    	        		"sLoadingRecords": "<?php echo $l->g(1339); ?>",
-    	        		"sProcessing":     "<?php echo $l->g(1340); ?>",
-    	        		"sSearch":         "<?php echo $l->g(1341); ?>",
-    	        		"sZeroRecords":    "<?php echo $l->g(1342); ?>",
-    	        		"oPaginate": {
-    	        			"sFirst":      "<?php echo $l->g(1343); ?>",
-    	        			"sLast":       "<?php echo $l->g(1344); ?>",
-    	        			"sNext":       "<?php echo $l->g(1345); ?>",
-    	        			"sPrevious":   "<?php echo $l->g(1346); ?>",
-    	        		},
-    	        		"oAria": {
-    	        			"sSortAscending":  ": <?php echo $l->g(1347); ?>",
-    	        			"sSortDescending": ": <?php echo $l->g(1348); ?>",
+    	        			$index ++;
     	        		}
-				 },
-				 "scrollX":'auto',
-       		});
-			$("body").on("click","#disp"+table_name,function(){
-					var col = "."+$("#select_col"+table_name).val();
-					$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
-					$(table_id).DataTable().ajax.reload();
-				});
-			<?php
-			if (!isset($option['no_download_result'])){
-			?>
-				$(table_id).on( 'draw.dt', function () {
-					var start = $(table_id).DataTable().page.info().start +1 ;
-					var end = $(table_id).DataTable().page.info().end;
-					var total = $(table_id).DataTable().page.info().recordsDisplay;
-					if (total == 0){
-						$('#'+table_name+'_csv_download').hide();
-					}
-					else{
-						if (end != total || start != 1){
-							$('#'+table_name+'_csv_page').show();
-							$('#infopage_'+table_name).text(start+"-"+end);
-						}
-						else{
-							$('#'+table_name+'_csv_page').hide();
-						}
-											
-						$('#infototal_'+table_name).text(total);
-						$('#'+table_name+'_csv_download').show();
-					}
-				});
-			<?php 
-			}
-			?>
+    	        		else{
+    	        			if((in_array($key,$default_fields))
+									||(in_array($key,$list_col_cant_del))
+									|| in_array($key, $columns_special)
+									||array_key_exists($key,$default_fields)){
+    	        				$visible = 'true';
+    	        			}
+    	        			else{
+    	        				$visible = 'false';	 
+    	        			}		
+    	        		}
+    	        		//Can the column be ordered
+    	        		if (in_array($key,$columns_special)||!empty($option['NO_TRI'][$key])){
+    	        			$orderable = 'false';
+    	        		}
+    	        		else{
+    	        			$orderable = 'true';
+    	        		}
+    	        		//Cannot search in Delete or checkbox columns 
+    	        		if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)){
+							if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
+								$key = $option['REPLACE_COLUMN_KEY'][$key];
+							}
+    	        			echo  "{'data' : '".$key."' , 'class':'".$key."',
+								 'name':'".$key."', 'defaultContent': ' ',
+								 'orderable':  ".$orderable.",'searchable': false,
+			 					 'visible' : ".$visible."}, \n" ;
+    	        		}	
+    	        		else{		
+    	        			$name = explode('.',$column);
+    	        			$name = explode(' as ',end($name));
+    	        			$name = end($name);
+    	        			if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
+									$name = $option['REPLACE_COLUMN_KEY'][$key];
+							}
+    	        			echo  "{ 'data' : '".$name."' , 'class':'".$name."', 
+								 'name':'".$column."', 'defaultContent': ' ',
+								 'orderable':  ".$orderable.", 'visible' : ".$visible."},\n " ;
+    	        		}
+   	        		}
+    	        	?>
+    	    ],
+    	    //Translation
+    	    "language": {
+    	       		"sEmptyTable":     "<?php echo $l->g(1334); ?>",
+    	       		"sInfo":           "<?php echo $l->g(1335); ?>",
+    	        	"sInfoEmpty":      "<?php echo $l->g(1336); ?>",
+    	        	"sInfoFiltered":   "<?php echo $l->g(1337); ?>",
+    	        	"sInfoPostFix":    "",
+    	        	"sInfoThousands":  "<?php echo $l->g(1350); ?>",
+    	        	"decimal": 		   "<?php echo $l->g(1351); ?>",
+    	        	"sLengthMenu":     "<?php echo $l->g(1338); ?>",
+    	        	"sLoadingRecords": "<?php echo $l->g(1339); ?>",
+    	        	"sProcessing":     "<?php echo $l->g(1340); ?>",
+    	        	"sSearch":         "<?php echo $l->g(1341); ?>",
+    	        	"sZeroRecords":    "<?php echo $l->g(1342); ?>",
+    	        	"oPaginate": {
+    	        		"sFirst":      "<?php echo $l->g(1343); ?>",
+    	        		"sLast":       "<?php echo $l->g(1344); ?>",
+    	        		"sNext":       "<?php echo $l->g(1345); ?>",
+    	        		"sPrevious":   "<?php echo $l->g(1346); ?>",
+    	        	},
+    	        	"oAria": {
+    	        		"sSortAscending":  ": <?php echo $l->g(1347); ?>",
+    	        		"sSortDescending": ": <?php echo $l->g(1348); ?>",
+    	        	}
+			},
+			"scrollX":'auto',
+       	});
+
+       	//Column Show/Hide
+		$("body").on("click","#disp"+table_name,function(){
+			var col = "."+$("#select_col"+table_name).val();
+			$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
+			$(table_id).DataTable().ajax.reload();
+		});
+		<?php
+		//Csv Export 
+		if (!isset($option['no_download_result'])){
+		?>
+			$(table_id).on( 'draw.dt', function () {
+				var start = $(table_id).DataTable().page.info().start +1 ;
+				var end = $(table_id).DataTable().page.info().end;
+				var total = $(table_id).DataTable().page.info().recordsDisplay;
+				//Show one line only if results fit in one page
+				if (total == 0){
+					$('#'+table_name+'_csv_download').hide();
+				}
+				else{
+				if (end != total || start != 1){
+					$('#'+table_name+'_csv_page').show();
+					$('#infopage_'+table_name).text(start+"-"+end);
+				}
+				else{
+					$('#'+table_name+'_csv_page').hide();
+				}
+				$('#infototal_'+table_name).text(total);
+				$('#'+table_name+'_csv_download').show();
+				}
+			});
+		<?php 
+		}
+		?>
 	});
 	
 	</script>
@@ -490,9 +524,7 @@ function xml_decode( $txt ) {
 	echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
 	echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
 	echo "<input type='hidden' id='OTHER_TER' name='OTHER_TER' value=''>";
-	
 	return true;
-	
 }
 
 
@@ -514,7 +546,7 @@ function tab_entete_fixe($entete_colonne,$data,$titre,$width,$height,$lien=array
 	if(isset($data))
 	{
 		?>
-	<script >		
+	<script>		
 	function changerCouleur(obj, state) {
 			if (state == true) {
 				bcolor = obj.style.backgroundColor;
@@ -1279,7 +1311,18 @@ function lbl_column($list_fields){
 
 
 
+//fonction qui permet de ne selectionner que certaines lignes du tableau
+/*
+ * Columns : Each available column of the table
+* $queryDetails = string 'SELECT QUERY'
+* Tab_options : All the options for the specific table
+* $tab_options= array{
+* 						'form_name'=> "show_all",....
+* 						'Option' => value,
+* 						}
+*/
 function ajaxfiltre($queryDetails,$tab_options){
+	// Research field of the table
 	if ($tab_options["search"]['value']!=""){
 		$search = mysqli_real_escape_string($_SESSION['OCS']["readServer"],$tab_options["search"]['value']);
 		$search = str_replace('%','%%',$search);
@@ -1354,6 +1397,17 @@ function ajaxfiltre($queryDetails,$tab_options){
 	return $queryDetails;
 }
 
+
+
+
+//fonction qui retourne un string contenant le bloc généré ORDER BY de la requete
+/*
+* Tab_options : All the options for the specific table
+* &$tab_options= array{
+* 						'form_name'=> "show_all",....
+* 						'Option' => value,
+* 						}
+*/
 function ajaxsort(&$tab_options){
 	if ($tab_options['columns'][$tab_options['order']['0']['column']]['orderable'] == "true"){
 		$name = $tab_options['columns'][$tab_options['order']['0']['column']]['name'];
@@ -1400,7 +1454,14 @@ function ajaxsort(&$tab_options){
 	
 }
 
-
+//fonction qui retourne un string contenant le bloc généré LIMIT de la requete
+/*
+* Tab_options : All the options for the specific table
+* $tab_options= array{
+* 						'form_name'=> "show_all",....
+* 						'Option' => value,
+* 						}
+*/
 function ajaxlimit($tab_options){
 	if (isset($tab_options['start'])){
 		$limit = " limit ".$tab_options['start']." , ";
@@ -1415,22 +1476,34 @@ function ajaxlimit($tab_options){
 	return $limit;	
 }
 
-function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options){
+
+//fonction qui met en forme les resultats
+/*
+* ResultDetails : Query return 
+* $resultDetails = mysqli_result 
+* $list_fields : Each available column of the table
+* $list_fields = array {  
+* 						'NAME'=>'h.name', ...
+* 						'Column name' => Database value,
+* 						 }
+* Tab_options : All the options for the specific table
+* $tab_options= array{
+* 						'form_name'=> "show_all",....
+* 						'Option' => value,
+* 						}
+*/
+function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 	global $protectedPost,$l,$pages_refs;
+	$form_name=$tab_options['form_name'];
 	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
 	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
 	if($resultDetails){
-	while($row = mysqli_fetch_assoc($resultDetails))
-	{
-		$row_temp = $row;
-		foreach($list_fields as $key=>$column){
-			$name = explode('.',$column);
-			$column = end($name);
-			$value_of_field = $row[$column];
-			if (isset($tab_options['JAVA']['CHECK'])){
-				$javascript="OnClick='confirme(\"".htmlspecialchars($row_temp[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
-			}else
-				$javascript="";
+		if (isset($tab_options['JAVA']['CHECK'])){
+			$javascript="OnClick='confirme(\"".htmlspecialchars($row_temp[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
+		}else
+			$javascript="";
+		while($row = mysqli_fetch_assoc($resultDetails))
+		{
 			if (isset($tab_options['AS'])){
 				foreach($tab_options['AS'] as $k=>$v){
 					$n = explode('.',$k);
@@ -1438,130 +1511,153 @@ function ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options)
 					$row[$n]= $row[$v];
 				}
 			}
-			
-			
-			switch($key){
-				case "CHECK":
-					if ($value_of_field!= '&nbsp;'){
-						$row[$key] = "<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($tab_options['check'.$value_of_field])? " checked ": "").">";
-					}
-					break;
-				case "SUP":
-					if ( $value_of_field!= '&nbsp;'){
-						if (isset($tab_options['LBL_POPUP'][$key])){
-							if (isset($row[$tab_options['LBL_POPUP'][$key]]))
-								$lbl_msg=$l->g(640)." ".$row_temp[$tab_options['LBL_POPUP'][$key]];
-							else
-								$lbl_msg=$tab_options['LBL_POPUP'][$key];
-						}else
-							$lbl_msg=$l->g(640)." ".$value_of_field;
-						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/supp.png></a>";
-					}
-					break;
-				case "NAME":
-					if ( !isset($tab_options['NO_NAME']['NAME'])){
-						$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
-						if ($row['ID'])
-							$link_computer.="&systemid=".$row['ID'];
-						if ($row['MD5_DEVICEID'])
-							$link_computer.= "&crypt=".$row['MD5_DEVICEID'];
-						$row[$column]="<a href='".$link_computer."'>".$value_of_field."</a>";
-					}
-						
-					break;
-						
-				case "GROUP_NAME":
-					$row['NAME']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
-					break;
-						
-				case "NULL":
-					$row[$key]="&nbsp";
-					break;
-				case "MODIF":
-					if (!isset($tab_options['MODIF']['IMG']))
-						$image="image/modif_tab.png";
-					else
-						$image=$tab_options['MODIF']['IMG'];
-					$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
-					break;
-				case "SELECT":
-					$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
-					$lien = 'KO';
-					break;
-				case "OTHER":
-					$row[$key]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
-					break;
-				case "ZIP":
-					$row[$key]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\",\"compress\",\"\")><img src=image/archives.png></a>";
-					break;
-				case "STAT":
-					$row[$key]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\",\"stats\",\"\")><img src='image/stat.png'></a>";
-					break;
-				case "ACTIVE":
-					$row[$key]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\")'><img src='image/activer.png' ></a>";
-					break;
-				case "SHOWACTIVE":					
-					if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
-						$row[$column]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$row['FILEID']."' >".$value_of_field."</a>";
-					}
-					break;
-				case "MAC":
-					if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
-						$constr=$_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))];
-					else
-						$constr="<font color=red>".$l->g(885)."</font>";
-					$row[$key]=$value_of_field." (<small>".$constr."</small>)";
-					break;
-				default :
-					if (substr($key,0,11) == "PERCENT_BAR"){
-						//require_once("function_graphic.php");
-						//echo percent_bar($value_of_field);
-						$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
-					}
-					if (!empty($tab_options['REPLACE_VALUE'][$key])){
-						$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
-					}
-					if(!empty($tab_options['VALUE'][$key])){
-						if(!empty($tab_options['LIEN_CHAMP'][$key])){
-							$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
-						}else{
-							$row[$column] = $tab_options['VALUE'][$key][$row['ID']];
+			$row_temp = $row;
+			foreach($list_fields as $key=>$column){
+				$name = explode('.',$column);
+				$column = end($name);
+				$value_of_field = $row[$column];
+				switch($key){
+					case "CHECK":
+						if ($value_of_field!= '&nbsp;'){
+							$row[$key] = "<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($tab_options['check'.$value_of_field])? " checked ": "").">";
 						}
+						break;
+					case "SUP":
+						if ( $value_of_field!= '&nbsp;'){
+							if (isset($tab_options['LBL_POPUP'][$key])){
+								if (isset($row[$tab_options['LBL_POPUP'][$key]]))
+									$lbl_msg=$l->g(640)." ".$row_temp[$tab_options['LBL_POPUP'][$key]];
+								else
+									$lbl_msg=$tab_options['LBL_POPUP'][$key];
+							}else
+								$lbl_msg=$l->g(640)." ".$value_of_field;
+							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/supp.png></a>";
+						}
+						break;
+					case "NAME":
+						if ( !isset($tab_options['NO_NAME']['NAME'])){
+							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
+							
+							if ($row['ID'])
+								$link_computer.="&systemid=".$row['ID'];
+							if ($row['MD5_DEVICEID'])
+								$link_computer.= "&crypt=".$row['MD5_DEVICEID'];
+							$row[$column]="<a href='".$link_computer."'>".$value_of_field."</a>";
+						}
+						break;
+					case "GROUP_NAME":
+						$row['NAME']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
+						break;
+					case "NULL":
+						$row[$key]="&nbsp";
+						break;
+					case "MODIF":
+						if (!isset($tab_options['MODIF']['IMG']))
+							$image="image/modif_tab.png";
+						else
+							$image=$tab_options['MODIF']['IMG'];
+						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
+						break;
+					case "SELECT":
+						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
+						$lien = 'KO';
+						break;
+					case "OTHER":
+						$row[$key]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
+						break;
+					case "ZIP":
+						$row[$key]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\",\"compress\",\"\")><img src=image/archives.png></a>";
+						break;
+					case "STAT":
+						$row[$key]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\",\"stats\",\"\")><img src='image/stat.png'></a>";
+						break;
+					case "ACTIVE":
+						$row[$key]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\")'><img src='image/activer.png' ></a>";
+						break;
+					case "SHOWACTIVE":					
+						if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
+							$row[$column]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$row['FILEID']."' >".$value_of_field."</a>";
+						}
+						break;
+					case "MAC":
+						if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
+							$constr=$_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))];
+						else
+							$constr="<font color=red>".$l->g(885)."</font>";
+						$row[$key]=$value_of_field." (<small>".$constr."</small>)";
+						break;
+					default :
+						if (substr($key,0,11) == "PERCENT_BAR"){
+							//require_once("function_graphic.php");
+							//echo percent_bar($value_of_field);
+							$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
+						}
+						if (!empty($tab_options['REPLACE_VALUE'][$key])){
+							$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
+						}
+						if(!empty($tab_options['VALUE'][$key])){
+							if(!empty($tab_options['LIEN_CHAMP'][$key])){
+								$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
+							}else{
+								$row[$column] = $tab_options['VALUE'][$key][$row['ID']];
+							}
+						}
+						if(!empty($tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]])){
+							$row[$column]=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
+						}
+						if (!empty($tab_options['LIEN_LBL'][$key])){
+							$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
+						}
+						if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])){
+							$row[$tab_options['REPLACE_COLUMN_KEY'][$key]]=$row[$column];
+							unset($row[$column]);
+						}
+						
 					}
-					if(!empty($tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]])){
-						$row[$column]=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
-					}
-					if (!empty($tab_options['LIEN_LBL'][$key])){
-						$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
-					}
-					if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])){
-						$row[$tab_options['REPLACE_COLUMN_KEY'][$key]]=$row[$column];
-						unset($row[$column]);
-					}
-					
+				if(!empty($tab_options['COLOR'][$key])){
+					$row[$column]= "<font color='".$tab_options['COLOR'][$key]."'>".$row[$column]."</font>";
 				}
-			if(!empty($tab_options['COLOR'][$key])){
-				$row[$column]= "<font color='".$tab_options['COLOR'][$key]."'>".$row[$column]."</font>";
-			}
-			if(!empty($tab_options['SHOW_ONLY'][$key])){
-				if(empty($tab_options['SHOW_ONLY'][$key][$value_of_field])&& empty($tab_options['EXIST'][$key])
-								||(reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])){
-					$row[$key]="";
+				if(!empty($tab_options['SHOW_ONLY'][$key])){
+					if(empty($tab_options['SHOW_ONLY'][$key][$value_of_field])&& empty($tab_options['EXIST'][$key])
+									||(reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])){
+						$row[$key]="";
+					}
 				}
 			}
+			$rows[] = $row;
 		}
-		$rows[] = $row;
-	}
 	}else{
 		$rows = 0;
 	}
 	return $rows;
 }
 
-
+//fonction qui ggere le retour de la requete Ajax 
+/*
+* $list_fields : Each available column of the table
+* $list_fields = array {  
+* 						'NAME'=>'h.name', ...
+* 						'Column name' => Database value,
+* 						 }
+* Default_fields : Default columns displayed
+* $default_fields= array{
+* 						'NAME'=>'NAME', ...
+* 						'Column name' => 'Column name',
+* 						}
+* List_col_cant_del : All the columns that will always be displayed
+* $list_col_cant_del= array {
+* 						'NAME'=>'NAME', ...
+* 						'Column name' => 'Column name',
+* 						} 
+* $queryDetails = string 'SELECT QUERY'
+* Tab_options : All the options for the specific table
+* $tab_options= array{
+* 						'form_name'=> "show_all",....
+* 						'Option' => value,
+* 						}
+*/
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
-	//print_r($tab_options);
 	global $protectedPost,$l,$pages_refs;
 	$columns_special = array("CHECK",
 			"SUP",
@@ -1648,8 +1744,8 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			}
 		}
 	} 
+
 	
-	$form_name=$tab_options['form_name'];
 	$link=$_SESSION['OCS']["readServer"];
 	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
 	$queryDetails .= ajaxsort($tab_options);
@@ -1667,7 +1763,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		else
 			$resultDetails = mysql2_query_secure($queryDetails, $link);
 		
-		$rows = ajaxgestionresults($resultDetails,$form_name,$list_fields,$tab_options);
+		$rows = ajaxgestionresults($resultDetails,$list_fields,$tab_options);
 
 		if (is_null($rows)){
 			$rows=0;
@@ -1691,16 +1787,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows );
 		echo json_encode($res);
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
