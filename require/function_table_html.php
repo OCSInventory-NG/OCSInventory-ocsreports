@@ -1661,6 +1661,11 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
 	global $protectedPost,$l,$pages_refs;
+	if($queryDetails === false){
+		$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> 0,  "recordsFiltered"=> 0 , "data"=>0 );
+		echo json_encode($res);
+		die;
+	}
 	$columns_special = array("CHECK",
 			"SUP",
 			"GROUP_NAME",
