@@ -209,12 +209,12 @@ function xml_decode( $txt ) {
  function ajaxtab_entete_fixe($columns,$default_fields,$option=array(),$list_col_cant_del)
  {
 	global $protectedGet,$protectedPost,$l,$pages_refs;
-	
 	//Translated name of the column  
 	$lbl_column=array("SUP"=>$l->g(122),
 					  "MODIF"=>$l->g(115),
 					  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='checkboxALL' Onclick='checkall();'>");
-	
+	if (!isset($tab_options['NO_NAME']['NAME']))
+		$lbl_column["NAME"]=$l->g(23);
 	
 	if(!empty($option['LBL'])){
 		$lbl_column= array_merge($lbl_column,$option['LBL']);
@@ -1506,9 +1506,11 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 		{
 			if (isset($tab_options['AS'])){
 				foreach($tab_options['AS'] as $k=>$v){
-					$n = explode('.',$k);
-					$n = end($n);
-					$row[$n]= $row[$v];
+					if($v!="SNAME"){
+						$n = explode('.',$k);
+						$n = end($n);
+						$row[$n]= $row[$v];
+					}
 				}
 			}
 			$row_temp = $row;

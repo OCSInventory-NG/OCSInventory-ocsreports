@@ -814,7 +814,10 @@ if ($list_id != "")	{
 						$l->g(25).": ".$l->g(277) => "h.OSVERSION",
 						$l->g(652).": ".$l->g(1247)=>'h.ARCH',);
 	$list_fields=array_merge ($list_fields_account_info,$list_fields);
-	$tab_options = array_merge($tab_options,$protectedPost);
+	if(is_array($tab_options))
+		$tab_options = array_merge($tab_options,$protectedPost);
+	else 
+		$tab_options = $protectedPost;
 	//BEGIN SHOW ACCOUNTINFO
 	require_once('require/function_admininfo.php');
 	$option_comment['comment_be'] = $l->g(1210)." ";

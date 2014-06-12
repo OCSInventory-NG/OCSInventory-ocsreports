@@ -16,7 +16,7 @@ $sql="SELECT DISTINCT softwares.NAME FROM softwares_name_cache softwares  WHERE 
 //requete SQL sans filtre
 //$sql= "SELECT DISTINCT softwares.NAME FROM softwares ORDER BY softwares.NAME";
 
-$query=mysqli_query($_SESSION['OCS']["readServer"],$sql) or die ("erreur".mysqli_error());
+$query=mysqli_query($_SESSION['OCS']["readServer"],$sql) or die ("erreur".mysqli_error($_SESSION['OCS']["readServer"]));
 //echo '<option value=""></option>'; 
 
 //remplit la liste deroulante

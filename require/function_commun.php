@@ -148,7 +148,7 @@ function dbconnect($server,$compte_base,$pswd_base,$db = DB_NAME) {
 	$link=@mysqli_connect($server,$compte_base,$pswd_base);
 	
 	if(mysqli_connect_errno()) {
-		return  "ERROR: MySql connection problem<br>".mysqli_error();
+		return  "ERROR: MySql connection problem<br>".mysqli_error($link);
 	}
 	//database is ok?
 	if( ! mysqli_select_db($link,$db)) {
