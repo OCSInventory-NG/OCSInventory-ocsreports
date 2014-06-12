@@ -373,6 +373,13 @@ function html_header($no_java=false){
 
 function strip_tags_array($value='')
 {
+	
+	if(is_object($value)){
+		$value = get_class($value);
+		$value = strip_tags($value,"<p><b><i><font><br><center>");
+		$value = "Objet de la classe ".$value;
+		return $value;
+	}
 	$value = is_array($value) ? array_map('strip_tags_array', $value) : strip_tags($value,"<p><b><i><font><br><center>");
 	return $value;
 }
