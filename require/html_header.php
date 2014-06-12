@@ -59,8 +59,10 @@ if (!isset($protectedGet["popup"])) {
 			if ($_SESSION['OCS']['DEBUG']=='ON') {
 				echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'>ON":"red'>OFF")."</font></b><span id='tps'>wait...</span>";
 			}
-		} else if ((($_SESSION['OCS']['profile'] and $_SESSION['OCS']['profile']->hasPage('ms_debug')) or array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES'])) and !isset($_SESSION['OCS']['DEBUG'])){
-			echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><img src=image/green.png></a><br>";
+		} else if( !isset($_SESSION['OCS']['DEBUG'])){
+			if (($_SESSION['OCS']['profile'] && $_SESSION['OCS']['profile']->hasPage('ms_debug')) || (is_array($_SESSION['OCS']['TRUE_PAGES']) && array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']))){
+				echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><img src=image/green.png></a><br>";
+			}
 		}
 	}
 }
