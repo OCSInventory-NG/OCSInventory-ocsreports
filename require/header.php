@@ -78,7 +78,7 @@ if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 	unset($_GET);
 }
 /***************************************************** First installation checking *********************************************************/
-if( (!$fconf=@fopen(CONF_MYSQL,"r")) 
+if( (!is_readable(CONF_MYSQL,"r")) 
 		|| (!function_exists('session_start')) 
 		|| (!function_exists('mysqli_connect')) ) {
 	require('install.php');	

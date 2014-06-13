@@ -7,9 +7,11 @@ if (!isset($protectedPost['onglet']))
 if ($protectedPost['onglet'] == 'CONNEXION' or $protectedPost['onglet'] == 'BAD CONNEXION')	{
 	
 	$ms_cfg_file=$_SESSION['OCS']['LOG_DIR']."log.csv";
-	$fd = @fopen ($ms_cfg_file, "r");
-	if (!$fd)
+	
+	if (!is_readable($ms_cfg_file)){
 		return "NO_FILES";
+	}
+	$fd = fopen ($ms_cfg_file, "r");
 	$max=0;
 	$array_profil[7]=$l->g(1259);
 	$array_profil[30]=$l->g(1260);

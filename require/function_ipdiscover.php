@@ -142,7 +142,8 @@ function add_type($name,$update=''){
   * Loads the whole mac file in memory
   */
 function loadMac() {
-	if( $file=@fopen(MAC_FILE,"r") ) {			
+	if(is_readable(MAC_FILE)) {		
+		$file=fopen(MAC_FILE,"r");
 		while (!feof($file)) {				 
 			$line  = fgets($file, 4096);
 			if( preg_match("/^((?:[a-fA-F0-9]{2}-){2}[a-fA-F0-9]{2})\s+\(.+\)\s+(.+)\s*$/", $line, $result ) ) {

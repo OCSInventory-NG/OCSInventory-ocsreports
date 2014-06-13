@@ -46,7 +46,7 @@ if ($protectedPost['onglet'] == 1){
 	}
 	
 	if(isset($protectedPost['SUP_PROF'])) {
-		@mysqli_query($_SESSION['OCS']["writeServer"]  ,"DELETE FROM config WHERE name='USER_GROUP_".$protectedPost['SUP_PROF']."'");
+		mysqli_query($_SESSION['OCS']["writeServer"]  ,"DELETE FROM config WHERE name='USER_GROUP_".$protectedPost['SUP_PROF']."'");
 	}	
 	$queryDetails ="select IVALUE,TVALUE from config where name like 'USER_GROUP_%'";
 

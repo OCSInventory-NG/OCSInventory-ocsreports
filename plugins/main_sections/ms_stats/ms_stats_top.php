@@ -16,13 +16,12 @@ if ($protectedPost['onglet'] == 'TOP'){
 		if (!isset($protectedPost['CHOICE_TOP']) or $protectedPost['CHOICE_TOP'] == "")
 			$protectedPost['CHOICE_TOP']=10;
 		// open file
-		$fp = @fopen($file_restriction_soft, "r");
-		if (!$fp){
-			msg_error("NO_FILES: ".$file_restriction_soft);
-		}
+		
+		
 		$tag=array('<LIKE>'=>'LIKE','<EXACTLY>'=>'=','<NOLIKE>'=>'NOT LIKE','<NOEXACTLY>'=>'!=');
 		// read line
-		if ($fp){
+		if (is_readable($file_restriction_soft)){
+			$fp = fopen($file_restriction_soft, "r");
 			while ( $ln = fgets($fp, 1024)) {
 				$ln=preg_replace('(\r\n|\n|\r|\t|)','',$ln);
 				//foreach ($tag as $poub=>$key){
@@ -35,6 +34,8 @@ if ($protectedPost['onglet'] == 'TOP'){
 				}
 			}
 			fclose($fp);
+		}else {
+			msg_error("NO_FILES: ".$file_restriction_soft);
 		}
 		$array_top=array(5=>5,10=>10,20=>20);
 		$stats.= $l->g(55). ": " .show_modif($array_top,"CHOICE_TOP",2,$form_name)."<br>";

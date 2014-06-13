@@ -1751,8 +1751,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			}
 		}
 	} 
-
-	
 	$link=$_SESSION['OCS']["readServer"];
 	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
 	$queryDetails .= ajaxsort($tab_options);

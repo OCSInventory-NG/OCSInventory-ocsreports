@@ -143,12 +143,14 @@ function prepare_sql_tab($list_fields,$explu=array(),$distinct=false){
  }
  
 function dbconnect($server,$compte_base,$pswd_base,$db = DB_NAME) {
-	
+	mysqli_report(MYSQLI_REPORT_STRICT);
 	//$link is ok?
-	$link=@mysqli_connect($server,$compte_base,$pswd_base);
-	
-	if(mysqli_connect_errno()) {
-		return  "ERROR: MySql connection problem<br>".mysqli_error($link);
+	try{
+		$link = mysqli_connect($server,$compte_base,$pswd_base);
+	} catch (Exception $e){
+		if(mysqli_connect_errno()) {
+			return  "ERROR: MySql connection problem ".$e->getCode()."<br>".$e->getMessage();
+		}
 	}
 	//database is ok?
 	if( ! mysqli_select_db($link,$db)) {
@@ -158,6 +160,7 @@ function dbconnect($server,$compte_base,$pswd_base,$db = DB_NAME) {
 	mysqli_query($link,"SET NAMES 'utf8'");
 	//sql_mode => not strict
 	mysqli_query($link,"SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+
 	return $link;
 }
 
@@ -167,15 +170,17 @@ function dbconnect($server,$compte_base,$pswd_base,$db = DB_NAME) {
 function addLog( $type, $value="",$lbl_sql='') {
 	//global $logHandler;
 	if ($_SESSION['OCS']['LOG_GUI'] == 1){
-		$logHandler = @fopen( LOG_FILE, "a");
-		$dte = getDate();
-		$date = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $dte["mday"], $dte["mon"], $dte["year"], $dte["hours"], $dte["minutes"], $dte["seconds"]); 
-		if ($lbl_sql != ''){
-			$value=$lbl_sql.' => '.$value;
+		if (is_writable(LOG_FILE)){
+			$logHandler = fopen( LOG_FILE, "a");
+			$dte = getDate();
+			$date = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $dte["mday"], $dte["mon"], $dte["year"], $dte["hours"], $dte["minutes"], $dte["seconds"]); 
+			if ($lbl_sql != ''){
+				$value=$lbl_sql.' => '.$value;
+			}
+			$towite=$_SESSION['OCS']["loggeduser"].";".$date.";".DB_NAME.";".$type.";".$value.";".$_SERVER['REMOTE_ADDR'].";\n";
+			fwrite($logHandler,$towite);
+			fclose($logHandler);
 		}
-		$towite=$_SESSION['OCS']["loggeduser"].";".$date.";".DB_NAME.";".$type.";".$value.";".$_SERVER['REMOTE_ADDR'].";\n";
-		@fwrite($logHandler,$towite);
-		@fclose($logHandler);
 	}
 }
 

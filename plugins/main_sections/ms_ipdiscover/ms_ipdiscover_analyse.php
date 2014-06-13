@@ -40,10 +40,8 @@ if (isset($protectedPost['reset']) and $protectedPost['reset'] != ''){
 	unlink( $file_name );
 	reloadform_closeme('',true);		
 }else{	
-	$fp = @fopen($file_name, "r");
-   	 if (!$fp)
+   	 if (!is_readable($file_name))
 		runCommand("-cache -net=".$pas,$fname);
-	@fclose($fp);
 	$tabBalises = Array($l->g(34) => "IP",
 					$l->g(95) => "MAC",
 					$l->g(49) => "NAME",

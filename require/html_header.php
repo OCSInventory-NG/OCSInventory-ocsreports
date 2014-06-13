@@ -89,17 +89,20 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
 	$msg_header_error=array();
 	$msg_header_error_sol=array();
 	//install.php already exist ?
-	if($fconf=@fopen("install.php","r")){
+	if(is_readable("install.php")){
 		$msg_header_error[]= $l->g(2020);
 		$msg_header_error_sol[] = $l->g(2023);
 	}
 	//defaut user already exist on databases?
-	$link_read=@mysqli_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);
-	$link_write=@mysqli_connect(SERVER_WRITE,DFT_DB_CMPT,DFT_DB_PSWD);
-	if (@mysqli_select_db($link_read,DB_NAME) or @mysqli_select_db($link_write,DB_NAME)){
-		$msg_header_error[]= $l->g(2024).' '.DB_NAME;	
-		$msg_header_error_sol[] = $l->g(2025);	
-	}
+	try{
+		$link_read=mysqli_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);
+		$link_write=mysqli_connect(SERVER_WRITE,DFT_DB_CMPT,DFT_DB_PSWD);
+		mysqli_select_db($link_read,DB_NAME);
+		mysqli_select_db($link_write,DB_NAME);
+		$msg_header_error[]= $l->g(2024).' '.DB_NAME;
+		$msg_header_error_sol[] = $l->g(2025);
+	} catch (Exception $e){} ;
+	
 	
 	//admin user already exist on data base with defaut password?
 	$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
