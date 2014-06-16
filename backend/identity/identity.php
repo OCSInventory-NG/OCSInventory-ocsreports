@@ -49,8 +49,11 @@ if (!isset($tab_tag) and $restriction != 'NO'){
 			}
 		}
 	}
-	
-	$mesMachines = "a.TAG IN ('".@implode("','",$list_tag)."') ";	
+	if (is_array($list_tag) && !empty($list_tag)){
+		$mesMachines = "a.TAG IN ('".implode("','",$list_tag)."') ";
+	} else {
+		$mesMachines = null;
+	}
 	$_SESSION['OCS']["mesmachines"] = $mesMachines;
 	$_SESSION['OCS']["mytag"]=$lbl_list_tag;
 	$_SESSION['OCS']['TAGS']=$list_tag;

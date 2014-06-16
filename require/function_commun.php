@@ -143,6 +143,7 @@ function prepare_sql_tab($list_fields,$explu=array(),$distinct=false){
  }
  
 function dbconnect($server,$compte_base,$pswd_base,$db = DB_NAME) {
+	error_reporting(E_ALL & ~E_NOTICE);
 	mysqli_report(MYSQLI_REPORT_STRICT);
 	//$link is ok?
 	try{

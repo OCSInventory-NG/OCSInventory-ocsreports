@@ -86,8 +86,10 @@ if (!$cant_active){
 	//can we have the zip?	
 		$document_root .= "/download";
 	}
-	$dir = @opendir($document_root);
-	if ($dir){		
+	
+
+	if (is_readable($document_root) && is_dir($document_root)){		
+		$dir = @opendir($document_root);
 		while($f = readdir($dir)){
 			if (is_numeric ($f))
 			$tab_options['SHOW_ONLY']['ZIP'][$f]=$f;
@@ -95,9 +97,9 @@ if (!$cant_active){
 		if (!$tab_options['SHOW_ONLY']['ZIP'])
 		$tab_options['SHOW_ONLY']['ZIP']='NULL';
 	}else
-	$tab_options['SHOW_ONLY']['ZIP']='NULL';
-}else
-	$tab_options['SHOW_ONLY']['ZIP']='NULL';
+		$tab_options['SHOW_ONLY']['ZIP']='NULL';
+	}else
+		$tab_options['SHOW_ONLY']['ZIP']='NULL';
 
 //only for profils who can activate packet
 if (!$cant_active){		

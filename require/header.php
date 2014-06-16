@@ -78,7 +78,7 @@ if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
 	unset($_GET);
 }
 /***************************************************** First installation checking *********************************************************/
-if( (!is_readable(CONF_MYSQL,"r")) 
+if( (!is_readable(CONF_MYSQL)) 
 		|| (!function_exists('session_start')) 
 		|| (!function_exists('mysqli_connect')) ) {
 	require('install.php');	
@@ -86,7 +86,6 @@ if( (!is_readable(CONF_MYSQL,"r"))
 }
 else{	
 	require_once(CONF_MYSQL);
-	fclose($fconf);
 }
 
 if (!defined("SERVER_READ") 
@@ -98,7 +97,6 @@ if (!defined("SERVER_READ")
 	require('install.php');
 	die();	
 }
-
 
 //connect to databases
 $link_write=dbconnect(SERVER_WRITE,COMPTE_BASE,PSWD_BASE);
@@ -259,14 +257,7 @@ if (!isset($_COOKIE["VERS"]) or $_COOKIE["VERS"] != GUI_VER){
 	}
 	cookies_add("VERS", GUI_VER);
 }
-//nb result by page
-if (isset($protectedPost["pcparpage"]) and isset($protectedPost["old_pcparpage"])
-		and $protectedPost["pcparpage"] != $protectedPost["old_pcparpage"]){
-	$_SESSION['OCS']['nb_tab'][$protectedPost['TABLE_NAME']]=$protectedPost["pcparpage"];
-	cookies_add($protectedPost['TABLE_NAME'].'_nbpage',$protectedPost["pcparpage"]);
-}elseif($_COOKIE[$protectedPost['TABLE_NAME'].'_nbpage'])
-	$_SESSION['OCS']['nb_tab'][$protectedPost['TABLE_NAME']]=$_COOKIE[$protectedPost['TABLE_NAME'].'_nbpage'];
-	
+
 //del column
 if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
 	unset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']][$protectedPost['SUP_COL']]);

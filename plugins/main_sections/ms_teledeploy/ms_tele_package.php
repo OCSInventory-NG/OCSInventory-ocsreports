@@ -120,14 +120,12 @@ echo open_form($form_name,'',"enctype='multipart/form-data'");
 
 if (isset($protectedPost['valid'])){
 	looking4config();
-
-	$fSize = @filesize( $_FILES["teledeploy_file"]["tmp_name"]);
-	//file not exist
-	if( $fSize <= 0 ){
-		if ($protectedPost['ACTION'] != 'EXECUTE') 
-			$error=$l->g(436)." ".$_FILES["teledeploy_file"]["tmp_name"];
-	}//file exist
-	else{
+	
+	
+	
+	//file exist
+	if (file_exists($_FILES["teledeploy_file"]["tmp_name"]) && is_readable($_FILES["teledeploy_file"]["tmp_name"])
+									&& filesize($_FILES["teledeploy_file"]["tmp_name"]) > 0){
 		//is it a zip file or TAR.GZ file?
 		$name_file_extention=explode('.',$_FILES["teledeploy_file"]["name"]);
 		$extention=array_pop($name_file_extention);
@@ -137,6 +135,11 @@ if (isset($protectedPost['valid'])){
 		}elseif(strtoupper($extention) == "GZ" and strtoupper(array_pop($name_file_extention)) != "TAR"){
 			$error=$l->g(1232);
 		}		
+	}
+	//file not exist
+	else{
+		if ($protectedPost['ACTION'] != 'EXECUTE')
+			$error=$l->g(436)." ".$_FILES["teledeploy_file"]["tmp_name"];
 	}
 	
 	//the package name is exist in database?
