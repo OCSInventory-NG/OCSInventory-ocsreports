@@ -1429,7 +1429,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 							if ($key == "STAT" or $key == "SUP" or $key == "CHECK"){
 								$key2 = "NULL";
 							}else{
-								$data[$i][$num_col]=$value_of_field;
+								$data[$i][$num_col]=htmlspecialchars($value_of_field, ENT_QUOTES);
 								$affich="KO";
 							}
 						}
