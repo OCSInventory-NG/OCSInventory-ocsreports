@@ -1,4 +1,7 @@
 Revision history for ocsreports
+2.1.2
+		* fix XSS security hole (https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1331423)
+
 2.1.1
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1163918
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1266229
