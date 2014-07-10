@@ -121,12 +121,14 @@ else{ //affichage des p�riph�riques
 	if (isset($protectedGet['value'])){
 		if ($protectedGet['prov'] == "no_inv"){
 			$title=$l->g(947);
-			$sql="SELECT ip, mac, mask, date, name FROM netmap n 
+			$sql="SELECT ip, mac, mask, date, name
+				FROM netmap n 
 				LEFT JOIN networks ns ON ns.macaddr=n.mac
 				WHERE n.netid='%s' 
 				AND (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
-				AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
-			$tab_options['ARG_SQL']=array($protectedGet['value']);
+				AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)
+				AND ns.HARDWARE_ID IS NULL";
+			$tab_options['ARG_SQL']=array($protectedGet['value'], $protectedGet['value']);
 			$list_fields= array($l->g(34) => 'ip','MAC'=>'mac',
 								$l->g(208)=>'mask',
 								$l->g(232)=>'date',

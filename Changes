@@ -1,5 +1,6 @@
 Revision history for ocsreports
 2.1.2
+		* fix bug https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1216940 (interfaces showing in ipdiscover non-identified and in computer inventory)
 		* fix XSS security hole (https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1331423)
 		* Add snmp_mibs table
 2.1.1
