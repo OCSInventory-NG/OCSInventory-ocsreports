@@ -168,7 +168,7 @@ if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])){
 }
 if (GUI_VER	!= $_SESSION['OCS']['SQL_BASE_VERS']){
 	$fromAuto = true;
-		if ($_SESSION['OCS']['SQL_BASE_VERS'] < 7005){
+		if ($_SESSION['OCS']['SQL_BASE_VERS'] < 7006){
 			unset($_SESSION['OCS']['SQL_BASE_VERS']);
 			require('install.php');
 		}else
