@@ -3,6 +3,7 @@ Revision history for ocsreports
 		* Migrate menus, urls and js config to XML files
 		* Add new menu for computer sections
 		* Add new menu for main sections
+		* Add update methode
 
 2.1.1
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1283089

@@ -1341,6 +1341,12 @@
 2104 VOUS ETES SUR LA VERSION DE DEMO LA
 2105 Votre base de données est à jour.<br>Aucune action a effectuer.
 2106 La configuration max_allowed_packet de MySQL n'autorise que des fichiers de <
+2107 La version de votre interface WEB est inférieur à la version de la base de données
+2108 La version de la base de données doit <b>OBLIGATOIREMENT</b> être inférieure ou égale à la version de l'interface WEB
+2109 Version actuelle
+2110 Version attendue
+2111 Effectuer la mise à jour
+2112 Le fichier suivant n'est pas présent ou n'est pas accessible en lecture
 
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]

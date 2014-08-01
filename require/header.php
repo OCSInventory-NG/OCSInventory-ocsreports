@@ -167,9 +167,12 @@ if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])){
 	$_SESSION['OCS']['SQL_BASE_VERS']=$values['tvalue']['GUI_VERSION'];
 }
 if (GUI_VER	!= $_SESSION['OCS']['SQL_BASE_VERS']){
-	unset($_SESSION['OCS']['SQL_BASE_VERS']);
 	$fromAuto = true;
-	require('install.php');
+		if ($_SESSION['OCS']['SQL_BASE_VERS'] < 7005){
+			unset($_SESSION['OCS']['SQL_BASE_VERS']);
+			require('install.php');
+		}else
+			require('update.php');
 	die();	
 }
 
