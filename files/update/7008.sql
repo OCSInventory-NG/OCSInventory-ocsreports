@@ -1,0 +1,3 @@
+ALTER TABLE `operators` MODIFY `PASSWD` VARCHAR(255);
+ALTER TABLE `operators` ADD COLUMN `PASSWORD_VERSION` int(11) default 0;
+INSERT INTO config VALUES ('PASSWORD_VERSION',1,'PASSWORD_BCRYPT','Password encryption version');

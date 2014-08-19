@@ -10,7 +10,7 @@
 //====================================================================================
 
 @session_start();
-define("GUI_VER", "7007");												// Version of the database
+define("GUI_VER", "7008");												// Version of the database
 define("GUI_VER_SHOW","2.2");        								    // Version of the GUI
 define("MAC_FILE", "files/oui.txt");									// File containing MAC database
 define("DEFAULT_LANGUAGE","english");    								// Default language

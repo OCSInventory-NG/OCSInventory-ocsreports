@@ -47,20 +47,27 @@ if(!function_exists('mysqli_connect')) {
 	die();
 }
 
-$warning_lbl='';
+$warning_lbl=array();
+if(version_compare(phpversion(), '5.3.7', '<')){
+	$warning_lbl[]=$l->g(2113)." ".phpversion()." ) ";
+}
+
 if(!function_exists('xml_parser_create')) {	
-	$warning_lbl.=$l->g(2036)."<br><br>";
+	$warning_lbl[]=$l->g(2036);
 }
 
 if(!function_exists('imagefontwidth')) {	
-	$warning_lbl.=$l->g(2038)."<br><br>";
+	$warning_lbl[]=$l->g(2038);
 }
 
 if(!function_exists('openssl_open')) {	
-	$warning_lbl.=$l->g(2039)."<br><br>";
+	$warning_lbl[]=$l->g(2039);
 }
-if ($warning_lbl != '')
-	msg_warning($warning_lbl);
+
+if ($warning_lbl != array()){
+	msg_warning(implode('<br/>',$warning_lbl));
+}
+
 if (is_writable($_SERVER["DOCUMENT_ROOT"])){
 	if (!file_exists($_SERVER["DOCUMENT_ROOT"]."/download")) {
 		mkdir($_SERVER["DOCUMENT_ROOT"]."/download");
@@ -148,7 +155,6 @@ if( ! $instOk ) {
 	$tab_name= array($l->g(247).": ",$l->g(248).": ",$l->g(1233).":",$l->g(250).":");
 	$type_field= array(0,4,0,0);
 	$value_field=array($valNme,$valPass,$valdatabase,$valServ);
-
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="INSTALL",$showbutton='BUTTON',$form_name);
 	die();
@@ -157,7 +163,6 @@ $msg_warning="";
 if($firstAttempt==true && $_POST["pass"] == "") {	
 	$msg_warning.= $l->g(2042)."<br><br>";
 }
-
 if(!mysqli_query($link,"set global max_allowed_packet=2097152;")) {
 	$msg_warning.= $l->g(2043);
 }
@@ -206,14 +211,10 @@ if($_POST["fin"]=="fin") {
 	}	
 	die();
 }
-
-if (is_writable(CONF_MYSQL)){ 
-	$ch = fopen(CONF_MYSQL,"w");
-}else{
+if(!$ch = @fopen(CONF_MYSQL,"w")) {
 	echo "<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
 	die();	
 }
-
 	//if you install ocs for the first time with root account
 	//we create ocs/ocs
 	if(!mysqli_connect($_POST['host'],$_POST["name"],$_POST['pass']) 
@@ -317,7 +318,7 @@ if ($error != ""){
 	if(!$nberr&&!$dejaLance){
 		//update new lvlaccess
 		$sql_up_accesslvl="select id,accesslvl,new_accesslvl from operators where new_accesslvl is null or new_accesslvl =''";
-		$result = mysqli_query($sql_up_accesslvl) or die(mysqli_error($link));
+		$result = mysqli_query($link,$sql_up_accesslvl) or die(mysqli_error($link));
 		while($value=mysqli_fetch_array($result)){
 			unset($new_lvl);
 			if ($value['accesslvl'] == 1)

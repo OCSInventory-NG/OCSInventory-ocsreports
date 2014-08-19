@@ -11,17 +11,44 @@
 
  
 connexion_local_read();
-$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
-$arg_reqOp=array($login,md5($mdp));	
+$reqOp="SELECT id,PASSWORD_VERSION FROM operators WHERE id='%s'";
+$arg_reqOp=array($login);
 $resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
 $rowOp=mysqli_fetch_object($resOp);
-if (isset($rowOp -> id)){
-	$login_successful = "OK";
-	$user_group=$rowOp -> user_group;
-	$type_log='CONNEXION';	
+$oldpassword = false;
+if (!$_SESSION['PASSWORD_VERSION'] || $rowOp->PASSWORD_VERSION < $_SESSION['PASSWORD_VERSION']){
+	$oldpassword = true;
+}
+if($oldpassword){
+	$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
+	$arg_reqOp=array($login,md5($protectedMdp));
+	$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
+	$rowOp=mysqli_fetch_object($resOp);
+	if (isset($rowOp -> id)){
+		$login_successful = "OK";
+		$user_group=$rowOp -> user_group;
+		$type_log='CONNEXION';
+		if(version_compare(PHP_VERSION, '5.3.7') >= 0){
+			require_once('require/function_users.php');
+			updatePassword($login,$mdp);
+		}
+	}else{
+		$login_successful = $l->g(180);
+		$type_log='BAD CONNEXION';
+	}	
 }else{
-	$login_successful = $l->g(180);
-	$type_log='BAD CONNEXION';
+	$reqOp="SELECT id,user_group,passwd FROM operators WHERE id='%s'";	
+	$arg_reqOp=array($login);
+	$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
+	$rowOp=mysqli_fetch_object($resOp);
+	if (isset($rowOp -> id) && password_verify($mdp, $rowOp -> passwd)){
+		$login_successful = "OK";
+		$user_group=$rowOp -> user_group;
+		$type_log='CONNEXION';
+	}else{
+		$login_successful = $l->g(180);
+		$type_log='BAD CONNEXION';
+	}
 }
 $value_log='USER:'.$login;
 $cnx_origine="LOCAL";

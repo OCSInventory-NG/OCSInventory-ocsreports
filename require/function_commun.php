@@ -21,7 +21,7 @@ function look_config_default_values($field_name,$like='',$default_values=''){
 		$arg['SQL']="select NAME,IVALUE,TVALUE,COMMENTS from config where NAME like '%s'";
 		$arg['ARG']=$field_name;		
 	}
-	$resdefaultvalues=mysql2_query_secure($arg['SQL'],$_SESSION['OCS']["readServer"],$arg['ARG']);		
+	$resdefaultvalues=mysql2_query_secure($arg['SQL'],$_SESSION['OCS']["readServer"],$arg['ARG']);
 	while($item = mysqli_fetch_object($resdefaultvalues)){
 			$result['name'][$item ->NAME]=$item ->NAME;
 			$result['ivalue'][$item ->NAME]=$item ->IVALUE;

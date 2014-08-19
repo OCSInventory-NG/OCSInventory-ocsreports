@@ -44,7 +44,10 @@ function delete_list_user($list_to_delete){
 
 function add_user($data_user,$list_profil=''){
 	global $l;
-	
+	if (isset($data_user['PASSWORD'])){
+		$password = $data_user['PASSWORD'];
+	}
+	$data_user=strip_tags_array($data_user);
 	if (trim($data_user['ID']) == "")
 		$ERROR=$l->g(997);
 		
@@ -75,8 +78,9 @@ function add_user($data_user,$list_profil=''){
 								  $data_user['COMMENTS'],
 								  $data_user['USER_GROUP']);
 				if (isset($data_user['PASSWORD']) and $data_user['PASSWORD'] != ''){
-					$sql_update.=",passwd ='%s'";
-					$arg_update[]=md5($data_user['PASSWORD']);
+					$sql_update.=",passwd ='%s' , password_version ='%s' ";
+					$arg_update[]=password_hash($password, constant($_SESSION['PASSWORD_ENCRYPTION']));
+					$arg_update[]=$_SESSION['PASSWORD_VERSION'];
 				}
 				$sql_update.="	 where ID='%s'";
 				$arg_update[]=$row->id;
@@ -85,8 +89,10 @@ function add_user($data_user,$list_profil=''){
 			}
 		}else{		
 			$sql=" insert into operators (id,firstname,lastname,new_accesslvl,email,comments,user_group";
-			if (isset($data_user['PASSWORD']))
+			if (isset($password)){
 				$sql.=",passwd";
+				$sql.=",password_version";
+			}
 			$sql.=") value ('%s','%s','%s','%s','%s','%s','%s'";
 			
 			$arg=array($data_user['ID'],$data_user['FIRSTNAME'],
@@ -95,9 +101,10 @@ function add_user($data_user,$list_profil=''){
 								  $data_user['EMAIL'],
 								  $data_user['COMMENTS'],
 								  $data_user['USER_GROUP']);
-			if (isset($data_user['PASSWORD'])){
-				$sql.=",'%s'";
-				$arg[]=md5($data_user['PASSWORD']);
+			if (isset($password)){
+					$sql.=",'%s','%s'";
+					$arg[]=password_hash($password, constant($_SESSION['PASSWORD_ENCRYPTION']) );
+					$arg[]=$_SESSION['PASSWORD_VERSION'];
 			}
 			$sql.=")";
 			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);			
@@ -318,6 +325,22 @@ function admin_profil($form){
 	
 }
 
+function updatePassword($id_user,$password){
+	$sql="select id from operators where id= '%s'";
+	$arg=$id_user;
+	$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+	$row=mysqli_fetch_object($res);
+	if (isset($row->id)){
+		if (isset($password) and $password != ''){
+			$sql_update="update operators set passwd ='%s', PASSWORD_VERSION ='%s' ";
+			$arg_update[]=password_hash($password,constant($_SESSION['PASSWORD_ENCRYPTION']));
+			$arg_update[]=$_SESSION['PASSWORD_VERSION'];
+			$sql_update.="	 where ID='%s'";
+			$arg_update[]=$row->id;
+			$res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"],$arg_update);
+		}
+	}
+}
 
 
 ?>

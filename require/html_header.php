@@ -129,6 +129,10 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
 		}
 	}
 	
+	if(version_compare(phpversion(), '5.3.7', '<')){
+		$msg_header_warning[]=$l->g(2113)." ".phpversion()." ) ";
+	}
+	
 	//Error are detected
 	if ($msg_header_error != array()){
 			js_tooltip();

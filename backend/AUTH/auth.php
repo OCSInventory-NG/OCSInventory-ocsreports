@@ -45,7 +45,8 @@
  
  if ($affich_method == 'HTML' and isset($protectedPost['Valid_CNX']) and trim($protectedPost['LOGIN']) != ""){
  	$login=$protectedPost['LOGIN'];
- 	$mdp=$protectedPost['PASSWD']; 
+ 	$mdp=$_POST['PASSWD'];
+ 	$protectedMdp=$protectedPost['PASSWD'];
  }elseif ($affich_method == 'CAS'){
 	require_once('methode/cas.php'); 	
  }elseif ($affich_method != 'HTML' and isset($_SERVER['PHP_AUTH_USER'])){
@@ -83,7 +84,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 			//you can't send a new login/passwd before 2 seconds
 			sleep(2);
 		}
-		echo "<br>";
+		echo "<br/>";
 		$name_field=array("LOGIN","PASSWD");
 			$tab_name=array($l->g(24).": ",$l->g(217).":");
 			$type_field= array(0,4);	
@@ -94,7 +95,7 @@ if($login_successful == "OK" and isset($login_successful)) {
 		}
 			
 		if (DEMO) { 
-			msg_info($l->g(24).": ".DEMO_LOGIN."<br>".$l->g(217).": ".DEMO_PASSWD);
+			msg_info($l->g(24).": ".DEMO_LOGIN."<br/>".$l->g(217).": ".DEMO_PASSWD);
 		}
 		
 		if (isset($tab_typ_champ)){

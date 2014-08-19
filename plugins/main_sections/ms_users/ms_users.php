@@ -18,9 +18,6 @@ else{
 	$ajax=false;
 }
 
-
-
-
 require_once('require/function_search.php');
 require_once('require/function_users.php');
 
@@ -64,7 +61,7 @@ if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 
 //ajout d'un user
 if (isset($protectedPost['Valid_modif_x'])){
-	$ok=add_user($protectedPost,$list_profil);
+	$ok=add_user($_POST,$list_profil);
 	if ($ok == $l->g(373) or $ok == $l->g(374)){
 		unset($_SESSION['OCS']['DATA_CACHE'],$protectedPost['ID'],$protectedPost['FIRSTNAME'],$protectedPost['LASTNAME'],
 		$protectedPost['ACCESSLVL'],$protectedPost['COMMENTS'],$protectedPost['PASSWORD'],$protectedPost['MODIF']);

@@ -4,6 +4,8 @@ Revision history for ocsreports
 		* Add new menu for computer sections
 		* Add new menu for main sections
 		* Add update methode
+		* Add password version
+		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1342210
 
 2.1.1
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1283089

@@ -15,7 +15,7 @@ if (isset($protectedPost['Valid_modif_x'])){
 	$protectedPost['ACCESSLVL']=$_SESSION['OCS']['lvluser'];
 	$protectedPost['ID']=$_SESSION['OCS']["loggeduser"];
 	$protectedPost['MODIF']=$_SESSION['OCS']["loggeduser"];
-	$msg=add_user($protectedPost);	
+	$msg=add_user($_POST);		
 	if ($msg != $l->g(374))
 		msg_error($msg);
 	else

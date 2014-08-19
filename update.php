@@ -65,6 +65,10 @@ if (isset($_POST['update'])){
 			$res_column=mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 			$_SESSION['OCS']['SQL_BASE_VERS']=$version_database;
 		}
+		else{
+			msg_error($l->g(2114)." ".$version_database);
+			die();
+		}
 		
 	}
 	msg_success($l->g(1121));

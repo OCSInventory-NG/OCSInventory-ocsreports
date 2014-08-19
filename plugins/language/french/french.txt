@@ -1347,6 +1347,8 @@
 2110 Version attendue
 2111 Effectuer la mise à jour
 2112 Le fichier suivant n'est pas présent ou n'est pas accessible en lecture
+2113 La version actuelle de php est inferieure à la version 5.3.7 et ne sera plus compatible dans le futur ( version  : 
+2114 Aucun fichier sql pour la version 
 
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
