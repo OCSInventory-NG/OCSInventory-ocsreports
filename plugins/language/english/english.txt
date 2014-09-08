@@ -1237,6 +1237,7 @@
 1359 User Logged Out
 1360 Server informations
 1361 Settings
+1362 About
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

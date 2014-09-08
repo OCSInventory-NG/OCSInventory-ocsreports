@@ -55,5 +55,6 @@
     <page>ms_export_ocs</page>
     <page>ms_qrcode</page>
     <page>ms_server_infos</page>
+    <page>ms_about</page>
   </pages>
 </profile>
