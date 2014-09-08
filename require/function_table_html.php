@@ -2166,7 +2166,7 @@ function tooltip($txt){
 function iframe($link){
 	echo "<div class='iframe_div'>";
 	echo "<p><a href='$link'  target='blank'   class='iframe_link' >acceder au site</a></p>";
-	echo "<iframe   src=\"$link\">	</iframe>";
+	echo "<div style='height:100%'><iframe   src=\"$link\">	</iframe></div>";
 	echo "</div>";
 	
 }
