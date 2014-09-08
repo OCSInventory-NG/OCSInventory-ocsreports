@@ -7,10 +7,7 @@
 	margin-left: 137px;
 }
 
-.main-menu-container .navbar-nav {
-	float: none;
-	text-align: left;
-}
+
 
 .main-menu-container .navbar-nav > li {
 	float: none;
@@ -38,4 +35,8 @@
 	margin: 0 10px;
 	color: white;
 	float: right;
+}
+
+#menu_settings{
+	font-size:20px;
 }

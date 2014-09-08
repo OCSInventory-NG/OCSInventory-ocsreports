@@ -15,60 +15,20 @@ $ban_head='no';
 html_header();
 
 echo '<div class="headfoot navbar navbar-default">';
-echo '<div class="user-header">';
-
-if (isset($_SESSION['OCS']["loggeduser"]) && !isset($protectedGet["popup"])) {
-	echo '<span class="links">';
-	
-	if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
-		echo "<a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>".$l->g(251)."</a>";
-	}
-
-	if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
-		echo "<a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'>".$l->g(891)."</a>";
-	}
-	
-	echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1'>Options</a>";// TODO translate
-	echo open_form('log_out','index.php');
-	echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
-	echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
-	echo close_form();
-	
-	echo '</span>';
-}
-
 //on affiche l'entete de la page
 if (!isset($protectedGet["popup"])) {
 	//si unlock de l'interface
 	if (isset($protectedPost['LOCK']) and $protectedPost['LOCK'] == 'RESET'){
 		if (isset($_SESSION['OCS']["TRUE_mesmachines"]) and $_SESSION['OCS']["TRUE_mesmachines"] != array())
-		 	$_SESSION['OCS']["mesmachines"]=$_SESSION['OCS']["TRUE_mesmachines"];
+			$_SESSION['OCS']["mesmachines"]=$_SESSION['OCS']["TRUE_mesmachines"];
 		else
 			unset($_SESSION['OCS']["mesmachines"]);
 		unset($_SESSION['OCS']["TRUE_mesmachines"]);
 	}
-	
-	echo '<span class="version">V <b>' . GUI_VER_SHOW . '</b></span>';
-	//pass in debug mode if plugin debug exist
-	if (isset($pages_refs['ms_debug'])){
-		if ((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON') 
-				or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
-			echo"<b>".GUI_VER."/".DB_NAME."</b>";
-			echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><img src=image/red.png></a>";
-			
-			if ($_SESSION['OCS']['DEBUG']=='ON') {
-				echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'>ON":"red'>OFF")."</font></b><span id='tps'>wait...</span>";
-			}
-		} else if( !isset($_SESSION['OCS']['DEBUG'])){
-			if (($_SESSION['OCS']['profile'] && $_SESSION['OCS']['profile']->hasPage('ms_debug')) || (is_array($_SESSION['OCS']['TRUE_PAGES']) && array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']))){
-				echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><img src=image/green.png></a><br>";
-			}
-		}
-	}
-}
-	
-echo '</div>';
 
+
+	
+}
 echo '<div class="header-logo">';
 echo '<a href="index.php?first"><img src="image/logo OCS-ng-96.png"></a>';
 echo '</div>';
@@ -78,7 +38,60 @@ if ($_SESSION['OCS']['profile']) {
 	if (!isset($protectedGet["popup"])) {
 		show_menu();
 	}
-	echo '</div>';
+	
+	
+	
+	if (isset($_SESSION['OCS']["loggeduser"]) && !isset($protectedGet["popup"])) {
+		echo '<ul class="nav navbar-nav" style="float: right">
+				<li class="dropdown"><a href="#" data-toggle="dropdown" >
+					<span class="glyphicon glyphicon-cog" id="menu_settings"></span></a>
+					<ul class="dropdown-menu dropdown-menu-right">';
+			
+		if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
+			echo "<li><a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'><img src='image/settings.png' alt='settings'>".$l->g(891)."</a></li>";
+		}
+		// DEBUG = 1011
+		echo "<li><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1'>".$l->g(1361)."</a></li>";// TODO translate
+		
+		
+		
+		//pass in debug mode if plugin debug exist
+		if (isset($pages_refs['ms_debug'])){
+			echo "<li>";
+			if ((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON')
+					or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
+				echo"<b>".GUI_VER."/".DB_NAME."</b>";
+				echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><img src=image/red.png>".$l->g(1011)."</a>";
+		
+				if ($_SESSION['OCS']['DEBUG']=='ON') {
+					echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'>ON":"red'>OFF")."</font></b><span id='tps'>wait...</span>";
+				}
+			} else if( !isset($_SESSION['OCS']['DEBUG'])){
+				if (($_SESSION['OCS']['profile'] && $_SESSION['OCS']['profile']->hasPage('ms_debug')) || (is_array($_SESSION['OCS']['TRUE_PAGES']) && array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']))){
+					echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><img src=image/green.png>".$l->g(1011)."</a>";
+				}
+			}
+			echo "</li>";
+		}
+		echo "<li><a>About</a></li>";
+		//  PAGE ABOUT
+		//	echo '<span class="version">V <b>' . GUI_VER_SHOW . '</b></span>';
+		
+		
+		if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
+			echo "<li><a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>".$l->g(251)."</a></li>";
+		}
+		echo '</li></ul></ul></div>';
+		echo open_form('log_out','index.php');
+		echo "<input type='hidden' name='LOGOUT' id='LOGOUT' value=''>";
+		echo "<input type='hidden' name='LOCK' id='LOCK' value=''>";
+		echo close_form();
+	
+	}
+	
+	
+	
+
 }
 
 echo '</div>';
