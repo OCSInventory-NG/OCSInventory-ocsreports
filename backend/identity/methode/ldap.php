@@ -180,7 +180,7 @@ if (isset($defaultRole) and $defaultRole != ''){
     if (isset($rowOp -> accesslvl)){
         $lvluser=$rowOp -> accesslvl;
 
-        $profile_config = 'config/profiles/'.$lvluser.'.xml';
+        $profile_config = DOCUMENT_REAL_ROOT.'config/profiles/'.$lvluser.'.xml';
 		
 		if (!file_exists($profile_config)) {
 			migrate_config_2_2();
