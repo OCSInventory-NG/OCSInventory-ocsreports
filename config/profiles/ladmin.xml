@@ -54,5 +54,6 @@
     <page>ms_view_file</page>
     <page>ms_export_ocs</page>
     <page>ms_qrcode</page>
+    <page>ms_server_infos</page>
   </pages>
 </profile>

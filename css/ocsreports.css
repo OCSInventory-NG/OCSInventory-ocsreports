@@ -25,6 +25,9 @@ left: 30px;
 /*vertical-align:center; */
 }
 
+html,body{
+	height:100%;
+}
 body {
 	background-color:#FFFFFF;
 	font-size: 12px;
@@ -439,3 +442,21 @@ table.dataTable thead .sorting_desc_disabled {
 	background: #f0f0f0 url('../libraries/datatable/media/images/sort_desc_disabled.png') no-repeat center right !important; 
 }
 
+iframe{
+	width:100%;
+	height:100%;
+	border:none;
+	margin:auto;
+	position:relative;
+}
+
+.iframe_div{
+	padding:0 4px 1px 3px;
+	width:80%;
+	height:70%;
+	margin:0 auto 0 auto;
+	background-color:#123456;
+}
+
+.iframe_link{
+}

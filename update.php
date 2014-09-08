@@ -36,9 +36,10 @@ $rep_maj='files/update/';
 //search all sql files for update
 $list_fichier=ScanDirectory($rep_maj,"sql");
 echo "<form name='".$form_name."' id='".$form_name."' method='POST'>";
-msg_info($l->g(2057));
+$msg_info[]=$l->g(2057);
 
 if (GUI_VER < $_SESSION['OCS']['SQL_BASE_VERS']){
+	msg_info(implode("<br />",$msg_info));
 	msg_error($l->g(2107)."<br>".$l->g(2108)."<br>".$l->g(2109).":".$version_database."=>".$l->g(2110).":".GUI_VER);
 	echo "</form>";
 	require_once('require/footer.php');
@@ -46,8 +47,8 @@ if (GUI_VER < $_SESSION['OCS']['SQL_BASE_VERS']){
 }
 
 
-$msg_info=$l->g(2109).":".$version_database."=>".$l->g(2110).":".GUI_VER;
-msg_info($msg_info);
+$msg_info[]=$l->g(2109).":".$version_database."=>".$l->g(2110).":".GUI_VER;
+msg_info(implode("<br />",$msg_info));
 
 
 echo "<br><input type=submit name='update' value='".$l->g(2111)."'>";

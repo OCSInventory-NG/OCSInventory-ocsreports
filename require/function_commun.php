@@ -198,7 +198,6 @@ function dateTimeFromMysql($v) {
 
 
 function dateToMysql($date_cible) {
-
 	global $l;
 	if(!isset($date_cible)) return "";
 	

@@ -104,5 +104,10 @@
     <page>ms_qrcode</page>
     <page>ms_plugins</page>
     <page>ms_stats_top</page>
+    <page>ms_server_infos</page>
+    <page>ms_wiki</page>
+    <page>ms_irc</page>
+    <page>ms_forums</page>
+    <page>ms_offers</page>
   </pages>
 </profile>

@@ -142,10 +142,32 @@
         <label>g(1251)</label>
         <url>ms_stats</url>
       </menu-elem>
+       <menu-elem id="ms_server_infos">
+        <label>g(1360)</label>
+        <url>ms_server_infos</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="ms_help">
     <label>g(570)</label>
     <url>ms_help</url>
+    <submenu>
+      <menu-elem id="ms_wiki">
+        <label>g(1122)</label>
+        <url>ms_wiki</url>
+      </menu-elem>
+      <menu-elem id="ms_irc">
+        <label>g(1123)</label>
+        <url>ms_irc</url>
+      </menu-elem>
+      <menu-elem id="ms_forums">
+        <label>g(1124)</label>
+        <url>ms_forums</url>
+      </menu-elem>
+      <menu-elem id="ms_offers">
+        <label>g(1296)</label>
+        <url>ms_offers</url>
+      </menu-elem>
+    </submenu>
   </menu-elem>
 </menu>

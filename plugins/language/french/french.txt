@@ -1235,6 +1235,7 @@
 1357 Erreur interne du serveur
 1358 Le service n'est pas disponible
 1359 Utilisateur déconnecté
+1360 Informations du serveur
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

@@ -56,5 +56,6 @@
     <page>ms_view_file</page>
     <page>ms_snmp</page>
     <page>ms_snmp_detail</page>
+    <page>ms_server_infos</page>
   </pages>
 </profile>

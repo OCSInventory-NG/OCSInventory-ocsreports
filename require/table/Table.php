@@ -13,6 +13,7 @@ class Table {
 	private $params;
 	
 	public function __construct() {
+		include("Columns.php");
 		$this->columns = new Columns();
 	}
 	
@@ -25,19 +26,19 @@ class Table {
 	 * Called by ajax_tab_entetefixe
 	 */
 	public function createTable($tablename,$formid){
-		global $protectedGet,$protectedPost,$l,$pages_refs;
-			
-		generateJavascript($tablename,$formid);
-		
-		
+		$this->generateJavascript($tablename,$formid);	
 	}
 	/*
 	 * Generate javascript code for the table
 	 */
 	private function generateJavascript($tablename,$formid){
+		global $protectedGet,$protectedPost,$l,$pages_refs;
 		$tableid = "table#$tablename";
+		print_r($protectedGet);
+		print_r($protectedPost)
 		?>
 		<script>
+		console.log();
 		//Check all the checkbox
 		function checkall()
 		{
@@ -47,7 +48,6 @@ class Table {
 				document.getElementById($(this).attr('id')).checked = value ;
 			});
 		}
-		
 		$(document).ready(function() {
 			var table_name = "<?php echo $tablename; ?>";
 			var table_id ="<?php echo $tableid; ?>";
@@ -91,6 +91,7 @@ class Table {
 						//Add CSRF
 						d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER'];?> = $(csrfid).val();
 		            	        var visible =[];
+		            	        
 		            	        if (document.getElementById('checkboxALL')){
 		            	        	document.getElementById('checkboxALL').checked = false;
 		            	        }

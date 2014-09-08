@@ -28,7 +28,6 @@ $debut = getmicrotime();
 define('AJAX', false);
 
 require ('require/header.php');
-
 addLog('PAGE',$protectedGet[PAG_INDEX]);
 
 if( !isset($protectedGet["popup"] )&& !isset($protectedGet["no_footer"] ))

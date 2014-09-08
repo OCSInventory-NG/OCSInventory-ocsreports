@@ -16,10 +16,10 @@ $arg_reqOp=array($login);
 $resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
 $rowOp=mysqli_fetch_object($resOp);
 $oldpassword = false;
-if (!$_SESSION['PASSWORD_VERSION'] || $rowOp->PASSWORD_VERSION < $_SESSION['PASSWORD_VERSION']){
+if ($_SESSION['PASSWORD_VERSION']===false || $rowOp->PASSWORD_VERSION < $_SESSION['PASSWORD_VERSION']){
 	$oldpassword = true;
 }
-if($oldpassword){
+if($oldpassword && $rowOp->PASSWORD_VERSION === 0 ){
 	$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
 	$arg_reqOp=array($login,md5($protectedMdp));
 	$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
@@ -33,15 +33,20 @@ if($oldpassword){
 			updatePassword($login,$mdp);
 		}
 	}else{
+		
 		$login_successful = $l->g(180);
 		$type_log='BAD CONNEXION';
-	}	
+	}
 }else{
 	$reqOp="SELECT id,user_group,passwd FROM operators WHERE id='%s'";	
 	$arg_reqOp=array($login);
 	$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);
 	$rowOp=mysqli_fetch_object($resOp);
 	if (isset($rowOp -> id) && password_verify($mdp, $rowOp -> passwd)){
+		if($oldpassword){
+			require_once('require/function_users.php');
+			updatePassword($login,$mdp);
+		}
 		$login_successful = "OK";
 		$user_group=$rowOp -> user_group;
 		$type_log='CONNEXION';
@@ -53,5 +58,4 @@ if($oldpassword){
 $value_log='USER:'.$login;
 $cnx_origine="LOCAL";
 addLog( $type_log,$value_log);
-
 ?>

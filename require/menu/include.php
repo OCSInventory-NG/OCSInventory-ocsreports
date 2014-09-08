@@ -32,7 +32,6 @@ function show_menu() {
 
 	$menu_serializer = new XMLMenuSerializer();
 	$menu = $menu_serializer->unserialize(file_get_contents('config/main_menu.xml'));
-
 	$renderer = new MainMenuRenderer($profile, $urls);
 	echo $renderer->render($menu);
 }

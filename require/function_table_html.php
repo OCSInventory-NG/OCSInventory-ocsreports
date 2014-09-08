@@ -219,8 +219,6 @@ function xml_decode( $txt ) {
 	if(!empty($option['LBL'])){
 		$lbl_column= array_merge($lbl_column,$option['LBL']);
 	}
-	
-	
 	$columns_special = array("CHECK",
 							"SUP",
 							"NBRE",
@@ -308,8 +306,7 @@ function xml_decode( $txt ) {
 			value = !$(this).attr('checked');
 			document.getElementById($(this).attr('id')).checked = value ;
 	 });
-	}
-	
+	}	
 	$(document).ready(function() {
 		var table_name = "<?php echo $option['table_name']; ?>";
 		var table_id ="table#<?php echo $option['table_name']; ?>";
@@ -1389,7 +1386,6 @@ function ajaxfiltre($queryDetails,$tab_options){
 				else{
 					$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
 				}
-				
 			}
 		}
 		$queryDetails .= $filter.") ";
@@ -1514,6 +1510,9 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 				}
 			}
 			$row_temp = $row;
+			foreach($row as $rowKey=>$rowValue){
+				$row[$rowKey]=htmlentities($rowValue);
+			}
 			foreach($list_fields as $key=>$column){
 				$name = explode('.',$column);
 				$column = end($name);
@@ -1539,7 +1538,6 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 					case "NAME":
 						if ( !isset($tab_options['NO_NAME']['NAME'])){
 							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
-							
 							if ($row['ID'])
 								$link_computer.="&systemid=".$row['ID'];
 							if ($row['MD5_DEVICEID'])
@@ -2165,6 +2163,12 @@ function tooltip($txt){
 	return " onmouseover=\"show_me('".addslashes($txt)."');\" onmouseout='hidden_me();'";
 }
 
-
+function iframe($link){
+	echo "<div class='iframe_div'>";
+	echo "<p><a href='$link'  target='blank'   class='iframe_link' >acceder au site</a></p>";
+	echo "<iframe   src=\"$link\">	</iframe>";
+	echo "</div>";
+	
+}
 
 ?>
