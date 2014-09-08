@@ -79,7 +79,7 @@ if (is_writable($_SERVER["DOCUMENT_ROOT"])){
 		mkdir($_SERVER["DOCUMENT_ROOT"]."/scripts");
 	}
 }else{
-	msg_warning("impossible at ".$_SERVER["DOCUMENT_ROOT"]);
+	msg_warning("Document root should be writable : ".$_SERVER["DOCUMENT_ROOT"]);
 }
 
 
