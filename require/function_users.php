@@ -79,8 +79,8 @@ function add_user($data_user,$list_profil=''){
 								  $data_user['USER_GROUP']);
 				if (isset($data_user['PASSWORD']) and $data_user['PASSWORD'] != ''){
 					$sql_update.=",passwd ='%s' , password_version ='%s' ";
-					$arg_update[]=password_hash($password, constant($_SESSION['PASSWORD_ENCRYPTION']));
-					$arg_update[]=$_SESSION['PASSWORD_VERSION'];
+					$arg_update[]=password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
+					$arg_update[]=$_SESSION['OCS']['PASSWORD_VERSION'];
 				}
 				$sql_update.="	 where ID='%s'";
 				$arg_update[]=$row->id;
@@ -103,8 +103,8 @@ function add_user($data_user,$list_profil=''){
 								  $data_user['USER_GROUP']);
 			if (isset($password)){
 					$sql.=",'%s','%s'";
-					$arg[]=password_hash($password, constant($_SESSION['PASSWORD_ENCRYPTION']) );
-					$arg[]=$_SESSION['PASSWORD_VERSION'];
+					$arg[]=password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']) );
+					$arg[]=$_SESSION['OCS']['PASSWORD_VERSION'];
 			}
 			$sql.=")";
 			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);			
@@ -333,8 +333,8 @@ function updatePassword($id_user,$password){
 	if (isset($row->id)){
 		if (isset($password) and $password != ''){
 			$sql_update="update operators set passwd ='%s', PASSWORD_VERSION ='%s' ";
-			$arg_update[]=password_hash($password,constant($_SESSION['PASSWORD_ENCRYPTION']));
-			$arg_update[]=$_SESSION['PASSWORD_VERSION'];
+			$arg_update[]=password_hash($password,constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
+			$arg_update[]=$_SESSION['OCS']['PASSWORD_VERSION'];
 			$sql_update.="	 where ID='%s'";
 			$arg_update[]=$row->id;
 			$res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"],$arg_update);
