@@ -79,7 +79,7 @@ if (is_writable($_SERVER["DOCUMENT_ROOT"])){
 		mkdir($_SERVER["DOCUMENT_ROOT"]."/scripts");
 	}
 }else{
-	msg_warning("impossible at ".$_SERVER["DOCUMENT_ROOT"]);
+	msg_warning("Document root should be writable : ".$_SERVER["DOCUMENT_ROOT"]);
 }
 
 
@@ -102,7 +102,10 @@ $nberr = 0;
 
 if( isset($_POST["name"])) {
 		$link=dbconnect($_POST["host"],$_POST["name"],$_POST["pass"],$_POST["database"]);
-		if(mysqli_connect_errno()) {
+		if ($link == 'NO_DATABASE') {
+			$firstAttempt=false;
+			msg_error($l->g(2001)." ".$l->g(2115));
+		} else if(mysqli_connect_errno()) {
 			$firstAttempt=false;
 			msg_error($l->g(2001)." ".$l->g(249).
 							" (".$l->g(2010)."=".$_POST["host"].

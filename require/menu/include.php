@@ -22,7 +22,7 @@ function migrate_menus_2_2($config) {
 }
 
 function show_menu() {
-	if (!file_exists('config/main_menu.xml')) {
+	if (!file_exists(DOCUMENT_REAL_ROOT.'config/main_menu.xml')) {
 		migrate_config_2_2();
 	}
 

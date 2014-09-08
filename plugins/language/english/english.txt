@@ -1349,6 +1349,7 @@
 2112 The following file is not present or is not readable
 2113 Your PHP installation is older than version 5.3.7 and will not be compatible with incoming versions ( version  : 
 2114 No sql file found for version
+2115 Can't connect to MySQL, please enter a valid databse name.
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
