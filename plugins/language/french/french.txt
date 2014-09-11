@@ -88,7 +88,7 @@
 175 Doublons
 176 IPs
 177 Fusionner les lignes redondantes
-178 Répartition code/machines
+178 Machines par tag
 180 Utilisateur ou mot de passe incorrect
 182 Machines ayant une étiquette donné
 183 Télécharger
@@ -327,7 +327,7 @@
 432 Non notifiés
 433 Affecter
 434 Fabrication d'un paquet de télédéploiement
-435 Création d'un nouveau paquet
+435 Créer des paquets
 436 Ne peut pas ouvrir le fichier:
 437 Votre paquet a bien été créé dans le répertoire
 438 Création d'un nouveau paquet
@@ -878,8 +878,8 @@
 992 Estimation du temps de télédéploiement
 993 Les champs en rouge sont en erreur
 994 PDA/SMARTPHONE
-995 ID utilisateur
-996 LASTNAME
+995 Login
+996 Nom
 997 ID utilisateur obligatoire
 998 choisissez un profil valide
 999 Cet ID utilisateur existe déjà
@@ -1238,6 +1238,10 @@
 1360 Informations du serveur
 1361 Options
 1362 A propos
+1363 OK
+1364 Annuler
+1365 Mon compte
+1366 First name
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

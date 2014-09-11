@@ -88,7 +88,7 @@
 175 Duplicates
 176 IP
 177 Merge redundant computers
-178 Tag / Number of PC repartition
+178 Computers per tag
 180 User not registered
 182 Computers having a given tag
 183 Download
@@ -327,7 +327,7 @@
 432 Non notified
 433 Affect
 434 Package builder
-435 New package building
+435 Build new packages
 436 Can't open file
 437 Your package was successfully created in the directory
 438 New package building
@@ -878,8 +878,8 @@
 992 Teledeploy time estimate
 993 Red fields are in error
 994 PDA/SMARTPHONE
-995 user ID
-996 LASTNAME
+995 Login
+996 Last name
 997 You must fill user ID
 998 choose a valid profile
 999 This user ID already exists
@@ -1238,6 +1238,10 @@
 1360 Server informations
 1361 Settings
 1362 About
+1363 OK
+1364 Cancel
+1365 My account
+1366 First name
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
