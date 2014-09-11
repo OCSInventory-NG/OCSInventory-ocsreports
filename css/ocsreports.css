@@ -306,21 +306,20 @@ th.ta:last-child {border-right: solid 1px #9894B5;}
 .mlt_bordure {
 	width:75%;
     margin:0 auto 0 auto;
-	background-color: #f2f2f2;
-	border-radius: 1em;
-	-webkit-border-radius: 1em;
-	border: 2px solid #C7D9F5;
-	padding: 10px;
+	background: #f8f8f8;
+	border: 1px solid #e7e7e7;
+	padding: 20px 50px;
+	margin-bottom: 20px;
+	text-align: center;
 }
 
 .mvt_bordure {
-	width:75%;
-    margin:0 auto 0 auto;
-	background-color: #D6DCF2;
-	border-radius: 1em;
-	-webkit-border-radius: 1em;
-	border: 2px solid #D6DCF2;
-	padding: 10px;
+	display: inline-block;
+	background: #f8f8f8;
+	border: 1px solid #e7e7e7;
+	padding: 20px 50px;
+	margin-bottom: 20px;
+	text-align: center;
 }
 
 .mvt_tab {
@@ -344,7 +343,7 @@ th.ta:last-child {border-right: solid 1px #9894B5;}
 .info, .success, .warning, .error, .validation {
 	width:50%;
 	border: 1px solid;
-	margin: 10px 0px;
+	margin: 10px auto;
 	padding:15px 10px 15px 50px;
 	background-repeat: no-repeat;
 	background-position: 10px center;

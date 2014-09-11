@@ -7,10 +7,6 @@
 	margin-bottom: 20px;
 }
 
-.form-frame:last-child {
-	margin-bottom: 0;
-}
-
 .form-column {
 	display: inline-block;
 	vertical-align: top;
@@ -34,6 +30,11 @@ h4 label {
 	padding: 5px 20px;
 	width: 480px;
 	text-align: left;
+}
+
+.field.search-field {
+	width: auto;
+	text-align: center;
 }
 
 .field.field-has-errors {
@@ -60,9 +61,20 @@ h4 label {
 .field textarea,
 .field .radio-container,
 .field input[type=text],
+.field input[type=password],
 .field input[type=file] {
 	display: inline-block;
 	width: 280px;
+}
+
+.field.search-field select,
+.field.search-field textarea,
+.field.search-field .radio-container,
+.field.search-field input[type=text],
+.field.search-field input[type=password],
+.field.search-field input[type=file] {
+	display: inline-block;
+	width: auto;
 }
 
 .field textarea {
@@ -80,7 +92,7 @@ h4 label {
 .field .radio-container label {
 	width: auto;
 	text-align: left;
-	margin: 3px 0 0 10px;
+	margin: 3px 15px 0 3px;
 	font-weight: normal;
 }
 

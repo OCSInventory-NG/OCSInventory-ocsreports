@@ -101,7 +101,8 @@ function show_form_select($name, $options = array()) {
 		'type' => 'select',
 		'value' => null,
 		'options' => array(),
-		'attrs' => array()
+		'attrs' => array(),
+		'newline' => false
 	), $options);
 	
 	$attrs = array_merge(array(
@@ -137,7 +138,10 @@ function show_form_select($name, $options = array()) {
 				'attrs' => $input_attrs
 			));
 			show_form_label($id, $opt);
-			echo '<br/>';
+			
+			if ($options['newline']) {
+				echo '<br/>';
+			}
 		}
 	}
 

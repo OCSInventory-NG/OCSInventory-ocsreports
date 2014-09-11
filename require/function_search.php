@@ -370,17 +370,15 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	$select .= "</select>";
 	
 	//on affiche le d�but de ligne
-	echo "<tr bgcolor=$color><td align=left><a href=\"javascript:;\"><img src='image/supp.png' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'></a>
-		  </td><td>";
-	if ($ajout != '')
-	echo $and_or;
-	echo "&nbsp;".$optArray[$value]."</td>";
+	echo "<div class='field search-field'><a href=\"javascript:;\"><img src='image/supp.png' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'></a>";
+	if ($ajout != '') echo $and_or;
+	echo "&nbsp;".$optArray[$value].'&nbsp;';
 	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
 	if( array_key_exists($value,$optSelectField)){		
-		echo "<td>".$select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' class='down' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;";
+		echo $select."&nbsp;&nbsp;<input type='text' name='InputValue-".$nameField."' class='down' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;";
 		if ($optSelectField[$value."-LBL"] == "calendar")
 		echo calendars("InputValue-".$nameField,$l->g(1270));
-		echo "</td></tr>";
+		echo "</div>";
 		//echo $value."-LBL".$id_field;
 		
 	}
@@ -418,13 +416,13 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 			}
 		}
 		$select2 .= "</select>";
-		echo "<td>".$select2;
+		echo $select2;
 		if (array_key_exists($value,$opt2SelectField)){
 			if ($opt2SelectField[$value."-LBL"] == "calendar")
 			$opt2SelectField[$value."-LBL"]= calendars("InputValue-".$nameField,$l->g(1270));
 			echo $select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;".$opt2SelectField[$value."-LBL"];
 		}
-		echo "</td></tr>";
+		echo "</div>";
 	}
 	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),CHAMPSELECT
 	if( array_key_exists($value,$opt2Select)){
@@ -442,7 +440,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 			}
 		}
 		$selectValue .= "</select>";
-		echo "<td>".$select.$selectValue."&nbsp;&nbsp;</td></tr>";
+		echo $select.$selectValue."&nbsp;&nbsp;</div>";
 	}
 	//TITRE,CHAMPSELECT,valeur1,valeur2
 	if( array_key_exists($value,$optSelect2Field)){
@@ -453,8 +451,8 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 		else
 		$display="none";
 		
-		echo "<td>".$select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">
-				 <div style='display:".$display."' id='FieldInput2-".$nameField."'>&nbsp;--&nbsp;<input name='InputValue2-".$nameField."' value=\"".stripslashes($protectedPost["InputValue2-".$nameField])."\"></div>".$optSelect2Field[$value."-LBL"]."</td></tr>";
+		echo $select."&nbsp;&nbsp;<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">
+				 <div style='display:".$display."' id='FieldInput2-".$nameField."'>&nbsp;--&nbsp;<input name='InputValue2-".$nameField."' value=\"".stripslashes($protectedPost["InputValue2-".$nameField])."\"></div>".$optSelect2Field[$value."-LBL"]."</div>";
 	}
 	
 	if( array_key_exists($value,$opt3Select)){
@@ -475,9 +473,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 				$selectValue2 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue2-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
 		}
 		$selectValue2 .= "</select>";
-		echo "<td>".$select."&nbsp;".$l->g(667).":".$selectValue1."&nbsp;".$l->g(546).":".$selectValue2."</td></tr>";	
-		
-		
+		echo $select."&nbsp;".$l->g(667).":".$selectValue1."&nbsp;".$l->g(546).":".$selectValue2."</div>";
 	}	
 }
 
