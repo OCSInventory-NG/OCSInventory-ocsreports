@@ -1241,8 +1241,19 @@
 1363 OK
 1364 Annuler
 1365 Mon compte
-1366 First name
-
+1366 Prénom
+1367 Réseau
+1368 CPU
+1369 Version de PHP  
+1370 Serveur Web
+1371 Version de Mysql 
+1372 Kernel
+1373 Distribution
+1374 Accéder au site
+1375 Anciens Forums
+1376 Q&amp;R
+1377 Questions et réponses
+1378 RAM disponible (MB) 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

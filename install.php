@@ -736,8 +736,7 @@ echo "</b></font></center><br><center><font color=green><b>" . $cleanedNbr .
 flush();
 
 function printEnTeteInstall($ent) {
-	echo "<br><table border=1 class= \"Fenetre\" WIDTH = '62%' ALIGN = 'Center' CELLPADDING='5'>
-	<th height=40px class=\"Fenetre\" colspan=2><b>" . $ent . "</b></th></table>";
+	echo "<h3>$ent</h3>";
 }
 
 ?>

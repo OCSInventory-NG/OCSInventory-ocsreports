@@ -276,7 +276,7 @@ function replace_language($info){
 }
 
 function msg($txt,$css,$log=0){
-	echo "<center><div class='" . $css . "'>" . $txt . "</div></center>";	
+	echo "<center><div class='alert alert-" . $css . "'>" . $txt . "</div></center>";	
 	if ($css == 'error')
 		addLog('MSG_'.$css, $txt);
 }
@@ -290,7 +290,7 @@ function msg_warning($txt){
 	msg($txt,'warning');
 }
 function msg_error($txt){
-	msg($txt,'error');
+	msg($txt,'danger');
 	return true;
 }
 
@@ -403,5 +403,6 @@ function open_form($form_name,$action='',$more=''){
 function close_form(){
 	return "</form>";	
 }
+
 
 ?>

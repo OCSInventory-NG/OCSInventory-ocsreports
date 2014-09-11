@@ -450,12 +450,13 @@ iframe{
 }
 
 .iframe_div{
-	padding:0 4px 1px 3px;
 	width:80%;
 	height:70%;
 	margin:0 auto 0 auto;
-	background-color:#123456;
 }
 
 .iframe_link{
+	color: rgb(116, 116, 116)!important;
+	font-weight: bold;
+	text-decoration: none
 }

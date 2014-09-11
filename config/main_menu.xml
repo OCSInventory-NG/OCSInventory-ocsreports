@@ -160,8 +160,12 @@
         <label>g(1123)</label>
         <url>ms_irc</url>
       </menu-elem>
+      <menu-elem id="ms_ask">
+        <label>g(1376)</label>
+        <url>ms_ask</url>
+      </menu-elem>
       <menu-elem id="ms_forums">
-        <label>g(1124)</label>
+        <label>g(1375)</label>
         <url>ms_forums</url>
       </menu-elem>
       <menu-elem id="ms_offers">

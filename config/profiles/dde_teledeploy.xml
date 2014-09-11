@@ -31,6 +31,7 @@
     <page>ms_irc</page>
     <page>ms_forums</page>
     <page>ms_offers</page>
+    <page>ms_ask</page>
     <page>ms_teledeploy_workflow</page>
     <page>ms_about</page>
   </pages>

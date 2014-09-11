@@ -1,5 +1,3 @@
+<h3><?php echo  $l->g(1123);?></h3>
 <?php
-$form_name="help";
-echo open_form($form_name);
-	iframe("http://webchat.freenode.net/?channels=ocsinventory-ng&uio=d4");
-echo close_form();
+	iframe("//webchat.freenode.net/?channels=ocsinventory-ng&uio=d4");

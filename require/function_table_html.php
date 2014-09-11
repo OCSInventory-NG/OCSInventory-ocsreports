@@ -29,8 +29,7 @@ if( ! function_exists ( "utf8_decode" )) {
  
  
 function printEnTete($ent) {
-	echo "<br><table border=1 class= \"Fenetre\" WIDTH = '62%' ALIGN = 'Center' CELLPADDING='5'>
-	<th height=40px class=\"Fenetre\" colspan=2><b>".$ent."</b></th></table>";
+	echo "<h3>$ent</h3>";
 }
  
  
@@ -1554,7 +1553,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 									$lbl_msg=$tab_options['LBL_POPUP'][$key];
 							}else
 								$lbl_msg=$l->g(640)." ".$value_of_field;
-							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/supp.png></a>";
+							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
 						}
 						break;
 					case "NAME":
@@ -2186,11 +2185,11 @@ function tooltip($txt){
 }
 
 function iframe($link){
+	global $l;
 	echo "<div class='iframe_div'>";
-	echo "<p><a href='$link'  target='blank'   class='iframe_link' >acceder au site</a></p>";
-	echo "<div style='height:100%'><iframe   src=\"$link\">	</iframe></div>";
+	echo "<p><a href='$link'  target='blank'   class='iframe_link' >".$l->g(1374)."</a></p>";
+	echo "<div style='height:100%'><iframe  class='well well-sm' src=\"$link\">	</iframe></div>";
 	echo "</div>";
-	
 }
 
 ?>
