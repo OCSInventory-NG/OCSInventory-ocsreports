@@ -77,7 +77,7 @@ if (isset($protectedPost["WOL"]) and $protectedPost["WOL"] == 'WOL' and $_SESSIO
 }
 
 
-if($ajax){
+if ($ajax) {
 	ob_end_clean();
 }
 
@@ -91,9 +91,13 @@ if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('softwa
 			$plugin_file = PLUGINS_DIR."computer_detail/".$plugin->getId()."/".$plugin->getId().".php";
 			$protectedPost['computersectionrequest'] = $plugin->getId();
 			if (file_exists($plugin_file)) {
-				echo '<div class="plugin-frame plugin-name-'.$plugin->getId().'">';
-				require $plugin_file;
-				echo '</div>';
+				if ($plugin->getHideFrame()) {
+					require $plugin_file;
+				} else {
+					echo '<div class="plugin-frame plugin-name-'.$plugin->getId().'">';
+					require $plugin_file;
+					echo '</div>';
+				}
 			}
 		}
 	}
@@ -114,7 +118,7 @@ if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('softwa
 
 echo '</div>';
 
-if($ajax){
+if ($ajax) {
 	ob_end_clean();
 }
 

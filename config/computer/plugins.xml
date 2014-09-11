@@ -113,6 +113,7 @@
   	<system>1</system>
   	<category>admin</category>
   	<available>accountinfo</available>
+  	<hide_frame>1</hide_frame>
   </plugin>
   <plugin id="cd_comments">
   	<label>g(1128)</label>
@@ -131,6 +132,7 @@
   	<label>g(500)</label>
   	<system>1</system>
   	<category>config</category>
+  	<hide_frame>1</hide_frame>
   </plugin>
   <plugin id="cd_packets">
   	<label>g(512)</label>

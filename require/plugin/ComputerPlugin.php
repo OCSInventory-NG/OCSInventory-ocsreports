@@ -14,6 +14,7 @@ class ComputerPlugin {
 	private $label;
 	private $category;
 	private $available;
+	private $hideFrame;
 	
 	public function __construct($id, $system, $label) {
 		$this->id = $id;
@@ -21,6 +22,7 @@ class ComputerPlugin {
 		$this->label = $label;
 		$this->category = 'other';
 		$this->available = null;
+		$this->hideFrame = false;
 	}
 	
 	public function getId() {
@@ -62,6 +64,16 @@ class ComputerPlugin {
 	public function setAvailable($available) {
 		$this->available = $available;
 	}
+	
+	public function getHideFrame() {
+		return $this->hideFrame;
+	}
+	
+	public function setHideFrame($hideFrame) {
+		$this->hideFrame = $hideFrame;
+		return $this;
+	}
+	
 }
 
 ?>
