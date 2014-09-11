@@ -29,7 +29,7 @@ else{
 			
 		$list_tab=find_all_account_tab('TAB_ACCOUNTAG','COMPUTERS',1);	
 		if ($list_tab != ''){
-			if ($protectedPost['Valid_modif_x'] != ""){
+			if ($protectedPost['Valid_modif'] != ""){
 				
 				if (!isset($protectedPost['onglet']) or $protectedPost['onglet'] == '' or ! is_numeric($protectedPost['onglet']))
 					$protectedPost['onglet'] = $list_tab['FIRST'];
@@ -82,7 +82,7 @@ else{
 				 $protectedPost['onglet'] = $list_tab['FIRST'];
 			unset($list_tab['FIRST']);
 			
-			echo "<br>".open_form($form_name);
+			echo open_form($form_name);
 			if (!$show_all_column){
 				onglet($list_tab,$form_name,"onglet",6);
 				$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER,DEFAULT_VALUE from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
@@ -93,7 +93,7 @@ else{
 								order by SHOW_ORDER ASC";
 				$arg_admin_info=array('COMPUTERS');		
 			}
-			echo '<div class="mlt_bordure" >';
+			echo '<div class="form-frame">';
 			if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' and !$show_all_column){
 				$show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
 				if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
@@ -110,7 +110,7 @@ else{
 			$tab_name=array();
 			$type_field=array();
 			$value_field=array();
-			$config['COMMENT_BEHING']=array();
+			$config['COMMENT_AFTER']=array();
 			$config['SELECT_DEFAULT']=array();
 			$config['JAVASCRIPT']=array();
 			$config['SIZE']=array();
@@ -141,9 +141,9 @@ else{
 						array_push($config['JAVASCRIPT'],'');
 						array_push($config['SIZE'],'');
 						if ($admin_accountinfo)
-							array_push($config['COMMENT_BEHING'],$up_png . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>");
+							array_push($config['COMMENT_AFTER'],$up_png . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>");
 						else
-							array_push($config['COMMENT_BEHING'],'');
+							array_push($config['COMMENT_AFTER'],'');
 						array_push($config['SELECT_DEFAULT'],'YES');
 						$field_select_values=find_value_field("ACCOUNT_VALUE_".$val_admin_info['NAME']);
 						
@@ -179,9 +179,9 @@ else{
 						array_push($value_field,$info_account_id[$name_accountinfo]);
 						if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES"){
 							if ($admin_accountinfo)
-								array_push($config['COMMENT_BEHING'],$up_png . datePick($name_accountinfo));
+								array_push($config['COMMENT_AFTER'],$up_png . datePick($name_accountinfo));
 							else
-								array_push($config['COMMENT_BEHING'],datePick($name_accountinfo));
+								array_push($config['COMMENT_AFTER'],datePick($name_accountinfo));
 							array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick($name_accountinfo));
 							array_push($config['SELECT_DEFAULT'],'');
 							array_push($config['SIZE'],'8');	
@@ -189,9 +189,9 @@ else{
 					}elseif ($val_admin_info['TYPE'] == 5){
 						array_push($value_field,"accountinfo");
 						if ($admin_accountinfo)
-							array_push($config['COMMENT_BEHING'],$up_png);
+							array_push($config['COMMENT_AFTER'],$up_png);
 						else
-							array_push($config['COMMENT_BEHING'],"");
+							array_push($config['COMMENT_AFTER'],"");
 						array_push($config['SELECT_DEFAULT'],'');
 						array_push($config['JAVASCRIPT'],'');
 						array_push($config['SIZE'],'');
@@ -200,9 +200,9 @@ else{
 						array_push($value_field,$info_account_id[$name_accountinfo]);
 						if ($admin_accountinfo){
 							
-							array_push($config['COMMENT_BEHING'],$up_png);
+							array_push($config['COMMENT_AFTER'],$up_png);
 						}else
-							array_push($config['COMMENT_BEHING'],"");
+							array_push($config['COMMENT_AFTER'],"");
 						
 						array_push($config['SELECT_DEFAULT'],"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&default_value=".$val_admin_info['DEFAULT_VALUE']."&systemid=".$protectedGet['systemid']);
 						array_push($config['JAVASCRIPT'],"onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&default_value=".$val_admin_info['DEFAULT_VALUE']."&systemid=".$protectedGet['systemid']."\")");
@@ -212,9 +212,9 @@ else{
 					}else{
 						array_push($value_field,$info_account_id[$name_accountinfo]);
 						if ($admin_accountinfo)
-							array_push($config['COMMENT_BEHING'],$up_png);
+							array_push($config['COMMENT_AFTER'],$up_png);
 						else
-							array_push($config['COMMENT_BEHING'],"");
+							array_push($config['COMMENT_AFTER'],"");
 						array_push($config['SELECT_DEFAULT'],'');
 						array_push($config['JAVASCRIPT'],'');
 						array_push($config['SIZE'],'');
@@ -241,9 +241,14 @@ else{
 				
 				if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') != "YES")
 					$showbutton=false;
-				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton,$form_name='NO_FORM',$show_admin_button);
+				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+					'show_button' => $showbutton,
+					'form_name' => $form_name='NO_FORM',
+					'top_action' => $show_admin_button,
+					'show_frame' => false
+				));
 			
-			echo "</div>"; 
+			echo '</div>';
 			echo close_form();
 		}
 }

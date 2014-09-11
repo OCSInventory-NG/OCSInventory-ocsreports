@@ -116,90 +116,98 @@ function add_user($data_user,$list_profil=''){
 
 
 function admin_user($id_user=''){
-	global $protectedPost,$l,$pages_refs; 
-	if ($id_user!='')
-		$update=3;
-	else
-		$update=0;
-		if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
-			//search all profil type
-			$list_profil=search_profil();
-			$list_groups_result=look_config_default_values("USER_GROUP_%",'LIKE');
-			if (is_array($list_groups_result['name'])){
-				foreach ($list_groups_result['name'] as $key=>$value){
-					$list_groups[$list_groups_result['ivalue'][$key]]=$list_groups_result['tvalue'][$key];
-				}
-			}
-			$name_field=array("ID","ACCESSLVL","USER_GROUP");
-			$tab_name=array($l->g(995).": ",$l->g(66).":",$l->g(607).":");
-			$type_field= array($update,2,2);	
-			
-		}
-		$name_field[]="FIRSTNAME";
-		$name_field[]="LASTNAME";
-		$name_field[]="EMAIL";
-		$name_field[]="COMMENTS";
-		//$name_field[]="USER_GROUP";
+	global $protectedPost,$l,$pages_refs;
+
+	$tab_hidden = array();
+	$list_groups = array();
 	
-		
-		$tab_name[]=$l->g(49).": ";
-		$tab_name[]=$l->g(996).": ";
-		$tab_name[]=$l->g(1117).": ";
-		$tab_name[]=$l->g(51).": ";
-		//$tab_name[]="Groupe de l'utilisateur: ";
-		
-		
-		$type_field[]= 0; 
-		$type_field[]= 0; 
-		$type_field[]= 0; 
-		$type_field[]= 0; 
-		//$type_field[]= 2; 
-		
-		
-		if ($id_user != '' or $_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'NO'){
-			$tab_hidden['MODIF']=$id_user;
-			$sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
-			$arg=$id_user;
-			$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-			$row=mysqli_fetch_object($res);
-			if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
-				$protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
-				$protectedPost['USER_GROUP']=$row->USER_GROUP;
-				$value_field=array($row->ID,$list_profil,$list_groups);
+	if ($id_user!='') {
+		$update=3;
+	} else {
+		$update=0;
+	}
+	
+	if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES') {
+		//search all profil type
+		$list_profil=search_profil();
+		$list_groups_result=look_config_default_values("USER_GROUP_%",'LIKE');
+		if (is_array($list_groups_result['name'])){
+			foreach ($list_groups_result['name'] as $key=>$value){
+				$list_groups[$list_groups_result['ivalue'][$key]]=$list_groups_result['tvalue'][$key];
 			}
-			$value_field[]=$row->FIRSTNAME;
-			$value_field[]=$row->LASTNAME;
-			$value_field[]=$row->EMAIL;
-			$value_field[]=$row->COMMENTS;
-		}else{
-			if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
-				$value_field=array($protectedPost['ID'],$list_profil,$list_groups);
-			}
-			$value_field[]=$protectedPost['FIRSTNAME'];
-			$value_field[]=$protectedPost['LASTNAME'];
-			$value_field[]=$protectedPost['EMAIL'];
-			$value_field[]=$protectedPost['COMMENTS'];				
 		}
-		if ($_SESSION['OCS']['cnx_origine'] == "LOCAL"){
-			$name_field[]="PASSWORD";
-			$type_field[]=0;
-			$tab_name[]=$l->g(217).":";
-			$value_field[]=$protectedPost['PASSWORD'];
+		$name_field=array("ID","ACCESSLVL","USER_GROUP");
+		$tab_name=array($l->g(995)." :", $l->g(66)." :", $l->g(607)." :");
+		$type_field= array($update,2,2);
+	}
+	
+	$name_field[]="FIRSTNAME";
+	$name_field[]="LASTNAME";
+	$name_field[]="EMAIL";
+	$name_field[]="COMMENTS";
+	//$name_field[]="USER_GROUP";
+
+	
+	$tab_name[]=$l->g(1366)." :";
+	$tab_name[]=$l->g(996)." :";
+	$tab_name[]=$l->g(1117)." :";
+	$tab_name[]=$l->g(51)." :";
+	//$tab_name[]="Groupe de l'utilisateur: ";
+	
+	
+	$type_field[]= 0; 
+	$type_field[]= 0; 
+	$type_field[]= 0; 
+	$type_field[]= 0; 
+	//$type_field[]= 2; 
+	
+	if ($id_user != '' or $_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'NO'){
+		$tab_hidden['MODIF']=$id_user;
+		$sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
+		$arg=$id_user;
+		$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+		$row=mysqli_fetch_object($res);
+		if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
+			$protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
+			$protectedPost['USER_GROUP']=$row->USER_GROUP;
+			$value_field=array($row->ID,$list_profil,$list_groups);
 		}
-		$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-		foreach ($tab_typ_champ as $id=>$values){
-			$tab_typ_champ[$id]['CONFIG']['SIZE']=40;
+		$value_field[]=$row->FIRSTNAME;
+		$value_field[]=$row->LASTNAME;
+		$value_field[]=$row->EMAIL;
+		$value_field[]=$row->COMMENTS;
+	}else{
+		if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
+			$value_field=array($protectedPost['ID'],$list_profil,$list_groups);
 		}
-		if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_USER_GROUP') == 'YES'){
-			$tab_typ_champ[2]["CONFIG"]['DEFAULT']="YES";
-		//	$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
-			$tab_typ_champ[2]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
-		}
-		
-		if (isset($tab_typ_champ)){
-			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);
-		}	
-		
+		$value_field[]=$protectedPost['FIRSTNAME'];
+		$value_field[]=$protectedPost['LASTNAME'];
+		$value_field[]=$protectedPost['EMAIL'];
+		$value_field[]=$protectedPost['COMMENTS'];				
+	}
+	if ($_SESSION['OCS']['cnx_origine'] == "LOCAL"){
+		$name_field[]="PASSWORD";
+		$type_field[]=0;
+		$tab_name[]=$l->g(217)." :";
+		$value_field[]=$protectedPost['PASSWORD'];
+	}
+	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
+	foreach ($tab_typ_champ as $id=>$values){
+		$tab_typ_champ[$id]['CONFIG']['SIZE']=40;
+	}
+	if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_USER_GROUP') == 'YES'){
+		$tab_typ_champ[2]["CONFIG"]['DEFAULT']="YES";
+	//	$tab_typ_champ[1]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+		$tab_typ_champ[2]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+	}
+	
+	if (isset($tab_typ_champ)) {
+		tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+			'title' => ($update == 3 ? $l->g(1365) : null),
+			'form_name' => 'my_account',
+			'show_frame' => ($update == 3)
+		));
+	}	
 }
 
 function admin_profil($form){
@@ -237,7 +245,7 @@ function admin_profil($form){
 					   'RESTRICTION'=>$l->g(1175),
 					   'ADMIN_BLACKLIST'=>$l->g(1176),
 					   'CONFIGURATION'=>$l->g(1177));
-	if ($protectedPost['Valid_modif_profil_x']){
+	if ($protectedPost['Valid_modif_profil']){
 		//read profil file
 		$forprofil=read_profil_file($protectedPost['PROFILS']);
 		//read all profil value
@@ -300,7 +308,9 @@ function admin_profil($form){
 						}				
 				}
 				$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif_profil");	
+				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+					'button_name' => 'modif_profil'
+				));
 				
 			}elseif ($protectedPost['cat'] == 'PAGE_PROFIL'){
 				$champs="<table align=center><tr><td align=center>";
@@ -318,7 +328,9 @@ function admin_profil($form){
 					}
 				}
 				$champs.="</td></tr></table>";		
-				tab_modif_values($champs,'','','','',$name_button="modif_profil");		
+				tab_modif_values($champs,array(),array(), array(
+					'button_name' => 'modif_profil'
+				));
 			}
 		}		
 	}

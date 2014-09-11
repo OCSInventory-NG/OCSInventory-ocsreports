@@ -95,7 +95,7 @@ else
 
 
 //update values if user want modify groups' values
-if ($protectedPost['Valid_modif_x'] and !isset($protectedPost['modif']))
+if ($protectedPost['Valid_modif'] and !isset($protectedPost['modif']))
 {
 	if (trim($protectedPost['NAME'])!= '' and trim($protectedPost['DESCR'])!=''){
 		$req = "UPDATE hardware SET ".	

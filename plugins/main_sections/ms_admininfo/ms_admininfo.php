@@ -45,7 +45,7 @@ $data_on[2]=$l->g(1060);
 //$yes_no=array($l->g(454),$l->g(455));
 if (isset($protectedPost['MODIF']) 
 	and is_numeric($protectedPost['MODIF']) 
-	and !isset($protectedPost['Valid_modif_x'])){
+	and !isset($protectedPost['Valid_modif'])){
 	 $protectedPost['onglet'] = 2;
 	 $accountinfo_detail= find_info_accountinfo($protectedPost['MODIF']);
 	 $protectedPost['newfield']=$accountinfo_detail[$protectedPost['MODIF']]['name'];
@@ -59,7 +59,7 @@ if (isset($protectedPost['MODIF'])
 
 if (isset($protectedPost['MODIF_OLD']) 
 		and is_numeric($protectedPost['MODIF_OLD']) 
-		and $protectedPost['Valid_modif_x'] != ""){
+		and $protectedPost['Valid_modif'] != ""){
 		//UPDATE VALUE
 		$msg=update_accountinfo($protectedPost['MODIF_OLD'],
 								array('TYPE'=>$protectedPost['newtype'],
@@ -68,7 +68,7 @@ if (isset($protectedPost['MODIF_OLD'])
 								 	  'ID_TAB'=>$protectedPost['account_tab'],
 									  'DEFAULT_VALUE'=>$protectedPost['default_value']),$protectedPost['accountinfo']);
 		$hidden=$protectedPost['MODIF_OLD'];		
-	}elseif( $protectedPost['Valid_modif_x'] != "" ) {
+	}elseif( $protectedPost['Valid_modif'] != "" ) {
 	//ADD NEW VALUE	
 		$msg=add_accountinfo($protectedPost['newfield'],
 						$protectedPost['newtype'],
@@ -204,10 +204,13 @@ if ($protectedPost['onglet'] == 1){
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 	$tab_typ_champ[1]['CONFIG']['SIZE']=30;
 	$tab_typ_champ[2]['CONFIG']['SIZE']=30;
-	$tab_typ_champ[4]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=".$account_field."&form=".$form_name."\",\"".$account_field."\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+	$tab_typ_champ[4]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=".$account_field."&form=".$form_name."\",\"".$account_field."\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 	$tab_typ_champ[0]['RELOAD']=$form_name;
 	$tab_typ_champ[3]['RELOAD']=$form_name;
-	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
+	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+		'form_name' => 'NO_FORM',
+		'show_frame' => false
+	));
 }
 echo "</div>"; 
 echo close_form();

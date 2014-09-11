@@ -37,7 +37,7 @@ if (!isset($info_id['ERROR'])){
 		}	
 	}
 	
-	if (isset($protectedPost['Valid_modif_x']) and $protectedPost['Valid_modif_x'] != ''){
+	if (isset($protectedPost['Valid_modif']) and $protectedPost['Valid_modif'] != ''){
 		$error ="";
 		
 		$opensslOk = function_exists("openssl_open");
@@ -80,7 +80,7 @@ if (!isset($info_id['ERROR'])){
 					
 	}	
 	
-	if ($error == "" and isset($protectedPost['Valid_modif_x']) or isset($protectedPost['YES'])){
+	if ($error == "" and isset($protectedPost['Valid_modif']) or isset($protectedPost['YES'])){
 		if ($protectedPost['choix_activ'] == "MAN"){
 			activ_pack($protectedGet["active"],$protectedPost["HTTPS_SERV"],$protectedPost['FILE_SERV']);
 		}
@@ -126,14 +126,16 @@ if (!isset($info_id['ERROR'])){
 			foreach ($tab_typ_champ as $id=>$values){
 						$tab_typ_champ[$id]['CONFIG']['SIZE']=30;
 						if ($tab_typ_champ[$id]['INPUT_TYPE'] == 0){
-							$tab_typ_champ[$id]['COMMENT_BEHING']='/'.$protectedGet["active"];
+							$tab_typ_champ[$id]['COMMENT_AFTER']='/'.$protectedGet["active"];
 							if ($id == 0)
 								$tab_typ_champ[$id]['COMMENT_BEFORE']='http://';
 							else
 								$tab_typ_champ[$id]['COMMENT_BEFORE']='https://';
 						}
 			}		
-			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$l->g(465).' => '.$info_id['NAME']." (".$protectedGet["active"].")");
+			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
+				'title' => $l->g(465).' => '.$info_id['NAME']." (".$protectedGet["active"].")"
+			));
 		}
 	}
 	//fermeture du formulaire.

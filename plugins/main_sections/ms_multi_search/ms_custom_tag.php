@@ -18,7 +18,7 @@ echo "<div align=center>";
 $list_id=multi_lot($form_name,$l->g(601));
 if (isset($list_id) and $list_id != ''){
 	//cas of TAG INFO
-	if (isset($protectedPost['Valid_modif_x']) and $protectedPost['Valid_modif_x'] != ''){
+	if (isset($protectedPost['Valid_modif']) and $protectedPost['Valid_modif'] != ''){
 		$info_account_id=admininfo_computer();
 	
 		foreach ($protectedPost as $field=>$value){
@@ -110,7 +110,7 @@ if (isset($list_id) and $list_id != ''){
 						if ($field_of_accountinfo['LIST_TYPE'][$id] == 6){
 							$tab_typ_champ[$i]['CONFIG']['MAXLENGTH']=10;
 							$tab_typ_champ[$i]['CONFIG']['SIZE']=10;
-							$tab_typ_champ[$i]['COMMENT_BEHING']=calendars($truename,"DDMMYYYY")."</a></td><td><input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
+							$tab_typ_champ[$i]['COMMENT_AFTER']=calendars($truename,"DDMMYYYY")."</a></td><td><input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
 						}elseif (in_array($field_of_accountinfo['LIST_TYPE'][$id],array(2,4,7))){
 							$sql="select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_%s' order by 2";
 							$arg= $field_of_accountinfo['LIST_NAME'][$id]."%";
@@ -119,11 +119,11 @@ if (isset($list_id) and $list_id != ''){
 								$tab_typ_champ[$i]['DEFAULT_VALUE'][$val['ID']]=$val['NAME'];
 								
 							}
-							$tab_typ_champ[$i]['COMMENT_BEHING']="</td><td><input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
+							$tab_typ_champ[$i]['COMMENT_AFTER']="</td><td><input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
 							
 							
 						}else{
-							$tab_typ_champ[$i]['COMMENT_BEHING']="</td><td><input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
+							$tab_typ_champ[$i]['COMMENT_AFTER']="</td><td><input type='checkbox' name='check".$truename."' id='check".$truename."' ".(isset($protectedPost['check'.$truename])? " checked ": "").">";
 							$tab_typ_champ[$i]['CONFIG']['MAXLENGTH']=100;
 							$tab_typ_champ[$i]['CONFIG']['SIZE']=30;
 							
@@ -137,7 +137,9 @@ if (isset($list_id) and $list_id != ''){
 							$i++;
 					}
 				}
-				tab_modif_values($tab_name,$tab_typ_champ,array('TAG_MODIF'=>$protectedPost['MODIF'],'FIELD_FORMAT'=>$type_field[$protectedPost['MODIF']]),$l->g(895),"");
+				tab_modif_values($tab_name,$tab_typ_champ,array('TAG_MODIF'=>$protectedPost['MODIF'],'FIELD_FORMAT'=>$type_field[$protectedPost['MODIF']]),array(
+					'title' => $l->g(895)
+				));
 				
 			}elseif ($protectedPost['onglet']=="SUP_PACK"){
 				echo "<div class='mvt_bordure'>";			

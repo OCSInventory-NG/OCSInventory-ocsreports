@@ -81,7 +81,7 @@ if ($data_tab['DATA'] != array()){
 				delete($protectedPost['SUP_PROF']);	
 			}
 			
-			if (isset($protectedPost["Valid_modif_x"]) and $protectedPost["Valid_modif_x"] != ''){
+			if (isset($protectedPost["Valid_modif"]) and $protectedPost["Valid_modif"] != '') {
 				$sql_msg="select name from config where name like '%s'";
 				$arg="GUI_REPORT_MSG%";
 				$result_msg = mysql2_query_secure($sql_msg,$_SESSION['OCS']["readServer"],$arg);
@@ -94,22 +94,25 @@ if ($data_tab['DATA'] != array()){
 						if ($v == $i)
 						$i++;			
 					}
-				}else
-				$i=1;
+				} else {
+					$i=1;
+				}
+				
 				$tab_options=$protectedPost;
-				$tab_options['form_name']=$form_name;
+				
 				if (trim($protectedPost['GROUP']) != "" and is_numeric($protectedPost['GROUP']) and trim($protectedPost['MESSAGE'])!=""){
 					$sql="insert into config (NAME,IVALUE,TVALUE) values ('%s',%s,'%s')";
 					$arg=array("GUI_REPORT_MSG".$i,$protectedPost['GROUP'],$protectedPost['MESSAGE']);
 					mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg );
 					$tab_options['CACHE']='RESET';
-				}else
+				} else {
 					msg_error($l->g(239));
-						
-					}
+				}
+			}
 		
 			$table_name=$protectedPost['onglet'];
-			$tab_options['table_name']=$table_name;			
+			$tab_options['table_name']=$table_name;
+			$tab_options['form_name']=$form_name;	
 			$list_fields=array('GROUP_NAME'=>'h.NAME', 
 							   $l->g(915) => 'tvalue',
 							   'SUP'=>'CNAME');

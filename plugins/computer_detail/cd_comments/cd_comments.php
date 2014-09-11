@@ -53,7 +53,7 @@ else{
 		$tab_options['CACHE']='RESET';
 	}
 	
-	if ($protectedPost['Valid_modif_x'] != '' and isset($protectedPost['Valid_modif_x'])){
+	if ($protectedPost['Valid_modif'] != '' and isset($protectedPost['Valid_modif'])){
 		
 		//ajout de note
 		if (trim($protectedPost['NOTE']) != '' and isset($protectedPost['NOTE'])){
@@ -91,7 +91,7 @@ else{
 		$tab_typ_champ[2]['INPUT_TYPE']=3;
 		$tab_typ_champ[3]['INPUT_NAME']='NOTE';
 		$tab_typ_champ[3]['INPUT_TYPE']=1;
-	    tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment);		
+	    tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);		
 	}
 	
 	$queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE (visible is null or visible =1) and hardware_id=$systemid";
@@ -132,7 +132,7 @@ else{
 		$tab_hidden['USER_INSERT']=$item['USER_INSERT'];
 		$tab_hidden['ID_MODIF']=$protectedPost['MODIF'];
 		$tab_hidden['OLD_COMMENTS']=$item['COMMENTS'];
-	    tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment);
+	    tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);
 	
 	}
 	echo close_form();

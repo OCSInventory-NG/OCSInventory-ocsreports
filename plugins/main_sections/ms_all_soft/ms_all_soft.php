@@ -131,7 +131,7 @@ $table_name="all_soft";
 echo open_form($form_name);
 
 onglet($_SESSION['OCS']['ONGLET_SOFT'],$form_name,"onglet",20);
-echo '<div class="mlt_bordure" >';
+echo '<div class="form-frame" >';
 if ((isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != "") or
 	((isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "")))
 	msg_warning($l->g(767));
@@ -266,7 +266,7 @@ if (isset($sql)){
 	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 }
 
-echo "<br><div class='mvt_bordure'>";
+echo "<br>";
 
 echo "<b>".$l->g(735)."</b><br><br>";
 echo $l->g(382).": ".show_modif($protectedPost['NAME_RESTRICT'],'NAME_RESTRICT',0);
@@ -278,7 +278,6 @@ if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protecte
 echo "<br><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8")."&all_computers=yes'>".$l->g(912)."</a><br>";
 echo "<br><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'>";
 
-echo '</div>';
 echo '</div>';
 echo close_form();
 

@@ -68,7 +68,7 @@ if ($protectedPost['onglet'] == 1){
 	}
 	
 	}elseif ($protectedPost['onglet'] == 2){
-	if( $protectedPost['Valid_modif_x'] != "" ) {
+	if( $protectedPost['Valid_modif'] != "" ) {
 		//vérification que le nom du champ n'existe pas pour les nouveaux champs
 			if (trim($protectedPost['newfield']) != ''){
 				$sql_verif="SELECT count(*) c FROM config WHERE TVALUE = '".$protectedPost['newfield']."' and NAME like 'USER_GROUP%'";
@@ -105,7 +105,9 @@ if ($protectedPost['onglet'] == 1){
 	$value_field=array($protectedPost['newfield']);
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 	$tab_typ_champ[0]['CONFIG']['SIZE']=20;
-	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
+	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+		'form_name' => 'NO_FORM'
+	));
 }
 
 

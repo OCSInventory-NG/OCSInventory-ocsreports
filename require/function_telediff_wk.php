@@ -608,7 +608,7 @@ function dde_form($form_name){
 			if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES'){
 				if (isset($add_values_admin[$protectedPost['cat']])){
 					foreach($add_values_admin[$protectedPost['cat']] as $key=>$value)
-						$tab_typ_champ[$value]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&value=".$value."&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+						$tab_typ_champ[$value]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&value=".$value."&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 				}				
 			}	
 		}else 
@@ -621,7 +621,10 @@ function dde_form($form_name){
 		if (isset($tab_typ_champ)){
 			//print_r($name_field);
 			$tab_hidden= hidden($protectedPost,$name_field[$protectedPost['cat']]);
-			tab_modif_values($tab_name[$protectedPost['cat']],$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=false,'NO_FORM');
+			tab_modif_values($tab_name[$protectedPost['cat']],$tab_typ_champ,$tab_hidden, array(
+				'form_name' => 'NO_FORM',
+				'show_button' => false
+			));
 			
 			if (isset($protectedPost['OLD_MODIF']))
 			$lbl=$l->g(115);
@@ -663,7 +666,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES'){
 				pageTELEDIFF_WK($form_name);
 			if ($protectedPost['conf']=="GUI"){
 				//mise a jour des données demandée par l'utilisateur
-				if( $protectedPost['Valid_fields_x'] != "" ) {
+				if( $protectedPost['Valid_fields'] != "" ) {
 					//si la mise a jour est limitée à certain champs
 					if (isset($protectedPost['DEFAULT_FIELD'])){
 						$fields=explode(',',$protectedPost['DEFAULT_FIELD']);					
@@ -732,12 +735,15 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES'){
 					array_push($value_field,$List_fields);
 				}
 				$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-				$tab_typ_champ[0]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=tab&value=TAB&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+				$tab_typ_champ[0]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=tab&value=TAB&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 				$tab_typ_champ[0]['RELOAD']=$form_name;
 				$tab_typ_champ[1]['RELOAD']=$form_name;
-				$tab_typ_champ[1]['COMMENT_BEHING']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=fields&value=".$protectedPost['TAB']."&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=700,height=650\")><img src=image/plus.png></a>";
+				$tab_typ_champ[1]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=fields&value=".$protectedPost['TAB']."&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=700,height=650\")><img src=image/plus.png></a>";
 				
-				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=false,$form_name='NO_FORM');
+				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+					'form_name' => 'NO_FORM',
+					'show_button' => false
+				));
 				if (isset($protectedPost['FIELDS']) and $protectedPost['FIELDS'] != 0){
 					echo "<br>";
 					$sql_status="SELECT id,lbl FROM downloadwk_statut_request";
@@ -803,13 +809,16 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES'){
 						}						
 						
 						$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-						tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="",$name_button="fields",$showbutton=true,$form_name='NO_FORM');
+						tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+							'title' => $title,
+							'form_name' => 'NO_FORM'
+						));
 				
 					}
 				}
 			}elseif($protectedPost['conf']=="STATUS"){
 				//mise à jour des valeurs de statuts
-				if ($protectedPost['Valid_fields_x'] != ''){
+				if ($protectedPost['Valid_fields'] != ''){
 					if (trim ($protectedPost['lbl']) != ''){
 							$sql_update="UPDATE downloadwk_statut_request
 										set LBL='%s' ,  ACTIF='%s'
@@ -856,7 +865,11 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES'){
 					
 					$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 					$tab_typ_champ[0]['RELOAD']=$form_name;
-					tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="",$name_button="fields",$showbutton,$form_name='NO_FORM');
+					tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+						'title' => $title,
+						'show_button' => $showbutton,
+						'form_name' => 'NO_FORM'
+					));
 								
 			}
 		}	

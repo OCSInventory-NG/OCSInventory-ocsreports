@@ -1273,8 +1273,8 @@ asort($optArray_trait);
 $protectedPost['multiSearch']=$l->g(32);
 $aff_field_search= $l->g(31).": ".show_modif($optArray_trait,'multiSearch',2,$form_name,array('DEFAULT'=>'NO'));
 $aff_field_search.="<img src='image/delete_all.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."' style='margin-left:20px'>";
-echo "<table border=1 class='mlt_bordure'  WIDTH = '75%' ALIGN = 'Center' CELLPADDING='5'>";
-echo "<tr><td colspan=100 align=center bgcolor='#FFFFFF'>".$aff_field_search."</td></tr>";
+echo "<div class='mlt_bordure'>";
+echo "<div class='field'>".$aff_field_search."</div>";
 
 if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] != null){
 	
@@ -1289,16 +1289,15 @@ if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] !
 		show_ligne($v,$color,$k,$ajout,$form_name);
 		$c++;
 	}
-	echo "<tr><td colspan=100 align=right><input type='submit' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'></td></tr>";
+	echo "<div class='form-buttons'><input type='submit' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'></div>";
 	echo "<input type=hidden name='Valid' id='Valid' value=''>";
 }
-	echo "</table>";
+
 echo "<input type=hidden name=delfield id=delfield value=''>";
 echo "<input type=hidden name='reset' id='reset' value=''>";
-echo "</td></tr></table>";
+echo "</div>";
 echo close_form();
 echo $l->g(358);
-echo "<br>";
 
 
 

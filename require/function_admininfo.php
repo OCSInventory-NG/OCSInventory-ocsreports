@@ -481,7 +481,7 @@ function show_accountinfo($id='',$type='',$exclu_type =''){
 								 'type_field'=> $type_field,
 								 'value_field'=>$value_field),
 				'CONFIG'=>$config,
-				'COMMENT_BEHING'=>$comment_behing);
+				'COMMENT_AFTER'=>$comment_behing);
 	
 	
 }

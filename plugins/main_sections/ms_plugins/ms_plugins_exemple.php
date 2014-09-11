@@ -91,7 +91,7 @@ if (!$showit){
 	}
 	elseif($protectedPost["onglet"] == 'NB_BY_LICENCES'){
  
-		if(isset($protectedPost["Valid_modif_x"]) and $protectedPost["Valid_modif_x"] != ''){
+		if(isset($protectedPost["Valid_modif"]) and $protectedPost["Valid_modif"] != ''){
 			if (isset($protectedPost["nb_total"]) and is_numeric($protectedPost["nb_total"])){
 				$val=look_config_default_values('PLUGIN_MS_OFF%',1);
 				$insert=true;	
@@ -130,7 +130,10 @@ if (!$showit){
 			$config['JAVASCRIPT'][0]=$chiffres;
 			$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 			$tab_typ_champ[0]['CONFIG']['SIZE']=20;
-			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="",$name_button="modif",$showbutton);
+			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
+				'title' => $title,
+				'show_button' => $showbutton
+			));
  
  
 		}else{

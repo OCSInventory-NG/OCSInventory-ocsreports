@@ -111,7 +111,7 @@ if ($protectedPost['onglet'] == 1){
 			
 		$name_field=array("new_profil","lbl_profil","ref_profil");
 		$tab_name=array($l->g(1149).": ",$l->g(1151).": ",$l->g(1150).": ");
-		if (isset($protectedPost['Valid_modif_x'])){
+		if (isset($protectedPost['Valid_modif'])){
 			$msg="";
 			if(preg_match('/[^0-9A-Za-z]/',$protectedPost['new_profil'])){
 //				$msg .= $l->g(1178).': <i>' . $tab_name[0] . "</i> " . $l->g(1179) . " <br>";
@@ -147,7 +147,10 @@ if ($protectedPost['onglet'] == 1){
 		$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 		$tab_typ_champ[0]['CONFIG']['SIZE']=20;
 		$tab_typ_champ[1]['CONFIG']['SIZE']=20;
-		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="",$name_button="modif",$showbutton);
+		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
+			'title' => $title,
+			'show_button' => $showbutton
+		));
 	}
 	
 

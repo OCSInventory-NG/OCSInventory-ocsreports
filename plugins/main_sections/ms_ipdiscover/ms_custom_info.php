@@ -39,7 +39,7 @@ if(isset($protectedPost['SUP_PROF'])){
 	unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_'.$protectedGet['prov']]);	
 }
 //identification d'une adresse mac
-if (isset($protectedPost['Valid_modif_x'])){
+if (isset($protectedPost['Valid_modif'])){
 	if (trim($protectedPost['COMMENT']) == "")
 	$ERROR= $l->g(942);
 	if (trim($protectedPost['TYPE']) == "")
@@ -125,7 +125,9 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	$tab_hidden['mac']=$protectedPost['MODIF'];	
 	if (isset($ERROR))
 		msg_error($ERROR);
-	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
+	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
+		'title' => $title
+	));	
 }
 else{ //affichage des p�riph�riques
 	if (!(isset($protectedPost["pcparpage"])))

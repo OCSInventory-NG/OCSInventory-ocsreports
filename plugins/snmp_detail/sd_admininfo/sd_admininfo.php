@@ -25,7 +25,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' and isse
 	
 $list_tab=find_all_account_tab('TAB_ACCOUNTSNMP','SNMP',1);	
 if ($list_tab != ''){
-	if ($protectedPost['Valid_modif_x'] != ""){
+	if ($protectedPost['Valid_modif'] != ""){
 		foreach ($protectedPost as $field=>$value){
 			$temp_field=explode('_',$field);
 			if (array_key_exists( $temp_field[0] . '_' . $temp_field[1],$info_account_id) or $temp_field[0] == 'TAG'){
@@ -85,7 +85,7 @@ if ($list_tab != ''){
 	$tab_name=array();
 	$type_field=array();
 	$value_field=array();
-	$config['COMMENT_BEHING']=array();
+	$config['COMMENT_AFTER']=array();
 	$config['SELECT_DEFAULT']=array();
 	$config['JAVASCRIPT']=array();
 	$config['SIZE']=array();
@@ -116,9 +116,9 @@ if ($list_tab != ''){
 				array_push($config['JAVASCRIPT'],'');
 				array_push($config['SIZE'],'');
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_BEHING'],$up_png . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_SNMP_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_SNMP_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>");
+					array_push($config['COMMENT_AFTER'],$up_png . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_SNMP_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_SNMP_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>");
 				else
-					array_push($config['COMMENT_BEHING'],'');
+					array_push($config['COMMENT_AFTER'],'');
 				array_push($config['SELECT_DEFAULT'],'YES');
 				$field_select_values=find_value_field("ACCOUNT_SNMP_VALUE_".$val_admin_info['NAME']);
 				array_push($value_field,$field_select_values);
@@ -137,18 +137,18 @@ if ($list_tab != ''){
 			}elseif ($val_admin_info['TYPE'] == 6){	
 				array_push($value_field,$info_account_id[$name_accountinfo]);
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_BEHING'],$up_png . datePick($name_accountinfo));
+					array_push($config['COMMENT_AFTER'],$up_png . datePick($name_accountinfo));
 				else
-					array_push($config['COMMENT_BEHING'],datePick($name_accountinfo));
+					array_push($config['COMMENT_AFTER'],datePick($name_accountinfo));
 				array_push($config['JAVASCRIPT'],"READONLY ".dateOnClick($name_accountinfo));
 				array_push($config['SELECT_DEFAULT'],'');
 				array_push($config['SIZE'],'8');	
 			}elseif ($val_admin_info['TYPE'] == 5){
 				array_push($value_field,"accountinfo");
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_BEHING'],$up_png);
+					array_push($config['COMMENT_AFTER'],$up_png);
 				else
-					array_push($config['COMMENT_BEHING'],"");
+					array_push($config['COMMENT_AFTER'],"");
 				array_push($config['SELECT_DEFAULT'],'');
 				array_push($config['JAVASCRIPT'],'');
 				array_push($config['SIZE'],'');
@@ -157,9 +157,9 @@ if ($list_tab != ''){
 			}else{
 				array_push($value_field,$info_account_id[$name_accountinfo]);
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_BEHING'],$up_png);
+					array_push($config['COMMENT_AFTER'],$up_png);
 				else
-					array_push($config['COMMENT_BEHING'],"");
+					array_push($config['COMMENT_AFTER'],"");
 				array_push($config['SELECT_DEFAULT'],'');
 				array_push($config['JAVASCRIPT'],'');
 				array_push($config['SIZE'],'');
@@ -181,7 +181,10 @@ if ($list_tab != ''){
 			$tab_hidden=array('ADMIN'=>'','UP'=>'','DOWN'=>'');
 		//echo "<input type='hidden' name='ADMIN' id='ADMIN' value=''>";
 		
-		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM',$show_admin_button);
+		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+			'form_name' => 'NO_FORM',
+			'top_action' => $show_admin_button
+		));
 	
 	echo "</div>"; 
 	echo close_form();

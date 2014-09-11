@@ -99,9 +99,11 @@ if($login_successful == "OK" and isset($login_successful)) {
 		}
 		
 		if (isset($tab_typ_champ)){
-			$css='mlt_bordure';
-			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="CNX",$showbutton='BUTTON',$form_name);
-		}	
+			tab_modif_values($tab_name, $tab_typ_champ, array(), array(
+				'button_name' => 'CNX',
+				'show_button' => 'BUTTON'
+			));
+		}
 		require_once(FOOTER_HTML);
 		die();
 	}else{

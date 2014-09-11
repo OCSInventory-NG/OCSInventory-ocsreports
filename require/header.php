@@ -284,7 +284,7 @@ if (isset($protectedPost['TABLE_NAME']) and
 
 /********************************************************GESTION DE LA LANGUE PAR COOKIES**********************************************/
 /*****************************************************Gestion des fichiers de langues  TEST*************************************/
-if (isset($protectedPost['Valid_EDITION_x'])){
+if (isset($protectedPost['Valid_EDITION'])){
 	if ($protectedPost['ID_WORD'] != ''){
 		if ($protectedPost['ACTION'] == "DEL"){
 			unset($_SESSION['OCS']['LANGUAGE_FILE']->tableauMots[$protectedPost['ID_WORD']]);
@@ -426,7 +426,7 @@ $url_name = $urls->getUrlName($protectedGet[PAG_INDEX]);
 //VERIF ACCESS TO THIS PAGE
 if (isset($protectedGet[PAG_INDEX])
 	and !$profile->hasPage($url_name)
-	and !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES'])
+	and (!$_SESSION['OCS']['TRUE_PAGES'] or !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES']))
 	//force access to profils witch have CONFIGURATION TELEDIFF  == 'YES' for ms_admin_ipdiscover page
 	and !($profile->getConfigValue('TELEDIFF') == 'YES' and $url_name == 'ms_admin_ipdiscover')){
 		msg_error("ACCESS DENIED");

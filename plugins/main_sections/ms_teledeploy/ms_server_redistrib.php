@@ -35,7 +35,7 @@ if($_POST["supp"]){
 }
 
 //Modif server's machine
-if (isset($_POST['Valid_modif_x']) and isset($_POST['modif']) and $_POST['modif'] != ""){
+if (isset($_POST['Valid_modif']) and isset($_POST['modif']) and $_POST['modif'] != ""){
 	$default_values=look_config_default_values(array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT'));
 	if (trim($_POST['URL']) == "")
 	$_POST['URL']=$default_values['tvalue']['DOWNLOAD_SERVER_URI'];
@@ -125,13 +125,13 @@ if (isset($systemid))
 	echo "</table>";
 	echo close_form();
 	//detail of group's machin
-	if ($_POST['modif']!=""  and !isset($_POST['Valid_modif_x']) and !isset($_POST['Reset_modif_x']))
+	if ($_POST['modif']!=""  and !isset($_POST['Valid_modif']) and !isset($_POST['Reset_modif']))
 	{
 		$tab_name[1]=$l->g(646).": ";
 		$tab_name[2]=$l->g(648).": ";
 		$tab_typ_champ[1]['DEFAULT_VALUE']=substr($data2[$_POST['modif']]['URL'],7);
 		$tab_typ_champ[1]['COMMENT_BEFORE']="<b>http://</b>";
-		$tab_typ_champ[1]['COMMENT_BEHING']="<small>".$l->g(691)."</small>";
+		$tab_typ_champ[1]['COMMENT_AFTER']="<small>".$l->g(691)."</small>";
 		$tab_typ_champ[1]['INPUT_NAME']="URL";
 		$tab_typ_champ[1]['INPUT_TYPE']=0;
 		$tab_typ_champ[2]['DEFAULT_VALUE']=$data2[$_POST['modif']]['REP_STORE'];
@@ -148,7 +148,10 @@ if (isset($systemid))
 		else
 			$title= $l->g(693)." ".$data2[$_POST['modif']]['NAME'];
 	        $comment=$l->g(694);
-	        tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment);
+	        tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
+	        	'title' => $title,
+	        	'comment' => $comment
+	        ));
 		
 	}
 	

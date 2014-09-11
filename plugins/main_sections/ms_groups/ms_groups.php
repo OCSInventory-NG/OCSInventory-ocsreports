@@ -28,7 +28,7 @@ else{
 require_once('require/function_groups.php');
 require_once('require/function_computers.php');
 //ADD new static group
-if($protectedPost['Valid_modif_x']){
+if($protectedPost['Valid_modif']){
 	$result=creat_group ($protectedPost['NAME'],$protectedPost['DESCR'],'','','STATIC');
 	if ($result['RESULT'] == "ERROR"){
 		msg_error($result['LBL']);
@@ -40,7 +40,7 @@ if($protectedPost['Valid_modif_x']){
 	$tab_options['CACHE']='RESET';
 }
 //reset add static group
-if ($protectedPost['Reset_modif_x'] or ($protectedPost['onglet'] != $protectedPost['old_onglet'])) 
+if ($protectedPost['Reset_modif'] or ($protectedPost['onglet'] != $protectedPost['old_onglet'])) 
  unset($protectedPost['add_static_group']); 
 $tab_options=$protectedPost;
 //view only your computers
@@ -185,7 +185,10 @@ if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['profile']->g
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 	$tab_typ_champ[0]['CONFIG']['SIZE']=20;
 	$tab_hidden['add_static_group']='add_static_group';
-	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
+	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+		'form_name' => 'NO_FORM',
+		'show_frame' => false
+	));
 }
 echo '</div>';
 //fermeture du formulaire

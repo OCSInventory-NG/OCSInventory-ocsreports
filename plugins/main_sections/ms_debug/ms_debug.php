@@ -39,15 +39,17 @@ if ($protectedPost['MODE'] == 5 and $list_mode[$protectedPost['MODE']] == 'FUSER
 	$tab_typ_champ[1]['INPUT_TYPE']=0;
 	$tab_name[1]=$l->g(926)." ";	
 }
-tab_modif_values($tab_name,$tab_typ_champ,'',$l->g(1015),$comment="");
+tab_modif_values($tab_name,$tab_typ_champ,'',array(
+	'title' => $l->g(1015)
+));
 
 
-if (isset($protectedPost['Reset_modif_x'])){
+if (isset($protectedPost['Reset_modif'])){
 	reloadform_closeme('',true);
 }
 
 //passage en mode
-if (isset($protectedPost['Valid_modif_x']) and $protectedPost["MODE"] != ""){
+if (isset($protectedPost['Valid_modif']) and $protectedPost["MODE"] != ""){
 	AddLog("MODE",$list_mode[$protectedPost["MODE"]]);
 	if ($protectedPost["MODE"] == 1){		
 		unset($_SESSION['OCS']['DEBUG'],

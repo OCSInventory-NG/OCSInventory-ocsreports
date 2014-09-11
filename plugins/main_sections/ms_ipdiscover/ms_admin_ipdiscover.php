@@ -64,7 +64,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		}
 		
 		
-		if (isset($protectedPost['Valid_modif_x'])){
+		if (isset($protectedPost['Valid_modif'])){
 			$result=add_subnet($protectedPost['ADD_IP'],$protectedPost['RSX_NAME'],$protectedPost['ID_NAME'],$protectedPost['ADD_SX_RSX']);
 			if ($result)
 				msg_error($result);
@@ -82,7 +82,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			$tab_options['CACHE']='RESET';
 		}	
 		
-		if (isset($protectedPost['Reset_modif_x'])){
+		if (isset($protectedPost['Reset_modif'])){
 			unset($protectedPost['ADD_SUB'],$protectedPost['MODIF']);
 			if (isset($protectedGet['value']) and $protectedGet['value'] != '')
 				reloadform_closeme("ipdiscover",true);
@@ -150,7 +150,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 	
 	
 }elseif($protectedPost['onglet'] == 'ADMIN_TYPE'){
-	if (isset($protectedPost['Reset_modif_x'])){
+	if (isset($protectedPost['Reset_modif'])){
 			unset($protectedPost['MODIF']);
 	}
 	
@@ -159,7 +159,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		$tab_options['CACHE']='RESET';		
 	}
 	
-	if (isset($protectedPost['Valid_modif_x'])){
+	if (isset($protectedPost['Valid_modif'])){
 		$result=add_type($protectedPost['TYPE_NAME'],$protectedPost['MODIF']);
 		if ($result){
 			msg_error($result);
@@ -187,7 +187,10 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		$tab_typ_champ[0]['INPUT_TYPE']=0;
 		$tab_name[0]=$l->g(938).": ";
 		$tab_hidden['pcparpage']=$protectedPost["pcparpage"];
-		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title,$comment="");	
+		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
+			'title' => $title,
+			'show_frame' => false
+		));	
 	}else{
 		if (isset($msg_ok))
 			msg_success($msg_ok);
@@ -207,7 +210,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 }elseif($protectedPost['onglet'] == 'ADMIN_SMTP' 
 		and $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES'){
 
-		if (isset($protectedPost['Valid_modif_x'])){
+		if (isset($protectedPost['Valid_modif'])){
 			$msg_result=add_community($protectedPost['MODIF'],$protectedPost['NAME'],$protectedPost['VERSION'],
 						  $protectedPost['USERNAME'],$protectedPost['AUTHKEY'],
 						  $protectedPost['AUTHPASSWD']);	
@@ -221,7 +224,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 
 		}
 			
-		if (isset($protectedPost['Reset_modif_x'])){
+		if (isset($protectedPost['Reset_modif'])){
 			unset($protectedPost['MODIF'],$protectedPost['ADD_COMM']);			
 		}
 		

@@ -11,7 +11,7 @@
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 
 //UPDATE/DELETE
-if ($protectedPost['Valid_modif_x']){
+if ($protectedPost['Valid_modif']){
 	$sql="DELETE FROM deploy WHERE name='%s'";
 	$arg="label";
 	$msg=$l->g(261);
@@ -44,7 +44,9 @@ $value_field=array($val->content);
 
 $tab_typ_champ=show_field($name_field,$type_field,$value_field);
 //$tab_typ_champ[0]['CONFIG']['SIZE']=100;
-tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
+tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+	'form_name' => 'NO_FORM'
+));
 
 echo close_form();
 	?>

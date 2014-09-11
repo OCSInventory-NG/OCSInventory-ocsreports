@@ -21,7 +21,7 @@ else{
 require_once('require/function_search.php');
 require_once('require/function_users.php');
 
-if (isset($protectedPost['Reset_modif_x'])){
+if (isset($protectedPost['Reset_modif'])){
 	unset($protectedPost['MODIF']);
 }
 
@@ -60,7 +60,7 @@ if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 }
 
 //ajout d'un user
-if (isset($protectedPost['Valid_modif_x'])){
+if (isset($protectedPost['Valid_modif'])){
 	$ok=add_user($_POST,$list_profil);
 	if ($ok == $l->g(373) or $ok == $l->g(374)){
 		unset($_SESSION['OCS']['DATA_CACHE'],$protectedPost['ID'],$protectedPost['FIRSTNAME'],$protectedPost['LASTNAME'],

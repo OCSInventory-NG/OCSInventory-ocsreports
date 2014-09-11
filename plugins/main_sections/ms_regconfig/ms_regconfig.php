@@ -95,7 +95,7 @@ if ($protectedPost['tab'] == 'VIEW'){
 	del_selection($form_name);	
 }elseif ($protectedPost['tab'] == 'ADD'){
 
-	if (isset($protectedPost['Valid_modif_x'])){
+	if (isset($protectedPost['Valid_modif'])){
 		$form_values=array("NAME"=>$protectedPost["NAME"],
 						   "REGTREE"=>$protectedPost["REGTREE"],
 						   "REGKEY"=>$protectedPost["REGKEY"],
@@ -132,7 +132,9 @@ if ($protectedPost['tab'] == 'VIEW'){
 	$tab_typ_champ[3]['CONFIG']['MAXLENGTH']=255;
 	$tab_typ_champ[3]['INPUT_TYPE']=0;
 	$tab_name[3]=$l->g(255).": ";
-	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);
+	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+		'show_frame' => false
+	));
 		
 }
 echo "</div>";

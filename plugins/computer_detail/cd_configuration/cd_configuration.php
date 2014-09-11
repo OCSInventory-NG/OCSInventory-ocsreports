@@ -18,7 +18,7 @@ if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_n
 
 
 //affect again a packet
-if ($protectedPost['Valid_modif_x']){
+if ($protectedPost['Valid_modif']){
 	if (trim($protectedPost['MOTIF'])){
 		if ($protectedPost["ACTION"] == "again"){
 			//delete all info of specific teledeploy
@@ -40,7 +40,7 @@ if ($protectedPost['Valid_modif_x']){
 		 msg_error($l->g(903));
 }
 
-if ($protectedPost['Reset_modif_x'])
+if ($protectedPost['Reset_modif'])
 unset($protectedGet['affect_again'],$protectedGet['affect_reset']);
 
 
@@ -70,7 +70,9 @@ if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
 		$tab_typ_champ[0]['INPUT_NAME']="MOTIF";
 		$tab_typ_champ[0]['INPUT_TYPE']=1;
 		$data_form[0]="<center>".$lbl_action."</center>";
-		tab_modif_values($data_form,$tab_typ_champ,array('NAME_PACK'=>$val['name'],'ACTION'=>$hidden_action),$title_action.$val['name'],"");
+		tab_modif_values($data_form,$tab_typ_champ,array('NAME_PACK'=>$val['name'],'ACTION'=>$hidden_action), array(
+			'title' => $title_action.$val['name']
+		));
 
 	}
 }

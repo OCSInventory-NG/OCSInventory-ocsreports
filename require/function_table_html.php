@@ -334,7 +334,6 @@ function xml_decode( $txt ) {
          	                '500' : "<?php echo $l->g(1357); ?>",
          	                '503' : "<?php echo $l->g(1358); ?>"
          	         };
-        			 alert(xhr.statusText+" ( "+statusErrorMap[xhr.status]+" : "+xhr.status+" ) ");
             		 if(statusErrorMap[xhr.status]!=undefined){
             			 if(xhr.status == 401){
                 			 window.location.reload();
@@ -832,62 +831,86 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	}
 }
 
-function tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='CHANGE',$showbutton_action='')
-{
-	global $l,$protectedPost,$css;
+function tab_modif_values($field_labels, $fields, $hidden_fields, $options = array()) {
+	global $l;
 	
-	if (!isset($css))
-		$css="mvt_bordure";
+	$options = array_merge(array(
+		'title' => null,
+		'comment' => null,
+		'button_name' => 'modif',
+		'show_button' => true,
+		'form_name' => 'CHANGE',
+		'top_action' => null,
+		'show_frame' => true
+	), $options);
 
-	if ($form_name != 'NO_FORM'){
-		echo open_form($form_name);
+	if ($options['form_name'] != 'NO_FORM') {
+		echo open_form($options['form_name']);
 	}
-	echo '<div class="'.$css.'" >';
-	if ($showbutton_action != '')
-		echo "<table align='right' border='0'><tr><td colspan=10 align='right'>" . $showbutton_action . "</td></tr></table>";
-	echo "<table align='center' border='0' cellspacing=20 >";
-	echo "<tr><td colspan=10 align='center'><font color=red><b><i>" . $title . "</i></b></font></td></tr>";
-	if (is_array($tab_name)){
-	    foreach ($tab_name as $key=>$values)
-		{
-			echo "<tr><td>" . $values . "</td><td>" . $tab_typ_champ[$key]['COMMENT_BEFORE']
-			   . show_modif($tab_typ_champ[$key]['DEFAULT_VALUE'],$tab_typ_champ[$key]['INPUT_NAME'],$tab_typ_champ[$key]['INPUT_TYPE'],$tab_typ_champ[$key]['RELOAD'],
-			   				$tab_typ_champ[$key]['CONFIG']).$tab_typ_champ[$key]['COMMENT_BEHING']
-			   . "</td></tr>";
+	
+	if ($options['show_frame']) {
+		echo '<div class="form-frame form-frame-'.$options['form_name'].'">';
+	}
+	
+	if ($options['top_action']) {
+		echo "<table align='right' border='0'><tr><td colspan=10 align='right'>".$options['top_action']."</td></tr></table>";
+	}
+
+	if ($options['title']) {
+		echo '<h3>'.$options['title'].'</h3>';
+	}
+	
+	if (is_array($field_labels)) {
+	    foreach ($field_labels as $key => $label) {
+	    	$field = $fields[$key];
+	    	
+	    	echo '<div class="field field-'.$field['INPUT_NAME'].'">';
+	    	echo '<label>'.$label.'</label>';
+	    	
+	    	if ($field['COMMENT_BEFORE']) {
+				echo '<span class="comment_before">'.$field['COMMENT_BEFORE'].'</span>';
+	    	}
+	    	
+			echo show_modif($field['DEFAULT_VALUE'], $field['INPUT_NAME'], $field['INPUT_TYPE'], $field['RELOAD'], $field['CONFIG']);
+	    	
+	    	if ($field['COMMENT_AFTER']) {
+				echo '<span class="comment_after">'.$field['COMMENT_AFTER'].'</span>';
+	    	}
+	    	
+	    	echo '</div>';
 		}
-	}else
-		echo $tab_name;
- 	echo "<tr ><td colspan=10 align='center'><i>".$comment."</i></td></tr>";
- 	if ($showbutton and $showbutton !== 'BUTTON'){
- 		
-		echo "<tr><td><input title='" . $l->g(625) 
-					. "'  type='image'  src='image/success.png' name='Valid_" 
-					. $name_button 
-					."'>";
-		echo "<input title='" . $l->g(626) 
-				. "'  type='image'  src='image/error.png' name='Reset_"
-				. $name_button . "'></td></tr>";
- 	}elseif($showbutton === 'BUTTON'){
- 		echo "<tr><td colspan=2 align='center'><input title='" . $l->g(625) 
-					. "'  type='submit'  name='Valid_" 
-					. $name_button 
-					."' value='".$l->g(13)."'></td></tr>";
- 		
+	} else {
+		echo $field_labels;
+	}
+	
+	if ($options['comment']) {
+	 	echo '<div class="form-field"><i>'.$options['comment'].'</i></div>';
+	}
+	
+	if ($options['show_button'] === 'BUTTON') {
+		echo '<div class="form-buttons">';
+		echo '<input type="submit" name="Valid_'.$options['button_name'].'" value="'.$l->g(13).'"/>';
+		echo '</div>';
+	} else if ($options['show_button']) {
+		echo '<div class="form-buttons">';
+		echo '<input type="submit" name="Valid_'.$options['button_name'].'" value="'.$l->g(1363).'"/>';
+		echo '<input type="submit" name="Reset_'.$options['button_name'].'" value="'.$l->g(1364).'"/>';
+		echo '</div>';
  	}
 
-	echo "</table>";
-    echo "</div>";    
-    if ($tab_hidden != ""){
-    		
-		foreach ($tab_hidden as $key=>$value)
-		{
-			echo "<input type='hidden' name='" . $key ."' id='" . $key  
-				. "' value='" . htmlspecialchars($value, ENT_QUOTES) . "'>";
-	
+ 	if ($options['show_frame']) {
+	    echo "</div>";
+ 	}
+    
+    if ($hidden_fields) {
+		foreach ($hidden_fields as $key => $value) {
+			echo "<input type='hidden' name='".$key."' id='".$key."' value='".htmlspecialchars($value, ENT_QUOTES)."'>";
 		}
     }
-    if ($form_name != 'NO_FORM')
-	echo close_form();
+    
+    if ($options['form_name'] != 'NO_FORM') {
+		echo close_form();
+    }
 }
 
 function show_field($name_field,$type_field,$value_field,$config=array()){
@@ -918,8 +941,8 @@ function show_field($name_field,$type_field,$value_field,$config=array()){
 		else
 			$tab_typ_champ[$key]['CONFIG']['MAXLENGTH']=$config['MAXLENGTH'][$key];
 			
-		if (isset($config['COMMENT_BEHING'][$key]))	{
-			$tab_typ_champ[$key]['COMMENT_BEHING']=	$config['COMMENT_BEHING'][$key];
+		if (isset($config['COMMENT_AFTER'][$key]))	{
+			$tab_typ_champ[$key]['COMMENT_AFTER']=	$config['COMMENT_AFTER'][$key];
 		}		
 		
 			
@@ -1320,7 +1343,7 @@ function lbl_column($list_fields){
 */
 function ajaxfiltre($queryDetails,$tab_options){
 	// Research field of the table
-	if ($tab_options["search"]['value']!=""){
+	if ($tab_options["search"] && $tab_options["search"]['value']!=""){
 		$search = mysqli_real_escape_string($_SESSION['OCS']["readServer"],$tab_options["search"]['value']);
 		$search = str_replace('%','%%',$search);
 		$sqlword['WHERE']= preg_split("/where/i", $queryDetails);
@@ -1413,8 +1436,7 @@ function ajaxsort(&$tab_options){
 		}
 		$tri = $name;
 		$sens = $tab_options['order']['0']['dir'];
-	}
-	else{
+	} else if ($tab_options['columns']) {
 		foreach($tab_options['columns'] as $column){
 			if ($column['orderable']=="true"){
 				$tri = $column['name'];
@@ -1778,7 +1800,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		if($rows === 0){
 			$recordsFiltered = 0;
 		}
-		if($tab_options["search"]['value']==""){
+		if($tab_options["search"] && $tab_options["search"]['value']==""){
 			$_SESSION['OCS'][$tab_options['table_name']]['nb_resultat']=$recordsFiltered;
 		}
 		if (isset($_SESSION['OCS'][$tab_options['table_name']]['nb_resultat'])){

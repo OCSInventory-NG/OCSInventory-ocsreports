@@ -46,7 +46,7 @@ $tab_options['table_name']=$table_name;
 //for update name
 if (isset($protectedPost['MODIF']) 
 	and is_numeric($protectedPost['MODIF']) 
-	and !isset($protectedPost['Valid_modif_x'])){
+	and !isset($protectedPost['Valid_modif'])){
 	 $protectedPost['onglet'] = 2;
 	 $val_info=look_config_default_values(array($protectedGet['tag']."_".$protectedPost['MODIF']));
 	 $protectedPost['newfield']=$val_info['tvalue'][$protectedGet['tag']."_".$protectedPost['MODIF']];
@@ -108,14 +108,14 @@ if ($protectedPost['onglet'] == 1){
 	
 		if (isset($protectedPost['MODIF_OLD']) 
 			and is_numeric($protectedPost['MODIF_OLD']) 
-			and $protectedPost['Valid_modif_x'] != ""){
+			and $protectedPost['Valid_modif'] != ""){
 			//UPDATE VALUE
 			update_config($protectedGet['tag']."_".$protectedPost['MODIF_OLD'],'TVALUE',$protectedPost['newfield']);
 			if (isset($protectedPost['2newfield']))
 				update_config($protectedGet['tag']."_".$protectedPost['MODIF_OLD'],'COMMENTS',$protectedPost['2newfield'],false);
 			$hidden=$protectedPost['MODIF_OLD'];		
 			
-		}elseif( $protectedPost['Valid_modif_x'] != "" ) {
+		}elseif( $protectedPost['Valid_modif'] != "" ) {
 		//ADD NEW VALUE	
 			//vérification que le nom du champ n'existe pas pour les nouveaux champs
 				if (trim($protectedPost['newfield']) != ''){
@@ -183,7 +183,9 @@ if ($protectedPost['onglet'] == 1){
 		}
 		
 		
-		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
+		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+			'form_name' => 'NO_FORM'
+		));
 }
 
 

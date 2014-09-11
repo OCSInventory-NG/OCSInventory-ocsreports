@@ -126,7 +126,7 @@ if ($protectedPost['onglet'] == 1){
 	}	
 	
 }elseif ($protectedPost['onglet'] == 2){
-	if( $protectedPost['Valid_modif_x'] != "" ) {
+	if( $protectedPost['Valid_modif'] != "" ) {
 			if (trim($protectedPost['newfield']) != ''){
 				$sql_verif="SELECT count(*) c FROM ".$table." WHERE FIELD = '%s'";
 				$arg_verif=$protectedPost['newfield'];
@@ -165,7 +165,7 @@ if ($protectedPost['onglet'] == 1){
 			}
 			msg_success($l->g(1069));
 			reloadform_closeme($protectedGet['form']);
-			if( $protectedPost['Valid_modif_x'] != "" ) 
+			if( $protectedPost['Valid_modif'] != "" ) 
 				unset($protectedPost['newfield'],$protectedPost['newlbl']);
 		}else
 			msg_error($ERROR);
@@ -213,7 +213,9 @@ if ($protectedPost['onglet'] == 1){
 	$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
 	$tab_typ_champ[0]['CONFIG']['SIZE']=20;
 	$tab_typ_champ[1]['CONFIG']['SIZE']=20;
-	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$title="",$comment="",$name_button="modif",$showbutton=true,$form_name='NO_FORM');
+	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+		'form_name' => 'NO_FORM'
+	));
 }
 
 

@@ -75,7 +75,6 @@ class Table {
 						'500' : "<?php echo $l->g(1357); ?>",
 						'503' : "<?php echo $l->g(1358); ?>"
 					};
-					alert(xhr.statusText+" ( "+statusErrorMap[xhr.status]+" : "+xhr.status+" ) ");
 					if(statusErrorMap[xhr.status]!=undefined){
 						if(xhr.status == 401){
 							window.location.reload();

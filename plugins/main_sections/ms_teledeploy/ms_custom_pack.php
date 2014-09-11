@@ -194,7 +194,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			$i++;
 			}
 				//	p($hour_min);
-			$config['COMMENT_BEHING'][0]=datePick("INSTALL_DATE");
+			$config['COMMENT_AFTER'][0]=datePick("INSTALL_DATE");
 			$config['JAVASCRIPT'][0]="READONLY ".dateOnClick("INSTALL_DATE");
 			$config['SELECT_DEFAULT'][0]='';
 			$config['SIZE'][0]='8';
@@ -212,14 +212,16 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 		//	p($tab_typ_champ);
 			$tab_typ_champ[2]['CONFIG']['DEFAULT']='YES';
 			//$configinput['DEFAULT'] == "YES"
-			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,$l->g(1309));
+			tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
+				'title' => $l->g(1309)
+			));
 	
 }else{
 	if (isset($protectedPost['MODIF'])){
 		$protectedPost['SELECT']=$protectedPost['MODIF'];
-		$protectedPost['Valid_modif_x']=true;		
+		$protectedPost['Valid_modif']=true;		
 	}
-	if ($protectedPost['SELECT'] != '' and isset($protectedPost['Valid_modif_x'])){
+	if ($protectedPost['SELECT'] != '' and isset($protectedPost['Valid_modif'])){
 		if (isset($protectedPost['TELE_FORCE_0']))
 			active_option('DOWNLOAD_FORCE',$list_id,$protectedPost['SELECT'],'1');
 		if (isset($protectedPost['INSTALL_DATE']) and $protectedPost['INSTALL_DATE'] != ''){
