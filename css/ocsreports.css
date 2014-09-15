@@ -460,3 +460,11 @@ iframe{
 	font-weight: bold;
 	text-decoration: none
 }
+
+table.dataTable .CHECK{
+	text-align:center;
+}
+
+table.dataTable thead>tr>th.CHECK{
+	background-image:none !important;
+}

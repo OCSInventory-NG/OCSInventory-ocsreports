@@ -1253,7 +1253,10 @@
 1375 Old Forums
 1376 Q&amp;A
 1377 Question and answers
-1378 Free RAM (MB) 
+1378 Free RAM
+1379 RAM installed
+1380 Reset table columns
+1381 Actions
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

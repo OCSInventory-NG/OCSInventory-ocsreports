@@ -91,6 +91,12 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 			return false;		
 		 }
 	}
+// 	echo "</br>
+			
+// 		$query
+// 		<br/>			
+			
+// 			";
 	$result=mysqli_query( $link,$query );
 	if ($_SESSION['OCS']['DEBUG'] == 'ON' and !$result)
 		msg_error(mysqli_error($link));

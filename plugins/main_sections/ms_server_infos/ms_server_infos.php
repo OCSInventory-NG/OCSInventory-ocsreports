@@ -27,25 +27,25 @@
 <table class="summary" style="width:80%;margin:auto;">
     <tbody>
         <tr class="summary-row">
-            <td class="summary-cell system">
-                <h4><?php echo $l->g(25)?></h4>
-                <div id="os"><div class="summary-header"><?php echo $l->g(274)?> :</div><div class="summary-value"></div></div>
-                <div id="ram"><div class="summary-header"><?php echo $l->g(568)?> :</div><div class="summary-value"></div></div>
-                <div id="freeram"><div class="summary-header"><?php echo $l->g(1378)?> :</div><div class="summary-value"></div></div>
-                <div id="cpu"><div class="summary-header"><?php echo $l->g(1368)?> :</div><div class="summary-value"></div></div>  
-            </td>
-           <td class="summary-cell">
-                <h4><?php echo $l->g(20)?></h4>
-                <div id="phpversion"><div class="summary-header"><?php echo $l->g(1369)?> :</div><div class="summary-value"><?php echo PHP_VERSION; ?></div></div>
-                <div id="serverversion"><div class="summary-header"><?php echo $l->g(1370)?> :</div><div class="summary-value"><?php echo $_SERVER['SERVER_SOFTWARE']; ?></div></div>
-                <div id="mysqlversion"><div class="summary-header"><?php echo $l->g(1371)?> :</div><div class="summary-value"><?php echo mysqli_get_server_info($_SESSION['OCS']['readServer']) ?></div></div>
-            </td>
-        </tr>
+        	<td class="summary-cell system">
+            	<h4><?php echo $l->g(25)?></h4>
+            	<div id="os"><div class="summary-header"><?php echo $l->g(274)?> :</div><div class="summary-value"></div></div>
+            	<div id="ram"><div class="summary-header"><?php echo $l->g(1379)?> :</div><div class="summary-value"></div></div>
+            	<div id="freeram"><div class="summary-header"><?php echo $l->g(1378)?> :</div><div class="summary-value"></div></div>
+            	<div id="cpu"><div class="summary-header"><?php echo $l->g(1368)?> :</div><div class="summary-value"></div></div>  
+        	</td>
+        	<td class="summary-cell">
+            	<h4><?php echo $l->g(20)?></h4>
+            	<div id="phpversion"><div class="summary-header"><?php echo $l->g(1369)?> :</div><div class="summary-value"><?php echo PHP_VERSION; ?></div></div>
+            	<div id="serverversion"><div class="summary-header"><?php echo $l->g(1370)?> :</div><div class="summary-value"><?php echo $_SERVER['SERVER_SOFTWARE']; ?></div></div>
+            	<div id="mysqlversion"><div class="summary-header"><?php echo $l->g(1371)?> :</div><div class="summary-value"><?php echo mysqli_get_server_info($_SESSION['OCS']['readServer']) ?></div></div>
+        	</td>
+        </tr>	
         <tr class="summary-row">
-			 <td class="summary-cell">
-                <h4><?php echo $l->g(1367)?></h4>
-                <div id="ip"><div class="summary-header">IP :</div><div class="summary-value"><?php echo $_SERVER['REMOTE_ADDR']; ?></div></div>
- 			 </td>
+			<td class="summary-cell">
+            	<h4><?php echo $l->g(1367)?></h4>
+            	<div id="ip"><div class="summary-header">IP :</div><div class="summary-value"><?php echo $_SERVER['REMOTE_ADDR']; ?></div></div>
+ 			</td>
         </tr>
     </tbody>
 </table>
