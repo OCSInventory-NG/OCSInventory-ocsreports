@@ -21,6 +21,7 @@ else{
 	$ajax=false;
 }
 
+
 function array_merge_values($arr,$arr2){
 	foreach ($arr2 as $key=>$values){
 		array_push($arr,$values);		
@@ -142,23 +143,31 @@ if ($_SESSION['OCS']["usecache"] == 1 and !(isset($_SESSION['OCS']['USE_NEW_SOFT
 		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1)){
 	$search_soft['SQL']="select name,id from softwares_name_cache";
 	//$forcedRequest['SQL']=$search_soft['SQL'];
-	$search_soft['SQL'].=" where name like '%s'";
-	$search_soft['ARG']=array($protectedPost['onglet']."%");
-	$and_where=" where ";
-	if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
-		//$forcedRequest['SQL'].= $and_where." name like '%s' ";
-		//$forcedRequest['ARG']=array("%".$protectedPost['NAME_RESTRICT']."%");
-		$search_soft['SQL'].=" and name like '%s' ";	
-		array_push($search_soft['ARG'],"%".$protectedPost['NAME_RESTRICT']."%");	
-		$and_where=" and ";
+	if(isset($protectedPost['onglet'])){
+		$search_soft['SQL'].=" where name like '%s'";
+		$search_soft['ARG']=array($protectedPost['onglet']."%");
+		
+		$and_where=" where ";
+		if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
+			//$forcedRequest['SQL'].= $and_where." name like '%s' ";
+			//$forcedRequest['ARG']=array("%".$protectedPost['NAME_RESTRICT']."%");
+			$search_soft['SQL'].=" and name like '%s' ";	
+			array_push($search_soft['ARG'],"%".$protectedPost['NAME_RESTRICT']."%");	
+			$and_where=" and ";
+		}
+	}else{
+		if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
+			//$forcedRequest['SQL'].= $and_where." name like '%s' ";
+			//$forcedRequest['ARG']=array("%".$protectedPost['NAME_RESTRICT']."%");
+			$search_soft['SQL'].=" WHERE name like '%s' ";
+			$search_soft['ARG'][]="%".$protectedPost['NAME_RESTRICT']."%";
+		}
 	}
-
 	/*if (isset($protectedPost['CLASS']) and $protectedPost['CLASS'] != ""){
 	//	$fin_sql=" and dico_soft.extracted is not null ";
 		$forcedRequest.= $and_where." (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$protectedPost['CLASS']])."') ) and ";
 		$search_soft.=" and (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$protectedPost['CLASS']])."') ) ";		
 	}*/
-
 	$result_search_soft = mysql2_query_secure( $search_soft['SQL'], $_SESSION['OCS']["readServer"],$search_soft['ARG']);
 	$list_soft="";
 	while($item_search_soft = mysqli_fetch_object($result_search_soft)){
