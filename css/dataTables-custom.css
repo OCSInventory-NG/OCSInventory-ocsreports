@@ -27,13 +27,7 @@ table.dataTable a {
 .tableContainer .row{
 	margin : 0;	
 }
-.tableContainer .row:before{
-	content:"";
-}
-.tableContainer .row:after{
-	content:"";
-	clear:none;
-}
+	
 table.dataTable{
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
