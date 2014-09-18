@@ -42,14 +42,16 @@ if ($_SESSION['OCS']['profile']) {
 	
 	
 	if (isset($_SESSION['OCS']["loggeduser"]) && !isset($protectedGet["popup"])) {
-		echo '<ul class="nav navbar-nav" style="float: right">
-				<li class="dropdown"><a href="#" data-toggle="dropdown" >
+		echo '<ul class="nav navbar-nav" style="float: right">';
+		if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
+			echo "<li class='dropdown'><a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'><img src='image/cadena_op.png' alt='settings'>".$l->g(891)."</a></li>";
+		}
+		
+		echo '<li class="dropdown"><a href="#" data-toggle="dropdown" >
 					<span class="glyphicon glyphicon-cog" id="menu_settings"></span></a>
 					<ul class="dropdown-menu dropdown-menu-right">';
 			
-		if (isset($_SESSION['OCS']["TRUE_mesmachines"])){
-			echo "<li><a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'><img src='image/settings.png' alt='settings'>".$l->g(891)."</a></li>";
-		}
+		
 		// DEBUG = 1011
 		echo "<li><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1'>".$l->g(1361)."</a></li>";// TODO translate
 		

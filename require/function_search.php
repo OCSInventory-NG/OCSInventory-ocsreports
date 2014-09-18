@@ -504,12 +504,17 @@ function add_trait_select($img,$list_id,$form_name,$list_pag)
 			
 		}
 	</script>";
-	echo "<table align='center' width='30%' border='0'>";
-	echo "<tr><td>";
-	foreach ($img as $key=>$value){
-		echo "<td align=center><a href=# onclick=garde_check(\"".$list_pag[$key]."\",\"".$list_id."\")><img src='".$key."' title='".$value."' ></a></td>";
-	}
- echo "</tr></tr></table>";    	
+
+	?>
+	<div class="btn-group">
+	<?php 
+		foreach ($img as $key=>$value){
+			echo '<button type="button" onclick=garde_check("'.$list_pag[$key].'","'.$list_id.'") class="btn btn-default">'.$value.'</button>';
+		}
+	?>
+	</div>
+	
+	<?php 
 }
 
 function multi_lot($form_name,$lbl_choise){
