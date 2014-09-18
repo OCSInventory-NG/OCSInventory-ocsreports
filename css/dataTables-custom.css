@@ -1,0 +1,73 @@
+/*** DATA TABLES CUSTOMIZATION ***/
+
+table.dataTable.table-striped thead tr th {
+	text-align: center;
+	vertical-align: middle;
+	font-size: 14px;
+	background-color: #f0f0f0;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td {
+	background-color: #fdfdfd;
+}
+
+.table-striped > tbody > tr:nth-child(even) > td {
+	background-color: #f4f4f4;
+}
+
+.table-striped > tbody > tr:hover > td {
+	background-color: #f0f0f0;
+}
+
+table.dataTable a {
+	color: rgb(116, 116, 116)!important;
+	font-weight: bold;
+}
+
+.tableContainer .row{
+	margin : 0;	
+}
+.tableContainer .row:before{
+	content:"";
+}
+.tableContainer .row:after{
+	content:"";
+	clear:none;
+}
+table.dataTable{
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+div.tableContainer {
+	width:100%;
+	overflow-y: none;
+	margin: 0 auto;
+	text-align: center;
+}
+table.dataTable thead .sorting {
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_both.png') no-repeat center right !important; 
+}
+table.dataTable thead .sorting_asc { 
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_asc.png') no-repeat center right !important; 
+}
+table.dataTable thead .sorting_desc { 
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_desc.png') no-repeat center right !important; 
+}
+table.dataTable thead .sorting_asc_disabled { 
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_asc_disabled.png') no-repeat center right !important; 
+}
+table.dataTable thead .sorting_desc_disabled { 
+	background: #f0f0f0 url('../libraries/datatable/media/images/sort_desc_disabled.png') no-repeat center right !important; 
+}
+
+
+
+table.dataTable .CHECK{
+	text-align:center;
+}
+
+table.dataTable thead>tr>th.CHECK{
+	background-image:none !important;
+}
+

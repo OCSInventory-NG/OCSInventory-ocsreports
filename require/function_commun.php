@@ -335,6 +335,7 @@ function html_header($no_java=false){
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap.min.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-theme.min.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-custom.css'>
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/dataTables-custom.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/dataTables.bootstrap.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/header.css'>
