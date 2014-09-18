@@ -19,7 +19,8 @@ $oldpassword = false;
 if ($_SESSION['OCS']['PASSWORD_VERSION']===false || $rowOp->PASSWORD_VERSION < $_SESSION['OCS']['PASSWORD_VERSION']){
 	$oldpassword = true;
 }
-if($oldpassword && $rowOp->PASSWORD_VERSION === 0 ){
+
+if($oldpassword && $rowOp->PASSWORD_VERSION === '0' ){
 	$reqOp="SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
 	$arg_reqOp=array($login,md5($protectedMdp));
 	$resOp=mysql2_query_secure($reqOp,$_SESSION['OCS']["readServer"],$arg_reqOp);

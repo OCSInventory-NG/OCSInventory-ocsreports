@@ -345,11 +345,15 @@ function updatePassword($id_user,$password){
 	if (isset($row->id)){
 		if (isset($password) and $password != ''){
 			$sql_update="update operators set passwd ='%s', PASSWORD_VERSION ='%s' ";
-			$arg_update[]=password_hash($password,constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
-			$arg_update[]=$_SESSION['OCS']['PASSWORD_VERSION'];
-			$sql_update.="	 where ID='%s'";
-			$arg_update[]=$row->id;
-			$res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"],$arg_update);
+			$newhash = password_hash($password,constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
+			// if constant don't exist, or encryption not good
+			if(!empty($newhash)){
+				$arg_update[]=$newhash;
+				$arg_update[]=$_SESSION['OCS']['PASSWORD_VERSION'];
+				$sql_update.="	 where ID='%s'";
+				$arg_update[]=$row->id;
+				$res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"],$arg_update);
+			}
 		}
 	}
 }
