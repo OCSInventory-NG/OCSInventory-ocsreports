@@ -34,7 +34,6 @@ if($oldpassword && $rowOp->PASSWORD_VERSION === '0' ){
 			updatePassword($login,$mdp);
 		}
 	}else{
-		
 		$login_successful = $l->g(180);
 		$type_log='BAD CONNEXION';
 	}

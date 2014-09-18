@@ -41,7 +41,6 @@ $tab_options['table_name']=$table_name;
 
 $data_on[1]=$l->g(1059);
 $data_on[2]=$l->g(1060);
-
 //$yes_no=array($l->g(454),$l->g(455));
 if (isset($protectedPost['MODIF']) 
 	and is_numeric($protectedPost['MODIF']) 

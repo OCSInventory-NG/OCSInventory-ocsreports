@@ -480,7 +480,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 //fonction qui permet d'utiliser un calendrier dans un champ
 function calendars($NameInputField,$DateFormat)
 {
-	return "<a href=\"javascript:NewCal('".$NameInputField."','".$DateFormat."',false,24,null);\"><img src=\"image/cal.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"Pick a date\">";
+	return "<a href=\"javascript:NewCal('".$NameInputField."','".$DateFormat."',false,24,null);\"><img src=\"image/cal.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"Pick a date\"></a>";
 }
 
 

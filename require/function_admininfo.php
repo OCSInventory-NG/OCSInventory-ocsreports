@@ -14,7 +14,7 @@ $type_accountinfo=array('TEXT','TEXTAREA','SELECT',
 					mb_strtoupper($l->g(802)),'CHECKBOX',
 					'BLOB (FILE)','DATE','RADIOBUTTON','QRCODE');
 $sql_type_accountinfo=array('VARCHAR(255)','LONGTEXT','VARCHAR(255)',
-							'VARCHAR(255)','VARCHAR(255)','BLOB','VARCHAR(10)',
+							'VARCHAR(255)','VARCHAR(255)','BLOB','DATE',
 							'VARCHAR(255)','VARCHAR(255)');
 
 

@@ -484,7 +484,7 @@ function FormatDate(pDate)
 		showday = "0"+pDate;
 	else
 		showday = pDate;
-		
+	return (this.Year+"-"+showmonth+"-"+showday);
 	if (this.Format.toUpperCase()=="DDMMYYYY")		
 		return (showday+DateSeparator+showmonth+DateSeparator+this.Year);
 	else if (this.Format.toUpperCase()=="DDMMMYYYY")
