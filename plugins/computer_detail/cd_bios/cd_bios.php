@@ -46,7 +46,11 @@ $tab_options['table_name']="affich_bios";
 					   $l->g(284) => 'BMANUFACTURER',
 					   $l->g(209) => 'BVERSION',
 					   $l->g(210) => 'BDATE',
-					   $l->g(216) => 'ASSETTAG');
+					   $l->g(216) => 'ASSETTAG',
+					   $l->g(1382) => 'MSN',
+					   $l->g(1383) => 'MMANUFACTURER',
+					   $l->g(1384) => 'MMODEL',
+						);
 	$sql="select SSN from bios WHERE (hardware_id=%s)";
 	$arg=array($systemid);
 	$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
