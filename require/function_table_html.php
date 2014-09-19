@@ -400,6 +400,9 @@ function xml_decode( $txt ) {
                 	        }else{
                 	        	$("#reset"+table_name).hide();
                 	        }
+                	        if(json.debug){
+								$('#'+table_name+'_debug').append("<hr><p>"+json.debug+"</p>");
+                	        }
                 	        return json.data;
                 	      },
 
@@ -559,6 +562,15 @@ function xml_decode( $txt ) {
 	echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
 	echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
 	echo "<input type='hidden' id='OTHER_TER' name='OTHER_TER' value=''>";
+	
+	
+	if ($_SESSION['OCS']['DEBUG'] == 'ON'){
+		?><center>
+		<div id="<?php echo $option['table_name']; ?>_debug" class="alert alert-info" role="alert">
+		<b>[DEBUG]TABLE REQUEST[DEBUG]</b>
+		</div>
+		</center><?php
+	}
 	return true;
 }
 
@@ -1991,6 +2003,10 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	if (is_null($rows)){
 		$rows=0;
 	}
+	
+	if(is_array($_SESSION['OCS']['SQL_DEBUG']) && ($_SESSION['OCS']['DEBUG'] == 'ON')){
+		$debug = end($_SESSION['OCS']['SQL_DEBUG']);
+	}
 	// Data set length after filtering
 	$resFilterLength = mysql2_query_secure("SELECT FOUND_ROWS()",$link);
 	$recordsFiltered = mysqli_fetch_row($resFilterLength);
@@ -2006,8 +2022,15 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	
 	}else{
 		$recordsTotal=$recordsFiltered;
+	}	
+	if(is_array($_SESSION['OCS']['SQL_DEBUG']) && ($_SESSION['OCS']['DEBUG'] == 'ON')){
+		$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,
+				"recordsFiltered"=> $recordsFiltered, "data"=>$rows, "customized"=>$customized,
+				"debug"=>$debug);
+	}else{
+		$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  
+				"recordsFiltered"=> $recordsFiltered, "data"=>$rows, "customized"=>$customized);
 	}
-	$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,  "recordsFiltered"=> $recordsFiltered, "data"=>$rows, "customized"=>$customized);
 	echo json_encode($res);
 }
 
