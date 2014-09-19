@@ -69,6 +69,10 @@ a.deco {
 	font-size: 8pt;
 }
 
+a img {
+	vertical-align: middle;
+}
+
 .lienBleu  {
 	color: blue;
 }
@@ -307,7 +311,7 @@ th.ta:last-child {border-right: solid 1px #9894B5;}
 	width:75%;
     margin:0 auto 0 auto;
 	background: #f8f8f8;
-	border: 1px solid #e7e7e7;
+	border: 1px solid #c7c7c7;
 	padding: 20px 50px;
 	margin-bottom: 20px;
 	text-align: center;
@@ -316,7 +320,7 @@ th.ta:last-child {border-right: solid 1px #9894B5;}
 .mvt_bordure {
 	display: inline-block;
 	background: #f8f8f8;
-	border: 1px solid #e7e7e7;
+	border: 1px solid #c7c7c7;
 	padding: 20px 50px;
 	margin-bottom: 20px;
 	text-align: center;

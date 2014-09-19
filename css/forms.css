@@ -2,7 +2,7 @@
 
 .form-frame {
 	background: #f8f8f8;
-	border: 1px solid #e7e7e7;
+	border: 1px solid #c7c7c7;
 	padding: 10px;
 	margin-bottom: 20px;
 }
@@ -11,23 +11,29 @@
 	display: inline-block;
 	vertical-align: top;
 	margin-right: 20px;
+	width: 480px;
 }
 
 .form-column:last-child {
 	margin-right: 0;
 }
 
-h4 label {
+h4 input + label {
 	font-weight: normal;
+	margin: 0;
 	margin-left: 10px;
+}
+
+h4 > * {
+	vertical-align: middle;
 }
 
 /*** FIELD ***/
 
 .field {
 	margin: auto;
-	margin-bottom: 5px;
-	padding: 5px 20px;
+	margin-bottom: 2px;
+	padding: 3px 20px;
 	width: 520px;
 	text-align: left;
 }
@@ -48,11 +54,15 @@ h4 label {
 	vertical-align: top;
 }
 
+.field > span {
+	display: inline-block;
+	margin-top: 3px;
+}
+
 .field label {
 	width: 150px;
 	text-align: right;
-	margin-right: 10px;
-	margin-top: 3px;
+	margin: 3px 10px 3px 0;
 }
 
 /*** INPUTS ***/
@@ -73,8 +83,18 @@ h4 label {
 .field.search-field input[type=text],
 .field.search-field input[type=password],
 .field.search-field input[type=file] {
-	display: inline-block;
 	width: auto;
+}
+
+.field.field-nolabel select,
+.field.field-nolabel textarea,
+.field.field-nolabel .radio-container,
+.field.field-nolabel input[type=text],
+.field.field-nolabel input[type=password],
+.field.field-nolabel input[type=file] {
+	display: block;
+	width: auto;
+	margin: auto;
 }
 
 .field textarea {
@@ -83,17 +103,32 @@ h4 label {
 
 .field .radio-container {
 	text-align: left;
+	margin-top: 3px;
 }
 
 .field .radio-container > * {
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 .field .radio-container label {
 	width: auto;
 	text-align: left;
-	margin: 3px 15px 0 3px;
+	margin: 0 15px 0 3px;
 	font-weight: normal;
+}
+
+.field input[type=radio],
+.field input[type=checkbox] {
+	display: inline-block;
+	margin-top: 6px;
+}
+
+h4 input[type=radio],
+h4 input[type=checkbox],
+.field .radio-container input[type=radio],
+.field .radio-container input[type=checkbox] {
+	margin: 0;
+	vertical-align: middle;
 }
 
 /*** ERRORS ***/

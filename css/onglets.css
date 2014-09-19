@@ -15,15 +15,15 @@ http://www.alistapart.com/articles/slidingdoors/
 
 #header li {
 	float: left;
-	background-color: #e7e7e7;
-	border-top: 1px solid #e7e7e7;
+	background-color: #c7c7c7;
+	border-top: 1px solid #c7c7c7;
 	margin: 0;
 	margin-bottom: -1px;
 	padding: 0 0 0 9px;
 }
 
 #header li:first-child {
-	border-left: 1px solid #e7e7e7;
+	border-left: 1px solid #c7c7c7;
 }
 
 #header a {
@@ -32,9 +32,9 @@ http://www.alistapart.com/articles/slidingdoors/
 	padding:5px 15px 4px 6px;
 	text-decoration:none;
 	font-weight:bold;
-	color:#765;
-	background-color: #e7e7e7;
-	border-right: 1px solid #e7e7e7;
+	color: black;
+	background-color: #c7c7c7;
+	border-right: 1px solid #c7c7c7;
 }
 
 #header #current {
