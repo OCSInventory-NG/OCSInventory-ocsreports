@@ -9,7 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2010 $$Author: Erwan Goalou
-if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+if(AJAX){
 	parse_str($protectedPost['ocs']['0'], $params);
 	$protectedPost+=$params;
 	ob_start();
@@ -455,7 +455,7 @@ function print_computers_real($systemid) {
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	form_action_group($systemid);
 	echo close_form();
-	if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	if(AJAX){
 		ob_end_clean();
 		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
 		ob_start();
@@ -508,7 +508,7 @@ function print_computers_cached($systemid) {
 		form_action_group($systemid);
 	}
 	echo close_form();
-	if ((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+	if(AJAX){
 		ob_end_clean();
 		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
 		ob_start();
