@@ -29,6 +29,7 @@ table.dataTable a {
 }
 	
 table.dataTable{
+	empty-cells: show; 
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
