@@ -275,22 +275,41 @@ function replace_language($info){
 			return $info;
 }
 
-function msg($txt,$css,$log=0){
-	echo "<center><div class='alert alert-" . $css . "'>" . $txt . "</div></center>";	
-	if ($css == 'error')
-		addLog('MSG_'.$css, $txt);
+function msg($txt,$css,$closeid=false){
+	global $protectedPost;
+	
+	if (isset($protectedPost['close_alert']) and $protectedPost['close_alert'] != '')
+		$_SESSION['OCS']['CLOSE_ALERT'][$protectedPost['close_alert']]=1;
+	
+	if (!$_SESSION['OCS']['CLOSE_ALERT'][$closeid]){
+		echo "<center><div id='my-alert-" . $closeid . "' class='alert alert-" . $css . " fade in' role='alert'>";
+		if ($closeid != false)
+		echo "<button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>×</span><span class='sr-only'>Close</span></button>";
+		echo  $txt . "</div></center>";
+		if ($closeid != false){
+			echo "<script>$('#my-alert-" . $closeid . "').on('closed.bs.alert', function () {
+			 pag('" . $closeid . "','close_alert','close_msg');
+			})</script>";
+			
+			echo open_form('close_msg');
+			echo "<input type='hidden' name='close_alert' id='close_alert' value=''>";
+			echo close_form();
+		}
+		if ($css == 'error')
+			addLog('MSG_'.$css, $txt);
+	}
 }
-function msg_info($txt){
-	msg($txt,'info');
+function msg_info($txt,$close=false){
+	msg($txt,'info',$close);
 }
-function msg_success($txt){
-	msg($txt,'success');
+function msg_success($txt,$close=false){
+	msg($txt,'success',$close);
 }
-function msg_warning($txt){
-	msg($txt,'warning');
+function msg_warning($txt,$close=false){
+	msg($txt,'warning',$close);
 }
-function msg_error($txt){
-	msg($txt,'danger');
+function msg_error($txt,$close=false){
+	msg($txt,'danger',$close);
 	return true;
 }
 
