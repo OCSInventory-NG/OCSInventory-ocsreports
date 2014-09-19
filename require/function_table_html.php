@@ -1950,6 +1950,8 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		}
 	} 
 	$link=$_SESSION['OCS']["readServer"];
+	
+	
 	$sqlfunctions[]='count';
 	$sqlfunctions[]='sum';
 	$sqlfunctions[]='min';
@@ -1963,6 +1965,8 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				$tab_options['HAVING'][$column]['name']=$request ;
 		}
 	}
+	
+	
 	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
 	// NOT USED YET
 	//$queryDetails = ajaxfiltrehaving($queryDetails,$tab_options);

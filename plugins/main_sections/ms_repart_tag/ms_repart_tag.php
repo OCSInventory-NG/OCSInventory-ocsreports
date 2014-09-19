@@ -35,11 +35,9 @@
 	if (isset($protectedPost['TAG_CHOISE'])){
 		$tag=$protectedPost['TAG_CHOISE'];		
 	}
-
 	if (array($accountinfo_value['TAB_OPTIONS'])){
-		$tab_options['REPLACE_VALUE']['ID']=$accountinfo_value['TAB_OPTIONS']['REPLACE_VALUE'][$list_fields_flip[$tag]];
+		$tab_options['replace_query_arg']['ID']=$tag;
 	}
-
 	unset($list_fields);
 	$list_fields['ID']='ID';
 	$tab_options['LBL']['ID']=$list_fields_flip[$tag];
@@ -58,8 +56,10 @@
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	echo close_form();
 	
+	
 	if ($ajax){
 		ob_end_clean();
 		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
+		
 	}
 	?>
