@@ -96,9 +96,7 @@ if ($_SESSION['OCS']['profile']) {
 }
 
 echo '</div>';
-
-
-if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getConfigValue('ALERTE_MSG')=='YES'){
+if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getConfigValue('ALERTE_MSG')=='YES' ){
 /**************************************************   ALERT MESSAGES ********************************************************/
 	$msg_header_error=array();
 	$msg_header_error_sol=array();
@@ -157,8 +155,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
 					$msg_tooltip .= "<div ".$tooltip.">".$values."</div>";
 				}
 			}
-			
-		msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip);
+			msg_error("<big>".$l->g(1263)."</big><br>".$msg_tooltip,"top_msg_alert");
 		
 	}
 	//warning are detected
