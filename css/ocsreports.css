@@ -412,3 +412,22 @@ iframe{
 	font-weight: bold;
 	text-decoration: none
 }
+
+/*** MENU ***/
+
+.left-menu {
+	padding-left: 20px;
+	float: left;
+	text-align: left;
+	width: 172px;
+}
+
+.left-menu .nav > li > a {
+	width: 150px;
+	padding: 10px 15px;
+}
+
+.left-menu li > ul {
+	top: 0;
+	left: 150px;
+}

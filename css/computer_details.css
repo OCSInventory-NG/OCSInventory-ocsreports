@@ -10,25 +10,6 @@
     border-left: 4px solid;
 }
 
-/*** MENU ***/
-
-.computer-menu {
-	padding-left: 20px;
-	float: left;
-	text-align: left;
-	width: 172px;
-}
-
-.computer-menu .nav > li > a {
-	width: 150px;
-	padding: 10px 15px;
-}
-
-.computer-menu li > ul {
-	top: 0;
-	left: 150px;
-}
-
 /*** CONTENT ***/
 
 .computer-content {

@@ -44,7 +44,7 @@ if (!isset($protectedGet['option']) and !isset($protectedGet['cat'])) {
 	$protectedGet['cat'] = 'admin';
 }
 
-echo '<div class="computer-menu">';
+echo '<div class="left-menu">';
 show_computer_menu($item->ID);
 echo '</div>';
 
