@@ -56,7 +56,7 @@ if (isset($protectedPost["onglet"]) and !isset($data_tab['DATA'][$protectedPost[
 if ($data_tab['DATA'] != array()){
 	show_tabs($data_tab['DATA'],$form_name,"onglet",8);
 	
-	echo '<div class="mlt_bordure" >';
+	echo '<div class="right-content"><div class="mlt_bordure" >';
 	
 	if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES'){
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
@@ -148,7 +148,7 @@ if ($data_tab['DATA'] != array()){
 
 	}
 	
-	echo "</div>";
+	echo "</div></div>";
 	echo "<input type=hidden name='ADMIN' value='' id='ADMIN'>";
 	echo "<input type=hidden name='VISIBLE' value='' id='VISIBLE'>";
 	echo "<input type=hidden name='NO_VISIBLE' value='' id='NO_VISIBLE'>";

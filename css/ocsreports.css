@@ -308,7 +308,6 @@ td.ta:last-child {border-right: solid 1px #9894B5;} /*prevent Mozilla scrollbar 
 th.ta:last-child {border-right: solid 1px #9894B5;}
 
 .mlt_bordure {
-	width:75%;
     margin:0 auto 0 auto;
 	background: #f8f8f8;
 	border: 1px solid #c7c7c7;
@@ -430,4 +429,10 @@ iframe{
 .left-menu li > ul {
 	top: 0;
 	left: 150px;
+}
+
+/*** CONTENT ***/
+.right-content {
+	margin-left: 190px;
+	margin-right: 20px;
 }

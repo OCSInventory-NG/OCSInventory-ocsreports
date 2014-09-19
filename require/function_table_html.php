@@ -273,9 +273,9 @@ function xml_decode( $txt ) {
 			unset($addressoption['all']);
 			unset($addressoption['cat']);
 			$addressoption['option']=$option['computersectionrequest'];
-			$address = "?".http_build_query($addressoption);
+			$address = "ajax.php?".http_build_query($addressoption);
 		}else{
-			$address = isset($_SERVER['QUERY_STRING'])? "?".$_SERVER['QUERY_STRING']: "";
+			$address = isset($_SERVER['QUERY_STRING'])? "ajax.php?".$_SERVER['QUERY_STRING']: "";
 		}
 	}
 	//Display the Column selector

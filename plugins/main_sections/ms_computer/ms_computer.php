@@ -48,7 +48,7 @@ echo '<div class="left-menu">';
 show_computer_menu($item->ID);
 echo '</div>';
 
-echo '<div class="computer-content">';
+echo '<div class="right-content">';
 
 show_computer_title($item);
 
