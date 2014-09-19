@@ -355,7 +355,7 @@
 460 Identifiant unique
 461 Digest
 462 Taille totale
-463 Taille fragment ( 1 Ko min )
+463 Taille fragment
 464 Nombre de fragments
 465 Activation de paquets
 466 ATTENTION: Le fichier d'information est introuvable à l'adresse
@@ -892,7 +892,7 @@
 1006 ne possède pas les droits d'écriture
 1007 Le répertoire
 1008 Utilisation sur ce paquet de la redistribution
-1009 Répertoire de stockage sur les serveurs
+1009 Chemin sur le serveur
 1010 NORMAL
 1011 DEBUG
 1012 LANGUE

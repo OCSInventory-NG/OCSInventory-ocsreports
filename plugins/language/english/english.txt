@@ -355,7 +355,7 @@
 460 Unique identifier
 461 Digest
 462 Total size
-463 Fragments size (1 KB min)
+463 Fragments size
 464 Fragments number
 465 Package activation
 466 WARNING: Can't find information file at
@@ -892,7 +892,7 @@
 1006 don't have wrinting rights
 1007 The directory
 1008 Use on this redistribution package
-1009 Servers storage directory
+1009 Path on remote server
 1010 NORMAL
 1011 DEBUG
 1012 LANGUAGE
