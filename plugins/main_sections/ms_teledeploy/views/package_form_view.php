@@ -66,7 +66,8 @@ function show_file_upload_frame($timestamp, $data, $errors) {
 	show_form_field($data, $errors, 'input', 'FILE', $l->g(549), array(
 		'type' => 'file',
 		'attrs' => array(
-			'accept' => 'application/zip,application/gzip'
+			'accept' => 'application/zip,application/gzip',
+			'multiple' => 'multiple'
 		)
 	));
 	

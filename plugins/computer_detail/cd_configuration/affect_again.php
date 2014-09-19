@@ -55,7 +55,7 @@ if (strpos($protectedGet['img'], "groups_search.png"))
 include ("opt_groups.php");
 if (strpos($protectedGet['img'], "tele_search.png"))
 include ("opt_pack.php");
-if (strpos($protectedGet['img'], "sup_search.png"))
+if (strpos($protectedGet['img'], "delete.png"))
 include ("opt_sup.php");
 
 ?>

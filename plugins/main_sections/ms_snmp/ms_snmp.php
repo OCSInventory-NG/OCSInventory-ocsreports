@@ -71,7 +71,7 @@ $tab_options['LIEN_LBL']['NAME_SNMP']='index.php?'.PAG_INDEX.'='.$pages_refs['ms
 $tab_options['LIEN_CHAMP']['NAME_SNMP']='ID';
 $tab_options['LBL']['NAME_SNMP']=$l->g(49);
 ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
-$img['image/sup_search.png']=$l->g(162);
+$img['image/delete.png']=$l->g(162);
 del_selection($form_name);
 echo close_form();
 if ($ajax){

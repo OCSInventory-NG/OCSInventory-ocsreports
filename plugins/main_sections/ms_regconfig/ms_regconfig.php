@@ -91,7 +91,7 @@ if ($protectedPost['tab'] == 'VIEW'){
 	$tab_options['form_name']=$form_name;
 	$tab_options['table_name']=$table_name;
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);		
-	$img['image/sup_search.png']=$l->g(162);
+	$img['image/delete.png']=$l->g(162);
 	del_selection($form_name);	
 }elseif ($protectedPost['tab'] == 'ADD'){
 

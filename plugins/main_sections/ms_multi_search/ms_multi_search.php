@@ -909,8 +909,8 @@ if ($list_id != "")	{
 	//choix des fonctionnalit�es pour les utilisateurs 
 	$list_fonct["image/groups_search.png"]=$l->g(583);
 	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
-		$list_fonct["image/sup_search.png"]=$l->g(122);
-		$list_pag["image/sup_search.png"]=$pages_refs["ms_custom_sup"];
+		$list_fonct["image/delete.png"]=$l->g(122);
+		$list_pag["image/delete.png"]=$pages_refs["ms_custom_sup"];
 			$tab_options['LBL_POPUP']['SUP']='name_of_machine';
 	}
 	$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
@@ -1272,7 +1272,7 @@ asort($optArray_trait);
  
 $protectedPost['multiSearch']=$l->g(32);
 $aff_field_search= $l->g(31).": ".show_modif($optArray_trait,'multiSearch',2,$form_name,array('DEFAULT'=>'NO'));
-$aff_field_search.="<img src='image/delete_all.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."' style='margin-left:20px'>";
+$aff_field_search.="<img src='image/delete-small.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."' style='margin-left:20px'>";
 echo "<div class='mlt_bordure'>";
 echo "<div class='field'>".$aff_field_search."</div>";
 

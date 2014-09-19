@@ -140,7 +140,8 @@ $tab_options['LBL']['SUP']=$l->g(122);
 $tab_options['TRI']['DATE']['e.bdate']="%m/%d/%Y";
 $entete = ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 if ($entete and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
-		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><span class='glyphicon glyphicon-trash'></span></a>";
+		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/delete.png' title='Supprimer' ></a>";
+		//echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><span class='glyphicon glyphicon-trash'></span></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}
 echo close_form();

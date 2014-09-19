@@ -96,7 +96,7 @@ if (isset($systemid))
 		$fin="</a>";
 		$entete[$i++]=$deb.$col.$fin;			
 	}
-		$entete[$i++]="SUP <br><img src=image/delete_all.png OnClick='confirme(\"\",\"ALL\",\"".$form_name."\",\"supp\",\"".$l->g(640)." ".$l->g(643)." \");'>";
+		$entete[$i++]="SUP <br><img src=image/delete-small.png OnClick='confirme(\"\",\"ALL\",\"".$form_name."\",\"supp\",\"".$l->g(640)." ".$l->g(643)." \");'>";
 		$entete[$i]="MODIF  <img src=image/modif_all.png  OnClick='pag(\"ALL\",\"modif\",\"".$form_name."\")'>";
 
 	$i=0;
@@ -108,7 +108,7 @@ if (isset($systemid))
 			$data2[$i]['DESCRIPTION']=$item ->DESCRIPTION;
 			$data2[$i]['URL']="http://".$item ->URL;
 			$data2[$i]['REP_STORE']=$item ->ADD_REP;
-			$data2[$i]['SUP']="<img src=image/supp.png OnClick='confirme(\"".$item ->NAME."\",\"".$item ->ID."\",\"".$form_name."\",\"supp\",\"".$l->g(640)." ".$l->g(644)." \");'>";
+			$data2[$i]['SUP']="<img src=image/delete-small.png OnClick='confirme(\"".$item ->NAME."\",\"".$item ->ID."\",\"".$form_name."\",\"supp\",\"".$l->g(640)." ".$l->g(644)." \");'>";
 			if ($data2[$i]['IP_ADDR'] != "" )
 			$data2[$i]['MODIF']="<img src=image/modif_tab.png OnClick='pag(\"".$i."\",\"modif\",\"".$form_name."\")'>";
 			else

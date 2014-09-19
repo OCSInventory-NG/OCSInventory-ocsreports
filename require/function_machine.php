@@ -177,7 +177,7 @@ function show_packages($systemid,$page="ms_computer"){
 						}elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')){	
 								if (isset($valDeploy["comments"]) and strtotime ($valDeploy["comments"])<strtotime ("-12 week")){
 									echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&reset_notified=".$valDeploy["ivalue"]."&systemid=".
-									urlencode($systemid)."&option=cd_configuration'><img src=image/supp.png></a>";
+									urlencode($systemid)."&option=cd_configuration'><img src=image/delete-small.png></a>";
 								}
 						
 						}

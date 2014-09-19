@@ -370,7 +370,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	$select .= "</select>";
 	
 	//on affiche le d�but de ligne
-	echo "<div class='field search-field'><a href=\"javascript:;\"><img src='image/supp.png' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'></a>";
+	echo "<div class='field search-field'><a href=\"javascript:;\"><img src='image/delete-small.png' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'></a>";
 	if ($ajout != '') echo $and_or;
 	echo "&nbsp;".$optArray[$value].'&nbsp;';
 	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur

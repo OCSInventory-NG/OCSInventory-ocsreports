@@ -120,7 +120,7 @@ else{
 	$tab_options['table_name']=$table_name;
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 		//traitement par lot
-	$img['image/sup_search.png']=$l->g(162);
+	$img['image/delete.png']=$l->g(162);
 	del_selection($form_name);
 }
 echo '</div>';

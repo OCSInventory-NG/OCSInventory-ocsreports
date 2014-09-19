@@ -86,7 +86,7 @@ $tab_options['form_name']=$form_name;
 $tab_options['table_name']=$table_name;
 $result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 if ($result_exist != "" and !$cant_active)
-echo "<a href=# OnClick='confirme(\"\",\"".$protectedGet['timestamp']."\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
+echo "<a href=# OnClick='confirme(\"\",\"".$protectedGet['timestamp']."\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/delete.png' title='Supprimer' ></a>";
 echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 echo close_form();
 echo "<center>".$l->g(552)."</center>";

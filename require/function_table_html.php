@@ -1057,7 +1057,7 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 	$view=show_modif($tab_field,'FILTRE',2);
 	$view.=show_modif($protectedPost['FILTRE_VALUE'],'FILTRE_VALUE',0);
 	
-	echo $l->g(883).": ".$view."<input type='submit' value='".$l->g(1109)."' name='SUB_FILTRE'><a href=# onclick='return pag(\"RAZ\",\"RAZ_FILTRE\",\"".$form_name."\");'><img src=image/supp.png></a></td></tr><tr><td align=center>";
+	echo $l->g(883).": ".$view."<input type='submit' value='".$l->g(1109)."' name='SUB_FILTRE'><a href=# onclick='return pag(\"RAZ\",\"RAZ_FILTRE\",\"".$form_name."\");'><img src=image/delete-small.png></a></td></tr><tr><td align=center>";
 	echo "<input type=hidden name='RAZ_FILTRE' id='RAZ_FILTRE' value=''>";
 	return array('SQL'=>$query,'ARG'=>$arg,'ARG_COUNT'=>$arg_count);
 }
@@ -1299,7 +1299,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 			if (in_array($k,$_SESSION['OCS']['col_tab'][$tab_name])){
 				$data_with_filter['entete'][$k]=$v;	
 				if (!isset($list_col_cant_del[$k]))
-				 $data_with_filter['entete'][$k].="<a href=# onclick='return pag(\"".xml_encode($k)."\",\"SUP_COL\",\"".$id_form."\");'><img src=image/supp.png></a>";
+				 $data_with_filter['entete'][$k].="<a href=# onclick='return pag(\"".xml_encode($k)."\",\"SUP_COL\",\"".$id_form."\");'><img src=image/delete-small.png></a>";
 			}	
 			else
 			$list_rest[$k]=$v;
@@ -1322,7 +1322,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	if (is_array ($list_rest)){
 		//$list_rest=lbl_column($list_rest);
 		$select_restCol= $l->g(349).": ".show_modif($list_rest,'restCol'.$tab_name,2,$form_name);
-		$select_restCol .=  "<a href=# OnClick='pag(\"".$tab_name."\",\"RAZ\",\"".$id_form."\");'><img src=image/supp.png></a></td></tr></table>"; //</td></tr><tr><td align=center>
+		$select_restCol .=  "<a href=# OnClick='pag(\"".$tab_name."\",\"RAZ\",\"".$id_form."\");'><img src=image/delete-small.png></a></td></tr></table>"; //</td></tr><tr><td align=center>
 		echo $select_restCol;
 	}else
 		echo "</td></tr></table>";
@@ -2230,7 +2230,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 								$lbl_msg=$tab_options['LBL_POPUP'][$key];
 						}else
 							$lbl_msg=$l->g(640)." ".$value_of_field;
-						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/supp.png></a>";
+						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/delete-small.png></a>";
 						$lien = 'KO';		
 					}elseif ($key == "MODIF"){
 						if (!isset($tab_options['MODIF']['IMG']))
@@ -2368,7 +2368,7 @@ echo "<script language=javascript>
 		echo "<table align='center' width='30%' border='0'>";
 		echo "<tr><td>";
 		//foreach ($img as $key=>$value){
-			echo "<td align=center><a href=# onclick=garde_check(\"image/sup_search.png\",\"\")><img src='image/sup_search.png' title='".$l->g(162)."' ></a></td>";
+			echo "<td align=center><a href=# onclick=garde_check(\"image/delete.png\",\"\")><img src='image/delete.png' title='".$l->g(162)."' ></a></td>";
 		//}
 	 echo "</tr></tr></table>";
 	 echo "<input type='hidden' id='del_check' name='del_check' value=''>";

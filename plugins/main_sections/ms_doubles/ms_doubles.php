@@ -297,7 +297,7 @@ if ($protectedPost['detail'] != ''){
 	$tab_options['LBL']['SUP']=$l->g(122);
 	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	if ($result_exist != "" and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
-		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/sup_search.png' title='Supprimer' ></a>";
+		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/delete.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}
 	echo "<br><input type='submit' value='".$l->g(177)."' name='FUSION'>";
