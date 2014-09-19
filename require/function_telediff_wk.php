@@ -608,7 +608,7 @@ function dde_form($form_name){
 			if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES'){
 				if (isset($add_values_admin[$protectedPost['cat']])){
 					foreach($add_values_admin[$protectedPost['cat']] as $key=>$value)
-						$tab_typ_champ[$value]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&value=".$value."&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+						$tab_typ_champ[$value]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&value=".$value."&form=".$form_name."\"><img src=image/plus.png></a>";
 				}				
 			}	
 		}else 
@@ -735,10 +735,10 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF_WK') == 'YES'){
 					array_push($value_field,$List_fields);
 				}
 				$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-				$tab_typ_champ[0]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=tab&value=TAB&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+				$tab_typ_champ[0]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=tab&value=TAB&form=".$form_name."\"><img src=image/plus.png></a>";
 				$tab_typ_champ[0]['RELOAD']=$form_name;
 				$tab_typ_champ[1]['RELOAD']=$form_name;
-				$tab_typ_champ[1]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=fields&value=".$protectedPost['TAB']."&form=".$form_name."\",\"admin_management\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=700,height=650\")><img src=image/plus.png></a>";
+				$tab_typ_champ[1]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_management']."&head=1&admin=fields&value=".$protectedPost['TAB']."&form=".$form_name."\"><img src=image/plus.png></a>";
 				
 				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
 					'form_name' => 'NO_FORM',

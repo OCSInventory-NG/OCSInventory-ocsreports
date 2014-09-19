@@ -151,7 +151,7 @@ $i=0;
 	}
 	//Can you modify configuration of this computer?
 	if( $_SESSION['OCS']['profile']->getConfigValue('CONFIG')=="YES" ){
-		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=machine\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
+		echo "<td align=center rowspan=8><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=machine\" >
 		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
 	}
 	$ii++; $td3 = $ii%2==0?$td2:$td4;
@@ -265,7 +265,7 @@ $i=0;
 		
 		echo "<tr><td colspan='10' align='right'>";
 		if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ) 
-			echo "<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."</a> ";
+			echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\">".$l->g(501)."</a> ";
 		
 	
 		$reqGroups = "SELECT h.name,h.id,h.workgroup 

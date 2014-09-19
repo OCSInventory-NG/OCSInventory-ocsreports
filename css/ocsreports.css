@@ -385,6 +385,9 @@ th.ta:last-child {border-right: solid 1px #9894B5;}
 }
 
 
+.comment_after{
+	float:right;
+}
 
 iframe{
 	width:100%;

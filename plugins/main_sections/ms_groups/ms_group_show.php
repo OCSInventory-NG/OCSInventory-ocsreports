@@ -543,7 +543,7 @@ function print_perso($systemid) {
 		echo $td3.$l->g(493)."</td>";
 	}
 	if( $_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES"){
-		echo "<td align=center rowspan=8><a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>
+		echo "<td align=center rowspan=8><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\">
 		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
 	}
 	
@@ -619,7 +619,7 @@ function print_perso($systemid) {
 	if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES" ){
 	echo "<tr>
 		<td colspan='10' align='right'>
-		<a href=# Onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=group\",\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");>".$l->g(501)."
+		<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=group\">".$l->g(501)."
 		</a>
 		</td></tr>";
 	}

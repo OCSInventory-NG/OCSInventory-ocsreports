@@ -804,7 +804,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$aff="";
 		if (is_array($name)){
 			foreach ($name as $key=>$value){
-				$aff.="<a href=# onclick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_view_file']."&prov=dde_wk&no_header=1&value=".$key."\",\"toto\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");' >".
+				$aff.="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_view_file']."&prov=dde_wk&no_header=1&value=".$key."\">".
 						$value."</a><br>";
 			}
 		}
@@ -1737,13 +1737,13 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						$row[$key]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
 						break;
 					case "ZIP":
-						$row[$key]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\",\"compress\",\"\")><img src=image/archives.png></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png></a>";
 						break;
 					case "STAT":
-						$row[$key]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\",\"stats\",\"\")><img src='image/stat.png'></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png'></a>";
 						break;
 					case "ACTIVE":
-						$row[$key]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\")'><img src='image/activer.png' ></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' ></a>";
 						break;
 					case "SHOWACTIVE":					
 						if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
@@ -2182,7 +2182,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$size="width=550,height=350";
 						else
 						$size=$tab_options['POPUP_SIZE'][$key];
-						$data[$i][$num_col]="<a href=# onclick=window.open(\"".$tab_options['LIEN_LBL'][$key].$donnees[$tab_options['LIEN_CHAMP'][$key]]."\",\"".$key."\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,".$size."\")>".$value_of_field."</a>";
+						$data[$i][$num_col]="<a href=\"".$tab_options['LIEN_LBL'][$key].$donnees[$tab_options['LIEN_CHAMP'][$key]]."\")>".$value_of_field."</a>";
 					
 					}
 				}	
@@ -2246,14 +2246,14 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
 						$lien = 'KO';
 					}elseif ($key == "ZIP"){
-						$data[$i][$num_col]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\",\"compress\",\"\")><img src=image/archives.png></a>";
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png></a>";
 						$lien = 'KO';
 					}
 					elseif ($key == "STAT"){
-						$data[$i][$num_col]="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\",\"stats\",\"\")><img src='image/stat.png'></a>";
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png'></a>";
 						$lien = 'KO';
 					}elseif ($key == "ACTIVE"){
-						$data[$i][$num_col]="<a href=# OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=800,height=450\")'><img src='image/activer.png' ></a>";
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' ></a>";
 						$lien = 'KO';
 					}elseif ($key == "SHOWACTIVE"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";

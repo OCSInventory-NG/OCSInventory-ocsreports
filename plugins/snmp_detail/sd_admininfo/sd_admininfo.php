@@ -116,7 +116,7 @@ if ($list_tab != ''){
 				array_push($config['JAVASCRIPT'],'');
 				array_push($config['SIZE'],'');
 				if ($admin_accountinfo)
-					array_push($config['COMMENT_AFTER'],$up_png . "<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_SNMP_VALUE_" . $val_admin_info['NAME'] . "\",\"ACCOUNT_SNMP_VALUE\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>");
+					array_push($config['COMMENT_AFTER'],$up_png . "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ACCOUNT_SNMP_VALUE_" . $val_admin_info['NAME'] . "\"><img src=image/plus.png></a>");
 				else
 					array_push($config['COMMENT_AFTER'],'');
 				array_push($config['SELECT_DEFAULT'],'YES');
