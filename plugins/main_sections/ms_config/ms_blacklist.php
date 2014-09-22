@@ -107,7 +107,7 @@ if ($protectedPost['onglet'] == 1){
 	$list_action[1]=$l->g(95);
 	$list_action[2]=$l->g(36);
 	$list_action[3]=$l->g(2005);
-	echo $l->g(700).": ".show_modif($list_action,"BLACK_CHOICE",2,$form_name)."<br>";
+	echo "<p>".$l->g(700).": ".show_modif($list_action,"BLACK_CHOICE",2,$form_name)."</p>";
 	if (isset($protectedPost['BLACK_CHOICE']) and $protectedPost['BLACK_CHOICE'] != ''){
 		$aff="<table align=center><tr><td>";
 		if ($protectedPost['BLACK_CHOICE'] == 1){

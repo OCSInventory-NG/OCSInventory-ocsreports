@@ -57,7 +57,7 @@ if (isset($protectedPost['MODIF'])
 }
 
 
-echo "<br>";
+
 echo open_form($form_name);
 onglet($data_on,$form_name,"onglet",2);
 echo '<div class="mlt_bordure" >';

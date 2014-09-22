@@ -168,7 +168,7 @@ $result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$lis
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	echo "</td></tr></table>";	
 	if ($protectedPost['onglet'] == "STAT")
-		echo "<BR><input type='submit' name='add_static_group' value='".$l->g(587)."'>";
+		echo "<p><input type='submit' name='add_static_group' value='".$l->g(587)."'></p>";
 }
 
 //if user want add a new group

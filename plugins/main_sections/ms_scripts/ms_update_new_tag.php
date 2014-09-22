@@ -89,22 +89,21 @@ foreach ($list_field as $name){
 	
 }
 }
-
+$add_colum_accountinfo=array('1','2');
 if (isset($add_colum_accountinfo) or isset($add_lign_accountinfo_config) or isset($rename_col_accountinfo)){
 		
 		
 		$form_name = "console";
 		echo open_form($form_name);
-		echo "<b>This script is going to help you to update your old admin info<br>";
-		echo "to the new version 2.0 <br><br></b> ";
+		echo "<p><b>This script is going to help you to update your old admin info<br>";
+		echo "to the new version 2.0 </b> </p>";
 		echo "<input type=submit id='EXE' name='EXE'>";
 		echo close_form();
-		echo "<br>";
 		echo '<div class="mlt_bordure" >';
-		echo "<font size=4><i>Summary of actions to be undertaken</i></font><br><br>";
+		echo "<p><font size=4><i>Summary of actions to be undertaken</i></font></p>";
 		if (isset($add_colum_accountinfo)){
-			echo "<b><font color=red>add column in accountinfo table<br>
-					(orphans found in accountinfo_config table (Inconsistency))<br><br></font></b>";
+			echo "<p><b><font color=red>add column in accountinfo table<br>
+					(orphans found in accountinfo_config table (Inconsistency))</font></b></p>";
 			foreach($add_colum_accountinfo as $key=>$values){
 				echo $values."<br>";		
 			}	
@@ -112,10 +111,11 @@ if (isset($add_colum_accountinfo) or isset($add_lign_accountinfo_config) or isse
 		
 		
 		if (isset($add_lign_accountinfo_config)){
-			echo "<b><font color=blue>add lignes in accountinfo_config table<br>
-					(orphans found in accountinfo table (=> 2.0))<br><br></font></b>";
+			echo "<p><b><font color=blue>add lignes in accountinfo_config table<br>
+					(orphans found in accountinfo table (=> 2.0))</font></b></p>";
 			foreach($add_lign_accountinfo_config as $key=>$values){
 				$i=0;
+				echo "<p>"
 				while (isset($values[$i])){
 					echo $values[$i];
 					echo "&nbsp;";
@@ -123,13 +123,12 @@ if (isset($add_colum_accountinfo) or isset($add_lign_accountinfo_config) or isse
 						echo "<br>";
 					$i++;	
 				}
-				echo "<br><br><br>";		
+				echo "</p>";		
 			}	
-			echo "<br>";
 		}
 		if (isset($rename_col_accountinfo)){
-			echo "<b><font color=blue>Renaming of old columns in accountinfo table
-					<br>(=> 2.0)<br><br><br></font></b>";
+			echo "<p><b><font color=blue>Renaming of old columns in accountinfo table
+					<br>(=> 2.0)</font></b></p>";
 			foreach($rename_col_accountinfo as $key=>$values){
 				echo $values[0]."<br>";
 			}	

@@ -43,7 +43,6 @@ $multi_choice=array('TEXT','TEXTAREA','SELECT',
 					$l->g(802),'PASSWORD','CHECKBOX',
 					'LIST','HIDDEN','BLOB (FILE)','LIST LINK','TAB');
 
-echo "<br>";
 echo open_form($form_name);
 onglet($data_on,$form_name,"onglet",2);
 echo '<div class="mlt_bordure" >';

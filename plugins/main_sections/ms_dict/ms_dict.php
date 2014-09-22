@@ -116,7 +116,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 		 if ($i<=20)
 		 onglet($list_cat,$form_name,"onglet_soft",5);
 		 else
-		 echo $l->g(398) . ": ".show_modif($list_cat,'onglet_soft',2,$form_name)."<br>";
+		 echo "<p>".$l->g(398) . ": ".show_modif($list_cat,'onglet_soft',2,$form_name)."</p>";
 		 //You can delete or not?
 		  if ($i != 1 and isset($list_cat[$protectedPost['onglet_soft']]))
 		 echo "<a href=# OnClick='return confirme(\"\",\"".$protectedPost['onglet_soft']."\",\"".$form_name."\",\"SUP_CAT\",\"".$l->g(640)."\");'>".$l->g(921)."</a></td></tr><tr><td>";

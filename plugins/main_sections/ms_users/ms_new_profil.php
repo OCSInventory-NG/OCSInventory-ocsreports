@@ -31,7 +31,7 @@ $array_profil=search_profil();
 if (!is_writable($_SESSION['OCS']['CONF_PROFILS_DIR']))
 	$no_delete=true;
 	
-echo "<br>";
+
 echo open_form($form_name);
 msg_warning($l->g(1152));
 onglet($data_on,$form_name,"onglet",2);

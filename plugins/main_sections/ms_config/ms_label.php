@@ -34,7 +34,6 @@ $resL=mysql2_query_secure($reqL,$_SESSION['OCS']["readServer"],$arg);
 $val = mysqli_fetch_object($resL);
 printEntete($l->g(263));
 $form_name='admin_info';
-echo "<br>";
 echo open_form($form_name);
 
 $name_field=array("lbl");

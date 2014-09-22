@@ -274,17 +274,16 @@ if (isset($sql)){
 	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 }
 
-echo "<br>";
 
-echo "<b>".$l->g(735)."</b><br><br>";
-echo $l->g(382).": ".show_modif($protectedPost['NAME_RESTRICT'],'NAME_RESTRICT',0);
-echo "&nbsp;".$l->g(381).": ".show_modif(array('<'=>'<','>'=>'>','='=>'='),'COMPAR',2);
-echo show_modif($protectedPost['NBRE'],'NBRE',0,'',array('MAXLENGTH'=>100,'SIZE'=>10,'JAVASCRIPT'=>$numeric));
+echo "<p><b>".$l->g(735)."</b></p>";
+echo "<p>".$l->g(382).": ".show_modif($protectedPost['NAME_RESTRICT'],'NAME_RESTRICT',0)."</p>";
+echo "<p>".$l->g(381).": ".show_modif(array('<'=>'<','>'=>'>','='=>'='),'COMPAR',2);
+echo show_modif($protectedPost['NBRE'],'NBRE',0,'',array('MAXLENGTH'=>100,'SIZE'=>10,'JAVASCRIPT'=>$numeric))."</p>";
 //echo "<input type='input' name='NBRE' value='".$protectedPost['NBRE']."' ".$numeric.">";
-echo "<br><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8")."'><br>".$l->g(183)." ".$l->g(765)."<br></a>";
+echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8")."'>".$l->g(183)." ".$l->g(765)."</a>";
 if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protectedPost['NBRE'] != "")
-echo "<br><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8")."&all_computers=yes'>".$l->g(912)."</a><br>";
-echo "<br><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'>";
+echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8")."&all_computers=yes'>".$l->g(912)."</a>";
+echo "<p><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'></p>";
 
 echo '</div>';
 echo close_form();

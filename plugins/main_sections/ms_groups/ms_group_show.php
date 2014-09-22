@@ -165,7 +165,7 @@ else{ //only show the botton for modify
 }
 //form for modify values of group's
 echo open_form('CHANGE');
-echo "<br><br><table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
+echo "<table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
 
 //TELEDIFF_WK
 //use teledeploy workflow?
@@ -266,7 +266,7 @@ if ($server_group){
 		$i++;
 			//print_r($valDeploy);
 		}
-	echo "</table><br>";
+	echo "</table>";
 	}
 	require(MAIN_SECTIONS_DIR."/".$_SESSION['OCS']['url_service']->getDirectory('ms_server_redistrib')."/ms_server_redistrib.php");
 }else{
@@ -290,8 +290,6 @@ if ($server_group){
 	$imgAdm = Array("ms_config");
 	$lblHdw = Array($l->g(580), $l->g(581));
 	$imgHdw = Array("ms_all_computersred", "ms_all_computers",);
-	
-	echo "<br><br>";
 	
 	echo "<table width='20%' border=0 align='center' cellpadding='0' cellspacing='0'>
 			<tr>";
@@ -321,7 +319,7 @@ if ($server_group){
 if(!$ajax){		
     echo "<script language='javascript'>wait(0);</script>";
 	flush();	
-	echo "<br></body>";
+	echo "</body>";
 	echo "</html>";
 }
 ob_end_flush();
@@ -348,8 +346,7 @@ function regeneration_sql($valGroup){
 	$tab=xml_decode($valGroup);
 	$cherche = array( "<xmldef>","</REQUEST>","</xmldef>");
 	$replace = array("","","");
-	$tab= str_replace($cherche, $replace, $tab);	
-//	echo "<br>".$tab."<br>";
+	$tab= str_replace($cherche, $replace, $tab);
 	$tab_list_sql=explode("<REQUEST>",trim($tab));
 	unset($tab_list_sql[0]);
 	return($tab_list_sql);
@@ -623,7 +620,7 @@ function print_perso($systemid) {
 		</a>
 		</td></tr>";
 	}
-	echo "</table><br>";
+	echo "</table>";
 	echo close_form();
 }
 

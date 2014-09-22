@@ -231,7 +231,8 @@ h1 sub
 
 <div id="titles"><div id="titlecontent">
 
-	<p class="center">LICENCE<br />Learn more about how OCS Inventory is licensed and how this affects you.</p>
+	<p class="center">LICENCE</p>
+	<p>Learn more about how OCS Inventory is licensed and how this affects you.</p>
 	<p>OCS Inventory is released under the GNU General Public License, version 2.0 (GNU GPLv2). </p>
 	
 	<p>The GNU GPL provides for a person or persons to distribute OCS Inventory for a fee, </p>

@@ -291,6 +291,6 @@ $i=0;
 			
 		echo "</td></tr>";		
 	//}
-	echo "</table><br>";
+	echo "</table>";
 	echo close_form();
 ?>

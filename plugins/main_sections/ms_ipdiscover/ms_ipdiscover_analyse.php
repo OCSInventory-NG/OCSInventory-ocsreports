@@ -67,7 +67,7 @@ if (isset($protectedPost['reset']) and $protectedPost['reset'] != ''){
 				$result_exist=ajaxtab_entete_fixe($tabBalises,$default_fields,$tab_options,$list_col_cant_del);		
 				
 			}
-	echo "<br><input type='submit' name='reset' value='".$l->g(1261)."'>";
+	echo "<p><input type='submit' name='reset' value='".$l->g(1261)."'></p>";
 }
 		
 echo close_form();

@@ -71,7 +71,6 @@ if (is_array($data)){
 		$tab_options['LIEN_TYPE']['name']='POPUP';
 		$tab_options['POPUP_SIZE']['name']="width=900,height=600";
 		printEntete($l->g(928));
-		echo "<br>";
 		$table_name = $form_name;
 		$tab_options['form_name']=$form_name;
 		$tab_options['table_name']=$table_name;

@@ -86,8 +86,6 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	}
 	$tab_hidden['USER_ENTER']=$protectedPost['USER'];	
 	$tab_hidden['MODIF_ID']=$protectedPost['MODIF_ID'];	
-	echo "<br>";
-	echo "<br>";
 	//si on est dans le cas d'une modif, on affiche le login qui a saisi la donn�e
 	if ($protectedPost['MODIF_ID'] != ''){
 		$tab_typ_champ[3]['DEFAULT_VALUE']=$protectedPost['USER'];
@@ -245,7 +243,7 @@ else{ //affichage des p�riph�riques
 				$msg_info=$l->g(342)." ".$fipdisc." (".$IPD_DIR.")";
 			}	
 			if (!isset($msg_info)){
-				echo "<br><input type='button' onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_ipdiscover_analyse']."&head=1&rzo=".$protectedGet['value']."\",\"analyse\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=650\") name='analyse' value='".$l->g(317)."'>";
+				echo "<p><input type='button' onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_ipdiscover_analyse']."&head=1&rzo=".$protectedGet['value']."\",\"analyse\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=650\") name='analyse' value='".$l->g(317)."'></p>";
 				
 			}else
 				msg_info($msg_info);

@@ -27,7 +27,6 @@ if (!isset($_SESSION['OCS']["mac"]))
 	loadMac();
 	
 printEntete($l->g(312));
-echo "<br>";	
 
  $form_name='ipdiscover';
  $tab_options=$protectedPost;
@@ -160,11 +159,9 @@ echo open_form($form_name);
 	$tab_options['NO_TRI']['LBL_RSX']='LBL_RSX';
 	$val_count=count_noinv_network_devices($dpt[$protectedPost['DPT_CHOISE']]);
 
-	$strEnTete = $_SESSION['OCS']["ipdiscover_id"]." ".$dpt[$protectedPost['DPT_CHOISE']]." <br>";
-		$strEnTete .= "<br>(<font color='red'>".$val_count."</font> ".$l->g(219).")";
-		echo "<br><br>";	
+	$strEnTete = "<p>".$_SESSION['OCS']["ipdiscover_id"]." ".$dpt[$protectedPost['DPT_CHOISE']]." <br>";
+		$strEnTete .= "(<font color='red'>".$val_count."</font> ".$l->g(219).")</p>";
 		printEnTete($strEnTete);
-		echo "<br><br>";
 	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	}
 echo close_form();

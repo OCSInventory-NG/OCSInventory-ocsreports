@@ -211,7 +211,7 @@ $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
 $tab_options['table_name']=$table_name;
 echo open_form($form_name);
-echo "<br><table BORDER='0' WIDTH = '25%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
+echo "<table BORDER='0' WIDTH = '25%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 foreach ($count_id as $lbl=>$count_value){
 	echo "<tr><td align='center'>";
 	switch($lbl) {
@@ -232,7 +232,7 @@ foreach ($count_id as $lbl=>$count_value){
 	if ($protectedPost['detail'] == $lbl and $count_value == 0)
 	unset($protectedPost['detail']);
 }
-echo "</table><br>";
+echo "</table>";
 echo "<input type=hidden name=detail id=detail value='".$protectedPost['detail']."'>";
 
 //show details
@@ -300,7 +300,7 @@ if ($protectedPost['detail'] != ''){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/delete.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}
-	echo "<br><input type='submit' value='".$l->g(177)."' name='FUSION'>";
+	echo "<p><input type='submit' value='".$l->g(177)."' name='FUSION'></p>";
 	echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
 }
 echo close_form();

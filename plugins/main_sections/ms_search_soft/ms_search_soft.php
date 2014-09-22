@@ -45,8 +45,8 @@ echo "\n".'<i>'.$l->g(20).": ";
 
 remplirListe("logiciel_select");
 
-echo "\n".'<br><br><input type="text" name="logiciel_text" value="'.$protectedPost['logiciel_text'].'" id="champ-texte"  size="15"/>';
-echo "\n".'<br><input type="submit" id="bouton-submit" value="'.$l->g(13).'" name="bouton-submit">';
+echo "\n".'<p><input type="text" name="logiciel_text" value="'.$protectedPost['logiciel_text'].'" id="champ-texte"  size="15"/></p>';
+echo "\n".'<input type="submit" id="bouton-submit" value="'.$l->g(13).'" name="bouton-submit">';
 
 echo "\n".'<div id="fr">';
 
