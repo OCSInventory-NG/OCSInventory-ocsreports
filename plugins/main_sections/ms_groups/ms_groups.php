@@ -77,8 +77,8 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	if ($protectedPost['onglet'] == "")
 	$protectedPost['onglet']="STAT";	
 	//show onglet
-	onglet($def_onglets,$form_name,"onglet",0);
-	echo '<div class="mlt_bordure" >';
+	show_tabs($def_onglets,$form_name,"onglet",0);
+	echo '<div class="right-content mlt_bordure" >';
 
 
 }else{	

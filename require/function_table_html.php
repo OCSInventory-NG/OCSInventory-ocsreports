@@ -278,6 +278,13 @@ function xml_decode( $txt ) {
 			$address = isset($_SERVER['QUERY_STRING'])? "ajax.php?".$_SERVER['QUERY_STRING']: "";
 		}
 	}
+	
+?>
+
+<div align=center>
+	<div class="table_top_settings">
+<?php
+
 	//Display the Column selector
 	if (!empty($list_col_can_del)){
 	?>
@@ -306,7 +313,7 @@ function xml_decode( $txt ) {
 	}
 	?>
 
-<div align=center>
+
 	<div id="<?php echo $option['table_name']; ?>_csv_download"
 		style="display: none">
 	<?php
@@ -320,6 +327,7 @@ function xml_decode( $txt ) {
 	<?php 
 	echo "<a href='#' id='reset".$option['table_name']."' onclick='delete_cookie(\"".$option['table_name']."_col\");window.location.reload();' style='display: none;' >".$l->g(1380)."</a>";
 	?>
+	</div>
 	<script>	
 	//Check all the checkbox
 	function checkall()
@@ -343,7 +351,9 @@ function xml_decode( $txt ) {
 		var table = $(table_id).dataTable({
 	        "processing": true,
 	        "serverSide": true,
+	    	'dom':'<<"wrapper"lf><t><"row"<"col-xs-6"i><"col-xs-6"p>>>',
         	"ajax": {
+           
             	 'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
             	 "type": "POST",
             	 //Error handling
@@ -401,7 +411,8 @@ function xml_decode( $txt ) {
                 	        	$("#reset"+table_name).hide();
                 	        }
                 	        if(json.debug){
-								$('#'+table_name+'_debug').append("<hr><p>"+json.debug+"</p>");
+                	        	$("<p>"+json.debug+"</p><hr>").hide().prependTo('#'+table_name+'_debug div').fadeIn(1000);
+                	        	$(".datatable_request").show();
                 	        }
                 	        return json.data;
                 	      },
@@ -568,6 +579,9 @@ function xml_decode( $txt ) {
 		?><center>
 		<div id="<?php echo $option['table_name']; ?>_debug" class="alert alert-info" role="alert">
 		<b>[DEBUG]TABLE REQUEST[DEBUG]</b>
+		<hr>
+		<b class="datatable_request" style="display:none;">LAST REQUEST:</b>
+		<div></div>
 		</div>
 		</center><?php
 	}
