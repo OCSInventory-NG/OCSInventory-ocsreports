@@ -386,7 +386,7 @@ function xml_decode( $txt ) {
             	        }
             	        $.each(d.columns,function(index,value){
                 	        var col = "."+this['data'];
-            	       		if($(table_id).DataTable().column(col).visible()){
+                	      	if($(table_id).DataTable().column(col).visible()){
 								visible.push(index);
             	        	}
             	 		});
@@ -400,7 +400,7 @@ function xml_decode( $txt ) {
 						}
 						?>
         	        	ocs.push($(form_name).serialize());
-            	        d.visible = visible;
+            	        d.visible_col = visible;
             	        d.ocs = ocs;
                 	    },
                	"dataSrc": function ( json ) {
@@ -1485,7 +1485,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 					if ($key == 1){
 						
 						$rang =0;
-						foreach($tab_options['visible'] as $index=>$column){
+						foreach($tab_options['visible_col'] as $index=>$column){
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 							$name = $tab_options['columns'][$column]['name'];
 							if (!empty($tab_options["replace_query_arg"][$name])){
@@ -1530,7 +1530,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 		//REQUET SELECT FROM
 		$queryDetails .= " WHERE ";
 		$index =0;
-		foreach($tab_options['visible'] as $column){
+		foreach($tab_options['visible_col'] as $column){
 			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 			if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$column])){
 				$searchable =false;
@@ -1971,9 +1971,9 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			$visible++;
 		}
 	}
-	$data = serialize($tab_options['visible']);
+	$data = serialize($tab_options['visible_col']);
 	$customized=false;
-	if (count($tab_options['visible'])!=$visible){
+	if (count($tab_options['visible_col'])!=$visible){
 		$customized=true;
 		setcookie($tab_options['table_name']."_col",$data,time()+31536000);
 	}

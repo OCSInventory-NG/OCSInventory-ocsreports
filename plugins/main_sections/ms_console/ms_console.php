@@ -10,8 +10,8 @@
 //====================================================================================
 
 if(AJAX){  
-		parse_str($protectedPost['ocs']['0'], $params);	
-		$protectedPost+=$params; 
+	parse_str($protectedPost['ocs']['0'], $params);	
+	$protectedPost+=$params; 
 	ob_start();
 	$ajax = true;
 }
@@ -109,6 +109,8 @@ if ($data_tab['DATA'] != array()){
 				} else {
 					msg_error($l->g(239));
 				}
+			}else{
+				$tab_options=$protectedPost;
 			}
 		
 			$table_name=$protectedPost['onglet'];
