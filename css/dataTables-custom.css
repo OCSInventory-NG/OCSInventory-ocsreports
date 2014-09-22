@@ -35,6 +35,7 @@ table.dataTable{
 	box-sizing: content-box;
 }
 div.tableContainer {
+	overflow:hidden; 
 	width:100%;
 	overflow-y: none;
 	margin: 0 auto;

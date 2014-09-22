@@ -351,7 +351,6 @@ function xml_decode( $txt ) {
 		var table = $(table_id).dataTable({
 	        "processing": true,
 	        "serverSide": true,
-	    	'dom':'<<"wrapper"lf><t><"row"<"col-xs-6"i><"col-xs-6"p>>>',
         	"ajax": {
            
             	 'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
