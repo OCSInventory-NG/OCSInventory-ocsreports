@@ -85,8 +85,8 @@ if (isset($msg['SUCCESS'])){
 }	
 
 echo open_form($form_name);
-onglet($data_on,$form_name,"onglet",2);
-echo '<div class="mlt_bordure" >';
+show_tabs($data_on,$form_name,"onglet",2);
+echo '<div class="right-content mlt_bordure" >';
 
 	$table="accountinfo";
 

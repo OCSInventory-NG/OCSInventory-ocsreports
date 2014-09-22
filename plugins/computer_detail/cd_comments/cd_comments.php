@@ -110,7 +110,7 @@ else{
 
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	if (!$show_all_column){
-		echo "<br><input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='" . $l->g(898) . "'>";
+		echo "<input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='" . $l->g(898) . "'>";
 		del_selection($form_name);
 	}
 	

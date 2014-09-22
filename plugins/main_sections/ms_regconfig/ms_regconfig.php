@@ -41,8 +41,8 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 		$tab_hidden['id']=$row->ID;	
 }
 $tab_options=$protectedPost;
-onglet($tab,$form_name,"tab",4);
-echo '<div class="mlt_bordure" >';
+show_tabs($tab,$form_name,"tab",4);
+echo '<div class="right-content mlt_bordure" >';
 if ($ajax){
 	if (isset($protectedPost['REGKEY'])){
 		$protectedPost['tab']="VIEW";

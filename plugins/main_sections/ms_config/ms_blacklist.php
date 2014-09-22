@@ -57,8 +57,8 @@ if (isset($protectedPost['enre'])){
 		unset($_SESSION['OCS']['DATA_CACHE'],$_SESSION['OCS']['NUM_ROW']);
 }
 echo open_form($form_name);
-onglet($data_on,$form_name,"onglet",10);
-echo '<div class="mlt_bordure" >';
+show_tabs($data_on,$form_name,"onglet",10);
+echo '<div class="right-content mlt_bordure" >';
 
 if ($protectedPost['onglet'] == 1){
 	$table_name="blacklist_macaddresses";

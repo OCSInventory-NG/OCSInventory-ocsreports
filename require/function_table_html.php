@@ -348,6 +348,7 @@ function xml_decode( $txt ) {
 		A Full documentation about DataTable constructor can be found at 
 		https://datatables.net/manual/index
 		*/
+	
 		var table = $(table_id).dataTable({
 	        "processing": true,
 	        "serverSide": true,
@@ -506,9 +507,10 @@ function xml_decode( $txt ) {
     	        		"sSortDescending": ": <?php echo $l->g(1348); ?>",
     	        	}
 			},
-			"scrollX":'auto',
+			"scrollX":'true',
        	});
-
+		
+		
        	//Column Show/Hide
 		$("body").on("click","#disp"+table_name,function(){
 			var col = "."+$("#select_col"+table_name).val();

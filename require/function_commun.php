@@ -390,6 +390,7 @@ function html_header($no_java=false){
 			}
 		}
 	}
+	
 	echo "</head>"; 
 
 	echo "<body bottommargin='0' leftmargin='0' topmargin='0' rightmargin='0' marginheight='0' marginwidth='0'>";

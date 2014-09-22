@@ -37,7 +37,7 @@ $form_name = "admins";
 $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
 echo open_form($form_name);
-onglet($data_on,$form_name,"onglet",4);
+show_tabs($data_on,$form_name,"onglet",4);
 $table_name="TAB_ACCESSLVL".$protectedPost['onglet'];	
 if ($protectedPost['onglet'] != $protectedPost['old_onglet']){
 unset($protectedPost['MODIF']);
@@ -71,7 +71,7 @@ if (isset($protectedPost['Valid_modif'])){
 		msg_error($ok);
 	
 }
-echo '<div class="mlt_bordure" >';
+echo '<div class="right-content mlt_bordure" >';
 //add user or modif
 if ($protectedPost['onglet'] == 4 
 	or (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != '')){	

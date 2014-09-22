@@ -42,6 +42,7 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	}
 	$protectedPost['onglet'] = 'ADMIN_RSX';
 	$protectedPost['MODIF']=$protectedGet['value'];
+	$left_menu_displayed=false;
 }else{
 	$data_on['ADMIN_RSX']=$l->g(1140);
 	$data_on['ADMIN_TYPE']=$l->g(836);
@@ -52,9 +53,11 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	if ($protectedPost['onglet'] != $protectedPost['old_onglet'])
 	unset($protectedPost['MODIF']);	
 	
-	onglet($data_on,$form_name,"onglet",10);
+	show_tabs($data_on,$form_name,"onglet",10);
+	$left_menu_displayed=true;
 }
-echo '<div class="mlt_bordure" >';
+$class=($left_menu_displayed)?"right-content":"";
+echo '<div class="'.$class.' mlt_bordure" >';
 if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 	$method=verif_base_methode('OCS');
 	if (!$method){

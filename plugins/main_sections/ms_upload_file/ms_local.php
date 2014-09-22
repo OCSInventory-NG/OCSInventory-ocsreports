@@ -15,8 +15,8 @@ $data_on['FILE']=$l->g(288);
 $data_on['MANUEL']=$l->g(1258);
 echo open_form($form_name);
 //$protectedPost['onglet']='FILE';
-onglet($data_on,$form_name,"onglet",4);
-echo "<div class='mlt_bordure' >";
+show_tabs($data_on,$form_name,"onglet",4);
+echo "<div class='right-content mlt_bordure' >";
 
 if ($protectedPost['onglet'] == 'FILE'){
 	echo "<script language='javascript'>  

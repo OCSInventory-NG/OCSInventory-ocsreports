@@ -260,7 +260,6 @@ text-decoration: underline;
 table.ta {
 	width: 99%;		/*100% of container produces horiz. scroll in Mozilla*/
 	/*border: 1px slategray;*/
-
 	border-bottom: solid 1px #9894B5;
 	border-top: solid 1px #9894B5;
 	border-left: solid 1px #9894B5;
