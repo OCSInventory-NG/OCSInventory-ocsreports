@@ -17,6 +17,10 @@ table.qr td.on
 {
 	background: #000000;
 }
+.fond{
+	width:97%;
+	margin:auto;
+}
 
 .conteneur {
 /*background-color: #C7D9F5;*/

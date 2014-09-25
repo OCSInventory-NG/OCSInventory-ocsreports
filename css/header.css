@@ -7,7 +7,9 @@
 	margin-left: 137px;
 }
 
-
+.main-menu-container .navbar {
+	margin-bottom: 10px;
+}
 
 .main-menu-container .navbar-nav > li {
 	float: none;
