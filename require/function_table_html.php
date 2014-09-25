@@ -278,15 +278,16 @@ function xml_decode( $txt ) {
 			$address = isset($_SERVER['QUERY_STRING'])? "ajax.php?".$_SERVER['QUERY_STRING']: "";
 		}
 	}
-	
+	$opt = false;
 ?>
 
 <div align=center>
-	<div class="table_top_settings">
+	<div class="<?php echo $option['table_name']; ?>_top_settings" style="display:none;">
 <?php
 
 	//Display the Column selector
 	if (!empty($list_col_can_del)){
+		$opt = true;
 	?>
 <div>
 	<select id="select_col<?php echo $option['table_name']; ?>">
@@ -328,6 +329,7 @@ function xml_decode( $txt ) {
 	echo "<a href='#' id='reset".$option['table_name']."' onclick='delete_cookie(\"".$option['table_name']."_col\");window.location.reload();' style='display: none;' >".$l->g(1380)."</a>";
 	?>
 	</div>
+
 	<script>	
 	//Check all the checkbox
 	function checkall()
@@ -342,18 +344,22 @@ function xml_decode( $txt ) {
 		var table_name = "<?php echo $option['table_name']; ?>";
 		var table_id ="table#<?php echo $option['table_name']; ?>";
 		var form_name = "form#<?php echo $option['form_name']; ?>";
-		var csrfid = "input#CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?>";
+		var csrfid = "input#CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER'];?>";
+		
 		/* 
 		Table Skeleton Creation. 
 		A Full documentation about DataTable constructor can be found at 
 		https://datatables.net/manual/index
 		*/
-	
+		var dom = '<<"row"lf '+
+			'<"dataTables_processing" r>><"#'+table_name+'_settings" >'+
+			't<"row" <"col-md-2" i><"col-md-10" p>>>';
+        
 		var table = $(table_id).dataTable({
 	        "processing": true,
 	        "serverSide": true,
-        	"ajax": {
-           
+	        "dom":dom,
+	       	"ajax": {
             	 'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
             	 "type": "POST",
             	 //Error handling
@@ -507,17 +513,32 @@ function xml_decode( $txt ) {
     	        		"sSortDescending": ": <?php echo $l->g(1348); ?>",
     	        	}
 			},
-			"scrollX":'true',
+			"scrollX":'true'
        	});
 		
-		
-       	//Column Show/Hide
+		//Column Show/Hide
 		$("body").on("click","#disp"+table_name,function(){
 			var col = "."+$("#select_col"+table_name).val();
 			$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
 			$(table_id).DataTable().ajax.reload();
 		});
-		<?php
+
+		
+			$("<span id='"+table_name+"_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle' style='display:none;'></span>").appendTo("#"+table_name+"_filter label");
+			$("#"+table_name+"_settings").hide();
+		 	$("."+table_name+"_top_settings").contents().appendTo("#"+table_name+"_settings");
+		 	$("#"+table_name+"_settings").addClass('table_settings');
+			$("body").on("click","#"+table_name+"_settings_toggle",function(){
+				$("#"+table_name+"_settings_toggle").toggleClass("glyphicon-chevron-up");
+				$("#"+table_name+"_settings_toggle").toggleClass("glyphicon-chevron-down");
+				 $("#<?php echo $option['table_name']; ?>_settings").fadeToggle();
+				 
+			});
+
+		<?php if($opt){ ?>
+		$("#"+table_name+"_settings_toggle").show();
+		<?php  
+ 		}
 		//Csv Export 
 		if (!isset($option['no_download_result'])){
 		?>
@@ -528,6 +549,7 @@ function xml_decode( $txt ) {
 				//Show one line only if results fit in one page
 				if (total == 0){
 					$('#'+table_name+'_csv_download').hide();
+					$("#"+table_name+"_settings_toggle").hide();
 				}
 				else{
 				if (end != total || start != 1){
@@ -539,6 +561,7 @@ function xml_decode( $txt ) {
 				}
 				$('#infototal_'+table_name).text(total);
 				$('#'+table_name+'_csv_download').show();
+				$("#"+table_name+"_settings_toggle").show();
 				}
 			});
 		<?php 
@@ -550,7 +573,8 @@ function xml_decode( $txt ) {
 	<?php
 	if ($titre != "")
 		printEnTete_tab($titre);
-	echo "<br><div class='tableContainer'><table id='".$option['table_name']."' class='table table-striped table-bordered table-condensed table-hover'><thead><tr>";
+	echo "<div class='tableContainer'>";
+	echo "<table id='".$option['table_name']."' class='table table-striped table-bordered table-condensed table-hover'><thead><tr>";
 		//titre du tableau
 	foreach($columns as $k=>$v)
 	{		

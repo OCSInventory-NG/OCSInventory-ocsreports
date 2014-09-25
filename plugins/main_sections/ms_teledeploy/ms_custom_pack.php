@@ -266,8 +266,8 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 
 	//show tab
 	if ($list_id){	
-		onglet($def_onglets,$form_name,'onglet',7);
-			echo '<div class="mlt_bordure" >';
+		show_tabs($def_onglets,$form_name,'onglet',7);
+			echo '<div class="right-content mlt_bordure" >';
 			
 		echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";
 		if ($protectedPost['onglet'] == 'SERV_GROUP'){

@@ -66,3 +66,22 @@ table.dataTable .CHECK{
 table.dataTable thead>tr>th.CHECK{
 	background-image:none !important;
 }
+
+.dataTables_filter{
+	margin-right:15px;
+}
+
+.table_settings_toggle{
+	margin-left:5px;
+}
+.table_settings{
+	width: 100%;
+	margin-top: 25px;
+	display: block;
+	margin: 0 auto 0 auto;
+	background: #f8f8f8;
+	border: 1px solid #c7c7c7;
+	padding: 20px 50px;
+	margin-bottom: 20px;
+	text-align: center;
+}
