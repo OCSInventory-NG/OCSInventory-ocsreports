@@ -160,7 +160,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
 	}
 	//warning are detected
 	if ($msg_header_warning != array())
-		msg_warning(implode('<br>',$msg_header_warning));
+		msg_warning(implode('<br>',$msg_header_warning),"top_msg_warning");
 	
 }
 
