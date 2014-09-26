@@ -290,6 +290,7 @@ function xml_decode( $txt ) {
 		$opt = true;
 	?>
 <div>
+<label><?php echo $l->g(1349); ?> :</label>
 	<select id="select_col<?php echo $option['table_name']; ?>">
 	<?php 
 	foreach($list_col_can_del as $key => $col){
@@ -308,7 +309,7 @@ function xml_decode( $txt ) {
 	}
 	?>
 	</select>
-	<button type="button" id="disp<?php echo $option['table_name']; ?>"> <?php echo $l->g(1349); ?></button>
+	
 </div>
 <?php 
 	}
@@ -517,14 +518,14 @@ function xml_decode( $txt ) {
        	});
 		
 		//Column Show/Hide
-		$("body").on("click","#disp"+table_name,function(){
-			var col = "."+$("#select_col"+table_name).val();
+		$("body").on("click","#select_col"+table_name,function(){
+			var col = "."+$(this).val();
 			$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
 			$(table_id).DataTable().ajax.reload();
 		});
 
 		
-			$("<span id='"+table_name+"_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle' style='display:none;'></span>").appendTo("#"+table_name+"_filter label");
+			$("<span id='"+table_name+"_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#"+table_name+"_filter label");
 			$("#"+table_name+"_settings").hide();
 		 	$("."+table_name+"_top_settings").contents().appendTo("#"+table_name+"_settings");
 		 	$("#"+table_name+"_settings").addClass('table_settings');
@@ -534,7 +535,6 @@ function xml_decode( $txt ) {
 				 $("#<?php echo $option['table_name']; ?>_settings").fadeToggle();
 				 
 			});
-
 		<?php if($opt){ ?>
 		$("#"+table_name+"_settings_toggle").show();
 		<?php  
