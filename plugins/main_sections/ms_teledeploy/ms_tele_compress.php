@@ -29,7 +29,7 @@ if(isset($protectedGet["timestamp"])){
 	//echo $document_root;
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root)){
-		$document_root = DOCUMENT_ROOT."download/";
+		$document_root = VARLIB_DIR.'/download/';
 		if ($protectedGet['type'] == "server")
 			$document_root .="server/";
 	}

@@ -278,7 +278,7 @@ if (!$protectedPost){
 		$document_root = $val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']."/download/";
 	else{	
 		//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
-		$document_root = DOCUMENT_ROOT."download/";
+		$document_root = VARLIB_DIR.'/download/';
 	}
 
 	$rep_exist=file_exists($document_root); 

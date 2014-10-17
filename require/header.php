@@ -15,16 +15,6 @@ die('FORBIDDEN');
 unset($_SESSION['OCS']['SQL_DEBUG']);
 @session_start();
 error_reporting(E_ALL & ~E_NOTICE);
-/*************************************************WHAT OS USE************************************/
-$real_dir=explode('/',$_SERVER['SCRIPT_FILENAME']);
-array_pop($real_dir);	
-define("DOCUMENT_REAL_ROOT",implode('/',$real_dir)."/");
-
-if(substr($_SERVER['DOCUMENT_ROOT'],-1) != '/'){
-	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']."/");	
-}else{
-	define("DOCUMENT_ROOT",$_SERVER['DOCUMENT_ROOT']);
-}
 /********************************************FIND SERVER URL****************************************/
 $addr_server=explode('/',$_SERVER['HTTP_REFERER']);
 array_pop($addr_server);
@@ -120,36 +110,37 @@ if (is_resource($link_write) and is_resource($link_read)) {
 /***********************************************************LOGS ADMIN*************************************************************************/
 if (!isset($_SESSION['OCS']['LOG_GUI'])){
 	$values=look_config_default_values(array('LOG_GUI','LOG_DIR','LOG_SCRIPT'));
-	$_SESSION['OCS']['LOG_GUI']=$values['ivalue']['LOG_GUI'];
-	$_SESSION['OCS']['LOG_DIR']=$values['tvalue']['LOG_DIR'];
-	$_SESSION['OCS']['LOG_SCRIPT'] = $values['tvalue']['LOG_SCRIPT'];
-	
-	if ($_SESSION['OCS']['LOG_DIR'] == '')
-		$_SESSION['OCS']['LOG_DIR'] =DOCUMENT_ROOT.'logs/';
-	else
+	$_SESSION['OCS']['LOG_DIR'] = $values['tvalue']['LOG_DIR'];
+	if ($_SESSION['OCS']['LOG_DIR']) {
 		$_SESSION['OCS']['LOG_DIR'] .='/logs/';
-	
-	if ($_SESSION['OCS']['LOG_SCRIPT'] == '')
-		$_SESSION['OCS']['LOG_SCRIPT'] =DOCUMENT_ROOT.'scripts/';		
-	else
-		$_SESSION['OCS']['LOG_SCRIPT'] .="/scripts/";
+	} else {
+		$_SESSION['OCS']['OLD_CONF_DIR'] = VARLOG_DIR.'/logs/';
+	}
+	$_SESSION['OCS']['LOG_GUI'] = $values['ivalue']['LOG_GUI'];
+	if ($_SESSION['OCS']['LOG_SCRIPT']) {
+		$_SESSION['OCS']['LOG_SCRIPT'] .="/scripts/";		
+	} else {
+		$_SESSION['OCS']['OLD_CONF_DIR'] = VARLOG_DIR.'/scripts/';
+	}
 }
 /****************END LOGS***************/
 
 /***********************************************************CONF DIRECTORY*************************************************************************/
 if (!isset($_SESSION['OCS']['CONF_PROFILS_DIR'])){
 	$values=look_config_default_values(array('CONF_PROFILS_DIR','OLD_CONF_DIR'));
-	$_SESSION['OCS']['OLD_CONF_DIR']=$values['tvalue']['OLD_CONF_DIR'];
-	$_SESSION['OCS']['CONF_PROFILS_DIR']=$values['tvalue']['CONF_PROFILS_DIR'];
-	if ($_SESSION['OCS']['OLD_CONF_DIR'] == '')
-		$_SESSION['OCS']['OLD_CONF_DIR'] =DOCUMENT_REAL_ROOT.'plugins/main_sections/conf/old_conf/';
-	else
+	$_SESSION['OCS']['OLD_CONF_DIR'] = $values['tvalue']['OLD_CONF_DIR'];
+	if ($_SESSION['OCS']['OLD_CONF_DIR']) {
 		$_SESSION['OCS']['OLD_CONF_DIR'] .='/old_conf/';
-		
-	if ($_SESSION['OCS']['CONF_PROFILS_DIR'] == '')
-		$_SESSION['OCS']['CONF_PROFILS_DIR'] =DOCUMENT_REAL_ROOT.'plugins/main_sections/conf/';
-	else
+	} else {
+		$_SESSION['OCS']['CONF_PROFILS_DIR'] = ETC_DIR.'/'.MAIN_SECTIONS_DIR.'old_conf/';
+	}
+
+	$_SESSION['OCS']['CONF_PROFILS_DIR'] = $values['tvalue']['CONF_PROFILS_DIR'];
+	if ($_SESSION['OCS']['CONF_PROFILS_DIR']) {
 		$_SESSION['OCS']['CONF_PROFILS_DIR'] .='/conf/';
+	} else {
+		$_SESSION['OCS']['CONF_PROFILS_DIR'] = ETC_DIR.'/'.MAIN_SECTIONS_DIR.'conf/';
+	}
 }
 /****************END LOGS***************/
 

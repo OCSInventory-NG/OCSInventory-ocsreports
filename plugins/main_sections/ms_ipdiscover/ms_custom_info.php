@@ -219,8 +219,7 @@ else{ //affichage des p�riph�riques
 		echo open_form($form_name);		
 		$result_exist=tab_req($table_name,$list_fields,$default_fields,$list_col_cant_del,$sql,$form_name,80,$tab_options); 
 			$fipdisc = "ipdiscover-util.pl" ;
-		$values=look_config_default_values(array('IPDISCOVER_IPD_DIR'));
-		$IPD_DIR=$values['tvalue']['IPDISCOVER_IPD_DIR']."/ipd";
+		$values=look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPDISCOVER_IPD_DIR'=>array('TVALUE'=>VARLIB_DIR)));		$IPD_DIR=$values['tvalue']['IPDISCOVER_IPD_DIR']."/ipd";
 		if( $scriptPresent = @stat($fipdisc) ) {
 			$filePresent = true;
 			if( ! is_executable($fipdisc) ) {
