@@ -3,7 +3,7 @@ CREATE TABLE batteries (
    `HARDWARE_ID` int(11), 
    `LOCATION` varchar(255) default null, 
    `MANUFACTURER` varchar(255) default null, 
-   `MANUFACTURER_DATE` varchar(10) default null, 
+   `MANUFACTUREDATE` varchar(10) default null, 
    `SERIALNUMBER` varchar(255) default null, 
    `NAME` varchar(255) default null, 
    `CHEMISTRY` varchar(20) default null, 
