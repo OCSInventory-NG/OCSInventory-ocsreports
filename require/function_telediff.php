@@ -324,7 +324,7 @@ function del_pack($fileid){
 	$document_root=$info['tvalue']['DOWNLOAD_PACK_DIR'];
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root))
-		$document_root = $_SERVER["DOCUMENT_ROOT"];
+		$document_root = VARLIB_DIR;
 	
 	if (@opendir($document_root."/download/".$fileid)){
 		//delete all files from this package
@@ -338,7 +338,7 @@ function del_pack($fileid){
 	$document_root = $dl_rep_redist['tvalue']['DOWNLOAD_REP_CREAT'];
 	
 	if (!$document_root) {
-		$document_root = $_SERVER["DOCUMENT_ROOT"].'/download/server';
+		$document_root = VARLIB_DIR.'/download/server';
 	}
 	$redist_package = realpath($document_root."/".$fileid);
 	

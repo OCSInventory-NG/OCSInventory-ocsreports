@@ -78,7 +78,7 @@ if (!$cant_active){
 	$document_root = $info_document_root["tvalue"][$config_document_root];
 	//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 	if (!isset($document_root)){
-			$document_root = DOCUMENT_ROOT."download";
+			$document_root = VARLIB_DIR.'/download';
 			if ($protectedPost['SHOW_SELECT'] == "server")
 				$document_root .="server/";
 			

@@ -475,19 +475,31 @@ function trait_post($name){
  	debut_tab();
  	ligne('LOCAL_URI_SERVER',$l->g(565),'radio',array('DEFAULT'=>$l->g(823)." (http://localhost:80/ocsinventory)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_local_uri),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOCAL_URI_SERVER'],'SIZE'=>50,'MAXLENGTH'=>254 ));
-	ligne('DOWNLOAD_PACK_DIR',$l->g(775),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_ROOT."download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_pack),
-		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_PACK_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/download" ));
-	ligne('IPDISCOVER_IPD_DIR',$l->g(776),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_ROOT."ipd)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_ipd),
-		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['IPDISCOVER_IPD_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/ipd"));
-	ligne('LOG_GUI',$l->g(824),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOG_GUI'])); 	
-	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_ROOT."logs)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
-			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/logs"));	
+ 	$def = VARLIB_DIR.'/download';
+ 	ligne('DOWNLOAD_PACK_DIR',$l->g(775),'radio',array('DEFAULT'=>$l->g(823)." ($def)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_pack),
+ 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['DOWNLOAD_PACK_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/download" ));
 
-	ligne('LOG_SCRIPT',$l->g(1254),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_ROOT."scripts)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_scripts),
+	$def = VARLIB_DIR.'/ipd';
+	ligne('IPDISCOVER_IPD_DIR',$l->g(776),'radio',array('DEFAULT'=>$l->g(823)." (".$def.")",'CUSTOM'=>$l->g(822),'VALUE'=>$select_ipd),
+		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['IPDISCOVER_IPD_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/ipd"));
+
+
+	ligne('LOG_GUI',$l->g(824),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOG_GUI'])); 	
+
+	$def = VARLOG_DIR.'/logs';
+	ligne('LOG_DIR',$l->g(825),'radio',array('DEFAULT'=>$l->g(823)." (".$def.")",'CUSTOM'=>$l->g(822),'VALUE'=>$select_log),
+			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/logs"));	
+	
+	$def = VARLOG_DIR.'/scripts';
+	ligne('LOG_SCRIPT',$l->g(1254),'radio',array('DEFAULT'=>$l->g(823)." (".$def.")",'CUSTOM'=>$l->g(822),'VALUE'=>$select_scripts),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOG_SCRIPT'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/scripts"));	
-	ligne('CONF_PROFILS_DIR',$l->g(1252),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_REAL_ROOT.MAIN_SECTIONS_DIR."conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_profils),
+	
+	$def = ETC_DIR.'/'.MAIN_SECTIONS_DIR.'conf/';
+	ligne('CONF_PROFILS_DIR',$l->g(1252),'radio',array('DEFAULT'=>$l->g(823)." (".$def.")",'CUSTOM'=>$l->g(822),'VALUE'=>$select_profils),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['CONF_PROFILS_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/conf"));	
-	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)." (".DOCUMENT_REAL_ROOT.MAIN_SECTIONS_DIR."conf/old_conf)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
+
+	$def = ETC_DIR.'/'.MAIN_SECTIONS_DIR.'old_conf/';
+	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)." (".$def.")",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>50,'MAXLENGTH'=>254,'END'=>"/old_conf"));		
 	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>2,'MAXLENGTH'=>4));	
 	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			

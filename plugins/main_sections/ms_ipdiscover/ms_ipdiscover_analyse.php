@@ -32,7 +32,7 @@ $tab_options['table_name']=$table_name;
 echo open_form($form_name);
 $pas = $protectedGet['rzo'];
 //$rez = $nomRez;
-$values=look_config_default_values(array('IPDISCOVER_IPD_DIR'));
+$values=look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPDISCOVER_IPD_DIR'=>array('TVALUE'=>VARLIB_DIR)));
 $fname=$values['tvalue']['IPDISCOVER_IPD_DIR'];
 $file_name=$fname."/ipd/".$pas.".ipd";
 //reset cache?

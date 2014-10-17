@@ -115,7 +115,7 @@ if (isset($add_colum_accountinfo) or isset($add_lign_accountinfo_config) or isse
 					(orphans found in accountinfo table (=> 2.0))</font></b></p>";
 			foreach($add_lign_accountinfo_config as $key=>$values){
 				$i=0;
-				echo "<p>"
+				echo "<p>";
 				while (isset($values[$i])){
 					echo $values[$i];
 					echo "&nbsp;";

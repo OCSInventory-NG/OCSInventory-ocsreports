@@ -1,4 +1,4 @@
-CREATE TABLE battery (
+CREATE TABLE batteries (
    `ID` int(11) not null AUTO_INCREMENT,
    `HARDWARE_ID` int(11), 
    `LOCATION` varchar(255) default null, 

@@ -10,6 +10,9 @@
 //====================================================================================
 
 @session_start();
+define('DOCUMENT_REAL_ROOT', dirname(__FILE__));
+define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
+
 define("GUI_VER", "7009");												// Version of the database
 define("GUI_VER_SHOW","2.2Beta");        								    // Version of the GUI
 define("MAC_FILE", "files/oui.txt");									// File containing MAC database
@@ -25,12 +28,16 @@ define("DFT_GUI_PSWD",'admin');											// Define default password to connect 
 define('BACKEND',"backend/");										    // Define backend Directory
 define('PHPCAS',BACKEND.'require/lib/phpcas/CAS.php');					// Path to CAS (change to use system provided library)
 define('PLUGINS_DIR',"plugins/");										// Define plugins Directory
-define('PLUGINS_GUI_DIR','/tmp/');
-define('CONF_MYSQL',"dbconfig.inc.php");								// Define dbconf file		
+define('PLUGINS_GUI_DIR','/tmp/');	
 define('HEADER_HTML',"require/html_header.php");						// Define html_header file				
 define('FOOTER_HTML',"require/footer.php");								// Define footer file		
 define('MAIN_SECTIONS_DIR',PLUGINS_DIR."main_sections/");				//
 define('DEV_OPTION',false);												// Define DEV Options DO NOT USE
 define('PC4PAGE',20);													// Define result by page MUST in (5,10,15,20,50,100,200,1000000);
 define('CSRF',1000);														// max number of csrf session 
+define('ETC_DIR', DOCUMENT_REAL_ROOT);									// Configuration dir
+define('VARLIB_DIR', DOCUMENT_ROOT);									// Data default dir
+define('VARLOG_DIR', DOCUMENT_ROOT);									// Log defaut dir
+define('CONF_MYSQL', ETC_DIR.'/dbconfig.inc.php');						// Define dbconf file
+
 ?>
