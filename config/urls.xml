@@ -106,7 +106,7 @@
   </url>
   <url key="ms_codes">
     <value>admin_codes</value>
-    <directory/>
+    <directory></directory>
   </url>
   <url key="ms_blacklist">
     <value>admin_black</value>
@@ -118,14 +118,10 @@
   </url>
   <url key="ms_components">
     <value>components</value>
-    <directory/>
+    <directory></directory>
   </url>
   <url key="ms_tele_package">
     <value>tele_package</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_tele_package_new">
-    <value>tele_package_new</value>
     <directory>ms_teledeploy</directory>
   </url>
   <url key="ms_tele_activate">
@@ -142,7 +138,7 @@
   </url>
   <url key="ms_tele_pack">
     <value>tele_pack</value>
-    <directory/>
+    <directory></directory>
   </url>
   <url key="ms_rules_redistrib">
     <value>rules_redistrib</value>
@@ -154,7 +150,7 @@
   </url>
   <url key="ms_opt_ipdiscover">
     <value>opt_ipdiscover</value>
-    <directory/>
+    <directory></directory>
   </url>
   <url key="ms_group_show">
     <value>group_show</value>
@@ -162,7 +158,7 @@
   </url>
   <url key="ms_show_detail">
     <value>show_detail</value>
-    <directory/>
+    <directory></directory>
   </url>
   <url key="ms_custom_info">
     <value>ipdiscover_info</value>
@@ -291,34 +287,6 @@
   <url key="ms_stats_top">
     <value>stats_top</value>
     <directory>ms_stats</directory>
-  </url>
-  <url key="ms_server_infos">
-    <value>server_infos</value>
-    <directory>ms_server_infos</directory>
-  </url>
-  <url key="ms_wiki">
-    <value>wiki</value>
-    <directory>ms_help</directory>
-  </url>
-  <url key="ms_irc">
-    <value>irc</value>
-    <directory>ms_help</directory>
-  </url>
-  <url key="ms_forums">
-    <value>forums</value>
-    <directory>ms_help</directory>
-  </url>
-  <url key="ms_offers">
-    <value>offers</value>
-    <directory>ms_help</directory>
-  </url>
-    <url key="ms_ask">
-    <value>ask</value>
-    <directory>ms_help</directory>
-  </url>
-  <url key="ms_about">
-    <value>about</value>
-    <directory>ms_about</directory>
   </url>
   <url key="ms_plugins_exemple">
     <value>plugin_exemple</value>

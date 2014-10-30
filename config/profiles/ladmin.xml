@@ -39,6 +39,7 @@
     <page>ms_upload_file_popup</page>
     <page>ms_ipdiscover</page>
     <page>ms_doubles</page>
+    <page>ms_help</page>
     <page>ms_console</page>
     <page>ms_components</page>
     <page>ms_custom_param</page>
@@ -53,12 +54,5 @@
     <page>ms_view_file</page>
     <page>ms_export_ocs</page>
     <page>ms_qrcode</page>
-    <page>ms_server_infos</page>
-    <page>ms_about</page>
-    <page>ms_wiki</page>
-    <page>ms_irc</page>
-    <page>ms_forums</page>
-    <page>ms_offers</page>
-    <page>ms_ask</page>
   </pages>
 </profile>

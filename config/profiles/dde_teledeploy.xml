@@ -27,12 +27,7 @@
   <blacklist/>
   <pages>
     <page>ms_upload_file_popup</page>
-    <page>ms_wiki</page>
-    <page>ms_irc</page>
-    <page>ms_forums</page>
-    <page>ms_offers</page>
-    <page>ms_ask</page>
+    <page>ms_help</page>
     <page>ms_teledeploy_workflow</page>
-    <page>ms_about</page>
   </pages>
 </profile>

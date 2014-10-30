@@ -62,7 +62,6 @@
     <page>ms_console</page>
     <page>ms_components</page>
     <page>ms_tele_package</page>
-    <page>ms_tele_package_new</page>
     <page>ms_tele_activate</page>
     <page>ms_tele_popup_active</page>
     <page>ms_tele_actives</page>
@@ -104,12 +103,5 @@
     <page>ms_qrcode</page>
     <page>ms_plugins</page>
     <page>ms_stats_top</page>
-    <page>ms_server_infos</page>
-    <page>ms_wiki</page>
-    <page>ms_irc</page>
-    <page>ms_forums</page>
-    <page>ms_offers</page>
-    <page>ms_about</page>
-    <page>ms_ask</page>
   </pages>
 </profile>

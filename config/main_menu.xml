@@ -4,22 +4,22 @@
     <label>g(2)</label>
     <url>ms_all_computers</url>
   </menu-elem>
-  <menu-elem id="inventory">
-    <label>g(728)</label>
-    <url>ms_all_computers</url>
+  <menu-elem id="ms_groups">
+    <label>g(583)</label>
+    <url>ms_groups</url>
+  </menu-elem>
+  <menu-elem id="ms_repart_tag">
+    <label>g(178)</label>
+    <url>ms_repart_tag</url>
+  </menu-elem>
+  <menu-elem id="ms_all_soft">
+    <label>g(765)</label>
+    <url>ms_all_soft</url>
+  </menu-elem>
+  <menu-elem id="ms_multi_search">
+    <label>g(1051)</label>
+    <url>ms_multi_search</url>
     <submenu>
-      <menu-elem id="ms_groups">
-        <label>g(583)</label>
-        <url>ms_groups</url>
-      </menu-elem>
-      <menu-elem id="ms_repart_tag">
-        <label>g(178)</label>
-        <url>ms_repart_tag</url>
-      </menu-elem>
-      <menu-elem id="ms_all_soft">
-        <label>g(765)</label>
-        <url>ms_all_soft</url>
-      </menu-elem>
       <menu-elem id="ms_multi_search">
         <label>g(9)</label>
         <url>ms_multi_search</url>
@@ -30,7 +30,7 @@
       </menu-elem>
     </submenu>
   </menu-elem>
-  <menu-elem id="deployment">
+  <menu-elem id="ms_teledeploy">
     <label>g(512)</label>
     <url>ms_teledeploy</url>
     <submenu>
@@ -52,17 +52,13 @@
       </menu-elem>
     </submenu>
   </menu-elem>
-  <menu-elem id="config">
+  <menu-elem id="ms_config">
     <label>g(107)</label>
     <url>ms_config</url>
     <submenu>
       <menu-elem id="ms_config">
         <label>g(107)</label>
         <url>ms_config</url>
-      </menu-elem>
-      <menu-elem id="ms_users">
-        <label>g(243)</label>
-        <url>ms_users</url>
       </menu-elem>
       <menu-elem id="ms_blacklist">
         <label>g(703)</label>
@@ -82,7 +78,7 @@
       </menu-elem>
     </submenu>
   </menu-elem>
-  <menu-elem id="networks">
+  <menu-elem id="ms_ipdiscover">
     <label>g(82)</label>
     <url>ms_ipdiscover</url>
     <submenu>
@@ -100,78 +96,50 @@
       </menu-elem>
     </submenu>
   </menu-elem>
-  <menu-elem id="manage">
-    <label>g(1328)</label>
+  <menu-elem id="ms_regconfig">
+    <label>g(211)</label>
     <url>ms_regconfig</url>
+  </menu-elem>
+  <menu-elem id="ms_admininfo">
+    <label>g(56)</label>
+    <url>ms_admininfo</url>
+  </menu-elem>
+  <menu-elem id="ms_doubles">
+    <label>g(175)</label>
+    <url>ms_doubles</url>
+  </menu-elem>
+  <menu-elem id="ms_dict">
+    <label>g(380)</label>
+    <url>ms_dict</url>
+  </menu-elem>
+  <menu-elem id="ms_plugins">
+    <label>g(6000)</label>
+    <url>ms_plugins</url>
     <submenu>
-      <menu-elem id="ms_regconfig">
-        <label>g(211)</label>
-        <url>ms_regconfig</url>
-      </menu-elem>
-      <menu-elem id="ms_admininfo">
-        <label>g(56)</label>
-        <url>ms_admininfo</url>
-      </menu-elem>
-      <menu-elem id="ms_doubles">
-        <label>g(175)</label>
-        <url>ms_doubles</url>
-      </menu-elem>
-      <menu-elem id="ms_dict">
-        <label>g(380)</label>
-        <url>ms_dict</url>
-      </menu-elem>
-      <menu-elem id="ms_local">
-        <label>g(287)</label>
-        <url>ms_local</url>
-      </menu-elem>
       <menu-elem id="ms_plugins">
-        <label>g(6000)</label>
+        <label>g(1306)</label>
         <url>ms_plugins</url>
       </menu-elem>
     </submenu>
   </menu-elem>
-  <menu-elem id="info">
-    <label>g(223)</label>
+  <menu-elem id="ms_logs">
+    <label>g(928)</label>
     <url>ms_logs</url>
-    <submenu>
-      <menu-elem id="ms_logs">
-        <label>g(928)</label>
-        <url>ms_logs</url>
-      </menu-elem>
-      <menu-elem id="ms_stats">
-        <label>g(1251)</label>
-        <url>ms_stats</url>
-      </menu-elem>
-       <menu-elem id="ms_server_infos">
-        <label>g(1360)</label>
-        <url>ms_server_infos</url>
-      </menu-elem>
-    </submenu>
+  </menu-elem>
+  <menu-elem id="ms_stats">
+    <label>g(1251)</label>
+    <url>ms_stats</url>
+  </menu-elem>
+  <menu-elem id="ms_users">
+    <label>g(243)</label>
+    <url>ms_users</url>
+  </menu-elem>
+  <menu-elem id="ms_local">
+    <label>g(287)</label>
+    <url>ms_local</url>
   </menu-elem>
   <menu-elem id="ms_help">
     <label>g(570)</label>
     <url>ms_help</url>
-    <submenu>
-      <menu-elem id="ms_wiki">
-        <label>g(1122)</label>
-        <url>ms_wiki</url>
-      </menu-elem>
-      <menu-elem id="ms_irc">
-        <label>g(1123)</label>
-        <url>ms_irc</url>
-      </menu-elem>
-      <menu-elem id="ms_ask">
-        <label>g(1376)</label>
-        <url>ms_ask</url>
-      </menu-elem>
-      <menu-elem id="ms_forums">
-        <label>g(1375)</label>
-        <url>ms_forums</url>
-      </menu-elem>
-      <menu-elem id="ms_offers">
-        <label>g(1296)</label>
-        <url>ms_offers</url>
-      </menu-elem>
-    </submenu>
   </menu-elem>
 </menu>

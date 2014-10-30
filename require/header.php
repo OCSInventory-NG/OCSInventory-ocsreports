@@ -145,6 +145,7 @@ if (!isset($_SESSION['OCS']['CONF_PROFILS_DIR'])){
 	} else {
 		$_SESSION['OCS']['CONF_PROFILS_DIR'] = ETC_DIR.'/'.MAIN_SECTIONS_DIR.'conf/';
 	}
+
 }
 /****************END LOGS***************/
 
