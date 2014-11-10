@@ -120,7 +120,7 @@ if(!function_exists('mysqli_connect')) {
 	$msg_lbl['error'][]=$l->g(2037);
 }
 
-if(!is_writable(CONF_MYSQL)) {
+if((file_exists(CONF_MYSQL) and !is_writable(CONF_MYSQL)) or (!file_exists(CONF_MYSQL) and !is_writable(ETC_DIR))) {
 	$msg_lbl['error'][]="<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
 }
 
@@ -206,6 +206,15 @@ if( isset($_POST["name"])) {
 				$pass_connect=$_POST["pass"];
 			}else{
 				msg_info($l->g(2105));
+				$ch = @fopen(CONF_MYSQL,"w");
+				fwrite($ch,"<?php\n");
+				fwrite($ch,"define(\"DB_NAME\", \"" .$_POST['database']. "\");\n");
+				fwrite($ch,"define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
+				fwrite($ch,"define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");
+				fwrite($ch,"define(\"COMPTE_BASE\",\"" . $_POST["name"] . "\");\n");
+				fwrite($ch,"define(\"PSWD_BASE\",\"" . $_POST["pass"] . "\");\n");
+				fwrite($ch,"?>");
+				fclose($ch);
 				msg_success("<b><a href='index.php'>" . $l->g(2051) . "</a></b>");
 				unset($_SESSION['OCS']['SQL_BASE_VERS']);
 				die();
