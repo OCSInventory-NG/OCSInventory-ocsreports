@@ -211,7 +211,7 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])){
 /*****************************************************GESTION DU NOM DES PAGES****************************************/
 //Config for all user
 if (!isset($_SESSION['OCS']['url_service'])){
-	if (!file_exists(DOCUMENT_REAL_ROOT.'config/urls.xml')) {
+	if (!file_exists(DOCUMENT_REAL_ROOT.'/config/urls.xml')) {
 		migrate_config_2_2();
 	}
 
