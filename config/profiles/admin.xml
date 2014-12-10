@@ -39,7 +39,11 @@
     <page>ms_upload_file_popup</page>
     <page>ms_ipdiscover</page>
     <page>ms_doubles</page>
-    <page>ms_help</page>
+    <page>ms_wiki</page>
+    <page>ms_irc</page>
+    <page>ms_forums</page>
+    <page>ms_offers</page>
+    <page>ms_ask</page>
     <page>ms_console</page>
     <page>ms_components</page>
     <page>ms_tele_activate</page>
@@ -56,5 +60,7 @@
     <page>ms_view_file</page>
     <page>ms_snmp</page>
     <page>ms_snmp_detail</page>
+    <page>ms_server_infos</page>
+    <page>ms_about</page>
   </pages>
 </profile>

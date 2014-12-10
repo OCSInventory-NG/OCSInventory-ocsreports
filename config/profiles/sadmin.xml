@@ -53,6 +53,10 @@
     <page>ms_doubles</page>
     <page>ms_label</page>
     <page>ms_users</page>
+    <page>ms_add_user</page>
+    <page>ms_user_details</page>
+    <page>ms_profiles</page>
+    <page>ms_add_profile</page>
     <page>ms_custom_perim</page>
     <page>ms_local</page>
     <page>ms_help</page>
@@ -103,5 +107,12 @@
     <page>ms_qrcode</page>
     <page>ms_plugins</page>
     <page>ms_stats_top</page>
+    <page>ms_server_infos</page>
+    <page>ms_wiki</page>
+    <page>ms_irc</page>
+    <page>ms_forums</page>
+    <page>ms_offers</page>
+    <page>ms_about</page>
+    <page>ms_ask</page>
   </pages>
 </profile>
