@@ -131,7 +131,7 @@ class MenuRenderer {
             $attr_a['data-toggle'][] = 'dropdown';  
         }
 
-        if ($this->getActiveLink() == $menu_elem->getUrl()) {
+        if ($this->getActiveLink() and $this->getActiveLink() == $menu_elem->getUrl()) {
             $attr_li['class'][] = 'active';
         } else if ($menu_elem->getLabel() == 'divider' && $menu_elem->getUrl() == 'divider') {
             $attr_li['class'] = 'divider';

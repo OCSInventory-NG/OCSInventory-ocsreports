@@ -36,7 +36,7 @@ class Menu
      * Constructor
      * 
      * @param array  $_children An array of MenuElem
-     * @param number $_priority The priority of this elemment to sort
+     * @param number $_priority The priority of this element to sort
      */
     public function __construct(array $_children = array(), $_priority = 0)
     {
@@ -197,12 +197,7 @@ class Menu
      */
     public function addElem($index, MenuElem $menuElem)
     {        
-        $this->setChildren(
-            array_merge(
-                $this->getChildren(),
-                array($index => $menuElem)
-            )
-        );
+        $this->_children[$index] = $menuElem;
         return $this;
     }  
 }
