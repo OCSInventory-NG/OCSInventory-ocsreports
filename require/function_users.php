@@ -9,23 +9,31 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-function search_profil(){
-	global $l;
-	require_once('require/function_files.php');
-	//$Directory=$_SESSION['OCS']['plugins_dir']."main_sections/";
-	$data=ScanDirectory($_SESSION['OCS']['CONF_PROFILS_DIR'],"txt");
-//	$array_lbl=array("sadmin"=>$l->g(140),"dde_teledeploy"=>$l->g(143),"admin"=>$l->g(141),"ladmin"=>$l->g(142));
-	$i=0;
-	while ($data['name'][$i]){
-	//	echo $Directory.$data['name'][$i]."<br>";
-		if ($data['name'][$i] != '4all_config.txt' and substr($data['name'][$i],-11) == "_config.txt"){	
-			$name=substr($data['name'][$i],0,-11);
-			$temp=read_profil_file($name);
-			$list_profil[$name]=replace_language($temp['INFO']['NAME']);
+function get_profiles() {
+	$profiles = array();
+	$serializer = new XMLProfileSerializer();
+	$profilesRoot = DOCUMENT_REAL_ROOT.'config/profiles';
+	
+	// Scan and parse each profile file
+	foreach (scandir($profilesRoot) as $file) {
+		$path = $profilesRoot.'/'.$file;
+		$parts = pathinfo($path);
+		
+		// Check if it is an XML file
+		if ($parts['extension'] === 'xml' and is_file($path)) {
+			$profiles[$parts['filename']] = $serializer->unserialize($parts['filename'], file_get_contents($path));
 		}
-		$i++;
-	}	
-	return $list_profil;
+	}
+	
+	return $profiles;
+}
+
+function get_profile_labels() {
+	$labels = array();
+	foreach (get_profiles() as $name => $profile) {
+		$labels[$name] = $profile->getLabelTranslated();
+	}
+	return $labels;
 }
 
 //Function to delete one or an array of user
@@ -129,7 +137,7 @@ function admin_user($id_user=''){
 	
 	if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES') {
 		//search all profil type
-		$list_profil=search_profil();
+		$list_profil=get_profile_labels();
 		$list_groups_result=look_config_default_values("USER_GROUP_%",'LIKE');
 		if (is_array($list_groups_result['name'])){
 			foreach ($list_groups_result['name'] as $key=>$value){
@@ -203,7 +211,7 @@ function admin_user($id_user=''){
 	
 	if (isset($tab_typ_champ)) {
 		tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
-			'title' => ($update == 3 ? $l->g(1365) : null),
+			'title' => ($update == 3 ? $l->g(1365) : $l->g(1385)),
 			'form_name' => 'my_account',
 			'show_frame' => ($update == 3)
 		));
@@ -270,7 +278,7 @@ function admin_profil($form){
 		msg_success($l->g(1274));	
 	}
 	
-	$array_profil=search_profil();
+	$array_profil=get_profile_labels();
 	echo $l->g(1196). ": " .show_modif($array_profil,"PROFILS",2,$form);
 	echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_new_profil']."&head=1&form=".$form."\"><img src=image/plus.png></a>";
 	
