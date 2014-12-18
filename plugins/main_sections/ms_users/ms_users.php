@@ -18,11 +18,11 @@ if (AJAX) {
 	$ajax = false;
 	require_once 'views/users_views.php';
 	
-	show_users_left_menu();
+	show_users_left_menu('ms_users');
 	
 	echo '<div class="right-content">';
 	echo '<div class="mlt_bordure">';
-	echo '<h3>Users</h3>';
+	echo '<h3>Users</h3>';// TODO translate
 }
 
 require_once('require/function_search.php');

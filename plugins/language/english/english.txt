@@ -1236,7 +1236,7 @@
 1358 Service Unavailable
 1359 User Logged Out
 1360 Server informations
-1361 Settings
+1361 My account
 1362 About
 1363 OK
 1364 Cancel
@@ -1261,6 +1261,7 @@
 1383 Motherboard Manufacturer
 1384 Motherboard Model
 1385 Update user
+1386 Create user
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

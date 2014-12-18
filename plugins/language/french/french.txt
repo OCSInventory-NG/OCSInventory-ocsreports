@@ -1236,7 +1236,7 @@
 1358 Le service n'est pas disponible
 1359 Utilisateur déconnecté
 1360 Informations du serveur
-1361 Options
+1361 Mon compte
 1362 A propos
 1363 OK
 1364 Annuler
@@ -1261,6 +1261,7 @@
 1383 Fabriquant de la carte mère
 1384 Modèle de la carte mère
 1385 Modifier un utilisateur
+1386 Créer un utilisateur
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

@@ -12,12 +12,21 @@
 if (!AJAX) {
 	require_once 'views/users_views.php';
 	
-	show_users_left_menu();
+	show_users_left_menu('ms_users');
 	
 	echo '<div class="right-content">';
 }
 
 require_once 'require/function_users.php';
+
+if (isset($protectedPost['Valid_modif'])) {
+	$msg = add_user($_POST, get_profile_labels());
+	if ($msg != $l->g(374)) {
+		msg_error($msg);
+	} else {
+		msg_success($l->g(1186));
+	}
+}
 
 admin_user($_GET['user_id']);
 

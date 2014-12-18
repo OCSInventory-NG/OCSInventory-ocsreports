@@ -12,7 +12,7 @@
 function get_profiles() {
 	$profiles = array();
 	$serializer = new XMLProfileSerializer();
-	$profilesRoot = DOCUMENT_REAL_ROOT.'config/profiles';
+	$profilesRoot = DOCUMENT_REAL_ROOT.'/config/profiles';
 	
 	// Scan and parse each profile file
 	foreach (scandir($profilesRoot) as $file) {
@@ -123,13 +123,13 @@ function add_user($data_user,$list_profil=''){
 }
 
 
-function admin_user($id_user=''){
+function admin_user($id_user, $is_my_account = false) {
 	global $protectedPost,$l,$pages_refs;
 
 	$tab_hidden = array();
 	$list_groups = array();
 	
-	if ($id_user!='') {
+	if ($id_user) {
 		$update=3;
 	} else {
 		$update=0;
@@ -169,30 +169,21 @@ function admin_user($id_user=''){
 	$type_field[]= 0; 
 	//$type_field[]= 2; 
 	
-	if ($id_user != '' or $_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'NO'){
-		$tab_hidden['MODIF']=$id_user;
-		$sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
-		$arg=$id_user;
-		$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		$row=mysqli_fetch_object($res);
-		if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
-			$protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
-			$protectedPost['USER_GROUP']=$row->USER_GROUP;
-			$value_field=array($row->ID,$list_profil,$list_groups);
-		}
-		$value_field[]=$row->FIRSTNAME;
-		$value_field[]=$row->LASTNAME;
-		$value_field[]=$row->EMAIL;
-		$value_field[]=$row->COMMENTS;
-	}else{
-		if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
-			$value_field=array($protectedPost['ID'],$list_profil,$list_groups);
-		}
-		$value_field[]=$protectedPost['FIRSTNAME'];
-		$value_field[]=$protectedPost['LASTNAME'];
-		$value_field[]=$protectedPost['EMAIL'];
-		$value_field[]=$protectedPost['COMMENTS'];				
+	$tab_hidden['MODIF']=$id_user;
+	$sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
+	$arg=$id_user;
+	$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+	$row=mysqli_fetch_object($res);
+	if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
+		$protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
+		$protectedPost['USER_GROUP']=$row->USER_GROUP;
+		$value_field=array($row->ID,$list_profil,$list_groups);
 	}
+	$value_field[]=$row->FIRSTNAME;
+	$value_field[]=$row->LASTNAME;
+	$value_field[]=$row->EMAIL;
+	$value_field[]=$row->COMMENTS;
+	
 	if ($_SESSION['OCS']['cnx_origine'] == "LOCAL"){
 		$name_field[]="PASSWORD";
 		$type_field[]=0;
@@ -211,9 +202,8 @@ function admin_user($id_user=''){
 	
 	if (isset($tab_typ_champ)) {
 		tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
-			'title' => ($update == 3 ? $l->g(1365) : $l->g(1385)),
-			'form_name' => 'my_account',
-			'show_frame' => ($update == 3)
+			'title' => ($id_user ? ($is_my_account ? $l->g(1365) : $l->g(1385)) : $l->g(1386)),
+			'form_name' => 'my_account'
 		));
 	}	
 }
