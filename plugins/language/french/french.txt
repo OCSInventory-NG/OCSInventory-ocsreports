@@ -1376,6 +1376,7 @@
 2113 La version actuelle de php est inferieure à la version 5.3.7 et ne sera plus compatible dans le futur ( version  : 
 2114 Aucun fichier sql pour la version 
 2115 L'utilisateur que vous avez tapé ne semble pas être root
+2116 Le répertoire config/profiles n'est pas disponible en écriture
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

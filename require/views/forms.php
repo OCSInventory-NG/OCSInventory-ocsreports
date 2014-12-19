@@ -11,7 +11,7 @@
 
 function show_form_field($data, $errors, $type, $name, $label, $options = array()) {
 	if (isset($errors[$name]) and $errors[$name]) {
-		echo '<div class="field field-has-errors field-'.$name.'">';
+		echo '<div class="field field-has-errors field-'.$name.($options['field_class'] ? ' '.$options['field_class'] : '').'">';
 		echo '<ul class="field-error-list">';
 		
 		foreach ($errors[$name] as $err) {
@@ -20,7 +20,7 @@ function show_form_field($data, $errors, $type, $name, $label, $options = array(
 		
 		echo '</ul>';
 	} else {
-		echo '<div class="field field-'.$name.'">';
+		echo '<div class="field field-'.$name.($options['field_class'] ? ' '.$options['field_class'] : '').'">';
 	}
 
 	if (isset($data[$name]) and $data[$name]) {
@@ -52,7 +52,7 @@ function show_form_label($name, $label, $options = array()) {
 	), $options);
 	
 	$attrs = array_merge(array(
-		'for' => $name,
+		'for' => str_replace(array('[', ']'), '_', $name)
 	), $options['attrs']);
 	
 	echo '<label '.attrs_to_html($attrs).'>'.$label.'</label>';
@@ -68,7 +68,7 @@ function show_form_input($name, $options = array()) {
 	$attrs = array_merge(array(
 		'type' => $options['type'],
 		'name' => $name,
-		'id' => $name
+		'id' => str_replace(array('[', ']'), '_', $name)
 	), $options['attrs']);
 	
 	if ($options['type'] == 'checkbox' and $options['value'] == 'on') {
@@ -88,7 +88,7 @@ function show_form_textarea($name, $options = array()) {
 	
 	$attrs = array_merge(array(
 		'name' => $name,
-		'id' => $name
+		'id' => str_replace(array('[', ']'), '_', $name)
 	), $options['attrs']);
 	
 	echo '<textarea '.attrs_to_html($attrs).'>';
@@ -107,7 +107,7 @@ function show_form_select($name, $options = array()) {
 	
 	$attrs = array_merge(array(
 		'name' => $name,
-		'id' => $name
+		'id' => str_replace(array('[', ']'), '_', $name)
 	), $options['attrs']);
 
 	if ($options['type'] == 'select') {

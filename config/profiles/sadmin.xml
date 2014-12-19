@@ -55,8 +55,10 @@
     <page>ms_users</page>
     <page>ms_add_user</page>
     <page>ms_user_details</page>
+    <page>ms_config_account</page>
     <page>ms_profiles</page>
     <page>ms_add_profile</page>
+    <page>ms_profile_details</page>
     <page>ms_custom_perim</page>
     <page>ms_local</page>
     <page>ms_help</page>
@@ -78,7 +80,6 @@
     <page>ms_custom_info</page>
     <page>ms_debug</page>
     <page>ms_computer</page>
-    <page>ms_config_account</page>
     <page>ms_soft_csv</page>
     <page>ms_csv</page>
     <page>ms_tele_stats</page>
@@ -86,13 +87,10 @@
     <page>ms_speed_stat</page>
     <page>ms_teledeploy_workflow</page>
     <page>ms_admin_management</page>
-    <page>ms_admin_user_group</page>
-    <page>ms_admin_profil</page>
     <page>ms_adminvalues</page>
     <page>ms_view_file</page>
     <page>ms_search_soft</page>
     <page>ms_options</page>
-    <page>ms_new_profil</page>
     <page>ms_snmp</page>
     <page>ms_snmp_detail</page>
     <page>ms_update_new_tag</page>

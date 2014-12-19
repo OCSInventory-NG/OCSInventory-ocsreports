@@ -20,16 +20,18 @@ require_once('require/tables/LinkColumn.php');
 // SETUP
 $form_name = 'ms_profiles';
 $profiles = get_profiles();
-$profile_url = 'index.php?'.PAG_INDEX.'='.$pages_refs['ms_profile_details'].'&profile_id=';
+
+$detail_url = 'index.php?'.PAG_INDEX.'='.$pages_refs['ms_profile_details'].'&profile_id=';
+$delete_url = 'index.php?'.PAG_INDEX.'='.$pages_refs['ms_profiles'].'&action=delete&profile_id=';
 
 $table = new Table($form_name);
 $table->addColumn(new CheckboxColumn('name'));
-$table->addColumn(new LinkColumn('name', 'Identifier', $profile_url, array('required' => true)));
-$table->addColumn(new LinkColumn('label_translated', 'Display name', $profile_url, array('required' => true)));
+$table->addColumn(new LinkColumn('name', 'Identifier', $detail_url, array('required' => true, 'idProperty' => 'name')));
+$table->addColumn(new LinkColumn('label_translated', 'Display name', $detail_url, array('required' => true, 'idProperty' => 'name')));
 $table->addColumn(new ActionsColumn(array(
-		'edit' => 'glyphicon glyphicon-edit',
-		'delete' => 'glyphicon glyphicon-remove',
-)), 'name');
+		$detail_url => 'glyphicon glyphicon-edit',
+		$delete_url => 'glyphicon glyphicon-remove',
+), 'name'));
 
 if (AJAX) {
 	$ajax = true;

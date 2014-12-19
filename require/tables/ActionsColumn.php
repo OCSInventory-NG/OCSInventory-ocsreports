@@ -26,8 +26,8 @@ class ActionsColumn extends Column {
 					$id = htmlspecialchars($id);
 					
 					$actionHtml = '';
-					foreach ($actions as $name => $class) {
-						$actionHtml .= '<a href="#" class="row-action" data-action="'.$name.'" data-id="'.$id.'">'
+					foreach ($actions as $url => $class) {
+						$actionHtml .= '<a href="'.$url.$id.'" class="row-action">'
 								.'<span class="'.$class.'"></span>'
 								.'</a>';
 					}

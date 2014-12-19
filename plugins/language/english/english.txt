@@ -1376,6 +1376,7 @@
 2113 Your PHP installation is older than version 5.3.7 and will not be compatible with incoming versions ( version  : 
 2114 No sql file found for version
 2115 The user you typed does not seem to be root
+2116 The config/profiles directory is not writable
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

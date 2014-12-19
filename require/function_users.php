@@ -123,7 +123,7 @@ function add_user($data_user,$list_profil=''){
 }
 
 
-function admin_user($id_user, $is_my_account = false) {
+function admin_user($id_user = null, $is_my_account = false) {
 	global $protectedPost,$l,$pages_refs;
 
 	$tab_hidden = array();
@@ -224,8 +224,8 @@ function admin_profil($form){
 					  'MACADD'=>array('ADMIN_BLACKLIST'=>array('LBL'=>$l->g(1159) . ": ",'VALUE'=>$yes_no)),
 					  'SERIAL'=>array('ADMIN_BLACKLIST'=>array('LBL'=>$l->g(1160) . ": ",'VALUE'=>$yes_no)),
 					  'IPDISCOVER'=>array('ADMIN_BLACKLIST'=>array('LBL'=>$l->g(1161) . ": ",'VALUE'=>$yes_no),
-					  'CONFIGURATION'=>array('LBL'=>$l->g(1172) . ": ",'VALUE'=>$yes_no)),
-				          'TELEDIFF'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1162) . ": ",'VALUE'=>$yes_no)),
+					  					'CONFIGURATION'=>array('LBL'=>$l->g(1172) . ": ",'VALUE'=>$yes_no)),
+				      'TELEDIFF'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1162) . ": ",'VALUE'=>$yes_no)),
 					  'CONFIG'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1163) . ": ",'VALUE'=>$yes_no)),
 					  'GROUPS'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1164) . ": ",'VALUE'=>$yes_no)),
 					  'CONSOLE'=>array('CONFIGURATION'=>array('LBL'=>$l->g(1165) . ": ",'VALUE'=>$yes_no)),

@@ -59,10 +59,19 @@ table.dataTable thead .sorting_desc_disabled {
 
 
 
-table.dataTable .CHECK{
+table.dataTable .column-_checkbox,
+table.dataTable .column-_actions,
+table.dataTable .CHECK,
+table.dataTable .ACTIONS {
+	vertical-align: middle;
 	text-align:center;
 }
 
+table.dataTable .row-action {
+	margin: 0 5px;
+}
+
+table.dataTable thead>tr>th.column-_checkbox,
 table.dataTable thead>tr>th.CHECK{
 	background-image:none !important;
 }

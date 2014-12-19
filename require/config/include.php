@@ -14,7 +14,7 @@ require_once 'XMLProfileSerializer.php';
 function migrate_config_2_2() {
 	global $l;
 	
-	if (!is_writable('config')) {
+	if (!is_writable(DOCUMENT_REAL_ROOT.'/config')) {
 		msg_error($l->g(2029));
 		exit;
 	}
@@ -50,8 +50,13 @@ function migrate_js_2_2($config) {
 }
 
 function migrate_profiles_2_2() {
-	if (!is_writable(DOCUMENT_REAL_ROOT.'/config/profiles')) {
+	if (!file_exists(DOCUMENT_REAL_ROOT.'/config/profiles')) {
 		mkdir(DOCUMENT_REAL_ROOT.'/config/profiles');
+	}
+	
+	if (!is_writable(DOCUMENT_REAL_ROOT.'/config/profiles')) {
+		msg_error($l->g(2116));
+		exit;
 	}
 	
 	$txt_serializer = new TxtProfileSerializer();

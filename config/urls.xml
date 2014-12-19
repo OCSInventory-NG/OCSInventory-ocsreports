@@ -96,12 +96,20 @@
     <value>admin_user_details</value>
     <directory>ms_users</directory>
   </url>
+  <url key="ms_config_account">
+    <value>account_config</value>
+    <directory>ms_users</directory>
+  </url>
   <url key="ms_profiles">
     <value>admin_profiles</value>
     <directory>ms_users</directory>
   </url>
   <url key="ms_add_profile">
     <value>admin_add_profile</value>
+    <directory>ms_users</directory>
+  </url>
+  <url key="ms_profile_details">
+    <value>admin_profile_details</value>
     <directory>ms_users</directory>
   </url>
   <url key="ms_custom_perim">
@@ -188,10 +196,6 @@
     <value>computer</value>
     <directory>ms_computer</directory>
   </url>
-  <url key="ms_config_account">
-    <value>account_config</value>
-    <directory>ms_users</directory>
-  </url>
   <url key="ms_soft_csv">
     <value>export_soft</value>
     <directory>ms_export</directory>
@@ -220,14 +224,6 @@
     <value>admin_type_manage</value>
     <directory>ms_teledeploy_workflow</directory>
   </url>
-  <url key="ms_admin_user_group">
-    <value>admin_user_group</value>
-    <directory>ms_users</directory>
-  </url>
-  <url key="ms_admin_profil">
-    <value>admin_profil</value>
-    <directory>ms_users</directory>
-  </url>
   <url key="ms_adminvalues">
     <value>admin_values</value>
     <directory>ms_config</directory>
@@ -243,10 +239,6 @@
   <url key="ms_options">
     <value>search_soft_option</value>
     <directory>ms_search_soft</directory>
-  </url>
-  <url key="ms_new_profil">
-    <value>new_profil</value>
-    <directory>ms_users</directory>
   </url>
   <url key="ms_snmp">
     <value>snmp</value>
