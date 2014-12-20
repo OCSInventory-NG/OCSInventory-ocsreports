@@ -7,6 +7,18 @@
 	margin-bottom: 20px;
 }
 
+.form-frame-profile-pages {
+	text-align: left;
+}
+
+.form-frame-profile-pages h4 {
+	text-align: center;
+}
+
+.form-frame-profile-pages .field {
+	display: inline-block;
+}
+
 .form-column {
 	display: inline-block;
 	vertical-align: top;
@@ -73,6 +85,14 @@ h4 > * {
 	width: 250px;
 }
 
+.field.small-input {
+	width: 340px;
+}
+
+.field.big-label.small-input {
+	width: 440px;
+}
+
 /*** INPUTS ***/
 
 .field select,
@@ -103,6 +123,15 @@ h4 > * {
 	display: block;
 	width: auto;
 	margin: auto;
+}
+
+.field.small-input select,
+.field.small-input textarea,
+.field.small-input .radio-container,
+.field.small-input input[type=text],
+.field.small-input input[type=password],
+.field.small-input input[type=file] {
+	width: 100px;
 }
 
 .field textarea {

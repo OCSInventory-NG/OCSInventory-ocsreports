@@ -10,17 +10,19 @@
 //====================================================================================
 
 function show_form_field($data, $errors, $type, $name, $label, $options = array()) {
-	if (isset($errors[$name]) and $errors[$name]) {
-		echo '<div class="field field-has-errors field-'.$name.($options['field_class'] ? ' '.$options['field_class'] : '').'">';
+	$id = str_replace(array('[', ']'), '_', $name);
+	
+	if (isset($errors[$id]) and $errors[$id]) {
+		echo '<div class="field field-has-errors field-'.htmlspecialchars($id.($options['field_class'] ? ' '.$options['field_class'] : '')).'">';
 		echo '<ul class="field-error-list">';
 		
-		foreach ($errors[$name] as $err) {
-			echo '<li>'.$err.'</li>';
+		foreach ($errors[$id] as $err) {
+			echo '<li>'.htmlspecialchars($err).'</li>';
 		}
 		
 		echo '</ul>';
 	} else {
-		echo '<div class="field field-'.$name.($options['field_class'] ? ' '.$options['field_class'] : '').'">';
+		echo '<div class="field field-'.htmlspecialchars($id.($options['field_class'] ? ' '.$options['field_class'] : '')).'">';
 	}
 
 	if (isset($data[$name]) and $data[$name]) {
@@ -55,7 +57,7 @@ function show_form_label($name, $label, $options = array()) {
 		'for' => str_replace(array('[', ']'), '_', $name)
 	), $options['attrs']);
 	
-	echo '<label '.attrs_to_html($attrs).'>'.$label.'</label>';
+	echo '<label '.attrs_to_html($attrs).'>'.htmlspecialchars($label).'</label>';
 }
 
 function show_form_input($name, $options = array()) {
@@ -92,7 +94,7 @@ function show_form_textarea($name, $options = array()) {
 	), $options['attrs']);
 	
 	echo '<textarea '.attrs_to_html($attrs).'>';
-	if ($options['value']) echo $options['value'];
+	if ($options['value']) echo htmlspecialchars($options['value']);
 	echo '</textarea>';
 }
 
@@ -119,9 +121,9 @@ function show_form_select($name, $options = array()) {
 	foreach ($options['options'] as $key => $opt) {
 		if ($options['type'] == 'select') {
 			if ($options['value'] and $options['value'] == $key) {
-				echo '<option value="'.$key.'" selected="selected">'.$opt.'</option>';
+				echo '<option value="'.htmlspecialchars($key).'" selected="selected">'.htmlspecialchars($opt).'</option>';
 			} else {
-				echo '<option value="'.$key.'">'.$opt.'</option>';
+				echo '<option value="'.htmlspecialchars($key).'">'.htmlspecialchars($opt).'</option>';
 			}
 		} else if ($options['type'] == 'radio') {
 			$id = $name.'_'.$key;
@@ -153,7 +155,7 @@ function show_form_select($name, $options = array()) {
 }
 
 function show_form_submit($name, $label) {
-	echo '<input type="submit" name="'.$name.'" id="'.$name.'" value="'.$label.'"/>';
+	echo '<input type="submit" name="'.htmlspecialchars($name).'" id="'.htmlspecialchars(str_replace(array('[', ']'), '_', $name)).'" value="'.htmlspecialchars($label).'"/>';
 }
 
 function attrs_to_html($attrs) {
@@ -161,9 +163,9 @@ function attrs_to_html($attrs) {
 	
 	foreach ($attrs as $key => $val) {
 		if (is_array($val)) {
-			$html_attrs []= $key.'="'.implode(' ', $val).'"';
+			$html_attrs []= htmlspecialchars($key).'="'.htmlspecialchars(implode(' ', $val)).'"';
 		} else {
-			$html_attrs []= $key.'="'.$val.'"';
+			$html_attrs []= htmlspecialchars($key).'="'.htmlspecialchars($val).'"';
 		}
 	}
 	

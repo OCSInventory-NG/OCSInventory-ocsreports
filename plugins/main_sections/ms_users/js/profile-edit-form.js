@@ -47,8 +47,8 @@
 				$('<div class="success"/>')
 					.text(data.message)
 					.prependTo($form);
-				
-				
+
+				window.location.href = 'index.php?function=admin_profiles';
 			}
 		}).fail(function() {
 			$form.find('input[type=submit]').prop('disabled', false);
