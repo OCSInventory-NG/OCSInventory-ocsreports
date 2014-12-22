@@ -93,6 +93,14 @@ h4 > * {
 	width: 440px;
 }
 
+.field.checkbox-field {
+	width: 230px;
+}
+
+.field.checkbox-field label {
+	width: 120px;
+}
+
 /*** INPUTS ***/
 
 .field select,

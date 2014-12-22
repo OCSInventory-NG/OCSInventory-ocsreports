@@ -10,7 +10,6 @@
  */
 class XMLProfileSerializer {
 	public function serialize(Profile $profile) {
-		// TODO options for version and encoding
 		$doc_xml = new DOMDocument('1.0', 'UTF-8');
 		$profile_xml = $doc_xml->createElement('profile');
 		$profile_xml->setAttribute('label', $profile->getLabel());

@@ -10,7 +10,6 @@
  */
 class XMLUrlsSerializer {
 	public function serialize(Urls $urls) {
-		// TODO options for version and encoding
 		$doc_xml = new DOMDocument('1.0', 'UTF-8');
 		$urls_xml = $doc_xml->createElement('urls');
 		$doc_xml->appendChild($urls_xml);

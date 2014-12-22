@@ -10,7 +10,6 @@
  */
 class XMLMenuSerializer {
 	public function serialize(Menu $menu) {
-		// TODO options for version and encoding
 		$doc_xml = new DOMDocument('1.0', 'UTF-8');
 		$menu_xml = $doc_xml->createElement('menu');
 		$doc_xml->appendChild($menu_xml);

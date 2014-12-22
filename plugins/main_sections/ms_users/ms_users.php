@@ -22,7 +22,7 @@ if (AJAX) {
 	
 	echo '<div class="right-content">';
 	echo '<div class="mlt_bordure">';
-	echo '<h3>Users</h3>';// TODO translate
+	echo '<h3>'.$l->g(1400).'</h3>';
 }
 
 require_once('require/function_search.php');

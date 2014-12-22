@@ -61,10 +61,11 @@ function show_computer_summary($computer) {
 		),
 	);
 	
-	// TODO category translations
-	
 	$cat_labels = array(
-		
+		'SYSTEM' => $l->g(1387),
+		'NETWORK' => $l->g(1388),
+		'HARDWARE' => $l->g(1389),
+		'AGENT' => $l->g(1390),
 	);
 	
 	foreach ($labels as $cat_key => $cat) {
@@ -118,13 +119,13 @@ function show_computer_summary($computer) {
 	
 	echo open_form("bandeau");
 	
-	show_summary($data, $labels, $link);
+	show_summary($data, $labels, $cat_labels, $link);
 	echo "<input type='hidden' id='WOL' name='WOL' value=''>";
 	
 	echo close_form();
 }
 
-function show_summary($data, $labels, $links = array()) {
+function show_summary($data, $labels, $cat_labels, $links = array()) {
 	global $protectedGet, $pages_refs;
 	
 	$data = data_encode_utf8($data);
@@ -138,7 +139,7 @@ function show_summary($data, $labels, $links = array()) {
 		}
 		
 		echo '<td class="summary-cell">';
-		echo '<h5>'.$cat_key.'</h5>';
+		echo '<h5>'.mb_strtoupper($cat_labels[$cat_key]).'</h5>';
 		
 		foreach ($cat as $name => $label) {
 			$value = $data[$name];

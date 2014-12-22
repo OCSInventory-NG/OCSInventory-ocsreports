@@ -12,7 +12,6 @@ class LinkColumn extends Column {
 		$this->url = $url;
 		$this->idProperty = $options['idProperty'] ?: 'id';
 		
-		// TODO translate
 		parent::__construct($name, $label, $options);
 	}
 	

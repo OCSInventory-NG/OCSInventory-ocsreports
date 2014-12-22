@@ -17,6 +17,8 @@ require_once('require/tables/CheckboxColumn.php');
 require_once('require/tables/ActionsColumn.php');
 require_once('require/tables/LinkColumn.php');
 
+global $l;
+
 // SETUP
 $form_name = 'ms_profiles';
 $profiles = get_profiles();
@@ -26,8 +28,8 @@ $delete_url = 'index.php?'.PAG_INDEX.'='.$pages_refs['ms_profiles'].'&action=del
 
 $table = new Table($form_name);
 $table->addColumn(new CheckboxColumn('name'));
-$table->addColumn(new LinkColumn('name', 'Identifier', $detail_url, array('required' => true, 'idProperty' => 'name')));
-$table->addColumn(new LinkColumn('label_translated', 'Display name', $detail_url, array('required' => true, 'idProperty' => 'name')));
+$table->addColumn(new LinkColumn('name', $l->g(1402), $detail_url, array('required' => true, 'idProperty' => 'name')));
+$table->addColumn(new LinkColumn('label_translated', $l->g(1411), $detail_url, array('required' => true, 'idProperty' => 'name')));
 $table->addColumn(new ActionsColumn(array(
 		$detail_url => 'glyphicon glyphicon-edit',
 		$delete_url => 'glyphicon glyphicon-remove',
@@ -72,7 +74,7 @@ if (AJAX) {
 	echo '<div class="right-content">';
 	echo '<div class="mlt_bordure">';
 	
-	echo '<h3>Profiles</h3>';// TODO translate
+	echo '<h3>'.$l->g(1401).'</h3>';
 
 	$table_renderer = new TableRenderer();
 	$table_renderer->show($table, $profiles);

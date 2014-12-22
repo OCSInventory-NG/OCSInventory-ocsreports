@@ -10,7 +10,6 @@
  */
 class XMLJsSerializer {
 	public function serialize($js) {
-		// TODO options for version and encoding
 		$doc_xml = new DOMDocument('1.0', 'UTF-8');
 		$js_xml = $doc_xml->createElement('javascripts');
 		$doc_xml->appendChild($js_xml);

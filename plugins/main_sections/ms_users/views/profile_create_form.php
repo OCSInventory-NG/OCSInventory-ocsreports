@@ -8,7 +8,7 @@ function show_profile_create_form() {
 	?>
 	
 	<div class="form-frame form-frame-create-profile">
-		<h3>Create profile</h3>
+		<h3><?php echo $l->g(1399) ?></h3>
 		
 		<?php
 		
@@ -16,10 +16,9 @@ function show_profile_create_form() {
 		
 		echo open_form('create-profile', '#');
 		
-		// TODO translate
-		show_form_field(array(), array(), 'input', 'name', 'Identifier (ex: admin)', $field_options);
-		show_form_field(array(), array(), 'input', 'label', 'Display name (ex: Administrators)', $field_options);
-		show_form_field(array(), array(), 'select', 'duplicate_profile', 'Copy profile data', array_merge($field_options, array(
+		show_form_field(array(), array(), 'input', 'name', $l->g(1396), $field_options);
+		show_form_field(array(), array(), 'input', 'label', $l->g(1397), $field_options);
+		show_form_field(array(), array(), 'select', 'duplicate_profile', $l->g(1398), array_merge($field_options, array(
 			'options' => get_profile_labels()
 		)));
 		

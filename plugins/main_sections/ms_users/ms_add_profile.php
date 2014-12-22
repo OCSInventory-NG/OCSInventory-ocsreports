@@ -37,19 +37,19 @@ if (!AJAX) {
 	} else if ($errors = validate_profile_create_form($_POST)) {
 		$response = array(
 				'status' => 'error',
-				'message' => 'Some errors were found while validating the profile', // TODO translate
+				'message' => $l->g(1404),
 				'errors' => $errors
 		);
 	} else if ($profile_id = create_profile($_POST)) {
 		$response = array(
 				'status' => 'success',
-				'message' => 'The profile was successfully created', // TODO translate
+				'message' => $l->g(1405),
 				'profile_id' => $profile_id
 		);
 	} else {
 		$response = array(
 				'status' => 'error',
-				'message' => 'An error occurred while trying to create the profile, please check the filesystem or contact an administrator' // TODO translate
+				'message' => $l->g(1406)
 		);
 	}
 

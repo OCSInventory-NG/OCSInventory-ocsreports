@@ -1262,6 +1262,31 @@
 1384 Modèle de la carte mère
 1385 Modifier un utilisateur
 1386 Créer un utilisateur
+1387 Système
+1388 Réseau
+1389 Matériel
+1390 Agent
+1391 Ce champ est obligatoire
+1392 Cette valeur n'est pas valide
+1393 Ce nom de paquet existe déjà
+1394 Ce champ doit contenir uniquement des nombres et des lettres
+1395 Un profil avec ce nom existe déjà
+1396 Identifiant (ex: admin)
+1397 Nom affiché (ex: Administrateurs)
+1398 Copier les données du profil
+1399 Créer un profil
+1400 Utilisateurs
+1401 Profils
+1402 Identifiant
+1403 Créer un utilisateur
+1404 Des erreurs ont été rencontrées durant la validation de ce profil
+1405 Le profil a été créé avec succès
+1406 Une erreur s'est produite durant la création du profil, veuillez vérifier le système de fichiers ou contacter un administrateur
+1407 Impossible d'écrire dans le fichier du profil
+1408 Le profil a été mis à jour avec succès
+1409 Une erreur s'est produite durant la modification du profil, veuillez vérifier le système de fichiers ou contacter un administrateur
+1410 Utilisateurs
+1411 Nom affiché
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

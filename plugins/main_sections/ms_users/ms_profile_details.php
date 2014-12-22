@@ -32,24 +32,24 @@ if (!AJAX) {
 	if (!is_writable(DOCUMENT_REAL_ROOT.'/config/profiles/'.$_GET['profile_id'].'.xml')) {
 		$response = array(
 				'status' => 'error',
-				'message' => 'The profile file is not writable (config/profiles/'.$_GET['profile_id'].'.xml)' // TODO translate
+				'message' => $l->g(1407).' (config/profiles/'.$_GET['profile_id'].'.xml)'
 		);
 	} else if ($errors = validate_profile_edit_form($_GET['profile_id'], $_POST)) {
 		$response = array(
 				'status' => 'error',
-				'message' => 'Some errors were found while validating the profile', // TODO translate
+				'message' => $l->g(1404),
 				'errors' => $errors
 		);
 	} else if (update_profile($_GET['profile_id'], $_POST)) {
 		$response = array(
 				'status' => 'success',
-				'message' => 'The profile was successfully updated', // TODO translate
+				'message' => $l->g(1408),
 				'profile_id' => $_GET['profile_id']
 		);
 	} else {
 		$response = array(
 				'status' => 'error',
-				'message' => 'An error occurred while trying to update the profile, please check the filesystem or contact an administrator' // TODO translate
+				'message' => $l->g(1409)
 		);
 	}
 

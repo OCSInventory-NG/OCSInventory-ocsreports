@@ -6,30 +6,29 @@ function validate_profile_create_form($data) {
 	$errors = array();
 	$profiles = get_profile_labels();
 	
-	// TODO error translations
 	// TODO check for field sizes
 	
 	// Check mandatory data
 	$mandatory_fields = array('name', 'label', 'duplicate_profile');
 	foreach ($mandatory_fields as $field) {
 		if (!$data[$field]) {
-			$errors[$field] []= 'This field is mandatory';
+			$errors[$field] []= $l->g(1391);
 		}
 	}
 	
 	// Check dropdown lists
 	if ($data['duplicate_profile'] and !isset($profiles[$data['duplicate_profile']])) {
-		$errors['duplicate_profile'] []= 'Invalid value';
+		$errors['duplicate_profile'] []= $l->g(1392);
 	}
 	
 	// Check profile name regex
 	if ($data['name'] and !preg_match('/^[0-9A-Za-z]+$/', $data['name'])) {
-		$errors['name'] []= 'This field should only contain numbers and alphanumeric characters';
+		$errors['name'] []= $l->g(1394);
 	}
 	
 	// Check profile name doesn't exist
 	if ($data['name'] and isset($profiles[$data['name']])) {
-		$errors['name'] []= 'A profile with this name already exists. Please pick a new one';
+		$errors['name'] []= $l->g(1395);
 	}
 	
 	return $errors;
@@ -42,30 +41,28 @@ function validate_profile_edit_form($profile_id, $data) {
 	$telediff_wk = array('LOGIN', 'USER_GROUP', 'NO');
 
 	$urls = $_SESSION['OCS']['url_service'];
-	
-	// TODO error translations
 
 	foreach ($data['restrictions'] as $key => $val) {
 		if (($key == 'TELEDIFF_WK' and !in_array($val, $telediff_wk)) or ($key != 'TELEDIFF_WK' and !in_array($val, $yes_no))) {
-			$errors['restrictions_'.$key.'_'] []= 'Invalid value';
+			$errors['restrictions_'.$key.'_'] []= $l->g(1392);
 		}
 	}
 	
 	foreach ($data['config'] as $key => $val) {
 		if (!in_array($val, $yes_no)) {
-			$errors['config_'.$key.'_'] []= 'Invalid value';
+			$errors['config_'.$key.'_'] []= $l->g(1392);
 		}
 	}
 	
 	foreach ($data['blacklist'] as $key => $val) {
 		if (!in_array($val, $yes_no)) {
-			$errors['blacklist_'.$key.'_'] []= 'Invalid value';
+			$errors['blacklist_'.$key.'_'] []= $l->g(1392);
 		}
 	}
 	
 	foreach ($data['pages'] as $key => $val) {
 		if (!$urls->getUrl($key)) {
-			$errors['blacklist_'.$key.'_'] []= 'Invalid value';
+			$errors['blacklist_'.$key.'_'] []= $l->g(1392);
 		}
 	}
 	

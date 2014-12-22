@@ -4,8 +4,9 @@ require_once('require/tables/Column.php');
 
 class ActionsColumn extends Column {
 	public function __construct($actions, $idProperty = 'id') {
-		// TODO translate
-		parent::__construct('_actions', 'Actions', array(
+		global $l;
+		
+		parent::__construct('_actions', $l->g(1381), array(
 				'required' => true,
 				'sortable' => false,
 				'searchable' => false,

@@ -141,13 +141,14 @@ function show_blacklist_frame($profile, $yes_no) {
 function show_pages_frame($profile, $yes_no) {
 	global $l;
 	
-	$urls = $_SESSION['OCS']['url_service'];
+	$urls = $_SESSION['OCS']['url_service']->getUrls();
+	asort($urls);
 	
-	foreach ($urls->getUrls() as $key => $url) {
+	foreach ($urls as $key => $url) {
 		if ($profile->hasPage($key)) {
-			show_form_field(array(), array(), 'input', 'pages['.$key.']', $key, array('type' => 'checkbox', 'field_class' => 'small-input', 'value' =>  'on'));
+			show_form_field(array(), array(), 'input', 'pages['.$key.']', $url['value'], array('type' => 'checkbox', 'field_class' => 'checkbox-field', 'value' =>  'on'));
 		} else {
-			show_form_field(array(), array(), 'input', 'pages['.$key.']', $key, array('type' => 'checkbox', 'field_class' => 'small-input'));
+			show_form_field(array(), array(), 'input', 'pages['.$key.']', $url['value'], array('type' => 'checkbox', 'field_class' => 'checkbox-field'));
 		}
 	}
 }

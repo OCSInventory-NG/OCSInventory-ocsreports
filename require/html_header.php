@@ -53,7 +53,7 @@ if ($_SESSION['OCS']['profile']) {
 			
 		
 		// DEBUG = 1011
-		echo "<li><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1'>".$l->g(1361)."</a></li>";// TODO translate
+		echo "<li><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_config_account']."&head=1'>".$l->g(1361)."</a></li>";
 		
 		
 		

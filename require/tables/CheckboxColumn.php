@@ -4,7 +4,6 @@ require_once('require/tables/Column.php');
 
 class CheckboxColumn extends Column {
 	public function __construct($idProperty = 'id') {
-		// TODO translate
 		parent::__construct('_checkbox', '<input type="checkbox" class="check-all" name="check-all"/>', array(
 				'required' => true,
 				'sortable' => false,

@@ -85,11 +85,6 @@ option.hi {
 	background-color:#FFFFFF;
 }
 
-/** CONFLICTS WITH BOOTSTRAP - TODO ISOLATE **/
-/*.dropdown {
-	border: thin solid;
-}*/
-
 .Items {
 	border-width: 2px;
 	border-bottom-color:#666666;

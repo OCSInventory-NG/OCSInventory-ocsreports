@@ -1262,6 +1262,31 @@
 1384 Motherboard Model
 1385 Update user
 1386 Create user
+1387 System
+1388 Network
+1389 Hardware
+1390 Agent
+1391 This field is mandatory
+1392 Invalid value
+1393 This package name already exists
+1394 This field should only contain numbers and alphanumeric characters
+1395 A profile with this name already exists. Please pick a new one
+1396 Identifier (ex: admin)
+1397 Display name (ex: Administrators)
+1398 Copy profile data
+1399 Create profile
+1400 Users
+1401 Profiles
+1402 Identifier
+1403 Create user
+1404 Some errors were found while validating the profile
+1405 The profile was successfully created
+1406 An error occurred while trying to create the profile, please check the filesystem or contact an administrator
+1407 The profile file is not writable
+1408 The profile was successfully updated
+1409 An error occurred while trying to update the profile, please check the filesystem or contact an administrator
+1410 Users
+1411 Display name
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
