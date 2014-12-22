@@ -1287,6 +1287,8 @@
 1409 An error occurred while trying to update the profile, please check the filesystem or contact an administrator
 1410 Users
 1411 Display name
+1412 Edit profile
+1413 New label
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

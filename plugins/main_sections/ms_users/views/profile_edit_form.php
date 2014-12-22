@@ -17,10 +17,10 @@ function show_profile_edit_form($profile_id) {
 
 	?>
 	
-	<h3>Edit profile (<?php echo $profile->getLabelTranslated() ?>)</h3>
+	<h3><?php echo $l->g(1412) ?> (<?php echo $profile->getLabelTranslated() ?>)</h3>
 	
 	<?php show_form_input('name', array('type' => 'hidden', 'value' => $profile->getName())) ?>
-	<?php show_form_field(array(), array(), 'input', 'new_label', 'New label') ?>
+	<?php show_form_field(array(), array(), 'input', 'new_label', $l->g(1413)) ?>
 	
 	<div class="form-frame form-frame-profile">
 		<div class="form-column">
