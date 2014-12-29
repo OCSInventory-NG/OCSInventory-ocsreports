@@ -13,14 +13,16 @@
  * Add tags for users
  * 
  */
-if(AJAX){
+if (AJAX) {
 	parse_str($protectedPost['ocs']['0'], $params);
 	$protectedPost+=$params;
 	ob_start();
-	$ajax = true;
-}
-else{
-	$ajax=false;
+} else {
+	require_once 'views/users_views.php';
+
+	show_users_left_menu('ms_users');
+
+	echo '<div class="right-content">';
 } 
 
 $form_name='taguser';
@@ -123,9 +125,12 @@ echo $l->g(617)." ".$_SESSION['OCS']['TAG_LBL']['TAG'].": ".$select_choise;
 echo "<input type='submit' name='ADD_TAG' value='" . $l->g(13) . "'><br>";
 echo show_modif(array($l->g(358)),'use_generic',5,$form_name);
 echo close_form();
-if ($ajax){
+
+if (AJAX) {
 	ob_end_clean();
 	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+} else {
+	echo '</div>';
 }
 ?>
 

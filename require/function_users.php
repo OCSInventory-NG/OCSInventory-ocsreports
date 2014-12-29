@@ -199,9 +199,13 @@ function admin_user($id_user = null, $is_my_account = false) {
 		$tab_typ_champ[2]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\"><img src=image/plus.png></a>";
 	}
 	
+	if (isset($pages_refs['ms_custom_perim'])) {
+		$perim_link = '<a href="index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_perim'].'&head=1&id=">Change perimeter</a>';
+	}
+	
 	if (isset($tab_typ_champ)) {
 		tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
-			'title' => ($id_user ? ($is_my_account ? $l->g(1365) : $l->g(1385)) : $l->g(1386)).' <a href="index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_perim'].'&head=1&id=">Change perimeter</a>', // TODO translate
+			'title' => ($id_user ? ($is_my_account ? $l->g(1365) : $l->g(1385).' '.$perim_link) : $l->g(1386)), // TODO translate
 			'form_name' => 'my_account'
 		));
 	}	
