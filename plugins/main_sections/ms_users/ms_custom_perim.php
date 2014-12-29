@@ -24,6 +24,7 @@ else{
 } 
 
 $form_name='taguser';
+$table_name = 'taguser_table';
 
 $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;

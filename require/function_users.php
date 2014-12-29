@@ -196,13 +196,12 @@ function admin_user($id_user = null, $is_my_account = false) {
 	}
 	if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_USER_GROUP') == 'YES'){
 		$tab_typ_champ[2]["CONFIG"]['DEFAULT']="YES";
-	//	$tab_typ_champ[1]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
-		$tab_typ_champ[2]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+		$tab_typ_champ[2]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\"><img src=image/plus.png></a>";
 	}
 	
 	if (isset($tab_typ_champ)) {
 		tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
-			'title' => ($id_user ? ($is_my_account ? $l->g(1365) : $l->g(1385)) : $l->g(1386)),
+			'title' => ($id_user ? ($is_my_account ? $l->g(1365) : $l->g(1385)) : $l->g(1386)).' <a href="index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_perim'].'&head=1&id=">Change perimeter</a>', // TODO translate
 			'form_name' => 'my_account'
 		));
 	}	
