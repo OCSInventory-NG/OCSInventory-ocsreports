@@ -27,6 +27,12 @@ $profiles = get_profiles();
 $detail_url = 'index.php?'.PAG_INDEX.'='.$pages_refs['ms_profile_details'].'&profile_id=%s';
 $delete_url = 'ajax.php?'.PAG_INDEX.'='.$pages_refs['ms_delete_profile'].'&profile_id=%s';
 
+$detail_action = new Action($detail_url, 'edit');
+$delete_action = new Action($delete_url, 'remove');
+$delete_action->setMethod('POST')
+	->setConfirm('Are you sure to delete this profile ?')
+	->setAjax(true);
+
 $table = new Table($form_name);
 //$table->addColumn(new CheckboxColumn('name'));
 $table->addColumn(new LinkColumn('name', $l->g(1402), $detail_url, array(
@@ -39,13 +45,7 @@ $table->addColumn(new LinkColumn('label_translated', $l->g(1411), $detail_url, a
 		'sortable' => false,
 		'idProperty' => 'name'
 )));
-$table->addColumn(new ActionsColumn(array(
-		new Action($detail_url, 'edit'),
-		(new Action($delete_url, 'remove'))
-			->setMethod('POST')
-			->setConfirm('Are you sure to delete this profile ?')
-			->setAjax(true),
-), 'name'));
+$table->addColumn(new ActionsColumn(array($detail_action, $delete_action), 'name'));
 
 if (AJAX) {
 	require_once('require/tables/AjaxTableRenderer.php');
