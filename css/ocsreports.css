@@ -326,10 +326,9 @@ th.ta:last-child {border-right: solid 1px #9894B5;}
 .mvt_tab {
     margin:0 auto 0 auto;
 	background-color: #D6DCF2;
-	border-radius: 1em;
-	-webkit-border-radius: 1em;
 	border: 2px solid #D6DCF2;
 	padding: 10px;
+	width: 50%;
 }
 
 .image{
