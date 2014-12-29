@@ -14,15 +14,6 @@
 	</div>
 </div>
 
-<input type="hidden" id="SUP_PROF" name="SUP_PROF" value="">
-<input type="hidden" id="MODIF" name="MODIF" value="">
-<input type="hidden" id="SELECT" name="SELECT" value="">
-<input type="hidden" id="OTHER" name="OTHER" value="">
-<input type="hidden" id="ACTIVE" name="ACTIVE" value="">
-<input type="hidden" id="CONFIRM_CHECK" name="CONFIRM_CHECK" value="">
-<input type="hidden" id="OTHER_BIS" name="OTHER_BIS" value="">
-<input type="hidden" id="OTHER_TER" name="OTHER_TER" value="">
-		
 <?php if ($_SESSION['OCS']['DEBUG'] == 'ON'): ?>
 	<center>
 		<div id="<?php echo htmlspecialchars($table->getName()) ?>_debug" class="alert alert-info" role="alert">

@@ -126,4 +126,8 @@ function update_profile($profile_id, $data) {
 	}
 }
 
+function delete_profile($profile_id) {
+	return unlink(DOCUMENT_REAL_ROOT.'/config/profiles/'.$profile_id.'.xml');
+}
+
 ?>

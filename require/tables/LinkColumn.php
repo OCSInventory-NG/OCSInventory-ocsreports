@@ -45,7 +45,7 @@ class LinkColumn extends Column {
 		$id = htmlspecialchars($id);
 		$value = htmlspecialchars($value);
 		
-		return '<a href="'.$this->url.$id.'">'.$value.'</a>';
+		return '<a href="'.sprintf($this->url, $id).'">'.$value.'</a>';
 	}
 }
 
