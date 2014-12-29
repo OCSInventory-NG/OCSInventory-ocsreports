@@ -328,6 +328,10 @@
     <value>about</value>
     <directory>ms_about</directory>
   </url>
+  <url key="ms_build_package">
+    <value>build_package</value>
+    <directory>ms_packages</directory>
+  </url>
   <url key="ms_plugins_exemple">
     <value>plugin_exemple</value>
     <directory>ms_plugins</directory>

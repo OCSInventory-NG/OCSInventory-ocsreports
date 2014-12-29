@@ -32,6 +32,10 @@ function show_form_field($data, $errors, $type, $name, $label, $options = array(
 	if ($label) {
 		show_form_label($name, $label.' :');
 	}
+
+	if ($options['comment_before']) {
+		echo '<span class="comment_before">'.$options['comment_before'].'</span>';
+	}
 	
 	switch ($type) {
 		case 'input':
@@ -43,6 +47,10 @@ function show_form_field($data, $errors, $type, $name, $label, $options = array(
 		case 'select':
 			show_form_select($name, $options);
 			break;
+	}
+	
+	if ($options['comment_after']) {
+		echo '<span class="comment_after">'.$options['comment_after'].'</span>';
 	}
 	
 	echo '</div>';

@@ -58,6 +58,7 @@
     <page>ms_user_details</page>
     <page>ms_adminvalues</page>
     <page>ms_ask</page>
+    <page>ms_build_package</page>
     <page>ms_components</page>
     <page>ms_tele_compress</page>
     <page>ms_computer</page>

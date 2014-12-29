@@ -2,6 +2,7 @@
 <javascripts>
   <file>ms_search_soft/js/autocomplete-3-2.js</file>
   <file>ms_search_soft/js/print.js</file>
+  <file>ms_packages/js/package-form.js</file>
   <file>ms_users/js/profile-create-form.js</file>
   <file>ms_users/js/profile-edit-form.js</file>
 </javascripts>
