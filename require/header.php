@@ -464,7 +464,7 @@ if ($url_name) {
 		}
 		
 		if ($_SERVER['CONTENT_LENGTH'] > $post_max_size) {
-			$message = 'The data sent is bigger than the configured limit (post_max_size = '.$post_max_size.')';
+			$message = 'The data sent is bigger than the configured limit (post_max_size = '.$post_max_size.')'; // TODO translate
 			
 			if (AJAX) {
 				echo json_encode(array(

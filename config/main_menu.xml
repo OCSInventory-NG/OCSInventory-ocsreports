@@ -34,9 +34,9 @@
     <label>g(512)</label>
     <url>ms_teledeploy</url>
     <submenu>
-      <menu-elem id="ms_tele_package">
+      <menu-elem id="ms_build_package">
         <label>g(513)</label>
-        <url>ms_tele_package</url>
+        <url>ms_build_package</url>
       </menu-elem>
       <menu-elem id="ms_tele_activate">
         <label>g(514)</label>
