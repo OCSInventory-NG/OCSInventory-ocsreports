@@ -39,8 +39,7 @@ require_once('require/plugin/include.php');
 
 if (isset($_SESSION['OCS']['CONF_RESET'])){
 	unset($_SESSION['OCS']['LOG_GUI']);
-	unset($_SESSION['OCS']['CONF_DIRECTORY']);
-	unset($_SESSION['OCS']['URL']);
+	unset($_SESSION['OCS']['url_service']);
 	unset($_SESSION['OCS']["usecache"]);
 	unset($_SESSION['OCS']["use_redistribution"]);
 	unset($_SESSION['OCS']['CONF_RESET']);
