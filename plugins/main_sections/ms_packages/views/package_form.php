@@ -71,6 +71,11 @@ function show_package_form($activate_info_url, $activate_frag_url) {
 							));
 							
 							show_form_field(array(), array(), 'input', 'actionParam', $l->g(445));
+
+							show_form_field(array(), array(), 'select', 'priority', $l->g(440), array(
+								'value' => 5,
+								'options' => array(0,1,2,3,4,5,6,7,8,9),
+							));
 							
 							?>
 							

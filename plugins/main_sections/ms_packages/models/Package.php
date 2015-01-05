@@ -25,6 +25,7 @@ class Package {
 	private $os;
 	private $action;
 	private $actionParam;
+	private $priority;
 	private $file;
 	private $fileSize;
 	
@@ -62,9 +63,12 @@ class Package {
 		
 		if (isset($data['action']))
 			$package->setAction(trim($data['action']));
-		
+
 		if (isset($data['actionParam']))
 			$package->setActionParam(trim($data['actionParam']));
+
+		if (isset($data['priority']))
+			$package->setPriority(trim($data['priority']));
 		
 		if (isset($data['fragSize']))
 			$package->setFragSize(intval(trim($data['fragSize'])));
@@ -152,6 +156,10 @@ class Package {
 			$errors['action'] []= 'Invalid value';
 		}
 		
+		if ($this->priority and !in_array($this->priority, array(0,1,2,3,4,5,6,7,8,9))) {
+			$errors['priority'] []= 'Invalid value';
+		}
+		
 		// Check dependencies
 		if ($this->os == Package::OS_WINDOWS) {
 			if ($this->useNotif) {
@@ -222,14 +230,13 @@ class Package {
 		
 		$stmt = mysqli_prepare($_SESSION['OCS']['writeServer'], $insertQuery);
 		
-		$priority = 5;
 		$idWk = 0;
 		
 		$fragsNumber = $this->getFragsNumber();
 		$fileSize = $this->getFileSize();
 		
 		mysqli_stmt_bind_param($stmt, 'ssssssss',
-			$this->timestamp, $this->name, $priority /* TODO */, $fragsNumber,
+			$this->timestamp, $this->name, $this->priority, $fragsNumber,
 			$fileSize, $this->os, $this->description, $idWk
 		);
 		$success = mysqli_stmt_execute($stmt);
@@ -242,7 +249,7 @@ class Package {
 		$doc_xml = new DOMDocument('1.0', 'UTF-8');
 		$root_xml = $doc_xml->createElement('DOWNLOAD');
 		$root_xml->setAttribute('ID', $this->timestamp);
-		$root_xml->setAttribute('PRI', 5); // TODO
+		$root_xml->setAttribute('PRI', $this->priority);
 		$root_xml->setAttribute('ACT', $this->action);
 		$root_xml->setAttribute('DIGEST', md5_file($this->file));
 		$root_xml->setAttribute('PROTO', 'HTTP');
@@ -340,6 +347,15 @@ class Package {
 	
 	public function setActionParam($actionParam) {
 		$this->actionParam = $actionParam;
+		return $this;
+	}
+	
+	public function getPriority() {
+		return $this->priority;
+	}
+	
+	public function setPriority($priority) {
+		$this->priority = $priority;
 		return $this;
 	}
 	

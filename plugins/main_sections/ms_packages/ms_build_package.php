@@ -52,7 +52,7 @@ if (!AJAX) {
 		} else if (!$package->create()) {
 			$res = array(
 				'status' => 'error',
-				'message' => 'Some errors were found while creating the package : '.mysqli_error()
+				'message' => 'Some errors were found while creating the package : '.mysqli_error($_SESSION['OCS']['writeServer'])
 			);
 		} else {
 			if (isset($_POST['activate']) && $_POST['activate'] == 'on') {
