@@ -29,6 +29,9 @@ if (!AJAX) {
 	if (isset($_FILES['packageFile'])) {
 		// Handle file upload
 		$timestamp = time();
+		while (file_exists(get_download_root().$timestamp)) {
+			$timestamp++;
+		}
 		
 		$res = handle_package_upload($_FILES['packageFile'], $timestamp);
 	} else if (isset($_POST['timestamp'])) {

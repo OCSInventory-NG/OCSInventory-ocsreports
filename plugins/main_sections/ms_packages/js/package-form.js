@@ -20,19 +20,20 @@
 			$pkgForm = $tpl.clone()
 				.attr('id', 'package-form-'+counter)
 				.data('filename', filename),
-			$osContainer = $pkgForm.find('.field-os .radio-container');
+				$osContainer = $pkgForm.find('.field-os .radio-container'),
+				$actionContainer = $pkgForm.find('.field-action .radio-container');
 		
 		if (match = filename.match(/^(.+)\.zip$/i)) {
 			base = match[1];
 			ext = 'zip';
-			
-			$osContainer.hide().find('#os_WINDOWS').prop('checked', true);
-			$('<span/>').text('Windows').insertBefore($osContainer);
+
+			$osContainer.find('#os_LINUX, label[for=os_LINUX], #os_MAC, label[for=os_MAC]').hide();
+			$osContainer.find('#os_WINDOWS').prop('checked', true);
 		} else if (match = filename.match(/^(.+)\.tar\.gz$/i)) {
 			base = match[1];
 			ext = 'tar.gz';
 
-			$osContainer.find('#os_WINDOWS, label[for=os_WINDOWS]').hide();
+			$osContainer.find('#os_WINDOWS, label[for=os_WINDOWS], #os_ANDROID, label[for=os_ANDROID]').hide();
 			$osContainer.find('#os_LINUX').prop('checked', true);
 			
 			$pkgForm.find('.notify-container, .post-exec-container').hide();
@@ -42,6 +43,11 @@
 
 			$osContainer.hide().find('#os_ANDROID').prop('checked', true);
 			$('<span/>').text('Android').insertBefore($osContainer);
+			
+			$actionContainer.hide().find('#action_LAUNCH').prop('checked', true);
+			$('<span/>').text('Launch').insertBefore($actionContainer);
+			
+			$pkgForm.find('.field-actionParam').hide();
 			
 			$pkgForm.find('.notify-container, .post-exec-container').hide();
 		}

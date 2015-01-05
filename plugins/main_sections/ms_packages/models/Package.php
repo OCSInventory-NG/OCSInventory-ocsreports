@@ -130,8 +130,13 @@ class Package {
 		// TODO error translations
 		// TODO check for field sizes
 		
+		// Special case for android apk launch
+		if ($this->os == Package::OS_ANDROID && $this->action == Package::ACTION_LAUNCH) {
+			$this->actionParam = $this->timestamp.'.apk';
+		}
+		
 		// Check mandatory data
-		$mandatory_fields = array('name', 'description', 'os', 'action', 'actionParam', 'fragSize');
+		$mandatory_fields = array('name', 'description', 'os', 'action', 'fragSize');
 		foreach ($mandatory_fields as $field) {
 			if (!$this->$field) {
 				$errors[$field] []= 'This field is mandatory';
