@@ -99,30 +99,13 @@ function handle_package_upload($file_data, $timestamp) {// TODO translate
 			$error = 'Could not create dir '.$package_tmp_dir.', please fix your filesystem before trying again ';
 		}
 		
-		if ($ext == '.apk') {
-			$package_tmp_file = $package_tmp_dir.'/'.$timestamp.'.apk';
-		} else {
-			$package_tmp_file = $package_tmp_dir.'/package';
-		}
+		$package_tmp_file = $package_tmp_dir.'/package';
 		
 		if (!$error and (!is_writable($package_dir) or !move_uploaded_file($tmp_file, $package_tmp_file))) {
 			$error = 'Could not create file '.$package_tmp_file.', please fix your filesystem before trying again ';
 		}
 
-		if ($ext == '.apk') {
-			require_once("libraries/zip.lib.php");
-			
-			$zipfile = new zipfile();
-			$zipfile->addFile(file_get_contents($package_tmp_file), $timestamp.'.apk');
-			if (!file_put_contents($package_tmp_dir.'/package', $zipfile->file())) {
-				$error = 'Could not create file '.$package_tmp_dir.'/package, please fix your filesystem before trying again ';
-			}
-			
-			unlink($package_tmp_file);
-			
-			// Everything went well
-			$size = filesize($package_tmp_dir.'/package');
-		} else if (!$error) {
+		if (!$error) {
 			// Everything went well
 			$size = filesize($package_tmp_file);
 		}
