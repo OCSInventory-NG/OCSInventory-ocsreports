@@ -51,9 +51,6 @@ sub run {
 	$cpusocket=0;
    	for (@cpu){
 		if (/Processor\sInformation/i){
-			if ($cpusocket > 0) {
-				$common->addCPU($current);
-			}
 			$cpusocket++;
 			if ($cpuspeed != 0){
 				if ($cpusocket > $cpucores) {
@@ -62,15 +59,18 @@ sub run {
 			}
 			$cpuspeed=0;
 		}	
+
     	if (/Current\sSpeed:\s*(.*) (|MHz|GHz)/i){
 			$cpuspeed = $1;
             $current->{SPEED} = $cpuspeed;
 		}
+
         if (/Core\sCount:\s*(\d+)/i){
             $current->{CORES} = $1;
         } else {
 			$current->{CORES} = $cpucores;
 		}
+    	
     	# Is(Are) CPU(s) hyperthreaded?
     	if ($siblings == $current->{CORES}) {
        		# Hyperthreading is off
@@ -79,15 +79,11 @@ sub run {
        		# Hyperthreading is on
        		$current->{HPT}='off';
     	}
+
         if (/Voltage:\s*(.*)V/i){
             $current->{VOLTAGE} = $1;
         }
-		if (/Status:\s*(.*)/i){
-			$current->{CPUSTATUS} = $1;
-		}
-		if (/Status:\s*(.*),\s(.*)/i){
-            $current->{CPUSTATUS} = $2;
-        }
+
         if (/Upgrade:\s*(.*)/i){
             $current->{SOCKET} = $1;
         }
@@ -100,9 +96,13 @@ sub run {
     	}
 		
 		$current->{NBSOCKET} = $cpusocket;
-    }
-	$common->addCPU($current);
 
+		# Add CPU when Populated
+		if (/Status:\s*(.*),\s(.*)/i){
+            $current->{CPUSTATUS} = $2;
+			$common->addCPU($current);
+        }
+    }
 }
 
 1

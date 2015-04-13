@@ -12,7 +12,7 @@ sub run {
 
 
     foreach (`virsh list --all`) {
-        if (/^\s*(\d+|\-)\s+(\S+)\s+(\S.+)/) {
+		if (/^(\d+|\s+\-)\s+(\S+)\s+(\S.+)/){
             my $name = $2;
             my $status = $3;
 
@@ -23,7 +23,14 @@ sub run {
             my $vcpu = $data->{vcpu};
             my $uuid = $data->{uuid};
             my $vmtype = $data->{type};
-            my $memory = $1 if $data->{currentMemory} =~ /(\d+)\d{3}$/;
+
+			if ($data->{currentMemory}->{unit}) {
+				my $memory = $1 if $data->{currentMemory}->{content} =~ /(\d+)\d{3}$/;
+				my $vcpu = $data->{vcpu}->{content};
+			} else {
+            	my $memory = $1 if $data->{currentMemory} =~ /(\d+)\d{3}$/;
+				my $vcpu = $data->{vcpu};
+			}
 
             my $machine = {
 

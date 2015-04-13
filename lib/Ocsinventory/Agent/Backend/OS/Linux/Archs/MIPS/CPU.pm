@@ -19,7 +19,7 @@ sub run {
             }
 
             $current = {
-                ARCH => 'MIPS',
+                CPUARCH => 'MIPS',
             };
 
         }

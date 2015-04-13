@@ -18,7 +18,7 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Ipmi;
 
 sub check {
-  return unless can_run("ipmitool");
+  return unless can_run("ipmitool") && can_load("Net::IP qw:(PROC)");
 	my @ipmitool = `ipmitool lan print 2> /dev/null`;
     return unless @ipmitool;
 }
@@ -55,9 +55,8 @@ sub run {
   my $binip = &ip_iptobin ($ipaddress, 4);
   my $binmask = &ip_iptobin ($ipmask, 4);
   my $binsubnet = $binip & $binmask;
-  if (can_load("Net::IP qw(:PROC)")) {
-      $ipsubnet = ip_bintoip($binsubnet, 4);
-  }
+
+  $ipsubnet = ip_bintoip($binsubnet, 4);
   $status = 1 if $ipaddress != '0.0.0.0';
   $type = 'Ethernet';
 

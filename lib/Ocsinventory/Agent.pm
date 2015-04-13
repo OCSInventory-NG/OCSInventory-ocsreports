@@ -98,7 +98,7 @@ sub run {
     $logger->debug("--scan-homedirs missing. Don't scan user directories");
   }
 
-  if ($config->{config}{nosoft}) {
+  if (($config->{config}{nosoft}) || ($config->{config}{nosoftware})) {
     $logger->info("the parameter --nosoft is deprecated and may be removed in a future release, please use --nosoftware instead.");
     $config->{config}{nosoftware} = 1
   }

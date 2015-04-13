@@ -37,10 +37,7 @@ sub run {
 	        PORT => $port, 
             DRIVER => $driver
         });
-        undef $printer;
-        undef $description;
-        undef $port;
-        undef $driver;
+        $printer = $description = $port = $driver = undef;
     }
 }
 

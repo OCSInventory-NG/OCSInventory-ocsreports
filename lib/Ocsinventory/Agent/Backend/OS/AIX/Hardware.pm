@@ -42,7 +42,7 @@ sub run {
 # Fetch the serial number like prtconf do
   if (! $SystemSerial) {
     $flag=0;
-    foreach (`lscfg -vpl sysplana00`) {
+    foreach (`lscfg -vpl sysplanr00`) {
       if ($flag) {
         if (/\.+(\S*?)$/) {
           $SystemSerial = $1;

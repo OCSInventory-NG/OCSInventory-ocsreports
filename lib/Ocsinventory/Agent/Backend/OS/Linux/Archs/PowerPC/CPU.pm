@@ -33,7 +33,7 @@ sub run {
     $isIBM = 1 if /^machine\s*:.*IBM/;
     $current->{TYPE} = $1 if /cpu\s+:\s+(\S.*)/;
     $current->{SPEED} = $1 if /clock\s+:\s+(\S.*)/;
-    $current->{SPEED} =~ s/\.0+MHz/MHz/;
+    $current->{SPEED} =~ s/\.0+MHz//;
 
     if (/^\s*$/) {
       if ($current->{TYPE}) {
@@ -51,6 +51,7 @@ sub run {
 
   foreach my $cpu (@cpus) {
     $cpu->{MANUFACTURER} = 'IBM' if $isIBM;
+	$cpu->{CPUARCH} = 'PowerPC';
     $common->addCPU($cpu);
   }
 }

@@ -20,7 +20,7 @@ sub run {
             }
 
             $current = {
-                ARCH => 'ARM',
+                CPUARCH => 'ARM',
             };
 
         }

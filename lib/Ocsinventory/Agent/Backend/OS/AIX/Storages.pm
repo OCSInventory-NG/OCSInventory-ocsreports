@@ -18,6 +18,74 @@ sub run {
   my @lsvpd = `lsvpd`;  
   s/^\*// for (@lsvpd);
   
+  #FCP MPIO FC 2145 disks. IBM SDDPCM MPIO Storwize
+  @scsi= ();
+  @lsattr= ();
+  $n=0;
+  @scsi=`lsdev -Cc disk -s fcp -F 'name:description'`;
+  for(@scsi){
+        chomp $scsi[$n];
+        /^(.+):(.+)/;
+        $device=$1;
+        $description=$2;
+		@lsattr=`lspv $device 2>&1`;
+		for (@lsattr){
+			if ( ! ( /^0516-320.*/ ) ){
+          		if (/TOTAL PPs:/ ) {
+					($capacity,$model) = split(/\(/, $_);
+					($capacity,$model) = split(/ /,$model);
+				}
+        	}
+			else{
+				$capacity=0;
+			}
+		}
+        $common->addStorages({
+          MANUFACTURER => "FCP",
+          MODEL => "MPIO Disk",
+          DESCRIPTION => $description,
+          TYPE => 'disk',
+	  	  NAME => $device,
+          DISKSIZE => $capacity
+    	});
+        $n++;
+  }
+
+  # SAS disks
+  $n=0;
+  @scsi=`lsdev -Cc disk -s sas -F 'name:description'`;
+  for(@scsi){
+        chomp $scsi[$n];
+        /^(.+):(.+)/;
+        $device=$1;
+        $description=$2;
+		@lsattr=`lsattr -EOl $device -a 'size_in_mb'`;
+		for (@lsattr){
+			if (! /^#/ ){
+				$capacity=$_;
+				chomp($capacity);$capacity =~ s/(\s+)$//;
+			}
+		}
+		for (@lsvpd){
+	  		if(/^AX $device/){$flag=1}
+	  		if ((/^MF (.+)/) && $flag){$manufacturer=$1;chomp($manufacturer);$manufacturer =~ s/(\s+)$//;}
+	  		if ((/^TM (.+)/) && $flag){$model=$1;chomp($model);$model =~ s/(\s+)$//;}
+	  		if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
+	  		if ((/^FC .+/) && $flag) {$flag=0;last}
+		}
+			
+        $common->addStorages({
+          MANUFACTURER => $manufacturer,
+          MODEL => $model,
+          DESCRIPTION => $description,
+          TYPE => 'disk',
+	  	  NAME => $device,
+          DISKSIZE => $capacity
+    	});
+        $n++;
+  }
+
+
   #SCSI disks 
   $n=0;
   @scsi=`lsdev -Cc disk -s scsi -F 'name:description'`;
@@ -50,6 +118,7 @@ sub run {
     });
 	$n++;
   }
+
 #Virtual disks
   @scsi= ();
   @lsattr= ();
@@ -80,13 +149,11 @@ sub run {
           MODEL => "Virtual Disk",
           DESCRIPTION => $description,
           TYPE => 'disk',
-	  NAME => $device,
+	  	  NAME => $device,
           DISKSIZE => $capacity
     });
         $n++;
   }
-
-
 
   #CDROM
   @scsi= ();

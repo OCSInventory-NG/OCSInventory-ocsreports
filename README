@@ -32,8 +32,6 @@ PREREQUISITES
 
     Proc::PID::File brings the pid file support if Proc::Daemon is installed
 
-	Linux::Ethtool::Settings brings you speed and duplex informations for network cards
-
 	nvidia::ml brings you some informations on Nvidia Graphic Cards such as memory size, cpu speed, bios version, driver version.
 
     ipmitool if you want to collect information about IPMI
@@ -139,7 +137,7 @@ You can prepare a tarball from the Bazaar devel branch with following commands:
 
 COPYRIGHT
 
-  Copyright © 2006-2011 OCS Inventory Contributor
+  Copyright © 2006-2014 OCS Inventory Contributor
   released under GNU GPL 2 license
   
 AUTHORS

@@ -19,7 +19,7 @@ sub run {
             }
 
             $current = {
-                ARCH => 'm68k',
+                CPUARCH => 'm68k',
             };
 
         } else {

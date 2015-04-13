@@ -3,8 +3,8 @@ package Ocsinventory::Agent::Backend::OS::HPUX::Software;
 sub check  { 
    my $params = shift;
 
-   # Do not run an package inventory if there is the --nosoft parameter
-   return if ($params->{params}->{nosoft});
+   # Do not run an package inventory if there is the --nosoftware parameter
+   return if ($params->{params}->{nosoftware});
 
    $^O =~ /hpux/ 
 }

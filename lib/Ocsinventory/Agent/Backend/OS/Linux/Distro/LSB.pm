@@ -7,14 +7,21 @@ sub run {
   my $common = $params->{common};
 
   my $release;
-  foreach (`lsb_release -d`) {
-    $release = $1 if /Description:\s+(.+)/;
+  foreach (`lsb_release -i`) {
+    $release = $1 if /Distributor\sID:\s+(.+)/;
   }
+
+  my $OSversion;
+  foreach (`lsb_release -r`){
+	$osrelease = $1 if /Release:\s+(.+)/;
+  }
+ 
   my $OSComment;
   chomp($OSComment =`uname -v`);
 
   $common->setHardware({ 
       OSNAME => $release,
+	  OSVERSION => $osversion,
       OSCOMMENTS => "$OSComment"
     });
 }

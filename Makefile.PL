@@ -39,7 +39,6 @@ recommends 'Net::IP' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
 recommends 'Proc::PID::File' => undef;
-recommends 'Linux::Ethtool::Settings'=>undef;
 recommends 'Nvidia::ml'=>undef;
 
 install_script  'ocsinventory-agent';
@@ -100,10 +99,6 @@ if (!can_use('Net::IP')) {
 if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
     print "Please install Proc::Daemon and Proc::PID::File if you ".
     "want to use the daemon monde.\n";
-}
-
-if (!can_use('Linux::Ethtool::Settings')){
-	print "Linux::Ethtool::Settings is recommended if you want to retrieve speed and duplex information for network cards.\n";
 }
 
 if (!can_use('Nvidia::ml')){

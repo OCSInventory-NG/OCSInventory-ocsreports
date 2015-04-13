@@ -122,7 +122,6 @@ sub loadUserParams {
 		"lazy"            =>   \$self->{config}{lazy},
 		"l|local=s"       =>   \$self->{config}{local},
 		"logfile=s"       =>   \$self->{config}{logfile},
-		"nosoft"          =>   \$self->{config}{nosoft},
 		"nosoftware"      =>   \$self->{config}{nosoftware},
 		"p|password=s"    =>   \$self->{config}{password},
 		"P|proxy=s"       =>   \$self->{config}{proxy},
@@ -185,7 +184,6 @@ sub help {
   print STDERR "\t-w --wait=seconds   wait a random period before ".
   "  contacting server like --daemon does (".$self->{config}{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($self->{config}{xml})\n";
-  print STDERR "\t--nosoft            DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t--nosoftware        do not return installed software list (".$self->{config}{nosoftware}.")\n";
   print STDERR "\t--delaytime	      set a max delay time (in second) if no PROLOG_FREQ is set (".$self->{config}{delaytime}.")\n";
   print STDERR "\t--scan-homedirs     permit to scan home user directories (".$self->{config}{scanhomedirs}.")\n" ;

@@ -108,7 +108,10 @@ sub run {
         } elsif ($sysprod =~ /^Virtual Machine/) {
           $status = "Virtual Machine";
           $found = 1;
-        } else {
+        } elsif ($sysprod =~ /^Microsoft Corporation/) {
+			$status = "Hyper-V";
+			$found=1; 
+		} else {
           my $biosvend = `$dmidecode -s bios-vendor`;
           if ($biosvend =~ /^QEMU/) {
             $status = "QEMU";

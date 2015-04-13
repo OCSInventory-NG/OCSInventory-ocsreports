@@ -9,7 +9,7 @@ sub run {
     my $common = $params->{common};
 
     my @cpu;
-    my $current = { ARCH => 'ARM' };
+    my $current = { CPUARCH => 'ARM' };
     my $ncpus = 1;
     open CPUINFO, "</proc/cpuinfo" or warn;
     foreach(<CPUINFO>) {

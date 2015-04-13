@@ -197,6 +197,7 @@ sub processChecksum {
     'SOFTWARES'     => 65536,
     'VIRTUALMACHINES' => 131072,
     'CPUS'          => 262144,
+    'BATTERIES'     => 1048576,
   );
   # TODO CPUS is not in the list
 

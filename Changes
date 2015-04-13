@@ -1,5 +1,32 @@
 Revision history for Ocsinventory::Agent
 
+2.2rc1
+       * Retrieve speed and duplex from a different way
+       * Enhancement: unix agent can now report battery inventory
+       * Enhancement: unified agent can retrieve lxc container
+       * Suppress --nosoft option
+       * Fix Bug #1440626 Typo error in Alpha/CPU.pm
+       * Fix Bug #1438719 pkg_list has been deprecated on FreeBSD so no software inventory is gathered on those systems
+       * Fix Bug #1438021 Support s390x processors
+       * Fix Bug #1436702 Wrong disk size
+       * Fix Bug #1435675 AIX typo error in Hardware.pm
+       * Fix Bug #1431844 données de HDD SAS/SAN manquantes AIX 5.3, 6.1 et 7.1
+       * Fix Bug #1420073 Linux/Archs/i386/CPU.pm reports incorrect CPU information
+       * Fix Bug #1409671 PROCESSORS bad value on PowerPC arch
+       * Fix Bug #1405167 Presentation of OS Name and OS Version
+       * Fix Bug #1389255 Nombre d'interfaces recherchees
+       * Fix Bug #1376787 [UNIX Agent] Feature request: report Fusion-io cards
+       * Fix Bug #1364123 created script perl for xenserver
+       * Fix Bug #1350240 --nosoftware does'nt work on aix
+       * Fix Bug #1342038 Wrong data for cores on Unix Agent 2.1.1
+       * Fix Bug #1322088 CPU show 0 on VM libvirt
+       * Fix Bug #1319683 libvirt VM partial detection
+       * Fix Bug #1293588 CPU on Ubuntu may not be detected because of `arch` command and Dumper reference
+       * Fix Bug #1246427 CentOS Linux 6 not identified
+       * Fix Bug #1201734 Hyper-V virtual machines not reconized as "Virtual Machine" by agent
+       * Fix Bug #1159742 Ipmi.pm does not load Net::IP at the right place
+       * Fix Bug #1064296 ipv4 handling fix
+
 2.1.1
        * Add number of socket in Linux/Archs/i386/CPU.pm
        * Add hyperthreading support in Linux/Archs/i386/CPU.pm

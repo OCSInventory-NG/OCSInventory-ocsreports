@@ -1,10 +1,13 @@
-maintainer:
-  Guillaume PROTET <guillaume.protet@mortheres.info>
+Maintainer:
+  Frank Bourdeau <frank.bourdeau@ocsinventory-ng.org>
 
-former maintainer and main creator:
+Former maintainers:
+  Guillaume PROTET <guillaume.protet@mortheres.info>
   Gonéri LE BOUDER <goneri@rulezlan.org>
 
-Copyright 2006-2011 OCS Inventory contributors
+Based on the legacy OCS Linux agent (Copyright (C) 2005-2008 Pascal DANEK <pascal@ocsinventory-ng.org>)
+
+Copyright 2006-2015 OCS Inventory contributors
 
 Website: http://www.ocsinventory-ng.org
 
