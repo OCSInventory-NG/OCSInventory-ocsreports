@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Lspci::Videos;
 use strict;
-use Data::Dumper;
 
 my $memory;
 my $resolution;
+my $chipset;
 my @resolution;
 my ($ret,$handle,$i,$count,$clock,$driver_version, $nvml_version, $memtotal, $serial, $bios_version, $uuid, $name);
 my $reso;
@@ -18,6 +18,7 @@ sub run {
   my $common = $params->{common};
 
 	
+
 	if (can_run("nvidia-smi")) {
 
 		if (can_load("nvidia::ml qw(:all)")){
@@ -30,7 +31,7 @@ sub run {
 			# Retrieve NVML version
 			($ret, $nvml_version) = nvmlSystemGetNVMLVersion();
 			die nvmlErrorString($ret) unless $ret == $nividia::ml::bindings::NVML_SUCCESS;
-	
+
 			# How many nvidia cards are present?
 			($ret, $count) = nvmlDeviceGetCount();
 			die nvmlErrorString($ret) unless $ret == $nividia::ml::bindings::NVML_SUCCESS;
@@ -38,14 +39,14 @@ sub run {
 			for ($i=0; $i<$count; $i++) {
 				($ret, $handle) = nvmlDeviceGetHandleByIndex($i);
 				next if $ret != $nvidia::ml::bindings::NVML_SUCCESS;
-	
+
 				($ret, $name) = nvmlDeviceGetName($handle);
 				next if $ret != $nvidia::ml::bindings::NVML_SUCCESS;
-	
+
 				($ret, $memtotal) = nvmlDeviceGetMemoryInfo($handle);
 				next if $ret != $nvidia::ml::bindings::NVML_SUCCESS;
 				$memtotal = ($memtotal->{"total"} / 1024 / 1024);
-	
+
 				($ret, $serial) = nvmlDeviceGetSerial($handle);
 				next if $ret != $nvidia::ml::bindings::NVML_SUCCESS;
 
@@ -56,12 +57,12 @@ sub run {
 				next if $ret != $nvidia::ml::bindings::NVML_SUCCESS;
 			}
 			nvmlShutdown();
-       		my @resol= `xrandr --verbose | grep *current`; 
-       		foreach my $r (@resol){
-        		if ($r =~ /((\d\d\d\d)x(\d\d\d\d))/){
-           			push(@resolution,$1);
-           		}
-       		}	
+			my @resol= `xrandr --verbose | grep *current`; 
+			foreach my $r (@resol){
+				if ($r =~ /((\d{3,4})x(\d{3,4}))/){
+					push(@resolution,$1);
+				}
+			}	
 			foreach my $res (@resolution){
 				$reso = $res;
 			}
@@ -78,32 +79,33 @@ sub run {
 			});
 		}
 	} else {
-    	foreach(`lspci`){
-
-        	if(/graphics|vga|video/i && /^(\d\d:\d\d.\d)\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
-            	my $slot = $1;
-            	if (defined $slot) {
-                	my @detail = `lspci -v -s $slot`;
-                	foreach my $m (@detail) {
-                    	if ($m =~ /.*Memory.*\s+\(.*-bit,\sprefetchable\)\s\[size=(\d*)M\]/) {
-                        	$memory = $1;
-                    	}
-                	}	
-            	}
-            	my @resol= `xrandr --verbose | grep *current`; 
-            	foreach my $r (@resol){
-                	if ($r =~ /((\d\d\d\d)x(\d\d\d\d))/){
-                		$resolution = $1;
-            		}
-            		$common->addVideo({
-	            		'CHIPSET'    => $2,
-	            		'NAME'       => $3,
-                		'MEMORY'     => $memory,
-                		'RESOLUTION' => $resolution,
-            		});
-        		}	
-        	}	
-    	}
+		foreach(`lspci`){
+			if(/graphics|vga|video/i && /^(\d\d:\d\d.\d)\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
+				my $slot = $1;
+				$chipset = $2;
+				$name = $3;
+				if (defined $slot) {
+					my @detail = `lspci -v -s $slot`;
+					foreach my $m (@detail) {
+						if ($m =~ /.*Memory.*\s+\(.*-bit,\sprefetchable\)\s\[size=(\d*)M\]/) {
+							$memory = $1;
+						}
+					}
+				}
+				my @resol= `xrandr --verbose | grep *current`; 
+				foreach my $r (@resol){
+					if ($r =~ /((\d{3,4})x(\d{3,4}))/){
+						$resolution = $1;
+					}
+					$common->addVideo({
+						'CHIPSET'    => $chipset,
+						'NAME'       => $name,
+						'MEMORY'     => $memory,
+						'RESOLUTION' => $resolution,
+					});
+				}	
+			}
+		}
 	}
 }
 
