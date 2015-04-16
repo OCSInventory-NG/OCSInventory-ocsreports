@@ -1,6 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 2.2rc1
+       * HPUX/Solaris: use --nosoftware instead of --nosoft
        * Correction of graphics resolution
        * Retrieve speed and duplex from a different way
        * Enhancement: unix agent can now report battery inventory
