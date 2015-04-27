@@ -1,6 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 2.2rc1
+       * Fix syntax error in BSDpkg.pm file
        * HPUX/Solaris: use --nosoftware instead of --nosoft
        * Correction of graphics resolution
        * Retrieve speed and duplex from a different way
@@ -28,6 +29,8 @@ Revision history for Ocsinventory::Agent
        * Fix Bug #1201734 Hyper-V virtual machines not reconized as "Virtual Machine" by agent
        * Fix Bug #1159742 Ipmi.pm does not load Net::IP at the right place
        * Fix Bug #1064296 ipv4 handling fix
+
+2.1.2
 
 2.1.1
        * Add number of socket in Linux/Archs/i386/CPU.pm

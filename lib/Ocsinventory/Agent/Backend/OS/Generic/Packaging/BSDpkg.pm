@@ -6,7 +6,7 @@ sub run {
   my $params = shift;
   my $common = $params->{common};
 
-  if (can_run("pkg_info") {
+  if (can_run("pkg_info")) {
   	foreach(`pkg_info`){
       /^(\S+)-(\d+\S*)\s+(.*)/;
       my $name = $1;
@@ -19,7 +19,7 @@ sub run {
 	  'VERSION' => $version
       });
   	}
-  } elsif (can_run("pkg") {
+  } elsif (can_run("pkg")) {
   	foreach(`pkg info`){
       /^(\S+)-(\d+\S*)\s+(.*)/;
       my $name = $1;
