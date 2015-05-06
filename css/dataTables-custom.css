@@ -72,18 +72,17 @@ table.dataTable .row-action {
 }
 
 table.dataTable thead>tr>th.column-_checkbox,
-table.dataTable thead>tr>th.CHECK {
+table.dataTable thead>tr>th.CHECK{
 	background-image:none !important;
 }
 
-.dataTables_filter {
+.dataTables_filter{
 	margin-right:15px;
 }
 
-.table_settings_toggle {
+.table_settings_toggle{
 	margin-left:5px;
 }
-
 .table_settings{
 	width: 100%;
 	margin-top: 25px;
@@ -94,8 +93,4 @@ table.dataTable thead>tr>th.CHECK {
 	padding: 20px 50px;
 	margin-bottom: 20px;
 	text-align: center;
-}
-
-.mlt_bordure .table_settings {
-	border: 0;
 }

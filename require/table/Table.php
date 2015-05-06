@@ -40,14 +40,14 @@ class Table {
 		<script>
 		console.log();
 		//Check all the checkbox
-		function checkall()
-		{
+ 		function checkall()
+ 		{
 			var table_id ="<?php echo $tableid; ?>";
-			$(table_id+" tbody tr td input:checkbox").each(function(){
-				value = !$(this).attr('checked');
-				document.getElementById($(this).attr('id')).checked = value ;
-			});
-		}
+ 			$(table_id+" tbody tr td input:checkbox").each(function(){
+ 				value = !$(this).attr('checked');
+ 				document.getElementById($(this).attr('id')).checked = value ;
+ 			});
+ 		}
 		$(document).ready(function() {
 			var table_name = "<?php echo $tablename; ?>";
 			var table_id ="<?php echo $tableid; ?>";

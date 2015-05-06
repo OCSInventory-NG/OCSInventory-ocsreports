@@ -283,6 +283,7 @@ function xml_decode( $txt ) {
 
 <div align=center>
 	<div class="<?php echo $option['table_name']; ?>_top_settings" style="display:none;">
+</div>
 <?php
 
 	//Display the Column selector
@@ -327,6 +328,7 @@ function xml_decode( $txt ) {
 	?>
 	</div>
 	<?php 
+	//onclick='delete_cookie(\"".$option['table_name']."_col\");window.location.reload();'
 	echo "<a href='#' id='reset".$option['table_name']."' onclick='delete_cookie(\"".$option['table_name']."_col\");window.location.reload();' style='display: none;' >".$l->g(1380)."</a>";
 	?>
 	</div>
@@ -1840,10 +1842,10 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						break;
 					case "MODIF":
 						if (!isset($tab_options['MODIF']['IMG']))
-							$image = "<span class='glyphicon glyphicon-edit'></span>";
+							$image="image/modif_tab.png";
 						else
-							$image = "<img src=".$tab_options['MODIF']['IMG'].">";
-						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'>".$image."</a>";
+							$image=$tab_options['MODIF']['IMG'];
+						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
 						break;
 					case "SELECT":
 						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";

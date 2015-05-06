@@ -27,33 +27,10 @@ class ActionsColumn extends Column {
 					$id = htmlspecialchars($id);
 					
 					$actionHtml = '';
-					foreach ($actions as $action) {
-						$actionHtml .= '<a href="'.sprintf($action->getUrl(), $id).'" class="row-action"';
-
-						if ($action->getMethod() != 'GET') {
-							$actionHtml .= ' data-method="'.$action->getMethod().'"';
-						}
-						
-						if ($action->isAjax()) {
-							$actionHtml .= ' data-ajax="true"';
-						}
-						
-						if ($action->getConfirm()) {
-							$actionHtml .= ' data-confirm="'.htmlspecialchars($action->getConfirm()).'"';
-						}
-						
-						$actionHtml .= '>';
-
-						if ($action->getIcon()) {
-							$actionHtml .= '<span class="glyphicon glyphicon-'.$action->getIcon().'"></span>';
-						}
-						
-						if ($action->getLabel()) {
-							if ($action->getIcon()) $actionHtml .= ' ';
-							$actionHtml .= '<span class="action-label">'.htmlspecialchars($action->getLabel()).'</span>';
-						}
-						
-						$actionHtml .= '</a>';
+					foreach ($actions as $url => $class) {
+						$actionHtml .= '<a href="'.$url.$id.'" class="row-action">'
+								.'<span class="'.$class.'"></span>'
+								.'</a>';
 					}
 					
 					return $actionHtml;

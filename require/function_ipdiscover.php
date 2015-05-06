@@ -149,7 +149,7 @@ function loadMac() {
 		$file=fopen(MAC_FILE,"r");
 		while (!feof($file)) {				 
 			$line  = fgets($file, 4096);
-			if( preg_match("/^((?:[a-fA-F0-9]{2}-){2}[a-fA-F0-9]{2})\s+\(.+\)\s+(.+)\s*$/", $line, $result ) ) {
+			if( preg_match("/^\s+((?:[a-fA-F0-9]{2}-){2}[a-fA-F0-9]{2})\s+\(.+\)\s+(.+)\s*$/", $line, $result ) ) {
 				$_SESSION['OCS']["mac"][mb_strtoupper(str_replace("-",":",$result[1]))] = $result[2];
 			}				
 		}

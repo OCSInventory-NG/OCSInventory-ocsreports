@@ -14,8 +14,7 @@ die();
 header("content-type: application/zip");
 header("Content-Disposition: attachment; filename=".$protectedGet["timestamp"].".zip");
 if(isset($protectedGet["timestamp"])){
-	require_once("libraries/zip.lib.php");
-	$zipfile = new zipfile();
+	$zipfile = new zipArchive();
 	//looking for the directory for pack
 	if ($protectedGet['type'] == "server")
 	$sql_document_root="select tvalue from config where NAME='DOWNLOAD_REP_CREAT'";
@@ -33,14 +32,20 @@ if(isset($protectedGet["timestamp"])){
 		if ($protectedGet['type'] == "server")
 			$document_root .="server/";
 	}
+
 	$rep = $document_root.$protectedGet["timestamp"]."/";
-	//echo $rep;
 	$dir = opendir($rep);
+	$tmpfile = tempnam("/tmp",".zip");
+	$zipfile->open($tmpfile, ZipArchive::CREATE);
 	while($f = readdir($dir))
-	   if(is_file($rep.$f))
-	     $zipfile -> addFile(implode("",file($rep.$f)),basename($rep.$f));
+		if(is_file($rep.$f))
+			$zipfile -> addFile( $rep.$f,$f );
+	$zipfile->close();
 	closedir($dir);
-	print $zipfile -> file();
+	readfile($tmpfile);
+	unlink($tmpfile);
+	exit();
+
 	exit();
 }
 ?>

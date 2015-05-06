@@ -108,10 +108,6 @@
     <value>admin_add_profile</value>
     <directory>ms_users</directory>
   </url>
-  <url key="ms_delete_profile">
-    <value>admin_delete_profile</value>
-    <directory>ms_users</directory>
-  </url>
   <url key="ms_profile_details">
     <value>admin_profile_details</value>
     <directory>ms_users</directory>
@@ -150,6 +146,10 @@
   </url>
   <url key="ms_tele_package">
     <value>tele_package</value>
+    <directory>ms_teledeploy</directory>
+  </url>
+  <url key="ms_tele_modify">
+    <value>tele_modify</value>
     <directory>ms_teledeploy</directory>
   </url>
   <url key="ms_tele_activate">
@@ -220,10 +220,12 @@
     <value>stat_speed</value>
     <directory>ms_teledeploy</directory>
   </url>
+<!--
   <url key="ms_teledeploy_workflow">
     <value>teledeploy_workflow</value>
     <directory>ms_teledeploy_workflow</directory>
   </url>
+-->
   <url key="ms_admin_management">
     <value>admin_type_manage</value>
     <directory>ms_teledeploy_workflow</directory>
@@ -327,10 +329,6 @@
   <url key="ms_about">
     <value>about</value>
     <directory>ms_about</directory>
-  </url>
-  <url key="ms_build_package">
-    <value>build_package</value>
-    <directory>ms_packages</directory>
   </url>
   <url key="ms_plugins_exemple">
     <value>plugin_exemple</value>

@@ -34,9 +34,13 @@
     <label>g(512)</label>
     <url>ms_teledeploy</url>
     <submenu>
-      <menu-elem id="ms_build_package">
+      <menu-elem id="ms_tele_package">
         <label>g(513)</label>
-        <url>ms_build_package</url>
+        <url>ms_tele_package</url>
+      </menu-elem>
+      <menu-elem id="ms_tele_modify">
+        <label>g(564)</label>
+        <url>ms_tele_modify</url>
       </menu-elem>
       <menu-elem id="ms_tele_activate">
         <label>g(514)</label>
@@ -46,10 +50,12 @@
         <label>g(662)</label>
         <url>ms_rules_redistrib</url>
       </menu-elem>
+<!--
       <menu-elem id="ms_teledeploy_workflow">
         <label>g(1031)</label>
         <url>ms_teledeploy_workflow</url>
       </menu-elem>
+-->
     </submenu>
   </menu-elem>
   <menu-elem id="config">

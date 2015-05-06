@@ -167,28 +167,6 @@ else{ //only show the botton for modify
 echo open_form('CHANGE');
 echo "<table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
 
-//TELEDIFF_WK
-//use teledeploy workflow?
-require_once('require/function_telediff_wk.php');
-$activate=option_conf_activate('TELEDIFF_WK');
-if ($activate){
-	$conf_Wk=look_config_default_values(array('IT_SET_PERIM','IT_SET_NAME_TEST',
-										   'IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
-										   'IT_SET_NIV_TEST','IT_SET_NIV_REST'));
-	//configuration sur le groupe
-	if ($conf_Wk['ivalue']['IT_SET_PERIM'] != 1){
-		$mes_wk="";
-		if ($conf_Wk['tvalue']['IT_SET_NAME_TEST']==$name)
-		$mes_wk=$l->g(1188);
-		if ($conf_Wk['tvalue']['IT_SET_NAME_LIMIT']==$name)
-		$mes_wk.="<br>".$l->g(1189);
-	}
-	
-	if ($mes_wk != ''){
-		msg_info($l->g(1047).": ".$mes_wk);	
-	}
-}
-
 
 echo "<tr>".$tdhd.$l->g(577).$tdhf.$tdhdpb.$name.$tdhfpb;
 echo $tdhd.$l->g(593).$tdhf.$tdhdpb.dateTimeFromMysql($item->LASTDATE).$tdhfpb;

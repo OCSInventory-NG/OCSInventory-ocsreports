@@ -196,16 +196,13 @@ function admin_user($id_user = null, $is_my_account = false) {
 	}
 	if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_USER_GROUP') == 'YES'){
 		$tab_typ_champ[2]["CONFIG"]['DEFAULT']="YES";
-		$tab_typ_champ[2]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\"><img src=image/plus.png></a>";
-	}
-	
-	if (isset($pages_refs['ms_custom_perim'])) {
-		$perim_link = '<a href="index.php?'.PAG_INDEX.'='.$pages_refs['ms_custom_perim'].'&head=1&id=">Change perimeter</a>';
+	//	$tab_typ_champ[1]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+		$tab_typ_champ[2]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
 	}
 	
 	if (isset($tab_typ_champ)) {
 		tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
-			'title' => ($id_user ? ($is_my_account ? $l->g(1365) : $l->g(1385).' '.$perim_link) : $l->g(1386)), // TODO translate
+			'title' => ($id_user ? ($is_my_account ? $l->g(1365) : $l->g(1385)) : $l->g(1386)),
 			'form_name' => 'my_account'
 		));
 	}	
@@ -214,12 +211,8 @@ function admin_user($id_user = null, $is_my_account = false) {
 function admin_profil($form){
 	global $protectedPost,$l,$pages_refs;
 	$yes_no=array('YES'=>$l->g(455),'NO'=>$l->g(454));
-	$telediff_wk=array('LOGIN'=>'LOGIN','USER_GROUP'=>'USER_GROUP','NO'=>$l->g(454));
 	$info_field=array('NAME'=>array('INFO'=>array('LBL'=>$l->g(1153) . ": ",'VALUE'=>'')),
 					  'GUI'=> array('RESTRICTION'=>array('LBL'=>$l->g(1154) . ": ",'VALUE'=>$yes_no)),
-					  'TELEDIFF_WK'=>array('RESTRICTION'=>array('LBL'=>$l->g(1155) . ": ",'VALUE'=>$telediff_wk),
-					  					   'CONFIGURATION'=>array('LBL'=>$l->g(1156) . ": ",'VALUE'=>$yes_no)),
-					  'TELEDIFF_WK_FIELDS'=>array('RESTRICTION'=>array('LBL'=>$l->g(1157) . ": ",'VALUE'=>$yes_no)),
 					  'TELEDIFF_ACTIVATE'=>array('RESTRICTION'=>array('LBL'=>$l->g(1158) . ": ",'VALUE'=>$yes_no)),
 					  'TELEDIFF_VISIBLE'=>array('RESTRICTION'=>array('LBL'=>$l->g(1301) . ": ",'VALUE'=>$yes_no)),
 					  'EXPORT_XML'=>array('RESTRICTION'=>array('LBL'=>$l->g(1305),'VALUE'=>$yes_no)),

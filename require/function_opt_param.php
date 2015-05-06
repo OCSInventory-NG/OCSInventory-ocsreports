@@ -1,4 +1,4 @@
-<script language=javascript>
+<script type="text/javascript">
 
 function recharge(modif,origine){
 	document.getElementById('systemid').value=modif;

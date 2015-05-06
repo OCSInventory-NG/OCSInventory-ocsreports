@@ -39,7 +39,8 @@ require_once('require/plugin/include.php');
 
 if (isset($_SESSION['OCS']['CONF_RESET'])){
 	unset($_SESSION['OCS']['LOG_GUI']);
-	unset($_SESSION['OCS']['url_service']);
+	unset($_SESSION['OCS']['CONF_DIRECTORY']);
+	unset($_SESSION['OCS']['URL']);
 	unset($_SESSION['OCS']["usecache"]);
 	unset($_SESSION['OCS']["use_redistribution"]);
 	unset($_SESSION['OCS']['CONF_RESET']);
@@ -438,45 +439,10 @@ if((!isset($_SESSION['OCS']["loggeduser"])
 }
 
 if ($url_name) {
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		// Detect if the POST data exceeds the configured post_max_size
-		$post_max_size = ini_get('post_max_size');
-		
-		if (!is_numeric($post_max_size)) {
-			// Convert from shorthand notation to bytes (ex: 4k => 4096)
-			$post_max_size_unit = substr($post_max_size, -1);
-			$post_max_size = substr($post_max_size, 0, -1);
-			
-			switch (strtoupper($post_max_size_unit)){
-				case 'P':
-					$post_max_size *= 1024;
-				case 'T':
-					$post_max_size *= 1024;
-				case 'G':
-					$post_max_size *= 1024;
-				case 'M':
-					$post_max_size *= 1024;
-				case 'K':
-					$post_max_size *= 1024;
-					break;
-			}
-		}
-		
-		if ($_SERVER['CONTENT_LENGTH'] > $post_max_size) {
-			$message = 'The data sent is bigger than the configured limit (post_max_size = '.$post_max_size.')'; // TODO translate
-			
-			if (AJAX) {
-				echo json_encode(array(
-					'status' => 'error',
-					'message' => $message
-				));
-			} else {
-				msg_error($msg);
-			}
-			die;
-		}
 
-		//CSRF security
+	//CSRF security
+	if($_SERVER['REQUEST_METHOD'] == 'POST')
+	{
 		$csrf=true;
 		if (isset($_SESSION['OCS']['CSRF'])){
 			foreach ($_SESSION['OCS']['CSRF'] as $k=>$v){
@@ -485,19 +451,11 @@ if ($url_name) {
 			}			
 		}
 	    //Here we parse the form
-		if ($csrf) {
-			$message = 'CSRF ATTACK!!!';
-			if (AJAX) {
-				echo json_encode(array(
-					'status' => 'error',
-					'message' => $message
-				));
-			} else {
-				msg_error("<big>$message</big>");
-				require_once(FOOTER_HTML);
-			}
-			die;
-		}
+	    if($csrf){
+	       msg_error("<big>CSRF ATTACK!!!</big>");
+	       require_once(FOOTER_HTML);
+	       die();
+	    }
 	 
 	    //Do the rest of the processing here
 	}	

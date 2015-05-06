@@ -15,7 +15,6 @@ require_once('require/tables/Table.php');
 require_once('require/tables/Column.php');
 require_once('require/tables/CheckboxColumn.php');
 require_once('require/tables/ActionsColumn.php');
-require_once('require/tables/Action.php');
 require_once('require/tables/LinkColumn.php');
 
 global $l;
@@ -24,36 +23,47 @@ global $l;
 $form_name = 'ms_profiles';
 $profiles = get_profiles();
 
-$detail_url = 'index.php?'.PAG_INDEX.'='.$pages_refs['ms_profile_details'].'&profile_id=%s';
-$delete_url = 'ajax.php?'.PAG_INDEX.'='.$pages_refs['ms_delete_profile'].'&profile_id=%s';
-
-$detail_action = new Action($detail_url, 'edit');
-$delete_action = new Action($delete_url, 'remove');
-$delete_action->setMethod('POST')
-	->setConfirm('Are you sure to delete this profile ?')
-	->setAjax(true);
+$detail_url = 'index.php?'.PAG_INDEX.'='.$pages_refs['ms_profile_details'].'&profile_id=';
+$delete_url = 'index.php?'.PAG_INDEX.'='.$pages_refs['ms_profiles'].'&action=delete&profile_id=';
 
 $table = new Table($form_name);
-//$table->addColumn(new CheckboxColumn('name'));
-$table->addColumn(new LinkColumn('name', $l->g(1402), $detail_url, array(
-		'required' => true,
-		'sortable' => false,
-		'idProperty' => 'name'
-)));
-$table->addColumn(new LinkColumn('label_translated', $l->g(1411), $detail_url, array(
-		'required' => true,
-		'sortable' => false,
-		'idProperty' => 'name'
-)));
-$table->addColumn(new ActionsColumn(array($detail_action, $delete_action), 'name'));
+$table->addColumn(new CheckboxColumn('name'));
+$table->addColumn(new LinkColumn('name', $l->g(1402), $detail_url, array('required' => true, 'idProperty' => 'name')));
+$table->addColumn(new LinkColumn('label_translated', $l->g(1411), $detail_url, array('required' => true, 'idProperty' => 'name')));
+$table->addColumn(new ActionsColumn(array(
+		$detail_url => 'glyphicon glyphicon-edit',
+		$delete_url => 'glyphicon glyphicon-remove',
+), 'name'));
 
 if (AJAX) {
-	require_once('require/tables/AjaxTableRenderer.php');
+	$ajax = true;
+	
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	
+	$data = array();
+	
+	foreach ($profiles as $profile) {
+		$profileData = array();
+		foreach ($table->getColumns() as $name => $col) {
+			$profileData[$name] = $col->format($profile);
+		}
+		$data []= $profileData;
+	}
 	
 	// JSON OUTPUT
-	$table_renderer = new AjaxTableRenderer();
-	$table_renderer->show($table, $profiles);
+	$response = array(
+		'customized' => false,
+		'draw' => $_POST['draw'],
+		'data' => $data,
+		'recordsFiltered' => count($profiles),
+		'recordsTotal' => count($profiles)
+	);
+	
+	echo json_encode($response);
 } else {
+	$ajax = false;
+	
 	require_once('views/users_views.php');
 	require_once('require/function_search.php');
 	require_once('require/tables/TableRenderer.php');

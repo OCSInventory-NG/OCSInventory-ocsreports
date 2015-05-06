@@ -13,8 +13,8 @@ $tab_dont_see=array(527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,
 
 class language
 {		
-	var  	$tableauMots;    // tableau contenant tous les mots du fichier 	
-	var 	$plug_language;	
+	protected  $tableauMots;    // tableau contenant tous les mots du fichier 	
+	protected  $plug_language;	
 	
 	function language($language,$plugin='') // constructeur
 	{

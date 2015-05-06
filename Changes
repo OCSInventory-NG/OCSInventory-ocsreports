@@ -1,4 +1,15 @@
 Revision history for ocsreports
+2.2beta3
+		* Packet system rework, use of the new class ziparchive (Thx to paul)
+  		* Redistribution server are now working correctly
+  		* Workflow feature has been removed
+		* Ldap Configuration is now working ( Was broken in 2.2B1 )
+		* Fix a bug which throw an error on PHP 5.5+
+		* function_ipdiscover.php has been modified for handling new oui.txt files (thx to paul)
+		* All array have now a saving feature which permit to save order and colum config (thx to paul)
+		* Cosmetic fix for large screen
+		* Cosmetic fix on the config menu (input overflow)
+
 2.2beta1
 		* hide alert messages
 		* new install file

@@ -40,42 +40,6 @@ var tables = {
 		return json.data;
 	},
 	
-	handleRowActions: function($table, csrfNumber, csrfToken) {
-		$table.on('click', '.row-action', function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			
-			var $action = $(this),
-				data = $action.data();
-			
-			if (data.confirm) {
-				if (!confirm(data.confirm)) {
-					return;
-				}
-			}
-			
-			if (data.ajax) {
-				var ajaxOptions = {
-					url: $action.attr('href'),
-					type: data.method || 'GET'
-				};
-				
-				if (data.method != 'GET') {
-					ajaxOptions.data = {};
-					ajaxOptions.data['CSRF_'+csrfNumber] = csrfToken;
-				}
-				
-				$.ajax(ajaxOptions).always(function() {
-					$table.DataTable().ajax.reload();
-				});
-			/*} else if (data.method && data.method != 'GET') {
-				*/
-			} else {
-				window.location.href = $action.attr('href');
-			}
-		});
-	},
-	
 	addMarkup: function(tableName) {
 		$("<span/>", {id: tableName+"_settings_toggle", 'class': 'glyphicon glyphicon-chevron-down table_settings_toggle'}).hide().appendTo("#"+tableName+"_filter label");
 		$("#"+tableName+"_settings").hide();
@@ -94,13 +58,10 @@ var tables = {
 			var $table = $('#'+tableName),
 				csrfToken = $('#CSRF_'+csrfNumber).val(),
 				dom = '<<"row"lf <"dataTables_processing" r>><"#'+tableName+'_settings" >t<"row" <"col-md-2" i><"col-md-10" p>>>';
-			
+		
 			$table.dataTable({
 				processing: true,
 				serverSide: true,
-				bFilter: false,
-				bPaginate: false,
-				bInfo: false,
 				dom: dom,
 				ajax: {
 					url: url,
@@ -118,7 +79,7 @@ var tables = {
 				scrollX: true
 			});
 			
-			//tables.addMarkup(tableName);
+			tables.addMarkup(tableName);
 			
 			// Handle show/hide column
 			$("body").on("click", "#select_col"+tableName, function() {
@@ -133,16 +94,23 @@ var tables = {
 				$("#"+tableName+"_settings").fadeToggle();
 			});
 			
-			// Handle checkboxes
 			$('#'+tableName+'_wrapper .check-all').change(function() {
 				tables.checkAll($table, this.checked);
 			});
-			
-			tables.handleRowActions($table, csrfNumber, csrfToken);
 		});
 	}
 };
 /*
+
+var statusErrorMap = {
+	'400' : <?php echo json_encode(htmlspecialchars($l->g(1352))) ?>,
+	'401' : <?php echo json_encode(htmlspecialchars($l->g(1353))) ?>,
+	'403' : <?php echo json_encode(htmlspecialchars($l->g(1354))) ?>,
+	'404' : <?php echo json_encode(htmlspecialchars($l->g(1355))) ?>,
+	'414' : <?php echo json_encode(htmlspecialchars($l->g(1356))) ?>,
+	'500' : <?php echo json_encode(htmlspecialchars($l->g(1357))) ?>,
+	'503' : <?php echo json_encode(htmlspecialchars($l->g(1358))) ?>
+};
 
 $(document).ready(function() {
 	<?php if($opt){ ?>

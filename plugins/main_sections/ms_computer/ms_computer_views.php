@@ -24,7 +24,7 @@ function show_computer_title($computer) {
 	echo '</h3>';
 }
 
-function show_computer_summary($computer) {
+ function show_computer_summary($computer) {
 	global $l;
 	
 	$urls = $_SESSION['OCS']['url_service'];
@@ -117,13 +117,13 @@ function show_computer_summary($computer) {
 		}
 	}
 	
-	echo open_form("bandeau");
+ 	echo open_form("bandeau");
 	
-	show_summary($data, $labels, $cat_labels, $link);
-	echo "<input type='hidden' id='WOL' name='WOL' value=''>";
+ 	show_summary($data, $labels, $cat_labels, $link);
+ 	echo "<input type='hidden' id='WOL' name='WOL' value=''>";
 	
-	echo close_form();
-}
+ 	echo close_form();
+ }
 
 function show_summary($data, $labels, $cat_labels, $links = array()) {
 	global $protectedGet, $pages_refs;

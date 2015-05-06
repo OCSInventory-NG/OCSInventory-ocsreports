@@ -2,15 +2,12 @@
 <profile label="g(141)">
   <restrictions>
     <restriction key="GUI">NO</restriction>
-    <restriction key="TELEDIFF_WK">LOGIN</restriction>
-    <restriction key="TELEDIFF_WK_FIELDS">YES</restriction>
     <restriction key="TELEDIFF_ACTIVATE">YES</restriction>
     <restriction key="TELEDIFF_VISIBLE">NO</restriction>
     <restriction key="EXPORT_XML">NO</restriction>
     <restriction key="WOL">NO</restriction>
   </restrictions>
   <config>
-    <config-elem key="TELEDIFF_WK">NO</config-elem>
     <config-elem key="IPDISCOVER">NO</config-elem>
     <config-elem key="TELEDIFF">NO</config-elem>
     <config-elem key="CONFIG">NO</config-elem>
@@ -39,7 +36,11 @@
     <page>ms_upload_file_popup</page>
     <page>ms_ipdiscover</page>
     <page>ms_doubles</page>
-    <page>ms_config_account</page>
+    <page>ms_wiki</page>
+    <page>ms_irc</page>
+    <page>ms_forums</page>
+    <page>ms_offers</page>
+    <page>ms_ask</page>
     <page>ms_console</page>
     <page>ms_components</page>
     <page>ms_tele_activate</page>
@@ -49,6 +50,7 @@
     <page>ms_show_detail</page>
     <page>ms_custom_info</page>
     <page>ms_computer</page>
+    <page>ms_config_account</page>
     <page>ms_soft_csv</page>
     <page>ms_csv</page>
     <page>ms_tele_stats</page>
@@ -56,11 +58,6 @@
     <page>ms_snmp</page>
     <page>ms_snmp_detail</page>
     <page>ms_server_infos</page>
-    <page>ms_wiki</page>
-    <page>ms_irc</page>
-    <page>ms_forums</page>
-    <page>ms_offers</page>
-    <page>ms_ask</page>
     <page>ms_about</page>
   </pages>
 </profile>

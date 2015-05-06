@@ -9,12 +9,11 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-if (!AJAX) {
-	echo "<script type='text/javascript'>
-		function active(id, sens) {
-			var mstyle = document.getElementById(id).style.display	= (sens!=0?\"block\" :\"none\");
-		}</script>";
-}
+
+echo "<script language='javascript'>
+	function active(id, sens) {
+		var mstyle = document.getElementById(id).style.display	= (sens!=0?\"block\" :\"none\");
+	}</script>";
 
 function javascript_pack(){
 	global $protectedPost;

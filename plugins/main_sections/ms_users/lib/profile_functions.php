@@ -38,15 +38,8 @@ function validate_profile_edit_form($profile_id, $data) {
 	$errors = array();
 
 	$yes_no = array('YES', 'NO');
-	$telediff_wk = array('LOGIN', 'USER_GROUP', 'NO');
 
 	$urls = $_SESSION['OCS']['url_service'];
-
-	foreach ($data['restrictions'] as $key => $val) {
-		if (($key == 'TELEDIFF_WK' and !in_array($val, $telediff_wk)) or ($key != 'TELEDIFF_WK' and !in_array($val, $yes_no))) {
-			$errors['restrictions_'.$key.'_'] []= $l->g(1392);
-		}
-	}
 	
 	foreach ($data['config'] as $key => $val) {
 		if (!in_array($val, $yes_no)) {
@@ -88,7 +81,6 @@ function create_profile($data) {
 
 function update_profile($profile_id, $data) {
 	$yes_no = array('YES', 'NO');
-	$telediff_wk = array('LOGIN', 'USER_GROUP', 'NO');
 
 	$urls = $_SESSION['OCS']['url_service'];
 	
@@ -124,10 +116,6 @@ function update_profile($profile_id, $data) {
 	} else {
 		return false;
 	}
-}
-
-function delete_profile($profile_id) {
-	return unlink(DOCUMENT_REAL_ROOT.'/config/profiles/'.$profile_id.'.xml');
 }
 
 ?>

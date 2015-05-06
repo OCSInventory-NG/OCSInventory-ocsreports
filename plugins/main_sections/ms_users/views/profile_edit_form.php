@@ -67,16 +67,8 @@ function show_restrictions_frame($profile, $yes_no) {
 	global $l;
 	
 	$restrictions = $profile->getRestrictions();
-	
-	$telediff_wk = array(
-			'LOGIN' => 'LOGIN',
-			'USER_GROUP' => 'USER_GROUP',
-			'NO' => $l->g(454)
-	);
 
 	show_select_field($restrictions, 'restrictions', 'GUI', $l->g(1154), $yes_no);
-	show_select_field($restrictions, 'restrictions', 'TELEDIFF_WK', $l->g(1155), $telediff_wk);
-	show_select_field($restrictions, 'restrictions', 'TELEDIFF_WK_FIELDS', $l->g(1157), $yes_no);
 	show_select_field($restrictions, 'restrictions', 'TELEDIFF_ACTIVATE', $l->g(1158), $yes_no);
 	show_select_field($restrictions, 'restrictions', 'TELEDIFF_VISIBLE', $l->g(1301), $yes_no);
 	show_select_field($restrictions, 'restrictions', 'EXPORT_XML', $l->g(1305), $yes_no);
@@ -90,13 +82,6 @@ function show_config_frame($profile, $yes_no) {
 	
 	$field_options = array('field_class' => 'big-label');
 	
-	$telediff_wk = array(
-			'LOGIN' => 'LOGIN',
-			'USER_GROUP' => 'USER_GROUP',
-			'NO' => $l->g(454)
-	);
-
-	show_select_field($config, 'config', 'TELEDIFF_WK', $l->g(1156), $yes_no);
 	show_select_field($config, 'config', 'IPDISCOVER', $l->g(1172), $yes_no);
 	show_select_field($config, 'config', 'TELEDIFF', $l->g(1162), $yes_no);
 	show_select_field($config, 'config', 'CONFIG', $l->g(1163), $yes_no);
@@ -126,12 +111,6 @@ function show_blacklist_frame($profile, $yes_no) {
 	);
 	
 	$field_options = array('field_class' => 'big-label');
-	
-	$telediff_wk = array(
-			'LOGIN' => 'LOGIN',
-			'USER_GROUP' => 'USER_GROUP',
-			'NO' => $l->g(454)
-	);
 
 	show_select_field($blacklist, 'blacklist', 'MACADD', $l->g(1159), $yes_no);
 	show_select_field($blacklist, 'blacklist', 'SERIAL', $l->g(1160), $yes_no);

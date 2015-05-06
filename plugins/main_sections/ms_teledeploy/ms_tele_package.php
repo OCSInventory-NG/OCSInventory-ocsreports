@@ -11,7 +11,6 @@
 //Modified on $Date: 2010 $$Author: Erwan Goalou
 
 require_once('require/function_telediff.php');
-require_once('require/function_telediff_wk.php');
 foreach ($_POST as $key=>$value){
 	$temp_post[$key]=$value;
 }
@@ -51,30 +50,38 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'NEED_DONE_ACTION_TEXT'=>$protectedPost['NEED_DONE_ACTION_TEXT'],
 						'GARDEFOU'=>"rien");
 	create_pack($sql_details,$info_details);
-	if ($protectedPost['REDISTRIB_USE'] == 1){
+	
+if ($protectedPost['REDISTRIB_USE'] == 1){
+		
 		$timestamp_redistrib= time();
 		$server_dir=$protectedPost['download_rep_creat'];
-		$rep=$server_dir.$timestamp_redistrib;
 		//create zip file for redistribution servers
-		require_once("libraries/zip.lib.php");
-		$zipfile = new zipfile();
+		$zipfile = new ZipArchive();
+		$rep = $protectedPost['document_root'].$sql_details['timestamp']."/";
 		
 		if (!file_exists($server_dir)){
 			mkdir($server_dir);
 		}
-		if (!file_exists($server_dir.$timestamp_redistrib))
-			mkdir($rep);
-		$dir = opendir($rep);
-		while($f = readdir($dir)){
-		   if(is_file($rep.$f))
-		     $zipfile -> addFile(implode("",file($rep.$f)),$sql_details['timestamp']."/".basename($rep.$f));
+		if (!file_exists($server_dir.$timestamp_redistrib)){
+			mkdir($server_dir.$timestamp_redistrib);
 		}
+		
+		$zipfile->open($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip", ZipArchive::CREATE);
+		$zipfile->addEmptyDir($sql_details['timestamp']);
+		
+		$dir = opendir($rep);
+		
+		while($f = readdir($dir)){
+		   if(is_file($rep.$f)){
+		   	$zipfile -> addFile($rep.$f,$sql_details['timestamp']."/".basename($rep.$f));
+		   }
+		}
+		
+		$zipfile -> close();
+		
 		closedir($dir);
 		flush();
-		$handinfo = fopen( $server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip", "w+" );
-		fwrite( $handinfo, $zipfile -> file() );
-		fclose( $handinfo );
-	
+		
 		//crypt the file
 		$digest=crypt_file($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip",$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
 		//change name of this file to "tmp" for use function of create a package
@@ -96,7 +103,7 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'PROTO'=>$protectedPost['PROTOCOLE'],
 						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
 						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>$protectedPost['DOWNLOAD_SERVER_DOCROOT'],
+						'PATH'=>$protectedPost['download_server_docroot'],
 						'NAME'=>'',
 						'COMMAND'=>'',
 						'NOTIFY_USER'=>'0',
@@ -214,7 +221,7 @@ if (isset($protectedPost['valid'])){
 		
 	//get the file
 	if (!($_FILES["teledeploy_file"]["size"]== 0 and $protectedPost['ACTION'] == 'EXECUTE')){
-		$size = $_FILES["teledeploy_file"]["size"];
+		$size = filesize($_FILES["teledeploy_file"]["tmp_name"]);
 		//crypt the file
 		$digest=crypt_file($_FILES["teledeploy_file"]["tmp_name"],$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
 		//create temp file
@@ -408,52 +415,7 @@ echo " style='display:none;'";
 echo ">";
 printEnTete($l->g(434));
 echo "<br>";
-$activate=option_conf_activate('TELEDIFF_WK');
 
-//If workflow for teledeploy is activated
-//We show only the package we can create
-if ($activate){
-	msg_info($l->g(1105)."<br>".$l->g(1106)."<br>".$l->g(1107));
-	
-	//get all request with the status "Create a Package"
-	$conf_creat_Wk=look_config_default_values(array('IT_SET_NIV_CREAT'));
-	$info_dde_statut_creat=info_dde(find_dde_by_status($conf_creat_Wk['tvalue']['IT_SET_NIV_CREAT']));
-	if ($info_dde_statut_creat != ''){
-		$array_id_fields=find_id_field(array('NAME_TELEDEPLOY','PRIORITY','NOTIF_USER','REPORT_USER','INFO_PACK'));
-	
-		//build the seach
-		$id_name="fields_".$array_id_fields['NAME_TELEDEPLOY']->id;
-		$id_description="fields_".$array_id_fields['INFO_PACK']->id;
-		$id_priority="fields_".$array_id_fields['PRIORITY']->id;
-		$id_notify_user="fields_".$array_id_fields['NOTIF_USER']->id;
-		
-		foreach ($info_dde_statut_creat as $id=>$tab_value){
-			$list_dde_creat[$tab_value->ID]=$tab_value->$id_name;
-		}
-		echo "<br><b>" . $l->g(1183) . ":</b>".show_modif($list_dde_creat,'LIST_DDE_CREAT',2,$form_name);
-		if (!$protectedPost['LIST_DDE_CREAT'] or $protectedPost['LIST_DDE_CREAT'] == ""){
-			echo close_form();
-			require_once(FOOTER_HTML);
-			die();
-		}else{
-			$protectedPost['NAME']=$info_dde_statut_creat[$protectedPost['LIST_DDE_CREAT']]->$id_name;
-			$protectedPost['DESCRIPTION']=$info_dde_statut_creat[$protectedPost['LIST_DDE_CREAT']]->$id_description;
-			$NAME_TYPE=3;
-			$DESCRIPTION_TYPE=3;
-			
-		}
-	}else{
-		echo close_form();
-		require_once(FOOTER_HTML);
-		die();
-	}
-	
-	
-}else{
-	$NAME_TYPE=0;
-	$DESCRIPTION_TYPE=1;
-	
-}
 $config_input=array('MAXLENGTH'=>255,'SIZE'=>50);
 $title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(438)."</b></td></tr>";
 $title_user="<tr height='30px' BGCOLOR='#C7D9F5'><td align='center' colspan='10'><b>".$l->g(447)."</b></td></tr>";

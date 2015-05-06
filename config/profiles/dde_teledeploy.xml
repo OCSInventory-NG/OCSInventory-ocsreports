@@ -2,14 +2,11 @@
 <profile label="g(143)">
   <restrictions>
     <restriction key="GUI">NO</restriction>
-    <restriction key="TELEDIFF_WK">LOGIN</restriction>
-    <restriction key="TELEDIFF_WK_FIELDS">NO</restriction>
     <restriction key="TELEDIFF_ACTIVATE">NO</restriction>
     <restriction key="TELEDIFF_VISIBLE">TELEDIFF_VISIBLE</restriction>
     <restriction key="EXPORT_XML">EXPORT_XML</restriction>
   </restrictions>
   <config>
-    <config-elem key="TELEDIFF_WK">NO</config-elem>
     <config-elem key="IPDISCOVER">NO</config-elem>
     <config-elem key="TELEDIFF">NO</config-elem>
     <config-elem key="CONFIG">NO</config-elem>
@@ -32,7 +29,6 @@
     <page>ms_forums</page>
     <page>ms_offers</page>
     <page>ms_ask</page>
-    <page>ms_teledeploy_workflow</page>
     <page>ms_about</page>
   </pages>
 </profile>

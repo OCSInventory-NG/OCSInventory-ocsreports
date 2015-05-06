@@ -15,11 +15,15 @@
 	text-align: center;
 }
 
+.form-frame-profile-pages .field {
+	display: inline-block;
+}
+
 .form-column {
 	display: inline-block;
 	vertical-align: top;
 	margin-right: 20px;
-	width: 520px;
+	width: 480px;
 }
 
 .form-column:last-child {
@@ -197,18 +201,4 @@ h4 input[type=checkbox],
 
 .form-buttons input {
 	margin: 0 10px;
-}
-
-/*** CUSTOM ***/
-
-.form-frame-profile-pages .field {
-	display: inline-block;
-}
-
-.package-activation input[type=text] {
-	width: 200px;
-}
-
-.package-activation .comment_after {
-	float: none;
 }
