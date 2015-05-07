@@ -50,12 +50,6 @@
         <label>g(662)</label>
         <url>ms_rules_redistrib</url>
       </menu-elem>
-<!--
-      <menu-elem id="ms_teledeploy_workflow">
-        <label>g(1031)</label>
-        <url>ms_teledeploy_workflow</url>
-      </menu-elem>
--->
     </submenu>
   </menu-elem>
   <menu-elem id="config">
