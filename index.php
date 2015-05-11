@@ -14,6 +14,7 @@ require("require/fichierConf.class.php");
 require_once('require/menu/include.php');
 require_once('require/config/include.php');
 
+
 @session_start();
 // Magic Quotes :
 // This feature has been deprecated as of PHP 5.3 and deleted as of PHP 5.4.
@@ -35,6 +36,6 @@ addLog('PAGE',$protectedGet[PAG_INDEX]);
 if( !isset($protectedGet["popup"] )&& !isset($protectedGet["no_footer"] ))
 	require (FOOTER_HTML);
 
-
+require ('plugins/main_sections/ms_plugins/initialize.php');
 
 ?>
