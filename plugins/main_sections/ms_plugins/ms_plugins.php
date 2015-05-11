@@ -8,6 +8,8 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
+
+
 if(AJAX){
 	parse_str($protectedPost['ocs']['0'], $params);
 	$protectedPost+=$params;
@@ -19,37 +21,10 @@ else{
 }
 require('require/function_stats.php');
 
-$form_name="plugins";
-$table_name=$form_name;	
 printEnTete($l->g(6000));
-echo "<form name='".$form_name."' id='".$form_name."' method='POST' action=''>";
-$plugin=false;
-$showit=false;
-if ($ajax){
-	ob_end_clean();
-}
-foreach ($_SESSION['OCS']['url_service']->getUrls() as $name=>$url){
-	if (substr($name,0,11) == 'ms_plugins_' and $url['directory'] == 'ms_plugins'){
-		$plugin=true;
-		$list_plugin[]=$name.".php";
-		require_once($name.".php");
-	}	
-}
-if ($ajax){
-	ob_start();
-}
-if ($plugin){
-	//Create the chart - Column 3D Chart with data from strXML variable using dataXML method
-	onglet($data_on,$form_name,"onglet",4);
-	echo '<div class="mlt_bordure" >';
-	$showit=true;	
-	foreach ($list_plugin as $key=>$name){
-		require($name);		
-	}
-	echo "</div>";
-}else
-	msg_warning($l->g(1262));
-echo "</form>";
+
+
+
 if ($ajax){
 	ob_end_clean();
 }
