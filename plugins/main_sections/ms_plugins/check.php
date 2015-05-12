@@ -17,7 +17,7 @@ function check($plugarray){
 		// If the plugin isn't in the database ... add it
 		if($anwser[0] == false){
 			
-			require PLUGINS_INSTALL_DIR."PLUGIN_".$value."/install.php";
+			require PLUGINS_INSTALL_DIR."ms_".$value."/install.php";
 			
 			// Retrieve infos from the plugin_version_plugname functions and add it to the database
 			

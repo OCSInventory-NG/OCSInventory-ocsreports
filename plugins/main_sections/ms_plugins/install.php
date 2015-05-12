@@ -12,7 +12,7 @@ function install($archiveName){
 		$archive->open(PLUGINS_DL_DIR.$archiveName);		
 		$arrayplugin = explode(".", $archiveName);
 		$plugindir = $arrayplugin[0];
-		$archive->extractTo(PLUGINS_INSTALL_DIR."PLUGIN_".$plugindir);
+		$archive->extractTo(PLUGINS_INSTALL_DIR."ms_".$plugindir);
 		$archive->close();
 		//unlink(PLUGINS_DL_DIR.$archiveName);
 	}
