@@ -98,10 +98,11 @@ class plugins{
 			$xml = simplexml_load_file($xmlfile);
 		}
 		
-		$menu = $xml->addChild("menu-elem");
-		$menu->addAttribute("id","ms_".$name."");
-		$menu->addChild("label","g(".$label.")");
-		$menu->addChild("url","ms_".$name."");
+		$menu = $xml->xpath("/menu/menu-elem[attribute::id='".$menu."']/submenu");
+		$submenu = $menu['0']->addChild("menu-elem");
+		$submenu->addAttribute("id","ms_".$name."");
+		$submenu->addChild("label","g(".$label.")");
+		$submenu->addChild("url","ms_".$name."");
 		
 		$xml->asXML($xmlfile);
 		
