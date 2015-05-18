@@ -7,7 +7,7 @@
  */
 function scan_for_plugins(){
 		
-	$scanned_plugins = array_diff(scandir(PLUGINS_INSTALL_DIR), 
+	$scanned_plugins = array_diff(scandir(MAIN_SECTIONS_DIR), 
 			array('img', 'ms_all_soft', 'ms_debug', 'ms_groups' ,'ms_multi_search' ,'ms_scripts', 'ms_stats', 'ms_about',
 					'ms_computer', 'ms_dict', 'ms_help', 'ms_plugins', 'ms_search_soft', 'ms_teledeploy', 'ms_admininfo', 
 					'ms_config', 'ms_doubles', 'ms_ipdiscover', 'ms_regconfig', 'ms_server_infos', 'ms_upload_file', 

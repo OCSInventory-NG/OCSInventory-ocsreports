@@ -6,6 +6,10 @@
  */
 function scan_downloaded_plugins(){
 	
+  if(!file_exists(PLUGINS_DL_DIR)){
+  	mkdir(PLUGINS_DL_DIR,'0777',true);
+  }
+	
   // Scan plugins download directory
   $directory = PLUGINS_DL_DIR;
   $scanned_directory = array_diff(scandir($directory), array('..', '.'));

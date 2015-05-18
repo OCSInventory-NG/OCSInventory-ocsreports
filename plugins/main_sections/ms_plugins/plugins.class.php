@@ -2,7 +2,7 @@
 
 /**
  * 
- * This class give basic functions for plugins developpers.
+ * This class give basic functions for plugins developpers. (WIP)
  * 
  * @author Gillles Dubois
  */
@@ -32,11 +32,14 @@ class plugins{
 	 * As default, only super administrator profile can see the created menu.
 	 * 
 	 * @param string $name : The name of the menu you want to crate
-	 * @param integer $label : You need to give a label to your menu, it's like a reference for OCS. 
+	 * @param integer $label : You need to give a label to your menu, it's like a reference for OCS.
+	 * @param String $plugindirectory : Your plugin directory
 	 */
-	function add_menu($name, $label){
+	public function add_menu($name, $label, $plugindirectory){
 		
-		$xmlfile = OCS_BASE_DIR."config/main_menu.xml";
+		// add menu entry
+		
+		$xmlfile = CONFIG_DIR."main_menu.xml";
 
 		if (file_exists($xmlfile)){
 			$xml = simplexml_load_file($xmlfile);
@@ -49,7 +52,9 @@ class plugins{
 		
 		$xml->asXML($xmlfile);
 		
-		$xmlfile = OCS_BASE_DIR."config/urls.xml";
+		// Add url entry for menu
+		
+		$xmlfile = CONFIG_DIR."urls.xml";
 				
 		if (file_exists($xmlfile)){
 			$xml = simplexml_load_file($xmlfile);
@@ -58,11 +63,13 @@ class plugins{
 		$urls = $xml->addChild("url");
 		$urls->addAttribute("key","ms_".$name."");
 		$urls->addChild("value",$name);
-		$urls->addChild("directory","ms_".$name."");
+		$urls->addChild("directory","ms_".$plugindirectory."");
 		
 		$xml->asXML($xmlfile);
 		
-		$xmlfile = OCS_BASE_DIR."config/profiles/sadmin.xml";
+		// add permissions for menu
+		
+		$xmlfile = CONFIG_DIR."profiles/sadmin.xml";
 		
 		if (file_exists($xmlfile)){
 			$xml = simplexml_load_file($xmlfile);
@@ -72,13 +79,109 @@ class plugins{
 		
 		$xml->asXML($xmlfile);
 		
-		$file = fopen(OCS_BASE_DIR."plugins/language/english/english.txt", "a+");
-		fwrite($file, $label." ".$name);
+		// Add label entry
+		
+		$file = fopen(PLUGINS_DIR."language/english/english.txt", "a+");
+		fwrite($file, $label." ".$name."\n");
 		fclose($file);
 		
 	}
 	
-	function del_menu($name, $label){
+	/**
+	 * This function delete a menu (Not a sub-menu) in OCS inventory.
+	 * As default, only super administrator profile can see the created menu.
+	 *
+	 * @param string $name : The name of the menu you want to delete
+	 * @param integer $label : You need to give the label of the deleted menu.
+	 */
+	public function del_menu($name, $label){
+		
+		// Delete menu and all his sub menu
+		
+		$xmlfile = CONFIG_DIR."main_menu.xml";
+		
+		if (file_exists($xmlfile)){
+			$xml = simplexml_load_file($xmlfile);
+		}
+		
+		$mainmenu = $xml->xpath("/menu");
+		
+		foreach ($mainmenu as $listmenu){
+		
+			foreach ($listmenu as $info){
+		
+				if ($info['id'] == $name){
+		
+					$dom=dom_import_simplexml($info);
+					$dom->parentNode->removeChild($dom);
+						
+				}
+		
+			}
+		
+		}
+		
+		$xml->asXML($xmlfile);
+		
+		// Remove Url node
+		
+		$xmlfile = CONFIG_DIR."urls.xml";
+		
+		if (file_exists($xmlfile)){
+			$xml = simplexml_load_file($xmlfile);
+		}
+		
+		foreach ($xml as $value){
+		
+			if( $value['key'] == $name ){
+		
+				$dom=dom_import_simplexml($value);
+				var_dump($dom->getNodePath());
+				$dom->parentNode->removeChild($dom);
+			}
+		}
+		
+		$xml->asXML($xmlfile);
+		
+		// Remove permissions
+		
+		$xmlfile = CONFIG_DIR."profiles/sadmin.xml";
+		
+		$mypage = $xmlfile->pages->page;
+		
+		foreach ($mypage as $pages){
+		
+			if($pages == "ms_".$name){
+		
+				$dom=dom_import_simplexml($pages);
+				$dom->parentNode->removeChild($dom);
+			}
+		
+		}
+		
+		// Remove Label entry
+		
+		$reading = fopen(PLUGINS_DIR.'language/english/english.txt', 'a+');
+		$writing = fopen(PLUGINS_DIR.'language/english/english.tmp', 'w');
+		
+		$replaced = false;
+		
+		while (!feof($reading)) {
+			$line = fgets($reading);
+			if (stristr($line, $label." ".$name)) {
+				$line = "";
+				$replaced = true;
+			}
+			fputs($writing, $line);
+		}
+		fclose($reading); fclose($writing);
+		// might as well not overwrite the file if we didn't replace anything
+		if ($replaced)
+		{
+			rename(PLUGINS_DIR.'language/english/english.tmp', PLUGINS_DIR.'language/english/english.txt');
+		} else {
+			unlink(PLUGINS_DIR.'language/english/english.tmp');
+		}
 		
 	}
 	
@@ -89,24 +192,29 @@ class plugins{
 	 * @param string $name : The name of the menu you want to crate
 	 * @param string $menu : The name of the main menu (see documentation)
 	 * @param integer $label : You need to give a label to your menu, it's like a reference for OCS. 
+	 * @param String $plugindirectory : Your plugin directory
 	 */
-	function add_sub_menu($name, $menu, $label){
+	public function add_sub_menu($name, $menu, $label, $plugindirectory){
 		
-		$xmlfile = OCS_BASE_DIR."config/main_menu.xml";
+		// Add sub menu entry
+		
+		$xmlfile = CONFIG_DIR."main_menu.xml";
 		
 		if (file_exists($xmlfile)){
 			$xml = simplexml_load_file($xmlfile);
 		}
 		
-		$menu = $xml->xpath("/menu/menu-elem[attribute::id='".$menu."']/submenu");
-		$submenu = $menu['0']->addChild("menu-elem");
+		$mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='".$menu."']/submenu");
+		$submenu = $mainmenu['0']->addChild("menu-elem");
 		$submenu->addAttribute("id","ms_".$name."");
 		$submenu->addChild("label","g(".$label.")");
 		$submenu->addChild("url","ms_".$name."");
 		
 		$xml->asXML($xmlfile);
 		
-		$xmlfile = OCS_BASE_DIR."config/urls.xml";
+		// Add url Entry
+		
+		$xmlfile = CONFIG_DIR."urls.xml";
 		
 		if (file_exists($xmlfile)){
 			$xml = simplexml_load_file($xmlfile);
@@ -115,11 +223,13 @@ class plugins{
 		$urls = $xml->addChild("url");
 		$urls->addAttribute("key","ms_".$name."");
 		$urls->addChild("value",$name);
-		$urls->addChild("directory","ms_".$name."");
+		$urls->addChild("directory","ms_".$plugindirectory."");
 		
 		$xml->asXML($xmlfile);
 		
-		$xmlfile = OCS_BASE_DIR."config/profiles/sadmin.xml";
+		// Add permissions
+		
+		$xmlfile = CONFIG_DIR."profiles/sadmin.xml";
 		
 		if (file_exists($xmlfile)){
 			$xml = simplexml_load_file($xmlfile);
@@ -129,21 +239,163 @@ class plugins{
 		
 		$xml->asXML($xmlfile);
 		
-		$file = fopen(OCS_BASE_DIR."plugins/language/english/english.txt", "a+");
-		fwrite($file, $label." ".$name);
+		// add label entry
+		
+		$file = fopen(PLUGINS_DIR."language/english/english.txt", "a+");
+		fwrite($file, $label." ".$name."\n");
 		fclose($file);
 		
 	}
 
-	function del_sub_menu($name, $menu, $label){
+	/**
+	 * This function is used to delete a sub menu within the ocs reports.
+	 * You need to provide 3 argments :
+	 * @param string $name The sub menu name
+	 * @param string $menu The main menu name of the sub menu
+	 * @param initeger $label The label number of the sub menu
+	 */
+	public function del_sub_menu($name, $menu, $label){
 	
-	}
-	
-	function add_rights($profilename){
+		// remove menu entry
+		
+		$xmlfile = CONFIG_DIR."main_menu.xml";
+		
+		if (file_exists($xmlfile)){
+			$xml = simplexml_load_file($xmlfile);
+		}
+		
+		$mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='".$menu."']/submenu");
+		
+		foreach ($mainmenu as $submenu){
+				
+			foreach ($submenu as $info){
+		
+				if ($info['id'] == $name){
+						
+					$dom=dom_import_simplexml($info);
+					// For debug purposes
+					//var_dump($dom->getNodePath());
+					$dom->parentNode->removeChild($dom);
+						
+				}
+		
+			}
+				
+		}
+		
+		$xml->asXML($xmlfile);
+		
+		// Remove Url node
+		
+		$xmlfile = CONFIG_DIR."urls.xml";
+		
+		if (file_exists($xmlfile)){
+			$xml = simplexml_load_file($xmlfile);
+		}
+		
+		foreach ($xml as $value){
+		
+			if( $value['key'] == $name ){
+		
+				$dom=dom_import_simplexml($value);
+				var_dump($dom->getNodePath());
+				$dom->parentNode->removeChild($dom);
+			}
+		}
+		
+		$xml->asXML($xmlfile);
+		
+		// Remove permissions
+		
+		$xmlfile = CONFIG_DIR."profiles/sadmin.xml";
+		
+		$mypage = $xmlfile->pages->page;
+		
+		foreach ($mypage as $pages){
+		
+			if($pages == "ms_".$name){
+		
+				$dom=dom_import_simplexml($pages);
+				$dom->parentNode->removeChild($dom);
+			}
+		
+		}
+		
+		// Remove Label entry
+		
+		$reading = fopen(PLUGINS_DIR.'language/english/english.txt', 'a+');
+		$writing = fopen(PLUGINS_DIR.'language/english/english.tmp', 'w');
+		
+		$replaced = false;
+		
+		while (!feof($reading)) {
+			$line = fgets($reading);
+			if (stristr($line, $label." ".$name)) {
+				$line = "";
+				$replaced = true;
+			}
+			fputs($writing, $line);
+		}
+		fclose($reading); fclose($writing);
+		// might as well not overwrite the file if we didn't replace anything
+		if ($replaced)
+		{
+			rename(PLUGINS_DIR.'language/english/english.tmp', PLUGINS_DIR.'language/english/english.txt');
+		} else {
+			unlink(PLUGINS_DIR.'language/english/english.tmp');
+		}
+		
+		
 		
 	}
 	
-	function del_rights($profilename){
+	/**
+	 * This function is used to add permission to see a page for a fixed profile
+	 * (admin / ladmin / etc etc...)
+	 * @param string $profilename : The name of the profile
+	 * @param string $page : Name of the page u want to be seed by the profile
+	 */
+	public function add_rights($profilename, $page){
+
+		if ($profilename == "sadmin"){ exit; }
+		
+		$xmlfile = CONFIG_DIR."profiles/".$profilename.".xml";
+		
+		if (file_exists($xmlfile)){
+			$xml = simplexml_load_file($xmlfile);
+		}
+		
+		$xml->pages->addChild("page","ms_".$page."");
+		
+		$xml->asXML($xmlfile);
+		
+	}
+	
+	/**
+	 * This function is used for remove permission on one plugin's page for a fixed profile
+	 * (admin / ladmin / etc etc...)
+	 * @param string $profilename : The name of the profile
+	 * @param string $page : Name of the page u want to be seed by the profile
+	 */
+	public function del_rights($profilename, $page){
+		
+		if ($profilename == "sadmin"){ exit; }
+		
+		$xmlfile = CONFIG_DIR."profiles/".$profilename.".xml";
+		
+		$mypage = $doc->pages->page;
+		
+		foreach ($mypage as $pages){
+		
+			if($pages == $page){
+		
+				$dom=dom_import_simplexml($pages);
+				$dom->parentNode->removeChild($dom);
+			}
+		
+		}
+		
+		$xml->asXML($xmlfile);
 		
 	}
 	
@@ -152,7 +404,7 @@ class plugins{
 	 * 
 	 * @param string $query : Your database query here !
 	 */
-	function sql_query($query){
+	public function sql_query($query){
 		try {
 		    $dbh = new PDO('mysql:host=localhost;dbname=ocsweb', 'ocs', 'ocs');
 		    $dbh->query($query);
