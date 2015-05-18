@@ -25,11 +25,10 @@ define("DFT_DB_CMPT",'ocs');  											// Define default login to connect to d
 define("DFT_DB_PSWD",'ocs');											// Define default password to connect to database
 define("DFT_GUI_CMPT",'admin');											// Define default login to connect to GUI
 define("DFT_GUI_PSWD",'admin');											// Define default password to connect to GUI
-define('BACKEND',"backend/");
-define("OCS_BASE_DIR", '/usr/share/ocsinventory-reports/ocsreports/');									    // Define backend Directory
+define('BACKEND',"backend/");									    // Define backend Directory
 define('PHPCAS',BACKEND.'require/lib/phpcas/CAS.php');					// Path to CAS (change to use system provided library)
 define('PLUGINS_DL_DIR', '/var/lib/ocsinventory-reports/download/plugins/');
-define('PLUGINS_INSTALL_DIR', '/usr/share/ocsinventory-reports/ocsreports/plugins/main_sections/');
+define('CONFIG_DIR',"config/");
 define('PLUGINS_DIR',"plugins/");										// Define plugins Directory
 define('PLUGINS_GUI_DIR','/tmp/');	
 define('HEADER_HTML',"require/html_header.php");						// Define html_header file				
