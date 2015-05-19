@@ -220,12 +220,6 @@
     <value>stat_speed</value>
     <directory>ms_teledeploy</directory>
   </url>
-<!--
-  <url key="ms_teledeploy_workflow">
-    <value>teledeploy_workflow</value>
-    <directory>ms_teledeploy_workflow</directory>
-  </url>
--->
   <url key="ms_admin_management">
     <value>admin_type_manage</value>
     <directory>ms_teledeploy_workflow</directory>
@@ -298,6 +292,10 @@
     <value>plugins</value>
     <directory>ms_plugins</directory>
   </url>
+  <url key="ms_pluginsmanager">
+    <value>pluginsmanager</value>
+    <directory>ms_plugins</directory>
+  </url>
   <url key="ms_stats_top">
     <value>stats_top</value>
     <directory>ms_stats</directory>
@@ -329,9 +327,5 @@
   <url key="ms_about">
     <value>about</value>
     <directory>ms_about</directory>
-  </url>
-  <url key="ms_plugins_exemple">
-    <value>plugin_exemple</value>
-    <directory>ms_plugins</directory>
   </url>
 </urls>

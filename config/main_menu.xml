@@ -126,9 +126,15 @@
       </menu-elem>
     </submenu>
   </menu-elem>
-  <menu-elem id="ms_plugins">
-    <label>g(6000)</label>
+  <menu-elem id="plugins">
+    <label>g(7000)</label>
     <url>ms_plugins</url>
+    <submenu>
+      <menu-elem id="ms_pluginsmanager">
+    	<label>g(7001)</label>
+    	<url>ms_pluginsmanager</url>
+      </menu-elem>
+    </submenu>
   </menu-elem>
   <menu-elem id="info">
     <label>g(223)</label>

@@ -108,5 +108,6 @@
     <page>ms_offers</page>
     <page>ms_about</page>
     <page>ms_ask</page>
+    <page>ms_pluginsmanager</page>
   </pages>
 </profile>
