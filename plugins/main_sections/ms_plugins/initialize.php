@@ -1,10 +1,7 @@
 <?php
 
 require 'plugins.class.php';
-require 'install.php';
 require 'check.php';
-require 'scan_downloaded_plugins.php';
-require 'scan_plugins_dir.php';
 
 // Look for the plugin download directory or create it
 if(!file_exists(PLUGINS_DL_DIR)){
