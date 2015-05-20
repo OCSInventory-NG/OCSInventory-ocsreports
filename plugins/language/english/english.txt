@@ -1431,8 +1431,7 @@
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
 6000 Plugins
-6001 Offices Licences
-6002 Distribution of Offices Licences
-6003 Number of licence
 6004 Total available
 6005 Power on/off
+7000 Plugins
+7001 Plugins manager
