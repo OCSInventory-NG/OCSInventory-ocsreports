@@ -45,33 +45,32 @@ class plugins{
 	
 			if (file_exists($xmlfile)){
 				$xml = simplexml_load_file($xmlfile);
+				
+				$menu = $xml->addChild("menu-elem");
+				$menu->addAttribute("id","ms_".$name."");
+				$menu->addChild("label","g(".$label.")");
+				$menu->addChild("url","ms_".$name."");
+				$menu->addChild("submenu"," ");
+					
+				$xml->asXML($xmlfile);
 			}
 			
-			$menu = $xml->addChild("menu-elem");
-			$menu->addAttribute("id","ms_".$name."");
-			$menu->addChild("label","g(".$label.")");
-			$menu->addChild("url","ms_".$name."");
-			$menu->addChild("submenu"," ");
-			
-			$xml->asXML($xmlfile);
-		
 		}
-		
-		if ($menu != ""){
+		else{
 			
 			$xmlfile = CONFIG_DIR."main_menu.xml";
 			
 			if (file_exists($xmlfile)){
 				$xml = simplexml_load_file($xmlfile);
+				
+				$mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='".$menu."']/submenu");
+				$submenu = $mainmenu['0']->addChild("menu-elem");
+				$submenu->addAttribute("id","ms_".$name."");
+				$submenu->addChild("label","g(".$label.")");
+				$submenu->addChild("url","ms_".$name."");
+					
+				$xml->asXML($xmlfile);
 			}
-			
-			$mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='".$menu."']/submenu");
-			$submenu = $mainmenu['0']->addChild("menu-elem");
-			$submenu->addAttribute("id","ms_".$name."");
-			$submenu->addChild("label","g(".$label.")");
-			$submenu->addChild("url","ms_".$name."");
-			
-			$xml->asXML($xmlfile);
 			
 		}
 		
@@ -80,15 +79,19 @@ class plugins{
 		$xmlfile = CONFIG_DIR."urls.xml";
 				
 		if (file_exists($xmlfile)){
+			
 			$xml = simplexml_load_file($xmlfile);
+			
+			$urls = $xml->addChild("url");
+			$urls->addAttribute("key","ms_".$name."");
+			$urls->addChild("value",$name);
+			$urls->addChild("directory","ms_".$plugindirectory."");
+			
+			$xml->asXML($xmlfile);
+			
 		}
 		
-		$urls = $xml->addChild("url");
-		$urls->addAttribute("key","ms_".$name."");
-		$urls->addChild("value",$name);
-		$urls->addChild("directory","ms_".$plugindirectory."");
-		
-		$xml->asXML($xmlfile);
+
 		
 		// add permissions for menu
 		
@@ -96,11 +99,13 @@ class plugins{
 		
 		if (file_exists($xmlfile)){
 			$xml = simplexml_load_file($xmlfile);
+			
+			$xml->pages->addChild("page","ms_".$name."");
+			
+			$xml->asXML($xmlfile);
 		}
 		
-		$xml->pages->addChild("page","ms_".$name."");
-		
-		$xml->asXML($xmlfile);
+
 		
 		// Add label entry
 		
@@ -126,58 +131,58 @@ class plugins{
 			
 			if (file_exists($xmlfile)){
 				$xml = simplexml_load_file($xmlfile);
-			}
-			
-			$mainmenu = $xml->xpath("/menu");
-			
-			foreach ($mainmenu as $listmenu){
-			
-				foreach ($listmenu as $info){
-			
-					if ($info['id'] == $name){
-			
-						$dom=dom_import_simplexml($info);
-						$dom->parentNode->removeChild($dom);
+				
+				$mainmenu = $xml->xpath("/menu");
+					
+				foreach ($mainmenu as $listmenu){
+						
+					foreach ($listmenu as $info){
+							
+						if ($info['id'] == "ms_".$name){
+								
+							$dom=dom_import_simplexml($info);
+							$dom->parentNode->removeChild($dom);
+								
+						}
 							
 					}
-			
+						
 				}
-			
+				
+				//var_dump($xml->asXML());
+				$xml->asXML($xmlfile);
+				
 			}
-					
-			$xml->asXML($xmlfile);
-		
+	
 		}
-		
-		// delete just a sub menu if menu is set
-		if ($menu != ""){
+		else{
 		
 			$xmlfile = CONFIG_DIR."main_menu.xml";
 			
 			if (file_exists($xmlfile)){
 				$xml = simplexml_load_file($xmlfile);
-			}
-			
-			$mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='".$menu."']/submenu");
-			
-			foreach ($mainmenu as $submenu){
-			
-				foreach ($submenu as $info){
-			
-					if ($info['id'] == $name){
-			
-						$dom=dom_import_simplexml($info);
-						// For debug purposes
-						//var_dump($dom->getNodePath());
-						$dom->parentNode->removeChild($dom);
-			
+				
+				$mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='".$menu."']/submenu");
+					
+				foreach ($mainmenu as $submenu){
+						
+					foreach ($submenu as $info){
+							
+						if ($info['id'] == "ms_".$name){
+								
+							$dom=dom_import_simplexml($info);
+							$dom->parentNode->removeChild($dom);
+								
+						}
+							
 					}
-			
+						
 				}
-			
+					
+				//var_dump($xml->asXML());
+				$xml->asXML($xmlfile);
+				
 			}
-			
-			$xml->asXML($xmlfile);
 		
 		}
 				
@@ -188,36 +193,45 @@ class plugins{
 		
 		if (file_exists($xmlfile)){
 			$xml = simplexml_load_file($xmlfile);
-		}
-		
-		foreach ($xml as $value){
-		
-			if( $value['key'] == $name ){
-		
-				$dom=dom_import_simplexml($value);
-				var_dump($dom->getNodePath());
-				$dom->parentNode->removeChild($dom);
+			
+			foreach ($xml as $value){
+			
+				if( $value['key'] == "ms_".$name ){
+			
+					$dom=dom_import_simplexml($value);
+					$dom->parentNode->removeChild($dom);
+				}
 			}
+			
+			//var_dump($xml->asXML());
+			$xml->asXML($xmlfile);
+			
 		}
-		
-		$xml->asXML($xmlfile);
 		
 		// Remove permissions
 		
 		$xmlfile = CONFIG_DIR."profiles/sadmin.xml";
 		
-		$mypage = $xmlfile->pages->page;
-		
-		foreach ($mypage as $pages){
-		
-			if($pages == "ms_".$name){
-		
-				$dom=dom_import_simplexml($pages);
-				$dom->parentNode->removeChild($dom);
+		if (file_exists($xmlfile)){
+			$xml = simplexml_load_file($xmlfile);
+			
+			$mypage = $xml->pages->page;
+			
+			foreach ($mypage as $pages){
+			
+				if($pages == "ms_".$name){
+			
+					$dom=dom_import_simplexml($pages);
+					$dom->parentNode->removeChild($dom);
+				}
+			
 			}
-		
+			
+			//var_dump($xml->asXML());
+			$xml->asXML($xmlfile);
+			
 		}
-		
+
 		// Remove Label entry
 		
 		$reading = fopen(PLUGINS_DIR.'language/english/english.txt', 'a+');
@@ -258,11 +272,12 @@ class plugins{
 		
 		if (file_exists($xmlfile)){
 			$xml = simplexml_load_file($xmlfile);
+			
+			$xml->pages->addChild("page","ms_".$page."");
+			
+			$xml->asXML($xmlfile);
 		}
-		
-		$xml->pages->addChild("page","ms_".$page."");
-		
-		$xml->asXML($xmlfile);
+
 		
 	}
 	
