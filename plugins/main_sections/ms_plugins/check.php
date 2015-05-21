@@ -27,7 +27,7 @@ function install($archiveName){
  */
 function check($plugarray){
 
-	$conn = new PDO('mysql:host=localhost;dbname=ocsweb;charset=utf8', 'ocs', 'ocs');
+	$conn = new PDO('mysql:host='.SERVER_WRITE.';dbname='.DB_NAME.';charset=utf8', COMPTE_BASE, PSWD_BASE);
 
 
 	foreach ($plugarray as $key => $value){
@@ -45,7 +45,7 @@ function check($plugarray){
 			$fonc = "plugin_version_".$value;
 			$infoplugin = $fonc();
 
-			$conn->query("INSERT INTO `ocsweb`.`plugins` (`id`, `name`, `version`, `licence`, `author`, `verminocs`, `activated`, `reg_date`)
+			$conn->query("INSERT INTO `".DB_NAME."`.`plugins` (`id`, `name`, `version`, `licence`, `author`, `verminocs`, `activated`, `reg_date`)
 					VALUES (NULL, '".$infoplugin['name']."', '".$infoplugin['version']."', '".$infoplugin['license']."', '".$infoplugin['author']."', '".$infoplugin['verMinOcs']."', '1', CURRENT_TIMESTAMP);");
 
 			// Initialize the plugins requirement (New menus, Set permissions etc etc)
