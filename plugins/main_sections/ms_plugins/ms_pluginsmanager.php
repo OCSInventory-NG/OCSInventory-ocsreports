@@ -19,6 +19,16 @@ if ($protectedPost['SUP_PROF'] != ''){
 	$tab_options['CACHE']='RESET';
 }
 
+if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
+	
+	$delarray = explode(",", $protectedPost['del_check']);
+	
+	foreach ($delarray as $value){
+		delete_plugin($value);
+	}
+	$tab_options['CACHE']='RESET';
+}
+
 $form_name="show_all_plugins";
 $table_name=$form_name;
 $tab_options=$protectedPost;
