@@ -1,6 +1,9 @@
 <?php
 
-require 'plugins.class.php';
+if (!class_exists('plugins')) {
+	require 'plugins.class.php';
+}
+
 require 'check.php';
 
 // Look for the plugin download directory or create it
