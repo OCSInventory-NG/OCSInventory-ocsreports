@@ -8,6 +8,8 @@
  */
 class plugins{
 	
+	// Unused ATM !
+	
 	protected $menus;
 	protected $rights;
 	
@@ -293,7 +295,9 @@ class plugins{
 		
 		$xmlfile = CONFIG_DIR."profiles/".$profilename.".xml";
 		
-		$mypage = $doc->pages->page;
+		$xml = simplexml_load_file($xmlfile);
+		
+		$mypage = $xml->pages->page;
 		
 		foreach ($mypage as $pages){
 		
@@ -309,18 +313,21 @@ class plugins{
 		
 	}
 	
+
 	/**
 	 * This function try to execute your query and throw an error message if this is a problems in the query.
 	 * 
-	 * @param string $user : DB user
-	 * @param string $pass : DB password
 	 * @param string $query : Your database query here !
+	 * @return mixed : Result returned by the query
 	 */
-	public function sql_query($user, $pass, $query){
+	public function sql_query($query){
 		try {
-		    $dbh = new PDO('mysql:host=localhost;dbname=ocsweb', $user, $pass);
-		    $dbh->query($query);
+		    $dbh = new PDO('mysql:host='.SERVER_WRITE.';dbname='.DB_NAME.'', COMPTE_BASE, PSWD_BASE);
+		    $req = $dbh->query($query);
+		    $anwser = $req ->fetch();
 		    $dbh = null;
+		    
+		    return $anwser;
 		} catch (PDOException $e) {
 		    print "Error !: " . $e->getMessage() . "<br/>";
 		    die();
