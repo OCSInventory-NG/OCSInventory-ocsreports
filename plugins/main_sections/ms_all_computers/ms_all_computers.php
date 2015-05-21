@@ -123,6 +123,7 @@ $sql=prepare_sql_tab($list_fields,array('SUP','CHECK'));
 $tab_options['ARG_SQL']=$sql['ARG'];
 $queryDetails  = $sql['SQL']." from hardware h 
 				LEFT JOIN accountinfo a ON a.hardware_id=h.id  ";
+
 if ($show_mac_addr){
 	$queryDetails  .= "	LEFT JOIN networks n ON n.hardware_id=h.id ";
 	$queryDetails  .= " AND h.IPADDR=n.IPADDRESS ";
@@ -143,6 +144,7 @@ if ($entete and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') 
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><span class='glyphicon glyphicon-trash'></span></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}
+	
 echo close_form();
 if ($ajax){
 	ob_end_clean();
