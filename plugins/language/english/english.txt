@@ -1435,3 +1435,9 @@
 6005 Power on/off
 7000 Plugins
 7001 Plugins manager
+7002 Name
+7003 Version
+7004 Licence
+7005 Author
+7006 Last updated
+7007 Are you sure you want to delete this plugin 
