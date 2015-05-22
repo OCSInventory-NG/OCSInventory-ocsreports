@@ -10,9 +10,11 @@ else{
 	$ajax=false;
 }
 
-require ('pluginsdelete.php');
-
 printEnTete($l->g(6000));
+
+if (!function_exists('rrmdir')) {
+	require 'functions_delete.php';
+}
 
 if ($protectedPost['SUP_PROF'] != ''){
 	delete_plugin($protectedPost['SUP_PROF']);

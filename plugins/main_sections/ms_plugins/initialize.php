@@ -4,7 +4,11 @@ if (!class_exists('plugins')) {
 	require 'plugins.class.php';
 }
 
-require 'check.php';
+if (!function_exists('rrmdir')) {
+	require 'functions_delete.php';
+}
+
+require 'functions_check.php';
 
 // Look for the plugin download directory or create it
 if(!file_exists(PLUGINS_DL_DIR)){
@@ -21,5 +25,9 @@ $forCheck = scan_for_plugins();
 //var_dump($forCheck);
 
 check($forCheck);
+
+foreach ($forCheck as $value){
+	mv_computer_detail($value);
+}
 
 ?>

@@ -71,7 +71,7 @@ function scan_downloaded_plugins(){
 
 	// Scan plugins download directory
 	$directory = PLUGINS_DL_DIR;
-	$scanned_directory = array_diff(scandir($directory), array('..', '.'));
+	$scanned_directory = array_diff(scandir($directory), array('..', '.', 'README'));
 
 	// Debug purposes
 	//var_dump($scanned_directory);
@@ -110,5 +110,18 @@ function scan_for_plugins(){
 	}
 
 	return $plugins_name;
+}
+
+/**
+ * This function check if a cd_pluginame dir exist.
+ * In that case the cd_pluginame dir is moved into computer_detail directory 
+ */
+function mv_computer_detail($name){
+	
+	if(file_exists($old = MAIN_SECTIONS_DIR."ms_".$name."/cd_".$name)){
+		$new = PLUGINS_DIR."/computer_detail/cd_".$name;
+		rename($old, $new);
+	}
+	
 }
 
