@@ -19,9 +19,8 @@ else{
 	$ajax=false;
 }
 
-
-
 require_once('require/function_snmp.php');
+
 $form_name="show_all_snmp";
 $table_name=$form_name;
 $tab_options=$protectedPost;
