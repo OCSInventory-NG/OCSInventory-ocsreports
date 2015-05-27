@@ -1,6 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 2.2rc1
+       * Fix bug #1423905 Failed HTTP auth if password contains # character
        * Fix syntax error in BSDpkg.pm file
        * HPUX/Solaris: use --nosoftware instead of --nosoft
        * Correction of graphics resolution

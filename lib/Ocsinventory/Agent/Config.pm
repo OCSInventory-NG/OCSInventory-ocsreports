@@ -92,7 +92,7 @@ if (!$file || !-f $file) {
   }
 
   foreach (<CONFIG>) {
-    s/#.+//;
+    s/^#.+//;
     if (/(\w+)\s*=\s*(.+)/) {
       my $key = $1;
       my $val = $2;
