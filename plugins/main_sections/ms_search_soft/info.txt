@@ -1,0 +1,6 @@
+AUTHOR: Jof300
+PACKAGE: airoine
+LICENCE: GPL
+
+This OCS plugin was created to simplify research on existing software 
+on the computer equipment. You can print the list of results
