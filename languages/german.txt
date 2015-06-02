@@ -1,0 +1,802 @@
+0 iso-8859-9
+1 Anfragen  
+2 Alle Computer
+3 Computer mit Software...
+4 Computer ohne Software...
+5 Unity codes under my responsibility
+6 Geraete m. abgelaufener Garantie
+7 Details zu Geraeten m. abgel. Garantie
+8 Waehlen Sie Ihre Anfrage 
+9 Suche mit verschiedenen Kriterien 
+10 Computer nach tags
+11 Computer nach tags
+12 Tag Wert
+13 Senden
+14 Management 
+15 Tags
+16 Admins
+17 Agent
+18 Datum hinzufuegen
+19 Software Version
+20 Software
+21 erstes Datum 
+22 Garantiezeit abgelaufen
+23 Computer
+24 Benutzer
+25 Betriebssystem
+26 Speicher
+27 Memory Takt (MHz)
+28 Anzahl Geraete
+29 Der LDAP-Server antwortet nicht
+30 Suche
+31 Parameter auswaehlen
+32 Auswaehlen
+33 Domaene
+34 IP Addresse
+35 Computer Name
+36 Seriennummer
+37 Command letter
+38 Delivery order 
+39 Quelle
+40 Code 
+41 Zuruecksetzen
+42 Kein Ergebnis
+43 Hauptmenue
+44 Optionen auswaehlen
+45 Freier Speicherplatz
+46 Letze Inventarisierung
+47 Letzte Seite
+48 Computer Details
+49 Name
+50 Swap
+51 Kommentare
+52 Lizenz
+53 Beschreibung
+54 Prozessor(en)
+55 Nummer
+56 Administrative Infos
+57 Kommando Nummer
+58 Kommando Datum
+59 Code
+60 Auslieferungsauftrag
+61 Grafikkarte
+62 Aufloesung
+63 Laufwerke(physisch)
+64 Hersteller
+65 Modell
+66 Typ
+67 Festplattenkapazitaet
+68 Ordner
+69 Editor
+70 Designation
+71 Garantie
+72 Intervention(s)
+73 Preis
+74 Anforderungsdatum
+75 Anforderungstyp
+76 Eingriff Datum
+77 Eingriff Typ
+78 Konto
+79 Drucker
+80 Ueberschrift
+81 Status
+82 Netzwerk(e)
+83 Kapazitaet
+84 Schnittstelle
+85 Letter
+86 Dateisystem
+87 Gesamt
+88 Frei
+89 Auslieferungsdatum
+90 Ergebnis
+91 Eingabegeraete
+92 Laufwerke(logisch)
+93 Controller
+94 Einschub Nummer
+95 MAC Adresse
+96 Soundkarte
+97 Monitor(e)
+98 Achtung, Sie koennen nur 8 Optionen waehlen!
+99 Computer Details
+100 Parameter initialisieren
+101 Sortieren
+102 Neue Suche
+103 Update
+104 direkt betroffen
+105 in Einheiten
+106 Konfigurationsoptionen
+107 Konfiguration
+108 Registry Abfragen
+109 Computer Typ
+110 zu
+111 Windows ProductKey
+112 Garantiedatum
+113 Abbrechen
+114 Register
+115 Update
+116 Hinzufuegen
+117 Registry
+118 Gehe zu Seite
+119 Wollen Sie wirklich ID loeschen 
+120 null
+121 Computer loeschen
+122 Loeschen
+123 Computertyp Aenderung
+124 Neuen GeraeteTyp hinzufuegen
+125 Letzte
+126 Naechste
+127 Erste
+128 Zurueck
+129 WIE
+130 NICHT GLEICH
+131 Icon Datei
+132 Bilddateien
+133 Inventory
+134 Neue Datei in Basis einfuegen
+135 Vorsicht, sie sind dabei diese Datei endgueltig zu loeschen!
+136 Download
+137 Datei
+138 Erstellen
+139 Erstellung / Loeschen von
+140 Super Administratoren
+141 Administratoren
+142 Lokale Administratoren
+143 Die Super Administratoren sehen alle Geraete und koennen den Unity Tag vergeben
+144 Die Administratoren sehen alle Geraete aber koennen den Unity Tag nicht vergeben
+145 Die Lokalen Administratoren sehen nur Ihre Geraete und koennen den Unity Tag nicht vergeben
+146 Administrator waehlen
+147 Vorsicht, Sie werden die Rechte wirklich loeschen!
+148 UNBEKANNTER TAG
+149 Unity Tags unter Verantwortung von
+150 Recht(e) vergeben 
+151 Recht(e) geloescht
+152 Vorsicht, Sie werden die Rechte des Ziel Administrators loeschen!
+153 Keine tag unity bestimmt fuer diesen Administator
+154 Tag zu Administrator zuordnen
+155 Administrator zu Tag zuordnen
+156 Unity Tag hinzufuegen
+157 Kopieren
+158 Kopiere Rechte auf
+159 Rechte kopiert von 
+160 Kein Administrator zu diesem Tag
+161 Unity Tag unter Verantwortung von
+162 Auswahl loeschen
+163 Service Grade Name
+164 Personen verantwortlich fuer Unity Tag
+165 Bitte einen Namen eingeben oder aus der Publikationsliste waehlen !
+166 Bitte ein Element aus der Liste waehlen!
+167 Details anzeigen
+168 Das Format dieser Datei ist ungueltig (entweder zip, pl oder unix-Binaerdatei)
+169 zur Basis hinzufuegen
+170 Eine gleiche Datei existiert bereits !
+171 Datei geloescht
+172 Fehler ist aufgetreten, die Datei
+173 wird nicht zur Basis hinzugefuegt
+174 IpDisc.
+175 Duplikate
+176 IPs
+177 Redundante Geraete zusammenfuehren
+178 Summe der PCs mit Tag
+179 Einheit Name
+180 User nicht registriert
+181 Login Problem
+182 Computer mit bestimmtem Tag
+183 Download
+184 Diese Datei enthaelt kein "use constant version"
+185 Version muss groesser 1 sein
+186 Diese Datei enthaelt keine "ver"-Datei
+187 Diese Datei ist keine gueltige ZIP-Datei
+188 Zurueck
+189 Sie muessen mind. 2 Computer waehlen 
+190 Kontoinfo:
+191 geloescht
+192 Zusammenfassung Redundanz
+193 Hostname + Seriennummer
+194 Hostname + Mac-Adresse
+195 MAC-Adresse + Seriennummer
+196 Nur Hostname
+197 Nur Seriennummer
+198 Nur MAC-Adresse
+199 Redundanz
+200 Corresponding relay decremented
+201 KLEINER
+202 GROESSER
+203 ZWISCHEN
+204 AUSSER
+205 Aktiviert
+206 gespeichert fuer
+207 Gateway
+208 Maske
+209 BIOS Version
+210 BIOS Datum
+211 Registrierung
+212 Schluessel Name
+213 Schluessel Wert
+214 Seite ausdrucken
+215 Alles anzeigen
+216 Passwort Fehler
+217 Passwort
+218 Agenten Versionen
+219 Unbekannte IPs
+220 geloescht
+221 IP sammelnde Computer
+222 Warnung ! Alle gewaehlten Computer werden zu einem Computer zusammengefasst! Sind die sicher?
+223 Information
+224 Werte
+225 Admininfo
+226 wurde erfolgreich aus Kontoinfo-Tabelle geloescht
+227 Sind sie sicher das sie die Spalte loeschen wollen?
+228 Neue Administrative Informationen eingeben
+229 Text (255)
+230 Integer
+231 Real
+232 Datum
+233 aktuelle Daten
+234 wurde erfolgreich eingefuegt
+235 Users
+236 Passwort aendern
+237 Neues Passwort
+238 Bestaetigung
+239 Sie muessen jedes Feld ausfuellen
+240 Ihr Passwort ist unterschiedlich
+241 Ihr Passwort wurde erfolgreich geaendert
+242 Administrator
+243 User
+244 Neuen User hinzufuegen
+245 wurde erfolgreich geloescht
+246 Sind sie sicher das sie den User loeschen wollen?
+247 MySql login
+248 MySql password
+249 Kann nicht zu MySQL verbinden, bitte gueltigen Benutzer und Passwort eingeben
+250 MySQL HostName
+251 Logout
+252 Name (sie waehlen)            
+253 Registry "hive"        
+254 Pfad des Schluessels (z.B. SOFTWAREMozilla)      
+255 Name des Schluessels der gelesen wird (* fuer alles)
+256 Auswaehlen
+257 Registrierungsschluessel
+258 Registrierungsschluessel-Wert
+259 Fehler, die Daten konnten nicht eingefuegt werden (Sonderzeichen sind nicht erlaubt)
+260 Aenderung an Label ok
+261 Label Datei geloescht
+262 Label eingeben
+263 Konfiguration des Labels
+264 Kein Label vorhanden
+265 Alles
+266 ungueltiges Datum
+267 mm/dd/yyyy
+268 Geschwindigkeit
+269 %d/%m/%Y
+270 Modem(s)
+271 Slot(s)
+272 Port(s)
+273 BIOS
+274 OS Name
+275 OS Version
+276 Chipsatz
+277 Version
+278 Treiber
+279 Port
+280 MIB Typ 
+281 DHCP IP
+282 Gateways
+283 Zweck
+284 BIOS Hersteller
+285 Waehlen Sie einen zu modifizierenden Parameter
+286 Servicepack
+287 Lokaler Import
+288 Lokale Importierung
+289 Netzwerkinformation
+290 Ip Abfrage
+291 Experten Modus
+292 Hinzufuegen / Loeschen von Netzwerkgeraeten
+293 Netzwerkgeraete Typen
+294 Subnetz Namen
+295 Lokalisierung
+296 Uid
+297 Kann nicht in Verzeichnis schreiben
+298 Alle Felder muessen ausgefuellt werden
+299 Ungueltige IP Adresse (Format: x.x.x.x)
+300 Ungueltige Maske (Format: x.x.x.x oder xx (xx<32))
+301 Netzwerk eingefuegt
+302 Netzwerk geloescht
+303 Hinzufuegen eines Subnetz
+304 Netzwerk Name
+305 Uid
+306 Subnetz Liste
+307 Hinzufuegen eines Typs
+308 Typ Name
+309 Netzwerkgeraete Typen
+310 IpDiscover weniger als
+311 Hosts
+312 IpDiscover
+313 Gateway Computer
+314 IpDiscover gateway Computer
+315 Nicht inventarisierte Computer
+316 Subnetz
+317 ANALYSIEREN
+318 DNS Name
+319 Netzwerk Ergebnisse analysieren
+320 Diese Analyse wurde bereits gemacht auf
+321 Wollen Sie Cache-Daten sehen ?
+322 Daten aus Cache
+323 generiert auf
+324 HOSTS AUSGEWERTET ALS
+325 leer
+326 keine Maske eingegeben
+327 Computer Details
+328 Entdeckt
+329 Inventarisiert
+330 NetBIOS Name
+331 Netzwerk Nummer
+332 Bitte warten...
+333 Hinzufuegen eines neuen Netzwerkgeraets
+334 Netzwerkgeraete Liste
+335 Geraetetyp
+336 Geraetebeschreibung
+337 DAS PROGRAMM SENDETE NICHTS
+338 Eingeschraenkter Modus
+339 Sie benoetigen ipdiscover-util.pl (nur Linux) fuer den Experten Modus
+340 Zeigen
+341 kann nicht gestartet werden, sie muessen die Berechtigung zum Ausfuehren erteilen
+342 Sie muessen Schreibberechtigung auf das root Verzeichnis erteilen zur Nutzung von
+344 Fehler
+345 DIESE ANALYSE LAEUFT GERADE, BITTE VERSUCHEN SIE ES IN EIN PAAR MINUTEN WIEDER
+346 VORHER
+347 NACHHER
+348 Windows Benutzer
+349 Hinzufuegen einer Spalte
+350 CPU Typ
+351 CPU Nummer
+352 Letzer
+353 Qualitaet
+354 Genauigkeit
+355 Firma
+356 Besitzer
+357 User agent
+358 Jokers: ? (ein Zeichen), * (mehrere Zeichen)
+359 Monitor Seriennummer
+360 Hergestellt am (Woche/Jahr)
+362 Das Netzwerk
+363 existiert bereits
+364 Inventarisiert
+365 Nicht- Inventarisiert
+366 Identifiziert
+367 Geraete von Netzwerk
+368 von Netzwerk
+369 Uebermittelt von
+370 Entfaltung
+371 Alle Komponenten
+372 Komponenten waehlen
+373 Registrierter Benutzer
+374 Eingetragener Verein
+375 OCS NG Agent Version
+376 Computer gesperrt. Bitte versuchen Sie es in ein paar Minuten erneut.
+377 Prozessor Geschwindigkeit (Mhz)
+380 Woerterbuch
+381 Nummer
+382 Software Name
+383 Die Seite
+384 ALLE verschieben
+385 in eine neue Kategorie
+386 oder
+387 in eine existierende Kategorie
+388 Kategorie
+389 Nichts
+390 Woerterbuch Kategorien
+391 Kategorie Name
+392 Loeschen
+393 Suchen
+394 Kategorie suchen
+395 Software UEBERALL suchen
+396 Zuruecksetzen
+397 Zur Kategorie wechseln
+398 Kategorie Liste
+410 GENAU
+411 Felder duerfen nur Zahlen enthalten!
+412 Funktion Registrierungsschluessel sammeln
+413 Funktion Automatisches update
+414 Funktion Automatische Software Bereitstellung (Agent)
+415 Funktion Loeschen mitloggen (von GLPI benoetigt).
+416 Funktion Loggen.
+417 Funktion Automatische Software Bereitstellung (Agent und Server).
+418 Funktion Inventare unterscheiden.
+419 Maximale Tageszahl bevor ein IPDiscover Computer ersetzt wird.
+420 Automatische Software Bereitstellung: siehe Dokumentation.
+421 Automatische Software Bereitstellung: siehe Dokumentation.
+422 Automatische Software Bereitstellung: siehe Dokumentation.
+423 Automatische Software Bereitstellung: siehe Dokumentation. (Pakete mit hoeherer oder gleicher Prioritaet werden nicht mehr runtergeladen).
+424 Gueltigkeit eines Pakets wie von seiner Betrachtung durch das Mittel
+425 Maximale Anzahl an Computern, die per gateway ihre IP im Netzwerk erhalten.
+426 Gueltigkeit von Warenbestaenden. (IMMER: Warenbestand an jedem LOGON. NIE: kein Warenbestand)
+427 Definiert Kriterien, die bei zwei Computern gleich sein muessen, damit sie automatisch zusammengefuehrt werden.
+428 Bereitstellung
+429 Frequency
+430 Mass processing
+431 Aktivieren
+432 Nicht benachrichtigt
+433 Beeinflussen
+434 Paket ersteller
+435 Neues Paket erstellen
+436 Datei kann nicht geoeffnet werden.
+437 Paket erfolgreich erstellt im Verzeichnis
+438 Neues Paket erstellen
+439 Protokoll
+440 Prioritaet
+441 Digest algorithm
+442 Digest encoding
+443 Aktion
+444 Befehl
+445 Pfad
+446 Dateiname
+447 Benutzer benachrichtigen
+448 Benutzer warnen
+449 Text
+450 Countdown
+451 Benutzer kann abbrechen
+452 Benutzer kann verzoegern
+453 Installationsfertigstellung erfordert Benutzereingriff
+454 NEIN
+455 JA
+456 Ausfuehren
+457 Ablegen
+458 Starten
+459 Countdown muss eine Zahl sein
+460 Eindeutiger Bezeichner
+461 Digest
+462 Gesamtgroesse
+463 Fragmentgroesse (1 KB min)
+464 Fragmentnummer
+465 Paketaktivierung
+466 WARNUNG: Informationsdatei nicht gefunden in
+467 WARNUNG: Fragmentdatei nicht gefunden in
+468 Paket wirklich aktivieren?
+469 Paket aktiviert, es kann nun beeinflusst werden
+470 Https url
+471 Fragment url
+472 FEHLER: Verzeichnis kann nicht geloescht werden
+473 Zeitstempel muss eine Zahl sein
+474 Zeitstempel muss mindestens aus 10 Ziffern bestehen
+475 Zeitstempel
+476 Oder ein Paket manuell aktivieren
+477 Ein Paket beeinflussen
+478 Computer
+479 Kein Computer ausgewaehlt
+480 Fragmente
+481 Aktivierte Pakete
+482 WARTE BENACHRICHTIGUNG
+483 ERFOLGE validieren
+484 Kundenspezifische Frequenz
+485 Immer inventarisiert
+486 Nie inventarisiert
+487 Benutzerdefiniert
+488 Default
+489 IpDiscover Verhalten
+490 NIE IpDiscover
+491 IMMER IpDiscover des Netzwerks
+492 GEWAEHLT IpDiscover des Netzwerks
+493 Default (kann gewaehlt werden)
+494 Benutzerdefinierte Haeufigkeit der Inventarisierung
+495 Inventarisiert alle 
+496 Tagen
+497 Default, den 'FREQUENCY' parameter nutzen.
+498 Paket
+499 Server
+500 Anpassung
+501 Paket hinzufuegen
+502 Gewaehlt
+503 Gewaehlt erzwingen
+504 Nicht gewaehlt
+505 Waehlbar
+506 Nicht waehlbar
+507 HAVING
+508 NOT HAVING
+509 ANY
+510 Kein Paket
+511 Sekunden
+512 Bereitstellung
+513 Erstellen
+514 Aktivieren
+515 Aktiviert
+516 KB
+517 Diese Option kann nur einen Computer zur Zeit beeinflussen.
+518 IpDiscover erwzingen.
+519 Computer schon fuer Netzwerk gewaehlt
+520 Computer hat schon ipdiscover fuers Netzwerk erzwungen
+521 Computer schon als nicht waehlbar erzwungen
+522 Standard Computer
+523 Zum Ausgangszustand zurueckkehren
+524 NIE wieder beeinflussen.
+525 SIND SIE SICHER?
+526 KEIN COMPUTER BEEINFLUSST.
+527 Januar
+528 Februar
+529 Maerz
+530 April
+531 Mai
+532 Juni
+533 Juli
+534 August
+535 September
+536 Oktober
+537 November
+538 Dezember
+539 Sonntag
+540 Montag
+541 Dienstag
+542 Mittwoch
+543 Donnerstag
+544 Freitag
+545 Samstag
+546 im Status
+547 alle
+548 Alle ausser ERFOLGREICH
+549 Datei (deployed auf Client Computern)
+550 Datei (nicht unbedingt, darf vom Ausfuehrbefehl genutzt werden)
+551 Paketname schon vorhanden
+552 <i>Sie muessen eine Computersuche durchfuehren, und dann auf 'deploy' klicken, um diese aktivierten Pakete zu beeinflussen.<br>Sie koennen auch ein Paket auf einem einzlenen Rechner beeinflussen, indem Sie das 'Anpassen'-Feld jeglicher Computerdetails benutzen</i>.
+553 Windows key
+554 Monitor: Seriennnummer
+555 Monitor: Hersteller
+556 Monitor: Beschriftung
+557 Userdomain
+558 Beeinflusste Pakete
+559 Diese Datei ist nicht .ocs
+560 Zum Server
+561 Unbekannt (geloeschtes Paket)
+562 Netzwerke mit uid:
+563 Hersteller
+564 Agent auto-start-Frequenz
+565 Server fuer lokale Inventare genutzt
+566 Port fuer lokale Inventare genutzt
+567 Ipdiscover Latenzzeit
+568 RAM(MB)
+569 CPU(MHz)
+570 Hilfe
+571 alle Validieren
+572 Erfolg
+573 Fehler
+574 Stats
+575 Nicht-Beeinflussung unbenachrichtigt
+576 Angepasstes ipdiscover
+577 Gruppenname
+580 Alle Computer (replay)
+581 Alle Computer (cached)
+582 und
+583 Gruppen
+584 Fuer die Anfrage
+585 Fuer die Auswahl
+586 Neue Gruppe
+587 Neue statische Gruppe
+588 Gruppe ueberschreiben
+589 Statisch zur Gruppe hinzufuegen
+590 Reset Status
+591 Statisch Einbinden
+592 Statisch Ausschliessen
+593 Erstellungsdatum
+594 Cache generiert am
+595 STATISCHE GRUPPE
+596 DYNAMISCH EINGEBUNDEN
+597 STATISCH AUSGESCHLOSSEN
+598 Einbinden
+599 Reset
+600 Ausschliessen
+601 Massen beeinflussung
+602 Sie muessen eine Datei senden
+603 Kein Computer gefunden, bitte Datei pruefen
+604 Computer erfolgreich beeinflusst
+605 Computer fehlgeschlagen
+606 Computerdatei
+607 Gruppen
+608 erstellt
+609 ueberschrieben
+610 STATISCH EINGEBUNDEN
+611 KEIN CACHE
+612 STATISCH
+613 DYNAMISCH
+614 AUSGESCHLOSSEN
+615 Abfrage
+616 Umkreis des Benutzers
+617 Neu
+618 Umkreis
+619 Lokaler Benutzer
+620 Kein Computer in Ihrem Umkreis.
+621 Gruppe nicht erstellt. Der Name wird bereits verwendet.
+622 Cached
+623 Die angeforderte Information existiert nicht.
+624 Gruppe wirklich loeschen? 
+625 Aenderung zulassen
+626 Aenderung verweigern
+627 Mindestens ein Feld ist leer... Update nicht vollzogen.
+628 Server
+629 Neue Gruppe von Redistributions-Servern
+630 Eine Gruppe existierender Server
+631 Hinzufuegen zu
+632 Vernichten
+633 Managementgruppen Server
+634 Gewuenschte Aktion
+635 Neuer Name
+636 Beschreibung
+637 Ersetzen
+638 GRUPPENNAME DARF NICHT LEER SEIN
+639 GRUPPENSERVER EXISTIERT NICHT
+640 Wirklich loeschen
+641 Management der Redistributions-Server
+642 Die Gruppe
+643 Alle Geraete
+644 Diese Maschine
+645 GRUPPEN DETAIL
+646 URL
+647 PORT NUMMER
+648 REPERTOIRE LAGER
+649 AUTOMATISCHE AKTIVIERUNG
+650 MANUELLE AKTIVIERUNG
+651 Server Gruppe
+652 Maschine(n)
+653 Blacklist MAC-Adresse
+654 Neue MAC-Adresse fuer blacklist
+655 Eintragung erfolgt
+656 Dieses Datum ist schon in der Liste vorhanden.
+657 Rote Felder sind fehlerhaft!!! (leer oder Groesse < 2) 
+658 Geraete haben keine Redistributions-Server. <br>Paket muss darum individuell beeinflusst werden.
+659 Geraete haben dieses Software-Bereitstellungs-Paket schon. Paketstatus fuer diese Geraete ist 
+660 SERVERGRUPPE EXISTIERT NICHT
+661 PAKETE FUER REDISTRIBUTIONSSERVER
+662 Beeinflussungs-Regeln
+663 INTERNES PROBLEM
+664 Aktion erfolgt
+665 KEINE MASCHINE AUSGEWAEHLT. SERVERGRUPPE NICHT ERSTELLT
+666 Servergruppe erstellt
+667 FUER DAS PAKET
+668 mit welcher Regel beeinflussen?
+669 VORSICHT: Prioritaet doppelt vorhanden <br> Eine einzige Regel wird beibehalten!
+669 VORSICHT: Prioritaet doppelt vorhanden <br> Eine einzige Regel wird beibehalten!
+670 Eine Regel traegt diesen Namen bereits
+671 Regel-Name darf nicht leer sein
+672 Diese Regel existiert nicht!!!
+673 Administration der Beeinflussungs-Regeln
+674 NAME DER REGEL
+675 PRIORITAET
+676 GERAETE WERT
+677 OPERATOR
+678 SERVER WERT
+679 NAME
+680 DOMAIN
+681 BENUTZER
+682 eine zusaetzliche Bedingung erstellen
+683 Regel validieren
+684 Die folgenden Felder muessen erfasst werden
+685 Regel hinzufuegen
+686 Die Bedingung
+687 Loeschen nicht moeglich.
+688 Pakete dieser Gruppe werden beeinflusst!
+689 Pakete dieses Servers werden beeinflusst!
+690 Es koennen nicht alle Geraete geloescht werden.
+691 Generische Werte: $IP$ und $NAME$
+692 Sie aendern ALLE Werte des Servers
+693 Sie aendern die Werte des folgenden Servers:
+694 um die standard Werte zu finden, leere Felder validieren
+695 Sie veraendern die Server-Gruppe
+696 um aktivierte Pakete anzuzeigen die beeinflussen sollen
+697 eine Maschine
+698 eine Server-Gruppe
+699 Sind Sie sicher, dass sie die folgenden Geraete beeinflussen wollen?
+700 Blacklist Wahl
+701 Blacklist von Seriennummern
+702 Neue Seriennummer zur Blacklist hinzufuegen
+704 Sicher, dass Sie dies zur Blacklist hinzufuegen wollen?
+705 Sicher, dass Sie dies von der Blacklist entfernen wollen?
+706 Von Blacklist entfernen
+707 diese Seriennummer
+708 diese MAC-Adresse
+709 Angepasste PROLOG_FREQ 
+710 Angepasstes download
+711 Gezaehlte Aenderungen
+712 Sprachdatei
+712 Sprachdatei
+713 Sprachdatei wirklich ersetzen?
+714 Sprachdateiverweis
+715 zu aendernde Sprachdatei auswaehlen
+716 Sprachdatei updaten
+717 angepasst
+718 Ignorieren
+719 (pro Sekunde)
+720 Wartezeit zwischen 2 Bereitstellungs-Zyklen
+721 Wartezeit zwischen 2 runtergeladenen Fragmenten
+722 Wartezeit zwischen 2 Bereitstellungs-Perioden
+723 Maximale Prioritaet der runtergeladenen Pakete <br> (Pakete einer hoeheren Prioritaet werden ignoriert)
+724 Zeit zwischen 2 Kontakten zwischen Agent und Server
+725 (in der Stunde)
+726 URI der Redistribution-Server ($IP und NAME$ sind generische Werte)
+727 Paket-Zielverzeichnis.
+728 Inventar
+729 Computer
+730 Stunden
+731 Festgelegte Standard-Funktion auf jedem Teil des Inventars.
+732 Millisekunden
+733 Inaktiv
+734 Inventar Dateien
+735 Filter
+736 Gruppenfunktion zulassen
+737 Berechnete Zufallsnummer in definierter Weite. Designed um zu verhindern, dass alle Gruppen gleichzeitig verarbeitet werden.
+738 Gruppenvalidierung einstellen (default: einmal am Tag verarbeiten - siehe offset)
+739 Zukuenftige Sicherheitsverbesserungen
+740 Validitaet eines gesperrten Computers
+741 Inventareinheiten mit CHECKSUM-Wert updaten (verringert DB-backend Last)
+742 Inventarisierung als Transaktion ansehen (verringert Nebenlaeufigkeit, verbessert Speichernutzung)
+743 Inventareinheiten differentiell updaten (row level). verringert DB-backend Last, erhoeht frontend Last
+744 Inventarisierung nur bei Serveranfrage akzeptieren ("Erzwungen"-Modus ablehnen)
+745 Festlegen, wann die Inventar cache Strukturen geleert werden
+746 Minimalen Unterschied festlegen, bei dem der IPDiscover Agent ersetzt wird
+747 Zeit vor erster Wahl deaktivieren (nicht empfohlen)
+748 Gruppen fuer IPDiscover aktivieren (z.B. um einige Gruppen davor zu bewahren, als IPDiscover Agenten zu agieren)
+749 Mit ocsinventory-local benutzen, Multi-Entities zulassen
+750 Entweder komprimierte Datei oder klaren XML text generieren
+751 Auswaehlen, wenn alle Inventare zwischen Synchronisierung mit hoeherwertigem Server mitgeschrieben werden sollen.
+752 Pfad zum ocs-verzeichnis (muss beschreibbar sein)
+753 Aktivieren des "prolog filter stacks"
+754 Aktivieren des Kernfiltersystems, einige Dinge "on the fly" zu modfizieren
+755 Aktivieren des Inventar "flooding" Filters. Eine bestimmte IPAdresse darf einen neuen Computer nur einmal in dieser Periode senden
+756 Perioden-Definition fuer INVENTORY_FILTER_FLOOD_IP
+757 Aktiviere den Inventar "filter stack"
+758 Waehlen, wenn Sie Pakete verfolgen wollen, die eine Gruppe auf Computer-level beeinflussen
+759 Groesser oder Gleich 
+760 Webservice
+761 Aktivieren/Deaktivieren des Webservice
+762 Ergbnisseitengroesse (auf Systemperformance achten)
+763 Datei mit eigenen Erweiterungen einschliessen
+764 Die folgenden Optionen sind nicht durch das GUI einstellbar.<br>(s. ocsinventory-server.conf)
+765 Alle Software
+766 KEIN ERGEBNIS
+767 VORSICHT: GEFILTERTE ERGEBNISSE
+768 Aufgenommene Nummer
+769 Transfer abgeschlossen
+770 UPDATE VON
+771 Diese Kategorie existiert bereits
+772 Der Name der Kategorie darf nicht leer sein
+773 Bitte waehlen Sie einen Namen fuer die Kategorie
+774 Sie versuchen einen Transfer einer Kategorie auf sich selbst
+775 Verzeichnis der erstellten Pakete
+776 Verzeichnis der gecacheten Analysen vom IPDiscover
+777 Validitaetsdauer einer Session
+778 Verschiedene WORKGROUPs
+779 Verschiedene TAGs
+780 Verschiedene IPSUBNETs
+781 Geraete mit ausstehender Software-Bereitstellung
+782 Geraete mit fehlerhaftem Paket
+783 Verschiedene Betriebssysteme
+784 verschiedene Agents
+785 verschiedene Prozessoren
+786 Verschiedene Aufloesungen
+787 Geraete mit Prozessor >=
+788 Geraete mit Prozessor =<
+789 Geraete mit Prozessor zwischen
+790 Geraete mit RAM >=
+791 Geraete mit RAM =<
+792 Geraete mit RAM zwischen
+793 Geraete im System
+794 Sichtbare Geraete
+795 Geraete, die heute den Server kontaktiert haben
+796 Heutige Inventarisierungen
+797 Geraete, unangemeldet seit mehr als
+798 AKTIVITAET
+799 HARDWARE
+800 SONSTIGES
+801 Dieses Feld nicht zeigen
+802 Dieses Feld zeigen
+803 Anzahl der Tage seit letztem Kontakt des Geraets
+804 Minimale Prozessorgeschwindigkeit
+805 Maximale Prozessorgeschwindigkeit
+806 Minimale RAM Groesse
+807 Maximale RAM Groesse
+808 Zuteilung
+809 STATISCHE GRUPPEN
+810 DYNAMISCHE GRUPPEN
+811 Sichtbarkeit der Gruppe wirklich veraendern?
+812 Die Anwendungen in 0 sind noch im Speicher, aber nicht mehr auf den Rechnern installiert.<br>Sie koennen nicht in eine Kategorie im Woerterbuch gesetzt werden
+813 Festplatten mit freiem Platz >
+814 Festplatten mit freiem Platz <
+815 Festplatten mit freiem Platz zwischen
+816 maximal verbleibende Groesse auf Festplatte
+817 minimal verbleibende Groesse auf Festplatte
