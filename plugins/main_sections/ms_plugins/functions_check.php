@@ -125,3 +125,29 @@ function mv_computer_detail($name){
 	
 }
 
+function mv_server_side($name){
+	
+	$dir = MAIN_SECTIONS_DIR."ms_".$name."/APACHE/" ;
+	
+	if(file_exists($dir)){
+		
+		$archive = new ZipArchive();
+		$archive->open(PLUGINS_SRV_SIDE.$name.".zip" , ZipArchive::CREATE);
+		
+		$scanned_directory = array_diff(scandir($dir), array('..', '.', 'README'));
+		var_dump($scanned_directory);
+		
+		foreach ($scanned_directory as $key=>$value){
+			
+			var_dump($value);
+			$archive->addFile($dir.$value,$value);
+			
+		}
+		
+		$archive->close();
+		rrmdir($dir);
+		
+	}
+	
+}
+
