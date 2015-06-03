@@ -28,6 +28,7 @@ define("DFT_GUI_PSWD",'admin');											// Define default password to connect 
 define('BACKEND',"backend/");									    // Define backend Directory
 define('PHPCAS',BACKEND.'require/lib/phpcas/CAS.php');					// Path to CAS (change to use system provided library)
 define('PLUGINS_DL_DIR', 'download/');
+define('PLUGINS_SRV_SIDE', 'upload/');
 define('CONFIG_DIR',"config/");
 define('PLUGINS_DIR',"plugins/");										// Define plugins Directory
 define('PLUGINS_GUI_DIR','/tmp/');	
