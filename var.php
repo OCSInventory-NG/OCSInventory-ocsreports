@@ -38,6 +38,5 @@ define('ETC_DIR', DOCUMENT_REAL_ROOT);									// Configuration dir
 define('VARLIB_DIR', DOCUMENT_ROOT);									// Data default dir
 define('VARLOG_DIR', DOCUMENT_ROOT);									// Log defaut dir
 define('CONF_MYSQL', ETC_DIR.'/dbconfig.inc.php');						// Define dbconf file
-define('VAR_DOC_GIT', 'Pour la doc github <3');
 
 ?>
