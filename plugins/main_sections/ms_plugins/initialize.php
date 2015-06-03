@@ -28,6 +28,7 @@ check($forCheck);
 
 foreach ($forCheck as $value){
 	mv_computer_detail($value);
+	mv_server_side($value);
 }
 
 ?>
