@@ -135,11 +135,11 @@ function mv_server_side($name){
 		$archive->open(PLUGINS_SRV_SIDE.$name.".zip" , ZipArchive::CREATE);
 		
 		$scanned_directory = array_diff(scandir($dir), array('..', '.', 'README'));
-		var_dump($scanned_directory);
+		//var_dump($scanned_directory);
 		
 		foreach ($scanned_directory as $key=>$value){
 			
-			var_dump($value);
+			//var_dump($value);
 			$archive->addFile($dir.$value,$value);
 			
 		}
