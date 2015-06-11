@@ -30,6 +30,7 @@ define('PHPCAS',BACKEND.'require/lib/phpcas/CAS.php');					// Path to CAS (chang
 define('PLUGINS_DL_DIR', 'download/');
 define('PLUGINS_SRV_SIDE', 'upload/');
 define('CONFIG_DIR',"config/");
+define('CD_CONFIG_DIR', CONFIG_DIR."computer/" );
 define('PLUGINS_DIR',"plugins/");										// Define plugins Directory
 define('PLUGINS_GUI_DIR','/tmp/');	
 define('HEADER_HTML',"require/html_header.php");						// Define html_header file				
@@ -42,5 +43,6 @@ define('ETC_DIR', DOCUMENT_REAL_ROOT);									// Configuration dir
 define('VARLIB_DIR', DOCUMENT_ROOT);									// Data default dir
 define('VARLOG_DIR', DOCUMENT_ROOT);									// Log defaut dir
 define('CONF_MYSQL', ETC_DIR.'/dbconfig.inc.php');						// Define dbconf file
+
 
 ?>
