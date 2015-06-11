@@ -30,7 +30,68 @@ class plugins{
 	}
 	
 	/**
-	 * This function create a menu (Not a sub-menu) in OCS inventory.
+	 * This function add a computer detail entry into the plugins.xml
+	 * 
+	 * @param string $name : Name of the plugin
+	 * @param string $category : Category in cd details
+	 * @param string $available (optional) : NULL per defaut (Don't use it if u don't know what this is supposed to do.) 
+	 */
+	public function add_cd_entry($name, $category, $available=NULL){
+		
+		$xmlfile = CD_CONFIG_DIR."plugins.xml";
+		
+		if (file_exists($xmlfile)){
+			$xml = simplexml_load_file($xmlfile);
+		
+			$label = rand(50000, 60000);
+			
+			$menu = $xml->addChild("plugin");
+			$menu->addAttribute("id","cd_".$name."");
+			$menu->addChild("label","g(".$label.")");
+			$menu->addChild("system","1");
+			$menu->addChild("category",$category);
+			if ($available != null) {
+				$menu->addChild("available",$available);
+			}
+		
+			$xml->asXML($xmlfile);
+		}
+		
+	}
+	
+	/**
+	 * This function will remove the computer detail node with the id => cd_$name
+	 * 
+	 * @param string $name : Name of the plugin
+	 */
+	public function del_cd_entry($name){
+		
+		$xmlfile = CD_CONFIG_DIR."plugins.xml";
+		
+		if (file_exists($xmlfile)){
+			$xml = simplexml_load_file($xmlfile);
+				
+			foreach ($xml as $value){
+
+				if($value['id'] == "cd_".$name){
+					
+					var_dump($value['id']);
+					$dom=dom_import_simplexml($value);
+					$dom->parentNode->removeChild($dom);
+					
+				}
+
+			}
+				
+			//var_dump($xml->asXML());
+			$xml->asXML($xmlfile);
+				
+		}
+		
+	}
+	
+	/**
+	 * This function create a menu or a submenu in OCS inventory.
 	 * As default, only super administrator profile can see the created menu.
 	 * 
 	 * @param string $name : The name of the menu you want to crate
