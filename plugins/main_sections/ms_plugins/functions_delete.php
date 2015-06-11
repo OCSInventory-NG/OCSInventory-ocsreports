@@ -40,6 +40,7 @@ function delete_plugin($pluginid){
 	
 	rrmdir(MAIN_SECTIONS_DIR."ms_".$anwser['name']);
 	rrmdir(PLUGINS_DIR."computer_detail/cd_".$anwser['name']);
+	unlink(PLUGINS_SRV_SIDE.$anwser['name'].".zip");
 		
 	$conn->query("DELETE FROM `".DB_NAME."`.`plugins` WHERE `plugins`.`id` = ".$pluginid." ");
 	
