@@ -1,6 +1,6 @@
 //SOURCE:http://dcabasson.developpez.com/articles/javascript/ajax/ajax-autocompletion-pas-a-pas/
 // retourne un objet xmlHttpRequest.
-// m�thode compatible entre tous les navigateurs (IE/Firefox/Opera)
+// méthode compatible entre tous les navigateurs (IE/Firefox/Opera)
 function getXMLHTTP(){
 	var xhr=null;
 	if(window.XMLHttpRequest) // Firefox et autres
@@ -16,7 +16,7 @@ function getXMLHTTP(){
 			}
 		}
 	}
-	else { // XMLHttpRequest non support� par le navigateur
+	else { // XMLHttpRequest non supporté par le navigateur
 		alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest...");
 	}
 	return xhr;
@@ -27,7 +27,7 @@ var _inputField=null;	// le champ texte lui-meme
 var _submitButton=null;	// le bouton submit de notre formulaire
 
 function initAutoComplete(form,field,submit,add){
-	_adresseRecherche = add; //l'adresse � interroger pour trouver les suggestions
+	_adresseRecherche = add; //l'adresse à interroger pour trouver les suggestions
 	_documentForm=form;
 	_inputField=field;
 	_submitButton=submit;
@@ -40,20 +40,20 @@ function initAutoComplete(form,field,submit,add){
 	_inputField.onkeyup=onKeyUpHandler;
 	_inputField.onblur=onBlurHandler;
 	window.onresize=onResizeHandler;
-	// Premier d�clenchement de la fonction dans 200 millisecondes
+	// Premier déclenchement de la fonction dans 200 millisecondes
 	setTimeout("mainLoop()",200)
 }
 
-var _oldInputFieldValue="";	// valeur pr�c�dente du champ texte
+var _oldInputFieldValue="";	// valeur précédente du champ texte
 var _currentInputFieldValue="";	// valeur actuelle du champ texte
-var _resultCache=new Object();	// m�canisme de cache des requetes
+var _resultCache=new Object();	// mécanisme de cache des requetes
 
-// tourne en permanence pour sugg�rer suite � un changement du champ texte
+// tourne en permanence pour suggérer suite à un changement du champ texte
 function mainLoop(){
 	if(_oldInputFieldValue!=_currentInputFieldValue){
 		var valeur=escapeURI(_currentInputFieldValue);
 		var suggestions=_resultCache[_currentInputFieldValue];
-		if(suggestions){ // la r�ponse �tait encore dans le cache
+		if(suggestions){ // la réponse était encore dans le cache
 			metsEnPlace(valeur,suggestions)
 		}else{
 			callSuggestions(valeur) // appel distant
@@ -61,11 +61,11 @@ function mainLoop(){
 		_inputField.focus()
 	}
 	_oldInputFieldValue=_currentInputFieldValue;
-	setTimeout("mainLoop()",200); // la fonction se red�clenchera dans 200 ms
+	setTimeout("mainLoop()",200); // la fonction se redéclenchera dans 200 ms
 	return true
 }
 
-// echappe les caract�res sp�ciaux
+// echappe les caractères spéciaux
 function escapeURI(La){
 	if(encodeURIComponent) {
 		return encodeURIComponent(La);
@@ -75,7 +75,7 @@ function escapeURI(La){
 	}
 }
 
-var _xmlHttp = null;	//l'objet xmlHttpRequest utilis� pour contacter le serveur
+var _xmlHttp = null;	//l'objet xmlHttpRequest utilisé pour contacter le serveur
 
 function callSuggestions(valeur){
 	if(_xmlHttp&&_xmlHttp.readyState!=0){
@@ -83,7 +83,7 @@ function callSuggestions(valeur){
 	}
 	_xmlHttp=getXMLHTTP();
 	if(_xmlHttp){
-		//appel � l'url distante
+		//appel à l'url distante
 		_xmlHttp.open("GET",_adresseRecherche+"&debut="+valeur,true);
 		_xmlHttp.onreadystatechange=function() {
 			if(_xmlHttp.readyState==4&&_xmlHttp.responseXML) {
@@ -97,7 +97,7 @@ function callSuggestions(valeur){
 	}
 }
 
-// M�canisme de caching des r�ponses
+// Mécanisme de caching des réponses
 function cacheResults(debut,suggestions){
 	_resultCache[debut]=suggestions
 }
@@ -112,13 +112,13 @@ function traiteXmlSuggestions(xmlDoc) {
 	return optionsListe;
 }
 
-//ins�re une r�gle avec son nom
+//insère une règle avec son nom
 function insereCSS(nom,regle){
 	if (document.styleSheets) {
 		var I=document.styleSheets[0];
-		if(I.addRule){ // m�thode IE
+		if(I.addRule){ // méthode IE
 			I.addRule(nom,regle)
-		}else if(I.insertRule){ // m�thode DOM
+		}else if(I.insertRule){ // méthode DOM
 			I.insertRule(nom+" { "+regle+" }",I.cssRules.length)
 		}
 	}
@@ -137,12 +137,12 @@ function setStylePourElement(c,name){
 	c.className=name;
 }
 
-// calcule le d�calage � gauche
+// calcule le décalage à gauche
 function calculateOffsetLeft(r){
 	return calculateOffset(r,"offsetLeft")
 }
 
-// calcule le d�calage vertical
+// calcule le décalage vertical
 function calculateOffsetTop(r){
 	return calculateOffset(r,"offsetTop")
 }
@@ -220,11 +220,11 @@ var _lastKeyCode=null;
 
 // Handler pour le keydown du document
 var onKeyDownHandler=function(event){
-	// acc�s �v�nement compatible IE/Firefox
+	// accès évênement compatible IE/Firefox
 	if(!event&&window.event) {
 		event=window.event;
 	}
-	// on enregistre la touche ayant d�clench� l'evenement
+	// on enregistre la touche ayant déclenché l'evenement
 	if(event) {
 		_lastKeyCode=event.keyCode;
 	}
@@ -234,7 +234,7 @@ var _eventKeycode = null;
 
 // Handler pour le keyup de lu champ texte
 var onKeyUpHandler=function(event){
-	// acc� evenement compatible IE/Firefox
+	// accès evenement compatible IE/Firefox
 	if(!event&&window.event) {
 		event=window.event;
 	}
@@ -246,19 +246,19 @@ var onKeyUpHandler=function(event){
 	}
 	// taille de la selection
 	var N=rangeSize(_inputField);
-	// taille du texte avant la selection (selection = suggestion d'autocompl�tion)
+	// taille du texte avant la selection (selection = suggestion d'autocomplétion)
 	var v=beforeRangeSize(_inputField);
 	// contenu du champ texte
 	var V=_inputField.value;
 	if(_eventKeycode!=0){
 		if(N>0&&v!=-1) {
-		// on r�cup�re uniquement le champ texte tap� par l'utilisateur
+		// on récupère uniquement le champ texte tapé par l'utilisateur
 			V=V.substring(0,v);
 		}
-		// 13 = touche entr�e
+		// 13 = touche entrée
 		if(_eventKeycode==13||_eventKeycode==3){
 			var d=_inputField;
-			// on mets en place l'ensemble du champ texte en repoussant la s�lection
+			// on mets en place l'ensemble du champ texte en repoussant la sélection
 			if(_inputField.createTextRange){
 				var t=_inputField.createTextRange();
 				t.moveStart("character",_inputField.value.length);
@@ -267,7 +267,7 @@ var onKeyUpHandler=function(event){
 				_inputField.setSelectionRange(_inputField.value.length,_inputField.value.length)
 			}
 		} else {
-			// si on a pas pu agrandir le champ non selectionn� on le mets en place violemment.
+			// si on a pas pu agrandir le champ non selectionné on le mets en place violemment.
 			if(_inputField.value!=V) {
 				_inputField.value=V
 			}
@@ -275,17 +275,17 @@ var onKeyUpHandler=function(event){
 	}
 	// si la touche n'est ni haut, ni bas, on stocke la valeur utilisateur du champ
 	if(_eventKeycode!=40&&_eventKeycode!=38) {
-		// le champ courant n'est pas chang� si key Up ou key Down
+		// le champ courant n'est pas changé si key Up ou key Down
 		_currentInputFieldValue=V;
 	}
 	if(handleCursorUpDownEnter(_eventKeycode)&&_eventKeycode!=0) {
-		// si on a press� une touche autre que haut/bas/enter
+		// si on a pressé une touche autre que haut/bas/enter
 		PressAction();
 	}
 }
 
-// Change la suggestion selectionn�e
-// cette m�thode traite les touches haut, bas et enter
+// Change la suggestion selectionnée
+// cette méthode traite les touches haut, bas et enter
 function handleCursorUpDownEnter(eventCode){
 	if(eventCode==40){
 		highlightNewValue(_highlightedSuggestionIndex+1);
@@ -304,17 +304,17 @@ var _completeDivDivList = null;
 var _highlightedSuggestionIndex = -1;
 var _highlightedSuggestionDiv = null;
 
-// g�re une touche press�e autre que haut/bas/enter
+// gére une touche pressée autre que haut/bas/enter
 function PressAction(){
 	_highlightedSuggestionIndex=-1;
 	var suggestionList=_completeDiv.getElementsByTagName("div");
 	var suggestionLongueur=suggestionList.length;
-	// on stocke les valeurs pr�c�dentes
-	// nombre de possibilit�s de compl�tion
+	// on stocke les valeurs précédentes
+	// nombre de possibilités de complétion
 	_completeDivRows=suggestionLongueur;
-	// possibilit� de compl�tion
+	// possibilité de complétion
 	_completeDivDivList=suggestionList;
-	// si le champ est vide, on cache les propositions de compl�tion
+	// si le champ est vide, on cache les propositions de complétion
 	if(_currentInputFieldValue==""||suggestionLongueur==0){
 		hideCompleteDiv()
 	}else{
@@ -324,7 +324,7 @@ function PressAction(){
 	// si on a du texte sur lequel travailler
 	if(_currentInputFieldValue.length>0){
 		var indice;
-		// T vaut true si on a dans la liste de suggestions un mot commencant comme l'entr�e utilisateur
+		// T vaut true si on a dans la liste de suggestions un mot commencant comme l'entrée utilisateur
 		for(indice=0; indice<suggestionLongueur; indice++){
 			if(getSuggestion(suggestionList.item(indice)).toUpperCase().indexOf(_currentInputFieldValue.toUpperCase())==0) {
 				trouve=true;
@@ -332,11 +332,11 @@ function PressAction(){
 			}
 		}
 	}
-	// on d�s�lectionne toutes les suggestions
+	// on désélectionne toutes les suggestions
 	for(var i=0; i<suggestionLongueur; i++) {
 		setStylePourElement(suggestionList.item(i),"AutoCompleteDiv");
 	}
-	// si l'entr�e utilisateur (n) est le d�but d'une suggestion (n-1) on s�lectionne cette suggestion avant de continuer
+	// si l'entrée utilisateur (n) est le début d'une suggestion (n-1) on sélectionne cette suggestion avant de continuer
 	if(trouve){
 		_highlightedSuggestionIndex=indice;
 		_highlightedSuggestionDiv=suggestionList.item(_highlightedSuggestionIndex);
@@ -363,7 +363,7 @@ function PressAction(){
 		default:
 			break
 	}
-	// si on a une suggestion (n-1) s�lectionn�e
+	// si on a une suggestion (n-1) sélectionnée
 	if(!supprSelection&&_highlightedSuggestionDiv){
 		setStylePourElement(_highlightedSuggestionDiv,"AutoCompleteDivAct");
 		var z;
@@ -376,11 +376,11 @@ function PressAction(){
 			if(_inputField.value!=_currentInputFieldValue) {
 				return;
 			}
-			// si on peut cr�er des range dans le document
+			// si on peut créer des range dans le document
 			if(_inputField.createTextRange||_inputField.setSelectionRange) {
 				_inputField.value=z;
 			}
-			// on s�lectionne la fin de la suggestion
+			// on sélectionne la fin de la suggestion
 			if(_inputField.createTextRange){
 				var t=_inputField.createTextRange();
 				t.moveStart("character",_currentInputFieldValue.length);
@@ -390,15 +390,15 @@ function PressAction(){
 			}
 		}
 	}else{
-	// sinon, plus aucune suggestion de s�lectionn�e
+	// sinon, plus aucune suggestion de sélectionnée
 		_highlightedSuggestionIndex=-1;
 	}
 }
 
 var _cursorUpDownPressed = null;
 
-// permet le blur du champ texte apr�s que la touche haut/bas ai �t� press�e
-// le focus est r�p�t� apr�s traitement (via le timeout).
+// permet le blur du champ texte après que la touche haut/bas ai été pressée
+// le focus est répété après traitement (via le timeout).
 function blurThenGetFocus(){
 	_cursorUpDownPressed=true;
 	_inputField.blur();
@@ -406,7 +406,7 @@ function blurThenGetFocus(){
 	return
 }
 
-// taille de la s�lection dans le champ input
+// taille de la sélection dans le champ input
 function rangeSize(n){
 	var N=-1;
 	if(n.createTextRange){
@@ -418,7 +418,7 @@ function rangeSize(n){
 	return N
 }
 
-// taille du champ input non selectionn�
+// taille du champ input non selectionné
 function beforeRangeSize(n){
 	var v=0;
 	if(n.createTextRange){
@@ -433,7 +433,7 @@ function beforeRangeSize(n){
 	return v
 }
 
-// Place le curseur � la fin du champ
+// Place le curseur à la fin du champ
 function cursorAfterValue(n){
 	if(n.createTextRange){
 		var t=n.createTextRange();
@@ -445,7 +445,7 @@ function cursorAfterValue(n){
 }
 
 
-// Retourne la valeur de la possibilite (texte) contenu dans une div de possibilit�
+// Retourne la valeur de la possibilite (texte) contenu dans une div de possibilité
 function getSuggestion(uneDiv){
 	if(!uneDiv) {
 		return null;
@@ -453,7 +453,7 @@ function getSuggestion(uneDiv){
 	return trimCR(uneDiv.getElementsByTagName('span')[0].firstChild.data)
 }
 
-// supprime les caract�res retour chariot et line feed d'une chaine de caract�res
+// supprime les caractères retour chariot et line feed d'une chaine de caractères
 function trimCR(chaine){
 	for(var f=0,nChaine="",zb="\n\r"; f<chaine.length; f++) {
 		if (zb.indexOf(chaine.charAt(f))==-1) {
@@ -463,12 +463,12 @@ function trimCR(chaine){
 	return nChaine
 }
 
-// Cache compl�tement les choix de compl�tion
+// Cache complètement les choix de complétion
 function hideCompleteDiv(){
 	_completeDiv.style.visibility="hidden"
 }
 
-// Rends les choix de compl�tion visibles
+// Rends les choix de complétion visibles
 function showCompleteDiv(){
 	_completeDiv.style.visibility="visible";
 	setCompleteDivSize()
@@ -507,9 +507,9 @@ var onResizeHandler=function(event){
 // Handler de blur sur le champ texte
 var onBlurHandler=function(event){
 	if(!_cursorUpDownPressed){
-	// si le blur n'est pas caus� par la touche haut/bas
+	// si le blur n'est pas causé par la touche haut/bas
 		hideCompleteDiv();
-		// Si la derni�re touche press�e est tab, on passe au bouton de validation
+		// Si la dernière touche pressée est tab, on passe au bouton de validation
 		if(_lastKeyCode==9){
 			//_submitButton.focus();
 			_lastKeyCode=-1
@@ -518,13 +518,13 @@ var onBlurHandler=function(event){
 	_cursorUpDownPressed=false
 };
 
-// d�clench�e quand on clique sur une div contenant une possibilit�
+// déclenchée quand on clique sur une div contenant une possibilité
 var divOnMouseDown=function(){
 	_inputField.value=getSuggestion(this);
 	//_documentForm.submit()
 };
 
-// d�clench�e quand on passe sur une div de possibilit�. La div pr�c�dente est pass�e en style normal
+// déclenchée quand on passe sur une div de possibilité. La div précédente est passée en style normal
 var divOnMouseOver=function(){
 	if(_highlightedSuggestionDiv) {
 		setStylePourElement(_highlightedSuggestionDiv,"AutoCompleteDiv");
@@ -532,7 +532,7 @@ var divOnMouseOver=function(){
 	setStylePourElement(this,"AutoCompleteDivAct")
 };
 
-// d�clench�e quand la souris quitte une div de possibilit�. La div repasse a l'�tat normal
+// déclenchée quand la souris quitte une div de possibilité. La div repasse a l'état normal
 var divOnMouseOut = function(){
 	setStylePourElement(this,"AutoCompleteDiv");
 };

@@ -18,8 +18,8 @@ if (!isset($_SESSION['OCS']["ipdiscover"])){
 	//methode pour le calcul des droits
 	while ($list_methode[$i]){
 		require_once('methode/'.$list_methode[$i]);
-		//on garde les erreurs pr�sentes
-		//entre chaque m�thode
+		//on garde les erreurs présentes
+		//entre chaque méthode
 		/*if (isset($INFO)){
 			$tab_info[$list_methode[$i]]=$INFO;
 			unset($INFO);

@@ -10,11 +10,11 @@
 //====================================================================================
 
 /*
- * Page de fonction communes aux d�tails d'une machine 
+ * Page de fonction communes aux détails d'une machine 
  * 
  */
  
-//fonction de traitement de l'ID envoy�
+//fonction de traitement de l'ID envoyé
 function info($GET,$post_systemid){
 	global $l,$protectedPost;
 	//send post
@@ -48,7 +48,7 @@ function info($GET,$post_systemid){
 	//si le systemid de la machine existe
 	if (isset($GET['systemid']) and !isset($systemid))
 	$systemid = $GET['systemid'];
-	//probl�me sur l'id
+	//problème sur l'id
 	//echo $systemid;
 	if ($systemid == "" or !is_numeric($systemid))
 		return $l->g(837);

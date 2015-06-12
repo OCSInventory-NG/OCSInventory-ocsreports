@@ -90,7 +90,7 @@ foreach ($list_lbl as $key=>$value){
 	
 	
 }
-//par d�faut, on affiche les donn�es admininfo
+//par défaut, on affiche les données admininfo
 /*if (!isset($protectedGet['option'])){
 	$protectedGet['option']="cd_admininfo";
 }*/
@@ -123,7 +123,7 @@ $index_tab=0;
 $show_all=array();
 while ($list_plugins[$i]){
 	unset($valavail);
-	//v�rification de l'existance des donn�es
+	//vérification de l'existance des données
 	if (isset($list_avail[$list_plugins[$i]])){
 		$sql_avail="select count(*) from ".$list_avail[$list_plugins[$i]]." where SNMP_ID=".$systemid;
 		$resavail = mysqli_query( $sql_avail, $_SESSION['OCS']["readServer"]) or die(mysqli_error($_SESSION['OCS']["readServer"]));

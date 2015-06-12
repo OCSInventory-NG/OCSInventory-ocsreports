@@ -21,7 +21,7 @@ if($_SESSION['OCS']["lvluser"]==SADMIN){
 		 		  echo "<a href='recompose_paquet.php?id_pack=".$f."'>".$f."</a><br>";
 			}else{
 				if ($f == "info"){
-					//r�cup�ration du fichier info
+					//récupération du fichier info
 					$filename = $rep.'/'.$f;
 					$handle = fopen ($filename, "r");
 					$info = fread ($handle, filesize ($filename));
@@ -29,9 +29,9 @@ if($_SESSION['OCS']["lvluser"]==SADMIN){
 					//surpression des balises
 					$info=substr($info, 1);   
 					$info=substr($info,0, -1);
-					//r�cupration par cat�gories du fichier
+					//récupration par catégories du fichier
 					$info_traite=explode(" ",$info);
-					//r�cup�ration du nom du fichier
+					//récupération du nom du fichier
 					$name=$info_traite[10];
 					if (substr($name,0,4) != 'NAME'){
 						"<font color=red>PROBLEME AVEC LE NOM DU FICHIER</font><br>";
@@ -44,7 +44,7 @@ if($_SESSION['OCS']["lvluser"]==SADMIN){
 					$name=substr($name,6);
 					$name=substr($name,0, -1);
 					$name=str_replace(".", "_", $name).".zip";
-					//r�cup�ration du nombre de fragments
+					//récupération du nombre de fragments
 					$nb_frag=$info_traite[6];
 					$nb_frag=substr($nb_frag,7);
 					$nb_frag=substr($nb_frag,0,-1);

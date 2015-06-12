@@ -62,7 +62,7 @@ if (isset($protectedPost['VALID_GROUP'])){
 			$nb_mach=remove_of_group($protectedPost['group_list'],$list_id);
 			$msg_success=$l->g(971)."<br>".$l->g(972);	
 		}
-		//Cr�ation d'un nouveau groupe
+		//Création d'un nouveau groupe
 		if ($protectedPost['NEW_RAZ'] == "NEW"){
 			$result=creat_group ($protectedPost['NAME_GROUP'],$protectedPost['LBL_GROUP'],$list_id,$_SESSION['OCS']['SEARCH_SQL_GROUP'],$group_type);
 			if ($result['RESULT'] == "ERROR")
@@ -91,7 +91,7 @@ if (isset($protectedPost['VALID_GROUP'])){
 /*********************************************CALCUL DES CHAMPS A AFFICHER*************************************/
 if ($list_id){
 
-//d�finition des onglets
+//définition des onglets
 //for all
 $def_onglets[$l->g(809)]=$l->g(809); //GROUPES STATIQUES
 }

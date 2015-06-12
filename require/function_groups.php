@@ -14,7 +14,7 @@
 //$group_type = STATIC,DYNAMIC,SERVER
 //return tableau [id]=group_name
 function all_groups($group_type){
-	//r�cup�ration des groupes demand�s
+	//récupération des groupes demandés
 	if ($group_type == "SERVER"){
 		$reqGetId = "SELECT id,name FROM hardware
 					     WHERE deviceid = '_DOWNLOADGROUP_'";	
@@ -144,11 +144,11 @@ function add_computers_cache($list_id,$groupid,$static){
 function generate_xml($req){
 	//si il exite une requete
 	if (isset($req[0])){
-		//cr�ation du d�but du xml
+		//création du début du xml
 		$xml="<xmldef>";
 		//echo "xml=".$xml;
 		$i=0;
-		//concat�nation des diff�rentes requetes
+		//concaténation des différentes requetes
 		while (isset($req[$i])){
 			$xml.="<REQUEST>".clean($req[$i])."</REQUEST>";
 			$i++;

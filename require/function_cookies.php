@@ -9,7 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-//fonction qui permet de g�rer les colonnes par cookies
+//fonction qui permet de gérer les colonnes par cookies
 /*function cookies_tab()
 {
 	//si la variable de session des tableaux n'existe pas, 

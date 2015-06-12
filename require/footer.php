@@ -9,7 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-//pour le d�bug
+//pour le débug
 if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 	/*echo "<script language=javascript>
 			function report_id(){				

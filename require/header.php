@@ -309,7 +309,7 @@ if (isset($protectedPost['LANG']) and $protectedPost['LANG']!= ''){
 	$_SESSION['OCS']["LANGUAGE_FILE"]=new language($_SESSION['OCS']['LANGUAGE']);
 }
 //unset($_SESSION['OCS']['LANGUAGE']);
-//si la langue par d�faut n'existe pas, on r�cup�rer le cookie
+//si la langue par défaut n'existe pas, on récupèrer le cookie
 if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
 	if (isset($_COOKIE['LANG']))
 	$_SESSION['OCS']['LANGUAGE']=$_COOKIE['LANG'];

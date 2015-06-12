@@ -10,7 +10,7 @@
 //====================================================================================
 
 /*
- * Fichier de fonctions pour l'aide au d�bug et au dev
+ * Fichier de fonctions pour l'aide au débug et au dev
  * 
  * 
  */

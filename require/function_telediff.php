@@ -488,23 +488,23 @@ function tps_estimated($val_details)
 	looking4config();
 	if ($val_details['priority'] == 0)
 	$val_details['priority']=1;
-	//dur�e compl�te d'un cycle en seconde
+	//durée complète d'un cycle en seconde
 	$tps_cycle=$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY']*$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'];
-	//nbre de t�l�chargement de fragment par cycle
+	//nbre de téléchargement de fragment par cycle
 	$nb_frag_by_cycle=floor($_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']/$val_details['priority']);
-	//nombre de cycles necessaires pour le t�l�chargement complet
+	//nombre de cycles necessaires pour le téléchargement complet
 	$nb_cycle_for_download=$val_details['fragments']/$nb_frag_by_cycle;
 	//temps dans le cycle
 	$tps_cycle_for_download=$nb_cycle_for_download*$tps_cycle;
 	//temps entre chaque fragment pour tous les cycles
 	$tps_frag_latency=($nb_frag_by_cycle*$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_FRAG_LATENCY'])*$nb_cycle_for_download;
-	//temps entre chaque p�riode
+	//temps entre chaque période
 	$tps_period_latency=$_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LATENCY']*$nb_cycle_for_download;
-	//ajout de la vitesse de t�l�chargement
+	//ajout de la vitesse de téléchargement
 	$download_speed=25000;
 	$tps_download_speed=$val_details['size']/$download_speed;
 	
-	//temps total de t�l�chargement:
+	//temps total de téléchargement:
 	$tps_total=$tps_cycle_for_download
 				+$tps_frag_latency
 				+$tps_period_latency

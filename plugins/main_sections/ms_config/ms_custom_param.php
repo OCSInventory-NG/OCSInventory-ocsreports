@@ -21,7 +21,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 	
 	$def_onglets['SERV']=$l->g(499); //Serveur
 	$def_onglets['INV']=$l->g(728); //Inventaire
-	$def_onglets['TELE']=$l->g(512); //T�l�d�ploiement
+	$def_onglets['TELE']=$l->g(512); //Télédéploiement
 	$def_onglets['RSX']=$l->g(1198); //ipdiscover
 	
 

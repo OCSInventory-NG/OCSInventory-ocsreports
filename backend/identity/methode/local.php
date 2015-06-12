@@ -9,12 +9,12 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-/* page de r�cup�ration en local des droits
+/* page de récupération en local des droits
  * et des tags sur lesquels l'utilisateur
  * a des droits
  * 
  * on doit renvoyer un tableau array('accesslvl'=>%%,'tag_show'=>array(%,%,%,%,%...))
- * si une erreur est rencontr�e, on retourne un code erreur
+ * si une erreur est rencontrée, on retourne un code erreur
  * 
  */
 	
@@ -45,7 +45,7 @@ if (isset($rowOp->accesslvl)) {
 	
 	$restriction = $profile->getRestriction('GUI');
 	
-	//Si l'utilisateur a des droits limit�s
+	//Si l'utilisateur a des droits limités
 	//on va rechercher les tags sur lesquels il a des droits
 	if ($restriction == 'YES') {
 		$sql="select tag from tags where login='%s'";

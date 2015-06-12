@@ -37,7 +37,7 @@ function desactive_mach_serv($list_id,$packid){
 
 
 //fonction qui permet de savoir 
-//le nombre de serveur d�j� dans un groupe
+//le nombre de serveur déjà dans un groupe
 //et dans lesquels ils se trouvent
 function exist_server($list_id){
 	global $l;
@@ -206,7 +206,7 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 	$arg_infoServ=$fileid;
 	//echo $sql_infoServ;
 	$res_infoServ = mysql2_query_secure( $sql_infoServ, $_SESSION['OCS']["readServer"],$arg_infoServ);	
-	//cr�ation de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
+	//création de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
 	while( $val_infoServ = mysqli_fetch_array($res_infoServ)) {
 		$list_serverId[$val_infoServ['server_id']] = $val_infoServ['server_id'];
 		$tab_Server[$val_infoServ['server_id']]=$val_infoServ['id'];
@@ -292,10 +292,10 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 		$arg=mysql2_prepare($sql_verif,$arg_verif,$verif_idMach);	
 		$arg['SQL'].=" and d.name='DOWNLOAD'";
 		$res_verif = mysql2_query_secure( $arg['SQL'], $_SESSION['OCS']["readServer"],$arg['ARG']);
-		//recup�ration des machines en doublon
+		//recupération des machines en doublon
 		while( $val_verif = mysqli_fetch_array($res_verif)) {	
 	
-			//cr�ation du tableau de doublon
+			//création du tableau de doublon
 			$exist[$val_verif['hardware_id']]=$val_verif['hardware_id'];
 			
 			//suppression des doublons
