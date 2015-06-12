@@ -41,7 +41,7 @@ $def_onglets['CAT']=$l->g(1027); //Categories
 $def_onglets['NEW']=$l->g(1028); //nouveau logiciels
 $def_onglets['IGNORED']=$l->g(1029); //ignor.
 $def_onglets['UNCHANGED']=$l->g(1030); //unchanged
-//d�fault => first onglet
+//défault => first onglet
 if ($protectedPost['onglet'] == "")
 $protectedPost['onglet']="CAT";
 //reset search
@@ -296,7 +296,7 @@ if (isset($querydico)){
 echo "</td></tr>";
 $search=show_modif(stripslashes($protectedPost['search']),"search",'0');
 $trans= "<input name='all_item' id='all_item' type='checkbox' ".(isset($protectedPost['all_item'])? " checked ": "").">".$l->g(384) . " ";
-//r�cup�ration de toutes les cat�gories
+//récupération de toutes les catégories
 $list_categories['IGNORED']="IGNORED";
 $list_categories['UNCHANGED']="UNCHANGED";
 $sql_list_categories="select distinct(formatted) name from dico_soft where formatted!=extracted order by formatted";
@@ -304,7 +304,7 @@ $result_list_categories = mysqli_query($_SESSION['OCS']["readServer"], $sql_list
 while($item_list_categories = mysqli_fetch_object($result_list_categories)){
 	$list_categories[$item_list_categories ->name]=$item_list_categories ->name;	
 }
-//d�finition de toutes les options possible
+//définition de toutes les options possibles
 $choix_affect['NEW_CAT']=$l->g(385);
 $choix_affect['EXIST_CAT']=$l->g(387);
 $trans.=show_modif($choix_affect,"AFFECT_TYPE",'2',$form_name);

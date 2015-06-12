@@ -169,7 +169,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 		
 		if(($protectedPost['onglet'] == 'MACH' and $protectedPost['DWL_OPT'] != '') 
 			or ($protectedPost['onglet'] == 'SERV_GROUP' and $protectedPost['rule_choise'] != '')){
-				//recherche de toutes les r�gles pour les serveurs de redistribution
+				//recherche de toutes les règles pour les serveurs de redistribution
 			$list_fields= array('FILE_ID'=>'e.FILEID',
 									'INFO_LOC'=>'e.INFO_LOC',
 									'CERT_FILE'=>'e.CERT_FILE',

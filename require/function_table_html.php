@@ -181,7 +181,7 @@ function xml_decode( $txt ) {
 }
 
 
-//fonction qui permet d'afficher un tableau dynamique de donn�es
+//fonction qui permet d'afficher un tableau dynamique de données
 /*
  * Columns : Each available column of the table
  * $columns = array {  
@@ -752,17 +752,17 @@ function tab_entete_fixe($entete_colonne,$data,$titre,$width,$height,$lien=array
 
 //variable pour la fonction champsform
 $num_lig=0;
-/* fonction li�e � show_modif
- * qui permet de cr�er une ligne dans le tableau de modification/ajout
- * $title = titre � l'affichage du champ
- * $value_default = - pour un champ text ou input, la valeur par d�faut du champ.
+/* fonction liée à show_modif
+ * qui permet de créer une ligne dans le tableau de modification/ajout
+ * $title = titre à l'affichage du champ
+ * $value_default = - pour un champ text ou input, la valeur par défaut du champ.
  * 					- pour un champ select, liste des valeurs du champ
- * $input_name = nom du champ que l'on va r�cup�rer en $protectedPost
+ * $input_name = nom du champ que l'on va récupérer en $protectedPost
  * $input_type = 0 : <input type='text'>
  * 				 1 : <textarea>
  * 				 2 : <select><option>
- * $donnees = tableau qui contient tous les champs � afficher � la suite
- * $nom_form = si un select doit effectuer un reload, on y met le nom du formulaire � reload
+ * $donnees = tableau qui contient tous les champs à afficher à la suite
+ * $nom_form = si un select doit effectuer un reload, on y met le nom du formulaire à reload
 */
 function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom_form=''){
 	global $num_lig;
@@ -778,13 +778,13 @@ function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom
 }
 
 /*
- * fonction li�e � tab_modif_values qui permet d'afficher le champ d�fini avec la fonction champsform
+ * fonction liée à tab_modif_values qui permet d'afficher le champ défini avec la fonction champsform
  * $name = nom du champ
- * $input_name = nom du champ r�cup�r� dans le $protectedPost
+ * $input_name = nom du champ récupéré dans le $protectedPost
  * $input_type = 0 : <input type='text'>
  * 				 1 : <textarea>
  * 				 2 : <select><option>
- * $input_reload = si un select doit effectuer un reload, on y met le nom du formulaire � reload
+ * $input_reload = si un select doit effectuer un reload, on y met le nom du formulaire à reload
  * 
  */
 function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES",'COLS'=>30,'ROWS'=>5))
@@ -1265,7 +1265,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 		$def_onglets is array like :  	$def_onglets[$l->g(499)]=$l->g(499); //Serveur
 										$def_onglets[$l->g(728)]=$l->g(728); //Inventaire
 										$def_onglets[$l->g(312)]=$l->g(312); //IP Discover
-										$def_onglets[$l->g(512)]=$l->g(512); //T�l�d�ploiement
+										$def_onglets[$l->g(512)]=$l->g(512); //Télédéploiement
 										$def_onglets[$l->g(628)]=$l->g(628); //Serveur de redistribution 
 		
 	behing this function put this lign:
@@ -1332,7 +1332,7 @@ function show_tabs($def_onglets,$form_name,$post_name,$ligne)
 		$def_onglets is array like :  	$def_onglets[$l->g(499)]=$l->g(499); //Serveur
 										$def_onglets[$l->g(728)]=$l->g(728); //Inventaire
 										$def_onglets[$l->g(312)]=$l->g(312); //IP Discover
-										$def_onglets[$l->g(512)]=$l->g(512); //T�l�d�ploiement
+										$def_onglets[$l->g(512)]=$l->g(512); //Télédéploiement
 										$def_onglets[$l->g(628)]=$l->g(628); //Serveur de redistribution 
 		
 	behing this function put this lign:
@@ -2034,8 +2034,8 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				$arg=$_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key];
 			if ($table_name == "TAB_MULTICRITERE"){
 				$sql.=" and hardware_id in (".implode(',',$_SESSION['OCS']['ID_REQ']).") group by hardware_id ";
-				//ajout du group by pour r�gler le probl�me des r�sultats multiples sur une requete
-				//on affiche juste le premier crit�re qui match
+				//ajout du group by pour régler le problème des résultats multiples sur une requete
+				//on affiche juste le premier critère qui match
 				$result = mysqli_query($_SESSION['OCS']["readServer"],$sql);
 			}else{
 				//add sort on column if need it
@@ -2150,7 +2150,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 
 
 
-//fonction qui permet de g�rer les donn�es � afficher dans le tableau
+//fonction qui permet de gérer les données à afficher dans le tableau
 function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name){
 	global $l,$protectedPost,$pages_refs;
 	
@@ -2209,7 +2209,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					$sens="ASC";
 					
 				$affich='OK';
-				//on n'affiche pas de lien sur les colonnes non pr�sentes dans la requete
+				//on n'affiche pas de lien sur les colonnes non présentes dans la requete
 				if (isset($tab_options['NO_TRI'][$key]))					
 					$lien='KO';	
 				else
@@ -2299,8 +2299,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}
 				}
 				
-				//si un lien doit �tre mis sur le champ
-				//l'option $tab_options['NO_LIEN_CHAMP'] emp�che de mettre un lien sur certaines
+				//si un lien doit être mis sur le champ
+				//l'option $tab_options['NO_LIEN_CHAMP'] empêche de mettre un lien sur certaines
 				//valeurs du champs
 				//exemple, si vous ne voulez pas mettre un lien si le champ est 0,
 				//$tab_options['NO_LIEN_CHAMP'][$key] = array(0);

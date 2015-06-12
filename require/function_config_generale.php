@@ -77,7 +77,7 @@
 
  	echo "<TR height=50><td width=50% align='center' class='mvt_tab'>".$name;
 	echo "<br><font size=1 color=green><i>".$lbl."</i></font></td><td align='left' width=80% class='mvt_bordure'>";
-	//si on est dans un type bouton ou boite � cocher
+	//si on est dans un type bouton ou boite à cocher
  	if ($type=='radio' or $type=='checkbox'){
  		if ($data_hidden != ''){
  			//javascript for hidden or show an html DIV 
@@ -87,7 +87,7 @@
 			}	
 			</script>"; 			
  		}
- 		//si le champ hidden est celui qui doit �tre affich� en entr�e, il faut afficher le champ
+ 		//si le champ hidden est celui qui doit être affiché en entrée, il faut afficher le champ
  		//echo "<br>hidden ==".$data_hidden['HIDDEN']."      value ==".$data['VALUE'];
  		if (isset($data_hidden['HIDDEN']) && $data_hidden['HIDDEN']==$data['VALUE'])
  		$display="block";
@@ -97,7 +97,7 @@
  		$i=1;
  		//pour toutes les valeurs
  		foreach ($data as $key=>$value){
- 			//sauf la valeur � afficher
+ 			//sauf la valeur à afficher
  			if ($key !== 'VALUE' and $key !== 'CHECK' and $key !== 'JAVASCRIPT'){
   				echo "<input type='".$type."' value='".$key."' id='".$name."' ";
  				if ($readonly != '')
@@ -108,7 +108,7 @@
  					$i++;
  				}
  				echo "'";
- 				//si un champ hidden est demand�, on g�re l'affichage par javascript
+ 				//si un champ hidden est demandé, on gère l'affichage par javascript
 	 			if ($data_hidden != '' and  $data_hidden['HIDDEN'] == $key){
 	 				echo "OnClick=\"active('".$name."_div',1);\"";
 	 			}elseif ($data_hidden != '' and  $data_hidden['HIDDEN'] != key){
@@ -296,7 +296,7 @@ function option_conf_activate($value){
 function update_default_value($POST){
 	global $l;
 	$i=0;
-	//tableau des champs ou il faut juste mettre � jour le tvalue
+	//tableau des champs ou il faut juste mettre à jour le tvalue
 	$array_simple_tvalue=array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT',
 							   'OCS_FILES_FORMAT','OCS_FILES_PATH',
 							   'CONEX_LDAP_SERVEUR','CONEX_LDAP_PORT','CONEX_DN_BASE_LDAP',
@@ -308,7 +308,7 @@ function update_default_value($POST){
 							   'CONEX_LDAP_CHECK_FIELD2_ROLE',
                                'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
                                'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','EXPORT_SEP','WOL_PORT');
-	//tableau des champs ou il faut juste mettre � jour le ivalue						   
+	//tableau des champs ou il faut juste mettre à jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
 						'PROLOG_FREQ','LOCK_REUSE_TIME','TRACE_DELETED','SESSION_VALIDITY_TIME',
@@ -320,18 +320,18 @@ function update_default_value($POST){
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL',
 						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE',
 						'INVENTORY_CACHE_ENABLED','USE_NEW_SOFT_TABLES');
-	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour ivalue					
+	//tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
 								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','DOWNLOAD_URI_FRAG'=>'DOWNLOAD_URI_FRAG_edit',
 								   'DOWNLOAD_URI_INFO'=>'DOWNLOAD_URI_INFO_edit',
 								   'LOG_SCRIPT'=>'LOG_SCRIPT_edit','CONF_PROFILS_DIR'=>'CONF_PROFILS_DIR_edit',
  				  				   'OLD_CONF_DIR'=>'OLD_CONF_DIR_edit','LOCAL_URI_SERVER'=>'LOCAL_URI_SERVER_edit','WOL_BIOS_PASSWD'=>'WOL_BIOS_PASSWD_edit');
-	//tableau des champs ou il faut interpr�ter la valeur retourner et mettre � jour tvalue		
+	//tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue		
 	$array_interprete_ivalue=array('FREQUENCY'=>'FREQUENCY_edit','IPDISCOVER'=>'IPDISCOVER_edit','INVENTORY_VALIDITY'=>'INVENTORY_VALIDITY_edit');
 	
 	
-	//recherche des valeurs par d�faut
+	//recherche des valeurs par défaut
 	$sql_exist=" select NAME,ivalue,tvalue from config ";
 	$result_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"]);
 	while($value_exist=mysqli_fetch_array($result_exist)) {
@@ -403,23 +403,23 @@ function update_default_value($POST){
 }
 
 function auto_duplicate_lvl_poids($value,$entree_sortie){ 
-	//d�finition du poids des auto_duplicate_lvl
+	//définition du poids des auto_duplicate_lvl
  	$poids['HOSTNAME']=1;
  	$poids['SERIAL']=2;
  	$poids['MACADDRESS']=4;
  	$poids['MODEL']=8;	
  	$poids['UUID']=16;	
  	$poids['ASSETTAG']=32;
- 	//si on veut les cases coch�es par rapport � un chiffre
+ 	//si on veut les cases cochées par rapport à un chiffre
  	if ($entree_sortie == 1){
- 		//gestion des poids pour connaitre les cases coch�es.
+ 		//gestion des poids pour connaitre les cases cochées.
  	//ex: si AUTO_DUPLICATE_LVL == 7 on a les cases HOSTNAME (de poids 1), SERIAL (de poids 2) et MACADDRESS (de poids 4) 
- 	//coch�es (1+2+4=7)
+ 	//cochées (1+2+4=7)
  		foreach ($poids as $k=>$v){
  			if ($value & $v)
  			$check[$k]=$k;
  		}
- 	}//si on veut le chiffre par rapport a la case coch�e
+ 	}//si on veut le chiffre par rapport a la case cochée
  	else{
  		$check=0;
  		foreach ($poids as $k=>$v){
@@ -587,7 +587,7 @@ function pagegroups($form_name){
 				  'SESSION_VALIDITY_TIME'=>'SESSION_VALIDITY_TIME');
  	$values=look_config_default_values($champs);
  	if (isset($champs['AUTO_DUPLICATE_LVL']))
- 	//on utilise la fonction pour conna�tre les cases coch�es correspondantes au chiffre en base de AUTO_DUPLICATE_LVL
+ 	//on utilise la fonction pour connaître les cases cochées correspondantes au chiffre en base de AUTO_DUPLICATE_LVL
  	$check=auto_duplicate_lvl_poids($values['ivalue']['AUTO_DUPLICATE_LVL'],1);
   	debut_tab();
 	ligne('LOGLEVEL',$l->g(416),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOGLEVEL']));
@@ -623,7 +623,7 @@ function pagegroups($form_name){
 	$values=look_config_default_values($champs);
 	if (isset($champs['INVENTORY_VALIDITY'])){
  		$validity=$values['ivalue']['INVENTORY_VALIDITY'];
- 		//gestion des diff�rentes valeurs de l'ipdiscover
+ 		//gestion des différentes valeurs de l'ipdiscover
  		if ($values['ivalue']['INVENTORY_VALIDITY'] != 0)
  		$values['ivalue']['INVENTORY_VALIDITY']='ON';
  		else
@@ -671,7 +671,7 @@ function pagegroups($form_name){
  	$values=look_config_default_values($champs);
  	if (isset($champs['IPDISCOVER'])){
  		$ipdiscover=$values['ivalue']['IPDISCOVER'];
- 		//gestion des diff�rentes valeurs de l'ipdiscover
+ 		//gestion des différentes valeurs de l'ipdiscover
  		if ($values['ivalue']['IPDISCOVER'] != 0)
  		$values['ivalue']['IPDISCOVER']='ON';
  		else

@@ -98,7 +98,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	$tab_options['LBL_POPUP']['SUP']='NAME';
 	$tab_options['LBL']['SUP']=$l->g(122);
 }
-//changement de nom � l'affichage des champs
+//changement de nom à l'affichage des champs
 $tab_options['LBL']['CHECK']=$l->g(52);
 $tab_options['LBL']['GROUP_NAME']=$l->g(49);
 
@@ -139,17 +139,17 @@ if ($protectedPost['onglet'] == "SERV"){
 $querygroup.=" group by h.ID";
 $result = mysql2_query_secure($sql_nb_mach, $_SESSION['OCS']["readServer"]) ;
 while($item = mysqli_fetch_object($result)){
-	//on force les valeurs du champ "nombre" � l'affichage
+	//on force les valeurs du champ "nombre" à l'affichage
 	$tab_options['VALUE']['NBRE'][$item -> group_id]=$item -> nb;
 	$_SESSION['OCS']['VALUE_FIXED'][$tab_options['table_name']]['NBRE'][$item -> group_id]=$item -> nb;
 }
 	
-//Modif ajout�e pour la prise en compte 
-//du chiffre � rajouter dans la colonne de calcul
+//Modif ajoutée pour la prise en compte 
+//du chiffre à rajouter dans la colonne de calcul
 //quand on a un seul groupe et qu'aucune machine n'est dedant.
 if (!isset($tab_options['VALUE']['NBRE']))
 $tab_options['VALUE']['NBRE'][]=0;
-//on recherche les groupes visible pour cocher la checkbox � l'affichage
+//on recherche les groupes visible pour cocher la checkbox à l'affichage
 if ($protectedPost['onglet'] == "STAT"){
 	$sql="select id from hardware where workgroup='GROUP_4_ALL'";
 	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
@@ -157,7 +157,7 @@ if ($protectedPost['onglet'] == "STAT"){
 		$protectedPost['check'.$item ->id]="check";
 	}
 }
-//on ajoute un javascript lorsque l'on clic sur la visibilit� du groupe pour tous
+//on ajoute un javascript lorsque l'on clic sur la visibilité du groupe pour tous
 $tab_options['JAVA']['CHECK']['NAME']="NAME";
 $tab_options['JAVA']['CHECK']['QUESTION']=$l->g(811);
 $tab_options['FILTRE']=array('NAME'=>$l->g(679),'DESCRIPTION'=>$l->g(53));

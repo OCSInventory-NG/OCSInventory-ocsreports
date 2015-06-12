@@ -35,7 +35,7 @@ $protectedPost['onglet']=1;
 $tab_options=$protectedPost;
 
 
- //d�finition des onglets
+ //définition des onglets
 $data_on[1]=$l->g(95);
 $data_on[2]=$l->g(36);
 $data_on[3]=$l->g(2005);

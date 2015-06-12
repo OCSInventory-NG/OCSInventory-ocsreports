@@ -177,7 +177,7 @@ echo $tdhd.$l->g(615).$tdhf."<td  align='left' width='20%' colspan='3'>";
 if( ! $pureStat  ){
 	echo $item->REQUEST;
 
-	//affichage des requetes qui ont form� ce groupe
+	//affichage des requetes qui ont formé ce groupe
 	if ($item->XMLDEF != ""){
 		$tab_list_sql=regeneration_sql($item->XMLDEF);
 		$i=1;
@@ -499,7 +499,7 @@ function print_perso($systemid) {
 	echo open_form($form_name);				
 		echo "<table BORDER='0' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
-	//echo "<tr><td>&nbsp;&nbsp;</td> $td1 "."Libell�"." </td> $td1 "."Valeur"." </td><td>&nbsp;</td></tr>";		
+	//echo "<tr><td>&nbsp;&nbsp;</td> $td1 "."Libellé"." </td> $td1 "."Valeur"." </td><td>&nbsp;</td></tr>";		
 	while($item=mysqli_fetch_array($resultDetails,MYSQL_ASSOC)) {
 		$optPerso[ $item["NAME"] ][ "IVALUE" ] = $item["IVALUE"];
 		$optPerso[ $item["NAME"] ][ "TVALUE" ] = $item["TVALUE"];

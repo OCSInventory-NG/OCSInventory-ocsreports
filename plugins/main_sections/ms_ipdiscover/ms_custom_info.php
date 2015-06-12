@@ -24,7 +24,7 @@ $tab_options=$protectedPost;
 
 //$ban_head='no';
 //$no_error='YES';
-//recherche de la personne connect�e
+//recherche de la personne connectée
 if (isset($_SESSION['OCS']['TRUE_USER']))
 $user=$_SESSION['OCS']['TRUE_USER'];
 else
@@ -72,7 +72,7 @@ if (isset($protectedPost['Valid_modif'])){
 //formulaire de saisie de l'identification de l'adresse mac
 if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	
-	//cas d'une modification de la donn�e d�j� saisie
+	//cas d'une modification de la donnée déjà saisie
 	if ($protectedGet['prov'] == "ident" and !isset($protectedPost['COMMENT'])){
 		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='%s'";
 		$arg=$protectedPost['MODIF'];
@@ -86,7 +86,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 	}
 	$tab_hidden['USER_ENTER']=$protectedPost['USER'];	
 	$tab_hidden['MODIF_ID']=$protectedPost['MODIF_ID'];	
-	//si on est dans le cas d'une modif, on affiche le login qui a saisi la donn�e
+	//si on est dans le cas d'une modif, on affiche le login qui a saisi la donnée
 	if ($protectedPost['MODIF_ID'] != ''){
 		$tab_typ_champ[3]['DEFAULT_VALUE']=$protectedPost['USER'];
 		$tab_typ_champ[3]['INPUT_NAME']="USER";
@@ -127,7 +127,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 		'title' => $title
 	));	
 }
-else{ //affichage des p�riph�riques
+else{ //affichage des périphériques
 	if (!(isset($protectedPost["pcparpage"])))
 		 $protectedPost["pcparpage"]=5;
 	if (isset($protectedGet['value'])){
