@@ -62,7 +62,7 @@ else{
 			$arg=array($systemid,"sysdate()",$_SESSION['OCS']["loggeduser"],$protectedPost['NOTE'],"ADD_NOTE_BY_USER");
 			
 			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,'ADD_NOTE_BY_USER');
-			//reg�n�ration du cache
+			//regénération du cache
 			$tab_options['CACHE']='RESET';			
 		}elseif (trim($protectedPost['NOTE_MODIF']) != '' and isset($protectedPost['NOTE_MODIF'])){
 			$sql="update itmgmt_comments set COMMENTS='%s'";
@@ -75,7 +75,7 @@ else{
 			array_push($arg,$protectedPost['ID_MODIF']);
 			$lbl_log.= "  Old Comments=".$protectedPost['OLD_COMMENTS'];
 			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,'UPDATE_NOTE');
-			//reg�n�ration du cache
+			//regénération du cache
 			$tab_options['CACHE']='RESET';				
 
 		}		
