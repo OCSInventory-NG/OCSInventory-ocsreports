@@ -8,6 +8,10 @@ if (!function_exists('rrmdir')) {
 	require 'functions_delete.php';
 }
 
+if (!function_exists('exec_plugin_soap_client')) {
+	require 'functions_webservices.php';
+}
+
 require 'functions_check.php';
 
 // Look for the plugin download directory or create it
@@ -28,7 +32,12 @@ check($forCheck);
 
 foreach ($forCheck as $value){
 	mv_computer_detail($value);
-	mv_server_side($value);
+	$result = mv_server_side($value);
+	
+	if($result){
+		exec_plugin_soap_client($value, 1);
+	}
+	
 }
 
 ?>

@@ -125,6 +125,10 @@ function mv_computer_detail($name){
 	
 }
 
+/**
+ * This function create a plugin archive for the server side part of a plugin which contain the map.pm
+ * This part will be downloaded and installed by the communication server.
+ */
 function mv_server_side($name){
 	
 	$dir = MAIN_SECTIONS_DIR."ms_".$name."/APACHE/" ;
@@ -147,6 +151,10 @@ function mv_server_side($name){
 		$archive->close();
 		rrmdir($dir);
 		
+		return true;
+	}
+	else{
+		return false;
 	}
 	
 }

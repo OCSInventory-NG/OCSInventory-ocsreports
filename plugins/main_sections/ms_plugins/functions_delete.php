@@ -25,12 +25,18 @@ function rrmdir($dir) {
  */
 function delete_plugin($pluginid){
 	
+	global $l;
+	
 	$conn = new PDO('mysql:host='.SERVER_WRITE.';dbname='.DB_NAME.'', COMPTE_BASE, PSWD_BASE);
 	$query = $conn->query("SELECT * FROM `plugins` WHERE id = '".$pluginid."'");
 	$anwser = $query->fetch();
 	
 	if (!class_exists('plugins')) {
 		require 'plugins.class.php';
+	}
+	
+	if (!function_exists('exec_plugin_soap_client')) {
+		require 'functions_webservices.php';
 	}
 	
 	require (MAIN_SECTIONS_DIR."ms_".$anwser['name']."/install.php");
@@ -43,6 +49,7 @@ function delete_plugin($pluginid){
 	
 	if(file_exists(PLUGINS_SRV_SIDE.$anwser['name'].".zip")){
 		unlink(PLUGINS_SRV_SIDE.$anwser['name'].".zip");
+		exec_plugin_soap_client($anwser['name'], 0);
 	}
 	
 	$conn->query("DELETE FROM `".DB_NAME."`.`plugins` WHERE `plugins`.`id` = ".$pluginid." ");
