@@ -75,7 +75,7 @@ class plugins{
 
 				if($value['id'] == "cd_".$name){
 					
-					var_dump($value['id']);
+					//var_dump($value['id']);
 					$dom=dom_import_simplexml($value);
 					$dom->parentNode->removeChild($dom);
 					
