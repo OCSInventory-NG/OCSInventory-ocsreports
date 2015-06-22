@@ -307,7 +307,7 @@ function update_default_value($POST){
                                'CONEX_LDAP_CHECK_FIELD2_NAME', 'CONEX_LDAP_CHECK_FIELD2_VALUE',
 							   'CONEX_LDAP_CHECK_FIELD2_ROLE',
                                'IT_SET_NAME_TEST','IT_SET_NAME_LIMIT','IT_SET_TAG_NAME',
-                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','EXPORT_SEP','WOL_PORT');
+                               'IT_SET_NIV_CREAT','IT_SET_NIV_TEST','IT_SET_NIV_REST','IT_SET_NIV_TOTAL','EXPORT_SEP','WOL_PORT','OCS_SERVER_ADDRESS');
 	//tableau des champs ou il faut juste mettre à jour le ivalue						   
 	$array_simple_ivalue=array('INVENTORY_DIFF','INVENTORY_TRANSACTION','INVENTORY_WRITE_DIFF',
 						'INVENTORY_SESSION_ONLY','INVENTORY_CACHE_REVALIDATE','LOGLEVEL',
@@ -832,6 +832,19 @@ function pagegroups($form_name){
 	ligne('SNMP_INVENTORY_DIFF',$l->g(1214),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['SNMP_INVENTORY_DIFF']));
 //	ligne('SNMP_COMMUN',$l->g(1199),'list',array('VALUE'=>$list,'END'=>"<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=SNMP_COMMUN&nb_field=217&new_field=49\",\"SNMP_COMMUN\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>"));	
  	fin_tab($form_name);
+ }
+ 
+ function pagesplugin($form_name){
+ 	global $l;
+ 	
+ 	$champs=array('OCS_SERVER_ADDRESS'=>'OCS_SERVER_ADDRESS');
+ 	$values=look_config_default_values($champs);
+
+ 	debut_tab();
+ 	
+ 	ligne('OCS_SERVER_ADDRESS','Give your ocs server ip address','input',array('VALUE'=>$values['tvalue']['OCS_SERVER_ADDRESS'],'SIZE'=>"30%",'MAXLENGTH'=>200));
+ 
+ 	fin_tab($form_name); 	
  }
  
  function pageswol($form_name){
