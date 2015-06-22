@@ -827,6 +827,7 @@ insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GENERATE_OCS_FILES',0,
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('OCS_FILES_FORMAT','','OCS','Generate either compressed file or clear XML text');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('OCS_FILES_OVERWRITE',0,'','Specify if you want to keep trace of all inventory between to synchronisation with the higher level server');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('OCS_FILES_PATH','','/tmp','Path to ocs files directory (must be writeable)');
+insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('OCS_SERVER_ADDRESS','','localhost','Ocs serveur ip for plugin webservice');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('PROLOG_FILTER_ON',0,'','Enable prolog filter stack');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_FILTER_ENABLED',0,'','Enable core filter system to modify some things "on the fly"');
 insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_FILTER_FLOOD_IP',0,'','Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period');
@@ -1423,4 +1424,17 @@ ALTER TABLE printers ADD COLUMN SHARED INTEGER DEFAULT NULL;
 ALTER TABLE printers ADD COLUMN NETWORK INTEGER DEFAULT NULL;
 ALTER TABLE sim ADD COLUMN DEVICEID VARCHAR(255) DEFAULT NULL;
 
+CREATE TABLE IF NOT EXISTS `plugins` (
+  `id` int(6) unsigned NOT NULL,
+  `name` varchar(30) COLLATE utf8_bin NOT NULL,
+  `version` double NOT NULL,
+  `licence` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
+  `verminocs` double NOT NULL,
+  `activated` tinyint(1) NOT NULL,
+  `reg_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+ALTER TABLE `plugins` ADD PRIMARY KEY (`id`);
+ALTER TABLE `plugins` MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT;
 
