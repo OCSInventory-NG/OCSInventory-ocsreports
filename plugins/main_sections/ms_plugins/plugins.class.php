@@ -99,7 +99,7 @@ class plugins{
 	 * @param String $plugindirectory : Your plugin directory
 	 * @param string $menu (Optional) : If you want to create a submenu not a menu
 	 */
-	public function add_menu($name, $label, $plugindirectory, $menu = ""){
+	public function add_menu($name, $label, $plugindirectory, $displayname ,$menu = ""){
 		
 		// add menu entry
 		if ($menu == ""){
@@ -173,7 +173,7 @@ class plugins{
 		// Add label entry
 		
 		$file = fopen(PLUGINS_DIR."language/english/english.txt", "a+");
-		fwrite($file, $label." ".$name."\n");
+		fwrite($file, $label." ".$displayname."\n");
 		fclose($file);
 		
 	}
@@ -186,7 +186,7 @@ class plugins{
 	 * @param integer $label : You need to give the label of the deleted menu.
 	 * @param string $menu (Optional) : If you want to delete a submenu not a menu
 	 */
-	public function del_menu($name, $label, $menu = ""){
+	public function del_menu($name, $label, $displayname, $menu = ""){
 		
 		// Delete menu and all his sub menu
 		if ($menu == ""){
@@ -304,7 +304,7 @@ class plugins{
 		
 		while (!feof($reading)) {
 			$line = fgets($reading);
-			if (stristr($line, $label." ".$name)) {
+			if (stristr($line, $label." ".$displayname)) {
 				$line = "";
 				$replaced = true;
 			}
