@@ -10,10 +10,20 @@ else{
 	$ajax=false;
 }
 
-printEnTete($l->g(6000));
+if (!class_exists('plugins')) {
+	require 'plugins.class.php';
+}
 
 if (!function_exists('rrmdir')) {
 	require 'functions_delete.php';
+}
+
+if (!function_exists('exec_plugin_soap_client')) {
+	require 'functions_webservices.php';
+}
+
+if (!function_exists('install')) {
+	require 'functions_check.php';
 }
 
 if ($protectedPost['SUP_PROF'] != ''){
@@ -31,6 +41,51 @@ if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 	$tab_options['CACHE']='RESET';
 }
 
+// Plugins Install menu.
+
+printEnTete("Plugin Install");
+
+echo "<table align='center'><th>";
+echo open_form("PluginInstall");
+
+$availablePlugins = scan_downloaded_plugins();
+
+echo "<select name='plugin'>";
+foreach ($availablePlugins as $key => $value){
+	$name = explode(".", $value);
+	echo "<option value=$value >$name[0]</option>";
+}
+echo "</select>";
+echo "<input type='submit' value='Install'>";
+
+echo close_form();
+echo "</th></table>";
+
+if (isset($protectedPost['plugin'])){
+	
+	$pluginArchive = $protectedPost['plugin'];
+	
+	install($pluginArchive);
+	
+	$pluginame = explode(".", $pluginArchive);
+	
+	$plugintab = array("name" => $pluginame[0]);
+	
+	check($plugintab);
+	
+	mv_computer_detail($pluginame[0]);
+	$result = mv_server_side($pluginame[0]);
+	
+	if($result){
+		exec_plugin_soap_client($pluginame[0], 1);
+	}
+	
+}
+
+// Plugins Tab
+
+printEnTete("Installed Plugins");
+
 $form_name="show_all_plugins";
 $table_name=$form_name;
 $tab_options=$protectedPost;
@@ -44,7 +99,6 @@ $list_fields=array('ID'=>'id',
 				   $l->g(7004)=>'licence',
 				   $l->g(7005)=>'author',
 				   'Required OCS ver.'=>'verminocs',
-				   'Activated'=>'activated',
 				   $l->g(7006) =>'reg_date'
 				);			
 

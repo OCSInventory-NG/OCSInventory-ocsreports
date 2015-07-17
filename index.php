@@ -36,6 +36,4 @@ addLog('PAGE',$protectedGet[PAG_INDEX]);
 if( !isset($protectedGet["popup"] )&& !isset($protectedGet["no_footer"] ))
 	require (FOOTER_HTML);
 
-require ('plugins/main_sections/ms_plugins/initialize.php');
-
 ?>

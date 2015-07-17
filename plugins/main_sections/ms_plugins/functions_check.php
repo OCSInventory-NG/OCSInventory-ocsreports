@@ -14,7 +14,6 @@ function install($archiveName){
 		$plugindir = $arrayplugin[0];
 		$archive->extractTo(MAIN_SECTIONS_DIR."ms_".$plugindir);
 		$archive->close();
-		unlink(PLUGINS_DL_DIR.$archiveName);
 	}
 	else{
 		echo "Une erreur est survenu lors de l'installation du plugin.";
@@ -73,14 +72,13 @@ function scan_downloaded_plugins(){
 	$directory = PLUGINS_DL_DIR;
 	$scanned_directory = array_diff(scandir($directory), array('..', '.', 'README'));
 
-	// Debug purposes
-	//var_dump($scanned_directory);
+// 	if (!empty($scanned_directory)){
+// 		foreach ($scanned_directory as $key => $value){
+// 			install($value);
+// 		}
+// 	}
 
-	if (!empty($scanned_directory)){
-		foreach ($scanned_directory as $key => $value){
-			install($value);
-		}
-	}
+	return $scanned_directory;
 
 }
 

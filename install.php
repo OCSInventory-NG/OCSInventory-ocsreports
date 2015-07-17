@@ -17,11 +17,9 @@ require_once('require/function_table_html.php');
 require_once('var.php');
 //show header
 html_header(true);
-
 function printEnTeteInstall($ent) {
 	echo "<h3>$ent</h3>";
 }
-
 function return_bytes($val) {
 	$val = trim($val);
 	$last = strtolower($val{strlen($val)-1});
@@ -68,7 +66,6 @@ function exec_fichier_sql($fichier,$link){
 		return true;
 	}
 }
-
 //choose default language
 if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
     if (isset($_COOKIE['LANG']))
@@ -93,24 +90,18 @@ if( isset($fromAuto) && $fromAuto==true){
 //msg=your config file doesn't exist
 if( isset($fromdbconfig_out) && $fromdbconfig_out==true)
    $msg_lbl['info'][]=$l->g(2034);
-
 //max to upload
 $pms = "post_max_size";
 $umf = "upload_max_filesize";
-
 $valTpms = ini_get( $pms );
 $valTumf = ini_get( $umf );
-
 $valBpms = return_bytes( $valTpms );
 $valBumf = return_bytes( $valTumf );
-
 if( $valBumf>$valBpms )
 	$MaxAvail = trim(mb_strtoupper($valTpms),"M");
 else
 	$MaxAvail = trim(mb_strtoupper($valTumf),"M");
-
 $msg_lbl['info'][]=$l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041)."<br><br><font color=red>".$l->g(2102)."</font>";
-
 //msg=no php-session function
 if(!function_exists('session_start')) {	
 	$msg_lbl['error'][]=$l->g(2035);
@@ -119,29 +110,22 @@ if(!function_exists('session_start')) {
 if(!function_exists('mysqli_connect')) {	
 	$msg_lbl['error'][]=$l->g(2037);
 }
-
 if((file_exists(CONF_MYSQL) and !is_writable(CONF_MYSQL)) or (!file_exists(CONF_MYSQL) and !is_writable(ETC_DIR))) {
 	$msg_lbl['error'][]="<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
 }
-
 //msg for phpversion
 if(version_compare(phpversion(), '5.3.7', '<')){
 	$msg_lbl['warning'][]=$l->g(2113)." ".phpversion()." ) ";
 }
-
 if(!function_exists('xml_parser_create')) {	
 	$msg_lbl['warning'][]=$l->g(2036);
 }
-
 if(!function_exists('imagefontwidth')) {	
 	$msg_lbl['warning'][]=$l->g(2038);
 }
-
 if(!function_exists('openssl_open')) {	
 	$msg_lbl['warning'][]=$l->g(2039);
 }
-
-
 if (is_writable($_SERVER["DOCUMENT_ROOT"])){
 	if (!file_exists($_SERVER["DOCUMENT_ROOT"]."/download")) {
 		mkdir($_SERVER["DOCUMENT_ROOT"]."/download");
@@ -155,11 +139,6 @@ if (is_writable($_SERVER["DOCUMENT_ROOT"])){
 }else{
 	$msg_lbl['warning'][]="Document root should be writable : ".$_SERVER["DOCUMENT_ROOT"];
 }
-
-
-
-
-
 //show messages
 foreach ($msg_lbl as $k=>$v){
 	$show=implode("<br>",$v);
@@ -170,8 +149,6 @@ foreach ($msg_lbl as $k=>$v){
 			die();
 	}
 }
-
-
 //post the first form
 if( isset($_POST["name"])) {
 	
@@ -265,7 +242,6 @@ if( isset($_POST["name"])) {
 	}
 	//die();
 }
-
 //use values in mysql config file
 if( is_readable(CONF_MYSQL) ) {
 	require(CONF_MYSQL);
@@ -274,27 +250,22 @@ if( is_readable(CONF_MYSQL) ) {
 	} else { 					
 		$valNme = '';
 	}
-
 	if (defined('PSWD_BASE')) {
 		$valPass = PSWD_BASE;
 	}else {
 		$valPass = '';
 	}
-
 	if (defined('SERVER_WRITE')) {
 		$valServ = SERVER_WRITE;
 	} else {
 		$valServ = '';
 	}
-
 	if (defined('DB_NAME')) {
 		$valdatabase = DB_NAME;
 	} else {                                       
 		$valdatabase = '';
 	}
 }
-
-
 //show first form
 $form_name='fsub';
 $name_field=array("name","pass","database","host");
@@ -304,7 +275,6 @@ if (isset($_POST["name"],$_POST["pass"],$_POST["database"],$_POST["host"]))
 	$value_field=array($_POST["name"],$_POST["pass"],$_POST["database"],$_POST["host"]);
 else
 	$value_field=array($valNme,$valPass,$valdatabase,$valServ);
-
 $tab_typ_champ=show_field($name_field,$type_field,$value_field);
 tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
 		'button_name' => 'INSTALL',
