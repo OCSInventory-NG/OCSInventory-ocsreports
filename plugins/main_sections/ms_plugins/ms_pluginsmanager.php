@@ -50,13 +50,24 @@ echo open_form("PluginInstall");
 
 $availablePlugins = scan_downloaded_plugins();
 
-echo "<select name='plugin'>";
-foreach ($availablePlugins as $key => $value){
-	$name = explode(".", $value);
-	echo "<option value=$value >$name[0]</option>";
+if (!empty($availablePlugins)){
+
+	echo "<select name='plugin'>";
+	foreach ($availablePlugins as $key => $value){
+		$name = explode(".", $value);
+		echo "<option value=$value >$name[0]</option>";
+	}
+	echo "</select>";
+	echo "<input type='submit' value='Install'>";
 }
-echo "</select>";
-echo "<input type='submit' value='Install'>";
+else{
+	echo "<center>	
+    <div id='my-alert-top_msg_alert' class='alert alert-warning fade in' role='alert'>	
+		<div onmouseout='hidden_me();' onmouseover='show_me('Put your plugins into the download dir in the OCSreports.');'>
+			There is currently no plugin available for installation.</div>
+    </div>
+	</center>";
+}
 
 echo close_form();
 echo "</th></table>";
@@ -65,19 +76,28 @@ if (isset($protectedPost['plugin'])){
 	
 	$pluginArchive = $protectedPost['plugin'];
 	
-	install($pluginArchive);
+	$bool = install($pluginArchive);
 	
-	$pluginame = explode(".", $pluginArchive);
-	
-	$plugintab = array("name" => $pluginame[0]);
-	
-	check($plugintab);
-	
-	mv_computer_detail($pluginame[0]);
-	$result = mv_server_side($pluginame[0]);
-	
-	if($result){
-		exec_plugin_soap_client($pluginame[0], 1);
+	if($bool){
+		$pluginame = explode(".", $pluginArchive);
+		
+		$plugintab = array("name" => $pluginame[0]);
+		
+		check($plugintab);
+		
+		mv_computer_detail($pluginame[0]);
+		$result = mv_server_side($pluginame[0]);
+		
+		if($result){
+			exec_plugin_soap_client($pluginame[0], 1);
+		}
+	}else{
+		echo "<center>	
+    <div id='my-alert-top_msg_alert' class='alert alert-danger fade in' role='alert'>	
+		<div onmouseout='hidden_me();' onmouseover='show_me('Put your plugins into the download dir in the OCSreports.');'>
+			This plugin has been already installed.</div>
+    </div>
+	</center>";
 	}
 	
 }

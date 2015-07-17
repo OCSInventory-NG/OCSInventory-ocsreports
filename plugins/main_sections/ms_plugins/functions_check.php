@@ -12,8 +12,14 @@ function install($archiveName){
 		$archive->open(PLUGINS_DL_DIR.$archiveName);
 		$arrayplugin = explode(".", $archiveName);
 		$plugindir = $arrayplugin[0];
-		$archive->extractTo(MAIN_SECTIONS_DIR."ms_".$plugindir);
-		$archive->close();
+		if(!file_exists(MAIN_SECTIONS_DIR."ms_".$plugindir)){
+			$archive->extractTo(MAIN_SECTIONS_DIR."ms_".$plugindir);
+			$archive->close();
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	else{
 		echo "Une erreur est survenu lors de l'installation du plugin.";
