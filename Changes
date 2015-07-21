@@ -1,5 +1,8 @@
 Revision history for ocsreports
-2.2beta3
+2.2RC
+		* New plugin system with automatic installation
+		* New plugin API created in order to modify create or modify OCS element easly.
+		* Cosmetic fix on computer menu.
 		* Packet system rework, use of the new class ziparchive (Thx to paul)
   		* Redistribution server are now working correctly
   		* Workflow feature has been removed
