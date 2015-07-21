@@ -196,7 +196,9 @@ sub run {
         			$serial = $1;	
 				}
 				if (/^User\sCapacity:\s*(.*)\sbytes\s\[(.*)\s(.*)\]/i){
-					$cap = $2;
+					my $cap_b = $1;
+					$cap_b =~ s/[,\.\s]//g;
+					$cap = $cap_b / 1024 / 1024;
 				}
 				if (/^Firmware\sVersion:\s*(.*)/i){
 					$firmware = $1;
