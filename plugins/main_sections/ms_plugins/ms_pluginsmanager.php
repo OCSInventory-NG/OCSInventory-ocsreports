@@ -39,6 +39,7 @@ if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 		delete_plugin($value);
 	}
 	$tab_options['CACHE']='RESET';
+	
 }
 
 // Plugins Install menu.
@@ -91,6 +92,11 @@ if (isset($protectedPost['plugin'])){
 		if($result){
 			exec_plugin_soap_client($pluginame[0], 1);
 		}
+		
+		echo "<center>
+			<div id='my-alert-' class='alert alert-success fade in' role='alert'>Plugin ".$pluginame[0]." installed</div>
+		</center>";
+		
 	}else{
 		echo "<center>	
     <div id='my-alert-top_msg_alert' class='alert alert-danger fade in' role='alert'>	

@@ -39,10 +39,12 @@ function delete_plugin($pluginid){
 		require 'functions_webservices.php';
 	}
 	
-	require (MAIN_SECTIONS_DIR."ms_".$anwser['name']."/install.php");
-	
-	$fonc = "plugin_delete_".$anwser['name'];
-	$fonc();
+	if ($anwser['name'] != "" and $anwser['name'] != null){
+		require (MAIN_SECTIONS_DIR."ms_".$anwser['name']."/install.php");
+		
+		$fonc = "plugin_delete_".$anwser['name'];
+		$fonc();
+	}
 	
 	rrmdir(MAIN_SECTIONS_DIR."ms_".$anwser['name']);
 	rrmdir(PLUGINS_DIR."computer_detail/cd_".$anwser['name']);
