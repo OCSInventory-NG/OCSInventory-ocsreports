@@ -56,7 +56,11 @@ if (!empty($availablePlugins)){
 	echo "<select name='plugin'>";
 	foreach ($availablePlugins as $key => $value){
 		$name = explode(".", $value);
-		echo "<option value=$value >$name[0]</option>";
+		$info = new SplFileInfo(PLUGINS_DL_DIR."/".$value);
+		
+		if($info->getExtension() == "zip"){
+			echo "<option value=$value >$name[0]</option>";
+		} 
 	}
 	echo "</select>";
 	echo "<input type='submit' value='Install'>";
@@ -84,7 +88,7 @@ if (isset($protectedPost['plugin'])){
 		
 		$plugintab = array("name" => $pluginame[0]);
 		
-		check($plugintab);
+		$isok = check($plugintab);
 		
 		mv_computer_detail($pluginame[0]);
 		$result = mv_server_side($pluginame[0]);
@@ -93,9 +97,17 @@ if (isset($protectedPost['plugin'])){
 			exec_plugin_soap_client($pluginame[0], 1);
 		}
 		
-		echo "<center>
-			<div id='my-alert-' class='alert alert-success fade in' role='alert'>Plugin ".$pluginame[0]." installed</div>
-		</center>";
+		if ($isok){
+			echo "<center>
+				<div id='my-alert-' class='alert alert-success fade in' role='alert'>Plugin ".$pluginame[0]." installed</div>
+			</center>";
+		}else{
+			echo "<center>
+			<div id='my-alert-top_msg_alert' class='alert alert-danger fade in' role='alert'>Error : ".$pluginame[0]." is an invalid plugin, check your sources.
+					<br> Installation aborted ! </div>
+			</center>";
+		}
+		
 		
 	}else{
 		echo "<center>	

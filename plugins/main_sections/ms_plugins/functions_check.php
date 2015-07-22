@@ -43,20 +43,40 @@ function check($plugarray){
 		// If the plugin isn't in the database ... add it
 		if($anwser[0] == false){
 				
-			require MAIN_SECTIONS_DIR."ms_".$value."/install.php";
+			if(file_exists(MAIN_SECTIONS_DIR."ms_".$value."/install.php")){
 				
-			// Retrieve infos from the plugin_version_plugname functions and add it to the database
+				require MAIN_SECTIONS_DIR."ms_".$value."/install.php";
 				
-			$fonc = "plugin_version_".$value;
-			$infoplugin = $fonc();
+				if( !function_exists ("plugin_version_".$value)
+						or !function_exists ("plugin_init_".$value) 
+							or !function_exists ("plugin_delete_".$value)){
 
-			$conn->query("INSERT INTO `".DB_NAME."`.`plugins` (`id`, `name`, `version`, `licence`, `author`, `verminocs`, `activated`, `reg_date`)
+					rrmdir(MAIN_SECTIONS_DIR."ms_".$value);
+					return false;
+					
+				}
+				
+				// Retrieve infos from the plugin_version_plugname functions and add it to the database
+				
+				$fonc = "plugin_version_".$value;
+				$infoplugin = $fonc();
+				
+				$conn->query("INSERT INTO `".DB_NAME."`.`plugins` (`id`, `name`, `version`, `licence`, `author`, `verminocs`, `activated`, `reg_date`)
 					VALUES (NULL, '".$infoplugin['name']."', '".$infoplugin['version']."', '".$infoplugin['license']."', '".$infoplugin['author']."', '".$infoplugin['verMinOcs']."', '1', CURRENT_TIMESTAMP);");
-
-			// Initialize the plugins requirement (New menus, Set permissions etc etc)
 				
-			$init = "plugin_init_".$value;
-			$infoplugin = $init();
+				// Initialize the plugins requirement (New menus, Set permissions etc etc)
+				
+				$init = "plugin_init_".$value;
+				$infoplugin = $init();
+				
+				return true;
+			}
+			else{
+				
+				rrmdir(MAIN_SECTIONS_DIR."ms_".$value);
+				
+				return false;
+			}
 				
 		}
 
@@ -77,7 +97,7 @@ function scan_downloaded_plugins(){
 	// Scan plugins download directory
 	$directory = PLUGINS_DL_DIR;
 	$scanned_directory = array_diff(scandir($directory), array('..', '.', 'README'));
-
+	
 // 	if (!empty($scanned_directory)){
 // 		foreach ($scanned_directory as $key => $value){
 // 			install($value);
