@@ -103,7 +103,7 @@ if ($protectedPost['REDISTRIB_USE'] == 1){
 						'PROTO'=>$protectedPost['PROTOCOLE'],
 						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
 						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>$protectedPost['download_server_docroot'],
+						'PATH'=>$protectedPost['DOWNLOAD_SERVER_DOCROOT'],
 						'NAME'=>'',
 						'COMMAND'=>'',
 						'NOTIFY_USER'=>'0',
@@ -114,6 +114,7 @@ if ($protectedPost['REDISTRIB_USE'] == 1){
 						'NEED_DONE_ACTION'=>'0',
 						'NEED_DONE_ACTION_TEXT'=>'',
 						'GARDEFOU'=>"rien");
+		
 		create_pack($sql_details,$info_details);
 	}
 	unset($protectedPost,$_SESSION['OCS']['DATA_CACHE']);
