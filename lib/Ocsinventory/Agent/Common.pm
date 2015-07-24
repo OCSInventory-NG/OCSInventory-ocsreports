@@ -62,7 +62,7 @@ sub addUsb {
 
   my $content = {};
 
-  foreach my $key (qw/CAPTION DESCRIPTION INTERFACE MANUFACTURER POINTTYPE TYPE/) {
+  foreach my $key (qw/DESCRIPTION INTERFACE MANUFACTURER PROTOCOL TYPE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }

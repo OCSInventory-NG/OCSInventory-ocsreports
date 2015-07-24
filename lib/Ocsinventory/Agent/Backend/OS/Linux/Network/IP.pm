@@ -1,8 +1,8 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Network::IP;
+use Data::Dumper;
 
 sub check {
-  return unless can_run ("ifconfig");
-  return unless can_run ("ip");
+  return unless can_run ("ifconfig") || can_run("ip");
   1;
 }
 
@@ -13,33 +13,33 @@ sub run {
   	my @ip;
 	my @ip6;
 
-	if (can_run("ip")){
-		foreach (`ip addr show`){
-			if (/^\s*inet\s+(\S+)\/(\d+)/){
-				($1=~/127.+/)?next:push @ip, $1;
-			} elsif (/^\s*inet\s+(\S+)\/(\d{1,3})\s+.*(\S+)/){
-				($1=~/::1.+/)?next:push @ip6, $1;
-			}
-		}
-	} elsif (can_run("ifconfig")){
+	if (can_run("ifconfig")){
   		foreach (`ifconfig`){
     		#if(/^\s*inet\s*(\S+)\s*netmask/){
     		if(/^\s*inet add?r\s*:\s*(\S+)/ || /^\s*inet\s+(\S+)/){
-      			($1=~/127.+/)?next:push @ip, $1;
+     			($1=~/127.+/)?next:push @ip, $1;
     		} elsif (/^\s*inet6\s+(\S+)/){
-				($1=~/::1.+/)?next:push @ip6, $1;
+				($1=~/::1/)?next:push @ip, $1;
 			} 
   		}
+	} elsif ( can_run("ip") ){
+		foreach (`ip a`){
+			if (/inet (\S+)\/\d{1,2}/){
+				($1=~/127.+/)?next:push @ip,$1;
+			} elsif (/inet6 (\S+)\d{2}/){
+				($1=~/::1\/128/)?next:push @ip, $1;
+			}
+		}
 	}
 
   	my $ip=join "/", @ip;
-	my $ip6=join "/", @ip6;
+	#my $ip6=join "/", @ip6;
 
 	if (defined $ip) {
   		$common->setHardware({IPADDR => $ip});
-	} elsif (defined $ip6) {
-		$common->setHardware({IPADDR => $ip6});
-	}
+	}# elsif (defined $ip6) {
+	#	$common->setHardware({IPADDR => $ip6});
+	#}
 
 }
 

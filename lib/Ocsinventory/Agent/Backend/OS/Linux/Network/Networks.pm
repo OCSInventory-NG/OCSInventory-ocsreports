@@ -5,8 +5,7 @@ use warnings;
 use Data::Dumper;
 
 sub check {
-  return unless can_run("ifconfig") && can_run("ip") && can_run("route") && can_load("Net::IP qw(:PROC)");
-
+  return unless (can_run("ifconfig") || can_run("ip")) && can_run("route") && can_load("Net::IP qw(:PROC)");
   1;
 }
 
@@ -82,104 +81,327 @@ sub run {
 	my $bssid;
 	my $mode;
 	my $version;
-	my (@interfaces,@address,$interface);
+    my $bitrate;
+	my $address;
+	my $mask4;
+	my $mask6;
+  	my $binip;
+   	my $binmask;
+   	my $binsubnet;
 
 	my %gateway;
-	foreach (`route -n`) {
-		if (/^(\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
-			$gateway{$1} = $2;
-		}
-	}
 
-	if (defined ($gateway{'0.0.0.0'})) {
-		$common->setHardware({
-			DEFAULTGATEWAY => $gateway{'0.0.0.0'}
-		});
-  	}
-
-	if (can_run('ifconfig')){
+	if (can_run("ifconfig")){
   		foreach my $line (`ifconfig -a`) {
     		if ($line =~ /^$/ && $description && $macaddr) {
       		# end of interface section
       		# I write the entry
-      			my $binip;
-      			my $binmask;
-      			my $binsubnet;
 
-      			$binip = ip_iptobin ($ipaddress ,4) if $ipaddress;
-      			$binmask = ip_iptobin ($ipmask ,4) if $ipmask;
-      			$binsubnet = $binip & $binmask if ($binip && $binmask);
-      			$ipsubnet = ip_bintoip($binsubnet,4) if $binsubnet;
-
-				if (-d "/sys/class/net/$description/wireless"){
-      				my @wifistatus = `iwconfig $description`;
-					foreach my $line (@wifistatus){
-						$ssid = $1 if ($line =~ /ESSID:(\S+)/);
-                        $version = $1 if ($line =~ /IEEE (\S+)/);
-                        $mode = $1 if ($line =~ /Mode:(\S+)/);
-                        $bssid = $1 if ($line =~ /Access Point: (\S+)/);
-      				}
-        			$type = "Wifi";
-				}
-
-      			$ipgateway = $gateway{$ipsubnet} if $ipsubnet;
-
-      			# replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
-      			if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
-        			$ipgateway = $gateway{'0.0.0.0'};
-      			}
-
-      			if (open UEVENT, "</sys/class/net/$description/device/uevent") {
-        			foreach (<UEVENT>) {
-          				$driver = $1 if /^DRIVER=(\S+)/;
-          				$pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
-        			}
-        			close UEVENT;
-      			}
-
-				# Retrieve speed from /sys/class/net/$description/speed
-				if (open SPEED, "</sys/class/net/$description/speed"){
-    				foreach (<SPEED>){
-     					$current_speed=$_;
-   					}
-    				close SPEED;
-    				chomp($current_speed);
-					if ($current_speed eq "65535"){
-						$current_speed = "";
+        	if (ip_is_ipv4($ipaddress)){
+				foreach (`route -n`) {
+					if (/^(\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
+						$gateway{$1} = $2;
 					}
 				}
- 
-   				# Retrieve duplex from /sys/class/net/$description/duplex
-   				if (open DUPLEX, "</sys/class/net/$description/duplex"){
-   					foreach (<DUPLEX>){
- 						$duplex=chomp($_);
-   					}
-   					close DUPLEX;
-				}
- 
-  				if ($current_speed gt 100 ){
-      				$speed = $current_speed." Gbps";
-  				} else {
-     				$speed = $current_speed." Mbps";
-				}
 
-      			# Reliable way to get the info
-      			if (-d "/sys/devices/virtual/net/") {
-        			$virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
-      			} elsif (can_run("brctl")) {
-        			# Let's guess
-        			my %bridge;
-        			foreach (`brctl show`) {
-          				next if /^bridge name/;
-          				$bridge{$1} = 1 if /^(\w+)\s/;
-        			}
-        			if ($pcislot) {
-          				$virtualdev = "1";
-        			} elsif ($bridge{$description}) {
-          				$virtualdev = "0";
-        			}
+				if (defined ($gateway{'0.0.0.0'})) {
+					$common->setHardware({
+						DEFAULTGATEWAY => $gateway{'0.0.0.0'}
+					});
+  				}
+
+      			$binip = ip_iptobin ($ipaddress ,4) if $ipaddress;
+      			$binmask = ip_iptobin ($ipmask,4) if $ipmask;
+      			$binsubnet = $binip & $binmask if ($binip && $binmask);
+      			$ipsubnet = ip_bintoip($binsubnet,4) if $binsubnet;
+        	} elsif (ip_is_ipv6($ipaddress)) {
+				# Table de routage IPv6 du noyau
+				# Destination                    Next Hop                   Flag Met Ref Use If
+				# fe80::/64                      [::]                       U    256 0     0 wlp6s0
+				#foreach (`route -6`) {
+				#	if (/^(\S+\/\d{2})\s+(\S+)/) {
+				#		$gateway{$1} = $2;
+				#	}
+				#}
+				#if (defined ($gateway{'fe80::/64'})) {
+				#	$common->setHardware({
+				#		DEFAULTGATEWAY => $gateway{'fe80::/64'}
+				#	});
+				#}
+            	$ipmask = ip_bintoip(ip_get_mask($mask6,6),6) if $mask6;;
+            	$binip = ip_iptobin(ip_expand_address($ipaddress,6),6) if $ipaddress;
+            	$binmask = ip_iptobin(ip_expand_address($ipmask,6),6) if $ipmask;
+            	$binsubnet = $binip & $binmask if ($binip && $binmask);
+            	$ipsubnet = ip_compress_address(ip_bintoip($binsubnet,6),6) if $binsubnet;
+        	}
+
+      		$ipgateway = $gateway{$ipsubnet} if $ipsubnet;
+
+			if (-d "/sys/class/net/$description/wireless"){
+      			my @wifistatus = `iwconfig $description`;
+				foreach my $line (@wifistatus){
+					$ssid = $1 if ($line =~ /ESSID:(\S+)/);
+                    $version = $1 if ($line =~ /IEEE (\S+)/);
+                    $mode = $1 if ($line =~ /Mode:(\S+)/);
+                    $bssid = $1 if ($line =~ /Access Point: (\S+)/);
+					$bitrate = $1 if ($line =~ /Bit\sRate=\s*(\S+\sMb\/s)/i);
       			}
+        		$type = "Wifi";
+			} 
 
+			if (-f "/sys/class/net/$description/mode"){
+				$type = "infiniband";
+			}
+
+      		# replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
+      		if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
+        		$ipgateway = $gateway{'0.0.0.0'};
+      		}
+
+      		if (open UEVENT, "</sys/class/net/$description/device/uevent") {
+        		foreach (<UEVENT>) {
+          			$driver = $1 if /^DRIVER=(\S+)/;
+          			$pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
+        		}
+        		close UEVENT;
+      		}
+
+			# Retrieve speed from /sys/class/net/$description/speed
+			if ( ! -z "/sys/class/net/$description/speed") {
+				open SPEED, "</sys/class/net/$description/speed";
+   				foreach (<SPEED>){
+   					$current_speed=$_;
+   				}
+   				close SPEED;
+   				chomp($current_speed);
+
+			print Dumper($current_speed);
+				$current_speed=0 if $current_speed eq "";
+				if ($current_speed eq "65535"){
+					$current_speed = 0;
+				} 
+				if ($current_speed gt 100 ){
+					$speed = $current_speed." Gbps";
+				} else {
+					$speed = $current_speed." Mbps";
+				}
+			}
+ 
+   			# Retrieve duplex from /sys/class/net/$description/duplex
+   			if (! -z "/sys/class/net/$description/duplex") {
+				open DUPLEX, "</sys/class/net/$description/duplex";
+   				foreach (<DUPLEX>){
+ 					$duplex=chomp($_);
+   				}
+   				close DUPLEX;
+			}
+
+   			# Reliable way to get the info
+   			if (-d "/sys/devices/virtual/net/") {
+      			$virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
+   			} elsif (can_run("brctl")) {
+       			# Let's guess
+       			my %bridge;
+       			foreach (`brctl show`) {
+      				next if /^bridge name/;
+       				$bridge{$1} = 1 if /^(\w+)\s/;
+       			}
+       			if ($pcislot) {
+       				$virtualdev = "1";
+       			} elsif ($bridge{$description}) {
+       				$virtualdev = "0";
+       			}
+				$type = "bridge";
+   			}
+
+			if ($type eq "Wifi") {
+   				$common->addNetwork({
+       				DESCRIPTION => $description,
+       				DRIVER => $driver,
+       				IPADDRESS => $ipaddress,
+       				IPDHCP => _ipdhcp($description),
+       				IPGATEWAY => $ipgateway,
+       				IPMASK => $ipmask,
+       				IPSUBNET => $ipsubnet,
+      				MACADDR => $macaddr,
+       				PCISLOT => $pcislot,
+       				STATUS => $status,
+       				TYPE => $type,
+					SPEED => $bitrate,
+					SSID => $ssid,
+					BSSID => $bssid,
+					IEEE => $version,
+					MODE => $mode,
+       			});
+			} else { 
+   				$common->addNetwork({
+       				DESCRIPTION => $description,
+       				DRIVER => $driver,
+       				IPADDRESS => $ipaddress,
+       				IPDHCP => _ipdhcp($description),
+       				IPGATEWAY => $ipgateway,
+       				IPMASK => $ipmask,
+       				IPSUBNET => $ipsubnet,
+       				MACADDR => $macaddr,
+       				PCISLOT => $pcislot,
+       				STATUS => $status,
+       				TYPE => $type,
+       				VIRTUALDEV => $virtualdev,
+       				DUPLEX => $duplex?"Full":"Half",
+					SPEED => $speed,
+       			});
+			}
+  		}
+
+   		if ($line =~ /^$/) { # End of section
+
+     		$description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = undef;
+
+    		} else { # In a section
+        		$description = $1 if ($line =~ /^(\S+):/ || $line =~ /^(\S+)/); # Interface name
+				if ($line =~ /inet add?r:(\S+)/i || $line =~ /^\s*inet\s+(\S+)/i || $line =~ /inet (\S+)\s+netmask/i){ 
+					$ipaddress=$1;
+				} elsif ($line =~ /inet6 (\S+)\s+prefixlen\s+(\d{2})/i){
+        		 	$ipaddress=$1;
+					$mask6=$2;
+				}
+				if ($line =~ /\S*mask:(\S+)/i || $line =~ /\S*netmask (\S+)\s/i){
+        			$ipmask=$1; 
+				} 
+        		$macaddr = $1 if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i || $line =~ /ether\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i);
+        		$status = 1 if ($line =~ /^\s+UP\s/ || $line =~ /flags=.*[<,]UP[,>]/);
+        		$type = $1 if ($line =~ /link encap:(\S+)/i);
+				$type = $2 if ($line =~ /^\s+(loop|ether).*\((\S+)\)/i);
+    		}
+		}
+	}
+ 
+	if (can_run("ip")){
+		my @ipLink = `ip -o link`;
+		foreach my $line (`ip -o addr`) {
+			$ipsubnet = $description = $ipaddress = $ipmask = $ipgateway = $macaddr = $status = $type = $speed = $duplex = $driver = $pcislot = $virtualdev = undef;
+
+    		if ($line =~ /lo.*(127\.0\.0\.1\/8)/) { # ignore default loopback interface
+       			next;
+    		}   
+    		if ($line =~ /lo.*(::1\/128)/) { # ignore default loopback interface
+       			next;
+    		}   
+    		
+			$description = $1 if ($line =~ /\d:\s+(\S+)/i);
+
+        	if ($line =~ /inet (\S+)\/(\d{2})/i){
+            	$ipaddress = $1; 
+            	$mask4 = $2; 
+        	} elsif ($line =~ /inet6 (\S+)\/(\d{2})/i){
+            	$ipaddress = $1; 
+            	$mask6 = $2; 
+        	}
+    
+        	if (ip_is_ipv4($ipaddress)){
+            	$ipmask = ip_bintoip(ip_get_mask($mask4,4),4) if $mask4;
+            	$binip = ip_iptobin($ipaddress,4) if $ipaddress;
+            	$binmask = ip_iptobin($ipmask,4) if $ipmask;
+            	$binsubnet = $binip & $binmask if ($binip && $binmask);
+            	$ipsubnet = ip_bintoip($binsubnet,4) if $binsubnet;
+        	} elsif (ip_is_ipv6($ipaddress)) {
+            	$ipmask = ip_bintoip(ip_get_mask($mask6,6),6) if $mask6;;
+            	$binip = ip_iptobin(ip_expand_address($ipaddress,6),6) if $ipaddress;
+            	$binmask = ip_iptobin(ip_expand_address($ipmask,6),6) if $ipmask;
+            	$binsubnet = $binip & $binmask if ($binip && $binmask);
+            	$ipsubnet = ip_compress_address(ip_bintoip($binsubnet,6),6) if $binsubnet;
+        	}
+
+        	my @line1 = split " ", $line;
+        	my @linkData = split " ", (grep {/$line1[1]/} @ipLink)[0];
+        	$macaddr = uc $linkData[-3];
+
+        	if ($linkData[2] =~ /,UP/) {
+            	$status = "UP";
+        	} else {
+            	$status = "DOWN";
+        	}
+
+        	$type = $linkData[-4];
+        	if ($type =~ /ether/){
+            	$type = "Ethernet";
+        	} elsif ($type =~ /loopback/) {
+            	$type = "Loopback";
+       		}
+
+      		$ipgateway = $gateway{$ipsubnet} if $ipsubnet;
+
+      		# replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
+      		if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
+        		$ipgateway = $gateway{'0.0.0.0'};
+      		}
+
+      		if (open UEVENT, "</sys/class/net/$description/device/uevent") {
+        		foreach (<UEVENT>) {
+          			$driver = $1 if /^DRIVER=(\S+)/;
+          			$pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
+        		}
+        		close UEVENT;
+      		}
+
+			# Retrieve speed from /sys/class/net/$description/speed
+			if ( ! -z "/sys/class/net/$description/speed") {
+				open SPEED, "</sys/class/net/$description/speed" or die;
+    			foreach (<SPEED>){
+     				$current_speed=$_;
+   				}
+    			close SPEED;
+				if (defined $current_speed) {
+    				chomp($current_speed);
+					if ($current_speed eq "65535"){
+						$current_speed = 0;
+					} elsif ( $current_speed gt 100 ){
+						$speed = $current_speed." Gbps";
+					  } else {
+						$speed = $current_speed." Mbps";
+					}
+				}
+			}
+ 
+   			# Retrieve duplex from /sys/class/net/$description/duplex
+   			if (open DUPLEX, "</sys/class/net/$description/duplex"){
+   				foreach (<DUPLEX>){
+ 					$duplex=chomp($_);
+   				}
+   				close DUPLEX;
+			}
+ 
+      		# Reliable way to get the info
+      		if (-d "/sys/devices/virtual/net/") {
+        		$virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
+      		} elsif (can_run("brctl")) {
+        		# Let's guess
+        		my %bridge;
+        		foreach (`brctl show`) {
+          			next if /^bridge name/;
+          			$bridge{$1} = 1 if /^(\w+)\s/;
+        		}
+        		if ($pcislot) {
+          			$virtualdev = "1";
+        		} elsif ($bridge{$description}) {
+          			$virtualdev = "0";
+        		}
+				$type = "bridge";
+      		}
+
+			if (-d "/sys/class/net/$description/wireless"){
+      			my @wifistatus = `iwconfig $description`;
+				foreach my $line (@wifistatus){
+					$ssid = $1 if ($line =~ /ESSID:(\S+)/);
+                    $version = $1 if ($line =~ /IEEE (\S+)/);
+                    $mode = $1 if ($line =~ /Mode:(\S+)/);
+                    $bssid = $1 if ($line =~ /Access Point: (\S+)/);
+					$bitrate = $1 if ($line =~ /Bit\sRate=\s*(\S+\sMb\/s)/i);
+      			}
+        		$type = "Wifi";
+			}
+
+			if ($type eq "Wifi") {
       			$common->addNetwork({
           			DESCRIPTION => $description,
           			DRIVER => $driver,
@@ -190,89 +412,35 @@ sub run {
           			IPSUBNET => $ipsubnet,
           			MACADDR => $macaddr,
           			PCISLOT => $pcislot,
-          			STATUS => $status?"Up":"Down",
+          			STATUS => $status,
           			TYPE => $type,
-          			VIRTUALDEV => $virtualdev,
-          			SPEED => $speed,
-          			DUPLEX => $duplex?"Full":"Half",
+					SPEED => $bitrate,
 					SSID => $ssid,
 					BSSID => $bssid,
 					IEEE => $version,
 					MODE => $mode,
         		});
-    		}
-
-    		if ($line =~ /^$/) { # End of section
-
-      			$description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $macaddr = $pcislot = $status =  $type = $virtualdev = $speed = $duplex = undef;
-
-    		} else { # In a section
-        		$description = $1 if ($line =~ /^(\S+):/ || $line =~ /^(\S+)/); # Interface name
-        		$ipaddress = $1 if ($line =~ /inet add?r:(\S+)/i || $line =~ /^\s*inet\s+(\S+)/ || $line =~ /inet (\S+)\s+netmask/i);
-        		$ipmask = $1 if ($line =~ /\S*mask:(\S+)/i || $line =~ /\S*netmask (\S+)\s/i);
-        		$macaddr = $1 if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i || $line =~ /ether\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i);
-        		$status = 1 if ($line =~ /^\s+UP\s/ || $line =~ /flags=.*(,|<)UP(,|>)/);
-        		$type = $1 if ($line =~ /link encap:(\S+)/i);
-				$type = $2 if ($line =~ /^\s+(loop|ether).*\((\S+)\)/i);
-    		}
-  		}
-	} elsif (can_run('ip')){
-		foreach my $line (`ip addr show`) {
-			if ($line =~ /\d+:\s+(\S+):\s+.*state\s+(\S+)/){
-				if (@address) {
-					push @interfaces, @address;
-					undef @address;
-				} elsif ($interface){
-					push @interfaces, $interface;
-				}
-				$description = $1;
-				$status = $2;
-				$interface = { 
-					DESCRIPTION => $description, 
-					STATUS => $status
-				};
-			} elsif ($line =~ /link\/(\S+)\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/){
-				$type = $1;
-    			$macaddr = $2;
-			} elsif ($line =~ /inet6 (\S+)\/(\d{1,2})/) {
-				$ipaddress = $1;
-				$ipmask = ip_bintoip(ip_get_mask($2,6),6);
-
-				push @address,  
-				$common->addNetwork({
-						DESCRIPTION => $interface->{DESCRIPTION},
-						IPADDRESS => $ipaddress,
-						IPMASK => $ipmask,
-						MACADDRESS => $macaddr,
-						STATUS => $interface->{STATUS},
-						TYPE => $type,
-					});
-				
-			} elsif ($line =~ /inet\s(\S+)\/(\d{1,3})\s+.*(\S+)/) {
-				$ipaddress = $1;
-   				$ipmask = ip_bintoip(ip_get_mask($2,4),4);
-				$description = $3;
-				push @address,  
-				$common->addNetwork({
-						DESCRIPTION => $interface->{DESCRIPTION},
-						IPADDRESS => $ipaddress,
-						IPMASK => $ipmask,
-						MACADDRESS => $macaddr,
-						STATUS => $interface->{STATUS},
-						TYPE => $type,
-					});
-				
-				#print Dumper($common);
-
-				if (@address) {
-					push @interfaces, @address;
-					undef @address;
-				} elsif ($interface){
-					push @interfaces, $interface;
-				}
+			} else { 
+      			$common->addNetwork({
+          			DESCRIPTION => $description,
+          			DRIVER => $driver,
+          			IPADDRESS => $ipaddress,
+          			IPDHCP => _ipdhcp($description),
+          			IPGATEWAY => $ipgateway,
+          			IPMASK => $ipmask,
+          			IPSUBNET => $ipsubnet,
+          			MACADDR => $macaddr,
+          			PCISLOT => $pcislot,
+          			STATUS => $status,
+          			TYPE => $type,
+          			VIRTUALDEV => $virtualdev,
+          			DUPLEX => $duplex?"Full":"Half",
+					SPEED => $speed,
+        		});
 			}
 		}
 	}
 }
+
 1;
 

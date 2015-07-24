@@ -1,6 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
 use strict;
+use Data::Dumper;
 
 sub check {1}
 
@@ -11,7 +12,7 @@ sub getFromUdev {
 
   	foreach (glob ("/dev/.udev/db/*")) {
     	my ($scsi_coid, $scsi_chid, $scsi_unid, $scsi_lun, $path, $device, $vendor, $model, $revision, $serial, $serial_short, $type, $bus, $capacity);
-    	if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/) {
+    	if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z]+)$/) {
       		$path = $1;
       		$device = $2;
       		open (PATH, $1 . $2);
@@ -115,7 +116,7 @@ sub run {
 
   	my $devices = {};
 
-	my ($serial,$cap,$model,$manufacturer,$type,$desc,$firmware,$name);
+	my ($serial,$cap,$unit,$model,$manufacturer,$type,$desc,$firmware,$name);
 	my @partitions;
 
   	# Get complementary information in hash tab
@@ -161,7 +162,7 @@ sub run {
 		open PARTINFO,'</proc/partitions' or warn;
 	
 		foreach(<PARTINFO>){
-			if (/^\s*(\d*)\s*(\d*)\s*(\d*)\s*([sh]d[a-z])$/i){
+			if (/^\s*(\d*)\s*(\d*)\s*(\d*)\s*([sh]d[a-z]+)$/i){
 				push(@partitions,$4);
 			}
 		}
@@ -196,7 +197,18 @@ sub run {
         			$serial = $1;	
 				}
 				if (/^User\sCapacity:\s*(.*)\sbytes\s\[(.*)\s(.*)\]/i){
-					$cap = $2;
+					$cap = $1;
+					$unit = $3;
+					$cap =~ s/,//g;
+					if ($unit eq "MB") {
+						$cap = int($cap/1024);
+					} elsif ($unit eq "GB") {
+						$cap = int($cap/1048576);
+					} elsif ($unit eq "TB") {
+						$cap = int($cap/1073741824);
+					} else { 
+						$cap = undef; 
+					}
 				}
 				if (/^Firmware\sVersion:\s*(.*)/i){
 					$firmware = $1;
