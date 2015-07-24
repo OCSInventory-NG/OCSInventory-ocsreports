@@ -15,3 +15,5 @@ CREATE TABLE IF NOT EXISTS `plugins` (
 
 ALTER TABLE `plugins` ADD PRIMARY KEY (`id`);
 ALTER TABLE `plugins` MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT;
+
+INSERT INTO `config` VALUES('OCS_SERVER_ADDRESS',0,'127.0.0.1','Ocs serveur ip for plugin webservice');
