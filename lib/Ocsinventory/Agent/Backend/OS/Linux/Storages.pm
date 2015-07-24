@@ -11,7 +11,7 @@ sub getFromUdev {
 
   	foreach (glob ("/dev/.udev/db/*")) {
     	my ($scsi_coid, $scsi_chid, $scsi_unid, $scsi_lun, $path, $device, $vendor, $model, $revision, $serial, $serial_short, $type, $bus, $capacity);
-    	if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/) {
+    	if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z]+)$/) {
       		$path = $1;
       		$device = $2;
       		open (PATH, $1 . $2);
@@ -161,7 +161,7 @@ sub run {
 		open PARTINFO,'</proc/partitions' or warn;
 	
 		foreach(<PARTINFO>){
-			if (/^\s*(\d*)\s*(\d*)\s*(\d*)\s*([sh]d[a-z])$/i){
+			if (/^\s*(\d*)\s*(\d*)\s*(\d*)\s*([sh]d[a-z]+)$/i){
 				push(@partitions,$4);
 			}
 		}
@@ -196,7 +196,9 @@ sub run {
         			$serial = $1;	
 				}
 				if (/^User\sCapacity:\s*(.*)\sbytes\s\[(.*)\s(.*)\]/i){
-					$cap = $2;
+					my $cap_b = $1;
+					$cap_b =~ s/[,\.\s]//g;
+					$cap = $cap_b / 1024 / 1024;
 				}
 				if (/^Firmware\sVersion:\s*(.*)/i){
 					$firmware = $1;
