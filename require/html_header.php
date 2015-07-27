@@ -76,7 +76,6 @@ if ($_SESSION['OCS']['profile']) {
 			}
 			echo "</li>";
 		}
-		echo "<li><a href='?function=about' >".$l->g(1362)."</a></li>";
 		
 		
 		if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
