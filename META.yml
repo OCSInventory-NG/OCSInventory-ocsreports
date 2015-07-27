@@ -1,0 +1,32 @@
+---
+abstract: 'Ocs-Inventory unified Agent for UNIX, Linux and MacOSX'
+build_requires:
+  ExtUtils::MakeMaker: 6.59
+configure_requires:
+  ExtUtils::MakeMaker: 6.59
+distribution_type: module
+dynamic_config: 1
+generated_by: 'Module::Install version 1.14'
+license: gpl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Ocsinventory-Unix-Agent
+no_index:
+  directory:
+    - inc
+recommends:
+  Compress::Zlib: 0
+  Net::IP: 0
+  Nvidia::ml: 0
+  Proc::Daemon: 0
+  Proc::PID::File: 0
+requires:
+  Digest::MD5: 0
+  File::Temp: 0
+  LWP: 0
+  XML::Simple: 0
+  perl: 5.6.0
+resources:
+  license: http://opensource.org/licenses/gpl-license.php
+version: 2.2rc1
