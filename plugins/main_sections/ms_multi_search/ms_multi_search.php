@@ -795,8 +795,8 @@ if ($list_id != "")	{
 	$list_fields= array($l->g(652).': id'=>'h.ID',
 						$l->g(652).': '.$l->g(46)=>'h.LASTDATE',
 						$l->g(652).": ".$l->g(820)=>'h.LASTCOME',
-						//'NAME'=>'h.NAME',
-						$l->g(23)=>'h.name',
+						'NAME'=>'h.NAME',
+						//$l->g(23)=>'h.name',
 						$l->g(652).": ".$l->g(24)=>'h.USERID',
 						$l->g(652).": ".$l->g(25)=>'h.OSNAME',
 						$l->g(652).": ".$l->g(357)=>'h.USERAGENT',
@@ -886,8 +886,7 @@ if ($list_id != "")	{
 	$queryDetails['SQL'].= " group by h.ID ";
 	$tab_options['ARG_SQL']=$queryDetails['ARG'];
 	$tab_options['SQL_COUNT']=$querycount;
-	ksort($list_fields);
-	
+
 	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES")
 		$list_fields['SUP']='h.ID';
 		
