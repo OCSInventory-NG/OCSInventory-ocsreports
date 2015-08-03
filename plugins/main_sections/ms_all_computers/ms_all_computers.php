@@ -53,7 +53,7 @@ if ($protectedPost['DEL_ALL'] != ''){
 //delete one computer
 if ($protectedPost['SUP_PROF'] != ''){	
 	deleteDid($protectedPost['SUP_PROF']);
-	$tab_options['CACHE']='RESET';
+	$tab_options['CACHE']='RESET';	
 }
 
 if (!isset($protectedPost['tri_'.$table_name]) or $protectedPost['tri_'.$table_name] == ""){
@@ -131,6 +131,10 @@ if ($show_mac_addr){
 $queryDetails  .= "LEFT JOIN bios e ON e.hardware_id=h.id 
 				where deviceid<>'_SYSTEMGROUP_' 
 						AND deviceid<>'_DOWNLOADGROUP_' ";
+if (isset($_GET['value']) and $_GET['filtre'] == "a.TAG"){
+	$tag = $_GET['value'];
+	$queryDetails  .= "AND a.TAG= '$tag' ";
+}
 	
 if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
 	$queryDetails  .= "AND ".$_SESSION['OCS']["mesmachines"];
