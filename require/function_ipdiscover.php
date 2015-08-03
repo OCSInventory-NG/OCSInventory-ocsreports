@@ -58,10 +58,9 @@ function form_add_subnet($title='',$default_value,$form){
 		foreach ($tab_typ_champ as $id=>$values){
 			$tab_typ_champ[$id]['CONFIG']['SIZE']=30;
 		}
-
-			$tab_typ_champ[1]["CONFIG"]['DEFAULT']="NO";
-			if (isset($_SESSION['OCS']['PAGE_PROFIL']['ms_adminvalues']))
-				$tab_typ_champ[1]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ID_IPDISCOVER&form=".$form."\"><img src=image/plus.png></a>";
+		$tab_typ_champ[1]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=ID_IPDISCOVER&form=".$form."\"><img src=image/plus.png></a>";
+		
+		$tab_typ_champ[1]["CONFIG"]['DEFAULT']="NO";
 
 		tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
 			'title' => $title,
