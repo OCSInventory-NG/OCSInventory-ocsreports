@@ -27,6 +27,6 @@ if (is_numeric($protectedGet['systemid']) and array_key_exists($protectedGet['de
 	}
 
 	$barcode = new \Com\Tecnick\Barcode\Barcode();
-	$qrcode = $barcode->getBarcodeObj('QRCODE,H', $msg, 400, 400, 'black');
+	$qrcode = $barcode->getBarcodeObj('QRCODE,H', $msg, 400, 400, 'black',array(20,20,20,20));
 	$qrcode->getPng();
 }
