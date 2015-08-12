@@ -324,7 +324,7 @@ if (!isset($_SESSION['OCS']["loggeduser"])){
 	if (!AJAX && !((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))){
 		if(version_compare(PHP_VERSION, '5.3.7') >= 0){
 			if(version_compare(PHP_VERSION, '5.5') < 0){
-				include_once("require/password.php");
+				include_once(PASSWORD_COMPAT);
 			}
 			$values=look_config_default_values('PASSWORD_VERSION');
 			$_SESSION['OCS']['PASSWORD_VERSION'] = $values['ivalue']['PASSWORD_VERSION'];
