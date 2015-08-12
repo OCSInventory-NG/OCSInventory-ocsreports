@@ -36,9 +36,18 @@
         	</td>
         	<td class="summary-cell">
             	<h4><?php echo $l->g(20)?></h4>
-            	<div id="phpversion"><div class="summary-header"><?php echo $l->g(1369)?> :</div><div class="summary-value"><?php echo PHP_VERSION; ?></div></div>
-            	<div id="serverversion"><div class="summary-header"><?php echo $l->g(1370)?> :</div><div class="summary-value"><?php echo $_SERVER['SERVER_SOFTWARE']; ?></div></div>
-            	<div id="mysqlversion"><div class="summary-header"><?php echo $l->g(1371)?> :</div><div class="summary-value"><?php echo mysqli_get_server_info($_SESSION['OCS']['readServer']) ?></div></div>
+            	<div id="phpversion"><div class="summary-header"><?php echo $l->g(1369)?> :</div><div class="summary-value"><?php
+					echo PHP_VERSION . ' (' . PHP_SAPI . ')';
+				?></div></div>
+            	<div id="serverversion"><div class="summary-header"><?php echo $l->g(1370)?> :</div><div class="summary-value"><?php
+					echo $_SERVER['SERVER_SOFTWARE'];
+				?></div></div>
+            	<div id="mysqlversion"><div class="summary-header"><?php echo $l->g(1371)?> :</div><div class="summary-value"><?php
+					$sql = "SELECT @@sql_mode as mode, @@version AS vers, @@version_comment AS stype";
+					$res = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+					$info = mysqli_fetch_object($res);
+					echo $info->stype . ' version '. $info->vers;
+            	?></div></div>
         	</td>
         </tr>	
         <tr class="summary-row">

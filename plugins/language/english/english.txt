@@ -1245,8 +1245,8 @@
 1367 Network
 1368 CPU
 1369 PHP Version 
-1370 Server software
-1371 Mysql Version
+1370 Web Server
+1371 Database Server
 1372 Kernel
 1373 Distribution
 1374 Access the website
