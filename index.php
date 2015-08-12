@@ -26,7 +26,7 @@ if (get_magic_quotes_gpc()) {
 
 require_once ('require/function_index.php');
 $sleep=1;
-$debut = getmicrotime();
+$debut = microtime(true);
 
 define('AJAX', false);
 
