@@ -1,26 +1,3 @@
-<script>
-	function convert(bytes) {
-	   if(bytes == 0) return '0 Byte';
-	   var k = 1024;
-	   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-	   var i = Math.floor(Math.log(bytes) / Math.log(k));
-	   return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
-	}
-	$(document).ready(function() {
-		$.get( "libraries/linfo/index.php?out=jsonp", function( data ) {
-		  $('#os').children(".summary-value").text(data.OS);
-		  $('#ram').children(".summary-value").text(convert(data.RAM.total));
-		  $('#freeram').children(".summary-value").text(convert(data.RAM.free));
-		  $('#cpu').children(".summary-value").text(data.CPU[0].Model+" "+data.CPUArchitecture);
-		  if(data.Kernel){
-			$(".system").append('<div id="kernel"><div class="summary-header"><?php echo $l->g(1372)?>  :</div><div class="summary-value">'+data.Kernel+'</div></div>');
-		  }
-		  if(data.Distro){
-				$(".system").append('<div id="distro"><div class="summary-header"><?php echo $l->g(1373)?>  :</div><div class="summary-value">'+data.Distro.name+'  '+data.Distro.version+'</div></div>');
-			  }
-		});
-	});
-</script>
 <h3 class="h3">
 <?php echo $l->g(1360)?>
 </h3>
@@ -29,10 +6,39 @@
         <tr class="summary-row">
         	<td class="summary-cell system">
             	<h4><?php echo $l->g(25)?></h4>
-            	<div id="os"><div class="summary-header"><?php echo $l->g(274)?> :</div><div class="summary-value"></div></div>
-            	<div id="ram"><div class="summary-header"><?php echo $l->g(1379)?> :</div><div class="summary-value"></div></div>
-            	<div id="freeram"><div class="summary-header"><?php echo $l->g(1378)?> :</div><div class="summary-value"></div></div>
-            	<div id="cpu"><div class="summary-header"><?php echo $l->g(1368)?> :</div><div class="summary-value"></div></div>  
+            	<div id="os"><div class="summary-header"><?php echo $l->g(274)?> :</div><div class="summary-value"><?php
+					$os = php_uname("s");
+					echo ($os == "Linux" ? $os . ' ' . php_uname('m') : $os);
+					echo '</div></div><div id="kernel"><div class="summary-header">' . $l->g($os == "Linux" ? 1372 : 277).
+						' :</div><div class="summary-value">' . php_uname("r");
+					$meminfo = @file_get_contents('/proc/meminfo');
+					if ($meminfo && preg_match("/MemTotal: *([0-9]*)/", $meminfo, $res)) {
+						$res = sprintf("%.2f Gio", intval($res[1]) / 1024 / 1024);
+						echo '</div></div><div id="ram"><div class="summary-header">' . $l->g(1379).
+							' :</div><div class="summary-value">' . $res;
+					}
+					if ($meminfo && preg_match("/MemAvailable: *([0-9]*)/", $meminfo, $res)) {
+						$res = sprintf("%.2f Gio", intval($res[1]) / 1024 / 1024);
+						echo '</div></div><div id="freeram"><div class="summary-header">' . $l->g(1378).
+							' :</div><div class="summary-value">' . $res;
+					}
+					$cpuinfo = @file_get_contents('/proc/cpuinfo');
+					if ($cpuinfo && preg_match("/model name(.*): (.*)\n/", $cpuinfo, $res)) {
+						echo '</div></div><div id="cpu"><div class="summary-header">' . $l->g(1368).
+							' :</div><div class="summary-value">' . $res[2];
+					}
+					// TODO: other distro
+					$distro = false;
+					foreach(array('/etc/debian_version', '/etc/redhat-release') as $fic) {
+						if (file_exists($fic)) {
+							$distro = file_get_contents($fic);
+						}
+					}
+					if ($distro) {
+						echo '</div></div><div id="distro"><div class="summary-header">' . $l->g(1373).
+							' :</div><div class="summary-value">' . $distro;
+					}
+            	?></div></div>
         	</td>
         	<td class="summary-cell">
             	<h4><?php echo $l->g(20)?></h4>
