@@ -8,7 +8,7 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-require_once('libraries/qrcode/qrcode.class.php');
+require_once(TC_LIB_BARCODE);
 require_once('require/function_admininfo.php');
 if (is_numeric($protectedGet['systemid']) and array_key_exists($protectedGet['default_value'],$array_qr_action)){
 	if ($array_qr_action[$protectedGet['default_value']]['TYPE'] == 'url')
@@ -25,10 +25,8 @@ if (is_numeric($protectedGet['systemid']) and array_key_exists($protectedGet['de
 		$val= mysqli_fetch_array($res);
 		$msg=$val[$fields_info[1]];
 	}
- $qrcode = new QRcode($msg, 'H'); // error level : L, M, Q, H
 
- $qrcode->displayPNG(500,array(255,255,255),array(0,0,0));
+	$barcode = new \Com\Tecnick\Barcode\Barcode();
+	$qrcode = $barcode->getBarcodeObj('QRCODE,H', $msg, 400, 400, 'black',array(20,20,20,20));
+	$qrcode->getPng();
 }
-
-
-?>
