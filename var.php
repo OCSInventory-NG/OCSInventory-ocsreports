@@ -15,7 +15,7 @@ define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
 
 define("GUI_VER", "7009");												// Version of the database
 define("GUI_VER_SHOW","2.2RC");        								    // Version of the GUI
-define("MAC_FILE", "files/oui.txt");									// File containing MAC database
+define("MAC_FILE", __DIR__ . '/files/oui.txt');									// File containing MAC database
 define("DEFAULT_LANGUAGE","english");    								// Default language
 define("PAG_INDEX","function");         								// define name in url (like multi=32)
 define("DEMO",false);			        								// Define if we use demo version or not (for OCS TEAM, other=> DO NOT USE IT)
@@ -25,18 +25,18 @@ define("DFT_DB_CMPT",'ocs');  											// Define default login to connect to d
 define("DFT_DB_PSWD",'ocs');											// Define default password to connect to database
 define("DFT_GUI_CMPT",'admin');											// Define default login to connect to GUI
 define("DFT_GUI_PSWD",'admin');											// Define default password to connect to GUI
-define('BACKEND',"backend/");									   	 	// Define backend Directory
-define('PHPCAS','libraries/phpcas/CAS.php');							// Path to CAS (change to use system provided library)
+define('BACKEND',__DIR__ . '/backend/');									   	 	// Define backend Directory
+define('PHPCAS', __DIR__ . '/libraries/phpcas/CAS.php');				// Path to CAS (change to use system provided library)
 define('TC_LIB_BARCODE',  __DIR__ . '/libraries/tclib/Barcode/autoload.php'); // Path to tc-lib-barcode library, change to use system library
 define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php'); // Path to tc-lib-barcode library, change to use system library
-define('PLUGINS_DL_DIR', 'download/');
-define('PLUGINS_SRV_SIDE', 'upload/');
-define('CONFIG_DIR',"config/");
+define('PLUGINS_DL_DIR', __DIR__ . '/download/');
+define('PLUGINS_SRV_SIDE', __DIR__ . '/upload/');
+define('CONFIG_DIR',__DIR__ . '/config/');
 define('CD_CONFIG_DIR', CONFIG_DIR."computer/" );
-define('PLUGINS_DIR',"plugins/");										// Define plugins Directory
+define('PLUGINS_DIR',__DIR__ . '/plugins/');										// Define plugins Directory
 define('PLUGINS_GUI_DIR','/tmp/');	
-define('HEADER_HTML',"require/html_header.php");						// Define html_header file				
-define('FOOTER_HTML',"require/footer.php");								// Define footer file		
+define('HEADER_HTML',__DIR__ . '/require/html_header.php');						// Define html_header file				
+define('FOOTER_HTML',__DIR__ . '/require/footer.php');								// Define footer file		
 define('MAIN_SECTIONS_DIR',PLUGINS_DIR."main_sections/");				//
 define('DEV_OPTION',false);												// Define DEV Options DO NOT USE
 define('PC4PAGE',20);													// Define result by page MUST in (5,10,15,20,50,100,200,1000000);
