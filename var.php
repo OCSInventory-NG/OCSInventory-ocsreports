@@ -25,8 +25,8 @@ define("DFT_DB_CMPT",'ocs');  											// Define default login to connect to d
 define("DFT_DB_PSWD",'ocs');											// Define default password to connect to database
 define("DFT_GUI_CMPT",'admin');											// Define default login to connect to GUI
 define("DFT_GUI_PSWD",'admin');											// Define default password to connect to GUI
-define('BACKEND',"backend/");									    // Define backend Directory
-define('PHPCAS',BACKEND.'require/lib/phpcas/CAS.php');					// Path to CAS (change to use system provided library)
+define('BACKEND',"backend/");									   	 	// Define backend Directory
+define('PHPCAS','libraries/phpcas/CAS.php');							// Path to CAS (change to use system provided library)
 define('TC_LIB_BARCODE',  __DIR__ . '/libraries/tclib/Barcode/autoload.php'); // Path to tc-lib-barcode library, change to use system library
 define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php'); // Path to tc-lib-barcode library, change to use system library
 define('PLUGINS_DL_DIR', 'download/');
