@@ -1246,7 +1246,7 @@
 1368 CPU
 1369 Version de PHP  
 1370 Serveur Web
-1371 Version de Mysql 
+1371 Serveur SQL
 1372 Kernel
 1373 Distribution
 1374 Accéder au site
