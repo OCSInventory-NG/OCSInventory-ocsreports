@@ -92,15 +92,13 @@ if (!AJAX) {
 
 // 	echo"<br></div><table class='headfoot'>";
 // 	echo"<tr height=25px><td align='center'>&nbsp;";
-	if( function_exists("getmicrotime") ) {
- 		$fin = getmicrotime();
-		if($_SESSION['OCS']["DEBUG"]=="ON") {
- 			echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>".round($fin-$debut, 3) ." secondes</b></font>&nbsp;&nbsp;&nbsp;";
- 			echo "<script language='javascript'>document.getElementById(\"tps\").innerHTML=\"<b>".round($fin-$debut, 3)." secondes</b>\"</script>";
-		}
+	$fin = microtime(true);
+	if($_SESSION['OCS']["DEBUG"]=="ON") {
+		echo "<b>CACHE:&nbsp;<font color='".($_SESSION['OCS']["usecache"]?"green'><b>ON</b>":"red'><b>OFF</b>")."</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>".round($fin-$debut, 3) ." secondes</b></font>&nbsp;&nbsp;&nbsp;";
+		echo "<script language='javascript'>document.getElementById(\"tps\").innerHTML=\"<b>".round($fin-$debut, 3)." secondes</b>\"</script>";
+	}
 // 		if (isset($span_wait))
 // 			echo "<script language='javascript'>wait(0);</script>";
- 	}
 // 	echo"</td></tr></table>";
 	echo open_form('ACTION_CLIC');
 	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
