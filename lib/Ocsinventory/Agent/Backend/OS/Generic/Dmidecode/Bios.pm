@@ -18,15 +18,15 @@ sub run {
   $Type = `dmidecode -s chassis-type`;
   
   chomp($SystemModel);
-  $SystemModel =~ s/^#+\s+$//g;
+  $SystemModel =~ s/^(#.*\n)+//g;
   chomp($SystemManufacturer);
-  $SystemManufacturer =~ s/^#+\s+$//g;
+  $SystemManufacturer =~ s/^(#.*\n)+//g;
   chomp($SystemSerial);
-  $SystemSerial =~ s/^#+\s+$//g;
+  $SystemSerial =~ s/^(#.*\n)+//g;
   chomp($AssetTag);
-  $AssetTag =~ s/^#\s+$//g;
+  $AssetTag =~ s/^(#.*\n)+//g;
   chomp($Type);
-  $Type =~ s/^#\s+$//g;
+  $Type =~ s/^(#.*\n)+//g;
   
   #Motherboard DMI
   $MotherboardManufacturer = `dmidecode -s baseboard-manufacturer`;
@@ -34,11 +34,11 @@ sub run {
   $MotherboardSerial = `dmidecode -s baseboard-serial-number`;
   
   chomp($MotherboardModel);
-  $MotherboardModel =~ s/^#+\s+$//g;
+  $MotherboardModel =~ s/^(#.*\n)+//g;
   chomp($MotherboardManufacturer);
-  $MotherboardManufacturer =~ s/^#+\s+$//g;
+  $MotherboardManufacturer =~ s/^(#.*\n)+//g;
   chomp($MotherboardSerial);
-  $MotherboardSerial =~ s/^#+\s+$//g;
+  $MotherboardSerial =~ s/^(#.*\n)+//g;
   
   #BIOS DMI
   $BiosManufacturer = `dmidecode -s bios-vendor`;
@@ -46,11 +46,11 @@ sub run {
   $BiosDate = `dmidecode -s bios-release-date`;
   
   chomp($BiosManufacturer);
-  $BiosManufacturer =~ s/^#+\s+$//g;
+  $BiosManufacturer =~ s/^(#.*\n)+//g;
   chomp($BiosVersion);
-  $BiosVersion =~ s/^#+\s+$//g;
+  $BiosVersion =~ s/^(#.*\n)+//g;
   chomp($BiosDate);
-  $BiosDate =~ s/^#+\s+$//g;
+  $BiosDate =~ s/^(#.*\n)+//g;
 
 # Some bioses don't provide a serial number so I check for CPU ID (e.g: server from dedibox.fr)
   my @cpu;
