@@ -9,7 +9,7 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 //Modified on $Date: 2014 $$Author: Erwan Goalou + Passero
-set_time_limit(0);//Throw an error if Safe_mode is on, wich was removed in 5.4
+set_time_limit(0);//Throw an error if Safe_mode is on, which was removed in 5.4
 error_reporting(E_ALL & ~E_NOTICE);
 require_once('require/fichierConf.class.php');
 require_once('require/function_commun.php');

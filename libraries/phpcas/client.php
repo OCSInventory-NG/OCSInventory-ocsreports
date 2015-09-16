@@ -774,7 +774,7 @@ class CASClient
   
   /**
    * This method tells if the current session is authenticated.
-   * @return true if authenticated based soley on $_SESSION variable
+   * @return true if authenticated based solely on $_SESSION variable
    * @since 0.4.22 by Brendan Arnold
    */
   function isSessionAuthenticated ()
@@ -957,7 +957,7 @@ class CASClient
    * @param $text_response the response of the CAS server, as is (XML text).
    * @param $tree_response the response of the CAS server, as a DOM XML tree.
    *
-   * @return bool TRUE when successfull, halt otherwise by calling CASClient::authError().
+   * @return bool TRUE when successful, halt otherwise by calling CASClient::authError().
    *
    * @private
    */
@@ -1031,7 +1031,7 @@ class CASClient
 		       $text_response);
 	}
 	if ( sizeof($success_elements = $tree_response->get_elements_by_tagname("authenticationSuccess")) != 0) {
-	  // authentication succeded, extract the user name
+	  // authentication succeeded, extract the user name
 	  if ( sizeof($user_elements = $success_elements[0]->get_elements_by_tagname("user")) == 0) {
 	    phpCAS::trace('<authenticationSuccess> found, but no <user>');
 	    $this->authError('ST not validated',
@@ -1422,7 +1422,7 @@ class CASClient
    * @param $tree_response the response of the CAS server, as a DOM XML tree; result
    * of CASClient::validateST() or CASClient::validatePT().
    *
-   * @return bool TRUE when successfull, halt otherwise by calling CASClient::authError().
+   * @return bool TRUE when successful, halt otherwise by calling CASClient::authError().
    *
    * @private
    */
@@ -1431,7 +1431,7 @@ class CASClient
       phpCAS::traceBegin();
       if ( sizeof($arr = $tree_response->get_elements_by_tagname("proxyGrantingTicket")) == 0) {
 	phpCAS::trace('<proxyGrantingTicket> not found');
-	// authentication succeded, but no PGT Iou was transmitted
+	// authentication succeeded, but no PGT Iou was transmitted
 	$this->authError('Ticket validated but no PGT Iou transmitted',
 		     $validate_url,
 		     FALSE/*$no_response*/,
@@ -1525,7 +1525,7 @@ class CASClient
       if ( !$bad_response ) {
 	// look for a proxySuccess tag
 	if ( sizeof($arr = $root->get_elements_by_tagname("proxySuccess")) != 0) {
-	  // authentication succeded, look for a proxyTicket tag
+	  // authentication succeeded, look for a proxyTicket tag
 	  if ( sizeof($arr = $root->get_elements_by_tagname("proxyTicket")) != 0) {
 	    $err_code = PHPCAS_SERVICE_OK;
 	    $err_msg = '';
@@ -1566,7 +1566,7 @@ class CASClient
   // ########################################################################
 
   /**
-   * This method is used to acces a remote URL.
+   * This method is used to access a remote URL.
    *
    * @param $url the URL to access.
    * @param $cookies an array containing cookies strings such as 'name=val'
@@ -1841,7 +1841,7 @@ class CASClient
   /**
    * This method is used to validate a PT; halt on failure
    * 
-   * @return bool TRUE when successfull, halt otherwise by calling CASClient::authError().
+   * @return bool TRUE when successful, halt otherwise by calling CASClient::authError().
    *
    * @private
    */
@@ -1893,7 +1893,7 @@ class CASClient
 		     $text_response);
       }
       if ( sizeof($arr = $tree_response->get_elements_by_tagname("authenticationSuccess")) != 0) {
-	// authentication succeded, extract the user name
+	// authentication succeeded, extract the user name
 	if ( sizeof($arr = $tree_response->get_elements_by_tagname("user")) == 0) {
 	  // no user specified => error
 	  $this->authError('PT not validated',
@@ -1905,7 +1905,7 @@ class CASClient
 	$this->setUser(trim($arr[0]->get_content()));
 	
       } else if ( sizeof($arr = $tree_response->get_elements_by_tagname("authenticationFailure")) != 0) {
-	// authentication succeded, extract the error code and message
+	// authentication succeeded, extract the error code and message
 	$this->authError('PT not validated',
 		     $validate_url,
 		     FALSE/*$no_response*/,
@@ -2027,7 +2027,7 @@ class CASClient
   /**
    * This method is used to print the HTML output when the user was not authenticated.
    *
-   * @param $failure the failure that occured
+   * @param $failure the failure that occurred
    * @param $cas_url the URL the CAS server was asked for
    * @param $no_response the response from the CAS server (other 
    * parameters are ignored if TRUE)

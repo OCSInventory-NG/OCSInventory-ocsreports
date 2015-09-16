@@ -1054,7 +1054,7 @@
 1072 Pending resquests
 1073 Make a request
 1074 'Workflow' function is not activate.
-1075 Active the functionnality for use it
+1075 Activate this functionality to use it
 1076 ERROR: SEARCH STATUS IS NOT DEFINE
 1077 Status for creating package
 1078 Test status

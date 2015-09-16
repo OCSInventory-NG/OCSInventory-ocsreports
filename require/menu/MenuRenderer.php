@@ -151,7 +151,7 @@ class MenuRenderer {
      * 
      * @param array $attr Array of attribute
      * 
-     * @return string Convertion of attribute array in string
+     * @return string Conversion of attribute array to string
      */
     protected function attrToString(array $attr) {
         $html = '';

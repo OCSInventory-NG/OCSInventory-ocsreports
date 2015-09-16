@@ -3396,13 +3396,13 @@ $.elycharts.line = {
                 return {x: X, y: Y};
               }; 
               // calculate collision between non rotated rects with vertext p1-p2 and t1-t2
-              // this algorythm works only for horizontal rects (alpha = 0)
+              // this algorithm works only for horizontal rects (alpha = 0)
               // "dist" is the length added as a margin to the rects before collision detection
               collide = function(r1,r2,dist) {
                 xor = function(a,b) {
                   return ( a || b ) && !( a && b );
                 }
-                if (r1.alpha != r2.alpha) throw "collide doens't support rects with different rotations";
+                if (r1.alpha != r2.alpha) throw "collide doesn't support rects with different rotations";
                 var r1p1r = rotate({x: r1.p1.x-dist, y:r1.p1.y-dist}, -r1.alpha);
                 var r1p2r = rotate({x: r1.p2.x+dist, y:r1.p2.y+dist}, -r1.alpha);
                 var r2p1r = rotate({x: r2.p1.x-dist, y:r2.p1.y-dist}, -r2.alpha);

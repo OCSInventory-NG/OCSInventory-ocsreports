@@ -421,7 +421,7 @@ if ($activate){
 	if ($info_dde_statut_creat != ''){
 		$array_id_fields=find_id_field(array('NAME_TELEDEPLOY','PRIORITY','NOTIF_USER','REPORT_USER','INFO_PACK'));
 	
-		//build the seach
+		//build the search
 		$id_name="fields_".$array_id_fields['NAME_TELEDEPLOY']->id;
 		$id_description="fields_".$array_id_fields['INFO_PACK']->id;
 		$id_priority="fields_".$array_id_fields['PRIORITY']->id;

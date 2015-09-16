@@ -169,7 +169,7 @@ class PGTStorageDB extends PGTStorage
   function init()
     {
       phpCAS::traceBegin();
-      // if the storage has already been initialized, return immediatly
+      // if the storage has already been initialized, return immediately
       if ( $this->isInitialized() )
 	return;
       // call the ancestor's method (mark as initialized)

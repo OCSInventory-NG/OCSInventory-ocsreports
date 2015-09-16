@@ -9,7 +9,7 @@ Revision history for ocsreports
 		* Ldap Configuration is now working ( Was broken in 2.2B1 )
 		* Fix a bug which throw an error on PHP 5.5+
 		* function_ipdiscover.php has been modified for handling new oui.txt files (thx to paul)
-		* All array have now a saving feature which permit to save order and colum config (thx to paul)
+		* All arrays now have a saving feature which permits to save order and column config (thx to paul)
 		* Cosmetic fix for large screen
 		* Cosmetic fix on the config menu (input overflow)
 
@@ -57,11 +57,11 @@ Revision history for ocsreports
 		* verify if directory of redistribution server exist
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1011531 (delete redistribution packages on disk)
 		* fix https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/1051850 (no computer name in csv export of duplicates)
-		* Add an exemple for plugin (how to developp one)
+		* Add an example for plugin (how to develop one)
 
 2.1RC1
 		* active SNMP V3
-		* change info on processor on coputer details
+		* change info on processor on computer details
 		* add pda info on computer details
 		* fix bug on accountinfo (with uploadfile>64ko)
 		* add advanced options for teledeploy
@@ -283,7 +283,7 @@ Revision history for ocsreports
         * Fix bugs on function_table_html.php
         * New graph for teledeploy speed
         * Add FusionChartsFree for graphs 
-        * Add functionnality: UTF8 for new databases
+        * Add functionality: UTF8 for new databases
         * Create new database on UTF8 format
         * If database UTF8 format => only ocsbase_new.sql
         * New plugin system: you can now create your own plugins easily	
@@ -297,7 +297,7 @@ Revision history for ocsreports
         * Add new option: tabcache => GUI tables cache
         * Reset all tab cache
         * Show SNMP data
-        * Add snmp functionnality for a computer or a group
+        * Add snmp functionality for a computer or a group
         * Update for french file
         * Use dbname=ocsweb by default if dbname doesn't exist
         * Fix bugs on notes (computers infos)
@@ -339,10 +339,10 @@ Revision history for ocsreports
         * Add availibility to configure separator when you export file
         * Various Italian translations (thanks to Passero)
         * Fix Bug 658107 : https://bugs.launchpad.net/bugs/658107 (thanks to Pieroliste)
-        * Adminstrate your snmp community
+        * Administrate your snmp community
         * New version of snmp communities
         * Fix bug 654645
-        * Add snmp functionnality for a computer or a group
+        * Add snmp functionality for a computer or a group
         * Show all double even when it is equal to 0
         * Use standard function for messages
         * Fix bug: https://bugs.launchpad.net/bugs/637839 (thanks to Passero)

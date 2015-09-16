@@ -121,7 +121,7 @@ else{
 				array_push($config['DDE'],$systemid);	
 				//if name_accountinfo is not null 
 				//column name in accountinfo table is name_accountinfo 
-				//functionnality for compatibily with older version of OCS
+				//functionality for compatibility with older version of OCS
 				//we can't change the name TAG in accountinfo table 
 				if ($val_admin_info['NAME_ACCOUNTINFO'] != '')
 					$name_accountinfo=trim($val_admin_info['NAME_ACCOUNTINFO']);

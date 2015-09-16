@@ -169,7 +169,7 @@ function admin_serveur($action,$name_server,$descr,$mach) {
 			msg_success($l->g(880) . "<br>" . $nb_mach . " " . $l->g(881));
 			return ''; 			
 		}else
-		return $l->g(621); //this name allready exist 
+		return $l->g(621); //this name already exists
 
 	}//if the machines add to the group or the group is replace
 	elseif ($action == 'add_serv' or $action == 'replace_serv'){
