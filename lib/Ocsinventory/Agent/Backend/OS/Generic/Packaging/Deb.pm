@@ -12,7 +12,7 @@ sub run {
   
 # use dpkg-query --show --showformat='${Package}|||${Version}\n'
   foreach(`dpkg-query --show --showformat='\${Package}---\${Version}---\${Installed-Size}---\${Description}\n'`) {
-     if (/^(\S+)---(\S+)---(\S+)---(.*)/) { 
+     if (/^(\S+)---(\S+)---(\S*)---(.*)/) {
        if ($3) { 
 	$size=$3;
        } else {
