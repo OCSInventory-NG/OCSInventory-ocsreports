@@ -5,26 +5,29 @@ sub check {-f "/etc/slackware-version"}
 
 #####
 sub findRelease {
-  my $v;
+    my $v;
 
-  open V, "</etc/slackware-version" or warn;
-  chomp ($v=<V>);
-  close V;
-  $v;
+    open V, "</etc/slackware-version" or warn;
+    #chomp ($v=<V>);
+    foreach (<V>){
+        $v=$1 if (/Slackware ([\d.]+)/);
+        close V;
+        return $v;
+    }
 }
 
 sub run {
-  my $params = shift;
-  my $common = $params->{common};
+    my $params = shift;
+    my $common = $params->{common};
 
-  my $OSComment;
-  chomp($OSComment =`uname -v`);
+    my $OSComment;
+    chomp($OSComment =`uname -v`);
 
-  $common->setHardware({ 
-      OSNAME => findRelease(),
-      OSCOMMENTS => "$OSComment"
+    $common->setHardware({ 
+        OSNAME => "Slackware",
+        OSVERSION => findRelease(),
+        OSCOMMENTS => "$OSComment"
     });
 }
-
 
 1;

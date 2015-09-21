@@ -82,15 +82,21 @@ sub getDescription {
 
 sub getManufacturer {
   	my ($model) = @_;
-  	if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
-    	return ucfirst(lc($1));
+  	#if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
+    #	return ucfirst(lc($1));
+    if ($model =~ /^(IBM|LG|NEC)/){
+        return $1;
+    } elsif ($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
+        $model = lc($1);
+        $model = s/\b(\w)/\u$1/g;
+        return $model;
   	} elsif ($model =~ /^HP/) {
-    	return "Hewlett Packard";
-  	} elsif ($model =~ /^WDC/) {
+    	return "Hewlett-Packard";
+  	} elsif ($model =~ /^WD/) {
     	return "Western Digital";
   	} elsif ($model =~ /^ST/) {
     	return "Seagate";
-  	} elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
+  	} elsif ($model =~ /^(HD|IC|HU)/) {
     	return "Hitachi";
   	}
 }
@@ -173,29 +179,43 @@ sub run {
 		
 			for (@sm){
 				if (/^Model\sFamily:\s*(.*)/i){
-        			$manufacturer = $1;
-        			if ($manufacturer =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i){
-            			$desc=ucfirst(lc($1));
-        			}
-        			elsif ($manufacturer =~ /^HP/) {
-            			$desc="Hewlett Packard";
-        			}
-        			elsif ($manufacturer =~ /^WDC/) {
-            			$desc="Western Digital";
-        			}
-        			elsif ($manufacturer =~ /^ST/) {
-            			$desc="Seagate";
-        			}
-        			elsif ($manufacturer =~ /^HD/ or $manufacturer =~ /^IC/ or $manufacturer =~ /^HU/) {
-            			$desc="Hitachi";
-					}
+        			$desc = $1;
+                    if ($desc =~ /^(IBM|LG|NEC)/){
+                        $manufacturer = $1;
+        			} elsif ($desc =~ /^(HP|Hewlett[ -]Packard)/) {
+            			$manufacturer="Hewlett-Packard";
+        			} elsif ($desc =~ /(maxtor|western digital|sony|compaq|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i){
+            			$manufacturer = lc($1);
+                        $manufacturer =~ s/\b(\w)/\u$1/g;
+        			} elsif ($desc =~ /^WD/) {
+            			$manufacturer="Western Digital";
+        			} elsif ($desc =~ /^ST/) {
+            			$manufacturer="Seagate";
+        			} elsif ($desc =~ /^(HD|IC|HU)/) {
+            			$manufacturer="Hitachi";
+					} elsif ($desc =~ /^SandForce/) {
+                        $manufacturer="Corsair";
+                    }
 				}
+
 				if (/^Device\sModel:\s*(.*)/i){
         			$model = $1;
+                    if (!defined $manufacturer){
+                        if ($model =~ /^(hitachi|toshiba|samsung)/) {
+                           $manufacturer = lc($1);
+                           $manufacturer = s/\b(\w)/\u$1/g;
+                        } elsif ($model =~ /^ST/) {
+                           $manufacturer = "Seagate";
+                        } elsif ($model =~ /^HD/) {
+                           $manufacturer = "Hitachi";
+                        }
+                    }
     			}
+
     			if (/^Serial\sNumber:\s*(.*)/i){
         			$serial = $1;	
 				}
+
 				if (/^User\sCapacity:\s*(.*)\sbytes\s\[(.*)\s(.*)\]/i){
 					$cap = $1;
 					$unit = $3;
@@ -221,7 +241,7 @@ sub run {
 				MANUFACTURER => $manufacturer,
 				MODEL => $model,
 				NAME => $name,
-				SERIAL => $serial,
+				SERIALNUMBER => $serial,
 				TYPE => 'Disk',
 			});
 		}

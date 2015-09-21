@@ -62,6 +62,7 @@ sub addUsb {
 
   my $content = {};
 
+  #foreach my $key (qw/CAPTION DESCRIPTION INTERFACE MANUFACTURER POINTTYPE TYPE/) {
   foreach my $key (qw/DESCRIPTION INTERFACE MANUFACTURER PROTOCOL TYPE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
@@ -171,7 +172,7 @@ sub addMemory {
 
   my $content = {};
 
-  foreach my $key (qw/CAPACITY CAPTION DESCRIPTION NUMSLOTS SERIALNUMBER SPEED TYPE/) {
+  foreach my $key (qw/CAPACITY CAPTION DESCRIPTION ERRORCORRECTIONTYPE MANUFACTURER NUMSLOTS SERIALNUMBER SPEED TYPE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }
@@ -316,7 +317,7 @@ sub addVideo {
 
   my $content = {};
 
-  foreach my $key (qw/CHIPSET DRVVERSION MEMORY NAME RESOLUTION SPEED UUID VBIOS/) {
+  foreach my $key (qw/CHIPSET DRVVERSION MEMORY NAME PCISLOT PCIID RESOLUTION SPEED UUID VBIOS/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }
@@ -375,7 +376,7 @@ sub addNetwork {
 
   my $content = {};
 
-  foreach my $key (qw/BSSID DESCRIPTION DRIVER DUPLEX IEEE IPADDRESS IPDHCP IPGATEWAY IPMASK IPSUBNET MACADDR MODE PCISLOT SPEED SSID STATUS TYPE VIRTUALDEV/) {
+  foreach my $key (qw/BSSID DESCRIPTION DRIVER DUPLEX IPADDRESS IPDHCP IPGATEWAY IPMASK IPSUBNET MACADDR MODE PCISLOT SPEED SSID STATUS TYPE VERSION VIRTUALDEV/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }
@@ -455,7 +456,7 @@ sub addCPU {
 
   my $content = {};
 
-  foreach my $key (qw/CORES CPUARCH CPUSTATUS CURRENT_SPEED DATA_WIDTH HPT L2CACHESIZE MANUFACTURER NBSOCKET SERIALNUMBER SOCKET SPEED THREAD TYPE VOLTAGE/) {
+  foreach my $key (qw/CORES CPUARCH CPUSTATUS CURRENT_SPEED DATA_WIDTH HPT L2CACHESIZE MANUFACTURER NBSOCKET SERIALNUMBER SOCKET SPEED TYPE VOLTAGE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }
@@ -891,44 +892,26 @@ sub addSnmpCPU {
 
 }
 
+
+
 =item addBatteries()
 
-Add a battery in the inventory.
+Add a memory module in the inventory.
 
 =cut
 sub addBatteries {
+  my ($self, $args) = @_; 
+  my $xmltags = $self->{xmltags};
 
-	my ($self, $args) = @_;
-	my $xmltags = $self->{xmltags};
-	
-	my $content = {};
+  my $content = {};
 
-	foreach my $key (qw/CHEMISTRY DESIGNCAPACITY DESIGNVOLTAGE LOCATION MANUFACTURER MANUFACTUREDATE MAXERROR NAME OEMSPECIFIC SBDSVERSION SERIALNUMBER/){
-		if (exists $args->{$key}) {
-			$content->{$key}[0] = $args->{$key} if $args->{$key};
-		}
-	}
-	push @{$xmltags->{BATTERIES}}, $content;
-}
+  foreach my $key (qw/CHEMISTRY DESIGNCAPACITY DESIGNVOLTAGE LOCATION MANUFACTURER MANUFACTUREDATE MAXERROR NAME OEMSPECIFIC SBDSVERSION SERIALNUMBER /) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
 
-=item addCamera()
-
-Add a Camera in the inventory.
-
-=cut
-sub addCamera {
-
-	my ($self, $args) = @_;
-	my $xmltags = $self->{xmltags};
-	
-	my $content = {};
-
-	foreach my $key (qw/MODEL UUID/){
-		if (exists $args->{$key}) {
-			$content->{$key}[0] = $args->{$key} if $args->{$key};
-		}
-	}
-	push @{$xmltags->{CAMERA}}, $content;
+  push @{$xmltags->{BATTERIES}}, $content;
 }
 
 #Subroutinne to add 0 in 'Sun like' MAC adress if needed

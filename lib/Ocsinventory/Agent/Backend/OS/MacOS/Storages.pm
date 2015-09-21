@@ -66,7 +66,7 @@ sub run {
 
       $devices->{$storage->{'_name'}} = {
         NAME => $storage->{'name'},
-        SERIAL => $storage->{'device_serial'},
+        SERIALNUMBER => $storage->{'device_serial'},
         DISKSIZE => $size,
         FIRMWARE => $storage->{'device_revision'},
         MANUFACTURER => $manufacturer,

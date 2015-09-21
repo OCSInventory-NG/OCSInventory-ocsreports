@@ -11,4 +11,6 @@ sub check {
   1;
 }
 
+sub run{}
+
 1;

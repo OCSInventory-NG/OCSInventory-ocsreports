@@ -9,4 +9,6 @@ sub check {
   0; 
 };
 
-1
+sub run{}
+
+1;
