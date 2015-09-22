@@ -97,7 +97,7 @@ void create_socket(int *sd, struct sockaddr_ll *sll, int index){
 	/* Put the iface index in sockaddr_ll structure to bind */
 	sll->sll_ifindex = index;
 	
-	if( sd < 0 ){
+	if( *sd < 0 ){
 		perror("Socket creation problem");
 		exit(1);
 	}
