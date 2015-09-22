@@ -6,7 +6,7 @@
 #
 # @(#) memconf - Identify sizes of memory modules installed on a
 # @(#)           Solaris, Linux, FreeBSD or HP-UX workstation or server.
-# @(#) Micron Technology, Inc. - Tom Schmidt 24-Feb-2014 V3.04
+# @(#) Micron Technology, Inc. - Tom Schmidt 02-Jun-2015 V3.08
 #
 # Maintained by Tom Schmidt (tschmidt@micron.com)
 #
@@ -79,8 +79,8 @@
 #   - sun4v Sun SPARC Enterprise T2000, T1000 Server
 #   - sun4v Sun SPARC Enterprise T5120, T5140, T5220, T5240 Server, Netra T5220
 #   - sun4v Sun SPARC Enterprise T5440 Server, Netra T5440
-#   - sun4v Oracle SPARC T3-1, T3-1B, T3-2, T4-1, T4-2, T4-4, T5-2
-#   - sun4v Fujitsu SPARC M10-4
+#   - sun4v Oracle SPARC T3-1, T3-1B, T3-2, T4-1, T4-2, T4-4, T5-2, T5-4
+#   - sun4v Fujitsu SPARC M10-1, M10-4
 #   - sun4m Tatung COMPstation 5, 10, 20AL, 20S and 20SL clones
 #   - sun4m transtec SPARCstation 20I clone
 #   - sun4m Rave Axil-255 SPARCstation 5 clone
@@ -109,10 +109,10 @@
 # - sun4u Sun Netra ct400, ct410, ct810
 # - sun4u Sun SPARCengine CP2040, CP2060, CP2080, CP2160
 # - sun4v Sun Netra CP3260
-# - sun4v Oracle SPARC T3-1BA, T3-4, T4-1B, T4-2B, T5-4, T5-8, T5-1B
+# - sun4v Oracle SPARC T3-1BA, T3-4, T4-1B, T4-2B, T5-8, T5-1B
 # - sun4v Oracle SPARC M5-32, M6-32
 # - sun4v Oracle Netra SPARC T3 systems
-# - sun4v Fujitsu SPARC M10-1, M10-4S
+# - sun4v Fujitsu SPARC M10-4S
 # - May not work properly on Sun clones
 #
 # Won't work on:
@@ -131,8 +131,8 @@
 $^W=1;	# Enables -w warning switch, put here for SunOS4 compatibility.
 $starttime=(times)[0];
 
-$version="V3.04";
-$version_date="24-Feb-2014";
+$version="V3.08";
+$version_date="02-Jun-2015";
 $URL="http://sourceforge.net/projects/memconf/";
 
 $newpath="/usr/sbin:/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
@@ -225,16 +225,26 @@ $ldm_memory=0;
 $free_cmd="";
 $free_checked="";
 $have_free_data=0;
+$meminfo_cmd="";
+$have_meminfo_data=0;
 $modprobe_eeprom_cmd="";
 $decodedimms_cmd="";
 $decodedimms_checked="";
 $have_decodedimms_data=0;
 @reorder_decodedimms=();
+$topology_cmd="";
+@topology_header=();
+@topology_data=();
+$topology_mfg="";
 $maxmembusspeed="";
 $foundspeed=0;
 $mixedspeeds=0;
 $have_x86_devname=0;
 $manufacturer="";
+$systemmanufacturer="";
+$boardmanufacturer="";
+$baseboard="";
+$biosvendor="";
 if (-d '/usr/platform') {
 	$platform=&mychomp(`$uname -i`);
 	if (-x "/usr/platform/$platform/sbin/prtdiag") {
@@ -396,6 +406,8 @@ $bannermore="";
 $cpubanner="";
 $diagbanner="";
 $model="";
+$systemmodel="";
+$boardmodel="";
 $modelmore="";
 $model_checked=0;
 $BSD=0; # Initially assume SunOS 5.X
@@ -411,7 +423,7 @@ $devname="";	# Sun internal development code name
 $familypn="";	# Sun family part number (system code)
 $clone=0;
 $totmem=0;
-$latest_dmidecode_ver="2.11";
+$latest_dmidecode_ver="2.12";
 $minimum_dmidecode_ver="2.8";
 $dmidecode_ver="0";
 $dmidecodeURL="http://www.nongnu.org/dmidecode/";
@@ -553,10 +565,12 @@ foreach $name (@ARGV) {
 		$have_ipmitool_data=1;
 		@ldm=@config;
 		$have_ldm_data=1;
-		@free=@config;
-		$have_free_data=1;
 		@cpuinfo=@config;
 		$have_cpuinfo_data=1;
+		@meminfo=@config;
+		$have_meminfo_data=1;
+		@free=@config;
+		$have_free_data=1;
 		@xm_info=@config;
 		$have_xm_info_data=1;
 		@decodedimms=@config;
@@ -712,7 +726,7 @@ if ($osrel =~ /^5./) {
 		$release=&mychomp($release);
 		$solaris="$release";
 	}
-	if ($osminor =~ /^[7-9]|^1[0-9]/) {
+	if ($osminor =~ /^[7-9]$|^1[0-9]$/) {
 		$hasprtconfV=1;
 		$solaris=$osminor if (! $solaris);
 		$kernbit=32;
@@ -731,17 +745,16 @@ if ($osrel =~ /^5./) {
 		} elsif (-x '/bin/isainfo') {
 			$kernbit=&mychomp(`/bin/isainfo -b`);
 		}
-	} elsif ($osminor =~ /[4-6]/) {
+	} elsif ($osminor =~ /^[4-6]$/) {
 		$hasprtconfV=1;
 		$solaris="2.$osminor" if (! $solaris);
 	} else {
 		$solaris="2.$osminor";
 	}
-	if ($machine eq "i86pc" && $osminor =~ /[0-5]/) {
-		# x86 Solaris 2.5.1 and earlier has different syntax than SPARC
-		$hasprtconfV=0;
-		$config_cmd="/usr/sbin/prtconf -v";
-	}
+	# x86 Solaris 2.1 through 2.5.1 has different syntax than SPARC
+	$config_cmd="/usr/sbin/prtconf -v" if ($machine eq "i86pc" && $osminor =~ /^[1-5]$/);
+	# Solaris x86 returns booting system rather than PROM version
+	$hasprtconfV=0 if ($machine eq "i86pc");
 }
 if (! $filename) {
 	@config=&run("$config_cmd");
@@ -785,10 +798,10 @@ if ($filename && $have_prtpicl_data && ! $SUNWexplo) {
 			if ($osrel =~ /^5./) {
 				$osminor=$osrel;
 				$osminor=~s/^5.//;
-				if ($osminor =~ /^[7-9]|^1[0-9]/) {
+				if ($osminor =~ /^[7-9]$|^1[0-9]$/) {
 					$solaris=$osminor;
 					# Solaris 10 SPARC and later is 64-bit
-					$kernbit=64 if ($osminor =~ /^1[0-9]/ && $machine =~ /sun4/);
+					$kernbit=64 if ($osminor =~ /^1[0-9]$/ && $machine =~ /sun4/);
 				} else {
 					# Solaris 2.6 and earlier is 32-bit
 					$solaris="2.$osminor";
@@ -797,7 +810,7 @@ if ($filename && $have_prtpicl_data && ! $SUNWexplo) {
 				if ($machine =~ /86/) {
 					$solaris .= " X86" if ($solaris !~ / X86/);
 					# Solaris 9 X86 and earlier is 32-bit
-					$kernbit=32 if ($osminor =~ /^[7-9]/);
+					$kernbit=32 if ($osminor =~ /^[7-9]$/);
 				} elsif ($machine =~ /sun4/) {
 					$solaris .= " SPARC" if ($solaris !~ / SPARC/);
 					$kernbit=32 if ($machine =~ /sun4[cdm\b]/);
@@ -823,7 +836,6 @@ sub find_helpers {
 	if ($os eq "HP-UX") {
 		$config_cmd="echo 'selclass qualifier cpu;info;wait;selclass qualifier memory;info;wait;infolog'|/usr/sbin/cstm";
 	} elsif ($os =~ /Linux|FreeBSD/) {
-		$config_cmd="dmidecode";
 		if (defined($ENV{DMIDECODE}) && -x $ENV{DMIDECODE}) {
 			# this may be a setuid-root version of dmidecode
 			$config_cmd=$ENV{DMIDECODE};
@@ -848,8 +860,9 @@ sub find_helpers {
 		$ldm_cmd='/opt/SUNWldm/bin/ldm' if (-x '/opt/SUNWldm/bin/ldm');
 	}
 	if ($os =~ /Linux|FreeBSD/) {
-		$free_cmd='cat /proc/meminfo' if (-r '/proc/meminfo' || $running_on !~ /Linux|FreeBSD/);
 		$free_cmd='/usr/bin/free -m' if (-x '/usr/bin/free');
+		$meminfo_cmd='cat /proc/meminfo' if (-r '/proc/meminfo' || $running_on !~ /Linux|FreeBSD/);
+		$topology_cmd='/usr/bin/topology --summary --nodes --cpus --io --routers' if (-x '/usr/bin/topology' || $running_on !~ /Linux|FreeBSD/);
 		if (&is_xen_hv) {
 			$xm_info_cmd='/usr/sbin/xm info';
 			$xm_info_cmd='/usr/bin/xm info' if (-x '/usr/bin/xm');
@@ -881,7 +894,7 @@ sub show_helpers {
 		print "$s/usr/sbin/prtconf -vp\n";
 		print "$s$config_cmd\n" if ($config_cmd =~ /dmidecode/ && -x "$config_cmd");
 	} else {
-		print "$s$config_cmd\n";
+		print "$s$config_cmd\n" if ($config_cmd);
 	}
 	if ($os eq "SunOS") {
 		print "$s$prtdiag_cmd -v\n" if ($prtdiag_exec);
@@ -903,8 +916,11 @@ sub show_helpers {
 	}
 	if ($os =~ /Linux|FreeBSD/) {
 		print "${s}cat /proc/cpuinfo\n" if (-r '/proc/cpuinfo' || $running_on !~ /Linux|FreeBSD/);
+		print "${s}cat /proc/meminfo\n" if (-r '/proc/meminfo' || $running_on !~ /Linux|FreeBSD/);
 		print "$s$free_cmd\n" if ($free_cmd);
+		print "${s}/usr/bin/topology\n" if (-x '/usr/bin/topology' || $running_on !~ /Linux|FreeBSD/);
 		print "$s$xm_info_cmd\n" if ($xm_info_cmd);
+		print "${s}/usr/bin/xenstore-ls /local/domain/DOMID\n" if (-x '/usr/bin/xenstore-ls' || $running_on !~ /Linux|FreeBSD/);
 		print "$s$modprobe_eeprom_cmd; $decodedimms_cmd\n" if ($decodedimms_cmd);
 	}
 	if ($os =~ /SunOS|Linux|FreeBSD/) {
@@ -917,7 +933,13 @@ sub show_helpers {
 
 sub show_help {
 	&find_helpers;
-	$config_cmd="dmidecode" if ($os =~ /Linux|FreeBSD/ && $config_cmd =~ /prtconf/);
+	if ($os =~ /Linux|FreeBSD/ && $config_cmd =~ /prtconf/) {
+		if ($machine =~ /.86|ia64|amd64|sparc/) {
+			$config_cmd="dmidecode";
+		} else {
+			$config_cmd="";
+		}
+	}
 	print "Usage: memconf [ -v | -D | -h ] [explorer_dir]\n";
 	print "                 -v            verbose mode\n";
 	print "                 -D            E-mail results to memconf maintainer\n";
@@ -995,7 +1017,7 @@ sub cpubanner {
 		&x86multicorecnt($cputype);
 		$ncpu=$cpucnt{"$cputype $cpufreq"};
 		if ($cpucntflag == 0 && $npcpu == 0) {
-			for $tmp (2,3,4,6,8,12) {
+			for $tmp (2,3,4,6,8,10,12,16) {
 				$ncpu /= $tmp if ($corecnt == $tmp && $ncpu % $tmp == 0);
 			}
 		}
@@ -1088,6 +1110,9 @@ sub show_header {
 			print " ($cpubanner)" if ($cpubanner && ! $banner);
 			print "\n";
 		}
+		if ($baseboard) {
+			print "base board: $baseboard\n";
+		}
 		if (! $clone) {
 			$tmp="Sun";
 			if ($manufacturer) {
@@ -1109,6 +1134,11 @@ sub show_header {
 				print ", ${kernbit}-bit kernel, " if ($kernbit);
 			}
 			if ($os =~ /Linux|FreeBSD/ && $release) {
+				if (-x "/bin/busybox") {
+					$bbversion=`/bin/busybox 2>/dev/null | awk '/^BusyBox / {print \$2}'`;
+					$bbversion=&mychomp($bbversion);
+					print "BusyBox $bbversion, ";
+				}
 				print "$release\n";
 			} else {
 				print "$os";
@@ -1124,6 +1154,7 @@ sub show_header {
 			print ", ${kernbit}-bit kernel" if ($kernbit);
 			print "\n";
 		} elsif ($os =~ /Linux|FreeBSD/) {
+			print "BusyBox " if ($filename =~ /BusyBox/);	# for regression tests
 			if ($release) {
 				print "$release";
 			} elsif ($machine =~ /sun|sparc/i || $filename =~ /LinuxSPARC/) {
@@ -1168,7 +1199,7 @@ sub show_header {
 			$ctype="";
 			while (($cf,$cnt)=each(%cpucnt)) {
 				if ($cpucntflag == 0 && $npcpu == 0 && $cpucntfrom ne "prtdiag") {
-					for $tmp (2,3,4,6,8,12) {
+					for $tmp (2,3,4,6,8,10,12,16) {
 						$cnt /= $tmp if ($corecnt == $tmp && $cnt % $tmp == 0);
 					}
 					$cpucntflag=1;
@@ -1236,6 +1267,10 @@ sub show_header {
 			print "found10bit = $found10bit\n";
 			print "found11bit = $found11bit\n";
 		}
+		print "systemmanufacturer = $systemmanufacturer\n" if ($systemmanufacturer);
+		print "systemmodel = $systemmodel\n" if ($systemmodel);
+		print "boardmanufacturer = $boardmanufacturer\n" if ($boardmanufacturer);
+		print "boardmodel = $boardmodel\n" if ($boardmodel);
 		print "motherboard = $motherboard\n" if ($motherboard);
 		print "romver = $romver\n" if ($romver);
 		print "freephys = $freephys\n" if ($freephys);
@@ -1320,7 +1355,6 @@ sub show_request {
 
 sub show_supported {
 	&show_total_memory;
-	print "memconf:  $version $version_date $URL\n" if (! $verbose);
 	print "ERROR: memconf $version is not supported on this $os";
 	print" $osrel $machine system.\n       memconf is supported on:\n";
 	print "           Solaris (SunOS 4.X or 5.X) on SPARC\n";
@@ -1329,21 +1363,27 @@ sub show_supported {
 	print "           Linux on x86 and x86_64 with kernel-utils or pmtools for dmidecode\n";
 	print "           FreeBSD on x86 and x86_64 with dmidecode\n";
 	print "           Most HP-UX systems with SysMgmtPlus (cprop) or Support Tools Manager (cstm)\n";
-	if ($os =~ /Linux|FreeBSD/ && $machine =~ /.86|ia64|amd64|sparc/) {
-		if ($config_cmd =~ /dmidecode/) {
-			print "ERROR: dmidecode command was not found. Please install ";
-			print "dmidecode from\n       $dmidecodeURL ";
-			print "to fix this issue.\n";
+	if ($os =~ /Linux|FreeBSD/) {
+		if ($machine =~ /.86|ia64|amd64|sparc/) {
+			if ($config_cmd =~ /dmidecode/) {
+				print "ERROR: dmidecode command was not found. Please install ";
+				print "dmidecode from\n       $dmidecodeURL ";
+				print "to fix this issue.\n";
+			}
+			print "NOTICE: This may be corrected by installing the ";
+			print (($machine =~ /sparc/) ? "sparc-utils" : "kernel-utils or pmtools");
+			print "\n       package if available for this $machine system.\n";
+		} else {
+			$config_cmd="";
 		}
-		print "NOTICE: This may be corrected by installing the ";
-		print (($machine =~ /sparc/) ? "sparc-utils" : "kernel-utils or pmtools");
-		print "\n       package if available for this $machine system.\n";
 	}
 	print "       memconf may be able to process Sun/Oracle Explorer data on this machine.\n";
 	print "       Check my website at $URL\n";
 	print "       for a newer version of memconf that may recognize this system better.\n";
-	&pdebug("exit 1");
-	exit 1;
+	$exitstatus=1;
+	&mailmaintainer if ($verbose == 3);
+	&pdebug("exit $exitstatus");
+	exit $exitstatus;
 }
 
 sub show_memory {
@@ -2034,8 +2074,12 @@ sub check_prtdiag {
 				# SPARC M5-32, M6-32
 				$sockets_used .= " $linearr[$#linearr]";
 			}
+			if ($linearr[$#linearr] =~ /SYS\/MBU\/CMP0\/MEM[01][0-3][AB]/) {
+				# Fujitsu SPARC M10-1
+				$sockets_used .= " $linearr[$#linearr]";
+			}
 			if ($linearr[$#linearr] =~ /BB\d+\/CMU[LU]\/CMP[01]\/MEM[01][0-7][AB]/) {
-				# Fujitsu SPARC M10-1, M10-4, M10-4S
+				# Fujitsu SPARC M10-4, M10-4S (guess)
 				$sockets_used .= " $linearr[$#linearr]";
 			}
 		}
@@ -2461,7 +2505,7 @@ sub check_prtdiag {
 				$simmsize=$installed_memory / 4;
 			}
 			# Round up DIMM value
-			$simmsize=int(($simmsize + 128) / 1024) * 1024;
+			$simmsize=&roundup_memory($simmsize);
 			push(@simmsizesfound, $simmsize);
 		} else {
 			$tmp=0;
@@ -2469,9 +2513,8 @@ sub check_prtdiag {
 				$tmp++;
 			}
 			if ($tmp) {
-				$simmsize=$installed_memory / $tmp;
 				# Round up DIMM value
-				$simmsize=int(($simmsize + 128) / 1024) * 1024;
+				$simmsize=&roundup_memory($installed_memory / $tmp);
 				push(@simmsizesfound, $simmsize);
 			}
 		}
@@ -2545,12 +2588,15 @@ sub check_prtpicl {
 			$flag_mem_seg=0;
 			$max_picl_dimm_per_bank=$picl_dimm_per_bank if ($picl_dimm_per_bank);
 			if ($flag_mem_mod && $mem_dimm !~ /\//) {
-				if ($processorbrd) {
+				if ($ultra =~ /T5-(2|1B)/) {
+					# SPARC T5-2, T5-1B (guess)
+					$socket="/SYS/MB/$cpumembrd/CMP/$mem_branch/$mem_channel/$mem_dimm";
+				} elsif ($ultra =~ /T5-(4|8)/) {
+					# SPARC T5-4, T5-8 (guess)
+					$socket="/SYS/$processorbrd/$cpumembrd/CMP/$mem_branch/$mem_channel/$mem_dimm";
+				} elsif ($processorbrd) {
 					# SPARC T3-4, T4-4
 					$socket="/SYS/$processorbrd/$cpumembrd$cmp/$mem_branch/$mem_channel/$mem_dimm";
-				} elsif ($ultra =~ /T5-(2|4|8|1B)/) {
-					# SPARC T5-2, T5-4, T5-8, T5-1B
-					$socket="/SYS/MB/$cpumembrd/CMP/$mem_branch/$mem_channel/$mem_dimm";
 				} else {
 					$socket="MB/$cpumembrd$cmp/$mem_branch/$mem_channel/$mem_dimm";
 				}
@@ -3249,6 +3295,7 @@ sub get_mfg {
 	return "ADATA Technology" if (/(^7F7F7F7FCB|ADATA|A-DATA)/i);
 	return "AMD" if (/^01/);
 	return "AMI" if (/^02/);
+	return "KINGMAX" if (/(^7F7F7F25|KINGMAX)/i);
 	if ($has_JEDEC_ID || /^7F|^80|^FF/i) {
 		$unknown_JEDEC_ID=1;
 		&pdebug("in get_mfg, found unknown JEDEC ID $_");
@@ -3561,7 +3608,7 @@ sub check_smbios {
 				$pn=&hex2ascii($pn);
 				if ($pn) {
 					# Hack: Ballistic modules may have mfg Undefined
-					$mem_mfg=", Crucial Technology" if (!$mem_mfg && $pn =~ /^BL/);
+					$mem_mfg=", Crucial Technology" if (! $mem_mfg && $pn =~ /^BL/);
 					if ($mem_mfg) {
 						$pn=" $pn";
 					} else {
@@ -3886,15 +3933,16 @@ sub hex2ascii {
 	$_=shift;
 	return $_ if (! /^0x/);
 	s/0x(([0-9a-f][0-9a-f])+)/pack('H*', $1)/ie;
-	s/\s*$//;
+	s/[\x00|\s]+$//;	# remove trailing nulls and spaces
 	return $_;
 }
 
 sub pdebug {
 	if ($debug == 1) {
-		printf "DEBUG: @_\n";
+		print "DEBUG: @_\n";
 	} elsif ($debug == 2) {
-		printf "DEBUG time %.2f: @_\n", ((times)[0] - $starttime);
+		printf "DEBUG time %.2f", ((times)[0] - $starttime);
+		print ": @_\n";
 	}
 }
 
@@ -6568,7 +6616,6 @@ if ($ultra eq "T4-1" || $ultra eq "T4-1B") {
 	@simmsizes=(4096,8192,16384);
 	$familypn="T41B" if ($ultra eq "T4-1B");
 	$untested=0 if ($ultra eq "T4-1");
-	$untested=1 if ($banner =~ /Netra/i);
 	@socketstr=("MB/CMP0/BOB0/CH1/D0","MB/CMP0/BOB1/CH1/D0","MB/CMP0/BOB2/CH1/D0","MB/CMP0/BOB3/CH1/D0","MB/CMP0/BOB0/CH0/D0","MB/CMP0/BOB1/CH0/D0","MB/CMP0/BOB2/CH0/D0","MB/CMP0/BOB3/CH0/D0","MB/CMP0/BOB0/CH1/D1","MB/CMP0/BOB1/CH1/D1","MB/CMP0/BOB2/CH1/D1","MB/CMP0/BOB3/CH1/D1","MB/CMP0/BOB0/CH0/D1","MB/CMP0/BOB1/CH0/D1","MB/CMP0/BOB2/CH0/D1","MB/CMP0/BOB3/CH0/D1");
 	&check_for_LDOM;
 }
@@ -6639,7 +6686,7 @@ if ($ultra eq "T5-4") {
 	$memtype="DDR3 DIMM";
 	$showrange=0;
 	@simmsizes=(16384,32768);
-	$untested=1;
+	$untested=0;
 	# /SYS/PM0/CM0/CMP/BOB0/CH0/D0 - /SYS/PM1/CM1/CMP/BOB7/CH1/D0
 	for $s_pm (0,1) {
 		for $s_cm (0,1) {
@@ -6737,14 +6784,17 @@ if ($ultra eq "M10-1") {
 	# Mount memory in units of four or eight modules
 	# Within a unit of four or eight modules, all the DIMMs must be of the
 	#  same capacity and rank
+	# First mount memory group A, then mount memory group B
 	$memtype="DIMM";
 	$showrange=0;
-	@simmsizes=(8192,16384,32768);
-	$untested=1;
-	# /BB0/CMUL/CMP0/MEM0[0-7]A - /BB0/CMUL/CMP1/MEM1[0-7]A
-	for $s_cmp (0,1) {
-		for $s_memN (0..7) {
-			push(@socketstr, "/BB0/CMP$s_cmp/MEM${s_cmp$s_memN}A");
+	@simmsizes=(8192,16384,32768,65536);
+	$untested=0;
+	# /SYS/MBU/CMP0/MEM[01][0-3][AB]
+	for $s_memAB ("A","B") {
+		for $s_cmp (0,1) {
+			for $s_memN (0..3) {
+				push(@socketstr, "/SYS/MBU/CMP0/MEM$s_cmp$s_memN$s_memAB");
+			}
 		}
 	}
 	&check_for_LDOM;
@@ -6762,7 +6812,7 @@ if ($ultra eq "M10-4" || $ultra eq "M10-4S") {
 	#  up to 64 processors and up to 32TB memory
 	$memtype="DIMM";
 	$showrange=0;
-	@simmsizes=(8192,16384,32768);
+	@simmsizes=(8192,16384,32768,65536);
 	$untested=0;
 	$untested=1 if ($ultra eq "M10-4S");
 	if ($npcpu > 4) {	# M10-4S
@@ -8768,6 +8818,15 @@ sub x86_devname {
 	if ($m =~ /Sun .*X8600\b/i) {
 		$devname="Antares";
 	}
+	$untested=1 if ($m =~ /Netra Server X3 2\b/i);	# X3-2
+	$untested=0 if ($m =~ /Sun Server X4 2\b/i);	# X4-2
+	$untested=0 if ($m =~ /Sun Server X4 2L\b/i);	# X4-2L
+	$untested=1 if ($m =~ /Sun Server X4 4\b/i);	# X4-4
+	$untested=1 if ($m =~ /Sun Server X4 8\b/i);	# X4-8
+	$untested=1 if ($m =~ /Netra Blade X3 2B\b/i);	# X3-2B
+	$untested=1 if ($m =~ /Sun Blade X4 2B\b/i);	# X4-2B
+	$untested=1 if ($m =~ /Oracle Server X5 2\b/i);	# X5-2
+	$untested=0 if ($m =~ /Oracle Server X5 2L\b/i);	# X5-2L
 	$have_x86_devname=1 if ($devname);
 }
 
@@ -8778,7 +8837,7 @@ sub releasefile {
 	open(FILE, $arg);
 	while(<FILE>) {
 		$tmp=&mychomp($_);
-		next if ($tmp =~ /^[\s\*\-]*$/);
+		next if ($tmp =~ /^[\s\*\-\_\\\/\|]*$/);
 		# Ignore line if it starts with Escape sequence
 		next if ($tmp =~ /^\e\[/);
 		$tmp=~s/\s*\\[nr].*//;
@@ -8875,9 +8934,23 @@ sub linux_distro {
 			}
 		}
 		return;
+	} elsif (-d '/ffp/etc') {
+		$release="fun_plug";
+		if (-f '/ffp/etc/ffp-version') {
+			$tmp=&mychomp(`grep FFP_VERSION= /ffp/etc/ffp-version`);
+			$tmp=~s/^.*=//;
+			$release .= " $tmp" if ($tmp);
+		}
+		if (-f '/etc/Alt-F') {
+			$tmp=&releasefile('/etc/Alt-F');
+			$release="Alt-F $tmp with $release";
+		}
+	} elsif (-f '/etc/Alt-F') {
+		$tmp=&releasefile('/etc/Alt-F');
+		$release="Alt-F $tmp";
 	}
-	# Debian, Ubuntu, etc.
-	foreach $relfile ('/etc/issue','/etc/issue.net','/etc/motd') {
+	# Debian, Ubuntu, BusyBox, etc.
+	foreach $relfile ('/etc/issue.net','/etc/issue','/etc/motd') {
 		$release=&releasefile("$relfile") if (! $release && -f "$relfile");
 	}
 	$release=(defined($release)) ? "$release, $kernbit$osname" : "";
@@ -8907,6 +8980,7 @@ sub check_mixedspeeds {
 
 sub roundup_memory {
 	$newval=shift;
+#	&pdebug("in roundup_memory $newval");
 	# Round up memory (may have 128MB or more reserved)
 	# Works for up to 16777216GB (16TB)
 	for ($val=16; $val <= 64; $val += 16) {
@@ -8921,11 +8995,14 @@ sub roundup_memory {
 	for ($val=4096; $val <= 14336; $val += 1024) {
 		$newval=$val if ($newval >= $val-512 && $newval < $val);
 	}
-	for ($val=14336; $val <= 262144; $val += 2048) {
+	for ($val=14336; $val <= 65536; $val += 2048) {
 		$newval=$val if ($newval >= $val-1024 && $newval < $val);
 	}
-	for ($val=262144; $val <= 16777216; $val += 4096) {
+	for ($val=65536; $val <= 262144; $val += 4096) {
 		$newval=$val if ($newval >= $val-2048 && $newval < $val);
+	}
+	for ($val=262144; $val <= 16777216; $val += 8192) {
+		$newval=$val if ($newval >= $val-4096 && $newval < $val);
 	}
 	return($newval);
 }
@@ -8965,20 +9042,28 @@ sub check_free {
 		@free=&run("$free_cmd");
 		$have_free_data=1;
 	}
-	if ($have_free_data) {
-		foreach $line (@free) {
+	if (! $filename && $meminfo_cmd) {
+		# Check memory detected by kernel
+		@meminfo=&run("$meminfo_cmd");
+		$have_meminfo_data=1;
+	}
+	if ($have_meminfo_data) {
+		foreach $line (@meminfo) {
 			$line=&dos2unix($line);
-			if ($line =~ /Mem:/) {
-				# free data
+			if ($line =~ /MemTotal:\s+\d+ kB/) {
 				@linearr=split(' ', $line);
-				$freephys=$linearr[1];
+				$freephys=int($linearr[1] / 1024);
 				$totmem=&roundup_memory($freephys) if ($totmem == 0);
 				last;
 			}
-			if ($line =~ /MemTotal:\s+\d+ kB/) {
-				# /proc/meminfo data
+		}
+	}
+	if ($have_free_data && ! $freephys) {
+		foreach $line (@free) {
+			$line=&dos2unix($line);
+			if ($line =~ /Mem:/) {
 				@linearr=split(' ', $line);
-				$freephys=int($linearr[1] / 1024);
+				$freephys=$linearr[1];
 				$totmem=&roundup_memory($freephys) if ($totmem == 0);
 				last;
 			}
@@ -9007,6 +9092,42 @@ sub check_for_decodedimms {
 			@decodedimms=&run("$decodedimms_cmd");
 			$have_decodedimms_data=1;
 		}
+	}
+}
+
+sub check_topology {
+	# Stoutland Platform (SGI Blade Chassis) topology command 
+	return if (&is_virtualmachine);
+	&pdebug("in check_topology");
+	if ($filename) {
+		@topology=@config;
+	} else {
+		@topology=&run("$topology_cmd");
+	}
+	$flag_mem=0;
+	$partition_cnt=0;
+	foreach (@topology) {
+		$_=&dos2unix($_);
+		$_=&mychomp($_);
+		if (/^System type: /) {
+			push(@topology_header, "$_\n");
+			$topology_mfg="SGI.COM" if (/ UV/);
+		}
+		if (/^Serial number: /) {
+			push(@topology_header, "$_\n");
+			$topology_mfg="SGI.COM" if (/ UV/);
+		}
+		if (/^Partition number: /) {
+			push(@topology_header, "$_\n");
+			$partition_cnt++;
+		}
+		push(@topology_header, "$_\n") if (/^\s*\d+ Blades$/);
+		push(@topology_header, "$_\n") if (/^\s*\d+ CPUs$/);
+		push(@topology_header, "$_\n") if (/^\s*\d+.* GB Memory Total/i);
+		push(@topology_header, "$_\n") if (/^\s*\d+.* GB Max Memory.*/i);
+		$flag_mem=1 if (/(Idx|Index)\s.*\sNASID\s+CPUS\s+Memory/);
+		$flag_mem=0 if (/^\s*$/);
+		push(@topology_data, "$_\n") if ($flag_mem);
 	}
 }
 
@@ -9139,6 +9260,7 @@ sub check_dmidecode {
 	$DMItype=0;
 	$platform="";
 	$FoundEnd=0;
+	$BrokenTable="";
 	$unknown_JEDEC_ID=0;
 	$ECCDIMM=0;
 	$config_command="dmidecode";
@@ -9156,6 +9278,7 @@ sub check_dmidecode {
 	$physmemarray="";
 	$memfrom="dmidecode";
 	&check_for_decodedimms;
+	&check_topology;
 	open(FILE, $DmiFile);
 	while(<FILE>) {
 		next if (/(<OUT OF SPEC>| Unknown|: Other|: \.\.|: Not Specified|:\s*$)/i);
@@ -9163,7 +9286,7 @@ sub check_dmidecode {
 		$have_decodedimms_data=1 if (/^Guessing DIMM is in/i);
 		($dmidecode_ver)=(/.* dmidecode (.*)/i) if (/ dmidecode /i);
 		($permission_error)=(/(.*)/) if (/Permission denied/i);
-		($dmidecode_error)=(/# *(.*)/) if (/No SMBIOS nor DMI entry point found/i);
+		($dmidecode_error)=(/# *(.*)/) if (/No SMBIOS nor DMI entry point found/i && ! &is_xen_vm);
 		($DMItype)=(/DMI type (\d+)/i) if (/\bDMI type /i);
 		if (/Handle .* DMI type 16,/i) {
 			($tmp)=(/Handle (.*), DMI type 16,/i);
@@ -9171,36 +9294,70 @@ sub check_dmidecode {
 			$physmemarray=$tmp;
 		}
 
+		# Type  Information
+		# ----------------------------------------
+		#   0   BIOS
+		#   1   System
+		#   2   Base Board
+		#   3   Chassis
+		#   4   Processor
+		#   5   Memory Controller
+		#   6   Memory Module
+		#   7   Cache
+		#   8   Port Connector
+		#   9   System Slots
+		#  10   On Board Devices
+		#  11   OEM Strings
+		#  12   System Configuration Options
+		#  13   BIOS Language
+		#  14   Group Associations
+		#  15   System Event Log
+		#  16   Physical Memory Array
+		#  17   Memory Device
+		#  18   32-bit Memory Error
+		#  19   Memory Array Mapped Address
+		#  20   Memory Device Mapped Address
+		#  21   Built-in Pointing Device
+		#  22   Portable Battery
+		#  23   System Reset
+		#  24   Hardware Security
+		#  25   System Power Controls
+		#  26   Voltage Probe
+		#  27   Cooling Device
+		#  28   Temperature Probe
+		#  29   Electrical Current Probe
+		#  30   Out-of-band Remote Access
+		#  31   Boot Integrity Services
+		#  32   System Boot
+		#  33   64-bit Memory Error
+		#  34   Management Device
+		#  35   Management Device Component
+		#  36   Management Device Threshold Data
+		#  37   Memory Channel
+		#  38   IPMI Device
+		#  39   Power Supply
+		#  40   Additional Information
+		#  41   Onboard Device
+		# Additionally, type 126 is used for disabled entries and type
+		# 127 is an end-of-table marker. Types 128 to 255 are for
+		# OEM-specific data.
+
 		# Keep walking the dmidecode output for more about the system
 
 		# Check system information
+		if ($DMItype == 0) {
+			($biosvendor)=(/: +(.*\S) *$/) if (/^\s*Vendor: /i);
+		}
 		if ($DMItype == 1) {
-			($manufacturer)=(/: +(.*\S) *$/) if (/^\s*(Manufacturer|Vendor): /i);
-			($model)=(/: +(.*\S) *$/) if (/^\s*Product( Name|): /i);
+			($systemmanufacturer)=(/: +(.*\S) *$/) if (/^\s*(Manufacturer|Vendor): /i);
+			($systemmodel)=(/: +(.*\S) *$/) if (/^\s*Product( Name|): /i);
 		}
 		if ($DMItype == 2) {
-			if ($manufacturer) {
-				if ($manufacturer =~ /To Be Filled|System Manufacturer/i) {
-					($manufacturer)=(/: +(.*\S) *$/) if (/^\s*(Manufacturer|Vendor): /i);
-				}
-			} else {
-				($manufacturer)=(/: +(.*\S) *$/) if (/^\s*(Manufacturer|Vendor): /i);
-			}
+			($boardmanufacturer)=(/: +(.*\S) *$/) if (/^\s*(Manufacturer|Vendor): /i);
+			($boardmodel)=(/: +(.*\S) *$/) if (/^\s*Product( Name|): /i);
+			$boardmodel=~s/^$boardmanufacturer // if ($boardmanufacturer && $boardmodel);
 			# use DMItype2 manufacturer if Oracle (for VirtualBox)
-			($manufacturer)=(/: +(.*\S) *$/) if (/^\s*(Manufacturer|Vendor): *Oracle */i);
-			if ($model) {
-				if ($model =~ /To Be Filled|System .*Name|XXXX/i) {
-					($model)=(/: +(.*\S) *$/) if (/^\s*Product( Name|): /i);
-					if ($manufacturer) {
-						$model=~s/^$manufacturer // if ($model);
-					}
-				}
-			} else {
-				($model)=(/: +(.*\S) *$/) if (/^\s*Product( Name|): /i);
-				if ($manufacturer) {
-					$model=~s/^$manufacturer // if ($model);
-				}
-			}
+			($systemmanufacturer)=(/: +(.*\S) *$/) if (/^\s*(Manufacturer|Vendor): *Oracle */i);
 		}
 
 		# Check CPU information
@@ -9283,7 +9440,7 @@ sub check_dmidecode {
 				($Locator17[$memarr])=(/: +(.*\S) *$/);
 				$Locator17[$memarr]=~s/  */ /g;
 				# Add CPU to X4170/X4270/X4275/X6270/X6275
-				if ($model =~ /Sun .*X(4[12]7[05]|627[05])\b/i && $Locator17[$memarr] !~ /CPU/) {
+				if ($systemmodel =~ /Sun .*X(4[12]7[05]|627[05])\b/i && $Locator17[$memarr] !~ /CPU/) {
 					$cpu_number=$CPUSocketDesignation[$cpu_membank];
 					$cpu_number=~s/\s*//g;
 					$Locator17[$memarr]="${cpu_number}_$Locator17[$memarr]";
@@ -9300,7 +9457,7 @@ sub check_dmidecode {
 				($MemPartNum[$memarr])=(/: +(.*\S) *$/);
 				$MemPartNum[$memarr]=&hex2ascii($MemPartNum[$memarr]);
 				# Hack: Ballistic modules may have mfg Undefined
-				$MemManufacturer[$memarr]="Crucial Technology" if (!$MemManufacturer[$memarr] && $MemPartNum[$memarr] =~ /^BL/);
+				$MemManufacturer[$memarr]="Crucial Technology" if (! $MemManufacturer[$memarr] && $MemPartNum[$memarr] =~ /^BL/);
 			}
 			# Ignore Flash chips for DMI17cnt
 			$DMI17cnt=$memarr + 1 if (/^\s*Form Factor: /i && ! /\bChip\b/i);
@@ -9320,9 +9477,35 @@ sub check_dmidecode {
 				}
 			}
 		}
+		$BrokenTable=&mychomp($_) if (/DMI table is broken/i);
 		$FoundEnd=1 if (/End.Of.Table/i);
 	}
 	close(FILE);
+
+	# Determine best manufacturer and model to display (or both) from
+	# DMI type 1 (System) or DMI type 2 (Base Board)
+	$baseboard="$boardmanufacturer $boardmodel" if ("$boardmanufacturer$boardmodel" ne "");
+	$baseboard="" if ($boardmanufacturer eq $systemmanufacturer && ($boardmodel eq $systemmodel || $boardmodel eq ""));
+	if ($systemmanufacturer) {
+		$manufacturer=$systemmanufacturer;
+	} else {
+		$manufacturer=$boardmanufacturer;
+		$baseboard="";
+	}
+	if ($systemmodel) {
+		$model=$systemmodel;
+	} else {
+		$model=$boardmodel;
+	}
+	if ($manufacturer =~ /To Be Filled|System Manufacturer/i) {
+		$manufacturer=$boardmanufacturer;
+		$baseboard="";
+	}
+	if ($model =~ /To Be Filled|System .*Name|XXXX/i) {
+		$model=$boardmodel;
+		$baseboard="";
+	}
+	$baseboard="" if (&is_virtualmachine);
 
 	# Check kernel to see how many processors it sees (for multi-core and
 	# hyper-threaded CPUs)
@@ -9331,6 +9514,25 @@ sub check_dmidecode {
 	# Check Xen hardware for processors it sees (for multi-core and
 	# hyper-threaded CPUs)
 	&check_xm_info;
+
+	# Check topology for manufacturer
+	$manufacturer=$topology_mfg if ($topology_mfg);
+
+	# Check Xenstore for manufacturer and model if not known
+	if (&is_xen_vm && ! -f $filename && -x '/usr/bin/xenstore-ls' && -x '/usr/bin/xenstore-read') {
+		$domid=&mychomp(`/usr/bin/xenstore-read domid 2>/dev/null`);
+		if ($domid) {
+			@xenstore=`/usr/bin/xenstore-ls /local/domain/$domid 2>/dev/null`;
+			foreach (@xenstore) {
+				if ($manufacturer eq "" && /\bsystem-manufacturer = */) {
+					($manufacturer)=(/= *"(.*)"$/);
+				}
+				if ($model eq "" && /\bsystem-product-name = */) {
+					($model)=(/= *"(.*)"$/);
+				}
+			}
+		}
+	}
 
 	# hash CPUs
 	$range=$ncpu;
@@ -9421,7 +9623,7 @@ sub check_dmidecode {
 		$ctype=$1;
 		$cfreq=$2;
 		if ($cpucntflag == 0 && $cpucntfrom ne "cpuinfo" && $cpucntfrom ne "xm_info") {
-			for $tmp (2,3,4,6,8,12) {
+			for $tmp (2,3,4,6,8,10,12,16) {
 				$cnt /= $tmp if ($corecnt == $tmp && $cnt % $tmp == 0);
 			}
 			$cpucntflag=1;
@@ -9435,6 +9637,13 @@ sub check_dmidecode {
 			$cpubanner .= ", " if ($x < scalar(@cputypecnt));
 		}
 	}
+	if (&is_virtualmachine && $cpubanner eq "") {
+		$cpubanner .= "$cpuinfo_cpucnt X " if ($cpuinfo_cpucnt > 1);
+		$_=$cpuinfo_cputype;
+		($vcpu_type)=(/^(\w*)/);
+		($vcpu_freq)=(/(\d[\d\.]*[GM]Hz)/);
+		$cpubanner .= "$vcpu_type $vcpu_freq";
+	}
 	$machine="x86" if (! $machine);
 	&x86_devname;
 
@@ -9443,10 +9652,21 @@ sub check_dmidecode {
 	#
 	&show_header;
 
+	if (@topology_data) {
+		print @topology_header;
+		print @topology_data;
+		$untested=0 if ($partition_cnt == 1 && $topology_mfg); # SGI UV
+		$totmem=$installed_memory;
+		&finish;
+		&pdebug("exit");
+		exit;
+	}
+
 	# CPU information
 	if ($verbose) {
 		print "WARNING: CPU Information Unknown\n" if ($cpuarr < 0 && $cpucntfrom ne "cpuinfo");
 		$range=$cpuarr;
+ 		$range=$cpuinfo_cpucnt - 1 if ($cpucntfrom eq "cpuinfo" && ! $permission_error && &is_virtualmachine);
 		# Second CPU doesn't exist on W1100z
 		$range=0 if ($model =~ /W1100z\b/i);
 		# Third & fourth CPUs don't exist on Ultra 40
@@ -9457,7 +9677,15 @@ sub check_dmidecode {
 			if ($CPUSocketDesignation[$cnt]) {
 				print "$CPUSocketDesignation[$cnt]: ";
 			} else {
+				print "v" if (&is_virtualmachine);
 				print "CPU $cnt: ";
+			}
+ 			if ($cpucntfrom eq "cpuinfo" && &is_virtualmachine) {
+				$_=$cpuinfo_cputype;
+				($vcpu_type)=(/^(\w*)/);
+				($vcpu_freq)=(/(\d[\d\.]*[GM]Hz)/);
+				print "$vcpu_type $vcpu_freq cpu\n";
+				next;
 			}
 			if ($CPUStatus[$cnt]) {
 				if ($CPUStatus[$cnt] =~ /(Unpopulated|Disabled By BIOS)/i) {
@@ -9700,19 +9928,27 @@ sub check_dmidecode {
 	$sockettype="sockets";
 	$sockettype="banks" if ($sockets_empty =~ /BANK *\d/i && $sockets_empty !~ /DIMM/);
 	if ($memarr < 0 || $totmem == 0) {
-		if (&is_xen_vm) {
+		if (&is_virtualmachine) {
+			if ($totmem > 0) {
+				print "total memory = ";
+				&show_memory($totmem);
+			} else {
+				$exitstatus=1;
+			}
 			&check_virtualmachine;
 		} else {
 			&print_empty_memory("memory $sockettype") if ($sockets_empty);
 			print "ERROR: Memory Information Unknown\n";
-			if (! $FoundEnd && $dmidecode_ver) {
-				print "WARNING: dmidecode output is truncated\n";
-				&check_dmidecode_ver(1);
-			} else {
-				&print_bios_error;
+			if ((! $FoundEnd || $BrokenTable ne "") && $dmidecode_ver) {
+				print "WARNING: dmidecode output is truncated\n" if (! $FoundEnd);
+				if ($BrokenTable ne "") {
+					print "ERROR: $BrokenTable\n";
+					print "    Your BIOS may be corrupted or have an invalid checksum.\n";
+				}
 			}
+			&print_bios_error;
+			$exitstatus=1;
 		}
-		$exitstatus=1;
 	} else {
 		&print_empty_memory("memory $sockettype");
 		print "total memory = ";
@@ -9901,9 +10137,10 @@ sub is_xen_hv {
 
 sub is_xen_vm {
 	return(1) if (-d '/proc/xen' && ! -f '/proc/xen/xsd_port'); # Linux
+	return(1) if ($model =~ /HVM domU/); # Linux
 	return(1) if ($model eq "i86xpv" || $machine eq "i86xpv" || $model eq "i86xen" || $machine eq "i86xen"); # Solaris
 	# Special case for regression testing Xen files
-	return(1) if ($filename =~ /Xen_domU/i && $memarr == -1);
+	return(1) if ($filename =~ /Xen_domU/i);
 }
 
 sub check_virtualmachine {
@@ -9961,10 +10198,19 @@ sub check_cpuinfo {
 			($cpuinfo_siblings)=(/: (\d*) */) if (/^siblings\s*: \d+/);
 			# Only GenuineIntel x86 has hyper-threading capability
 			$foundGenuineIntel=1 if (/^vendor_id\s*: GenuineIntel/);
-			# Linux on x86 CPU model
+			# Linux on x86 or ARM CPU model
 			if (/^model name\s*: /) {
 				($cpuinfo_cputype)=(/: (.*)$/);
 				$cpuinfo_cputype=&cleanup_cputype($cpuinfo_cputype);
+				if (/.*(ARM|Feroceon)/) {
+					if ($filename) {
+						# Special case for regression testing
+						$machine="arm";
+						$platform=$machine;
+						$os="Linux";
+					}
+					$cpucnt{"$cpuinfo_cputype"}=$corecnt;
+				}
 			}
 			# Linux on SPARC CPU model
 			if (/^cpu\s+: \D/) {
@@ -10602,7 +10848,7 @@ sub finish {
 	}
 	&show_unrecognized if ($recognized == 0);
 	if (! &is_virtualmachine) {
-		if ($smbios_memory && $smbios_memory != $installed_memory) {
+		if ($smbios_memory && &roundup_memory($smbios_memory) != $installed_memory) {
 			print "ERROR: Memory found by smbios (${smbios_memory}MB) does not match memory found in $config_command.\n";
 			print "       This may be corrected by installing a Sun BIOS patch on this system.\n";
 			$exitstatus=1;
@@ -10640,10 +10886,10 @@ sub finish {
 		$untested=1;
 		$untested_type="CPU" if (! $untested_type);
 	}
-	# Dual-Core, Triple-Core, Quad-Core, Six-Core, Eight-Core, Twelve-Core
-	# and Sixteen-Core x86 CPUs have been tested, so flag other multicore
-	# x86 CPUs as untested
-	if ($isX86 && !($corecnt == 1 || $corecnt == 2 || $corecnt == 3 || $corecnt == 4 || $corecnt == 6 || $corecnt == 8 || $corecnt == 12 || $corecnt == 16)) {
+	# Dual-Core, Triple-Core, Quad-Core, Six-Core, Eight-Core, Ten-Core,
+	# Twelve-Core and Sixteen-Core x86 CPUs have been tested, so flag
+	# other multicore x86 CPUs as untested
+	if ($isX86 && $corecnt !~ /^(1|2|3|4|6|8|10|12|16)$/) {
 		$untested=1;
 		$untested_type="CPU" if (! $untested_type);
 	}
@@ -10747,8 +10993,10 @@ sub mailmaintainer {
 	close(STDOUT);
 	rename("/tmp/memconf.output","/tmp/${outfile}.txt");
 	push(@filelist, "${outfile}.txt");
-	@config=&run("$config_cmd") if (! $config[0]);
-	&createfile("${outfile}_${config_command}.txt",@config);
+	if ($config_cmd) {
+		@config=&run("$config_cmd") if (! $config[0]);
+		&createfile("${outfile}_${config_command}.txt",@config);
+	}
 	if ($os eq "SunOS") {
 		&createfile("${outfile}_prtdiag.txt",@prtdiag) if ($prtdiag_exec);
 		&createfile("${outfile}_prtfru.txt",@prtfru) if ($prtfru_cmd);
@@ -10761,8 +11009,16 @@ sub mailmaintainer {
 		&createfile("${outfile}_ldm.txt",@ldm) if ($ldm_cmd);
 	}
 	&createfile("${outfile}_cpuinfo.txt",@cpuinfo) if (-r '/proc/cpuinfo');
+	&createfile("${outfile}_meminfo.txt",@meminfo) if (-r '/proc/meminfo');
 	&createfile("${outfile}_free.txt",@free) if ($free_cmd);
 	&createfile("${outfile}_xm_info.txt",@xm_info) if ($xm_info_cmd);
+	if (-x '/usr/bin/xenstore-ls') {
+		$domid=&mychomp(`/usr/bin/xenstore-read domid 2>/dev/null`);
+		if ($domid) {
+			@xenstore=`/usr/bin/xenstore-ls /local/domain/$domid 2>/dev/null`;
+			&createfile("${outfile}_xenstore-ls.txt",@xenstore);
+		}
+	}
 	&createfile("${outfile}_decodedimms.txt",@decodedimms) if ($decodedimms_cmd);
 	&createfile("${outfile}_ipmitool.txt",@ipmitool) if ($ipmitool_cmd);
 	if ($os eq "HP-UX") {
