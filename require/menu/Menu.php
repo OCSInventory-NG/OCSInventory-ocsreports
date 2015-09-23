@@ -172,7 +172,7 @@ class Menu
     }
     
     /**
-     * Replace the MenuELem by this pass in paramter if exist
+     * Replace the MenuElem by this pass in parameter if it exists
      * 
      * @param string   $elem_index The index of MenuElem to replace
      * @param MenuElem $menuElem   The new MenuElem
