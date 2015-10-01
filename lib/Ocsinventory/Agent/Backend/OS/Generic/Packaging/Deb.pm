@@ -11,8 +11,8 @@ sub run {
   my $size;
   
 # use dpkg-query --show --showformat='${Package}|||${Version}\n'
-  foreach(`dpkg-query --show --showformat='\${Package}---\${Version}---\${Installed-Size}---\${Description}\n'`) {
-     if (/^(\S+)---(\S+)---(\S*)---(.*)/) {
+  foreach(`dpkg-query --show --showformat='\${Package}---\${Version}---\${Installed-Size}---\${Homepage}---\${Description}\n'`) {
+     if (/^(\S+)---(\S+)---(\S*)---(\S*)---(.*)/) {
        if ($3) { 
 	$size=$3;
        } else {
@@ -22,7 +22,8 @@ sub run {
          'NAME'          => $1,
          'VERSION'       => $2,
          'FILESIZE'      => $size,
-         'COMMENTS'      => $4,
+         'PUBLISHER'     => $4,
+         'COMMENTS'      => $5,
          'FROM'          => 'deb'
        });
     }
