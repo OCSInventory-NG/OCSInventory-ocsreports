@@ -581,7 +581,7 @@ sub snmp_oid_xml {
 	$self->{xml_oid}{$system_oid}{last_exec}=$self->{number_scan};
 	
 	# We have done other scan so we can now execute own scan
-	# We have actualy only v1, we can have after other parallel version 
+	# We have actually only v1, we can have after other parallel version
 	if ( xml_scan_v1($self,$system_oid,$self->{xml_oid}{$system_oid}{xml_data}) == 1 ) {
 	    $self->{xml_oid}{$system_oid}{active}=0;
 	    return 1;
@@ -676,7 +676,7 @@ ALL_LOOPS:   foreach my $uniq_loops ( @{$xml_loops} ) {
 	$logger->debug("Error in xml File: VALUE, INDEX or NAME_INDEX not defined");
 	return 1 ;
     }
-    # We now replace already existant filters
+    # We now replace already existent filters
     my $data_value=$uniq_loops->{VALUE}[0];
     my $index_value=$uniq_loops->{INDEX}[0];
     foreach my $filter ( @{$filters} ) {
@@ -811,7 +811,7 @@ sub xml_line_v1 {
 
 #########################################################
 #							#
-# function to search an IP adress in netdevices array	#
+# function to search an IP address in netdevices array	#
 # Parameters: 						#
 #         (self)					#
 #         IP address to search				#

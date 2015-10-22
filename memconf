@@ -4843,7 +4843,7 @@ if ($model eq "Ultra-30" || $ultra eq 30) {
 	#   501-3136 (128MB)
 	#   200-pin 60ns Fast Page Mode ECC
 	# Two DIMMs form a pair, two pairs of DIMMs form a quad.
-	# Minumum requirements is two DIMMs in any adjacent pair.
+	# Minimum requirements is two DIMMs in any adjacent pair.
 	# DIMMs can be installed in any order of pairs.
 	# Interleaving requires a fully populated quad.
 	# Each quad addresses 512MB of memory.
@@ -5373,7 +5373,7 @@ if ($manufacturer =~ /Fujitsu/) {
 		# PrimePower 850: 4-16 SPARC64 V processors at 1.1GHz or faster
 		#   2GB-128GB memory, 16-way, 2 system boards, 16U rack mount
 		# Uses DDR SDRAM ECC memory in 256MB, 512MB and 1GB sizes
-		# Each system board has 32 memory module slots, layed out
+		# Each system board has 32 memory module slots, laid out
 		# with 4 DIMMs on 8 DIMM riser cards.
 		$untested=0;
 		@simmsizes=(256,512,1024,2048);

@@ -63,7 +63,7 @@ sub run {
   $config->loadUserParams();
 
   # I close STDERR to avoid error message during the module execution
-  # at the begining I was doing shell redirection:
+  # at the beginning I was doing shell redirection:
   #  my @ret = `cmd 2> /dev/null`;
   # but this syntax is not supported on (at least) FreeBSD and Solaris
   # c.f: http://www.perlmonks.org/?node_id=571072

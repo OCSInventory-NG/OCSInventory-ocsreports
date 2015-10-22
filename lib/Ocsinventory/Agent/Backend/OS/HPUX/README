@@ -45,7 +45,7 @@ Extract the files in the
 
 Ocsinventory/Agent/Backend/OS
 
-It will be used automaticly
+It will be used automatically
 
 I have test the script on only n4000 system for th moment on HP-Ux 11.0
 I try it on rp3440 but some informations are not in the same format

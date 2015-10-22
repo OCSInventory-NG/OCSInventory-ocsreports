@@ -153,7 +153,7 @@ sub run {
 				$type = "infiniband";
 			}
 
-      		# replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
+		# replace '0.0.0.0' (ie 'default gateway') by the default gateway IP address if it exists
       		if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
         		$ipgateway = $gateway{'0.0.0.0'};
       		}
@@ -331,7 +331,7 @@ sub run {
 
       		$ipgateway = $gateway{$ipsubnet} if $ipsubnet;
 
-      		# replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
+		# replace '0.0.0.0' (ie 'default gateway') by the default gateway IP address if it exists
       		if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
         		$ipgateway = $gateway{'0.0.0.0'};
       		}

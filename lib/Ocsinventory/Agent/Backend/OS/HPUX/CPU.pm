@@ -25,7 +25,7 @@ sub run {
    my $serie;
 
    # Using old system HpUX without machinfo
-   # the Hpux whith machinfo will be done after
+   # the Hpux with machinfo will be done after
    my %cpuInfos = (
                 "D200"=>"7100LC 75",
                 "D210"=>"7100LC 100",

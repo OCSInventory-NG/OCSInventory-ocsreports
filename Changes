@@ -28,7 +28,7 @@ Revision history for Ocsinventory::Agent
        * Fix Bug #1319683 libvirt VM partial detection
        * Fix Bug #1293588 CPU on Ubuntu may not be detected because of `arch` command and Dumper reference
        * Fix Bug #1246427 CentOS Linux 6 not identified
-       * Fix Bug #1201734 Hyper-V virtual machines not reconized as "Virtual Machine" by agent
+       * Fix Bug #1201734 Hyper-V virtual machines not recognized as "Virtual Machine" by agent
        * Fix Bug #1159742 Ipmi.pm does not load Net::IP at the right place
        * Fix Bug #1064296 ipv4 handling fix
 
@@ -253,8 +253,8 @@ Revision history for Ocsinventory::Agent
        * Prevent a bug in using Default.pm (Françs Mermet)
        * Add "ACR" and "EPI" EDID ID for monitors (Adam Buchbinder)
        * Fix Bug #597752 about TYPE and VOLUMN fiels reversal for BSD systems.
-       * Fix Bug #612515 to report network interface that don't have an IP adress (Mick K)
-       * Don't take care of host with no MAC adress in Nmap.pm
+       * Fix Bug #612515 to report network interface that don't have an IP address (Mick K)
+       * Don't take care of host with no MAC address in Nmap.pm
        * Add the SOFTWARE field in addSnmpCard subroutine
        * Enhance Printer_Mib.pm to add information about printer status and printer error state
        * Snmp.pm now use Default.pm to launch standard MIB modules by default (Françs Mermet)
@@ -274,7 +274,7 @@ Revision history for Ocsinventory::Agent
        * Modifying the inventory backend to use functions from Common.pm instead of Inventory.pm
        * New Snmp.pm for SNMP scans integration. It comes with its constructors modules to enhance scans results (a lot of beers to Françs Mermet to thank himfor his help)
        * Modifying postinst.pl to include Ocsinventory::Agent::Modules::Snmp
-       * Agent.pm : add $logger object in Ocsinventory::Agent::Common instanciation
+       * Agent.pm : add $logger object in Ocsinventory::Agent::Common instantiation
        * Common.pm : adding the can_run(), can_load(), can_read() and runcmdi() generic methods. Adding the use of the $logger object
        * Common.pm : add a new field 'TYPE' in setSnmpCommons()
        * Agent.pm now uses the new Networks.pm methods and add the $network object in the $context hash
@@ -289,7 +289,7 @@ Revision history for Ocsinventory::Agent
        * Put the prolog_reader hook run at the right place to avoid an error if the agent failed to reach the server
        * Enhance dom0 support for Xen support (Guillaume ROUSSE)
        * Add bios informations for Xen PV hosts (Guillaume ROUSSE)
-       * Fix Bug #552727 about getting processes taht are running in Solaris (Emengao)
+       * Fix Bug #552727 about getting processes that are running in Solaris (Emengao)
        * Add the availiability to disable a module using start_handler hook
        * Debug and code cleaning in Download.pm 
        * Fix Bug #552097
@@ -397,7 +397,7 @@ Revision history for Ocsinventory::Agent
        * Agent/XML/Inventory: Fix when version == 0, bug found by neisen
        * AIX: device type adjustment (Sebastien DAGNICOURT)
        * Solaris: Sun-Fire-V440 support (Sebastien DAGNICOURT)
-       * Add a missing space is the name banner in --debug mode
+       * Add a missing space if the name banner in --debug mode
        * Agent/XML/Inventory.pm: Add FROM and INSTALLDATE fields in software
          list and LASTLOGGEDUSER DATELASTLOGGEDUSER
          in HARDWARE (Nicolas EISEN)
@@ -501,11 +501,11 @@ Revision history for Ocsinventory::Agent
        * avoid the "No LSB modules are available." warning message
        * Backend: --debug print a warning when arun() function is not found
        * Fix the Debian/Ubuntu detection for non lsb system
-       * postinst.pl also drop /etc/cron.d/ocsinventory-client is the user
-         want to drop the old linux_agent
+       * postinst.pl also drops /etc/cron.d/ocsinventory-client if the user
+         wants to drop the old linux_agent
        * Backend::OS::Solaris::Memory: use the Logger instead of "print"
        * Solaris: Drop unwanted spaces around OSVERSION and STORAGES/DESCRIPTION
-       * Solaris: Avoid warning is the user can't use fstyp 
+       * Solaris: Avoid warning if the user can't use fstyp 
        * MANIFEST.SKIP: ignore .git/ and .gitignore
        * add a workaround for http://rt.cpan.org/Ticket/Display.html?id=38067 
        * build-perl-tree.sh use cpanp and perl 5.10 now
@@ -565,12 +565,12 @@ Revision history for Ocsinventory::Agent
        * only inventory installed .deb
        * postinst.pl: accept another vardir if the first one was invalide
          https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1961771&group_id=58373
-       * postinst.pl Download.pm correctly actived in modules.conf is the user needs it
+       * postinst.pl Download.pm correctly activated in modules.conf if the user needs it
        * add MacOSX support thanks to Wes YOUNG (Wes YOUNG)
          - Added tools/darwin/ support scripts/code for OS X enterprise deployment
        * add the follow_skip==2 flag to File::Find in Backend.pm so it doesn't detect the same
          file two time
-       * import of backend module for RAID controler on Linux (3ware, Adaptec, HP and Lsilogic)
+       * import of backend module for RAID controller on Linux (3ware, Adaptec, HP and Lsilogic)
          (Edouard GAMIN)
        * remove a warning in Debug mod, if a backend module has no run() function
        * don't crash in Daemon mode if the server is unreachable (Wes YOUNG)
@@ -617,8 +617,8 @@ Revision history for Ocsinventory::Agent
          agent and pointer to the official website
        * --nosoft option renamed to --nosoftware, --nosoft still works but with a warning
        * add --basevardir to be able to use a specific place to store the var file
-       * add the --lazy parameter: send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Usefull for package maintainer (Remi COLLET)
-       * return 1 to the shell is the agent failed to contact the server
+       * add the --lazy parameter: send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Useful for package maintainer (Remi COLLET)
+       * return 1 to the shell if the agent failed to contact the server
        * postinst.pl asks for the basevardir
        * postinst.pl write the modules.conf 
        * OS::Linux::Network::Networks, correctly reset the ipaddress before every loop so
@@ -767,7 +767,7 @@ Revision history for Ocsinventory::Agent
        * lspci stuffs moved to generic
        * Linux: find Wifi connection
        * fix: pass correctly the logger to the modules
-       * don't write the last_state is the connexion failed
+       * don't write the last_state if the connexion failed
        * Deals correctly with the accountinfo if it's internaly stored in a
          array ref
        * BSD support by Thierry Lacoste 
