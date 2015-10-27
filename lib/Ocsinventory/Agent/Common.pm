@@ -649,7 +649,7 @@ sub getSnmpTable {
   #  INFORMATION => OID,
   #};
 
-  my $results={};  #The final hash wich will contain one key per SNMP reference
+  my $results={};  #The final hash which will contain one key per SNMP reference
 
   for my $oid ( keys %$snmp_table ) {
     if ( $oid =~ /$baseoid\.\d+\.\d+\.(\S+)/ ) {
@@ -914,7 +914,7 @@ sub addBatteries {
   push @{$xmltags->{BATTERIES}}, $content;
 }
 
-#Subroutinne to add 0 in 'Sun like' MAC adress if needed
+#Subroutine to add 0 in 'Sun like' MAC address if needed
 sub padSnmpMacAddress {
   my ($self,$mac) = @_;
 

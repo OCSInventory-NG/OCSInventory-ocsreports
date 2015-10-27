@@ -138,7 +138,7 @@ sub snmp_run {
                $STATUS="Down";
             }
 
-           # If we have the adress ip and netmask we can put it
+           # If we have the address ip and netmask we can put it
            if ( defined ( $address_index ) ) {
               $IPADDR=$address_index->{$ref};
               $IPMASK=$netmask_index->{$ref};

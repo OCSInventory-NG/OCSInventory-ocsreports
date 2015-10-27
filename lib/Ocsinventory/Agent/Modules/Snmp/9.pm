@@ -94,7 +94,7 @@ sub snmp_run {
        if ( $resultmac =~ /1\.3\.6\.1\.4\.1\.9\.9\.46\.1\.3\.1\.1\.2\.1\.(\S+)/ ) {
            my $ref_vlan=$1;
            my $sub_session;
-           # Now we can scan this vlan for mac adress
+           # Now we can scan this vlan for mac address
            # We must first open a new session with the index associated with the vlan
 			if ( $session->version eq 3 ) {
 				 $sub_session= Net::SNMP->session(
@@ -143,9 +143,9 @@ sub snmp_run {
                            # We take the index reference for the ifdesc
                            # So when we scan this ifdesc, we can add the vlans and mac 
                            my $ref_snmp_line=$sub_session->get_request(-varbindlist => [ $snmp_intero ]);
-                           # We transmit the ointer value to the ref_mac so we can have a double acces for the data
+                           # We transmit the ointer value to the ref_mac so we can have a double access for the data
                            # If we have no information: the mac is not associated with a port
-                           # It's the switch mac adress
+                           # It's the switch mac address
                            if ( defined ( $ref_snmp_line->{$snmp_intero}) ) {
                               $ref_mac->{$ref_snmp_line->{$snmp_intero}}=$index_mac->{$index_bridge};
                            }

@@ -613,7 +613,7 @@ sub run {
    my $raw_edid = getEdid($port);
   if ($raw_edid){
   length($raw_edid) == 128 || length($raw_edid) == 256 or
-  $logger->debug("incorrect lenght: bad edid");
+  $logger->debug("incorrect length: bad edid");
 
   my $edid = parse_edid($raw_edid);
   if (my $err = check_parsed_edid($edid)) {

@@ -92,7 +92,7 @@ my %default = (
 $args{$_} = $default{$_} foreach grep !exists $args{$_}, keys %default;
 
 #
-# Place any core modules (+ verisons) that are required in the form: MOD::MOD 0.01
+# Place any core modules (+ versions) that are required in the form: MOD::MOD 0.01
 #
 
 $deps{'CORE'} = [ text_to_hash( << ".") ];

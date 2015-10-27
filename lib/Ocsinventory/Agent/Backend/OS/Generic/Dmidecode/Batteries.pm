@@ -32,7 +32,7 @@ sub run {
 
   foreach (@dmidecode) {
 
-    if (/dmi type 22,/i) { # begining of Memory Device section
+    if (/dmi type 22,/i) { # beginning of Memory Device section
       $flag = 1;
       $numslot++;
     } elsif ($flag && /^$/) { # end of section

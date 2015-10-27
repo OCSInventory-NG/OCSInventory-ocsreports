@@ -11,7 +11,7 @@
 
 
 //ocscontact is the helper tool to run OCS agent using Authorization Services.
-//ocscontact executable MUST be owned by root anbd have 700 permissions
+//ocscontact executable MUST be owned by root and have 700 permissions
 
 #import "ocscontact.h"
 
