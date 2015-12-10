@@ -104,7 +104,7 @@ if ($show_mac_addr){
 	$list_fields2[$l->g(207)]="n.ipgateway";
 	$list_fields2[$l->g(331)]="n.ipsubnet";
 }
-					   
+
 $list_fields=array_merge ($list_fields,$list_fields2);
 //asort($list_fields); 
 $tab_options['FILTRE']=array_flip($list_fields);
