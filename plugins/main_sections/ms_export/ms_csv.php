@@ -153,12 +153,14 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 			if (!$found) {
 				// find values case-insensitive
 				
-				foreach ($data_fixe[$cont['ID']] as $key => $val) {
-					if (strtolower($key) == strtolower($field) && isset($data_fixe[$cont['ID']][$key])) {
-						$data[$i][$lbl]=$data_fixe[$cont['ID']][$key];
-						
-						$found = true;
-						break;
+				if(!is_null($data_fixe[$cont['ID']])){
+					foreach ($data_fixe[$cont['ID']] as $key => $val) {
+						if (strtolower($key) == strtolower($field) && isset($data_fixe[$cont['ID']][$key])) {
+							$data[$i][$lbl]=$data_fixe[$cont['ID']][$key];
+					
+							$found = true;
+							break;
+						}
 					}
 				}
 				
