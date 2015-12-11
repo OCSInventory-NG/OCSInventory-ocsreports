@@ -169,8 +169,8 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			$protectedPost['ADD_TYPE']="VALID";
 		}
 		else{
-			$tab_options['CACHE']='RESET';	
-			unset($protectedPost['MODIF']);
+			$protectedPost = '';
+			$tab_options['CACHE']='RESET';
 			$msg_ok=$l->g(1121);
 		}
 	}	
@@ -194,6 +194,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			'title' => $title,
 			'show_frame' => false
 		));	
+		
 	}else{
 		if (isset($msg_ok))
 			msg_success($msg_ok);
@@ -300,7 +301,6 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
  
 echo '</div>';
 echo close_form();
-
 
 if ($ajax){
 	ob_end_clean();
