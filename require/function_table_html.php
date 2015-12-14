@@ -293,6 +293,7 @@ function xml_decode( $txt ) {
 <div>
 <label><?php echo $l->g(1349); ?> :</label>
 	<select id="select_col<?php echo $option['table_name']; ?>">
+	<option value="default">Select columns to show / hide</option>
 	<?php 
 	foreach($list_col_can_del as $key => $col){
 		$name = explode('.',$col);
@@ -524,6 +525,7 @@ function xml_decode( $txt ) {
 			var col = "."+$(this).val();
 			$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
 			$(table_id).DataTable().ajax.reload();
+			$("#select_col"+table_name).val('default');
 		});
 		
 			$("<span id='"+table_name+"_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#"+table_name+"_filter label");
