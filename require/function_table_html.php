@@ -520,12 +520,11 @@ function xml_decode( $txt ) {
        	});
 		
 		//Column Show/Hide
-		$("body").on("click","#select_col"+table_name,function(){
+		$("#select_col"+table_name).change(function(){ 
 			var col = "."+$(this).val();
 			$(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
 			$(table_id).DataTable().ajax.reload();
 		});
-
 		
 			$("<span id='"+table_name+"_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#"+table_name+"_filter label");
 			$("#"+table_name+"_settings").hide();
@@ -1785,8 +1784,10 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 	if($resultDetails){
 		if (isset($tab_options['JAVA']['CHECK'])){
 			$javascript="OnClick='confirme(\"".htmlspecialchars($row_temp[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
-		}else
+		}else{
 			$javascript="";
+		}
+			
 		while($row = mysqli_fetch_assoc($resultDetails))
 		{
 			if (isset($tab_options['AS'])){
