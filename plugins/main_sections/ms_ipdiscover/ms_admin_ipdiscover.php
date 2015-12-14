@@ -21,11 +21,6 @@ else{
 	$ajax=false;
 }
 
-
-
-
-
-
 require_once('require/function_ipdiscover.php');
 require_once('require/function_files.php');
 $form_name='admin_ipdiscover';
@@ -293,10 +288,6 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 				
 		}
 		
-		
-		
-		
-
 } 
  
 echo '</div>';

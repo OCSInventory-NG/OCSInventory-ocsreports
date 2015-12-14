@@ -500,7 +500,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag)
 				}
 			}
 			idchecked = idchecked.substr(0,(idchecked.length -1));
-			window.open(\"index.php?".PAG_INDEX."=\"+image+\"&head=1&idchecked=\"+idchecked,\"rollo\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=500\");
+			window.open(\"index.php?".PAG_INDEX."=\"+image+\"&head=1&idchecked=\"+idchecked,\"rollo\");
 			
 		}
 	</script>";
