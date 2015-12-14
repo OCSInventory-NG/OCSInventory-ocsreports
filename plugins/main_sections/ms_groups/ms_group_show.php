@@ -302,23 +302,6 @@ if(!$ajax){
 }
 ob_end_flush();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function regeneration_sql($valGroup){
 	
 	$tab=xml_decode($valGroup);
@@ -613,12 +596,12 @@ function img($i,$a,$avail,$opt) {
 	if( $avail ) {
 		$href = "<a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&head=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
 		$fhref = "</a>";
-		$img = "<img title=\"".htmlspecialchars($a)."\" src='".MAIN_SECTIONS_DIR."/img/{$i}{$suff}.png' />";
+		$img = '<button type="button" class="btn btn-default">'.$a.'</button>';
 	}
 	else {
 		$href = "";
 		$fhref = "";
-		$img = "<img title=\"".htmlspecialchars($a)."\" src='image/{$i}_d.png' />";
+		$img = '<button type="button" class="btn btn-default">'.$a.'</button>';
 	}
 	
 	return "<td width='80px' align='center'>".$href.$img.$fhref."</td>";
