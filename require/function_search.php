@@ -484,24 +484,38 @@ function calendars($NameInputField,$DateFormat)
 }
 
 
-function add_trait_select($img,$list_id,$form_name,$list_pag)
+function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 {
 	global 	$l;
 	$_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
 	echo "<script language=javascript>
-		function garde_check(image,id)
+		function garde_check(image,id,computer=false)
 		 {
 			var idchecked = '';
+			var cptr = 0;
 			for(i=0; i<document.".$form_name.".elements.length; i++)
 			{
 				if(document.".$form_name.".elements[i].name.substring(0,5) == 'check'){
-			        if (document.".$form_name.".elements[i].checked)
+			        if (document.".$form_name.".elements[i].checked){
 						idchecked = idchecked + document.".$form_name.".elements[i].name.substring(5) + ',';
+						cptr ++;
+					}
 				}
 			}
+								
+			if(computer){
+				if(cptr == 0){
+					alert('Select at least one computer !');
+					return;
+				}				
+			}
+								
 			idchecked = idchecked.substr(0,(idchecked.length -1));
-			window.open(\"index.php?".PAG_INDEX."=\"+image+\"&head=1&idchecked=\"+idchecked,\"rollo\");
-			
+			if(!computer){
+				window.open(\"index.php?".PAG_INDEX."=\"+image+\"&head=1&idchecked=\"+idchecked,\"rollo\");
+			}else{
+				window.open(\"index.php?".PAG_INDEX."=\"+image+\"&head=1&idchecked=\"+idchecked+\"&comp=\"+computer,\"rollo\");
+			}			
 		}
 	</script>";
 
@@ -509,7 +523,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag)
 	<div class="btn-group">
 	<?php 
 		foreach ($img as $key=>$value){
-			echo '<button type="button" onclick=garde_check("'.$list_pag[$key].'","'.$list_id.'") class="btn btn-default">'.$value.'</button>';
+			echo '<button type="button" onclick=garde_check("'.$list_pag[$key].'","'.$list_id.'","'.$comp.'") class="btn btn-default">'.$value.'</button>';
 		}
 	?>
 	</div>
@@ -523,8 +537,13 @@ function multi_lot($form_name,$lbl_choise){
 	//print_r($protectedPost);
 	if (!isset($protectedGet['origine'])){
 		if (isset($protectedGet['idchecked']) and $protectedGet['idchecked'] != ""){
-			$choise_req_selection['REQ']=$l->g(584);
-			$choise_req_selection['SEL']=$l->g(585);
+			if (!isset($protectedGet['comp'])){
+				$choise_req_selection['REQ']=$l->g(584);
+				$choise_req_selection['SEL']=$l->g(585);
+			}
+			else{
+				$choise_req_selection['SEL']=$l->g(585);
+			}
 			$select_choise=show_modif($choise_req_selection,'CHOISE',2,$form_name);	
 			echo "<center>".$lbl_choise." ".$select_choise."</center><br>";
 		}
@@ -572,7 +591,6 @@ function found_soft_type($type,$id ="",$name=""){
 	}
 	return $res;
 }
-
 
 function id_without_idgroups($list_id){
 	$sql="select id from hardware where deviceid <> '_SYSTEMGROUP_' 

@@ -20,6 +20,8 @@ else{
 }
 require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
+//intégration des fonctions liées à la recherche multicritère
+require_once('require/function_search.php');
 
 //show mac address on the tab
 $show_mac_addr=true;
@@ -142,14 +144,41 @@ $queryDetails  .=" group by h.id";
 $tab_options['LBL_POPUP']['SUP']='name';
 $tab_options['LBL']['SUP']=$l->g(122);
 $tab_options['TRI']['DATE']['e.bdate']="%m/%d/%Y";
+
 $entete = ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
+
+// Mass_action boutons 
+// Groups / Delete / Lock result / mass processing / Config / deploy
+if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
+	$list_fonct["image/delete.png"]=$l->g(122);
+	$list_pag["image/delete.png"]=$pages_refs["ms_custom_sup"];
+	$tab_options['LBL_POPUP']['SUP']='name_of_machine';
+}
+$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
+$list_fonct["image/mass_affect.png"]=$l->g(430);
+if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES"){
+	$list_fonct["image/config_search.png"]=$l->g(107);
+	$list_pag["image/config_search.png"]=$pages_refs['ms_custom_param'];
+}
+if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES"){
+	$list_fonct["image/tele_search.png"]=$l->g(428);
+	$list_pag["image/tele_search.png"]=$pages_refs["ms_custom_pack"];
+}
+$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
+
+$list_pag["image/cadena_ferme.png"]=$pages_refs["ms_custom_lock"];
+$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
+add_trait_select($list_fonct,$list_id,$form_name,$list_pag,true);
+echo "<br><br>";
+
 if ($entete and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
 		//echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/delete.png' title='Supprimer' ></a>";
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><span class='glyphicon glyphicon-trash'></span></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
-	}
+}
 	
 echo close_form();
+
 if ($ajax){
 	ob_end_clean();
 	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
