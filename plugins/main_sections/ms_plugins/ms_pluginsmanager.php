@@ -19,6 +19,8 @@ else{
 	$ajax=false;
 }
 
+require_once 'require/function_commun.php';
+
 if (!class_exists('plugins')) {
 	require 'plugins.class.php';
 }
@@ -53,7 +55,7 @@ if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 
 // Plugins Install menu.
 
-printEnTete("Plugin Install");
+printEnTete($l->g(7008));
 
 echo "<table align='center'><th>";
 echo open_form("PluginInstall");
@@ -75,12 +77,7 @@ if (!empty($availablePlugins)){
 	echo "<input type='submit' value='Install'>";
 }
 else{
-	echo "<center>	
-    <div id='my-alert-top_msg_alert' class='alert alert-warning fade in' role='alert'>	
-		<div onmouseout='hidden_me();' onmouseover='show_me('Put your plugins into the download dir in the OCSreports.');'>
-			There is currently no plugin available for installation.</div>
-    </div>
-	</center>";
+	msg_warning($l->g(7014));
 }
 
 echo close_form();
@@ -107,31 +104,23 @@ if (isset($protectedPost['plugin'])){
 		}
 		
 		if ($isok){
-			echo "<center>
-				<div id='my-alert-' class='alert alert-success fade in' role='alert'>Plugin ".$pluginame[0]." installed</div>
-			</center>";
+			$msg = $l->g(6003)." ".$pluginame[0]." ".$l->g(7013) ;
+			msg_success($msg);
 		}else{
-			echo "<center>
-			<div id='my-alert-top_msg_alert' class='alert alert-danger fade in' role='alert'>Error : ".$pluginame[0]." is an invalid plugin, check your sources.
-					<br> Installation aborted ! </div>
-			</center>";
+			$msg = $l->g(2001)." ".$pluginame[0]." ".$l->g(7011)."<br>".$l->g(7012);
+			msg_error($msg);
 		}
 		
 		
 	}else{
-		echo "<center>	
-    <div id='my-alert-top_msg_alert' class='alert alert-danger fade in' role='alert'>	
-		<div onmouseout='hidden_me();' onmouseover='show_me('Put your plugins into the download dir in the OCSreports.');'>
-			This plugin has been already installed.</div>
-    </div>
-	</center>";
+		msg_error($l->g(7010));
 	}
 	
 }
 
 // Plugins Tab
 
-printEnTete("Installed Plugins");
+printEnTete($l->g(7009));
 
 $form_name="show_all_plugins";
 $table_name=$form_name;

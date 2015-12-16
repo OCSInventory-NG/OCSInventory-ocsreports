@@ -293,7 +293,7 @@ function xml_decode( $txt ) {
 <div>
 <label><?php echo $l->g(1349); ?> :</label>
 	<select id="select_col<?php echo $option['table_name']; ?>">
-	<option value="default">Select columns to show / hide</option>
+	<option value="default"><?php echo $l->g(6001); ?></option>
 	<?php 
 	foreach($list_col_can_del as $key => $col){
 		$name = explode('.',$col);
@@ -571,7 +571,7 @@ function xml_decode( $txt ) {
 		}
 		?>
 	});
-	
+
 	</script>
 	<?php
 	if ($titre != "")

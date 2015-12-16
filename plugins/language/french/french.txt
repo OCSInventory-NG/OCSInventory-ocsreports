@@ -1431,8 +1431,22 @@
 5023 [DEBUG]REQUETE CONDITION DIFF[DEBUG]
 
 6000 Plugins
-6001 Licences Offices
-6002 Répartition Offices
-6003 Nombre par licence
+6001 Selectionner la colonne a afficher / masquer
+6003 Plugin
 6004 Nombre Total disponible
 6005 Eteinte/allumée
+7000 Plugins
+7001 Gestionnaire de plugins
+7002 Nom du plugin
+7003 Version
+7004 Licence
+7005 Auteur
+7006 Dernière mise a jour
+7007 Etes-vous sûr de vouloir supprimer ce plugin
+7008 Installer un plugin
+7009 Plugins installé
+7010 Ce plugin a déja été installé
+7011 est un plugin non valide, vérifiez vos sources.
+7012 Installation annulée !
+7013 a été installé
+7014 Il n'y a aucun plugin disponible
