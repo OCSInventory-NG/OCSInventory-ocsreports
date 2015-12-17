@@ -1450,3 +1450,4 @@
 7012 Installation annulée !
 7013 a été installé
 7014 Il n'y a aucun plugin disponible
+7015 Selectionner au minimum un ordinateur !

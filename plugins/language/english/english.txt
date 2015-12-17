@@ -1450,3 +1450,4 @@
 7012 Installation aborted !
 7013 installed
 7014 There is currently no plugin available for installation
+7015 Select at least one computer !

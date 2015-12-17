@@ -489,7 +489,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 	global 	$l;
 	$_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
 	echo "<script language=javascript>
-		function garde_check(image,id,computer=false)
+		function garde_check(image,id,computer)
 		 {
 			var idchecked = '';
 			var cptr = 0;
@@ -505,7 +505,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 								
 			if(computer){
 				if(cptr == 0){
-					alert('Select at least one computer !');
+					alert('".$l->g(7015)."');
 					return;
 				}				
 			}
