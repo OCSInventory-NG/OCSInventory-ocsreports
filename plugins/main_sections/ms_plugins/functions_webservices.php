@@ -21,13 +21,45 @@ function exec_plugin_soap_client($name, $action){
 	$values=look_config_default_values($champs);
 	
 	$address = $values['tvalue']['OCS_SERVER_ADDRESS'];
+
+	plugin_soap_client($name, $action);
 	
-	ini_set("safe_mode", "0");
+}
+
+function plugin_soap_client($name, $action){
 	
-	$command = "perl ".MAIN_SECTIONS_DIR."ms_plugins/client.pl ".$address." ".$name." ".$action;
- 	exec($command);	
+ 	$champs=array('OCS_SERVER_ADDRESS'=>'OCS_SERVER_ADDRESS');
+ 	$values=look_config_default_values($champs);
+
+ 	$address = $values['tvalue']['OCS_SERVER_ADDRESS'];
 	
-	ini_set("safe_mode", "1");
+ 	if($action == 1){
+ 		$method = "InstallPlugins";
+ 	}else{
+ 		$method = "DeletePlugins";
+ 	}
+	
+ 	$client = new SoapClient(null,
+ 								array(
+ 									'location' => "http://$address/plugins",
+ 									'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules"	,
+ 								));
+	
+ 	
+ 	 
+ 	$request = "<?xml version=\"1.0\" encoding=\"utf-8\" ?> 
+		<soap:Envelope 
+    		soap:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'
+    		xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/' 
+ 			xmlns:soapenc='http://schemas.xmlsoap.org/soap/encoding/'
+    		xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
+    		xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ 		<soap:Body>
+			<$method xmlns='http://$address/Apache/Ocsinventory/Plugins/Modules'><c-gensym3 xsi:type='xsd:string'>$name</c-gensym3></$method>
+		</soap:Body>
+		</soap:Envelope>";
+ 	
+ 	$test = $client->__doRequest($request, "http://$address/plugins", "http://$address/Apache/Ocsinventory/Plugins/Modules#$method", "1.1");
 	
 }
 
