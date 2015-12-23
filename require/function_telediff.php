@@ -380,6 +380,12 @@ function recursive_remove_directory($directory, $empty=FALSE) {
 
 function create_pack($sql_details,$info_details){
 	global $l;
+	
+	if(DEMO){
+		msg_info($l->g(2103));
+		return;
+	}
+	
 	$info_details=xml_escape_string($info_details);
 	//get temp file
 	$fname = $sql_details['document_root'].$sql_details['timestamp']."/tmp";
@@ -471,6 +477,13 @@ function crypt_file($dir_FILES,$digest_algo,$digest_encod){
 }
 
 function creat_temp_file($directory,$dir_FILES){
+	
+	global $l;
+	
+	if(DEMO){
+		return;
+	}
+	
 	if (!file_exists ($directory."/tmp")){
 		if (! @mkdir( $directory) 
 		or !copy( $dir_FILES, $directory."/tmp" )

@@ -1448,6 +1448,6 @@
 7010 Ce plugin a déja été installé
 7011 est un plugin non valide, vérifiez vos sources.
 7012 Installation annulée !
-7013 a été installé
+7013 installé
 7014 Il n'y a aucun plugin disponible
 7015 Selectionner au minimum un ordinateur !

@@ -48,15 +48,20 @@ function delete_plugin($pluginid){
 		require 'functions_webservices.php';
 	}
 	
-	if ($anwser['name'] != "" and $anwser['name'] != null){
-		require (MAIN_SECTIONS_DIR."ms_".$anwser['name']."/install.php");
+	if (file_exists(MAIN_SECTIONS_DIR."ms_".$anwser['name'])){
 		
-		$fonc = "plugin_delete_".$anwser['name'];
-		$fonc();
+		if ($anwser['name'] != "" and $anwser['name'] != null){
+			require (MAIN_SECTIONS_DIR."ms_".$anwser['name']."/install.php");
+		
+			$fonc = "plugin_delete_".$anwser['name'];
+			$fonc();
+		}
+		
+		rrmdir(MAIN_SECTIONS_DIR."ms_".$anwser['name']);
 	}
-	
-	rrmdir(MAIN_SECTIONS_DIR."ms_".$anwser['name']);
-	rrmdir(PLUGINS_DIR."computer_detail/cd_".$anwser['name']);
+	if (file_exists(PLUGINS_DIR."computer_detail/cd_".$anwser['name'])){
+		rrmdir(PLUGINS_DIR."computer_detail/cd_".$anwser['name']);
+	}
 	
 	if(file_exists(PLUGINS_SRV_SIDE.$anwser['name'].".zip")){
 		unlink(PLUGINS_SRV_SIDE.$anwser['name'].".zip");

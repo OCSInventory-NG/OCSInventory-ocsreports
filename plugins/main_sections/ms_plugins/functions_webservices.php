@@ -42,10 +42,8 @@ function plugin_soap_client($name, $action){
  	$client = new SoapClient(null,
  								array(
  									'location' => "http://$address/plugins",
- 									'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules"	,
+ 									'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules",
  								));
-	
- 	
  	 
  	$request = "<?xml version=\"1.0\" encoding=\"utf-8\" ?> 
 		<soap:Envelope 
