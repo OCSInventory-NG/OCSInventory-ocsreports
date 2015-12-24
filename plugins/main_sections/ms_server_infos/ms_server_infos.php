@@ -29,7 +29,7 @@
 					}
 					// TODO: other distro
 					$distro = false;
-					foreach(array('/etc/debian_version', '/etc/redhat-release', '/etc/SuSE-release') as $fic) {
+					foreach(array('/etc/debian_version', '/etc/redhat-release', '/etc/SuSE-release', '/etc/os-release') as $fic) {
 						if (file_exists($fic)) {
 							$distro = file_get_contents($fic);
 						}
