@@ -399,7 +399,7 @@ sub addNetworks {
 
 Save global information regarding the machine.
 
-The use of setHardware() to update USERID and PROCESSOR* informations is
+The use of setHardware() to update USERID and PROCESSOR* information is
 deprecated, please, use addUser() and addCPU() instead.
 
 =cut
@@ -430,7 +430,7 @@ sub setHardware {
 
 =item setBios()
 
-Set BIOS informations.
+Set BIOS information.
 
 =cut
 sub setBios {
@@ -643,7 +643,7 @@ sub flushXMLTags {
 sub getSnmpTable {
   my ($self,$snmp_table,$baseoid,$snmp_infos) = @_;
 
-  #$snmp_infos is a hash passed for the SNMP informations we want to get
+  #$snmp_infos is a hash passed for the SNMP information we want to get
   #It has to be created like this :
   #my $hash = {
   #  INFORMATION => OID,
