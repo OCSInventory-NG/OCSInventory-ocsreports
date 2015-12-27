@@ -138,7 +138,7 @@ This option defaults to waiting a random() time between 0 and 3600 before initia
 
 =item B<-f>, B<--force>
 
-The agent will first contact the server during the PROLOG period. If the server doesn't know the machine or has outdated informations, it will ask for an inventory.
+The agent will first contact the server during the PROLOG period. If the server doesn't know the machine or has outdated information, it will ask for an inventory.
 With this option, the agent doesn't run the PROLOG with the server first but directly sends an inventory.
 
 =item B<-i>, B<--info>
@@ -230,7 +230,7 @@ works but is deperecated.
 
 =item B<--nolocal>
 
-Desactivate local mode even if it is set in config file or command line
+Deactivate local mode even if it is set in config file or command line
 
 =back
 
