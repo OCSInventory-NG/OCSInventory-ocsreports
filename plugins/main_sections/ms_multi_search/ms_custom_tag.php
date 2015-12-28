@@ -22,31 +22,32 @@ if (isset($list_id) and $list_id != ''){
 		$info_account_id=admininfo_computer();
 	
 		foreach ($protectedPost as $field=>$value){
-				
-				if (substr($field, 0, 5) == "check"){
-					$temp=substr($field, 5);
-					if (array_key_exists($temp,$info_account_id)){
-						//cas of checkbox
-						foreach ($protectedPost as $field2=>$value2){
-							$casofcheck=explode('_',$field2);
-							if ($casofcheck[0] . '_' . $casofcheck[1] == $temp){
-								if (isset($casofcheck[2]))
-									$data_fields_account[$temp] .= $casofcheck[2] . "&&&";
-								
-							}						
-						}
-						if (!isset($data_fields_account[$temp]))
-						$data_fields_account[$temp]=$protectedPost[$temp];	
-			
-					}			
-				
-				}
-			}
 	
-		if (isset($data_fields_account)){	
+			if (substr($field, 0, 5) == "check"){
+				$temp=substr($field, 5);
+				if (array_key_exists($temp,$info_account_id)){
+					//cas of checkbox
+					foreach ($protectedPost as $field2=>$value2){
+						$casofcheck=explode('_',$field2);
+						if ($casofcheck[0] . '_' . $casofcheck[1] == $temp){
+							if (isset($casofcheck[2]))
+								$data_fields_account[$temp] .= $casofcheck[2] . "&&&";
+	
+						}
+					}
+					if (!isset($data_fields_account[$temp]))
+						$data_fields_account[$temp]=$protectedPost[$temp];
+							
+				}
+	
+			}
+		}
+	
+		if (isset($data_fields_account)){
 			updateinfo_computer($list_id,$data_fields_account,'LIST');
 			unset($_SESSION['OCS']['DATA_CACHE']['TAB_MULTICRITERE']);
 			echo "<script language='javascript'> window.opener.document.multisearch.submit();</script>";
+			echo "<script language='javascript'> window.opener.document.show_all.submit();</script>";
 		}
 	}
 	
