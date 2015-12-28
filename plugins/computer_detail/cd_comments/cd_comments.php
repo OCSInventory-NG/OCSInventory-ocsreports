@@ -20,8 +20,6 @@ else{
 	$ajax=false;
 }
 
-
-
 	$lbl_log=$l->g(1128);
 	$list_fields=array();
 	if (!isset($protectedPost['SHOW']))
@@ -60,8 +58,8 @@ else{
 			$sql="insert into itmgmt_comments (HARDWARE_ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION) 
 					value (%s,%s,'%s','%s','%s')";
 			$arg=array($systemid,"sysdate()",$_SESSION['OCS']["loggeduser"],$protectedPost['NOTE'],"ADD_NOTE_BY_USER");
-			
 			mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,'ADD_NOTE_BY_USER');
+			unset($protectedPost['NOTE']);
 			//regénération du cache
 			$tab_options['CACHE']='RESET';			
 		}elseif (trim($protectedPost['NOTE_MODIF']) != '' and isset($protectedPost['NOTE_MODIF'])){
