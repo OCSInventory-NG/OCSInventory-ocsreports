@@ -1878,6 +1878,11 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$constr="<font color=red>".$l->g(885)."</font>";
 						$row[$key]=$value_of_field." (<small>".$constr."</small>)";
 						break;
+					case "MOD_TAGS":
+						if ($value_of_field!= '&nbsp;'){
+							$row[$key]="<center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_perim']."&head=1&id=".$value_of_field."' ><img src='image/modif_tab.png'></a><center>";
+						}
+						break;
 					default :
 						if (substr($key,0,11) == "PERCENT_BAR"){
 							//require_once("function_graphic.php");
@@ -1972,6 +1977,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"GROUP_NAME",
 			"NULL",
 			"MODIF",
+			"MOD_TAGS",
 			"SELECT",
 			"ZIP",
 			"OTHER",
@@ -2072,7 +2078,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	} 
 	$link=$_SESSION['OCS']["readServer"];
 	
-	
 	$sqlfunctions[]='count';
 	$sqlfunctions[]='sum';
 	$sqlfunctions[]='min';
@@ -2086,7 +2091,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				$tab_options['HAVING'][$column]['name']=$request ;
 		}
 	}
-	
 	
 	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
 	// NOT USED YET
@@ -2396,8 +2400,9 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}
 					elseif ($key == "CHECK" and $value_of_field!= '&nbsp;'){
 						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
-						$lien = 'KO';		
-					}elseif ($key == "NAME" and !isset($tab_options['NO_NAME']['NAME'])){
+						$lien = 'KO';
+					}
+					elseif ($key == "NAME" and !isset($tab_options['NO_NAME']['NAME'])){
 							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
 							if ($donnees['ID'])
 								$link_computer.="&systemid=".$donnees['ID'];

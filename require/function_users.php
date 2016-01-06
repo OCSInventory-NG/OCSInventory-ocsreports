@@ -52,13 +52,25 @@ function delete_list_user($list_to_delete){
 
 function add_user($data_user,$list_profil=''){
 	global $l;
+	
 	if (isset($data_user['PASSWORD'])){
 		$password = $data_user['PASSWORD'];
 	}
 	$data_user=strip_tags_array($data_user);
-	if (trim($data_user['ID']) == "")
-		$ERROR=$l->g(997);
 		
+	// Name ok ?
+	if (trim($data_user['FIRSTNAME']) == ""){
+		$ERROR = $l->g(1391).' : '.$l->g(1366);
+	}
+	// Password ok ?
+	if (trim($data_user['PASSWORD']) == "" and trim($data_user['MODIF']) == "" ){
+		$ERROR = $l->g(1391).' : '.$l->g(217);
+	}
+	// Login ok ?
+	if (trim($data_user['ID']) == ""){
+		$ERROR = $l->g(997);
+	}
+	
 	if (is_array($list_profil)){
 		if (!array_key_exists($data_user['ACCESSLVL'], $list_profil))
 			$ERROR=$l->g(998);
