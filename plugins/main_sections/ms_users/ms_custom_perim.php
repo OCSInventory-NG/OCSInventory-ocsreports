@@ -21,14 +21,16 @@ if(AJAX){
 }
 else{
 	$ajax=false;
-} 
+}
 
 $form_name='taguser';
-
+$table_name=$form_name;
 $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
+$tab_options['table_name']=$table_name;
 
 //BEGIN SHOW ACCOUNTINFO
+require_once 'require/function_commun.php';
 require_once('require/function_admininfo.php');
 $info_tag=find_info_accountinfo('1','COMPUTERS');
 if (is_array($info_tag)){
@@ -71,6 +73,7 @@ if( $protectedPost['newtag'] != "" ) {
 	
 	unset($protectedPost['newtag']);
 }
+
 //suppression d'une liste de tag
 if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 	$sql="DELETE FROM tags WHERE tag in ";
@@ -88,28 +91,30 @@ if(isset($protectedPost['SUP_PROF'])) {
 	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 }
 echo "<br>";
-echo open_form($form_name);
 
-if (!isset($protectedPost['SHOW']))
-		$protectedPost['SHOW'] = 'NOSHOW';
-if (!(isset($protectedPost["pcparpage"])))
-		 $protectedPost["pcparpage"]=5;
-$list_fields= array($_SESSION['OCS']['TAG_LBL']['TAG']=>'tag',
-					'SUP'=>'tag',
-					'CHECK'=>'tag');
-$list_col_cant_del=array('ID'=>'ID','SUP'=>'SUP','CHECK'=>'CHECK');
-$default_fields=$list_fields; 
-$sql=prepare_sql_tab($list_fields,array('SUP','CHECK'));
-$sql['SQL'].= " FROM tags where login='%s'";
-array_push($sql['ARG'],$protectedGet['id']);
+echo open_form($form_name);
+$list_fields=array('TAG'=>'tag',
+				);			
+
+$tab_options['FILTRE']=array_flip($list_fields);
+$tab_options['FILTRE']['NAME']=$l->g(49);
+asort($tab_options['FILTRE']); 
+$list_fields['SUP']='tag';
+$list_fields['CHECK']='tag';
+
+$list_col_cant_del=array('SUP'=>'SUP','CHECK'=>'CHECK');
+$default_fields= array('TAG'=>'tag');
+$sql=prepare_sql_tab($list_fields,$list_col_cant_del);
+$sql['SQL'] = "SELECT tag FROM tags where login='%s'";
+$sql['ARG'] = array($protectedGet["id"]);
 $tab_options['ARG_SQL']=$sql['ARG'];
-$tab_options['ARG_SQL_COUNT']=$protectedGet['id'];
-$tab_options['FILTRE']=array($_SESSION['OCS']['TAG_LBL']['TAG']=>$_SESSION['OCS']['TAG_LBL']['TAG']);
-$tab_options['table_name']=$table_name;
+$queryDetails  = $sql['SQL'];
+$tab_options['LBL']['SUP']=$l->g(122);
+
 ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
-//traitement par lot
+$img['image/delete.png']=$l->g(162);
 del_selection($form_name);
-	
+
 if (is_array($info_value_tag) and !isset($protectedPost['use_generic_0'])){
 	$type=2;
 }else{
@@ -118,13 +123,16 @@ if (is_array($info_value_tag) and !isset($protectedPost['use_generic_0'])){
 }
 	
 $select_choise=show_modif($info_value_tag,'newtag',$type);	
+echo "<br>";
 echo $l->g(617)." ".$_SESSION['OCS']['TAG_LBL']['TAG'].": ".$select_choise;
 echo "<input type='submit' name='ADD_TAG' value='" . $l->g(13) . "'><br>";
-echo show_modif(array($l->g(358)),'use_generic',5,$form_name);
+//echo show_modif(array($l->g(358)),'use_generic',5,$form_name);
+echo $l->g(358);
 echo close_form();
+
 if ($ajax){
 	ob_end_clean();
-	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
 }
 ?>
 

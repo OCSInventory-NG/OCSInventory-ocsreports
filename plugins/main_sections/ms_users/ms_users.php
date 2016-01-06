@@ -61,30 +61,41 @@ if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 echo "<tr><td align=center>";
 //affichage
 $list_fields= array('ID'=>'ID',
-		$l->g(49)=>'FIRSTNAME',
+		$l->g(1366)=>'FIRSTNAME',
 		$l->g(996)=>'LASTNAME',
 		$l->g(66)=>'NEW_ACCESSLVL',
 		$l->g(51)=>'COMMENTS',
 		$l->g(1117)=>'EMAIL',
 		$l->g(607)=>'USER_GROUP',
 		'SUP'=>'ID',
+		'MOD_TAGS'=>'ID',
 		'CHECK'=>'ID');
-$list_col_cant_del=array('ID'=>'ID','SUP'=>'SUP','CHECK'=>'CHECK');
-$default_fields=$list_fields;
+$list_col_cant_del=array('ID'=>'ID','SUP'=>'SUP','CHECK'=>'CHECK','MOD_TAGS'=>'MOD_TAGS' );
+$default_fields= array('ID'=>'ID',
+		$l->g(1366)=>'FIRSTNAME',
+		$l->g(996)=>'LASTNAME',
+		$l->g(66)=>'NEW_ACCESSLVL',
+		$l->g(51)=>'COMMENTS',
+		$l->g(607)=>'USER_GROUP',
+		'SUP'=>'ID',
+		'MOD_TAGS'=>'ID',
+		'CHECK'=>'ID');
 $queryDetails = 'SELECT ';
 foreach ($list_fields as $key=>$value){
-	if($key != 'SUP' and $key != 'CHECK')
+	if($key != 'SUP' and $key != 'CHECK' and $key != 'MOD_TAGS')
 		$queryDetails .= $value.',';
 }
 $queryDetails=substr($queryDetails,0,-1);
 $queryDetails .= " FROM operators";
+// Tab options
 $tab_options['FILTRE']=array('LASTNAME'=>'LASTNAME','ID'=>'ID','NEW_ACCESSLVL'=>'NEW_ACCESSLVL');
-$tab_options['LIEN_LBL'][$l->g(49)]='index.php?'.PAG_INDEX.'='.$pages_refs['ms_user_details'].'&user_id=';
-$tab_options['LIEN_CHAMP'][$l->g(49)]='ID';
-$tab_options['POPUP_SIZE'][$l->g(49)]="width=550,height=650";
-$tab_options['LIEN_LBL'][$l->g(996)]='index.php?'.PAG_INDEX.'='.$pages_refs['ms_user_details'].'&user_id=';
-$tab_options['LIEN_CHAMP'][$l->g(996)]='ID';
-$tab_options['POPUP_SIZE'][$l->g(996)]="width=550,height=650";
+$tab_options['LIEN_LBL'][$l->g(1366)]='index.php?'.PAG_INDEX.'='.$pages_refs['ms_user_details'].'&user_id=';
+$tab_options['LIEN_CHAMP'][$l->g(1366)]="ID";
+
+// Tags edit
+$tab_options['LBL']['MOD_TAGS']='Tags';
+$tab_options['NO_TRI']['MOD_TAGS']=1;
+
 $sql_user_groups="select IVALUE,TVALUE from config where name like 'USER_GROUP_%' ";
 $res_user_groups = mysqli_query($_SESSION['OCS']["readServer"], $sql_user_groups );
 while ($val_user_groups = mysqli_fetch_array( $res_user_groups ))
