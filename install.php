@@ -117,6 +117,9 @@ if((file_exists(CONF_MYSQL) and !is_writable(CONF_MYSQL)) or (!file_exists(CONF_
 if(version_compare(phpversion(), '5.3.7', '<')){
 	$msg_lbl['warning'][]=$l->g(2113)." ".phpversion()." ) ";
 }
+if(!class_exists('SoapClient')) {
+	$msg_lbl['warning'][]=$l->g(6006);
+}
 if(!function_exists('xml_parser_create')) {	
 	$msg_lbl['warning'][]=$l->g(2036);
 }

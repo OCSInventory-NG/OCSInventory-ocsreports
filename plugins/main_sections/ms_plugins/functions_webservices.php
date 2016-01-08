@@ -17,13 +17,18 @@ require_once('require/function_config_generale.php');
  */
 function exec_plugin_soap_client($name, $action){
 	
+	global $l;
+	
 	$champs=array('OCS_SERVER_ADDRESS'=>'OCS_SERVER_ADDRESS');
 	$values=look_config_default_values($champs);
 	
 	$address = $values['tvalue']['OCS_SERVER_ADDRESS'];
 
-	plugin_soap_client($name, $action);
-	
+	if(class_exists('SoapClient')) {
+		plugin_soap_client($name, $action);
+	}else{
+		msg_error($l->g(6006));
+	}
 }
 
 function plugin_soap_client($name, $action){
