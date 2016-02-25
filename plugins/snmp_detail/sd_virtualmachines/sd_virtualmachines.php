@@ -9,10 +9,10 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 	/*
-	 * 
+	 *
 	 * Show sd_modems data
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	if(AJAX){
 		ob_end_clean();

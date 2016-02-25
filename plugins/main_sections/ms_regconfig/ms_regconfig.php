@@ -9,8 +9,8 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 if(AJAX){
-	
-	
+
+
 	parse_str($protectedPost['ocs']['0'], $params);
 	$protectedPost+=$params;
 	ob_start();

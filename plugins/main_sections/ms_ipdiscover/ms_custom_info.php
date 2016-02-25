@@ -12,7 +12,7 @@
 if(AJAX){  
 		parse_str($protectedPost['ocs']['0'], $params);	
 		$protectedPost+=$params; 
-		
+
 	ob_start();
 	$ajax = true;
 }

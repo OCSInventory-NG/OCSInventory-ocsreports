@@ -4,7 +4,7 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
- 
+
  if(AJAX){
  	parse_str($protectedPost['ocs']['0'], $params);
  	$protectedPost+=$params;
@@ -14,9 +14,9 @@
  else{
  	$ajax=false;
  }
- 
- 
- 
+
+
+
  
 
 require_once('require/fonction.inc.php');
@@ -60,7 +60,7 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	$logiciel=$protectedPost['logiciel_text'];
 	
 	$table_name=$form_name;
-	
+
 	$tab_options['table_name']=$table_name;
 	$list_fields=array('NAME' => 'h.NAME',
 					   'ip' => 'h.IPADDR',

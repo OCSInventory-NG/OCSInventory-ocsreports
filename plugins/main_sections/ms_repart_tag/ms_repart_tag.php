@@ -60,6 +60,6 @@
 	if ($ajax){
 		ob_end_clean();
 		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
-		
+
 	}
 	?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 //====================================================================================
 // OCS INVENTORY REPORTS
 // Copyleft Pierre LEMMET 2006
@@ -22,7 +22,7 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 		$description_details .= "  [Type=".$protectedPost['TYPE_PACK']."]";
 	if (isset($protectedPost['VISIBLE']) and $protectedPost['VISIBLE'] != '')
 		$description_details .= "  [VISIBLE=".$protectedPost['VISIBLE']."]";
-		
+
 	$sql_details=array('document_root'=>$protectedPost['document_root'],
 					   'timestamp'=>$protectedPost['timestamp'],
 					   'nbfrags'=>$protectedPost["nbfrags"],
@@ -31,7 +31,7 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 					   'description'=>$description_details,
 					   'size'=>$protectedPost['SIZE'],
 					   'id_wk'=>$protectedPost['LIST_DDE_CREAT']);
-					   
+
 	$info_details=array('PRI'=>$protectedPost['PRIORITY'],
 						'ACT'=>$protectedPost['ACTION'],
 						'DIGEST'=>$protectedPost['digest'],
@@ -50,38 +50,38 @@ if( isset( $protectedPost["VALID_END"] ) ) {
 						'NEED_DONE_ACTION_TEXT'=>$protectedPost['NEED_DONE_ACTION_TEXT'],
 						'GARDEFOU'=>"rien");
 	create_pack($sql_details,$info_details);
-	
+
 if ($protectedPost['REDISTRIB_USE'] == 1){
-		
+
 		$timestamp_redistrib= time();
 		$server_dir=$protectedPost['download_rep_creat'];
 		//create zip file for redistribution servers
 		$zipfile = new ZipArchive();
 		$rep = $protectedPost['document_root'].$sql_details['timestamp']."/";
-		
+
 		if (!file_exists($server_dir)){
 			mkdir($server_dir);
 		}
 		if (!file_exists($server_dir.$timestamp_redistrib)){
 			mkdir($server_dir.$timestamp_redistrib);
 		}
-		
+
 		$zipfile->open($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip", ZipArchive::CREATE);
 		$zipfile->addEmptyDir($sql_details['timestamp']);
-		
+
 		$dir = opendir($rep);
-		
+
 		while($f = readdir($dir)){
 		   if(is_file($rep.$f)){
 		   	$zipfile -> addFile($rep.$f,$sql_details['timestamp']."/".basename($rep.$f));
 		   }
 		}
-		
+
 		$zipfile -> close();
-		
+
 		closedir($dir);
 		flush();
-		
+
 		//crypt the file
 		$digest=crypt_file($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip",$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
 		//change name of this file to "tmp" for use function of create a package
@@ -96,7 +96,7 @@ if ($protectedPost['REDISTRIB_USE'] == 1){
 					   'description'=>'[PACK REDISTRIBUTION '.$protectedPost['timestamp'].']',
 					   'size'=>$fSize,
 					   'id_wk'=>$protectedPost['LIST_DDE_CREAT']);
-					   
+
 		$info_details=array('PRI'=>$protectedPost['REDISTRIB_PRIORITY'],
 						'ACT'=>'STORE',
 						'DIGEST'=>$digest,
@@ -114,7 +114,7 @@ if ($protectedPost['REDISTRIB_USE'] == 1){
 						'NEED_DONE_ACTION'=>'0',
 						'NEED_DONE_ACTION_TEXT'=>'',
 						'GARDEFOU'=>"rien");
-		
+
 		create_pack($sql_details,$info_details);
 	}
 	unset($protectedPost,$_SESSION['OCS']['DATA_CACHE']);
@@ -128,9 +128,9 @@ echo open_form($form_name,'',"enctype='multipart/form-data'");
 
 if (isset($protectedPost['valid'])){
 	looking4config();
-	
-	
-	
+
+
+
 	//file exist
 	if (file_exists($_FILES["teledeploy_file"]["tmp_name"]) && is_readable($_FILES["teledeploy_file"]["tmp_name"])
 									&& filesize($_FILES["teledeploy_file"]["tmp_name"]) > 0){
@@ -142,29 +142,29 @@ if (isset($protectedPost['valid'])){
 			//ok
 		}elseif(strtoupper($extention) == "GZ" and strtoupper(array_pop($name_file_extention)) != "TAR"){
 			$error=$l->g(1232);
-		}		
+		}
 	}
 	//file not exist
 	else{
 		if ($protectedPost['ACTION'] != 'EXECUTE')
 			$error=$l->g(436)." ".$_FILES["teledeploy_file"]["tmp_name"];
 	}
-	
+
 	//the package name is exist in database?
 	$verifN = "SELECT fileid FROM download_available WHERE name='%s'";
 	$argverifN=$protectedPost["NAME"];
 	$resN = mysql2_query_secure( $verifN, $_SESSION['OCS']["readServer"], $argverifN);
 	if( mysqli_num_rows( $resN ) != 0 )
 	$error=$l->g(551);
-	
-	
-	
+
+
+
 	if ($error){
 		 msg_error($error);
 		 unset($protectedPost['valid']);
 	}
-	else{	
-		
+	else{
+
 		//some fields are empty?
 		echo "<script language='javascript'>
 			function verif2()
@@ -172,25 +172,25 @@ if (isset($protectedPost['valid'])){
 				var msg = '';
 				if (document.getElementById(\"tailleFrag\").value == ''){
 					 document.getElementById(\"tailleFrag\").style.backgroundColor = 'RED';
-					 msg='NULL';					
+					 msg='NULL';
 				}
 				if (document.getElementById(\"nbfrags\").value == ''){
 					 document.getElementById(\"nbfrags\").style.backgroundColor = 'RED';
-					 msg='NULL';					
-				}		
+					 msg='NULL';
+				}
 				msg_trait(msg);
 			}
-			
+
 			function verif_redistributor(){
 				var msg = '';
 				if (document.getElementById(\"tailleFrag\").value == ''){
 					 document.getElementById(\"tailleFrag\").style.backgroundColor = 'RED';
-					 msg='NULL';					
+					 msg='NULL';
 				}
 				if (document.getElementById(\"nbfrags\").value == ''){
 					 document.getElementById(\"nbfrags\").style.backgroundColor = 'RED';
-					 msg='NULL';					
-				}		
+					 msg='NULL';
+				}
 				if (document.getElementById(\"tailleFrag_redistrib\").value == ''){
 							 document.getElementById(\"tailleFrag_redistrib\").style.backgroundColor = 'RED';
 							 msg='NULL';
@@ -199,13 +199,13 @@ if (isset($protectedPost['valid'])){
 					 	document.getElementById(\"nbfrags_redistrib\").style.backgroundColor = 'RED';
 						 msg='NULL';
 				}
-				
+
 				msg_trait(msg);
-			
+
 			}
-			
+
 			function msg_trait(msg){
-			
+
 				if (msg != ''){
 					alert ('".$l->g(1001)."');
 					return false;
@@ -213,13 +213,13 @@ if (isset($protectedPost['valid'])){
 						pag(\"END\",\"VALID_END\",\"".$form_name."\");
 						return true;
 					}
-			
+
 			}
-			
+
 		</script>";
-		
-		
-		
+
+
+
 	//get the file
 	if (!($_FILES["teledeploy_file"]["size"]== 0 and $protectedPost['ACTION'] == 'EXECUTE')){
 		$size = filesize($_FILES["teledeploy_file"]["tmp_name"]);
@@ -229,37 +229,37 @@ if (isset($protectedPost['valid'])){
 		creat_temp_file($protectedPost['document_root'].$protectedPost['timestamp'],$_FILES["teledeploy_file"]["tmp_name"]);
 	}
 	$digName = $protectedPost["digest_algo"]. " / ".$protectedPost["digest_encod"];
-	
+
 	$title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(435)." "."[".$protectedPost['NAME']."]</b></td></tr>";
 
 	$name_file=$lign_begin.$l->g(446).$td_colspan2.$_FILES["teledeploy_file"]["name"].$lign_end;
 	$ident=$lign_begin.$l->g(460).$td_colspan2.$protectedPost['timestamp'].$lign_end;
 	$view_digest=$lign_begin.$l->g(461)." ".$digName.$td_colspan2.$digest.$lign_end;
 	$total_ko=$lign_begin.$l->g(462).$td_colspan2.round($size/1024)." ".$l->g(516).$lign_end;
-	
+
 	//create the field of the frag's size
 	$taille_frag=$lign_begin.$l->g(463).$td_colspan2;
 	$taille_frag.= input_pack_taille("tailleFrag","nbfrags",round($size),'8',round($size/1024));
-	$taille_frag.=$l->g(516).$lign_end;	
+	$taille_frag.=$l->g(516).$lign_end;
 	$tps=$lign_begin.$l->g(1002).$td_colspan2;
 	$tps.= time_deploy();
 	$tps.=$lign_end;
-		
+
 	//create the field of the frag number
 	$nb_frag=$lign_begin.$l->g(464).$td_colspan2;
 	$nb_frag.= input_pack_taille("nbfrags","tailleFrag",round($size),'5','1');
-	$nb_frag.=$lign_end;	
+	$nb_frag.=$lign_end;
 	echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5'>";
-	echo $title_creat.$name_file.$ident.$view_digest.$total_ko.$taille_frag.$nb_frag.$tps;	
+	echo $title_creat.$name_file.$ident.$view_digest.$total_ko.$taille_frag.$nb_frag.$tps;
 	$java_script="verif2();";
 	if($protectedPost['REDISTRIB_USE'] == 1){
 		$title_creat_redistrib="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(1003)."</b></td></tr>";
 		$taille_frag_redistrib=$lign_begin.$l->g(463).$td_colspan2;
 		$taille_frag_redistrib.= input_pack_taille("tailleFrag_redistrib","nbfrags_redistrib",round($size),'8',round($size/1024));
-		$taille_frag_redistrib.=$l->g(516).$lign_end;	
+		$taille_frag_redistrib.=$l->g(516).$lign_end;
 		$nb_frag_redistrib=$lign_begin.$l->g(464).$td_colspan2;
 		$nb_frag_redistrib.= input_pack_taille("nbfrags_redistrib","tailleFrag_redistrib",round($size),'5','1');
-		$nb_frag_redistrib.=$lign_end;		
+		$nb_frag_redistrib.=$lign_end;
 		echo $title_creat_redistrib.$taille_frag_redistrib.$nb_frag_redistrib;
 		$java_script="verif_redistributor();";
 	}
@@ -277,30 +277,30 @@ $default_value=array('OS'=>'WINDOWS',
 					 'PRIORITY'=>'5',
 					 'ACTION'=>'STORE',
 					 'REDISTRIB_PRIORITY'=>'5');
-					 
+
 if (!$protectedPost){
 	//get timestamp
 	$protectedPost['timestamp'] = time();
 
 	foreach ($default_value as $key=>$value)
-		$protectedPost[$key]=$value;	
+		$protectedPost[$key]=$value;
 	$val_document_root=look_config_default_values(array('DOWNLOAD_PACK_DIR'));
 	if (isset($val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']))
 		$document_root = $val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']."/download/";
-	else{	
+	else{
 		//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
 		$document_root = VARLIB_DIR.'/download/';
 	}
 
-	$rep_exist=file_exists($document_root); 
+	$rep_exist=file_exists($document_root);
 	//create directory if it's not exist
 	if (!$rep_exist){
-		$creat=@mkdir($document_root);	
+		$creat=@mkdir($document_root);
 		if (!$creat){
 			msg_error($document_root."<br>".$l->g(1004).".<br>".$l->g(1005));
 			return;
 		}
-	}			
+	}
 	//apache user can be write in this directory?
 	$rep_ok=is_writable ($document_root);
 	if (!$rep_ok){
@@ -310,7 +310,7 @@ if (!$protectedPost){
 	$protectedPost['document_root']=$document_root;
 }
 
-echo "<input type='hidden' name='document_root' value='".$protectedPost['document_root']."'>	  
+echo "<input type='hidden' name='document_root' value='".$protectedPost['document_root']."'>
 	 <input type='hidden' id='timestamp' name='timestamp' value='".$protectedPost['timestamp']."'>";
 
 
@@ -324,10 +324,10 @@ echo "<script language='javascript'>
 			champs_REDISTRIB_USE=new Array('REDISTRIB_PRIORITY');
 			champs_NOTIFY_USER=new Array('NOTIFY_TEXT','NOTIFY_COUNTDOWN','NOTIFY_CAN_ABORT','NOTIFY_CAN_DELAY');
 			champs_NEED_DONE_ACTION=new Array('NEED_DONE_ACTION_TEXT');
-			
 
 
-		
+
+
 			for (var n = 0; n < champs.length; n++)
 			{
 				if (document.getElementById(champs[n]).value == ''){
@@ -372,7 +372,7 @@ echo "<script language='javascript'>
 				 document.getElementById(champs_ACTION[n]).style.backgroundColor = '';
 
 			}
-			
+
 			for (var n = 0; n < champs_REDISTRIB_USE.length; n++)
 			{
 				if (document.getElementById('REDISTRIB_USE').value == 1 && document.getElementById(champs_REDISTRIB_USE[n]).value == ''){
@@ -407,7 +407,7 @@ echo "<script language='javascript'>
 			alert ('".$l->g(1001)."');
 			return false;
 			}else
-			return true;			
+			return true;
 		}
 	</script>";
 echo "<div ";
@@ -483,7 +483,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 	$redistrib_rep=$lign_begin.$l->g(829).$td_colspan2.$default['DOWNLOAD_REP_CREAT'].$lign_end;
 	$config_input=array('MAXLENGTH'=>255,'SIZE'=>25);
 	$redistrib_rep_distant=$lign_begin.$l->g(1009).$td_colspan2.show_modif($protectedPost['DOWNLOAD_SERVER_DOCROOT'],'DOWNLOAD_SERVER_DOCROOT','0','',$config_input).$lign_end;
-	
+
 	//$redistrib_rep_distant=$lign_begin.$l->g(1009).$td_colspan2.$default['DOWNLOAD_SERVER_DOCROOT'].$lign_end;
 	$redistrib_prio=$lign_begin.$l->g(440).$td_colspan2.show_modif($list_prio,'REDISTRIB_PRIORITY',2,'').$lign_end;
 	echo "<tr><td colspan='3' align=center><div id='REDISTRIB_USE_div' style='display:".($protectedPost["REDISTRIB_USE"] == 1 ? " block" : "none")."'>";
@@ -511,7 +511,7 @@ echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLP
 
 	$need_done_action="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(453).":</td><td>".champ_select_block($yes_no,'NEED_DONE_ACTION',array('NEED_DONE_ACTION'=>1)).$lign_end;
 	echo $need_done_action;
-	
+
 		$need_done_action_txt=$lign_begin.$l->g(449).$td_colspan2.show_modif($_POST['NEED_DONE_ACTION_TEXT'],'NEED_DONE_ACTION_TEXT',1).$lign_end;
 		echo "<tr><td colspan='3' align=center><div id='NEED_DONE_ACTION_div' style='display:".($protectedPost["NEED_DONE_ACTION"] == 1 ? " block" : "none")."'>";
 		echo $sous_tab_beg;
@@ -527,7 +527,7 @@ echo "<input type='hidden' id='digest_algo' name='digest_algo' value='MD5'>
 	  <input type='hidden' id='digest_encod' name='digest_encod' value='Hexa'>
 	  <input type='hidden' id='download_rep_creat' name='download_rep_creat' value='".$default['DOWNLOAD_REP_CREAT']."'>";
 //	  <input type='hidden' id='download_server_docroot' name='download_server_docroot' value='".$default['DOWNLOAD_SERVER_DOCROOT']."'>";
-echo close_form();	  
+echo close_form();
 echo "</div>";
 
 ?>

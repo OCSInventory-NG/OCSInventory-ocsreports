@@ -16,8 +16,8 @@ if ($protectedPost['onglet'] == 'TOP'){
 		if (!isset($protectedPost['CHOICE_TOP']) or $protectedPost['CHOICE_TOP'] == "")
 			$protectedPost['CHOICE_TOP']=10;
 		// open file
-		
-		
+
+
 		$tag=array('<LIKE>'=>'LIKE','<EXACTLY>'=>'=','<NOLIKE>'=>'NOT LIKE','<NOEXACTLY>'=>'!=');
 		// read line
 		if (is_readable($file_restriction_soft)){
