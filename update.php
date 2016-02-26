@@ -55,7 +55,7 @@ echo "<br><input type=submit name='update' value='".$l->g(2111)."'>";
 
 if (isset($_POST['update'])){
 	while ($version_database < GUI_VER){
-		
+
 		$version_database++;
 		if (in_array($version_database.".sql", $list_fichier['name'])){
 			if ( $_SESSION['OCS']['DEBUG'] == 'ON')
@@ -70,12 +70,12 @@ if (isset($_POST['update'])){
 			msg_error($l->g(2114)." ".$version_database);
 			die();
 		}
-		
+
 	}
 	msg_success($l->g(1121));
 	echo "<br><br><br><b><a href='index.php'>".$l->g(2051)."</a></b>";
-	
-	//Logout after update(s) 
+
+	//Logout after update(s)
 	//Contrib of FranciX (http://forums.ocsinventory-ng.org/viewtopic.php?pid=41923#p41923)
 	if($_SESSION['OCS']['cnx_origine'] == "CAS"){
 		require_once(PHPCAS);
@@ -104,12 +104,12 @@ require_once('require/footer.php');
 function exec_fichier_sql($fichier){
 	$db_file=$fichier;
 	$dbf_handle = @fopen($db_file, "r");
-		
+
 	if (!$dbf_handle){
 		msg_error($l->g(2112)." : ".$fichier);
 		return true;
 	}else{
-		if (filesize($db_file) > 0){			
+		if (filesize($db_file) > 0){
 			$sql_query = fread($dbf_handle, filesize($db_file));
 			fclose($dbf_handle);
 			$data_sql=explode(";", $sql_query);

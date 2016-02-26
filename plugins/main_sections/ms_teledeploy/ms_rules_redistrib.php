@@ -66,7 +66,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 				
 				$sql['SQL'] .= " from download_affect_rules ";
 				$tab_options['ARG_SQL']=$sql['ARG'];
-				
+
 				$tab_options['form_name']=$form_name;
 				$tab_options['table_name']=$table_name;
 				$result_exist= ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);

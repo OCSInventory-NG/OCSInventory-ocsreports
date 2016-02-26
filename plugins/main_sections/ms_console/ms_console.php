@@ -11,7 +11,7 @@
 
 if(AJAX){  
 	parse_str($protectedPost['ocs']['0'], $params);	
-	$protectedPost+=$params; 
+	$protectedPost+=$params;
 	ob_start();
 	$ajax = true;
 }
@@ -259,7 +259,7 @@ if ($ajax){
 	else{
 		tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
 	}
-	
+
 }
 ?>
 

@@ -374,7 +374,7 @@ function RandomMAC()
 		$mac.=":";
 		$j++;
 	}
-	
-	return substr($mac, 0, -1); 
+
+	return substr($mac, 0, -1);
 }
 ?>

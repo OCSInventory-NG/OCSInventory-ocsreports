@@ -108,7 +108,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 		if (isset($protectedPost['DOWNLOAD_POSTCMD']) and $protectedPost['DOWNLOAD_POSTCMD'] != ''){
 			active_option('DOWNLOAD_POSTCMD',$list_id,$protectedPost['SELECT'],$protectedPost['DOWNLOAD_POSTCMD']);			
 		}
-		
+
 		if ($protectedGet['origine'] == "group"){
 			$form_to_reload='config_group';
 		}elseif ($protectedGet['origine'] == "mach"){
@@ -125,7 +125,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			echo "<script language='javascript'> window.opener.document.".$form_to_reload.".submit();</script>";
 		}
 	}
-	
+
 	if ($protectedPost['sens_'.$table_name] == "")
 		$protectedPost['sens_'.$table_name]='DESC';
 
@@ -133,14 +133,14 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 		$protectedPost['onglet'] = 'MACH';
 
 
-	$def_onglets['MACH']=$l->g(980); 
-	$def_onglets['SERV_GROUP']=$l->g(981); 
+	$def_onglets['MACH']=$l->g(980);
+	$def_onglets['SERV_GROUP']=$l->g(981);
 
 	//show tab
-	if ($list_id){	
+	if ($list_id){
 		show_tabs($def_onglets,$form_name,'onglet',7);
 			echo '<div class="right-content mlt_bordure" >';
-			
+
 		//echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";
 		if ($protectedPost['onglet'] == 'SERV_GROUP'){
 			$sql_rules="select distinct rule,rule_name from download_affect_rules order by 1";
@@ -152,7 +152,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 					$nb_rule++;
 				}
 			if ($nb_rule>1){
-			$select_choise=$l->g(668).show_modif($list_rules,'rule_choise',2,$form_name);	
+			$select_choise=$l->g(668).show_modif($list_rules,'rule_choise',2,$form_name);
 			echo $select_choise;
 			}elseif($nb_rule == 1){
 				$protectedPost['rule_choise']=$first;
@@ -166,8 +166,8 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			echo $l->g(1292).show_modif(array('NO'=>$l->g(454),'YES'=>$l->g(455)),'DWL_OPT',2,$form_name);
 		
 		}
-		
-		if(($protectedPost['onglet'] == 'MACH' and $protectedPost['DWL_OPT'] != '') 
+
+		if(($protectedPost['onglet'] == 'MACH' and $protectedPost['DWL_OPT'] != '')
 			or ($protectedPost['onglet'] == 'SERV_GROUP' and $protectedPost['rule_choise'] != '')){
 				//recherche de toutes les règles pour les serveurs de redistribution
 			$list_fields= array('FILE_ID'=>'e.FILEID',
@@ -184,22 +184,22 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			
 			if (!isset($nb_rule) or $nb_rule>0)	{
 			if ($protectedPost['onglet'] != 'SERV_GROUP'){
-				$list_fields['PACK_LOC']='e.PACK_LOC';	
+				$list_fields['PACK_LOC']='e.PACK_LOC';
 				$list_fields['ACTIVE_ID']='e.ID';
 				$list_fields['MODIF']='e.ID';
 			}else{
 				$list_fields['ACTIVE_ID']='e.FILEID';
 				$list_fields['MODIF']='e.FILEID';
 			}
-		}		
+		}
 			$default_fields= array($l->g(1037)=>$l->g(1037),$l->g(1039)=>$l->g(1039),$l->g(274)=>$l->g(274),$l->g(953)." (KB)"=>$l->g(953)." (KB)",'SELECT'=>'SELECT');
 			$list_col_cant_del=array($l->g(1037)=>$l->g(1037),'MODIF'=>'MODIF');
-	
+
 			if ($protectedPost['onglet'] != 'SERV_GROUP'){
 				$default_fields['PACK_LOC']='PACK_LOC';
 				$list_col_cant_del['PACK_LOC']='PACK_LOC';
 			}
-	
+
 			//$querypack = 'SELECT  ';
 			if ($protectedPost['onglet'] == 'SERV_GROUP')
 				$distinct=true;
@@ -207,7 +207,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 				$distinct=false;
 				
 			$sql=prepare_sql_tab($list_fields,array('SELECT'),$distinct);
-			
+
 			$sql['SQL'] .= " from download_available a, download_enable e ";
 			if ($protectedPost['onglet'] == 'MACH')
 				$sql['SQL'] .= "where a.FILEID=e.FILEID and e.SERVER_ID is null ";
@@ -223,12 +223,12 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			}
 			
 			error_reporting(0);
-			
+
 			$tab_options['QUESTION']['SELECT']=$l->g(699);
 			$tab_options['FILTRE']=array('e.FILEID'=>'Timestamp','a.NAME'=>$l->g(49));
 			$tab_options['ARG_SQL']=$sql['ARG'];
 			$tab_options['MODIF']['IMG']="image/prec16.png";
-		
+
 			$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 		}
 		//echo "</td></tr></table></div>";
