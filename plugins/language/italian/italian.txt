@@ -1198,97 +1198,97 @@
 1320 Usa , per separare le informazioni
 1321 Nessuna porta WOL definita
 1322 Impossibile aprire il socket per WOL
-1323 Server printer sharing
-1324 Sharing printer on server
-1325 screen horizontal / vertical
-1326 Shared
-1327 Local / Networks
-1328 Manage
-1329 Administration
+1323 Server di condivisione stampanti
+1324 Stampanti condivise sul server
+1325 schermo orizzontale / verticale
+1326 Condivisa
+1327 Locale / Network
+1328 Gestione
+1329 Amministrazione
 1330 Hardware
-1331 Devices
-1332 Miscellaneous
-1333 Configuration
-1334 No data available in table
-1335 Showing _START_ to _END_ of _TOTAL_ entries
-1336 Showing 0 to 0 of 0 entrie
-1337 (filtered from _MAX_ total entries)
-1338 Show _MENU_ entries
-1339 Loading...
-1340 Processing...
-1341 Search:
-1342 No matching records found
-1343 First
-1344 Last
-1345 Next
-1346 Previous
+1331 Device
+1332 Varie
+1333 Configurazione
+1334 Nessun dato disponibile nella tabella
+1335 Mostra _START_ a _END_ di _TOTAL_ voci
+1336 Mostra da 0 a 0 di 0 voci
+1337 (filtrato da _MAX_ totale voci)
+1338 Mostra le voci _MENU_
+1339 Caricamento...
+1340 Elaborazione...
+1341 Cerca:
+1342 Nessun record corrispondente trovato
+1343 Primo
+1344 Ultimo
+1345 Successivo
+1346 Precedente
 1347 activate to sort column ascending
 1348 activate to sort column descending
-1349 Show / Hide
+1349 Mostra / Nascondi
 1350 ,
 1351 .
-1352 Server understood the request but request content was invalid
-1353 Unauthorised access
-1354 Forbidden ressource can't be accessed
-1355 Page not found
-1356 Request-URI Too Long, try to clean Cookies
-1357 Internal Server Error
-1358 Service Unavailable
-1359 User Logged Out
-1360 Server informations
-1361 My account
+1352 Contenuto della richiesta non valido
+1353 Accesso non autorizzato
+1354 Non si possiedono i diritti per accedere alla risorsa richiesta
+1355 Pagina non trovata
+1356 L'URL richiesto è troppo lungo, prova ad eliminare i cookie (sarai disconnesso da OCS-NG)
+1357 Errore interno del server
+1358 Servizio non disponibile
+1359 Utente disconnesso
+1360 Informazioni sul server
+1361 Il mio account
 1362 About
 1363 OK
 1364 Cancel
-1365 My account
-1366 First name
+1365 Il mio account
+1366 Nome
 1367 Network
 1368 CPU
 1369 PHP Version
 1370 Web Server
 1371 Database Server
 1372 Kernel
-1373 Distribution
-1374 Access the website
-1375 Old Forums
+1373 Distribuzione
+1374 Accedi al sito web
+1375 Vecchio Forum
 1376 Q&amp;A
-1377 Question and answers
-1378 Free RAM
-1379 RAM installed
-1380 Reset table columns
-1381 Actions
-1382 Motherboard Serial
-1383 Motherboard Manufacturer
-1384 Motherboard Model
-1385 Update user
-1386 Create user
+1377 Domande e risposte
+1378 RAM libera
+1379 RAM installata
+1380 Ripristina colonne predefinite
+1381 Azioni
+1382 Scheda madre Seriale
+1383 Scheda madre Costruttore
+1384 Scheda madre Modello
+1385 Aggiorna utente
+1386 Crea utente
 1387 System
-1388 Network
+1388 Rete
 1389 Hardware
-1390 Agent
-1391 This field is mandatory
-1392 Invalid value
-1393 This package name already exists
-1394 This field should only contain numbers and alphanumeric characters
-1395 A profile with this name already exists. Please pick a new one
-1396 Identifier (ex: admin)
-1397 Display name (ex: Administrators)
-1398 Copy profile data
-1399 Create profile
-1400 Users
-1401 Profiles
-1402 Identifier
-1403 Create user
-1404 Some errors were found while validating the profile
-1405 The profile was successfully created
-1406 An error occurred while trying to create the profile, please check the filesystem or contact an administrator
-1407 The profile file is not writable
-1408 The profile was successfully updated
-1409 An error occurred while trying to update the profile, please check the filesystem or contact an administrator
-1410 Users
-1411 Display name
-1412 Edit profile
-1413 New label
+1390 Agente
+1391 Questo campo è obbligatorio
+1392 Valore non valido
+1393 Un pacchetto con questo nome esiste già
+1394 Questo campo può contenere solo caratteri numerici ed alfanumerici
+1395 Un profilo con questo nome esiste esiste già. Selezionarne un'altro
+1396 Identificativo (es: admin)
+1397 Nome mostrato (es: Amministratori)
+1398 Copia dati del profilo
+1399 Crea profilo
+1400 Utenti
+1401 Profili
+1402 Identificativo
+1403 Crea utente
+1404 Sono stati trovati degli errori durante la convalida del profilo
+1405 Il profilo è stato correttamente creato
+1406 Si è verificato un errore durante il tentativo di creare il profilo, controllare il filesystem o contattare un amministratore
+1407 Il file del profilo non è scrivibile
+1408 Il profilo è stato correttamente aggiornato
+1409 Si è verificato un errore durante il tentativo di aggiornare il profilo, controllare il filesystem o contattare un amministratore
+1410 Utenti
+1411 Nome visualizzato
+1412 Modifica profilo
+1413 Nuova etichetta
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
@@ -1310,7 +1310,7 @@
 2017 usando
 2018 importati
 2019 importati in precedenza
-2020 Il file install.php è ancora presente nella directory di OCS-NG.
+2020 Il file install.php è ancora presente nella directory di installazione.
 2021 Non posso scrivere nella directory dei log
 2022 Non puoi inviare un file di dimensioni superiori a
 2023 Cancellalo
@@ -1398,10 +1398,10 @@
 2110 Versione richiesta
 2111 Effettua l'aggiornamento
 2112 Il file non è presente o non è leggibile
-2113 La tua versione di PHP è precedente alla 5.3.7 e non sarà compatibil con le future versioni ( versione  :
-2114 No sql file found for version
-2115 The user you typed does not seem to be root
-2116 The config/profiles directory is not writable
+2113 La tua versione di PHP è precedente alla 5.3.7 e non sarà compatibile con le future versioni ( versione:
+2114 Nessun file sql trovato per la versione
+2115 L'utente fornito non sembra essere root
+2116 La directory config/profiles non è scrivibile
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1432,22 +1432,22 @@
 6001 Offices Licences
 6002 Distribution of Offices Licences
 6003 Numero di licenze
-6004 Total available
-6005 Power on/off
-6006 WARNING : Please install php-soap, the plugin engine can't work without it
-7000 Plugins
-7001 Plugins manager
-7002 Plugin's name
-7003 Version
-7004 Licence
-7005 Author
-7006 Last updated
-7007 Are you sure you want to delete this plugin
-7008 Plugin Install
+6004 Totale disponibile
+6005 Accensione/Spegnimento
+6006 ATTENZIONE: è necessario installare php-soap, il plugin engine non può funzionare senza
+7000 Plugin
+7001 Plugin manager
+7002 Nome plugin
+7003 Versione
+7004 Licenza
+7005 Autore
+7006 Ultimo aggiornamento
+7007 Sei sicuro di voler eliminare questo plugin
+7008 Installa plugin
 7009 Plugin installati
-7010 This plugin has been already installed
-7011 is an invalid plugin, check your sources.
+7010 Questo plugin è già installato
+7011 è un plugin non valido, verifica la sorgente.
 7012 Installazione interrotta!
 7013 installato
-7014 There is currently no plugin available for installation
-7015 Seleziona almeno un computer!
+7014 Non ci sono plugin disponibili per l'installazione
+7015 Selezionare almeno un computer!
