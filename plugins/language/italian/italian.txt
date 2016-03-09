@@ -1198,12 +1198,97 @@
 1320 Usa , per separare le informazioni
 1321 Nessuna porta WOL definita
 1322 Impossibile aprire il socket per WOL
-1323 Server printer sharing
-1324 Sharing printer on server
-1325 screen horizontal / vertical
-1326 Shared
-1327 Local / Networks
-
+1323 Server di condivisione stampanti
+1324 Stampanti condivise sul server
+1325 schermo orizzontale / verticale
+1326 Condivisa
+1327 Locale / Network
+1328 Gestione
+1329 Amministrazione
+1330 Hardware
+1331 Device
+1332 Varie
+1333 Configurazione
+1334 Nessun dato disponibile nella tabella
+1335 Mostra _START_ a _END_ di _TOTAL_ voci
+1336 Mostra da 0 a 0 di 0 voci
+1337 (filtrato da _MAX_ totale voci)
+1338 Mostra le voci _MENU_
+1339 Caricamento...
+1340 Elaborazione...
+1341 Cerca:
+1342 Nessun record corrispondente trovato
+1343 Primo
+1344 Ultimo
+1345 Successivo
+1346 Precedente
+1347 activate to sort column ascending
+1348 activate to sort column descending
+1349 Mostra / Nascondi
+1350 ,
+1351 .
+1352 Contenuto della richiesta non valido
+1353 Accesso non autorizzato
+1354 Non si possiedono i diritti per accedere alla risorsa richiesta
+1355 Pagina non trovata
+1356 L'URL richiesto è troppo lungo, prova ad eliminare i cookie (sarai disconnesso da OCS-NG)
+1357 Errore interno del server
+1358 Servizio non disponibile
+1359 Utente disconnesso
+1360 Informazioni sul server
+1361 Il mio account
+1362 About
+1363 OK
+1364 Cancel
+1365 Il mio account
+1366 Nome
+1367 Network
+1368 CPU
+1369 PHP Version
+1370 Web Server
+1371 Database Server
+1372 Kernel
+1373 Distribuzione
+1374 Accedi al sito web
+1375 Vecchio Forum
+1376 Q&amp;A
+1377 Domande e risposte
+1378 RAM libera
+1379 RAM installata
+1380 Ripristina colonne predefinite
+1381 Azioni
+1382 Scheda madre Seriale
+1383 Scheda madre Costruttore
+1384 Scheda madre Modello
+1385 Aggiorna utente
+1386 Crea utente
+1387 System
+1388 Rete
+1389 Hardware
+1390 Agente
+1391 Questo campo è obbligatorio
+1392 Valore non valido
+1393 Un pacchetto con questo nome esiste già
+1394 Questo campo può contenere solo caratteri numerici ed alfanumerici
+1395 Un profilo con questo nome esiste esiste già. Selezionarne un'altro
+1396 Identificativo (es: admin)
+1397 Nome mostrato (es: Amministratori)
+1398 Copia dati del profilo
+1399 Crea profilo
+1400 Utenti
+1401 Profili
+1402 Identificativo
+1403 Crea utente
+1404 Sono stati trovati degli errori durante la convalida del profilo
+1405 Il profilo è stato correttamente creato
+1406 Si è verificato un errore durante il tentativo di creare il profilo, controllare il filesystem o contattare un amministratore
+1407 Il file del profilo non è scrivibile
+1408 Il profilo è stato correttamente aggiornato
+1409 Si è verificato un errore durante il tentativo di aggiornare il profilo, controllare il filesystem o contattare un amministratore
+1410 Utenti
+1411 Nome visualizzato
+1412 Modifica profilo
+1413 Nuova etichetta
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:
@@ -1225,7 +1310,7 @@
 2017 usando
 2018 importati
 2019 importati in precedenza
-2020 Il file install.php è ancora presente nella directory di OCS-NG.
+2020 Il file install.php è ancora presente nella directory di installazione.
 2021 Non posso scrivere nella directory dei log
 2022 Non puoi inviare un file di dimensioni superiori a
 2023 Cancellalo
@@ -1234,8 +1319,7 @@
 2026 Sono attive le credenziali di default per l'accesso alla GUI di OCS-NG
 2027 Cambia la password dell'account 'admin' per l'accesso alla GUI di OCS-NG
 2028 Chiave di autenticazione
-
-
+2029 La directory di configurazione non è scrivibile
 2030 Installazione OCS-NG Inventory
 2031 La versione attualmente installata
 2032 è precedente a questa versione
@@ -1310,10 +1394,14 @@
 2106 la configurazione di MySQL, variabile 'max_allowed_packet', permette file grandi fino a <
 2107 The version of WEB interface is lower than the version of the database
 2108 The version of the database <b> MUST </b> be less than or equal to the version of the web interface
-2109 Current version
-2110 Expected version
-2111 Perform the update
-2112 The following file is not present or is not readable
+2109 Versione installata
+2110 Versione richiesta
+2111 Effettua l'aggiornamento
+2112 Il file non è presente o non è leggibile
+2113 La tua versione di PHP è precedente alla 5.3.7 e non sarà compatibile con le future versioni ( versione:
+2114 Nessun file sql trovato per la versione
+2115 L'utente fornito non sembra essere root
+2116 La directory config/profiles non è scrivibile
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1343,6 +1431,23 @@
 6000 Plugin
 6001 Offices Licences
 6002 Distribution of Offices Licences
-6003 Number of licence
-6004 Total available
-6005 Power on/off
+6003 Numero di licenze
+6004 Totale disponibile
+6005 Accensione/Spegnimento
+6006 ATTENZIONE: è necessario installare php-soap, il plugin engine non può funzionare senza
+7000 Plugin
+7001 Plugin manager
+7002 Nome plugin
+7003 Versione
+7004 Licenza
+7005 Autore
+7006 Ultimo aggiornamento
+7007 Sei sicuro di voler eliminare questo plugin
+7008 Installa plugin
+7009 Plugin installati
+7010 Questo plugin è già installato
+7011 è un plugin non valido, verifica la sorgente.
+7012 Installazione interrotta!
+7013 installato
+7014 Non ci sono plugin disponibili per l'installazione
+7015 Selezionare almeno un computer!
