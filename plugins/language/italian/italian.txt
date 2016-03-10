@@ -32,6 +32,7 @@
 54 Processore (CPU)
 55 Numero
 56 Dati amministrativi
+57 GB
 61 Scheda video
 62 Risoluzione
 63 Unità di memorizzazione
