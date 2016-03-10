@@ -32,6 +32,7 @@
 54 Processor(s)
 55 Number
 56 Administrative data
+57 GB
 61 Video card
 62 Resolution
 63 Storage
