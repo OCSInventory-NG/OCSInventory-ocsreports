@@ -13,12 +13,12 @@
 						' :</div><div class="summary-value">' . php_uname("r");
 					$meminfo = @file_get_contents('/proc/meminfo');
 					if ($meminfo && preg_match("/MemTotal: *([0-9]*)/", $meminfo, $res)) {
-						$res = sprintf("%.2f Gio", intval($res[1]) / 1024 / 1024);
+						$res = sprintf("%.2f ".$l->g(57), intval($res[1]) / 1024 / 1024);
 						echo '</div></div><div id="ram"><div class="summary-header">' . $l->g(1379).
 							' :</div><div class="summary-value">' . $res;
 					}
 					if ($meminfo && preg_match("/MemAvailable: *([0-9]*)/", $meminfo, $res)) {
-						$res = sprintf("%.2f Gio", intval($res[1]) / 1024 / 1024);
+						$res = sprintf("%.2f ".$l->g(57), intval($res[1]) / 1024 / 1024);
 						echo '</div></div><div id="freeram"><div class="summary-header">' . $l->g(1378).
 							' :</div><div class="summary-value">' . $res;
 					}

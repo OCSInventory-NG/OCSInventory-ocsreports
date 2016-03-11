@@ -32,6 +32,7 @@
 54 Processore (CPU)
 55 Numero
 56 Dati amministrativi
+57 GB
 61 Scheda video
 62 Risoluzione
 63 Unità di memorizzazione
@@ -88,7 +89,7 @@
 175 Duplicati
 176 IP
 177 Unisci i computer duplicati
-178 Etichetta / Numero di ripartizione PC
+178 Numero di PC per etichetta
 180 Nome utente o password errata
 182 I computer hanno un'etichetta assegnata
 183 Scarica
@@ -668,8 +669,8 @@
 780 IPSUBNET diverse
 781 Macchine con distribuzione dei pacchetti in attesa
 782 Macchine con pacchetti in errore
-783 Tipi di sistemi operativi
-784 Versioni di agenti
+783 Sistemi Operativi
+784 Versione degli agenti
 785 Tipi di CPU
 786 Risoluzioni video utilizzate
 787 Macchine con CPU >=
@@ -685,7 +686,7 @@
 797 Macchine assenti da oltre
 798 ATTIVITA'
 799 HARDWARE
-800 ALTRO
+800 Altro
 801 Non mostrare questo campo
 802 Mostra questo campo
 803 Numero di giorni da quando la macchina non ha contattato il server
@@ -1210,10 +1211,10 @@
 1332 Varie
 1333 Configurazione
 1334 Nessun dato disponibile nella tabella
-1335 Mostra _START_ a _END_ di _TOTAL_ voci
-1336 Mostra da 0 a 0 di 0 voci
-1337 (filtrato da _MAX_ totale voci)
-1338 Mostra le voci _MENU_
+1335 Mostra da _START_ a _END_ di _TOTAL_ elementi
+1336 Mostra da 0 a 0 di 0 elementi
+1337 (filtrato da _MAX_ totale elementi)
+1338 Elementi per pagina _MENU_
 1339 Caricamento...
 1340 Elaborazione...
 1341 Cerca:
@@ -1222,8 +1223,8 @@
 1344 Ultimo
 1345 Successivo
 1346 Precedente
-1347 activate to sort column ascending
-1348 activate to sort column descending
+1347 ordinamento ascendente
+1348 ordinamento discendente
 1349 Mostra / Nascondi
 1350 ,
 1351 .
@@ -1273,7 +1274,7 @@
 1395 Un profilo con questo nome esiste esiste già. Selezionarne un'altro
 1396 Identificativo (es: admin)
 1397 Nome mostrato (es: Amministratori)
-1398 Copia dati del profilo
+1398 Copia dati dal profilo
 1399 Crea profilo
 1400 Utenti
 1401 Profili
@@ -1429,14 +1430,13 @@
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
 6000 Plugin
-6001 Offices Licences
-6002 Distribution of Offices Licences
-6003 Numero di licenze
+6001 Seleziona colonne
+6003 Plugin
 6004 Totale disponibile
 6005 Accensione/Spegnimento
-6006 ATTENZIONE: è necessario installare php-soap, il plugin engine non può funzionare senza
+6006 ATTENZIONE: è necessario installare php-soap, il plugin non può funzionare senza
 7000 Plugin
-7001 Plugin manager
+7001 Gestione plugin
 7002 Nome plugin
 7003 Versione
 7004 Licenza

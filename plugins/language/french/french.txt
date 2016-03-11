@@ -32,6 +32,7 @@
 54 Processeur(s)
 55 Nombre
 56 Données administratives
+57 Gio
 61 Carte vidéo
 62 Résolution
 63 Stockage
