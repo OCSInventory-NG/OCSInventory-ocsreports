@@ -783,68 +783,68 @@
 
 818 Get out of group
 819 computer(s) added to group
-820 Last contact
-821 SERVER CONFIGURATION MODIFICATION
-822 Customize 
-823 By default 
+820 Último contato
+821 MODIFICAÇÃO CONFIGURAÇÃO DO SERVIDOR
+822 Customizar 
+823 Por padrão 
 824 Interface logs activation
-825 Logs directory
+825 Diretório de logs
 826 Address to find teledeploy packages fragments to activate
 827 Address to find teledeploy packages INFO files to activate
-828 Remove computers with inventory older than
+828 Rremover computadores com o inventário mais antigo do que
 829 Redistribution packages creation directory
-830 Ldap server address
-831 Ldap server port
+830 Endereço servidor Ldap 
+831 Porta servidor Ldap 
 832 Ldap base name + dc
-833 Field name to define login
+833 Nome do campo para definir o login
 834 Version LDAP_OPT_PROTOCOL_VERSION
 835 Add RSX
-836 Manage TYPES
-837 You don't have access to this datas
+836 Gereciar TIPOS
+837 Você não tem acesso a este conjunto de dados
 838 Disk: Drive letter 
-839 Disk: Type
-840 Disk: Format
-841 Disk: Capacity
-842 Disk: Free Space
-843 Disk: Volume Name
-844 Group: Id
-845 Group: Static?
-846 Softwares: company
-847 Softwares: Name
-848 Softwares: Version
-849 Softwares: Install directory
-850 Softwares: Comments
-851 Bios: Computer manufacturer
-852 Bios: Model
-853 Bios: Serial number
-854 Bios: Computer type
-855 Bios: Manufacturer
-856 Bios: Version
-857 Bios: Date
-858 Monitor: Manufacturer
-859 Monitor: Name
-860 Monitor: Description
-861 Monitor: Type
-862 Monitor: Serial number
-863 Network: Description
-864 Network: Type
-865 Network: MibType
-866 Network: Speed
-867 Network: MAC Address
-868 Network: Status
-869 Network: IP Address
-870 Network: IP Netmask
-871 Network: Subnetwork IP
-872 Network: Gateway IP
-873 Network: DHCP IP
+839 Dico: Tipo
+840 Dico: Formato
+841 Disco: Capacidade
+842 Disco: Espaço livre
+843 Disco: Nome volume
+844 Grupo: Id
+845 Grupo: Estático?
+846 Softwares: Compania
+847 Softwares: Nome
+848 Softwares: Versão
+849 Softwares: Diretório de instalação
+850 Softwares: Comentários
+851 Bios: Fabricante do computador
+852 Bios: Modelo
+853 Bios: Número serial
+854 Bios: Tipo do computador
+855 Bios: Fabrincante
+856 Bios: Versão
+857 Bios: Data
+858 Monitor: Fabricantes
+859 Monitor: Nome
+860 Monitor: Descrição
+861 Monitor: Tipo
+862 Monitor: Número serial
+863 Rede: Descrição
+864 Rede: Tipo
+865 Rede: MibType
+866 Rede: Speed
+867 Rede: MAC Address
+868 Rede: Status
+869 Rede: Endereço IP 
+870 Rede: Mascára IP 
+871 Rede: Subnetwork IP
+872 Rede: Gateway IP
+873 Rede: DHCP IP
 874 Registry key: Name
 875 Registry key: Value
 876 Simple unaffect REDISTRIBUTION GROUP
 877 SOME COMPUTERS HAVEN'T BEEN ADDED TO GROUP BECAUSE:
 878 Reminder: a computer can be a member of one server group only
 879 GROUPE REPLACED
-880 GROUP CREATED
-881 Computers added
+880 GRUPO CRIADO
+881 Computadores adicionados
 882 Computers deleted from group
 883 Restrict view
 884 WARNING: WITH FILTER visualisation
@@ -852,7 +852,7 @@
 886 Simple desaffection
 887 It's possible that this package is not affected to redistribution servers 
 888 Removal
-889 Connected as
+889 Conectado a
 890 Interface is actually locked on a search with various criterias
 891 Remove interface LOCK
 892 connect with another account
@@ -860,7 +860,7 @@
 894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
 895 TAG Modification
 898 Add an annotation
-899 Writer
+899 Escrever
 900 Do you really want to delete selection ?
 901 Action sur le résultat de la requête
 902 Action sur le résultat de la sélection
@@ -1058,16 +1058,16 @@
 1093 Database is incomplete
 1094 Please replay the complete installation of the database
 1095 Status Admin
-1096 Fields list
-1097 Tabs list
-1098 Field name
-1099 Default value
-1100 Status list
-1101 This field can't be updated
-1102 Active status
+1096 Lista de campos
+1097 Lista de tabelas
+1098 Nome do Campo
+1099 Valor padrão
+1100 Lista de status
+1101 O campo não pode ser atualizado
+1102 Status ativo
 1103 Status ID
-1104 Level
-1105 Workflow functionality is enabled
+1104 Nível
+1105 Funcionalidade de fluxo de trabalho esta habilitado
 1106 It is possible to create a package only if a request exist before
 1107 And the status is correct
 1108 LDAP configuration
