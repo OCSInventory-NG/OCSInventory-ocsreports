@@ -102,7 +102,7 @@ echo open_form($form_name);
 							'IPDISCOVER'=>'IPDISCOVER',
 							'IDENTIFIE'=>'IDENTIFIE');
 	if ($_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES")
-	$list_fields['SUP']='ID';	
+	//$list_fields['SUP']='ID';	
 	$list_fields['PERCENT_BAR']='pourcentage';
 	$table_name="IPDISCOVER";
 	$tab_options['table_name']=$table_name;
