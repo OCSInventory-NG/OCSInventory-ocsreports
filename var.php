@@ -37,7 +37,7 @@ define('PLUGINS_DIR',__DIR__ . '/plugins/');										// Define plugins Director
 define('PLUGINS_GUI_DIR','/tmp/');
 define('HEADER_HTML',__DIR__ . '/require/html_header.php');						// Define html_header file
 define('FOOTER_HTML',__DIR__ . '/require/footer.php');								// Define footer file
-define('MAIN_SECTIONS_DIR',PLUGINS_DIR."main_sections/");				//
+define('MAIN_SECTIONS_DIR',"plugins/main_sections/");				//
 define('DEV_OPTION',false);												// Define DEV Options DO NOT USE
 define('PC4PAGE',20);													// Define result by page MUST in (5,10,15,20,50,100,200,1000000);
 define('CSRF',1000);														// max number of csrf session
