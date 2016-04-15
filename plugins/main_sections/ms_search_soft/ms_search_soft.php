@@ -65,7 +65,7 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	$list_fields=array('NAME' => 'h.NAME',
 					   'ip' => 'h.IPADDR',
 					   'domaine' => 'h.WORKGROUP',
-					   'snom' => 'a.NAME',
+					   'snom' => 'a.NAME as softname',
 					   'sversion'=> 'a.VERSION',
 					   'sfold' => 'a.FOLDER');
 	$list_col_cant_del=$list_fields;

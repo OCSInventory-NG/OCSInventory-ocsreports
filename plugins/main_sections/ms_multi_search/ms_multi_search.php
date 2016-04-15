@@ -774,7 +774,7 @@ if ($list_id != "")	{
 	$list_fields= array($l->g(652).': id'=>'h.ID',
 						$l->g(652).': '.$l->g(46)=>'h.LASTDATE',
 						$l->g(652).": ".$l->g(820)=>'h.LASTCOME',
-						'NAME'=>'h.NAME',
+						'NAME'=>'h.name',
 						//$l->g(23)=>'h.name',
 						$l->g(652).": ".$l->g(24)=>'h.USERID',
 						$l->g(652).": ".$l->g(25)=>'h.OSNAME',
