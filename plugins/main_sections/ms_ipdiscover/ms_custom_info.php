@@ -32,6 +32,15 @@ $user=$_SESSION['OCS']['loggeduser'];
 
 //suppression d'une adresse mac
 if(isset($protectedPost['SUP_PROF'])){
+    
+        //check if we are deleting an identified peripherials ?
+        if ($protectedGet['prov'] == "ident"){
+            //dismiss manufacturer name and mac to be able to remove it properly.
+            $exploded_data = explode(' ',$protectedPost['SUP_PROF']);
+            var_dump($exploded_data);
+            $protectedPost['SUP_PROF'] = $exploded_data[0];
+        } 
+    
 	$sql="DELETE FROM netmap WHERE mac='%s'";
 	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$protectedPost['SUP_PROF']);
 	$sql="DELETE FROM network_devices WHERE macaddr='%s'";
@@ -190,6 +199,7 @@ else{ //affichage des périphériques
 						   $l->g(33) => "h.workgroup",
 						   $l->g(275) => "h.osversion",
 						   $l->g(34) => "h.ipaddr",
+                                                   $l->g(95) => 'n.macaddr',
 						   $l->g(557) => "h.userdomain");
 			
 			$tab_options["replace_query_arg"]['MD5_DEVICEID']=" md5(deviceid) ";
@@ -252,6 +262,7 @@ else{ //affichage des périphériques
 		echo close_form();
 	}
 }
+
 if ($ajax){
 	ob_end_clean();
 	tab_req($list_fields,$default_fields,$list_col_cant_del,$sql,$tab_options);

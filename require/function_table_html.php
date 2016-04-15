@@ -2110,7 +2110,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
 	else
 		$resultDetails = mysql2_query_secure($queryDetails, $link);
-	
+        
 	$rows = ajaxgestionresults($resultDetails,$list_fields,$tab_options);
 
 	if (is_null($rows)){
