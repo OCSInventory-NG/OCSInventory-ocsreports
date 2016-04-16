@@ -1187,17 +1187,17 @@
 1222 Fans
 1223 Power supplies
 1224 Trays
-1225 Maximum capacity
-1226 Color
-1227 Contact
-1228 Device SNMP
+1225 Capacidade Máxima
+1226 Cor
+1227 Contato
+1228 Dispositivo SNMP
 1229 Firmware
-1230 Volumn Name
+1230 Nome do volume
 1231 The file format must be ZIP
 1232 The file format must be TAR.GZ
-1233 Name of Database
+1233 Nome da base de dados
 1234 Description can't be empty
-1235 Reference
+1235 referencia
 1236 Soft version
 1237 Firmware version
 1238 Installation date
@@ -1209,7 +1209,7 @@
 1244 This file can't be empty
 1245 Manage your OCS-NG clients
 1246 Affect again
-1247 Architecture
+1247 Arquitetura
 1248 Folder
 1249 Activation of cache tables (allows less solicit the MySQL database)
 1250 Teledeploy speed
