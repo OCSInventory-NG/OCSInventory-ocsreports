@@ -65,6 +65,7 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	$list_fields=array('NAME' => 'h.NAME',
 					   'ip' => 'h.IPADDR',
 					   'domaine' => 'h.WORKGROUP',
+                                           'user' => 'h.USERID',
 					   'snom' => 'a.NAME as softname',
 					   'sversion'=> 'a.VERSION',
 					   'sfold' => 'a.FOLDER');
@@ -87,6 +88,7 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	$tab_options['LBL']['NAME']=$l->g(478);
 	$tab_options['LBL']['ip']=$l->g(176);
 	$tab_options['LBL']['domaine']=$l->g(680);
+        $tab_options['LBL']['user']=$l->g(24);
 	$tab_options['LBL']['snom']=$l->g(847);
 	$tab_options['LBL']['sversion']=$l->g(848);
 	$tab_options['LBL']['sfold']=$l->g(849);
