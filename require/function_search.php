@@ -291,7 +291,6 @@ function compair_with_date($field,$field_value){
 		//modification d'un champ texte en date dans certains cas
  		if ($field == "LASTDATE" or $field == "LASTCOME" or $field == "REGVALUE"){
  			$tab_date = explode('-', $field_value);
-                         var_dump($tab_date);
  			//on applique le traitement que si la date est valide
                         if(count($tab_date) == 3){
                             if (checkdate($tab_date[1],$tab_date[2],$tab_date[0])){

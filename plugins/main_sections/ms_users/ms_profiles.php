@@ -10,14 +10,22 @@
 //====================================================================================
 
 require_once('require/function_users.php');
-
 require_once('require/tables/Table.php');
 require_once('require/tables/Column.php');
 require_once('require/tables/CheckboxColumn.php');
 require_once('require/tables/ActionsColumn.php');
 require_once('require/tables/LinkColumn.php');
 
+require_once(MAIN_SECTIONS_DIR.'ms_users/lib/profile_functions.php');
+
 global $l;
+
+// Remove a profile ?
+if($protectedGet['action'] == 'delete'){
+    
+    remove_profile($protectedGet['profile_id']);
+
+}
 
 // SETUP
 $form_name = 'ms_profiles';

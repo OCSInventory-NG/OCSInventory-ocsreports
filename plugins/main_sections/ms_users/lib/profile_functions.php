@@ -79,6 +79,17 @@ function create_profile($data) {
 	}
 }
 
+function remove_profile($profile_id){
+    global $l;
+    
+    if (!is_writable(DOCUMENT_REAL_ROOT.'/config/profiles')) {
+        msg_error($l->g(2116));
+    }else{
+         unlink(DOCUMENT_REAL_ROOT.'/config/profiles/'.$profile_id.'.xml');
+    }
+    
+}
+
 function update_profile($profile_id, $data) {
 	$yes_no = array('YES', 'NO');
 
