@@ -1328,8 +1328,8 @@
 2034 configurazione del DB incompleta. Lancio l'installazione automatica
 2035 ERRORE: PHP sessions non installate correttamente.<br>Installa il pacchetto php-session.
 2036 ATTENZIONE: l'estensione XML per PHP non installata correttamente, non sarai in grado di utilizzare ipdiscover-util.
-2037 ERRORE: l'estensione MySQL per PHP non installata correttamente.<br>Installa il pacchetto MySQL per PHP (Debian: php5-mysql)
-2038 ATTENZIONE: l'estensione GD non installata correttamente.<br>Non sarai in grado di visualizzare nessun oggetto grafico<br>Prova ad abilitare la voce extension=php_gd2.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php5-gd (Linux).
+2037 ERRORE: l'estensione MySQL per PHP non installata correttamente.<br>Installa il pacchetto MySQL per PHP (Debian: php-mysql)
+2038 ATTENZIONE: l'estensione GD non installata correttamente.<br>Non sarai in grado di visualizzare nessun oggetto grafico<br>Prova ad abilitare la voce extension=php_gd2.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php-gd (Linux).
 2039 ATTENZIONE: l'estensione OpenSSL per PHP non installata correttamente.<br>Alcune caratteristiche dell'installazione automatica non saranno disponibili.<br>Prova ad abilitare la voce extension=php_openssl.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php-openssl (Linux).
 2040 ATTENZIONE: non sarai in grado di creare nessun pacchetto d'installazione di grandezza superiore a
 2041 Devi incrementare entrambi i parametri <font color="red">post_max_size</font> e <font color="red">upload_max_filesize</font> nel file php.ini per superare questo limite.

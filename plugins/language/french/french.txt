@@ -1330,8 +1330,8 @@
 2034 Le fichiers de configuration de BDD n'est pas valide. Installation automatique lancée
 2035 ERREUR: Les sessions pour PHP ne sont pas installées correctement. <br> Essayez d'installer le paquet php-session.
 2036 AVERTISSEMENT: XML pour PHP n'est pas installé correctement, vous ne serez pas en mesure d'utiliser ipdiscover-util.
-2037 ERREUR: MySQL pour PHP n'est pas installé correctement. <br> Essayez d'installer MySQL pour PHP paquet (Debian: php5-mysql)
-2038 AVERTISSEMENT: La librairie GD de PHP n'est pas installée correctement. <br> Les graphiques ne seront utilisables qu'en flash  <br> Pour corriger cela, essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php5-gd (Linux).
+2037 ERREUR: MySQL pour PHP n'est pas installé correctement. <br> Essayez d'installer MySQL pour PHP paquet (Debian: php-mysql)
+2038 AVERTISSEMENT: La librairie GD de PHP n'est pas installée correctement. <br> Les graphiques ne seront utilisables qu'en flash  <br> Pour corriger cela, essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-gd (Linux).
 2039 AVERTISSEMENT: OpenSSL pour PHP n'est pas installé correctement. <br> Certaines fonctionnalités de déploiement automatique ne sera pas disponible <br> Essayez en décommentant extension = php_openssl.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-openssl (Linux).
 2040 AVERTISSEMENT: Vous ne serez pas en mesure de construire un paquet de déploiement d'une taille plus grande que
 2041 Vous devez modifier <font color="red">post_max_size</font> et <font color="red">upload_max_filesize</font> dans php.ini, pour augmenter cette limite.
