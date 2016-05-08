@@ -58,6 +58,7 @@ if ($_SESSION['OCS']['mesmachines']){
 	$tab_id_mes_machines=computer_list_by_tag('','ARRAY');
 	if ($tab_id_mes_machines=="ERROR"){
 		echo $l->g(923);
+		$tab_id_mes_machines="";
 	}
 }else{
 	$tab_id_mes_machines="";
