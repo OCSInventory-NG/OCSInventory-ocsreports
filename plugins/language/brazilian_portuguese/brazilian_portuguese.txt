@@ -573,7 +573,7 @@
 609 sobregravado
 610 ESTATICAMENTE INCLUIDO
 611 NO CACHE
-612 ESTATICO
+612 ESTÁTICO
 613 DINAMICO
 614 EXCLUIDO
 615 Pesquisa
@@ -608,7 +608,7 @@
 644 esta máquina
 645 DETALHE DO GRUPO
 646 URL
-647 NUMERO DA PORTA
+647 NÚMERO DA PORTA
 648 COMPARTIMENTO DE REPERTÓRIO
 649 AUTOMÁTICA
 650 MANUAL
@@ -640,7 +640,7 @@
 677 OPERADOR
 678 VALOR SERVIDOR
 679 NOME
-680 DOMINIO
+680 DOMÍNIO
 681 USUÁRIO
 682 Para adicionar uma condição suplementar
 683 Validar a regra
@@ -756,7 +756,7 @@
 793 Maquinas com base
 794 Máquinas em atividade
 795 Máquinas que conectaram ao servidor hoje
-796 Numeros de máquinas inventáriadas hoje
+796 Números de máquinas inventáriadas hoje
 797 Máquinas não vistas a mais de
 798 ATIVIDADE
 799 HARDWARE
@@ -782,7 +782,7 @@
 
 
 818 Get out of group
-819 computer(s) added to group
+819 computadores(s) adicionados ao group
 820 Último contato
 821 MODIFICAÇÃO CONFIGURAÇÃO DO SERVIDOR
 822 Customizar 
@@ -829,7 +829,7 @@
 863 Rede: Descrição
 864 Rede: Tipo
 865 Rede: MibType
-866 Rede: Speed
+866 Rede: Velocidade
 867 Rede: MAC Address
 868 Rede: Status
 869 Rede: Endereço IP 
@@ -876,7 +876,7 @@
 912 Export list of computers that have this softwares
 913 Number of non inventoried network interfaces
 914 Number of agents that didn't send inventory since at least
-915 messages
+915 menssagens
 916 The value must be higher than 
 917 FREQUENCY value
 918 Differential between LASTDATE and LASTCOME
@@ -975,7 +975,7 @@
 1009 Servers storage directory
 1010 NORMAL
 1011 DEBUG
-1012 LANGUAGE
+1012 LINGUAGEM
 1013 MAINTENANCE
 1014 Switch to
 1015 User mode
@@ -1007,8 +1007,8 @@
 1041 User can defer
 1042 triggers a reboot
 1043 Stock control to validate the installation
-1044 By list
-1045 By visual
+1044 Por lista
+1045 Por visual
 1046 Statut
 1047 INFO
 1048 Adicionar arquivo
@@ -1018,7 +1018,7 @@
 1052 História
 1053 Demande modifiee
 1054 Demande effectuee
-1055 Your email is not valid
+1055 Seu e-mail não é válido
 1056 Contact your OCS administrator
 1057 Failed to connect to mailserver
 1058 no email is valid
@@ -1027,7 +1027,7 @@
 1061 Tab
 1062 Campo
 1063 Wording 
-1064 Mandatory
+1064 Mandatório
 1065 Field restraint
 1066 Linked to a status
 1067 Field name is already used
@@ -1054,7 +1054,7 @@
 1089 No status is active. Start by activating one
 1090 has modify request n°
 1091 A new request has been posted
-1092 post a new request
+1092 postar uma nova requisição
 1093 Database is incomplete
 1094 Please replay the complete installation of the database
 1095 Status Admin
@@ -1083,7 +1083,7 @@
 1118 Editar
 1119 Selecionar
 1120 Quantidade
-1121 Update done
+1121 Atualização pronta
 1122 Wiki
 1123 IRC
 1124 Forums
@@ -1126,8 +1126,8 @@
 1161 On the ipdiscover's subnet
 1162 Manage teledeploy
 1163 Update Configuration
-1164 Manage groups
-1165 Manage console
+1164 Gerenciar groups
+1165 Gerenciar console
 1166 See warning messages of the GUI
 1167 Manage accounts info
 1168 may change accounts info computers
@@ -1137,7 +1137,7 @@
 1172 Manage ipdiscover
 1173 Profile information
 1174 User Pages
-1175 Restrictions
+1175 Restrições
 1176 Rights to Blacklist
 1177 Rights to Manage
 1178 Esse campo
@@ -1158,7 +1158,7 @@
 1193 Group may receive RESTRAINT packets
 1194 Only packets at a higher level
 1195 may be affected
-1196 Profile
+1196 Perfil
 1197 SNMP functionality
 1198 Networks scans
 1199 Version of SNMP communities
@@ -1258,9 +1258,9 @@
 1302 development
 1304 XML
 1305 On the generation of an XML inventory
-1306 Manage plugins
-1307 Active Plugins
-1308 Add plugins
+1306 Gerenciar plugins
+1307 Plugins ativos
+1308 Adicionar plugins
 1309 Teledeploy options 
 1310 Shutdown
 1311 Reboot
@@ -1297,7 +1297,7 @@
 2013 needed
 2014 senha
 2015 consulta
-2016 successful
+2016 sucesso
 2017 usando
 2018 was imported
 2019 were already imported
@@ -1313,9 +1313,9 @@
 
 
 2030 Instalação OCS Inventory
-2031 Current installed version
+2031 Versão corrente instalada
 2032 is lower than this version
-2033 automatic install launched
+2033 Instalação automática iniciada
 2034 DB configuration not completed. Automatic install launched
 2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
@@ -1328,7 +1328,7 @@
 2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> mysql value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
-2046 ERROR: MySql authentication problem.
+2046 ERRO: Problema de autenticação MySql .
 2047 You must add the 'old-passwords' in your mysql configuration file (my.ini). Then restart mysql, and relaunch install.php
 2050 Installation finished you can log in index.php with login=admin and password=admin
 2051 Click aqui para entrar no OCS-NG GUI
@@ -1337,7 +1337,7 @@
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Banco de dados gerado com sucesso
 2056 Arquivo de configuração do MySql escrito com sucesso
-2057 Existing database updated
+2057 Existe atualização do banco de dados
 2058 Database engine checking...
 2059 ERROR: Alter query failed
 2060 ERROR: Show table status query failed
