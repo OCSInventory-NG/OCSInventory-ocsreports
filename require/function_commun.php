@@ -365,7 +365,7 @@ function html_header($no_java=false){
 		incPicker(); 
 		
 		//js for graph
-		echo "<script src='js/jquery-1.11.0.js' type='text/javascript'></script>";
+		echo "<script src='libraries/jquery/jquery.js' type='text/javascript'></script>";
 		echo "<script src='js/jquery-migrate-1.2.1.min.js' type='text/javascript'></script>";
 		echo "<script src='js/jquery.ui.widget.js'></script>";
 		echo "<script src='js/jquery.iframe-transport.js'></script>";
