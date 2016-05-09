@@ -351,8 +351,8 @@ function html_header($no_java=false){
 			<head>
 				<TITLE>OCS Inventory</TITLE>
 				<LINK REL='shortcut icon' HREF='favicon.ico' />
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap.min.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-theme.min.css'>
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='libraries/bootstrap/css/bootstrap.min.css'>
+				<LINK REL='StyleSheet' TYPE='text/css' HREF='libraries/bootstrap/css/bootstrap-theme.min.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-custom.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/dataTables-custom.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/dataTables.bootstrap.css'>
@@ -371,7 +371,7 @@ function html_header($no_java=false){
 		echo "<script src='js/jquery.iframe-transport.js'></script>";
 		echo "<script src='js/jquery.fileupload.js'></script>";
 		
-		echo "<script src='js/bootstrap.min.js' type='text/javascript'></script>";
+		echo "<script src='libraries/bootstrap/js/bootstrap.min.js' type='text/javascript'></script>";
 		echo "<script src='js/bootstrap-custom.js' type='text/javascript'></script>";
 		
   		echo "<script src='js/graph/raphael.js' type='text/javascript'></script>";
