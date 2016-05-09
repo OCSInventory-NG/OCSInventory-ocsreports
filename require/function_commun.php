@@ -366,7 +366,7 @@ function html_header($no_java=false){
 		
 		//js for graph
 		echo "<script src='libraries/jquery/jquery.js' type='text/javascript'></script>";
-		echo "<script src='js/jquery-migrate-1.2.1.min.js' type='text/javascript'></script>";
+		echo "<script src='libraries/jquery-migrate-1/jquery-migrate.min.js' type='text/javascript'></script>";
 		echo "<script src='js/jquery.ui.widget.js'></script>";
 		echo "<script src='js/jquery.iframe-transport.js'></script>";
 		echo "<script src='js/jquery.fileupload.js'></script>";
