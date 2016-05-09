@@ -375,7 +375,7 @@ function html_header($no_java=false){
 		echo "<script src='js/bootstrap-custom.js' type='text/javascript'></script>";
 		
   		echo "<script src='libraries/raphael/raphael.js' type='text/javascript'></script>";
-  		echo "<script src='js/graph/elycharts.js' type='text/javascript'></script>";
+  		echo "<script src='libraries/elycharts/elycharts.js' type='text/javascript'></script>";
   		
   		//js for Datatables 
   		echo "<script src='libraries/datatable/media/js/jquery.dataTables.js' type='text/javascript'></script>";
