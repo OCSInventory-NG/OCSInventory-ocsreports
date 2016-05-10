@@ -32,7 +32,6 @@
 54 Processeur(s)
 55 Nombre
 56 Données administratives
-57 Gio
 61 Carte vidéo
 62 Résolution
 63 Stockage
@@ -68,7 +67,7 @@
 114 Enregistrer
 115 Modifier
 116 Ajouter
-119 Voulez-vous vraiment supprimer la machine 
+119 Voulez-vous vraiment supprimer la machine
 122 Supprimer
 129 RESSEMBLE
 130 DIFFERENT
@@ -136,7 +135,7 @@
 224 Valeur
 225 Admininfo
 226 a bien été supprimé de la table accountinfo
-227 Etes-vous sûr de vouloir supprimer la colonne 
+227 Etes-vous sûr de vouloir supprimer la colonne
 228 Entrer le nom de la nouvelle donnée administrative
 229 Texte (255)
 230 Entier
@@ -288,7 +287,7 @@
 380 Dictionnaire
 381 Nombre installation
 382 Nom du logiciel
-383 La page 
+383 La page
 384 TOUT déplacer
 385 Vers une nouvelle catégorie
 386 OU
@@ -388,7 +387,7 @@
 492 ELUE IpDiscover du réseau
 493 Standard (éligible)
 494 Fréquence d'inventaire personnalisée
-495 Inventorier tous les 
+495 Inventorier tous les
 496 jours
 497 Par défaut, utilise le paramètre 'FREQUENCY' des options générales.
 498 Paquet
@@ -513,7 +512,7 @@
 621 Ce groupe n'a pas été créé. Ce nom existe déjà.
 622 En cache
 623 L'information que vous essayez de voir n'existe pas.
-624 Voulez-vous vraiment supprimer le groupe 
+624 Voulez-vous vraiment supprimer le groupe
 625 Valider les modifications
 626 Annuler les modifications
 627 Au moins un des champs est vide... Mise à jour non effectuée.
@@ -547,7 +546,7 @@
 656 Cette donnée existe déjà dans la liste
 657 Les champs en rouge sont en erreur!!! (champs vides ou taille <2)
 658 machines n'ont pas de serveurs de redistribution. <br>Il faut donc affecter ce paquet individuellement.
-659 machines ont déjà ce paquet télédéployé. Le statut de ce paquet pour ces machines est donc à nouveau  
+659 machines ont déjà ce paquet télédéployé. Le statut de ce paquet pour ces machines est donc à nouveau
 660 GROUPE DE REDISTRIBUTION INEXISTANT
 661 PAQUETS POUR LA REDISTRIBUTION
 662 Règles d'affectation
@@ -575,7 +574,7 @@
 685 Ajouter une règle
 686 La condition
 687 Vous ne pouvez pas le supprimer.
-688 Des paquets sont affectés sur ce groupe! 
+688 Des paquets sont affectés sur ce groupe!
 689 Des paquets sont affectés sur ce serveur!
 690 Vous ne pouvez pas supprimer toutes les machines.
 691 Valeurs génériques: $IP$ et $NAME$
@@ -591,8 +590,8 @@
 701 Blacklist de numéro de série
 702 Entrez un nouveau numéro de série à blacklister
 703 Blacklist
-704 Etes-vous sûr de vouloir blacklister 
-705 Etes-vous sûr de vouloir déblacklister 
+704 Etes-vous sûr de vouloir blacklister
+705 Etes-vous sûr de vouloir déblacklister
 706 Déblacklister
 707 ce numéro de série
 708 cette adresse MAC
@@ -645,7 +644,7 @@
 756 Définition de la période pour INVENTORY_FILTER_FLOOD_IP
 757 Active la pile de filtre d'inventaire
 758 Spécifie si vous souhaitez suivre les paquets affectés à un groupe de niveau ordinateur
-759 Doit être supérieur ou égal à  
+759 Doit être supérieur ou égal à
 760 Webservice
 761 Activer/désactiver le webservice
 762 Taille de la page de résultats (a des conséquences sur les performances)
@@ -656,7 +655,7 @@
 767 ATTENTION: RESULTATS AVEC FILTRE
 768 Nombre d'enregistrement
 769 Transfert effectué
-770 MISE A JOUR DE 
+770 MISE A JOUR DE
 771 Cette catégorie existe déjà
 772 Le nom de la nouvelle catégorie ne peut être nul
 773 Vous devez sélectionner un nom de catégorie
@@ -677,7 +676,7 @@
 788 Machine avec un processeur =<
 789 Machine avec un processeur entre
 790 Machine avec RAM >=
-791 Machine avec RAM =< 
+791 Machine avec RAM =<
 792 Machine avec RAM entre
 793 Machines en base
 794 Machines vues
@@ -762,7 +761,7 @@
 873 Réseaux: IP DHCP
 874 Clé de registre: Nom
 875 Clé de registre: Valeur
-876 DESaffectation simple GROUPE REDISTRIBUTION 
+876 DESaffectation simple GROUPE REDISTRIBUTION
 877 DES MACHINES N'ONT PAS ETE AJOUTEES AU GROUPE CAR:
 878 Rappel: une machine ne peut faire partie que d'un seul groupe de redistribution
 879 GROUPE REMPLACE
@@ -958,7 +957,7 @@
 1071 Type de champ
 1072 Suivi des demandes
 1073 Faire une demande
-1074 La fonctionnalité 'Workflow' n'est pas activée. 
+1074 La fonctionnalité 'Workflow' n'est pas activée.
 1075 Veuillez activer la fonctionnalité pour l'utiliser
 1076 ERROR: STATUS RECHERCHE NON DEFINI
 1077 Niveau de création de paquet
@@ -1062,7 +1061,7 @@
 1175 Restrictions
 1176 Droits Blacklist
 1177 Droits configuration
-1178 Ce champ 
+1178 Ce champ
 1179 est une variable. Il ne peut contenir de caractères spéciaux.
 1180 ne peut pas être vide
 1181 Fonctionnalité Serveur de redistribution
@@ -1078,7 +1077,7 @@
 1191 Rappel: la configuration du workflow de télédéploiement est actuellement sur
 1192 Groupe pouvant recevoir des paquets de TEST
 1193 Groupe pouvant recevoir des paquets de périmètre RESTREINT
-1194 Seuls les paquets de niveau supérieur à 
+1194 Seuls les paquets de niveau supérieur à
 1195 peuvent être affectés
 1196 Profil
 1197 Fonctionnalité SNMP
@@ -1121,12 +1120,12 @@
 1234 La description ne peut pas être vide
 1235 Référence
 1236 Version du logiciel
-1237 Version du firmware 
+1237 Version du firmware
 1238 Date d'installation
 1239 MHz
 1240 MB
 1241 Nombre de périphériques SNMP remontés
-1242 Y-m-d
+1242 d/m/y
 1243 Seuls les fichiers ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe et ocspackage.exe peuvent être envoyés
 1244 Le fichier ne peut pas être vide
 1245 Administrer les clients OCS-NG
@@ -1222,17 +1221,17 @@
 1343 Premier
 1344 Dernier
 1345 Suivant
-1346 Précédent 
+1346 Précédent
 1347 activer pour trier la colonne par ordre croissant
 1348 activer pour trier la colonne par ordre décroissant
 1349 Afficher / Cacher
 1350 .
 1351 ,
 1352 Contenu de la requête invalide
-1353 Accès non autorisé 
+1353 Accès non autorisé
 1354 Les droits ne sont pas suffisants pour accéder à la ressource demandée
-1355 Page non-trouvée 
-1356 L'URL demandé est trop long, essayez de supprimer les cookies d'OCS ( vous serez déconnecté ) 
+1355 Page non-trouvée
+1356 L'URL demandé est trop long, essayez de supprimer les cookies d'OCS ( vous serez déconnecté )
 1357 Erreur interne du serveur
 1358 Le service n'est pas disponible
 1359 Utilisateur déconnecté
@@ -1245,7 +1244,7 @@
 1366 Prénom
 1367 Réseau
 1368 CPU
-1369 Version de PHP  
+1369 Version de PHP
 1370 Serveur Web
 1371 Serveur SQL
 1372 Kernel
@@ -1255,7 +1254,7 @@
 1376 Q&amp;R
 1377 Questions et réponses
 1378 RAM disponible
-1379 RAM totale 
+1379 RAM totale
 1380 Afficher les colonnes par default
 1381 Actions
 1382 Numéro de série de la carte mère
@@ -1330,11 +1329,11 @@
 2034 Le fichiers de configuration de BDD n'est pas valide. Installation automatique lancée
 2035 ERREUR: Les sessions pour PHP ne sont pas installées correctement. <br> Essayez d'installer le paquet php-session.
 2036 AVERTISSEMENT: XML pour PHP n'est pas installé correctement, vous ne serez pas en mesure d'utiliser ipdiscover-util.
-2037 ERREUR: MySQL pour PHP n'est pas installé correctement. <br> Essayez d'installer MySQL pour PHP paquet (Debian: php-mysql)
-2038 AVERTISSEMENT: La librairie GD de PHP n'est pas installée correctement. <br> Les graphiques ne seront utilisables qu'en flash  <br> Pour corriger cela, essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-gd (Linux).
+2037 ERREUR: MySQL pour PHP n'est pas installé correctement. <br> Essayez d'installer MySQL pour PHP paquet (Debian: php5-mysql)
+2038 AVERTISSEMENT: La librairie GD de PHP n'est pas installée correctement. <br> Les graphiques ne seront utilisables qu'en flash  <br> Pour corriger cela, essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php5-gd (Linux).
 2039 AVERTISSEMENT: OpenSSL pour PHP n'est pas installé correctement. <br> Certaines fonctionnalités de déploiement automatique ne sera pas disponible <br> Essayez en décommentant extension = php_openssl.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-openssl (Linux).
 2040 AVERTISSEMENT: Vous ne serez pas en mesure de construire un paquet de déploiement d'une taille plus grande que
-2041 Vous devez modifier <font color="red">post_max_size</font> et <font color="red">upload_max_filesize</font> dans php.ini, pour augmenter cette limite.
+2041 Vous devez modifier <font color="red">post_max_size</font> et <font color="red">upload_max_filesize</font> dans la configuration du vhost, pour augmenter cette limite.
 2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur MySQL. Changez-le dès que possible. (Mot de passe root => vide)
 2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de <font color="red">max_allowed_packet</font> de MySQL à au moins 2 Mo sur votre serveur le fichier de configuration.
 2044 Label ajouté
