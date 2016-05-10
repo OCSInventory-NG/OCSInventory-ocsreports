@@ -16,7 +16,7 @@
 32 Choose
 33 Domain
 34 IP address
-35 Computer namef
+35 Computer name
 36 Serial number
 41 Reset
 42 No result
