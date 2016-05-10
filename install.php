@@ -1,4 +1,4 @@
-<?php 
+<?php
 //====================================================================================
 // OCS INVENTORY REPORTS
 // Copyleft Pierre LEMMET 2005
@@ -24,18 +24,18 @@ function return_bytes($val) {
 	$val = trim($val);
 	$last = strtolower($val{strlen($val)-1});
 	switch($last) {
-	        case 'g':
-				 $val *= 1024;
-	        case 'm':
-	             $val *= 1024;
-            case 'k':
-	             $val *= 1024;
-	     }
-	
-	     return $val;
+		case 'g':
+			$val *= 1024;
+		case 'm':
+			$val *= 1024;
+		case 'k':
+			$val *= 1024;
+	}
+
+	return $val;
 }
-	//     
-	// }
+//     
+// }
 /*
  * function to execute sql file
 *
@@ -56,8 +56,8 @@ function exec_fichier_sql($fichier,$link){
 			foreach ($data_sql as $k=>$v){
 				if (trim($v) != ""){
 					echo ".";
-				    ob_flush();
-       				flush();
+					ob_flush();
+					flush();
 					mysql2_query_secure($v,$link);
 				}
 			}
@@ -68,11 +68,11 @@ function exec_fichier_sql($fichier,$link){
 }
 //choose default language
 if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
-    if (isset($_COOKIE['LANG']))
-        $_SESSION['OCS']['LANGUAGE']=$_COOKIE['LANG'];
-    if (!isset($_COOKIE['LANG']))
-        $_SESSION['OCS']['LANGUAGE']=DEFAULT_LANGUAGE;
-    $_SESSION['OCS']["LANGUAGE_FILE"]=new language($_SESSION['OCS']['LANGUAGE']);
+	if (isset($_COOKIE['LANG']))
+		$_SESSION['OCS']['LANGUAGE']=$_COOKIE['LANG'];
+	if (!isset($_COOKIE['LANG']))
+		$_SESSION['OCS']['LANGUAGE']=DEFAULT_LANGUAGE;
+	$_SESSION['OCS']["LANGUAGE_FILE"]=new language($_SESSION['OCS']['LANGUAGE']);
 }
 $l = $_SESSION['OCS']["LANGUAGE_FILE"];
 //OCS INSTALLATION
@@ -89,7 +89,7 @@ if( isset($fromAuto) && $fromAuto==true){
 }
 //msg=your config file doesn't exist
 if( isset($fromdbconfig_out) && $fromdbconfig_out==true)
-   $msg_lbl['info'][]=$l->g(2034);
+	$msg_lbl['info'][]=$l->g(2034);
 //max to upload
 $pms = "post_max_size";
 $umf = "upload_max_filesize";
@@ -103,11 +103,11 @@ else
 	$MaxAvail = trim(mb_strtoupper($valTumf),"M");
 $msg_lbl['info'][]=$l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041)."<br><br><font color=red>".$l->g(2102)."</font>";
 //msg=no php-session function
-if(!function_exists('session_start')) {	
+if(!function_exists('session_start')) {
 	$msg_lbl['error'][]=$l->g(2035);
 }
 //msg= no mysqli_connect function
-if(!function_exists('mysqli_connect')) {	
+if(!function_exists('mysqli_connect')) {
 	$msg_lbl['error'][]=$l->g(2037);
 }
 if((file_exists(CONF_MYSQL) and !is_writable(CONF_MYSQL)) or (!file_exists(CONF_MYSQL) and !is_writable(ETC_DIR))) {
@@ -120,27 +120,27 @@ if(version_compare(phpversion(), '5.3.7', '<')){
 if(!class_exists('SoapClient')) {
 	$msg_lbl['warning'][]=$l->g(6006);
 }
-if(!function_exists('xml_parser_create')) {	
+if(!function_exists('xml_parser_create')) {
 	$msg_lbl['warning'][]=$l->g(2036);
 }
-if(!function_exists('imagefontwidth')) {	
+if(!function_exists('imagefontwidth')) {
 	$msg_lbl['warning'][]=$l->g(2038);
 }
-if(!function_exists('openssl_open')) {	
+if(!function_exists('openssl_open')) {
 	$msg_lbl['warning'][]=$l->g(2039);
 }
-if (is_writable($_SERVER["DOCUMENT_ROOT"])){
-	if (!file_exists($_SERVER["DOCUMENT_ROOT"]."/download")) {
-		mkdir($_SERVER["DOCUMENT_ROOT"]."/download");
+if (is_writable(DOCUMENT_REAL_ROOT)){
+	if (!file_exists(DOCUMENT_REAL_ROOT."/download")) {
+		mkdir(DOCUMENT_REAL_ROOT."/download");
 	}
-	if (!file_exists($_SERVER["DOCUMENT_ROOT"]."/logs")) {
-		mkdir($_SERVER["DOCUMENT_ROOT"]."/logs");
+	if (!file_exists(DOCUMENT_REAL_ROOT."/logs")) {
+		mkdir(DOCUMENT_REAL_ROOT."/logs");
 	}
-	if (!file_exists($_SERVER["DOCUMENT_ROOT"]."/scripts")) {
-		mkdir($_SERVER["DOCUMENT_ROOT"]."/scripts");
+	if (!file_exists(DOCUMENT_REAL_ROOT."/scripts")) {
+		mkdir(DOCUMENT_REAL_ROOT."/scripts");
 	}
 }else{
-	$msg_lbl['warning'][]="Document root should be writable : ".$_SERVER["DOCUMENT_ROOT"];
+	$msg_lbl['warning'][]="Document root should be writable : ".DOCUMENT_REAL_ROOT;
 }
 //show messages
 foreach ($msg_lbl as $k=>$v){
@@ -154,15 +154,15 @@ foreach ($msg_lbl as $k=>$v){
 }
 //post the first form
 if( isset($_POST["name"])) {
-	
+
 	$link=dbconnect($_POST["host"],$_POST["name"],$_POST["pass"],$_POST["database"]);
 	if(mysqli_connect_errno()) {
 		$firstAttempt=false;
 		msg_error($l->g(2001)." ".$l->g(249).
-							" (".$l->g(2010)."=".$_POST["host"].
-							" ".$l->g(2011)."=".$_POST["name"].
-							" ".$l->g(2014)."=".$_POST["pass"].
-							")<br>".$link);
+			" (".$l->g(2010)."=".$_POST["host"].
+			" ".$l->g(2011)."=".$_POST["name"].
+			" ".$l->g(2014)."=".$_POST["pass"].
+			")<br>".$link);
 	}else{
 		//if database not exist
 		if ($link == "NO_DATABASE"){
@@ -170,9 +170,9 @@ if( isset($_POST["name"])) {
 			//have to execute new install file
 			$db_file = "files/ocsbase_new.sql";
 			if (!mysqli_query($link,"CREATE DATABASE ".$_POST['database']." CHARACTER SET utf8 COLLATE utf8_bin;")
-					or !mysqli_query($link,"USE ".$_POST['database'])
-					or !mysqli_query($link,"GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs IDENTIFIED BY 'ocs'")
-					or !mysqli_query($link,"GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
+				or !mysqli_query($link,"USE ".$_POST['database'])
+				or !mysqli_query($link,"GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs IDENTIFIED BY 'ocs'")
+				or !mysqli_query($link,"GRANT ALL PRIVILEGES ON ".$_POST['database'].".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
 				$error=mysqli_errno($link);
 			$name_connect="ocs";
 			$pass_connect='ocs';
@@ -180,7 +180,7 @@ if( isset($_POST["name"])) {
 			//update
 			$res=mysql2_query_secure("select tvalue from config where name='GUI_VERSION'",$link);
 			$item = mysqli_fetch_object($res);
-			if ($item->tvalue < 7006){			
+			if ($item->tvalue < 7006){
 				$db_file = "files/ocsbase.sql";
 				$name_connect=$_POST["name"];
 				$pass_connect=$_POST["pass"];
@@ -200,10 +200,10 @@ if( isset($_POST["name"])) {
 				die();
 			}
 		}
-		
+
 		if (!$error){
 			ob_flush();
-       		flush();
+			flush();
 			msg_info($l->g(2030));
 			exec_fichier_sql($db_file,$link);
 			$ch = @fopen(CONF_MYSQL,"w");
@@ -218,20 +218,20 @@ if( isset($_POST["name"])) {
 			if(!mysqli_connect($_POST["host"],$name_connect,$pass_connect)) {
 				if(mysqli_connect_errno()==0) {
 					echo "<br><center><font color=red><b>" . $l->g(2043) .
-					" " . $l->g(2044) .
-					"</b><br></font></center>";
+						" " . $l->g(2044) .
+						"</b><br></font></center>";
 					die();
 				}
 				else
 					echo "<br><center><font color=red><b>" . $l->g(2043) .
-					" (" . $l->g(2017) .
-					" " . $l->g(2010) .
-					"=" . $_POST["host"] .
-					" " . $l->g(2011) .
-					"=ocs " . $l->g(2014) .
-					"=ocs)"
-					. "</b><br></font></center>";
-			
+						" (" . $l->g(2017) .
+						" " . $l->g(2010) .
+						"=" . $_POST["host"] .
+						" " . $l->g(2011) .
+						"=ocs " . $l->g(2014) .
+						"=ocs)"
+						. "</b><br></font></center>";
+
 				echo "<br><center><font color=red><b>" . $l->g(2065) . "</b></font></center>";
 				unlink(CONF_MYSQL);
 			}
@@ -248,9 +248,9 @@ if( isset($_POST["name"])) {
 //use values in mysql config file
 if( is_readable(CONF_MYSQL) ) {
 	require(CONF_MYSQL);
-	if (defined('COMPTE_BASE')) {			
+	if (defined('COMPTE_BASE')) {
 		$valNme = COMPTE_BASE;
-	} else { 					
+	} else {
 		$valNme = '';
 	}
 	if (defined('PSWD_BASE')) {
@@ -265,7 +265,7 @@ if( is_readable(CONF_MYSQL) ) {
 	}
 	if (defined('DB_NAME')) {
 		$valdatabase = DB_NAME;
-	} else {                                       
+	} else {
 		$valdatabase = '';
 	}
 }
@@ -280,9 +280,10 @@ else
 	$value_field=array($valNme,$valPass,$valdatabase,$valServ);
 $tab_typ_champ=show_field($name_field,$type_field,$value_field);
 tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden,array(
-		'button_name' => 'INSTALL',
-		'show_button' => 'BUTTON',
-		'form_name' => $form_name
+	'button_name' => 'INSTALL',
+	'show_button' => 'BUTTON',
+	'form_name' => $form_name
 ));
 die();
 ?>
+
