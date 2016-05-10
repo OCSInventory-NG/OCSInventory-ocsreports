@@ -14,23 +14,17 @@ sub run {
     foreach(<CPUINFO>) {
         print;
         if (/^Processor\s+:\s*:/) {
-
             if ($current) {
                 $common->addCPU($current);
             }
-
             $current = {
                 CPUARCH => 'ARM',
             };
-
         }
-
         $current->{TYPE} = $1 if /Processor\s+:\s+(\S.*)/;
-
     }
-
     # The last one
     $common->addCPU($current);
 }
 
-1
+1;

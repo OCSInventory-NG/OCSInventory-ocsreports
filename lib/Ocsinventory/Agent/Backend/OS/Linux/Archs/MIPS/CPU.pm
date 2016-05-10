@@ -17,19 +17,14 @@ sub run {
             if ($current) {
                 $common->addCPU($current);
             }
-
             $current = {
                 CPUARCH => 'MIPS',
             };
-
         }
-
         $current->{TYPE} = $1 if /cpu model\s+:\s+(\S.*)/;
-
     }
-
     # The last one
     $common->addCPU($current);
 }
 
-1
+1;

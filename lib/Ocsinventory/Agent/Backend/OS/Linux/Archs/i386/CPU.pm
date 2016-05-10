@@ -1,7 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Archs::i386::CPU;
 
 use strict;
-
 use Config;
 
 sub check { can_read("/proc/cpuinfo"); can_run("arch"); }
@@ -10,7 +9,6 @@ sub run {
 
     my $params = shift;
     my $common = $params->{common};
-
     my @cpu;
     my $current;
     my $cpuarch = `arch`;
@@ -21,13 +19,12 @@ sub run {
     my $cpuspeed;
     my $coreid;
 
-	$cpucores=0;
-	$siblings=0;
+    $cpucores=0;
+    $siblings=0;
     open CPUINFO, "</proc/cpuinfo" or warn;
     foreach(<CPUINFO>) {
-
         if (/^vendor_id\s*:\s*(Authentic|Genuine|)(.+)/i) {
-			$cpucores++;
+            $cpucores++;
             $current->{MANUFACTURER} = $2;
             $current->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
             $current->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
@@ -35,50 +32,50 @@ sub run {
         }
 
         if (/^siblings\s*:\s*(\d+)/i){
-			$siblings++;
-		}
-		$current->{CURRENT_SPEED} = $1 if /^cpu\sMHz\s*:\s*(\d+)/i;
+            $siblings++;
+        }
+        $current->{CURRENT_SPEED} = $1 if /^cpu\sMHz\s*:\s*(\d+)/i;
         $current->{TYPE} = $1 if /^model\sname\s*:\s*(.+)/i;
-	    $current->{L2CACHESIZE} = $1 if /^cache\ssize\s*:\s*(\d+)/i;
+        $current->{L2CACHESIZE} = $1 if /^cache\ssize\s*:\s*(\d+)/i;
     }
 
-	# /proc/cpuinfo provides real time speed processor.
-	# Get optimal speed with dmidecode command
-  	# Get also cpu cores with dmidecode command
-  	# Get also voltage information with dmidecode command
-   	@cpu = `dmidecode -t processor`;
-	$cpuspeed=0;
-	$cpusocket=0;
-   	for (@cpu){
-		if (/Processor\sInformation/i){
-			$cpusocket++;
-			if ($cpuspeed != 0){
-				if ($cpusocket > $cpucores) {
-					last;
-				}
-			}
-			$cpuspeed=0;
-		}	
+    # /proc/cpuinfo provides real time speed processor.
+    # Get optimal speed with dmidecode command
+    # Get also cpu cores with dmidecode command
+    # Get also voltage information with dmidecode command
+    @cpu = `dmidecode -t processor`;
+    $cpuspeed=0;
+    $cpusocket=0;
+    for (@cpu){
+        if (/Processor\sInformation/i){
+            $cpusocket++;
+            if ($cpuspeed != 0){
+                if ($cpusocket > $cpucores){
+                    last;
+                }
+            }
+            $cpuspeed=0;
+        }
 
-    	if (/Current\sSpeed:\s*(.*) (|MHz|GHz)/i){
-			$cpuspeed = $1;
+        if (/Current\sSpeed:\s*(.*) (|MHz|GHz)/i){
+            $cpuspeed = $1;
             $current->{SPEED} = $cpuspeed;
-		}
+        }
 
         if (/Core\sCount:\s*(\d+)/i){
             $current->{CORES} = $1;
         } else {
-			$current->{CORES} = $cpucores;
-		}
-    	
-    	# Is(Are) CPU(s) hyperthreaded?
-    	if ($siblings == $current->{CORES}) {
-       		# Hyperthreading is off
-       		$current->{HPT}='on';
-    	} else {
-       		# Hyperthreading is on
-       		$current->{HPT}='off';
-    	}
+            $current->{CORES} = $cpucores;
+        }
+        
+        # Is(Are) CPU(s) hyperthreaded?
+        if ($siblings == $current->{CORES}) {
+            # Hyperthreading is off
+            $current->{HPT}='on';
+        } else {
+            # Hyperthreading is on
+            $current->{HPT}='off';
+        }
 
         if (/Voltage:\s*(.*)V/i){
             $current->{VOLTAGE} = $1;
@@ -88,21 +85,21 @@ sub run {
             $current->{SOCKET} = $1;
         }
 
-    	$current->{CPUARCH}=$cpuarch;
-		if ($cpuarch eq "x86_64"){
-			$current->{DATA_WIDTH}=64;
-    	} else {
-			$current->{DATA_WIDTH}=32;
-    	}
-		
-		$current->{NBSOCKET} = $cpusocket;
+        $current->{CPUARCH}=$cpuarch;
+        if ($cpuarch eq "x86_64"){
+            $current->{DATA_WIDTH}=64;
+        } else {
+            $current->{DATA_WIDTH}=32;
+        }
+        
+        $current->{NBSOCKET} = $cpusocket;
 
-		# Add CPU when Populated
-		if (/Status:\s*(.*),\s(.*)/i){
+        # Add CPU when Populated
+        if (/Status:\s*(.*),\s(.*)/i){
             $current->{CPUSTATUS} = $2;
-			$common->addCPU($current);
+            $common->addCPU($current);
         }
     }
 }
 
-1
+1;

@@ -3,29 +3,27 @@ package Ocsinventory::Agent::Backend::OS::Linux::Distro::LSB;
 sub check {can_run("lsb_release")}
 
 sub run {
-  my $params = shift;
-  my $common = $params->{common};
+    my $params = shift;
+    my $common = $params->{common};
 
-  my $release;
-  foreach (`lsb_release -i`) {
-    $release = $1 if /Distributor\sID:\s+(.+)/;
-  }
+    my $release;
+    foreach (`lsb_release -i`) {
+        $release = $1 if /Distributor\sID:\s+(.+)/;
+    }
 
-  my $OSversion;
-  foreach (`lsb_release -r`){
-	$osrelease = $1 if /Release:\s+(.+)/;
-  }
+    my $OSversion;
+    foreach (`lsb_release -r`){
+        $osrelease = $1 if /Release:\s+(.+)/;
+    }
  
-  my $OSComment;
-  chomp($OSComment =`uname -v`);
+    my $OSComment;
+    chomp($OSComment =`uname -v`);
 
-  $common->setHardware({ 
-      OSNAME => $release,
-	  OSVERSION => $osversion,
-      OSCOMMENTS => "$OSComment"
+    $common->setHardware({ 
+        OSNAME => $release,
+        OSVERSION => $osversion,
+        OSCOMMENTS => "$OSComment"
     });
 }
-
-
 
 1;
