@@ -6,7 +6,7 @@
 #
 # @(#) memconf - Identify sizes of memory modules installed on a
 # @(#)           Solaris, Linux, FreeBSD or HP-UX workstation or server.
-# @(#) Micron Technology, Inc. - Tom Schmidt 02-Jun-2015 V3.08
+# @(#) Micron Technology, Inc. - Tom Schmidt 22-Apr-2016 V3.10
 #
 # Maintained by Tom Schmidt (tschmidt@micron.com)
 #
@@ -131,8 +131,8 @@
 $^W=1;	# Enables -w warning switch, put here for SunOS4 compatibility.
 $starttime=(times)[0];
 
-$version="V3.08";
-$version_date="02-Jun-2015";
+$version="V3.10";
+$version_date="22-Apr-2016";
 $URL="http://sourceforge.net/projects/memconf/";
 
 $newpath="/usr/sbin:/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
@@ -197,6 +197,7 @@ $use_psrinfo_data=1;
 $psrinfo_checked=0;
 $virtinfo_cmd="";
 $have_virtinfo_data=0;
+$virtinfoLDOMcontrolfound=0;
 $cfgadm_cmd="";
 $have_cfgadm_data=0;
 $ipmitool_cmd="";
@@ -3244,9 +3245,18 @@ sub get_mfg {
 	return "" if (/(^$|^\r$|^FFFFFFFFFFFF|^000000000000|^Undefined|Manufacturer\d)/i);
 	s/^(00|80)// if (! /^007F/);
 	# Based on JEDEC JEP106AB
-	return "Fujitsu" if (/(^04|Fujitsu)/i);
+	return "Micron Technology" if (/(^2C|Micron\b)/i);
+	return "Micron CMS" if (/(^7F45|Micron CMS)/i);
+	return "Crucial Technology" if (/(^1315$|^859B|^9B|^7F7F7F7F7F9B|Crucial\b)/i);
+	# Inotera is a Joint Venture between Micron and Nanya
+	# Micron fully acquired Inotera in 2016
+	return "Inotera Memories" if (/Inotera/i);
 	# Micron acquired Elpida in August 2013
 	return "Elpida" if (/(^0500|^FE|^7F7FFE|^02FE|Elpida)/i);
+	# Micron acquired Numonyx in February 2010
+	return "Numonyx (Intel)" if (/(^89|Intel)/i);
+	return "Numonyx" if (/Numonyx/i);
+	return "Fujitsu" if (/(^04|Fujitsu)/i);
 	return "Hitachi" if (/(^07|Hitachi)/i);
 	return "Inmos" if (/(^08|Inmos)/i);
 	return "Intersil" if (/(^0B|Intersil)/i);
@@ -3261,20 +3271,12 @@ sub get_mfg {
 	return "Xicor" if (/(^19|Xicor)/i);
 	return "Zilog" if (/(^1A|Zilog)/i);
 	return "Mitsubishi" if (/(^1C|Mitsubishi)/i);
-	# Inotera is a Joint Venture between Micron and Nanya
-	return "Inotera Memories" if (/Inotera/i);
-	return "Micron CMS" if (/(^7F45|Micron CMS)/i);
-	return "Micron Technology" if (/(^2C|Micron\b)/i);
 	return "ProMOS/Mosel Vitelic" if (/(^40|ProMOS|Mosel Vitelic)/i);
 	return "Qimonda" if (/(^51|^8551|Qimonda)/i);
 	return "Wintec Industries" if (/(^61|Wintec\b)/i);
 	return "Goldenram" if (/(^6A|Goldenram)/i);
 	return "Fairchild" if (/(^83|Fairchild)/i);
-	return "Crucial Technology" if (/(^859B|^9B|^7F7F7F7F7F9B|Crucial\b)/i);
 	return "GTE" if (/(^85|GTE)/i);
-	# Micron acquired Numonyx in February 2010
-	return "Numonyx (Intel)" if (/(^89|Intel)/i);
-	return "Numonyx" if (/Numonyx/i);
 	return "DATARAM" if (/^91|^7F91/);
 	return "Smart Modular" if (/^94|^0194|Smart Modular/i);
 	return "Toshiba" if (/(^98|Toshiba)/i);
@@ -3451,12 +3453,13 @@ sub check_for_LDOM {
 				&pdebug("exit 1");
 				exit 1;
 			}
+			$virtinfoLDOMcontrolfound=1 if ($line =~ /DOMAINROLE\|impl=LDoms\|control=true/i);
 		}
 	}
 	if ($have_cfgadm_data) {
 		foreach $line (@cfgadm) {
 			$line=&dos2unix($line);
-			if ($line =~ /Configuration administration not supported/ && $ldmthreadcnt == 0) {
+			if ($line =~ /Configuration administration not supported/ && $ldmthreadcnt == 0 && $virtinfoLDOMcontrolfound == 0) {
 				# Hack: Assume cfgadm fails on guest domains.
 				&found_guest_LDOM;
 				&pdebug("exit 1");
@@ -4843,7 +4846,7 @@ if ($model eq "Ultra-30" || $ultra eq 30) {
 	#   501-3136 (128MB)
 	#   200-pin 60ns Fast Page Mode ECC
 	# Two DIMMs form a pair, two pairs of DIMMs form a quad.
-	# Minimum requirements is two DIMMs in any adjacent pair.
+	# Minumum requirements is two DIMMs in any adjacent pair.
 	# DIMMs can be installed in any order of pairs.
 	# Interleaving requires a fully populated quad.
 	# Each quad addresses 512MB of memory.
@@ -5373,7 +5376,7 @@ if ($manufacturer =~ /Fujitsu/) {
 		# PrimePower 850: 4-16 SPARC64 V processors at 1.1GHz or faster
 		#   2GB-128GB memory, 16-way, 2 system boards, 16U rack mount
 		# Uses DDR SDRAM ECC memory in 256MB, 512MB and 1GB sizes
-		# Each system board has 32 memory module slots, laid out
+		# Each system board has 32 memory module slots, layed out
 		# with 4 DIMMs on 8 DIMM riser cards.
 		$untested=0;
 		@simmsizes=(256,512,1024,2048);
@@ -8667,7 +8670,7 @@ sub x86_devname {
 	if ($m =~ /Sun .*X4500\b/i) {
 		$devname="Thumper";
 		$familypn="A76";
-		$untested=0 if ($os eq "SunOS");
+		$untested=0;
 	}
 	if ($m =~ /Sun .*X4540\b/i) {
 		$devname="Thor";
@@ -8735,7 +8738,7 @@ sub x86_devname {
 	}
 	if ($m =~ /Sun .*Ultra *27\b/i) {
 		$familypn="B27";
-		$untested=0 if ($os eq "SunOS");
+		$untested=0;
 	}
 	if ($m =~ /Sun .*Ultra *40 M2\b/i) {
 		$devname="Stuttgart";
@@ -8818,15 +8821,15 @@ sub x86_devname {
 	if ($m =~ /Sun .*X8600\b/i) {
 		$devname="Antares";
 	}
-	$untested=1 if ($m =~ /Netra Server X3 2\b/i);	# X3-2
-	$untested=0 if ($m =~ /Sun Server X4 2\b/i);	# X4-2
-	$untested=0 if ($m =~ /Sun Server X4 2L\b/i);	# X4-2L
-	$untested=1 if ($m =~ /Sun Server X4 4\b/i);	# X4-4
-	$untested=1 if ($m =~ /Sun Server X4 8\b/i);	# X4-8
-	$untested=1 if ($m =~ /Netra Blade X3 2B\b/i);	# X3-2B
-	$untested=1 if ($m =~ /Sun Blade X4 2B\b/i);	# X4-2B
-	$untested=1 if ($m =~ /Oracle Server X5 2\b/i);	# X5-2
-	$untested=0 if ($m =~ /Oracle Server X5 2L\b/i);	# X5-2L
+	$untested=1 if ($m =~ /Netra Server X3 2\b/i);			# X3-2
+	$untested=0 if ($m =~ /Sun Server X4 2\b/i && $os eq "SunOS");	# X4-2
+	$untested=0 if ($m =~ /Sun Server X4 2L\b/i && $os eq "SunOS");	# X4-2L
+	$untested=1 if ($m =~ /Sun Server X4 4\b/i);			# X4-4
+	$untested=1 if ($m =~ /Sun Server X4 8\b/i);			# X4-8
+	$untested=1 if ($m =~ /Netra Blade X3 2B\b/i);			# X3-2B
+	$untested=1 if ($m =~ /Sun Blade X4 2B\b/i);			# X4-2B
+	$untested=0 if ($m =~ /Oracle Server X5 2\b/i && $os eq "SunOS");	# X5-2
+	$untested=0 if ($m =~ /Oracle Server X5 2L\b/i && $os eq "SunOS");	# X5-2L
 	$have_x86_devname=1 if ($devname);
 }
 
@@ -9255,8 +9258,8 @@ sub check_dmidecode {
 	$DMI6cnt=0;
 	$DMI6totmem=0;
 	$DMI17=0;
-	$DMI17cnt=0;
 	$DMI17totmem=0;
+	$DMI17end=0;
 	$DMItype=0;
 	$platform="";
 	$FoundEnd=0;
@@ -9287,12 +9290,34 @@ sub check_dmidecode {
 		($dmidecode_ver)=(/.* dmidecode (.*)/i) if (/ dmidecode /i);
 		($permission_error)=(/(.*)/) if (/Permission denied/i);
 		($dmidecode_error)=(/# *(.*)/) if (/No SMBIOS nor DMI entry point found/i && ! &is_xen_vm);
+		# Detect end of DMI type 17 blocks
+#		&pdebug("TLS In DMI type 17, $_") if ($DMItype == 17);
+		if (/(^Handle|^\s*$)/i && $DMItype == 17 && $memarr >= 0 && ! $DMI17end) {
+			$DMI17end=1;
+			$DMItype=0;
+			# Ignore Flash chips for DMI17totmem
+			$Size17[$memarr]=0 if (! defined($Size17[$memarr]));
+			$Type17[$memarr]="" if (! defined($Type17[$memarr]));
+			&pdebug("End of DMI type 17 block, $Size17[$memarr] $Type17[$memarr] detected") if ($Type17[$memarr] =~ /Flash/i);
+			if ($Size17[$memarr] !~ /Not Installed/i && $Size17[$memarr] !~ /No Module Installed/i && $Type17[$memarr] !~ /Flash/i) {
+				&pdebug("End of DMI type 17 block, adding $Size17[$memarr] memory to total");
+				$simmsize=$Size17[$memarr];
+				if ($simmsize =~ / *GB.*/i) {
+					$simmsize=~s/ *GB.*//ig;
+					$simmsize *= 1024;
+				} else {
+					$simmsize=~s/ *MB.*//ig;
+				}
+				$DMI17totmem += $simmsize if ($simmsize);
+			}
+		}
 		($DMItype)=(/DMI type (\d+)/i) if (/\bDMI type /i);
 		if (/Handle .* DMI type 16,/i) {
 			($tmp)=(/Handle (.*), DMI type 16,/i);
 			$cpu_membank++ if ($physmemarray ne $tmp);
 			$physmemarray=$tmp;
 		}
+		$DMI17end=0 if ($DMItype != 17);
 
 		# Type  Information
 		# ----------------------------------------
@@ -9453,28 +9478,11 @@ sub check_dmidecode {
 
 			($Speed17[$memarr])=(/: +(.*\S) *$/) if (/^\s*Speed: /i);
 			($MemManufacturer[$memarr])=&get_mfg(/: +(.*\S) *$/) if (/^\s*Manufacturer: /i && $Size17[$memarr] =~ /( MB|GB)/);
-			if (/^\s*Part Number: /i && ! /PartNum/i ) {
+			if (/^\s*Part Number: /i && ! /PartNum/i && ! /NOT AVAILABLE/i) {
 				($MemPartNum[$memarr])=(/: +(.*\S) *$/);
 				$MemPartNum[$memarr]=&hex2ascii($MemPartNum[$memarr]);
 				# Hack: Ballistic modules may have mfg Undefined
 				$MemManufacturer[$memarr]="Crucial Technology" if (! $MemManufacturer[$memarr] && $MemPartNum[$memarr] =~ /^BL/);
-			}
-			# Ignore Flash chips for DMI17cnt
-			$DMI17cnt=$memarr + 1 if (/^\s*Form Factor: /i && ! /\bChip\b/i);
-			if (/^\s*Size: /i) {
-				($Size17[$memarr])=(/: +(.*\S) *$/);
-				# Ignore Flash chips for DMI17totmem (Size
-				# reported as KB)
-				if ($Size17[$memarr] !~ /Not Installed/i && $Size17[$memarr] !~ /No Module Installed/i && $Size17[$memarr] !~ / *KB/i) {
-					$simmsize=$Size17[$memarr];
-					if ($simmsize =~ / *GB.*/i) {
-						$simmsize=~s/ *GB.*//ig;
-						$simmsize *= 1024;
-					} else {
-						$simmsize=~s/ *MB.*//ig;
-					}
-					$DMI17totmem += $simmsize if ($simmsize);
-				}
 			}
 		}
 		$BrokenTable=&mychomp($_) if (/DMI table is broken/i);
@@ -9734,6 +9742,10 @@ sub check_dmidecode {
 			$max=$MAXMEM;
 			$max=~s/ GB//g;
 			$max *= 1024;
+		} elsif ($MAXMEM =~ /\d+ TB/) {
+			$max=$MAXMEM;
+			$max=~s/ TB//g;
+			$max *= $meg;
 		}
 	}
 	$DMItypeshown=0;
@@ -9801,7 +9813,7 @@ sub check_dmidecode {
 				if ($TypeDetail[$cnt]) {
 					$buf .= " $TypeDetail[$cnt]" if ($TypeDetail[$cnt] !~ /None/i);
 				}
-				if ($FormFactor[$cnt]) {
+				if ($FormFactor[$cnt] && defined($Type17[$cnt])) {
 					$buf .= " $Type17[$cnt]";
 					$buf .= " $FormFactor[$cnt]" if ($Type17[$cnt] !~ /$FormFactor[$cnt]/);
 				} elsif ($Type6[$cnt]) {

@@ -1,6 +1,12 @@
 Revision history for Ocsinventory::Agent
 
+2.2
+       * Retrieve Docker container informations
+       * Update memconf command to last revision
+       * Add enhancement support for Xen xl command (xm command already present)
+
 2.2rc1
+       * Update memconf command to last revision
        * Fix Bug #1466748 Interface Detection Infiniband MAC wrong
        * Fix Bug #1423905 Failed HTTP auth if password contains # character
        * Fix syntax error in BSDpkg.pm file

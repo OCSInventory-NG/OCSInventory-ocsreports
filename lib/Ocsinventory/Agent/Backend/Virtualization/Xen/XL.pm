@@ -1,14 +1,14 @@
-package Ocsinventory::Agent::Backend::Virtualization::Xen::XM;
+package Ocsinventory::Agent::Backend::Virtualization::Xen::XL;
 
 use strict;
 
 sub check { 
 
-    my $can_run = can_run('xm');
-    if ($can_run) { 
-       system('xm list');
-       my $exit_val = $? >> 8;
-       return $exit_val eq 0;
+    my $can_run = can_run('xl');
+    if ($can_run) {
+        system('xl list');
+        my $exit_val = $? >> 8;
+        return $exit_val eq 0;
     }
     return $can_run;
 }
@@ -27,7 +27,7 @@ sub run {
     #    Mandrake10.2                167      128     1 ------     2.5
     #    Suse9.2                     168      100     1 ------     1.8
 
-    # xm status
+    # xl status
     my %status_list = (
         'r' => 'running',
         'b' => 'blocked',
@@ -38,23 +38,23 @@ sub run {
     );
 
     my $vmtype    = 'xen';
-    my $subsystem = 'xm';
+    my $subsystem = 'xl';
 
-    my @xm_list = `xm list`;
+    my @xl_list = `xl list`;
 
     # remove first line
-    shift @xm_list;
+    shift @xl_list;
 
-    foreach my $vm (@xm_list) {
+    foreach my $vm (@xl_list) {
         chomp $vm;
         my ($name, $vmid, $memory, $vcpu, $status, $time) = split(' ',$vm);
 
         $status =~ s/-//g;
         $status = ( $status ? $status_list{$status} : 'off');
 
-        my @vm_info =  `xm list -l $name`;
+        my @vm_info =  `xl list -l $name`;
         my $uuid;
-        foreach my $value (@vm_info) {
+            foreach my $value (@vm_info) {
             chomp $value;
             if ($value =~ /uuid/) {
                 $value =~ s/\(|\)//g;

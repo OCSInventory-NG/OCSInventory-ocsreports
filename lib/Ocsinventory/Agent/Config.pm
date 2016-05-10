@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Config;
 use strict;
 use Getopt::Long;
 
-our $VERSION = '2.2rc1';
+our $VERSION = '2.2';
 my $basedir = '';
 my $default = {
   'daemon'    =>  0,
