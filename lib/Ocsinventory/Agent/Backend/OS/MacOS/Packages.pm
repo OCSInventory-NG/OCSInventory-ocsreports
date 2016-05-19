@@ -7,7 +7,7 @@ sub check {
     my $params = shift;
 
     return unless can_load("Mac::SysProfile");
-    # Do not run an package inventory if there is the --nosoft parameter
+    # Do not run an package inventory if there is the --nosoftware parameter
     return if ($params->{config}->{nosoftware});
 
     1;

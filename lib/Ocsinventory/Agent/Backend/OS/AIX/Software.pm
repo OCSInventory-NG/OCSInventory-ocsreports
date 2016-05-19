@@ -6,7 +6,7 @@ use warnings;
 sub check {
   my $params = shift;
 
-  # Do not run an package inventory if there is the --nosoft parameter
+  # Do not run an package inventory if there is the --nosoftware parameter
   return if ($params->{config}->{nosoftware});
 
   return unless can_run("lslpp");

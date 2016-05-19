@@ -3,6 +3,7 @@ package Ocsinventory::Agent::Config;
 use strict;
 use Getopt::Long;
 
+#our $VERSION = '2.2rc1';
 our $VERSION = '2.2';
 my $basedir = '';
 my $default = {
@@ -30,7 +31,6 @@ my $default = {
   'version'   =>  0,
   'wait'      =>  '',
 #  'xml'       =>  0,
-  'nosoft'    =>  0, # DEPRECATED!
   'nosoftware'=>  0,
   'delaytime' =>  '3600', # max delay time (seconds)
   'backendCollectTimeout'   => '600',   # timeOut of process : see Backend.pm
