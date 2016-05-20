@@ -53,6 +53,8 @@ function delete_list_user($list_to_delete){
 function add_user($data_user,$list_profil=''){
 	global $l;
 	
+        checkForPasswordCompat();
+        
 	if (isset($data_user['PASSWORD'])){
 		$password = $data_user['PASSWORD'];
 	}
@@ -344,6 +346,9 @@ function admin_profil($form){
 }
 
 function updatePassword($id_user,$password){
+        
+        checkForPasswordCompat();
+    
 	$sql="select id from operators where id= '%s'";
 	$arg=$id_user;
 	$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
@@ -362,6 +367,15 @@ function updatePassword($id_user,$password){
 			}
 		}
 	}
+}
+
+// Include password compat for odler php versions at user creation and user modification
+function checkForPasswordCompat(){
+    		if(version_compare(PHP_VERSION, '5.3.7') >= 0){
+			if(version_compare(PHP_VERSION, '5.5') < 0){
+                            include_once(PASSWORD_COMPAT);
+			}
+		}
 }
 
 
