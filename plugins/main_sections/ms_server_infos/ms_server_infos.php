@@ -59,7 +59,7 @@
         <tr class="summary-row">
 			<td class="summary-cell">
             	<h4><?php echo $l->g(1367)?></h4>
-            	<div id="ip"><div class="summary-header">IP :</div><div class="summary-value"><?php echo $_SERVER['REMOTE_ADDR']; ?></div></div>
+            	<div id="ip"><div class="summary-header">IP :</div><div class="summary-value"><?php echo $_SERVER['SERVER_ADDR']; ?></div></div>
  			</td>
         </tr>
     </tbody>
