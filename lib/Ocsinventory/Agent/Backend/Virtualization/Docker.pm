@@ -1,7 +1,6 @@
 package Ocsinventory::Agent::Backend::Virtualization::Docker;
 
 use strict;
-use warnings;
 
 sub check { can_run('docker') }
 
