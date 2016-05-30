@@ -2,7 +2,7 @@
 9 Recherche multicritères
 13 Envoyer
 17 Client
-18 Revision
+18 Révision
 19 Version du logiciel
 20 Logiciel
 23 Machine
@@ -200,7 +200,7 @@
 289 Détail des réseaux interconnectés
 290 Interrogation par IP
 291 Mode expert
-292 Ajout / supression d'un périphérique
+292 Ajout / suppression d'un périphérique
 293 Types de périphériques
 294 Noms des sous-réseaux
 295 Localisation
@@ -443,7 +443,7 @@
 548 Tout sauf SUCCESS
 549 Fichier (déployé sur les ordinateurs clients)
 550 Fichier (facultatif, peut être utilisé par "exécuter")
-551 Ce nom de paquet est déja utilisé
+551 Ce nom de paquet est déjà utilisé
 552 <i>Vous devez faire une recherche multicritères puis cliquer sur 'Télédéployer' pour affecter un de ces paquets activés à des machines<br>Vous pouvez aussi affecter un paquet à une machine unique en utilisant l'onglet 'Traitements personnalisés' dans les détails d'une machine</i>.
 553 Clé Windows
 554 Ecran: numéro de série
@@ -526,7 +526,7 @@
 635 Nouveau nom
 637 Remplacer
 638 LE NOM DU GROUPE NE PEUT ETRE VIDE
-639 CE GROUPE DE REDISTRIBUTION N EXISTE PAS
+639 CE GROUPE DE REDISTRIBUTION N'EXISTE PAS
 640 Etes-vous sûr de vouloir supprimer
 641 Administration des serveurs de redistribution
 642 le groupe
@@ -753,7 +753,7 @@
 865 Réseaux: TypeMib
 866 Réseaux: Vitesse
 867 Réseaux: Adresse MAC
-868 Réseaux: Status
+868 Réseaux: Statuts
 869 Réseaux: Adresse IP
 870 Réseaux: Masque IP
 871 Réseaux: IP Sous-Réseaux
@@ -812,7 +812,7 @@
 926 Login Fuser:
 927 LE CACHE N'EST PAS REGENERE PAR CETTE ACTION
 928 Visualisation des logs
-929 la gestion des sous-reseaux n'est pas faite en local.
+929 la gestion des sous-réseaux n'est pas faite en local.
 930 Vous ne pouvez donc pas ajouter/modifier/supprimer des sous-réseaux
 931 Modifier un sous-réseau
 932 L'adresse IP ne peut pas être vide
@@ -872,7 +872,7 @@
 986 SUPPRIMER LES MACHINES POUR
 987 Cette clé de registre existe déjà
 988 TOUS LES CHAMPS SONT OBLIGATOIRES
-989 LES DONNEES N EXISTENT PAS. LES HEURES DES ETATS NE SONT PAS PRESENTES EN BASE POUR CE PAQUET
+989 LES DONNEES N'EXISTENT PAS. LES HEURES DES ETATS NE SONT PAS PRESENTES EN BASE POUR CE PAQUET
 990 Paquets créés manuellement
 991 Paquets créés automatiquement
 992 Estimation du temps de télédéploiement
@@ -910,10 +910,10 @@
 1024 vont être supprimés
 1025 Désaffecter
 1026 paquets supprimés sur les machines
-1027 Categories
+1027 Catégories
 1028 Nouveau
-1029 Ignore
-1030 Unchanged
+1029 Ignoré
+1030 Inchangé
 1031 Demandes
 1032 Activer le workflow pour le télédéploiement
 1033 Inf. demandeur
@@ -972,13 +972,13 @@
 1086 Libellé du TAG de définition du paramètre
 1087 Valeur du tag de test
 1088 Valeur du tag du périmètre restreint
-1089 Aucun status n'est actif. Commencer par en activer un.
+1089 Aucun statut n'est actif. Commencez par en activer un.
 1090 a modifié la demande n°
 1091 Une nouvelle demande vient d'être postée
 1092 a posté une nouvelle demande
-1093 La base de donnée est incomplète
-1094 Veuillez rejouer l installation complète de la base
-1095 Admin status
+1093 La base de données est incomplète
+1094 Veuillez rejouer l'installation complète de la base
+1095 Admin statut
 1096 Liste des champs
 1097 Liste des onglets
 1098 Nom du champ
@@ -1025,8 +1025,8 @@
 1139 Administrer
 1140 Administrer les sous-réseaux
 1141 Sous-réseau ajouté
-1142 Ajouter un sous-reseau à blacklister
-1143 Masque sous-reseau
+1142 Ajouter un sous-réseau à blacklister
+1143 Masque sous-réseau
 1144 Adresse MAC non valide. (format XX.XX.XX.XX.XX.XX)
 1145 La valeur doit être comprise entre
 1146 Administrer les profils
@@ -1105,7 +1105,7 @@
 1219 Cartes
 1220 Cartouches
 1221 Disques
-1222 Ventillateurs
+1222 Ventilateurs
 1223 Alimentation
 1224 Bacs
 1225 Capacité maximale
@@ -1132,7 +1132,7 @@
 1246 Affecter à nouveau
 1247 Architecture
 1248 Répertoire
-1249 Activation du cache des tableaux (permet de moins soliciter la base MySQL)
+1249 Activation du cache des tableaux (permet de moins solliciter la base MySQL)
 1250 Vitesse de télédéploiement
 1251 Statistiques
 1252 Répertoire des fichiers de conf profils
@@ -1318,7 +1318,7 @@
 2025 Changer le mot de passe du compte 'ocs' dans MySQL
 2026 Le compte/mot de passe par défaut de l'interface WEB est actif
 2027 Changer le mot de passe du compte 'admin' dans l'interface web
-2028 Authentication key
+2028 Clé d'authentification
 2029 Le répertoire config n'est pas disponible en écriture
 
 
@@ -1326,7 +1326,7 @@
 2031 version actuellement installée
 2032 est inférieur à cette version
 2033 Installation automatique lancée.
-2034 Le fichiers de configuration de BDD n'est pas valide. Installation automatique lancée
+2034 Le fichier de configuration de BDD n'est pas valide. Installation automatique lancée
 2035 ERREUR: Les sessions pour PHP ne sont pas installées correctement. <br> Essayez d'installer le paquet php-session.
 2036 AVERTISSEMENT: XML pour PHP n'est pas installé correctement, vous ne serez pas en mesure d'utiliser ipdiscover-util.
 2037 ERREUR: MySQL pour PHP n'est pas installé correctement. <br> Essayez d'installer MySQL pour PHP paquet (Debian: php5-mysql)
@@ -1391,16 +1391,16 @@
 2101 Ajouté par script
 2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur (file z-ocsinventory-server.conf)
 2103 Mode DEMO: vous ne pouvez mettre à jour les données
-2104 VOUS ETES SUR LA VERSION DE DEMO LA
+2104 VOUS ETES SUR LA VERSION DE DEMO DE
 2105 Votre base de données est à jour.<br>Aucune action a effectuer.
 2106 La configuration max_allowed_packet de MySQL n'autorise que des fichiers de <
-2107 La version de votre interface WEB est inférieur à la version de la base de données
+2107 La version de votre interface WEB est inférieure à la version de la base de données
 2108 La version de la base de données doit <b>OBLIGATOIREMENT</b> être inférieure ou égale à la version de l'interface WEB
 2109 Version actuelle
 2110 Version attendue
 2111 Effectuer la mise à jour
 2112 Le fichier suivant n'est pas présent ou n'est pas accessible en lecture
-2113 La version actuelle de php est inferieure à la version 5.3.7 et ne sera plus compatible dans le futur ( version  : 
+2113 La version actuelle de php est inférieure à la version 5.3.7 et ne sera plus compatible dans le futur ( version  : 
 2114 Aucun fichier sql pour la version 
 2115 L'utilisateur que vous avez tapé ne semble pas être root
 2116 Le répertoire config/profiles n'est pas disponible en écriture
@@ -1425,13 +1425,13 @@
 5017 [DEBUG]champ =>[DEBUG]
 5018 [DEBUG]comparaison =>[DEBUG]
 5019 [DEBUG]valeur à chercher =>[DEBUG]
-5020 [DEBUG]champ complementaire =>[DEBUG]
+5020 [DEBUG]champ complémentaire =>[DEBUG]
 5021 [DEBUG]AND_OR =>[DEBUG]
 5022 [DEBUG]REQUETE CONDITION NORMALE[DEBUG]
 5023 [DEBUG]REQUETE CONDITION DIFF[DEBUG]
 
 6000 Plugins
-6001 Selectionner la colonne a afficher / masquer
+6001 Sélectionner la colonne à afficher / masquer
 6003 Plugin
 6004 Nombre Total disponible
 6005 Eteinte/allumée
@@ -1442,13 +1442,13 @@
 7003 Version
 7004 Licence
 7005 Auteur
-7006 Dernière mise a jour
+7006 Dernière mise à jour
 7007 Etes-vous sûr de vouloir supprimer ce plugin
 7008 Installer un plugin
 7009 Plugins installé
-7010 Ce plugin a déja été installé
+7010 Ce plugin a déjà été installé
 7011 est un plugin non valide, vérifiez vos sources.
 7012 Installation annulée !
 7013 installé
 7014 Il n'y a aucun plugin disponible
-7015 Selectionner au minimum un ordinateur !
+7015 Sélectionner au minimum un ordinateur !
