@@ -14,6 +14,7 @@ sub getLeaseFile {
     my $if = @_; 
     my @directories = qw( 
         /var/db
+        /var/lib/dhclient
         /var/lib/dhcp3
         /var/lib/dhcp
         /var/lib/NetworkManager
@@ -39,38 +40,37 @@ sub getLeaseFile {
 
 }
 
-
 sub _ipdhcp {
 
-  my $if = shift;
-  my $path;
-  my $dhcp;
-  my $ipdhcp;
-  my $leasepath;
+    my $if = shift;
+    my $path;
+    my $dhcp;
+    my $ipdhcp;
+    my $leasepath;
 
-  $leasepath = getLeaseFile($if);
+    $leasepath = getLeaseFile($if);
 
-  if (open DHCP, $leasepath) {
-    my $lease;
-    while(<DHCP>){
-      $lease = 1 if(/lease\s*{/i);
-      $lease = 0 if(/^\s*}\s*$/);
-      #Interface name
-      if ($lease) { #inside a lease section
-        if(/interface\s+"(.+?)"\s*/){
-          $dhcp = ($1 =~ /^$if$/);
+    if (open DHCP, $leasepath) {
+        my $lease;
+        while(<DHCP>){
+            $lease = 1 if(/lease\s*{/i);
+            $lease = 0 if(/^\s*}\s*$/);
+            #Interface name
+            if ($lease) { #inside a lease section
+                if (/interface\s+"(.+?)"\s*/){
+                    $dhcp = ($1 =~ /^$if$/);
+                }
+                #Server IP
+                if (/option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/ and $dhcp){
+                    $ipdhcp = $1;
+                }
+            }
         }
-        #Server IP
-        if(/option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/ and $dhcp){
-          $ipdhcp = $1;
-        }
-      }
+        close DHCP or warn;
+    } else {
+        warn "Can't open $leasepath\n";
     }
-    close DHCP or warn;
-  } else {
-    warn "Can't open $leasepath\n";
-  }
-  return $ipdhcp;
+    return $ipdhcp;
 }
 
 # Initialise the distro entry
@@ -103,9 +103,9 @@ sub run {
     my $address;
     my $mask4;
     my $mask6;
-      my $binip;
-       my $binmask;
-       my $binsubnet;
+    my $binip;
+    my $binmask;
+    my $binsubnet;
 
     my %gateway;
 
@@ -160,26 +160,26 @@ sub run {
                 $type = "Ethernet";
             } elsif ($type =~ /loopback/) {
                 $type = "Loopback";
-               }
+            }
 
-              $ipgateway = $gateway{$ipsubnet} if $ipsubnet;
+            $ipgateway = $gateway{$ipsubnet} if $ipsubnet;
 
-        # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP address if it exists
-              if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
+            # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP address if it exists
+            if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
                 $ipgateway = $gateway{'0.0.0.0'};
-              }
+            }
 
-              if (open UEVENT, "</sys/class/net/$description/device/uevent") {
+            if (open UEVENT, "</sys/class/net/$description/device/uevent") {
                 foreach (<UEVENT>) {
-                      $driver = $1 if /^DRIVER=(\S+)/;
-                      $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
+                    $driver = $1 if /^DRIVER=(\S+)/;
+                    $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
                 }
                 close UEVENT;
-              }
+            }
 
             # Retrieve speed from /sys/class/net/$description/speed
             if ( ! -z "/sys/class/net/$description/speed") {
-                open SPEED, "</sys/class/net/$description/speed" or die;
+                open SPEED, "</sys/class/net/$description/speed";
                 foreach (<SPEED>){
                      $current_speed=$_;
                    }
@@ -189,25 +189,25 @@ sub run {
                     if ($current_speed eq "65535"){
                         $current_speed = 0;
                     } elsif ( $current_speed gt 100 ){
-                        $speed = $current_speed." Gbps";
+                        $speed = ($current_speed/1000)." Gbps";
                       } else {
                         $speed = $current_speed." Mbps";
                     }
                 }
             }
  
-               # Retrieve duplex from /sys/class/net/$description/duplex
-               if (open DUPLEX, "</sys/class/net/$description/duplex"){
-                   foreach (<DUPLEX>){
-                     $duplex=chomp($_);
-                   }
-                   close DUPLEX;
+            # Retrieve duplex from /sys/class/net/$description/duplex
+            if (open DUPLEX, "</sys/class/net/$description/duplex"){
+                foreach (<DUPLEX>){
+                    $duplex=chomp($_);
+                }
+                close DUPLEX;
             }
  
-              # Reliable way to get the info
-              if (-d "/sys/devices/virtual/net/") {
+            # Reliable way to get the info
+            if (-d "/sys/devices/virtual/net/") {
                 $virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
-              } elsif (can_run("brctl")) {
+            } elsif (can_run("brctl")) {
                 # Let's guess
                 my %bridge;
                 foreach (`brctl show`) {
@@ -220,17 +220,17 @@ sub run {
                       $virtualdev = "0";
                 }
                 $type = "bridge";
-              }
+            }
 
             if (-d "/sys/class/net/$description/wireless"){
-                  my @wifistatus = `iwconfig $description`;
+                my @wifistatus = `iwconfig $description`;
                 foreach my $line (@wifistatus){
                     $ssid = $1 if ($line =~ /ESSID:(\S+)/);
                     $version = $1 if ($line =~ /IEEE (\S+)/);
                     $mode = $1 if ($line =~ /Mode:(\S+)/);
                     $bssid = $1 if ($line =~ /Access Point: (\S+)/);
                     $bitrate = $1 if ($line =~ /Bit\sRate=\s*(\S+\sMb\/s)/i);
-                  }
+                }
                 $type = "Wifi";
             }
 
@@ -247,11 +247,11 @@ sub run {
                       PCISLOT => $pcislot,
                       STATUS => $status,
                       TYPE => $type,
-                    SPEED => $bitrate,
-                    SSID => $ssid,
-                    BSSID => $bssid,
-                    IEEE => $version,
-                    MODE => $mode,
+                      SPEED => $bitrate,
+                      SSID => $ssid,
+                      BSSID => $bssid,
+                      IEEE => $version,
+                      MODE => $mode,
                 });
             } else { 
                   $common->addNetwork({
@@ -268,7 +268,7 @@ sub run {
                       TYPE => $type,
                       VIRTUALDEV => $virtualdev,
                       DUPLEX => $duplex?"Full":"Half",
-                    SPEED => $speed,
+                      SPEED => $speed,
                 });
             }
         }
@@ -362,7 +362,7 @@ sub run {
                         $current_speed = 0;
                     } 
                     if ($current_speed gt 100 ){
-                        $speed = $current_speed." Gbps";
+                        $speed = ($current_speed/1000)." Gbps";
                     } else {
                         $speed = $current_speed." Mbps";
                     }

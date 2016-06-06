@@ -46,16 +46,16 @@ sub run {
         $current->{HPT} = 'yes' if /^flags\s*:.*\bht\b/i;
         $current->{L2CACHESIZE}=$1 if (/^cache\ssize\s*:\s*(\d+)/i);
         # if "cpu cores" or "siblings" are missing in /proc/cpuinfo (seen on several 1 vCPU configurations)
-        if ($current->{CORES} == 0) {
+        if (defined $current->{CORES} && $current->{CORES} == 0) {
             $current->{CORES} = 1;
         }
-        if ($current->{LOGICAL_CPUS} == 0) {
+        if (defined $current->{LOGICAL_CORES} && $current->{LOGICAL_CPUS} == 0) {
             $current->{LOGICAL_CPUS} = 1;
         }
         $index = $1 if ! defined $index && /^processor\s*:\s*(\d+)/i;
         $index = $1 if /^physical\sid\s*:\s*(\d+)/i;
         if (/^\s*$/) {
-            $current->{HPT} = 'no' if $current->{HPT} ne 'yes';
+            $current->{HPT} = 'no' if (!defined $current->{HPT} || $current->{HPT} ne 'yes');
             $current->{CPUARCH} = $cpuarch;
             $current->{DATA_WIDTH} = $datawidth;
             $current->{TYPE} =~ s/\s{2,}/ /g;
