@@ -1,6 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 2.2
+       * Correction for usb inventory
        * Retrieve Docker container informations
        * Update memconf command to last revision
        * Add enhancement support for Xen xl command (xm command already present)
