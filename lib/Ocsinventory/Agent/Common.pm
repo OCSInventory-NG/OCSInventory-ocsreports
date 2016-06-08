@@ -53,7 +53,7 @@ sub addController {
 
 =item addUsb()
 
-Add Usb devices as keyboard, mouse in the inventory.
+Add external usb devices in the inventory.
 
 =cut
 sub addUsb {
@@ -62,8 +62,27 @@ sub addUsb {
 
   my $content = {};
 
-  #foreach my $key (qw/CAPTION DESCRIPTION INTERFACE MANUFACTURER POINTTYPE TYPE/) {
-  foreach my $key (qw/DESCRIPTION INTERFACE MANUFACTURER PROTOCOL TYPE/) {
+  foreach my $key (qw/DESCRIPTION INTERFACE MANUFACTURER SERIAL TYPE/) {
+     if (exists $args->{$key}) {
+        $content->{$key}[0] = $args->{$key} if $args->{$key};
+     }
+  }
+  push @{$xmltags->{USBDEVICES}},$content;
+
+}
+
+=item addInput()
+
+Add internal inputs as keyboard, mouse in the inventory.
+
+=cut
+sub addInput {
+  my ($self, $args) = @_; 
+  my $xmltags = $self->{xmltags};
+
+  my $content = {};
+
+  foreach my $key (qw/DESCRIPTION INTERFACE MANUFACTURER SERIAL TYPE/) {
      if (exists $args->{$key}) {
         $content->{$key}[0] = $args->{$key} if $args->{$key};
      }
@@ -71,6 +90,7 @@ sub addUsb {
   push @{$xmltags->{INPUTS}},$content;
 
 }
+
 =item addModem()
 
 Add a modem in the inventory.
