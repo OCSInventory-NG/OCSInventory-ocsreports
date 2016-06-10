@@ -1436,6 +1436,7 @@
 6004 Total available
 6005 Power on/off
 6006 WARNING : Please install php-soap, the plugin engine can't work without it
+6007 Please install ZipArchive for php if you want to user this feature
 7000 Plugins
 7001 Plugins manager
 7002 Plugin's name

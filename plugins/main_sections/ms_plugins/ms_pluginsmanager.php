@@ -53,6 +53,8 @@ if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 	
 }
 
+checkDependencies();
+
 // Plugins Install menu.
 
 printEnTete($l->g(7008));

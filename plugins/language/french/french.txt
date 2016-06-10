@@ -1436,6 +1436,7 @@
 6004 Nombre Total disponible
 6005 Eteinte/allumée
 6006 AVERTISSEMENT : Le module php-soap n'est pas installé, le moteur de plugin ne fonctionnera pas.
+6007 Veulliez installer ZipArchive pour utiliser cette fonctionnalitée
 7000 Plugins
 7001 Gestionnaire de plugins
 7002 Nom du plugin

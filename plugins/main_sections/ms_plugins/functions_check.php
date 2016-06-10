@@ -192,3 +192,18 @@ function mv_server_side($name){
 	
 }
 
+/**
+ * This function check for required php dependencies
+ * Die if not compliant
+ */
+function checkDependencies(){
+    
+    global $l;
+    
+    if(!class_exists('ZipArchive')){
+        msg_error($l->g(6007));
+        die;
+    }
+    
+}
+
