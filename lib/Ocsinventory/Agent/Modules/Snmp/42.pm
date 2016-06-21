@@ -9,14 +9,14 @@ no strict 'refs';
 use warnings;
 
 sub snmp_run() {
-  my ($session,$snmp) = @_;
+    my ($session,$snmp) = @_;
 
-  my $common = $snmp->{common};
-  my $logger=$snmp->{logger};
+    my $common = $snmp->{common};
+    my $logger=$snmp->{logger};
 
-  $logger->debug("Running Sun (42) MIB module");
-  $common->setSnmpCommons( {TYPE => "Sun"} );
-  $common->setSnmpComputer({SYSTEM => 'Sun'});
+    $logger->debug("Running Sun (42) MIB module");
+    $common->setSnmpCommons( {TYPE => "Sun"} );
+    $common->setSnmpComputer({SYSTEM => 'Sun'});
 }
 
 1;

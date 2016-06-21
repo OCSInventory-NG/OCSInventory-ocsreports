@@ -5,8 +5,8 @@ use strict;
 use Config;
 
 sub check { 
-  return 1 if $Config{'archname'} =~ /^m68k/;
-  0; 
+   return 1 if $Config{'archname'} =~ /^m68k/;
+   0; 
 };
 
 sub run{}

@@ -16,8 +16,7 @@ sub check {
     return(1);
     1;
 }
-sub run()
-{
+sub run() {
     my $params = shift;
     my $common = $params->{common};
     my $ligne;
@@ -37,34 +36,27 @@ sub run()
     #}
     my $logger = $params->{logger};
 
-    if ( opendir(my $dh, $file) )
-    {
+    if ( opendir(my $dh, $file) ){
         @dots = readdir($dh);
         foreach (@dots) { 
-            if ( -f $file."/".$_ )
-            {
+            if ( -f $file."/".$_ ){
                 $comm = $file."/".$_;
                 $logger->debug("Running appli detection scripts from ".$comm);
-                foreach (`$comm`)
-                {
+                foreach (`$comm`){
                     $ligne = $_;
                     chomp($ligne);
                     ($vendor,$soft,$version,$commentaire) = split(/\#/,$ligne);
                     $common->addSoftware ({
-                            'PUBLISHER' => $vendor,
-                            'NAME'          => $soft,
-                            'VERSION'       => $version,
-                            'FILESIZE'      => "",
-                            'COMMENTS'      => $commentaire,
-                            'FROM'          => 'ByHand'
-                        });
-                }	
+                        'PUBLISHER' => $vendor,
+                        'NAME'          => $soft,
+                        'VERSION'       => $version,
+                        'FILESIZE'      => "",
+                        'COMMENTS'      => $commentaire,
+                        'FROM'          => 'ByHand'
+                    });
+                }
             }
-
-        }	  	
-
-
-
+        }
         closedir $dh;
     }
     1;

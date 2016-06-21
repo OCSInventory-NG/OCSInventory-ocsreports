@@ -12,7 +12,7 @@ sub new {
 
     my $parsedContent = $this->getParsedContent(['ACCOUNTINFO']);
     if ($parsedContent && exists ($parsedContent->{RESPONSE}) && $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
-      $this->{accountinfo}->writeAccountInfoFile($parsedContent->{ACCOUNTINFO});
+        $this->{accountinfo}->writeAccountInfoFile($parsedContent->{ACCOUNTINFO});
     }
     return $this;
 }

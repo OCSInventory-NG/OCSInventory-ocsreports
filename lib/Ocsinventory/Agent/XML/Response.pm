@@ -37,8 +37,8 @@ sub getRawXML {
 sub getParsedContent {
     my ($self,$forcearray) = @_;
 
-    if(!$self->{parsedcontent}) {
-	$self->{parsedcontent} = $self->{common}->readXml($self->{content},$forcearray);
+    if (!$self->{parsedcontent}) {
+        $self->{parsedcontent} = $self->{common}->readXml($self->{content},$forcearray);
     }
 
     return $self->{parsedcontent};

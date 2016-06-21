@@ -5,13 +5,13 @@ use inc::Module::Install;
 sub MY::postamble
 {
 
-	my $re;
+    my $re;
 
-	$re = '
+    $re = '
 install :: all pure_install doc_install
-	$(NOECHO) $(NOOP)';
+    $(NOECHO) $(NOOP)';
 
-	$re .= "\n\t[ ! -f run-postinst ] || $^X postinst.pl\n";
+    $re .= "\n\t[ ! -f run-postinst ] || $^X postinst.pl\n";
 
     return $re;
 }
@@ -102,7 +102,7 @@ if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
 }
 
 if (!can_use('Nvidia::ml')){
-	print "Nvidia::ml is recommended if you want to retrieve memory, speed, bios information for Nvidia cards.\n";
+    print "Nvidia::ml is recommended if you want to retrieve memory, speed, bios information for Nvidia cards.\n";
 }
 
 my $archname;

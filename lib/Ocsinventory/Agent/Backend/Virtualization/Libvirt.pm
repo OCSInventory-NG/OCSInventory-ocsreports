@@ -10,7 +10,6 @@ sub run {
     my $params = shift;
     my $common = $params->{common};
 
-
     foreach (`virsh list --all`) {
         if (/^(\d+|\s+\-)\s+(\S+)\s+(\S.+)/){
             my $name = $2;
@@ -33,7 +32,6 @@ sub run {
             }
 
             my $machine = {
-
                 MEMORY => $memory,
                 NAME => $name,
                 UUID => $uuid,
@@ -41,14 +39,12 @@ sub run {
                 SUBSYSTEM => "Libvirt",
                 VMTYPE => $vmtype,
                 VCPU   => $vcpu,
-
             };
 
             $common->addVirtualMachine($machine);
 
         }
     }
-
 }
 
 1;

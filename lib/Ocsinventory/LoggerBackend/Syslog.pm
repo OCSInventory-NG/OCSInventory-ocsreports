@@ -3,31 +3,31 @@ package Ocsinventory::LoggerBackend::Syslog;
 use Sys::Syslog qw( :DEFAULT setlogsock);
 
 sub new {
-  my (undef, $params) = @_;
+    my (undef, $params) = @_;
 
-  my $self = {};
+    my $self = {};
 
-  openlog("ocs-agent",'cons.pid', $params->{config}->{logfacility});
-  syslog('debug', 'syslog backend enabled');
+    openlog("ocs-agent",'cons.pid', $params->{config}->{logfacility});
+    syslog('debug', 'syslog backend enabled');
 
-  bless $self;
+    bless $self;
 }
 
 sub addMsg {
 
-  my (undef, $args) = @_;
+    my (undef, $args) = @_;
 
-  my $level = $args->{level};
-  my $message = $args->{message};
+    my $level = $args->{level};
+    my $message = $args->{message};
 
-  return if $message =~ /^$/;
+    return if $message =~ /^$/;
 
-  syslog('info', $message);
+    syslog('info', $message);
 
 }
 
 sub destroy {
-  closelog();
+    closelog();
 }
 
 1;

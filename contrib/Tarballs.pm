@@ -21,23 +21,23 @@ sub check { $^O =~ /^linux$/ }
 
 # its the main function of the script, it's called during the hardware inventory
 sub run {
-  my $params = shift;
-  # I need to get the inventory object to update it
-  my $inventory = $params->{inventory};
+    my $params = shift;
+    # I need to get the inventory object to update it
+    my $inventory = $params->{inventory};
 
-# our software are in /usr/local/src/
-foreach (`ls /usr/local/src/*.{bz2,tar.gz}`){
-    /^(\/.*\/)(\S+)-(\d+\S*)(\.tar.gz|\.bz2)$/i;
-    my $name = $2;
-    my $version = $3;
-    my $comments = "Software in /usr/local/src/ \n".`$2 --version`;
-    # and I updated the information collected
-      $inventory->addSoftwares({
-          COMMENTS => $comments,
-          NAME => $name,
-          VERSION => $version
+    # our software are in /usr/local/src/
+    foreach (`ls /usr/local/src/*.{bz2,tar.gz}`){
+        /^(\/.*\/)(\S+)-(\d+\S*)(\.tar.gz|\.bz2)$/i;
+        my $name = $2;
+        my $version = $3;
+        my $comments = "Software in /usr/local/src/ \n".`$2 --version`;
+        # and I updated the information collected
+        $inventory->addSoftwares({
+            COMMENTS => $comments,
+            NAME => $name,
+            VERSION => $version
         });
-  }
+    }
 }
 
 1;

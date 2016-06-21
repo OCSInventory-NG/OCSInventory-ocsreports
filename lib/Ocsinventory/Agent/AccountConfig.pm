@@ -67,20 +67,15 @@ sub write {
 
     my $fault;
     if (!open CONF, ">".$self->{config}->{accountconfig}) {
-
         $fault = 1;
-
     } else {
-
         print CONF $xml;
         $fault = 1 if (!close CONF);
-
     }
 
     if (!$fault) {
         $logger->debug ("ocsinv.conf updated successfully");
     } else {
-
         $logger->error ("Can't save setting change in `".$self->{config}->{accountconfig}."'");
     }
 }

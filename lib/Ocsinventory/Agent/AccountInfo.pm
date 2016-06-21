@@ -54,7 +54,7 @@ sub new {
           $self->{accountinfo}->{TAG} = $self->{config}->{tag};
         }
     }
-  $self; #Because we have already blessed the object 
+    $self; #Because we have already blessed the object 
 }
 
 # Add accountinfo stuff to an inventory

@@ -38,22 +38,19 @@ sub run {
         my $uuid = $machineInfo{'uuid.bios'};
         
         # correct uuid format
-        $uuid =~ s/\s+//g;	# delete space
+        $uuid =~ s/\s+//g;# delete space
         $uuid =~ s!^(........)(....)(....)-(....)(.+)$!\1-\2-\3-\4-\5!; # add dashs
 
         my $machine = {
-
             MEMORY => $memory,
             NAME => $name,
             UUID => $uuid,
             STATUS => $status,
             SUBSYSTEM => "VmWareESX",
             VMTYPE => "VmWare",
-
         };
 
         $common->addVirtualMachine($machine);
-
 
     }
 }

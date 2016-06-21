@@ -31,24 +31,22 @@ sub run {
         foreach my $line (@vminfos) {
             if ($line =~ m/^displayName =\s\"+(.*)\"/) {
                 $name = $1;
-            }
-            elsif ($line =~ m/^memsize =\s\"+(.*)\"/) {
+            } elsif ($line =~ m/^memsize =\s\"+(.*)\"/) {
                 $mem = $1;
-            }
-            elsif ($line =~ m/^uuid.bios =\s\"+(.*)\"/) {
+            } elsif ($line =~ m/^uuid.bios =\s\"+(.*)\"/) {
                 $uuid = $1;
             }
         }
 
         $common->addVirtualMachine ({
-                NAME      => $name,
-                VCPU      => 1,
-                UUID      => $uuid,
-                MEMORY    => $mem,
-                STATUS    => "running",
-                SUBSYSTEM => "VmWare Fusion",
-                VMTYPE    => "VmWare",
-            });
+            NAME      => $name,
+            VCPU      => 1,
+            UUID      => $uuid,
+            MEMORY    => $mem,
+            STATUS    => "running",
+            SUBSYSTEM => "VmWare Fusion",
+            VMTYPE    => "VmWare",
+        });
     }
 }
 

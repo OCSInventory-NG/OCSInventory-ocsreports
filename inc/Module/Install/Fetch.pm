@@ -6,9 +6,9 @@ use Module::Install::Base ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '1.14';
-	@ISA     = 'Module::Install::Base';
-	$ISCORE  = 1;
+    $VERSION = '1.14';
+    @ISA     = 'Module::Install::Base';
+    $ISCORE  = 1;
 }
 
 sub get_file {

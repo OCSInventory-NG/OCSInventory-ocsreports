@@ -102,12 +102,10 @@ sub apachevhosts_el_start_handler { # Use this hook to test prerequisites needed
         # No apache found on this server (or not in the expected place)
         $logger->debug("- no $self->{modinfos}->{httpd_confdir} directory found");
         $prerequisites = 0;
-    }
-    elsif (! -x $self->{modinfos}->{httpd_bin}) {
+    } elsif (! -x $self->{modinfos}->{httpd_bin}) {
         $logger->debug("- no executable $self->{modinfos}->{httpd_bin} found");
         $prerequisites = 0;
-    }
-    elsif (! -f $self->{modinfos}->{httpd_conf_file}) {
+    } elsif (! -f $self->{modinfos}->{httpd_conf_file}) {
         $logger->debug("- did not find $self->{modinfos}->{httpd_conf_file} file");
         $prerequisites = 0;
     }

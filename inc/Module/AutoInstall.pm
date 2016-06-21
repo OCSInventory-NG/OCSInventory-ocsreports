@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.14';
+    $VERSION = '1.14';
 }
 
 # special map on pre-defined feature sets
@@ -71,11 +71,11 @@ sub _init {
             __PACKAGE__->install( $Config, @Missing = split( /,/, $1 ) );
             exit 0;
         }
-	elsif ( $arg =~ /^--upgradedeps=(.*)$/ ) {
-	    $UpgradeDeps = 1;
-	    __PACKAGE__->install( $Config, @Missing = split( /,/, $1 ) );
-	    exit 0;
-	}
+    elsif ( $arg =~ /^--upgradedeps=(.*)$/ ) {
+        $UpgradeDeps = 1;
+        __PACKAGE__->install( $Config, @Missing = split( /,/, $1 ) );
+        exit 0;
+    }
         elsif ( $arg =~ /^--default(?:deps)?$/ ) {
             $AcceptDefault = 1;
         }
@@ -345,26 +345,26 @@ sub install {
     my $i;    # used below to strip leading '-' from config keys
     my @config = ( map { s/^-// if ++$i; $_ } @{ +shift } );
 
-	my ( @modules, @installed, @modules_to_upgrade );
-	while (my ($pkg, $ver) = splice(@_, 0, 2)) {
+    my ( @modules, @installed, @modules_to_upgrade );
+    while (my ($pkg, $ver) = splice(@_, 0, 2)) {
 
-		# grep out those already installed
-		if (_version_cmp(_version_of($pkg), $ver) >= 0) {
-			push @installed, $pkg;
-			if ($UpgradeDeps) {
-				push @modules_to_upgrade, $pkg, $ver;
-			}
-		}
-		else {
-			push @modules, $pkg, $ver;
-		}
-	}
+        # grep out those already installed
+        if (_version_cmp(_version_of($pkg), $ver) >= 0) {
+            push @installed, $pkg;
+            if ($UpgradeDeps) {
+                push @modules_to_upgrade, $pkg, $ver;
+            }
+        }
+        else {
+            push @modules, $pkg, $ver;
+        }
+    }
 
-	if ($UpgradeDeps) {
-		push @modules, @modules_to_upgrade;
-		@installed          = ();
-		@modules_to_upgrade = ();
-	}
+    if ($UpgradeDeps) {
+        push @modules, @modules_to_upgrade;
+        @installed          = ();
+        @modules_to_upgrade = ();
+    }
 
     return @installed unless @modules;  # nothing to do
     return @installed if _check_lock(); # defer to the CPAN shell
@@ -484,29 +484,29 @@ sub _install_cpanplus {
 }
 
 sub _cpanplus_config {
-	my @config = ();
-	while ( @_ ) {
-		my ($key, $value) = (shift(), shift());
-		if ( $key eq 'prerequisites_policy' ) {
-			if ( $value eq 'follow' ) {
-				$value = CPANPLUS::Internals::Constants::PREREQ_INSTALL();
-			} elsif ( $value eq 'ask' ) {
-				$value = CPANPLUS::Internals::Constants::PREREQ_ASK();
-			} elsif ( $value eq 'ignore' ) {
-				$value = CPANPLUS::Internals::Constants::PREREQ_IGNORE();
-			} else {
-				die "*** Cannot convert option $key = '$value' to CPANPLUS version.\n";
-			}
-			push @config, 'prereqs', $value;
-		} elsif ( $key eq 'force' ) {
-		    push @config, $key, $value;
-		} elsif ( $key eq 'notest' ) {
-		    push @config, 'skiptest', $value;
-		} else {
-			die "*** Cannot convert option $key to CPANPLUS version.\n";
-		}
-	}
-	return @config;
+    my @config = ();
+    while ( @_ ) {
+        my ($key, $value) = (shift(), shift());
+        if ( $key eq 'prerequisites_policy' ) {
+            if ( $value eq 'follow' ) {
+                $value = CPANPLUS::Internals::Constants::PREREQ_INSTALL();
+            } elsif ( $value eq 'ask' ) {
+                $value = CPANPLUS::Internals::Constants::PREREQ_ASK();
+            } elsif ( $value eq 'ignore' ) {
+                $value = CPANPLUS::Internals::Constants::PREREQ_IGNORE();
+            } else {
+                die "*** Cannot convert option $key = '$value' to CPANPLUS version.\n";
+            }
+            push @config, 'prereqs', $value;
+        } elsif ( $key eq 'force' ) {
+            push @config, $key, $value;
+        } elsif ( $key eq 'notest' ) {
+            push @config, 'skiptest', $value;
+        } else {
+            die "*** Cannot convert option $key to CPANPLUS version.\n";
+        }
+    }
+    return @config;
 }
 
 sub _install_cpan {
@@ -541,7 +541,7 @@ sub _install_cpan {
     }
 
     if ($args{notest} && (not CPAN::Shell->can('notest'))) {
-	die "Your version of CPAN is too old to support the 'notest' pragma";
+    die "Your version of CPAN is too old to support the 'notest' pragma";
     }
 
     local $CPAN::Config->{prerequisites_policy} = 'follow';
@@ -563,14 +563,14 @@ sub _install_cpan {
             }
 
             my $rv = do {
-		if ($args{force}) {
-		    CPAN::Shell->force( install => $pkg )
-		} elsif ($args{notest}) {
-		    CPAN::Shell->notest( install => $pkg )
-		} else {
-		    CPAN::Shell->install($pkg)
-		}
-	    };
+        if ($args{force}) {
+            CPAN::Shell->force( install => $pkg )
+        } elsif ($args{notest}) {
+            CPAN::Shell->notest( install => $pkg )
+        } else {
+            CPAN::Shell->install($pkg)
+        }
+        };
 
             $rv ||= eval {
                 $CPAN::META->instance( 'CPAN::Distribution', $obj->cpan_file, )
@@ -756,7 +756,7 @@ sub _load_cpan {
         # Newer versions of CPAN have a HandleConfig module
         CPAN::HandleConfig->load;
     } else {
-    	# Older versions had the load method in Config directly
+        # Older versions had the load method in Config directly
         CPAN::Config->load;
     }
 }
@@ -835,7 +835,7 @@ sub _make_args {
 
     my $config_notest =
       join( ',', (UNIVERSAL::isa( $Config, 'HASH' ) ? %{$Config} : @{$Config}),
-	  'notest', 1 )
+      'notest', 1 )
       if $Config;
 
     $PostambleActionsNoTest = (

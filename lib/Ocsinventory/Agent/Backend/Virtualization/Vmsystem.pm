@@ -46,21 +46,21 @@ package Ocsinventory::Agent::Backend::Virtualization::Vmsystem;
 use strict;
 
 sub check { 
-  if ( can_run("zoneadm")){ # Is a solaris zone system capable ?
-      return 1; 
-  }
-  if ( can_run ("dmidecode") ) {
-    # 2.6 and under haven't -t parameter   
-    my $dmidecode_ver = `dmidecode -V 2>/dev/null`; 
-    my @SplitVersion = split(/\./, $dmidecode_ver);
-
-    if (@SplitVersion[0] > 2) {
-      return 1;
-    } elsif (@SplitVersion[0] == 2 && @SplitVersion[1] >= 7) {
-      return 1;
+    if ( can_run("zoneadm")){ # Is a solaris zone system capable ?
+        return 1; 
     }
-  } 
-  return 0;
+    if ( can_run ("dmidecode") ) {
+        # 2.6 and under haven't -t parameter   
+        my $dmidecode_ver = `dmidecode -V 2>/dev/null`; 
+        my @SplitVersion = split(/\./, $dmidecode_ver);
+
+        if (@SplitVersion[0] > 2) {
+            return 1;
+        } elsif (@SplitVersion[0] == 2 && @SplitVersion[1] >= 7) {
+            return 1;
+        }
+    } 
+    return 0;
 } 
 
 sub run {
@@ -82,7 +82,7 @@ sub run {
         $status = "SolarisZone";
         $found = 1;
     }
- 
+
     if ( -d '/proc/xen' || check_file_content('/sys/devices/system/clocksource/clocksource0/available_clocksource','xen')) {
         $found = 1 ;
         if (check_file_content('/proc/xen/capabilities', 'control_d')) {
@@ -109,17 +109,17 @@ sub run {
           $status = "Virtual Machine";
           $found = 1;
         } elsif ($sysprod =~ /^Microsoft Corporation/) {
-			$status = "Hyper-V";
-			$found=1; 
-		} else {
-          my $biosvend = `$dmidecode -s bios-vendor`;
-          if ($biosvend =~ /^QEMU/) {
-            $status = "QEMU";
-            $found = 1;
-          } elsif ($biosvend =~ /^Xen/) { # virtualized Xen
-            $status = "Xen";
-            $found = 1;
-          }
+            $status = "Hyper-V";
+            $found=1; 
+        } else {
+            my $biosvend = `$dmidecode -s bios-vendor`;
+            if ($biosvend =~ /^QEMU/) {
+                $status = "QEMU";
+                $found = 1;
+            } elsif ($biosvend =~ /^Xen/) { # virtualized Xen
+                $status = "Xen";
+                $found = 1;
+            }
         }
     }
 
@@ -177,13 +177,13 @@ sub run {
 
     if ($found == 0 and open(HDMSG, '/var/log/dmesg')) {
         while(<HDMSG>) {
-          foreach my $str (keys %msgmap) {
-            if (/$str/) {
-              $status = "$msgmap{$str}";
-              $found = 1;
-              last;
+            foreach my $str (keys %msgmap) {
+                if (/$str/) {
+                    $status = "$msgmap{$str}";
+                    $found = 1;
+                    last;
+                }
             }
-          }
         }
         close(HDMSG);
     }
@@ -191,33 +191,33 @@ sub run {
     # Read kernel ringbuffer directly
     if ($found == 0 and open(HDMSG, '$dmesg |')) {
         while(<HDMSG>) {
-          foreach my $str (keys %msgmap) {
-            if (/$str/) {
-              $status = "$msgmap{$str}";
-              $found = 1;
-              last;
+            foreach my $str (keys %msgmap) {
+                if (/$str/) {
+                    $status = "$msgmap{$str}";
+                    $found = 1;
+                    last;
+                }
             }
-          }
         }
         close(HDMSG);
     }
 
     if ($found == 0 and open(HSCSI, '/proc/scsi/scsi')) {
         while(<HSCSI>) {
-          foreach my $str (keys %msgmap) {
-            if (/$str/) {
-              $status = "$msgmap{$str}";
-              $found = 1;
-              last;
+            foreach my $str (keys %msgmap) {
+                if (/$str/) {
+                    $status = "$msgmap{$str}";
+                    $found = 1;
+                    last;
+                }
             }
-          }
         }
         close(HSCSI);
     }
 
     $common->setHardware ({
-      VMSYSTEM => $status,
-      });
+        VMSYSTEM => $status,
+    });
 }
 
 sub check_file_content {

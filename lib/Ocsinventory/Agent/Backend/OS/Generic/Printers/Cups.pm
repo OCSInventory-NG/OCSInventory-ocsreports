@@ -22,19 +22,19 @@ sub run {
 
 
     foreach (@destinations) {
-	    $printer = $_->getName() unless $printer;
-	    $description = $_->getDescription() unless $description;
-	    $port = $_->getUri() unless $port;
-	    $driver = $_->getOptionValue("printer-make-and-model") unless $driver;
-	
+        $printer = $_->getName() unless $printer;
+        $description = $_->getDescription() unless $description;
+        $port = $_->getUri() unless $port;
+        $driver = $_->getOptionValue("printer-make-and-model") unless $driver;
+    
         # Just grab the default printer, if I use getDestinations, CUPS
         # returns all the printer of the local subnet (if it can)
         # TODO There is room for improvement here
 
-    	$common->addPrinter({
+        $common->addPrinter({
             NAME    => $printer,
             DESCRIPTION => $description,
-	        PORT => $port, 
+            PORT => $port, 
             DRIVER => $driver
         });
         $printer = $description = $port = $driver = undef;

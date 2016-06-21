@@ -23,7 +23,7 @@ sub isInventoryAsked {
 
     my $parsedContent = $self->getParsedContent(['OPTION','PARAM']);
     if ($parsedContent && exists ($parsedContent->{RESPONSE}) && $parsedContent->{RESPONSE} =~ /^SEND$/) {
-	return 1;
+	    return 1;
     }
 
     0
@@ -37,9 +37,9 @@ sub getOptionsInfoByName {
     my $ret = [];
     return unless ($parsedContent && $parsedContent->{OPTION});
     foreach (@{$parsedContent->{OPTION}}) {
-      if ($_->{NAME} && $_->{NAME} =~ /^$name$/i) {
-        $ret = $_->{PARAM}
-      }
+        if ($_->{NAME} && $_->{NAME} =~ /^$name$/i) {
+            $ret = $_->{PARAM}
+        }
     }
 
     return $ret;
@@ -48,19 +48,17 @@ sub getOptionsInfoByName {
 sub updatePrologFreq {
     my $self = shift;
     my $parsedContent = $self->getParsedContent(['OPTION','PARAM']);
-     my $logger = $self->{logger};
+    my $logger = $self->{logger};
     if ($parsedContent && exists ($parsedContent->{PROLOG_FREQ})) {
         if( $parsedContent->{PROLOG_FREQ} ne $self->{accountconfig}->get("PROLOG_FREQ")){
-             $logger->info("PROLOG_FREQ has changed since last process(old=".$self->{accountconfig}->get("PROLOG_FREQ").",new=".$parsedContent->{PROLOG_FREQ}.")");
-             $self->{prologFreqChanged} = 1;
-             $self->{accountconfig}->set("PROLOG_FREQ", $parsedContent->{PROLOG_FREQ});
-        }
-        else{
+            $logger->info("PROLOG_FREQ has changed since last process(old=".$self->{accountconfig}->get("PROLOG_FREQ").",new=".$parsedContent->{PROLOG_FREQ}.")");
+            $self->{prologFreqChanged} = 1;
+            $self->{accountconfig}->set("PROLOG_FREQ", $parsedContent->{PROLOG_FREQ});
+        } else{
             $logger->debug("PROLOG_FREQ has not changed since last process");
         }
     }
 }
-
 
 sub saveNextTime {
     my ($self, $args) = @_;
@@ -69,7 +67,7 @@ sub saveNextTime {
 
     if (!$self->{config}->{next_timefile}) {
         $logger->debug("no next_timefile to save!");
-	return;
+        return;
     }
 
     my $parsedContent = $self->getParsedContent(['OPTION','PARAM']);
@@ -86,8 +84,7 @@ sub saveNextTime {
     if( $self->{prologFreqChanged} ){
         $logger->debug("Compute next_time file with random value");
         $time  = time + int rand(($serverdelay?$serverdelay*3600:$self->{config}->{delaytime}));
-    }
-    else{
+    } else{
         $time = time + ($serverdelay?$serverdelay*3600:$self->{config}->{delaytime});
     }
     utime $time,$time,$self->{config}->{next_timefile};
@@ -104,9 +101,9 @@ sub displaySupportLog {
     my $parsedContent = $self->getParsedContent(['OPTION','PARAM']);
 
     if ($parsedContent->{SUPPORT_LOG}) {
-      $logger->info("$parsedContent->{SUPPORT_LOG}")
+        $logger->info("$parsedContent->{SUPPORT_LOG}")
     } else {
-      $logger->info("No support detected. Registration key: N/A");
+        $logger->info("No support detected. Registration key: N/A");
     }
 }
 

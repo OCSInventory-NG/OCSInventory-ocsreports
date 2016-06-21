@@ -12,8 +12,8 @@ sub run {
     my $common = $params->{common};
     my $logger = $params->{logger};
 
-	my $cpu;
-	my $cores;
+    my $cpu;
+    my $cores;
     my $uuid;
     my $mem;
     my $status;
@@ -33,31 +33,27 @@ sub run {
         foreach my $line (@vminfos) {
             if ($line =~ m/^displayName =\s\"+(.*)\"/) {
                 $name = $1;
-            }
-			elsif ($line =~ m/^numvcpus =\s\"+(.*)\"/){
-				$cpu = $1;
-			} 
-			elsif ($line =~ m/^cpuid.coresPerSocket =\s\"+(.*)\" /){
-				$cores = $1;
-			} 
-            elsif ($line =~ m/^memsize =\s\"+(.*)\"/) {
+            } elsif ($line =~ m/^numvcpus =\s\"+(.*)\"/){
+                $cpu = $1;
+            } elsif ($line =~ m/^cpuid.coresPerSocket =\s\"+(.*)\" /){
+                $cores = $1;
+            } elsif ($line =~ m/^memsize =\s\"+(.*)\"/) {
                 $mem = $1;
-            }
-            elsif ($line =~ m/^uuid.bios =\s\"+(.*)\"/) {
+            } elsif ($line =~ m/^uuid.bios =\s\"+(.*)\"/) {
                 $uuid = $1;
             }
         }
 
         $common->addVirtualMachine ({
-                NAME      => $name,
-                VCPU      => $cpu,
-				CORES	  => $cores,
-                UUID      => $uuid,
-                MEMORY    => $mem,
-                STATUS    => "running",
-                SUBSYSTEM => "VmWare Workstation",
-                VMTYPE    => "VmWare",
-            });
+            NAME      => $name,
+            VCPU      => $cpu,
+            CORES      => $cores,
+            UUID      => $uuid,
+            MEMORY    => $mem,
+            STATUS    => "running",
+            SUBSYSTEM => "VmWare Workstation",
+            VMTYPE    => "VmWare",
+        });
     }
 }
 

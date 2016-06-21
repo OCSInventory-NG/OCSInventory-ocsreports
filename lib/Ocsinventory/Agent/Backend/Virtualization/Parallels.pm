@@ -46,7 +46,6 @@ sub run {
         next if $lsuser =~ /^\./i; # Ignore hidden directory
         next if $lsuser =~ /\ /; # Ignore directory with space in the name
         next if $lsuser =~ /'/; # Ignore directory with space in the name
-
         push(@users,$lsuser);
     }
 
@@ -76,7 +75,6 @@ sub run {
                 elsif ($infos =~ m/^OS:\s(.*)/) {
                     $subsys = $1;
                 }
-
             }
 
             $uuid =~  s/{// if ($uuid =~ m/{/);
@@ -168,7 +166,6 @@ sub run {
                 close (MYFILE);
             }
 
-            
             $common->addVirtualMachine ({
                 NAME      => $name,
                 VCPU      => $cpus,
@@ -178,7 +175,6 @@ sub run {
                 VMTYPE    => "Parallels",
                 UUID      => $hwUUID,
             });
-          
         }
     }
 }

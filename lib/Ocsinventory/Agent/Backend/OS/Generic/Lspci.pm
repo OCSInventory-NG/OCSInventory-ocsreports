@@ -3,6 +3,5 @@ use strict;
 
 sub check {can_run("lspci")}
 
-
 sub run {}
 1;

@@ -4,30 +4,30 @@ use strict;
 sub check { can_run ("domainname") }
 
 sub run { 
-  my $params = shift;
-  my $common = $params->{common};
+    my $params = shift;
+    my $common = $params->{common};
 
-  my $domain;
+    my $domain;
 
-  chomp($domain = `domainname`);
+    chomp($domain = `domainname`);
 
-  if (!$domain) {
-    my %domain;
+    if (!$domain) {
+        my %domain;
 
-    if (open RESOLV, "/etc/resolv.conf") {
-      while(<RESOLV>) {
-	$domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
-      }
-      close RESOLV;
+        if (open RESOLV, "/etc/resolv.conf") {
+            while(<RESOLV>) {
+	            $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+            }
+            close RESOLV;
+        }
+        $domain = join "/", keys %domain;
     }
-    $domain = join "/", keys %domain;
-  }
-# If no domain name, we send "WORKGROUP"
-  $domain = 'WORKGROUP' unless $domain;
+    # If no domain name, we send "WORKGROUP"
+    $domain = 'WORKGROUP' unless $domain;
 
-  $common->setHardware({
-      WORKGROUP => $domain
-      });
+    $common->setHardware({
+        WORKGROUP => $domain
+    });
 }
 
 1;

@@ -1,8 +1,8 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Network::IP;
 
 sub check {
-  return unless can_run ("ifconfig") || can_run("ip");
-  1;
+    return unless can_run ("ifconfig") || can_run("ip");
+    1;
 }
 
 # Initialise the distro entry

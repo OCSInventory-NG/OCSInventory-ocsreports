@@ -5,19 +5,18 @@ use strict;
 sub check { return can_run('dmidecode') }
 
 sub run {
-  my $params = shift;
-  my $common = $params->{common};
+    my $params = shift;
+    my $common = $params->{common};
 
-  my $uuid;
+    my $uuid;
 
-  $uuid = `dmidecode -s system-uuid`;
-  chomp($uuid);
-  $uuid =~ s/^#+\s+$//g;
+    $uuid = `dmidecode -s system-uuid`;
+    chomp($uuid);
+    $uuid =~ s/^#+\s+$//g;
 
-   $common->setHardware({
-      UUID => $uuid,
-   });
-
+    $common->setHardware({
+        UUID => $uuid,
+    });
 }
 
 1;

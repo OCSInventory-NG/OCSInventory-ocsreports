@@ -149,8 +149,7 @@ sub getInstances {
     # $versions_only argument
     if ($versions_only) {
         return \%versions;
-    }
-    else {
+    } else {
         return \%database;
     }
 }

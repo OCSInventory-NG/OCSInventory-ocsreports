@@ -28,49 +28,49 @@ my $now;
 
 
 for $option (@ARGV){
-  if($option=~/--nowizard$/){
-    $nowizard = 1;
-  }elsif($option=~/--server=(\S*)$/){
-    $config->{server} = $1;
-  }elsif($option=~/--basevardir=(\S*)$/){
-    $config->{basevardir} = $1;
-  }elsif($option=~/--configdir=(\S*)$/){
-    $configdir = $1;
-  }elsif($option=~/--user=(\S*)$/){
-    $config->{user} = $1;
-  }elsif($option=~/--password=(\S*)$/){
-    $config->{password} = $1;
-  }elsif($option=~/--realm=(\S*)$/){
-    $config->{realm} = $1;
-  }elsif($option=~/--tag=(\S*)$/){
-    $config->{tag} = $1;
-  }elsif($option=~/--crontab$/){
-    $crontab = 1;
-  }elsif($option=~/--get-old-linux-agent-config$/){
-    $old_linux_config = 1;
-  }elsif($option=~/--remove-old-linux-agent$/){
-    $remove_old_linux = 1;
-  }elsif($option=~/--debug$/){
-    $config->{debug} = 1;
-  }elsif($option=~/--logfile=(\S*)$/){
-    $config->{logfile} = $1;
-  }elsif($option=~/--nossl$/){
-    $nossl = 1;
-  }elsif($option=~/--ca=(\S*)$/){
-    $config->{ca} = $1;
-  }elsif($option=~/--download$/){
-    $download = 1;
-  }elsif($option=~/--snmp$/){
-    $snmp = 1;
-  }elsif($option=~/--now$/){
-    $now = 1;
-  }elsif($option=~/--help/ || $option=~/-h/) {
-  print STDERR <<EOF;
+    if ($option=~/--nowizard$/){
+        $nowizard = 1;
+    } elsif($option=~/--server=(\S*)$/){
+        $config->{server} = $1;
+    } elsif($option=~/--basevardir=(\S*)$/){
+        $config->{basevardir} = $1;
+    } elsif($option=~/--configdir=(\S*)$/){
+        $configdir = $1;
+    } elsif($option=~/--user=(\S*)$/){
+        $config->{user} = $1;
+    } elsif($option=~/--password=(\S*)$/){
+        $config->{password} = $1;
+    } elsif($option=~/--realm=(\S*)$/){
+        $config->{realm} = $1;
+    } elsif($option=~/--tag=(\S*)$/){
+        $config->{tag} = $1;
+    } elsif($option=~/--crontab$/){
+        $crontab = 1;
+    } elsif($option=~/--get-old-linux-agent-config$/){
+        $old_linux_config = 1;
+    } elsif($option=~/--remove-old-linux-agent$/){
+        $remove_old_linux = 1;
+    } elsif($option=~/--debug$/){
+        $config->{debug} = 1;
+    } elsif($option=~/--logfile=(\S*)$/){
+        $config->{logfile} = $1;
+    } elsif($option=~/--nossl$/){
+        $nossl = 1;
+    } elsif($option=~/--ca=(\S*)$/){
+        $config->{ca} = $1;
+    } elsif($option=~/--download$/){
+        $download = 1;
+    } elsif($option=~/--snmp$/){
+        $snmp = 1;
+    } elsif($option=~/--now$/){
+        $now = 1;
+    } elsif($option=~/--help/ || $option=~/-h/) {
+        print STDERR <<EOF;
 Usage :
 \t--nowizard                    launch this script without interaction
 \t--server=url                  set OCS Inventory NG server address (e.g: http://ocsinventory-ng/ocsinventory) 
-\t--basevardir=path             set OCS Inventory NG Unix Unified agent variables directory (e.g: /var/lib/ocsinventory-agent)	
-\t--configdir=path              set OCS Inventory NG Unix Unified configuration directory (e.g: /etc/ocsinventory-agent)	
+\t--basevardir=path             set OCS Inventory NG Unix Unified agent variables directory (e.g: /var/lib/ocsinventory-agent)
+\t--configdir=path              set OCS Inventory NG Unix Unified configuration directory (e.g: /etc/ocsinventory-agent)
 \t--user=username               set username for OCS Inventory server Apache authentication (if needed)
 \t--password=password           set password for OCS Inventory NG server Apache authentication (if needed)
 \t--realm=realm                 set realm name for OCS Inventory NG server Apache authentication (if needed)
@@ -87,8 +87,8 @@ Usage :
 \t-h --help                     display this help
 EOF
 
-  exit 0;
-  }
+        exit 0;
+    }
 }
 
 
@@ -98,136 +98,133 @@ loadModules (qw/XML::Simple ExtUtils::MakeMaker/);
 
 my @default_configdirs = ("/etc/ocsinventory", "/usr/local/etc/ocsinventory", "/etc/ocsinventory-agent");
 
-
 unless ($config->{basevardir}) {
-  if ($^O =~ /solaris/) {
-    $config->{basevardir} = '/var/opt/ocsinventory-agent';
-  } else { 
-    $config->{basevardir} = '/var/lib/ocsinventory-agent'
-  }
+    if ($^O =~ /solaris/) {
+        $config->{basevardir} = '/var/opt/ocsinventory-agent';
+    } else { 
+        $config->{basevardir} = '/var/lib/ocsinventory-agent'
+    }
 }
 
 
 ############ Asking for questions ##############
 unless ($nowizard) {
-  if (!ask_yn("Do you want to configure the agent", 'y')) {
-    exit 0;
-  }
+    if (!ask_yn("Do you want to configure the agent", 'y')) {
+         exit 0;
+    }
   
-  unless ($configdir) {
-    $configdir = getConfigDir (@default_configdirs);
+    unless ($configdir) {
+        $configdir = getConfigDir (@default_configdirs);
 
-    #If not found
-    unless (-d $configdir) {
-      $configdir = askConfigDir (@default_configdirs);
-      unless (-d $configdir) {
-        unless (ask_yn ("Do you want to create the directory ".$configdir."?", 'y')) {
-           die("Please create  ".$configdir." directory first.\n");
+        #If not found
+        unless (-d $configdir) {
+            $configdir = askConfigDir (@default_configdirs);
+            unless (-d $configdir) {
+                unless (ask_yn ("Do you want to create the directory ".$configdir."?", 'y')) {
+                    die("Please create  ".$configdir." directory first.\n");
+                }
+            }
         }
-      }
     }
-  }
 
-  #Old linux agent
-  if (ask_yn("Should the old linux_agent settings be imported ?", 'y')) {
-   $old_linux_config=1;
-  }
-
-  #Getting agent configuration if exists
-  if (-f $configdir."/ocsinventory-agent.cfg") {
-    open (CONFIG, "<".$configdir."/ocsinventory-agent.cfg") or
-    die "Can't open ".$configdir."/ocsinventory-agent.cfg: ".$!;
-
-    foreach (<CONFIG>) {
-      s/#.+//;
-      if (/(\w+)\s*=\s*(.+)/) {
-        my $key = $1;
-        my $val = $2;
-        # Remove the quotes
-        $val =~ s/\s+$//;
-        $val =~ s/^'(.*)'$/$1/;
-        $val =~ s/^"(.*)"$/$1/;
-        $config->{$key} = $val unless $config->{$key};
-      }
+    #Old linux agent
+    if (ask_yn("Should the old linux_agent settings be imported ?", 'y')) {
+        $old_linux_config=1;
     }
-    close CONFIG;
-  }
 
-  #Getting server name 
-  print "[info] The config file will be written in $configdir/ocsinventory-agent.cfg,\n";
-  $config->{server} = promptUser('What is the address of your ocs server',$config->{server});
-  #$config->{server} = promptUser('What is the address of your ocs server', exists ($config->{server})?$config->{server}:'ocsinventory-ng');
+    #Getting agent configuration if exists
+    if (-f $configdir."/ocsinventory-agent.cfg") {
+        open (CONFIG, "<".$configdir."/ocsinventory-agent.cfg") or
+        die "Can't open ".$configdir."/ocsinventory-agent.cfg: ".$!;
 
-
-  #Getting credentials if needed
-  if (ask_yn ("Do you need credential for the server? (You probably don't)", 'n')) {
-    $config->{user} = promptUser("user", $config->{user});
-    $config->{password} = promptUser("password");
-    print "[info] The realm can be found in the login popup of your Internet browser.\n[info] In general, it's something like 'Restricted Area'.\n";
-    $config->{realm} = promptUser("realm");
-  }
-
-  #Getting tag
-  unless ($config->{tag}){
-    if (ask_yn('Do you want to apply an administrative tag on this machine', 'y')) {
-      $config->{tag} = promptUser("tag", $config->{tag});
+        foreach (<CONFIG>) {
+            s/#.+//;
+            if (/(\w+)\s*=\s*(.+)/) {
+                 my $key = $1;
+                 my $val = $2;
+                 # Remove the quotes
+                 $val =~ s/\s+$//;
+                 $val =~ s/^'(.*)'$/$1/;
+                 $val =~ s/^"(.*)"$/$1/;
+                 $config->{$key} = $val unless $config->{$key};
+            }
+        }
+        close CONFIG;
     }
-  }
 
-  #Getting crontab
-  if ($^O =~ /solaris/) {
-    if (ask_yn("Do yo want to install the cron task in current user crontab ?", 'y')) {
-       $crontab = 1;
+    #Getting server name 
+    print "[info] The config file will be written in $configdir/ocsinventory-agent.cfg,\n";
+    $config->{server} = promptUser('What is the address of your ocs server',$config->{server});
+    #$config->{server} = promptUser('What is the address of your ocs server', exists ($config->{server})?$config->{server}:'ocsinventory-ng');
+
+    #Getting credentials if needed
+    if (ask_yn ("Do you need credential for the server? (You probably don't)", 'n')) {
+        $config->{user} = promptUser("user", $config->{user});
+        $config->{password} = promptUser("password");
+        print "[info] The realm can be found in the login popup of your Internet browser.\n[info] In general, it's something like 'Restricted Area'.\n";
+        $config->{realm} = promptUser("realm");
     }
-  } elsif (-d "/etc/cron.d") {
-    if (ask_yn("Do yo want to install the cron task in /etc/cron.d", 'y')) {
-       $crontab = 1;
+
+    #Getting tag
+    unless ($config->{tag}){
+        if (ask_yn('Do you want to apply an administrative tag on this machine', 'y')) {
+            $config->{tag} = promptUser("tag", $config->{tag});
+        }
     }
-  }
 
-  #Getting basevardir
-  $config->{basevardir} = promptUser('Where do you want the agent to store its files? (You probably don\'t need to change it)', $config->{basevardir}, '^\/\w+', 'The location must begin with /');
-
-  unless (-d $config->{basevardir}) {
-    unless (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n", 'y')) {
-      die("Please create the ".$config->{basevardir}." directory manually and relaunch postinst.pl script\n");
+    #Getting crontab
+    if ($^O =~ /solaris/) {
+        if (ask_yn("Do yo want to install the cron task in current user crontab ?", 'y')) {
+            $crontab = 1;
+        }
+    } elsif (-d "/etc/cron.d") {
+        if (ask_yn("Do yo want to install the cron task in /etc/cron.d", 'y')) {
+            $crontab = 1;
+        }
     }
-  }
 
-  #Remove old linux agent ?
-  $remove_old_linux = ask_yn ("Should I remove the old linux_agent", 'n') unless $remove_old_linux;
+    #Getting basevardir
+    $config->{basevardir} = promptUser('Where do you want the agent to store its files? (You probably don\'t need to change it)', $config->{basevardir}, '^\/\w+', 'The location must begin with /');
 
-  #Enable debug option ?
-  $config->{debug} = ask_yn("Do you want to activate debug configuration option ?", 'y') unless $config->{debug};
-
-  #Enable log file ?
-  unless ($config->{logfile}) {
-    if (ask_yn("Do you want to use OCS Inventory NG UNix Unified agent log file ?", 'y')){ 
-      $config->{logfile} = promptUser('Specify log file path you want to use', $config->{logfile}, '^\/\w+', 'The location must begin with /');
+    unless (-d $config->{basevardir}) {
+        unless (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n", 'y')) {
+            die("Please create the ".$config->{basevardir}." directory manually and relaunch postinst.pl script\n");
+        }
     }
-  }
 
-  #Disable SSL option ?
-  unless ($nossl) {
-     $nossl = ask_yn("Do you want disable SSL CA verification configuration option (not recommended) ?", 'n');
-  }
+    #Remove old linux agent ?
+    $remove_old_linux = ask_yn ("Should I remove the old linux_agent", 'n') unless $remove_old_linux;
 
-  #Set CA certificate path ?
-  unless ($config->{ca}) {
-    if (ask_yn("Do you want to set CA certificate chain file path ?", 'y')){ 
-      $config->{ca} = promptUser('Specify CA certificate chain file path', $config->{ca}, '^\/\w+', 'The location must begin with /');
+    #Enable debug option ?
+    $config->{debug} = ask_yn("Do you want to activate debug configuration option ?", 'y') unless $config->{debug};
+
+    #Enable log file ?
+    unless ($config->{logfile}) {
+        if (ask_yn("Do you want to use OCS Inventory NG UNix Unified agent log file ?", 'y')){ 
+            $config->{logfile} = promptUser('Specify log file path you want to use', $config->{logfile}, '^\/\w+', 'The location must begin with /');
+        }
     }
-  }
 
+    #Disable SSL option ?
+    unless ($nossl) {
+        $nossl = ask_yn("Do you want disable SSL CA verification configuration option (not recommended) ?", 'n');
+    }
 
-  #Enable download feature ?
-  $download = ask_yn("Do you want to use OCS-Inventory software deployment feature?", 'y') unless $download;
+    #Set CA certificate path ?
+    unless ($config->{ca}) {
+        if (ask_yn("Do you want to set CA certificate chain file path ?", 'y')){ 
+            $config->{ca} = promptUser('Specify CA certificate chain file path', $config->{ca}, '^\/\w+', 'The location must begin with /');
+        }
+    }
 
-  #Enable SNMP feature ?
-  $snmp = ask_yn("Do you want to use OCS-Inventory SNMP scans feature?", 'y') unless $snmp;
+    #Enable download feature ?
+    $download = ask_yn("Do you want to use OCS-Inventory software deployment feature?", 'y') unless $download;
 
-  #Run agent after configuration ?
-  $now = ask_yn("Do you want to send an inventory of this machine?", 'y') unless $now;
+    #Enable SNMP feature ?
+    $snmp = ask_yn("Do you want to use OCS-Inventory SNMP scans feature?", 'y') unless $snmp;
+
+    #Run agent after configuration ?
+    $now = ask_yn("Do you want to send an inventory of this machine?", 'y') unless $now;
 
 }
 
@@ -237,42 +234,40 @@ unless ($nowizard) {
 #Old linux agent
 if (-f $old_linux_agent_dir.'/ocsinv.conf' && $old_linux_config) {
   
-  print STDERR "Getting old OCS Inventory NG Linux agent configuration...\n";
-  my $ocsinv = XMLin($old_linux_agent_dir.'/ocsinv.conf');
-  $config->{server} = mkFullServerUrl($ocsinv->{'OCSFSERVER'});
+    print STDERR "Getting old OCS Inventory NG Linux agent configuration...\n";
+    my $ocsinv = XMLin($old_linux_agent_dir.'/ocsinv.conf');
+    $config->{server} = mkFullServerUrl($ocsinv->{'OCSFSERVER'});
 
-  if (-f $old_linux_agent_dir.'/cacert.pem') {
-    open CACERT, $old_linux_agent_dir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
-    @cacert = <CACERT>;
-    close CACERT;
-  }
-
-  my $admcontent = '';
-
-
-  if (-f "$old_linux_agent_dir/ocsinv.adm") {
-    if (!open(ADM, "<:encoding(iso-8859-1)", "$old_linux_agent_dir/ocsinv.adm")) {
-      warn "Can't open $old_linux_agent_dir/ocsinv.adm";
-    } else {
-      $admcontent .= $_ foreach (<ADM>);
-      close ADM;
-      my $admdata = XMLin($admcontent) or die;
-      if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
-        foreach (@{$admdata->{ACCOUNTINFO}}) {
-          $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
-        }
-      } elsif (
-        exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
-        exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
-        $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
-        ) {
-          print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
-          $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
-      }
+    if (-f $old_linux_agent_dir.'/cacert.pem') {
+        open CACERT, $old_linux_agent_dir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
+        @cacert = <CACERT>;
+        close CACERT;
     }
-  }
-}
 
+    my $admcontent = '';
+
+    if (-f "$old_linux_agent_dir/ocsinv.adm") {
+        if (!open(ADM, "<:encoding(iso-8859-1)", "$old_linux_agent_dir/ocsinv.adm")) {
+            warn "Can't open $old_linux_agent_dir/ocsinv.adm";
+        } else {
+            $admcontent .= $_ foreach (<ADM>);
+            close ADM;
+            my $admdata = XMLin($admcontent) or die;
+            if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
+                foreach (@{$admdata->{ACCOUNTINFO}}) {
+                    $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
+                }
+            } elsif (
+                exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
+                exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
+                $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
+                ){
+                    print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
+                    $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
+            }
+        }
+    }
+}
 
 
 #Setting server uri
@@ -293,14 +288,13 @@ if ($config->{server} =~ /^http(|s):\/\//) {
 }
 
 
-
 #Is OCS agent well installed ?
 print STDERR "Looking for OCS Invetory NG Unix Unified agent installation...\n";
 chomp($binpath = `which ocsinventory-agent 2>/dev/null`);
 if (! -x $binpath) {
-	# Packaged version with perl and agent ?
-	$binpath = $^X;
-	$binpath =~ s/perl/ocsinventory-agent/;
+    # Packaged version with perl and agent ?
+    $binpath = $^X;
+    $binpath =~ s/perl/ocsinventory-agent/;
 }
 
 if (! -x $binpath) {
@@ -317,33 +311,31 @@ $cron_line = $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
 
 if ($crontab) {
 
-  print STDERR "Setting crontab...\n";
+    print STDERR "Setting crontab...\n";
 
-  if ($^O =~ /solaris/) {
-    my $cron = `crontab -l`;
+    if ($^O =~ /solaris/) {
+        my $cron = `crontab -l`;
 
-    # Let's suppress Linux cron/anacron user column
-    $cron_line =~ s/ root /  /;
-    $cron .= $cron_line;
+        # Let's suppress Linux cron/anacron user column
+        $cron_line =~ s/ root /  /;
+        $cron .= $cron_line;
 
-    open CRONP, "| crontab" || die "Can't run crontab: $!";
-    print CRONP $crontab;
-    close(CRONP);
-
-  } elsif (-d "/etc/cron.d") {
-    open DEST, '>/etc/cron.d/ocsinventory-agent' or die $!;
-    # Save the root PATH
-    print DEST "PATH=".$ENV{PATH}."\n";
-    print DEST $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
-    close DEST;
-  }
+        open CRONP, "| crontab" || die "Can't run crontab: $!";
+        print CRONP $crontab;
+        close(CRONP);
+    } elsif (-d "/etc/cron.d") {
+        open DEST, '>/etc/cron.d/ocsinventory-agent' or die $!;
+        # Save the root PATH
+        print DEST "PATH=".$ENV{PATH}."\n";
+        print DEST $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
+        close DEST;
+    }
 }
 
-	
 #Creating basevardir
 if (!-d $config->{basevardir}) {
-  print STDERR "Creating $config->{basevardir} directory...\n";
-  mkdir $config->{basevardir} or die $!;
+    print STDERR "Creating $config->{basevardir} directory...\n";
+    mkdir $config->{basevardir} or die $!;
 }
 
 #Disabling SSL verification if asked
@@ -353,27 +345,23 @@ $config->{ssl} = 0 if $nossl;
 $configdir = "/etc/ocsinventory-agent" unless $configdir;  #If not set in command line
 
 if (grep (/$configdir/,@default_configdirs)) {
-  $configdir = '/etc/ocsinventory-agent' unless $configdir;
+    $configdir = '/etc/ocsinventory-agent' unless $configdir;
 
-  print STDERR "Creating $configdir directory...\n";
+    print STDERR "Creating $configdir directory...\n";
 
-  unless (-d $configdir) {
-    unless (mkdir $configdir) {
-      die("Failed to create ".$configdir.". Are you root?\n");
+    unless (-d $configdir) {
+        unless (mkdir $configdir) {
+            die("Failed to create ".$configdir.". Are you root?\n");
+        }
     }
-  }
-
-  print STDERR "Writing OCS Inventory NG Unix Unified agent configuration\n";
-  open CONFIG, ">$configdir/ocsinventory-agent.cfg" or die "Can't write the config file in $configdir: ".$!;
-  print CONFIG $_."=".$config->{$_}."\n" foreach (keys %$config);
-  close CONFIG;
-  chmod 0600, "$configdir/ocsinventory-agent.cfg";
-
-
+    print STDERR "Writing OCS Inventory NG Unix Unified agent configuration\n";
+    open CONFIG, ">$configdir/ocsinventory-agent.cfg" or die "Can't write the config file in $configdir: ".$!;
+    print CONFIG $_."=".$config->{$_}."\n" foreach (keys %$config);
+    close CONFIG;
+    chmod 0600, "$configdir/ocsinventory-agent.cfg";
 } else {
-  die("Wrong configuration directory...please choose a directory supported by OCS Inventory NG agent !!!\n");
+    die("Wrong configuration directory...please choose a directory supported by OCS Inventory NG agent !!!\n");
 }
-
 
 
 #Removing old linux agent if needed
@@ -416,14 +404,13 @@ my $source_snmpdir = "$workdir/snmp";
 my $snmpdir = "$vardir/snmp";
 
 if ( -d $source_snmpdir && -d $vardir) {
-  unless (-d $snmpdir) {
-    print STDERR "Creating $snmpdir directory...\n";
-    recMkdir($snmpdir) or die "Can't create $snmpdir!";
-  }
-  print STDERR "Copying SNMP MIBs XML files...\n";
-  system("cp -r $source_snmpdir/* $snmpdir");
+    unless (-d $snmpdir) {
+        print STDERR "Creating $snmpdir directory...\n";
+        recMkdir($snmpdir) or die "Can't create $snmpdir!";
+    }
+    print STDERR "Copying SNMP MIBs XML files...\n";
+    system("cp -r $source_snmpdir/* $snmpdir");
 }
-
 
 print STDERR "Activating modules if needed...\n";
 
@@ -451,7 +438,7 @@ if ( -f $snmp_com_file ) {
     unlink $snmp_com_file;
 }
 
-#Launch agent if asked
+# Launch agent if asked
 if ($now) {
     print STDERR "Launching OCS Inventory NG Unix Unified agent...\n";
 
@@ -460,7 +447,7 @@ if ($now) {
         print "   -> Success!\n";
     } else {
         print "   -> Failed!\n";
-	print "You may want to launch the agent with the --verbose or --debug flag.\n";
+    print "You may want to launch the agent with the --verbose or --debug flag.\n";
     }
 }
 
@@ -477,10 +464,8 @@ sub loadModules {
         if ($@) {
             print STDERR "Failed to load $_. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
             exit 1;
-
         }
     }
-
 }
 
 sub ask_yn {
@@ -509,23 +494,19 @@ sub promptUser {
 
     my $line;
     my $cpt = 5;
+
     while (1) {
-
         $line = prompt($string, $default);
-
         if ($regex && $line !~ /$regex/) {
             print STDERR $notice."\n";
         } else {
             last;
         }
-
         if ($cpt-- < 0) {
             print STDERR "to much user input, exit...\n";
             exit(0);
         }
-
     }
-
     return $line;
 }
 
@@ -533,9 +514,7 @@ sub getConfigDir {
     my @choices = @_;
 
     foreach (@choices) {
-
         my $t = $_.'/ocsinventory-agent.cfg';
-
         if (-f $t) {
             print "Config file found are $t! Reusing it.\n";
             return $_; 
@@ -565,20 +544,20 @@ sub askConfigDir {
 }
 
 sub recMkdir {
-  my $dir = shift;
+    my $dir = shift;
 
-  my @t = split /\//, $dir;
-  shift @t;
-  return unless @t;
+    my @t = split /\//, $dir;
+    shift @t;
+    return unless @t;
 
-  my $t;
-  foreach (@t) {
-    $t .= '/'.$_;
-    if ((!-d $t) && (!mkdir $t)) {
-      return;
+    my $t;
+    foreach (@t) {
+        $t .= '/'.$_;
+        if ((!-d $t) && (!mkdir $t)) {
+            return;
+        }
     }
-  }
-  1;
+    1;
 }
 
 sub mkFullServerUrl {

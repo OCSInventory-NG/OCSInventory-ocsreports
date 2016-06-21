@@ -39,7 +39,7 @@ sub run {
                     } else {
                         $vcpu += 1;
                     }
-                }    
+                }
             } elsif ($lstatus eq "FROZEN") {
                 $status = "Paused";
             } elsif ($lstatus eq "STOPPED") {
@@ -50,7 +50,6 @@ sub run {
                     if (/^lxc.cgroup.memory.limit_in_bytes\s+=\s*(\S+)\s*$/){
                         $memory = $1;
                     }
-                
                     if (/^lxc.cgroup.cpuset.cpus\s+=\s*(\S+)\s*$/){
                         foreach $cpu (split(/,/,$1)){
                             $cpu = $1;
@@ -59,7 +58,7 @@ sub run {
                                 $vcpu += $#tmp + 1;
                             } else {
                                 $vcpu += 1;
-                            }        
+                            }
                         }
                     } 
                 }
@@ -75,10 +74,8 @@ sub run {
             VMID => $vmid,
             VMTYPE => "LXC",
         };
-
         $common->addVirtualMachine($machine);    
     }
-
 }
 
 1;

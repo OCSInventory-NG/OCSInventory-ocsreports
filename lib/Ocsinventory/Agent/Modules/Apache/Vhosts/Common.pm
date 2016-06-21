@@ -178,8 +178,7 @@ sub readVhostsDump {
         my ($ip, $port, $srvname, $vhostfile, $vhostline);
         if ($_ =~ $dumpline_name_re) {
             ($port, $srvname, $vhostfile, $vhostline) = ($1, $2, $3, $4);
-        }
-        elsif ($_ =~ $dumpline_ip_re) {
+        } elsif ($_ =~ $dumpline_ip_re) {
             ($ip, $port, $srvname, $vhostfile, $vhostline) = ($1, $2, $3, $4, $5);
         }
         if (defined($port)) { # sufficient test to know if line was found
@@ -380,14 +379,11 @@ sub readVhostSSLCert {
     while (my $oline = <$OPENSSL_CMD>) {
         if ($oline =~ $subject_cn_re) {
             $vhost->{'sslcertdetails'}->{'cn'} = $1;
-        }
-        elsif ($oline =~ m/^notBefore=(.+)$/) {
+        } elsif ($oline =~ m/^notBefore=(.+)$/) {
             $vhost->{'sslcertdetails'}->{'startdate'} = formatDate($1);
-        }
-        elsif ($oline =~ m/^notAfter=(.+)$/) {
+        } elsif ($oline =~ m/^notAfter=(.+)$/) {
             $vhost->{'sslcertdetails'}->{'enddate'} = formatDate($1);
-        }
-        elsif ($oline =~ $damn_simple_email_re) {
+        } elsif ($oline =~ $damn_simple_email_re) {
             chomp $oline;
             $vhost->{'sslcertdetails'}->{'email'} = $oline;
             # stop processing from the first email address
@@ -397,7 +393,6 @@ sub readVhostSSLCert {
     }
     close($OPENSSL_CMD);
 }
-
 
 ###############################################################################
 # formatDate() - reformat date, with help of system command date(1)
