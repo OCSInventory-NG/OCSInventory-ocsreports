@@ -43,7 +43,7 @@
 43 Hauptmenü
 44 Optionen auswählen
 45 Freier Speicherplatz
-46 Letze Inventarisierung
+46 Letzte Inventarisierung
 47 Letzte Seite
 48 Rechner Details
 49 Name
@@ -330,7 +330,7 @@
 349 Hinzufügen einer Spalte
 350 CPU-Typ
 351 CPU-Anzahl
-352 Letzer
+352 Letzter
 353 Qualität
 354 Genauigkeit
 355 Firma
