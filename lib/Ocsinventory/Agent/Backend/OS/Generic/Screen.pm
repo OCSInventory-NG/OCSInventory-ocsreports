@@ -594,46 +594,59 @@ sub run {
     my $MonitorsDB;
     my $base64;
     my $uuencode;
-  
+
     my %found;
 
-    for my $port(0..20){
-        my $raw_edid = getEdid($port);
-        if ($raw_edid){
-            length($raw_edid) == 128 || length($raw_edid) == 256 or
-            $logger->debug("incorrect length: bad edid");
-
-            my $edid = parse_edid($raw_edid);
-            if (my $err = check_parsed_edid($edid)) {
-                $logger->debug("check failed: bad edid: $err");
-            }
-
-            my $caption = $edid->{monitor_name};
-            my $description = $edid->{week}."/".$edid->{year};
-            my $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
-            my $serial = $edid->{serial_number2}[0];
-
-            if (!exists $found{$serial}) {
-                $found{$serial} = $port;
-                eval "use MIME::Base64;";
-                $base64 = encode_base64($raw_edid) if !$@;
-                if (can_run("uuencode")) {
-                    chomp($uuencode = `echo $raw_edid|uuencode -`);
-                    if (!$base64) {
-                        chomp($base64 = `echo $raw_edid|uuencode -m -`);
-                    }
+    my @edid_list;
+    # first check sysfs if there are edid entries
+    for my $file(split(/\0/,`find /sys/devices -wholename '*/card*/edid' -print0`)) {
+        open(my $sys_edid_fd,'<',$file);
+        my $raw_edid = do { local $/; <$sys_edid_fd> };
+        if (length($raw_edid) == 128 || length($raw_edid) == 256 ) {
+      push @edid_list, $raw_edid
+    }
+  }
+    # if not fall back to the old method
+    if(!@edid_list) {
+        for my $port(0..20){
+            my $raw_edid = getEdid($port);
+            if ($raw_edid){
+                if (length($raw_edid) == 128 || length($raw_edid) == 256) {
+                    push @edid_list, $raw_edid
                 }
-                $common->addMonitor ({
-                    BASE64 => $base64,
-                    CAPTION => $caption,
-                    DESCRIPTION => $description,
-                    MANUFACTURER => $manufacturer,
-                    SERIAL => $serial,
-                    UUENCODE => $uuencode,
-                });
             }
+        }
+    }
+    for my $raw_edid(@edid_list) {
+        my $edid = parse_edid($raw_edid);
+        if (my $err = check_parsed_edid($edid)) {
+            $logger->debug("check failed: bad edid: $err");
+        }
+
+        my $caption = $edid->{monitor_name};
+        my $description = $edid->{week}."/".$edid->{year};
+        my $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
+        my $serial = $edid->{serial_number2}[0];
+        if (!exists $found{$serial}) {
+            $found{$serial} = 1;
+
+            eval "use MIME::Base64;";
+            $base64 = encode_base64($raw_edid) if !$@;
+            if (can_run("uuencode")) {
+                chomp($uuencode = `echo $raw_edid|uuencode -`);
+                if (!$base64) {
+                    chomp($base64 = `echo $raw_edid|uuencode -m -`);
+                }
+            }
+            $common->addMonitor ({
+                BASE64 => $base64,
+                CAPTION => $caption,
+                DESCRIPTION => $description,
+                MANUFACTURER => $manufacturer,
+                SERIAL => $serial,
+                UUENCODE => $uuencode,
+            });
         }
     }
 }
 1;
-
