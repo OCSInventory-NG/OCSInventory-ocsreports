@@ -315,11 +315,13 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 			$nb_insert++;	
 		}	
 		
-	}
-	$not_found=array();
-	if (is_array($not_match)) {
-		foreach($not_match as $key=>$value){
-			$not_found[]=$value;		
+	}else{
+		// Rule match one network interface don't raise warning for others
+		$not_found=array();
+		if (is_array($not_match)) {
+			foreach($not_match as $key=>$value){
+				$not_found[]=$value;		
+			}
 		}
 	}
 	
