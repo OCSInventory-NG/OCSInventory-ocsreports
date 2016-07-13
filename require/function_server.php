@@ -264,10 +264,9 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 				$verif_idMach[$val_machValue[$id_mach]]=$val_machValue[$id_mach];
 			}
 			else{
-				$not_match[$val_machValue[$id_mach]]=$val_machValue[$id_mach];	
-				//$nb_notMatch++;		
+				$not_match[$val_machValue[$id_mach]]=$val_machValue[$id_mach];
+				//$nb_notMatch++;
 			}		
-			
 			
 		}
 		elseif ($rule_detail['op'] == "DIFF"){
@@ -280,6 +279,10 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 				//$nb_notMatch++;		
 			}		
 
+		}
+		// ipsubnet or ipaddress rule match for one machine network interface, drop not_match result from other interface of this machine
+		if(isset($verif_idMach[$val_machValue[$id_mach]]) && isset($not_match[$val_machValue[$id_mach]]) ){
+			unset($not_match[$val_machValue[$id_mach]]);
 		}
 		
 	}
@@ -316,8 +319,9 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 		}	
 		
 	}
+
 	$not_found=array();
-	if (is_array($not_match)) {
+	if (is_array($not_match) && count($not_match) > 0) {
 		foreach($not_match as $key=>$value){
 			$not_found[]=$value;		
 		}
