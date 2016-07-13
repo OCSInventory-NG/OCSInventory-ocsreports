@@ -1,6 +1,9 @@
 Revision history for Ocsinventory::Agent
 
 2.2
+       * Merge Mysteq PR "centos-release is the correct file to check"
+       * Merge XANI PR "read edid from sysfs, fallback to old method if no monitor is found"
+       * Fix bugs in Network.pm and IP.pm files (OS Linux)
        * Correction for usb inventory
        * Retrieve Docker container informations
        * Update memconf command to last revision

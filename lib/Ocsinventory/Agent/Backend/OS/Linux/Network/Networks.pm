@@ -3,6 +3,8 @@ package Ocsinventory::Agent::Backend::OS::Linux::Network::Networks;
 use strict;
 use warnings;
 use Data::Dumper;
+use File::stat;
+use Time::Local;
 
 sub check {
   return unless (can_run("ifconfig") || can_run("ip")) && can_run("route") && can_load("Net::IP qw(:PROC)");

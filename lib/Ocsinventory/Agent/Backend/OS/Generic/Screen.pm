@@ -19,12 +19,12 @@ package Ocsinventory::Agent::Backend::OS::Generic::Screen;
 # http://svn.mandriva.com/cgi-bin/viewvc.cgi/soft/monitor-edid/trunk/
 #
 use strict;
+use Data::Dumper;
 
 sub check {
 
     return unless (can_run("monitor-get-edid-using-vbe") || can_run("monitor-get-edid") || can_run("get-edid"));
-  
-  1;
+    1;
 }
 
 sub getEdid {
@@ -192,33 +192,33 @@ my %subfields = (
 );
 
 sub get_many_bits {
-  my ($s, $field_name) = @_;
-  my @bits = split('', unpack('B*', $s));
-  my %h;
-  foreach (@{$subfields{$field_name}}) {
-    my ($size, $field) = @$_;
-    my @l = ('0' x (8 - $size), splice(@bits, 0, $size));
-    $h{$field} = unpack("C", pack('B*', join('', @l))) if $field && $field !~ /^_/;
-  }
-  \%h;
+    my ($s, $field_name) = @_;
+    my @bits = split('', unpack('B*', $s));
+    my %h;
+    foreach (@{$subfields{$field_name}}) {
+        my ($size, $field) = @$_;
+        my @l = ('0' x (8 - $size), splice(@bits, 0, $size));
+        $h{$field} = unpack("C", pack('B*', join('', @l))) if $field && $field !~ /^_/;
+    }
+    \%h;
 }
 
 sub check_parsed_edid {
-  my ($edid) = @_;
+    my ($edid) = @_;
 
-  $edid->{manufacturer_name} ne '@@@' or return 'bad manufacturer_name';
-  $edid->{edid_version} != 0xff && $edid->{edid_revision} != 0xff or return 'bad edid_version';
+    $edid->{manufacturer_name} ne '@@@' or return 'bad manufacturer_name';
+    $edid->{edid_version} != 0xff && $edid->{edid_revision} != 0xff or return 'bad edid_version';
 
-  if ($edid->{monitor_range}) {
-    $edid->{monitor_range}{horizontal_min} && 
-    $edid->{monitor_range}{horizontal_min} <= $edid->{monitor_range}{horizontal_max} 
-      or return 'bad HorizSync';
-    $edid->{monitor_range}{vertical_min} &&
-    $edid->{monitor_range}{vertical_min} <= $edid->{monitor_range}{vertical_max} 
-      or return 'bad VertRefresh';
-  }
+    if ($edid->{monitor_range}) {
+        $edid->{monitor_range}{horizontal_min} && 
+        $edid->{monitor_range}{horizontal_min} <= $edid->{monitor_range}{horizontal_max} 
+        or return 'bad HorizSync';
+        $edid->{monitor_range}{vertical_min} &&
+        $edid->{monitor_range}{vertical_min} <= $edid->{monitor_range}{vertical_max} 
+        or return 'bad VertRefresh';
+    }
 
-  '';
+    '';
 }
 
 sub parse_edid {
@@ -597,41 +597,55 @@ sub run {
   
     my %found;
 
-    for my $port(0..20){
-        my $raw_edid = getEdid($port);
-        if ($raw_edid){
-            length($raw_edid) == 128 || length($raw_edid) == 256 or
-            $logger->debug("incorrect length: bad edid");
-
-            my $edid = parse_edid($raw_edid);
-            if (my $err = check_parsed_edid($edid)) {
-                $logger->debug("check failed: bad edid: $err");
-            }
-
-            my $caption = $edid->{monitor_name};
-            my $description = $edid->{week}."/".$edid->{year};
-            my $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
-            my $serial = $edid->{serial_number2}[0];
-
-            if (!exists $found{$serial}) {
-                $found{$serial} = $port;
-                eval "use MIME::Base64;";
-                $base64 = encode_base64($raw_edid) if !$@;
-                if (can_run("uuencode")) {
-                    chomp($uuencode = `echo $raw_edid|uuencode -`);
-                    if (!$base64) {
-                        chomp($base64 = `echo $raw_edid|uuencode -m -`);
-                    }
+    my @edid_list;
+    # first check sysfs if there are edid entries
+    for my $file(split(/\0/,`find /sys/devices -wholename '*/card*/edid' -print0`)) {
+        open(my $sys_edid_fd,'<',$file);
+        my $raw_edid = do { local $/; <$sys_edid_fd> };
+        if (length($raw_edid) == 128 || length($raw_edid) == 256 ) {
+            push @edid_list, $raw_edid;
+        }
+    }
+print Dumper(@edid_list);
+    # if not fall back to the old method
+    if (!@edid_list) {
+        for my $port(0..20){
+            my $raw_edid = getEdid($port);
+            if ($raw_edid){
+                if (length($raw_edid) == 128 || length($raw_edid) == 256) {
+                    push @edid_list, $raw_edid;
                 }
-                $common->addMonitor ({
-                    BASE64 => $base64,
-                    CAPTION => $caption,
-                    DESCRIPTION => $description,
-                    MANUFACTURER => $manufacturer,
-                    SERIAL => $serial,
-                    UUENCODE => $uuencode,
-                });
             }
+        }
+    }
+    for my $raw_edid(@edid_list) {
+        my $edid = parse_edid($raw_edid);
+        if (my $err = check_parsed_edid($edid)) {
+            $logger->debug("check failed: bad edid: $err");
+        }
+        my $caption = $edid->{monitor_name};
+        my $description = $edid->{week}."/".$edid->{year};
+        my $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
+        my $serial = $edid->{serial_number2}[0];
+        if (!exists $found{$serial}) {
+            $found{$serial} = 1;
+ 
+            eval "use MIME::Base64;";
+            $base64 = encode_base64($raw_edid) if !$@;
+            if (can_run("uuencode")) {
+                chomp($uuencode = `echo $raw_edid|uuencode -`);
+                if (!$base64) {
+                    chomp($base64 = `echo $raw_edid|uuencode -m -`);
+                }
+            }
+            $common->addMonitor ({
+                BASE64 => $base64,
+                CAPTION => $caption,
+                DESCRIPTION => $description,
+                MANUFACTURER => $manufacturer,
+                SERIAL => $serial,
+                UUENCODE => $uuencode,
+            });
         }
     }
 }

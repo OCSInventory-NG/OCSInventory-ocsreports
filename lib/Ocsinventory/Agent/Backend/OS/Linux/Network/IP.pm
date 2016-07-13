@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Network::IP;
 
 sub check {
-    return unless can_run ("ifconfig") || can_run("ip");
+    return unless can_run ("ip") || can_run("ifconfig");
     1;
 }
 
@@ -28,6 +28,7 @@ sub run {
                 ($1=~/::1/)?next:push @ip, $1;
             }
         }
+    }
 
     my $ip=join "/", @ip;
     if (defined $ip) {
