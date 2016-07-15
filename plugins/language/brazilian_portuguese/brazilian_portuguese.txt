@@ -851,21 +851,21 @@
 885 unknown
 886 Simple desaffection
 887 It's possible that this package is not affected to redistribution servers 
-888 Removal
+888 Remoção
 889 Conectado a
 890 Interface is actually locked on a search with various criterias
-891 Remove interface LOCK
-892 connect with another account
+891 Remover interface LOCK
+892 conectar com outra conta
 893 NO TAG AFFECTEID TO YOUR PROFILE
 894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
 895 TAG Modification
 898 Adicionar uma anotação
 899 Escrever
-900 Do you really want to delete selection ?
+900 Você realmente quer apagar a seleção ?
 901 Action sur le résultat de la requête
 902 Action sur le résultat de la sélection
 903 You must fill the explanation field
-904 Package reassignment
+904 Redesignação de pacote
 905 Explanation about perfomed actions <br>on computer to be able to <br>affect packageuet
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
@@ -876,8 +876,8 @@
 912 Export list of computers that have this softwares
 913 Number of non inventoried network interfaces
 914 Number of agents that didn't send inventory since at least
-915 menssagens
-916 The value must be higher than 
+915 mensagens
+916 O valor deve ser maior do que
 917 FREQUENCY value
 918 Differential between LASTDATE and LASTCOME
 919 Are you sure to want to delete this message
@@ -1101,9 +1101,9 @@
 1136 Snmp
 1137 Enable/Disable the snmp service
 1138 Show all my subnet
-1139 Administer
-1140 Administer subnet
-1141 Subnet added
+1139 Administrar
+1140 Administrar subnet
+1141 Subnet adicionada
 1142 Enter a new subnet for blacklist
 1143 Subnet mask
 1144 Invalid MAC address. (must be: XX.XX.XX.XX.XX.XX)
@@ -1125,14 +1125,14 @@
 1160 On serial numbers
 1161 On the ipdiscover's subnet
 1162 Manage teledeploy
-1163 Update Configuration
+1163 Atualizar configuração
 1164 Gerenciar groups
 1165 Gerenciar console
 1166 See warning messages of the GUI
 1167 Manage accounts info
 1168 may change accounts info computers
 1169 may change their membership group
-1170 Manage profiles
+1170 Gerenciar perfis
 1171 Manage profiles group
 1172 Manage ipdiscover
 1173 Profile information
@@ -1142,14 +1142,14 @@
 1177 Rights to Manage
 1178 Esse campo
 1179 is a variable. It can not contain special characters
-1180 can't be empty
+1180 não pode ser vazio
 1181 Redistribution server functionality
 1182 You can't manage redistribution rules, this functionality is disable
-1183 List of packages to create
+1183 Lista de pacotes para criar
 1184 Chave adicionada
 1185 Chave atualizada
 1186 Your data are updated
-1187 Configuration is pending
+1187 Configuração está pendente
 1188 This group is declared as a TEST perimeter
 1189 This group is declared as a RESTRAINT perimeter
 1190 You can't assign packages higher level
@@ -1162,7 +1162,7 @@
 1197 SNMP functionality
 1198 Networks scans
 1199 Version of SNMP communities
-1200 Value is updated
+1200 Valor é atualizado
 1201 Display
 1202 Linux (ALL)
 1203 Windows (ALL)
@@ -1196,11 +1196,11 @@
 1231 The file format must be ZIP
 1232 The file format must be TAR.GZ
 1233 Nome da base de dados
-1234 Description can't be empty
+1234 A descrição não pode ser vazia
 1235 referência
 1236 Soft version
 1237 Versão do firmware
-1238 Installation date
+1238 Data de instalação
 1239 MHz
 1240 MB
 1241 Number of SNMP devices 
@@ -1211,16 +1211,16 @@
 1246 Affect again
 1247 Arquitetura
 1248 Diretório
-1249 Activation of cache tables (allows less solicit the MySQL database)
+1249 Ativação de tabelas de cache (permite solicitar menos o banco de dados MySQL)
 1250 Teledeploy speed
 1251 Estátisticas
 1252 Configuration profiles files directory
 1253 Directory of old conf profiles files
 1254 Directory of scripts logs
-1255 Connexion number by day
+1255 Número de conexões por dia
 1256 Bad connexion number by day
 1257 Use flash on GUI
-1258 Manual Entry
+1258 Entrada manual
 1259 Para uma semana
 1260 For one months
 1261 Limpar cache
@@ -1229,7 +1229,7 @@
 1264 Próximo
 1265 Enable cache tables
 1266 Virtual Machines
-1267 Type of Virtual Machines
+1267 Tipos de Máquinas Virtuais
 1268 Uuid
 1269 Machine hosted by
 1270 DDMMYYYY
@@ -1266,8 +1266,8 @@
 1311 Reboot
 1312 Data width
 1313 Current address width
-1314 Logical CPUS
-1315 Current speed
+1314 CPUS lógicas
+1315 Velocidade Atual
 1316 Tipos de Socket
 1317 Número de cores
 1318 Tamanho do cache L2
@@ -1275,8 +1275,8 @@
 1320 Use , between data
 1321 No port defined for WOL
 1322 Unable to open socket for WOL
-1323 Server printer sharing
-1324 Sharing printer on server
+1323 Servidor de Impressão compartilhado
+1324 Compatilhamento de impressora no servidor
 1325 screen horizontal / vertical
 1326 Compartilhado
 1327 Local / Networks
@@ -1285,7 +1285,7 @@
 2001 ERRO:
 2002 ERRO: LINHA
 2003 MySQL ERRO:
-2004 (using new ocs account)
+2004 (usando uma nova conta ocs )
 2005 Subnet
 2006 Atenção:
 2007 conta
@@ -1301,23 +1301,23 @@
 2017 usando
 2018 was imported
 2019 were already imported
-2020 Your install.php exists in your installation directory.
-2021 Your logs directory is not writable
-2022 You can't send a file larger than
+2020 Seu install.php existe em seu diretório de instalação.
+2021 O seu directório de logs não é gravável
+2022 Não é possível enviar um arquivo maior que
 2023 Deletar isto
 2024 The default SQL login/password is activate on your database:
-2025 Change your login password for 'ocs' user in MySQL
-2026 The default login/password is activate on OCS-NG GUI
-2027 Change your 'admin' password on OCS-NG GUI
+2025 Alterar a sua senha para o usuário 'ocs' no MySQL
+2026 O usuário / senha padrão está ativo em OCS-NG GUI
+2027 Alterar sua senha 'admin' no OCS-NG GUI
 2028 Chave de autenticação
 
 
 2030 Instalação OCS Inventory
 2031 Versão corrente instalada
-2032 is lower than this version
+2032 é menor do que esta versão
 2033 Instalação automática iniciada
 2034 DB configuration not completed. Automatic install launched
-2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
+2035 ERRO: Sessões PHP não está devidamente instalada. <br> Tente instalar o pacote php-session.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
 2037 ERROR: MySql for PHP is not properly installed.<br>Try installing mysql for php package (Debian: php-mysql)
 2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-gd package (Linux).
@@ -1338,7 +1338,7 @@
 2055 Banco de dados gerado com sucesso
 2056 Arquivo de configuração do MySql escrito com sucesso
 2057 Existe atualização do banco de dados
-2058 Database engine checking...
+2058 verificação engine de banco de dados...
 2059 ERROR: Alter query failed
 2060 ERROR: Show table status query failed
 2061 ERROR: InnoDB conversion failed, install InnoDB  mysql engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your mysql config file.)<br>Reinstall when corrected.
@@ -1352,8 +1352,8 @@
 2070 missing, if you do not reinstall the DEPLOY feature won't be available
 2071 WARNING: One or more files were already inserted
 2072 Deploy files successfully inserted
-2073 Table 'files' truncated
-2074 Table 'files' was empty
+2073 Tabela 'files' truncada
+2074 Tabela 'files' estava vazio
 2076 No subnet.csv file to import
 2077 Inserting subnet.csv networks
 2078 ERROR: Could not insert network
@@ -1364,10 +1364,10 @@
 2083 ERROR: Could not update netid to
 2084 Network netid was computed
 2085 were already computed
-2086 were not computable
+2086 não eram computáveis
 2087 Netmap netid computing. Please wait...
 2089 Netmap netid was computed
-2090 Cleaning orphans...
+2090 limpeza órfãos...
 2091 ERROR: Could not clean
 2092 orphan lines deleted
 2093 Cleaning netmap...
@@ -1381,14 +1381,14 @@
 2101 Adicionar pelo script
 2102 WARNING: If you change default database name (ocsweb), don't forget to update your ocs engine files
 2103 DEMO mode: you can't update data
-2104 YOU ARE WATCHING THE DEMO VERSION OF
-2105 Your database is OK.<br>No action taken.
+2104 Você está visualizando a versão demo de
+2105 Seu banco de dados está OK. <br> Nenhuma ação tomada.
 2106 in MySQL configuration, the variable 'max_allowed_packet' allows only file size <
 2107 The version of WEB interface is lower than the version of the database
 2108 The version of the database <b> MUST </b> be less than or equal to the version of the web interface
 2109 Versão corrente
 2110 Versão esperada
-2111 Perform the update
+2111 Realizar a atualização
 2112 The following file is not present or is not readable
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
@@ -1420,5 +1420,5 @@
 6001 Offices Licences
 6002 Distribution of Offices Licences
 6003 Número da licença
-6004 Total disponivel 
+6004 Total disponível 
 6005 Ligar/Desligar
