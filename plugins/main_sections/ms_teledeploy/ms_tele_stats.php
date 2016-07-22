@@ -14,7 +14,7 @@ require('require/function_stats.php');
 
 if($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" 
 	and isset($protectedPost["ACTION"]) and $protectedPost["ACTION"] != ''){
-
+	require('require/function_server.php');
 	if( $protectedPost["ACTION"] == "VAL_SUCC") {	
 		$result_line_delete=find_device_line('SUCCESS%',$protectedGet["stat"]);
 	}
@@ -27,11 +27,10 @@ if($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES"
 	
 	if (isset($result_line_delete) and is_array($result_line_delete)){
 		require('require/function_telediff.php');
-		desactive_packet($result_line_delete['HARDWARE_ID'],$result_line_delete['IVALUE'][0]);
-	}
-	
-	
-	
+		foreach ($result_line_delete as $key => $value) {
+			desactive_packet($value,$key);
+		}		
+	}	
 }
 
 $form_name="show_stats";

@@ -37,29 +37,43 @@ $arr_FCColors[19] = "669900" ;//Shade of green
 //cyclic iteration to return a color from a given index. The index value is
 //maintained in FC_ColorCounter
 
+function find_ivalues($packid){
+	$sql = "SELECT id FROM download_enable WHERE fileid='%s'";
+	$arg = $packid;
+	$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
+	while ($row=mysqli_fetch_array($res)) {
+		$result[] = $row['id'];
+	}
+	return $result;
+}
+
 function find_device_line($status,$packid){
-	
+
+	//get all ivalues
+	$ivalues = find_ivalues($packid);
+
+	//get hardwareid foreach ivalue
+	foreach ($ivalues as $value) {
 		$sql="select hardware_id,ivalue from devices where name='DOWNLOAD' and tvalue";
 		if ($status == "NULL"){
 			$sql.= " IS NULL ";
-			$arg=$packid;
+			$arg = $value;
 		}elseif ($status == "NOTNULL"){
 			$sql.= " IS NOT NULL ";
-			$arg=$packid;
+			$arg = $value;
 		}else{
 			$sql.= " LIKE '%s' ";
-			$arg=array($status,$packid);
+			$arg=array($status,$value);
 		}			
-		$sql.=	"AND ivalue IN (SELECT id FROM download_enable WHERE fileid='%s') " .
+		$sql.=	"AND ivalue='%s' " .
 				"AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')";
 		
 		$res =mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);		
 		while ($row=mysqli_fetch_object($res)){
-			$result['HARDWARE_ID'][]=$row->hardware_id;
-			$result['IVALUE'][]=$row->ivalue;
+			$result[$value][]=$row->hardware_id;
 		}
-		return $result;
-	
+	}
+	return $result;
 }
 
 ?>
