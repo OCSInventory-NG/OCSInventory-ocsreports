@@ -484,7 +484,7 @@ function FormatDate(pDate)
 		showday = "0"+pDate;
 	else
 		showday = pDate;
-	return (this.Year+"-"+showmonth+"-"+showday);
+
 	if (this.Format.toUpperCase()=="DDMMYYYY")		
 		return (showday+DateSeparator+showmonth+DateSeparator+this.Year);
 	else if (this.Format.toUpperCase()=="DDMMMYYYY")
@@ -494,6 +494,8 @@ function FormatDate(pDate)
 	else if (this.Format.toUpperCase()=="YYYYMMDD")		
 		return (this.Year+DateSeparator+showmonth+DateSeparator+showday);
 	else if (this.Format.toUpperCase()=="MMMDDYYYY")
-		return (this.GetMonthName(false)+DateSeparator+pDate+DateSeparator+this.Year);			
+		return (this.GetMonthName(false)+DateSeparator+pDate+DateSeparator+this.Year);	
+		
+	return (this.Year+DateSeparator+showmonth+DateSeparator+showday);
 }
 Calendar.prototype.FormatDate=FormatDate;	
