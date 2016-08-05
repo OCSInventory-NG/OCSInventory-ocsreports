@@ -207,3 +207,24 @@ function checkDependencies(){
     
 }
 
+/**
+* This function check if directories are writable.
+* Die if not compliant
+*/
+function checkWritable(){
+    
+    global $l;
+
+    $sup_writable_dir = array(
+        CD_CONFIG_DIR,
+        CONFIG_DIR,
+        PLUGINS_DIR."language"        
+    );
+    
+    foreach ($sup_writable_dir as $value) {
+        if(!is_writable($value)){
+            msg_error($l->g(297)." ".$value);
+        }
+    }
+    
+}

@@ -54,6 +54,7 @@ if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 }
 
 checkDependencies();
+checkWritable();
 
 // Plugins Install menu.
 
