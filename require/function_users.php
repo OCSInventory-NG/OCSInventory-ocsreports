@@ -200,7 +200,7 @@ function admin_user($id_user = null, $is_my_account = false) {
 	
 	if ($_SESSION['OCS']['cnx_origine'] == "LOCAL"){
 		$name_field[]="PASSWORD";
-		$type_field[]=0;
+		$type_field[]=4;
 		$tab_name[]=$l->g(217)." :";
 		$value_field[]=$protectedPost['PASSWORD'];
 	}
