@@ -218,7 +218,8 @@ function checkWritable(){
     $sup_writable_dir = array(
         CD_CONFIG_DIR,
         CONFIG_DIR,
-        PLUGINS_DIR."language"        
+        PLUGINS_DIR."language",
+        MAIN_SECTIONS_DIR
     );
     
     foreach ($sup_writable_dir as $value) {
