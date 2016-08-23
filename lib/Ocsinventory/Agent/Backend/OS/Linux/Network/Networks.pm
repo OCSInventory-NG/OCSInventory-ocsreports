@@ -50,27 +50,27 @@ sub _ipdhcp {
     my $ipdhcp;
     my $leasepath;
 
-    $leasepath = getLeaseFile($if);
-
-    if (open DHCP, $leasepath) {
-        my $lease;
-        while(<DHCP>){
-            $lease = 1 if(/lease\s*{/i);
-            $lease = 0 if(/^\s*}\s*$/);
-            #Interface name
-            if ($lease) { #inside a lease section
-                if (/interface\s+"(.+?)"\s*/){
-                    $dhcp = ($1 =~ /^$if$/);
-                }
-                #Server IP
-                if (/option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/ and $dhcp){
-                    $ipdhcp = $1;
+    if( $leasepath = getLeaseFile($if) ) {
+        if (open DHCP, $leasepath) {
+            my $lease;
+            while(<DHCP>){
+                $lease = 1 if(/lease\s*{/i);
+                $lease = 0 if(/^\s*}\s*$/);
+                #Interface name
+                if ($lease) { #inside a lease section
+                    if (/interface\s+"(.+?)"\s*/){
+                        $dhcp = ($1 =~ /^$if$/);
+                    }
+                    #Server IP
+                    if (/option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/ and $dhcp){
+                        $ipdhcp = $1;
+                    }
                 }
             }
+            close DHCP or warn;
+        } else {
+            warn "Can't open $leasepath\n";
         }
-        close DHCP or warn;
-    } else {
-        warn "Can't open $leasepath\n";
     }
     return $ipdhcp;
 }
@@ -276,7 +276,7 @@ sub run {
         }
     }
 
-    if (can_run("ifconfig")){
+    elsif (can_run("ifconfig")){
         foreach my $line (`ifconfig -a`) {
             if ($line =~ /^$/ && $description && $macaddr) {
             # end of interface section
