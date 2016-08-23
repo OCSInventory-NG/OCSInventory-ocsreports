@@ -49,7 +49,7 @@ sub run {
         if (defined $current->{CORES} && $current->{CORES} == 0) {
             $current->{CORES} = 1;
         }
-        if (defined $current->{LOGICAL_CORES} && $current->{LOGICAL_CPUS} == 0) {
+        if (defined $current->{CORES} && $current->{LOGICAL_CPUS} == 0) {
             $current->{LOGICAL_CPUS} = 1;
         }
         $index = $1 if ! defined $index && /^processor\s*:\s*(\d+)/i;
