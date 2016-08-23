@@ -114,8 +114,8 @@ sub run {
     if (can_run("ip")){
         my @ipLink = `ip -o link`;
         foreach my $line (`ip -o addr`) {
-            $ipsubnet = $description = $ipaddress = $ipmask = $ipgateway = $macaddr = $status = $type = $speed = $duplex = $driver = $pcislot = $virtualdev = undef;
-
+            $ipsubnet = $ipaddress = $ipmask = $ipgateway = $macaddr = $status = $type = $speed = $duplex = $driver = $pcislot = $virtualdev = undef;
+            $description = "";
             if ($line =~ /lo.*(127\.0\.0\.1\/8)/) { # ignore default loopback interface
                    next;
             }   
@@ -123,7 +123,7 @@ sub run {
                    next;
             }   
             
-            $description = $1 if ($line =~ /\d:\s+(\S+)/i);
+            $description = $1 if ($line =~ /\d:\s+([\w\d]+)\s+/i);
 
             if ($line =~ /inet (\S+)\/(\d{2})/i){
                 $ipaddress = $1; 
@@ -181,11 +181,13 @@ sub run {
 
             # Retrieve speed from /sys/class/net/$description/speed
             if ( ! -z "/sys/class/net/$description/speed") {
-                open SPEED, "</sys/class/net/$description/speed";
-                foreach (<SPEED>){
-                     $current_speed=$_;
-                   }
-                close SPEED;
+                if(open SPEED, "</sys/class/net/$description/speed") {
+                    foreach (<SPEED>){
+                         $current_speed=$_;
+                       }
+                    close SPEED;
+                }
+                
                 if (defined $current_speed) {
                     chomp($current_speed);
                     if ($current_speed eq "65535"){
@@ -235,43 +237,44 @@ sub run {
                 }
                 $type = "Wifi";
             }
-
-            if ($type eq "Wifi") {
-                  $common->addNetwork({
-                      DESCRIPTION => $description,
-                      DRIVER => $driver,
-                      IPADDRESS => $ipaddress,
-                      IPDHCP => _ipdhcp($description),
-                      IPGATEWAY => $ipgateway,
-                      IPMASK => $ipmask,
-                      IPSUBNET => $ipsubnet,
-                      MACADDR => $macaddr,
-                      PCISLOT => $pcislot,
-                      STATUS => $status,
-                      TYPE => $type,
-                      SPEED => $bitrate,
-                      SSID => $ssid,
-                      BSSID => $bssid,
-                      IEEE => $version,
-                      MODE => $mode,
-                });
-            } else { 
-                  $common->addNetwork({
-                      DESCRIPTION => $description,
-                      DRIVER => $driver,
-                      IPADDRESS => $ipaddress,
-                      IPDHCP => _ipdhcp($description),
-                      IPGATEWAY => $ipgateway,
-                      IPMASK => $ipmask,
-                      IPSUBNET => $ipsubnet,
-                      MACADDR => $macaddr,
-                      PCISLOT => $pcislot,
-                      STATUS => $status,
-                      TYPE => $type,
-                      VIRTUALDEV => $virtualdev,
-                      DUPLEX => $duplex?"Full":"Half",
-                      SPEED => $speed,
-                });
+            if ($description ne "") {
+                if ($type eq "Wifi") {
+                      $common->addNetwork({
+                          DESCRIPTION => $description,
+                          DRIVER => $driver,
+                          IPADDRESS => $ipaddress,
+                          IPDHCP => _ipdhcp($description),
+                          IPGATEWAY => $ipgateway,
+                          IPMASK => $ipmask,
+                          IPSUBNET => $ipsubnet,
+                          MACADDR => $macaddr,
+                          PCISLOT => $pcislot,
+                          STATUS => $status,
+                          TYPE => $type,
+                          SPEED => $bitrate,
+                          SSID => $ssid,
+                          BSSID => $bssid,
+                          IEEE => $version,
+                          MODE => $mode,
+                    });
+                } else { 
+                      $common->addNetwork({
+                          DESCRIPTION => $description,
+                          DRIVER => $driver,
+                          IPADDRESS => $ipaddress,
+                          IPDHCP => _ipdhcp($description),
+                          IPGATEWAY => $ipgateway,
+                          IPMASK => $ipmask,
+                          IPSUBNET => $ipsubnet,
+                          MACADDR => $macaddr,
+                          PCISLOT => $pcislot,
+                          STATUS => $status,
+                          TYPE => $type,
+                          VIRTUALDEV => $virtualdev,
+                          DUPLEX => $duplex?"Full":"Half",
+                          SPEED => $speed,
+                    });
+                }
             }
         }
     }
