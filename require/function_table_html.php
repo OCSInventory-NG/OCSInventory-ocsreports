@@ -429,6 +429,15 @@ function xml_decode( $txt ) {
 
                    		
             	},
+                
+                //Save datatable state (page length, sort order, ...) in localStorage
+		"stateSave": true,
+		"stateDuration": 0,
+		//Override search filter and page start after loading last datatable state
+		"stateLoadParams": function (settings, data) {
+    			data.search.search = "";
+			data.start = 0;
+  		},
 
            	//Column definition 
         	"columns": [
