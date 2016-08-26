@@ -126,7 +126,7 @@ $i=0;
 	echo "<table BORDER='1' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
 	
-	while($item=mysqli_fetch_array($resultDetails,MYSQL_ASSOC)) {
+	while($item=mysqli_fetch_array($resultDetails,MYSQLI_ASSOC)) {
 		$optPerso[ $item["NAME"] ][ "IVALUE" ] = $item["IVALUE"];
 		$optPerso[ $item["NAME"] ][ "TVALUE" ] = $item["TVALUE"];
 	}	

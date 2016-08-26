@@ -116,7 +116,7 @@ else{
 		$queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE id=%s";
 		$argDetail=array($protectedPost['MODIF']);
 		$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"],$argDetail);
-		$item=mysqli_fetch_array($resultDetails,MYSQL_ASSOC);
+		$item=mysqli_fetch_array($resultDetails,MYSQLI_ASSOC);
 		$tab_name[1]= $l->g(1126) . ": ";
 		$tab_name[2]= $l->g(1127) . ": ";
 		$tab_name[3]= $l->g(1128) . ": ";

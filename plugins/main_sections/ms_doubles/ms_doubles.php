@@ -45,7 +45,7 @@ if ($protectedPost['FUSION']){
 		$i=0;
 		while (isset($list_id_fusion[$i])){
 			$res = mysqli_query($_SESSION['OCS']["readServer"],"SELECT deviceid,id,lastcome FROM hardware WHERE id=".$list_id_fusion[$i]) or die(mysqli_error($_SESSION['OCS']["readServer"]));		
-			$afus[] = mysqli_fetch_array($res,MYSQL_ASSOC);	
+			$afus[] = mysqli_fetch_array($res,MYSQLI_ASSOC);	
 			$i++;
 		}	
 		if (isset($afus))

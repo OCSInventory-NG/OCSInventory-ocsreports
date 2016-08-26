@@ -37,7 +37,7 @@ function creerTableau($var)  //$var est le $_post de mon script.php
 	//echo "<style type='text/css'> table, th, tr, td, th {border:1px solid black;}td {padding-left: 3mm;padding-right: 3mm;} th {color:brown;}</style>";  //car pb de css avec l impression
 	$html_data .="<table>\n";
 	$html_data .="<tr><th>Nom du PC   </th><th>Nom du logiciel   </th><th>Version du logiciel </th><th>Repertoire</th><th>Adresse IP</th><th>Domaine</th></tr> ";
-	while($row=mysqli_fetch_array($query_version,MYSQL_ASSOC))
+	while($row=mysqli_fetch_array($query_version,MYSQLI_ASSOC))
 		{
 		if($row['sfold']=="")
 		{$row['sfold']="&nbsp";}
