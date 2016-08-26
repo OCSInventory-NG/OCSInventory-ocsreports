@@ -29,8 +29,8 @@ else{
 			
 		$list_tab=find_all_account_tab('TAB_ACCOUNTAG','COMPUTERS',1);	
 		if ($list_tab != ''){
-			if ($protectedPost['Valid_modif'] != ""){
-				
+			if ($protectedPost['Valid_modif'] != "" && $protectedPost['NOTE'] == "" && $protectedPost['NOTE_MODIF'] == "" ){
+                            
 				if (!isset($protectedPost['onglet']) or $protectedPost['onglet'] == '' or ! is_numeric($protectedPost['onglet']))
 					$protectedPost['onglet'] = $list_tab['FIRST'];
 				
