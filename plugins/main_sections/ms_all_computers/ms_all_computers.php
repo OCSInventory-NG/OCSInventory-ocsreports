@@ -143,7 +143,7 @@ if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] !
 $queryDetails  .=" group by h.id";
 $tab_options['LBL_POPUP']['SUP']='name';
 $tab_options['LBL']['SUP']=$l->g(122);
-$tab_options['TRI']['DATE']['e.bdate']="%m/%d/%Y";
+$tab_options['TRI']['DATE']['e.bdate']="%m/%d/%Y"; // BIOS date format in database (varchar)
 
 $entete = ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 

@@ -189,31 +189,11 @@ function addLog( $type, $value="",$lbl_sql='') {
 function dateTimeFromMysql($v) {
 	global $l;
 	
-	if( $l->g(269) == "%m/%d/%Y" )
-		$ret = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $v[5].$v[6], $v[8].$v[9], $v, $v[11].$v[12],$v[14].$v[15],$v[17].$v[18]);
-	else	
-		$ret = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $v[8].$v[9], $v[5].$v[6], $v, $v[11].$v[12],$v[14].$v[15],$v[17].$v[18]);
-	return $ret;
-}
-
-
-function dateToMysql($date_cible) {
-	global $l;
-	if(!isset($date_cible)) return "";
-	
-	$dateAr = explode("/", $date_cible);
-	
-	if( $l->g(269) == "%m/%d/%Y" ) {
-		$jour  = $dateAr[1];
-		$mois  = $dateAr[0];
-	}
-	else {
-		$jour  = $dateAr[0];
-		$mois  = $dateAr[1];
-	}
-
-	$annee = $dateAr[2];
-	return sprintf("%04d-%02d-%02d", $annee, $mois, $jour);	
+	$sql="SELECT date_format('%s', '%s %%H:%%i:%%S') as dt";
+        $arg=array($v,$l->g(269));
+        $result=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
+        $ret = mysqli_fetch_array( $result );
+        return $ret['dt'];	
 }
 
 

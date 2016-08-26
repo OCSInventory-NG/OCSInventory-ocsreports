@@ -267,7 +267,7 @@
 266 Hibďż˝s dďż˝tum
 267 yyyy/mm/dd
 268 Sebessďż˝g
-269 %Y/%m/%d
+269 %d/%m/%Y
 270 Modem(ek)
 271 Slot(ok)
 272 Port(ok)

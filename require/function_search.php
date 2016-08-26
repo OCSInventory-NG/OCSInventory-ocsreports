@@ -287,20 +287,17 @@ function jockers_trait($field_value){
 
 //function for search on date
 function compair_with_date($field,$field_value){
-	global $l;
-		//modification d'un champ texte en date dans certains cas
- 		if ($field == "LASTDATE" or $field == "LASTCOME" or $field == "REGVALUE"){
- 			$tab_date = explode('-', $field_value);
- 			//on applique le traitement que si la date est valide
-                        if(count($tab_date) == 3){
-                            if (checkdate($tab_date[1],$tab_date[2],$tab_date[0])){
-                                $field_value = "'".$field_value."'";                  
-                            }
-                        }
-
- 		}
-
- 		return array('field'=>$field,'field_value'=>$field_value);
+    global $l;
+    //convert string to date for some fields
+    if ($field == "LASTDATE" or $field == "LASTCOME" or $field == "REGVALUE"){
+            $d = str_replace('/', '-', $field_value);
+            $tab_date = explode('-', $d);
+            // expect 3 fields
+            if (count($tab_date) == 3){
+                    $field_value = "str_to_date('" . $field_value . "', '" . $l->g(269) . "')";
+            }
+    }
+    return array('field'=>$field,'field_value'=>$field_value);
 }
 
 

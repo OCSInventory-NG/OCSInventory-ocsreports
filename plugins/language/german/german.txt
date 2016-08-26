@@ -1228,7 +1228,7 @@
 1267 Art der virtuellen Maschine
 1268 UUID
 1269 Maschine gehostet von
-1270 TTMMJJJJ
+1270 DDMMYYYY
 1271 Rechner im Subnetz 
 1272 Rechner löschen
 1273 Sie haben nicht die Berechtigung Rechner zu löschen.

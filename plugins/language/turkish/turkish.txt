@@ -177,7 +177,7 @@
 266 Geçersiz tarih
 267 dd/mm/yyyy
 268 Hýz
-269 %m/%d/%Y
+269 %d/%m/%Y
 270 Modem(s)
 271 Yarýk(s)
 272 Baðlama noktasý(s)

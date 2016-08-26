@@ -98,10 +98,16 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			active_option('DOWNLOAD_FORCE',$list_id,$protectedPost['SELECT'],'1');
 		if (isset($protectedPost['INSTALL_DATE']) and $protectedPost['INSTALL_DATE'] != ''){
 			$date=explode('/',$protectedPost['INSTALL_DATE']);
+                        // Agent date format : 2016/06/30 02:15pm
 			if ($l->g(269) == "%m/%d/%Y") 
 				$install_date=$date[2]."/".$date[0]."/".$date[1]." ".$protectedPost['INSTALL_HEURE'];
-			else
-				$install_date=$date[2]."/".$date[1]."/".$date[0]." ".$protectedPost['INSTALL_HEURE'];
+			else {
+				if ($l->g(269) == "%Y/%m/%d")
+					$install_date=$date[0]."/".$date[1]."/".$date[2]." ".$protectedPost['INSTALL_HEURE'];
+				else
+					// default : %d/%m/%Y
+					$install_date=$date[2]."/".$date[1]."/".$date[0]." ".$protectedPost['INSTALL_HEURE'];
+			}
 			active_option('DOWNLOAD_SCHEDULE',$list_id,$protectedPost['SELECT'],$install_date);
 		}
 		

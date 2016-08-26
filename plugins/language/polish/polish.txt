@@ -183,7 +183,7 @@
 266 Nieprawidłowa data
 267 dd/mm/rrrr
 268 Szybkość
-269 %m/%d/%R
+269 %d/%m/%Y
 270 Modem(y)
 271 Slot(y)
 272 Port(y)
