@@ -3,6 +3,9 @@
 require_once 'require/function_users.php';
 
 function validate_profile_create_form($data) {
+    
+        global $l;
+    
 	$errors = array();
 	$profiles = get_profile_labels();
 	
@@ -35,6 +38,9 @@ function validate_profile_create_form($data) {
 }
 
 function validate_profile_edit_form($profile_id, $data) {
+    
+        global $l;
+    
 	$errors = array();
 
 	$yes_no = array('YES', 'NO');
