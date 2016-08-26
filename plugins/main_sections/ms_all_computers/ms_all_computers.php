@@ -152,7 +152,7 @@ $entete = ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_co
 if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
 	$list_fonct["image/delete.png"]=$l->g(122);
 	$list_pag["image/delete.png"]=$pages_refs["ms_custom_sup"];
-	$tab_options['LBL_POPUP']['SUP']='name_of_machine';
+	$tab_options['LBL_POPUP']['SUP']='name';
 }
 $list_fonct["image/cadena_ferme.png"]=$l->g(1019);
 $list_fonct["image/mass_affect.png"]=$l->g(430);
