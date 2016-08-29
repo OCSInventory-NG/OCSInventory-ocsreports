@@ -13,7 +13,7 @@ sub run {
 
     my $OSversion;
     foreach (`lsb_release -r`){
-        $osrelease = $1 if /Release:\s+(.+)/;
+        $osversion = $1 if /Release:\s+(.+)/;
     }
  
     my $OSComment;
