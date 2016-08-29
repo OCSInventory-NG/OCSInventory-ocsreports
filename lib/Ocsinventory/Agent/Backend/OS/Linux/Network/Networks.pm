@@ -134,12 +134,33 @@ sub run {
             }
     
             if (ip_is_ipv4($ipaddress)){
+                foreach (`route -n`) {
+                    if (/^(\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
+                        $gateway{$1} = $2;
+                    }
+                }
+
+                if (defined ($gateway{'0.0.0.0'})) {
+                    $common->setHardware({
+                        DEFAULTGATEWAY => $gateway{'0.0.0.0'}
+                    });
+                }
+            
+            
                 $ipmask = ip_bintoip(ip_get_mask($mask4,4),4) if $mask4;
                 $binip = ip_iptobin($ipaddress,4) if $ipaddress;
                 $binmask = ip_iptobin($ipmask,4) if $ipmask;
                 $binsubnet = $binip & $binmask if ($binip && $binmask);
                 $ipsubnet = ip_bintoip($binsubnet,4) if $binsubnet;
             } elsif (ip_is_ipv6($ipaddress)) {
+            
+                foreach (`route -nA inet6`) {
+                    if(/^(\S+)\/\d{1,3}\s+(\S+)/) {
+                        next if ($1 eq $2);
+                        $gateway{$1} = $2;
+                    }
+                }
+
                 $ipmask = ip_bintoip(ip_get_mask($mask6,6),6) if $mask6;;
                 $binip = ip_iptobin(ip_expand_address($ipaddress,6),6) if $ipaddress;
                 $binmask = ip_iptobin(ip_expand_address($ipmask,6),6) if $ipmask;
@@ -165,10 +186,12 @@ sub run {
             }
 
             $ipgateway = $gateway{$ipsubnet} if $ipsubnet;
-
-            # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP address if it exists
+            # replace '0.0.0.0' and '::' (ie 'default gateway') by the default gateway IP address if it exists
             if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
                 $ipgateway = $gateway{'0.0.0.0'};
+            }
+            if (defined($ipgateway) and $ipgateway eq '::' and defined($gateway{'::'})) {
+                $ipgateway = $gateway{'::'};
             }
 
             if (open UEVENT, "</sys/class/net/$description/device/uevent") {
@@ -315,6 +338,15 @@ sub run {
                     #        DEFAULTGATEWAY => $gateway{'fe80::/64'}
                     #    });
                     #}
+                    
+                    foreach (`route -nA inet6`) {
+                        if(/^(\S+)\/\d{1,3}\s+(\S+)/) {
+                            next if ($1 eq $2);
+                            $gateway{$1} = $2;
+                        }
+                    }
+                    
+                    
                     $ipmask = ip_bintoip(ip_get_mask($mask6,6),6) if $mask6;;
                     $binip = ip_iptobin(ip_expand_address($ipaddress,6),6) if $ipaddress;
                     $binmask = ip_iptobin(ip_expand_address($ipmask,6),6) if $ipmask;
@@ -340,9 +372,12 @@ sub run {
                     $type = "infiniband";
                 }
 
-                # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP address if it exists
+                # replace '0.0.0.0' and '::' (ie 'default gateway') by the default gateway IP address if it exists
                 if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
                     $ipgateway = $gateway{'0.0.0.0'};
+                }
+                if (defined($ipgateway) and $ipgateway eq '::' and defined($gateway{'::'})) {
+                    $ipgateway = $gateway{'::'};
                 }
 
                 if (open UEVENT, "</sys/class/net/$description/device/uevent") {
