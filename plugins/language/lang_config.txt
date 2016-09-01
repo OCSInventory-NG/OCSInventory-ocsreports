@@ -11,6 +11,7 @@ portuguese
 russian
 slovenian
 turkish
+japanese
 </ORDER>
 
 <LBL>
@@ -26,4 +27,5 @@ russian:russian
 slovenian:slovenian
 spanish:spanish
 turkish:turkish
+japanese:japanese
 </LBL>
