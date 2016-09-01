@@ -46,7 +46,7 @@ function plugin_soap_client($name, $action){
 	
  	$client = new SoapClient(null,
  								array(
- 									'location' => "http://$address/plugins",
+ 									'location' => "http://$address/ocsplugins",
  									'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules",
  								));
  	 
@@ -62,7 +62,7 @@ function plugin_soap_client($name, $action){
 		</soap:Body>
 		</soap:Envelope>";
  	
- 	$test = $client->__doRequest($request, "http://$address/plugins", "http://$address/Apache/Ocsinventory/Plugins/Modules#$method", "1.1");
+ 	$output = $client->__doRequest($request, "http://$address/ocsplugins", "http://$address/Apache/Ocsinventory/Plugins/Modules#$method", "1.1");
 	
 }
 

@@ -386,15 +386,24 @@ class plugins{
 
 	/**
 	 * This function try to execute your query and throw an error message if this is a problems in the query.
+         * Die if sql error happened
 	 * 
 	 * @param string $query : Your database query here !
 	 * @return mixed : Result returned by the query
 	 */
 	public function sql_query($query){
+            
+                global $l;
+            
 		try {
 		    $dbh = new PDO('mysql:host='.SERVER_WRITE.';dbname='.DB_NAME.'', COMPTE_BASE, PSWD_BASE);
 		    $req = $dbh->query($query);
-		    $anwser = $req ->fetch();
+                    if(!$req){
+                        msg_error($l->g(2003)." ".$l->g(7012));
+                        die;
+                    }else{
+                        $anwser = $req ->fetch();
+                    }
 		    $dbh = null;
 		    
 		    return $anwser;
