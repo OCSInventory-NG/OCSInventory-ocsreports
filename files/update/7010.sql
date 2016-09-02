@@ -1,0 +1,1 @@
+INSERT INTO `config` VALUES('WARN_UPDATE',1,'1','Warn user if an update is available');
