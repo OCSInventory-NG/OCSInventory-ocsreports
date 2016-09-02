@@ -318,11 +318,11 @@ echo "<script language='javascript'>
 		function verif()
 		 {
 			var msg = '';
-			champs = new Array('NAME','DESCRIPTION','OS','PROTOCOLE','PRIORITY','ACTION','ACTION_INPUT','REDISTRIB_USE');
-			champs_OS = new Array('NOTIFY_USER','NEED_DONE_ACTION');
+			champs = ['NAME','DESCRIPTION','OS','PROTOCOLE','PRIORITY','ACTION','ACTION_INPUT','REDISTRIB_USE'];
+			champs_OS = ['NOTIFY_USER','NEED_DONE_ACTION'];
 			champs_ACTION=new Array('teledeploy_file');
 			champs_REDISTRIB_USE=new Array('REDISTRIB_PRIORITY');
-			champs_NOTIFY_USER=new Array('NOTIFY_TEXT','NOTIFY_COUNTDOWN','NOTIFY_CAN_ABORT','NOTIFY_CAN_DELAY');
+			champs_NOTIFY_USER=['NOTIFY_TEXT','NOTIFY_COUNTDOWN','NOTIFY_CAN_ABORT','NOTIFY_CAN_DELAY'];
 			champs_NEED_DONE_ACTION=new Array('NEED_DONE_ACTION_TEXT');
 
 

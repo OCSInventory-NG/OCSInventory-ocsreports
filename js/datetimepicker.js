@@ -75,7 +75,7 @@ function NewCal(pCtrl,pFormat,pShowTime,pTimeMode,pCheck)
 		var strMinute;
 		var strSecond;
 		//parse month
-		Sp1=exDateTime.indexOf(DateSeparator,0)
+		Sp1=exDateTime.indexOf(DateSeparator,0);
 		Sp2=exDateTime.indexOf(DateSeparator,(parseInt(Sp1)+1));
 		
 		if ((Cal.Format.toUpperCase()=="DDMMYYYY") || (Cal.Format.toUpperCase()=="DDMMMYYYY"))
@@ -110,7 +110,7 @@ function NewCal(pCtrl,pFormat,pShowTime,pTimeMode,pCheck)
 		//parse time
 		if (Cal.ShowTime==true)
 		{
-			tSp1=exDateTime.indexOf(":",0)
+			tSp1=exDateTime.indexOf(":",0);
 			tSp2=exDateTime.indexOf(":",(parseInt(tSp1)+1));
 			strHour=exDateTime.substring(tSp1,(tSp1)-2);
 			Cal.SetHour(strHour);
@@ -145,7 +145,7 @@ function RenderCal()
 	vCalHeader="<table border=1 BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5' cellpadding=1 cellspacing=1 width='100%' align=\"center\" valign=\"top\">\n";
 	//Month Selector
 	vCalHeader+="<tr>\n<td colspan='7'><table border=0 width='100%' cellpadding=0 cellspacing=0><tr><td align='left'>\n";
-	vCalHeader+="<select name=\"MonthSelector\" onChange=\"javascript:winMain.Cal.SwitchMth(this.selectedIndex);winMain.RenderCal();\">\n";
+	vCalHeader+="<select name=\"MonthSelector\" onChange=\"winMain.Cal.SwitchMth(this.selectedIndex);winMain.RenderCal();\">\n";
 	for (i=0;i<12;i++)
 	{
 		if (i==Cal.Month)
@@ -216,17 +216,17 @@ function RenderCal()
 		var showHour;
 		showHour=Cal.getShowHour();		
 		vCalTime="<tr>\n<td colspan='7' align='center'>";
-		vCalTime+="<input type='text' name='hour' maxlength=2 size=1 style=\"WIDTH: 22px\" value="+showHour+" onchange=\"javascript:winMain.Cal.SetHour(this.value)\">";
+		vCalTime+="<input type='text' name='hour' maxlength=2 size=1 style=\"WIDTH: 22px\" value="+showHour+" onchange=\"winMain.Cal.SetHour(this.value)\">";
 		vCalTime+=" : ";
-		vCalTime+="<input type='text' name='minute' maxlength=2 size=1 style=\"WIDTH: 22px\" value="+Cal.Minutes+" onchange=\"javascript:winMain.Cal.SetMinute(this.value)\">";
+		vCalTime+="<input type='text' name='minute' maxlength=2 size=1 style=\"WIDTH: 22px\" value="+Cal.Minutes+" onchange=\"winMain.Cal.SetMinute(this.value)\">";
 		vCalTime+=" : ";
-		vCalTime+="<input type='text' name='second' maxlength=2 size=1 style=\"WIDTH: 22px\" value="+Cal.Seconds+" onchange=\"javascript:winMain.Cal.SetSecond(this.value)\">";
+		vCalTime+="<input type='text' name='second' maxlength=2 size=1 style=\"WIDTH: 22px\" value="+Cal.Seconds+" onchange=\"winMain.Cal.SetSecond(this.value)\">";
 		if (TimeMode==12)
 		{
 			var SelectAm =(parseInt(Cal.Hours,10)<12)? "Selected":"";
 			var SelectPm =(parseInt(Cal.Hours,10)>=12)? "Selected":"";
 
-			vCalTime+="<select name=\"ampm\" onchange=\"javascript:winMain.Cal.SetAmPm(this.options[this.selectedIndex].value);\">";
+			vCalTime+="<select name=\"ampm\" onchange=\"winMain.Cal.SetAmPm(this.options[this.selectedIndex].value);\">";
 			vCalTime+="<option "+SelectAm+" value=\"AM\">AM</option>";
 			vCalTime+="<option "+SelectPm+" value=\"PM\">PM<option>";
 			vCalTime+="</select>";

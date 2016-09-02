@@ -178,7 +178,7 @@ Slider.eventHandlers = {
 	},
 
 	onblur:	function (e) {
-		var s = this.slider
+		var s = this.slider;
 		s._focused = false;
 		s.handle.className = "handle";
 	},
