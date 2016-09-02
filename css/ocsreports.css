@@ -64,10 +64,6 @@ a,a:visited, .lienBleu {
 	color: #3151CD;	
 }
 
-a:hover {
-	color: red;
-}
-
 a.deco {
 	color:#C7D9F5;
 	font-size: 8pt;
@@ -325,10 +321,8 @@ th.ta:last-child {border-right: solid 1px #9894B5;}
 
 .mvt_tab {
     margin:0 auto 0 auto;
-	background-color: #D6DCF2;
 	border-radius: 1em;
 	-webkit-border-radius: 1em;
-	border: 2px solid #D6DCF2;
 	padding: 10px;
 }
 

@@ -1258,67 +1258,46 @@ function show_page($valCount,$form_name){
 function onglet($def_onglets,$form_name,$post_name,$ligne)
 {
 	global $protectedPost;
-/*	$protectedPost['onglet_soft']=stripslashes($protectedPost['onglet_soft']);
-	$protectedPost['old_onglet_soft']=stripslashes($protectedPost['old_onglet_soft']);*/
+	/*	$protectedPost['onglet_soft']=stripslashes($protectedPost['onglet_soft']);
+        $protectedPost['old_onglet_soft']=stripslashes($protectedPost['old_onglet_soft']);*/
 	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
-	$protectedPost['page']=0;
+		$protectedPost['page']=0;
 	}
 	if (!isset($protectedPost[$post_name]) and is_array($def_onglets)){
 		foreach ($def_onglets as $key=>$value){
 			$protectedPost[$post_name]=$key;
 			break;
-		}		
-	}
-	/*This fnction use code of Douglas Bowman (Sliding Doors of CSS)
-	http://www.alistapart.com/articles/slidingdoors/
-	THANKS!!!!
-		$def_onglets is array like :  	$def_onglets[$l->g(499)]=$l->g(499); //Serveur
-										$def_onglets[$l->g(728)]=$l->g(728); //Inventaire
-										$def_onglets[$l->g(312)]=$l->g(312); //IP Discover
-										$def_onglets[$l->g(512)]=$l->g(512); //Télédéploiement
-										$def_onglets[$l->g(628)]=$l->g(628); //Serveur de redistribution 
-		
-	behing this function put this lign:
-	echo open_form($form_name);
-	
-	At the end of your page, close this form
-	$post_name is the name of var will be post
-	$ligne is if u want have onglet on more ligne*/
-	if ($def_onglets != ""){
-	echo "<LINK REL='StyleSheet' TYPE='text/css' HREF='css/onglets.css'>\n";
-	echo "<table cellspacing='0' BORDER='0' ALIGN = 'Center' CELLPADDING='0'><tr><td><div id='header'>";
-	echo "<ul>";
-	$current="";
-	$i=0;
-	  foreach($def_onglets as $key=>$value){
-	  	
-	  	if ($i == $ligne){
-	  		echo "</ul><ul>";
-	  		$i=0;
-	  		
-	  	}
-	  	echo "<li ";
-	  	if (is_numeric($protectedPost[$post_name])){
-			if ($protectedPost[$post_name] == $key or (!isset($protectedPost[$post_name]) and $current != 1)){
-			 echo "id='current'";  
-	 		 $current=1;
-			}
-	  	}else{
-			if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
-				 echo "id='current'";  
-	 			 $current=1;
-			}
 		}
-	
-	  	echo "><a OnClick='pag(\"".htmlspecialchars($key, ENT_QUOTES)."\",\"".$post_name."\",\"".$form_name."\")'>".htmlspecialchars($value, ENT_QUOTES)."</a></li>";
-	  $i++;	
-	  }	
-	echo "</ul>
-	</div></td></tr></table>";
-	echo "<input type='hidden' id='".$post_name."' name='".$post_name."' value='".$protectedPost[$post_name]."'>";
-	echo "<input type='hidden' id='old_".$post_name."' name='old_".$post_name."' value='".$protectedPost[$post_name]."'>";
 	}
-	
+
+	if ($def_onglets != ""){
+
+		echo "<ul class=\"nav nav-tabs\" style='display: inline-block' role=\"tablist\">";
+
+		$current="";
+
+		foreach($def_onglets as $key=>$value){
+
+			echo "<li ";
+			if (is_numeric($protectedPost[$post_name])){
+				if ($protectedPost[$post_name] == $key or (!isset($protectedPost[$post_name]) and $current != 1)){
+					echo "class='active'";
+					$current=1;
+				}
+			}else{
+				if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
+					echo "class='active'";
+					$current=1;
+				}
+			}
+
+			echo "><a OnClick='pag(\"".htmlspecialchars($key, ENT_QUOTES)."\",\"".$post_name."\",\"".$form_name."\")'>".htmlspecialchars($value, ENT_QUOTES)."</a></li>";
+		}
+		echo "</ul>";
+		echo "<input type='hidden' id='".$post_name."' name='".$post_name."' value='".$protectedPost[$post_name]."'>";
+		echo "<input type='hidden' id='old_".$post_name."' name='old_".$post_name."' value='".$protectedPost[$post_name]."'>";
+	}
+
 }
 
 
