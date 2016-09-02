@@ -42,8 +42,8 @@ echo "<script language='javascript'>
     }
     
     function namefile(filename){
-    	var	parts	=	new Array();
-   		var	parts2	=	new Array();
+    	var	parts	=	[];
+   		var	parts2	=	[];
      	
    		parts = filename.split('.');
      	parts2= parts[0].split('\\\');

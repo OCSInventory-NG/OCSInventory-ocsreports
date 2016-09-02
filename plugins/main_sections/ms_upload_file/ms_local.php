@@ -32,7 +32,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 	    }    
 	
 	    function verif_file_format(champ){
-	        var ExtList=new Array('ocs','OCS','xml','XML');
+	        var ExtList=['ocs','OCS','xml','XML'];
 			filename = document.getElementById(champ).value.toLowerCase();
 			fileExt = getext(filename);
 			for (i=0; i<ExtList.length; i++)

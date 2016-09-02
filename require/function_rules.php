@@ -8,7 +8,7 @@ function check() {
 	var nb_lign=(document.getElementsByTagName('select').length -2) /3;
 	var i=1;
 	while (i < (nb_lign+1)){
-		champs = new Array('PRIORITE_'+i,'CFIELD_'+i,'OP_'+i,'COMPTO_'+i);
+		champs = ['PRIORITE_'+i,'CFIELD_'+i,'OP_'+i,'COMPTO_'+i];
 		for (var n = 0; n < champs.length; n++)
 		{
 			if (document.getElementById(champs[n]).value == ""){

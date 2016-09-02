@@ -35,7 +35,7 @@ function initAutoComplete(form,field,submit,add){
 	creeAutocompletionDiv();
 	_currentInputFieldValue=_inputField.value;
 	_oldInputFieldValue=_currentInputFieldValue;
-	cacheResults("",new Array())
+	cacheResults("",[]);
 	document.onkeydown=onKeyDownHandler;
 	_inputField.onkeyup=onKeyUpHandler;
 	_inputField.onblur=onBlurHandler;
@@ -46,7 +46,7 @@ function initAutoComplete(form,field,submit,add){
 
 var _oldInputFieldValue="";	// valeur précédente du champ texte
 var _currentInputFieldValue="";	// valeur actuelle du champ texte
-var _resultCache=new Object();	// mécanisme de cache des requetes
+var _resultCache={};	// mécanisme de cache des requetes
 
 // tourne en permanence pour suggérer suite à un changement du champ texte
 function mainLoop(){
@@ -56,7 +56,7 @@ function mainLoop(){
 		if(suggestions){ // la réponse était encore dans le cache
 			metsEnPlace(valeur,suggestions)
 		}else{
-			callSuggestions(valeur) // appel distant
+			callSuggestions(valeur); // appel distant
 		}
 		_inputField.focus()
 	}
@@ -87,8 +87,8 @@ function callSuggestions(valeur){
 		_xmlHttp.open("GET",_adresseRecherche+"&debut="+valeur,true);
 		_xmlHttp.onreadystatechange=function() {
 			if(_xmlHttp.readyState==4&&_xmlHttp.responseXML) {
-				var liste = traiteXmlSuggestions(_xmlHttp.responseXML)
-				cacheResults(valeur,liste)
+				var liste = traiteXmlSuggestions(_xmlHttp.responseXML);
+				cacheResults(valeur,liste);
 				metsEnPlace(valeur,liste)
 			}
 		};
@@ -105,7 +105,7 @@ function cacheResults(debut,suggestions){
 // Transformation XML en tableau
 function traiteXmlSuggestions(xmlDoc) {
 	var options = xmlDoc.getElementsByTagName('option');
-	var optionsListe = new Array();
+	var optionsListe = [];
 	for (var i=0; i < options.length; ++i) {
 		optionsListe.push(options[i].firstChild.data);
 	}
@@ -228,7 +228,7 @@ var onKeyDownHandler=function(event){
 	if(event) {
 		_lastKeyCode=event.keyCode;
 	}
-}
+};
 
 var _eventKeycode = null;
 
@@ -282,7 +282,7 @@ var onKeyUpHandler=function(event){
 		// si on a pressé une touche autre que haut/bas/enter
 		PressAction();
 	}
-}
+};
 
 // Change la suggestion selectionnée
 // cette méthode traite les touches haut, bas et enter
@@ -403,7 +403,7 @@ function blurThenGetFocus(){
 	_cursorUpDownPressed=true;
 	_inputField.blur();
 	setTimeout("_inputField.focus();",10);
-	return
+
 }
 
 // taille de la sélection dans le champ input
@@ -502,7 +502,7 @@ function highlightNewValue(C){
 var onResizeHandler=function(event){
 	// recalcule la taille des suggestions
 	setCompleteDivSize();
-}
+};
 
 // Handler de blur sur le champ texte
 var onBlurHandler=function(event){
