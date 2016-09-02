@@ -143,7 +143,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 			//Deleted computers tracking
 			if($traceDel && mysqli_num_rows(mysql2_query_secure("SELECT IVALUE FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION['OCS']["readServer"]))){
 				$sql="insert into deleted_equiv(DELETED,EQUIVALENT) values('%s',%s)";
-				$arg=array($did,'NULL');
+				$arg=array($idHard,'NULL');
 				mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 			}
 		}
@@ -192,7 +192,7 @@ function fusionne($afus) {
 				foreach($afus as $a) {	
 					if($afus[$maxInd]["deviceid"]==$a["deviceid"]){continue;}
 					$sql="insert into deleted_equiv(DELETED,EQUIVALENT) values('%s','%s')";
-					$arg=array($a["deviceid"],$afus[$maxInd]["deviceid"]);
+					$arg=array($a["id"],$afus[$maxInd]["id"]);
 					mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg) ;
 				}
 			}
