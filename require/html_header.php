@@ -104,6 +104,18 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
 		$msg_header_error[]= $l->g(2020);
 		$msg_header_error_sol[] = $l->g(2023);
 	}
+        // OCS update available ? and warn update on yes ?
+        $need_display = look_config_default_values("WARN_UPDATE");
+        if($need_display['ivalue']['WARN_UPDATE']=='1'){
+            $data = get_update_json();
+            if(GUI_VER_SHOW < $data->version){
+                $txt = $l->g(2118)." ".$data->version." ".$l->g(2119);
+                $txt .= "<br><a href=".$data->download.">".$l->g(2120)."</a>";
+
+                msg_warning($txt, true);
+            }
+
+        }
 	//defaut user already exist on databases?
 	try{
 		$link_read=mysqli_connect(SERVER_READ,DFT_DB_CMPT,DFT_DB_PSWD);

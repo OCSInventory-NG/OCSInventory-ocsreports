@@ -1404,6 +1404,10 @@
 2114 Aucun fichier sql pour la version 
 2115 L'utilisateur que vous avez tapé ne semble pas être root
 2116 Le répertoire config/profiles n'est pas disponible en écriture
+2117 Affiche un message si une mise a jour est disponible
+2118 OCSInventory
+2119 est disponible
+2120 Cliquez ici pour la télécharger
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

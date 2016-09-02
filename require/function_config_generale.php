@@ -319,7 +319,7 @@ function update_default_value($POST){
 						'LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL',
 						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE',
-						'INVENTORY_CACHE_ENABLED','USE_NEW_SOFT_TABLES');
+						'INVENTORY_CACHE_ENABLED','USE_NEW_SOFT_TABLES', 'WARN_UPDATE');
 	//tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -462,6 +462,7 @@ function trait_post($name){
  				  'LOG_SCRIPT'=>'LOG_SCRIPT',
  				  'CONF_PROFILS_DIR'=>'CONF_PROFILS_DIR',
  				  'OLD_CONF_DIR'=>'OLD_CONF_DIR',
+                                  'WARN_UPDATE'=>'WARN_UPDATE',
 				  );
 	$values=look_config_default_values($champs);
 	$select_local_uri=trait_post('LOCAL_URI_SERVER');
@@ -471,7 +472,7 @@ function trait_post($name){
 	$select_scripts=trait_post('LOG_SCRIPT');
 	$select_profils=trait_post('CONF_PROFILS_DIR');
 	$select_old_profils=trait_post('OLD_CONF_DIR');
-	
+
  	debut_tab();
  	ligne('LOCAL_URI_SERVER',$l->g(565),'radio',array('DEFAULT'=>$l->g(823)." (http://localhost:80/ocsinventory)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_local_uri),
 		array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['LOCAL_URI_SERVER'],'SIZE'=>"30%",'MAXLENGTH'=>254 ));
@@ -502,7 +503,8 @@ function trait_post($name){
 	ligne('OLD_CONF_DIR',$l->g(1253),'radio',array('DEFAULT'=>$l->g(823)." (".$def.")",'CUSTOM'=>$l->g(822),'VALUE'=>$select_old_profils),
 			array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$values['tvalue']['OLD_CONF_DIR'],'SIZE'=>"30%",'MAXLENGTH'=>254,'END'=>"/old_conf"));		
 	ligne('EXPORT_SEP',$l->g(1213),'input',array('VALUE'=>$values['tvalue']['EXPORT_SEP'],'SIZE'=>"30%",'MAXLENGTH'=>4));	
-	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 			
+	ligne('TAB_CACHE',$l->g(1249),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TAB_CACHE'])); 
+        ligne('WARN_UPDATE',$l->g(2117),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['WARN_UPDATE'])); 
 	
 
 	fin_tab($form_name);

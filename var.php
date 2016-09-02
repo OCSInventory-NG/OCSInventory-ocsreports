@@ -33,10 +33,11 @@ define('PASSWORD_COMPAT', __DIR__ .'/libraries/password_compat/password.php'); /
 //====================================================================================
 // GUI Options
 //====================================================================================
-define("GUI_VER", "7009");	// ocs' mysql database version									
-define("GUI_VER_SHOW", "2.2");    // GUI Version
+define("GUI_VER", "7010");	// ocs' mysql database version									
+define("GUI_VER_SHOW", "2.2.2");    // GUI Version
 define("DEFAULT_LANGUAGE", "english");   // Default GUI language
-define("PAG_INDEX", "function");     
+define("PAG_INDEX", "function");  
+define("UPDATE_JSON_URI", "http://www.ocsinventory-ng.org/update.json");
 
 //====================================================================================
 // Default OCS DIR

@@ -1404,6 +1404,10 @@
 2114 No sql file found for version
 2115 The user you typed does not seem to be root
 2116 The config/profiles directory is not writable
+2117 Display an update message if a new version is available
+2118 OCSInventory
+2119 is available
+2120 Click here to download
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

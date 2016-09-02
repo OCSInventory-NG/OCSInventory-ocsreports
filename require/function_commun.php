@@ -405,5 +405,25 @@ function close_form(){
 	return "</form>";	
 }
 
+/*
+ * Return a json from the website which help ocs determine if a new version is available
+ */
+function get_update_json(){
+    
+    $content = file_get_contents(UPDATE_JSON_URI);
+    if(!$content){
+        return false;
+    }
+    
+    $json = json_decode($content);
+    
+    if($json != null){    
+        return $json;
+    }else{
+        return false;
+    }
+    
+}
+
 
 ?>
