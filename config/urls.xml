@@ -312,10 +312,6 @@
     <value>irc</value>
     <directory>ms_help</directory>
   </url>
-  <url key="ms_forums">
-    <value>forums</value>
-    <directory>ms_help</directory>
-  </url>
   <url key="ms_offers">
     <value>offers</value>
     <directory>ms_help</directory>
