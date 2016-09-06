@@ -1408,6 +1408,7 @@
 2118 OCSInventory
 2119 est disponible
 2120 Cliquez ici pour la télécharger
+2121 Lance un inventaire au démarrage du service de l'agent
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
