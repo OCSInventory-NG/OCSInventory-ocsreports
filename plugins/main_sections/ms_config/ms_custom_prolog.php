@@ -30,6 +30,25 @@ if (!isset($protectedGet['origine'])){
 	$champ_value['VALUE']='IGNORED';	
 }
 ligne("PROLOG_FREQ",$l->g(724),'radio',$champ_value,array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$optvalue['PROLOG_FREQ'],'END'=>$l->g(730),'JAVASCRIPT'=>$numeric));
+unset($champ_value);
+
+if(!isset($optvalue['INVENTORY_ON_STARTUP']))
+$optvalueselected='SERVER DEFAULT';
+elseif($optvalue['INVENTORY_ON_STARTUP'] == 0)
+$optvalueselected='OFF';
+elseif($optvalue['INVENTORY_ON_STARTUP'] == 1)
+$optvalueselected='ON';
+$champ_value['VALUE']=$optvalueselected;
+$champ_value['ON']='ON';
+$champ_value['OFF']='OFF';
+$champ_value['SERVER DEFAULT']=$l->g(488);
+if (!isset($protectedGet['origine'])){	
+	$champ_value['IGNORED']=$l->g(718);
+	$champ_value['VALUE']='IGNORED';
+}
+ligne("INVENTORY_ON_STARTUP",$l->g(2121),'radio',$champ_value);
+unset($champ_value);
+
 fin_tab($form_name);
  
  
