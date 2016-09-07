@@ -488,6 +488,7 @@ sub run {
                 
                 $description = $1 if($line =~ /^(\w+)\s+/); # Interface name
                 
+                # BUG: ipv4 address gets overwritten by ipv6 address but we want all ip addresses
                 if ($line =~ /inet add?r:(\S+)/i || $line =~ /^\s*inet\s+(\S+)/i || $line =~ /inet (\S+)\s+netmask/i){ 
                     $ipaddress=$1;
                 } elsif ($line =~ /inet6 (\S+)\s+prefixlen\s+(\d{2})/i){
