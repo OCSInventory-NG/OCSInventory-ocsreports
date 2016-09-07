@@ -108,13 +108,14 @@ sub run {
     my $binip;
     my $binmask;
     my $binsubnet;
+    my $mtu;
 
     my %gateway;
 
     if (can_run("ip")){
         my @ipLink = `ip -o link`;
         foreach my $line (`ip -o addr`) {
-            $ipsubnet = $ipaddress = $ipmask = $ipgateway = $macaddr = $status = $type = $speed = $duplex = $driver = $pcislot = $virtualdev = undef;
+            $ipsubnet = $ipaddress = $ipmask = $ipgateway = $macaddr = $status = $type = $speed = $duplex = $driver = $pcislot = $virtualdev = $mtu = undef;
             $description = "";
             if ($line =~ /lo.*(127\.0\.0\.1\/8)/) { # ignore default loopback interface
                    next;
@@ -171,6 +172,7 @@ sub run {
             my @line1 = split " ", $line;
             my @linkData = split " ", (grep {/$line1[1]/} @ipLink)[0];
             $macaddr = uc $linkData[-3];
+            $mtu = $linkData[4];
 
             if ($linkData[2] =~ /,UP/) {
                 $status = "UP";
@@ -296,6 +298,7 @@ sub run {
                           VIRTUALDEV => $virtualdev,
                           DUPLEX => $duplex?"Full":"Half",
                           SPEED => $speed,
+                          MTU => $mtu,
                     });
                 }
             }
@@ -475,9 +478,15 @@ sub run {
             }
 
             if ($line =~ /^$/) { # End of section
-                $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = undef;
+                $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = $mtu = undef;
             } else { # In a section
-                $description = $1 if ($line =~ /^(\S+):/ || $line =~ /^(\S+)/); # Interface name
+                if ($line =~ /^(\S+):\s\S+\s*mtu\s(\d+)/) {
+                    $description = $1; # Interface name
+                    $mtu = $2; 
+                }
+                
+                $description = $1 if($line =~ /^(\w+)\s+/); # Interface name
+                
                 if ($line =~ /inet add?r:(\S+)/i || $line =~ /^\s*inet\s+(\S+)/i || $line =~ /inet (\S+)\s+netmask/i){ 
                     $ipaddress=$1;
                 } elsif ($line =~ /inet6 (\S+)\s+prefixlen\s+(\d{2})/i){
@@ -491,6 +500,7 @@ sub run {
                 $status = 1 if ($line =~ /^\s+UP\s/ || $line =~ /flags=.*[<,]UP[,>]/);
                 $type = $1 if ($line =~ /link encap:(\S+)/i);
                 $type = $2 if ($line =~ /^\s+(loop|ether).*\((\S+)\)/i);
+                $mtu = $1 if ($line =~ /MTU:(\d+)/i);
             }
         }
     }
