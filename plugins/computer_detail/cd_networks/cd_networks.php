@@ -52,6 +52,7 @@
 	$list_fields=array($l->g(53) => 'DESCRIPTION',
 					   $l->g(66) => 'TYPE',
 					   $l->g(268) => 'SPEED',
+					   $l->g(7016) => 'MTU',
 					   $l->g(95)=> 'MACADDR',
 					   $l->g(81) => 'STATUS',
 					   $l->g(34) => 'IPADDRESS',
