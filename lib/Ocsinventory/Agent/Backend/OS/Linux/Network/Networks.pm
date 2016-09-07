@@ -473,6 +473,7 @@ sub run {
                         VIRTUALDEV => $virtualdev,
                         DUPLEX => $duplex?"Full":"Half",
                         SPEED => $speed,
+                        MTU => $mtu,
                     });
                 }
             }
