@@ -137,16 +137,16 @@ sub getMdDevices {
 
 # get available block devices from /dev
 sub getFromDev {
-        my @devs;
-        my @disks;
-        my $dir = "/dev";
+    my @devs;
+    my @disks;
+    my $dir = "/dev";
 
-        opendir (my $dh, $dir) or die $!;
-        @disks = grep{/^sd[a-z][a-z]?$|^vd[a-z][a-z]?$|^sr\d+$/} readdir($dh);
-        foreach (@disks) {
-                push(@devs, {NAME => $_});
-        }
-return @devs;
+    opendir (my $dh, $dir) or die $!;
+    @disks = grep{/^sd[a-z][a-z]?$|^vd[a-z][a-z]?$|^sr\d+$/} readdir($dh);
+    foreach (@disks) {
+        push(@devs, {NAME => $_});
+    }
+    return @devs;
 }
 
 # get data from lshw
