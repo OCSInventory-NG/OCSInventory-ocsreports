@@ -319,7 +319,7 @@ function update_default_value($POST){
 						'LOG_GUI','DOWNLOAD','DOWNLOAD_CYCLE_LATENCY','DOWNLOAD_FRAG_LATENCY','DOWNLOAD_GROUPS_TRACE_EVENTS',
 						'DOWNLOAD_PERIOD_LATENCY','DOWNLOAD_TIMEOUT','DOWNLOAD_PERIOD_LENGTH','DEPLOY','AUTO_DUPLICATE_LVL',
 						'IT_SET_PERIM','IT_SET_MAIL','IT_SET_MAIL_ADMIN','SNMP','DOWNLOAD_REDISTRIB','SNMP_INVENTORY_DIFF','TAB_CACHE',
-						'INVENTORY_CACHE_ENABLED','USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STATUP');
+						'INVENTORY_CACHE_ENABLED','USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP');
 	//tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue					
 	$array_interprete_tvalue=array('DOWNLOAD_REP_CREAT'=>'DOWNLOAD_REP_CREAT_edit','DOWNLOAD_PACK_DIR'=>'DOWNLOAD_PACK_DIR_edit',
 								   'IPDISCOVER_IPD_DIR'=>'IPDISCOVER_IPD_DIR_edit','LOG_DIR'=>'LOG_DIR_edit',
@@ -587,7 +587,7 @@ function pagegroups($form_name){
 				  'LOCK_REUSE_TIME'=>'LOCK_REUSE_TIME',
 				  'TRACE_DELETED'=>'TRACE_DELETED',
 				  'SESSION_VALIDITY_TIME'=>'SESSION_VALIDITY_TIME',
-                                  'INVENTORY_ON_STARTUP' => 'INVENTORY_ON_STARTUP');
+                                  'INVENTORY_ON_STARTUP'=>'INVENTORY_ON_STARTUP');
  	$values=look_config_default_values($champs);
  	if (isset($champs['AUTO_DUPLICATE_LVL']))
  	//on utilise la fonction pour connaître les cases cochées correspondantes au chiffre en base de AUTO_DUPLICATE_LVL
