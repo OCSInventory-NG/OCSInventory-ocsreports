@@ -70,6 +70,9 @@ CREATE TABLE `bios` (
   KEY `ASSETTAG` (`ASSETTAG`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
+ALTER TABLE `bios` ADD COLUMN `MMANUFACTURER` varchar(255) default NULL;
+ALTER TABLE `bios` ADD COLUMN `MMODEL` varchar(255) default NULL;
+ALTER TABLE `bios` ADD COLUMN `MSN` varchar(255) default NULL;
 
 
 --
@@ -835,6 +838,9 @@ LOCK TABLES `operators` WRITE;
 INSERT INTO `operators` VALUES ('admin','admin','admin','21232f297a57a5a743894a0e4a801fc3',1,'Default administrator account','sadmin',NULL,NULL);
 UNLOCK TABLES;
 
+ALTER TABLE `operators` MODIFY `PASSWD` VARCHAR(255);
+ALTER TABLE `operators` ADD COLUMN `PASSWORD_VERSION` int(11) default 0;
+
 --
 -- Table structure for table `ports`
 --
@@ -1455,6 +1461,7 @@ ALTER TABLE accountinfo_config ADD COLUMN DEFAULT_VALUE varchar(255) DEFAULT NUL
 INSERT INTO config VALUES ('LOG_DIR',0,'/var/lib/ocsinventory-reports','Directory for logs files');
 INSERT INTO config VALUES ('LOG_SCRIPT',0,'/var/lib/ocsinventory-reports','Directory for logs scripts files');
 INSERT INTO config VALUES ('WOL_PORT',0,'7,9','Wol ports');
+INSERT INTO config VALUES ('PASSWORD_VERSION',1,'PASSWORD_BCRYPT','Password encryption version');
 ALTER TABLE temp_files change file file longblob;
 
 CREATE TABLE cpus (
@@ -1507,4 +1514,22 @@ ALTER TABLE printers ADD COLUMN SHARED INTEGER DEFAULT NULL;
 ALTER TABLE printers ADD COLUMN NETWORK INTEGER DEFAULT NULL;
 ALTER TABLE sim ADD COLUMN DEVICEID VARCHAR(255) DEFAULT NULL;
 
+CREATE TABLE batteries (
+   `ID` int(11) not null AUTO_INCREMENT,
+   `HARDWARE_ID` int(11), 
+   `LOCATION` varchar(255) default null, 
+   `MANUFACTURER` varchar(255) default null, 
+   `MANUFACTUREDATE` varchar(10) default null, 
+   `SERIALNUMBER` varchar(255) default null, 
+   `NAME` varchar(255) default null, 
+   `CHEMISTRY` varchar(20) default null, 
+   `DESIGNCAPACITY` varchar(10) default null, 
+   `DESIGNVOLTAGE` varchar(20) default null, 
+   `SBDSVERSION` varchar(255) default null, 
+   `MAXERROR` int(10) default null, 
+   `OEMSPECIFIC` varchar(255) default null, 
+   PRIMARY KEY (`ID`,`HARDWARE_ID`),
+   key `NAME` (`NAME`),
+   key `MANUFACTURER` (`MANUFACTURER`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 

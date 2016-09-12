@@ -564,6 +564,9 @@ ALTER TABLE bios DROP DEVICEID;
 ALTER TABLE bios ADD PRIMARY KEY(HARDWARE_ID);
 ALTER TABLE bios ADD COLUMN ASSETTAG VARCHAR(255) default NULL;
 ALTER TABLE bios ADD INDEX ASSETTAG (ASSETTAG);
+ALTER TABLE `bios` ADD COLUMN `MMANUFACTURER` varchar(255) default NULL;
+ALTER TABLE `bios` ADD COLUMN `MMODEL` varchar(255) default NULL;
+ALTER TABLE `bios` ADD COLUMN `MSN` varchar(255) default NULL;
 
 ALTER TABLE accountinfo DROP PRIMARY KEY;
 ALTER TABLE accountinfo ADD COLUMN HARDWARE_ID integer not NULL FIRST;
@@ -787,6 +790,7 @@ INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF
 
 
 INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
+INSERT INTO config VALUES ('PASSWORD_VERSION',1,'PASSWORD_BCRYPT','Password encryption version');
 
 INSERT INTO config VALUES ('GUI_VERSION', 0, '7010', 'Version of the installed GUI and database');
 
@@ -904,6 +908,8 @@ UPDATE operators SET NEW_ACCESSLVL='sadmin' where ACCESSLVL=1;
 UPDATE operators SET NEW_ACCESSLVL='admin' where ACCESSLVL=2;
 UPDATE operators SET NEW_ACCESSLVL='ladmin' where ACCESSLVL=3;
 ALTER TABLE operators ADD COLUMN USER_GROUP VARCHAR(255) default NULL;
+ALTER TABLE `operators` MODIFY `PASSWD` VARCHAR(255);
+ALTER TABLE `operators` ADD COLUMN `PASSWORD_VERSION` int(11) default 0;
 ALTER TABLE download_available ADD COLUMN ID_WK int(11) default NULL;
 
 CREATE TABLE downloadwk_tab_values (
@@ -1440,4 +1446,24 @@ CREATE TABLE IF NOT EXISTS `plugins` (
 
 ALTER TABLE `plugins` ADD PRIMARY KEY (`id`);
 ALTER TABLE `plugins` MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT;
+
+CREATE TABLE batteries (
+   `ID` int(11) not null AUTO_INCREMENT,
+   `HARDWARE_ID` int(11), 
+   `LOCATION` varchar(255) default null, 
+   `MANUFACTURER` varchar(255) default null, 
+   `MANUFACTUREDATE` varchar(10) default null, 
+   `SERIALNUMBER` varchar(255) default null, 
+   `NAME` varchar(255) default null, 
+   `CHEMISTRY` varchar(20) default null, 
+   `DESIGNCAPACITY` varchar(10) default null, 
+   `DESIGNVOLTAGE` varchar(20) default null, 
+   `SBDSVERSION` varchar(255) default null, 
+   `MAXERROR` int(10) default null, 
+   `OEMSPECIFIC` varchar(255) default null, 
+   PRIMARY KEY (`ID`,`HARDWARE_ID`),
+   key `NAME` (`NAME`),
+   key `MANUFACTURER` (`MANUFACTURER`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
 
