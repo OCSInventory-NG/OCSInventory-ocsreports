@@ -60,11 +60,6 @@ echo "<script language='javascript'>
 		{
 			if ( fileExt == ExtList[i] ) 
 			{
-				filenamenoext=namefile(filename);
-				if (filenamenoext != 'ocsagent' && filenamenoext != 'ocs-ng-windows-agent-setup' && filenamenoext != 'ocspackage' && ExtList[i] == 'exe'){
-					alert('".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(1243))."');
-					return (false);
-				}
 				return (true);
 			}
 		}
