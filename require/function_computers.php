@@ -165,7 +165,14 @@ function fusionne($afus) {
 	$minStamp = mktime(0,0,0,date("m"),date("d") + 1,date("Y")); //demain
 	foreach($afus as $a) {
 		$d = $a["lastcome"];
-		$a["stamp"] = mktime($d[11].$d[12],$d[14].$d[15],$d[17].$d[18],$d[5].$d[6],$d[8].$d[9],$d[0].$d[1].$d[2].$d[3]);
+		$param = array();
+		$param[]= (int)$d[11].$d[12];
+                $param[]= (int)$d[14].$d[15];
+                $param[]= (int)$d[17].$d[18];
+                $param[]= (int)$d[5].$d[6];
+                $param[]= (int)$d[8].$d[9];
+                $param[]= (int)$d[0].$d[1].$d[2].$d[3];
+		$a["stamp"] = mktime($param[0], $param[1], $param[2], $param[3], $param[4], $param[5]);
 		//echo "stamp:".$a["stamp"]."== mktime($d[11]$d[12],$d[14]$d[15],$d[17]$d[18],$d[5]$d[6],$d[8]$d[9],$d[0]$d[1]$d[2]$d[3]);<br>";
 		if($maxStamp<$a["stamp"]) {
 			$maxStamp = $a["stamp"];
