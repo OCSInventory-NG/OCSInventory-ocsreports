@@ -20,6 +20,10 @@
     <label>g(1333)</label>
     <url>cat=config</url>
   </menu-elem>
+  <menu-elem id="teledeploy">
+    <label>g(512)</label>
+    <url>cat=teledeploy</url>
+  </menu-elem>
   <menu-elem id="other">
     <label>g(1332)</label>
     <url>cat=other</url>

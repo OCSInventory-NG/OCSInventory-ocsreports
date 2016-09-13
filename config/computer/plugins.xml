@@ -134,11 +134,13 @@
   	<category>config</category>
   	<hide_frame>1</hide_frame>
   </plugin>
-  <plugin id="cd_packets">
-  	<label>g(512)</label>
+  
+  <!-- TELEDEPLOY -->
+   <plugin id="cd_teledeploy">
+  	<label>g(558)</label>
   	<system>1</system>
-  	<category>config</category>
-  	<available>download_history</available>
+  	<category>teledeploy</category>
+  	<available>teledeploy</available>
   </plugin>
   
   <!-- OTHER -->
