@@ -94,9 +94,8 @@ if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('softwa
 				if ($plugin->getHideFrame()) {
 					require $plugin_file;
 				} else {
-					echo '<div class="plugin-frame plugin-name-'.$plugin->getId().'">';
+					echo '<div class="plugin-frame plugin-name-'.$plugin->getId().' ">';
 					require $plugin_file;
-					echo '</div>';
 				}
 			}
 		}
