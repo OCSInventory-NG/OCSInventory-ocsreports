@@ -151,8 +151,10 @@ $i=0;
 	}
 	//Can you modify configuration of this computer?
 	if( $_SESSION['OCS']['profile']->getConfigValue('CONFIG')=="YES" ){
-		echo "<td align=center rowspan=8><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=machine\" >
-		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
+		//echo "<td align=center rowspan=8><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=machine\" >
+		//<img src='image/modif_tab.png' title='".$l->g(285)."'></a></td></tr>";
+                echo "<td align=center rowspan=8><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=machine\" >
+		<button type='button'>".$l->g(2122)."</button></a></td></tr>";
 	}
 	$ii++; $td3 = $ii%2==0?$td2:$td4;
 	//FREQUENCY
