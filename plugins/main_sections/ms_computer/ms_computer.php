@@ -84,7 +84,7 @@ if ($ajax) {
 $plugins_serializer = new XMLPluginsSerializer();
 $plugins = $plugins_serializer->unserialize(file_get_contents('config/computer/plugins.xml'));
 
-if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('software', 'hardware', 'devices', 'admin', 'config', 'other'))) {
+if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('software', 'hardware', 'devices', 'admin', 'config',  'teledeploy', 'other'))) {
 	// If category
 	foreach ($plugins as $plugin) {
 		if ($plugin->getCategory() == $protectedGet['cat']) {
