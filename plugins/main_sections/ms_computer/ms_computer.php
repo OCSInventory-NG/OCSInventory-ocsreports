@@ -44,13 +44,14 @@ if (!isset($protectedGet['option']) and !isset($protectedGet['cat'])) {
 	$protectedGet['cat'] = 'admin';
 }
 
+
+show_computer_title($item);
+
 echo '<div class="left-menu">';
 show_computer_menu($item->ID);
 echo '</div>';
 
 echo '<div class="right-content">';
-
-show_computer_title($item);
 
 if (isset($protectedGet['cat']) and $protectedGet['cat'] == 'admin') {
 	show_computer_summary($item);
