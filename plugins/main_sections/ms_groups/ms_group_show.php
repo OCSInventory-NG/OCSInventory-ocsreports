@@ -152,12 +152,12 @@ if($protectedPost['MODIF_x']){
 	$name=show_modif($item->NAME,'NAME',0);
 	$description=show_modif($item->DESCRIPTION,'DESCR',1);
 	//show new bottons
-	$button_valid="<input title='".$l->g(625)."' type='image'  src='image/modif_valid_v2.png' name='Valid_modif'>";
-	$button_reset="<input title='".$l->g(626)."' type='image'  src='image/modif_anul_v2.png' name='Reset_modif'>";
+    $button_valid= "<input title='".$l->g(625)."' value='".$l->g(625)."' name='Valid_modif' type='submit' class='btn btn-default btn-success'>";
+    $button_reset= "<input title='".$l->g(626)."' value='".$l->g(626)."' name='Reset_modif' type='submit' class='btn btn-default btn-danger'>";
 	
 }
 else{ //only show the botton for modify
-	$img_modif="<input title='".$l->g(115)."' type='image' src='image/modif.png' name='MODIF'>";
+	$img_modif= "<input title='".$l->g(115)."' value='".$l->g(115)."' name='MODIF_x' type='submit' class='btn btn-default'><br />";
 	$name=$item->NAME;
 	$description=$item->DESCRIPTION;
 	$button_valid="";
@@ -194,7 +194,7 @@ echo "</tr><tr>".$tdhd.$l->g(53).$tdhf.$tdhdpb.$description.$tdhfpb;
 
 
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES")
-echo "<tr><td align='left' colspan=4>".$button_valid."&nbsp&nbsp".$button_reset."&nbsp&nbsp".$img_modif."</td></tr>";
+echo "<tr><td align='center' colspan=4><br />".$button_valid."&nbsp&nbsp".$button_reset."&nbsp&nbsp".$img_modif."<br /></td></tr>";
 echo "$tdhfpb</table>";
 echo close_form();
 $td1	  = "<td height=20px id='color' align='center'><FONT FACE='tahoma' SIZE=2 color=blue><b>";
@@ -501,8 +501,10 @@ function print_perso($systemid) {
 		echo $td3.$l->g(493)."</td>";
 	}
 	if( $_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES"){
-		echo "<td align=center rowspan=8><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\">
-		<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
+		//echo "<td align=center rowspan=8><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\">
+		//<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
+        echo "<td align=center rowspan=8><a class='btn btn-default' href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\">
+		".$l->g(285)."</a></td></tr>";
 	}
 	
 	$ii++; $td3 = $ii%2==0?$td2:$td4;
