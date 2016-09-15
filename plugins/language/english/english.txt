@@ -1410,6 +1410,8 @@
 2120 Click here to download
 2121 Launch inventory on agent service startup (Windows)
 2122 Edit
+2123 Available packets
+2124 Deleted packets
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

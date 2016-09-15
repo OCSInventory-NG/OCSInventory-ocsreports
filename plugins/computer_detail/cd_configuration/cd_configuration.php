@@ -15,8 +15,6 @@ if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_n
 		desactive_packet($systemid,$protectedGet['reset_notified']);
 }
 
-
-
 //affect again a packet
 if ($protectedPost['Valid_modif']){
 	if (trim($protectedPost['MOTIF'])){
@@ -261,14 +259,11 @@ $i=0;
 	}
 	echo "<tr><td colspan=100></td></tr>";
 	//TELEDEPLOY
-	show_packages($systemid);
+	//show_packages($systemid);
 
 		$hrefBase = "index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".urlencode($systemid)."&option=cd_configuration";
 		
 		echo "<tr><td colspan='10' align='right'>";
-		if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ) 
-			echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\">".$l->g(501)."</a> ";
-		
 	
 		$reqGroups = "SELECT h.name,h.id,h.workgroup 
 					  FROM hardware h,groups g 
@@ -280,7 +275,7 @@ $i=0;
 		$first = true;
 		while( $valGroups = mysqli_fetch_array( $resGroups ) ) {
 			if( $first ) {
-				echo $l->g(386)." <a href=# OnClick=window.location='$hrefBase&actgrp=1&grp='+document.getElementById(\"groupcombo\").options[document.getElementById(\"groupcombo\").selectedIndex].value>".
+				echo " <a href=# OnClick=window.location='$hrefBase&actgrp=1&grp='+document.getElementById(\"groupcombo\").options[document.getElementById(\"groupcombo\").selectedIndex].value>".
 				$l->g(589)."</a>";
 				echo " <select id='groupcombo'>";
 				$first = false;

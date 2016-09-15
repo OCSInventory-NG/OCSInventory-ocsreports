@@ -1210,7 +1210,7 @@ $sort_list_3Select=array("DEVICES-DOWNLOAD"=>$l->g(512).": ".$l->g(970));
 $sql_download="select 'NULL' as 'ID', '***".$l->g(509)."***' as NAME
 				union select FILEID as ID,NAME from download_available d_a ";
 IF ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES" )
-$sql_download .= " where d_a.comment not like '%[VISIBLE=0]%'";	
+$sql_download .= " where d_a.comment not like '%[VISIBLE=0]%' and DELETED = 0";	
 $sql_download .= " order by 2";
 $opt3Select=array("DEVICES-DOWNLOAD"=>$sort_list_3Select["DEVICES-DOWNLOAD"],//$l->g(512).": ".$l->g(970),
 				 "DEVICES-DOWNLOAD-SQL1"=>$sql_download,

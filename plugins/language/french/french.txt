@@ -1410,6 +1410,8 @@
 2120 Cliquez ici pour la télécharger
 2121 Lance un inventaire au démarrage du service de l'agent (Windows)
 2122 Modification
+2123 Paquets disponible
+2124 Paquets supprimé
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

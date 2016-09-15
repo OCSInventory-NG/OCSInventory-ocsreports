@@ -294,6 +294,7 @@ function activ_pack_server($fileid,$https_server,$id_server_group){
 		mysql2_query_secure( $query, $_SESSION['OCS']["writeServer"], $arg_query );
 }
 
+// del packet and mark it as deleted in the database
 function del_pack($fileid){
 	global $l;
 	//find all activate package
@@ -314,8 +315,8 @@ function del_pack($fileid){
 	$argDelEnable = $fileid;
 	mysql2_query_secure($reqDelEnable, $_SESSION['OCS']["writeServer"],$argDelEnable);
 
-	//delete info of this pack
-	$reqDelAvailable = "DELETE FROM download_available WHERE FILEID='%s'";
+	//put pack on deleted state
+	$reqDelAvailable = "UPDATE download_available SET DELETED = '1' WHERE FILEID='%s'";
 	$argDelAvailable = $fileid;
 	
 	mysql2_query_secure($reqDelAvailable, $_SESSION['OCS']["writeServer"],$argDelAvailable);
@@ -350,6 +351,17 @@ function del_pack($fileid){
 	}
 	
 	addLog($l->g(512), $l->g(888)." ".$fileid );
+}
+
+// Definitly remove packet from database
+function remove_packet($fileid){
+    
+    //delete info of this pack
+    $reqDelAvailable = "DELETE FROM `download_available` WHERE `FILEID` = '%s'";
+    $argDelAvailable = $fileid;
+    
+    mysql2_query_secure($reqDelAvailable, $_SESSION['OCS']["writeServer"],$argDelAvailable);
+    
 }
 
 function recursive_remove_directory($directory, $empty=FALSE) {
