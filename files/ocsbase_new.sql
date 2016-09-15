@@ -301,6 +301,7 @@ CREATE TABLE `download_available` (
   `OSNAME` varchar(255) NOT NULL,
   `COMMENT` text,
   `ID_WK` int(11) DEFAULT NULL,
+  `DELETED` int(1) DEFAULT '0',
   PRIMARY KEY (`FILEID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 

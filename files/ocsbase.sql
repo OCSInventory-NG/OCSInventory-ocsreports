@@ -911,6 +911,7 @@ ALTER TABLE operators ADD COLUMN USER_GROUP VARCHAR(255) default NULL;
 ALTER TABLE `operators` MODIFY `PASSWD` VARCHAR(255);
 ALTER TABLE `operators` ADD COLUMN `PASSWORD_VERSION` int(11) default 0;
 ALTER TABLE download_available ADD COLUMN ID_WK int(11) default NULL;
+ALTER TABLE `download_available` ADD `DELETED` INT(1) NOT NULL DEFAULT '0';
 
 CREATE TABLE downloadwk_tab_values (
   FIELD varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
