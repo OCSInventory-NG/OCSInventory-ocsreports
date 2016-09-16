@@ -53,8 +53,8 @@ if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 	
 }
 
-checkDependencies();
-checkWritable();
+$dep_check = checkDependencies();
+$per_check = checkWritable();
 
 // Plugins Install menu.
 
@@ -65,23 +65,31 @@ echo open_form("PluginInstall");
 
 $availablePlugins = scan_downloaded_plugins();
 
-if (!empty($availablePlugins)){
+if(!$dep_check || !$per_check){
+    
+    msg_error($l->g(6009));
+    
+}else{
+    if (!empty($availablePlugins)){
+    
+        echo "<select name='plugin'>";
+        foreach ($availablePlugins as $key => $value){
+                $name = explode(".", $value);
+                $info = new SplFileInfo(PLUGINS_DL_DIR."/".$value);
 
-	echo "<select name='plugin'>";
-	foreach ($availablePlugins as $key => $value){
-		$name = explode(".", $value);
-		$info = new SplFileInfo(PLUGINS_DL_DIR."/".$value);
-		
-		if($info->getExtension() == "zip"){
-			echo "<option value=$value >$name[0]</option>";
-		} 
-	}
-	echo "</select>";
-	echo "<input type='submit' value='Install'>";
+                if($info->getExtension() == "zip"){
+                        echo "<option value=$value >$name[0]</option>";
+                } 
+        }
+        echo "</select>";
+        echo "<input type='submit' value='Install'>";
+
+    }
+    else{
+        msg_warning($l->g(7014));
+    }
 }
-else{
-	msg_warning($l->g(7014));
-}
+
 
 echo close_form();
 echo "</th></table>";
@@ -137,7 +145,6 @@ $list_fields=array('ID'=>'id',
 				   $l->g(7003)=>'version',
 				   $l->g(7004)=>'licence',
 				   $l->g(7005)=>'author',
-				   'Required OCS ver.'=>'verminocs',
 				   $l->g(7006) =>'reg_date'
 				);			
 
