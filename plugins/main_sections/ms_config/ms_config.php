@@ -67,10 +67,12 @@ if ($protectedPost['Valid'] == $l->g(103)){
 
 if (isset($MAJ) and $MAJ != '')
 	msg_success($MAJ);
+printEnTete($l->g(107));
 $form_name='modif_onglet';
 echo open_form($form_name);
-
-onglet($def_onglets,$form_name,'onglet',8);
+show_tabs($def_onglets,$form_name,"onglet",10);
+echo '<div class="right-content">';
+//onglet($def_onglets,$form_name,'onglet',8);
 echo '<div class="mlt_bordure" >';
 switch ($protectedPost['onglet']){
 	case 'CNX':
@@ -128,3 +130,4 @@ switch ($protectedPost['onglet']){
 echo "<input type='hidden' id='RELOAD_CONF' name='RELOAD_CONF' value=''>";
 echo "</div>";
 echo close_form();
+echo '</div>';
