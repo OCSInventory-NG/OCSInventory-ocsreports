@@ -14,8 +14,6 @@
  */
 function install($archiveName){
 
-	//var_dump(PLUGINS_DL_DIR.$archiveName);
-
 	if (file_exists(PLUGINS_DL_DIR.$archiveName)){
 		$archive = new ZipArchive();
 		$archive->open(PLUGINS_DL_DIR.$archiveName);
@@ -30,9 +28,6 @@ function install($archiveName){
 			return false;
 		}
 	}
-	else{
-		echo "Une erreur est survenu lors de l'installation du plugin.";
-	}
 }
 
 /**
@@ -42,7 +37,6 @@ function install($archiveName){
 function check($plugarray){
 
 	$conn = new PDO('mysql:host='.SERVER_WRITE.';dbname='.DB_NAME.';charset=utf8', COMPTE_BASE, PSWD_BASE);
-
 
 	foreach ($plugarray as $key => $value){
 
@@ -100,18 +94,12 @@ function check($plugarray){
 function scan_downloaded_plugins(){
 
 	if(!file_exists(PLUGINS_DL_DIR)){
-		mkdir(PLUGINS_DL_DIR,'0777',true);
+		mkdir(PLUGINS_DL_DIR,'0775',true);
 	}
 
 	// Scan plugins download directory
 	$directory = PLUGINS_DL_DIR;
 	$scanned_directory = array_diff(scandir($directory), array('..', '.', 'README'));
-	
-// 	if (!empty($scanned_directory)){
-// 		foreach ($scanned_directory as $key => $value){
-// 			install($value);
-// 		}
-// 	}
 
 	return $scanned_directory;
 
@@ -194,38 +182,67 @@ function mv_server_side($name){
 
 /**
  * This function check for required php dependencies
- * Die if not compliant
+ * Can't install plugin if not installed
  */
 function checkDependencies(){
     
     global $l;
     
-    if(!class_exists('ZipArchive')){
-        msg_error($l->g(6007));
-        die;
+    $missing_module = false;
+    $str_msg = "";
+    
+    $modules_to_check = array(
+        "ZipArchive",
+        "SOAPClient"
+    );
+    
+    foreach ($modules_to_check as $value) {
+        if(!class_exists($value)){
+            $missing_module = true;
+            $str_msg .= " - ".$value."<br>";
+        }
     }
     
+    if($missing_module == true){
+        msg_error($l->g(6007)."<br>".$str_msg);
+        return false;
+    }else{
+        return true;
+    }
+   
 }
 
 /**
 * This function check if directories are writable.
-* Die if not compliant
+* Can't install plugin if not writable
 */
 function checkWritable(){
     
     global $l;
+    
+    $missing_permissions = false;
+    $str_msg = "";
 
     $sup_writable_dir = array(
         CD_CONFIG_DIR,
         CONFIG_DIR,
         PLUGINS_DIR."language",
-        MAIN_SECTIONS_DIR
+        MAIN_SECTIONS_DIR,
+        PLUGINS_SRV_SIDE
     );
     
     foreach ($sup_writable_dir as $value) {
         if(!is_writable($value)){
-            msg_error($l->g(297)." ".$value);
+            $missing_permissions = true;
+            $str_msg .= " - ".$value."<br>";
         }
+    }
+    
+    if($missing_permissions == true){
+        msg_error($l->g(6008)."<br>".$str_msg); 
+        return false;
+    }else{
+        return true;
     }
     
 }

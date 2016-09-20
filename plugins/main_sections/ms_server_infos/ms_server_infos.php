@@ -31,8 +31,13 @@
 					$distro = false;
 					foreach(array('/etc/debian_version', '/etc/redhat-release', '/etc/SuSE-release', '/etc/os-release') as $fic) {
 						if (file_exists($fic)) {
-							$distro = file_get_contents($fic);
-						}
+                                                    $distro = file_get_contents($fic);
+						} 
+                                                
+                                                if ($fic == '/etc/os-release') {
+                                                    $distro = parse_ini_file($fic);
+                                                    $distro = $distro['PRETTY_NAME'];
+                                                }
 					}
 					if ($distro) {
 						echo '</div></div><div id="distro"><div class="summary-header">' . $l->g(1373).
