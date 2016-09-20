@@ -71,7 +71,7 @@ function looking4config(){
 function champ_select_block($name,$input_name,$input_cache)
 {
 		global $protectedPost;
-		$champs="<select name='".$input_name."' id='".$input_name."'";
+		$champs="<div class='form-group'><select class='form-control' name='".$input_name."' id='".$input_name."'";
 		$champs.=" onChange='";
 		if ($input_name == "ACTION"){
 			$i=0;
@@ -92,30 +92,29 @@ function champ_select_block($name,$input_name,$input_cache)
 			$champs.= " selected";
 			$champs.= ">".$value."</option>";
 		}
-		$champs.="</select>";
+		$champs.="</select></div>";
 		return $champs;
 	
 }
  
- function time_deploy(){
- 	
- 	$champ="<input id='TPS' name='TPS' size='10' readonly style='color:black; background-color:#e1e1e2;'> ";
- 	return $champ;
+ function time_deploy($label = ''){
+	$champ ="disabled='disabled'";
+ 	formGroup('text', 'TPS', $label, '10', '', '', '', '', '', $champ);
  }
- 
- 
- 
- function input_pack_taille($name,$other_field,$size,$input_size,$input_value){
-	javascript_pack();
- 	$champ.= "<input id='".$name."' name='".$name."' size='".$input_size."'";
-	if( $size > 1024 ) { 
-		$champ.= "	onKeyPress='maj(\"".$name."\",\"".$other_field."\",\"".$size."\");'
-		 				onkeydown='maj(\"".$name."\",\"".$other_field."\",\"".$size."\");' onkeyup='maj(\"".$name."\",\"".$other_field."\",\"".$size."\");' value='".$input_value."'
-		  				onblur='maj(\"".$name."\",\"".$other_field."\",\"".$size."\");'  onclick='maj(\"".$name."\",\"".$other_field."\",\"".$size."\");'> ";
-	}else
-	 	$champ.= " value=1 readonly style='color:black; background-color:#e1e1e2;'> ";
-	 return $champ;
- 	
+
+ function input_pack_taille($name,$other_field,$size,$input_size,$input_value, $label = '', $addon = ''){
+	 javascript_pack();
+	 if( $size > 1024 ) {
+		$champ = '	onKeyPress="maj(\''.$name.'\', \''.$other_field.'\', \''.$size.'\');"
+		 			onkeydown="maj(\''.$name.'\', \''.$other_field.'\', \''.$size.'\');"
+		 			onkeyup="maj(\''.$name.'\', \''.$other_field.'\', \''.$size.'\');"
+		  			onblur="maj(\''.$name.'\', \''.$other_field.'\', \''.$size.'\');"
+		  			onclick="maj(\''.$name.'\', \''.$other_field.'\', \''.$size.'\');"
+				';
+	}else{
+		$champ = " value=1 disable='disable' ";
+	}
+	formGroup('text', $name, $label, $input_size, '', $input_value, '', '', '', $champ, ($addon != '' ? $addon :''));
  }
  
  function desactive_option($name,$list_id,$packid){

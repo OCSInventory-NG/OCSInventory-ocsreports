@@ -390,10 +390,10 @@ function strip_tags_array($value='')
 	return $value;
 }
 
-function open_form($form_name,$action='',$more=''){
+function open_form($form_name,$action='',$more='', $class=''){
  	if (!isset($_SESSION['OCS']['CSRFNUMBER']) or !is_numeric($_SESSION['OCS']['CSRFNUMBER']) or $_SESSION['OCS']['CSRFNUMBER'] >= CSRF)
  		$_SESSION['OCS']['CSRFNUMBER'] = 0;
- 	$form="<form name='".$form_name."' id='".$form_name."' method='POST' action='".$action."' ".$more." >";
+ 	$form="<form class='".$class."' name='".$form_name."' id='".$form_name."' method='POST' action='".$action."' ".$more." >";
  	$csrf_value = sha1(microtime());
  	$_SESSION['OCS']['CSRF'][$_SESSION['OCS']['CSRFNUMBER']] = $csrf_value;
  	$form.="<input type='hidden' name='CSRF_".$_SESSION['OCS']['CSRFNUMBER']."' id='CSRF_".$_SESSION['OCS']['CSRFNUMBER']."' value='".$csrf_value."'>";
@@ -423,6 +423,28 @@ function get_update_json(){
         return false;
     }
     
+}
+
+function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue = "", $class = "", $optionsSelect = [], $arrayDisplayValues = [], $attrBalise = "", $groupAddon = ""){
+	echo "<div class='form-group'>";
+	echo "<label class='control-label col-sm-4' for='".$inputName."'>".$name."</label>";
+	echo "<div class='col-sm-8'>";
+	if($inputType == "select"){
+		echo "<select name='".$inputName."' id='".$inputName."' class='form-control ".$class."' ".$attrBalise.">";
+		foreach ($optionsSelect as $option){
+			echo "<option value='".$option."' ".($inputValue[$inputName] == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
+		}
+		echo "</select>";
+	} else{
+		echo "<div class='input-group'>";
+		echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='form-control ".$class."' ".$attrBalise.">";
+		if($groupAddon != ""){
+			echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";
+		}
+		echo "</div>";
+	}
+	echo "</div>";
+	echo "</div>";
 }
 
 
