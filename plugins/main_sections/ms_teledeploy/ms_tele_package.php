@@ -223,11 +223,11 @@ if (isset($protectedPost['valid'])){
 		}
 		$digName = $protectedPost["digest_algo"]. " / ".$protectedPost["digest_encod"];
 
-		$title_creat="<h4>".$l->g(435)." "."[".$protectedPost['NAME']."]</h4><br />";
-		$name_file=$l->g(446)." ".$_FILES["teledeploy_file"]["name"]."<br>";
-		$ident=$l->g(460)." ".$protectedPost['timestamp']."<br>";
-		$view_digest=$l->g(461)." ".$digName.$digest."<br>";
-		$total_ko=$l->g(462)."".round($size/1024)." ".$l->g(516)."<br/><br/>";
+		$title_creat="<h4>".$l->g(435).": "."[".$protectedPost['NAME']."]</h4><br/>";
+		$name_file=$l->g(446).": ".$_FILES["teledeploy_file"]["name"]."<br/>";
+		$ident=$l->g(460).": ".$protectedPost['timestamp']."<br/>";
+		$view_digest=$l->g(461).": ".$digName." ".$digest."<br/>";
+		$total_ko=$l->g(462).": ".round($size/1024)." ".$l->g(516)."<br/><br/>";
 
 		echo $title_creat.$name_file.$ident.$view_digest.$total_ko;
 
@@ -515,6 +515,13 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 </script>
 <?php
 formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', [0,1], [0 => 'No', 1 => 'Yes'], "onchange='redistributeUse()' ");
+?>
+<div id="REDISTRIB_USE_div" style="display: none;">
+<?php
+formGroup('text', 'DOWNLOAD_SERVER_DOCROOT', $arrayName['path_remote_server'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['DOWNLOAD_SERVER_DOCROOT'], '', $list_prio);
+formGroup('select', 'REDISTRIB_PRIORITY', $arrayName['prio'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_PRIORITY'], '', $list_prio);
+echo "</div>";
+
 echo "<br />";
 echo "<div id='OS_div'>";
 echo "<h4>".$arrayName['title_user_notif']."</h4>";
@@ -540,15 +547,6 @@ formGroup('select', 'NEED_DONE_ACTION', $arrayName['need_user_action'], $config_
 	formGroup('text', 'NEED_DONE_ACTION_TEXT', $arrayName['notify_text'], '', '', $protectedPost['NEED_DONE_ACTION_TEXT']);
 	?>
 </div>
-<?php
-echo "</div>";
-?>
-<div id="REDISTRIB_USE_div" style="display: none;">
-<br /><h4><?php echo $l->g(829); ?> <span><?php echo $default['DOWNLOAD_REP_CREAT'] ?></span></h4>
-<?php
-formGroup('text', 'DOWNLOAD_SERVER_DOCROOT', $arrayName['path_remote_server'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['DOWNLOAD_SERVER_DOCROOT'], '', $list_prio);
-formGroup('select', 'REDISTRIB_PRIORITY', $arrayName['prio'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_PRIORITY'], '', $list_prio);
-?>
 
 </div>
 <input type='submit' name='valid' id='valid' class="btn btn-success" value='<?php echo $l->g(13) ?>' OnClick='return verif();'>
