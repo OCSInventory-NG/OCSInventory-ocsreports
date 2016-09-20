@@ -1,6 +1,21 @@
 .header-logo {
-	float: left;
-	padding: 5px 20px;
+	padding-top: 3px;
+	padding-bottom: 0;
+}
+.header-logo img{
+	height: 40px;
+	width: auto;
+}
+
+.navbar #log_out{
+    display: none;
+}
+
+/*** OVERRIDE BOOTSTRAP ***/
+.navbar-default{
+    background-color: #fff !important;
+    box-shadow: none !important;
+    background-image: none;
 }
 
 .main-menu-container {
