@@ -513,8 +513,8 @@
 622 Cached
 623 The information you are trying to access does not exist
 624 Do you really want to delete group
-625 Enable this alteration
-626 Disable this alteration
+625 Update fields
+626 Cancel edit
 627 At least one of the fields is empty... Not made Update.
 628 Redistribution Servers
 629 New group of redistribution
