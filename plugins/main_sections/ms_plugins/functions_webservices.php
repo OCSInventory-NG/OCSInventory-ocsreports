@@ -45,10 +45,10 @@ function plugin_soap_client($name, $action){
  	}
 	
  	$client = new SoapClient(null,
- 								array(
- 									'location' => "http://$address/ocsplugins",
- 									'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules",
- 								));
+            array(
+                    'location' => "http://$address/ocsplugins",
+                    'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules",
+            ));
  	 
  	$request = "<?xml version=\"1.0\" encoding=\"utf-8\" ?> 
 		<soap:Envelope 
@@ -63,6 +63,8 @@ function plugin_soap_client($name, $action){
 		</soap:Envelope>";
  	
  	$output = $client->__doRequest($request, "http://$address/ocsplugins", "http://$address/Apache/Ocsinventory/Plugins/Modules#$method", "1.1");
+        
+        //TODO : parse the output and check if the communication serveur has been successfully installed
 	
 }
 
