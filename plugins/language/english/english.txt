@@ -1447,6 +1447,9 @@
 6007 Please install the following modules in order to get this feature working : 
 6008 Can't write in the following directory :
 6009 You can't install plugins, check error messages above. 
+6010 The communication server encountered the following error on install :
+6011 Check this link to solve your problem : 
+
 7000 Plugins
 7001 Plugins manager
 7002 Plugin's name
