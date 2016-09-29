@@ -68,12 +68,15 @@ function plugin_soap_client($name, $action){
     $clean_xml = str_ireplace(['SOAP-ENV:', 'SOAP:'], '', $xml_response);
     $xml = simplexml_load_string($clean_xml);
     
+    // TODO : Create a specific page for ALL help links 
+    $help_link = "https://github.com/OCSInventory-NG/OCSInventory-ocsreports/wiki/Plugins-Engine-:-Web-service-error-codes";
+    
     if($action == 1){
         
         $soap_return_value = $xml->Body->InstallPluginsResponse->Result;
         
         if($soap_return_value != "Install_OK"){
-            msg_warning($l->g(6010)." ".$soap_return_value."<br>".$l->g(6011));
+            msg_warning($l->g(6010)." ".$soap_return_value."<br><a href=$help_link>".$l->g(6011)." </a>");
         }
 
     }
