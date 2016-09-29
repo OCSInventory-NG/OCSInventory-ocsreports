@@ -6,7 +6,7 @@
 #
 # @(#) memconf - Identify sizes of memory modules installed on a
 # @(#)           Solaris, Linux, FreeBSD or HP-UX workstation or server.
-# @(#) Micron Technology, Inc. - Tom Schmidt 22-Apr-2016 V3.10
+# @(#) Micron Technology, Inc. - Tom Schmidt 08-Sep-2016 V3.11
 #
 # Maintained by Tom Schmidt (tschmidt@micron.com)
 #
@@ -131,8 +131,8 @@
 $^W=1;	# Enables -w warning switch, put here for SunOS4 compatibility.
 $starttime=(times)[0];
 
-$version="V3.10";
-$version_date="22-Apr-2016";
+$version="V3.11";
+$version_date="08-Sep-2016";
 $URL="http://sourceforge.net/projects/memconf/";
 
 $newpath="/usr/sbin:/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
@@ -760,7 +760,7 @@ if ($osrel =~ /^5./) {
 if (! $filename) {
 	@config=&run("$config_cmd");
 	if ($hasprtconfV) {
-		# Solaris 2.4 or later
+		# SPARC Solaris 2.4 or later
 		$romver=&mychomp(`/usr/sbin/prtconf -V 2>&1`);
 		if ($romver eq "Cannot open openprom device") {
 			$prtconf_warn="ERROR: $romver";
@@ -770,12 +770,12 @@ if (! $filename) {
 			$romvernum=$romverarr[1];
 		}
 	} else {
-		# Solaris 2.3 or older
+		# SPARC Solaris 2.3 or older, or Solaris x86
 		# Try to use sysinfo if installed to determine the OBP version.
 		# sysinfo is available from http://www.MagniComp.com/sysinfo/
-		close(STDERR);
+		close(STDERR) if ($verbose != 3);
 		$romver=`sysinfo -show romver 2>/dev/null | tail -1`;
-		open(STDERR);
+		open(STDERR) if ($verbose != 3);
 		if ($romver) {
 			$romver=&mychomp($romver);
 			@romverarr=split(/\s/, $romver);
@@ -1209,7 +1209,7 @@ sub show_header {
 					$cnt=$npcpu;
 				} else {
 					$cnt=$ndcpu if ($ndcpu);
-					$cnt=$ncpu if ($cpucntfrom eq "cpuinfo");
+					$cnt=$ncpu if ($cpucntfrom =~ /cpuinfo/);
 				}
 				$x++;
 				$cf=~/^(.*) (\d*)$/;
@@ -1874,7 +1874,8 @@ sub check_prtdiag {
 			$flag_mem=1;
 		}
 		$line="Memory $line" if ($line =~ /^Segment Table:/);
-		if ($flag_mem >= 1 && $line !~ /^\s*\n$/) {
+		# Ignore FLASH (System ROM)
+		if ($flag_mem >= 1 && $line !~ /^(\s*\n$|FLASH\b)/i) {
 			$boardfound_mem=1;
 			$boardfound_mem=0 if ($line =~ /Cannot find/);
 			$memfrom="prtdiag" if ($boardfound_mem);
@@ -3599,9 +3600,14 @@ sub check_smbios {
 				$mem_mfg=", $mem_mfg" if ($mem_mfg);
 			}
 			if ($line =~ /Location Tag:/) {
-				$socket=$line;
-				$socket=~s/^ *Location Tag: *//g;
-				$socket=~s/\s*$//g;
+				# Ignore System ROM FLASH
+				if ($line =~ /SYSTEM ROM/i) {
+					$flag_smb_memdevice=0;
+				} else {
+					$socket=$line;
+					$socket=~s/^ *Location Tag: *//g;
+					$socket=~s/\s*$//g;
+				}
 			}
 			if ($line =~ /Part Number:/) {
 				$pn=$line;
@@ -3633,10 +3639,15 @@ sub check_smbios {
 				$simmsize /= $meg;
 			}
 			if ($line =~ /Memory Type:/) {
-				$memtype=$line;
-				$memtype=~s/^ *Memory Type:.*\((.*)\).*/$1/g;
-				$memtype .= " " if ($formfactor);
-				$memtype="" if ($memtype =~ /Memory Type:|^other/);
+				# Ignore FLASH (System ROM)
+				if ($line =~ /FLASH/i) {
+					$flag_smb_memdevice=0;
+				} else {
+					$memtype=$line;
+					$memtype=~s/^ *Memory Type:.*\((.*)\).*/$1/g;
+					$memtype .= " " if ($formfactor);
+					$memtype="" if ($memtype =~ /Memory Type:|^other/);
+				}
 			}
 			if ($line =~ /Form Factor:/) {
 				$formfactor=$line;
@@ -3650,7 +3661,7 @@ sub check_smbios {
 				$maxmembusspeed=$line;
 				$maxmembusspeed=~s/^ *Speed: *(\d+) *MHz/${1}MHz/g;
 			}
-			if ($line =~ /Bank Locator:|^ *ID *SIZE *TYPE/) {
+			if ($line =~ /Bank Locator:|^ *ID *SIZE *TYPE/ && $socket) {
 				$bank_label=$line;
 				$bank_label=~s/^ *(Bank Locator:|ID *SIZE *TYPE) *//g;
 				$bank_label=~s/ *SLOT$//ig;
@@ -3663,7 +3674,7 @@ sub check_smbios {
 				$bank_label=" $bank_label" if ($bank_label);
 				$flag_smb_memdevice=0;
 				# Don't overwrite duplicate socket names
-				if ($socket && ! defined($smbios_mem{"$socket"})) {
+				if (! defined($smbios_mem{"$socket"})) {
 					# Add CPU to X4170/X4270/X4275/X6270/X6275
 					if ($model =~ /Sun .*X(4[12]7[05]|627[05])\b/i && $socket !~ /CPU/) {
 						$bank_label="" if ($bank_label =~ /\/P\d+$/);
@@ -9620,7 +9631,7 @@ sub check_dmidecode {
 		}
 		&x86multicorecnt($cputype);
 		$cpucnt{"$cputype $cpufreq"}++ if (! $xen_ncpu || $val < $xen_ncpu);
-		$cpucntfrom="dmidecode" if ($cpucntfrom ne "cpuinfo" && $cpucntfrom ne "xm_info");
+		$cpucntfrom="dmidecode" if ($cpucntfrom !~ /cpuinfo/ && $cpucntfrom ne "xm_info");
 		$ExtSpeed[$val]=~s/ *MHz$/MHz/ if ($ExtSpeed[$val]);
 	}
 	@cputypecnt=keys(%cpucnt);
@@ -9630,7 +9641,7 @@ sub check_dmidecode {
 		$cf=~/^(.*) (\d*)$/;
 		$ctype=$1;
 		$cfreq=$2;
-		if ($cpucntflag == 0 && $cpucntfrom ne "cpuinfo" && $cpucntfrom ne "xm_info") {
+		if ($cpucntflag == 0 && $cpucntfrom !~ /cpuinfo/ && $cpucntfrom ne "xm_info") {
 			for $tmp (2,3,4,6,8,10,12,16) {
 				$cnt /= $tmp if ($corecnt == $tmp && $cnt % $tmp == 0);
 			}
@@ -9672,9 +9683,9 @@ sub check_dmidecode {
 
 	# CPU information
 	if ($verbose) {
-		print "WARNING: CPU Information Unknown\n" if ($cpuarr < 0 && $cpucntfrom ne "cpuinfo");
+		print "WARNING: CPU Information Unknown\n" if ($cpuarr < 0 && $cpucntfrom !~ /cpuinfo/);
 		$range=$cpuarr;
- 		$range=$cpuinfo_cpucnt - 1 if ($cpucntfrom eq "cpuinfo" && ! $permission_error && &is_virtualmachine);
+ 		$range=$cpuinfo_cpucnt - 1 if ($cpucntfrom =~ /cpuinfo/ && ! $permission_error && &is_virtualmachine);
 		# Second CPU doesn't exist on W1100z
 		$range=0 if ($model =~ /W1100z\b/i);
 		# Third & fourth CPUs don't exist on Ultra 40
@@ -9688,7 +9699,7 @@ sub check_dmidecode {
 				print "v" if (&is_virtualmachine);
 				print "CPU $cnt: ";
 			}
- 			if ($cpucntfrom eq "cpuinfo" && &is_virtualmachine) {
+ 			if ($cpucntfrom =~ /cpuinfo/ && &is_virtualmachine) {
 				$_=$cpuinfo_cputype;
 				($vcpu_type)=(/^(\w*)/);
 				($vcpu_freq)=(/(\d[\d\.]*[GM]Hz)/);
@@ -9719,7 +9730,7 @@ sub check_dmidecode {
 			print "\n";
 		}
 	}
-	if ($ncpu > 1 && $foundGenuineIntel && $cpucntfrom eq "cpuinfo" && ! $permission_error && ! &is_xen_vm) {
+	if ($ncpu > 1 && $foundGenuineIntel && $cpucntfrom =~ /cpuinfo/ && ! $permission_error && ! &is_xen_vm) {
 		print "WARNING: Cannot detect if Hyper-Threading is enabled, ";
 		print "CPU count may be half of\n    what is shown if ";
 		print "Hyper-Threading is enabled.\n";
@@ -10288,10 +10299,16 @@ sub check_cpuinfo {
 				}
 			}
 		}
-		if ($ncpu == 0 && $cpuinfo_cpucnt > 0) {
-			# dmidecode did not have CPU info, but cpuinfo did
-			$cpucntfrom="cpuinfo";
-			if ($cpuinfo_cpucores > 0) {
+		if ($cpuinfo_cpucnt > $ncpu && (! $foundGenuineIntel || $foundGenuineIntel && ! $ncpu)) {
+			# Prefer cpuinfo over dmidecode for CPU info
+			$cpucntfrom=$config_command if (! $cpucntfrom);
+			&pdebug("Preferring CPU count from cpuinfo ($cpuinfo_cpucnt) over $cpucntfrom ($ncpu)");
+			if ($ncpu) {
+				$cpucntfrom="dmidecode and cpuinfo";
+			} else {
+				$cpucntfrom="cpuinfo";
+			}
+			if ($cpuinfo_cpucores) {
 				$ncpu=$cpuinfo_cpucnt / $cpuinfo_cpucores;
 			} else {
 				$ncpu=$cpuinfo_cpucnt;
