@@ -36,8 +36,8 @@ define('PASSWORD_COMPAT', __DIR__ .'/libraries/password_compat/password.php'); /
 define("GUI_VER", "7010");	// ocs' mysql database version									
 define("GUI_VER_SHOW", "2.2.2");    // GUI Version
 define("DEFAULT_LANGUAGE", "english");   // Default GUI language
-define("PAG_INDEX", "function");  
-define("UPDATE_JSON_URI", "http://www.ocsinventory-ng.org/update.json");
+define("PAG_INDEX", "function");
+define("UPDATE_JSON_URI", "http://check-version.ocsinventory-ng.org");
 
 //====================================================================================
 // Default OCS DIR
@@ -56,6 +56,7 @@ define('DEV_OPTION', false);
 //====================================================================================
 define('PLUGINS_DL_DIR', __DIR__ .'/download/');  // Dir where you put plugin sources
 define('PLUGINS_SRV_SIDE', __DIR__ .'/upload/'); // Don't touch this dir used by plugin engine
+define('PLUGIN_WS_URL', '/ocsplugins'); // Plugins engine ws url, don't touch if you don't know what you are doing
 
 //====================================================================================
 // Misc Options

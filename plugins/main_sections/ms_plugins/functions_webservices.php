@@ -19,11 +19,6 @@ function exec_plugin_soap_client($name, $action){
 	
     global $l;
 
-    $champs=array('OCS_SERVER_ADDRESS'=>'OCS_SERVER_ADDRESS');
-    $values=look_config_default_values($champs);
-
-    $address = $values['tvalue']['OCS_SERVER_ADDRESS'];
-
     if(class_exists('SoapClient')) {
             plugin_soap_client($name, $action);
     }else{
@@ -65,7 +60,7 @@ function plugin_soap_client($name, $action){
             </soap:Body>
             </soap:Envelope>";
 
-    $output = $client->__doRequest($request, "http://$address/ocsplugins", "http://$address/Apache/Ocsinventory/Plugins/Modules#$method", "1.1");
+    $output = $client->__doRequest($request, "http://$address".PLUGIN_WS_URL, "http://$address/Apache/Ocsinventory/Plugins/Modules#$method", "1.1");
     
     //TODO : parse the output and check if the communication serveur has been successfully installed
     $xml_response = $output;
