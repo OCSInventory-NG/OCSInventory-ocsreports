@@ -34,7 +34,8 @@ function return_bytes($val) {
         }
     return $val;
 }
-echo "<script language='javascript'>  
+?>
+<script language='javascript'>
     
     function getext(filename){
     	 var parts = filename.split('.');
@@ -63,11 +64,12 @@ echo "<script language='javascript'>
 				return (true);
 			}
 		}
-		alert('".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(168))."');
+		alert('<?php mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(168)) ?> ');
 		return (false);
      }
           
-</script>";
+</script>
+<?php
 
 $umf = "upload_max_filesize";
 $valTumf = ini_get( $umf );
@@ -117,7 +119,7 @@ if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 	mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);	
 }
 if (!isset($protectedPost['ADD_FILE'])){
-	echo open_form($form_name);
+	echo open_form($form_name, '', '', 'form-horizontal');
 	$list_fields=array($l->g(283)=>'function',
 					   $l->g(49) => 'name',
 					   'SUP'=>'name'
@@ -132,10 +134,10 @@ if (!isset($protectedPost['ADD_FILE'])){
 	$tab_options['LIEN_TYPE'][$l->g(49)]='POPUP';
 	$tab_options['POPUP_SIZE'][$l->g(49)]="width=900,height=600";
 	printEntete($l->g(1245));
-	echo "<br>";
+	echo "<br />";
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	//echo show_modif($name,'ADD_FILE',8,"",$configinput=array('DDE'=>100));
-	echo "<input type=submit name=ADD_FILE value='".$l->g(1048)."'>";
+	echo "<input type=submit class='btn' name=ADD_FILE value='".$l->g(1048)."'>";
 	echo close_form();
 }
 
@@ -154,7 +156,7 @@ if (isset($protectedPost['ADD_FILE']) and $protectedPost['ADD_FILE'] != ''){
 	echo open_form($form_name1,'',"enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"");
 	echo '<div class="'.$css.'" >';
 	echo $l->g(1048).": <input id='file_upload' name='file_upload' type='file' accept=''>";
-	echo "<br><br><input name='GO' id='GO' type='submit' value='".$l->g(13)."'>&nbsp;&nbsp;";
+	echo "<br /><br /><input name='GO' class='btn btn-success' id='GO' type='submit' value='".$l->g(13)."'>&nbsp;&nbsp;";
 	//echo "<input type='button' name='RESET' id='RESET' value='".$l->g(113)."' onclick='submit(".$form_name.")'>";
 	echo "</div>";
 	echo close_form();

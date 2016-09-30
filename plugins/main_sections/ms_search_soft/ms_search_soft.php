@@ -15,15 +15,11 @@
  	$ajax=false;
  }
 
-
-
- 
-
 require_once('require/fonction.inc.php');
 $form_name="search_soft";
 $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 //html
 /*echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n";
 echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='fr'>"."\n";
@@ -41,14 +37,38 @@ echo "\n".'<script type="text/javascript">
 	</script>';
 
 
-echo "\n".'<i>'.$l->g(20).": ";
+?>
 
-remplirListe("logiciel_select");
 
-echo "\n".'<p><input type="text" name="logiciel_text" value="'.$protectedPost['logiciel_text'].'" id="champ-texte"  size="15"/></p>';
-echo "\n".'<input type="submit" id="bouton-submit" value="'.$l->g(13).'" name="bouton-submit">';
+ <div class="row">
+	 <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
+		 <div class="form-group">
+			 <label class="control-label col-sm-4" for="logiciel_select>"><?php echo $l->g(20); ?> :</label>
+			 <div class="col-sm-8">
+				 <?php remplirListe("logiciel_select"); ?>
+			 </div>
+		 </div>
+	 </div>
+ </div>
+ <div class="row">
+	 <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
+		 <label class="control-label col-sm-4" for="logiciel_text>">Text :</label>
+		 <div class="col-sm-8">
+			 <input class="form-control" type="text" name="logiciel_text" value="<?php echo $protectedPost['logiciel_text'] ?>">
+		 </div>
+	 </div>
+ </div>
+ <br />
+ <br />
+ <div class="row">
+	 <div class="col-md-12">
+		 <input type="submit" class="btn btn-success" id="bouton-submit" value="<?php echo $l->g(13); ?>" name="bouton-submit">
+	 </div>
+ </div>
 
-echo "\n".'<div id="fr">';
+ <?php
+
+echo '<div id="fr">';
 
 // voir fonction.php
 if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_select'] != '')
@@ -88,7 +108,7 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	$tab_options['LBL']['NAME']=$l->g(478);
 	$tab_options['LBL']['ip']=$l->g(176);
 	$tab_options['LBL']['domaine']=$l->g(680);
-        $tab_options['LBL']['user']=$l->g(24);
+	$tab_options['LBL']['user']=$l->g(24);
 	$tab_options['LBL']['snom']=$l->g(847);
 	$tab_options['LBL']['sversion']=$l->g(848);
 	$tab_options['LBL']['sfold']=$l->g(849);
@@ -98,7 +118,7 @@ if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_selec
 	//creerTableau($logiciel);
 	}
 
-echo "\n".'</div>';
+echo '</div>';
 
 echo close_form();
 

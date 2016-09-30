@@ -56,9 +56,9 @@ if (isset($protectedPost['enre'])){
 	}else
 		unset($_SESSION['OCS']['DATA_CACHE'],$_SESSION['OCS']['NUM_ROW']);
 }
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 show_tabs($data_on,$form_name,"onglet",10);
-echo '<div class="right-content mlt_bordure" >';
+echo '<div class="col col-md-10">';
 
 if ($protectedPost['onglet'] == 1){
 	$table_name="blacklist_macaddresses";
@@ -104,10 +104,11 @@ if ($protectedPost['onglet'] == 1){
 	$tab_options['LBL_POPUP']['SUP']='SUBNET';
 	$tab_options['LBL']['SUBNET']=$l->g(2005);
 }elseif ($protectedPost['onglet'] == 4){
+	$list_action[0]=' ';
 	$list_action[1]=$l->g(95);
 	$list_action[2]=$l->g(36);
 	$list_action[3]=$l->g(2005);
-	echo "<p>".$l->g(700).": ".show_modif($list_action,"BLACK_CHOICE",2,$form_name)."</p>";
+	formGroup('select', 'BLACK_CHOICE', $l->g(700), '', '', $protectedPost['BLACK_CHOICE'], '', $list_action, $list_action, 'onchange="document.blacklist.submit();"');
 	if (isset($protectedPost['BLACK_CHOICE']) and $protectedPost['BLACK_CHOICE'] != ''){
 		$aff="<table align=center><tr><td>";
 		if ($protectedPost['BLACK_CHOICE'] == 1){

@@ -9,8 +9,6 @@
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
 
-
-
 if(AJAX){  
 		parse_str($protectedPost['ocs']['0'], $params);	
 		$protectedPost+=$params; 
@@ -67,7 +65,8 @@ if ($protectedPost['SUP_PROF'] != ""){
 
 $form_name='groups';
 $tab_options['form_name']=$form_name;
-echo open_form($form_name);
+
+echo open_form($form_name, '', '', 'form-horizontal');
 //view all groups
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	$def_onglets['DYNA']=$l->g(810); //Dynamic group
@@ -78,7 +77,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	$protectedPost['onglet']="STAT";	
 	//show onglet
 	show_tabs($def_onglets,$form_name,"onglet",0);
-	echo '<div class="right-content mlt_bordure" >';
+	echo '<div class="col col-md-10">';
 
 
 }else{	
@@ -104,6 +103,7 @@ $tab_options['LBL']['GROUP_NAME']=$l->g(49);
 
 $table_name="LIST_GROUPS";
 $tab_options['table_name']=$table_name;
+
 $default_fields= array('GROUP_NAME'=>'GROUP_NAME','DESCRIPTION'=>'DESCRIPTION','CREATE'=>'CREATE','NBRE'=>'NBRE','SUP'=>'SUP','CHECK'=>'CHECK');
 $list_col_cant_del=array('GROUP_NAME'=>'GROUP_NAME','SUP'=>'SUP','CHECK'=>'CHECK');
 $query=prepare_sql_tab($list_fields,array('SUP','CHECK','NBRE'));
@@ -112,11 +112,11 @@ $querygroup=$query['SQL'];
 
 //requete pour les groupes de serveurs
 if ($protectedPost['onglet'] == "SERV"){
-	$querygroup .= " from hardware h,download_servers ds where ds.group_id=h.id and h.deviceid = '_DOWNLOADGROUP_'";	
+	$querygroup .= " from hardware h,download_servers ds where ds.group_id=h.id and h.deviceid = '_DOWNLOADGROUP_'";
 	//calcul du nombre de machines par groupe de serveur
 	$sql_nb_mach="SELECT count(*) nb, group_id
 					from download_servers group by group_id";
-}else{ //requete pour les groupes 'normaux'
+} else{ //requete pour les groupes 'normaux'
 	$querygroup .= " from hardware h,groups g ";
 	$querygroup .="where g.hardware_id=h.id and h.deviceid = '_SYSTEMGROUP_' ";
 	if ($protectedPost['onglet'] == "DYNA")
@@ -132,7 +132,7 @@ if ($protectedPost['onglet'] == "SERV"){
 	$sql_nb_mach="SELECT count(*) nb, group_id
 					from groups_cache gc,hardware h where h.id=gc.hardware_id ";
 	if($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES")
-			$sql_nb_mach.=" and gc.hardware_id in ".$mycomputers;		
+			$sql_nb_mach.=" and gc.hardware_id in ".$mycomputers;
 	$sql_nb_mach .=" group by group_id";
 
 }
@@ -166,29 +166,36 @@ $result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$lis
 
 //if your profil is an admin groups, you can create one
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
-	echo "</td></tr></table>";	
-	if ($protectedPost['onglet'] == "STAT")
-		echo "<p><input type='submit' name='add_static_group' value='".$l->g(587)."'></p>";
+	if ($protectedPost['onglet'] == "STAT") {
+		?>
+		<div class="row">
+			<div class='col-md-12'>
+				<input type='submit' class='btn' name='add_static_group' value='<?php echo $l->g(587) ?>'>
+			</div>
+		</div>
+		<?php
+	}
 }
 
 //if user want add a new group
 if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
-	//NAME FIELD
-	$name_field[]="NAME";
-	$tab_name[]=$l->g(577);
-	$type_field[]=0;
-	$value_field[]=$protectedPost['NAME'];
-	$name_field[]="DESCR";
-	$tab_name[]=$l->g(53);
-	$type_field[]=1;
-	$value_field[]=$protectedPost['DESCR'];
-	$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-	$tab_typ_champ[0]['CONFIG']['SIZE']=20;
-	$tab_hidden['add_static_group']='add_static_group';
-	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
-		'form_name' => 'NO_FORM',
-		'show_frame' => false
-	));
+
+	?>
+	<div class="row">
+		<div class="col-md-12">
+			<?php
+			formGroup('text', 'NAME', $l->g(577), '20', '', $protectedPost['NAME']);
+			formGroup('text', 'DESCR', $l->g(53), '', '', $protectedPost['DESCR']);
+			?>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
+			<input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+		</div>
+	</div>
+	<?php
 }
 echo '</div>';
 //fermeture du formulaire

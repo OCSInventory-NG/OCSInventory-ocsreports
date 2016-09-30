@@ -30,12 +30,9 @@ left: 30px;
 }
 
 html,body{
-	height:100%;
-}
-body {
-	background-color:#FFFFFF;
-	font-size: 12px;
 	text-align: center;
+	font-size: 12px;
+	height:100%;
 }
 
 .fondu {
@@ -405,12 +402,20 @@ iframe{
 }
 
 /*** MENU ***/
-
+@media (max-width: 960px) {
+	.left-menu{
+		float: none !important;
+		width: 100% !important;
+		text-align: center !important;
+	}
+	.left-menu .nav > li > a{
+		width: 100% !important;
+	}
+}
 .left-menu {
 	padding-left: 20px;
 	float: left;
 	text-align: left;
-	width: 172px;
 }
 
 .left-menu .nav > li > a {
@@ -427,4 +432,22 @@ iframe{
 .right-content {
 	margin-left: 190px;
 	margin-right: 20px;
+}
+
+.server-information-ul{
+	font-weight: bold;
+	text-align: left;
+}
+.server-information-ul-li{
+	text-align: left;
+}
+
+.profile-img {
+	width: auto;
+	height: 256px;
+	margin: 0 auto 10px;
+	display: block;
+}
+.config-row > .col-md-6{
+	text-align: left;
 }

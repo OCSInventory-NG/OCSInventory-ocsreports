@@ -29,7 +29,7 @@ if( ! function_exists ( "utf8_decode" )) {
  
  
 function printEnTete($ent) {
-	echo "<h3>$ent</h3>";
+	echo "<h3 class='text-center'>$ent</h3>";
 }
  
  
@@ -290,30 +290,36 @@ function xml_decode( $txt ) {
 	if (!empty($list_col_can_del)){
 		$opt = true;
 	?>
-<div>
-<label><?php echo $l->g(1349); ?> :</label>
-	<select id="select_col<?php echo $option['table_name']; ?>">
-	<option value="default"><?php echo $l->g(6001); ?></option>
-	<?php 
-	foreach($list_col_can_del as $key => $col){
-		$name = explode('.',$col);
-		$name = explode(' as ',end($name));
-		$value = end($name);
-		if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
-			$value = $option['REPLACE_COLUMN_KEY'][$key];
-		}
-		if(array_key_exists($key,$lbl_column)){
-			echo "<option value='$value'>$lbl_column[$key]</option>";
-		}
-		else{
-			echo "<option value='$value'>$key</option>";
-		}
-	}
-	?>
-	</select>
-	
+
+<div class="row">
+    <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
+        <div class="form-group">
+            <label class="control-label col-sm-4" for="select_col<?php echo $option['table_name']; ?>"><?php echo $l->g(1349); ?> :</label>
+            <div class="col-sm-8">
+                <select class="form-control" id="select_col<?php echo $option['table_name']; ?>" name="select_col<?php echo $option['table_name']; ?>">
+                    <option value="default"><?php echo $l->g(6001); ?></option>
+                    <?php
+                    foreach($list_col_can_del as $key => $col){
+                        $name = explode('.',$col);
+                        $name = explode(' as ',end($name));
+                        $value = end($name);
+                        if (!empty($option['REPLACE_COLUMN_KEY'][$key])){
+                            $value = $option['REPLACE_COLUMN_KEY'][$key];
+                        }
+                        if(array_key_exists($key,$lbl_column)){
+                            echo "<option value='$value'>$lbl_column[$key]</option>";
+                        }
+                        else{
+                            echo "<option value='$value'>$key</option>";
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+    </div>
 </div>
-<?php 
+<?php
 	}
 	?>
 
@@ -600,7 +606,7 @@ function xml_decode( $txt ) {
 
 	echo "</tr>
     </thead>";
-			
+
     echo "</table></div></div>";
 	echo "<input type='hidden' id='SUP_PROF' name='SUP_PROF' value=''>";
 	echo "<input type='hidden' id='MODIF' name='MODIF' value=''>";
@@ -814,9 +820,11 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 	}elseif ($input_type ==0)
 	return "<input type='text' name='".$input_name."' id='".$input_name."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$name."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
 	elseif($input_type ==2){
-		$champs="<select name='".$input_name."' id='".$input_name."' ".(isset($configinput['JAVASCRIPT'])?$configinput['JAVASCRIPT']:'');
+		$champs = "<div class='form-group'>";
+
+		$champs .="<select name='".$input_name."' id='".$input_name."' ".(isset($configinput['JAVASCRIPT'])?$configinput['JAVASCRIPT']:'');
 		if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
-		$champs.=" class='down' >";
+		$champs.=" class='down form-control' >";
 		if (isset($configinput['DEFAULT']) and $configinput['DEFAULT'] == "YES")
 		$champs.= "<option value='' class='hi' ></option>";
 		$countHl=0;		
@@ -830,7 +838,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 				$countHl++;
 			}
 		}
-		$champs.="</select>";
+		$champs.="</select></div>";
 		return $champs;
 	}elseif($input_type == 3){
 		$hid="<input type='hidden' id='".$input_name."' name='".$input_name."' value='".$name."'>";
@@ -949,15 +957,10 @@ function tab_modif_values($field_labels, $fields, $hidden_fields, $options = arr
 	if ($options['form_name'] != 'NO_FORM') {
 		echo open_form($options['form_name']);
 	}
-	
+	 
 	if ($options['show_frame']) {
 		echo '<div class="form-frame form-frame-'.$options['form_name'].'">';
 	}
-	
-	if ($options['top_action']) {
-		echo "<table align='right' border='0'><tr><td colspan=10 align='right'>".$options['top_action']."</td></tr></table>";
-	}
-
 	if ($options['title']) {
 		echo '<h3>'.$options['title'].'</h3>';
 	}
@@ -1332,7 +1335,7 @@ function show_tabs($def_onglets,$form_name,$post_name,$ligne)
 	$ligne is if u want have onglet on more ligne*/
 	if ($def_onglets != ""){
 	echo "<LINK REL='StyleSheet' TYPE='text/css' HREF='css/onglets.css'>\n";
-	echo "<div class='left-menu'><div class='navbar navbar-default'>";
+	echo "<div class='left-menu col col-md-2'><div class='navbar navbar-default'>";
 	echo "<ul class='nav navbar-nav'>";
 	$current="";
 	$i=0;

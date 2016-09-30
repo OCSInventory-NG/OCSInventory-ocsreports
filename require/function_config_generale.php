@@ -72,103 +72,138 @@
  * 									 'JAVASCRIPT'=> if you want a javascript on the hidden field
  */ 
  
- function ligne($name,$lbl,$type,$data,$data_hidden='',$readonly=''){
+ function ligne($name,$lbl,$type,$data,$data_hidden='',$readonly='', $helpInput = ''){
  global $l,$protectedPost;
+	 echo "<hr />";
+	 echo "<div class='row config-row'>";
+		echo "<div class='col-md-6'>";
+	 		echo "<label for='".$name."'>".$name."</label>";
+	 		echo "<p class='help-block'>".$lbl."</p>";
+	 	echo "</div>";
 
- 	echo "<TR height=50><td width=50% align='center' class='mvt_tab'>".$name;
-	echo "<br><font size=1 color=green><i>".$lbl."</i></font></td><td align='left' width=80% class='mvt_bordure'>";
-	//si on est dans un type bouton ou boite à cocher
- 	if ($type=='radio' or $type=='checkbox'){
- 		if ($data_hidden != ''){
- 			//javascript for hidden or show an html DIV 
-		 	echo "<script language='javascript'>
-			function active(id, sens) {
-				var mstyle = document.getElementById(id).style.display	= (sens!=0?\"block\" :\"none\");
-			}	
-			</script>"; 			
- 		}
- 		//si le champ hidden est celui qui doit être affiché en entrée, il faut afficher le champ
- 		//echo "<br>hidden ==".$data_hidden['HIDDEN']."      value ==".$data['VALUE'];
- 		if (isset($data_hidden['HIDDEN']) && $data_hidden['HIDDEN']==$data['VALUE'])
- 		$display="block";
- 		else
- 		$display="none";
- 		//var for name of chekbox
- 		$i=1;
- 		//pour toutes les valeurs
- 		foreach ($data as $key=>$value){
- 			//sauf la valeur à afficher
- 			if ($key !== 'VALUE' and $key !== 'CHECK' and $key !== 'JAVASCRIPT'){
-  				echo "<input type='".$type."' value='".$key."' id='".$name."' ";
- 				if ($readonly != '')
- 				echo "disabled=\"disabled\"";
- 				echo "name='".$name;
- 				if ($type=='checkbox'){
- 					echo "_".$i;
- 					$i++;
- 				}
- 				echo "'";
- 				//si un champ hidden est demandé, on gère l'affichage par javascript
-	 			if ($data_hidden != '' and  $data_hidden['HIDDEN'] == $key){
-	 				echo "OnClick=\"active('".$name."_div',1);\"";
-	 			}elseif ($data_hidden != '' and  $data_hidden['HIDDEN'] != key){
-	 				echo "OnClick=\"active('".$name."_div',0);\"";	 				
-	 			}elseif (isset($data['JAVASCRIPT']))
-	 				echo $data['JAVASCRIPT'];
-	 			if ($data['VALUE'] == $key or isset($data['CHECK'][$key]))
-	 			echo "checked";
-	 			echo ">".$value; 
-	 			if ($data_hidden != '' and  $data_hidden['HIDDEN'] == $key){
-	 				if (isset($data_hidden['MAXLENGTH']))
-	 					$maxlength = $data_hidden['MAXLENGTH'];
-	 				elseif(isset($data_hidden['SIZE']))
-	 					$maxlength = $data_hidden['SIZE'];
-	 				else
-	 					$maxlength = "2";
-	 				echo "<div id='".$name."_div' style='display:".$display."'>".$data_hidden['BEGIN']."<input type='text' size='".($data_hidden['SIZE']?$data_hidden['SIZE']:"3")."' maxlength='".$maxlength."' id='".$name."_edit' name='".$name."_edit' value='".$data_hidden['HIDDEN_VALUE']."' ".$data_hidden['JAVASCRIPT'].">".$data_hidden['END']."</div>"; 	
-	 			}
-	 			echo "<br>";
-	 			if (isset($data['JAVASCRIPT']))
-	 			echo "<input type='hidden' name='Valid' value='".$l->g(103)."'>";
-	 		//	$protectedPost['Valid'] == $l->g(103)
-	 			
- 			}
- 		}
+	 	echo "<div class='col-md-4'>";
+			 //si on est dans un type bouton ou boite à cocher
+	 		echo "<div class='form-group'>";
+			 if ($type=='radio' or $type=='checkbox'){
+				 if ($data_hidden != ''){
+					 //javascript for hidden or show an html DIV
+					 echo "<script language='javascript'>
+					function active(id, sens) {
+						var mstyle = document.getElementById(id).style.display	= (sens!=0?\"block\" :\"none\");
+					}	
+					</script>";
+				 }
+				 //si le champ hidden est celui qui doit être affiché en entrée, il faut afficher le champ
+				 //echo "<br>hidden ==".$data_hidden['HIDDEN']."      value ==".$data['VALUE'];
+				 if (isset($data_hidden['HIDDEN']) && $data_hidden['HIDDEN']==$data['VALUE'])
+					 $display="block";
+				 else
+					 $display="none";
+				 //var for name of chekbox
+				 $i=1;
+				 //pour toutes les valeurs
+				 foreach ($data as $key=>$value){
+					 //sauf la valeur à afficher
+					 if ($key !== 'VALUE' and $key !== 'CHECK' and $key !== 'JAVASCRIPT'){
+						 echo "<input type='".$type."' class='' value='".$key."' id='".$name."' ";
+						 if ($readonly != '')
+							 echo "disabled=\"disabled\"";
+						 echo "name='".$name;
+						 if ($type=='checkbox'){
+							 echo "_".$i;
+							 $i++;
+						 }
+						 echo "'";
+						 //si un champ hidden est demandé, on gère l'affichage par javascript
+						 if ($data_hidden != '' and  $data_hidden['HIDDEN'] == $key){
+							 echo "OnClick=\"active('".$name."_div',1);\"";
+						 }elseif ($data_hidden != '' and  $data_hidden['HIDDEN'] != key){
+							 echo "OnClick=\"active('".$name."_div',0);\"";
+						 }elseif (isset($data['JAVASCRIPT']))
+							 echo $data['JAVASCRIPT'];
+						 if ($data['VALUE'] == $key or isset($data['CHECK'][$key]))
+							 echo "checked";
+						 echo ">".$value;
+						 if ($data_hidden != '' and  $data_hidden['HIDDEN'] == $key){
+							 if (isset($data_hidden['MAXLENGTH']))
+								 $maxlength = $data_hidden['MAXLENGTH'];
+							 elseif(isset($data_hidden['SIZE']))
+								 $maxlength = $data_hidden['SIZE'];
+							 else
+								 $maxlength = "2";
+							 echo "<div id='".$name."_div' style='display:".$display."'>";
 
- 	}elseif($type=='input'){
- 		if ($readonly != '')
- 		$ajout_readonly=" disabled=\"disabled\" style='color:black; background-color:#e1e1e2;'";
- 		echo $data['BEGIN']."<input ".$ajout_readonly."  type='text' name='".$name."' id='".$name."' value='".$data['VALUE']."' size=".$data['SIZE']." maxlength=".$data['MAXLENGTH']." ".$data['JAVASCRIPT'].">".$data['END']; 		
- 	}elseif($type=='text'){
- 		echo $data[0];
- 	}elseif ($type == 'list'){
- 		echo "<table>";
- 		if (isset($data['END']))
- 			echo "<tr><td>".$data['END']."</td></tr>";
- 		if (is_array($data['VALUE'])){
-	 		foreach ($data['VALUE'] as $index=>$value){
-	 			echo "<tr><td>" . $value . "</td></tr>";	
-	 		}
- 		}
- 		echo "</table>";
- 		
- 	}elseif($type=='select'){
- 		echo "<select name='".$name."'";
-		if (isset($data['RELOAD'])) echo " onChange='document.".$data['RELOAD'].".submit();'";
-		echo ">";
-		foreach ($data['SELECT_VALUE'] as $key=>$value){
-			echo "<option value='".$key."'";
-			if ($data['VALUE'] == $key )
-			echo " selected";
-			echo ">".$value."</option>";
-		}
-		echo "</select>";
- 		//array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>array('OCS'=>'OCS','XML'=>'XML'))
- 	}elseif($type=='long_text'){
- 		echo "<textarea name='".$name."' id='".$name."' cols='".$data['COLS']."' rows='".$data['ROWS']."'  class='down' \ ".$data['JAVASCRIPT'].">".$data['VALUE']."</textarea>".$data['END'];		
- 	}else{
- 		echo $data['LINKS'];
- 	}
+							 echo "<div class='input-group'>";
+							 if($data_hidden['BEGIN'] != '' || isset($data_hidden['BEGIN'])){
+								 echo "<span class='input-group-addon'>".$data_hidden['BEGIN']."</span>";
+							 }
+							 echo "<input class='form-control input-sm' type='text' maxlength='".$maxlength."' id='".$name."_edit' name='".$name."_edit' value='".$data_hidden['HIDDEN_VALUE']."' ".$data_hidden['JAVASCRIPT'].">";
+
+							  if($data_hidden['END'] != '' || isset($data_hidden['END'])){
+								 echo "<span class='input-group-addon'>".$data_hidden['END']."</span>";
+							 }
+
+							 echo "</div>";
+							 echo "<p class='help-block'>".$helpInput."</p>";
+							 echo "</div>";
+						 }
+						 echo "<br>";
+						 if (isset($data['JAVASCRIPT']))
+							 echo "<input type='hidden' name='Valid' value='".$l->g(103)."'>";
+						 //	$protectedPost['Valid'] == $l->g(103)
+
+					 }
+				 }
+
+			 }elseif($type=='input'){
+				 if ($readonly != '')
+					 $ajout_readonly=" disabled=\"disabled\" style='color:black; background-color:#e1e1e2;'";
+				 echo "<div class='input-group'>";
+				 if($data['BEGIN'] != '' || isset($data['BEGIN'])){
+				 	echo "<span class='input-group-addon'>".$data['BEGIN']."</span>";
+				 }
+				 echo "<input ".$ajout_readonly."  class='form-control input-sm' type='text' name='".$name."' id='".$name."' value='".$data['VALUE']."' maxlength=".$data['MAXLENGTH']." ".$data['JAVASCRIPT'].">";
+
+				 if($data['END'] != '' || isset($data['END'])){
+					 echo "<span class='input-group-addon'>".$data['END']."</span>";
+				 }
+				 echo "</div>";
+				 echo "<p class='help-block'>".$helpInput."</p>";
+			 }elseif($type=='text'){
+				 echo $data[0];
+			 }elseif ($type == 'list'){
+				 echo "<table>";
+				 if (isset($data['END']))
+					 echo "<tr><td>".$data['END']."</td></tr>";
+				 if (is_array($data['VALUE'])){
+					 foreach ($data['VALUE'] as $index=>$value){
+						 echo "<tr><td>" . $value . "</td></tr>";
+					 }
+				 }
+				 echo "</table>";
+
+			 }elseif($type=='select'){
+				 echo "<select name='".$name."'";
+				 if (isset($data['RELOAD'])) echo " onChange='document.".$data['RELOAD'].".submit();'";
+				 echo ">";
+				 foreach ($data['SELECT_VALUE'] as $key=>$value){
+					 echo "<option value='".$key."'";
+					 if ($data['VALUE'] == $key )
+						 echo " selected";
+					 echo ">".$value."</option>";
+				 }
+				 echo "</select>";
+				 //array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>array('OCS'=>'OCS','XML'=>'XML'))
+			 }elseif($type=='long_text'){
+				 echo "<textarea name='".$name."' id='".$name."' cols='".$data['COLS']."' rows='".$data['ROWS']."'  class='down' ".$data['JAVASCRIPT'].">".$data['VALUE']."</textarea>".$data['END'];
+			 }else{
+				 echo $data['LINKS'];
+			 }
+	 	echo "</div>";
+	 	echo "</div>";
+	 echo "</div>";
+
+
  	echo "</td></tr>";
  	
  }
@@ -235,8 +270,7 @@ function fin_tab($form_name,$disable=''){
 		$gris="disabled=disabled";
 	else 
 		$gris="OnClick='garde_valeur(\"RELOAD\",\"RELOAD_CONF\");'";
-	echo "<tr><td align=center colspan=100><input type='submit' name='Valid' value='".$l->g(103)."' align=center $gris></td></tr>";
-	echo "</table>";
+	echo "<br /><input type='submit' class='btn btn-success' name='Valid' value='".$l->g(103)."' $gris>";
 	
 }
 
@@ -541,11 +575,11 @@ function trait_post($name){
  	debut_tab();
 	//create diff lign for general config	
  		ligne('DOWNLOAD',$l->g(417),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['DOWNLOAD'])); 	
- 		ligne('DOWNLOAD_CYCLE_LATENCY',$l->g(720),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_CYCLE_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric));
-  		ligne('DOWNLOAD_FRAG_LATENCY',$l->g(721),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_FRAG_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric));
+ 		ligne('DOWNLOAD_CYCLE_LATENCY',$l->g(720),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_CYCLE_LATENCY'],'END'=>$l->g(511),'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric), '', '', $sup1);
+  		ligne('DOWNLOAD_FRAG_LATENCY',$l->g(721),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_FRAG_LATENCY'],'END'=>$l->g(511),'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric), '', '', $sup1);
  		ligne('DOWNLOAD_GROUPS_TRACE_EVENTS',$l->g(758),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['DOWNLOAD_GROUPS_TRACE_EVENTS'])); 	
-  		ligne('DOWNLOAD_PERIOD_LATENCY',$l->g(722),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_PERIOD_LATENCY'],'END'=>$l->g(511).$sup1,'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric));
- 		ligne('DOWNLOAD_TIMEOUT',$l->g(424),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_TIMEOUT'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
+  		ligne('DOWNLOAD_PERIOD_LATENCY',$l->g(722),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_PERIOD_LATENCY'],'END'=>$l->g(511),'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric), '', '', $sup1);
+ 		ligne('DOWNLOAD_TIMEOUT',$l->g(424),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_TIMEOUT'],'END'=>$l->g(496),'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric), '', '', $sup1);
   		ligne('DOWNLOAD_PERIOD_LENGTH',$l->g(723),'input',array('VALUE'=>$values['ivalue']['DOWNLOAD_PERIOD_LENGTH'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
 		ligne('DEPLOY',$l->g(414),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['DEPLOY']));
  		ligne('DOWNLOAD_URI_FRAG',$l->g(826),'radio',array('DEFAULT'=>$l->g(823)." (HTTP://localhost/download)",'CUSTOM'=>$l->g(822),'VALUE'=>$select_frag),
@@ -568,8 +602,8 @@ function pagegroups($form_name){
 	//create diff lign for general config	
  	//create diff lign for general config	
  		ligne('ENABLE_GROUPS',$l->g(736),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['ENABLE_GROUPS'])); 	
- 		ligne('GROUPS_CACHE_OFFSET',$l->g(737),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['GROUPS_CACHE_OFFSET'],'SIZE'=>5,'MAXLENGTH'=>6,'JAVASCRIPT'=>$numeric)); 	
- 		ligne('GROUPS_CACHE_REVALIDATE',$l->g(738),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['GROUPS_CACHE_REVALIDATE'],'SIZE'=>5,'MAXLENGTH'=>6,'JAVASCRIPT'=>$numeric)); 	
+ 		ligne('GROUPS_CACHE_OFFSET',$l->g(737),'input',array('END'=>$l->g(511),'VALUE'=>$values['ivalue']['GROUPS_CACHE_OFFSET'],'SIZE'=>5,'MAXLENGTH'=>6,'JAVASCRIPT'=>$numeric), '', '', $sup1);
+ 		ligne('GROUPS_CACHE_REVALIDATE',$l->g(738),'input',array('END'=>$l->g(511),'VALUE'=>$values['ivalue']['GROUPS_CACHE_REVALIDATE'],'SIZE'=>5,'MAXLENGTH'=>6,'JAVASCRIPT'=>$numeric), '', '', $sup1);
  
 	fin_tab($form_name);
  	
@@ -594,7 +628,7 @@ function pagegroups($form_name){
  	$check=auto_duplicate_lvl_poids($values['ivalue']['AUTO_DUPLICATE_LVL'],1);
   	debut_tab();
 	ligne('LOGLEVEL',$l->g(416),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['LOGLEVEL']));
-	ligne('PROLOG_FREQ',$l->g(564),'input',array('END'=>$l->g(730).$sup1,'VALUE'=>$values['ivalue']['PROLOG_FREQ'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));	
+	ligne('PROLOG_FREQ',$l->g(564),'input',array('END'=>$l->g(730),'VALUE'=>$values['ivalue']['PROLOG_FREQ'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric), $sup1);
     ligne('AUTO_DUPLICATE_LVL',$l->g(427),'checkbox',array(
         'HOSTNAME'=>'hostname',
         'SERIAL'=>'Serial',
@@ -604,11 +638,11 @@ function pagegroups($form_name){
         'ASSETTAG'=>'AssetTag',
         'CHECK'=>$check,
     ));
-	ligne('SECURITY_LEVEL',$l->g(739),'input',array('VALUE'=>$values['ivalue']['SECURITY_LEVEL'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");	
-	ligne('LOCK_REUSE_TIME',$l->g(740),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['LOCK_REUSE_TIME'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));	
+	ligne('SECURITY_LEVEL',$l->g(739),'input',array('VALUE'=>$values['ivalue']['SECURITY_LEVEL'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");
+	ligne('LOCK_REUSE_TIME',$l->g(740),'input',array('END'=>$l->g(511),'VALUE'=>$values['ivalue']['LOCK_REUSE_TIME'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric), '', '', $sup1);
 	ligne('TRACE_DELETED',$l->g(415),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['TRACE_DELETED']));
-	ligne('SESSION_VALIDITY_TIME',$l->g(777),'input',array('END'=>$l->g(511).$sup1,'VALUE'=>$values['ivalue']['SESSION_VALIDITY_TIME'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));	
-        ligne('INVENTORY_ON_STARTUP',$l->g(2121),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_ON_STARTUP'])); 
+	ligne('SESSION_VALIDITY_TIME',$l->g(777),'input',array('END'=>$l->g(511),'VALUE'=>$values['ivalue']['SESSION_VALIDITY_TIME'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric), '', '', $sup1);
+	ligne('INVENTORY_ON_STARTUP',$l->g(2121),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_ON_STARTUP']));
         
 	fin_tab($form_name);
  	
@@ -646,7 +680,7 @@ function pagegroups($form_name){
 		ligne('INVENTORY_TRANSACTION',$l->g(742),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_TRANSACTION']));
 		ligne('INVENTORY_WRITE_DIFF',$l->g(743),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_WRITE_DIFF']));
 		ligne('INVENTORY_SESSION_ONLY',$l->g(744),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_SESSION_ONLY']));
-	 	ligne('INVENTORY_CACHE_REVALIDATE',$l->g(745),'input',array('END'=>$l->g(496).$sup1,'VALUE'=>$values['ivalue']['INVENTORY_CACHE_REVALIDATE'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
+	 	ligne('INVENTORY_CACHE_REVALIDATE',$l->g(745),'input',array('END'=>$l->g(496),'VALUE'=>$values['ivalue']['INVENTORY_CACHE_REVALIDATE'],'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric), '', '', $sup1);
 		ligne('INVENTORY_CACHE_ENABLED',$l->g(1265),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_CACHE_ENABLED']));
 	 	ligne('INVENTORY_VALIDITY',$l->g(828),'radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_VALIDITY']),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$validity,'END'=>$l->g(496),'JAVASCRIPT'=>$numeric,'SIZE'=>3),"readonly");
 	fin_tab($form_name);
@@ -683,9 +717,9 @@ function pagegroups($form_name){
  	}
  	debut_tab();
  	ligne('IPDISCOVER',$l->g(425),'radio',array('ON'=>'ON','OFF'=>'OFF','VALUE'=>$values['ivalue']['IPDISCOVER']),array('HIDDEN'=>'ON','HIDDEN_VALUE'=>$ipdiscover,'END'=>$l->g(729),'JAVASCRIPT'=>$numeric));
-	ligne('IPDISCOVER_BETTER_THRESHOLD',$l->g(746),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
-	ligne('IPDISCOVER_LATENCY',$l->g(567),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_LATENCY'],'END'=>$l->g(732).$sup10,'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric));
-	ligne('IPDISCOVER_MAX_ALIVE',$l->g(419),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_MAX_ALIVE'],'END'=>$l->g(496).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
+	ligne('IPDISCOVER_BETTER_THRESHOLD',$l->g(746),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'],'END'=>$l->g(496),'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric), '', '', $sup1);
+	ligne('IPDISCOVER_LATENCY',$l->g(567),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_LATENCY'],'END'=>$l->g(732),'SIZE'=>2,'MAXLENGTH'=>4,'JAVASCRIPT'=>$numeric), '', '', $sup10);
+	ligne('IPDISCOVER_MAX_ALIVE',$l->g(419),'input',array('VALUE'=>$values['ivalue']['IPDISCOVER_MAX_ALIVE'],'END'=>$l->g(496),'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric), '', '', $sup1);
 	ligne('IPDISCOVER_NO_POSTPONE',$l->g(747),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['IPDISCOVER_NO_POSTPONE']));
 	ligne('IPDISCOVER_USE_GROUPS',$l->g(748),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['IPDISCOVER_USE_GROUPS']));
 	
@@ -754,7 +788,7 @@ function pagegroups($form_name){
 	ligne('PROLOG_FILTER_ON',$l->g(753),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['PROLOG_FILTER_ON']));
 	ligne('INVENTORY_FILTER_ENABLED',$l->g(754),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_FILTER_ENABLED']));
 	ligne('INVENTORY_FILTER_FLOOD_IP',$l->g(755),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_FILTER_FLOOD_IP']));
-	ligne('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',$l->g(756),'input',array('VALUE'=>$values['ivalue']['INVENTORY_FILTER_FLOOD_IP_CACHE_TIME'],'END'=>$l->g(511).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric));
+	ligne('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',$l->g(756),'input',array('VALUE'=>$values['ivalue']['INVENTORY_FILTER_FLOOD_IP_CACHE_TIME'],'END'=>$l->g(511),'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric), '', '', $sup1);
 	ligne('INVENTORY_FILTER_ON',$l->g(757),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['INVENTORY_FILTER_ON']));
  	fin_tab($form_name);
  }
@@ -768,8 +802,9 @@ function pagegroups($form_name){
  	$values=look_config_default_values($champs);
  	debut_tab(); 
 					echo "<tr><td align=center colspan=100><font size=4 color=red><b>".$l->g(764)."</b></font></td></tr>";
+	 //TODO Remove size
 	ligne('WEB_SERVICE_ENABLED',$l->g(761),'radio',array(1=>'ON',0=>'OFF','VALUE'=>$values['ivalue']['WEB_SERVICE_ENABLED']),'',"readonly");
-	ligne('WEB_SERVICE_RESULTS_LIMIT',$l->g(762),'input',array('VALUE'=>$values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'],'END'=>$l->g(511).$sup1,'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric),'',"readonly");
+	ligne('WEB_SERVICE_RESULTS_LIMIT',$l->g(762),'input',array('VALUE'=>$values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'],'END'=>$l->g(511),'SIZE'=>1,'MAXLENGTH'=>3,'JAVASCRIPT'=>$numeric),'',"readonly", $sup1);
 	ligne('WEB_SERVICE_PRIV_MODS_CONF',$l->g(763),'input',array('VALUE'=>$values['tvalue']['WEB_SERVICE_PRIV_MODS_CONF'],'SIZE'=>"30%",'MAXLENGTH'=>254),'',"readonly");
  	fin_tab($form_name,"disabled");
  }

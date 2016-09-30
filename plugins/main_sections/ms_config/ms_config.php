@@ -71,9 +71,8 @@ printEnTete($l->g(107));
 $form_name='modif_onglet';
 echo open_form($form_name);
 show_tabs($def_onglets,$form_name,"onglet",10);
-echo '<div class="right-content">';
+echo '<div class="col col-md-10">';
 //onglet($def_onglets,$form_name,'onglet',8);
-echo '<div class="mlt_bordure" >';
 switch ($protectedPost['onglet']){
 	case 'CNX':
 		pageConnexion($form_name);
@@ -128,6 +127,5 @@ switch ($protectedPost['onglet']){
 }
 
 echo "<input type='hidden' id='RELOAD_CONF' name='RELOAD_CONF' value=''>";
-echo "</div>";
 echo close_form();
 echo '</div>';

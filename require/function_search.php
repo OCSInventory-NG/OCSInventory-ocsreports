@@ -365,14 +365,45 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	$select .= "</select>";
 	
 	//on affiche le début de ligne
-	echo "<div class='field search-field'><a href=\"javascript:;\"><img src='image/delete-small.png' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'></a>";
+	?>
+	<div class='col col-md-12'>
+
+		<div class="form-group">
+			<label class="col-sm-1">Entrance</label>
+			<div class="col-sm-1"><input type="text" class="form-control" /></div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-1">Floor</label>
+			<div class="col-sm-1"><input type="text" class="form-control" /></div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2">Apartament</label>
+			<div class="col-sm-3"><input type="text" class="form-control" /></div>
+		</div>
+   <a href="javascript:" onclick='pag("<?php echo $id_field ?>", "delfield", "<?php echo $form_name ?>");'><span class='glyphicon glyphicon-remove'></span></a>
+		
+	<?php
 	if ($ajout != '') echo $and_or;
-	echo "&nbsp;".$optArray[$value].'&nbsp;';
+	$label = $optArray[$value];
 	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
-	if( array_key_exists($value,$optSelectField)){		
-		echo $select."&nbsp;&nbsp;<input type='text' name='InputValue-".$nameField."' class='down' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;";
-		if ($optSelectField[$value."-LBL"] == "calendar")
-		echo calendars("InputValue-".$nameField,$l->g(1270));
+	if( array_key_exists($value,$optSelectField)){
+// TODO FINIR CE TRUC
+		?>
+
+		<div class="form-group">
+			<label class="col-sm-2"><?php echo $label; ?></label>
+			<div class="col-sm-1">
+				<div class="input-group input-append">
+					<input type="text" class="form-control" name="InputValue-<?php echo $nameField ?>" id="InputValue-<?php echo $nameField ?>"  value="<?php stripslashes($protectedPost["InputValue-".$nameField]) ?>"/>
+					<span class="input-group-addon add-on">
+						<?php echo ($optSelectField[$value."-LBL"] == "calendar") ? calendars("InputValue-".$nameField,$l->g(1270)) : '' ?>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<?php
 		echo "</div>";
 		//echo $value."-LBL".$id_field;
 		
@@ -475,7 +506,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 //fonction qui permet d'utiliser un calendrier dans un champ
 function calendars($NameInputField,$DateFormat)
 {
-	return "<a href=\"javascript:NewCal('".$NameInputField."','".$DateFormat."',false,24,null);\"><img src=\"image/cal.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"Pick a date\"></a>";
+	return "<a href=\"javascript:NewCal('".$NameInputField."','".$DateFormat."',false,24,null);\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
 }
 
 
@@ -518,7 +549,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 	<div class="btn-group">
 	<?php 
 		foreach ($img as $key=>$value){
-			echo '<button type="button" onclick=garde_check("'.$list_pag[$key].'","'.$list_id.'","'.$comp.'") class="btn btn-default">'.$value.'</button>';
+			echo '<button type="button" onclick=garde_check("'.$list_pag[$key].'","'.$list_id.'","'.$comp.'") class="btn">'.$value.'</button>';
 		}
 	?>
 	</div>

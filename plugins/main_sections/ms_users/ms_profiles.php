@@ -79,15 +79,13 @@ if (AJAX) {
 	// HTML OUTPUT
 	show_users_left_menu('ms_profiles');
 	
-	echo '<div class="right-content">';
-	echo '<div class="mlt_bordure">';
+	echo '<div class="col col-md-10">';
 	
 	echo '<h3>'.$l->g(1401).'</h3>';
 
 	$table_renderer = new TableRenderer();
 	$table_renderer->show($table, $profiles);
-	
-	echo '</div>';
+
 	echo '</div>';
 }
 

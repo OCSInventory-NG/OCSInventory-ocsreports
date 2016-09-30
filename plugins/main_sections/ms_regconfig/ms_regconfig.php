@@ -25,7 +25,7 @@ $tab['VIEW']=$l->g(1059);
 $tab['ADD']=$l->g(1060);
 $form_name="registry";
 $table_name="registry";
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 
 if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){	
 		$protectedPost['tab'] = 'ADD';
@@ -42,7 +42,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 }
 $tab_options=$protectedPost;
 show_tabs($tab,$form_name,"tab",4);
-echo '<div class="right-content mlt_bordure" >';
+echo '<div class="col col-md-10" >';
 if ($ajax){
 	if (isset($protectedPost['REGKEY'])){
 		$protectedPost['tab']="VIEW";

@@ -16,10 +16,11 @@ $data_on['MANUEL']=$l->g(1258);
 echo open_form($form_name);
 //$protectedPost['onglet']='FILE';
 show_tabs($data_on,$form_name,"onglet",4);
-echo "<div class='right-content mlt_bordure' >";
+echo "<div class='col col-md-10' >";
 
 if ($protectedPost['onglet'] == 'FILE'){
-	echo "<script language='javascript'>  
+	?>
+	<script language='javascript'>
 	    
 	    function getext(filename){
 	    	 var parts = filename.split('.');
@@ -42,11 +43,12 @@ if ($protectedPost['onglet'] == 'FILE'){
 					return (true);
 				}
 			}
-			alert('".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(559))."');
+			alert('<?php mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(559)) ?>');
 			return (false);
 	     }
 	          
-	</script>";
+	</script>
+	<?php
 	//   
 	$form_name1="SEND_FILE";
 	$data_config=look_config_default_values(array('LOCAL_URI_SERVER'),'',
@@ -80,17 +82,13 @@ if ($protectedPost['onglet'] == 'FILE'){
 			}else
 				msg_error($l->g(1244));
 	}
-	printEntete("<i>".$l->g(560).": ".$server);
+	printEntete("<i>".$l->g(560).": ".$server."</i>");
 	echo close_form();
 	echo "<br>";
-	echo open_form($form_name1,'',"enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"");
-	echo '<div class="field">';
-	echo '<label for="file_upload">'.$l->g(1048).' :</label>';
-	echo '<input id="file_upload" name="file_upload" type="file" accept="">';
-	echo '</div>';
-	echo '<div class="form-buttons">';
-	echo "<input name='GO' id='GO' type='submit' value='".$l->g(13)."'>";
-	echo '</div>';
+	echo open_form($form_name1,'',"enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"", 'form-horizontal');
+	formGroup('file', 'file_upload', $l->g(1048), '', '', $protectedPost['file_upload']);
+
+	echo "<input name='GO' class='btn btn-success' id='GO' type='submit' value='".$l->g(13)."'>";
 	echo close_form();
 }else{
 	require_once('require/function_computers.php');
@@ -153,7 +151,8 @@ if ($protectedPost['onglet'] == 'FILE'){
 			msg_error($l->g(684)."<br>".$error);
 	}
 	
-	
+	//formGroup('text', 'NB_COMPUTERS', $l->g())
+
 	$i=0;
 	$info_form['FIELDS']['name_field'][$i]='NB_COMPUTERS';
 	$info_form['FIELDS']['type_field'][$i]=0;

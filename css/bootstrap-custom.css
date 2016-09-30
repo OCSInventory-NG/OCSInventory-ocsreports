@@ -43,10 +43,34 @@
 	
 
 }
-	.glyphicon-trash{
-		color: gray;
-		font-size: x-large;
-	}
-	.alert{
-		width : 80%;
-	}
+.glyphicon-trash{
+	color: gray;
+	font-size: x-large;
+}
+.alert{
+	width : 80%;
+}
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover{
+	background-image: none !important;
+}
+.dropdown-menu{
+	border-radius: 0 !important;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a{
+	background-image: none !important;
+	box-shadow: none !important;
+}
+.btn-success,  .btn-danger{
+	border: none !important;
+	background-image: none !important;
+}
+.input-group{
+	width: 100% !important;
+}
+
+.alert{
+	background-image: none;
+	border: none;
+	font-size: larger;
+	text-align: center;
+}

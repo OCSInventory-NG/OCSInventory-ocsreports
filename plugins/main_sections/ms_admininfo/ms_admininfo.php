@@ -84,9 +84,9 @@ if (isset($msg['SUCCESS'])){
 	$protectedPost['onglet'] = 1;	
 }	
 
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 show_tabs($data_on,$form_name,"onglet",2);
-echo '<div class="right-content mlt_bordure" >';
+echo '<div class="col col-md-10" >';
 
 	$table="accountinfo";
 
@@ -100,8 +100,18 @@ if ((isset($protectedPost['ACCOUNTINFO_CHOISE']) and $protectedPost['ACCOUNTINFO
 		$account_field="TAB_ACCOUNTAG";
 	}
 
-if ($protectedPost['onglet'] == 1){		
-	echo $l->g(56).": ".show_modif($accountinfo_choise,'ACCOUNTINFO_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
+if ($protectedPost['onglet'] == 1){
+	?>
+	<div class="row">
+		<div class="col col-md-6 col-md-offset-3">
+
+	<?php
+	formGroup('select', 'ACCOUNTINFO_CHOISE', $l->g(56), '', '', $protectedPost, '', $accountinfo_choise, $accountinfo_choise, 'onchange="document.admin_info.submit();"');
+	?>
+		</div>
+	</div>
+
+	<?php
 	
 	if ($protectedPost['ACCOUNTINFO_CHOISE'] == "SNMP")
 		$account_choise = "SNMP";
@@ -200,18 +210,27 @@ if ($protectedPost['onglet'] == 1){
 		
 	}
 
-	$tab_typ_champ=show_field($name_field,$type_field,$value_field,$config);
-	$tab_typ_champ[1]['CONFIG']['SIZE']=30;
-	$tab_typ_champ[2]['CONFIG']['SIZE']=30;
-	$tab_typ_champ[4]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=".$account_field."&form=".$form_name."\"><img src=image/plus.png></a>";
-	$tab_typ_champ[0]['RELOAD']=$form_name;
-	$tab_typ_champ[3]['RELOAD']=$form_name;
-	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
-		'form_name' => 'NO_FORM',
-		'show_frame' => false
-	));
+	$tab_typ_champ = show_field($name_field,$type_field,$value_field,$config);
+
+	formGroup('select', 'accountinfo', $l->g(56), '', '', $protectedPost, '', $tab_typ_champ[0]['DEFAULT_VALUE'], $tab_typ_champ[0]['DEFAULT_VALUE'], "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+	formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+	formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl']);
+	formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost, '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "document.admin_info.submit();");
+	formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost, '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE']);
 }
-echo "</div>"; 
+?>
+
+<div class="row">
+	<div class="col-md-12">
+		<input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
+		<input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+	</div>
+</div>
+
+
+<?php
+
+echo "</div>";
 echo close_form();
 
 if ($ajax){

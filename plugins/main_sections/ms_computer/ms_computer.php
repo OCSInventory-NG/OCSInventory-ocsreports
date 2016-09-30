@@ -25,7 +25,6 @@ require_once('require/function_machine.php');
 require_once('require/function_files.php');
 require_once('ms_computer_views.php');
 //recherche des infos de la machine
-
 $item=info($protectedGet,$protectedPost['systemid']);
 if (!is_object($item)){
 	msg_error($item);
@@ -47,11 +46,9 @@ if (!isset($protectedGet['option']) and !isset($protectedGet['cat'])) {
 
 show_computer_title($item);
 
-echo '<div class="left-menu">';
 show_computer_menu($item->ID);
-echo '</div>';
 
-echo '<div class="right-content">';
+echo '<div class="col col-md-10">';
 
 if (isset($protectedGet['cat']) and $protectedGet['cat'] == 'admin') {
 	show_computer_summary($item);
@@ -95,7 +92,7 @@ if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('softwa
 				if ($plugin->getHideFrame()) {
 					require $plugin_file;
 				} else {
-					echo '<div class="plugin-frame plugin-name-'.$plugin->getId().' ">';
+					echo '<div class="plugin-name-'.$plugin->getId().' ">';
 					require $plugin_file;
 				}
 			}
@@ -107,7 +104,7 @@ if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('softwa
 	$plugin_file = PLUGINS_DIR."computer_detail/".$plugin->getId()."/".$plugin->getId().".php";
 	
 	if (file_exists($plugin_file)) {
-		if (!$ajax) echo '<div class="plugin-frame plugin-name-'.$plugin->getId().'">';
+		if (!$ajax) echo '<div class="plugin-name-'.$plugin->getId().'">';
 		require $plugin_file;
 		if (!$ajax) echo '</div>';
 	}

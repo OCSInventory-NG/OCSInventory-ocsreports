@@ -340,6 +340,9 @@ function html_header($no_java=false){
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/header.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/computer_details.css'>
 				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/forms.css'>
+				<meta charset=\"utf-8\">
+   				<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">
+    			<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 				";
 	if (!$no_java){
 		incPicker(); 
@@ -373,7 +376,7 @@ function html_header($no_java=false){
 	
 	echo "</head>"; 
 
-	echo "<body bottommargin='0' leftmargin='0' topmargin='0' rightmargin='0' marginheight='0' marginwidth='0'>";
+	echo "<body>";
 
 }
 
@@ -390,7 +393,7 @@ function strip_tags_array($value='')
 	return $value;
 }
 
-function open_form($form_name,$action='',$more='', $class=''){
+function open_form($form_name, $action='',$more='', $class=''){
  	if (!isset($_SESSION['OCS']['CSRFNUMBER']) or !is_numeric($_SESSION['OCS']['CSRFNUMBER']) or $_SESSION['OCS']['CSRFNUMBER'] >= CSRF)
  		$_SESSION['OCS']['CSRFNUMBER'] = 0;
  	$form="<form class='".$class."' name='".$form_name."' id='".$form_name."' method='POST' action='".$action."' ".$more." >";
@@ -427,11 +430,11 @@ function get_update_json(){
 
 function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue = "", $class = "", $optionsSelect = [], $arrayDisplayValues = [], $attrBalise = "", $groupAddon = ""){
 	echo "<div class='form-group'>";
-	echo "<label class='control-label col-sm-4' for='".$inputName."'>".$name."</label>";
-	echo "<div class='col-sm-8'>";
+	echo "<label class='control-label col-sm-2' for='".$inputName."'>".$name."</label>";
+	echo "<div class='col-sm-10'>";
 	if($inputType == "select"){
 		echo "<select name='".$inputName."' id='".$inputName."' class='form-control ".$class."' ".$attrBalise.">";
-		foreach ($optionsSelect as $option){
+		foreach ($optionsSelect as $option => $value){
 			echo "<option value='".$option."' ".($inputValue[$inputName] == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
 		}
 		echo "</select>";

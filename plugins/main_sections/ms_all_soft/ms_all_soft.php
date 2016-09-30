@@ -33,7 +33,7 @@ if ($protectedPost['RESET']){
 	unset($protectedPost['NBRE']);
 	unset($protectedPost['CLASS']);
 }
-
+echo "<div class='col-md-12'>";
 if ($protectedPost['SUBMIT_FORM'])
 $tab_options['CACHE']='RESET';
 
@@ -128,10 +128,9 @@ if($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPo
 }
 $form_name = "all_soft";
 $table_name="all_soft";
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 
 onglet($_SESSION['OCS']['ONGLET_SOFT'],$form_name,"onglet",20);
-echo '<div class="form-frame" >';
 if ((isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != "") or
 	((isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "")))
 	msg_warning($l->g(767));
@@ -275,20 +274,41 @@ if (isset($sql)){
 }
 
 
-echo "<p><b>".$l->g(735)."</b></p>";
-echo "<p>".$l->g(382).": ".show_modif($protectedPost['NAME_RESTRICT'],'NAME_RESTRICT',0)."</p>";
-echo "<p>".$l->g(381).": ".show_modif(array('<'=>'<','>'=>'>','='=>'='),'COMPAR',2);
-echo show_modif($protectedPost['NBRE'],'NBRE',0,'',array('MAXLENGTH'=>100,'SIZE'=>10,'JAVASCRIPT'=>$numeric))."</p>";
-//echo "<input type='input' name='NBRE' value='".$protectedPost['NBRE']."' ".$numeric.">";
-echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8")."'>".$l->g(183)." ".$l->g(765)."</a>";
-if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protectedPost['NBRE'] != "")
-echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8")."&all_computers=yes'>".$l->g(912)."</a>";
-echo "<p><input type='submit' value='".$l->g(393)."' name='SUBMIT_FORM'><input type='submit' value='".$l->g(396)."' name='RESET'></p>";
+echo "<h4>".$l->g(735)."</h4>";
 
-echo '</div>';
+formGroup('text', 'NAME_RESTRICT', $l->g(382), 20, 100, $protectedPost['NAME_RESTRICT']);
+?>
+<div class="form-group">
+	<label class="control-label col-sm-2" for="COMPAR"><?php echo $l->g(381); ?></label>
+	<div class="col-sm-1">
+		<select name="COMPAR" id="COMPAR" class="form-control">
+			<option value="<">&lt;</option>
+			<option value=">">&gt;</option>
+			<option value="=">=</option>
+		</select>
+	</div>
+	<div class="col-sm-2">
+		<input type="text" class="form-control" maxlength="100" value="<?php echo $protectedPost['NBRE']; ?>">
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<a href="index.php?<?php echo PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8") ?>"><?php echo $l->g(765); ?></a>
+	</div>
+</div>
+<?php
+
+if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protectedPost['NBRE'] != ""){
+	echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8")."&all_computers=yes'>".$l->g(912)."</a>";
+}
+?>
+<input type="submit" class="btn btn-success" value="<?php echo $l->g(393); ?>" name="SUBMIT_FORM">
+<input type="submit" class="btn btn-danger" value="<?php echo $l->g(396); ?>" name="RESET">
+<?php
+
 echo close_form();
 
-
+echo "</div>";
 
 if ($ajax){
 	ob_end_clean();

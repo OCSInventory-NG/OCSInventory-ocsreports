@@ -17,12 +17,13 @@ if (AJAX) {
 } else {
 	$ajax = false;
 	require_once 'views/users_views.php';
-	
-	show_users_left_menu('ms_users');
-	
-	echo '<div class="right-content">';
-	echo '<div class="mlt_bordure">';
-	echo '<h3>'.$l->g(1400).'</h3>';
+	printEnTete($l->g(1400));
+	?>
+	<div class="col-md-2">
+		<?php show_users_left_menu('ms_users'); ?>
+	</div>
+	<div class="col-md-10">
+	<?php
 }
 
 require_once('require/function_search.php');
@@ -39,7 +40,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_PROFIL') == 'YES')
 $form_name = "admins";
 $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 $table_name="TAB_ACCESSLVL".$protectedPost['onglet'];
 
 if ($protectedPost['onglet']==""){
@@ -58,7 +59,6 @@ if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
 	$tab_options['CACHE']='RESET';
 }
 
-echo "<tr><td align=center>";
 //affichage
 $list_fields= array('ID'=>'ID',
 		$l->g(1366)=>'FIRSTNAME',
@@ -117,7 +117,6 @@ if (AJAX) {
 	ob_end_clean();
 	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
 } else {
-	echo '</div>';
 	echo '</div>';
 }
 

@@ -16,7 +16,7 @@ if (!isset($info_id['ERROR'])){
 	
 	$form_name="form_active";
 	//ouverture du formulaire
-	echo open_form($form_name);
+	echo open_form($form_name, '', '', 'form-horizontal');
 	if ((!isset($protectedPost['FILE_SERV']) and $protectedPost['choix_activ'] == 'MAN') 
 		or (!isset($protectedPost['FILE_SERV_REDISTRIB']) and $protectedPost['choix_activ'] == 'AUTO') or !isset($protectedPost['HTTPS_SERV'])){
 		$default=$_SERVER["SERVER_ADDR"]."/download";
@@ -97,8 +97,20 @@ if (!isset($info_id['ERROR'])){
 	if ($_SESSION['OCS']["use_redistribution"] == 1){
 		$list_choise['MAN']=$l->g(650);
 		$list_choise['AUTO']=$l->g(649);
-		$choix_activ=$l->g(514).' : '.show_modif($list_choise,'choix_activ',2,$form_name)."<br>";
-		echo $choix_activ;
+		?>
+		<div class="row">
+
+			<div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
+
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="choix_activ>"><?php echo $l->g(514); ?> :</label>
+					<div class="col-sm-8">
+						<?php echo show_modif($list_choise,'choix_activ',2,$form_name); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php
 	}else{
 
 		$protectedPost['choix_activ']= "MAN";

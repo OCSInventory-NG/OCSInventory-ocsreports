@@ -12,7 +12,6 @@
 require_once('require/function_admininfo.php');
 $form_name='admin_info_computer';
 $table_name=$form_name;
-
 //search all admininfo for this computer
 $info_account_id=admininfo_computer($systemid);
 if (!is_array($info_account_id))
@@ -82,7 +81,7 @@ else{
 				 $protectedPost['onglet'] = $list_tab['FIRST'];
 			unset($list_tab['FIRST']);
 			
-			echo open_form($form_name);
+			echo open_form($form_name, '', '', 'form-horizontal');
 			if (!$show_all_column){
 				onglet($list_tab,$form_name,"onglet",6);
 				$sql_admin_info="select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER,DEFAULT_VALUE from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
@@ -93,7 +92,6 @@ else{
 								order by SHOW_ORDER ASC";
 				$arg_admin_info=array('COMPUTERS');		
 			}
-			echo '<div class="form-frame">';
 			if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' and !$show_all_column){
 				$show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
 				if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
@@ -240,14 +238,13 @@ else{
 				
 				if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') != "YES")
 					$showbutton=false;
-				tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
+            tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
 					'show_button' => $showbutton,
 					'form_name' => $form_name='NO_FORM',
 					'top_action' => $show_admin_button,
 					'show_frame' => false
 				));
-			
-			echo '</div>';
+
 			echo close_form();
 		}
 }

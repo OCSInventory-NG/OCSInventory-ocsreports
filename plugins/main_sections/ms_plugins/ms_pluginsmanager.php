@@ -43,14 +43,14 @@ if ($protectedPost['SUP_PROF'] != ''){
 }
 
 if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
-	
+
 	$delarray = explode(",", $protectedPost['del_check']);
-	
+
 	foreach ($delarray as $value){
 		delete_plugin($value);
 	}
 	$tab_options['CACHE']='RESET';
-	
+
 }
 
 $dep_check = checkDependencies();
@@ -60,60 +60,79 @@ $per_check = checkWritable();
 
 printEnTete($l->g(7008));
 
-echo "<table align='center'><th>";
-echo open_form("PluginInstall");
+?>
+<div class="container">
+	<div class="col col-md-12">
+
+<?php
+
+echo open_form("PluginInstall", '', '' , 'form-horizontal');
 
 $availablePlugins = scan_downloaded_plugins();
 
 if(!$dep_check || !$per_check){
-    
-    msg_error($l->g(6009));
-    
+
+	msg_error($l->g(6009));
+
 }else{
-    if (!empty($availablePlugins)){
-    
-        echo "<select name='plugin'>";
-        foreach ($availablePlugins as $key => $value){
-                $name = explode(".", $value);
-                $info = new SplFileInfo(PLUGINS_DL_DIR."/".$value);
+	if (!empty($availablePlugins)){
 
-                if($info->getExtension() == "zip"){
-                        echo "<option value=$value >$name[0]</option>";
-                } 
-        }
-        echo "</select>";
-        echo "<input type='submit' value='Install'>";
+		?>
+		<div class="form-group">
+			<div class="col col-sm-5 col-sm-offset-3">
+				<select class="form-control" name="plugin">
+					<?php
 
-    }
-    else{
-        msg_warning($l->g(7014));
-    }
+					foreach ($availablePlugins as $key => $value){
+						$name = explode(".", $value);
+						$info = new SplFileInfo(PLUGINS_DL_DIR."/".$value);
+
+						if($info->getExtension() == "zip"){
+							echo "<option value=$value >$name[0]</option>";
+						}
+					}
+					?>
+				</select>
+			</div>
+			<div class="col col-sm-2">
+				<input type="submit" class="form-control btn btn-success" value="Install">
+			</div>
+		</div>
+
+		<?php
+	}
+	else{
+		msg_warning($l->g(7014));
+	}
 }
 
 
 echo close_form();
-echo "</th></table>";
+?>
+	</div>
+</div>
+<?php
 
 if (isset($protectedPost['plugin'])){
-	
+
 	$pluginArchive = $protectedPost['plugin'];
-	
+
 	$bool = install($pluginArchive);
-	
+
 	if($bool){
 		$pluginame = explode(".", $pluginArchive);
-		
+
 		$plugintab = array("name" => $pluginame[0]);
-		
+
 		$isok = check($plugintab);
-		
+
 		mv_computer_detail($pluginame[0]);
 		$result = mv_server_side($pluginame[0]);
-		
+
 		if($result){
 			exec_plugin_soap_client($pluginame[0], 1);
 		}
-		
+
 		if ($isok){
 			$msg = $l->g(6003)." ".$pluginame[0]." ".$l->g(7013) ;
 			msg_success($msg);
@@ -121,12 +140,12 @@ if (isset($protectedPost['plugin'])){
 			$msg = $l->g(2001)." ".$pluginame[0]." ".$l->g(7011)."<br>".$l->g(7012);
 			msg_error($msg);
 		}
-		
-		
+
+
 	}else{
 		msg_error($l->g(7010));
 	}
-	
+
 }
 
 // Plugins Tab
@@ -139,18 +158,18 @@ $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
 $tab_options['table_name']=$table_name;
 
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields=array('ID'=>'id',
-				   $l->g(7002)=>'name',
-				   $l->g(7003)=>'version',
-				   $l->g(7004)=>'licence',
-				   $l->g(7005)=>'author',
-				   $l->g(7006) =>'reg_date'
-				);			
+	$l->g(7002)=>'name',
+	$l->g(7003)=>'version',
+	$l->g(7004)=>'licence',
+	$l->g(7005)=>'author',
+	$l->g(7006) =>'reg_date'
+);
 
 $tab_options['FILTRE']=array_flip($list_fields);
 $tab_options['FILTRE']['NAME']=$l->g(49);
-asort($tab_options['FILTRE']); 
+asort($tab_options['FILTRE']);
 $list_fields['SUP']='ID';
 $list_fields['CHECK']='ID';
 

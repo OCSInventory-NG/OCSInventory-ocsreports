@@ -94,12 +94,12 @@ if (isset($add_colum_accountinfo) or isset($add_lign_accountinfo_config) or isse
 		
 		
 		$form_name = "console";
-		echo open_form($form_name);
+		echo open_form($form_name, '', '', 'form-horizontal');
 		echo "<p><b>This script is going to help you to update your old admin info<br>";
 		echo "to the new version 2.0 </b> </p>";
-		echo "<input type=submit id='EXE' name='EXE'>";
+		echo "<input type=submit class='btn btn-success' id='EXE' name='EXE'>";
 		echo close_form();
-		echo '<div class="mlt_bordure" >';
+		echo '<div class="col col-md-12" >';
 		echo "<p><font size=4><i>Summary of actions to be undertaken</i></font></p>";
 		if (isset($add_colum_accountinfo)){
 			echo "<p><b><font color=red>add column in accountinfo table<br>

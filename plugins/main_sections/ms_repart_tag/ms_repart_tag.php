@@ -22,7 +22,7 @@
 	$tab_options=$protectedPost;
 	$tab_options['form_name']=$form_name;
 	$tab_options['table_name']=$table_name;
-	echo open_form($form_name);
+	echo open_form($form_name, '', '', 'form-horizontal');
 	if (!isset($protectedPost['TAG_CHOISE']) or $protectedPost['TAG_CHOISE'] == '')
 		$protectedPost['TAG_CHOISE'] = 'a.TAG';
 	//BEGIN SHOW ACCOUNTINFO
@@ -31,7 +31,20 @@
 	$list_fields=$accountinfo_value['LIST_FIELDS'];
 	$list_fields_flip=array_flip($list_fields);
 	//END SHOW ACCOUNTINFO
-	echo $l->g(340)." ".show_modif($list_fields_flip,'TAG_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
+
+    ?>
+    <div class="row">
+        <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="TAG_CHOISE"><?php echo $l->g(340) ?></label>
+                <div class="col-sm-8">
+                    <?php echo show_modif($list_fields_flip,'TAG_CHOISE',2,$form_name,array('DEFAULT' => "NO")); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+
 	if (isset($protectedPost['TAG_CHOISE'])){
 		$tag=$protectedPost['TAG_CHOISE'];		
 	}

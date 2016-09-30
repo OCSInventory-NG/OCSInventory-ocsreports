@@ -35,17 +35,22 @@ $val = mysqli_fetch_object($resL);
 printEntete($l->g(263));
 $form_name='admin_info';
 echo open_form($form_name);
+?>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+		<label for="lbl"><?php echo $l->g(262); ?> :</label>
+		<input type="text" class="form-control" name="lbl" value="<?php echo $val->content; ?>">
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
+        <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+    </div>
+</div>
+<?php
 
-$name_field=array("lbl");
-$tab_name= array($l->g(262).": ");
-$type_field= array(1);		
-$value_field=array($val->content);
-
-$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-//$tab_typ_champ[0]['CONFIG']['SIZE']=100;
-tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
-	'form_name' => 'NO_FORM'
-));
 
 echo close_form();
 	?>

@@ -38,7 +38,7 @@ if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
 	$tab_options['CACHE']='RESET';
 }
 
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields=array('TAG'=>'TAG',
 				   'NAME_SNMP'=>'NAME',
 				   $l->g(352)=>'UPTIME',

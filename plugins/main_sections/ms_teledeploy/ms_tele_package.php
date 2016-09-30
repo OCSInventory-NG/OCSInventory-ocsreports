@@ -12,7 +12,7 @@
 
 require_once('require/function_telediff.php');
 
-echo "<div class='container'><div class='col-md-8 col-md-offset-2'>";
+echo "<div class='container'><div class='col-md-8 col-xs-offset-0 col-md-offset-2'>";
 
 foreach ($_POST as $key=>$value){
 	$temp_post[$key]=$value;

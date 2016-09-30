@@ -34,8 +34,6 @@ if (!isset($protectedGet["popup"])) {
 			<a class="navbar-brand header-logo" href="index.php?first">
 				<img alt="Brand" src="image/banniere-ocs.png">
 			</a>
-		</div>
-		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ocs-navbar" aria-expanded="false">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
@@ -197,13 +195,6 @@ if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
 	msg_info($l->g(890));
 }
 
-echo "</td></tr></table></td></tr>";
-if (!isset($_SESSION['OCS']["loggeduser"])){
-	echo "<tr><td colspan=20 align=right>";
- require_once('plugins/language/language.php');
- 	echo "</td></tr>";
-}
-echo "</table>";		
 echo "<div class='fond'>";
 
 if ($_SESSION['OCS']["mesmachines"] == "NOTAG" 

@@ -1,13 +1,17 @@
 <?php
-
 function show_computer_menu($computer_id) {
 	$menu_serializer = new XMLMenuSerializer();
 	$menu = $menu_serializer->unserialize(file_get_contents('config/computer/menu.xml'));
 	
 	$menu_renderer = new ComputerMenuRenderer($computer_id, $_SESSION['OCS']['url_service']);
-	
-	echo '<div class="navbar navbar-default">';
+
+
+    echo "<div class='left-menu col col-md-2'>";
+    echo "<div class='navbar navbar-default'>";
+
 	echo $menu_renderer->render($menu);
+
+	echo '</div>';
 	echo '</div>';
 }
 
@@ -117,7 +121,7 @@ function show_computer_title($computer) {
 		}
 	}
 	
- 	echo open_form("bandeau");
+ 	echo open_form("bandeau", '', '', 'form-horizonal');
 	
  	show_summary($data, $labels, $cat_labels, $link);
  	echo "<input type='hidden' id='WOL' name='WOL' value=''>";
@@ -132,13 +136,13 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
 	$nb_col = 2;
 	$i = 0;
 	
-	echo '<table class="summary">';
+	echo '<div class="summary">';
 	foreach ($labels as $cat_key => $cat) {
 		if ($i % $nb_col == 0) {
-			echo '<tr class="summary-row">';
+			echo '<div class="row">';
 		}
 		
-		echo '<td class="summary-cell">';
+		echo '<div class="col col-md-6">';
 		echo '<h5>'.mb_strtoupper($cat_labels[$cat_key]).'</h5>';
 		
 		foreach ($cat as $name => $label) {
@@ -153,23 +157,19 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
 					$value = preg_replace('/([x0-9])\//', '$1 / ', $value);
 				}
 				
-				echo '<div class="summary-header">'.$label.' :</div>';
-				echo '<div class="summary-value">'.$value.'</div>';
+				echo '<span class="summary-header text-left">'.$label.' :</span>';
+				echo '<span class="summary-value text-left">'.$value.'</span>';
 			}
 		}
-		echo '</td>';
+		echo '</div>';
 		
 		$i++;
 		if ($i % $nb_col == 0) {
-			echo '</tr>';
+			echo '</div>';
 		}
 	}
 	
-	if ($i % $nb_col != 0) {
-		echo '</tr>';
-	}
-	
-	echo '</table>';	
+	echo '</div>';
 }
 
 ?>

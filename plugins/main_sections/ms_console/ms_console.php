@@ -19,7 +19,6 @@ else{
 	$ajax=false;
 }
 
-
 require_once('require/function_config_generale.php');
 $form_name = "console";
 if ($protectedPost['RESET'] == 'FIRST'){
@@ -56,7 +55,7 @@ if (isset($protectedPost["onglet"]) and !isset($data_tab['DATA'][$protectedPost[
 if ($data_tab['DATA'] != array()){
 	show_tabs($data_tab['DATA'],$form_name,"onglet",8);
 	
-	echo '<div class="right-content"><div class="mlt_bordure" >';
+	echo '<div class="col col-md-10">';
 	
 	if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES'){
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
@@ -150,7 +149,7 @@ if ($data_tab['DATA'] != array()){
 
 	}
 	
-	echo "</div></div>";
+	echo "</div>";
 	echo "<input type=hidden name='ADMIN' value='' id='ADMIN'>";
 	echo "<input type=hidden name='VISIBLE' value='' id='VISIBLE'>";
 	echo "<input type=hidden name='NO_VISIBLE' value='' id='NO_VISIBLE'>";

@@ -25,7 +25,7 @@ require_once('require/function_computers.php');
 $form_name='packlist';
 //show or not stats on the table
 $show_stats=true;
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 PrintEnTete($l->g(465));
 
 if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO')
@@ -52,7 +52,7 @@ unset($protectedPost['MODIF']);
 
 show_tabs($data_on,$form_name,"onglet",10);
 
-echo '<div class="right-content mlt_bordure" >';
+echo '<div class="col col-md-10" >';
 
 
 if ( $protectedPost['onglet'] == "AVAILABLE_PACKET" ){
@@ -75,8 +75,21 @@ if ( $protectedPost['onglet'] == "AVAILABLE_PACKET" ){
     $protectedPost['SHOW_SELECT']='download';
     $tab_options['SHOW_SELECT']='download';
     }
+    ?>
 
-    echo "<BR>".show_modif(array('download'=>$l->g(990),'server'=>$l->g(991)),'SHOW_SELECT',2,$form_name)."<BR><BR>";
+    <div class="row">
+
+        <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
+
+            <div class="form-group">
+                <!-- <label class="control-label col-sm-4" for="download>"></label> -->
+                <div class="col-sm-8">
+                    <?php echo show_modif(array('download'=>$l->g(990),'server'=>$l->g(991)),'SHOW_SELECT',2,$form_name); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
 
     //only for profils who can activate packet
     if (!$cant_active){	

@@ -152,12 +152,12 @@ if($protectedPost['MODIF_x']){
 	$name=show_modif($item->NAME,'NAME',0);
 	$description=show_modif($item->DESCRIPTION,'DESCR',1);
 	//show new bottons
-    $button_valid= "<input title='".$l->g(625)."' value='".$l->g(625)."' name='Valid_modif' type='submit' class='btn btn-default btn-success'>";
-    $button_reset= "<input title='".$l->g(626)."' value='".$l->g(626)."' name='Reset_modif' type='submit' class='btn btn-default btn-danger'>";
+    $button_valid= "<input title='".$l->g(625)."' value='".$l->g(625)."' name='Valid_modif' type='submit' class='btn btn-success'>";
+    $button_reset= "<input title='".$l->g(626)."' value='".$l->g(626)."' name='Reset_modif' type='submit' class='btn btn-danger'>";
 	
 }
 else{ //only show the botton for modify
-	$img_modif= "<input title='".$l->g(115)."' value='".$l->g(115)."' name='MODIF_x' type='submit' class='btn btn-default'><br />";
+	$img_modif= "<input title='".$l->g(115)."' value='".$l->g(115)."' name='MODIF_x' type='submit' class='btn'><br />";
 	$name=$item->NAME;
 	$description=$item->DESCRIPTION;
 	$button_valid="";
@@ -503,7 +503,7 @@ function print_perso($systemid) {
 	if( $_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES"){
 		//echo "<td align=center rowspan=8><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\">
 		//<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
-        echo "<td align=center rowspan=8><a class='btn btn-default' href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\">
+        echo "<td align=center rowspan=8><a class='btn' href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\">
 		".$l->g(285)."</a></td></tr>";
 	}
 	
@@ -598,12 +598,12 @@ function img($i,$a,$avail,$opt) {
 	if( $avail ) {
 		$href = "<a href='index.php?".PAG_INDEX."=".$protectedGet[PAG_INDEX]."&head=1&systemid=".urlencode($systemid)."&option=".urlencode($a)."'>";
 		$fhref = "</a>";
-		$img = '<button type="button" class="btn btn-default">'.$a.'</button>';
+		$img = '<button type="button" class="btn">'.$a.'</button>';
 	}
 	else {
 		$href = "";
 		$fhref = "";
-		$img = '<button type="button" class="btn btn-default">'.$a.'</button>';
+		$img = '<button type="button" class="btn">'.$a.'</button>';
 	}
 	
 	return "<td width='80px' align='center'>".$href.$img.$fhref."</td>";

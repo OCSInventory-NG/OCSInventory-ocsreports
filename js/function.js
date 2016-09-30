@@ -89,8 +89,8 @@ function clic(id,val) {
 }
 
 $.extend($.fn.dataTableExt.oStdClasses, {
-	"sFilterInput": "",
-	"sLengthSelect": ""
+	"sFilterInput": "form-control input-sm",
+	"sLengthSelect": "form-control input-sm"
 });
 
 $.extend(true, $.fn.dataTable.defaults, {

@@ -26,7 +26,6 @@ function show_activate_form($timestamp, $data, $errors) {
 	
 
 	echo open_form('activate_pack');
-
 	echo '<div class="form-frame">';
 	
 	show_form_field($data, $errors, 'select', 'METHOD', 'Activation method', array(

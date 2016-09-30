@@ -28,7 +28,7 @@ $table_name='admin_ipdiscover_'.$protectedPost['onglet'];
 $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
 $tab_options['table_name']=$table_name;
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	if (!in_array($protectedGet['value'],$_SESSION['OCS']["subnet_ipdiscover"])){
 		msg_error($l->g(837));
@@ -51,8 +51,8 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	show_tabs($data_on,$form_name,"onglet",10);
 	$left_menu_displayed=true;
 }
-$class=($left_menu_displayed)?"right-content":"";
-echo '<div class="'.$class.' mlt_bordure" >';
+
+echo '<div class="col col-md-10" >';
 if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 	$method=verif_base_methode('OCS');
 	if (!$method){
@@ -87,7 +87,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		}
 		
 		if (isset($protectedPost['ADD_SUB'])){
-			echo "<input type='hidden' name='ADD_SUB' id='ADD_SUB' value='".$protectedPost['ADD_SUB']."'";		
+			echo "<input type='hidden' name='ADD_SUB' id='ADD_SUB' value='".$protectedPost['ADD_SUB']."'";
 		}	
 		if ($protectedPost['MODIF'] != ''){
 			echo "<input type='hidden' name='MODIF' id='MODIF' value='".$protectedPost['MODIF']."'";		
@@ -141,7 +141,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			$list_col_cant_del=$list_fields;
 			$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 			
-			echo "<input type = submit value='".$l->g(116)."' name='ADD_SUB'>";				
+			echo "<input type='submit' value='".$l->g(116)."' class='btn' name='ADD_SUB'>";
 		}
 	}else 
 		msg_warning($method);
@@ -204,7 +204,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		$list_col_cant_del=$list_fields;
 		$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 		
-		echo "<input type = submit value='".$l->g(116)."' name='ADD_TYPE'>";	
+		echo "<input type='submit' class='btn' value='".$l->g(116)."' name='ADD_TYPE'>";
 	}
 }elseif($protectedPost['onglet'] == 'ADMIN_SMTP' 
 		and $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES'){
@@ -283,7 +283,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 				
 			
-			echo "<input type = submit value='".$l->g(116)."' name='ADD_COMM'>";	
+			echo "<input type='submit' class='btn' value='".$l->g(116)."' name='ADD_COMM'>";
 				$protectedPost['ADD_COMM'] = $l->g(116);
 				
 		}

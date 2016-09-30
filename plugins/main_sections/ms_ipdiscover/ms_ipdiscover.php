@@ -31,7 +31,7 @@ printEntete($l->g(312));
  $form_name='ipdiscover';
  $tab_options=$protectedPost;
  $tab_options['form_name']=$form_name;
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
  	//delete a subnet
  	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '' and $_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES"){
  		$sql_del="delete from subnet where netid='%s'";
@@ -49,7 +49,15 @@ echo open_form($form_name);
 			$list_index[$key]=$value;
 		}
 		asort($list_index);
-		echo $l->g(562)." ".show_modif($list_index,'DPT_CHOISE',2,$form_name,array('DEFAULT' => "NO"));
+		$list_index[0]=' ';
+		?>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+			<?php formGroup('select', 'DPT_CHOISE', $l->g(562), '', '', $protectedPost, '', $list_index, $list_index, 'onchange="document.ipdiscover.submit();"'); ?>
+			</div>
+		</div>
+
+		<?php
  	}else
  		msg_info(mb_strtoupper($l->g(1134)));
  		

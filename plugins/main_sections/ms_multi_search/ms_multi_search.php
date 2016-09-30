@@ -125,7 +125,7 @@ if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protecte
 //initialisation du tableau
 //$list_fields_calcul=array();
 //ouverture du formulaire
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 if (isset($protectedPost['GET'])){
 	echo "<input type=hidden name='GET' value='".$protectedPost['GET']."'>";
 }
@@ -1239,9 +1239,17 @@ $countHl++;
 asort($optArray_trait);
  
 $protectedPost['multiSearch']=$l->g(32);
-$aff_field_search= $l->g(31).": ".show_modif($optArray_trait,'multiSearch',2,$form_name,array('DEFAULT'=>'NO'));
+?>
+<div class="row">
+    <div class="col col-md-6 col-md-offset-3">
+        <?php
+        formGroup('select', 'multiSearch', $l->g(31), '', '', '', '', $optArray_trait, $optArray_trait, "onchange='document.multisearch.submit();'");
+        ?>
+    </div>
+</div>
+<?php
 $aff_field_search.="<img src='image/delete-small.png' onclick='pag(\"ok\",\"reset\",\"".$form_name."\");' alt='".$l->g(41)."' style='margin-left:20px'>";
-echo "<div class='mlt_bordure'>";
+echo "<div class='col col-md-12'>";
 echo "<div class='field'>".$aff_field_search."</div>";
 if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] != null){
 	

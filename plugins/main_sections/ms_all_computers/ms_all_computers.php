@@ -8,8 +8,7 @@
 // code is always made freely available.
 // Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 //====================================================================================
-
-if(AJAX){  
+if(AJAX){
 	parse_str($protectedPost['ocs']['0'], $params);
 	$protectedPost+=$params; 
 	ob_start();
@@ -62,7 +61,7 @@ if (!isset($protectedPost['tri_'.$table_name]) or $protectedPost['tri_'.$table_n
 	$protectedPost['tri_'.$table_name]="h.lastdate";
 	$protectedPost['sens_'.$table_name]="DESC";
 }
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 //BEGIN SHOW ACCOUNTINFO
 $accountinfo_value=interprete_accountinfo($list_fields,$tab_options);
 if (array($accountinfo_value['TAB_OPTIONS']))

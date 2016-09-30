@@ -54,7 +54,7 @@ $sql_details="select distinct priority,fragments,size from download_available wh
 $res_details = mysql2_query_secure( $sql_details, $_SESSION['OCS']["readServer"],$protectedGet['timestamp'] );
 $val_details = mysqli_fetch_array( $res_details ) ;
 $tps="<br>".$l->g(992)." : <b><font color=red>".tps_estimated($val_details)."</font></b>";
-PrintEnTete( $l->g(481).$tps);	
+PrintEnTete( $l->g(481).$tps);
 echo "<br>";
 $form_name="tele_actives";
 //ouverture du formulaire	

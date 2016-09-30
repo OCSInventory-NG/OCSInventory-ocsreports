@@ -25,7 +25,7 @@ $tab_options=$protectedPost;
 if ($_SESSION['OCS']["use_redistribution"] == 1){
 	require_once('require/function_rules.php');
 	printEnTete($l->g(673));
-	echo "<br>";
+	echo "<br />";
 	//only for Super Admin
 	//DEL RULE
 	if ($protectedPost['SUP_PROF'] != ""){	
@@ -53,7 +53,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 	//form name
 	$form_name = "rules";
 	//show all rules
-		echo open_form($form_name);
+		echo open_form($form_name, '', '', 'form-horizontal');
 				$list_fields= array('ID_RULE'=>'RULE',
 									'RULE_NAME'=>'RULE_NAME',
 									'SUP'=>'RULE',
@@ -122,7 +122,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 		echo "<input type='hidden' id='RAZ' name='RAZ' value=''>";
 		echo "<input type='hidden' id='OLD_MODIF' name='OLD_MODIF' value='".$modif."'>";
 	}else{	
-	echo "<input type='submit'  value='".$l->g(685)."' name='NEW_RULE'>";	
+	echo "<input type='submit' class='btn' value='".$l->g(685)."' name='NEW_RULE'>";
 	}
 	echo close_form();
 }else{
