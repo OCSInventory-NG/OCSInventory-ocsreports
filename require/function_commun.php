@@ -413,7 +413,13 @@ function close_form(){
  */
 function get_update_json(){
     
-    $content = file_get_contents(UPDATE_JSON_URI);
+    $stream = stream_context_create(array('http'=>
+        array(
+            'timeout' => 1,  // Timeout after 1 seconds
+        )
+    ));
+    
+    $content = @file_get_contents(UPDATE_JSON_URI, false, $stream);
     if(!$content){
         return false;
     }

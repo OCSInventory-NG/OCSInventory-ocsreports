@@ -1447,6 +1447,9 @@
 6007 Les modules suivants sont requis pour utiliser cette fonctionnalitée : 
 6008 Les repertoires suivant ne sont pas accessible en écriture :
 6009 Vous ne pouvez pas installer de plugins, référez vous aux erreurs ci-dessus.
+6010 Le serveur de communication a rencontré l'erreur suivante lors de l'installation :
+6011 Cliquez ici pour obtenir de l'aide
+
 7000 Plugins
 7001 Gestionnaire de plugins
 7002 Nom du plugin

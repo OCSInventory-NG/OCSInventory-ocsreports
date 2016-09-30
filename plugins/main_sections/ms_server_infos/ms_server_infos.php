@@ -18,13 +18,12 @@
 				<ul class="server-information-ul-li">
 					<li><?php $os = php_uname("s"); echo ($os == "Linux" ? $os . ' ' . php_uname('m') : $os); ?></li>
 					<li><?php echo php_uname("r"); ?></li>
-					<li><?php $meminfo = @file_get_contents('/proc/meminfo'); if($meminfo && preg_match("/MemTotal: *([0-9]*)/", $meminfo, $res)){ $res = sprintf("%.2f ".$l->g(57), intval($res[1]) / 1024 / 1024); echo $res; }?></li>
-					<li><?php if($meminfo && preg_match("/MemAvailable: *([0-9]*)/", $meminfo, $res)) { $res = sprintf("%.2f ".$l->g(57), intval($res[1]) / 1024 / 1024); echo $res; } ?></li>
+					<li><?php $meminfo = @file_get_contents('/proc/meminfo'); if($meminfo && preg_match("/MemTotal: *([0-9]*)/", $meminfo, $res)){ $res = sprintf("%.d ".$l->g(57), intval($res[1]) / 1024); echo $res." Mo"; }?></li>
+					<li><?php if($meminfo && preg_match("/MemAvailable: *([0-9]*)/", $meminfo, $res)) { $res = sprintf("%.d ".$l->g(57), intval($res[1]) / 1024 ); echo $res." Mo"; } ?></li>
 					<li><?php $cpuinfo = @file_get_contents('/proc/cpuinfo'); if($cpuinfo && preg_match("/model name(.*): (.*)\n/", $cpuinfo, $res)){ echo $res[2]; }; ?></li>
 					<?php
 
 					$distro = false;
-
 					foreach(array('/etc/debian_version', '/etc/redhat-release', '/etc/SuSE-release', '/etc/os-release') as $fic) {
 						if (file_exists($fic)) {
 							$distro = file_get_contents($fic);
