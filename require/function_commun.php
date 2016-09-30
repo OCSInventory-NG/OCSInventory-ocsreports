@@ -412,11 +412,11 @@ function get_update_json(){
     
     $stream = stream_context_create(array('http'=>
         array(
-            'timeout' => 1,  // Timeout after 3 seconds
+            'timeout' => 1,  // Timeout after 1 seconds
         )
     ));
     
-    $content = file_get_contents(UPDATE_JSON_URI, false, $stream);
+    $content = @file_get_contents(UPDATE_JSON_URI, false, $stream);
     if(!$content){
         return false;
     }
