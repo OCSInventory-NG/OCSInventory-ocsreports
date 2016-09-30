@@ -13,14 +13,14 @@
 						' :</div><div class="summary-value">' . php_uname("r");
 					$meminfo = @file_get_contents('/proc/meminfo');
 					if ($meminfo && preg_match("/MemTotal: *([0-9]*)/", $meminfo, $res)) {
-						$res = sprintf("%.2f ".$l->g(57), intval($res[1]) / 1024 / 1024);
+						$res = sprintf("%.d ".$l->g(57), intval($res[1]) / 1024);
 						echo '</div></div><div id="ram"><div class="summary-header">' . $l->g(1379).
-							' :</div><div class="summary-value">' . $res;
+							' :</div><div class="summary-value">' . $res . " Mo";
 					}
 					if ($meminfo && preg_match("/MemAvailable: *([0-9]*)/", $meminfo, $res)) {
-						$res = sprintf("%.2f ".$l->g(57), intval($res[1]) / 1024 / 1024);
+						$res = sprintf("%.d ".$l->g(57), intval($res[1]) / 1024);
 						echo '</div></div><div id="freeram"><div class="summary-header">' . $l->g(1378).
-							' :</div><div class="summary-value">' . $res;
+							' :</div><div class="summary-value">' . $res  . " Mo";
 					}
 					$cpuinfo = @file_get_contents('/proc/cpuinfo');
 					if ($cpuinfo && preg_match("/model name(.*): (.*)\n/", $cpuinfo, $res)) {
@@ -32,7 +32,7 @@
 					foreach(array('/etc/debian_version', '/etc/redhat-release', '/etc/SuSE-release', '/etc/os-release') as $fic) {
 						if (file_exists($fic)) {
                                                     $distro = file_get_contents($fic);
-						} 
+						}
                                                 
                                                 if ($fic == '/etc/os-release') {
                                                     $distro = parse_ini_file($fic);
