@@ -38,7 +38,7 @@ $tab_options['table_name']="affich_bios";
 		$arg=array($protectedPost['OTHER']);
 		mysql2_query_secure($sql,$_SESSION['OCS']["writeServer"],$arg);
 	}
-	echo open_form($form_name);
+	echo open_form($form_name, '', '', 'form-horizontal');
 	$list_fields=array($l->g(36) => 'SSN',
 					   $l->g(64) => 'SMANUFACTURER',
 					   $l->g(65) => 'SMODEL',

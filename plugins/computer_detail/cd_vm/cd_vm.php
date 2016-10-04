@@ -25,7 +25,7 @@
 	$tab_options=$protectedPost;
 	$tab_options['form_name']=$form_name;
 	$tab_options['table_name']=$table_name;
-	echo open_form($form_name);	
+	echo open_form($form_name, '', '', 'form-horizontal');
 	$list_fields=array($l->g(49).' VM' => 'vm.NAME',
 					   $l->g(1046).' VM' => 'vm.STATUS',
 					   $l->g(25).' VM' => 'vm.SUBSYSTEM',

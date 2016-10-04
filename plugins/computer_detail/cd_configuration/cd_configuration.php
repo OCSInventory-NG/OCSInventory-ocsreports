@@ -120,7 +120,7 @@ $i=0;
 	$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"],$argDetail);
 	$form_name='config_mach';
 	
-	echo open_form($form_name);
+	echo open_form($form_name, '', '', 'form-horizontal');
 	echo "<table BORDER='1' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 	
 	

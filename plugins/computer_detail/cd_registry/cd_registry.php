@@ -23,7 +23,7 @@
 	$tab_options=$protectedPost;
 	$tab_options['form_name']=$form_name;
 	$tab_options['table_name']=$table_name;
-	echo open_form($form_name);
+	echo open_form($form_name, '', '', 'form-horizontal');
 	$list_fields=array($l->g(212) => 'NAME',
 					   $l->g(213) => 'REGVALUE');
 	$list_col_cant_del=$list_fields;

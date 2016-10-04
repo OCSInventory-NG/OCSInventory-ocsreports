@@ -33,7 +33,7 @@ NETWORK = 1 si impirmante sur le réseau, 0 si imprimante connectée localement
 	print_item_header($l->g(79));
 	$form_name="affich_printers";
 	$table_name=$form_name;
-	echo open_form($form_name);
+	echo open_form($form_name, '', '', 'form-horizontal');
 	$tab_options=$protectedPost;
 	$tab_options['form_name']=$form_name;
 	$tab_options['table_name']=$table_name;

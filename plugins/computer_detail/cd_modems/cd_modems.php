@@ -27,7 +27,7 @@
 	$tab_options['form_name']=$form_name;
 	$tab_options['table_name']=$table_name;
 	
-	echo open_form($form_name);
+	echo open_form($form_name, '', '', 'form-horizontal');
 	$list_fields=array($l->g(49) => 'NAME',
 					   $l->g(65) => 'MODEL',
 					   $l->g(53) => 'DESCRIPTION',

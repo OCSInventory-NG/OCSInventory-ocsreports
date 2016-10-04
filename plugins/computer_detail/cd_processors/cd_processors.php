@@ -26,7 +26,7 @@
 	$tab_options['form_name']=$form_name;
 	$tab_options['table_name']=$table_name;
 	
-	echo open_form($form_name);
+	echo open_form($form_name, '', '', 'form-horizontal');
 	$sql="select id from cpus where hardware_id=%s";
 	$arg=$systemid;
 	$res =mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg);
