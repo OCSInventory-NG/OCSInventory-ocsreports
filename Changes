@@ -1,6 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 2.2
+       * Linux storages now supports Megacli raid
        * Merge Mysteq PR "centos-release is the correct file to check"
        * Merge XANI PR "read edid from sysfs, fallback to old method if no monitor is found"
        * Fix bugs in Network.pm and IP.pm files (OS Linux)
