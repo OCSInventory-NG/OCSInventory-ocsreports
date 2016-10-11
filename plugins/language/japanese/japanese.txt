@@ -175,7 +175,7 @@
 264 No label file now
 265 Anything
 266 Invalid date
-267 yyyy/dd/mm
+267 yyyy/mm/dd
 268 速度
 269 %Y/%m/%d
 270 モデム
