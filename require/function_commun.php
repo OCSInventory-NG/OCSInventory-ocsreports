@@ -446,7 +446,7 @@ function get_update_json(){
     
 }
 
-function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue = "", $class = "", $optionsSelect = [], $arrayDisplayValues = [], $attrBalise = "", $groupAddon = ""){
+function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue = "", $class = "", $optionsSelect = array(), $arrayDisplayValues = array(), $attrBalise = "", $groupAddon = ""){
 	echo "<div class='form-group'>";
 	echo "<label class='control-label col-sm-2' for='".$inputName."'>".$name."</label>";
 	echo "<div class='col-sm-10'>";
