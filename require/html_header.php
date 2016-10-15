@@ -19,7 +19,8 @@
  * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- */if (isset($protectedGet['head']) and $protectedGet['head'] == 1)
+ */
+if (isset($protectedGet['head']) and $protectedGet['head'] == 1)
 $ban_head='no';
 /*******************************************************AFFICHAGE HTML DU HEADER*******************************************/
 html_header();

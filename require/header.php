@@ -19,7 +19,8 @@
  * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- */if (!isset($debut))
+ */
+if (!isset($debut))
 die('FORBIDDEN');
 
 unset($_SESSION['OCS']['SQL_DEBUG']);
