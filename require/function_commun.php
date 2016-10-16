@@ -355,7 +355,7 @@ function html_header($noJavascript = false) {
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css">
 				<link rel="stylesheet" href="css/bootstrap-custom.css">
 				<link rel="stylesheet" href="css/dataTables-custom.css">
-				<link rel="stylesheet" href="css/dataTables.bootstrap.css">
+				<link rel="stylesheet" href="libraries/datatable/media/css/dataTables.bootstrap.css">
 				<link rel="stylesheet" href="css/ocsreports.css">
 				<link rel="stylesheet" href="css/header.css">
 				<link rel="stylesheet" href="css/computer_details.css">
@@ -376,7 +376,7 @@ function html_header($noJavascript = false) {
         <script src="libraries/elycharts/elycharts.min.js" type="text/javascript"></script>
         <!-- js for Datatables -->
         <script src="libraries/datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="js/dataTables.bootstrap.js" type="text/javascript"></script>
+        <script src="libraries/datatable/media/js/dataTables.bootstrap.js" type="text/javascript"></script>
         <script src="js/function.js" type="text/javascript"></script>';
 
         if (isset($_SESSION['OCS']['JAVASCRIPT'])) {
