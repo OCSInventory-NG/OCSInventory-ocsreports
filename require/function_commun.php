@@ -342,53 +342,51 @@ function html_header($no_java = false) {
     header("Cache-control: must-revalidate, post-check=0, pre-check=0");
     header("Cache-control: private", false);
     header("Content-type: text/html; charset=utf-8");
-    echo "<html>
+    echo '<!DOCTYPE html>
+        <html>
 			<head>
-				<TITLE>OCS Inventory</TITLE>
-				<LINK REL='shortcut icon' HREF='favicon.ico' />
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='libraries/bootstrap/css/bootstrap.min.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='libraries/bootstrap/css/bootstrap-theme.min.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/bootstrap-custom.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/dataTables-custom.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/dataTables.bootstrap.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/ocsreports.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/header.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/computer_details.css'>
-				<LINK REL='StyleSheet' TYPE='text/css' HREF='css/forms.css'>
-				<meta charset=\"utf-8\">
-   				<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">
-    			<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-				";
+   				<meta charset="utf-8">
+   				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    			<meta name="viewport" content="width=device-width, initial-scale=1">
+
+				<title>OCS Inventory</title>
+				<link rel="shortcut icon" href="favicon.ico">
+				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.min.css">
+				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css">
+				<link rel="stylesheet" href="css/bootstrap-custom.css">
+				<link rel="stylesheet" href="css/dataTables-custom.css">
+				<link rel="stylesheet" href="css/dataTables.bootstrap.css">
+				<link rel="stylesheet" href="css/ocsreports.css">
+				<link rel="stylesheet" href="css/header.css">
+				<link rel="stylesheet" href="css/computer_details.css">
+				<link rel="stylesheet" href="css/forms.css">';
     if (!$no_java) {
         incPicker();
 
         //js for graph
-        echo "<script src='libraries/jquery/jquery.js' type='text/javascript'></script>";
-        echo "<script src='libraries/jquery-migrate-1/jquery-migrate.min.js' type='text/javascript'></script>";
-        echo "<script src='js/jquery.ui.widget.js'></script>";
-        echo "<script src='js/jquery.iframe-transport.js'></script>";
-        echo "<script src='js/jquery.fileupload.js'></script>";
-
-        echo "<script src='libraries/bootstrap/js/bootstrap.min.js' type='text/javascript'></script>";
-        echo "<script src='js/bootstrap-custom.js' type='text/javascript'></script>";
-
-        echo "<script src='libraries/raphael/raphael.js' type='text/javascript'></script>";
-        echo "<script src='libraries/elycharts/elycharts.js' type='text/javascript'></script>";
-
-        //js for Datatables
-        echo "<script src='libraries/datatable/media/js/jquery.dataTables.js' type='text/javascript'></script>";
-        echo "<script src='js/dataTables.bootstrap.js' type='text/javascript'></script>";
-
-        echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
+        echo '
+        <script src="libraries/jquery/jquery.js" type="text/javascript"></script>
+        <script src="libraries/jquery-migrate-1/jquery-migrate.min.js" type="text/javascript"></script>
+        <script src="js/jquery.ui.widget.js" type="text/javascript"></script>
+        <script src="js/jquery.iframe-transport.js" type="text/javascript"></script>
+        <script src="js/jquery.fileupload.js" type="text/javascript"></script>
+        <script src="libraries/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap-custom.js" type="text/javascript"></script>
+        <script src="libraries/raphael/raphael.js" type="text/javascript"></script>
+        <script src="libraries/elycharts/elycharts.js" type="text/javascript"></script>
+        <!-- js for Datatables -->
+        <script src="libraries/datatable/media/js/jquery.dataTables.js" type="text/javascript"></script>
+        <script src="js/dataTables.bootstrap.js" type="text/javascript"></script>
+        <script src="js/function.js" type="text/javascript"></script>';
 
         if (isset($_SESSION['OCS']['JAVASCRIPT'])) {
             foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file) {
-                echo "<script language='javascript' type='text/javascript' src='" . MAIN_SECTIONS_DIR . $file . "'></script>";
+                echo "<script src='" . MAIN_SECTIONS_DIR . $file . "' type='text/javascript'></script>";
             }
         }
     }
-    echo "</head>";
-    echo "<body>";
+    echo "</head>
+        <body>";
 }
 
 function strip_tags_array($value = '') {
@@ -464,5 +462,4 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
     echo "</div>";
     echo "</div>";
 }
-
 ?>

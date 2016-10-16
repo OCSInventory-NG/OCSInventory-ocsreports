@@ -49,7 +49,7 @@ function printEnTete($ent) {
 function incPicker() {
     global $l;
 
-    echo "<script language=\"javascript\">
+    echo "<script type='text/javascript'>
 	var MonthName=[";
 
     for ($mois = 527; $mois < 538; $mois++) {
@@ -67,8 +67,7 @@ function incPicker() {
 
     echo "];
 	</script>
-		<script language=\"javascript\" type=\"text/javascript\" src=\"js/datetimepicker.js\">
-	</script>";
+	<script type='text/javascript' src='js/datetimepicker.js'></script>";
 }
 
 function dateOnClick($input, $checkOnClick = false) {
