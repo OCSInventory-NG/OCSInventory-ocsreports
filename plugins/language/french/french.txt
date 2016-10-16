@@ -730,11 +730,11 @@
 842 Disque: Espace libre
 843 Disque: Nom du volume
 844 Groupe: Id
-845 Groupe: Statique?
+845 Groupe: Statique ?
 846 Logiciels: Société
 847 Logiciels: Nom
 848 Logiciels: Version
-849 Logiciels: Répertoire install
+849 Logiciels: Répertoire d'installation
 850 Logiciels: Commentaires
 851 Bios: Fabricant ordi
 852 Bios: Modèle
