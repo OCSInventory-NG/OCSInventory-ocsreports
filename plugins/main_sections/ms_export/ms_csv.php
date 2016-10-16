@@ -98,8 +98,7 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
             // find value case-insensitive
             foreach ($cont as $key => $val) {
                 if (strtolower($key) == strtolower($field)) {
-                    if (($field == 'TAG' || substr($field, 0, 7) == 'fields_')
-                            and isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])) {
+                    if (($field == 'TAG' || substr($field, 0, 7) == 'fields_') && isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])) {
                         // administrative data
                         $data[$i][$lbl] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl][$val];
                     } else {
