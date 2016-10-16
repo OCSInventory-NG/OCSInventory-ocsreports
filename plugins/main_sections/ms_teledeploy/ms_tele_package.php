@@ -428,7 +428,7 @@ if ($protectedPost['valid'])
 echo ">";
 
 
-$arrayName = [
+$arrayName = array(
     "os" => $l->g(25),
     "name" => $l->g(49),
     "visible" => $l->g(52),
@@ -448,13 +448,13 @@ $arrayName = [
     "title_redistribution" => $l->g(628),
     "redistribution" => $l->g(1008),
     "path_remote_server" => $l->g(1009)
-];
-$config_input = [
+);
+$config_input = array(
     'MAXLENGTH' => 255,
     'SIZE' => 50
-];
-$list_os = ["WINDOWS", "LINUX", "MAC"];
-$list_proto = ["HTTP"];
+);
+$list_os = array("WINDOWS", "LINUX", "MAC");
+$list_proto = array("HTTP");
 
 $i = 0;
 while ($i < 10) {
@@ -462,26 +462,26 @@ while ($i < 10) {
     $i++;
 }
 
-$yes_no = ["0", "1"];
+$yes_no = array("0", "1");
 
-$list_action = ["EXECUTE", "STORE", "LAUNCH"];
+$list_action = array("EXECUTE", "STORE", "LAUNCH");
 
-$arrayDisplayValue = [
-    "ACTION" => [
+$arrayDisplayValue = array(
+    "ACTION" => array(
         "EXECUTE" => $l->g(456),
         "STORE" => $l->g(457),
         "LAUNCH" => $l->g(458)
-    ],
-    "yes_no" => [
+    ),
+    "yes_no" => array(
         "0" => $l->g(454),
         "1" => $l->g(455)
-    ],
-    "OS" => [
+    ),
+    "OS" => array(
         "WINDOWS" => "WINDOWS",
         "LINUX" => "UNIX/LINUX",
         "MAC" => "MACOS"
-    ]
-];
+    )
+);
 
 
 formGroup('text', 'NAME', $arrayName['name'], $config_input['SIZE'], $config_input['MAXLENGTH'], $protectedPost['NAME']);
