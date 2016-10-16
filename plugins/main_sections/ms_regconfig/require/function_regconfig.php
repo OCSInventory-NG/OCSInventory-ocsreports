@@ -30,7 +30,7 @@ $list_registry_key = array('HKEY_CLASSES_ROOT',
 function add_update_key($form_values, $update = false) {
     global $l;
 
-    foreach ($form_values as $key => $value) {
+    foreach ($form_values as $value) {
         if (trim($value) == "") {
             msg_error($l->g(988));
             return FALSE;

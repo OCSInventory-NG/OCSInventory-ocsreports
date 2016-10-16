@@ -59,7 +59,7 @@ $MASKtable = "blacklist_subnet";
 $MASKfield = "MASK";
 
 function add_mac_add($mac_value) {
-    global $l, $MACnb_field, $MACnb_value_by_field, $MACfield_name, $MACseparat, $MACtable, $MACfield, $MACnb_field;
+    global $l, $MACnb_field, $MACfield_name, $MACseparat, $MACtable, $MACfield, $MACnb_field;
 
     $field_value = generate_value($mac_value, $MACfield_name, $MACseparat, $MACnb_field);
     if (!$field_value) {
@@ -69,7 +69,7 @@ function add_mac_add($mac_value) {
 }
 
 function add_serial_add($serial_value) {
-    global $l, $SERIALnb_field, $SERIALnb_value_by_field, $SERIALfield_name, $SERIALseparat, $SERIALtable, $SERIALfield, $SERIALnb_field;
+    global $SERIALnb_field, $SERIALfield_name, $SERIALseparat, $SERIALtable, $SERIALfield, $SERIALnb_field;
 
     $field_value = generate_value($serial_value, $SERIALfield_name, $SERIALseparat, $SERIALnb_field);
     if (!isset($field_value)) {
@@ -80,8 +80,8 @@ function add_serial_add($serial_value) {
 }
 
 function add_subnet_add($subnet_value) {
-    global $l, $SUBnb_field, $SUBnb_value_by_field, $SUBfield_name, $SUBseparat, $SUBtable, $SUBfield, $SUBnb_field,
-    $MASKnb_field, $MASKnb_value_by_field, $MASKfield_name, $MASKseparat, $MASKtable, $MASKfield, $MASKnb_field;
+    global $l, $SUBnb_field, $SUBfield_name, $SUBseparat, $SUBtable, $SUBfield, $SUBnb_field,
+    $MASKnb_field, $MASKfield_name, $MASKseparat, $MASKfield, $MASKnb_field;
     $field_value_SUB = generate_value($subnet_value, $SUBfield_name, $SUBseparat, $SUBnb_field, array('DOWN' => 0, 'UP' => 255));
     if (!$field_value_SUB) {
         return $l->g(299);
@@ -135,7 +135,6 @@ function generate_value($values, $field_name, $separat, $nb_field, $limit = arra
 
 function insert_blacklist_table($table, $field, $field_value) {
     global $l;
-    $i = 1;
     $sql = "insert into %s ";
     $arg = array($table);
     $sql = mysql2_prepare($sql, $arg, $field, true);

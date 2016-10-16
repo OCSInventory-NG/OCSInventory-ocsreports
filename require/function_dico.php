@@ -21,7 +21,7 @@
  * MA 02110-1301, USA.
  */
 
-function search_all_item($onglet, $sous_onglet) {
+function search_all_item() {
     $result_search_soft = mysqli_query($_SESSION['OCS']["readServer"], $_SESSION['OCS']['query_dico']);
     while ($item_search_soft = mysqli_fetch_object($result_search_soft)) {
         $list[] = $item_search_soft->ID;

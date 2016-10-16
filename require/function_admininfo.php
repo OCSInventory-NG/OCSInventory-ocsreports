@@ -42,7 +42,6 @@ $array_qr_action = array('URL' => array('TYPE' => 'url', 'VALUE' => OCSREPORT_UR
     'IPADDR' => array('TYPE' => 'bdd', 'VALUE' => "hardware.ipaddr"));
 
 function accountinfo_tab($id) {
-    global $type_accountinfo;
     $info_tag = find_info_accountinfo($id);
     if ($info_tag[$id]['type'] == 2
             or $info_tag[$id]['type'] == 4
@@ -110,8 +109,6 @@ function add_accountinfo($newfield, $newtype, $newlbl, $tab, $type = 'COMPUTERS'
  */
 
 function del_accountinfo($id) {
-    global $l;
-
     //SNMP or COMPUTERS?
     $sql_found_account_type = "SELECT account_type FROM accountinfo_config WHERE id = '%s'";
     $arg_found_account_type = $id;
@@ -306,7 +303,7 @@ function find_new_order($updown, $id, $type, $onglet) {
  */
 
 function update_accountinfo($id, $array_new_values, $type) {
-    global $l, $sql_type_accountinfo;
+    global $l;
     $error = dde_exist($array_new_values['NAME'], $id, $type);
     if ($error == '') {
         //Update

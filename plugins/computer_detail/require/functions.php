@@ -37,7 +37,7 @@ function affich_detail_simple($form_name, $list_fields, $list_col_cant_del, $def
     $tab_options['table_name'] = $table_name;
     echo open_form($form_name, '', '', 'form-horizontal');
     $queryDetails = "SELECT ";
-    foreach ($list_fields as $lbl => $value) {
+    foreach ($list_fields as $value) {
         $queryDetails .= $value . ",";
     }
     $queryDetails = substr($queryDetails, 0, -1) . " FROM " . $table . " WHERE (hardware_id=$systemid)";

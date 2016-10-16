@@ -498,7 +498,7 @@ function trait_post($name) {
 }
 
 function pageGUI($form_name) {
-    global $l, $numeric, $sup1, $values;
+    global $l, $values;
     //what ligne we need?
     $champs = array('LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER',
         'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR',

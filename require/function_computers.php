@@ -27,7 +27,7 @@
  */
 function lock($id) {
     $reqClean = "DELETE FROM locks WHERE unix_timestamp(since)<(unix_timestamp(NOW())-3600)";
-    $resClean = mysql2_query_secure($reqClean, $_SESSION['OCS']["writeServer"]);
+    mysql2_query_secure($reqClean, $_SESSION['OCS']["writeServer"]);
 
     $reqLock = "INSERT INTO locks(hardware_id) VALUES ('%s')";
     $argLock = $id;
@@ -45,7 +45,7 @@ function lock($id) {
 function unlock($id) {
     $reqLock = "DELETE FROM locks WHERE hardware_id='%s'";
     $argLock = $id;
-    $resLock = mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"], $argLock);
+    mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"], $argLock);
     return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) == 1 );
 }
 

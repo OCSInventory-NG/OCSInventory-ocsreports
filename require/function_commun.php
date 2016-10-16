@@ -62,7 +62,7 @@ function look_config_default_values($field_name, $like = '', $default_values = '
 
 function generate_secure_sql($sql, $arg = '') {
     if (is_array($arg)) {
-        foreach ($arg as $key => $value) {
+        foreach ($arg as $value) {
             $arg_array_escape_string[] = mysqli_real_escape_string($_SESSION['OCS']["readServer"], $value);
         }
         $arg_escape_string = $arg_array_escape_string;
@@ -125,7 +125,7 @@ function mysql2_prepare($sql, $arg_sql, $arg_tab = '', $nocot = false) {
     }
 
     $sql .= " ( ";
-    foreach ($arg_tab as $key => $value) {
+    foreach ($arg_tab as $value) {
         if (!$nocot) {
             $sql .= " '%s', ";
         } else {

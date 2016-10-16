@@ -77,7 +77,7 @@ if ($search_count != "" || $search_cache != "") {
 //transfert soft
 if ($protectedPost['TRANS'] == "TRANS") {
     if ($protectedPost['all_item'] != '') {
-        $list_check = search_all_item($protectedPost['onglet'], $protectedPost['onglet_soft']);
+        $list_check = search_all_item();
     } else {
 
         foreach ($protectedPost as $key => $value) {

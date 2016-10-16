@@ -32,7 +32,7 @@ if (AJAX) {
 }
 
 function array_merge_values($arr, $arr2) {
-    foreach ($arr2 as $key => $values) {
+    foreach ($arr2 as $values) {
         array_push($arr, $values);
     }
     return $arr;

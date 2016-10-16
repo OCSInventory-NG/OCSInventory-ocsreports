@@ -25,10 +25,9 @@
  */
 
 class Wol {
-    private $nic;
     public $wol_send;
 
-    public function wake($mac, $ip) {
+    public function wake($mac) {
         global $l;
         //looking for values of wol config
         $wol_info = look_config_default_values('WOL_PORT');
@@ -36,7 +35,7 @@ class Wol {
             $this->wol_send = $l->g(1321);
         } else
             $wol_port = explode(',', $wol_info['tvalue']['WOL_PORT']);
-        foreach ($wol_port as $k => $v) {
+        foreach ($wol_port as $v) {
             if (is_numeric($v)) {
                 $s = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
                 if (!$s) {

@@ -251,7 +251,6 @@ function find_community_info($id) {
 }
 
 function runCommand($command = "", $fname) {
-    global $l;
     $command = "perl ipdiscover-util.pl $command -xml -h=" . SERVER_READ . " -u=" . COMPTE_BASE . " -p=" . PSWD_BASE . " -d=" . DB_NAME . " -path=" . $fname;
     exec($command);
 }
@@ -261,7 +260,7 @@ function find_all_subnet($dpt_choise = '') {
         return array_keys($_SESSION['OCS']["ipdiscover"][$dpt_choise]);
     } else {
         if (isset($_SESSION['OCS']["ipdiscover"])) {
-            foreach ($_SESSION['OCS']["ipdiscover"] as $key => $subnet) {
+            foreach ($_SESSION['OCS']["ipdiscover"] as $subnet) {
                 foreach ($subnet as $sub => $poub) {
                     $array_sub[] = $sub;
                 }

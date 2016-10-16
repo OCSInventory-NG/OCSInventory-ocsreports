@@ -48,7 +48,7 @@ function check($plugarray) {
 
     $conn = new PDO('mysql:host=' . SERVER_WRITE . ';dbname=' . DB_NAME . ';charset=utf8', COMPTE_BASE, PSWD_BASE);
 
-    foreach ($plugarray as $key => $value) {
+    foreach ($plugarray as $value) {
 
         $query = $conn->query("SELECT EXISTS( SELECT * FROM `plugins` WHERE name = '" . $value . "' ) AS name_exists");
         $anwser = $query->fetch();
@@ -116,8 +116,7 @@ function scan_for_plugins() {
 
     $plugins_name = array();
 
-    foreach ($scanned_plugins as $key => $value) {
-
+    foreach ($scanned_plugins as $value) {
         $exp = explode("_", $value);
         $plugins_name[] = $exp[1];
     }
@@ -150,7 +149,7 @@ function mv_server_side($name) {
 
         $scanned_directory = array_diff(scandir($dir), array('..', '.', 'README'));
 
-        foreach ($scanned_directory as $key => $value) {
+        foreach ($scanned_directory as $value) {
             $archive->addFile($dir . $value, $value);
         }
 

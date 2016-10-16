@@ -310,7 +310,7 @@ function del_pack($fileid) {
     }
     //delete packet in DEVICES table
     if ($list_id != "") {
-        foreach ($list_id as $k => $v) {
+        foreach ($list_id as $v) {
             desactive_packet('', $v);
         }
     }
@@ -501,8 +501,6 @@ function crypt_file($dir_FILES, $digest_algo, $digest_encod) {
 }
 
 function creat_temp_file($directory, $dir_FILES) {
-    global $l;
-
     if (DEMO) {
         return;
     }

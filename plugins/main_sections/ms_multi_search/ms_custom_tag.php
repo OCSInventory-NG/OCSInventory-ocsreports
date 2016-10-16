@@ -82,7 +82,7 @@ if (isset($list_id) && $list_id != '') {
         $resultDetails = mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["writeServer"], $tab_result['ARG']);
         $msg = "";
         while ($item = mysqli_fetch_object($resultDetails)) {
-            $wol->wake($item->MACADDR, $item->IPADDRESS);
+            $wol->wake($item->MACADDR);
             $msg .= "<br>" . $wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS;
         }
         msg_info($msg);
@@ -168,17 +168,18 @@ if (isset($list_id) && $list_id != '') {
                 $sql = $tab_result['SQL'] . " group by tvalue";
                 $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $tab_result['ARG']);
                 while ($item = mysqli_fetch_object($result)) {
-                    if ($item->tvalue == "")
+                    if ($item->tvalue == "") {
                         $value = $l->g(482);
-                    else
+                    } else {
                         $value = $item->tvalue;
+                    }
                     echo "<br>" . $item->c . " " . $l->g(1023) . " " . $value . " " . $l->g(1024);
                 }
                 echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "'>";
             }
 
             echo "</div>";
-        }elseif ($protectedPost['onglet'] == "WOL") {
+        } elseif ($protectedPost['onglet'] == "WOL") {
             echo "<div class='mvt_bordure'>";
             echo "<br><input type='submit' name='WOL' value='" . $l->g(13) . "'>";
             echo "</div>";

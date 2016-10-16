@@ -93,7 +93,7 @@ function show_computer_summary($computer) {
         'AGENT' => $l->g(1390),
     );
 
-    foreach ($labels as $cat_key => $cat) {
+    foreach ($labels as $cat) {
         foreach ($cat as $key => $lbl) {
             if ($key == "MEMORY") {
                 $sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=%s";

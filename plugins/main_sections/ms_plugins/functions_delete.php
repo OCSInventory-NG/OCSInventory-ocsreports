@@ -48,8 +48,6 @@ function rrmdir($dir) {
  * @param integer $pluginid : Plugin id in DB
  */
 function delete_plugin($pluginid, $dyn_cal = true) {
-    global $l;
-
     $conn = new PDO('mysql:host=' . SERVER_WRITE . ';dbname=' . DB_NAME . '', COMPTE_BASE, PSWD_BASE);
     $arg = (int) $pluginid;
     if ($arg == 0) {

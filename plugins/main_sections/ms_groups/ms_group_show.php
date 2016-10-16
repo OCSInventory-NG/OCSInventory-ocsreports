@@ -269,13 +269,13 @@ if ($server_group) {
 
     echo "<table width='20%' border=0 align='center' cellpadding='0' cellspacing='0'>
 			<tr>";
-    echo img($imgAdm[0], $lblAdm[0], 1, $opt);
+    echo img($lblAdm[0], 1);
 
     if (!$pureStat) {
-        echo img($imgHdw[0], $lblHdw[0], 1, $opt);
+        echo img($lblHdw[0], 1);
     }
 
-    echo img($imgHdw[1], $lblHdw[1], 1, $opt);
+    echo img($lblHdw[1], 1);
     echo "</tr></table>";
 
     echo"<br><br><br>";
@@ -328,12 +328,11 @@ function form_action_group($systemid) {
 function update_computer_group($hardware_id, $group_id, $static) {
     $resDelete = "DELETE FROM groups_cache WHERE hardware_id=%s AND group_id=%s";
     $arg = array($hardware_id, $group_id);
-    //echo $resDelete;
     mysql2_query_secure($resDelete, $_SESSION['OCS']["writeServer"], $arg);
     if ($static != 0) {
         $reqInsert = "INSERT INTO groups_cache(hardware_id, group_id, static) VALUES (%s, %s, %s)";
         $arg = array($hardware_id, $group_id, $static);
-        $resInsert = mysql2_query_secure($reqInsert, $_SESSION['OCS']["writeServer"], $arg);
+        mysql2_query_secure($reqInsert, $_SESSION['OCS']["writeServer"], $arg);
     }
 }
 
@@ -394,7 +393,7 @@ function print_computers_real($systemid) {
     echo "<font color=red><b>" . $l->g(927) . "</b></font>";
     echo open_form($form_name);
     $queryDetails = "SELECT ";
-    foreach ($list_fields as $lbl => $value) {
+    foreach ($list_fields as $value) {
         $queryDetails .= $value . ",";
     }
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
@@ -418,7 +417,7 @@ function print_computers_real($systemid) {
 }
 
 function print_computers_cached($systemid) {
-    global $l, $server_group, $protectedPost, $list_fields, $list_col_cant_del, $default_fields, $tab_options;
+    global $protectedPost, $list_fields, $list_col_cant_del, $default_fields, $tab_options;
     //traitement des machines du groupe
     if (isset($protectedPost["actshowgroup"]) && $protectedPost["modify"] != "") {
         foreach ($protectedPost as $key => $val) {//check65422
@@ -470,6 +469,7 @@ function print_computers_cached($systemid) {
 
 function print_perso($systemid) {
     global $l, $td1, $td2, $td3, $td4, $pages_refs, $protectedGet;
+    //@TODO : buggy code
     $i = 0;
     $queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
     $resultDetails = mysqli_query($_SESSION['OCS']["readServer"], $queryDetails) or die(mysqli_error($_SESSION['OCS']["readServer"]));
@@ -601,12 +601,8 @@ function print_perso($systemid) {
     echo close_form();
 }
 
-function img($i, $a, $avail, $opt) {
+function img($a, $avail) {
     global $systemid, $protectedGet;
-
-    if ($opt == $a) {
-        $suff = "_a";
-    }
 
     if ($avail) {
         $href = "<a href='index.php?" . PAG_INDEX . "=" . $protectedGet[PAG_INDEX] . "&head=1&systemid=" . urlencode($systemid) . "&option=" . urlencode($a) . "'>";

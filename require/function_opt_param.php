@@ -32,7 +32,7 @@
 
 //function for erase param values
 function erase($NAME) {
-    global $protectedPost, $protectedGet, $list_hardware_id, $tab_hadware_id;
+    global $protectedGet, $list_hardware_id, $tab_hadware_id;
     // if it's for group or a machine
     if (isset($list_hardware_id)) {
         $sql = "DELETE FROM devices WHERE name='%s' AND hardware_id='%s'";

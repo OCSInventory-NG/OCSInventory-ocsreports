@@ -22,7 +22,6 @@
  */
 
 function ScanDirectory($Directory, $Filetype) {
-    global $pages_refs;
     $MyDirectory = @opendir($Directory);
     if (!$MyDirectory) {
         return FALSE;

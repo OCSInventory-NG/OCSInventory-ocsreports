@@ -193,7 +193,7 @@ function class_weight($list_sql) {
     global $weight_table;
     foreach ($list_sql as $table_name => $id) {
         $poids = $weight_table[$table_name];
-        foreach ($id as $i => $sql) {
+        foreach ($id as $sql) {
             //ajout de la dernière parenthèse pour fermer la requête
             $execute_sql[$poids][] = $sql . '))';
         }
@@ -304,7 +304,7 @@ function compair_with_date($field, $field_value) {
 
 //fonction qui permet de créer le début des requêtes à exécuter
 function generate_sql($table_name) {
-    global $weight_table, $lbl_fields_calcul;
+    global $lbl_fields_calcul;
     if ($table_name == "HARDWARE") {
         $VALUE_id = "ID";
         $entre = " as HARDWARE_ID";
