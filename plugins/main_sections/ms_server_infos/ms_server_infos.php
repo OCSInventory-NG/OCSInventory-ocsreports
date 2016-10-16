@@ -39,9 +39,10 @@ printEnTete($l->g(1360));
             </div>
             <div class="col-xs-8">
                 <ul class="server-information-ul-li">
-                    <li><?php $os = php_uname("s");
-echo ($os == "Linux" ? $os . ' ' . php_uname('m') : $os);
-?></li>
+                    <li><?php
+                        $os = php_uname("s");
+                        echo ($os == "Linux" ? $os . ' ' . php_uname('m') : $os);
+                        ?></li>
                     <li><?php echo php_uname("r"); ?></li>
                     <li><?php
                         $meminfo = @file_get_contents('/proc/meminfo');
@@ -57,21 +58,21 @@ echo ($os == "Linux" ? $os . ' ' . php_uname('m') : $os);
                         }
                         ?></li>
                     <li><?php
-                    $cpuinfo = @file_get_contents('/proc/cpuinfo');
-                    if ($cpuinfo && preg_match("/model name(.*): (.*)\n/", $cpuinfo, $res)) {
-                        echo $res[2];
-                    };
-                    ?></li>
+                        $cpuinfo = @file_get_contents('/proc/cpuinfo');
+                        if ($cpuinfo && preg_match("/model name(.*): (.*)\n/", $cpuinfo, $res)) {
+                            echo $res[2];
+                        };
+                        ?></li>
                     <?php
                     $distro = false;
                     foreach (array('/etc/debian_version', '/etc/redhat-release', '/etc/SuSE-release', '/etc/os-release') as $fic) {
                         if (file_exists($fic)) {
                             $distro = file_get_contents($fic);
-                        }
 
-                        if ($fic == '/etc/os-release') {
-                            $distro = parse_ini_file($fic);
-                            $distro = $distro['PRETTY_NAME'];
+                            if ($fic == '/etc/os-release') {
+                                $distro = parse_ini_file($fic);
+                                $distro = $distro['PRETTY_NAME'];
+                            }
                         }
                     }
                     ?>
@@ -94,11 +95,11 @@ echo ($os == "Linux" ? $os . ' ' . php_uname('m') : $os);
                     <li><?php echo PHP_VERSION . ' (' . PHP_SAPI . ')'; ?></li>
                     <li><?php echo $_SERVER['SERVER_SOFTWARE']; ?></li>
                     <li><?php
-                    $sql = "SELECT @@sql_mode as mode, @@version AS vers, @@version_comment AS stype";
-                    $res = mysqli_query($_SESSION['OCS']["readServer"], $sql);
-                    $info = mysqli_fetch_object($res);
-                    echo $info->stype . ' version ' . $info->vers;
-                    ?></li>
+                        $sql = "SELECT @@sql_mode as mode, @@version AS vers, @@version_comment AS stype";
+                        $res = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+                        $info = mysqli_fetch_object($res);
+                        echo $info->stype . ' version ' . $info->vers;
+                        ?></li>
                 </ul>
             </div>
         </div>
