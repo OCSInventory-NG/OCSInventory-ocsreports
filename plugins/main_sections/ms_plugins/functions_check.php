@@ -108,11 +108,7 @@ function scan_downloaded_plugins() {
  * @return ArrayObject
  */
 function scan_for_plugins() {
-    $scanned_plugins = array_diff(scandir(MAIN_SECTIONS_DIR), array('img', 'ms_all_soft', 'ms_debug', 'ms_groups', 'ms_multi_search', 'ms_scripts', 'ms_stats', 'ms_about',
-        'ms_computer', 'ms_dict', 'ms_help', 'ms_plugins', 'ms_search_soft', 'ms_teledeploy', 'ms_admininfo',
-        'ms_config', 'ms_doubles', 'ms_ipdiscover', 'ms_regconfig', 'ms_server_infos', 'ms_upload_file',
-        'ms_all_computers', 'ms_console', 'ms_export', 'ms_logs', 'ms_repart_tag', 'ms_snmp', 'ms_users'
-        , '.', '..'));
+    $scanned_plugins = array_diff(scandir(MAIN_SECTIONS_DIR), array('img', 'ms_all_soft', 'ms_debug', 'ms_groups', 'ms_multi_search', 'ms_scripts', 'ms_stats', 'ms_about', 'ms_computer', 'ms_dict', 'ms_help', 'ms_plugins', 'ms_search_soft', 'ms_teledeploy', 'ms_admininfo', 'ms_config', 'ms_doubles', 'ms_ipdiscover', 'ms_regconfig', 'ms_server_infos', 'ms_upload_file', 'ms_all_computers', 'ms_console', 'ms_export', 'ms_logs', 'ms_repart_tag', 'ms_snmp', 'ms_users', '.', '..'));
 
     $plugins_name = array();
 
