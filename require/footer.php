@@ -35,10 +35,7 @@ if (!AJAX) {
         echo "<div align=center>VAR SESSION</div>";
         foreach ($_SESSION['OCS'] as $key => $value) {
 
-            if ($key != "fichLang"
-                    and $key != "LANGUAGE_FILE"
-                    and $key != "mac" && $key != "writeServer"
-                    and $key != "readServer") {
+            if ($key != "fichLang" && $key != "LANGUAGE_FILE" && $key != "mac" && $key != "writeServer" && $key != "readServer") {
                 $tab_session[$key] = $value;
             }
         }
