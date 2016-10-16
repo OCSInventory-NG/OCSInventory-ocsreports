@@ -41,7 +41,7 @@ $tab_options['form_name']="show_all";
 $form_name = $tab_options['form_name'];
 $tab_options['table_name']="list_show_all";
 //$tab_options['DRAW']=$draw;
-if (isset($protectedGet['filtre']) and !isset($protectedPost['FILTRE'])){
+if (isset($protectedGet['filtre']) && !isset($protectedPost['FILTRE'])){
 	if (substr($protectedGet['filtre'], 0, 9) == "a.fields_"){
 		$values_accountinfo=accountinfo_tab(substr($protectedGet['filtre'], 9));
 		if(is_array($values_accountinfo))
@@ -69,7 +69,7 @@ if ($protectedPost['SUP_PROF'] != ''){
 	$tab_options['CACHE']='RESET';	
 }
 
-if (!isset($protectedPost['tri_'.$table_name]) or $protectedPost['tri_'.$table_name] == ""){
+if (!isset($protectedPost['tri_'.$table_name]) || $protectedPost['tri_'.$table_name] == ""){
 	$protectedPost['tri_'.$table_name]="h.lastdate";
 	$protectedPost['sens_'.$table_name]="DESC";
 }
@@ -144,12 +144,12 @@ if ($show_mac_addr){
 $queryDetails  .= "LEFT JOIN bios e ON e.hardware_id=h.id 
 				where deviceid<>'_SYSTEMGROUP_' 
 						AND deviceid<>'_DOWNLOADGROUP_' ";
-if (isset($_GET['value']) and $_GET['filtre'] == "a.TAG"){
+if (isset($_GET['value']) && $_GET['filtre'] == "a.TAG"){
 	$tag = $_GET['value'];
 	$queryDetails  .= "AND a.TAG= '$tag' ";
 }
 	
-if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != '')
+if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '')
 	$queryDetails  .= "AND ".$_SESSION['OCS']["mesmachines"];
 $queryDetails  .=" group by h.id";
 $tab_options['LBL_POPUP']['SUP']='name';
@@ -182,7 +182,7 @@ $list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
 add_trait_select($list_fonct,$list_id,$form_name,$list_pag,true);
 echo "<br><br>";
 
-if ($entete and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
+if ($entete && $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
 		//echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/delete.png' title='Supprimer' ></a>";
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><span class='glyphicon glyphicon-trash'></span></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";

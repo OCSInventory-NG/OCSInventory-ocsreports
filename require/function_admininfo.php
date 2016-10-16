@@ -175,7 +175,7 @@ function find_all_account_tab($tab_value,$onlyactiv='',$first=''){
 	
 	$result_tab_account=mysql2_query_secure($sql_tab_account,$_SESSION['OCS']["readServer"],$arg_tab_account);					
 	while ($val_tab_account = mysqli_fetch_array( $result_tab_account )){
-		if (!isset($array_tab_account['FIRST']) and $first != '')
+		if (!isset($array_tab_account['FIRST']) && $first != '')
 		$array_tab_account['FIRST']=$val_tab_account['IVALUE'];
 		$array_tab_account[$val_tab_account['IVALUE']]=$val_tab_account['TVALUE'];		
 	}	
@@ -298,7 +298,7 @@ function update_accountinfo_config($id,$array_new_values){
 
 function find_new_order($updown,$id,$type,$onglet){
 	$tab_order=array();
-	if (!is_numeric($id) or !is_numeric($onglet))
+	if (!is_numeric($id) || !is_numeric($onglet))
 	  return false;
 	$sql="select ID,SHOW_ORDER from accountinfo_config where account_type='%s' and id_tab=%s order by show_order";
 	$arg=array($type,$onglet);
@@ -361,7 +361,7 @@ function dde_exist($name,$id='',$type){
 	if (trim($name) != ''){		
 			$sql_verif="SELECT count(*) c FROM accountinfo_config WHERE NAME = '%s' and ACCOUNT_TYPE='%s'";
 			$arg_verif=array($name,$type);
-			if ($id != '' and is_numeric($id)){
+			if ($id != '' && is_numeric($id)){
 				$sql_verif.=" AND ID != %s";
 				array_push($arg_verif,$id);
 			}			
@@ -386,7 +386,7 @@ function dde_exist($name,$id='',$type){
  */
 function admininfo_computer($id = ""){
 	global $l;
-	if (!is_numeric($id) and $id != "")
+	if (!is_numeric($id) && $id != "")
 		return $l->g(623);		
 	$arg_account_data=array();	
 	$sql_account_data="SELECT * FROM accountinfo ";
@@ -406,7 +406,7 @@ function admininfo_computer($id = ""){
 
 function updateinfo_computer($id,$values,$list=''){
 	global $l;
-	if (!is_numeric($id) and $list == '')
+	if (!is_numeric($id) && $list == '')
 		return $l->g(623);		
 	$arg_account_data=array();	
 	$sql_account_data="UPDATE accountinfo SET ";
@@ -416,7 +416,7 @@ function updateinfo_computer($id,$values,$list=''){
 		array_push($arg_account_data,$val);		
 	}
 	$sql_account_data = substr($sql_account_data,0,-2);
-	if (is_numeric($id) and $list == '')
+	if (is_numeric($id) && $list == '')
 		$sql_account_data.=" WHERE hardware_id=%s";
 	if ($list != '')
 		$sql_account_data.=" WHERE hardware_id in (%s)";
@@ -556,7 +556,7 @@ function interprete_accountinfo($list_fields,$tab_options){
 			if (is_array($info_value_tag)){
 				$tab_options['REPLACE_VALUE'][$value['comment']]=$info_value_tag;
 			}		
-			if ($value['name'] != 'TAG' and $info_value_tag)
+			if ($value['name'] != 'TAG' && $info_value_tag)
 				$list_fields[$value['comment']]='a.fields_'.$value['id'];	
 			elseif ($value['name'] == 'TAG'){
 				$list_fields[$value['comment']]='a.TAG';		

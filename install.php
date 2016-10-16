@@ -78,7 +78,7 @@ function exec_fichier_sql($fichier,$link){
 	}
 }
 //choose default language
-if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
+if (!isset($_SESSION['OCS']['LANGUAGE']) || !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
 	if (isset($_COOKIE['LANG']))
 		$_SESSION['OCS']['LANGUAGE']=$_COOKIE['LANG'];
 	if (!isset($_COOKIE['LANG']))
@@ -121,7 +121,7 @@ if(!function_exists('session_start')) {
 if(!function_exists('mysqli_connect')) {
 	$msg_lbl['error'][]=$l->g(2037);
 }
-if((file_exists(CONF_MYSQL) and !is_writable(CONF_MYSQL)) or (!file_exists(CONF_MYSQL) and !is_writable(ETC_DIR))) {
+if((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_MYSQL) && !is_writable(ETC_DIR))) {
 	$msg_lbl['error'][]="<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
 }
 //msg for phpversion

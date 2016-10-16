@@ -278,7 +278,7 @@ if ( $protectedPost['onglet'] == "AVAILABLE_PACKET" ){
             }
             foreach($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key=>$value){
                     if ($restrict_computers){
-                            if ($key != 'NO_NOTIF' and $key != 'ERR_'){
+                            if ($key != 'NO_NOTIF' && $key != 'ERR_'){
                                     $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
                                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL']." group by FILEID";	
                             }elseif ($key == 'NO_NOTIF'){
@@ -289,7 +289,7 @@ if ( $protectedPost['onglet'] == "AVAILABLE_PACKET" ){
                                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_ter['SQL']." group by FILEID";				
                             }
                     }else{
-                            if ($key != 'NO_NOTIF' and $key != 'ERR_')
+                            if ($key != 'NO_NOTIF' && $key != 'ERR_')
                                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe." group by FILEID";	
                             elseif ($key == 'NO_NOTIF')
                                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key]=$sql_data_fixe_bis." group by FILEID";	
@@ -321,7 +321,7 @@ if ( $protectedPost['onglet'] == "AVAILABLE_PACKET" ){
     }
 }elseif ( $protectedPost['onglet'] == "DELETED_PACKET") {
     
-    if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
+    if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != ''){
         remove_packet($protectedPost['SUP_PROF']);
         $tab_options['CACHE']='RESET';		
     }

@@ -27,9 +27,9 @@ $form_name="lock_affect";
 echo open_form($form_name);
 echo "<div align=center>";
 $list_id=multi_lot($form_name,$l->g(601));
-if (isset($list_id) and $list_id != ''){
+if (isset($list_id) && $list_id != ''){
 	//cas of TAG INFO
-	if (isset($protectedPost['Valid_modif']) and $protectedPost['Valid_modif'] != ''){
+	if (isset($protectedPost['Valid_modif']) && $protectedPost['Valid_modif'] != ''){
 		$info_account_id=admininfo_computer();
 	
 		foreach ($protectedPost as $field=>$value){
@@ -63,7 +63,7 @@ if (isset($list_id) and $list_id != ''){
 	}
 	
 	//CAS OF TELEDEPLOY
-	if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != "" and $protectedPost['pack_list'] != ""){
+	if (isset($protectedPost['RAZ']) && $protectedPost['RAZ'] != "" && $protectedPost['pack_list'] != ""){
 		$sql="select ID from download_enable 
 				where fileid='%s'";
 		$arg=$protectedPost['pack_list'];
@@ -74,7 +74,7 @@ if (isset($list_id) and $list_id != ''){
 		msg_success($nb_line_affected." ".$l->g(1026));	
 	}
 	//CAS OF WOL
-	if(isset($protectedPost['WOL']) and $protectedPost['WOL'] != ''){
+	if(isset($protectedPost['WOL']) && $protectedPost['WOL'] != ''){
 		require_once('require/function_wol.php');
 		$wol = new Wol();
 		$sql="select IPADDRESS,MACADDR from networks WHERE status='Up' and hardware_id in ";
@@ -106,8 +106,8 @@ if (isset($list_id) and $list_id != ''){
 	//show onglet
 	onglet($def_onglets,$form_name,"onglet",7);
 	
-	if (isset($protectedPost['CHOISE']) and $protectedPost['CHOISE'] != ""){
-			if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=="TAG"){	
+	if (isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] != ""){
+			if (!isset($protectedPost['onglet']) || $protectedPost['onglet']=="TAG"){	
 				require_once('require/function_admininfo.php');
 				$field_of_accountinfo=witch_field_more('COMPUTERS');
 				$tab_typ_champ=array();

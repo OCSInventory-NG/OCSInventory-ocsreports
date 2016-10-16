@@ -39,7 +39,7 @@ $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
 $tab_options['table_name']=$table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
-if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
+if (isset($protectedGet['value']) && $protectedGet['value'] != ''){
 	if (!in_array($protectedGet['value'],$_SESSION['OCS']["subnet_ipdiscover"])){
 		msg_error($l->g(837));
 		require_once(FOOTER_HTML);
@@ -66,7 +66,7 @@ echo '<div class="col col-md-10" >';
 if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 	$method=verif_base_methode('OCS');
 	if (!$method){
-		if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
+		if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != ''){
 			delete_subnet($protectedPost['SUP_PROF']);
 			$tab_options['CACHE']='RESET';		
 		}
@@ -84,7 +84,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 				//erase ipdiscover cache
 				unset($_SESSION['OCS']['DATA_CACHE'][$table_name],$_SESSION['OCS']["ipdiscover"],$protectedPost['ADD_SUB'],$protectedPost['MODIF']);
 				require_once(BACKEND.'ipdiscover/ipdiscover.php');
-				if (isset($protectedGet['value']) and $protectedGet['value'] != '')
+				if (isset($protectedGet['value']) && $protectedGet['value'] != '')
 					reloadform_closeme("ipdiscover",true);
 			}	
 			$tab_options['CACHE']='RESET';
@@ -92,7 +92,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		
 		if (isset($protectedPost['Reset_modif'])){
 			unset($protectedPost['ADD_SUB'],$protectedPost['MODIF']);
-			if (isset($protectedGet['value']) and $protectedGet['value'] != '')
+			if (isset($protectedGet['value']) && $protectedGet['value'] != '')
 				reloadform_closeme("ipdiscover",true);
 		}
 		
@@ -103,7 +103,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			echo "<input type='hidden' name='MODIF' id='MODIF' value='".$protectedPost['MODIF']."'";		
 		}
 		
-		if (isset($protectedPost['ADD_SUB']) or $protectedPost['MODIF']){
+		if (isset($protectedPost['ADD_SUB']) || $protectedPost['MODIF']){
 			if ($protectedPost['MODIF']){
 				$title=$l->g(931);
 				
@@ -117,7 +117,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 				if (!isset($protectedPost['ADD_SX_RSX']))
 					$protectedPost['ADD_SX_RSX']=$result->MASK;
 				
-				if (isset($protectedGet['value']) and $protectedGet['value'] != '')
+				if (isset($protectedGet['value']) && $protectedGet['value'] != '')
 					$protectedPost['ADD_IP']=$protectedGet['value'];					
 				
 			}else
@@ -162,7 +162,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			unset($protectedPost['MODIF']);
 	}
 	
-	if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
+	if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != ''){
 		delete_type($protectedPost['SUP_PROF']);
 		$tab_options['CACHE']='RESET';		
 	}
@@ -183,7 +183,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 	if ($protectedPost['MODIF'] != ''){
 			echo "<input type='hidden' name='MODIF' id='MODIF' value='".$protectedPost['MODIF']."'";		
 	}
-	if (isset($protectedPost['ADD_TYPE']) or $protectedPost['MODIF']){
+	if (isset($protectedPost['ADD_TYPE']) || $protectedPost['MODIF']){
 		if ($protectedPost['MODIF']){
 				$info=find_info_type('',$protectedPost['MODIF']);
 				$protectedPost['TYPE_NAME']=$info->NAME;
@@ -237,7 +237,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 			unset($protectedPost['MODIF'],$protectedPost['ADD_COMM']);			
 		}
 		
-		if (isset($protectedPost['SUP_PROF']) and is_numeric($protectedPost['SUP_PROF'])){
+		if (isset($protectedPost['SUP_PROF']) && is_numeric($protectedPost['SUP_PROF'])){
 			del_community($protectedPost['SUP_PROF']);	
 			$msg_ok=$l->g(1212);
 			
@@ -249,11 +249,11 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX'){
 		if (isset($msg_error))
 			msg_error($msg_error);
 			
-		if ($protectedPost['ADD_COMM'] == $l->g(116) or is_numeric($protectedPost['MODIF'])){
+		if ($protectedPost['ADD_COMM'] == $l->g(116) || is_numeric($protectedPost['MODIF'])){
 				
 			$list_version=array('-1'=>'2c','1'=>'1','2'=>'2','3'=>'3');
 			$title=$l->g(1207);
-			if (isset($protectedPost['MODIF']) and is_numeric($protectedPost['MODIF']) and !isset($protectedPost['NAME'])){
+			if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['NAME'])){
 				$info_com=find_community_info($protectedPost['MODIF']);
 				$default_values=array('ID'=>$protectedPost['MODIF'],
 									  'NAME'=>$info_com->NAME,

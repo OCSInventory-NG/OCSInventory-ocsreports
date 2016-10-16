@@ -352,7 +352,7 @@ function del_pack($fileid){
 	}
 	$redist_package = realpath($document_root."/".$fileid);
 	
-	if ($redist_package and @opendir($redist_package)) {
+	if ($redist_package && @opendir($redist_package)) {
 		//delete all files from this package
 		if(!@recursive_remove_directory($redist_package))  {
 			msg_error($l->g(472)." ".$redist_package);
@@ -436,7 +436,7 @@ function create_pack($sql_details,$info_details){
 		}
 		//if $info_details['DIGEST'] is null =>  no file to deploy, only execute commande in info file
 		// so nb_frag=0
-		if (!isset($info_details['DIGEST']) or $info_details['DIGEST'] == "")
+		if (!isset($info_details['DIGEST']) || $info_details['DIGEST'] == "")
 			$sql_details['nbfrags']=0;
 		
 		//create info
@@ -549,7 +549,7 @@ function tps_estimated($val_details)
 	$minutes=floor($tps_total/60);
 	$tps_total-=$minutes*60;
 	$tps= $heure."h ".$minutes."min ";
-	if ($heure == 0 and $minutes == 0)
+	if ($heure == 0 && $minutes == 0)
 	$tps.=floor($tps_total)." ".$l->g(511);
 	return $tps;
 	

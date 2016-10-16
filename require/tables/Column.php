@@ -119,7 +119,7 @@ class Column {
 			
 			$value = htmlspecialchars($value);
 			
-			if ($this->formatter and is_string($this->formatter)) {
+			if ($this->formatter && is_string($this->formatter)) {
 				return sprintf($this->formatter, $value);
 			} else {
 				return $value;

@@ -36,7 +36,7 @@ class MainMenuRenderer extends MenuRenderer {
 	}
 	
 	protected function canSeeElem(MenuElem $menu_elem) {
-		return $menu_elem->hasChildren() or $this->profile->hasPage($menu_elem->getUrl());
+		return $menu_elem->hasChildren() || $this->profile->hasPage($menu_elem->getUrl());
 	}
 
 	protected function getUrl(MenuElem $menu_elem) {

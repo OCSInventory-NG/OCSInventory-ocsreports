@@ -356,7 +356,7 @@ function show_console_field($fields,$form_name){
 	
 				
 			if($table[$key] == 'hardware'){
-					if (isset($arg_result[2]) and $arg_result[2] != '')
+					if (isset($arg_result[2]) && $arg_result[2] != '')
 						$sql_result.=" and ".$no_groups_sql; 
 					else
 						$sql_result.=" where ".$no_groups_sql;
@@ -365,9 +365,9 @@ function show_console_field($fields,$form_name){
 			if ($myids){
 				if (!in_array($key,$no_restrict)){
 
-					if ((isset($arg_result[2]) and $arg_result[2] != '') 
+					if ((isset($arg_result[2]) && $arg_result[2] != '') 
 						or $table[$key] == 'hardware'
-						or (isset($sql_field[$key]['SQL']) and $sql_field[$key]['SQL']!= ''))
+						or (isset($sql_field[$key]['SQL']) && $sql_field[$key]['SQL']!= ''))
 						$sql_result.=" and "; 
 					else
 						$sql_result.=" where "; 
@@ -400,9 +400,9 @@ function show_console_field($fields,$form_name){
 					$_SESSION['OCS']['COUNT_CONSOLE'][$key]=$count->c;
 				}
 			}
-			if (isset($_SESSION['OCS']['COUNT_CONSOLE'][$key]) and is_numeric($_SESSION['OCS']['COUNT_CONSOLE'][$key])){
+			if (isset($_SESSION['OCS']['COUNT_CONSOLE'][$key]) && is_numeric($_SESSION['OCS']['COUNT_CONSOLE'][$key])){
 				$id_count=$_SESSION['OCS']['COUNT_CONSOLE'][$key];
-				if (is_array($link[$key]) and $id_count != 0){
+				if (is_array($link[$key]) && $id_count != 0){
 					if (isset($link[$key]['PAGE'])){
 						$link_me_begin="<a href='index.php?".PAG_INDEX."=".$pages_refs[$link[$key]['PAGE']];
 						if (isset($multi_search[$key]['FIELD'])){

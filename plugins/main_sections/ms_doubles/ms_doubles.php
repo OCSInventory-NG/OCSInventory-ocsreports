@@ -83,7 +83,7 @@ printEnTete($l->g(199));
 $sql_doublon['hostname'] = "select NAME val from hardware ";
 $arg_doublon['hostname'] = array();
 
-if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+if (isset($tab_id_mes_machines) && $tab_id_mes_machines != ""){
 	$sql=mysql2_prepare($sql_doublon['hostname'].' where id in ',$arg_doublon['hostname'],$tab_id_mes_machines);
 	$sql_doublon['hostname']=$sql['SQL'];
 	$arg_doublon['hostname']=$sql['ARG'];
@@ -93,7 +93,7 @@ $sql_doublon['hostname'] .= "  group by NAME having count(NAME)>1";
 /************************  serial number double ***************************************/
 $sql_doublon['ssn']="select SSN val from bios,hardware h where h.id=bios.hardware_id and SSN not in (select serial from blacklist_serials) ";
 $arg_doublon['ssn'] = array();
-if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+if (isset($tab_id_mes_machines) && $tab_id_mes_machines != ""){
 	$sql=mysql2_prepare($sql_doublon['ssn'].' and hardware_id in ',$arg_doublon['ssn'],$tab_id_mes_machines);
 	$sql_doublon['ssn']=$sql['SQL'];
 	$arg_doublon['ssn']=$sql['ARG'];
@@ -106,7 +106,7 @@ $sql_doublon['macaddress']="select h.id, MACADDR val
 							where h.id=networks.hardware_id 
 									and  MACADDR not in (select macaddress from blacklist_macaddresses)";
 $arg_doublon['macaddress']=array();
-if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+if (isset($tab_id_mes_machines) && $tab_id_mes_machines != ""){
 	$sql=mysql2_prepare($sql_doublon['macaddress'].' and hardware_id in ',$arg_doublon['macaddress'],$tab_id_mes_machines);
 	$sql_doublon['macaddress']=$sql['SQL'];
 	$arg_doublon['macaddress']=$sql['ARG'];
@@ -161,7 +161,7 @@ $sql_id_doublon['hostname_serial']="SELECT DISTINCT h.id,h.name info1,b.ssn info
 						WHERE  b2.hardware_id = h2.id 
 						AND h.id <> h2.id and b.ssn not in (select serial from blacklist_serials) ";
 $arg_id_doublon['hostname_serial']=array();
-if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+if (isset($tab_id_mes_machines) && $tab_id_mes_machines != ""){
 	$sql=mysql2_prepare($sql_id_doublon['hostname_serial'].' and h.id in ',$arg_id_doublon['hostname_serial'],$tab_id_mes_machines);
 	$sql_id_doublon['hostname_serial']=$sql['SQL'];
 	$arg_id_doublon['hostname_serial']=$sql['ARG'];
@@ -176,7 +176,7 @@ $sql_id_doublon['hostname_macaddress']="SELECT DISTINCT h.id,h.name info1,n.maca
 						WHERE  n2.hardware_id = h2.id 
 						AND h.id <> h2.id and n.MACADDR not in (select macaddress from blacklist_macaddresses)";
 $arg_id_doublon['hostname_macaddress']=array();
-if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+if (isset($tab_id_mes_machines) && $tab_id_mes_machines != ""){
 	$sql=mysql2_prepare($sql_id_doublon['hostname_macaddress'].' and h.id in ',$arg_id_doublon['hostname_macaddress'],$tab_id_mes_machines);
 	$sql_id_doublon['hostname_macaddress']=$sql['SQL'];
 	$arg_id_doublon['hostname_macaddress']=$sql['ARG'];
@@ -195,7 +195,7 @@ $sql_id_doublon['macaddress_serial']="SELECT DISTINCT h.id, n1.macaddr info1, b.
 										AND b.ssn not in (select serial from blacklist_serials)
 										AND n1.macaddr not in (select macaddress from blacklist_macaddresses)";
 $arg_id_doublon['macaddress_serial']=array();
-if (isset($tab_id_mes_machines) and $tab_id_mes_machines != ""){
+if (isset($tab_id_mes_machines) && $tab_id_mes_machines != ""){
 	$sql=mysql2_prepare($sql_id_doublon['macaddress_serial'].' and h.id in ',$arg_id_doublon['macaddress_serial'],$tab_id_mes_machines);
 	$sql_id_doublon['macaddress_serial']=$sql['SQL'];
 	$arg_id_doublon['macaddress_serial']=$sql['ARG'];
@@ -207,7 +207,7 @@ foreach($sql_id_doublon as $name=>$sql_value){
 	while( $val = mysqli_fetch_object( $res ) ) {
 		//if restriction => count only computers of profil
 		//else, all computers
-			if (is_array($tab_id_mes_machines) and in_array ($val->id,$tab_id_mes_machines)){
+			if (is_array($tab_id_mes_machines) && in_array ($val->id,$tab_id_mes_machines)){
 				$list_id[$name][$val->id]=$val->id;
 				$count_id[$name]++;
 			}elseif ($tab_id_mes_machines == ""){
@@ -241,7 +241,7 @@ foreach ($count_id as $lbl=>$count_value){
 	if ($count_value != 0)
 	echo "</a>";
 	echo "</b></td></tr>";
-	if ($protectedPost['detail'] == $lbl and $count_value == 0)
+	if ($protectedPost['detail'] == $lbl && $count_value == 0)
 	unset($protectedPost['detail']);
 }
 echo "</table>";
@@ -296,8 +296,8 @@ if ($protectedPost['detail'] != ''){
 	$sql['SQL'] .= " networks n where  h.id=n.hardware_id ";
 	$sql['SQL'] .= " and h.id=b.hardware_id and  h.id in ";
 	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_id[$protectedPost['detail']]);
-	if (($protectedPost['detail'] == "macaddress" or $protectedPost['detail'] == "macaddress_serial")
-			 and count($list_info)>0){
+	if (($protectedPost['detail'] == "macaddress" || $protectedPost['detail'] == "macaddress_serial")
+			 && count($list_info)>0){
 		$sql['SQL'] .= " and n.macaddr in ";
 		$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_info[$protectedPost['detail']]);
 		
@@ -308,7 +308,7 @@ if ($protectedPost['detail'] != ''){
 	$tab_options['LBL_POPUP']['SUP']='NAME';
 	$tab_options['LBL']['SUP']=$l->g(122);
 	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
-	if ($result_exist != "" and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
+	if ($result_exist != "" && $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
 		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/delete.png' title='Supprimer' ></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}

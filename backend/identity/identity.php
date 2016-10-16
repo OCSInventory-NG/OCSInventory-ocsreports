@@ -44,7 +44,7 @@ if (!isset($_SESSION['OCS']["lvluser"])){
 	
 }
 
-if (!isset($tab_tag) and $restriction != 'NO'){
+if (!isset($tab_tag) && $restriction != 'NO'){
 	$LIST_ERROR="";
 	foreach ($tab_error as $script=>$error){
 			$LIST_ERROR.=$error;	

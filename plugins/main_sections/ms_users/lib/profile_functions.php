@@ -40,17 +40,17 @@ function validate_profile_create_form($data) {
 	}
 	
 	// Check dropdown lists
-	if ($data['duplicate_profile'] and !isset($profiles[$data['duplicate_profile']])) {
+	if ($data['duplicate_profile'] && !isset($profiles[$data['duplicate_profile']])) {
 		$errors['duplicate_profile'] []= $l->g(1392);
 	}
 	
 	// Check profile name regex
-	if ($data['name'] and !preg_match('/^[0-9A-Za-z]+$/', $data['name'])) {
+	if ($data['name'] && !preg_match('/^[0-9A-Za-z]+$/', $data['name'])) {
 		$errors['name'] []= $l->g(1394);
 	}
 	
 	// Check profile name doesn't exist
-	if ($data['name'] and isset($profiles[$data['name']])) {
+	if ($data['name'] && isset($profiles[$data['name']])) {
 		$errors['name'] []= $l->g(1395);
 	}
 	
@@ -140,7 +140,7 @@ function update_profile($profile_id, $data) {
 	}
 	
 	foreach ($data['pages'] as $key => $val) {
-		if ($urls->getUrl($key) and $val == 'on') {
+		if ($urls->getUrl($key) && $val == 'on') {
 			$updatedProfile->addPage($key);
 		}
 	}

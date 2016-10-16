@@ -53,7 +53,7 @@ if ($protectedPost['SUP_PROF'] != ''){
 	$tab_options['CACHE']='RESET';
 }
 
-if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
+if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != ''){
 
 	$delarray = explode(",", $protectedPost['del_check']);
 

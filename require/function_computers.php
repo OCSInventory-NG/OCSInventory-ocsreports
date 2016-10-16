@@ -75,7 +75,7 @@ function computer_list_by_tag($tag="",$format='LIST'){
 		$array_mycomputers[]=$item_mycomputers->hardware_id;
 	}
 	$mycomputers=substr($mycomputers,0,-1).")";	
-	if ($mycomputers == "()" or !isset($array_mycomputers))
+	if ($mycomputers == "()" || !isset($array_mycomputers))
 		$mycomputers = "ERROR";
 	if ($format == 'LIST'){
 		return $mycomputers;
@@ -117,10 +117,10 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 				}		
 			}
 			//deleting a regular computer
-			if( $did != "_SYSTEMGROUP_" and $did != '_DOWNLOADGROUP_') {
+			if( $did != "_SYSTEMGROUP_" && $did != '_DOWNLOADGROUP_') {
 					$tables=$_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'];										
 			}
-			elseif($did == "_SYSTEMGROUP_" or $did == '_DOWNLOADGROUP_'){//Deleting a group
+			elseif($did == "_SYSTEMGROUP_" || $did == '_DOWNLOADGROUP_'){//Deleting a group
 				$tables=Array("devices");
 				//del messages on this group
 				$sql_group_msg="DELETE FROM config WHERE name like '%s' and ivalue='%s'";
@@ -139,7 +139,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent=false
 			if( !$silent )
 				msg_success($valId["name"]." ".$l->g(220));
 			
-			if (isset($tables) and is_array($tables)){
+			if (isset($tables) && is_array($tables)){
 				foreach ($tables as $table) {
 					$sql="DELETE FROM %s WHERE hardware_id='%s'";
 					$arg=array($table,$idHard);
@@ -279,7 +279,7 @@ function form_add_computer(){
 		//$type_field[]= 2; 
 		
 		
-		if ($id_user != '' or $_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'NO'){
+		if ($id_user != '' || $_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'NO'){
 			$tab_hidden['MODIF']=$id_user;
 			$sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
 			$arg=$id_user;
@@ -362,7 +362,7 @@ function insert_manual_computer($values,$nb=1,$generic=false){
  * on computer
  */
 function is_mine_computer($id){
-	if (isset($_SESSION['OCS']['TAGS']) and is_array($_SESSION['OCS']['TAGS'])){
+	if (isset($_SESSION['OCS']['TAGS']) && is_array($_SESSION['OCS']['TAGS'])){
 		$sql="select hardware_id from accountinfo where hardware_id = %s and tag in ";
 		$arg=array($id);
 		$sql=mysql2_prepare($sql,$arg,$_SESSION['OCS']['TAGS']);

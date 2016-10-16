@@ -40,7 +40,7 @@ function del_soft($onglet,$list_soft){
 	while($item_soft_name = mysqli_fetch_object($result_soft_name)){
 	 		$list_soft_name[]=str_replace('"','\"',$item_soft_name->NAME);
 	}
-	if($onglet == "CAT" or $onglet == "UNCHANGED")	
+	if($onglet == "CAT" || $onglet == "UNCHANGED")	
 		$sql_delete="delete from dico_soft where extracted in (\"".implode("\",\"",$list_soft_name)."\")";
 	if($onglet == "IGNORED")	
 		$sql_delete="delete from dico_ignored where extracted in (\"".implode("\",\"",$list_soft_name)."\")";	
@@ -60,7 +60,7 @@ function trans($onglet,$list_soft,$affect_type,$new_cat,$exist_cat){
 		$sql_verif="select extracted from dico_soft where formatted ='".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$new_cat)."'";
 		$result_search_soft = mysqli_query($_SESSION['OCS']["readServer"], $sql_verif);
 	 	$item_search_soft = mysqli_fetch_object($result_search_soft);
-	 	if (isset($item_search_soft->extracted) or $new_cat == "IGNORED" or $new_cat == "UNCHANGED"){
+	 	if (isset($item_search_soft->extracted) || $new_cat == "IGNORED" || $new_cat == "UNCHANGED"){
 	 		$already_exist=TRUE;
 	 	}
 	}

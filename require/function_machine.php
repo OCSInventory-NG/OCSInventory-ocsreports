@@ -33,7 +33,7 @@ function info($GET,$post_systemid){
 	if ($post_systemid != '')
 		$systemid = $protectedPost['systemid'];
 	//you can see computer's detail by deviceid
-	if (isset($GET['deviceid']) and !isset($systemid)){
+	if (isset($GET['deviceid']) && !isset($systemid)){
 		$querydeviceid = "SELECT ID FROM hardware WHERE deviceid='%s'";
 		$argdevicedid=mb_strtoupper ($GET['deviceid']);
 		$resultdeviceid = mysql2_query_secure($querydeviceid, $_SESSION['OCS']["readServer"],$argdevicedid);
@@ -58,11 +58,11 @@ function info($GET,$post_systemid){
 	
 	
 	//si le systemid de la machine existe
-	if (isset($GET['systemid']) and !isset($systemid))
+	if (isset($GET['systemid']) && !isset($systemid))
 	$systemid = $GET['systemid'];
 	//problème sur l'id
 	//echo $systemid;
-	if ($systemid == "" or !is_numeric($systemid))
+	if ($systemid == "" || !is_numeric($systemid))
 		return $l->g(837);
 		//recherche des infos de la machine
 		$querydeviceid = "SELECT * FROM hardware h left join accountinfo a on a.hardware_id=h.id
@@ -180,14 +180,14 @@ function show_packages($systemid,$page="ms_computer"){
 						if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" )	{
 							echo "$td3 <a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&suppack=".$valDeploy["ivalue"]."&systemid=".
 							urlencode($systemid)."&option=cd_configuration'>".$l->g(122)."</a></td>";
-						}elseif (strstr($valDeploy["tvalue"], 'ERR_') or strstr($valDeploy["tvalue"], 'EXIT_CODE')){
+						}elseif (strstr($valDeploy["tvalue"], 'ERR_') || strstr($valDeploy["tvalue"], 'EXIT_CODE')){
 							echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&affect_reset=".$valDeploy["ivalue"]."&systemid=".
 								urlencode($systemid)."&option=cd_configuration'>".$l->g(113)."</a>";
 							if ($valDeploy["name"] != $l->g(1129))
 							echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&affect_again=".$valDeploy["ivalue"]."&systemid=".
 								urlencode($systemid)."&option=cd_configuration'>".$l->g(1246)."</a></td>";				
 						}elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')){	
-								if (isset($valDeploy["comments"]) and strtotime ($valDeploy["comments"])<strtotime ("-12 week")){
+								if (isset($valDeploy["comments"]) && strtotime ($valDeploy["comments"])<strtotime ("-12 week")){
 									echo $td3."<a href='index.php?".PAG_INDEX."=".$pages_refs[$page]."&head=1&reset_notified=".$valDeploy["ivalue"]."&systemid=".
 									urlencode($systemid)."&option=cd_configuration'><img src=image/delete-small.png></a>";
 								}

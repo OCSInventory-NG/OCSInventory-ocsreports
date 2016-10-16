@@ -300,7 +300,7 @@ function jockers_trait($field_value){
 function compair_with_date($field,$field_value){
     global $l;
     //convert string to date for some fields
-    if ($field == "LASTDATE" or $field == "LASTCOME" or $field == "REGVALUE"){
+    if ($field == "LASTDATE" || $field == "LASTCOME" || $field == "REGVALUE"){
             $d = str_replace('/', '-', $field_value);
             $tab_date = explode('-', $d);
             // expect 3 fields
@@ -421,7 +421,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	}
 	//TITRE,CHAMPSELECT,(pour $optSelect) 
 	//et les champs suivants en plus pour $opt2SelectField: CHAMP (EGAL,LIKE,NOTLIKE) et valeur 
-	if( array_key_exists($value,$opt2SelectField) or array_key_exists($value,$optSelect)){
+	if( array_key_exists($value,$opt2SelectField) || array_key_exists($value,$optSelect)){
 		if (array_key_exists($value,$opt2SelectField)){
 			$data=$opt2SelectField;
 			//nom en Value3 car le traitement doit se faire sur la valeur de ce champ (cas particulier)
@@ -442,7 +442,7 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 			while( $val = mysqli_fetch_array( $result ) ) {
 				$val=data_encode_utf8($val);
 				foreach ($val as $name_of_field=>$value_of_request){
-					if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
+					if (!is_numeric($name_of_field) && $name_of_field != 'ID'){
 						if (!isset($val['ID']))
 							$val['ID']=$value_of_request;
 						//	echo $val['ID']."=>".$value_of_request."<br>";
@@ -573,7 +573,7 @@ function multi_lot($form_name,$lbl_choise){
 	$list_id="";
 	//print_r($protectedPost);
 	if (!isset($protectedGet['origine'])){
-		if (isset($protectedGet['idchecked']) and $protectedGet['idchecked'] != ""){
+		if (isset($protectedGet['idchecked']) && $protectedGet['idchecked'] != ""){
 			if (!isset($protectedGet['comp'])){
 				$choise_req_selection['REQ']=$l->g(584);
 				$choise_req_selection['SEL']=$l->g(585);
@@ -584,7 +584,7 @@ function multi_lot($form_name,$lbl_choise){
 			$select_choise=show_modif($choise_req_selection,'CHOISE',2,$form_name);	
 			echo "<center>".$lbl_choise." ".$select_choise."</center><br>";
 		}
-		if ($protectedPost['CHOISE'] == 'REQ' or $protectedGet['idchecked'] == ''){
+		if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == ''){
 			msg_info($l->g(901));
 			if ($protectedGet['idchecked'] == ''){
 				echo "<input type='hidden' name='CHOISE' value='".$protectedPost['CHOISE']."'>";

@@ -23,7 +23,7 @@
 require('require/function_stats.php');
 
 if($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" 
-	and isset($protectedPost["ACTION"]) and $protectedPost["ACTION"] != ''){
+	and isset($protectedPost["ACTION"]) && $protectedPost["ACTION"] != ''){
 	require('require/function_server.php');
 	if( $protectedPost["ACTION"] == "VAL_SUCC") {	
 		$result_line_delete=find_device_line('SUCCESS%',$protectedGet["stat"]);
@@ -35,7 +35,7 @@ if($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES"
 		$result_line_delete=find_device_line('NULL',$protectedGet["stat"]);
 	}
 	
-	if (isset($result_line_delete) and is_array($result_line_delete)){
+	if (isset($result_line_delete) && is_array($result_line_delete)){
 		require('require/function_telediff.php');
 		foreach ($result_line_delete as $key => $value) {
 			desactive_packet($value,$key);

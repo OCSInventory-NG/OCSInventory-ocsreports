@@ -27,14 +27,14 @@ $data_on['TOP']=$l->g(800);
 if ($protectedPost['onglet'] == 'TOP'){
 	require_once('require/function_stats.php');
 	$stats="";
-	if (!isset($protectedPost['CHOICE_OP']) or $protectedPost['CHOICE_OP'] == "")
+	if (!isset($protectedPost['CHOICE_OP']) || $protectedPost['CHOICE_OP'] == "")
 		$protectedPost['CHOICE_OP']='TOP_SOFT';
 
 	$array_option=array('NB_OS'=>$l->g(783),'TOP_SOFT'=>'top soft','NB_AGENTS'=>$l->g(784));
 	$stats.= $l->g(1251). ": " .show_modif($array_option,"CHOICE_OP",2,$form_name)."<br>";
 	if ($protectedPost['CHOICE_OP'] == 'TOP_SOFT'){
 
-		if (!isset($protectedPost['CHOICE_TOP']) or $protectedPost['CHOICE_TOP'] == "")
+		if (!isset($protectedPost['CHOICE_TOP']) || $protectedPost['CHOICE_TOP'] == "")
 			$protectedPost['CHOICE_TOP']=10;
 		// open file
 
@@ -50,7 +50,7 @@ if ($protectedPost['onglet'] == 'TOP'){
 					$index=$tag[$ln];
 				}elseif(substr($ln,0,2) == '</'){
 					unset($index);
-				}elseif(trim($ln) != "" and isset($index)){
+				}elseif(trim($ln) != "" && isset($index)){
 					$data[$index][]=$ln;
 				}
 			}
@@ -71,7 +71,7 @@ if ($protectedPost['onglet'] == 'TOP'){
 				while ($v[$i]){
 
 					$jonct='';
-					if(($k == 'LIKE' or $k == '=') and $first != 0 ){
+					if(($k == 'LIKE' || $k == '=') && $first != 0 ){
 						$jonct=' OR ';
 						$j++;
 					}elseif($first != 0){

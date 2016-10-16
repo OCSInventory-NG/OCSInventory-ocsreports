@@ -107,7 +107,7 @@ function show_computer_title($computer) {
 					$memory = $computer->$key;
 				}
 				$data[$key]=$memory;
-			} elseif ($key == "LASTDATE" or $key == "LASTCOME") {
+			} elseif ($key == "LASTDATE" || $key == "LASTCOME") {
 				$data[$key]=dateTimeFromMysql($computer->$key);
 			} elseif ($key == "NAME_RZ") {
 				$data[$key]="";
@@ -121,7 +121,7 @@ function show_computer_title($computer) {
 						$data[$key] .= $index." => ".$value."<br>";
 					}
 				}
-			} elseif ($key == "VMTYPE" and $computer->UUID != '') {
+			} elseif ($key == "VMTYPE" && $computer->UUID != '') {
 				$sqlVM = "select vm.hardware_id,vm.vmtype, h.name from virtualmachines vm left join hardware h on vm.hardware_id=h.id where vm.uuid='%s' order by h.name DESC";
 				$argVM = $computer->UUID;
 				$resVM = mysql2_query_secure($sqlVM,$_SESSION['OCS']["readServer"],$argVM);
@@ -133,7 +133,7 @@ function show_computer_title($computer) {
 				if ($data[$key] != '') {
 					msg_info($l->g(1266)."<br>".$l->g(1269).': '.$link_vm);
 				}
-			} elseif ($key == "IPADDR" and $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO')=="NO") {
+			} elseif ($key == "IPADDR" && $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO')=="NO") {
 				$data[$key] = $computer->$key." <a href=# OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"".$l->g(1283)."\");'><i>WOL</i></a>";
 				$link[$key] = true;
 			} elseif ($computer->$key != '') {

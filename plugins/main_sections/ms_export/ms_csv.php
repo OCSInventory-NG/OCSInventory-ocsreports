@@ -21,18 +21,18 @@
  * MA 02110-1301, USA.
  */
 $values=look_config_default_values(array('EXPORT_SEP'));
-if (isset($values['tvalue']['EXPORT_SEP']) and $values['tvalue']['EXPORT_SEP'] != '')
+if (isset($values['tvalue']['EXPORT_SEP']) && $values['tvalue']['EXPORT_SEP'] != '')
 	$separator=$values['tvalue']['EXPORT_SEP'];
 else
 	$separator=';';
 $link=$_SESSION['OCS']["readServer"];	
 $toBeWritten = "";
 //log directory
-if (isset($protectedGet['log']) and !preg_match("/([^A-Za-z0-9.])/",$protectedGet['log'])){
+if (isset($protectedGet['log']) && !preg_match("/([^A-Za-z0-9.])/",$protectedGet['log'])){
 	$Directory=$_SESSION['OCS']['LOG_DIR']."/";
 }
 
-if (isset($Directory) and file_exists($Directory.$protectedGet['log'])){
+if (isset($Directory) && file_exists($Directory.$protectedGet['log'])){
 		$tab = file($Directory.$protectedGet['log']);
 		while(list($cle,$val) = each($tab)) {
  		  $toBeWritten  .= $val."\r\n";
@@ -53,7 +53,7 @@ if (isset($Directory) and file_exists($Directory.$protectedGet['log'])){
 			$lbl=$_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name];
 			$col[$lbl]=$name;
 			$toBeWritten .=$name.";";
-		}elseif($name == 'NAME' or $name == $l->g(23)){
+		}elseif($name == 'NAME' || $name == $l->g(23)){
 			$col['name_of_machine']="name_of_machine";
 			$toBeWritten .="machine".$separator;
 		}		
@@ -76,14 +76,14 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 	$toBeWritten="";
 	//gestion des entetes
 	foreach ($_SESSION['OCS']['col_tab'][$protectedGet['tablename']] as $name){
-		if ($name != 'SUP' and $name != 'CHECK' and $name != 'NAME'){
+		if ($name != 'SUP' && $name != 'CHECK' && $name != 'NAME'){
 			if ($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name]{1} == ".")
 			$lbl=substr(strrchr($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name], "."), 1);
 			else
 			$lbl=$_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name];
 			$col[$lbl]=$name;
 			$toBeWritten .=$name.$separator;
-		}elseif($name == 'NAME' or $name == $l->g(23)){
+		}elseif($name == 'NAME' || $name == $l->g(23)){
 			$col['name_of_machine']="name_of_machine";
 			$toBeWritten .=$l->g(23).$separator;
 		}		
@@ -125,7 +125,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 	while( $cont = mysqli_fetch_array($result) ) {
 		unset($cont['MODIF']);
 		foreach ($col as $field => $lbl){
-			if ($lbl == "name_of_machine" and !isset($cont[$field])){
+			if ($lbl == "name_of_machine" && !isset($cont[$field])){
 				$field='name';
 			}
 			
@@ -134,7 +134,7 @@ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])){
 	
 			foreach ($cont as $key => $val) {
 				if (strtolower($key) == strtolower($field)) {
-					if (($field == 'TAG' or substr($field,0,7) == 'fields_')
+					if (($field == 'TAG' || substr($field,0,7) == 'fields_')
 							and isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])) {
 						// administrative data
 						$data[$i][$lbl]=$inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl][$val];

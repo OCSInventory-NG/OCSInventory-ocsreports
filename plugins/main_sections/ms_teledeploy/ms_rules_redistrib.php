@@ -85,7 +85,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 				echo "<br>";
 		
 	//Modif a rule => get this values 
-	if ($protectedPost['MODIF'] != "" and $protectedPost['OLD_MODIF'] != $protectedPost['MODIF']){
+	if ($protectedPost['MODIF'] != "" && $protectedPost['OLD_MODIF'] != $protectedPost['MODIF']){
 		$sql="select priority,cfield,op,compto,rule_name 
 				from download_affect_rules 
 			 where rule='%s' 
@@ -105,7 +105,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 	}
 	
 	//new rule
-	if ($protectedPost['NEW_RULE'] or $protectedPost['NUM_RULES'] or $protectedPost['MODIF'] != ""){
+	if ($protectedPost['NEW_RULE'] || $protectedPost['NUM_RULES'] || $protectedPost['MODIF'] != ""){
 		if ($protectedPost['MODIF'] != "")
 		$modif=$protectedPost['MODIF'];
 		else
@@ -126,7 +126,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1){
 		echo $tab;
 		echo "</tr></table>";
 		echo "<a onclick='return pag(".$numero.",\"NUM_RULES\",\"rules\")'><font color=green>".$l->g(682)."</font></a>&nbsp<a onclick='return pag(\"RAZ\",\"RAZ\",\"rules\");'><font color=\"red\">".$l->g(113)."</font></a><br><br>";
-		if ($protectedPost['MODIF'] != "" or $protectedPost['OLD_MODIF'] != "")
+		if ($protectedPost['MODIF'] != "" || $protectedPost['OLD_MODIF'] != "")
 		echo "<input type='submit'  value='".$l->g(625)."' name='MODIF_RULE' onclick='return check();'>";	
 		else
 		echo "<input type='submit'  value='".$l->g(683)."' name='ADD_RULE' onclick='return check();'>";	

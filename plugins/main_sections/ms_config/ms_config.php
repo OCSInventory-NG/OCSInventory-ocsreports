@@ -71,7 +71,7 @@ if ($protectedPost['Valid'] == $l->g(103)){
 	
 }
 
-if (isset($MAJ) and $MAJ != '')
+if (isset($MAJ) && $MAJ != '')
 	msg_success($MAJ);
 printEnTete($l->g(107));
 $form_name='modif_onglet';

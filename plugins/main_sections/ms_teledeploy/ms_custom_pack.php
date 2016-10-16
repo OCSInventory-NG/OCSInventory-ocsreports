@@ -70,7 +70,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 					$am_pm='pm';
 				foreach ($hour as $k=>$v){
 					foreach ($min as $km){
-						if ($am_pm=='' or ($am_pm == 'pm' and $k != '00' and $k != '12') )
+						if ($am_pm=='' || ($am_pm == 'pm' && $k != '00' && $k != '12') )
 						$hour_min[$k.":".$km.$am_pm]=$am_pm." ".$k.":".$km;
 					}
 				}
@@ -104,10 +104,10 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 		$protectedPost['SELECT']=$protectedPost['MODIF'];
 		$protectedPost['Valid_modif']=true;		
 	}
-	if ($protectedPost['SELECT'] != '' and isset($protectedPost['Valid_modif'])){
+	if ($protectedPost['SELECT'] != '' && isset($protectedPost['Valid_modif'])){
 		if (isset($protectedPost['TELE_FORCE_0']))
 			active_option('DOWNLOAD_FORCE',$list_id,$protectedPost['SELECT'],'1');
-		if (isset($protectedPost['INSTALL_DATE']) and $protectedPost['INSTALL_DATE'] != ''){
+		if (isset($protectedPost['INSTALL_DATE']) && $protectedPost['INSTALL_DATE'] != ''){
 			$date=explode('/',$protectedPost['INSTALL_DATE']);
                         // Agent date format : 2016/06/30 02:15pm
 			if ($l->g(269) == "%m/%d/%Y") 
@@ -122,7 +122,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			active_option('DOWNLOAD_SCHEDULE',$list_id,$protectedPost['SELECT'],$install_date);
 		}
 		
-		if (isset($protectedPost['DOWNLOAD_POSTCMD']) and $protectedPost['DOWNLOAD_POSTCMD'] != ''){
+		if (isset($protectedPost['DOWNLOAD_POSTCMD']) && $protectedPost['DOWNLOAD_POSTCMD'] != ''){
 			active_option('DOWNLOAD_POSTCMD',$list_id,$protectedPost['SELECT'],$protectedPost['DOWNLOAD_POSTCMD']);			
 		}
 
@@ -184,8 +184,8 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 		
 		}
 
-		if(($protectedPost['onglet'] == 'MACH' and $protectedPost['DWL_OPT'] != '')
-			or ($protectedPost['onglet'] == 'SERV_GROUP' and $protectedPost['rule_choise'] != '')){
+		if(($protectedPost['onglet'] == 'MACH' && $protectedPost['DWL_OPT'] != '')
+			|| ($protectedPost['onglet'] == 'SERV_GROUP' && $protectedPost['rule_choise'] != '')){
 				//recherche de toutes les règles pour les serveurs de redistribution
 			$list_fields= array('FILE_ID'=>'e.FILEID',
 									'INFO_LOC'=>'e.INFO_LOC',
@@ -199,7 +199,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 									$l->g(953)." (KB)"=>'a.SIZE'
 									);
 			
-			if (!isset($nb_rule) or $nb_rule>0)	{
+			if (!isset($nb_rule) || $nb_rule>0)	{
 			if ($protectedPost['onglet'] != 'SERV_GROUP'){
 				$list_fields['PACK_LOC']='e.PACK_LOC';
 				$list_fields['ACTIVE_ID']='e.ID';
@@ -231,7 +231,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 			else
 				$sql['SQL'] .= ", hardware h where a.FILEID=e.FILEID and h.id=e.group_id and  e.SERVER_ID is not null ";
 			
-			if (isset($fileid_show) and $fileid_show != array()){
+			if (isset($fileid_show) && $fileid_show != array()){
 				$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$fileid_show,true);
 			}
 			if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES"){

@@ -125,7 +125,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 			$check_trait=array();
 			foreach ($protectedPost as $key=>$value){
 				if ($value != ''){
-					if (substr($key,0,7) == 'fields_' or $key == 'TAG'){
+					if (substr($key,0,7) == 'fields_' || $key == 'TAG'){
 						$temp_field=explode('_',$key);
 						
 						//checkbox cas

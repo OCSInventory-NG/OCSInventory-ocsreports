@@ -27,8 +27,8 @@ if (!isset($info_id['ERROR'])){
 	$form_name="form_active";
 	//ouverture du formulaire
 	echo open_form($form_name, '', '', 'form-horizontal');
-	if ((!isset($protectedPost['FILE_SERV']) and $protectedPost['choix_activ'] == 'MAN') 
-		or (!isset($protectedPost['FILE_SERV_REDISTRIB']) and $protectedPost['choix_activ'] == 'AUTO') or !isset($protectedPost['HTTPS_SERV'])){
+	if ((!isset($protectedPost['FILE_SERV']) && $protectedPost['choix_activ'] == 'MAN') 
+		|| (!isset($protectedPost['FILE_SERV_REDISTRIB']) && $protectedPost['choix_activ'] == 'AUTO') || !isset($protectedPost['HTTPS_SERV'])){
 		$default=$_SERVER["SERVER_ADDR"]."/download";
 		$values=look_config_default_values(array('DOWNLOAD_URI_INFO','DOWNLOAD_URI_FRAG'));
 		$protectedPost['FILE_SERV']=$values['tvalue']['DOWNLOAD_URI_FRAG'];
@@ -47,7 +47,7 @@ if (!isset($info_id['ERROR'])){
 		}	
 	}
 	
-	if (isset($protectedPost['Valid_modif']) and $protectedPost['Valid_modif'] != ''){
+	if (isset($protectedPost['Valid_modif']) && $protectedPost['Valid_modif'] != ''){
 		$error ="";
 		
 		$opensslOk = function_exists("openssl_open");
@@ -83,7 +83,7 @@ if (!isset($info_id['ERROR'])){
 		elseif( $fragAvail ) 
 			fclose( $fragOk );	
 		
-		if (! $fragOk or ! $httpsOk){
+		if (! $fragOk || ! $httpsOk){
 			$error .= "<br>".$l->g(468)."<br><br>";
 			$error .= "<input type='submit' name='YES' value='".$l->g(455)."'>&nbsp&nbsp&nbsp<input type='submit' name='NO' value='".$l->g(454)."'>";
 		}
@@ -92,7 +92,7 @@ if (!isset($info_id['ERROR'])){
 					
 	}	
 	
-	if ($error == "" and isset($protectedPost['Valid_modif']) or isset($protectedPost['YES'])){
+	if ($error == "" && isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])){
 		if ($protectedPost['choix_activ'] == "MAN"){
 			activ_pack($protectedGet["active"],$protectedPost["HTTPS_SERV"],$protectedPost['FILE_SERV']);
 		}
@@ -128,7 +128,7 @@ if (!isset($info_id['ERROR'])){
 				
 	}
 	echo "<br>";
-	if (isset($protectedPost['choix_activ']) and $protectedPost['choix_activ'] != ''){
+	if (isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] != ''){
 		if ($protectedPost['choix_activ'] == "MAN"){
 			$tab_name=array($l->g(471),$l->g(470));
 			$name_field=array("FILE_SERV","HTTPS_SERV");

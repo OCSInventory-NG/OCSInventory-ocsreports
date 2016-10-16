@@ -71,7 +71,7 @@ function delete_plugin($pluginid, $dyn_cal = true){
 
     if (file_exists(MAIN_SECTIONS_DIR."ms_".$anwser['name'])){
 
-            if ($anwser['name'] != "" and $anwser['name'] != null){
+            if ($anwser['name'] != "" && $anwser['name'] != null){
                     require_once (MAIN_SECTIONS_DIR."ms_".$anwser['name']."/install.php");
                     
                     if($dyn_cal){

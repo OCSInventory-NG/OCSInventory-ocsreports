@@ -33,7 +33,7 @@ $all_snmp_table=array_merge($snmp_tables_type,$snmp_tables);
 //is ID exist?
 function info_snmp($snmp_id){
 	global $l,$snmp_tables_type;
-	if ($snmp_id == "" or !is_numeric($snmp_id)){
+	if ($snmp_id == "" || !is_numeric($snmp_id)){
 		return $l->g(837);	
 	}
 	
@@ -163,7 +163,7 @@ function deleteDid_snmp($id){
  */
 function admininfo_snmp($id = ""){
 	global $l;
-	if (!is_numeric($id) and $id != "")
+	if (!is_numeric($id) && $id != "")
 		return $l->g(400);		
 	$arg_account_data=array();	
 	$sql_account_data="SELECT * FROM snmp_accountinfo ";
@@ -180,7 +180,7 @@ function admininfo_snmp($id = ""){
 
 function updateinfo_snmp($id,$values,$list=''){
 	global $l;
-	if (!is_numeric($id) and $list == '')
+	if (!is_numeric($id) && $list == '')
 		return $l->g(400);		
 	$arg_account_data=array();	
 	$sql_account_data="UPDATE snmp_accountinfo SET ";
@@ -190,7 +190,7 @@ function updateinfo_snmp($id,$values,$list=''){
 		array_push($arg_account_data,$val);		
 	}
 	$sql_account_data = substr($sql_account_data,0,-2);
-	if (is_numeric($id) and $list == '')
+	if (is_numeric($id) && $list == '')
 	$sql_account_data.=" WHERE snmp_id=%s";
 	if ($list != '')
 	$sql_account_data.=" WHERE snmp_id in (%s)";

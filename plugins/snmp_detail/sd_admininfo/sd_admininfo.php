@@ -26,12 +26,12 @@ $table_name=$form_name;
 $info_account_id=admininfo_snmp($systemid);
 
 
-if (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' and !isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+if (isset($protectedPost['ADMIN']) && $protectedPost['ADMIN'] == 'ADMIN' && !isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 	$_SESSION['OCS']['ADMIN']['ACCOUNTINFO']=true;
-elseif (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+elseif (isset($protectedPost['ADMIN']) && $protectedPost['ADMIN'] == 'ADMIN' && isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 	unset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']);
 
-if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' && isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 	$admin_accountinfo=true;
 	
 $list_tab=find_all_account_tab('TAB_ACCOUNTSNMP','SNMP',1);	
@@ -39,7 +39,7 @@ if ($list_tab != ''){
 	if ($protectedPost['Valid_modif'] != ""){
 		foreach ($protectedPost as $field=>$value){
 			$temp_field=explode('_',$field);
-			if (array_key_exists( $temp_field[0] . '_' . $temp_field[1],$info_account_id) or $temp_field[0] == 'TAG'){
+			if (array_key_exists( $temp_field[0] . '_' . $temp_field[1],$info_account_id) || $temp_field[0] == 'TAG'){
 				//cas of checkbox
 				if (isset($temp_field[2])){
 				$data_fields_account[$temp_field[0] . "_" . $temp_field[1]].=$temp_field[2] . "&&&";	
@@ -55,9 +55,9 @@ if ($list_tab != ''){
 	}
 		unset($action_updown);
 		//UP/DOWN
-		if ((isset($protectedPost['UP']) and $protectedPost['UP'] != ''))
+		if ((isset($protectedPost['UP']) && $protectedPost['UP'] != ''))
 			$action_updown='UP';
-		if (isset($protectedPost['DOWN']) and $protectedPost['DOWN'] != '')
+		if (isset($protectedPost['DOWN']) && $protectedPost['DOWN'] != '')
 			$action_updown='DOWN';	
 		
 		if (isset($action_updown)){				
@@ -70,7 +70,7 @@ if ($list_tab != ''){
 		}
 	
 	//print_r($info_account_id);
-	if (!isset($protectedPost['onglet']) or $protectedPost['onglet'] =='' or !is_numeric($protectedPost['onglet']))
+	if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] =='' || !is_numeric($protectedPost['onglet']))
 		 $protectedPost['onglet'] = $list_tab['FIRST'];
 	unset($list_tab['FIRST']);
 	

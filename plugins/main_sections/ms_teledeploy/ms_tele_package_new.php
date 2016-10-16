@@ -23,7 +23,7 @@
 require_once 'lib/package_functions.php';
 
 // Initialize the timestamp
-if (isset($_POST['TIMESTAMP']) and $_POST['TIMESTAMP'] and is_numeric($_POST['TIMESTAMP'])) {
+if (isset($_POST['TIMESTAMP']) && $_POST['TIMESTAMP'] && is_numeric($_POST['TIMESTAMP'])) {
 	$timestamp = (integer) $_POST['TIMESTAMP'];
 } else {
 	$timestamp = time();
@@ -31,7 +31,7 @@ if (isset($_POST['TIMESTAMP']) and $_POST['TIMESTAMP'] and is_numeric($_POST['TI
 
 // If the package hasn't been created, show the create package form
 if (!package_exists($timestamp)) {
-	if (AJAX and isset($_FILES['FILE'])) {
+	if (AJAX && isset($_FILES['FILE'])) {
 		// Handle file upload
 		$tmp_file = $_FILES['FILE']['tmp_name'];
 		
@@ -53,7 +53,7 @@ if (!package_exists($timestamp)) {
 					$error = 'Invalid file type ('.$mime_type.')';
 				}
 				
-				if (!$error and strtolower(substr($_FILES['FILE']['name'], -strlen($ext))) !== $ext) {
+				if (!$error && strtolower(substr($_FILES['FILE']['name'], -strlen($ext))) !== $ext) {
 					$error = 'Invalid file extension';
 				}
 				
@@ -74,13 +74,13 @@ if (!package_exists($timestamp)) {
 			// Move the file in a tmp dir in its future download location
 			$package_dir = get_download_root().$timestamp;
 			
-			if (!file_exists($package_dir) and !mkdir($package_dir)) {
+			if (!file_exists($package_dir) && !mkdir($package_dir)) {
 				$error = 'Could not create dir '.$package_dir.', please fix your filesystem before trying again ';
 				break;
 			}
 			
 			$package_tmp_dir = $package_dir.'/tmp';
-			if (!file_exists($package_tmp_dir) and !mkdir($package_tmp_dir)) {
+			if (!file_exists($package_tmp_dir) && !mkdir($package_tmp_dir)) {
 				$error = 'Could not create dir '.$package_tmp_dir.', please fix your filesystem before trying again ';
 				break;
 			}
@@ -174,7 +174,7 @@ if (!package_exists($timestamp)) {
 			}
 		}
 		
-		if ($errors or !isset($_POST['create_package'])) {
+		if ($errors || !isset($_POST['create_package'])) {
 			require_once 'views/package_form_view.php';
 			show_package_form($form_data, $errors);
 		}

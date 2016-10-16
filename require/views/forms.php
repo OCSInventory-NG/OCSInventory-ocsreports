@@ -24,7 +24,7 @@
 function show_form_field($data, $errors, $type, $name, $label, $options = array()) {
 	$id = str_replace(array('[', ']'), '_', $name);
 	
-	if (isset($errors[$id]) and $errors[$id]) {
+	if (isset($errors[$id]) && $errors[$id]) {
 		echo '<div class="field field-has-errors field-'.htmlspecialchars($id.($options['field_class'] ? ' '.$options['field_class'] : '')).'">';
 		echo '<ul class="field-error-list">';
 		
@@ -37,7 +37,7 @@ function show_form_field($data, $errors, $type, $name, $label, $options = array(
 		echo '<div class="field field-'.htmlspecialchars($id.($options['field_class'] ? ' '.$options['field_class'] : '')).'">';
 	}
 
-	if (isset($data[$name]) and $data[$name]) {
+	if (isset($data[$name]) && $data[$name]) {
 		$options['value'] = $data[$name];
 	}
 	
@@ -85,7 +85,7 @@ function show_form_input($name, $options = array()) {
 		'id' => str_replace(array('[', ']'), '_', $name)
 	), $options['attrs']);
 	
-	if ($options['type'] == 'checkbox' and $options['value'] == 'on') {
+	if ($options['type'] == 'checkbox' && $options['value'] == 'on') {
 		$attrs['checked'] = 'checked';
 	} else if ($options['value']) {
 		$attrs['value'] = $options['value'];
@@ -132,7 +132,7 @@ function show_form_select($name, $options = array()) {
 	
 	foreach ($options['options'] as $key => $opt) {
 		if ($options['type'] == 'select') {
-			if ($options['value'] and $options['value'] == $key) {
+			if ($options['value'] && $options['value'] == $key) {
 				echo '<option value="'.htmlspecialchars($key).'" selected="selected">'.htmlspecialchars($opt).'</option>';
 			} else {
 				echo '<option value="'.htmlspecialchars($key).'">'.htmlspecialchars($opt).'</option>';
@@ -142,7 +142,7 @@ function show_form_select($name, $options = array()) {
 			$input_attrs = array_merge($attrs, array(
 				'id' => $id,
 			));
-			if ($options['value'] and $options['value'] == $key) {
+			if ($options['value'] && $options['value'] == $key) {
 				$input_attrs['checked'] = 'checked';
 			}
 			

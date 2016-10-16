@@ -26,7 +26,7 @@ $form_name="lock_affect";
 echo open_form($form_name);
 echo "<div align=center>";
 $list_id=multi_lot($form_name,$l->g(601));
-if ($protectedPost['LOCK'] != '' and isset($protectedPost['LOCK'])){
+if ($protectedPost['LOCK'] != '' && isset($protectedPost['LOCK'])){
 	if (isset($_SESSION['OCS']["mesmachines"]))
 		$_SESSION['OCS']["TRUE_mesmachines"]=$_SESSION['OCS']["mesmachines"];
 	else

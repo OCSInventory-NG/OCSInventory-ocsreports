@@ -52,7 +52,7 @@ elseif(!isset($protectedGet['idchecked'])){
 }
 $lesRez['des']=$l->g(523);
 	$lesRez['OFF']=$l->g(524);
-if (isset($protectedGet['idchecked']) and is_numeric($protectedGet['idchecked'])){
+if (isset($protectedGet['idchecked']) && is_numeric($protectedGet['idchecked'])){
 	$sql="SELECT ipaddress FROM networks WHERE hardware_id=%s";
 	$arg=$protectedGet['idchecked'];
 	$resInt = mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg );

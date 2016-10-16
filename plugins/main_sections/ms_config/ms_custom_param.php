@@ -27,7 +27,7 @@ require_once('require/function_search.php');
 $form_name="param_affect";
 echo open_form($form_name);
 $list_id=multi_lot($form_name,$l->g(601));
-	/*if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
+	/*if ($protectedPost['onglet'] == "" || !isset($protectedPost['onglet']))
 	$protectedPost['onglet'] = $l->g(499);*/
 	
 	$def_onglets['SERV']=$l->g(499); //Serveur
@@ -46,10 +46,10 @@ $list_id=multi_lot($form_name,$l->g(601));
 			}else
 				$list_hardware_id=$list_id;
 		}
-		if (isset($list_hardware_id) or isset($tab_hadware_id)){
+		if (isset($list_hardware_id) || isset($tab_hadware_id)){
 			 foreach ($protectedPost as $key => $value){
-			 	if ($key != "systemid" and $key != "origine"){
-				 	if ($value == "SERVER DEFAULT" or $value == "des" or trim($value) == "")
+			 	if ($key != "systemid" && $key != "origine"){
+				 	if ($value == "SERVER DEFAULT" || $value == "des" || trim($value) == "")
 				 		erase($key);
 				 	elseif ($value == "CUSTOM"){
 				 		insert($key,$protectedPost[$key.'_edit']);	 	
@@ -65,7 +65,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 				 	} 
 				 	elseif ($value == "OFF"){
 				 		insert($key,0);	 
-				 	}elseif (($key == "IPDISCOVER" and $value != "des" and $value != "OFF") or ($key == "SNMP_NETWORK") ){
+				 	}elseif (($key == "IPDISCOVER" && $value != "des" && $value != "OFF") || ($key == "SNMP_NETWORK") ){
 				 		insert($key,2,$value);	
 				 	}
 				 	
@@ -73,9 +73,9 @@ $list_id=multi_lot($form_name,$l->g(601));
 		 	}
 		 	$MAJ=$l->g(711);
 		 	msg_success($MAJ.$add_lbl);
-		 	if (isset($protectedGet['origine']) and $protectedGet['origine'] == 'machine'){
+		 	if (isset($protectedGet['origine']) && $protectedGet['origine'] == 'machine'){
 				$form_to_reload='config_mach';
-		 	}elseif (isset($protectedGet['origine']) and $protectedGet['origine'] == 'group'){
+		 	}elseif (isset($protectedGet['origine']) && $protectedGet['origine'] == 'group'){
 		 		$form_to_reload='config_group';
 		 	}
 			if (isset($form_to_reload))
@@ -94,7 +94,7 @@ $list_id=multi_lot($form_name,$l->g(601));
 
 	
 	//not a sql query
-	if (isset($protectedGet['origine']) and is_numeric($protectedGet['idchecked'])){
+	if (isset($protectedGet['origine']) && is_numeric($protectedGet['idchecked'])){
 		//looking for value of systemid
 		$sql_value_idhardware="select NAME,IVALUE,TVALUE from devices where name != 'DOWNLOAD' and hardware_id=%s";
 		$arg_value_idhardware=$protectedGet['idchecked'];

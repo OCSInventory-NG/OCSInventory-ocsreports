@@ -44,7 +44,7 @@ if ($_SESSION['OCS']['MODE_LANGUAGE']=="ON"){
 	$tab_typ_champ[0]['RELOAD']=$form_language;
 	//$tab_typ_champ[0]['CONFIG']['JAVASCRIPT']="onclick='report_id();'";
 	$tab_name[0]=$l->g(443).":";
-	if (isset($protectedPost['ACTION']) and $protectedPost['ACTION'] != ''){
+	if (isset($protectedPost['ACTION']) && $protectedPost['ACTION'] != ''){
 		if ($protectedPost['ACTION'] != 'ADD'){
 			$tab_typ_champ[1]['DEFAULT_VALUE']=$_SESSION['OCS']['EDIT_LANGUAGE'];
 			$tab_typ_champ[1]['INPUT_NAME']="WORD";
@@ -91,7 +91,7 @@ if (!AJAX) {
 			
 			if ($key != "fichLang" 
 				and $key != "LANGUAGE_FILE" 
-				and $key != "mac" and $key != "writeServer"
+				and $key != "mac" && $key != "writeServer"
 				and $key != "readServer"){
 				$tab_session[$key]=$value;
 			}

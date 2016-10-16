@@ -28,7 +28,7 @@ if($_SESSION['OCS']["lvluser"]==SADMIN){
 		$dir = opendir($rep);
 		while($f = readdir($dir)){
 			if ($protectedGet['id_pack'] == ''){
-				if ($f != '.' and $f != '..')
+				if ($f != '.' && $f != '..')
 		 		  echo "<a href='recompose_paquet.php?id_pack=".$f."'>".$f."</a><br>";
 			}else{
 				if ($f == "info"){
@@ -64,7 +64,7 @@ if($_SESSION['OCS']["lvluser"]==SADMIN){
 		}
 		closedir($dir);
 		
-		if ($protectedGet['id_pack'] != '' and $valid == 'OK'){
+		if ($protectedGet['id_pack'] != '' && $valid == 'OK'){
 			$temp="";
 			$i=1;
 			$filename = $rep.'/'.$protectedGet['id_pack'];

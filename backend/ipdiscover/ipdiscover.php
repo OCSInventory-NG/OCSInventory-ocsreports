@@ -60,7 +60,7 @@ if (isset($tab_ip)){
 		$_SESSION['OCS']["subnet_ipdiscover"]=$list_subnet;
 	}
 }
-if (isset($tab_info) and !isset($_SESSION['OCS']["ipdiscover"])){
+if (isset($tab_info) && !isset($_SESSION['OCS']["ipdiscover"])){
 	$_SESSION['OCS']["ipdiscover"]=$tab_info;	
 	$_SESSION['OCS']["ipdiscover_methode"]=$base;
 }

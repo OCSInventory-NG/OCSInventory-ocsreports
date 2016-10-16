@@ -30,7 +30,7 @@ $plugin=false;
 $stats='';
 
 foreach ($_SESSION['OCS']['url_service']->getUrls() as $name=>$url){
-	if (substr($name,0,9) == 'ms_stats_' and $url['directory'] == 'ms_stats'){
+	if (substr($name,0,9) == 'ms_stats_' && $url['directory'] == 'ms_stats'){
 		$plugin=true;
 		require_once($name.".php");
 	}	

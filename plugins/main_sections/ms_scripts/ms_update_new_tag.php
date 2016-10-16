@@ -31,7 +31,7 @@
 $sql="show columns from accountinfo";
 $res=mysql2_query_secure($sql,$_SESSION['OCS']["readServer"]);
 while ($value = mysqli_fetch_object($res)){
-	if ($value->Field != 'HARDWARE_ID' and $value->Field != 'TAG')
+	if ($value->Field != 'HARDWARE_ID' && $value->Field != 'TAG')
 		$list_field[$value->Field]=$value->Field;
 		$type_field[$value->Field]=$value->Type;
 }
@@ -40,7 +40,7 @@ $sql=prepare_sql_tab($fields_table);
 $sql['SQL'] .="from accountinfo_config where ACCOUNT_TYPE='COMPUTERS'";
 $res=mysql2_query_secure($sql['SQL'],$_SESSION['OCS']["readServer"],$sql['ARG']);
 while ($value = mysqli_fetch_object($res)){
-	if (!isset($max_order) or $value->SHOW_ORDER > $max_order)
+	if (!isset($max_order) || $value->SHOW_ORDER > $max_order)
 		$max_order=$value->SHOW_ORDER;
 	if ($value->NAME_ACCOUNTINFO != 'TAG'){
 		//this column does'nt exist in accountinfo_config
@@ -69,7 +69,7 @@ foreach ($list_field as $name){
 		$fields_table=array('TYPE','NAME','ID_TAB','COMMENT','SHOW_ORDER','ACCOUNT_TYPE');
 		$max_order++;
 		
-		if ($type_field[$name] == "varchar(10)" or $type_field[$name] == "date"){
+		if ($type_field[$name] == "varchar(10)" || $type_field[$name] == "date"){
 			$type=6;
 			$type_field[$name] = "varchar(10)";
 		}elseif ($type_field[$name] == "blob")
@@ -101,7 +101,7 @@ foreach ($list_field as $name){
 }
 }
 $add_colum_accountinfo=array('1','2');
-if (isset($add_colum_accountinfo) or isset($add_lign_accountinfo_config) or isset($rename_col_accountinfo)){
+if (isset($add_colum_accountinfo) || isset($add_lign_accountinfo_config) || isset($rename_col_accountinfo)){
 		
 		
 		$form_name = "console";

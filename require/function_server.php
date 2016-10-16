@@ -85,7 +85,7 @@ function replace_var_generic($hardware_id,$url_group_server,$id_group=false)
 
 	$count_add_ip=substr_count($url_group_server, '$IP$');
 	$count_name=substr_count($url_group_server, '$NAME$');
-	if ($count_add_ip>0 or $count_name>0){
+	if ($count_add_ip>0 || $count_name>0){
 		$sql="select IPADDR,NAME,ID from hardware where ID";
 		if ($hardware_id != 'ALL'){
 			$sql .= " = %s";
@@ -183,7 +183,7 @@ function admin_serveur($action,$name_server,$descr,$mach) {
 		return $l->g(621); //this name already exists
 
 	}//if the machines add to the group or the group is replace
-	elseif ($action == 'add_serv' or $action == 'replace_serv'){
+	elseif ($action == 'add_serv' || $action == 'replace_serv'){
 		if ($action == 'replace_serv'){
 			$sql="DELETE FROM download_servers WHERE GROUP_ID=%s";
 			$arg=$idGroupServer;
@@ -223,12 +223,12 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 		$tab_Server[$val_infoServ['server_id']]=$val_infoServ['id'];
 	}
 	
-	if ($rule_detail['compto'] == "NAME" or $rule_detail['compto'] =="WORKGROUP" or $rule_detail['compto'] =="USERID"){
+	if ($rule_detail['compto'] == "NAME" || $rule_detail['compto'] =="WORKGROUP" || $rule_detail['compto'] =="USERID"){
 		$tablecompto="hardware";
 		$id_server="ID";
 	}
 	
-	if ($rule_detail['compto'] == "IPSUBNET" or $rule_detail['compto'] == "IPADDRESS"){
+	if ($rule_detail['compto'] == "IPSUBNET" || $rule_detail['compto'] == "IPADDRESS"){
 		$tablecompto="networks";
 		$id_server="HARDWARE_ID";
 	}
@@ -251,11 +251,11 @@ function insert_with_rules($list_id,$rule_detail,$fileid){
 	}
 	
 	//for machines
-	if ($rule_detail['cfield'] == "NAME" or $rule_detail['cfield'] =="WORKGROUP" or $rule_detail['cfield'] =="USERID"){
+	if ($rule_detail['cfield'] == "NAME" || $rule_detail['cfield'] =="WORKGROUP" || $rule_detail['cfield'] =="USERID"){
 		$tablefield="hardware";
 		$id_mach="ID";
 	}
-	if ($rule_detail['cfield'] == "IPSUBNET" or $rule_detail['cfield'] == "IPADDRESS"){
+	if ($rule_detail['cfield'] == "IPSUBNET" || $rule_detail['cfield'] == "IPADDRESS"){
 		$tablefield="networks";		
 		$id_mach="HARDWARE_ID";
 	}

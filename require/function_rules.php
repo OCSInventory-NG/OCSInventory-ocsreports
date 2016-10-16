@@ -121,7 +121,7 @@ function add_rule($RULE_NAME,$RULE_VALUES,$ID_RULE=''){
 		$result_id = mysql2_query_secure($sql,$_SESSION['OCS']["readServer"],$arg);
 		$id_exist = mysqli_fetch_object($result_id);
 		//generate id
-		if (!is_numeric($ID_RULE) or $ID_RULE == '' or isset($id_exist->id)){	
+		if (!is_numeric($ID_RULE) || $ID_RULE == '' || isset($id_exist->id)){	
 			$sql_new_id="select max(RULE) as ID_RULE from download_affect_rules";
 			$result_new_id = mysql2_query_secure($sql_new_id, $_SESSION['OCS']["readServer"]);
 			$new_id = mysqli_fetch_object($result_new_id);

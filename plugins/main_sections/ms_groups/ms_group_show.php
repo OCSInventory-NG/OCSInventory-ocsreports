@@ -106,7 +106,7 @@ else
 
 
 //update values if user want modify groups' values
-if ($protectedPost['Valid_modif'] and !isset($protectedPost['modif']))
+if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif']))
 {
 	if (trim($protectedPost['NAME'])!= '' and trim($protectedPost['DESCR'])!=''){
 		$req = "UPDATE hardware SET ".	
@@ -138,7 +138,7 @@ if( ! $item ) {
 	die();
 }
 
-if( $item->REQUEST !="" or $item->XMLDEF != "")
+if( $item->REQUEST !="" || $item->XMLDEF != "")
 	$pureStat = false;
 else{
 	$pureStat = true;
@@ -331,7 +331,7 @@ function form_action_group($systemid){
 	$resGrpStat = mysql2_query_secure($reqGrpStat, $_SESSION['OCS']["readServer"],$systemid);
 	$valGrpStat = mysqli_fetch_array($resGrpStat);
 	echo "<center>".$l->g(585).": <select name='actshowgroup' id='actshowgroup'>";
-					if (($valGrpStat['REQUEST'] == "" or $valGrpStat['REQUEST'] == null) and ($valGrpStat['XMLDEF'] == "" or $valGrpStat['XMLDEF'] == null))
+					if (($valGrpStat['REQUEST'] == "" || $valGrpStat['REQUEST'] == null) && ($valGrpStat['XMLDEF'] == "" || $valGrpStat['XMLDEF'] == null))
 					echo "<option value='0'>".$l->g(818)."</option></select>";
 					else
 					echo "<option value='0'>".$l->g(590)."</option><option value='1'>".$l->g(591)."</option><option value='2'>".$l->g(592)."</option></select>";
@@ -354,7 +354,7 @@ function update_computer_group($hardware_id,$group_id,$static){
 function print_computers_real($systemid) {
 
 	global $l,$list_fields,$list_col_cant_del,$default_fields,$tab_options,$protectedPost;
-	if( isset($protectedPost["actshowgroup"]) and $protectedPost["modify"] != "") {
+	if( isset($protectedPost["actshowgroup"]) && $protectedPost["modify"] != "") {
 		foreach( $protectedPost as $key=>$val ) {//check65422
 			if( substr($key,0,5) == "check") {				
 				update_computer_group(substr($key,5),$systemid,$protectedPost["actshowgroup"]);				
@@ -415,7 +415,7 @@ function print_computers_real($systemid) {
 	$queryDetails  = substr($queryDetails,0,-1)." FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
 						where h.id in (".implode(",",$tab_id).") and deviceid <> '_SYSTEMGROUP_' 
 										AND deviceid <> '_DOWNLOADGROUP_'";
-	if(isset($mesmachines) and $mesmachines != '')
+	if(isset($mesmachines) && $mesmachines != '')
 	$queryDetails  .= $mesmachines;
 	$tab_options['FILTRE']=array('h.NAME'=>'Nom');
 
@@ -436,7 +436,7 @@ function print_computers_cached($systemid) {
 	global $l,$server_group,$protectedPost,$list_fields,$list_col_cant_del,$default_fields,$tab_options;
 	//print_r($protectedPost);
 	//traitement des machines du groupe
-	if( isset($protectedPost["actshowgroup"]) and $protectedPost["modify"] != "") {
+	if( isset($protectedPost["actshowgroup"]) && $protectedPost["modify"] != "") {
 		foreach( $protectedPost as $key=>$val ) {//check65422
 			if( substr($key,0,5) == "check") {				
 				update_computer_group(substr($key,5),$systemid,$protectedPost["actshowgroup"]);				
@@ -466,7 +466,7 @@ function print_computers_cached($systemid) {
 	$queryDetails  = substr($queryDetails,0,-1)." FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
 						,groups_cache e
 						where group_id='".$systemid."' and h.id=e.HARDWARE_ID ";
-	if(isset($mesmachines) and $mesmachines != '')
+	if(isset($mesmachines) && $mesmachines != '')
 	$queryDetails  .= $mesmachines;
 	
 	$tab_options['FILTRE']=array('h.NAME'=>'Nom');

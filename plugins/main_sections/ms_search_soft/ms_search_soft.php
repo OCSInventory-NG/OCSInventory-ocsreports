@@ -86,10 +86,10 @@ echo "\n".'<script type="text/javascript">
 echo '<div id="fr">';
 
 // voir fonction.php
-if ((isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_select'] != '')
-	 or (isset($protectedPost['logiciel_text']) and $protectedPost['logiciel_text'] != ''))                                   //logiciel du select name='logiciel'
+if ((isset($protectedPost['logiciel_select']) && $protectedPost['logiciel_select'] != '')
+	 || (isset($protectedPost['logiciel_text']) && $protectedPost['logiciel_text'] != ''))                                   //logiciel du select name='logiciel'
 	{		
-	if (isset($protectedPost['logiciel_select']) and $protectedPost['logiciel_select'] != '')
+	if (isset($protectedPost['logiciel_select']) && $protectedPost['logiciel_select'] != '')
 	$logiciel=$protectedPost['logiciel_select'];
 	else
 	$logiciel=$protectedPost['logiciel_text'];

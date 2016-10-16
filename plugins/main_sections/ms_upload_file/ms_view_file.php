@@ -50,13 +50,13 @@ if ($protectedGet['prov'] == "ssl"){
 	$arg=array($protectedGet["value"]);	
 }
 
-if (isset($sql) and $sql!=''){
+if (isset($sql) && $sql!=''){
 	$res_document_root = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"],$arg );
 	$val_document_root = mysqli_fetch_array( $res_document_root );
-	if (!isset($val_document_root['FILE_TYPE']) or $val_document_root['FILE_TYPE']!=''){
+	if (!isset($val_document_root['FILE_TYPE']) || $val_document_root['FILE_TYPE']!=''){
 		$val_document_root['FILE_TYPE']="application/force-download";
 	}
-	if (!isset($val_document_root['FILE_SIZE']) or $val_document_root['FILE_SIZE']!=''){
+	if (!isset($val_document_root['FILE_SIZE']) || $val_document_root['FILE_SIZE']!=''){
 		$val_document_root['FILE_SIZE']=strlen($val_document_root['FILE']);
 	}
 	

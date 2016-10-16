@@ -31,9 +31,9 @@ $protectedPost=$temp_post;
 if( isset( $protectedPost["VALID_END"] ) ) {
 	//configure description of this package
 	$description_details=$protectedPost['DESCRIPTION'];
-	if (isset($protectedPost['TYPE_PACK']) and $protectedPost['TYPE_PACK'] != '')
+	if (isset($protectedPost['TYPE_PACK']) && $protectedPost['TYPE_PACK'] != '')
 		$description_details .= "  [Type=".$protectedPost['TYPE_PACK']."]";
-	if (isset($protectedPost['VISIBLE']) and $protectedPost['VISIBLE'] != '')
+	if (isset($protectedPost['VISIBLE']) && $protectedPost['VISIBLE'] != '')
 		$description_details .= "  [VISIBLE=".$protectedPost['VISIBLE']."]";
 
 	$sql_details=array('document_root'=>$protectedPost['document_root'],
@@ -145,10 +145,10 @@ if (isset($protectedPost['valid'])){
 		//is it a zip file or TAR.GZ file?
 		$name_file_extention=explode('.',$_FILES["teledeploy_file"]["name"]);
 		$extention=array_pop($name_file_extention);
-		if (strtoupper($extention) != "ZIP" and strtoupper($extention) != "GZ"){
+		if (strtoupper($extention) != "ZIP" && strtoupper($extention) != "GZ"){
 			$error=$l->g(1231);
 			//ok
-		}elseif(strtoupper($extention) == "GZ" and strtoupper(array_pop($name_file_extention)) != "TAR"){
+		}elseif(strtoupper($extention) == "GZ" && strtoupper(array_pop($name_file_extention)) != "TAR"){
 			$error=$l->g(1232);
 		}
 	}
@@ -224,7 +224,7 @@ if (isset($protectedPost['valid'])){
 		</script>";
 
 		//get the file
-		if (!($_FILES["teledeploy_file"]["size"]== 0 and $protectedPost['ACTION'] == 'EXECUTE')){
+		if (!($_FILES["teledeploy_file"]["size"]== 0 && $protectedPost['ACTION'] == 'EXECUTE')){
 			$size = filesize($_FILES["teledeploy_file"]["tmp_name"]);
 			//crypt the file
 			$digest=crypt_file($_FILES["teledeploy_file"]["tmp_name"],$protectedPost["digest_algo"],$protectedPost["digest_encod"]);

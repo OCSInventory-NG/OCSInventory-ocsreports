@@ -22,7 +22,7 @@
  */
 require('require/function_telediff.php');
 //you can delete all packets if status=NOTIFIED and date>3 mounths
-if (isset($protectedGet['reset_notified']) and is_numeric($protectedGet['reset_notified'])){
+if (isset($protectedGet['reset_notified']) && is_numeric($protectedGet['reset_notified'])){
 		desactive_packet($systemid,$protectedGet['reset_notified']);
 }
 
@@ -53,7 +53,7 @@ if ($protectedPost['Reset_modif'])
 unset($protectedGet['affect_again'],$protectedGet['affect_reset']);
 
 
-if ($protectedGet['affect_again'] or $protectedGet['affect_reset']){
+if ($protectedGet['affect_again'] || $protectedGet['affect_reset']){
 	if ($protectedGet['affect_again']){
 		$id_pack_affect=$protectedGet['affect_again'];
 		$hidden_action='again';

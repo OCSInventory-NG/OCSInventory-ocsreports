@@ -95,7 +95,7 @@
 	 	echo "<div class='col-md-4'>";
 			 //si on est dans un type bouton ou boite à cocher
 	 		echo "<div class='form-group'>";
-			 if ($type=='radio' or $type=='checkbox'){
+			 if ($type=='radio' || $type=='checkbox'){
 				 if ($data_hidden != ''){
 					 //javascript for hidden or show an html DIV
 					 echo "<script language='javascript'>
@@ -115,7 +115,7 @@
 				 //pour toutes les valeurs
 				 foreach ($data as $key=>$value){
 					 //sauf la valeur à afficher
-					 if ($key !== 'VALUE' and $key !== 'CHECK' and $key !== 'JAVASCRIPT'){
+					 if ($key !== 'VALUE' && $key !== 'CHECK' && $key !== 'JAVASCRIPT'){
 						 echo "<input type='".$type."' class='' value='".$key."' id='".$name."' ";
 						 if ($readonly != '')
 							 echo "disabled=\"disabled\"";
@@ -126,16 +126,16 @@
 						 }
 						 echo "'";
 						 //si un champ hidden est demandé, on gère l'affichage par javascript
-						 if ($data_hidden != '' and  $data_hidden['HIDDEN'] == $key){
+						 if ($data_hidden != '' && $data_hidden['HIDDEN'] == $key){
 							 echo "OnClick=\"active('".$name."_div',1);\"";
-						 }elseif ($data_hidden != '' and  $data_hidden['HIDDEN'] != key){
+						 }elseif ($data_hidden != '' && $data_hidden['HIDDEN'] != key){
 							 echo "OnClick=\"active('".$name."_div',0);\"";
 						 }elseif (isset($data['JAVASCRIPT']))
 							 echo $data['JAVASCRIPT'];
-						 if ($data['VALUE'] == $key or isset($data['CHECK'][$key]))
+						 if ($data['VALUE'] == $key || isset($data['CHECK'][$key]))
 							 echo "checked";
 						 echo ">".$value;
-						 if ($data_hidden != '' and  $data_hidden['HIDDEN'] == $key){
+						 if ($data_hidden != '' && $data_hidden['HIDDEN'] == $key){
 							 if (isset($data_hidden['MAXLENGTH']))
 								 $maxlength = $data_hidden['MAXLENGTH'];
 							 elseif(isset($data_hidden['SIZE']))
@@ -247,7 +247,7 @@ function verif_champ(){
 			//Try to find a file
 			if ($value['FILE'] != ''){
 				if ($protectedPost[$value['FIELD_READ']]!='' and !@fopen($protectedPost[$value['FIELD_READ']].$value['END'].$value['FILE'],$value['TYPE']))
-				//if( isset($values['tvalue']['CONF_PROFILS_DIR']) and (!$fconf_profils=@fopen($values['tvalue']['CONF_PROFILS_DIR']."//conf/4all_config.txt","r"))) 
+				//if( isset($values['tvalue']['CONF_PROFILS_DIR']) && (!$fconf_profils=@fopen($values['tvalue']['CONF_PROFILS_DIR']."//conf/4all_config.txt","r"))) 
 				$tab_error[$key]=array('FILE_NOT_EXIST'=>$protectedPost[$value['FIELD_READ']].$value['END'].$value['FILE']);
 			//Try to find a directory
 			}elseif (!is_dir($protectedPost[$value['FIELD_READ']].$value['END'])) {
@@ -260,13 +260,13 @@ function verif_champ(){
 	
 	$i=0;
 	while ($supp1[$i]){
-		if ($protectedPost[$supp1[$i]] < 1 and isset($protectedPost[$supp1[$i]]))
+		if ($protectedPost[$supp1[$i]] < 1 && isset($protectedPost[$supp1[$i]]))
 			$tab_error[$supp1[$i]]='1';
 		$i++;
 	}
 	$i=0;
 	while ($supp10[$i]){
-		if ($protectedPost[$supp10[$i]] < 10 and isset($protectedPost[$supp10[$i]]))
+		if ($protectedPost[$supp10[$i]] < 10 && isset($protectedPost[$supp10[$i]]))
 			$tab_error[$supp10[$i]]='10';	
 		$i++;
 	}
@@ -384,7 +384,7 @@ function update_default_value($POST){
 		$optexist[$value_exist["NAME"] ] = $value_exist["ivalue"];
 		elseif($value_exist["tvalue"] != null)
 		$optexist[$value_exist["NAME"] ] = $value_exist["tvalue"];
-		elseif ($value_exist["tvalue"] == null and $value_exist["ivalue"] == null)
+		elseif ($value_exist["tvalue"] == null && $value_exist["ivalue"] == null)
 		$optexist[$value_exist["NAME"] ] = 'null';
 	}
 	//pour obliger à prendre en compte
@@ -436,9 +436,9 @@ function update_default_value($POST){
 		if ($name_field_modif != ''){
 			if ($value == "DEFAULT"){
 				delete($key);
-			}elseif($value == "CUSTOM" or $value == "ON"){
+			}elseif($value == "CUSTOM" || $value == "ON"){
 				insert_update($key,$POST[$value_field_modif],$optexist[$key],$name_field_modif);	
-			}elseif($value == "ALWAYS" or $value == 'OFF'){
+			}elseif($value == "ALWAYS" || $value == 'OFF'){
 				insert_update($key,'0',$optexist[$key],$name_field_modif);					
 			}elseif($value == "NEVER"){
 				insert_update($key,'-1',$optexist[$key],$name_field_modif);					
@@ -485,7 +485,7 @@ function trait_post($name){
 	else
 		$select='DEFAULT';
 	
-	if (isset($protectedPost[$name."_edit"]) and $protectedPost[$name."_edit"] != '' and $protectedPost[$name] == 'CUSTOM'){
+	if (isset($protectedPost[$name."_edit"]) && $protectedPost[$name."_edit"] != '' && $protectedPost[$name] == 'CUSTOM'){
 		$values['tvalue'][$name]=$protectedPost[$name."_edit"];
 		$select='CUSTOM';	
 	}
@@ -679,7 +679,7 @@ function pagegroups($form_name){
  		$values['ivalue']['INVENTORY_VALIDITY']='OFF';
  	}
  	
-	if ($values['ivalue']['FREQUENCY'] == 0 and isset($values['ivalue']['FREQUENCY']))
+	if ($values['ivalue']['FREQUENCY'] == 0 && isset($values['ivalue']['FREQUENCY']))
 	$optvalueselected = 'ALWAYS';
 	elseif($values['ivalue']['FREQUENCY'] == -1)
 	$optvalueselected = 'NEVER';

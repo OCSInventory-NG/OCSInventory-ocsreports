@@ -49,7 +49,7 @@ if($protectedPost['Valid_modif']){
 	$tab_options['CACHE']='RESET';
 }
 //reset add static group
-if ($protectedPost['Reset_modif'] or ($protectedPost['onglet'] != $protectedPost['old_onglet'])) 
+if ($protectedPost['Reset_modif'] || ($protectedPost['onglet'] != $protectedPost['old_onglet'])) 
  unset($protectedPost['add_static_group']); 
 $tab_options=$protectedPost;
 //view only your computers
@@ -63,7 +63,7 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES'){
 }
 //View for all profils?
 if(!$ajax){
-	if (isset($protectedPost['CONFIRM_CHECK']) and  $protectedPost['CONFIRM_CHECK'] != "")
+	if (isset($protectedPost['CONFIRM_CHECK']) && $protectedPost['CONFIRM_CHECK'] != "")
 		$result=group_4_all($protectedPost['CONFIRM_CHECK']);
 }
 //if delete group
@@ -189,7 +189,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 }
 
 //if user want add a new group
-if (isset($protectedPost['add_static_group']) and $_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
+if (isset($protectedPost['add_static_group']) && $_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 
 	?>
 	<div class="row">

@@ -27,7 +27,7 @@ debut_tab(array('CELLSPACING'=>'5',
 					'CELLPADDING'=>'0',
 					'BGCOLOR'=>'#C7D9F5',
 					'BORDERCOLOR'=>'#9894B5'));
-if ($optvalue['FREQUENCY'] == 0 and isset($optvalue['FREQUENCY']))
+if ($optvalue['FREQUENCY'] == 0 && isset($optvalue['FREQUENCY']))
 $optvalueselected = 'ALWAYS';
 elseif($optvalue['FREQUENCY'] == -1)
 $optvalueselected = 'NEVER';

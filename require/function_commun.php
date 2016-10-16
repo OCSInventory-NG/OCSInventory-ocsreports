@@ -46,7 +46,7 @@ function look_config_default_values($field_name,$like='',$default_values=''){
 			$key=strtolower($key);
 			if (is_array($value)){
 				foreach ($value as $name=>$val){
-					if (!isset($result[$key][$name]) or $result[$key][$name] == '')
+					if (!isset($result[$key][$name]) || $result[$key][$name] == '')
 						$result[$key][$name] = $val;
 				}
 				
@@ -95,7 +95,7 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 	
 	if(DEMO){
 		$rest = mb_strtoupper(substr($query, 0, 6));
-		if ($rest == 'UPDATE' or $rest == 'INSERT' or $rest == 'DELETE'){
+		if ($rest == 'UPDATE' || $rest == 'INSERT' || $rest == 'DELETE'){
 			if(DEMO_MSG != 'show'){
 		 		msg_info($l->g(2103));
 		 		define('DEMO_MSG','show');
@@ -104,7 +104,7 @@ function mysql2_query_secure($sql,$link,$arg='',$log=false){
 		 }
 	}
 	$result=mysqli_query( $link,$query );
-	if ($_SESSION['OCS']['DEBUG'] == 'ON' and !$result)
+	if ($_SESSION['OCS']['DEBUG'] == 'ON' && !$result)
 		msg_error(mysqli_error($link));
 	return $result;
 }
@@ -223,7 +223,7 @@ function read_profil_file($name,$writable=''){
 	//Select config file depending on user profile
 	$ms_cfg_file= $_SESSION['OCS']['CONF_PROFILS_DIR'].$name."_config.txt";
 	$search=array('INFO'=>'MULTI','PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'MULTI','ADMIN_BLACKLIST'=>'MULTI','CONFIGURATION'=>'MULTI');
-	if (!is_writable($_SESSION['OCS']['OLD_CONF_DIR']) and $writable!='') {
+	if (!is_writable($_SESSION['OCS']['OLD_CONF_DIR']) && $writable!='') {
 		msg_error($l->g(297).":<br>".$_SESSION['OCS']['OLD_CONF_DIR']."<br>".$l->g(1148));
 	}
 	return read_files($search,$ms_cfg_file,$writable);
@@ -247,7 +247,7 @@ function read_config_file($writable=''){
 
 function read_files($search,$ms_cfg_file,$writable=''){
 	global $l;
-	if (!is_writable($ms_cfg_file) and $writable != '') {
+	if (!is_writable($ms_cfg_file) && $writable != '') {
 		msg_error($ms_cfg_file." ".$l->g(1006).". ".$l->g(1147));
 		return FALSE;
 	}
@@ -270,7 +270,7 @@ function replace_language($info){
 function msg($txt,$css,$closeid=false){
 	global $protectedPost;
 	
-	if (isset($protectedPost['close_alert']) and $protectedPost['close_alert'] != '')
+	if (isset($protectedPost['close_alert']) && $protectedPost['close_alert'] != '')
 		$_SESSION['OCS']['CLOSE_ALERT'][$protectedPost['close_alert']]=1;
 	
 	if (!$_SESSION['OCS']['CLOSE_ALERT'][$closeid]){
@@ -406,7 +406,7 @@ function strip_tags_array($value='')
 }
 
 function open_form($form_name, $action='',$more='', $class=''){
- 	if (!isset($_SESSION['OCS']['CSRFNUMBER']) or !is_numeric($_SESSION['OCS']['CSRFNUMBER']) or $_SESSION['OCS']['CSRFNUMBER'] >= CSRF)
+ 	if (!isset($_SESSION['OCS']['CSRFNUMBER']) || !is_numeric($_SESSION['OCS']['CSRFNUMBER']) || $_SESSION['OCS']['CSRFNUMBER'] >= CSRF)
  		$_SESSION['OCS']['CSRFNUMBER'] = 0;
  	$form="<form class='".$class."' name='".$form_name."' id='".$form_name."' method='POST' action='".$action."' ".$more." >";
  	$csrf_value = sha1(microtime());

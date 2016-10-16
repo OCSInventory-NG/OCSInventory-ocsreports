@@ -39,7 +39,7 @@ $form_name="blacklist";
 
 
 //printEnTete($l->g(703));
-if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet']))
+if ($protectedPost['onglet'] == "" || !isset($protectedPost['onglet']))
 $protectedPost['onglet']=1;
 
 $tab_options=$protectedPost;
@@ -119,7 +119,7 @@ if ($protectedPost['onglet'] == 1){
 	$list_action[2]=$l->g(36);
 	$list_action[3]=$l->g(2005);
 	formGroup('select', 'BLACK_CHOICE', $l->g(700), '', '', $protectedPost['BLACK_CHOICE'], '', $list_action, $list_action, 'onchange="document.blacklist.submit();"');
-	if (isset($protectedPost['BLACK_CHOICE']) and $protectedPost['BLACK_CHOICE'] != ''){
+	if (isset($protectedPost['BLACK_CHOICE']) && $protectedPost['BLACK_CHOICE'] != ''){
 		$aff="<table align=center><tr><td>";
 		if ($protectedPost['BLACK_CHOICE'] == 1){
 			$aff.=$l->g(654).": </td><td>";
@@ -150,12 +150,12 @@ if ($protectedPost['onglet'] == 1){
 }
 if (isset($list_fields)){
 	//cas of delete mac address or serial
-	if(isset($protectedPost["SUP_PROF"]) and is_numeric($protectedPost["SUP_PROF"])){
+	if(isset($protectedPost["SUP_PROF"]) && is_numeric($protectedPost["SUP_PROF"])){
 		$sql="delete from %s where id=%s";
 		$arg=array($table_name,$protectedPost["SUP_PROF"]);
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);
 	}
-	if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
+	if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != ''){
 		$sql="delete from %s where id in (%s)";
 		$arg=array($table_name,$protectedPost['del_check']);
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg);

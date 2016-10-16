@@ -65,8 +65,7 @@ if ($_POST['RELOAD_CONF'] == 'RELOAD'){
 
 
 /*****************************************************LOGOUT*********************************************/
-if (isset($_POST['LOGOUT']) and $_POST['LOGOUT'] == 'ON'){
-	//Contrib of FranciX (http://forums.ocsinventory-ng.org/viewtopic.php?pid=41923#p41923)
+if (isset($_POST['LOGOUT']) && $_POST['LOGOUT'] == 'ON'){
 	if($_SESSION['OCS']['cnx_origine'] == "CAS"){
 		require_once(PHPCAS);
 		require_once(BACKEND.'require/cas.config.php');
@@ -103,11 +102,11 @@ if (!defined("SERVER_READ")
 $link_write=dbconnect(SERVER_WRITE,COMPTE_BASE,PSWD_BASE);
 $link_read=dbconnect(SERVER_READ,COMPTE_BASE,PSWD_BASE);
 //p($link_write);
-if (is_object($link_write) and is_object($link_read)) {
+if (is_object($link_write) && is_object($link_read)) {
 	$_SESSION['OCS']["writeServer"] = $link_write;	
 	$_SESSION['OCS']["readServer"] = $link_read;
 }else{
-	if ($link_write == "NO_DATABASE" or $link_read == "NO_DATABASE"){
+	if ($link_write == "NO_DATABASE" || $link_read == "NO_DATABASE"){
 		require('install.php');
 		die();
 	}
@@ -254,7 +253,7 @@ if (!isset($_SESSION['OCS']['JAVASCRIPT'])) {
 require_once('require/function_cookies.php');
 
 //Delete all cookies if GUI_VER change
-if (!isset($_COOKIE["VERS"]) or $_COOKIE["VERS"] != GUI_VER){
+if (!isset($_COOKIE["VERS"]) || $_COOKIE["VERS"] != GUI_VER){
 	if( isset( $_COOKIE) ) {	
 		foreach( $_COOKIE as $key=>$val ) {
 			cookies_reset($key);		
@@ -265,20 +264,20 @@ if (!isset($_COOKIE["VERS"]) or $_COOKIE["VERS"] != GUI_VER){
 }
 
 //del column
-if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != "" and isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
+if (isset($protectedPost['SUP_COL']) && $protectedPost['SUP_COL'] != "" && isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
 	unset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']][$protectedPost['SUP_COL']]);
 	cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
 }
 
 //default values
-if (isset($protectedPost['RAZ']) and $protectedPost['RAZ'] != ""){
+if (isset($protectedPost['RAZ']) && $protectedPost['RAZ'] != ""){
 	cookies_reset($protectedPost['TABLE_NAME']);
 }
 
 //add column
-if (isset($protectedPost['TABLE_NAME']) and 
+if (isset($protectedPost['TABLE_NAME']) && 
 	isset($protectedPost['restCol'.$protectedPost['TABLE_NAME']]) 
-	and $protectedPost['restCol'.$protectedPost['TABLE_NAME']] != ''){
+	&& $protectedPost['restCol'.$protectedPost['TABLE_NAME']] != ''){
 	$_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['restCol'.$tab_name]]=$protectedPost['restCol'.$tab_name];
 	if (is_array($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])){
 		cookies_add($protectedPost['TABLE_NAME'],implode('///',$_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
@@ -313,7 +312,7 @@ if (isset($protectedPost['Valid_EDITION'])){
 unset($_SESSION['OCS']['EDIT_LANGUAGE']);
 
 
-if (isset($protectedPost['LANG']) and $protectedPost['LANG']!= ''){
+if (isset($protectedPost['LANG']) && $protectedPost['LANG']!= ''){
 	unset($_SESSION['OCS']['LANGUAGE']);
 	cookies_add('LANG',$protectedPost['LANG']);	
 	$_SESSION['OCS']['LANGUAGE']=$protectedPost['LANG'];
@@ -321,7 +320,7 @@ if (isset($protectedPost['LANG']) and $protectedPost['LANG']!= ''){
 }
 //unset($_SESSION['OCS']['LANGUAGE']);
 //si la langue par défaut n'existe pas, on récupèrer le cookie
-if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
+if (!isset($_SESSION['OCS']['LANGUAGE']) || !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
 	if (isset($_COOKIE['LANG']))
 	$_SESSION['OCS']['LANGUAGE']=$_COOKIE['LANG'];
 	if (!isset($_COOKIE['LANG']))
@@ -369,7 +368,7 @@ if (!isset($_SESSION['OCS']["ipdiscover"])){
 
 
 /********************GESTION GUI CONF******************/
-if (!isset($_SESSION['OCS']["usecache"]) or !isset($_SESSION['OCS']["tabcache"])){
+if (!isset($_SESSION['OCS']["usecache"]) || !isset($_SESSION['OCS']["tabcache"])){
 	$conf_gui=array('usecache'=>'INVENTORY_CACHE_ENABLED',
 					'tabcache'=>'TAB_CACHE',
 					'USE_NEW_SOFT_TABLES'=>'USE_NEW_SOFT_TABLES');
@@ -420,7 +419,7 @@ if (!isset($_SESSION['OCS']['profile'])) {
 	$profile = $_SESSION['OCS']['profile'];
 }
 
-if (!AJAX and (!isset($header_html) or $header_html != 'NO') and !isset($protectedGet['no_header'])){
+if (!AJAX and (!isset($header_html) || $header_html != 'NO') && !isset($protectedGet['no_header'])){
 	require_once (HEADER_HTML);
 }
 
@@ -428,10 +427,10 @@ $url_name = $urls->getUrlName($protectedGet[PAG_INDEX]);
 
 //VERIF ACCESS TO THIS PAGE
 if (isset($protectedGet[PAG_INDEX])
-	and !$profile->hasPage($url_name)
-	and (!$_SESSION['OCS']['TRUE_PAGES'] or !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES']))
+	&& !$profile->hasPage($url_name)
+	&& (!$_SESSION['OCS']['TRUE_PAGES'] || !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES']))
 	//force access to profils witch have CONFIGURATION TELEDIFF  == 'YES' for ms_admin_ipdiscover page
-	and !($profile->getConfigValue('TELEDIFF') == 'YES' and $url_name == 'ms_admin_ipdiscover')){
+	&& !($profile->getConfigValue('TELEDIFF') == 'YES' && $url_name == 'ms_admin_ipdiscover')){
 		msg_error("ACCESS DENIED");
 		require_once(FOOTER_HTML);
 		die();	
@@ -439,10 +438,10 @@ if (isset($protectedGet[PAG_INDEX])
 
 
 if((!isset($_SESSION['OCS']["loggeduser"])
-	 or !isset($_SESSION['OCS']["lvluser"]) 
-	 or $_SESSION['OCS']["lvluser"] == "")
-	 and !isset($_SESSION['OCS']['TRUE_USER'])
-	 and $no_error != 'YES')
+	 || !isset($_SESSION['OCS']["lvluser"]) 
+	 || $_SESSION['OCS']["lvluser"] == "")
+	 && !isset($_SESSION['OCS']['TRUE_USER'])
+	 && $no_error != 'YES')
 {		
 	msg_error($LIST_ERROR);
 	require_once(FOOTER_HTML);

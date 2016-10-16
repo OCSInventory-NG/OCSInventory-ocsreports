@@ -42,7 +42,7 @@ class ComputerMenuRenderer extends MenuRenderer {
 	protected function getLabel(MenuElem $menu_elem) {
     	$label = $this->translateLabel($menu_elem->getLabel());
     	
-    	if ($menu_elem->hasChildren() and $level == 0) {
+    	if ($menu_elem->hasChildren() && $level == 0) {
     		$label .= ' <b class="right-caret"></b>';
     	}
     	

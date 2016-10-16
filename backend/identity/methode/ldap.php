@@ -141,7 +141,7 @@ if ($f2_value != '')
     echo ("user: ".$_SESSION['OCS']["loggeduser"]." will have level=".$defaultLevel." and role=".$defaultRole."<br>");
 */
 //if defaultRole is define
-if (isset($defaultRole) and $defaultRole != ''){
+if (isset($defaultRole) && $defaultRole != ''){
     // if it doesn't exist, create the user record
     if (!mysqli_fetch_object($resOp)) {
     

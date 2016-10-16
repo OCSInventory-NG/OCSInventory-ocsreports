@@ -53,16 +53,16 @@
  $list_methode=array(0=>"local.php");
 // $list_methode=array(0=>"ldap.php");
  
- if ($affich_method == 'HTML' and isset($protectedPost['Valid_CNX']) and trim($protectedPost['LOGIN']) != ""){
+ if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($protectedPost['LOGIN']) != ""){
  	$login=$protectedPost['LOGIN'];
  	$mdp=$_POST['PASSWD'];
  	$protectedMdp=$protectedPost['PASSWD'];
  }elseif ($affich_method == 'CAS'){
 	require_once('methode/cas.php'); 	
- }elseif ($affich_method != 'HTML' and isset($_SERVER['PHP_AUTH_USER'])){
+ }elseif ($affich_method != 'HTML' && isset($_SERVER['PHP_AUTH_USER'])){
  	$login=$_SERVER['PHP_AUTH_USER'];
  	$mdp=$_SERVER['PHP_AUTH_PW'];  	
- }elseif($affich_method == 'SSO' and isset($_SERVER['HTTP_AUTH_USER'])){
+ }elseif($affich_method == 'SSO' && isset($_SERVER['HTTP_AUTH_USER'])){
  	$login=$_SERVER['HTTP_AUTH_USER'];
  	$mdp='NO_PASSWD';  	
  }
@@ -77,7 +77,7 @@ if (isset($login) && isset($mdp)){
 	}
 }
 // login ok?
-if($login_successful == "OK" and isset($login_successful)) {
+if($login_successful == "OK" && isset($login_successful)) {
 	$_SESSION['OCS']["loggeduser"]=$login;
 	$_SESSION['OCS']['cnx_origine']=$cnx_origine;
 	$_SESSION['OCS']['user_group']=$user_group;

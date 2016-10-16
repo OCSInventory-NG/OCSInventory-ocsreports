@@ -27,7 +27,7 @@ $form_name="del_affect";
 echo open_form($form_name);
 echo "<div align=center>";
 $list_id=multi_lot($form_name,$l->g(601));
-if ($protectedPost['SUP'] != '' and isset($protectedPost['SUP'])){
+if ($protectedPost['SUP'] != '' && isset($protectedPost['SUP'])){
 		$array_id=explode(',',$list_id);		
 	//$i=0;
 	foreach ($array_id as $key=>$hardware_id){

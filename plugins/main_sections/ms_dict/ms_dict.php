@@ -71,7 +71,7 @@ else{
 show_tabs($def_onglets,$form_name,"onglet",0);
 echo '<div class="right-content mlt_bordure" >';
 //attention=> result with restriction
-if ($search_count != "" or $search_cache != "")
+if ($search_count != "" || $search_cache != "")
 msg_warning($l->g(767));
 /**************************************ACTION ON DICO SOFT**************************************/
 
@@ -112,7 +112,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 		$i++;
 	 }
 	 //delete categorie
-	if(isset($protectedPost['SUP_CAT']) and $protectedPost['SUP_CAT']!=""){	
+	if(isset($protectedPost['SUP_CAT']) && $protectedPost['SUP_CAT']!=""){	
 		if ($protectedPost['SUP_CAT'] == 1)
 		$first_onglet=2;
 		$reqDcat = "DELETE FROM dico_soft WHERE formatted='".$list_cat[$protectedPost['SUP_CAT']]."'";
@@ -121,7 +121,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 	}
 	//no selected? default=>first onglet
 	 
-	 	 if ($protectedPost['onglet_soft']=="" or !isset($list_cat[$protectedPost['onglet_soft']]))
+	 	 if ($protectedPost['onglet_soft']=="" || !isset($list_cat[$protectedPost['onglet_soft']]))
 			 $protectedPost['onglet_soft']=$first_onglet;	
 		 //show all categories
 		 if ($i<=20)
@@ -129,7 +129,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 		 else
 		 echo "<p>".$l->g(398) . ": ".show_modif($list_cat,'onglet_soft',2,$form_name)."</p>";
 		 //You can delete or not?
-		  if ($i != 1 and isset($list_cat[$protectedPost['onglet_soft']]))
+		  if ($i != 1 && isset($list_cat[$protectedPost['onglet_soft']]))
 		 echo "<a href=# OnClick='return confirme(\"\",\"".$protectedPost['onglet_soft']."\",\"".$form_name."\",\"SUP_CAT\",\"".$l->g(640)."\");'>".$l->g(921)."</a></td></tr><tr><td>";
 		$list_fields= array('SOFT_NAME'=>'EXTRACTED',
 						'ID'=>'ID',
@@ -141,7 +141,7 @@ if ($protectedPost['onglet'] == 'CAT'){
 		$list_col_cant_del=array('SOFT_NAME'=>'SOFT_NAME','CHECK'=>'CHECK');
 		$querydico = 'SELECT ';
 		foreach ($list_fields as $key=>$value){
-			if($key != 'SUP' and $key != 'CHECK')
+			if($key != 'SUP' && $key != 'CHECK')
 			$querydico .= $value.',';		
 		} 
 		error_log($list_cat[$protectedPost['onglet_soft']]);
@@ -243,7 +243,7 @@ if ($protectedPost['onglet'] == 'NEW'){
 	$list_col_cant_del=array('SOFT_NAME'=>'SOFT_NAME','CHECK'=>'CHECK');
 	$querydico = 'SELECT ';
 	foreach ($list_fields as $key=>$value){
-		if($key != 'CHECK' and $key != 'QTE')
+		if($key != 'CHECK' && $key != 'QTE')
 		$querydico .= $value.',';		
 		elseif ($key == 'QTE')
 		$querydico .= ' count(NAME) as '.$value.',';
@@ -265,7 +265,7 @@ if ($protectedPost['onglet'] == 'IGNORED'){
 	$list_col_cant_del=array('SOFT_NAME'=>'SOFT_NAME','CHECK'=>'CHECK');
 	$querydico = 'SELECT ';
 	foreach ($list_fields as $key=>$value){
-		if($key != 'SUP' and $key != 'CHECK')
+		if($key != 'SUP' && $key != 'CHECK')
 		$querydico .= $value.',';		
 	} 
 	if ($search_count != ""){
@@ -286,7 +286,7 @@ if ($protectedPost['onglet'] == 'UNCHANGED'){
 	$list_col_cant_del=array('SOFT_NAME'=>'SOFT_NAME','CHECK'=>'CHECK');
 	$querydico = 'SELECT ';
 	foreach ($list_fields as $key=>$value){
-		if($key != 'SUP' and $key != 'CHECK')
+		if($key != 'SUP' && $key != 'CHECK')
 		$querydico .= $value.',';		
 	} 
 	$querydico=substr($querydico,0,-1);

@@ -29,19 +29,19 @@ if (!is_array($info_account_id))
 	msg_error($info_account_id);
 else{
 	
-		if (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' and !isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+		if (isset($protectedPost['ADMIN']) && $protectedPost['ADMIN'] == 'ADMIN' && !isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 			$_SESSION['OCS']['ADMIN']['ACCOUNTINFO']=true;
-		elseif (isset($protectedPost['ADMIN']) and $protectedPost['ADMIN'] == 'ADMIN' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+		elseif (isset($protectedPost['ADMIN']) && $protectedPost['ADMIN'] == 'ADMIN' && isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 			unset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']);
 		
-		if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' and isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
+		if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' && isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 			$admin_accountinfo=true;
 			
 		$list_tab=find_all_account_tab('TAB_ACCOUNTAG','COMPUTERS',1);	
 		if ($list_tab != ''){
 			if ($protectedPost['Valid_modif'] != "" && $protectedPost['NOTE'] == "" && $protectedPost['NOTE_MODIF'] == "" ){
                             
-				if (!isset($protectedPost['onglet']) or $protectedPost['onglet'] == '' or ! is_numeric($protectedPost['onglet']))
+				if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == '' || ! is_numeric($protectedPost['onglet']))
 					$protectedPost['onglet'] = $list_tab['FIRST'];
 				
 				$sql_admin_info = "select ID, NAME_ACCOUNTINFO from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS' order by SHOW_ORDER ASC";
@@ -59,7 +59,7 @@ else{
 
 				foreach ($protectedPost as $field=>$value){
 					$temp_field=explode('_',$field);
-					if (array_key_exists( $temp_field[0] . '_' . $temp_field[1],$info_account_id) or $temp_field[0] == 'TAG'){
+					if (array_key_exists( $temp_field[0] . '_' . $temp_field[1],$info_account_id) || $temp_field[0] == 'TAG'){
 						//cas of checkbox
 						if (isset($temp_field[2])){
 							$data_fields_account[$temp_field[0] . "_" . $temp_field[1]].=$temp_field[2] . "&&&";	
@@ -75,9 +75,9 @@ else{
 			}
 				unset($action_updown);
 				//UP/DOWN
-				if ((isset($protectedPost['UP']) and $protectedPost['UP'] != ''))
+				if ((isset($protectedPost['UP']) && $protectedPost['UP'] != ''))
 					$action_updown='UP';
-				if (isset($protectedPost['DOWN']) and $protectedPost['DOWN'] != '')
+				if (isset($protectedPost['DOWN']) && $protectedPost['DOWN'] != '')
 					$action_updown='DOWN';	
 				
 				if (isset($action_updown)){				
@@ -88,7 +88,7 @@ else{
 						update_accountinfo_config($new_order['NEW'],array('SHOW_ORDER'=>$new_order['OLD_VALUE']));
 					}
 				}
-			if (!isset($protectedPost['onglet']) or $protectedPost['onglet'] =='' or !is_numeric($protectedPost['onglet']))
+			if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] =='' || !is_numeric($protectedPost['onglet']))
 				 $protectedPost['onglet'] = $list_tab['FIRST'];
 			unset($list_tab['FIRST']);
 			
@@ -103,7 +103,7 @@ else{
 								order by SHOW_ORDER ASC";
 				$arg_admin_info=array('COMPUTERS');		
 			}
-			if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' and !$show_all_column){
+			if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' && !$show_all_column){
 				$show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
 				if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO']))
 					$show_admin_button .= "<img src=image/success.png></a>";
@@ -162,7 +162,7 @@ else{
 							$temp_val=explode('&&&',$info_account_id[$name_accountinfo]);
 							$i=0;
 							$tp_readonly="";
-							while (isset($temp_val[$i]) and $temp_val[$i] != ''){
+							while (isset($temp_val[$i]) && $temp_val[$i] != ''){
 								if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES"){			
 									$protectedPost[$name_accountinfo . '_' . $temp_val[$i]]='on';
 								}else{
@@ -242,7 +242,7 @@ else{
 				if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES')
 					$tab_hidden=array('ADMIN'=>'','UP'=>'','DOWN'=>'');
 				//echo "<input type='hidden' name='ADMIN' id='ADMIN' value=''>";
-				if ($show_all_column or $admin_accountinfo)
+				if ($show_all_column || $admin_accountinfo)
 					$showbutton=false;
 				else
 					$showbutton=true;

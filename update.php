@@ -30,7 +30,7 @@ require_once('require/function_commun.php');
 require_once('require/function_files.php');
 require_once('var.php');
 html_header(true);
-if (!isset($_SESSION['OCS']['LANGUAGE']) or !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
+if (!isset($_SESSION['OCS']['LANGUAGE']) || !isset($_SESSION['OCS']["LANGUAGE_FILE"])){
 	if (isset($_COOKIE['LANG']))
 		$_SESSION['OCS']['LANGUAGE']=$_COOKIE['LANG'];
 	if (!isset($_COOKIE['LANG']))

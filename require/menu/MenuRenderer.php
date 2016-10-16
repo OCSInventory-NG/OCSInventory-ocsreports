@@ -62,7 +62,7 @@ class MenuRenderer {
     		return '';
     	}
         
-    	if ($this->isParentElemClickable() or !$menu_elem->hasChildren()) {
+    	if ($this->isParentElemClickable() || !$menu_elem->hasChildren()) {
 	        $href = $this->getUrl($menu_elem);
     	} else {
     		$href = "#";
@@ -122,7 +122,7 @@ class MenuRenderer {
     protected function getLabel(MenuElem $menu_elem) {
     	$label = $this->translateLabel($menu_elem->getLabel());
     	
-    	if ($menu_elem->hasChildren() and $level == 0) {
+    	if ($menu_elem->hasChildren() && $level == 0) {
     		$label .= ' <b class="caret"></b>';
     	}
     	
@@ -147,7 +147,7 @@ class MenuRenderer {
             $attr_a['data-toggle'][] = 'dropdown';  
         }
 
-        if ($this->getActiveLink() and $this->getActiveLink() == $menu_elem->getUrl()) {
+        if ($this->getActiveLink() && $this->getActiveLink() == $menu_elem->getUrl()) {
             $attr_li['class'][] = 'active';
         } else if ($menu_elem->getLabel() == 'divider' && $menu_elem->getUrl() == 'divider') {
             $attr_li['class'] = 'divider';

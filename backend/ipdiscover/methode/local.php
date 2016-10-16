@@ -39,7 +39,7 @@ $req="select distinct ipsubnet,s.name,s.id
 		where a.hardware_id=n.HARDWARE_ID 
 			and n.status='Up'";
 if (isset($_SESSION['OCS']["mesmachines"]) 
-		and $_SESSION['OCS']["mesmachines"] != '' and $_SESSION['OCS']["mesmachines"] != 'NOTAG')
+		&& $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG')
 		$req.="	and ".$_SESSION['OCS']["mesmachines"]." order by ipsubnet";
 else
 		$req.=" union select netid,name,id from subnet";
@@ -79,7 +79,7 @@ applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinv
 		}
 	}*/
 	//this subnet was identify
-	if ($row->id != null and !isset($id)){
+	if ($row->id != null && !isset($id)){
 		$list_ip[$row->id][$row->ipsubnet]=$row->name;
 		$list_ip['---'.$l->g(1138).'---'][$row->ipsubnet]=$row->name;
 	}elseif(!isset($id)){

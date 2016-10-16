@@ -84,7 +84,7 @@ function migrate_profiles_2_2() {
 	$xml_serializer = new XMLProfileSerializer();
 	
 	foreach(scandir($_SESSION['OCS']['CONF_PROFILS_DIR']) as $file) {
-		if (preg_match('/^(.+)_config\.txt$/', $file, $matches) and $matches[1] != '4all') {
+		if (preg_match('/^(.+)_config\.txt$/', $file, $matches) && $matches[1] != '4all') {
 			$profile_name = $matches[1];
 			$profile_data = read_profil_file($profile_name);
 			

@@ -22,7 +22,7 @@
  */
 require_once(TC_LIB_BARCODE);
 require_once('require/function_admininfo.php');
-if (is_numeric($protectedGet['systemid']) and array_key_exists($protectedGet['default_value'],$array_qr_action)){
+if (is_numeric($protectedGet['systemid']) && array_key_exists($protectedGet['default_value'],$array_qr_action)){
 	if ($array_qr_action[$protectedGet['default_value']]['TYPE'] == 'url')
 		$msg = $array_qr_action[$protectedGet['default_value']]['VALUE'];
 	else{

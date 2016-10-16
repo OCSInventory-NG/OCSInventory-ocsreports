@@ -147,7 +147,7 @@ while ($list_plugins[$i]){
 	}
 	//echo substr(substr($list_lbl[$list_plugins[$i]],2),0,-1);
 	echo "<td align=center>";
-	if (!isset($valavail[0]) or $valavail[0] != 0){
+	if (!isset($valavail[0]) || $valavail[0] != 0){
 		//liste de toutes les infos de la machine
 		$show_all[]=$list_plugins[$i];
 		$href = "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1&systemid=".$systemid."&option=".$list_plugins[$i]."'>";
@@ -163,7 +163,7 @@ while ($list_plugins[$i]){
 	echo $list_lbl[$i];
 	echo "\" src='plugins/computer_detail/img/";
 	$list_plugins[$i];
-	if (isset($valavail[0]) and $valavail[0] == 0){
+	if (isset($valavail[0]) && $valavail[0] == 0){
 		if (file_exists($Directory."/img/".$list_plugins[$i]."_d.png"))
 			echo $list_plugins[$i]."_d.png";
 		else

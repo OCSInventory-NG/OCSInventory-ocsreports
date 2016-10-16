@@ -97,7 +97,7 @@ function add_subnet($add_ip,$sub_name,$id_name,$add_sub){
 			return $l->g(932);	
 		if (trim($sub_name) == '')
 			return $l->g(933);	
-		if (trim($id_name) == '' or $id_name == '0')
+		if (trim($id_name) == '' || $id_name == '0')
 			return $l->g(934);
 		if (trim($add_sub) == '')
 			return $l->g(935);
@@ -209,7 +209,7 @@ function add_community($ID,$NAME,$VERSION,$USERNAME,$AUTHKEY,$AUTHPASSWD){
 	$sql="select name from snmp_communities where name='%s' and version='%s' ";
 	$arg=array($NAME,$VERSION);
 	
-	if (isset($ID) and is_numeric($ID)){
+	if (isset($ID) && is_numeric($ID)){
 		$sql.=" and id != %s";
 		array_push($arg,$ID);		
 	}
@@ -219,7 +219,7 @@ function add_community($ID,$NAME,$VERSION,$USERNAME,$AUTHKEY,$AUTHPASSWD){
 	if (isset($row->name))
 		return array('ERROR'=>$NAME." ".$l->g(363));
 	
-	if (isset($ID) and is_numeric($ID)){
+	if (isset($ID) && is_numeric($ID)){
 		del_community($ID);
 		$SUCCESS=$l->g(1209);	
 	}else

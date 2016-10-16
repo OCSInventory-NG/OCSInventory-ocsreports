@@ -54,7 +54,7 @@ else{
 			$tab_options['CACHE']='RESET';	 	
 	 }	
 
-	if ($protectedPost['SUP_PROF'] != '' and isset($protectedPost['SUP_PROF'])){
+	if ($protectedPost['SUP_PROF'] != '' && isset($protectedPost['SUP_PROF'])){
 		$sql="update itmgmt_comments set visible=0 where id=%s";
 		$arg=array($protectedPost['SUP_PROF']);
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"],$arg,'DEL_NOTE');
@@ -62,10 +62,10 @@ else{
 		$tab_options['CACHE']='RESET';
 	}
 	
-	if ($protectedPost['Valid_modif'] != '' and isset($protectedPost['Valid_modif'])){
+	if ($protectedPost['Valid_modif'] != '' && isset($protectedPost['Valid_modif'])){
 		
 		//ajout de note
-		if (trim($protectedPost['NOTE']) != '' and isset($protectedPost['NOTE'])){
+		if (trim($protectedPost['NOTE']) != '' && isset($protectedPost['NOTE'])){
 			$sql="insert into itmgmt_comments (HARDWARE_ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION) 
 					value (%s,%s,'%s','%s','%s')";
 			$arg=array($systemid,"sysdate()",$_SESSION['OCS']["loggeduser"],$protectedPost['NOTE'],"ADD_NOTE_BY_USER");
@@ -73,7 +73,7 @@ else{
 			unset($protectedPost['NOTE']);
 			//regénération du cache
 			$tab_options['CACHE']='RESET';			
-		}elseif (trim($protectedPost['NOTE_MODIF']) != '' and isset($protectedPost['NOTE_MODIF'])){
+		}elseif (trim($protectedPost['NOTE_MODIF']) != '' && isset($protectedPost['NOTE_MODIF'])){
 			$sql="update itmgmt_comments set COMMENTS='%s'";
 			$arg=array($protectedPost['NOTE_MODIF']);
 			if (!strstr($protectedPost['USER_INSERT'], $_SESSION['OCS']["loggeduser"])){
@@ -123,7 +123,7 @@ else{
 		del_selection($form_name);
 	}
 	
-	if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
+	if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != ''){
 		$queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE id=%s";
 		$argDetail=array($protectedPost['MODIF']);
 		$resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"],$argDetail);

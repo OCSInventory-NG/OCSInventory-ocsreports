@@ -67,7 +67,7 @@ foreach ($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'] as $tablename){
 //HARDWARE INFO
 $xml.= "\t\t<HARDWARE>\n";
 foreach($_SESSION['OCS']['SQL_TABLE']['hardware'] as $field_name=>$field_type){
-		if ($field_name != 'ID' and $field_name != 'DEVICEID'){
+		if ($field_name != 'ID' && $field_name != 'DEVICEID'){
 			if(replace_entity_xml($item_hardware->$field_name) != ''){
 				$xml.= "\t\t\t<".$field_name.">";
 				$xml.= replace_entity_xml($item_hardware->$field_name);

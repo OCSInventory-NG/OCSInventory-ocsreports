@@ -89,14 +89,14 @@ if (isset($protectedPost['VALID_GROUP'])){
 		}
 		if ($nb_mach == "ERROR"){
 			$msg_error=$result['LBL'];
-		}elseif (isset($nb_mach) and $protectedPost['NEW_RAZ'] != "DEL"){
+		}elseif (isset($nb_mach) && $protectedPost['NEW_RAZ'] != "DEL"){
 			$msg_success.="<br>".$nb_mach." ".$l->g(974);		
 		}
 	}
 	
-	if (isset($msg_success) and $msg_success != '')
+	if (isset($msg_success) && $msg_success != '')
 		msg_success($msg_success);
-	if (isset($msg_error) and $msg_error != '')
+	if (isset($msg_error) && $msg_error != '')
 		msg_error($msg_error);
 }
 /*********************************************CALCUL DES CHAMPS A AFFICHER*************************************/
@@ -115,7 +115,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 
 
 //if no select => first onget selected
-if ($protectedPost['onglet'] == "" or !isset($protectedPost['onglet'])){
+if ($protectedPost['onglet'] == "" || !isset($protectedPost['onglet'])){
 	if (isset($def_onglets[$l->g(809)]))
 		$protectedPost['onglet']=$l->g(809);
 	else
@@ -135,7 +135,7 @@ if ($protectedPost['onglet'] == $l->g(809)){
 	if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"))	
 		$delGroups.= " and workgroup = 'GROUP_4_ALL'";	
 }
-if ($protectedPost['onglet'] == mb_strtoupper($l->g(651)) and $list_id!= ''){
+if ($protectedPost['onglet'] == mb_strtoupper($l->g(651)) && $list_id!= ''){
 	$all_groups=all_groups('SERVER');	
 	$delGroups="select distinct group_id as id, name 
 				from download_servers,hardware 
@@ -164,7 +164,7 @@ if ($protectedPost['onglet'] != $l->g(810)){
 //}
 
 //if group list exist
-if (isset($all_groups) and $_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
+if (isset($all_groups) && $_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	//show RAZ field
 	$optionList['RAZ']=$l->g(588);
 }
@@ -181,11 +181,11 @@ $select=show_modif($optionList,'NEW_RAZ',2,$form_name);
 	//open table
 	echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
 	echo "<tr><td align =center colspan=10>";
-	if (isset($protectedPost['CHOISE']) and $protectedPost['CHOISE'] != ""){
+	if (isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] != ""){
 		echo $select;	
 		echo "</td></tr>";
 		//if user want give up or go out of the group
-		if ($protectedPost['NEW_RAZ'] == "RAZ" or $protectedPost['NEW_RAZ'] == "ADD")
+		if ($protectedPost['NEW_RAZ'] == "RAZ" || $protectedPost['NEW_RAZ'] == "ADD")
 		$List= $all_groups;
 		if ($protectedPost['NEW_RAZ'] == "DEL")
 		$List= $groupDelList;
@@ -197,7 +197,7 @@ $select=show_modif($optionList,'NEW_RAZ',2,$form_name);
 			$addgroup .=$valid;
 			echo $addgroup;
 		}
-		if ($protectedPost['NEW_RAZ'] == "RAZ" or $protectedPost['NEW_RAZ'] == "DEL" or $protectedPost['NEW_RAZ'] == "ADD"){
+		if ($protectedPost['NEW_RAZ'] == "RAZ" || $protectedPost['NEW_RAZ'] == "DEL" || $protectedPost['NEW_RAZ'] == "ADD"){
 			$select=show_modif($List,'group_list',2,'');
 			//list of choise
 			$groupList = "<tr><td align =center>";	

@@ -35,21 +35,21 @@ $form_name = "console";
 if ($protectedPost['RESET'] == 'FIRST'){
 	unset($_SESSION['OCS']['COUNT_CONSOLE']);
 }
-if ($protectedPost['ADMIN'] == 'ADMIN' and !isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
+if ($protectedPost['ADMIN'] == 'ADMIN' && !isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
 	$_SESSION['OCS']['ADMIN_CONSOLE']='ADMIN';	
-}elseif ($protectedPost['ADMIN'] == 'ADMIN' and isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
+}elseif ($protectedPost['ADMIN'] == 'ADMIN' && isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
 	unset($_SESSION['OCS']['ADMIN_CONSOLE']);
 }
 
-if (isset($protectedPost['VISIBLE']) and $protectedPost['VISIBLE'] != '' and isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
+if (isset($protectedPost['VISIBLE']) && $protectedPost['VISIBLE'] != '' && isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
 	insert_update($protectedPost['VISIBLE'],1,'','IVALUE');
 }
 
-if (isset($protectedPost['NO_VISIBLE']) and $protectedPost['NO_VISIBLE'] != '' and isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
+if (isset($protectedPost['NO_VISIBLE']) && $protectedPost['NO_VISIBLE'] != '' && isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
 		delete($protectedPost['NO_VISIBLE']);
 }
 
-if (isset($protectedPost['UPDATE_VALUE']) and $protectedPost['UPDATE_VALUE'] != '' and isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
+if (isset($protectedPost['UPDATE_VALUE']) && $protectedPost['UPDATE_VALUE'] != '' && isset($_SESSION['OCS']['ADMIN_CONSOLE'])){
 	$arg=look_config_default_values($protectedPost['UPDATE_VALUE']);
 	insert_update($protectedPost['UPDATE_VALUE'],$protectedPost[$protectedPost['UPDATE_VALUE']],$arg['ivalue'][$protectedPost['UPDATE_VALUE']],'IVALUE');
 }
@@ -60,7 +60,7 @@ require_once('require/function_console.php');
 $data_on=define_tab();
 $data_tab=show_active_tab($data_on);
 echo open_form($form_name);
-if (isset($protectedPost["onglet"]) and !isset($data_tab['DATA'][$protectedPost["onglet"]]))
+if (isset($protectedPost["onglet"]) && !isset($data_tab['DATA'][$protectedPost["onglet"]]))
 	$protectedPost["onglet"]=$data_tab['DEFAULT'];
 	
 if ($data_tab['DATA'] != array()){
@@ -70,7 +70,7 @@ if ($data_tab['DATA'] != array()){
 	
 	if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES'){
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
-		if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) and $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
+		if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) && $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
 			echo "<img src='image/success.png'>";
 		else
 			echo "<img src='image/modif_tab.png'>";
@@ -88,11 +88,11 @@ if ($data_tab['DATA'] != array()){
 		}
 		if (is_array($array_group)){
 			
-			if (isset($protectedPost["SUP_PROF"]) and $protectedPost["SUP_PROF"]!=''){
+			if (isset($protectedPost["SUP_PROF"]) && $protectedPost["SUP_PROF"]!=''){
 				delete($protectedPost['SUP_PROF']);	
 			}
 			
-			if (isset($protectedPost["Valid_modif"]) and $protectedPost["Valid_modif"] != '') {
+			if (isset($protectedPost["Valid_modif"]) && $protectedPost["Valid_modif"] != '') {
 				$sql_msg="select name from config where name like '%s'";
 				$arg="GUI_REPORT_MSG%";
 				$result_msg = mysql2_query_secure($sql_msg,$_SESSION['OCS']["readServer"],$arg);
@@ -111,7 +111,7 @@ if ($data_tab['DATA'] != array()){
 				
 				$tab_options=$protectedPost;
 				
-				if (trim($protectedPost['GROUP']) != "" and is_numeric($protectedPost['GROUP']) and trim($protectedPost['MESSAGE'])!=""){
+				if (trim($protectedPost['GROUP']) != "" && is_numeric($protectedPost['GROUP']) && trim($protectedPost['MESSAGE'])!=""){
 					$sql="insert into config (NAME,IVALUE,TVALUE) values ('%s',%s,'%s')";
 					$arg=array("GUI_REPORT_MSG".$i,$protectedPost['GROUP'],$protectedPost['MESSAGE']);
 					mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg );
@@ -170,22 +170,22 @@ if ($data_tab['DATA'] != array()){
 }else
 	echo "<table align=center><tr><td align=center><img src='image/fond.png'></td></tr></table>";
 	
-if (isset($protectedPost["onglet"]) and isset($protectedPost["old_onglet"]) 
+if (isset($protectedPost["onglet"]) && isset($protectedPost["old_onglet"]) 
 	and $protectedPost["onglet"]!=$protectedPost["old_onglet"])
 	unset($protectedPost["SHOW_ME"],$protectedPost["SHOW_ME_SAUV"]);
 
-if (isset($protectedPost["SHOW_ME"]) and $protectedPost["SHOW_ME"] != '' 
+if (isset($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME"] != '' 
 	and $protectedPost["SHOW_ME_SAUV"] != ""
 	and $protectedPost["SHOW_ME"] != $protectedPost["SHOW_ME_SAUV"]){
 		unset($protectedPost["SHOW_ME_SAUV"]);
 }
 
-if (isset($protectedPost["SHOW_ME_SAUV"]) and $protectedPost["SHOW_ME_SAUV"] != '' 
+if (isset($protectedPost["SHOW_ME_SAUV"]) && $protectedPost["SHOW_ME_SAUV"] != '' 
 	and $protectedPost["SHOW_ME"] == "")
 	$protectedPost["SHOW_ME"]=$protectedPost["SHOW_ME_SAUV"];
 
 	
-if ((isset($protectedPost["SHOW_ME"]) and $protectedPost["SHOW_ME"] != "")){
+if ((isset($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME"] != "")){
 	$array_fields=array_values($table_field[$protectedPost["SHOW_ME"]]);
 	echo "<input type=hidden name='SHOW_ME_SAUV' value='".$protectedPost["SHOW_ME"]."' id='SHOW_ME_SAUV'>";
 	$table_name=$protectedPost["SHOW_ME"];
@@ -242,7 +242,7 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES"){
 					from accountinfo a ,groups_cache g_c
 					where g_c.HARDWARE_ID=a.HARDWARE_ID
 						and	g_c.GROUP_ID in (".$list_id_groups.")";
-		if (isset($_SESSION['OCS']['mesmachines']) and $_SESSION['OCS']['mesmachines'] != "")
+		if (isset($_SESSION['OCS']['mesmachines']) && $_SESSION['OCS']['mesmachines'] != "")
 			$sql_my_msg.= " and ".$_SESSION['OCS']['mesmachines'];
 		$result_my_msg = mysqli_query( $_SESSION['OCS']["readServer"],$sql_my_msg);
 		while($item_my_msg = mysqli_fetch_object($result_my_msg)){
@@ -253,7 +253,7 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES"){
 			}
 		}	
 		
-		if (isset($msg_group) and $msg_group !=''){
+		if (isset($msg_group) && $msg_group !=''){
 			msg_warning(implode('<br>',$msg_group));
 		}
 	}

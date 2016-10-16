@@ -30,7 +30,7 @@
 		$parts = pathinfo($path);
 		
 		// Check if it is an XML file
-		if ($parts['extension'] === 'xml' and is_file($path)) {
+		if ($parts['extension'] === 'xml' && is_file($path)) {
 			$profiles[$parts['filename']] = $serializer->unserialize($parts['filename'], file_get_contents($path));
 		}
 	}
@@ -75,7 +75,7 @@ function add_user($data_user,$list_profil=''){
 		$ERROR = $l->g(1391).' : '.$l->g(1366);
 	}
 	// Password ok ?
-	if (trim($data_user['PASSWORD']) == "" and trim($data_user['MODIF']) == "" ){
+	if (trim($data_user['PASSWORD']) == "" && trim($data_user['MODIF']) == "" ){
 		$ERROR = $l->g(1391).' : '.$l->g(217);
 	}
 	// Login ok ?
@@ -109,7 +109,7 @@ function add_user($data_user,$list_profil=''){
 								  $data_user['EMAIL'],
 								  $data_user['COMMENTS'],
 								  $data_user['USER_GROUP']);
-				if (isset($data_user['PASSWORD']) and $data_user['PASSWORD'] != ''){
+				if (isset($data_user['PASSWORD']) && $data_user['PASSWORD'] != ''){
 					$sql_update.=",passwd ='%s' , password_version ='%s' ";
 					$arg_update[]=password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
 					$arg_update[]=$_SESSION['OCS']['PASSWORD_VERSION'];
@@ -271,14 +271,14 @@ function admin_profil($form){
 		//build new tab with new values
 		foreach($info_field as $if_name=>$if_value){
 			foreach ($if_value as $if_cat=>$if_val){
-				if(isset($protectedPost[$if_name]) and $protectedPost['cat'] == $if_cat){
+				if(isset($protectedPost[$if_name]) && $protectedPost['cat'] == $if_cat){
 					$new_value[$if_cat][$if_name]=$protectedPost[$if_name];						
 				}else
 					$new_value[$if_cat][$if_name]=$forprofil[$if_cat][$if_name];						
 			}			
 		}
 		foreach ($forall['URL'] as $name=>$value){
-			if (isset($protectedPost[$name]) and $protectedPost['cat'] == "PAGE_PROFIL")
+			if (isset($protectedPost[$name]) && $protectedPost['cat'] == "PAGE_PROFIL")
 					$new_value["PAGE_PROFIL"][$name]='';	
 		}				
 		
@@ -292,16 +292,16 @@ function admin_profil($form){
 	echo $l->g(1196). ": " .show_modif($array_profil,"PROFILS",2,$form);
 	echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_new_profil']."&head=1&form=".$form."\"><img src=image/plus.png></a>";
 	
-	if (isset($protectedPost['PROFILS']) and $protectedPost['PROFILS'] != ''){
+	if (isset($protectedPost['PROFILS']) && $protectedPost['PROFILS'] != ''){
 		$forall=read_config_file();			
 		$forprofil=read_profil_file($protectedPost['PROFILS'],'WRITE')	;
-		if (is_array($forprofil) and is_array($forall)){
+		if (is_array($forprofil) && is_array($forall)){
 			foreach ($forprofil as $key=>$value){
 				if (isset($lbl_cat[$key]))
 					$data_on[$key]=$lbl_cat[$key];
 			}		
 			onglet($data_on,$form,"cat",10);
-			if (isset($forprofil[$protectedPost['cat']]) and $protectedPost['cat'] != 'PAGE_PROFIL'){
+			if (isset($forprofil[$protectedPost['cat']]) && $protectedPost['cat'] != 'PAGE_PROFIL'){
 				$name_field=array();
 				$type_field=array();
 				$tab_name=array();
@@ -364,7 +364,7 @@ function updatePassword($id_user,$password){
 	$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 	$row=mysqli_fetch_object($res);
 	if (isset($row->id)){
-		if (isset($password) and $password != ''){
+		if (isset($password) && $password != ''){
 			$sql_update="update operators set passwd ='%s', PASSWORD_VERSION ='%s' ";
 			$newhash = password_hash($password,constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
 			// if constant don't exist, or encryption not good

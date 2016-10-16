@@ -36,13 +36,13 @@ if ($protectedPost['onglet'] != $protectedPost['old_onglet']){
 	$protectedPost['onglet']=$onglet;
 }
 if ($protectedGet['origine']!= "mach"){
-	if (isset($protectedGet['idchecked']) and $protectedGet['idchecked'] != ""){
+	if (isset($protectedGet['idchecked']) && $protectedGet['idchecked'] != ""){
 		$choise_req_selection['REQ']=$l->g(584);
 		$choise_req_selection['SEL']=$l->g(585);
 		$select_choise=show_modif($choise_req_selection,'CHOISE',2,$form_name);	
 	}
 	echo "<font color=red><b>";
-	if ($protectedPost['CHOISE'] == 'REQ' or $protectedGet['idchecked'] == '' or $protectedPost['CHOISE'] == ''){
+	if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '' || $protectedPost['CHOISE'] == ''){
 		echo $l->g(901);
 		$list_id=$_SESSION['OCS']['ID_REQ'];
 	}

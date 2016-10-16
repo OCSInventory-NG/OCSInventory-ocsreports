@@ -50,7 +50,7 @@ if ( $item->DEVICEID == "_DOWNLOADGROUP_"
 
 $systemid = $item->ID;
 
-if (!isset($protectedGet['option']) and !isset($protectedGet['cat'])) {
+if (!isset($protectedGet['option']) && !isset($protectedGet['cat'])) {
 	$protectedGet['cat'] = 'admin';
 }
 
@@ -61,12 +61,12 @@ show_computer_menu($item->ID);
 
 echo '<div class="col col-md-10">';
 
-if (isset($protectedGet['cat']) and $protectedGet['cat'] == 'admin') {
+if (isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
 	show_computer_summary($item);
 }
 
 //Wake On Lan function
-if (isset($protectedPost["WOL"]) and $protectedPost["WOL"] == 'WOL' and $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO')=="NO"){
+if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO')=="NO"){
 	require_once('require/function_wol.php');
 	$wol = new Wol();
 	$sql = "select MACADDR,IPADDRESS from networks WHERE (hardware_id=%s) and status='Up'";
@@ -93,7 +93,7 @@ if ($ajax) {
 $plugins_serializer = new XMLPluginsSerializer();
 $plugins = $plugins_serializer->unserialize(file_get_contents('config/computer/plugins.xml'));
 
-if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('software', 'hardware', 'devices', 'admin', 'config',  'teledeploy', 'other'))) {
+if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('software', 'hardware', 'devices', 'admin', 'config',  'teledeploy', 'other'))) {
 	// If category
 	foreach ($plugins as $plugin) {
 		if ($plugin->getCategory() == $protectedGet['cat']) {
@@ -109,7 +109,7 @@ if (isset($protectedGet['cat']) and in_array($protectedGet['cat'], array('softwa
 			}
 		}
 	}
-} else if (isset($protectedGet['option']) and isset($plugins[$protectedGet['option']])) {
+} else if (isset($protectedGet['option']) && isset($plugins[$protectedGet['option']])) {
 	// If specific plugin
 	$plugin = $plugins[$protectedGet['option']];
 	$plugin_file = PLUGINS_DIR."computer_detail/".$plugin->getId()."/".$plugin->getId().".php";

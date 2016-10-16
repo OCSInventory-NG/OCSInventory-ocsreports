@@ -43,7 +43,7 @@ $tab_typ_champ[0]['DEFAULT_VALUE']=$list_mode;
 	$tab_typ_champ[0]['INPUT_TYPE']=2;
 	$tab_name[0]=$l->g(1014).":";
 	$tab_typ_champ[0]['RELOAD']="CHANGE";
-if ($protectedPost['MODE'] == 5 and $list_mode[$protectedPost['MODE']] == 'FUSER'){
+if ($protectedPost['MODE'] == 5 && $list_mode[$protectedPost['MODE']] == 'FUSER'){
 	$tab_typ_champ[1]['DEFAULT_VALUE']=$protectedPost['FUSER'];
 	$tab_typ_champ[1]['INPUT_NAME']="FUSER";
 	$tab_typ_champ[1]['INPUT_TYPE']=0;
@@ -59,7 +59,7 @@ if (isset($protectedPost['Reset_modif'])){
 }
 
 //passage en mode
-if (isset($protectedPost['Valid_modif']) and $protectedPost["MODE"] != ""){
+if (isset($protectedPost['Valid_modif']) && $protectedPost["MODE"] != ""){
 	AddLog("MODE",$list_mode[$protectedPost["MODE"]]);
 	if ($protectedPost["MODE"] == 1){		
 		unset($_SESSION['OCS']['DEBUG'],

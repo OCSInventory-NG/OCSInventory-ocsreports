@@ -56,7 +56,7 @@ if($_POST["supp"]){
 }
 
 //Modif server's machine
-if (isset($_POST['Valid_modif']) and isset($_POST['modif']) and $_POST['modif'] != ""){
+if (isset($_POST['Valid_modif']) && isset($_POST['modif']) && $_POST['modif'] != ""){
 	$default_values=look_config_default_values(array('DOWNLOAD_SERVER_URI','DOWNLOAD_SERVER_DOCROOT'));
 	if (trim($_POST['URL']) == "")
 	$_POST['URL']=$default_values['tvalue']['DOWNLOAD_SERVER_URI'];
@@ -86,9 +86,9 @@ if (isset($systemid))
 {
 	if ($_POST['tri2'] == "")
 	$_POST['tri2']=1;
-	if (!(isset($_POST["pcparpage"])) and isset($_GET['res_pag']))
+	if (!(isset($_POST["pcparpage"])) && isset($_GET['res_pag']))
 	$_POST["pcparpage"]=$_GET['res_pag'];
-	if (!(isset($_POST["page"])) and isset($_GET['page']))
+	if (!(isset($_POST["page"])) && isset($_GET['page']))
 	$_POST["page"]=$_GET['page'];
 	$form_name='nb_4_pag';
 	echo open_form($form_name);
@@ -146,7 +146,7 @@ if (isset($systemid))
 	echo "</table>";
 	echo close_form();
 	//detail of group's machin
-	if ($_POST['modif']!=""  and !isset($_POST['Valid_modif']) and !isset($_POST['Reset_modif']))
+	if ($_POST['modif']!=""  && !isset($_POST['Valid_modif']) && !isset($_POST['Reset_modif']))
 	{
 		$tab_name[1]=$l->g(646).": ";
 		$tab_name[2]=$l->g(648).": ";

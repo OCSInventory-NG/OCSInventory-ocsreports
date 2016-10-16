@@ -64,7 +64,7 @@ if (isset($protectedPost['Valid_modif'])){
 	$ERROR= $l->g(942);
 	if (trim($protectedPost['TYPE']) == "")
 	$ERROR= $l->g(943);
-	if (isset($ERROR) and $protectedPost['MODIF_ID'] != '')
+	if (isset($ERROR) && $protectedPost['MODIF_ID'] != '')
 	$protectedPost['USER']=$protectedPost['USER_ENTER'];
 
 	if (!isset($ERROR)){
@@ -90,10 +90,10 @@ if (isset($protectedPost['Valid_modif'])){
 }
 
 //formulaire de saisie de l'identification de l'adresse mac
-if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
+if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != ''){
 	
 	//cas d'une modification de la donnée déjà saisie
-	if ($protectedGet['prov'] == "ident" and !isset($protectedPost['COMMENT'])){
+	if ($protectedGet['prov'] == "ident" && !isset($protectedPost['COMMENT'])){
 		$sql="select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='%s'";
 		$arg=$protectedPost['MODIF'];
 		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg );
@@ -191,7 +191,7 @@ else{ //affichage des périphériques
 				$default_fields= array($l->g(34)=>$l->g(34),$l->g(66)=>$l->g(66),$l->g(53)=>$l->g(53),
 									'MAC'=>'MAC',$l->g(232)=>$l->g(232),$l->g(369)=>$l->g(369),'SUP'=>'SUP','MODIF'=>'MODIF');
 
-		}elseif($protectedGet['prov'] == "inv" or $protectedGet['prov'] == "ipdiscover"){
+		}elseif($protectedGet['prov'] == "inv" || $protectedGet['prov'] == "ipdiscover"){
 			
 			//BEGIN SHOW ACCOUNTINFO
 			require_once('require/function_admininfo.php');

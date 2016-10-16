@@ -121,8 +121,8 @@ function generate_value($values,$field_name,$separat,$nb_field,$limit=array()){
 		if ($i!=1)
 			$field_value.=$separat;
 		if ($values[$field_name.$i] != ''){
-			if ((isset($limit['DOWN']) and $values[$field_name.$i]<$limit['DOWN'])
-					or (isset($limit['UP']) and $values[$field_name.$i]>$limit['UP']))
+			if ((isset($limit['DOWN']) && $values[$field_name.$i]<$limit['DOWN'])
+					|| (isset($limit['UP']) && $values[$field_name.$i]>$limit['UP']))
 				return $limit;
 				$field_value.=$values[$field_name.$i];
 			

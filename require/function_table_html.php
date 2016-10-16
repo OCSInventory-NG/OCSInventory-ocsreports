@@ -835,7 +835,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$champs .="<select name='".$input_name."' id='".$input_name."' ".(isset($configinput['JAVASCRIPT'])?$configinput['JAVASCRIPT']:'');
 		if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
 		$champs.=" class='down form-control' >";
-		if (isset($configinput['DEFAULT']) and $configinput['DEFAULT'] == "YES")
+		if (isset($configinput['DEFAULT']) && $configinput['DEFAULT'] == "YES")
 		$champs.= "<option value='' class='hi' ></option>";
 		$countHl=0;		
 		if ($name != ''){
@@ -856,7 +856,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		return $name.$hid;
 	}elseif ($input_type == 4)
 	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' />";
-	elseif ($input_type == 5 and isset($name) and is_array($name)){	
+	elseif ($input_type == 5 && isset($name) && is_array($name)){	
 		foreach ($name as $key=>$value){
 			$champs.= "<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";
 			if ($protectedPost[$input_name."_".$key] == 'on' )
@@ -908,7 +908,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 		$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"],$arg);
 		else
 		$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"]);
-		if (isset($result) and $result != ''){
+		if (isset($result) && $result != ''){
 			$i=0;
 			while($colname = mysqli_fetch_field($result))
 			$entete2[$i++]=$colname->name;
@@ -924,7 +924,7 @@ function show_modif($name,$input_name,$input_type,$input_reload = "",$configinpu
 			}
 		}
 		return tab_entete_fixe($entete2,$data2,"",60,300);		
-	}elseif($input_type == 11 and isset($name) and is_array($name)){	
+	}elseif($input_type == 11 && isset($name) && is_array($name)){	
 		foreach ($name as $key=>$value){
 			$champs.= "<input type='radio' name='".$input_name."' id='".$input_name."' value='" . $key . "'";
 			if ($protectedPost[$input_name] == $key ){
@@ -1036,22 +1036,22 @@ function show_field($name_field,$type_field,$value_field,$config=array()){
 		$tab_typ_champ[$key]['INPUT_TYPE']=$type_field[$key];
 		
 		
-		if (!isset($config['ROWS'][$key]) or $config['ROWS'][$key] == '')
+		if (!isset($config['ROWS'][$key]) || $config['ROWS'][$key] == '')
 			$tab_typ_champ[$key]['CONFIG']['ROWS']=7;
 		else
 			$tab_typ_champ[$key]['CONFIG']['ROWS']=$config['ROWS'][$key];
 			
-		if (!isset($config['COLS'][$key]) or $config['COLS'][$key] == '')
+		if (!isset($config['COLS'][$key]) || $config['COLS'][$key] == '')
 			$tab_typ_champ[$key]['CONFIG']['COLS']=40;
 		else
 			$tab_typ_champ[$key]['CONFIG']['COLS']=$config['COLS'][$key];		
 		
-		if (!isset($config['SIZE'][$key]) or $config['SIZE'][$key] == '')
+		if (!isset($config['SIZE'][$key]) || $config['SIZE'][$key] == '')
 			$tab_typ_champ[$key]['CONFIG']['SIZE']=50;
 		else
 			$tab_typ_champ[$key]['CONFIG']['SIZE']=$config['SIZE'][$key];
 		
-		if (!isset($config['MAXLENGTH'][$key]) or $config['MAXLENGTH'][$key] == '')
+		if (!isset($config['MAXLENGTH'][$key]) || $config['MAXLENGTH'][$key] == '')
 			$tab_typ_champ[$key]['CONFIG']['MAXLENGTH']=255;
 		else
 			$tab_typ_champ[$key]['CONFIG']['MAXLENGTH']=$config['MAXLENGTH'][$key];
@@ -1090,7 +1090,7 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 	global $protectedPost,$l;
 // 	if ($protectedPost['RAZ_FILTRE'] == "RAZ")
 // 	unset($protectedPost['FILTRE_VALUE'],$protectedPost['FILTRE']);
-	if ($protectedPost['FILTRE_VALUE'] and $protectedPost['FILTRE']){
+	if ($protectedPost['FILTRE_VALUE'] && $protectedPost['FILTRE']){
 		$temp_query=explode("GROUP BY",$query);
 		if ($temp_query[0] == $query)
 		$temp_query=explode("group by",$query);
@@ -1179,13 +1179,13 @@ function nb_page($form_name = '',$taille_cadre='80',$bgcolor='#C7D9F5',$borderco
 	if ($protectedPost['old_pcparpage'] != $protectedPost['pcparpage'])
 		$protectedPost['page']=0;
 		
-	if (!(isset($protectedPost["pcparpage"])) or $protectedPost["pcparpage"] == ""){
+	if (!(isset($protectedPost["pcparpage"])) || $protectedPost["pcparpage"] == ""){
 		$protectedPost["pcparpage"]=PC4PAGE;
 		
 	}
 	$html_show = "<table align=center width='80%' border='0' bgcolor=#f2f2f2>";
 	//gestion d"une phrase d'alerte quand on utilise le filtre
-	if (isset($protectedPost['FILTRE_VALUE']) and $protectedPost['FILTRE_VALUE'] != '' and $protectedPost['RAZ_FILTRE'] != 'RAZ')
+	if (isset($protectedPost['FILTRE_VALUE']) && $protectedPost['FILTRE_VALUE'] != '' && $protectedPost['RAZ_FILTRE'] != 'RAZ')
 		$html_show .= msg_warning($l->g(884));
 	$html_show .= "<tr><td align=right>";
 	
@@ -1199,7 +1199,7 @@ function nb_page($form_name = '',$taille_cadre='80',$bgcolor='#C7D9F5',$borderco
 	$html_show .= "</td></tr></table>";
 	$html_show .= "<table align=center width='80%' border='0' bgcolor=#f2f2f2";
 	
-	if($protectedPost['SHOW'] == 'NOSHOW' or $protectedPost['SHOW'] == 'NEVER_SHOW')
+	if($protectedPost['SHOW'] == 'NOSHOW' || $protectedPost['SHOW'] == 'NEVER_SHOW')
 		$html_show .= " style='display:none;'";
 		
 	$html_show .= "><tr><td align=center>";
@@ -1225,7 +1225,7 @@ function nb_page($form_name = '',$taille_cadre='80',$bgcolor='#C7D9F5',$borderco
 
 function show_page($valCount,$form_name){
 	global $protectedPost;
-	if (isset($protectedPost["pcparpage"]) and $protectedPost["pcparpage"] != 0)
+	if (isset($protectedPost["pcparpage"]) && $protectedPost["pcparpage"] != 0)
 	$nbpage= ceil($valCount/$protectedPost["pcparpage"]);
 	if ($nbpage >1){
 	$up=$protectedPost['page']+1;
@@ -1240,18 +1240,18 @@ function show_page($valCount,$form_name){
 		while ($i<$nbpage){			
 			$point="";
 			if ($protectedPost['page'] == $i){
-				if ($i<$nbpage-10 and  $i>10  and $deja==""){
+				if ($i<$nbpage-10 && $i>10 && $deja==""){
 				$point=" ... ";
 				$deja="ok";	
 				}
-				if($i<$nbpage-10 and  $i>10){
+				if($i<$nbpage-10 && $i>10){
 					$point2=" ... ";
 				}
 				echo $point."<font color=red>".$i."</font> ".$point2;
 			}
-			elseif($i>$nbpage-10 or $i<10)
+			elseif($i>$nbpage-10 || $i<10)
 			echo "<a OnClick='pag(\"".$i."\",\"page\",\"".$form_name."\")'>".$i."</a> ";
-			elseif ($i<$nbpage-10 and  $i>10 and $deja==""){
+			elseif ($i<$nbpage-10 && $i>10 && $deja==""){
 				echo " ... ";
 				$deja="ok";	
 			}
@@ -1276,7 +1276,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
 		$protectedPost['page']=0;
 	}
-	if (!isset($protectedPost[$post_name]) and is_array($def_onglets)){
+	if (!isset($protectedPost[$post_name]) && is_array($def_onglets)){
 		foreach ($def_onglets as $key=>$value){
 			$protectedPost[$post_name]=$key;
 			break;
@@ -1293,12 +1293,12 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 
 			echo "<li ";
 			if (is_numeric($protectedPost[$post_name])){
-				if ($protectedPost[$post_name] == $key or (!isset($protectedPost[$post_name]) and $current != 1)){
+				if ($protectedPost[$post_name] == $key || (!isset($protectedPost[$post_name]) && $current != 1)){
 					echo "class='active'";
 					$current=1;
 				}
 			}else{
-				if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
+				if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) || (!isset($protectedPost[$post_name]) && $current != 1)){
 					echo "class='active'";
 					$current=1;
 				}
@@ -1322,7 +1322,7 @@ function show_tabs($def_onglets,$form_name,$post_name,$ligne)
 	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
 	$protectedPost['page']=0;
 	}
-	if (!isset($protectedPost[$post_name]) and is_array($def_onglets)){
+	if (!isset($protectedPost[$post_name]) && is_array($def_onglets)){
 		foreach ($def_onglets as $key=>$value){
 			$protectedPost[$post_name]=$key;
 			break;
@@ -1352,12 +1352,12 @@ function show_tabs($def_onglets,$form_name,$post_name,$ligne)
 	  foreach($def_onglets as $key=>$value){
 	  	echo "<li ";
 	  	if (is_numeric($protectedPost[$post_name])){
-			if ($protectedPost[$post_name] == $key or (!isset($protectedPost[$post_name]) and $current != 1)){
+			if ($protectedPost[$post_name] == $key || (!isset($protectedPost[$post_name]) && $current != 1)){
 			 echo "id='current'";  
 	 		 $current=1;
 			}
 	  	}else{
-			if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
+			if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) || (!isset($protectedPost[$post_name]) && $current != 1)){
 				 echo "id='current'";  
 	 			 $current=1;
 			}
@@ -1382,13 +1382,13 @@ function show_tabs($def_onglets,$form_name,$post_name,$ligne)
 function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list_fields,$default_fields,$id_form='form'){
 	global $protectedPost,$l;
 	//search in cookies columns values
-	if (isset($_COOKIE[$tab_name]) and $_COOKIE[$tab_name] != '' and !isset($_SESSION['OCS']['col_tab'][$tab_name])){
+	if (isset($_COOKIE[$tab_name]) && $_COOKIE[$tab_name] != '' && !isset($_SESSION['OCS']['col_tab'][$tab_name])){
 		$col_tab=explode("///", $_COOKIE[$tab_name]);
 		foreach ($col_tab as $key=>$value){
 				$_SESSION['OCS']['col_tab'][$tab_name][$value]=$value;
 		}			
 	}
-	if (isset($protectedPost['SUP_COL']) and $protectedPost['SUP_COL'] != ""){
+	if (isset($protectedPost['SUP_COL']) && $protectedPost['SUP_COL'] != ""){
 		unset($_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
 	}
 	if ($protectedPost['restCol'.$tab_name]){
@@ -2049,7 +2049,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				$result = mysqli_query($_SESSION['OCS']["readServer"],$sql);
 			}else{
 				//add sort on column if need it
-				if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe'])){
+				if ($protectedPost['tri_fixe']!='' && strstr($sql,$protectedPost['tri_fixe'])){
 					$sql.=" order by '%s' %s";
 					array_push($protectedPost['tri_fixe'],$arg);
 					array_push($protectedPost['sens_'.$table_name],$arg);
@@ -2068,7 +2068,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 						$list_id_tri_fixe[]=$champs_index;
 				}
 				foreach ($item as $field=>$value){
-					if ($field != "HARDWARE_ID" and $field != "FILEID" and $field != "ID"){
+					if ($field != "HARDWARE_ID" && $field != "FILEID" && $field != "ID"){
 						$tab_options['NO_SEARCH'][$field]=$field;
 						//			echo "<br>champs => ".$field."   valeur => ".$value;
 						$tab_options['REPLACE_VALUE_ALL_TIME'][$field][$champs_index]=$value;
@@ -2270,9 +2270,9 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				
 				unset($key2);
 				if (isset($tab_condition[$key])){
-						if ((!$tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]] and !$tab_options['EXIST'][$key])
-							or ($tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]] and $tab_options['EXIST'][$key])){
-							if ($key == "STAT" or $key == "SUP" or $key == "CHECK"){
+						if ((!$tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]] && !$tab_options['EXIST'][$key])
+							|| ($tab_condition[$key][$donnees[$tab_options['FIELD'][$key]]] && $tab_options['EXIST'][$key])){
+							if ($key == "STAT" || $key == "SUP" || $key == "CHECK"){
 								$key2 = "NULL";
 							}else{
 								$data[$i][$num_col]=$value_of_field;
@@ -2312,8 +2312,8 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 				//valeurs du champs
 				//exemple, si vous ne voulez pas mettre un lien si le champ est 0,
 				//$tab_options['NO_LIEN_CHAMP'][$key] = array(0);
-				if (isset($tab_options['LIEN_LBL'][$key]) and !is_array($tab_options['LIEN_LBL'][$key])
-					and (!isset($tab_options['NO_LIEN_CHAMP'][$key]) or !in_array($value_of_field,$tab_options['NO_LIEN_CHAMP'][$key]))){
+				if (isset($tab_options['LIEN_LBL'][$key]) && !is_array($tab_options['LIEN_LBL'][$key])
+					&& (!isset($tab_options['NO_LIEN_CHAMP'][$key]) || !in_array($value_of_field,$tab_options['NO_LIEN_CHAMP'][$key]))){
 					$affich="KO";
 				
 					if (!isset($tab_options['LIEN_TYPE'][$key])){
@@ -2352,18 +2352,18 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 							$lbl_column["NAME"]=$l->g(23);
 					//modify lbl of column
 					if (!isset($entete[$num_col]) 
-						or ($entete[$num_col] == $key and !isset($tab_options['LBL'][$key]))){
+						or ($entete[$num_col] == $key && !isset($tab_options['LBL'][$key]))){
 						if (array_key_exists($key,$lbl_column))
 							$entete[$num_col]=$lbl_column[$key];
 						else
 							$entete[$num_col]=$truelabel;
 					}
-					if ($key == "NULL" or isset($key2)){
+					if ($key == "NULL" || isset($key2)){
 						$data[$i][$num_col]="&nbsp";
 						$lien = 'KO';
 					}elseif ($key == "GROUP_NAME"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
-					}elseif ($key == "SUP" and $value_of_field!= '&nbsp;'){
+					}elseif ($key == "SUP" && $value_of_field!= '&nbsp;'){
 						if (isset($tab_options['LBL_POPUP'][$key])){
 							if (isset($donnees[$tab_options['LBL_POPUP'][$key]]))
 								$lbl_msg=$l->g(640)." ".$donnees[$tab_options['LBL_POPUP'][$key]];
@@ -2399,11 +2399,11 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 					}elseif ($key == "SHOWACTIVE"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";
 					}
-					elseif ($key == "CHECK" and $value_of_field!= '&nbsp;'){
+					elseif ($key == "CHECK" && $value_of_field!= '&nbsp;'){
 						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
 						$lien = 'KO';
 					}
-					elseif ($key == "NAME" and !isset($tab_options['NO_NAME']['NAME'])){
+					elseif ($key == "NAME" && !isset($tab_options['NO_NAME']['NAME'])){
 							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
 							if ($donnees['ID'])
 								$link_computer.="&systemid=".$donnees['ID'];

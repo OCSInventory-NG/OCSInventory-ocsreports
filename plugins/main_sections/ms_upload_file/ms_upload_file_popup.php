@@ -32,7 +32,7 @@ else{
 
 $form_name="upload_file";
 //verification if this field exist in the table and type like 'blob'
-if (isset($protectedGet["tab"]) and $protectedGet["tab"]!=''){
+if (isset($protectedGet["tab"]) && $protectedGet["tab"]!=''){
 	$table=$protectedGet["tab"];
 }else{
 	$table='downloadwk_pack';
@@ -49,7 +49,7 @@ $result = mysql2_query_secure($sql_show,$_SESSION['OCS']["readServer"],$var_show
 $item = mysqli_fetch_object($result);
 
 $field=$item->Field;
-if (isset($field) and $field != ''){
+if (isset($field) && $field != ''){
 	echo "<script language='javascript'>
 			function verif()
 			 {
@@ -87,7 +87,7 @@ if (isset($field) and $field != ''){
 		
 	}
 	
-	if (isset($protectedPost['SUP_PROF']) and is_numeric($protectedPost['SUP_PROF'])){
+	if (isset($protectedPost['SUP_PROF']) && is_numeric($protectedPost['SUP_PROF'])){
 		$sql_delete="delete from temp_files where id ='%s'";
 		$var_delete=array($protectedPost['SUP_PROF']);
 		mysql2_query_secure($sql_delete,$_SESSION['OCS']["writeServer"],$var_delete);	

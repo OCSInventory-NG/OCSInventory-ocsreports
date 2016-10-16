@@ -64,14 +64,14 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
 $field_name_soft=$info_name_soft['table'].".".$info_name_soft['field'];
 
 $sql_list_alpha['SQL'] ="select substr(trim(".$field_name_soft."),1,1) alpha, ".$field_name_soft." ";
-if (isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "" and isset($protectedPost['COMPAR']) and $protectedPost['COMPAR'] != ""){
+if (isset($protectedPost['NBRE']) && $protectedPost['NBRE'] != "" && isset($protectedPost['COMPAR']) && $protectedPost['COMPAR'] != ""){
 	$sql_list_alpha['SQL'] .=",count(*) nb ";	
 	$sql_fin['SQL']=" having nb %s %s ";
 	$sql_fin['ARG']=array($protectedPost['COMPAR'],$protectedPost['NBRE']);
 }
 $sql_list_alpha['SQL'] .=" from ";
 $and_where="";
-//if ($_SESSION['OCS']["usecache"] == 1  and $protectedPost['NBRE'] == ""){
+//if ($_SESSION['OCS']["usecache"] == 1  && $protectedPost['NBRE'] == ""){
 	$sql_list_alpha['SQL'] .=$info_name_soft['table']." left join dico_soft on dico_soft.extracted=".$field_name_soft;
 //	$and_where=" where ";
 //}else{
@@ -94,26 +94,26 @@ $and_where="";
 	$and_where=" where ";
 //}
 $sql_list_alpha['SQL'] .=$and_where." substr(trim(".$field_name_soft."),1,1) is not null ";
-if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
+if (isset($protectedPost['NAME_RESTRICT']) && $protectedPost['NAME_RESTRICT'] != ""){
 	$sql_list_alpha['SQL'] .=" and ".$field_name_soft." like '%s' ";
 	$sql_list_alpha['ARG']=array('%'.$protectedPost['NAME_RESTRICT'].'%');	
 }
-/*if (isset($protectedPost['CLASS']) and $protectedPost['CLASS'] != ""){
-		$sql_list_alpha['SQL'].=" and (dico_soft.formatted in ";	
+/*if (isset($protectedPost['CLASS']) && $protectedPost['CLASS'] != ""){
+		$sql_list_alpha['SQL'].=" && (dico_soft.formatted in ";	
 		$sql_list_alpha=mysql2_prepare($sql_list_alpha['SQL'],$sql_list_alpha['ARG'],$list_soft_by_statut[$protectedPost['CLASS']]);	
 		$sql_list_alpha['SQL'] .=" ) ";
 	}*/
 $sql_list_alpha['SQL'] .=" group by ".$field_name_soft." ".$sql_fin['SQL'];
-//if ($sql_list_alpha['ARG'] != array() and $sql_fin['ARG'] != array())
+//if ($sql_list_alpha['ARG'] != array() && $sql_fin['ARG'] != array())
 	$sql_list_alpha['ARG']=array_merge_values($sql_list_alpha['ARG'],$sql_fin['ARG']);
-//elseif ($sql_fin['ARG'] != array() and $sql_list_alpha['ARG'] == array())
+//elseif ($sql_fin['ARG'] != array() && $sql_list_alpha['ARG'] == array())
 //	$sql_list_alpha['ARG']=$sql_fin['ARG'];
 
 	unset($_SESSION['OCS']['REQ_ONGLET_SOFT']);
 /*p($sql_fin['ARG']);
 p($sql_list_alpha['ARG']);*/
 //execute the query only if necessary 
-if($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha or !isset($protectedPost['onglet'])){
+if($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha || !isset($protectedPost['onglet'])){
 	$result_list_alpha = mysql2_query_secure( $sql_list_alpha['SQL'], $_SESSION['OCS']["readServer"],$sql_list_alpha['ARG']);
  	while($item_list_alpha = mysqli_fetch_object($result_list_alpha)){
  		
@@ -143,7 +143,7 @@ $table_name="all_soft";
 echo open_form($form_name, '', '', 'form-horizontal');
 
 onglet($_SESSION['OCS']['ONGLET_SOFT'],$form_name,"onglet",20);
-if ((isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != "") or
+if ((isset($protectedPost['NAME_RESTRICT']) && $protectedPost['NAME_RESTRICT'] != "") or
 	((isset($protectedPost['NBRE']) and $protectedPost['NBRE'] != "")))
 	msg_warning($l->g(767));
 
@@ -158,7 +158,7 @@ if ($_SESSION['OCS']["usecache"] == 1 and !(isset($_SESSION['OCS']['USE_NEW_SOFT
 		$search_soft['ARG']=array($protectedPost['onglet']."%");
 		
 		$and_where=" where ";
-		if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
+		if (isset($protectedPost['NAME_RESTRICT']) && $protectedPost['NAME_RESTRICT'] != ""){
 			//$forcedRequest['SQL'].= $and_where." name like '%s' ";
 			//$forcedRequest['ARG']=array("%".$protectedPost['NAME_RESTRICT']."%");
 			$search_soft['SQL'].=" and name like '%s' ";	
@@ -166,14 +166,14 @@ if ($_SESSION['OCS']["usecache"] == 1 and !(isset($_SESSION['OCS']['USE_NEW_SOFT
 			$and_where=" and ";
 		}
 	}else{
-		if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
+		if (isset($protectedPost['NAME_RESTRICT']) && $protectedPost['NAME_RESTRICT'] != ""){
 			//$forcedRequest['SQL'].= $and_where." name like '%s' ";
 			//$forcedRequest['ARG']=array("%".$protectedPost['NAME_RESTRICT']."%");
 			$search_soft['SQL'].=" WHERE name like '%s' ";
 			$search_soft['ARG'][]="%".$protectedPost['NAME_RESTRICT']."%";
 		}
 	}
-	/*if (isset($protectedPost['CLASS']) and $protectedPost['CLASS'] != ""){
+	/*if (isset($protectedPost['CLASS']) && $protectedPost['CLASS'] != ""){
 	//	$fin_sql=" and dico_soft.extracted is not null ";
 		$forcedRequest.= $and_where." (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$protectedPost['CLASS']])."') ) and ";
 		$search_soft.=" and (dico_soft.formatted in ('".implode("','",$list_soft_by_statut[$protectedPost['CLASS']])."') ) ";		
@@ -204,7 +204,7 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
 
 /*
 if ((!isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
-		or $_SESSION['OCS']['USE_NEW_SOFT_TABLES']!= 1) and $_SESSION['OCS']["usecache"] == 1){
+		or $_SESSION['OCS']['USE_NEW_SOFT_TABLES']!= 1) && $_SESSION['OCS']["usecache"] == 1){
 	$field_name_soft="s.name";
 }else{
 	$field_name_soft="s.name_id";*/
@@ -227,7 +227,7 @@ if ($list_soft != ""){
 						s.".$info_name_soft['field_name_soft']." id from softwares s ";
 	}
 	
-	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != ''){
+	if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != ''){
 		$sql_re['SQL'].=",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=s.HARDWARE_ID";
 		$and_where=" and ";
 	}else
@@ -247,7 +247,7 @@ if ($list_soft != ""){
 		$sql['SQL'] .=" left join ".$info_name_soft['table']." on ".$info_name_soft['table'].".id=s.".$info_name_soft['field_name_soft']." ";	
 	}
 	$sql['ARG']=array();
-	if (isset($_SESSION['OCS']["mesmachines"]) and $_SESSION['OCS']["mesmachines"] != ''){
+	if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != ''){
 		$sql['SQL'].=",accountinfo a where ".$_SESSION['OCS']["mesmachines"]." and a.hardware_id=s.HARDWARE_ID";
 		$and_where=" and ";
 	}else
@@ -255,7 +255,7 @@ if ($list_soft != ""){
 	//$_SESSION['OCS']["forcedRequest"]=$sql;
 	$sql['SQL'].=$and_where." ".$info_name_soft['table'].".".$info_name_soft['field']." like '%s'";
 	array_push($sql['ARG'],$protectedPost['onglet']."%");
-	if (isset($protectedPost['NAME_RESTRICT']) and $protectedPost['NAME_RESTRICT'] != ""){
+	if (isset($protectedPost['NAME_RESTRICT']) && $protectedPost['NAME_RESTRICT'] != ""){
 		$sql['SQL'].=" and ".$info_name_soft['table'].".".$info_name_soft['field']." like '%s' ";	
 		array_push($sql['ARG'],"%".$protectedPost['NAME_RESTRICT']."%");
 		//$_SESSION['OCS']["forcedRequest"].=$and_where."name like '%".$protectedPost['NAME_RESTRICT']."%'" ;
@@ -310,7 +310,7 @@ formGroup('text', 'NAME_RESTRICT', $l->g(382), 20, 100, $protectedPost['NAME_RES
 </div>
 <?php
 
-if ($protectedPost['COMPAR'] == '<' and $protectedPost['NBRE']<=15 and $protectedPost['NBRE'] != ""){
+if ($protectedPost['COMPAR'] == '<' && $protectedPost['NBRE']<=15 && $protectedPost['NBRE'] != ""){
 	echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_soft_csv']."&no_header=1&soft=".$protectedPost['NAME_RESTRICT']."&nb=".$protectedPost['NBRE']."&comp=".htmlentities($protectedPost['COMPAR'],ENT_COMPAT | ENT_HTML401,"UTF-8")."&all_computers=yes'>".$l->g(912)."</a>";
 }
 ?>

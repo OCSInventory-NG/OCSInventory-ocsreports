@@ -59,13 +59,13 @@ if ($protectedPost['onglet']==""){
 }
 
 //suppression d'une liste de users
-if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
+if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != ''){
 	delete_list_user($protectedPost['del_check']);
 	$tab_options['CACHE']='RESET';
 }
 
 //suppression d'un user
-if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
+if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != ''){
 	delete_list_user($protectedPost['SUP_PROF']);
 	$tab_options['CACHE']='RESET';
 }
@@ -93,7 +93,7 @@ $default_fields= array('ID'=>'ID',
 		'CHECK'=>'ID');
 $queryDetails = 'SELECT ';
 foreach ($list_fields as $key=>$value){
-	if($key != 'SUP' and $key != 'CHECK' and $key != 'MOD_TAGS')
+	if($key != 'SUP' && $key != 'CHECK' && $key != 'MOD_TAGS')
 		$queryDetails .= $value.',';
 }
 $queryDetails=substr($queryDetails,0,-1);

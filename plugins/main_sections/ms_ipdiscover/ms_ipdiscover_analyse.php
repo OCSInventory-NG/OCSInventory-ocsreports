@@ -47,7 +47,7 @@ $values=look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPDIS
 $fname=$values['tvalue']['IPDISCOVER_IPD_DIR'];
 $file_name=$fname."/ipd/".$pas.".ipd";
 //reset cache?
-if (isset($protectedPost['reset']) and $protectedPost['reset'] != ''){
+if (isset($protectedPost['reset']) && $protectedPost['reset'] != ''){
 	unlink( $file_name );
 	reloadform_closeme('',true);		
 }else{	

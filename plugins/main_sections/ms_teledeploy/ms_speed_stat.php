@@ -99,7 +99,7 @@ foreach ($nb_4_hour as $key=>$value){
 	$legende[$i]=date ( "d/m/Y H:00" ,$key)."<br>".$data[$i]."%";
 	$i++;
 }
-if (isset($data) and count($data) != 1){
+if (isset($data) && count($data) != 1){
 	echo '<br><div  class="mlt_bordure" >';
 	echo '<CENTER><div id="chart" style="width: 700px; height: 500px"></div></CENTER>';
 	echo '<script type="text/javascript">

@@ -39,12 +39,12 @@ $form_name='admin_values_config'.$protectedGet['tag'];
 $table_name=$form_name;
 $data_on[1]=$l->g(1059);
 $data_on[2]=$l->g(1060);
-if (isset($protectedGet['new_field']) and is_numeric($protectedGet['new_field']))
+if (isset($protectedGet['new_field']) && is_numeric($protectedGet['new_field']))
 	$lbl_new_field=$l->g($protectedGet['new_field']);
 else
 	$lbl_new_field=$l->g(80);
 //if no tab selected
-if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
+if (!isset($protectedPost['onglet']) || $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 
 
@@ -61,7 +61,7 @@ if (isset($protectedPost['MODIF'])
 	 $protectedPost['onglet'] = 2;
 	 $val_info=look_config_default_values(array($protectedGet['tag']."_".$protectedPost['MODIF']));
 	 $protectedPost['newfield']=$val_info['tvalue'][$protectedGet['tag']."_".$protectedPost['MODIF']];
-	 if (isset($protectedGet['nb_field']) and is_numeric($protectedGet['nb_field']))
+	 if (isset($protectedGet['nb_field']) && is_numeric($protectedGet['nb_field']))
 	 	$protectedPost['2newfield']=$val_info['comments'][$protectedGet['tag']."_".$protectedPost['MODIF']];
 	 
 	 $hidden=$protectedPost['MODIF'];
@@ -78,7 +78,7 @@ if ($protectedPost['onglet'] == 1){
 	$tab_options['CACHE']='RESET';
 
 	//delete few fields
-	if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){		
+	if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != ''){		
 		$list = $protectedPost['del_check'];
 		$sql_delete="DELETE FROM config WHERE name like '%s' and ivalue in (%s)";
 		$arg_delete=array($protectedGet['tag']."_%",$list);
@@ -171,7 +171,7 @@ if ($protectedPost['onglet'] == 1){
 		
 	
 	
-		if ( isset($hidden) and is_numeric($hidden)){
+		if ( isset($hidden) && is_numeric($hidden)){
 			$tab_hidden['MODIF_OLD']=$hidden;		
 		}
 		//NAME FIELD
@@ -179,7 +179,7 @@ if ($protectedPost['onglet'] == 1){
 		$tab_name[0]=$lbl_new_field;
 		$type_field= array(0);
 		$value_field=array($protectedPost['newfield']);
-		if (isset($protectedGet['nb_field']) and is_numeric($protectedGet['nb_field'])){
+		if (isset($protectedGet['nb_field']) && is_numeric($protectedGet['nb_field'])){
 			array_push($name_field,'2newfield');
 			array_push($tab_name,$l->g($protectedGet['nb_field']));
 			array_push($type_field,0);
@@ -189,7 +189,7 @@ if ($protectedPost['onglet'] == 1){
 		
 		$tab_typ_champ=show_field($name_field,$type_field,$value_field);
 		$tab_typ_champ[0]['CONFIG']['SIZE']=20;
-		if (isset($protectedGet['nb_field']) and is_numeric($protectedGet['nb_field'])){
+		if (isset($protectedGet['nb_field']) && is_numeric($protectedGet['nb_field'])){
 			$tab_typ_champ[1]['CONFIG']['SIZE']=20;			
 		}
 		

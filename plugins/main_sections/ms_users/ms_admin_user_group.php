@@ -34,7 +34,7 @@ else{
 	$ajax=false;
 }
 
-if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
+if (!isset($protectedPost['onglet']) || $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_users_groups';
 $table_name=$form_name;
@@ -49,7 +49,7 @@ echo '<div class="mlt_bordure" >';
 if ($protectedPost['onglet'] == 1){
 	$tab_options['CACHE']='RESET';
 
-	if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){		
+	if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != ''){		
 		$list = $protectedPost['del_check'];
 		$sql_delete="DELETE FROM config WHERE name like 'USER_GROUP_%' and ivalue in (".$list.")";
 		mysqli_query($_SESSION['OCS']["writeServer"],$sql_delete) or die(mysqli_error($_SESSION['OCS']["writeServer"]));				

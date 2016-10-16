@@ -26,7 +26,7 @@ function ScanDirectory($Directory,$Filetype){
   if (!$MyDirectory)
   	return FALSE; 
   while($Entry = @readdir($MyDirectory)) {
-  	if (substr($Entry,-strlen($Filetype)) == $Filetype and $Filetype != "."){
+  	if (substr($Entry,-strlen($Filetype)) == $Filetype && $Filetype != "."){
   		$data['name'][]=$Entry;
   		$data['date_create'][]=date ("d M Y H:i:s.", filectime($Directory.$Entry));
   		$data['date_modif'][]=date ("d M Y H:i:s.", filemtime($Directory.$Entry));
@@ -72,7 +72,7 @@ function read_configuration($ms_cfg_file,$search,$id_field=''){
 						$find[$value_2_search][$line]=$line;
          			}elseif($option == 'MULTI2'){
          				//Fix your id with a field file (the first field only)
-         				if ($id_field != '' and $value_2_search == $id_field)
+         				if ($id_field != '' && $value_2_search == $id_field)
          					$id=$line;
          				if (isset($id))
          					$find[$value_2_search][$id]=$line;	
@@ -101,7 +101,7 @@ function update_config_file($ms_cfg_file,$new_value,$sauv='YES'){
 		$new_ms_cfg_file.="<".$name_bal.">\n";
 		//fwrite($file,$key." ".$value."/r/n");	
 		foreach ($val as $name_value=>$value){
-			if (isset($value) and $value != '')
+			if (isset($value) && $value != '')
 				$new_ms_cfg_file.=$name_value.':'.$value."\n";
 			else
 				$new_ms_cfg_file.=$name_value."\n";

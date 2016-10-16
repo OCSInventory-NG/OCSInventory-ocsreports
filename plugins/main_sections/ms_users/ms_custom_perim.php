@@ -86,7 +86,7 @@ if( $protectedPost['newtag'] != "" ) {
 }
 
 //suppression d'une liste de tag
-if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){
+if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != ''){
 	$sql="DELETE FROM tags WHERE tag in ";
 	$arg_sql=array();
 	$sql=mysql2_prepare($sql,$arg_sql,$protectedPost['del_check']);
@@ -126,7 +126,7 @@ ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del
 $img['image/delete.png']=$l->g(162);
 del_selection($form_name);
 
-if (is_array($info_value_tag) and !isset($protectedPost['use_generic_0'])){
+if (is_array($info_value_tag) && !isset($protectedPost['use_generic_0'])){
 	$type=2;
 }else{
 	$type=0;

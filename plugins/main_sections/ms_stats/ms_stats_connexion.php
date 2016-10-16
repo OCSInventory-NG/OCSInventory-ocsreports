@@ -25,7 +25,7 @@ $data_on['BAD CONNEXION']=$l->g(1256);
 if (!isset($protectedPost['onglet']))
 	$protectedPost['onglet']='CONNEXION';
 	
-if ($protectedPost['onglet'] == 'CONNEXION' or $protectedPost['onglet'] == 'BAD CONNEXION')	{
+if ($protectedPost['onglet'] == 'CONNEXION' || $protectedPost['onglet'] == 'BAD CONNEXION')	{
 	
 	$ms_cfg_file=$_SESSION['OCS']['LOG_DIR']."log.csv";
 	
@@ -41,7 +41,7 @@ if ($protectedPost['onglet'] == 'CONNEXION' or $protectedPost['onglet'] == 'BAD 
 		$protectedPost['REST']=7;
 	$stats.= $l->g(1251). ": " .show_modif($array_profil,"REST",2,$form_name)."<br>";
 	
-	if (isset($protectedPost['REST']) and $protectedPost['REST'] != 'ALL')
+	if (isset($protectedPost['REST']) && $protectedPost['REST'] != 'ALL')
 	$lastWeek = time() - ($protectedPost['REST'] * 24 * 60 * 60);
 	//msg_error(time()."=>".$lastWeek);
 	//echo date('d/m/Y', $lastWeek) ;    

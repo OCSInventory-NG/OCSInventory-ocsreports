@@ -20,7 +20,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-if (isset($protectedGet['head']) and $protectedGet['head'] == 1)
+if (isset($protectedGet['head']) && $protectedGet['head'] == 1)
 $ban_head='no';
 /*******************************************************AFFICHAGE HTML DU HEADER*******************************************/
 html_header();
@@ -28,8 +28,8 @@ html_header();
 //on affiche l'entete de la page
 if (!isset($protectedGet["popup"])) {
 	//si unlock de l'interface
-	if (isset($protectedPost['LOCK']) and $protectedPost['LOCK'] == 'RESET') {
-		if (isset($_SESSION['OCS']["TRUE_mesmachines"]) and $_SESSION['OCS']["TRUE_mesmachines"] != array())
+	if (isset($protectedPost['LOCK']) && $protectedPost['LOCK'] == 'RESET') {
+		if (isset($_SESSION['OCS']["TRUE_mesmachines"]) && $_SESSION['OCS']["TRUE_mesmachines"] != array())
 			$_SESSION['OCS']["mesmachines"] = $_SESSION['OCS']["TRUE_mesmachines"];
 		else
 			unset($_SESSION['OCS']["mesmachines"]);
@@ -82,8 +82,8 @@ if (!isset($protectedGet["popup"])) {
                 //pass in debug mode if plugin debug exist
                 if (isset($pages_refs['ms_debug'])){
                     echo "<li>";
-                    if ((isset($_SESSION['OCS']['DEBUG']) and $_SESSION['OCS']['DEBUG']=='ON')
-                        or (isset($_SESSION['OCS']['MODE_LANGUAGE']) and $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
+                    if ((isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG']=='ON')
+                        || (isset($_SESSION['OCS']['MODE_LANGUAGE']) && $_SESSION['OCS']['MODE_LANGUAGE']=="ON")){
 
                         echo "<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_debug']."&head=1'><font color='red'>".$l->g(1011)."</font></a>";
 
@@ -100,7 +100,7 @@ if (!isset($protectedGet["popup"])) {
                 }
 
 
-                if (!isset($_SERVER['PHP_AUTH_USER']) and !isset($_SERVER['HTTP_AUTH_USER'])){
+                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER'])){
                     echo "<li><a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>".$l->g(251)."</a></li>";
                 }
 				echo open_form('log_out','index.php');
@@ -209,7 +209,7 @@ if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
 echo "<div class='fond'>";
 
 if ($_SESSION['OCS']["mesmachines"] == "NOTAG" 
-	and !(array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) and $protectedGet[PAG_INDEX] == $pages_refs['ms_debug']) ){
+	&& !(array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) && $protectedGet[PAG_INDEX] == $pages_refs['ms_debug']) ){
 	if (isset($LIST_ERROR))
 		$msg_error=$LIST_ERROR;
 	else

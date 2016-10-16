@@ -40,7 +40,7 @@ require_once('require/function_admininfo.php');
 		
 $accountinfo_choise['COMPUTERS']=$l->g(729);
 $accountinfo_choise['SNMP']=$l->g(1136);
-if (!isset($protectedPost['onglet']) or $protectedPost['onglet']=='')
+if (!isset($protectedPost['onglet']) || $protectedPost['onglet']=='')
 	 $protectedPost['onglet'] = 1;
 $form_name='admin_info';
 $table_name=$form_name;
@@ -100,8 +100,8 @@ echo '<div class="col col-md-10" >';
 
 	$table="accountinfo";
 
-if ((isset($protectedPost['ACCOUNTINFO_CHOISE']) and $protectedPost['ACCOUNTINFO_CHOISE'] == 'SNMP' and $protectedPost['onglet'] == 1)
-	or (isset($protectedPost['accountinfo']) and $protectedPost['accountinfo'] == 'SNMP' and $protectedPost['onglet'] == 2)){
+if ((isset($protectedPost['ACCOUNTINFO_CHOISE']) && $protectedPost['ACCOUNTINFO_CHOISE'] == 'SNMP' && $protectedPost['onglet'] == 1)
+	|| (isset($protectedPost['accountinfo']) && $protectedPost['accountinfo'] == 'SNMP' && $protectedPost['onglet'] == 2)){
 		$array_tab_account=find_all_account_tab('TAB_ACCOUNTSNMP');
 		$account_field="TAB_ACCOUNTSNMP";
 	}
@@ -129,7 +129,7 @@ if ($protectedPost['onglet'] == 1){
 		$account_choise = "COMPUTERS";
 		
 	$tab_options['CACHE']='RESET';
-	if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != ''){		
+	if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != ''){		
 		$list = $protectedPost['del_check'];
 		$tab_values=explode(',',$list);
 		$i=0;
@@ -139,7 +139,7 @@ if ($protectedPost['onglet'] == 1){
 		}				
 	}
 	
-	if(isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') {
+	if(isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
 		del_accountinfo($protectedPost['SUP_PROF']);
 	}	
 	$array_fields=array($l->g(1098)=>'NAME',
@@ -181,7 +181,7 @@ if ($protectedPost['onglet'] == 1){
 	$config['JAVASCRIPT'][1]=$sql_field;
 	$name_field=array("accountinfo","newfield");
 	$tab_name= array($l->g(56).": ",$l->g(1070).": ");
-	if (isset($protectedPost['MODIF_OLD']) or $protectedPost['MODIF']!=''){
+	if (isset($protectedPost['MODIF_OLD']) || $protectedPost['MODIF']!=''){
 		$hidden=($protectedPost['MODIF'] != '' ? $protectedPost['MODIF']:$protectedPost['MODIF_OLD']);
 		$type_field= array(3,3);
 		$value_field=array($protectedPost['accountinfo'],$protectedPost['newfield']);
@@ -191,7 +191,7 @@ if ($protectedPost['onglet'] == 1){
 		$value_field=array($accountinfo_choise,$protectedPost['newfield']);
 	}
 	
-	if ( isset($hidden) and is_numeric($hidden)){
+	if ( isset($hidden) && is_numeric($hidden)){
 		$tab_hidden['MODIF_OLD']=$hidden;		
 	}
 	
