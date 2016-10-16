@@ -72,7 +72,7 @@ function plugin_soap_client($name, $action) {
     //TODO : parse the output and check if the communication serveur has been successfully installed
     $xml_response = $output;
     // Clean soap xml output
-    $clean_xml = str_ireplace(['SOAP-ENV:', 'SOAP:'], '', $xml_response);
+    $clean_xml = str_ireplace(array('SOAP-ENV:', 'SOAP:'), '', $xml_response);
     $xml = simplexml_load_string($clean_xml);
 
     // TODO : Create a specific page for ALL help links
