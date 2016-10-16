@@ -95,3 +95,10 @@
     font-size: larger;
     text-align: center;
 }
+
+/*
+Open menus on mouse hover
+*/
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
