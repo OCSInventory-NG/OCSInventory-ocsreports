@@ -367,9 +367,9 @@ function html_header($noJavascript = false) {
         echo '
         <script src="libraries/jquery/jquery.js" type="text/javascript"></script>
         <script src="libraries/jquery-migrate-1/jquery-migrate.min.js" type="text/javascript"></script>
-        <script src="js/jquery.ui.widget.min.js" type="text/javascript"></script>
-        <script src="js/jquery.iframe-transport.min.js" type="text/javascript"></script>
-        <script src="js/jquery.fileupload.min.js" type="text/javascript"></script>
+        <script src="libraries/jquery-plugins/jquery.ui.widget.min.js" type="text/javascript"></script>
+        <script src="libraries/jquery-plugins/jquery.iframe-transport.min.js" type="text/javascript"></script>
+        <script src="libraries/jquery-plugins/jquery.fileupload.min.js" type="text/javascript"></script>
         <script src="libraries/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-custom.js" type="text/javascript"></script>
         <script src="libraries/raphael/raphael.min.js" type="text/javascript"></script>
