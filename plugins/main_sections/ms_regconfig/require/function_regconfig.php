@@ -33,7 +33,7 @@ function add_update_key($form_values, $update = false) {
     foreach ($form_values as $value) {
         if (trim($value) == "") {
             msg_error($l->g(988));
-            return FALSE;
+            return false;
         }
     }
 
@@ -62,7 +62,7 @@ function add_update_key($form_values, $update = false) {
                 $form_values["REGKEY"], $form_values["REGVALUE"]);
         } else {
             msg_error($l->g(987));
-            return FALSE;
+            return false;
         }
     }
 
@@ -72,7 +72,7 @@ function add_update_key($form_values, $update = false) {
             msg_success($l->g(1185));
         else
             msg_success($l->g(1184));
-        return TRUE;
+        return true;
     }
 }
 

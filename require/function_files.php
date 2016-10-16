@@ -24,7 +24,7 @@
 function ScanDirectory($Directory, $Filetype) {
     $MyDirectory = @opendir($Directory);
     if (!$MyDirectory) {
-        return FALSE;
+        return false;
     }
     while ($Entry = @readdir($MyDirectory)) {
         if (substr($Entry, -strlen($Filetype)) == $Filetype && $Filetype != ".") {
@@ -117,9 +117,9 @@ function update_config_file($ms_cfg_file, $new_value, $sauv = 'YES') {
     fclose($file);
 }
 
-function getcopy_config_file($ms_cfg_file, $record = 'YES', $sauv = FALSE) {
+function getcopy_config_file($ms_cfg_file, $record = 'YES', $sauv = false) {
     if ($record != 'YES') {
-        return FALSE;
+        return false;
     }
     if (!$sauv) {
         $newfile = $_SESSION['OCS']['OLD_CONF_DIR'] . $ms_cfg_file . '_config_old_' . time();
@@ -129,7 +129,7 @@ function getcopy_config_file($ms_cfg_file, $record = 'YES', $sauv = FALSE) {
 
     $ms_cfg_file = $_SESSION['OCS']['CONF_PROFILS_DIR'] . $ms_cfg_file . "_config.txt";
     @copy($ms_cfg_file, $newfile);
-    return TRUE;
+    return true;
 }
 
 function delete_config_file($ms_cfg_file) {

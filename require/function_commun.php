@@ -246,14 +246,14 @@ function read_files($search, $ms_cfg_file, $writable = '') {
     global $l;
     if (!is_writable($ms_cfg_file) && $writable != '') {
         msg_error($ms_cfg_file . " " . $l->g(1006) . ". " . $l->g(1147));
-        return FALSE;
+        return false;
     }
 
     if (file_exists($ms_cfg_file)) {
         $profil_data = read_configuration($ms_cfg_file, $search);
         return $profil_data;
     } else {
-        return FALSE;
+        return false;
     }
 }
 

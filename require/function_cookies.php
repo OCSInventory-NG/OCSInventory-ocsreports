@@ -23,7 +23,7 @@
 
 function cookies_reset($cookies_del) {
     if (isset($_COOKIE[$cookies_del])) {
-        setcookie($cookies_del, FALSE, time() - 3600);
+        setcookie($cookies_del, false, time() - 3600);
     } // deleting corresponding cookie
 }
 

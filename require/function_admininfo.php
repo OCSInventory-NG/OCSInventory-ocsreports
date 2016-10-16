@@ -119,7 +119,7 @@ function del_accountinfo($id) {
     } elseif ($val['account_type'] == "COMPUTERS") {
         $table = "accountinfo";
     } else {
-        return FALSE;
+        return false;
     }
 
     //DELETE INTO CONFIG TABLE

@@ -110,7 +110,7 @@ if ($protectedPost['tab'] == 'VIEW') {
         if (isset($protectedPost['id']) && $protectedPost['id'] != '') {
             $udpate = $protectedPost['id'];
         } else {
-            $udpate = FALSE;
+            $udpate = false;
         }
         $result = add_update_key($form_values, $udpate);
         if ($result) {

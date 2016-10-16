@@ -367,16 +367,16 @@ function remove_packet($fileid) {
     mysql2_query_secure($reqDelAvailable, $_SESSION['OCS']["writeServer"], $argDelAvailable);
 }
 
-function recursive_remove_directory($directory, $empty = FALSE) {
+function recursive_remove_directory($directory, $empty = false) {
     if (substr($directory, -1) == '/') {
         $directory = substr($directory, 0, -1);
     }
 
     if (!file_exists($directory) || !is_dir($directory)) {
-        return FALSE;
+        return false;
     } elseif (is_readable($directory)) {
         $handle = opendir($directory);
-        while (FALSE !== ($item = readdir($handle))) {
+        while (false !== ($item = readdir($handle))) {
             if ($item != '.' && $item != '..') {
                 $path = $directory . '/' . $item;
                 if (is_dir($path)) {
@@ -387,13 +387,13 @@ function recursive_remove_directory($directory, $empty = FALSE) {
             }
         }
         closedir($handle);
-        if ($empty == FALSE) {
+        if ($empty == false) {
             if (!rmdir($directory)) {
-                return FALSE;
+                return false;
             }
         }
     }
-    return TRUE;
+    return true;
 }
 
 function create_pack($sql_details, $info_details) {

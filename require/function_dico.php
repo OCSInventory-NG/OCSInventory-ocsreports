@@ -63,21 +63,21 @@ function trans($onglet, $list_soft, $affect_type, $new_cat, $exist_cat) {
         $result_search_soft = mysqli_query($_SESSION['OCS']["readServer"], $sql_verif);
         $item_search_soft = mysqli_fetch_object($result_search_soft);
         if (isset($item_search_soft->extracted) || $new_cat == "IGNORED" || $new_cat == "UNCHANGED") {
-            $already_exist = TRUE;
+            $already_exist = true;
         }
     }
 
     if ($onglet == "NEW") {
         $table = "softwares";
-        $ok = TRUE;
+        $ok = true;
     } else {
         if (!isset($already_exist)) {
             del_soft($onglet, $list_soft);
         }
-        $ok = TRUE;
+        $ok = true;
     }
 
-    if ($ok == TRUE) {
+    if ($ok == true) {
         if ($affect_type == "EXIST_CAT") {
             if ($exist_cat == "IGNORED") {
                 $sql = "insert dico_ignored (extracted) select distinct NAME from " . $table . " where ID in (" . implode(",", $list_soft) . ")";

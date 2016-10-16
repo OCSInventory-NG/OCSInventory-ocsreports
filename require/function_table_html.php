@@ -695,9 +695,9 @@ function tab_entete_fixe($entete_colonne, $data, $titre, $width, $height, $lien 
         echo "</tr></tbody></table></div></div>";
     } else {
         msg_warning($l->g(766));
-        return FALSE;
+        return false;
     }
-    return TRUE;
+    return true;
 }
 
 //variable pour la fonction champsform
@@ -1807,7 +1807,7 @@ function tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetail
             if ($data != $_COOKIE[$tab_options['table_name'] . "_col"]) {
                 setcookie($tab_options['table_name'] . "_col", $data, time() + 31536000);
             } else {
-                setcookie($tab_options['table_name'] . "_col", FALSE, time() - 3600);
+                setcookie($tab_options['table_name'] . "_col", false, time() - 3600);
             }
         }
     }
