@@ -22,7 +22,6 @@
  */
 
 //Creating array for icons (this is not really a function, juste for code reading)
-
 //{
 //        $icons_list['ms_all_computers']=create_icon($l->g(2), $pages_refs['ms_all_computers']);
 //        $icons_list['ms_repart_tag']=create_icon($l->g(178), $pages_refs['ms_repart_tag']);
@@ -41,13 +40,10 @@
 //        $icons_list['ms_local']=create_icon($l->g(287), $pages_refs['ms_local']);
 //        $icons_list['ms_help']=create_icon($l->g(570), $pages_refs['ms_help']);
 //}
-
-
 // Deprecated, could probably be dropped
 function getmicrotime() {
-	return microtime(true);
+    return microtime(true);
 }
-
 
 //function create_icon( $label, $biere ) {
 //	
@@ -84,8 +80,6 @@ function getmicrotime() {
 //        //pour obliger le cache des tableaux a se vider
 //        return "<td onmouseover=\"javascript:montre();\"><a onclick='clic(\"".$llink."\");'><img title=\"".htmlspecialchars($label)."\" src='image/$img.png' id=$img></a></td>";
 //}
-
-
 //function menu_list($name_menu,$packAct,$nam_img,$title,$data_list)
 //{
 //        global $protectedGet;
@@ -113,5 +107,4 @@ function getmicrotime() {
 //        </td> ";
 //
 //}
-
 ?>

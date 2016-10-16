@@ -21,7 +21,4 @@
  * MA 02110-1301, USA.
  */
 require_once('require/function_modify.php');
-
-
-
 ?>

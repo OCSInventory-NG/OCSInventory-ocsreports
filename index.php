@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -31,18 +31,22 @@ require_once('require/config/include.php');
 // Magic Quotes :
 // This feature has been deprecated as of PHP 5.3 and deleted as of PHP 5.4.
 if (get_magic_quotes_gpc()) {
-    function magicQuotes_awStripslashes(&$value, $key) {$value = stripslashes($value);}
+
+    function magicQuotes_awStripslashes(&$value, $key) {
+        $value = stripslashes($value);
+    }
+
     $gpc = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
     array_walk_recursive($gpc, 'magicQuotes_awStripslashes');
 }
 
-$sleep=1;
+$sleep = 1;
 $debut = microtime(true);
 
 define('AJAX', false);
 
 require ('require/header.php');
-addLog('PAGE',$protectedGet[PAG_INDEX]);
+addLog('PAGE', $protectedGet[PAG_INDEX]);
 
-if( !isset($protectedGet["popup"] )&& !isset($protectedGet["no_footer"] ))
-	require (FOOTER_HTML);
+if (!isset($protectedGet["popup"]) && !isset($protectedGet["no_footer"]))
+    require (FOOTER_HTML);

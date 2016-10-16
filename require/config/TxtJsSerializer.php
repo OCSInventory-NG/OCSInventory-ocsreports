@@ -25,22 +25,23 @@
  * Unserialize the js files from the old txt config files
  */
 class TxtJsSerializer {
-	public function serialize($js) {
-		throw new Exception('Cannot serialize OCS 2.2 js config to old (pre 2.2) txt files');
-	}
-	
-	public function unserialize($config) {
-		if (!is_array($config)) {
-			return false;
-		}
-		
-		$js = array();
-		foreach ($config['JAVASCRIPT'] as $file => $path) {
-			$js []= $path.$file;
-		}
-		
-		return $js;
-	}
-}
 
+    public function serialize($js) {
+        throw new Exception('Cannot serialize OCS 2.2 js config to old (pre 2.2) txt files');
+    }
+
+    public function unserialize($config) {
+        if (!is_array($config)) {
+            return false;
+        }
+
+        $js = array();
+        foreach ($config['JAVASCRIPT'] as $file => $path) {
+            $js [] = $path . $file;
+        }
+
+        return $js;
+    }
+
+}
 ?>

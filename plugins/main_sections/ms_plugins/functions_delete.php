@@ -20,6 +20,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
+
 /** This function delete a directory recusively with all his files and sub-dirs
  * 
  * @param string $dir : Directory path
@@ -29,7 +30,10 @@ function rrmdir($dir) {
         $objects = scandir($dir);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
-                if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
+                if (filetype($dir . "/" . $object) == "dir")
+                    rrmdir($dir . "/" . $object);
+                else
+                    unlink($dir . "/" . $object);
             }
         }
         reset($objects);
@@ -43,60 +47,59 @@ function rrmdir($dir) {
  * 
  * @param integer $pluginid : Plugin id in DB
  */
-function delete_plugin($pluginid, $dyn_cal = true){
+function delete_plugin($pluginid, $dyn_cal = true) {
 
     global $l;
 
-    $conn = new PDO('mysql:host='.SERVER_WRITE.';dbname='.DB_NAME.'', COMPTE_BASE, PSWD_BASE);
+    $conn = new PDO('mysql:host=' . SERVER_WRITE . ';dbname=' . DB_NAME . '', COMPTE_BASE, PSWD_BASE);
     $arg = (int) $pluginid;
-    if($arg == 0){
-       $arg = (string) $pluginid;
+    if ($arg == 0) {
+        $arg = (string) $pluginid;
     }
 
     // if not int get name - 
-    if(is_int($arg)){
-        $query = $conn->query("SELECT * FROM `plugins` WHERE id = '".$pluginid."'");
+    if (is_int($arg)) {
+        $query = $conn->query("SELECT * FROM `plugins` WHERE id = '" . $pluginid . "'");
         $anwser = $query->fetch();
-    }else{
+    } else {
         $anwser['name'] = $pluginid;
     }
 
     if (!class_exists('plugins')) {
-            require 'plugins.class.php';
+        require 'plugins.class.php';
     }
 
     if (!function_exists('exec_plugin_soap_client')) {
-            require 'functions_webservices.php';
+        require 'functions_webservices.php';
     }
 
-    if (file_exists(MAIN_SECTIONS_DIR."ms_".$anwser['name'])){
+    if (file_exists(MAIN_SECTIONS_DIR . "ms_" . $anwser['name'])) {
 
-            if ($anwser['name'] != "" && $anwser['name'] != null){
-                    require_once (MAIN_SECTIONS_DIR."ms_".$anwser['name']."/install.php");
-                    
-                    if($dyn_cal){
-                        $fonc = "plugin_delete_".$anwser['name'];
-                        $fonc();
-                    }
+        if ($anwser['name'] != "" && $anwser['name'] != null) {
+            require_once (MAIN_SECTIONS_DIR . "ms_" . $anwser['name'] . "/install.php");
+
+            if ($dyn_cal) {
+                $fonc = "plugin_delete_" . $anwser['name'];
+                $fonc();
             }
+        }
 
-            rrmdir(MAIN_SECTIONS_DIR."ms_".$anwser['name']);
+        rrmdir(MAIN_SECTIONS_DIR . "ms_" . $anwser['name']);
     }
-    if (file_exists(PLUGINS_DIR."computer_detail/cd_".$anwser['name'])){
-            rrmdir(PLUGINS_DIR."computer_detail/cd_".$anwser['name']);
-    }
-
-    if(file_exists(PLUGINS_SRV_SIDE.$anwser['name'].".zip")){
-            unlink(PLUGINS_SRV_SIDE.$anwser['name'].".zip");
-            exec_plugin_soap_client($anwser['name'], 0);
+    if (file_exists(PLUGINS_DIR . "computer_detail/cd_" . $anwser['name'])) {
+        rrmdir(PLUGINS_DIR . "computer_detail/cd_" . $anwser['name']);
     }
 
-    if(is_int($arg)){
-        $conn->query("DELETE FROM `".DB_NAME."`.`plugins` WHERE `plugins`.`id` = ".$arg." ");
-    }else{
-        $conn->query("DELETE FROM `".DB_NAME."`.`plugins` WHERE `plugins`.`name` = '".$arg."' ");
+    if (file_exists(PLUGINS_SRV_SIDE . $anwser['name'] . ".zip")) {
+        unlink(PLUGINS_SRV_SIDE . $anwser['name'] . ".zip");
+        exec_plugin_soap_client($anwser['name'], 0);
     }
-	
+
+    if (is_int($arg)) {
+        $conn->query("DELETE FROM `" . DB_NAME . "`.`plugins` WHERE `plugins`.`id` = " . $arg . " ");
+    } else {
+        $conn->query("DELETE FROM `" . DB_NAME . "`.`plugins` WHERE `plugins`.`name` = '" . $arg . "' ");
+    }
 }
 
 ?>

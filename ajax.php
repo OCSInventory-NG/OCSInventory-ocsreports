@@ -28,13 +28,17 @@ require_once('require/config/include.php');
 
 @session_start();
 if (get_magic_quotes_gpc()) {
-    function magicQuotes_awStripslashes(&$value, $key) {$value = stripslashes($value);}
+
+    function magicQuotes_awStripslashes(&$value, $key) {
+        $value = stripslashes($value);
+    }
+
     $gpc = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
     array_walk_recursive($gpc, 'magicQuotes_awStripslashes');
 }
 
 require_once ('require/function_index.php');
-$sleep=1;
+$sleep = 1;
 $debut = microtime(true);
 
 define('AJAX', true);
@@ -42,5 +46,4 @@ define('AJAX', true);
 require ('require/header.php');
 
 addLog('PAGE', $protectedGet[PAG_INDEX]);
-
 ?>

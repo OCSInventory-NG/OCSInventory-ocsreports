@@ -21,17 +21,16 @@
  * MA 02110-1301, USA.
  */
 require_once(PHPCAS);
-require_once(BACKEND.'require/cas.config.php');
-$cas=new phpCas();
-$cas->client(CAS_VERSION_2_0,$cas_host,$cas_port,$cas_uri);
+require_once(BACKEND . 'require/cas.config.php');
+$cas = new phpCas();
+$cas->client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_uri);
 $cas->forceAuthentication();
 $login = $cas->getUser();
 $mdp = "";
 
-if ($login){
-	$login_successful = "OK";
-	$cnx_origine="CAS";
-	$user_group="CAS";
+if ($login) {
+    $login_successful = "OK";
+    $cnx_origine = "CAS";
+    $user_group = "CAS";
 }
-	
 ?>

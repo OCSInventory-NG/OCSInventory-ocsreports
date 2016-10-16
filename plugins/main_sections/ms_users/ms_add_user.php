@@ -21,28 +21,27 @@
  * MA 02110-1301, USA.
  */
 if (!AJAX) {
-	require_once 'views/users_views.php';
-	
-	show_users_left_menu('ms_add_user');
-	
-	echo '<div class="right-content">';
+    require_once 'views/users_views.php';
+
+    show_users_left_menu('ms_add_user');
+
+    echo '<div class="right-content">';
 }
 
 require_once 'require/function_users.php';
 
 if (isset($protectedPost['Valid_modif'])) {
-	$msg = add_user($_POST, get_profile_labels());
-	if ($msg != $l->g(373)) {
-		msg_error($msg);
-	} else {
-		msg_success($l->g(1186));
-	}
+    $msg = add_user($_POST, get_profile_labels());
+    if ($msg != $l->g(373)) {
+        msg_error($msg);
+    } else {
+        msg_success($l->g(1186));
+    }
 }
 
 admin_user();
 
 if (!AJAX) {
-	echo '</div>';
+    echo '</div>';
 }
-
 ?>

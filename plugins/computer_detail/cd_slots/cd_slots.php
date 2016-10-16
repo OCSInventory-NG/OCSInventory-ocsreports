@@ -20,36 +20,35 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-	if(AJAX){
-		parse_str($protectedPost['ocs']['0'], $params);
-		$protectedPost+=$params;
-		ob_start();
-		$ajax = true;
-	}
-	else{
-		$ajax=false;
-	}
-	if (!isset($protectedPost['SHOW']))
-		$protectedPost['SHOW'] = 'NOSHOW';
-	print_item_header($l->g(271));
-	$form_name="affich_slots";
-	$table_name=$form_name;
-	$tab_options=$protectedPost;
-	$tab_options['form_name']=$form_name;
-	$tab_options['table_name']=$table_name;
-	echo open_form($form_name, '', '', 'form-horizontal');
-	$list_fields=array($l->g(49) => 'NAME',
-					   $l->g(53) => 'DESCRIPTION',
-					   $l->g(70) => 'DESIGNATION');
-	$list_col_cant_del=$list_fields;
-	$default_fields= $list_fields;
-	//$tab_options['FILTRE']=array('NAME'=>$l->g(212),'REGVALUE'=>$l->g(213));;
-	$queryDetails  = "SELECT * FROM slots WHERE (hardware_id=$systemid)";
-	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
-	echo close_form();
-	if ($ajax){
-		ob_end_clean();
-		tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options);
-		ob_start();
-	}
+if (AJAX) {
+    parse_str($protectedPost['ocs']['0'], $params);
+    $protectedPost += $params;
+    ob_start();
+    $ajax = true;
+} else {
+    $ajax = false;
+}
+if (!isset($protectedPost['SHOW']))
+    $protectedPost['SHOW'] = 'NOSHOW';
+print_item_header($l->g(271));
+$form_name = "affich_slots";
+$table_name = $form_name;
+$tab_options = $protectedPost;
+$tab_options['form_name'] = $form_name;
+$tab_options['table_name'] = $table_name;
+echo open_form($form_name, '', '', 'form-horizontal');
+$list_fields = array($l->g(49) => 'NAME',
+    $l->g(53) => 'DESCRIPTION',
+    $l->g(70) => 'DESIGNATION');
+$list_col_cant_del = $list_fields;
+$default_fields = $list_fields;
+//$tab_options['FILTRE']=array('NAME'=>$l->g(212),'REGVALUE'=>$l->g(213));;
+$queryDetails = "SELECT * FROM slots WHERE (hardware_id=$systemid)";
+ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+echo close_form();
+if ($ajax) {
+    ob_end_clean();
+    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+    ob_start();
+}
 ?>

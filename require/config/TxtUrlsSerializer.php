@@ -25,22 +25,23 @@
  * Unserialize the urls from the old txt config files
  */
 class TxtUrlsSerializer {
-	public function serialize(Urls $urls) {
-		throw new Exception('Cannot serialize OCS 2.2 urls to old (pre 2.2) txt files');
-	}
-	
-	public function unserialize($config) {
-		if (!is_array($config)) {
-			return false;
-		}
-		
-		$urls = new Urls();
-		foreach ($config['URL'] as $key => $val) {
-			$urls->addUrl($key, $val, $config['DIRECTORY'][$key]);
-		}
-		
-		return $urls;
-	}
-}
 
+    public function serialize(Urls $urls) {
+        throw new Exception('Cannot serialize OCS 2.2 urls to old (pre 2.2) txt files');
+    }
+
+    public function unserialize($config) {
+        if (!is_array($config)) {
+            return false;
+        }
+
+        $urls = new Urls();
+        foreach ($config['URL'] as $key => $val) {
+            $urls->addUrl($key, $val, $config['DIRECTORY'][$key]);
+        }
+
+        return $urls;
+    }
+
+}
 ?>

@@ -26,38 +26,36 @@ require_once('require/function_config_generale.php');
  * @param unknown $name : PluginName
  * @param unknown $action : Possible actions => delete (0) and install (1)
  */
-function exec_plugin_soap_client($name, $action){
-	
+function exec_plugin_soap_client($name, $action) {
+
     global $l;
 
-    if(class_exists('SoapClient')) {
-            plugin_soap_client($name, $action);
-    }else{
-            msg_error($l->g(6006));
+    if (class_exists('SoapClient')) {
+        plugin_soap_client($name, $action);
+    } else {
+        msg_error($l->g(6006));
     }
-    
 }
 
-function plugin_soap_client($name, $action){
-    
+function plugin_soap_client($name, $action) {
+
     global $l;
-	
-    $champs=array('OCS_SERVER_ADDRESS'=>'OCS_SERVER_ADDRESS');
-    $values=look_config_default_values($champs);
+
+    $champs = array('OCS_SERVER_ADDRESS' => 'OCS_SERVER_ADDRESS');
+    $values = look_config_default_values($champs);
 
     $address = $values['tvalue']['OCS_SERVER_ADDRESS'];
 
-    if($action == 1){
-            $method = "InstallPlugins";
-    }else{
-            $method = "DeletePlugins";
+    if ($action == 1) {
+        $method = "InstallPlugins";
+    } else {
+        $method = "DeletePlugins";
     }
 
-    $client = new SoapClient(null,
-        array(
-                'location' => "http://$address/ocsplugins",
-                'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules",
-        ));
+    $client = new SoapClient(null, array(
+        'location' => "http://$address/ocsplugins",
+        'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules",
+    ));
 
     $request = "<?xml version=\"1.0\" encoding=\"utf-8\" ?> 
             <soap:Envelope 
@@ -71,27 +69,25 @@ function plugin_soap_client($name, $action){
             </soap:Body>
             </soap:Envelope>";
 
-    $output = $client->__doRequest($request, "http://$address".PLUGIN_WS_URL, "http://$address/Apache/Ocsinventory/Plugins/Modules#$method", "1.1");
-    
+    $output = $client->__doRequest($request, "http://$address" . PLUGIN_WS_URL, "http://$address/Apache/Ocsinventory/Plugins/Modules#$method", "1.1");
+
     //TODO : parse the output and check if the communication serveur has been successfully installed
     $xml_response = $output;
     // Clean soap xml output
     $clean_xml = str_ireplace(['SOAP-ENV:', 'SOAP:'], '', $xml_response);
     $xml = simplexml_load_string($clean_xml);
-    
+
     // TODO : Create a specific page for ALL help links 
     $help_link = "https://github.com/OCSInventory-NG/OCSInventory-ocsreports/wiki/Plugins-Engine-:-Web-service-error-codes";
-    
-    if($action == 1){
-        
-        $soap_return_value = $xml->Body->InstallPluginsResponse->Result;
-        
-        if($soap_return_value != "Install_OK"){
-            msg_warning($l->g(6010)." ".$soap_return_value."<br><a href=$help_link>".$l->g(6011)." </a>");
-        }
 
+    if ($action == 1) {
+
+        $soap_return_value = $xml->Body->InstallPluginsResponse->Result;
+
+        if ($soap_return_value != "Install_OK") {
+            msg_warning($l->g(6010) . " " . $soap_return_value . "<br><a href=$help_link>" . $l->g(6011) . " </a>");
+        }
     }
-	
 }
 
 ?>

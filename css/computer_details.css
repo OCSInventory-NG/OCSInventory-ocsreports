@@ -35,39 +35,39 @@
 /*** SUMMARY ***/
 
 .summary {
-	width: 100%;
-	text-align: left;
+    width: 100%;
+    text-align: left;
 }
 
 .summary-row:first-child {
-	border-top: 1px solid #c7c7c7;
+    border-top: 1px solid #c7c7c7;
 }
 
 .summary-cell {
-	width: 50%;
-	padding: 5px 10px 10px 20px;
-	border: 1px solid #c7c7c7;
-	vertical-align: top;
+    width: 50%;
+    padding: 5px 10px 10px 20px;
+    border: 1px solid #c7c7c7;
+    vertical-align: top;
 }
 
 .summary-header {
-	display: inline-block;
-	font-weight: bold;
-	width: 30%;
-	padding: 3px 0;
+    display: inline-block;
+    font-weight: bold;
+    width: 30%;
+    padding: 3px 0;
 }
 
 .summary-value {
-	display: inline-block;
-	width: 70%;
-	padding: 3px 0;
+    display: inline-block;
+    width: 70%;
+    padding: 3px 0;
 }
 
 /*** PLUGINS ***/
 
 .plugin-frame {
-	background: #f8f8f8;
-	border: 1px solid #c7c7c7;
-	padding: 10px;
-	margin-bottom: 20px;
+    background: #f8f8f8;
+    border: 1px solid #c7c7c7;
+    padding: 10px;
+    margin-bottom: 20px;
 }

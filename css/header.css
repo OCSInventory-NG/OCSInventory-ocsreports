@@ -20,12 +20,12 @@
  * MA 02110-1301, USA.
  */
 .header-logo {
-	padding-top: 3px;
-	padding-bottom: 0;
+    padding-top: 3px;
+    padding-bottom: 0;
 }
 .header-logo img{
-	height: 40px;
-	width: auto;
+    height: 40px;
+    width: auto;
 }
 
 .navbar #log_out{
@@ -40,41 +40,41 @@
 }
 
 .main-menu-container {
-	margin-left: 137px;
+    margin-left: 137px;
 }
 
 .main-menu-container .navbar {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .main-menu-container .navbar-nav > li {
-	float: none;
-	display: inline-block;
+    float: none;
+    display: inline-block;
 }
 
 .main-menu-container .navbar-nav > li > a {
-	padding-top: 14px;
-	padding-bottom: 14px;
+    padding-top: 14px;
+    padding-bottom: 14px;
 }
 
 .user-header {
-	background: black;
-	color: white;
-	min-height: 15px;
+    background: black;
+    color: white;
+    min-height: 15px;
 }
 
 .user-header .version,
 .user-header .links {
-	float: right;
-	margin: 0 10px
+    float: right;
+    margin: 0 10px
 }
 
 .user-header .links > * {
-	margin: 0 10px;
-	color: white;
-	float: right;
+    margin: 0 10px;
+    color: white;
+    float: right;
 }
 
 #menu_settings{
-	font-size:20px;
+    font-size:20px;
 }

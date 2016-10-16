@@ -22,28 +22,27 @@
  */
 require('require/function_stats.php');
 
-$form_name="stats";
-$table_name=$form_name;	
+$form_name = "stats";
+$table_name = $form_name;
 printEnTete($l->g(1251));
 echo open_form($form_name);
-$plugin=false;
-$stats='';
+$plugin = false;
+$stats = '';
 
-foreach ($_SESSION['OCS']['url_service']->getUrls() as $name=>$url){
-	if (substr($name,0,9) == 'ms_stats_' && $url['directory'] == 'ms_stats'){
-		$plugin=true;
-		require_once($name.".php");
-	}	
+foreach ($_SESSION['OCS']['url_service']->getUrls() as $name => $url) {
+    if (substr($name, 0, 9) == 'ms_stats_' && $url['directory'] == 'ms_stats') {
+        $plugin = true;
+        require_once($name . ".php");
+    }
 }
 
-if ($plugin){
-	//Create the chart - Column 3D Chart with data from strXML variable using dataXML method
-	show_tabs($data_on,$form_name,"onglet",4);
-	echo '<div class="col col-md-10" >';
-	echo $stats;		
-	echo "</div>";
-}else
-	msg_warning($l->g(1262));
+if ($plugin) {
+    //Create the chart - Column 3D Chart with data from strXML variable using dataXML method
+    show_tabs($data_on, $form_name, "onglet", 4);
+    echo '<div class="col col-md-10" >';
+    echo $stats;
+    echo "</div>";
+} else
+    msg_warning($l->g(1262));
 echo close_form();
-
 ?>

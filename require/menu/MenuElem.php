@@ -26,11 +26,8 @@
  *
  * The class generate one menu element     
  */
-class MenuElem extends Menu
-{
-    
+class MenuElem extends Menu {
     private $_label;
-
     private $_url;
 
     /**
@@ -41,21 +38,19 @@ class MenuElem extends Menu
      * @param array  $_children Children
      * @param number $_priority The priority of the MenuElem
      */
-    public function __construct($label, $url , array $_children = array(), $_priority = 0)
-    {
+    public function __construct($label, $url, array $_children = array(), $_priority = 0) {
         $this->_label = $label;
         $this->_url = $url;
-        
+
         parent::__construct($_children, $_priority);
     }
-    
+
     /**
      * Get the MenuElem label
      * 
      * @return string $this->label 
      */
-    public function getLabel()
-    {
+    public function getLabel() {
         return $this->_label;
     }
 
@@ -66,8 +61,7 @@ class MenuElem extends Menu
      * 
      * @return MenuElem
      */
-    public function setLabel($_label)
-    {
+    public function setLabel($_label) {
         $this->_label = $_label;
         return $this;
     }
@@ -77,8 +71,7 @@ class MenuElem extends Menu
      * 
      * @return string $this->_url
      */
-    public function getUrl()
-    {
+    public function getUrl() {
         return $this->_url;
     }
 
@@ -89,9 +82,9 @@ class MenuElem extends Menu
      * 
      * @return MenuElem
      */
-    public function setUrl($_url)
-    {
+    public function setUrl($_url) {
         $this->_url = $_url;
         return $this;
     }
+
 }

@@ -25,24 +25,23 @@
  * Renders the main menu
  */
 class MainMenuRenderer extends MenuRenderer {
-	private $profile;
-	private $urls;
-	
-	public function __construct($profile, $urls) {
-		parent::__construct();
-	
-		$this->profile = $profile;
-		$this->urls = $urls;
-	}
-	
-	protected function canSeeElem(MenuElem $menu_elem) {
-		return $menu_elem->hasChildren() || $this->profile->hasPage($menu_elem->getUrl());
-	}
+    private $profile;
+    private $urls;
 
-	protected function getUrl(MenuElem $menu_elem) {
-		return "?".PAG_INDEX."=".$this->urls->getUrl($menu_elem->getUrl());
-	}
+    public function __construct($profile, $urls) {
+        parent::__construct();
+
+        $this->profile = $profile;
+        $this->urls = $urls;
+    }
+
+    protected function canSeeElem(MenuElem $menu_elem) {
+        return $menu_elem->hasChildren() || $this->profile->hasPage($menu_elem->getUrl());
+    }
+
+    protected function getUrl(MenuElem $menu_elem) {
+        return "?" . PAG_INDEX . "=" . $this->urls->getUrl($menu_elem->getUrl());
+    }
 
 }
-
 ?>

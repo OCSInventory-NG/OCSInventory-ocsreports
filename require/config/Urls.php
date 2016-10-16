@@ -25,43 +25,43 @@
  * Holds the config for the urls
  */
 class Urls {
-	private $urls;
-	private $urlNames;
-	
-	public function __construct() {
-		$this->urls = array();
-		$this->urlNames = array();
-	}
+    private $urls;
+    private $urlNames;
 
-	public function getUrl($key) {
-		return isset($this->urls[$key]) ? $this->urls[$key]['value'] : null;
-	}
-	
-	public function getDirectory($key) {
-		return isset($this->urls[$key]) ? $this->urls[$key]['directory'] : null;
-	}
-	
-	public function getUrlName($value) {
-		return isset($this->urlNames[$value]) ? $this->urlNames[$value] : null;
-	}
-	
-	public function addUrl($key, $value, $directory) {
-		$this->urls[$key] = array(
-			'value' => $value,
-			'directory' => $directory
-		);
-		
-		// For reverse lookup
-		$this->urlNames[$value] = $key;
-	}
-	
-	public function getUrls() {
-		return $this->urls;
-	}
-	
-	public function getUrlNames() {
-		return $this->urlNames;
-	}
+    public function __construct() {
+        $this->urls = array();
+        $this->urlNames = array();
+    }
+
+    public function getUrl($key) {
+        return isset($this->urls[$key]) ? $this->urls[$key]['value'] : null;
+    }
+
+    public function getDirectory($key) {
+        return isset($this->urls[$key]) ? $this->urls[$key]['directory'] : null;
+    }
+
+    public function getUrlName($value) {
+        return isset($this->urlNames[$value]) ? $this->urlNames[$value] : null;
+    }
+
+    public function addUrl($key, $value, $directory) {
+        $this->urls[$key] = array(
+            'value' => $value,
+            'directory' => $directory
+        );
+
+        // For reverse lookup
+        $this->urlNames[$value] = $key;
+    }
+
+    public function getUrls() {
+        return $this->urls;
+    }
+
+    public function getUrlNames() {
+        return $this->urlNames;
+    }
+
 }
-
 ?>

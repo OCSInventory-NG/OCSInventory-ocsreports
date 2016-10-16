@@ -28,50 +28,49 @@
  * si une erreur est rencontrée, on retourne un code erreur
  * 
  */
-	
+
 
 require_once ('require/function_files.php');
 //nom de la page
-$name="local.php";
+$name = "local.php";
 connexion_local_read();
-mysqli_select_db($link_ocs,$db_ocs);
+mysqli_select_db($link_ocs, $db_ocs);
 
 //recherche du niveau de droit de l'utilisateur
-$reqOp="SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
-$argOp=array($_SESSION['OCS']["loggeduser"]);
-$resOp=mysql2_query_secure($reqOp,$link_ocs,$argOp);
-$rowOp=mysqli_fetch_object($resOp);
+$reqOp = "SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
+$argOp = array($_SESSION['OCS']["loggeduser"]);
+$resOp = mysql2_query_secure($reqOp, $link_ocs, $argOp);
+$rowOp = mysqli_fetch_object($resOp);
 
 if (isset($rowOp->accesslvl)) {
-	$lvluser = $rowOp->accesslvl;
+    $lvluser = $rowOp->accesslvl;
 
-	$profile_config = DOCUMENT_REAL_ROOT.'/config/profiles/'.$lvluser.'.xml';
-	
-	if (!file_exists($profile_config)) {
-		migrate_config_2_2();
-	}
-	
-	$profile_serializer = new XMLProfileSerializer();
-	$profile = $profile_serializer->unserialize($lvluser, file_get_contents($profile_config));
-	
-	$restriction = $profile->getRestriction('GUI');
-	
-	//Si l'utilisateur a des droits limités
-	//on va rechercher les tags sur lesquels il a des droits
-	if ($restriction == 'YES') {
-		$sql="select tag from tags where login='%s'";
-		$arg=array($_SESSION['OCS']["loggeduser"]);
-		$res=mysql2_query_secure($sql, $link_ocs,$arg);
-		while ($row=mysqli_fetch_object($res)){	
-			$list_tag[$row->tag]=$row->tag;
-		}
-		if (!isset($list_tag))
-			$ERROR=$l->g(893);
-	} elseif ($restriction != 'NO') {
-		$ERROR=$restriction;
-	}
+    $profile_config = DOCUMENT_REAL_ROOT . '/config/profiles/' . $lvluser . '.xml';
+
+    if (!file_exists($profile_config)) {
+        migrate_config_2_2();
+    }
+
+    $profile_serializer = new XMLProfileSerializer();
+    $profile = $profile_serializer->unserialize($lvluser, file_get_contents($profile_config));
+
+    $restriction = $profile->getRestriction('GUI');
+
+    //Si l'utilisateur a des droits limités
+    //on va rechercher les tags sur lesquels il a des droits
+    if ($restriction == 'YES') {
+        $sql = "select tag from tags where login='%s'";
+        $arg = array($_SESSION['OCS']["loggeduser"]);
+        $res = mysql2_query_secure($sql, $link_ocs, $arg);
+        while ($row = mysqli_fetch_object($res)) {
+            $list_tag[$row->tag] = $row->tag;
+        }
+        if (!isset($list_tag))
+            $ERROR = $l->g(893);
+    } elseif ($restriction != 'NO') {
+        $ERROR = $restriction;
+    }
 } else {
-	$ERROR=$l->g(894);
+    $ERROR = $l->g(894);
 }
-
 ?>

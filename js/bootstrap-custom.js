@@ -1,5 +1,5 @@
-$(function(){
-	$(".dropdown-submenu-toggle").click(function (){
-		window.location = this.href;
-	});
+$(function () {
+    $(".dropdown-submenu-toggle").click(function () {
+        window.location = this.href;
+    });
 });

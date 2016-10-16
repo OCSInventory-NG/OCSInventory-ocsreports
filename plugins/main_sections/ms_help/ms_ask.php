@@ -21,6 +21,6 @@
  * MA 02110-1301, USA.
  */
 ?>
-<h3><?php echo  $l->g(1377);?></h3>
+<h3><?php echo $l->g(1377); ?></h3>
 <?php
-	iframe("//ask.ocsinventory-ng.org/questions");
+iframe("//ask.ocsinventory-ng.org/questions");
