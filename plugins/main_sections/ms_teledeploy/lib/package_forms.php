@@ -30,7 +30,7 @@ function validate_package_form($data, $files) {
     // Check mandatory data
     $mandatory_fields = array('NAME', 'DESCRIPTION', 'OS', 'ACTION', 'ACTION_INPUT', 'DEPLOY_SPEED');
     foreach ($mandatory_fields as $field) {
-        if (!isset($data[$field]) || empty(trim($data[$field]))) {
+        if (!isset($data[$field]) || trim($data[$field]) == false) {
             $errors[$field] [] = $l->g(1391);
         }
     }
@@ -47,7 +47,7 @@ function validate_package_form($data, $files) {
     }
 
     // Check file upload
-    if ($data['ACTION'] != 'EXECUTE' && (!isset($files['FILE']) || empty(trim($files['FILE']['name'])))) {
+    if ($data['ACTION'] != 'EXECUTE' && (!isset($files['FILE']) || trim($files['FILE']['name']) == false)) {
         $errors['FILE'] [] = $l->g(1391);
     }
 
@@ -55,7 +55,7 @@ function validate_package_form($data, $files) {
     if ($data['DEPLOY_SPEED'] == 'CUSTOM') {
         $mandatory_fields = array('PRIORITY', 'NB_FRAGS');
         foreach ($mandatory_fields as $field) {
-            if (!isset($data[$field]) or empty(trim($data[$field]))) {
+            if (!isset($data[$field]) || trim($data[$field]) == false) {
                 $errors[$field] [] = 'This field is mandatory';
             }
         }
@@ -64,19 +64,19 @@ function validate_package_form($data, $files) {
         if ($data['NOTIFY_USER'] == 'on') {
             $mandatory_fields = array('NOTIFY_TEXT', 'NOTIFY_COUNTDOWN');
             foreach ($mandatory_fields as $field) {
-                if (!isset($data[$field]) || empty(trim($data[$field]))) {
+                if (!isset($data[$field]) || trim($data[$field]) == false) {
                     $errors[$field] [] = $l->g(1391);
                 }
             }
         }
         if ($data['NEED_DONE_ACTION'] == 'on') {
-            if (!isset($data['NEED_DONE_ACTION_TEXT']) || empty(trim($data['NEED_DONE_ACTION_TEXT']))) {
+            if (!isset($data['NEED_DONE_ACTION_TEXT']) || trim($data['NEED_DONE_ACTION_TEXT']) == false) {
                 $errors['NEED_DONE_ACTION_TEXT'] [] = $l->g(1391);
             }
         }
     }
     if ($data['REDISTRIB_USE'] == 'on') {
-        if (!isset($data['DOWNLOAD_SERVER_DOCROOT']) || empty(trim($data['DOWNLOAD_SERVER_DOCROOT']))) {
+        if (!isset($data['DOWNLOAD_SERVER_DOCROOT']) || trim($data['DOWNLOAD_SERVER_DOCROOT']) == false) {
             $errors['DOWNLOAD_SERVER_DOCROOT'] [] = $l->g(1391);
         }
     }
