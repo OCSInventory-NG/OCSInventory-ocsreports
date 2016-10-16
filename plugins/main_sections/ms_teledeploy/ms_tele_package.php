@@ -515,7 +515,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     }
 </script>
 <?php
-formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', [0, 1], [0 => 'No', 1 => 'Yes'], "onchange='redistributeUse()' ");
+formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'), "onchange='redistributeUse()' ");
 ?>
 <div id="REDISTRIB_USE_div" style="display: none;">
     <?php
@@ -528,18 +528,18 @@ formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input
     echo "<h4>" . $arrayName['title_user_notif'] . "</h4>";
     echo "<br />";
 
-    formGroup('select', 'NOTIFY_USER', $arrayName['warn_user'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['NOTIFY_USER'], '', [0, 1], [0 => 'No', 1 => 'Yes'], "onchange='notifyUser()'");
+    formGroup('select', 'NOTIFY_USER', $arrayName['warn_user'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['NOTIFY_USER'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'), "onchange='notifyUser()'");
     ?>
     <div id="NOTIFY_USER_div" style="display: none;">
         <?php
         formGroup('text', 'NOTIFY_TEXT', $arrayName['notify_text'], '', '', $protectedPost['NOTIFY_TEXT']);
         formGroup('text', 'NOTIFY_COUNTDOWN', $arrayName['notify_countdown'], 4, 4, $protectedPost['NOTIFY_TEXT'], '', '', '', ' onkeypress="return scanTouche(event,/[0-9]/);" onkeydown="convertToUpper(this);" onkeyup="convertToUpper(this);" onblur="convertToUpper(this);" onclick="convertToUpper(this);"', $l->g(511));
-        formGroup('select', 'NOTIFY_CAN_ABORT', $arrayName['user_can_abort'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', [0, 1], [0 => 'No', 1 => 'Yes']);
-        formGroup('select', 'NOTIFY_CAN_DELAY', $arrayName['user_can_delay'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', [0, 1], [0 => 'No', 1 => 'Yes']);
+        formGroup('select', 'NOTIFY_CAN_ABORT', $arrayName['user_can_abort'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
+        formGroup('select', 'NOTIFY_CAN_DELAY', $arrayName['user_can_delay'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
         ?>
     </div>
     <?php
-    formGroup('select', 'NEED_DONE_ACTION', $arrayName['need_user_action'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['NEED_DONE_ACTION'], '', [0, 1], [0 => 'No', 1 => 'Yes'], "onchange='needDoneAction()'");
+    formGroup('select', 'NEED_DONE_ACTION', $arrayName['need_user_action'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['NEED_DONE_ACTION'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'), "onchange='needDoneAction()'");
     ?>
     <div id="NEED_DONE_ACTION_div" style="display: none;">
         <?php
