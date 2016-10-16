@@ -46,7 +46,6 @@ if ($protectedPost['onglet'] == 'TOP') {
             $fp = fopen($file_restriction_soft, "r");
             while ($ln = fgets($fp, 1024)) {
                 $ln = preg_replace('(\r\n|\n|\r|\t|)', '', $ln);
-                //foreach ($tag as $poub=>$key){
                 if (array_key_exists($ln, $tag)) {
                     $index = $tag[$ln];
                 } elseif (substr($ln, 0, 2) == '</') {
