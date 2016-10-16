@@ -367,15 +367,15 @@ function html_header($no_java = false) {
         echo '
         <script src="libraries/jquery/jquery.js" type="text/javascript"></script>
         <script src="libraries/jquery-migrate-1/jquery-migrate.min.js" type="text/javascript"></script>
-        <script src="js/jquery.ui.widget.js" type="text/javascript"></script>
-        <script src="js/jquery.iframe-transport.js" type="text/javascript"></script>
-        <script src="js/jquery.fileupload.js" type="text/javascript"></script>
+        <script src="js/jquery.ui.widget.min.js" type="text/javascript"></script>
+        <script src="js/jquery.iframe-transport.min.js" type="text/javascript"></script>
+        <script src="js/jquery.fileupload.min.js" type="text/javascript"></script>
         <script src="libraries/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-custom.js" type="text/javascript"></script>
-        <script src="libraries/raphael/raphael.js" type="text/javascript"></script>
-        <script src="libraries/elycharts/elycharts.js" type="text/javascript"></script>
+        <script src="libraries/raphael/raphael.min.js" type="text/javascript"></script>
+        <script src="libraries/elycharts/elycharts.min.js" type="text/javascript"></script>
         <!-- js for Datatables -->
-        <script src="libraries/datatable/media/js/jquery.dataTables.js" type="text/javascript"></script>
+        <script src="libraries/datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="js/dataTables.bootstrap.js" type="text/javascript"></script>
         <script src="js/function.js" type="text/javascript"></script>';
 
@@ -462,4 +462,5 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
     echo "</div>";
     echo "</div>";
 }
+
 ?>
