@@ -44,7 +44,7 @@ if (!isset($protectedGet["popup"])) {
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand header-logo" href="index.php?first">
-                <img alt="Brand" src="image/banniere-ocs.png">
+                <img alt="OCS Inventory" src="image/banniere-ocs.png">
             </a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ocs-navbar" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
