@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -24,8 +24,9 @@
 function ScanDirectory($Directory, $Filetype) {
     global $pages_refs;
     $MyDirectory = @opendir($Directory);
-    if (!$MyDirectory)
+    if (!$MyDirectory) {
         return FALSE;
+    }
     while ($Entry = @readdir($MyDirectory)) {
         if (substr($Entry, -strlen($Filetype)) == $Filetype && $Filetype != ".") {
             $data['name'][] = $Entry;
@@ -33,8 +34,9 @@ function ScanDirectory($Directory, $Filetype) {
             $data['date_modif'][] = date("d M Y H:i:s.", filemtime($Directory . $Entry));
             $data['size'][] = filesize($Directory . $Entry);
         } elseif ($Filetype == ".") {
-            if (!strripos($Entry, $Filetype))
+            if (!strripos($Entry, $Filetype)) {
                 $data[$Entry] = $Entry;
+            }
             unset($data['.'], $data['..']);
         }
     }
@@ -44,13 +46,12 @@ function ScanDirectory($Directory, $Filetype) {
 
 /*
  * $ms_cfg_file= name of file to read
- * $search= array of values to find like array('PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'SINGLE','ADMIN_BLACKLIST'=>'SINGLE') 
+ * $search= array of values to find like array('PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'SINGLE','ADMIN_BLACKLIST'=>'SINGLE')
  * SINGLE => You have only one value to read
- * MULTI => You have few values to read 
+ * MULTI => You have few values to read
  */
 
 function read_configuration($ms_cfg_file, $search, $id_field = '') {
-
     if (!is_readable($ms_cfg_file)) {
         return "NO_FILES";
     }
@@ -74,12 +75,14 @@ function read_configuration($ms_cfg_file, $search, $id_field = '') {
                         $find[$value_2_search][$line] = $line;
                     } elseif ($option == 'MULTI2') {
                         //Fix your id with a field file (the first field only)
-                        if ($id_field != '' && $value_2_search == $id_field)
+                        if ($id_field != '' && $value_2_search == $id_field) {
                             $id = $line;
-                        if (isset($id))
+                        }
+                        if (isset($id)) {
                             $find[$value_2_search][$id] = $line;
-                        else
+                        } else {
                             $find[$value_2_search][] = $line;
+                        }
                     }
                 }
             }
@@ -93,21 +96,20 @@ function read_configuration($ms_cfg_file, $search, $id_field = '') {
 }
 
 function update_config_file($ms_cfg_file, $new_value, $sauv = 'YES') {
-    if ($sauv == 'YES')
+    if ($sauv == 'YES') {
         getcopy_config_file($ms_cfg_file);
+    }
     $ms_cfg_file = $_SESSION['OCS']['CONF_PROFILS_DIR'] . $ms_cfg_file . "_config.txt";
 
-    //$file=fopen($file_name,"w+");
     $new_ms_cfg_file = '';
     foreach ($new_value as $name_bal => $val) {
         $new_ms_cfg_file .= "<" . $name_bal . ">\n";
-        //fwrite($file,$key." ".$value."/r/n");	
         foreach ($val as $name_value => $value) {
-            if (isset($value) && $value != '')
+            if (isset($value) && $value != '') {
                 $new_ms_cfg_file .= $name_value . ':' . $value . "\n";
-            else
+            } else {
                 $new_ms_cfg_file .= $name_value . "\n";
-            //fwrite($file,$key." ".$value."/r/n");				
+            }
         }
         $new_ms_cfg_file .= "</" . $name_bal . ">\n\n";
     }
@@ -117,12 +119,14 @@ function update_config_file($ms_cfg_file, $new_value, $sauv = 'YES') {
 }
 
 function getcopy_config_file($ms_cfg_file, $record = 'YES', $sauv = FALSE) {
-    if ($record != 'YES')
+    if ($record != 'YES') {
         return FALSE;
-    if (!$sauv)
+    }
+    if (!$sauv) {
         $newfile = $_SESSION['OCS']['OLD_CONF_DIR'] . $ms_cfg_file . '_config_old_' . time();
-    else
+    } else {
         $newfile = $_SESSION['OCS']['CONF_PROFILS_DIR'] . $sauv . '_config.txt';
+    }
 
     $ms_cfg_file = $_SESSION['OCS']['CONF_PROFILS_DIR'] . $ms_cfg_file . "_config.txt";
     @copy($ms_cfg_file, $newfile);
@@ -144,7 +148,7 @@ function create_profil($new_profil, $lbl_profil, $ref_profil) {
     $new_value = read_profil_file($ref_profil);
     $new_value['INFO']['NAME'] = $lbl_profil;
     update_config_file($new_profil, $new_value, 'NO');
-    //getcopy_config_file($protectedPost['ref_profil'],'YES',$protectedPost['new_profil']);	
+    //getcopy_config_file($protectedPost['ref_profil'],'YES',$protectedPost['new_profil']);
 }
 
 function parse_xml_file($file, $tag, $separe) {
@@ -158,17 +162,13 @@ function parse_xml_file($file, $tag, $separe) {
     // read line
     while ($ln = fgets($fp, 1024)) {
         $ln = preg_replace('(\r\n|\n|\r|\t| )', '', $ln);
-        //	echo  htmlentities ($ln)."=>".strlen($ln);
         foreach ($tag as $poub => $key) {
-            //	echo 	htmlentities (substr($ln,0,strlen($key)+2))." //".$key."<br>";
             if (substr($ln, 0, strlen($key) + 2) == '<' . $key . '>') {
                 $search = array("<" . $key . ">", "</" . $key . ">");
                 $replace = array('', '');
                 $tab_data[$i][$key] = str_replace($search, $replace, $ln);
             }
         }
-        //msg_info($key);
-        //echo  htmlentities (substr($ln,0,strlen($key)+2))."=>".$separe."<br>";
         if ($ln == "</" . $separe . ">") {
             $i++;
         }
@@ -178,7 +178,6 @@ function parse_xml_file($file, $tag, $separe) {
 }
 
 function post_ocs_file_to_server($datastream, $url, $port) {
-
     $url = preg_replace("@^http://@i", "", $url);
     $host = substr($url, 0, strpos($url, "/"));
     $uri = strstr($url, "/");

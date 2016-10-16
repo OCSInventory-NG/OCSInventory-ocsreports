@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -27,17 +27,18 @@ $data_on['TOP'] = $l->g(800);
 if ($protectedPost['onglet'] == 'TOP') {
     require_once('require/function_stats.php');
     $stats = "";
-    if (!isset($protectedPost['CHOICE_OP']) || $protectedPost['CHOICE_OP'] == "")
+    if (!isset($protectedPost['CHOICE_OP']) || $protectedPost['CHOICE_OP'] == "") {
         $protectedPost['CHOICE_OP'] = 'TOP_SOFT';
+    }
 
     $array_option = array('NB_OS' => $l->g(783), 'TOP_SOFT' => 'top soft', 'NB_AGENTS' => $l->g(784));
     $stats .= $l->g(1251) . ": " . show_modif($array_option, "CHOICE_OP", 2, $form_name) . "<br>";
     if ($protectedPost['CHOICE_OP'] == 'TOP_SOFT') {
 
-        if (!isset($protectedPost['CHOICE_TOP']) || $protectedPost['CHOICE_TOP'] == "")
+        if (!isset($protectedPost['CHOICE_TOP']) || $protectedPost['CHOICE_TOP'] == "") {
             $protectedPost['CHOICE_TOP'] = 10;
+        }
         // open file
-
 
         $tag = array('<LIKE>' => 'LIKE', '<EXACTLY>' => '=', '<NOLIKE>' => 'NOT LIKE', '<NOEXACTLY>' => '!=');
         // read line
@@ -75,10 +76,11 @@ if ($protectedPost['onglet'] == 'TOP') {
                         $jonct = ' OR ';
                         $j++;
                     } elseif ($first != 0) {
-                        if ($j != 0)
+                        if ($j != 0) {
                             $jonct = ') AND (';
-                        else
+                        } else {
                             $jonct = ' AND ';
+                        }
                         $j = 0;
                     }
                     $sql .= $jonct . " name " . $k . " '%s'";
@@ -93,7 +95,7 @@ if ($protectedPost['onglet'] == 'TOP') {
         $sql .= " group by name order by count(id) DESC limit %s";
         $arg[] = $protectedPost['CHOICE_TOP'];
         $height_legend = 12 * $protectedPost['CHOICE_TOP'];
-    }elseif ($protectedPost['CHOICE_OP'] == 'NB_OS') {
+    } elseif ($protectedPost['CHOICE_OP'] == 'NB_OS') {
         $sql = "select count(osname) c,osname as name from hardware where osname != '' group by osname order by count(osname) DESC ";
         $height_legend = 300;
     } elseif ($protectedPost['CHOICE_OP'] == 'NB_AGENTS') {
@@ -109,10 +111,11 @@ if ($protectedPost['onglet'] == 'TOP') {
         $count_value[$i] = $row->c;
         $name_value[$i] = addslashes($row->name) . "<br> (" . $l->g(381) . ":" . $row->c . ")";
         $legend[$i] = addslashes($row->name);
-        if (isset($arr_FCColors[$i]))
+        if (isset($arr_FCColors[$i])) {
             $color[$i] = $arr_FCColors[$i];
-        else
+        } else {
             $color[$i] = $arr_FCColors[$i - 10];
+        }
         $color[$i] = "plotProps: {fill: \"" . $color[$i] . "\"}";
         $i++;
     }

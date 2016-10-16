@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -39,8 +39,9 @@ require_once('require/function_admininfo.php');
 
 $accountinfo_choise['COMPUTERS'] = $l->g(729);
 $accountinfo_choise['SNMP'] = $l->g(1136);
-if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == '')
+if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == '') {
     $protectedPost['onglet'] = 1;
+}
 $form_name = 'admin_info';
 $table_name = $form_name;
 $tab_options = $protectedPost;
@@ -50,10 +51,7 @@ $tab_options['table_name'] = $table_name;
 
 $data_on[1] = $l->g(1059);
 $data_on[2] = $l->g(1060);
-//$yes_no=array($l->g(454),$l->g(455));
-if (isset($protectedPost['MODIF'])
-        and is_numeric($protectedPost['MODIF'])
-        and ! isset($protectedPost['Valid_modif'])) {
+if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif'])) {
     $protectedPost['onglet'] = 2;
     $accountinfo_detail = find_info_accountinfo($protectedPost['MODIF']);
     $protectedPost['newfield'] = $accountinfo_detail[$protectedPost['MODIF']]['name'];
@@ -65,9 +63,7 @@ if (isset($protectedPost['MODIF'])
     $hidden = $protectedPost['MODIF'];
 }
 
-if (isset($protectedPost['MODIF_OLD'])
-        and is_numeric($protectedPost['MODIF_OLD'])
-        and $protectedPost['Valid_modif'] != "") {
+if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && $protectedPost['Valid_modif'] != "") {
     //UPDATE VALUE
     $msg = update_accountinfo($protectedPost['MODIF_OLD'], array('TYPE' => $protectedPost['newtype'],
         'NAME' => $protectedPost['newfield'],
@@ -76,12 +72,13 @@ if (isset($protectedPost['MODIF_OLD'])
         'DEFAULT_VALUE' => $protectedPost['default_value']), $protectedPost['accountinfo']);
     $hidden = $protectedPost['MODIF_OLD'];
 } elseif ($protectedPost['Valid_modif'] != "") {
-    //ADD NEW VALUE	
+    //ADD NEW VALUE
     $msg = add_accountinfo($protectedPost['newfield'], $protectedPost['newtype'], $protectedPost['newlbl'], $protectedPost['account_tab'], $protectedPost['accountinfo'], $protectedPost['default_value']);
 }
 
-if (isset($msg['ERROR']))
+if (isset($msg['ERROR'])) {
     msg_error($msg['ERROR']);
+}
 if (isset($msg['SUCCESS'])) {
     msg_success($msg['SUCCESS']);
     $protectedPost['onglet'] = 1;
@@ -113,10 +110,11 @@ if ($protectedPost['onglet'] == 1) {
     </div>
 
     <?php
-    if ($protectedPost['ACCOUNTINFO_CHOISE'] == "SNMP")
+    if ($protectedPost['ACCOUNTINFO_CHOISE'] == "SNMP") {
         $account_choise = "SNMP";
-    else
+    } else {
         $account_choise = "COMPUTERS";
+    }
 
     $tab_options['CACHE'] = 'RESET';
     if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
@@ -139,10 +137,12 @@ if ($protectedPost['onglet'] == 1) {
 
     $queryDetails = "select ID," . implode(',', $array_fields) . " from accountinfo_config where ACCOUNT_TYPE = '" . $account_choise . "'";
 
-    if (!isset($protectedPost['SHOW']))
+    if (!isset($protectedPost['SHOW'])) {
         $protectedPost['SHOW'] = 'NOSHOW';
-    if (!(isset($protectedPost["pcparpage"])))
+    }
+    if (!(isset($protectedPost["pcparpage"]))) {
         $protectedPost["pcparpage"] = 10;
+    }
 
     $list_fields = $array_fields;
 
@@ -164,8 +164,8 @@ if ($protectedPost['onglet'] == 1) {
     //traitement par lot
     del_selection($form_name);
 
-    //}	
-}elseif ($protectedPost['onglet'] == 2) {
+    //}
+} elseif ($protectedPost['onglet'] == 2) {
     //NAME FIELD
     $config['JAVASCRIPT'][1] = $sql_field;
     $name_field = array("accountinfo", "newfield");
@@ -183,7 +183,6 @@ if ($protectedPost['onglet'] == 1) {
         $tab_hidden['MODIF_OLD'] = $hidden;
     }
 
-    //if (isset($protectedGet['admin'])){
     array_push($name_field, "newlbl");
     array_push($tab_name, $l->g(80) . ":");
     array_push($type_field, 0);
@@ -193,7 +192,6 @@ if ($protectedPost['onglet'] == 1) {
     array_push($tab_name, $l->g(1071) . ":");
     array_push($type_field, 2);
     array_push($value_field, $type_accountinfo);
-
 
     array_push($name_field, "account_tab");
     array_push($tab_name, $l->g(1061) . ":");
@@ -234,4 +232,3 @@ if ($ajax) {
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
 ?>
-

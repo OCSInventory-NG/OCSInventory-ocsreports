@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -34,10 +34,12 @@ require_once('require/function_opt_param.php');
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
 $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
-if (array($accountinfo_value['TAB_OPTIONS']))
+if (array($accountinfo_value['TAB_OPTIONS'])) {
     $tab_options = $accountinfo_value['TAB_OPTIONS'];
-if (array($accountinfo_value['DEFAULT_VALUE']))
+}
+if (array($accountinfo_value['DEFAULT_VALUE'])) {
     $default_fields = $accountinfo_value['DEFAULT_VALUE'];
+}
 $list_fields = $accountinfo_value['LIST_FIELDS'];
 //END SHOW ACCOUNTINFO
 
@@ -79,26 +81,29 @@ if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
     $arg = $systemid;
     $res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg);
     $item_verif = mysqli_fetch_object($res_verif);
-    if ($item_verif == "")
+    if ($item_verif == "") {
         die("FORBIDDEN");
+    }
 }
 
 
 if (isset($protectedGet['state'])) {
     $state = $protectedGet['state'];
-    if ($state == "MAJ")
+    if ($state == "MAJ") {
         echo "<script language='javascript'>window.location.reload();</script>\n";
-}// fin if
+    }
+}
 
 if (isset($protectedGet["suppack"])) {
     if ($_SESSION['OCS']["justAdded"] == false) {
         require_once('require/function_telediff.php');
         desactive_packet($systemid, $protectedGet["suppack"]);
-    } else
+    } else {
         $_SESSION['OCS']["justAdded"] = false;
-} else
+    }
+} else {
     $_SESSION['OCS']["justAdded"] = false;
-
+}
 
 //update values if user want modify groups' values
 if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif'])) {
@@ -110,7 +115,6 @@ if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif'])) {
         $arg = array($protectedPost['NAME'], $protectedPost['DESCR'], $systemid);
         $result = mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg);
     } else {
-
         echo "<script>alert('" . $l->g(627) . "')</script>";
     }
 }
@@ -118,7 +122,7 @@ $queryMachine = "SELECT REQUEST,
 						  CREATE_TIME,
 						  NAME,
 						  XMLDEF,
-						  DESCRIPTION,LASTDATE,OSCOMMENTS,DEVICEID FROM hardware h left join groups g on g.hardware_id=h.id 
+						  DESCRIPTION,LASTDATE,OSCOMMENTS,DEVICEID FROM hardware h left join groups g on g.hardware_id=h.id
 				  WHERE ID=%s AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 $arg = $systemid;
 $result = mysql2_query_secure($queryMachine, $_SESSION['OCS']["readServer"], $arg);
@@ -131,16 +135,17 @@ if (!$item) {
     die();
 }
 
-if ($item->REQUEST != "" || $item->XMLDEF != "")
+if ($item->REQUEST != "" || $item->XMLDEF != "") {
     $pureStat = false;
-else {
+} else {
     $pureStat = true;
 }
 
-if ($item->CREATE_TIME == "")
+if ($item->CREATE_TIME == "") {
     $server_group = true;
-else
+} else {
     $server_group = false;
+}
 incPicker();
 $tdhdpb = "<td  align='left' width='20%'>";
 $tdhfpb = "</td>";
@@ -169,11 +174,11 @@ if ($protectedPost['MODIF_x']) {
 echo open_form('CHANGE');
 echo "<table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
 
-
 echo "<tr>" . $tdhd . $l->g(577) . $tdhf . $tdhdpb . $name . $tdhfpb;
 echo $tdhd . $l->g(593) . $tdhf . $tdhdpb . dateTimeFromMysql($item->LASTDATE) . $tdhfpb;
-if (!$pureStat)
+if (!$pureStat) {
     echo "</tr><tr>" . $tdhd . $l->g(594) . $tdhf . $tdhdpb . date("F j, Y, g:i a", $item->CREATE_TIME) . $tdhfpb;
+}
 echo "</tr><tr><td>&nbsp;</td></tr>";
 echo $tdhd . $l->g(615) . $tdhf . "<td  align='left' width='20%' colspan='3'>";
 if (!$pureStat) {
@@ -194,9 +199,9 @@ if (!$pureStat) {
 
 echo "</tr><tr>" . $tdhd . $l->g(53) . $tdhf . $tdhdpb . $description . $tdhfpb;
 
-
-if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")
+if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
     echo "<tr><td align='center' colspan=4><br />" . $button_valid . "&nbsp&nbsp" . $button_reset . "&nbsp&nbsp" . $img_modif . "<br /></td></tr>";
+}
 echo "$tdhfpb</table>";
 echo close_form();
 $td1 = "<td height=20px id='color' align='center'><FONT FACE='tahoma' SIZE=2 color=blue><b>";
@@ -206,8 +211,8 @@ $td4 = "<td height=20px bgcolor='#F0F0F0' align='center'>";
 //*/// END COMPUTER SUMMARY
 if ($server_group) {
     $sql_affect_pack = "select da.NAME, da.PRIORITY,da.FRAGMENTS,da.SIZE,da.OSNAME,de.INFO_LOC,de.CERT_FILE,de.CERT_PATH,de.PACK_LOC
-			from download_enable de,download_available da 
-			where de.GROUP_ID =%s 
+			from download_enable de,download_available da
+			where de.GROUP_ID =%s
 			and da.FILEID=de.FILEID
 			group by de.fileid;";
     $arg = $systemid;
@@ -245,20 +250,11 @@ if ($server_group) {
             }
             echo "</tr>";
             $i++;
-            //print_r($valDeploy);
         }
         echo "</table>";
     }
     require(MAIN_SECTIONS_DIR . "/" . $_SESSION['OCS']['url_service']->getDirectory('ms_server_redistrib') . "/ms_server_redistrib.php");
 } else {
-
-
-
-//	if( isset($protectedGet["action"]) || isset($protectedPost["action_form"]) ) {
-//		require("ajout_maj.php");
-//		die();
-//	}
-
     if (!isset($protectedGet["option"])) {
         $opt = $l->g(500);
     } else {
@@ -275,8 +271,9 @@ if ($server_group) {
 			<tr>";
     echo img($imgAdm[0], $lblAdm[0], 1, $opt);
 
-    if (!$pureStat)
+    if (!$pureStat) {
         echo img($imgHdw[0], $lblHdw[0], 1, $opt);
+    }
 
     echo img($imgHdw[1], $lblHdw[1], 1, $opt);
     echo "</tr></table>";
@@ -305,7 +302,6 @@ if (!$ajax) {
 ob_end_flush();
 
 function regeneration_sql($valGroup) {
-
     $tab = xml_decode($valGroup);
     $cherche = array("<xmldef>", "</REQUEST>", "</xmldef>");
     $replace = array("", "", "");
@@ -321,10 +317,11 @@ function form_action_group($systemid) {
     $resGrpStat = mysql2_query_secure($reqGrpStat, $_SESSION['OCS']["readServer"], $systemid);
     $valGrpStat = mysqli_fetch_array($resGrpStat);
     echo "<center>" . $l->g(585) . ": <select name='actshowgroup' id='actshowgroup'>";
-    if (($valGrpStat['REQUEST'] == "" || $valGrpStat['REQUEST'] == null) && ($valGrpStat['XMLDEF'] == "" || $valGrpStat['XMLDEF'] == null))
+    if (($valGrpStat['REQUEST'] == "" || $valGrpStat['REQUEST'] == null) && ($valGrpStat['XMLDEF'] == "" || $valGrpStat['XMLDEF'] == null)) {
         echo "<option value='0'>" . $l->g(818) . "</option></select>";
-    else
+    } else {
         echo "<option value='0'>" . $l->g(590) . "</option><option value='1'>" . $l->g(591) . "</option><option value='2'>" . $l->g(592) . "</option></select>";
+    }
     echo "<input type='submit' value='" . $l->g(13) . "' name='modify' id='modify'></center>";
 }
 
@@ -341,7 +338,6 @@ function update_computer_group($hardware_id, $group_id, $static) {
 }
 
 function print_computers_real($systemid) {
-
     global $l, $list_fields, $list_col_cant_del, $default_fields, $tab_options, $protectedPost;
     if (isset($protectedPost["actshowgroup"]) && $protectedPost["modify"] != "") {
         foreach ($protectedPost as $key => $val) {//check65422
@@ -374,10 +370,11 @@ function print_computers_real($systemid) {
         $tab_id = array();
         while ($tab_list_sql[$i]) {
             if ($tab_id != array()) {
-                if (strtolower(substr($tab_list_sql[$i], 0, 19)) == "select distinct id ")
+                if (strtolower(substr($tab_list_sql[$i], 0, 19)) == "select distinct id ") {
                     $tab_list_sql[$i] .= " and id in (" . implode(",", $tab_id) . ")";
-                else
+                } else {
                     $tab_list_sql[$i] .= " and hardware_id in (" . implode(",", $tab_id) . ")";
+                }
                 unset($tab_id);
             }
             $result_value = mysqli_query($_SESSION['OCS']["readServer"], xml_decode($tab_list_sql[$i])) or die(mysqli_error($_SESSION['OCS']["readServer"]));
@@ -401,10 +398,11 @@ function print_computers_real($systemid) {
         $queryDetails .= $value . ",";
     }
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
-						where h.id in (" . implode(",", $tab_id) . ") and deviceid <> '_SYSTEMGROUP_' 
+						where h.id in (" . implode(",", $tab_id) . ") and deviceid <> '_SYSTEMGROUP_'
 										AND deviceid <> '_DOWNLOADGROUP_'";
-    if (isset($mesmachines) && $mesmachines != '')
+    if (isset($mesmachines) && $mesmachines != '') {
         $queryDetails .= $mesmachines;
+    }
     $tab_options['FILTRE'] = array('h.NAME' => 'Nom');
 
     $tab_options['form_name'] = $form_name;
@@ -420,9 +418,7 @@ function print_computers_real($systemid) {
 }
 
 function print_computers_cached($systemid) {
-
     global $l, $server_group, $protectedPost, $list_fields, $list_col_cant_del, $default_fields, $tab_options;
-    //print_r($protectedPost);
     //traitement des machines du groupe
     if (isset($protectedPost["actshowgroup"]) && $protectedPost["modify"] != "") {
         foreach ($protectedPost as $key => $val) {//check65422
@@ -453,8 +449,9 @@ function print_computers_cached($systemid) {
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
 						,groups_cache e
 						where group_id='" . $systemid . "' and h.id=e.HARDWARE_ID ";
-    if (isset($mesmachines) && $mesmachines != '')
+    if (isset($mesmachines) && $mesmachines != '') {
         $queryDetails .= $mesmachines;
+    }
 
     $tab_options['FILTRE'] = array('h.NAME' => 'Nom');
     $tab_options['form_name'] = $form_name;
@@ -480,7 +477,6 @@ function print_perso($systemid) {
     echo open_form($form_name);
     echo "<table BORDER='0' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
 
-    //echo "<tr><td>&nbsp;&nbsp;</td> $td1 "."Libellé"." </td> $td1 "."Valeur"." </td><td>&nbsp;</td></tr>";		
     while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
         $optPerso[$item["NAME"]]["IVALUE"] = $item["IVALUE"];
         $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
@@ -492,19 +488,17 @@ function print_perso($systemid) {
     echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["IPDISCOVER"]) && $optPerso["IPDISCOVER"]["IVALUE"] != 1 ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>&nbsp;</td>";
     echo $td3 . $l->g(489) . "</td>";
     if (isset($optPerso["IPDISCOVER"])) {
-        if ($optPerso["IPDISCOVER"]["IVALUE"] == 0)
+        if ($optPerso["IPDISCOVER"]["IVALUE"] == 0) {
             echo $td3 . $l->g(490) . "</td>";
-        else if ($optPerso["IPDISCOVER"]["IVALUE"] == 2)
+        } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 2) {
             echo $td3 . $l->g(491) . " " . $optPerso["IPDISCOVER"]["TVALUE"] . "</td>";
-        else if ($optPerso["IPDISCOVER"]["IVALUE"] == 1)
+        } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 1) {
             echo $td3 . $l->g(492) . " " . $optPerso["IPDISCOVER"]["TVALUE"] . "</td>";
-    }
-    else {
+        }
+    } else {
         echo $td3 . $l->g(493) . "</td>";
     }
     if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
-        //echo "<td align=center rowspan=8><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_param']."&head=1&idchecked=".$systemid."&origine=group\">
-        //<img src='image/modif_a.png' title='".$l->g(285)."'></a></td></tr>";
         echo "<td align=center rowspan=8><a class='btn' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">
 		" . $l->g(285) . "</a></td></tr>";
     }
@@ -518,14 +512,14 @@ function print_perso($systemid) {
     echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["FREQUENCY"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
     echo $td3 . $l->g(494) . "</td>";
     if (isset($optPerso["FREQUENCY"])) {
-        if ($optPerso["FREQUENCY"]["IVALUE"] == 0)
+        if ($optPerso["FREQUENCY"]["IVALUE"] == 0) {
             echo $td3 . $l->g(485) . "</td>";
-        else if ($optPerso["FREQUENCY"]["IVALUE"] == -1)
+        } else if ($optPerso["FREQUENCY"]["IVALUE"] == -1) {
             echo $td3 . $l->g(486) . "</td>";
-        else
+        } else {
             echo $td3 . $l->g(495) . " " . $optPerso["FREQUENCY"]["IVALUE"] . " " . $l->g(496) . "</td>";
-    }
-    else {
+        }
+    } else {
         echo $td3 . $l->g(497) . "</td>";
     }
 
@@ -535,19 +529,20 @@ function print_perso($systemid) {
     echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["DOWNLOAD_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
     echo $td3 . $l->g(417) . " <font color=green size=1><i>DOWNLOAD</i></font> </td>";
     if (isset($optPerso["DOWNLOAD_SWITCH"])) {
-        if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 0)
+        if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 0) {
             echo $td3 . $l->g(733) . "</td>";
-        else if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 1)
+        } else if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 1) {
             echo $td3 . $l->g(205) . "</td>";
-        else
+        } else {
             echo $td3 . "</td>";
-    }
-    else {
+        }
+    } else {
         echo $td3 . $l->g(488) . "(";
-        if ($optdefault['ivalue']["DOWNLOAD"] == 1)
+        if ($optdefault['ivalue']["DOWNLOAD"] == 1) {
             echo $l->g(205);
-        else
+        } else {
             echo $l->g(733);
+        }
         echo ")</td>";
     }
 
@@ -573,19 +568,20 @@ function print_perso($systemid) {
     echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["SNMP_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
     echo $td3 . $l->g(1197) . " <font color=green size=1><i>SNMP_SWITCH</i></font></td>";
     if (isset($optPerso["SNMP_SWITCH"])) {
-        if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 0)
+        if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 0) {
             echo $td3 . $l->g(733) . "</td>";
-        else if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 1)
+        } else if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 1) {
             echo $td3 . $l->g(205) . "</td>";
-        else
+        } else {
             echo $td3 . "</td>";
-    }
-    else {
+        }
+    } else {
         echo $td3 . $l->g(488) . "(";
-        if ($optdefault['ivalue']["SNMP"] == 1)
+        if ($optdefault['ivalue']["SNMP"] == 1) {
             echo $l->g(205);
-        else
+        } else {
             echo $l->g(733);
+        }
         echo ")</td>";
     }
     echo "</tr>";

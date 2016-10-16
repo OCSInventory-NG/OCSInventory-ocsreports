@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -49,11 +49,11 @@ function accountinfo_tab($id) {
             or $info_tag[$id]['type'] == 7) {
         $info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id]['name']);
         return $info;
-    } elseif ($info_tag[$id]['type'] == 5)
+    } elseif ($info_tag[$id]['type'] == 5) {
         return false;
+    }
 
     return true;
-    //if ()
 }
 
 function max_order($table, $field) {
@@ -66,25 +66,23 @@ function max_order($table, $field) {
 
 /*
  * When you add a new accountinfo
- * you need to add few fields on 
+ * you need to add few fields on
  * some tables
- * 
- * 
  */
 
 function add_accountinfo($newfield, $newtype, $newlbl, $tab, $type = 'COMPUTERS', $default_value) {
     global $l, $sql_type_accountinfo;
-    if ($type == 'COMPUTERS')
+    if ($type == 'COMPUTERS') {
         $table = "accountinfo";
-    elseif ($type == 'SNMP')
+    } elseif ($type == 'SNMP') {
         $table = "snmp_accountinfo";
-    else {
-        //msg_error($type);
+    } else {
         return array('ERROR' => $type);
     }
     //can not contain special characters
-    if (preg_match('/[^0-9A-Za-z]/', $newfield))
+    if (preg_match('/[^0-9A-Za-z]/', $newfield)) {
         return array('ERROR' => $l->g(1178) . ' : <i>' . $l->g(1070) . "</i> " . $l->g(1179) . " <br>");
+    }
 
     $ERROR = dde_exist($newfield, '', $type);
     $id_order = max_order('accountinfo_config', 'SHOW_ORDER');
@@ -101,17 +99,14 @@ function add_accountinfo($newfield, $newtype, $newlbl, $tab, $type = 'COMPUTERS'
         $arg_add_column = array(mysqli_insert_id($_SESSION['OCS']["writeServer"]), $sql_type_accountinfo[$newtype]);
         mysql2_query_secure($sql_add_column, $_SESSION['OCS']["writeServer"], $arg_add_column);
         unset($newfield, $newlbl, $_SESSION['OCS']['TAG_LBL']);
-        //msg_success($l->g(1069));
         return array('SUCCESS' => $l->g(1069));
-    } else
+    } else {
         return array('ERROR' => $ERROR);
-    //msg_error($ERROR);
+    }
 }
 
 /*
  * Del an accountinfo
- * 
- * 
  */
 
 function del_accountinfo($id) {
@@ -122,12 +117,13 @@ function del_accountinfo($id) {
     $arg_found_account_type = $id;
     $result = mysql2_query_secure($sql_found_account_type, $_SESSION['OCS']["readServer"], $arg_found_account_type);
     $val = mysqli_fetch_array($result);
-    if ($val['account_type'] == "SNMP")
+    if ($val['account_type'] == "SNMP") {
         $table = "snmp_accountinfo";
-    elseif ($val['account_type'] == "COMPUTERS")
+    } elseif ($val['account_type'] == "COMPUTERS") {
         $table = "accountinfo";
-    else
+    } else {
         return FALSE;
+    }
 
     //DELETE INTO CONFIG TABLE
     $sql_delete_config = "DELETE FROM accountinfo_config WHERE ID = '%s'";
@@ -142,14 +138,12 @@ function del_accountinfo($id) {
 }
 
 /*
- * 
- * Find all categories of accountinfo 
+ *
+ * Find all categories of accountinfo
  * if $onlyactiv exist, return only categories with data inside
- * 
  */
 
 function find_all_account_tab($tab_value, $onlyactiv = '', $first = '') {
-
     $sql_tab_account = "select IVALUE,TVALUE from config ";
 
     if ($onlyactiv != '') {
@@ -166,8 +160,9 @@ function find_all_account_tab($tab_value, $onlyactiv = '', $first = '') {
 
     $result_tab_account = mysql2_query_secure($sql_tab_account, $_SESSION['OCS']["readServer"], $arg_tab_account);
     while ($val_tab_account = mysqli_fetch_array($result_tab_account)) {
-        if (!isset($array_tab_account['FIRST']) && $first != '')
+        if (!isset($array_tab_account['FIRST']) && $first != '') {
             $array_tab_account['FIRST'] = $val_tab_account['IVALUE'];
+        }
         $array_tab_account[$val_tab_account['IVALUE']] = $val_tab_account['TVALUE'];
     }
     return $array_tab_account;
@@ -188,7 +183,6 @@ function find_value_field($name) {
  * Find detail of an accountinfo.
  * You can have $id = accountinfo_id
  * or $id=array(accountinfo_id1,accountinfo_id2,accountinfo_id2...)
- * 
  */
 
 function find_info_accountinfo($id = '', $type = '', $exclu_type = '') {
@@ -232,8 +226,9 @@ function witch_field_more($account_type = '') {
     $list_name = array();
     $list_type = array();
     $sql_accountinfo = "select " . implode(',', $list_field) . " from accountinfo_config ";
-    if ($account_type != '')
+    if ($account_type != '') {
         $sql_accountinfo .= " where account_type = '" . $account_type . "' ";
+    }
     $result_accountinfo = mysql2_query_secure($sql_accountinfo, $_SESSION['OCS']["readServer"]);
 
     while ($item = mysqli_fetch_object($result_accountinfo)) {
@@ -279,8 +274,9 @@ function update_accountinfo_config($id, $array_new_values) {
 
 function find_new_order($updown, $id, $type, $onglet) {
     $tab_order = array();
-    if (!is_numeric($id) || !is_numeric($onglet))
+    if (!is_numeric($id) || !is_numeric($onglet)) {
         return false;
+    }
     $sql = "select ID,SHOW_ORDER from accountinfo_config where account_type='%s' and id_tab=%s order by show_order";
     $arg = array($type, $onglet);
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
@@ -307,13 +303,10 @@ function find_new_order($updown, $id, $type, $onglet) {
 
 /*
  * update an accountinfo
- * 
- * 
  */
 
 function update_accountinfo($id, $array_new_values, $type) {
     global $l, $sql_type_accountinfo;
-    //print_r($array_new_values);
     $error = dde_exist($array_new_values['NAME'], $id, $type);
     if ($error == '') {
         //Update
@@ -329,11 +322,9 @@ function update_accountinfo($id, $array_new_values, $type) {
 }
 
 /*
- * 
  * Function : is this name of accountinfo exist?
  * if you put a value to $id, you add a condition
  * and restraint your search to all other id
- * 
  */
 
 function dde_exist($name, $id = '', $type) {
@@ -349,46 +340,50 @@ function dde_exist($name, $id = '', $type) {
         $res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
         $val_verif = mysqli_fetch_array($res_verif);
         //this name is already exist
-        if ($val_verif['c'] > 0)
+        if ($val_verif['c'] > 0) {
             return $l->g(1067);
-    } else
-    //name can't be null
+        }
+    } else {
+        //name can't be null
         return $l->g(1068);
+    }
 
     return;
 }
 
 /*
- * 
- * Find all accountinfo for  
- * a computer
- * 
+ *
+ * Find all accountinfo for  a computer
  */
 
 function admininfo_computer($id = "") {
     global $l;
-    if (!is_numeric($id) && $id != "")
+    if (!is_numeric($id) && $id != "") {
         return $l->g(623);
+    }
     $arg_account_data = array();
     $sql_account_data = "SELECT * FROM accountinfo ";
     if (is_numeric($id)) {
         $sql_account_data .= " WHERE hardware_id=%s";
         $arg_account_data = array($id);
-    } else
+    } else {
         $sql_account_data .= " LIMIT 1 ";
+    }
 
     $res_account_data = mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
     $val_account_data = mysqli_fetch_array($res_account_data);
-    if (is_array($val_account_data))
+    if (is_array($val_account_data)) {
         return $val_account_data;
-    else
+    } else {
         return $l->g(1093);
+    }
 }
 
 function updateinfo_computer($id, $values, $list = '') {
     global $l;
-    if (!is_numeric($id) && $list == '')
+    if (!is_numeric($id) && $list == '') {
         return $l->g(623);
+    }
     $arg_account_data = array();
     $sql_account_data = "UPDATE accountinfo SET ";
     foreach ($values as $field => $val) {
@@ -397,10 +392,12 @@ function updateinfo_computer($id, $values, $list = '') {
         array_push($arg_account_data, $val);
     }
     $sql_account_data = substr($sql_account_data, 0, -2);
-    if (is_numeric($id) && $list == '')
+    if (is_numeric($id) && $list == '') {
         $sql_account_data .= " WHERE hardware_id=%s";
-    if ($list != '')
+    }
+    if ($list != '') {
         $sql_account_data .= " WHERE hardware_id in (%s)";
+    }
 
     array_push($arg_account_data, $id);
     mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
@@ -425,9 +422,9 @@ function show_accountinfo($id = '', $type = '', $exclu_type = '') {
         foreach ($v as $key => $value) {
             switch ($key) {
                 case "id":
-                    if ($v['name'] != 'TAG')
+                    if ($v['name'] != 'TAG') {
                         $name_field[$i] = 'fields_' . $value;
-                    else {
+                    } else {
                         $name_field[$i] = $v['name'];
                         $value_field[$i] = $protectedPost[$v['name']];
                     }
@@ -464,8 +461,9 @@ function show_accountinfo($id = '', $type = '', $exclu_type = '') {
                     break;
             }
         }
-        if (!isset($value_field[$i]))
+        if (!isset($value_field[$i])) {
             $value_field[$i] = $protectedPost['fields_' . $v['id']];
+        }
         $i++;
     }
 
@@ -495,11 +493,13 @@ function replace_tag_value($type = '', $option = array()) {
             $info_value_tag = accountinfo_tab($value['id']);
             if (is_array($info_value_tag)) {
                 $comment = '';
-                if (isset($option['comment_be']))
+                if (isset($option['comment_be'])) {
                     $comment .= $option['comment_be'];
+                }
                 $comment .= $value['comment'];
-                if (isset($option['comment_aft']))
+                if (isset($option['comment_aft'])) {
                     $comment .= $option['comment_aft'];
+                }
                 $tab_options[$comment] = $info_value_tag;
             }
         }
@@ -519,8 +519,9 @@ function find_value_in_field($tag, $value_2_find, $type = 'COMPUTERS') {
             }
         }
         return $list_tag_id;
-    } else
+    } else {
         return false;
+    }
 }
 
 function interprete_accountinfo($list_fields, $tab_options) {
@@ -533,9 +534,9 @@ function interprete_accountinfo($list_fields, $tab_options) {
             if (is_array($info_value_tag)) {
                 $tab_options['REPLACE_VALUE'][$value['comment']] = $info_value_tag;
             }
-            if ($value['name'] != 'TAG' && $info_value_tag)
+            if ($value['name'] != 'TAG' && $info_value_tag) {
                 $list_fields[$value['comment']] = 'a.fields_' . $value['id'];
-            elseif ($value['name'] == 'TAG') {
+            } elseif ($value['name'] == 'TAG') {
                 $list_fields[$value['comment']] = 'a.TAG';
                 $default_value[$value['comment']] = $value['comment'];
             }

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -82,11 +82,11 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     echo "<br>";
 
-    //Modif a rule => get this values 
+    //Modif a rule => get this values
     if ($protectedPost['MODIF'] != "" && $protectedPost['OLD_MODIF'] != $protectedPost['MODIF']) {
-        $sql = "select priority,cfield,op,compto,rule_name 
-				from download_affect_rules 
-			 where rule='%s' 
+        $sql = "select priority,cfield,op,compto,rule_name
+				from download_affect_rules
+			 where rule='%s'
 				order by priority";
         $arg = $protectedPost['MODIF'];
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
@@ -104,19 +104,21 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
 
     //new rule
     if ($protectedPost['NEW_RULE'] || $protectedPost['NUM_RULES'] || $protectedPost['MODIF'] != "") {
-        if ($protectedPost['MODIF'] != "")
+        if ($protectedPost['MODIF'] != "") {
             $modif = $protectedPost['MODIF'];
-        else
+        } else {
             $modif = $protectedPost['OLD_MODIF'];
+        }
         $numero = $protectedPost['NUM_RULES'] + 1;
         $tab_nom = $l->g(674) . " " . show_modif($protectedPost['RULE_NAME'], "RULE_NAME", "0");
         $tab = "<table align='center'>";
         $i = 1;
         while ($i < $numero + 1) {
-            if ($i == 1)
+            if ($i == 1) {
                 $entete = 'YES';
-            else
+            } else {
                 $entete = 'NO';
+            }
             $tab .= fields_conditions_rules($i, $entete);
             $i++;
         }
@@ -124,14 +126,15 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
         echo $tab;
         echo "</tr></table>";
         echo "<a onclick='return pag(" . $numero . ",\"NUM_RULES\",\"rules\")'><font color=green>" . $l->g(682) . "</font></a>&nbsp<a onclick='return pag(\"RAZ\",\"RAZ\",\"rules\");'><font color=\"red\">" . $l->g(113) . "</font></a><br><br>";
-        if ($protectedPost['MODIF'] != "" || $protectedPost['OLD_MODIF'] != "")
+        if ($protectedPost['MODIF'] != "" || $protectedPost['OLD_MODIF'] != "") {
             echo "<input type='submit'  value='" . $l->g(625) . "' name='MODIF_RULE' onclick='return check();'>";
-        else
+        } else {
             echo "<input type='submit'  value='" . $l->g(683) . "' name='ADD_RULE' onclick='return check();'>";
+        }
         echo "<input type='hidden' id='NUM_RULES' name='NUM_RULES' value=''>";
         echo "<input type='hidden' id='RAZ' name='RAZ' value=''>";
         echo "<input type='hidden' id='OLD_MODIF' name='OLD_MODIF' value='" . $modif . "'>";
-    }else {
+    } else {
         echo "<input type='submit' class='btn' value='" . $l->g(685) . "' name='NEW_RULE'>";
     }
     echo close_form();

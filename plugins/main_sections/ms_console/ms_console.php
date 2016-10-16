@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -59,8 +59,9 @@ require_once('require/function_console.php');
 $data_on = define_tab();
 $data_tab = show_active_tab($data_on);
 echo open_form($form_name);
-if (isset($protectedPost["onglet"]) && !isset($data_tab['DATA'][$protectedPost["onglet"]]))
+if (isset($protectedPost["onglet"]) && !isset($data_tab['DATA'][$protectedPost["onglet"]])) {
     $protectedPost["onglet"] = $data_tab['DEFAULT'];
+}
 
 if ($data_tab['DATA'] != array()) {
     show_tabs($data_tab['DATA'], $form_name, "onglet", 8);
@@ -69,10 +70,11 @@ if ($data_tab['DATA'] != array()) {
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES') {
         echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
-        if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) && $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
+        if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) && $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN') {
             echo "<img src='image/success.png'>";
-        else
+        } else {
             echo "<img src='image/modif_tab.png'>";
+        }
         echo "</a></td></tr></table>";
     }
     if ($data_on['DATA'][$protectedPost['onglet']]) {
@@ -101,8 +103,9 @@ if ($data_tab['DATA'] != array()) {
                 if (isset($list_name_msg)) {
                     $i = 1;
                     foreach ($list_name_msg as $k => $v) {
-                        if ($v == $i)
+                        if ($v == $i) {
                             $i++;
+                        }
                     }
                 } else {
                     $i = 1;
@@ -163,22 +166,21 @@ if ($data_tab['DATA'] != array()) {
     echo "<input type=hidden name='VALID_MODIF' value='' id='VALID_MODIF'>";
     echo "<input type=hidden name='SHOW_ME' value='' id='SHOW_ME'>";
     echo "<input type=hidden name='UPDATE_VALUE' value='' id='UPDATE_VALUE'>";
-} else
+} else {
     echo "<table align=center><tr><td align=center><img src='image/fond.png'></td></tr></table>";
+}
 
-if (isset($protectedPost["onglet"]) && isset($protectedPost["old_onglet"])
-        and $protectedPost["onglet"] != $protectedPost["old_onglet"])
+if (isset($protectedPost["onglet"]) && isset($protectedPost["old_onglet"]) && $protectedPost["onglet"] != $protectedPost["old_onglet"]) {
     unset($protectedPost["SHOW_ME"], $protectedPost["SHOW_ME_SAUV"]);
+}
 
-if (isset($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME"] != ''
-        and $protectedPost["SHOW_ME_SAUV"] != ""
-        and $protectedPost["SHOW_ME"] != $protectedPost["SHOW_ME_SAUV"]) {
+if (isset($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME"] != '' && $protectedPost["SHOW_ME_SAUV"] != "" && $protectedPost["SHOW_ME"] != $protectedPost["SHOW_ME_SAUV"]) {
     unset($protectedPost["SHOW_ME_SAUV"]);
 }
 
-if (isset($protectedPost["SHOW_ME_SAUV"]) && $protectedPost["SHOW_ME_SAUV"] != ''
-        and $protectedPost["SHOW_ME"] == "")
+if (isset($protectedPost["SHOW_ME_SAUV"]) && $protectedPost["SHOW_ME_SAUV"] != '' && $protectedPost["SHOW_ME"] == "") {
     $protectedPost["SHOW_ME"] = $protectedPost["SHOW_ME_SAUV"];
+}
 
 
 if ((isset($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME"] != "")) {
@@ -188,8 +190,9 @@ if ((isset($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME"] != "")) {
     $tab_options = $protectedPost;
     $tab_options['form_name'] = $form_name;
     $tab_options['table_name'] = $table_name;
-    if (!isset($sql_field[$protectedPost["SHOW_ME"]]['SQL']))
+    if (!isset($sql_field[$protectedPost["SHOW_ME"]]['SQL'])) {
         $sql_field[$protectedPost["SHOW_ME"]]['SQL'] = "select %s from %s %s";
+    }
 
     $list_fields = $table_field[$protectedPost["SHOW_ME"]];
     $list_fields[$l->g(1120)] = 'c';
@@ -198,17 +201,19 @@ if ((isset($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME"] != "")) {
     }
 
     $sql_field[$protectedPost["SHOW_ME"]]['ARG'][0] = "count(*) c," . implode(',', $recup_list_add_field);
-    if (!preg_match("/where/i", $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2]))
+    if (!preg_match("/where/i", $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2])) {
         $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= " where ";
-    else
+    } else {
         $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= " and ";
+    }
 
     //restriction on computer id
     if (isset($myids)) {
-        if (mb_strtoupper($sql_field[$protectedPost["SHOW_ME"]]['ARG'][1]) == "HARDWARE")
+        if (mb_strtoupper($sql_field[$protectedPost["SHOW_ME"]]['ARG'][1]) == "HARDWARE") {
             $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= "id ";
-        else
+        } else {
             $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= "hardware_id";
+        }
         $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= " in (" . implode(',', $myids['ARG']) . ") and ";
     }
     $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= $recup_list_add_field[0] . " is not null group by " . implode(',', $recup_list_add_field);
@@ -230,16 +235,18 @@ echo close_form();
 //show messages
 if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES") {
     $info_msg = look_config_default_values('GUI_REPORT_MSG%', 'LIKE');
-    if (is_array($info_msg['ivalue']))
+    if (is_array($info_msg['ivalue'])) {
         $list_id_groups = implode(',', $info_msg['ivalue']);
+    }
 
     if ($list_id_groups != "") {
-        $sql_my_msg = "select distinct g_c.group_id groups 
+        $sql_my_msg = "select distinct g_c.group_id groups
 					from accountinfo a ,groups_cache g_c
 					where g_c.HARDWARE_ID=a.HARDWARE_ID
 						and	g_c.GROUP_ID in (" . $list_id_groups . ")";
-        if (isset($_SESSION['OCS']['mesmachines']) && $_SESSION['OCS']['mesmachines'] != "")
+        if (isset($_SESSION['OCS']['mesmachines']) && $_SESSION['OCS']['mesmachines'] != "") {
             $sql_my_msg .= " and " . $_SESSION['OCS']['mesmachines'];
+        }
         $result_my_msg = mysqli_query($_SESSION['OCS']["readServer"], $sql_my_msg);
         while ($item_my_msg = mysqli_fetch_object($result_my_msg)) {
             foreach ($info_msg['ivalue'] as $key => $value) {
@@ -255,7 +262,6 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES") {
     }
 }
 
-
 if ($ajax) {
     ob_end_clean();
 
@@ -266,5 +272,3 @@ if ($ajax) {
     }
 }
 ?>
-
-

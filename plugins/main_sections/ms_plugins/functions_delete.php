@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -22,7 +22,7 @@
  */
 
 /** This function delete a directory recusively with all his files and sub-dirs
- * 
+ *
  * @param string $dir : Directory path
  */
 function rrmdir($dir) {
@@ -44,11 +44,10 @@ function rrmdir($dir) {
 /**
  * This functions remove a plugin from the OCS webconsole and database.
  * Delete all created menu entries and all plugin related code
- * 
+ *
  * @param integer $pluginid : Plugin id in DB
  */
 function delete_plugin($pluginid, $dyn_cal = true) {
-
     global $l;
 
     $conn = new PDO('mysql:host=' . SERVER_WRITE . ';dbname=' . DB_NAME . '', COMPTE_BASE, PSWD_BASE);
@@ -57,7 +56,7 @@ function delete_plugin($pluginid, $dyn_cal = true) {
         $arg = (string) $pluginid;
     }
 
-    // if not int get name - 
+    // if not int get name -
     if (is_int($arg)) {
         $query = $conn->query("SELECT * FROM `plugins` WHERE id = '" . $pluginid . "'");
         $anwser = $query->fetch();

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -32,8 +32,9 @@ if (isset($protectedPost['VALID_GROUP'])) {
     if ($protectedPost['onglet'] == mb_strtoupper($l->g(651))) {
         require_once('require/function_server.php');
         //ajout de machines
-        if ($protectedPost['NEW_RAZ'] == "ADD")
+        if ($protectedPost['NEW_RAZ'] == "ADD") {
             $action = 'add_serv';
+        }
         //nouveau groupe
         if ($protectedPost['NEW_RAZ'] == "NEW") {
             $name_or_id = $protectedPost['NAME_GROUP'];
@@ -41,25 +42,30 @@ if (isset($protectedPost['VALID_GROUP'])) {
             $action = 'new_serv';
         }
         //remplacement d'un groupe
-        if ($protectedPost['NEW_RAZ'] == "RAZ")
+        if ($protectedPost['NEW_RAZ'] == "RAZ") {
             $action = 'replace_serv';
+        }
         //suppression de machines dans le groupe de serveur
-        if ($protectedPost['NEW_RAZ'] == "DEL")
+        if ($protectedPost['NEW_RAZ'] == "DEL") {
             $action = 'del_serv';
+        }
 
-        if (!isset($name_or_id))
+        if (!isset($name_or_id)) {
             $name_or_id = $protectedPost['group_list'];
+        }
 
-        if (!isset($lbl))
+        if (!isset($lbl)) {
             $lbl = "''";
+        }
 
         $msg_error = admin_serveur($action, $name_or_id, $lbl, $list_id);
     }//gestion groupe de machines
     else {
-        if ($protectedPost['onglet'] == $l->g(809))
+        if ($protectedPost['onglet'] == $l->g(809)) {
             $group_type = "STATIC";
-        else
+        } else {
             $group_type = "DYNAMIC";
+        }
 
         //ajout a un groupe
         if ($protectedPost['NEW_RAZ'] == "ADD") {
@@ -75,10 +81,11 @@ if (isset($protectedPost['VALID_GROUP'])) {
         //Création d'un nouveau groupe
         if ($protectedPost['NEW_RAZ'] == "NEW") {
             $result = creat_group($protectedPost['NAME_GROUP'], $protectedPost['LBL_GROUP'], $list_id, $_SESSION['OCS']['SEARCH_SQL_GROUP'], $group_type);
-            if ($result['RESULT'] == "ERROR")
+            if ($result['RESULT'] == "ERROR") {
                 $nb_mach = "ERROR";
-            else
+            } else {
                 $nb_mach = $result['LBL'];
+            }
             $msg_success = $l->g(880);
         }
         //ecrasement d'un groupe
@@ -93,16 +100,17 @@ if (isset($protectedPost['VALID_GROUP'])) {
         }
     }
 
-    if (isset($msg_success) && $msg_success != '')
+    if (isset($msg_success) && $msg_success != '') {
         msg_success($msg_success);
-    if (isset($msg_error) && $msg_error != '')
+    }
+    if (isset($msg_error) && $msg_error != '') {
         msg_error($msg_error);
+    }
 }
 /* * *******************************************CALCUL DES CHAMPS A AFFICHER************************************ */
 if ($list_id) {
-
-//définition des onglets
-//for all
+    //définition des onglets
+    //for all
     $def_onglets[$l->g(809)] = $l->g(809); //GROUPES STATIQUES
 }
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
@@ -115,10 +123,11 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
 
 //if no select => first onget selected
 if ($protectedPost['onglet'] == "" || !isset($protectedPost['onglet'])) {
-    if (isset($def_onglets[$l->g(809)]))
+    if (isset($def_onglets[$l->g(809)])) {
         $protectedPost['onglet'] = $l->g(809);
-    else
+    } else {
         $protectedPost['onglet'] = $l->g(810);
+    }
 }
 
 if ($protectedPost['onglet'] == $l->g(810)) {
@@ -131,13 +140,14 @@ if ($protectedPost['onglet'] == $l->g(809)) {
 				and groups_cache.group_id=hardware.id
 				and deviceid = '_SYSTEMGROUP_'
 				and groups_cache.static = 1";
-    if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES"))
+    if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
         $delGroups .= " and workgroup = 'GROUP_4_ALL'";
+    }
 }
 if ($protectedPost['onglet'] == mb_strtoupper($l->g(651)) && $list_id != '') {
     $all_groups = all_groups('SERVER');
-    $delGroups = "select distinct group_id as id, name 
-				from download_servers,hardware 
+    $delGroups = "select distinct group_id as id, name
+				from download_servers,hardware
 				where hardware_id in(" . $list_id . ")
 					and hardware.id=download_servers.group_id";
 }
@@ -150,23 +160,23 @@ if (isset($delGroups)) {
 }
 if ($protectedPost['onglet'] != $l->g(810)) {
     $optionList['ADD'] = $l->g(975);
-} else
+} else {
     $optionList['ADD'] = $l->g(589);
-//if groups exist => add option for go out of the group
-if (isset($groupDelList))
-    $optionList['DEL'] = $l->g(818);
-else {
-    if ($protectedPost['NEW_RAZ'] == "DEL")
-        unset($protectedPost['NEW_RAZ']);
 }
-//}
+//if groups exist => add option for go out of the group
+if (isset($groupDelList)) {
+    $optionList['DEL'] = $l->g(818);
+} else {
+    if ($protectedPost['NEW_RAZ'] == "DEL") {
+        unset($protectedPost['NEW_RAZ']);
+    }
+}
 //if group list exist
 if (isset($all_groups) && $_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
     //show RAZ field
     $optionList['RAZ'] = $l->g(588);
 }
 $select = show_modif($optionList, 'NEW_RAZ', 2, $form_name);
-
 
 
 /* * ****************************************show RESULT*********************************************** */
@@ -182,10 +192,12 @@ if (isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] != "") {
     echo $select;
     echo "</td></tr>";
     //if user want give up or go out of the group
-    if ($protectedPost['NEW_RAZ'] == "RAZ" || $protectedPost['NEW_RAZ'] == "ADD")
+    if ($protectedPost['NEW_RAZ'] == "RAZ" || $protectedPost['NEW_RAZ'] == "ADD") {
         $List = $all_groups;
-    if ($protectedPost['NEW_RAZ'] == "DEL")
+    }
+    if ($protectedPost['NEW_RAZ'] == "DEL") {
         $List = $groupDelList;
+    }
     if ($protectedPost['NEW_RAZ'] == "NEW") {
         $nom = show_modif($protectedPost['NAME_GROUP'], 'NAME_GROUP', 0, '');
         $lbl = show_modif($protectedPost['LBL_GROUP'], 'LBL_GROUP', 1, '');

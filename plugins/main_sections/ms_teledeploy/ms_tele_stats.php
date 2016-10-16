@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -53,13 +53,12 @@ $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 $row = mysqli_fetch_object($res);
 printEnTete($l->g(498) . " <b>" . $row->name . "</b> (" . $l->g(296) . ": " . $protectedGet["stat"] . " )");
 
-
 //count max values for stats
-$sql_count = "SELECT COUNT(id) as nb 
-			FROM devices d, download_enable e 
+$sql_count = "SELECT COUNT(id) as nb
+			FROM devices d, download_enable e
 			WHERE e.fileid='%s'
- 				AND e.id=d.ivalue 
-				AND name='DOWNLOAD' 
+ 				AND e.id=d.ivalue
+				AND name='DOWNLOAD'
 				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 $arg = $protectedGet["stat"];
 $rescount = mysql2_query_secure($sql_count, $_SESSION['OCS']["readServer"], $arg);
@@ -70,31 +69,31 @@ if ($total <= 0) {
     require_once(FOOTER_HTML);
     die();
 }
-$sqlStats = "SELECT COUNT(id) as nb, tvalue as txt 
-				FROM devices d, download_enable e 
+$sqlStats = "SELECT COUNT(id) as nb, tvalue as txt
+				FROM devices d, download_enable e
 				WHERE e.fileid='%s'
-	 				AND e.id=d.ivalue 
-					AND name='DOWNLOAD' 
+	 				AND e.id=d.ivalue
+					AND name='DOWNLOAD'
 					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
 					and tvalue not like '%s'
 					and tvalue not like '%s'
-					and tvalue is not null 
+					and tvalue is not null
 					group by tvalue
 			union
-				SELECT COUNT(id) as nb, '%s' 
-				FROM devices d, download_enable e 
+				SELECT COUNT(id) as nb, '%s'
+				FROM devices d, download_enable e
 				WHERE e.fileid='%s'
-	 				AND e.id=d.ivalue 
-					AND name='DOWNLOAD' 
+	 				AND e.id=d.ivalue
+					AND name='DOWNLOAD'
 					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
 					and (tvalue like '%s'
 					or tvalue  like '%s')
 			union
-				SELECT COUNT(id) as nb, '%s' 
-				FROM devices d, download_enable e 
+				SELECT COUNT(id) as nb, '%s'
+				FROM devices d, download_enable e
 				WHERE e.fileid='%s'
-	 				AND e.id=d.ivalue 
-					AND name='DOWNLOAD' 
+	 				AND e.id=d.ivalue
+					AND name='DOWNLOAD'
 					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
 					and tvalue is null";
 
@@ -106,16 +105,18 @@ while ($row = mysqli_fetch_object($resStats)) {
     $name_value[$i] = $txt_status;
     $pourc = round(($row->nb * 100) / $total, 2);
     $legend[$i] = $name_value[$i] . " (" . $pourc . "%)";
-    if ($name_value[$i] == strtoupper($l->g(573)))
+    if ($name_value[$i] == strtoupper($l->g(573))) {
         $link[$i] = "***" . $l->g(956) . "***";
-    else
+    } else {
         $link[$i] = $name_value[$i];
+    }
     $lbl[$i] = $name_value[$i] . "<br>(" . $pourc . "%)";
     $count_value[$i] = $row->nb;
-    if (isset($arr_FCColors[$i]))
+    if (isset($arr_FCColors[$i])) {
         $color[$i] = $arr_FCColors[$i];
-    else
+    } else {
         $color[$i] = $arr_FCColors[$i - 10];
+    }
     $color[$i] = "plotProps: {fill: \"" . $color[$i] . "\"}";
     $i++;
 }
@@ -137,9 +138,9 @@ echo '<script type="text/javascript">
 			    values: [{' . implode("}, {", $color) . '
 			    }]
 			  }
-			});		
+			});
 		});
-		
+
 		$.elycharts.templates[\'pie_stat_teledeploy\'] = {
 		  type: "pie",
 		  defaultSeries: {
@@ -151,10 +152,10 @@ echo '<script type="text/javascript">
 		    highlight: {
 		      move: 20
 		    },
-		    tooltip: { 
-		     width: 200, height: 25,    
+		    tooltip: {
+		     width: 200, height: 25,
 		     frameProps: {opacity: 0.5},
-		     contentStyle : { "font-family": "Arial", "font-size": "9px", "line-height": "8px", color: "black" } 
+		     contentStyle : { "font-family": "Arial", "font-size": "9px", "line-height": "8px", color: "black" }
 		    },
 		    startAnimation: {
 		      active: true,
@@ -191,14 +192,16 @@ $j = 0;
 while ($j < $i) {
     $nb += $count_value[$j];
     echo "<tr>";
-    if (isset($arr_FCColors[$j]))
+    if (isset($arr_FCColors[$j])) {
         echo "<td bgcolor='" . $arr_FCColors[$j] . "'>";
-    else
+    } else {
         echo "<td>";
+    }
     echo "&nbsp;</td><td>" . $name_value[$j] . "</td><td>
 			<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_multi_search'] . "&prov=stat&id_pack=" . $protectedGet["stat"] . "&stat=" . urlencode($link[$j]) . "'>" . $count_value[$j] . "</a>";
-    if (substr_count($link[$j], 'SUC'))
+    if (substr_count($link[$j], 'SUC')) {
         echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_speed_stat'] . "&head=1&ta=" . urlencode($link[$j]) . "&stat=" . $protectedGet["stat"] . "\">&nbsp<img src='image/stat.png'></a>";
+    }
     echo "	</td></tr>";
     $j++;
 }

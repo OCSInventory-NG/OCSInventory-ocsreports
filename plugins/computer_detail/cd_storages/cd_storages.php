@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -43,10 +43,11 @@ $list_fields = array($l->g(49) => 'NAME',
     $l->g(67) . " (MB)" => 'DISKSIZE',
     $l->g(36) => 'SERIALNUMBER',
     $l->g(1229) => 'FIRMWARE');
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del = array($l->g(49) => $l->g(49));
+}
 
 $default_fields = $list_fields;
 $tab_options['FILTRE'] = array('NAME' => $l->g(49), 'MANUFACTURER' => $l->g(64), 'TYPE' => $l->g(66));

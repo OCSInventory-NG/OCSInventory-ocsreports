@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -51,11 +51,13 @@ if (isset($protectedGet['value']) && $protectedGet['value'] != '') {
     $data_on['ADMIN_RSX'] = $l->g(1140);
     $data_on['ADMIN_TYPE'] = $l->g(836);
 
-    if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES')
+    if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES') {
         $data_on['ADMIN_SMTP'] = $l->g(1205);
+    }
 
-    if ($protectedPost['onglet'] != $protectedPost['old_onglet'])
+    if ($protectedPost['onglet'] != $protectedPost['old_onglet']) {
         unset($protectedPost['MODIF']);
+    }
 
     show_tabs($data_on, $form_name, "onglet", 10);
     $left_menu_displayed = true;
@@ -69,7 +71,6 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             delete_subnet($protectedPost['SUP_PROF']);
             $tab_options['CACHE'] = 'RESET';
         }
-
 
         if (isset($protectedPost['Valid_modif'])) {
             $result = add_subnet($protectedPost['ADD_IP'], $protectedPost['RSX_NAME'], $protectedPost['ID_NAME'], $protectedPost['ADD_SX_RSX']);
@@ -107,27 +108,34 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 $title = $l->g(931);
 
                 $result = find_info_subnet($protectedPost['MODIF']);
-                if (!isset($protectedPost['RSX_NAME']))
+                if (!isset($protectedPost['RSX_NAME'])) {
                     $protectedPost['RSX_NAME'] = $result->NAME;
-                if (!isset($protectedPost['ID_NAME']))
+                }
+                if (!isset($protectedPost['ID_NAME'])) {
                     $protectedPost['ID_NAME'] = $result->ID;
-                if (!isset($protectedPost['ADD_IP']))
+                }
+                if (!isset($protectedPost['ADD_IP'])) {
                     $protectedPost['ADD_IP'] = $result->NETID;
-                if (!isset($protectedPost['ADD_SX_RSX']))
+                }
+                if (!isset($protectedPost['ADD_SX_RSX'])) {
                     $protectedPost['ADD_SX_RSX'] = $result->MASK;
+                }
 
-                if (isset($protectedGet['value']) && $protectedGet['value'] != '')
+                if (isset($protectedGet['value']) && $protectedGet['value'] != '') {
                     $protectedPost['ADD_IP'] = $protectedGet['value'];
-            } else
+                }
+            } else {
                 $title = $l->g(303);
+            }
             $list_id_subnet = look_config_default_values('ID_IPDISCOVER_%', 'LIKE');
 
             if (isset($list_id_subnet)) {
                 foreach ($list_id_subnet['tvalue'] as $key => $value) {
                     $list_subnet[$value] = $value;
                 }
-            } else
+            } else {
                 $list_subnet = array();
+            }
 
             $list_subnet = array(0 => "") + $list_subnet;
 
@@ -136,7 +144,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 'ADD_IP' => $protectedPost['ADD_IP'],
                 'ADD_SX_RSX' => $protectedPost['ADD_SX_RSX']);
             form_add_subnet($title, $default_values, $form_name);
-        }else {
+        } else {
             $sql = "select NETID,NAME,ID,MASK from subnet";
             $list_fields = array('NETID' => 'NETID',
                 $l->g(49) => 'NAME',
@@ -144,16 +152,17 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 'MASK' => 'MASK',
                 'MODIF' => 'NETID',
                 'SUP' => 'NETID');
-            //$list_fields['SUP']='ID';	
+            //$list_fields['SUP']='ID';
             $default_fields = $list_fields;
             $list_col_cant_del = $list_fields;
             $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
             echo "<input type='submit' value='" . $l->g(116) . "' class='btn' name='ADD_SUB'>";
         }
-    } else
+    } else {
         msg_warning($method);
-}elseif ($protectedPost['onglet'] == 'ADMIN_TYPE') {
+    }
+} elseif ($protectedPost['onglet'] == 'ADMIN_TYPE') {
     if (isset($protectedPost['Reset_modif'])) {
         unset($protectedPost['MODIF']);
     }
@@ -195,8 +204,9 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             'show_frame' => false
         ));
     } else {
-        if (isset($msg_ok))
+        if (isset($msg_ok)) {
             msg_success($msg_ok);
+        }
         $sql = "select ID,NAME from devicetype";
         $list_fields = array('ID' => 'ID',
             $l->g(49) => 'NAME',
@@ -210,7 +220,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
 
         echo "<input type='submit' class='btn' value='" . $l->g(116) . "' name='ADD_TYPE'>";
     }
-}elseif ($protectedPost['onglet'] == 'ADMIN_SMTP'
+} elseif ($protectedPost['onglet'] == 'ADMIN_SMTP'
         and $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES') {
 
     if (isset($protectedPost['Valid_modif'])) {
@@ -233,14 +243,15 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         $msg_ok = $l->g(1212);
     }
 
-    if (isset($msg_ok))
+    if (isset($msg_ok)) {
         msg_success($msg_ok);
+    }
 
-    if (isset($msg_error))
+    if (isset($msg_error)) {
         msg_error($msg_error);
+    }
 
     if ($protectedPost['ADD_COMM'] == $l->g(116) || is_numeric($protectedPost['MODIF'])) {
-
         $list_version = array('-1' => '2c', '1' => '1', '2' => '2', '3' => '3');
         $title = $l->g(1207);
         if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['NAME'])) {
@@ -251,11 +262,12 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 'USERNAME' => $info_com->USERNAME,
                 'AUTHKEY' => $info_com->AUTHKEY,
                 'AUTHPASSWD' => $info_com->AUTHPASSWD);
-            if ($info_com->VERSION == "2c")
+            if ($info_com->VERSION == "2c") {
                 $protectedPost['VERSION'] = -1;
-            else
+            } else {
                 $protectedPost['VERSION'] = $info_com->VERSION;
-        }else {
+            }
+        } else {
             $default_values = array('ID' => $protectedPost['ID'],
                 'NAME' => $protectedPost['NAME'],
                 'VERSION' => $list_version,
@@ -273,13 +285,11 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             $l->g(217) => 'AUTHPASSWD',
             'MODIF' => 'ID',
             'SUP' => 'ID');
-        //$list_fields['SUP']='ID';	
         $default_fields = $list_fields;
         $list_col_cant_del = $list_fields;
         $tab_options['LBL_POPUP']['SUP'] = 'NAME';
         $tab_options['LBL']['SUP'] = $l->g(122);
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-
 
         echo "<input type='submit' class='btn' value='" . $l->g(116) . "' name='ADD_COMM'>";
         $protectedPost['ADD_COMM'] = $l->g(116);

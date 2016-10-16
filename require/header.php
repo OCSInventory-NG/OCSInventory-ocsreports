@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -20,8 +20,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-if (!isset($debut))
+if (!isset($debut)) {
     die('FORBIDDEN');
+}
 
 unset($_SESSION['OCS']['SQL_DEBUG']);
 
@@ -104,10 +105,12 @@ if (is_object($link_write) && is_object($link_read)) {
         die();
     }
     $msg = '';
-    if (!is_object($link_write))
+    if (!is_object($link_write)) {
         $msg .= $link_write . "<br>";
-    if (!is_object($link_read))
+    }
+    if (!is_object($link_read)) {
         $msg .= $link_read;
+    }
     html_header(true);
     msg_error($msg);
     require_once(FOOTER_HTML);
@@ -152,9 +155,6 @@ if (!isset($_SESSION['OCS']['CONF_PROFILS_DIR'])) {
 /* * **************END LOGS************** */
 
 
-
-
-
 /* * ****************************************Checking sql update******************************************** */
 if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])) {
     $values = look_config_default_values('GUI_VERSION');
@@ -165,8 +165,9 @@ if (GUI_VER != $_SESSION['OCS']['SQL_BASE_VERS']) {
     if ($_SESSION['OCS']['SQL_BASE_VERS'] < 7006) {
         unset($_SESSION['OCS']['SQL_BASE_VERS']);
         require('install.php');
-    } else
+    } else {
         require('update.php');
+    }
     die();
 }
 
@@ -182,13 +183,13 @@ $protectedGet = strip_tags_array($_GET);
 
 @set_time_limit(0);
 
-//Don't take care of error identify 
+//Don't take care of error identify
 //For the fuser, $no_error  = 'YES'
-if (!isset($no_error))
+if (!isset($no_error)) {
     $no_error = 'NO';
+}
 
 /* * **************************************************SQL TABLE & FIELDS********************************************** */
-
 if (!isset($_SESSION['OCS']['SQL_TABLE'])) {
     $sql = "show tables from %s";
     $arg = DB_NAME;
@@ -197,12 +198,11 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])) {
         $sql = "SHOW COLUMNS FROM %s";
         $arg = $item[0];
         $res_column = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        //	echo "<i>".generate_secure_sql($sql,$arg)."</i><br>";
         while ($item_column = mysqli_fetch_row($res_column)) {
 
-            if ($item_column[0] == "HARDWARE_ID"
-                    and ! isset($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]]))
+            if ($item_column[0] == "HARDWARE_ID" && !isset($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]])) {
                 $_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]] = $item[0];
+            }
 
             $_SESSION['OCS']['SQL_TABLE'][$item[0]][$item_column[0]] = $item_column[0];
         }
@@ -283,20 +283,6 @@ if (isset($protectedPost['Valid_EDITION'])) {
         } else {
             $_SESSION['OCS']['LANGUAGE_FILE']->tableauMots[$protectedPost['ID_WORD']] = $protectedPost['UPDATE'];
         }
-
-        /* $file_name=$_SESSION['OCS']['plugins_dir']."language/".$language."/".$_SESSION['OCS']['LANGUAGE'].".txt";
-
-
-          $file=fopen($file_name."_old","x+");
-          foreach ($_SESSION['OCS']['LANGUAGE_FILE'] as $key=>$value){
-          fwrite($file,$key." ".$value."/r/n");
-          }
-          fclose($file); */
-
-        /* 	$sql="update languages set json_value = '%s'
-          where name= '%s'";
-          $arg=array(json_encode($_SESSION['OCS']['LANGUAGE_FILE']->tableauMots),$_SESSION['OCS']['LANGUAGE']);
-          mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg); */
     }
 }
 unset($_SESSION['OCS']['EDIT_LANGUAGE']);
@@ -311,10 +297,12 @@ if (isset($protectedPost['LANG']) && $protectedPost['LANG'] != '') {
 //unset($_SESSION['OCS']['LANGUAGE']);
 //si la langue par défaut n'existe pas, on récupèrer le cookie
 if (!isset($_SESSION['OCS']['LANGUAGE']) || !isset($_SESSION['OCS']["LANGUAGE_FILE"])) {
-    if (isset($_COOKIE['LANG']))
+    if (isset($_COOKIE['LANG'])) {
         $_SESSION['OCS']['LANGUAGE'] = $_COOKIE['LANG'];
-    if (!isset($_COOKIE['LANG']))
+    }
+    if (!isset($_COOKIE['LANG'])) {
         $_SESSION['OCS']['LANGUAGE'] = DEFAULT_LANGUAGE;
+    }
     $_SESSION['OCS']["LANGUAGE_FILE"] = new language($_SESSION['OCS']['LANGUAGE']);
 }
 $l = $_SESSION['OCS']["LANGUAGE_FILE"];
@@ -341,20 +329,17 @@ if (!isset($_SESSION['OCS']["loggeduser"])) {
 }
 
 /* * ********************************************************gestion des droits sur les TAG*************************************************** */
-if (!isset($_SESSION['OCS']["lvluser"]))
+if (!isset($_SESSION['OCS']["lvluser"])) {
     require_once(BACKEND . 'identity/identity.php');
-
-
+}
 
 /* * ********************************************************gestion des droits sur l'ipdiscover*************************************************** */
 if (!isset($_SESSION['OCS']["ipdiscover"])) {
     require_once(BACKEND . 'ipdiscover/ipdiscover.php');
 }
 
-
 /* * *******************************************************gestion de la suppression automatique des machines trop vieilles************************ */
 //require_once('plugins/options_config/del_old_computers.php');
-
 
 
 /* * ******************GESTION GUI CONF***************** */
@@ -374,20 +359,18 @@ if (!isset($_SESSION['OCS']["usecache"]) || !isset($_SESSION['OCS']["tabcache"])
 
 /* * ******************END GESTION CACHE***************** */
 
-
 /* * ******************MANAGE DOWNLOAD REDISTRIBUTION***************** */
 if (!isset($_SESSION['OCS']["use_redistribution"])) {
     $values = look_config_default_values(array('DOWNLOAD_REDISTRIB'));
     $_SESSION['OCS']['use_redistribution'] = $values['ivalue']['DOWNLOAD_REDISTRIB'];
-    if (!isset($_SESSION['OCS']["use_redistribution"]))
+    if (!isset($_SESSION['OCS']["use_redistribution"])) {
         $_SESSION['OCS']["use_redistribution"] = 1;
+    }
 }
 
 /* * ******************END DOWNLOAD REDISTRIBUTION***************** */
 
-
 /* * *******************************************GESTION OF LBL_TAG************************************ */
-
 if (!isset($_SESSION['OCS']['TAG_LBL'])) {
     require_once('require/function_admininfo.php');
     $all_tag_lbl = witch_field_more('COMPUTERS');
@@ -398,7 +381,6 @@ if (!isset($_SESSION['OCS']['TAG_LBL'])) {
 }
 
 /* * *****************************************GESTION OF PLUGINS (MAIN SECTIONS)*************************** */
-
 if (!isset($_SESSION['OCS']['profile'])) {
     $profile_config = 'config/profiles/' . $_SESSION['OCS']["lvluser"] . '.xml';
     $profile_serializer = new XMLProfileSerializer();
@@ -423,7 +405,6 @@ if (isset($protectedGet[PAG_INDEX]) && !$profile->hasPage($url_name) && (!$_SESS
     die();
 }
 
-
 if ((!isset($_SESSION['OCS']["loggeduser"]) || !isset($_SESSION['OCS']["lvluser"]) || $_SESSION['OCS']["lvluser"] == "") && !isset($_SESSION['OCS']['TRUE_USER']) && $no_error != 'YES') {
     msg_error($LIST_ERROR);
     require_once(FOOTER_HTML);
@@ -431,14 +412,14 @@ if ((!isset($_SESSION['OCS']["loggeduser"]) || !isset($_SESSION['OCS']["lvluser"
 }
 
 if ($url_name) {
-
     //CSRF security
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $csrf = true;
         if (isset($_SESSION['OCS']['CSRF'])) {
             foreach ($_SESSION['OCS']['CSRF'] as $k => $v) {
-                if ($v == $protectedPost['CSRF_' . $k])
+                if ($v == $protectedPost['CSRF_' . $k]) {
                     $csrf = false;
+                }
             }
         }
         //Here we parse the form

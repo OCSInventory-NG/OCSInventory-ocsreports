@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -22,9 +22,9 @@
  */
 
 /*
- * 
+ *
  * Show sd_drives data
- * 
+ *
  */
 if (AJAX) {
     ob_end_clean();
@@ -36,8 +36,9 @@ if (AJAX) {
     $ajax = false;
 }
 print_item_header($l->g(1221));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $table_name = "sd_drives";
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
@@ -49,7 +50,6 @@ $list_fields = array($l->g(85) => 'LETTER',
     $l->g(45) => 'FREE',
     $l->g(137) => 'NUMFILES',
     $l->g(1230) => 'VOLUMN');
-//$list_fields['SUP']= 'ID';
 $sql = prepare_sql_tab($list_fields);
 $list_fields["PERCENT_BAR"] = 'CAPACITY';
 $tab_options["replace_query_arg"]['CAPACITY'] = " round(100-(FREE*100/TOTAL)) ";

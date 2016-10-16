@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -59,7 +59,7 @@ class Columns {
     /*
      * Return an array containing all implemented columns of the Table
      * 	sorted by properties
-     * 
+     *
      */
 
     public function getColumns() {
@@ -77,7 +77,7 @@ class Columns {
 
     /*
      * Get the displayed column with the key corresponding to $key
-     * 
+     *
      */
 
     public function getColumn($key) {
@@ -109,7 +109,7 @@ class Columns {
     }
 
     /*
-     * Set visibility false for the column 
+     * Set visibility false for the column
      */
 
     public function hideColumn($key) {
@@ -124,7 +124,7 @@ class Columns {
     }
 
     /*
-     * Set visibility true for the column 
+     * Set visibility true for the column
      */
 
     public function showColumn($key) {

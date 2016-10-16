@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -27,7 +27,6 @@ require_once('require/function_config_generale.php');
  * @param unknown $action : Possible actions => delete (0) and install (1)
  */
 function exec_plugin_soap_client($name, $action) {
-
     global $l;
 
     if (class_exists('SoapClient')) {
@@ -38,7 +37,6 @@ function exec_plugin_soap_client($name, $action) {
 }
 
 function plugin_soap_client($name, $action) {
-
     global $l;
 
     $champs = array('OCS_SERVER_ADDRESS' => 'OCS_SERVER_ADDRESS');
@@ -57,12 +55,12 @@ function plugin_soap_client($name, $action) {
         'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules",
     ));
 
-    $request = "<?xml version=\"1.0\" encoding=\"utf-8\" ?> 
-            <soap:Envelope 
+    $request = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
+            <soap:Envelope
             soap:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'
-            xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/' 
+            xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'
                     xmlns:soapenc='http://schemas.xmlsoap.org/soap/encoding/'
-            xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
+            xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
             xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
             <soap:Body>
                     <$method xmlns='http://$address/Apache/Ocsinventory/Plugins/Modules'><c-gensym3 xsi:type='xsd:string'>$name</c-gensym3></$method>
@@ -77,11 +75,10 @@ function plugin_soap_client($name, $action) {
     $clean_xml = str_ireplace(['SOAP-ENV:', 'SOAP:'], '', $xml_response);
     $xml = simplexml_load_string($clean_xml);
 
-    // TODO : Create a specific page for ALL help links 
+    // TODO : Create a specific page for ALL help links
     $help_link = "https://github.com/OCSInventory-NG/OCSInventory-ocsreports/wiki/Plugins-Engine-:-Web-service-error-codes";
 
     if ($action == 1) {
-
         $soap_return_value = $xml->Body->InstallPluginsResponse->Result;
 
         if ($soap_return_value != "Install_OK") {

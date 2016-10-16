@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -46,8 +46,9 @@ if (isset($protectedGet['fields']) && (!isset($protectedPost['GET']) || $protect
     unset($protectedPost);
     foreach ($_SESSION['OCS'] as $key => $value) {
         $valeur = explode("-", $key);
-        if ($valeur[0] == "InputValue" || $valeur[0] == "SelFieldValue" || $valeur[0] == "SelFieldValue3" || $valeur[0] == "SelAndOr" || $valeur[0] == "SelComp")
+        if ($valeur[0] == "InputValue" || $valeur[0] == "SelFieldValue" || $valeur[0] == "SelFieldValue3" || $valeur[0] == "SelAndOr" || $valeur[0] == "SelComp") {
             unset($_SESSION['OCS'][$key]);
+        }
     }
     $tab_session = explode(',', $protectedGet['fields']);
     $sel_comp = explode(',', $protectedGet['comp']);
@@ -79,13 +80,14 @@ if (isset($protectedGet['fields']) && (!isset($protectedPost['GET']) || $protect
         $protectedPost['GET'] = 'GET';
     }
 }
-//need to delete this part... 
+//need to delete this part...
 if (isset($protectedGet['prov']) && (!isset($protectedPost['GET']) || $protectedPost['GET'] == '')) {
     unset($protectedPost);
     foreach ($_SESSION['OCS'] as $key => $value) {
         $valeur = explode("-", $key);
-        if ($valeur[0] == "InputValue" || $valeur[0] == "SelFieldValue" || $valeur[0] == "SelFieldValue3" || $valeur[0] == "SelAndOr" || $valeur[0] == "SelComp")
+        if ($valeur[0] == "InputValue" || $valeur[0] == "SelFieldValue" || $valeur[0] == "SelFieldValue3" || $valeur[0] == "SelAndOr" || $valeur[0] == "SelComp") {
             unset($_SESSION['OCS'][$key]);
+        }
     }
     if ($protectedGet['prov'] == "stat") {
         $tab_session[] = "DEVICES-DOWNLOAD";
@@ -120,11 +122,13 @@ if (isset($protectedGet['prov']) && (!isset($protectedPost['GET']) || $protected
     }
     if (isset($tab_stat)) {
         unset($_SESSION['OCS']['multiSearch']);
-        foreach ($tab_session as $key => $value)
+        foreach ($tab_session as $key => $value) {
             $_SESSION['OCS']['multiSearch'][] = $value;
+        }
 
-        foreach ($tab_stat as $key => $value)
+        foreach ($tab_stat as $key => $value) {
             $protectedPost[$key] = $value;
+        }
         $protectedPost['Valid-search'] = $l->g(30);
         $protectedPost['multiSearch'] = $l->g(32);
         $protectedPost['Valid'] = 1;
@@ -151,8 +155,9 @@ foreach ($field_of_accountinfo['LIST_FIELDS'] as $id => $lbl) {
     if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG") {
         $name_field_accountinfo = "TAG";
         $delfault_tag = $l->g(1210) . " " . $lbl;
-    } else
+    } else {
         $name_field_accountinfo = "fields_" . $id;
+    }
 
     $sort_accountinfo['ACCOUNTINFO-' . $name_field_accountinfo] = $l->g(1210) . " " . $lbl;
     if (in_array($field_of_accountinfo['LIST_TYPE'][$id], array(0, 1, 3, 6))) {
@@ -172,7 +177,6 @@ foreach ($field_of_accountinfo['LIST_FIELDS'] as $id => $lbl) {
             $opt2Select_account['ACCOUNTINFO-' . $name_field_accountinfo . "-SELECT"] = array('exact' => $l->g(507), 'diff' => $l->g(508));
         }
     }
-//		$list_fields_account_info['Accinf: '.$lbl]="a." . $name_field_accountinfo;
     $Accinfo = $l->g(1210) . " " . $lbl;
     $list_fields_account_info[$Accinfo] = "a." . $name_field_accountinfo;
 }
@@ -186,7 +190,7 @@ if ($protectedPost['delfield'] != "" || $protectedPost['multiSearch'] != $l->g(3
 //cas d'une suppression de machine
 if ($protectedPost['SUP_PROF'] != '') {
     deleteDid($protectedPost['SUP_PROF']);
-    //on force la valeur cachée de la validation du formulaire 
+    //on force la valeur cachée de la validation du formulaire
     //pour rejouer la requete et ne pas utiliser le cache
     $protectedPost['Valid'] = "SUP";
 }
@@ -201,8 +205,9 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
 } else {
     foreach ($_SESSION['OCS'] as $key => $value) {
         $valeur = explode("-", $key);
-        if ($valeur[0] == "InputValue" || $valeur[0] == "SelFieldValue" || $valeur[0] == "SelFieldValue3" || $valeur[0] == "SelAndOr" || $valeur[0] == "SelComp")
+        if ($valeur[0] == "InputValue" || $valeur[0] == "SelFieldValue" || $valeur[0] == "SelFieldValue3" || $valeur[0] == "SelAndOr" || $valeur[0] == "SelComp") {
             $protectedPost[$key] = $value;
+        }
     }
 }
 if ($protectedPost['multiSearch'] != '' && $protectedPost['multiSearch'] != $l->g(32)) {
@@ -219,7 +224,6 @@ if ($protectedPost['reset'] != "") {
 if ($protectedPost['delfield'] != "") {
     unset($_SESSION['OCS']['multiSearch'][$protectedPost['delfield']]);
 }
-//	
 //une recherche est demandée sur des critères
 //pas d'utilisation de cache
 //bouton de validation actionné
@@ -253,7 +257,7 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
                     unset($field_compar[$i]);
                     unset($fieldNumber[$i]);
                 } else {
-                    //sinon, on la prend en compte	
+                    //sinon, on la prend en compte
                     //en fonction de la valeur en position 0, on sait quel genre de recherche on doit effecuter
                     //si on a un SelComp, on récupère la valeur saisie
                     if ($valeur[0] == "InputValue" || $valeur[0] == "SelFieldValue") {
@@ -281,9 +285,9 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
                                 $k--;
                             }
                         }
-                        if (isset($protectedPost[$valeur[0] . "2-" . $table[$i] . "-" . $field[$i] . "-" . $fieldNumber[$i]]))
+                        if (isset($protectedPost[$valeur[0] . "2-" . $table[$i] . "-" . $field[$i] . "-" . $fieldNumber[$i]])) {
                             $field_value_complement[$i] = $protectedPost[$valeur[0] . "2-" . $table[$i] . "-" . $field[$i] . "-" . $fieldNumber[$i]];
-                        elseif (isset($protectedPost["SelFieldValue3-" . $valeur[1] . "-" . $field[$i] . "-" . $fieldNumber[$i]])) {
+                        } elseif (isset($protectedPost["SelFieldValue3-" . $valeur[1] . "-" . $field[$i] . "-" . $fieldNumber[$i]])) {
                             $field_value_complement[$i] = $protectedPost["SelFieldValue3-" . $table[$i] . "-" . $field[$i] . "-" . $fieldNumber[$i]];
                         }
                     }
@@ -295,49 +299,56 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
     if ($_SESSION['OCS']['DEBUG'] == 'ON') {
         $debug = $l->g(5009) . "<br>";
         if (isset($table)) {
-            foreach ($table as $key => $value)
+            foreach ($table as $key => $value) {
                 $debug .= $key . " => " . $value . "<br>";
+            }
         }
         $debug .= $l->g(5010) . "<br>";
         if (isset($field)) {
-            foreach ($field as $key => $value)
+            foreach ($field as $key => $value) {
                 $debug .= $key . " => " . $value . "<br>";
+            }
         }
         $debug .= $l->g(5011) . "<br>";
         if (isset($field_compar)) {
-            foreach ($field_compar as $key => $value)
+            foreach ($field_compar as $key => $value) {
                 $debug .= $key . " => " . $value . "<br>";
+            }
         }
         $debug .= $l->g(5012) . "<br>";
         if (isset($field_value)) {
-            foreach ($field_value as $key => $value)
+            foreach ($field_value as $key => $value) {
                 $debug .= $key . " => " . $value . "<br>";
+            }
         }
         $debug .= $l->g(5013) . "<br>";
         if (isset($field_value_complement)) {
-            foreach ($field_value_complement as $key => $value)
+            foreach ($field_value_complement as $key => $value) {
                 $debug .= $key . " => " . $value . "<br>";
+            }
         }
         $debug .= $l->g(5014) . "<br>";
         if (isset($field_and_or)) {
             foreach ($field_and_or as $key => $value) {
-                if ($value != '')
+                if ($value != '') {
                     $debug .= $key . " => " . $value . "<br>";
+                }
             }
         }
-        if (isset($debug) && $debug != '')
+        if (isset($debug) && $debug != '') {
             msg_info($debug);
+        }
     }
     $i = 0;
     //tableau des requêtes à executer
     //qui est contruit au fur et a mesure
     $sql_search = array();
     while ($table[$i]) {
-
         //initialisation de la variable des requêtes temporaires
         $sql_temp = "";
-        if ($field_compar[$i] == "" && substr($field_value[$i], 0, 4) != "ALL_")
+        if ($field_compar[$i] == "" && substr($field_value[$i], 0, 4) != "ALL_") {
             $field_compar[$i] = "exact";
+        }
         //traitement du champ de comparaison
         switch ($field_compar[$i]) {
             case "exact":
@@ -377,8 +388,9 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
         }
 
         //Prise en compte des jockers sur le champ de saisie uniquement sur les champs de comparaison 'like'
-        if ($field_compar[$i] == " like " && $table[$i] != "DEVICES" && $field[$i] != 'DOWNLOAD')
+        if ($field_compar[$i] == " like " && $table[$i] != "DEVICES" && $field[$i] != 'DOWNLOAD') {
             $field_value[$i] = jockers_trait($field_value[$i]);
+        }
         //traitement d'un champ quand c'est une date
         $new_value = compair_with_date($field[$i], $field_value[$i]);
         $field[$i] = $new_value['field'];
@@ -387,8 +399,9 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
         if (substr($field_value[$i], 0, 4) == "ALL_" && $field[$i] == "OSNAME") {
             if ($field_value[$i] == "ALL_LINUX") {
                 $sql_temp = "select distinct osname from hardware where osname like '%Linux%'";
-            } elseif ($field_value[$i] == "ALL_WIN")
+            } elseif ($field_value[$i] == "ALL_WIN") {
                 $sql_temp = "select distinct osname from hardware where osname like '%win%'";
+            }
             $result_temp = mysqli_query($_SESSION['OCS']["readServer"], $sql_temp);
             while ($val_temp = mysqli_fetch_array($result_temp)) {
                 $list[] = addslashes($val_temp['osname']);
@@ -411,40 +424,43 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
             $field_value_complement[$i] = $field_value[$i];
             $field[$i] = "NAME";
             $field_value[$i] = "'" . $original_field . "'";
-            //traitement pour le télédéploiement		
+            //traitement pour le télédéploiement
             if ($field_value[$i] == "'DOWNLOAD'") {
                 //on utilise pas le champ ivalue
                 unset($ivalue);
-                //requete pour trouver tous les ID 
+                //requete pour trouver tous les ID
                 //dans ce cas, le champ de recherche doit etre à null
-                if ($original_field_value_complement == $l->g(482))
+                if ($original_field_value_complement == $l->g(482)) {
                     $tvalue = " AND TVALUE IS NULL ";
+                }
                 //gestion de TOUT SAUF SUCCESS
-                elseif ($original_field_value_complement == "***" . $l->g(548) . "***")
+                elseif ($original_field_value_complement == "***" . $l->g(548) . "***") {
                     $tvalue = " AND TVALUE not like 'SUC%' ";
+                }
                 //gestion de Toutes les erreurs
-                elseif ($original_field_value_complement == "***" . $l->g(956) . "***")
+                elseif ($original_field_value_complement == "***" . $l->g(956) . "***") {
                     $tvalue = " AND (TVALUE like 'ERR%' or TVALUE like 'EXIT_CODE%')";
+                }
                 //gestion de TOUS LES SUCCESS
-                elseif ($original_field_value_complement == "***" . $l->g(957) . "***")
+                elseif ($original_field_value_complement == "***" . $l->g(957) . "***") {
                     $tvalue = " AND TVALUE like 'SUC%' ";
-                elseif ($original_field_value_complement == "***" . $l->g(509) . "***")
+                } elseif ($original_field_value_complement == "***" . $l->g(509) . "***") {
                     $tvalue = "";
-                else
+                } else {
                     $tvalue = " AND TVALUE = '" . $original_field_value_complement . "'";
-                //echo $field_value_complement[$i];
+                }
                 //recherche des id activés de ce paquet
                 $sql_temp = "select id from download_enable d_e left join download_available d_a on d_a.fileid=d_e.fileid where 1=1 ";
-                IF ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES")
+                IF ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES") {
                     $sql_temp .= " and d_a.comment not like '%[VISIBLE=0]%'";
-                if ($field_value_complement[$i] != "'NULL'" &&
-                        $field_value_complement[$i] != "NULL")
+                }
+                if ($field_value_complement[$i] != "'NULL'" && $field_value_complement[$i] != "NULL") {
                     $sql_temp .= " and d_e.fileid=" . $field_value_complement[$i];
+                }
                 $result_temp = mysql2_query_secure($sql_temp, $_SESSION['OCS']["readServer"]);
                 while ($val_temp = mysqli_fetch_array($result_temp)) {
                     $list[] = addslashes($val_temp['id']);
                 }
-                //echo $sql_temp;
                 if (!isset($list)) {
                     $ERROR = $l->g(958);
                 } else {
@@ -455,32 +471,34 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
                 unset($list);
             }//gestion de la configuration des fréquences
             elseif ($field_value[$i] == "'FREQUENCY'" || $field_value[$i] == "'IPDISCOVER'") {
-
                 //on n'utilise pas le champs tvalue
                 unset($tvalue);
 
                 if (!strstr($field_value_complement[$i], 'DEFAULT')) {
-                    if ($field_value_complement[$i] != "'PERSO'") //gestion des cas normaux
+                    if ($field_value_complement[$i] != "'PERSO'") { //gestion des cas normaux
                         $field_value_complement[$i] = " = " . $field_value_complement[$i];
-                    else //gestion des valeurs de fréquences personnalisées
+                    } else { //gestion des valeurs de fréquences personnalisées
                         $field_value_complement[$i] = " NOT IN ('0','-1')";
-                }elseif (strstr($field_value_complement[$i], 'DEFAULT')) {
+                    }
+                } elseif (strstr($field_value_complement[$i], 'DEFAULT')) {
                     $type_default = explode('DEFAULT', $field_value_complement[$i]);
                     //si on demande la valeur DEFAULT de frequency,
                     //on se retrouve a rechercher les ID des machines
                     //dans la table hardware qui ne sont pas dans DEVICES avec
                     //comme name='FREQUENCY'
                     $sql_frequency = "select hardware_id from devices where name=" . $field_value[$i];
-                    if (isset($type_default[1]) && $type_default[1] != "'")
+                    if (isset($type_default[1]) && $type_default[1] != "'") {
                         $sql_frequency .= " and IVALUE = " . $type_default[1]{0};
+                    }
                     $result_frequency = mysqli_query($_SESSION['OCS']["readServer"], $sql_frequency);
                     $list_frequency = "";
                     while ($val_frequency = mysqli_fetch_array($result_frequency)) {
                         $list_frequency .= $val_frequency['hardware_id'] . ',';
                     }
-                    if ($list_frequency == "")
+                    if ($list_frequency == "") {
                         $list_frequency = "'' ";
-                    //on vide le champ de comparaison 
+                    }
+                    //on vide le champ de comparaison
                     //pour ne pas entrer dans la boucle de traitement
                     $field_compar[$i] = " NOT IN ";
                     //création de la fin de requête de recherche
@@ -501,7 +519,7 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
                 $table_explode = "type_softwares_version";
             }
             $sql_temp = "select name, id from %s where name %s '%s'";
-            //A REVOIR POUR ENLEVER LES ' DEVANT LE CHAMP DE RECHERCHE
+            //@TODO : A REVOIR POUR ENLEVER LES ' DEVANT LE CHAMP DE RECHERCHE
             $arg_temp = array($table_explode, $field_compar[$i], str_replace("'", "", $field_value[$i]));
             $result_temp = mysql2_query_secure($sql_temp, $_SESSION['OCS']["readServer"], $arg_temp);
             while ($val_temp = mysqli_fetch_array($result_temp)) {
@@ -531,8 +549,9 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
                 if ($field_temp == $field[$i]) {
                     $sql_temp = "select " . $field_temp . " as name ";
                     if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
-                            and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1)
+                            and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
                         $sql_temp .= ",id ";
+                    }
                     $sql_temp .= " from " . strtolower($table_cache[$table[$i]]) . " where " . $field_temp . $field_compar[$i] . $field_value[$i];
                     $result_temp = mysqli_query($_SESSION['OCS']["readServer"], $sql_temp);
                     $count_result = 0;
@@ -540,12 +559,13 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
                         if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
                                 and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
                             $list[] = $val_temp['id'];
-                        } else
+                        } else {
                             $list[] = addslashes($val_temp['name']);
+                        }
 
-                        if ($limit_result_cache > $count_result)
+                        if ($limit_result_cache > $count_result) {
                             $count_result++;
-                        else {
+                        } else {
                             $ERROR = $l->g(959);
                             break;
                         }
@@ -573,10 +593,11 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
                     break;
                 case "DRIVES":
                     //cas des partitions linux
-                    if (substr($field_value_complement[$i], 0, 1) == '/')
+                    if (substr($field_value_complement[$i], 0, 1) == '/') {
                         $field_value_complement[$i] = " AND VOLUMN = '" . $field_value_complement[$i] . "' ";
-                    else
+                    } else {
                         $field_value_complement[$i] = " AND LETTER = '" . $field_value_complement[$i] . "' ";
+                    }
                     break;
                 case "REGISTRY":
                     $field_value_complement[$i] = " AND NAME = '" . $field_value_complement[$i] . "' ";
@@ -589,7 +610,6 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
             }
         }
 
-
         if ($_SESSION['OCS']['DEBUG'] == 'ON') {
             msg_success($l->g(5016) . $table[$i] . "<br>" . $l->g(5017) . $field[$i] . "<br>" . $l->g(5018) . $field_compar[$i] . "<br>" . $l->g(5019) . $field_value[$i] . "<br>" . $l->g(5020) . $field_value_complement[$i] . "<br>" . $l->g(5021) . $field_and_or[$i]);
         }
@@ -601,31 +621,37 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
         }
         //si on est dans le cas d'une recherche sur "différent",
         //on va créer les requêtes dans le tableau $sql_seach['DIFF']
-        if ($field_compar_origine[$i] == "diff")
+        if ($field_compar_origine[$i] == "diff") {
             $operation = "DIFF";
-        else //autremant dans les autres cas, on va créer le tableau de requête dans $sql_seach['NORMAL']
+        } else { //autrement dans les autres cas, on va créer le tableau de requête dans $sql_seach['NORMAL']
             $operation = "NORMAL";
+        }
         //recherche du dernier index de la derniere requete sur la table
         if (isset($sql_seach[$operation][$table[$i]])) {
-            foreach ($sql_seach[$operation][$table[$i]] as $index => $poub)
+            foreach ($sql_seach[$operation][$table[$i]] as $index => $poub) {
                 $k = $index;
-        } else
+            }
+        } else {
             $k = "";
+        }
 
-        if ($field_and_or[$i] == "AND")
+        if ($field_and_or[$i] == "AND") {
             $no_fusion = true;
-
+        }
 
         //gestion du champ AND OR dans les requetes
-        if ($field_and_or[$i] == "" && $operation == "DIFF")
+        if ($field_and_or[$i] == "" && $operation == "DIFF") {
             $field_and_or[$i] = "OR";
-        if ($field_and_or[$i] == "" && $operation == "NORMAL")
+        }
+        if ($field_and_or[$i] == "" && $operation == "NORMAL") {
             $field_and_or[$i] = "AND";
+        }
 
-        if ($field_and_or[$i] == "AND")
+        if ($field_and_or[$i] == "AND") {
             $field_and_or[$i] = " ) AND ( ";
-        else
+        } else {
             $field_and_or[$i] = " OR ";
+        }
         //gestion de la non fusion des requêtes pour les tables définies
         //si on n'est pas dans le cas de "AND/OR" (deux fois le même champ)
         if (in_array($table[$i], $tab_no_fusion) && ($field_and_or[$i] == "" || $no_fusion || !isset($sql_seach[$operation][$table[$i]]))) {
@@ -646,14 +672,12 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
             //si la requête existe déjà
             if (isset($sql_seach[$operation][$table[$i]])) {
                 //si le champ "AND/OR" est vide, on doit concat des champs différents de la même table
-//				if ($field_and_or[$i] == "")
-//					$field_and_or[$i]="AND";
                 $sql_seach[$operation][$table[$i]][$k] .= $field_and_or[$i] . $field[$i] . $field_compar[$i] . $field_value[$i] . $field_value_complement[$i];
                 $trait_cache = traitement_cache($sql_temp, $field_modif, $field_value[$i], $field_value_complement[$i]);
                 $sql_cache[$operation][$table[$i]][$k] .= $field_and_or[$i] . $field[$i] . $field_compar[$i] . $trait_cache['field_value'] . $trait_cache['field_value_complement'];
             }//si la requête n'existe pas
             else {
-                //on la crée	
+                //on la crée
                 $traitement = generate_sql($table[$i]);
                 $sql_seach[$operation][$table[$i]][$i] = $traitement['sql_temp'] . " ( " . $field[$i] . $field_compar[$i] . $field_value[$i] . $field_value_complement[$i];
                 $trait_cache = traitement_cache($sql_temp, $field_modif, $field_value[$i], $field_value_complement[$i]);
@@ -663,19 +687,10 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
         //stockage de la table sur laquelle on requete
         //pour afficher les champs correspondant
         $list_tables_request[$table[$i]] = $table[$i];
-        //si une erreur a été rencontrée
-        //le traitement est arrêté (gain de temps)
-//		if (isset($ERROR)){
-//			echo "ATTENTION: ERREUR ".$ERROR;
-//			break;
-//		}
         $i++;
     }
     $list_id = "";
-//traitement sur les requetes
-//echo "<br><br>";
-//		print_r_V2($sql_seach);
-//		echo "<br><br>";
+    //traitement sur les requetes
     //si un tableau de requête existe
     if (isset($sql_seach)) {
         //on commence par traiter le cas normal
@@ -691,13 +706,14 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
 
     //execution des requêtes
     //si l'utilisateur a des droits limités
-    //restriction des id 
+    //restriction des id
     if ($_SESSION['OCS']['mesmachines'] != "" && isset($_SESSION['OCS']['mesmachines'])) {
         $list_id_restraint = substr(substr(computer_list_by_tag(), 1), 0, -1);
     }
 
-    if ($_SESSION['OCS']['DEBUG'] == 'ON')
+    if ($_SESSION['OCS']['DEBUG'] == 'ON') {
         $debug = '';
+    }
     if (isset($execute_sql['NORMAL'])) {
         $result = execute_sql_returnID($list_id_restraint, $execute_sql['NORMAL'], '', $table_tabname);
         if ($_SESSION['OCS']['DEBUG'] == 'ON') {
@@ -705,8 +721,9 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
         }
 
         $list_id_norm = $result[0];
-        if ($list_id_norm == "")
+        if ($list_id_norm == "") {
             $no_result = "YES";
+        }
         $tab_options = $result[1];
     }
     if (isset($execute_sql['DIFF']) && $no_result != "YES") {
@@ -716,14 +733,16 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
         if ($_SESSION['OCS']['DEBUG'] == 'ON') {
             $debug .= $l->g(5023) . "<br>" . $result['DEBUG'];
         }
-        if ($result[0] != '')
+        if ($result[0] != '') {
             $list_id_diff = $result[0];
-        else
+        } else {
             $list_id_diff[] = "'NO_DATA'";
+        }
     }
 
-    if ($debug != '')
+    if ($debug != '') {
         msg_warning($debug);
+    }
 
     //pour le traitement des champs
     if ($list_id_diff != "") {
@@ -734,31 +753,26 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
             $sql .= " AND ID IN (" . $list_id_restraint . ")";
         }
         $result = mysqli_query($_SESSION['OCS']["readServer"], $sql) or mysqli_error($_SESSION['OCS']["readServer"]);
-        while ($item = mysqli_fetch_object($result))
+        while ($item = mysqli_fetch_object($result)) {
             $list_id[] = $item->ID;
-    } else
+        }
+    } else {
         $list_id = $list_id_norm;
+    }
 
     $_SESSION['OCS']['ID_REQ'] = id_without_idgroups($list_id);
     $_SESSION['OCS']['list_tables_request'][$table_tabname] = $list_tables_request;
     //passage en SESSION des requêtes pour les groupes dynamiques
     sql_group_cache($cache_sql);
-    //
-    /* if (isset($where))
-      $_SESSION['OCS']['WHERE_REQ']=$where;
-      else
-      unset($_SESSION['OCS']['WHERE_REQ']); */
 }
 
 //Utilisation du cache pour éviter de rejouer la recherche
 if (($protectedPost['Valid-search'] && $protectedPost['Valid'] == '')) {
-    //	print_r($_SESSION['OCS']['list_tables_request']);
     //recupération de la liste des ID
     $list_id = $_SESSION['OCS']['ID_REQ'];
     //récupération des tables touchées par les requetes
     $list_tables_request = $_SESSION['OCS']['list_tables_request'][$table_tabname];
 }
-//echo $list_id;
 /* * ******************************************AFFICHAGE DES RESULTATS******************************************* */
 if ($list_id != "") {
     $list_fields = array($l->g(652) . ': id' => 'h.ID',
@@ -791,10 +805,11 @@ if ($list_id != "") {
         $l->g(652) . ": " . $l->g(34) => "h.ipaddr",
         $l->g(652) . ": " . $l->g(1247) => 'h.ARCH');
     $list_fields = array_merge($list_fields_account_info, $list_fields);
-    if (is_array($tab_options))
+    if (is_array($tab_options)) {
         $tab_options = array_merge($tab_options, $protectedPost);
-    else
+    } else {
         $tab_options = $protectedPost;
+    }
     //BEGIN SHOW ACCOUNTINFO
     require_once('require/function_admininfo.php');
     $option_comment['comment_be'] = $l->g(1210) . " ";
@@ -815,43 +830,26 @@ if ($list_id != "") {
     foreach ($list_tables_request as $table_name_4_field) {
         if ($lbl_fields_calcul[$table_name_4_field]) {
             $list_fields = array_merge($list_fields, $lbl_fields_calcul[$table_name_4_field]);
-            /* 				if ($table_name_4_field == "SOFTWARES" and isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) 
-              and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1){
-
-              $query_add_table.=" left join ".strtolower($table_name_4_field)." on h.id=".strtolower($table_name_4_field).".hardware_id ";
-
-              }else */
             $query_add_table .= " left join " . strtolower($table_name_4_field) . " on h.id=" . strtolower($table_name_4_field) . ".hardware_id ";
         }
     }
-//	$queryDetails=substr($queryDetails,0,-2);
     $queryDetails .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
     $queryDetails .= $query_add_table;
     $queryDetails .= " where ";
     $queryDetails .= "  h.deviceid <>'_SYSTEMGROUP_' AND h.deviceid <> '_DOWNLOADGROUP_' ";
     $queryDetails .= " and h.id in (" . implode(', ', $list_id) . ")  group by h.ID ";
-    //if (isset($protectedPost['tri_TAB_MULTICRITERE']) && $protectedPost['tri_TAB_MULTICRITERE'] != '')
-    // $queryDetails .= " order by ".$protectedPost['tri_'.$table_tabname]." ".$protectedPost['sens_'.$table_tabname];
-    // $limit=nb_page();
-    //$queryDetails .= " limit ".$protectedPost['page']*$protectedPost['pcparpage'].", 5";
-    //echo "page=>".$protectedPost['page']."pcparpage=>".$protectedPost['pcparpage'];
-    //echo $queryDetails;
     $querycount .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
     $querycount .= $query_add_table;
     $querycount .= " where ";
     $querycount .= "  h.deviceid <>'_SYSTEMGROUP_' AND h.deviceid <> '_DOWNLOADGROUP_' ";
     $querycount .= " and h.id in (" . implode(', ', $list_id) . ") group by h.ID ";
 
-    /* $resultlistid = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
-      while($item = mysqli_fetch_object($resultlistid)){
-      $list_id_test[]=$item->id;
-      } */
-
     $queryDetails = "SELECT ";
     foreach ($list_fields as $key => $value) {
         $queryDetails .= $value;
-        if ($tab_options['AS'][$value])
+        if ($tab_options['AS'][$value]) {
             $queryDetails .= " as " . $tab_options['AS'][$value];
+        }
         $queryDetails .= ", ";
     }
     $queryDetails = substr($queryDetails, 0, -2);
@@ -862,8 +860,9 @@ if ($list_id != "") {
     $queryDetails['SQL'] .= " group by h.ID ";
     $tab_options['ARG_SQL'] = $queryDetails['ARG'];
     $tab_options['SQL_COUNT'] = $querycount;
-    if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES")
+    if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
         $list_fields['SUP'] = 'h.ID';
+    }
 
     $list_fields['CHECK'] = 'h.ID';
     $list_col_cant_del = array('SUP' => 'SUP', 'NAME' => 'NAME', 'CHECK' => 'CHECK');
@@ -875,11 +874,9 @@ if ($list_id != "") {
         $l->g(652) . ": " . $l->g(25) => $l->g(652) . ": " . $l->g(25),
         $l->g(652) . ": " . $l->g(357) => $l->g(652) . ": " . $l->g(357),
         'SUP' => 'SUP', 'CHECK' => 'CHECK');
-    //print_r($list_fields);
     //on modifie le type de champs en numéric de certain champs
     //pour que le tri se fasse correctement
-    //$tab_options['TRI']['SIGNED']['a.TAG']="a.TAG";
-    //choix des fonctionnalitées pour les utilisateurs 
+    //choix des fonctionnalitées pour les utilisateurs
     $list_fonct["image/groups_search.png"] = $l->g(583);
     if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
         $list_fonct["image/delete.png"] = $l->g(122);
@@ -900,24 +897,26 @@ if ($list_id != "") {
 
     $list_pag["image/cadena_ferme.png"] = $pages_refs["ms_custom_lock"];
     $list_pag["image/mass_affect.png"] = $pages_refs["ms_custom_tag"];
-    //activation des LOGS	
+    //activation des LOGS
     $tab_options['LOGS'] = 'SEARCH_RESULT';
     $tab_options['form_name'] = $form_name;
     $tab_options['table_name'] = $table_tabname;
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     add_trait_select($list_fonct, $list_id, $form_name, $list_pag);
     echo "<input type='hidden' value='" . $protectedPost['Valid-search'] . "' name='Valid-search'>";
-} elseif ($protectedPost['Valid-search'] != '')
+} elseif ($protectedPost['Valid-search'] != '') {
     $no_result = "NO RESULT";
+}
 if ($no_result == "NO RESULT" and ! isset($ERROR)) {
-    //choix des fonctionnalitées pour les utilisateurs 
+    //choix des fonctionnalitées pour les utilisateurs
     $list_fonct["image/groups_search.png"] = $l->g(583);
     $list_pag["image/groups_search.png"] = $pages_refs["ms_custom_groups"];
     add_trait_select($list_fonct, $list_id, $form_name, $list_pag);
     msg_warning($l->g(42));
 }
-if ($_SESSION['OCS']["mesmachines"] != '')
+if ($_SESSION['OCS']["mesmachines"] != '') {
     $list_id_computer = computer_list_by_tag();
+}
 
 //pour tous les tableaux:
 //TABLE-NOMCHAMP =>lbl du champ
@@ -978,9 +977,7 @@ $sort_list = array("NETWORKS-IPADDRESS" => $l->g(82) . ": " . $l->g(34),
     "CPUS-LOGICAL_CPUS" => $l->g(54) . ": " . $l->g(1314),
     "CPUS-VOLTAGE" => $l->g(54) . ": " . $l->g(1319),
     "CPUS-CURRENT_SPEED" => $l->g(54) . ": " . $l->g(1315),
-    "CPUS-SOCKET" => $l->g(54) . ": " . $l->g(1316)
-);
-
+    "CPUS-SOCKET" => $l->g(54) . ": " . $l->g(1316));
 
 $optSelectField = array("NETWORKS-IPADDRESS" => $sort_list["NETWORKS-IPADDRESS"],
     "NETWORKS-MACADDR" => $sort_list["NETWORKS-MACADDR"], //$l->g(82).": ".$l->g(95),
@@ -1049,8 +1046,8 @@ $optSelectField = array("NETWORKS-IPADDRESS" => $sort_list["NETWORKS-IPADDRESS"]
     "CPUS-CURRENT_SPEED-SELECT" => array("exact" => $l->g(410), "small" => $l->g(201), "tall" => $l->g(202)),
     "CPUS-CURRENT_SPEED-LBL" => "MHz",
     "CPUS-VOLTAGE" => $sort_list["CPUS-VOLTAGE"],
-    "CPUS-VOLTAGE-SELECT" => array("exact" => $l->g(410), "small" => $l->g(201), "tall" => $l->g(202)),
-);
+    "CPUS-VOLTAGE-SELECT" => array("exact" => $l->g(410), "small" => $l->g(201), "tall" => $l->g(202)));
+
 //ajout des champs de accountinfo
 $optSelectField = array_merge($optSelectField_account, $optSelectField);
 //composotion du tableau
@@ -1058,10 +1055,11 @@ $optSelectField = array_merge($optSelectField_account, $optSelectField);
 //à l'affichage on se retrouve avec le lbl du champ et un select
 $sort_list_Select = array("HARDWARE-OSNAME" => $l->g(729) . ": " . $l->g(25),
     "VIDEOS-RESOLUTION" => $l->g(62));
-if ($_SESSION['OCS']['usecache'] == '1')
+if ($_SESSION['OCS']['usecache'] == '1') {
     $table_hardware = 'hardware_osname_cache';
-else
+} else {
     $table_hardware = 'hardware';
+}
 
 $optSelect = array("HARDWARE-OSNAME" => $sort_list_Select["HARDWARE-OSNAME"], //$l->g(729).": ".$l->g(25),
     "HARDWARE-OSNAME-SQL1" => "select 'ALL_LINUX' as ID, '" . $l->g(1202) . "' as NAME union select 'ALL_WIN', '" . $l->g(1203) . "' union select OSNAME,OSNAME from " . $table_hardware . " where osname != '' ",
@@ -1102,8 +1100,9 @@ $sort_list_2Select = array("HARDWARE-USERAGENT" => "OCS: " . $l->g(966),
     "CPUS-CURRENT_ADDRESS_WIDTH" => $l->g(54) . ": " . $l->g(1313),
 );
 $sql_history_download = "select FILEID as ID,NAME from download_available d_a";
-if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES")
+if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES") {
     $sql_history_download .= " where d_a.comment not like '%[VISIBLE=0]%'";
+}
 $sql_history_download .= " order by 2";
 $opt2Select = array("HARDWARE-USERAGENT" => $sort_list_2Select["HARDWARE-USERAGENT"], //"OCS: ".$l->g(966),
     "HARDWARE-USERAGENT-SQL1" => "select distinct USERAGENT as 'NAME' from hardware where USERAGENT != '' " . (isset($list_id_computer) ? " and id in " . $list_id_computer : '') . " order by 1",
@@ -1198,8 +1197,9 @@ $optSelect2Field = array("HARDWARE-MEMORY" => $sort_list_Select2Field["HARDWARE-
 $sort_list_3Select = array("DEVICES-DOWNLOAD" => $l->g(512) . ": " . $l->g(970));
 $sql_download = "select 'NULL' as 'ID', '***" . $l->g(509) . "***' as NAME
 				union select FILEID as ID,NAME from download_available d_a ";
-IF ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES")
+IF ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES") {
     $sql_download .= " where d_a.comment not like '%[VISIBLE=0]%' and DELETED = 0";
+}
 $sql_download .= " order by 2";
 $opt3Select = array("DEVICES-DOWNLOAD" => $sort_list_3Select["DEVICES-DOWNLOAD"], //$l->g(512).": ".$l->g(970),
     "DEVICES-DOWNLOAD-SQL1" => $sql_download,
@@ -1236,8 +1236,9 @@ if (isset($_SESSION['OCS']['multiSearch']) && $_SESSION['OCS']['multiSearch'] !=
         if (!isset($alreadyExist[$v])) {
             $alreadyExist[$v] = 'YES';
             $ajout = '';
-        } else
+        } else {
             $ajout = $v;
+        }
         $color = $c % 2 == 0 ? "#F2F2F2" : "#FFFFFF";
         show_ligne($v, $color, $k, $ajout, $form_name);
         $c++;

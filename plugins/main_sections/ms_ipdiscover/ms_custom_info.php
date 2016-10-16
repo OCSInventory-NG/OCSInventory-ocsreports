@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -32,17 +32,15 @@ if (AJAX) {
 $form_name = 'info_ipdiscover';
 $tab_options = $protectedPost;
 
-//$ban_head='no';
-//$no_error='YES';
 //recherche de la personne connectée
-if (isset($_SESSION['OCS']['TRUE_USER']))
+if (isset($_SESSION['OCS']['TRUE_USER'])) {
     $user = $_SESSION['OCS']['TRUE_USER'];
-else
+} else {
     $user = $_SESSION['OCS']['loggeduser'];
+}
 
 //suppression d'une adresse mac
 if (isset($protectedPost['SUP_PROF'])) {
-
     //check if we are deleting an identified peripherials ?
     if ($protectedGet['prov'] == "ident") {
         //dismiss manufacturer name and mac to be able to remove it properly.
@@ -59,17 +57,19 @@ if (isset($protectedPost['SUP_PROF'])) {
 }
 //identification d'une adresse mac
 if (isset($protectedPost['Valid_modif'])) {
-    if (trim($protectedPost['COMMENT']) == "")
+    if (trim($protectedPost['COMMENT']) == "") {
         $ERROR = $l->g(942);
-    if (trim($protectedPost['TYPE']) == "")
+    }
+    if (trim($protectedPost['TYPE']) == "") {
         $ERROR = $l->g(943);
-    if (isset($ERROR) && $protectedPost['MODIF_ID'] != '')
+    }
+    if (isset($ERROR) && $protectedPost['MODIF_ID'] != '') {
         $protectedPost['USER'] = $protectedPost['USER_ENTER'];
+    }
 
     if (!isset($ERROR)) {
-        //$post=xml_escape_string($protectedPost);
         if ($protectedPost['USER_ENTER'] != '') {
-            $sql = "update network_devices 
+            $sql = "update network_devices
 					set DESCRIPTION = '%s',
 					TYPE = '%s',
 					MACADDR = '%s',
@@ -90,7 +90,6 @@ if (isset($protectedPost['Valid_modif'])) {
 
 //formulaire de saisie de l'identification de l'adresse mac
 if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != '') {
-
     //cas d'une modification de la donnée déjà saisie
     if ($protectedGet['prov'] == "ident" && !isset($protectedPost['COMMENT'])) {
         $sql = "select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='%s'";
@@ -140,15 +139,16 @@ if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != '') {
     $tab_name[2] = $l->g(66) . ": ";
 
     $tab_hidden['mac'] = $protectedPost['MODIF'];
-    if (isset($ERROR))
+    if (isset($ERROR)) {
         msg_error($ERROR);
+    }
     tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
         'title' => $title
     ));
-}
-else { //affichage des périphériques
-    if (!(isset($protectedPost["pcparpage"])))
+} else { //affichage des périphériques
+    if (!(isset($protectedPost["pcparpage"]))) {
         $protectedPost["pcparpage"] = 5;
+    }
     if (isset($protectedGet['value'])) {
         if ($protectedGet['prov'] == "no_inv") {
             $title = $l->g(947);
@@ -190,7 +190,6 @@ else { //affichage des périphériques
             $default_fields = array($l->g(34) => $l->g(34), $l->g(66) => $l->g(66), $l->g(53) => $l->g(53),
                 'MAC' => 'MAC', $l->g(232) => $l->g(232), $l->g(369) => $l->g(369), 'SUP' => 'SUP', 'MODIF' => 'MODIF');
         } elseif ($protectedGet['prov'] == "inv" || $protectedGet['prov'] == "ipdiscover") {
-
             //BEGIN SHOW ACCOUNTINFO
             require_once('require/function_admininfo.php');
             $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
@@ -262,8 +261,9 @@ else { //affichage des périphériques
             }
             if (!isset($msg_info)) {
                 echo "<p><input type='button' onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_ipdiscover_analyse'] . "&head=1&rzo=" . $protectedGet['value'] . "\",\"analyse\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=650\") name='analyse' value='" . $l->g(317) . "'></p>";
-            } else
+            } else {
                 msg_info($msg_info);
+            }
         }
         echo close_form();
     }

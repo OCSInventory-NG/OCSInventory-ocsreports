@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -30,8 +30,9 @@ if (AJAX) {
     $ajax = false;
 }
 print_item_header($l->g(92));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $form_name = "affich_drives";
 $table_name = $form_name;
 $tab_options = $protectedPost;
@@ -46,10 +47,11 @@ $list_fields = array($l->g(85) => 'LETTER',
     $l->g(87) . " (MB)" => 'TOTAL',
     "PERCENT_BAR" => 'CAPACITY');
 
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del = array('PERCENT_BAR' => 'PERCENT_BAR', $l->g(85) => $l->g(85));
+}
 
 $default_fields = $list_fields;
 $tab_options['LBL']['PERCENT_BAR'] = $l->g(83);

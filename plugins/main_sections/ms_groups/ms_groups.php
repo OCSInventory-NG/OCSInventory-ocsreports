@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -31,7 +31,6 @@ if (AJAX) {
 }
 /*
  * Page des groupes
- * 
  */
 require_once('require/function_groups.php');
 require_once('require/function_computers.php');
@@ -47,8 +46,9 @@ if ($protectedPost['Valid_modif']) {
     $tab_options['CACHE'] = 'RESET';
 }
 //reset add static group
-if ($protectedPost['Reset_modif'] || ($protectedPost['onglet'] != $protectedPost['old_onglet']))
+if ($protectedPost['Reset_modif'] || ($protectedPost['onglet'] != $protectedPost['old_onglet'])) {
     unset($protectedPost['add_static_group']);
+}
 $tab_options = $protectedPost;
 //view only your computers
 if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES') {
@@ -61,14 +61,16 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES') {
 }
 //View for all profils?
 if (!$ajax) {
-    if (isset($protectedPost['CONFIRM_CHECK']) && $protectedPost['CONFIRM_CHECK'] != "")
+    if (isset($protectedPost['CONFIRM_CHECK']) && $protectedPost['CONFIRM_CHECK'] != "") {
         $result = group_4_all($protectedPost['CONFIRM_CHECK']);
+    }
 }
 //if delete group
 if ($protectedPost['SUP_PROF'] != "") {
     $result = delete_group($protectedPost['SUP_PROF']);
-    if ($result['RESULT'] == "ERROR")
+    if ($result['RESULT'] == "ERROR") {
         msg_error($result['LBL']);
+    }
     $tab_options['CACHE'] = 'RESET';
 }
 
@@ -80,14 +82,16 @@ echo open_form($form_name, '', '', 'form-horizontal');
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
     $def_onglets['DYNA'] = $l->g(810); //Dynamic group
     $def_onglets['STAT'] = $l->g(809); //Static group centraux
-    if ($_SESSION['OCS']["use_redistribution"] == 1)
+    if ($_SESSION['OCS']["use_redistribution"] == 1) {
         $def_onglets['SERV'] = mb_strtoupper($l->g(651));
-    if ($protectedPost['onglet'] == "")
+    }
+    if ($protectedPost['onglet'] == "") {
         $protectedPost['onglet'] = "STAT";
+    }
     //show onglet
     show_tabs($def_onglets, $form_name, "onglet", 0);
     echo '<div class="col col-md-10">';
-}else {
+} else {
     $protectedPost['onglet'] = "STAT";
 }
 
@@ -98,8 +102,9 @@ $list_fields = array('GROUP_NAME' => 'h.NAME',
     'NBRE' => 'NBRE');
 //only for admins
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
-    if ($protectedPost['onglet'] == "STAT")
+    if ($protectedPost['onglet'] == "STAT") {
         $list_fields['CHECK'] = 'ID';
+    }
     $list_fields['SUP'] = 'ID';
     $tab_options['LBL_POPUP']['SUP'] = 'NAME';
     $tab_options['LBL']['SUP'] = $l->g(122);
@@ -126,20 +131,23 @@ if ($protectedPost['onglet'] == "SERV") {
 } else { //requete pour les groupes 'normaux'
     $querygroup .= " from hardware h,groups g ";
     $querygroup .= "where g.hardware_id=h.id and h.deviceid = '_SYSTEMGROUP_' ";
-    if ($protectedPost['onglet'] == "DYNA")
-        $querygroup .= " and ((g.request is not null and trim(g.request) != '') 
+    if ($protectedPost['onglet'] == "DYNA") {
+        $querygroup .= " and ((g.request is not null and trim(g.request) != '')
 							or (g.xmldef is not null and trim(g.xmldef) != ''))";
-    elseif ($protectedPost['onglet'] == "STAT")
+    } elseif ($protectedPost['onglet'] == "STAT") {
         $querygroup .= " and (g.request is null or trim(g.request) = '')
 					    and (g.xmldef  is null or trim(g.xmldef) = '') ";
-    if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') != "YES")
+    }
+    if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') != "YES") {
         $querygroup .= " and h.workgroup='GROUP_4_ALL' ";
+    }
 
     //calcul du nombre de machines par groupe
     $sql_nb_mach = "SELECT count(*) nb, group_id
 					from groups_cache gc,hardware h where h.id=gc.hardware_id ";
-    if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES")
+    if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES") {
         $sql_nb_mach .= " and gc.hardware_id in " . $mycomputers;
+    }
     $sql_nb_mach .= " group by group_id";
 }
 $querygroup .= " group by h.ID";
@@ -150,11 +158,12 @@ while ($item = mysqli_fetch_object($result)) {
     $_SESSION['OCS']['VALUE_FIXED'][$tab_options['table_name']]['NBRE'][$item->group_id] = $item->nb;
 }
 
-//Modif ajoutée pour la prise en compte 
+//Modif ajoutée pour la prise en compte
 //du chiffre à rajouter dans la colonne de calcul
 //quand on a un seul groupe et qu'aucune machine n'est dedant.
-if (!isset($tab_options['VALUE']['NBRE']))
+if (!isset($tab_options['VALUE']['NBRE'])) {
     $tab_options['VALUE']['NBRE'][] = 0;
+}
 //on recherche les groupes visible pour cocher la checkbox à l'affichage
 if ($protectedPost['onglet'] == "STAT") {
     $sql = "select id from hardware where workgroup='GROUP_4_ALL'";
@@ -205,7 +214,6 @@ if (isset($protectedPost['add_static_group']) && $_SESSION['OCS']['profile']->ge
 echo '</div>';
 //fermeture du formulaire
 echo close_form();
-
 
 if ($ajax) {
     ob_end_clean();

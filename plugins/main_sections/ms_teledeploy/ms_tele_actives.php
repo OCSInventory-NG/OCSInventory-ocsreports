@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -32,10 +32,11 @@ $tab_options = $protectedPost;
 
 require_once('require/function_telediff.php');
 
-if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO')
+if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO') {
     $cant_active = false;
-else
+} else {
     $cant_active = true;
+}
 
 if (!$cant_active) {
     if ($protectedPost['DEL_ALL'] != '') {
@@ -65,7 +66,7 @@ $tps = "<br>" . $l->g(992) . " : <b><font color=red>" . tps_estimated($val_detai
 PrintEnTete($l->g(481) . $tps);
 echo "<br>";
 $form_name = "tele_actives";
-//ouverture du formulaire	
+//ouverture du formulaire
 echo open_form($form_name);
 $list_fields = array($l->g(460) => 'e.ID',
     'Timestamp' => 'e.FILEID',
@@ -84,8 +85,9 @@ $default_fields = $list_fields;
 $list_col_cant_del = array($l->g(460) => $l->g(460), 'SUP' => 'SUP');
 $querypack = 'SELECT distinct ';
 foreach ($list_fields as $key => $value) {
-    if ($key != 'SUP')
+    if ($key != 'SUP') {
         $querypack .= $value . ',';
+    }
 }
 $querypack = substr($querypack, 0, -1);
 $querypack .= " from download_enable e RIGHT JOIN download_available a ON a.fileid = e.fileid
@@ -93,8 +95,9 @@ $querypack .= " from download_enable e RIGHT JOIN download_available a ON a.file
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-if ($result_exist != "" && !$cant_active)
+if ($result_exist != "" && !$cant_active) {
     echo "<a href=# OnClick='confirme(\"\",\"" . $protectedGet['timestamp'] . "\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><img src='image/delete.png' title='Supprimer' ></a>";
+}
 echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 echo close_form();
 echo "<center>" . $l->g(552) . "</center>";

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -22,7 +22,6 @@
  */
 /*
  * Add tags for users
- * 
  */
 if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
@@ -63,12 +62,13 @@ if ($protectedPost['newtag'] != "") {
             $arg = str_replace(array("*", "?"), array("%", "_"), $protectedPost["newtag"]);
             $sql = "select distinct TAG from accountinfo where TAG like '%s'";
             $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-            while ($val_account_data = mysqli_fetch_array($res))
+            while ($val_account_data = mysqli_fetch_array($res)) {
                 $array_result[] = $val_account_data['TAG'];
+            }
         }
-    } else
+    } else {
         $array_result[] = $protectedPost["newtag"];
-
+    }
 
     $tab_options['CACHE'] = 'RESET';
     $sql = "insert into tags (tag,login) values ('%s','%s')";
@@ -78,7 +78,6 @@ if ($protectedPost['newtag'] != "") {
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
         $i++;
     }
-
 
     unset($protectedPost['newtag']);
 }
@@ -135,7 +134,6 @@ $select_choise = show_modif($info_value_tag, 'newtag', $type);
 echo "<br>";
 echo $l->g(617) . " " . $_SESSION['OCS']['TAG_LBL']['TAG'] . ": " . $select_choise;
 echo "<input type='submit' name='ADD_TAG' value='" . $l->g(13) . "'><br>";
-//echo show_modif(array($l->g(358)),'use_generic',5,$form_name);
 echo $l->g(358);
 echo close_form();
 
@@ -144,4 +142,3 @@ if ($ajax) {
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
 ?>
-

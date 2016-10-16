@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -87,12 +87,6 @@ $valTumf = ini_get($umf);
 $valBumf = return_bytes($valTumf);
 
 $form_name = "upload_client";
-/* if( $valBumf>$valBpms )
-  $MaxAvail = trim($valTpms,"m");
-  else
-  $MaxAvail = trim($valTumf,"m");
-  echo "<br><center><font color=orange><b>" . $l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041) . "</b></font></center>";
- */
 $table_name = $form_name;
 
 $tab_options = $protectedPost;
@@ -113,9 +107,9 @@ if (isset($_FILES['file_upload']['name'])) {
         $sql = "INSERT INTO deploy values ('%s','%s')";
         $arg = array($fname, $binary);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-        if (!$result)
+        if (!$result) {
             msg_error($l->g(2003) . mysqli_errno($_SESSION['OCS']["writeServer"]) . "<br>" . mysqli_error($_SESSION['OCS']["writeServer"]));
-        else {
+        } else {
             msg_success($l->g(137) . " " . $_FILES['file_upload']['name'] . " " . $l->g(234));
             $tab_options['CACHE'] = 'RESET';
         }
@@ -147,7 +141,6 @@ if (!isset($protectedPost['ADD_FILE'])) {
     printEntete($l->g(1245));
     echo "<br />";
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-    //echo show_modif($name,'ADD_FILE',8,"",$configinput=array('DDE'=>100));
     echo "<input type=submit class='btn' name=ADD_FILE value='" . $l->g(1048) . "'>";
     echo close_form();
 }
@@ -163,12 +156,10 @@ if (isset($protectedPost['ADD_FILE']) && $protectedPost['ADD_FILE'] != '') {
     $upload_max_filesize = $value['Value'] / 1048576;
 
     msg_info($l->g(2022) . ' ' . $valBumf . $l->g(1240) . "<br>" . $l->g(2106) . " " . $upload_max_filesize . $l->g(1240));
-    //echo "post_max_size=".$valTpms.$l->g(1240).'//upload_max_filesize='.$valTumf.$l->g(1240);
     echo open_form($form_name1, '', "enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"");
     echo '<div class="' . $css . '" >';
     echo $l->g(1048) . ": <input id='file_upload' name='file_upload' type='file' accept=''>";
     echo "<br /><br /><input name='GO' class='btn btn-success' id='GO' type='submit' value='" . $l->g(13) . "'>&nbsp;&nbsp;";
-    //echo "<input type='button' name='RESET' id='RESET' value='".$l->g(113)."' onclick='submit(".$form_name.")'>";
     echo "</div>";
     echo close_form();
     echo "<br>";

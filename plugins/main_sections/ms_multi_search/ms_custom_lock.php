@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -27,10 +27,11 @@ echo open_form($form_name);
 echo "<div align=center>";
 $list_id = multi_lot($form_name, $l->g(601));
 if ($protectedPost['LOCK'] != '' && isset($protectedPost['LOCK'])) {
-    if (isset($_SESSION['OCS']["mesmachines"]))
+    if (isset($_SESSION['OCS']["mesmachines"])) {
         $_SESSION['OCS']["TRUE_mesmachines"] = $_SESSION['OCS']["mesmachines"];
-    else
+    } else {
         $_SESSION['OCS']["TRUE_mesmachines"] = array();
+    }
     $_SESSION['OCS']["mesmachines"] = " a.hardware_id in (" . $list_id . ")";
     echo "<script language='javascript'> window.opener.document.multisearch.submit();self.close();</script>";
 }

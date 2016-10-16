@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -56,19 +56,21 @@ if (isset($protectedGet['idchecked']) && is_numeric($protectedGet['idchecked']))
         $sql = "SELECT ipsubnet FROM networks WHERE ipaddress='%s' AND hardware_id=%s";
         $arg = array($valInt["ipaddress"], $protectedGet["idchecked"]);
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($val = mysqli_fetch_array($res))
+        while ($val = mysqli_fetch_array($res)) {
             $lesRez[$val["ipsubnet"]] = $val["ipsubnet"];
+        }
     }
 }
 
 ligne('IPDISCOVER', $l->g(518), 'select', array('SELECT_VALUE' => $lesRez, 'VALUE' => $select_value));
 
-if (!isset($optvalue['SNMP_SWITCH']))
+if (!isset($optvalue['SNMP_SWITCH'])) {
     $optvalueselected = 'SERVER DEFAULT';
-elseif ($optvalue['SNMP_SWITCH'] == 0)
+} elseif ($optvalue['SNMP_SWITCH'] == 0) {
     $optvalueselected = 'OFF';
-elseif ($optvalue['SNMP_SWITCH'] == 1)
+} elseif ($optvalue['SNMP_SWITCH'] == 1) {
     $optvalueselected = 'ON';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['ON'] = 'ON';
 $champ_value['OFF'] = 'OFF';
@@ -77,13 +79,9 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['IGNORED'] = $l->g(718);
     $champ_value['VALUE'] = 'IGNORED';
 }
-//p($optvalueTvalue);
 ligne("SNMP_SWITCH", $l->g(1197), 'radio', $champ_value);
-//ligne("DOWNLOAD_TIMEOUT",$l->g(424),'radio',$champ_value,array('HIDDEN'=>'CUSTOM','HIDDEN_VALUE'=>$optvalue['DOWNLOAD_TIMEOUT'],'END'=>$l->g(496),'JAVASCRIPT'=>$numeric));
 ligne('SNMP_NETWORK', $l->g(1198), 'long_text', array('VALUE' => $optvalueTvalue['SNMP_NETWORK'], 'COLS' => 40, 'ROWS' => 1));
-//ligne("SNMP_NETWORK",$l->g(1197),'input',$champ_value);
 unset($champ_value);
 
 fin_tab($form_name);
 ?>
-

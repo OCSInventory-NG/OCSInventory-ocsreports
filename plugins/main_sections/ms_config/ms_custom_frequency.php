@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -27,14 +27,15 @@ debut_tab(array('CELLSPACING' => '5',
     'CELLPADDING' => '0',
     'BGCOLOR' => '#C7D9F5',
     'BORDERCOLOR' => '#9894B5'));
-if ($optvalue['FREQUENCY'] == 0 && isset($optvalue['FREQUENCY']))
+if ($optvalue['FREQUENCY'] == 0 && isset($optvalue['FREQUENCY'])) {
     $optvalueselected = 'ALWAYS';
-elseif ($optvalue['FREQUENCY'] == -1)
+} elseif ($optvalue['FREQUENCY'] == -1) {
     $optvalueselected = 'NEVER';
-elseif (!isset($optvalue['FREQUENCY']))
+} elseif (!isset($optvalue['FREQUENCY'])) {
     $optvalueselected = 'SERVER DEFAULT';
-else
+} else {
     $optvalueselected = 'CUSTOM';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['ALWAYS'] = $l->g(485);
 $champ_value['NEVER'] = $l->g(486);
@@ -47,4 +48,3 @@ if (!isset($protectedGet['origine'])) {
 ligne("FREQUENCY", $l->g(494), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
 fin_tab($form_name);
 ?>
-

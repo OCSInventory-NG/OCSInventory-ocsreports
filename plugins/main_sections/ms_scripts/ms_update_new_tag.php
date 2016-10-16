@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -21,18 +21,17 @@
  * MA 02110-1301, USA.
  */
 /*
- * 
- * if your version of ocs < 2.0, your tag are in this table but not in accountinfo_config
+ *  if your version of ocs < 2.0, your tag are in this table but not in accountinfo_config
  * so we have to add them.
- * 
  */
 
 //show all columns in accountinfo table
 $sql = "show columns from accountinfo";
 $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 while ($value = mysqli_fetch_object($res)) {
-    if ($value->Field != 'HARDWARE_ID' && $value->Field != 'TAG')
+    if ($value->Field != 'HARDWARE_ID' && $value->Field != 'TAG') {
         $list_field[$value->Field] = $value->Field;
+    }
     $type_field[$value->Field] = $value->Type;
 }
 $fields_table = array('ID', 'NAME_ACCOUNTINFO', 'TYPE,NAME', 'ID_TAB', 'COMMENT', 'SHOW_ORDER', 'ACCOUNT_TYPE');
@@ -40,8 +39,9 @@ $sql = prepare_sql_tab($fields_table);
 $sql['SQL'] .= "from accountinfo_config where ACCOUNT_TYPE='COMPUTERS'";
 $res = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
 while ($value = mysqli_fetch_object($res)) {
-    if (!isset($max_order) || $value->SHOW_ORDER > $max_order)
+    if (!isset($max_order) || $value->SHOW_ORDER > $max_order) {
         $max_order = $value->SHOW_ORDER;
+    }
     if ($value->NAME_ACCOUNTINFO != 'TAG') {
         //this column does'nt exist in accountinfo_config
         if (!$list_field['fields_' . $value->ID]) {
@@ -71,37 +71,38 @@ if (is_array($list_field)) {
             if ($type_field[$name] == "varchar(10)" || $type_field[$name] == "date") {
                 $type = 6;
                 $type_field[$name] = "varchar(10)";
-            } elseif ($type_field[$name] == "blob")
+            } elseif ($type_field[$name] == "blob") {
                 $type = 5;
-            elseif ($type_field[$name] == "varchar(255)")
+            } elseif ($type_field[$name] == "varchar(255)") {
                 $type = 0;
-            else
+            } else {
                 $type = 0;
+            }
             $sql = "insert into accountinfo_config ";
             $arg = '';
             $sql = mysql2_prepare($sql, $arg, $fields_table, true);
             $values = array($type, $name, 1, $name . " (" . $l->g(2101) . ")", $max_order, 'COMPUTERS');
             $sql = mysql2_prepare($sql['SQL'] . " VALUES ", $sql['ARG'], $values);
 
-            if (isset($protectedPost['EXE']) and $protectedPost['EXE'] != '')
+            if (isset($protectedPost['EXE']) and $protectedPost['EXE'] != '') {
                 mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG']);
-            else
+            } else {
                 $add_lign_accountinfo_config[] = $sql['ARG'];
+            }
             $sql_alter = "ALTER TABLE accountinfo CHANGE %s  %s %s";
             $arg = array($name, "fields_" . mysqli_insert_id($_SESSION['OCS']["writeServer"]), $type_field[$name]);
 
             if (isset($protectedPost['EXE']) and $protectedPost['EXE'] != '') {
                 mysql2_query_secure($sql_alter, $_SESSION['OCS']["writeServer"], $arg);
                 addLog('SCRIPT_ADD_DATA_ACCOUNTINFO_CONFIG', $name);
-            } else
+            } else {
                 $rename_col_accountinfo[] = $arg;
+            }
         }
     }
 }
 $add_colum_accountinfo = array('1', '2');
 if (isset($add_colum_accountinfo) || isset($add_lign_accountinfo_config) || isset($rename_col_accountinfo)) {
-
-
     $form_name = "console";
     echo open_form($form_name, '', '', 'form-horizontal');
     echo "<p><b>This script is going to help you to update your old admin info<br>";
@@ -118,7 +119,6 @@ if (isset($add_colum_accountinfo) || isset($add_lign_accountinfo_config) || isse
         }
     }
 
-
     if (isset($add_lign_accountinfo_config)) {
         echo "<p><b><font color=blue>add lignes in accountinfo_config table<br>
 					(orphans found in accountinfo table (=> 2.0))</font></b></p>";
@@ -128,8 +128,9 @@ if (isset($add_colum_accountinfo) || isset($add_lign_accountinfo_config) || isse
             while (isset($values[$i])) {
                 echo $values[$i];
                 echo "&nbsp;";
-                if ($i == 5)
+                if ($i == 5) {
                     echo "<br>";
+                }
                 $i++;
             }
             echo "</p>";
@@ -143,10 +144,7 @@ if (isset($add_colum_accountinfo) || isset($add_lign_accountinfo_config) || isse
         }
     }
     echo "</div>";
-} else
+} else {
     echo "<font size=4 color=blue>" . $l->g(2105) . "</font>";
-/* ALTER TABLE accountinfo CHANGE fields_86 lettre_commande  varchar(255);
-  ALTER TABLE accountinfo CHANGE fields_87 date_commande  varchar(10);
-  ALTER TABLE accountinfo CHANGE fields_88 fichier_commande  blob;
-  ALTER TABLE accountinfo CHANGE fields_89 fichier_commande_bis  blob; */
+}
 ?>

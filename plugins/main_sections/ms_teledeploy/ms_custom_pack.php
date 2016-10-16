@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -31,7 +31,6 @@ if (AJAX) {
 
 require_once('require/function_telediff.php');
 require_once('require/function_search.php');
-//p($protectedPost);
 $form_name = "pack_affect";
 $table_name = "LIST_PACK_SEARCH";
 $tab_options = $protectedPost;
@@ -41,8 +40,7 @@ echo open_form($form_name);
 $list_id = multi_lot($form_name, $l->g(601));
 
 //activation options
-if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $protectedPost['DWL_OPT'] == "YES") {
-
+if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protectedPost['DWL_OPT'] == "YES") {
     $tab_hidden['SELECT'] = $protectedPost['MODIF'];
     $tab_hidden['onglet'] = $protectedPost['onglet'];
     $tab_hidden['rule_choise'] = $protectedPost['rule_choise'];
@@ -63,19 +61,20 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
         '12' => '12');
     $i = 0;
     while ($i <= 1) {
-        if ($i == 0)
+        if ($i == 0) {
             $am_pm = '';
-        else
+        } else {
             $am_pm = 'pm';
+        }
         foreach ($hour as $k => $v) {
             foreach ($min as $km) {
-                if ($am_pm == '' || ($am_pm == 'pm' && $k != '00' && $k != '12'))
+                if ($am_pm == '' || ($am_pm == 'pm' && $k != '00' && $k != '12')) {
                     $hour_min[$k . ":" . $km . $am_pm] = $am_pm . " " . $k . ":" . $km;
+                }
             }
         }
         $i++;
     }
-    //	p($hour_min);
     $config['COMMENT_AFTER'][0] = datePick("INSTALL_DATE");
     $config['JAVASCRIPT'][0] = "READONLY " . dateOnClick("INSTALL_DATE");
     $config['SELECT_DEFAULT'][0] = '';
@@ -91,9 +90,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
         array_push($value_field, array(''));
     }
     $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
-    //	p($tab_typ_champ);
     $tab_typ_champ[2]['CONFIG']['DEFAULT'] = 'YES';
-    //$configinput['DEFAULT'] == "YES"
     tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
         'title' => $l->g(1309)
     ));
@@ -103,19 +100,21 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
         $protectedPost['Valid_modif'] = true;
     }
     if ($protectedPost['SELECT'] != '' && isset($protectedPost['Valid_modif'])) {
-        if (isset($protectedPost['TELE_FORCE_0']))
+        if (isset($protectedPost['TELE_FORCE_0'])) {
             active_option('DOWNLOAD_FORCE', $list_id, $protectedPost['SELECT'], '1');
+        }
         if (isset($protectedPost['INSTALL_DATE']) && $protectedPost['INSTALL_DATE'] != '') {
             $date = explode('/', $protectedPost['INSTALL_DATE']);
             // Agent date format : 2016/06/30 02:15pm
-            if ($l->g(269) == "%m/%d/%Y")
+            if ($l->g(269) == "%m/%d/%Y") {
                 $install_date = $date[2] . "/" . $date[0] . "/" . $date[1] . " " . $protectedPost['INSTALL_HEURE'];
-            else {
-                if ($l->g(269) == "%Y/%m/%d")
+            } else {
+                if ($l->g(269) == "%Y/%m/%d") {
                     $install_date = $date[0] . "/" . $date[1] . "/" . $date[2] . " " . $protectedPost['INSTALL_HEURE'];
-                else
-                // default : %d/%m/%Y
+                } else {
+                    // default : %d/%m/%Y
                     $install_date = $date[2] . "/" . $date[1] . "/" . $date[0] . " " . $protectedPost['INSTALL_HEURE'];
+                }
             }
             active_option('DOWNLOAD_SCHEDULE', $list_id, $protectedPost['SELECT'], $install_date);
         }
@@ -129,10 +128,12 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
         } elseif ($protectedGet['origine'] == "mach") {
             $form_to_reload = 'config_mach';
         }
-        if ($protectedPost['onglet'] == 'MACH')
+        if ($protectedPost['onglet'] == 'MACH') {
             $nb_affect = active_option('DOWNLOAD', $list_id, $protectedPost['SELECT']);
-        if ($protectedPost['onglet'] == 'SERV_GROUP')
+        }
+        if ($protectedPost['onglet'] == 'SERV_GROUP') {
             $nb_affect = active_serv($list_id, $protectedPost['SELECT'], $protectedPost['rule_choise']);
+        }
         msg_success($nb_affect . " " . $l->g(604));
         if (isset($form_to_reload)) {
             //add this $var => not delete this package on computer detail
@@ -141,11 +142,13 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
         }
     }
 
-    if ($protectedPost['sens_' . $table_name] == "")
+    if ($protectedPost['sens_' . $table_name] == "") {
         $protectedPost['sens_' . $table_name] = 'DESC';
+    }
 
-    if ($protectedPost['onglet'] == "")
+    if ($protectedPost['onglet'] == "") {
         $protectedPost['onglet'] = 'MACH';
+    }
 
 
     $def_onglets['MACH'] = $l->g(980);
@@ -156,7 +159,6 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
         show_tabs($def_onglets, $form_name, 'onglet', 7);
         echo '<div class="right-content mlt_bordure" >';
 
-        //echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";
         if ($protectedPost['onglet'] == 'SERV_GROUP') {
             $sql_rules = "select distinct rule,rule_name from download_affect_rules order by 1";
             $res_rules = mysqli_query($_SESSION['OCS']["readServer"], $sql_rules) or die(mysqli_error($_SESSION['OCS']["readServer"]));
@@ -187,7 +189,6 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
                 'INFO_LOC' => 'e.INFO_LOC',
                 'CERT_FILE' => 'e.CERT_FILE',
                 'CERT_PATH' => 'e.CERT_PATH',
-                //	'PACK_LOC'=>'de.PACK_LOC',
                 $l->g(1037) => 'a.NAME',
                 $l->g(1039) => 'a.PRIORITY',
                 $l->g(51) => 'a.COMMENT',
@@ -213,19 +214,20 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
                 $list_col_cant_del['PACK_LOC'] = 'PACK_LOC';
             }
 
-            //$querypack = 'SELECT  ';
-            if ($protectedPost['onglet'] == 'SERV_GROUP')
+            if ($protectedPost['onglet'] == 'SERV_GROUP') {
                 $distinct = true;
-            else
+            } else {
                 $distinct = false;
+            }
 
             $sql = prepare_sql_tab($list_fields, array('SELECT'), $distinct);
 
             $sql['SQL'] .= " from download_available a, download_enable e ";
-            if ($protectedPost['onglet'] == 'MACH')
+            if ($protectedPost['onglet'] == 'MACH') {
                 $sql['SQL'] .= "where a.FILEID=e.FILEID and e.SERVER_ID is null ";
-            else
+            } else {
                 $sql['SQL'] .= ", hardware h where a.FILEID=e.FILEID and h.id=e.group_id and  e.SERVER_ID is not null ";
+            }
 
             if (isset($fileid_show) && $fileid_show != array()) {
                 $sql = mysql2_prepare($sql['SQL'], $sql['ARG'], $fileid_show, true);
@@ -244,7 +246,6 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 
             $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
         }
-        //echo "</td></tr></table></div>";
     }
 }
 echo close_form();

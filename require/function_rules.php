@@ -37,7 +37,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -55,15 +55,17 @@
 function verify_name($RULE_NAME, $condition = '') {
     //verify this rule name exist
     $sql_exist = "select id from download_affect_rules where rule_name='%s' ";
-    if ($condition != "")
+    if ($condition != "") {
         $sql_exist .= $condition;
+    }
     $arg = trim($RULE_NAME);
     $result_rule_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"], $arg);
     $rule_exist = mysqli_fetch_object($result_rule_exist);
-    if ($rule_exist->id)
+    if ($rule_exist->id) {
         return 'NAME_EXIST';
-    else
+    } else {
         return 'NAME_NOT_EXIST';
+    }
 }
 
 function verify_rule($rule_or_condition, $ID) {
@@ -71,10 +73,11 @@ function verify_rule($rule_or_condition, $ID) {
     $arg = array($rule_or_condition, $ID);
     $result_id = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $id_exist = mysqli_fetch_object($result_id);
-    if ($id_exist->id)
+    if ($id_exist->id) {
         return 'RULE_EXIST';
-    else
+    } else {
         return 'RULE_NOT_EXIST';
+    }
 }
 
 function delete_rule($ID_RULE) {
@@ -84,8 +87,9 @@ function delete_rule($ID_RULE) {
         $sql_del_rule = "delete from download_affect_rules where rule='%s'";
         $arg = $ID_RULE;
         mysql2_query_secure($sql_del_rule, $_SESSION['OCS']["writeServer"], $arg);
-    } else
+    } else {
         echo msg_error($l->g(672));
+    }
 }
 
 function delete_condition_rule($ID) {
@@ -95,13 +99,14 @@ function delete_condition_rule($ID) {
         $sql_del_rule = "delete from download_affect_rules where id='%s'";
         $arg = $ID;
         mysql2_query_secure($sql_del_rule, $_SESSION['OCS']["writeServer"], $arg);
-    } else
+    } else {
         echo msg_error($l->g(672));
+    }
 }
 
 /*
  * Function for add new rule for redistribution server
- * 
+ *
  * $RULE_NAME= Name of the rule
  * $RULE_VALUES = array with condition values
  * 		=> ex: $RULE_VALUES['PRIORITE_1'],$RULE_VALUES['CFIELD_1'],
@@ -109,7 +114,7 @@ function delete_condition_rule($ID) {
  * 			   $RULE_VALUES['PRIORITE_2'],$RULE_VALUES['CFIELD_2'],
  * 			   $RULE_VALUES['OP_2'],$RULE_VALUES['COMPTO_2'],$RULE_VALUES['COMPTO_TEXT_2']
  * $ID_RULE= Id of the rule. It can't exist before
- * 
+ *
  */
 
 function add_rule($RULE_NAME, $RULE_VALUES, $ID_RULE = '') {
@@ -133,7 +138,7 @@ function add_rule($RULE_NAME, $RULE_VALUES, $ID_RULE = '') {
         $i = 1;
         while ($RULE_VALUES['PRIORITE_' . $i]) {
             if ($RULE_VALUES['CFIELD_' . $i] != "") {
-                $sql_insert_rule = "insert into download_affect_rules (RULE,RULE_NAME,PRIORITY,CFIELD,OP,COMPTO,SERV_VALUE) 
+                $sql_insert_rule = "insert into download_affect_rules (RULE,RULE_NAME,PRIORITY,CFIELD,OP,COMPTO,SERV_VALUE)
 				value (%s,'%s',%s,'%s','%s','%s','%s')";
                 $arg = array($ID_RULE, $protectedPost['RULE_NAME'],
                     $RULE_VALUES['PRIORITE_' . $i], $RULE_VALUES['CFIELD_' . $i],
@@ -148,18 +153,20 @@ function add_rule($RULE_NAME, $RULE_VALUES, $ID_RULE = '') {
 }
 
 /*
- * HTML fields for condition of rule 
- * 
+ * HTML fields for condition of rule
+ *
  */
 
 function fields_conditions_rules($num, $entete = 'NO') {
     global $l, $protectedPost;
-    if ($entete != 'NO')
+    if ($entete != 'NO') {
         $tab .= "<tr bgcolor='#C7D9F5'><td>" . $l->g(675) . "</td><td>" . $l->g(676) . "</td><td>" . $l->g(677) . "</td><td>" . $l->g(678) . "</td></tr>";
+    }
     $CFIELD = array('NAME' => $l->g(679), 'IPADDRESS' => '@IP', 'IPSUBNET' => 'IPSUBNET', 'WORKGROUP' => $l->g(680), 'USERID' => $l->g(681));
     $OP = array('EGAL' => "=", 'DIFF' => "<>", 'LIKE' => 'LIKE');
-    if (!isset($protectedPost["PRIORITE_" . $num]))
+    if (!isset($protectedPost["PRIORITE_" . $num])) {
         $protectedPost["PRIORITE_" . $num] = $num;
+    }
     $tab .= "<tr><td>" . show_modif($protectedPost["PRIORITE_" . $num], "PRIORITE_" . $num, '0') . "</td>";
     $tab .= "<td>" . show_modif($CFIELD, "CFIELD_" . $num, '2') . "</td>";
     $tab .= "<td>" . show_modif($OP, "OP_" . $num, '2') . "</td>";

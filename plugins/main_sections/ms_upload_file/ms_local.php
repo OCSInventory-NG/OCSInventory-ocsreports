@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -25,7 +25,6 @@ $form_name = "insert_computers";
 $data_on['FILE'] = $l->g(288);
 $data_on['MANUEL'] = $l->g(1258);
 echo open_form($form_name);
-//$protectedPost['onglet']='FILE';
 show_tabs($data_on, $form_name, "onglet", 4);
 echo "<div class='col col-md-10' >";
 
@@ -60,7 +59,6 @@ if ($protectedPost['onglet'] == 'FILE') {
 
     </script>
     <?php
-    //   
     $form_name1 = "SEND_FILE";
     $data_config = look_config_default_values(array('LOCAL_URI_SERVER'), '', array('TVALUE' => array('LOCAL_URI_SERVER' => 'http://localhost:80/ocsinventory')));
 
@@ -83,14 +81,15 @@ if ($protectedPost['onglet'] == 'FILE') {
                 $errstr = $result["errstr"];
                 msg_error($l->g(344) . " " . $errno . " / " . $errstr);
             } else {
-                if (!strstr($result[0], "200"))
+                if (!strstr($result[0], "200")) {
                     msg_error($l->g(344) . " " . $result[0]);
-                else {
+                } else {
                     msg_success($l->g(287) . " OK");
                 }
             }
-        } else
+        } else {
             msg_error($l->g(1244));
+        }
     }
     printEntete("<i>" . $l->g(560) . ": " . $server . "</i>");
     echo close_form();
@@ -100,7 +99,7 @@ if ($protectedPost['onglet'] == 'FILE') {
 
     echo "<input name='GO' class='btn btn-success' id='GO' type='submit' value='" . $l->g(13) . "'>";
     echo close_form();
-}else {
+} else {
     require_once('require/function_computers.php');
     require_once('require/function_admininfo.php');
     //list fields for form
@@ -108,15 +107,16 @@ if ($protectedPost['onglet'] == 'FILE') {
         'SERIAL_GENERIC' => $l->g(36),
         'ADDR_MAC_GENERIC' => $l->g(95));
 
-
     if (isset($protectedPost['Valid_modif'])) {
         $error = '';
-        if (!is_numeric($protectedPost['NB_COMPUTERS']))
+        if (!is_numeric($protectedPost['NB_COMPUTERS'])) {
             $error .= $l->g(28) . ',';
+        }
 
         foreach ($form_fields_typeinput as $key => $value) {
-            if (trim($protectedPost[$key]) == '')
+            if (trim($protectedPost[$key]) == '') {
                 $error .= $value . ',';
+            }
         }
 
         if ($error == "") {
@@ -143,8 +143,6 @@ if ($protectedPost['onglet'] == 'FILE') {
                     $values_fields[] = $value;
                 }
             }
-            /* if ($protectedPost['NB_COMPUTERS'] === 1)
-              $protectedPost['NB_COMPUTERS']=''; */
             $i = 0;
             while ($i < $protectedPost['NB_COMPUTERS']) {
                 $id_computer = insert_manual_computer($protectedPost, $protectedPost['NB_COMPUTERS']);
@@ -156,11 +154,10 @@ if ($protectedPost['onglet'] == 'FILE') {
                 $i++;
             }
             msg_success($l->g(881));
-        } else
+        } else {
             msg_error($l->g(684) . "<br>" . $error);
+        }
     }
-
-    //formGroup('text', 'NB_COMPUTERS', $l->g())
 
     $i = 0;
     $info_form['FIELDS']['name_field'][$i] = 'NB_COMPUTERS';
@@ -195,13 +192,11 @@ if ($protectedPost['onglet'] == 'FILE') {
     $config = array_merge($config, $accountinfo_form['CONFIG']);
     $other_data['COMMENT_AFTER'] = array_merge($other_data['COMMENT_AFTER'], $accountinfo_form['COMMENT_AFTER']);
 
-
     $tab_typ_champ = show_field($info_form['FIELDS']['name_field'], $info_form['FIELDS']['type_field'], $info_form['FIELDS']['value_field']);
     foreach ($config as $key => $value) {
         $tab_typ_champ[$key]['CONFIG'] = $value['CONFIG'];
         $tab_typ_champ[$key]['COMMENT_AFTER'] = $other_data['COMMENT_AFTER'][$key];
     }
-
 
     if (isset($tab_typ_champ)) {
         tab_modif_values($info_form['FIELDS']['tab_name'], $tab_typ_champ, $tab_hidden, array(

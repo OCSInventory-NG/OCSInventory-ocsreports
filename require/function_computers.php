@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -31,10 +31,11 @@ function lock($id) {
 
     $reqLock = "INSERT INTO locks(hardware_id) VALUES ('%s')";
     $argLock = $id;
-    if ($resLock = mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"], $argLock))
+    if ($resLock = mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"], $argLock)) {
         return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) == 1 );
-    else
+    } else {
         return false;
+    }
 }
 
 /**
@@ -74,8 +75,9 @@ function computer_list_by_tag($tag = "", $format = 'LIST') {
         $array_mycomputers[] = $item_mycomputers->hardware_id;
     }
     $mycomputers = substr($mycomputers, 0, -1) . ")";
-    if ($mycomputers == "()" || !isset($array_mycomputers))
+    if ($mycomputers == "()" || !isset($array_mycomputers)) {
         $mycomputers = "ERROR";
+    }
     if ($format == 'LIST') {
         return $mycomputers;
     } else {
@@ -132,8 +134,9 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
                 $affectedComputers = mysqli_affected_rows($_SESSION['OCS']["writeServer"]);
             }
 
-            if (!$silent)
+            if (!$silent) {
                 msg_success($valId["name"] . " " . $l->g(220));
+            }
 
             if (isset($tables) && is_array($tables)) {
                 foreach ($tables as $table) {
@@ -154,15 +157,16 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
             }
         }
         //Using lock ? Unlock
-        if ($checkLock)
+        if ($checkLock) {
             unlock($id);
+        }
         return $valId["name"];
-    } else
+    } else {
         errlock();
+    }
 }
 
 function fusionne($afus) {
-
     global $l;
     $i = 0;
     $maxStamp = 0;
@@ -177,7 +181,6 @@ function fusionne($afus) {
         $param[] = (int) $d[8] . $d[9];
         $param[] = (int) $d[0] . $d[1] . $d[2] . $d[3];
         $a["stamp"] = mktime($param[0], $param[1], $param[2], $param[3], $param[4], $param[5]);
-        //echo "stamp:".$a["stamp"]."== mktime($d[11]$d[12],$d[14]$d[15],$d[17]$d[18],$d[5]$d[6],$d[8]$d[9],$d[0]$d[1]$d[2]$d[3]);<br>";
         if ($maxStamp < $a["stamp"]) {
             $maxStamp = $a["stamp"];
             $maxInd = $i;
@@ -191,10 +194,11 @@ function fusionne($afus) {
     if ($afus[$minInd]["deviceid"] != "") {
         $okLock = true;
         foreach ($afus as $a) {
-            if (!$okLock = ($okLock && lock($a["id"])))
+            if (!$okLock = ($okLock && lock($a["id"]))) {
                 break;
-            else
+            } else {
                 $locked[] = $a["id"];
+            }
         }
 
         if ($okLock) {
@@ -239,8 +243,9 @@ function fusionne($afus) {
             $sql = "UPDATE hardware SET QUALITY=%s,FIDELITY=%s,CHECKSUM=CHECKSUM|%s WHERE id='%s'";
             $arg = array($persistent_values[1], $persistent_values[2], $persistent_values[0], $afus[$maxInd]["id"]);
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-        } else
+        } else {
             errlock();
+        }
 
         foreach ($locked as $a) {
             unlock($a);
@@ -258,20 +263,17 @@ function form_add_computer() {
     $name_field[] = "COMMENTS";
     //$name_field[]="USER_GROUP";
 
-
     $tab_name[] = $l->g(49) . ": ";
     $tab_name[] = $l->g(996) . ": ";
     $tab_name[] = "Email: ";
     $tab_name[] = $l->g(51) . ": ";
     //$tab_name[]="Groupe de l'utilisateur: ";
 
-
     $type_field[] = 0;
     $type_field[] = 0;
     $type_field[] = 0;
     $type_field[] = 0;
-    //$type_field[]= 2; 
-
+    //$type_field[]= 2;
 
     if ($id_user != '' || $_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'NO') {
         $tab_hidden['MODIF'] = $id_user;
@@ -320,19 +322,12 @@ function form_add_computer() {
 
 function insert_manual_computer($values, $nb = 1, $generic = false) {
     global $i;
-    if ($nb == 1)
+    if ($nb == 1) {
         $name = $values['COMPUTER_NAME_GENERIC'];
-    else
+    } else {
         $name = $values['COMPUTER_NAME_GENERIC'] . $i;
+    }
 
-    /* if ($generic){
-      if ($values['COMPUTER_NAME_GENERIC'] == "")
-      $values['COMPUTER_NAME_GENERIC']='MANUEL_ENTRY';
-      if ($values['SERIAL_GENERIC'] == "")
-      $values['SERIAL_GENERIC']='MANUEL_ENTRY';
-      if ($values['ADDR_MAC_GENERIC'] == "")
-      $values['ADDR_MAC_GENERIC']='MANUEL_ENTRY';
-      } */
     $sql = "insert into hardware (deviceid,name) values ('%s','%s')";
     $arg = array('MANUEL', $name . '_M');
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
@@ -361,10 +356,11 @@ function is_mine_computer($id) {
         $sql = mysql2_prepare($sql, $arg, $_SESSION['OCS']['TAGS']);
         $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
         $item = mysqli_fetch_object($result);
-        if (isset($item->hardware_id))
+        if (isset($item->hardware_id)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
     return true;
 }

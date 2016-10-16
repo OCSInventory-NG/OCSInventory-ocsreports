@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -48,8 +48,8 @@ function add_update_key($form_values, $update = false) {
             $form_values["REGKEY"], $form_values["REGVALUE"],
             $update);
     } else {
-        $sql_verif = "select ID from regconfig 
-						where REGTREE='%s' 
+        $sql_verif = "select ID from regconfig
+						where REGTREE='%s'
 							and REGKEY='%s'
 							and REGVALUE='%s'";
         $arg_verif = array($form_values["REGTREE"], $form_values["REGKEY"], $form_values["REGVALUE"]);

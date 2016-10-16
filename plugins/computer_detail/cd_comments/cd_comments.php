@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -32,8 +32,9 @@ if (AJAX) {
 
 $lbl_log = $l->g(1128);
 $list_fields = array();
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $tab_options = $protectedPost;
 print_item_header($l->g(1128));
 $form_name = "affich_notes";
@@ -65,7 +66,7 @@ if ($protectedPost['Valid_modif'] != '' && isset($protectedPost['Valid_modif']))
 
     //ajout de note
     if (trim($protectedPost['NOTE']) != '' && isset($protectedPost['NOTE'])) {
-        $sql = "insert into itmgmt_comments (HARDWARE_ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION) 
+        $sql = "insert into itmgmt_comments (HARDWARE_ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION)
 					value (%s,%s,'%s','%s','%s')";
         $arg = array($systemid, "sysdate()", $_SESSION['OCS']["loggeduser"], $protectedPost['NOTE'], "ADD_NOTE_BY_USER");
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg, 'ADD_NOTE_BY_USER');

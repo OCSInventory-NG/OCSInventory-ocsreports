@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -34,14 +34,12 @@ $tab_options = $protectedPost;
 require_once('require/function_files.php');
 require_once('require/function_ipdiscover.php');
 
-
 $form_name = 'ipdiscover_analyse';
 $table_name = $form_name;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name);
 $pas = $protectedGet['rzo'];
-//$rez = $nomRez;
 $values = look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPDISCOVER_IPD_DIR' => array('TVALUE' => VARLIB_DIR)));
 $fname = $values['tvalue']['IPDISCOVER_IPD_DIR'];
 $file_name = $fname . "/ipd/" . $pas . ".ipd";
@@ -62,7 +60,6 @@ if (isset($protectedPost['reset']) && $protectedPost['reset'] != '') {
     if ($ret != array()) {
         $sql = "select ";
         $i = 0;
-        //var_dump($ret);
         while ($ret[$i]) {
             foreach ($ret[$i] as $key => $value) {
                 $sql .= "'" . $value . "' as " . $key . ",";
@@ -78,7 +75,6 @@ if (isset($protectedPost['reset']) && $protectedPost['reset'] != '') {
     }
     echo "<p><input type='submit' name='reset' value='" . $l->g(1261) . "'></p>";
 }
-
 echo close_form();
 
 if ($ajax) {

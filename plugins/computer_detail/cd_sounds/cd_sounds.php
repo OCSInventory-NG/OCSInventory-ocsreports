@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -29,8 +29,9 @@ if (AJAX) {
     $ajax = false;
 }
 print_item_header($l->g(96));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $form_name = "affich_sounds";
 $table_name = $form_name;
 $tab_options = $protectedPost;
@@ -40,13 +41,13 @@ echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields = array($l->g(49) => 'NAME',
     $l->g(64) => 'MANUFACTURER',
     $l->g(53) => 'DESCRIPTION');
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del = array($l->g(49) => $l->g(49));
+}
 
 $default_fields = $list_fields;
-//	$tab_options['FILTRE']=array('NAME'=>$l->g(49),'MANUFACTURER'=>$l->g(64),'TYPE'=>$l->g(66));
 $queryDetails = "SELECT * FROM sounds WHERE (hardware_id=$systemid)";
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();

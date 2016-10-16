@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -66,7 +66,6 @@ $dep_check = checkDependencies();
 $per_check = checkWritable();
 
 // Plugins Install menu.
-
 printEnTete($l->g(7008));
 ?>
 <div class="container">
@@ -148,7 +147,6 @@ if (isset($protectedPost['plugin'])) {
 }
 
 // Plugins Tab
-
 printEnTete($l->g(7009));
 
 $form_name = "show_all_plugins";
@@ -194,4 +192,3 @@ if ($ajax) {
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
 ?>
-

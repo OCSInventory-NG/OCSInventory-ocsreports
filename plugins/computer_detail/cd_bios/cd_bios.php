@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -35,8 +35,9 @@ $tab_options['table_name'] = "affich_bios";
 
 
 print_item_header($l->g(273));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 if ($protectedPost['OTHER_BIS'] != '') {
     $sql = "INSERT INTO blacklist_serials (SERIAL) value ('%s')";
     $arg = array($protectedPost['OTHER_BIS']);
@@ -77,10 +78,11 @@ if ($_SESSION['OCS']['ADMIN_BLACKLIST']['SERIAL'] == 'YES') {
     }
 }
 
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del[$l->g(36)] = $l->g(36);
+}
 
 $default_fields = $list_fields;
 $queryDetails = "SELECT ";

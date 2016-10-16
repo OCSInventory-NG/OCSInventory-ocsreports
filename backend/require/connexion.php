@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -24,7 +24,6 @@
 function connexion_local_read() {
     global $link_ocs, $db_ocs;
     require_once(CONF_MYSQL);
-    //require_once($_SESSION['OCS']['NAME_MYSQL']);
     //connection OCS
     $db_ocs = DB_NAME;
     //lien sur le serveur OCS
@@ -38,13 +37,12 @@ function connexion_local_read() {
     //sql_mode => not strict
     mysqli_query($link_ocs, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
-    //fin connection OCS	
+    //fin connection OCS
 }
 
 function connexion_local_write() {
     global $link_ocs, $db_ocs;
     require_once(CONF_MYSQL);
-    //require_once($_SESSION['OCS']['NAME_MYSQL']);
     //connection OCS
     $db_ocs = DB_NAME;
     //lien sur le serveur OCS
@@ -57,7 +55,7 @@ function connexion_local_write() {
     mysqli_query($link_ocs, "SET NAMES 'utf8'");
     //sql_mode => not strict
     mysqli_query($link_ocs, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
-    //fin connection OCS	
+    //fin connection OCS
 }
 
 ?>

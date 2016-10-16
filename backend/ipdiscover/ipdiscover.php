@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -29,12 +29,6 @@ if (!isset($_SESSION['OCS']["ipdiscover"])) {
     //methode pour le calcul des droits
     while ($list_methode[$i]) {
         require_once('methode/' . $list_methode[$i]);
-        //on garde les erreurs présentes
-        //entre chaque méthode
-        /* if (isset($INFO)){
-          $tab_info[$list_methode[$i]]=$INFO;
-          unset($INFO);
-          } */
         //on garde les droits de l'utilisateur sur l'ipdiscover
         if (isset($list_ip)) {
             $tab_ip[$list_methode[$i]] = $list_ip;

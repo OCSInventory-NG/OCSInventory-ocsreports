@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -22,7 +22,7 @@
  */
 
 /**
- * Handle properties of every column of the table 
+ * Handle properties of every column of the table
  */
 abstract class Column {
     private $label;
@@ -56,12 +56,12 @@ abstract class Column {
     }
 
     /*
-     * 	@params ( false || true ) 
-     *  Set the display options of the column : 
+     * 	@params ( false || true )
+     *  Set the display options of the column :
      *  visibility : displayed or not
      * 	deletable : appears in Hide/Show list
      * 	sortable : up and down arrows on the right
-     * 
+     *
      */
 
     public function setVisible($visible) {
@@ -77,7 +77,7 @@ abstract class Column {
     }
 
     /*
-     * Return the display options of the column 
+     * Return the display options of the column
      */
 
     public function isVisible() {

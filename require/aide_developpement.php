@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -23,8 +23,8 @@
 
 /*
  * Fichier de fonctions pour l'aide au débug et au dev
- * 
- * 
+ *
+ *
  */
 
 function print_r_V2($array) {
@@ -36,12 +36,14 @@ function print_r_V2($array) {
             if (is_array($array[$key])) {
                 print_r_V2($array[$key]);
                 print "</td></tr>";
-            } else
+            } else {
                 print $val . "</td></tr>";
+            }
         }
         print "</table>";
-    } else
+    } else {
         print_r($array);
+    }
 }
 
 function p($array) {

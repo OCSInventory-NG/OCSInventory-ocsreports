@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -34,8 +34,9 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
-if (!isset($protectedPost['TAG_CHOISE']) || $protectedPost['TAG_CHOISE'] == '')
+if (!isset($protectedPost['TAG_CHOISE']) || $protectedPost['TAG_CHOISE'] == '') {
     $protectedPost['TAG_CHOISE'] = 'a.TAG';
+}
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
 $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
@@ -71,13 +72,13 @@ $list_col_cant_del = $list_fields;
 $default_fields = $list_fields;
 $queryDetails = "SELECT count(hardware_id) c, %s as ID from accountinfo a where %s !='' ";
 $tab_options['ARG_SQL'] = array($tag, $tag);
-if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '')
+if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '') {
     $queryDetails .= " AND " . $_SESSION['OCS']["mesmachines"];
+}
 $tab_options['ARG_SQL'][] = $tag;
 $queryDetails .= "group by ID";
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();
-
 
 if ($ajax) {
     ob_end_clean();

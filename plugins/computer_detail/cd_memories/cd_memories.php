@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -29,8 +29,9 @@ if (AJAX) {
     $ajax = false;
 }
 print_item_header($l->g(26));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $form_name = "affich_memories";
 $table_name = $form_name;
 $tab_options = $protectedPost;
@@ -46,11 +47,11 @@ $list_fields = array($l->g(80) => 'CAPTION',
     $l->g(94) => 'NUMSLOTS',
     $l->g(36) => 'SERIALNUMBER');
 
-
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del = array($l->g(80) => $l->g(80), $l->g(83) => $l->g(83));
+}
 
 $default_fields = $list_fields;
 $queryDetails = "SELECT * FROM memories WHERE (hardware_id=$systemid)";

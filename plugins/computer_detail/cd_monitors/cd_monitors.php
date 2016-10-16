@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -29,8 +29,9 @@ if (AJAX) {
     $ajax = false;
 }
 print_item_header($l->g(97));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $form_name = "affich_monitors";
 $table_name = $form_name;
 $tab_options = $protectedPost;
@@ -42,10 +43,11 @@ $list_fields = array($l->g(64) => 'MANUFACTURER',
     $l->g(360) => 'DESCRIPTION',
     $l->g(66) => 'TYPE',
     $l->g(36) => 'SERIAL');
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del = array($l->g(64) => $l->g(64), $l->g(36) => $l->g(36));
+}
 
 $default_fields = $list_fields;
 $queryDetails = "SELECT * FROM monitors WHERE (hardware_id=$systemid)";

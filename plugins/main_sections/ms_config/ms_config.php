@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -25,7 +25,6 @@
  */
 require_once('require/function_config_generale.php');
 
-
 $def_onglets['INVENTORY'] = $l->g(728); //Inventory
 $def_onglets['SERVER'] = $l->g(499); //Server
 $def_onglets['IPDISCOVER'] = $l->g(312); //IP Discover
@@ -42,8 +41,9 @@ $def_onglets['SNMP'] = $l->g(1136); //SNMP
 $def_onglets['WOL'] = $l->g(1279); //WOL
 $def_onglets['PLUGINSCONF'] = $l->g(6000); //Plugins Configuration
 
-if (DEV_OPTION)
+if (DEV_OPTION) {
     $def_onglets['DEV'] = $l->g(1302);
+}
 
 if ($protectedPost['Valid'] == $l->g(103)) {
     $etat = verif_champ();
@@ -53,9 +53,9 @@ if ($protectedPost['Valid'] == $l->g(103)) {
     } else {
         $msg = "";
         foreach ($etat as $name => $value) {
-            if (!is_array($value))
+            if (!is_array($value)) {
                 $msg .= $name . " " . $l->g(759) . " " . $value . "<br>";
-            else {
+            } else {
                 if (isset($value['FILE_NOT_EXIST'])) {
                     if ($name == 'DOWNLOAD_REP_CREAT') {
                         $msg .= $name . ": " . $l->g(1004) . " (" . $value['FILE_NOT_EXIST'] . ")<br>";
@@ -69,14 +69,14 @@ if ($protectedPost['Valid'] == $l->g(103)) {
     }
 }
 
-if (isset($MAJ) && $MAJ != '')
+if (isset($MAJ) && $MAJ != '') {
     msg_success($MAJ);
+}
 printEnTete($l->g(107));
 $form_name = 'modif_onglet';
 echo open_form($form_name);
 show_tabs($def_onglets, $form_name, "onglet", 10);
 echo '<div class="col col-md-10">';
-//onglet($def_onglets,$form_name,'onglet',8);
 switch ($protectedPost['onglet']) {
     case 'CNX':
         pageConnexion($form_name);

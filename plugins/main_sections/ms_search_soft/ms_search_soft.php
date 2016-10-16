@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -35,23 +35,11 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 //html
-/* echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n";
-  echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='fr'>"."\n";
-  echo "<head><title>Check Logiciel's Version</title><meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' />"."\n";
-  echo '<link rel="stylesheet" media="screen" type="text/css" title="Design" href="design.css" />'."\n";
-  echo "\n".'<script type="text/javascript" src="print.js"></script>';
-  echo "\n".'<script type="text/javascript" src="autocomplete-3-2.js"></script>';
-  echo "\n".'<script type="text/javascript"> window.onload = function(){initAutoComplete(document.getElementById(\'form-test\'), document.getElementById(\'champ-texte\'), document.getElementById(\'bouton-submit\'))}</script>';
-  echo "\n".'</head>';
-
- */
 $xml_file = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_options'] . "&no_header=1";
-echo "\n" . '<script type="text/javascript"> 
+echo "\n" . '<script type="text/javascript">
 	window.onload = function(){initAutoComplete(document.getElementById(\'' . $form_name . '\'), document.getElementById(\'champ-texte\'), document.getElementById(\'bouton-submit\'),\'' . $xml_file . '\')}
 	</script>';
 ?>
-
-
 <div class="row">
     <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
         <div class="form-group">
@@ -83,10 +71,11 @@ echo '<div id="fr">';
 
 // voir fonction.php
 if ((isset($protectedPost['logiciel_select']) && $protectedPost['logiciel_select'] != '') || (isset($protectedPost['logiciel_text']) && $protectedPost['logiciel_text'] != '')) {                                   //logiciel du select name='logiciel'
-    if (isset($protectedPost['logiciel_select']) && $protectedPost['logiciel_select'] != '')
+    if (isset($protectedPost['logiciel_select']) && $protectedPost['logiciel_select'] != '') {
         $logiciel = $protectedPost['logiciel_select'];
-    else
+    } else {
         $logiciel = $protectedPost['logiciel_text'];
+    }
 
     $table_name = $form_name;
 
@@ -101,13 +90,13 @@ if ((isset($protectedPost['logiciel_select']) && $protectedPost['logiciel_select
     $list_col_cant_del = $list_fields;
     $default_fields = $list_fields;
     $tab_options['AS']['a.NAME'] = 'SNAME';
-    //$queryDetails  = "SELECT * FROM monitors WHERE (hardware_id=$systemid)";
     $queryDetails = "SELECT h.ID,";
     foreach ($list_fields as $lbl => $value) {
-        if ($value == 'a.NAME')
+        if ($value == 'a.NAME') {
             $queryDetails .= $value . " as " . $tab_options['AS']['a.NAME'] . ",";
-        else
+        } else {
             $queryDetails .= $value . ",";
+        }
     }
     $queryDetails = substr($queryDetails, 0, -1);
 
@@ -123,14 +112,11 @@ if ((isset($protectedPost['logiciel_select']) && $protectedPost['logiciel_select
     $tab_options['LBL']['sfold'] = $l->g(849);
 
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-
-    //creerTableau($logiciel);
 }
 
 echo '</div>';
 
 echo close_form();
-
 
 if ($ajax) {
     ob_end_clean();

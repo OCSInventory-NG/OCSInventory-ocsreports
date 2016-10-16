@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -40,7 +40,7 @@ $list_fields = array($l->g(212) => 'NAME',
 $list_col_cant_del = $list_fields;
 $default_fields = $list_fields;
 $tab_options['FILTRE'] = array('NAME' => $l->g(212), 'REGVALUE' => $l->g(213));
-;
+
 $queryDetails = "SELECT * FROM registry WHERE (hardware_id=$systemid)";
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -28,9 +28,10 @@ if ($_SESSION['OCS']["lvluser"] == SADMIN) {
     $dir = opendir($rep);
     while ($f = readdir($dir)) {
         if ($protectedGet['id_pack'] == '') {
-            if ($f != '.' && $f != '..')
+            if ($f != '.' && $f != '..') {
                 echo "<a href='recompose_paquet.php?id_pack=" . $f . "'>" . $f . "</a><br>";
-        }else {
+            }
+        } else {
             if ($f == "info") {
                 //récupération du fichier info
                 $filename = $rep . '/' . $f;
@@ -81,6 +82,7 @@ if ($_SESSION['OCS']["lvluser"] == SADMIN) {
         fclose($handfich_final);
         echo "<br><font color=green>FICHIER CREE</font>";
     }
-} else
+} else {
     echo "PAGE INDISPONIBLE";
+}
 ?>

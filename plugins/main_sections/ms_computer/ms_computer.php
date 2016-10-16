@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -53,7 +53,6 @@ if (!isset($protectedGet['option']) && !isset($protectedGet['cat'])) {
     $protectedGet['cat'] = 'admin';
 }
 
-
 show_computer_title($item);
 
 show_computer_menu($item->ID);
@@ -83,7 +82,6 @@ if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION[
         }
     }
 }
-
 
 if ($ajax) {
     ob_end_clean();

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -23,7 +23,6 @@
 require_once 'require/function_users.php';
 
 function validate_profile_create_form($data) {
-
     global $l;
 
     $errors = array();
@@ -57,7 +56,6 @@ function validate_profile_create_form($data) {
 }
 
 function validate_profile_edit_form($profile_id, $data) {
-
     global $l;
 
     $errors = array();

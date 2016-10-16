@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -23,14 +23,15 @@
 require_once(TC_LIB_BARCODE);
 require_once('require/function_admininfo.php');
 if (is_numeric($protectedGet['systemid']) && array_key_exists($protectedGet['default_value'], $array_qr_action)) {
-    if ($array_qr_action[$protectedGet['default_value']]['TYPE'] == 'url')
+    if ($array_qr_action[$protectedGet['default_value']]['TYPE'] == 'url') {
         $msg = $array_qr_action[$protectedGet['default_value']]['VALUE'];
-    else {
+    } else {
         $fields_info = explode('.', $array_qr_action[$protectedGet['default_value']]['VALUE']);
-        if ($fields_info[0] == 'hardware')
+        if ($fields_info[0] == 'hardware') {
             $hardware_id = 'id';
-        else
+        } else {
             $hardware_id = 'hardware_id';
+        }
         $sql = "select %s from %s where %s='%s'";
         $arg = array($fields_info[1], $fields_info[0], $hardware_id, $protectedGet['systemid']);
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);

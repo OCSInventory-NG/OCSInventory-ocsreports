@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -29,8 +29,9 @@ if (AJAX) {
     $ajax = false;
 }
 print_item_header($l->g(270));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $form_name = "affich_modems";
 $table_name = $form_name;
 $tab_options = $protectedPost;
@@ -42,10 +43,11 @@ $list_fields = array($l->g(49) => 'NAME',
     $l->g(65) => 'MODEL',
     $l->g(53) => 'DESCRIPTION',
     $l->g(66) => 'TYPE');
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del = array($l->g(49) => $l->g(49), $l->g(66) => $l->g(66));
+}
 
 $default_fields = $list_fields;
 $queryDetails = "SELECT * FROM modems WHERE (hardware_id=$systemid)";

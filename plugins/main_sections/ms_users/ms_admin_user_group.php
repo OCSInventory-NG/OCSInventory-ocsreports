@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -22,7 +22,6 @@
  */
 /*
  * Add groups for users
- * 
  */
 if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
@@ -59,10 +58,12 @@ if ($protectedPost['onglet'] == 1) {
     }
     $queryDetails = "select IVALUE,TVALUE from config where name like 'USER_GROUP_%'";
 
-    if (!isset($protectedPost['SHOW']))
+    if (!isset($protectedPost['SHOW'])) {
         $protectedPost['SHOW'] = 'NOSHOW';
-    if (!(isset($protectedPost["pcparpage"])))
+    }
+    if (!(isset($protectedPost["pcparpage"]))) {
         $protectedPost["pcparpage"] = 5;
+    }
 
     $list_fields['GRP'] = 'TVALUE';
     $list_fields['SUP'] = 'IVALUE';
@@ -80,30 +81,31 @@ if ($protectedPost['onglet'] == 1) {
         //vérification que le nom du champ n'existe pas pour les nouveaux champs
         if (trim($protectedPost['newfield']) != '') {
             $sql_verif = "SELECT count(*) c FROM config WHERE TVALUE = '" . $protectedPost['newfield'] . "' and NAME like 'USER_GROUP%'";
-            //echo $sql_verif;
             $res_verif = mysqli_query($_SESSION['OCS']["readServer"], $sql_verif);
-            //echo $val_verif = mysqli_fetch_array( $res_verif );
             $val_verif = mysqli_fetch_array($res_verif);
-            if ($val_verif['c'] > 0)
-            //Ce nom de groupe est déjà utilisé
+            if ($val_verif['c'] > 0) {
+                //Ce nom de groupe est déjà utilisé
                 $ERROR = $l->g(621);
-        } else
-        //Le nom du groupe ne peut pas être vide
+            }
+        } else {
+            //Le nom du groupe ne peut pas être vide
             $ERROR = $l->g(638);
-
+        }
 
         if (!isset($ERROR)) {
             $sql_new_value = "SELECT max(ivalue) max FROM config WHERE  NAME like 'USER_GROUP%'";
             $res_new_value = mysqli_query($_SESSION['OCS']["readServer"], $sql_new_value);
             $val_new_value = mysqli_fetch_array($res_new_value);
-            if ($val_new_value['max'] == "")
+            if ($val_new_value['max'] == "") {
                 $val_new_value['max'] = 0;
+            }
             $val_new_value['max'] ++;
             mysqli_query($_SESSION['OCS']["writeServer"], "INSERT INTO config (NAME,TVALUE,IVALUE) VALUES('USER_GROUP_" . $val_new_value['max'] . "','" . $protectedPost['newfield'] . "','" . $val_new_value['max'] . "')") or mysqli_error($_SESSION['OCS']["writeServer"]);
             //si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
             msg_success($l->g(1069));
-        } else
+        } else {
             msg_error($ERROR);
+        }
     }
 
     //NAME FIELD
@@ -118,7 +120,6 @@ if ($protectedPost['onglet'] == 1) {
     ));
 }
 
-
 echo "</div>";
 echo close_form();
 
@@ -127,4 +128,3 @@ if ($ajax) {
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
 ?>
-

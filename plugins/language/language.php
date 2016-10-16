@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -34,10 +34,11 @@ if (file_exists($ms_cfg_file)) {
 $i = 0;
 
 while (isset($list_plugins[$i])) {
-    if (file_exists($Directory . $list_plugins[$i] . "/" . $list_plugins[$i] . ".png"))
+    if (file_exists($Directory . $list_plugins[$i] . "/" . $list_plugins[$i] . ".png")) {
         $show_lang .= "<img src='plugins/language/" . $list_plugins[$i] . "/" . $list_plugins[$i] . ".png' width=\"20\" height=\"15\" OnClick='pag(\"" . $list_plugins[$i] . "\",\"LANG\",\"ACTION_CLIC\");'>&nbsp;";
-    else
+    } else {
         $show_lang .= "<a href=# OnClick='pag(\"" . $list_plugins[$i] . "\",\"LANG\",\"ACTION_CLIC\");'>" . $list_lbl[$list_plugins[$i]] . "</a>&nbsp;";
+    }
     $i++;
 }
 

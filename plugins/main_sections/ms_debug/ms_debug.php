@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -30,13 +30,15 @@ $list_mode[3] = $l->g(1012);
 $list_mode[4] = $l->g(1013);
 if (isset($_SESSION['OCS']['TRUE_USER'])) {
     $list_mode[5] = 'NOFUSER';
-} else
+} else {
     $list_mode[5] = 'FUSER';
+}
 
-if ($_SESSION['OCS']["usecache"] == 1)
+if ($_SESSION['OCS']["usecache"] == 1) {
     $list_mode[6] = 'NOCACHE';
-else
+} else {
     $list_mode[6] = 'CACHE';
+}
 
 $tab_typ_champ[0]['DEFAULT_VALUE'] = $list_mode;
 $tab_typ_champ[0]['INPUT_NAME'] = "MODE";
@@ -92,10 +94,11 @@ if (isset($protectedPost['Valid_modif']) && $protectedPost["MODE"] != "") {
         }
     } elseif ($protectedPost["MODE"] == 6) {
         if (isset($_SESSION['OCS']["usecache"])
-                and $_SESSION['OCS']["usecache"] == 1)
+                and $_SESSION['OCS']["usecache"] == 1) {
             $_SESSION['OCS']["usecache"] = 0;
-        else
+        } else {
             $_SESSION['OCS']["usecache"] = 1;
+        }
     }
 
 

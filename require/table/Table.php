@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -122,7 +122,7 @@ class Table {
                                 }
                             });
                             var ocs = [];
-                            //Add the actual $_POST to the $_POST of the ajax request 
+                            //Add the actual $_POST to the $_POST of the ajax request
         <?php
         foreach ($protectedPost as $key => $value) {
             if (!is_array($value)) {
@@ -136,11 +136,11 @@ class Table {
                         },
                     },
 
-                    //Column definition 
+                    //Column definition
                     "columns": [
         <?php
         $index = 0;
-        //Visibility handling 
+//Visibility handling
         foreach ($columns as $key => $column) {
             if (!empty($visible_col)) {
                 if ((in_array($index, $visible_col))) {
@@ -162,15 +162,15 @@ class Table {
             } else {
                 $orderable = 'true';
             }
-            //Cannot search in Delete or checkbox columns 
+            //Cannot search in Delete or checkbox columns
             if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)) {
                 if (!empty($this->params['REPLACE_COLUMN_KEY'][$key])) {
                     $key = $this->params['REPLACE_COLUMN_KEY'][$key];
                 }
                 echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
-                                 'name':'" . $key . "', 'defaultContent': ' ',
-                                 'orderable':  " . $orderable . ",'searchable': false,
-                                 'visible' : " . $visible . "}, \n";
+                         'name':'" . $key . "', 'defaultContent': ' ',
+                         'orderable':  " . $orderable . ",'searchable': false,
+                         'visible' : " . $visible . "}, \n";
             } else {
                 $name = explode('.', $column);
                 $name = explode(' as ', end($name));
@@ -178,9 +178,9 @@ class Table {
                 if (!empty($this->params['REPLACE_COLUMN_KEY'][$key])) {
                     $name = $this->params['REPLACE_COLUMN_KEY'][$key];
                 }
-                echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "', 
-                                 'name':'" . $column . "', 'defaultContent': ' ',
-                                 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
+                echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
+                         'name':'" . $column . "', 'defaultContent': ' ',
+                         'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
             }
         }
         ?>
@@ -220,7 +220,7 @@ class Table {
                     $(table_id).DataTable().ajax.reload();
                 });
         <?php
-        //Csv Export 
+//Csv Export
         if (!isset($this->params['no_download_result'])) {
             ?>
                     $(table_id).on('draw.dt', function () {
@@ -255,7 +255,7 @@ class Table {
      */
 
     public function updateTable() {
-        
+
     }
 
     public function setParams($params) {

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -23,7 +23,6 @@
 $snmp_tables_type = array($l->g(1215) => 'SNMP_BLADES', $l->g(1216) => 'SNMP_FIREWALLS', $l->g(1217) => 'SNMP_LOADBALANCERS',
     $l->g(79) => 'SNMP_PRINTERS', $l->g(1218) => 'SNMP_SWITCHINFOS', $l->g(729) => 'SNMP_COMPUTERS');
 
-
 $snmp_tables = array('SNMP_ACCOUNTINFO', 'SNMP_CARDS', 'SNMP_CARTRIDGES', 'SNMP_CPUS', 'SNMP_DRIVES',
     'SNMP_FANS', 'SNMP_INPUTS', 'SNMP_LOCALPRINTERS', 'SNMP_MEMORIES',
     'SNMP_MODEMS', 'SNMP_NETWORKS', 'SNMP_PORTS', 'SNMP_POWERSUPPLIES', 'SNMP_SOFTWARES',
@@ -38,7 +37,6 @@ function info_snmp($snmp_id) {
         return $l->g(837);
     }
 
-    //$arg=array();
     $sql = "select * from snmp where id=%s";
     $arg = $snmp_id;
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
@@ -56,24 +54,12 @@ function info_snmp($snmp_id) {
         }
         return $array;
     }
-
-    /* foreach($snmp_tables_type as $id=>$table){
-      $table_alias[]=$var.'.*';
-      $sql.= " left join %s %s on sn.id=%s.snmp_id ";
-      array_push($arg,strtolower($table));
-      array_push($arg,$var);
-      array_push($arg,$var);
-      $var++;
-      }
-
-      $sql= "select ".implode(',',$table_alias).$sql." where sn.id = %s";
-      array_push($arg,$snmp_id); */
 }
 
 function subnet_name($systemid) {
     if (!is_numeric($systemid))
         return false;
-    $reqSub = "select NAME,NETID from subnet left join networks on networks.ipsubnet = subnet.netid 
+    $reqSub = "select NAME,NETID from subnet left join networks on networks.ipsubnet = subnet.netid
 				where  networks.status='Up' and hardware_id=" . $systemid;
     $resSub = mysqli_query($_SESSION['OCS']["readServer"], $reqSub) or die(mysqli_error($_SESSION['OCS']["readServer"]));
     while ($valSub = mysqli_fetch_object($resSub)) {
@@ -95,8 +81,9 @@ function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
     $nb_col = 2;
     $data_exist = false;
     $show_table = "<table ALIGN = 'Center' class='" . $class . "' ><tr><td align =center colspan=20>";
-    if ($title != '')
+    if ($title != '') {
         $show_table .= "<i><b><big>" . $title . "</big></b><br><br></i></td></tr><tr><td align =center>";
+    }
     $show_table .= "		<table align=center border='0' width='100%'  ><tr>";
     $i = 0;
     foreach ($data as $table => $values) {
@@ -111,10 +98,11 @@ function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
                         $i = 0;
                     }
                     $show_table .= "<td>&nbsp;<b>";
-                    if (isset($lbl_affich[$field]))
+                    if (isset($lbl_affich[$field])) {
                         $show_table .= $lbl_affich[$field];
-                    else
+                    } else {
                         $show_table .= $field;
+                    }
                     $show_table .= ": </b></td><td>" . $field_value . "</td>";
                     $i++;
                 }
@@ -123,19 +111,20 @@ function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
     }
     $show_table .= "</tr></table></td></tr></table><br>";
 
-    if ($data_exist)
+    if ($data_exist) {
         return $show_table;
+    }
     return false;
 }
 
 function deleteDid_snmp($id) {
     global $all_snmp_table;
-    if (is_array($id))
+    if (is_array($id)) {
         $id_snmp = explode(',', $id);
-    else
+    } else {
         $id_snmp = $id;
-    //p($all_snmp_table);
-    foreach ($all_snmp_table as $key => $values) {
+    }
+    foreach ($all_snmp_table as $values) {
         $sql = 'delete from %s where snmp_id in ';
         $arg = array(strtolower($values));
         $del_sql = mysql2_prepare($sql, $arg, $id_snmp, $nocot = true);
@@ -148,23 +137,23 @@ function deleteDid_snmp($id) {
 }
 
 /*
- * 
- * Find all accountinfo for  
+ * Find all accountinfo for
  * snmp data
- * 
  */
 
 function admininfo_snmp($id = "") {
     global $l;
-    if (!is_numeric($id) && $id != "")
+    if (!is_numeric($id) && $id != "") {
         return $l->g(400);
+    }
     $arg_account_data = array();
     $sql_account_data = "SELECT * FROM snmp_accountinfo ";
     if (is_numeric($id)) {
         $sql_account_data .= " WHERE snmp_id=%s";
         $arg_account_data = array($id);
-    } else
+    } else {
         $sql_account_data .= " LIMIT 1 ";
+    }
 
     $res_account_data = mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
     $val_account_data = mysqli_fetch_array($res_account_data);
@@ -173,8 +162,9 @@ function admininfo_snmp($id = "") {
 
 function updateinfo_snmp($id, $values, $list = '') {
     global $l;
-    if (!is_numeric($id) && $list == '')
+    if (!is_numeric($id) && $list == '') {
         return $l->g(400);
+    }
     $arg_account_data = array();
     $sql_account_data = "UPDATE snmp_accountinfo SET ";
     foreach ($values as $field => $val) {
@@ -183,10 +173,12 @@ function updateinfo_snmp($id, $values, $list = '') {
         array_push($arg_account_data, $val);
     }
     $sql_account_data = substr($sql_account_data, 0, -2);
-    if (is_numeric($id) && $list == '')
+    if (is_numeric($id) && $list == '') {
         $sql_account_data .= " WHERE snmp_id=%s";
-    if ($list != '')
+    }
+    if ($list != '') {
         $sql_account_data .= " WHERE snmp_id in (%s)";
+    }
 
     array_push($arg_account_data, $id);
     mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);

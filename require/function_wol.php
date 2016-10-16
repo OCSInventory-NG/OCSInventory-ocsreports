@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -32,9 +32,9 @@ class Wol {
         global $l;
         //looking for values of wol config
         $wol_info = look_config_default_values('WOL_PORT');
-        if (!isset($wol_info['name']['WOL_PORT']))
+        if (!isset($wol_info['name']['WOL_PORT'])) {
             $this->wol_send = $l->g(1321);
-        else
+        } else
             $wol_port = explode(',', $wol_info['tvalue']['WOL_PORT']);
         foreach ($wol_port as $k => $v) {
             if (is_numeric($v)) {
@@ -50,25 +50,27 @@ class Wol {
                 }
             }
         }
-        //	$this->wol_send='toto';
-        //return $wol_send;
     }
 
     private function pacquet($Mac) {
         $packet = "";
         $macAddr = '';
         $addrByte = explode(':', $Mac);
-        foreach ($addrByte as $v)
+        foreach ($addrByte as $v) {
             $macAddr .= chr(hexdec($v));
-        for ($i = 0; $i < 6; $i++)
+        }
+        for ($i = 0; $i < 6; $i++) {
             $packet .= chr(0xFF);
-        for ($j = 0; $j < 16; $j++)
+        }
+        for ($j = 0; $j < 16; $j++) {
             $packet .= $macAddr;
+        }
 
         //use bios password?
         $wol_info = look_config_default_values('WOL_BIOS_PASSWD');
-        if (isset($wol_info['name']['WOL_BIOS_PASSWD']))
+        if (isset($wol_info['name']['WOL_BIOS_PASSWD'])) {
             $packet .= $wol_info['tvalue']['WOL_BIOS_PASSWD'];
+        }
         return $packet;
     }
 

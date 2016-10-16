@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -39,14 +39,13 @@ require_once('require/function_admininfo.php');
 $accountinfo_data = witch_field_more('COMPUTERS');
 $lbl_column['ACCOUNTINFO']['HARDWARE_ID'] = $l->g(949);
 foreach ($accountinfo_data['LIST_FIELDS'] as $id => $id_lbl) {
-    if ($id != '1')
+    if ($id != '1') {
         $lbl_column['ACCOUNTINFO']['fields_' . $id] = $l->g(1210) . " " . $id_lbl;
-    else
+    } else {
         $lbl_column['ACCOUNTINFO']['TAG'] = $l->g(1210) . " " . $id_lbl;
+    }
 }
 $default_column['ACCOUNTINFO'] = array('TAG');
-
-
 
 //hardware
 $lbl_column['HARDWARE'] = array('ID' => $l->g(949),
@@ -84,7 +83,6 @@ $lbl_column['HARDWARE'] = array('ID' => $l->g(949),
     'UUID' => 'UUID');
 $default_column['HARDWARE'] = array('NAME', 'WORKGROUP', 'OSNAME', 'USERID', 'MEMORY', 'LASTDATE', 'LASTCOME');
 
-
 //bios
 $lbl_column['BIOS'] = array('HARDWARE_ID' => $l->g(949),
     'SMANUFACTURER' => $l->g(273) . ": " . $l->g(64),
@@ -97,7 +95,6 @@ $lbl_column['BIOS'] = array('HARDWARE_ID' => $l->g(949),
     'ASSETTAG' => $l->g(273) . ": " . $l->g(216));
 $default_column['BIOS'] = array('SMANUFACTURER', 'SSN', 'BMANUFACTURER');
 
-
 //controllers
 $lbl_column['CONTROLLERS'] = array('HARDWARE_ID' => $l->g(949),
     'MANUFACTURER' => $l->g(64),
@@ -107,8 +104,6 @@ $lbl_column['CONTROLLERS'] = array('HARDWARE_ID' => $l->g(949),
     'VERSION' => $l->g(277),
     'TYPE' => $l->g(66));
 $default_column['CONTROLLERS'] = array('MANUFACTURER', 'NAME', 'DESCRIPTION');
-
-
 
 //drives
 $lbl_column['DRIVES'] = array('LETTER' => $l->g(85),
@@ -120,7 +115,6 @@ $lbl_column['DRIVES'] = array('LETTER' => $l->g(85),
     'VOLUMN' => $l->g(70),
     'CREATEDATE' => 'CREATEDATE');
 $default_column['DRIVES'] = array('LETTER', 'TOTAL', 'FREE', 'VOLUMN');
-
 
 //inputs
 $lbl_column['INPUTS'] = array('HARDWARE_ID' => $l->g(949),

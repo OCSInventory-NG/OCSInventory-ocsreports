@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -28,8 +28,9 @@ if (AJAX) {
 } else {
     $ajax = false;
 }
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 print_item_header($l->g(91));
 $form_name = "affich_inputs";
 $table_name = $form_name;
@@ -43,10 +44,11 @@ $list_fields = array($l->g(66) => 'TYPE',
     $l->g(53) => 'DESCRIPTION',
     $l->g(84) => 'INTERFACE');
 
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del = array($l->g(66) => $l->g(66), $l->g(84) => $l->g(84));
+}
 
 $default_fields = $list_fields;
 $queryDetails = "SELECT * FROM inputs WHERE (hardware_id=$systemid)";

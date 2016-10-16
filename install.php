@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -48,11 +48,12 @@ function return_bytes($val) {
     return $val;
 }
 
-//     
-// }
-/*
- * function to execute sql file
- *
+/**
+ * execute sql file
+ * @global type $l
+ * @param type $fichier
+ * @param type $link
+ * @return boolean
  */
 function exec_fichier_sql($fichier, $link) {
     global $l;
@@ -83,10 +84,12 @@ function exec_fichier_sql($fichier, $link) {
 
 //choose default language
 if (!isset($_SESSION['OCS']['LANGUAGE']) || !isset($_SESSION['OCS']["LANGUAGE_FILE"])) {
-    if (isset($_COOKIE['LANG']))
+    if (isset($_COOKIE['LANG'])) {
         $_SESSION['OCS']['LANGUAGE'] = $_COOKIE['LANG'];
-    if (!isset($_COOKIE['LANG']))
+    }
+    if (!isset($_COOKIE['LANG'])) {
         $_SESSION['OCS']['LANGUAGE'] = DEFAULT_LANGUAGE;
+    }
     $_SESSION['OCS']["LANGUAGE_FILE"] = new language($_SESSION['OCS']['LANGUAGE']);
 }
 $l = $_SESSION['OCS']["LANGUAGE_FILE"];
@@ -103,8 +106,9 @@ if (isset($fromAuto) && $fromAuto == true) {
     $msg_lbl['info'][] = $l->g(2031) . " " . $valUpd["tvalue"] . " " . $l->g(2032) . " (" . GUI_VER . "). " . $l->g(2033);
 }
 //msg=your config file doesn't exist
-if (isset($fromdbconfig_out) && $fromdbconfig_out == true)
+if (isset($fromdbconfig_out) && $fromdbconfig_out == true) {
     $msg_lbl['info'][] = $l->g(2034);
+}
 //max to upload
 $pms = "post_max_size";
 $umf = "upload_max_filesize";
@@ -112,10 +116,11 @@ $valTpms = ini_get($pms);
 $valTumf = ini_get($umf);
 $valBpms = return_bytes($valTpms);
 $valBumf = return_bytes($valTumf);
-if ($valBumf > $valBpms)
+if ($valBumf > $valBpms) {
     $MaxAvail = trim(mb_strtoupper($valTpms), "M");
-else
+} else {
     $MaxAvail = trim(mb_strtoupper($valTumf), "M");
+}
 $msg_lbl['info'][] = $l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041) . "<br><br><font color=red>" . $l->g(2102) . "</font>";
 //msg=no php-session function
 if (!function_exists('session_start')) {
@@ -163,8 +168,9 @@ foreach ($msg_lbl as $k => $v) {
     if ($show != '') {
         call_user_func_array("msg_" . $k, array($show));
         //stop if error
-        if ($k == "error")
+        if ($k == "error") {
             die();
+        }
     }
 }
 //post the first form
@@ -184,14 +190,12 @@ if (isset($_POST["name"])) {
             $link = mysqli_connect($_POST["host"], $_POST["name"], $_POST["pass"]);
             //have to execute new install file
             $db_file = "files/ocsbase_new.sql";
-            if (!mysqli_query($link, "CREATE DATABASE " . $_POST['database'] . " CHARACTER SET utf8 COLLATE utf8_bin;")
-                    or ! mysqli_query($link, "USE " . $_POST['database'])
-                    or ! mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $_POST['database'] . ".* TO ocs IDENTIFIED BY 'ocs'")
-                    or ! mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $_POST['database'] . ".* TO ocs@localhost IDENTIFIED BY 'ocs'"))
+            if (!mysqli_query($link, "CREATE DATABASE " . $_POST['database'] . " CHARACTER SET utf8 COLLATE utf8_bin;") || !mysqli_query($link, "USE " . $_POST['database']) || !mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $_POST['database'] . ".* TO ocs IDENTIFIED BY 'ocs'") || !mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $_POST['database'] . ".* TO ocs@localhost IDENTIFIED BY 'ocs'")) {
                 $error = mysqli_errno($link);
+            }
             $name_connect = "ocs";
             $pass_connect = 'ocs';
-        }else {
+        } else {
             //update
             $res = mysql2_query_secure("select tvalue from config where name='GUI_VERSION'", $link);
             $item = mysqli_fetch_object($res);
@@ -236,7 +240,7 @@ if (isset($_POST["name"])) {
                     " " . $l->g(2044) .
                     "</b><br></font></center>";
                     die();
-                } else
+                } else {
                     echo "<br><center><font color=red><b>" . $l->g(2043) .
                     " (" . $l->g(2017) .
                     " " . $l->g(2010) .
@@ -245,17 +249,18 @@ if (isset($_POST["name"])) {
                     "=ocs " . $l->g(2014) .
                     "=ocs)"
                     . "</b><br></font></center>";
+                }
 
                 echo "<br><center><font color=red><b>" . $l->g(2065) . "</b></font></center>";
                 unlink(CONF_MYSQL);
-            }
-            else {
+            } else {
                 msg_success("<b>" . $l->g(2050) . "</b><br><br><b><a href='index.php'>" . $l->g(2051) . "</a></b>");
                 unset($_SESSION['OCS']['SQL_BASE_VERS']);
             }
             die();
-        } else
+        } else {
             msg_error($l->g(2115));
+        }
     }
     //die();
 }
@@ -288,10 +293,11 @@ $form_name = 'fsub';
 $name_field = array("name", "pass", "database", "host");
 $tab_name = array($l->g(247) . ": ", $l->g(248) . ": ", $l->g(1233) . ":", $l->g(250) . ":");
 $type_field = array(0, 4, 0, 0);
-if (isset($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"]))
+if (isset($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"])) {
     $value_field = array($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"]);
-else
+} else {
     $value_field = array($valNme, $valPass, $valdatabase, $valServ);
+}
 $tab_typ_champ = show_field($name_field, $type_field, $value_field);
 tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
     'button_name' => 'INSTALL',
@@ -300,4 +306,3 @@ tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
 ));
 die();
 ?>
-

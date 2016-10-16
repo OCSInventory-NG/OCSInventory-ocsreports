@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -21,8 +21,6 @@
  * MA 02110-1301, USA.
  */
 if (AJAX) {
-
-
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
@@ -60,7 +58,6 @@ if ($ajax) {
     }
 }
 if ($protectedPost['tab'] == 'VIEW') {
-
     // delete register key
     if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
         // delete one row
@@ -105,16 +102,16 @@ if ($protectedPost['tab'] == 'VIEW') {
     $img['image/delete.png'] = $l->g(162);
     del_selection($form_name);
 } elseif ($protectedPost['tab'] == 'ADD') {
-
     if (isset($protectedPost['Valid_modif'])) {
         $form_values = array("NAME" => $protectedPost["NAME"],
             "REGTREE" => $protectedPost["REGTREE"],
             "REGKEY" => $protectedPost["REGKEY"],
             "REGVALUE" => $protectedPost["REGVALUE"]);
-        if (isset($protectedPost['id']) && $protectedPost['id'] != '')
+        if (isset($protectedPost['id']) && $protectedPost['id'] != '') {
             $udpate = $protectedPost['id'];
-        else
+        } else {
             $udpate = FALSE;
+        }
         $result = add_update_key($form_values, $udpate);
         if ($result) {
             unset($_SESSION['OCS']['DATA_CACHE'][$table_name]);
@@ -149,7 +146,6 @@ if ($protectedPost['tab'] == 'VIEW') {
 }
 echo "</div>";
 echo close_form();
-
 
 if ($ajax) {
     ob_end_clean();

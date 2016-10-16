@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -40,7 +40,6 @@ $xml .= "\t<DEVICEID>" . $item_hardware->DEVICEID . "</DEVICEID>\n";
 $xml .= "\t<CONTENT>\n";
 foreach ($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'] as $tablename) {
     if (!in_array($tablename, $table_not_use)) {
-        //$sql= prepare_sql_tab($_SESSION['OCS']['SQL_TABLE'][$tablename]);
         $sql = "select * from %s where hardware_id=%s";
         $arg = array($tablename, $protectedGet['systemid']);
 
@@ -70,8 +69,9 @@ foreach ($_SESSION['OCS']['SQL_TABLE']['hardware'] as $field_name => $field_type
             $xml .= "\t\t\t<" . $field_name . ">";
             $xml .= replace_entity_xml($item_hardware->$field_name);
             $xml .= "</" . $field_name . ">\n";
-        } else
+        } else {
             $xml .= "\t\t\t<" . $field_name . " />\n";
+        }
     }
 }
 $xml .= "\t\t</HARDWARE>\n";
@@ -86,14 +86,14 @@ foreach ($_SESSION['OCS']['SQL_TABLE']['accountinfo'] as $field_name => $field_t
     if ($field_name != 'HARDWARE_ID') {
         $xml .= "\t\t<ACCOUNTINFO>\n";
         $xml .= "\t\t\t<KEYNAME>" . $field_name . "</KEYNAME>\n";
-        if (replace_entity_xml($item_accountinfo->$field_name) != '')
+        if (replace_entity_xml($item_accountinfo->$field_name) != '') {
             $xml .= "\t\t\t<KEYVALUE>" . replace_entity_xml($item_accountinfo->$field_name) . "</KEYVALUE>\n";
-        else
+        } else {
             $xml .= "\t\t\t<KEYVALUE />\n";
+        }
         $xml .= "\t\t</ACCOUNTINFO>\n";
     }
 }
-
 
 $xml .= "\t</CONTENT>\n";
 $xml .= "\t<QUERY>INVENTORY</QUERY>\n";
@@ -101,8 +101,9 @@ $xml .= "</REQUEST>\n";
 
 if ($xml != "") {
     // iexplorer problem
-    if (ini_get("zlib.output-compression"))
+    if (ini_get("zlib.output-compression")) {
         ini_set("zlib.output-compression", "Off");
+    }
 
     header("Pragma: public");
     header("Expires: 0");
@@ -114,7 +115,7 @@ if ($xml != "") {
     header("Content-Length: " . strlen($xml));
     echo $xml,
     die();
-}else {
+} else {
     $ban_head = 'no';
     require_once (HEADER_HTML);
     msg_error($l->g(920));

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -30,11 +30,9 @@ if (AJAX) {
     $ajax = false;
 }
 
-
-
 require_once('require/function_table_html.php');
 require_once('require/function_files.php');
-//$data_on['GUI_LOGS']="Logs de l'interface";
+// @TODO : buggy code
 $protectedPost['onglet'] == "";
 $tab_options = $protectedPost;
 
@@ -87,8 +85,9 @@ if (is_array($data)) {
     $tab_options['table_name'] = $table_name;
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     echo close_form();
-} else
+} else {
     msg_warning($l->g(766));
+}
 
 if ($ajax) {
     ob_end_clean();

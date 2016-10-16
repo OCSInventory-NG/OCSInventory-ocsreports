@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -109,8 +109,9 @@ class Profile {
     }
 
     public function addToBlacklist($value) {
-        if (!$this->hasInBlacklist($value))
+        if (!$this->hasInBlacklist($value)) {
             $this->blacklist [] = $value;
+        }
     }
 
     public function removeFromBlacklist($value) {
@@ -129,8 +130,9 @@ class Profile {
     }
 
     public function addPage($name) {
-        if (!$this->hasPage($name))
+        if (!$this->hasPage($name)) {
             $this->pages [] = $name;
+        }
     }
 
     public function removePage($name) {

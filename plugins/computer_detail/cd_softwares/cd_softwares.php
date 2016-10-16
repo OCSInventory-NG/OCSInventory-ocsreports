@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -50,16 +50,17 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
 								WHERE (hardware_id=$systemid)";
     $list_fields[$l->g(49)] = 's_name.NAME';
 } else {
-    $queryDetails = "SELECT * FROM softwares 
+    $queryDetails = "SELECT * FROM softwares
 								 WHERE (hardware_id=$systemid)";
     $list_fields[$l->g(49)] = 'NAME';
 }
 $list_fields[$l->g(277)] = 'VERSION';
 $list_fields[$l->g(51)] = 'COMMENTS';
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del = array($l->g(49) => $l->g(49));
+}
 
 $default_fields = $list_fields;
 $list_fields[$l->g(1248)] = 'FOLDER';

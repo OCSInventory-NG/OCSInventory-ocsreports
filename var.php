@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -27,7 +27,7 @@ define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
 //====================================================================================
 // Default configuration dir (Logs / Data / Document root / Sql config file)
 //====================================================================================
-define('ETC_DIR', DOCUMENT_REAL_ROOT);  // Ocsreports root folder ( /usr/share/ocsinventory-reports/ocsreports by default)						
+define('ETC_DIR', DOCUMENT_REAL_ROOT);  // Ocsreports root folder ( /usr/share/ocsinventory-reports/ocsreports by default)
 define('VARLIB_DIR', "/var/lib/ocsinventory-reports"); // Default lib dir
 define('VARLOG_DIR', "/var/lib/ocsinventory-reports"); // Défault log dir
 define('CONF_MYSQL', ETC_DIR . '/dbconfig.inc.php'); // Database configuration infos
@@ -42,7 +42,7 @@ define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php'); 
 //====================================================================================
 // GUI Options
 //====================================================================================
-define("GUI_VER", "7010"); // ocs' mysql database version									
+define("GUI_VER", "7010"); // ocs' mysql database version
 define("GUI_VER_SHOW", "2.2.2");    // GUI Version
 define("DEFAULT_LANGUAGE", "english");   // Default GUI language
 define("PAG_INDEX", "function");

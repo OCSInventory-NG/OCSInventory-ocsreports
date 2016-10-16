@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -27,29 +27,28 @@ require_once('require/function_search.php');
 $form_name = "param_affect";
 echo open_form($form_name);
 $list_id = multi_lot($form_name, $l->g(601));
-/* if ($protectedPost['onglet'] == "" || !isset($protectedPost['onglet']))
-  $protectedPost['onglet'] = $l->g(499); */
 
 $def_onglets['SERV'] = $l->g(499); //Serveur
 $def_onglets['INV'] = $l->g(728); //Inventaire
 $def_onglets['TELE'] = $l->g(512); //Télédéploiement
 $def_onglets['RSX'] = $l->g(1198); //ipdiscover
-//update values	
+//update values
 if ($protectedPost['Valid'] == $l->g(103)) {
     if ($list_id) {
         //more then one value
         if (strstr($list_id, ',') != "") {
             $tab_hadware_id = explode(",", $list_id);
             $add_lbl = " (" . count($tab_hadware_id) . " " . $l->g(652) . ")";
-        } else
+        } else {
             $list_hardware_id = $list_id;
+        }
     }
     if (isset($list_hardware_id) || isset($tab_hadware_id)) {
         foreach ($protectedPost as $key => $value) {
             if ($key != "systemid" && $key != "origine") {
-                if ($value == "SERVER DEFAULT" || $value == "des" || trim($value) == "")
+                if ($value == "SERVER DEFAULT" || $value == "des" || trim($value) == "") {
                     erase($key);
-                elseif ($value == "CUSTOM") {
+                } elseif ($value == "CUSTOM") {
                     insert($key, $protectedPost[$key . '_edit']);
                 } elseif ($value == "ALWAYS") {
                     insert($key, 0);
@@ -71,17 +70,18 @@ if ($protectedPost['Valid'] == $l->g(103)) {
         } elseif (isset($protectedGet['origine']) && $protectedGet['origine'] == 'group') {
             $form_to_reload = 'config_group';
         }
-        if (isset($form_to_reload))
+        if (isset($form_to_reload)) {
             echo "<script language='javascript'> window.opener.document." . $form_to_reload . ".submit();</script>";
-    } else
+        }
+    } else {
         echo "<script>alert('" . $l->g(983) . "')</script>";
+    }
 }
 
 $default = look_config_default_values(array('DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_PERIOD_LENGTH',
     'DOWNLOAD_FRAG_LATENCY', 'DOWNLOAD_PERIOD_LATENCY',
     'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ'));
 $optdefault = $default["ivalue"];
-
 
 //not a sql query
 if (isset($protectedGet['origine']) && is_numeric($protectedGet['idchecked'])) {
@@ -98,7 +98,6 @@ if (isset($protectedGet['origine']) && is_numeric($protectedGet['idchecked'])) {
     $tab_hadware_id = explode(",", $list_id);
     $champ_ignored = 1;
 }
-
 
 if ($list_id) {
     onglet($def_onglets, $form_name, 'onglet', 7);

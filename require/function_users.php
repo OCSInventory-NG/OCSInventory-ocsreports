@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -84,8 +84,9 @@ function add_user($data_user, $list_profil = '') {
     }
 
     if (is_array($list_profil)) {
-        if (!array_key_exists($data_user['ACCESSLVL'], $list_profil))
+        if (!array_key_exists($data_user['ACCESSLVL'], $list_profil)) {
             $ERROR = $l->g(998);
+        }
     }
     if (!isset($ERROR)) {
         $sql = "select id from operators where id= '%s'";
@@ -96,7 +97,7 @@ function add_user($data_user, $list_profil = '') {
             if ($data_user['MODIF'] != $row->id) {
                 return $l->g(999);
             } else {
-                $sql_update = "update operators 
+                $sql_update = "update operators
 								set firstname = '%s',
 									lastname='%s',
 									new_accesslvl='%s',
@@ -142,8 +143,9 @@ function add_user($data_user, $list_profil = '') {
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
             return $l->g(373);
         }
-    } else
+    } else {
         return $ERROR;
+    }
 }
 
 function admin_user($id_user = null, $is_my_account = false) {
@@ -178,19 +180,17 @@ function admin_user($id_user = null, $is_my_account = false) {
     $name_field[] = "COMMENTS";
     //$name_field[]="USER_GROUP";
 
-
     $tab_name[] = $l->g(1366) . " :";
     $tab_name[] = $l->g(996) . " :";
     $tab_name[] = $l->g(1117) . " :";
     $tab_name[] = $l->g(51) . " :";
     //$tab_name[]="Groupe de l'utilisateur: ";
 
-
     $type_field[] = 0;
     $type_field[] = 0;
     $type_field[] = 0;
     $type_field[] = 0;
-    //$type_field[]= 2; 
+    //$type_field[]= 2;
 
     $tab_hidden['MODIF'] = $id_user;
     $sql = "select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
@@ -272,17 +272,20 @@ function admin_profil($form) {
             foreach ($if_value as $if_cat => $if_val) {
                 if (isset($protectedPost[$if_name]) && $protectedPost['cat'] == $if_cat) {
                     $new_value[$if_cat][$if_name] = $protectedPost[$if_name];
-                } else
+                } else {
                     $new_value[$if_cat][$if_name] = $forprofil[$if_cat][$if_name];
+                }
             }
         }
         foreach ($forall['URL'] as $name => $value) {
-            if (isset($protectedPost[$name]) && $protectedPost['cat'] == "PAGE_PROFIL")
+            if (isset($protectedPost[$name]) && $protectedPost['cat'] == "PAGE_PROFIL") {
                 $new_value["PAGE_PROFIL"][$name] = '';
+            }
         }
 
-        if (!isset($new_value['PAGE_PROFIL']))
+        if (!isset($new_value['PAGE_PROFIL'])) {
             $new_value['PAGE_PROFIL'] = $forprofil['PAGE_PROFIL'];
+        }
         update_config_file($protectedPost['PROFILS'], $new_value);
         msg_success($l->g(1274));
     }
@@ -296,8 +299,9 @@ function admin_profil($form) {
         $forprofil = read_profil_file($protectedPost['PROFILS'], 'WRITE');
         if (is_array($forprofil) && is_array($forall)) {
             foreach ($forprofil as $key => $value) {
-                if (isset($lbl_cat[$key]))
+                if (isset($lbl_cat[$key])) {
                     $data_on[$key] = $lbl_cat[$key];
+                }
             }
             onglet($data_on, $form, "cat", 10);
             if (isset($forprofil[$protectedPost['cat']]) && $protectedPost['cat'] != 'PAGE_PROFIL') {
@@ -308,16 +312,18 @@ function admin_profil($form) {
                 foreach ($info_field as $if_name => $if_value) {
                     foreach ($if_value as $if_cat => $if_val) {
                         if ($protectedPost['cat'] == $if_cat) {
-                            if (isset($forprofil[$if_cat][$if_name]))
+                            if (isset($forprofil[$if_cat][$if_name])) {
                                 $protectedPost[$if_name] = $forprofil[$if_cat][$if_name];
+                            }
                             array_push($name_field, $if_name);
                             array_push($tab_name, $if_val['LBL']);
                             if (is_array($if_val['VALUE'])) {
                                 array_push($type_field, 2);
-                                if (!isset($protectedPost[$if_name]))
+                                if (!isset($protectedPost[$if_name])) {
                                     array_push($if_val['VALUE'], '');
+                                }
                                 array_push($value_field, $if_val['VALUE']);
-                            }else {
+                            } else {
                                 array_push($type_field, 0);
                                 array_push($value_field, replace_language($forprofil[$if_cat][$if_name]));
                             }
@@ -334,8 +340,9 @@ function admin_profil($form) {
                 ksort($forall['URL']);
                 foreach ($forall['URL'] as $key => $value) {
                     $champs .= "<input type='checkbox' name='" . $key . "' id='" . $key . "' ";
-                    if (isset($forprofil[$protectedPost['cat']][$key]))
+                    if (isset($forprofil[$protectedPost['cat']][$key])) {
                         $champs .= " checked ";
+                    }
                     $champs .= " ></td><td>" . $key . "</td><td align=center>";
                     $i++;
                     if ($i == 4) {

@@ -15,7 +15,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -30,7 +30,7 @@
  * MA 02110-1301, USA.
  */
 
-//function for erase param values 
+//function for erase param values
 function erase($NAME) {
     global $protectedPost, $protectedGet, $list_hardware_id, $tab_hadware_id;
     // if it's for group or a machine
@@ -38,7 +38,7 @@ function erase($NAME) {
         $sql = "DELETE FROM devices WHERE name='%s' AND hardware_id='%s'";
         $arg = array($NAME, $protectedGet["idchecked"]);
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-    } else { //else : request 
+    } else { //else : request
         $sql = "DELETE FROM devices WHERE name='%s' AND hardware_id in ";
         $arg_sql = array($NAME);
         $arg = mysql2_prepare($sql, $arg_sql, $tab_hadware_id);
@@ -49,7 +49,7 @@ function erase($NAME) {
 //function for insert param values
 function insert($NAME, $IVALUE, $TVALUE = "") {
     global $list_hardware_id, $tab_hadware_id;
-    //delete old value before insert new 
+    //delete old value before insert new
     erase($NAME);
     // if it's for group or a machine
     if (isset($list_hardware_id)) {
@@ -57,20 +57,21 @@ function insert($NAME, $IVALUE, $TVALUE = "") {
         if ($TVALUE != "") {
             $sql = "INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('%s', '%s', '%s', '%s')";
             array_push($arg, $TVALUE);
-        } else
+        } else {
             $sql = "INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES('%s', '%s', '%s')";
+        }
 
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-    }
-    else {//else : request 
+    } else {//else : request
         $i = 0;
         while ($tab_hadware_id[$i]) {
             $arg = array($tab_hadware_id[$i], $NAME, $IVALUE);
             if ($TVALUE != "") {
                 $sql = "INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('%s', '%s', '%s', '%s')";
                 array_push($arg, $TVALUE);
-            } else
+            } else {
                 $sql = "INSERT INTO devices(HARDWARE_ID, NAME, IVALUE) VALUES ('%s', '%s', '%s')";
+            }
 
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
             $i++;
@@ -83,10 +84,10 @@ function optperso($lbl, $lblPerso, $optPerso, $group = 0, $default_value = '', $
     echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso[$lbl]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
     echo $td3 . $lblPerso . "</td>";
     if (isset($optPerso[$lbl])) {
-        if (isset($optPerso[$lbl]["IVALUE"]))
+        if (isset($optPerso[$lbl]["IVALUE"])) {
             echo $td3 . $optPerso[$lbl]["IVALUE"] . " " . $end . "</td>";
-    }
-    else {
+        }
+    } else {
         if ($end != '') {
             echo $td3 . $l->g(488) . " (" . $default_value . " " . $end . ")</td>";
         } else {

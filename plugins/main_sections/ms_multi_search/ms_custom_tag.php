@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -41,12 +41,14 @@ if (isset($list_id) && $list_id != '') {
                     foreach ($protectedPost as $field2 => $value2) {
                         $casofcheck = explode('_', $field2);
                         if ($casofcheck[0] . '_' . $casofcheck[1] == $temp) {
-                            if (isset($casofcheck[2]))
+                            if (isset($casofcheck[2])) {
                                 $data_fields_account[$temp] .= $casofcheck[2] . "&&&";
+                            }
                         }
                     }
-                    if (!isset($data_fields_account[$temp]))
+                    if (!isset($data_fields_account[$temp])) {
                         $data_fields_account[$temp] = $protectedPost[$temp];
+                    }
                 }
             }
         }
@@ -61,7 +63,7 @@ if (isset($list_id) && $list_id != '') {
 
     //CAS OF TELEDEPLOY
     if (isset($protectedPost['RAZ']) && $protectedPost['RAZ'] != "" && $protectedPost['pack_list'] != "") {
-        $sql = "select ID from download_enable 
+        $sql = "select ID from download_enable
 				where fileid='%s'";
         $arg = $protectedPost['pack_list'];
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
@@ -87,17 +89,20 @@ if (isset($list_id) && $list_id != '') {
     }
 
     //tab definition
-    if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES")
+    if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
         $def_onglets['TAG'] = $l->g(1022);
-    else
+    } else {
         $protectedPost['onglet'] = 'SUP_PACK';
+    }
     $def_onglets['SUP_PACK'] = $l->g(1021);
 
-    if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO")
+    if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
         $def_onglets['WOL'] = $l->g(1280);
+    }
 
-    if ($protectedPost['onglet'] == "")
+    if ($protectedPost['onglet'] == "") {
         $protectedPost['onglet'] = "TAG";
+    }
     //show onglet
     onglet($def_onglets, $form_name, "onglet", 7);
 
@@ -112,8 +117,9 @@ if (isset($list_id) && $list_id != '') {
                 if (!in_array($field_of_accountinfo['LIST_TYPE'][$id], $dont_show_type)) {
                     if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG") {
                         $truename = "TAG";
-                    } else
+                    } else {
                         $truename = "fields_" . $id;
+                    }
                     if ($field_of_accountinfo['LIST_TYPE'][$id] == 6) {
                         $tab_typ_champ[$i]['CONFIG']['MAXLENGTH'] = 10;
                         $tab_typ_champ[$i]['CONFIG']['SIZE'] = 10;
@@ -135,7 +141,6 @@ if (isset($list_id) && $list_id != '') {
                     $tab_typ_champ[$i]['INPUT_TYPE'] = $convert_type[$field_of_accountinfo['LIST_TYPE'][$id]];
                     $tab_typ_champ[$i]['CONFIG']['JAVASCRIPT'] = $java . " onclick='document.getElementById(\"check" . $truename . "\").checked = true' ";
 
-                    //$tab_typ_champ[$i]['DEFAULT_VALUE']=$protectedPost[$truename];
                     $tab_name[$i] = $lbl;
                     $i++;
                 }
@@ -145,8 +150,8 @@ if (isset($list_id) && $list_id != '') {
             ));
         } elseif ($protectedPost['onglet'] == "SUP_PACK") {
             echo "<div class='mvt_bordure'>";
-            $queryDetails = "select d_a.fileid,d_a.name 
-									from download_available d_a, download_enable d_e 
+            $queryDetails = "select d_a.fileid,d_a.name
+									from download_available d_a, download_enable d_e
 									where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
             $resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
             while ($val = mysqli_fetch_array($resultDetails)) {
@@ -171,8 +176,6 @@ if (isset($list_id) && $list_id != '') {
                 }
                 echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "'>";
             }
-
-
 
             echo "</div>";
         }elseif ($protectedPost['onglet'] == "WOL") {

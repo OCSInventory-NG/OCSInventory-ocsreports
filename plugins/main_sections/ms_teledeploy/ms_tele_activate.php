@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -38,10 +38,11 @@ $show_stats = true;
 echo open_form($form_name, '', '', 'form-horizontal');
 PrintEnTete($l->g(465));
 
-if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO')
+if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO') {
     $cant_active = false;
-else
+} else {
     $cant_active = true;
+}
 
 if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES') {
     $restrict_computers = computer_list_by_tag('', 'ARRAY');
@@ -57,13 +58,13 @@ $tab_options = $protectedPost;
 $data_on['AVAILABLE_PACKET'] = $l->g(2123);
 $data_on['DELETED_PACKET'] = $l->g(2124);
 
-if ($protectedPost['onglet'] != $protectedPost['old_onglet'])
+if ($protectedPost['onglet'] != $protectedPost['old_onglet']) {
     unset($protectedPost['MODIF']);
+}
 
 show_tabs($data_on, $form_name, "onglet", 10);
 
 echo '<div class="col col-md-10" >';
-
 
 if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     //only for profils who can activate packet
@@ -88,9 +89,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     ?>
 
     <div class="row">
-
         <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
-
             <div class="form-group">
                 <!-- <label class="control-label col-sm-4" for="download>"></label> -->
                 <div class="col-sm-8">
@@ -105,33 +104,38 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         //where packets are created?
         if ($protectedPost['SHOW_SELECT'] == 'download') {
             $config_document_root = "DOWNLOAD_PACK_DIR";
-        } else
+        } else {
             $config_document_root = "DOWNLOAD_REP_CREAT";
+        }
         $info_document_root = look_config_default_values($config_document_root);
         $document_root = $info_document_root["tvalue"][$config_document_root];
         //if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
         if (!isset($document_root)) {
             $document_root = VARLIB_DIR . '/download';
-            if ($protectedPost['SHOW_SELECT'] == "server")
+            if ($protectedPost['SHOW_SELECT'] == "server") {
                 $document_root .= "server/";
-        }else {
-            //can we have the zip?	
+            }
+        } else {
+            //can we have the zip?
             $document_root .= "/download";
         }
-
 
         if (is_readable($document_root) && is_dir($document_root)) {
             $dir = @opendir($document_root);
             while ($f = readdir($dir)) {
-                if (is_numeric($f))
+                if (is_numeric($f)) {
                     $tab_options['SHOW_ONLY']['ZIP'][$f] = $f;
+                }
             }
-            if (!$tab_options['SHOW_ONLY']['ZIP'])
+            if (!$tab_options['SHOW_ONLY']['ZIP']) {
                 $tab_options['SHOW_ONLY']['ZIP'] = 'NULL';
-        } else
+            }
+        } else {
             $tab_options['SHOW_ONLY']['ZIP'] = 'NULL';
-    } else
+        }
+    } else {
         $tab_options['SHOW_ONLY']['ZIP'] = 'NULL';
+    }
 
     //only for profils who can activate packet
     if (!$cant_active) {
@@ -152,13 +156,11 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
                                     }else{
                                             lien='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active='+ document.getElementById('manualActive').value;
                                             window.open(lien,\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\");
-
-                                    }	
+                                    }
                     }
                     </script>";
     }
 
-    //$list_fields= array('Timestamp'=>'FILEID',
     $list_fields = array($l->g(475) => 'FILEID',
         $l->g(593) => 'from_unixtime(FILEID)',
         'SHOWACTIVE' => 'NAME',
@@ -196,21 +198,15 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         'SHOWACTIVE' => 'SHOWACTIVE',
         'CHECK' => 'CHECK', 'NOTI' => 'NOTI', 'SUCC' => 'SUCC',
         'ERR_' => 'ERR_', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP');
-    /* if ($show_stats){
-      $default_fields['NOTI']='NOTI';
-      $default_fields['SUCC']='SUCC';
-      $default_fields['ERR_']='ERR_';
-      } */
     $list_col_cant_del = array('SHOWACTIVE' => 'SHOWACTIVE', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP', 'CHECK' => 'CHECK');
     $querypack = prepare_sql_tab($list_fields, array('SELECT', 'ZIP', 'STAT', 'ACTIVE', 'SUP', 'CHECK', 'NO_NOTIF', 'NOTI', 'SUCC', 'ERR_'));
 
-
-
     $querypack['SQL'] .= " from download_available ";
-    if ($protectedPost['SHOW_SELECT'] == 'download')
+    if ($protectedPost['SHOW_SELECT'] == 'download') {
         $querypack['SQL'] .= " where (comment not like '%s' or comment is null or comment = '')";
-    else
+    } else {
         $querypack['SQL'] .= " where comment like '%s'";
+    }
     $querypack['SQL'] .= " and DELETED = 0";
     array_push($querypack['ARG'], "[PACK REDISTRIBUTION%");
     $arg_count = array("[PACK REDISTRIBUTION%");
@@ -222,7 +218,6 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
 
     $tab_options['ARG_SQL'] = $querypack['ARG'];
     $tab_options['ARG_SQL_COUNT'] = $arg_count;
-    //echo $querypack;
     $tab_options['LBL'] = array('ZIP' => "Archives",
         'STAT' => $l->g(574),
         'ACTIVE' => $l->g(431),
@@ -243,21 +238,22 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     $tab_options['REQUEST']['SHOWACTIVE'] = 'select distinct fileid AS FIRST from download_enable';
     $tab_options['FIELD']['SHOWACTIVE'] = 'FILEID';
     //on force le tri desc pour l'ordre des paquets
-    if (!$protectedPost['sens_' . $table_name])
+    if (!$protectedPost['sens_' . $table_name]) {
         $protectedPost['sens_' . $table_name] = 'DESC';
+    }
 
     if ($show_stats) {
         $sql_data_fixe = "select count(*) as %s,de.FILEID
-                                    from devices d,download_enable de 
-                                    where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
+                                    from devices d,download_enable de
+                                    where d.IVALUE=de.ID  and d.name='DOWNLOAD'
                                     and d.tvalue %s '%s' ";
         $sql_data_fixe_bis = "select count(*) as %s,de.FILEID
-                                    from devices d,download_enable de 
-                                    where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
+                                    from devices d,download_enable de
+                                    where d.IVALUE=de.ID  and d.name='DOWNLOAD'
                                     and d.tvalue %s  ";
         $sql_data_fixe_ter = "select count(*) as %s,de.FILEID
-                                    from devices d,download_enable de 
-                                    where d.IVALUE=de.ID  and d.name='DOWNLOAD' 
+                                    from devices d,download_enable de
+                                    where d.IVALUE=de.ID  and d.name='DOWNLOAD'
                                     and (d.tvalue %s '%s' or d.tvalue %s '%s') ";
 
         $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_'] = array('ERR_', 'LIKE', 'ERR_%', 'LIKE', 'EXIT_CODE%');
@@ -286,12 +282,13 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_ter['SQL'] . " group by FILEID";
                 }
             } else {
-                if ($key != 'NO_NOTIF' && $key != 'ERR_')
+                if ($key != 'NO_NOTIF' && $key != 'ERR_') {
                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $sql_data_fixe . " group by FILEID";
-                elseif ($key == 'NO_NOTIF')
+                } elseif ($key == 'NO_NOTIF') {
                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $sql_data_fixe_bis . " group by FILEID";
-                elseif ($key == 'ERR_')
+                } elseif ($key == 'ERR_') {
                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $sql_data_fixe_ter . " group by FILEID";
+                }
             }
         }
     }
@@ -317,7 +314,6 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         }
     }
 } elseif ($protectedPost['onglet'] == "DELETED_PACKET") {
-
     if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
         remove_packet($protectedPost['SUP_PROF']);
         $tab_options['CACHE'] = 'RESET';

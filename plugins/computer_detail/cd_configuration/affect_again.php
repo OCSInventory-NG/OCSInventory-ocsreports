@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -24,10 +24,7 @@
  * NOT USE YET
  */
 
-//require_once('fichierConf.class.php');
 $form_name = 'admin_search';
-//$ban_head='no';
-//require_once("header.php");
 if ($protectedPost['onglet'] != $protectedPost['old_onglet']) {
     $onglet = $protectedPost['onglet'];
     $old_onglet = $protectedPost['old_onglet'];
@@ -52,18 +49,24 @@ if ($protectedGet['origine'] != "mach") {
     }
 
     //gestion tableau
-    if (is_array($list_id))
+    if (is_array($list_id)) {
         $list_id = implode(",", $list_id);
-} else
+    }
+} else {
     $list_id = $protectedGet['idchecked'];
+}
 
 echo "</b></font>";
-if (strpos($protectedGet['img'], "config_search.png"))
+if (strpos($protectedGet['img'], "config_search.png")) {
     include ("opt_param.php");
-if (strpos($protectedGet['img'], "groups_search.png"))
+}
+if (strpos($protectedGet['img'], "groups_search.png")) {
     include ("opt_groups.php");
-if (strpos($protectedGet['img'], "tele_search.png"))
+}
+if (strpos($protectedGet['img'], "tele_search.png")) {
     include ("opt_pack.php");
-if (strpos($protectedGet['img'], "delete.png"))
+}
+if (strpos($protectedGet['img'], "delete.png")) {
     include ("opt_sup.php");
+}
 ?>

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -20,22 +20,11 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-/*
-
-
-  answers this page with
-  $tab_options['LIEN_LBL']['Fichier']='index.php?'.PAG_INDEX.'='.$pages_refs['ms_view_file'].'&prov=dde_wk&no_header=1&value=';
-  $tab_options['LIEN_CHAMP']['Fichier']='id';
-  $tab_options['LIEN_TYPE']['Fichier']='POPUP';
-  $tab_options['POPUP_SIZE']['Fichier']="width=900,height=600";
-
-
- */
 
 //origin = workflow teledeploy
 if ($protectedGet['prov'] == "dde_wk") {
     $sql = "select FILE,FILE_NAME,FILE_TYPE,FILE_SIZE
-			 FROM temp_files 
+			 FROM temp_files
 			 where id = '%s'";
     $arg = array($protectedGet["value"]);
 }
@@ -63,8 +52,9 @@ if (isset($sql) && $sql != '') {
 
 if (isset($val_document_root['FILE_NAME'])) {
     // iexplorer problem
-    if (ini_get("zlib.output-compression"))
+    if (ini_get("zlib.output-compression")) {
         ini_set("zlib.output-compression", "Off");
+    }
 
     header("Pragma: public");
     header("Expires: 0");

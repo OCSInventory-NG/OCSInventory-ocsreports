@@ -45,7 +45,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -60,9 +60,9 @@
  * MA 02110-1301, USA.
  */
 
-$numeric = "onKeyPress='return scanTouche(event,/[0-9]/)' 
+$numeric = "onKeyPress='return scanTouche(event,/[0-9]/)'
 		  onkeydown='convertToUpper(this)'
-		  onkeyup='convertToUpper(this)' 
+		  onkeyup='convertToUpper(this)'
 		  onblur='convertToUpper(this)'
 		  onclick='convertToUpper(this)'";
 
@@ -70,7 +70,7 @@ $sup1 = "<br><font color=green size=1><i> (" . $l->g(759) . " 1)</i></font>";
 $sup10 = "<br><font color=green size=1><i> (" . $l->g(759) . " 10)</i></font>";
 
 /*
- * 
+ *
  * function for add ligne in tab
  * $name= varchar : name of ligne
  * $lbl= varchar : wording of the ligne
@@ -106,15 +106,15 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
             echo "<script language='javascript'>
 					function active(id, sens) {
 						var mstyle = document.getElementById(id).style.display	= (sens!=0?\"block\" :\"none\");
-					}	
+					}
 					</script>";
         }
         //si le champ hidden est celui qui doit être affiché en entrée, il faut afficher le champ
-        //echo "<br>hidden ==".$data_hidden['HIDDEN']."      value ==".$data['VALUE'];
-        if (isset($data_hidden['HIDDEN']) && $data_hidden['HIDDEN'] == $data['VALUE'])
+        if (isset($data_hidden['HIDDEN']) && $data_hidden['HIDDEN'] == $data['VALUE']) {
             $display = "block";
-        else
+        } else {
             $display = "none";
+        }
         //var for name of chekbox
         $i = 1;
         //pour toutes les valeurs
@@ -122,8 +122,9 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
             //sauf la valeur à afficher
             if ($key !== 'VALUE' && $key !== 'CHECK' && $key !== 'JAVASCRIPT') {
                 echo "<input type='" . $type . "' class='' value='" . $key . "' id='" . $name . "' ";
-                if ($readonly != '')
+                if ($readonly != '') {
                     echo "disabled=\"disabled\"";
+                }
                 echo "name='" . $name;
                 if ($type == 'checkbox') {
                     echo "_" . $i;
@@ -135,18 +136,21 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
                     echo "OnClick=\"active('" . $name . "_div',1);\"";
                 } elseif ($data_hidden != '' && $data_hidden['HIDDEN'] != key) {
                     echo "OnClick=\"active('" . $name . "_div',0);\"";
-                } elseif (isset($data['JAVASCRIPT']))
+                } elseif (isset($data['JAVASCRIPT'])) {
                     echo $data['JAVASCRIPT'];
-                if ($data['VALUE'] == $key || isset($data['CHECK'][$key]))
+                }
+                if ($data['VALUE'] == $key || isset($data['CHECK'][$key])) {
                     echo "checked";
+                }
                 echo ">" . $value;
                 if ($data_hidden != '' && $data_hidden['HIDDEN'] == $key) {
-                    if (isset($data_hidden['MAXLENGTH']))
+                    if (isset($data_hidden['MAXLENGTH'])) {
                         $maxlength = $data_hidden['MAXLENGTH'];
-                    elseif (isset($data_hidden['SIZE']))
+                    } elseif (isset($data_hidden['SIZE'])) {
                         $maxlength = $data_hidden['SIZE'];
-                    else
+                    } else {
                         $maxlength = "2";
+                    }
                     echo "<div id='" . $name . "_div' style='display:" . $display . "'>";
 
                     echo "<div class='input-group'>";
@@ -164,14 +168,15 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
                     echo "</div>";
                 }
                 echo "<br>";
-                if (isset($data['JAVASCRIPT']))
+                if (isset($data['JAVASCRIPT'])) {
                     echo "<input type='hidden' name='Valid' value='" . $l->g(103) . "'>";
-                //	$protectedPost['Valid'] == $l->g(103)
+                }
             }
         }
-    }elseif ($type == 'input') {
-        if ($readonly != '')
+    } elseif ($type == 'input') {
+        if ($readonly != '') {
             $ajout_readonly = " disabled=\"disabled\" style='color:black; background-color:#e1e1e2;'";
+        }
         echo "<div class='input-group'>";
         if ($data['BEGIN'] != '' || isset($data['BEGIN'])) {
             echo "<span class='input-group-addon'>" . $data['BEGIN'] . "</span>";
@@ -187,8 +192,9 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
         echo $data[0];
     } elseif ($type == 'list') {
         echo "<table>";
-        if (isset($data['END']))
+        if (isset($data['END'])) {
             echo "<tr><td>" . $data['END'] . "</td></tr>";
+        }
         if (is_array($data['VALUE'])) {
             foreach ($data['VALUE'] as $index => $value) {
                 echo "<tr><td>" . $value . "</td></tr>";
@@ -197,18 +203,19 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
         echo "</table>";
     } elseif ($type == 'select') {
         echo "<select name='" . $name . "'";
-        if (isset($data['RELOAD']))
+        if (isset($data['RELOAD'])) {
             echo " onChange='document." . $data['RELOAD'] . ".submit();'";
+        }
         echo ">";
         foreach ($data['SELECT_VALUE'] as $key => $value) {
             echo "<option value='" . $key . "'";
-            if ($data['VALUE'] == $key)
+            if ($data['VALUE'] == $key) {
                 echo " selected";
+            }
             echo ">" . $value . "</option>";
         }
         echo "</select>";
-        //array('VALUE'=>$values['tvalue']['OCS_FILES_FORMAT'],'SELECT_VALUE'=>array('OCS'=>'OCS','XML'=>'XML'))
-    }elseif ($type == 'long_text') {
+    } elseif ($type == 'long_text') {
         echo "<textarea name='" . $name . "' id='" . $name . "' cols='" . $data['COLS'] . "' rows='" . $data['ROWS'] . "'  class='down' " . $data['JAVASCRIPT'] . ">" . $data['VALUE'] . "</textarea>" . $data['END'];
     } else {
         echo $data['LINKS'];
@@ -216,8 +223,6 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
     echo "</div>";
     echo "</div>";
     echo "</div>";
-
-
     echo "</td></tr>";
 }
 
@@ -227,7 +232,6 @@ function debut_tab() {
 				ALIGN = 'Center' >";
 }
 
-//function 
 function verif_champ() {
     global $protectedPost, $l;
     $supp1 = array("DOWNLOAD_CYCLE_LATENCY", "DOWNLOAD_FRAG_LATENCY", "DOWNLOAD_PERIOD_LATENCY",
@@ -248,27 +252,30 @@ function verif_champ() {
         if ($protectedPost[$key] == 'CUSTOM') {
             //Try to find a file
             if ($value['FILE'] != '') {
-                if ($protectedPost[$value['FIELD_READ']] != '' and ! @fopen($protectedPost[$value['FIELD_READ']] . $value['END'] . $value['FILE'], $value['TYPE']))
-                //if( isset($values['tvalue']['CONF_PROFILS_DIR']) && (!$fconf_profils=@fopen($values['tvalue']['CONF_PROFILS_DIR']."//conf/4all_config.txt","r"))) 
+                if ($protectedPost[$value['FIELD_READ']] != '' and ! @fopen($protectedPost[$value['FIELD_READ']] . $value['END'] . $value['FILE'], $value['TYPE'])) {
                     $tab_error[$key] = array('FILE_NOT_EXIST' => $protectedPost[$value['FIELD_READ']] . $value['END'] . $value['FILE']);
+                }
                 //Try to find a directory
-            }elseif (!is_dir($protectedPost[$value['FIELD_READ']] . $value['END'])) {
-                if ($protectedPost[$value['FIELD_READ']] != '')
+            } elseif (!is_dir($protectedPost[$value['FIELD_READ']] . $value['END'])) {
+                if ($protectedPost[$value['FIELD_READ']] != '') {
                     $tab_error[$key] = array('FILE_NOT_EXIST' => $protectedPost[$value['FIELD_READ']] . $value['END']);
+                }
             }
         }
     }
 
     $i = 0;
     while ($supp1[$i]) {
-        if ($protectedPost[$supp1[$i]] < 1 && isset($protectedPost[$supp1[$i]]))
+        if ($protectedPost[$supp1[$i]] < 1 && isset($protectedPost[$supp1[$i]])) {
             $tab_error[$supp1[$i]] = '1';
+        }
         $i++;
     }
     $i = 0;
     while ($supp10[$i]) {
-        if ($protectedPost[$supp10[$i]] < 10 && isset($protectedPost[$supp10[$i]]))
+        if ($protectedPost[$supp10[$i]] < 10 && isset($protectedPost[$supp10[$i]])) {
             $tab_error[$supp10[$i]] = '10';
+        }
         $i++;
     }
     return $tab_error;
@@ -276,10 +283,11 @@ function verif_champ() {
 
 function fin_tab($form_name, $disable = '') {
     global $l;
-    if ($disable != '')
+    if ($disable != '') {
         $gris = "disabled=disabled";
-    else
+    } else {
         $gris = "OnClick='garde_valeur(\"RELOAD\",\"RELOAD_CONF\");'";
+    }
     echo "<br /><input type='submit' class='btn btn-success' name='Valid' value='" . $l->g(103) . "' $gris>";
 }
 
@@ -293,15 +301,11 @@ function option_conf_activate($value) {
 }
 
 /*
- * 
- * 
  * function for update, or delete or insert a value in config table
  * $name => value of field 'NAME' (name of config option)
  * $value => value of this config option
  * $default_value => last value of this field
- * $field => 'ivalue' or 'tvalue' 
- * 
- * 
+ * $field => 'ivalue' or 'tvalue'
  */
 
 function insert_update($name, $value, $default_value, $field) {
@@ -309,10 +313,11 @@ function insert_update($name, $value, $default_value, $field) {
     //	echo $field."=>".$value."=>".$default_value."<br>";
     if ($default_value != $value) {
         $arg = array($field, $value, $name);
-        if ($default_value != '')
+        if ($default_value != '') {
             $sql = "update config set %s = '%s' where NAME ='%s'";
-        else
+        } else {
             $sql = "insert into config (%s, NAME) value ('%s','%s')";
+        }
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg, $l->g(821));
     }
 }
@@ -329,8 +334,9 @@ function update_config($name, $field, $value, $msg = true) {
     $sql = "update config set %s='%s' where name='%s'";
     $arg = array($field, $value, $name);
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-    if ($msg)
+    if ($msg) {
         msg_success($l->g(1200));
+    }
 }
 
 function update_default_value($POST) {
@@ -348,7 +354,7 @@ function update_default_value($POST) {
         'CONEX_LDAP_CHECK_FIELD2_ROLE',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT', 'OCS_SERVER_ADDRESS');
-    //tableau des champs ou il faut juste mettre à jour le ivalue						   
+    //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
         'INVENTORY_SESSION_ONLY', 'INVENTORY_CACHE_REVALIDATE', 'LOGLEVEL',
         'PROLOG_FREQ', 'LOCK_REUSE_TIME', 'TRACE_DELETED', 'SESSION_VALIDITY_TIME',
@@ -360,27 +366,27 @@ function update_default_value($POST) {
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP');
-    //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue					
+    //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
         'LOG_SCRIPT' => 'LOG_SCRIPT_edit', 'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG_edit',
         'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO_edit',
         'LOG_SCRIPT' => 'LOG_SCRIPT_edit', 'CONF_PROFILS_DIR' => 'CONF_PROFILS_DIR_edit',
         'OLD_CONF_DIR' => 'OLD_CONF_DIR_edit', 'LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER_edit', 'WOL_BIOS_PASSWD' => 'WOL_BIOS_PASSWD_edit');
-    //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue		
+    //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_ivalue = array('FREQUENCY' => 'FREQUENCY_edit', 'IPDISCOVER' => 'IPDISCOVER_edit', 'INVENTORY_VALIDITY' => 'INVENTORY_VALIDITY_edit');
-
 
     //recherche des valeurs par défaut
     $sql_exist = " select NAME,ivalue,tvalue from config ";
     $result_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"]);
     while ($value_exist = mysqli_fetch_array($result_exist)) {
-        if ($value_exist["ivalue"] != null)
+        if ($value_exist["ivalue"] != null) {
             $optexist[$value_exist["NAME"]] = $value_exist["ivalue"];
-        elseif ($value_exist["tvalue"] != null)
+        } elseif ($value_exist["tvalue"] != null) {
             $optexist[$value_exist["NAME"]] = $value_exist["tvalue"];
-        elseif ($value_exist["tvalue"] == null && $value_exist["ivalue"] == null)
+        } elseif ($value_exist["tvalue"] == null && $value_exist["ivalue"] == null) {
             $optexist[$value_exist["NAME"]] = 'null';
+        }
     }
     //pour obliger à prendre en compte
     //le AUTO_DUPLICATE_LVL quand il est vide
@@ -392,8 +398,9 @@ function update_default_value($POST) {
 
     //check all post
     foreach ($POST as $key => $value) {
-        if (!isset($optexist[$key]))
+        if (!isset($optexist[$key])) {
             $optexist[$key] = '';
+        }
 
         if ($key == "INVENTORY_CACHE_ENABLED"
                 and $value == '1'
@@ -453,18 +460,20 @@ function auto_duplicate_lvl_poids($value, $entree_sortie) {
     //si on veut les cases cochées par rapport à un chiffre
     if ($entree_sortie == 1) {
         //gestion des poids pour connaitre les cases cochées.
-        //ex: si AUTO_DUPLICATE_LVL == 7 on a les cases HOSTNAME (de poids 1), SERIAL (de poids 2) et MACADDRESS (de poids 4) 
+        //ex: si AUTO_DUPLICATE_LVL == 7 on a les cases HOSTNAME (de poids 1), SERIAL (de poids 2) et MACADDRESS (de poids 4)
         //cochées (1+2+4=7)
         foreach ($poids as $k => $v) {
-            if ($value & $v)
+            if ($value & $v) {
                 $check[$k] = $k;
+            }
         }
     }//si on veut le chiffre par rapport a la case cochée
     else {
         $check = 0;
         foreach ($poids as $k => $v) {
-            if (in_array($k, $value))
+            if (in_array($k, $value)) {
                 $check += $v;
+            }
         }
     }
 
@@ -474,10 +483,11 @@ function auto_duplicate_lvl_poids($value, $entree_sortie) {
 function trait_post($name) {
     global $protectedPost, $values;
 
-    if (isset($values['tvalue'][$name]))
+    if (isset($values['tvalue'][$name])) {
         $select = 'CUSTOM';
-    else
+    } else {
         $select = 'DEFAULT';
+    }
 
     if (isset($protectedPost[$name . "_edit"]) && $protectedPost[$name . "_edit"] != '' && $protectedPost[$name] == 'CUSTOM') {
         $values['tvalue'][$name] = $protectedPost[$name . "_edit"];
@@ -519,7 +529,6 @@ function pageGUI($form_name) {
     $def = VARLIB_DIR . '/ipd';
     ligne('IPDISCOVER_IPD_DIR', $l->g(776), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_ipd), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['IPDISCOVER_IPD_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/ipd"));
 
-
     ligne('LOG_GUI', $l->g(824), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOG_GUI']));
 
     $def = VARLOG_DIR . '/logs';
@@ -537,13 +546,12 @@ function pageGUI($form_name) {
     ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE']));
     ligne('WARN_UPDATE', $l->g(2117), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WARN_UPDATE']));
 
-
     fin_tab($form_name);
 }
 
 function pageteledeploy($form_name) {
     global $l, $numeric, $sup1;
-    //open array;		
+    //open array;
     //what ligne we need?
     $champs = array('DOWNLOAD' => 'DOWNLOAD',
         'DOWNLOAD_CYCLE_LATENCY' => 'DOWNLOAD_CYCLE_LATENCY',
@@ -557,17 +565,19 @@ function pageteledeploy($form_name) {
         'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG');
 
     $values = look_config_default_values($champs);
-    if (isset($values['tvalue']['DOWNLOAD_URI_INFO']))
+    if (isset($values['tvalue']['DOWNLOAD_URI_INFO'])) {
         $select_info = 'CUSTOM';
-    else
+    } else {
         $select_info = 'DEFAULT';
-    if (isset($values['tvalue']['DOWNLOAD_URI_FRAG']))
+    }
+    if (isset($values['tvalue']['DOWNLOAD_URI_FRAG'])) {
         $select_frag = 'CUSTOM';
-    else
+    } else {
         $select_frag = 'DEFAULT';
+    }
 
     debut_tab();
-    //create diff lign for general config	
+    //create diff lign for general config
     ligne('DOWNLOAD', $l->g(417), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD']));
     ligne('DOWNLOAD_CYCLE_LATENCY', $l->g(720), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_CYCLE_LATENCY'], 'END' => $l->g(511), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('DOWNLOAD_FRAG_LATENCY', $l->g(721), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_FRAG_LATENCY'], 'END' => $l->g(511), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
@@ -583,7 +593,7 @@ function pageteledeploy($form_name) {
 
 function pagegroups($form_name) {
     global $l, $numeric, $sup1;
-    //open array;		
+    //open array;
     //what ligne we need?
     $champs = array('ENABLE_GROUPS' => 'ENABLE_GROUPS',
         'GROUPS_CACHE_OFFSET' => 'GROUPS_CACHE_OFFSET',
@@ -591,8 +601,8 @@ function pagegroups($form_name) {
 
     $values = look_config_default_values($champs);
     debut_tab();
-    //create diff lign for general config	
-    //create diff lign for general config	
+    //create diff lign for general config
+    //create diff lign for general config
     ligne('ENABLE_GROUPS', $l->g(736), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ENABLE_GROUPS']));
     ligne('GROUPS_CACHE_OFFSET', $l->g(737), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['GROUPS_CACHE_OFFSET'], 'SIZE' => 5, 'MAXLENGTH' => 6, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('GROUPS_CACHE_REVALIDATE', $l->g(738), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['GROUPS_CACHE_REVALIDATE'], 'SIZE' => 5, 'MAXLENGTH' => 6, 'JAVASCRIPT' => $numeric), '', '', $sup1);
@@ -613,9 +623,10 @@ function pageserveur($form_name) {
         'SESSION_VALIDITY_TIME' => 'SESSION_VALIDITY_TIME',
         'INVENTORY_ON_STARTUP' => 'INVENTORY_ON_STARTUP');
     $values = look_config_default_values($champs);
-    if (isset($champs['AUTO_DUPLICATE_LVL']))
-    //on utilise la fonction pour connaître les cases cochées correspondantes au chiffre en base de AUTO_DUPLICATE_LVL
+    if (isset($champs['AUTO_DUPLICATE_LVL'])) {
+        //on utilise la fonction pour connaître les cases cochées correspondantes au chiffre en base de AUTO_DUPLICATE_LVL
         $check = auto_duplicate_lvl_poids($values['ivalue']['AUTO_DUPLICATE_LVL'], 1);
+    }
     debut_tab();
     ligne('LOGLEVEL', $l->g(416), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOGLEVEL']));
     ligne('PROLOG_FREQ', $l->g(564), 'input', array('END' => $l->g(730), 'VALUE' => $values['ivalue']['PROLOG_FREQ'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), $sup1);
@@ -652,18 +663,20 @@ function pageinventory($form_name) {
     if (isset($champs['INVENTORY_VALIDITY'])) {
         $validity = $values['ivalue']['INVENTORY_VALIDITY'];
         //gestion des différentes valeurs de l'ipdiscover
-        if ($values['ivalue']['INVENTORY_VALIDITY'] != 0)
+        if ($values['ivalue']['INVENTORY_VALIDITY'] != 0) {
             $values['ivalue']['INVENTORY_VALIDITY'] = 'ON';
-        else
+        } else {
             $values['ivalue']['INVENTORY_VALIDITY'] = 'OFF';
+        }
     }
 
-    if ($values['ivalue']['FREQUENCY'] == 0 && isset($values['ivalue']['FREQUENCY']))
+    if ($values['ivalue']['FREQUENCY'] == 0 && isset($values['ivalue']['FREQUENCY'])) {
         $optvalueselected = 'ALWAYS';
-    elseif ($values['ivalue']['FREQUENCY'] == -1)
+    } elseif ($values['ivalue']['FREQUENCY'] == -1) {
         $optvalueselected = 'NEVER';
-    else
+    } else {
         $optvalueselected = 'CUSTOM';
+    }
     debut_tab();
     ligne('FREQUENCY', $l->g(494), 'radio', array('ALWAYS' => $l->g(485), 'NEVER' => $l->g(486), 'CUSTOM' => $l->g(487), 'VALUE' => $optvalueselected), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['ivalue']['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
     ligne('INVENTORY_DIFF', $l->g(741), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_DIFF']));
@@ -700,10 +713,11 @@ function pageipdiscover($form_name) {
     if (isset($champs['IPDISCOVER'])) {
         $ipdiscover = $values['ivalue']['IPDISCOVER'];
         //gestion des différentes valeurs de l'ipdiscover
-        if ($values['ivalue']['IPDISCOVER'] != 0)
+        if ($values['ivalue']['IPDISCOVER'] != 0) {
             $values['ivalue']['IPDISCOVER'] = 'ON';
-        else
+        } else {
             $values['ivalue']['IPDISCOVER'] = 'OFF';
+        }
     }
     debut_tab();
     ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
@@ -729,15 +743,17 @@ function pageredistrib($form_name) {
         $priority[$i] = $i;
         $i++;
     }
-    if (isset($values['tvalue']['DOWNLOAD_REP_CREAT']))
+    if (isset($values['tvalue']['DOWNLOAD_REP_CREAT'])) {
         $select_rep_creat = 'CUSTOM';
-    else
+    } else {
         $select_rep_creat = 'DEFAULT';
+    }
 
-    if (isset($values['ivalue']['DOWNLOAD_REDISTRIB']))
+    if (isset($values['ivalue']['DOWNLOAD_REDISTRIB'])) {
         $radio_redistrib = $values['ivalue']['DOWNLOAD_REDISTRIB'];
-    else
+    } else {
         $radio_redistrib = 'ON';
+    }
 
     debut_tab();
     ligne('DOWNLOAD_REDISTRIB', $l->g(1181), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $radio_redistrib));
@@ -843,20 +859,16 @@ function pageConnexion($form_name) {
 function pagesnmp($form_name) {
     global $l, $numeric, $sup1, $pages_refs;
     //what ligne we need?
-    /* 	$champs=array('SNMP_COMMUN%'=>'SNMP_COMMUN_%');
-      $list=array();
-      $values=look_config_default_values($champs,'YES'); */
-    //	$list=$values['tvalue'];
     $champs = array('SNMP' => 'SNMP', 'SNMP_INVENTORY_DIFF' => 'SNMP_INVENTORY_DIFF');
     $values = look_config_default_values($champs);
-    if (isset($values['tvalue']['SNMP_DIR']))
+    if (isset($values['tvalue']['SNMP_DIR'])) {
         $select_rep_creat = 'CUSTOM';
-    else
+    } else {
         $select_rep_creat = 'DEFAULT';
+    }
     debut_tab();
     ligne('SNMP', $l->g(1137), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP']));
     ligne('SNMP_INVENTORY_DIFF', $l->g(1214), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP_INVENTORY_DIFF']));
-//	ligne('SNMP_COMMUN',$l->g(1199),'list',array('VALUE'=>$list,'END'=>"<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=SNMP_COMMUN&nb_field=217&new_field=49\",\"SNMP_COMMUN\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>"));	
     fin_tab($form_name);
 }
 
@@ -875,9 +887,9 @@ function pagesplugin($form_name) {
 
 function pageswol($form_name) {
     global $l;
-    $numeric_semicolon = "onKeyPress='return scanTouche(event,/[0-9 ,]/)' 
+    $numeric_semicolon = "onKeyPress='return scanTouche(event,/[0-9 ,]/)'
 		  onkeydown='convertToUpper(this)'
-		  onkeyup='convertToUpper(this)' 
+		  onkeyup='convertToUpper(this)'
 		  onblur='convertToUpper(this)'
 		  onclick='convertToUpper(this)'";
     $champs = array('WOL_PORT' => 'WOL_PORT', 'WOL_BIOS_PASSWD' => 'WOL_BIOS_PASSWD');
@@ -885,10 +897,11 @@ function pageswol($form_name) {
 
     if (isset($values['tvalue']['WOL_BIOS_PASSWD'])
             and $values['tvalue']['WOL_BIOS_PASSWD'] != ''
-            and $values['tvalue']['WOL_BIOS_PASSWD'] != '0')
+            and $values['tvalue']['WOL_BIOS_PASSWD'] != '0') {
         $wol_passwd = 'ON';
-    else
+    } else {
         $wol_passwd = 'OFF';
+    }
 
     debut_tab();
 
@@ -904,7 +917,6 @@ function pagesdev($form_name) {
     $values = look_config_default_values($champs);
     debut_tab();
     ligne('USE_NEW_SOFT_TABLES', 'Utilisation tables de soft OCS v2.1', 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['USE_NEW_SOFT_TABLES']));
-
 
     fin_tab($form_name);
 }

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -31,10 +31,12 @@ $protectedPost = $temp_post;
 if (isset($protectedPost["VALID_END"])) {
     //configure description of this package
     $description_details = $protectedPost['DESCRIPTION'];
-    if (isset($protectedPost['TYPE_PACK']) && $protectedPost['TYPE_PACK'] != '')
+    if (isset($protectedPost['TYPE_PACK']) && $protectedPost['TYPE_PACK'] != '') {
         $description_details .= "  [Type=" . $protectedPost['TYPE_PACK'] . "]";
-    if (isset($protectedPost['VISIBLE']) && $protectedPost['VISIBLE'] != '')
+    }
+    if (isset($protectedPost['VISIBLE']) && $protectedPost['VISIBLE'] != '') {
         $description_details .= "  [VISIBLE=" . $protectedPost['VISIBLE'] . "]";
+    }
 
     $sql_details = array('document_root' => $protectedPost['document_root'],
         'timestamp' => $protectedPost['timestamp'],
@@ -65,7 +67,6 @@ if (isset($protectedPost["VALID_END"])) {
     create_pack($sql_details, $info_details);
 
     if ($protectedPost['REDISTRIB_USE'] == 1) {
-
         $timestamp_redistrib = time();
         $server_dir = $protectedPost['download_rep_creat'];
         //create zip file for redistribution servers
@@ -153,16 +154,18 @@ if (isset($protectedPost['valid'])) {
     }
     //file not exist
     else {
-        if ($protectedPost['ACTION'] != 'EXECUTE')
+        if ($protectedPost['ACTION'] != 'EXECUTE') {
             $error = $l->g(436) . " " . $_FILES["teledeploy_file"]["tmp_name"];
+        }
     }
 
     //the package name is exist in database?
     $verifN = "SELECT fileid FROM download_available WHERE name='%s'";
     $argverifN = $protectedPost["NAME"];
     $resN = mysql2_query_secure($verifN, $_SESSION['OCS']["readServer"], $argverifN);
-    if (mysqli_num_rows($resN) != 0)
+    if (mysqli_num_rows($resN) != 0) {
         $error = $l->g(551);
+    }
 
     if ($error) {
         msg_error($error);
@@ -204,11 +207,9 @@ if (isset($protectedPost['valid'])) {
 				}
 
 				msg_trait(msg);
-
 			}
 
 			function msg_trait(msg){
-
 				if (msg != ''){
 					alert ('" . $l->g(1001) . "');
 					return false;
@@ -216,9 +217,7 @@ if (isset($protectedPost['valid'])) {
 						pag(\"END\",\"VALID_END\",\"" . $form_name . "\");
 						return true;
 					}
-
 			}
-
 		</script>";
 
         //get the file
@@ -272,12 +271,13 @@ if (!$protectedPost) {
     //get timestamp
     $protectedPost['timestamp'] = time();
 
-    foreach ($default_value as $key => $value)
+    foreach ($default_value as $key => $value) {
         $protectedPost[$key] = $value;
+    }
     $val_document_root = look_config_default_values(array('DOWNLOAD_PACK_DIR'));
-    if (isset($val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']))
+    if (isset($val_document_root["tvalue"]['DOWNLOAD_PACK_DIR'])) {
         $document_root = $val_document_root["tvalue"]['DOWNLOAD_PACK_DIR'] . "/download/";
-    else {
+    } else {
         //if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
         $document_root = VARLIB_DIR . '/download/';
     }
@@ -303,15 +303,12 @@ if (!$protectedPost) {
 echo "<input type='hidden' name='document_root' value='" . $protectedPost['document_root'] . "'>
 	 <input type='hidden' id='timestamp' name='timestamp' value='" . $protectedPost['timestamp'] . "'>";
 
-
 echo "<script language='javascript'>
-
 		function changeLabelAction(){
-			
 		    var displayText = {'EXECUTE' : '" . $l->g(444) . "', 'STORE' : '" . $l->g(445) . "', 'LAUNCH' : '" . $l->g(446) . "'};
 			var select = $(\"#ACTION\");
 			var label = $(\"label[for='ACTION_INPUT']\");
-			
+
 			switch(select.val()){
 				case 'EXECUTE':
 					label.html(displayText.EXECUTE);
@@ -335,9 +332,6 @@ echo "<script language='javascript'>
 			champs_REDISTRIB_USE=new Array('REDISTRIB_PRIORITY');
 			champs_NOTIFY_USER=['NOTIFY_TEXT','NOTIFY_COUNTDOWN','NOTIFY_CAN_ABORT','NOTIFY_CAN_DELAY'];
 			champs_NEED_DONE_ACTION=new Array('NEED_DONE_ACTION_TEXT');
-
-
-
 
 			for (var n = 0; n < champs.length; n++)
 			{
@@ -381,7 +375,6 @@ echo "<script language='javascript'>
 					msg='NULL';
 				}
 				 document.getElementById(champs_ACTION[n]).style.backgroundColor = '';
-
 			}
 
 			for (var n = 0; n < champs_REDISTRIB_USE.length; n++)
@@ -426,7 +419,6 @@ echo "<div ";
 if ($protectedPost['valid'])
     echo " style='display:none;'";
 echo ">";
-
 
 $arrayName = array(
     "os" => $l->g(25),
@@ -483,7 +475,6 @@ $arrayDisplayValue = array(
     )
 );
 
-
 formGroup('text', 'NAME', $arrayName['name'], $config_input['SIZE'], $config_input['MAXLENGTH'], $protectedPost['NAME']);
 
 formGroup('text', 'DESCRIPTION', $arrayName['description'], $config_input['MAXLENGTH'], $protectedPost['DESCRIPTION']);
@@ -504,10 +495,12 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     $sql = "select NAME,TVALUE from config where NAME ='DOWNLOAD_REP_CREAT'
 		  union select NAME,TVALUE from config where NAME ='DOWNLOAD_SERVER_DOCROOT'";
     $resdefaultvalues = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-    while ($item = mysqli_fetch_object($resdefaultvalues))
+    while ($item = mysqli_fetch_object($resdefaultvalues)) {
         $default[$item->NAME] = $item->TVALUE;
-    if (!$default['DOWNLOAD_REP_CREAT'])
+    }
+    if (!$default['DOWNLOAD_REP_CREAT']) {
         $default['DOWNLOAD_REP_CREAT'] = $_SERVER["DOCUMENT_ROOT"] . "/download/server/";
+    }
 }
 ?>
 <script type="text/javascript">
@@ -564,4 +557,3 @@ formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input
 <?php
 echo close_form();
 ?>
-

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -42,7 +42,8 @@ if ($plugin) {
     echo '<div class="col col-md-10" >';
     echo $stats;
     echo "</div>";
-} else
+} else {
     msg_warning($l->g(1262));
+}
 echo close_form();
 ?>

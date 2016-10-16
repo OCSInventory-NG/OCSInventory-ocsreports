@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -23,7 +23,7 @@
 $tab_dont_see = array(527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545);
 
 class language {
-    protected $tableauMots;    // tableau contenant tous les mots du fichier 	
+    protected $tableauMots;    // tableau contenant tous les mots du fichier
     protected $plug_language;
 
     function language($language, $plugin = '') { // constructeur
@@ -42,20 +42,8 @@ class language {
                     fclose($file);
                     echo MAIN_SECTIONS_DIR . $key . '/language/' . $language . ".txt<br>";
                 }
-                /* if ($file) {	
-                  while (!feof($file)) {
-                  $val = fgets($file, 1024);
-                  $tok1   =  rtrim(strtok($val," "));
-                  $tok2   =  rtrim(strtok(""));
-                  $this->plug_language[$tok1] = $tok2;
-                  }
-                  fclose($file);
-                  } */
             }
-            //echo $_SESSION['OCS']['main_sections_dir'].$key.'/language/'.$language.".txt";
-            //p($rep_list);
         }
-
 
         $language_file = PLUGINS_DIR . "language/" . $language . "/" . $language . ".txt";
         if (file_exists($language_file)) {
@@ -74,16 +62,18 @@ class language {
 
     function g($i) {
         global $tab_dont_see;
-        //If word doesn't exist for language, return default english word 
+        //If word doesn't exist for language, return default english word
         if ($this->tableauMots[$i] == NULL) {
             $defword = new language('english');
             $word = $defword->tableauMots[$i];
-        } else
+        } else {
             $word = $this->tableauMots[$i];
+        }
         //language mode
         if ($_SESSION['OCS']['MODE_LANGUAGE'] == "ON") {
-            if (!in_array($i, $tab_dont_see))
+            if (!in_array($i, $tab_dont_see)) {
                 $_SESSION['OCS']['EDIT_LANGUAGE'][$i] = $word;
+            }
             $word .= "{" . $i . "}";
         }
         return stripslashes($word);
@@ -93,8 +83,9 @@ class language {
         if ($this->plug_language[$i] == NULL) {
             $defword = new language('english', 'plugin');
             $word = $defword->plug_language[$i];
-        } else
+        } else {
             $word = $this->plug_language[$i];
+        }
         return stripslashes($word);
     }
 

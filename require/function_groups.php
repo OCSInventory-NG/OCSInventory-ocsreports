@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -31,18 +31,19 @@ function all_groups($group_type) {
 					     WHERE deviceid = '_DOWNLOADGROUP_'";
     } else {
         if ($group_type == "STATIC") {
-            $reqGetId = "SELECT id,name FROM hardware,groups 
-					     WHERE groups.hardware_id=hardware.id 
+            $reqGetId = "SELECT id,name FROM hardware,groups
+					     WHERE groups.hardware_id=hardware.id
 							and deviceid = '_SYSTEMGROUP_'
 							and (request is null or trim(request) = '')
 						    and (xmldef  is null or trim(xmldef) = '')";
-            if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES"))
+            if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
                 $reqGetId .= " and workgroup = 'GROUP_4_ALL'";
-        }else {
-            $reqGetId = "SELECT id,name FROM hardware,groups 
-					     WHERE groups.hardware_id=hardware.id 
-							and deviceid = '_SYSTEMGROUP_'							
-							and ((request is not null and trim(request) != '') 
+            }
+        } else {
+            $reqGetId = "SELECT id,name FROM hardware,groups
+					     WHERE groups.hardware_id=hardware.id
+							and deviceid = '_SYSTEMGROUP_'
+							and ((request is not null and trim(request) != '')
 								or (xmldef is not null and trim(xmldef) != ''))";
         }
     }
@@ -66,13 +67,13 @@ function remove_of_group($id_group, $list_id) {
 
 //fonction de remplacement d'un groupe
 function replace_group($id_group, $list_id, $req, $group_type) {
-
     //static group?
     if ($group_type == 'STATIC') {
         $static = 1;
         $req = "";
-    } else
+    } else {
         $static = 0;
+    }
     //delete cache
     $sql_delcache = "DELETE FROM groups_cache WHERE group_id='%s'";
     $arg_delcache = $id_group;
@@ -88,22 +89,26 @@ function replace_group($id_group, $list_id, $req, $group_type) {
 //create group function
 function creat_group($name, $descr, $list_id, $req, $group_type) {
     global $l;
-    if (trim($name) == "")
+    if (trim($name) == "") {
         return array('RESULT' => 'ERROR', 'LBL' => $l->g(638));
-    if (trim($descr) == "")
+    }
+    if (trim($descr) == "") {
         return array('RESULT' => 'ERROR', 'LBL' => $l->g(1234));
+    }
     //static group?
     if ($group_type == 'STATIC') {
         $static = 1;
         $req = "";
-    } else
+    } else {
         $static = 0;
+    }
     //does $name group already exists
     $reqGetId = "SELECT id FROM hardware WHERE name='%s' and deviceid = '_SYSTEMGROUP_'";
     $argGetId = $name;
     $resGetId = mysql2_query_secure($reqGetId, $_SESSION['OCS']["readServer"], $argGetId);
-    if ($valGetId = mysqli_fetch_array($resGetId))
+    if ($valGetId = mysqli_fetch_array($resGetId)) {
         return array('RESULT' => 'ERROR', 'LBL' => $l->g(621));
+    }
 
     //insert new group
     $sql_insert = "INSERT INTO hardware(deviceid,name,description,lastdate) VALUES( '_SYSTEMGROUP_' , '%s', '%s', NOW())";
@@ -132,7 +137,7 @@ function add_computers_cache($list_id, $groupid, $static) {
     require_once('function_computers.php');
     //Generating cache
     if (lock($groupid)) {
-        $reqCache = "INSERT IGNORE INTO groups_cache(hardware_id, group_id, static) 
+        $reqCache = "INSERT IGNORE INTO groups_cache(hardware_id, group_id, static)
 						SELECT id, %s, %s from hardware where id in ";
         $argCache = array($groupid, $static);
         $cache = mysql2_prepare($reqCache, $argCache, $list_id);
@@ -149,7 +154,6 @@ function generate_xml($req) {
     if (isset($req[0])) {
         //création du début du xml
         $xml = "<xmldef>";
-        //echo "xml=".$xml;
         $i = 0;
         //concaténation des différentes requetes
         while (isset($req[$i])) {
@@ -157,8 +161,9 @@ function generate_xml($req) {
             $i++;
         }
         $xml .= "</xmldef>";
-    } else //si aucune requete n'exite, on renvoie un xml vide
+    } else { //si aucune requete n'exite, on renvoie un xml vide
         $xml = "";
+    }
 
     return $xml;
 }
@@ -170,12 +175,13 @@ function clean($txt) {
 }
 
 function delete_group($id_supp) {
-
     global $l;
-    if ($id_supp == "")
+    if ($id_supp == "") {
         return array('RESULT' => 'ERROR', 'LBL' => "ID IS NULL");
-    if (!is_numeric($id_supp))
+    }
+    if (!is_numeric($id_supp)) {
         return array('RESULT' => 'ERROR', 'LBL' => "ID IS NOT NUMERIC");
+    }
 
     $sql_verif_group = "select id from hardware where id=%s and DEVICEID='_SYSTEMGROUP_' or DEVICEID='_DOWNLOADGROUP_'";
     $arg_verif_group = $id_supp;
@@ -184,15 +190,18 @@ function delete_group($id_supp) {
         deleteDid($arg_verif_group);
         addLog("DELETE GROUPE", $id_supp);
         return array('RESULT' => 'OK', 'LBL' => '');
-    } else
+    } else {
         return array('RESULT' => 'ERROR', 'LBL' => $l->g(623));
+    }
 }
 
 function group_4_all($id_group) {
-    if ($id_group == "")
+    if ($id_group == "") {
         return array('RESULT' => 'ERROR', 'LBL' => "ID IS NULL");
-    if (!is_numeric($id_group))
+    }
+    if (!is_numeric($id_group)) {
         return array('RESULT' => 'ERROR', 'LBL' => "ID IS NOT NUMERIC");
+    }
 
     $sql_verif = "select WORKGROUP from hardware where id=%s";
     $arg_verif = $id_group;

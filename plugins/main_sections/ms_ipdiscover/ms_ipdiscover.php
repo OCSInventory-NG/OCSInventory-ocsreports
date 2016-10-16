@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -30,12 +30,11 @@ if (AJAX) {
     $ajax = false;
 }
 
-
-
 require_once('require/function_ipdiscover.php');
 require_once("require/function_graphic.php");
-if (!isset($_SESSION['OCS']["mac"]))
+if (!isset($_SESSION['OCS']["mac"])) {
     loadMac();
+}
 
 printEntete($l->g(312));
 
@@ -69,8 +68,9 @@ if (isset($_SESSION['OCS']["ipdiscover"])) {
     </div>
 
     <?php
-} else
+} else {
     msg_info(mb_strtoupper($l->g(1134)));
+}
 
 if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') {
 
@@ -85,33 +85,33 @@ if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') 
 					  ident.c as 'IDENTIFIE',
 					  CASE WHEN ident.c IS NULL and ipdiscover.c IS NULL THEN 100 WHEN ident.c IS NULL THEN 0 ELSE round(100-(non_ident.c*100/(ident.c+non_ident.c)),1) END as 'pourcentage'
 			  from (SELECT COUNT(DISTINCT hardware_id) as c,'IPDISCOVER' as TYPE,tvalue as RSX
-					FROM devices 
+					FROM devices
 					WHERE name='IPDISCOVER' and tvalue in  ";
     $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
-    $arg['SQL'] .= " GROUP BY tvalue) 
+    $arg['SQL'] .= " GROUP BY tvalue)
 				ipdiscover right join
 				   (SELECT count(distinct(hardware_id)) as c,'INVENTORIE' as TYPE,ipsubnet as RSX
 					FROM networks left join subnet on networks.ipsubnet=subnet.netid
 					WHERE ipsubnet in  ";
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
-    $arg['SQL'] .= " and status='Up' GROUP BY ipsubnet) 
+    $arg['SQL'] .= " and status='Up' GROUP BY ipsubnet)
 				inv on ipdiscover.RSX=inv.RSX left join
 					(SELECT COUNT(DISTINCT mac) as c,'IDENTIFIE' as TYPE,netid as RSX
-					FROM netmap 
-					WHERE mac IN (SELECT DISTINCT(macaddr) FROM network_devices) 
+					FROM netmap
+					WHERE mac IN (SELECT DISTINCT(macaddr) FROM network_devices)
 						and netid in  ";
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
-    $arg['SQL'] .= " GROUP BY netid) 
+    $arg['SQL'] .= " GROUP BY netid)
 				ident on ipdiscover.RSX=ident.RSX left join
 					(SELECT COUNT(DISTINCT mac) as c,'NON IDENTIFIE' as TYPE,netid as RSX
 					FROM netmap n
 					LEFT JOIN networks ns ON ns.macaddr=n.mac
-					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
-						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid) 
+					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)
+						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
 						and n.netid in  ";
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
-    $arg['SQL'] .= " GROUP BY netid) 
-				non_ident on non_ident.RSX=inv.RSX 
+    $arg['SQL'] .= " GROUP BY netid)
+				non_ident on non_ident.RSX=inv.RSX
 				) toto";
     $tab_options['ARG_SQL'] = $arg['ARG'];
     $list_fields = array('LBL_RSX' => 'LBL_RSX',
@@ -120,9 +120,9 @@ if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') 
         'NON_INVENTORIE' => 'NON_INVENTORIE',
         'IPDISCOVER' => 'IPDISCOVER',
         'IDENTIFIE' => 'IDENTIFIE');
-    if ($_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES")
-    //$list_fields['SUP']='ID';	
+    if ($_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES") {
         $list_fields['PERCENT_BAR'] = 'pourcentage';
+    }
     $table_name = "IPDISCOVER";
     $tab_options['table_name'] = $table_name;
     $default_fields = $list_fields;
@@ -155,8 +155,6 @@ if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') 
 
     $tab_options['REPLACE_WITH_CONDITION']['PERCENT_BAR']['&nbsp'] = array('IDENTIFIE' => '0', 'NON_INVENTORIE' => '100');
 
-
-
     $tab_options['LBL']['LBL_RSX'] = $l->g(863);
     $tab_options['LBL']['RSX'] = $l->g(869);
     $tab_options['LBL']['INVENTORIE'] = $l->g(364);
@@ -173,7 +171,6 @@ if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') 
         $tab_options['POPUP_SIZE']['LBL_RSX'] = "width=700,height=500";
     }
 
-
     $tab_options['NO_LIEN_CHAMP']['IDENTIFIE'] = array(0);
     $tab_options['NO_TRI']['LBL_RSX'] = 'LBL_RSX';
     $val_count = count_noinv_network_devices($dpt[$protectedPost['DPT_CHOISE']]);
@@ -184,7 +181,6 @@ if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') 
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
 echo close_form();
-
 
 if ($ajax) {
     ob_end_clean();

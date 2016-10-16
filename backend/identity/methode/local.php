@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -23,12 +23,11 @@
 /* page de récupération en local des droits
  * et des tags sur lesquels l'utilisateur
  * a des droits
- * 
+ *
  * on doit renvoyer un tableau array('accesslvl'=>%%,'tag_show'=>array(%,%,%,%,%...))
  * si une erreur est rencontrée, on retourne un code erreur
- * 
+ *
  */
-
 
 require_once ('require/function_files.php');
 //nom de la page
@@ -65,8 +64,9 @@ if (isset($rowOp->accesslvl)) {
         while ($row = mysqli_fetch_object($res)) {
             $list_tag[$row->tag] = $row->tag;
         }
-        if (!isset($list_tag))
+        if (!isset($list_tag)) {
             $ERROR = $l->g(893);
+        }
     } elseif ($restriction != 'NO') {
         $ERROR = $restriction;
     }

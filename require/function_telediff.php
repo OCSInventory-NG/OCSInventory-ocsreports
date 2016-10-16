@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -56,8 +56,8 @@ function javascript_pack() {
 
 	function maj(name,other_field,siz){
 		if (document.getElementById(name).value != '' &&  document.getElementById(name).value != 0){
-			if ( Math.ceil(document.getElementById(name).value*1024) < siz)							
-			document.getElementById(other_field).value = Math.ceil( siz / (Math.ceil(document.getElementById(name).value*1024)) );	
+			if ( Math.ceil(document.getElementById(name).value*1024) < siz)
+			document.getElementById(other_field).value = Math.ceil( siz / (Math.ceil(document.getElementById(name).value*1024)) );
 			else{
 			document.getElementById(other_field).value = 1;
 			document.getElementById(name).value=Math.ceil(siz/1024)
@@ -89,15 +89,17 @@ function champ_select_block($name, $input_name, $input_cache) {
         }
         $champs .= "active(this.value + \"_div\", true);";
     } else {
-        foreach ($input_cache as $key => $value)
+        foreach ($input_cache as $key => $value) {
             $champs .= "active(\"" . $key . "_div\", this.value==\"" . $value . "\");";
+        }
     }
 
     $champs .= "'><option value=''></option>";
     foreach ($name as $key => $value) {
         $champs .= "<option value=\"" . $key . "\"";
-        if ($protectedPost[$input_name] == $key)
+        if ($protectedPost[$input_name] == $key) {
             $champs .= " selected";
+        }
         $champs .= ">" . $value . "</option>";
     }
     $champs .= "</select></div>";
@@ -132,8 +134,9 @@ function desactive_option($name, $list_id, $packid) {
         $sql_desactive .= " and hardware_id in ";
         $sql = mysql2_prepare($sql_desactive, $arg_desactive, $list_id);
         $res_desactive = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
-    } else
+    } else {
         $res_desactive = mysql2_query_secure($sql_desactive, $_SESSION['OCS']["writeServer"], $arg_desactive, $l->g(512));
+    }
     return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) );
 }
 
@@ -148,7 +151,6 @@ function active_option($name, $list_id, $packid, $tvalue = '') {
         $sql_active .= "'%s' from hardware where id in ";
         $arg_active = array($name, $packid, $tvalue);
     }
-    //$lbl_log=$l->g(601)." ".$id_pack." => ".$list_id;
     $sql = mysql2_prepare($sql_active, $arg_active, $list_id);
     $res_active = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
     return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) );
@@ -198,9 +200,9 @@ function active_serv($list_id, $packid, $id_rule) {
         }
         $nb_exist += $result['nb_exist'];
 
-        if ($result['not_match'] == "")
+        if ($result['not_match'] == "") {
             break;
-        else {
+        } else {
             unset($list_id);
             $list_id = $result['not_match'];
         }
@@ -220,12 +222,14 @@ function loadInfo($serv, $tstamp) {
 
     $fname = $serv . "/" . $tstamp . "/info";
     $info = @file_get_contents($fname);
-    if (!$info)
+    if (!$info) {
         return false;
+    }
 
     @preg_match_all("/((?:\d|\w)+)=\"((?:\d|\w)+)\"/", $info, $resul);
-    if (!$resul)
+    if (!$resul) {
         return false;
+    }
     $noms = array_flip($resul[1]);
     foreach ($noms as $nom => $int) {
         $noms[$nom] = $resul[2][$int];
@@ -235,7 +239,7 @@ function loadInfo($serv, $tstamp) {
 
 function activ_pack($fileid, $https_server, $file_serv) {
     global $l;
-//checking if corresponding available exists
+    //checking if corresponding available exists
     $reqVerif = "SELECT * FROM download_available WHERE fileid=%s";
     $argVerif = $fileid;
     if (!mysqli_num_rows(mysql2_query_secure($reqVerif, $_SESSION['OCS']["readServer"], $argVerif))) {
@@ -266,8 +270,9 @@ function activ_pack_server($fileid, $https_server, $id_server_group) {
 
     //exclu them
     while ($valDoub = mysqli_fetch_array($resDoub)) {
-        if ($valDoub['SERVER_ID'] != "")
+        if ($valDoub['SERVER_ID'] != "") {
             $listDoub[] = $valDoub['SERVER_ID'];
+        }
 
         //Update https server location if different from mysql database
         if ($valDoub['INFO_LOC'] != $https_server) {
@@ -323,8 +328,9 @@ function del_pack($fileid) {
     $info = look_config_default_values('DOWNLOAD_PACK_DIR');
     $document_root = $info['tvalue']['DOWNLOAD_PACK_DIR'];
     //if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
-    if (!isset($document_root))
+    if (!isset($document_root)) {
         $document_root = VARLIB_DIR;
+    }
 
     if (@opendir($document_root . "/download/" . $fileid)) {
         //delete all files from this package
@@ -354,7 +360,6 @@ function del_pack($fileid) {
 
 // Definitly remove packet from database
 function remove_packet($fileid) {
-
     //delete info of this pack
     $reqDelAvailable = "DELETE FROM `download_available` WHERE `FILEID` = '%s'";
     $argDelAvailable = $fileid;
@@ -363,26 +368,29 @@ function remove_packet($fileid) {
 }
 
 function recursive_remove_directory($directory, $empty = FALSE) {
-    if (substr($directory, -1) == '/')
+    if (substr($directory, -1) == '/') {
         $directory = substr($directory, 0, -1);
+    }
 
-    if (!file_exists($directory) || !is_dir($directory))
+    if (!file_exists($directory) || !is_dir($directory)) {
         return FALSE;
-    elseif (is_readable($directory)) {
+    } elseif (is_readable($directory)) {
         $handle = opendir($directory);
         while (FALSE !== ($item = readdir($handle))) {
             if ($item != '.' && $item != '..') {
                 $path = $directory . '/' . $item;
-                if (is_dir($path))
+                if (is_dir($path)) {
                     recursive_remove_directory($path);
-                else
+                } else {
                     unlink($path);
+                }
             }
         }
         closedir($handle);
         if ($empty == FALSE) {
-            if (!rmdir($directory))
+            if (!rmdir($directory)) {
                 return FALSE;
+            }
         }
     }
     return TRUE;
@@ -420,13 +428,14 @@ function create_pack($sql_details, $info_details) {
 
         unlink($sql_details['document_root'] . $sql_details['timestamp'] . "/tmp");
     } else {
-        if (!file_exists($sql_details['document_root'] . $sql_details['timestamp']))
+        if (!file_exists($sql_details['document_root'] . $sql_details['timestamp'])) {
             mkdir($sql_details['document_root'] . $sql_details['timestamp']);
+        }
     }
-    //if $info_details['DIGEST'] is null =>  no file to deploy, only execute commande in info file
-    // so nb_frag=0
-    if (!isset($info_details['DIGEST']) || $info_details['DIGEST'] == "")
+    //if $info_details['DIGEST'] is null =>  no file to deploy, only execute commande in info file so nb_frag=0
+    if (!isset($info_details['DIGEST']) || $info_details['DIGEST'] == "") {
         $sql_details['nbfrags'] = 0;
+    }
 
     //create info
     $info = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -438,12 +447,15 @@ function create_pack($sql_details, $info_details) {
             "FRAGS=\"" . $sql_details['nbfrags'] . "\" " .
             "DIGEST_ALGO=\"" . $info_details['DIGEST_ALGO'] . "\" " .
             "DIGEST_ENCODE=\"" . $info_details['DIGEST_ENCODE'] . "\" ";
-    if ($info_details['ACT'] == 'STORE')
+    if ($info_details['ACT'] == 'STORE') {
         $info .= "PATH=\"" . $info_details['PATH'] . "\" ";
-    if ($info_details['ACT'] == 'LAUNCH')
+    }
+    if ($info_details['ACT'] == 'LAUNCH') {
         $info .= "NAME=\"" . $info_details['NAME'] . "\" ";
-    if ($info_details['ACT'] == 'EXECUTE')
+    }
+    if ($info_details['ACT'] == 'EXECUTE') {
         $info .= "COMMAND=\"" . $info_details['COMMAND'] . "\" ";
+    }
 
     $info .= "NOTIFY_USER=\"" . $info_details['NOTIFY_USER'] . "\" " .
             "NOTIFY_TEXT=\"" . $info_details['NOTIFY_TEXT'] . "\" " .
@@ -476,18 +488,19 @@ function create_pack($sql_details, $info_details) {
 
 function crypt_file($dir_FILES, $digest_algo, $digest_encod) {
     //crypt this file
-    if ($digest_algo == "SHA1")
+    if ($digest_algo == "SHA1") {
         $digest = sha1_file($dir_FILES, true);
-    else
+    } else {
         $digest = md5_file($dir_FILES);
+    }
 
-    if ($digest_encod == "Base64")
+    if ($digest_encod == "Base64") {
         $digest = base64_encode($digest);
+    }
     return $digest;
 }
 
 function creat_temp_file($directory, $dir_FILES) {
-
     global $l;
 
     if (DEMO) {
@@ -495,22 +508,22 @@ function creat_temp_file($directory, $dir_FILES) {
     }
 
     if (!file_exists($directory . "/tmp")) {
-        if (!@mkdir($directory)
-                or ! copy($dir_FILES, $directory . "/tmp")
-        )
+        if (!@mkdir($directory) || !copy($dir_FILES, $directory . "/tmp")) {
             msg_error("ERROR: can't create or write in " . $directory . " folder, please refresh when fixed.<br>(or try disabling php safe mode)");
+        }
     }
 }
 
-//$val_details['priority'],$val_details['fragments'],$val_details['size']
 function tps_estimated($val_details) {
     global $l;
-    if ($val_details == "")
+    if ($val_details == "") {
         return;
+    }
     /*     * *******************************DETAIL SUR LE TEMPS APPROXIMATIF DE TELEDEPLOIEMENT**************************************** */
     looking4config();
-    if ($val_details['priority'] == 0)
+    if ($val_details['priority'] == 0) {
         $val_details['priority'] = 1;
+    }
     //durée complète d'un cycle en seconde
     $tps_cycle = $_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY'] * $_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'];
     //nbre de téléchargement de fragment par cycle
@@ -535,15 +548,17 @@ function tps_estimated($val_details) {
     $minutes = floor($tps_total / 60);
     $tps_total -= $minutes * 60;
     $tps = $heure . "h " . $minutes . "min ";
-    if ($heure == 0 && $minutes == 0)
+    if ($heure == 0 && $minutes == 0) {
         $tps .= floor($tps_total) . " " . $l->g(511);
+    }
     return $tps;
 }
 
 function found_info_pack($id) {
     global $l;
-    if (!is_numeric($id))
+    if (!is_numeric($id)) {
         return array('ERROR' => $l->g(1129));
+    }
 
     $sql = "select NAME,PRIORITY,FRAGMENTS,SIZE,OSNAME,COMMENT from download_available where fileid=%s";
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $id);

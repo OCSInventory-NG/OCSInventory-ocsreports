@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -31,8 +31,9 @@ if (AJAX) {
     $ajax = false;
 }
 print_item_header($l->g(1224));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $table_name = "sd_trays";
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
@@ -41,7 +42,6 @@ $list_fields = array($l->g(49) => 'NAME',
     $l->g(53) => 'DESCRIPTION',
     $l->g(1104) => 'LEVEL',
     $l->g(1225) => 'MAXCAPACITY');
-//$list_fields['SUP']= 'ID';
 $sql = prepare_sql_tab($list_fields);
 $list_fields["PERCENT_BAR"] = 'CAPACITY';
 $tab_options["replace_query_arg"]['CAPACITY'] = " round(100-(LEVEL*100/MAXCAPACITY)) ";

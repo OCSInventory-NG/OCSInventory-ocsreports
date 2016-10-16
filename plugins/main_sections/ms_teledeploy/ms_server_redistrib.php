@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -57,10 +57,12 @@ if ($_POST["supp"]) {
 //Modif server's machine
 if (isset($_POST['Valid_modif']) && isset($_POST['modif']) && $_POST['modif'] != "") {
     $default_values = look_config_default_values(array('DOWNLOAD_SERVER_URI', 'DOWNLOAD_SERVER_DOCROOT'));
-    if (trim($_POST['URL']) == "")
+    if (trim($_POST['URL']) == "") {
         $_POST['URL'] = $default_values['tvalue']['DOWNLOAD_SERVER_URI'];
-    if (trim($_POST['REP_STORE']) == "")
+    }
+    if (trim($_POST['REP_STORE']) == "") {
         $_POST['REP_STORE'] = $default_values['tvalue']['DOWNLOAD_SERVER_DOCROOT'];
+    }
 
     if ($_POST['modif'] != "ALL") {
 
@@ -78,12 +80,15 @@ if (isset($_POST['Valid_modif']) && isset($_POST['modif']) && $_POST['modif'] !=
 }
 //view of all group's machin
 if (isset($systemid)) {
-    if ($_POST['tri2'] == "")
+    if ($_POST['tri2'] == "") {
         $_POST['tri2'] = 1;
-    if (!(isset($_POST["pcparpage"])) && isset($_GET['res_pag']))
+    }
+    if (!(isset($_POST["pcparpage"])) && isset($_GET['res_pag'])) {
         $_POST["pcparpage"] = $_GET['res_pag'];
-    if (!(isset($_POST["page"])) && isset($_GET['page']))
+    }
+    if (!(isset($_POST["page"])) && isset($_GET['page'])) {
         $_POST["page"] = $_GET['page'];
+    }
     $form_name = 'nb_4_pag';
     echo open_form($form_name);
     $limit = nb_page($form_name);
@@ -101,10 +106,11 @@ if (isset($systemid)) {
     $sql .= " limit " . $limit["BEGIN"] . "," . $limit["END"];
     $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
     $i = 0;
-    if ($_POST['sens'] == "ASC")
+    if ($_POST['sens'] == "ASC") {
         $sens = "DESC";
-    else
+    } else {
         $sens = "ASC";
+    }
     while ($colname = mysqli_fetch_field($result)) {
         $col = $colname->name;
         $deb = "<a OnClick='tri(\"" . $col . "\",\"tri2\",\"" . $sens . "\",\"sens\",\"" . $form_name . "\")' >";
@@ -124,10 +130,11 @@ if (isset($systemid)) {
         $data2[$i]['URL'] = "http://" . $item->URL;
         $data2[$i]['REP_STORE'] = $item->ADD_REP;
         $data2[$i]['SUP'] = "<img src=image/delete-small.png OnClick='confirme(\"" . $item->NAME . "\",\"" . $item->ID . "\",\"" . $form_name . "\",\"supp\",\"" . $l->g(640) . " " . $l->g(644) . " \");'>";
-        if ($data2[$i]['IP_ADDR'] != "")
+        if ($data2[$i]['IP_ADDR'] != "") {
             $data2[$i]['MODIF'] = "<img src=image/modif_tab.png OnClick='pag(\"" . $i . "\",\"modif\",\"" . $form_name . "\")'>";
-        else
+        } else {
             $data2[$i]['MODIF'] = "";
+        }
         $i++;
     }
     $total = "<font color=red> (<b>" . $valCount['nb'] . " " . $l->g(652) . "</b>)</font>";
@@ -158,8 +165,9 @@ if (isset($systemid)) {
         if ($_POST['modif'] == "ALL") {
             $tab_hidden["modif"] = "ALL";
             $title = $l->g(692);
-        } else
+        } else {
             $title = $l->g(693) . " " . $data2[$_POST['modif']]['NAME'];
+        }
         $comment = $l->g(694);
         tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
             'title' => $title,

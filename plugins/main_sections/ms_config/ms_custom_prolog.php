@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -28,10 +28,11 @@ debut_tab(array('CELLSPACING' => '5',
     'BGCOLOR' => '#C7D9F5',
     'BORDERCOLOR' => '#9894B5'));
 
-if (!isset($optvalue['PROLOG_FREQ']))
+if (!isset($optvalue['PROLOG_FREQ'])) {
     $optvalueselected = 'SERVER DEFAULT';
-else
+} else {
     $optvalueselected = 'CUSTOM';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['CUSTOM'] = $l->g(487);
 $champ_value['SERVER DEFAULT'] = $l->g(488);
@@ -42,12 +43,13 @@ if (!isset($protectedGet['origine'])) {
 ligne("PROLOG_FREQ", $l->g(724), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['PROLOG_FREQ'], 'END' => $l->g(730), 'JAVASCRIPT' => $numeric));
 unset($champ_value);
 
-if (!isset($optvalue['INVENTORY_ON_STARTUP']))
+if (!isset($optvalue['INVENTORY_ON_STARTUP'])) {
     $optvalueselected = 'SERVER DEFAULT';
-elseif ($optvalue['INVENTORY_ON_STARTUP'] == 0)
+} elseif ($optvalue['INVENTORY_ON_STARTUP'] == 0) {
     $optvalueselected = 'OFF';
-elseif ($optvalue['INVENTORY_ON_STARTUP'] == 1)
+} elseif ($optvalue['INVENTORY_ON_STARTUP'] == 1) {
     $optvalueselected = 'ON';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['ON'] = 'ON';
 $champ_value['OFF'] = 'OFF';

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -22,14 +22,10 @@
  */
 
 /**
- * 
  * This class give basic functions for plugins developpers. (WIP)
- * 
- * @author Gillles Dubois
  */
 class plugins {
     // Unused ATM !
-
     protected $menus;
     protected $rights;
 
@@ -51,10 +47,10 @@ class plugins {
 
     /**
      * This function add a computer detail entry into the plugins.xml
-     * 
+     *
      * @param string $name : Name of the plugin
      * @param string $category : Category in cd details
-     * @param string $available (optional) : NULL per defaut (Don't use it if u don't know what this is supposed to do.) 
+     * @param string $available (optional) : NULL per defaut (Don't use it if u don't know what this is supposed to do.)
      */
     public function add_cd_entry($name, $category, $available = NULL) {
 
@@ -80,27 +76,22 @@ class plugins {
 
     /**
      * This function will remove the computer detail node with the id => cd_$name
-     * 
+     *
      * @param string $name : Name of the plugin
      */
     public function del_cd_entry($name) {
-
         $xmlfile = CD_CONFIG_DIR . "plugins.xml";
 
         if (file_exists($xmlfile)) {
             $xml = simplexml_load_file($xmlfile);
 
             foreach ($xml as $value) {
-
                 if ($value['id'] == "cd_" . $name) {
-
-                    //var_dump($value['id']);
                     $dom = dom_import_simplexml($value);
                     $dom->parentNode->removeChild($dom);
                 }
             }
 
-            //var_dump($xml->asXML());
             $xml->asXML($xmlfile);
         }
     }
@@ -108,7 +99,7 @@ class plugins {
     /**
      * This function create a menu or a submenu in OCS inventory.
      * As default, only super administrator profile can see the created menu.
-     * 
+     *
      * @param string $name : The name of the menu you want to crate
      * @param integer $label : You need to give a label to your menu, it's like a reference for OCS.
      * @param String $plugindirectory : Your plugin directory
@@ -118,7 +109,6 @@ class plugins {
 
         // add menu entry
         if ($menu == "") {
-
             $xmlfile = CONFIG_DIR . "main_menu.xml";
 
             if (file_exists($xmlfile)) {
@@ -133,7 +123,6 @@ class plugins {
                 $xml->asXML($xmlfile);
             }
         } else {
-
             $xmlfile = CONFIG_DIR . "main_menu.xml";
 
             if (file_exists($xmlfile)) {
@@ -150,11 +139,9 @@ class plugins {
         }
 
         // Add url entry for menu
-
         $xmlfile = CONFIG_DIR . "urls.xml";
 
         if (file_exists($xmlfile)) {
-
             $xml = simplexml_load_file($xmlfile);
 
             $urls = $xml->addChild("url");
@@ -165,10 +152,7 @@ class plugins {
             $xml->asXML($xmlfile);
         }
 
-
-
         // add permissions for menu
-
         $xmlfile = CONFIG_DIR . "profiles/sadmin.xml";
 
         if (file_exists($xmlfile)) {
@@ -179,10 +163,7 @@ class plugins {
             $xml->asXML($xmlfile);
         }
 
-
-
         // Add label entry
-
         $file = fopen(PLUGINS_DIR . "language/english/english.txt", "a+");
         fwrite($file, $label . " " . $displayname . "\n");
         fclose($file);
@@ -208,22 +189,16 @@ class plugins {
                 $mainmenu = $xml->xpath("/menu");
 
                 foreach ($mainmenu as $listmenu) {
-
                     foreach ($listmenu as $info) {
-
                         if ($info['id'] == "ms_" . $name) {
-
                             $dom = dom_import_simplexml($info);
                             $dom->parentNode->removeChild($dom);
                         }
                     }
                 }
-
-                //var_dump($xml->asXML());
                 $xml->asXML($xmlfile);
             }
         } else {
-
             $xmlfile = CONFIG_DIR . "main_menu.xml";
 
             if (file_exists($xmlfile)) {
@@ -232,45 +207,34 @@ class plugins {
                 $mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='" . $menu . "']/submenu");
 
                 foreach ($mainmenu as $submenu) {
-
                     foreach ($submenu as $info) {
-
                         if ($info['id'] == "ms_" . $name) {
-
                             $dom = dom_import_simplexml($info);
                             $dom->parentNode->removeChild($dom);
                         }
                     }
                 }
-
-                //var_dump($xml->asXML());
                 $xml->asXML($xmlfile);
             }
         }
 
 
         // Remove Url node
-
         $xmlfile = CONFIG_DIR . "urls.xml";
 
         if (file_exists($xmlfile)) {
             $xml = simplexml_load_file($xmlfile);
 
             foreach ($xml as $value) {
-
                 if ($value['key'] == "ms_" . $name) {
-
                     $dom = dom_import_simplexml($value);
                     $dom->parentNode->removeChild($dom);
                 }
             }
-
-            //var_dump($xml->asXML());
             $xml->asXML($xmlfile);
         }
 
         // Remove permissions
-
         $xmlfile = CONFIG_DIR . "profiles/sadmin.xml";
 
         if (file_exists($xmlfile)) {
@@ -279,20 +243,15 @@ class plugins {
             $mypage = $xml->pages->page;
 
             foreach ($mypage as $pages) {
-
                 if ($pages == "ms_" . $name) {
-
                     $dom = dom_import_simplexml($pages);
                     $dom->parentNode->removeChild($dom);
                 }
             }
-
-            //var_dump($xml->asXML());
             $xml->asXML($xmlfile);
         }
 
         // Remove Label entry
-
         $reading = fopen(PLUGINS_DIR . 'language/english/english.txt', 'a+');
         $writing = fopen(PLUGINS_DIR . 'language/english/english.tmp', 'w');
 
@@ -323,7 +282,6 @@ class plugins {
      * @param string $page : Name of the page u want to be seed by the profile
      */
     public function add_rights($profilename, $page) {
-
         if ($profilename == "sadmin") {
             exit;
         }
@@ -346,7 +304,6 @@ class plugins {
      * @param string $page : Name of the page u want to be seed by the profile
      */
     public function del_rights($profilename, $page) {
-
         if ($profilename == "sadmin") {
             exit;
         }
@@ -358,27 +315,23 @@ class plugins {
         $mypage = $xml->pages->page;
 
         foreach ($mypage as $pages) {
-
             if ($pages == $page) {
-
                 $dom = dom_import_simplexml($pages);
                 $dom->parentNode->removeChild($dom);
             }
         }
-
         $xml->asXML($xmlfile);
     }
 
     /**
      * This function try to execute your query and throw an error message if this is a problems in the query.
      * Die if sql error happened
-     * 
+     *
      * @param string $query : Your database query here !
      * @param bool $cancel_on_error : if on true
      * @return mixed : Result returned by the query
      */
     public function sql_query($query) {
-
         global $l;
         global $protectedPost;
 

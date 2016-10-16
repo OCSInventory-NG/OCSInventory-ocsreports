@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -20,8 +20,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-if (isset($protectedGet['head']) && $protectedGet['head'] == 1)
+if (isset($protectedGet['head']) && $protectedGet['head'] == 1) {
     $ban_head = 'no';
+}
 /* * *****************************************************AFFICHAGE HTML DU HEADER****************************************** */
 html_header();
 
@@ -29,10 +30,11 @@ html_header();
 if (!isset($protectedGet["popup"])) {
     //si unlock de l'interface
     if (isset($protectedPost['LOCK']) && $protectedPost['LOCK'] == 'RESET') {
-        if (isset($_SESSION['OCS']["TRUE_mesmachines"]) && $_SESSION['OCS']["TRUE_mesmachines"] != array())
+        if (isset($_SESSION['OCS']["TRUE_mesmachines"]) && $_SESSION['OCS']["TRUE_mesmachines"] != array()) {
             $_SESSION['OCS']["mesmachines"] = $_SESSION['OCS']["TRUE_mesmachines"];
-        else
+        } else {
             unset($_SESSION['OCS']["mesmachines"]);
+        }
         unset($_SESSION['OCS']["TRUE_mesmachines"]);
     }
 }
@@ -71,17 +73,13 @@ if (!isset($protectedGet["popup"])) {
 					<span class="glyphicon glyphicon-cog" id="menu_settings"></span></a>
 					<ul class="dropdown-menu dropdown-menu-right">';
 
-
                 // DEBUG = 1011
                 echo "<li><a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_config_account'] . "&head=1'>" . $l->g(1361) . "</a></li>";
-
-
 
                 //pass in debug mode if plugin debug exist
                 if (isset($pages_refs['ms_debug'])) {
                     echo "<li>";
                     if ((isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') || (isset($_SESSION['OCS']['MODE_LANGUAGE']) && $_SESSION['OCS']['MODE_LANGUAGE'] == "ON")) {
-
                         echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_debug'] . "&head=1'><font color='red'>" . $l->g(1011) . "</font></a>";
 
                         if ($_SESSION['OCS']['DEBUG'] == 'ON') {
@@ -96,7 +94,6 @@ if (!isset($protectedGet["popup"])) {
                     echo "</li>";
                 }
 
-
                 if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER'])) {
                     echo "<li><a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>" . $l->g(251) . "</a></li>";
                 }
@@ -110,8 +107,6 @@ if (!isset($protectedGet["popup"])) {
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-
-
 
 <?php
 if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getConfigValue('ALERTE_MSG') == 'YES') {
@@ -143,8 +138,8 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
         $msg_header_error[] = $l->g(2024) . ' ' . DB_NAME;
         $msg_header_error_sol[] = $l->g(2025);
     } catch (Exception $e) {
-        
-    };
+
+    }
 
 
     //admin user already exist on data base with defaut password?
@@ -189,8 +184,9 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
         msg_error("<big>" . $l->g(1263) . "</big><br>" . $msg_tooltip, "top_msg_alert");
     }
     //warning are detected
-    if ($msg_header_warning != array())
+    if ($msg_header_warning != array()) {
         msg_warning(implode('<br>', $msg_header_warning), "top_msg_warning");
+    }
 }
 
 if (isset($_SESSION['OCS']['TRUE_USER'])) {
@@ -204,10 +200,11 @@ if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
 echo "<div class='fond'>";
 
 if ($_SESSION['OCS']["mesmachines"] == "NOTAG" && !(array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) && $protectedGet[PAG_INDEX] == $pages_refs['ms_debug'])) {
-    if (isset($LIST_ERROR))
+    if (isset($LIST_ERROR)) {
         $msg_error = $LIST_ERROR;
-    else
+    } else {
         $msg_error = $l->g(893);
+    }
     msg_error($msg_error);
     require_once(FOOTER_HTML);
     die();

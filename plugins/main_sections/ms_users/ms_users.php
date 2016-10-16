@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -40,13 +40,14 @@ if (AJAX) {
     require_once('require/function_search.php');
     require_once('require/function_users.php');
 
-// Définition des onglets
+    // Définition des onglets
     $profiles = get_profile_labels();
     $data_on = $profiles;
     $data_on[4] = $l->g(244);
 
-    if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_PROFIL') == 'YES')
+    if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_PROFIL') == 'YES') {
         $data_on[5] = $l->g(1146);
+    }
 
     $form_name = "admins";
     $tab_options = $protectedPost;
@@ -58,19 +59,19 @@ if (AJAX) {
         $protectedPost['onglet'] = current($data_on);
     }
 
-//suppression d'une liste de users
+    //suppression d'une liste de users
     if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
         delete_list_user($protectedPost['del_check']);
         $tab_options['CACHE'] = 'RESET';
     }
 
-//suppression d'un user
+    //suppression d'un user
     if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
         delete_list_user($protectedPost['SUP_PROF']);
         $tab_options['CACHE'] = 'RESET';
     }
 
-//affichage
+    //affichage
     $list_fields = array('ID' => 'ID',
         $l->g(1366) => 'FIRSTNAME',
         $l->g(996) => 'LASTNAME',
@@ -93,24 +94,26 @@ if (AJAX) {
         'CHECK' => 'ID');
     $queryDetails = 'SELECT ';
     foreach ($list_fields as $key => $value) {
-        if ($key != 'SUP' && $key != 'CHECK' && $key != 'MOD_TAGS')
+        if ($key != 'SUP' && $key != 'CHECK' && $key != 'MOD_TAGS') {
             $queryDetails .= $value . ',';
+        }
     }
     $queryDetails = substr($queryDetails, 0, -1);
     $queryDetails .= " FROM operators";
-// Tab options
+    // Tab options
     $tab_options['FILTRE'] = array('LASTNAME' => 'LASTNAME', 'ID' => 'ID', 'NEW_ACCESSLVL' => 'NEW_ACCESSLVL');
     $tab_options['LIEN_LBL'][$l->g(1366)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_user_details'] . '&user_id=';
     $tab_options['LIEN_CHAMP'][$l->g(1366)] = "ID";
 
-// Tags edit
+    // Tags edit
     $tab_options['LBL']['MOD_TAGS'] = 'Tags';
     $tab_options['NO_TRI']['MOD_TAGS'] = 1;
 
     $sql_user_groups = "select IVALUE,TVALUE from config where name like 'USER_GROUP_%' ";
     $res_user_groups = mysqli_query($_SESSION['OCS']["readServer"], $sql_user_groups);
-    while ($val_user_groups = mysqli_fetch_array($res_user_groups))
+    while ($val_user_groups = mysqli_fetch_array($res_user_groups)) {
         $user_groups[$val_user_groups['IVALUE']] = $val_user_groups['TVALUE'];
+    }
 
     $tab_options['REPLACE_VALUE'][$l->g(607)] = $user_groups;
     $tab_options['LBL']['SUP'] = $l->g(122);
@@ -118,7 +121,7 @@ if (AJAX) {
 
     $tab_options['table_name'] = $table_name;
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-//traitement par lot
+    //traitement par lot
     $img['image/delete.png'] = $l->g(162);
     del_selection($form_name);
 

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -21,10 +21,11 @@
  * MA 02110-1301, USA.
  */
 $values = look_config_default_values(array('EXPORT_SEP'));
-if (isset($values['tvalue']['EXPORT_SEP']) && $values['tvalue']['EXPORT_SEP'] != '')
+if (isset($values['tvalue']['EXPORT_SEP']) && $values['tvalue']['EXPORT_SEP'] != '') {
     $separator = $values['tvalue']['EXPORT_SEP'];
-else
+} else {
     $separator = ';';
+}
 $link = $_SESSION['OCS']["readServer"];
 $toBeWritten = "";
 //log directory
@@ -38,51 +39,19 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
         $toBeWritten .= $val . "\r\n";
     }
     $filename = $protectedGet['log'];
-}
-//gestion par valeur en cache (LIMITE A 200)
-/* elseif (!isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][199]) 
-  and isset($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']])){
-  $filename="cache.csv";
-  //gestion des entetes
-  if (is_array($_SESSION['OCS']['col_tab'][$protectedGet['tablename']]))
-  foreach ($_SESSION['OCS']['col_tab'][$protectedGet['tablename']] as $name){
-  if ($name != 'SUP' and $name != 'CHECK' and $name != 'NAME' and $name != $l->g(23)){
-  if ($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name]{1} == ".")
-  $lbl=substr(strrchr($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name], "."), 1);
-  else
-  $lbl=$_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name];
-  $col[$lbl]=$name;
-  $toBeWritten .=$name.";";
-  }elseif($name == 'NAME' || $name == $l->g(23)){
-  $col['name_of_machine']="name_of_machine";
-  $toBeWritten .="machine".$separator;
-  }
-  }
-  $i=0;
-  while ($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i]){
-  $toBeWritten .="\r\n";
-  foreach ($col as $lbl => $name){
-  if ($lbl == "name_of_machine"){
-  $lbl='name';
-  }
-  if ($_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl])
-  $toBeWritten .=$_SESSION['OCS']['DATA_CACHE'][$protectedGet['tablename']][$i][$lbl].$separator;
-
-  }
-  $i++;
-  }
-  } */ elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
+} elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     $toBeWritten = "";
     //gestion des entetes
     foreach ($_SESSION['OCS']['col_tab'][$protectedGet['tablename']] as $name) {
         if ($name != 'SUP' && $name != 'CHECK' && $name != 'NAME') {
-            if ($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name]{1} == ".")
+            if ($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name]{1} == ".") {
                 $lbl = substr(strrchr($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name], "."), 1);
-            else
+            } else {
                 $lbl = $_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name];
+            }
             $col[$lbl] = $name;
             $toBeWritten .= $name . $separator;
-        }elseif ($name == 'NAME' || $name == $l->g(23)) {
+        } elseif ($name == 'NAME' || $name == $l->g(23)) {
             $col['name_of_machine'] = "name_of_machine";
             $toBeWritten .= $l->g(23) . $separator;
         }
@@ -96,7 +65,6 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
             while ($cont = mysqli_fetch_array($result)) {
                 foreach ($col as $field => $lbl) {
                     if (array_key_exists($lbl, $cont)) {
-
                         $data_fixe[$cont['HARDWARE_ID']][$field] = $cont[$lbl];
                     }
                 }
@@ -105,11 +73,11 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
         }
     }
 
-    //var_dump($data_fixe);
-    if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])
+    if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']]) {
         $arg = $_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
-    else
+    } else {
         $arg = '';
+    }
 
     if (isset($protectedGet['nolimit'])) {
         $result = mysql2_query_secure($_SESSION['OCS']['csv']['SQLNOLIMIT'][$protectedGet['tablename']], $link, $arg);
@@ -128,7 +96,6 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
 
             $found = false;
             // find value case-insensitive
-
             foreach ($cont as $key => $val) {
                 if (strtolower($key) == strtolower($field)) {
                     if (($field == 'TAG' || substr($field, 0, 7) == 'fields_')
@@ -156,7 +123,6 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
             }
             if (!$found) {
                 // find values case-insensitive
-
                 if (!is_null($data_fixe[$cont['ID']])) {
                     foreach ($data_fixe[$cont['ID']] as $key => $val) {
                         if (strtolower($key) == strtolower($field) && isset($data_fixe[$cont['ID']][$key])) {
@@ -175,7 +141,6 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
         }
         $i++;
     }
-    //p($data);
     $i = 0;
     while ($data[$i]) {
         $toBeWritten .= "\r\n";
@@ -189,8 +154,9 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
 }
 if ($toBeWritten != "") {
     // iexplorer problem
-    if (ini_get("zlib.output-compression"))
+    if (ini_get("zlib.output-compression")) {
         ini_set("zlib.output-compression", "Off");
+    }
 
     header("Pragma: public");
     header("Expires: 0");
@@ -202,7 +168,7 @@ if ($toBeWritten != "") {
     header("Content-Length: " . strlen($toBeWritten));
     echo $toBeWritten,
     die();
-}else {
+} else {
     $ban_head = 'no';
     require_once (HEADER_HTML);
     msg_error($l->g(920));

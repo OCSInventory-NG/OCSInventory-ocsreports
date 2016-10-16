@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -42,7 +42,6 @@ if ($protectedPost['SUP_PROF'] != '' and is_numeric($protectedPost['SUP_PROF']))
     deleteDid($protectedPost['SUP_PROF']);
 }
 
-
 if ($protectedPost['FUSION']) {
     foreach ($protectedPost as $name => $value) {
         if (substr($name, 0, 5) == "check") {
@@ -59,8 +58,9 @@ if ($protectedPost['FUSION']) {
             $afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
             $i++;
         }
-        if (isset($afus))
+        if (isset($afus)) {
             fusionne($afus);
+        }
     }
 }
 
@@ -74,7 +74,6 @@ if ($_SESSION['OCS']['mesmachines']) {
 } else {
     $tab_id_mes_machines = "";
 }
-
 
 printEnTete($l->g(199));
 
@@ -100,9 +99,9 @@ if (isset($tab_id_mes_machines) && $tab_id_mes_machines != "") {
 $sql_doublon['ssn'] .= " group by SSN having count(SSN)>1";
 
 /* * **********************  macaddress double ************************************** */
-$sql_doublon['macaddress'] = "select h.id, MACADDR val 
-							from (select hardware_id,MACADDR from networks group by hardware_id,MACADDR) networks,hardware h 
-							where h.id=networks.hardware_id 
+$sql_doublon['macaddress'] = "select h.id, MACADDR val
+							from (select hardware_id,MACADDR from networks group by hardware_id,MACADDR) networks,hardware h
+							where h.id=networks.hardware_id
 									and  MACADDR not in (select macaddress from blacklist_macaddresses)";
 $arg_doublon['macaddress'] = array();
 if (isset($tab_id_mes_machines) && $tab_id_mes_machines != "") {
@@ -120,8 +119,6 @@ foreach ($sql_doublon as $name => $sql_value) {
     }
 }
 
-
-
 //search id of computers => serial number
 if (isset($doublon['ssn'])) {
     $sql_id_doublon['ssn'] = " select distinct hardware_id id,SSN info1 from bios,hardware h where h.id=bios.hardware_id and SSN in ";
@@ -129,19 +126,21 @@ if (isset($doublon['ssn'])) {
     $sql = mysql2_prepare($sql_id_doublon['ssn'], $arg_id_doublon['ssn'], $doublon['ssn']);
     $arg_id_doublon['ssn'] = $sql['ARG'];
     $sql_id_doublon['ssn'] = $sql['SQL'];
-} else
+} else {
     $count_id['ssn'] = 0;
+}
 ////search id of computers => macaddresses
 if (isset($doublon['macaddress'])) {
-    $sql_id_doublon['macaddress'] = " select distinct hardware_id id,MACADDR info1 
-									from networks,hardware h 
+    $sql_id_doublon['macaddress'] = " select distinct hardware_id id,MACADDR info1
+									from networks,hardware h
 									where h.id=networks.hardware_id and MACADDR in ";
     $arg_id_doublon['macaddress'] = array();
     $sql = mysql2_prepare($sql_id_doublon['macaddress'], $arg_id_doublon['macaddress'], $doublon['macaddress']);
     $arg_id_doublon['macaddress'] = $sql['ARG'];
     $sql_id_doublon['macaddress'] = $sql['SQL'];
-} else
+} else {
     $count_id['macaddress'] = 0;
+}
 //search id of computers => hostname
 if (isset($doublon['hostname'])) {
     $sql_id_doublon['hostname'] = " select id, NAME info1 from hardware h,accountinfo a where a.hardware_id=h.id and NAME in ";
@@ -149,15 +148,16 @@ if (isset($doublon['hostname'])) {
     $sql = mysql2_prepare($sql_id_doublon['hostname'], $arg_id_doublon['hostname'], $doublon['hostname']);
     $arg_id_doublon['hostname'] = $sql['ARG'];
     $sql_id_doublon['hostname'] = $sql['SQL'];
-} else
+} else {
     $count_id['hostname'] = 0;
+}
 //search id of computers => hostname + serial number
 $sql_id_doublon['hostname_serial'] = "SELECT DISTINCT h.id,h.name info1,b.ssn info2
-						FROM hardware h 
-						LEFT JOIN bios b ON b.hardware_id = h.id 
+						FROM hardware h
+						LEFT JOIN bios b ON b.hardware_id = h.id
 						LEFT JOIN hardware h2 on h.name=h2.name
 						LEFT JOIN  bios b2 on b2.ssn = b.ssn
-						WHERE  b2.hardware_id = h2.id 
+						WHERE  b2.hardware_id = h2.id
 						AND h.id <> h2.id and b.ssn not in (select serial from blacklist_serials) ";
 $arg_id_doublon['hostname_serial'] = array();
 if (isset($tab_id_mes_machines) && $tab_id_mes_machines != "") {
@@ -168,11 +168,11 @@ if (isset($tab_id_mes_machines) && $tab_id_mes_machines != "") {
 
 //search id of computers => hostname + mac address
 $sql_id_doublon['hostname_macaddress'] = "SELECT DISTINCT h.id,h.name info1,n.macaddr info2
-						FROM hardware h 
-						LEFT JOIN networks n ON n.hardware_id = h.id 
+						FROM hardware h
+						LEFT JOIN networks n ON n.hardware_id = h.id
 						LEFT JOIN hardware h2 on h.name=h2.name
 						LEFT JOIN  networks n2 on n2.MACADDR = n.MACADDR
-						WHERE  n2.hardware_id = h2.id 
+						WHERE  n2.hardware_id = h2.id
 						AND h.id <> h2.id and n.MACADDR not in (select macaddress from blacklist_macaddresses)";
 $arg_id_doublon['hostname_macaddress'] = array();
 if (isset($tab_id_mes_machines) && $tab_id_mes_machines != "") {
@@ -181,16 +181,15 @@ if (isset($tab_id_mes_machines) && $tab_id_mes_machines != "") {
     $arg_id_doublon['hostname_macaddress'] = $sql['ARG'];
 }
 
-
-$sql_id_doublon['macaddress_serial'] = "SELECT DISTINCT h.id, n1.macaddr info1, b.ssn info2 
-									  FROM hardware h 
-										LEFT JOIN bios b ON b.hardware_id = h.id 
+$sql_id_doublon['macaddress_serial'] = "SELECT DISTINCT h.id, n1.macaddr info1, b.ssn info2
+									  FROM hardware h
+										LEFT JOIN bios b ON b.hardware_id = h.id
 										LEFT JOIN networks n1 on b.hardware_id=n1.hardware_id
 										LEFT JOIN networks n2 on n1.macaddr = n2.macaddr
 										LEFT JOIN bios b2 on b2.ssn = b.ssn
-									  WHERE n1.hardware_id = h.id 
-										AND b2.hardware_id = n2.hardware_id 
-										AND b2.hardware_id <> b.hardware_id 
+									  WHERE n1.hardware_id = h.id
+										AND b2.hardware_id = n2.hardware_id
+										AND b2.hardware_id <> b.hardware_id
 										AND b.ssn not in (select serial from blacklist_serials)
 										AND n1.macaddr not in (select macaddress from blacklist_macaddresses)";
 $arg_id_doublon['macaddress_serial'] = array();
@@ -240,14 +239,17 @@ foreach ($count_id as $lbl => $count_value) {
             break;
     }
     echo ":&nbsp;<b>";
-    if ($count_value != 0)
+    if ($count_value != 0) {
         echo "<a href=# onclick='pag(\"" . $lbl . "\",\"detail\",\"" . $form_name . "\");' alt='" . $l->g(41) . "'>";
+    }
     echo $count_value;
-    if ($count_value != 0)
+    if ($count_value != 0) {
         echo "</a>";
+    }
     echo "</b></td></tr>";
-    if ($protectedPost['detail'] == $lbl && $count_value == 0)
+    if ($protectedPost['detail'] == $lbl && $count_value == 0) {
         unset($protectedPost['detail']);
+    }
 }
 echo "</table>";
 echo "<input type=hidden name=detail id=detail value='" . $protectedPost['detail'] . "'>";
@@ -257,10 +259,12 @@ if ($protectedPost['detail'] != '') {
     //BEGIN SHOW ACCOUNTINFO
     require_once('require/function_admininfo.php');
     $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
-    if (array($accountinfo_value['TAB_OPTIONS']))
+    if (array($accountinfo_value['TAB_OPTIONS'])) {
         $tab_options = $accountinfo_value['TAB_OPTIONS'];
-    if (array($accountinfo_value['DEFAULT_VALUE']))
+    }
+    if (array($accountinfo_value['DEFAULT_VALUE'])) {
         $default_fields = $accountinfo_value['DEFAULT_VALUE'];
+    }
     $list_fields = $accountinfo_value['LIST_FIELDS'];
     //END SHOW ACCOUNTINFO
     $list_fields2 = array($l->g(95) => 'n.macaddr',

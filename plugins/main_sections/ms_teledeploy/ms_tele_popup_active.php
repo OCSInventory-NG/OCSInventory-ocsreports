@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -32,10 +32,12 @@ if (!isset($info_id['ERROR'])) {
         $values = look_config_default_values(array('DOWNLOAD_URI_INFO', 'DOWNLOAD_URI_FRAG'));
         $protectedPost['FILE_SERV'] = $values['tvalue']['DOWNLOAD_URI_FRAG'];
         $protectedPost['HTTPS_SERV'] = $values['tvalue']['DOWNLOAD_URI_INFO'];
-        if ($protectedPost['FILE_SERV'] == "")
+        if ($protectedPost['FILE_SERV'] == "") {
             $protectedPost['FILE_SERV'] = $default;
-        if ($protectedPost['HTTPS_SERV'] == "")
+        }
+        if ($protectedPost['HTTPS_SERV'] == "") {
             $protectedPost['HTTPS_SERV'] = $default;
+        }
     }
     //use redistribution servers?
     if ($_SESSION['OCS']["use_redistribution"] == 1) {
@@ -52,15 +54,17 @@ if (!isset($info_id['ERROR'])) {
         $opensslOk = function_exists("openssl_open");
 
 
-        if ($opensslOk)
+        if ($opensslOk) {
             $httpsOk = @fopen("https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/info", "r");
-        else
+        } else {
             $error = "WARNING: OpenSSL for PHP is not properly installed. Your https server validity was not checked !<br>";
+        }
 
-        if (!$httpsOk)
+        if (!$httpsOk) {
             $error .= $l->g(466) . " https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/<br>";
-        else
+        } else {
             fclose($httpsOk);
+        }
 
         if ($protectedPost['choix_activ'] == "MAN") {
             $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $protectedGet["active"] . "'";
@@ -69,22 +73,26 @@ if (!isset($info_id['ERROR'])) {
             $fragAvail = ($valFrags["fragments"] > 0);
             if ($fragAvail) {
                 $fragOk = @fopen("http://" . $protectedPost["FILE_SERV"] . "/" . $protectedGet["active"] . "/" . $protectedGet["active"] . "-1", "r");
-            } else
+            } else {
                 $fragOk = true;
-        } else
+            }
+        } else {
             $fragOk = true;
+        }
 
         if (!$fragOk) {
             $error .= $l->g(467) . " http://" . $protectedPost['FILE_SERV'] . "/" . $protectedGet["active"] . "/<br>";
-        } elseif ($fragAvail)
+        } elseif ($fragAvail) {
             fclose($fragOk);
+        }
 
         if (!$fragOk || !$httpsOk) {
             $error .= "<br>" . $l->g(468) . "<br><br>";
             $error .= "<input type='submit' name='YES' value='" . $l->g(455) . "'>&nbsp&nbsp&nbsp<input type='submit' name='NO' value='" . $l->g(454) . "'>";
         }
-        if ($error != '')
+        if ($error != '') {
             msg_warning($error);
+        }
     }
 
     if ($error == "" && isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
@@ -128,9 +136,9 @@ if (!isset($info_id['ERROR'])) {
             $type_field = array(0, 0);
             $value_field = array($protectedPost['FILE_SERV'], $protectedPost['HTTPS_SERV']);
         } else {
-            if (count($groupListServers) == 0)
+            if (count($groupListServers) == 0) {
                 msg_error($l->g(660));
-            else {
+            } else {
                 $tab_name = array($l->g(651), $l->g(470));
                 $name_field = array("FILE_SERV_REDISTRIB", "HTTPS_SERV");
                 $type_field = array(2, 0);
@@ -144,10 +152,11 @@ if (!isset($info_id['ERROR'])) {
                 $tab_typ_champ[$id]['CONFIG']['SIZE'] = 30;
                 if ($tab_typ_champ[$id]['INPUT_TYPE'] == 0) {
                     $tab_typ_champ[$id]['COMMENT_AFTER'] = '/' . $protectedGet["active"];
-                    if ($id == 0)
+                    if ($id == 0) {
                         $tab_typ_champ[$id]['COMMENT_BEFORE'] = 'http://';
-                    else
+                    } else {
                         $tab_typ_champ[$id]['COMMENT_BEFORE'] = 'https://';
+                    }
                 }
             }
             tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
@@ -159,6 +168,7 @@ if (!isset($info_id['ERROR'])) {
     //var_dump($tab_typ_champ);
     //fermeture du formulaire.
     echo close_form();
-} else
+} else {
     msg_error($info_id['ERROR']);
+}
 ?>

@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -47,8 +47,9 @@ function look_config_default_values($field_name, $like = '', $default_values = '
             $key = strtolower($key);
             if (is_array($value)) {
                 foreach ($value as $name => $val) {
-                    if (!isset($result[$key][$name]) || $result[$key][$name] == '')
+                    if (!isset($result[$key][$name]) || $result[$key][$name] == '') {
                         $result[$key][$name] = $val;
+                    }
                 }
             }
         }
@@ -70,10 +71,10 @@ function generate_secure_sql($sql, $arg = '') {
     }
     if (isset($arg_escape_string)) {
         if (is_array($arg_escape_string)) {
-
             $sql = vsprintf($sql, $arg_escape_string);
-        } else
+        } else {
             $sql = sprintf($sql, $arg_escape_string);
+        }
     }
     return $sql;
 }
@@ -89,8 +90,6 @@ function mysql2_query_secure($sql, $link, $arg = '', $log = false) {
         $_SESSION['OCS']['SQL_DEBUG'][] = html_entity_decode($query, ENT_QUOTES);
     }
 
-
-
     if (DEMO) {
         $rest = mb_strtoupper(substr($query, 0, 6));
         if ($rest == 'UPDATE' || $rest == 'INSERT' || $rest == 'DELETE') {
@@ -102,8 +101,9 @@ function mysql2_query_secure($sql, $link, $arg = '', $log = false) {
         }
     }
     $result = mysqli_query($link, $query);
-    if ($_SESSION['OCS']['DEBUG'] == 'ON' && !$result)
+    if ($_SESSION['OCS']['DEBUG'] == 'ON' && !$result) {
         msg_error(mysqli_error($link));
+    }
     return $result;
 }
 
@@ -111,14 +111,14 @@ function mysql2_query_secure($sql, $link, $arg = '', $log = false) {
  * use this function before mysql2_query_secure
  * $sql= requeste
  * $arg_sql = arguments for mysql2_query_secure
- * $arg_tab = arguments to implode 
- * 
+ * $arg_tab = arguments to implode
+ *
  */
 
 function mysql2_prepare($sql, $arg_sql, $arg_tab = '', $nocot = false) {
-
-    if ($arg_sql == '')
+    if ($arg_sql == '') {
         $arg_sql = array();
+    }
 
     if (!is_array($arg_tab)) {
         $arg_tab = explode(',', $arg_tab);
@@ -126,10 +126,11 @@ function mysql2_prepare($sql, $arg_sql, $arg_tab = '', $nocot = false) {
 
     $sql .= " ( ";
     foreach ($arg_tab as $key => $value) {
-        if (!$nocot)
+        if (!$nocot) {
             $sql .= " '%s', ";
-        else
+        } else {
             $sql .= " %s, ";
+        }
         array_push($arg_sql, $value);
     }
     $sql = substr($sql, 0, -2) . " ) ";
@@ -139,8 +140,9 @@ function mysql2_prepare($sql, $arg_sql, $arg_tab = '', $nocot = false) {
 function prepare_sql_tab($list_fields, $explu = array(), $distinct = false) {
     $begin_arg = array();
     $begin_sql = "SELECT ";
-    if ($distinct)
+    if ($distinct) {
         $begin_sql .= " distinct ";
+    }
     foreach ($list_fields as $key => $value) {
         if (!in_array($key, $explu)) {
             $begin_sql .= '%s, ';
@@ -204,10 +206,12 @@ function dateTimeFromMysql($v) {
 
 function reloadform_closeme($form = '', $close = false) {
     echo "<script>";
-    if ($form != '')
+    if ($form != '') {
         echo "window.opener.document.forms['" . $form . "'].submit();";
-    if ($close)
+    }
+    if ($close) {
         echo "self.close();";
+    }
     echo "</script>";
 }
 
@@ -248,28 +252,32 @@ function read_files($search, $ms_cfg_file, $writable = '') {
     if (file_exists($ms_cfg_file)) {
         $profil_data = read_configuration($ms_cfg_file, $search);
         return $profil_data;
-    } else
+    } else {
         return FALSE;
+    }
 }
 
 function replace_language($info) {
     global $l;
-    if (substr($info, 0, 2) == 'g(')
+    if (substr($info, 0, 2) == 'g(') {
         return $l->g(substr(substr($info, 2), 0, -1));
-    else
+    } else {
         return $info;
+    }
 }
 
 function msg($txt, $css, $closeid = false) {
     global $protectedPost;
 
-    if (isset($protectedPost['close_alert']) && $protectedPost['close_alert'] != '')
+    if (isset($protectedPost['close_alert']) && $protectedPost['close_alert'] != '') {
         $_SESSION['OCS']['CLOSE_ALERT'][$protectedPost['close_alert']] = 1;
+    }
 
     if (!$_SESSION['OCS']['CLOSE_ALERT'][$closeid]) {
         echo "<center><div id='my-alert-" . $closeid . "' class='alert alert-" . $css . " fade in' role='alert'>";
-        if ($closeid != false)
+        if ($closeid != false) {
             echo "<button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>×</span><span class='sr-only'>Close</span></button>";
+        }
         echo $txt . "</div></center>";
         if ($closeid != false) {
             echo "<script>$('#my-alert-" . $closeid . "').on('closed.bs.alert', function () {
@@ -280,8 +288,9 @@ function msg($txt, $css, $closeid = false) {
             echo "<input type='hidden' name='close_alert' id='close_alert' value=''>";
             echo close_form();
         }
-        if ($css == 'error')
+        if ($css == 'error') {
             addLog('MSG_' . $css, $txt);
+        }
     }
 }
 
@@ -303,10 +312,8 @@ function msg_error($txt, $close = false) {
 }
 
 /*
- * 
- * Encode your data on UTF-8 
+ * Encode your data on UTF-8
  * $data can be an array or a string
- * 
  */
 
 function data_encode_utf8($data) {
@@ -368,12 +375,11 @@ function html_header($no_java = false) {
         echo "<script src='libraries/raphael/raphael.js' type='text/javascript'></script>";
         echo "<script src='libraries/elycharts/elycharts.js' type='text/javascript'></script>";
 
-        //js for Datatables 
+        //js for Datatables
         echo "<script src='libraries/datatable/media/js/jquery.dataTables.js' type='text/javascript'></script>";
         echo "<script src='js/dataTables.bootstrap.js' type='text/javascript'></script>";
 
         echo "<script language='javascript' type='text/javascript' src='js/function.js'></script>";
-
 
         if (isset($_SESSION['OCS']['JAVASCRIPT'])) {
             foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file) {
@@ -381,14 +387,11 @@ function html_header($no_java = false) {
             }
         }
     }
-
     echo "</head>";
-
     echo "<body>";
 }
 
 function strip_tags_array($value = '') {
-
     if (is_object($value)) {
         $value = get_class($value);
         $value = strip_tags($value, "<p><b><i><font><br><center>");
@@ -400,8 +403,9 @@ function strip_tags_array($value = '') {
 }
 
 function open_form($form_name, $action = '', $more = '', $class = '') {
-    if (!isset($_SESSION['OCS']['CSRFNUMBER']) || !is_numeric($_SESSION['OCS']['CSRFNUMBER']) || $_SESSION['OCS']['CSRFNUMBER'] >= CSRF)
+    if (!isset($_SESSION['OCS']['CSRFNUMBER']) || !is_numeric($_SESSION['OCS']['CSRFNUMBER']) || $_SESSION['OCS']['CSRFNUMBER'] >= CSRF) {
         $_SESSION['OCS']['CSRFNUMBER'] = 0;
+    }
     $form = "<form class='" . $class . "' name='" . $form_name . "' id='" . $form_name . "' method='POST' action='" . $action . "' " . $more . " >";
     $csrf_value = sha1(microtime());
     $_SESSION['OCS']['CSRF'][$_SESSION['OCS']['CSRFNUMBER']] = $csrf_value;
@@ -419,7 +423,6 @@ function close_form() {
  */
 
 function get_update_json() {
-
     $stream = stream_context_create(array('http' =>
         array(
             'timeout' => 1, // Timeout after 1 seconds

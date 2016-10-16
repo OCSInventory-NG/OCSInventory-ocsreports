@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -30,9 +30,9 @@ if (AJAX) {
 }
 
 print_item_header($l->g(82));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
-//p($protectedPost);
+}
 $tab_options = $protectedPost;
 
 if ($protectedPost['OTHER_BIS'] != '') {
@@ -54,7 +54,6 @@ if ($protectedPost['OTHER'] != '') {
     }
 }
 
-
 $form_name = "affich_networks";
 $table_name = $form_name;
 $tab_options['form_name'] = $form_name;
@@ -72,9 +71,6 @@ $list_fields = array($l->g(53) => 'DESCRIPTION',
     $l->g(331) => 'IPSUBNET',
     $l->g(281) => 'IPDHCP');
 if ($_SESSION['OCS']['ADMIN_BLACKLIST']['MACADD'] == "YES") {
-    //$list_fields['OTHER_GREEN']='MACADDR';
-    //$list_col_cant_del['OTHER_GREEN']='OTHER_GREEN';
-    //	$tab_options['LBL']['OTHER_GREEN']=$l->g(703);
     $sql = "select MACADDR from networks WHERE (hardware_id=%s)";
     $arg = $systemid;
     $resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
@@ -92,10 +88,11 @@ if ($_SESSION['OCS']['ADMIN_BLACKLIST']['MACADD'] == "YES") {
     }
 }
 
-if ($show_all_column)
+if ($show_all_column) {
     $list_col_cant_del = $list_fields;
-else
+} else {
     $list_col_cant_del[$l->g(34)] = $l->g(34);
+}
 
 $default_fields = $list_fields;
 $queryDetails = "SELECT ";

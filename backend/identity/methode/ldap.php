@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -23,22 +23,22 @@
 /* This module automatically inserts valid LDAP users into OCS operators table.
  *
  * The userlevel is defined according to conditions defined in the following configuration fields:
- * 
+ *
  * - CONEX_LDAP_CHECK_FIELD1_NAME
  * - CONEX_LDAP_CHECK_FIELD1_VALUE
  * - CONEX_LDAP_CHECK_FIELD1_ROLE
  * - CONEX_LDAP_CHECK_FIELD2_NAME
  * - CONEX_LDAP_CHECK_FIELD2_VALUE
  * - CONEX_LDAP_CHECK_FIELD2_ROLE
- * 
+ *
  * If any of these attributes are defined (and found on the LDAP query), they're used to determine the correct
  * user level and role.
- * 
- * in case of success, an array is returned with the access data in the following format: 
+ *
+ * in case of success, an array is returned with the access data in the following format:
  * array('accesslvl'=>%%,'tag_show'=>array(%,%,%,%,%...))
- * 
+ *
  * else, an error code is returned.
- * 
+ *
  * CONEX_LDAP_CHECK_FIELD1_NAME="thisGuyIsAdmin"
  * CONEX_LDAP_CHECK_FIELD1_VALUE="0"
  * CONEX_LDAP_CHECK_FIELD1_ROLE="user"
@@ -50,9 +50,9 @@
  *    role=user
  * else if thisGuyIsAdmin=1 then
  *    role=sadmin
- *    
+ *
  *    Note: the default user levels in OCS currently are "admin", "ladmin" and "sadmin". The above is just an example.
- * 
+ *
  */
 if ($_SESSION['OCS']['cnx_origine'] != "LDAP")
     return false;
@@ -65,7 +65,6 @@ connexion_local_read();
 // select the main database
 mysqli_select_db($link_ocs, $db_ocs);
 
-
 // retrieve LDAP-related config values into an array
 $sql = "select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
 $arg = array("%CONEX%");
@@ -75,7 +74,7 @@ while ($item = mysqli_fetch_object($res)) {
     //  define ($item->NAME,$item->TVALUE);
 }
 
-// checks if the user already exists 
+// checks if the user already exists
 $reqOp = "SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
 $argOp = array($_SESSION['OCS']["loggeduser"]);
 $resOp = mysql2_query_secure($reqOp, $link_ocs, $argOp);
@@ -162,7 +161,7 @@ if (isset($defaultRole) && $defaultRole != '') {
     } else {
 
         // else update it
-        $reqInsert = "UPDATE operators SET 
+        $reqInsert = "UPDATE operators SET
                         NEW_ACCESSLVL='%s',
                         EMAIL='%s'
                     WHERE ID='%s'";
@@ -210,12 +209,16 @@ if (isset($defaultRole) && $defaultRole != '') {
             while ($row = mysqli_fetch_object($res)) {
                 $list_tag[$row->tag] = $row->tag;
             }
-            if (!isset($list_tag))
+            if (!isset($list_tag)) {
                 $ERROR = $l->g(893);
-        }elseif (($restriction != 'NO'))
+            }
+        } elseif (($restriction != 'NO')) {
             $ERROR = $restriction;
-    } else
+        }
+    } else {
         $ERROR = $l->g(894);
-} else
+    }
+} else {
     $ERROR = $l->g(1278);
+}
 ?>

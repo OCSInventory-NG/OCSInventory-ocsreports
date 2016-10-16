@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -32,50 +32,31 @@ $res_black = mysql2_query_secure($sql_black, $link_ocs);
 while ($row = mysqli_fetch_object($res_black)) {
     $subnet_to_balcklist[$row->SUBNET] = $row->MASK;
 }
-$req = "select distinct ipsubnet,s.name,s.id 
+$req = "select distinct ipsubnet,s.name,s.id
 			from networks n left join subnet s on s.netid=n.ipsubnet
 			,accountinfo a
-		where a.hardware_id=n.HARDWARE_ID 
+		where a.hardware_id=n.HARDWARE_ID
 			and n.status='Up'";
-if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG')
+if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
     $req .= "	and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
-else
+} else {
     $req .= " union select netid,name,id from subnet";
+}
 $res = mysql2_query_secure($req, $link_ocs) or die(mysqli_error($link_ocs));
 while ($row = mysqli_fetch_object($res)) {
     unset($id);
     $list_subnet[] = $row->ipsubnet;
-    /* 	foreach ($subnet_to_balcklist as $key=>$value){
-      if ($key == $row -> ipsubnet)
-      $id='--'.$l->g(703).'--';
-      }
-     */
     /*
       applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/637834 )
      */
     if (is_array($subnet_to_balcklist)) {
         foreach ($subnet_to_balcklist as $key => $value) {
-            if ($key == $row->ipsubnet)
+            if ($key == $row->ipsubnet) {
                 $id = '--' . $l->g(703) . '--';
+            }
         }
     }
 
-    /* foreach ($subnet_to_balcklist as $key=>$value){
-      $black=explode('.',$value);
-      $nb=count($black);
-      $origine=explode('.',$row->ipsubnet);
-      $nb--;
-      unset($verif);
-      while ($black[$nb]){
-      if ($black[$nb] != $origine[$nb]){
-      $verif=true;
-      }
-      $nb--;
-      }
-      if (!isset($verif)){
-      $id='--'.$l->g(703).'--';
-      }
-      } */
     //this subnet was identify
     if ($row->id != null && !isset($id)) {
         $list_ip[$row->id][$row->ipsubnet] = $row->name;
@@ -89,6 +70,4 @@ while ($row = mysqli_fetch_object($res)) {
     }
 }
 $id_subnet = "ID";
-/* if (!isset($list_ip))
-  $INFO="NO_IPDICOVER"; */
 ?>

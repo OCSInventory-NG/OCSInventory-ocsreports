@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -36,15 +36,6 @@ function affich_detail_simple($form_name, $list_fields, $list_col_cant_del, $def
     $tab_options['form_name'] = $form_name;
     $tab_options['table_name'] = $table_name;
     echo open_form($form_name, '', '', 'form-horizontal');
-//	$list_fields=array($l->g(64) => 'MANUFACTURER',
-//					   $l->g(49) => 'NAME',
-//					   $l->g(66) => 'TYPE',
-//					   'Caption'=>'CAPTION',
-//					   $l->g(53)=>'DESCRIPTION',
-//					   $l->g(277)=> 'VERSION');
-//	//$list_fields['SUP']= 'ID';
-//	$list_col_cant_del[$l->g(66)]=$l->g(66);
-//	$default_fields= array($l->g(64)=>$l->g(64),$l->g(49)=>$l->g(49),$l->g(66)=>$l->g(66));
     $queryDetails = "SELECT ";
     foreach ($list_fields as $lbl => $value) {
         $queryDetails .= $value . ",";

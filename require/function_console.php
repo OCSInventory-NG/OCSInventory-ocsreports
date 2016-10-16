@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -34,9 +34,9 @@ if ($_SESSION['OCS']["TAGS"]) {
 
 if (isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
     $edit = 0;
-} else
+} else {
     $edit = 3;
-
+}
 
 $no_restrict = array("OCS_REPORT_NB_ALL_COMPUTOR");
 
@@ -60,12 +60,7 @@ $multi_search = array("OCS_REPORT_NB_NOTIFIED" => array("FIELD" => '', "COMP" =>
     "OCS_REPORT_NB_LIMIT_MEM_M" => array("FIELD" => 'HARDWARE-MEMORY', "COMP" => 'small', "VALUE" => $data_limit['GUI_REPORT_RAM_MINI']),
     "OCS_REPORT_NB_LIMIT_MEM_B" => array("FIELD" => 'HARDWARE-MEMORY,HARDWARE-MEMORY', "COMP" => 'tall,small', "VALUE" => $data_limit['GUI_REPORT_RAM_MINI'] . ',' . $data_limit['GUI_REPORT_RAM_MAX']),
     "OCS_REPORT_NB_NOTIFIED" => array("FIELD" => 'DEVICES-DOWNLOAD', "COMP" => 'exact', "VALUE" => 'NULL', 'VALUE2' => $l->g(482), 'TYPE_FIELD' => "SelFieldValue"),
-    "OCS_REPORT_NB_ERR" => array("FIELD" => 'DEVICES-DOWNLOAD', "COMP" => 'exact', "VALUE" => 'NULL', 'VALUE2' => "***" . $l->g(956) . "***", 'TYPE_FIELD' => "SelFieldValue"),
-        /* 		"OCS_REPORT_NB_HARD_DISK_H"=>array("FIELD"=>'HARDWARE-MEMORY',"COMP"=>'tall',"VALUE"=>$data_limit['GUI_REPORT_RAM_MAX']),
-          "OCS_REPORT_NB_HARD_DISK_M"=>array("FIELD"=>'HARDWARE-MEMORY',"COMP"=>'small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI']),
-          "OCS_REPORT_NB_HARD_DISK_B"=>array("FIELD"=>'HARDWARE-MEMORY,HARDWARE-MEMORY',"COMP"=>'tall,small',"VALUE"=>$data_limit['GUI_REPORT_RAM_MINI'].','.$data_limit['GUI_REPORT_RAM_MAX']),
-         */
-);
+    "OCS_REPORT_NB_ERR" => array("FIELD" => 'DEVICES-DOWNLOAD', "COMP" => 'exact', "VALUE" => 'NULL', 'VALUE2' => "***" . $l->g(956) . "***", 'TYPE_FIELD' => "SelFieldValue"));
 $table = array("OCS_REPORT_WORKGROUP" => "hardware",
     "OCS_REPORT_TAG" => "accountinfo",
     "OCS_REPORT_IPSUBNET" => "networks",
@@ -91,8 +86,7 @@ $table = array("OCS_REPORT_WORKGROUP" => "hardware",
     "OCS_REPORT_NB_HARD_DISK_M" => "drives",
     "OCS_REPORT_NB_HARD_DISK_B" => "drives"
     , "OCS_REPORT_NB_IPDISCOVER" => "nk"
-    , "OCS_REPORT_NB_LAST_INV" => "hardware"
-);
+    , "OCS_REPORT_NB_LAST_INV" => "hardware");
 
 $table_field = array("OCS_REPORT_WORKGROUP" => array($l->g(33) => "workgroup"),
     "OCS_REPORT_TAG" => array($_SESSION['OCS']['TAG_LBL']['TAG'] => "tag"),
@@ -119,8 +113,7 @@ $table_field = array("OCS_REPORT_WORKGROUP" => array($l->g(33) => "workgroup"),
     "OCS_REPORT_NB_HARD_DISK_M" => "drives",
     "OCS_REPORT_NB_HARD_DISK_B" => "drives"
     , "OCS_REPORT_NB_IPDISCOVER" => "networks"
-    , "OCS_REPORT_NB_LAST_INV" => array("NAME" => "NAME", "ID" => "ID", $l->g(25) => "osname", $l->g(218) => "useragent"),
-);
+    , "OCS_REPORT_NB_LAST_INV" => array("NAME" => "NAME", "ID" => "ID", $l->g(25) => "osname", $l->g(218) => "useragent"));
 
 
 $link = array("OCS_REPORT_WORKGROUP" => array("RELOAD" => 'OCS_REPORT_WORKGROUP'),
@@ -144,12 +137,8 @@ $link = array("OCS_REPORT_WORKGROUP" => array("RELOAD" => 'OCS_REPORT_WORKGROUP'
     "OCS_REPORT_NB_INV" => array("PAGE" => 'ms_multi_search'),
     "OCS_REPORT_NB_4_MOMENT" => array("PAGE" => 'ms_multi_search'),
     "OCS_REPORT_NB_SNMP" => array("PAGE" => 'ms_snmp'),
-    /*  "OCS_REPORT_NB_HARD_DISK_H"=>array("PAGE"=>'ms_multi_search'),
-      "OCS_REPORT_NB_HARD_DISK_M"=>array("PAGE"=>'ms_multi_search'),
-      "OCS_REPORT_NB_HARD_DISK_B"=>array("PAGE"=>'ms_multi_search'), */
     "OCS_REPORT_NB_IPDISCOVER" => array("PAGE" => 'ms_ipdiscover'),
-    "OCS_REPORT_NB_LAST_INV" => array("RELOAD" => 'OCS_REPORT_NB_LAST_INV')
-);
+    "OCS_REPORT_NB_LAST_INV" => array("RELOAD" => 'OCS_REPORT_NB_LAST_INV'));
 
 
 //all fields repart on categories
@@ -178,8 +167,8 @@ $repart = array("OCS_REPORT_WORKGROUP" => "ELSE",
     "OCS_REPORT_NB_HARD_DISK_M" => "HARD",
     "OCS_REPORT_NB_HARD_DISK_B" => "HARD"
     , "OCS_REPORT_NB_IPDISCOVER" => "ACTIVITY"
-    , "OCS_REPORT_NB_LAST_INV" => "ACTIVITY"
-);
+    , "OCS_REPORT_NB_LAST_INV" => "ACTIVITY");
+
 //all lbl fields
 $lbl_field = array("OCS_REPORT_WORKGROUP" => $l->g(778),
     "OCS_REPORT_TAG" => $l->g(779),
@@ -206,8 +195,7 @@ $lbl_field = array("OCS_REPORT_WORKGROUP" => $l->g(778),
     "OCS_REPORT_NB_HARD_DISK_B" => $l->g(815) . " <b>" . $data_limit['GUI_REPORT_DD_MINI'] . "</b> " . $l->g(1240) . " " . $l->g(582) . " <b>" . $data_limit['GUI_REPORT_DD_MAX'] . "</b> " . $l->g(1240),
     "OCS_REPORT_NB_IPDISCOVER" => $l->g(913),
     "OCS_REPORT_NB_LAST_INV" => $l->g(914) . " <b>" . show_modif($data_limit['GUI_REPORT_LAST_DIFF'], "GUI_REPORT_LAST_DIFF", $edit, '', array('JAVASCRIPT' => valid_modif("GUI_REPORT_LAST_DIFF"))) . "</b> " . $l->g(496),
-    "OCS_REPORT_NB_SNMP" => $l->g(1241)
-);
+    "OCS_REPORT_NB_SNMP" => $l->g(1241));
 
 
 $sql_field = array("OCS_REPORT_WORKGROUP" => array('ARG' => array('count(distinct workgroup) c', $table["OCS_REPORT_WORKGROUP"], '')),
@@ -243,8 +231,7 @@ $sql_field = array("OCS_REPORT_WORKGROUP" => array('ARG' => array('count(distinc
     "OCS_REPORT_NB_IPDISCOVER" => array('SQL' => "select %s c from netmap ",
         'ARG' => array(count_noinv_network_devices())),
     "OCS_REPORT_NB_LAST_INV" => array('ARG' => array('count(id) c', $table["OCS_REPORT_NB_LAST_INV"], " where floor((unix_timestamp(lastcome) - unix_timestamp(lastdate) )/86400) >= " . $data_limit['GUI_REPORT_LAST_DIFF'] . " ")),
-    "OCS_REPORT_NB_SNMP" => array('ARG' => array('count(id) c', $table["OCS_REPORT_NB_SNMP"], ''))
-);
+    "OCS_REPORT_NB_SNMP" => array('ARG' => array('count(id) c', $table["OCS_REPORT_NB_SNMP"], '')));
 
 function define_tab($data_on = array()) {
     global $l;
@@ -253,11 +240,11 @@ function define_tab($data_on = array()) {
     $data_on['HARD'] = mb_strtoupper($l->g(799), 'UTF-8');
     $data_on['ELSE'] = mb_strtoupper($l->g(800), 'UTF-8');
     if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == "YES") {
-        //$data_on['ADMIN']['CONFIG']=mb_strtoupper($l->g(107));
         $data_on['ADMIN']['MSG'] = mb_strtoupper($l->g(915), 'UTF-8');
 
-        if (!isset($default))
+        if (!isset($default)) {
             $default = 'MSG';
+        }
     }
     return array('DATA' => $data_on, 'DEFAULT' => $default);
 }
@@ -279,12 +266,14 @@ function show_active_tab($data_on) {
 
     foreach ($data_on['DATA'] as $key => $value) {
         if (!isset($data[$key])) {
-            if (!isset($_SESSION['OCS']['ADMIN_CONSOLE']))
+            if (!isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
                 unset($data_on['DATA'][$key]);
+            }
         }
         if (is_array($value)) {
-            foreach ($value as $key1 => $value1)
+            foreach ($value as $key1 => $value1) {
                 $data_on['DATA'][$key1] = $value1;
+            }
             unset($data_on['DATA'][$key]);
         }
     }
@@ -295,8 +284,9 @@ function show_active_tab($data_on) {
 function list_field($tab) {
     global $repart, $lbl_field;
     foreach ($repart as $key => $value) {
-        if ($value == $tab)
+        if ($value == $tab) {
             $result[$key] = $lbl_field[$key];
+        }
     }
     return $result;
 }
@@ -306,41 +296,40 @@ function show_console_field($fields, $form_name) {
     $no_groups_sql = " deviceid != '_SYSTEMGROUP_' and deviceid != '_DOWNLOADGROUP_' ";
     $no_show = look_config_default_values('OCS_REPORT_%', 1);
 
-
     echo "<table ALIGN = 'Center' cellspacing='5' CELLPADDING='4'><tr ><td align =center><font size=2>";
     foreach ($fields as $key => $value) {
         if (isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
-            if (isset($no_show['name'][$key]))
+            if (isset($no_show['name'][$key])) {
                 $icon = "<td align=center><a href=# OnClick='pag(\"" . $key . "\",\"NO_VISIBLE\",\"" . $form_name . "\");'><img src='image/red.png'></a></td>";
-            else
+            } else {
                 $icon = "<td align=center><a href=# OnClick='pag(\"" . $key . "\",\"VISIBLE\",\"" . $form_name . "\");'><img src='image/green.png'></a></td>";
-        } else
+            }
+        } else {
             $icon = "";
-
+        }
 
         $arg_result = $sql_field[$key]['ARG'];
-        if (isset($sql_field[$key]['SQL']))
+        if (isset($sql_field[$key]['SQL'])) {
             $sql_result = $sql_field[$key]['SQL'];
-        else
+        } else {
             $sql_result = "select %s from %s %s";
-
+        }
 
         if ($table[$key] == 'hardware') {
-            if (isset($arg_result[2]) && $arg_result[2] != '')
+            if (isset($arg_result[2]) && $arg_result[2] != '') {
                 $sql_result .= " and " . $no_groups_sql;
-            else
+            } else {
                 $sql_result .= " where " . $no_groups_sql;
+            }
         }
 
         if ($myids) {
             if (!in_array($key, $no_restrict)) {
-
-                if ((isset($arg_result[2]) && $arg_result[2] != '')
-                        or $table[$key] == 'hardware'
-                        or ( isset($sql_field[$key]['SQL']) && $sql_field[$key]['SQL'] != ''))
+                if ((isset($arg_result[2]) && $arg_result[2] != '') || $table[$key] == 'hardware' || ( isset($sql_field[$key]['SQL']) && $sql_field[$key]['SQL'] != '')) {
                     $sql_result .= " and ";
-                else
+                } else {
                     $sql_result .= " where ";
+                }
 
                 if ($table[$key] != 'hardware'
                         and $table[$key] != 'snmp'
@@ -349,7 +338,7 @@ function show_console_field($fields, $form_name) {
                 } elseif ($table[$key] == 'hardware') {
                     $sql_result .= " id in " . $myids['SQL'];
                 } elseif ($table[$key] == 'snmp') {
-                    
+
                 } elseif ($table[$key] == 'nk') {
                     $sql_result = substr($sql_result, 0, -4);
                 }
@@ -374,7 +363,6 @@ function show_console_field($fields, $form_name) {
                 if (isset($link[$key]['PAGE'])) {
                     $link_me_begin = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$link[$key]['PAGE']];
                     if (isset($multi_search[$key]['FIELD'])) {
-                        //'ARG'=>'&fields=HARDWARE-LASTCOME&comp=tall&values='.date($l->g(1242))
                         $link_me_begin .= "&fields=" . $multi_search[$key]['FIELD'] . "&comp=" . $multi_search[$key]['COMP'] . "&values=" . $multi_search[$key]['VALUE'] . "&values2=" . $multi_search[$key]['VALUE2'] . "&type_field=" . $multi_search[$key]['TYPE_FIELD'];
                     }
                     $link_me_begin .= "'>";
@@ -389,8 +377,9 @@ function show_console_field($fields, $form_name) {
             }
 
             echo $value . "</font></td><td>&nbsp;</td><td align=center><font size=2><B>" . $link_me_begin . $id_count . $link_me_end . "</B></font></td>" . $icon . "</tr><tr><td align =center><font size=2>";
-        } elseif ($_SESSION['OCS']['DEBUG'] == 'ON')
+        } elseif ($_SESSION['OCS']['DEBUG'] == 'ON') {
             echo "<font color=red><b>ERROR=>" . $value . "</b></font></font></td><td>&nbsp;</td><td align=center></font></td>" . $icon . "</tr><tr><td align =center><font size=2>";
+        }
     }
     echo "</table>";
 }
@@ -403,7 +392,7 @@ function find_limit_values() {
 function valid_modif($name) {
     global $form_name;
     return "onKeyPress=\"return scanTouche(event,/[0-9]/)\" onkeydown='convertToUpper(this)'
-		  onkeyup='convertToUpper(this)' 
+		  onkeyup='convertToUpper(this)'
 		  onblur='pag(\"" . $name . "\",\"UPDATE_VALUE\",\"" . $form_name . "\");'
 		  onclick='convertToUpper(this)'";
 }

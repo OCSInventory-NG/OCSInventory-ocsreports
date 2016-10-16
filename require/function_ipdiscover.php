@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -50,16 +50,18 @@ function form_add_subnet($title = '', $default_value, $form) {
     global $l, $pages_refs;
 
     $name_field = array("RSX_NAME", "ID_NAME", "ADD_IP", "ADD_SX_RSX");
-    if (isset($_SESSION['OCS']["ipdiscover_id"]))
+    if (isset($_SESSION['OCS']["ipdiscover_id"])) {
         $lbl_id = $_SESSION['OCS']["ipdiscover_id"];
-    else
+    } else {
         $lbl_id = $l->g(305) . ":";
+    }
 
     $tab_name = array($l->g(304) . ": ", $lbl_id . ":", $l->g(34) . ": ", $l->g(208) . ": ");
-    if ($title == $l->g(931))
+    if ($title == $l->g(931)) {
         $type_field = array(0, 2, 3, 0);
-    else
+    } else {
         $type_field = array(0, 2, 0, 0);
+    }
 
     $value_field = array($default_value['RSX_NAME'], $default_value['ID_NAME'], $default_value['ADD_IP'], $default_value['ADD_SX_RSX']);
 
@@ -82,21 +84,26 @@ function verif_base_methode($base) {
     if (isset($_SESSION['OCS']['ipdiscover_methode'])
             and $_SESSION['OCS']['ipdiscover_methode'] != $base) {
         return $l->g(929) . "<br>" . $l->g(930);
-    } else
+    } else {
         return false;
+    }
 }
 
 function add_subnet($add_ip, $sub_name, $id_name, $add_sub) {
     global $l;
 
-    if (trim($add_ip) == '')
+    if (trim($add_ip) == '') {
         return $l->g(932);
-    if (trim($sub_name) == '')
+    }
+    if (trim($sub_name) == '') {
         return $l->g(933);
-    if (trim($id_name) == '' || $id_name == '0')
+    }
+    if (trim($id_name) == '' || $id_name == '0') {
         return $l->g(934);
-    if (trim($add_sub) == '')
+    }
+    if (trim($add_sub) == '') {
         return $l->g(935);
+    }
     $row_verif = find_info_subnet($add_ip);
     if (isset($row_verif->NETID)) {
         $sql = "update subnet set name='%s', id='%s', MASK='%s'
@@ -108,6 +115,7 @@ function add_subnet($add_ip, $sub_name, $id_name, $add_sub) {
         $arg = array($add_ip, $sub_name, $id_name, $add_sub);
     }
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+    //@TODO : always false ?
     return false;
 }
 
@@ -118,8 +126,9 @@ function add_type($name, $update = '') {
         return $l->g(936);
     } else {
         $row = find_info_type($name, '', $update);
-        if (isset($row->ID))
+        if (isset($row->ID)) {
             return $l->g(937);
+        }
     }
     if ($update != '') {
         $sql = "update devicetype set NAME = '%s' where ID = '%s' ";
@@ -129,6 +138,7 @@ function add_type($name, $update = '') {
         $arg = $name;
     }
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+    //@TODO : always false ?
     return false;
 }
 
@@ -195,8 +205,9 @@ function form_add_community($title = '', $default_value, $form) {
 function add_community($ID, $NAME, $VERSION, $USERNAME, $AUTHKEY, $AUTHPASSWD) {
     global $l;
 
-    if ($VERSION == -1)
+    if ($VERSION == -1) {
         $VERSION = '2c';
+    }
     //this name of community still exist?
     $sql = "select name from snmp_communities where name='%s' and version='%s' ";
     $arg = array($NAME, $VERSION);
@@ -208,14 +219,16 @@ function add_community($ID, $NAME, $VERSION, $USERNAME, $AUTHKEY, $AUTHPASSWD) {
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $row = mysqli_fetch_object($res);
     //Exist
-    if (isset($row->name))
+    if (isset($row->name)) {
         return array('ERROR' => $NAME . " " . $l->g(363));
+    }
 
     if (isset($ID) && is_numeric($ID)) {
         del_community($ID);
         $SUCCESS = $l->g(1209);
-    } else
+    } else {
         $SUCCESS = $l->g(1208);
+    }
 
     $sql = "insert into snmp_communities (ID,VERSION,NAME,USERNAME,AUTHKEY,AUTHPASSWD) VALUES ('%s','%s','%s','%s','%s','%s')";
     $arg = array($ID, $VERSION, $NAME, $USERNAME, $AUTHKEY, $AUTHPASSWD);
@@ -244,17 +257,19 @@ function runCommand($command = "", $fname) {
 }
 
 function find_all_subnet($dpt_choise = '') {
-    if ($dpt_choise != '')
+    if ($dpt_choise != '') {
         return array_keys($_SESSION['OCS']["ipdiscover"][$dpt_choise]);
-    else {
+    } else {
         if (isset($_SESSION['OCS']["ipdiscover"])) {
             foreach ($_SESSION['OCS']["ipdiscover"] as $key => $subnet) {
-                foreach ($subnet as $sub => $poub)
+                foreach ($subnet as $sub => $poub) {
                     $array_sub[] = $sub;
+                }
             }
             return $array_sub;
-        } else
+        } else {
             return false;
+        }
     }
 }
 
@@ -262,9 +277,9 @@ function count_noinv_network_devices($dpt_choise = '') {
     $array_sub = find_all_subnet($dpt_choise);
     $arg_count = array();
     $sql_count = "SELECT COUNT(DISTINCT mac) as c
-					FROM netmap n 
-					LEFT OUTER JOIN networks ns ON ns.macaddr = mac 
-					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
+					FROM netmap n
+					LEFT OUTER JOIN networks ns ON ns.macaddr = mac
+					WHERE mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)
 						and ( ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
 						and netid in ";
     $detail_query = mysql2_prepare($sql_count, $arg_count, $array_sub);
@@ -273,8 +288,9 @@ function count_noinv_network_devices($dpt_choise = '') {
         $res_count = mysql2_query_secure($detail_query['SQL'], $_SESSION['OCS']["readServer"], $detail_query['ARG']);
         $val_count = mysqli_fetch_array($res_count);
         return $val_count['c'];
-    } else
+    } else {
         return $_SESSION['OCS']['COUNT_CONSOLE']['OCS_REPORT_NB_IPDISCOVER'];
+    }
 }
 
 ?>

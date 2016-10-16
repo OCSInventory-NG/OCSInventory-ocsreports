@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -30,8 +30,9 @@ if (AJAX) {
 }
 
 print_item_header($l->g(272));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $form_name = "affich_ports";
 $table_name = $form_name;
 $tab_options = $protectedPost;
@@ -44,7 +45,6 @@ $list_fields = array($l->g(66) => 'TYPE',
     $l->g(53) => 'DESCRIPTION');
 $list_col_cant_del = $list_fields;
 $default_fields = $list_fields;
-//	$tab_options['FILTRE']=array('NAME'=>$l->g(49),'MANUFACTURER'=>$l->g(64),'TYPE'=>$l->g(66));
 $queryDetails = "SELECT * FROM ports WHERE (hardware_id=$systemid)";
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();

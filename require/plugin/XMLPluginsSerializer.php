@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -39,12 +39,15 @@ class XMLPluginsSerializer {
             $hide_frame = (string) $plugin_xml->hide_frame;
 
             $plugin = new ComputerPlugin($id, $system, $label);
-            if ($cat)
+            if ($cat) {
                 $plugin->setCategory($cat);
-            if ($available)
+            }
+            if ($available) {
                 $plugin->setAvailable($available);
-            if ($hide_frame)
+            }
+            if ($hide_frame) {
                 $plugin->setHideFrame($hide_frame);
+            }
 
             $plugins[$id] = $plugin;
         }

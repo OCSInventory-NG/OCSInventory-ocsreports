@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -49,10 +49,10 @@ if ($total_mach <= 0) {
     require_once(FOOTER_HTML);
     die();
 }
-$sql = "select d.hardware_id as id,d.comments as date_valid 
+$sql = "select d.hardware_id as id,d.comments as date_valid
 					from devices d,download_enable d_e,download_available d_a
-			where d.name='DOWNLOAD' 
-				and tvalue='%s' 
+			where d.name='DOWNLOAD'
+				and tvalue='%s'
 				and comments is not null
 				and d_e.id=d.ivalue
 				and d_a.fileid=d_e.fileid
@@ -60,35 +60,36 @@ $sql = "select d.hardware_id as id,d.comments as date_valid
 $arg = array(urldecode($protectedGet['ta']), $protectedGet['stat']);
 $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 $nb_4_hour = array();
-//$total_mach=0;
+
 while ($item = mysqli_fetch_object($result)) {
-    //echo $item->date_valid."<br>";
     unset($data_temp, $day, $year, $hour_temp, $hour);
     $data_temp = explode(' ', $item->date_valid);
-    if ($data_temp[2] != '')
+    if ($data_temp[2] != '') {
         $day = $data_temp[2];
-    else
+    } else {
         $day = $data_temp[3];
+    }
 
     $mouth = $data_temp[1];
-    if (isset($data_temp[5]))
+    if (isset($data_temp[5])) {
         $year = $data_temp[5];
-    else
+    } else {
         $year = $data_temp[4];
-//	print_r($data_temp);
-//	echo "=>".$year."<br>";
+    }
+
     $hour_temp = explode(':', $data_temp[3]);
     $hour = $hour_temp[0];
-    if ($hour < 12)
+    if ($hour < 12) {
         $hour = 12;
-    else
+    } else {
         $hour = 00;
+    }
     $timestamp = mktime($hour, 0, 0, $year_mouth[$mouth], $day, $year);
-    if (isset($nb_4_hour[$timestamp]))
+    if (isset($nb_4_hour[$timestamp])) {
         $nb_4_hour[$timestamp] ++;
-    else
+    } else {
         $nb_4_hour[$timestamp] = 1;
-    //$total_mach++;
+    }
 }
 
 ksort($nb_4_hour);
@@ -176,6 +177,7 @@ $.elycharts.templates[\'line_speed_stat\'] = {
   }
 };		</script>';
     echo "</div><br>";
-} else
+} else {
     msg_warning($l->g(989));
+}
 ?>

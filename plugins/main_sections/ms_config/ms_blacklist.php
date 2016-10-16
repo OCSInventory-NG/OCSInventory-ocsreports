@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -43,7 +43,6 @@ if ($protectedPost['onglet'] == "" || !isset($protectedPost['onglet']))
 
 $tab_options = $protectedPost;
 
-
 //définition des onglets
 $data_on[1] = $l->g(95);
 $data_on[2] = $l->g(36);
@@ -61,8 +60,9 @@ if (isset($protectedPost['enre'])) {
     }
     if ($ok) {
         msg_error($ok);
-    } else
+    } else {
         unset($_SESSION['OCS']['DATA_CACHE'], $_SESSION['OCS']['NUM_ROW']);
+    }
 }
 echo open_form($form_name, '', '', 'form-horizontal');
 show_tabs($data_on, $form_name, "onglet", 10);
@@ -75,7 +75,6 @@ if ($protectedPost['onglet'] == 1) {
     $list_fields = array('ID' => 'ID',
         'MACADDRESS' => 'MACADDRESS',
         'SUP' => 'ID',
-        //'MODIF'=>'ID',
         'CHECK' => 'ID');
     $list_col_cant_del = $list_fields;
     $default_fields = $list_fields;
@@ -89,7 +88,6 @@ if ($protectedPost['onglet'] == 1) {
     $list_fields = array('ID' => 'ID',
         'SERIAL' => 'SERIAL',
         'SUP' => 'ID',
-        //'MODIF'=>'ID',
         'CHECK' => 'ID');
     $list_col_cant_del = $list_fields;
     $default_fields = $list_fields;
@@ -104,7 +102,6 @@ if ($protectedPost['onglet'] == 1) {
         'SUBNET' => 'SUBNET',
         'MASK' => 'MASK',
         'SUP' => 'ID',
-        //'MODIF'=>'ID',
         'CHECK' => 'ID');
     $list_col_cant_del = $list_fields;
     $default_fields = $list_fields;
@@ -130,7 +127,6 @@ if ($protectedPost['onglet'] == 1) {
         } elseif ($protectedPost['BLACK_CHOICE'] == 2) {
             $aff .= $l->g(702) . ": </td><td>";
             $aff = show_blacklist_fields($SERIALnb_field, $protectedPost, $SERIALfield_name, $SERIALnb_value_by_field, $SERIALsize, $SERIALseparat);
-            //$aff.="</td></tr>";	
         }
         if (isset($aff)) {
             $aff .= "</td></tr></table>

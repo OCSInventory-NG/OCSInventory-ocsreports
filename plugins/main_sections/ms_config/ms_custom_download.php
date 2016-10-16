@@ -6,7 +6,7 @@
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
  * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as 
+ * it and/or modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the License,
  * or (at your option) any later version.
  *
@@ -29,12 +29,13 @@ debut_tab(array('CELLSPACING' => '5',
     'BGCOLOR' => '#C7D9F5',
     'BORDERCOLOR' => '#9894B5'));
 
-if (!isset($optvalue['DOWNLOAD_SWITCH']))
+if (!isset($optvalue['DOWNLOAD_SWITCH'])) {
     $optvalueselected = 'SERVER DEFAULT';
-elseif ($optvalue['DOWNLOAD_SWITCH'] == 0)
+} elseif ($optvalue['DOWNLOAD_SWITCH'] == 0) {
     $optvalueselected = 'OFF';
-elseif ($optvalue['DOWNLOAD_SWITCH'] == 1)
+} elseif ($optvalue['DOWNLOAD_SWITCH'] == 1) {
     $optvalueselected = 'ON';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['ON'] = 'ON';
 $champ_value['OFF'] = 'OFF';
@@ -46,10 +47,11 @@ if (!isset($protectedGet['origine'])) {
 ligne("DOWNLOAD_SWITCH", $l->g(417), 'radio', $champ_value);
 unset($champ_value);
 
-if (!isset($optvalue['DOWNLOAD_CYCLE_LATENCY']))
+if (!isset($optvalue['DOWNLOAD_CYCLE_LATENCY'])) {
     $optvalueselected = 'SERVER DEFAULT';
-else
+} else {
     $optvalueselected = 'CUSTOM';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['CUSTOM'] = $l->g(487);
 $champ_value['SERVER DEFAULT'] = $l->g(488);
@@ -59,10 +61,11 @@ if (!isset($protectedGet['origine'])) {
 }
 ligne("DOWNLOAD_CYCLE_LATENCY", $l->g(720), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_CYCLE_LATENCY'], 'END' => $l->g(511), 'JAVASCRIPT' => $numeric));
 
-if (!isset($optvalue['DOWNLOAD_FRAG_LATENCY']))
+if (!isset($optvalue['DOWNLOAD_FRAG_LATENCY'])) {
     $optvalueselected = 'SERVER DEFAULT';
-else
+} else {
     $optvalueselected = 'CUSTOM';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['CUSTOM'] = $l->g(487);
 $champ_value['SERVER DEFAULT'] = $l->g(488);
@@ -72,10 +75,11 @@ if (!isset($protectedGet['origine'])) {
 }
 ligne("DOWNLOAD_FRAG_LATENCY", $l->g(721), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_FRAG_LATENCY'], 'END' => $l->g(511), 'JAVASCRIPT' => $numeric));
 
-if (!isset($optvalue['DOWNLOAD_PERIOD_LATENCY']))
+if (!isset($optvalue['DOWNLOAD_PERIOD_LATENCY'])) {
     $optvalueselected = 'SERVER DEFAULT';
-else
+} else {
     $optvalueselected = 'CUSTOM';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['CUSTOM'] = $l->g(487);
 $champ_value['SERVER DEFAULT'] = $l->g(488);
@@ -85,10 +89,11 @@ if (!isset($protectedGet['origine'])) {
 }
 ligne("DOWNLOAD_PERIOD_LATENCY", $l->g(722), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_PERIOD_LATENCY'], 'END' => $l->g(511), 'JAVASCRIPT' => $numeric));
 
-if (!isset($optvalue['DOWNLOAD_PERIOD_LENGTH']))
+if (!isset($optvalue['DOWNLOAD_PERIOD_LENGTH'])) {
     $optvalueselected = 'SERVER DEFAULT';
-else
+} else {
     $optvalueselected = 'CUSTOM';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['CUSTOM'] = $l->g(487);
 $champ_value['SERVER DEFAULT'] = $l->g(488);
@@ -98,10 +103,11 @@ if (!isset($protectedGet['origine'])) {
 }
 ligne("DOWNLOAD_PERIOD_LENGTH", $l->g(723), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_PERIOD_LENGTH'], 'JAVASCRIPT' => $numeric));
 
-if (!isset($optvalue['DOWNLOAD_TIMEOUT']))
+if (!isset($optvalue['DOWNLOAD_TIMEOUT'])) {
     $optvalueselected = 'SERVER DEFAULT';
-else
+} else {
     $optvalueselected = 'CUSTOM';
+}
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['CUSTOM'] = $l->g(487);
 $champ_value['SERVER DEFAULT'] = $l->g(488);
@@ -111,10 +117,5 @@ if (!isset($protectedGet['origine'])) {
 }
 ligne("DOWNLOAD_TIMEOUT", $l->g(424), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_TIMEOUT'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
 
-
-
-
-
 fin_tab($form_name);
 ?>
-
