@@ -87,7 +87,7 @@ function validate_profile_edit_form($profile_id, $data) {
 
 function create_profile($data) {
     $profiles = get_profiles();
-    $newProfile = clone($profiles[$data['duplicate_profile']]);
+    $newProfile = clone $profiles[$data['duplicate_profile']];
 
     $newProfile->setName($data['name']);
     $newProfile->setLabel($data['label']);
