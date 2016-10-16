@@ -25,8 +25,6 @@ class TableRenderer {
     private static $jsIncluded = false;
 
     public function show($table, $records, $options = array()) {
-        global $l, $protectedPost;
-
         $options = array_merge_recursive(array(
             'paginate' => array(
                 'offset' => 0,

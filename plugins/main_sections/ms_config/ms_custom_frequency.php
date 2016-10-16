@@ -46,5 +46,5 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['VALUE'] = 'IGNORED';
 }
 ligne("FREQUENCY", $l->g(494), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
-fin_tab($form_name);
+fin_tab();
 ?>

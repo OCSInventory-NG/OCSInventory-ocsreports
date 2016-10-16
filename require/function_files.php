@@ -161,7 +161,7 @@ function parse_xml_file($file, $tag, $separe) {
     // read line
     while ($ln = fgets($fp, 1024)) {
         $ln = preg_replace('(\r\n|\n|\r|\t| )', '', $ln);
-        foreach ($tag as $poub => $key) {
+        foreach ($tag as $key) {
             if (substr($ln, 0, strlen($key) + 2) == '<' . $key . '>') {
                 $search = array("<" . $key . ">", "</" . $key . ">");
                 $replace = array('', '');

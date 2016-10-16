@@ -83,5 +83,5 @@ ligne("SNMP_SWITCH", $l->g(1197), 'radio', $champ_value);
 ligne('SNMP_NETWORK', $l->g(1198), 'long_text', array('VALUE' => $optvalueTvalue['SNMP_NETWORK'], 'COLS' => 40, 'ROWS' => 1));
 unset($champ_value);
 
-fin_tab($form_name);
+fin_tab();
 ?>

@@ -68,7 +68,7 @@ function exec_fichier_sql($fichier, $link) {
             $sql_query = fread($dbf_handle, filesize($db_file));
             fclose($dbf_handle);
             $data_sql = explode(";", $sql_query);
-            foreach ($data_sql as $k => $v) {
+            foreach ($data_sql as $v) {
                 if (trim($v) != "") {
                     echo ".";
                     ob_flush();

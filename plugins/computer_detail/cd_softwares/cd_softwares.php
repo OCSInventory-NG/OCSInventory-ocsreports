@@ -72,7 +72,7 @@ $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
 $list_fields[$l->g(1238)] = 'INSTALLDATE';
 $list_fields[$l->g(1247)] = 'BITSWIDTH';
 
-$tab_options['FILTRE'] = array_flip($list_fields); //array('NAME'=>$l->g(49),'VERSION'=>$l->g(277),'PUBLISHER'=>$l->g(69));
+$tab_options['FILTRE'] = array_flip($list_fields);
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();

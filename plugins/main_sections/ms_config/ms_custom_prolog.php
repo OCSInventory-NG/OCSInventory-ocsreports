@@ -61,5 +61,5 @@ if (!isset($protectedGet['origine'])) {
 ligne("INVENTORY_ON_STARTUP", $l->g(2121), 'radio', $champ_value);
 unset($champ_value);
 
-fin_tab($form_name);
+fin_tab();
 ?>

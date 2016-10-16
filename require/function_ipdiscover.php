@@ -171,7 +171,7 @@ function loadMac() {
 }
 
 function form_add_community($title = '', $default_value, $form) {
-    global $l, $pages_refs, $protectedPost;
+    global $l, $protectedPost;
 
     $name_field = array("NAME", "VERSION");
     $tab_name = array($l->g(49) . ": ", $l->g(1199) . ": ");

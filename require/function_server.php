@@ -27,7 +27,7 @@ function desactive_mach_serv($list_id, $packid) {
     $sql_desactive = "delete from devices where hardware_id in ";
     $arg_desactive = mysql2_prepare($sql_desactive, array(), $list_id);
     $arg_desactive = mysql2_prepare($arg_desactive['SQL'] . " and name='DOWNLOAD' and IVALUE in ", $arg_desactive['ARG'], $id_pack);
-    $res_active = mysql2_query_secure($arg_desactive['SQL'], $_SESSION['OCS']["writeServer"], $arg_desactive['ARG']);
+    mysql2_query_secure($arg_desactive['SQL'], $_SESSION['OCS']["writeServer"], $arg_desactive['ARG']);
     addLog($l->g(512), $l->g(876) . $packid . " => " . $list_id);
 }
 

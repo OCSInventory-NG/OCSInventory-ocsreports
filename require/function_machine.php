@@ -103,8 +103,6 @@ function print_item_header($text) {
 }
 
 function bandeau($data, $lbl, $link = array()) {
-    global $protectedGet, $pages_refs;
-
     if (!is_array($link)) {
         $link = array();
     }
@@ -115,23 +113,26 @@ function bandeau($data, $lbl, $link = array()) {
     echo "		<table align=center border='0' width='100%'  ><tr>";
     $i = 0;
     foreach ($data as $name => $value) {
-        if (trim($value) != '') {
-            if ($i == $nb_col) {
-                echo "</tr><tr>";
-                $i = 0;
-            }
-            if (!array_key_exists($name, $link)) {
-                //$value=htmlentities($value,ENT_COMPAT,'UTF-8');
-                $value = strip_tags_array($value);
-            }
-
-            if ($name == "IPADDR") {
-                $value = preg_replace('/([x0-9])\//', '$1 / ', $value);
-            }
-
-            echo "<td>&nbsp;<b>" . $lbl[$name] . ": </b></td><td >" . $value . "</td>";
-            $i++;
+        if (trim($value) == '') {
+            // Only if we have datas...
+            continue;
         }
+
+        if ($i == $nb_col) {
+            echo "</tr><tr>";
+            $i = 0;
+        }
+        if (!array_key_exists($name, $link)) {
+            //$value=htmlentities($value,ENT_COMPAT,'UTF-8');
+            $value = strip_tags_array($value);
+        }
+
+        if ($name == "IPADDR") {
+            $value = preg_replace('/([x0-9])\//', '$1 / ', $value);
+        }
+
+        echo "<td>&nbsp;<b>" . $lbl[$name] . ": </b></td><td >" . $value . "</td>";
+        $i++;
     }
 
     echo "</tr></table></td>";

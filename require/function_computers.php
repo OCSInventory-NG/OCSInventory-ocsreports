@@ -320,7 +320,7 @@ function form_add_computer() {
     }
 }
 
-function insert_manual_computer($values, $nb = 1, $generic = false) {
+function insert_manual_computer($values, $nb = 1) {
     global $i;
     if ($nb == 1) {
         $name = $values['COMPUTER_NAME_GENERIC'];

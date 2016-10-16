@@ -51,7 +51,7 @@ class Table {
      */
 
     private function generateJavascript($tablename, $formid) {
-        global $protectedGet, $protectedPost, $l, $pages_refs;
+        global $protectedGet, $protectedPost, $l;
         $tableid = "table#$tablename";
         print_r($protectedGet);
         print_r($protectedPost)
@@ -168,9 +168,9 @@ class Table {
                     $key = $this->params['REPLACE_COLUMN_KEY'][$key];
                 }
                 echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
-                         'name':'" . $key . "', 'defaultContent': ' ',
-                         'orderable':  " . $orderable . ",'searchable': false,
-                         'visible' : " . $visible . "}, \n";
+                 'name':'" . $key . "', 'defaultContent': ' ',
+                 'orderable':  " . $orderable . ",'searchable': false,
+                 'visible' : " . $visible . "}, \n";
             } else {
                 $name = explode('.', $column);
                 $name = explode(' as ', end($name));
@@ -179,8 +179,8 @@ class Table {
                     $name = $this->params['REPLACE_COLUMN_KEY'][$key];
                 }
                 echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
-                         'name':'" . $column . "', 'defaultContent': ' ',
-                         'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
+                 'name':'" . $column . "', 'defaultContent': ' ',
+                 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
             }
         }
         ?>

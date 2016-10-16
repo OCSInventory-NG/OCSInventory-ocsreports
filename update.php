@@ -121,7 +121,7 @@ function exec_fichier_sql($fichier) {
             $sql_query = fread($dbf_handle, filesize($db_file));
             fclose($dbf_handle);
             $data_sql = explode(";", $sql_query);
-            foreach ($data_sql as $k => $v) {
+            foreach ($data_sql as $v) {
                 if (trim($v) != "") {
                     mysql2_query_secure($v, $_SESSION['OCS']["writeServer"]);
                 }

@@ -89,7 +89,7 @@ $sup10 = "<br><font color=green size=1><i> (" . $l->g(759) . " 10)</i></font>";
  */
 
 function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $helpInput = '') {
-    global $l, $protectedPost;
+    global $l;
     echo "<hr />";
     echo "<div class='row config-row'>";
     echo "<div class='col-md-6'>";
@@ -196,7 +196,7 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
             echo "<tr><td>" . $data['END'] . "</td></tr>";
         }
         if (is_array($data['VALUE'])) {
-            foreach ($data['VALUE'] as $index => $value) {
+            foreach ($data['VALUE'] as $value) {
                 echo "<tr><td>" . $value . "</td></tr>";
             }
         }
@@ -281,7 +281,7 @@ function verif_champ() {
     return $tab_error;
 }
 
-function fin_tab($form_name, $disable = '') {
+function fin_tab($disable = '') {
     global $l;
     if ($disable != '') {
         $gris = "disabled=disabled";
@@ -497,7 +497,7 @@ function trait_post($name) {
     return $select;
 }
 
-function pageGUI($form_name) {
+function pageGUI() {
     global $l, $values;
     //what ligne we need?
     $champs = array('LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER',
@@ -546,10 +546,10 @@ function pageGUI($form_name) {
     ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE']));
     ligne('WARN_UPDATE', $l->g(2117), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WARN_UPDATE']));
 
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pageteledeploy($form_name) {
+function pageteledeploy() {
     global $l, $numeric, $sup1;
     //open array;
     //what ligne we need?
@@ -588,10 +588,10 @@ function pageteledeploy($form_name) {
     ligne('DEPLOY', $l->g(414), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DEPLOY']));
     ligne('DOWNLOAD_URI_FRAG', $l->g(826), 'radio', array('DEFAULT' => $l->g(823) . " (HTTP://localhost/download)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_frag), array('BEGIN' => "http://", 'HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_URI_FRAG'], 'SIZE' => 70, 'MAXLENGTH' => 254));
     ligne('DOWNLOAD_URI_INFO', $l->g(827), 'radio', array('DEFAULT' => $l->g(823) . " (HTTPS://localhost/download)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_info), array('BEGIN' => "https://", 'HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_URI_INFO'], 'SIZE' => 70, 'MAXLENGTH' => 254));
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pagegroups($form_name) {
+function pagegroups() {
     global $l, $numeric, $sup1;
     //open array;
     //what ligne we need?
@@ -607,10 +607,10 @@ function pagegroups($form_name) {
     ligne('GROUPS_CACHE_OFFSET', $l->g(737), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['GROUPS_CACHE_OFFSET'], 'SIZE' => 5, 'MAXLENGTH' => 6, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('GROUPS_CACHE_REVALIDATE', $l->g(738), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['GROUPS_CACHE_REVALIDATE'], 'SIZE' => 5, 'MAXLENGTH' => 6, 'JAVASCRIPT' => $numeric), '', '', $sup1);
 
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pageserveur($form_name) {
+function pageserveur() {
     global $l, $numeric, $sup1;
 
     //what ligne we need?
@@ -645,10 +645,10 @@ function pageserveur($form_name) {
     ligne('SESSION_VALIDITY_TIME', $l->g(777), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SESSION_VALIDITY_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('INVENTORY_ON_STARTUP', $l->g(2121), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_ON_STARTUP']));
 
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pageinventory($form_name) {
+function pageinventory() {
     global $l, $numeric, $sup1;
     //what ligne we need?
     $champs = array('FREQUENCY' => 'FREQUENCY',
@@ -686,20 +686,20 @@ function pageinventory($form_name) {
     ligne('INVENTORY_CACHE_REVALIDATE', $l->g(745), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INVENTORY_CACHE_REVALIDATE'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('INVENTORY_CACHE_ENABLED', $l->g(1265), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_CACHE_ENABLED']));
     ligne('INVENTORY_VALIDITY', $l->g(828), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_VALIDITY']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $validity, 'END' => $l->g(496), 'JAVASCRIPT' => $numeric, 'SIZE' => 3), "readonly");
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pageregistry($form_name) {
+function pageregistry() {
     global $l, $numeric, $sup1;
     //what ligne we need?
     $champs = array('REGISTRY' => 'REGISTRY');
     $values = look_config_default_values($champs);
     debut_tab();
     ligne('REGISTRY', $l->g(412), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['REGISTRY']));
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pageipdiscover($form_name) {
+function pageipdiscover() {
     global $l, $numeric, $sup1, $sup10;
     //what ligne we need?
     $champs = array('IPDISCOVER' => 'IPDISCOVER',
@@ -727,10 +727,10 @@ function pageipdiscover($form_name) {
     ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
     ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
 
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pageredistrib($form_name) {
+function pageredistrib() {
     global $l, $numeric, $sup1;
     //what ligne we need?
     $champs = array('DOWNLOAD_SERVER_URI' => 'DOWNLOAD_SERVER_URI',
@@ -760,10 +760,10 @@ function pageredistrib($form_name) {
     ligne('DOWNLOAD_SERVER_URI', $l->g(726), 'input', array('BEGIN' => 'HTTP://', 'VALUE' => $values['tvalue']['DOWNLOAD_SERVER_URI'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
     ligne('DOWNLOAD_SERVER_DOCROOT', $l->g(727), 'input', array('VALUE' => $values['tvalue']['DOWNLOAD_SERVER_DOCROOT'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
     ligne('DOWNLOAD_REP_CREAT', $l->g(829), 'radio', array('DEFAULT' => $l->g(823) . " (" . DOCUMENT_ROOT . "download/server)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_rep_creat), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_REP_CREAT'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pagefilesInventory($form_name) {
+function pagefilesInventory() {
     global $l, $numeric, $sup1;
     //what ligne we need?
     $champs = array('GENERATE_OCS_FILES' => 'GENERATE_OCS_FILES',
@@ -776,10 +776,10 @@ function pagefilesInventory($form_name) {
     ligne('OCS_FILES_FORMAT', $l->g(750), 'select', array('VALUE' => $values['tvalue']['OCS_FILES_FORMAT'], 'SELECT_VALUE' => array('OCS' => 'OCS', 'XML' => 'XML')));
     ligne('OCS_FILES_OVERWRITE', $l->g(751), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['OCS_FILES_OVERWRITE']));
     ligne('OCS_FILES_PATH', $l->g(752), 'input', array('VALUE' => $values['tvalue']['OCS_FILES_PATH'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pagefilter($form_name) {
+function pagefilter() {
     global $l, $numeric, $sup1;
     //what ligne we need?
     $champs = array('PROLOG_FILTER_ON' => 'PROLOG_FILTER_ON',
@@ -794,10 +794,10 @@ function pagefilter($form_name) {
     ligne('INVENTORY_FILTER_FLOOD_IP', $l->g(755), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_FILTER_FLOOD_IP']));
     ligne('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME', $l->g(756), 'input', array('VALUE' => $values['ivalue']['INVENTORY_FILTER_FLOOD_IP_CACHE_TIME'], 'END' => $l->g(511), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('INVENTORY_FILTER_ON', $l->g(757), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_FILTER_ON']));
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pagewebservice($form_name) {
+function pagewebservice() {
     global $l, $numeric, $sup1;
     //what ligne we need?
     $champs = array('WEB_SERVICE_ENABLED' => 'WEB_SERVICE_ENABLED',
@@ -810,10 +810,10 @@ function pagewebservice($form_name) {
     ligne('WEB_SERVICE_ENABLED', $l->g(761), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WEB_SERVICE_ENABLED']), '', "readonly");
     ligne('WEB_SERVICE_RESULTS_LIMIT', $l->g(762), 'input', array('VALUE' => $values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'], 'END' => $l->g(511), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly", $sup1);
     ligne('WEB_SERVICE_PRIV_MODS_CONF', $l->g(763), 'input', array('VALUE' => $values['tvalue']['WEB_SERVICE_PRIV_MODS_CONF'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "readonly");
-    fin_tab($form_name, "disabled");
+    fin_tab("disabled");
 }
 
-function pageConnexion($form_name) {
+function pageConnexion() {
     global $l, $numeric, $sup1;
     require_once('require/function_users.php');
 
@@ -853,10 +853,10 @@ function pageConnexion($form_name) {
     ligne('CONEX_LDAP_CHECK_FIELD2_ROLE', $l->g(1116), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD2_ROLE'], 'SELECT_VALUE' => $role1));
     ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'], 'SELECT_VALUE' => $default_role));
 
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pagesnmp($form_name) {
+function pagesnmp() {
     global $l, $numeric, $sup1, $pages_refs;
     //what ligne we need?
     $champs = array('SNMP' => 'SNMP', 'SNMP_INVENTORY_DIFF' => 'SNMP_INVENTORY_DIFF');
@@ -869,10 +869,10 @@ function pagesnmp($form_name) {
     debut_tab();
     ligne('SNMP', $l->g(1137), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP']));
     ligne('SNMP_INVENTORY_DIFF', $l->g(1214), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP_INVENTORY_DIFF']));
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pagesplugin($form_name) {
+function pagesplugin() {
     global $l;
 
     $champs = array('OCS_SERVER_ADDRESS' => 'OCS_SERVER_ADDRESS');
@@ -882,10 +882,10 @@ function pagesplugin($form_name) {
 
     ligne('OCS_SERVER_ADDRESS', 'Give your ocs server ip address', 'input', array('VALUE' => $values['tvalue']['OCS_SERVER_ADDRESS'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
 
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pageswol($form_name) {
+function pageswol() {
     global $l;
     $numeric_semicolon = "onKeyPress='return scanTouche(event,/[0-9 ,]/)'
 		  onkeydown='convertToUpper(this)'
@@ -908,16 +908,16 @@ function pageswol($form_name) {
     ligne('WOL_PORT', $l->g(272) . " (" . $l->g(1320) . ")", 'input', array('VALUE' => $values['tvalue']['WOL_PORT'], 'SIZE' => "30%", 'MAXLENGTH' => "30%", 'JAVASCRIPT' => $numeric_semicolon));
     ligne('WOL_BIOS_PASSWD', 'Bios password', 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $wol_passwd), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $values['tvalue']['WOL_BIOS_PASSWD'], 'SIZE' => 40, 'MAXLENGTH' => 254), "readonly");
 
-    fin_tab($form_name);
+    fin_tab();
 }
 
-function pagesdev($form_name) {
+function pagesdev() {
     global $l, $numeric, $sup1, $pages_refs;
     $champs = array('USE_NEW_SOFT_TABLES' => 'USE_NEW_SOFT_TABLES');
     $values = look_config_default_values($champs);
     debut_tab();
     ligne('USE_NEW_SOFT_TABLES', 'Utilisation tables de soft OCS v2.1', 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['USE_NEW_SOFT_TABLES']));
 
-    fin_tab($form_name);
+    fin_tab();
 }
 ?>

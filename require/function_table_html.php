@@ -469,7 +469,6 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         } else {
             if (( (in_array($key, $default_fields)) || (in_array($key, $list_col_cant_del)) || array_key_exists($key, $default_fields) || ($key == "ACTIONS" )) && !(in_array($key, $actions))
             ) {
-
                 $visible = 'true';
             } else {
                 $visible = 'false';
@@ -672,7 +671,7 @@ function tab_entete_fixe($entete_colonne, $data, $titre, $width, $height, $lien 
 
         $j = 0;
         //lignes du tableau
-        foreach ($data as $k2 => $v2) {
+        foreach ($data as $v2) {
             ($j % 2 == 0 ? $color = "#f2f2f2" : $color = "#ffffff");
             echo "<tr class='ta' bgcolor='" . $color . "'  onMouseOver='changerCouleur(this, true);' onMouseOut='changerCouleur(this, false);'>";
             foreach ($v2 as $k => $v) {

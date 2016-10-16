@@ -23,7 +23,7 @@
 
 /**
  * Menu class
- * 
+ *
  * The class generate the menu
  *
  */
@@ -33,7 +33,7 @@ class Menu {
 
     /**
      * Constructor
-     * 
+     *
      * @param array  $_children An array of MenuElem
      * @param number $_priority The priority of this element to sort
      */
@@ -44,29 +44,27 @@ class Menu {
 
     /**
      * Sort the Menu
-     * 
+     *
      * @return number
      */
     public function sortMenu() {
-        foreach ($this->getChildren() as $index => $menu) {
+        foreach ($this->getChildren() as $menu) {
             if ($menu->hasChildren()) {
                 $menu->sortMenu();
             }
         }
 
-        uasort(
-                $this->_children, function($a, $b) {
+        uasort($this->_children, function($a, $b) {
             if ($a->getPriority() == $b->getPriority()) {
                 return 0;
             }
             return ($a->getPriority() < $b->getPriority()) ? -1 : 1;
-        }
-        );
+        });
     }
 
     /**
      * Get the MenuElem children
-     * 
+     *
      * @return Ambigous <array, MenuElem>
      */
     public function getChildren() {
@@ -87,9 +85,9 @@ class Menu {
 
     /**
      * Get the MenuElem by an index
-     * 
+     *
      * @param string $index The index of the MenuElem
-     * 
+     *
      * @return array An array of the childrens
      */
     public function getElem($index) {
@@ -128,9 +126,9 @@ class Menu {
 
     /**
      * Find MenuElem by its index
-     * 
+     *
      * @param string $elem_index The index we searching for
-     * 
+     *
      * @return <string, MenuElem> The MenuElem if function find it
      */
     public function findElemByIndex($elem_index) {
@@ -148,9 +146,9 @@ class Menu {
 
     /**
      * Delete a MenuElem
-     * 
+     *
      * @param string $elem_index The index of MenuElem to delete
-     * 
+     *
      * @return Menu
      */
     public function delElem($elem_index) {
@@ -160,10 +158,10 @@ class Menu {
 
     /**
      * Replace the MenuElem by this pass in parameter if it exists
-     * 
+     *
      * @param string   $elem_index The index of MenuElem to replace
      * @param MenuElem $menuElem   The new MenuElem
-     * 
+     *
      * @return Menu
      */
     public function replaceElem($elem_index, MenuElem $menuElem) {
@@ -175,7 +173,7 @@ class Menu {
 
     /**
      * Add a MenuElem
-     * 
+     *
      * @param string   $index    Index name for the MenuElem we want to add
      * @param MenuElem $menuElem MenuEleme to add
      *

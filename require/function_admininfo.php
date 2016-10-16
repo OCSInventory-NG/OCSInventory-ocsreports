@@ -257,7 +257,7 @@ function update_accountinfo_config($id, $array_new_values) {
     } else {
         $temp_id = explode(',', $id);
         $sql_update_config .= "  WHERE ID IN (";
-        foreach ($temp_id as $key => $value) {
+        foreach ($temp_id as $value) {
             $sql_update_config .= $value . "%s,";
             array_push($arg_update_config, $value);
         }

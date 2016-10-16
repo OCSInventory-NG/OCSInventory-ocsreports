@@ -79,55 +79,55 @@ show_tabs($def_onglets, $form_name, "onglet", 10);
 echo '<div class="col col-md-10">';
 switch ($protectedPost['onglet']) {
     case 'CNX':
-        pageConnexion($form_name);
+        pageConnexion();
         break;
     case 'GUI':
-        pageGUI($form_name);
+        pageGUI();
         break;
     case 'INVENTORY':
-        pageinventory($form_name);
+        pageinventory();
         break;
     case 'SERVER':
-        pageserveur($form_name);
+        pageserveur();
         break;
     case 'IPDISCOVER':
-        pageipdiscover($form_name);
+        pageipdiscover();
         break;
     case 'TELEDEPLOY':
-        pageteledeploy($form_name);
+        pageteledeploy();
         break;
     case 'REDISTRIB':
-        pageredistrib($form_name);
+        pageredistrib();
         break;
     case 'GROUPS':
-        pagegroups($form_name);
+        pagegroups();
         break;
     case 'REGISTRY':
-        pageregistry($form_name);
+        pageregistry();
         break;
     case 'INV_FILE':
-        pagefilesInventory($form_name);
+        pagefilesInventory();
         break;
     case 'FILTER':
-        pagefilter($form_name);
+        pagefilter();
         break;
     case 'WEBSERVICES':
-        pagewebservice($form_name);
+        pagewebservice();
         break;
     case 'SNMP':
-        pagesnmp($form_name);
+        pagesnmp();
         break;
     case 'DEV':
-        pagesdev($form_name);
+        pagesdev();
         break;
     case 'PLUGINSCONF':
-        pagesplugin($form_name);
+        pagesplugin();
         break;
     case 'WOL':
-        pageswol($form_name);
+        pageswol();
         break;
     default:
-        pageinventory($form_name);
+        pageinventory();
 }
 
 echo "<input type='hidden' id='RELOAD_CONF' name='RELOAD_CONF' value=''>";

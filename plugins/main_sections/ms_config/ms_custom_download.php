@@ -117,5 +117,5 @@ if (!isset($protectedGet['origine'])) {
 }
 ligne("DOWNLOAD_TIMEOUT", $l->g(424), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_TIMEOUT'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
 
-fin_tab($form_name);
+fin_tab();
 ?>
