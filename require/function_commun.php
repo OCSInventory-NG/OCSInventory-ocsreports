@@ -336,7 +336,7 @@ function data_encode_utf8($data) {
       return $data; */
 }
 
-function html_header($no_java = false) {
+function html_header($noJavascript = false) {
     header("Pragma: no-cache");
     header("Expires: -1");
     header("Cache-control: must-revalidate, post-check=0, pre-check=0");
@@ -360,7 +360,7 @@ function html_header($no_java = false) {
 				<link rel="stylesheet" href="css/header.css">
 				<link rel="stylesheet" href="css/computer_details.css">
 				<link rel="stylesheet" href="css/forms.css">';
-    if (!$no_java) {
+    if (!$noJavascript) {
         incPicker();
 
         //js for graph
