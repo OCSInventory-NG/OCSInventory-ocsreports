@@ -1,46 +1,67 @@
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 /* Thanks for Douglas Bowman for this code
 http://www.alistapart.com/articles/slidingdoors/
 */
 
 #header {
-	width: 100%;
-	font-size: 93%;
-	line-height: normal;
+    width: 100%;
+    font-size: 93%;
+    line-height: normal;
 }
 
 #header ul {
-	padding: 6px 5px 12px;
-	list-style: none;
+    padding: 6px 5px 12px;
+    list-style: none;
 }
 
 #header li {
-	float: left;
-	background-color: #c7c7c7;
-	border-top: 1px solid #c7c7c7;
-	margin: 0;
-	margin-bottom: -1px;
-	padding: 0 0 0 9px;
+    float: left;
+    background-color: #c7c7c7;
+    border-top: 1px solid #c7c7c7;
+    margin: 0;
+    margin-bottom: -1px;
+    padding: 0 0 0 9px;
 }
 
 #header li:first-child {
-	border-left: 1px solid #c7c7c7;
+    border-left: 1px solid #c7c7c7;
 }
 
 #header a {
-	float:left;
-	display:block;
-	padding:5px 15px 4px 6px;
-	text-decoration:none;
-	font-weight:bold;
-	color: black;
-	background-color: #c7c7c7;
-	border-right: 1px solid #c7c7c7;
+    float:left;
+    display:block;
+    padding:5px 15px 4px 6px;
+    text-decoration:none;
+    font-weight:bold;
+    color: black;
+    background-color: #c7c7c7;
+    border-right: 1px solid #c7c7c7;
 }
 
 #header #current {
-	background-color: #f8f8f8;
+    background-color: #f8f8f8;
 }
 
 #header #current a {
-	background-color: #f8f8f8;
+    background-color: #f8f8f8;
 }

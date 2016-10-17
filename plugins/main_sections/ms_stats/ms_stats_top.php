@@ -1,118 +1,140 @@
 <?php
-$rep_ocs=explode('/',$_SERVER['SCRIPT_FILENAME']);
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
+$rep_ocs = explode('/', $_SERVER['SCRIPT_FILENAME']);
 array_pop($rep_ocs);
-$file_restriction_soft=implode($rep_ocs,'/')."/plugins/main_sections/ms_stats/ms_stats_top_soft.txt";
-$data_on['TOP']=$l->g(800);
-if ($protectedPost['onglet'] == 'TOP'){
-	require_once('require/function_stats.php');
-	$stats="";
-	if (!isset($protectedPost['CHOICE_OP']) or $protectedPost['CHOICE_OP'] == "")
-		$protectedPost['CHOICE_OP']='TOP_SOFT';
+$file_restriction_soft = implode($rep_ocs, '/') . "/plugins/main_sections/ms_stats/ms_stats_top_soft.txt";
+$data_on['TOP'] = $l->g(800);
+if ($protectedPost['onglet'] == 'TOP') {
+    require_once('require/function_stats.php');
+    $stats = "";
+    if (!isset($protectedPost['CHOICE_OP']) || $protectedPost['CHOICE_OP'] == "") {
+        $protectedPost['CHOICE_OP'] = 'TOP_SOFT';
+    }
 
-	$array_option=array('NB_OS'=>$l->g(783),'TOP_SOFT'=>'top soft','NB_AGENTS'=>$l->g(784));
-	$stats.= $l->g(1251). ": " .show_modif($array_option,"CHOICE_OP",2,$form_name)."<br>";
-	if ($protectedPost['CHOICE_OP'] == 'TOP_SOFT'){
+    $array_option = array('NB_OS' => $l->g(783), 'TOP_SOFT' => 'top soft', 'NB_AGENTS' => $l->g(784));
+    $stats .= $l->g(1251) . ": " . show_modif($array_option, "CHOICE_OP", 2, $form_name) . "<br>";
+    if ($protectedPost['CHOICE_OP'] == 'TOP_SOFT') {
 
-		if (!isset($protectedPost['CHOICE_TOP']) or $protectedPost['CHOICE_TOP'] == "")
-			$protectedPost['CHOICE_TOP']=10;
-		// open file
+        if (!isset($protectedPost['CHOICE_TOP']) || $protectedPost['CHOICE_TOP'] == "") {
+            $protectedPost['CHOICE_TOP'] = 10;
+        }
+        // open file
 
+        $tag = array('<LIKE>' => 'LIKE', '<EXACTLY>' => '=', '<NOLIKE>' => 'NOT LIKE', '<NOEXACTLY>' => '!=');
+        // read line
+        if (is_readable($file_restriction_soft)) {
+            $fp = fopen($file_restriction_soft, "r");
+            while ($ln = fgets($fp, 1024)) {
+                $ln = preg_replace('(\r\n|\n|\r|\t|)', '', $ln);
+                if (array_key_exists($ln, $tag)) {
+                    $index = $tag[$ln];
+                } elseif (substr($ln, 0, 2) == '</') {
+                    unset($index);
+                } elseif (trim($ln) != "" && isset($index)) {
+                    $data[$index][] = $ln;
+                }
+            }
+            fclose($fp);
+        } else {
+            msg_error("NO_FILES: " . $file_restriction_soft);
+        }
+        $array_top = array(5 => 5, 10 => 10, 20 => 20);
+        $stats .= $l->g(55) . ": " . show_modif($array_top, "CHOICE_TOP", 2, $form_name) . "<br>";
 
-		$tag=array('<LIKE>'=>'LIKE','<EXACTLY>'=>'=','<NOLIKE>'=>'NOT LIKE','<NOEXACTLY>'=>'!=');
-		// read line
-		if (is_readable($file_restriction_soft)){
-			$fp = fopen($file_restriction_soft, "r");
-			while ( $ln = fgets($fp, 1024)) {
-				$ln=preg_replace('(\r\n|\n|\r|\t|)','',$ln);
-				//foreach ($tag as $poub=>$key){
-				if (array_key_exists($ln,$tag)){
-					$index=$tag[$ln];
-				}elseif(substr($ln,0,2) == '</'){
-					unset($index);
-				}elseif(trim($ln) != "" and isset($index)){
-					$data[$index][]=$ln;
-				}
-			}
-			fclose($fp);
-		}else {
-			msg_error("NO_FILES: ".$file_restriction_soft);
-		}
-		$array_top=array(5=>5,10=>10,20=>20);
-		$stats.= $l->g(55). ": " .show_modif($array_top,"CHOICE_TOP",2,$form_name)."<br>";
+        $sql = "select count(id) c,name from softwares ";
+        if (isset($data)) {
+            $sql .= " where (";
+            $first = 0;
+            $j = 0;
+            foreach ($data as $k => $v) {
+                $i = 0;
+                while ($v[$i]) {
 
-		$sql="select count(id) c,name from softwares ";
-		if (isset($data)){
-			$sql .= " where (";
-			$first=0;
-			$j=0;
-			foreach ($data as $k=>$v){
-				$i=0;
-				while ($v[$i]){
+                    $jonct = '';
+                    if (($k == 'LIKE' || $k == '=') && $first != 0) {
+                        $jonct = ' OR ';
+                        $j++;
+                    } elseif ($first != 0) {
+                        if ($j != 0) {
+                            $jonct = ') AND (';
+                        } else {
+                            $jonct = ' AND ';
+                        }
+                        $j = 0;
+                    }
+                    $sql .= $jonct . " name " . $k . " '%s'";
+                    $arg[] = $v[$i];
+                    $i++;
+                    $first++;
+                }
+            }
 
-					$jonct='';
-					if(($k == 'LIKE' or $k == '=') and $first != 0 ){
-						$jonct=' OR ';
-						$j++;
-					}elseif($first != 0){
-						if ($j!=0)
-							$jonct=') AND (';
-						else
-							$jonct=' AND ';
-						$j=0;
-					}
-					$sql .= $jonct." name ".$k." '%s'";
-					$arg[]=$v[$i];
-					$i++;
-					$first++;
-				}
-
-			}
-
-			$sql.= " ) ";
-		}
-		$sql.= " group by name order by count(id) DESC limit %s";
-		$arg[]=$protectedPost['CHOICE_TOP'];
-		$height_legend=12*$protectedPost['CHOICE_TOP'];
-	}elseif($protectedPost['CHOICE_OP'] == 'NB_OS'){
-		$sql="select count(osname) c,osname as name from hardware where osname != '' group by osname order by count(osname) DESC ";
-		$height_legend=300;
-	}elseif($protectedPost['CHOICE_OP'] == 'NB_AGENTS'){
-		$sql="select count(useragent) c,useragent as name from hardware where useragent != '' group by useragent order by count(useragent) DESC ";
-		$height_legend=300;
-	}
-
+            $sql .= " ) ";
+        }
+        $sql .= " group by name order by count(id) DESC limit %s";
+        $arg[] = $protectedPost['CHOICE_TOP'];
+        $height_legend = 12 * $protectedPost['CHOICE_TOP'];
+    } elseif ($protectedPost['CHOICE_OP'] == 'NB_OS') {
+        $sql = "select count(osname) c,osname as name from hardware where osname != '' group by osname order by count(osname) DESC ";
+        $height_legend = 300;
+    } elseif ($protectedPost['CHOICE_OP'] == 'NB_AGENTS') {
+        $sql = "select count(useragent) c,useragent as name from hardware where useragent != '' group by useragent order by count(useragent) DESC ";
+        $height_legend = 300;
+    }
 
 
-	$res =mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-	$i=0;
-	while ($row=mysqli_fetch_object($res)){
-		$count_value[$i]=$row->c;
-		$name_value[$i]=addslashes($row->name)."<br> (".$l->g(381).":".$row->c.")";
-		$legend[$i]=addslashes($row->name);
-		if (isset($arr_FCColors[$i]))
-			$color[$i]=$arr_FCColors[$i];
-		else
-			$color[$i]=$arr_FCColors[$i-10];
-		$color[$i]="plotProps: {fill: \"".$color[$i]."\"}";
-		$i++;
-	}
 
-	if (isset($count_value)){
-		$stats.= '<CENTER><div id="chart" style="width: 900px; height: 500px"></div></CENTER>';
-		$stats.= '<script type="text/javascript">
+    $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+    $i = 0;
+    while ($row = mysqli_fetch_object($res)) {
+        $count_value[$i] = $row->c;
+        $name_value[$i] = addslashes($row->name) . "<br> (" . $l->g(381) . ":" . $row->c . ")";
+        $legend[$i] = addslashes($row->name);
+        if (isset($arr_FCColors[$i])) {
+            $color[$i] = $arr_FCColors[$i];
+        } else {
+            $color[$i] = $arr_FCColors[$i - 10];
+        }
+        $color[$i] = "plotProps: {fill: \"" . $color[$i] . "\"}";
+        $i++;
+    }
+
+    if (isset($count_value)) {
+        $stats .= '<CENTER><div id="chart" style="width: 900px; height: 500px"></div></CENTER>';
+        $stats .= '<script type="text/javascript">
 		$(function() {
 		$("#chart").chart({
 		template: "pie_stat_teledeploy",
 		values: {
-		serie1: ['.implode(',',$count_value).']
+		serie1: [' . implode(',', $count_value) . ']
 	},
-	labels: ["'.implode('","',$name_value).'"],
-	legend: ["'.implode('","',$legend).'"],
+	labels: ["' . implode('","', $name_value) . '"],
+	legend: ["' . implode('","', $legend) . '"],
 	tooltips: {
-	serie1: ["'.implode('","',$name_value).'"]
+	serie1: ["' . implode('","', $name_value) . '"]
 	},
 	defaultSeries: {
-	values: [{'.implode("}, {",$color).'
+	values: [{' . implode("}, {", $color) . '
 	}]
 	}
 	});
@@ -143,7 +165,7 @@ if ($protectedPost['onglet'] == 'TOP'){
 	legend: {
 	horizontal: false,
 	width: 240,
-	height: '.$height_legend.',
+	height: ' . $height_legend . ',
 	x: 655,
 	y: 180,
 	borderProps: {
@@ -153,8 +175,7 @@ if ($protectedPost['onglet'] == 'TOP'){
 	}
 	};
 	</script>';
-		$stats.= "</div><br>";
-	}
-
+        $stats .= "</div><br>";
+    }
 }
 ?>

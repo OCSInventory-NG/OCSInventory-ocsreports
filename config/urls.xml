@@ -1,327 +1,323 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urls>
-  <url key="ms_all_computers">
-    <value>visu_computers</value>
-    <directory>ms_all_computers</directory>
-  </url>
-  <url key="ms_config">
-    <value>admin_conf</value>
-    <directory>ms_config</directory>
-  </url>
-  <url key="ms_repart_tag">
-    <value>visu_repart_tag</value>
-    <directory>ms_repart_tag</directory>
-  </url>
-  <url key="ms_groups">
-    <value>visu_groups</value>
-    <directory>ms_groups</directory>
-  </url>
-  <url key="ms_all_soft">
-    <value>visu_all_soft</value>
-    <directory>ms_all_soft</directory>
-  </url>
-  <url key="ms_multi_search">
-    <value>visu_search</value>
-    <directory>ms_multi_search</directory>
-  </url>
-  <url key="ms_custom_groups">
-    <value>groups_search</value>
-    <directory>ms_groups</directory>
-  </url>
-  <url key="ms_custom_lock">
-    <value>lock_search</value>
-    <directory>ms_multi_search</directory>
-  </url>
-  <url key="ms_custom_pack">
-    <value>pack_search</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_custom_sup">
-    <value>sup_search</value>
-    <directory>ms_multi_search</directory>
-  </url>
-  <url key="ms_custom_tag">
-    <value>tag_seach</value>
-    <directory>ms_multi_search</directory>
-  </url>
-  <url key="ms_dict">
-    <value>admin_dico</value>
-    <directory>ms_dict</directory>
-  </url>
-  <url key="ms_upload_file">
-    <value>admin_upload</value>
-    <directory>ms_upload_file</directory>
-  </url>
-  <url key="ms_upload_file_popup">
-    <value>upload_file</value>
-    <directory>ms_upload_file</directory>
-  </url>
-  <url key="ms_regconfig">
-    <value>admin_reg</value>
-    <directory>ms_regconfig</directory>
-  </url>
-  <url key="ms_logs">
-    <value>admin_logs</value>
-    <directory>ms_logs</directory>
-  </url>
-  <url key="ms_admininfo">
-    <value>admin_info</value>
-    <directory>ms_admininfo</directory>
-  </url>
-  <url key="ms_ipdiscover">
-    <value>show_ipdiscover</value>
-    <directory>ms_ipdiscover</directory>
-  </url>
-  <url key="ms_admin_ipdiscover">
-    <value>admin_ipdiscover</value>
-    <directory>ms_ipdiscover</directory>
-  </url>
-  <url key="ms_doubles">
-    <value>admin_double</value>
-    <directory>ms_doubles</directory>
-  </url>
-  <url key="ms_label">
-    <value>admin_lbl</value>
-    <directory>ms_config</directory>
-  </url>
-  <url key="ms_users">
-    <value>admin_user</value>
-    <directory>ms_users</directory>
-  </url>
-  <url key="ms_add_user">
-    <value>admin_add_user</value>
-    <directory>ms_users</directory>
-  </url>
-  <url key="ms_user_details">
-    <value>admin_user_details</value>
-    <directory>ms_users</directory>
-  </url>
-  <url key="ms_config_account">
-    <value>account_config</value>
-    <directory>ms_users</directory>
-  </url>
-  <url key="ms_profiles">
-    <value>admin_profiles</value>
-    <directory>ms_users</directory>
-  </url>
-  <url key="ms_add_profile">
-    <value>admin_add_profile</value>
-    <directory>ms_users</directory>
-  </url>
-  <url key="ms_profile_details">
-    <value>admin_profile_details</value>
-    <directory>ms_users</directory>
-  </url>
-  <url key="ms_custom_perim">
-    <value>admin_perim</value>
-    <directory>ms_users</directory>
-  </url>
-  <url key="ms_local">
-    <value>admin_local_import</value>
-    <directory>ms_upload_file</directory>
-  </url>
-  <url key="ms_help">
-    <value>help</value>
-    <directory>ms_help</directory>
-  </url>
-  <url key="ms_stats">
-    <value>stats</value>
-    <directory>ms_stats</directory>
-  </url>
-  <url key="ms_codes">
-    <value>admin_codes</value>
-    <directory/>
-  </url>
-  <url key="ms_blacklist">
-    <value>admin_black</value>
-    <directory>ms_config</directory>
-  </url>
-  <url key="ms_console">
-    <value>console</value>
-    <directory>ms_console</directory>
-  </url>
-  <url key="ms_components">
-    <value>components</value>
-    <directory/>
-  </url>
-  <url key="ms_tele_package">
-    <value>tele_package</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_tele_modify">
-    <value>tele_modify</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_tele_activate">
-    <value>tele_activate</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_tele_popup_active">
-    <value>tele_popup_active</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_tele_actives">
-    <value>tele_actives</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_tele_pack">
-    <value>tele_pack</value>
-    <directory/>
-  </url>
-  <url key="ms_rules_redistrib">
-    <value>rules_redistrib</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_custom_param">
-    <value>opt_param</value>
-    <directory>ms_config</directory>
-  </url>
-  <url key="ms_opt_ipdiscover">
-    <value>opt_ipdiscover</value>
-    <directory/>
-  </url>
-  <url key="ms_group_show">
-    <value>group_show</value>
-    <directory>ms_groups</directory>
-  </url>
-  <url key="ms_show_detail">
-    <value>show_detail</value>
-    <directory/>
-  </url>
-  <url key="ms_custom_info">
-    <value>ipdiscover_info</value>
-    <directory>ms_ipdiscover</directory>
-  </url>
-  <url key="ms_debug">
-    <value>debug</value>
-    <directory>ms_debug</directory>
-  </url>
-  <url key="ms_computer">
-    <value>computer</value>
-    <directory>ms_computer</directory>
-  </url>
-  <url key="ms_soft_csv">
-    <value>export_soft</value>
-    <directory>ms_export</directory>
-  </url>
-  <url key="ms_csv">
-    <value>export_csv</value>
-    <directory>ms_export</directory>
-  </url>
-  <url key="ms_tele_stats">
-    <value>tele_stat</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_tele_compress">
-    <value>compress</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_speed_stat">
-    <value>stat_speed</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="ms_admin_management">
-    <value>admin_type_manage</value>
-    <directory>ms_teledeploy_workflow</directory>
-  </url>
-  <url key="ms_adminvalues">
-    <value>admin_values</value>
-    <directory>ms_config</directory>
-  </url>
-  <url key="ms_view_file">
-    <value>view_file</value>
-    <directory>ms_upload_file</directory>
-  </url>
-  <url key="ms_search_soft">
-    <value>search_soft</value>
-    <directory>ms_search_soft</directory>
-  </url>
-  <url key="ms_options">
-    <value>search_soft_option</value>
-    <directory>ms_search_soft</directory>
-  </url>
-  <url key="ms_snmp">
-    <value>snmp</value>
-    <directory>ms_snmp</directory>
-  </url>
-  <url key="ms_snmp_detail">
-    <value>snmp_detail</value>
-    <directory>ms_snmp</directory>
-  </url>
-  <url key="ms_update_new_tag">
-    <value>script_new_tag</value>
-    <directory>ms_scripts</directory>
-  </url>
-  <url key="ms_server_redistrib">
-    <value>server_redistrib</value>
-    <directory>ms_teledeploy</directory>
-  </url>
-  <url key="jp_teledeploy_stats">
-    <value>teledeploy_stats</value>
-    <directory>ms_stats</directory>
-  </url>
-  <url key="jp_teledeploy_speed_stats">
-    <value>teledeploy_speed_stats</value>
-    <directory>ms_stats</directory>
-  </url>
-  <url key="jp_activity_stats">
-    <value>activity_stats</value>
-    <directory>ms_stats</directory>
-  </url>
-  <url key="ms_ipdiscover_analyse">
-    <value>ipdiscover_analyse</value>
-    <directory>ms_ipdiscover</directory>
-  </url>
-  <url key="ms_stats_connexion">
-    <value>stats_connexion</value>
-    <directory>ms_stats</directory>
-  </url>
-  <url key="ms_add_key">
-    <value>add_key</value>
-    <directory>ms_config</directory>
-  </url>
-  <url key="ms_export_ocs">
-    <value>export_ocs</value>
-    <directory>ms_export</directory>
-  </url>
-  <url key="ms_qrcode">
-    <value>qrcode</value>
-    <directory>ms_computer</directory>
-  </url>
-  <url key="ms_plugins">
-    <value>plugins</value>
-    <directory>ms_plugins</directory>
-  </url>
-  <url key="ms_pluginsmanager">
-    <value>pluginsmanager</value>
-    <directory>ms_plugins</directory>
-  </url>
-  <url key="ms_stats_top">
-    <value>stats_top</value>
-    <directory>ms_stats</directory>
-  </url>
-  <url key="ms_server_infos">
-    <value>server_infos</value>
-    <directory>ms_server_infos</directory>
-  </url>
-  <url key="ms_wiki">
-    <value>wiki</value>
-    <directory>ms_help</directory>
-  </url>
-  <url key="ms_irc">
-    <value>irc</value>
-    <directory>ms_help</directory>
-  </url>
-  <url key="ms_offers">
-    <value>offers</value>
-    <directory>ms_help</directory>
-  </url>
+    <url key="ms_all_computers">
+        <value>visu_computers</value>
+        <directory>ms_all_computers</directory>
+    </url>
+    <url key="ms_config">
+        <value>admin_conf</value>
+        <directory>ms_config</directory>
+    </url>
+    <url key="ms_repart_tag">
+        <value>visu_repart_tag</value>
+        <directory>ms_repart_tag</directory>
+    </url>
+    <url key="ms_groups">
+        <value>visu_groups</value>
+        <directory>ms_groups</directory>
+    </url>
+    <url key="ms_all_soft">
+        <value>visu_all_soft</value>
+        <directory>ms_all_soft</directory>
+    </url>
+    <url key="ms_multi_search">
+        <value>visu_search</value>
+        <directory>ms_multi_search</directory>
+    </url>
+    <url key="ms_custom_groups">
+        <value>groups_search</value>
+        <directory>ms_groups</directory>
+    </url>
+    <url key="ms_custom_lock">
+        <value>lock_search</value>
+        <directory>ms_multi_search</directory>
+    </url>
+    <url key="ms_custom_pack">
+        <value>pack_search</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_custom_sup">
+        <value>sup_search</value>
+        <directory>ms_multi_search</directory>
+    </url>
+    <url key="ms_custom_tag">
+        <value>tag_seach</value>
+        <directory>ms_multi_search</directory>
+    </url>
+    <url key="ms_dict">
+        <value>admin_dico</value>
+        <directory>ms_dict</directory>
+    </url>
+    <url key="ms_upload_file">
+        <value>admin_upload</value>
+        <directory>ms_upload_file</directory>
+    </url>
+    <url key="ms_upload_file_popup">
+        <value>upload_file</value>
+        <directory>ms_upload_file</directory>
+    </url>
+    <url key="ms_regconfig">
+        <value>admin_reg</value>
+        <directory>ms_regconfig</directory>
+    </url>
+    <url key="ms_logs">
+        <value>admin_logs</value>
+        <directory>ms_logs</directory>
+    </url>
+    <url key="ms_admininfo">
+        <value>admin_info</value>
+        <directory>ms_admininfo</directory>
+    </url>
+    <url key="ms_ipdiscover">
+        <value>show_ipdiscover</value>
+        <directory>ms_ipdiscover</directory>
+    </url>
+    <url key="ms_admin_ipdiscover">
+        <value>admin_ipdiscover</value>
+        <directory>ms_ipdiscover</directory>
+    </url>
+    <url key="ms_doubles">
+        <value>admin_double</value>
+        <directory>ms_doubles</directory>
+    </url>
+    <url key="ms_label">
+        <value>admin_lbl</value>
+        <directory>ms_config</directory>
+    </url>
+    <url key="ms_users">
+        <value>admin_user</value>
+        <directory>ms_users</directory>
+    </url>
+    <url key="ms_add_user">
+        <value>admin_add_user</value>
+        <directory>ms_users</directory>
+    </url>
+    <url key="ms_user_details">
+        <value>admin_user_details</value>
+        <directory>ms_users</directory>
+    </url>
+    <url key="ms_config_account">
+        <value>account_config</value>
+        <directory>ms_users</directory>
+    </url>
+    <url key="ms_profiles">
+        <value>admin_profiles</value>
+        <directory>ms_users</directory>
+    </url>
+    <url key="ms_add_profile">
+        <value>admin_add_profile</value>
+        <directory>ms_users</directory>
+    </url>
+    <url key="ms_profile_details">
+        <value>admin_profile_details</value>
+        <directory>ms_users</directory>
+    </url>
+    <url key="ms_custom_perim">
+        <value>admin_perim</value>
+        <directory>ms_users</directory>
+    </url>
+    <url key="ms_local">
+        <value>admin_local_import</value>
+        <directory>ms_upload_file</directory>
+    </url>
+    <url key="ms_help">
+        <value>help</value>
+        <directory>ms_help</directory>
+    </url>
+    <url key="ms_stats">
+        <value>stats</value>
+        <directory>ms_stats</directory>
+    </url>
+    <url key="ms_codes">
+        <value>admin_codes</value>
+        <directory/>
+    </url>
+    <url key="ms_blacklist">
+        <value>admin_black</value>
+        <directory>ms_config</directory>
+    </url>
+    <url key="ms_console">
+        <value>console</value>
+        <directory>ms_console</directory>
+    </url>
+    <url key="ms_components">
+        <value>components</value>
+        <directory/>
+    </url>
+    <url key="ms_tele_package">
+        <value>tele_package</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_tele_modify">
+        <value>tele_modify</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_tele_activate">
+        <value>tele_activate</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_tele_popup_active">
+        <value>tele_popup_active</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_tele_actives">
+        <value>tele_actives</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_tele_pack">
+        <value>tele_pack</value>
+        <directory/>
+    </url>
+    <url key="ms_rules_redistrib">
+        <value>rules_redistrib</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_custom_param">
+        <value>opt_param</value>
+        <directory>ms_config</directory>
+    </url>
+    <url key="ms_opt_ipdiscover">
+        <value>opt_ipdiscover</value>
+        <directory/>
+    </url>
+    <url key="ms_group_show">
+        <value>group_show</value>
+        <directory>ms_groups</directory>
+    </url>
+    <url key="ms_show_detail">
+        <value>show_detail</value>
+        <directory/>
+    </url>
+    <url key="ms_custom_info">
+        <value>ipdiscover_info</value>
+        <directory>ms_ipdiscover</directory>
+    </url>
+    <url key="ms_debug">
+        <value>debug</value>
+        <directory>ms_debug</directory>
+    </url>
+    <url key="ms_computer">
+        <value>computer</value>
+        <directory>ms_computer</directory>
+    </url>
+    <url key="ms_soft_csv">
+        <value>export_soft</value>
+        <directory>ms_export</directory>
+    </url>
+    <url key="ms_csv">
+        <value>export_csv</value>
+        <directory>ms_export</directory>
+    </url>
+    <url key="ms_tele_stats">
+        <value>tele_stat</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_tele_compress">
+        <value>compress</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_speed_stat">
+        <value>stat_speed</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="ms_admin_management">
+        <value>admin_type_manage</value>
+        <directory>ms_teledeploy_workflow</directory>
+    </url>
+    <url key="ms_adminvalues">
+        <value>admin_values</value>
+        <directory>ms_config</directory>
+    </url>
+    <url key="ms_view_file">
+        <value>view_file</value>
+        <directory>ms_upload_file</directory>
+    </url>
+    <url key="ms_search_soft">
+        <value>search_soft</value>
+        <directory>ms_search_soft</directory>
+    </url>
+    <url key="ms_options">
+        <value>search_soft_option</value>
+        <directory>ms_search_soft</directory>
+    </url>
+    <url key="ms_snmp">
+        <value>snmp</value>
+        <directory>ms_snmp</directory>
+    </url>
+    <url key="ms_snmp_detail">
+        <value>snmp_detail</value>
+        <directory>ms_snmp</directory>
+    </url>
+    <url key="ms_update_new_tag">
+        <value>script_new_tag</value>
+        <directory>ms_scripts</directory>
+    </url>
+    <url key="ms_server_redistrib">
+        <value>server_redistrib</value>
+        <directory>ms_teledeploy</directory>
+    </url>
+    <url key="jp_teledeploy_stats">
+        <value>teledeploy_stats</value>
+        <directory>ms_stats</directory>
+    </url>
+    <url key="jp_teledeploy_speed_stats">
+        <value>teledeploy_speed_stats</value>
+        <directory>ms_stats</directory>
+    </url>
+    <url key="jp_activity_stats">
+        <value>activity_stats</value>
+        <directory>ms_stats</directory>
+    </url>
+    <url key="ms_ipdiscover_analyse">
+        <value>ipdiscover_analyse</value>
+        <directory>ms_ipdiscover</directory>
+    </url>
+    <url key="ms_stats_connexion">
+        <value>stats_connexion</value>
+        <directory>ms_stats</directory>
+    </url>
+    <url key="ms_add_key">
+        <value>add_key</value>
+        <directory>ms_config</directory>
+    </url>
+    <url key="ms_export_ocs">
+        <value>export_ocs</value>
+        <directory>ms_export</directory>
+    </url>
+    <url key="ms_qrcode">
+        <value>qrcode</value>
+        <directory>ms_computer</directory>
+    </url>
+    <url key="ms_plugins">
+        <value>plugins</value>
+        <directory>ms_plugins</directory>
+    </url>
+    <url key="ms_pluginsmanager">
+        <value>pluginsmanager</value>
+        <directory>ms_plugins</directory>
+    </url>
+    <url key="ms_stats_top">
+        <value>stats_top</value>
+        <directory>ms_stats</directory>
+    </url>
+    <url key="ms_server_infos">
+        <value>server_infos</value>
+        <directory>ms_server_infos</directory>
+    </url>
+    <url key="ms_wiki">
+        <value>wiki</value>
+        <directory>ms_help</directory>
+    </url>
+    <url key="ms_irc">
+        <value>irc</value>
+        <directory>ms_help</directory>
+    </url>
+    <url key="ms_offers">
+        <value>offers</value>
+        <directory>ms_help</directory>
+    </url>
     <url key="ms_ask">
-    <value>ask</value>
-    <directory>ms_help</directory>
-  </url>
-  <url key="ms_about">
-    <value>about</value>
-    <directory>ms_about</directory>
-  </url>
+        <value>ask</value>
+        <directory>ms_help</directory>
+    </url>
 </urls>
