@@ -22,8 +22,7 @@
  */
 require('require/function_stats.php');
 
-if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES"
-        and isset($protectedPost["ACTION"]) && $protectedPost["ACTION"] != '') {
+if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES" && is_defined($protectedPost["ACTION"])) {
     require('require/function_server.php');
     if ($protectedPost["ACTION"] == "VAL_SUCC") {
         $result_line_delete = find_device_line('SUCCESS%', $protectedGet["stat"]);

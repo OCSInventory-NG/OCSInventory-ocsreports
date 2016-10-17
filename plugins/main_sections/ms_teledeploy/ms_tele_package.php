@@ -31,10 +31,10 @@ $protectedPost = $temp_post;
 if (isset($protectedPost["VALID_END"])) {
     //configure description of this package
     $description_details = $protectedPost['DESCRIPTION'];
-    if (isset($protectedPost['TYPE_PACK']) && $protectedPost['TYPE_PACK'] != '') {
+    if (is_defined($protectedPost['TYPE_PACK'])) {
         $description_details .= "  [Type=" . $protectedPost['TYPE_PACK'] . "]";
     }
-    if (isset($protectedPost['VISIBLE']) && $protectedPost['VISIBLE'] != '') {
+    if (is_defined($protectedPost['VISIBLE'])) {
         $description_details .= "  [VISIBLE=" . $protectedPost['VISIBLE'] . "]";
     }
 

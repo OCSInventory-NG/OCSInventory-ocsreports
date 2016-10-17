@@ -58,7 +58,7 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES') {
 }
 //View for all profils?
 if (!AJAX) {
-    if (isset($protectedPost['CONFIRM_CHECK']) && $protectedPost['CONFIRM_CHECK'] != "") {
+    if (is_defined($protectedPost['CONFIRM_CHECK'])) {
         $result = group_4_all($protectedPost['CONFIRM_CHECK']);
     }
 }

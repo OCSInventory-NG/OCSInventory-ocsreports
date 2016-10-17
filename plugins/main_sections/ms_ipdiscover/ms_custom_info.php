@@ -86,7 +86,7 @@ if (isset($protectedPost['Valid_modif'])) {
 }
 
 //formulaire de saisie de l'identification de l'adresse mac
-if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != '') {
+if (is_defined($protectedPost['MODIF'])) {
     //cas d'une modification de la donnée déjà saisie
     if ($protectedGet['prov'] == "ident" && !isset($protectedPost['COMMENT'])) {
         $sql = "select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='%s'";

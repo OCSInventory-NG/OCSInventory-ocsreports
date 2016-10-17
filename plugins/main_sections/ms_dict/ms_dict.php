@@ -111,7 +111,7 @@ if ($protectedPost['onglet'] == 'CAT') {
         $i++;
     }
     //delete categorie
-    if (isset($protectedPost['SUP_CAT']) && $protectedPost['SUP_CAT'] != "") {
+    if (is_defined($protectedPost['SUP_CAT'])) {
         if ($protectedPost['SUP_CAT'] == 1) {
             $first_onglet = 2;
         }

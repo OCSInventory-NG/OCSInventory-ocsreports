@@ -115,7 +115,7 @@ if (isset($_FILES['file_upload']['name'])) {
     }
 }
 
-if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
+if (is_defined($protectedPost['SUP_PROF'])) {
     $sql = "DELETE FROM deploy where name='%s'";
     $arg = $protectedPost['SUP_PROF'];
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
@@ -142,7 +142,7 @@ if (!isset($protectedPost['ADD_FILE'])) {
     echo close_form();
 }
 
-if (isset($protectedPost['ADD_FILE']) && $protectedPost['ADD_FILE'] != '') {
+if (is_defined($protectedPost['ADD_FILE'])) {
     $css = "mvt_bordure";
     $form_name1 = "SEND_FILE";
     //search max_allowed_packet value on mysql conf

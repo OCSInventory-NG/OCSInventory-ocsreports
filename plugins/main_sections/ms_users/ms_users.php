@@ -58,13 +58,13 @@ if (AJAX) {
     }
 
     //suppression d'une liste de users
-    if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
+    if (is_defined($protectedPost['del_check'])) {
         delete_list_user($protectedPost['del_check']);
         $tab_options['CACHE'] = 'RESET';
     }
 
     //suppression d'un user
-    if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
+    if (is_defined($protectedPost['SUP_PROF'])) {
         delete_list_user($protectedPost['SUP_PROF']);
         $tab_options['CACHE'] = 'RESET';
     }

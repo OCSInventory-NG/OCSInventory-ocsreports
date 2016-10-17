@@ -31,7 +31,7 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
-if (!isset($protectedPost['TAG_CHOISE']) || $protectedPost['TAG_CHOISE'] == '') {
+if (!is_defined($protectedPost['TAG_CHOISE'])) {
     $protectedPost['TAG_CHOISE'] = 'a.TAG';
 }
 //BEGIN SHOW ACCOUNTINFO
@@ -69,7 +69,7 @@ $list_col_cant_del = $list_fields;
 $default_fields = $list_fields;
 $queryDetails = "SELECT count(hardware_id) c, %s as ID from accountinfo a where %s !='' ";
 $tab_options['ARG_SQL'] = array($tag, $tag);
-if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '') {
+if (is_defined($_SESSION['OCS']["mesmachines"])) {
     $queryDetails .= " AND " . $_SESSION['OCS']["mesmachines"];
 }
 $tab_options['ARG_SQL'][] = $tag;

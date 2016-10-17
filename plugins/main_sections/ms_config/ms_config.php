@@ -69,7 +69,7 @@ if ($protectedPost['Valid'] == $l->g(103)) {
     }
 }
 
-if (isset($MAJ) && $MAJ != '') {
+if (is_defined($MAJ)) {
     msg_success($MAJ);
 }
 printEnTete($l->g(107));

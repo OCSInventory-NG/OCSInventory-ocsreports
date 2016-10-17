@@ -113,7 +113,7 @@ if ($protectedPost['onglet'] == 1) {
     }
 
     $tab_options['CACHE'] = 'RESET';
-    if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
+    if (is_defined($protectedPost['del_check'])) {
         $list = $protectedPost['del_check'];
         $tab_values = explode(',', $list);
         $i = 0;
@@ -123,7 +123,7 @@ if ($protectedPost['onglet'] == 1) {
         }
     }
 
-    if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
+    if (is_defined($protectedPost['SUP_PROF'])) {
         del_accountinfo($protectedPost['SUP_PROF']);
     }
     $array_fields = array($l->g(1098) => 'NAME',

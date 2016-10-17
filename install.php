@@ -69,7 +69,7 @@ function exec_fichier_sql($fichier, $link) {
             fclose($dbf_handle);
             $data_sql = explode(";", $sql_query);
             foreach ($data_sql as $v) {
-                if (trim($v) != "") {
+                if (is_defined($v)) {
                     echo ".";
                     ob_flush();
                     flush();

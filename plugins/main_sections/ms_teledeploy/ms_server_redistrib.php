@@ -55,7 +55,7 @@ if ($_POST["supp"]) {
 }
 
 //Modif server's machine
-if (isset($_POST['Valid_modif']) && isset($_POST['modif']) && $_POST['modif'] != "") {
+if (isset($_POST['Valid_modif']) && is_defined($_POST['modif'])) {
     $default_values = look_config_default_values(array('DOWNLOAD_SERVER_URI', 'DOWNLOAD_SERVER_DOCROOT'));
     if (trim($_POST['URL']) == "") {
         $_POST['URL'] = $default_values['tvalue']['DOWNLOAD_SERVER_URI'];

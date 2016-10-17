@@ -29,8 +29,9 @@ if (AJAX) {
     ob_start();
 }
 
-if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == '')
+if (!is_defined($protectedPost['onglet'])) {
     $protectedPost['onglet'] = 1;
+}
 $form_name = 'admin_users_groups';
 $table_name = $form_name;
 $tab_options = $protectedPost;
@@ -58,7 +59,7 @@ if ($protectedPost['onglet'] == 1) {
     if (!isset($protectedPost['SHOW'])) {
         $protectedPost['SHOW'] = 'NOSHOW';
     }
-    if (!(isset($protectedPost["pcparpage"]))) {
+    if (!isset($protectedPost["pcparpage"])) {
         $protectedPost["pcparpage"] = 5;
     }
 

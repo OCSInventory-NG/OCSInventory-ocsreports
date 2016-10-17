@@ -80,7 +80,7 @@ if ($protectedPost['newtag'] != "") {
 }
 
 //suppression d'une liste de tag
-if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
+if (is_defined($protectedPost['del_check'])) {
     $sql = "DELETE FROM tags WHERE tag in ";
     $arg_sql = array();
     $sql = mysql2_prepare($sql, $arg_sql, $protectedPost['del_check']);

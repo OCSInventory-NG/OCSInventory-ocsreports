@@ -33,11 +33,10 @@ $form_name = "registry";
 $table_name = "registry";
 echo open_form($form_name, '', '', 'form-horizontal');
 
-if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != '') {
+if (is_defined($protectedPost['MODIF'])) {
     $protectedPost['tab'] = 'ADD';
     $sql = "select NAME,REGTREE,REGKEY,REGVALUE,ID from regconfig where id = '%s'";
     $arg = $protectedPost['MODIF'];
-    //$sql="select NAME,ID,MASK from subnet where netid='".$netid."'";
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $row = mysqli_fetch_object($res);
     $protectedPost['NAME'] = $row->NAME;
@@ -56,11 +55,11 @@ if (AJAX) {
 }
 if ($protectedPost['tab'] == 'VIEW') {
     // delete register key
-    if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
+    if (is_defined($protectedPost['SUP_PROF'])) {
         // delete one row
         delkey($protectedPost['SUP_PROF']);
         $tab_options['CACHE'] = 'RESET';
-    } else if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
+    } else if (is_defined($protectedPost['del_check'])) {
         // delete multiple selected rows
         $ids = explode(',', $protectedPost['del_check']);
         foreach ($ids as $id) {
@@ -104,7 +103,7 @@ if ($protectedPost['tab'] == 'VIEW') {
             "REGTREE" => $protectedPost["REGTREE"],
             "REGKEY" => $protectedPost["REGKEY"],
             "REGVALUE" => $protectedPost["REGVALUE"]);
-        if (isset($protectedPost['id']) && $protectedPost['id'] != '') {
+        if (is_defined($protectedPost['id'])) {
             $udpate = $protectedPost['id'];
         } else {
             $udpate = false;

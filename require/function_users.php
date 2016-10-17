@@ -110,7 +110,7 @@ function add_user($data_user, $list_profil = '') {
                     $data_user['EMAIL'],
                     $data_user['COMMENTS'],
                     $data_user['USER_GROUP']);
-                if (isset($data_user['PASSWORD']) && $data_user['PASSWORD'] != '') {
+                if (is_defined($data_user['PASSWORD'])) {
                     $sql_update .= ",passwd ='%s' , password_version ='%s' ";
                     $arg_update[] = password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
                     $arg_update[] = $_SESSION['OCS']['PASSWORD_VERSION'];
@@ -238,7 +238,7 @@ function updatePassword($id_user, $password) {
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $row = mysqli_fetch_object($res);
     if (isset($row->id)) {
-        if (isset($password) && $password != '') {
+        if (is_defined($password)) {
             $sql_update = "update operators set passwd ='%s', PASSWORD_VERSION ='%s' ";
             $newhash = password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
             // if constant don't exist, or encryption not good

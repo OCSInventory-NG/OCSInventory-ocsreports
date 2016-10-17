@@ -47,7 +47,7 @@ function look_config_default_values($field_name, $like = '', $default_values = '
             $key = strtolower($key);
             if (is_array($value)) {
                 foreach ($value as $name => $val) {
-                    if (!isset($result[$key][$name]) || $result[$key][$name] == '') {
+                    if (!is_defined($result[$key][$name])) {
                         $result[$key][$name] = $val;
                     }
                 }
@@ -259,7 +259,7 @@ function read_files($search, $ms_cfg_file, $writable = '') {
 function msg($txt, $css, $closeid = false) {
     global $protectedPost;
 
-    if (isset($protectedPost['close_alert']) && $protectedPost['close_alert'] != '') {
+    if (is_defined($protectedPost['close_alert'])) {
         $_SESSION['OCS']['CLOSE_ALERT'][$protectedPost['close_alert']] = 1;
     }
 
@@ -426,6 +426,26 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
     }
     echo "</div>";
     echo "</div>";
+}
+
+/**
+ * Test if a var is defined && contains something (not only blank char)
+ * @param type $var var to test
+ * @return boolean result
+ */
+function is_defined(&$var) {
+    $result = false;
+
+    // var is set ?
+    if (isset($var)) {
+        // PHP 5.3 hack : can't empty(trim($var))
+        $maVar = trim($var);
+        // Var contains something else than blank char ?
+        if (!empty($maVar)) {
+            $result = true;
+        }
+    }
+    return $result;
 }
 
 ?>

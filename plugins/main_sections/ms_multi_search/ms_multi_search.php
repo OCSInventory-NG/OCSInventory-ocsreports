@@ -39,7 +39,7 @@ $form_name = 'multisearch';
 $table_tabname = "TAB_MULTICRITERE";
 //cas où l'on arrive d'une autre page
 //ex: la page des stats
-if (isset($protectedGet['fields']) && (!isset($protectedPost['GET']) || $protectedPost['GET'] == '')) {
+if (isset($protectedGet['fields']) && !is_defined($protectedPost['GET'])) {
     unset($protectedPost);
     foreach ($_SESSION['OCS'] as $key => $value) {
         $valeur = explode("-", $key);
@@ -78,7 +78,7 @@ if (isset($protectedGet['fields']) && (!isset($protectedPost['GET']) || $protect
     }
 }
 //need to delete this part...
-if (isset($protectedGet['prov']) && (!isset($protectedPost['GET']) || $protectedPost['GET'] == '')) {
+if (isset($protectedGet['prov']) && !is_defined($protectedPost['GET'])) {
     unset($protectedPost);
     foreach ($_SESSION['OCS'] as $key => $value) {
         $valeur = explode("-", $key);
@@ -332,7 +332,7 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
                 }
             }
         }
-        if (isset($debug) && $debug != '') {
+        if (is_defined($debug)) {
             msg_info($debug);
         }
     }
@@ -580,7 +580,7 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
         }
         //gestion du champ complémentaire en fonction de la table
         //si le champs complémentaire existe
-        if (isset($field_value_complement[$i]) && $field_value_complement[$i] != "") {
+        if (is_defined($field_value_complement[$i])) {
             switch ($table[$i]) {
                 case "HARDWARE":
                     //on est dans un cas de recherche entre 2 valeurs
@@ -704,7 +704,7 @@ if ($protectedPost['Valid-search'] && $protectedPost['Valid'] != '') {
     //execution des requêtes
     //si l'utilisateur a des droits limités
     //restriction des id
-    if ($_SESSION['OCS']['mesmachines'] != "" && isset($_SESSION['OCS']['mesmachines'])) {
+    if (is_defined($_SESSION['OCS']['mesmachines'])) {
         $list_id_restraint = substr(substr(computer_list_by_tag(), 1), 0, -1);
     }
 

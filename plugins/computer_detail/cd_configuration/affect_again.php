@@ -33,7 +33,7 @@ if ($protectedPost['onglet'] != $protectedPost['old_onglet']) {
     $protectedPost['onglet'] = $onglet;
 }
 if ($protectedGet['origine'] != "mach") {
-    if (isset($protectedGet['idchecked']) && $protectedGet['idchecked'] != "") {
+    if (is_defined($protectedGet['idchecked'])) {
         $choise_req_selection['REQ'] = $l->g(584);
         $choise_req_selection['SEL'] = $l->g(585);
         $select_choise = show_modif($choise_req_selection, 'CHOISE', 2, $form_name);

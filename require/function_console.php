@@ -316,7 +316,7 @@ function show_console_field($fields, $form_name) {
         }
 
         if ($table[$key] == 'hardware') {
-            if (isset($arg_result[2]) && $arg_result[2] != '') {
+            if (is_defined($arg_result[2])) {
                 $sql_result .= " and " . $no_groups_sql;
             } else {
                 $sql_result .= " where " . $no_groups_sql;
@@ -325,15 +325,13 @@ function show_console_field($fields, $form_name) {
 
         if ($myids) {
             if (!in_array($key, $no_restrict)) {
-                if ((isset($arg_result[2]) && $arg_result[2] != '') || $table[$key] == 'hardware' || ( isset($sql_field[$key]['SQL']) && $sql_field[$key]['SQL'] != '')) {
+                if (is_defined($arg_result[2]) || $table[$key] == 'hardware' || is_defined($sql_field[$key]['SQL'])) {
                     $sql_result .= " and ";
                 } else {
                     $sql_result .= " where ";
                 }
 
-                if ($table[$key] != 'hardware'
-                        and $table[$key] != 'snmp'
-                        and $table[$key] != 'nk') {
+                if ($table[$key] != 'hardware' && $table[$key] != 'snmp' && $table[$key] != 'nk') {
                     $sql_result .= $table[$key] . ".hardware_id in " . $myids['SQL'];
                 } elseif ($table[$key] == 'hardware') {
                     $sql_result .= " id in " . $myids['SQL'];
