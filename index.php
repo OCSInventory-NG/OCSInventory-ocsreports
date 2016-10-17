@@ -40,7 +40,6 @@ if (get_magic_quotes_gpc()) {
     array_walk_recursive($gpc, 'magicQuotes_awStripslashes');
 }
 
-$sleep = 1;
 $debut = microtime(true);
 
 define('AJAX', false);
