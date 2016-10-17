@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 require_once('require/function_regconfig.php');
 $tab_hidden = array();
@@ -52,7 +49,7 @@ if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != '') {
 $tab_options = $protectedPost;
 show_tabs($tab, $form_name, "tab", 4);
 echo '<div class="col col-md-10" >';
-if ($ajax) {
+if (AJAX) {
     if (isset($protectedPost['REGKEY'])) {
         $protectedPost['tab'] = "VIEW";
     }
@@ -147,7 +144,7 @@ if ($protectedPost['tab'] == 'VIEW') {
 echo "</div>";
 echo close_form();
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     if (is_array($sql)) {
         tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);

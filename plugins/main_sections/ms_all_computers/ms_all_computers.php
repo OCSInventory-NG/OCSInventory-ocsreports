@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
@@ -193,7 +190,7 @@ if ($entete && $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') =
 
 echo close_form();
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }

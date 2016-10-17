@@ -25,9 +25,6 @@ if (AJAX) {
     $protectedPost += $params;
 
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 print_item_header($l->g(92));
 if (!isset($protectedPost['SHOW'])) {
@@ -59,7 +56,7 @@ $tab_options["replace_query_arg"]['CAPACITY'] = " round(100-(FREE*100/TOTAL)) ";
 $queryDetails = "SELECT *, round(100-(FREE*100/TOTAL)) AS CAPACITY FROM drives WHERE (hardware_id=$systemid)";
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
     ob_start();

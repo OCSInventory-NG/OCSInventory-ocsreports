@@ -25,9 +25,6 @@ if (AJAX) {
     $protectedPost += $params;
 
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 /*
  * Add value in config table
@@ -201,8 +198,7 @@ if ($protectedPost['onglet'] == 1) {
 echo "</div>";
 echo close_form();
 
-
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }

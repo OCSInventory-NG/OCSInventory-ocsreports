@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 //limite du nombre de résultat
 //sur les tables de cache
@@ -1251,7 +1248,7 @@ echo "<input type=hidden name='reset' id='reset' value=''>";
 echo "</div>";
 echo close_form();
 echo $l->g(358);
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails['SQL'], $tab_options);
 }

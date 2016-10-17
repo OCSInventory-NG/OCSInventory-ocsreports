@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 $form_name = "upload_file";
@@ -126,7 +123,7 @@ if (isset($field) && $field != '') {
     msg_error($l->g(1049));
 }
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }

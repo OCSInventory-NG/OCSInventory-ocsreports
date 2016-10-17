@@ -53,8 +53,6 @@ $table->addColumn(new ActionsColumn(array(
         ), 'name'));
 
 if (AJAX) {
-    $ajax = true;
-
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
 
@@ -79,8 +77,6 @@ if (AJAX) {
 
     echo json_encode($response);
 } else {
-    $ajax = false;
-
     require_once('views/users_views.php');
     require_once('require/function_search.php');
     require_once('require/tables/TableRenderer.php');

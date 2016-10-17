@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 $tab_options = $protectedPost;
@@ -293,7 +290,7 @@ if ($server_group) {
             break;
     endswitch;
 }
-if (!$ajax) {
+if (!AJAX) {
     echo "<script language='javascript'>wait(0);</script>";
     flush();
     echo "</body>";

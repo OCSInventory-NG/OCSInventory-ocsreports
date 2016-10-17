@@ -29,9 +29,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 print_item_header($l->g(270));
 if (!isset($protectedPost['SHOW']))
@@ -49,7 +46,7 @@ $sql['ARG'][] = 'snmp_modems';
 $sql['ARG'][] = $systemid;
 $tab_options['ARG_SQL'] = $sql['ARG'];
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
     ob_start();

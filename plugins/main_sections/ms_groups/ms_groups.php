@@ -25,9 +25,6 @@ if (AJAX) {
     $protectedPost += $params;
 
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 /*
  * Page des groupes
@@ -60,7 +57,7 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES') {
     }
 }
 //View for all profils?
-if (!$ajax) {
+if (!AJAX) {
     if (isset($protectedPost['CONFIRM_CHECK']) && $protectedPost['CONFIRM_CHECK'] != "") {
         $result = group_4_all($protectedPost['CONFIRM_CHECK']);
     }
@@ -215,7 +212,7 @@ echo '</div>';
 //fermeture du formulaire
 echo close_form();
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $querygroup, $tab_options);
 }

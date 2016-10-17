@@ -25,9 +25,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 require('require/function_opt_param.php');
 require('require/function_graphic.php');
@@ -83,7 +80,7 @@ if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION[
     }
 }
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
 }
 
@@ -112,10 +109,10 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
     $plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
 
     if (file_exists($plugin_file)) {
-        if (!$ajax)
+        if (!AJAX)
             echo '<div class="plugin-name-' . $plugin->getId() . '">';
         require $plugin_file;
-        if (!$ajax)
+        if (!AJAX)
             echo '</div>';
     }
 } else {
@@ -125,7 +122,7 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
 
 echo '</div>';
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
 }
 ?>

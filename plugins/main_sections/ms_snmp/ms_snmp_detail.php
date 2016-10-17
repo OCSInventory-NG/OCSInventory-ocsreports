@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 require('require/function_opt_param.php');
@@ -109,7 +106,7 @@ if (isset($list_lbl[$protectedPost['onglet_sd']])) {
 echo "</div>";
 echo close_form();
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
 }
 ?>

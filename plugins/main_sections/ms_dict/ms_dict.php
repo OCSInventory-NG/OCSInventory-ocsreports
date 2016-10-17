@@ -25,9 +25,6 @@ if (AJAX) {
     $protectedPost += $params;
 
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 /*
@@ -312,7 +309,7 @@ echo "<input type='hidden' name='TRANS' id='TRANS' value=''>";
 echo "<input type='hidden' name='SUP_CAT' id='SUP_CAT' value=''>";
 echo close_form();
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $querydico, $tab_options);
 }

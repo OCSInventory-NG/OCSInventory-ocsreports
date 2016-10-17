@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 $tab_options = $protectedPost;
@@ -142,7 +139,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     msg_info($l->g(1182));
 }
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
 }

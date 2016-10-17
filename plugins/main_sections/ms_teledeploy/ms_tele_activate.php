@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 require_once('require/function_telediff.php');
@@ -343,7 +340,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
 echo close_form();
 echo "</div>";
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $querypack['SQL'], $tab_options);
 }

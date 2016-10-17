@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 print_item_header($l->g(1266));
 if (!isset($protectedPost['SHOW'])) {
@@ -57,7 +54,7 @@ $tab_options['ARG_SQL'] = $sql['ARG'];
 $tab_options['ARG_SQL_COUNT'] = $systemid;
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
     ob_start();

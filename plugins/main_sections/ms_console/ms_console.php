@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 require_once('require/function_config_generale.php');
@@ -262,7 +259,7 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES") {
     }
 }
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
 
     if (isset($sql_field[$protectedPost["SHOW_ME"]]['SQL'])) {

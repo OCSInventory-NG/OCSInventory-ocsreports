@@ -24,9 +24,7 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
 } else {
-    $ajax = false;
     require_once 'views/users_views.php';
     printEnTete($l->g(1400));
     ?>

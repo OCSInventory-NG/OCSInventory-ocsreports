@@ -25,9 +25,6 @@ if (AJAX) {
     $protectedPost += $params;
 
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 require_once('require/function_table_html.php');
@@ -89,7 +86,7 @@ if (is_array($data)) {
     msg_warning($l->g(766));
 }
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);
 }

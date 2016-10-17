@@ -25,9 +25,6 @@ if (AJAX) {
     $protectedPost += $params;
 
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 $lbl_log = $l->g(1128);
@@ -142,7 +139,7 @@ if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != '') {
     tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden);
 }
 echo close_form();
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
     ob_start();

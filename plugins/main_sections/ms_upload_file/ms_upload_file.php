@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 function return_bytes($val) {
@@ -165,7 +162,7 @@ if (isset($protectedPost['ADD_FILE']) && $protectedPost['ADD_FILE'] != '') {
     echo "<br>";
 }
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);
 }

@@ -25,9 +25,6 @@ if (AJAX) {
     $protectedPost += $params;
 
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 $form_name = 'info_ipdiscover';
 $tab_options = $protectedPost;
@@ -269,7 +266,7 @@ if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != '') {
     }
 }
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);
 }

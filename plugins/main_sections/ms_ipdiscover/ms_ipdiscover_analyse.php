@@ -25,9 +25,6 @@ if (AJAX) {
     $protectedPost += $params;
 
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 $tab_options = $protectedPost;
 
@@ -77,7 +74,7 @@ if (isset($protectedPost['reset']) && $protectedPost['reset'] != '') {
 }
 echo close_form();
 
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($tabBalises, $default_fields, $list_col_cant_del, $sql, $tab_options);
 }

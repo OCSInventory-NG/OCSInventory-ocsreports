@@ -24,9 +24,6 @@ if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
     ob_start();
-    $ajax = true;
-} else {
-    $ajax = false;
 }
 
 require_once('require/function_snmp.php');
@@ -71,7 +68,7 @@ $list_col_cant_del = array('SUP' => 'SUP', 'CHECK' => 'CHECK');
 $default_fields = array('TAG' => 'TAG', 'NAME_SNMP' => 'NAME_SNMP', $l->g(34) => $l->g(34), $l->g(95) => $l->g(95));
 $sql = prepare_sql_tab($list_fields, $list_col_cant_del);
 $tab_options['ARG_SQL'] = $sql['ARG'];
-$queryDetails = $sql['SQL'] . ",ID from snmp s 
+$queryDetails = $sql['SQL'] . ",ID from snmp s
 						left join snmp_accountinfo s_a on s.id=s_a.snmp_id ";
 $tab_options['LBL_POPUP']['SUP'] = 'NAME';
 $tab_options['LBL']['SUP'] = $l->g(122);
@@ -83,7 +80,7 @@ ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_
 $img['image/delete.png'] = $l->g(162);
 del_selection($form_name);
 echo close_form();
-if ($ajax) {
+if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }

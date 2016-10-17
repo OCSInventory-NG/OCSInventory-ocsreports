@@ -26,9 +26,6 @@ function affich_detail_simple($form_name, $list_fields, $list_col_cant_del, $def
         parse_str($protectedPost['ocs']['0'], $params);
         $protectedPost += $params;
         ob_start();
-        $ajax = true;
-    } else {
-        $ajax = false;
     }
     $form_name = "affich_controllers";
     $table_name = $form_name;
@@ -43,7 +40,7 @@ function affich_detail_simple($form_name, $list_fields, $list_col_cant_del, $def
     $queryDetails = substr($queryDetails, 0, -1) . " FROM " . $table . " WHERE (hardware_id=$systemid)";
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     echo close_form();
-    if ($ajax) {
+    if (AJAX) {
         ob_end_clean();
         tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
         ob_start();
