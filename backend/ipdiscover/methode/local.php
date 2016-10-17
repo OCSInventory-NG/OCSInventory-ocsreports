@@ -30,7 +30,7 @@ mysqli_select_db($link_ocs, $db_ocs);
 $sql_black = "select SUBNET,MASK from blacklist_subnet";
 $res_black = mysql2_query_secure($sql_black, $link_ocs);
 while ($row = mysqli_fetch_object($res_black)) {
-    $subnet_to_balcklist[$row->SUBNET] = $row->MASK;
+    $subnetToBlacklist[$row->SUBNET] = $row->MASK;
 }
 $req = "select distinct ipsubnet,s.name,s.id
 			from networks n left join subnet s on s.netid=n.ipsubnet
@@ -49,8 +49,8 @@ while ($row = mysqli_fetch_object($res)) {
     /*
       applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/637834 )
      */
-    if (is_array($subnet_to_balcklist)) {
-        foreach ($subnet_to_balcklist as $key => $value) {
+    if (is_array($subnetToBlacklist)) {
+        foreach ($subnetToBlacklist as $key => $value) {
             if ($key == $row->ipsubnet) {
                 $id = '--' . $l->g(703) . '--';
             }

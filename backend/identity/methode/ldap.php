@@ -54,8 +54,9 @@
  *    Note: the default user levels in OCS currently are "admin", "ladmin" and "sadmin". The above is just an example.
  *
  */
-if ($_SESSION['OCS']['cnx_origine'] != "LDAP")
+if ($_SESSION['OCS']['cnx_origine'] != "LDAP") {
     return false;
+}
 
 require_once ('require/function_files.php');
 // page name
@@ -71,7 +72,6 @@ $arg = array("%CONEX%");
 $res = mysql2_query_secure($sql, $link_ocs, $arg);
 while ($item = mysqli_fetch_object($res)) {
     $config[$item->NAME] = $item->TVALUE;
-    //  define ($item->NAME,$item->TVALUE);
 }
 
 // checks if the user already exists
@@ -136,7 +136,6 @@ if (isset($defaultRole) && $defaultRole != '') {
     // if it doesn't exist, create the user record
     if (!mysqli_fetch_object($resOp)) {
 
-
         $reqInsert = "INSERT INTO operators (
             ID,
             FIRSTNAME,
@@ -159,7 +158,6 @@ if (isset($defaultRole) && $defaultRole != '') {
             "NULL"
         );
     } else {
-
         // else update it
         $reqInsert = "UPDATE operators SET
                         NEW_ACCESSLVL='%s',
@@ -175,8 +173,6 @@ if (isset($defaultRole) && $defaultRole != '') {
     mysqli_select_db($link_ocs, $db_ocs);
     // Execute the query to insert/update the user record
     mysql2_query_secure($reqInsert, $link_ocs, $arg_insert);
-
-
 
     // repeat the query and define the needed OCS variables
     // note: original OCS code below

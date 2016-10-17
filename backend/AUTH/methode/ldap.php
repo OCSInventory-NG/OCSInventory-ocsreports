@@ -22,10 +22,10 @@
  */
 /*
  * LDAP custom authentication module
- * 
+ *
  * This module will check and report if a LDAP user is valid based on the configuration supplied.
  * Adapted by Erico Mendonca <emendonca@novell.com> from original OCS code.
- * 
+ *
  * I'm fetching a few LDAP attributes to fill in the user record, namely sn,cn,givenname and mail.
  * */
 
@@ -48,17 +48,18 @@ $user_group = "LDAP";
 
 function verif_pw_ldap($login, $pw) {
     $info = search_on_loginnt($login);
-    if ($info["nbResultats"] != 1)
-        return ("BAD LOGIN OR PASSWORD"); // login does't exist
+    if ($info["nbResultats"] != 1) {
+        // login doesn't exist
+        return ("BAD LOGIN OR PASSWORD");
+    }
     return (ldap_test_pw($info[0]["dn"], $pw) ? "OK" : "BAD LOGIN OR PASSWORD");
 }
 
 function search_on_loginnt($login) {
-
     $f1_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD1_NAME'];
     $f2_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD2_NAME'];
 
-    // default attributes for query 
+    // default attributes for query
     $attributs = array("dn", "cn", "givenname", "sn", "mail", "title");
 
     // search for the custom user level attributes if they're defined
@@ -109,7 +110,7 @@ function search_on_loginnt($login) {
 
 function ldap_test_pw($dn, $pw) {
     $ds = ldap_connection();
-    if (!$ds || !$pw) { // avec ldap 2.x.x, ldap_connect est tjrs ok. La connection n'est ouverte qu'au bind 
+    if (!$ds || !$pw) { // avec ldap 2.x.x, ldap_connect est tjrs ok. La connection n'est ouverte qu'au bind
         return false;
     } else {
         ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION);
@@ -127,12 +128,14 @@ function ldap_connection() {
     ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
     if (ROOT_DN != '' && defined('ROOT_DN')) {
         $b = ldap_bind($ds, ROOT_DN, ROOT_PW);
-    } else //Anonymous bind
+    } else { //Anonymous bind
         $b = ldap_bind($ds);
-    if (!$b)
+    }
+    if (!$b) {
         return false;
-    else
+    } else {
         return $ds;
+    }
 }
 
 ?>
