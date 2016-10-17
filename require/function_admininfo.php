@@ -415,7 +415,7 @@ function show_accountinfo($id = '', $type = '', $exclu_type = '') {
 
     $data = find_info_accountinfo($id, $type, $exclu_type);
     $i = 0;
-    foreach ($data as $k => $v) {
+    foreach ($data as $v) {
         foreach ($v as $key => $value) {
             switch ($key) {
                 case "id":
@@ -477,7 +477,7 @@ function insertinfo_computer($id, $fields, $values) {
     array_push($values, $id);
     $sql = "insert into accountinfo ";
     $arg_sql = array();
-    $sql = mysql2_prepare($sql, $arg_sql, $fields, $nocot = true);
+    $sql = mysql2_prepare($sql, $arg_sql, $fields, true);
     $sql['SQL'] .= " values ";
     $sql = mysql2_prepare($sql['SQL'], $sql['ARG'], $values);
     mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG']);
@@ -486,7 +486,7 @@ function insertinfo_computer($id, $fields, $values) {
 function replace_tag_value($type = '', $option = array()) {
     $info_tag = find_info_accountinfo('', $type);
     if (is_array($info_tag)) {
-        foreach ($info_tag as $key => $value) {
+        foreach ($info_tag as $value) {
             $info_value_tag = accountinfo_tab($value['id']);
             if (is_array($info_value_tag)) {
                 $comment = '';
@@ -525,7 +525,7 @@ function interprete_accountinfo($list_fields, $tab_options) {
     global $l;
     $info_tag = find_info_accountinfo('', 'COMPUTERS');
     if (is_array($info_tag)) {
-        foreach ($info_tag as $key => $value) {
+        foreach ($info_tag as $value) {
             $value['comment'] = $l->g(1210) . " " . $value['comment'];
             $info_value_tag = accountinfo_tab($value['id']);
             if (is_array($info_value_tag)) {

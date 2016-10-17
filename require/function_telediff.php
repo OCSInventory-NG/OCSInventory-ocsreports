@@ -152,7 +152,7 @@ function active_option($name, $list_id, $packid, $tvalue = '') {
         $arg_active = array($name, $packid, $tvalue);
     }
     $sql = mysql2_prepare($sql_active, $arg_active, $list_id);
-    $res_active = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
+    mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
     return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) );
 }
 
@@ -257,7 +257,6 @@ function activ_pack($fileid, $https_server, $file_serv) {
     $req = "INSERT INTO download_enable(FILEID, INFO_LOC, PACK_LOC, CERT_FILE, CERT_PATH ) VALUES
 		( '%s', '%s', '%s', 'INSTALL_PATH/cacert.pem','INSTALL_PATH')";
     $arg = array($fileid, $https_server, $file_serv);
-    $lbl_log = $l->g(514) . " " . $fileid;
     mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg, $l->g(512));
 }
 

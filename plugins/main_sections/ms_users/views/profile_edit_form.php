@@ -59,7 +59,7 @@ function show_profile_edit_form($profile_id) {
 
     <div class="form-frame form-frame-profile-pages">
         <h4>Pages</h4>
-        <?php show_pages_frame($profile, $yes_no) ?>
+        <?php show_pages_frame($profile) ?>
     </div>
 
     <div class="form-buttons">
@@ -98,8 +98,6 @@ function show_config_frame($profile, $yes_no) {
 
     $config = $profile->getConfig();
 
-    $field_options = array('field_class' => 'big-label');
-
     show_select_field($config, 'config', 'IPDISCOVER', $l->g(1172), $yes_no);
     show_select_field($config, 'config', 'TELEDIFF', $l->g(1162), $yes_no);
     show_select_field($config, 'config', 'CONFIG', $l->g(1163), $yes_no);
@@ -128,16 +126,12 @@ function show_blacklist_frame($profile, $yes_no) {
         'IPDISCOVER' => $ipdiscover
     );
 
-    $field_options = array('field_class' => 'big-label');
-
     show_select_field($blacklist, 'blacklist', 'MACADD', $l->g(1159), $yes_no);
     show_select_field($blacklist, 'blacklist', 'SERIAL', $l->g(1160), $yes_no);
     show_select_field($blacklist, 'blacklist', 'IPDISCOVER', $l->g(1161), $yes_no);
 }
 
-function show_pages_frame($profile, $yes_no) {
-    global $l;
-
+function show_pages_frame($profile) {
     $urls = $_SESSION['OCS']['url_service']->getUrls();
     asort($urls);
 

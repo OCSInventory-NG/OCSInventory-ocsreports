@@ -22,9 +22,7 @@
  */
 
 function show_activate_form($timestamp, $data, $errors) {
-    global $l;
-
-    // TODO translations
+    // @TODO translations
     $package = get_package_info($timestamp);
     $redistrib_pack = get_redistrib_package_info($timestamp);
 

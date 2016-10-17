@@ -42,7 +42,7 @@ class Wol {
                     @socket_close($s);
                     $this->wol_send = $l->g(1322);
                 } else {
-                    $s_opt = socket_set_option($s, SOL_SOCKET, SO_BROADCAST, true);
+                    socket_set_option($s, SOL_SOCKET, SO_BROADCAST, true);
                     socket_sendto($s, $this->pacquet($mac), strlen($this->pacquet($mac)), 0, "255.255.255.255", $v);
                     socket_close($s);
                     $this->wol_send = $l->g(1282);

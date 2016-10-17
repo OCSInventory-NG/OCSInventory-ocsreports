@@ -71,6 +71,8 @@ function migrate_js_2_2($config) {
 }
 
 function migrate_profiles_2_2() {
+    global $l;
+
     if (!file_exists(DOCUMENT_REAL_ROOT . '/config/profiles')) {
         mkdir(DOCUMENT_REAL_ROOT . '/config/profiles');
     }

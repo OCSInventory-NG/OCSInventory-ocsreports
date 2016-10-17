@@ -55,7 +55,7 @@ function validate_profile_create_form($data) {
     return $errors;
 }
 
-function validate_profile_edit_form($profile_id, $data) {
+function validate_profile_edit_form($data) {
     global $l;
 
     $errors = array();
@@ -113,8 +113,6 @@ function remove_profile($profile_id) {
 }
 
 function update_profile($profile_id, $data) {
-    $yes_no = array('YES', 'NO');
-
     $urls = $_SESSION['OCS']['url_service'];
 
     $profiles = get_profiles();

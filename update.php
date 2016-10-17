@@ -110,6 +110,8 @@ require_once('require/footer.php');
  * @return boolean
  */
 function exec_fichier_sql($fichier) {
+    global $l;
+
     $db_file = $fichier;
     $dbf_handle = @fopen($db_file, "r");
 

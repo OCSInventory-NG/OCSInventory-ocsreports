@@ -45,7 +45,7 @@ if (!AJAX) {
             'status' => 'error',
             'message' => $l->g(1407) . ' (config/profiles/' . $_GET['profile_id'] . '.xml)'
         );
-    } else if ($errors = validate_profile_edit_form($_GET['profile_id'], $_POST)) {
+    } else if ($errors = validate_profile_edit_form($_POST)) {
         $response = array(
             'status' => 'error',
             'message' => $l->g(1404),

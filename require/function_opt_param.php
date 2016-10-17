@@ -79,7 +79,7 @@ function insert($NAME, $IVALUE, $TVALUE = "") {
     }
 }
 
-function optperso($lbl, $lblPerso, $optPerso, $group = 0, $default_value = '', $end = '') {
+function optperso($lbl, $lblPerso, $optPerso, $default_value = '', $end = '') {
     global $l, $td3;
     echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso[$lbl]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
     echo $td3 . $lblPerso . "</td>";

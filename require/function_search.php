@@ -325,9 +325,8 @@ function generate_sql($table_name) {
 
 //fonction qui permet d'afficher la ligne de recherche en fonction
 //du type du champ
-function show_ligne($value, $color, $id_field, $ajout, $form_name) {
-    global $optSelectField, $opt2SelectField, $opt2Select,
-    $optSelect2Field, $opt3Select, $optSelect, $optArray, $l, $protectedPost;
+function show_ligne($value, $id_field, $ajout, $form_name) {
+    global $optSelectField, $opt2SelectField, $opt2Select, $optSelect2Field, $opt3Select, $optSelect, $optArray, $l, $protectedPost;
     $nameField = $value . "-" . $id_field;
     if ($ajout != '') {
         $and_or = show_modif(array('AND' => 'AND', 'OR' => 'OR'), "SelAndOr-" . $nameField, 2, '', array('DEFAULT' => 'NO'));

@@ -1228,7 +1228,6 @@ echo "<div class='col col-md-12'>";
 echo "<div class='field'>" . $aff_field_search . "</div>";
 if (isset($_SESSION['OCS']['multiSearch']) && $_SESSION['OCS']['multiSearch'] != null) {
 
-    $c = 0;
     foreach ($_SESSION['OCS']['multiSearch'] as $k => $v) {
         if (!isset($alreadyExist[$v])) {
             $alreadyExist[$v] = 'YES';
@@ -1236,9 +1235,7 @@ if (isset($_SESSION['OCS']['multiSearch']) && $_SESSION['OCS']['multiSearch'] !=
         } else {
             $ajout = $v;
         }
-        $color = $c % 2 == 0 ? "#F2F2F2" : "#FFFFFF";
-        show_ligne($v, $color, $k, $ajout, $form_name);
-        $c++;
+        show_ligne($v, $k, $ajout, $form_name);
     }
     echo "<div class='form-buttons'><input type='submit' name='Valid-search' value='" . $l->g(30) . "' onclick='garde_valeur(\"VALID\",\"Valid\");'></div>";
     echo "<input type=hidden name='Valid' id='Valid' value=''>";

@@ -138,7 +138,7 @@ if (isset($systemid)) {
         $i++;
     }
     $total = "<font color=red> (<b>" . $valCount['nb'] . " " . $l->g(652) . "</b>)</font>";
-    tab_entete_fixe($entete, $data2, $l->g(645) . $total, "95", "300");
+    tab_entete_fixe($entete, $data2, $l->g(645) . $total, 95);
     show_page($valCount['nb'], $form_name);
     echo "<input type='hidden' id='supp' name='supp' value=''>";
     echo "<input type='hidden' id='modif' name='modif' value=''>";

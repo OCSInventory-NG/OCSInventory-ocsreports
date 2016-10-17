@@ -31,7 +31,7 @@ function lock($id) {
 
     $reqLock = "INSERT INTO locks(hardware_id) VALUES ('%s')";
     $argLock = $id;
-    if ($resLock = mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"], $argLock)) {
+    if (mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"], $argLock)) {
         return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) == 1 );
     } else {
         return false;
@@ -311,7 +311,7 @@ function form_add_computer() {
     }
     if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_USER_GROUP') == 'YES') {
         $tab_typ_champ[2]["CONFIG"]['DEFAULT'] = "YES";
-        //	$tab_typ_champ[1]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\"><img src=image/plus.png></a>";
+        //@TODO : buggy code
         $tab_typ_champ[2]['COMMENT_AFTER'] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_adminvalues'] . "&head=1&tag=USER_GROUP\"><img src=image/plus.png></a>";
     }
 
@@ -356,9 +356,7 @@ function is_mine_computer($id) {
         $sql = mysql2_prepare($sql, $arg, $_SESSION['OCS']['TAGS']);
         $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
         $item = mysqli_fetch_object($result);
-        if (isset($item->hardware_id)) {
-            return true;
-        } else {
+        if (!isset($item->hardware_id)) {
             return false;
         }
     }

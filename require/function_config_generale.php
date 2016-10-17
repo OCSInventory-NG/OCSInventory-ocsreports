@@ -233,7 +233,7 @@ function debut_tab() {
 }
 
 function verif_champ() {
-    global $protectedPost, $l;
+    global $protectedPost;
     $supp1 = array("DOWNLOAD_CYCLE_LATENCY", "DOWNLOAD_FRAG_LATENCY", "DOWNLOAD_PERIOD_LATENCY",
         "DOWNLOAD_PERIOD_LENGTH", "DOWNLOAD_TIMEOUT", "PROLOG_FREQ", "IPDISCOVER_MAX_ALIVE",
         "GROUPS_CACHE_REVALIDATE", "GROUPS_CACHE_OFFSET", "LOCK_REUSE_TIME", "INVENTORY_CACHE_REVALIDATE",
@@ -323,7 +323,6 @@ function insert_update($name, $value, $default_value, $field) {
 }
 
 function delete($name) {
-    global $l;
     $sql = "delete from config where name='%s'";
     $arg = array($name);
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
@@ -341,7 +340,6 @@ function update_config($name, $field, $value, $msg = true) {
 
 function update_default_value($POST) {
     global $l;
-    $i = 0;
     //tableau des champs ou il faut juste mettre à jour le tvalue
     $array_simple_tvalue = array('DOWNLOAD_SERVER_URI', 'DOWNLOAD_SERVER_DOCROOT',
         'OCS_FILES_FORMAT', 'OCS_FILES_PATH',
@@ -690,8 +688,8 @@ function pageinventory() {
 }
 
 function pageregistry() {
-    global $l, $numeric, $sup1;
-    //what ligne we need?
+    global $l;
+    //which line we need?
     $champs = array('REGISTRY' => 'REGISTRY');
     $values = look_config_default_values($champs);
     debut_tab();
@@ -731,7 +729,7 @@ function pageipdiscover() {
 }
 
 function pageredistrib() {
-    global $l, $numeric, $sup1;
+    global $l;
     //what ligne we need?
     $champs = array('DOWNLOAD_SERVER_URI' => 'DOWNLOAD_SERVER_URI',
         'DOWNLOAD_SERVER_DOCROOT' => 'DOWNLOAD_SERVER_DOCROOT',
@@ -764,8 +762,8 @@ function pageredistrib() {
 }
 
 function pagefilesInventory() {
-    global $l, $numeric, $sup1;
-    //what ligne we need?
+    global $l;
+    //which line we need?
     $champs = array('GENERATE_OCS_FILES' => 'GENERATE_OCS_FILES',
         'OCS_FILES_FORMAT' => 'OCS_FILES_FORMAT',
         'OCS_FILES_OVERWRITE' => 'OCS_FILES_OVERWRITE',
@@ -814,10 +812,10 @@ function pagewebservice() {
 }
 
 function pageConnexion() {
-    global $l, $numeric, $sup1;
+    global $l;
     require_once('require/function_users.php');
 
-    //what ligne we need?
+    //which line we need?
     $champs = array('CONEX_LDAP_SERVEUR' => 'CONEX_LDAP_SERVEUR',
         'CONEX_LDAP_PORT' => 'CONEX_LDAP_PORT',
         'CONEX_DN_BASE_LDAP' => 'CONEX_DN_BASE_LDAP',
@@ -857,8 +855,8 @@ function pageConnexion() {
 }
 
 function pagesnmp() {
-    global $l, $numeric, $sup1, $pages_refs;
-    //what ligne we need?
+    global $l;
+    //which line we need?
     $champs = array('SNMP' => 'SNMP', 'SNMP_INVENTORY_DIFF' => 'SNMP_INVENTORY_DIFF');
     $values = look_config_default_values($champs);
     if (isset($values['tvalue']['SNMP_DIR'])) {
@@ -873,8 +871,6 @@ function pagesnmp() {
 }
 
 function pagesplugin() {
-    global $l;
-
     $champs = array('OCS_SERVER_ADDRESS' => 'OCS_SERVER_ADDRESS');
     $values = look_config_default_values($champs);
 
@@ -912,7 +908,6 @@ function pageswol() {
 }
 
 function pagesdev() {
-    global $l, $numeric, $sup1, $pages_refs;
     $champs = array('USE_NEW_SOFT_TABLES' => 'USE_NEW_SOFT_TABLES');
     $values = look_config_default_values($champs);
     debut_tab();

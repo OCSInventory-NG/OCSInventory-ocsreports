@@ -50,10 +50,10 @@ class MenuRenderer {
 
     /**
      * Render a MenuElem with html tag
-     * 
+     *
      * @param MenuElem $menu_elem The MenuElem to convert
      * @param integer  $level The level
-     * 
+     *
      * @return string The html tag code
      */
     public function renderElem(MenuElem $menu_elem, $level = 0) {
@@ -72,7 +72,7 @@ class MenuRenderer {
         $attrs = $this->buildAttrs($menu_elem);
 
         $html = "<li " . $attrs['li'] . ">";
-        $html .= "<a href='$href' " . $attrs['a'] . ">$label $caret</a>";
+        $html .= "<a href='$href' " . $attrs['a'] . ">$label</a>";
 
         if ($menu_elem->hasChildren()) {
             $children_html = '';
@@ -112,6 +112,7 @@ class MenuRenderer {
     }
 
     protected function canSeeElem(MenuElem $menu_elem) {
+        //@TODO : buggy code
         return true;
     }
 
@@ -133,6 +134,7 @@ class MenuRenderer {
         $attr_li = $attr_a = array();
 
         if ($menu_elem->hasChildren()) {
+            //@TODO : buggy code
             if ($level > 0) {
                 $attr_li['class'][] = 'dropdown-submenu';
 
@@ -164,9 +166,9 @@ class MenuRenderer {
 
     /**
      * Convert array tag attributes to string
-     * 
+     *
      * @param array $attr Array of attribute
-     * 
+     *
      * @return string Conversion of attribute array to string
      */
     protected function attrToString(array $attr) {
@@ -185,8 +187,9 @@ class MenuRenderer {
     protected function translateLabel($label) {
         global $l;
 
-        if (substr($label, 0, 2) == 'g(')
+        if (substr($label, 0, 2) == 'g(') {
             $label = ucfirst($l->g(substr(substr($label, 2), 0, -1)));
+        }
 
         return strip_tags_array($label);
     }

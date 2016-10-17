@@ -219,7 +219,6 @@ function admin_user($id_user = null, $is_my_account = false) {
     }
     if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_USER_GROUP') == 'YES') {
         $tab_typ_champ[2]["CONFIG"]['DEFAULT'] = "YES";
-        //	$tab_typ_champ[1]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
         $tab_typ_champ[2]['COMMENT_AFTER'] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_adminvalues'] . "&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
     }
 

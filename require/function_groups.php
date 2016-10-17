@@ -106,7 +106,7 @@ function creat_group($name, $descr, $list_id, $req, $group_type) {
     $reqGetId = "SELECT id FROM hardware WHERE name='%s' and deviceid = '_SYSTEMGROUP_'";
     $argGetId = $name;
     $resGetId = mysql2_query_secure($reqGetId, $_SESSION['OCS']["readServer"], $argGetId);
-    if ($valGetId = mysqli_fetch_array($resGetId)) {
+    if (mysqli_fetch_array($resGetId)) {
         return array('RESULT' => 'ERROR', 'LBL' => $l->g(621));
     }
 
@@ -186,7 +186,7 @@ function delete_group($id_supp) {
     $sql_verif_group = "select id from hardware where id=%s and DEVICEID='_SYSTEMGROUP_' or DEVICEID='_DOWNLOADGROUP_'";
     $arg_verif_group = $id_supp;
     $res_verif_group = mysql2_query_secure($sql_verif_group, $_SESSION['OCS']["readServer"], $arg_verif_group);
-    if ($val_verif_group = mysqli_fetch_array($res_verif_group)) {
+    if (mysqli_fetch_array($res_verif_group)) {
         deleteDid($arg_verif_group);
         addLog("DELETE GROUPE", $id_supp);
         return array('RESULT' => 'OK', 'LBL' => '');

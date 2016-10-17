@@ -73,7 +73,7 @@ function form_add_subnet($title = '', $default_value, $form) {
 
     $tab_typ_champ[1]["CONFIG"]['DEFAULT'] = "NO";
 
-    tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+    tab_modif_values($tab_name, $tab_typ_champ, array(), array(
         'title' => $title,
         'show_frame' => false
     ));
@@ -258,18 +258,16 @@ function runCommand($command = "", $fname) {
 function find_all_subnet($dpt_choise = '') {
     if ($dpt_choise != '') {
         return array_keys($_SESSION['OCS']["ipdiscover"][$dpt_choise]);
-    } else {
-        if (isset($_SESSION['OCS']["ipdiscover"])) {
-            foreach ($_SESSION['OCS']["ipdiscover"] as $subnet) {
-                foreach ($subnet as $sub => $poub) {
-                    $array_sub[] = $sub;
-                }
-            }
-            return $array_sub;
-        } else {
-            return false;
-        }
     }
+    if (isset($_SESSION['OCS']["ipdiscover"])) {
+        foreach ($_SESSION['OCS']["ipdiscover"] as $subnet) {
+            foreach ($subnet as $sub => $poub) {
+                $array_sub[] = $sub;
+            }
+        }
+        return $array_sub;
+    }
+    return false;
 }
 
 function count_noinv_network_devices($dpt_choise = '') {

@@ -213,7 +213,6 @@ function insert_with_rules($list_id, $rule_detail, $fileid) {
     //création de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
     while ($val_infoServ = mysqli_fetch_array($res_infoServ)) {
         $list_serverId[$val_infoServ['server_id']] = $val_infoServ['server_id'];
-        $tab_Server[$val_infoServ['server_id']] = $val_infoServ['id'];
     }
 
     if ($rule_detail['compto'] == "NAME" || $rule_detail['compto'] == "WORKGROUP" || $rule_detail['compto'] == "USERID") {

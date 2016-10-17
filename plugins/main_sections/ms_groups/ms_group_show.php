@@ -439,7 +439,7 @@ function print_computers_cached($systemid) {
     echo open_form($form_name);
 
     $queryDetails = "SELECT ";
-    foreach ($list_fields as $lbl => $value) {
+    foreach ($list_fields as $value) {
         $queryDetails .= $value . ",";
     }
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
@@ -465,7 +465,7 @@ function print_computers_cached($systemid) {
 }
 
 function print_perso($systemid) {
-    global $l, $td1, $td2, $td3, $td4, $pages_refs, $protectedGet;
+    global $l, $td2, $td3, $td4, $pages_refs;
     //@TODO : buggy code
     $i = 0;
     $queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
@@ -546,20 +546,20 @@ function print_perso($systemid) {
     echo "</tr>";
 
     //DOWNLOAD_CYCLE_LATENCY
-    optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720) . " <font color=green size=1><i>DOWNLOAD_CYCLE_LATENCY</i></font>", $optPerso, 1, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
+    optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720) . " <font color=green size=1><i>DOWNLOAD_CYCLE_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
 
     //DOWNLOAD_FRAG_LATENCY
-    optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721) . " <font color=green size=1><i>DOWNLOAD_FRAG_LATENCY</i></font>", $optPerso, 1, $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
+    optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721) . " <font color=green size=1><i>DOWNLOAD_FRAG_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
 
 
     //DOWNLOAD_PERIOD_LATENCY
-    optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LATENCY</i></font>", $optPerso, 1, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
+    optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
 
     //DOWNLOAD_PERIOD_LENGTH
-    optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LENGTH</i></font>", $optPerso, 1, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
+    optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LENGTH</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
 
     //PROLOG_FREQ
-    optperso("PROLOG_FREQ", $l->g(724) . " <font color=green size=1><i>PROLOG_FREQ</i></font>", $optPerso, 1, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
+    optperso("PROLOG_FREQ", $l->g(724) . " <font color=green size=1><i>PROLOG_FREQ</i></font>", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
 
     //SNMP_SWITCH
     echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["SNMP_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
