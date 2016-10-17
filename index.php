@@ -42,11 +42,14 @@ if (get_magic_quotes_gpc()) {
 
 $debut = microtime(true);
 
-define('AJAX', false);
+// Is it an AJAX call ? (ajax.php)
+if (!defined('AJAX')) {
+    define('AJAX', false);
+}
 
 require ('require/header.php');
 addLog('PAGE', $protectedGet[PAG_INDEX]);
 
-if (!isset($protectedGet["popup"]) && !isset($protectedGet["no_footer"])) {
+if (AJAX && !isset($protectedGet["popup"]) && !isset($protectedGet["no_footer"])) {
     require (FOOTER_HTML);
 }
