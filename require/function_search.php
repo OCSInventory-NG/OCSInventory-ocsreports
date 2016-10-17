@@ -535,7 +535,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         <div class="btn-group">
             <?php
             foreach ($img as $key => $value) {
-                echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn">' . $value . '</button>';
+                echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn btn-default">' . $value . '</button>';
             }
             ?>
         </div>

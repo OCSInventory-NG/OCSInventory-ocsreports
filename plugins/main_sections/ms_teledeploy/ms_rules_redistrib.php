@@ -132,7 +132,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
         echo "<input type='hidden' id='RAZ' name='RAZ' value=''>";
         echo "<input type='hidden' id='OLD_MODIF' name='OLD_MODIF' value='" . $modif . "'>";
     } else {
-        echo "<input type='submit' class='btn' value='" . $l->g(685) . "' name='NEW_RULE'>";
+        echo "<input type='submit' class='btn btn-default' value='" . $l->g(685) . "' name='NEW_RULE'>";
     }
     echo close_form();
 } else {
