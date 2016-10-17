@@ -253,7 +253,9 @@ function updatePassword($id_user, $password) {
     }
 }
 
-// Include password compat for odler php versions at user creation and user modification
+/**
+ * Include password compat for older php versions at user creation and modification
+ */
 function checkForPasswordCompat() {
     if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
         if (version_compare(PHP_VERSION, '5.5') < 0) {
