@@ -26,7 +26,7 @@ class language {
     protected $tableauMots;    // tableau contenant tous les mots du fichier
     protected $plug_language;
 
-    function language($language, $plugin = '') { // constructeur
+    function __construct($language, $plugin = '') { // constructeur
         if ($plugin != '') {
             require_once('require/function_files.php');
             $rep_list = ScanDirectory(MAIN_SECTIONS_DIR, '.');
