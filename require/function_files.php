@@ -21,35 +21,51 @@
  * MA 02110-1301, USA.
  */
 
-function ScanDirectory($Directory, $Filetype) {
-    $MyDirectory = @opendir($Directory);
-    if (!$MyDirectory) {
+/**
+ * Get all files of a directory
+ * @param string $directory path of the directory
+ * @param string $filetype
+ * @return boolean|string list of files
+ */
+function scanDirectory($directory, $filetype = '.') {
+    // Is it a directory ?
+    if (!is_dir($directory)) {
         return false;
     }
-    while ($Entry = @readdir($MyDirectory)) {
-        if (substr($Entry, -strlen($Filetype)) == $Filetype && $Filetype != ".") {
-            $data['name'][] = $Entry;
-            $data['date_create'][] = date("d M Y H:i:s.", filectime($Directory . $Entry));
-            $data['date_modif'][] = date("d M Y H:i:s.", filemtime($Directory . $Entry));
-            $data['size'][] = filesize($Directory . $Entry);
-        } elseif ($Filetype == ".") {
-            if (!strripos($Entry, $Filetype)) {
-                $data[$Entry] = $Entry;
+    $myDirectory = @opendir($directory);
+    // Can it be opened ?
+    if (!$myDirectory) {
+        return false;
+    }
+    // For every content on the directory
+    while ($entry = @readdir($myDirectory)) {
+        // I'm searching a filetype & I found a file ?
+        if (substr($entry, -strlen($filetype)) == $filetype && $filetype != ".") {
+            // Get the file !
+            $data['name'][] = $entry;
+            $data['date_create'][] = date("d M Y H:i:s.", filectime($directory . $entry));
+            $data['date_modif'][] = date("d M Y H:i:s.", filemtime($directory . $entry));
+            $data['size'][] = filesize($directory . $entry);
+        } elseif ($filetype == ".") {
+            if (!strripos($entry, $filetype)) {
+                $data[$entry] = $entry;
             }
             unset($data['.'], $data['..']);
         }
     }
-    closedir($MyDirectory);
+    closedir($myDirectory);
     return $data;
 }
 
-/*
- * $ms_cfg_file= name of file to read
- * $search= array of values to find like array('PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'SINGLE','ADMIN_BLACKLIST'=>'SINGLE')
- * SINGLE => You have only one value to read
- * MULTI => You have few values to read
+/**
+ *
+ * @param string $ms_cfg_file name of file to read
+ * @param type $search array of values to find like array('PAGE_PROFIL'=>'MULTI','RESTRICTION'=>'SINGLE','ADMIN_BLACKLIST'=>'SINGLE')
+ * <br />SINGLE => You have only one value to read
+ * <br />MULTI => You have few values to read
+ * @param type $id_field
+ * @return string
  */
-
 function read_configuration($ms_cfg_file, $search, $id_field = '') {
     if (!is_readable($ms_cfg_file)) {
         return "NO_FILES";
@@ -63,7 +79,6 @@ function read_configuration($ms_cfg_file, $search, $id_field = '') {
         }
         if ($capture != '') {
             foreach ($search as $value_2_search => $option) {
-                //	echo $value_2_search."<br>";
                 if ($capture == 'OK_' . $value_2_search) {
                     if (strstr($line, ':')) {
                         $tab_lbl = explode(":", $line);
@@ -147,7 +162,6 @@ function create_profil($new_profil, $lbl_profil, $ref_profil) {
     $new_value = read_profil_file($ref_profil);
     $new_value['INFO']['NAME'] = $lbl_profil;
     update_config_file($new_profil, $new_value, 'NO');
-    //getcopy_config_file($protectedPost['ref_profil'],'YES',$protectedPost['new_profil']);
 }
 
 function parse_xml_file($file, $tag, $separe) {

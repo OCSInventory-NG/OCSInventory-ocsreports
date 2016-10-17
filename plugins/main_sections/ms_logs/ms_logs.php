@@ -34,7 +34,7 @@ $protectedPost['onglet'] == "";
 $tab_options = $protectedPost;
 
 $Directory = $_SESSION['OCS']['LOG_DIR'] . "/";
-$data = ScanDirectory($Directory, "csv");
+$data = scanDirectory($Directory, "csv");
 
 if (is_array($data)) {
     $form_name = "logs";

@@ -48,7 +48,7 @@ $form_name = 'form_update';
 $rep_maj = 'files/update/';
 
 //search all sql files for update
-$list_fichier = ScanDirectory($rep_maj, "sql");
+$list_fichier = scanDirectory($rep_maj, "sql");
 echo "<form name='" . $form_name . "' id='" . $form_name . "' method='POST'>";
 $msg_info[] = $l->g(2057);
 

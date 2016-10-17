@@ -29,7 +29,7 @@ class language {
     function __construct($language, $plugin = '') { // constructeur
         if ($plugin != '') {
             require_once('require/function_files.php');
-            $rep_list = ScanDirectory(MAIN_SECTIONS_DIR, '.');
+            $rep_list = scanDirectory(MAIN_SECTIONS_DIR);
             foreach ($rep_list as $key) {
                 if (file_exists(MAIN_SECTIONS_DIR . $key . '/language/' . $language . ".txt")) {
                     $file = fopen(MAIN_SECTIONS_DIR . $key . '/language/' . $language . ".txt", "r");
