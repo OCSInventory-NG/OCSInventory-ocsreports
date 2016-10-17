@@ -23,7 +23,6 @@
 require_once('require/function_computers.php');
 $seeit = is_mine_computer($protectedGet['systemid']);
 if (!$seeit) {
-    $ban_head = 'no';
     require_once (HEADER_HTML);
     msg_error($l->g(837));
     require_once(FOOTER_HTML);
@@ -116,7 +115,6 @@ if ($xml != "") {
     echo $xml,
     die();
 } else {
-    $ban_head = 'no';
     require_once (HEADER_HTML);
     msg_error($l->g(920));
     require_once(FOOTER_HTML);
