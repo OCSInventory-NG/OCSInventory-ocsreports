@@ -31,14 +31,6 @@ $sql_field = "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown=
 		  onkeyup='convertToUpper(this)'
 		  onblur='convertToUpper(this)'";
 
-if (!function_exists("utf8_decode")) {
-
-    function utf8_decode($st) {
-        return $st;
-    }
-
-}
-
 function printEnTete($ent) {
     echo "<h3 class='text-center'>$ent</h3>";
 }
@@ -91,21 +83,6 @@ function datePick($input, $checkOnClick = false) {
     return $ret;
 }
 
-/**
- * check an mail addresse
- * @param type $addresse
- * @return boolean
- */
-function VerifyMailadd($addresse) {
-    //@TODO
-    $Syntaxe = '#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#';
-    if (preg_match($Syntaxe, $addresse)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 function replace_entity_xml($txt) {
     $cherche = array("&", "<", ">", "\"", "'");
     $replace = array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;");
@@ -117,28 +94,12 @@ function printEnTete_tab($ent) {
 	<tr height=40px bgcolor=#f2f2f2 align=center><td><b>" . $ent . "</b></td></tr></table>";
 }
 
-/**
- * escape_string before use database
- * @param type $array
- * @return type
- */
-function escape_string($array) {
-    if (is_array($array)) {
-        foreach ($array as $key => $value) {
-            $trait_array[$key] = mysqli_real_escape_string($_SESSION['OCS']["readServer"], $value);
-        }
-        return ($trait_array);
-    } else {
-        return array();
-    }
-}
-
 function xml_escape_string($array) {
     foreach ($array as $key => $value) {
         $trait_array[$key] = utf8_encode($value);
         $trait_array[$key] = htmlspecialchars($value, ENT_QUOTES);
     }
-    return ($trait_array);
+    return $trait_array;
 }
 
 function xml_encode($txt) {
@@ -660,34 +621,6 @@ function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array()
     return true;
 }
 
-//variable pour la fonction champsform
-$num_lig = 0;
-/* fonction liée à show_modif
- * qui permet de créer une ligne dans le tableau de modification/ajout
- * $title = titre à l'affichage du champ
- * $value_default = - pour un champ text ou input, la valeur par défaut du champ.
- * 					- pour un champ select, liste des valeurs du champ
- * $input_name = nom du champ que l'on va récupérer en $protectedPost
- * $input_type = 0 : <input type='text'>
- * 				 1 : <textarea>
- * 				 2 : <select><option>
- * $donnees = tableau qui contient tous les champs à afficher à la suite
- * $nom_form = si un select doit effectuer un reload, on y met le nom du formulaire à reload
- */
-
-function champsform($title, $value_default, $input_name, $input_type, &$donnees, $nom_form = '') {
-    global $num_lig;
-    $donnees['tab_name'][$num_lig] = $title;
-    $donnees['tab_typ_champ'][$num_lig]['DEFAULT_VALUE'] = $value_default;
-    $donnees['tab_typ_champ'][$num_lig]['INPUT_NAME'] = $input_name;
-    $donnees['tab_typ_champ'][$num_lig]['INPUT_TYPE'] = $input_type;
-    if ($nom_form != "") {
-        $donnees['tab_typ_champ'][$num_lig]['RELOAD'] = $nom_form;
-    }
-    $num_lig++;
-    return $donnees;
-}
-
 /*
  * fonction liée à tab_modif_values qui permet d'afficher le champ défini avec la fonction champsform
  * $name = nom du champ
@@ -971,61 +904,6 @@ function show_field($name_field, $type_field, $value_field, $config = array()) {
     return $tab_typ_champ;
 }
 
-function filtre($tab_field, $form_name, $query, $arg = '', $arg_count = '') {
-    global $protectedPost, $l;
-    if ($protectedPost['FILTRE_VALUE'] && $protectedPost['FILTRE']) {
-        $temp_query = explode("GROUP BY", $query);
-        if ($temp_query[0] == $query) {
-            $temp_query = explode("group by", $query);
-        }
-
-        if (substr_count(mb_strtoupper($temp_query[0]), "WHERE") > 0) {
-            $t_query = explode("WHERE", $temp_query[0]);
-            if ($t_query[0] == $temp_query[0]) {
-                $t_query = explode("where", $temp_query[0]);
-            }
-            $temp_query[0] = $t_query[0] . " WHERE (" . $t_query[1] . ") and ";
-        } else {
-            $temp_query[0] .= " where ";
-        }
-        if (substr($protectedPost['FILTRE'], 0, 2) == 'a.') {
-            require_once('require/function_admininfo.php');
-            $id_tag = explode('_', substr($protectedPost['FILTRE'], 2));
-            if (!isset($id_tag[1])) {
-                $tag = 1;
-            } else {
-                $tag = $id_tag[1];
-            }
-            $list_tag_id = find_value_in_field($tag, $protectedPost['FILTRE_VALUE']);
-        }
-        if ($list_tag_id) {
-            $query_end = " in (" . implode(',', $list_tag_id) . ")";
-        } else {
-            if ($arg == '') {
-                $query_end = " like '%" . $protectedPost['FILTRE_VALUE'] . "%' ";
-            } else {
-                $query_end = " like '%s' ";
-                array_push($arg, '%' . $protectedPost['FILTRE_VALUE'] . '%');
-                if (is_array($arg_count)) {
-                    array_push($arg_count, '%' . $protectedPost['FILTRE_VALUE'] . '%');
-                } else {
-                    $arg_count[] = '%' . $protectedPost['FILTRE_VALUE'] . '%';
-                }
-            }
-        }
-        $query = $temp_query[0] . $protectedPost['FILTRE'] . $query_end;
-        if (isset($temp_query[1])) {
-            $query .= "GROUP BY " . $temp_query[1];
-        }
-    }
-    $view = show_modif($tab_field, 'FILTRE', 2);
-    $view .= show_modif($protectedPost['FILTRE_VALUE'], 'FILTRE_VALUE', 0);
-
-    echo $l->g(883) . ": " . $view . "<input type='submit' value='" . $l->g(1109) . "' name='SUB_FILTRE'><a href=# onclick='return pag(\"RAZ\",\"RAZ_FILTRE\",\"" . $form_name . "\");'><img src=image/delete-small.png></a></td></tr><tr><td align=center>";
-    echo "<input type=hidden name='RAZ_FILTRE' id='RAZ_FILTRE' value=''>";
-    return array('SQL' => $query, 'ARG' => $arg, 'ARG_COUNT' => $arg_count);
-}
-
 function tab_list_error($data, $title) {
     echo "<br>";
     echo "<table align='center' width='50%' border='0'  bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
@@ -1241,113 +1119,6 @@ function show_tabs($def_onglets, $form_name, $post_name, $ligne) {
         echo "<input type='hidden' id='" . $post_name . "' name='" . $post_name . "' value='" . $protectedPost[$post_name] . "'>";
         echo "<input type='hidden' id='old_" . $post_name . "' name='old_" . $post_name . "' value='" . $protectedPost[$post_name] . "'>";
     }
-}
-
-function gestion_col($entete, $data, $list_col_cant_del, $form_name, $tab_name, $list_fields, $default_fields, $id_form = 'form') {
-    global $protectedPost, $l;
-    //search in cookies columns values
-    if (isset($_COOKIE[$tab_name]) && $_COOKIE[$tab_name] != '' && !isset($_SESSION['OCS']['col_tab'][$tab_name])) {
-        $col_tab = explode("///", $_COOKIE[$tab_name]);
-        foreach ($col_tab as $key => $value) {
-            $_SESSION['OCS']['col_tab'][$tab_name][$value] = $value;
-        }
-    }
-    if (isset($protectedPost['SUP_COL']) && $protectedPost['SUP_COL'] != "") {
-        unset($_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['SUP_COL']]);
-    }
-    if ($protectedPost['restCol' . $tab_name]) {
-        $_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['restCol' . $tab_name]] = $protectedPost['restCol' . $tab_name];
-    }
-    if ($protectedPost['RAZ'] != "") {
-        unset($_SESSION['OCS']['col_tab'][$tab_name]);
-        $_SESSION['OCS']['col_tab'][$tab_name] = $default_fields;
-    }
-    if (!isset($_SESSION['OCS']['col_tab'][$tab_name])) {
-        $_SESSION['OCS']['col_tab'][$tab_name] = $default_fields;
-    }
-    //add all fields we must have
-    if (is_array($list_col_cant_del)) {
-        if (!is_array($_SESSION['OCS']['col_tab'][$tab_name])) {
-            $_SESSION['OCS']['col_tab'][$tab_name] = array();
-        }
-        foreach ($list_col_cant_del as $key => $value) {
-            if (!in_array($key, $_SESSION['OCS']['col_tab'][$tab_name])) {
-                $_SESSION['OCS']['col_tab'][$tab_name][$key] = $key;
-            }
-        }
-    }
-
-    if (is_array($entete)) {
-        if (!is_array($_SESSION['OCS']['col_tab'][$tab_name])) {
-            $_SESSION['OCS']['col_tab'][$tab_name] = array();
-        }
-        foreach ($entete as $k => $v) {
-            if (in_array($k, $_SESSION['OCS']['col_tab'][$tab_name])) {
-                $data_with_filter['entete'][$k] = $v;
-                if (!isset($list_col_cant_del[$k])) {
-                    $data_with_filter['entete'][$k] .= "<a href=# onclick='return pag(\"" . xml_encode($k) . "\",\"SUP_COL\",\"" . $id_form . "\");'><img src=image/delete-small.png></a>";
-                }
-            } else {
-                $list_rest[$k] = $v;
-            }
-        }
-    }
-    if (is_array($data)) {
-        if (!is_array($_SESSION['OCS']['col_tab'][$tab_name])) {
-            $_SESSION['OCS']['col_tab'][$tab_name] = array();
-        }
-        foreach ($data as $k => $v) {
-            foreach ($v as $k2 => $v2) {
-                if (in_array($k2, $_SESSION['OCS']['col_tab'][$tab_name])) {
-                    $data_with_filter['data'][$k][$k2] = $v2;
-                }
-            }
-        }
-    }
-    if (is_array($list_rest)) {
-        //$list_rest=lbl_column($list_rest);
-        $select_restCol = $l->g(349) . ": " . show_modif($list_rest, 'restCol' . $tab_name, 2, $form_name);
-        $select_restCol .= "<a href=# OnClick='pag(\"" . $tab_name . "\",\"RAZ\",\"" . $id_form . "\");'><img src=image/delete-small.png></a></td></tr></table>"; //</td></tr><tr><td align=center>
-        echo $select_restCol;
-    } else {
-        echo "</td></tr></table>";
-    }
-    echo "<input type='hidden' id='SUP_COL' name='SUP_COL' value=''>";
-    echo "<input type='hidden' id='TABLE_NAME' name='TABLE_NAME' value='" . $tab_name . "'>";
-    echo "<input type='hidden' id='RAZ' name='RAZ' value=''>";
-    return( $data_with_filter);
-}
-
-function lbl_column($list_fields) {
-    //p($list_rest);
-    require_once('maps.php');
-    $return_fields = array();
-    $return_default = array();
-    foreach ($list_fields as $table) {
-        if (isset($lbl_column[$table])) {
-            foreach ($lbl_column[$table] as $field => $lbl) {
-                if (isset($alias_table[$table])) {
-                    $return_fields[$lbl] = $alias_table[$table] . '.' . $field;
-                    if (isset($default_column[$table])) {
-                        foreach ($default_column[$table] as $default_field) {
-                            $return_default[$lbl_column[$table][$default_field]] = $lbl_column[$table][$default_field];
-                        }
-                    } else {
-                        msg_error($table . ' DEFAULT VALUES NOT DEFINE IN MAPS.PHP');
-                        return false;
-                    }
-                } else {
-                    msg_error($table . ' ALIAS NOT DEFINE IN MAPS.PHP');
-                    return false;
-                }
-            }
-        } else {
-            msg_error($table . ' NOT DEFINE IN MAPS.PHP');
-            return false;
-        }
-    }
-    ksort($return_fields);
-    return array('FIELDS' => $return_fields, 'DEFAULT_FIELDS' => $return_default);
 }
 
 //fonction qui permet de ne selectionner que certaines lignes du tableau

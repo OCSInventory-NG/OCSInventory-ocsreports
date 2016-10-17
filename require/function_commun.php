@@ -178,7 +178,6 @@ function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME) {
 /* * *********************************END SQL FUNCTION***************************************** */
 
 function addLog($type, $value = "", $lbl_sql = '') {
-    //global $logHandler;
     if ($_SESSION['OCS']['LOG_GUI'] == 1) {
         if (is_writable(LOG_FILE)) {
             $logHandler = fopen(LOG_FILE, "a");
@@ -257,15 +256,6 @@ function read_files($search, $ms_cfg_file, $writable = '') {
     }
 }
 
-function replace_language($info) {
-    global $l;
-    if (substr($info, 0, 2) == 'g(') {
-        return $l->g(substr(substr($info, 2), 0, -1));
-    } else {
-        return $info;
-    }
-}
-
 function msg($txt, $css, $closeid = false) {
     global $protectedPost;
 
@@ -309,31 +299,6 @@ function msg_warning($txt, $close = false) {
 function msg_error($txt, $close = false) {
     msg($txt, 'danger', $close);
     return true;
-}
-
-/*
- * Encode your data on UTF-8
- * $data can be an array or a string
- */
-
-function data_encode_utf8($data) {
-    return $data;
-    /* if (is_array($data)){
-      $data_utf8=array();
-      foreach ($data as $key=>$value){
-      if (mb_detect_encoding($value) != "UTF-8" )
-      $data_utf8[$key]=utf8_encode($value);
-      else
-      $data_utf8[$key]=$value;
-      }
-      return $data_utf8;
-      }
-      //		echo $data."=>";
-      //echo mb_detect_encoding("")."<br>";
-      if (mb_detect_encoding($data) != "UTF-8" ){
-      return utf8_encode($data);
-      }else
-      return $data; */
 }
 
 function html_header($noJavascript = false) {

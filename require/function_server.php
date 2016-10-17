@@ -76,40 +76,6 @@ function remove_list_serv($id_group, $list_id) {
     return $cached;
 }
 
-function replace_var_generic($hardware_id, $url_group_server, $id_group = false) {
-    $count_add_ip = substr_count($url_group_server, '$IP$');
-    $count_name = substr_count($url_group_server, '$NAME$');
-    if ($count_add_ip > 0 || $count_name > 0) {
-        $sql = "select IPADDR,NAME,ID from hardware where ID";
-        if ($hardware_id != 'ALL') {
-            $sql .= " = %s";
-            $arg = $hardware_id;
-        } else {
-            $sql .= " in (select hardware_id from groups_cache where group_id = %s)";
-            $arg = $id_group;
-        }
-        $resdefaultvalues = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-
-        while ($item = mysqli_fetch_object($resdefaultvalues)) {
-            $url_temp = str_replace('$IP$', $item->IPADDR, $url_group_server);
-            $url[$item->ID] = str_replace('$NAME$', $item->NAME, $url_temp);
-        }
-    } elseif ($hardware_id != 'ALL') {
-        $url[$hardware_id] = $url_group_server;
-    } else {
-        $sql = "select ID from hardware where ID";
-        $sql .= " in (select hardware_id from groups_cache where group_id = %s)";
-        $arg = $id_group;
-        $resdefaultvalues = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-
-        while ($item = mysqli_fetch_object($resdefaultvalues)) {
-            $url[$item->ID] = $url_group_server;
-        }
-    }
-
-    return $url;
-}
-
 //function for add machine in server's group
 function add_mach($id_group, $list_mach) {
     $default_values = look_config_default_values(array('DOWNLOAD_SERVER_URI', 'DOWNLOAD_SERVER_DOCROOT'));

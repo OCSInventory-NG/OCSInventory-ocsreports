@@ -77,35 +77,6 @@ function looking4config() {
     }
 }
 
-function champ_select_block($name, $input_name, $input_cache) {
-    global $protectedPost;
-    $champs = "<div class='form-group'><select class='form-control' name='" . $input_name . "' id='" . $input_name . "'";
-    $champs .= " onChange='";
-    if ($input_name == "ACTION") {
-        $i = 0;
-        while ($input_cache[$i]) {
-            $champs .= "active(\"" . $input_cache[$i] . "\", false);";
-            $i++;
-        }
-        $champs .= "active(this.value + \"_div\", true);";
-    } else {
-        foreach ($input_cache as $key => $value) {
-            $champs .= "active(\"" . $key . "_div\", this.value==\"" . $value . "\");";
-        }
-    }
-
-    $champs .= "'><option value=''></option>";
-    foreach ($name as $key => $value) {
-        $champs .= "<option value=\"" . $key . "\"";
-        if ($protectedPost[$input_name] == $key) {
-            $champs .= " selected";
-        }
-        $champs .= ">" . $value . "</option>";
-    }
-    $champs .= "</select></div>";
-    return $champs;
-}
-
 function time_deploy($label = '') {
     $champ = "disabled='disabled'";
     formGroup('text', 'TPS', $label, '10', '', '', '', '', '', $champ);
@@ -166,14 +137,6 @@ function desactive_packet($list_id, $packid) {
     desactive_download_option($list_id, $packid);
     $nb_line = desactive_option('DOWNLOAD', $list_id, $packid);
     return $nb_line;
-}
-
-function found_id_pack($packid) {
-    $sql_id_pack = "select ID from download_enable where fileid=%s and ( group_id = '' or group_id is null)";
-    $arg_id_pack = $packid;
-    $result = mysql2_query_secure($sql_id_pack, $_SESSION['OCS']["readServer"], $arg_id_pack);
-    $id_pack = mysqli_fetch_array($result);
-    return $id_pack['ID'];
 }
 
 function active_serv($list_id, $packid, $id_rule) {
@@ -431,7 +394,6 @@ function create_pack($sql_details, $info_details) {
             mkdir($sql_details['document_root'] . $sql_details['timestamp']);
         }
     }
-    //if $info_details['DIGEST'] is null =>  no file to deploy, only execute commande in info file so nb_frag=0
     if (!isset($info_details['DIGEST']) || $info_details['DIGEST'] == "") {
         $sql_details['nbfrags'] = 0;
     }

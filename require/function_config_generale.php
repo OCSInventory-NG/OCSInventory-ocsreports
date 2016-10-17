@@ -291,15 +291,6 @@ function fin_tab($disable = '') {
     echo "<br /><input type='submit' class='btn btn-success' name='Valid' value='" . $l->g(103) . "' $gris>";
 }
 
-function option_conf_activate($value) {
-    $conf_Wk = look_config_default_values(array($value));
-    if ($conf_Wk['ivalue'][$value] == 1)
-        $activate = 1;
-    else
-        $activate = 0;
-    return $activate;
-}
-
 /*
  * function for update, or delete or insert a value in config table
  * $name => value of field 'NAME' (name of config option)
@@ -310,7 +301,6 @@ function option_conf_activate($value) {
 
 function insert_update($name, $value, $default_value, $field) {
     global $l;
-    //	echo $field."=>".$value."=>".$default_value."<br>";
     if ($default_value != $value) {
         $arg = array($field, $value, $name);
         if ($default_value != '') {

@@ -107,7 +107,6 @@ function bandeau($data, $lbl, $link = array()) {
         $link = array();
     }
 
-    $data = data_encode_utf8($data);
     $nb_col = 2;
     echo "<table ALIGN = 'Center' class='mlt_bordure' border=0 width:100%><tr><td align =center>";
     echo "		<table align=center border='0' width='100%'  ><tr>";

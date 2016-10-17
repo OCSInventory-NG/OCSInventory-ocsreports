@@ -147,23 +147,6 @@ function getcopy_config_file($ms_cfg_file, $record = 'YES', $sauv = false) {
     return true;
 }
 
-function delete_config_file($ms_cfg_file) {
-    $array_files = explode(',', $ms_cfg_file);
-    $i = 0;
-    while (isset($array_files[$i])) {
-        getcopy_config_file($array_files[$i]);
-        $ms_file = $_SESSION['OCS']['CONF_PROFILS_DIR'] . $array_files[$i] . "_config.txt";
-        unlink($ms_file);
-        $i++;
-    }
-}
-
-function create_profil($new_profil, $lbl_profil, $ref_profil) {
-    $new_value = read_profil_file($ref_profil);
-    $new_value['INFO']['NAME'] = $lbl_profil;
-    update_config_file($new_profil, $new_value, 'NO');
-}
-
 function parse_xml_file($file, $tag, $separe) {
     $tab_data = array();
     // open file

@@ -27,8 +27,6 @@
         }
     }
 </script>
-
-
 <?php
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
@@ -86,18 +84,6 @@ function delete_rule($ID_RULE) {
     if ($id_exist == "RULE_EXIST") {
         $sql_del_rule = "delete from download_affect_rules where rule='%s'";
         $arg = $ID_RULE;
-        mysql2_query_secure($sql_del_rule, $_SESSION['OCS']["writeServer"], $arg);
-    } else {
-        echo msg_error($l->g(672));
-    }
-}
-
-function delete_condition_rule($ID) {
-    global $l;
-    $id_exist = verify_rule('id', $ID);
-    if ($id_exist == "RULE_EXIST") {
-        $sql_del_rule = "delete from download_affect_rules where id='%s'";
-        $arg = $ID;
         mysql2_query_secure($sql_del_rule, $_SESSION['OCS']["writeServer"], $arg);
     } else {
         echo msg_error($l->g(672));
