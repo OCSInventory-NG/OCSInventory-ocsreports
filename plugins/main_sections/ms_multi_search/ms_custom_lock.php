@@ -26,7 +26,7 @@ $form_name = "lock_affect";
 echo open_form($form_name);
 echo "<div align=center>";
 $list_id = multi_lot($form_name, $l->g(601));
-if ($protectedPost['LOCK'] != '' && isset($protectedPost['LOCK'])) {
+if (is_defined($protectedPost['LOCK'])) {
     if (isset($_SESSION['OCS']["mesmachines"])) {
         $_SESSION['OCS']["TRUE_mesmachines"] = $_SESSION['OCS']["mesmachines"];
     } else {
@@ -39,7 +39,7 @@ if ($protectedPost['LOCK'] != '' && isset($protectedPost['LOCK'])) {
 if ($protectedPost['CHOISE'] != "") {
     echo "<br><br><b>" . $l->g(978) . "</b>";
     echo "<br><br>" . $l->g(979);
-    echo "<br><br><input type='submit' value=" . $l->g(977) . " name='LOCK'>";
+    echo "<br><br><input type='submit' value=" . $l->g(977) . " name='LOCK' class='btn btn-default'>";
 }
 echo "</div>";
 echo close_form();

@@ -100,7 +100,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
         if (isset($protectedPost['TELE_FORCE_0'])) {
             active_option('DOWNLOAD_FORCE', $list_id, $protectedPost['SELECT'], '1');
         }
-        if (isset($protectedPost['INSTALL_DATE']) && $protectedPost['INSTALL_DATE'] != '') {
+        if (is_defined($protectedPost['INSTALL_DATE'])) {
             $date = explode('/', $protectedPost['INSTALL_DATE']);
             // Agent date format : 2016/06/30 02:15pm
             if ($l->g(269) == "%m/%d/%Y") {
@@ -116,7 +116,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
             active_option('DOWNLOAD_SCHEDULE', $list_id, $protectedPost['SELECT'], $install_date);
         }
 
-        if (isset($protectedPost['DOWNLOAD_POSTCMD']) && $protectedPost['DOWNLOAD_POSTCMD'] != '') {
+        if (is_defined($protectedPost['DOWNLOAD_POSTCMD'])) {
             active_option('DOWNLOAD_POSTCMD', $list_id, $protectedPost['SELECT'], $protectedPost['DOWNLOAD_POSTCMD']);
         }
 
@@ -226,7 +226,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                 $sql['SQL'] .= ", hardware h where a.FILEID=e.FILEID and h.id=e.group_id and  e.SERVER_ID is not null ";
             }
 
-            if (isset($fileid_show) && $fileid_show != array()) {
+            if (is_defined($fileid_show)) {
                 $sql = mysql2_prepare($sql['SQL'], $sql['ARG'], $fileid_show, true);
             }
             if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES") {

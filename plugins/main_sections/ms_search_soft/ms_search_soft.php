@@ -51,7 +51,7 @@ echo "\n" . '<script type="text/javascript">
     <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
         <label class="control-label col-sm-4" for="logiciel_text>">Text :</label>
         <div class="col-sm-8">
-            <input class="form-control" type="text" name="logiciel_text" value="<?php echo $protectedPost['logiciel_text'] ?>">
+            <input class="form-control btn btn-default" type="text" name="logiciel_text" value="<?php echo $protectedPost['logiciel_text'] ?>">
         </div>
     </div>
 </div>
@@ -67,8 +67,8 @@ echo "\n" . '<script type="text/javascript">
 echo '<div id="fr">';
 
 // voir fonction.php
-if ((isset($protectedPost['logiciel_select']) && $protectedPost['logiciel_select'] != '') || (isset($protectedPost['logiciel_text']) && $protectedPost['logiciel_text'] != '')) {                                   //logiciel du select name='logiciel'
-    if (isset($protectedPost['logiciel_select']) && $protectedPost['logiciel_select'] != '') {
+if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['logiciel_text'])) {                                   //logiciel du select name='logiciel'
+    if (is_defined($protectedPost['logiciel_select'])) {
         $logiciel = $protectedPost['logiciel_select'];
     } else {
         $logiciel = $protectedPost['logiciel_text'];

@@ -36,7 +36,6 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = "show_all";
 $form_name = $tab_options['form_name'];
 $tab_options['table_name'] = "list_show_all";
-//$tab_options['DRAW']=$draw;
 if (isset($protectedGet['filtre']) && !isset($protectedPost['FILTRE'])) {
     if (substr($protectedGet['filtre'], 0, 9) == "a.fields_") {
         $values_accountinfo = accountinfo_tab(substr($protectedGet['filtre'], 9));
@@ -143,12 +142,12 @@ if ($show_mac_addr) {
 $queryDetails .= "LEFT JOIN bios e ON e.hardware_id=h.id
 				where deviceid<>'_SYSTEMGROUP_'
 						AND deviceid<>'_DOWNLOADGROUP_' ";
-if (isset($_GET['value']) && $_GET['filtre'] == "a.TAG") {
+if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
     $tag = $_GET['value'];
     $queryDetails .= "AND a.TAG= '$tag' ";
 }
 
-if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '') {
+if (is_defined($_SESSION['OCS']["mesmachines"])) {
     $queryDetails .= "AND " . $_SESSION['OCS']["mesmachines"];
 }
 $queryDetails .= " group by h.id";
@@ -183,7 +182,6 @@ add_trait_select($list_fonct, $list_id, $form_name, $list_pag, true);
 echo "<br><br>";
 
 if ($entete && $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
-    //echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/delete.png' title='Supprimer' ></a>";
     echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><span class='glyphicon glyphicon-trash'></span></a>";
     echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 }

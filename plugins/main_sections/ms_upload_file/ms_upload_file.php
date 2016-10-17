@@ -115,7 +115,7 @@ if (isset($_FILES['file_upload']['name'])) {
     }
 }
 
-if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
+if (is_defined($protectedPost['SUP_PROF'])) {
     $sql = "DELETE FROM deploy where name='%s'";
     $arg = $protectedPost['SUP_PROF'];
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
@@ -138,11 +138,11 @@ if (!isset($protectedPost['ADD_FILE'])) {
     printEntete($l->g(1245));
     echo "<br />";
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-    echo "<input type=submit class='btn' name=ADD_FILE value='" . $l->g(1048) . "'>";
+    echo "<input type=submit class='btn btn-default' name=ADD_FILE value='" . $l->g(1048) . "'>";
     echo close_form();
 }
 
-if (isset($protectedPost['ADD_FILE']) && $protectedPost['ADD_FILE'] != '') {
+if (is_defined($protectedPost['ADD_FILE'])) {
     $css = "mvt_bordure";
     $form_name1 = "SEND_FILE";
     //search max_allowed_packet value on mysql conf

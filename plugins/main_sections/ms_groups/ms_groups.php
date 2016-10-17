@@ -58,7 +58,7 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES') {
 }
 //View for all profils?
 if (!AJAX) {
-    if (isset($protectedPost['CONFIRM_CHECK']) && $protectedPost['CONFIRM_CHECK'] != "") {
+    if (is_defined($protectedPost['CONFIRM_CHECK'])) {
         $result = group_4_all($protectedPost['CONFIRM_CHECK']);
     }
 }
@@ -182,7 +182,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
         ?>
         <div class="row">
             <div class='col-md-12'>
-                <input type='submit' class='btn' name='add_static_group' value='<?php echo $l->g(587) ?>'>
+                <input type='submit' class='btn btn-default' name='add_static_group' value='<?php echo $l->g(587) ?>'>
             </div>
         </div>
         <?php

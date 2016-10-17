@@ -21,7 +21,7 @@
  * MA 02110-1301, USA.
  */
 $values = look_config_default_values(array('EXPORT_SEP'));
-if (isset($values['tvalue']['EXPORT_SEP']) && $values['tvalue']['EXPORT_SEP'] != '') {
+if (is_defined($values['tvalue']['EXPORT_SEP'])) {
     $separator = $values['tvalue']['EXPORT_SEP'];
 } else {
     $separator = ';';

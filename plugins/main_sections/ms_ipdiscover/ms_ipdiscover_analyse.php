@@ -41,7 +41,7 @@ $values = look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPD
 $fname = $values['tvalue']['IPDISCOVER_IPD_DIR'];
 $file_name = $fname . "/ipd/" . $pas . ".ipd";
 //reset cache?
-if (isset($protectedPost['reset']) && $protectedPost['reset'] != '') {
+if (is_defined($protectedPost['reset'])) {
     unlink($file_name);
     reloadform_closeme('', true);
 } else {
@@ -70,7 +70,7 @@ if (isset($protectedPost['reset']) && $protectedPost['reset'] != '') {
         $tab_options['NO_NAME']['NAME'] = 1;
         $result_exist = ajaxtab_entete_fixe($tabBalises, $default_fields, $tab_options, $list_col_cant_del);
     }
-    echo "<p><input type='submit' name='reset' value='" . $l->g(1261) . "'></p>";
+    echo "<p><input type='submit' name='reset' value='" . $l->g(1261) . "' class='btn btn-default'></p>";
 }
 echo close_form();
 

@@ -394,7 +394,7 @@ function create_pack($sql_details, $info_details) {
             mkdir($sql_details['document_root'] . $sql_details['timestamp']);
         }
     }
-    if (!isset($info_details['DIGEST']) || $info_details['DIGEST'] == "") {
+    if (!is_defined($info_details['DIGEST'])) {
         $sql_details['nbfrags'] = 0;
     }
 

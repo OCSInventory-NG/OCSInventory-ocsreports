@@ -27,7 +27,7 @@ $data_on['TOP'] = $l->g(800);
 if ($protectedPost['onglet'] == 'TOP') {
     require_once('require/function_stats.php');
     $stats = "";
-    if (!isset($protectedPost['CHOICE_OP']) || $protectedPost['CHOICE_OP'] == "") {
+    if (!is_defined($protectedPost['CHOICE_OP'])) {
         $protectedPost['CHOICE_OP'] = 'TOP_SOFT';
     }
 
@@ -35,11 +35,10 @@ if ($protectedPost['onglet'] == 'TOP') {
     $stats .= $l->g(1251) . ": " . show_modif($array_option, "CHOICE_OP", 2, $form_name) . "<br>";
     if ($protectedPost['CHOICE_OP'] == 'TOP_SOFT') {
 
-        if (!isset($protectedPost['CHOICE_TOP']) || $protectedPost['CHOICE_TOP'] == "") {
+        if (!is_defined($protectedPost['CHOICE_TOP'])) {
             $protectedPost['CHOICE_TOP'] = 10;
         }
         // open file
-
         $tag = array('<LIKE>' => 'LIKE', '<EXACTLY>' => '=', '<NOLIKE>' => 'NOT LIKE', '<NOEXACTLY>' => '!=');
         // read line
         if (is_readable($file_restriction_soft)) {
@@ -101,8 +100,6 @@ if ($protectedPost['onglet'] == 'TOP') {
         $sql = "select count(useragent) c,useragent as name from hardware where useragent != '' group by useragent order by count(useragent) DESC ";
         $height_legend = 300;
     }
-
-
 
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $i = 0;

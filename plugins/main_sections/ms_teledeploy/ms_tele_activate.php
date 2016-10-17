@@ -311,7 +311,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         }
     }
 } elseif ($protectedPost['onglet'] == "DELETED_PACKET") {
-    if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
+    if (is_defined($protectedPost['SUP_PROF'])) {
         remove_packet($protectedPost['SUP_PROF']);
         $tab_options['CACHE'] = 'RESET';
     }

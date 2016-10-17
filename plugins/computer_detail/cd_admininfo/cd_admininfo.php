@@ -42,7 +42,7 @@ if (!is_array($info_account_id)) {
     $list_tab = find_all_account_tab('TAB_ACCOUNTAG', 'COMPUTERS', 1);
     if ($list_tab != '') {
         if ($protectedPost['Valid_modif'] != "" && $protectedPost['NOTE'] == "" && $protectedPost['NOTE_MODIF'] == "") {
-            if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == '' || !is_numeric($protectedPost['onglet'])) {
+            if (!is_defined($protectedPost['onglet']) || !is_numeric($protectedPost['onglet'])) {
                 $protectedPost['onglet'] = $list_tab['FIRST'];
             }
 
@@ -76,10 +76,10 @@ if (!is_array($info_account_id)) {
         }
         unset($action_updown);
         //UP/DOWN
-        if ((isset($protectedPost['UP']) && $protectedPost['UP'] != '')) {
+        if (is_defined($protectedPost['UP'])) {
             $action_updown = 'UP';
         }
-        if (isset($protectedPost['DOWN']) && $protectedPost['DOWN'] != '') {
+        if (is_defined($protectedPost['DOWN'])) {
             $action_updown = 'DOWN';
         }
 
@@ -90,7 +90,7 @@ if (!is_array($info_account_id)) {
                 update_accountinfo_config($new_order['NEW'], array('SHOW_ORDER' => $new_order['OLD_VALUE']));
             }
         }
-        if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == '' || !is_numeric($protectedPost['onglet'])) {
+        if (!is_defined($protectedPost['onglet']) || !is_numeric($protectedPost['onglet'])) {
             $protectedPost['onglet'] = $list_tab['FIRST'];
         }
         unset($list_tab['FIRST']);
@@ -170,7 +170,7 @@ if (!is_array($info_account_id)) {
                     $temp_val = explode('&&&', $info_account_id[$name_accountinfo]);
                     $i = 0;
                     $tp_readonly = "";
-                    while (isset($temp_val[$i]) && $temp_val[$i] != '') {
+                    while (is_defined($temp_val[$i])) {
                         if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
                             $protectedPost[$name_accountinfo . '_' . $temp_val[$i]] = 'on';
                         } else {

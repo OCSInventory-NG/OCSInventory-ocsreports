@@ -37,15 +37,15 @@ if ($protectedPost['ADMIN'] == 'ADMIN' && !isset($_SESSION['OCS']['ADMIN_CONSOLE
     unset($_SESSION['OCS']['ADMIN_CONSOLE']);
 }
 
-if (isset($protectedPost['VISIBLE']) && $protectedPost['VISIBLE'] != '' && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
+if (is_defined($protectedPost['VISIBLE']) && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
     insert_update($protectedPost['VISIBLE'], 1, '', 'IVALUE');
 }
 
-if (isset($protectedPost['NO_VISIBLE']) && $protectedPost['NO_VISIBLE'] != '' && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
+if (is_defined($protectedPost['NO_VISIBLE']) && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
     delete($protectedPost['NO_VISIBLE']);
 }
 
-if (isset($protectedPost['UPDATE_VALUE']) && $protectedPost['UPDATE_VALUE'] != '' && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
+if (is_defined($protectedPost['UPDATE_VALUE']) && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
     $arg = look_config_default_values($protectedPost['UPDATE_VALUE']);
     insert_update($protectedPost['UPDATE_VALUE'], $protectedPost[$protectedPost['UPDATE_VALUE']], $arg['ivalue'][$protectedPost['UPDATE_VALUE']], 'IVALUE');
 }
@@ -86,11 +86,11 @@ if ($data_tab['DATA'] != array()) {
         }
         if (is_array($array_group)) {
 
-            if (isset($protectedPost["SUP_PROF"]) && $protectedPost["SUP_PROF"] != '') {
+            if (is_defined($protectedPost["SUP_PROF"])) {
                 delete($protectedPost['SUP_PROF']);
             }
 
-            if (isset($protectedPost["Valid_modif"]) && $protectedPost["Valid_modif"] != '') {
+            if (is_defined($protectedPost["Valid_modif"])) {
                 $sql_msg = "select name from config where name like '%s'";
                 $arg = "GUI_REPORT_MSG%";
                 $result_msg = mysql2_query_secure($sql_msg, $_SESSION['OCS']["readServer"], $arg);
@@ -171,16 +171,16 @@ if (isset($protectedPost["onglet"]) && isset($protectedPost["old_onglet"]) && $p
     unset($protectedPost["SHOW_ME"], $protectedPost["SHOW_ME_SAUV"]);
 }
 
-if (isset($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME"] != '' && $protectedPost["SHOW_ME_SAUV"] != "" && $protectedPost["SHOW_ME"] != $protectedPost["SHOW_ME_SAUV"]) {
+if (is_defined($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME_SAUV"] != "" && $protectedPost["SHOW_ME"] != $protectedPost["SHOW_ME_SAUV"]) {
     unset($protectedPost["SHOW_ME_SAUV"]);
 }
 
-if (isset($protectedPost["SHOW_ME_SAUV"]) && $protectedPost["SHOW_ME_SAUV"] != '' && $protectedPost["SHOW_ME"] == "") {
+if (is_defined($protectedPost["SHOW_ME_SAUV"]) && $protectedPost["SHOW_ME"] == "") {
     $protectedPost["SHOW_ME"] = $protectedPost["SHOW_ME_SAUV"];
 }
 
 
-if ((isset($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME"] != "")) {
+if ((is_defined($protectedPost["SHOW_ME"]))) {
     $array_fields = array_values($table_field[$protectedPost["SHOW_ME"]]);
     echo "<input type=hidden name='SHOW_ME_SAUV' value='" . $protectedPost["SHOW_ME"] . "' id='SHOW_ME_SAUV'>";
     $table_name = $protectedPost["SHOW_ME"];
@@ -241,7 +241,7 @@ if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES") {
 					from accountinfo a ,groups_cache g_c
 					where g_c.HARDWARE_ID=a.HARDWARE_ID
 						and	g_c.GROUP_ID in (" . $list_id_groups . ")";
-        if (isset($_SESSION['OCS']['mesmachines']) && $_SESSION['OCS']['mesmachines'] != "") {
+        if (is_defined($_SESSION['OCS']['mesmachines'])) {
             $sql_my_msg .= " and " . $_SESSION['OCS']['mesmachines'];
         }
         $result_my_msg = mysqli_query($_SESSION['OCS']["readServer"], $sql_my_msg);

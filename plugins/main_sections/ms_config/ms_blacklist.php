@@ -35,7 +35,7 @@ $form_name = "blacklist";
 
 
 //printEnTete($l->g(703));
-if ($protectedPost['onglet'] == "" || !isset($protectedPost['onglet']))
+if (!is_defined($protectedPost['onglet']))
     $protectedPost['onglet'] = 1;
 
 $tab_options = $protectedPost;
@@ -65,73 +65,85 @@ echo open_form($form_name, '', '', 'form-horizontal');
 show_tabs($data_on, $form_name, "onglet", 10);
 echo '<div class="col col-md-10">';
 
-if ($protectedPost['onglet'] == 1) {
-    $table_name = "blacklist_macaddresses";
-    $tab_options['form_name'] = $form_name;
-    $tab_options['table_name'] = $table_name;
-    $list_fields = array('ID' => 'ID',
-        'MACADDRESS' => 'MACADDRESS',
-        'SUP' => 'ID',
-        'CHECK' => 'ID');
-    $list_col_cant_del = $list_fields;
-    $default_fields = $list_fields;
-    $tab_options['FILTRE'] = array('MACADDRESS' => 'MACADDRESS');
-    $tab_options['LBL_POPUP']['SUP'] = 'MACADDRESS';
-    $tab_options['LBL']['MACADDRESS'] = $l->g(95);
-} elseif ($protectedPost['onglet'] == 2) {
-    $table_name = "blacklist_serials";
-    $tab_options['form_name'] = $form_name;
-    $tab_options['table_name'] = $table_name;
-    $list_fields = array('ID' => 'ID',
-        'SERIAL' => 'SERIAL',
-        'SUP' => 'ID',
-        'CHECK' => 'ID');
-    $list_col_cant_del = $list_fields;
-    $default_fields = $list_fields;
-    $tab_options['FILTRE'] = array('SERIAL' => 'SERIAL');
-    $tab_options['LBL_POPUP']['SUP'] = 'SERIAL';
-    $tab_options['LBL']['SERIAL'] = $l->g(36);
-} elseif ($protectedPost['onglet'] == 3) {
-    $table_name = "blacklist_subnet";
-    $tab_options['form_name'] = $form_name;
-    $tab_options['table_name'] = $table_name;
-    $list_fields = array('ID' => 'ID',
-        'SUBNET' => 'SUBNET',
-        'MASK' => 'MASK',
-        'SUP' => 'ID',
-        'CHECK' => 'ID');
-    $list_col_cant_del = $list_fields;
-    $default_fields = $list_fields;
-    $tab_options['FILTRE'] = array('SUBNET' => 'SUBNET', 'MASK' => 'MASK');
-    $tab_options['LBL_POPUP']['SUP'] = 'SUBNET';
-    $tab_options['LBL']['SUBNET'] = $l->g(2005);
-} elseif ($protectedPost['onglet'] == 4) {
-    $list_action[0] = ' ';
-    $list_action[1] = $l->g(95);
-    $list_action[2] = $l->g(36);
-    $list_action[3] = $l->g(2005);
-    formGroup('select', 'BLACK_CHOICE', $l->g(700), '', '', $protectedPost['BLACK_CHOICE'], '', $list_action, $list_action, 'onchange="document.blacklist.submit();"');
-    if (isset($protectedPost['BLACK_CHOICE']) && $protectedPost['BLACK_CHOICE'] != '') {
-        $aff = "<table align=center><tr><td>";
-        if ($protectedPost['BLACK_CHOICE'] == 1) {
-            $aff .= $l->g(654) . ": </td><td>";
-            $aff = show_blacklist_fields($MACnb_field, $protectedPost, $MACfield_name, $MACnb_value_by_field, $MACsize, $MACseparat, $javascript_mac);
-        } elseif ($protectedPost['BLACK_CHOICE'] == 3) {
-            $aff .= $l->g(1142) . ": </td><td>";
-            $aff = show_blacklist_fields($SUBnb_field, $protectedPost, $SUBfield_name, $SUBnb_value_by_field, $SUBsize, $SUBseparat, $chiffres);
-            $aff .= $l->g(1143) . ": </td><td>";
-            $aff = show_blacklist_fields($MASKnb_field, $protectedPost, $MASKfield_name, $MASKnb_value_by_field, $MASKsize, $MASKseparat, $chiffres);
-        } elseif ($protectedPost['BLACK_CHOICE'] == 2) {
-            $aff .= $l->g(702) . ": </td><td>";
-            $aff = show_blacklist_fields($SERIALnb_field, $protectedPost, $SERIALfield_name, $SERIALnb_value_by_field, $SERIALsize, $SERIALseparat);
-        }
-        if (isset($aff)) {
-            $aff .= "</td></tr></table>
+switch ($protectedPost['onglet']) {
+    case 1:
+        $table_name = "blacklist_macaddresses";
+        $tab_options['form_name'] = $form_name;
+        $tab_options['table_name'] = $table_name;
+        $list_fields = array('ID' => 'ID',
+            'MACADDRESS' => 'MACADDRESS',
+            'SUP' => 'ID',
+            'CHECK' => 'ID');
+        $list_col_cant_del = $list_fields;
+        $default_fields = $list_fields;
+        $tab_options['FILTRE'] = array('MACADDRESS' => 'MACADDRESS');
+        $tab_options['LBL_POPUP']['SUP'] = 'MACADDRESS';
+        $tab_options['LBL']['MACADDRESS'] = $l->g(95);
+        break;
+
+    case 2:
+        $table_name = "blacklist_serials";
+        $tab_options['form_name'] = $form_name;
+        $tab_options['table_name'] = $table_name;
+        $list_fields = array('ID' => 'ID',
+            'SERIAL' => 'SERIAL',
+            'SUP' => 'ID',
+            'CHECK' => 'ID');
+        $list_col_cant_del = $list_fields;
+        $default_fields = $list_fields;
+        $tab_options['FILTRE'] = array('SERIAL' => 'SERIAL');
+        $tab_options['LBL_POPUP']['SUP'] = 'SERIAL';
+        $tab_options['LBL']['SERIAL'] = $l->g(36);
+        break;
+
+    case 3:
+        $table_name = "blacklist_subnet";
+        $tab_options['form_name'] = $form_name;
+        $tab_options['table_name'] = $table_name;
+        $list_fields = array('ID' => 'ID',
+            'SUBNET' => 'SUBNET',
+            'MASK' => 'MASK',
+            'SUP' => 'ID',
+            'CHECK' => 'ID');
+        $list_col_cant_del = $list_fields;
+        $default_fields = $list_fields;
+        $tab_options['FILTRE'] = array('SUBNET' => 'SUBNET', 'MASK' => 'MASK');
+        $tab_options['LBL_POPUP']['SUP'] = 'SUBNET';
+        $tab_options['LBL']['SUBNET'] = $l->g(2005);
+        break;
+
+    case 4:
+        $list_action[0] = ' ';
+        $list_action[1] = $l->g(95);
+        $list_action[2] = $l->g(36);
+        $list_action[3] = $l->g(2005);
+        formGroup('select', 'BLACK_CHOICE', $l->g(700), '', '', $protectedPost['BLACK_CHOICE'], '', $list_action, $list_action, 'onchange="document.blacklist.submit();"');
+        if (is_defined($protectedPost['BLACK_CHOICE'])) {
+            $aff = "<table align=center><tr><td>";
+            if ($protectedPost['BLACK_CHOICE'] == 1) {
+                $aff .= $l->g(654) . ": </td><td>";
+                $aff = show_blacklist_fields($MACnb_field, $protectedPost, $MACfield_name, $MACnb_value_by_field, $MACsize, $MACseparat, $javascript_mac);
+            } elseif ($protectedPost['BLACK_CHOICE'] == 3) {
+                $aff .= $l->g(1142) . ": </td><td>";
+                $aff = show_blacklist_fields($SUBnb_field, $protectedPost, $SUBfield_name, $SUBnb_value_by_field, $SUBsize, $SUBseparat, $chiffres);
+                $aff .= $l->g(1143) . ": </td><td>";
+                $aff = show_blacklist_fields($MASKnb_field, $protectedPost, $MASKfield_name, $MASKnb_value_by_field, $MASKsize, $MASKseparat, $chiffres);
+            } elseif ($protectedPost['BLACK_CHOICE'] == 2) {
+                $aff .= $l->g(702) . ": </td><td>";
+                $aff = show_blacklist_fields($SERIALnb_field, $protectedPost, $SERIALfield_name, $SERIALnb_value_by_field, $SERIALsize, $SERIALseparat);
+            }
+            if (isset($aff)) {
+                $aff .= "</td></tr></table>
 				<input class='bouton' name='enre' type='submit' value=" . $l->g(114) . ">";
-            echo $aff;
+                echo $aff;
+            }
         }
-    }
+        break;
+
+    default:
+        break;
 }
+
 if (isset($list_fields)) {
     //cas of delete mac address or serial
     if (isset($protectedPost["SUP_PROF"]) && is_numeric($protectedPost["SUP_PROF"])) {
@@ -139,7 +151,7 @@ if (isset($list_fields)) {
         $arg = array($table_name, $protectedPost["SUP_PROF"]);
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
     }
-    if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
+    if (is_defined($protectedPost['del_check'])) {
         $sql = "delete from %s where id in (%s)";
         $arg = array($table_name, $protectedPost['del_check']);
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);

@@ -116,16 +116,16 @@ function update_config_file($ms_cfg_file, $new_value, $sauv = 'YES') {
     $ms_cfg_file = $_SESSION['OCS']['CONF_PROFILS_DIR'] . $ms_cfg_file . "_config.txt";
 
     $new_ms_cfg_file = '';
-    foreach ($new_value as $name_bal => $val) {
-        $new_ms_cfg_file .= "<" . $name_bal . ">\n";
-        foreach ($val as $name_value => $value) {
-            if (isset($value) && $value != '') {
-                $new_ms_cfg_file .= $name_value . ':' . $value . "\n";
+    foreach ($new_value as $key_val => $val) {
+        $new_ms_cfg_file .= "<" . $key_val . ">\n";
+        foreach ($val as $key_value => $value) {
+            if (is_defined($value)) {
+                $new_ms_cfg_file .= $key_value . ':' . $value . "\n";
             } else {
-                $new_ms_cfg_file .= $name_value . "\n";
+                $new_ms_cfg_file .= $key_value . "\n";
             }
         }
-        $new_ms_cfg_file .= "</" . $name_bal . ">\n\n";
+        $new_ms_cfg_file .= "</" . $key_val . ">\n\n";
     }
     $file = fopen($ms_cfg_file, "w+");
     fwrite($file, $new_ms_cfg_file);

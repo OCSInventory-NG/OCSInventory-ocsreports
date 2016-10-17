@@ -260,7 +260,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                  //Display of the result count
                  if (!isset($option['no_download_result'])) {
                      echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&base=" . $tab_options['BASE'] . "'><small> (" . $l->g(183) . ")</small></a></div>";
-                     echo "<div id='" . $option['table_name'] . "_csv_total'><label id='infototal_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&nolimit=true&base=" . $tab_options['BASE'] . "'><small> (" . $l->g(183) . ")</small></a></div>";
+                     echo "<div id='" . $option['table_name'] . "_csv_total'><label id='infototal_" . $option['table_name'] . "'></label> " . $l->g(90) . " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&nolimit=true&base=" . $tab_options['BASE'] . "'><small>(" . $l->g(183) . ")</small></a></div>";
                  }
                  ?>
         </div>
@@ -830,12 +830,12 @@ function tab_modif_values($field_labels, $fields, $hidden_fields = array(), $opt
 
     if ($options['show_button'] === 'BUTTON') {
         echo '<div class="form-buttons">';
-        echo '<input type="submit" name="Valid_' . $options['button_name'] . '" value="' . $l->g(13) . '"/>';
+        echo '<input type="submit" name="Valid_' . $options['button_name'] . '" value="' . $l->g(13) . '" class="btn btn-default"/>';
         echo '</div>';
     } else if ($options['show_button']) {
         echo '<div class="form-buttons">';
-        echo '<input type="submit" name="Valid_' . $options['button_name'] . '" value="' . $l->g(1363) . '"/>';
-        echo '<input type="submit" name="Reset_' . $options['button_name'] . '" value="' . $l->g(1364) . '"/>';
+        echo '<input type="submit" name="Valid_' . $options['button_name'] . '" value="' . $l->g(1363) . '" class="btn btn-default"/>';
+        echo '<input type="submit" name="Reset_' . $options['button_name'] . '" value="' . $l->g(1364) . '" class="btn btn-default"/>';
         echo '</div>';
     }
 
@@ -861,25 +861,25 @@ function show_field($name_field, $type_field, $value_field, $config = array()) {
         $tab_typ_champ[$key]['INPUT_TYPE'] = $type_field[$key];
 
 
-        if (!isset($config['ROWS'][$key]) || $config['ROWS'][$key] == '') {
+        if (!is_defined($config['ROWS'][$key])) {
             $tab_typ_champ[$key]['CONFIG']['ROWS'] = 7;
         } else {
             $tab_typ_champ[$key]['CONFIG']['ROWS'] = $config['ROWS'][$key];
         }
 
-        if (!isset($config['COLS'][$key]) || $config['COLS'][$key] == '') {
+        if (!is_defined($config['COLS'][$key])) {
             $tab_typ_champ[$key]['CONFIG']['COLS'] = 40;
         } else {
             $tab_typ_champ[$key]['CONFIG']['COLS'] = $config['COLS'][$key];
         }
 
-        if (!isset($config['SIZE'][$key]) || $config['SIZE'][$key] == '') {
+        if (!is_defined($config['SIZE'][$key])) {
             $tab_typ_champ[$key]['CONFIG']['SIZE'] = 50;
         } else {
             $tab_typ_champ[$key]['CONFIG']['SIZE'] = $config['SIZE'][$key];
         }
 
-        if (!isset($config['MAXLENGTH'][$key]) || $config['MAXLENGTH'][$key] == '') {
+        if (!is_defined($config['MAXLENGTH'][$key])) {
             $tab_typ_champ[$key]['CONFIG']['MAXLENGTH'] = 255;
         } else {
             $tab_typ_champ[$key]['CONFIG']['MAXLENGTH'] = $config['MAXLENGTH'][$key];
@@ -936,12 +936,12 @@ function nb_page($form_name = '', $taille_cadre = '80', $bgcolor = '#C7D9F5', $b
         $protectedPost['page'] = 0;
     }
 
-    if (!(isset($protectedPost["pcparpage"])) || $protectedPost["pcparpage"] == "") {
+    if (!(is_defined($protectedPost["pcparpage"]))) {
         $protectedPost["pcparpage"] = PC4PAGE;
     }
     $html_show = "<table align=center width='80%' border='0' bgcolor=#f2f2f2>";
     //gestion d"une phrase d'alerte quand on utilise le filtre
-    if (isset($protectedPost['FILTRE_VALUE']) && $protectedPost['FILTRE_VALUE'] != '' && $protectedPost['RAZ_FILTRE'] != 'RAZ') {
+    if (is_defined($protectedPost['FILTRE_VALUE']) && $protectedPost['RAZ_FILTRE'] != 'RAZ') {
         $html_show .= msg_warning($l->g(884));
     }
     $html_show .= "<tr><td align=right>";

@@ -27,14 +27,14 @@ $form_name = "del_affect";
 echo open_form($form_name);
 echo "<div align=center>";
 $list_id = multi_lot($form_name, $l->g(601));
-if ($protectedPost['SUP'] != '' && isset($protectedPost['SUP'])) {
+if (is_defined($protectedPost['SUP'])) {
     $array_id = explode(',', $list_id);
     foreach ($array_id as $key => $hardware_id) {
         deleteDid($hardware_id);
     }
 }
 if ($list_id) {
-    echo "<br><br><input type='submit' value=\"" . $l->g(122) . "\" name='SUP'>";
+    echo "<br><br><input type='submit' value=\"" . $l->g(122) . "\" name='SUP' class='btn btn-default'>";
 }
 echo "</div>";
 echo close_form();

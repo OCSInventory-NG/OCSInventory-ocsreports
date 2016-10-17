@@ -37,7 +37,7 @@ function show_form_field($data, $errors, $type, $name, $label, $options = array(
         echo '<div class="field field-' . htmlspecialchars($id . ($options['field_class'] ? ' ' . $options['field_class'] : '')) . '">';
     }
 
-    if (isset($data[$name]) && $data[$name]) {
+    if (is_defined($data[$name])) {
         $options['value'] = $data[$name];
     }
 

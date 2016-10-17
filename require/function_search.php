@@ -535,7 +535,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         <div class="btn-group">
             <?php
             foreach ($img as $key => $value) {
-                echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn">' . $value . '</button>';
+                echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn btn-default">' . $value . '</button>';
             }
             ?>
         </div>
@@ -547,7 +547,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         global $protectedPost, $protectedGet, $l;
         $list_id = "";
         if (!isset($protectedGet['origine'])) {
-            if (isset($protectedGet['idchecked']) && $protectedGet['idchecked'] != "") {
+            if (is_defined($protectedGet['idchecked'])) {
                 if (!isset($protectedGet['comp'])) {
                     $choise_req_selection['REQ'] = $l->g(584);
                     $choise_req_selection['SEL'] = $l->g(585);

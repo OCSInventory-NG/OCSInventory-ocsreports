@@ -100,10 +100,10 @@ if (isset($protectedPost['VALID_GROUP'])) {
         }
     }
 
-    if (isset($msg_success) && $msg_success != '') {
+    if (is_defined($msg_success)) {
         msg_success($msg_success);
     }
-    if (isset($msg_error) && $msg_error != '') {
+    if (is_defined($msg_error)) {
         msg_error($msg_error);
     }
 }
@@ -122,7 +122,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
 
 
 //if no select => first onget selected
-if ($protectedPost['onglet'] == "" || !isset($protectedPost['onglet'])) {
+if (!is_defined($protectedPost['onglet'])) {
     if (isset($def_onglets[$l->g(809)])) {
         $protectedPost['onglet'] = $l->g(809);
     } else {
@@ -184,11 +184,11 @@ $select = show_modif($optionList, 'NEW_RAZ', 2, $form_name);
 onglet($def_onglets, $form_name, 'onglet', 7);
 
 //create a "valid" button
-$valid = "<tr><td align=center colspan=10><input type=submit value='" . $l->g(13) . "' name='VALID_GROUP'></td></tr>";
+$valid = "<tr><td align=center colspan=10><input type=submit value='" . $l->g(13) . "' name='VALID_GROUP' class='btn btn-default'></td></tr>";
 //open table
 echo "<table cellspacing='5' width='80%' BORDER='0' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'><tr><td>";
 echo "<tr><td align =center colspan=10>";
-if (isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] != "") {
+if (is_defined($protectedPost['CHOISE'])) {
     echo $select;
     echo "</td></tr>";
     //if user want give up or go out of the group

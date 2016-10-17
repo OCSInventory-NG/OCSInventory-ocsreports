@@ -56,10 +56,10 @@ if ($list_tab != '') {
     }
     unset($action_updown);
     //UP/DOWN
-    if ((isset($protectedPost['UP']) && $protectedPost['UP'] != '')) {
+    if (is_defined($protectedPost['UP'])) {
         $action_updown = 'UP';
     }
-    if (isset($protectedPost['DOWN']) && $protectedPost['DOWN'] != '') {
+    if (is_defined($protectedPost['DOWN'])) {
         $action_updown = 'DOWN';
     }
 
@@ -72,7 +72,7 @@ if ($list_tab != '') {
     }
 
     //print_r($info_account_id);
-    if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == '' || !is_numeric($protectedPost['onglet'])) {
+    if (!is_defined($protectedPost['onglet']) || !is_numeric($protectedPost['onglet'])) {
         $protectedPost['onglet'] = $list_tab['FIRST'];
     }
     unset($list_tab['FIRST']);

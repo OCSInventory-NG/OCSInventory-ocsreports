@@ -51,7 +51,7 @@ if ($protectedPost['del_check'] != '') {
     $tab_options['CACHE'] = 'RESET';
 }
 
-if ($protectedPost['SUP_PROF'] != '' && isset($protectedPost['SUP_PROF'])) {
+if (is_defined($protectedPost['SUP_PROF'])) {
     $sql = "update itmgmt_comments set visible=0 where id=%s";
     $arg = array($protectedPost['SUP_PROF']);
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg, 'DEL_NOTE');
@@ -59,10 +59,9 @@ if ($protectedPost['SUP_PROF'] != '' && isset($protectedPost['SUP_PROF'])) {
     $tab_options['CACHE'] = 'RESET';
 }
 
-if ($protectedPost['Valid_modif'] != '' && isset($protectedPost['Valid_modif'])) {
-
+if (is_defined($protectedPost['Valid_modif'])) {
     //ajout de note
-    if (trim($protectedPost['NOTE']) != '' && isset($protectedPost['NOTE'])) {
+    if (is_defined($protectedPost['NOTE'])) {
         $sql = "insert into itmgmt_comments (HARDWARE_ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION)
 					value (%s,%s,'%s','%s','%s')";
         $arg = array($systemid, "sysdate()", $_SESSION['OCS']["loggeduser"], $protectedPost['NOTE'], "ADD_NOTE_BY_USER");
@@ -70,7 +69,7 @@ if ($protectedPost['Valid_modif'] != '' && isset($protectedPost['Valid_modif']))
         unset($protectedPost['NOTE']);
         //regénération du cache
         $tab_options['CACHE'] = 'RESET';
-    } elseif (trim($protectedPost['NOTE_MODIF']) != '' && isset($protectedPost['NOTE_MODIF'])) {
+    } elseif (is_defined($protectedPost['NOTE_MODIF'])) {
         $sql = "update itmgmt_comments set COMMENTS='%s'";
         $arg = array($protectedPost['NOTE_MODIF']);
         if (!strstr($protectedPost['USER_INSERT'], $_SESSION['OCS']["loggeduser"])) {
@@ -114,11 +113,11 @@ $default_fields = $list_fields;
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 if (!$show_all_column) {
-    echo "<input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='" . $l->g(898) . "'>";
+    echo "<input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='" . $l->g(898) . "' class='btn btn-default'>";
     del_selection($form_name);
 }
 
-if (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != '') {
+if (is_defined($protectedPost['MODIF'])) {
     $queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE id=%s";
     $argDetail = array($protectedPost['MODIF']);
     $resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"], $argDetail);

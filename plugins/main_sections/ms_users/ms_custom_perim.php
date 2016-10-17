@@ -80,7 +80,7 @@ if ($protectedPost['newtag'] != "") {
 }
 
 //suppression d'une liste de tag
-if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
+if (is_defined($protectedPost['del_check'])) {
     $sql = "DELETE FROM tags WHERE tag in ";
     $arg_sql = array();
     $sql = mysql2_prepare($sql, $arg_sql, $protectedPost['del_check']);
@@ -130,7 +130,7 @@ if (is_array($info_value_tag) && !isset($protectedPost['use_generic_0'])) {
 $select_choise = show_modif($info_value_tag, 'newtag', $type);
 echo "<br>";
 echo $l->g(617) . " " . $_SESSION['OCS']['TAG_LBL']['TAG'] . ": " . $select_choise;
-echo "<input type='submit' name='ADD_TAG' value='" . $l->g(13) . "'><br>";
+echo "<input type='submit' name='ADD_TAG' value='" . $l->g(13) . "' class='btn btn-default'><br>";
 echo $l->g(358);
 echo close_form();
 

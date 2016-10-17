@@ -48,7 +48,7 @@ while ($value = mysqli_fetch_object($res)) {
             //add this column in accountinfo_config
             $sql_column_account = "ALTER TABLE accountinfo ADD COLUMN %s VARCHAR(255) default NULL";
             $arg = "fields_" . $value->ID;
-            if (isset($protectedPost['EXE']) and $protectedPost['EXE'] != '') {
+            if (is_defined($protectedPost['EXE'])) {
                 mysql2_query_secure($sql_column_account, $_SESSION['OCS']["writeServer"], $arg);
                 addLog('SCRIPT_ADD_COLUMN_ACCOUNTINFO', $arg);
             } else {
@@ -79,12 +79,11 @@ if (is_array($list_field)) {
                 $type = 0;
             }
             $sql = "insert into accountinfo_config ";
-            $arg = '';
-            $sql = mysql2_prepare($sql, $arg, $fields_table, true);
+            $sql = mysql2_prepare($sql, '', $fields_table, true);
             $values = array($type, $name, 1, $name . " (" . $l->g(2101) . ")", $max_order, 'COMPUTERS');
             $sql = mysql2_prepare($sql['SQL'] . " VALUES ", $sql['ARG'], $values);
 
-            if (isset($protectedPost['EXE']) and $protectedPost['EXE'] != '') {
+            if (is_defined($protectedPost['EXE'])) {
                 mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG']);
             } else {
                 $add_lign_accountinfo_config[] = $sql['ARG'];
@@ -92,7 +91,7 @@ if (is_array($list_field)) {
             $sql_alter = "ALTER TABLE accountinfo CHANGE %s  %s %s";
             $arg = array($name, "fields_" . mysqli_insert_id($_SESSION['OCS']["writeServer"]), $type_field[$name]);
 
-            if (isset($protectedPost['EXE']) and $protectedPost['EXE'] != '') {
+            if (is_defined($protectedPost['EXE'])) {
                 mysql2_query_secure($sql_alter, $_SESSION['OCS']["writeServer"], $arg);
                 addLog('SCRIPT_ADD_DATA_ACCOUNTINFO_CONFIG', $name);
             } else {

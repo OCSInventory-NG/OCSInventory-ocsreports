@@ -35,7 +35,7 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
-if (isset($protectedGet['value']) && $protectedGet['value'] != '') {
+if (is_defined($protectedGet['value'])) {
     if (!in_array($protectedGet['value'], $_SESSION['OCS']["subnet_ipdiscover"])) {
         msg_error($l->g(837));
         require_once(FOOTER_HTML);
@@ -64,7 +64,7 @@ echo '<div class="col col-md-10" >';
 if ($protectedPost['onglet'] == 'ADMIN_RSX') {
     $method = verif_base_methode('OCS');
     if (!$method) {
-        if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
+        if (is_defined($protectedPost['SUP_PROF'])) {
             delete_subnet($protectedPost['SUP_PROF']);
             $tab_options['CACHE'] = 'RESET';
         }
@@ -81,7 +81,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 //erase ipdiscover cache
                 unset($_SESSION['OCS']['DATA_CACHE'][$table_name], $_SESSION['OCS']["ipdiscover"], $protectedPost['ADD_SUB'], $protectedPost['MODIF']);
                 require_once(BACKEND . 'ipdiscover/ipdiscover.php');
-                if (isset($protectedGet['value']) && $protectedGet['value'] != '')
+                if (is_defined($protectedGet['value']))
                     reloadform_closeme("ipdiscover", true);
             }
             $tab_options['CACHE'] = 'RESET';
@@ -89,7 +89,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
 
         if (isset($protectedPost['Reset_modif'])) {
             unset($protectedPost['ADD_SUB'], $protectedPost['MODIF']);
-            if (isset($protectedGet['value']) && $protectedGet['value'] != '')
+            if (is_defined($protectedGet['value']))
                 reloadform_closeme("ipdiscover", true);
         }
 
@@ -118,7 +118,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                     $protectedPost['ADD_SX_RSX'] = $result->MASK;
                 }
 
-                if (isset($protectedGet['value']) && $protectedGet['value'] != '') {
+                if (is_defined($protectedGet['value'])) {
                     $protectedPost['ADD_IP'] = $protectedGet['value'];
                 }
             } else {
@@ -154,7 +154,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             $list_col_cant_del = $list_fields;
             $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
-            echo "<input type='submit' value='" . $l->g(116) . "' class='btn' name='ADD_SUB'>";
+            echo "<input type='submit' value='" . $l->g(116) . "' class='btn btn-default' name='ADD_SUB'>";
         }
     } else {
         msg_warning($method);
@@ -164,7 +164,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         unset($protectedPost['MODIF']);
     }
 
-    if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
+    if (is_defined($protectedPost['SUP_PROF'])) {
         delete_type($protectedPost['SUP_PROF']);
         $tab_options['CACHE'] = 'RESET';
     }
@@ -215,7 +215,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         $list_col_cant_del = $list_fields;
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
-        echo "<input type='submit' class='btn' value='" . $l->g(116) . "' name='ADD_TYPE'>";
+        echo "<input type='submit' class='btn btn-default' value='" . $l->g(116) . "' name='ADD_TYPE'>";
     }
 } elseif ($protectedPost['onglet'] == 'ADMIN_SMTP'
         and $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES') {
@@ -288,7 +288,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         $tab_options['LBL']['SUP'] = $l->g(122);
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
-        echo "<input type='submit' class='btn' value='" . $l->g(116) . "' name='ADD_COMM'>";
+        echo "<input type='submit' class='btn btn-default' value='" . $l->g(116) . "' name='ADD_COMM'>";
         $protectedPost['ADD_COMM'] = $l->g(116);
     }
 }

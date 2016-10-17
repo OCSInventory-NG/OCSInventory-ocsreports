@@ -40,7 +40,7 @@ if ($protectedPost['SUP_PROF'] != '') {
     $tab_options['CACHE'] = 'RESET';
 }
 
-if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
+if (is_defined($protectedPost['del_check'])) {
     deleteDid_snmp($protectedPost['del_check']);
     $tab_options['CACHE'] = 'RESET';
 }

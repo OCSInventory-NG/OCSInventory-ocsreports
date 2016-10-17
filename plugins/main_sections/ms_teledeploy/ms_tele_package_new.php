@@ -23,7 +23,7 @@
 require_once 'lib/package_functions.php';
 
 // Initialize the timestamp
-if (isset($_POST['TIMESTAMP']) && $_POST['TIMESTAMP'] && is_numeric($_POST['TIMESTAMP'])) {
+if (is_defined($_POST['TIMESTAMP']) && is_numeric($_POST['TIMESTAMP'])) {
     $timestamp = (integer) $_POST['TIMESTAMP'];
 } else {
     $timestamp = time();

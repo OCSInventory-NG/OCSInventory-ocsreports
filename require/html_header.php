@@ -27,7 +27,7 @@ html_header();
 if (!isset($protectedGet["popup"])) {
     //si unlock de l'interface
     if (isset($protectedPost['LOCK']) && $protectedPost['LOCK'] == 'RESET') {
-        if (isset($_SESSION['OCS']["TRUE_mesmachines"]) && $_SESSION['OCS']["TRUE_mesmachines"] != array()) {
+        if (is_defined($_SESSION['OCS']["TRUE_mesmachines"])) {
             $_SESSION['OCS']["mesmachines"] = $_SESSION['OCS']["TRUE_mesmachines"];
         } else {
             unset($_SESSION['OCS']["mesmachines"]);

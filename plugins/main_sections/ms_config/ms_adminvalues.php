@@ -40,7 +40,7 @@ if (isset($protectedGet['new_field']) && is_numeric($protectedGet['new_field']))
     $lbl_new_field = $l->g(80);
 }
 //if no tab selected
-if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == '') {
+if (!is_defined($protectedPost['onglet'])) {
     $protectedPost['onglet'] = 1;
 }
 
@@ -50,9 +50,7 @@ $tab_options['table_name'] = $table_name;
 
 //faire la vérif sur le tag en get
 //for update name
-if (isset($protectedPost['MODIF'])
-        and is_numeric($protectedPost['MODIF'])
-        and ! isset($protectedPost['Valid_modif'])) {
+if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif'])) {
     $protectedPost['onglet'] = 2;
     $val_info = look_config_default_values(array($protectedGet['tag'] . "_" . $protectedPost['MODIF']));
     $protectedPost['newfield'] = $val_info['tvalue'][$protectedGet['tag'] . "_" . $protectedPost['MODIF']];
@@ -70,7 +68,7 @@ if ($protectedPost['onglet'] == 1) {
     $tab_options['CACHE'] = 'RESET';
 
     //delete few fields
-    if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
+    if (is_defined($protectedPost['del_check'])) {
         $list = $protectedPost['del_check'];
         $sql_delete = "DELETE FROM config WHERE name like '%s' and ivalue in (%s)";
         $arg_delete = array($protectedGet['tag'] . "_%", $list);
@@ -110,9 +108,7 @@ if ($protectedPost['onglet'] == 1) {
         }
     }
 } elseif ($protectedPost['onglet'] == 2) {
-    if (isset($protectedPost['MODIF_OLD'])
-            and is_numeric($protectedPost['MODIF_OLD'])
-            and $protectedPost['Valid_modif'] != "") {
+    if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && $protectedPost['Valid_modif'] != "") {
         //UPDATE VALUE
         update_config($protectedGet['tag'] . "_" . $protectedPost['MODIF_OLD'], 'TVALUE', $protectedPost['newfield']);
         if (isset($protectedPost['2newfield'])) {

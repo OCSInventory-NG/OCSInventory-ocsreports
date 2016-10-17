@@ -104,7 +104,7 @@ if (isset($protectedGet["suppack"])) {
 
 //update values if user want modify groups' values
 if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif'])) {
-    if (trim($protectedPost['NAME']) != '' and trim($protectedPost['DESCR']) != '') {
+    if (trim($protectedPost['NAME']) != '' && trim($protectedPost['DESCR']) != '') {
         $req = "UPDATE hardware SET " .
                 "NAME='%s'," .
                 "DESCRIPTION='%s' " .
@@ -161,7 +161,7 @@ if ($protectedPost['MODIF_x']) {
     $button_valid = "<input title='" . $l->g(625) . "' value='" . $l->g(625) . "' name='Valid_modif' type='submit' class='btn btn-success'>";
     $button_reset = "<input title='" . $l->g(626) . "' value='" . $l->g(626) . "' name='Reset_modif' type='submit' class='btn btn-danger'>";
 } else { //only show the botton for modify
-    $img_modif = "<input title='" . $l->g(115) . "' value='" . $l->g(115) . "' name='MODIF_x' type='submit' class='btn'><br />";
+    $img_modif = "<input title='" . $l->g(115) . "' value='" . $l->g(115) . "' name='MODIF_x' type='submit' class='btn btn-default'><br />";
     $name = $item->NAME;
     $description = $item->DESCRIPTION;
     $button_valid = "";
@@ -496,7 +496,7 @@ function print_perso($systemid) {
         echo $td3 . $l->g(493) . "</td>";
     }
     if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
-        echo "<td align=center rowspan=8><a class='btn' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">
+        echo "<td align=center rowspan=8><a class='btn btn-default' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">
 		" . $l->g(285) . "</a></td></tr>";
     }
 
@@ -604,11 +604,11 @@ function img($a, $avail) {
     if ($avail) {
         $href = "<a href='index.php?" . PAG_INDEX . "=" . $protectedGet[PAG_INDEX] . "&head=1&systemid=" . urlencode($systemid) . "&option=" . urlencode($a) . "'>";
         $fhref = "</a>";
-        $img = '<button type="button" class="btn">' . $a . '</button>';
+        $img = '<button type="button" class="btn btn-default">' . $a . '</button>';
     } else {
         $href = "";
         $fhref = "";
-        $img = '<button type="button" class="btn">' . $a . '</button>';
+        $img = '<button type="button" class="btn btn-default">' . $a . '</button>';
     }
 
     return "<td width='80px' align='center'>" . $href . $img . $fhref . "</td>";

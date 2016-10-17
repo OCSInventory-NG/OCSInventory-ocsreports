@@ -48,11 +48,10 @@ if (!isset($info_id['ERROR'])) {
         }
     }
 
-    if (isset($protectedPost['Valid_modif']) && $protectedPost['Valid_modif'] != '') {
+    if (is_defined($protectedPost['Valid_modif'])) {
         $error = "";
 
         $opensslOk = function_exists("openssl_open");
-
 
         if ($opensslOk) {
             $httpsOk = @fopen("https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/info", "r");
@@ -129,7 +128,7 @@ if (!isset($info_id['ERROR'])) {
         echo "<input type='hidden' name='choix_activ' value='MAN'>";
     }
     echo "<br>";
-    if (isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] != '') {
+    if (is_defined($protectedPost['choix_activ'])) {
         if ($protectedPost['choix_activ'] == "MAN") {
             $tab_name = array($l->g(471), $l->g(470));
             $name_field = array("FILE_SERV", "HTTPS_SERV");

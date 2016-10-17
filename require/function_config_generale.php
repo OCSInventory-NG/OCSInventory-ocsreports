@@ -477,7 +477,7 @@ function trait_post($name) {
         $select = 'DEFAULT';
     }
 
-    if (isset($protectedPost[$name . "_edit"]) && $protectedPost[$name . "_edit"] != '' && $protectedPost[$name] == 'CUSTOM') {
+    if (is_defined($protectedPost[$name . "_edit"]) && $protectedPost[$name] == 'CUSTOM') {
         $values['tvalue'][$name] = $protectedPost[$name . "_edit"];
         $select = 'CUSTOM';
     }

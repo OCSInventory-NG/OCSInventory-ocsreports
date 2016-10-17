@@ -255,19 +255,18 @@ if (!isset($_COOKIE["VERS"]) || $_COOKIE["VERS"] != GUI_VER) {
 }
 
 //del column
-if (isset($protectedPost['SUP_COL']) && $protectedPost['SUP_COL'] != "" && isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])) {
+if (is_defined($protectedPost['SUP_COL']) && isset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])) {
     unset($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']][$protectedPost['SUP_COL']]);
     cookies_add($protectedPost['TABLE_NAME'], implode('///', $_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
 }
 
 //default values
-if (isset($protectedPost['RAZ']) && $protectedPost['RAZ'] != "") {
+if (is_defined($protectedPost['RAZ'])) {
     cookies_reset($protectedPost['TABLE_NAME']);
 }
 
 //add column
-if (isset($protectedPost['TABLE_NAME']) &&
-        isset($protectedPost['restCol' . $protectedPost['TABLE_NAME']]) && $protectedPost['restCol' . $protectedPost['TABLE_NAME']] != '') {
+if (isset($protectedPost['TABLE_NAME']) && is_defined($protectedPost['restCol' . $protectedPost['TABLE_NAME']])) {
     $_SESSION['OCS']['col_tab'][$tab_name][$protectedPost['restCol' . $tab_name]] = $protectedPost['restCol' . $tab_name];
     if (is_array($_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']])) {
         cookies_add($protectedPost['TABLE_NAME'], implode('///', $_SESSION['OCS']['col_tab'][$protectedPost['TABLE_NAME']]));
@@ -288,7 +287,7 @@ if (isset($protectedPost['Valid_EDITION'])) {
 unset($_SESSION['OCS']['EDIT_LANGUAGE']);
 
 
-if (isset($protectedPost['LANG']) && $protectedPost['LANG'] != '') {
+if (is_defined($protectedPost['LANG'])) {
     unset($_SESSION['OCS']['LANGUAGE']);
     cookies_add('LANG', $protectedPost['LANG']);
     $_SESSION['OCS']['LANGUAGE'] = $protectedPost['LANG'];
@@ -405,7 +404,7 @@ if (isset($protectedGet[PAG_INDEX]) && !$profile->hasPage($url_name) && (!$_SESS
     die();
 }
 
-if ((!isset($_SESSION['OCS']["loggeduser"]) || !isset($_SESSION['OCS']["lvluser"]) || $_SESSION['OCS']["lvluser"] == "") && !isset($_SESSION['OCS']['TRUE_USER']) && $no_error != 'YES') {
+if ((!isset($_SESSION['OCS']["loggeduser"]) || !is_defined($_SESSION['OCS']["lvluser"])) && !isset($_SESSION['OCS']['TRUE_USER']) && $no_error != 'YES') {
     msg_error($LIST_ERROR);
     require_once(FOOTER_HTML);
     die();

@@ -28,7 +28,7 @@ if (AJAX) {
 
 $form_name = "upload_file";
 //verification if this field exist in the table and type like 'blob'
-if (isset($protectedGet["tab"]) && $protectedGet["tab"] != '') {
+if (is_defined($protectedGet["tab"])) {
     $table = $protectedGet["tab"];
 } else {
     $table = 'downloadwk_pack';

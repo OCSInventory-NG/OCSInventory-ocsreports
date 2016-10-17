@@ -40,7 +40,7 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 //delete a subnet
-if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '' && $_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES") {
+if (is_defined($protectedPost['SUP_PROF']) && $_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES") {
     $sql_del = "delete from subnet where netid='%s'";
     $arg_del = $protectedPost['SUP_PROF'];
     mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);

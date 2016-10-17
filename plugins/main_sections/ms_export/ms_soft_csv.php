@@ -26,7 +26,7 @@ if (!in_array($protectedGet['comp'], $compartruevalue)) {
 }
 
 $values = look_config_default_values(array('EXPORT_SEP'));
-if (isset($values['tvalue']['EXPORT_SEP']) && $values['tvalue']['EXPORT_SEP'] != '') {
+if (is_defined($values['tvalue']['EXPORT_SEP'])) {
     $separator = $values['tvalue']['EXPORT_SEP'];
 } else {
     $separator = ';';
@@ -45,13 +45,12 @@ $field_name_soft = $info_name_soft['table'] . "." . $info_name_soft['field'];
 if ($info_name_soft['table'] != 'softwares' || $_SESSION['OCS']["usecache"] == 1) {
     $sql_list_soft['ARG'] = array();
     $sql_list_soft['SQL'] = "select " . $info_name_soft['search'] . " from " . $info_name_soft['table'] . " ";
-    if (isset($protectedGet['soft']) && $protectedGet['soft'] != '') {
+    if (is_defined($protectedGet['soft'])) {
         $sql_list_soft['SQL'] .= " where name like '%s'";
         $sql_list_soft['ARG'] = array('%' . $protectedGet['soft'] . '%');
     }
     $sql['SQL'] = "select count(*) nb, " . $field_name_soft . " from softwares ";
-    if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
-            and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
+    if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) && $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
         $sql['SQL'] .= " left join " . $info_name_soft['table'] . " on " . $info_name_soft['table'] . "." . $info_name_soft['search'] . "=softwares." . $info_name_soft["field_name_soft"] . " ";
     }
     $sql['SQL'] .= " ,accountinfo a where a.hardware_id=softwares.hardware_id and softwares." . $info_name_soft["field_name_soft"] . " in (";
@@ -63,7 +62,7 @@ if ($info_name_soft['table'] != 'softwares' || $_SESSION['OCS']["usecache"] == 1
         $sql = mysql2_prepare($sql['SQL'], $sql['ARG'], $_SESSION['OCS']['TAGS']);
     }
     $sql['SQL'] .= " group by " . $field_name_soft;
-    if (isset($protectedGet['nb']) && $protectedGet['nb'] != '' && isset($protectedGet['comp']) && $protectedGet['comp'] != '') {
+    if (is_defined($protectedGet['nb']) && is_defined($protectedGet['comp'])) {
         $sql['SQL'] .= " having nb %s %s";
         array_push($sql['ARG'], $protectedGet['comp']);
         array_push($sql['ARG'], $protectedGet['nb']);
@@ -71,7 +70,7 @@ if ($info_name_soft['table'] != 'softwares' || $_SESSION['OCS']["usecache"] == 1
 } else {
     $sql['SQL'] = "select count(*) nb, " . $field_name_soft . " from " . $info_name_soft['table'];
     $sql['SQL'] .= " , accountinfo a where a.hardware_id=" . $info_name_soft['table'] . ".hardware_id ";
-    if (isset($protectedGet['soft']) and $protectedGet['soft'] != '') {
+    if (is_defined($protectedGet['soft'])) {
         $sql['SQL'] .= " and " . $field_name_soft . " like '%s'";
         $sql['ARG'] = array('%' . $protectedGet['soft'] . '%');
     }
@@ -81,7 +80,7 @@ if ($info_name_soft['table'] != 'softwares' || $_SESSION['OCS']["usecache"] == 1
     }
     $sql['SQL'] .= " group by " . $field_name_soft;
 
-    if (isset($protectedGet['nb']) && $protectedGet['nb'] != '' && isset($protectedGet['comp']) && $protectedGet['comp'] != '') {
+    if (is_defined($protectedGet['nb']) && is_defined($protectedGet['comp'])) {
         $sql['SQL'] .= " having nb %s %s";
         array_push($sql['ARG'], $protectedGet['comp']);
         array_push($sql['ARG'], $protectedGet['nb']);

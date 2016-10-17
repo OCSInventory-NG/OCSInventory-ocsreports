@@ -27,9 +27,9 @@ $form_name = "lock_affect";
 echo open_form($form_name);
 echo "<div align=center>";
 $list_id = multi_lot($form_name, $l->g(601));
-if (isset($list_id) && $list_id != '') {
+if (is_defined($list_id)) {
     //cas of TAG INFO
-    if (isset($protectedPost['Valid_modif']) && $protectedPost['Valid_modif'] != '') {
+    if (is_defined($protectedPost['Valid_modif'])) {
         $info_account_id = admininfo_computer();
 
         foreach ($protectedPost as $field => $value) {
@@ -62,7 +62,7 @@ if (isset($list_id) && $list_id != '') {
     }
 
     //CAS OF TELEDEPLOY
-    if (isset($protectedPost['RAZ']) && $protectedPost['RAZ'] != "" && $protectedPost['pack_list'] != "") {
+    if (is_defined($protectedPost['RAZ']) && $protectedPost['pack_list'] != "") {
         $sql = "select ID from download_enable
 				where fileid='%s'";
         $arg = $protectedPost['pack_list'];
@@ -73,7 +73,7 @@ if (isset($list_id) && $list_id != '') {
         msg_success($nb_line_affected . " " . $l->g(1026));
     }
     //CAS OF WOL
-    if (isset($protectedPost['WOL']) && $protectedPost['WOL'] != '') {
+    if (is_defined($protectedPost['WOL'])) {
         require_once('require/function_wol.php');
         $wol = new Wol();
         $sql = "select IPADDRESS,MACADDR from networks WHERE status='Up' and hardware_id in ";
@@ -106,7 +106,7 @@ if (isset($list_id) && $list_id != '') {
     //show onglet
     onglet($def_onglets, $form_name, "onglet", 7);
 
-    if (isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] != "") {
+    if (is_defined($protectedPost['CHOISE'])) {
         if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == "TAG") {
             require_once('require/function_admininfo.php');
             $field_of_accountinfo = witch_field_more('COMPUTERS');
@@ -175,13 +175,13 @@ if (isset($list_id) && $list_id != '') {
                     }
                     echo "<br>" . $item->c . " " . $l->g(1023) . " " . $value . " " . $l->g(1024);
                 }
-                echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "'>";
+                echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "' class='btn btn-default'>";
             }
 
             echo "</div>";
         } elseif ($protectedPost['onglet'] == "WOL") {
             echo "<div class='mvt_bordure'>";
-            echo "<br><input type='submit' name='WOL' value='" . $l->g(13) . "'>";
+            echo "<br><input type='submit' name='WOL' value='" . $l->g(13) . "' class='btn btn-default'>";
             echo "</div>";
         }
     }
