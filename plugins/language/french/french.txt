@@ -1216,7 +1216,7 @@
 1338 Afficher _MENU_ résultats
 1339 Chargement en cours...
 1340 Traitement en cours...
-1341 Rechercher:
+1341 Rechercher&nbsp;:&nbsp;
 1342 Aucun résultat à afficher
 1343 Premier
 1344 Dernier
