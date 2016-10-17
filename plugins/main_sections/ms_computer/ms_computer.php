@@ -39,8 +39,7 @@ if (!is_object($item)) {
     die();
 }
 //you can't view groups'detail by this way
-if ($item->DEVICEID == "_DOWNLOADGROUP_"
-        or $item->DEVICEID == "_SYSTEMGROUP_") {
+if ($item->DEVICEID == "_DOWNLOADGROUP_" || $item->DEVICEID == "_SYSTEMGROUP_") {
     die('FORBIDDEN');
 }
 
