@@ -1399,7 +1399,7 @@
 2110 Versione richiesta
 2111 Effettua l'aggiornamento
 2112 Il file non è presente o non è leggibile
-2113 La tua versione di PHP è precedente alla 5.3.7 e non sarà compatibile con le future versioni ( versione:
+2113 La tua versione di PHP è precedente alla 5.3.7 e non sarà compatibile con le future versioni ( versione&nbsp;:&nbsp;
 2114 Nessun file sql trovato per la versione
 2115 L'utente fornito non sembra essere root
 2116 La directory config/profiles non è scrivibile

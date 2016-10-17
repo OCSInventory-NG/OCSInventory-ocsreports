@@ -1400,7 +1400,7 @@
 2110 Version attendue
 2111 Effectuer la mise à jour
 2112 Le fichier suivant n'est pas présent ou n'est pas accessible en lecture
-2113 La version actuelle de php est inférieure à la version 5.3.7 et ne sera plus compatible dans le futur ( version  :
+2113 La version actuelle de php est inférieure à la version 5.3.7 et ne sera plus compatible dans le futur (version&nbsp;:&nbsp;
 2114 Aucun fichier sql pour la version
 2115 L'utilisateur que vous avez tapé ne semble pas être root
 2116 Le répertoire config/profiles n'est pas disponible en écriture
@@ -1444,10 +1444,10 @@
 6004 Nombre Total disponible
 6005 Eteinte/allumée
 6006 AVERTISSEMENT : Le module php-soap n'est pas installé, le moteur de plugin ne fonctionnera pas.
-6007 Les modules suivants sont requis pour utiliser cette fonctionnalitée :
-6008 Les répertoires suivants ne sont pas accessibles en écriture :
+6007 Les modules suivants sont requis pour utiliser cette fonctionnalitée&nbsp;:&nbsp;
+6008 Les répertoires suivants ne sont pas accessibles en écriture&nbsp;:&nbsp;
 6009 Vous ne pouvez pas installer de plugins, référez vous aux erreurs ci-dessus.
-6010 Le serveur de communication a rencontré l'erreur suivante lors de l'installation :
+6010 Le serveur de communication a rencontré l'erreur suivante lors de l'installation&nbsp;:&nbsp;
 6011 Cliquez ici pour obtenir de l'aide
 
 7000 Plugins
