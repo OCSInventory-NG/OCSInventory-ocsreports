@@ -124,9 +124,9 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
         echo "</tr></table>";
         echo "<a onclick='return pag(" . $numero . ",\"NUM_RULES\",\"rules\")'><font color=green>" . $l->g(682) . "</font></a>&nbsp<a onclick='return pag(\"RAZ\",\"RAZ\",\"rules\");'><font color=\"red\">" . $l->g(113) . "</font></a><br><br>";
         if ($protectedPost['MODIF'] != "" || $protectedPost['OLD_MODIF'] != "") {
-            echo "<input type='submit'  value='" . $l->g(625) . "' name='MODIF_RULE' onclick='return check();'>";
+            echo "<input type='submit'  value='" . $l->g(625) . "' name='MODIF_RULE' onclick='return check();' class='btn btn-default'>";
         } else {
-            echo "<input type='submit'  value='" . $l->g(683) . "' name='ADD_RULE' onclick='return check();'>";
+            echo "<input type='submit'  value='" . $l->g(683) . "' name='ADD_RULE' onclick='return check();' class='btn btn-default'>";
         }
         echo "<input type='hidden' id='NUM_RULES' name='NUM_RULES' value=''>";
         echo "<input type='hidden' id='RAZ' name='RAZ' value=''>";

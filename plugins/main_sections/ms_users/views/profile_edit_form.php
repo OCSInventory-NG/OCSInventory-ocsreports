@@ -63,8 +63,8 @@ function show_profile_edit_form($profile_id) {
     </div>
 
     <div class="form-buttons">
-        <input type="submit" value="<?php echo $l->g(1363) ?>"/>
-        <input type="reset" value="<?php echo $l->g(1364) ?>"/>
+        <input type="submit" value="<?php echo $l->g(1363) ?>" class='btn btn-default'/>
+        <input type="reset" value="<?php echo $l->g(1364) ?>" class='btn btn-default'/>
     </div>
 
     <?php

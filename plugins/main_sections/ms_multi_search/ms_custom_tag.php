@@ -29,7 +29,7 @@ echo "<div align=center>";
 $list_id = multi_lot($form_name, $l->g(601));
 if (is_defined($list_id)) {
     //cas of TAG INFO
-    if (isset($protectedPost['Valid_modif']) && $protectedPost['Valid_modif'] != '') {
+    if (is_defined($protectedPost['Valid_modif'])) {
         $info_account_id = admininfo_computer();
 
         foreach ($protectedPost as $field => $value) {
@@ -175,13 +175,13 @@ if (is_defined($list_id)) {
                     }
                     echo "<br>" . $item->c . " " . $l->g(1023) . " " . $value . " " . $l->g(1024);
                 }
-                echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "'>";
+                echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "' class='btn btn-default'>";
             }
 
             echo "</div>";
         } elseif ($protectedPost['onglet'] == "WOL") {
             echo "<div class='mvt_bordure'>";
-            echo "<br><input type='submit' name='WOL' value='" . $l->g(13) . "'>";
+            echo "<br><input type='submit' name='WOL' value='" . $l->g(13) . "' class='btn btn-default'>";
             echo "</div>";
         }
     }

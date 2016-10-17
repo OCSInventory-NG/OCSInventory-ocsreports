@@ -1237,7 +1237,7 @@ if (isset($_SESSION['OCS']['multiSearch']) && $_SESSION['OCS']['multiSearch'] !=
         }
         show_ligne($v, $k, $ajout, $form_name);
     }
-    echo "<div class='form-buttons'><input type='submit' name='Valid-search' value='" . $l->g(30) . "' onclick='garde_valeur(\"VALID\",\"Valid\");'></div>";
+    echo "<div class='form-buttons'><input type='submit' name='Valid-search' value='" . $l->g(30) . "' onclick='garde_valeur(\"VALID\",\"Valid\");' class='btn btn-default'></div>";
     echo "<input type=hidden name='Valid' id='Valid' value=''>";
 }
 echo "<input type=hidden name=delfield id=delfield value=''>";

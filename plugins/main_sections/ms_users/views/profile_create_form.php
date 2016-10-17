@@ -42,8 +42,8 @@ function show_profile_create_form() {
         ?>
 
         <div class="form-buttons">
-            <input type="submit" value="<?php echo $l->g(1363) ?>"/>
-            <input type="reset" value="<?php echo $l->g(1364) ?>"/>
+            <input type="submit" value="<?php echo $l->g(1363) ?>" class='btn btn-default'/>
+            <input type="reset" value="<?php echo $l->g(1364) ?>" class='btn btn-default'/>
         </div>
 
         <?php echo close_form() ?>

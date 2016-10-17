@@ -34,7 +34,7 @@ if (is_defined($protectedPost['SUP'])) {
     }
 }
 if ($list_id) {
-    echo "<br><br><input type='submit' value=\"" . $l->g(122) . "\" name='SUP'>";
+    echo "<br><br><input type='submit' value=\"" . $l->g(122) . "\" name='SUP' class='btn btn-default'>";
 }
 echo "</div>";
 echo close_form();

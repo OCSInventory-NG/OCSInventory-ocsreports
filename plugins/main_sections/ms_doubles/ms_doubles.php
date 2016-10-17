@@ -316,7 +316,7 @@ if ($protectedPost['detail'] != '') {
         echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><img src='image/delete.png' title='Supprimer' ></a>";
         echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
     }
-    echo "<p><input type='submit' value='" . $l->g(177) . "' name='FUSION'></p>";
+    echo "<p><input type='submit' value='" . $l->g(177) . "' name='FUSION' class='btn btn-default'></p>";
     echo "<input type=hidden name=old_detail id=old_detail value='" . $protectedPost['detail'] . "'>";
 }
 echo close_form();

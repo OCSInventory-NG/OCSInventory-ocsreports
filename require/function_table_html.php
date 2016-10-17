@@ -830,12 +830,12 @@ function tab_modif_values($field_labels, $fields, $hidden_fields = array(), $opt
 
     if ($options['show_button'] === 'BUTTON') {
         echo '<div class="form-buttons">';
-        echo '<input type="submit" name="Valid_' . $options['button_name'] . '" value="' . $l->g(13) . '"/>';
+        echo '<input type="submit" name="Valid_' . $options['button_name'] . '" value="' . $l->g(13) . '" class="btn btn-default"/>';
         echo '</div>';
     } else if ($options['show_button']) {
         echo '<div class="form-buttons">';
-        echo '<input type="submit" name="Valid_' . $options['button_name'] . '" value="' . $l->g(1363) . '"/>';
-        echo '<input type="submit" name="Reset_' . $options['button_name'] . '" value="' . $l->g(1364) . '"/>';
+        echo '<input type="submit" name="Valid_' . $options['button_name'] . '" value="' . $l->g(1363) . '" class="btn btn-default"/>';
+        echo '<input type="submit" name="Reset_' . $options['button_name'] . '" value="' . $l->g(1364) . '" class="btn btn-default"/>';
         echo '</div>';
     }
 

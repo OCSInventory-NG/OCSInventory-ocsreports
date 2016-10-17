@@ -104,7 +104,7 @@ if (isset($protectedGet["suppack"])) {
 
 //update values if user want modify groups' values
 if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif'])) {
-    if (trim($protectedPost['NAME']) != '' and trim($protectedPost['DESCR']) != '') {
+    if (trim($protectedPost['NAME']) != '' && trim($protectedPost['DESCR']) != '') {
         $req = "UPDATE hardware SET " .
                 "NAME='%s'," .
                 "DESCRIPTION='%s' " .
