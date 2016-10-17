@@ -109,11 +109,13 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
     $plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
 
     if (file_exists($plugin_file)) {
-        if (!AJAX)
+        if (!AJAX) {
             echo '<div class="plugin-name-' . $plugin->getId() . '">';
+        }
         require $plugin_file;
-        if (!AJAX)
+        if (!AJAX) {
             echo '</div>';
+        }
     }
 } else {
     // Else error
