@@ -50,6 +50,6 @@ if (!defined('AJAX')) {
 require ('require/header.php');
 addLog('PAGE', $protectedGet[PAG_INDEX]);
 
-if (AJAX && !isset($protectedGet["popup"]) && !isset($protectedGet["no_footer"])) {
+if (!AJAX && !isset($protectedGet["popup"]) && !isset($protectedGet["no_footer"])) {
     require (FOOTER_HTML);
 }
