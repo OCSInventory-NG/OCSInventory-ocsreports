@@ -1,8 +1,10 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Hostname;
 
 sub check {
-    return 1 if can_load ("Sys::Hostname");
-    return 1 if can_run ("hostname");
+    my $params = shift;
+    my $common = $params->{common};
+    return 1 if $common->can_load ("Sys::Hostname");
+    return 1 if $common->can_run ("hostname");
     0;
 }
 
@@ -13,7 +15,7 @@ sub run {
   
     my $hostname;
   
-    if (can_load("Sys::Hostname")) {
+    if ($common->can_load("Sys::Hostname")) {
         $hostname = Sys::Hostname::hostname();
     } else {
         chomp ( $hostname = `hostname` ); # TODO: This is not generic.

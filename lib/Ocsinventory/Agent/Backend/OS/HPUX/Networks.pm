@@ -1,6 +1,10 @@
 package Ocsinventory::Agent::Backend::OS::HPUX::Networks;
 
-sub check  { can_load("Net::IP qw(:PROC)"); }
+sub check  { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_load("Net::IP qw(:PROC)"); 
+}
 
 sub run {
     my $params = shift;

@@ -1,7 +1,11 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Drives;
 
 use strict;
-sub check {can_run("df")}
+sub check {
+    my $params = shift;
+    my $common = $params->{common};
+    my $common->can_run("df")
+}
 
 sub run {
     my $params = shift;

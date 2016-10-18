@@ -7,8 +7,10 @@ use File::stat;
 use Time::Local;
 
 sub check {
-  return unless (can_run("ifconfig") || can_run("ip")) && can_run("route") && can_load("Net::IP qw(:PROC)");
-  1;
+    my $params = shift;
+    my $common = $params->{common};
+    return unless ($common->can_run("ifconfig") || $common->can_run("ip")) && $common->can_run("route") && $common->can_load("Net::IP qw(:PROC)");
+    1;
 }
 
 sub getLeaseFile {
@@ -112,7 +114,7 @@ sub run {
 
     my %gateway;
 
-    if (can_run("ip")){
+    if ($common->can_run("ip")){
         my @ipLink = `ip -o link`;
         foreach my $line (`ip -o addr`) {
             $ipsubnet = $ipaddress = $ipmask = $ipgateway = $macaddr = $status = $type = $speed = $duplex = $driver = $pcislot = $virtualdev = $mtu = undef;
@@ -236,7 +238,7 @@ sub run {
             # Reliable way to get the info
             if (-d "/sys/devices/virtual/net/") {
                 $virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
-            } elsif (can_run("brctl")) {
+            } elsif ($common->can_run("brctl")) {
                 # Let's guess
                 my %bridge;
                 foreach (`brctl show`) {
@@ -305,7 +307,7 @@ sub run {
         }
     }
 
-    elsif (can_run("ifconfig")){
+    elsif ($common->can_run("ifconfig")){
         foreach my $line (`ifconfig -a`) {
             if ($line =~ /^$/ && $description && $macaddr) {
             # end of interface section
@@ -423,7 +425,7 @@ sub run {
                 # Reliable way to get the info
                 if (-d "/sys/devices/virtual/net/") {
                     $virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
-                } elsif (can_run("brctl")) {
+                } elsif ($common->can_run("brctl")) {
                     # Let's guess
                     my %bridge;
                     foreach (`brctl show`) {

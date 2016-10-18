@@ -3,7 +3,11 @@ package Ocsinventory::Agent::Backend::Virtualization::XenCitrixServer;
 use strict;
 use warnings;
 
-sub check { can_run('xe') }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run('xe') 
+}
 
 sub run {
 

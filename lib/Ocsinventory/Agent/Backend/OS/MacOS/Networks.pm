@@ -6,7 +6,9 @@ package Ocsinventory::Agent::Backend::OS::MacOS::Networks;
 use strict;
 
 sub check {
-  can_run("ifconfig") && can_load("Net::IP qw(:PROC)")
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("ifconfig") && $common->can_load("Net::IP qw(:PROC)")
 }
 
 
@@ -18,16 +20,16 @@ sub _ipdhcp {
     my $leasepath;
 
     foreach ( # XXX BSD paths
-      "/var/db/dhclient.leases.%s",
-      "/var/db/dhclient.leases",
-      # Linux path for some kFreeBSD based GNU system
-      "/var/lib/dhcp3/dhclient.%s.leases",
-      "/var/lib/dhcp3/dhclient.%s.leases",
-      "/var/lib/dhcp/dhclient.leases") {
+        "/var/db/dhclient.leases.%s",
+        "/var/db/dhclient.leases",
+        # Linux path for some kFreeBSD based GNU system
+        "/var/lib/dhcp3/dhclient.%s.leases",
+        "/var/lib/dhcp3/dhclient.%s.leases",
+        "/var/lib/dhcp/dhclient.leases") {
 
-      $leasepath = sprintf($_,$if);
-      last if (-e $leasepath);
-     }
+        $leasepath = sprintf($_,$if);
+        last if (-e $leasepath);
+    }
     return undef unless -e $leasepath;
 
     if (open DHCP, $leasepath) {

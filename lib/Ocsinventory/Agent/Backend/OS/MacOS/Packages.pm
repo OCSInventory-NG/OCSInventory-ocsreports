@@ -5,8 +5,9 @@ use warnings;
 
 sub check {
     my $params = shift;
+    my $common = $params->{common};
 
-    return unless can_load("Mac::SysProfile");
+    return unless $common->can_load("Mac::SysProfile");
     # Do not run an package inventory if there is the --nosoftware parameter
     return if ($params->{config}->{nosoftware});
 

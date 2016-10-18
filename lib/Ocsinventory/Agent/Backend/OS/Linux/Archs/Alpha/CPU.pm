@@ -2,7 +2,11 @@ package Ocsinventory::Agent::Backend::OS::Linux::Archs::Alpha::CPU;
 
 use strict;
 
-sub check { can_read("/proc/cpuinfo") }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_read("/proc/cpuinfo") 
+}
 
 sub run {
     my $params = shift;

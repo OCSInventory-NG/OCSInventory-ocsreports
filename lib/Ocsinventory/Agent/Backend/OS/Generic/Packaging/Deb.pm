@@ -3,7 +3,10 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Deb;
 use strict;
 use warnings;
 
-sub check { can_run("dpkg") }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("dpkg") }
 
 sub run {
     my $params = shift;

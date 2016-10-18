@@ -5,7 +5,9 @@ use vars qw($runAfter);
 $runAfter = ["Ocsinventory::Agent::Backend::OS::AIX::Drives"];
 
 sub check {
-    return unless can_run ("lspv") || can_run('lsvg') || can_run('lslv');
+    my $params = shift;
+    my $common = $params->{common};
+    return unless $common->can_run ("lspv") || $common->can_run('lsvg') || $common->can_run('lslv');
     1
 }
 

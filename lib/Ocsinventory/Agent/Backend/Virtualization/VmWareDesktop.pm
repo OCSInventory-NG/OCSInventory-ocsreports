@@ -5,7 +5,11 @@ package Ocsinventory::Agent::Backend::Virtualization::VmWareDesktop;
 
 use strict;
 
-sub check { return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    return $common->can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') 
+}
 
 sub run {
     my $params = shift;

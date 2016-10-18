@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+2.3
+       * Suppress functions can_run, can_load, can_read from Backend. Those from Common.pm are now used
+
 2.2
        * Suppress reference message to support "No support detected. Registration key: N/A"
        * Linux storages now supports Megacli raid

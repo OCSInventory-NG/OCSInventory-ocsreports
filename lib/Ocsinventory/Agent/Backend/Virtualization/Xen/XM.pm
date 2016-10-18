@@ -4,7 +4,9 @@ use strict;
 
 sub check { 
 
-    my $can_run = can_run('xm');
+    my $params = shift;
+    my $common = $params->{common};
+    my $can_run = $common->can_run('xm');
     if ($can_run) { 
        system('xm list');
        my $exit_val = $? >> 8;

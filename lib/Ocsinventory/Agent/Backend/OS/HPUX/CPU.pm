@@ -58,7 +58,7 @@ sub run {
         "N4000-44"=>"8500 440",
         "ia64 hp server rx1620"=>"itanium 1600");
 
-    if ( can_run ("machinfo") ) {
+    if ( $common->can_run ("machinfo") ) {
         foreach ( `machinfo`) {
             if ( /Number of CPUs\s+=\s+(\d+)/ ) {
                 $processorn=$1;

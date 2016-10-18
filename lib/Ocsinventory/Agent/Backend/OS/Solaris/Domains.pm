@@ -1,32 +1,36 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Domains;
 use strict;
 
-sub check { can_run ("domainname") }
-
-sub run { 
+sub check { 
   my $params = shift;
   my $common = $params->{common};
+  $common->can_run ("domainname") 
+}
 
-  my $domain;
+sub run { 
+    my $params = shift;
+    my $common = $params->{common};
 
-  chomp($domain = `domainname`);
+    my $domain;
 
-  if (!$domain) {
-    my %domain;
+    chomp($domain = `domainname`);
 
-    if (open RESOLV, "/etc/resolv.conf") {
-      while(<RESOLV>) {
-	$domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
-      }
-      close RESOLV;
+    if (!$domain) {
+        my %domain;
+
+        if (open RESOLV, "/etc/resolv.conf") {
+            while(<RESOLV>) {
+               $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+            }
+            close RESOLV;
+        }
+        $domain = join "/", keys %domain;
     }
-    $domain = join "/", keys %domain;
-  }
-# If no domain name, we send "WORKGROUP"
-  $domain = 'WORKGROUP' unless $domain;
-  $common->setHardware({
-      WORKGROUP => $domain
-      });
+    # If no domain name, we send "WORKGROUP"
+    $domain = 'WORKGROUP' unless $domain;
+    $common->setHardware({
+        WORKGROUP => $domain
+    });
 }
 
 1;

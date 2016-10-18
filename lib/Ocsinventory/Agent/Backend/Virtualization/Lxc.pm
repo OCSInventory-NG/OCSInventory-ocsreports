@@ -2,7 +2,11 @@ package Ocsinventory::Agent::Backend::Virtualization::Lxc;
 
 use strict;
 
-sub check { can_run('lxc-ls') && can_run('lxc-info') }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run('lxc-ls') && $common->can_run('lxc-info') 
+}
 
 my $memory;
 my $status;

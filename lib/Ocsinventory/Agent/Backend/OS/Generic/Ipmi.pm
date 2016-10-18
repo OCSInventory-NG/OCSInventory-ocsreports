@@ -18,7 +18,10 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Ipmi;
 
 sub check {
-    return unless can_run("ipmitool") && can_load("Net::IP qw:(PROC)");
+    my $params = shift;
+    my $common = $params->{common};
+
+    return unless $common->can_run("ipmitool") && $common->can_load("Net::IP qw:(PROC)");
     my @ipmitool = `ipmitool lan print 2> /dev/null`;
     return unless @ipmitool;
 }

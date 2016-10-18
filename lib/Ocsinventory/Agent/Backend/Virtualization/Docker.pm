@@ -2,41 +2,42 @@ package Ocsinventory::Agent::Backend::Virtualization::Docker;
 
 use strict;
 
-sub check { can_run('docker') }
+sub check { 
+    return(undef) unless -r '/usr/bin/docker';
+    return 1;
+}
 
-my @containers=`docker ps`;
 my @image;
-my $memory;
-my $name;
-my $vcpu;
-my $status;
-my $vmid;
 
 sub run {
     my $params = shift;
     my $common = $params->{common};
  
-    foreach my $cont (@containers) {
+    foreach my $cont (`docker ps 2>/dev/null`) {
         next if ($cont =~ /^CONTAINER ID/);
         my $container_id=$1 if ($cont =~ /^(\w+)/i);
         push @image, $container_id;
     }
 
     foreach my $c (@image) {
-        my @tab=`docker inspect $c`;
-        foreach my $m (@tab) {
-            $memory=$1 if ($m =~ /^\s+"Memory":\s(\d+),/i);
-            $name=$1 if ($m =~ /^\s+"Hostname":\s"(\w+)",/i);
-            $status=$1 if ($m =~ /^\s+"Status":\s"(\w+)",/i);
-            $vcpu=$1 if ($m =~ /^\s+"CpuShares":\s(\d+),/i); 
-            $vmid=$1 if ($m =~ /^\s+"Id":\s"(\w+)",/i);
-        }
+        my $tab=`docker inspect $c`;
+        my $memory=$1 if ($tab =~ /\s+"Memory":\s(\d+),/);
+        my $name=$1 if ($tab =~ /\s+"Hostname":\s"(\w+)",/);
+        my $status=$1 if ($tab =~ /\s+"Status":\s"(\w+)",/);
+        my $vcpu=$1 if ($tab =~ /\s+"CpuShares":\s(\d+),/); 
+        my $vmid=$1 if ($tab =~ /\s+"Id":\s"(\w+)",/);
+        my $ipaddr=$1 if ($tab =~ /\s+"IPAddress":\s"(.*)"/);
+        my $macaddr=$1 if ($tab =~ /\s+"MacAddress":\s"(.*)"/);
+        my $gateway=$1 if ($tab =~ /\s+"Gateway":\s"(.*)"/);
         $common->addVirtualMachine({
-            NAME => $name,
+            CPUSHARES => $vcpu,
+            GATEWAY => $gateway,
+            IPADDR => $ipaddr,
+            MACADDR => $macaddr,
             MEMORY => $memory,
+            NAME => $name,
             STATUS => $status,
             SUBSYSTEM => "Docker Container",
-            VCPU => $vcpu?$vcpu:"Not defined",
             VMID => $vmid,
             VTYPE => "Docker",
         });
@@ -44,5 +45,3 @@ sub run {
 }
 
 1;
-
-

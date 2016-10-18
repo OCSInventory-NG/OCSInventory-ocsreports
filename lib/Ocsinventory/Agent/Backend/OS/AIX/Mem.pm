@@ -2,9 +2,11 @@ package Ocsinventory::Agent::Backend::OS::AIX::Mem;
 use strict;
 
 sub check {
-    return unless can_run("lsdev");
-    return unless can_run("which");
-    return unless can_run("lsattr");
+    my $params = shift;
+    my $common = $params->{common};
+    return unless $common->can_run("lsdev");
+    return unless $common->can_run("which");
+    return unless $common->can_run("lsattr");
 }
 
 sub run {

@@ -46,7 +46,11 @@ sub processes_inventory_handler {
      $logger->debug("Yeah you are in Processes_inventory_handler:)");
 
      # test if ps command is available :)
-     sub check {can_run("ps")}
+     sub check {
+         my $params = shift;
+         my $common = $params->{common};
+         $common->can_run("ps")
+     }
 
      my $line;
      my $begin;

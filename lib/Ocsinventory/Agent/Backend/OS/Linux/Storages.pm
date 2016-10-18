@@ -107,7 +107,10 @@ sub getManufacturer {
 # run on CDROM device
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
 sub correctHdparmAvailable {
-    return unless can_run("hdparm");
+    my $params = shift;
+    my $common = $params->{common};
+    return unless $common->can_run("hdparm");
+
     my $hdparmVersion = `hdparm -V`;
     if ($hdparmVersion =~ /^hdparm v(\d+)\.(\d+)(\.|$)/) {
         return 1 if $1>9;
@@ -151,7 +154,9 @@ sub getFromDev {
 
 # get data from lshw
 sub getFromLshw {
-    return unless can_run("lshw");
+    my $params = shift;
+    my $common = $params->{common};
+    return unless $common->can_run("lshw");
     my @devs;
     my @inputlines = `lshw -class disk -xml -quiet`;
     my $foundcdroms = 0;
@@ -230,7 +235,9 @@ sub getFromLshw {
 
 # get data from lsscsi
 sub getFromLsscsi {
-    return unless (can_run("lsscsi"));
+    my $params = shift;
+    my $common = $params->{common};
+    return unless ($common->can_run("lsscsi"));
     my @devs;
     my ($id, $type, $vendor, $model, $rev, $device);
     foreach my $line (`lsscsi`)     {
@@ -251,7 +258,9 @@ sub getFromLsscsi {
 
 # get data from lsblk
 sub getFromLsblk {
-    return unless (can_run("lsblk"));
+    my $params = shift;
+    my $common = $params->{common};
+    return unless ($common->can_run("lsblk"));
     my @devs;
     foreach my $line (`lsblk -ldbn`) {
         my @columns     = split /\s+/, $line;
@@ -266,7 +275,9 @@ sub getFromLsblk {
 
 # get data from smartctl
 sub getFromSmartctl {
-    return unless (can_run("smartctl"));
+    my $params = shift;
+    my $common = $params->{common};
+    return unless ($common->can_run("smartctl"));
     my ($devices) = @_;
     my @devs;
     my $vendor;
@@ -327,7 +338,9 @@ sub getFromSmartctl {
 
 # get data from UDEV
 sub getFromuDev2 {
-    return unless (can_run("udevinfo") or can_run("udevadm"));
+    my $params = shift;
+    my $common = $params->{common};
+    return unless ($common->can_run("udevinfo") or $common->can_run("udevadm"));
     my ($devices) = @_;
     my @input;
     my @devs;
@@ -350,7 +363,7 @@ sub getFromuDev2 {
         $serial_scsi = "";
         $serial_md = "";
         my $devName = $devices->{$device}->{NAME};
-        if(can_run("udevadm")) {
+        if($common->can_run("udevadm")) {
             @input = `udevadm info -q all -n /dev/$devName`;
         }
         else {
@@ -410,14 +423,14 @@ sub getFromuDev2 {
 
 sub run {
     my $params = shift;
-    my $logger = $params->{logger};
     my $common = $params->{common};
+    my $logger = $params->{logger};
     my $devices = {};
     my ($serial,$cap,$unit,$model,$manufacturer,$type,$desc,$firmware,$name);
     my @partitions;
 
     # Get complementary information in hash tab
-    if (can_run ("lshal")) {
+    if ($common->can_run ("lshal")) {
         my %temp;
         my $in = 0;
         my $value;

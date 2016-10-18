@@ -18,9 +18,11 @@ use Ocsinventory::Agent::Backend::OS::Linux::Storages;
 use strict;
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
     my ($card, $res);
   # Do we have tw_cli ?
-    if (can_run("tw_cli")) {
+    if ($common->can_run("tw_cli")) {
         foreach (`tw_cli info`) {
             $card = $1 if /^(c\d+).*/;
             if ($card) {

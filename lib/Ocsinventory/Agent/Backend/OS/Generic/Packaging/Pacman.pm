@@ -1,7 +1,10 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Pacman;
 
-sub check {can_run("/usr/bin/pacman")}
-
+sub check {
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("/usr/bin/pacman")
+}
 sub run {
     my $params = shift;
     my $common = $params->{common};

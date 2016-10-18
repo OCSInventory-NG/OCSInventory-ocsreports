@@ -12,10 +12,12 @@ use Ocsinventory::Agent::Backend::OS::Linux::Storages;
 use strict;
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
 
     my $ret;
     # Do we have hpacucli ?
-    if (can_run("hpacucli")) {
+    if ($common->can_run("hpacucli")) {
         foreach (`hpacucli ctrl all show 2> /dev/null`) {
             if (/.*Slot\s(\d*).*/) {
                 $ret = 1;

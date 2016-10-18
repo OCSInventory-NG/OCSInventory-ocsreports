@@ -12,7 +12,9 @@ use strict;
 my @devices = Ocsinventory::Agent::Backend::OS::Linux::Storages::getFromUdev();
 
 sub check {
-    if (can_run ('smartctl') ) { 
+    my $params = shift;
+    my $common = $params->{common};
+    if ($common->can_run ('smartctl') ) { 
         foreach my $hd (@devices) {
             $hd->{MANUFACTURER} eq 'Adaptec'?return 1:1;
         }

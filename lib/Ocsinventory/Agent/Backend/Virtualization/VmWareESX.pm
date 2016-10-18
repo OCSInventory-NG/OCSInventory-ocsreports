@@ -3,8 +3,11 @@ package Ocsinventory::Agent::Backend::Virtualization::VmWareESX;
 use strict;
 
 
-sub check { can_run('vmware-cmd') }
-
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run('vmware-cmd') 
+}
 sub run {
     my $params = shift;
     my $common = $params->{common};

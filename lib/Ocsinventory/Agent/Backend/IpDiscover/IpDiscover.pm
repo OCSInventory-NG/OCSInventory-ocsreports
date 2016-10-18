@@ -3,7 +3,11 @@ package Ocsinventory::Agent::Backend::IpDiscover::IpDiscover;
 use strict;
 use warnings;
 
-sub check { can_run ("ipdiscover") }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run ("ipdiscover") 
+}
 
 sub run {
     my $params = shift;

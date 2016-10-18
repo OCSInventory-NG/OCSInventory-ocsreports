@@ -7,9 +7,10 @@ use warnings;
 
 sub check {
     my $params = shift;
+    my $common = $params->{common};
   
-    return unless can_run("nmap");
-    return unless can_load("Nmap::Parser");
+    return unless $common->can_run("nmap");
+    return unless $common->can_load("Nmap::Parser");
   
     # Do we have nmap 3.90 (or >) 
     foreach (`nmap -v 2>&1`) {

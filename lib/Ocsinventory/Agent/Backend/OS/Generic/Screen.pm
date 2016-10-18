@@ -21,8 +21,10 @@ package Ocsinventory::Agent::Backend::OS::Generic::Screen;
 use strict;
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
 
-    return unless (can_run("monitor-get-edid-using-vbe") || can_run("monitor-get-edid") || can_run("get-edid"));
+    return unless ($common->can_run("monitor-get-edid-using-vbe") || $common->can_run("monitor-get-edid") || $common->can_run("get-edid"));
     1;
 }
 
@@ -631,7 +633,7 @@ sub run {
  
             eval "use MIME::Base64;";
             $base64 = encode_base64($raw_edid) if !$@;
-            if (can_run("uuencode")) {
+            if ($common->can_run("uuencode")) {
                 chomp($uuencode = `echo $raw_edid|uuencode -`);
                 if (!$base64) {
                     chomp($base64 = `echo $raw_edid|uuencode -m -`);

@@ -4,7 +4,11 @@ use strict;
 
 use XML::Simple;
 
-sub check { can_run('virsh') }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run('virsh') 
+}
 
 sub run {
     my $params = shift;

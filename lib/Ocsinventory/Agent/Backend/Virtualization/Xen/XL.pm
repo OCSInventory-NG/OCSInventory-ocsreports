@@ -4,7 +4,9 @@ use strict;
 
 sub check { 
 
-    my $can_run = can_run('xl');
+    my $params = shift;
+    my $common = $params->{common};
+    my $can_run = $common->can_run('xl');
     if ($can_run) {
         system('xl list');
         my $exit_val = $? >> 8;

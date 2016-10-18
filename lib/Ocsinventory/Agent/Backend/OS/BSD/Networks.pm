@@ -3,7 +3,9 @@ package Ocsinventory::Agent::Backend::OS::BSD::Networks;
 use strict;
 
 sub check {
-    can_run("ifconfig") && can_load("Net::IP qw(:PROC)")
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("ifconfig") && $common->can_load("Net::IP qw(:PROC)")
 }
 
 

@@ -6,10 +6,12 @@ use strict;
 sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
 
 	my $ret;
 	# Do we have fio-status?
-	if (can_run("fio-status")) {
+	if ($common->can_run("fio-status")) {
 		foreach (`fio-status 2> /dev/null`) {
 			if (/^fct(\d*).*/) {
 				$ret=1;

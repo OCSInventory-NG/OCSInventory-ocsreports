@@ -1,6 +1,10 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::LSB;
 
-sub check {can_run("lsb_release")}
+sub check {
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("lsb_release")
+}
 
 sub run {
     my $params = shift;

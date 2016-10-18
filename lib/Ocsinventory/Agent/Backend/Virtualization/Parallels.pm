@@ -4,7 +4,11 @@ use strict;
 use warnings;
 use XML::Simple;
 
-sub check { return can_run('prlctl') }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    return $common->can_run('prlctl') 
+}
 
 sub run {
     my $params = shift;

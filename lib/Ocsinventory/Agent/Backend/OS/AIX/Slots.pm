@@ -1,6 +1,10 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Slots;
 use strict;
-sub check {can_run("lsdev")}
+sub check {
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("lsdev")
+}
 
 sub run {
     my $params = shift;

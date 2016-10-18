@@ -22,7 +22,7 @@ sub run {
     
     
     $SystemModel=`model`;
-    if (can_run ("machinfo")) {
+    if ($common->can_run ("machinfo")) {
         foreach (`machinfo`) {
             if (/Firmware\s+revision\s?[:=]\s+(\S+)/) {
                 $BiosVersion=$1;

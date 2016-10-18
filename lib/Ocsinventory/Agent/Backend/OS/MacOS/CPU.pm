@@ -2,8 +2,10 @@ package Ocsinventory::Agent::Backend::OS::MacOS::CPU;
 use strict;
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
     return(undef) unless -r '/usr/sbin/system_profiler';
-    return(undef) unless can_load("Mac::SysProfile");
+    return(undef) unless $common->can_load("Mac::SysProfile");
     return 1;
 }
 
@@ -23,39 +25,38 @@ sub run {
     my $processorn  = $h->{'number_processors'} || $h->{'number_cpus'};
     my $processors  = $h->{'current_processor_speed'} || $h->{'cpu_speed'};
 
-	my $uuid = $h->{'platform_UUID'}; # 10.5, 10.6, 10.7, 10.8
-	chomp($uuid);
-	$uuid =~ s/\s+$//g;
+    my $uuid = $h->{'platform_UUID'}; # 10.5, 10.6, 10.7, 10.8
+    chomp($uuid);
+    $uuid =~ s/\s+$//g;
 
     # lamp spits out an sql error if there is something other than an int (MHZ) here....
-    if($processors =~ /GHz$/){
-            $processors =~ s/ GHz//;
-            # French Mac returns 2,60 Ghz instead of
-            # 2.60 Ghz :D
-            $processors =~ s/,/./;
-            $processors = ($processors * 1000);
+    if ($processors =~ /GHz$/){
+        $processors =~ s/ GHz//;
+        # French Mac returns 2,60 Ghz instead of
+        # 2.60 Ghz :D
+        $processors =~ s/,/./;
+        $processors = ($processors * 1000);
     }
-    if($processors =~ /MHz$/){
-            $processors =~ s/ MHz//;
+    if ($processors =~ /MHz$/){
+        $processors =~ s/ MHz//;
     }
 
     ### mem convert it to meg's if it comes back in gig's
     my $mem = $h->{'physical_memory'};
-    if($mem =~ /GB$/){
+    if ($mem =~ /GB$/){
         $mem =~ s/\sGB$//;
         $mem = ($mem * 1024);
     }
-    if($mem =~ /MB$/){
-	$mem =~ s/\sMB$//;
+    if ($mem =~ /MB$/){
+        $mem =~ s/\sMB$//;
     }
-
 
     $common->setHardware({
         PROCESSORT  => $processort,
         PROCESSORN  => $processorn,
         PROCESSORS  => $processors,
         MEMORY      => $mem,
-		UUID		=> $uuid,
+        UUID        => $uuid,
     });
 }
 

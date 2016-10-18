@@ -1,8 +1,10 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::Slots;
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
     return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
-    return (undef) unless can_load("Mac::SysProfile");
+    return (undef) unless $common->can_load("Mac::SysProfile");
     return 1;
 }
 

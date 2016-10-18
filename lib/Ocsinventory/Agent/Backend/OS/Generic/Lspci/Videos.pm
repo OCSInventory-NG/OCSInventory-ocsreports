@@ -9,7 +9,7 @@ my ($ret,$handle,$i,$count,$clock,$driver_version, $nvml_version, $memtotal, $se
 my $reso;
 
 #sub check {
-#    return unless can_run("xrandr");
+#    return unless $common->can_run("xrandr");
 #    return 1;
 #}
 
@@ -17,9 +17,9 @@ sub run {
     my $params = shift;
     my $common = $params->{common};
 
-    if (can_run("xrandr")) {
-        if (can_run("nvidia-smi")) {
-            if (can_load("nvidia::ml qw(:all)")){
+    if ($common->can_run("xrandr")) {
+        if ($common->can_run("nvidia-smi")) {
+            if ($common->can_load("nvidia::ml qw(:all)")){
                 nvmlInit();
                 # Retrieve driver version
                 ($ret, $driver_version) = nvmlSystemGetDriverVersion();

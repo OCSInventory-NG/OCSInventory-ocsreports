@@ -7,7 +7,11 @@ use strict;
 use XML::Simple;
 use File::Glob ':glob';
 
-sub check { return can_run('VirtualBox') and can_run('VBoxManage') }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    return $common->can_run('VirtualBox') and $common->can_run('VBoxManage') 
+}
 
 sub run {
     my $params = shift;

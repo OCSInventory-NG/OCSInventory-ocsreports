@@ -1,7 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::Hostname;
 
 sub check {
-  return 1 if can_load ("Mac::SysProfile");
+  my $params = shift;
+  my $common = $params->{common};
+  return 1 if $common->can_load ("Mac::SysProfile");
   0;
 }
 

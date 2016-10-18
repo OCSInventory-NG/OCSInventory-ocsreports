@@ -5,11 +5,13 @@ use Ocsinventory::Agent::Backend::OS::Linux::Storages;
 use strict;
 
 sub check { 
+    my $params = shift;
+    my $common = $params->{common};
 
     my $ret;
     my $cont;
 
-    if (can_run("megacli")) {
+    if ($common->can_run("megacli")) {
        foreach (`megacli -adpCount 2>/dev/null`) {
            if (/^Controller\sCount:\s(\d+)/) {
                $cont=$1;

@@ -1,22 +1,23 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Users;
 
-sub check { can_run ("who") } 
-
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run ("who") 
+}
+   
 # Initialise the distro entry
 sub run {
-  my $params = shift;
-  my $common = $params->{common};
+    my $params = shift;
+    my $common = $params->{common};
 
-  my %user;
-# Logged on users
-  for(`who`){
-    $user{$1} = 1 if /^(\S+)./;
-  }
-
-  my $UsersLoggedIn = join "/", keys %user;
-
-  $common->setHardware ({ USERID => $UsersLoggedIn });
-
+    my %user;
+    # Logged on users
+    for (`who`){
+        $user{$1} = 1 if /^(\S+)./;
+    }
+    my $UsersLoggedIn = join "/", keys %user;
+    $common->setHardware ({ USERID => $UsersLoggedIn });
 }
 
 1;

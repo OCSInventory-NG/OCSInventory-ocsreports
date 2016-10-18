@@ -46,10 +46,13 @@ package Ocsinventory::Agent::Backend::Virtualization::Vmsystem;
 use strict;
 
 sub check { 
-    if ( can_run("zoneadm")){ # Is a solaris zone system capable ?
+    my $params = shift;
+    my $common = $params->{common};
+
+    if ( $common->can_run("zoneadm")){ # Is a solaris zone system capable ?
         return 1; 
     }
-    if ( can_run ("dmidecode") ) {
+    if ( $common->can_run ("dmidecode") ) {
         # 2.6 and under haven't -t parameter   
         my $dmidecode_ver = `dmidecode -V 2>/dev/null`; 
         my @SplitVersion = split(/\./, $dmidecode_ver);

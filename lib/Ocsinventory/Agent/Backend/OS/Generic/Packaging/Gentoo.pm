@@ -3,8 +3,11 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Gentoo;
 use strict;
 use warnings;
 
-sub check {can_run("equery")}
-
+sub check {
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("equery")
+}
 sub run {
     my $params = shift;
     my $common = $params->{common};

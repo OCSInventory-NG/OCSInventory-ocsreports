@@ -2,7 +2,9 @@ package Ocsinventory::Agent::Backend::OS::Linux::Drives;
 
 use strict;
 sub check {
-    return unless can_run ("df");
+    my $params = shift;
+    my $common = $params->{common};
+    return unless $common->can_run ("df");
     my $df = `df -TP`;
     return 1 if $df =~ /\w+/;
     0
@@ -30,7 +32,7 @@ sub run {
     my %listVolume = ();
      
     # Get complementary information in hash tab
-    if (can_run ("lshal")) {
+    if ($common->can_run ("lshal")) {
         my %temp;
         my $in = 0;
         my $value;
@@ -80,7 +82,7 @@ sub run {
             next if ($filesystem =~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/);
             next if ($type =~ /^(tmpfs)$/);
 
-            if ($filesystem =~ /^ext(2|3|4|4dev)/ && can_run('dumpe2fs')) {
+            if ($filesystem =~ /^ext(2|3|4|4dev)/ && $common->can_run('dumpe2fs')) {
                 foreach (`dumpe2fs -h $volumn 2> /dev/null`) {
                     if (/Filesystem UUID:\s+(\S+)/) {
                         $serial = $1;
@@ -90,7 +92,7 @@ sub run {
                         $label = $1 unless $1 eq '<none>';
                     }
                 }
-            } elsif ($filesystem =~ /^xfs$/ && can_run('xfs_db')) {
+            } elsif ($filesystem =~ /^xfs$/ && $common->can_run('xfs_db')) {
                 foreach (`xfs_db -r -c uuid $volumn`) {
                     $serial = $1 if /^UUID =\s+(\S+)/;
                   ;
@@ -98,7 +100,7 @@ sub run {
                 foreach (`xfs_db -r -c label $volumn`) {
                     $label = $1 if /^label =\s+"(\S+)"/;
                 }
-            } elsif ($filesystem =~ /^vfat$/ && can_run('dosfslabel')) {
+            } elsif ($filesystem =~ /^vfat$/ && $common->can_run('dosfslabel')) {
                 chomp ($label = `dosfslabel $volumn`);
             }
 
@@ -130,7 +132,7 @@ sub run {
         }
     }
 
-    if (can_run ("lshal")) {
+    if ($common->can_run ("lshal")) {
         while (my ($k,$v) = each %listVolume ) {
             $common->addDrive({
                 FILESYSTEM => $v->{'volume.fstype'},

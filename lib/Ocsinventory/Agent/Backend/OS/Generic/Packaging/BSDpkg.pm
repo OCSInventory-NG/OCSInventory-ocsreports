@@ -1,12 +1,16 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Packaging::BSDpkg;
 
-sub check {can_run("pkg_info") || can_run("pkg")}
+sub check {
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("pkg_info") || $common->can_run("pkg")
+}
 
 sub run {
     my $params = shift;
     my $common = $params->{common};
 
-    if (can_run("pkg_info")) {
+    if ($common->can_run("pkg_info")) {
         foreach(`pkg_info`){
             /^(\S+)-(\d+\S*)\s+(.*)/;
             my $name = $1;
@@ -19,7 +23,7 @@ sub run {
                 'VERSION' => $version
             });
         }
-    } elsif (can_run("pkg")) {
+    } elsif ($common->can_run("pkg")) {
         foreach(`pkg info`){
             /^(\S+)-(\d+\S*)\s+(.*)/;
             my $name = $1;

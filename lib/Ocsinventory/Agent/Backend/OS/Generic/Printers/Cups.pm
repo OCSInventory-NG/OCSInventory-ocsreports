@@ -2,9 +2,11 @@ package Ocsinventory::Agent::Backend::OS::Generic::Printers::Cups;
 use strict;
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
     # If we are on a MAC, Mac::SysProfile will do the job
     return if -r '/usr/sbin/system_profiler';
-    return unless can_load("Net::CUPS") && $Net::CUPS::VERSION >= 0.60;
+    return unless $common->can_load("Net::CUPS") && $Net::CUPS::VERSION >= 0.60;
     return 1;
 }
 

@@ -151,9 +151,9 @@ sub initModList {
 
         my $package = $m."::";
         # Load in the module the backendSharedFuncs
-        foreach my $func (keys %{$self->{backendSharedFuncs}}) {
-            $package->{$func} = $self->{backendSharedFuncs}->{$func};
-        }
+        # foreach my $func (keys %{$self->{backendSharedFuncs}}) {
+        #     $package->{$func} = $self->{backendSharedFuncs}->{$func};
+        # }
 
         $self->{modules}->{$m}->{name} = $m;
         $self->{modules}->{$m}->{done} = 0;

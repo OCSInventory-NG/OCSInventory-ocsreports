@@ -2,7 +2,11 @@ package Ocsinventory::Agent::Backend::OS::MacOS::Storages;
 
 use strict;
 
-sub check {return can_load('Mac::SysProfile');}
+sub check {
+  my $params = shift;
+  my $common = $params->{common};
+  return $common->can_load('Mac::SysProfile');
+}
 
 sub getManufacturer {
   my $model = shift;
@@ -26,8 +30,8 @@ sub getManufacturer {
 sub run {
 
   my $params = shift;
-  my $logger = $params->{logger};
   my $common = $params->{common};
+  my $logger = $params->{logger};
 
   my $devices = {};
 

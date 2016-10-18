@@ -1,6 +1,10 @@
 package Ocsinventory::Agent::Backend::OS::AIX::IPv4;
 
-sub check {can_run("ifconfig")}
+sub check {
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("ifconfig")
+}
 
 # Initialise the distro entry
 sub run {

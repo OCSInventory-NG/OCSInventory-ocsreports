@@ -12,11 +12,13 @@ use Ocsinventory::Agent::Backend::OS::Linux::Storages;
 use strict;
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
 
     my $ret = 0;
 
     # Do we have ipssend installed ?
-      if (can_run("ipssend")) {
+      if ($common->can_run("ipssend")) {
             foreach (`ipssend GETVERSION 2>/dev/null`) {
                    if (/.*ServeRAID Controller Number\s(\d*).*/) {
                             $ret = $1;

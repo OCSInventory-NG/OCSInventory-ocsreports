@@ -1,7 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Network::IP;
 
 sub check {
-    return unless can_run ("ip") || can_run("ifconfig");
+    my $params = shift;
+    my $common = $params->{common};
+    return unless $common->can_run ("ip") || $common->can_run("ifconfig");
     1;
 }
 
@@ -11,7 +13,7 @@ sub run {
     my $common = $params->{common};
     my @ip;
 
-    if (can_run("ip")){
+    if ($common->can_run("ip")){
         foreach (`ip a`){
             if (/inet (\S+)\/\d{1,2}/){
                 ($1=~/127.+/)?next:push @ip,$1;
@@ -19,7 +21,7 @@ sub run {
                 ($1=~/::1\/128/)?next:push @ip, $1;
             }
         }
-    } elsif (can_run("ifconfig")){
+    } elsif ($common->can_run("ifconfig")){
         foreach (`ifconfig`){
             #if(/^\s*inet\s*(\S+)\s*netmask/){
             if (/^\s*inet add?r\s*:\s*(\S+)/ || /^\s*inet\s+(\S+)/){

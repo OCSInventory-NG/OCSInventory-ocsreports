@@ -1,7 +1,11 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Sounds;
 use strict;
 
-sub check { can_run("lspci") }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_run("lspci") 
+}
 
 sub run {
     my $params = shift;

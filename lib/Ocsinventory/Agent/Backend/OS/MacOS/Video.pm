@@ -3,10 +3,12 @@ use strict;
 
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
     # make sure the user has access, cause that's the command that's gonna be run
     return(undef) unless -r '/usr/sbin/ioreg';
     return(undef) unless -r '/usr/sbin/system_profiler';
-    return(undef) unless can_load("Mac::SysProfile");
+    return(undef) unless $common->can_load("Mac::SysProfile");
     return 1;
 }
 

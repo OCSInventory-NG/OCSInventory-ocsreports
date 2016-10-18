@@ -2,7 +2,11 @@ package Ocsinventory::Agent::Backend::OS::Generic::Dmidecode::UUID;
 
 use strict;
 
-sub check { return can_run('dmidecode') }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    return $common->can_run('dmidecode') 
+}
 
 sub run {
     my $params = shift;

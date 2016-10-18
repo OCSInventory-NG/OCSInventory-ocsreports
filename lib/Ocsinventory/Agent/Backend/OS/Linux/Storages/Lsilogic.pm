@@ -12,10 +12,12 @@ use Ocsinventory::Agent::Backend::OS::Linux::Storages;
 use strict;
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
 
     my $device;
     # Do we have smartctl ?
-    if (can_run('smartctl')) {
+    if ($common->can_run('smartctl')) {
         foreach my $node (glob("/dev/sd?")) {
             foreach (`smartctl -i $node`) {
                 $device = $1 if /.*Device:\s(\w*).*/;

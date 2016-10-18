@@ -2,7 +2,9 @@ package Ocsinventory::Agent::Backend::OS::AIX::Controller;
 use strict;
 
 sub check {
-    return unless can_run('lsdev');
+    my $params = shift;
+    my $common = $params->{common};
+    return unless $common->can_run('lsdev');
     my @lsdev = `lsdev -Cc adapter -F 'name:type:description'`;    
     return 1 if @lsdev;
     0

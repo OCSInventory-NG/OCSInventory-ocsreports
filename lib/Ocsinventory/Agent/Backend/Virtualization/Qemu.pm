@@ -3,7 +3,11 @@ package Ocsinventory::Agent::Backend::Virtualization::Qemu;
 
 use strict;
 
-sub check { return (can_run('qemu') || can_run('kvm') || can_run('qemu-kvm'))}
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    return ($common->can_run('qemu') || $common->can_run('kvm') || $common->can_run('qemu-kvm'))
+}
 
 sub run {
     my $params = shift;

@@ -2,8 +2,10 @@ package Ocsinventory::Agent::Backend::OS::MacOS::Printers;
 use strict;
 
 sub check {
+    my $params = shift;
+    my $common = $params->{common};
     return(undef) unless -r '/usr/sbin/system_profiler';
-    return(undef) unless can_load("Mac::SysProfile");
+    return(undef) unless $common->can_load("Mac::SysProfile");
     return 1;
 }
 

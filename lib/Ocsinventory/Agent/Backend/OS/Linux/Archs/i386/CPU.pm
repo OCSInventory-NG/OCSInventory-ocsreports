@@ -3,7 +3,11 @@ package Ocsinventory::Agent::Backend::OS::Linux::Archs::i386::CPU;
 use strict;
 use Config;
 
-sub check { can_read("/proc/cpuinfo") }
+sub check { 
+    my $params = shift;
+    my $common = $params->{common};
+    $common->can_read("/proc/cpuinfo") 
+}
 
 sub run {
 
